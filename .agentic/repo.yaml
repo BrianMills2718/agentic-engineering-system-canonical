@@ -25,16 +25,20 @@ planning:
   execution_governance_provider: Enforced Planning
   active_plan: docs/plans/001_repository_context_resolution_vertical.md
   gap_ledger: docs/architecture/INITIAL_GAP_LEDGER.md
+  slice_rule: gaps_and_work_graphs_do_not_define_implementation_slices
+  work_graph_role: optional_coordination_after_slice_derivation
 
 capability_resolution:
   provider: Agentic Capability Architecture
+  sourcing_policy: external_first_then_aca_then_internal_donors_then_residual
   first_required_action: repository.context.resolve
-  first_required_action_status: residual_local_candidate
+  first_required_action_status: compose_native_substrate_plus_residual_semantics
+  first_provider_landscape: research/investigations/2026-09-16-repository-context-provider-landscape.md
 
 implementation:
   roots: []
   state: planned_unrealized
-  note: conceptual subjects are planned, but implementation roots and concrete file paths remain unresolved until contract and incumbent checks complete
+  note: conceptual subjects and the first vertical are planned, but implementation roots and concrete file paths remain unresolved until dependency subplan D1 freezes contract and topology
 
 verification:
   roots:
