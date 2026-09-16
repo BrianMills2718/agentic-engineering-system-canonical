@@ -1,0 +1,5 @@
+schema_version: "0.1-pilot"
+# Couplings are intentionally empty at bootstrap.
+# Company Planning should populate requirement -> implementation subject -> verification subject
+# relationships when the first target topology is accepted.
+relationships: []
