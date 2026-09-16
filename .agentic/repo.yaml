@@ -23,18 +23,23 @@ authorities:
 planning:
   design_provider: Company Planning
   execution_governance_provider: Enforced Planning
+  active_plan: docs/plans/001_repository_context_resolution_vertical.md
+  gap_ledger: docs/architecture/INITIAL_GAP_LEDGER.md
 
 capability_resolution:
   provider: Agentic Capability Architecture
+  first_required_action: repository.context.resolve
+  first_required_action_status: residual_local_candidate
 
 implementation:
   roots: []
-  state: unrealized
-  note: derive target implementation topology before adding implementation roots
+  state: planned_unrealized
+  note: conceptual subjects are planned, but implementation roots and concrete file paths remain unresolved until contract and incumbent checks complete
 
 verification:
   roots:
     - tests/
+  state: planned_unrealized
 
 relationships:
   source: .agentic/relationships.yaml
