@@ -1,5 +1,47 @@
 schema_version: "0.1-pilot"
-# Couplings are intentionally empty at bootstrap.
-# Company Planning should populate requirement -> implementation subject -> verification subject
-# relationships when the first target topology is accepted.
-relationships: []
+relationships:
+  - source: AES-DOGFOOD-002
+    relation: implemented_by_planned_subject
+    target: RepositoryContextResolver
+  - source: AES-CTX-001
+    relation: implemented_by_planned_subject
+    target: RepositoryContextResolver
+  - source: AES-SYS-002
+    relation: implemented_by_planned_subject
+    target: AuthoritySurfaceObservation
+  - source: AES-CONTRACT-001
+    relation: implemented_by_planned_subject
+    target: RepositoryContextArtifact
+  - source: AES-CAP-001
+    relation: requires_semantic_action
+    target: repository.context.resolve
+  - source: repository.context.resolve
+    relation: realization_disposition
+    target: residual_local_candidate
+  - source: RepositoryContextResolver
+    relation: verified_by_planned_criterion
+    target: AC-001
+  - source: RepositoryContextResolver
+    relation: verified_by_planned_criterion
+    target: AC-002
+  - source: RepositoryContextResolver
+    relation: verified_by_planned_criterion
+    target: AC-003
+  - source: AuthoritySurfaceObservation
+    relation: verified_by_planned_criterion
+    target: AC-004
+  - source: RepositoryContextArtifact
+    relation: verified_by_planned_criterion
+    target: AC-005
+  - source: RepositoryContextResolver
+    relation: verified_by_planned_criterion
+    target: AC-006
+  - source: RepositoryContextResolver
+    relation: verified_by_planned_criterion
+    target: AC-007
+  - source: AES-POL-003
+    relation: verified_by_planned_criterion
+    target: AC-008
+  - source: AES-PLAN-003
+    relation: verified_by_planned_criterion
+    target: AC-009
