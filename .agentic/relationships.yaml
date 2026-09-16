@@ -15,9 +15,18 @@ relationships:
   - source: AES-CAP-001
     relation: requires_semantic_action
     target: repository.context.resolve
+  - source: AES-CAP-002
+    relation: provider_sourcing_evidenced_by
+    target: research/investigations/2026-09-16-repository-context-provider-landscape.md
   - source: repository.context.resolve
     relation: realization_disposition
-    target: residual_local_candidate
+    target: compose_native_substrate_plus_residual_semantics
+  - source: AES-PLAN-004
+    relation: shaped_by_planned_slice
+    target: PLAN-001/Slice-1-external-repository-context-resolution
+  - source: PLAN-001/D1
+    relation: enables
+    target: PLAN-001/Slice-1-external-repository-context-resolution
   - source: RepositoryContextResolver
     relation: verified_by_planned_criterion
     target: AC-001
