@@ -1,0 +1,58 @@
+schema_version: "0.1-pilot"
+repository:
+  id: agentic-engineering-system-canonical
+  protocol_status: pilot
+  purpose: canonical AES convergence and dogfood implementation
+
+adopted_methodology:
+  repository: BrianMills2718/wiki_methodology
+  revision: 0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe
+  entrypoint: docs/architecture/README.md
+
+navigation:
+  wiki_entrypoint: wiki/index.md
+
+authorities:
+  normative_roots:
+    - docs/architecture/
+  decision_roots:
+    - docs/decisions/
+  plan_roots:
+    - docs/plans/
+
+planning:
+  design_provider: Company Planning
+  execution_governance_provider: Enforced Planning
+
+capability_resolution:
+  provider: Agentic Capability Architecture
+
+implementation:
+  roots: []
+  state: unrealized
+  note: derive target implementation topology before adding implementation roots
+
+verification:
+  roots:
+    - tests/
+
+relationships:
+  source: .agentic/relationships.yaml
+
+events:
+  root: .agentic/events/
+
+concerns:
+  research: {root: research/, status: active}
+  proposals: {root: proposals/, status: unused}
+  experiments: {root: experiments/, status: unused}
+  evidence: {root: evidence/, status: unused}
+  evals: {root: evals/, status: unused}
+  human_facing: {root: human-facing/, status: unused}
+  deployment: {root: deployment/, status: unused}
+  operations: {root: operations/, status: unused}
+  datasets: {root: datasets/, status: unused}
+
+generated:
+  roots:
+    - generated/
