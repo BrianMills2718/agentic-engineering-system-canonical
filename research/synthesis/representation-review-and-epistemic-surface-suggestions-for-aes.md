@@ -1,771 +1,798 @@
-# Representation, review, and epistemic-surface suggestions for canonical AES
+# Representation Router salvage candidates for canonical AES
 
-Status: research synthesis; non-normative suggestions only.
+Status: research synthesis; non-normative candidate dispositions only.
 
-Sources considered:
+Correction: this note addresses **what canonical AES may want to borrow from Representation Router**. It is intentionally separate from `code-map-v4-salvage-for-aes.md`, which addresses characterization/evidence lessons from Code Map V4.
 
-- canonical AES system boundary on `main`, especially `AES-SYS-002`, `AES-PLAN-003`, `AES-POL-002`, `AES-POL-004`, `AES-CTX-001`, `AES-CTX-002`, and `AES-EVID-001`;
-- `research/synthesis/code-map-v4-salvage-for-aes.md`;
-- `BrianMills2718/code_map_v4` at the revision reviewed by that synthesis;
-- Representation Router as an additional proving source for source-bound planning/review surfaces and representation-policy boundaries.
+Sources reviewed:
 
-Purpose: suggest a small set of AES design directions that combine the strongest Code Map evidence/freshness lessons with concern-centric planning/review representation, without making Code Map, a wiki, or a representation layer into a new authority.
+- canonical AES `docs/architecture/SYSTEM_BOUNDARY.md` on `main`;
+- `research/synthesis/code-map-v4-salvage-for-aes.md` for the already-separated characterization/evidence seam;
+- `brianmills-spec/representation-router` PR #24 / `chore/consolidation-v0` at head `ab7be7cf12880ec67e88837008eadb9ae6753f58`, especially:
+  - `docs/design-model.md`;
+  - `docs/INTEGRATION_POSITION.md`;
+  - `references/planning-review.md`;
+  - `docs/task-first-engineering-language.md`;
+  - `schemas/view-spec.schema.json`; and
+  - `schemas/surface-spec.schema.json`.
 
-This document does **not** adopt a new AES contract, implementation root, representation framework, or workflow. Any implementation still requires an explicit target/current gap, Company Planning derivation, ACA/incumbent capability resolution, and accepted implementation/verification topology.
+Purpose: identify Representation Router ideas that may strengthen canonical AES planning, review, context, and human/agent working surfaces **without copying Representation Router's product architecture, schemas, or workflow authority into AES**.
+
+This document does **not** adopt Representation Router as an AES subsystem or contract authority. Per `AES-PLAN-001`, `AES-CAP-001`, and `AES-SYS-004`, any real adoption still requires an explicit AES gap, Company Planning derivation, incumbent/provider resolution through ACA, and an accepted implementation/verification topology.
 
 ---
 
 ## Executive recommendation
 
-The canonical AES architecture would benefit from treating **current-state characterization** and **human/agent comprehension** as two different layers with an explicit boundary between them.
+Representation Router contributes a useful capability that is mostly orthogonal to the Code Map salvage work:
 
-A useful conceptual stack is:
+> **Given authoritative semantic/workflow truth and a concrete human or agent concern, decide what concern-specific projection and representation should exist, how multiple views should coordinate, and where authority still lives.**
+
+The strongest ideas for AES are:
+
+1. **Truth, projection, representation, working surface, and implementation are different layers.**
+2. **Start from the concern/job, not from the data type or renderer.**
+3. **Planning and review should be source-bound projections over native authorities, not replacement authorities.**
+4. **Work, Architecture, Assurance, and Review are useful coordinated lenses when the concern spans them, but only the necessary lenses should be shown.**
+5. **Stable semantic identity should survive representation pivots; source-revision changes require explicit reset/remap behavior.**
+6. **Visible UI actions do not create authority.** Read-only, local presentation/review state, and authoritative effects should remain distinct.
+7. **Lead with the job; progressively disclose engineering structure and exact technical truth.**
+8. **Unavailable or partial semantics should remain visibly unavailable/partial instead of being filled with plausible output.**
+9. **The smallest useful working surface is better than a universal engineering dashboard.**
+10. **Human/agent task performance is a different quality claim from schema validity, successful rendering, passing automation, or source correctness.**
+
+The best initial AES disposition is therefore:
+
+> **Treat Representation Router as an incumbent/provider candidate for concern-specific representation selection and source-bound working-surface composition; salvage its durable design principles now, and let ACA decide reuse/adapt/compose versus residual local implementation when an authentic AES gap requires the capability.**
+
+---
+
+# 1. Candidate incumbent disposition
+
+A future incumbent-capability inventory entry could look roughly like:
+
+| Incumbent | Candidate AES role | Initial disposition | Why |
+| --- | --- | --- | --- |
+| `brianmills-spec/representation-router` | concern-specific representation policy, coordinated source-bound planning/review surfaces, task-first progressive disclosure, representation QA | **candidate reuse/adapt through ACA; salvage design principles; do not copy authority or product shell** | mature separation of semantic truth from representation, source/revision-bound working-surface contracts, planning/review lens coordination, task-first UI language, and explicit action-authority boundaries |
+
+This is more consistent with `AES-CAP-001` than immediately recreating a local AES representation framework.
+
+If Company Planning eventually derives requirements such as:
+
+```text
+select a representation for a concern
+compose several concern-specific views into one review surface
+preserve semantic focus across compatible views
+show provenance and exact source revision
+make action authority explicit
+```
+
+ACA should first determine whether Representation Router already satisfies, can be configured for, or can be adapted to those capabilities.
+
+---
+
+# 2. Borrow the layer separation
+
+Representation Router's most durable conceptual contribution is the separation:
+
+```text
+authoritative semantic / workflow truth
+        ↓
+concern / viewpoint
+        ↓
+semantic projection / view
+        ↓
+representation
+        ↓
+working surface
+        ↓
+product-owned implementation / workflow
+```
+
+AES already has a compatible authority model. A useful AES rendering of the same idea is:
 
 ```text
 native authorities
-  target clauses / source / code / tests / runtime / planning state
-                    |
-                    v
-revision-bound observations and evidence
-                    |
-                    v
-current characterization
-  explicit epistemic state + provenance + freshness
-                    |
-                    v
-target / current / gap / plan projections
-                    |
-                    v
-concern-specific working representations
-  navigation / review / explanation / decision support
-                    |
-                    v
-human or agent judgment / action
-                    |
-                    v
+  target / planning / source / code / tests / runtime / policy
+        ↓
+revision-bound characterization and evidence
+        ↓
+target / current / gap / plan materializations
+        ↓
+concern-specific projection
+        ↓
+representation / coordinated working surface
+        ↓
+human or agent understanding / judgment
+        ↓
 owning system performs any authoritative effect
 ```
 
-The key recommendation is **not** to create one giant AES knowledge graph or one universal schema. The recommendation is to preserve several durable distinctions:
+The key distinction is:
 
-1. **authority versus observation**;
-2. **observation versus current characterization**;
-3. **current characterization versus gap/plan projection**;
-4. **structured projection versus human-facing synthesis**;
-5. **human-facing action versus authoritative effect**.
+> **Characterization answers what AES currently knows. Representation answers how a particular person or agent should understand or act on that knowledge for a particular concern.**
 
-Code Map provides strong implementation lessons for the first three distinctions. Representation Router provides useful design lessons for the last two.
+That suggests a clean seam between the existing Code Map salvage proposal and Representation Router salvage:
 
-If only five suggestions from this document survive, retain these:
+```text
+Code Map-derived lessons
+  evidence / characterization / freshness
+                 |
+                 v
+AES current + gap materialization
+                 |
+                 v
+Representation Router-derived lessons
+  concern / projection / representation / working surface
+                 |
+                 v
+human or agent review / navigation / decision support
+```
 
-1. **Evidence has a lifecycle.** A visible assertion should be able to say what evidence supports it, which revision/environment it applies to, and whether that evidence is still current.
-2. **Load-bearing relationships deserve evidence.** `requirement -> implementation -> verification` edges can be stale or unsupported independently of the nodes they connect.
-3. **Ignorance should be visible at the presentation layer.** `unobserved`, `error`, `stale`, `partial`, and `unsupported` must not collapse into a visually reassuring “current” state.
-4. **Facts are substrate, not comprehension.** Context surfaces should synthesize the answer to the current concern rather than dump all facts and links.
-5. **Review surfaces are projections, not authorities.** A surface may coordinate target/current/gap/plan/evidence and request a decision without owning the underlying state transition.
+AES should avoid collapsing these into one giant knowledge/visualization subsystem.
 
 ---
 
-# 1. Keep characterization and representation separate
+# 3. Start from the concern, not from the corpus
 
-The Code Map salvage synthesis already identifies a candidate characterization kernel. That is directionally strong.
+Representation Router explicitly rejects the idea that a stakeholder wants "the model." The stakeholder wants an answer to a concern.
 
-One additional boundary should remain explicit:
+That is directly useful for AES because AES will eventually contain or compose a great deal of target/current/gap/plan/evidence material. A naive implementation could expose all of it merely because it exists.
 
-> **Characterization determines what AES currently knows about a subject. Representation determines how a person or agent should understand or act on that knowledge for a particular concern.**
+Instead, each generated context or review surface should begin with a question such as:
 
-These are not the same capability.
+- What gap is preventing this outcome?
+- What work can proceed next and what is blocked?
+- Which architecture boundary does this planned change affect?
+- What evidence currently supports closing this gap?
+- What changed at this exact implemented revision?
+- Which remaining uncertainty actually requires human judgment?
+- Which policy blocked this transition and what recovery path exists?
 
-For example, characterization might establish:
+Then derive only the semantic projection needed to answer that concern.
 
-```text
-subject: checkout-service/payment-adapter
-revision: abc123
-implementation state: observed
-integration-test receipt: passed
-runtime probe: stale
-requirement R-17 linkage: observed-current
-requirement R-23 linkage: unobserved
-```
-
-A planning surface, code-review surface, operations surface, and source-local coding context may all consume that same characterization while presenting it differently.
-
-The representation layer should not change the characterization merely because a convenient diagram would prefer different semantics. Conversely, the characterization layer should not dictate a single UI or document format.
-
-### Suggested AES implication
-
-Treat a future characterization capability as a provider of **revision-bound semantic material**, not as the wiki/page/graph product.
-
-A consuming context or review surface should ask:
-
-```text
-what concern are we answering?
-which characterized subjects matter?
-which target/gap/plan relationships matter?
-which evidence states must remain visible?
-what decision or next action should become cheap?
-```
-
-This complements `AES-CTX-001`: the wiki remains derived progressive disclosure rather than becoming the characterization authority.
+This reinforces `AES-CTX-001` and `AES-CTX-002`: progressive disclosure should not mean "dump everything and let the user filter it." It should mean **derive the smallest useful concern-specific context while keeping exact source truth reachable**.
 
 ---
 
-# 2. Add an epistemic presentation discipline
+# 4. Borrow temporary validated projections before durable schemas
 
-AES already establishes the normative rule in `AES-POL-002`: ignorance cannot render green.
+Representation Router's planning/review guidance uses an important default:
 
-That rule should apply not only to controls internally but also to **human-facing and agent-facing representations**.
+> **A temporary validated projection is preferable for a one-off or early workflow; create a durable owned projection only after repeated use demonstrates that it reduces drift, repeated reconstruction, or review cost.**
 
-A surface should not make these states look equivalent:
+This fits canonical AES particularly well during bootstrap.
 
-```text
-PASS
-FAIL
-UNOBSERVED
-ERROR
-STALE
-PARTIAL
-NOT APPLICABLE
-```
+AES should resist creating a universal durable schema for every possible planning/review/context view before the first authentic vertical exists.
 
-The exact state vocabulary may differ by provider and contract. The durable requirement is that absence/failure/staleness remain legible and cannot inherit a positive visual treatment by default.
-
-### Why this matters
-
-Many engineering review failures are presentation failures rather than data failures:
-
-- an old passing test is shown next to a new implementation without a stale warning;
-- a missing runtime observation looks like “no incidents”;
-- an extractor error results in an empty panel that looks clean;
-- a planned verification relationship is presented as though it were executed evidence;
-- an accepted plan item visually reads as accepted implementation conformance.
-
-A useful representation-level invariant is:
-
-> **Every load-bearing visible claim has an epistemic state that is either explicit or safely derivable from its supporting characterization/evidence.**
-
-### What not to do
-
-Do not solve this by assigning a generic model-generated confidence number to everything.
-
-Prefer explicit states and proof meaning:
+A better progression is:
 
 ```text
-current because <specific evidence>
-stale because <dependency changed>
-unobserved because <observer not run>
-error because <observer failed>
-partial because <some required semantics/evidence missing>
+native source contracts
+        ↓
+bounded adapter for one concern
+        ↓
+temporary validated projection
+        ↓
+working surface / context
+        ↓
+observe repeated use and friction
+        ↓
+only then decide whether a reusable projection contract has earned existence
 ```
 
-A synthetic `confidence: 0.82` is less actionable than knowing why the assertion is incomplete or invalid.
+This is consistent with:
+
+- `AES-SYS-005` — no structure-first rewrite;
+- `AES-CONTRACT-001` — typed boundaries stay with their natural authorities; and
+- `AES-DOGFOOD-001/002` — authentic vertical evidence should precede generalization.
 
 ---
 
-# 3. Make load-bearing relationships evidence-aware
+# 5. Borrow the planning/review lens model
 
-Code Map's first-class relationship artifacts are especially relevant to AES.
+Representation Router's planning/review work uses four useful linked lenses:
 
-The important lifecycle questions in AES are often relationship questions:
+1. **Work** — outcomes, units, dependencies, state, blockers, next actions.
+2. **Architecture** — boundaries, components, contracts, data/control flow, current versus proposed structure.
+3. **Assurance** — requirements, risks, checks, evidence, gaps, unsupported obligations.
+4. **Review** — implemented change, demonstrated behavior, drift, limitations, unsupported claims, and pending human judgment.
 
-```text
-Does requirement R realize through implementation subject S?
-Does verification subject V actually test S at this revision?
-Does policy P apply to boundary B?
-Does capability provider C still satisfy requirement K?
-Does completed work W actually close gap G?
-```
+This maps naturally onto the AES lifecycle without making any of those lenses authoritative.
 
-Those edges can be wrong or stale even when both endpoints still exist.
-
-### Suggested conceptual model
-
-For load-bearing relationships, AES should eventually be able to distinguish at least:
+A future AES concern could move through:
 
 ```text
-relationship kind
-source subject
-target subject
-origin / authority of the assertion
-supporting evidence or observation
-subject/revision scope
-freshness / epistemic state
-invalidation dependencies
+TARGET / GAP
+   |
+   v
+WORK
+what is planned / blocked / next?
+   |
+   v
+ARCHITECTURE
+what implementation boundary or contract is implicated?
+   |
+   v
+ASSURANCE
+what criterion, control, observation, and evidence establish conformance?
+   |
+   v
+REVIEW
+what changed, what remains uncertain, and what requires judgment?
 ```
 
-Example:
+The useful lesson is **not** that every AES screen must contain four tabs.
 
-```text
-R-17
-  -- realized_by --> payment-adapter
+The useful lesson is:
 
-origin: accepted planning topology
-observed implementation revision: abc123
-evidence: characterization-812
-state: current
-invalidates_if: payment-adapter subject changes
-```
+> When one concern crosses multiple semantic structures, coordinated lenses are often better than either one overloaded universal view or several disconnected artifacts.
 
-and separately:
-
-```text
-payment-adapter
-  -- verified_by --> payment-integration-test
-
-origin: planned verification topology
-execution evidence: none
-state: unobserved
-```
-
-The second edge should not render as green merely because the test file exists.
-
-### Storage caution
-
-This does **not** imply `.agentic/relationships.yaml` must own all this metadata.
-
-Per `AES-CONTRACT-001`, native authorities should continue to own their natural typed boundaries. Relationship evidence may live in observation/evidence artifacts, a planning topology, a verification provider, or another native owner.
-
-The requirement is semantic: AES should be able to materialize the current relationship state without pretending an asserted edge and an evidenced-current edge are identical.
+AES should include only the lenses needed by the concern.
 
 ---
 
-# 4. Borrow dependency-aware freshness, but keep it provider-specific
+# 6. Separate prospective planning from checkpoint review
 
-Code Map's span-precise invalidation is a powerful example, not a universal implementation requirement.
+Representation Router distinguishes two related modes that canonical AES should preserve:
 
-The general rule worth adopting is:
+### Prospective planning
 
-> **Invalidate the smallest current characterization unit whose supporting evidence is no longer valid, and fail safely toward stale rather than false-current.**
+Questions include:
 
-Different subject types need different anchors:
+- what outcome is intended?
+- what work exists and what depends on what?
+- what is blocked/ready?
+- what architecture/contracts are implicated?
+- what risks or assurance obligations remain uncovered?
 
-- source symbol: AST/CST identity or span fingerprint;
-- configuration: content hash or typed field version;
-- data contract: schema/version identity;
-- runtime observation: deployment/environment/revision tuple;
-- planning assertion: plan revision and subject identity;
-- policy applicability: policy version plus covered boundary;
-- external service: observed endpoint/version/environment.
+### Checkpoint / completed-work review
 
-### Do not confuse two different revision questions
+Questions include:
 
-There are at least two separate problems:
+- what was supposed to change?
+- what actually changed at the reviewed revision?
+- what evidence executed for that exact subject?
+- where does implementation diverge from the target/plan/architecture?
+- what remains partial or unsupported?
+- what decision actually belongs to a person?
 
-1. **Does the old evidence still apply?**
-2. **Can the user's previous focus/selection safely carry into the new revision?**
+AES already distinguishes target/current/gap/plan/evidence. Representation Router suggests a human-facing way to preserve that distinction through the lifecycle.
 
-Characterization/invalidation machinery should answer the first.
+A useful invariant is:
 
-A context/representation layer should answer the second and should generally use stable semantic identity plus explicit remapping rules rather than silently matching labels.
+```text
+recorded plan state
+  != implementation state
+  != executed evidence
+  != rendered review state
+  != human disposition
+  != authoritative workflow state
+```
 
-This distinction helps prevent a freshness optimization from becoming an unsafe identity-transfer rule.
+That should remain true even when one surface coordinates all six.
 
 ---
 
-# 5. Treat facts as substrate and synthesis as a separate quality target
+# 7. Borrow source-bound working-surface discipline
 
-Code Map's strongest product lesson is that a rigorous fact graph can still produce poor comprehension.
+Representation Router's `SurfaceSpec` is useful as a design source, even if AES never adopts the schema itself.
 
-AES should protect itself from the same failure mode.
+Its valuable ideas are:
 
-A generated context surface can contain all of these and still be weak:
+- a working surface declares the **human job**;
+- participating views have roles such as primary/complementary/supporting;
+- sources have owners, exact revisions, and roles;
+- semantic focus is coordinated across views;
+- revision changes have explicit focus behavior;
+- actions distinguish read-only, local, and authoritative effects;
+- provenance and success criteria are surface-level concerns.
 
-```text
-clause IDs
-subject IDs
-plan IDs
-gap IDs
-source paths
-verification receipts
-policy states
-capability-provider links
-revision hashes
-```
+AES could borrow these as design requirements without copying `SurfaceSpec`.
 
-Those are necessary substrate. They are not automatically useful context.
-
-### A good AES context surface should answer the concern
-
-For an implementation subject, source-local context might synthesize:
+For any consequential AES review surface, ask:
 
 ```text
-What is this subject for?
-Which accepted target clauses constrain it?
-What is currently true at this revision?
-Which gaps remain?
-Which plan/work item owns the remaining change?
-Which verification will decide closure?
-What evidence is stale, missing, or errored?
-What are the important non-claims or limitations?
-What should the agent inspect or do next?
+what is the job?
+which exact subjects/revisions are being shown?
+which source owns each visible fact?
+what identity coordinates the views?
+what happens if the source revision changes?
+which controls are merely navigation/local state?
+which control, if any, invokes an owning authority?
+what evidence must be retained?
+what observable user/agent outcome defines success?
 ```
 
-For a planning/review checkpoint:
-
-```text
-What was intended?
-What changed?
-What evidence was actually executed?
-What evidence is stale or missing?
-Where does implementation diverge from target or plan?
-Which gap is still open?
-What requires human judgment or authority?
-```
-
-### Suggested quality criterion
-
-Do not measure a context surface primarily by artifact counts or link completeness.
-
-A stronger criterion is:
-
-> **Does the surface materially improve the user's or agent's ability to make the correct engineering decision at this subject while preserving uncertainty, provenance, and authority boundaries?**
-
-That can later be operationalized through task completion, decision accuracy, time-to-answer, missed evidence, false inference rate, or other independent outcomes.
+That checklist is likely more valuable to AES than the exact Representation Router JSON structure.
 
 ---
 
-# 6. Use concern-specific working surfaces for planning and review
+# 8. Preserve semantic identity across views
 
-AES has an integrated lifecycle, but a person should not need to inspect the entire lifecycle graph every time they make a decision.
+Representation Router treats a representation pivot as a lens change, not a subject-identity change.
 
-A useful representation principle is:
+For AES, this is important when one implementation subject appears in:
 
-> **Project the smallest coordinated set of views that makes the current engineering question cheap to answer.**
+- a gap view;
+- a work/dependency view;
+- an architecture view;
+- an assurance/evidence view;
+- a review view;
+- source-local context.
 
-For an AES planning/review checkpoint, a generic concern set might be:
+Selecting the implementation subject in one lens should not cause another lens to silently select a different object because its label looks similar.
 
-### Target
+A useful AES interaction rule is:
 
-- accepted normative clauses;
-- success criteria;
-- required boundaries/capabilities;
-- target implementation and verification topology.
+```text
+same subject identity + same compatible source revision
+        -> focus may survive a lens/representation pivot
 
-### Current
+source/corpus revision changed
+        -> clear focus or require explicit remapping
 
-- revision-bound implementation characterization;
-- current relationship state;
-- observed runtime/verification/policy state;
-- explicit stale/error/unobserved regions.
+selected subject absent in next lens
+        -> retain identity and say "not represented here"
+           rather than silently substituting another subject
+```
 
-### Gap
-
-- material target/current differences;
-- blocked or unresolved relationships;
-- evidence deficiencies;
-- policy/capability discrepancies.
-
-### Plan / execution
-
-- dispositioned gaps;
-- work units and dependencies;
-- selected capability providers;
-- execution/checkpoint state;
-- recovery/change path.
-
-### Evidence / review
-
-- what actually ran or was observed;
-- what those observations establish;
-- what they do **not** establish;
-- which exact subject/revision is under judgment;
-- which decision remains human-owned.
-
-These do not need to be five tabs or one universal interface. They are concern categories that can be represented as graph, table, matrix, timeline, sequence, diff, cards, or a coordinated surface depending on the task.
-
-### Why this fits AES
-
-This is consistent with `AES-SYS-002`: representations consume authoritative material without becoming authority.
-
-It is also consistent with `AES-PLAN-003`: a “plan complete” representation cannot silently become a “gap closed” representation without fresh characterization/evidence.
+This complements Code Map-style freshness/invalidation. Freshness decides whether knowledge about the subject is still valid; semantic-focus rules decide whether UI/agent context may safely carry the selected subject across a view change.
 
 ---
 
-# 7. Keep review disposition separate from workflow mutation
+# 9. Borrow explicit semantic availability
 
-One lesson from Representation Router that fits AES especially well is the separation between:
+Representation Router has a strong rule:
 
-```text
-rendered review state
-human disposition
-authoritative workflow mutation
-```
+> If the semantic view required by the concern is unavailable, do not fabricate a plausible representation.
 
-A surface may show:
-
-```text
-Approve
-Request changes
-Accept exception
-Escalate
-Replan
-Retry observation
-```
-
-but rendering the control does not grant authority.
-
-For a consequential action, the integration should be able to identify conceptually:
-
-```text
-action subject
-exact subject revision
-destination / owning system
-target revision or concurrency boundary
-actor / authority basis
-stale-submission behavior
-evidence retained with the decision
-```
-
-The exact contract belongs to the appropriate authority/provider, not to a universal AES UI schema.
-
-### Why this matters
-
-AES integrates systems with distinct authorities. A review surface that blurs local UI state and authoritative workflow state would undermine one of the architecture's strongest rules.
-
-The representation layer should therefore be able to say:
-
-```text
-This is a proposed/local disposition.
-No authoritative state changed.
-```
-
-or:
-
-```text
-This action was accepted by owner X against exact revision Y.
-Receipt Z records the effect.
-```
-
-without treating those as the same event.
-
----
-
-# 8. Apply negative controls to lifecycle claims, not just code behavior
-
-`AES-POL-004` already requires important controls to prove they can fail.
-
-The same discipline can strengthen AES context/review mechanisms.
+AES needs the same discipline at the context/review layer.
 
 Examples:
 
-### Evidence presentation
-
 ```text
-current matching evidence
-  -> displayed as current
+architecture relationship unavailable
+    -> show architecture view unavailable
+    -> state the required source/contract
+    -> do not infer the relationship from naming conventions
 
-same evidence against changed subject revision
-  -> displayed stale / requires refresh
+verification did not execute
+    -> show evidence unobserved/error
+    -> do not render criterion as satisfied
+
+plan-to-code binding absent
+    -> show trace gap
+    -> do not invent a link because files look relevant
 ```
 
-### Verification relationship
+Representation Router's `available / partial / unavailable` idea can remain a presentation-level distinction while AES characterization keeps richer states such as `PASS / FAIL / NONE / ERROR / STALE` underneath.
+
+That separation may be useful:
 
 ```text
-executed receipt for exact subject
-  -> observed verification edge
-
-test definition exists but no receipt
-  -> planned/configured, not executed
+characterization epistemic state
+        ↓
+projection availability
+        ↓
+representation behavior
 ```
-
-### Characterization observer
-
-```text
-observer succeeds
-  -> observation recorded
-
-observer crashes
-  -> ERROR / unresolved, never PASS
-```
-
-### Plan linkage control
-
-```text
-implementation linked to accepted plan
-  -> ALLOW
-
-same implementation without required plan linkage
-  -> BLOCK
-
-recovery: establish sanctioned plan linkage
-  -> ALLOW
-```
-
-### Review concurrency
-
-```text
-review subject unchanged
-  -> disposition may proceed
-
-subject revision changed after review loaded
-  -> reject or require refresh
-```
-
-This gives AES evidence that its representation/context layer preserves the same epistemic discipline as its internal control layer.
 
 ---
 
-# 9. Separate recommendation/evaluation from self-confirmation
+# 10. Borrow action-authority boundaries
 
-Code Map's circular retrieval evaluation is a useful warning for AES.
+Representation Router makes an unusually useful distinction among:
 
-AES should avoid evaluation structures such as:
+- **read-only action** — inspect/navigate without mutation;
+- **surface-local action** — changes presentation or local review state only;
+- **authoritative write** — changes an owning external system and therefore requires explicit destination/revision/authority/stale behavior/evidence.
 
-```text
-planner produces topology
-planner's own topology validator confirms topology
-therefore planning quality proven
-```
+AES already has stronger lifecycle/policy concepts around authority and governed execution. The useful Representation Router lesson is how to carry that truth all the way into a human-facing surface.
 
-or:
+For example:
 
 ```text
-characterizer creates relationship graph
-same graph defines eval ground truth
-relationship retrieval scores highly
-therefore characterization useful
+"Show related evidence"
+    -> read-only
+
+"Add a local review note"
+    -> surface-local
+
+"Accept gap disposition"
+    -> authoritative only if routed through the owning planning/workflow contract
+
+"Retry blocked verification"
+    -> authoritative execution only through the provider/policy path that owns it
 ```
 
-or:
+A button label, rendered page, agent recommendation, or generated context must never imply the effect already occurred.
 
-```text
-context generator displays all expected IDs
-snapshot tests pass
-therefore user comprehension improved
-```
-
-These may establish implementation conformance, but not usefulness or correctness of the higher-level decision.
-
-### Prefer independent signals
-
-Depending on the capability, better evidence may include:
-
-- authentic external-consumer outcome;
-- human review accuracy;
-- time-to-correct-decision;
-- false acceptance / missed-gap rate;
-- independent runtime behavior;
-- independently specified success criteria;
-- policy block/recovery outcome;
-- independent subject characterization;
-- transfer to a new case not used to produce the recommendation.
-
-This aligns strongly with `AES-DOGFOOD-001` and `AES-DOGFOOD-002`.
+This directly reinforces `AES-SYS-002`, `AES-POL-001`, `AES-POL-003`, and the Company Planning / Enforced Planning split.
 
 ---
 
-# 10. Suggested thin slice for the first authentic AES vertical
+# 11. Borrow task-first progressive disclosure
 
-When Company Planning selects the first authentic external-consumer vertical, it can test these ideas without first designing a general framework.
+Representation Router's task-first rule is strongly aligned with the AES wiki/context goal:
 
-Choose one concern that includes:
+> **Lead with the job. Teach the technical language in context. Preserve the exact truth underneath.**
 
-1. one accepted target clause/success criterion;
-2. one implementation subject at exact revision R1;
-3. one load-bearing relationship from target/plan to that subject;
-4. one verification subject;
-5. one observation/verification receipt;
-6. one materialized current characterization;
-7. one visible epistemic state other than PASS/current;
-8. one derived gap;
-9. one governed implementation change producing revision R2;
-10. invalidation of only the characterization/evidence affected by that change;
-11. fresh observation at R2;
-12. recomputed gap state;
-13. one concern-specific review/context surface synthesizing the result;
-14. one human/agent decision with explicit authority boundary;
-15. one independent outcome indicating whether the surface helped.
+AES should consider a three-level context ladder:
 
-A good test case deliberately includes a failure path.
+### 1. Task language
 
-Example:
+Answer first:
+
+- What changed?
+- Why does it matter?
+- What is blocked?
+- What should I inspect?
+- What proves the claim?
+- What happens next?
+- What decision is waiting on me?
+
+### 2. Engineering structure
+
+Then expose:
+
+- target clauses;
+- gap identity;
+- architecture/contracts;
+- work dependencies;
+- capability/provider disposition;
+- controls;
+- implementation/verification subjects;
+- evidence relationships.
+
+### 3. Exact technical detail
+
+Finally expose without changing subjects:
+
+- stable IDs;
+- exact source paths;
+- revisions;
+- schema fields;
+- evidence receipts;
+- commands/checks;
+- code/configuration;
+- formal terminology.
+
+This is not simplification by hiding truth. It is **ordering the truth around the user's job**.
+
+The same principle should apply to agent context packets: start with the engineering decision/action, then progressively expose structure and exact authority as needed.
+
+---
+
+# 12. Explain relationships, not only objects
+
+Representation Router's task-first guidance observes that in engineering systems the relationship can carry more meaning than either endpoint.
+
+AES is especially relationship-heavy:
 
 ```text
-TARGET:
-  request tracing must survive retry path
-
-CURRENT @ R1:
-  implementation exists
-  integration test definition exists
-  execution receipt missing
-
-SURFACE:
-  target = accepted
-  implementation = observed
-  verification = UNOBSERVED
-  gap = open
-
-EXECUTION:
-  verification command errors
-
-SURFACE:
-  verification = ERROR
-  gap remains open
-  recovery = repair test environment and rerun
-
-RECOVERY:
-  test runs at R1 and fails
-
-PLAN / IMPLEMENT:
-  governed change produces R2
-
-INVALIDATION:
-  R1 behavior characterization -> stale
-  unrelated characterization remains current
-
-FRESH OBSERVATION @ R2:
-  integration test passes
-
-RECOMPUTE:
-  gap closed if all other target conditions satisfied
-
-REVIEW:
-  human sees what changed, exact evidence, residual non-claims, and closure basis
+target clause -> gap
+gap -> plan item
+plan item -> capability requirement
+capability requirement -> provider
+requirement -> implementation subject
+implementation subject -> verification subject
+control -> recovery path
+observation -> current characterization
+review decision -> exact subject revision
 ```
 
-This one thin slice exercises characterization, freshness, gap reconciliation, policy recovery, planning/execution, evidence, and concern-centric representation without requiring a universal implementation in advance.
+A human/agent surface should make a load-bearing relation inspectable:
+
+1. what two subjects it connects;
+2. what the relationship means;
+3. why it matters to the current concern;
+4. what authority/evidence establishes it;
+5. which revision it applies to;
+6. what it does **not** imply; and
+7. exact technical relationship details when useful.
+
+This complements the Code Map salvage idea that some load-bearing relationships may also need evidence/freshness semantics.
 
 ---
 
-# 11. Candidate contract questions for Company Planning
+# 13. Prefer coordinated complements over one universal view
 
-If the first vertical demonstrates a real need, Company Planning should resolve these before creating new reusable contracts:
+Representation Router distinguishes alternative representations that are **substitutes** from views that answer different questions and are therefore **complements**.
 
-1. What is the smallest stable subject identity needed for the concern?
-2. Which source owns each mutable fact?
-3. Which records are immutable observations versus derived current projections?
-4. Which exact revision/environment dimensions determine evidence applicability?
-5. Which relationships are merely planned, and which need observed-current status?
-6. What dependencies invalidate each observation or relationship?
-7. Which epistemic states must consumers preserve?
-8. Which states are provider-specific and should not be standardized?
-9. Which claims are synthesized for comprehension rather than stored as authority?
-10. Which visible actions are local proposals versus authoritative effects?
-11. What stale-submission/concurrency behavior is required for decisions?
-12. Which controls need negative/counterfactual evidence?
-13. What independent outcome evaluates the context/review surface?
-14. What runtime/cognitive/maintenance cost is acceptable for freshness precision?
-15. Does the same abstraction recur in at least two independent consumers before it becomes a reusable AES/Data Contracts capability?
+AES should apply the same idea to its eventual wiki/review/context surfaces.
+
+A dependency graph, traceability matrix, state/control view, diff, evidence table, and narrative summary are not necessarily competing presentations of one thing. They may be complementary because each makes a different operation perceptually cheap.
+
+The useful design target is:
+
+> **the smallest useful coordinated set of representations that answers the concern**
+
+rather than:
+
+> one canonical AES dashboard that displays every lifecycle concept at once.
+
+This is particularly relevant for the first authentic vertical: let the actual concern determine whether one view or several coordinated views are needed.
 
 ---
 
-# 12. Things not to adopt yet
+# 14. Separate representation quality from truth/conformance quality
 
-## 12.1 No universal AES evidence mega-schema
+Representation Router carefully separates:
 
-The Code Map artifact envelope is a valuable example, not a reason to copy every field into one AES contract. Start from the actual vertical and keep provider-native authority intact.
+```text
+source/model truth
+test/check definition
+executed evidence
+rendered working surface
+human comprehension/usefulness
+authoritative acceptance/mutation
+```
 
-## 12.2 No universal subject identity ontology
+AES should preserve that distinction in evaluation.
 
-Code symbols, deployment subjects, data-contract versions, planning records, policies, and external-service observations may need different identity mechanisms.
+For example:
 
-## 12.3 No confidence score as a substitute for proof meaning
+- schema validation can establish that a generated view conforms to its contract;
+- a screenshot/geometry check can establish that labels are not clipped;
+- a successful test can establish the behavior it exercised;
+- revision-bound evidence can establish an observation about the current implementation;
+- none of those alone establish that a reviewer understood the situation correctly;
+- a human disposition does not itself change authoritative state unless the owning workflow processes it.
 
-Prefer explicit evidence type, state, revision and limitation over a scalar score that hides why a claim is trusted.
+For context/representation evaluation, prefer independent task outcomes such as:
 
-## 12.4 No whole-lifecycle “single pane of glass” as a goal
+- correct decision/action;
+- correct identification of blocker or next step;
+- successful trace from requirement to implementation/evidence;
+- correct distinction between executed evidence and planned verification;
+- time-to-answer;
+- missed uncertainty or unsupported claim;
+- successful movement from plain explanation to exact source.
 
-AES should support coordinated concern-specific views, not force every lifecycle fact into one giant dashboard or graph.
-
-## 12.5 No representation system as workflow authority
-
-A graph, wiki, dashboard, review workbench, or source-local panel remains a projection over native authorities.
-
-## 12.6 No large new representation framework before an authentic gap
-
-Representation Router may be a useful incumbent/reference source for representation-policy ideas, but canonical AES should disposition it through the same capability-first process as any other incumbent rather than implicitly importing it.
-
-## 12.7 No per-sentence generated test requirement
-
-Code Map's negative-controlled synthesis is an interesting evidence technique. AES should prefer native verification subjects and plan-derived criteria first, using generated probes only where they solve an explicit verification gap.
+This is a useful guard against AES treating generated artifact count or green UI tests as proof that context is effective.
 
 ---
 
-# 13. Candidate AES dispositions suggested by this synthesis
+# 15. Use success criteria at the representation layer
 
-These are research suggestions, not accepted decisions.
+Representation Router carries observable `successCriteria` into view/surface design so downstream implementation does not optimize only for rendering mechanics.
 
-| Idea | Suggested disposition |
+AES planning already derives success criteria for system behavior. A related but separate layer may be useful for **context/review success**.
+
+For example:
+
+```text
+system criterion:
+  policy blocks execution without accepted plan linkage
+
+working-surface criterion:
+  reviewer can identify the block reason, owning policy,
+  exact affected subject, and sanctioned recovery action
+  without opening policy source first
+```
+
+These should not be confused, but both matter.
+
+The first authentic AES vertical could therefore carry:
+
+1. engineering success criteria;
+2. verification/evidence criteria; and
+3. representation/context task-success criteria.
+
+---
+
+# 16. Human attention should be scarce and explicit
+
+Representation Router's review guidance says to queue a human decision only when judgment, authority, preference, or an irreversible boundary genuinely belongs to the person.
+
+That is highly applicable to AES.
+
+A review item should say:
+
+- what is being decided;
+- which exact subject/revision is being judged;
+- why the decision is needed now;
+- which evidence supports it;
+- which limitation/uncertainty remains; and
+- what each disposition actually causes.
+
+Do not ask a person to confirm facts that automation/source authority can establish. Conversely, do not let automation manufacture a human judgment merely because every machine check passed.
+
+This can reduce "human-in-the-loop" theater while preserving genuine authority boundaries.
+
+---
+
+# 17. What AES should not borrow wholesale from Representation Router
+
+The following should remain Representation Router-specific unless an authentic AES gap independently justifies them.
+
+## 17.1 Exact `ViewSpec`, `CollectionSpec`, or `SurfaceSpec` schemas as universal AES contracts
+
+Their concepts are useful. AES should not copy the schemas merely because they exist.
+
+If AES needs representation policy, ACA may resolve Representation Router itself as a provider. If a provider-neutral boundary is genuinely needed, derive it from the authentic consumer seam and respect `AES-CONTRACT-001`.
+
+## 17.2 Representation catalogs as AES ontology
+
+Graphs, matrices, timelines, interface patterns, renderers, and heuristics are Representation Router policy knowledge. They should not become AES lifecycle ontology.
+
+## 17.3 Representation Router's proving products
+
+Engineering Home, studios, runners, review workbenches, Release + Operate proofs, and the Self Map are evidence/proving surfaces, not a template for AES product topology.
+
+## 17.4 Renderer/visualization implementation choices
+
+AES should not own React Flow, D3, Graphviz, LikeC4, or similar renderer preferences because Representation Router experimented with them.
+
+## 17.5 Heuristic weights or numeric thresholds as universal laws
+
+Representation Router itself treats them as hypotheses. AES should not import them as policy authority.
+
+## 17.6 One giant lifecycle UI
+
+Representation Router's strongest current lesson is consolidation and separation of reusable representation policy from proving application scope. AES should learn from that history rather than reproduce the same scope accretion.
+
+---
+
+# 18. Candidate thin slice for the first authentic AES vertical
+
+When Company Planning selects the first authentic external-consumer vertical, test Representation Router ideas with one real review concern.
+
+A useful concern might be:
+
+> **Given the accepted target and completed implementation revision, what remains before this gap can be considered closed, and which remaining judgment belongs to a human?**
+
+### Inputs
+
+Use native authorities for:
+
+1. accepted target clause / success criterion;
+2. current or prior characterization;
+3. gap identity/state;
+4. accepted plan/work item;
+5. implementation subject at exact revision;
+6. verification subject/check definition;
+7. fresh executed evidence;
+8. policy/control state where relevant.
+
+### Concern-specific projections
+
+Derive only the lenses needed, for example:
+
+```text
+Work
+  planned outcome / work / blocker / next action
+
+Architecture
+  affected boundary / contract / implementation subject
+
+Assurance
+  criterion / check / executed evidence / remaining gap
+
+Review
+  intended change / actual change / limitations / pending judgment
+```
+
+### Interaction invariants
+
+- stable subject IDs coordinate compatible views;
+- source revision is always reachable;
+- an unavailable relation/lens stays unavailable rather than inferred;
+- changing source revision clears/remaps semantic focus explicitly;
+- evidence and non-claims/limitations are adjacent;
+- local review state is not authoritative workflow state;
+- any authoritative effect routes through its owning AES provider/contract.
+
+### Negative-control cases
+
+Deliberately test:
+
+```text
+remove executed evidence
+    -> assurance must not show verified/conformant
+
+change implementation revision without fresh evidence
+    -> prior review/evidence must not silently carry over
+
+remove plan-to-implementation relation
+    -> trace must show unavailable/gap rather than infer linkage
+
+policy/check errors
+    -> surface must show error/unobserved rather than green
+
+selected subject absent in another lens
+    -> retain identity + "not represented", not silent substitution
+```
+
+### Representation success criteria
+
+Measure whether a reviewer or agent can:
+
+1. state what was intended;
+2. identify what actually changed;
+3. trace the material criterion to implementation and executed evidence;
+4. distinguish missing/stale/unexecuted evidence from failure;
+5. identify the remaining gap or unsupported claim;
+6. identify the exact human decision, if one remains;
+7. reach exact source/revision when needed; and
+8. avoid mistaking the rendered surface for authority.
+
+This would provide authentic evidence for which Representation Router concepts AES actually needs.
+
+---
+
+# 19. Suggested capability-resolution questions
+
+Before AES implements representation/context behavior locally, Company Planning + ACA should answer:
+
+1. Does the concern require representation selection or only text/navigation synthesis?
+2. Does an existing provider such as Representation Router already satisfy the semantic capability?
+3. If Representation Router is reused, what is the smallest adapter from AES-native projections into the provider?
+4. Which semantic eligibility rules remain owned by AES/native source systems?
+5. Does the provider need read-only data, or does the surface expose any consequential action?
+6. Which stable identities coordinate views?
+7. Which exact source/revision changes invalidate focus or require refresh?
+8. Are multiple views genuine complements or unnecessary duplication?
+9. Which human/agent task outcome proves the representation helped?
+10. What friction/cost does the representation layer introduce?
+11. Which lessons are provider-neutral enough to promote into AES methodology, if any?
+12. What remains product-specific and should stay outside canonical architecture?
+
+---
+
+# 20. Condensed recommendation
+
+If only six Representation Router ideas survive into AES thinking, retain these:
+
+### A. Concern before representation
+
+Do not show "the AES model." Start with the human/agent question and derive the smallest semantic projection that answers it.
+
+### B. Projection is not authority
+
+Target/current/gap/plan/review surfaces remain derived views over native authorities.
+
+### C. Coordinated lenses can preserve one subject across different questions
+
+Work, Architecture, Assurance, and Review are a useful pattern when one concern crosses those structures, provided stable identity and provenance connect them.
+
+### D. Visible action does not create authority
+
+Read-only, surface-local, and authoritative effects remain distinct all the way into the UI/agent interaction.
+
+### E. Lead with the job, preserve exact truth underneath
+
+Progressive disclosure should improve engineering agency without inventing a simplified parallel truth model.
+
+### F. Reuse the capability before copying the mechanism
+
+When AES truly needs representation routing or coordinated working-surface composition, resolve Representation Router through ACA before building a local equivalent.
+
+---
+
+## Disposition summary
+
+| Representation Router idea | Suggested AES disposition |
 | --- | --- |
-| revision-bound observation/evidence semantics | **strong candidate; already aligned with accepted AES boundary** |
-| dependency-aware freshness / selective invalidation | **strong candidate; test in authentic vertical** |
-| evidence-bearing load-bearing relationships | **strong candidate; test across target→implementation→verification** |
-| explicit epistemic presentation states | **strong candidate; make UI/context preserve `AES-POL-002`** |
-| concern-specific planning/review working surfaces | **salvage as presentation principle; do not make a new authority** |
-| stable semantic focus across representations | **candidate presentation behavior; revision remap must remain explicit** |
-| facts-versus-synthesis separation | **adopt strongly as context-quality principle** |
-| action/authority separation in review surfaces | **adopt strongly as integration principle** |
-| negative-control testing for presentation/decision claims | **strong methodological candidate** |
-| independent evaluation signals | **adopt strongly as evidence principle** |
-| generic confidence scores | **avoid as primary epistemic mechanism** |
-| universal AES knowledge graph/wiki product | **do not adopt** |
-| universal representation/workbench product | **do not adopt** |
-| Code Map extractor matrix or Python identity rules | **provider-specific only** |
-| generated tests for every synthesized sentence | **specialized evidence technique only** |
+| truth → concern → projection → representation → surface separation | **salvage strongly** |
+| concern/viewpoint-first design | **salvage strongly** |
+| temporary validated projections before durable schemas | **salvage strongly** |
+| Work / Architecture / Assurance / Review coordinated lenses | **salvage as a review pattern; use only when needed** |
+| prospective planning vs checkpoint review distinction | **salvage** |
+| source/revision-bound working surface | **salvage strongly** |
+| stable semantic focus across representation pivots | **salvage** |
+| explicit unavailable/partial semantic views | **salvage strongly** |
+| read-only / surface-local / authoritative action boundary | **salvage strongly; map to native AES authority** |
+| task-first progressive disclosure | **salvage strongly** |
+| relationship inspection + non-claims | **salvage** |
+| complementary representation sets | **salvage concept; prove with real concerns** |
+| view/surface-level success criteria | **salvage** |
+| Representation Router itself as representation provider | **candidate reuse/adapt via ACA when a gap requires it** |
+| exact RR schemas as AES universal contracts | **do not copy by default** |
+| RR catalogs/heuristics as AES ontology | **do not port** |
+| RR proving applications as AES product architecture | **do not port** |
+| renderer/library choices | **do not port** |
+| one universal engineering dashboard | **reject as a default target** |
 
----
-
-# 14. Relationship to existing Code Map salvage synthesis
-
-This document is intended to complement, not replace, `code-map-v4-salvage-for-aes.md`.
-
-That document answers:
-
-> Which Code Map mechanisms are worth salvaging into AES characterization/evidence capabilities?
-
-This document adds a second question:
-
-> Once AES has trustworthy target/current/gap/plan/evidence material, how should that material be projected into useful planning, review, coding, and decision contexts without collapsing authority or epistemic state?
-
-The combined answer is roughly:
-
-```text
-Code Map lesson:
-  make current-state knowledge revision-bound, evidence-bearing and invalidatable
-
-AES architecture:
-  preserve native authority and recompute gaps from fresh characterization
-
-Representation/review lesson:
-  synthesize only the concern-relevant material into a working surface,
-  keep uncertainty visible,
-  and keep human-facing controls separate from authoritative effects
-```
-
-This creates a coherent direction without requiring any of the source systems to become the canonical AES product architecture.
-
----
-
-## Condensed recommendation
-
-For the first authentic AES vertical, do **not** begin by designing the final wiki, graph, workbench, evidence schema, or universal subject model.
-
-Begin with one real concern and prove this chain:
-
-```text
-native target + exact implementation revision
-        ↓
-revision-bound observation
-        ↓
-current characterization with explicit epistemic state
-        ↓
-derived gap
-        ↓
-Company Planning + capability resolution + governed execution
-        ↓
-new exact implementation revision
-        ↓
-precise invalidation + fresh observation
-        ↓
-recomputed gap
-        ↓
-concern-specific synthesized review/context surface
-        ↓
-human/agent decision
-        ↓
-owner-controlled effect or explicit no-effect
-```
-
-If that chain works and the same characterization/presentation semantics recur across independent consumers, promote the smallest repeated abstraction into a reusable capability or provider-neutral contract.
-
-Until then, keep these ideas as evidence-backed suggestions rather than another architecture layer.
+This is a research synthesis, not an implementation plan. The next legitimate transition is an authentic AES gap that requires representation/context capability, followed by Company Planning derivation and ACA resolution of Representation Router and other relevant incumbents before any local residual implementation.
