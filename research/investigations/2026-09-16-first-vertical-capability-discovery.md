@@ -31,13 +31,17 @@ Search of the current ACA canonical repository found no verified semantic export
 
 The current charter emphasizes narrow semantic action identities and currently audited actions such as `approval.resolve`, `availability.query`, `state.transition.plan`, and `notification.email.send`.
 
-Disposition: **no incumbent verified provider found**.
+Disposition: **no ACA-verified provider found**.
 
-## Residual classification
+## Relationship to external sourcing
 
-`repository.context.resolve` is therefore a residual capability requirement for the first vertical, not permission to immediately implement a new shared package.
+ACA discovery is only one part of provider selection. The canonical AES sourcing rule now checks stable platform, standard, mature OSS/service options before treating internal bespoke code as the default provider.
 
-Company Planning must decide the smallest implementation boundary needed for the vertical. The first implementation may be AES-local if that is the smallest honest seam. Promotion into ACA as a reusable capability requires an explicit semantic action contract, provider binding, evidence, and later reuse/disposition.
+That separate landscape is recorded in `2026-09-16-repository-context-provider-landscape.md`. It found useful substrate but no complete provider for the AES authority-resolution boundary.
+
+Current capability disposition: **compose native/off-the-shelf substrate + bounded residual AES semantics**.
+
+This is not permission to immediately create a generalized shared package. Internal repositories remain evidence/design donors unless a positive runtime-provider decision selects them.
 
 ## Consumer-specific evidence
 
@@ -52,4 +56,4 @@ A resolver that assumes `contracts/` owns contracts, assumes `wiki/index.md` alr
 
 ## Planning consequence
 
-The first vertical must prove semantic routing from declared/adopted repository context rather than folder-name heuristics. Any code topology remains unresolved until the plan derives the narrowest mechanism and verification subjects.
+The first vertical must prove semantic routing from declared/adopted repository context rather than folder-name heuristics. Company Planning must derive the smallest outcome-bearing vertical separately from the gap list or any dependency graph. Concrete code topology remains unresolved until dependency subplan D1 freezes the contract and exact implementation/verification subjects.
