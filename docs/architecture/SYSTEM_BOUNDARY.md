@@ -17,19 +17,25 @@ Project-agnostic documentation, policy, repository, and ecosystem architecture i
 Existing implementations and systems remain authoritative for capabilities they currently own until an explicit evidence-backed disposition selects reuse, extend, adapt, supersede, salvage, historical, not-applicable, or unresolved.
 
 ## AES-SYS-005 — No structure-first rewrite
-This repository does not reimplement predecessor systems wholesale. New local implementation exists only for a derived residual gap after incumbent capability resolution.
+This repository does not reimplement predecessor systems wholesale. New local implementation exists only for a derived residual gap after provider resolution.
 
 ## AES-PLAN-001 — Gap-backed planning
 Substantive implementation plans originate in explicit target/current variance. Planning does not invent current state or close gaps by declaration.
 
 ## AES-PLAN-002 — Planning subsystem split
-Company Planning is the default AES planning/design derivation provider: it turns accepted intent and dispositioned gaps into success criteria, boundaries, capability requirements, target implementation topology, target verification topology, and execution-ready plans. Enforced Planning is the default execution-governance provider: it delivers context, claims work, coordinates lanes, triggers checkpoints, runs applicable controls, and provides recovery/change paths while the plan executes.
+Company Planning is the default AES planning/design derivation provider: it turns accepted intent and dispositioned gaps into success criteria, boundaries, capability requirements, provider landscape, target implementation topology, target verification topology, and execution-ready slices. Enforced Planning is the default execution-governance provider: it delivers context, claims work, coordinates lanes, triggers checkpoints, runs applicable controls, and provides recovery/change paths while the accepted execution contract runs.
 
 ## AES-PLAN-003 — Plan completion is not conformance
 A completed plan does not close a gap. Fresh evidence and revision-bound implementation characterization must be compared with the target after implementation.
 
+## AES-PLAN-004 — Gaps, graphs, and slices are distinct
+A gap set identifies target/current variance. A dependency or work-unit graph identifies prerequisite, coordination, or claimability structure. Neither is itself an implementation slice. Company Planning must synthesize risk-ordered, outcome-bearing vertical slices that preserve the actor, canonical behavioral example, end-to-end path, acceptance/readout, important uncertainty, and recovery boundary. A work-unit graph is added only when coordination or a machine consumer requires it and must not substitute for slice derivation.
+
 ## AES-CAP-001 — Capability-first residual implementation
-Before hand-authoring behavior that may be reusable, the planning flow derives the required semantic capability/action and resolves relevant providers through ACA. The execution contract records reuse, configure, compose, extend, supersede, explicit exception, or residual local implementation.
+Before hand-authoring behavior that may be reusable, planning derives the required semantic capability/action and resolves candidate providers. The execution contract records reuse, configure, compose, extend, supersede, explicit exception, or residual local implementation.
+
+## AES-CAP-002 — External-first provider sourcing
+For a capability that could reasonably be supplied by a stable platform, standard, mature open-source package, or mature service, provider sourcing examines those options before selecting an internal bespoke implementation. Internal repositories are evidence/design donors by default and become runtime providers only through a positive fit decision. Selection considers semantic fit, stability, maintenance, dependency and operational burden, portability, control requirements, and replaceability. Local implementation is justified only for the residual semantics that remain after proportionate sourcing; trivial deterministic local behavior does not require ceremonial market research.
 
 ## AES-CONTRACT-001 — Native typed boundaries
 Typed contracts remain with their natural contract authority. Data Contracts may supply reusable provider-neutral typed/composition contracts where applicable; AES does not create a duplicate contract language or universal `contracts/` store.
@@ -62,4 +68,4 @@ Useful observations, failures, rejected fits, policy friction, and capability ou
 The first implementation vertical must cross a real external consumer boundary. Self-dogfood is required, but self-description alone is insufficient evidence of the integrated system.
 
 ## AES-DOGFOOD-002 — End-to-end closure
-The first vertical is not accepted until one real concern traverses target -> current -> gap -> disposition -> Company Planning -> ACA resolution -> Enforced Planning execution -> policy controls -> evidence -> fresh characterization -> gap recomputation -> wiki/current projection, with at least one observed policy block/recovery or equivalent enforced transition.
+The first vertical is not accepted until one real concern traverses target -> current -> gap -> disposition -> Company Planning -> provider sourcing / ACA resolution -> Enforced Planning execution -> policy controls -> evidence -> fresh characterization -> gap recomputation -> wiki/current projection, with at least one observed policy block/recovery or equivalent enforced transition.
