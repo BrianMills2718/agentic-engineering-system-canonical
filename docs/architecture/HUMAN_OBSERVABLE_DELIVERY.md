@@ -58,6 +58,8 @@ next slice or replan
 
 The requirement is not graphical polish. The requirement is that the actor can exercise and judge the real capability without first reconstructing it from code, tests, logs, plans, or agent dialogue.
 
+**UI-first is therefore shorthand for actor-surface-first, not GUI-first.** Do not manufacture a graphical shell for a library, service, infrastructure capability, or developer tool when its authentic human boundary is another form. Conversely, do not use the existence of a CLI, JSON artifact, or test harness to claim human observability when the intended reviewer still has to mentally reconstruct the experience.
+
 ### Non-slice critical-path work
 
 Not every necessary increment can produce standalone user value. Classify such work honestly:
@@ -100,6 +102,8 @@ The north star may be a detailed UI when evidence supports that detail, or only 
 - progressive disclosure;
 - authority boundaries;
 - completion experience.
+
+A north-star experience is a steering model, not an accepted implementation specification merely because it is vivid. It must remain revisable when stakeholder observation, feasibility evidence, or provider constraints invalidate its assumptions.
 
 ## 4. Maturity and epistemic certainty determine design depth
 
@@ -218,6 +222,8 @@ not:
 
 Representation/context tooling should prepare the smallest source-bound review surface needed to make that judgment cheap.
 
+A checkpoint disposition such as `continue | change | pause | stop | scale` is planning/utility evidence. It is not, by itself, technical conformance, plan acceptance, deployment approval, or authority to mutate another system.
+
 ## 8. Product surface and engineering-review surface are complementary
 
 At the end of a meaningful slice, the stakeholder should normally have access to:
@@ -239,7 +245,31 @@ What decision, if any, belongs to me?
 
 These surfaces may be one coordinated experience or separate artifacts. Neither becomes authority merely by rendering authoritative facts. Representation Router is a relevant donor/provider candidate for making these concern-specific surfaces tractable; Company Planning, Enforced Planning, repositories, policy systems, and other native owners retain their state and effect authority.
 
-## 9. Portfolio economics
+The product surface should make **holistic quality** observable where relevant: usefulness, coherence, interaction cost, latency, failure/recovery behavior, trust/legibility, and whether the feature fits the actor's real workflow. Automated evidence usually cannot establish all of these dimensions by itself.
+
+## 9. Utility and conformance are orthogonal
+
+Direct stakeholder use and technical/evidence conformance answer different questions and must remain separately visible.
+
+```text
+technical/evidence state      stakeholder utility state
+------------------------      -------------------------
+conformant                    useful
+nonconformant                 promising but not acceptable yet
+unknown / stale / error       useful-looking but unproven
+conformant                    low-value / wrong direction
+```
+
+Consequences:
+
+- automated green cannot override a stakeholder observation that the capability is low-value or badly shaped;
+- stakeholder enthusiasm cannot convert missing, failed, stale, or insufficient required evidence into conformance;
+- a low-utility but technically conformant result is planning evidence for `change | pause | stop`, not merely a polish backlog;
+- a high-utility but nonconformant result may justify repair or another slice, but not a false closure claim.
+
+The system should preserve both dimensions through review, gap reconciliation, and continuation decisions.
+
+## 10. Portfolio economics
 
 When a portfolio authority exists, project scheduling should compare the **next increments** available across projects rather than rewarding local completion percentages.
 
@@ -259,7 +289,7 @@ A project-local AES executor does not invent portfolio priority. It should expos
 
 Stopping or killing a project can be a high-value outcome when a cheap vertical plus brief human use reveals that the project is not worth further investment.
 
-## 10. Learning from late-utility failures
+## 11. Learning from late-utility failures
 
 A stakeholder reaction such as "this is technically complete but useless" is not merely a UI defect. It may indicate:
 
@@ -273,7 +303,7 @@ A stakeholder reaction such as "this is technically complete but useless" is not
 
 Record and disposition that failure family so future planning shortens the stakeholder-observation interval for similar uncertainty.
 
-## 11. Operating principle
+## 12. Operating principle
 
 > **Use AI autonomy to multiply human judgment, not to postpone human judgment until after its leverage has disappeared.**
 
