@@ -3,12 +3,11 @@ from __future__ import annotations
 from pathlib import Path
 
 from .git_source import GitSource, GitSourceError
-from .legacy import LegacyRepositoryAdapter
-from .manifest import ManifestError, PilotManifestAdapter
+from .legacy import LegacyRepositoryAdapter, _evidence
+from .manifest import MANIFEST_PATH, ManifestError, PilotManifestAdapter
 from .models import (
     AuthorityRole,
     AuthoritySurfaceObservation,
-    ConcernRootObservation,
     EpistemicState,
     RepositoryContextArtifact,
     ResolutionStatus,
@@ -45,10 +44,12 @@ class RepositoryContextResolver:
             return self._resolve_manifest(source, manifest)
         return self._resolve_legacy(source)
 
-    def _resolve_manifest(self, source: GitSource, manifest: PilotManifestAdapter) -> RepositoryContextArtifact:
+    def _resolve_manifest(
+        self, source: GitSource, manifest: PilotManifestAdapter
+    ) -> RepositoryContextArtifact:
         try:
-            value = manifest.load()
             entries = manifest.role_entries()
+            nav_path = manifest.navigation_path()
         except ManifestError as exc:
             return RepositoryContextArtifact(
                 repository_id=source.repository_id,
@@ -57,7 +58,7 @@ class RepositoryContextResolver:
                 navigation=AuthoritySurfaceObservation(
                     role=AuthorityRole.NAVIGATION,
                     state=EpistemicState.ERROR,
-                    summary="Authoritative repository-context manifest is malformed; legacy fallback is disabled.",
+                    summary="Authoritative .agentic/repo.yaml is malformed; legacy fallback is disabled.",
                 ),
                 unresolved=(UnresolvedSurface(
                     subject=MANIFEST_PATH,
@@ -65,37 +66,14 @@ class RepositoryContextResolver:
                 ),),
             )
 
-        evidence = []
-        manifest_evidence_id = f"{source.revision[:12]}:{MANIFEST_PATH}"
-        from .legacy import _evidence
-        ev = _evidence(source, MANIFEST_PATH, "authoritative repository-context manifest")
-        evidence.append(ev)
-
-        nav_path = value.get("navigation")
+        ev = _evidence(source, MANIFEST_PATH, "authoritative pilot repository manifest")
+        evidence = [ev]
         if nav_path is None:
             navigation = AuthoritySurfaceObservation(
                 role=AuthorityRole.NAVIGATION,
                 state=EpistemicState.NONE,
-                summary="The authoritative manifest does not declare a navigation surface.",
+                summary="The authoritative manifest does not declare a wiki navigation surface.",
                 evidence_refs=(ev.evidence_id,),
-            )
-        elif not isinstance(nav_path, str) or not nav_path:
-            return RepositoryContextArtifact(
-                repository_id=source.repository_id,
-                revision=source.revision,
-                resolution_status=ResolutionStatus.ERROR,
-                navigation=AuthoritySurfaceObservation(
-                    role=AuthorityRole.NAVIGATION,
-                    state=EpistemicState.ERROR,
-                    summary="Manifest navigation must be a non-empty path when declared.",
-                    evidence_refs=(ev.evidence_id,),
-                ),
-                unresolved=(UnresolvedSurface(
-                    subject="navigation",
-                    reason="Correct the authoritative manifest and retry.",
-                    evidence_refs=(ev.evidence_id,),
-                ),),
-                evidence=(ev,),
             )
         elif not source.exists(nav_path):
             navigation = AuthoritySurfaceObservation(
@@ -180,8 +158,6 @@ class RepositoryContextResolver:
                 evidence_refs=navigation.evidence_refs,
             ))
         status = ResolutionStatus.RESOLVED if navigation.state == EpistemicState.OBSERVED else ResolutionStatus.PARTIAL
-        if any(item.state == EpistemicState.ERROR for item in authorities):
-            status = ResolutionStatus.ERROR
         return RepositoryContextArtifact(
             repository_id=source.repository_id,
             revision=source.revision,
@@ -192,6 +168,3 @@ class RepositoryContextResolver:
             unresolved=tuple(unresolved),
             evidence=all_evidence,
         )
-
-
-MANIFEST_PATH = ".agentic/repository-context.yaml"
