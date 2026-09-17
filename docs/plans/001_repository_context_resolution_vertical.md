@@ -1,6 +1,6 @@
 # Plan 001 — Repository context resolution vertical
 
-Status: **implementation-ready; D1 closed; implementation not started**
+Status: **implementation partial; A1 human-utility checkpoint pending**
 Origin gaps: GAP-AES-001, 002, 003, 004, 005, 006, 007, 009, 010, 011, 013, 014, 015, 017, 019, 020, 021, 022, 023, 024, 025, 026, 027
 External consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`
 Execution profile: pilot
@@ -114,7 +114,7 @@ Selected Slice 1 bindings:
 - Pydantic `2.13.5` — strict immutable local typed models;
 - PyYAML `6.0.3` — safe parsing of pilot `.agentic/repo.yaml`;
 - Python standard library — JSON, paths/subprocess, and static HTML generation;
-- pytest — verification harness; exact compatible release is an implementation/tooling choice, not architecture.
+- pytest — verification harness; exact compatible release is implementation/tooling.
 
 Not selected as Slice 1 runtime dependencies:
 
@@ -226,7 +226,7 @@ When `.agentic/repo.yaml` is absent, the adapter may use only:
 
 It may not infer authority from folder names, crawl for plausible authority, hard-code `data-contracts`, or treat `contracts/` as authoritative by existence.
 
-When a pilot manifest exists, it is the authority for its declared repository context. A malformed manifest yields `ERROR`/block with correction/retry or explicit escalation; it never silently falls back to legacy inference. A valid manifest with an absent role yields `NONE`/unresolved for that role.
+When a pilot manifest exists, it is the authority for its declared repository context. A malformed manifest yields `ERROR`/block with correction/retry or explicit escalation; it never silently falls back to legacy inference. A valid manifest with an absent role yields `NONE`/unresolved.
 
 ## Slice horizon
 
@@ -243,15 +243,16 @@ D1 froze:
 - runtime provider/dependency bindings;
 - legacy/manifest precedence rules.
 
-D1 closes no originating gap. Its return path is now Slice 1.
+D1 closes no originating gap. Its return path is Slice 1.
 
-### Slice 1 — external repository context resolution — READY FOR GOVERNED IMPLEMENTATION
+### Slice 1 — external repository context resolution — IMPLEMENTATION PARTIAL / A1 PENDING
 
 - advances: person/agent can orient correctly in real external repository before editing;
 - vertical scope: pinned `data-contracts` revision -> bounded observations -> resolution -> typed artifact -> static source-bound HTML surface;
 - de-risks: utility without repo hardcoding/generalized indexing/representation framework;
 - success: AC-001 through AC-011;
-- evidence: exact consumer/AES revisions, positive evidence refs, negative-control receipts, separate stakeholder observation receipt;
+- current implementation: package, resolver, renderer, CLI, and automated tests are present on the implementation branch;
+- evidence still outstanding: local Enforced Planning install/audit, pinned external consumer execution, generated artifact at the exact consumer revision, revision-bound characterization, and direct stakeholder observation;
 - done-when: technical evidence satisfies required criteria and the intended reviewer has directly used the surface enough to disposition `continue | change | stop`.
 
 ### Attention checkpoint A1 — first utility observation
@@ -288,6 +289,12 @@ tests/repository_context/fixtures/pilot_valid/
 tests/repository_context/fixtures/pilot_malformed/
 tests/repository_context/fixtures/pilot_missing_declaration/
 ```
+
+Current verification status:
+
+- model/resolver/rendering tests are present;
+- the pinned external-consumer test intentionally remains environment-dependent and does not fabricate evidence when the checkout is unavailable;
+- A1 direct-use evidence is not yet present.
 
 Acceptance mapping:
 
