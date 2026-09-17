@@ -142,6 +142,8 @@ The implementation root and exact file paths remain unresolved until the contrac
 
 This is on the critical path but is not the first product/outcome slice.
 
+Executable brief: [`001_D1_contract_surface_topology_freeze.md`](001_D1_contract_surface_topology_freeze.md). The brief is subordinate to this plan and adds no new outcome or success criteria.
+
 - blocks: first external vertical
 - unknowns: contract owner, minimum artifact schema, exact concrete implementation/verification subjects, smallest authentic human-facing entrypoint
 - instrument: inspect Data Contracts contract surfaces plus current repository/package conventions and available representation/provider seams
@@ -164,7 +166,7 @@ This is the first authentic outcome-bearing vertical.
 
 ### Attention checkpoint A1 — first utility observation
 
-A1 occurs immediately after Slice 1's authentic surface exists. It is an information-value checkpoint, not a standing approval gate.
+A1 occurs immediately after Slice 1's authentic surface exists. It is an information-value checkpoint, not a standing approval gate and not technical conformance by itself.
 
 The intended reviewer uses the capability and records, at minimum:
 
@@ -173,7 +175,7 @@ The intended reviewer uses the capability and records, at minimum:
 - whether the interaction model should continue, change materially, or stop;
 - which next increment, if any, now has the highest value.
 
-A negative judgment is valid evidence. Do not hide or reinterpret it as a UI polish request if it shows the product direction or slice semantics are wrong.
+A negative judgment is valid evidence. Do not hide or reinterpret it as a UI polish request if it shows the product direction or slice semantics are wrong. Conversely, positive stakeholder utility does not override failed, missing, stale, or insufficient required technical evidence.
 
 ### Later slice skeleton — declared pilot-manifest route
 
