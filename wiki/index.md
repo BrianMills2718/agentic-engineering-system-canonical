@@ -15,26 +15,27 @@ This is the progressive-disclosure front door for the canonical AES convergence 
 ## Read in this order
 
 1. [`../docs/architecture/SYSTEM_BOUNDARY.md`](../docs/architecture/SYSTEM_BOUNDARY.md) — AES-specific normative system boundary, including gap/graph/slice distinction, human-observable slices, confidence-weighted experience planning, attention economics and external-first sourcing.
-2. [`../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — how AES designs backward from useful experiences, treats feasibility work, and decides when human observation has more value than another autonomous increment.
+2. [`../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — how AES designs backward from useful experiences, treats feasibility work, separates utility from conformance, and decides when human observation has more value than another autonomous increment.
 3. [`../docs/architecture/INITIAL_GAP_LEDGER.md`](../docs/architecture/INITIAL_GAP_LEDGER.md) — target/current gap materialization and dispositions.
 4. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — first gap-backed design packet, dependency subplan, human-observable Slice 1, and Attention Checkpoint A1.
-5. [`../research/investigations/2026-09-16-repository-context-provider-landscape.md`](../research/investigations/2026-09-16-repository-context-provider-landscape.md) — stable/off-the-shelf provider search and residual-semantics conclusion.
-6. [`../research/investigations/2026-09-16-first-vertical-capability-discovery.md`](../research/investigations/2026-09-16-first-vertical-capability-discovery.md) — ACA discovery result.
-7. [`../research/synthesis/incumbent-capability-inventory.md`](../research/synthesis/incumbent-capability-inventory.md) — donor versus runtime-provider inventory.
-8. [`../docs/decisions/0001-canonical-convergence-boundary.md`](../docs/decisions/0001-canonical-convergence-boundary.md) — why this clean repo exists and how predecessor systems are treated.
-9. Standalone methodology: `BrianMills2718/wiki_methodology@0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe`, `docs/architecture/README.md`.
+5. [`../docs/plans/001_D1_contract_surface_topology_freeze.md`](../docs/plans/001_D1_contract_surface_topology_freeze.md) — subordinate executable brief for the immediate D1 frontier; contract, actor-surface, provider/dependency, implementation-subject and verification-subject freeze only.
+6. [`../research/investigations/2026-09-16-repository-context-provider-landscape.md`](../research/investigations/2026-09-16-repository-context-provider-landscape.md) — stable/off-the-shelf provider search and residual-semantics conclusion.
+7. [`../research/investigations/2026-09-16-first-vertical-capability-discovery.md`](../research/investigations/2026-09-16-first-vertical-capability-discovery.md) — ACA discovery result.
+8. [`../research/synthesis/incumbent-capability-inventory.md`](../research/synthesis/incumbent-capability-inventory.md) — donor versus runtime-provider inventory.
+9. [`../docs/decisions/0001-canonical-convergence-boundary.md`](../docs/decisions/0001-canonical-convergence-boundary.md) — why this clean repo exists and how predecessor systems are treated.
+10. Standalone methodology: `BrianMills2718/wiki_methodology@0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe`, `docs/architecture/README.md`.
 
 ## Concern snapshot
 
 ### Planning and delivery
 Target: gap-backed planning where Company Planning derives risk-ordered human-observable vertical slices and Enforced Planning governs their execution. Gaps identify variance; work graphs identify dependencies/coordination; neither substitutes for slice design. Where the final experience is knowable enough, planning reasons backward from a north-star interaction while limiting specificity to the current maturity and evidence.
-Current: initial gaps are derived and grouped. Plan 001 has dependency subplan D1, a separate external Slice 1, a directional north-star interaction and one utility-observation checkpoint.
+Current: initial gaps are derived and grouped. Plan 001 has dependency subplan D1, a separate external Slice 1, a directional north-star interaction and one utility-observation checkpoint. D1 now has a subordinate execution brief with explicit decisions and an exit test.
 Gap: D1 has not yet frozen the concrete contract/topology, no human-observable implementation slice exists, and no attention checkpoint has been exercised.
-Next depth: `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md` and `docs/plans/001_repository_context_resolution_vertical.md`.
+Next depth: `docs/plans/001_D1_contract_surface_topology_freeze.md`.
 
 ### Human/agent working surfaces
 Target: planning, coding and review are made tractable through the smallest concern-specific source-bound representation that lets a human or agent understand and act without reconstructing the system from dialogue, code and prose. Rendering does not transfer workflow authority.
-Current: the representation boundary is accepted architecturally; Representation Router is a donor/provider candidate, not a selected dependency.
+Current: the representation boundary is accepted architecturally; Representation Router is a donor/provider candidate, not a selected dependency. Human utility and technical/evidence conformance are explicitly separate review dimensions.
 Gap: no canonical AES source-bound working surface has yet been proven in use.
 Next depth: `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md` and the Representation Router synthesis under `research/synthesis/`.
 
@@ -42,7 +43,7 @@ Next depth: `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md` and the Representat
 Target: stable platform/standard/off-the-shelf providers are considered before bespoke internal dependencies; ACA supplies capability identity/provider knowledge; internal repos are donors by default; local code implements only residual semantics.
 Current: ACA search found no verified repository-context semantic action. The external landscape found no complete provider, while identifying reusable native/external substrate.
 Gap: the concrete dependency set and residual implementation topology remain unfrozen until D1 completes.
-Next depth: `research/investigations/2026-09-16-repository-context-provider-landscape.md`.
+Next depth: `docs/plans/001_D1_contract_surface_topology_freeze.md` and `research/investigations/2026-09-16-repository-context-provider-landscape.md`.
 
 ### Economics and autonomy
 Target: AI autonomy multiplies scarce human judgment rather than postponing it. Planning considers expected utility, value of information, human attention, AI/tool cost, elapsed time, rework/lock-in and opportunity cost contextually rather than optimizing task counts or local completion percentages.
