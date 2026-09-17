@@ -1,5 +1,83 @@
 schema_version: "0.1-pilot"
-# Couplings are intentionally empty at bootstrap.
-# Company Planning should populate requirement -> implementation subject -> verification subject
-# relationships when the first target topology is accepted.
-relationships: []
+relationships:
+  - source: AES-DOGFOOD-002
+    relation: implemented_by_planned_subject
+    target: RepositoryContextResolver
+  - source: AES-CTX-001
+    relation: implemented_by_planned_subject
+    target: RepositoryContextResolver
+  - source: AES-SYS-002
+    relation: implemented_by_planned_subject
+    target: AuthoritySurfaceObservation
+  - source: AES-CONTRACT-001
+    relation: implemented_by_planned_subject
+    target: RepositoryContextArtifact
+  - source: AES-CAP-001
+    relation: requires_semantic_action
+    target: repository.context.resolve
+  - source: AES-CAP-002
+    relation: provider_sourcing_evidenced_by
+    target: research/investigations/2026-09-16-repository-context-provider-landscape.md
+  - source: repository.context.resolve
+    relation: realization_disposition
+    target: compose_native_substrate_plus_residual_semantics
+  - source: AES-PLAN-004
+    relation: shaped_by_planned_slice
+    target: PLAN-001/Slice-1-external-repository-context-resolution
+  - source: AES-PLAN-005
+    relation: shaped_by_planned_slice
+    target: PLAN-001/Slice-1-external-repository-context-resolution
+  - source: AES-PLAN-006
+    relation: applied_by_plan
+    target: docs/plans/001_repository_context_resolution_vertical.md
+  - source: AES-PLAN-007
+    relation: applied_by_dependency_subplan
+    target: PLAN-001/D1
+  - source: AES-ECON-001
+    relation: applied_by_attention_checkpoint
+    target: PLAN-001/A1
+  - source: AES-CTX-003
+    relation: projected_by_planned_subject
+    target: RepositoryContextWorkingSurface
+  - source: PLAN-001/D1
+    relation: enables
+    target: PLAN-001/Slice-1-external-repository-context-resolution
+  - source: PLAN-001/Slice-1-external-repository-context-resolution
+    relation: observed_by
+    target: PLAN-001/A1
+  - source: RepositoryContextResolver
+    relation: verified_by_planned_criterion
+    target: AC-001
+  - source: RepositoryContextResolver
+    relation: verified_by_planned_criterion
+    target: AC-002
+  - source: RepositoryContextResolver
+    relation: verified_by_planned_criterion
+    target: AC-003
+  - source: AuthoritySurfaceObservation
+    relation: verified_by_planned_criterion
+    target: AC-004
+  - source: RepositoryContextArtifact
+    relation: verified_by_planned_criterion
+    target: AC-005
+  - source: RepositoryContextResolver
+    relation: verified_by_planned_criterion
+    target: AC-006
+  - source: RepositoryContextResolver
+    relation: verified_by_planned_criterion
+    target: AC-007
+  - source: AES-POL-003
+    relation: verified_by_planned_criterion
+    target: AC-008
+  - source: AES-PLAN-003
+    relation: verified_by_planned_criterion
+    target: AC-009
+  - source: AES-PLAN-005
+    relation: verified_by_planned_criterion
+    target: AC-010
+  - source: AES-CTX-003
+    relation: verified_by_planned_criterion
+    target: AC-010
+  - source: AES-ECON-001
+    relation: verified_by_planned_criterion
+    target: AC-011
