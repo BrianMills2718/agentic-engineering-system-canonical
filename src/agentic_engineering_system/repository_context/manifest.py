@@ -69,9 +69,13 @@ class PilotManifestAdapter:
         for key, role in mapping.items():
             paths = authorities.get(key)
             if paths is None:
+                entries.append({"role": role, "path": None})
                 continue
             if not isinstance(paths, list):
                 raise ManifestError(f"authorities.{key} must be a list")
+            if not paths:
+                entries.append({"role": role, "path": None})
+                continue
             for path in paths:
                 if not isinstance(path, str) or not path:
                     raise ManifestError(f"authorities.{key} entries must be non-empty strings")

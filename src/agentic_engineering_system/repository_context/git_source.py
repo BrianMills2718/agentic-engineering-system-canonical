@@ -26,7 +26,14 @@ class GitSource:
 
     @property
     def repository_id(self) -> str:
-        remote = self._run("config", "--get", "remote.origin.url")
+        result = subprocess.run(
+            ["git", "config", "--get", "remote.origin.url"],
+            cwd=self.repo,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        remote = result.stdout.strip() if result.returncode == 0 else ""
         if not remote:
             return self.repo.name
         value = remote.removesuffix(".git")
@@ -49,12 +56,13 @@ class GitSource:
 
     def exists(self, relative: str) -> bool:
         path = (self.repo / relative).resolve()
-        return path.is_file() and self.repo in path.parents
+        return path.exists() and (path == self.repo or self.repo in path.parents)
 
     def read_text(self, relative: str) -> str:
-        if not self.exists(relative):
-            raise GitSourceError(f"missing source path: {relative}")
-        return (self.repo / relative).read_text(encoding="utf-8")
+        path = (self.repo / relative).resolve()
+        if not path.is_file() or self.repo not in path.parents:
+            raise GitSourceError(f"missing source file: {relative}")
+        return path.read_text(encoding="utf-8")
 
     def source_url(self, relative: str) -> str | None:
         rid = self.repository_id

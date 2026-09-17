@@ -43,9 +43,15 @@ def render_html(artifact: RepositoryContextArtifact) -> str:
 
     concerns = []
     for item in artifact.concern_roots:
+        explanation = ""
+        if item.concern == "contracts-root" and item.state.value == "NONE":
+            explanation = " — directory presence does not establish repository-wide contract authority"
+        elif item.concern == "wiki-navigation" and item.state.value == "NONE":
+            explanation = " — no bounded root source establishes a local wiki as navigation authority"
         concerns.append(
             f"<li><strong>{html.escape(item.concern)}</strong>: {_state(item.state)}"
             + (f" — <code>{html.escape(item.path)}</code>" if item.path else "")
+            + html.escape(explanation)
             + "</li>"
         )
 

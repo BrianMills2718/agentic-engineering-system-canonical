@@ -32,6 +32,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"resolution: {artifact.resolution_status.value}")
     print(f"context: {json_path}")
     print(f"surface: {html_path}")
+    if artifact.unresolved:
+        print(f"Recovery: {artifact.unresolved[0].reason}")
     return 0 if artifact.resolution_status.value != "ERROR" else 2
 
 

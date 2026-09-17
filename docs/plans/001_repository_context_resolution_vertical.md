@@ -23,7 +23,7 @@ aes-repo-context --repo <local-data-contracts-checkout> \
 Expected result: the generated source-bound surface must, at minimum:
 
 1. identify `data-contracts` and the exact reviewed revision;
-2. report the current local navigation situation honestly rather than inventing `wiki/index.md` when absent;
+2. report the current local navigation situation honestly: a physical `wiki/index.md` is not promoted to navigation authority without bounded positive routing evidence, and an absent/unrouted wiki is never invented;
 3. identify `src/data_contracts/` as a native implementation and typed-contract authority surface using positive evidence;
 4. distinguish root `contracts/` from repository-wide contract authority;
 5. route contract-ownership questions to `docs/ops/CAPABILITY_DECOMPOSITION.md` with exact evidence;
@@ -300,7 +300,7 @@ Acceptance mapping:
 
 - AC-001 — pinned external integration test at `90c389...` proves exact revision and package/contract authority evidence;
 - AC-002 — external + fixture tests prove root `contracts/` is never universal authority by existence;
-- AC-003 — external test preserves missing local wiki as `NONE`/legacy navigation;
+- AC-003 — the pinned external test proves a physical local wiki is not promoted by path existence alone, while a bounded fixture preserves absent/unrouted wiki navigation as `NONE` rather than inventing success;
 - AC-004 — external test routes ownership to `docs/ops/CAPABILITY_DECOMPOSITION.md`;
 - AC-005 — model/resolver tests enforce evidence refs on every positive claim;
 - AC-006 — malformed pilot fixture yields `ERROR`/blocked with no legacy fallback;

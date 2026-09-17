@@ -24,6 +24,7 @@ def test_legacy_resolution_is_source_bound(tmp_path: Path):
     repo = git_repo(tmp_path, {
         "README.md": "# Example\n",
         "pyproject.toml": "[tool.setuptools]\npackage-dir = {\"\" = \"src\"}\n[tool.setuptools.packages.find]\nwhere = [\"src\"]\n",
+        "src/.keep": "",
         "docs/ops/CAPABILITY_DECOMPOSITION.md": "# Ownership\n",
     })
     artifact = RepositoryContextResolver(repo).resolve()

@@ -1,3 +1,6 @@
+import pytest
+from pydantic import ValidationError
+
 from agentic_engineering_system.repository_context.models import (
     AuthorityRole,
     AuthoritySurfaceObservation,
@@ -30,6 +33,33 @@ def test_positive_authority_requires_explicit_evidence_reference_shape():
         evidence=(evidence,),
     )
     assert artifact.navigation.evidence_refs == ("r1:README.md",)
+
+
+def test_observed_authority_without_evidence_is_rejected():
+    with pytest.raises(ValidationError):
+        AuthoritySurfaceObservation(
+            role=AuthorityRole.CONTRACT,
+            state=EpistemicState.OBSERVED,
+            locations=("src/demo/",),
+            summary="unsupported positive claim",
+        )
+
+
+def test_artifact_rejects_observed_claim_with_missing_evidence_object():
+    observation = AuthoritySurfaceObservation(
+        role=AuthorityRole.NAVIGATION,
+        state=EpistemicState.OBSERVED,
+        locations=("README.md",),
+        summary="root entrypoint",
+        evidence_refs=("missing",),
+    )
+    with pytest.raises(ValidationError):
+        RepositoryContextArtifact(
+            repository_id="example/repo",
+            revision="r1",
+            resolution_status=ResolutionStatus.RESOLVED,
+            navigation=observation,
+        )
 
 
 def test_models_are_immutable_and_reject_unknown_fields():
