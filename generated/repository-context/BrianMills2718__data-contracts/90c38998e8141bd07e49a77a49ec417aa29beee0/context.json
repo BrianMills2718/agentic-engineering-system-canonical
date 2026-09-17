@@ -1,0 +1,100 @@
+{
+  "authorities": [
+    {
+      "evidence_refs": [
+        "90c38998e814:pyproject.toml"
+      ],
+      "locations": [
+        "src/data_contracts/"
+      ],
+      "role": "implementation",
+      "state": "OBSERVED",
+      "summary": "Packaging metadata positively identifies the implementation package root."
+    },
+    {
+      "evidence_refs": [
+        "90c38998e814:docs/ops/CAPABILITY_DECOMPOSITION.md"
+      ],
+      "locations": [
+        "docs/ops/CAPABILITY_DECOMPOSITION.md"
+      ],
+      "role": "ownership",
+      "state": "OBSERVED",
+      "summary": "Root context directly routes capability ownership to this document."
+    },
+    {
+      "evidence_refs": [
+        "90c38998e814:pyproject.toml",
+        "90c38998e814:docs/ops/CAPABILITY_DECOMPOSITION.md"
+      ],
+      "locations": [
+        "src/data_contracts/"
+      ],
+      "role": "contract",
+      "state": "OBSERVED",
+      "summary": "Packaging metadata plus the directly referenced ownership source identify this package as a contract authority surface."
+    }
+  ],
+  "concern_roots": [
+    {
+      "concern": "wiki-navigation",
+      "evidence_refs": [],
+      "path": null,
+      "state": "NONE"
+    },
+    {
+      "concern": "contracts-root",
+      "evidence_refs": [],
+      "path": "contracts/",
+      "state": "NONE"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "90c38998e814:README.md",
+      "line_end": null,
+      "line_start": null,
+      "note": "root navigation/context document",
+      "path": "README.md",
+      "repository_id": "BrianMills2718/data-contracts",
+      "revision": "90c38998e8141bd07e49a77a49ec417aa29beee0",
+      "source_url": "https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/README.md"
+    },
+    {
+      "evidence_id": "90c38998e814:pyproject.toml",
+      "line_end": null,
+      "line_start": null,
+      "note": "packaging metadata",
+      "path": "pyproject.toml",
+      "repository_id": "BrianMills2718/data-contracts",
+      "revision": "90c38998e8141bd07e49a77a49ec417aa29beee0",
+      "source_url": "https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/pyproject.toml"
+    },
+    {
+      "evidence_id": "90c38998e814:docs/ops/CAPABILITY_DECOMPOSITION.md",
+      "line_end": null,
+      "line_start": null,
+      "note": "directly referenced capability-ownership document",
+      "path": "docs/ops/CAPABILITY_DECOMPOSITION.md",
+      "repository_id": "BrianMills2718/data-contracts",
+      "revision": "90c38998e8141bd07e49a77a49ec417aa29beee0",
+      "source_url": "https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/docs/ops/CAPABILITY_DECOMPOSITION.md"
+    }
+  ],
+  "navigation": {
+    "evidence_refs": [
+      "90c38998e814:README.md"
+    ],
+    "locations": [
+      "README.md"
+    ],
+    "role": "navigation",
+    "state": "OBSERVED",
+    "summary": "Repository-local entrypoint is README.md."
+  },
+  "repository_id": "BrianMills2718/data-contracts",
+  "resolution_status": "RESOLVED",
+  "revision": "90c38998e8141bd07e49a77a49ec417aa29beee0",
+  "schema_version": "0.1",
+  "unresolved": []
+}
