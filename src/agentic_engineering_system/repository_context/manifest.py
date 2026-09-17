@@ -6,7 +6,7 @@ from typing import Any
 import yaml
 
 
-MANIFEST_PATH = ".agentic/repository-context.yaml"
+MANIFEST_PATH = ".agentic/repo.yaml"
 
 
 class ManifestError(ValueError):
@@ -31,22 +31,49 @@ class PilotManifestAdapter:
             raise ManifestError(f"cannot parse {MANIFEST_PATH}: {exc}") from exc
         if not isinstance(value, dict):
             raise ManifestError(f"{MANIFEST_PATH} must contain a mapping")
+        if value.get("schema_version") is None:
+            raise ManifestError("schema_version is required")
         return value
+
+    def navigation_path(self) -> str | None:
+        value = self.load()
+        navigation = value.get("navigation")
+        if navigation is None:
+            return None
+        if not isinstance(navigation, dict):
+            raise ManifestError("navigation must be a mapping")
+        path = navigation.get("wiki_entrypoint")
+        if path is None:
+            return None
+        if not isinstance(path, str) or not path:
+            raise ManifestError("navigation.wiki_entrypoint must be a non-empty string when present")
+        return path
 
     def role_entries(self) -> list[dict[str, Any]]:
         value = self.load()
         authorities = value.get("authorities")
-        if not isinstance(authorities, list):
-            raise ManifestError("authorities must be a list")
+        if authorities is None:
+            return []
+        if not isinstance(authorities, dict):
+            raise ManifestError("authorities must be a mapping")
+        mapping = {
+            "normative_roots": "normative",
+            "decision_roots": "decision",
+            "plan_roots": "plan",
+            "implementation_roots": "implementation",
+            "verification_roots": "verification",
+            "contract_roots": "contract",
+            "ownership_roots": "ownership",
+        }
         entries: list[dict[str, Any]] = []
-        for entry in authorities:
-            if not isinstance(entry, dict):
-                raise ManifestError("each authority entry must be a mapping")
-            role = entry.get("role")
-            path = entry.get("path")
-            if not isinstance(role, str) or not role:
-                raise ManifestError("authority entry role must be a non-empty string")
-            if path is not None and (not isinstance(path, str) or not path):
-                raise ManifestError("authority entry path must be a non-empty string when present")
-            entries.append(entry)
+        for key, role in mapping.items():
+            paths = authorities.get(key)
+            if paths is None:
+                continue
+            if not isinstance(paths, list):
+                raise ManifestError(f"authorities.{key} must be a list")
+            for path in paths:
+                if not isinstance(path, str) or not path:
+                    raise ManifestError(f"authorities.{key} entries must be non-empty strings")
+                entries.append({"role": role, "path": path})
         return entries
