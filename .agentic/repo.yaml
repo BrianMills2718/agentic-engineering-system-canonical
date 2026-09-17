@@ -59,18 +59,19 @@ first_external_consumer:
 implementation:
   roots:
     - src/agentic_engineering_system/
-  state: planned_unrealized
+  state: PARTIAL
   planned_entrypoint: aes-repo-context
   planned_surface_renderer: src/agentic_engineering_system/repository_context/render_html.py
   planned_surface_output: generated/repository-context/<repository-id>/<revision>/index.html
-  note: D1 has frozen the exact target implementation topology, but no implementation subject is realized until Slice 1 creates and evidences it
+  note: Slice 1 implementation subjects now exist on the implementation branch; characterization, pinned external execution, and A1 human utility observation remain outstanding. Do not treat PARTIAL as conformant.
 
 verification:
   roots:
     - tests/repository_context/
-  state: planned_unrealized
+  state: PARTIAL
   canonical_external_test: tests/repository_context/test_data_contracts_pinned.py
   planned_evidence_root: evidence/plan-001/
+  note: local negative-control/rendering tests are present; the pinned external consumer check remains environment-dependent and is not yet observed.
 
 relationships:
   source: .agentic/relationships.yaml
