@@ -24,6 +24,9 @@ planning:
   design_provider: Company Planning
   execution_governance_provider: Enforced Planning
   active_plan: docs/plans/001_repository_context_resolution_vertical.md
+  active_frontier: PLAN-001/Slice-1-external-repository-context-resolution
+  d1_status: closed
+  d1_record: docs/plans/001_D1_contract_surface_topology_freeze.md
   gap_ledger: docs/architecture/INITIAL_GAP_LEDGER.md
   delivery_architecture: docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md
   slice_rule: human_observable_verticals_distinct_from_gaps_and_work_graphs
@@ -36,18 +39,38 @@ capability_resolution:
   provider: Agentic Capability Architecture
   sourcing_policy: external_first_then_aca_then_internal_donors_then_residual
   first_required_action: repository.context.resolve
-  first_required_action_status: compose_native_substrate_plus_residual_semantics
+  first_required_action_status: compose_native_external_substrate_plus_residual_aes_semantics
   first_provider_landscape: research/investigations/2026-09-16-repository-context-provider-landscape.md
+  selected_slice1_dependencies:
+    - git-cli-local-checkout
+    - pydantic==2.13.5
+    - pyyaml==6.0.3
+    - python-standard-library
+  explicitly_unselected_slice1_runtime_dependencies:
+    - data-contracts
+    - representation-router
+    - code-map-v4
+
+first_external_consumer:
+  repository: BrianMills2718/data-contracts
+  revision: 90c38998e8141bd07e49a77a49ec417aa29beee0
+  mutation: forbidden
 
 implementation:
-  roots: []
+  roots:
+    - src/agentic_engineering_system/
   state: planned_unrealized
-  note: conceptual subjects and the first human-observable vertical are planned, but implementation roots and concrete file paths remain unresolved until dependency subplan D1 freezes contract and topology
+  planned_entrypoint: aes-repo-context
+  planned_surface_renderer: src/agentic_engineering_system/repository_context/render_html.py
+  planned_surface_output: generated/repository-context/<repository-id>/<revision>/index.html
+  note: D1 has frozen the exact target implementation topology, but no implementation subject is realized until Slice 1 creates and evidences it
 
 verification:
   roots:
-    - tests/
+    - tests/repository_context/
   state: planned_unrealized
+  canonical_external_test: tests/repository_context/test_data_contracts_pinned.py
+  planned_evidence_root: evidence/plan-001/
 
 relationships:
   source: .agentic/relationships.yaml
@@ -59,7 +82,7 @@ concerns:
   research: {root: research/, status: active}
   proposals: {root: proposals/, status: unused}
   experiments: {root: experiments/, status: unused}
-  evidence: {root: evidence/, status: unused}
+  evidence: {root: evidence/, status: planned}
   evals: {root: evals/, status: unused}
   human_facing: {root: human-facing/, status: unused}
   deployment: {root: deployment/, status: unused}

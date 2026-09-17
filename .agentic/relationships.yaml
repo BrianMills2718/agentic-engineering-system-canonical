@@ -2,16 +2,16 @@ schema_version: "0.1-pilot"
 relationships:
   - source: AES-DOGFOOD-002
     relation: implemented_by_planned_subject
-    target: RepositoryContextResolver
+    target: src/agentic_engineering_system/repository_context/resolver.py#RepositoryContextResolver
   - source: AES-CTX-001
     relation: implemented_by_planned_subject
-    target: RepositoryContextResolver
+    target: src/agentic_engineering_system/repository_context/resolver.py#RepositoryContextResolver
   - source: AES-SYS-002
     relation: implemented_by_planned_subject
-    target: AuthoritySurfaceObservation
+    target: src/agentic_engineering_system/repository_context/models.py#AuthoritySurfaceObservation
   - source: AES-CONTRACT-001
     relation: implemented_by_planned_subject
-    target: RepositoryContextArtifact
+    target: src/agentic_engineering_system/repository_context/models.py#RepositoryContextArtifact
   - source: AES-CAP-001
     relation: requires_semantic_action
     target: repository.context.resolve
@@ -20,7 +20,31 @@ relationships:
     target: research/investigations/2026-09-16-repository-context-provider-landscape.md
   - source: repository.context.resolve
     relation: realization_disposition
-    target: compose_native_substrate_plus_residual_semantics
+    target: compose_native_external_substrate_plus_residual_aes_semantics
+  - source: PLAN-001/D1
+    relation: status
+    target: closed
+  - source: PLAN-001/D1
+    relation: freezes_contract_owner
+    target: src/agentic_engineering_system/repository_context/models.py#RepositoryContextArtifact
+  - source: PLAN-001/D1
+    relation: freezes_actor_entrypoint
+    target: aes-repo-context
+  - source: PLAN-001/D1
+    relation: enables
+    target: PLAN-001/Slice-1-external-repository-context-resolution
+  - source: PLAN-001/Slice-1-external-repository-context-resolution
+    relation: canonical_consumer_revision
+    target: BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0
+  - source: PLAN-001/Slice-1-external-repository-context-resolution
+    relation: produces
+    target: src/agentic_engineering_system/repository_context/models.py#RepositoryContextArtifact
+  - source: PLAN-001/Slice-1-external-repository-context-resolution
+    relation: projected_by
+    target: src/agentic_engineering_system/repository_context/render_html.py#RepositoryContextWorkingSurface
+  - source: PLAN-001/Slice-1-external-repository-context-resolution
+    relation: observed_by
+    target: PLAN-001/A1
   - source: AES-PLAN-004
     relation: shaped_by_planned_slice
     target: PLAN-001/Slice-1-external-repository-context-resolution
@@ -38,32 +62,44 @@ relationships:
     target: PLAN-001/A1
   - source: AES-CTX-003
     relation: projected_by_planned_subject
-    target: RepositoryContextWorkingSurface
-  - source: PLAN-001/D1
-    relation: enables
-    target: PLAN-001/Slice-1-external-repository-context-resolution
-  - source: PLAN-001/Slice-1-external-repository-context-resolution
-    relation: observed_by
-    target: PLAN-001/A1
-  - source: RepositoryContextResolver
+    target: src/agentic_engineering_system/repository_context/render_html.py#RepositoryContextWorkingSurface
+  - source: src/agentic_engineering_system/repository_context/models.py#RepositoryContextArtifact
+    relation: typed_by
+    target: pydantic@2.13.5
+  - source: src/agentic_engineering_system/repository_context/manifest.py#PilotManifestAdapter
+    relation: parses_with
+    target: PyYAML@6.0.3
+  - source: src/agentic_engineering_system/repository_context/git_source.py
+    relation: adapts
+    target: git-cli-local-checkout
+  - source: src/agentic_engineering_system/repository_context/legacy.py#LegacyRepositoryAdapter
+    relation: consumes_explicit_evidence_only
+    target: git+pyproject+root-docs+directly-linked-ownership-docs
+  - source: src/agentic_engineering_system/repository_context/render_html.py#RepositoryContextWorkingSurface
+    relation: renders
+    target: generated/repository-context/<repository-id>/<revision>/index.html
+  - source: src/agentic_engineering_system/repository_context/models.py#RepositoryContextArtifact
+    relation: serializes_to
+    target: generated/repository-context/<repository-id>/<revision>/context.json
+  - source: src/agentic_engineering_system/repository_context/resolver.py#RepositoryContextResolver
     relation: verified_by_planned_criterion
     target: AC-001
-  - source: RepositoryContextResolver
+  - source: src/agentic_engineering_system/repository_context/resolver.py#RepositoryContextResolver
     relation: verified_by_planned_criterion
     target: AC-002
-  - source: RepositoryContextResolver
+  - source: src/agentic_engineering_system/repository_context/resolver.py#RepositoryContextResolver
     relation: verified_by_planned_criterion
     target: AC-003
-  - source: AuthoritySurfaceObservation
+  - source: src/agentic_engineering_system/repository_context/models.py#AuthoritySurfaceObservation
     relation: verified_by_planned_criterion
     target: AC-004
-  - source: RepositoryContextArtifact
+  - source: src/agentic_engineering_system/repository_context/models.py#RepositoryContextArtifact
     relation: verified_by_planned_criterion
     target: AC-005
-  - source: RepositoryContextResolver
+  - source: src/agentic_engineering_system/repository_context/manifest.py#PilotManifestAdapter
     relation: verified_by_planned_criterion
     target: AC-006
-  - source: RepositoryContextResolver
+  - source: src/agentic_engineering_system/repository_context/manifest.py#PilotManifestAdapter
     relation: verified_by_planned_criterion
     target: AC-007
   - source: AES-POL-003
@@ -72,10 +108,7 @@ relationships:
   - source: AES-PLAN-003
     relation: verified_by_planned_criterion
     target: AC-009
-  - source: AES-PLAN-005
-    relation: verified_by_planned_criterion
-    target: AC-010
-  - source: AES-CTX-003
+  - source: src/agentic_engineering_system/repository_context/render_html.py#RepositoryContextWorkingSurface
     relation: verified_by_planned_criterion
     target: AC-010
   - source: AES-ECON-001

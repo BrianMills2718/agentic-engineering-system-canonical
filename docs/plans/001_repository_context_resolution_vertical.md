@@ -1,8 +1,8 @@
 # Plan 001 — Repository context resolution vertical
 
-Status: design-ready; provider landscape complete; implementation not started
+Status: **implementation-ready; D1 closed; implementation not started**
 Origin gaps: GAP-AES-001, 002, 003, 004, 005, 006, 007, 009, 010, 011, 013, 014, 015, 017, 019, 020, 021, 022, 023, 024, 025, 026, 027
-External consumer: `BrianMills2718/data-contracts`
+External consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`
 Execution profile: pilot
 
 ## User outcome
@@ -11,19 +11,24 @@ A person or agent entering an unfamiliar governed repository can ask AES for the
 
 ## Canonical behavioral example
 
-Starting state: current `data-contracts` repository.
+Starting state: local checkout of `BrianMills2718/data-contracts` exactly at `90c38998e8141bd07e49a77a49ec417aa29beee0`.
 
-Action: resolve its repository context through the first AES context-resolution seam and present the result through the actual human/agent entrypoint for this slice.
+Action: run the Slice 1 actor entrypoint:
 
-Expected result: the surface must, at minimum:
+```text
+aes-repo-context --repo <local-data-contracts-checkout> \
+  --expect-revision 90c38998e8141bd07e49a77a49ec417aa29beee0
+```
 
-1. identify `data-contracts` as the target repository and bind the observation to an exact revision;
+Expected result: the generated source-bound surface must, at minimum:
+
+1. identify `data-contracts` and the exact reviewed revision;
 2. report the current local navigation situation honestly rather than inventing `wiki/index.md` when absent;
-3. identify `src/data_contracts/` as a native implementation and typed-contract authority surface;
-4. distinguish the root `contracts/` directory from the repository's general contract authority;
-5. route contract-ownership questions to the repository's native capability-decomposition authority;
-6. preserve explicit `NONE`/unknown states for undeclared surfaces rather than treating absence as success;
-7. retain source/evidence references sufficient to explain every resolved routing claim;
+3. identify `src/data_contracts/` as a native implementation and typed-contract authority surface using positive evidence;
+4. distinguish root `contracts/` from repository-wide contract authority;
+5. route contract-ownership questions to `docs/ops/CAPABILITY_DECOMPOSITION.md` with exact evidence;
+6. preserve explicit `NONE` / `ERROR` / `UNRESOLVED` states rather than treating absence as success;
+7. retain source/evidence references sufficient to explain every positive routing claim;
 8. let the intended reviewer understand where to start, which authority matters, and what remains unresolved without opening raw source/code first, while keeping exact source and revision reachable.
 
 A result that says simply `contracts/ is the contract root`, claims a wiki entrypoint that does not exist, silently infers missing declarations, or requires the stakeholder to reconstruct the result from raw JSON/code is a failure.
@@ -32,33 +37,44 @@ A result that says simply `contracts/ is the contract root`, claims a wiki entry
 
 This is the smallest external-consumer slice that simultaneously exercises the new repository protocol, progressive-disclosure philosophy, Data Contracts boundary lesson, honest unknown-state policy, evidence binding, provider sourcing, human-observable delivery, and ACA residual-capability process.
 
-It does not require `data-contracts` to migrate its repository layout. The consumer remains an authentic external source whose existing authorities must be respected.
+It does not require `data-contracts` to migrate its repository layout. The consumer remains read-only and its existing native authorities remain authoritative.
 
 ## Planning shape: gaps and graphs are inputs, not slices
 
-The originating gap ledger tells us which target/current variances matter. Planned relationships and any later work-unit DAG can express prerequisites or coordination. Neither automatically defines a coherent implementation slice.
+The originating gap ledger identifies target/current variance. Work/dependency graphs may later express coordination, but neither artifact defines a coherent implementation slice.
 
-Company Planning must derive slices separately. For this plan, the first outcome-bearing vertical is the canonical `data-contracts` context experience itself: one path from exact repository revision through authority resolution to a human-usable source-bound result and its verification. Contract/provider decisions that block that path are dependency-resolution work, not substitute product slices. Enforced Planning may later add a work-unit graph if coordination requires it, but graph nodes must preserve the slice boundary rather than replace it.
+The first outcome-bearing vertical is the canonical `data-contracts` context experience itself:
+
+```text
+exact repository revision
+  -> bounded source/declaration observations
+  -> authority/navigation resolution
+  -> RepositoryContextArtifact
+  -> static source-bound HTML working surface
+  -> direct stakeholder observation
+```
+
+Dependency-resolution work is not a substitute product slice. Enforced Planning may add a work graph only when execution coordination requires one.
 
 ## Delivery ambition, certainty, and north-star experience
 
 Delivery maturity: `pilot`.
 
-Current confidence:
+Confidence after D1:
 
-- high confidence in the actor/job: orient correctly in a real repository before planning or editing;
-- high confidence that exact revision, authority provenance, and honest unknown/error states are load-bearing;
-- medium confidence in the best interaction/representation for repository context;
-- low confidence that a reusable representation-routing subsystem is required for this first vertical.
+- high confidence in actor/job and exact-revision/provenance/unknown-state semantics;
+- high confidence that Slice 1 can use a static generated working surface without a frontend platform;
+- medium confidence in the longer-term repository-context interaction model;
+- low confidence that a reusable representation-routing subsystem is needed.
 
-Therefore this plan does **not** freeze a final AES UI. It freezes a directional north-star interaction:
+Directional north-star interaction:
 
 ```text
 enter / select repository
         ↓
-see the repository's role and current revision
+see repository role + exact revision
         ↓
-see the few navigation / authority surfaces relevant to the current concern
+see the few navigation / authority surfaces relevant to the concern
         ↓
 see uncertainty, absence or error honestly
         ↓
@@ -67,190 +83,284 @@ open exact source / evidence when needed
 understand the next legitimate place to deepen
 ```
 
-Slice 1 should be a faithful small version of that experience. D1 may choose the smallest suitable rendering/interaction technology after the contract and concrete topology are known. A temporary validated projection is preferred over a durable representation framework unless repeated use demonstrates a broader need.
+Slice 1 is a faithful small version of this experience, not the final AES UI.
 
 ## Modality
 
 Hybrid.
 
 Deductive/plan-first:
-- artifact schema and authority semantics;
+- strict typed artifact semantics;
 - exact-revision binding;
 - no-guessing / no-false-green rules;
-- explicit native-surface declarations when available;
-- the minimum human-surface contract above.
+- explicit manifest precedence and failure behavior;
+- minimum actor-surface contract.
 
 Exploratory:
-- how much legacy repository context can be resolved safely when `.agentic/repo.yaml` is absent;
-- which evidence/source adapters are sufficient without creating a generalized crawler;
-- which representation makes the context useful without inventing another authority or UI framework.
+- how much useful legacy context can be resolved from bounded explicit repository evidence;
+- whether the static HTML surface is sufficient for the orientation job at Attention Checkpoint A1.
 
-## Capability requirement
+## Capability requirement and provider disposition
 
 Provisional semantic action: `repository.context.resolve`.
 
-ACA discovery on 2026-09-16 found no current verified semantic export matching this behavior. The action remains a capability requirement for this vertical; the plan does not grant it ecosystem-level capability status.
+ACA discovery found no verified semantic export matching this behavior. The external provider landscape found useful substrate but no complete provider.
 
-The external-first provider landscape is recorded in `research/investigations/2026-09-16-repository-context-provider-landscape.md`. No reviewed platform, standard, mature OSS package, or service provides the complete AES authority-resolution boundary.
+Current disposition: **compose native/external substrate + bounded residual AES semantics**.
 
-Current provider disposition: **compose native substrate + residual AES semantics**.
+Selected Slice 1 bindings:
 
-- Git/GitHub facilities are candidate substrate for repository identity, exact revision, and source retrieval.
-- Stable parsers/validators should be used for declared formats rather than inventing parser infrastructure.
-- Sourcegraph/SCIP, Tree-sitter, Backstage, OpenRewrite, CodeQL, and internal code-map systems remain unselected for the first vertical because their useful capabilities do not match the complete boundary or are broader than required.
-- Internal repositories are evidence/design donors by default, not runtime dependencies.
-- Representation Router is a relevant donor/provider candidate if the human-surface need becomes a genuine representation-selection/composition capability; it is not selected merely because this slice needs a usable surface.
-- The residual AES behavior is the bounded semantic mapping from explicit declarations and carefully evidenced legacy surfaces into repository navigation/authority roles.
+- local Git CLI / checkout — repository identity, exact revision, source/tree access;
+- Pydantic `2.13.5` — strict immutable local typed models;
+- PyYAML `6.0.3` — safe parsing of pilot `.agentic/repo.yaml`;
+- Python standard library — JSON, paths/subprocess, and static HTML generation;
+- pytest — verification harness; exact compatible release is an implementation/tooling choice, not architecture.
 
-This disposition justifies residual semantics, not a generalized framework or package hierarchy.
+Not selected as Slice 1 runtime dependencies:
 
-## Contract boundary
+- Data Contracts;
+- Representation Router;
+- Code Map V4;
+- Sourcegraph/SCIP;
+- Tree-sitter;
+- Backstage;
+- OpenRewrite;
+- CodeQL;
+- predecessor AES implementations.
 
-The first vertical needs one typed result representing repository context. The semantic fields should cover:
+Representation Router remains a relevant provider candidate only if a later demonstrated gap requires actual representation selection/composition.
 
-- repository identity;
-- observed revision;
-- navigation entrypoint state;
-- native authority surfaces by role;
-- concern roots and their declared/observed status;
-- source references / evidence;
-- unresolved or ambiguous surfaces;
-- resolution status.
+## Frozen contract disposition
 
-Before creating an AES-local contract, complete the Data Contracts check for an existing neutral contract that honestly represents this boundary. Reuse or extend it when semantics match. Do not add a generic contract merely because Data Contracts exists.
+Disposition: **`aes_local_residual`**.
 
-The human-facing projection is not automatically part of that provider-neutral data contract. Keep semantic result authority separate from representation unless the consumer seam demonstrates that a shared representation contract is genuinely required.
+Owner/model home:
 
-## Planned implementation topology
+```text
+src/agentic_engineering_system/repository_context/models.py
+```
 
-Not yet frozen to concrete files.
+Data Contracts remains the ecosystem typed-boundary authority where shared provider-neutral semantics fit, but its current ownership record explicitly keeps repo-specific schemas/adapters in consumers. No existing Data Contracts contract expresses this repository-context result.
 
-Company Planning establishes these first-class subjects conceptually:
+Frozen model family:
 
-- **RepositoryContextResolver** — orchestration boundary for resolving one repository at one revision.
-- **RepositoryContextArtifact** — typed, immutable result consumed by agent/context projections.
-- **AuthoritySurfaceObservation** — evidence-backed observation of one native authority/navigation surface.
-- **LegacyRepositoryAdapter** — bounded adapter for repositories without the pilot `.agentic/repo.yaml`; it may report unknown, but may not fabricate declarations.
-- **PilotManifestAdapter** — reader for `.agentic/repo.yaml` when present.
-- **RepositoryContextWorkingSurface** — conceptual human/agent projection over the artifact for Slice 1; exact renderer/file ownership remains unresolved until D1 and must not become semantic authority.
+- `EvidenceRef` — exact repository/revision/path and optional line/source URL;
+- `AuthoritySurfaceObservation` — authority role, explicit epistemic state, locations, summary, evidence refs;
+- `ConcernRootObservation` — concern/path/state/evidence refs;
+- `UnresolvedSurface` — unresolved subject/reason/evidence refs;
+- `RepositoryContextArtifact` — schema version, repository identity/revision, resolution status, navigation, authorities, concern roots, unresolved surfaces, and evidence.
 
-The implementation root and exact file paths remain unresolved until the contract check and final topology freeze are complete.
+Rules:
+
+- strict + immutable models;
+- every positive routing claim has positive evidence;
+- `NONE`, `ERROR`, `UNRESOLVED` never collapse to green;
+- no confidence scalar is conformance evidence;
+- directory names alone establish no semantic authority.
+
+Full D1 contract detail: [`001_D1_contract_surface_topology_freeze.md`](001_D1_contract_surface_topology_freeze.md).
+
+## Frozen Slice 1 actor surface
+
+Selected: **static local HTML generated by a thin CLI**.
+
+Entrypoint:
+
+```text
+aes-repo-context --repo <local-checkout> [--expect-revision <sha>] [--output <dir>]
+```
+
+Default output:
+
+```text
+generated/repository-context/<repository-id>/<revision>/context.json
+generated/repository-context/<repository-id>/<revision>/index.html
+```
+
+`context.json` is the deterministic artifact serialization; `index.html` is a non-authoritative progressive-disclosure projection. Use static HTML/CSS only for Slice 1. No SPA/framework/server/graph dependency is authorized by this plan.
+
+## Frozen implementation topology
+
+Planned implementation root:
+
+```text
+src/agentic_engineering_system/
+```
+
+Concrete Slice 1 files:
+
+```text
+pyproject.toml
+src/agentic_engineering_system/__init__.py
+src/agentic_engineering_system/repository_context/__init__.py
+src/agentic_engineering_system/repository_context/models.py
+src/agentic_engineering_system/repository_context/git_source.py
+src/agentic_engineering_system/repository_context/manifest.py
+src/agentic_engineering_system/repository_context/legacy.py
+src/agentic_engineering_system/repository_context/resolver.py
+src/agentic_engineering_system/repository_context/render_html.py
+src/agentic_engineering_system/repository_context/cli.py
+```
+
+Subject roles:
+
+| Subject | Path | Role |
+| --- | --- | --- |
+| Repository context/evidence models | `repository_context/models.py` | AES-local residual contract |
+| exact Git source/revision | `repository_context/git_source.py` | adapter over Git |
+| `PilotManifestAdapter` | `repository_context/manifest.py` | authoritative pilot-manifest reader |
+| `LegacyRepositoryAdapter` | `repository_context/legacy.py` | bounded explicit-evidence adapter |
+| `RepositoryContextResolver` | `repository_context/resolver.py` | residual semantic orchestration |
+| `RepositoryContextWorkingSurface` | `repository_context/render_html.py` | non-authoritative projection |
+| actor entrypoint | `repository_context/cli.py` / `pyproject.toml` | thin CLI boundary |
+
+### Legacy-repository boundary
+
+When `.agentic/repo.yaml` is absent, the adapter may use only:
+
+1. exact Git identity/revision/tree;
+2. `pyproject.toml` package metadata;
+3. root navigation/context docs (`README.md`, `CLAUDE.md`, `AGENTS.md`);
+4. ownership/capability docs directly referenced by those root sources;
+5. existence checks only to validate an already evidenced path.
+
+It may not infer authority from folder names, crawl for plausible authority, hard-code `data-contracts`, or treat `contracts/` as authoritative by existence.
+
+When a pilot manifest exists, it is the authority for its declared repository context. A malformed manifest yields `ERROR`/block with correction/retry or explicit escalation; it never silently falls back to legacy inference. A valid manifest with an absent role yields `NONE`/unresolved for that role.
 
 ## Slice horizon
 
-### Dependency subplan D1 — freeze contract and concrete topology
+### Dependency subplan D1 — CLOSED
 
-This is on the critical path but is not the first product/outcome slice.
+Executable record: [`001_D1_contract_surface_topology_freeze.md`](001_D1_contract_surface_topology_freeze.md).
 
-Executable brief: [`001_D1_contract_surface_topology_freeze.md`](001_D1_contract_surface_topology_freeze.md). The brief is subordinate to this plan and adds no new outcome or success criteria.
+D1 froze:
 
-- blocks: first external vertical
-- unknowns: contract owner, minimum artifact schema, exact concrete implementation/verification subjects, smallest authentic human-facing entrypoint
-- instrument: inspect Data Contracts contract surfaces plus current repository/package conventions and available representation/provider seams
-- readout: one contract disposition and one concrete topology with no duplicate authority
-- promotion: update this plan and `.agentic/relationships.yaml` with exact subjects
-- done-when: contract disposition recorded and the first vertical can be implemented without an unstated architectural decision
-- return path: immediately into Slice 1; D1 must not expand into generalized context/indexing/representation infrastructure
+- exact `data-contracts` revision;
+- AES-local contract ownership/shape;
+- static HTML + CLI actor surface;
+- concrete implementation and verification paths;
+- runtime provider/dependency bindings;
+- legacy/manifest precedence rules.
 
-### Slice 1 — external repository context resolution
+D1 closes no originating gap. Its return path is now Slice 1.
 
-This is the first authentic outcome-bearing vertical.
+### Slice 1 — external repository context resolution — READY FOR GOVERNED IMPLEMENTATION
 
-- advances: a person or agent can orient correctly in a real external repository before planning/editing
-- vertical scope: exact `data-contracts` revision -> source/declaration observations -> authority resolution -> one `RepositoryContextArtifact` -> source-bound human/agent working surface
-- de-risks: whether useful context can be resolved without repo-specific hardcoding or a generalized indexing/representation system, and whether the result is actually useful when directly inspected
-- success: AC-001 through AC-011, including deliberate negative controls, recovery/escalation behavior, human usability, and direct stakeholder observation
-- evidence: exact consumer revision, exact AES revision, source refs for positive claims, retained negative-control receipts, separate stakeholder observation receipt
-- non-goal: migration of `data-contracts`
-- done-when: the canonical external example passes through the real entrypoint, the negative/error/unknown paths behave honestly, and the intended reviewer has directly used the surface enough to disposition `continue | change | stop` for the next increment
+- advances: person/agent can orient correctly in real external repository before editing;
+- vertical scope: pinned `data-contracts` revision -> bounded observations -> resolution -> typed artifact -> static source-bound HTML surface;
+- de-risks: utility without repo hardcoding/generalized indexing/representation framework;
+- success: AC-001 through AC-011;
+- evidence: exact consumer/AES revisions, positive evidence refs, negative-control receipts, separate stakeholder observation receipt;
+- done-when: technical evidence satisfies required criteria and the intended reviewer has directly used the surface enough to disposition `continue | change | stop`.
 
 ### Attention checkpoint A1 — first utility observation
 
-A1 occurs immediately after Slice 1's authentic surface exists. It is an information-value checkpoint, not a standing approval gate and not technical conformance by itself.
+A1 occurs immediately after the authentic Slice 1 surface exists. It is an information-value checkpoint, not technical conformance or a standing approval gate.
 
-The intended reviewer uses the capability and records, at minimum:
+Record:
 
-- whether the context is understandable and useful for the real orientation job;
-- whether important authority/uncertainty information is missing or overexposed;
-- whether the interaction model should continue, change materially, or stop;
-- which next increment, if any, now has the highest value.
+- usefulness/understandability for the real orientation job;
+- missing/overexposed authority or uncertainty information;
+- `continue | change | stop` for the interaction direction;
+- next highest-value increment if continuing.
 
-A negative judgment is valid evidence. Do not hide or reinterpret it as a UI polish request if it shows the product direction or slice semantics are wrong. Conversely, positive stakeholder utility does not override failed, missing, stale, or insufficient required technical evidence.
+Negative utility is valid evidence. Positive utility cannot override failed/missing/stale technical evidence.
 
-### Later slice skeleton — declared pilot-manifest route
+## Frozen verification topology
 
-After Slice 1 and A1, a manifest-backed self-dogfood route may be specified if it closes a demonstrated remaining gap and still competes favorably with other next increments. It is not on the pre-observation critical path merely because the canonical repo already has `.agentic/repo.yaml`.
+Verification root:
 
-## Planned verification topology
+```text
+tests/repository_context/
+```
 
-Acceptance criteria are pre-code:
+Concrete planned subjects:
 
-- AC-001 — current `data-contracts` resolves at an exact revision and names `src/data_contracts/` as a native implementation/contract surface.
-- AC-002 — the resolver does not classify root `contracts/` as the universal contract authority.
-- AC-003 — absence of a local `wiki/index.md` is represented as absence/legacy navigation, not success or invention.
-- AC-004 — native capability-decomposition authority is surfaced as a route for ownership questions.
-- AC-005 — every positive routing claim carries its source/evidence reference.
-- AC-006 — deliberately malformed pilot manifest produces `ERROR` or `FAIL`, never fallback-green.
-- AC-007 — deliberately absent required declaration in a pilot fixture produces `NONE`/unresolved, never inferred success.
-- AC-008 — a policy block caused by malformed/ambiguous authoritative input returns an executable recovery for reversible cases or an explicit human escalation for authority-sensitive ambiguity.
-- AC-009 — after implementation, a fresh revision-bound characterization recomputes the originating gaps; plan completion alone does not close them.
-- AC-010 — the intended reviewer can use the actual Slice 1 surface to identify where to start, which authority matters, and what remains unresolved without opening raw code/data first, while exact sources/revisions remain directly reachable.
-- AC-011 — direct stakeholder use is recorded separately from automated verification with an explicit `continue | change | stop` disposition and limitations; automated green alone cannot stand in for this utility observation.
+```text
+tests/repository_context/test_models.py
+tests/repository_context/test_manifest_adapter.py
+tests/repository_context/test_legacy_adapter.py
+tests/repository_context/test_resolver.py
+tests/repository_context/test_render_html.py
+tests/repository_context/test_data_contracts_pinned.py
+tests/repository_context/fixtures/pilot_valid/
+tests/repository_context/fixtures/pilot_malformed/
+tests/repository_context/fixtures/pilot_missing_declaration/
+```
 
-Negative controls AC-006 and AC-007 must be observed before the resolver is described as evidenced.
+Acceptance mapping:
+
+- AC-001 — pinned external integration test at `90c389...` proves exact revision and package/contract authority evidence;
+- AC-002 — external + fixture tests prove root `contracts/` is never universal authority by existence;
+- AC-003 — external test preserves missing local wiki as `NONE`/legacy navigation;
+- AC-004 — external test routes ownership to `docs/ops/CAPABILITY_DECOMPOSITION.md`;
+- AC-005 — model/resolver tests enforce evidence refs on every positive claim;
+- AC-006 — malformed pilot fixture yields `ERROR`/blocked with no legacy fallback;
+- AC-007 — missing manifest declaration yields `NONE`/unresolved with no inferred success;
+- AC-008 — resolver/CLI test proves concrete correction/retry or explicit escalation on block;
+- AC-009 — revision-bound characterization receipt under `evidence/plan-001/` followed by explicit gap-ledger recomputation;
+- AC-010 — rendered HTML tests establish required visible content/source reachability; direct A1 use remains additional evidence;
+- AC-011 — `evidence/plan-001/a1/<aes-revision>.md` records reviewed revisions, `continue | change | stop`, limitations, and stakeholder utility separately from automation.
+
+Planned evidence outputs:
+
+```text
+evidence/plan-001/<aes-revision>/verification-summary.json
+evidence/plan-001/<aes-revision>/characterization.md
+evidence/plan-001/a1/<aes-revision>.md
+```
 
 ## Policy triggers carried by the plan
 
 Before implementation:
-- verify the ACA discovery result is still current;
-- complete the Data Contracts neutral-contract disposition;
-- freeze the exact `data-contracts` revision used by AC-001 through AC-005;
-- freeze the concrete implementation and verification topology from dependency subplan D1;
-- choose only enough working-surface implementation to make Slice 1 directly usable; do not pre-build the final AES UI.
+- verify ACA/provider landscape remains materially unchanged;
+- use the frozen consumer revision for the canonical external case;
+- use only the frozen Slice 1 topology/dependencies unless a stop/replan condition fires;
+- use only enough surface implementation to satisfy the accepted actor outcome.
 
 Before any new reusable helper or internal dependency is added:
 - record the required semantic boundary;
-- check whether a stable platform/off-the-shelf component already supplies it;
-- treat internal repos as donors unless a positive runtime-provider decision is recorded;
-- record the residual semantics that remain.
+- re-run proportionate external/provider sourcing;
+- treat internal repos as donors unless positively selected;
+- record residual semantics.
 
-Before adding non-user-facing feasibility/infrastructure work:
-- name the authentic Slice 1 boundary it protects;
-- state the uncertainty/blocker being resolved;
+Before adding non-user-facing work:
+- name the Slice 1 boundary it protects;
+- state the blocker;
 - use the smallest discriminating probe;
 - name the return path to Slice 1.
 
 Before completion:
-- execute the canonical external example through the actual user-facing entrypoint;
+- execute pinned external canonical example through real entrypoint;
 - execute both negative controls;
+- retain revision-bound verification evidence;
 - perform Attention Checkpoint A1;
-- characterize current implementation at the exact AES revision;
-- recompute the initial gap ledger;
-- update `wiki/index.md` from the resulting current/gap state.
+- characterize current implementation at exact AES revision;
+- recompute initial gap ledger;
+- update `wiki/index.md` from resulting current/gap state.
 
 ## Explicit non-goals
 
-- migrating `data-contracts` to the new repository layout;
-- adding `wiki/index.md` or `.agentic/repo.yaml` to `data-contracts` in this plan;
-- building a universal repository crawler, symbol index, code graph, characterization kernel, representation router, or final AES dashboard;
-- creating a new schema language;
-- adding repository-context resolution to ACA before evidence exists;
-- making Code Map, Representation Router, Project Meta, old AES, current Inside-Success AES, or Fluid Governance runtime dependencies by default;
-- replacing Company Planning, Enforced Planning, Project Meta, or existing AES implementations.
+- migrating `data-contracts` or adding `.agentic/repo.yaml`/local wiki to it;
+- generalized repository crawler, symbol index, code graph, graph store, characterization platform, representation router, or final AES dashboard;
+- new schema language or shared repository-context package;
+- promotion into ACA before repeated evidence;
+- automatic dependency on Data Contracts, Representation Router, Code Map, Project Meta, predecessor AES, or Fluid Governance;
+- replacing Company Planning or Enforced Planning.
 
 ## Stop/replan conditions
 
 Replan rather than forcing implementation if:
 
-- ACA or the external landscape contains an equivalent provider under a different semantic identity;
-- Data Contracts already owns a semantically matching neutral result contract;
-- resolving `data-contracts` honestly requires repo-specific hardcoding rather than a bounded legacy adapter;
-- the required context cannot be evidenced without mutating the external consumer;
-- the smallest implementation expands into generalized indexing, orchestration, fleet rollout, broad characterization infrastructure, or a generalized representation framework;
-- the first vertical cannot leave the intended reviewer with a useful directly inspectable context experience if work stops after it;
-- D1 or another enabler grows without a concrete return path to Slice 1;
-- stakeholder observation at A1 shows the interaction or outcome is materially low-value, in which case treat that as planning evidence rather than polishing around it.
+- an equivalent verified provider appears;
+- the frozen consumer revision cannot be resolved without repo-name hardcoding or repository mutation;
+- Pydantic/PyYAML/Git substrate proves semantically insufficient;
+- the bounded legacy adapter starts requiring generalized crawling/indexing or bespoke source-string catalogs;
+- static HTML cannot satisfy the actor observation without a materially different representation capability;
+- implementation expands into generalized orchestration/fleet/characterization/representation infrastructure;
+- stakeholder observation at A1 shows the outcome/interaction is materially low-value.
 
 ## Closure claim
 
-This plan may claim `DELIVERED` only when the external canonical example and required negative controls have been observed through the real entrypoint, the intended reviewer has directly used the human-observable surface, the automated and stakeholder evidence are retained separately, and fresh gap recomputation shows which originating gaps are actually closed or narrowed.
+This plan may claim `DELIVERED` only when the external canonical example and negative controls have been observed through the real entrypoint, required evidence is adequate, the intended reviewer has directly used the source-bound surface, automated and stakeholder evidence remain separate, and fresh gap recomputation shows which originating gaps are closed or narrowed.
