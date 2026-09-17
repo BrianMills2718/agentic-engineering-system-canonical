@@ -24,9 +24,27 @@ relationships:
   - source: AES-PLAN-004
     relation: shaped_by_planned_slice
     target: PLAN-001/Slice-1-external-repository-context-resolution
+  - source: AES-PLAN-005
+    relation: shaped_by_planned_slice
+    target: PLAN-001/Slice-1-external-repository-context-resolution
+  - source: AES-PLAN-006
+    relation: applied_by_plan
+    target: docs/plans/001_repository_context_resolution_vertical.md
+  - source: AES-PLAN-007
+    relation: applied_by_dependency_subplan
+    target: PLAN-001/D1
+  - source: AES-ECON-001
+    relation: applied_by_attention_checkpoint
+    target: PLAN-001/A1
+  - source: AES-CTX-003
+    relation: projected_by_planned_subject
+    target: RepositoryContextWorkingSurface
   - source: PLAN-001/D1
     relation: enables
     target: PLAN-001/Slice-1-external-repository-context-resolution
+  - source: PLAN-001/Slice-1-external-repository-context-resolution
+    relation: observed_by
+    target: PLAN-001/A1
   - source: RepositoryContextResolver
     relation: verified_by_planned_criterion
     target: AC-001
@@ -54,3 +72,12 @@ relationships:
   - source: AES-PLAN-003
     relation: verified_by_planned_criterion
     target: AC-009
+  - source: AES-PLAN-005
+    relation: verified_by_planned_criterion
+    target: AC-010
+  - source: AES-CTX-003
+    relation: verified_by_planned_criterion
+    target: AC-010
+  - source: AES-ECON-001
+    relation: verified_by_planned_criterion
+    target: AC-011

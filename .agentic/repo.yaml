@@ -25,7 +25,11 @@ planning:
   execution_governance_provider: Enforced Planning
   active_plan: docs/plans/001_repository_context_resolution_vertical.md
   gap_ledger: docs/architecture/INITIAL_GAP_LEDGER.md
-  slice_rule: gaps_and_work_graphs_do_not_define_implementation_slices
+  delivery_architecture: docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md
+  slice_rule: human_observable_verticals_distinct_from_gaps_and_work_graphs
+  experience_planning: certainty_weighted_backward_from_north_star_when_decision_useful
+  feasibility_rule: non_user_facing_work_requires_demonstrated_blocker_and_return_path
+  attention_checkpoint_rule: observe_when_expected_decision_value_exceeds_next_autonomous_increment
   work_graph_role: optional_coordination_after_slice_derivation
 
 capability_resolution:
@@ -38,7 +42,7 @@ capability_resolution:
 implementation:
   roots: []
   state: planned_unrealized
-  note: conceptual subjects and the first vertical are planned, but implementation roots and concrete file paths remain unresolved until dependency subplan D1 freezes contract and topology
+  note: conceptual subjects and the first human-observable vertical are planned, but implementation roots and concrete file paths remain unresolved until dependency subplan D1 freezes contract and topology
 
 verification:
   roots:

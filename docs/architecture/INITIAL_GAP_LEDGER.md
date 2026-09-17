@@ -33,8 +33,13 @@ This ledger compares the accepted clauses in `SYSTEM_BOUNDARY.md` with the curre
 | GAP-AES-018 | AES-LEARN-001 | research synthesis captures lineage lessons | no completed cycle has produced and dispositioned new learning | `DEFER` until first execution |
 | GAP-AES-019 | AES-DOGFOOD-001 | no external consumer run | authentic external vertical absent | `NOW` |
 | GAP-AES-020 | AES-DOGFOOD-002 | no end-to-end vertical | closure chain absent | `NOW` |
-| GAP-AES-021 | AES-PLAN-004 | Plan 001 now names a dependency subplan and a separate outcome-bearing Slice 1 | slice derivation has not yet been proven by execution; future work graphs could still regress into task/DAG-shaped planning | `PARTIAL` / `NOW` |
+| GAP-AES-021 | AES-PLAN-004 | Plan 001 names a dependency subplan and a separate outcome-bearing Slice 1 | slice derivation has not yet been proven by execution; future work graphs could still regress into task/DAG-shaped planning | `PARTIAL` / `NOW` |
 | GAP-AES-022 | AES-CAP-002 | external provider landscape completed for Plan 001; internal donors separated from runtime providers | provider selection discipline has not yet been exercised through an implementation dependency decision | `PARTIAL` / `NOW` |
+| GAP-AES-023 | AES-PLAN-005 | Plan 001 now requires an inspectable user-facing output | no implementation slice has yet produced a directly human-usable end-to-end surface | `PARTIAL` / `NOW` |
+| GAP-AES-024 | AES-PLAN-006 | Plan 001 has a directional north-star interaction and explicit pilot/uncertainty stance | experience-backward slicing has not yet been tested against stakeholder observation | `PARTIAL` / `NOW` |
+| GAP-AES-025 | AES-PLAN-007 | D1 is explicitly a dependency-resolution subplan rather than a product slice | no feasibility/enabler decision has yet demonstrated rapid return to a usable vertical | `PARTIAL` / `NOW` |
+| GAP-AES-026 | AES-ECON-001 | Plan 001 now includes one information-value attention checkpoint after Slice 1 | human-attention versus autonomous-increment economics have not yet been observed in execution | `PARTIAL` / `NOW` |
+| GAP-AES-027 | AES-CTX-003 | RR/working-surface principles are accepted and Plan 001 carries a minimal human-surface contract | no source-bound planning/review surface has yet been used in a real slice | `PARTIAL` / `NOW` |
 
 ## Why a gap list is not an implementation plan
 
@@ -44,24 +49,27 @@ The required planning transform is:
 
 ```text
 dispositioned gaps
-  + accepted outcome / canonical example
-  + boundaries / uncertainty / provider landscape
+  + accepted actor outcome / canonical example
+  + delivery maturity + epistemic certainty
+  + best-known north-star experience where decision-useful
+  + boundaries / provider landscape / feasibility assumptions
   + dependency constraints
-  + verification and recovery semantics
+  + verification, recovery and attention economics
           ↓
 Company Planning slice derivation
           ↓
-risk-ordered outcome-bearing verticals
+risk-ordered human-observable verticals
+  + explicit probes/enablers only where they protect a vertical
           ↓
 optional work-unit graph when coordination needs one
 ```
 
-A valid graph whose leaves are horizontal layers, infrastructure chores, or individually closable gaps is still a poor execution design if no slice leaves the actor with a small useful end-to-end capability.
+A valid graph whose leaves are horizontal layers, infrastructure chores, or individually closable gaps is still a poor execution design if no slice leaves the actor with a small useful end-to-end capability. Likewise, a large amount of technically valid autonomous work is poor sequencing when the stakeholder cannot directly observe utility until after substantial rework exposure has accumulated.
 
 ## First grouped outcome
 
 The `NOW` gaps are grouped into one outcome:
 
-> Starting from a real concern in `BrianMills2718/data-contracts`, an agent resolves the consumer's native navigation and authority surfaces from exact evidence, receives one gap-backed and provider-dispositioned execution contract, produces one useful repository-context artifact through a bounded governed vertical, observes enforced failure/recovery behavior, records evidence, re-characterizes current state, recomputes the gap, and updates the progressive-disclosure view without creating a parallel authority.
+> Starting from a real concern in `BrianMills2718/data-contracts`, an agent resolves the consumer's native navigation and authority surfaces from exact evidence, receives one gap-backed and provider-dispositioned execution contract, produces one useful repository-context capability through a bounded governed vertical, exposes it through a source-bound human-usable surface, observes enforced failure/recovery behavior, records automated and direct stakeholder evidence separately, re-characterizes current state, recomputes the gap, and updates the progressive-disclosure view without creating a parallel authority.
 
-Plan 001 now distinguishes the dependency-resolution work needed to freeze its contract/topology from the first actual outcome-bearing vertical. Implementation roots remain intentionally unresolved until that dependency subplan closes.
+Plan 001 distinguishes the dependency-resolution work needed to freeze its contract/topology from the first actual outcome-bearing vertical. It also treats the first direct human use of Slice 1 as an information-value checkpoint before broader generalization. Implementation roots remain intentionally unresolved until dependency subplan D1 closes.

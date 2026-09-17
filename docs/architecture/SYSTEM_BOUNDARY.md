@@ -31,6 +31,18 @@ A completed plan does not close a gap. Fresh evidence and revision-bound impleme
 ## AES-PLAN-004 — Gaps, graphs, and slices are distinct
 A gap set identifies target/current variance. A dependency or work-unit graph identifies prerequisite, coordination, or claimability structure. Neither is itself an implementation slice. Company Planning must synthesize risk-ordered, outcome-bearing vertical slices that preserve the actor, canonical behavioral example, end-to-end path, acceptance/readout, important uncertainty, and recovery boundary. A work-unit graph is added only when coordination or a machine consumer requires it and must not substitute for slice derivation.
 
+## AES-PLAN-005 — Implementation slices are human-observable by default
+An implementation slice normally ends at an authentic human-usable surface through which the intended actor or reviewer can exercise and judge a small end-to-end version of the accepted capability. The surface may be graphical, CLI, notebook, IDE, API-client, report, operator, or another authentic interaction boundary; the requirement is direct use and judgment, not a GUI framework. Work that cannot yet produce a useful actor outcome is classified explicitly as a boundary probe, dependency-resolution subplan, enabler, or regression/hardening increment and names its return path to the next outcome-bearing slice. Tests, schemas, traces, and internal artifacts may support the slice but do not replace direct stakeholder reviewability.
+
+## AES-PLAN-006 — Experience-backward design is confidence-weighted
+When the intended end-state experience is important and sufficiently knowable, planning maintains a best-known north-star interaction or experience and reasons backward to earlier coherent human-usable surfaces, then implements forward slice by slice. Specificity is proportional to delivery maturity and epistemic confidence: stable jobs, states, boundaries, and interactions may be fixed early; details that depend on unobserved behavior remain directional, conditional, or deliberately unresolved. Low confidence favors authentic exploratory surfaces over false-precision final UX. The north star guides slice lineage but does not become authority over evidence that later disproves it.
+
+## AES-PLAN-007 — Feasibility work protects the next usable outcome
+Backend, infrastructure, performance, scale, contract, or integration work enters the pre-observation critical path only when it is part of the authentic vertical or is a demonstrated blocker whose resolution materially protects the next human-usable outcome. Planning works backward from the desired experience to identify load-bearing feasibility assumptions and uses the cheapest discriminating probe that preserves the relevant substrate. A successful probe returns immediately to an outcome-bearing vertical rather than expanding into open-ended infrastructure work.
+
+## AES-ECON-001 — Human attention and utility discovery are first-class economics
+AES planning and execution optimize expected stakeholder utility under constraints that may include human attention, AI/tool spend, elapsed time, rework and lock-in exposure, and opportunity cost. Human attention may be substantially scarcer than AI computation, so AES may spend additional automated effort to reduce human reconstruction and prepare high-quality decision surfaces when expected value justifies it. That optimization must not hide product uncertainty or allow large speculative implementation inventories to accumulate before a stakeholder can use and judge the result. An attention checkpoint is warranted when the expected decision value of direct human observation exceeds the expected value of another autonomous increment; it is not an approval gate by default. Cross-project prioritization requires an explicit portfolio authority rather than being invented by a project-local executor.
+
 ## AES-CAP-001 — Capability-first residual implementation
 Before hand-authoring behavior that may be reusable, planning derives the required semantic capability/action and resolves candidate providers. The execution contract records reuse, configure, compose, extend, supersede, explicit exception, or residual local implementation.
 
@@ -58,14 +70,17 @@ Important controls are not treated as evidenced merely because they pass. Their 
 ## AES-CTX-002 — Source-local context after realization
 When implementation subjects exist, agents working at those subjects receive generated normative clauses, success criteria, current characterization, gap state, and plan linkage appropriate to that subject. Source-local projections do not become authority.
 
+## AES-CTX-003 — Planning and review use tractable source-bound working surfaces
+Human- and agent-facing planning/review experiences should project the smallest concern-specific set of work, architecture, assurance, current/gap, evidence, and decision context that makes the present engineering question tractable. These representations remain bound to exact source authorities and revisions, preserve unavailable/partial/stale/error states, and keep read-only or surface-local interaction distinct from authoritative effects. Representation Router is a donor/provider candidate for this concern, not an authority transfer or mandatory AES subsystem.
+
 ## AES-EVID-001 — Append-only observations, current projections
 Observations and evidence are retained as immutable/append-only history where practical. Current-state and gap views are materialized from the latest valid revision-bound evidence rather than storing history in current docstrings/wiki prose.
 
 ## AES-LEARN-001 — Learning re-enters future decisions
-Useful observations, failures, rejected fits, policy friction, and capability outcomes receive explicit dispositions so they can influence future policy, planning, context, capability knowledge, or research rather than remaining inert records.
+Useful observations, failures, rejected fits, policy friction, capability outcomes, and stakeholder utility observations receive explicit dispositions so they can influence future policy, planning, context, capability knowledge, research, or project continuation rather than remaining inert records.
 
 ## AES-DOGFOOD-001 — Authentic external vertical
 The first implementation vertical must cross a real external consumer boundary. Self-dogfood is required, but self-description alone is insufficient evidence of the integrated system.
 
 ## AES-DOGFOOD-002 — End-to-end closure
-The first vertical is not accepted until one real concern traverses target -> current -> gap -> disposition -> Company Planning -> provider sourcing / ACA resolution -> Enforced Planning execution -> policy controls -> evidence -> fresh characterization -> gap recomputation -> wiki/current projection, with at least one observed policy block/recovery or equivalent enforced transition.
+The first vertical is not accepted until one real concern traverses target -> current -> gap -> disposition -> Company Planning -> provider sourcing / ACA resolution -> Enforced Planning execution -> policy controls -> evidence -> fresh characterization -> gap recomputation -> wiki/current projection, with at least one observed policy block/recovery or equivalent enforced transition and one direct human observation of the usable outcome.
