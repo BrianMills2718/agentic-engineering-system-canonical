@@ -1,50 +1,54 @@
 # Plans
 
-Status: one active pilot plan; D1 closed; Slice 1 implementation partial; **A1 stop/replan triggered**.
+Status: one active pilot plan; D1 closed; Slice 1 implementation partial; A1 pending.
 
 ## Active
 
-- [`001_repository_context_resolution_vertical.md`](001_repository_context_resolution_vertical.md) — Plan 001 / first external-consumer vertical. Its routing/evidence implementation exists on `slice-1/repository-context` / PR #5, but delivery is not claimed.
-- [`001_R1_substantive_repository_context_replan.md`](001_R1_substantive_repository_context_replan.md) — **active replan record** after two A1 observations showed the routing-only surface was materially too sparse.
+- [`001_repository_context_resolution_vertical.md`](001_repository_context_resolution_vertical.md) — Plan 001 / first external-consumer vertical. The implementation exists on `slice-1/repository-context` / PR #5, but delivery is not yet claimed.
 - [`001_D1_contract_surface_topology_freeze.md`](001_D1_contract_surface_topology_freeze.md) — **closed** subordinate D1 record. It is not a second plan.
 
 ## Current state
 
-The repository remains implementation/verification **PARTIAL**.
+The repository is no longer `planned_unrealized`.
 
+- implementation state: **PARTIAL**;
+- verification state: **PARTIAL**;
 - frozen external consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`;
-- implemented actor surface: `aes-repo-context` -> revision-scoped `context.json` + static `index.html`;
-- demonstrated strengths: exact-revision binding, positive routing evidence, honest `NONE`/`ERROR`/`UNRESOLVED`, bounded legacy source discovery, deterministic static projection;
-- demonstrated utility failure: the artifact/projection identifies authoritative paths but does not carry enough substantive repository information for a newcomer to understand what the repository is, owns, excludes, exposes, or how to work in it;
-- second direct A1 disposition: **change / stop-replan**;
-- selected substrate remains local Git + Pydantic 2.13.5 + PyYAML 6.0.3 + Python stdlib;
-- Data Contracts, Representation Router, Code Map V4, and predecessor AES systems remain unselected as runtime dependencies.
+- active actor surface: `aes-repo-context` -> revision-scoped `context.json` + static `index.html`;
+- selected substrate: local Git + Pydantic 2.13.5 + PyYAML 6.0.3 + Python stdlib;
+- Data Contracts, Representation Router, Code Map V4, and predecessor AES systems remain unselected as Slice 1 runtime dependencies;
+- direct stakeholder utility at A1 remains separate from technical/evidence conformance.
 
 ## Immediate frontier
 
-Do **not** continue cosmetic iteration on the old routing-only projection.
-
-The next work is the replan discriminating probe:
+The next work is to **characterize the implemented slice through authentic execution**, not broaden the architecture.
 
 ```text
-bounded explicit native sources
+current Slice 1 implementation
         ↓
-substantive repository context
-(role / owns / does-not-own / capabilities / read order / commands / relationships / uncertainties)
+local governed-repo install / audit
         ↓
-exact evidence binding
+focused automated checks
         ↓
-one directly informative working surface
+pinned data-contracts external execution
         ↓
-stakeholder utility observation
+generated context.json + index.html
         ↓
-provider/schema decision only if the information direction is useful
+Attention Checkpoint A1: continue | change | stop
+        ↓
+revision-bound characterization
+        ↓
+fresh gap recomputation
 ```
 
-Use the pinned consumer's explicit README, ownership/capability document, and package metadata first. Do not jump to generalized crawling, a graph store, Code Map, or Representation Router unless the replan demonstrates an actual missing capability that requires one.
+Before A1, do not generalize into repository indexing, a characterization platform, Representation Router, a graph store, or a final AES dashboard unless a recorded stop/replan condition demonstrates that Slice 1 requires it.
 
 ## Closure discipline
 
-Plan 001 is **not delivered**. PR #5 must remain unmerged until a replacement actor outcome is planned and authentically observed.
+Plan completion does not close gaps. Slice 1 may claim delivery only after:
 
-No originating gap closes merely because the routing implementation works technically. Fresh characterization/gap recomputation remains downstream of an adequate substantive-context experience and its technical evidence.
+1. the exact external canonical example and negative/error controls are observed through the real entrypoint;
+2. required evidence is adequate and revision-bound;
+3. the intended reviewer directly uses the working surface;
+4. A1 records stakeholder utility separately from automated evidence; and
+5. fresh characterization recomputes which originating gaps are closed, narrowed, or still open.
