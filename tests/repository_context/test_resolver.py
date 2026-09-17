@@ -34,12 +34,22 @@ def test_legacy_resolution_is_source_bound(tmp_path: Path):
 def test_malformed_authoritative_manifest_blocks_legacy_fallback(tmp_path: Path):
     repo = git_repo(tmp_path, {
         "README.md": "# Example\n",
-        ".agentic/repository-context.yaml": "authorities: [not-a-mapping]\n",
+        ".agentic/repo.yaml": "authorities: [not-a-mapping]\n",
     })
     artifact = RepositoryContextResolver(repo).resolve()
     assert artifact.resolution_status == ResolutionStatus.ERROR
     assert artifact.navigation.state == EpistemicState.ERROR
-    assert any("legacy fallback is disabled" in item.summary for item in [artifact.navigation])
+    assert "legacy fallback is disabled" in artifact.navigation.summary
+
+
+def test_valid_manifest_missing_navigation_stays_none(tmp_path: Path):
+    repo = git_repo(tmp_path, {
+        ".agentic/repo.yaml": "schema_version: '0.1-pilot'\nauthorities: {}\n",
+        "README.md": "# Example\n",
+    })
+    artifact = RepositoryContextResolver(repo).resolve()
+    assert artifact.navigation.state == EpistemicState.NONE
+    assert artifact.resolution_status == ResolutionStatus.PARTIAL
 
 
 def test_expected_revision_mismatch_is_error(tmp_path: Path):
