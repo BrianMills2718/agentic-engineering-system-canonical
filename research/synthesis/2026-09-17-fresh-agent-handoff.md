@@ -297,3 +297,68 @@ Brian has authorized high-confidence reversible work to proceed without routine
 approval. Ask when a real semantic/authority choice is required.
 
 This does **not** include implicit permission to merge PRs.
+
+
+## Fresh-agent strategic re-review correction — 2026-09-18
+
+A fresh-agent review challenged this handoff against the live PRs and found two
+current-path inconsistencies worth correcting without reopening the bootstrap
+architecture:
+
+1. `docs/architecture/aes-company-planning-profile.bootstrap.yaml` still named
+   the exploratory `architecture-realization.bootstrap.yaml` as the current
+   design packet after that artifact had been marked `superseded_research_draft`.
+2. `generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml`
+   still reused resolved `AQR-011` as an unresolved component blocker even
+   though Decision 0006 and the alignment record close that bootstrap schema
+   question.
+
+Corrections on PR #6:
+
+- the active AES Company Planning profile now names the versioned minimal
+  architecture-realization schema;
+- the generated minimal record is explicitly a
+  `generated_non_authoritative_projection` bootstrap probe, not current design
+  authority;
+- real bounded design runs must own their own project-local
+  architecture-realization record and reference it through
+  `DesignPacketResult.design_packet_ref`;
+- the bootstrap probe is revision 2 and no longer uses resolved `AQR-011` as
+  a component question/blocker; unresolved component boundaries instead state
+  that real-gap-driven component design is still pending;
+- reproducible schema/profile check commands are recorded in the profile;
+- source-inspection evidence is retained at
+  `evidence/bootstrap-alignment/current-profile-path-coherence-001.json`.
+
+Important evidence limit: the revised Python/profile/schema path was not executed
+in this fresh-agent session. Historical execution receipts remain valid only for
+the exact blobs they name. Run the commands recorded in the profile in an
+execution-capable checkout before making a refreshed execution-conformance
+claim.
+
+Corrections on PR #5:
+
+- Plan 001 and `wiki/index.md` now acknowledge the already-recorded technical
+  execution rather than listing it as still outstanding;
+- the first direct A1 is represented as observed with disposition `change`;
+- follow-up presentation review remains pending through the separate
+  Representation Router workstream;
+- delivery, fresh characterization, gap closure, and next-slice derivation
+  remain unclaimed;
+- the GitHub-hosted workflow is explicitly labeled a regression suite because
+  the pinned `data-contracts` repository is private and its authentic
+  acceptance check requires an explicitly provisioned
+  `AES_DATA_CONTRACTS_CHECKOUT`. A future green hosted regression run must not
+  be treated as pinned-consumer acceptance evidence.
+
+The current hosted workflow still fails before obtaining a runner/executing
+steps, so it remains unavailable CI infrastructure rather than code-test
+evidence.
+
+The two PRs still had zero changed-file overlap after these corrections and both
+remained open/mergeable at the last live re-check. Re-check immediately before
+any integration.
+
+The protected merge boundary remains unchanged: none of these corrections is
+merge approval. A later explicit merge/adoption decision is still required for
+PR #6, and PR #5 requires its own separate explicit merge decision.
