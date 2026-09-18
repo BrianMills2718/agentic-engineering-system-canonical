@@ -10,21 +10,17 @@ orient -> target -> current -> gap -> plan -> capability composition
        -> learning / policy or capability improvement
 ```
 
-## Current development state
+## Status
 
-**Plan 001 / Slice 1 is implementation-partial, not delivered.**
+**Bootstrap architecture adopted; Plan 001 / Slice 1 is implementation-partial and not delivered.**
 
-D1 is closed. The `slice-1/repository-context` branch and PR #5 contain the first repository-context implementation: typed artifact models, exact Git/revision resolution, authoritative pilot-manifest handling, bounded legacy resolution, static HTML/JSON projection, CLI entrypoint, and focused automated tests.
+The canonical architecture now includes the component-aligned planning/governance model, AES-local Company Planning profile, minimal architecture-realization schema, and reserved component/verification homes. Reserved homes remain topology only; they are not implementation or verification evidence.
 
-The remaining boundary is evidence and direct use, not more architecture invention:
+This branch contains the first Repository Context implementation: typed artifact models, exact Git/revision resolution, authoritative pilot-manifest handling, bounded legacy resolution, static HTML/JSON projection, CLI entrypoint, and focused tests.
 
-1. run the governed-repository install/audit in a real local checkout;
-2. run the focused tests and the exact pinned `data-contracts` external-consumer check;
-3. execute `aes-repo-context` against `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`;
-4. directly use the generated HTML at Attention Checkpoint A1 and record `continue | change | stop`;
-5. produce fresh revision-bound characterization and recompute the originating gaps.
+Authentic technical execution has been observed on prior exact revisions, including the governed-repo audit, focused tests, exact pinned `data-contracts` check, real CLI execution, and deterministic generated artifacts. The first direct A1 returned `change` because the human-facing surface required too much reconstruction. A bounded projection correction followed; follow-up utility review, fresh revision-bound characterization, and explicit gap recomputation remain pending.
 
-Passing tests alone do not establish stakeholder utility, and positive stakeholder utility cannot override missing or failed technical evidence.
+A completed implementation plan, passing regression suite, or useful presentation does not by itself establish delivery or close the originating gaps.
 
 Start at [`wiki/index.md`](wiki/index.md).
 

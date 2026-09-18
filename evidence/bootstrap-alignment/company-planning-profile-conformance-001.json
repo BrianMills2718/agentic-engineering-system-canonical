@@ -1,0 +1,46 @@
+{
+  "record_id": "AES-COMPANY-PLANNING-PROFILE-CONFORMANCE-001",
+  "scope": "profile_structural_fit_only",
+  "status": "observed",
+  "profile": {
+    "path": "docs/architecture/aes-company-planning-profile.bootstrap.yaml",
+    "git_blob": "0fcdf507dc050b2ab0605f079b7077d3b88b9fd1"
+  },
+  "blueprint": {
+    "path": "docs/architecture/architecture-realization.bootstrap.yaml",
+    "git_blob": "1f869875eaedbf214bcdfc7298865040a6f721c3"
+  },
+  "company_planning_basis": {
+    "repository": "BrianMills2718/company-planning",
+    "revision": "c0887bf8901853dc5eb79f0f75667360970f7c47",
+    "design_packet_result_schema": "plugins/company-planning/contracts/design-packet-result.schema.json",
+    "execution_profiles": "plugins/company-planning/skills/bounded-design/references/execution-profiles.md"
+  },
+  "positive": {
+    "accepted": true,
+    "components_checked": 9,
+    "generic_transport": "DesignPacketResult",
+    "generic_transport_changed": false,
+    "detailed_design_carried_by": "design_packet_ref"
+  },
+  "negative_controls": {
+    "generic_handoff_change": {"rejected": true, "reason": "profile missing change_required: false"},
+    "missing_nonclaims": {"rejected": true, "reason": "blueprint missing non-claims"},
+    "missing_provider": {"rejected": true, "reason": "repository_context missing provider_disposition"},
+    "missing_disproof": {"rejected": true, "reason": "repository_context missing verification obligation/disproof"},
+    "unresolved_without_blocker": {"rejected": true, "reason": "normative_context unresolved without blockers"}
+  },
+  "checker_note": "The first lightweight connector check failed to reject an empty not_claimed list; the observed check was tightened and rerun before this receipt was recorded.",
+  "findings": [
+    "The current Company Planning generic handback can reference the AES-specific detailed design without gaining AES-specific component fields.",
+    "An AES-local profile is sufficient for the current architecture-realization constraints.",
+    "There is no current evidence justifying a Company Planning fork.",
+    "Potentially generic planning improvements should be proposed upstream only after they are demonstrated without AES-specific vocabulary."
+  ],
+  "limitations": [
+    "Company Planning itself was not modified or executed in this probe.",
+    "The committed Python conformance probe was not run in a single local checkout; exact branch artifacts were inspected through the GitHub connector.",
+    "This is structural fit evidence, not proof that a fresh Company Planning agent will produce the desired blueprint without further instruction.",
+    "No merge or Plan 001 closure is claimed."
+  ]
+}

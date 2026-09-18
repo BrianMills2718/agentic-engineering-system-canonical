@@ -1,0 +1,99 @@
+# AES-local planning profile; does not modify Company Planning.
+schema_version: aes.company_planning_profile.bootstrap.v0
+id: AES-CP-PROFILE-001
+status: accepted_pilot_profile
+decision: docs/decisions/0002-company-planning-aes-profile-before-fork.md
+
+provider:
+  repository: BrianMills2718/company-planning
+  revision: c0887bf8901853dc5eb79f0f75667360970f7c47
+  skill: plugins/company-planning/skills/bounded-design/SKILL.md
+  design_depth: Standard
+  execution_profile: pilot
+  overlays:
+    - repository governance
+
+transport:
+  contract: DesignPacketResult
+  schema_version: "1.0"
+  schema_path: plugins/company-planning/contracts/design-packet-result.schema.json
+  change_required: false
+  detailed_design_field: design_packet_ref
+  reusable_refs:
+    - requirement_refs
+    - boundary_refs
+    - contract_refs
+    - evidence_plan_ref
+    - material_concerns
+  rule: >
+    AES architecture-realization detail stays in the referenced AES design packet.
+    The generic handback remains delta-only and does not gain AES-specific component fields.
+
+architecture_realization:
+  schema_path: docs/architecture/schemas/architecture-realization.bootstrap.schema.json
+  schema_version: aes.architecture_realization.v0
+  bootstrap_alignment_ref: docs/architecture/normative-component-alignment.bootstrap.yaml
+  bootstrap_probe_record: generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml
+  bootstrap_probe_role: generated_non_authoritative_projection
+  design_packet_rule: >
+    Each real bounded design run owns a project-local architecture-realization
+    record validated against schema_path and referenced from
+    DesignPacketResult.design_packet_ref. The bootstrap probe record is only a
+    validation example and must not be used as current design authority.
+  required_content:
+    - exact_source_refs
+    - explicit_nonclaims_and_epistemic_limits
+    - component_identity_and_responsibility
+    - normative_scope
+    - semantic_owner_or_provider_disposition
+    - implementation_home_and_realization_state
+    - consequential_boundary_state_and_native_contract_refs_or_blockers
+    - verification_home_obligation_and_disproof
+    - component_question_and_decision_refs
+    - cross_component_seams
+
+validation:
+  reject_if:
+    - normative_requirement_has_no_owner_or_explicit_unresolved_disposition
+    - provider_dependent_local_abstraction_is_frozen_before_provider_disposition
+    - component_has_no_responsibility_or_verification_obligation
+    - unresolved_boundary_is_presented_as_typed_or_verified
+    - component_projection_paraphrases_authoritative_normative_text
+    - plan_or_completed_work_is_used_as_gap_closure_evidence
+    - generic_handoff_is_extended_with_AES_specific_fields_without_new_evidence
+    - bootstrap_probe_is_treated_as_current_design_authority
+    - resolved_bootstrap_AQR_is_used_as_component_boundary_blocker
+  preserve:
+    - native_authority
+    - current_vs_target_distinction
+    - research_question_decision_separation
+    - component_vs_symbol_granularity
+    - verification_vs_utility_distinction
+  commands:
+    - >-
+      python research/investigations/validate_architecture_realization_schema.py
+      generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml
+      --schema docs/architecture/schemas/architecture-realization.bootstrap.schema.json
+    - >-
+      python research/investigations/validate_aes_company_planning_profile.py
+      docs/architecture/aes-company-planning-profile.bootstrap.yaml
+      generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml
+      --alignment docs/architecture/normative-component-alignment.bootstrap.yaml
+      --self-test
+
+routing:
+  company_planning_role: derive_and_review_detailed_design
+  aes_role: own_project_normative_sources_profile_and_architecture_realization
+  enforced_planning_role: execution_governance_after_accepted_handoff
+  current_state_role: derived_from_revision_bound_observation_not_planning
+
+change_policy:
+  upstream_proposal_when: >
+    A dogfood finding can be stated without AES-specific vocabulary and improves
+    bounded design for other consumers without changing their authority model.
+  remain_profile_when: >
+    The rule depends on AES target/current/gap semantics, component normative
+    inheritance, AES provider disposition, or AES evidence/epistemic lifecycle.
+  fork_when: >
+    Repeated authentic planning runs require incompatible core Company Planning
+    changes that cannot be represented by this profile or an ordinary overlay.

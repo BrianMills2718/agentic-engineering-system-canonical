@@ -1,0 +1,19 @@
+# STRUCTURAL PLACEHOLDER ONLY — NO IMPLEMENTATION OR API IS CLAIMED.
+schema_version: aes.component.placeholder.v0
+component_id: policy_control
+status: reserved_unrealized
+materialization: filesystem_home_only
+blueprint:
+  path: docs/architecture/architecture-realization.bootstrap.yaml
+  revision: 2
+  git_blob: 57d42f9065f840e728057de3f371d36db984540f
+code_home: src/agentic_engineering_system/policy_control/
+planned_module: control.py
+local_role: proposed_authority_binding_and_enforcement_adapter
+boundary_state: unresolved
+blocked_by: [AQR-005, AQR-007, AQR-011]
+rules:
+  - No class, function, protocol, provider API, or typed seam is frozen by this placeholder.
+  - The planned module filename reserves a home only; it is not evidence that the module exists or is implemented.
+  - Normative wording remains in its owning authority and future local context must be generated verbatim.
+  - Replace this placeholder only through an accepted architecture-realization decision or plan.

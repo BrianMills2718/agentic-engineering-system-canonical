@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aes.local/schemas/architecture-realization.bootstrap.schema.json",
+  "title": "AES Architecture Realization Bootstrap",
+  "description": "Minimal AES-specific alignment record. External topology, workflow, policy, provenance, contract, and symbol semantics remain referenced authorities.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "revision",
+    "status",
+    "normative_model_ref",
+    "source_refs",
+    "nonclaims",
+    "components",
+    "seams"
+  ],
+  "properties": {
+    "schema_version": {"const": "aes.architecture_realization.v0"},
+    "id": {"$ref": "#/$defs/id"},
+    "revision": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["proposed", "accepted", "superseded"]},
+    "normative_model_ref": {"$ref": "#/$defs/path"},
+    "source_refs": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceRef"},
+      "minItems": 1
+    },
+    "nonclaims": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "components": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/component"},
+      "minItems": 1
+    },
+    "seams": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/seam"}
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "(^/|(^|/)\\.\\.(/|$))"}
+    },
+    "sourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "repository", "revision", "path"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "repository": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "path": {"$ref": "#/$defs/path"},
+        "selector": {"type": "string", "minLength": 1}
+      }
+    },
+    "normativeScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["direct", "inherited", "seams"],
+      "properties": {
+        "direct": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "inherited": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "seams": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true}
+      }
+    },
+    "semanticOwner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "enum": [
+            "aes_local_residual",
+            "provider_adapter",
+            "external_projection",
+            "generated_projection",
+            "mixed_composition",
+            "unresolved"
+          ]
+        },
+        "provider_refs": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "blocked_by": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"mode": {"const": "unresolved"}}},
+          "then": {
+            "required": ["blocked_by"],
+            "properties": {"blocked_by": {"minItems": 1}}
+          }
+        }
+      ]
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["home", "state"],
+      "properties": {
+        "home": {"$ref": "#/$defs/path"},
+        "state": {
+          "enum": [
+            "reserved_unrealized",
+            "present_external_snapshot",
+            "present_current",
+            "planned"
+          ]
+        },
+        "planned_module": {"type": "string", "minLength": 1},
+        "significant_symbol_refs": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": {
+        "state": {"enum": ["resolved", "unresolved", "observed_signature"]},
+        "contract_refs": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "blocked_by": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"state": {"const": "unresolved"}}},
+          "then": {
+            "required": ["blocked_by"],
+            "properties": {"blocked_by": {"minItems": 1}}
+          }
+        }
+      ]
+    },
+    "verificationItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "claim", "disproof"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "claim": {"type": "string", "minLength": 1},
+        "disproof": {"type": "string", "minLength": 1}
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["home", "obligations"],
+      "properties": {
+        "home": {"$ref": "#/$defs/path"},
+        "obligations": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/verificationItem"},
+          "minItems": 1
+        }
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "responsibility",
+        "normative",
+        "semantic_owner",
+        "implementation",
+        "boundary",
+        "verification",
+        "question_refs",
+        "decision_refs"
+      ],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "responsibility": {"type": "string", "minLength": 1},
+        "normative": {"$ref": "#/$defs/normativeScope"},
+        "semantic_owner": {"$ref": "#/$defs/semanticOwner"},
+        "implementation": {"$ref": "#/$defs/implementation"},
+        "boundary": {"$ref": "#/$defs/boundary"},
+        "verification": {"$ref": "#/$defs/verification"},
+        "question_refs": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "decision_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/path"},
+          "uniqueItems": true
+        }
+      }
+    },
+    "seam": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "participants", "normative_refs", "state", "obligation"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "participants": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/id"},
+          "minItems": 2,
+          "uniqueItems": true
+        },
+        "normative_refs": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "state": {"enum": ["resolved", "unresolved"]},
+        "obligation": {"type": "string", "minLength": 1},
+        "blocked_by": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"state": {"const": "unresolved"}}},
+          "then": {
+            "required": ["blocked_by"],
+            "properties": {"blocked_by": {"minItems": 1}}
+          }
+        }
+      ]
+    }
+  }
+}

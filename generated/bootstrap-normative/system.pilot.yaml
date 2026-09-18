@@ -1,0 +1,110 @@
+# GENERATED PILOT PROJECTION — existing Markdown remains authority.
+schema_version: aes.system_normative_projection.pilot.v0
+id: AES-SYSTEM-PROJECTION-001
+status: generated_pilot
+authority: none
+model: docs/architecture/normative-record-model.bootstrap.yaml
+
+sources:
+  system:
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 2220ad62639c1e4596e57263b99e13fcc81b20ef
+    path: docs/architecture/SYSTEM_BOUNDARY.md
+    git_blob: 61ca470a34c7046e33a5b631964d5114035fa06e
+  plan:
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 9f82f3500e4a472b26756c31ea9205f908d7c394
+    path: docs/plans/001_repository_context_resolution_vertical.md
+    git_blob: 7c76c70b3bf1167b90eaabff82df02ccdf095928
+  alignment:
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 122d6884efbcc2994d7635d77c3b0290dea57db4
+    path: docs/architecture/normative-component-alignment.bootstrap.yaml
+    git_blob: b034bc2f9ff9585672a4787cf366a0808af6c460
+
+north_star:
+  id: AES-SYS-001
+  source: system
+  verbatim: >-
+    AES is the integrated engineering system that connects orientation, normative intent, current-state characterization, gap derivation, planning, capability composition, governed execution, evidence, reconciliation, and learning into one resumable loop.
+
+actors:
+  - id: unfamiliar_repository_engineer_or_agent
+    source: plan
+    label: person_or_agent_entering_an_unfamiliar_governed_repository
+
+outcomes:
+  - id: PLAN-001-USER-OUTCOME
+    source: plan
+    verbatim: >-
+      A person or agent entering an unfamiliar governed repository can ask AES for the repository's current context and receive one directly usable, inspectable surface that identifies the correct navigation and authority surfaces without guessing from folder names, so they can deepen into the right native source before planning or editing.
+
+journeys:
+  - id: PLAN-001-NORTH-STAR-JOURNEY
+    actor: unfamiliar_repository_engineer_or_agent
+    source: plan
+    source_label: Directional north-star interaction
+    steps:
+      - "enter / select repository"
+      - "see repository role + exact revision"
+      - "see the few navigation / authority surfaces relevant to the concern"
+      - "see uncertainty, absence or error honestly"
+      - "open exact source / evidence when needed"
+      - "understand the next legitimate place to deepen"
+
+requirements:
+  - id: AES-SYS-002
+    kind: invariant
+    source: system
+    verbatim: >-
+      AES may compose multiple systems, but integration does not transfer their native authority. Each mutable fact has one owning authority or is a derived projection.
+  - id: AES-CAP-002
+    kind: constraint
+    source: system
+    verbatim: >-
+      For a capability that could reasonably be supplied by a stable platform, standard, mature open-source package, or mature service, provider sourcing examines those options before selecting an internal bespoke implementation. Internal repositories are evidence/design donors by default and become runtime providers only through a positive fit decision. Selection considers semantic fit, stability, maintenance, dependency and operational burden, portability, control requirements, and replaceability. Local implementation is justified only for the residual semantics that remain after proportionate sourcing; trivial deterministic local behavior does not require ceremonial market research.
+  - id: AES-CTX-002
+    kind: behavior
+    source: system
+    verbatim: >-
+      When implementation subjects exist, agents working at those subjects receive generated normative clauses, success criteria, current characterization, gap state, and plan linkage appropriate to that subject. Source-local projections do not become authority.
+
+component_refs:
+  - repository_context
+
+questions:
+  - id: AQR-001
+    source: alignment
+    status: open
+    question: >-
+      What is the minimum canonical normative record taxonomy that supports north-star/goal, PRD/product intent, requirements, UX/user journeys, AQRs, ADRs, interfaces/contracts, acceptance, plans, and system/seam norms without exploding documentation?
+  - id: AQR-003
+    source: alignment
+    status: open
+    question: >-
+      Should AES use the term Component as a local planning/governance concept, project an external component vocabulary such as Backstage/TOSCA, or define an explicit profile mapping between them?
+  - id: AQR-007
+    source: alignment
+    status: open
+    question: >-
+      Which typed seams must be frozen before implementation and which details should remain intentionally unfrozen until implementation evidence exists?
+  - id: AQR-009
+    source: alignment
+    status: open
+    question: >-
+      Which human-readable artifacts should be generated views (architecture, PRD, requirements index, journey view, decision log, component map, wiki) and which, if any, still need independently authored prose authority?
+  - id: AQR-010
+    source: alignment
+    status: open
+    question: >-
+      How should existing canonical AES architecture/decision/plan documents be migrated or referenced if a component-aligned structured normative model is adopted, without rewriting accepted authority or creating two truths?
+  - id: AQR-011
+    source: alignment
+    status: open
+    question: >-
+      What is the minimal machine-readable architecture blueprint schema that can express component normative scope, semantic owner/provider disposition, implementation homes, typed seams, verification obligations, and relevant system/seam inheritance without duplicating TOSCA, SCIP, OWS, PROV, or OPA?
+
+nonclaims:
+  - this_projection_is_not_normative_authority
+  - no_current_state_or_gap_is_promoted_to_requirement
+  - no_native_typed_contract_is_redefined
