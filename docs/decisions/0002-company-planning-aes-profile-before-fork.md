@@ -64,6 +64,19 @@ It does **not** require Company Planning to own:
 - **Upstream proposal:** a demonstrated planning improvement that remains useful without AES-specific vocabulary or authority assumptions.
 - **Fork:** only after sustained incompatibility is observed in real planning use and cannot be expressed by a bounded profile/overlay.
 
+## Evidence status
+
+The original Company Planning profile conformance receipt is structural-fit
+evidence for the exact profile/blueprint blobs it names; Company Planning itself
+was not executed in that probe. A later fresh-agent review corrected the active
+profile to target the minimal architecture-realization schema rather than the
+superseded exploratory blueprint and recorded source-level coherence in
+`evidence/bootstrap-alignment/current-profile-path-coherence-001.json`.
+
+The profile-before-fork decision therefore remains justified as a reversible
+default, while an authentic cold-start Company Planning run remains the
+discriminating evidence for whether the profile is sufficient in practice.
+
 ## Consequences
 
 - AQR-006 is resolved for the current bootstrap.
