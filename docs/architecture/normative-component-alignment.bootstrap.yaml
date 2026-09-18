@@ -3,17 +3,21 @@ record_id: AES-BOOTSTRAP-ALIGNMENT-001
 status: resolved_bootstrap_design_record
 date: 2026-09-17
 purpose: >
-  Dogfood the emerging AES planning/documentation model by recording accepted
-  foundations, current design directions, and unresolved architecture questions
-  separately before the canonical filesystem/component blueprint is frozen.
+  Preserve the bootstrap dogfood record that separated accepted foundations,
+  design directions, and architecture questions while the component-aligned
+  model was being derived. All twelve recorded AQRs are now resolved to explicit
+  decisions; the forward gate is real component-specific design from an actual
+  gap, not more bootstrap meta-design.
 
 authority:
   kind: bootstrap_design_record
   note: >
     This record does not override accepted architecture or decisions. Entries
     under accepted_foundations reference existing authority. Entries under
-    directions are current design directions, not yet accepted ADRs. Entries
-    under aqrs are explicitly unresolved.
+    directions preserve the pre-decision design trajectory and are subordinate
+    to accepted decisions where those decisions are more specific. Entries
+    under aqrs preserve the questions and their final resolution status; no AQR
+    in this bootstrap record remains open.
 
 accepted_foundations:
   - id: FOUNDATION-001
