@@ -1,0 +1,105 @@
+{
+  "units": [
+    {
+      "schema_version": "1.0",
+      "record_type": "work_unit",
+      "id": "aes-plan-001-slice-1-authentic-delivery",
+      "initiative_id": "PLAN-001",
+      "goal_id": "repository-context-resolution",
+      "design_revision": "48ca74634c41717f4432e16fbd9d557bab793cb7:PLAN-001/D1",
+      "spec_revision": "0d4859f9adc4a2955bafeaf0474adc34b22d7583:PLAN-001/Slice-1",
+      "title": "Complete authentic Slice 1 technical delivery and reach A1",
+      "class": "implementation",
+      "objective": "Execute the already-frozen Slice 1 contract against the exact data-contracts consumer, retain the revision-scoped context artifacts, and stop at the human A1 utility checkpoint without performing post-A1 gap closure or next-slice derivation.",
+      "profile": "small",
+      "execution_class": "independently_executable",
+      "claimability": "ready_for_execution",
+      "authorization_mode": "registry_claim",
+      "scope": {
+        "included": [
+          "Reconcile only compatible PR #4 verification salvage into PR #5",
+          "Run Enforced Planning governed-repo install and strict audit",
+          "Run focused repository-context tests against the exact pinned consumer",
+          "Generate and retain revision-scoped context.json and index.html",
+          "Present the generated HTML for Attention Checkpoint A1"
+        ],
+        "excluded": [
+          "Merge PR #5",
+          "Post-A1 characterization or originating-gap recomputation",
+          "Derived wiki/current projection updates",
+          "Next-slice selection",
+          "Generalized indexing, graph, orchestration, or dashboard infrastructure"
+        ]
+      },
+      "inputs": [
+        {
+          "kind": "bounded_plan",
+          "id": "docs/plans/001_repository_context_resolution_vertical.md",
+          "revision": "0d4859f9adc4a2955bafeaf0474adc34b22d7583"
+        },
+        {
+          "kind": "contract_freeze",
+          "id": "docs/plans/001_D1_contract_surface_topology_freeze.md",
+          "revision": "0d4859f9adc4a2955bafeaf0474adc34b22d7583"
+        },
+        {
+          "kind": "external_consumer",
+          "id": "BrianMills2718/data-contracts",
+          "revision": "90c38998e8141bd07e49a77a49ec417aa29beee0"
+        }
+      ],
+      "outputs": [
+        "Revision-scoped RepositoryContextArtifact JSON for the pinned consumer",
+        "Static source-bound HTML working surface for the pinned consumer",
+        "Authentic local technical-verification results",
+        "A1 human-utility checkpoint surface"
+      ],
+      "dependencies": [],
+      "conflict_surfaces": [
+        {
+          "kind": "repository_path",
+          "target": ".",
+          "repository": "agentic-engineering-system-canonical",
+          "access": "exclusive",
+          "coordination_key": "plan-001-slice-1-single-active-line"
+        }
+      ],
+      "acceptance": [
+        {
+          "id": "PLAN001-S1-TECH",
+          "criterion": "The frozen Slice 1 technical checks execute authentically against the exact pinned external consumer and retain explicit unknown/error semantics.",
+          "evidence_required": [
+            "Focused pytest result with AES_DATA_CONTRACTS_CHECKOUT bound to the exact consumer revision",
+            "Successful CLI generation at the exact expected consumer revision",
+            "Successful strict governed-repo audit"
+          ],
+          "negative_control": "CI pre-step failure, a synthetic-only fixture, or plan completion alone cannot be promoted to successful external verification."
+        },
+        {
+          "id": "PLAN001-A1-BOUNDARY",
+          "criterion": "The generated HTML is handed to the user for direct utility judgment before post-A1 characterization or gap recomputation begins.",
+          "evidence_required": [
+            "Revision-scoped index.html",
+            "User A1 disposition: continue | change | stop"
+          ],
+          "negative_control": "Automated green cannot substitute for the user utility observation."
+        }
+      ],
+      "readiness": {
+        "status": "ready",
+        "required_approval_types": [],
+        "approvals": [],
+        "failed_guards": []
+      },
+      "claim_policy": {
+        "eligibility_rule": "One live claim owns the single active PR #5 Slice 1 line until the generated A1 surface is handed to the user.",
+        "lease_policy": "renewable",
+        "lease_duration_minutes": 1440,
+        "max_active_per_claimant": 1,
+        "named_owner_id": null
+      },
+      "status": "ready",
+      "record_version": 1
+    }
+  ]
+}

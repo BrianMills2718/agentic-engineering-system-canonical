@@ -1,0 +1,29 @@
+name: Slice 1 regression tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'slice-1/**'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package and test dependencies
+        run: python -m pip install -e . pytest
+      # Regression-only boundary: the exact pinned data-contracts acceptance test
+      # intentionally skips unless AES_DATA_CONTRACTS_CHECKOUT is supplied. The
+      # consumer repository is private, so a green hosted run here is not AC-001
+      # external-consumer acceptance evidence.
+      - name: Run repository-context regression tests
+        run: python -m pytest -q tests/repository_context
+      - name: State external acceptance boundary
+        run: |
+          echo "::notice::Pinned private data-contracts acceptance is separate from this hosted regression run."
+          echo "::notice::Run with AES_DATA_CONTRACTS_CHECKOUT bound to data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0 before making an external-acceptance claim."

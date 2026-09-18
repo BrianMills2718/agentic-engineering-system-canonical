@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentic-engineering-system"
+version = "0.1.0"
+description = "Canonical Agentic Engineering System"
+requires-python = ">=3.11"
+dependencies = [
+  "pydantic==2.13.5",
+  "PyYAML==6.0.3",
+]
+
+[project.scripts]
+aes-repo-context = "agentic_engineering_system.repository_context.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

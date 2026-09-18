@@ -2,7 +2,7 @@
 
 This repository is the clean convergence and dogfood implementation of the Agentic Engineering System (AES) architecture.
 
-Its purpose is to integrate a set of separately evolved systems into one coherent engineering lifecycle without duplicating their authorities:
+Its purpose is to integrate separately evolved planning, capability, execution-governance, context, policy, evidence, and learning systems into one coherent engineering lifecycle without duplicating their authorities:
 
 ```text
 orient -> target -> current -> gap -> plan -> capability composition
@@ -12,11 +12,15 @@ orient -> target -> current -> gap -> plan -> capability composition
 
 ## Status
 
-**Bootstrap architecture established; first implementation vertical remains separate.**
+**Bootstrap architecture adopted; Plan 001 / Slice 1 is implementation-partial and not delivered.**
 
-The canonical architecture now includes the component-aligned planning/governance model, AES-local Company Planning profile, minimal architecture-realization schema, and reserved component/verification homes. Reserved homes are topology only; they are not implementation or verification evidence.
+The canonical architecture now includes the component-aligned planning/governance model, AES-local Company Planning profile, minimal architecture-realization schema, and reserved component/verification homes. Reserved homes remain topology only; they are not implementation or verification evidence.
 
-Plan 001 / Repository Context implementation exists on the separate `slice-1/repository-context` line (PR #5) and is not part of this branch/main until separately reviewed and merged. Its technical execution evidence and first A1=`change` observation do not by themselves establish delivery or gap closure.
+This branch contains the first Repository Context implementation: typed artifact models, exact Git/revision resolution, authoritative pilot-manifest handling, bounded legacy resolution, static HTML/JSON projection, CLI entrypoint, and focused tests.
+
+Authentic technical execution has been observed on prior exact revisions, including the governed-repo audit, focused tests, exact pinned `data-contracts` check, real CLI execution, and deterministic generated artifacts. The first direct A1 returned `change` because the human-facing surface required too much reconstruction. A bounded projection correction followed; follow-up utility review, fresh revision-bound characterization, and explicit gap recomputation remain pending.
+
+A completed implementation plan, passing regression suite, or useful presentation does not by itself establish delivery or close the originating gaps.
 
 Start at [`wiki/index.md`](wiki/index.md).
 

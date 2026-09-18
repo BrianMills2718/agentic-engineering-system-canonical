@@ -1,6 +1,6 @@
 # Plan 001 — Repository context resolution vertical
 
-Status: **implementation-ready; D1 closed; implementation not started**
+Status: **implementation partial; technical execution observed; first A1 = change; follow-up utility review and fresh characterization pending**
 Origin gaps: GAP-AES-001, 002, 003, 004, 005, 006, 007, 009, 010, 011, 013, 014, 015, 017, 019, 020, 021, 022, 023, 024, 025, 026, 027
 External consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`
 Execution profile: pilot
@@ -23,7 +23,7 @@ aes-repo-context --repo <local-data-contracts-checkout> \
 Expected result: the generated source-bound surface must, at minimum:
 
 1. identify `data-contracts` and the exact reviewed revision;
-2. report the current local navigation situation honestly rather than inventing `wiki/index.md` when absent;
+2. report the current local navigation situation honestly: a physical `wiki/index.md` is not promoted to navigation authority without bounded positive routing evidence, and an absent/unrouted wiki is never invented;
 3. identify `src/data_contracts/` as a native implementation and typed-contract authority surface using positive evidence;
 4. distinguish root `contracts/` from repository-wide contract authority;
 5. route contract-ownership questions to `docs/ops/CAPABILITY_DECOMPOSITION.md` with exact evidence;
@@ -114,7 +114,7 @@ Selected Slice 1 bindings:
 - Pydantic `2.13.5` — strict immutable local typed models;
 - PyYAML `6.0.3` — safe parsing of pilot `.agentic/repo.yaml`;
 - Python standard library — JSON, paths/subprocess, and static HTML generation;
-- pytest — verification harness; exact compatible release is an implementation/tooling choice, not architecture.
+- pytest — verification harness; exact compatible release is implementation/tooling.
 
 Not selected as Slice 1 runtime dependencies:
 
@@ -128,7 +128,7 @@ Not selected as Slice 1 runtime dependencies:
 - CodeQL;
 - predecessor AES implementations.
 
-Representation Router remains a relevant provider candidate only if a later demonstrated gap requires actual representation selection/composition.
+The first A1 later demonstrated a presentation/reconstruction gap, and follow-up presentation work is now handled separately through the Representation Router workstream. Representation Router is still not a Slice 1 Repository Context runtime dependency; this plan does not transfer Repository Context authority or semantics to it.
 
 ## Frozen contract disposition
 
@@ -226,7 +226,7 @@ When `.agentic/repo.yaml` is absent, the adapter may use only:
 
 It may not infer authority from folder names, crawl for plausible authority, hard-code `data-contracts`, or treat `contracts/` as authoritative by existence.
 
-When a pilot manifest exists, it is the authority for its declared repository context. A malformed manifest yields `ERROR`/block with correction/retry or explicit escalation; it never silently falls back to legacy inference. A valid manifest with an absent role yields `NONE`/unresolved for that role.
+When a pilot manifest exists, it is the authority for its declared repository context. A malformed manifest yields `ERROR`/block with correction/retry or explicit escalation; it never silently falls back to legacy inference. A valid manifest with an absent role yields `NONE`/unresolved.
 
 ## Slice horizon
 
@@ -243,16 +243,20 @@ D1 froze:
 - runtime provider/dependency bindings;
 - legacy/manifest precedence rules.
 
-D1 closes no originating gap. Its return path is now Slice 1.
+D1 closes no originating gap. Its return path is Slice 1.
 
-### Slice 1 — external repository context resolution — READY FOR GOVERNED IMPLEMENTATION
+### Slice 1 — external repository context resolution — IMPLEMENTATION PARTIAL / FOLLOW-UP A1 PENDING
 
 - advances: person/agent can orient correctly in real external repository before editing;
 - vertical scope: pinned `data-contracts` revision -> bounded observations -> resolution -> typed artifact -> static source-bound HTML surface;
 - de-risks: utility without repo hardcoding/generalized indexing/representation framework;
 - success: AC-001 through AC-011;
-- evidence: exact consumer/AES revisions, positive evidence refs, negative-control receipts, separate stakeholder observation receipt;
-- done-when: technical evidence satisfies required criteria and the intended reviewer has directly used the surface enough to disposition `continue | change | stop`.
+- current implementation: package, resolver, renderer, CLI, and automated tests are present on the implementation branch;
+- observed technical execution: the governed-repo audit passed, focused repository-context checks passed locally, the exact pinned external-consumer check passed, the real CLI resolved the pinned consumer, and deterministic revision-scoped JSON/HTML were retained;
+- observed utility: the first direct A1 at AES revision `53be16fa1159f31648773062531d751c85d7a011` returned `change` because the HTML required too much reconstruction; the retained A1 receipt remains utility evidence rather than a technical-conformance reversal;
+- bounded response: a projection-only correction was made afterward; per stakeholder instruction, further presentation iteration is handled separately through the Representation Router workstream rather than expanded here;
+- evidence still outstanding for delivery: follow-up direct utility review against the exact relevant AES revision, revision-bound current characterization, and explicit originating-gap recomputation;
+- done-when: technical evidence remains adequate, the intended reviewer has directly used the corrected presentation enough to disposition `continue | change | stop`, and fresh characterization/gap recomputation establishes what actually closed or narrowed.
 
 ### Attention checkpoint A1 — first utility observation
 
@@ -289,11 +293,18 @@ tests/repository_context/fixtures/pilot_malformed/
 tests/repository_context/fixtures/pilot_missing_declaration/
 ```
 
+Current verification status:
+
+- model/resolver/rendering tests are present;
+- technical execution has been observed locally, including the exact pinned external-consumer check and real CLI run; GitHub Actions remains unavailable as code-test evidence when no runner/steps execute, and the hosted workflow is regression-only because it cannot access the private pinned consumer without an explicitly provisioned checkout;
+- the pinned external-consumer test intentionally remains environment-dependent for repeat verification and does not fabricate evidence when the checkout is unavailable;
+- first A1 direct-use evidence is retained with disposition `change`; follow-up utility review of the corrected presentation remains pending.
+
 Acceptance mapping:
 
 - AC-001 — pinned external integration test at `90c389...` proves exact revision and package/contract authority evidence;
 - AC-002 — external + fixture tests prove root `contracts/` is never universal authority by existence;
-- AC-003 — external test preserves missing local wiki as `NONE`/legacy navigation;
+- AC-003 — the pinned external test proves a physical local wiki is not promoted by path existence alone, while a bounded fixture preserves absent/unrouted wiki navigation as `NONE` rather than inventing success;
 - AC-004 — external test routes ownership to `docs/ops/CAPABILITY_DECOMPOSITION.md`;
 - AC-005 — model/resolver tests enforce evidence refs on every positive claim;
 - AC-006 — malformed pilot fixture yields `ERROR`/blocked with no legacy fallback;

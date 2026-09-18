@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Repository Context — BrianMills2718/data-contracts</title>
+<style>
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; line-height: 1.55; max-width: 1080px; margin: 2rem auto; padding: 0 1rem 4rem; }
+header, section { border: 1px solid color-mix(in srgb, currentColor 24%, transparent); border-radius: .75rem; padding: 1.25rem; margin: 1rem 0; }
+header { padding: 1.5rem; }
+h1, h2, h3 { line-height: 1.2; }
+h1 { margin-bottom: .35rem; }
+h2 { margin-top: 0; }
+code { word-break: break-word; }
+a { color: inherit; }
+.state { font-weight: 750; }
+.lede { font-size: 1.08rem; max-width: 75ch; }
+.meta { opacity: .78; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: .8rem; }
+.card { border: 1px solid color-mix(in srgb, currentColor 18%, transparent); border-radius: .65rem; padding: 1rem; }
+.card h3 { margin: .2rem 0 .45rem; }
+.eyebrow { font-size: .78rem; font-weight: 750; text-transform: uppercase; letter-spacing: .05em; opacity: .7; margin: 0; }
+.location { font-size: 1.03rem; }
+.route li, .cautions li { margin: .65rem 0; }
+.secondary { opacity: .88; }
+details { margin: .6rem 0; }
+summary { cursor: pointer; }
+</style>
+</head>
+<body>
+<header>
+<p class="eyebrow">Repository orientation</p>
+<h1>BrianMills2718/data-contracts</h1>
+<p class="lede">This view answers the first repository questions from bounded, revision-bound evidence: where to begin, which surfaces carry authority, what not to infer, and where to deepen next.</p>
+<p class="meta"><strong>Revision:</strong> <code>90c38998e8141bd07e49a77a49ec417aa29beee0</code> · <strong>Resolution:</strong> <span class="state">RESOLVED</span></p>
+</header>
+<section>
+<h2>What you need to know first</h2>
+<div class="grid">
+<article class="card">
+<p class="eyebrow">Where do I start?</p>
+<h3>Repository entrypoint</h3>
+<p class="location"><code>README.md</code></p>
+<p>Repository-local entrypoint is README.md.</p>
+<details><summary>Why AES says this</summary><ul><li><a href="https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/README.md">README.md</a> @ <code>90c38998e814</code></li></ul></details>
+</article>
+<article class="card"><p class="eyebrow">Where is ownership decided?</p><h3>Ownership boundary</h3><p class="location"><code>docs/ops/CAPABILITY_DECOMPOSITION.md</code></p><p>Root context directly routes capability ownership to this document.</p><details><summary>Why AES says this</summary><ul><li><a href="https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/docs/ops/CAPABILITY_DECOMPOSITION.md">docs/ops/CAPABILITY_DECOMPOSITION.md</a> @ <code>90c38998e814</code></li></ul></details></article>
+<article class="card"><p class="eyebrow">Where do contract questions go?</p><h3>Contract surface</h3><p class="location"><code>src/data_contracts/</code></p><p>Packaging metadata plus the directly referenced ownership source identify this package as a contract authority surface.</p><details><summary>Why AES says this</summary><ul><li><a href="https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/pyproject.toml">pyproject.toml</a> @ <code>90c38998e814</code></li><li><a href="https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/docs/ops/CAPABILITY_DECOMPOSITION.md">docs/ops/CAPABILITY_DECOMPOSITION.md</a> @ <code>90c38998e814</code></li></ul></details></article>
+<article class="card"><p class="eyebrow">Where does the code live?</p><h3>Implementation</h3><p class="location"><code>src/data_contracts/</code></p><p>Packaging metadata positively identifies the implementation package root.</p><details><summary>Why AES says this</summary><ul><li><a href="https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/pyproject.toml">pyproject.toml</a> @ <code>90c38998e814</code></li></ul></details></article>
+</div>
+</section>
+<section>
+<h2>Recommended route</h2>
+<p class="secondary">Follow this order so implementation detail does not outrun repository authority and ownership context.</p>
+<ol class="route"><li><strong>Orient:</strong> start with <code>README.md</code>. Use it to understand the repository's own framing before planning or editing.</li><li><strong>Check ownership:</strong> use <code>docs/ops/CAPABILITY_DECOMPOSITION.md</code> when deciding what this repository owns versus what belongs elsewhere.</li><li><strong>For contract questions:</strong> deepen into <code>src/data_contracts/</code>; this is positively evidenced as the contract surface.</li><li><strong>For implementation:</strong> inspect <code>src/data_contracts/</code> after the authority/ownership context is clear.</li></ol>
+</section>
+<section>
+<h2>Do not infer</h2>
+<p class="secondary">These are deliberate guardrails, not missing polish. AES preserves absence and uncertainty instead of turning plausible folder names into authority.</p>
+<ul class="cautions"><li><strong>Do not route through a local wiki by assumption.</strong> No bounded root source established it as the navigation authority for this resolution.</li><li><strong>Do not treat <code>contracts/</code> as repository-wide contract authority.</strong> Its presence is not positive semantic evidence.</li></ul>
+</section>
+<section>
+<h2>Anything unresolved?</h2>
+<ul><li>No blocking or unresolved surfaces were reported for this bounded resolution.</li></ul>
+</section>
+<section>
+<details>
+<summary><strong>Technical authority details and source evidence</strong></summary>
+<p class="secondary">Use this when you need to audit how the orientation above was derived.</p>
+<details><summary><strong>implementation</strong> — OBSERVED</summary><p>Packaging metadata positively identifies the implementation package root.</p><p>Locations: <code>src/data_contracts/</code></p><div>Evidence: <ul><li><a href="https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/pyproject.toml">pyproject.toml</a> @ <code>90c38998e814</code></li></ul></div></details><details><summary><strong>ownership</strong> — OBSERVED</summary><p>Root context directly routes capability ownership to this document.</p><p>Locations: <code>docs/ops/CAPABILITY_DECOMPOSITION.md</code></p><div>Evidence: <ul><li><a href="https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/docs/ops/CAPABILITY_DECOMPOSITION.md">docs/ops/CAPABILITY_DECOMPOSITION.md</a> @ <code>90c38998e814</code></li></ul></div></details><details><summary><strong>contract</strong> — OBSERVED</summary><p>Packaging metadata plus the directly referenced ownership source identify this package as a contract authority surface.</p><p>Locations: <code>src/data_contracts/</code></p><div>Evidence: <ul><li><a href="https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/pyproject.toml">pyproject.toml</a> @ <code>90c38998e814</code></li><li><a href="https://github.com/BrianMills2718/data-contracts/blob/90c38998e8141bd07e49a77a49ec417aa29beee0/docs/ops/CAPABILITY_DECOMPOSITION.md">docs/ops/CAPABILITY_DECOMPOSITION.md</a> @ <code>90c38998e814</code></li></ul></div></details>
+<h3>All evidence</h3>
+<ul><li><code>90c38998e814:README.md</code> — README.md @ 90c38998e8141bd07e49a77a49ec417aa29beee0</li><li><code>90c38998e814:pyproject.toml</code> — pyproject.toml @ 90c38998e8141bd07e49a77a49ec417aa29beee0</li><li><code>90c38998e814:docs/ops/CAPABILITY_DECOMPOSITION.md</code> — docs/ops/CAPABILITY_DECOMPOSITION.md @ 90c38998e8141bd07e49a77a49ec417aa29beee0</li></ul>
+</details>
+</section>
+</body>
+</html>

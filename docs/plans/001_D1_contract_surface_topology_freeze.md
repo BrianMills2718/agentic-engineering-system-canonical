@@ -1,6 +1,6 @@
 # Plan 001 / D1 — Contract, surface, and topology freeze
 
-Status: **CLOSED — design decisions frozen; implementation not started**.
+Status: **CLOSED — design decisions frozen before implementation; implementation was subsequently realized under Plan 001 / Slice 1**.
 Parent authority: [`001_repository_context_resolution_vertical.md`](001_repository_context_resolution_vertical.md).
 Closed: 2026-09-16.
 
@@ -46,6 +46,8 @@ revision: 90c38998e8141bd07e49a77a49ec417aa29beee0
 ```
 
 The external integration check must refuse or clearly report a revision mismatch when it is intended to prove the canonical example.
+
+Observed factual correction (2026-09-17): this exact revision physically contains `wiki/index.md`, but the bounded root sources reviewed for Slice 1 do not positively route to that local file as semantic navigation authority. AC-003 therefore proves that path existence alone does not promote a wiki, with absence/unrouted behavior exercised by a bounded fixture. This corrects a stale consumer-tree assumption without changing the frozen no-invention/no-authority-by-folder-name rule.
 
 ## Decision 1 — Result-contract disposition
 
@@ -275,7 +277,7 @@ Criterion mapping:
 | --- | --- |
 | AC-001 | `test_data_contracts_pinned.py` against local checkout exactly at `90c389...`; assert package/contract surface evidence |
 | AC-002 | pinned external test + legacy fixture asserts root `contracts/` never becomes universal contract authority without evidence |
-| AC-003 | pinned external test asserts local `wiki/index.md` absence is `NONE`/legacy navigation, never invented |
+| AC-003 | pinned external test proves physical `wiki/index.md` existence is not promoted by path existence alone; bounded fixture proves absent/unrouted wiki navigation remains `NONE`, never invented |
 | AC-004 | pinned external test routes ownership to `docs/ops/CAPABILITY_DECOMPOSITION.md` with evidence |
 | AC-005 | model/resolver tests require evidence refs for every positive claim |
 | AC-006 | `pilot_malformed` fixture yields `ERROR`/blocked and no legacy fallback |
