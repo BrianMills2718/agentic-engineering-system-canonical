@@ -30,21 +30,27 @@ transport:
     The generic handback remains delta-only and does not gain AES-specific component fields.
 
 architecture_realization:
-  current_design_packet: docs/architecture/architecture-realization.bootstrap.yaml
+  schema_path: docs/architecture/schemas/architecture-realization.bootstrap.schema.json
+  schema_version: aes.architecture_realization.v0
+  bootstrap_alignment_ref: docs/architecture/normative-component-alignment.bootstrap.yaml
+  bootstrap_probe_record: generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml
+  bootstrap_probe_role: generated_non_authoritative_projection
+  design_packet_rule: >
+    Each real bounded design run owns a project-local architecture-realization
+    record validated against schema_path and referenced from
+    DesignPacketResult.design_packet_ref. The bootstrap probe record is only a
+    validation example and must not be used as current design authority.
   required_content:
-    - exact_normative_source_refs
-    - goal_or_outcome_context_when_applicable
-    - open_AQRs_and_material_unknowns
+    - exact_source_refs
+    - explicit_nonclaims_and_epistemic_limits
+    - component_identity_and_responsibility
+    - normative_scope
     - semantic_owner_or_provider_disposition
-    - component_responsibility
-    - implementation_home
-    - verification_home
-    - typed_boundary_if_semantically_resolved
-    - explicit_unresolved_boundary_if_not_resolved
-    - verification_obligation
-    - disproof_or_negative_control
-    - source_local_context_applicability
-    - non_claims_and_epistemic_limits
+    - implementation_home_and_realization_state
+    - consequential_boundary_state_and_native_contract_refs_or_blockers
+    - verification_home_obligation_and_disproof
+    - component_question_and_decision_refs
+    - cross_component_seams
 
 validation:
   reject_if:
@@ -55,6 +61,8 @@ validation:
     - component_projection_paraphrases_authoritative_normative_text
     - plan_or_completed_work_is_used_as_gap_closure_evidence
     - generic_handoff_is_extended_with_AES_specific_fields_without_new_evidence
+    - bootstrap_probe_is_treated_as_current_design_authority
+    - resolved_bootstrap_AQR_is_used_as_component_boundary_blocker
   preserve:
     - native_authority
     - current_vs_target_distinction
