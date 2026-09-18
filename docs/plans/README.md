@@ -4,7 +4,7 @@ Status: one active pilot plan; D1 closed; Slice 1 implementation partial; histor
 
 ## Active
 
-- [`001_repository_context_resolution_vertical.md`](001_repository_context_resolution_vertical.md) — Plan 001 / first external-consumer vertical. The implementation exists on `slice-1/repository-context` / PR #5, but delivery is not yet claimed.
+- [`001_repository_context_resolution_vertical.md`](001_repository_context_resolution_vertical.md) — Plan 001 / first external-consumer vertical. The implementation is integrated on canonical `main`; delivery is not yet claimed.
 - [`001_D1_contract_surface_topology_freeze.md`](001_D1_contract_surface_topology_freeze.md) — **closed** subordinate D1 record. It is historical design authority for the frozen Slice 1 choices, not a second active plan.
 
 ## Current state
