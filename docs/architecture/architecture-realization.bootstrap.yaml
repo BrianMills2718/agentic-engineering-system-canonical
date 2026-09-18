@@ -2,8 +2,12 @@
 schema_version: aes.architecture_realization.bootstrap.v0
 id: AES-BLUEPRINT-001
 revision: 2
-status: proposed
+status: superseded_research_draft
 parent_record: docs/architecture/normative-component-alignment.bootstrap.yaml
+superseded_by:
+  schema: docs/architecture/schemas/architecture-realization.bootstrap.schema.json
+  pilot: generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml
+  decision: docs/decisions/0006-minimal-architecture-realization-json-schema.md
 authoring_mode: assistant_authored_design_using_company_planning_guidance
 not_claimed: [accepted_architecture, executed_generator, runtime_conformance, utility_acceptance, gap_closure]
 
