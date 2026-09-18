@@ -58,5 +58,8 @@ def test_pinned_data_contracts_revision_when_checkout_is_available():
     assert wiki.state == EpistemicState.NONE
 
     page = render_html(artifact)
-    assert "directory presence does not establish repository-wide contract authority" in page
-    assert "no bounded root source establishes a local wiki as navigation authority" in page
+    assert "Do not infer" in page
+    assert "<code>contracts/</code>" in page
+    assert "repository-wide contract authority" in page
+    assert "local wiki" in page
+    assert "navigation authority" in page
