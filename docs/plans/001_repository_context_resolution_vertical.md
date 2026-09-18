@@ -128,7 +128,7 @@ Not selected as Slice 1 runtime dependencies:
 - CodeQL;
 - predecessor AES implementations.
 
-Representation Router remains a relevant provider candidate only if a later demonstrated gap requires actual representation selection/composition.
+The first A1 later demonstrated a presentation/reconstruction gap, and follow-up presentation work is now handled separately through the Representation Router workstream. Representation Router is still not a Slice 1 Repository Context runtime dependency; this plan does not transfer Repository Context authority or semantics to it.
 
 ## Frozen contract disposition
 
