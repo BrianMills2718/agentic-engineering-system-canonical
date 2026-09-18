@@ -1,0 +1,94 @@
+{
+  "record_id": "AES-BLUEPRINT-001-STRUCTURAL-OBS-001",
+  "scope": "draft_structure_only",
+  "execution_environment": "ChatGPT Python sandbox, not Remote MCP or GitHub Actions",
+  "method": "Ran exact draft bytes; after publication, GitHub blob IDs matched both executed files.",
+  "repository": "BrianMills2718/agentic-engineering-system-canonical",
+  "published_revision": "b83f8326028d0d996637c35abb951c75c4ff9aca",
+  "subjects": {
+    "blueprint": {
+      "path": "docs/architecture/architecture-realization.bootstrap.yaml",
+      "git_blob": "06eaa790f5b59bcb48d233e363d95b66066965ca",
+      "sha256": "6f96a8b0ce8b2e4ddb3c3b56b192d959f6f9c3f969d0c82e5807af5525d24859"
+    },
+    "validator": {
+      "path": "research/investigations/validate_architecture_blueprint.py",
+      "git_blob": "1facc5cadb039186941a26a6767fa981f851cd2b",
+      "sha256": "95030b18ebe6c25bb3ee1ce256bdca6b089a95bc4251756e87f90545a2786ee3"
+    },
+    "system_boundary": {
+      "path": "docs/architecture/SYSTEM_BOUNDARY.md",
+      "git_blob": "61ca470a34c7046e33a5b631964d5114035fa06e"
+    }
+  },
+  "runtime": {
+    "python": "3.13.5",
+    "PyYAML": "6.0.3"
+  },
+  "command_executed": [
+    "/opt/pyvenv/bin/python",
+    "/mnt/data/aes_alignment_draft/validate_architecture_blueprint.py",
+    "/mnt/data/aes_alignment_draft/architecture-realization.bootstrap.yaml",
+    "--system-boundary",
+    "/mnt/data/aes_alignment_draft/SYSTEM_BOUNDARY.md",
+    "--self-test"
+  ],
+  "reproduce_in_checkout": "python research/investigations/validate_architecture_blueprint.py docs/architecture/architecture-realization.bootstrap.yaml --system-boundary docs/architecture/SYSTEM_BOUNDARY.md --self-test",
+  "exit_code": 0,
+  "stdout_json": {
+    "blueprint_sha256": "6f96a8b0ce8b2e4ddb3c3b56b192d959f6f9c3f969d0c82e5807af5525d24859",
+    "components": 9,
+    "negative_controls": {
+      "duplicate_component": {
+        "reason": "duplicate component",
+        "rejected": true
+      },
+      "duplicate_yaml_key": {
+        "reason": "duplicate YAML key: status",
+        "rejected": true
+      },
+      "false_verified_boundary": {
+        "reason": "unsupported boundary verification claim",
+        "rejected": true
+      },
+      "missing_disproof": {
+        "reason": "missing disproof",
+        "rejected": true
+      },
+      "mutable_revision": {
+        "reason": "source revision is not an exact commit",
+        "rejected": true
+      },
+      "overlapping_home": {
+        "reason": "overlapping code homes",
+        "rejected": true
+      },
+      "unknown_clause": {
+        "reason": "unknown component clause",
+        "rejected": true
+      },
+      "unknown_seam_participant": {
+        "reason": "unknown seam participant",
+        "rejected": true
+      }
+    },
+    "positive_fixture": "accepted_by_this_bounded_probe",
+    "scope": "draft_structure_only",
+    "seams": 4,
+    "system_clauses_referenced": 27
+  },
+  "stderr_observation": {
+    "present": true,
+    "sha256": "d3b8e374c1930542a30e2f6a7ae41c900ea83c9a669afc3e5ee9576da1386b3d",
+    "summary": "Interpreter startup emitted a spreadsheet-runtime warmup traceback. The blueprint probe exited 0 and emitted the retained JSON. No claim is made about spreadsheet-runtime health.",
+    "full_stderr_retained_in_repository": false
+  },
+  "limitations": [
+    "Known clause IDs and declared coverage are checked, not semantic correctness or all relevant normative context.",
+    "The validator is a bounded research probe, not a production schema or complete validator.",
+    "Provider compatibility, OPA/Rego behavior, TOSCA conformance, and attestations were not executed.",
+    "No runtime component, typed seam integration, source-local context generator, or physical skeleton was executed or materialized.",
+    "No code-to-requirement behavioral adequacy, stakeholder utility, gap closure, or PR5 re-verification is claimed.",
+    "Remote MCP was not available in this turn; no substitute remote desktop connector was used."
+  ]
+}
