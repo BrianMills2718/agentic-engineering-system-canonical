@@ -424,14 +424,16 @@ decision_sequence:
       internal symbols and effective applicability. Structural green is not semantic proof.
     next_test: typed_boundary_positive_negative_and_joint_rule_examples_in_the_pilot
   - id: BP-D3
-    status: proposed
+    status: accepted_profile_first
     aqrs: [AQR-006]
+    decision: docs/decisions/0002-company-planning-aes-profile-before-fork.md
+    profile: docs/architecture/aes-company-planning-profile.bootstrap.yaml
     recommendation: >
-      Trial the AES profile locally using existing Company Planning guidance before any
+      Use the AES-local profile over existing Company Planning guidance before any
       upstream edit or fork. Propose only demonstrated generic improvements upstream.
     fork_trigger: sustained_incompatibility_that_cannot_be_expressed_by_a_small_profile
-    extension_mechanism: unverified
-    next_test: bounded_design_output_contains_the_required_bindings_without_new_document_sprawl
+    extension_mechanism: detailed_AES_design_packet_referenced_by_existing_DesignPacketResult
+    next_test: profile_conformance_of_the_current_architecture_realization_blueprint
 
 next_bounded_dogfood:
   classification: design_validation_probe_not_Slice1_delivery
