@@ -1,0 +1,174 @@
+# GENERATED PILOT PROJECTION — NOT NORMATIVE AUTHORITY.
+schema_version: aes.source_context.pilot.v0
+record_id: AES-SOURCE-CONTEXT-REPOSITORY-CONTEXT-001
+status: generated_pilot
+component_id: repository_context
+authority_rule: >
+  Normative wording below is a verbatim projection from the named authoritative
+  sources. This file is not independently editable normative truth.
+
+projection:
+  location: src/agentic_engineering_system/repository_context/component.context.generated.yaml
+  locality_claim: adjacent_to_declared_component_code_home
+  generation_status: pilot_materialization_not_yet_automated_in_AES_runtime
+
+snapshots:
+  blueprint:
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 1bff8628b5128b72d3b9880c0e62ca0f54951daa
+    path: docs/architecture/architecture-realization.bootstrap.yaml
+  system:
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 2220ad62639c1e4596e57263b99e13fcc81b20ef
+    path: docs/architecture/SYSTEM_BOUNDARY.md
+    git_blob: 61ca470a34c7046e33a5b631964d5114035fa06e
+  plan:
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 9f82f3500e4a472b26756c31ea9205f908d7c394
+    path: docs/plans/001_repository_context_resolution_vertical.md
+    git_blob: 7c76c70b3bf1167b90eaabff82df02ccdf095928
+  implementation:
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 9f82f3500e4a472b26756c31ea9205f908d7c394
+
+component:
+  code_home: src/agentic_engineering_system/repository_context/
+  responsibility: resolve_repository_navigation_and_authority_from_bounded_exact_sources
+  inheritance_rule: >
+    Symbols within the declared component home inherit the component's direct
+    normative context for working-context purposes. Inheritance does not assert
+    that each symbol independently implements or satisfies every clause.
+  symbol_specific_links_exist_only_for_narrower_or_load_bearing_obligations: true
+
+normative_context:
+  direct_component:
+    - id: AES-SYS-002
+      source: system
+      verbatim: >-
+        AES may compose multiple systems, but integration does not transfer their native authority. Each mutable fact has one owning authority or is a derived projection.
+    - id: AES-CONTRACT-001
+      source: system
+      verbatim: >-
+        Typed contracts remain with their natural contract authority. Data Contracts may supply reusable provider-neutral typed/composition contracts where applicable; AES does not create a duplicate contract language or universal `contracts/` store.
+    - id: AES-POL-002
+      source: system
+      verbatim: >-
+        Controls preserve meaningful states including pass, fail, none/unobserved, error, and stale. Absence or failure to observe never silently becomes success.
+    - id: AES-POL-003
+      source: system
+      verbatim: >-
+        A blocking control provides a concrete runnable recovery path, or an explicit human escalation when the protected boundary is destructive, irreversible, or authority-sensitive.
+    - id: AES-CTX-001
+      source: system
+      verbatim: >-
+        `wiki/index.md` is the repository information front door. Wiki pages may synthesize enough target/current/gap/plan/research/capability/implementation/verification context to navigate intelligently, but native authorities remain elsewhere.
+
+  context_delivery:
+    - id: AES-CTX-002
+      source: system
+      verbatim: >-
+        When implementation subjects exist, agents working at those subjects receive generated normative clauses, success criteria, current characterization, gap state, and plan linkage appropriate to that subject. Source-local projections do not become authority.
+
+  outcome_context:
+    - id: AES-DOGFOOD-001
+      source: system
+      verbatim: >-
+        The first implementation vertical must cross a real external consumer boundary. Self-dogfood is required, but self-description alone is insufficient evidence of the integrated system.
+    - id: AES-DOGFOOD-002
+      source: system
+      verbatim: >-
+        The first vertical is not accepted until one real concern traverses target -> current -> gap -> disposition -> Company Planning -> provider sourcing / ACA resolution -> Enforced Planning execution -> policy controls -> evidence -> fresh characterization -> gap recomputation -> wiki/current projection, with at least one observed policy block/recovery or equivalent enforced transition and one direct human observation of the usable outcome.
+
+  conditional:
+    - id: AES-SYS-003
+      trigger: adopted_methodology_or_repository_protocol_changes
+    - id: AES-SYS-004
+      trigger: incumbent_authority_or_supersession_changes
+    - id: AES-SYS-005
+      trigger: implementation_topology_expands_or_predecessor_behavior_is_reimplemented
+    - id: AES-CAP-002
+      trigger: provider_dependency_or_reusable_behavior_changes
+    - id: AES-ECON-001
+      trigger: human_facing_surface_or_attention_checkpoint_changes
+
+plan_context:
+  plan_id: PLAN-001/Slice-1-external-repository-context-resolution
+  component_acceptance_ids: [AC-001, AC-002, AC-003, AC-004, AC-005, AC-006, AC-007, AC-008, AC-009, AC-010, AC-011]
+  primary_symbol_direct:
+    symbol: src/agentic_engineering_system/repository_context/resolver.py#RepositoryContextResolver
+    criteria:
+      - id: AC-001
+        verbatim_source_line: "- AC-001 — pinned external integration test at `90c389...` proves exact revision and package/contract authority evidence;"
+      - id: AC-002
+        verbatim_source_line: "- AC-002 — external + fixture tests prove root `contracts/` is never universal authority by existence;"
+      - id: AC-003
+        verbatim_source_line: "- AC-003 — external test preserves missing local wiki as `NONE`/legacy navigation;"
+
+  load_bearing_related:
+    - subject: src/agentic_engineering_system/repository_context/models.py#AuthoritySurfaceObservation
+      criteria: [AC-004]
+      normative: [AES-SYS-002]
+    - subject: src/agentic_engineering_system/repository_context/models.py#RepositoryContextArtifact
+      criteria: [AC-005]
+      normative: [AES-CONTRACT-001]
+    - subject: src/agentic_engineering_system/repository_context/manifest.py#PilotManifestAdapter
+      criteria: [AC-006, AC-007]
+      normative: [AES-POL-002]
+    - subject: src/agentic_engineering_system/repository_context/resolver.py#RepositoryContextResolver
+      criteria: [AC-008]
+      normative: [AES-POL-003]
+
+  relevant_criteria_verbatim:
+    - id: AC-004
+      verbatim_source_line: "- AC-004 — external test routes ownership to `docs/ops/CAPABILITY_DECOMPOSITION.md`;"
+    - id: AC-005
+      verbatim_source_line: "- AC-005 — model/resolver tests enforce evidence refs on every positive claim;"
+    - id: AC-006
+      verbatim_source_line: "- AC-006 — malformed pilot fixture yields `ERROR`/blocked with no legacy fallback;"
+    - id: AC-007
+      verbatim_source_line: "- AC-007 — missing manifest declaration yields `NONE`/unresolved with no inferred success;"
+    - id: AC-008
+      verbatim_source_line: "- AC-008 — resolver/CLI test proves concrete correction/retry or explicit escalation on block;"
+
+  remaining_component_criteria:
+    - {id: AC-009, role: post_implementation_characterization_and_gap_recomputation}
+    - {id: AC-010, role: working_surface_visible_content_and_source_reachability}
+    - {id: AC-011, role: direct_stakeholder_utility_observation}
+
+implementation_context:
+  primary_symbol:
+    path: src/agentic_engineering_system/repository_context/resolver.py
+    git_blob: 69083b9ea429a11b32f502ed57b9b94a80b2bf3c
+    symbol: RepositoryContextResolver.resolve
+    signature: "resolve(self, expected_revision: str | None = None) -> RepositoryContextArtifact"
+  native_checks:
+    - path: tests/repository_context/test_resolver.py
+      git_blob: 7f840bb4f6474be41f96213ff62b8949cc9b5dd1
+      symbol: test_malformed_authoritative_manifest_blocks_legacy_fallback
+    - path: tests/repository_context/test_manifest_adapter.py
+      git_blob: dfda0a2e43d2782e4931a5a92b4dc47221d89a2c
+      symbol: test_malformed_manifest_blocks_without_legacy_fallback
+
+current:
+  implementation_presence: observed_at_pinned_PR5_revision
+  source_identity: exact_blob_pinned
+  runtime_verification_at_exact_pinned_revision: not_freshly_observed_in_this_pilot
+  prior_execution_evidence: exists_at_earlier_PR5_revisions_but_not_promoted_here
+  epistemic_note: >
+    Presence and earlier passing execution are not rendered as fresh behavioral
+    conformance at the pinned 9f82f350... revision.
+
+gap:
+  state: open
+  statement: >
+    AES does not yet generate this local context from authoritative sources in
+    the real implementation checkout. This file is the bounded dogfood projection.
+  closes_nothing_by_itself: true
+
+open_questions: [AQR-002, AQR-004, AQR-005, AQR-009, AQR-010, AQR-011]
+
+limitations:
+  - The direct/context/outcome categorization is a pilot design judgment, not accepted architecture.
+  - Conditional clauses are references until their trigger activates; their wording remains in the native authority.
+  - This pilot does not select SCIP or any new runtime dependency.
+  - This pilot does not prove semantic completeness merely because all declared references validate.
