@@ -1,0 +1,55 @@
+{
+  "record_id": "AES-CURRENT-PROFILE-PATH-COHERENCE-001",
+  "date": "2026-09-18",
+  "scope": "current_machine_entrypoint_coherence_after_fresh_agent_review",
+  "status": "observed",
+  "observation_method": "exact GitHub branch/blob inspection through the repository connector; no local/remote execution claimed",
+  "branch": {
+    "name": "bootstrap/external-sourcing-audit",
+    "head": "c5b23cd4e90215d661db2ab59f4bf9126479f8e7"
+  },
+  "artifacts": {
+    "profile": {
+      "path": "docs/architecture/aes-company-planning-profile.bootstrap.yaml",
+      "git_blob": "0db03913d05cdc738f9577632c19a95994215d0a"
+    },
+    "architecture_schema": {
+      "path": "docs/architecture/schemas/architecture-realization.bootstrap.schema.json",
+      "git_blob": "b058a1fabd30e9d6c2f2cbdb7a19655c96744be1"
+    },
+    "bootstrap_probe": {
+      "path": "generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml",
+      "git_blob": "6bf0d26e78de67671867da02e20f5f0d44b38c75"
+    },
+    "profile_probe": {
+      "path": "research/investigations/validate_aes_company_planning_profile.py",
+      "git_blob": "f4d1ab09ca7fdaa56a8a3f7512c75b7f37e0d50d"
+    },
+    "bootstrap_alignment": {
+      "path": "docs/architecture/normative-component-alignment.bootstrap.yaml",
+      "git_blob": "1ccc21af085b333090159056841a9e7039d7805e"
+    }
+  },
+  "checks": {
+    "active_profile_points_to_superseded_exploratory_blueprint": false,
+    "active_profile_names_minimal_schema": true,
+    "bootstrap_probe_explicitly_non_authoritative": true,
+    "bootstrap_probe_revision": 2,
+    "resolved_AQR_011_still_used_as_component_question_or_blocker": false,
+    "unresolved_component_blocker": "component_specific_design_from_real_gap_pending",
+    "profile_probe_source_rejects_resolved_bootstrap_AQR_as_open_question_or_blocker": true,
+    "reproducible_check_commands_recorded_in_profile": true
+  },
+  "rationale": [
+    "The prior profile named docs/architecture/architecture-realization.bootstrap.yaml as current_design_packet even though that artifact had already been marked superseded_research_draft.",
+    "The prior generated minimal pilot still used AQR-011 as an unresolved component blocker after AQR-011 had been resolved by Decision 0006.",
+    "The corrected profile now treats the generated minimal record as a non-authoritative bootstrap probe and requires real bounded design runs to own their own architecture-realization record referenced through DesignPacketResult.design_packet_ref.",
+    "The corrected pilot no longer uses the resolved bootstrap schema question as a substitute for unresolved component semantics."
+  ],
+  "limitations": [
+    "The Python profile probe and JSON-Schema validator were not executed in this observation because the requested Remote MCP machine connector was not available in this session.",
+    "Source inspection is not runtime verification; the commands recorded in the profile should be executed in a real checkout before a conformance claim is refreshed.",
+    "This observation does not prove a fresh Company Planning run will produce a semantically adequate component design.",
+    "No merge, provider adoption, Plan 001 delivery, gap closure, or stakeholder utility is claimed."
+  ]
+}

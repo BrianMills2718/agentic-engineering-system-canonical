@@ -1,0 +1,17 @@
+# VERIFICATION PLACEHOLDER ONLY — NO TEST EXECUTION IS CLAIMED.
+schema_version: aes.verification.placeholder.v0
+component_id: capability_sourcing
+status: planned_unrealized
+materialization: verification_home_only
+blueprint:
+  path: docs/architecture/architecture-realization.bootstrap.yaml
+  revision: 2
+  git_blob: 57d42f9065f840e728057de3f371d36db984540f
+verification_home: tests/capability_sourcing/
+planned_test_module: test_sourcing.py
+obligation: provider_choice_has_fit_evidence_and_explicit_remaining_semantics
+disproof: internal_donor_or_generic_standard_name_silently_becomes_runtime_binding
+rules:
+  - This reserves the verification location and claim boundary only.
+  - Do not create passing placeholder tests or skips that could be mistaken for evidence.
+  - Test/check identity and implementation are frozen only when the relevant boundary is resolved.

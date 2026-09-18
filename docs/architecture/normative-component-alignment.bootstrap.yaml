@@ -1,0 +1,297 @@
+schema_version: aes.bootstrap_alignment.v0
+record_id: AES-BOOTSTRAP-ALIGNMENT-001
+status: resolved_bootstrap_design_record
+date: 2026-09-17
+purpose: >
+  Preserve the bootstrap dogfood record that separated accepted foundations,
+  design directions, and architecture questions while the component-aligned
+  model was being derived. All twelve recorded AQRs are now resolved to explicit
+  decisions; the forward gate is real component-specific design from an actual
+  gap, not more bootstrap meta-design.
+
+authority:
+  kind: bootstrap_design_record
+  note: >
+    This record does not override accepted architecture or decisions. Entries
+    under accepted_foundations reference existing authority. Entries under
+    directions preserve the pre-decision design trajectory and are subordinate
+    to accepted decisions where those decisions are more specific. Entries
+    under aqrs preserve the questions and their final resolution status; no AQR
+    in this bootstrap record remains open.
+
+accepted_foundations:
+  - id: FOUNDATION-001
+    source: docs/decisions/0001-canonical-convergence-boundary.md
+    statement: >
+      Existing repositories and mechanisms are donors/candidates rather than
+      defaults; ownership changes require explicit evidence-backed disposition.
+  - id: FOUNDATION-002
+    source: docs/architecture/SYSTEM_BOUNDARY.md#AES-CAP-002
+    statement: >
+      External standards, mature OSS, platforms, and services are examined
+      before bespoke internal implementation when they could reasonably supply
+      the required capability.
+  - id: FOUNDATION-003
+    source: docs/architecture/SYSTEM_BOUNDARY.md#AES-SYS-005
+    statement: >
+      AES does not perform a structure-first rewrite; local implementation
+      exists only for derived residual gaps after provider resolution.
+  - id: FOUNDATION-004
+    source: docs/architecture/SYSTEM_BOUNDARY.md#AES-CONTRACT-001
+    statement: >
+      Typed contracts remain with their natural contract authority; AES does
+      not invent a duplicate universal contract language.
+  - id: FOUNDATION-005
+    source: docs/architecture/SYSTEM_BOUNDARY.md#AES-CTX-002
+    statement: >
+      Source-local context is a generated projection over native authority and
+      does not itself become authority.
+
+directions:
+  - id: DIR-001
+    title: Co-design normative and implementation structure
+    statement: >
+      The normative architecture and implementation architecture should be
+      intentionally aligned around coherent implementation components rather
+      than authored as independent trees joined later by a large manual graph.
+    consequence: >
+      Planning should emit normative responsibility and implementation topology
+      together.
+
+  - id: DIR-002
+    title: Component is the default normative implementation scope
+    statement: >
+      A component is the smallest independently governed implementation boundary
+      at which AES normally maintains explicit normative responsibility,
+      implementation home, typed seam, and verification obligation.
+    consequence: >
+      Individual classes/functions/methods normally inherit component context
+      rather than each carrying duplicate direct links to every applicable norm.
+
+  - id: DIR-003
+    title: Symbols are derived implementation detail by default
+    statement: >
+      Realized source symbols should be discovered from source/native indexes
+      such as SCIP. Symbol-level normative links are added only for explicit
+      exceptions, narrower obligations, or architecturally significant symbols.
+    consequence: >
+      Source refactoring does not automatically multiply planning/governance
+      nodes.
+
+  - id: DIR-004
+    title: Preserve one authored normative source
+    statement: >
+      Normative wording should be authored once. Component-local working context
+      may include applicable system/seam norms verbatim, but only as a generated
+      projection from the owning source.
+    consequence: >
+      Generated architecture, PRD, requirements, component-context, and wiki
+      views must not become parallel authored authorities.
+
+  - id: DIR-005
+    title: Structured normative records may replace manually synchronized prose
+    statement: >
+      Traditional artifacts such as goals, PRDs, requirements, journeys,
+      questions, decisions, interfaces, and acceptance criteria should be
+      representable as typed machine-addressable records where doing so improves
+      alignment and traceability.
+    constraint: >
+      Do not create a document type merely because it is conventional. Keep the
+      canonical authored set minimal and generate views on demand.
+
+  - id: DIR-006
+    title: Resolve semantic ownership before freezing local abstractions
+    statement: >
+      Company Planning should determine whether semantics belong to an external
+      standard/OSS/provider or to an AES-local residual before it freezes local
+      interfaces/classes such as PolicyEngine, Capability, Workflow, or
+      ProvenanceGraph.
+    consequence: >
+      Planning may reserve filesystem homes/adapters while explicitly forbidding
+      duplicate local abstractions.
+
+  - id: DIR-007
+    title: Strongly type architectural seams, not every helper
+    statement: >
+      Planning should freeze typed inputs, outputs, failure semantics, and
+      important cross-component seams when needed for independent reasoning or
+      implementation, while leaving internal helper symbols to implementation.
+    consequence: >
+      Strong typing supports alignment without turning every function signature
+      into a planning artifact.
+
+  - id: DIR-008
+    title: Prefer fewer coherent components
+    statement: >
+      Decomposition should follow semantic responsibility, ownership, provider,
+      interface, and verification boundaries rather than generic pressure toward
+      small modules/classes/functions.
+    evidence:
+      - research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
+    consequence: >
+      A component may contain many ordinary symbols while remaining one
+      normative/planning unit.
+
+  - id: DIR-009
+    title: Component locality must not lose system or seam semantics
+    statement: >
+      Local component context must include every applicable system-wide and
+      cross-component/seam obligation without rewriting or omitting them.
+    evidence:
+      - research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
+    consequence: >
+      Context generation requires completeness validation, not merely local
+      filtering.
+
+  - id: DIR-010
+    title: Planning should emit an executable architecture blueprint
+    statement: >
+      The planning cycle should jointly produce requirements, semantic ownership,
+      component boundaries, typed seams, implementation homes, and verification
+      obligations before work decomposition.
+    evidence:
+      - research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
+    consequence: >
+      Blueprint validation becomes a pre-implementation gate.
+
+aqrs:
+  - id: AQR-001
+    question: >
+      What is the minimum canonical normative record taxonomy that supports
+      north-star/goal, PRD/product intent, requirements, UX/user journeys,
+      AQRs, ADRs, interfaces/contracts, acceptance, plans, and system/seam norms
+      without exploding documentation?
+    status: resolved
+    decision: docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
+    decision_needed_before:
+      - canonical normative schema freeze
+
+  - id: AQR-002
+    question: >
+      What exact component directory/file contract best aligns normative records,
+      implementation, and checks: one implementation file per component by
+      default, a component directory, or another bounded layout?
+    status: resolved
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+    decision_needed_before:
+      - filesystem skeleton freeze
+
+  - id: AQR-003
+    question: >
+      Should AES use the term Component as a local planning/governance concept,
+      project an external component vocabulary such as Backstage/TOSCA, or define
+      an explicit profile mapping between them?
+    status: resolved
+    decision: docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md
+    research:
+      - research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md
+
+  - id: AQR-004
+    question: >
+      How are component-level norms inherited by realized symbols, how are
+      symbol-level exceptions represented, and what role should SCIP play in
+      proving the realized symbol set?
+    status: resolved
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+    decision_needed_before:
+      - source-local normative context implementation
+
+  - id: AQR-005
+    question: >
+      How are system-wide and seam-level normative rules represented once,
+      inherited verbatim by affected components, and completeness-checked so
+      decomposition cannot hide relevant context?
+    status: resolved
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+    research:
+      - research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
+
+  - id: AQR-006
+    question: >
+      Which architecture-realization changes belong in generic Company Planning,
+      which belong in an AES planning profile/extension, and under what evidence
+      would a fork of Company Planning become preferable?
+    status: resolved
+    resolution: use_AES_local_profile_before_any_upstream_change_or_fork
+    decision: docs/decisions/0002-company-planning-aes-profile-before-fork.md
+    options:
+      - upstream_generic_changes_plus_aes_profile
+      - clean_extension_plugin
+      - aes_specific_fork
+
+  - id: AQR-007
+    question: >
+      Which typed seams must be frozen before implementation and which details
+      should remain intentionally unfrozen until implementation evidence exists?
+    status: resolved
+    decision: docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md
+
+  - id: AQR-008
+    question: >
+      What component sizing/splitting rule minimizes reasoning and traceability
+      overhead while still preserving meaningful ownership, replacement,
+      interface, and verification boundaries?
+    status: resolved
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+    research:
+      - research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
+
+  - id: AQR-009
+    question: >
+      Which human-readable artifacts should be generated views (architecture,
+      PRD, requirements index, journey view, decision log, component map, wiki)
+      and which, if any, still need independently authored prose authority?
+    status: resolved
+    decision: docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
+
+  - id: AQR-010
+    question: >
+      How should existing canonical AES architecture/decision/plan documents be
+      migrated or referenced if a component-aligned structured normative model
+      is adopted, without rewriting accepted authority or creating two truths?
+    status: resolved
+    decision: docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
+
+  - id: AQR-011
+    question: >
+      What is the minimal machine-readable architecture blueprint schema that
+      can express component normative scope, semantic owner/provider disposition,
+      implementation homes, typed seams, verification obligations, and relevant
+      system/seam inheritance without duplicating TOSCA, SCIP, OWS, PROV, or OPA?
+    status: resolved
+    decision: docs/decisions/0006-minimal-architecture-realization-json-schema.md
+    decision_needed_before:
+      - filesystem skeleton freeze
+
+  - id: AQR-012
+    question: >
+      What cardinalities and semantics should connect normative capabilities or
+      requirements to implementation components when one capability needs
+      multiple components or one component supports multiple capabilities?
+    status: resolved
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+
+research_basis:
+  - research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md
+  - research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md
+  - research/synthesis/2026-09-17-proposed-aes-canonical-skeleton-after-sourcing.md
+  - research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
+  - research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md
+  - research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md
+  - research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md
+
+next_dogfood_gate:
+  name: accepted-profile architecture realization
+  objective: >
+    Use the accepted AES Company Planning profile and versioned architecture-realization
+    schema to derive the next component-specific design from real gaps, without using
+    the bootstrap schema question itself as a substitute for unresolved component semantics.
+  must_not_do:
+    - invent component APIs merely because the filesystem home exists
+    - treat reserved placeholders as realized implementation
+    - change generic Company Planning transport for AES-only detail
+    - promote generated structured projections to authority before an explicit migration
+  completion_condition: >
+    A real component design carries exact normative scope, provider disposition,
+    consequential boundary state, verification/disproof, and only the unresolved
+    questions that actually belong to that component.

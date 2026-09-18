@@ -1,0 +1,281 @@
+# GENERATED MINIMAL BOOTSTRAP PROBE — not accepted architecture authority; unresolved component semantics require real gap-driven design.
+schema_version: aes.architecture_realization.v0
+id: AES-ARCH-REALIZATION-001
+revision: 2
+status: proposed
+normative_model_ref: docs/architecture/normative-record-model.bootstrap.yaml
+
+source_refs:
+  - id: system
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 2220ad62639c1e4596e57263b99e13fcc81b20ef
+    path: docs/architecture/SYSTEM_BOUNDARY.md
+    selector: stable_clause_ids
+  - id: plan001
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 9f82f3500e4a472b26756c31ea9205f908d7c394
+    path: docs/plans/001_repository_context_resolution_vertical.md
+    selector: accepted_plan_and_component_criteria
+
+nonclaims:
+  - accepted_architecture
+  - provider_conformance
+  - runtime_verification
+  - gap_closure
+  - stakeholder_utility
+
+components:
+  - id: repository_context
+    responsibility: resolve_repository_navigation_and_authority_from_bounded_exact_sources
+    normative:
+      direct: [AES-SYS-002, AES-CONTRACT-001, AES-POL-002, AES-POL-003, AES-CTX-001]
+      inherited: [AES-CTX-002, AES-DOGFOOD-001, AES-DOGFOOD-002]
+      seams: [normative_to_code]
+    semantic_owner:
+      mode: mixed_composition
+      provider_refs: [git-cli-local-checkout, pydantic-2.13.5, pyyaml-6.0.3, python-stdlib, aes-residual]
+    implementation:
+      home: src/agentic_engineering_system/repository_context/
+      state: present_external_snapshot
+      significant_symbol_refs:
+        - src/agentic_engineering_system/repository_context/resolver.py#RepositoryContextResolver.resolve
+    boundary:
+      state: observed_signature
+      contract_refs:
+        - src/agentic_engineering_system/repository_context/models.py#RepositoryContextArtifact
+    verification:
+      home: tests/repository_context/
+      obligations:
+        - id: RC-NEG-MANIFEST
+          claim: malformed_authoritative_manifest_blocks_without_legacy_fallback
+          disproof: malformed_manifest_resolves_through_legacy
+    question_refs: []
+    decision_refs:
+      - docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+      - docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md
+
+  - id: normative_context
+    responsibility: bind_authoritative_sections_to_code_and_supply_exact_applicable_context
+    normative:
+      direct: [AES-CTX-002]
+      inherited: [AES-SYS-002]
+      seams: [normative_to_code]
+    semantic_owner:
+      mode: aes_local_residual
+    implementation:
+      home: src/agentic_engineering_system/normative_context/
+      state: reserved_unrealized
+      planned_module: context.py
+    boundary:
+      state: unresolved
+      blocked_by: [component_specific_design_from_real_gap_pending]
+    verification:
+      home: tests/normative_context/
+      obligations:
+        - id: NC-CONTEXT
+          claim: code_location_resolves_full_declared_system_component_and_seam_context
+          disproof: omitted_clause_paraphrase_dangling_reference_or_unreported_stale_text
+    question_refs: []
+    decision_refs:
+      - docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+      - docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
+
+  - id: capability_sourcing
+    responsibility: compare_providers_and_record_selection_rejection_and_residuals
+    normative:
+      direct: [AES-CAP-001, AES-CAP-002]
+      inherited: [AES-SYS-004, AES-SYS-005]
+      seams: [planning_to_provider]
+    semantic_owner:
+      mode: mixed_composition
+      provider_refs: [Agentic-Capability-Architecture, external-standards-and-OSS, AES-provider-disposition]
+    implementation:
+      home: src/agentic_engineering_system/capability_sourcing/
+      state: reserved_unrealized
+      planned_module: sourcing.py
+    boundary:
+      state: unresolved
+      blocked_by: [component_specific_design_from_real_gap_pending]
+    verification:
+      home: tests/capability_sourcing/
+      obligations:
+        - id: CS-PROVIDER
+          claim: provider_choice_has_fit_evidence_and_explicit_remaining_semantics
+          disproof: internal_donor_or_generic_standard_name_silently_becomes_runtime_binding
+    question_refs: []
+    decision_refs:
+      - docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md
+
+  - id: planning
+    responsibility: co_design_normative_records_code_boundaries_and_outcome_bearing_slices
+    normative:
+      direct: [AES-PLAN-001, AES-PLAN-002, AES-PLAN-004, AES-PLAN-005, AES-PLAN-006, AES-PLAN-007]
+      inherited: []
+      seams: [planning_to_provider, learning_to_intent]
+    semantic_owner:
+      mode: provider_adapter
+      provider_refs: [BrianMills2718/company-planning, AES-CP-PROFILE-001]
+    implementation:
+      home: src/agentic_engineering_system/planning/
+      state: reserved_unrealized
+      planned_module: handoff.py
+    boundary:
+      state: unresolved
+      blocked_by: [component_specific_design_from_real_gap_pending]
+    verification:
+      home: tests/planning/
+      obligations:
+        - id: PLAN-HANDOFF
+          claim: design_preserves_source_authority_scope_and_required_evidence
+          disproof: schema_valid_design_with_unowned_norms_or_unapproved_abstraction_is_accepted
+    question_refs: []
+    decision_refs:
+      - docs/decisions/0002-company-planning-aes-profile-before-fork.md
+
+  - id: execution
+    responsibility: hand_accepted_work_to_execution_governance_and_retain_actual_outcomes
+    normative:
+      direct: [AES-SYS-001, AES-PLAN-002, AES-POL-003]
+      inherited: []
+      seams: [planning_to_provider, observation_to_gap]
+    semantic_owner:
+      mode: provider_adapter
+      provider_refs: [BrianMills2718/enforced-planning]
+    implementation:
+      home: src/agentic_engineering_system/execution/
+      state: reserved_unrealized
+      planned_module: handoff.py
+    boundary:
+      state: unresolved
+      blocked_by: [component_specific_design_from_real_gap_pending]
+    verification:
+      home: tests/execution/
+      obligations:
+        - id: EXEC-CUSTODY
+          claim: native_provider_retains_claims_and_worktree_authority
+          disproof: duplicate_claim_store_or_completed_status_without_observed_execution
+    question_refs: []
+    decision_refs: []
+
+  - id: policy_control
+    responsibility: invoke_applicable_controls_without_owning_a_new_generic_policy_language
+    normative:
+      direct: [AES-POL-001, AES-POL-002, AES-POL-003, AES-POL-004]
+      inherited: []
+      seams: [planning_to_provider, observation_to_gap]
+    semantic_owner:
+      mode: unresolved
+      blocked_by: [component_specific_design_from_real_gap_pending]
+    implementation:
+      home: src/agentic_engineering_system/policy_control/
+      state: reserved_unrealized
+      planned_module: control.py
+    boundary:
+      state: unresolved
+      blocked_by: [component_specific_design_from_real_gap_pending]
+    verification:
+      home: tests/policy_control/
+      obligations:
+        - id: POLICY-STATE
+          claim: distinguish_control_verdict_observer_error_and_allowed_recovery
+          disproof: missing_or_stale_facts_render_as_pass_or_exception_erases_factual_failure
+    question_refs: []
+    decision_refs: []
+
+  - id: evidence_assessment
+    responsibility: qualify_native_observations_and_derive_revision_bound_current_characterization
+    normative:
+      direct: [AES-PLAN-003, AES-EVID-001, AES-POL-002, AES-POL-004]
+      inherited: []
+      seams: [observation_to_gap]
+    semantic_owner:
+      mode: mixed_composition
+      provider_refs: [native-receipts, AES-evidence-qualification]
+    implementation:
+      home: src/agentic_engineering_system/evidence_assessment/
+      state: reserved_unrealized
+      planned_module: assessment.py
+    boundary:
+      state: unresolved
+      blocked_by: [component_specific_design_from_real_gap_pending]
+    verification:
+      home: tests/evidence_assessment/
+      obligations:
+        - id: EVID-ADEQUACY
+          claim: passing_proxy_cannot_establish_unobserved_stronger_behavior
+          disproof: passing_proxy_or_outdated_receipt_closes_stronger_claim
+    question_refs: []
+    decision_refs: []
+
+  - id: gap_reconciliation
+    responsibility: compare_current_characterization_with_accepted_target_without_plan_driven_closure
+    normative:
+      direct: [AES-SYS-001, AES-PLAN-001, AES-PLAN-003, AES-DOGFOOD-002]
+      inherited: []
+      seams: [observation_to_gap]
+    semantic_owner:
+      mode: aes_local_residual
+    implementation:
+      home: src/agentic_engineering_system/gap_reconciliation/
+      state: reserved_unrealized
+      planned_module: reconcile.py
+    boundary:
+      state: unresolved
+      blocked_by: [component_specific_design_from_real_gap_pending]
+    verification:
+      home: tests/gap_reconciliation/
+      obligations:
+        - id: GAP-CLOSURE
+          claim: target_change_or_inadequate_observation_prevents_false_closure
+          disproof: completed_plan_or_missing_observation_yields_closed_gap
+    question_refs: []
+    decision_refs: []
+
+  - id: learning
+    responsibility: disposition_observed_outcomes_into_future_planning_policy_or_capability_changes
+    normative:
+      direct: [AES-LEARN-001, AES-ECON-001]
+      inherited: [AES-SYS-002]
+      seams: [learning_to_intent]
+    semantic_owner:
+      mode: aes_local_residual
+    implementation:
+      home: src/agentic_engineering_system/learning/
+      state: reserved_unrealized
+      planned_module: feedback.py
+    boundary:
+      state: unresolved
+      blocked_by: [component_specific_design_from_real_gap_pending]
+    verification:
+      home: tests/learning/
+      obligations:
+        - id: LEARN-AUTHORITY
+          claim: distinguish_proposed_improvement_from_accepted_policy_or_provider_change
+          disproof: research_or_negative_result_silently_rewrites_accepted_authority
+    question_refs: []
+    decision_refs: []
+
+seams:
+  - id: normative_to_code
+    participants: [planning, normative_context, repository_context]
+    normative_refs: [AES-CTX-002, AES-CONTRACT-001]
+    state: resolved
+    obligation: bind_accepted_clauses_to_declared_code_locations_without_reauthoring_normative_text
+
+  - id: planning_to_provider
+    participants: [planning, capability_sourcing, execution, policy_control]
+    normative_refs: [AES-CAP-001, AES-CAP-002, AES-PLAN-002, AES-SYS-002]
+    state: resolved
+    obligation: provider_selection_precedes_provider_dependent_local_API_freeze_and_does_not_transfer_authority
+
+  - id: observation_to_gap
+    participants: [execution, policy_control, evidence_assessment, gap_reconciliation]
+    normative_refs: [AES-POL-002, AES-EVID-001, AES-PLAN-003]
+    state: resolved
+    obligation: error_absent_insufficient_and_stale_evidence_remain_explicit_and_plan_completion_does_not_close_gap
+
+  - id: learning_to_intent
+    participants: [learning, planning, normative_context, capability_sourcing]
+    normative_refs: [AES-LEARN-001, AES-SYS-002]
+    state: resolved
+    obligation: learning_returns_as_attributed_proposal_to_native_authority_and_does_not_self_accept

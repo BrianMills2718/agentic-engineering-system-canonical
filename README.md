@@ -12,7 +12,11 @@ orient -> target -> current -> gap -> plan -> capability composition
 
 ## Status
 
-**Bootstrap / protocol pilot.** No implementation root has been accepted yet. That is intentional: Company Planning should derive the first target implementation and verification topology from the accepted architecture and initial gaps before substantive code exists.
+**Bootstrap architecture established; first implementation vertical remains separate.**
+
+The canonical architecture now includes the component-aligned planning/governance model, AES-local Company Planning profile, minimal architecture-realization schema, and reserved component/verification homes. Reserved homes are topology only; they are not implementation or verification evidence.
+
+Plan 001 / Repository Context implementation exists on the separate `slice-1/repository-context` line (PR #5) and is not part of this branch/main until separately reviewed and merged. Its technical execution evidence and first A1=`change` observation do not by themselves establish delivery or gap closure.
 
 Start at [`wiki/index.md`](wiki/index.md).
 

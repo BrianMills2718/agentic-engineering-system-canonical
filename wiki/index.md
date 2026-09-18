@@ -1,92 +1,130 @@
 # Agentic Engineering System — canonical development wiki
 
-This is the progressive-disclosure front door for the canonical AES convergence project. It is a derived navigation/synthesis surface, not a native authority.
+This is the progressive-disclosure front door for the canonical AES convergence project. It is a derived navigation surface, not a native authority. Follow links to the owning architecture, decision, plan, evidence, or code before making consequential claims.
 
 ## Current orientation
 
-**Target:** one coherent engineering system in which accepted intent produces explicit gaps; Company Planning converts those gaps plus actor outcome, maturity, uncertainty, provider sourcing, feasibility and dependency constraints into coherent human-observable implementation slices; ACA resolves reusable capabilities; Enforced Planning governs execution; policy keeps work aligned with recovery/change paths; evidence and direct stakeholder observation re-characterize the result; gaps are recomputed; and useful observations strengthen future capability, policy and planning knowledge.
+**Target**
 
-**Current:** bootstrap architecture and repository protocol are realized. Plan 001 is implementation-ready. D1 is closed and has frozen the exact external consumer revision, AES-local contract ownership, Git/Pydantic/PyYAML dependency set, static HTML + CLI actor surface, concrete implementation paths, concrete verification paths, and legacy/manifest precedence semantics. No implementation subject exists yet; the repository remains `planned_unrealized`.
+One coherent human+agent engineering lifecycle:
 
-**Gap:** the integrated lifecycle remains unrealized. The planning and sourcing decisions are concrete, but no Slice 1 code, authentic working surface, policy block/recovery receipt, external execution evidence, stakeholder utility observation, or fresh post-implementation characterization exists yet.
+```text
+orient -> target -> current -> gap -> plan -> capability composition
+       -> governed execution -> evidence -> characterization -> gap reconciliation
+       -> learning / policy or capability improvement
+```
 
-**Plan:** implement Plan 001 / Slice 1 against `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`. Enforced Planning should govern the frozen execution contract. The actor uses `aes-repo-context` to produce a revision-scoped `context.json` plus static `index.html`; automated evidence and Attention Checkpoint A1 remain separate dimensions before fresh gap recomputation.
+The lifecycle must preserve native authority, honest unknown/error states, direct stakeholder utility evidence, and fresh post-implementation characterization rather than equating plan completion with conformance.
+
+**Current**
+
+The component-aligned bootstrap architecture is established:
+
+- Decisions 0001–0006 define the convergence boundary, Company Planning profile strategy, component/context rules, compact normative-record direction, consequential-seam typing, and the minimal architecture-realization contract.
+- All twelve bootstrap architecture questions in `normative-component-alignment.bootstrap.yaml` are resolved to explicit decisions.
+- The AES Company Planning profile targets the versioned minimal architecture-realization schema without changing generic `DesignPacketResult`.
+- Reserved component and verification homes express intended topology only; placeholders are not implementation, tests, or evidence.
+- Existing accepted Markdown remains normative authority until an explicit single-authority migration.
+- Generated bootstrap projections remain non-authoritative dogfood/probe artifacts.
+
+Plan 001 / Repository Context implementation exists on the separate `slice-1/repository-context` line (PR #5). That line has recorded technical execution and an initial A1 utility disposition of `change`, but it is not part of canonical `main` until separately refreshed, reviewed, and merged. Delivery and originating-gap closure remain unclaimed.
+
+**Gap**
+
+The integrated AES lifecycle is not yet demonstrated end to end on canonical `main`. In particular:
+
+- the PR #5 implementation has not yet been refreshed onto the adopted bootstrap architecture;
+- its corrected human-facing presentation still requires follow-up direct utility review through the separate Representation Router workstream;
+- fresh revision-bound characterization and explicit gap recomputation remain pending;
+- later components must be derived from real gaps rather than from the presence of reserved directories.
+
+**Next**
+
+```text
+adopt bootstrap architecture on main
+        ↓
+refresh PR #5 against the adopted base
+        ↓
+re-run applicable technical/regression checks at the exact refreshed head
+        ↓
+keep pinned private data-contracts acceptance separate from hosted regression CI
+        ↓
+obtain follow-up direct utility observation when the corrected presentation is reviewable
+        ↓
+characterize the exact implementation revision
+        ↓
+recompute originating gaps
+        ↓
+derive the next real component-specific design from the resulting gap state
+```
+
+PR #5 still requires its own explicit merge decision.
 
 ## Read in this order
 
-1. [`../docs/architecture/SYSTEM_BOUNDARY.md`](../docs/architecture/SYSTEM_BOUNDARY.md) — AES-specific normative system boundary.
-2. [`../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — human-observable slices, experience-backward design, feasibility probes, utility/conformance separation and attention economics.
-3. [`../docs/architecture/INITIAL_GAP_LEDGER.md`](../docs/architecture/INITIAL_GAP_LEDGER.md) — current target/current variance after D1 closure.
-4. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — implementation-ready Slice 1 execution contract and A1.
-5. [`../docs/plans/001_D1_contract_surface_topology_freeze.md`](../docs/plans/001_D1_contract_surface_topology_freeze.md) — closed D1 decision record and exact frozen topology.
-6. [`../research/investigations/2026-09-16-repository-context-provider-landscape.md`](../research/investigations/2026-09-16-repository-context-provider-landscape.md) — external provider search and residual-semantics conclusion.
-7. [`../research/investigations/2026-09-16-first-vertical-capability-discovery.md`](../research/investigations/2026-09-16-first-vertical-capability-discovery.md) — ACA discovery result.
-8. [`../research/synthesis/incumbent-capability-inventory.md`](../research/synthesis/incumbent-capability-inventory.md) — donor versus runtime-provider inventory.
-9. [`../docs/decisions/0001-canonical-convergence-boundary.md`](../docs/decisions/0001-canonical-convergence-boundary.md) — canonical convergence boundary.
-10. Standalone methodology: `BrianMills2718/wiki_methodology@0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe`, `docs/architecture/README.md`.
+1. [`../docs/architecture/SYSTEM_BOUNDARY.md`](../docs/architecture/SYSTEM_BOUNDARY.md) — canonical AES target clauses and subsystem boundaries.
+2. [`../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — delivery, direct-use, uncertainty, feasibility, and attention-economics rules.
+3. [`../docs/architecture/README.md`](../docs/architecture/README.md) — architecture navigation, authority boundaries, and machine-readable bootstrap entrypoints.
+4. [`../docs/architecture/normative-component-alignment.bootstrap.yaml`](../docs/architecture/normative-component-alignment.bootstrap.yaml) — resolved bootstrap design record and next dogfood gate.
+5. [`../docs/architecture/aes-company-planning-profile.bootstrap.yaml`](../docs/architecture/aes-company-planning-profile.bootstrap.yaml) — AES-local planning profile and reproducible bootstrap checks.
+6. [`../docs/architecture/schemas/architecture-realization.bootstrap.schema.json`](../docs/architecture/schemas/architecture-realization.bootstrap.schema.json) — minimal architecture-realization contract.
+7. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — Plan 001 execution contract. On canonical `main`, treat implementation-state claims in the separate PR #5 branch as branch-local until integrated.
+8. [`../docs/decisions/0001-canonical-convergence-boundary.md`](../docs/decisions/0001-canonical-convergence-boundary.md) through [`../docs/decisions/0006-minimal-architecture-realization-json-schema.md`](../docs/decisions/0006-minimal-architecture-realization-json-schema.md) — accepted architecture decisions and rationale.
 
-## Concern snapshot
+## Authority rules that matter most
 
-### Planning and delivery
-Target: gap-backed planning where Company Planning derives risk-ordered human-observable vertical slices and Enforced Planning governs their execution.
-Current: D1 is closed. Slice 1 has a frozen actor outcome, static HTML/CLI surface, contract semantics, exact code/test paths, provider bindings and stop/replan conditions.
-Gap: the slice has not executed, so the planning method is not yet evidenced by a working human-observable vertical.
-Next depth: `docs/plans/001_repository_context_resolution_vertical.md`.
+- One mutable fact has one owning authority or is explicitly a derived projection.
+- Planning proposes and structures change; it does not manufacture current state or close gaps.
+- Existing providers remain authoritative until an evidence-backed disposition changes that.
+- External standards/OSS/providers are considered before bespoke local implementations when they plausibly fit.
+- Native typed contracts remain with their natural authorities.
+- Component-local context may repeat normative wording only as a generated, source-identified projection.
+- Structural validity is not provider conformance, runtime verification, stakeholder utility, or gap closure.
+- A completed plan is not evidence that the target is satisfied.
 
-### Human/agent working surfaces
-Target: planning, coding and review are made tractable through the smallest concern-specific source-bound representation that lets a human or agent act without reconstructing the system from dialogue, code and prose.
-Current: Slice 1 selects a low-lock-in static HTML projection generated from one typed artifact. Representation Router remains unselected because this slice does not require representation routing/composition.
-Gap: the working surface has not yet been implemented or used.
-Next depth: Plan 001 AC-010 / AC-011 and `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`.
+## Bootstrap architecture in one picture
 
-### Capability composition and sourcing
-Target: external/native substrate first, ACA capability knowledge, internal donors only by positive selection, local code only for demonstrated residual semantics.
-Current: `repository.context.resolve` is frozen as Git + Pydantic 2.13.5 + PyYAML 6.0.3 + Python stdlib + bounded AES authority-resolution semantics. Data Contracts and Representation Router were reviewed but not selected as runtime dependencies.
-Gap: the selected bindings have not yet been exercised through implementation.
-Next depth: D1 record and provider-landscape investigation.
+```text
+accepted AES intent + real gaps
+        ↓
+Company Planning + AES profile
+        ↓
+project-local architecture-realization record
+        ↓
+versioned JSON Schema + bounded AES cross-reference checks
+        ↓
+component responsibilities + provider disposition
++ implementation homes + consequential seams
++ verification obligations/disproof
+        ↓
+separately governed implementation
+        ↓
+observed evidence + direct use
+        ↓
+fresh characterization + gap reconciliation
+```
 
-### Contract and implementation topology
-Target: one natural owner per mutable fact, no parallel schema authority, and concrete target topology before coding.
-Current: `RepositoryContextArtifact` is AES-local under `src/agentic_engineering_system/repository_context/models.py`; planned implementation root is `src/agentic_engineering_system/`; planned verification root is `tests/repository_context/`.
-Gap: target paths exist only as planning declarations; source implementation is absent.
-Next depth: Plan 001 frozen topology.
+The generated nine-component/four-seam bootstrap record demonstrates the contract shape only. It is not a backlog, current architecture authority, or proof that every reserved component should be implemented.
 
-### Economics and autonomy
-Target: AI autonomy multiplies scarce human judgment rather than postponing it.
-Current: D1 consumed no standing stakeholder checkpoint and returned directly to the implementation frontier; A1 is positioned after the first usable outcome.
-Gap: no execution evidence yet shows whether this sequencing reduces reconstruction cost or utility-discovery latency.
-Next depth: `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`.
+## First external consumer / Plan 001 boundary
 
-### Policy
-Target: adaptive controls with honest epistemic state, recovery/escalation, negative controls, and evidence-bearing transitions.
-Current: malformed authoritative manifests are planned to block rather than fall back; AC-006/007/008 freeze negative/error/recovery semantics.
-Gap: no live block/recovery transition has occurred.
-Next depth: Plan 001 AC-006 through AC-008.
+`BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` remains the pinned, read-only first external consumer for Repository Context.
 
-### Documentation and context
-Target: concern-centric progressive disclosure over native authorities, with source-local target/current/gap/plan context once implementation subjects exist.
-Current: wiki, machine contract, architecture, gap ledger and plans agree on the Slice 1 frontier.
-Gap: no realized implementation subject exists, so source-local generated context remains not yet applicable.
-Next depth: Plan 001 Slice 1.
+Do not:
 
-## First external consumer
+- migrate `data-contracts` into AES format merely to satisfy the pilot;
+- infer semantic authority from folder names;
+- treat the private pinned-consumer check as satisfied by hosted regression CI that lacks `AES_DATA_CONTRACTS_CHECKOUT`;
+- turn Representation Router into an AES runtime dependency merely because it is handling the follow-up presentation work;
+- derive the next implementation vertical before fresh characterization/gap recomputation authorizes it.
 
-`BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` is the frozen first consumer. Its README explicitly remains the local repository entrypoint, its `pyproject.toml` declares packages under `src`, and `docs/ops/CAPABILITY_DECOMPOSITION.md` is the repo-local ownership record. Root `contracts/` is not treated as repository-wide authority by folder name.
+## Provider and donor posture
 
-Plan 001 is read-only with respect to `data-contracts`; migration remains out of scope.
+- Company Planning — planning/design provider through the AES-local profile.
+- Enforced Planning — execution-governance incumbent/provider.
+- Agentic Capability Architecture — capability/provider-resolution incumbent.
+- Data Contracts — shared typed-boundary authority where provider-neutral semantics fit; not automatically an AES runtime dependency.
+- Representation Router — concern-specific working-surface provider candidate/workstream; no authority transfer implied.
+- Backstage, TOSCA, SysML v2/KerML, Open Workflow Specification, OPA/Rego, W3C PROV, in-toto/SLSA, SCIP, Code Map, predecessor AES repositories, and other donors remain concern-specific references/candidates unless positively selected by a real design.
 
-## Donor and incumbent sources
-
-- Company Planning — current planning/design provider.
-- Enforced Planning — current execution-governance provider.
-- Agentic Capability Architecture — capability-plane authority/incumbent.
-- Data Contracts — typed-boundary/composition authority where shared semantics match; reviewed and intentionally unselected as a Slice 1 runtime dependency.
-- Representation Router — working-surface donor/future provider candidate; unselected for Slice 1.
-- Project Meta — policy/control evidence and ecosystem-policy authority where applicable.
-- `Inside-Success/agentic-engineering-system` — predecessor evidence/design donor; no dependency by default.
-- `BrianMills2718/aes` — archived predecessor donor.
-- `BrianMills2718/code_map_v4` — characterization/evidence donor; provider unselected.
-- AC16/AC17 — method/evidence donors; not runtime architecture.
-- Fluid Governance — typed recovery/receipt donor; not execution authority.
-
-Nothing becomes a runtime dependency merely by appearing in this list.
+Nothing becomes a runtime dependency merely because it appears in research or can model part of AES.

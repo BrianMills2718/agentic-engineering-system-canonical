@@ -1,0 +1,73 @@
+{
+  "record_id": "AES-NORMATIVE-RECORD-VIEW-DOGFOOD-001",
+  "scope": "structured_normative_projection_and_generated_views",
+  "status": "observed",
+  "repository": "BrianMills2718/agentic-engineering-system-canonical",
+  "subjects": {
+    "model": {
+      "path": "docs/architecture/normative-record-model.bootstrap.yaml"
+    },
+    "system_projection": {
+      "path": "generated/bootstrap-normative/system.pilot.yaml",
+      "git_blob": "7b64a7f76e305a5f7d4b992574507ea1bb21b687"
+    },
+    "view_bundle": {
+      "path": "generated/bootstrap-normative/view-bundle.md",
+      "commit": "3766b0fb86becc804e01eab1f494e15df0ead2b7"
+    },
+    "renderer_probe": {
+      "path": "research/investigations/render_normative_record_views.py",
+      "note": "Committed for checkout reproduction; exact-source validation/render in this turn used connector-side deterministic logic over the same source identities."
+    }
+  },
+  "authoritative_sources": {
+    "system": {
+      "revision": "2220ad62639c1e4596e57263b99e13fcc81b20ef",
+      "path": "docs/architecture/SYSTEM_BOUNDARY.md",
+      "git_blob": "61ca470a34c7046e33a5b631964d5114035fa06e"
+    },
+    "plan": {
+      "revision": "9f82f3500e4a472b26756c31ea9205f908d7c394",
+      "path": "docs/plans/001_repository_context_resolution_vertical.md",
+      "git_blob": "7c76c70b3bf1167b90eaabff82df02ccdf095928"
+    },
+    "alignment": {
+      "path": "docs/architecture/normative-component-alignment.bootstrap.yaml",
+      "git_blob": "b034bc2f9ff9585672a4787cf366a0808af6c460"
+    }
+  },
+  "views_generated_from_one_projection": [
+    "PRD",
+    "USER_JOURNEY",
+    "REQUIREMENTS",
+    "ARCHITECTURE_COMPONENT",
+    "AQR"
+  ],
+  "positive": {
+    "accepted": true,
+    "normative_wording_preserved": true,
+    "existing_markdown_remained_authority": true,
+    "separate_authored_view_files_required": false
+  },
+  "negative_controls": {
+    "duplicate_normative_id": {"rejected": true, "reason": "duplicate or missing normative id"},
+    "paraphrased_requirement": {"rejected": true, "reason": "wording drift"},
+    "current_state_as_normative": {"rejected": true, "reason": "derived/current content in normative record"},
+    "native_contract_redefined": {"rejected": true, "reason": "native contract definition in normative record"},
+    "false_authority": {"rejected": true, "reason": "generated pilot cannot claim normative authority"},
+    "resolved_AQR_without_decision": {"rejected": true, "reason": "resolved AQR lacks decision_ref"}
+  },
+  "findings": [
+    "Traditional PRD, requirements, journey, architecture/component and AQR views do not each require an authored authority file.",
+    "A compact system record can own goals/outcomes/journeys/requirements/questions while component records own component-scoped normative realization.",
+    "Research, durable decisions, plans and evidence should retain separate native lifecycles because their authority and mutability differ.",
+    "Existing accepted Markdown can be projected into the structured model without becoming a second editable truth.",
+    "A future migration should cut over atomically rather than leave Markdown and YAML both writable."
+  ],
+  "limitations": [
+    "This is a generated pilot projection, not migration of current normative authority.",
+    "The pilot covers a small subset of AES system/Plan 001 content, not every current normative clause.",
+    "The committed Python renderer was not executed in a single local checkout in this turn.",
+    "No claim is made that YAML is universally superior to prose; the decision concerns AES canonical structured authority and generated views."
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "record_id": "AES-SOURCE-CONTEXT-REPOSITORY-CONTEXT-OBS-001",
+  "scope": "source_local_normative_context_pilot",
+  "status": "observed",
+  "repository": "BrianMills2718/agentic-engineering-system-canonical",
+  "research_branch": "bootstrap/external-sourcing-audit",
+  "implementation_snapshot": "9f82f3500e4a472b26756c31ea9205f908d7c394",
+  "authority_snapshot": "2220ad62639c1e4596e57263b99e13fcc81b20ef",
+  "subjects": {
+    "component_projection": {
+      "path": "src/agentic_engineering_system/repository_context/component.context.generated.yaml",
+      "git_blob": "4ceadab22085de2793d66abf8d902090d1e33abd"
+    },
+    "blueprint": {
+      "path": "docs/architecture/architecture-realization.bootstrap.yaml",
+      "git_blob": "57d42f9065f840e728057de3f371d36db984540f"
+    },
+    "system_boundary": {
+      "path": "docs/architecture/SYSTEM_BOUNDARY.md",
+      "git_blob": "61ca470a34c7046e33a5b631964d5114035fa06e"
+    },
+    "plan": {
+      "path": "docs/plans/001_repository_context_resolution_vertical.md",
+      "git_blob": "7c76c70b3bf1167b90eaabff82df02ccdf095928"
+    },
+    "resolver": {
+      "path": "src/agentic_engineering_system/repository_context/resolver.py",
+      "git_blob": "69083b9ea429a11b32f502ed57b9b94a80b2bf3c"
+    },
+    "resolver_test": {
+      "path": "tests/repository_context/test_resolver.py",
+      "git_blob": "7f840bb4f6474be41f96213ff62b8949cc9b5dd1"
+    },
+    "manifest_test": {
+      "path": "tests/repository_context/test_manifest_adapter.py",
+      "git_blob": "dfda0a2e43d2782e4931a5a92b4dc47221d89a2c"
+    },
+    "research_validator": {
+      "path": "research/investigations/validate_repository_context_source_context.py",
+      "note": "Committed for reproducible checkout validation; exact-source observation in this turn used connector-side comparison because PR6 does not contain PR5 implementation files."
+    }
+  },
+  "first_attempt": {
+    "result": "rejected",
+    "reason": "AC-003 local wording was not verbatim to the pinned Plan 001 source.",
+    "component_blob_before_correction": "25499b1c7b5e006f5d3d3ab15282af03fb400cf2",
+    "correction_commit": "ca15918f5a8449927e8ac4cb9652dd997259704f"
+  },
+  "corrected_observation": {
+    "positive": true,
+    "verbatim_normative_clauses_checked": [
+      "AES-SYS-002",
+      "AES-CONTRACT-001",
+      "AES-POL-002",
+      "AES-POL-003",
+      "AES-CTX-001",
+      "AES-CTX-002",
+      "AES-DOGFOOD-001",
+      "AES-DOGFOOD-002"
+    ],
+    "verbatim_plan_criteria_checked": [
+      "AC-001",
+      "AC-002",
+      "AC-003",
+      "AC-004",
+      "AC-005",
+      "AC-006",
+      "AC-007",
+      "AC-008"
+    ],
+    "implementation_symbol_observed": "RepositoryContextResolver.resolve",
+    "native_checks_observed": [
+      "test_malformed_authoritative_manifest_blocks_legacy_fallback",
+      "test_malformed_manifest_blocks_without_legacy_fallback"
+    ],
+    "fresh_runtime_verification_promoted": false,
+    "gap_closure_claimed": false
+  },
+  "negative_controls": {
+    "paraphrased_clause": {"rejected": true, "reason": "non-verbatim AES-SYS-002"},
+    "omitted_direct_clause": {"rejected": true, "reason": "record missing AES-POL-003"},
+    "changed_plan_criterion": {"rejected": true, "reason": "non-verbatim plan line AC-006"},
+    "changed_conditional_trigger": {"rejected": true, "reason": "conditional mismatch AES-CAP-002"},
+    "missing_code_symbol": {"rejected": true, "reason": "missing resolver symbol"},
+    "missing_native_check": {"rejected": true, "reason": "missing resolver check"},
+    "false_fresh_verification": {"rejected": true, "reason": "freshness promoted"},
+    "false_gap_closure": {"rejected": true, "reason": "gap closure promoted"}
+  },
+  "findings": [
+    "Verbatim projection is load-bearing: the pilot detected a real AC-003 wording drift before correction.",
+    "Blanket injection of all repository-governing clauses is too broad for source-local context; explicit applicability and conditional triggers are preferable.",
+    "One component-local generated sidecar can carry component norms once while symbol-specific mappings remain limited to narrower or load-bearing obligations.",
+    "Component-context inheritance is a routing/context rule, not behavioral conformance inheritance.",
+    "Implementation presence and earlier passing evidence must remain distinct from fresh verification at the pinned source revision."
+  ],
+  "limitations": [
+    "The source-local sidecar format and filename remain provisional.",
+    "The committed Python validator was not executed against a single local checkout containing both PR6 research files and PR5 implementation files; exact sources were compared through the GitHub connector.",
+    "No source-local context runtime/generator exists yet.",
+    "No provider, SCIP indexer, or external standard implementation was adopted.",
+    "No Plan 001 delivery, stakeholder utility, or gap closure is claimed."
+  ]
+}

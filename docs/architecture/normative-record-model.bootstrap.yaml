@@ -1,0 +1,230 @@
+# Provisional structured normative model. Existing Markdown remains authority.
+schema_version: aes.normative_record_model.bootstrap.v0
+id: AES-NORMATIVE-MODEL-001
+status: accepted_bootstrap
+date: 2026-09-17
+decision: docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
+authority_note: >
+  This model does not migrate accepted AES Markdown. It defines the candidate
+  shape for a future single-source structured normative authority and can be
+  tested using generated projections from current sources.
+
+principles:
+  - id: NR-001
+    statement: One normative statement has one editable owning source.
+  - id: NR-002
+    statement: Semantic record types do not imply one file per type.
+  - id: NR-003
+    statement: Human-readable PRD, architecture, requirement, journey, and component views are generated on demand unless a separately authored authority is explicitly justified.
+  - id: NR-004
+    statement: Questions and research are not decisions; evidence and current characterization are not normative target.
+  - id: NR-005
+    statement: A record is scoped at the highest/coarsest boundary that fully owns its meaning; component-local context inherits applicable system and seam records.
+  - id: NR-006
+    statement: Native typed contracts remain native references rather than being copied into normative YAML.
+
+canonical_record_families:
+  system:
+    cardinality: one_per_governed_system_by_default
+    proposed_home: docs/architecture/system.yaml
+    sections:
+      identity:
+        required: true
+        fields: [id, title, scope, revision]
+      north_star:
+        required: false
+        cardinality: zero_or_one
+        purpose: long_horizon_direction_and_experience
+      goals:
+        required: false
+        cardinality: zero_or_many
+      actors:
+        required: false
+        cardinality: zero_or_many
+      outcomes:
+        required: false
+        cardinality: zero_or_many
+        note: PRD/product-outcome semantics live here unless a richer product record is demonstrated necessary.
+      journeys:
+        required: false
+        cardinality: zero_or_many
+        shape: actor_context_action_observable_outcome
+      requirements:
+        required: true
+        cardinality: one_or_many
+        kinds: [behavior, constraint, invariant, quality, policy]
+      seams:
+        required: false
+        cardinality: zero_or_many
+        purpose: cross_component_or_cross_requirement_obligations
+      questions:
+        required: false
+        cardinality: zero_or_many
+        kind: AQR
+      decision_refs:
+        required: false
+        cardinality: zero_or_many
+      component_refs:
+        required: false
+        cardinality: zero_or_many
+
+  component:
+    cardinality: one_per_governed_component
+    proposed_home_rule: src/agentic_engineering_system/<component>/component.yaml
+    sections:
+      identity:
+        required: true
+        fields: [id, responsibility]
+      normative_scope:
+        required: true
+        fields: [direct_requirements, inherited_system_requirements, seam_obligations]
+      scenarios:
+        required: false
+        cardinality: zero_or_many
+      questions:
+        required: false
+        cardinality: zero_or_many
+        kind: AQR
+      decision_refs:
+        required: false
+        cardinality: zero_or_many
+      semantic_owner_or_provider:
+        required: true
+      boundary_refs:
+        required: false
+        note: native_typed_contracts_are_referenced_not_copied
+      implementation:
+        required: true
+        fields: [code_home]
+        optional: [planned_module, significant_symbol_refs]
+      verification:
+        required: true
+        fields: [verification_home, obligations, disproof]
+      plan_refs:
+        required: false
+        cardinality: zero_or_many
+
+separate_native_lifecycles:
+  research:
+    home: research/
+    reason: evidence_and_investigation_before_normative_promotion
+  decisions:
+    home: docs/decisions/
+    reason: durable_accepted_choice_with_rationale_and_supersession_lifecycle
+  plans:
+    home: docs/plans/
+    reason: time_bounded_change_authority_not_timeless_normative_target
+  evidence:
+    home: evidence/
+    reason: append_only_or_revision_bound_observation_not_normative_target
+  current_and_gap:
+    storage: generated_or_materialized_projection
+    reason: derived_from_target_plus_revision_bound_observation
+
+questions_and_decisions:
+  AQR:
+    default_storage: scoped_inside_system_or_component_record
+    split_to_separate_record_when:
+      - research_or_discussion_is_large_enough_to_require_independent_lifecycle
+      - multiple_components_share_the_question_and_no_single_scope_is_primary
+    fields: [id, question, status, research_refs, decision_needed_before]
+    allowed_status: [open, researched, resolved, deferred]
+    resolved_requires: decision_ref_or_explicit_nondecision_disposition
+  ADR:
+    default_storage: docs/decisions/
+    note: >
+      Keep durable accepted decisions separate during bootstrap because rationale,
+      authority, supersession and acceptance lifecycle are materially distinct.
+      Revisit only after the structured model has repeated real use.
+
+view_map:
+  PRD:
+    generated_from: [system.north_star, system.goals, system.actors, system.outcomes, system.journeys, system.requirements]
+  REQUIREMENTS:
+    generated_from: [system.requirements, components.*.normative_scope]
+  USER_JOURNEYS:
+    generated_from: [system.journeys, components.*.scenarios]
+  ARCHITECTURE:
+    generated_from: [system.seams, system.component_refs, components.*.responsibility, components.*.boundary_refs]
+  DECISION_LOG:
+    generated_from: [system.decision_refs, components.*.decision_refs, docs/decisions/]
+  COMPONENT_MAP:
+    generated_from: [system.component_refs, components.*]
+  SOURCE_LOCAL_CONTEXT:
+    generated_from: [applicable_system_requirements, component.normative_scope, incident_seams, active_plan_refs, current_and_gap]
+  AQR_VIEW:
+    generated_from: [system.questions, components.*.questions]
+  rule: >
+    Views are optional materializations. Their absence is not missing normative
+    information if the canonical structured records are complete and addressable.
+
+migration:
+  current_state: existing_accepted_Markdown_remains_authoritative
+  pilot_mode: generated_structured_projection_only
+  future_cutover_requirements:
+    - preserve_stable_clause_and_decision_ids
+    - preserve_normative_wording_verbatim_or_record_an_accepted_normative_revision
+    - prove_generated_human_views_cover_the_required_navigation_jobs
+    - atomically_retire_previous_editable_authority
+    - leave_no_two_writable_sources_for_the_same_norm
+  forbidden:
+    - hand_copy_current_Markdown_into_editable_YAML_while_both_remain_authority
+    - infer_normative_meaning_from_code
+    - make_generated_views_independently_editable
+
+typing_rule:
+  freeze_before_implementation:
+    - stable_identity_of_normative_requirements
+    - component_responsibility_and_code_home
+    - semantic_owner_or_provider_disposition
+    - consequential_cross_component_boundary_contracts_when_known
+    - verification_obligation_and_disproof
+  intentionally_not_required_before_implementation:
+    - private_helper_function_signatures
+    - every_internal_class_or_symbol
+    - provider_specific_API_shape_before_provider_selection
+    - speculative_future_component_interfaces
+  unresolved_boundary_rule: record_as_unresolved_with_AQR_instead_of_inventing_a_type
+
+external_semantic_references:
+  requirements_engineering: ISO_IEC_IEEE_29148_2018
+  architecture_description: ISO_IEC_IEEE_42010_2022
+  system_model_reference: SysML_v2
+  executable_examples: Gherkin_semantics
+  adoption: vocabulary_reference_only
+
+resolved_design_questions:
+  - AQR-001
+  - AQR-002
+  - AQR-003
+  - AQR-004
+  - AQR-005
+  - AQR-006
+  - AQR-007
+  - AQR-008
+  - AQR-009
+  - AQR-010
+  - AQR-011
+  - AQR-012
+
+bootstrap_probe:
+  status: completed
+  evidence: evidence/bootstrap-alignment/normative-record-view-dogfood-001.json
+  generated_views:
+    - generated/bootstrap-normative/system.pilot.yaml
+    - generated/bootstrap-normative/view-bundle.md
+  result: >
+    One structured projection generated PRD-style, journey, requirements,
+    architecture/component, and AQR views while negative controls rejected
+    duplicate IDs, paraphrase drift, current-as-normative promotion, native
+    contract redefinition, false authority, and resolved AQRs without decisions.
+
+next_probe:
+  objective: >
+    Use this model only as needed by the next real component-specific design from
+    an actual gap. Test whether it reduces duplicated authority and reconstruction
+    cost without forcing a structured-authority migration before repeated real use.
+  must_not_do:
+    - reopen_resolved_bootstrap_AQRs_without_new_falsifying_evidence
+    - promote_generated_projection_to_authority
+    - maintain_duplicate_editable_normative_sources
