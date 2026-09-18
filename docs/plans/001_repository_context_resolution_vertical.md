@@ -1,6 +1,6 @@
 # Plan 001 — Repository context resolution vertical
 
-Status: **implementation partial; A1 human-utility checkpoint pending**
+Status: **implementation partial; technical execution observed; first A1 = change; follow-up utility review and fresh characterization pending**
 Origin gaps: GAP-AES-001, 002, 003, 004, 005, 006, 007, 009, 010, 011, 013, 014, 015, 017, 019, 020, 021, 022, 023, 024, 025, 026, 027
 External consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`
 Execution profile: pilot
@@ -245,15 +245,18 @@ D1 froze:
 
 D1 closes no originating gap. Its return path is Slice 1.
 
-### Slice 1 — external repository context resolution — IMPLEMENTATION PARTIAL / A1 PENDING
+### Slice 1 — external repository context resolution — IMPLEMENTATION PARTIAL / FOLLOW-UP A1 PENDING
 
 - advances: person/agent can orient correctly in real external repository before editing;
 - vertical scope: pinned `data-contracts` revision -> bounded observations -> resolution -> typed artifact -> static source-bound HTML surface;
 - de-risks: utility without repo hardcoding/generalized indexing/representation framework;
 - success: AC-001 through AC-011;
 - current implementation: package, resolver, renderer, CLI, and automated tests are present on the implementation branch;
-- evidence still outstanding: local Enforced Planning install/audit, pinned external consumer execution, generated artifact at the exact consumer revision, revision-bound characterization, and direct stakeholder observation;
-- done-when: technical evidence satisfies required criteria and the intended reviewer has directly used the surface enough to disposition `continue | change | stop`.
+- observed technical execution: the governed-repo audit passed, focused repository-context checks passed locally, the exact pinned external-consumer check passed, the real CLI resolved the pinned consumer, and deterministic revision-scoped JSON/HTML were retained;
+- observed utility: the first direct A1 at AES revision `53be16fa1159f31648773062531d751c85d7a011` returned `change` because the HTML required too much reconstruction; the retained A1 receipt remains utility evidence rather than a technical-conformance reversal;
+- bounded response: a projection-only correction was made afterward; per stakeholder instruction, further presentation iteration is handled separately through the Representation Router workstream rather than expanded here;
+- evidence still outstanding for delivery: follow-up direct utility review against the exact relevant AES revision, revision-bound current characterization, and explicit originating-gap recomputation;
+- done-when: technical evidence remains adequate, the intended reviewer has directly used the corrected presentation enough to disposition `continue | change | stop`, and fresh characterization/gap recomputation establishes what actually closed or narrowed.
 
 ### Attention checkpoint A1 — first utility observation
 
@@ -293,8 +296,9 @@ tests/repository_context/fixtures/pilot_missing_declaration/
 Current verification status:
 
 - model/resolver/rendering tests are present;
-- the pinned external-consumer test intentionally remains environment-dependent and does not fabricate evidence when the checkout is unavailable;
-- A1 direct-use evidence is not yet present.
+- technical execution has been observed locally, including the exact pinned external-consumer check and real CLI run; GitHub Actions remains unavailable as code-test evidence when no runner/steps execute;
+- the pinned external-consumer test intentionally remains environment-dependent for repeat verification and does not fabricate evidence when the checkout is unavailable;
+- first A1 direct-use evidence is retained with disposition `change`; follow-up utility review of the corrected presentation remains pending.
 
 Acceptance mapping:
 
