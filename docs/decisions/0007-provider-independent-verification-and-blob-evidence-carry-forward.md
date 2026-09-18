@@ -1,13 +1,16 @@
 ---
 doc_role: active_authority
 authority: canonical_if_merged
-status: accepted
+status: superseded
+superseded_by: docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md
 accepted_by: Brian Mills delegated high-confidence planning authority
 date: 2026-09-18
 reversible: true
 ---
 
 # Decision 0007 — Verification is provider-independent; carry execution evidence only across identical relevant blobs
+
+> Superseded by Decision 0008 after review found that file-by-file identity omitted transitive executable dependencies and environment identity.
 
 ## Context
 
