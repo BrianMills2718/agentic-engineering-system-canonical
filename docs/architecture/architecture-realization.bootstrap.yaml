@@ -104,7 +104,7 @@ outcome:
     closure_claim: none
 
 record_layout_proposal:
-  status: proposed_not_migrated
+  status: pilot_supported_not_migrated
   system_home: docs/architecture/system.yaml
   component_home_rule: src/agentic_engineering_system/<component>/component.yaml
   component_code_rule: >
@@ -416,13 +416,16 @@ decision_sequence:
     evidence: evidence/bootstrap-alignment/repository-context-source-local-observation-001.json
     next_test: materialize_reserved_component_tree_with_explicit_unresolved_placeholders
   - id: BP-D2
-    status: proposed
+    status: partially_accepted
     aqrs: [AQR-003, AQR-004, AQR-005, AQR-007, AQR-008, AQR-012]
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+    accepted_scope: [AQR-004, AQR-005, AQR-008, AQR-012]
+    unresolved_scope: [AQR-003, AQR-007]
     recommendation: >
-      Treat Component as a scoped planning label, not a universal runtime class.
-      Type consequential boundaries and verify real producer/consumer examples; derive
-      internal symbols and effective applicability. Structural green is not semantic proof.
-    next_test: typed_boundary_positive_negative_and_joint_rule_examples_in_the_pilot
+      Treat Component as a scoped planning/governance boundary, not a universal runtime
+      class. Type consequential boundaries, derive internal symbols, and project exact
+      applicable context. Structural green is not semantic proof.
+    next_test: settle_minimum_typed_seam_depth_without_freezing_external_component_ontology
   - id: BP-D3
     status: accepted_profile_first
     aqrs: [AQR-006]
