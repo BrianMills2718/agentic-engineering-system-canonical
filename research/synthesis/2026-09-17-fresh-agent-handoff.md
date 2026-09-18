@@ -355,10 +355,19 @@ The current hosted workflow still fails before obtaining a runner/executing
 steps, so it remains unavailable CI infrastructure rather than code-test
 evidence.
 
-The two PRs still had zero changed-file overlap after these corrections and both
-remained open/mergeable at the last live re-check. Re-check immediately before
-any integration.
+A later documentation-finalization pass intentionally updated `README.md` and
+`wiki/index.md` on PR #6 so canonical `main` will describe the adopted
+bootstrap accurately. Those two files are also changed on PR #5. Therefore the
+latest pre-merge changed-file overlap is **exactly two files**:
 
-The protected merge boundary remains unchanged: none of these corrections is
-merge approval. A later explicit merge/adoption decision is still required for
-PR #6, and PR #5 requires its own separate explicit merge decision.
+- `README.md`
+- `wiki/index.md`
+
+All other changed paths remain disjoint at the latest observation. After PR #6
+adoption, PR #5 must be refreshed against the new `main` and these two
+documentation surfaces reconciled deliberately; do not rely on the earlier
+zero-overlap observation.
+
+The protected merge boundary remains unchanged for PR #5. Brian explicitly
+approved PR #6 adoption after the documentation pass; that approval does not
+authorize merging PR #5.
