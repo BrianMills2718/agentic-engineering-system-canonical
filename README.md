@@ -18,7 +18,9 @@ The canonical architecture now includes the component-aligned planning/governanc
 
 This branch contains the first Repository Context implementation: typed artifact models, exact Git/revision resolution, authoritative pilot-manifest handling, bounded legacy resolution, static HTML/JSON projection, CLI entrypoint, and focused tests.
 
-Authentic technical execution has been observed on prior exact revisions, including the governed-repo audit, focused tests, exact pinned `data-contracts` check, real CLI execution, and deterministic generated artifacts. The first direct A1 returned `change` because the human-facing surface required too much reconstruction. A bounded projection correction followed; follow-up utility review, fresh revision-bound characterization, and explicit gap recomputation remain pending.
+Authentic technical execution has been observed on prior exact revisions, including the governed-repo audit, focused tests, exact pinned `data-contracts` check, real CLI execution, and deterministic generated artifacts. The first direct A1 returned `change` because the human-facing surface required too much reconstruction. A bounded projection correction followed.
+
+Canonical `main@320991b96a3e3aaa15aa8ba05817a7eee1c52603` now has a revision-bound post-integration characterization and a conservatively recomputed initial gap ledger. Follow-up direct utility review of the corrected presentation and trustworthy refreshed-head runtime execution remain pending.
 
 A completed implementation plan, passing regression suite, or useful presentation does not by itself establish delivery or close the originating gaps.
 
