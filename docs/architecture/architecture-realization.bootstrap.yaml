@@ -1,7 +1,7 @@
 # Provisional design only. No provider adoption, code relocation, or implementation authorization.
 schema_version: aes.architecture_realization.bootstrap.v0
 id: AES-BLUEPRINT-001
-revision: 1
+revision: 2
 status: proposed
 parent_record: docs/architecture/normative-component-alignment.bootstrap.yaml
 authoring_mode: assistant_authored_design_using_company_planning_guidance
@@ -136,10 +136,16 @@ normative_binding_proposal:
   shared_context:
     clauses: [AES-SYS-002, AES-SYS-003, AES-SYS-004, AES-SYS-005, AES-CAP-002, AES-CONTRACT-001, AES-POL-002, AES-ECON-001]
     source: system
+    delivery_rule: >
+      This is a repository-governing catalog, not a blanket source-local injection list.
+      A clause appears in local working context only through explicit component/seam
+      applicability or an activated conditional trigger.
   effective_context_rule: >
     Explicitly declared component membership determines applicability. Each symbol can
-    resolve shared clauses plus component clauses plus incident seam obligations plus
-    any explicit symbol-specific obligations. No inference from an undeclared directory name.
+    resolve explicitly bound component clauses plus incident seam obligations, activated
+    conditional clauses, and any symbol-specific obligations. Repository-governing clauses
+    remain reachable but are not injected merely because they exist. No inference from an
+    undeclared directory name.
   inheritance_limit: >
     Applicability is not proof that every symbol implements or satisfies every clause.
     Do not propagate component-level PASS to individual symbols. Binding and behavioral
@@ -168,6 +174,20 @@ components:
   - id: repository_context
     purpose: resolve_repository_navigation_and_authority_from_bounded_exact_sources
     clauses: [AES-CTX-001, AES-DOGFOOD-001, AES-DOGFOOD-002]
+    local_context:
+      direct_clauses: [AES-SYS-002, AES-CONTRACT-001, AES-POL-002, AES-POL-003, AES-CTX-001]
+      context_delivery_clauses: [AES-CTX-002]
+      outcome_clauses: [AES-DOGFOOD-001, AES-DOGFOOD-002]
+      conditional_clauses:
+        - {clause: AES-SYS-003, when: adopted_methodology_or_repository_protocol_changes}
+        - {clause: AES-SYS-004, when: incumbent_authority_or_supersession_changes}
+        - {clause: AES-SYS-005, when: implementation_topology_expands_or_predecessor_behavior_is_reimplemented}
+        - {clause: AES-CAP-002, when: provider_dependency_or_reusable_behavior_changes}
+        - {clause: AES-ECON-001, when: human_facing_surface_or_attention_checkpoint_changes}
+      finding: >
+        The first locality probe showed that blanket injection of the eight shared
+        clauses would give one resolver symbol unrelated economics/provider/methodology
+        text. Explicit applicability plus conditional triggers is the current direction.
     origin_gaps: [GAP-AES-002, GAP-AES-019, GAP-AES-020]
     local_role: existing_residual_and_Git_adapter
     provider_disposition: retain_Slice1_Git_Pydantic_PyYAML_stdlib_bindings
@@ -386,12 +406,15 @@ seams:
 
 decision_sequence:
   - id: BP-D1
-    status: proposed
+    status: pilot_supported_not_accepted
     aqrs: [AQR-001, AQR-002, AQR-009, AQR-010, AQR-011]
     recommendation: >
-      Trial a compact system record plus one component-local record, referencing current
-      Markdown authority during migration. Use optional sections instead of a file taxonomy.
-    next_test: one_real_code_location_with_verbatim_system_component_and_seam_context
+      Trial a compact system record plus one component-local generated projection,
+      referencing current Markdown authority during migration. Use optional sections
+      instead of a file taxonomy. Do not blanket-inject repository-governing clauses:
+      bind direct component/seam obligations and activate conditional context by trigger.
+    evidence: evidence/bootstrap-alignment/repository-context-source-local-observation-001.json
+    next_test: materialize_reserved_component_tree_with_explicit_unresolved_placeholders
   - id: BP-D2
     status: proposed
     aqrs: [AQR-003, AQR-004, AQR-005, AQR-007, AQR-008, AQR-012]
@@ -417,15 +440,17 @@ next_bounded_dogfood:
   example_symbol: RepositoryContextResolver.resolve
   native_check_source: resolver_tests
   native_check_symbol: test_malformed_authoritative_manifest_blocks_legacy_fallback
-  materialization_stage: proposed_not_executed
+  materialization_stage: first_source_local_projection_probe_completed
   behavior_to_observe: >
     From the real code location, obtain verbatim applicable clauses and Plan 001 criteria,
     follow the native check, and see an explicit error when a referenced clause is removed
     or changed. Prove declared-context preservation before adding other component machinery.
   disposition_after_probe: >
-    Record findings against BP-D1/BP-D2, then use the chosen layout to materialize the
-    full reserved tree. Unresolved areas may have labeled placeholders; they need no
-    invented class signatures. Provider adoption and behavioral implementation stay separate.
+    BP-D1 is pilot-supported but not accepted architecture. The adjacent generated sidecar
+    preserves exact source wording and source/check identities while separating direct,
+    outcome, and conditional context. Proceed to materialize the reserved component tree
+    with labeled unresolved placeholders and no invented class signatures. Provider
+    adoption and behavioral implementation stay separate.
   exclusions:
     - modifying_or_merging_PR5
     - creating_human_presentation_artifacts
