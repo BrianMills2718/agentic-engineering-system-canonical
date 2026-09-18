@@ -202,7 +202,9 @@ aqrs:
       Which architecture-realization changes belong in generic Company Planning,
       which belong in an AES planning profile/extension, and under what evidence
       would a fork of Company Planning become preferable?
-    status: open
+    status: resolved
+    resolution: use_AES_local_profile_before_any_upstream_change_or_fork
+    decision: docs/decisions/0002-company-planning-aes-profile-before-fork.md
     options:
       - upstream_generic_changes_plus_aes_profile
       - clean_extension_plugin
