@@ -8,6 +8,12 @@ this recomputation is:
 
 `evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`
 
+Supplemental verification disposition after GitHub Actions became administratively unavailable:
+
+`evidence/plan-001/evidence-carry-forward-2026-09-18.json`
+
+Decision 0007 governs when that prior authentic execution evidence may carry forward.
+
 This remains a planning input, not a replacement for normative clauses. A closed
 bootstrap gap means the specific variance originally recorded here is no longer
 present; it does **not** prove timeless or system-wide conformance for every
