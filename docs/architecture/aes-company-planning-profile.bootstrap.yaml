@@ -69,6 +69,17 @@ validation:
     - research_question_decision_separation
     - component_vs_symbol_granularity
     - verification_vs_utility_distinction
+  commands:
+    - >-
+      python research/investigations/validate_architecture_realization_schema.py
+      generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml
+      --schema docs/architecture/schemas/architecture-realization.bootstrap.schema.json
+    - >-
+      python research/investigations/validate_aes_company_planning_profile.py
+      docs/architecture/aes-company-planning-profile.bootstrap.yaml
+      generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml
+      --alignment docs/architecture/normative-component-alignment.bootstrap.yaml
+      --self-test
 
 routing:
   company_planning_role: derive_and_review_detailed_design
