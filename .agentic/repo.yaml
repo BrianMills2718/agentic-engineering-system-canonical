@@ -23,8 +23,11 @@ authorities:
 planning:
   design_provider: Company Planning
   execution_governance_provider: Enforced Planning
+  execution_governance_provider_repository: BrianMills2718/enforced-planning
+  execution_governance_provider_revision: 3fd1ff4465ed50613a8b9fcc86d7d0f282322d60
+  execution_governance_install_provenance: evidence/provider-provenance/enforced-planning-install-2026-09-18.json
   active_plan: docs/plans/001_repository_context_resolution_vertical.md
-  active_frontier: PLAN-001/Slice-1-followup-utility-final-closure
+  active_frontier: PLAN-001/Slice-1-local-verification-followup-utility-final-closure
   bootstrap_architecture_revision: 45fa215dd977e2ab44338465d36ac37756f14e53
   bootstrap_alignment: docs/architecture/normative-component-alignment.bootstrap.yaml
   architecture_realization_profile: docs/architecture/aes-company-planning-profile.bootstrap.yaml
@@ -73,26 +76,28 @@ implementation:
     including the pinned external consumer, was observed on exact pre-refresh
     revisions; the first A1 returned change. Canonical main now has a
     revision-bound post-integration characterization and recomputed initial gap
-    ledger. Decision 0007 accepts authentic execution carry-forward across exact
-    relevant blob identity; current technical evidence is adequate under that
-    rule. Follow-up utility review remains outstanding. Do not treat PARTIAL as
-    conformant or delivered.
+    ledger. Decision 0008 supersedes the earlier blob-only carry-forward rule:
+    the changed renderer is transitively executed by the CLI and pinned-consumer
+    path, so one repaired fresh local end-to-end verification run is required.
+    Follow-up utility review remains independently outstanding. Do not treat
+    PARTIAL as conformant or delivered.
 
 verification:
   roots:
     - tests/repository_context/
   state: PARTIAL
-  policy: docs/decisions/0007-provider-independent-verification-and-blob-evidence-carry-forward.md
-  evidence_carry_forward: evidence/plan-001/evidence-carry-forward-2026-09-18.json
+  policy: docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md
+  corrected_prior_evidence: evidence/plan-001/verification-boundary-correction-2026-09-18.json
+  verification_batch_provider: enforced_planning/verification_batch.py
   hosted_ci: optional_manual_unfunded
   canonical_external_test: tests/repository_context/test_data_contracts_pinned.py
   planned_evidence_root: evidence/plan-001/
   note: >-
-    Focused and pinned external checks were authentically observed on prior exact
-    revisions. Their evidence carries forward only across exact relevant blob
-    identity. Current core Repository Context subjects satisfy that rule; fresh
-    local/external execution is required when relevant blobs change or the claim
-    exceeds the carried evidence. Hosted CI is not an acceptance gate.
+    Focused and pinned external checks were authentically observed on a prior
+    revision, but current CLI/pinned end-to-end behavior executes the renderer
+    changed after that run. A stale pinned-test wording assertion was repaired.
+    Fresh local/external focused + pinned + CLI verification is required at one
+    exact clean revision. Hosted CI is not an acceptance gate.
 
 relationships:
   source: .agentic/relationships.yaml
