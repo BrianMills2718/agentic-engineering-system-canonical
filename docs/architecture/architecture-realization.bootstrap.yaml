@@ -1,0 +1,434 @@
+# Provisional design only. No provider adoption, code relocation, or implementation authorization.
+schema_version: aes.architecture_realization.bootstrap.v0
+id: AES-BLUEPRINT-001
+revision: 1
+status: proposed
+parent_record: docs/architecture/normative-component-alignment.bootstrap.yaml
+authoring_mode: assistant_authored_design_using_company_planning_guidance
+not_claimed: [accepted_architecture, executed_generator, runtime_conformance, utility_acceptance, gap_closure]
+
+snapshots:
+  bootstrap:
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 2220ad62639c1e4596e57263b99e13fcc81b20ef
+    role: research_and_existing_normative_baseline
+  implementation:
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: 9f82f3500e4a472b26756c31ea9205f908d7c394
+    role: PR5_implementation_read_only
+  methodology:
+    repository: BrianMills2718/wiki_methodology
+    revision: 0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe
+    role: adopted_methodology
+  planning:
+    repository: BrianMills2718/company-planning
+    revision: c0887bf8901853dc5eb79f0f75667360970f7c47
+    role: inspected_design_guidance_not_a_new_runtime_pin
+
+sources:
+  system:
+    snapshot: bootstrap
+    path: docs/architecture/SYSTEM_BOUNDARY.md
+    selector: markdown_heading_clause_id
+    git_blob: 61ca470a34c7046e33a5b631964d5114035fa06e
+  convergence:
+    snapshot: bootstrap
+    path: docs/decisions/0001-canonical-convergence-boundary.md
+    selector: whole_record
+  gaps:
+    snapshot: bootstrap
+    path: docs/architecture/INITIAL_GAP_LEDGER.md
+    limitation: historical_bootstrap_gaps_not_fresh_implementation_assessment
+  alignment:
+    snapshot: bootstrap
+    path: docs/architecture/normative-component-alignment.bootstrap.yaml
+  methodology:
+    snapshot: methodology
+    path: docs/architecture/AGENTIC_CODING_DOCUMENTATION_ARCHITECTURE.md
+    sections: [3, 4, 5, 6, 7, 10, 11, 15, 16]
+  planning:
+    snapshot: planning
+    path: plugins/company-planning/skills/bounded-design/SKILL.md
+    sections: [Establish Current Truth, Derive The Design]
+  slice1:
+    snapshot: implementation
+    path: docs/plans/001_repository_context_resolution_vertical.md
+    sections: [Frozen contract disposition, Frozen implementation topology, Frozen verification topology]
+  resolver:
+    snapshot: implementation
+    path: src/agentic_engineering_system/repository_context/resolver.py
+    git_blob: 69083b9ea429a11b32f502ed57b9b94a80b2bf3c
+  models:
+    snapshot: implementation
+    path: src/agentic_engineering_system/repository_context/models.py
+    git_blob: 9860d6a793c9611b8f64135a3377c697709d9aac
+  resolver_tests:
+    snapshot: implementation
+    path: tests/repository_context/test_resolver.py
+    git_blob: 7f840bb4f6474be41f96213ff62b8949cc9b5dd1
+  ac17:
+    snapshot: bootstrap
+    path: research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
+    role: donor_synthesis_not_adoption_or_replicated_experiment
+  sourcing:
+    snapshot: bootstrap
+    path: research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md
+    role: candidate_dispositions_not_provider_selection
+  opa_probe:
+    snapshot: bootstrap
+    path: research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md
+    evidence_level: conceptual_mapping_not_executed_conformance
+  tosca_probe:
+    snapshot: bootstrap
+    path: research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md
+    evidence_level: illustrative_mapping_not_validated_TOSCA
+  provenance_probe:
+    snapshot: bootstrap
+    path: research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md
+    evidence_level: conceptual_mapping_not_created_or_verified_attestation
+
+outcome:
+  actor: engineer_or_coding_agent_working_in_AES
+  job: locate_code_and_read_its_exact_applicable_normative_context
+  result: >
+    One compact blueprint aligns component responsibility, source sections, code homes,
+    important typed boundaries, and verification obligations. System goals and journeys
+    remain visible without requiring one separately authored document per document type.
+  draft_gap:
+    basis: [alignment, system, resolver, models, resolver_tests]
+    variance: >
+      The current record enumerates directions and AQRs but lacks component-to-code bindings.
+      The inspected implementation files do not yet carry generated normative blocks.
+    related_historical_gap_ids: [GAP-AES-005, GAP-AES-007, GAP-AES-015, GAP-AES-016]
+    disposition: bounded_design_before_new_implementation
+    closure_claim: none
+
+record_layout_proposal:
+  status: proposed_not_migrated
+  system_home: docs/architecture/system.yaml
+  component_home_rule: src/agentic_engineering_system/<component>/component.yaml
+  component_code_rule: >
+    Start compactly with one implementation module where coherent. Keep existing
+    repository_context files and imports unchanged. Split on semantic or engineering need,
+    not an arbitrary line count, one-function-per-file rule, or forced single-file limit.
+  authored_sections:
+    system: [goal_or_north_star, product_outcomes, journeys, system_requirements, seams]
+    component: [purpose, requirements, source_refs, boundary_refs, code_homes, verification_obligations]
+  optional_sections: [questions, risks, assumptions, examples, operational_constraints]
+  existing_records:
+    research: research/
+    durable_decisions: docs/decisions/
+    change_plans: docs/plans/
+    observations: evidence/
+  rules:
+    - Existing accepted Markdown remains authoritative until an explicit migration decision.
+    - New structured prose is authored once; native typed contracts are referenced, not redefined in YAML.
+    - PRD, requirements, architecture, and journey are possible views or sections, not mandatory new files.
+    - Questions and research are not normative decisions; proposed decisions remain proposed.
+    - A future accepted move must preserve clause IDs and wording and retire the old authoritative location atomically.
+  blocked_by: [AQR-001, AQR-002, AQR-009, AQR-010, AQR-011]
+
+normative_binding_proposal:
+  status: proposed
+  references: exact_snapshot_plus_path_plus_clause_id_or_native_selector
+  rendering: verbatim_normative_text_with_source_identity
+  source_of_text: native_source_not_alignment_foundation_paraphrases
+  shared_context:
+    clauses: [AES-SYS-002, AES-SYS-003, AES-SYS-004, AES-SYS-005, AES-CAP-002, AES-CONTRACT-001, AES-POL-002, AES-ECON-001]
+    source: system
+  effective_context_rule: >
+    Explicitly declared component membership determines applicability. Each symbol can
+    resolve shared clauses plus component clauses plus incident seam obligations plus
+    any explicit symbol-specific obligations. No inference from an undeclared directory name.
+  inheritance_limit: >
+    Applicability is not proof that every symbol implements or satisfies every clause.
+    Do not propagate component-level PASS to individual symbols. Binding and behavioral
+    adequacy are separate assertions.
+  cross_scope_conflicts: expose_and_route_to_AQR_or_accepted_exception_never_silently_override
+  componentization: capability_to_component_many_to_many_with_named_responsibility
+  context_completeness: >
+    Pilot against the complete small normative baseline, not a lossy summarizer.
+    Mechanical coverage proves declared applicability only; missing semantic relationships
+    still require independent review and behavioral evidence.
+  blocked_by: [AQR-003, AQR-004, AQR-005, AQR-008, AQR-012]
+
+state_rules:
+  declaration: proposed
+  default_source_status: reserved_not_materialized
+  default_verification_status: not_run
+  default_utility_status: not_observed
+  existing_implementation: >
+    PR5 is a different snapshot from this research branch. Presence there is recorded
+    below; this blueprint does not claim that main or PR6 contains that implementation.
+  no_linear_promotion: >
+    Planned, stubbed, implemented, verified, and useful are not one interchangeable
+    status ladder. Keep declaration, realization, technical evidence, and utility separate.
+
+components:
+  - id: repository_context
+    purpose: resolve_repository_navigation_and_authority_from_bounded_exact_sources
+    clauses: [AES-CTX-001, AES-DOGFOOD-001, AES-DOGFOOD-002]
+    origin_gaps: [GAP-AES-002, GAP-AES-019, GAP-AES-020]
+    local_role: existing_residual_and_Git_adapter
+    provider_disposition: retain_Slice1_Git_Pydantic_PyYAML_stdlib_bindings
+    source_status: present_on_implementation_snapshot
+    code_home: src/agentic_engineering_system/repository_context/
+    code_policy: preserve_all_existing_modules_no_move_under_context
+    proposed_record: src/agentic_engineering_system/repository_context/component.yaml
+    boundary:
+      state: observed_signature_not_executed_here
+      source: resolver
+      symbol: RepositoryContextResolver.resolve
+      signature: "resolve(self, expected_revision: str | None = None) -> RepositoryContextArtifact"
+      result_source: models
+      result_symbol: RepositoryContextArtifact
+      error_semantics: declared_ERROR_PARTIAL_and_unresolved_values_are_not_success
+    checks:
+      source: resolver_tests
+      test: test_malformed_authoritative_manifest_blocks_legacy_fallback
+      obligation: malformed_authoritative_manifest_blocks_without_legacy_fallback
+      disproof: malformed_manifest_resolves_through_legacy
+      execution: not_run_in_this_draft
+    open_questions: [AQR-002, AQR-004, AQR-010]
+    utility: first_A1_change_followup_presentation_deferred_do_not_reopen_here
+
+  - id: normative_context
+    purpose: bind_authoritative_sections_to_code_and_supply_exact_applicable_context
+    clauses: [AES-CTX-001, AES-CTX-002, AES-CTX-003]
+    origin_gaps: [GAP-AES-015, GAP-AES-016, GAP-AES-027]
+    local_role: proposed_binding_and_projection_residual
+    provider_disposition: native_paths_and_Python_source_inspection_first_SCIP_candidate_only
+    code_home: src/agentic_engineering_system/normative_context/
+    proposed_record: src/agentic_engineering_system/normative_context/component.yaml
+    proposed_module: context.py
+    boundary:
+      state: unresolved
+      input: exact_source_identity_component_binding_and_native_normative_references
+      output: verbatim_effective_context_plus_missing_conflicting_stale_references
+      blocked_by: [AQR-004, AQR-005, AQR-007, AQR-011]
+    checks:
+      planned_home: tests/normative_context/test_context.py
+      obligation: code_location_resolves_full_declared_system_component_and_seam_context
+      disproof: omitted_clause_paraphrase_dangling_reference_or_unreported_stale_text
+    open_questions: [AQR-001, AQR-002, AQR-004, AQR-005, AQR-009, AQR-010, AQR-011]
+
+  - id: capability_sourcing
+    purpose: compare_providers_and_record_selection_rejection_and_residuals
+    clauses: [AES-CAP-001, AES-CAP-002]
+    origin_gaps: [GAP-AES-009, GAP-AES-022]
+    local_role: proposed_provider_adapter_and_local_disposition
+    provider_disposition: ACA_incumbent_external_options_first_TOSCA_reference_unselected
+    code_home: src/agentic_engineering_system/capability_sourcing/
+    proposed_record: src/agentic_engineering_system/capability_sourcing/component.yaml
+    proposed_module: sourcing.py
+    boundary:
+      state: unresolved
+      input: required_behavior_constraints_and_candidate_evidence
+      output: scoped_provider_disposition_with_unresolved_fields_preserved
+      blocked_by: [AQR-003, AQR-007, AQR-011, AQR-012]
+    checks:
+      planned_home: tests/capability_sourcing/test_sourcing.py
+      obligation: provider_choice_has_fit_evidence_and_explicit_remaining_semantics
+      disproof: internal_donor_or_generic_standard_name_silently_becomes_runtime_binding
+    open_questions: [AQR-003, AQR-007, AQR-011, AQR-012]
+
+  - id: planning
+    purpose: co_design_normative_records_code_boundaries_and_outcome_bearing_slices
+    clauses: [AES-PLAN-001, AES-PLAN-002, AES-PLAN-004, AES-PLAN-005, AES-PLAN-006, AES-PLAN-007]
+    origin_gaps: [GAP-AES-006, GAP-AES-007, GAP-AES-021, GAP-AES-023, GAP-AES-024, GAP-AES-025]
+    local_role: proposed_AES_profile_and_handoff_adapter
+    provider_disposition: Company_Planning_incumbent_no_fork_or_plugin_extension_claim
+    code_home: src/agentic_engineering_system/planning/
+    proposed_record: src/agentic_engineering_system/planning/component.yaml
+    proposed_module: handoff.py
+    boundary:
+      state: unresolved
+      input: accepted_outcome_norms_gap_observations_and_provider_dispositions
+      output: proposed_aligned_design_then_separately_authorized_execution_contract
+      blocked_by: [AQR-006, AQR-007, AQR-011]
+    checks:
+      planned_home: tests/planning/test_handoff.py
+      obligation: design_preserves_source_authority_scope_and_required_evidence
+      disproof: schema_valid_design_with_unowned_norms_or_unapproved_abstraction_is_accepted
+    open_questions: [AQR-001, AQR-006, AQR-007, AQR-008, AQR-011, AQR-012]
+
+  - id: execution
+    purpose: hand_accepted_work_to_execution_governance_and_retain_actual_outcomes
+    clauses: [AES-SYS-001, AES-PLAN-002, AES-POL-003]
+    origin_gaps: [GAP-AES-001, GAP-AES-007, GAP-AES-013]
+    local_role: proposed_provider_adapter
+    provider_disposition: Enforced_Planning_incumbent_OWS_not_selected
+    code_home: src/agentic_engineering_system/execution/
+    proposed_record: src/agentic_engineering_system/execution/component.yaml
+    proposed_module: handoff.py
+    boundary:
+      state: unresolved
+      input: accepted_work_revision_authority_and_provider_native_custody_request
+      output: native_execution_observation_or_explicit_block_and_recovery_reference
+      blocked_by: [AQR-006, AQR-007, AQR-011]
+    checks:
+      planned_home: tests/execution/test_handoff.py
+      obligation: native_provider_retains_claims_and_worktree_authority
+      disproof: duplicate_claim_store_or_completed_status_without_observed_execution
+    open_questions: [AQR-006, AQR-007, AQR-011]
+
+  - id: policy_control
+    purpose: invoke_applicable_controls_without_owning_a_new_generic_policy_language
+    clauses: [AES-POL-001, AES-POL-002, AES-POL-003, AES-POL-004]
+    origin_gaps: [GAP-AES-011, GAP-AES-012, GAP-AES-013, GAP-AES-014]
+    local_role: proposed_authority_binding_and_enforcement_adapter
+    provider_disposition: retain_incumbent_controls_OPA_candidate_not_selected
+    code_home: src/agentic_engineering_system/policy_control/
+    proposed_record: src/agentic_engineering_system/policy_control/component.yaml
+    proposed_module: control.py
+    boundary:
+      state: unresolved
+      input: exact_policy_reference_authorized_operation_and_observed_facts
+      output: native_decision_evaluation_state_and_recovery_or_escalation
+      blocked_by: [AQR-007, AQR-011]
+    checks:
+      planned_home: tests/policy_control/test_control.py
+      obligation: distinguish_control_verdict_observer_error_and_allowed_recovery
+      disproof: missing_or_stale_facts_render_as_pass_or_exception_erases_factual_failure
+    open_questions: [AQR-005, AQR-007, AQR-011]
+
+  - id: evidence_assessment
+    purpose: qualify_native_observations_and_derive_revision_bound_current_characterization
+    clauses: [AES-PLAN-003, AES-EVID-001, AES-POL-002, AES-POL-004]
+    origin_gaps: [GAP-AES-008, GAP-AES-012, GAP-AES-014, GAP-AES-017]
+    local_role: proposed_adequacy_freshness_and_characterization_residual
+    provider_disposition: native_receipts_first_PROV_intoto_SLSA_candidates_only_where_needed
+    code_home: src/agentic_engineering_system/evidence_assessment/
+    proposed_record: src/agentic_engineering_system/evidence_assessment/component.yaml
+    proposed_module: assessment.py
+    boundary:
+      state: unresolved
+      input: required_proof_native_observations_exact_subject_and_dependency_revisions
+      output: bounded_characterization_with_adequacy_and_freshness_distinct_from_check_result
+      blocked_by: [AQR-007, AQR-011]
+    checks:
+      planned_home: tests/evidence_assessment/test_assessment.py
+      obligation: unit_test_pass_cannot_establish_unobserved_external_behavior
+      disproof: passing_proxy_or_outdated_receipt_closes_stronger_claim
+    open_questions: [AQR-005, AQR-007, AQR-008, AQR-011]
+
+  - id: gap_reconciliation
+    purpose: compare_current_characterization_with_accepted_target_without_plan_driven_closure
+    clauses: [AES-SYS-001, AES-PLAN-001, AES-PLAN-003, AES-DOGFOOD-002]
+    origin_gaps: [GAP-AES-001, GAP-AES-006, GAP-AES-008, GAP-AES-020]
+    local_role: proposed_AES_comparison_residual
+    provider_disposition: residual_fit_still_to_be_bounded_no_universal_graph
+    code_home: src/agentic_engineering_system/gap_reconciliation/
+    proposed_record: src/agentic_engineering_system/gap_reconciliation/component.yaml
+    proposed_module: reconcile.py
+    boundary:
+      state: unresolved
+      input: exact_accepted_target_and_qualified_current_characterization
+      output: gap_assessment_and_explicit_plan_linkage_or_unplanned_state
+      blocked_by: [AQR-007, AQR-011]
+    checks:
+      planned_home: tests/gap_reconciliation/test_reconcile.py
+      obligation: target_change_or_inadequate_observation_prevents_false_closure
+      disproof: completed_plan_or_missing_observation_yields_closed_gap
+    open_questions: [AQR-005, AQR-007, AQR-011, AQR-012]
+
+  - id: learning
+    purpose: disposition_observed_outcomes_into_future_planning_policy_or_capability_changes
+    clauses: [AES-LEARN-001, AES-ECON-001]
+    origin_gaps: [GAP-AES-018, GAP-AES-026]
+    local_role: proposed_feedback_linkage_not_a_new_knowledge_platform
+    provider_disposition: existing_native_learning_owners_retained_adapter_choice_unresolved
+    code_home: src/agentic_engineering_system/learning/
+    proposed_record: src/agentic_engineering_system/learning/component.yaml
+    proposed_module: feedback.py
+    boundary:
+      state: unresolved
+      input: observed_outcome_or_rejected_fit_with_exact_sources
+      output: attributed_proposal_or_disposition_to_an_owning_authority
+      blocked_by: [AQR-006, AQR-007, AQR-011]
+    checks:
+      planned_home: tests/learning/test_feedback.py
+      obligation: distinguish_proposed_improvement_from_accepted_policy_or_provider_change
+      disproof: research_or_negative_result_silently_rewrites_accepted_authority
+    open_questions: [AQR-006, AQR-007, AQR-011]
+
+seams:
+  - id: normative_to_code
+    participants: [planning, normative_context, repository_context]
+    clauses: [AES-CTX-002, AES-CONTRACT-001]
+    contract_status: proposed_obligation_not_frozen_schema
+    obligation: >
+      Bind accepted clauses to declared code locations; resolve exact wording at each
+      symbol without rewriting it. Missing bindings are visible, not silently omitted.
+    planned_check: tests/normative_context/test_context.py
+  - id: planning_to_provider
+    participants: [planning, capability_sourcing, execution, policy_control]
+    clauses: [AES-CAP-001, AES-CAP-002, AES-PLAN-002, AES-SYS-002]
+    contract_status: proposed_obligation_not_frozen_schema
+    obligation: >
+      Provider selection precedes freezing provider-dependent local APIs.
+      Selecting machinery does not transfer policy, plan, or claim authority.
+    planned_check: tests/planning/test_handoff.py
+  - id: observation_to_gap
+    participants: [execution, policy_control, evidence_assessment, gap_reconciliation]
+    clauses: [AES-POL-002, AES-EVID-001, AES-PLAN-003]
+    contract_status: proposed_obligation_not_frozen_schema
+    obligation: >
+      ERROR, absent evidence, insufficient evidence, and STALE remain explicit through
+      composition. A successful command or completed plan cannot alone close a gap.
+    planned_check: tests/gap_reconciliation/test_reconcile.py
+  - id: learning_to_intent
+    participants: [learning, planning, normative_context, capability_sourcing]
+    clauses: [AES-LEARN-001, AES-SYS-002]
+    contract_status: proposed_obligation_not_frozen_schema
+    obligation: proposals_return_to_native_authorities_and_do_not_self_accept
+    planned_check: tests/learning/test_feedback.py
+
+decision_sequence:
+  - id: BP-D1
+    status: proposed
+    aqrs: [AQR-001, AQR-002, AQR-009, AQR-010, AQR-011]
+    recommendation: >
+      Trial a compact system record plus one component-local record, referencing current
+      Markdown authority during migration. Use optional sections instead of a file taxonomy.
+    next_test: one_real_code_location_with_verbatim_system_component_and_seam_context
+  - id: BP-D2
+    status: proposed
+    aqrs: [AQR-003, AQR-004, AQR-005, AQR-007, AQR-008, AQR-012]
+    recommendation: >
+      Treat Component as a scoped planning label, not a universal runtime class.
+      Type consequential boundaries and verify real producer/consumer examples; derive
+      internal symbols and effective applicability. Structural green is not semantic proof.
+    next_test: typed_boundary_positive_negative_and_joint_rule_examples_in_the_pilot
+  - id: BP-D3
+    status: proposed
+    aqrs: [AQR-006]
+    recommendation: >
+      Trial the AES profile locally using existing Company Planning guidance before any
+      upstream edit or fork. Propose only demonstrated generic improvements upstream.
+    fork_trigger: sustained_incompatibility_that_cannot_be_expressed_by_a_small_profile
+    extension_mechanism: unverified
+    next_test: bounded_design_output_contains_the_required_bindings_without_new_document_sprawl
+
+next_bounded_dogfood:
+  classification: design_validation_probe_not_Slice1_delivery
+  subject: repository_context
+  exact_code_source: resolver
+  example_symbol: RepositoryContextResolver.resolve
+  native_check_source: resolver_tests
+  native_check_symbol: test_malformed_authoritative_manifest_blocks_legacy_fallback
+  materialization_stage: proposed_not_executed
+  behavior_to_observe: >
+    From the real code location, obtain verbatim applicable clauses and Plan 001 criteria,
+    follow the native check, and see an explicit error when a referenced clause is removed
+    or changed. Prove declared-context preservation before adding other component machinery.
+  disposition_after_probe: >
+    Record findings against BP-D1/BP-D2, then use the chosen layout to materialize the
+    full reserved tree. Unresolved areas may have labeled placeholders; they need no
+    invented class signatures. Provider adoption and behavioral implementation stay separate.
+  exclusions:
+    - modifying_or_merging_PR5
+    - creating_human_presentation_artifacts
+    - modifying_Data_Contracts_Company_Planning_or_AC17
+    - selecting_OPA_TOSCA_OWS_SCIP_or_attestation_dependencies
+    - claiming_all_semantics_are_verified_by_a_valid_YAML_file
