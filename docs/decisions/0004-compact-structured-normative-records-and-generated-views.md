@@ -148,6 +148,7 @@ The rule is one semantic authority, not "everything must be terse YAML."
   document names.
 - Company Planning can target system/component records while rendering familiar
   views for review.
-- AQR-011 remains open: the exact machine schema for the architecture-realization
-  blueprint still needs to be minimized and frozen from the now-accepted record
-  decisions.
+- At the time of this decision, AQR-011 remained open for the exact
+  architecture-realization machine schema. Decision 0006 subsequently resolved
+  AQR-011 with the minimal JSON Schema 2020-12 contract; this decision continues
+  to govern the normative-record/view model rather than the schema mechanics.
