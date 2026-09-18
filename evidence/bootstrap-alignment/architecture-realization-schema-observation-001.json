@@ -1,0 +1,56 @@
+{
+  "record_id": "AES-ARCHITECTURE-REALIZATION-SCHEMA-OBS-001",
+  "scope": "architecture_realization_schema_and_projection",
+  "status": "observed",
+  "execution_environment": "ChatGPT Python sandbox",
+  "runtime": {
+    "python": "3.13.5",
+    "jsonschema": "4.26.0",
+    "PyYAML": "6.0.3"
+  },
+  "schema": {
+    "path": "docs/architecture/schemas/architecture-realization.bootstrap.schema.json",
+    "draft": "2020-12",
+    "git_blob": "b058a1fabd30e9d6c2f2cbdb7a19655c96744be1",
+    "exact_blob_match_in_execution": true,
+    "schema_check": "pass"
+  },
+  "full_pilot": {
+    "path": "generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml",
+    "git_blob": "4276e564a69645bc5337a9644cbdb037c0e6d569",
+    "exact_blob_match_in_execution": true,
+    "components": 9,
+    "seams": 4,
+    "json_schema_errors": 0,
+    "AES_cross_reference_errors": 0
+  },
+  "schema_negative_controls": {
+    "unresolved_without_blocker": {"rejected": true},
+    "semantic_owner_unresolved_without_blocker": {"rejected": true},
+    "extra_component_field": {"rejected": true},
+    "mutable_source_revision": {"rejected": true},
+    "verification_without_disproof": {"rejected": true},
+    "unsafe_absolute_path": {"rejected": true},
+    "empty_nonclaims": {"rejected": true}
+  },
+  "AES_cross_reference_negative_controls": {
+    "duplicate_component_id": {"rejected": true},
+    "undeclared_seam_participant": {"rejected": true},
+    "undeclared_component_seam_ref": {"rejected": true}
+  },
+  "validator": {
+    "path": "research/investigations/validate_architecture_realization_schema.py",
+    "role": "JSON Schema validation plus bounded AES cross-reference checks"
+  },
+  "findings": [
+    "JSON Schema 2020-12 is sufficient for the structural architecture-realization contract; AES only needs small residual cross-reference checks.",
+    "The schema can express all nine current responsibility-shaped components and four seams without defining generic capability, workflow, provenance, policy, contract, or code-symbol semantics.",
+    "Unresolved semantic/provider/boundary decisions remain representable without inventing APIs.",
+    "Exact source revisions, nonclaims, verification obligations and disproof are enforceable structurally."
+  ],
+  "limitations": [
+    "Schema validity does not prove normative applicability, provider fit, typed runtime compatibility, implementation behavior, evidence adequacy, or stakeholder utility.",
+    "The generated pilot remains a projection; accepted Markdown and accepted decisions remain current authority until an explicit migration.",
+    "No merge, Plan 001 delivery, or gap closure is claimed."
+  ]
+}
