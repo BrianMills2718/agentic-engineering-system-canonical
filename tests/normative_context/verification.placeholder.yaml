@@ -1,0 +1,17 @@
+# VERIFICATION PLACEHOLDER ONLY — NO TEST EXECUTION IS CLAIMED.
+schema_version: aes.verification.placeholder.v0
+component_id: normative_context
+status: planned_unrealized
+materialization: verification_home_only
+blueprint:
+  path: docs/architecture/architecture-realization.bootstrap.yaml
+  revision: 2
+  git_blob: 57d42f9065f840e728057de3f371d36db984540f
+verification_home: tests/normative_context/
+planned_test_module: test_context.py
+obligation: code_location_resolves_full_declared_system_component_and_seam_context
+disproof: omitted_clause_paraphrase_dangling_reference_or_unreported_stale_text
+rules:
+  - This reserves the verification location and claim boundary only.
+  - Do not create passing placeholder tests or skips that could be mistaken for evidence.
+  - Test/check identity and implementation are frozen only when the relevant boundary is resolved.
