@@ -20,7 +20,7 @@ The lifecycle preserves native authority, honest unknown/error states, direct st
 
 The component-aligned bootstrap architecture is adopted, and this branch has been refreshed onto that architecture.
 
-- Decisions 0001–0007 define the convergence boundary, Company Planning profile strategy, component/context rules, compact normative-record direction, consequential-seam typing, minimal architecture-realization contract, and provider-independent verification/evidence carry-forward.
+- Decisions 0001–0008 define the convergence boundary, Company Planning profile strategy, component/context rules, compact normative-record direction, consequential-seam typing, minimal architecture-realization contract, and the corrected provider-independent verification boundary.
 - All twelve bootstrap AQRs are resolved to explicit decisions.
 - Existing accepted Markdown remains normative authority until an explicit single-authority migration.
 - Generated bootstrap projections remain non-authoritative dogfood/probe artifacts.
@@ -38,15 +38,18 @@ Post-integration characterization and the initial gap-ledger recomputation now e
 
 Before Plan 001 can be treated as delivered:
 
-- technical evidence must remain adequate under Decision 0007's exact-blob carry-forward rule; fresh local/external execution is required only when relevant executable/test/dependency blobs change or carry-forward cannot support the claim;
-- the private pinned `data-contracts` acceptance boundary remains distinct from hosted CI and is satisfied by its authentic prior execution for the byte-identical core subjects currently on main;
-- the corrected human-facing presentation still requires follow-up direct utility review through the separate Representation Router workstream;
-- characterization/gap state must be refreshed again only if that new observation materially changes current state.
+- run the repaired focused suite, pinned private `data-contracts` test, and real CLI locally at one exact clean revision; Decision 0008 requires this because the current CLI/pinned path transitively executes the renderer changed after the earlier authentic run;
+- bind that verification to the exact revision with the incumbent Enforced Planning verification-batch mechanism;
+- keep hosted CI out of the acceptance path while funding is unavailable;
+- directly review the corrected human-facing presentation through the separate Representation Router workstream;
+- refresh characterization/gap state again only if those observations materially change current state.
 
 **Next**
 
 ```text
-preserve exact-blob verification evidence; re-execute locally only if relevant blobs change
+run repaired focused + pinned-consumer + real CLI verification locally
+        ↓
+bind the verification command/result to the exact clean revision
         ↓
 keep hosted CI optional/manual rather than an acceptance gate
         ↓
@@ -73,7 +76,7 @@ PR #5 was integrated into canonical `main` as implementation-partial under an ex
 6. [`../docs/architecture/aes-company-planning-profile.bootstrap.yaml`](../docs/architecture/aes-company-planning-profile.bootstrap.yaml) — AES-local planning profile and reproducible bootstrap checks.
 7. [`../docs/architecture/schemas/architecture-realization.bootstrap.schema.json`](../docs/architecture/schemas/architecture-realization.bootstrap.schema.json) — minimal architecture-realization contract.
 8. [`../docs/architecture/INITIAL_GAP_LEDGER.md`](../docs/architecture/INITIAL_GAP_LEDGER.md) — originating target/current variance; do not close rows merely because implementation work completed.
-9. [`../docs/decisions/0001-canonical-convergence-boundary.md`](../docs/decisions/0001-canonical-convergence-boundary.md) through [`../docs/decisions/0007-provider-independent-verification-and-blob-evidence-carry-forward.md`](../docs/decisions/0007-provider-independent-verification-and-blob-evidence-carry-forward.md) — accepted architecture/verification decisions and rationale.
+9. [`../docs/decisions/0001-canonical-convergence-boundary.md`](../docs/decisions/0001-canonical-convergence-boundary.md) through [`../docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md`](../docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md) — accepted architecture/verification decisions and rationale. Decision 0007 is superseded.
 
 ## Slice 1 in one picture
 
@@ -112,8 +115,8 @@ The surface must not invent a wiki, infer semantic authority from folder names, 
 
 - **Hosted regression CI** — optional/manual convenience only; funding or runner availability is not conformance evidence.
 - **Local/external execution** — first-class verification when fresh execution is required.
-- **Immutable-blob carry-forward** — prior authentic execution remains applicable only across exact relevant implementation/test/dependency blob identity.
-- **Pinned external acceptance** — exact `data-contracts` checkout and real entrypoint behavior; current core evidence carries from the authentically executed byte-identical subjects.
+- **Historical execution reuse** — claim-specific only when the complete transitive executed subject and relevant environment assumptions remain adequate under Decision 0008.
+- **Pinned external acceptance** — exact `data-contracts` checkout and real entrypoint behavior; current end-to-end acceptance requires one repaired fresh local run because the renderer changed after the earlier authentic execution.
 - **Stakeholder utility** — direct use and `continue | change | stop`.
 - **Gap closure** — fresh characterization plus target/current recomputation.
 

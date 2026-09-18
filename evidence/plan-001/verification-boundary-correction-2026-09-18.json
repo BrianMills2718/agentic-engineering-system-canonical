@@ -1,0 +1,32 @@
+{
+  "record_id": "AES-PLAN-001-VERIFICATION-BOUNDARY-CORRECTION-001",
+  "date": "2026-09-18",
+  "status": "active_correction",
+  "corrects": "evidence/plan-001/evidence-carry-forward-2026-09-18.json",
+  "finding": "file_by_file_identity_omitted_transitive_executed_dependencies",
+  "concrete_counterexample": {
+    "cli_path": "src/agentic_engineering_system/repository_context/cli.py",
+    "cli_imports": "src/agentic_engineering_system/repository_context/render_html.py#write_outputs",
+    "renderer_changed_after_authentic_execution": true,
+    "pinned_test_path": "tests/repository_context/test_data_contracts_pinned.py",
+    "pinned_test_calls_renderer": true,
+    "stale_assertions_found": true,
+    "stale_assertions": [
+      "directory presence does not establish repository-wide contract authority",
+      "no bounded root source establishes a local wiki as navigation authority"
+    ],
+    "current_renderer_contains_stale_assertions": false
+  },
+  "corrected_disposition": {
+    "resolver_model_adapter_subclaims": "historical execution remains relevant only to narrower claims that do not execute changed renderer behavior",
+    "current_cli_end_to_end": "fresh_local_or_external_execution_required_after_test_repair",
+    "current_pinned_consumer_end_to_end": "fresh_local_or_external_execution_required_after_test_repair",
+    "hosted_github_actions": "not_required"
+  },
+  "governing_decision": "docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md",
+  "nonclaims": [
+    "current_end_to_end_cli_verified",
+    "current_pinned_consumer_verified",
+    "plan_001_delivered"
+  ]
+}

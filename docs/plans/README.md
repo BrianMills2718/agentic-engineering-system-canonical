@@ -1,10 +1,10 @@
 # Plans
 
-Status: one active pilot plan; D1 closed; Slice 1 implementation partial; technical evidence adequate through authentic execution plus exact-blob carry-forward; first A1 = `change`; post-integration characterization/gap recomputation complete; follow-up utility review pending.
+Status: one active pilot plan; D1 closed; Slice 1 implementation partial; historical core execution evidence retained; current end-to-end local verification pending after renderer/test repair; first A1 = `change`; post-integration characterization/gap recomputation complete; follow-up utility review pending.
 
 ## Active
 
-- [`001_repository_context_resolution_vertical.md`](001_repository_context_resolution_vertical.md) — Plan 001 / first external-consumer vertical. The implementation exists on `slice-1/repository-context` / PR #5, but delivery is not yet claimed.
+- [`001_repository_context_resolution_vertical.md`](001_repository_context_resolution_vertical.md) — Plan 001 / first external-consumer vertical. The implementation is integrated on canonical `main`; delivery is not yet claimed.
 - [`001_D1_contract_surface_topology_freeze.md`](001_D1_contract_surface_topology_freeze.md) — **closed** subordinate D1 record. It is historical design authority for the frozen Slice 1 choices, not a second active plan.
 
 ## Current state
@@ -25,14 +25,16 @@ The repository is no longer `planned_unrealized`.
 - Data Contracts, Representation Router, Code Map V4, and predecessor AES systems remain unselected as Slice 1 runtime dependencies;
 - follow-up presentation work through Representation Router remains separate from Repository Context runtime semantics.
 
-Decision 0007 formalizes that relationship: authentic execution evidence may carry forward only across exact relevant implementation/test/dependency blob identity. Current core Repository Context, pinned-consumer test, package declaration, and `context.json` blobs are identical to the authentically executed revision; the corrected renderer/test/HTML are identical to the corrected projection revision. No new runtime execution is being claimed.
+Decision 0008 supersedes the earlier blob-only carry-forward rule. Narrow resolver/model/adapter claims may retain historical evidence where their transitive executed subject is unchanged, but the CLI and pinned-consumer path execute the changed renderer. The pinned test also contained stale wording assertions and has been repaired. Therefore current end-to-end acceptance requires one fresh local/external execution.
 
 ## Immediate frontier
 
 ```text
 canonical Slice 1 implementation on adopted architecture
         ↓
-preserve exact-blob evidence; run local/external verification only when relevant blobs change
+run repaired focused suite + pinned private consumer + real CLI locally
+        ↓
+bind fresh verification to exact clean revision with Enforced Planning verification batch
         ↓
 keep hosted GitHub Actions optional/manual
         ↓
@@ -43,7 +45,7 @@ refresh characterization/gap state only if new observations materially change it
 final Plan 001 closure/reconciliation
 ```
 
-GitHub Actions is currently administratively unavailable because its funding is exhausted. Automatic triggers are intentionally disabled. Hosted CI is not a Plan 001 acceptance gate; local/external execution and exact-blob evidence carry-forward are the authoritative verification paths under Decision 0007.
+GitHub Actions is administratively unavailable because its funding is exhausted. Automatic triggers remain disabled. Hosted CI is not a Plan 001 acceptance gate; fresh local/external execution under Decision 0008 is the current technical closure path.
 
 Do not broaden into generalized indexing, a characterization platform, representation infrastructure, or a final AES dashboard unless a Plan 001 stop/replan condition fires.
 
