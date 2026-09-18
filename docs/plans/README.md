@@ -1,6 +1,6 @@
 # Plans
 
-Status: one active pilot plan; D1 closed; Slice 1 implementation partial; technical execution observed on prior exact revisions; first A1 = `change`; post-integration characterization/gap recomputation complete; refreshed execution and follow-up utility review pending.
+Status: one active pilot plan; D1 closed; Slice 1 implementation partial; technical evidence adequate through authentic execution plus exact-blob carry-forward; first A1 = `change`; post-integration characterization/gap recomputation complete; follow-up utility review pending.
 
 ## Active
 
@@ -25,16 +25,16 @@ The repository is no longer `planned_unrealized`.
 - Data Contracts, Representation Router, Code Map V4, and predecessor AES systems remain unselected as Slice 1 runtime dependencies;
 - follow-up presentation work through Representation Router remains separate from Repository Context runtime semantics.
 
-The refreshed branch preserves all Repository Context source/test blobs from the pre-refresh head. That makes prior execution evidence relevant to those exact blobs, but it does **not** convert prior execution into a fresh refreshed-head run.
+Decision 0007 formalizes that relationship: authentic execution evidence may carry forward only across exact relevant implementation/test/dependency blob identity. Current core Repository Context, pinned-consumer test, package declaration, and `context.json` blobs are identical to the authentically executed revision; the corrected renderer/test/HTML are identical to the corrected projection revision. No new runtime execution is being claimed.
 
 ## Immediate frontier
 
 ```text
 canonical Slice 1 implementation on adopted architecture
         ↓
-obtain trustworthy technical/regression execution at the exact canonical head
+preserve exact-blob evidence; run local/external verification only when relevant blobs change
         ↓
-re-run pinned private data-contracts acceptance with AES_DATA_CONTRACTS_CHECKOUT
+keep hosted GitHub Actions optional/manual
         ↓
 follow-up direct utility review when the corrected presentation is reviewable
         ↓
@@ -43,7 +43,7 @@ refresh characterization/gap state only if new observations materially change it
 final Plan 001 closure/reconciliation
 ```
 
-Hosted GitHub regression CI is currently unavailable as execution evidence because jobs are failing before any workflow step runs. Even when hosted regression CI is healthy, it does not prove the private pinned-consumer acceptance boundary unless that checkout is explicitly provisioned.
+GitHub Actions is currently administratively unavailable because its funding is exhausted. Automatic triggers are intentionally disabled. Hosted CI is not a Plan 001 acceptance gate; local/external execution and exact-blob evidence carry-forward are the authoritative verification paths under Decision 0007.
 
 Do not broaden into generalized indexing, a characterization platform, representation infrastructure, or a final AES dashboard unless a Plan 001 stop/replan condition fires.
 

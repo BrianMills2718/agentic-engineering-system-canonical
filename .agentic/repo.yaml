@@ -24,7 +24,7 @@ planning:
   design_provider: Company Planning
   execution_governance_provider: Enforced Planning
   active_plan: docs/plans/001_repository_context_resolution_vertical.md
-  active_frontier: PLAN-001/Slice-1-refreshed-execution-followup-utility-closure
+  active_frontier: PLAN-001/Slice-1-followup-utility-final-closure
   bootstrap_architecture_revision: 45fa215dd977e2ab44338465d36ac37756f14e53
   bootstrap_alignment: docs/architecture/normative-component-alignment.bootstrap.yaml
   architecture_realization_profile: docs/architecture/aes-company-planning-profile.bootstrap.yaml
@@ -73,21 +73,26 @@ implementation:
     including the pinned external consumer, was observed on exact pre-refresh
     revisions; the first A1 returned change. Canonical main now has a
     revision-bound post-integration characterization and recomputed initial gap
-    ledger. Trustworthy refreshed-head execution and follow-up utility review
-    remain outstanding. Do not treat PARTIAL as conformant or delivered.
+    ledger. Decision 0007 accepts authentic execution carry-forward across exact
+    relevant blob identity; current technical evidence is adequate under that
+    rule. Follow-up utility review remains outstanding. Do not treat PARTIAL as
+    conformant or delivered.
 
 verification:
   roots:
     - tests/repository_context/
   state: PARTIAL
+  policy: docs/decisions/0007-provider-independent-verification-and-blob-evidence-carry-forward.md
+  evidence_carry_forward: evidence/plan-001/evidence-carry-forward-2026-09-18.json
+  hosted_ci: optional_manual_unfunded
   canonical_external_test: tests/repository_context/test_data_contracts_pinned.py
   planned_evidence_root: evidence/plan-001/
   note: >-
-    Focused and pinned external checks were observed on prior exact revisions.
-    The refreshed hosted regression run remains unavailable as code-test evidence
-    because the job fails before executing steps. The pinned private consumer
-    remains an explicit environment-dependent acceptance boundary and must not be
-    inferred from hosted regression CI.
+    Focused and pinned external checks were authentically observed on prior exact
+    revisions. Their evidence carries forward only across exact relevant blob
+    identity. Current core Repository Context subjects satisfy that rule; fresh
+    local/external execution is required when relevant blobs change or the claim
+    exceeds the carried evidence. Hosted CI is not an acceptance gate.
 
 relationships:
   source: .agentic/relationships.yaml
