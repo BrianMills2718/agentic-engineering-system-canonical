@@ -1,0 +1,17 @@
+# VERIFICATION PLACEHOLDER ONLY — NO TEST EXECUTION IS CLAIMED.
+schema_version: aes.verification.placeholder.v0
+component_id: evidence_assessment
+status: planned_unrealized
+materialization: verification_home_only
+blueprint:
+  path: docs/architecture/architecture-realization.bootstrap.yaml
+  revision: 2
+  git_blob: 57d42f9065f840e728057de3f371d36db984540f
+verification_home: tests/evidence_assessment/
+planned_test_module: test_assessment.py
+obligation: unit_test_pass_cannot_establish_unobserved_external_behavior
+disproof: passing_proxy_or_outdated_receipt_closes_stronger_claim
+rules:
+  - This reserves the verification location and claim boundary only.
+  - Do not create passing placeholder tests or skips that could be mistaken for evidence.
+  - Test/check identity and implementation are frozen only when the relevant boundary is resolved.
