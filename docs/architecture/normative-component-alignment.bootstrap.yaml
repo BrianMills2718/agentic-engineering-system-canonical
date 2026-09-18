@@ -254,7 +254,8 @@ aqrs:
       can express component normative scope, semantic owner/provider disposition,
       implementation homes, typed seams, verification obligations, and relevant
       system/seam inheritance without duplicating TOSCA, SCIP, OWS, PROV, or OPA?
-    status: open
+    status: resolved
+    decision: docs/decisions/0006-minimal-architecture-realization-json-schema.md
     decision_needed_before:
       - filesystem skeleton freeze
 
@@ -276,17 +277,17 @@ research_basis:
   - research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md
 
 next_dogfood_gate:
-  name: architecture-realization blueprint
+  name: accepted-profile architecture realization
   objective: >
-    Use the open AQRs and current directions to derive the smallest provisional
-    component blueprint for AES itself, then validate that every planned component
-    has normative responsibility, semantic ownership/provider disposition,
-    implementation home, typed seam where needed, and verification obligation.
+    Use the accepted AES Company Planning profile and versioned architecture-realization
+    schema to derive the next component-specific design from real gaps, without using
+    the bootstrap schema question itself as a substitute for unresolved component semantics.
   must_not_do:
-    - freeze unresolved generic Capability, ActionDescriptor, Workflow, PolicyEngine, ProvenanceGraph, or Symbol abstractions
-    - create parallel prose sources for normative wording already owned elsewhere
-    - decompose into symbol-level planning nodes by default
-    - hide applicable system/seam norms from component working context
+    - invent component APIs merely because the filesystem home exists
+    - treat reserved placeholders as realized implementation
+    - change generic Company Planning transport for AES-only detail
+    - promote generated structured projections to authority before an explicit migration
   completion_condition: >
-    The blueprint can lay out the intended filesystem/component structure while
-    preserving explicit unresolved questions instead of silently answering them.
+    A real component design carries exact normative scope, provider disposition,
+    consequential boundary state, verification/disproof, and only the unresolved
+    questions that actually belong to that component.
