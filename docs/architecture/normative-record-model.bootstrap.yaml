@@ -207,18 +207,24 @@ resolved_design_questions:
   - AQR-011
   - AQR-012
 
+bootstrap_probe:
+  status: completed
+  evidence: evidence/bootstrap-alignment/normative-record-view-dogfood-001.json
+  generated_views:
+    - generated/bootstrap-normative/system.pilot.yaml
+    - generated/bootstrap-normative/view-bundle.md
+  result: >
+    One structured projection generated PRD-style, journey, requirements,
+    architecture/component, and AQR views while negative controls rejected
+    duplicate IDs, paraphrase drift, current-as-normative promotion, native
+    contract redefinition, false authority, and resolved AQRs without decisions.
+
 next_probe:
   objective: >
-    Project a small subset of current accepted AES Markdown into this model and
-    render a PRD-style view, requirements view, and source-local context from the
-    same structured bytes. Demonstrate that no view requires separately authored
-    normative wording.
-  scope:
-    system_clauses: [AES-SYS-002, AES-CTX-002, AES-CAP-002]
-    component: repository_context
-  negative_controls:
-    - duplicate_normative_id
-    - view_changes_normative_wording
-    - AQR_marked_as_decision_without_decision_ref
-    - current_state_written_as_normative_requirement
-    - native_contract_redefined_in_YAML
+    Use this model only as needed by the next real component-specific design from
+    an actual gap. Test whether it reduces duplicated authority and reconstruction
+    cost without forcing a structured-authority migration before repeated real use.
+  must_not_do:
+    - reopen_resolved_bootstrap_AQRs_without_new_falsifying_evidence
+    - promote_generated_projection_to_authority
+    - maintain_duplicate_editable_normative_sources
