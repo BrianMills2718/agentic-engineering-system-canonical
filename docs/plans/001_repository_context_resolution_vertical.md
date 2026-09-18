@@ -1,6 +1,6 @@
 # Plan 001 — Repository context resolution vertical
 
-Status: **implementation partial; technical evidence adequate via authentic execution + exact-blob carry-forward; post-integration characterization/gap recomputation complete; follow-up utility review pending**
+Status: **implementation partial; pinned acceptance test repaired; fresh local end-to-end verification and follow-up utility review pending; post-integration characterization/gap recomputation complete**
 Origin gaps: GAP-AES-001, 002, 003, 004, 005, 006, 007, 009, 010, 011, 013, 014, 015, 017, 019, 020, 021, 022, 023, 024, 025, 026, 027
 External consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`
 Execution profile: pilot
@@ -257,10 +257,12 @@ D1 closes no originating gap. Its return path is Slice 1.
 - bounded response: a projection-only correction was made afterward; per stakeholder instruction, further presentation iteration is handled separately through the Representation Router workstream rather than expanded here;
 - post-integration characterization: canonical `main@320991b96a3e3aaa15aa8ba05817a7eee1c52603` is characterized at `evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`;
 - gap state: `docs/architecture/INITIAL_GAP_LEDGER.md` has been conservatively recomputed from that characterization;
-- verification disposition: Decision 0007 allows prior authentic execution to carry forward across exact relevant blob identity. Current resolver/model/adapters/CLI, focused core tests, pinned-consumer test, package declaration, and pinned `context.json` are byte-identical to the authentic execution revision; corrected renderer/test/HTML are byte-identical to the corrected projection revision. See `evidence/plan-001/evidence-carry-forward-2026-09-18.json`;
+- verification correction: Decision 0008 supersedes the blob-only carry-forward rule after review found that `cli.py` and the pinned-consumer test transitively execute the changed renderer. The earlier carry-forward receipt is historical and corrected by `evidence/plan-001/verification-boundary-correction-2026-09-18.json`;
+- pinned-test repair: stale assertions tied to the pre-A1 renderer wording were updated to the corrected semantic warnings;
+- provider boundary: generic exact-revision verification batching remains owned by Enforced Planning; AES uses that provider rather than defining a parallel generic verification mechanism;
 - hosted CI disposition: GitHub Actions funding is exhausted, automatic workflow triggers are disabled, and hosted CI is not a Plan 001 acceptance gate;
-- evidence still outstanding for delivery: follow-up direct utility review of the corrected presentation;
-- done-when: the intended reviewer has directly used the corrected presentation enough to disposition `continue | change | stop`, technical evidence remains adequate under Decision 0007, and the resulting observation does not reveal an unaddressed Plan 001 closure gap.
+- evidence still outstanding for delivery: one fresh local/external run of the repaired focused suite + pinned private consumer + real CLI, followed separately by direct utility review of the corrected presentation;
+- done-when: current end-to-end technical evidence is observed at an exact clean revision, the intended reviewer has directly used the corrected presentation enough to disposition `continue | change | stop`, and those observations reveal no unaddressed Plan 001 closure gap.
 
 ### Attention checkpoint A1 — first utility observation
 
@@ -301,9 +303,9 @@ Current verification status:
 
 - model/resolver/rendering tests are present;
 - technical execution has been observed locally, including the exact pinned external-consumer check and real CLI run;
-- Decision 0007 carries that evidence forward only across exact relevant blob identity; the current core/pinned-consumer subjects satisfy that rule;
+- Decision 0008 retains historical evidence only for narrower unchanged subclaims; it does not carry current CLI/pinned end-to-end acceptance across the changed renderer;
 - GitHub Actions is optional/manual hosted convenience and is currently unavailable due funding; it is neither required nor counted as a failure;
-- the pinned external-consumer test remains the command for fresh execution whenever relevant blobs change or carry-forward is insufficient;
+- the repaired pinned external-consumer test plus real CLI are required once locally for the current end-to-end claim;
 - first A1 direct-use evidence is retained with disposition `change`; follow-up utility review of the corrected presentation remains pending.
 
 Acceptance mapping:
