@@ -41,6 +41,7 @@ python scripts/audit_governed_repo.py \
 - Use Enforced Planning as the execution-governance incumbent unless and until an AES-owned replacement is accepted from authentic evidence.
 - A block must provide a runnable recovery path or an explicit human escalation boundary.
 - Plan completion never closes a gap by itself; fresh observation and re-characterization determine closure.
+- Verification is provider-independent under Decision 0007: local/external execution is first-class, hosted CI is optional infrastructure, and prior execution evidence carries forward only across exact relevant blob identity.
 - Proposed changes to the adopted methodology go through `proposals/` and then the owning methodology repository; this consumer does not silently redefine the standard.
 
 ## Repository shape
@@ -54,5 +55,6 @@ The roots declared in `.agentic/repo.yaml` are a pilot contract. If the contract
 - `docs/plans/001_repository_context_resolution_vertical.md` — active Plan 001 / Slice 1 execution contract.
 - `docs/architecture/SYSTEM_BOUNDARY.md` — AES-specific normative target.
 - `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md` — actor-surface and attention-economics constraints.
-- `docs/architecture/INITIAL_GAP_LEDGER.md` — current bootstrap gap projection pending fresh characterization.
+- `docs/architecture/INITIAL_GAP_LEDGER.md` — recomputed current gap projection from the post-integration characterization.
+- `docs/decisions/0007-provider-independent-verification-and-blob-evidence-carry-forward.md` — verification-provider independence and exact-blob evidence carry-forward.
 - `BrianMills2718/wiki_methodology@0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe` — adopted project-agnostic methodology authority.
