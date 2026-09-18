@@ -8,11 +8,11 @@ this recomputation is:
 
 `evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`
 
-Supplemental verification disposition after GitHub Actions became administratively unavailable:
+Verification review correction after GitHub Actions became administratively unavailable:
 
-`evidence/plan-001/evidence-carry-forward-2026-09-18.json`
+`evidence/plan-001/verification-boundary-correction-2026-09-18.json`
 
-Decision 0007 governs when that prior authentic execution evidence may carry forward.
+Decision 0008 supersedes the earlier blob-only carry-forward rule.
 
 This remains a planning input, not a replacement for normative clauses. A closed
 bootstrap gap means the specific variance originally recorded here is no longer
@@ -48,7 +48,7 @@ future component.
 | GAP-AES-014 | AES-POL-004 | Repository Context and bootstrap architecture probes include deliberate negative controls that reject invalid states | broader important-control coverage remains incomplete | `NARROWED / NOW` |
 | GAP-AES-015 | AES-CTX-001 | wiki is an active progressive-disclosure surface and has been reconciled with implementation/evidence state | projection is still partly hand-maintained rather than wholly regenerated from current characterization | `NARROWED / NOW` |
 | GAP-AES-016 | AES-CTX-002 | realized Repository Context exists and a generated source-local component-context dogfood projection has been exercised | generalized source-local delivery for realized components is not yet an operational capability | `NARROWED / NOW` |
-| GAP-AES-017 | AES-EVID-001 | authentic execution observations, A1 evidence, integration-readiness evidence, revision-bound characterization, and Decision 0007 exact-blob evidence carry-forward now exist | current projections are not yet fully mechanically regenerated and corrected-presentation utility remains unobserved | `NARROWED / NOW` |
+| GAP-AES-017 | AES-EVID-001 | authentic historical execution observations, A1 evidence, integration-readiness evidence, revision-bound characterization, and a correction to the prior carry-forward interpretation now exist | current end-to-end CLI/pinned acceptance requires one repaired fresh local run; current projections are not yet fully mechanically regenerated; corrected-presentation utility remains unobserved | `NARROWED / NOW` |
 | GAP-AES-018 | AES-LEARN-001 | first A1 negative utility observation directly caused a bounded projection correction and documentation/strategy updates | learning disposition is not yet generalized into a durable automated feedback capability | `NARROWED / DEFER` |
 | GAP-AES-019 | AES-DOGFOOD-001 | exact pinned `data-contracts` consumer was exercised through the real Repository Context entrypoint and retained artifacts | no remaining variance for the requirement that the first vertical cross a real external consumer | `CLOSED` |
 | GAP-AES-020 | AES-DOGFOOD-002 | target→gap→plan→provider disposition→implementation→technical evidence→first direct human observation→post-integration characterization has occurred | corrected-presentation utility, final gap reconciliation, and learning closure remain incomplete | `NARROWED / NOW` |
@@ -97,14 +97,14 @@ The first grouped outcome has progressed materially:
 
 The remaining Plan 001 closure frontier is narrower:
 
-1. preserve Decision 0007's exact-blob evidence boundary and run fresh
-   local/external verification only if relevant executable/test/dependency blobs
-   change or the claim exceeds the carried evidence;
+1. run the repaired focused suite + exact pinned private consumer + real CLI
+   locally at one exact clean revision, bound through the Enforced Planning
+   verification-batch mechanism;
 2. directly review the corrected presentation and record
    `continue | change | stop`;
 3. update characterization if that observation materially changes current state;
 4. perform final Plan 001 closure/reconciliation without turning plan completion,
-   merge status, or hosted-CI availability into conformance evidence.
+   merge status, prior partial file identity, or hosted-CI availability into conformance evidence.
 
 No next implementation vertical is authorized merely because several bootstrap
 gaps are closed. The next component-specific design must come from the fresh
