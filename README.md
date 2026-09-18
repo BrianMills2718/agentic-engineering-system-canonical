@@ -20,7 +20,7 @@ This branch contains the first Repository Context implementation: typed artifact
 
 Authentic technical execution has been observed on prior exact revisions, including the governed-repo audit, focused tests, exact pinned `data-contracts` check, real CLI execution, and deterministic generated artifacts. The first direct A1 returned `change` because the human-facing surface required too much reconstruction. A bounded projection correction followed.
 
-Canonical `main@320991b96a3e3aaa15aa8ba05817a7eee1c52603` now has a revision-bound post-integration characterization and a conservatively recomputed initial gap ledger. Follow-up direct utility review of the corrected presentation and trustworthy refreshed-head runtime execution remain pending.
+Canonical `main@320991b96a3e3aaa15aa8ba05817a7eee1c52603` now has a revision-bound post-integration characterization and a conservatively recomputed initial gap ledger. Decision 0007 makes verification provider-independent: authentic execution evidence carries forward only across exact relevant blob identity, while changed subjects require fresh execution or an explicitly narrower evidence claim. The current Repository Context core/test/package blobs satisfy that carry-forward rule; the corrected renderer/HTML are bound to the corrected projection revision. GitHub Actions funding is therefore not a Plan 001 blocker. Follow-up direct utility review of the corrected presentation remains pending.
 
 A completed implementation plan, passing regression suite, or useful presentation does not by itself establish delivery or close the originating gaps.
 
