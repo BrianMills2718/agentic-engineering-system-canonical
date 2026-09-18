@@ -12,18 +12,16 @@ One coherent human+agent engineering system in which accepted intent becomes exp
 
 Plan 001 / Slice 1 is **implementation partial** on `slice-1/repository-context` / PR #5. D1 is closed. The branch contains the repository-context package, CLI, exact Git/revision adapter, pilot-manifest and bounded-legacy resolution, typed artifact, deterministic JSON/static HTML surface, focused tests, and partial machine/status projections.
 
-No delivery/conformance claim has been made. The exact pinned external-consumer execution, revision-bound characterization, and direct stakeholder A1 observation remain outstanding.
+No delivery/conformance claim has been made. Authentic technical execution has been observed locally: the governed-repo audit, focused checks, exact pinned external-consumer check, real CLI run, and deterministic generated artifacts were recorded. The first direct stakeholder A1 returned `change` because the HTML required too much reconstruction. A bounded projection-only correction followed; follow-up human review, revision-bound characterization, and explicit gap recomputation remain outstanding.
 
 **Next**
 
 ```text
-run Slice 1 in a real governed local checkout
+keep technical verification reproducible at the exact relevant AES head
         ↓
-run focused checks + exact pinned data-contracts check
+separate Representation Router work returns a reviewable corrected presentation
         ↓
-generate the real revision-scoped HTML/JSON surface
-        ↓
-A1: directly use it and record continue | change | stop
+follow-up A1: directly use it and record continue | change | stop
         ↓
 characterize the exact AES revision
         ↓
