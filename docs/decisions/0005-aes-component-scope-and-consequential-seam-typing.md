@@ -131,5 +131,8 @@ AES Component record.
   deployment boundaries.
 - Strong typing remains an architectural tool at meaningful seams rather than a
   requirement to predeclare every symbol.
-- The remaining open AQR is the minimal machine-readable architecture-realization
-  schema itself.
+- At the time of this decision, the remaining open bootstrap AQR was the
+  minimal machine-readable architecture-realization schema. Decision 0006
+  subsequently resolved that question; unresolved component/provider/boundary
+  questions must now come from real component design rather than reopening the
+  bootstrap schema question.
