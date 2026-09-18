@@ -1,6 +1,6 @@
 # Plans
 
-Status: one active pilot plan; D1 closed; Slice 1 implementation partial; technical execution observed; first A1 = `change`; follow-up utility review and fresh characterization pending.
+Status: one active pilot plan; D1 closed; Slice 1 implementation partial; technical execution observed on prior exact revisions; first A1 = `change`; post-integration characterization/gap recomputation complete; refreshed execution and follow-up utility review pending.
 
 ## Active
 
@@ -16,7 +16,9 @@ The repository is no longer `planned_unrealized`.
 - verification state: **PARTIAL**;
 - prior authentic technical execution: **OBSERVED** on exact pre-refresh revisions;
 - first stakeholder A1: **`change`** at AES revision `53be16fa1159f31648773062531d751c85d7a011`;
-- PR #5 refresh onto adopted architecture: `6bd121a2eb824043836516b93d3268169a714582`;
+- PR #5 integration onto canonical main: `320991b96a3e3aaa15aa8ba05817a7eee1c52603`;
+- post-integration characterization: `evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`;
+- initial gap ledger: recomputed from that characterization;
 - frozen external consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`;
 - active actor entrypoint: `aes-repo-context`;
 - selected substrate: local Git + Pydantic 2.13.5 + PyYAML 6.0.3 + Python stdlib;
@@ -28,17 +30,17 @@ The refreshed branch preserves all Repository Context source/test blobs from the
 ## Immediate frontier
 
 ```text
-refreshed Slice 1 branch on adopted architecture
+canonical Slice 1 implementation on adopted architecture
         ↓
-re-observe applicable technical/regression checks at the exact refreshed head
+obtain trustworthy technical/regression execution at the exact canonical head
         ↓
 re-run pinned private data-contracts acceptance with AES_DATA_CONTRACTS_CHECKOUT
         ↓
 follow-up direct utility review when the corrected presentation is reviewable
         ↓
-revision-bound characterization
+refresh characterization/gap state only if new observations materially change it
         ↓
-fresh originating-gap recomputation
+final Plan 001 closure/reconciliation
 ```
 
 Hosted GitHub regression CI is currently unavailable as execution evidence because jobs are failing before any workflow step runs. Even when hosted regression CI is healthy, it does not prove the private pinned-consumer acceptance boundary unless that checkout is explicitly provisioned.

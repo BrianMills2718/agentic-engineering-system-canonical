@@ -34,18 +34,19 @@ No delivery or gap-closure claim has been made.
 
 **Gap**
 
+Post-integration characterization and the initial gap-ledger recomputation now exist for canonical `main@320991b96a3e3aaa15aa8ba05817a7eee1c52603`.
+
 Before Plan 001 can be treated as delivered:
 
-- the applicable technical/regression checks must be re-observed at the exact refreshed branch head;
+- trustworthy refreshed-head technical execution still needs to be observed when execution infrastructure is available;
 - the private pinned `data-contracts` acceptance boundary must remain distinct from hosted regression CI;
 - the corrected human-facing presentation still requires follow-up direct utility review through the separate Representation Router workstream;
-- the exact implementation revision requires fresh characterization;
-- the originating gaps require explicit recomputation from that characterization.
+- characterization/gap state must be refreshed again only if those new observations materially change current state.
 
 **Next**
 
 ```text
-re-run applicable technical/regression checks at the exact refreshed head
+obtain trustworthy technical/regression execution at the exact canonical head
         ↓
 re-run pinned private data-contracts acceptance with AES_DATA_CONTRACTS_CHECKOUT
         ↓
@@ -53,14 +54,14 @@ keep follow-up presentation work separate until a reviewable surface returns
         ↓
 follow-up A1: directly use it and record continue | change | stop
         ↓
-characterize the exact AES revision
+refresh characterization/gap state only if those observations materially change it
         ↓
-recompute originating gaps
+perform final Plan 001 closure/reconciliation
         ↓
 derive the next real component-specific design only from the resulting gap state
 ```
 
-PR #5 remains separately protected from merge until explicit approval.
+PR #5 was integrated into canonical `main` as implementation-partial under an explicit integration-readiness record; merge status is not delivery evidence.
 
 ## Read in this order
 

@@ -24,7 +24,7 @@ planning:
   design_provider: Company Planning
   execution_governance_provider: Enforced Planning
   active_plan: docs/plans/001_repository_context_resolution_vertical.md
-  active_frontier: PLAN-001/Slice-1-followup-utility-characterization-gap-reconciliation
+  active_frontier: PLAN-001/Slice-1-refreshed-execution-followup-utility-closure
   bootstrap_architecture_revision: 45fa215dd977e2ab44338465d36ac37756f14e53
   bootstrap_alignment: docs/architecture/normative-component-alignment.bootstrap.yaml
   architecture_realization_profile: docs/architecture/aes-company-planning-profile.bootstrap.yaml
@@ -71,9 +71,10 @@ implementation:
     Slice 1 implementation subjects exist and the branch has been refreshed onto
     the adopted bootstrap architecture. Prior authentic technical execution,
     including the pinned external consumer, was observed on exact pre-refresh
-    revisions; the first A1 returned change. Follow-up utility review, fresh
-    characterization, and gap recomputation remain outstanding. Do not treat
-    PARTIAL as conformant or delivered.
+    revisions; the first A1 returned change. Canonical main now has a
+    revision-bound post-integration characterization and recomputed initial gap
+    ledger. Trustworthy refreshed-head execution and follow-up utility review
+    remain outstanding. Do not treat PARTIAL as conformant or delivered.
 
 verification:
   roots:
