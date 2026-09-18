@@ -67,9 +67,9 @@ implementation:
   roots:
     - src/agentic_engineering_system/
   state: PARTIAL
-  planned_entrypoint: aes-repo-context
-  planned_surface_renderer: src/agentic_engineering_system/repository_context/render_html.py
-  planned_surface_output: generated/repository-context/<repository-id>/<revision>/index.html
+  entrypoint: aes-repo-context
+  surface_renderer: src/agentic_engineering_system/repository_context/render_html.py
+  surface_output: generated/repository-context/<repository-id>/<revision>/index.html
   note: >-
     Slice 1 implementation subjects exist and the branch has been refreshed onto
     the adopted bootstrap architecture. Prior authentic technical execution,
