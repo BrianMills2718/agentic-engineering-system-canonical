@@ -166,7 +166,8 @@ aqrs:
       What exact component directory/file contract best aligns normative records,
       implementation, and checks: one implementation file per component by
       default, a component directory, or another bounded layout?
-    status: open
+    status: resolved
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
     decision_needed_before:
       - filesystem skeleton freeze
 
@@ -184,7 +185,8 @@ aqrs:
       How are component-level norms inherited by realized symbols, how are
       symbol-level exceptions represented, and what role should SCIP play in
       proving the realized symbol set?
-    status: open
+    status: resolved
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
     decision_needed_before:
       - source-local normative context implementation
 
@@ -193,7 +195,8 @@ aqrs:
       How are system-wide and seam-level normative rules represented once,
       inherited verbatim by affected components, and completeness-checked so
       decomposition cannot hide relevant context?
-    status: open
+    status: resolved
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
     research:
       - research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
 
@@ -221,7 +224,8 @@ aqrs:
       What component sizing/splitting rule minimizes reasoning and traceability
       overhead while still preserving meaningful ownership, replacement,
       interface, and verification boundaries?
-    status: open
+    status: resolved
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
     research:
       - research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
 
@@ -254,7 +258,8 @@ aqrs:
       What cardinalities and semantics should connect normative capabilities or
       requirements to implementation components when one capability needs
       multiple components or one component supports multiple capabilities?
-    status: open
+    status: resolved
+    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
 
 research_basis:
   - research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md
