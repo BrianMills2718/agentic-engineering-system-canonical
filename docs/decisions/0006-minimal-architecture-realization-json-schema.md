@@ -117,12 +117,19 @@ schema version and an explicit decision rather than silent field drift.
 - generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml
 - research/investigations/validate_architecture_realization_schema.py
 
-The exact committed schema passed Draft 2020-12 schema validation using
-jsonschema 4.26.0. The exact committed nine-component/four-seam pilot produced
-zero JSON-Schema errors and zero bounded AES cross-reference errors. Negative
-controls rejected unresolved records without blockers, unknown fields, mutable
-source revisions, missing disproof, unsafe paths, empty nonclaims, duplicate
-component IDs, and broken seam references.
+The historical execution receipt records a passing Draft 2020-12 schema
+validation using jsonschema 4.26.0 for the exact schema and pilot blobs named in
+that receipt. Those exact blobs produced zero JSON-Schema errors and zero bounded
+AES cross-reference errors; negative controls rejected unresolved records without
+blockers, unknown fields, mutable source revisions, missing disproof, unsafe
+paths, empty nonclaims, duplicate component IDs, and broken seam references.
+
+The generated bootstrap probe was later revised only to remove resolved AQR-011
+as a false component blocker. That revision does not retroactively change the
+scope of the historical receipt. The current AES Company Planning profile records
+the commands that must be rerun against the current probe before making a fresh
+execution-conformance claim. Source-level coherence of that correction is
+recorded in `evidence/bootstrap-alignment/current-profile-path-coherence-001.json`.
 
 ## Consequences
 
