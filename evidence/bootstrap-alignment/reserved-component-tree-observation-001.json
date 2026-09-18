@@ -1,0 +1,41 @@
+{
+  "record_id": "AES-RESERVED-COMPONENT-TREE-OBS-001",
+  "scope": "filesystem_structure_only",
+  "status": "observed",
+  "repository": "BrianMills2718/agentic-engineering-system-canonical",
+  "branch": "bootstrap/external-sourcing-audit",
+  "revision": "d0791c4b82d349d4b54ce1a85e6447ed99de7655",
+  "tree_sha": "c5f4616804eaa3ae8a55c7d3f4dceb314955e592",
+  "blueprint": {
+    "path": "docs/architecture/architecture-realization.bootstrap.yaml",
+    "revision": 2,
+    "git_blob": "57d42f9065f840e728057de3f371d36db984540f"
+  },
+  "reserved_components": [
+    "normative_context",
+    "capability_sourcing",
+    "planning",
+    "execution",
+    "policy_control",
+    "evidence_assessment",
+    "gap_reconciliation",
+    "learning"
+  ],
+  "source_rule": "Each reserved component directory contains component.placeholder.yaml only; no Python implementation stub is present.",
+  "verification_rule": "Each reserved tests directory contains verification.placeholder.yaml only; no placeholder pytest file, skip, or passing test is present.",
+  "existing_pilot_component": {
+    "component": "repository_context",
+    "research_branch_projection": "src/agentic_engineering_system/repository_context/component.context.generated.yaml",
+    "actual_implementation_snapshot": "9f82f3500e4a472b26756c31ea9205f908d7c394",
+    "note": "PR5 implementation remains separate; PR6 does not duplicate its Python sources."
+  },
+  "claims_not_made": [
+    "reserved components are implemented",
+    "planned module files exist",
+    "typed seams are frozen",
+    "verification has executed",
+    "provider candidates are selected",
+    "unresolved AQRs are closed"
+  ],
+  "result": "The intended component and verification homes are now physically visible without manufacturing behavior, APIs, or green tests."
+}
