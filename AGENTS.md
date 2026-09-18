@@ -32,6 +32,18 @@ python -m agentic_engineering_system.repository_context.cli \
   --repo /path/to/data-contracts \
   --expect-revision 90c38998e8141bd07e49a77a49ec417aa29beee0
 
+# Plan 001 terminal verification without hosted CI
+export AES_DATA_CONTRACTS_CHECKOUT=/path/to/data-contracts
+make verification-batch-freeze \
+  DECISION="Plan 001 repaired end-to-end acceptance" \
+  VERIFY_COMMAND='AES_DATA_CONTRACTS_CHECKOUT="$AES_DATA_CONTRACTS_CHECKOUT" python -m pytest -q tests/repository_context && python -m agentic_engineering_system.repository_context.cli --repo "$AES_DATA_CONTRACTS_CHECKOUT" --expect-revision 90c38998e8141bd07e49a77a49ec417aa29beee0'
+AES_DATA_CONTRACTS_CHECKOUT="$AES_DATA_CONTRACTS_CHECKOUT" \
+  python -m pytest -q tests/repository_context
+python -m agentic_engineering_system.repository_context.cli \
+  --repo "$AES_DATA_CONTRACTS_CHECKOUT" \
+  --expect-revision 90c38998e8141bd07e49a77a49ec417aa29beee0
+make verification-batch-check
+
 # Governed-repo install/audit; run these from a checkout of BrianMills2718/enforced-planning
 python scripts/install_governed_repo.py \
   --repo-root /path/to/agentic-engineering-system-canonical --write
