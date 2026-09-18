@@ -1,6 +1,6 @@
 # Plan 001 / D1 — Contract, surface, and topology freeze
 
-Status: **CLOSED — design decisions frozen; implementation not started**.
+Status: **CLOSED — design decisions frozen before implementation; implementation was subsequently realized under Plan 001 / Slice 1**.
 Parent authority: [`001_repository_context_resolution_vertical.md`](001_repository_context_resolution_vertical.md).
 Closed: 2026-09-16.
 
