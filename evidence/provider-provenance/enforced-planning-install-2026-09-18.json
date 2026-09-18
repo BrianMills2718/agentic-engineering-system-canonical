@@ -1,0 +1,57 @@
+{
+  "record_id": "AES-ENFORCED-PLANNING-INSTALL-PROVENANCE-001",
+  "date": "2026-09-18",
+  "status": "observed",
+  "provider": {
+    "repository": "BrianMills2718/enforced-planning",
+    "revision": "3fd1ff4465ed50613a8b9fcc86d7d0f282322d60",
+    "role": "execution_governance_provider"
+  },
+  "installation": {
+    "mode": "governed_repo_installed_projection",
+    "installer": "scripts/install_governed_repo.py",
+    "update_mechanisms": [
+      "scripts/install_governed_repo.py",
+      "scripts/upgrade_governed_repos.py"
+    ],
+    "authority_rule": "provider source remains Enforced Planning; installed copies are local execution machinery/projections unless explicitly modified and dispositioned"
+  },
+  "observed_sync": {
+    "enforced_planning_local_blob_count": 46,
+    "enforced_planning_identical_to_provider_revision": 46,
+    "enforced_planning_differing_from_provider_revision": 0,
+    "provider_revision_additional_package_files_not_installed": 18,
+    "key_mapped_files_identical": [
+      [
+        "enforced_planning/verification_batch.py",
+        "enforced_planning/verification_batch.py"
+      ],
+      [
+        "enforced_planning/agents_rendering.py",
+        "enforced_planning/agents_rendering.py"
+      ],
+      [
+        "scripts/meta/verification_batch.py",
+        "scripts/verification_batch.py"
+      ],
+      [
+        "scripts/meta/render_agents_md.py",
+        "scripts/render_agents_md.py"
+      ],
+      [
+        "scripts/meta/worktree-coordination/create_worktree.py",
+        "scripts/worktree-coordination/create_worktree.py"
+      ]
+    ]
+  },
+  "local_configuration_boundary": [
+    "meta-process.yaml is repository-local configuration",
+    "Makefile contains repository-local facade/configuration and is not claimed byte-identical to provider",
+    "CLAUDE.md and generated AGENTS.md remain repository governance surfaces"
+  ],
+  "limitations": [
+    "This audit did not prove every installed script/template/hook is byte-identical to the provider revision.",
+    "The 46-file package comparison covers all locally present enforced_planning/* blobs at the audited canonical revision.",
+    "Future provider updates require an explicit sync/audit rather than silently editing installed provider files."
+  ]
+}
