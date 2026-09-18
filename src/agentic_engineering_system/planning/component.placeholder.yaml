@@ -1,0 +1,19 @@
+# STRUCTURAL PLACEHOLDER ONLY — NO IMPLEMENTATION OR API IS CLAIMED.
+schema_version: aes.component.placeholder.v0
+component_id: planning
+status: reserved_unrealized
+materialization: filesystem_home_only
+blueprint:
+  path: docs/architecture/architecture-realization.bootstrap.yaml
+  revision: 2
+  git_blob: 57d42f9065f840e728057de3f371d36db984540f
+code_home: src/agentic_engineering_system/planning/
+planned_module: handoff.py
+local_role: proposed_AES_profile_and_handoff_adapter
+boundary_state: unresolved
+blocked_by: [AQR-001, AQR-006, AQR-007, AQR-008, AQR-011, AQR-012]
+rules:
+  - No class, function, protocol, provider API, or typed seam is frozen by this placeholder.
+  - The planned module filename reserves a home only; it is not evidence that the module exists or is implemented.
+  - Normative wording remains in its owning authority and future local context must be generated verbatim.
+  - Replace this placeholder only through an accepted architecture-realization decision or plan.
