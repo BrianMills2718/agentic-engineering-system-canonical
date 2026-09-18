@@ -1,8 +1,9 @@
 # Provisional structured normative model. Existing Markdown remains authority.
 schema_version: aes.normative_record_model.bootstrap.v0
 id: AES-NORMATIVE-MODEL-001
-status: proposed
+status: accepted_bootstrap
 date: 2026-09-17
+decision: docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
 authority_note: >
   This model does not migrate accepted AES Markdown. It defines the candidate
   shape for a future single-source structured normative authority and can be
@@ -192,13 +193,19 @@ external_semantic_references:
   executable_examples: Gherkin_semantics
   adoption: vocabulary_reference_only
 
-open_questions:
+resolved_design_questions:
   - AQR-001
+  - AQR-002
   - AQR-003
+  - AQR-004
+  - AQR-005
+  - AQR-006
   - AQR-007
+  - AQR-008
   - AQR-009
   - AQR-010
   - AQR-011
+  - AQR-012
 
 next_probe:
   objective: >
