@@ -1,0 +1,115 @@
+{
+  "record_id": "AES-PLAN-001-EVIDENCE-CARRY-FORWARD-001",
+  "date": "2026-09-18",
+  "current_canonical_revision": "b787acfedca9aff0357320b967b6c6971669b080",
+  "authentic_execution_revision": "53be16fa1159f31648773062531d751c85d7a011",
+  "corrected_projection_revision": "821d00766b0caed658faf4c816521560a6ccada0",
+  "external_consumer": {
+    "repository": "BrianMills2718/data-contracts",
+    "revision": "90c38998e8141bd07e49a77a49ec417aa29beee0"
+  },
+  "hosted_ci": {
+    "status": "administratively_unavailable",
+    "reason": "user_confirmed_github_actions_funding_exhausted",
+    "evidentiary_effect": "none",
+    "rule": "not_pass_not_fail_not_plan_blocker"
+  },
+  "authentic_execution_observations_at_53be16fa": [
+    "governed_repo_audit_pass",
+    "focused_repository_context_suite_13_passed_1_skipped",
+    "exact_pinned_external_consumer_test_1_passed",
+    "real_cli_resolved",
+    "deterministic_context_json_and_html_retained"
+  ],
+  "exact_blob_identity": {
+    "unchanged_from_authentic_execution": [
+      [
+        "src/agentic_engineering_system/repository_context/cli.py",
+        "96955963bc9cb8c8be86400c12f9b67a107d62be"
+      ],
+      [
+        "src/agentic_engineering_system/repository_context/git_source.py",
+        "770dfd60a8add38a1025a960fdbb7b6dba0280e1"
+      ],
+      [
+        "src/agentic_engineering_system/repository_context/legacy.py",
+        "20fcc083dfd3ef3947cf4e0eb0e8e3595baa0b5e"
+      ],
+      [
+        "src/agentic_engineering_system/repository_context/manifest.py",
+        "9264c50a7a5926d5730968ff0b5fd0b2ca079971"
+      ],
+      [
+        "src/agentic_engineering_system/repository_context/models.py",
+        "9860d6a793c9611b8f64135a3377c697709d9aac"
+      ],
+      [
+        "src/agentic_engineering_system/repository_context/resolver.py",
+        "69083b9ea429a11b32f502ed57b9b94a80b2bf3c"
+      ],
+      [
+        "tests/repository_context/test_cli.py",
+        "03cc9ea200f7857a677208fdf839ada5dc749f97"
+      ],
+      [
+        "tests/repository_context/test_data_contracts_pinned.py",
+        "54869b216bfe230c007a08b5a3a019bd3354f8c5"
+      ],
+      [
+        "tests/repository_context/test_legacy_adapter.py",
+        "d3664b984bbd2b54158f87b83b5690ff92ef297d"
+      ],
+      [
+        "tests/repository_context/test_manifest_adapter.py",
+        "dfda0a2e43c2782e4931a5a92b4dc47221d89a2c"
+      ],
+      [
+        "tests/repository_context/test_models.py",
+        "1e023b523047e8007715090784cff80d12cee890"
+      ],
+      [
+        "tests/repository_context/test_resolver.py",
+        "7f840bb4f6474be41f96213ff62b8949cc9b5dd1"
+      ],
+      [
+        "tests/repository_context/conftest.py",
+        "f2d9cc822f14a35273ddc70c31fe8cfff21d5fd8"
+      ],
+      [
+        "pyproject.toml",
+        "74dfc8bf274e57c66ba9688e9f0abe212c5d3160"
+      ],
+      [
+        "generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/context.json",
+        "9af6db9101a9a0b19e8105fe91e209b1f358497f"
+      ]
+    ],
+    "changed_after_authentic_execution_but_unchanged_from_corrected_projection": [
+      [
+        "src/agentic_engineering_system/repository_context/render_html.py",
+        "92c745c17e73ef7aad61e34340e4b26cb82e9d82"
+      ],
+      [
+        "tests/repository_context/test_render_html.py",
+        "2626039c9a3e9cccd0703a6eb756ef9267622517"
+      ],
+      [
+        "generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/index.html",
+        "1907b9b7c552ebfcd36e3b43c66ef0e59d2ea546"
+      ]
+    ]
+  },
+  "dispositions": {
+    "core_repository_context_execution": "carry_forward_authentic_execution_evidence",
+    "pinned_external_consumer_resolution": "carry_forward_authentic_execution_evidence",
+    "corrected_renderer": "present_and_static_regression_evidenced_from_corrected_projection_revision",
+    "corrected_presentation_utility": "unobserved_pending_direct_followup",
+    "hosted_github_actions": "not_required_for_plan_001_closure"
+  },
+  "nonclaims": [
+    "new_runtime_execution_occurred_at_current_revision",
+    "corrected_presentation_utility_accepted",
+    "plan_001_delivered",
+    "all_originating_gaps_closed"
+  ]
+}
