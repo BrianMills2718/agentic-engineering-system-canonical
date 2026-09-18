@@ -1,6 +1,6 @@
 schema_version: aes.bootstrap_alignment.v0
 record_id: AES-BOOTSTRAP-ALIGNMENT-001
-status: active_candidate
+status: resolved_bootstrap_design_record
 date: 2026-09-17
 purpose: >
   Dogfood the emerging AES planning/documentation model by recording accepted
