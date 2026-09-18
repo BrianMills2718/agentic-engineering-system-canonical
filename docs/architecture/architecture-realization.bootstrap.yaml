@@ -416,16 +416,16 @@ decision_sequence:
     evidence: evidence/bootstrap-alignment/repository-context-source-local-observation-001.json
     next_test: materialize_reserved_component_tree_with_explicit_unresolved_placeholders
   - id: BP-D2
-    status: partially_accepted
+    status: accepted
     aqrs: [AQR-003, AQR-004, AQR-005, AQR-007, AQR-008, AQR-012]
-    decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
-    accepted_scope: [AQR-004, AQR-005, AQR-008, AQR-012]
-    unresolved_scope: [AQR-003, AQR-007]
+    decisions:
+      - docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+      - docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md
     recommendation: >
       Treat Component as a scoped planning/governance boundary, not a universal runtime
       class. Type consequential boundaries, derive internal symbols, and project exact
       applicable context. Structural green is not semantic proof.
-    next_test: settle_minimum_typed_seam_depth_without_freezing_external_component_ontology
+    next_test: freeze_minimal_architecture_realization_schema
   - id: BP-D3
     status: accepted_profile_first
     aqrs: [AQR-006]
