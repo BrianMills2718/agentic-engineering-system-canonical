@@ -157,7 +157,8 @@ aqrs:
       north-star/goal, PRD/product intent, requirements, UX/user journeys,
       AQRs, ADRs, interfaces/contracts, acceptance, plans, and system/seam norms
       without exploding documentation?
-    status: open
+    status: resolved
+    decision: docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
     decision_needed_before:
       - canonical normative schema freeze
 
@@ -234,14 +235,16 @@ aqrs:
       Which human-readable artifacts should be generated views (architecture,
       PRD, requirements index, journey view, decision log, component map, wiki)
       and which, if any, still need independently authored prose authority?
-    status: open
+    status: resolved
+    decision: docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
 
   - id: AQR-010
     question: >
       How should existing canonical AES architecture/decision/plan documents be
       migrated or referenced if a component-aligned structured normative model
       is adopted, without rewriting accepted authority or creating two truths?
-    status: open
+    status: resolved
+    decision: docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
 
   - id: AQR-011
     question: >
