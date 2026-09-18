@@ -1,0 +1,55 @@
+{
+  "record_id": "AES-PLAN-001-POST-INTEGRATION-VERIFICATION-320991B",
+  "characterized_revision": "320991b96a3e3aaa15aa8ba05817a7eee1c52603",
+  "date": "2026-09-18",
+  "status": "partial",
+  "claims": {
+    "implementation_present": {
+      "state": "observed",
+      "basis": [
+        "canonical main tree at characterized revision"
+      ]
+    },
+    "core_historical_runtime_execution": {
+      "state": "observed_historical_exact_revision",
+      "aes_revision": "53be16fa1159f31648773062531d751c85d7a011",
+      "observations": [
+        "governed_repo_audit_pass",
+        "focused_suite_13_passed_1_skipped",
+        "pinned_external_check_1_passed",
+        "real_cli_resolved",
+        "deterministic_artifacts_retained"
+      ]
+    },
+    "corrected_projection": {
+      "state": "present_static_regression_evidence",
+      "renderer_path": "src/agentic_engineering_system/repository_context/render_html.py",
+      "test_path": "tests/repository_context/test_render_html.py",
+      "retained_html": "generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/index.html"
+    },
+    "refreshed_head_hosted_execution": {
+      "state": "unobserved_infrastructure_unavailable",
+      "reason": "GitHub Actions jobs fail before executing steps; steps=null/no logs"
+    },
+    "refreshed_head_pinned_external_execution": {
+      "state": "unobserved",
+      "reason": "private consumer requires execution-capable checkout with AES_DATA_CONTRACTS_CHECKOUT"
+    },
+    "stakeholder_utility_first_a1": {
+      "state": "observed",
+      "disposition": "change",
+      "evidence": "evidence/plan-001/a1/53be16fa1159f31648773062531d751c85d7a011.md"
+    },
+    "stakeholder_utility_corrected_projection": {
+      "state": "unobserved",
+      "reason": "follow-up direct review has not been recorded"
+    }
+  },
+  "nonclaims": [
+    "delivered",
+    "refreshed_head_runtime_pass",
+    "corrected_projection_utility_acceptance",
+    "originating_gap_closure",
+    "end_to_end_aes_lifecycle_closure"
+  ]
+}
