@@ -296,7 +296,7 @@ tests/repository_context/fixtures/pilot_missing_declaration/
 Current verification status:
 
 - model/resolver/rendering tests are present;
-- technical execution has been observed locally, including the exact pinned external-consumer check and real CLI run; GitHub Actions remains unavailable as code-test evidence when no runner/steps execute;
+- technical execution has been observed locally, including the exact pinned external-consumer check and real CLI run; GitHub Actions remains unavailable as code-test evidence when no runner/steps execute, and the hosted workflow is regression-only because it cannot access the private pinned consumer without an explicitly provisioned checkout;
 - the pinned external-consumer test intentionally remains environment-dependent for repeat verification and does not fabricate evidence when the checkout is unavailable;
 - first A1 direct-use evidence is retained with disposition `change`; follow-up utility review of the corrected presentation remains pending.
 
