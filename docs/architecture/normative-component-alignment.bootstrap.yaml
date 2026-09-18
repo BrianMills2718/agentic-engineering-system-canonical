@@ -177,7 +177,8 @@ aqrs:
       Should AES use the term Component as a local planning/governance concept,
       project an external component vocabulary such as Backstage/TOSCA, or define
       an explicit profile mapping between them?
-    status: open
+    status: resolved
+    decision: docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md
     research:
       - research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md
 
@@ -218,7 +219,8 @@ aqrs:
     question: >
       Which typed seams must be frozen before implementation and which details
       should remain intentionally unfrozen until implementation evidence exists?
-    status: open
+    status: resolved
+    decision: docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md
 
   - id: AQR-008
     question: >
