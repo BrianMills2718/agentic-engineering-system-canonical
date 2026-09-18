@@ -1,6 +1,6 @@
 # Plan 001 — Repository context resolution vertical
 
-Status: **implementation partial; technical execution observed; first A1 = change; follow-up utility review and fresh characterization pending**
+Status: **implementation partial; post-integration characterization/gap recomputation complete; refreshed execution and follow-up utility review pending**
 Origin gaps: GAP-AES-001, 002, 003, 004, 005, 006, 007, 009, 010, 011, 013, 014, 015, 017, 019, 020, 021, 022, 023, 024, 025, 026, 027
 External consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`
 Execution profile: pilot
@@ -255,8 +255,10 @@ D1 closes no originating gap. Its return path is Slice 1.
 - observed technical execution: the governed-repo audit passed, focused repository-context checks passed locally, the exact pinned external-consumer check passed, the real CLI resolved the pinned consumer, and deterministic revision-scoped JSON/HTML were retained;
 - observed utility: the first direct A1 at AES revision `53be16fa1159f31648773062531d751c85d7a011` returned `change` because the HTML required too much reconstruction; the retained A1 receipt remains utility evidence rather than a technical-conformance reversal;
 - bounded response: a projection-only correction was made afterward; per stakeholder instruction, further presentation iteration is handled separately through the Representation Router workstream rather than expanded here;
-- evidence still outstanding for delivery: follow-up direct utility review against the exact relevant AES revision, revision-bound current characterization, and explicit originating-gap recomputation;
-- done-when: technical evidence remains adequate, the intended reviewer has directly used the corrected presentation enough to disposition `continue | change | stop`, and fresh characterization/gap recomputation establishes what actually closed or narrowed.
+- post-integration characterization: canonical `main@320991b96a3e3aaa15aa8ba05817a7eee1c52603` is characterized at `evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`;
+- gap state: `docs/architecture/INITIAL_GAP_LEDGER.md` has been conservatively recomputed from that characterization;
+- evidence still outstanding for delivery: trustworthy refreshed-head technical execution (including the private pinned-consumer boundary) and follow-up direct utility review of the corrected presentation;
+- done-when: technical evidence is adequate at the current implementation revision, the intended reviewer has directly used the corrected presentation enough to disposition `continue | change | stop`, and the resulting observations do not reveal unaddressed Plan 001 closure gaps.
 
 ### Attention checkpoint A1 — first utility observation
 
