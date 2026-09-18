@@ -102,7 +102,7 @@ plan_context:
       - id: AC-002
         verbatim_source_line: "- AC-002 — external + fixture tests prove root `contracts/` is never universal authority by existence;"
       - id: AC-003
-        verbatim_source_line: "- AC-003 — external test preserves missing local wiki as `NONE`/legacy navigation;"
+        verbatim_source_line: "- AC-003 — the pinned external test proves a physical local wiki is not promoted by path existence alone, while a bounded fixture preserves absent/unrouted wiki navigation as `NONE` rather than inventing success;"
 
   load_bearing_related:
     - subject: src/agentic_engineering_system/repository_context/models.py#AuthoritySurfaceObservation
