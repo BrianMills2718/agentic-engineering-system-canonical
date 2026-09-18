@@ -63,7 +63,7 @@ read `CLAUDE.md` directly.
 - Use Enforced Planning as the execution-governance incumbent unless and until an AES-owned replacement is accepted from authentic evidence.
 - A block must provide a runnable recovery path or an explicit human escalation boundary.
 - Plan completion never closes a gap by itself; fresh observation and re-characterization determine closure.
-- Verification is provider-independent under Decision 0007: local/external execution is first-class, hosted CI is optional infrastructure, and prior execution evidence carries forward only across exact relevant blob identity.
+- Verification is provider-independent under Decision 0008: local/external execution is first-class, hosted CI is optional infrastructure, evidence reuse is claim-specific over the transitive executed subject, and fresh exact-revision runs should use the incumbent Enforced Planning verification-batch mechanism.
 - Proposed changes to the adopted methodology go through `proposals/` and then the owning methodology repository; this consumer does not silently redefine the standard.
 
 ## Machine-Readable Governance
@@ -78,5 +78,6 @@ read `CLAUDE.md` directly.
 - `docs/architecture/SYSTEM_BOUNDARY.md` — AES-specific normative target.
 - `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md` — actor-surface and attention-economics constraints.
 - `docs/architecture/INITIAL_GAP_LEDGER.md` — recomputed current gap projection from the post-integration characterization.
-- `docs/decisions/0007-provider-independent-verification-and-blob-evidence-carry-forward.md` — verification-provider independence and exact-blob evidence carry-forward.
+- `docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md` — provider-independent verification, transitive executed-subject evidence boundaries, and Enforced Planning verification-batch ownership.
+- `evidence/provider-provenance/enforced-planning-install-2026-09-18.json` — installed Enforced Planning provider revision/provenance boundary.
 - `BrianMills2718/wiki_methodology@0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe` — adopted project-agnostic methodology authority.
