@@ -17,32 +17,16 @@
     "authority_rule": "provider source remains Enforced Planning; installed copies are local execution machinery/projections unless explicitly modified and dispositioned"
   },
   "observed_sync": {
-    "enforced_planning_local_blob_count": 46,
-    "enforced_planning_identical_to_provider_revision": 46,
-    "enforced_planning_differing_from_provider_revision": 0,
+    "declared_installer_sync_files": 115,
+    "installed_declared_sync_files": 115,
+    "byte_identical_to_provider_revision": 115,
+    "differing_from_provider_revision": 0,
+    "missing_from_installed_projection": 0,
+    "upstream_missing": 0,
+    "enforced_planning_package_files_locally_present": 46,
+    "enforced_planning_package_files_byte_identical": 46,
     "provider_revision_additional_package_files_not_installed": 18,
-    "key_mapped_files_identical": [
-      [
-        "enforced_planning/verification_batch.py",
-        "enforced_planning/verification_batch.py"
-      ],
-      [
-        "enforced_planning/agents_rendering.py",
-        "enforced_planning/agents_rendering.py"
-      ],
-      [
-        "scripts/meta/verification_batch.py",
-        "scripts/verification_batch.py"
-      ],
-      [
-        "scripts/meta/render_agents_md.py",
-        "scripts/render_agents_md.py"
-      ],
-      [
-        "scripts/meta/worktree-coordination/create_worktree.py",
-        "scripts/worktree-coordination/create_worktree.py"
-      ]
-    ]
+    "audit_method": "parsed SYNC_SUPPORT_FILES from provider scripts/install_governed_repo.py at pinned revision; compared target/source blob SHAs against recursive Git trees"
   },
   "local_configuration_boundary": [
     "meta-process.yaml is repository-local configuration",
@@ -50,8 +34,8 @@
     "CLAUDE.md and generated AGENTS.md remain repository governance surfaces"
   ],
   "limitations": [
-    "This audit did not prove every installed script/template/hook is byte-identical to the provider revision.",
-    "The 46-file package comparison covers all locally present enforced_planning/* blobs at the audited canonical revision.",
-    "Future provider updates require an explicit sync/audit rather than silently editing installed provider files."
+    "This audit covers every file in the provider installer SYNC_SUPPORT_FILES mapping plus all locally present enforced_planning/* package blobs.",
+    "Repository-local configuration/facades such as meta-process.yaml, Makefile, CLAUDE.md, and generated AGENTS.md are intentionally not claimed byte-identical to provider templates.",
+    "Future provider updates require an explicit sync/audit; installed copies do not become AES-owned generic semantics by mere presence."
   ]
 }
