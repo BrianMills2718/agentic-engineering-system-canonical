@@ -122,6 +122,16 @@ The surface must not invent a wiki, infer semantic authority from folder names, 
 
 A green automated check cannot prove the surface is useful. A useful surface cannot excuse missing or failed technical evidence.
 
+## Machine execution readiness
+
+Machine execution has an explicit preflight so a missing chat tool is not misdiagnosed as a machine, network, or WSL failure.
+
+Before machine-dependent work, the agent must first verify that the current conversation exposes Remote MCP `devices_list`, `devices_ping`, and `process_start`. If `devices_list` itself is absent, stop machine-dependent work immediately and classify the state as `SESSION_TOOL_NOT_EXPOSED`; GitHub-only work may continue when appropriate.
+
+If the tools are exposed, the agent must confirm the intended device is `execution_ready` with `devices_list`, then `devices_ping`, before filesystem/process operations. Only after a successful ping should the guarded WSL path be attempted.
+
+Canonical details and the full failure taxonomy live in [`../CLAUDE.md`](../CLAUDE.md) under **Execution readiness preflight**.
+
 ## Provider and donor posture
 
 - Company Planning — planning/design provider through the AES-local profile.
