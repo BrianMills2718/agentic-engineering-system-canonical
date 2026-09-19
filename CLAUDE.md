@@ -54,7 +54,35 @@ python scripts/audit_governed_repo.py \
 - A block must provide a runnable recovery path or an explicit human escalation boundary.
 - Plan completion never closes a gap by itself; fresh observation and re-characterization determine closure.
 - Verification is provider-independent under Decision 0008: local/external execution is first-class, hosted CI is optional infrastructure, evidence reuse is claim-specific over the transitive executed subject, and fresh exact-revision runs should use the incumbent Enforced Planning verification-batch mechanism.
+- Before any machine-dependent plan or promise, run the Execution readiness preflight below. Missing Remote MCP tools are a session/tool-exposure failure, not evidence that the machine or WSL is offline.
 - Proposed changes to the adopted methodology go through `proposals/` and then the owning methodology repository; this consumer does not silently redefine the standard.
+
+## Execution readiness preflight
+
+Machine-dependent work must fail fast at the execution boundary instead of discovering tool unavailability after planning or repository changes.
+
+Before promising or beginning work that requires Brian's machine:
+
+1. Confirm the Remote MCP toolset itself is exposed in the current conversation. The minimum expected tools are `devices_list`, `devices_ping`, and `process_start`.
+2. If `devices_list` is unavailable as a tool, classify the state as **SESSION_TOOL_NOT_EXPOSED**. Do not diagnose the machine, WSL, or repository; those layers have not been reached. Continue only with work that is genuinely GitHub-only, or hand off to a fresh session.
+3. If the tool exists, call `devices_list`; confirm the intended device (normally `WINDOWS-STQ88HK`) is present and `execution_ready`.
+4. Call `devices_ping` before any filesystem/process operation.
+5. Only after the ping succeeds may the agent inspect local repository state or launch the guarded WSL path.
+
+Use this failure taxonomy:
+
+| Observation | Classification | Next action |
+| --- | --- | --- |
+| `devices_list` tool absent | `SESSION_TOOL_NOT_EXPOSED` | new session / connector-surface diagnosis; do not blame device |
+| tool exists, intended device absent | `DEVICE_NOT_REGISTERED` | inspect Remote MCP/device registration |
+| device present but not `execution_ready` | `DEVICE_NOT_READY` | restore machine agent/readiness |
+| `devices_ping` fails | `DEVICE_UNREACHABLE` | inspect machine/network/tunnel |
+| ping succeeds, `process_start` fails | `EXECUTION_RUNTIME_FAILURE` | inspect permissions/process runtime |
+| guarded WSL probe fails | `WSL_UNHEALTHY` | stop WSL fan-out; repair WSL separately |
+
+A session-level missing tool is not evidence that the device is offline. A device-level failure is not evidence that WSL is broken. Preserve these boundaries in handoffs and evidence.
+
+For fresh sessions expected to use Brian's machine, the first machine-related action should be the preflight above before committing to a machine-dependent execution plan.
 
 ## Repository shape
 
