@@ -76,6 +76,7 @@ read `CLAUDE.md` directly.
 - A block must provide a runnable recovery path or an explicit human escalation boundary.
 - Plan completion never closes a gap by itself; fresh observation and re-characterization determine closure.
 - Verification is provider-independent under Decision 0008: local/external execution is first-class, hosted CI is optional infrastructure, evidence reuse is claim-specific over the transitive executed subject, and fresh exact-revision runs should use the incumbent Enforced Planning verification-batch mechanism.
+- Before any machine-dependent plan or promise, run the Execution readiness preflight below. Missing Remote MCP tools are a session/tool-exposure failure, not evidence that the machine or WSL is offline.
 - Proposed changes to the adopted methodology go through `proposals/` and then the owning methodology repository; this consumer does not silently redefine the standard.
 
 ## Machine-Readable Governance
