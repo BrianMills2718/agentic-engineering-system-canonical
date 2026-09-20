@@ -107,7 +107,7 @@ events:
 
 concerns:
   research: {root: research/, status: active}
-  proposals: {root: proposals/, status: unused}
+  proposals: {root: proposals/, status: active}
   experiments: {root: experiments/, status: unused}
   evidence: {root: evidence/, status: active}
   evals: {root: evals/, status: unused}
