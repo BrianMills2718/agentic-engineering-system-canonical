@@ -40,6 +40,12 @@ architecture_realization:
     record validated against schema_path and referenced from
     DesignPacketResult.design_packet_ref. The bootstrap probe record is only a
     validation example and must not be used as current design authority.
+    Apply SYSTEM_BOUNDARY.md AES-CAP-003 through AES-CAP-005 and Decision 0009
+    in the existing design packet: identify the sufficient existing foundation,
+    its native boundary, stable shared behavior, consequential variable policies,
+    consumer-local adapter/residual, and product/compatibility verification.
+    This is AES-local guidance, not a new generic transport field, planning skill,
+    mandatory framework, or instruction to run a standalone ACA experiment.
   required_content:
     - exact_source_refs
     - explicit_nonclaims_and_epistemic_limits

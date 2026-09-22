@@ -66,6 +66,17 @@ derive the next real component-specific design only from the resulting gap state
 
 PR #5 was integrated into canonical `main` as implementation-partial under an explicit integration-readiness record; merge status is not delivery evidence.
 
+## Modular product design in the engineering workflow
+
+[Decision 0009](../docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md)
+applies [AES-CAP-003 through AES-CAP-005](../docs/architecture/SYSTEM_BOUNDARY.md#aes-cap-003--established-modular-design-not-a-parallel-platform)
+through the existing Company Planning profile and Enforced Planning workflow.
+Adopt existing foundations, preserve cohesive reusable behavior, keep product
+policy and adapters local, and verify actual product behavior and compatibility.
+ACA's existing capabilities/evidence remain with their owners; no parallel ACA
+platform or benchmark programme is required. This policy integration does not
+close Plan 001 or change its verification/utility frontier.
+
 ## Read in this order
 
 1. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — active Plan 001 execution contract, evidence state, A1, and stop/replan conditions.

@@ -3,6 +3,7 @@
 required_reading:
   defaults:
     - CLAUDE.md
+    - docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md
 
 governance: []
 couplings: []
