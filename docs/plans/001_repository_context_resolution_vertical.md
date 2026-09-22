@@ -247,6 +247,9 @@ D1 closes no originating gap. Its return path is Slice 1.
 
 ### Slice 1 — external repository context resolution — IMPLEMENTATION PARTIAL / FOLLOW-UP A1 PENDING
 
+Execution tracker: [Issue #17 — Plan 001 closure](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/17). The issue is a coordination surface for the already-frozen technical verification, follow-up utility observation, and final reconciliation gates; this plan remains the execution authority.
+
+
 - advances: person/agent can orient correctly in real external repository before editing;
 - vertical scope: pinned `data-contracts` revision -> bounded observations -> resolution -> typed artifact -> static source-bound HTML surface;
 - de-risks: utility without repo hardcoding/generalized indexing/representation framework;
