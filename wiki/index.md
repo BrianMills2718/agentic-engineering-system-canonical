@@ -46,6 +46,8 @@ Before Plan 001 can be treated as delivered:
 
 **Next**
 
+Execution coordination for this existing frontier is tracked in [Issue #17](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/17); the plan and architecture documents remain authoritative.
+
 ```text
 run repaired focused + pinned-consumer + real CLI verification locally
         ↓
