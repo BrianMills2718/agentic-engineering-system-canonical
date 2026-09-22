@@ -48,9 +48,9 @@ class RendererRuntime:
         repo_root_resolved = repo_root.resolve()
         canonical_repo_root = self.repo_root.resolve()
         if resolved.is_relative_to(repo_root_resolved):
-            return str(resolved.relative_to(repo_root_resolved))
+            return resolved.relative_to(repo_root_resolved).as_posix()
         if resolved.is_relative_to(canonical_repo_root):
-            return str(resolved.relative_to(canonical_repo_root))
+            return resolved.relative_to(canonical_repo_root).as_posix()
         return path.name
 
     def resolve_inputs(
