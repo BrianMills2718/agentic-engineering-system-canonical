@@ -29,6 +29,9 @@ Decision 0008 supersedes the earlier blob-only carry-forward rule. Narrow resolv
 
 ## Immediate frontier
 
+Canonical closure tracker: [Issue #17 — Plan 001 closure: fresh verification, follow-up A1, and reconciliation](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/17). The issue mirrors this plan's existing closure gates; it does not add new acceptance criteria or authorize broader architecture work.
+
+
 ```text
 canonical Slice 1 implementation on adopted architecture
         ↓
