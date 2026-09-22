@@ -49,7 +49,9 @@ python scripts/audit_governed_repo.py \
 
 - Do not create an implementation root merely to begin coding. First derive target implementation and verification topology through Company Planning.
 - Do not hand-author a first execution plan before the target/current gap set has been materialized and dispositioned.
-- Before new reusable behavior is implemented locally, resolve the relevant capability through ACA and record the reuse/extend/supersede/local-residual disposition.
+- Apply `docs/architecture/SYSTEM_BOUNDARY.md` AES-CAP-001 through AES-CAP-005 and Decision 0009 during normal product design: adopt a sufficient existing product/framework first, use its native modules and extension points, consult ACA's relevant published boundaries/evidence, and record the reuse/configure/adapt/local-residual disposition in the existing design packet. ACA is not a separate runtime or prerequisite experiment.
+- Keep cohesive reusable behavior behind a consumer-independent boundary; keep consequential product policy in configuration/strategies and thin adapters. Use the selected ecosystem's normal packages, declared dependencies, examples, and compatibility tests; do not require framework neutrality, speculative extraction, or a new interface for every function.
+- Do not restart standalone ACA benchmarks, demonstration products, or mechanism-building from historical plans. They require separate explicit authorization for a concrete product decision/blocker. Product acceptance and compatibility tests remain required; existing provider ownership and the current Plan 001 frontier are unchanged.
 - Use Enforced Planning as the execution-governance incumbent unless and until an AES-owned replacement is accepted from authentic evidence.
 - A block must provide a runnable recovery path or an explicit human escalation boundary.
 - Plan completion never closes a gap by itself; fresh observation and re-characterization determine closure.
@@ -94,6 +96,7 @@ The roots declared in `.agentic/repo.yaml` are a pilot contract. If the contract
 - `wiki/index.md` — progressive-disclosure navigation only; follow links to native authority.
 - `.agentic/repo.yaml` — repository protocol, active frontier, selected providers, and concern roots.
 - `docs/plans/001_repository_context_resolution_vertical.md` — active Plan 001 / Slice 1 execution contract.
+- `docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md` - AES-local modular-design integration, existing owner boundaries, and the stop rule for standalone ACA work.
 - `docs/architecture/SYSTEM_BOUNDARY.md` — AES-specific normative target.
 - `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md` — actor-surface and attention-economics constraints.
 - `docs/architecture/INITIAL_GAP_LEDGER.md` — recomputed current gap projection from the post-integration characterization.
