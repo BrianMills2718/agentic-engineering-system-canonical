@@ -157,3 +157,16 @@ class ReplayReportV1(StrictModel):
     baseline: BaselineDecisionV1
     candidate: ProviderJudgmentV1
     later_outcome: LaterOutcomeV1 | None = None
+
+
+class ReplayCaseV1(StrictModel):
+    """One frozen offline replay case.
+
+    Later outcome is retained beside the evaluator input for review, but replay
+    code passes only evaluator_input to the candidate evaluator.
+    """
+
+    schema_version: Literal["1.0"] = "1.0"
+    evaluator_input: EvaluatorInputV1
+    baseline: BaselineDecisionV1
+    later_outcome: LaterOutcomeV1 | None = None
