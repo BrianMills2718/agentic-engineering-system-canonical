@@ -5,6 +5,7 @@ from agentic_engineering_system.policy_control.models import (
     DecisionKind,
     EvidenceState,
     EvaluatorInputV1,
+    EventTimeContextFactV1,
     EventTimeEvidenceV1,
     ProviderJudgmentV1,
     ProviderResultState,
@@ -68,9 +69,11 @@ def test_provider_unavailable_cannot_carry_an_observed_answer() -> None:
     with pytest.raises(ValidationError):
         ProviderJudgmentV1(
             provider="typesafe",
+            requested_model="jev-latest",
             question_id="supported",
+            question_type="noul",
             state=ProviderResultState.UNAVAILABLE,
-            answer=True,
+            answer=0.9,
             error_code="provider_unavailable",
             error_summary="provider unavailable",
         )
@@ -80,10 +83,39 @@ def test_provider_unavailable_requires_explicit_failure_information() -> None:
     with pytest.raises(ValidationError):
         ProviderJudgmentV1(
             provider="typesafe",
+            requested_model="jev-latest",
             question_id="supported",
+            question_type="noul",
             state=ProviderResultState.UNAVAILABLE,
         )
 
 
 def test_decision_kind_does_not_collapse_not_checked_into_allow() -> None:
     assert DecisionKind.NOT_CHECKED != DecisionKind.ALLOW
+
+def test_event_time_context_fact_requires_predecision_source_identity() -> None:
+    with pytest.raises(ValidationError):
+        EventTimeContextFactV1.model_validate(
+            {
+                "fact_id": "later-verdict",
+                "source_ref": "later-review.json",
+                "payload_sha256": DIGEST,
+                "summary": "A later reviewer accepted the result.",
+                "observed_before_decision": False,
+            }
+        )
+
+
+def test_observed_provider_uses_response_model_and_probability_answer() -> None:
+    result = ProviderJudgmentV1(
+        provider="typesafe",
+        requested_model="jev-latest",
+        response_model="jev-1.13.0",
+        question_id="supported",
+        question_type="noul",
+        state=ProviderResultState.OBSERVED,
+        answer=0.93,
+    )
+
+    assert result.answer == 0.93
+    assert result.response_model == "jev-1.13.0"
