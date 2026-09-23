@@ -46,6 +46,7 @@ def sample_report() -> ReplayReportV1:
             question_type="choice",
             state=ProviderResultState.OBSERVED,
             answer="unsupported",
+            rationale="No event-time verification evidence supports the claim.",
             usage=ProviderUsageV1(
                 input_tokens=10,
                 output_tokens=4,
@@ -66,6 +67,7 @@ def test_html_report_escapes_claim_and_separates_later_outcome() -> None:
     assert "This section was not supplied to the evaluator." in rendered
     assert "openai/gpt-6-luna" in rendered
     assert "unbacked_assertion" in rendered
+    assert "No event-time verification evidence supports the claim." in rendered
     assert (
         "github.com/Inside-Success/agentic-engineering-system/blob/"
         "abc123/evidence/example.json"
