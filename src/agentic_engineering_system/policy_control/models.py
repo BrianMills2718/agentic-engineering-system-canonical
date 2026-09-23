@@ -109,6 +109,7 @@ class ProbabilityV1(StrictModel):
 class ProviderUsageV1(StrictModel):
     input_tokens: int | None = Field(default=None, ge=0)
     output_tokens: int | None = Field(default=None, ge=0)
+    cost_usd: float | None = Field(default=None, ge=0.0)
 
 
 class ProviderJudgmentV1(StrictModel):
