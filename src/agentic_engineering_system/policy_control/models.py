@@ -62,12 +62,22 @@ class EventTimeEvidenceV1(StrictModel):
         return self
 
 
+class EventTimeContextFactV1(StrictModel):
+    """One context fact proven to exist before the protected decision."""
+
+    fact_id: str = Field(min_length=1)
+    source_ref: str = Field(min_length=1)
+    payload_sha256: str = Field(pattern=SHA256_PATTERN)
+    summary: str = Field(min_length=1)
+    observed_before_decision: Literal[True] = True
+
+
 class EvaluatorInputV1(StrictModel):
     """Complete state supplied to a candidate evaluator.
 
     This contract deliberately has no later-outcome, adjudication, or
-    post-decision fields. Strict extra-field rejection makes accidental label
-    leakage fail validation.
+    post-decision fields. Context facts must carry source identity plus a
+    content digest and explicitly assert event-time availability.
     """
 
     schema_version: Literal["1.0"] = "1.0"
@@ -75,7 +85,7 @@ class EvaluatorInputV1(StrictModel):
     source: SourceIdentityV1
     claim_text: str = Field(min_length=1)
     event_time_evidence: tuple[EventTimeEvidenceV1, ...] = ()
-    context_notes: tuple[str, ...] = ()
+    event_time_context: tuple[EventTimeContextFactV1, ...] = ()
 
 
 class BaselineDecisionV1(StrictModel):
@@ -98,10 +108,12 @@ class ProviderUsageV1(StrictModel):
 class ProviderJudgmentV1(StrictModel):
     schema_version: Literal["1.0"] = "1.0"
     provider: str = Field(min_length=1)
-    model: str | None = Field(default=None, min_length=1)
+    requested_model: str | None = Field(default=None, min_length=1)
+    response_model: str | None = Field(default=None, min_length=1)
     question_id: str = Field(min_length=1)
+    question_type: Literal["noul", "choice", "score"]
     state: ProviderResultState
-    answer: bool | str | int | float | None = None
+    answer: str | int | float | None = None
     probabilities: tuple[ProbabilityV1, ...] = ()
     latency_ms: float | None = Field(default=None, ge=0.0)
     usage: ProviderUsageV1 | None = None
@@ -111,8 +123,8 @@ class ProviderJudgmentV1(StrictModel):
     @model_validator(mode="after")
     def result_state_is_explicit(self) -> "ProviderJudgmentV1":
         if self.state == ProviderResultState.OBSERVED:
-            if self.model is None:
-                raise ValueError("OBSERVED provider judgment requires model identity")
+            if self.response_model is None:
+                raise ValueError("OBSERVED provider judgment requires response model identity")
             if self.answer is None and not self.probabilities:
                 raise ValueError("OBSERVED provider judgment requires an answer or probabilities")
             if self.error_code is not None or self.error_summary is not None:
