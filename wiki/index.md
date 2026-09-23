@@ -35,11 +35,13 @@ Plan 001 leaves broader AES policy/evidence maturation deliberately unresolved. 
 Execution coordination: [Issue #20](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/20). The Plan 002 document remains the authority for scope, stop rules, and acceptance.
 
 ```text
-P0: locate >=5 authentic completion/verification decision events
+4 authentic completion/verification cases frozen
         +
 confirm authenticated TypeSafe/Jev model discovery
         ↓
-freeze exact source refs + event-time context contract
+protocol-only Noul smoke
+        ↓
+freeze first V1 case + event-time context contract
         ↓
 V1: replay one authentic case offline
 incumbent deterministic decision + Jev typed judgment
@@ -53,7 +55,7 @@ V2: small frozen authentic case set
 provider disposition: adopt-for-shadow | revise | reject
 ```
 
-P0 is a real stop gate. If authentic cases cannot be reconstructed or Jev access is unavailable, preserve that evidence and do not build a substitute policy platform. Historical ACA experiments and the broad Jev proposal PRs remain research donors, not fallback execution queues.
+P0's remaining real stop gate is Jev provider access. The four authentic cases are sufficient for this exploratory slice; they are not a generalization claim. If Jev access is unavailable, preserve that evidence and do not build a substitute policy platform. Historical ACA experiments and the broad Jev proposal PRs remain research donors, not fallback execution queues.
 
 ## Modular product design in the engineering workflow
 
