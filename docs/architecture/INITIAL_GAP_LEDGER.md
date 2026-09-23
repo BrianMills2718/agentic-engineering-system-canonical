@@ -1,12 +1,12 @@
 # Initial AES Gap Ledger
 
-Status: **recomputed after PR #5 integration at canonical revision `320991b96a3e3aaa15aa8ba05817a7eee1c52603`**.
+Status: **recomputed for Plan 001 closure from verified AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1` and follow-up A1 utility evidence on 2026-09-22**.
 
 This ledger compares the accepted clauses in `SYSTEM_BOUNDARY.md` with the
 current canonical realization. The revision-bound characterization supporting
 this recomputation is:
 
-`evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`
+`evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/characterization.md`
 
 Verification review correction after GitHub Actions became administratively unavailable:
 
@@ -30,35 +30,35 @@ future component.
 - `DEFER` — still real but not required to complete the present closure path.
 - `NOT_YET_APPLICABLE` — target depends on behavior that still does not exist.
 
-| Gap | Clause | Current at `320991b...` | Remaining variance | Disposition |
+| Gap | Clause | Current at `96fcf5e...` | Remaining variance | Disposition |
 | --- | --- | --- | --- | --- |
-| GAP-AES-001 | AES-SYS-001 | Bootstrap architecture and Repository Context vertical are integrated on canonical main; planning, implementation, evidence, and post-integration characterization now exist | full resumable lifecycle through final reconciliation/learning has not completed | `NARROWED / NOW` |
-| GAP-AES-002 | AES-SYS-002 | Repository Context performs executable evidence-bound authority/navigation resolution without directory-name authority inference | authority-preserving composition is evidenced for the first vertical, not yet broadly across later components/providers | `NARROWED / NOW` |
-| GAP-AES-003 | AES-SYS-003 | adopted methodology is pinned and has been exercised through planning, architecture adoption, implementation, and review | full consumer cycle is not yet closed | `NARROWED / NOW` |
-| GAP-AES-004 | AES-SYS-004 | incumbent/provider dispositions were explicitly recorded and exercised; donors did not silently become runtime authorities | repeated use across additional capabilities remains unobserved | `NARROWED / DEFER` |
+| GAP-AES-001 | AES-SYS-001 | The first real external vertical completed target -> gap -> plan -> provider disposition -> implementation -> bound verification -> human observation -> characterization -> gap reconciliation/learning | no remaining variance for the original first-loop bootstrap claim; breadth across later components is separate | `CLOSED` |
+| GAP-AES-002 | AES-SYS-002 | Repository Context preserves native authority through evidence-bound resolution and the delivered external vertical | authority-preserving composition across additional components/providers remains unobserved | `NARROWED / DEFER` |
+| GAP-AES-003 | AES-SYS-003 | The pinned methodology was exercised through planning, implementation, review, verification, utility feedback, and final reconciliation | no remaining variance for the original first-consumer-cycle bootstrap claim | `CLOSED` |
+| GAP-AES-004 | AES-SYS-004 | incumbent/provider dispositions remained explicit and no donor silently became runtime authority | repeated use across additional capabilities remains unobserved | `NARROWED / DEFER` |
 | GAP-AES-005 | AES-SYS-005 | first local implementation is a bounded residual after provider sourcing rather than a predecessor rewrite | no remaining variance for the original bootstrap claim; future work must preserve the rule | `CLOSED` |
-| GAP-AES-006 | AES-PLAN-001 | Plan 001 originated in explicit gaps and produced implemented work plus post-integration characterization | Plan 001 has not yet reached final evidence-backed closure | `NARROWED / NOW` |
-| GAP-AES-007 | AES-PLAN-002 | Company Planning shaped the design; Enforced Planning governance was installed/observed and historical custody limits were preserved honestly | a fully prospective planning → execution custody cycle remains incompletely evidenced | `NARROWED / NOW` |
-| GAP-AES-008 | AES-PLAN-003 | merge/integration was explicitly kept separate from delivery and gap closure; fresh characterization now exists | final Plan 001 conformance decision still awaits follow-up utility evidence and final reconciliation | `NARROWED / NOW` |
+| GAP-AES-006 | AES-PLAN-001 | Plan 001 originated in explicit gaps and now has exact technical evidence, utility evidence, characterization, and final reconciliation | no remaining variance for the first-plan bootstrap claim | `CLOSED` |
+| GAP-AES-007 | AES-PLAN-002 | Company Planning shaped the design; Enforced Planning provided terminal exact-revision verification and historical custody limits remained honest | one fully prospective planning -> execution custody cycle from plan start remains incompletely evidenced | `NARROWED / DEFER` |
+| GAP-AES-008 | AES-PLAN-003 | merge, plan completion, technical conformance, utility, and gap closure were kept distinct; final delivery followed fresh evidence | no remaining variance for the original Plan 001 separation claim | `CLOSED` |
 | GAP-AES-009 | AES-CAP-001 | provider search/disposition selected Git/Pydantic/PyYAML/stdlib plus bounded AES residual semantics, and that residual was implemented | original bootstrap variance is resolved for the first capability | `CLOSED` |
 | GAP-AES-010 | AES-CONTRACT-001 | AES-local RepositoryContextArtifact is implemented and exercised against the real external consumer without making Data Contracts a runtime dependency | original Slice 1 contract-ownership variance is resolved | `CLOSED` |
-| GAP-AES-011 | AES-POL-001 | Enforced Planning governance machinery is installed; policy/governance effects and custody refusal are observed | full adaptive policy lifecycle and feedback remain incomplete | `NARROWED / NOW` |
+| GAP-AES-011 | AES-POL-001 | Enforced Planning governance and exact verification-batch behavior are observed, and utility feedback changed the delivered surface | adaptive policy behavior across broader lifecycle/components remains incomplete | `NARROWED / DEFER` |
 | GAP-AES-012 | AES-POL-002 | Repository Context preserves NONE/ERROR/UNRESOLVED states and tests fail-closed behavior | full control-state coverage including stale/pass/fail across broader controls remains incomplete | `NARROWED / DEFER` |
-| GAP-AES-013 | AES-POL-003 | malformed-manifest recovery semantics are implemented/tested and governance refused fabricated retroactive custody | one complete canonical prospective block → recovery transition remains incompletely evidenced | `NARROWED / NOW` |
-| GAP-AES-014 | AES-POL-004 | Repository Context and bootstrap architecture probes include deliberate negative controls that reject invalid states | broader important-control coverage remains incomplete | `NARROWED / NOW` |
-| GAP-AES-015 | AES-CTX-001 | wiki is an active progressive-disclosure surface and has been reconciled with implementation/evidence state | projection is still partly hand-maintained rather than wholly regenerated from current characterization | `NARROWED / NOW` |
-| GAP-AES-016 | AES-CTX-002 | realized Repository Context exists and a generated source-local component-context dogfood projection has been exercised | generalized source-local delivery for realized components is not yet an operational capability | `NARROWED / NOW` |
-| GAP-AES-017 | AES-EVID-001 | authentic historical execution observations, A1 evidence, integration-readiness evidence, revision-bound characterization, and a correction to the prior carry-forward interpretation now exist | current end-to-end CLI/pinned acceptance requires one repaired fresh local run; current projections are not yet fully mechanically regenerated; corrected-presentation utility remains unobserved | `NARROWED / NOW` |
-| GAP-AES-018 | AES-LEARN-001 | first A1 negative utility observation directly caused a bounded projection correction and documentation/strategy updates | learning disposition is not yet generalized into a durable automated feedback capability | `NARROWED / DEFER` |
+| GAP-AES-013 | AES-POL-003 | malformed-manifest recovery semantics are implemented/tested and governance refused fabricated retroactive custody | one prospective destructive/authority-sensitive block -> recovery transition remains incompletely evidenced | `NARROWED / DEFER` |
+| GAP-AES-014 | AES-POL-004 | Repository Context and architecture/profile probes include deliberate negative controls that turn red | broader important-control coverage remains incomplete | `NARROWED / DEFER` |
+| GAP-AES-015 | AES-CTX-001 | wiki is an active progressive-disclosure surface and is reconciled with final Plan 001 evidence/gap state | projection remains partly hand-maintained rather than wholly regenerated | `NARROWED / DEFER` |
+| GAP-AES-016 | AES-CTX-002 | realized Repository Context exists and source-local component-context dogfood has been exercised | generalized source-local delivery for realized components is not yet an operational capability | `NARROWED / DEFER` |
+| GAP-AES-017 | AES-EVID-001 | fresh exact technical evidence at `96fcf5e...`, two utility observations, append-only receipts, final characterization, and recomputed gap state now exist | current projections are not yet fully mechanically regenerated across AES | `NARROWED / DEFER` |
+| GAP-AES-018 | AES-LEARN-001 | negative A1 utility evidence caused a bounded correction; follow-up A1 accepted the direction and the result is explicitly dispositioned into future planning | no remaining variance for the first vertical's learning-feedback claim; no automated learning platform is required | `CLOSED` |
 | GAP-AES-019 | AES-DOGFOOD-001 | exact pinned `data-contracts` consumer was exercised through the real Repository Context entrypoint and retained artifacts | no remaining variance for the requirement that the first vertical cross a real external consumer | `CLOSED` |
-| GAP-AES-020 | AES-DOGFOOD-002 | target→gap→plan→provider disposition→implementation→technical evidence→first direct human observation→post-integration characterization has occurred | corrected-presentation utility, final gap reconciliation, and learning closure remain incomplete | `NARROWED / NOW` |
+| GAP-AES-020 | AES-DOGFOOD-002 | the first concern traversed target/current/gap/disposition/planning/provider sourcing/execution/evidence/human observation/fresh characterization/gap recomputation, with enforced negative/recovery behavior retained | no remaining variance for the original first end-to-end dogfood claim | `CLOSED` |
 | GAP-AES-021 | AES-PLAN-004 | Plan 001 was executed as one actor-centered external-consumer vertical distinct from work/dependency graph mechanics | original bootstrap variance that slice derivation was unexercised is resolved | `CLOSED` |
 | GAP-AES-022 | AES-CAP-002 | external/native substrate was sourced first, internal donors were not selected by default, and chosen dependencies were exercised | original first-vertical sourcing variance is resolved; rule remains applicable to future work | `CLOSED` |
-| GAP-AES-023 | AES-PLAN-005 | authentic source-bound HTML/CLI surface exists and was directly reviewed once | first A1 returned `change`; corrected presentation still lacks follow-up direct utility observation | `NARROWED / NOW` |
-| GAP-AES-024 | AES-PLAN-006 | experience-backward hypothesis met real stakeholder evidence and the presentation changed in response | corrected interaction has not yet been directly judged | `NARROWED / NOW` |
-| GAP-AES-025 | AES-PLAN-007 | D1 remained bounded dependency-resolution work and returned to the usable vertical rather than expanding into infrastructure | evidence across a runtime feasibility/enabler decision remains limited | `NARROWED / DEFER` |
-| GAP-AES-026 | AES-ECON-001 | A1 occurred after a usable surface and immediately exposed reconstruction cost, causing a bounded correction instead of broader implementation | corrected-surface information value has not yet been observed | `NARROWED / NOW` |
-| GAP-AES-027 | AES-CTX-003 | real source-bound working surface was used; first utility observation exposed insufficiency and a concern-specific correction was made without authority transfer | corrected presentation awaits direct follow-up review | `NARROWED / NOW` |
+| GAP-AES-023 | AES-PLAN-005 | authentic source-bound HTML/CLI surface exists; first A1 drove correction and follow-up A1 returned `continue` | no remaining variance for the first human-observable Slice 1 claim | `CLOSED` |
+| GAP-AES-024 | AES-PLAN-006 | experience-backward design met real `change` evidence, adapted, and the corrected interaction was directly judged `continue` | no remaining variance for the first vertical's confidence-weighted experience loop | `CLOSED` |
+| GAP-AES-025 | AES-PLAN-007 | D1 remained bounded dependency-resolution work and returned to the usable vertical rather than expanding into infrastructure | broader evidence across runtime feasibility/enabler decisions remains limited | `NARROWED / DEFER` |
+| GAP-AES-026 | AES-ECON-001 | human attention was spent at two decision-useful checkpoints: the first exposed reconstruction cost and the second accepted the bounded correction | no remaining variance for the first vertical's attention/utility-economics claim | `CLOSED` |
+| GAP-AES-027 | AES-CTX-003 | a source-bound working surface was directly used, corrected from negative utility evidence, and accepted on follow-up without authority transfer | no remaining variance for the first concern-specific working-surface claim | `CLOSED` |
 
 ## Why a gap list is not an implementation plan
 
@@ -87,25 +87,18 @@ optional work-unit graph when coordination needs one
 
 ## Current grouped outcome
 
-The first grouped outcome has progressed materially:
+Plan 001 / Repository Context is **DELIVERED for its bounded Slice 1 claim**.
 
-> Starting from the pinned real `data-contracts` consumer, AES implemented and
-> exercised evidence-bound repository context resolution, produced a source-bound
-> human presentation, recorded a negative first utility observation, corrected
-> the projection without broadening runtime semantics, integrated the result onto
-> canonical main, and produced revision-bound characterization.
+> Starting from the pinned real `data-contracts` consumer, AES derived an
+> evidence-bound repository-context design, implemented the residual, received a
+> negative first utility observation, made a bounded projection correction,
+> executed a fresh exact-revision technical batch at `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`,
+> received follow-up A1 `continue`, and recomputed the originating gap state.
 
-The remaining Plan 001 closure frontier is narrower:
+The Plan 001 closure frontier is empty. The remaining `NARROWED / DEFER` rows
+are broader AES maturation questions, not unfinished Plan 001 tasks.
 
-1. run the repaired focused suite + exact pinned private consumer + real CLI
-   locally at one exact clean revision, bound through the Enforced Planning
-   verification-batch mechanism;
-2. directly review the corrected presentation and record
-   `continue | change | stop`;
-3. update characterization if that observation materially changes current state;
-4. perform final Plan 001 closure/reconciliation without turning plan completion,
-   merge status, prior partial file identity, or hosted-CI availability into conformance evidence.
-
-No next implementation vertical is authorized merely because several bootstrap
-gaps are closed. The next component-specific design must come from the fresh
-remaining gap state after the current closure frontier is resolved.
+No next implementation vertical is authorized merely because this one closed.
+The next component-specific design must start from this fresh remaining gap state
+plus one concrete human/product outcome and follow the normal Company Planning ->
+provider sourcing / ACA evidence -> Enforced Planning lifecycle.

@@ -12,17 +12,15 @@ orient -> target -> current -> gap -> plan -> capability composition
 
 ## Status
 
-**Bootstrap architecture adopted; Plan 001 / Slice 1 is implementation-partial and not delivered.**
+**Bootstrap architecture adopted; Plan 001 / Repository Context Slice 1 is delivered at verified AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`.**
 
 The canonical architecture now includes the component-aligned planning/governance model, AES-local Company Planning profile, minimal architecture-realization schema, and reserved component/verification homes. Reserved homes remain topology only; they are not implementation or verification evidence.
 
 This branch contains the first Repository Context implementation: typed artifact models, exact Git/revision resolution, authoritative pilot-manifest handling, bounded legacy resolution, static HTML/JSON projection, CLI entrypoint, and focused tests.
 
-Authentic technical execution has been observed on prior exact revisions, including the governed-repo audit, focused tests, exact pinned `data-contracts` check, real CLI execution, and deterministic generated artifacts. The first direct A1 returned `change` because the human-facing surface required too much reconstruction. A bounded projection correction followed.
+The first direct A1 returned `change`, causing a bounded projection correction rather than a broader UI/platform build. On 2026-09-22, AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1` then passed a fresh exact-revision technical batch against the pinned private `data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` consumer: **15 repository-context tests passed**, the real CLI returned `RESOLVED`, and the verification-batch check remained valid on a clean repository. The exact corrected HTML then received stakeholder response **"proceed"**, recorded as A1 `continue`.
 
-Canonical `main@320991b96a3e3aaa15aa8ba05817a7eee1c52603` now has a revision-bound post-integration characterization and a conservatively recomputed initial gap ledger. Decision 0008 makes verification provider-independent while correcting the earlier blob-only carry-forward rule. Review found that the CLI and pinned external-consumer path execute the changed renderer, so current end-to-end technical acceptance requires one fresh local/external run after the repaired pinned test. GitHub Actions funding is not a blocker; local execution is sufficient. Follow-up direct utility review remains independently pending.
-
-A completed implementation plan, passing regression suite, or useful presentation does not by itself establish delivery or close the originating gaps.
+The final revision-bound characterization and conservatively recomputed gap ledger are under `evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/` and `docs/architecture/INITIAL_GAP_LEDGER.md`. Plan 001 is therefore delivered for its bounded external Repository Context claim. This does not establish full AES maturity or automatically authorize a new implementation vertical.
 
 Start at [`wiki/index.md`](wiki/index.md).
 
