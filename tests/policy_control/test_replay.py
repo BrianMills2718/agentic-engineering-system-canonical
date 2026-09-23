@@ -59,13 +59,13 @@ class RecordingEvaluator:
     def evaluate(self, state: EvaluatorInputV1) -> ProviderJudgmentV1:
         self.seen = state
         return ProviderJudgmentV1(
-            provider="fake-typesafe",
-            requested_model="fake-alias",
-            response_model="fake-jev-exact",
+            provider="fake-openrouter",
+            requested_model="fake-model",
+            response_model="fake-model-version",
             question_id="claim_supported",
-            question_type="noul",
+            question_type="choice",
             state=ProviderResultState.OBSERVED,
-            answer=0.02,
+            answer="unsupported",
             probabilities=(
                 ProbabilityV1(label="true", probability=0.02),
                 ProbabilityV1(label="false", probability=0.98),
