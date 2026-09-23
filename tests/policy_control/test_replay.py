@@ -55,10 +55,12 @@ class RecordingEvaluator:
         self.seen = state
         return ProviderJudgmentV1(
             provider="fake-typesafe",
-            model="fake-jev-exact",
+            requested_model="fake-alias",
+            response_model="fake-jev-exact",
             question_id="claim_supported",
+            question_type="noul",
             state=ProviderResultState.OBSERVED,
-            answer=False,
+            answer=0.02,
             probabilities=(
                 ProbabilityV1(label="true", probability=0.02),
                 ProbabilityV1(label="false", probability=0.98),
