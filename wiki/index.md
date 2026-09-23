@@ -32,6 +32,8 @@ Plan 001 leaves broader AES policy/evidence maturation deliberately unresolved. 
 
 **Next**
 
+Execution coordination: [Issue #20](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/20). The Plan 002 document remains the authority for scope, stop rules, and acceptance.
+
 ```text
 P0: locate >=5 authentic completion/verification decision events
         +
