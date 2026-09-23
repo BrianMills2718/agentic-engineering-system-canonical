@@ -22,7 +22,7 @@ The first direct A1 returned `change`, causing a bounded projection correction r
 
 The final revision-bound characterization and conservatively recomputed gap ledger are under `evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/` and `docs/architecture/INITIAL_GAP_LEDGER.md`. Plan 001 is therefore delivered for its bounded external Repository Context claim. This does not establish full AES maturity.
 
-**Current planned frontier:** [Plan 002 — Offline Policy-Decision Replay](docs/plans/002_offline_policy_decision_replay.md). It asks one bounded question: whether a typed contextual evaluator adds enough value over the existing deterministic completion/verification control to merit later **shadow-only** use. Four authentic historical cases are frozen as the exploratory starting set. The remaining P0 gate is authenticated TypeSafe/Jev model access and one protocol smoke; then V1 runs the first offline comparison. No live policy behavior, hook, warning, or enforcement change is authorized by the plan.
+**Current planned frontier:** [Plan 002 — Offline Policy-Decision Replay](docs/plans/002_offline_policy_decision_replay.md). It asks one bounded question: whether a contextual model evaluator adds enough value over the existing deterministic completion/verification control to merit later **shadow-only** use. Four authentic historical cases are frozen as the exploratory starting set. The remaining P0 gate is authenticated TypeSafe/Jev model access and one protocol smoke; then V1 runs the first offline comparison. No live policy behavior, hook, warning, or enforcement change is authorized by the plan.
 
 Start at [`wiki/index.md`](wiki/index.md).
 
