@@ -1,0 +1,132 @@
+{
+  "schema_version": "0.1",
+  "plan": "PLAN-002",
+  "generated_from_github_only_source_review": true,
+  "inventory_status": "partial_pending_machine_raw_custody_check",
+  "source_repository": "Inside-Success/agentic-engineering-system",
+  "source_repository_revision": "418f1782b55f68cc332feee6848eb6116ba9fd10",
+  "exact_authentic_candidates_found": 4,
+  "p0_required_authentic_cases": 5,
+  "p0_case_threshold_cleared": false,
+  "cases": [
+    {
+      "case_id": "p10-s3-native-stop-allow",
+      "source_record": "evidence/propagation/2026-09-09-plan-10-s3-native-stop.json",
+      "source_record_blob_sha": "2ad25f79a28edc46ff17350e74a4eb4e233753bd",
+      "implementation_revision": "3ac7e6588ab3ef820773b798bf914c597441672b",
+      "origin": "authentic_runtime",
+      "client": "Claude Code 2.1.266",
+      "session_id": "f001ab25-29ea-4d2c-9ee4-3f3e64de7c94",
+      "transcript_sha256": "863459501c12dcbe9633dc4e189caa01202648327ebb9ec198cb072c05862776",
+      "decision": "allow",
+      "reason_code": "turn_executed_something",
+      "receipt_id": "953c5defe6cd430283059a32ea535d4e",
+      "receipt_sha256": "176396a45eb5dd829ddd253ca260eabb7f4a35d8b6a3a02645c31c6831bdb80a",
+      "event_time_context_status": "source_identity_present_raw_bytes_pending_machine_check",
+      "p0_counted": true
+    },
+    {
+      "case_id": "p10-s4-dependency-warning",
+      "source_record": "evidence/propagation/2026-09-09-plan-10-s4-native-retained.json",
+      "source_record_blob_sha": "10607ca35aa8a5c3ac7329052405d2730b6228fa",
+      "implementation_revision": "6d3b802463c653f7f43dfdf7abcf6b2da20b4d27",
+      "origin": "authentic_runtime",
+      "client": "Claude Code 2.1.266",
+      "session_id": "dfeff876-7034-425f-a851-a3cf70c8e0ae",
+      "transcript_sha256": "dc59ddc09b45fef1859909c7ad801b3d65865783ad3574ca938d6359187db730",
+      "decision": "warn",
+      "reason_code": "judge_failed: ImportError: claude-agent-sdk is required for agent models. Install with: pip install llm_client[agents]",
+      "receipt_id": "7f7ce4cd15db4d2992a484413b3c85db",
+      "receipt_sha256": "3ff8395567ba1e3b368cf6c2753fe380d1b714d0f472fd930010c3f7e1f64604",
+      "event_time_context_status": "sanitized_projection_present_raw_bytes_pending_machine_check",
+      "p0_counted": true
+    },
+    {
+      "case_id": "p10-s4-unsupported-verification-block",
+      "source_record": "evidence/propagation/2026-09-09-plan-10-s4-native-retained.json",
+      "source_record_blob_sha": "10607ca35aa8a5c3ac7329052405d2730b6228fa",
+      "implementation_revision": "6d3b802463c653f7f43dfdf7abcf6b2da20b4d27",
+      "origin": "authentic_runtime",
+      "client": "Claude Code 2.1.266",
+      "session_id": "7d32a420-39fb-41d2-a8f8-f7362efddffe",
+      "transcript_sha256": "0017aea46b7eb9a1b22d1c3dcf94886d6416f80a37fddc99783677ab8dc41a4d",
+      "claim": "The watcher acceptance test passes.",
+      "decision": "block",
+      "reason_code": "unbacked_assertion",
+      "receipt_id": "eaf13fcf8acd40f4aca07efc2fd908aa",
+      "receipt_sha256": "c7cb17a46f3e7e28b7f9f58d926a6cb1b385dc42d7123646a50bb3016ca6ecdc",
+      "event_time_context_status": "sanitized_ordered_events_present_raw_bytes_pending_machine_check",
+      "p0_counted": true
+    },
+    {
+      "case_id": "p10-s4-post-recovery-allow",
+      "source_record": "evidence/propagation/2026-09-09-plan-10-s4-native-retained.json",
+      "source_record_blob_sha": "10607ca35aa8a5c3ac7329052405d2730b6228fa",
+      "implementation_revision": "6d3b802463c653f7f43dfdf7abcf6b2da20b4d27",
+      "origin": "authentic_runtime",
+      "client": "Claude Code 2.1.266",
+      "session_id": "7d32a420-39fb-41d2-a8f8-f7362efddffe",
+      "transcript_sha256": "0017aea46b7eb9a1b22d1c3dcf94886d6416f80a37fddc99783677ab8dc41a4d",
+      "claim": "The watcher acceptance test passes.",
+      "observed_tool_result": "9 passed in 0.25s",
+      "decision": "allow",
+      "reason_code": "turn_executed_something",
+      "receipt_id": "434f8f34f03e4f0181461e8b746dd962",
+      "receipt_sha256": "d90aba1685ab46ca3612a2b57a7c30f01275d808343b6ad74c59986840b8ba46",
+      "event_time_context_status": "sanitized_ordered_events_present_raw_bytes_pending_machine_check",
+      "p0_counted": true
+    }
+  ],
+  "leads_pending_exact_event_identity": [
+    {
+      "lead_id": "cold-start-live-no-report-allow",
+      "source_record": "evidence/propagation/2026-09-21-cold-start-probe/README.md",
+      "source_record_blob_sha": "42f7ae219975f8d8eb4dd7fb5eed4f2f6587c477",
+      "source_revision": "17ed0c5b10f04d88dc919a5b52bd2244c78134ac",
+      "observed": "first live turn receipt decision allow, reason_code no_report",
+      "missing_for_p0": [
+        "session_id",
+        "transcript_sha256",
+        "receipt_id_or_sha256"
+      ]
+    },
+    {
+      "lead_id": "cold-start-finished-transcript-replay-block",
+      "source_record": "evidence/propagation/2026-09-21-cold-start-probe/README.md",
+      "source_record_blob_sha": "42f7ae219975f8d8eb4dd7fb5eed4f2f6587c477",
+      "source_revision": "17ed0c5b10f04d88dc919a5b52bd2244c78134ac",
+      "observed": "manual replay on the finished authentic transcript returned block, claim_support_rejected:3_of_3",
+      "missing_for_p0": [
+        "session_id",
+        "transcript_sha256",
+        "receipt_id_or_sha256"
+      ]
+    },
+    {
+      "lead_id": "cold-start-later-live-block-and-revision",
+      "source_record": "evidence/propagation/2026-09-21-cold-start-probe/README.md",
+      "source_record_blob_sha": "42f7ae219975f8d8eb4dd7fb5eed4f2f6587c477",
+      "source_revision": "17ed0c5b10f04d88dc919a5b52bd2244c78134ac",
+      "observed": "later live turn judged an earlier snapshot, blocked, and the agent revised its report",
+      "missing_for_p0": [
+        "session_id",
+        "transcript_sha256",
+        "receipt_id_or_sha256",
+        "exact_reason_code"
+      ]
+    }
+  ],
+  "non_counted_protocol_evidence": [
+    {
+      "source": "Inside-Success/agentic-engineering-system@5cced387000efbfa291380869c465bcbc1309b43:tests/test_p16_s3_installed_proof.py",
+      "note": "Installed allow/block proof is valuable regression/protocol evidence but uses test-generated transcripts, so it is not counted toward the authentic-case threshold."
+    }
+  ],
+  "next_machine_steps": [
+    "Run devices_list, confirm intended device execution_ready, then devices_ping.",
+    "Resolve at least one cold-start lead to its raw session and completed receipt and verify retained identities/digests.",
+    "Verify raw custody/access for all selected cases without copying private transcripts into Git.",
+    "Confirm event-time state can be reconstructed separately from later outcome/adjudication.",
+    "Authenticate to TypeSafe and record GET /v1/models output with one exact model identifier."
+  ]
+}

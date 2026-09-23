@@ -158,7 +158,7 @@ Planned implementation scope:
 - `src/agentic_engineering_system/policy_control/providers/__init__.py` — create.
 - `src/agentic_engineering_system/policy_control/providers/jev.py` — create thin TypeSafe adapter.
 - `tests/policy_control/` — replace placeholder with focused replay/provider/future-information tests when implementation begins.
-- `evals/plan-002/` — create bounded case/evaluation protocol and source-reference manifest.
+- `evals/README.md` and `evals/plan-002/` — active eval front door plus bounded case/evaluation protocol and source-reference manifest.
 - `generated/policy-replay/` — generated non-authoritative reports.
 - `evidence/plan-002/` — revision-bound provider-fit, verification and operator evidence.
 - `docs/plans/002_offline_policy_decision_replay.md` — keep execution status/evidence current.
@@ -215,6 +215,8 @@ The plan's product status advances only through V1/V2. P0 is a reproduced/declar
 ### P0 — execution/provider preflight — `direct_blocker`
 
 Goal: prove the vertical can use authentic data and the external provider before building replay machinery.
+
+**Current P0 evidence — GitHub-only source inventory, 2026-09-22:** `evals/plan-002/case_manifest.json` locates **4 exact authentic** completion/verification decision events with retained session/transcript or receipt identities from predecessor Plan 10. Three later cold-start observations are credible leads but lack enough event-level identity in Git to count yet. The required threshold is **5**, so the authentic-case gate remains **open**. Raw archive custody and byte/digest verification still require a machine-capable session. No TypeSafe/Jev authenticated model discovery has been performed.
 
 Exit gates:
 
