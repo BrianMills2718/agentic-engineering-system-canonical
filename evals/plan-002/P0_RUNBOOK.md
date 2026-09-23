@@ -20,10 +20,10 @@ Provider readiness closes when all of the following are retained:
 - [x] **4 authentic** completion/verification decision events are frozen as the initial exploratory dataset;
 - [ ] raw transcript/receipt custody for the selected cases is verified where practical, with any missing temporary bytes recorded as explicit provenance limitations rather than silently repaired;
 - [ ] each selected case has enough event-time state to reconstruct the incumbent decision without using later outcome/adjudication;
-- [ ] TypeSafe authentication works;
-- [ ] `GET https://api.typesafe.ai/v1/models` succeeds and the response is retained by digest;
-- [ ] one exact model identity used for the smoke request is retained from the **response**;
-- [ ] one protocol-only `POST /v1/systemone` succeeds;
+- [ ] OpenRouter authentication works without retaining the secret;
+- [ ] the current model catalog is retained by digest and one explicit compatible model ID is selected;
+- [ ] one protocol-only structured-output `POST /api/v1/chat/completions` succeeds;
+- [ ] requested model ID, response model ID, usage, and cost where supplied are retained;
 - [ ] no private raw transcript, API key, or unrelated secret is copied into Git.
 
 If any required item fails, record the exact blocker and stop. Do not replace the provider, create a transcript platform, or widen the policy family to manufacture progress.
@@ -323,6 +323,6 @@ It does not authorize:
 - a universal policy registry;
 - additional policy families;
 - automated policy changes;
-- a claim that Jev improves AES.
+- a claim that the selected model improves AES.
 
 Those decisions remain downstream of V1/V2 evidence.
