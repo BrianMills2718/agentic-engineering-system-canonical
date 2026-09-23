@@ -29,6 +29,8 @@ The broader AES repository remains intentionally **PARTIAL**.
 
 ## Immediate frontier
 
+Execution coordination: [Issue #20 — Plan 002 offline completion/verification policy replay](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/20). The plan remains authoritative.
+
 ```text
 P0: locate >=5 authentic completion/verification decision events
         +
