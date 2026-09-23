@@ -119,3 +119,16 @@ def test_observed_provider_uses_response_model_and_probability_answer() -> None:
 
     assert result.answer == 0.93
     assert result.response_model == "jev-1.13.0"
+
+def test_source_identity_rejects_half_bound_receipt() -> None:
+    with pytest.raises(ValidationError):
+        SourceIdentityV1(
+            repository="Inside-Success/agentic-engineering-system",
+            revision="8e91acf5b2c6acf02f3f9a3c2a9be13c4a6e8a7c",
+            source_record="evidence/propagation/example.json",
+            origin="authentic_runtime",
+            client="Claude Code 2.1.278",
+            session_id="session-1",
+            transcript_sha256=DIGEST,
+            receipt_id="receipt-1",
+        )
