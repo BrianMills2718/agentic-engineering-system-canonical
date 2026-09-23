@@ -10,6 +10,8 @@
 **Blocked By:** execution preflight requires (a) authentic replayable AES coding-session cases and (b) authenticated TypeSafe/Jev access that exposes an exact model through `GET /v1/models`.
 **Blocks:** any decision to use Jev in live AES shadow/warn/enforce paths for the selected policy family.
 
+Execution tracker: [Issue #20 — Plan 002 offline completion/verification policy replay](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/20). The issue is a coordination/checklist surface only; this plan remains execution authority.
+
 ---
 
 ## Gap
