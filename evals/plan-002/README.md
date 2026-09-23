@@ -26,6 +26,8 @@ The strongest exact source family is predecessor Plan 10:
 
 Later cold-start evidence from 2026-09-21 records additional real live assertion-gate outcomes, including an initial `allow/no_report`, a replayed `block/claim_support_rejected:3_of_3`, and another live blocked/revised turn. GitHub evidence does not retain enough event-level IDs for those observations to count as exact replay-ready cases yet.
 
+A 2026-09-22 follow-up also records **4 of 4** benign live `echo` verification turns reaching the real judge and blocking with `claim_support_rejected:1_of_1` because of an evidence-scope mismatch. That is strong authentic failure evidence, but the retained Git page still omits session/transcript/receipt identities, so those turns remain leads rather than counted P0 cases.
+
 Plan 16 also contains an installed positive/negative assertion-admission proof. It is useful protocol/regression evidence but uses test-generated transcripts and therefore is **not counted** toward the authentic-case P0 threshold.
 
 ## Leakage rule
