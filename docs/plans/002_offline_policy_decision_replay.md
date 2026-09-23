@@ -206,7 +206,11 @@ Raw transcript/archive bytes stay with their existing owner. Git retains source 
 
 ---
 
-## Critical Path
+## Plan
+
+**Critical-path classification:** `vertical`
+
+The plan's product status advances only through V1/V2. P0 is a reproduced/declared `direct_blocker` gate that protects those verticals; satisfying P0 alone is not product progress.
 
 ### P0 — execution/provider preflight — `direct_blocker`
 
