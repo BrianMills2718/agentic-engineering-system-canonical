@@ -232,6 +232,8 @@ Exit gates:
 
 Goal: produce one inspectable source-bound report without affecting a live coding session.
 
+**Selected first case:** `evals/plan-002/cases/p10-s4-unsupported-verification-block.json` — the authentic P10-S4 event where the agent claimed the watcher acceptance test passed before running the test; the incumbent control blocked with `unbacked_assertion`. Later recovery/allow evidence is retained separately and excluded from evaluator input.
+
 - freeze one authentic case and its event-time context;
 - execute/reconstruct the existing deterministic decision;
 - evaluate the bounded question(s) through the Jev adapter;
