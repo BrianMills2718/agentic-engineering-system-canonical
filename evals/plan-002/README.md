@@ -2,6 +2,7 @@
 
 Status: P0 source inventory in progress
 Authority: Plan 002 defines scope and stop rules; this directory holds bounded evaluation definitions and source-reference manifests.
+Execution handoff: [`P0_RUNBOOK.md`](P0_RUNBOOK.md) contains the exact machine/provider closure sequence.
 
 ## Current finding
 
