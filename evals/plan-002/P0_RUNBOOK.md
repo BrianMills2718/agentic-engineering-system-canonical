@@ -236,12 +236,28 @@ curl --fail-with-body --silent --show-error \
   --data-binary @"$OUT/smoke-request.json" \
   > "$OUT/smoke-response.json"
 
-jq -e '.model and .answers.probe_present and .usage' "$OUT/smoke-response.json" >/dev/null
-jq '{model, answers, usage}' "$OUT/smoke-response.json"
+jq -e '
+  (.model | type == "string" and length > 0)
+  and (.answers.probe_present.type == "noul")
+  and (.answers.probe_present.noul | type == "number")
+  and (.answers.probe_present.noul >= 0 and .answers.probe_present.noul <= 1)
+  and (.usage.input_tokens | type == "number")
+  and (.usage.output_tokens | type == "number")
+' "$OUT/smoke-response.json" >/dev/null
+
+jq '{
+  response_model: .model,
+  answer_type: .answers.probe_present.type,
+  noul_probability: .answers.probe_present.noul,
+  usage: .usage
+}' "$OUT/smoke-response.json"
+
+printf 'requested_model=%s\n' "$MODEL"
+printf 'response_model=%s\n' "$(jq -r '.model' "$OUT/smoke-response.json")"
 sha256sum "$OUT/smoke-request.json" "$OUT/smoke-response.json"
 ```
 
-The exact model identity returned by `.model` is the identity to retain for this smoke. If the response omits an exact version and returns only an alias, record that limitation; do not infer a hidden immutable version.
+The exact response fields above are current OpenAPI requirements for a Noul answer: `type="noul"` plus a numeric `noul` probability in `[0,1]`, with request usage returned separately. The response's `.model` may differ from the requested alias, so retain **both** `requested_model` and `response_model`; do not infer a hidden immutable version.
 
 This call proves only authentication, schema/protocol compatibility, and one successful provider response. It is **not** evidence that Jev is accurate enough for Plan 002.
 
