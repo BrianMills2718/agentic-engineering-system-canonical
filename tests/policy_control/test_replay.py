@@ -9,7 +9,6 @@ from agentic_engineering_system.policy_control.models import (
     EvaluatorInputV1,
     EventTimeEvidenceV1,
     LaterOutcomeV1,
-    ProbabilityV1,
     ProviderJudgmentV1,
     ProviderResultState,
     ReplayCaseV1,
@@ -66,10 +65,6 @@ class RecordingEvaluator:
             question_type="choice",
             state=ProviderResultState.OBSERVED,
             answer="unsupported",
-            probabilities=(
-                ProbabilityV1(label="true", probability=0.02),
-                ProbabilityV1(label="false", probability=0.98),
-            ),
             latency_ms=1.0,
         )
 
