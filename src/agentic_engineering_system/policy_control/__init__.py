@@ -16,6 +16,7 @@ from .models import (
     ProviderJudgmentV1,
     ProviderResultState,
     ProviderUsageV1,
+    ReplayCaseV1,
     ReplayReportV1,
     SourceIdentityV1,
 )
@@ -33,6 +34,7 @@ __all__ = [
     "ProviderJudgmentV1",
     "ProviderResultState",
     "ProviderUsageV1",
+    "ReplayCaseV1",
     "ReplayReportV1",
     "SourceIdentityV1",
     "TypedEvaluator",
