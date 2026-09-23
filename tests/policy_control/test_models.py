@@ -68,10 +68,10 @@ def test_missing_event_time_evidence_stays_explicit_without_digest() -> None:
 def test_provider_unavailable_cannot_carry_an_observed_answer() -> None:
     with pytest.raises(ValidationError):
         ProviderJudgmentV1(
-            provider="typesafe",
-            requested_model="jev-latest",
+            provider="openrouter",
+            requested_model="openai/gpt-6-luna",
             question_id="supported",
-            question_type="noul",
+            question_type="choice",
             state=ProviderResultState.UNAVAILABLE,
             answer=0.9,
             error_code="provider_unavailable",
@@ -82,10 +82,10 @@ def test_provider_unavailable_cannot_carry_an_observed_answer() -> None:
 def test_provider_unavailable_requires_explicit_failure_information() -> None:
     with pytest.raises(ValidationError):
         ProviderJudgmentV1(
-            provider="typesafe",
-            requested_model="jev-latest",
+            provider="openrouter",
+            requested_model="openai/gpt-6-luna",
             question_id="supported",
-            question_type="noul",
+            question_type="choice",
             state=ProviderResultState.UNAVAILABLE,
         )
 
@@ -108,17 +108,17 @@ def test_event_time_context_fact_requires_predecision_source_identity() -> None:
 
 def test_observed_provider_uses_response_model_and_probability_answer() -> None:
     result = ProviderJudgmentV1(
-        provider="typesafe",
-        requested_model="jev-latest",
-        response_model="jev-1.13.0",
+        provider="openrouter",
+        requested_model="openai/gpt-6-luna",
+        response_model="openai/gpt-6-luna-20260922",
         question_id="supported",
-        question_type="noul",
+        question_type="choice",
         state=ProviderResultState.OBSERVED,
-        answer=0.93,
+        answer="supported",
     )
 
-    assert result.answer == 0.93
-    assert result.response_model == "jev-1.13.0"
+    assert result.answer == "supported"
+    assert result.response_model == "openai/gpt-6-luna-20260922"
 
 def test_source_identity_rejects_half_bound_receipt() -> None:
     with pytest.raises(ValidationError):
