@@ -4,7 +4,7 @@ Status: Plan 001 / Repository Context is **DELIVERED** for its bounded Slice 1 c
 
 ## Active
 
-- [`002_offline_policy_decision_replay.md`](002_offline_policy_decision_replay.md) — **PLANNED** bounded policy-control vertical. First frontier is P0: locate authentic replayable completion/verification cases and confirm authenticated Jev model access before implementation expands.
+- [`002_offline_policy_decision_replay.md`](002_offline_policy_decision_replay.md) — **PLANNED** bounded policy-control vertical. Four authentic cases are frozen as the exploratory starting set. The remaining P0 gate is authenticated Jev model access and one protocol smoke; V1 then runs the first offline comparison.
 
 Plan 002 is intentionally offline and decision-oriented. Existing Enforced Planning controls remain authoritative. Jev is only a candidate typed evaluator until authentic replay evidence supports an `adopt-for-shadow | revise | reject` decision.
 
@@ -32,11 +32,13 @@ The broader AES repository remains intentionally **PARTIAL**.
 Execution coordination: [Issue #20 — Plan 002 offline completion/verification policy replay](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/20). The plan remains authoritative.
 
 ```text
-P0: locate >=5 authentic completion/verification decision events
+4 authentic completion/verification cases frozen
         +
 confirm authenticated TypeSafe/Jev model discovery
         ↓
-freeze exact source refs + event-time context contract
+protocol-only Noul smoke
+        ↓
+freeze first V1 case + event-time context contract
         ↓
 V1: replay one authentic case offline
 deterministic baseline + Jev typed judgment
@@ -50,7 +52,7 @@ V2: small frozen case set
 adopt-for-shadow | revise | reject
 ```
 
-Stop at P0 if authentic cases cannot be reconstructed or provider access is unavailable. Do not build a substitute policy platform merely to keep the plan moving.
+Stop at P0 if provider access is unavailable. If one frozen case proves unusable during replay, mark that limitation explicitly rather than manufacturing replacement evidence merely to preserve a case-count target.
 
 No live Claude Code/Codex hooks, warnings, enforcement, context ranking, policy self-modification, or broad observability platform are authorized by Plan 002.
 
