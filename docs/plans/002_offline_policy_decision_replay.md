@@ -231,6 +231,10 @@ Exit gates:
 
 Goal: produce one inspectable source-bound report without affecting a live coding session.
 
+**Selected first case:** `evals/plan-002/cases/p10-s4-unsupported-verification-block.json` — the authentic P10-S4 event where the agent claimed the watcher acceptance test passed before running the test; the incumbent control blocked with `unbacked_assertion`. Later recovery/allow evidence is retained separately and excluded from evaluator input.
+
+**Selected first model:** `openai/gpt-6-luna` via OpenRouter. The 2026-09-23 OpenRouter catalog advertises `response_format`, `structured_outputs`, and `seed` support for this model. This pin is for the first exploratory run only, not a claim that the model is best.
+
 - freeze one authentic case and its event-time context;
 - execute/reconstruct the existing deterministic decision;
 - evaluate the bounded question through the OpenRouter adapter using one explicit model ID and strict structured output;
