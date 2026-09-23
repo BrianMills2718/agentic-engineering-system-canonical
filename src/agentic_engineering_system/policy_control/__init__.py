@@ -1,7 +1,7 @@
-"""Offline policy-decision replay contracts for Plan 002.
+"""Offline policy-decision replay for Plan 002.
 
-This package is pre-P0 scaffolding only. It does not authorize or implement live
-policy effects.
+This package is offline-only and does not authorize or implement live policy
+effects.
 """
 
 from .models import (
@@ -20,6 +20,7 @@ from .models import (
     ReplayReportV1,
     SourceIdentityV1,
 )
+from .render import render_report_html, write_report_bundle
 from .replay import TypedEvaluator, evaluator_input_sha256, run_offline_replay
 
 __all__ = [
@@ -39,5 +40,7 @@ __all__ = [
     "SourceIdentityV1",
     "TypedEvaluator",
     "evaluator_input_sha256",
+    "render_report_html",
     "run_offline_replay",
+    "write_report_bundle",
 ]
