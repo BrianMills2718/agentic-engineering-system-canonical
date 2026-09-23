@@ -11,6 +11,7 @@ from .providers.openrouter import (
     OpenRouterClient,
     VerificationSupportOpenRouterEvaluator,
 )
+from .render import write_report_bundle
 from .replay import run_offline_replay
 
 
@@ -48,7 +49,7 @@ def build_parser() -> argparse.ArgumentParser:
     run = sub.add_parser("run", help="Run one frozen offline replay case.")
     run.add_argument("--case", type=Path, required=True)
     run.add_argument("--model", default=DEFAULT_PLAN002_MODEL)
-    run.add_argument("--output", type=Path, required=True)
+    run.add_argument("--output-dir", type=Path, required=True)
     return parser
 
 
@@ -71,12 +72,9 @@ def main() -> None:
         evaluator=evaluator,
         later_outcome=case.later_outcome,
     )
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
-        json.dumps(report.model_dump(mode="json"), indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
-    print(args.output)
+    json_path, html_path = write_report_bundle(args.output_dir, report)
+    print(json_path)
+    print(html_path)
 
 
 if __name__ == "__main__":
