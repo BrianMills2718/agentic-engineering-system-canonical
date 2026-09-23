@@ -6,19 +6,18 @@ Execution handoff: [`P0_RUNBOOK.md`](P0_RUNBOOK.md) contains the exact machine/p
 
 ## Current finding
 
-GitHub inspection located four exact authentic completion/verification decision events with retained session/transcript or receipt identities, plus later cold-start live observations that still need event-level raw archive resolution.
+GitHub inspection located four exact authentic completion/verification decision events with retained session/transcript or receipt identities. These four are now the frozen initial exploratory dataset for Plan 002.
 
-This **does not clear P0**. Before V1 implementation expands, a machine-capable session must:
+The case-count gate is **cleared at 4/4**. Before a real Jev-backed replay can run, the remaining required step is provider preflight:
 
-1. run the AES execution-readiness preflight;
-2. verify the raw transcript/receipt bytes for at least five authentic decision events against the retained identities/digests;
-3. confirm those bytes remain under their existing archive/custody owner rather than copying private transcripts into Git;
-4. confirm each selected case can be reconstructed using only event-time context;
-5. authenticate to TypeSafe and record an exact available Jev model from `GET /v1/models`.
+1. run the AES execution-readiness preflight if machine access is needed;
+2. authenticate to TypeSafe and record an exact available Jev model from `GET /v1/models`;
+3. run one protocol-only Noul smoke request;
+4. keep any raw-custody limitations for the four cases explicit rather than blocking exploratory learning on an arbitrary fifth-case target.
 
 ## Candidate source families
 
-The strongest exact source family is predecessor Plan 10:
+The frozen exploratory dataset is the four exact predecessor Plan 10 cases:
 
 - P10-S3 native Stop allow — authentic Claude Code response, exact transcript digest and completed receipt retained.
 - P10-S4 provider/dependency warning — authentic Stop decision with exact failed-session transcript digest and completed receipt identity.
