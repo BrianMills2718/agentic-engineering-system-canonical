@@ -46,6 +46,12 @@ class SourceIdentityV1(StrictModel):
     receipt_id: str | None = Field(default=None, min_length=1)
     receipt_sha256: str | None = Field(default=None, pattern=SHA256_PATTERN)
 
+    @model_validator(mode="after")
+    def receipt_identity_is_complete_or_absent(self) -> "SourceIdentityV1":
+        if (self.receipt_id is None) != (self.receipt_sha256 is None):
+            raise ValueError("receipt_id and receipt_sha256 must be supplied together")
+        return self
+
 
 class EventTimeEvidenceV1(StrictModel):
     evidence_id: str = Field(min_length=1)
