@@ -114,6 +114,18 @@
         "receipt_id_or_sha256",
         "exact_reason_code"
       ]
+    },
+    {
+      "lead_id": "gate-fix-live-scope-mismatch-blocks",
+      "source_record": "evidence/propagation/2026-09-22-gate-fix-and-scope-mismatch/README.md",
+      "source_record_blob_sha": "eb0ddc98cbaa07cc68adc6aba37ffc5632259ddc",
+      "source_revision": "8e91acf5b2c6acf02f3f9a3c2a9be13c4a6e8a7c",
+      "observed": "4 of 4 live benign echo-verified turns reached the real judge and were blocked with claim_support_rejected:1_of_1 due to evidence-scope mismatch",
+      "missing_for_p0": [
+        "session_ids",
+        "transcript_sha256_values",
+        "receipt_ids_or_sha256_values"
+      ]
     }
   ],
   "non_counted_protocol_evidence": [
