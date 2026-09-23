@@ -4,7 +4,7 @@ Status: Plan 001 / Repository Context is **DELIVERED** for its bounded Slice 1 c
 
 ## Active
 
-- [`002_offline_policy_decision_replay.md`](002_offline_policy_decision_replay.md) — **PLANNED** bounded policy-control vertical. Four authentic cases are frozen as the exploratory starting set. The remaining P0 gate is authenticated OpenRouter model model access and one protocol smoke; V1 then runs the first offline comparison.
+- [`002_offline_policy_decision_replay.md`](002_offline_policy_decision_replay.md) — **PLANNED** bounded policy-control vertical. Four authentic cases are frozen as the exploratory starting set. The remaining P0 gate is authenticated OpenRouter model access and one protocol smoke; V1 then runs the first offline comparison.
 
 Plan 002 is intentionally offline and decision-oriented. Existing Enforced Planning controls remain authoritative. OpenRouter model is only a candidate typed evaluator until authentic replay evidence supports an `adopt-for-shadow | revise | reject` decision.
 
@@ -34,9 +34,9 @@ Execution coordination: [Issue #20 — Plan 002 offline completion/verification 
 ```text
 4 authentic completion/verification cases frozen
         +
-confirm authenticated OpenRouter/OpenRouter model model discovery
+confirm authenticated OpenRouter/OpenRouter model discovery
         ↓
-protocol-only Noul smoke
+protocol-only structured-output smoke
         ↓
 freeze first V1 case + event-time context contract
         ↓
