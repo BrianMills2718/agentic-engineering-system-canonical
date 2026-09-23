@@ -32,7 +32,7 @@ Plan 16 also contains an installed positive/negative assertion-admission proof. 
 
 ## Leakage rule
 
-Eventual outcome, later human adjudication, later fixes, and later verification may label/report a case but must never enter the Jev evaluator's event-time state. Every case used in V1/V2 must make that separation mechanically checkable.
+Eventual outcome, later human adjudication, later fixes, and later verification may label/report a case but must never enter the model evaluator's event-time state. Every case used in V1/V2 must make that separation mechanically checkable.
 
 ## Privacy/custody rule
 
