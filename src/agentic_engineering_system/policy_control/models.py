@@ -121,6 +121,7 @@ class ProviderJudgmentV1(StrictModel):
     question_type: Literal["noul", "choice", "score"]
     state: ProviderResultState
     answer: str | int | float | None = None
+    rationale: str | None = Field(default=None, min_length=1)
     probabilities: tuple[ProbabilityV1, ...] = ()
     latency_ms: float | None = Field(default=None, ge=0.0)
     usage: ProviderUsageV1 | None = None
