@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-aes-repo-context = "agentic_engineering_system.repository_context.cli:main"
+aes-repo-context = "agentic_engineering_system.repository_context.cli:main"\naes-policy-replay = "agentic_engineering_system.policy_control.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
