@@ -32,17 +32,21 @@ python -m agentic_engineering_system.repository_context.cli \
   --repo /path/to/data-contracts \
   --expect-revision 90c38998e8141bd07e49a77a49ec417aa29beee0
 
-# Plan 001 terminal verification without hosted CI
-export AES_DATA_CONTRACTS_CHECKOUT=/path/to/data-contracts
-make verification-batch-freeze \
-  DECISION="Plan 001 repaired end-to-end acceptance" \
-  VERIFY_COMMAND='AES_DATA_CONTRACTS_CHECKOUT="$AES_DATA_CONTRACTS_CHECKOUT" python -m pytest -q tests/repository_context && python -m agentic_engineering_system.repository_context.cli --repo "$AES_DATA_CONTRACTS_CHECKOUT" --expect-revision 90c38998e8141bd07e49a77a49ec417aa29beee0'
-AES_DATA_CONTRACTS_CHECKOUT="$AES_DATA_CONTRACTS_CHECKOUT" \
-  python -m pytest -q tests/repository_context
-python -m agentic_engineering_system.repository_context.cli \
-  --repo "$AES_DATA_CONTRACTS_CHECKOUT" \
-  --expect-revision 90c38998e8141bd07e49a77a49ec417aa29beee0
-make verification-batch-check
+# Active Plan 002 design/profile validation before implementation
+python research/investigations/validate_architecture_realization_schema.py \
+  docs/architecture/architecture-realization.plan-002.yaml \
+  --schema docs/architecture/schemas/architecture-realization.bootstrap.schema.json
+python research/investigations/validate_aes_company_planning_profile.py \
+  docs/architecture/aes-company-planning-profile.bootstrap.yaml \
+  docs/architecture/architecture-realization.plan-002.yaml \
+  --alignment docs/architecture/normative-component-alignment.bootstrap.yaml
+# The profile self-test uses the bootstrap fixture because its negative controls
+# intentionally mutate an unresolved component.
+python research/investigations/validate_aes_company_planning_profile.py \
+  docs/architecture/aes-company-planning-profile.bootstrap.yaml \
+  generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml \
+  --alignment docs/architecture/normative-component-alignment.bootstrap.yaml \
+  --self-test
 
 # Governed-repo install/audit; run these from a checkout of BrianMills2718/enforced-planning
 python scripts/install_governed_repo.py \
@@ -73,7 +77,7 @@ read `CLAUDE.md` directly.
 - Do not hand-author a first execution plan before the target/current gap set has been materialized and dispositioned.
 - Apply `docs/architecture/SYSTEM_BOUNDARY.md` AES-CAP-001 through AES-CAP-005 and Decision 0009 during normal product design: adopt a sufficient existing product/framework first, use its native modules and extension points, consult ACA's relevant published boundaries/evidence, and record the reuse/configure/adapt/local-residual disposition in the existing design packet. ACA is not a separate runtime or prerequisite experiment.
 - Keep cohesive reusable behavior behind a consumer-independent boundary; keep consequential product policy in configuration/strategies and thin adapters. Use the selected ecosystem's normal packages, declared dependencies, examples, and compatibility tests; do not require framework neutrality, speculative extraction, or a new interface for every function.
-- Do not restart standalone ACA benchmarks, demonstration products, or mechanism-building from historical plans. They require separate explicit authorization for a concrete product decision/blocker. Product acceptance and compatibility tests remain required; existing provider ownership and the current Plan 001 frontier are unchanged.
+- Do not restart standalone ACA benchmarks, demonstration products, or mechanism-building from historical plans. They require separate explicit authorization for a concrete product decision/blocker. Product acceptance and compatibility tests remain required; existing provider ownership stays unchanged. The active Plan 002 frontier is generated source-local component context through the existing Enforced Planning context/edit runtime.
 - Use Enforced Planning as the execution-governance incumbent unless and until an AES-owned replacement is accepted from authentic evidence.
 - A block must provide a runnable recovery path or an explicit human escalation boundary.
 - Plan completion never closes a gap by itself; fresh observation and re-characterization determine closure.
@@ -89,6 +93,8 @@ read `CLAUDE.md` directly.
 
 - `wiki/index.md` — progressive-disclosure navigation only; follow links to native authority.
 - `.agentic/repo.yaml` — repository protocol, active frontier, selected providers, and concern roots.
+- `docs/plans/002_source_local_component_context.md` — active Plan 002 outcome, provider disposition, projection contract, verification, and execution handoff.
+- `docs/architecture/architecture-realization.plan-002.yaml` — accepted Plan 002 component/seam realization under the AES Company Planning profile.
 - `docs/plans/001_repository_context_resolution_vertical.md` — completed Plan 001 / Repository Context Slice 1 record and closure evidence.
 - `docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md` - AES-local modular-design integration, existing owner boundaries, and the stop rule for standalone ACA work.
 - `docs/architecture/SYSTEM_BOUNDARY.md` — AES-specific normative target.

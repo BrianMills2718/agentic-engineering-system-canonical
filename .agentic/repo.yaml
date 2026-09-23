@@ -26,9 +26,10 @@ planning:
   execution_governance_provider_repository: BrianMills2718/enforced-planning
   execution_governance_provider_revision: 3fd1ff4465ed50613a8b9fcc86d7d0f282322d60
   execution_governance_install_provenance: evidence/provider-provenance/enforced-planning-install-2026-09-18.json
-  active_plan: null
+  active_plan: docs/plans/002_source_local_component_context.md
   last_completed_plan: docs/plans/001_repository_context_resolution_vertical.md
-  active_frontier: next-component-design-from-fresh-gap-state
+  active_frontier: PLAN-002/prospective-execution-custody-before-implementation
+  active_architecture_realization: docs/architecture/architecture-realization.plan-002.yaml
   bootstrap_architecture_revision: 45fa215dd977e2ab44338465d36ac37756f14e53
   bootstrap_alignment: docs/architecture/normative-component-alignment.bootstrap.yaml
   architecture_realization_profile: docs/architecture/aes-company-planning-profile.bootstrap.yaml

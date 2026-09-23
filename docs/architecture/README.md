@@ -11,6 +11,7 @@ Read in this order:
 5. [`normative-record-model.bootstrap.yaml`](normative-record-model.bootstrap.yaml) — accepted bootstrap target model for compact system/component normative records; existing accepted Markdown remains authority until an explicit cutover.
 6. [`aes-company-planning-profile.bootstrap.yaml`](aes-company-planning-profile.bootstrap.yaml) — AES-local profile over Company Planning, including reproducible bootstrap validation commands.
 7. [`schemas/architecture-realization.bootstrap.schema.json`](schemas/architecture-realization.bootstrap.schema.json) — minimal machine-readable architecture-realization contract.
+8. [`architecture-realization.plan-002.yaml`](architecture-realization.plan-002.yaml) — accepted Plan 002 realization of the `normative_context` residual and its existing `repository_context` consumer seam.
 
 ## Authority and generated material
 

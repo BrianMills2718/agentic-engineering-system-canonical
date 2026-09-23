@@ -1,0 +1,111 @@
+# Plan 002 project-owned architecture-realization record.
+schema_version: aes.architecture_realization.v0
+id: AES-ARCH-REALIZATION-PLAN-002
+revision: 1
+status: accepted
+normative_model_ref: docs/architecture/normative-record-model.bootstrap.yaml
+
+source_refs:
+  - id: system
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: b06e28dba3d52eb7c036f140ac84cf8fadee368e
+    path: docs/architecture/SYSTEM_BOUNDARY.md
+    selector: AES-CTX-002_and_incident_system_clauses
+  - id: gap
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: b06e28dba3d52eb7c036f140ac84cf8fadee368e
+    path: docs/architecture/INITIAL_GAP_LEDGER.md
+    selector: GAP-AES-007_GAP-AES-016_GAP-AES-017
+  - id: component_context_decision
+    repository: BrianMills2718/agentic-engineering-system-canonical
+    revision: b06e28dba3d52eb7c036f140ac84cf8fadee368e
+    path: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+    selector: accepted_decision
+
+nonclaims:
+  - full_AES_context_runtime
+  - universal_component_schema
+  - symbol_level_normative_graph
+  - behavioral_conformance_inheritance
+  - generalized_all_component_delivery
+  - gap_closure
+
+components:
+  - id: normative_context
+    responsibility: generate_exact_component_local_context_from_accepted_AES_authorities_for_existing_delivery_runtime
+    normative:
+      direct: [AES-CTX-002]
+      inherited: [AES-SYS-002, AES-PLAN-003, AES-POL-002]
+      seams: [normative_to_code]
+    semantic_owner:
+      mode: mixed_composition
+      provider_refs:
+        - BrianMills2718-enforced-planning-context-packet
+        - AES-component-context-projection-residual
+    implementation:
+      home: src/agentic_engineering_system/normative_context/
+      state: planned
+      planned_module: context.py
+    boundary:
+      state: resolved
+      contract_refs:
+        - docs/plans/002_source_local_component_context.md
+        - enforced_planning/context_packet.py
+        - scripts/relationships.yaml
+    verification:
+      home: tests/normative_context/
+      obligations:
+        - id: NC-VERBATIM
+          claim: generated_component_context_preserves_declared_normative_clauses_verbatim_with_exact_source_identity
+          disproof: paraphrased_omitted_unknown_or_stale_clause_is_accepted
+        - id: NC-DELIVERY
+          claim: existing_edit_gate_delivers_component_context_for_declared_component_without_runtime_replacement
+          disproof: component_edit_lacks_projection_or_requires_new_context_runtime
+        - id: NC-LOCALITY
+          claim: component_context_gate_does_not_apply_to_unrelated_source_tree
+          disproof: unrelated_source_requires_repository_context_component_projection
+    question_refs: []
+    decision_refs:
+      - docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+      - docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
+      - docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md
+
+  - id: repository_context
+    responsibility: resolve_repository_navigation_and_authority_from_bounded_exact_sources
+    normative:
+      direct: [AES-SYS-002, AES-CONTRACT-001, AES-POL-002, AES-POL-003, AES-CTX-001]
+      inherited: [AES-CTX-002]
+      seams: [normative_to_code]
+    semantic_owner:
+      mode: mixed_composition
+      provider_refs:
+        - git-cli-local-checkout
+        - pydantic-2.13.5
+        - pyyaml-6.0.3
+        - python-stdlib
+        - AES-repository-context-residual
+    implementation:
+      home: src/agentic_engineering_system/repository_context/
+      state: present_current
+      significant_symbol_refs:
+        - src/agentic_engineering_system/repository_context/resolver.py#RepositoryContextResolver.resolve
+    boundary:
+      state: observed_signature
+      contract_refs:
+        - src/agentic_engineering_system/repository_context/models.py#RepositoryContextArtifact
+    verification:
+      home: tests/repository_context/
+      obligations:
+        - id: RC-CONSUMER
+          claim: repository_context_source_files_receive_current_component_context_without_changing_repository_context_runtime_behavior
+          disproof: context_delivery_requires_repository_context_runtime_change_or_breaks_existing_consumer_tests
+    question_refs: []
+    decision_refs:
+      - docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+
+seams:
+  - id: normative_to_code
+    participants: [normative_context, repository_context]
+    normative_refs: [AES-CTX-002, AES-SYS-002]
+    state: resolved
+    obligation: generated_component_context_preserves_native_authority_and_is_delivered_through_existing_enforced_planning_context_seams

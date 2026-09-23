@@ -18,35 +18,35 @@ The lifecycle preserves native authority, honest unknown/error states, direct st
 
 **Current**
 
-The component-aligned bootstrap architecture is adopted. Plan 001 / Repository Context is **DELIVERED for its bounded external-consumer Slice 1 claim**.
+The component-aligned bootstrap architecture is adopted. Plan 001 / Repository Context remains **DELIVERED**. Plan 002 / Operational source-local component context is **accepted and active for prospective execution**.
 
-- Decisions 0001–0009 define the convergence boundary, planning/profile strategy, provider-independent verification, and the current modular product-design posture.
-- At AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`, a fresh exact-revision verification batch against `data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` reported **15 passed**, real CLI `RESOLVED`, and a valid post-run batch on a clean repository.
-- The first A1 utility observation was `change`; that evidence caused a bounded projection correction rather than a new UI/platform build.
-- The exact corrected surface from the fresh bound run then received stakeholder response **"proceed"**, recorded as A1 `continue`.
-- Final characterization and gap recomputation preserve remaining broader AES gaps rather than treating this one delivered vertical as full-system maturity.
+- Plan 002 was derived from the fresh remaining gap state through the pinned Company Planning provider and accepted AES-local profile.
+- The existing Enforced Planning `context_packet`, `file_context`, and edit gate remain the selected delivery runtime; no parallel context engine is authorized.
+- The only new residual is deterministic generation of component-local context from accepted AES authorities, first consumed by the already-realized `repository_context` component.
+- The Plan 002 architecture realization validates with two components and one resolved seam, with no generic Company Planning transport change.
+- Implementation must not begin until prospective Enforced Planning execution custody is active.
 
 **Gap**
 
-No Plan 001 closure gate remains. Remaining gaps are broader system-maturation questions such as repeated authority-preserving composition, prospective planning/execution custody, generalized policy/context delivery, and more mechanical current-state projection. They are explicitly deferred or narrowed in `docs/architecture/INITIAL_GAP_LEDGER.md`; they are not a reason to invent a next implementation project.
+The active variance is now concrete: the current edit-time packet for `repository_context/resolver.py` includes only generic repository context and does not deliver the component's accepted normative scope, current gap authority, or active-plan linkage. The old component sidecar is a stale hand-built pilot, not an operational generator.
 
 **Next**
 
-Execution coordination for this existing frontier is tracked in [Issue #17](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/17); the plan and architecture documents remain authoritative.
-
 ```text
-start from the freshly recomputed remaining gap state
+accepted Plan 002 + validated architecture realization
         ↓
-name one concrete human/product outcome
+establish prospective Enforced Planning custody before implementation
         ↓
-derive the next component-specific design through Company Planning
+realize only deterministic normative_context projection generation
         ↓
-apply provider sourcing + ACA evidence through the normal AES workflow
+wire it through existing relationships + edit/context provider
         ↓
-execute through Enforced Planning
+run authentic edit-hook observation + negative controls
+        ↓
+utility review + fresh gap reconciliation
 ```
 
-No next implementation vertical is authorized merely because Plan 001 closed. Historical research or ACA experiments are not fallback work queues.
+Historical research and ACA experiments are not fallback work queues; a new context runtime, registry, graph, symbol ontology, or generalized representation platform is explicitly outside Plan 002.
 
 ## Modular product design in the engineering workflow
 
@@ -61,15 +61,17 @@ exact verification, utility, characterization, and gap-reconciliation evidence.
 
 ## Read in this order
 
-1. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — completed Plan 001 record, exact evidence state, A1 history, and closure decision.
-2. [`../docs/architecture/SYSTEM_BOUNDARY.md`](../docs/architecture/SYSTEM_BOUNDARY.md) — canonical AES target clauses and subsystem boundaries.
-3. [`../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — delivery, direct-use, uncertainty, feasibility, and attention-economics rules.
-4. [`../docs/architecture/README.md`](../docs/architecture/README.md) — architecture navigation, authority boundaries, and machine-readable bootstrap entrypoints.
-5. [`../docs/architecture/normative-component-alignment.bootstrap.yaml`](../docs/architecture/normative-component-alignment.bootstrap.yaml) — resolved bootstrap design record and next dogfood gate.
-6. [`../docs/architecture/aes-company-planning-profile.bootstrap.yaml`](../docs/architecture/aes-company-planning-profile.bootstrap.yaml) — AES-local planning profile and reproducible bootstrap checks.
-7. [`../docs/architecture/schemas/architecture-realization.bootstrap.schema.json`](../docs/architecture/schemas/architecture-realization.bootstrap.schema.json) — minimal architecture-realization contract.
-8. [`../docs/architecture/INITIAL_GAP_LEDGER.md`](../docs/architecture/INITIAL_GAP_LEDGER.md) — originating target/current variance; do not close rows merely because implementation work completed.
-9. [`../docs/decisions/`](../docs/decisions/) — accepted architecture/verification decisions, including Decision 0009's modular product-design integration. Decision 0007 is superseded by Decision 0008.
+1. [`../docs/plans/002_source_local_component_context.md`](../docs/plans/002_source_local_component_context.md) — active Plan 002 outcome, provider disposition, projection contract, verification, and execution handoff.
+2. [`../docs/architecture/architecture-realization.plan-002.yaml`](../docs/architecture/architecture-realization.plan-002.yaml) — accepted Plan 002 component/seam realization.
+3. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — completed Plan 001 record, exact evidence state, A1 history, and closure decision.
+4. [`../docs/architecture/SYSTEM_BOUNDARY.md`](../docs/architecture/SYSTEM_BOUNDARY.md) — canonical AES target clauses and subsystem boundaries.
+5. [`../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — delivery, direct-use, uncertainty, feasibility, and attention-economics rules.
+6. [`../docs/architecture/README.md`](../docs/architecture/README.md) — architecture navigation, authority boundaries, and machine-readable bootstrap entrypoints.
+7. [`../docs/architecture/normative-component-alignment.bootstrap.yaml`](../docs/architecture/normative-component-alignment.bootstrap.yaml) — resolved bootstrap design record and next dogfood gate.
+8. [`../docs/architecture/aes-company-planning-profile.bootstrap.yaml`](../docs/architecture/aes-company-planning-profile.bootstrap.yaml) — AES-local planning profile and reproducible bootstrap checks.
+9. [`../docs/architecture/schemas/architecture-realization.bootstrap.schema.json`](../docs/architecture/schemas/architecture-realization.bootstrap.schema.json) — minimal architecture-realization contract.
+10. [`../docs/architecture/INITIAL_GAP_LEDGER.md`](../docs/architecture/INITIAL_GAP_LEDGER.md) — originating target/current variance; do not close rows merely because implementation work completed.
+11. [`../docs/decisions/`](../docs/decisions/) — accepted architecture/verification decisions, including Decision 0009's modular product-design integration. Decision 0007 is superseded by Decision 0008.
 
 ## Slice 1 in one picture
 

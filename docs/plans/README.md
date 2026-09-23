@@ -1,13 +1,19 @@
 # Plans
 
-Status: Plan 001 / Repository Context **DELIVERED** for its bounded Slice 1 claim at AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`; exact external technical verification passed and follow-up A1 = `continue`. No next implementation vertical is automatically authorized.
+Status: Plan 002 / Operational source-local component context is **accepted and active for prospective execution**. Plan 001 remains delivered and closed.
+
+## Active
+
+- [`002_source_local_component_context.md`](002_source_local_component_context.md) — accepted Company Planning design for generated component-local context delivered through the existing Enforced Planning context/edit runtime.
+- Architecture realization: [`../architecture/architecture-realization.plan-002.yaml`](../architecture/architecture-realization.plan-002.yaml).
+- Immediate gate: establish Enforced Planning execution custody **before implementation**; there is one lane and no work graph.
 
 ## Completed
 
 - [`001_repository_context_resolution_vertical.md`](001_repository_context_resolution_vertical.md) — **DELIVERED** for the bounded first external-consumer Repository Context vertical at verified AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`.
 - [`001_D1_contract_surface_topology_freeze.md`](001_D1_contract_surface_topology_freeze.md) — **closed** subordinate D1 record; retained as historical design authority for the frozen Slice 1 choices.
 
-There is currently **no active implementation plan**. A new plan must be derived from the fresh remaining gap state plus a concrete human/product outcome.
+Plan 002 was derived from the fresh remaining gap state and a concrete engineering outcome; it does not reopen Plan 001 or authorize unrelated AES/ACA work.
 
 ## Current state
 
@@ -30,22 +36,21 @@ Decision 0008's corrected verification boundary is now satisfied for Plan 001 by
 
 ## Immediate frontier
 
-Canonical closure tracker: [Issue #17 — Plan 001 closure: fresh verification, follow-up A1, and reconciliation](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/17). The issue mirrors this plan's existing closure gates; it does not add new acceptance criteria or authorize broader architecture work.
-
-
 ```text
-fresh remaining gap state
+accepted Plan 002 + validated architecture realization
         ↓
-concrete human/product outcome
+establish prospective Enforced Planning custody
         ↓
-Company Planning derives the next bounded component design
+realize only the normative_context projection residual
         ↓
-provider sourcing + ACA evidence
+reuse existing context_packet / file_context / edit-gate delivery unchanged
         ↓
-Enforced Planning execution
+authentic repository_context edit-hook observation + negative controls
+        ↓
+utility review and fresh gap reconciliation
 ```
 
-Historical plans, ACA experiments, generalized indexing, characterization platforms, or representation infrastructure are not fallback work queues.
+Historical plans, ACA experiments, new context runtimes, generalized indexing, characterization platforms, or representation infrastructure are not fallback work queues.
 
 ## Closure discipline
 
