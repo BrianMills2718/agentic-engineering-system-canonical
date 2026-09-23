@@ -7,8 +7,8 @@
 **Landscape disposition:** linked
 **Planning baseline:** canonical AES `b06e28dba3d52eb7c036f140ac84cf8fadee368e`
 **Planning provider basis:** `BrianMills2718/company-planning` canonical method + the AES-local profile. This record follows that contract; it does **not** claim a Company Planning plugin execution occurred in this chat.
-**Blocked By:** authenticated TypeSafe/Jev access that exposes an exact model through `GET /v1/models`. The initial replay dataset is frozen at the four exact authentic cases already retained in `evals/plan-002/case_manifest.json`.
-**Blocks:** any decision to use Jev in live AES shadow/warn/enforce paths for the selected policy family.
+**Blocked By:** authenticated OpenRouter access plus one explicit model ID that supports the structured response contract. The initial replay dataset is frozen at the four exact authentic cases already retained in `evals/plan-002/case_manifest.json`.
+**Blocks:** any decision to use contextual model judgment in live AES shadow/warn/enforce paths for the selected policy family.
 
 Execution tracker: [Issue #20 — Plan 002 offline completion/verification policy replay](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/20). The issue is a coordination/checklist surface only; this plan remains execution authority.
 
@@ -16,9 +16,9 @@ Execution tracker: [Issue #20 — Plan 002 offline completion/verification polic
 
 ## Gap
 
-**Current:** Plan 001 proved one bounded AES lifecycle, including exact verification, direct human utility, and gap reconciliation. The fresh gap state still marks broader policy/evidence maturation as incomplete. AES already has deterministic completion/verification controls through Enforced Planning, but there is no accepted evidence that a contextual model improves judgment on real AES policy decisions, and no current live Jev integration is authorized.
+**Current:** Plan 001 proved one bounded AES lifecycle, including exact verification, direct human utility, and gap reconciliation. The fresh gap state still marks broader policy/evidence maturation as incomplete. AES already has deterministic completion/verification controls through Enforced Planning, but there is no accepted evidence that a contextual model improves judgment on real AES policy decisions, and no current live model-evaluator integration is authorized.
 
-**Target:** For one existing policy family—completion / verification evidence—replay authentic historical decision points offline using the exact event-time evidence available then. Show the existing deterministic decision beside a Jev typed judgment in one source-linked report. The operator can inspect disagreements and decide whether Jev is worth advancing to **shadow-only** use for this policy family.
+**Target:** For one existing policy family—completion / verification evidence—replay authentic historical decision points offline using the exact event-time evidence available then. Show the existing deterministic decision beside one OpenRouter-backed model judgment in one source-linked report. The operator can inspect disagreements and decide whether contextual model judgment is worth advancing to **shadow-only** use for this policy family.
 
 **Why:** This is the smallest useful test of contextual policy intelligence that preserves working deterministic controls and directly answers a product decision. It does not require a new policy engine, live hooks, or broad observability platform.
 
@@ -36,7 +36,7 @@ None of those gaps alone authorizes this plan. The authorized human/product outc
 
 ## User Outcome
 
-**Brian can open one source-linked replay report for a real past completion/verification decision, see what the existing deterministic control decided, what Jev judged from the event-time context, where they disagree or abstain, what the evaluation cost/latency was, and decide `adopt-for-shadow | revise | reject` without changing live agent behavior.**
+**Brian can open one source-linked replay report for a real past completion/verification decision, see what the existing deterministic control decided, what one explicit OpenRouter model judged from the same event-time context, where they disagree or abstain, what the evaluation cost/latency was, and decide `adopt-for-shadow | revise | reject` without changing live agent behavior.**
 
 ---
 
@@ -44,14 +44,14 @@ None of those gaps alone authorizes this plan. The authorized human/product outc
 
 **Starting input/state:** an authentic retained coding-agent event where the agent attempts a completion/stop/verification claim and the existing Enforced Planning completion contract has enough retained evidence to determine whether the claim was accepted, denied, stale, or unobserved.
 
-**Action:** run the offline replay command against that exact event/case. The replay reconstructs only information available at decision time, evaluates the existing deterministic control, sends the same bounded policy state to Jev through a typed question, and generates a static JSON/HTML report.
+**Action:** run the offline replay command against that exact event/case. The replay reconstructs only information available at decision time, evaluates the existing deterministic control, sends the same bounded policy state to an explicit OpenRouter model through a strict structured-output question, and generates a static JSON/HTML report.
 
 **Expected observable result:** the report shows:
 
 1. exact source event/session/repository/revision references;
 2. event-time context completeness and any missing/stale state;
 3. existing deterministic decision + reason code;
-4. Jev model identity, question/version, typed answer/distribution or explicit unavailable/error state;
+4. requested OpenRouter model ID, response model ID, question/version, structured judgment or explicit unavailable/error state;
 5. agreement/disagreement classification;
 6. latency, usage and incremental cost where the provider reports them;
 7. eventual outcome/adjudication in a **separate** section that was not supplied to the evaluator;
@@ -59,7 +59,7 @@ None of those gaps alone authorizes this plan. The authorized human/product outc
 
 **Behavioral evidence:** currently unobserved.
 
-**Substrate/process evidence:** current deterministic completion code exists in `enforced_planning/outcome_completion.py`; Plan 001 retained revision-bound evidence patterns; proposal PR #14 contains donor research on Jev, capture, and policy failure modes.
+**Substrate/process evidence:** current deterministic completion code exists in `enforced_planning/outcome_completion.py`; Plan 001 retained revision-bound evidence patterns; proposal PR #14 contains donor research on OpenRouter model, capture, and policy failure modes.
 
 **Failure signal:** the replay cannot bind an authentic event-time source, silently uses future information, approximates the deterministic baseline instead of executing/reconstructing it faithfully, hides evaluator unavailability as pass, or requires live agent interception merely to produce a first report.
 
@@ -71,10 +71,10 @@ None of those gaps alone authorizes this plan. The authorized human/product outc
 
 - Reuse **Enforced Planning** as the current deterministic completion/verification authority and control baseline.
 - Reuse existing AES/native transcript or archive material as the event source if it is adequate; do not create a new archive platform to begin.
-- Evaluate **TypeSafe Jev** as an external typed-judgment provider behind one replaceable provider adapter.
+- Evaluate an **explicit OpenRouter model** as the external contextual-judgment provider behind one replaceable adapter; do not use auto-routing or fallback model lists for this experiment.
 - Keep the replay/report orchestration as an AES-local residual in the already-reserved `policy_control` component.
-- Do not copy the broad proposal runtime from PR #14 and do not create an ACA/Jev registry, policy DSL, or new universal evidence store.
-- A small generative-model comparator is diagnostic-only and may be added later if it materially changes the decision; it is not required for the first vertical.
+- Do not copy the broad proposal runtime from PR #14 and do not create an ACA/model registry, policy DSL, or new universal evidence store.
+- Additional model comparators are diagnostic-only and may be added later if they materially change the decision; they are not required for the first vertical.
 
 ---
 
@@ -87,24 +87,24 @@ Repository-local:
 - `enforced_planning/outcome_completion.py` — existing exact completion decision/custody surface.
 - `evidence/plan-001/` — revision-bound evidence and human-observation precedent.
 - PR #14 `proposal/jev-semantic-policy-layer-2026-09-19` — donor research only; not current authority.
-- PR #12 `Plan Jev-backed policy intelligence...` — earlier overlapping donor proposal; not current authority.
+- PR #12 `Plan OpenRouter model-backed policy intelligence...` — earlier overlapping donor proposal; not current authority.
 
 Planning provider:
 - `BrianMills2718/company-planning` — canonical planning-method repository.
 - `docs/architecture/aes-company-planning-profile.bootstrap.yaml` — AES-local provider profile.
 
 Current external provider sources checked 2026-09-22:
-- https://api.typesafe.ai/docs — current OpenAPI surface exposes `POST /v1/systemone`, `GET /v1/models`, and typed Noul/Choice/Score schemas.
-- https://typesafe.ai/blog/introducing-system-one-models-and-jev — Jev is early access; published cost/speed are provider claims, not AES measurements.
-- https://evals.typesafe.ai/agent_trace_observability — provider example close to the intended trace-judgment use; useful prior art, not evidence of AES fit.
+- OpenRouter developer platform — OpenAI-compatible API root `https://openrouter.ai/api/v1`, Bearer authentication, explicit model IDs, and chat completions.
+- OpenRouter structured-output documentation — JSON-schema response formatting is supported on compatible models/providers; this experiment requires a model route that honors the requested schema.
+- OpenRouter usage documentation — completion responses expose token/cost usage that can be retained as experiment evidence.
 
 ---
 
 ## Research Basis For This Slice
 
 - Current post–Plan 001 gap ledger and accepted AES policy/evidence clauses define the need; this plan does not create a new requirement surface.
-- PR #14 is the strongest local Jev/capture/policy donor synthesis but predates Plan 001 closure and is intentionally narrowed here.
-- TypeSafe's current API/OpenAPI documentation, launch documentation, and Agent Trace Observability workflow were rechecked on 2026-09-22. Provider benchmark/speed/cost statements remain provider claims until measured in AES.
+- PR #14 remains historical donor research on contextual policy judgment/capture, but its OpenRouter model-specific provider choice is superseded by this OpenRouter-backed experiment.
+- OpenRouter's current API, model-routing, structured-output, and usage documentation were rechecked on 2026-09-22. Provider/model benchmark claims remain external claims until measured in AES.
 - Company Planning's canonical repository and the AES-local planning profile were reviewed for slice/verification shape. No plugin execution is claimed in this chat.
 
 ---
@@ -116,18 +116,17 @@ Current external provider sources checked 2026-09-22:
 1. **Deterministic controls only — retain as authority/control.**
    - Lowest dependency/latency risk.
    - Cannot answer whether contextual judgment catches cases rigid predicates miss.
-2. **Jev typed evaluator — candidate for the exploratory comparison.**
-   - API shape is well matched to bounded yes/no/choice/score decisions.
-   - Early-access provider, account/model availability and actual AES latency/accuracy remain unverified.
-3. **Small generative LLM evaluator — deferred comparator.**
-   - More flexible explanations but higher latency/cost and a broader output surface.
-   - Add only if Jev-vs-deterministic results are ambiguous enough that the comparison can change the decision.
+2. **OpenRouter explicit-model evaluator — candidate for the exploratory comparison.**
+   - Uses the normal OpenAI-compatible chat-completions endpoint with strict JSON-schema output on a compatible model.
+   - Exact model choice, route support, actual AES latency/cost, and disagreement quality remain empirical.
+3. **Second model comparator — deferred.**
+   - Add only if the first model-vs-deterministic results are ambiguous enough that another model can change the decision.
 4. **Build a local semantic policy model/platform — rejected for this slice.**
    - No evidence currently justifies the maintenance/runtime burden.
 
-**Project implications:** The first implementation must be provider-replaceable, offline, read-only, and attached to the existing `policy_control` component. Existing deterministic controls remain authoritative. Jev cannot authorize an action or weaken an exact gate in Plan 002.
+**Project implications:** The first implementation must be provider-replaceable, offline, read-only, and attached to the existing `policy_control` component. Existing deterministic controls remain authoritative. The OpenRouter-backed evaluator cannot authorize an action or weaken an exact gate in Plan 002.
 
-**Refresh trigger:** TypeSafe model/API contract changes; Jev access is unavailable; authentic case reconstruction proves impossible; or first report shows the policy family is adequately served by deterministic controls.
+**Refresh trigger:** OpenRouter API/structured-output contract changes; selected model access is unavailable; authentic case reconstruction proves impossible; or first report shows the policy family is adequately served by deterministic controls.
 
 **Decision method:** one bounded external provider behind a replaceable adapter, evaluated on authentic cases against the incumbent exact control. Stop if the experiment cannot change the policy-provider decision.
 
@@ -139,7 +138,7 @@ Current external provider sources checked 2026-09-22:
 |---|---|---|---|
 | Replay/event custody | Deductive / plan-first | Exact source identity, timing and future-information exclusion are knowable invariants. | Freeze contracts, source refs and negative controls before evaluator work. |
 | Deterministic baseline | Deductive / plan-first | Existing Enforced Planning semantics are current authority. | Execute/reconstruct exactly; never approximate silently. |
-| Jev judgment quality | Exploratory / ladder | Accuracy, disagreement value, latency and provider availability are empirical. | Start with authentic cases, inspect concrete disagreements, stop or promote. |
+| Model judgment quality | Exploratory / ladder | Accuracy, disagreement value, latency, cost, and model/route availability are empirical. | Start with authentic cases, inspect concrete disagreements, stop or promote. |
 | Operator report | Hybrid | Required information is knowable; usefulness needs direct observation. | Static source-linked report first, then one attention checkpoint. |
 
 **Exploratory readout:** reviewed disagreements, false-block/miss/uncertain cases, provider errors, p50/p95 latency on the small case set, incremental cost, and Brian's final `adopt-for-shadow | revise | reject`.
@@ -156,7 +155,7 @@ Planned implementation scope:
 - `src/agentic_engineering_system/policy_control/models.py` — create strict replay/report models.
 - `src/agentic_engineering_system/policy_control/replay.py` — create provider-neutral offline replay orchestration.
 - `src/agentic_engineering_system/policy_control/providers/__init__.py` — create.
-- `src/agentic_engineering_system/policy_control/providers/jev.py` — create thin TypeSafe adapter.
+- `src/agentic_engineering_system/policy_control/providers/openrouter.py` — create thin OpenRouter adapter.
 - `tests/policy_control/` — replace placeholder with focused replay/provider/future-information tests when implementation begins.
 - `evals/README.md` and `evals/plan-002/` — active eval front door plus bounded case/evaluation protocol and source-reference manifest.
 - `generated/policy-replay/` — generated non-authoritative reports.
@@ -181,11 +180,11 @@ src/agentic_engineering_system/policy_control/
   models.py                  # strict AES-local replay/report models
   providers/
     __init__.py
-    jev.py                   # thin TypeSafe adapter only
+    openrouter.py            # thin OpenRouter adapter only
 
 tests/policy_control/
   test_replay.py
-  test_jev_adapter.py
+  test_openrouter_adapter.py
   test_future_information_guard.py
 
 evals/plan-002/
@@ -216,17 +215,17 @@ The plan's product status advances only through V1/V2. P0 is a reproduced/declar
 
 Goal: prove the vertical can use authentic data and the external provider before building replay machinery.
 
-**Current P0 evidence — simplified starting set, 2026-09-22:** `evals/plan-002/case_manifest.json` retains **4 exact authentic** completion/verification decision events. That is now the frozen exploratory dataset for V1/V2; a fifth case is no longer a prerequisite. The remaining P0 blocker is authenticated TypeSafe/Jev provider access and one protocol smoke. Raw-custody verification for the four cases remains useful provenance work but no longer blocks starting the first offline comparison because the repository already retains exact source identities, transcript digests, receipt digests where available, and sanitized ordered evidence for the selected cases.
+**Current P0 evidence — simplified starting set, 2026-09-22:** `evals/plan-002/case_manifest.json` retains **4 exact authentic** completion/verification decision events. That is now the frozen exploratory dataset for V1/V2; a fifth case is no longer a prerequisite. The remaining P0 blocker is authenticated OpenRouter access, one explicit structured-output-capable model ID, and one protocol smoke. Raw-custody verification for the four cases remains useful provenance work but no longer blocks starting the first offline comparison because the repository already retains exact source identities, transcript digests, receipt digests where available, and sanitized ordered evidence for the selected cases.
 
 Exit gates:
 
 - current session exposes required machine execution tools, or execution is handed to a machine-capable Work/session;
 - retain the **4 exact authentic completion/verification decision events** already frozen in `evals/plan-002/case_manifest.json` as the initial exploratory dataset;
 - confirm raw archive ownership/location and that the first cases can be used without copying secrets/client data into Git;
-- authenticated TypeSafe call to `GET /v1/models` succeeds and records an exact available model identifier suitable for the run;
-- one tiny non-policy smoke question proves the client/adapter protocol only; it is not accuracy evidence.
+- authenticated OpenRouter key check succeeds and an explicit model ID is selected from the current model catalog;
+- one tiny structured-output chat-completions smoke request proves the client/adapter protocol only; it is not accuracy evidence.
 
-**Stop:** if TypeSafe access is unavailable, record the blocker and do not build a substitute policy platform. If one of the four retained cases proves unusable during replay, mark that case unusable and continue only if the remaining cases still support the exploratory question; do not manufacture replacement evidence merely to preserve a case-count target.
+**Stop:** if OpenRouter access or a compatible explicit model is unavailable, record the blocker and do not build a substitute policy platform. If one of the four retained cases proves unusable during replay, mark that case unusable and continue only if the remaining cases still support the exploratory question; do not manufacture replacement evidence merely to preserve a case-count target.
 
 ### V1 — one authentic offline replay + report — `vertical`
 
@@ -234,19 +233,19 @@ Goal: produce one inspectable source-bound report without affecting a live codin
 
 - freeze one authentic case and its event-time context;
 - execute/reconstruct the existing deterministic decision;
-- evaluate the bounded question(s) through the Jev adapter;
+- evaluate the bounded question through the OpenRouter adapter using one explicit model ID and strict structured output;
 - render JSON + static HTML;
 - prove future outcome/adjudication was withheld from evaluator input;
 - direct operator review of the exact report.
 
-**Attention checkpoint:** Brian records `continue | change | stop` for the replay/report interaction, separately from the final Jev provider disposition.
+**Attention checkpoint:** Brian records `continue | change | stop` for the replay/report interaction, separately from the final OpenRouter model provider disposition.
 
 ### V2 — small frozen case set + provider disposition — `vertical`
 
 Goal: make the actual provider decision.
 
 - freeze a small authentic development set and separate review/holdout cases before threshold tuning;
-- run deterministic baseline and Jev on the same event-time inputs;
+- run deterministic baseline and the selected OpenRouter model on the same event-time inputs;
 - retain every disagreement/error/unavailable result;
 - classify concrete failures rather than optimizing one aggregate score;
 - report latency/cost and capture completeness;
@@ -261,18 +260,18 @@ No live hooks, warnings, enforcement, context ranking, skill routing, or automat
 | Area | State | Current contract | Trigger / stopping rule | Downstream update |
 |---|---|---|---|---|
 | Authentic archive cases | enabling_work_blocked | Existing archives are claimed by prior research but not freshly inventoried at this baseline. | P0 locates ≥5 usable exact cases or stops. | case manifest + evidence record |
-| Jev account/model availability | enabling_work_blocked | Public API/model discovery exists; account access is unknown. | authenticated `GET /v1/models` | pinned execution manifest |
+| OpenRouter account/model availability | enabling_work_blocked | Public model catalog exists; authenticated key/model compatibility is unverified. | authenticated key check + one structured-output smoke | pinned execution manifest |
 | Deterministic completion semantics | fully_specifiable_now | Enforced Planning is authority. | source/contract changes | plan + regression set |
-| Jev question wording | exploration_required | Typed question family is known; best wording is empirical. | concrete disagreement review; freeze before holdout | evaluation manifest |
+| Model-evaluator prompt/schema | exploration_required | Bounded judgment categories are known; best wording is empirical. | concrete disagreement review; freeze before holdout | evaluation manifest |
 | Live intervention | deliberately_deferred | No behavioral change in Plan 002. | V2 `adopt-for-shadow` only | future plan required |
 | Broad capture platform | deliberately_deferred | Existing archive should be reused first. | proven missing-data blocker | plan revision required |
-| Generative comparator | conditional | Diagnostic option, not first-vertical dependency. | Jev-vs-control result is inconclusive and comparator can change decision | scoped plan amendment |
+| Second model comparator | conditional | Diagnostic option, not first-vertical dependency. | first-model-vs-control result is inconclusive and comparator can change decision | scoped plan amendment |
 
 ---
 
 ## Reassessment Contract
 
-- **Triggers:** no authentic cases; provider access/model drift; event-time context cannot be separated from future information; deterministic baseline cannot be reproduced; first direct report is not useful; Jev disagreements are dominated by exact-control semantics it should never replace.
+- **Triggers:** no authentic cases; provider access/model drift; event-time context cannot be separated from future information; deterministic baseline cannot be reproduced; first direct report is not useful; model disagreements are dominated by exact-control semantics the evaluator should never replace.
 - **Autonomous action:** adjust local report layout, bounded adapter error handling, or question packaging while preserving frozen case/evaluator boundaries.
 - **Plan revision required:** new archive system, live hooks, warnings/enforcement, policy registry changes, a second policy family, provider substitution, or a new external spend/dependency not already authorized.
 - **Human decision required:** provider spend beyond a tiny bounded evaluation, use of sensitive client archives outside existing custody, any live behavioral intervention, final `adopt-for-shadow | revise | reject`.
@@ -290,11 +289,11 @@ No live hooks, warnings, enforcement, context ranking, skill routing, or automat
 | replay preserves source repository/revision/session IDs | evidence custody |
 | future/outcome fields cannot enter evaluator state | no label leakage |
 | deterministic baseline result/reason is retained exactly | incumbent-control fidelity |
-| Jev adapter preserves exact model/question IDs and typed answer | provider traceability |
+| OpenRouter model adapter preserves exact model/question IDs and typed answer | provider traceability |
 | timeout/provider error becomes explicit `unavailable/error` | no silent pass |
 | report links every summary row to concrete source case | step-down from aggregates |
 | generated report contains no raw secret fields from fixture negatives | bounded review artifact |
-| Jev adapter can be replaced by a fake provider in unit tests | provider boundary stays thin |
+| OpenRouter model adapter can be replaced by a fake provider in unit tests | provider boundary stays thin |
 
 ### Existing checks
 
@@ -310,9 +309,9 @@ No live hooks, warnings, enforcement, context ranking, skill routing, or automat
 
 Current stage: **Pilot**
 Execution profile: **pilot**
-Next decision: whether Jev merits **shadow-only** use for the completion/verification policy family.
+Next decision: whether OpenRouter model merits **shadow-only** use for the completion/verification policy family.
 Gate-time budget: keep first V1 report to one authentic case; V2 case count stays small enough for direct disagreement review rather than benchmark theater.
-Stopping rule: if no decision-useful disagreement or improvement appears, reject/defer Jev for this family rather than expanding scope.
+Stopping rule: if no decision-useful disagreement or improvement appears, reject/defer OpenRouter model for this family rather than expanding scope.
 
 Boundary gate:
 - exact case/source refs;
@@ -341,7 +340,7 @@ Hosted CI may assist but is not the authority; exact local/external execution an
 Feature:
 - [ ] At least one authentic completion/verification event replays from exact source references.
 - [ ] Existing deterministic decision is reproduced or explicitly marked non-reconstructable; never approximated silently.
-- [ ] Jev result is typed, model/version-bound, source-linked, and records latency/usage/cost or explicit provider omission.
+- [ ] OpenRouter model result is typed, model/version-bound, source-linked, and records latency/usage/cost or explicit provider omission.
 - [ ] Eventual outcome/adjudication is excluded from evaluator state and shown separately.
 - [ ] Static report makes agreement/disagreement/error/uncertainty understandable without transcript reconstruction.
 - [ ] Brian directly reviews the report.
@@ -367,7 +366,7 @@ Process:
 - context/skill/subagent routing;
 - automated policy generation or self-modification;
 - general observability dashboard;
-- proving Jev superior across AES;
+- proving OpenRouter model superior across AES;
 - reopening ACA standalone experiments.
 
 ---

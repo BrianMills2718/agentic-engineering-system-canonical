@@ -8,11 +8,11 @@ Execution handoff: [`P0_RUNBOOK.md`](P0_RUNBOOK.md) contains the exact machine/p
 
 GitHub inspection located four exact authentic completion/verification decision events with retained session/transcript or receipt identities. These four are now the frozen initial exploratory dataset for Plan 002.
 
-The case-count gate is **cleared at 4/4**. Before a real Jev-backed replay can run, the remaining required step is provider preflight:
+The case-count gate is **cleared at 4/4**. Before a real OpenRouter-backed replay can run, the remaining required step is provider preflight:
 
 1. run the AES execution-readiness preflight if machine access is needed;
-2. authenticate to TypeSafe and record an exact available Jev model from `GET /v1/models`;
-3. run one protocol-only Noul smoke request;
+2. authenticate to OpenRouter, confirm the key is usable, and select one explicit structured-output-capable model ID;
+3. run one protocol-only structured-output chat-completions smoke request;
 4. keep any raw-custody limitations for the four cases explicit rather than blocking exploratory learning on an arbitrary fifth-case target.
 
 ## Candidate source families
@@ -32,7 +32,7 @@ Plan 16 also contains an installed positive/negative assertion-admission proof. 
 
 ## Leakage rule
 
-Eventual outcome, later human adjudication, later fixes, and later verification may label/report a case but must never enter the Jev evaluator's event-time state. Every case used in V1/V2 must make that separation mechanically checkable.
+Eventual outcome, later human adjudication, later fixes, and later verification may label/report a case but must never enter the model evaluator's event-time state. Every case used in V1/V2 must make that separation mechanically checkable.
 
 ## Privacy/custody rule
 

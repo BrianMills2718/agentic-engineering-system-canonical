@@ -4,9 +4,9 @@ Status: Plan 001 / Repository Context is **DELIVERED** for its bounded Slice 1 c
 
 ## Active
 
-- [`002_offline_policy_decision_replay.md`](002_offline_policy_decision_replay.md) — **PLANNED** bounded policy-control vertical. Four authentic cases are frozen as the exploratory starting set. The remaining P0 gate is authenticated Jev model access and one protocol smoke; V1 then runs the first offline comparison.
+- [`002_offline_policy_decision_replay.md`](002_offline_policy_decision_replay.md) — **PLANNED** bounded policy-control vertical. Four authentic cases are frozen as the exploratory starting set. The remaining P0 gate is authenticated OpenRouter model access and one protocol smoke; V1 then runs the first offline comparison.
 
-Plan 002 is intentionally offline and decision-oriented. Existing Enforced Planning controls remain authoritative. Jev is only a candidate typed evaluator until authentic replay evidence supports an `adopt-for-shadow | revise | reject` decision.
+Plan 002 is intentionally offline and decision-oriented. Existing Enforced Planning controls remain authoritative. OpenRouter model is only a candidate typed evaluator until authentic replay evidence supports an `adopt-for-shadow | revise | reject` decision.
 
 ## Completed
 
@@ -24,7 +24,7 @@ The broader AES repository remains intentionally **PARTIAL**.
 - Plan 001 follow-up stakeholder A1: **`continue`**;
 - Plan 002 implementation evidence: **UNOBSERVED**;
 - Plan 002 live-policy effect: **NONE AUTHORIZED**;
-- Plan 002 provider status: deterministic Enforced Planning baseline retained; TypeSafe Jev candidate requires authenticated P0 access/model discovery;
+- Plan 002 provider status: deterministic Enforced Planning baseline retained; OpenRouter OpenRouter model candidate requires authenticated P0 access/model discovery;
 - Plan 002 raw evidence posture: reuse existing authentic archives/custody; no new archive platform is authorized.
 
 ## Immediate frontier
@@ -34,14 +34,14 @@ Execution coordination: [Issue #20 — Plan 002 offline completion/verification 
 ```text
 4 authentic completion/verification cases frozen
         +
-confirm authenticated TypeSafe/Jev model discovery
+confirm authenticated OpenRouter/OpenRouter model discovery
         ↓
-protocol-only Noul smoke
+protocol-only structured-output smoke
         ↓
 freeze first V1 case + event-time context contract
         ↓
 V1: replay one authentic case offline
-deterministic baseline + Jev typed judgment
+deterministic baseline + OpenRouter model typed judgment
         ↓
 render source-linked JSON/static HTML
         ↓

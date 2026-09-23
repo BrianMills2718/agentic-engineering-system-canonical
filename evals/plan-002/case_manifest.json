@@ -135,8 +135,9 @@
     }
   ],
   "next_machine_steps": [
-    "Authenticate to TypeSafe and record GET /v1/models output with one exact returned model identity.",
-    "Run one protocol-only POST /v1/systemone Noul smoke request.",
+    "Authenticate to OpenRouter and confirm the key is usable without retaining the secret.",
+    "Select one explicit model ID that supports the required structured-output response contract; do not use auto-routing or model fallback lists for the experiment.",
+    "Run one protocol-only structured-output chat-completions smoke request and retain response model + usage metadata.",
     "Optionally verify raw archive custody/digests for the four retained cases before or during V1; provenance limitations must remain explicit."
   ],
   "dataset_role": "initial_exploratory_not_generalization_proof"

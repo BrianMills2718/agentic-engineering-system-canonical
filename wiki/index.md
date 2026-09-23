@@ -22,8 +22,8 @@ The component-aligned bootstrap architecture is adopted. Plan 001 / Repository C
 
 - Decisions 0001–0009 define the convergence boundary, planning/profile strategy, provider-independent verification, and modular product-design posture.
 - Plan 001 closed with exact technical evidence and follow-up A1 `continue`; its final evidence remains under `evidence/plan-001/`.
-- Plan 002 retains Enforced Planning as the deterministic completion/verification authority and treats TypeSafe Jev only as a candidate typed evaluator behind a replaceable adapter.
-- The first Plan 002 decision is deliberately offline: compare one authentic event-time completion/verification decision against the incumbent control, produce a source-linked report, and decide whether Jev deserves a small shadow-only evaluation.
+- Plan 002 retains Enforced Planning as the deterministic completion/verification authority and treats an explicit OpenRouter model only as a candidate typed evaluator behind a replaceable adapter.
+- The first Plan 002 decision is deliberately offline: compare one authentic event-time completion/verification decision against the incumbent control, produce a source-linked report, and decide whether OpenRouter model deserves a small shadow-only evaluation.
 - No live hooks, warnings, enforcement, context ranking, policy self-modification, or broad observability platform are authorized by Plan 002.
 
 **Gap**
@@ -37,14 +37,14 @@ Execution coordination: [Issue #20](https://github.com/BrianMills2718/agentic-en
 ```text
 4 authentic completion/verification cases frozen
         +
-confirm authenticated TypeSafe/Jev model discovery
+confirm authenticated OpenRouter access + one explicit compatible model
         ↓
-protocol-only Noul smoke
+protocol-only structured-output smoke
         ↓
 freeze first V1 case + event-time context contract
         ↓
 V1: replay one authentic case offline
-incumbent deterministic decision + Jev typed judgment
+incumbent deterministic decision + OpenRouter model typed judgment
         ↓
 render source-linked JSON/static HTML
         ↓
@@ -55,7 +55,7 @@ V2: small frozen authentic case set
 provider disposition: adopt-for-shadow | revise | reject
 ```
 
-P0's remaining real stop gate is Jev provider access. The four authentic cases are sufficient for this exploratory slice; they are not a generalization claim. If Jev access is unavailable, preserve that evidence and do not build a substitute policy platform. Historical ACA experiments and the broad Jev proposal PRs remain research donors, not fallback execution queues.
+P0's remaining real stop gate is OpenRouter model provider access. The four authentic cases are sufficient for this exploratory slice; they are not a generalization claim. If OpenRouter model access is unavailable, preserve that evidence and do not build a substitute policy platform. Historical ACA experiments and the broad OpenRouter model proposal PRs remain research donors, not fallback execution queues.
 
 ## Modular product design in the engineering workflow
 
