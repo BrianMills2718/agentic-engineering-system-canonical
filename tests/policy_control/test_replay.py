@@ -1,3 +1,7 @@
+from pathlib import Path
+
+import json
+
 from agentic_engineering_system.policy_control.models import (
     BaselineDecisionV1,
     DecisionKind,
@@ -8,6 +12,7 @@ from agentic_engineering_system.policy_control.models import (
     ProbabilityV1,
     ProviderJudgmentV1,
     ProviderResultState,
+    ReplayCaseV1,
     SourceIdentityV1,
 )
 from agentic_engineering_system.policy_control.replay import (
@@ -121,3 +126,20 @@ def test_later_outcome_cannot_change_evaluator_input_digest() -> None:
 
     assert first.evaluator_input_sha256 == digest_before
     assert second.evaluator_input_sha256 == digest_before
+
+
+def test_first_frozen_v1_case_validates_and_keeps_later_outcome_outside_input() -> None:
+    case_path = (
+        Path(__file__).resolve().parents[2]
+        / "evals"
+        / "plan-002"
+        / "cases"
+        / "p10-s4-unsupported-verification-block.json"
+    )
+    case = ReplayCaseV1.model_validate(json.loads(case_path.read_text(encoding="utf-8")))
+
+    assert case.evaluator_input.case_id == "p10-s4-unsupported-verification-block"
+    assert case.baseline.decision == DecisionKind.BLOCK
+    assert case.baseline.reason_code == "unbacked_assertion"
+    assert case.later_outcome is not None
+    assert "later_outcome" not in case.evaluator_input.model_dump(mode="json")
