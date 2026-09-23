@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "aes_revision": "2003866093458912a604c113d7c9de5266ace5bf",
+  "observed_on": "2026-09-23",
+  "p0_status": "passed_for_v1",
+  "authentic_case_count": 4,
+  "case_manifest_sha256": "9b4bc670ea9b12019171bd380707765d9d3f3d428ac116c37d015202cae0a8be",
+  "raw_custody_checked": false,
+  "raw_custody_limitation": "The frozen repository projections retain exact source, transcript, and receipt identities; raw private archive bytes were not reopened for this run.",
+  "execution_preflight": {
+    "required_tools_exposed": true,
+    "device": "WINDOWS-STQ88HK",
+    "device_ping_succeeded": true,
+    "repository_execution_path": "direct_windows",
+    "secret_source": "WSL environment file; value not printed or retained"
+  },
+  "openrouter_models_response_sha256": "64b384620cb727f626060d32160b6ea9cc8b2f94d93c9e410e76357b25ad1d4d",
+  "requested_model": "openai/gpt-6-luna",
+  "response_model": "openai/gpt-6-luna",
+  "advertised_required_parameters": [
+    "response_format",
+    "structured_outputs"
+  ],
+  "smoke_request_sha256": "a6ed239f4eb9320d5aa95ce8ed7070e03132be90c4132ff8aff9e52bfd710295",
+  "smoke_response_sha256": "108567862b9368342e28c9a1f542c9924a1aecdfccb6ddbafc95fdaac95fc9a7",
+  "provider_protocol_result": "passed",
+  "usage": {
+    "input_tokens": 70,
+    "output_tokens": 127,
+    "total_tokens": 197,
+    "cost_usd": 0.0000705
+  },
+  "secrets_retained_in_git": false
+}

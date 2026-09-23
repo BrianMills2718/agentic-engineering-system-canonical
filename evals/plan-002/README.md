@@ -1,6 +1,6 @@
 # Plan 002 eval protocol
 
-Status: P0 source inventory in progress
+Status: P0 provider preflight passed; V1 first-case report awaiting human review
 Authority: Plan 002 defines scope and stop rules; this directory holds bounded evaluation definitions and source-reference manifests.
 Execution handoff: [`P0_RUNBOOK.md`](P0_RUNBOOK.md) contains the exact machine/provider closure sequence.
 
@@ -8,12 +8,23 @@ Execution handoff: [`P0_RUNBOOK.md`](P0_RUNBOOK.md) contains the exact machine/p
 
 GitHub inspection located four exact authentic completion/verification decision events with retained session/transcript or receipt identities. These four are now the frozen initial exploratory dataset for Plan 002.
 
-The case-count gate is **cleared at 4/4**. Before a real OpenRouter-backed replay can run, the remaining required step is provider preflight:
+The case-count gate is **cleared at 4/4**. On 2026-09-23 the authenticated
+OpenRouter provider preflight passed for the pinned `openai/gpt-6-luna` model,
+and the first authentic replay produced `generated/policy-replay/2003866-p10-s4/`.
+The model returned `unsupported` beside the incumbent
+`block / unbacked_assertion` decision. Expansion to the remaining cases is
+paused for Brian's `continue | change | stop` review.
 
-1. run the AES execution-readiness preflight if machine access is needed;
-2. authenticate to OpenRouter, confirm the key is usable, and select one explicit structured-output-capable model ID;
-3. run one protocol-only structured-output chat-completions smoke request;
-4. keep any raw-custody limitations for the four cases explicit rather than blocking exploratory learning on an arbitrary fifth-case target.
+Provider execution retained only safe metadata and digests:
+
+1. authentication and current catalog access succeeded;
+2. the catalog and eligible endpoints advertised `response_format` and
+   `structured_outputs` for `openai/gpt-6-luna`;
+3. one protocol-only structured-output smoke succeeded with matching requested
+   and response model identity;
+4. no API key, raw account response, or private transcript was retained in Git;
+5. raw-custody limitations for the frozen cases remain explicit and do not get
+   silently repaired.
 
 ## Candidate source families
 

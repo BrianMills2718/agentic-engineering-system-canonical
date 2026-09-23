@@ -1,13 +1,13 @@
 # Plan 002 — Offline policy-decision replay vertical
 
-**Status:** Planned — no runtime or live-policy behavior changed
+**Status:** In progress — first offline replay complete and awaiting human review; no runtime or live-policy behavior changed
 **Recorded:** 2026-09-22
 **Type:** implementation
 **Priority:** High
 **Landscape disposition:** linked
 **Planning baseline:** canonical AES `b06e28dba3d52eb7c036f140ac84cf8fadee368e`
 **Planning provider basis:** `BrianMills2718/company-planning` canonical method + the AES-local profile. This record follows that contract; it does **not** claim a Company Planning plugin execution occurred in this chat.
-**Blocked By:** authenticated OpenRouter access plus one explicit model ID that supports the structured response contract. The initial replay dataset is frozen at the four exact authentic cases already retained in `evals/plan-002/case_manifest.json`.
+**Blocked By:** Brian's `continue | change | stop` review of the first generated report. Authenticated OpenRouter access and the pinned model's structured-output contract were verified on 2026-09-23. The initial replay dataset remains frozen at the four exact authentic cases retained in `evals/plan-002/case_manifest.json`.
 **Blocks:** any decision to use contextual model judgment in live AES shadow/warn/enforce paths for the selected policy family.
 
 Execution tracker: [Issue #20 — Plan 002 offline completion/verification policy replay](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/20). The issue is a coordination/checklist surface only; this plan remains execution authority.
@@ -57,7 +57,7 @@ None of those gaps alone authorizes this plan. The authorized human/product outc
 7. eventual outcome/adjudication in a **separate** section that was not supplied to the evaluator;
 8. an operator disposition surface: `adopt-for-shadow | revise | reject`.
 
-**Behavioral evidence:** currently unobserved.
+**Behavioral evidence:** observed for the first V1 case at AES revision `2003866093458912a604c113d7c9de5266ace5bf`. The incumbent decision was `block / unbacked_assertion`; `openai/gpt-6-luna` returned `unsupported`. The report bundle is `generated/policy-replay/2003866-p10-s4/`, with revision-bound metadata under `evidence/plan-002/2003866093458912a604c113d7c9de5266ace5bf/`.
 
 **Substrate/process evidence:** current deterministic completion code exists in `enforced_planning/outcome_completion.py`; Plan 001 retained revision-bound evidence patterns; proposal PR #14 contains donor research on OpenRouter model, capture, and policy failure modes.
 
@@ -93,7 +93,7 @@ Planning provider:
 - `BrianMills2718/company-planning` — canonical planning-method repository.
 - `docs/architecture/aes-company-planning-profile.bootstrap.yaml` — AES-local provider profile.
 
-Current external provider sources checked 2026-09-22:
+Current external provider sources checked 2026-09-23:
 - OpenRouter developer platform — OpenAI-compatible API root `https://openrouter.ai/api/v1`, Bearer authentication, explicit model IDs, and chat completions.
 - OpenRouter structured-output documentation — JSON-schema response formatting is supported on compatible models/providers; this experiment requires a model route that honors the requested schema.
 - OpenRouter usage documentation — completion responses expose token/cost usage that can be retained as experiment evidence.
@@ -215,7 +215,7 @@ The plan's product status advances only through V1/V2. P0 is a reproduced/declar
 
 Goal: prove the vertical can use authentic data and the external provider before building replay machinery.
 
-**Current P0 evidence — simplified starting set, 2026-09-22:** `evals/plan-002/case_manifest.json` retains **4 exact authentic** completion/verification decision events. That is now the frozen exploratory dataset for V1/V2; a fifth case is no longer a prerequisite. The remaining P0 blocker is authenticated OpenRouter access, one explicit structured-output-capable model ID, and one protocol smoke. Raw-custody verification for the four cases remains useful provenance work but no longer blocks starting the first offline comparison because the repository already retains exact source identities, transcript digests, receipt digests where available, and sanitized ordered evidence for the selected cases.
+**Current P0 evidence — passed for V1, 2026-09-23:** `evals/plan-002/case_manifest.json` retains **4 exact authentic** completion/verification decision events. Authenticated OpenRouter access succeeded; the current catalog and eligible endpoints advertised `response_format` and `structured_outputs` for the explicitly pinned `openai/gpt-6-luna`; and one protocol-only structured-output smoke returned the same requested/response model identity. Raw-custody verification remains useful provenance work but does not block this exploratory replay because the repository retains exact source identities, transcript digests, receipt digests where available, and sanitized ordered evidence. Safe preflight metadata and digests are retained under `evidence/plan-002/2003866093458912a604c113d7c9de5266ace5bf/`.
 
 Exit gates:
 
@@ -263,8 +263,8 @@ No live hooks, warnings, enforcement, context ranking, skill routing, or automat
 
 | Area | State | Current contract | Trigger / stopping rule | Downstream update |
 |---|---|---|---|---|
-| Authentic archive cases | enabling_work_blocked | Existing archives are claimed by prior research but not freshly inventoried at this baseline. | P0 locates ≥5 usable exact cases or stops. | case manifest + evidence record |
-| OpenRouter account/model availability | enabling_work_blocked | Public model catalog exists; authenticated key/model compatibility is unverified. | authenticated key check + one structured-output smoke | pinned execution manifest |
+| Authentic archive cases | exploration_ready | Four exact authentic cases are frozen; raw-byte custody limitations remain explicit. | Recheck custody when it can change interpretation; do not hunt for a fifth case by default. | case manifest + evidence record |
+| OpenRouter account/model availability | observed | Authentication, catalog contract, and one structured-output smoke passed for `openai/gpt-6-luna` on 2026-09-23. | Refresh if the API/model contract changes or a provider call fails. | pinned execution manifest |
 | Deterministic completion semantics | fully_specifiable_now | Enforced Planning is authority. | source/contract changes | plan + regression set |
 | Model-evaluator prompt/schema | exploration_required | Bounded judgment categories are known; best wording is empirical. | concrete disagreement review; freeze before holdout | evaluation manifest |
 | Live intervention | deliberately_deferred | No behavioral change in Plan 002. | V2 `adopt-for-shadow` only | future plan required |
@@ -342,20 +342,20 @@ Hosted CI may assist but is not the authority; exact local/external execution an
 ## Acceptance Criteria
 
 Feature:
-- [ ] At least one authentic completion/verification event replays from exact source references.
-- [ ] Existing deterministic decision is reproduced or explicitly marked non-reconstructable; never approximated silently.
-- [ ] OpenRouter model result is typed, model/version-bound, source-linked, and records latency/usage/cost or explicit provider omission.
-- [ ] Eventual outcome/adjudication is excluded from evaluator state and shown separately.
-- [ ] Static report makes agreement/disagreement/error/uncertainty understandable without transcript reconstruction.
+- [x] At least one authentic completion/verification event replays from exact source references.
+- [x] Existing deterministic decision is reproduced or explicitly marked non-reconstructable; never approximated silently.
+- [x] OpenRouter model result is typed, model/version-bound, source-linked, and records latency/usage/cost or explicit provider omission.
+- [x] Eventual outcome/adjudication is excluded from evaluator state and shown separately.
+- [x] Static report makes agreement/disagreement/error/uncertainty understandable without transcript reconstruction.
 - [ ] Brian directly reviews the report.
 - [ ] Small frozen case-set readout supports one explicit `adopt-for-shadow | revise | reject` decision.
 
 Process:
-- [ ] P0 blockers are cleared before replay implementation expands.
-- [ ] No live policy behavior changes.
-- [ ] No raw client/secret archive is copied into Git.
-- [ ] Incumbent Enforced Planning controls remain authoritative.
-- [ ] Exact verification evidence is revision-bound.
+- [x] P0 blockers are cleared before replay implementation expands.
+- [x] No live policy behavior changes.
+- [x] No raw client/secret archive is copied into Git.
+- [x] Incumbent Enforced Planning controls remain authoritative.
+- [x] Exact verification evidence is revision-bound.
 - [ ] Fresh characterization/gap update follows completion; plan completion alone closes nothing.
 
 ---

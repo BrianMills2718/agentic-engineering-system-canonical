@@ -15,16 +15,16 @@ Dataset readiness is already satisfied by the four exact authentic cases frozen 
 
 Provider readiness closes when all of the following are retained:
 
-- [ ] the current conversation exposes Remote MCP `devices_list`, `devices_ping`, and `process_start`;
-- [ ] the intended device is present, `execution_ready`, and responds to `devices_ping`;
+- [x] the current conversation exposes Remote MCP `devices_list`, `devices_ping`, and `process_start`;
+- [x] the intended device was present, `execution_ready`, and responded to `devices_ping` before later direct Windows execution;
 - [x] **4 authentic** completion/verification decision events are frozen as the initial exploratory dataset;
 - [ ] raw transcript/receipt custody for the selected cases is verified where practical, with any missing temporary bytes recorded as explicit provenance limitations rather than silently repaired;
-- [ ] each selected case has enough event-time state to reconstruct the incumbent decision without using later outcome/adjudication;
-- [ ] OpenRouter authentication works without retaining the secret;
-- [ ] the current model catalog is retained by digest and one explicit compatible model ID is selected;
-- [ ] one protocol-only structured-output `POST /api/v1/chat/completions` succeeds;
-- [ ] requested model ID, response model ID, usage, and cost where supplied are retained;
-- [ ] no private raw transcript, API key, or unrelated secret is copied into Git.
+- [x] each selected case has enough retained event-time state to reconstruct the incumbent decision without using later outcome/adjudication;
+- [x] OpenRouter authentication works without retaining the secret;
+- [x] the current model catalog is retained by digest and one explicit compatible model ID is selected;
+- [x] one protocol-only structured-output `POST /api/v1/chat/completions` succeeds;
+- [x] requested model ID, response model ID, usage, and cost where supplied are retained;
+- [x] no private raw transcript, API key, or unrelated secret is copied into Git.
 
 If any required item fails, record the exact blocker and stop. Do not replace the provider, create a transcript platform, or widen the policy family to manufacture progress.
 

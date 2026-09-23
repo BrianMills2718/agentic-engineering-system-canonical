@@ -2,7 +2,7 @@
   "schema_version": "0.1",
   "plan": "PLAN-002",
   "generated_from_github_only_source_review": true,
-  "inventory_status": "four_case_exploratory_dataset_frozen_provider_preflight_pending",
+  "inventory_status": "four_case_exploratory_dataset_frozen_first_replay_complete_review_pending",
   "source_repository": "Inside-Success/agentic-engineering-system",
   "source_repository_revision": "418f1782b55f68cc332feee6848eb6116ba9fd10",
   "exact_authentic_candidates_found": 4,
@@ -135,9 +135,7 @@
     }
   ],
   "next_machine_steps": [
-    "Authenticate to OpenRouter and confirm the key is usable without retaining the secret.",
-    "Select one explicit model ID that supports the required structured-output response contract; do not use auto-routing or model fallback lists for the experiment.",
-    "Run one protocol-only structured-output chat-completions smoke request and retain response model + usage metadata.",
+    "Present generated/policy-replay/2003866-p10-s4/index.html for direct human review and record continue, change, or stop before running another case.",
     "Optionally verify raw archive custody/digests for the four retained cases before or during V1; provenance limitations must remain explicit."
   ],
   "dataset_role": "initial_exploratory_not_generalization_proof"
