@@ -273,6 +273,7 @@ class OpenRouterClient:
             question_type="choice",
             state=ProviderResultState.OBSERVED,
             answer=judgment,
+            rationale=rationale.strip(),
             latency_ms=(time.perf_counter() - started) * 1000,
             usage=ProviderUsageV1(
                 input_tokens=input_tokens,
