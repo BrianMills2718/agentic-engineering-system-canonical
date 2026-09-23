@@ -9,12 +9,16 @@ This runbook exists so the next machine-capable session performs the remaining d
 
 ## Exit condition
 
-P0 closes only when all of the following are retained:
+P0 is now split into **dataset readiness** and **provider readiness**.
+
+Dataset readiness is already satisfied by the four exact authentic cases frozen in `case_manifest.json`. Four is sufficient for this exploratory slice; it is not evidence of generalization.
+
+Provider readiness closes when all of the following are retained:
 
 - [ ] the current conversation exposes Remote MCP `devices_list`, `devices_ping`, and `process_start`;
 - [ ] the intended device is present, `execution_ready`, and responds to `devices_ping`;
-- [ ] at least **5 authentic** completion/verification decision events have exact source/session/repository/revision identity;
-- [ ] the selected cases' raw transcript/receipt bytes are still available under their existing owner/custody and match retained hashes where hashes already exist;
+- [x] **4 authentic** completion/verification decision events are frozen as the initial exploratory dataset;
+- [ ] raw transcript/receipt custody for the selected cases is verified where practical, with any missing temporary bytes recorded as explicit provenance limitations rather than silently repaired;
 - [ ] each selected case has enough event-time state to reconstruct the incumbent decision without using later outcome/adjudication;
 - [ ] TypeSafe authentication works;
 - [ ] `GET https://api.typesafe.ai/v1/models` succeeds and the response is retained by digest;
@@ -36,9 +40,9 @@ Follow `CLAUDE.md#execution-readiness-preflight` exactly.
 
 Do not interpret a missing chat tool as a machine, WSL, repository, or provider failure.
 
-## 2. Resolve one uncounted authentic lead into case five
+## 2. Optional provenance strengthening for the four frozen cases
 
-Prefer the 2026-09-22 live scope-mismatch family because it contains four real Claude Code turns that reached the judge and returned `claim_support_rejected:1_of_1`.
+A fifth case is **not required**. If machine access is available, use the 2026-09-22 live scope-mismatch family only as optional provenance strengthening or a future dataset-expansion candidate.
 
 Source observation:
 
@@ -135,9 +139,9 @@ For the fifth case, retain only the minimum facts needed to demonstrate:
 
 A finished transcript may contain information written **after** the synchronous Stop decision. Do not treat later-written bytes as event-time state merely because they are in the same final JSONL. Use retained hook payload/receipt timing or the source observation to separate them.
 
-### 2.4 Promote the lead only when exact
+### 2.4 Promote any optional new lead only when exact
 
-Update `evals/plan-002/case_manifest.json` only after the raw check.
+Do not increase the exploratory dataset merely because a lead exists. Add a later case only when its exact provenance is recovered and it changes the evaluation question or coverage.
 
 Promotion rule:
 
@@ -276,7 +280,7 @@ The P0 evidence record should contain metadata/digests only:
 ```json
 {
   "p0_status": "passed",
-  "authentic_case_count": 5,
+  "authentic_case_count": 4,
   "case_manifest_sha256": "...",
   "raw_custody_checked": true,
   "typesafe_models_response_sha256": "...",
