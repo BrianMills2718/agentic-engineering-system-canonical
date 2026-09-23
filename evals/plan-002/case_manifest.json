@@ -2,12 +2,12 @@
   "schema_version": "0.1",
   "plan": "PLAN-002",
   "generated_from_github_only_source_review": true,
-  "inventory_status": "partial_pending_machine_raw_custody_check",
+  "inventory_status": "four_case_exploratory_dataset_frozen_provider_preflight_pending",
   "source_repository": "Inside-Success/agentic-engineering-system",
   "source_repository_revision": "418f1782b55f68cc332feee6848eb6116ba9fd10",
   "exact_authentic_candidates_found": 4,
-  "p0_required_authentic_cases": 5,
-  "p0_case_threshold_cleared": false,
+  "p0_required_authentic_cases": 4,
+  "p0_case_threshold_cleared": true,
   "cases": [
     {
       "case_id": "p10-s3-native-stop-allow",
@@ -135,10 +135,9 @@
     }
   ],
   "next_machine_steps": [
-    "Run devices_list, confirm intended device execution_ready, then devices_ping.",
-    "Resolve at least one cold-start lead to its raw session and completed receipt and verify retained identities/digests.",
-    "Verify raw custody/access for all selected cases without copying private transcripts into Git.",
-    "Confirm event-time state can be reconstructed separately from later outcome/adjudication.",
-    "Authenticate to TypeSafe and record GET /v1/models output with one exact model identifier."
-  ]
+    "Authenticate to TypeSafe and record GET /v1/models output with one exact returned model identity.",
+    "Run one protocol-only POST /v1/systemone Noul smoke request.",
+    "Optionally verify raw archive custody/digests for the four retained cases before or during V1; provenance limitations must remain explicit."
+  ],
+  "dataset_role": "initial_exploratory_not_generalization_proof"
 }
