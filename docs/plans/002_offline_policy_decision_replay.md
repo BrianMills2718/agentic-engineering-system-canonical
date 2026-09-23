@@ -1,14 +1,14 @@
 # Plan 002 — Offline policy-decision replay vertical
 
-Status: **PLANNED — no runtime or live-policy behavior changed**
-Recorded: 2026-09-22
-Type: implementation
-Priority: High
-Landscape disposition: linked
-Planning baseline: canonical AES `b06e28dba3d52eb7c036f140ac84cf8fadee368e`
-Planning provider basis: `BrianMills2718/company-planning` canonical method + the AES-local profile. This record follows that contract; it does **not** claim a Company Planning plugin execution occurred in this chat.
-Blocked By: execution preflight requires (a) authentic replayable AES coding-session cases and (b) authenticated TypeSafe/Jev access that exposes an exact model through `GET /v1/models`.
-Blocks: any decision to use Jev in live AES shadow/warn/enforce paths for the selected policy family.
+**Status:** Planned — no runtime or live-policy behavior changed
+**Recorded:** 2026-09-22
+**Type:** implementation
+**Priority:** High
+**Landscape disposition:** linked
+**Planning baseline:** canonical AES `b06e28dba3d52eb7c036f140ac84cf8fadee368e`
+**Planning provider basis:** `BrianMills2718/company-planning` canonical method + the AES-local profile. This record follows that contract; it does **not** claim a Company Planning plugin execution occurred in this chat.
+**Blocked By:** execution preflight requires (a) authentic replayable AES coding-session cases and (b) authenticated TypeSafe/Jev access that exposes an exact model through `GET /v1/models`.
+**Blocks:** any decision to use Jev in live AES shadow/warn/enforce paths for the selected policy family.
 
 ---
 
@@ -98,6 +98,15 @@ Current external provider sources checked 2026-09-22:
 
 ---
 
+## Research Basis For This Slice
+
+- Current post–Plan 001 gap ledger and accepted AES policy/evidence clauses define the need; this plan does not create a new requirement surface.
+- PR #14 is the strongest local Jev/capture/policy donor synthesis but predates Plan 001 closure and is intentionally narrowed here.
+- TypeSafe's current API/OpenAPI documentation, launch documentation, and Agent Trace Observability workflow were rechecked on 2026-09-22. Provider benchmark/speed/cost statements remain provider claims until measured in AES.
+- Company Planning's canonical repository and the AES-local planning profile were reviewed for slice/verification shape. No plugin execution is claimed in this chat.
+
+---
+
 ## Landscape And Prior Art
 
 **Alternatives**
@@ -134,6 +143,26 @@ Current external provider sources checked 2026-09-22:
 **Exploratory readout:** reviewed disagreements, false-block/miss/uncertain cases, provider errors, p50/p95 latency on the small case set, incremental cost, and Brian's final `adopt-for-shadow | revise | reject`.
 
 **Step-down path:** aggregate disagreement/error counts always link to individual source cases, exact provider request/response metadata, baseline reason codes, and event-time evidence.
+
+---
+
+## Files Affected
+
+Planned implementation scope:
+
+- `src/agentic_engineering_system/policy_control/__init__.py` — modify when real code replaces the placeholder surface.
+- `src/agentic_engineering_system/policy_control/models.py` — create strict replay/report models.
+- `src/agentic_engineering_system/policy_control/replay.py` — create provider-neutral offline replay orchestration.
+- `src/agentic_engineering_system/policy_control/providers/__init__.py` — create.
+- `src/agentic_engineering_system/policy_control/providers/jev.py` — create thin TypeSafe adapter.
+- `tests/policy_control/` — replace placeholder with focused replay/provider/future-information tests when implementation begins.
+- `evals/plan-002/` — create bounded case/evaluation protocol and source-reference manifest.
+- `generated/policy-replay/` — generated non-authoritative reports.
+- `evidence/plan-002/` — revision-bound provider-fit, verification and operator evidence.
+- `docs/plans/002_offline_policy_decision_replay.md` — keep execution status/evidence current.
+- `.agentic/repo.yaml`, `docs/plans/README.md`, `wiki/index.md` — active-plan/frontier projections only.
+
+No raw archive/transcript store is added to Git.
 
 ---
 
