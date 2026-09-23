@@ -20,7 +20,9 @@ This branch contains the first Repository Context implementation: typed artifact
 
 The first direct A1 returned `change`, causing a bounded projection correction rather than a broader UI/platform build. On 2026-09-22, AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1` then passed a fresh exact-revision technical batch against the pinned private `data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` consumer: **15 repository-context tests passed**, the real CLI returned `RESOLVED`, and the verification-batch check remained valid on a clean repository. The exact corrected HTML then received stakeholder response **"proceed"**, recorded as A1 `continue`.
 
-The final revision-bound characterization and conservatively recomputed gap ledger are under `evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/` and `docs/architecture/INITIAL_GAP_LEDGER.md`. Plan 001 is therefore delivered for its bounded external Repository Context claim. This does not establish full AES maturity or automatically authorize a new implementation vertical.
+The final revision-bound characterization and conservatively recomputed gap ledger are under `evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/` and `docs/architecture/INITIAL_GAP_LEDGER.md`. Plan 001 is therefore delivered for its bounded external Repository Context claim. This does not establish full AES maturity.
+
+**Current planned frontier:** [Plan 002 — Offline Policy-Decision Replay](docs/plans/002_offline_policy_decision_replay.md). It asks one bounded question: whether a typed contextual evaluator adds enough value over the existing deterministic completion/verification control to merit later **shadow-only** use. P0 must first locate authentic replayable cases and confirm authenticated TypeSafe/Jev model access. No live policy behavior, hook, warning, or enforcement change is authorized by the plan.
 
 Start at [`wiki/index.md`](wiki/index.md).
 

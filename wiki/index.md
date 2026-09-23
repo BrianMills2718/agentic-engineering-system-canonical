@@ -18,35 +18,42 @@ The lifecycle preserves native authority, honest unknown/error states, direct st
 
 **Current**
 
-The component-aligned bootstrap architecture is adopted. Plan 001 / Repository Context is **DELIVERED for its bounded external-consumer Slice 1 claim**.
+The component-aligned bootstrap architecture is adopted. Plan 001 / Repository Context is **DELIVERED for its bounded external-consumer Slice 1 claim**. [Plan 002 — Offline Policy-Decision Replay](../docs/plans/002_offline_policy_decision_replay.md) is the active **planned** vertical; it has not changed live policy behavior.
 
-- Decisions 0001–0009 define the convergence boundary, planning/profile strategy, provider-independent verification, and the current modular product-design posture.
-- At AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`, a fresh exact-revision verification batch against `data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` reported **15 passed**, real CLI `RESOLVED`, and a valid post-run batch on a clean repository.
-- The first A1 utility observation was `change`; that evidence caused a bounded projection correction rather than a new UI/platform build.
-- The exact corrected surface from the fresh bound run then received stakeholder response **"proceed"**, recorded as A1 `continue`.
-- Final characterization and gap recomputation preserve remaining broader AES gaps rather than treating this one delivered vertical as full-system maturity.
+- Decisions 0001–0009 define the convergence boundary, planning/profile strategy, provider-independent verification, and modular product-design posture.
+- Plan 001 closed with exact technical evidence and follow-up A1 `continue`; its final evidence remains under `evidence/plan-001/`.
+- Plan 002 retains Enforced Planning as the deterministic completion/verification authority and treats TypeSafe Jev only as a candidate typed evaluator behind a replaceable adapter.
+- The first Plan 002 decision is deliberately offline: compare one authentic event-time completion/verification decision against the incumbent control, produce a source-linked report, and decide whether Jev deserves a small shadow-only evaluation.
+- No live hooks, warnings, enforcement, context ranking, policy self-modification, or broad observability platform are authorized by Plan 002.
 
 **Gap**
 
-No Plan 001 closure gate remains. Remaining gaps are broader system-maturation questions such as repeated authority-preserving composition, prospective planning/execution custody, generalized policy/context delivery, and more mechanical current-state projection. They are explicitly deferred or narrowed in `docs/architecture/INITIAL_GAP_LEDGER.md`; they are not a reason to invent a next implementation project.
+Plan 001 leaves broader AES policy/evidence maturation deliberately unresolved. The selected Plan 002 outcome addresses only one bounded uncertainty: **whether contextual typed judgment adds decision value over an existing exact control on authentic AES completion/verification cases**. Provider availability, authentic replay-case custody, actual AES latency/cost, and disagreement quality remain unobserved.
 
 **Next**
 
-Execution coordination for this existing frontier is tracked in [Issue #17](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/17); the plan and architecture documents remain authoritative.
+Execution coordination: [Issue #20](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/20). The Plan 002 document remains the authority for scope, stop rules, and acceptance.
 
 ```text
-start from the freshly recomputed remaining gap state
+P0: locate >=5 authentic completion/verification decision events
+        +
+confirm authenticated TypeSafe/Jev model discovery
         ↓
-name one concrete human/product outcome
+freeze exact source refs + event-time context contract
         ↓
-derive the next component-specific design through Company Planning
+V1: replay one authentic case offline
+incumbent deterministic decision + Jev typed judgment
         ↓
-apply provider sourcing + ACA evidence through the normal AES workflow
+render source-linked JSON/static HTML
         ↓
-execute through Enforced Planning
+direct operator review: continue | change | stop
+        ↓
+V2: small frozen authentic case set
+        ↓
+provider disposition: adopt-for-shadow | revise | reject
 ```
 
-No next implementation vertical is authorized merely because Plan 001 closed. Historical research or ACA experiments are not fallback work queues.
+P0 is a real stop gate. If authentic cases cannot be reconstructed or Jev access is unavailable, preserve that evidence and do not build a substitute policy platform. Historical ACA experiments and the broad Jev proposal PRs remain research donors, not fallback execution queues.
 
 ## Modular product design in the engineering workflow
 
@@ -61,15 +68,16 @@ exact verification, utility, characterization, and gap-reconciliation evidence.
 
 ## Read in this order
 
-1. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — completed Plan 001 record, exact evidence state, A1 history, and closure decision.
-2. [`../docs/architecture/SYSTEM_BOUNDARY.md`](../docs/architecture/SYSTEM_BOUNDARY.md) — canonical AES target clauses and subsystem boundaries.
-3. [`../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — delivery, direct-use, uncertainty, feasibility, and attention-economics rules.
-4. [`../docs/architecture/README.md`](../docs/architecture/README.md) — architecture navigation, authority boundaries, and machine-readable bootstrap entrypoints.
-5. [`../docs/architecture/normative-component-alignment.bootstrap.yaml`](../docs/architecture/normative-component-alignment.bootstrap.yaml) — resolved bootstrap design record and next dogfood gate.
-6. [`../docs/architecture/aes-company-planning-profile.bootstrap.yaml`](../docs/architecture/aes-company-planning-profile.bootstrap.yaml) — AES-local planning profile and reproducible bootstrap checks.
-7. [`../docs/architecture/schemas/architecture-realization.bootstrap.schema.json`](../docs/architecture/schemas/architecture-realization.bootstrap.schema.json) — minimal architecture-realization contract.
-8. [`../docs/architecture/INITIAL_GAP_LEDGER.md`](../docs/architecture/INITIAL_GAP_LEDGER.md) — originating target/current variance; do not close rows merely because implementation work completed.
-9. [`../docs/decisions/`](../docs/decisions/) — accepted architecture/verification decisions, including Decision 0009's modular product-design integration. Decision 0007 is superseded by Decision 0008.
+1. [`../docs/plans/002_offline_policy_decision_replay.md`](../docs/plans/002_offline_policy_decision_replay.md) — active planned vertical, P0 blockers, offline replay boundary, provider decision, and stop rules.
+2. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — completed Plan 001 record and first-loop evidence.
+3. [`../docs/architecture/SYSTEM_BOUNDARY.md`](../docs/architecture/SYSTEM_BOUNDARY.md) — canonical AES target clauses and subsystem boundaries.
+4. [`../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — delivery, direct-use, uncertainty, feasibility, and attention-economics rules.
+5. [`../docs/architecture/README.md`](../docs/architecture/README.md) — architecture navigation, authority boundaries, and machine-readable bootstrap entrypoints.
+6. [`../docs/architecture/normative-component-alignment.bootstrap.yaml`](../docs/architecture/normative-component-alignment.bootstrap.yaml) — resolved bootstrap design record and next dogfood gate.
+7. [`../docs/architecture/aes-company-planning-profile.bootstrap.yaml`](../docs/architecture/aes-company-planning-profile.bootstrap.yaml) — AES-local planning profile and reproducible bootstrap checks.
+8. [`../docs/architecture/schemas/architecture-realization.bootstrap.schema.json`](../docs/architecture/schemas/architecture-realization.bootstrap.schema.json) — minimal architecture-realization contract.
+9. [`../docs/architecture/INITIAL_GAP_LEDGER.md`](../docs/architecture/INITIAL_GAP_LEDGER.md) — originating target/current variance; do not close rows merely because implementation work completed.
+10. [`../docs/decisions/`](../docs/decisions/) — accepted architecture/verification decisions, including Decision 0009's modular product-design integration. Decision 0007 is superseded by Decision 0008.
 
 ## Slice 1 in one picture
 
@@ -109,9 +117,10 @@ The surface must not invent a wiki, infer semantic authority from folder names, 
 - **Hosted regression CI** — optional/manual convenience only; funding or runner availability is not conformance evidence.
 - **Local/external execution** — first-class verification when fresh execution is required.
 - **Historical execution reuse** — claim-specific only when the complete transitive executed subject and relevant environment assumptions remain adequate under Decision 0008.
-- **Pinned external acceptance** — exact `data-contracts` checkout and real entrypoint behavior; current end-to-end acceptance requires one repaired fresh local run because the renderer changed after the earlier authentic execution.
-- **Stakeholder utility** — direct use and `continue | change | stop`.
-- **Gap closure** — fresh characterization plus target/current recomputation.
+- **Plan 001 pinned external acceptance** — complete at exact AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1` against the pinned `data-contracts` consumer; historical evidence stays revision-bound.
+- **Plan 002 policy replay** — offline only until a separate future plan authorizes any live intervention.
+- **Stakeholder utility** — direct use and explicit dispositions remain separate from automated verification/provider output.
+- **Gap closure** — fresh characterization plus target/current recomputation; a provider comparison does not close a gap by itself.
 
 A green automated check cannot prove the surface is useful. A useful surface cannot excuse missing or failed technical evidence.
 
