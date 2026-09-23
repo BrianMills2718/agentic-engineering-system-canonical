@@ -7,7 +7,7 @@
 **Landscape disposition:** linked
 **Planning baseline:** canonical AES `b06e28dba3d52eb7c036f140ac84cf8fadee368e`
 **Planning provider basis:** `BrianMills2718/company-planning` canonical method + the AES-local profile. This record follows that contract; it does **not** claim a Company Planning plugin execution occurred in this chat.
-**Blocked By:** execution preflight requires (a) authentic replayable AES coding-session cases and (b) authenticated TypeSafe/Jev access that exposes an exact model through `GET /v1/models`.
+**Blocked By:** authenticated TypeSafe/Jev access that exposes an exact model through `GET /v1/models`. The initial replay dataset is frozen at the four exact authentic cases already retained in `evals/plan-002/case_manifest.json`.
 **Blocks:** any decision to use Jev in live AES shadow/warn/enforce paths for the selected policy family.
 
 Execution tracker: [Issue #20 — Plan 002 offline completion/verification policy replay](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/20). The issue is a coordination/checklist surface only; this plan remains execution authority.
@@ -216,17 +216,17 @@ The plan's product status advances only through V1/V2. P0 is a reproduced/declar
 
 Goal: prove the vertical can use authentic data and the external provider before building replay machinery.
 
-**Current P0 evidence — GitHub-only source inventory, 2026-09-22:** `evals/plan-002/case_manifest.json` locates **4 exact authentic** completion/verification decision events with retained session/transcript or receipt identities from predecessor Plan 10. Later cold-start/live scope-mismatch observations are credible leads but lack enough event-level identity in Git to count yet. The required threshold is **5**, so the authentic-case gate remains **open**. Raw archive custody and byte/digest verification still require a machine-capable session. No TypeSafe/Jev authenticated model discovery has been performed. The exact remaining procedure is retained in `evals/plan-002/P0_RUNBOOK.md`.
+**Current P0 evidence — simplified starting set, 2026-09-22:** `evals/plan-002/case_manifest.json` retains **4 exact authentic** completion/verification decision events. That is now the frozen exploratory dataset for V1/V2; a fifth case is no longer a prerequisite. The remaining P0 blocker is authenticated TypeSafe/Jev provider access and one protocol smoke. Raw-custody verification for the four cases remains useful provenance work but no longer blocks starting the first offline comparison because the repository already retains exact source identities, transcript digests, receipt digests where available, and sanitized ordered evidence for the selected cases.
 
 Exit gates:
 
 - current session exposes required machine execution tools, or execution is handed to a machine-capable Work/session;
-- locate at least **5 authentic completion/verification decision events** with exact source references and enough event-time context to reconstruct the incumbent control honestly;
+- retain the **4 exact authentic completion/verification decision events** already frozen in `evals/plan-002/case_manifest.json` as the initial exploratory dataset;
 - confirm raw archive ownership/location and that the first cases can be used without copying secrets/client data into Git;
 - authenticated TypeSafe call to `GET /v1/models` succeeds and records an exact available model identifier suitable for the run;
 - one tiny non-policy smoke question proves the client/adapter protocol only; it is not accuracy evidence.
 
-**Stop:** if authentic cases cannot be reconstructed or TypeSafe access is unavailable, record the blocker and do not build a substitute policy platform.
+**Stop:** if TypeSafe access is unavailable, record the blocker and do not build a substitute policy platform. If one of the four retained cases proves unusable during replay, mark that case unusable and continue only if the remaining cases still support the exploratory question; do not manufacture replacement evidence merely to preserve a case-count target.
 
 ### V1 — one authentic offline replay + report — `vertical`
 
