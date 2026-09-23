@@ -126,7 +126,7 @@ If only a raw hook-invocation record survives, retain its path/digest and the ex
 
 ### 2.3 Verify event-time reconstruction
 
-For the fifth case, retain only the minimum facts needed to demonstrate:
+For any optionally promoted additional case, retain only the minimum facts needed to demonstrate:
 
 - exact session identity;
 - exact transcript digest;
