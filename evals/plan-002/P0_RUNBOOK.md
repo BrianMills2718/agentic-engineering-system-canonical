@@ -246,7 +246,6 @@ jq -e '
 ' "$OUT/smoke-response.json" >/dev/null
 
 jq '{
-  requested_model: input_filename as $unused | null,
   response_model: .model,
   answer_type: .answers.probe_present.type,
   noul_probability: .answers.probe_present.noul,
