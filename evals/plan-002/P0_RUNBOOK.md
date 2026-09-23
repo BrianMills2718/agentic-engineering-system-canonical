@@ -209,14 +209,14 @@ jq '.data | map({id, name, supported_parameters})' "$OUT/models.json"
 sha256sum "$OUT/key.json" "$OUT/models.json"
 ```
 
-Select one explicit model ID from the current catalog whose `supported_parameters` includes the structured-output capability required by the adapter. Record the ID; do not let the experiment choose a model automatically.
+Use the first-run model pinned by Plan 002: `openai/gpt-6-luna`. Confirm the current catalog still advertises `response_format` and `structured_outputs` before the smoke. If that contract has changed, stop and revise the plan rather than silently substituting another model.
 
 ### 4.2 Protocol-only structured-output smoke
 
 Set the selected model ID explicitly:
 
 ```bash
-MODEL='<explicit-author/model-id>'
+MODEL='openai/gpt-6-luna'
 
 jq -n --arg model "$MODEL" '{
   model: $model,
