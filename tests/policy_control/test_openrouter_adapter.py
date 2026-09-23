@@ -148,6 +148,7 @@ def test_evaluator_sends_only_event_time_state_with_strict_schema() -> None:
     assert result.requested_model == DEFAULT_PLAN002_MODEL
     assert result.response_model == "openai/gpt-6-luna-20260922"
     assert result.answer == "unsupported"
+    assert result.rationale == "No pre-decision test evidence was supplied."
     assert result.usage is not None
     assert result.usage.input_tokens == 120
     assert result.usage.output_tokens == 14
