@@ -175,95 +175,111 @@ test "$(sha256sum "$RECEIPT" | awk '{print $1}')" = "<manifest receipt_sha256>"
 
 If an original temporary receipt no longer exists but a sanitized repository projection preserved its exact source digest and decision payload, record the custody limitation honestly. P0 needs replayable authentic decision evidence; it does not require resurrecting deleted `/tmp` paths.
 
-## 4. TypeSafe/Jev authenticated provider preflight
+## 4. OpenRouter authenticated provider preflight
 
-Current official TypeSafe API documentation says:
+OpenRouter's current API uses Bearer authentication at `https://openrouter.ai/api/v1`. Plan 002 uses one **explicit** model ID; do not use `openrouter/auto`, `models` fallback arrays, or another routing layer for the first experiment because the compared evaluator identity must stay inspectable.
 
-- authenticate with `Authorization: Bearer <API_KEY>`;
-- discover account-available names with `GET /v1/models`;
-- evaluate state with `POST /v1/systemone`;
-- requests contain `state`, `model`, and named typed `questions`.
+The selected model/provider route must honor JSON-schema structured output. The smoke proves only authentication and protocol compatibility, not evaluator quality.
 
 Never commit or echo the key.
 
-### 4.1 Discover models
+### 4.1 Confirm the key and catalog access
 
 ```bash
 set -euo pipefail
-: "${TYPESAFE_API_KEY:?TYPESAFE_API_KEY must be set outside Git}"
+: "${OPENROUTER_API_KEY:?OPENROUTER_API_KEY must be set outside Git}"
 
 OUT="$(mktemp -d)"
 chmod 700 "$OUT"
 
 curl --fail-with-body --silent --show-error \
-  https://api.typesafe.ai/v1/models \
-  -H "Authorization: Bearer ${TYPESAFE_API_KEY}" \
+  https://openrouter.ai/api/v1/key \
+  -H "Authorization: Bearer ${OPENROUTER_API_KEY}" \
+  -H 'Accept: application/json' \
+  > "$OUT/key.json"
+
+curl --fail-with-body --silent --show-error \
+  https://openrouter.ai/api/v1/models \
+  -H "Authorization: Bearer ${OPENROUTER_API_KEY}" \
   -H 'Accept: application/json' \
   > "$OUT/models.json"
 
-jq -e '.models | type == "array" and length > 0' "$OUT/models.json" >/dev/null
-jq '.models | map({name, description, release_date})' "$OUT/models.json"
-sha256sum "$OUT/models.json"
+jq -e '.data | type == "array" and length > 0' "$OUT/models.json" >/dev/null
+jq '.data | map({id, name, supported_parameters})' "$OUT/models.json"
+sha256sum "$OUT/key.json" "$OUT/models.json"
 ```
 
-Choose one returned model name for the protocol smoke. The first smoke is not an accuracy test.
+Select one explicit model ID from the current catalog whose `supported_parameters` includes the structured-output capability required by the adapter. Record the ID; do not let the experiment choose a model automatically.
 
-### 4.2 Protocol-only smoke request
+### 4.2 Protocol-only structured-output smoke
 
-Use a trivial state unrelated to any real policy case:
+Set the selected model ID explicitly:
 
 ```bash
-MODEL="$(jq -r '.models[0].name' "$OUT/models.json")"
+MODEL='<explicit-author/model-id>'
 
 jq -n --arg model "$MODEL" '{
-  state: {
-    probe: "plan002-protocol-smoke",
-    purpose: "verify TypeSafe request/response plumbing only"
-  },
   model: $model,
-  questions: {
-    probe_present: {
-      type: "noul",
-      instructions: "Does the state contain the exact probe value plan002-protocol-smoke?",
-      criteria: {
-        true: "The exact probe value is present.",
-        false: "The exact probe value is absent."
+  messages: [
+    {
+      role: "user",
+      content: "Classify this protocol smoke. Return only the required structured object. Statement: the probe value is present."
+    }
+  ],
+  response_format: {
+    type: "json_schema",
+    json_schema: {
+      name: "aes_plan002_smoke",
+      strict: true,
+      schema: {
+        type: "object",
+        properties: {
+          judgment: {
+            type: "string",
+            enum: ["supported", "unsupported", "insufficient"]
+          },
+          rationale: {type: "string"}
+        },
+        required: ["judgment", "rationale"],
+        additionalProperties: false
       }
     }
-  }
+  },
+  provider: {
+    require_parameters: true
+  },
+  temperature: 0
 }' > "$OUT/smoke-request.json"
 
 curl --fail-with-body --silent --show-error \
-  https://api.typesafe.ai/v1/systemone \
-  -H "Authorization: Bearer ${TYPESAFE_API_KEY}" \
+  https://openrouter.ai/api/v1/chat/completions \
+  -H "Authorization: Bearer ${OPENROUTER_API_KEY}" \
   -H 'Content-Type: application/json' \
   --data-binary @"$OUT/smoke-request.json" \
   > "$OUT/smoke-response.json"
 
 jq -e '
   (.model | type == "string" and length > 0)
-  and (.answers.probe_present.type == "noul")
-  and (.answers.probe_present.noul | type == "number")
-  and (.answers.probe_present.noul >= 0 and .answers.probe_present.noul <= 1)
-  and (.usage.input_tokens | type == "number")
-  and (.usage.output_tokens | type == "number")
+  and (.choices[0].message.content | type == "string" and length > 0)
+  and (.usage.prompt_tokens | type == "number")
+  and (.usage.completion_tokens | type == "number")
 ' "$OUT/smoke-response.json" >/dev/null
 
-jq '{
-  response_model: .model,
-  answer_type: .answers.probe_present.type,
-  noul_probability: .answers.probe_present.noul,
-  usage: .usage
-}' "$OUT/smoke-response.json"
+CONTENT="$(jq -r '.choices[0].message.content' "$OUT/smoke-response.json")"
+printf '%s' "$CONTENT" | jq -e '
+  (.judgment == "supported" or .judgment == "unsupported" or .judgment == "insufficient")
+  and (.rationale | type == "string")
+' >/dev/null
 
 printf 'requested_model=%s\n' "$MODEL"
 printf 'response_model=%s\n' "$(jq -r '.model' "$OUT/smoke-response.json")"
+jq '{model, usage}' "$OUT/smoke-response.json"
 sha256sum "$OUT/smoke-request.json" "$OUT/smoke-response.json"
 ```
 
-The exact response fields above are current OpenAPI requirements for a Noul answer: `type="noul"` plus a numeric `noul` probability in `[0,1]`, with request usage returned separately. The response's `.model` may differ from the requested alias, so retain **both** `requested_model` and `response_model`; do not infer a hidden immutable version.
+Retain both the requested model ID and the response `.model` value. Also retain the provider-reported usage/cost fields when present.
 
-This call proves only authentication, schema/protocol compatibility, and one successful provider response. It is **not** evidence that Jev is accurate enough for Plan 002.
+This call proves only authentication, structured-output compatibility, and one successful provider response. It is **not** evidence that the selected model improves AES decisions.
 
 ## 5. Durable P0 closeout record
 
@@ -283,7 +299,7 @@ The P0 evidence record should contain metadata/digests only:
   "authentic_case_count": 4,
   "case_manifest_sha256": "...",
   "raw_custody_checked": true,
-  "typesafe_models_response_sha256": "...",
+  "openrouter_models_response_sha256": "...",
   "requested_model": "...",
   "response_model": "...",
   "smoke_request_sha256": "...",
