@@ -18,55 +18,35 @@ The lifecycle preserves native authority, honest unknown/error states, direct st
 
 **Current**
 
-The component-aligned bootstrap architecture is adopted, and this branch has been refreshed onto that architecture.
+The component-aligned bootstrap architecture is adopted. Plan 001 / Repository Context is **DELIVERED for its bounded external-consumer Slice 1 claim**.
 
-- Decisions 0001–0008 define the convergence boundary, Company Planning profile strategy, component/context rules, compact normative-record direction, consequential-seam typing, minimal architecture-realization contract, and the corrected provider-independent verification boundary.
-- All twelve bootstrap AQRs are resolved to explicit decisions.
-- Existing accepted Markdown remains normative authority until an explicit single-authority migration.
-- Generated bootstrap projections remain non-authoritative dogfood/probe artifacts.
-- Reserved component/test homes remain topology only.
-
-Plan 001 / Repository Context is **implementation partial** on this branch. D1 is closed. The branch contains the repository-context package, CLI, exact Git/revision adapter, authoritative pilot-manifest and bounded-legacy resolution, typed artifact, deterministic JSON/static HTML projection, focused tests, and installed execution-governance machinery.
-
-Authentic technical execution has been observed on prior exact revisions: governed-repo audit, focused checks, exact pinned external-consumer check, real CLI run, and deterministic artifacts. The first direct stakeholder A1 returned `change` because the HTML required too much reconstruction. A bounded projection-only correction followed.
-
-No delivery or gap-closure claim has been made.
+- Decisions 0001–0009 define the convergence boundary, planning/profile strategy, provider-independent verification, and the current modular product-design posture.
+- At AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`, a fresh exact-revision verification batch against `data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` reported **15 passed**, real CLI `RESOLVED`, and a valid post-run batch on a clean repository.
+- The first A1 utility observation was `change`; that evidence caused a bounded projection correction rather than a new UI/platform build.
+- The exact corrected surface from the fresh bound run then received stakeholder response **"proceed"**, recorded as A1 `continue`.
+- Final characterization and gap recomputation preserve remaining broader AES gaps rather than treating this one delivered vertical as full-system maturity.
 
 **Gap**
 
-Post-integration characterization and the initial gap-ledger recomputation now exist for canonical `main@320991b96a3e3aaa15aa8ba05817a7eee1c52603`.
-
-Before Plan 001 can be treated as delivered:
-
-- run the repaired focused suite, pinned private `data-contracts` test, and real CLI locally at one exact clean revision; Decision 0008 requires this because the current CLI/pinned path transitively executes the renderer changed after the earlier authentic run;
-- bind that verification to the exact revision with the incumbent Enforced Planning verification-batch mechanism;
-- keep hosted CI out of the acceptance path while funding is unavailable;
-- directly review the corrected human-facing presentation through the separate Representation Router workstream;
-- refresh characterization/gap state again only if those observations materially change current state.
+No Plan 001 closure gate remains. Remaining gaps are broader system-maturation questions such as repeated authority-preserving composition, prospective planning/execution custody, generalized policy/context delivery, and more mechanical current-state projection. They are explicitly deferred or narrowed in `docs/architecture/INITIAL_GAP_LEDGER.md`; they are not a reason to invent a next implementation project.
 
 **Next**
 
 Execution coordination for this existing frontier is tracked in [Issue #17](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/17); the plan and architecture documents remain authoritative.
 
 ```text
-run repaired focused + pinned-consumer + real CLI verification locally
+start from the freshly recomputed remaining gap state
         ↓
-bind the verification command/result to the exact clean revision
+name one concrete human/product outcome
         ↓
-keep hosted CI optional/manual rather than an acceptance gate
+derive the next component-specific design through Company Planning
         ↓
-keep follow-up presentation work separate until a reviewable surface returns
+apply provider sourcing + ACA evidence through the normal AES workflow
         ↓
-follow-up A1: directly use it and record continue | change | stop
-        ↓
-refresh characterization/gap state only if those observations materially change it
-        ↓
-perform final Plan 001 closure/reconciliation
-        ↓
-derive the next real component-specific design only from the resulting gap state
+execute through Enforced Planning
 ```
 
-PR #5 was integrated into canonical `main` as implementation-partial under an explicit integration-readiness record; merge status is not delivery evidence.
+No next implementation vertical is authorized merely because Plan 001 closed. Historical research or ACA experiments are not fallback work queues.
 
 ## Modular product design in the engineering workflow
 
@@ -76,12 +56,12 @@ through the existing Company Planning profile and Enforced Planning workflow.
 Adopt existing foundations, preserve cohesive reusable behavior, keep product
 policy and adapters local, and verify actual product behavior and compatibility.
 ACA's existing capabilities/evidence remain with their owners; no parallel ACA
-platform or benchmark programme is required. This policy integration does not
-close Plan 001 or change its verification/utility frontier.
+platform or benchmark programme is required. Plan 001 is now closed by separate
+exact verification, utility, characterization, and gap-reconciliation evidence.
 
 ## Read in this order
 
-1. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — active Plan 001 execution contract, evidence state, A1, and stop/replan conditions.
+1. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — completed Plan 001 record, exact evidence state, A1 history, and closure decision.
 2. [`../docs/architecture/SYSTEM_BOUNDARY.md`](../docs/architecture/SYSTEM_BOUNDARY.md) — canonical AES target clauses and subsystem boundaries.
 3. [`../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — delivery, direct-use, uncertainty, feasibility, and attention-economics rules.
 4. [`../docs/architecture/README.md`](../docs/architecture/README.md) — architecture navigation, authority boundaries, and machine-readable bootstrap entrypoints.
@@ -89,7 +69,7 @@ close Plan 001 or change its verification/utility frontier.
 6. [`../docs/architecture/aes-company-planning-profile.bootstrap.yaml`](../docs/architecture/aes-company-planning-profile.bootstrap.yaml) — AES-local planning profile and reproducible bootstrap checks.
 7. [`../docs/architecture/schemas/architecture-realization.bootstrap.schema.json`](../docs/architecture/schemas/architecture-realization.bootstrap.schema.json) — minimal architecture-realization contract.
 8. [`../docs/architecture/INITIAL_GAP_LEDGER.md`](../docs/architecture/INITIAL_GAP_LEDGER.md) — originating target/current variance; do not close rows merely because implementation work completed.
-9. [`../docs/decisions/0001-canonical-convergence-boundary.md`](../docs/decisions/0001-canonical-convergence-boundary.md) through [`../docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md`](../docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md) — accepted architecture/verification decisions and rationale. Decision 0007 is superseded.
+9. [`../docs/decisions/`](../docs/decisions/) — accepted architecture/verification decisions, including Decision 0009's modular product-design integration. Decision 0007 is superseded by Decision 0008.
 
 ## Slice 1 in one picture
 

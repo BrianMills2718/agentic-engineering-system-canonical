@@ -1,6 +1,6 @@
 # Plan 001 — Repository context resolution vertical
 
-Status: **implementation partial; pinned acceptance test repaired; fresh local end-to-end verification and follow-up utility review pending; post-integration characterization/gap recomputation complete**
+Status: **DELIVERED for bounded Slice 1 at verified AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`; final technical verification and follow-up A1 = `continue` recorded 2026-09-22**
 Origin gaps: GAP-AES-001, 002, 003, 004, 005, 006, 007, 009, 010, 011, 013, 014, 015, 017, 019, 020, 021, 022, 023, 024, 025, 026, 027
 External consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`
 Execution profile: pilot
@@ -245,7 +245,7 @@ D1 froze:
 
 D1 closes no originating gap. Its return path is Slice 1.
 
-### Slice 1 — external repository context resolution — IMPLEMENTATION PARTIAL / FOLLOW-UP A1 PENDING
+### Slice 1 — external repository context resolution — DELIVERED
 
 Execution tracker: [Issue #17 — Plan 001 closure](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/17). The issue is a coordination surface for the already-frozen technical verification, follow-up utility observation, and final reconciliation gates; this plan remains the execution authority.
 
@@ -264,8 +264,9 @@ Execution tracker: [Issue #17 — Plan 001 closure](https://github.com/BrianMill
 - pinned-test repair: stale assertions tied to the pre-A1 renderer wording were updated to the corrected semantic warnings;
 - provider boundary: generic exact-revision verification batching remains owned by Enforced Planning; AES uses that provider rather than defining a parallel generic verification mechanism;
 - hosted CI disposition: GitHub Actions funding is exhausted, automatic workflow triggers are disabled, and hosted CI is not a Plan 001 acceptance gate;
-- evidence still outstanding for delivery: one fresh local/external run of the repaired focused suite + pinned private consumer + real CLI, followed separately by direct utility review of the corrected presentation;
-- done-when: current end-to-end technical evidence is observed at an exact clean revision, the intended reviewer has directly used the corrected presentation enough to disposition `continue | change | stop`, and those observations reveal no unaddressed Plan 001 closure gap.
+- fresh closure evidence: at AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`, the repository-context suite reported **15 passed**, the exact pinned consumer resolved through the real CLI, and the Enforced Planning verification batch remained valid on a clean repository;
+- follow-up A1: the exact generated surface was reviewed and the stakeholder replied **"proceed"**, recorded as `continue`;
+- done-when: **satisfied for this bounded Slice 1 claim**. Broader AES gaps remain separately tracked and are not closed by this plan.
 
 ### Attention checkpoint A1 — first utility observation
 
@@ -308,8 +309,8 @@ Current verification status:
 - technical execution has been observed locally, including the exact pinned external-consumer check and real CLI run;
 - Decision 0008 retains historical evidence only for narrower unchanged subclaims; it does not carry current CLI/pinned end-to-end acceptance across the changed renderer;
 - GitHub Actions is optional/manual hosted convenience and is currently unavailable due funding; it is neither required nor counted as a failure;
-- the repaired pinned external-consumer test plus real CLI are required once locally for the current end-to-end claim;
-- first A1 direct-use evidence is retained with disposition `change`; follow-up utility review of the corrected presentation remains pending.
+- the repaired pinned external-consumer test plus real CLI were executed at exact AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`; the bound run reported **15 passed** and CLI `RESOLVED`;
+- first A1 direct-use evidence remains `change`; follow-up A1 at `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1` is `continue`.
 
 Acceptance mapping:
 
@@ -385,4 +386,8 @@ Replan rather than forcing implementation if:
 
 ## Closure claim
 
-This plan may claim `DELIVERED` only when the external canonical example and negative controls have been observed through the real entrypoint, required evidence is adequate, the intended reviewer has directly used the source-bound surface, automated and stakeholder evidence remain separate, and fresh gap recomputation shows which originating gaps are closed or narrowed.
+**DELIVERED for the bounded Repository Context Slice 1 claim at AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`.**
+
+The external canonical example and negative controls were observed through the real entrypoint, the exact technical batch passed and remained revision-bound, the corrected source-bound surface received a follow-up `continue` utility disposition, and the gap ledger was recomputed without treating plan completion as full-system conformance.
+
+This closure does not authorize the next implementation vertical automatically. The next component-specific design must come from the fresh remaining gap state and a concrete outcome.

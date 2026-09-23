@@ -95,7 +95,7 @@ The roots declared in `.agentic/repo.yaml` are a pilot contract. If the contract
 
 - `wiki/index.md` — progressive-disclosure navigation only; follow links to native authority.
 - `.agentic/repo.yaml` — repository protocol, active frontier, selected providers, and concern roots.
-- `docs/plans/001_repository_context_resolution_vertical.md` — active Plan 001 / Slice 1 execution contract.
+- `docs/plans/001_repository_context_resolution_vertical.md` — completed Plan 001 / Repository Context Slice 1 record and closure evidence.
 - `docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md` - AES-local modular-design integration, existing owner boundaries, and the stop rule for standalone ACA work.
 - `docs/architecture/SYSTEM_BOUNDARY.md` — AES-specific normative target.
 - `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md` — actor-surface and attention-economics constraints.

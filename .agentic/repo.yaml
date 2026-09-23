@@ -26,8 +26,9 @@ planning:
   execution_governance_provider_repository: BrianMills2718/enforced-planning
   execution_governance_provider_revision: 3fd1ff4465ed50613a8b9fcc86d7d0f282322d60
   execution_governance_install_provenance: evidence/provider-provenance/enforced-planning-install-2026-09-18.json
-  active_plan: docs/plans/001_repository_context_resolution_vertical.md
-  active_frontier: PLAN-001/Slice-1-local-verification-followup-utility-final-closure
+  active_plan: null
+  last_completed_plan: docs/plans/001_repository_context_resolution_vertical.md
+  active_frontier: next-component-design-from-fresh-gap-state
   bootstrap_architecture_revision: 45fa215dd977e2ab44338465d36ac37756f14e53
   bootstrap_alignment: docs/architecture/normative-component-alignment.bootstrap.yaml
   architecture_realization_profile: docs/architecture/aes-company-planning-profile.bootstrap.yaml
@@ -71,16 +72,13 @@ implementation:
   surface_renderer: src/agentic_engineering_system/repository_context/render_html.py
   surface_output: generated/repository-context/<repository-id>/<revision>/index.html
   note: >-
-    Slice 1 implementation subjects exist and the branch has been refreshed onto
-    the adopted bootstrap architecture. Prior authentic technical execution,
-    including the pinned external consumer, was observed on exact pre-refresh
-    revisions; the first A1 returned change. Canonical main now has a
-    revision-bound post-integration characterization and recomputed initial gap
-    ledger. Decision 0008 supersedes the earlier blob-only carry-forward rule:
-    the changed renderer is transitively executed by the CLI and pinned-consumer
-    path, so one repaired fresh local end-to-end verification run is required.
-    Follow-up utility review remains independently outstanding. Do not treat
-    PARTIAL as conformant or delivered.
+    The broader AES implementation remains PARTIAL. Within it, Plan 001 /
+    Repository Context Slice 1 is delivered for its bounded claim. At exact AES
+    revision 96fcf5e89ba98ad9ff278ec536a98c308cda3fe1, a fresh local verification
+    batch executed the repository-context suite against the pinned external
+    consumer and the real CLI: 15 tests passed, CLI resolution was RESOLVED,
+    and the frozen batch remained valid on a clean repository. The corrected
+    surface then received follow-up stakeholder disposition continue.
 
 verification:
   roots:
@@ -93,11 +91,12 @@ verification:
   canonical_external_test: tests/repository_context/test_data_contracts_pinned.py
   planned_evidence_root: evidence/plan-001/
   note: >-
-    Focused and pinned external checks were authentically observed on a prior
-    revision, but current CLI/pinned end-to-end behavior executes the renderer
-    changed after that run. A stale pinned-test wording assertion was repaired.
-    Fresh local/external focused + pinned + CLI verification is required at one
-    exact clean revision. Hosted CI is not an acceptance gate.
+    Broader AES verification remains PARTIAL. Plan 001 / Repository Context
+    technical acceptance completed at exact AES revision
+    96fcf5e89ba98ad9ff278ec536a98c308cda3fe1: the full repository-context suite,
+    including the pinned external consumer, reported 15 passed and the real CLI
+    resolved the consumer. Enforced Planning's verification-batch check remained
+    active and valid afterward. Hosted CI is not an acceptance gate.
 
 relationships:
   source: .agentic/relationships.yaml
