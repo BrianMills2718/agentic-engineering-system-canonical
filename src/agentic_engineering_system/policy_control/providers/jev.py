@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import http.client
 import json
 import time
 import urllib.error
 import urllib.request
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Protocol
 
 from ..models import (
@@ -65,14 +66,20 @@ class UrllibJsonTransport:
             with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
                 raw = response.read()
         except urllib.error.HTTPError as exc:
-            body = exc.read().decode("utf-8", errors="replace")
-            raise JevUnavailableError(f"TypeSafe HTTP {exc.code}: {body[:500]}") from exc
-        except urllib.error.URLError as exc:
-            raise JevUnavailableError(f"TypeSafe request failed: {exc.reason}") from exc
+            # Error bodies may echo private request state. Persist only the status.
+            status = exc.code
+            exc.close()
+            raise JevUnavailableError(f"TypeSafe HTTP {status}") from None
+        except (OSError, http.client.HTTPException) as exc:
+            # Covers socket/read timeouts as well as URL and connection failures.
+            # Exception text may contain request details; retain only its type.
+            raise JevUnavailableError(
+                f"TypeSafe transport unavailable: {type(exc).__name__}"
+            ) from None
         try:
             decoded = json.loads(raw)
-        except json.JSONDecodeError as exc:
-            raise JevProtocolError("TypeSafe response was not valid JSON") from exc
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            raise JevProtocolError("TypeSafe response was not valid JSON") from None
         if not isinstance(decoded, dict):
             raise JevProtocolError("TypeSafe response must be a JSON object")
         return decoded
@@ -80,7 +87,7 @@ class UrllibJsonTransport:
 
 @dataclass(frozen=True)
 class JevClient:
-    api_key: str
+    api_key: str = field(repr=False)
     timeout_seconds: float = 30.0
     transport: JsonTransport = UrllibJsonTransport()
     api_root: str = API_ROOT
@@ -178,9 +185,11 @@ class JevClient:
             probability = answer.get("noul")
             if not isinstance(probability, (int, float)) or isinstance(probability, bool):
                 raise JevProtocolError("TypeSafe Noul probability must be numeric")
-            probability = float(probability)
-            if probability < 0.0 or probability > 1.0:
+            # The positive range test also rejects NaN; validate before coercion
+            # so an oversized JSON integer cannot overflow during conversion.
+            if not 0.0 <= probability <= 1.0:
                 raise JevProtocolError("TypeSafe Noul probability must be between 0 and 1")
+            probability = float(probability)
             if not isinstance(usage, dict):
                 raise JevProtocolError("TypeSafe usage must be an object")
             input_tokens = usage.get("input_tokens")
