@@ -216,7 +216,7 @@ The plan's product status advances only through V1/V2. P0 is a reproduced/declar
 
 Goal: prove the vertical can use authentic data and the external provider before building replay machinery.
 
-**Current P0 evidence — GitHub-only source inventory, 2026-09-22:** `evals/plan-002/case_manifest.json` locates **4 exact authentic** completion/verification decision events with retained session/transcript or receipt identities from predecessor Plan 10. Three later cold-start observations are credible leads but lack enough event-level identity in Git to count yet. The required threshold is **5**, so the authentic-case gate remains **open**. Raw archive custody and byte/digest verification still require a machine-capable session. No TypeSafe/Jev authenticated model discovery has been performed.
+**Current P0 evidence — GitHub-only source inventory, 2026-09-22:** `evals/plan-002/case_manifest.json` locates **4 exact authentic** completion/verification decision events with retained session/transcript or receipt identities from predecessor Plan 10. Later cold-start/live scope-mismatch observations are credible leads but lack enough event-level identity in Git to count yet. The required threshold is **5**, so the authentic-case gate remains **open**. Raw archive custody and byte/digest verification still require a machine-capable session. No TypeSafe/Jev authenticated model discovery has been performed. The exact remaining procedure is retained in `evals/plan-002/P0_RUNBOOK.md`.
 
 Exit gates:
 
