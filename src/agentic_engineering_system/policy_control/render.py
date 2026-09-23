@@ -97,6 +97,7 @@ code {{ overflow-wrap: anywhere; }}
 <td>{esc(cost)}</td>
 </tr>
 </table>
+<p><strong>Model rationale:</strong> {esc(candidate.rationale)}</p>
 {provider_error}
 <h2>Event-time evidence supplied to evaluator</h2>
 <table>
