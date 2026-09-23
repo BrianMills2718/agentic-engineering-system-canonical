@@ -37,9 +37,9 @@ Execution coordination: [Issue #20](https://github.com/BrianMills2718/agentic-en
 ```text
 4 authentic completion/verification cases frozen
         +
-confirm authenticated TypeSafe/OpenRouter model model discovery
+confirm authenticated OpenRouter access + one explicit compatible model
         ↓
-protocol-only Noul smoke
+protocol-only structured-output smoke
         ↓
 freeze first V1 case + event-time context contract
         ↓
