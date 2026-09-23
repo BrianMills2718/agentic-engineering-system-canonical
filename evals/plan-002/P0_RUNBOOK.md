@@ -211,6 +211,13 @@ sha256sum "$OUT/key.json" "$OUT/models.json"
 
 Use the first-run model pinned by Plan 002: `openai/gpt-6-luna`. Confirm the current catalog still advertises `response_format` and `structured_outputs` before the smoke. If that contract has changed, stop and revise the plan rather than silently substituting another model.
 
+Do not add optional sampling parameters merely to make the smoke look deterministic. On
+2026-09-23 the model catalog and eligible OpenAI/Azure endpoints advertised
+`response_format`, `structured_outputs`, and `seed`, but not `temperature`. With
+`provider.require_parameters: true`, sending `temperature` filtered out every endpoint
+and produced a routing 404 even though the required structured-output contract remained
+available. The smoke must request only parameters required by the evaluator contract.
+
 ### 4.2 Protocol-only structured-output smoke
 
 Set the selected model ID explicitly:
@@ -247,8 +254,7 @@ jq -n --arg model "$MODEL" '{
   },
   provider: {
     require_parameters: true
-  },
-  temperature: 0
+  }
 }' > "$OUT/smoke-request.json"
 
 curl --fail-with-body --silent --show-error \
