@@ -1,0 +1,368 @@
+schema_version: aes.v0_2.semantic_instance.candidate.v0
+status: proposal_non_normative
+subject: AES-v0.2-Greenfield-MVP
+model: 02-semantic-model.candidate.yaml
+
+stage: target_before_realization_planning
+nonclaim: >
+  This instance tests whether the semantic model can express the accepted
+  Greenfield-MVP product target. It does not select provider bindings,
+  realization units, repository topology, verification subjects, or
+  implementation.
+
+outcomes:
+  - id: OUT-GF-001
+    statement: >
+      A colleague can start a genuinely new software project under AES governance,
+      move from accepted intent through planned realization and implementation to
+      evidence-backed current/gap state, and do so without access to private
+      historical repositories or undocumented AES lineage knowledge.
+    actor_or_consumer: software_engineer_or_engineering_agent
+    non_goals:
+      - retrofit_arbitrary_existing_repository
+      - universal_language_support
+      - universal_framework_abstraction
+      - organization_portfolio_orchestration
+
+normative_items:
+  - id: GF-REQ-001
+    kind: constraint
+    outcome_refs: [OUT-GF-001]
+    statement: >
+      The supported AES distribution and its required dependencies must be
+      obtainable and documented without access to Brian's private historical
+      repositories.
+
+  - id: GF-REQ-002
+    kind: behavior
+    outcome_refs: [OUT-GF-001]
+    statement: >
+      Before governed implementation begins, AES must represent accepted
+      normative obligations, success/disproof semantics, and what evidence is
+      capable of establishing each exercised criterion.
+
+  - id: GF-REQ-003
+    kind: invariant
+    outcome_refs: [OUT-GF-001]
+    statement: >
+      Every durable governed repository artifact must be justified by an accepted
+      exact planned path or a bounded accepted artifact-generation rule.
+
+  - id: GF-REQ-004
+    kind: behavior
+    outcome_refs: [OUT-GF-001]
+    statement: >
+      AES planning must derive accepted capability requirements, realization
+      boundaries, durable repository topology, selected load-bearing symbol
+      commitments where needed, and criterion-linked verification topology before
+      governed execution of those commitments.
+
+  - id: GF-REQ-005
+    kind: behavior
+    outcome_refs: [OUT-GF-001]
+    statement: >
+      The working context for a governed subject must contain the full applicable
+      normative, success and disproof meaning with provenance rather than requiring
+      the acting agent to dereference identifiers before understanding its
+      obligations.
+
+  - id: GF-REQ-006
+    kind: behavior
+    outcome_refs: [OUT-GF-001]
+    statement: >
+      AES must produce revision-bound structured characterization of the realized
+      repository sufficient to compare accepted artifact and selected
+      symbol/signature/type commitments with realized state.
+
+  - id: GF-REQ-007
+    kind: invariant
+    outcome_refs: [OUT-GF-001]
+    statement: >
+      Observation result, evidence freshness, evidence adequacy, qualified current,
+      gap, and plan completion must remain semantically distinct.
+
+  - id: GF-REQ-008
+    kind: behavior
+    outcome_refs: [OUT-GF-001]
+    statement: >
+      AES must derive qualified current state and gap state from accepted target
+      plus revision-bound realized observations and evidence assessments, preserving
+      missing, stale, error, contradictory and insufficient-evidence conditions
+      rather than rendering them green.
+
+  - id: GF-REQ-009
+    kind: constraint
+    outcome_refs: [OUT-GF-001]
+    statement: >
+      Greenfield-MVP acceptance must be established on a genuinely fresh consumer
+      project governed by AES from inception; success on AES canonical's existing
+      repository alone is insufficient.
+
+success_criteria:
+  - id: SC-GF-001
+    target_refs: [OUT-GF-001, GF-REQ-001]
+    statement: >
+      A fresh user with no access to Brian's other private repositories can
+      install/configure the supported AES distribution and initialize a new
+      governed project using only distributed material and declared dependencies.
+    disproof: >
+      Successful initialization requires copying undeclared files, private-repo
+      access, or undocumented historical knowledge.
+    evidence_requirements:
+      - id: ER-SC-GF-001-01
+        kind: external_consumer_observation
+        requirement: >
+          A clean-user run from the supported distribution and documented
+          dependencies reaches initialized governed-project state without private
+          repository access.
+
+  - id: SC-GF-002
+    target_refs: [GF-REQ-002]
+    statement: >
+      Before governed implementation, every exercised normative item is linked to
+      explicit success/disproof semantics and each exercised criterion states what
+      evidence can establish it.
+    disproof: >
+      An implemented obligation exists only in conversation, code, or an unowned
+      checklist, or a criterion has no evidence requirement.
+    evidence_requirements:
+      - id: ER-SC-GF-002-01
+        kind: contract_validation
+        requirement: >
+          Validate the accepted target model for resolvable normative-to-criterion
+          and criterion-to-evidence-requirement links.
+
+  - id: SC-GF-003
+    target_refs: [GF-REQ-003, GF-REQ-004]
+    statement: >
+      The accepted realization topology accounts for every durable governed
+      artifact by exact path or bounded accepted generation rule and gives every
+      artifact a semantic purpose.
+    disproof: >
+      A durable governed artifact can exist without an accepted exact path,
+      applicable bounded generation rule, or semantic justification.
+    evidence_requirements:
+      - id: ER-SC-GF-003-01
+        kind: deterministic_test
+        requirement: >
+          A repository-topology check rejects an intentionally introduced orphan
+          durable artifact.
+      - id: ER-SC-GF-003-02
+        kind: deterministic_test
+        requirement: >
+          The same check accepts the unchanged planned topology and correctly
+          handles at least one bounded generation rule if the authentic consumer
+          naturally requires such a rule.
+
+  - id: SC-GF-004
+    target_refs: [GF-REQ-004]
+    statement: >
+      Before governed execution, each exercised evidence requirement is mapped to
+      a concrete verification subject or an explicit external/human observation
+      boundary.
+    disproof: >
+      Implementation starts while an exercised criterion has no concrete route to
+      obtaining its required evidence.
+    evidence_requirements:
+      - id: ER-SC-GF-004-01
+        kind: contract_validation
+        requirement: >
+          Validate criterion evidence requirements against the accepted
+          verification topology.
+
+  - id: SC-GF-005
+    target_refs: [GF-REQ-005]
+    statement: >
+      A fresh implementing agent receives the complete applicable normative,
+      success and disproof text with provenance in the bounded working context for
+      the selected subject.
+    disproof: >
+      The context exposes only identifiers/links, omits a load-bearing obligation,
+      or requires broad repository archaeology before the agent can understand
+      what must be preserved.
+    evidence_requirements:
+      - id: ER-SC-GF-005-01
+        kind: deterministic_test
+        requirement: >
+          Generated/projected context contains exact applicable semantic text and
+          provenance for the selected governed subject.
+      - id: ER-SC-GF-005-02
+        kind: external_consumer_observation
+        requirement: >
+          A fresh-agent comparison shows whether bounded projected context reduces
+          reconstruction cost and missed obligations on one real change.
+
+  - id: SC-GF-006
+    target_refs: [GF-REQ-006]
+    statement: >
+      At an exact revision AES characterizes the realized repository and
+      mechanically detects missing/undeclared durable artifacts plus selected
+      symbol/signature/type drift when such commitments exist.
+    disproof: >
+      Target-realized comparison requires manual reconstruction of repository
+      contents or silently accepts an intentional drift.
+    evidence_requirements:
+      - id: ER-SC-GF-006-01
+        kind: deterministic_test
+        requirement: >
+          Deliberately mutate one planned artifact or selected symbol commitment
+          and observe a target-realized mismatch.
+      - id: ER-SC-GF-006-02
+        kind: contract_validation
+        requirement: >
+          Characterization binds every asserted realized fact to exact repository
+          revision and producer identity.
+
+  - id: SC-GF-007
+    target_refs: [GF-REQ-007, GF-REQ-008]
+    statement: >
+      A pass-like observation with insufficient required evidence does not render
+      the associated criterion satisfied or its gap closed.
+    disproof: >
+      Any passing test automatically produces criterion satisfaction regardless
+      of the criterion's evidence requirements.
+    evidence_requirements:
+      - id: ER-SC-GF-007-01
+        kind: deterministic_test
+        requirement: >
+          Construct a criterion requiring multiple evidence inputs, provide only
+          one passing observation, and verify adequacy remains INSUFFICIENT and
+          standing is not promoted to supported closure.
+
+  - id: SC-GF-008
+    target_refs: [GF-REQ-007, GF-REQ-008]
+    statement: >
+      Material change to an evidence dependency invalidates or stales affected
+      evidence/current state until applicable evidence is re-established.
+    disproof: >
+      A materially changed subject can retain green current/gap state solely
+      because older evidence once passed.
+    evidence_requirements:
+      - id: ER-SC-GF-008-01
+        kind: deterministic_test
+        requirement: >
+          Change one material dependency after successful verification and verify
+          affected evidence/current becomes stale or otherwise non-current before
+          re-verification.
+
+  - id: SC-GF-009
+    target_refs: [GF-REQ-009, OUT-GF-001]
+    statement: >
+      One complete Greenfield-MVP lifecycle is exercised on a genuinely new
+      consumer project under AES governance from inception.
+    disproof: >
+      Acceptance relies only on AES canonical's existing repository, schemas,
+      fixtures, prose review, or a pre-existing project requiring retrofit.
+    evidence_requirements:
+      - id: ER-SC-GF-009-01
+        kind: external_consumer_observation
+        requirement: >
+          Retain the fresh project's initialization, target, plan, realization,
+          observations/evidence, current/gap and fresh-agent context evaluation at
+          exact revisions.
+
+failure_modes:
+  - id: FM-GF-001
+    statement: AES appears distributable but secretly depends on private historical infrastructure.
+    consequence: Colleagues cannot reproduce or use the supported lifecycle.
+    threatens_refs: [OUT-GF-001, GF-REQ-001, SC-GF-001]
+    responses:
+      - id: FMR-GF-001-PREVENT
+        role: prevent
+        required_response_refs: [CAP-GF-INIT]
+      - id: FMR-GF-001-DETECT
+        role: detect
+        required_response_refs: [SC-GF-001]
+
+  - id: FM-GF-002
+    statement: Implementation accumulates durable files not justified by accepted topology.
+    consequence: Repository structure drifts away from accepted engineering intent.
+    threatens_refs: [GF-REQ-003, SC-GF-003]
+    responses:
+      - id: FMR-GF-002-PREVENT
+        role: prevent
+        required_response_refs: [CAP-GF-TOPOLOGY]
+      - id: FMR-GF-002-DETECT
+        role: detect
+        required_response_refs: [SC-GF-003]
+
+  - id: FM-GF-003
+    statement: Agent receives IDs or links but not the governing semantic text.
+    consequence: Agent acts from incomplete context or spends effort reconstructing obligations.
+    threatens_refs: [GF-REQ-005, SC-GF-005]
+    responses:
+      - id: FMR-GF-003-PREVENT
+        role: prevent
+        required_response_refs: [CAP-GF-CONTEXT]
+      - id: FMR-GF-003-DETECT
+        role: detect
+        required_response_refs: [SC-GF-005]
+
+  - id: FM-GF-004
+    statement: A passing verification result is confused with sufficient current evidence.
+    consequence: Unsupported target state is rendered green and gaps close falsely.
+    threatens_refs: [GF-REQ-007, GF-REQ-008, SC-GF-007]
+    responses:
+      - id: FMR-GF-004-PREVENT
+        role: prevent
+        required_response_refs: [CAP-GF-EVIDENCE]
+      - id: FMR-GF-004-DETECT
+        role: detect
+        required_response_refs: [SC-GF-007]
+
+  - id: FM-GF-005
+    statement: Greenfield acceptance is accidentally established using retrofit assumptions.
+    consequence: AES claims a product capability outside the evidence actually obtained.
+    threatens_refs: [GF-REQ-009, SC-GF-009]
+    responses:
+      - id: FMR-GF-005-PREVENT
+        role: prevent
+        required_response_refs: [SC-GF-009]
+
+capability_requirements:
+  - id: CAP-GF-INIT
+    statement: Initialize a fresh AES-governed project from the supported distribution.
+    target_refs: [GF-REQ-001, SC-GF-001, FMR-GF-001-PREVENT]
+
+  - id: CAP-GF-TARGET
+    statement: Represent and validate accepted outcomes, normative items, criteria and evidence requirements.
+    target_refs: [GF-REQ-002, SC-GF-002]
+
+  - id: CAP-GF-PLANNING
+    statement: Derive accepted realization and verification topology from target/current/gaps and engineering analysis.
+    target_refs: [GF-REQ-004, SC-GF-004]
+
+  - id: CAP-GF-TOPOLOGY
+    statement: Materialize and assess durable repository topology against exact paths and bounded generation rules.
+    target_refs: [GF-REQ-003, SC-GF-003, FMR-GF-002-PREVENT]
+
+  - id: CAP-GF-CONTEXT
+    statement: Project smallest complete subject-specific working context with full semantic text and provenance.
+    target_refs: [GF-REQ-005, SC-GF-005, FMR-GF-003-PREVENT]
+
+  - id: CAP-GF-CHARACTERIZE
+    statement: Produce revision-bound structured characterization of realized repository state.
+    target_refs: [GF-REQ-006, SC-GF-006]
+
+  - id: CAP-GF-EVIDENCE
+    statement: Assess observation freshness, adequacy and standing against criterion evidence requirements.
+    target_refs: [GF-REQ-007, GF-REQ-008, SC-GF-007, SC-GF-008, FMR-GF-004-PREVENT]
+
+  - id: CAP-GF-RECONCILE
+    statement: Derive qualified current and target/current gaps without using plan completion as closure evidence.
+    target_refs: [GF-REQ-008, SC-GF-007, SC-GF-008]
+
+provider_bindings: []
+realization_units: []
+planned_artifacts: []
+artifact_generation_rules: []
+planned_symbol_commitments: []
+verification_subjects: []
+plans: []
+
+planning_frontier:
+  - provider_bindings_are_unselected
+  - realization_units_are_unselected
+  - repository_materialization_is_unselected
+  - verification_subjects_are_unselected
+  - first_authentic_greenfield_consumer_is_unselected
