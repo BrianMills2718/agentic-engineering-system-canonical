@@ -1,0 +1,76 @@
+schema_version: aes.system_record.candidate.v0
+record_kind: system
+id: AES
+title: Agentic Engineering System
+summary: Revision-bound engineering system that projects authoritative target/current/gap context into
+  engineering work and feeds evidence back into the lifecycle.
+outcomes:
+- id: OUT-AES-001
+  statement: An engineering agent can act on a governed repository from the smallest authoritative context
+    needed for the current decision without reconstructing the repository manually.
+requirements:
+- id: AES-CTX-002
+  kind: behavior
+  statement: When implementation subjects exist, agents working at those subjects receive generated normative
+    clauses, success criteria, current characterization, gap state, and plan linkage appropriate to that
+    subject. Source-local projections do not become authority.
+  success_criteria:
+  - id: SC-AES-CTX-002-001
+    statement: A governed implementation subject receives the full verbatim applicable normative statements
+      and success/disproof criteria, with exact provenance, without requiring the agent to dereference
+      IDs before acting.
+    proof_requirements:
+    - kind: deterministic_test
+      statement: A projection test proves that the generated subject context contains exact authoritative
+        text and source identity.
+    - kind: external_consumer_observation
+      statement: A fresh agent can correctly identify the subject's governing requirements and acceptance
+        boundary from the local projection alone.
+    disproof:
+    - The generated subject context contains only opaque requirement IDs or links for a governing clause.
+    - Projected wording differs from its authoritative source without an accepted normative revision.
+capabilities:
+- id: context.project.subject
+  statement: Project authoritative target, current, gap, dependency, and verification context for one
+    implementation subject.
+  summary: Compile the smallest self-contained authoritative working context for an implementation subject.
+  requirement_refs:
+  - AES-CTX-002
+  dependencies:
+  - type: hard
+    target: source.characterize
+    rationale: Current source signatures, docstrings, and dependencies must be observable before they
+      can be projected.
+    gate: A revision-bound realized-source projection exists for the subject or the projection explicitly
+      reports the source as unobserved.
+- id: source.characterize
+  statement: Characterize realized native source into a revision-bound structured projection.
+  summary: Extract actual files, symbols, strong signatures, docstrings, and consequential dependencies
+    from native source.
+  requirement_refs:
+  - AES-CTX-002
+  dependencies: []
+failure_modes:
+- id: FM-AES-CTX-001
+  statement: An agent sees requirement IDs but does not read the governing text before modifying code.
+  consequence: The implementation can violate accepted intent even though traceability IDs are present.
+  responses:
+  - role: prevent
+    capability_refs:
+    - context.project.subject
+    criterion_refs:
+    - SC-AES-CTX-002-001
+    statement: Render the full verbatim governing text into the effective source-local context.
+component_refs:
+- id: repository_context
+  path: src/agentic_engineering_system/repository_context/component.candidate.yaml
+  summary: Resolve repository navigation and authority from bounded exact evidence and project it into
+    usable context.
+questions:
+- id: AQR-SOURCE-GEN-001
+  question: Which generated source regions should remain permanently generated after initial skeleton
+    creation?
+  status: open
+decision_refs:
+- docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
+- docs/decisions/0004-compact-structured-normative-records-and-generated-views.md
