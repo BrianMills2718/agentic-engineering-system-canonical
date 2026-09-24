@@ -1,55 +1,63 @@
-schema_version: aes.v0_2.semantic_model.candidate.v0
+schema_version: aes.v0_2.semantic_model.candidate.v1
 status: proposal_non_normative
+review_basis: 07-semantic-clean-sheet-review-pass-1.md
 
 lineage:
   architecture_line: AES-v0.2
   predecessor_revision: 36c205d3363a7304c6043ca645acae5eea58e97c
   relationship: learned_from_not_automatically_inherited
 
-semantic_families:
-  normative:
-    system:
-      owns:
-        - outcomes
-        - system_requirements
-        - constraints
-        - invariants
-        - cross_component_obligations
-        - system_failure_modes
-        - component_refs
-        - decision_refs
-    component:
-      owns:
-        - identity
-        - responsibility
-        - direct_requirements
-        - inherited_requirement_refs
-        - capability_refs
-        - failure_mode_refs
-        - consequential_boundary_refs
-        - planned_realization
-        - verification_topology
-        - decision_refs
+model_principles:
+  semantic_model_is_independent_of_storage_layout: true
+  one_mutable_authority_per_semantic_fact: true
+  typed_references_precede_generic_relationship_registry: true
+  plans_own_transitions_not_timeless_target: true
+  observations_do_not_become_normative_target: true
+  current_and_gap_are_derived: true
 
-  requirement:
+semantic_families:
+  accepted_intent:
+    meaning: >
+      The accepted product/engineering purpose that justifies creating or
+      changing the governed system.
+    candidate_fields:
+      - outcome_id
+      - outcome_statement
+      - actors_or_consumers
+      - constraints
+      - non_goals
+    storage_layout: undecided
+
+  normative_item:
+    meaning: >
+      One accepted obligation or constraint on the target system. The semantic
+      item is independent from whichever file or record later stores it.
     required:
       - id
       - statement
-      - success_criteria
+    candidate_kinds:
+      - behavior
+      - constraint
+      - invariant
+      - quality
+      - policy
+      - other
     optional:
       - rationale
-      - constraints
+      - scope
       - failure_mode_refs
-    rule: >
-      Requirement text is normative. Success/disproof semantics are part of the
-      accepted target, not evidence and not test implementation detail.
 
   success_criterion:
+    meaning: >
+      An accepted condition capable of establishing one or more normative items
+      when supported by adequate current evidence.
     required:
       - id
       - statement
+      - target_refs
       - disproof
       - verification_disposition
+    target_cardinality: one_or_more
     verification_disposition:
       allowed:
         - planned_verification_subjects
@@ -57,54 +65,59 @@ semantic_families:
         - external_observation_only
         - unresolved
         - not_yet_applicable
-
-  capability:
-    meaning: >
-      An ability required or provided. Capability identity is independent from
-      repository, component, and provider identity.
-    relationships:
-      may_require_many_components: true
-      component_may_realize_many_capabilities: true
-      provider_selected_after_requirement: true
+    rule: >
+      Criteria may be many-to-many with normative items. Passing one test does
+      not by itself imply criterion satisfaction.
 
   failure_mode:
+    meaning: >
+      A plausible way the accepted outcome, normative obligation, or criterion
+      can fail and the planned response classes that mitigate it.
     required:
       - id
       - statement
       - consequence
+      - threatens_refs
       - responses
     response_roles:
       - prevent
       - detect
       - contain
       - recover
-    each_response_links_to_one_or_more:
-      - capability
-      - requirement
+    response_links_may_target:
+      - capability_requirement
+      - normative_item
       - success_criterion
       - verification_subject
 
-  plan:
+  capability_requirement:
     meaning: >
-      A time-bounded accepted transition from qualified current/gap state toward
-      accepted target. A plan may propose target-topology changes, but accepted
-      durable target topology is promoted into its owning system/component
-      authority rather than remaining permanently owned by the historical plan.
+      An ability the planned system or engineering process requires. Capability
+      identity is independent from provider, realization-unit, package and
+      repository identity.
     required:
       - id
-      - origin_gap_refs
-      - intended_transition
-      - affected_target_refs
-      - planned_verticals_or_probes
-      - completion_evidence_requirements
-    rule: plan_completion_has_no_gap_closure_authority
+      - statement
+      - target_refs
+    provider_binding: planning_output_not_intrinsic_identity
+    cardinality:
+      capability_may_span_realization_units: true
+      realization_unit_may_realize_many_capabilities: true
 
-  component:
+  realization_unit:
+    candidate_conventional_label: component
     meaning: >
-      A coherent AES governance/realization boundary with responsibility,
-      normative scope, planned durable subjects, consequential boundaries and
-      verification lifecycle.
-    split_when_coherence_breaks:
+      A coherent planned realization/governance boundary that groups
+      responsibility and governed subjects because they share a meaningful
+      semantic, ownership, state, interface, replacement, verification, or
+      failure/recovery boundary.
+    required:
+      - id
+      - responsibility
+      - target_refs
+      - capability_refs
+      - planned_artifact_refs
+    candidate_split_reasons:
       - semantic_responsibility
       - authority_or_provider_ownership
       - state_ownership
@@ -112,47 +125,60 @@ semantic_families:
       - replacement_or_reuse_boundary
       - verification_lifecycle
       - failure_or_recovery_boundary
+    storage_layout: undecided
 
   planned_artifact:
+    meaning: >
+      A durable governed repository artifact justified before or atomically with
+      creation by accepted target/planning semantics.
     required:
       - id
-      - exact_path_or_generation_rule
+      - locator
       - kind
       - purpose
-      - semantic_justification
-    rule: >
-      Every durable governed artifact is declared directly or admitted by an
-      accepted generation/tooling rule.
-    kinds:
+      - semantic_justification_refs
+    locator:
+      exactly_one_of:
+        - exact_path
+        - accepted_generation_rule_ref
+    candidate_kinds:
       - source
       - test
       - contract
       - configuration
-      - documentation_authority
+      - normative_authority
       - generated_projection
       - migration
       - other
+    rule: no_orphan_durable_artifacts
 
-  planned_symbol:
-    default_scope: selected_public_or_load_bearing_only
-    required_when:
-      - public_boundary_is_commitment
-      - signature_or_type_is_normative
-      - symbol_has_narrower_normative_obligation
-      - symbol_is_independent_verification_boundary
-      - symbol_is_architecturally_significant
-    fields:
+  planned_symbol_commitment:
+    meaning: >
+      A sparse target commitment for a selected native symbol whose existence,
+      public/load-bearing identity, signature/type, narrower obligation, or
+      verification role is intentionally governed.
+    subordinate_to: planned_artifact
+    required:
       - id
       - artifact_ref
       - native_name
-      - kind
       - purpose
-      - normative_refs
+      - target_refs
+    optional:
       - criterion_refs
-      - optional_planned_signature
+      - planned_signature_or_type
+    required_when_candidate:
+      - public_boundary_is_target_commitment
+      - signature_or_type_is_target_commitment
+      - symbol_has_narrower_normative_obligation
+      - symbol_is_independent_verification_boundary
+      - symbol_is_architecturally_significant
     non_goal: predeclare_every_private_helper
 
   verification_subject:
+    meaning: >
+      A planned method/subject that can produce evidence relevant to one or more
+      success criteria.
     required:
       - id
       - criterion_refs
@@ -175,59 +201,107 @@ semantic_families:
       - negative_control
       - recovery_control
 
-  realized_source_projection:
-    authority: generated_observation_not_executable_authority
+  plan:
+    meaning: >
+      A time-bounded accepted transition from qualified current/gap state toward
+      accepted target. A plan may propose target changes, but accepted durable
+      target semantics are promoted into their owning target authority rather
+      than remaining permanently owned by the historical plan.
+    required:
+      - id
+      - origin_gap_refs
+      - intended_transition
+      - affected_target_refs
+      - planned_verticals_or_probes
+      - completion_evidence_requirements
+    rule: plan_completion_has_no_gap_closure_authority
+    greenfield_initialization_note: >
+      After the initial target is accepted, the initial current state may
+      explicitly characterize the target as unrealized, yielding the first gaps
+      from which implementation planning proceeds.
+
+  realized_repository_characterization:
+    authority: generated_revision_bound_observation
+    meaning: >
+      Structured observation of the realized repository at one exact revision.
+      Source analysis is one contributing provider, not the semantic boundary.
     binds_to:
-      - repository
+      - repository_identity
       - exact_revision
       - producer_identity
       - producer_version
     may_include:
-      - files_and_digests
-      - symbols
-      - signatures
+      - durable_files_and_digests
+      - native_symbols
+      - signatures_and_types
       - docstrings
       - imports
       - calls
       - reads_and_writes
       - contract_edges
       - state_sharing
-      - test_targets
-      - generated_region_status
+      - verification_target_edges
+      - generated_projection_status
       - extraction_confidence_and_provenance
 
-  evidence:
-    meaning: observed result bound to exact subjects and conditions
-    required_properties_as_applicable:
-      - subject_identity
-      - exact_revision
+  observation:
+    meaning: >
+      One revision/subject-bound record of what an observation process actually
+      did or saw, without automatically claiming sufficiency for a criterion.
+    required_as_applicable:
+      - subject_refs
+      - revision_or_external_subject_identity
       - observer_or_provider
-      - command_or_review_method
+      - method
+      - observation_state
       - result
-      - epistemic_state
-      - environment_or_dependency_identity
-    epistemic_states:
-      - PASS
-      - FAIL
-      - UNOBSERVED
+    observation_state:
+      - OBSERVED
       - ERROR
+      - UNOBSERVED
+    result_shape: provider_specific_typed_value
+
+  evidence_assessment:
+    meaning: >
+      A qualified assessment of whether one or more observations are applicable
+      and sufficient to support or contradict a criterion or claim.
+    required:
+      - criterion_or_claim_refs
+      - observation_refs
+      - freshness
+      - adequacy
+      - standing
+    freshness:
+      - CURRENT
       - STALE
+      - UNKNOWN
+    adequacy:
+      - SUFFICIENT
       - INSUFFICIENT
+      - UNASSESSED
+    standing:
+      - SUPPORTS
+      - CONTRADICTS
+      - INCONCLUSIVE
+      - NOT_APPLICABLE
+    rule: >
+      An observed PASS-like result is not equivalent to sufficient current
+      evidence for a success criterion.
 
   current:
     authority: derived_projection
-    input:
+    inputs:
       - accepted_target
-      - valid_realized_observations
-      - valid_evidence
+      - realized_repository_characterization
+      - qualified_evidence_assessments
     rule: >
-      Current never comes from timeless prose or plan completion. It must expose
-      uncertainty, staleness and evidence insufficiency.
+      Current is revision-bound, invalidatable and explicit about unknown,
+      stale, error and insufficient support.
 
   gap:
     authority: derived_projection
     function: variance_of_accepted_target_and_qualified_current
-    states:
+    candidate_states:
       - OPEN
       - PARTIAL
       - UNRESOLVED
@@ -235,56 +309,54 @@ semantic_families:
       - NOT_YET_APPLICABLE
     rule: plan_completion_does_not_close_gap
 
-  engineering_event:
-    authority: append_only_historical_receipt
-    candidate_event_kinds:
-      - normative_change_accepted
-      - topology_change_accepted
-      - decision_accepted
-      - decision_superseded
-      - implementation_observed
-      - verification_observed
-      - evidence_invalidated
-      - human_disposition
-      - model_disposition
-      - projection_generated
-    rule: >
-      Events record transitions and observations; mutable current state is
-      materialized elsewhere.
-
 derived_surfaces:
   semantic_graph:
-    default: compiled_from_authoritative_records_and_realized_source
-    authored_relationship_registry_required: false
-  source_local_context:
-    includes:
-      - full_verbatim_applicable_normative_text
+    default: compiled_from_typed_authoritative_refs_and_realized_observations
+    authored_universal_relationship_registry_required: false
+
+  working_context:
+    role: smallest_complete_concern_specific_projection
+    requires_meaning_not_only_ids: true
+    candidate_contents:
+      - full_applicable_normative_text
       - full_success_criterion_text
       - full_disproof_text
       - provenance
-      - current
+      - qualified_current
       - gap
       - active_plan_when_applicable
       - verification_obligations
       - relevant_dependency_consequences
-  wiki_or_okf:
-    role: progressive_disclosure_projection
+
+  human_navigation_and_review:
     never_authority: true
-  conventional_views:
-    candidates:
+    candidate_views:
       - product_intent
       - requirements
       - architecture
-      - component_map
+      - realization_map
       - verification
       - current
       - gaps
       - review_surface
 
+deferred_semantic_or_materialization_questions:
+  - exact_record_and_file_partition
+  - whether_system_and_component_records_are_the_best_storage_layout
+  - whether_component_is_the_final_label_for_realization_unit
+  - whether_append_only_engineering_events_add_value_beyond_git_authorities_and_observations
+  - concrete_generated_source_context_mechanism
+  - relationship_registry_if_any
+  - provider_interface_shapes
+  - source_characterization_provider
+  - configuration_file_shape
+
 explicit_nonclaims:
   - this_file_is_not_a_json_schema
-  - field_names_are_not_frozen
+  - field_names_and_enums_are_not_frozen
   - no_provider_is_selected
+  - no_storage_layout_is_selected
   - no_relationship_registry_is_selected
-  - no_hook_implementation_is_selected
+  - no_hook_or_execution_governance_implementation_is_selected
+  - no_append_only_event_layer_is_required_yet
   - retrofit_is_not_supported_by_greenfield_mvp
