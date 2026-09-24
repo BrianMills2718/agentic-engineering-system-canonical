@@ -77,8 +77,10 @@ gap
 next planning
 ```
 
-Append-only engineering events record meaningful transitions and observations
-without becoming mutable current-state authority.
+Git is the baseline source lineage. A separate append-only semantic event layer
+is deferred until Greenfield-MVP work demonstrates lifecycle information that
+Git plus accepted authorities plus revision-bound observations/evidence cannot
+represent cleanly.
 
 ## Proposal artifacts
 
