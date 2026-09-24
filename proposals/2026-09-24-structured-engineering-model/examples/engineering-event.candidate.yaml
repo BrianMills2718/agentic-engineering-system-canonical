@@ -1,0 +1,12 @@
+schema_version: aes.engineering_event.candidate.v0
+record_kind: engineering_event
+event_id: evt-2026-09-24-source-context-observed
+event_kind: implementation_observed
+occurred_at: '2026-09-24T21:59:00Z'
+subject_refs:
+- repository_context.resolver
+source_revision: '0000000000000000000000000000000000000000'
+payload_refs:
+- path: generated/characterization/repository_context/realized-source.yaml
+  digest: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+summary: Observed the realized resolver source and generated region state at the exact repository revision.
