@@ -72,10 +72,14 @@ minimum_greenfield_acceptance:
 
   - id: SC-GF-004
     statement: >
-      Every success criterion has an explicit verification disposition and every
-      planned verification subject states which criterion it can support.
+      Every success criterion states what evidence can establish it, and before
+      governed execution the accepted plan maps those evidence requirements to
+      concrete verification subjects or an explicit external/human observation
+      boundary.
     disproof: >
-      A criterion can appear complete merely because unrelated tests are green.
+      A criterion can appear complete merely because unrelated tests are green,
+      or implementation starts without a concrete way to obtain its required
+      evidence.
 
   - id: SC-GF-005
     statement: >
@@ -88,13 +92,13 @@ minimum_greenfield_acceptance:
 
   - id: SC-GF-006
     statement: >
-      AES generates a revision-bound realized-source characterization and can
-      mechanically identify at least planned-versus-realized artifact, selected
-      symbol/signature, and generated-region drift for the first supported
-      language/provider.
+      AES generates a revision-bound realized-repository characterization and can
+      mechanically identify planned-versus-realized durable-artifact drift plus
+      selected symbol/signature/type drift when those commitments exist for the
+      first supported source provider.
     disproof: >
-      Current realization must be reconstructed manually from source before
-      target-realized comparison is possible.
+      Current realization must be reconstructed manually from repository contents
+      before target-realized comparison is possible.
 
   - id: SC-GF-007
     statement: >
@@ -116,10 +120,13 @@ minimum_greenfield_acceptance:
 
   - id: SC-GF-009
     statement: >
-      The Greenfield MVP performs one complete self-dogfood vertical on AES's own
-      new v0.2 realization path before claiming the lifecycle usable.
+      The Greenfield MVP performs one complete lifecycle vertical on a genuinely
+      fresh consumer project created under AES governance from inception before
+      claiming the lifecycle usable.
     disproof: >
-      Acceptance is based only on schema validation, fixtures, or prose review.
+      Acceptance is based only on AES canonical's existing repository, schema
+      validation, fixtures, prose review, or a project whose pre-existing
+      structure had to be retrofitted.
 
 retrofit:
   capability_id: aes.adoption.retrofit
