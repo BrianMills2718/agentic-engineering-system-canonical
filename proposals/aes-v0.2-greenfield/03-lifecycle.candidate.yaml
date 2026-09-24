@@ -1,100 +1,154 @@
-schema_version: aes.v0_2.lifecycle.candidate.v0
+schema_version: aes.v0_2.lifecycle.candidate.v1
 status: proposal_non_normative
+review_basis: 07-semantic-clean-sheet-review-pass-1.md
 
-truth_classes:
-  authored_authority:
-    examples:
-      - accepted_system_normative_record
-      - accepted_component_normative_record
-      - durable_decision
-      - accepted_change_plan
-      - native_typed_contract
-      - native_executable_source
+state_classes:
+  accepted_target_authority:
+    meaning: >
+      Accepted intent, normative items, criteria and accepted realization
+      commitments that define what should be true.
     rule: one_mutable_authority_per_semantic_fact
 
-  append_only_history:
-    examples:
-      - engineering_events
-      - verification_receipts
-      - runtime_observations
-      - human_observations
-      - evidence_invalidation
-    rule: historical_receipts_are_not_edited_into_current_state
+  native_realization_authority:
+    meaning: >
+      Native executable source, configuration, contracts and other repository
+      artifacts own their realized native behavior/bytes. They do not redefine
+      normative target merely by existing.
 
-  generated_projection:
+  observations:
+    meaning: >
+      Revision/subject-bound records of what analyzers, tests, runtimes, humans
+      or other observers actually saw.
+    rule: observation_is_not_criterion_satisfaction
+
+  evidence_assessments:
+    meaning: >
+      Qualified judgments over observations establishing freshness, adequacy and
+      standing for a criterion or claim.
+    rule: pass_like_result_is_not_automatically_sufficient_evidence
+
+  derived_projections:
     examples:
-      - realized_source_characterization
+      - realized_repository_characterization
       - semantic_graph
       - current
       - gap
-      - source_local_context
-      - wiki_or_okf
-      - conventional_document_views
+      - working_context
+      - human_navigation_and_review
     rule: rebuildable_with_provenance_and_freshness
 
 greenfield_flow:
   - step: establish_intent
     produces:
-      - outcomes
+      - accepted_outcomes
       - actors_or_consumers
       - constraints
+      - non_goals
 
   - step: establish_normative_target
     produces:
-      - requirements
+      - normative_items
       - success_criteria
-      - disproof_criteria
+      - disproof
       - failure_modes
+
+  - step: characterize_initial_current
+    condition: new_project_has_no_realization_yet
+    produces:
+      - explicit_unrealized_current
+    rule: >
+      Absence of realization is known current state in greenfield work, not
+      missing information and not a reason to skip current characterization.
+
+  - step: derive_initial_gaps
+    consumes:
+      - accepted_normative_target
+      - explicit_unrealized_current
+    produces:
+      - initial_gap_set
 
   - step: aes_planning
     consumes:
       - accepted_normative_target
+      - qualified_current
+      - gap_set
+      - failure_modes
       - provider_landscape_as_needed
       - known_constraints
     produces:
       - capability_requirements
       - provider_dispositions
-      - components
+      - realization_units
       - dependency_intent
       - exact_durable_artifact_topology
-      - selected_planned_symbols_and_signatures
+      - selected_symbol_commitments
       - verification_topology
-      - execution_ready_vertical_slice
+      - execution_ready_verticals_or_probes
 
   - step: accept_target_realization
     effect: >
-      Durable realization topology becomes target authority. The plan owns the
-      transition; it is not the permanent owner of timeless repository topology.
+      Accepted durable realization commitments become part of target authority.
+      The plan owns the transition that proposed them; the historical plan does
+      not remain the timeless owner of repository topology.
+    consequence: >
+      Current/gap can be rematerialized against the expanded accepted target,
+      making missing planned artifacts and verification subjects explicit gaps.
 
   - step: materialize_initial_repository
     produces:
-      - declared_directories
-      - declared_artifacts
-      - generated_source_skeletons_or_regions_as_configured
-      - source_local_context
-    invariant: no_orphan_durable_artifacts
+      - declared_durable_artifacts
+      - generated_or_tool_created_artifacts_allowed_by_accepted_rules
+      - initial_working_context
+    invariant: no_orphan_durable_governed_artifacts
+
+  - step: project_working_context
+    consumes:
+      - accepted_target
+      - qualified_current
+      - gaps
+      - active_plan_when_applicable
+      - derived_semantic_graph
+      - verification_obligations
+    produces:
+      - smallest_complete_context_for_current_subject
+    semantic_requirement: >
+      Applicable normative, success and disproof meaning is present in full with
+      provenance. The delivery mechanism is not fixed by this lifecycle.
 
   - step: native_implementation
     rule: >
-      Executable behavior is authored in native implementation languages.
-      Unplanned durable topology changes require target amendment or replan.
+      Executable behavior is authored in native implementation forms.
+      Unplanned durable topology changes require accepted target amendment or
+      replan; ordinary non-governed ephemeral artifacts do not.
 
-  - step: characterize_realized_source
+  - step: characterize_realized_repository
     produces:
-      - revision_bound_realized_source_projection
-      - derived_source_dependencies
-      - generated_region_status
+      - revision_bound_realized_repository_characterization
+      - derived_observed_dependencies
+    rule: >
+      Realized characterization may use language/source analyzers but is not
+      limited to source code.
 
   - step: execute_verification
     produces:
-      - revision_bound_evidence
-      - negative_or_recovery_control_evidence_as_required
+      - revision_bound_observations
+    rule: >
+      A verification subject produces observations. It does not decide its own
+      criterion adequacy merely by reporting a pass-like result.
+
+  - step: assess_evidence
+    consumes:
+      - observations
+      - criterion_evidence_requirements
+      - dependency_and_revision_freshness
+    produces:
+      - evidence_assessments
 
   - step: characterize_current
     consumes:
       - accepted_target
-      - realized_source_projection
-      - valid_evidence
+      - realized_repository_characterization
+      - evidence_assessments
     produces:
       - qualified_current
 
@@ -105,61 +159,72 @@ greenfield_flow:
     produces:
       - gap_projection
 
-  - step: project_working_context
+  - step: regenerate_working_and_review_projections
     consumes:
-      - authoritative_normative_records
-      - current
+      - accepted_target
+      - realized_repository_characterization
+      - qualified_current
       - gaps
-      - active_plan
-      - semantic_graph
+      - plan_state
       - verification_state
     produces:
-      - concern_specific_agent_context
-      - source_local_context
-      - wiki_or_review_views
+      - working_context
+      - human_navigation_and_review
+      - semantic_graph
 
-  - step: continue_or_stop
+  - step: continue_change_stop_or_scale
     rule: >
-      Next work derives from remaining gaps, actor/product outcome, failure modes,
-      and evidence. Plan completion alone has no closure authority.
+      Next work derives from remaining gaps, intended outcomes, failure modes and
+      evidence. Plan completion has no independent closure authority.
 
-generated_source_regions:
-  candidate_modes:
-    persistent_generated:
-      suitable_for:
-        - provenance_headers
-        - verbatim_normative_text
-        - success_and_disproof_text
-        - selected_frozen_public_signatures
-      rule: divergence_is_detectable_and_requires_reconciliation
-    initial_skeleton_only:
-      suitable_for:
-        - implementation_stubs
-        - non_normative_scaffolding
-      rule: native_source_owns_region_after_initial_generation
+target_realized_comparison:
+  candidate_findings:
+    - declared_artifact_missing
+    - undeclared_durable_governed_artifact_present
+    - selected_planned_symbol_missing
+    - planned_signature_or_type_drift
+    - verification_subject_missing
+    - criterion_without_sufficient_current_evidence
+    - intended_dependency_disagrees_with_observed_dependency
+  rule: >
+    Findings preserve target intent, realized observation and derived impact as
+    distinct facts.
+
+working_context_delivery:
+  semantic_requirement:
+    - full_applicable_normative_text
+    - full_success_criterion_text
+    - full_disproof_text
+    - provenance
+    - qualified_current
+    - relevant_gaps
+    - applicable_plan_transition
+    - verification_obligations
+    - relevant_dependency_consequences
+  mechanism_status: deferred
+  candidate_mechanisms_not_selected:
+    - generated_docstrings
+    - generated_file_headers
+    - adjacent_sidecar
+    - IDE_or_agent_injection
+    - hybrid
 
 freshness:
   principle: >
-    A projection that cannot establish that its required inputs are current must
-    report STALE, ERROR, UNOBSERVED, or INSUFFICIENT rather than current/green.
-  target_realized_comparisons:
-    candidates:
-      - declared_artifact_missing
-      - undeclared_durable_artifact_present
-      - planned_public_symbol_missing
-      - planned_signature_drift
-      - generated_region_modified
-      - verification_subject_missing
-      - criterion_without_sufficient_evidence
-      - dependency_topology_disagreement
+    A projection or evidence assessment that cannot establish applicability to
+    the claimed subject/revision must expose UNKNOWN, STALE, ERROR, UNOBSERVED or
+    INSUFFICIENT semantics as appropriate rather than current/green.
 
 history:
-  implementation: undecided
-  requirement: append_only_semantic_receipts
-  does_not_replace:
-    - git_history
-    - native_authorities
-    - evidence_payloads
+  git_is_baseline_source_lineage: true
+  durable_decisions_and_plans_preserve_accepted_reasoning: true
+  observations_and_evidence_are_revision_bound: true
+  append_only_semantic_event_layer:
+    status: deferred_candidate
+    adoption_test: >
+      Add only if the Greenfield MVP demonstrates material lifecycle information
+      that Git plus accepted authorities plus observations/evidence cannot
+      represent cleanly.
 
 provider_selection:
   occurs_after_semantic_requirement: true
@@ -182,4 +247,4 @@ retrofit:
     - expose_uncertainty
     - obtain_human_or_authoritative_disposition
     - establish_first_accepted_target
-    - enter_normal_greenfield_style_lifecycle_after_adoption
+    - enter_normal_AES_lifecycle_after_adoption
