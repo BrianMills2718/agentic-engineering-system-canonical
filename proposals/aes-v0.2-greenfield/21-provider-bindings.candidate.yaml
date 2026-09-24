@@ -1,0 +1,204 @@
+schema_version: aes.v0_2.provider_bindings.candidate.v0
+status: proposal_non_normative
+basis:
+  - 17-provider-evaluation-contract.candidate.yaml
+  - 18-provider-evaluation-round-1.md
+  - 19-provider-evaluation-round-2-generic-dependencies.md
+  - 20-realization-topology.candidate.yaml
+
+purpose: >
+  Make the current candidate provider choices and explicit rejections visible.
+  These are not accepted target bindings until the v0.2 architecture review
+  dispositions them.
+
+bindings:
+  - id: PB-GF-GIT
+    capability_refs:
+      - CAP-GF-INIT
+      - CAP-GF-TOPOLOGY
+      - CAP-GF-CHARACTERIZE
+      - CAP-GF-EVIDENCE
+    provider_identity: git
+    disposition: reuse
+    semantic_boundary: >
+      Repository/commit identity, tracked-file inventory, diffs and content
+      lineage. Git does not own AES target/current/gap semantics.
+    replacement_boundary: >
+      A future revision provider must supply equivalent exact subject identity,
+      durable inventory and change comparison.
+    limitations:
+      - hooks_are_invocation_adapters_not_unbypassable_semantic_enforcement
+
+  - id: PB-GF-PYTHON-AST
+    capability_refs: [CAP-GF-CHARACTERIZE]
+    provider_identity: python.stdlib.ast
+    disposition: reuse
+    semantic_boundary: >
+      Static Python syntax/symbol/signature/type-annotation/docstring/import
+      characterization without importing target project modules.
+    replacement_boundary: >
+      Another language/provider implements the same realized-characterization
+      contract without changing AES semantic target/current models.
+    limitations:
+      - dynamic_dependencies_not_exhaustive
+      - runtime_calls_not_proven
+      - behavior_not_proven
+
+  - id: PB-GF-YAML
+    capability_refs: [CAP-GF-TARGET]
+    provider_identity: ruamel.yaml
+    disposition: reuse
+    semantic_boundary: >
+      YAML 1.2 parsing/serialization and duplicate-key-safe human-editable
+      round-trip mechanics.
+    replacement_boundary: >
+      Another parser may replace it if it preserves the accepted YAML contract,
+      duplicate-key rejection and round-trip/negative fixtures.
+
+  - id: PB-GF-TYPED-VALIDATION
+    capability_refs: [CAP-GF-TARGET]
+    provider_identity: pydantic-v2
+    disposition: reuse
+    semantic_boundary: >
+      In-process typed Python models, field/model validation and structural schema
+      generation. AES owns all record semantics and graph invariants.
+    replacement_boundary: >
+      Another implementation may replace it while preserving AES record,
+      serialization and semantic-validation behavior.
+
+  - id: PB-GF-AES-INIT
+    capability_refs: [CAP-GF-INIT]
+    provider_identity: AES-local
+    disposition: residual
+    semantic_boundary: initialization_contract_and_project_materialization
+    replacement_boundary: src/agentic_engineering_system/project.py
+
+  - id: PB-GF-AES-TARGET
+    capability_refs: [CAP-GF-TARGET]
+    provider_identity: AES-local
+    disposition: residual
+    semantic_boundary: AES_semantic_models_typed_refs_and_cross_record_invariants
+    replacement_boundary: src/agentic_engineering_system/records.py
+
+  - id: PB-GF-AES-PLANNING
+    capability_refs: [CAP-GF-PLANNING]
+    provider_identity: AES-local-planning-protocol
+    disposition: residual
+    semantic_boundary: >
+      AES-specific planning contract, target-delta validation, transition-plan
+      validation and distributed provider-neutral planning instructions.
+    replacement_boundary: >
+      src/agentic_engineering_system/planning.py plus
+      src/agentic_engineering_system/planning_protocol.md
+    planning_reasoning_provider:
+      status: unresolved
+      rule: >
+        The reasoning provider may be human or agentic, but the Greenfield
+        distribution cannot require private Company Planning access.
+
+  - id: PB-GF-AES-TOPOLOGY
+    capability_refs: [CAP-GF-TOPOLOGY]
+    provider_identity: AES-local
+    disposition: residual
+    semantic_boundary: accepted_topology_vs_Git_inventory_conformance
+    replacement_boundary: src/agentic_engineering_system/topology.py
+
+  - id: PB-GF-AES-CONTEXT
+    capability_refs: [CAP-GF-CONTEXT]
+    provider_identity: AES-local
+    disposition: residual
+    semantic_boundary: typed_ref_driven_subject_context_projection
+    replacement_boundary: src/agentic_engineering_system/context.py
+    delivery_adapter:
+      status: unresolved
+
+  - id: PB-GF-AES-CHARACTERIZE
+    capability_refs: [CAP-GF-CHARACTERIZE]
+    provider_identity: AES-local-composition
+    disposition: compose
+    semantic_boundary: >
+      Aggregate Git repository facts and Python AST facts into AES realized-
+      repository characterization with target-identity matching rules.
+    replacement_boundary:
+      - src/agentic_engineering_system/characterize.py
+      - src/agentic_engineering_system/characterize_python.py
+
+  - id: PB-GF-AES-EVIDENCE
+    capability_refs: [CAP-GF-EVIDENCE]
+    provider_identity: AES-local
+    disposition: residual
+    semantic_boundary: observation_freshness_adequacy_standing
+    replacement_boundary: src/agentic_engineering_system/evidence.py
+
+  - id: PB-GF-AES-RECONCILE
+    capability_refs: [CAP-GF-RECONCILE]
+    provider_identity: AES-local
+    disposition: residual
+    semantic_boundary: deterministic_current_and_gap_derivation
+    replacement_boundary: src/agentic_engineering_system/reconcile.py
+
+explicit_rejections:
+  - candidate: BrianMills2718/enforced-planning
+    rejected_as: default_Greenfield_runtime_provider
+    reason: >
+      Useful mechanisms exist, but the current system is coupled to its own
+      meta-process/relationship/context/hook authority model. Direct adoption
+      would reintroduce architecture v0.2 intentionally removed.
+    donor_value:
+      - artifact_creation_negative_controls
+      - static_source_inventory_lessons
+      - context_packet_provenance
+      - visibility_before_enforcement
+      - recovery_path_lessons
+
+  - candidate: BrianMills2718/project-meta
+    rejected_as: any_default_Greenfield_runtime_provider
+    reason: >
+      It is an ecosystem governance hub with Project Graph/shared-policy
+      ownership and is not a standalone project-level AES dependency.
+    donor_value:
+      - authority_classification
+      - policy_enforcement_lessons
+      - documentation_projection_lessons
+      - relationship_graph_failure_modes
+
+  - candidate: BrianMills2718/company-planning
+    rejected_as: hidden_required_Greenfield_runtime_dependency
+    reason: >
+      Its bounded-design method strongly informs AES planning, but its current
+      plugin/distribution and broader workflow semantics are external to AES.
+      AES must distribute its own planning contract.
+    donor_value:
+      - outcome_to_requirements_derivation
+      - success_disproof
+      - failure_and_recovery_design
+      - capability_landscape
+      - thin_verticals
+
+  - candidate: BrianMills2718/data-contracts
+    rejected_as: AES_target_or_current_semantic_owner
+    reason: >
+      Its intended boundary is typed producer/consumer contracts and composition,
+      not AES project target/planning/current/gap authority.
+    still_candidate_for: authentic_project_native_boundary_when_semantics_fit
+
+  - candidate: BrianMills2718/agentic-capability-architecture-canonical
+    rejected_as: AES_runtime_semantic_core
+    reason: >
+      ACA may provide capability/provider knowledge during planning but does not
+      own AES project requirements, provider bindings, or residual decisions.
+    still_candidate_for: provider_discovery_knowledge_source
+
+acceptance_blockers:
+  - planning_reasoning_provider_and_distribution_path
+  - working_context_delivery_adapter
+  - exact_supported_Python_version_range
+  - exact_dependency_versions_and_package_installation
+  - proof_that_ruamel_and_pydantic_composition_round_trips_real_target_records
+  - proof_that_Python_AST_slice_meets_SC_GF_006_without_false_dependency_claims
+  - authentic_fresh_consumer_selection
+
+nonclaims:
+  - no_binding_here_is_accepted_target_yet
+  - rejected_default_provider_does_not_mean_rejected_as_donor
+  - no_prior_private_repo_code_has_been_copied_or_imported
