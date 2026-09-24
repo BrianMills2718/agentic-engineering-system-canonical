@@ -19,13 +19,30 @@ semantic_families:
   accepted_intent:
     meaning: >
       The accepted product/engineering purpose that justifies creating or
-      changing the governed system.
+      changing the governed system. Normative constraints are represented as
+      normative items rather than duplicated here.
     candidate_fields:
       - outcome_id
       - outcome_statement
       - actors_or_consumers
-      - constraints
       - non_goals
+    storage_layout: undecided
+
+  accepted_target:
+    meaning: >
+      The logical set of currently accepted intent, normative obligations and
+      accepted realization commitments against which current state is compared.
+      This is a semantic boundary, not a required file or record type.
+    may_include:
+      - accepted_intent
+      - normative_items
+      - success_criteria
+      - failure_mode_responses_when_normative
+      - capability_requirements
+      - accepted_realization_units
+      - accepted_planned_artifacts
+      - accepted_symbol_commitments
+      - accepted_verification_requirements
     storage_layout: undecided
 
   normative_item:
@@ -56,18 +73,26 @@ semantic_families:
       - statement
       - target_refs
       - disproof
-      - verification_disposition
+      - evidence_requirements
     target_cardinality: one_or_more
-    verification_disposition:
-      allowed:
-        - planned_verification_subjects
-        - human_only
-        - external_observation_only
-        - unresolved
-        - not_yet_applicable
+    evidence_requirements:
+      meaning: >
+        Normative description of what kind and combination of evidence is capable
+        of establishing the criterion. Concrete verification subjects are chosen
+        later by planning.
+      candidate_kinds:
+        - deterministic_test
+        - static_analysis
+        - contract_validation
+        - runtime_observation
+        - human_review
+        - llm_rubric
+        - external_consumer_observation
+        - other
+      composition: one_or_more_with_explicit_sufficiency_rule
     rule: >
-      Criteria may be many-to-many with normative items. Passing one test does
-      not by itself imply criterion satisfaction.
+      Criteria may be many-to-many with normative items. A pass-like result from
+      one verification subject does not by itself imply criterion satisfaction.
 
   failure_mode:
     meaning: >
@@ -177,11 +202,12 @@ semantic_families:
 
   verification_subject:
     meaning: >
-      A planned method/subject that can produce evidence relevant to one or more
-      success criteria.
+      A planned concrete method/subject intended to produce observations matching
+      one or more criterion evidence requirements.
     required:
       - id
       - criterion_refs
+      - evidence_requirement_refs_or_match
       - proof_kind
       - purpose
       - proof_role
@@ -267,10 +293,12 @@ semantic_families:
       and sufficient to support or contradict a criterion or claim.
     required:
       - criterion_or_claim_refs
-      - observation_refs
       - freshness
       - adequacy
       - standing
+    optional:
+      - observation_refs
+      - insufficiency_reason
     freshness:
       - CURRENT
       - STALE
