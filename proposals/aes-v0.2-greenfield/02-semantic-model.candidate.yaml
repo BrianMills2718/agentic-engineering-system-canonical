@@ -1,0 +1,275 @@
+schema_version: aes.v0_2.semantic_model.candidate.v0
+status: proposal_non_normative
+
+lineage:
+  architecture_line: AES-v0.2
+  predecessor_revision: 36c205d3363a7304c6043ca645acae5eea58e97c
+  relationship: learned_from_not_automatically_inherited
+
+semantic_families:
+  normative:
+    system:
+      owns:
+        - outcomes
+        - system_requirements
+        - constraints
+        - invariants
+        - cross_component_obligations
+        - system_failure_modes
+        - component_refs
+        - decision_refs
+    component:
+      owns:
+        - identity
+        - responsibility
+        - direct_requirements
+        - inherited_requirement_refs
+        - capability_refs
+        - failure_mode_refs
+        - consequential_boundary_refs
+        - planned_realization
+        - verification_topology
+        - decision_refs
+
+  requirement:
+    required:
+      - id
+      - statement
+      - success_criteria
+    optional:
+      - rationale
+      - constraints
+      - failure_mode_refs
+    rule: >
+      Requirement text is normative. Success/disproof semantics are part of the
+      accepted target, not evidence and not test implementation detail.
+
+  success_criterion:
+    required:
+      - id
+      - statement
+      - disproof
+      - verification_disposition
+    verification_disposition:
+      allowed:
+        - planned_verification_subjects
+        - human_only
+        - external_observation_only
+        - unresolved
+        - not_yet_applicable
+
+  capability:
+    meaning: >
+      An ability required or provided. Capability identity is independent from
+      repository, component, and provider identity.
+    relationships:
+      may_require_many_components: true
+      component_may_realize_many_capabilities: true
+      provider_selected_after_requirement: true
+
+  failure_mode:
+    required:
+      - id
+      - statement
+      - consequence
+      - responses
+    response_roles:
+      - prevent
+      - detect
+      - contain
+      - recover
+    each_response_links_to_one_or_more:
+      - capability
+      - requirement
+      - success_criterion
+      - control
+
+  component:
+    meaning: >
+      A coherent AES governance/realization boundary with responsibility,
+      normative scope, planned durable subjects, consequential boundaries and
+      verification lifecycle.
+    split_when_coherence_breaks:
+      - semantic_responsibility
+      - authority_or_provider_ownership
+      - state_ownership
+      - consequential_interface
+      - replacement_or_reuse_boundary
+      - verification_lifecycle
+      - failure_or_recovery_boundary
+
+  planned_artifact:
+    required:
+      - id
+      - exact_path_or_generation_rule
+      - kind
+      - purpose
+      - semantic_justification
+    rule: >
+      Every durable governed artifact is declared directly or admitted by an
+      accepted generation/tooling rule.
+    kinds:
+      - source
+      - test
+      - contract
+      - configuration
+      - documentation_authority
+      - generated_projection
+      - migration
+      - other
+
+  planned_symbol:
+    default_scope: selected_public_or_load_bearing_only
+    required_when:
+      - public_boundary_is_commitment
+      - signature_or_type_is_normative
+      - symbol_has_narrower_normative_obligation
+      - symbol_is_independent_verification_boundary
+      - symbol_is_architecturally_significant
+    fields:
+      - id
+      - artifact_ref
+      - native_name
+      - kind
+      - purpose
+      - normative_refs
+      - criterion_refs
+      - optional_planned_signature
+    non_goal: predeclare_every_private_helper
+
+  verification_subject:
+    required:
+      - id
+      - criterion_refs
+      - proof_kind
+      - purpose
+      - proof_role
+      - execution_or_review_locator
+    proof_kinds:
+      - deterministic_test
+      - static_analysis
+      - contract_validation
+      - runtime_observation
+      - human_review
+      - llm_rubric
+      - external_consumer_observation
+      - other
+    proof_roles:
+      - direct
+      - supporting
+      - negative_control
+      - recovery_control
+
+  realized_source_projection:
+    authority: generated_observation_not_executable_authority
+    binds_to:
+      - repository
+      - exact_revision
+      - producer_identity
+      - producer_version
+    may_include:
+      - files_and_digests
+      - symbols
+      - signatures
+      - docstrings
+      - imports
+      - calls
+      - reads_and_writes
+      - contract_edges
+      - state_sharing
+      - test_targets
+      - generated_region_status
+      - extraction_confidence_and_provenance
+
+  evidence:
+    meaning: observed result bound to exact subjects and conditions
+    required_properties_as_applicable:
+      - subject_identity
+      - exact_revision
+      - observer_or_provider
+      - command_or_review_method
+      - result
+      - epistemic_state
+      - environment_or_dependency_identity
+    epistemic_states:
+      - PASS
+      - FAIL
+      - UNOBSERVED
+      - ERROR
+      - STALE
+      - INSUFFICIENT
+
+  current:
+    authority: derived_projection
+    input:
+      - accepted_target
+      - valid_realized_observations
+      - valid_evidence
+    rule: >
+      Current never comes from timeless prose or plan completion. It must expose
+      uncertainty, staleness and evidence insufficiency.
+
+  gap:
+    authority: derived_projection
+    function: variance_of_accepted_target_and_qualified_current
+    states:
+      - OPEN
+      - PARTIAL
+      - UNRESOLVED
+      - CLOSED
+      - NOT_YET_APPLICABLE
+    rule: plan_completion_does_not_close_gap
+
+  engineering_event:
+    authority: append_only_historical_receipt
+    candidate_event_kinds:
+      - normative_change_accepted
+      - topology_change_accepted
+      - decision_accepted
+      - decision_superseded
+      - implementation_observed
+      - verification_observed
+      - evidence_invalidated
+      - human_disposition
+      - model_disposition
+      - projection_generated
+    rule: >
+      Events record transitions and observations; mutable current state is
+      materialized elsewhere.
+
+derived_surfaces:
+  semantic_graph:
+    default: compiled_from_authoritative_records_and_realized_source
+    authored_relationship_registry_required: false
+  source_local_context:
+    includes:
+      - full_verbatim_applicable_normative_text
+      - full_success_criterion_text
+      - full_disproof_text
+      - provenance
+      - current
+      - gap
+      - active_plan_when_applicable
+      - verification_obligations
+      - relevant_dependency_consequences
+  wiki_or_okf:
+    role: progressive_disclosure_projection
+    never_authority: true
+  conventional_views:
+    candidates:
+      - product_intent
+      - requirements
+      - architecture
+      - component_map
+      - verification
+      - current
+      - gaps
+      - review_surface
+
+explicit_nonclaims:
+  - this_file_is_not_a_json_schema
+  - field_names_are_not_frozen
+  - no_provider_is_selected
+  - no_relationship_registry_is_selected
+  - no_hook_implementation_is_selected
+  - retrofit_is_not_supported_by_greenfield_mvp
