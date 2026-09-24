@@ -75,19 +75,21 @@ now lists only questions still material to the next architecture gate.
 
 ## Working context and projections
 
-28. Which delivery mechanism best satisfies full-text subject-local context:
-    generated source regions, sidecar, agent/IDE injection, or hybrid?
+28. Is explicit `aes context <subject>` output sufficient as the first MVP
+    delivery contract, with automatic agent/IDE injection correctly deferred to
+    adapters?
 29. How is context completeness tested without projecting the entire repository?
 30. How are context relevance and dependency consequences derived without a
     heuristic ranking platform becoming the product?
 31. What generated human navigation/review surface is necessary for the first MVP,
-    if any, beyond the agent working context?
+    if any, beyond the explicit CLI/agent working context?
 
 ## Distribution
 
-32. What installation/package form makes AES independently usable by colleagues?
-33. What defaults must ship so ordinary Greenfield use does not require provider
-    expertise?
+32. What exact Python package/install form and supported Python-version range make
+    AES independently usable by colleagues?
+33. Are Git + Python + ruamel.yaml + Pydantic v2 the correct minimal required
+    dependency set after compatibility/round-trip probes?
 34. Which settings are product configuration versus accepted project target and
     therefore must not be conflated in one generic config file?
 35. What secrets/environment-specific values must remain outside governed target
