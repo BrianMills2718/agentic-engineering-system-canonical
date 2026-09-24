@@ -1,0 +1,32 @@
+schema_version: aes.realized_source_projection.candidate.v0
+record_kind: realized_source_projection
+repository: BrianMills2718/agentic-engineering-system-canonical
+revision: '0000000000000000000000000000000000000000'
+producer:
+  name: candidate-python-source-characterizer
+  version: 0.1.0
+observed_at: '2026-09-24T21:59:00Z'
+component_id: repository_context
+files:
+- path: src/agentic_engineering_system/repository_context/resolver.py
+  content_digest: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  language: python
+  symbols:
+  - native_id: python:agentic_engineering_system.repository_context.resolver.RepositoryContextResolver.resolve
+    qualified_name: RepositoryContextResolver.resolve
+    kind: method
+    signature_text: 'def resolve(self, expected_revision: str | None = None) -> RepositoryContextArtifact'
+    docstring_text: Resolve one exact repository revision into a typed repository-context artifact.
+    start_line: 1
+    end_line: 20
+  dependencies:
+  - type: contract_produce
+    target: RepositoryContextArtifact
+    source_line: 5
+  generated_regions:
+  - id: repository_context.resolver.normative_docstring
+    status: current
+    content_digest: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    source_refs:
+    - AES-CTX-002
+    - SC-AES-CTX-002-001
