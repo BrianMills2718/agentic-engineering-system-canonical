@@ -1,9 +1,10 @@
-schema_version: aes.v0_2.semantic_model.candidate.v2
+schema_version: aes.v0_2.semantic_model.candidate.v3
 status: proposal_non_normative
 review_basis:
   - 07-semantic-clean-sheet-review-pass-1.md
   - 08-semantic-clean-sheet-review-pass-2.md
   - 09-semantic-clean-sheet-review-pass-3-topology.md
+  - 11-semantic-clean-sheet-review-pass-4-target-analysis.md
 
 lineage:
   architecture_line: AES-v0.2
@@ -43,7 +44,6 @@ semantic_families:
       - outcomes
       - normative_items
       - success_criteria
-      - accepted_failure_modes
       - capability_requirements
       - provider_bindings
       - accepted_realization_units
@@ -107,6 +107,7 @@ semantic_families:
       verification subject does not by itself imply criterion satisfaction.
 
   failure_mode:
+    semantic_role: accepted_engineering_analysis
     meaning: >
       A plausible way an accepted outcome, normative obligation or criterion can
       fail, plus the response requirements intended to mitigate it.
@@ -154,6 +155,7 @@ semantic_families:
       realization_unit_may_realize_many_capabilities: true
 
   provider_binding:
+    semantic_role: accepted_target_realization
     meaning: >
       An accepted realization fact stating how a capability requirement is
       satisfied by a distinct provider, composition or AES-local residual.
@@ -323,6 +325,7 @@ semantic_families:
       - recovery_control
 
   plan:
+    semantic_role: accepted_transition
     meaning: >
       A time-bounded accepted transition from qualified current/gap state toward
       accepted target. A plan may propose target changes, but accepted durable
