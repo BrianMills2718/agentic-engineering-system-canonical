@@ -272,19 +272,20 @@ semantic_families:
 
   observation:
     meaning: >
-      One revision/subject-bound record of what an observation process actually
-      did or saw, without automatically claiming sufficiency for a criterion.
+      One revision/subject-bound record of an observation process that actually
+      ran or was attempted, without automatically claiming sufficiency for a
+      criterion. If no observation occurred, absence is represented by evidence
+      assessment/current rather than by inventing an observation record.
     required_as_applicable:
       - subject_refs
       - revision_or_external_subject_identity
       - observer_or_provider
       - method
-      - observation_state
-      - result
-    observation_state:
-      - OBSERVED
+      - execution_state
+      - result_or_error
+    execution_state:
+      - COMPLETED
       - ERROR
-      - UNOBSERVED
     result_shape: provider_specific_typed_value
 
   evidence_assessment:
