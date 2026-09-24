@@ -101,6 +101,12 @@ represent cleanly.
 - `15-planning-contract.candidate.yaml` — design-delta → accepted target → recomputed gap → execution-plan contract.
 - `16-record-shapes.candidate.yaml` — candidate project/target/analysis/plan/observation/generated record shapes.
 - `17-provider-evaluation-contract.candidate.yaml` — capability-first gate every old or external provider must pass.
+- `18-provider-evaluation-round-1.md` — capability-by-capability dispositions for prior/private systems and core residuals.
+- `19-provider-evaluation-round-2-generic-dependencies.md` — candidate Git/Python/ruamel.yaml/Pydantic dependency baseline.
+- `20-realization-topology.candidate.yaml` — exact candidate source/test topology and selected symbol commitments.
+- `21-provider-bindings.candidate.yaml` — explicit candidate bindings and rejected default providers.
+- `22-portable-provider-boundaries.md` — provider-neutral planning exchange and explicit context CLI boundary.
+- `23-greenfield-cli-product-contract.md` — colleague-facing Greenfield lifecycle/command surface.
 
 ## Nonclaims
 
