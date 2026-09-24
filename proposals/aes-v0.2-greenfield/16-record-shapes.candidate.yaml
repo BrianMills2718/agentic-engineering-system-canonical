@@ -1,0 +1,240 @@
+schema_version: aes.v0_2.record_shapes.candidate.v0
+status: proposal_non_normative
+materialization: 13-greenfield-materialization.candidate.md
+semantic_model: 02-semantic-model.candidate.yaml
+planning_contract: 15-planning-contract.candidate.yaml
+
+principles:
+  - record_shape_is_not_ontology
+  - stable_semantic_ids_survive_storage_repartition
+  - no_duplicate_mutable_relationship_facts
+  - native_authorities_are_referenced_not_copied
+  - exact_git_revision_binding_is_external_to_self_referential_authority_bytes
+
+project_record:
+  candidate_path: .aes/project.yaml
+  purpose: operational_AES_adoption_configuration
+  candidate_fields:
+    schema_version: required
+    project_id: required
+    aes:
+      architecture_line: required
+      distribution_version: required
+    materialization:
+      target_path: default_.aes/target.yaml
+      analysis_path: default_.aes/analysis.yaml
+      plans_root: default_.aes/plans/
+      observations_root: default_.aes/observations/
+      generated_root: default_.aes/generated/
+    ecosystem:
+      primary_language_or_runtime: optional_until_selected
+      supported_adapter_profile: optional_until_selected
+    operational_provider_config_refs:
+      purpose: >
+        Reference non-normative operational provider configuration when needed.
+        Accepted capability provider bindings remain in target authority.
+      secrets_allowed_inline: false
+  prohibited_semantic_content:
+    - normative_items
+    - success_criteria
+    - accepted_provider_bindings
+    - accepted_repository_topology
+    - current
+    - gaps
+    - secrets
+
+target_record:
+  candidate_path: .aes/target.yaml
+  purpose: canonical_accepted_target_for_Greenfield_MVP
+  candidate_fields:
+    schema_version: required
+    target_id: required
+    outcomes: list
+    normative_items: list
+    success_criteria: list
+    capability_requirements: list
+    provider_bindings: list
+    artifact_generation_rules: list
+    planned_artifacts: list
+    realization_units: list
+    planned_symbol_commitments: list
+    verification_subjects: list
+  ordering_rule: >
+    File ordering may be deterministic for reviewability but carries no semantic
+    precedence unless a field explicitly defines it.
+  minimum_after_first_acceptance:
+    outcomes: at_least_one
+  validation:
+    - IDs_unique_within_project_semantic_namespace
+    - all_typed_refs_resolve
+    - every_normative_item_reaches_outcome
+    - every_success_criterion_reaches_target_fact
+    - every_success_criterion_has_evidence_requirements
+    - every_provider_binding_reaches_capability
+    - every_realization_unit_reaches_target_and_capability
+    - every_realization_unit_artifact_ref_resolves
+    - every_planned_artifact_has_exact_path_or_generation_rule
+    - every_generation_rule_is_bounded_and_justified
+    - every_planned_symbol_commitment_reaches_artifact
+    - every_verification_subject_reaches_criterion_and_evidence_requirement
+    - no_duplicate_mutable_semantic_fact_is_encoded_through_reverse_edges
+
+analysis_record:
+  candidate_path: .aes/analysis.yaml
+  creation_condition: accepted_engineering_analysis_exists
+  purpose: accepted_non_target_engineering_analysis
+  candidate_fields:
+    schema_version: required
+    analysis_id: required
+    failure_modes: list
+    planning_uncertainties: list
+    feasibility_findings: list
+    provider_landscape_refs: list
+  failure_mode_validation:
+    - threatened_refs_resolve
+    - response_refs_resolve
+    - response_roles_are_explicit
+  planning_uncertainty_candidate_fields:
+    - id
+    - question_or_unknown
+    - current_known_facts
+    - resolution_method
+    - stopping_rule
+    - downstream_update_if_resolved
+  rule: >
+    Analysis can justify target changes but is not included in target-current
+    conformance merely by residing in a canonical AES record.
+
+plan_record:
+  candidate_path_pattern: .aes/plans/PLAN-<id>.yaml
+  purpose: accepted_time_bounded_transition
+  candidate_fields:
+    schema_version: required
+    plan_id: required
+    status: required
+    source_semantic_refs:
+      trigger_gap_refs: required
+      closing_gap_refs: required_before_execution
+      affected_target_refs: required
+      analysis_refs: optional
+    intended_transition: required
+    verticals: list
+    probes_or_enablers: list
+    completion_evidence_requirements: required
+    stopping_and_reassessment_rules: required
+  target_change_representation:
+    rule: >
+      Do not invent a second YAML patch language unless needed. Proposed/accepted
+      target changes are represented by changes to target.yaml under normal
+      version control; the plan records semantic refs/rationale and the governed
+      execution base captures the exact accepted repository revision.
+  execution_revision_binding:
+    rule: >
+      The plan file does not embed the Git commit SHA containing itself. Execution
+      custody/receipts bind the accepted plan and target bytes to the exact base
+      revision after commit creation.
+
+observation_record:
+  candidate_path_pattern: .aes/observations/<observation-id>.yaml
+  purpose: retained_revision_or_subject_bound_observation
+  candidate_fields:
+    schema_version: required
+    observation_id: required
+    subject_refs: required
+    subject_revision_or_external_identity: required
+    observer:
+      identity: required
+      version: required_when_available
+    method: required
+    execution_state: COMPLETED_or_ERROR
+    result_or_error: required
+    produced_at: required
+    retained_artifact_refs: optional
+  rules:
+    - append_only_after_retention
+    - observation_does_not_claim_criterion_sufficiency
+    - external_or_large_native_artifacts_may_be_digest_referenced_not_copied
+
+evidence_assessment_record:
+  materialization: undecided
+  options:
+    - retained_inside_observation_assessment_receipt
+    - separate_retained_assessment_record
+    - generated_and_reproducible_from_observations_plus_criterion_policy
+  semantic_required_fields:
+    - criterion_or_claim_refs
+    - observation_refs_optional
+    - freshness
+    - adequacy
+    - standing
+    - assessor_identity
+    - assessor_version_when_applicable
+    - assessment_basis
+  rule: >
+    The final materialization choice must preserve assessor provenance and make
+    stale/insufficient/unassessed states inspectable.
+
+generated_current:
+  candidate_path: .aes/generated/current.yaml
+  authority: none
+  required_provenance_inputs:
+    - target_content_identity
+    - realized_characterization_identity
+    - evidence_assessment_identity_or_inputs
+  rule: >
+    Generated current never becomes canonical merely because it is committed.
+
+generated_gaps:
+  candidate_path: .aes/generated/gaps.yaml
+  authority: none
+  required_provenance_inputs:
+    - target_content_identity
+    - current_projection_identity
+  may_include:
+    - gap_id
+    - target_refs
+    - current_refs
+    - variance
+    - state
+    - active_plan_refs
+  rule: >
+    Active plan refs are navigation only. Plan state cannot force gap closed.
+
+generated_semantic_graph:
+  candidate_path: .aes/generated/semantic-graph.yaml
+  authority: none
+  inputs:
+    - typed_target_refs
+    - plan_refs
+    - realized_observed_relationships
+    - evidence_refs
+    - derived_relationship_rules
+  edge_semantic_class_required:
+    - INTENDED
+    - OBSERVED
+    - DERIVED
+  rule: no_manual_duplicate_edge_authority
+
+revision_and_content_identity:
+  authoritative_records:
+    stable_identity: semantic_ids_plus_repository_path
+    exact_revision: supplied_by_repository_execution_context
+    optional_content_digest: useful_for_cross_revision_or_external_receipts
+  observations:
+    exact_subject_revision_or_external_identity: required
+  generated_projections:
+    must_bind_to_input_identities: true
+  reason: >
+    A file cannot safely embed the final Git commit hash of the commit that
+    contains those exact bytes without a self-reference problem. Revision
+    binding therefore occurs in the surrounding repository/receipt context.
+
+schema_strategy:
+  status: deferred_until_shapes_survive_review
+  candidate: JSON_Schema_2020_12_for_YAML_loaded_data
+  required_validator_behaviors:
+    - reject_duplicate_YAML_mapping_keys
+    - reject_unknown_fields_when_strictness_is_intended
+    - validate_typed_ref_resolution_beyond_JSON_Schema
+    - validate_cross_record_semantic_invariants
+  nonclaim: JSON_Schema_alone_is_sufficient_for_semantic_validation
