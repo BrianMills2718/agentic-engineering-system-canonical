@@ -3,12 +3,12 @@ status: proposal_non_normative
 subject: AES-v0.2-Greenfield-MVP
 model: 02-semantic-model.candidate.yaml
 
-stage: target_before_realization_planning
+stage: accepted_target_and_planning_analysis_before_provider_and_realization_selection
 nonclaim: >
   This instance tests whether the semantic model can express the accepted
-  Greenfield-MVP product target. It does not select provider bindings,
-  realization units, repository topology, verification subjects, or
-  implementation.
+  Greenfield-MVP product target plus accepted failure-mode/capability analysis.
+  It does not select provider bindings, realization units, repository topology,
+  verification subjects, an execution plan, or implementation.
 
 outcomes:
   - id: OUT-GF-001
