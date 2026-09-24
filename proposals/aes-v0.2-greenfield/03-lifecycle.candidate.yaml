@@ -1,4 +1,4 @@
-schema_version: aes.v0_2.lifecycle.candidate.v1
+schema_version: aes.v0_2.lifecycle.candidate.v2
 status: proposal_non_normative
 review_basis: 07-semantic-clean-sheet-review-pass-1.md
 
@@ -8,6 +8,12 @@ state_classes:
       Accepted intent, normative items, criteria and accepted realization
       commitments that define what should be true.
     rule: one_mutable_authority_per_semantic_fact
+
+  accepted_engineering_analysis:
+    meaning: >
+      Accepted failure modes, provider/feasibility findings and explicit
+      planning uncertainty that inform target and transition decisions without
+      themselves becoming target-current conformance subjects.
 
   native_realization_authority:
     meaning: >
@@ -67,13 +73,23 @@ greenfield_flow:
     produces:
       - initial_gap_set
 
+  - step: perform_planning_analysis
+    consumes:
+      - accepted_normative_target
+      - qualified_current
+      - gap_set
+    produces:
+      - accepted_failure_modes
+      - provider_landscape_as_needed
+      - feasibility_findings_as_needed
+      - explicit_planning_uncertainty
+
   - step: aes_planning
     consumes:
       - accepted_normative_target
       - qualified_current
       - gap_set
-      - failure_modes
-      - provider_landscape_as_needed
+      - accepted_engineering_analysis
       - known_constraints
     produces:
       - capability_requirements
