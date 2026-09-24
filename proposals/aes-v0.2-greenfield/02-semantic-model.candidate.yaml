@@ -82,7 +82,22 @@ semantic_families:
       - capability
       - requirement
       - success_criterion
-      - control
+      - verification_subject
+
+  plan:
+    meaning: >
+      A time-bounded accepted transition from qualified current/gap state toward
+      accepted target. A plan may propose target-topology changes, but accepted
+      durable target topology is promoted into its owning system/component
+      authority rather than remaining permanently owned by the historical plan.
+    required:
+      - id
+      - origin_gap_refs
+      - intended_transition
+      - affected_target_refs
+      - planned_verticals_or_probes
+      - completion_evidence_requirements
+    rule: plan_completion_has_no_gap_closure_authority
 
   component:
     meaning: >
