@@ -1,0 +1,72 @@
+schema_version: aes.component_record.candidate.v0
+record_kind: component
+id: repository_context
+system_ref:
+  path: docs/architecture/system.candidate.yaml
+  id: AES
+summary: Resolve repository navigation and authority from bounded exact evidence and present a revision-bound
+  working surface.
+responsibility: Resolve repository identity, navigation, authority, concern roots, and unresolved states
+  without inferring authority from folder names.
+inherited_requirement_refs:
+- AES-CTX-002
+local_requirements: []
+capability_refs:
+- context.project.subject
+- source.characterize
+failure_mode_refs:
+- FM-AES-CTX-001
+dependencies: []
+implementation_subjects:
+- id: repository_context.resolver
+  path: src/agentic_engineering_system/repository_context/resolver.py
+  kind: source
+  purpose: Resolve bounded repository navigation and authority from explicit source evidence.
+  realizes:
+  - AES-CTX-002
+  planned_symbols:
+  - id: repository_context.resolver.resolve
+    native_name: RepositoryContextResolver.resolve
+    kind: method
+    purpose: Resolve one exact repository revision into a typed repository-context artifact.
+    signature:
+      language: python
+      declaration: 'def resolve(self, expected_revision: str | None = None) -> RepositoryContextArtifact'
+    context_projection:
+      include_verbatim_normative_text: true
+      normative_refs:
+      - AES-CTX-002
+      criterion_refs:
+      - SC-AES-CTX-002-001
+  generated_regions:
+  - id: repository_context.resolver.normative_docstring
+    mode: persistent_generated
+    placement: symbol_docstring
+    purpose: Keep the governing requirement and criterion text physically present at the primary source
+      boundary.
+    content_refs:
+    - AES-CTX-002
+    - SC-AES-CTX-002-001
+    verbatim_required: true
+verification_subjects:
+- id: repository_context.context_projection_test
+  kind: deterministic_test
+  purpose: Prove that generated source-local context contains exact governing text and provenance.
+  criterion_refs:
+  - SC-AES-CTX-002-001
+  proof_role: direct
+  path: tests/repository_context/test_source_context_projection.py
+  planned_symbols:
+  - test_source_context_contains_verbatim_normative_and_success_text
+- id: repository_context.context_fresh_agent_review
+  kind: external_consumer_observation
+  purpose: Observe whether a fresh agent can identify the governing requirement and criterion without
+    repository reconstruction.
+  criterion_refs:
+  - SC-AES-CTX-002-001
+  proof_role: direct
+  external_ref: attention-checkpoint:source-context-fresh-agent
+question_refs:
+- AQR-SOURCE-GEN-001
+decision_refs:
+- docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
