@@ -98,6 +98,9 @@ represent cleanly.
 - `12-greenfield-mvp-semantic-instance.candidate.yaml` — models the real Greenfield MVP with the kernel; current reference check: zero missing refs/duplicate IDs.
 - `13-greenfield-materialization.candidate.md` — candidate .aes structured project materialization.
 - `14-initialization-contract.candidate.yaml` — minimal bootstrap contract for a fresh project.
+- `15-planning-contract.candidate.yaml` — design-delta → accepted target → recomputed gap → execution-plan contract.
+- `16-record-shapes.candidate.yaml` — candidate project/target/analysis/plan/observation/generated record shapes.
+- `17-provider-evaluation-contract.candidate.yaml` — capability-first gate every old or external provider must pass.
 
 ## Nonclaims
 
