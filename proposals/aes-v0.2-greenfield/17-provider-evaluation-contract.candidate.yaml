@@ -1,0 +1,165 @@
+schema_version: aes.v0_2.provider_evaluation_contract.candidate.v0
+status: proposal_non_normative
+semantic_instance: 12-greenfield-mvp-semantic-instance.candidate.yaml
+donor_rule: 05-donor-reentry.md
+
+purpose: >
+  Define how AES v0.2 evaluates implementation providers after semantics and
+  capability requirements are defined, without granting prior systems or external
+  tools automatic architectural authority.
+
+candidate_classes:
+  - platform_or_language_native
+  - established_standard_or_OSS
+  - commercial_or_hosted_service
+  - prior_Brian_authored_system
+  - AES_local_residual
+  - composition_of_multiple_providers
+
+evaluation_record:
+  required:
+    - capability_refs
+    - provider_identity
+    - provider_class
+    - obtainable_by_supported_user
+    - semantic_coverage
+    - unsupported_required_semantics
+    - provider_owned_semantics
+    - AES_owned_residual_semantics
+    - integration_boundary
+    - replacement_boundary
+    - evidence_refs
+    - disposition
+  optional:
+    - version_or_revision
+    - license_or_distribution_constraints
+    - operational_requirements
+    - cost_or_latency_constraints
+    - security_or_data_boundary
+    - ecosystem_lock_in
+    - maturity_notes
+
+dispositions:
+  reuse:
+    meaning: provider_satisfies_required_boundary_without_AES_semantic_fork
+  configure:
+    meaning: provider_satisfies_boundary_with_supported_configuration
+  adapt:
+    meaning: thin_AES_adapter_bridges_provider_native_boundary
+  compose:
+    meaning: multiple_providers_plus_bounded_AES_residual_satisfy_capability
+  residual:
+    meaning: no_sufficient_provider_and_AES_specific_logic_is_implemented_locally
+  reject:
+    meaning: provider_fails_required_semantics_distribution_or_evidence
+  unresolved:
+    meaning: evidence_or_required_decision_is_insufficient
+
+hard_rejection_conditions:
+  - requires_undocumented_private_repository_access_for_default_Greenfield_use
+  - requires_AES_to_redefine_target_semantics_to_match_provider_incidental_model
+  - creates_duplicate_mutable_authority_for_AES_target_or_current
+  - cannot_expose_failure_or_unknown_state_required_by_AES
+  - provider_fit_is_asserted_only_from_prose_without_executable_or_direct_evidence_when_material
+  - replacement_boundary_is_indeterminate_for_a_material_dependency
+
+selection_principles:
+  - capability_identity_precedes_provider_identity
+  - provider_native_interfaces_are_preferred_over_unnecessary_AES_abstractions
+  - generic_well_solved_mechanics_should_not_be_reimplemented_without_reason
+  - AES_specific_semantics_may_remain_local_when_external_abstraction_would_distort_them
+  - prior_private_systems_are_evaluated_like_any_other_candidate
+  - default_Greenfield_distribution_must_have_a_supported_obtainable_path
+  - provider_selection_does_not_transfer_AES_semantic_authority
+
+evidence_expectations:
+  discovery:
+    sufficient_for: candidate_identification_only
+    not_sufficient_for: final_binding
+  interface_inspection:
+    sufficient_for: structural_fit_claims_only
+  executable_probe:
+    preferred_when: material_behavior_or_failure_semantics_are_in_question
+  authentic_product_use:
+    required_when: provider_fit_claim_depends_on_real_integration_behavior
+  negative_probe:
+    required_when: >
+      AES relies on the provider to reject, fail, recover, or preserve uncertainty
+      under a load-bearing condition.
+
+greenfield_capability_gates:
+  CAP-GF-INIT:
+    provider_must:
+      - create_only_contract_allowed_seed_artifacts
+      - work_without_private_historical_repositories
+      - keep_secrets_out_of_canonical_records
+      - expose_actionable_initialization_errors
+
+  CAP-GF-TARGET:
+    provider_must:
+      - preserve_stable_semantic_ids_and_typed_refs
+      - support_multiline_normative_text
+      - support_strict_validation_and_duplicate_key_rejection
+      - not_require_one_file_per_semantic_type
+
+  CAP-GF-PLANNING:
+    provider_must:
+      - consume_target_current_gaps_and_analysis
+      - produce_proposed_target_realization_delta
+      - distinguish_design_from_execution_transition
+      - preserve_unresolved_load_bearing_uncertainty
+      - derive_exact_artifact_and_verification_topology_where_knowable
+      - avoid_hidden_product_or_architecture_decisions
+
+  CAP-GF-TOPOLOGY:
+    provider_must:
+      - enforce_exact_path_or_bounded_generation_rule
+      - detect_orphan_durable_governed_artifacts
+      - distinguish_ephemeral_from_durable
+      - make_topology_amendment_or_replan_path_available
+
+  CAP-GF-CONTEXT:
+    provider_must:
+      - project_full_applicable_normative_success_disproof_text
+      - preserve_provenance_and_freshness
+      - bound_context_to_subject_and_concern
+      - expose_omission_or_unresolved_context_honestly
+      - avoid_requiring_manual_ID_dereference_for_core_obligations
+
+  CAP-GF-CHARACTERIZE:
+    provider_must:
+      - bind_observation_to_exact_repository_revision_or_equivalent_subject_identity
+      - enumerate_relevant_durable_artifacts_for_supported_ecosystem
+      - identify_selected_native_symbols_and_signatures_types
+      - expose_observed_dependencies_with_uncertainty_or_provenance
+      - avoid_inventing_planned_identity_matches
+
+  CAP-GF-EVIDENCE:
+    provider_must:
+      - preserve_observation_result_separately_from_adequacy
+      - evaluate_freshness
+      - represent_insufficient_and_unassessed_states
+      - bind_assessor_identity_and_version
+      - prevent_pass_like_result_from_implying_satisfaction_without_required_evidence
+
+  CAP-GF-RECONCILE:
+    provider_must:
+      - derive_current_from_target_realization_and_evidence
+      - derive_gap_from_target_and_qualified_current
+      - preserve_stale_error_unknown_and_insufficient_states
+      - not_use_plan_completion_as_gap_closure_authority
+
+composition_rule: >
+  One provider need not implement one AES capability and one capability need not
+  map to one provider. Composition is acceptable when ownership boundaries remain
+  explicit and the combined default distribution remains usable.
+
+extraction_rule: >
+  An AES-local implementation stays inside AES canonical by default. Separate
+  repository/package extraction requires an independently demonstrated ownership,
+  release, replacement, or multi-consumer boundary; capability identity alone is
+  not sufficient reason.
+
+next_step_after_acceptance: >
+  Evaluate provider candidates capability-by-capability. Do not begin with an
+  inventory of existing Brian-authored systems and work backward.
