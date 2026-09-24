@@ -44,7 +44,7 @@ At minimum it can express:
 - disproof criteria;
 - failure modes;
 - capability requirements;
-- component responsibilities;
+- coherent realization-boundary responsibilities;
 - consequential boundaries.
 
 A success criterion is normative. A test, human review, LLM rubric, runtime
@@ -103,18 +103,17 @@ Examples:
 - private helper introduced during implementation: normally realized detail,
   unless planning explicitly governs it.
 
-## 8. Native code remains executable authority
+## 8. Native realization remains native authority
 
-AES does not turn YAML into a general programming language.
+AES does not turn structured planning records into a general programming language.
 
-Structured target records may generate:
+Accepted target semantics may justify generation of repository artifacts or
+working-context material, but the concrete generation mechanism is not part of
+the clean-sheet semantic model.
 
-- initial source skeletons;
-- persistent governed source regions;
-- selected public/load-bearing signatures when intentionally frozen;
-- source-local normative/context blocks.
-
-Executable bodies remain native code.
+Executable bodies remain native code. Native contracts, configuration, tests and
+other realized repository artifacts remain authoritative for their own realized
+bytes/behavior while never redefining normative target merely by existing.
 
 ## 9. Working context contains meaning, not only identifiers
 
@@ -127,21 +126,18 @@ IDs remain necessary for provenance, joins, impact analysis, and history.
 Context should be the smallest complete concern-specific projection, not a raw
 dump of the entire repository model.
 
-## 10. Realized source becomes structured current evidence
+## 10. Realized repository state becomes structured observation
 
-AES should characterize native source into a generated structured projection
-containing enough information to compare target and realization, such as:
+AES should characterize the realized repository into revision-bound structured
+observations containing enough information to compare target and realization.
 
-- exact repository revision;
-- file identities and content digests;
-- symbols;
-- signatures/types;
-- docstrings;
-- dependencies with provenance/confidence where necessary;
-- generated-region status;
-- verification associations.
+For source code this may include symbols, signatures/types, docstrings and
+dependencies. For other governed artifacts it may include contracts,
+configuration, tests, generated artifacts, digests and other provider-specific
+facts.
 
-This projection is observation/current substrate, never executable authority.
+This characterization is observation/current substrate, never native executable
+or normative authority.
 
 ## 11. Current and gap are derived
 
@@ -165,21 +161,15 @@ should be compiled into a semantic graph/projection.
 Only relationships that cannot truthfully live in an owning record or be derived
 should justify an additional authored relationship authority.
 
-## 13. Append-only history is not current authority
+## 13. History must not become a second current-state authority
 
-Meaningful engineering events may record:
+Git is the baseline source lineage. Durable decisions/plans preserve accepted
+reasoning, and revision-bound observations/evidence preserve what was observed.
 
-- accepted normative changes;
-- accepted topology changes;
-- decisions and supersession;
-- implementation observations;
-- verification observations;
-- evidence invalidation;
-- human/model dispositions;
-- generated projections.
-
-Events are append-only semantic receipts. Current state is materialized from
-authorities and valid observations; events are not edited to represent current.
+A separate append-only semantic event stream is a candidate only if Greenfield
+MVP work demonstrates material lifecycle information that these existing
+authorities cannot represent cleanly. If introduced, events remain historical
+receipts and never become mutable current-state authority.
 
 ## 14. Failure modes are first-class planning input
 
@@ -230,7 +220,7 @@ obtainable dependencies.
 1. One semantic fact has one mutable authority.
 2. Generated projections are reproducible and identify provenance/freshness.
 3. Every durable governed artifact has a declared semantic reason or generation rule.
-4. Every success criterion has an explicit verification disposition.
+4. Every success criterion states what evidence can establish it, and planning maps those requirements to concrete verification subjects before governed execution.
 5. Selected planned public/load-bearing commitments can be compared mechanically to realized source.
 6. Current state is revision-bound and invalidatable.
 7. A stale/error/unobserved requirement cannot be represented as satisfied.
