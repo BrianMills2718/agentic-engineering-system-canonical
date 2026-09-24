@@ -1,0 +1,371 @@
+schema_version: aes.v0_2.internal_provider_evaluation.candidate.v0
+status: proposal_non_normative
+provider_contract: 17-provider-evaluation-contract.candidate.yaml
+evaluated_at: 2026-09-24
+
+evaluated_revisions:
+  company_planning:
+    repository: BrianMills2718/company-planning
+    revision: 54dc2a2f64eb081b9a69bd02f827214b7fa13cda
+  enforced_planning:
+    repository: BrianMills2718/enforced-planning
+    revision: f96930777388b03b3d56cd526f9dd0935b73460f
+  project_meta:
+    repository: BrianMills2718/project-meta
+    revision: 380b4de184942b5ebec74885fb5cb5b60a7e78df
+  data_contracts:
+    repository: BrianMills2718/data-contracts
+    revision: a1fe25d8d5ef750d3fad186ff9804aa4cddb52d9
+  code_map_v4:
+    repository: BrianMills2718/code_map_v4
+    revision: 0c8f6f075de4db52cb753b42153d33d62bdc6210
+  aca:
+    repository: BrianMills2718/agentic-capability-architecture-canonical
+    revision: a7dae1a779523fa42cc1013535f334f02621dfb9
+
+global_disposition:
+  accepted_provider_bindings_created: false
+  reason: >
+    Internal donor inspection identified reusable methods and implementation
+    primitives, but no prior Brian-authored system yet satisfies an AES
+    Greenfield capability as a clean, independently distributable provider
+    without AES-specific adaptation or an unresolved distribution boundary.
+
+capability_evaluations:
+  CAP-GF-INIT:
+    capability: Initialize a fresh AES-governed project from the supported distribution.
+    candidates:
+      - provider: project_meta
+        disposition: reject_as_direct_provider_retain_as_donor
+        evidence:
+          - docs/designs/CORE_LIGHT_COLLEAGUE_OPERATING_LAYER.md
+        strengths:
+          - explicitly designs a bounded colleague-facing profile rather than distributing Brian's full machinery
+          - requires no MCP/network/secret/Brian-specific path for the first light profile
+          - requires deterministic packaging and loud failure rather than silent personal-install fallback
+          - directly tests cold continuation by a fresh second actor
+        blockers:
+          - owns a much broader personal/portfolio governance system
+          - its core/light packet semantics are not the AES initialization contract
+          - adopting project-meta would violate the clean product boundary by importing unrelated project/portfolio authority
+        reusable_lessons:
+          - light default distribution
+          - no private-path fallback
+          - visible effective profile
+          - cold-user/cold-agent acceptance
+
+      - provider: enforced_planning
+        disposition: donor_or_extractable_installer_primitives_not_selected
+        evidence:
+          - scripts/install_governed_repo.py
+          - docs/plans/60_loop_engineering_cleanroom_alpha.md
+          - docs/plans/128_portable_governance_and_wiki_profile.md
+        strengths:
+          - has real bounded installer profiles and disposable-consumer evidence
+          - has fail-loud prerequisite checks and path/symlink/secret negative controls
+          - can install selected mechanism subsets rather than always mirroring the whole framework
+        blockers:
+          - installer vocabulary and payload are Enforced-Planning-specific
+          - installs hooks/Make/runtime surfaces not justified by the v0.2 initialization contract
+          - current default architecture presumes Enforced Planning configuration and lifecycle concepts
+        reusable_lessons:
+          - bounded installer actions
+          - idempotence
+          - explicit action receipts
+          - cleanroom consumer verification
+
+    current_AES_direction: >
+      Implement the tiny Greenfield initializer as AES-local residual first;
+      reuse packaging/installer patterns only after the .aes initialization
+      contract is frozen enough to evaluate concrete code reuse.
+
+  CAP-GF-TARGET:
+    capability: Represent and validate accepted outcomes, normative items, criteria and evidence requirements.
+    candidates:
+      - provider: data_contracts
+        disposition: possible_boundary_substrate_not_semantic_owner
+        evidence:
+          - src/data_contracts/models.py
+          - docs/adr/0001_boundary_contract_substrate_scope.md
+          - docs/ops/CAPABILITY_DECOMPOSITION.md
+        strengths:
+          - strict producer-side Pydantic BoundaryModel behavior
+          - compatibility/breaking-change support
+          - rebuildable inspection registry explicitly not semantic authority
+          - project already states it should not absorb upstream application meaning
+        blockers:
+          - AES target semantics are not generic inter-project boundary contracts
+          - adopting data-contracts as the target model would transfer or duplicate AES semantic ownership
+          - current distribution/public availability for colleagues is not established here
+        reusable_lessons:
+          - strict producer models
+          - fail-closed schema compatibility where applicable
+          - registry-as-projection rather than authority
+
+    current_AES_direction: >
+      Keep AES target semantics AES-local. Use ordinary structured validation
+      primitives directly for the MVP unless a small Data Contracts boundary
+      becomes independently necessary.
+
+  CAP-GF-PLANNING:
+    capability: >
+      Derive accepted realization and verification topology from target/current/
+      gaps and accepted engineering analysis.
+    candidates:
+      - provider: company_planning
+        disposition: adapt_or_compose_candidate_not_yet_bound
+        evidence:
+          - plugins/company-planning/skills/bounded-design/SKILL.md
+          - plugins/company-planning/skills/bounded-design/references/deductive-design.md
+          - plugins/company-planning/contracts/design-packet-result.schema.json
+          - plugins/company-planning/skills/work-unit-graph/SKILL.md
+        strengths:
+          - target/current reasoning before implementation
+          - preserves accepted success criteria and explicitly handles revisions
+          - defines completion evidence and disproof before implementation
+          - matches evidence modality to the exact claim
+          - handles failure behavior, recovery, negative controls and uncertainty/stopping rules
+          - performs provider/capability landscape reasoning before custom machinery
+          - derives boundaries/contracts/schema/fixtures and outcome-bearing slices
+          - explicitly separates structural validation from semantic judgment in newer planning surfaces
+        blockers_against_AES_contract:
+          - current generic DesignPacketResult does not require AES exact durable artifact topology
+          - does not require selected load-bearing symbol/signature commitments
+          - does not implement the AES target-delta acceptance transaction
+          - does not distinguish trigger gaps from the post-target-acceptance closing gaps required by the v0.2 contract
+          - capability/relationship deltas are proposals to other authorities rather than the exact AES target.yaml delta
+          - its multi-route planning product is broader than the minimal AES planning provider boundary
+        likely_integration_shape: >
+          Use Company Planning's bounded-design reasoning/method as a planning
+          provider or skill layer, with an AES-owned compiler/validator that
+          consumes v0.2 target/current/gap records and requires the exact AES
+          proposed-target-delta plus execution-plan contract.
+        required_probe_before_binding:
+          - fresh Greenfield target/current/gap fixture
+          - Company Planning produces design without hidden product decisions
+          - AES adapter derives exact planned artifact and verification topology
+          - missing exact topology fails rather than silently passing
+          - unresolved load-bearing design uncertainty remains explicit
+        current_AES_direction: strongest_internal_candidate_but_not_direct_reuse
+
+  CAP-GF-TOPOLOGY:
+    capability: Materialize and assess durable repository topology against exact paths and bounded generation rules.
+    candidates:
+      - provider: enforced_planning_artifact_creation
+        disposition: adapt_candidate_not_direct_reuse
+        evidence:
+          - enforced_planning/artifact_creation.py
+          - tests/test_artifact_creation.py
+          - docs/plans/109_artifact_creation_and_directory_policy_enforcement.md
+        strengths:
+          - real pre-mutation and staged-candidate enforcement
+          - exact path-level intent lookup
+          - observe/enforce modes with same semantic finding
+          - strict typed decisions and reason codes
+          - explicit recovery and feedback receipts
+          - unique concern-owner checks
+          - installed Claude/Codex adapter evidence
+          - avoids bringing all legacy files into enforcement scope
+        blockers_against_AES_contract:
+          - configuration is tied to meta-process.yaml
+          - durable intent comes from a relationships/artifact registry rather than AES target authority
+          - directory policy uses controlled globs and local rule semantics rather than v0.2 exact-path/bounded-generation-rule model
+          - mechanism intentionally controls only newly created selected paths; it is not full target-realized topology reconciliation
+          - generation-rule semantics do not match the new bounded rule contract
+        likely_integration_shape: >
+          Salvage the deterministic evaluator/adapters/receipt patterns or adapt
+          the implementation to read AES target.yaml directly. Do not carry
+          meta-process.yaml, scripts/relationships.yaml, or the old directory
+          policy into v0.2 merely to reuse this code.
+        required_probe_before_binding:
+          - AES target.yaml fixture drives allowed exact path
+          - orphan durable file is denied both pre-write and staged/audit path
+          - bounded generation rule is correctly admitted
+          - unrelated ephemeral artifact is ignored
+          - denial gives exact amendment/replan recovery
+        current_AES_direction: promising_mechanism_donor
+
+  CAP-GF-CONTEXT:
+    capability: Project smallest complete subject-specific working context with full semantic text and provenance.
+    candidates:
+      - provider: enforced_planning_context_packet
+        disposition: reject_unchanged_salvage_compiler_patterns
+        evidence:
+          - enforced_planning/context_packet.py
+          - enforced_planning/relationship_context.py
+          - docs/plans/63_relationship_context_and_docstring_wiki.md
+          - docs/evidence/plan63_onto_canon6_pilot.md
+        strengths:
+          - deterministic bounded packet
+          - exact source summaries/docstrings/signatures from AST without executing code
+          - required atoms can be delivered unclipped with content digest/revision
+          - omission/unresolved diagnostics are explicit
+          - context receipts bind expected delivery to an action
+          - real consumer pilot measured packet sizes and failures
+        blockers_against_AES_contract:
+          - joins context through reviewed/legacy relationships.yaml declarations
+          - fixed relation vocabulary inherits prior architecture
+          - pilot showed code edit packet was only module docstring plus CLAUDE.md and failed cross-artifact code context
+          - impact obligations produced zero obligations on a real changed implementation because required edges were absent
+          - required content is currently source/doc summaries/declared files, not compiled AES target/current/gap semantics
+        likely_integration_shape: >
+          Build the v0.2 projector from AES typed target refs + realized
+          characterization + current/gap/plan. Reuse packet budgeting, required
+          atom, digest, diagnostic and delivery-receipt ideas where they fit.
+        current_AES_direction: no_direct_binding
+
+      - provider: project_meta_context_design
+        disposition: donor_only
+        evidence:
+          - docs/designs/CONTEXT_ENGINEERING_AND_DERIVED_DOCUMENTATION_2026-08-24.md
+        strengths:
+          - correctly centers what an agent receives at edit time
+          - explicitly argues that ID-only normative context is inadequate
+          - proposes single-authority text projected verbatim into implementors
+          - emphasizes completeness/omission reporting and invalidation
+        blockers:
+          - proposes generated docstring/decorator mechanics that v0.2 deliberately treats as implementation choices
+          - is embedded in broader project-meta authority/portfolio machinery
+        reusable_lessons:
+          - full semantic text at point of work
+          - generated copies not mutable authority
+          - completeness is a first-class context property
+          - changed rule invalidates all generated implementor copies
+
+  CAP-GF-CHARACTERIZE:
+    capability: Produce revision-bound structured characterization of realized repository state.
+    candidates:
+      - provider: enforced_planning_relationship_context
+        disposition: small_Python_characterizer_donor
+        strengths:
+          - exhaustive Git-tracked artifact inventory
+          - AST-only Python parsing avoids import side effects
+          - module/class/function/method identity
+          - native signature and docstring extraction
+          - explicit parse/decode diagnostics
+        blockers:
+          - primarily document/context inventory rather than full v0.2 realized-repository model
+          - Python-only symbol detail
+          - does not natively produce target identity matching, confidence, or broad observed dependency semantics required by AES
+        likely_use: >
+          Good baseline code donor for the first Python characterizer if public
+          external/native options do not make it redundant.
+
+      - provider: code_map_v4
+        disposition: research_and_algorithm_donor_not_MVP_provider
+        evidence:
+          - steno_notebook_restart_package/docs/ARCHITECTURE.md
+          - steno_notebook_restart_package/src/steno_nb/models.py
+          - steno_notebook_restart_package/docs/REVIEW_HISTORY.md
+        strengths:
+          - explicit repo snapshots, source anchors, producer versions and hashes
+          - 13-extractor Python observation matrix
+          - canonical symbol IDs and typed relations
+          - cross-tool signature reconciliation
+          - freshness/invalidation triggers and incremental recomputation
+          - test-to-symbol coverage relations
+          - proof obligations and verification results
+          - unusually strong record of finding and correcting false-positive evidence mechanisms
+        blockers:
+          - far broader and heavier than the Greenfield MVP characterization need
+          - tightly shaped around Python and a knowledge-map/claim product
+          - contains claim/retrieval/wiki/eval machinery AES does not need for first characterization
+          - historical reviews document repeated generality/freshness/evaluation defects before repair
+          - importing its corpus ontology would duplicate AES observation/evidence semantics
+        reusable_lessons:
+          - snapshot/envelope provenance
+          - source anchors
+          - extractor failures as data
+          - cross-tool reconciliation
+          - freshness/invalidation triggers
+          - never use self-derived ground truth to prove the map helps
+        current_AES_direction: do_not_adopt_wholesale
+
+  CAP-GF-EVIDENCE:
+    capability: Assess observation freshness, adequacy and standing against criterion evidence requirements.
+    candidates:
+      - provider: company_planning_evidence_methods
+        disposition: method_donor_only
+        strengths:
+          - repeatedly distinguishes exact claim from evidence modality
+          - rejects tests as sole proof for human-reviewable value
+          - uses negative controls and stopping rules
+          - distinguishes structural conformance from semantic warning/judgment
+        blocker: no reusable AES evidence-assessment runtime with freshness_adequacy_standing semantics
+
+      - provider: data_contracts_governed_lifecycle
+        disposition: typed_wire_contract_donor_possible_boundary_substrate
+        evidence:
+          - src/data_contracts/governed_lifecycle.py
+          - README.md
+        strengths:
+          - immutable typed observation/proposal/decision/delta/receipt contracts
+          - canonical content hashes and validators
+          - explicitly avoids granting providers mutation authority
+        blockers:
+          - portable wire contracts are not AES criterion-evidence adequacy semantics
+          - would be duplicate semantic ownership if AES imported its governed-lifecycle ontology as current/gap authority
+
+      - provider: code_map_v4_verification
+        disposition: algorithm_donor_not_semantic_owner
+        strengths:
+          - proof rungs, freshness, negative-control mutation, dependency invalidation
+          - confidence derived rather than asserted
+        blockers:
+          - evidence model is claim/corpus-specific
+          - verification status/freshness/confidence do not equal the v0.2 freshness/adequacy/standing model
+          - heavy machinery unnecessary for first MVP
+
+    current_AES_direction: >
+      Evidence assessment is likely a small AES-local core capability that can
+      reuse selected verification/freshness algorithms without importing another
+      system's semantic model.
+
+  CAP-GF-RECONCILE:
+    capability: Derive qualified current and target/current gaps without plan completion as closure evidence.
+    candidates:
+      - provider: none_directly_sufficient
+        disposition: AES_local_core
+        rationale: >
+          None of the inspected systems owns the exact v0.2 function
+          current(target, realized_repository, evidence_assessments) followed by
+          gap(target, current) while preserving the new semantic dimensions.
+    current_AES_direction: implement_in_AES
+
+  capability_provider_knowledge:
+    capability: Discover/select/reuse capability providers without collapsing capability identity into implementation.
+    candidates:
+      - provider: aca
+        disposition: optional_future_knowledge_provider_not_Greenfield_MVP_dependency
+        evidence:
+          - README.md
+        strengths:
+          - explicit capability identity distinct from provider
+          - truth hierarchy favors verified executable exports over prose
+          - selection/rejection/composition/local-residual discipline
+          - external/native/provider-first sourcing policy
+          - evidence-backed reuse/maturity
+        blockers_for_default_MVP:
+          - private historical repository cannot be a hidden colleague prerequisite
+          - Greenfield MVP can validate provider-binding semantics with ordinary obtainable dependencies without installing a capability-architecture system
+          - ACA itself states it is not a parallel engineering system
+        current_AES_direction: >
+          Preserve provider/capability semantics in AES; evaluate ACA later as an
+          optional provider-knowledge source once distribution and public boundary
+          are deliberately established.
+
+project_meta_overall:
+  disposition: donor_only_not_runtime_dependency
+  reason: >
+    Project Meta contains valuable context, packaging, governance and cold-user
+    lessons, but it is a large personal/portfolio control plane. Making it a
+    Greenfield AES dependency would violate the standalone colleague-facing
+    product boundary and import unrelated authority.
+
+next_external_evaluations:
+  - structured_record_validation_and_YAML_loading
+  - Python_realized_repository_characterization
+  - Git_revision_and_diff_substrate
+  - pre_commit_or_client_independent_topology_enforcement
+  - distribution_and_packaging
+  - optional_context_delivery_adapter
