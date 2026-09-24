@@ -3,6 +3,7 @@ status: proposal_non_normative
 review_basis:
   - 07-semantic-clean-sheet-review-pass-1.md
   - 08-semantic-clean-sheet-review-pass-2.md
+  - 09-semantic-clean-sheet-review-pass-3-topology.md
 
 lineage:
   architecture_line: AES-v0.2
@@ -47,6 +48,7 @@ semantic_families:
       - provider_bindings
       - accepted_realization_units
       - accepted_planned_artifacts
+      - accepted_artifact_generation_rules
       - accepted_symbol_commitments
       - accepted_verification_subjects
     storage_layout: undecided
@@ -200,6 +202,45 @@ semantic_families:
       The realization unit owns the grouping edge to its artifacts. Reverse
       artifact-to-unit navigation is derived rather than independently authored.
 
+  artifact_generation_rule:
+    meaning: >
+      An accepted target rule admitting a bounded family of durable governed
+      artifacts when exact members are not usefully enumerable before generation.
+      It is not a wildcard escape from topology planning.
+    required:
+      - id
+      - admitted_path_namespace_or_pattern
+      - artifact_kind
+      - producer_identity_or_class
+      - purpose
+      - semantic_justification_refs
+      - creation_trigger
+      - lifecycle_or_retirement_rule
+      - editability
+      - characterization_rule
+    optional:
+      - reproducibility_requirement
+      - expected_member_constraints
+    rule: >
+      The admitted namespace must be narrow enough that unrelated durable files
+      cannot become legitimate merely by matching a broad directory wildcard.
+
+  initialization_contract:
+    meaning: >
+      The AES-distributed contract for creating the minimal starting topology of a
+      genuinely new governed project before project-specific planning exists.
+    required:
+      - id
+      - seed_artifact_refs
+      - seed_generation_rule_refs
+      - authority_classification
+      - distribution_dependency_refs
+    invariants:
+      - every_seed_durable_artifact_has_declared_reason
+      - authority_and_generated_scaffolding_are_distinguished
+      - no_undocumented_private_repository_prerequisite
+      - initialized_topology_is_inspectable
+
   planned_artifact:
     meaning: >
       A durable governed repository artifact justified before or atomically with
@@ -214,6 +255,7 @@ semantic_families:
       exactly_one_of:
         - exact_path
         - accepted_generation_rule_ref
+      preference: exact_path_when_knowable
     candidate_kinds:
       - source
       - test
@@ -455,6 +497,7 @@ deferred_semantic_or_materialization_questions:
   - provider_interface_shapes
   - source_characterization_provider
   - configuration_file_shape
+  - exact_initialization_contract_materialization
 
 explicit_nonclaims:
   - this_file_is_not_a_json_schema
