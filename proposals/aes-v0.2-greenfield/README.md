@@ -84,11 +84,20 @@ represent cleanly.
 
 ## Proposal artifacts
 
-- `01-design-thesis.md` — non-negotiable design principles and boundaries.
-- `02-semantic-model.candidate.yaml` — candidate semantic information model.
-- `03-lifecycle.candidate.yaml` — authored/generated/observed transformations.
-- `04-greenfield-mvp.candidate.yaml` — first supported product scope and acceptance.
-- `05-donor-reentry.md` — rule for evaluating prior mechanisms after the clean model exists.
+- `01-design-thesis.md` — candidate product thesis and invariants.
+- `02-semantic-model.candidate.yaml` — current clean-sheet semantic kernel.
+- `03-lifecycle.candidate.yaml` — current Greenfield lifecycle/state classes.
+- `04-greenfield-mvp.candidate.yaml` — product boundary and minimum acceptance.
+- `05-donor-reentry.md` — prior mechanisms must earn provider re-entry.
+- `06-open-questions.md` — unresolved questions after semantic review.
+- `07-semantic-clean-sheet-review-pass-1.md` — removes storage-layout, evidence-state and event-log conflation.
+- `08-semantic-clean-sheet-review-pass-2.md` — defines natural semantic refs and derived relationship graph.
+- `09-semantic-clean-sheet-review-pass-3-topology.md` — exact durable paths, bounded generation rules and no-orphan topology.
+- `10-greenfield-mvp-validation-profile.md` — authentic consumer/falsifier profile.
+- `11-semantic-clean-sheet-review-pass-4-target-analysis.md` — separates target, engineering analysis, transition and observation.
+- `12-greenfield-mvp-semantic-instance.candidate.yaml` — models the real Greenfield MVP with the kernel; current reference check: zero missing refs/duplicate IDs.
+- `13-greenfield-materialization.candidate.md` — candidate .aes structured project materialization.
+- `14-initialization-contract.candidate.yaml` — minimal bootstrap contract for a fresh project.
 
 ## Nonclaims
 
