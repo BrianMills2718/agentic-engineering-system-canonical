@@ -1,0 +1,185 @@
+schema_version: aes.v0_2.lifecycle.candidate.v0
+status: proposal_non_normative
+
+truth_classes:
+  authored_authority:
+    examples:
+      - accepted_system_normative_record
+      - accepted_component_normative_record
+      - durable_decision
+      - accepted_change_plan
+      - native_typed_contract
+      - native_executable_source
+    rule: one_mutable_authority_per_semantic_fact
+
+  append_only_history:
+    examples:
+      - engineering_events
+      - verification_receipts
+      - runtime_observations
+      - human_observations
+      - evidence_invalidation
+    rule: historical_receipts_are_not_edited_into_current_state
+
+  generated_projection:
+    examples:
+      - realized_source_characterization
+      - semantic_graph
+      - current
+      - gap
+      - source_local_context
+      - wiki_or_okf
+      - conventional_document_views
+    rule: rebuildable_with_provenance_and_freshness
+
+greenfield_flow:
+  - step: establish_intent
+    produces:
+      - outcomes
+      - actors_or_consumers
+      - constraints
+
+  - step: establish_normative_target
+    produces:
+      - requirements
+      - success_criteria
+      - disproof_criteria
+      - failure_modes
+
+  - step: aes_planning
+    consumes:
+      - accepted_normative_target
+      - provider_landscape_as_needed
+      - known_constraints
+    produces:
+      - capability_requirements
+      - provider_dispositions
+      - components
+      - dependency_intent
+      - exact_durable_artifact_topology
+      - selected_planned_symbols_and_signatures
+      - verification_topology
+      - execution_ready_vertical_slice
+
+  - step: accept_target_realization
+    effect: >
+      Durable realization topology becomes target authority. The plan owns the
+      transition; it is not the permanent owner of timeless repository topology.
+
+  - step: materialize_initial_repository
+    produces:
+      - declared_directories
+      - declared_artifacts
+      - generated_source_skeletons_or_regions_as_configured
+      - source_local_context
+    invariant: no_orphan_durable_artifacts
+
+  - step: native_implementation
+    rule: >
+      Executable behavior is authored in native implementation languages.
+      Unplanned durable topology changes require target amendment or replan.
+
+  - step: characterize_realized_source
+    produces:
+      - revision_bound_realized_source_projection
+      - derived_source_dependencies
+      - generated_region_status
+
+  - step: execute_verification
+    produces:
+      - revision_bound_evidence
+      - negative_or_recovery_control_evidence_as_required
+
+  - step: characterize_current
+    consumes:
+      - accepted_target
+      - realized_source_projection
+      - valid_evidence
+    produces:
+      - qualified_current
+
+  - step: reconcile_gap
+    consumes:
+      - accepted_target
+      - qualified_current
+    produces:
+      - gap_projection
+
+  - step: project_working_context
+    consumes:
+      - authoritative_normative_records
+      - current
+      - gaps
+      - active_plan
+      - semantic_graph
+      - verification_state
+    produces:
+      - concern_specific_agent_context
+      - source_local_context
+      - wiki_or_review_views
+
+  - step: continue_or_stop
+    rule: >
+      Next work derives from remaining gaps, actor/product outcome, failure modes,
+      and evidence. Plan completion alone has no closure authority.
+
+generated_source_regions:
+  candidate_modes:
+    persistent_generated:
+      suitable_for:
+        - provenance_headers
+        - verbatim_normative_text
+        - success_and_disproof_text
+        - selected_frozen_public_signatures
+      rule: divergence_is_detectable_and_requires_reconciliation
+    initial_skeleton_only:
+      suitable_for:
+        - implementation_stubs
+        - non_normative_scaffolding
+      rule: native_source_owns_region_after_initial_generation
+
+freshness:
+  principle: >
+    A projection that cannot establish that its required inputs are current must
+    report STALE, ERROR, UNOBSERVED, or INSUFFICIENT rather than current/green.
+  target_realized_comparisons:
+    candidates:
+      - declared_artifact_missing
+      - undeclared_durable_artifact_present
+      - planned_public_symbol_missing
+      - planned_signature_drift
+      - generated_region_modified
+      - verification_subject_missing
+      - criterion_without_sufficient_evidence
+      - dependency_topology_disagreement
+
+history:
+  implementation: undecided
+  requirement: append_only_semantic_receipts
+  does_not_replace:
+    - git_history
+    - native_authorities
+    - evidence_payloads
+
+provider_selection:
+  occurs_after_semantic_requirement: true
+  prior_systems_have_automatic_preference: false
+  acceptable_dispositions:
+    - reuse
+    - configure
+    - adapt
+    - compose
+    - residual
+    - reject
+    - unresolved
+
+retrofit:
+  status: future_capability
+  not_part_of_greenfield_flow: true
+  expected_future_problem:
+    - characterize_existing_repository
+    - infer_candidate_intent_without_promoting_inference_to_truth
+    - expose_uncertainty
+    - obtain_human_or_authoritative_disposition
+    - establish_first_accepted_target
+    - enter_normal_greenfield_style_lifecycle_after_adoption
