@@ -393,5 +393,5 @@ This ordering was the wrong call if any of the following is observed:
   hand-declared list stays primary);
 - two consecutive phases end without a recorded observation on a consumer
   (then: the phase boundaries are wrong, re-cut them around observations);
-- the phase-6 A/B is still indistinguishable (then: SC-GF-005 ER-02 is
+- **fired 2026-09-25 (§18 of `24`):** the phase-6 A/B is still indistinguishable (then: SC-GF-005 ER-02 is
   re-scoped to a different measure before any further context work).

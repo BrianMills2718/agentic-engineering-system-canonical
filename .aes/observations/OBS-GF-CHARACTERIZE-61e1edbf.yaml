@@ -1,0 +1,74 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-GF-CHARACTERIZE-61e1edbf
+subject_refs:
+- VS-GF-CHARACTERIZE
+subject_revision: 61e1edbfa26b04f50cafb32f6a140df8d606c755
+dependency_paths:
+- src/agentic_engineering_system/__init__.py
+- src/agentic_engineering_system/characterize.py
+- src/agentic_engineering_system/characterize_python.py
+- src/agentic_engineering_system/cli.py
+- src/agentic_engineering_system/context.py
+- src/agentic_engineering_system/evidence.py
+- src/agentic_engineering_system/hooks.py
+- src/agentic_engineering_system/planning.py
+- src/agentic_engineering_system/project.py
+- src/agentic_engineering_system/reconcile.py
+- src/agentic_engineering_system/records.py
+- src/agentic_engineering_system/topology.py
+- tests/greenfield/test_characterize.py
+dependency_basis:
+  locator: tests/greenfield/test_characterize.py
+  discovered:
+  - src/agentic_engineering_system/__init__.py
+  - src/agentic_engineering_system/characterize.py
+  - src/agentic_engineering_system/characterize_python.py
+  - src/agentic_engineering_system/cli.py
+  - src/agentic_engineering_system/context.py
+  - src/agentic_engineering_system/evidence.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/planning.py
+  - src/agentic_engineering_system/project.py
+  - src/agentic_engineering_system/reconcile.py
+  - src/agentic_engineering_system/records.py
+  - src/agentic_engineering_system/topology.py
+  declared: []
+dependency_target_refs:
+- VS-GF-CHARACTERIZE
+- ER-SC-GF-006-01
+- ER-SC-GF-006-02
+- ART-SRC-CHARACTERIZE
+- ART-SRC-CHARACTERIZE-PYTHON
+- ART-SRC-CLI
+- ART-SRC-CONTEXT
+- ART-SRC-EVIDENCE
+- ART-SRC-HOOKS
+- ART-SRC-PLANNING
+- ART-SRC-PROJECT
+- ART-SRC-RECONCILE
+- ART-SRC-RECORDS
+- ART-SRC-TOPOLOGY
+- ART-TEST-CHARACTERIZE
+- ART-V01---INIT---PY
+observer: &id001
+  identity: aes evidence record
+  version: '0.1.dev374+g2509ea441 (running: 61e1edb)'
+method: /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest -q 
+  tests/greenfield/test_characterize.py
+execution_state: COMPLETED
+result:
+  exit_code: 0
+  output_tail: "...............                                                          [100%]\n15 passed
+    in 1.69s"
+produced_at: '2026-09-25T22:37:58+00:00'
+assessments:
+- evidence_requirement_ref: ER-SC-GF-006-01
+  assessment: SUPPORTS
+  basis: 'VS-GF-CHARACTERIZE (deliberately mutate a planned artifact or selected symbol and detect drift;
+    bind realized facts to exact revision and producer identity) passed: exit 0'
+  assessor: *id001
+- evidence_requirement_ref: ER-SC-GF-006-02
+  assessment: SUPPORTS
+  basis: 'VS-GF-CHARACTERIZE (deliberately mutate a planned artifact or selected symbol and detect drift;
+    bind realized facts to exact revision and producer identity) passed: exit 0'
+  assessor: *id001

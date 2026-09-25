@@ -79,7 +79,9 @@ class MissingRequirement(StrictModel):
     status: Literal["REFUTED", "NO_CURRENT_SUPPORT"]
     detail: str
     verification_subject_refs: list[str]
-    has_route: bool  # false: no verification subject names it (SC-GF-004 "no route")
+    external_boundary: str | None = None  # the target's external_boundaries entry for it, if any
+    has_route: bool  # false: no verification subject names it and no external boundary lists it
+    # (SC-GF-004 "no route"; the same rule as planning.unrouted_requirements)
 
 
 class CriterionState(StrictModel):
@@ -187,6 +189,7 @@ def _criterion_states(target: TargetRecord, report) -> list[CriterionState]:
     for v in target.verification_subjects:
         for er in v.evidence_requirement_refs:
             routes.setdefault(er, []).append(v.id)
+    boundaries = {b.evidence_requirement_ref: " ".join(b.boundary.split()) for b in target.external_boundaries}
     return [
         CriterionState(
             criterion_id=c.criterion_id,
@@ -194,7 +197,8 @@ def _criterion_states(target: TargetRecord, report) -> list[CriterionState]:
             missing=[
                 MissingRequirement(er_id=s.er_id, status=s.status, detail=s.detail,
                                    verification_subject_refs=routes.get(s.er_id, []),
-                                   has_route=s.er_id in routes)
+                                   external_boundary=boundaries.get(s.er_id),
+                                   has_route=s.er_id in routes or s.er_id in boundaries)
                 for s in c.requirements if s.status != "SUPPORTED"
             ],
         )
@@ -335,7 +339,10 @@ def render_report(r: Reconciliation) -> str:
     for c in r.criteria:
         lines.append(f"    {c.criterion_id}: {c.standing}")
         for m in c.missing:
-            route = ", ".join(m.verification_subject_refs) if m.has_route else "NO ROUTE (no verification subject)"
+            routes = [*m.verification_subject_refs]
+            if m.external_boundary is not None:
+                routes.append(f"external boundary ({m.external_boundary})")
+            route = ", ".join(routes) if m.has_route else "NO ROUTE (no verification subject or external boundary)"
             lines.append(f"      {m.er_id}: {m.status} - {m.detail}; route: {route}")
     lines.append("  observations:")
     lines += [f"    {o.observation_id}: {o.freshness} - {o.detail}" for o in r.observations]
