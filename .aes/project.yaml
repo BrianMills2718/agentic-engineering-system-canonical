@@ -1,0 +1,16 @@
+schema_version: aes.v0_2.project.probe0
+project_id: agentic-engineering-system-canonical
+aes:
+  architecture_line: AES-v0.2
+  distribution_version: 0.1.dev372+g0d5e41ae4
+  initialized_at: '2026-09-25T22:20:58+00:00'
+governed_roots:
+- src/agentic_engineering_system/
+- tests/greenfield/
+materialization:
+  target_path: .aes/target.yaml
+  plans_root: .aes/plans/
+  observations_root: .aes/observations/
+  generated_root: .aes/generated/
+ecosystem:
+  primary_language_or_runtime: python

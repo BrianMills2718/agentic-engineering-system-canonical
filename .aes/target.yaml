@@ -1,0 +1,19 @@
+schema_version: aes.v0_2.target.probe0
+target_id: agentic-engineering-system-canonical-target
+outcomes:
+- id: OUT-GF-001
+  actor_or_consumer: software_engineer_or_engineering_agent
+  statement: A colleague can start a genuinely new software project under AES governance, move from 
+    accepted intent through planned realization and implementation to evidence-backed current/gap 
+    state, and do so without access to private historical repositories or undocumented AES lineage 
+    knowledge.
+  non_goals:
+  - retrofit_arbitrary_existing_repository
+  - universal_language_support
+  - universal_framework_abstraction
+  - organization_portfolio_orchestration
+normative_items: []
+success_criteria: []
+components: []
+planned_artifacts: []
+verification_subjects: []
