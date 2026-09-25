@@ -60,6 +60,8 @@ candidate_default_dependencies:
     - Pydantic-v2
   structural_schema_candidate:
     - JSON-Schema-Draft-2020-12
+  transition_coexistence_dependency:
+    - PyYAML-until-v0_1-runtime-is-migrated-or-removed
   explicitly_not_required_default_runtime:
     - BrianMills2718/enforced-planning
     - BrianMills2718/project-meta
@@ -69,11 +71,11 @@ candidate_default_dependencies:
 
 consistency_checks:
   semantic_instance_plus_realization_topology:
-    declared_ids: 109
-    typed_refs: 125
+    declared_ids: 122
+    typed_refs: 188
     unresolved_refs: 0
     duplicate_ids: 0
-    exact_paths: 20
+    exact_paths: 23
     duplicate_exact_paths: 0
   meaning: structural_reference_check_only
 
@@ -91,3 +93,4 @@ remaining_preimplementation_decisions:
   - stdlib_AST_minimum_vs_Griffe_after_bounded_probe
   - authentic_fresh_consumer_selection
   - v0_2_acceptance_and_v0_1_supersession_boundary
+  - v0_1_runtime_artifact_disposition_before_final_cutover
