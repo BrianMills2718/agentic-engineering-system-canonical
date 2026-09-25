@@ -1,5 +1,7 @@
 # AES v0.2 semantic clean-sheet review — pass 3: repository topology
 
+Review role: **historical/supporting rationale**. Current topology semantics are incorporated into `02-semantic-model.candidate.yaml`, `13-greenfield-materialization.candidate.md`, and `20-realization-topology.candidate.yaml`.
+
 Status: **proposal review / non-normative**
 Date: 2026-09-24
 
