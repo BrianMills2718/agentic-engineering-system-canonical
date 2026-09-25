@@ -69,10 +69,12 @@ candidate_default_dependencies:
 
 consistency_checks:
   semantic_instance_plus_realization_topology:
-    declared_ids: 97
-    typed_refs: 114
+    declared_ids: 109
+    typed_refs: 125
     unresolved_refs: 0
     duplicate_ids: 0
+    exact_paths: 20
+    duplicate_exact_paths: 0
   meaning: structural_reference_check_only
 
 superseded_parallel_proposal:
