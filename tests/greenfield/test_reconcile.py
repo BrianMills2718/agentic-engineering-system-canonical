@@ -135,6 +135,7 @@ def test_status_screen_and_exit_zero_when_only_insufficient(root: Path, capsys: 
     out = capsys.readouterr().out
     assert out.startswith(f"OK status: whygame5-target at {_git(root, 'rev-parse', 'HEAD')}\n")
     assert "  artifacts: 9 realized, 3 unrealized, 0 drifted; 0 orphan(s)\n" in out
+    assert "  observations: 0 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded\n" in out
     assert "  criteria: 0 supported, 5 insufficient, 0 refuted;" in out
     assert "    CMP-WG5-RUNNER: unrealized ART-WG5-RUNNER - src/whygame5/runner.py: planned, no file at HEAD (+2 more)\n" in out
     assert "INSUFFICIENT criteria are normal while work is in progress and do not fail this command" in out
@@ -286,3 +287,39 @@ def test_reconcile_writes_nothing(root: Path, capsys: pytest.CaptureFixture[str]
     capsys.readouterr()
     assert snapshot() == before
     assert _git(root, "status", "--porcelain", "--untracked-files=all") == ""
+
+
+def test_squash_merged_evidence_is_unreachable_and_a_superseded_record_is_counted_apart(
+    root: Path, capsys: pytest.CaptureFixture[str],
+) -> None:
+    """§19: evidence recorded on a branch that was squash-merged and deleted stops
+    counting in the clone that recorded it too; re-recording and marking the old
+    record superseded restores support without deleting history."""
+    _git(root, "checkout", "-q", "-b", "feature")
+    _write(root, "tests/test_replay.py", "def test_ok():\n    assert 1\n")
+    branch_rev = _commit(root, "feature work")
+    _observe(root, "OBS-EVAL-BRANCH", "ER-WG5-002-01", "SUPPORTS", [EVALUATOR, "tests/test_evaluator.py"])
+    _commit(root, "record on the branch")
+    _git(root, "checkout", "-q", "-")
+    _git(root, "merge", "-q", "--squash", "feature")
+    _git(root, "commit", "-qm", "squash-merge feature")
+    _git(root, "branch", "-q", "-D", "feature")
+
+    r = reconcile(root)
+    assert _standing(r)["SC-WG5-002"] == "INSUFFICIENT"
+    assert [(o.observation_id, o.freshness, o.superseded_by) for o in r.observations] == [
+        ("OBS-EVAL-BRANCH", "UNREACHABLE", None)]
+    assert r.ok  # withdrawn support is a gap, not a failure
+
+    _observe(root, "OBS-EVAL-MAIN", "ER-WG5-002-01", "SUPPORTS", [EVALUATOR, "tests/test_evaluator.py"])
+    old = root / ".aes/observations/OBS-EVAL-BRANCH.yaml"
+    old.write_text(old.read_text(encoding="utf-8") + "superseded_by: OBS-EVAL-MAIN\n", encoding="utf-8")
+    _commit(root, "re-record on main; supersede the branch record")
+
+    assert main(["status", "--root", str(root)]) == 0
+    assert "  observations: 1 current, 0 stale, 0 unknown, 0 unreachable; 1 superseded\n" in capsys.readouterr().out
+    assert main(["reconcile", "--root", str(root)]) == 0
+    out = capsys.readouterr().out
+    assert (f"    OBS-EVAL-BRANCH: UNREACHABLE (superseded by OBS-EVAL-MAIN) - subject commit {branch_rev[:8]} "
+            "is not reachable from HEAD (squash-merged or deleted branch?)\n") in out
+    assert _standing(reconcile(root))["SC-WG5-002"] == "SUPPORTED"

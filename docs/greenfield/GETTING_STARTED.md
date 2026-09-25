@@ -280,6 +280,17 @@ target entry listed in the observation changes in a later commit, the observatio
 and the criterion goes back to `INSUFFICIENT` until you record it again. A
 failing test is recorded as `REFUTES`, which makes the criterion `REFUTED`.
 
+An observation is only as durable as the commit it names. Recording on a
+branch is normal, but that exact commit must end up on the default branch:
+a squash merge (or rebase) replaces it with a different commit, and once the
+branch is deleted the observation is `UNREACHABLE` — it never counts, in your
+clone or anyone else's, even though your local Git may still hold the old
+commit. So `aes evidence record` warns when HEAD is not yet on `origin/HEAD`
+(or `origin/main`); merge such a branch with a merge commit, or re-record
+after merging. When you re-record to replace an observation, keep the old file
+and add `superseded_by: <new observation_id>` to it; `aes status` then counts
+it as superseded rather than unreachable.
+
 ## 6. See the whole state and what is still open
 
 ```bash
@@ -295,7 +306,7 @@ component. On the example at this point (your commit id will differ):
 OK status: greeter-target at 3dff1d43a241da11863d7b9280edc2d627bfe6fd
   artifacts: 2 realized, 0 unrealized, 0 drifted; 0 orphan(s)
   criteria: 1 supported, 0 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
-  observations: 1 current, 0 stale, 0 unknown
+  observations: 1 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded
   first open gap per component:
     CMP-GREETER: no open gap
   INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
@@ -309,7 +320,7 @@ the gap re-opens: the observation depended on that file, so it is stale and
 OK status: greeter-target at e70b01d9a3e2181f0aaabbf5f0ad72a5a8ac3b2a
   artifacts: 2 realized, 0 unrealized, 0 drifted; 0 orphan(s)
   criteria: 0 supported, 1 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
-  observations: 0 current, 1 stale, 0 unknown
+  observations: 0 current, 1 stale, 0 unknown, 0 unreachable; 0 superseded
   first open gap per component:
     CMP-GREETER: insufficient SC-001 - ER-001-01 NO_CURRENT_SUPPORT
   INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
