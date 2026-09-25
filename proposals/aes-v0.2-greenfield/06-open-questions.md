@@ -1,121 +1,288 @@
-# AES v0.2 open questions after semantic review
+# AES v0.2 unresolved decisions for fresh review
 
-Status: **active proposal review queue / non-normative**
+Status: **active review queue / non-normative**
 Date: 2026-09-24
 
-The first four clean-sheet passes resolved several earlier ambiguities. This file
-now lists only questions still material to the next architecture gate.
+This file intentionally contains only decisions that remain material after the
+clean-sheet, materialization, provider and product-surface passes.
 
-## Semantic model
+For the current architecture, start at `REVIEW.md`.
 
-1. Is realization unit the right semantic boundary, and should its conventional
-   public name be component?
-2. Are the candidate normative-item kinds useful enough to freeze, or should kind
-   remain extensible/non-normative metadata?
-3. What exact form should a criterion's multi-evidence sufficiency rule take
-   without creating a custom logic language?
-4. Do any load-bearing relationships remain that cannot live in typed owning
-   facts or be derived, thereby justifying a separate authored relationship type?
-5. Does the Greenfield MVP need a first-class durable decision type, or are
-   accepted target facts plus plan/provider rationale sufficient initially?
+## Semantic boundary
 
-## Materialization and storage
+### 1. Realization unit name and split rule
 
-6. What is the minimum canonical structured storage layout for outcomes,
-   normative items, criteria, realization commitments and planning state?
-7. Should target semantics be stored in one project-level structured record,
-   realization-unit-local records, or another partition?
-8. Which data is required to be YAML specifically versus another structured
-   representation?
-9. How are stable semantic IDs allocated and kept stable across path renames or
-   record repartitioning?
-10. How are accepted target changes committed atomically with source/topology
-    changes so generated views cannot observe a half-migrated state?
-11. What exact materialization does the initialization contract create for a
-    fresh project?
+Candidate direction:
 
-## Planning
+- keep the semantic concept;
+- use it to group artifacts with coherent responsibility/context/ownership/
+  replacement/verification/failure boundaries;
+- likely expose the conventional public term `component`.
 
-12. What is the minimum AES planning input/output contract once the semantic
-    target model is accepted?
-13. How are planning uncertainty, probes and stopping rules represented without a
-    universal question/epistemic-planning subsystem?
-14. Which provider-binding facts are required for ordinary package/tool
-    dependencies versus only capability-level provider choices?
-15. What exact criteria decide when a public/load-bearing symbol/signature becomes
-    a target commitment?
-16. How should planned dependency intent be represented where it is consequential
-    without authoring a universal dependency graph?
+Review question:
 
-## Verification, evidence, current and gap
+Is this a real necessary semantic boundary, or can artifact/capability ownership
+cover the same need without another first-class concept?
 
-17. What minimal representation expresses evidence requirements involving AND/OR,
-    thresholds, human disposition, or repeated observations without becoming a
-    general policy language?
-18. Who/what is allowed to produce evidence assessments, and how is the assessor
-    identity/version bound?
-19. What dependency closure is sufficient to invalidate evidence after a change?
-20. What exact current-state vocabulary should be user-facing versus derived from
-    freshness/adequacy/standing dimensions?
-21. What exact gap states are needed beyond open/partial/unresolved/closed/not-yet-
-    applicable?
-22. How are human-review and LLM-rubric observations retained in a durable,
-    inspectable form?
+### 2. Normative-item kinds
 
-## Realized repository characterization
+Candidate direction:
 
-23. What is the first supported source/runtime ecosystem for the Greenfield MVP?
-24. What native analyzer/standard/provider best characterizes that ecosystem?
-25. How deep must observed dependency analysis go for context, invalidation and
-    target-realized comparison?
-26. How are dynamic/uncertain dependency observations represented without false
-    certainty?
-27. How are tool-managed durable artifacts and generated families characterized
-    back to the exact accepted generation rule?
+Keep `behavior | constraint | invariant | quality | policy | other` as useful
+classification metadata, but do not make planning or conformance depend heavily
+on the taxonomy.
 
-## Working context and projections
+Review question:
 
-28. Is explicit `aes context <subject>` output sufficient as the first MVP
-    delivery contract, with automatic agent/IDE injection correctly deferred to
-    adapters?
-29. How is context completeness tested without projecting the entire repository?
-30. How are context relevance and dependency consequences derived without a
-    heuristic ranking platform becoming the product?
-31. What generated human navigation/review surface is necessary for the first MVP,
-    if any, beyond the explicit CLI/agent working context?
+Should the kinds be frozen in v0.2, extensible, or removed from the MVP?
 
-## Distribution
+### 3. Evidence-requirement composition
 
-32. What exact Python package/install form and supported Python-version range make
-    AES independently usable by colleagues?
-33. Are Git + Python + ruamel.yaml + Pydantic v2 the correct minimal required
-    dependency set after compatibility/round-trip probes?
-34. Which settings are product configuration versus accepted project target and
-    therefore must not be conflated in one generic config file?
-35. What secrets/environment-specific values must remain outside governed target
-    records?
+Candidate direction:
 
-## Validation
+A success criterion can require one or more evidence requirements with an
+explicit sufficiency rule.
 
-36. Which genuinely fresh project will serve as the first authentic consumer?
-37. How will the projected-context control condition be isolated from hidden
-    conversational context?
-38. What measured or qualitative result is sufficient to continue the context
-    projection direction without pretending one project proves universality?
-39. Which deliberate falsifiers from the validation profile are safe and
-    representative enough to count?
+Review question:
 
-## History and versioning
+What minimum representation supports conjunction/disjunction, thresholds,
+repeated observations, and human/model judgment without creating a general
+policy/logic language?
 
-40. What exact acceptance event promotes v0.2 proposal semantics into current AES
-    normative authority?
-41. Which v0.1 research/evidence remains physically in the live tree versus only
-    reachable through Git history/tags?
-42. What change threshold requires AES v0.3 instead of an additive v0.2 capability
-    or maturity increment?
-43. Does the Greenfield MVP reveal any semantic lifecycle information that truly
-    justifies an append-only event layer beyond Git, accepted authorities and
-    revision-bound observations/evidence?
+### 4. Separate authored relationship semantics
+
+Candidate direction:
+
+No universal authored relationship registry. Typed owning refs plus observed and
+derived relationships are sufficient so far.
+
+Review question:
+
+Is there a concrete load-bearing relationship that cannot truthfully live in an
+owning record or be derived? If not, keep the generic registry out.
+
+### 5. First-class durable decision type
+
+Candidate direction:
+
+Not required yet for the Greenfield semantic kernel; target facts, plan rationale
+and provider dispositions carry the immediate architecture.
+
+Review question:
+
+Does the MVP need durable decision records to preserve why an accepted target
+choice was made independently of a historical plan?
+
+## Materialization
+
+### 6. One project-level target.yaml
+
+Candidate direction:
+
+Use one `.aes/target.yaml` for the Greenfield MVP to preserve atomic review and
+avoid premature partition/synchronization machinery.
+
+Review question:
+
+Is this appropriately simple, or is the file likely to become an unusable
+monolith before the MVP proves the architecture?
+
+### 7. Stable semantic ID grammar
+
+Candidate direction:
+
+IDs survive storage repartition and path renames when the semantic subject
+survives.
+
+Review question:
+
+What minimum namespace/grammar prevents collision and accidental identity change
+without creating a registry service?
+
+### 8. Target-acceptance atomicity
+
+Candidate direction:
+
+Target/topology/verification changes and corresponding repository mutations must
+land as one internally reconcilable accepted revision. Authority files do not
+self-embed their own Git SHA.
+
+Review question:
+
+Is Git revision + content identity sufficient, and which exact mutations must be
+atomic for MVP correctness?
+
+## Planning/topology
+
+### 9. Provider-binding threshold
+
+Candidate direction:
+
+Create an AES provider binding when an external/provider choice materially
+satisfies an AES capability or changes the accepted realization boundary; do not
+model every ordinary package dependency as an AES provider.
+
+Review question:
+
+Where is the clean threshold?
+
+### 10. Selected symbol commitment threshold
+
+Candidate direction:
+
+Plan only public/load-bearing symbols whose identity/signature/type/narrower
+obligation or verification role is itself a target commitment.
+
+Review question:
+
+Is the threshold mechanically reviewable enough to avoid both symbol bureaucracy
+and hidden architecture drift?
+
+### 11. Intended dependency commitments
+
+Candidate direction:
+
+Represent consequential intended dependencies only where planning needs them;
+observed dependencies come from characterization and impact/relevance edges are
+derived.
+
+Review question:
+
+What is the smallest target representation that can express a consequential seam
+without becoming a universal dependency graph?
+
+## Evidence/current/gap
+
+### 12. Evidence-assessment materialization
+
+Candidate direction:
+
+Observation is retained. Freshness/adequacy/standing is a separate assessment with
+assessor provenance. Exact file placement is still undecided.
+
+Review question:
+
+Should assessments be retained records, reproducible generated projections, or a
+hybrid depending on whether judgment is deterministic?
+
+### 13. Assessor identity
+
+Candidate direction:
+
+Every non-trivial evidence assessment identifies the assessor implementation and
+version; human/model judgments additionally identify the reviewing actor/provider
+as applicable.
+
+Review question:
+
+What identity is sufficient for deterministic AES code, humans, and model-based
+rubrics without overbuilding attestation infrastructure?
+
+### 14. Evidence invalidation closure
+
+Candidate direction:
+
+Invalidate evidence when a material subject/dependency changes, using intended
+and observed dependency facts conservatively.
+
+Review question:
+
+How much transitive closure is required for the MVP before invalidation becomes
+too broad or too weak?
+
+### 15. User-facing current/gap vocabulary
+
+Candidate direction:
+
+Keep freshness/adequacy/standing as underlying dimensions; project concise
+human-facing states such as unrealized, unverified, supported, contradicted,
+stale/error/insufficient.
+
+Review question:
+
+Which states should be contractual versus merely UI projection?
+
+### 16. Human and model evidence retention
+
+Candidate direction:
+
+Retain a durable review/observation artifact or reference with exact criterion,
+inputs, assessor identity and disposition.
+
+Review question:
+
+What is the minimum inspectable record for human review and LLM-rubric evidence?
+
+## Characterization/context
+
+### 17. Python characterization provider
+
+Candidate direction:
+
+Git + stdlib `ast` is the minimum first implementation. Run a bounded comparison
+against Griffe before final characterizer binding; add LibCST only after a failed
+requirement.
+
+Review question:
+
+Does Griffe materially improve symbol/public-API identity enough to justify a
+runtime dependency, or should the MVP stay stdlib-only?
+
+### 18. Working-context MVP boundary
+
+Candidate direction:
+
+`aes context <subject>` is the core delivery contract. Automatic agent/IDE
+injection is deferred to adapters.
+
+Review question:
+
+Can completeness and usefulness be validated through explicit packet delivery
+without weakening the product claim, and how should optional relevance be bounded
+without silently omitting required context?
+
+## Distribution/validation
+
+### 19. Package/runtime support
+
+Candidate direction:
+
+Normal Python distribution with `aes` console entrypoint; Git + Python +
+ruamel.yaml + Pydantic v2 candidate required stack; standard installation must
+work without uv or a source checkout.
+
+Review question:
+
+Which Python versions and exact dependency pins become the first supported
+compatibility contract after clean-install/round-trip probes?
+
+### 20. Authentic Greenfield consumer and control
+
+Candidate direction:
+
+Use a genuinely new project, not AES canonical, and compare one real change with
+bounded projected context versus ordinary repository orientation.
+
+Review question:
+
+Which project is authentic but bounded enough for the first proof, and how do we
+isolate the control from hidden conversational knowledge?
+
+## Lineage/cutover
+
+### 21. v0.2 acceptance and v0.1 supersession
+
+Candidate direction:
+
+v0.1 remains historical lineage/evidence. v0.2 becomes current only through an
+explicit acceptance/cutover change after this architecture review; implementation
+does not silently redefine current architecture.
+
+Review question:
+
+What exact artifact/decision and Git revision marks that cutover, what v0.1
+material remains live in the working tree, and what class of later semantic change
+requires v0.3 instead of additive v0.2 capability maturity?
 
 ## Explicitly deferred
 
@@ -125,5 +292,7 @@ Not prerequisites for the Greenfield MVP:
 - universal language/framework support;
 - organization/portfolio-wide orchestration;
 - generalized self-modifying policy;
-- extracting AES capabilities into separate repositories without a demonstrated
-  ownership/release boundary.
+- mandatory semantic event stream;
+- automatic client-specific context injection;
+- extracting AES capabilities into separate repositories without demonstrated
+  ownership/release pressure.
