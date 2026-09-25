@@ -1,5 +1,7 @@
 # AES v0.2 semantic clean-sheet review — pass 2: references and authority
 
+Review role: **historical/supporting rationale**. Current reference/relationship semantics are incorporated into `02-semantic-model.candidate.yaml`.
+
 Status: **proposal review / non-normative**
 Date: 2026-09-24
 
