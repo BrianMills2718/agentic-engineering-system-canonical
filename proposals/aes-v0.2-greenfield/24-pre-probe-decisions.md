@@ -408,3 +408,67 @@ Decision: report, do not refuse, a global `core.hooksPath` override.
 Wrong-when: a consumer commits a file the global hook would have refused
 (an `.env`, a canonical-checkout commit) because `aes hooks install`
 disabled it; then the AES hook must chain to the global one.
+
+## 12. Project initialization realized (2026-09-25)
+
+Roadmap phase 2 (`25-roadmap-to-mvp-acceptance.md`). Realized:
+
+- **`aes init --project-id ID --actor TEXT --outcome TEXT`**
+  (`src/agentic_engineering_system/project.py`, `ART-SRC-PROJECT`) writes
+  exactly the contract's two seed artifacts: `.aes/project.yaml` (schema
+  version, project id, governed roots, architecture line, the installed
+  distribution version from `importlib.metadata` and `initialized_at`, the
+  paths deferred artifacts will use, the primary language) and
+  `.aes/target.yaml` holding one outcome and empty lists for every other
+  family. Both are staged in a temporary sibling directory, loaded strictly
+  with `load_project`/`load_target`, compared with the seed set, and renamed
+  to `.aes/` in one step. It refuses, writing nothing, outside Git, below the
+  work-tree top, over an existing `.aes/`, on an empty outcome or actor, and
+  when the staged tree holds anything the contract does not name as a seed
+  (the deferred analysis, plans, observations and generated paths).
+- **Project discovery.** `find_project_root` walks up to the nearest
+  `.aes/project.yaml`; every other command uses it when `--root` is absent,
+  so `aes` works from subdirectories and from linked worktrees, which check
+  out their own `.aes/`.
+- **Getting started.** `docs/greenfield/GETTING_STARTED.md`
+  (`ART-DOC-GREENFIELD-GETTING-STARTED`) takes an empty directory to one
+  SUPPORTED criterion. Every command block in it was executed verbatim in a
+  fresh directory against an install pinned to the branch commit.
+
+Evidence: `tests/greenfield/test_project.py` (22 cases): init in a temporary
+Git repository passes `target validate`, `topology check` and `evidence
+status`; each refusal leaves the tree byte-identical; a deferred artifact
+injected into the staged tree refuses the whole init; discovery works from a
+nested directory and from a linked worktree, including `hooks install`.
+Removing the seed-set comparison fails four cases; replacing discovery with
+the old `.` default fails three.
+
+What the contract under-specified:
+
+1. **The outcome record needs an actor.** `initial_target_minimum` requires
+   only `outcomes`, but the outcome record (from probe 0) requires
+   `actor_or_consumer`. A placeholder would be an empty authoritative shell,
+   so `aes init` takes a required `--actor`, a departure from the roadmap's
+   `aes init --project-id <id>` shape.
+2. **The project record needs a language.** `explicit_nonclaims` says the
+   project language is not selected, but `ProjectRecord.ecosystem` is
+   required and `aes evidence record` uses it to choose the default test
+   command. `--language` defaults to `python` and the value is printed.
+3. **`initialized_at` had no field.** The strict project record forbade it;
+   it is now an optional field of `aes`, absent in hand-made projects such as
+   the whygame5 fixture.
+4. **The planned symbol changed.** `SYM-AES-PROJECT-INIT` planned
+   `initialize_project(root, *, project_id, architecture_line) -> ProjectRecord`;
+   the realized function also takes the outcome, actor, governed roots and
+   language and returns an `InitResult` (paths plus both loaded records).
+   The topology entry is updated to the realized signature.
+5. **The install source is private.** The getting-started install line needs
+   read access to this repository; the roadmap's clean-user run assumes a
+   stranger can install from it. Until the repository or a built
+   distribution is public, the clean-user run needs granted access.
+
+Decision: discovery stops at the first `.aes/project.yaml` found walking up,
+not at the Git work-tree top. Wrong-when: a command run inside a repository
+that has no `.aes/` of its own silently operates on an enclosing directory's
+project (a nested checkout under an initialized one); then discovery must
+stop at `git rev-parse --show-toplevel`.
