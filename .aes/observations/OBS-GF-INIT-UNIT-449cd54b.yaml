@@ -1,0 +1,68 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-GF-INIT-UNIT-449cd54b
+subject_refs:
+- VS-GF-INIT-UNIT
+subject_revision: 449cd54bdb0b5a722a904798f3deba1b604ca2c1
+dependency_paths:
+- src/agentic_engineering_system/__init__.py
+- src/agentic_engineering_system/characterize.py
+- src/agentic_engineering_system/characterize_python.py
+- src/agentic_engineering_system/cli.py
+- src/agentic_engineering_system/context.py
+- src/agentic_engineering_system/evidence.py
+- src/agentic_engineering_system/hooks.py
+- src/agentic_engineering_system/planning.py
+- src/agentic_engineering_system/project.py
+- src/agentic_engineering_system/reconcile.py
+- src/agentic_engineering_system/records.py
+- src/agentic_engineering_system/topology.py
+- tests/greenfield/test_project.py
+dependency_basis:
+  locator: tests/greenfield/test_project.py
+  discovered:
+  - src/agentic_engineering_system/__init__.py
+  - src/agentic_engineering_system/characterize.py
+  - src/agentic_engineering_system/characterize_python.py
+  - src/agentic_engineering_system/cli.py
+  - src/agentic_engineering_system/context.py
+  - src/agentic_engineering_system/evidence.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/planning.py
+  - src/agentic_engineering_system/project.py
+  - src/agentic_engineering_system/reconcile.py
+  - src/agentic_engineering_system/records.py
+  - src/agentic_engineering_system/topology.py
+  declared: []
+dependency_target_refs:
+- VS-GF-INIT-UNIT
+- ER-SC-GF-001-01
+- ART-SRC-CHARACTERIZE
+- ART-SRC-CHARACTERIZE-PYTHON
+- ART-SRC-CLI
+- ART-SRC-CONTEXT
+- ART-SRC-EVIDENCE
+- ART-SRC-HOOKS
+- ART-SRC-PLANNING
+- ART-SRC-PROJECT
+- ART-SRC-RECONCILE
+- ART-SRC-RECORDS
+- ART-SRC-TOPOLOGY
+- ART-TEST-PROJECT
+- ART-V01---INIT---PY
+observer: &id001
+  identity: aes evidence record
+  version: '0.1.dev379+g2d3486b02 (running: 449cd54)'
+method: /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest -q 
+  tests/greenfield/test_project.py
+execution_state: COMPLETED
+result:
+  exit_code: 0
+  output_tail: "......................                                                   [100%]\n22 passed
+    in 1.96s"
+produced_at: '2026-09-25T23:12:20+00:00'
+assessments:
+- evidence_requirement_ref: ER-SC-GF-001-01
+  assessment: INCONCLUSIVE
+  basis: a local test proves only the initialization/distribution mechanism on this machine; 
+    ER-SC-GF-001-01 needs a clean-user run
+  assessor: *id001
