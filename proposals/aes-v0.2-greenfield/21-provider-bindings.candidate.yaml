@@ -193,6 +193,19 @@ explicit_rejections:
       own AES project requirements, provider bindings, or residual decisions.
     still_candidate_for: provider_discovery_knowledge_source
 
+
+transition_distribution_dependencies:
+  - provider_identity: PyYAML
+    status: required_only_during_v0_1_runtime_coexistence
+    reason: >
+      The current v0.1 Repository Context implementation imports yaml directly.
+      Bounded pre-cutover v0.2 probes in the same installable distribution must
+      therefore retain PyYAML unless that v0.1 code is migrated or removed.
+    v0_2_semantic_role: none
+    final_v0_2_rule: >
+      Do not retain PyYAML in the final Greenfield dependency set solely for
+      historical code that has no accepted v0.2 role.
+
 acceptance_blockers:
   - exact_supported_Python_version_range
   - exact_dependency_versions_and_clean_install_probe
@@ -202,6 +215,7 @@ acceptance_blockers:
   - evidence_assessment_record_materialization
   - authentic_fresh_consumer_selection
   - explicit_v0_2_acceptance_and_v0_1_supersession_boundary
+  - v0_1_runtime_artifact_disposition_before_final_cutover
 
 nonclaims:
   - no_binding_here_is_accepted_target_yet
