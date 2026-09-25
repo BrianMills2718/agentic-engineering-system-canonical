@@ -247,9 +247,11 @@ without silently omitting required context?
 
 Candidate direction:
 
-Normal Python distribution with `aes` console entrypoint; Git + Python +
-ruamel.yaml + Pydantic v2 candidate required stack; standard installation must
-work without uv or a source checkout.
+Normal Python distribution with `aes` console entrypoint. The clean v0.2
+semantic-core candidate stack is Git + Python + ruamel.yaml + Pydantic v2.
+Pre-cutover probes in this same repository must also retain PyYAML while v0.1
+Repository Context remains executable. Standard installation must work without uv
+or a source checkout.
 
 Review question:
 
