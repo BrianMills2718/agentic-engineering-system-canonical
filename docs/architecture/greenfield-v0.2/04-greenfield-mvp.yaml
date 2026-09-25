@@ -1,0 +1,182 @@
+# Accepted AES v0.2 greenfield architecture. Plain copy of proposals/aes-v0.2-greenfield/04-greenfield-mvp.candidate.yaml
+# (copied, not git mv'd, so the proposal lineage stays in place), accepted by Decision 0010
+# (2026-09-25). For AES canonical, .aes/target.yaml is the live authority: where this file and
+# the target disagree, this file is wrong. `accepted_amendments` lists what changed from the candidate.
+# File names below that are not in this directory refer to proposals/aes-v0.2-greenfield/ (proposal lineage).
+schema_version: aes.v0_2.greenfield_mvp.v0
+status: accepted
+accepted_by: docs/decisions/0010-greenfield-v0.2-accepted.md
+source_proposal: proposals/aes-v0.2-greenfield/04-greenfield-mvp.candidate.yaml
+
+identity:
+  architecture_line: AES-v0.2
+  delivery_scope: Greenfield-MVP
+
+product_outcome: >
+  A user can start a new software project under AES governance, express the
+  intended outcome and success conditions, derive and accept a planned repository
+  and verification topology, implement within that topology, obtain projected
+  working context, verify the result, and see revision-bound current and gap state
+  without access to the author's private historical repositories.
+
+supported:
+  project_origin:
+    - new_empty_repository
+    - new_project_created_under_AES_from_inception
+  lifecycle:
+    - intent_to_normative_target
+    - normative_target_to_planned_realization
+    - planned_realization_to_repository_materialization
+    - native_implementation_under_declared_topology
+    - source_local_context_projection
+    - realized_source_characterization
+    - criterion_linked_verification
+    - evidence_to_current
+    - target_current_to_gap
+    - next_work_projection
+  distribution:
+    - documented_installation
+    - documented_default_configuration
+    - explicit_obtainable_dependencies
+    - no_undocumented_private_repository_prerequisites
+
+not_supported:
+  - arbitrary_existing_repository_retrofit
+  - automatic_reconstruction_of_legacy_intent
+  - automatic_reconstruction_of_why_legacy_files_exist
+  - automatic_migration_of_existing_repository_topology
+  - universal_language_support
+  - universal_framework_abstraction
+  - autonomous_gap_closure_from_plan_completion
+  - implicit_provider_inheritance_from_AES_v0_1
+
+minimum_greenfield_acceptance:
+  # Texts are the accepted SC-GF criteria as carried by 12-greenfield-mvp-semantic-instance.yaml
+  # and .aes/target.yaml (whitespace-normalized); see accepted_amendments for the candidate wording.
+  - id: SC-GF-001
+    statement: >
+      A fresh user with no access to Brian's other private repositories can
+      install/configure the supported AES distribution and initialize a new
+      governed project using only distributed material and declared
+      dependencies.
+    disproof: >
+      Successful initialization requires copying undeclared files,
+      private-repo access, or undocumented historical knowledge.
+
+  - id: SC-GF-002
+    statement: >
+      Before governed implementation, every exercised normative item is linked
+      to explicit success/disproof semantics and each exercised criterion
+      states what evidence can establish it.
+    disproof: >
+      An implemented obligation exists only in conversation, code, or an
+      unowned checklist, or a criterion has no evidence requirement.
+
+  - id: SC-GF-003
+    statement: >
+      The accepted realization topology accounts for every durable governed
+      artifact by exact path or bounded accepted generation rule and gives
+      every artifact a semantic purpose.
+    disproof: >
+      A durable governed artifact can exist without an accepted exact path,
+      applicable bounded generation rule, or semantic justification.
+
+  - id: SC-GF-004
+    statement: >
+      Before governed execution, each exercised evidence requirement is mapped
+      to a concrete verification subject or an explicit external/human
+      observation boundary.
+    disproof: >
+      Implementation starts while an exercised criterion has no concrete route
+      to obtaining its required evidence.
+
+  - id: SC-GF-005
+    statement: >
+      A fresh implementing agent receives the complete applicable normative,
+      success and disproof text with provenance in the bounded working context
+      for the selected subject.
+    disproof: >
+      The context exposes only identifiers/links, omits a load-bearing
+      obligation, or requires broad repository archaeology before the agent
+      can understand what must be preserved.
+
+  - id: SC-GF-006
+    statement: >
+      At an exact revision AES characterizes the realized repository and
+      mechanically detects missing/undeclared durable artifacts plus selected
+      symbol/signature/type drift when such commitments exist.
+    disproof: >
+      Target-realized comparison requires manual reconstruction of repository
+      contents or silently accepts an intentional drift.
+
+  - id: SC-GF-007
+    statement: >
+      A pass-like observation with insufficient required evidence does not
+      render the associated criterion satisfied or its gap closed.
+    disproof: >
+      Any passing test automatically produces criterion satisfaction
+      regardless of the criterion's evidence requirements.
+
+  - id: SC-GF-008
+    statement: >
+      Material change to an evidence dependency invalidates or stales affected
+      evidence/current state until applicable evidence is re-established.
+    disproof: >
+      A materially changed subject can retain green current/gap state solely
+      because older evidence once passed.
+
+  - id: SC-GF-009
+    statement: >
+      One complete Greenfield-MVP lifecycle is exercised on a genuinely new
+      consumer project under AES governance from inception.
+    disproof: >
+      Acceptance relies only on AES canonical's existing repository, schemas,
+      fixtures, prose review, or a pre-existing project requiring retrofit.
+
+retrofit:
+  capability_id: aes.adoption.retrofit
+  Greenfield_MVP_status: NOT_SUPPORTED
+  future_goal: >
+    Bring an existing repository under AES by characterizing current realization,
+    producing explicitly uncertain candidate intent/topology, obtaining accepted
+    disposition, and then entering the normal AES lifecycle.
+  nonclaim: Greenfield_MVP_success_does_not_validate_retrofit
+
+provider_policy:
+  rule: >
+    Default providers must be selected only after these capabilities and criteria
+    are accepted enough to evaluate providers. Prior private systems are donors
+    and candidates, not hidden prerequisites.
+
+accepted_amendments:
+  - change: >
+      minimum_greenfield_acceptance SC-GF-002..009 statements and disproofs
+      replaced with the accepted texts carried by 12-greenfield-mvp-semantic-instance.yaml
+      and .aes/target.yaml (SC-GF-001 was already identical; ids unchanged).
+      The candidate wording differed under the same ids. Largest differences:
+      candidate SC-GF-007 was current/gap materialization preserving stale,
+      error, unobserved and insufficient states, and candidate SC-GF-008 was "a
+      second fresh agent can receive a bounded projected context for one real
+      implementation change and act correctly"; the accepted SC-GF-007 is that a
+      pass-like observation with insufficient evidence does not satisfy a
+      criterion, and SC-GF-008 is that material change stales evidence. The
+      fresh-agent comparison survives only as ER-SC-GF-005-02, re-scoped to a
+      comparison run and retained with its verdict either way; the claim that
+      projected context reduces reconstruction cost is recorded as not
+      established. Other candidate texts (SC-GF-002..006, 009) were earlier
+      phrasings of the same obligations.
+    reason: >
+      .aes/target.yaml is the live authority and a same-id criterion with a
+      different meaning contradicts it; the target's criteria are copied
+      verbatim from file 12 and tests/greenfield/test_self_governance.py checks that.
+    source: .aes/target.yaml success_criteria; 24-pre-probe-decisions.md sections 17, 18 and 20 item 3; .aes/plans/PLAN-AES-RESCOPE-CONTEXT-AB.yaml
+  - change: none elsewhere; identity, product_outcome, supported, not_supported, retrofit and provider_policy kept as the candidate.
+    reason: >
+      Checked against the built system: every supported lifecycle stage has a
+      command (aes init, plan prepare/validate/accept, topology check, context,
+      characterize, evidence record/status, reconcile, status with first open
+      gap per component as next-work projection, hooks install); retrofit stays
+      unsupported (AES canonical's own self-governance is a retrofit and
+      GF-REQ-009 keeps it from counting as the fresh consumer); no provider was
+      inherited from v0.1.
+    source: src/agentic_engineering_system/cli.py:85-150; 24-pre-probe-decisions.md section 17 item 5

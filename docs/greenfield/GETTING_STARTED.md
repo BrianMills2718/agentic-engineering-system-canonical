@@ -85,7 +85,7 @@ aes plan prepare
 ```text
 schema_version: aes.v0_2.plan_input.probe0
 target_id: greeter-target
-subject_revision: 8801d313294da670343e300c6ceb7a39d3085c0a
+subject_revision: 9b3c5898ab7ddbe9298db48751b47a8915bec2c0
 dirty: false
 governed_roots:
   - src/
@@ -171,7 +171,7 @@ error: proposal PLAN-001-GREET: 1 violation(s):
 With it:
 
 ```text
-OK proposal PLAN-001-GREET: 6 addition(s), 0 change(s)
+OK proposal PLAN-001-GREET: 6 addition(s), 0 change(s), 0 removal(s)
   closes: no current gap (target extension)
   resulting target: success_criteria=1 evidence_requirements=1 verification_subjects=1 external_boundaries=0; every evidence requirement has a route
 ```
@@ -186,7 +186,7 @@ git commit -q -m "Plan PLAN-001-GREET"
 ```
 
 ```text
-accepted at 8801d313294da670343e300c6ceb7a39d3085c0a
+accepted at 9b3c5898ab7ddbe9298db48751b47a8915bec2c0
   added normative_items NI-001
   added success_criteria SC-001
   added components CMP-GREETER
@@ -202,7 +202,10 @@ accepted at 8801d313294da670343e300c6ceb7a39d3085c0a
 the proposal does not validate, and when a plan with the same id was already
 accepted. It edits `.aes/target.yaml` in place (comments and order kept, new
 entries at the end of their list) and keeps the proposal, with the commit it
-was accepted at, in `.aes/plans/`. It does not commit. The full protocol,
+was accepted at, in `.aes/plans/`. It does not commit. Like `aes evidence
+record` (section 5), it warns on stderr when that commit is not yet on the
+default branch, and `aes status` counts an accepted plan whose commit is no
+longer reachable as a warning line. The full protocol,
 including how to change an existing entry, is in
 `src/agentic_engineering_system/planning_protocol.md` in the AES repository.
 Editing `.aes/target.yaml` by hand still works; the hook checks the result
@@ -299,14 +302,15 @@ aes status
 
 `aes status` puts everything above on one screen: the commit it describes,
 counts of planned artifacts (realized, unrealized, drifted), orphans, criteria
-by standing and observations by freshness, then the first open gap of each
+by standing, observations by freshness and accepted plans, then the first open gap of each
 component. On the example at this point (your commit id will differ):
 
 ```text
-OK status: greeter-target at 3dff1d43a241da11863d7b9280edc2d627bfe6fd
+OK status: greeter-target at 02eb781365c0990e4f7e4d09ac097f69b88462ad
   artifacts: 2 realized, 0 unrealized, 0 drifted; 0 orphan(s)
   criteria: 1 supported, 0 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
   observations: 1 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded
+  plans: 1 accepted, 0 unreachable
   first open gap per component:
     CMP-GREETER: no open gap
   INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
@@ -317,10 +321,11 @@ the gap re-opens: the observation depended on that file, so it is stale and
 `SC-001` has no current support.
 
 ```text
-OK status: greeter-target at e70b01d9a3e2181f0aaabbf5f0ad72a5a8ac3b2a
+OK status: greeter-target at d9cc5f0db8e05b5e47fb60506634a45d74a04d95
   artifacts: 2 realized, 0 unrealized, 0 drifted; 0 orphan(s)
   criteria: 0 supported, 1 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
   observations: 0 current, 1 stale, 0 unknown, 0 unreachable; 0 superseded
+  plans: 1 accepted, 0 unreachable
   first open gap per component:
     CMP-GREETER: insufficient SC-001 - ER-001-01 NO_CURRENT_SUPPORT
   INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.

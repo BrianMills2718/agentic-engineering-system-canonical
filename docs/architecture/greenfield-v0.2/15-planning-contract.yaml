@@ -1,0 +1,414 @@
+# Accepted AES v0.2 greenfield architecture. Plain copy of proposals/aes-v0.2-greenfield/15-planning-contract.candidate.yaml
+# (copied, not git mv'd, so the proposal lineage stays in place), accepted by Decision 0010
+# (2026-09-25). For AES canonical, .aes/target.yaml is the live authority: where this file and
+# the target disagree, this file is wrong. `accepted_amendments` lists what changed from the candidate.
+# File names below that are not in this directory refer to proposals/aes-v0.2-greenfield/ (proposal lineage).
+schema_version: aes.v0_2.planning_contract.v0
+status: accepted
+accepted_by: docs/decisions/0010-greenfield-v0.2-accepted.md
+source_proposal: proposals/aes-v0.2-greenfield/15-planning-contract.candidate.yaml
+semantic_model: 02-semantic-model.yaml
+lifecycle: 03-lifecycle.yaml
+
+purpose: >
+  Define the AES-specific planning capability without selecting Company Planning,
+  Enforced Planning, or any other provider.
+
+planning_capability:
+  id: aes.planning.derive
+  meaning: >
+    Convert accepted target, qualified current/gaps and accepted engineering
+    analysis into a proposed realization/verification target delta and an
+    execution transition that can be accepted without hidden design decisions.
+  realized_in_v0_2_mvp: false
+  mvp_note: >
+    The derivation itself is not realized. The v0.2 MVP generates no plan and
+    calls no model: a human or agent writes the proposal (a target delta plus
+    the gap ids it intends to close) following
+    src/agentic_engineering_system/planning_protocol.md, and AES realizes only
+    the target acceptance transaction around it: `aes plan prepare`,
+    `aes plan validate <proposal>`, `aes plan accept <proposal>` (planning.py).
+
+preconditions:
+  required:
+    - accepted_target_snapshot
+    - qualified_current_snapshot
+    - gap_snapshot
+  optional:
+    - accepted_failure_modes
+    - provider_landscape_refs
+    - feasibility_findings
+    - planning_uncertainty
+    - distribution_or_initialization_constraints
+  invariant: >
+    Planning may expose unresolved uncertainty but must not invent current facts,
+    provider fit, or target commitments to make the plan look complete.
+  mvp_realization: >
+    The required inputs are realized as the `aes plan prepare` packet
+    (aes.v0_2.plan_input.probe0): target_id, subject_revision (HEAD), dirty,
+    governed_roots, the open gaps of the current reconciliation with their ids
+    (`<kind>:<ref>`), unrouted evidence requirements, every declared id by
+    family, and an empty proposal_skeleton. There are no stored current or gap
+    snapshots: `aes reconcile` recomputes them from HEAD on every run. None of
+    the optional inputs has a record in the MVP (failure modes, provider
+    landscape, feasibility findings and planning uncertainty are not target
+    families); they are not realized.
+
+design_phase:
+  input_binding:
+    - source_target_identity
+    - source_current_identity
+    - source_gap_identity
+    - analysis_refs
+  input_binding_mvp_realization: >
+    A proposal carries no input identities. `aes plan validate` and
+    `aes plan accept` check it against the target and the reconciliation at the
+    current HEAD, and the accepted plan records that HEAD as
+    `accepted_at_revision`. analysis_refs are not realized.
+
+  produces:
+    proposed_target_delta:
+      may_add_update_or_remove:
+        - capability_requirements
+        - provider_bindings
+        - realization_units
+        - planned_artifacts
+        - artifact_generation_rules
+        - planned_symbol_commitments
+        - verification_subjects
+        - consequential_intended_dependencies
+      each_change_requires:
+        - semantic_reason
+        - affected_target_refs
+      nonclaim: >
+        Proposed target delta is not accepted target merely because planning
+        emitted it.
+      mvp_realization:
+        proposal_schema: aes.v0_2.proposal.probe0
+        proposal_fields: [schema_version, proposal_id, title, rationale, closes_gaps, target_delta, outside_governed_roots]
+        delta_sections:
+          add: whole new entries, in exactly the target's shape
+          change: the whole replacement for an existing entry, matched by id (evidence_requirement_ref for external_boundaries)
+          remove: keys of entries to delete; nothing left in the result may reference them
+        realized_families:
+          - outcomes
+          - normative_items
+          - success_criteria  # with nested evidence_requirements
+          - components  # the realization units
+          - planned_artifacts  # exact_path locators; `exports` carries symbol commitments
+          - verification_subjects
+          - external_boundaries
+        not_realized_families:
+          - capability_requirements
+          - provider_bindings
+          - artifact_generation_rules
+          - consequential_intended_dependencies
+        each_change_requires_realization: >
+          One proposal-level `title` and `rationale` stand for the semantic
+          reason; affected refs are the entries' own refs. There is no
+          per-change reason field.
+
+    execution_design:
+      includes_as_needed:
+        - human_observable_verticals
+        - boundary_probes
+        - dependency_resolution
+        - enablers
+        - regression_or_hardening_work
+      each_non_vertical_item_requires:
+        - protected_or_unlocked_vertical
+        - stopping_or_return_rule
+      realized_in_v0_2_mvp: false  # a proposal has no execution design; see execution_plan_phase
+
+    planning_uncertainty:
+      each_entry_requires:
+        - question_or_unknown
+        - current_known_facts
+        - resolution_method
+        - stopping_rule
+        - downstream_update_if_resolved
+      rule: unresolved_load_bearing_uncertainty_cannot_be_silently_frozen
+      realized_in_v0_2_mvp: false  # no uncertainty record; the rule is on the proposal author
+
+target_acceptance_transaction:
+  order:
+    - validate_proposed_target_delta
+    - accept_target_delta
+    - materialize_new_target_identity
+    - recharacterize_or_reuse_valid_realized_observations
+    - recompute_qualified_current_against_new_target
+    - recompute_gap_set_against_new_target
+  reason: >
+    Realization topology becomes durable target authority before the historical
+    execution plan claims to close it.
+
+  important_distinction:
+    trigger_gaps:
+      meaning: gaps that caused planning to begin against the pre-design target
+    closing_gaps:
+      meaning: >
+        gaps produced or retained after the accepted target delta is applied and
+        current/gap is rematerialized; these are the gaps the execution plan can
+        intend to close or narrow
+
+  mvp_realization:
+    performed_by_accept: >
+      `aes plan accept <proposal>` performs validate_proposed_target_delta,
+      accept_target_delta and materialize_new_target_identity: it refuses on
+      uncommitted tracked changes or anything untracked under `.aes/`, on any
+      validation violation, and when `.aes/plans/<proposal_id>.yaml` already
+      exists; otherwise it edits `.aes/target.yaml` in place (ruamel
+      round-trip, comments and order kept), checks the written text loads to
+      exactly the validated target, writes the plan file, and warns on stderr
+      when HEAD is not on the default branch (origin/HEAD, else origin/main).
+      It does not commit; the target and the plan are committed together.
+    not_performed_by_accept: >
+      recharacterize, recompute current and recompute gaps are not steps of
+      accept. `aes reconcile` / `aes status` recompute them from HEAD on every
+      run and store nothing.
+    gap_distinction: >
+      Only one gap list is realized: `closes_gaps`, whose ids (`<kind>:<ref>`)
+      must be open in the reconciliation at HEAD before acceptance, i.e. trigger
+      gaps in this contract's terms. Closing gaps after the delta is applied
+      are not recorded separately; a gap closes only when a later
+      reconciliation no longer reports it. `closes_gaps` may be empty for a
+      pure target extension.
+
+execution_plan_phase:
+  may_begin_only_after:
+    - target_delta_accepted
+    - new_current_materialized
+    - new_gap_set_materialized
+
+  plan_required:
+    - id
+    - source_target_identity
+    - source_current_identity
+    - trigger_gap_refs
+    - closing_gap_refs
+    - intended_transition
+    - verticals_or_probes
+    - completion_evidence_requirements
+    - stopping_and_reassessment_rules
+
+  mvp_realization:
+    plan_file: .aes/plans/<proposal_id>.yaml, written by `aes plan accept` in the same step as the target edit
+    plan_file_shape: >
+      The proposal (schema_version aes.v0_2.proposal.probe0, proposal_id,
+      title, rationale, closes_gaps, target_delta, outside_governed_roots) plus
+      accepted_at_revision (the HEAD it was validated against) and accepted_at
+      (UTC). A plan id is accepted once.
+    plan_required_mapping:
+      id: proposal_id
+      source_target_identity: accepted_at_revision (HEAD, which holds the pre-acceptance target)
+      source_current_identity: not realized (current is recomputed from HEAD, not stored)
+      trigger_gap_refs: closes_gaps
+      closing_gap_refs: not realized (see target_acceptance_transaction.mvp_realization)
+      intended_transition: title, rationale and target_delta
+      verticals_or_probes: not realized
+      completion_evidence_requirements: not realized (evidence requirements live on target criteria)
+      stopping_and_reassessment_rules: not realized
+    ordering_note: >
+      The plan is written together with the target change, not after a
+      rematerialized current/gap set; may_begin_only_after is a rule on the
+      implementer, not checked by AES.
+    reachability: >
+      `aes status` and `aes reconcile` report `plans: N accepted, M unreachable`
+      and a warning line per accepted plan whose accepted_at_revision is not an
+      ancestor of HEAD (squash-merged or deleted branch). This does not fail
+      them: the target already carries the plan's delta.
+
+  vertical:
+    realized_in_v0_2_mvp: false
+    required:
+      - id
+      - actor_or_consumer_outcome
+      - included_target_refs
+      - included_realization_refs
+      - included_verification_refs
+      - observable_completion_boundary
+    rule: >
+      A vertical is outcome-bearing. Work graphs/task lists may coordinate its
+      execution but do not replace its semantic identity.
+
+  probe_or_enabler:
+    realized_in_v0_2_mvp: false
+    required:
+      - id
+      - class
+      - question_or_blocker
+      - protected_vertical_ref
+      - stopping_rule
+      - return_path
+    classes:
+      - boundary_probe
+      - dependency_resolution
+      - enabler
+      - regression_or_hardening
+
+provider_selection:
+  realized_in_v0_2_mvp: false  # provider bindings are not a target family; nothing is selected or recorded
+  prerequisite:
+    - capability_requirement_exists
+    - provider_success_boundary_understood
+  candidate_process:
+    - examine_external_or_native_options
+    - examine_relevant_prior_donors_or_providers
+    - compare_against_AES_capability_and_distribution_requirements
+    - retain_provider_evidence
+    - propose_provider_binding
+  prohibited:
+    - selecting_provider_because_it_already_exists
+    - changing_AES_requirement_to_match_provider_vocabulary_without_target_decision
+    - undocumented_private_provider_as_default_distribution_dependency
+
+repository_topology_rules:
+  exact_path_default: true
+  generation_rule_allowed_when:
+    - exact_members_not_usefully_enumerable_before_generation
+    - bounded_namespace_and_producer_are_known
+    - semantic_reason_and_lifecycle_are_explicit
+  before_governed_execution:
+    - every_planned_durable_artifact_accounted_for
+    - every_selected_symbol_commitment_bound_to_planned_artifact
+    - every_exercised_criterion_has_verification_route
+    - intended_consequential_dependencies_explicit_where_needed
+  no_orphan_rule: >
+    Planning cannot authorize "create whatever files implementation needs" as an
+    unbounded topology.
+  mvp_realization:
+    locators: exact_path only; bounded generation rules are not implemented (topology.py)
+    every_planned_durable_artifact_accounted_for: >
+      Enforced by `aes topology check` and the pre-commit hook: a file in the Git
+      index under a governed root with no planned artifact at that exact path is
+      an orphan and fails. `aes plan validate` refuses a removed governed planned
+      artifact whose file is still in the index, and an added or changed planned
+      artifact outside the governed roots unless it is not `kind: source` and is
+      listed in `outside_governed_roots` with a reason.
+    every_selected_symbol_commitment_bound_to_planned_artifact: >
+      Realized structurally: symbol commitments are the `exports` list of a
+      planned artifact (`name` or `name(args) -> ret`), and `aes characterize`
+      reports drift against them.
+    every_exercised_criterion_has_verification_route: >
+      Realized more strictly (SC-GF-004): every evidence requirement in the
+      resulting target, not only exercised ones, needs a route, a verification
+      subject naming it in evidence_requirement_refs or an external_boundaries
+      entry.
+    intended_consequential_dependencies_explicit_where_needed: not realized
+
+verification_design_rules:
+  criterion_owns: evidence_requirements
+  planning_owns: concrete_verification_subjects
+  each_verification_subject:
+    - maps_to_criterion
+    - matches_or_addresses_evidence_requirement
+    - has_exact_planned_locator_or_external_boundary
+    - has_proof_role
+  negative_or_recovery_control:
+    required_when: >
+      The target makes a load-bearing claim that a control blocks, detects,
+      contains, or recovers from a failure and positive-only evidence would not
+      demonstrate sensitivity.
+  mvp_realization:
+    verification_subject_fields: [id, criterion_refs, evidence_requirement_refs, proof_kind, proof_role, locator, purpose]
+    locator: a repository path (for `aes evidence record`, the test file it runs); an external boundary is an external_boundaries entry {evidence_requirement_ref, boundary}, not a verification subject
+    proof_roles: [direct, negative_control]
+    negative_control: >
+      Realized as proof_role negative_control and, on the observation, `control:
+      {kind: negative, base_revision, expected_outcome: detected,
+      observed_outcome: detected | missed}`; freshness is computed from
+      base_revision. recovery_control is not realized.
+    required_when_check: not machine-checked; it is a rule on the proposal author
+
+change_during_execution:
+  allowed_without_replan:
+    - native_body_details_not_governed_as_target_commitments
+    - private_helper_symbols
+    - ephemeral_runtime_or_build_artifacts
+    - reversible_details_within_accepted_artifact_and_boundary_scope
+  target_amendment_or_replan_required_for:
+    - durable_governed_artifact_add_remove_rename
+    - accepted_generation_rule_change
+    - realization_unit_responsibility_or_boundary_change
+    - provider_binding_change
+    - consequential_intended_dependency_change
+    - selected_symbol_identity_or_normative_signature_change
+    - criterion_or_evidence_requirement_change
+    - verification_topology_change_when_it_alters_accepted_proof_design
+  rule: >
+    Execution discovery is allowed; hidden architecture changes are not.
+  mvp_enforcement: >
+    Mechanically enforced in the MVP: a durable governed artifact added without
+    a planned artifact (orphan, refused by the pre-commit hook) and a changed
+    committed symbol or signature (`exports` drift from `aes characterize`,
+    which fails `aes reconcile`/`aes status`). The other items are rules on the
+    implementer, not checked by AES.
+
+completion:
+  plan_completion_means: >
+    The accepted transition work and plan-specific completion evidence were
+    executed/dispositioned according to the plan.
+  plan_completion_does_not_mean:
+    - target_conformant
+    - criterion_satisfied
+    - gap_closed
+    - stakeholder_utility_positive
+  required_next_step:
+    - characterize_realized_repository
+    - assess_evidence
+    - rematerialize_current
+    - reconcile_gaps
+    - project_next_context_or_stop
+  mvp_realization: >
+    The MVP records no plan-completion state. The next steps are realized by
+    `aes characterize`, `aes evidence record` / `aes evidence status`,
+    `aes reconcile` / `aes status` (which recompute current and gaps from HEAD
+    each run) and `aes context <subject>`.
+
+provider_boundary_nonclaim: >
+  This contract defines what AES planning must accomplish. It does not select the
+  implementation that performs planning, validation, provider discovery,
+  execution custody, or enforcement.
+provider_boundary_mvp_note: >
+  In the v0.2 MVP, validation and acceptance are performed by AES's own
+  planning.py (`RU-AES-PLANNING`); no planning, provider-discovery or
+  execution-custody provider is selected. Enforcement is the AES pre-commit hook
+  (`aes target validate` + `aes topology check`).
+
+accepted_amendments:
+  - change: "planning_capability marked realized_in_v0_2_mvp false with mvp_note; the MVP derives no plan and calls no model, it only prepares, validates and accepts a hand- or agent-written proposal."
+    reason: "planning.py realizes only the target acceptance transaction."
+    source: "src/agentic_engineering_system/planning.py module docstring; 24 §15"
+  - change: "preconditions.mvp_realization added; required inputs are the `aes plan prepare` packet, optional analysis inputs not realized."
+    reason: "prepare() emits target_id, subject_revision, dirty, governed_roots, open_gaps, unrouted ERs, target_ids, proposal_skeleton; no failure-mode/landscape/uncertainty records exist."
+    source: "planning.py prepare(); records.py TargetRecord families"
+  - change: "design_phase.input_binding_mvp_realization added; a proposal carries no input identities, the plan records accepted_at_revision."
+    reason: "Proposal model has no source identity fields; AcceptedPlan adds accepted_at_revision."
+    source: "planning.py Proposal, AcceptedPlan"
+  - change: "proposed_target_delta.mvp_realization added (proposal schema, add/change/remove sections, realized and not-realized families, proposal-level rationale)."
+    reason: "TargetDelta has add, change (whole entry by key) and remove (keys) over seven target families; capability requirements, provider bindings, generation rules and intended dependencies are not target families."
+    source: "planning.py TargetDelta, FAMILIES; 24 §15, §20 item 1 (remove)"
+  - change: "execution_design, planning_uncertainty, vertical, probe_or_enabler and provider_selection marked realized_in_v0_2_mvp false."
+    reason: "no such fields or records exist in the proposal, plan or target."
+    source: "planning.py Proposal; records.py TargetRecord"
+  - change: "target_acceptance_transaction.mvp_realization added; accept validates, edits the target and writes the plan, refuses dirty trees / violations / an existing plan id, does not commit, warns off the default branch; recharacterize/recompute happen in reconcile, not accept; closes_gaps are pre-acceptance open gaps."
+    reason: "matches accept_proposal and the cli; closing gaps are not recorded separately."
+    source: "planning.py accept_proposal, _dirty, validate_proposal (closes_gaps check); cli.py plan accept + branch_note; this branch (commit 26f8428)"
+  - change: "execution_plan_phase.mvp_realization added (plan file path and shape, mapping of plan_required fields, reachability reporting)."
+    reason: "the plan file is the proposal plus accepted_at_revision and accepted_at; `aes status`/`aes reconcile` report `plans: N accepted, M unreachable` with a warning per unreachable plan."
+    source: "planning.py AcceptedPlan; reconcile.py PlanState and module docstring; `aes status` run in this worktree at ef6fc25"
+  - change: "repository_topology_rules.mvp_realization added (exact_path only, no generation rules; orphan enforcement; exports as symbol commitments; route rule over every evidence requirement)."
+    reason: "generation rules not implemented; SC-GF-004 route rule covers the whole resulting target."
+    source: "topology.py docstring; planning.py route_violations, _removal_violations, _artifact_violations; records.py PlannedArtifact.exports"
+  - change: "verification_design_rules.mvp_realization added (subject fields, external_boundaries as the external route, proof roles direct/negative_control, negative control observation shape; recovery control not realized; required_when not machine-checked)."
+    reason: "records.py ProofRole is direct|negative_control; evidence.py NegativeControl."
+    source: "records.py VerificationSubject, ExternalBoundary; evidence.py NegativeControl; 24 §16, §17 item 4"
+  - change: "change_during_execution.mvp_enforcement added naming the two mechanically enforced cases (orphans, exports drift)."
+    reason: "other listed changes are not checked by AES."
+    source: "topology.py; characterize.py drift(); reconcile.py ok"
+  - change: "completion.mvp_realization added; no plan-completion state is recorded."
+    reason: "AcceptedPlan has no completion field; gaps are recomputed by reconcile."
+    source: "planning.py AcceptedPlan; reconcile.py module docstring"
+  - change: "provider_boundary_mvp_note added; AES's own planning.py performs validation and acceptance."
+    reason: "the MVP realization is AES-local."
+    source: ".aes/target.yaml RU-AES-PLANNING; planning.py"

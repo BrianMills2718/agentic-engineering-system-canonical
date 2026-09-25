@@ -1,5 +1,7 @@
 # AES v0.2 roadmap: from probe 0 to MVP acceptance
 
+Status: accepted by Decision 0010 (`docs/decisions/0010-greenfield-v0.2-accepted.md`, 2026-09-25). The accepted architecture is `docs/architecture/greenfield-v0.2/`; this file is proposal lineage. One criterion, SC-GF-001, stands INSUFFICIENT at acceptance and is not downgraded: it waits on clean-user run 3 on current code (§0, Decision 0010).
+
 Status: proposal, non-normative. Written 2026-09-25 after sections 6–10 of
 `24-pre-probe-decisions.md`. This is the sequenced plan the earlier files did
 not contain: `20-realization-topology` lists ten units, `12-…-semantic-instance`
@@ -23,7 +25,7 @@ and AES v0.2 replaces v0.1 as the surface AES canonical itself is governed by.
 
 | criterion | what proves it | standing today | unit |
 | --- | --- | --- | --- |
-| SC-GF-001 clean-user install + init | a clean-user run reaches initialized state | mechanism realized; on-machine clean-user runs passed at `0503735` and `2d3486b` (`evidence/greenfield/clean-user-run-2-2026-09-25.md`, `OBS-AES-CLEAN-USER-2d3486b`); true no-private-access run deferred by decision (§6 note); STALE again after phase 7a, which changed `cli.py` (the `aes init` hint that run 2 flagged) and `planning.py` (`remove:`): needs clean-user run 3 on current code, the only criterion not SUPPORTED on AES (§20 of `24`) | PROJECT, DISTRIBUTION |
+| SC-GF-001 clean-user install + init | a clean-user run reaches initialized state | mechanism realized; on-machine clean-user runs passed at `0503735` and `2d3486b` (`evidence/greenfield/clean-user-run-2-2026-09-25.md`, `OBS-AES-CLEAN-USER-2d3486b`); true no-private-access run deferred by decision (§6 note); STALE again after phase 7a, which changed `cli.py` (the `aes init` hint that run 2 flagged) and `planning.py` (`remove:`), and phase 7b (`cli.py`, `reconcile.py`, `evidence.py`): needs clean-user run 3 on current code, the only criterion not SUPPORTED on AES at acceptance (§20, §21 of `24`; Decision 0010 records it INSUFFICIENT, not downgraded) | PROJECT, DISTRIBUTION |
 | SC-GF-002 obligations linked to criteria and evidence | contract validation on the target | SUPPORTED on AES canonical (`OBS-GF-RECORDS-cb226ba7`, phase 6b) | RECORDS |
 | SC-GF-003 topology accounts for every governed artifact | orphan rejected; planned topology accepted | mechanism realized (`topology.py`); real orphan caught on whygame5 (§6, §8); SUPPORTED on AES canonical, whose own 45 governed files (18 of them retained v0.1) are all planned (`OBS-GF-TOPOLOGY-cb226ba7`, `OBS-GF-SELF-GOVERNANCE-cb226ba7`) | TOPOLOGY |
 | SC-GF-004 every evidence requirement has a route | validate ERs against verification topology | mechanism realized: `aes plan validate`/`accept` refuse a proposal whose resulting target has an ER with neither a verification subject nor an external boundary (`planning.py`, `test_planning.py`, §15); `PLAN-WG5-RUNNER` accepted on whygame5 itself (`36b64ed`); AES canonical's own target built through `aes plan accept PLAN-AES-SELF-GOVERN` and SUPPORTED there (phase 6b); `aes target validate` (and so the `aes hooks install` pre-commit hook) enforces routes on the whole target since phase 6a (§16), effective on whygame5 after its next pin bump; `remove:` in proposals since phase 7a, used on AES itself by `PLAN-AES-ARCHIVE-V01-PLACEHOLDERS` (§20) | PLANNING |
@@ -31,7 +33,7 @@ and AES v0.2 replaces v0.1 as the surface AES canonical itself is governed by.
 | SC-GF-006 revision-bound characterization + drift | mutate an artifact and see the mismatch; every fact bound to revision | mechanism realized (`characterize.py`, `aes characterize`); drift caught on a whygame5 scratch clone (§13), recorded on whygame5 (`OBS-WG5-DRIFT-b0c3e24f`); SUPPORTED on AES canonical, whose `exports` on eleven modules characterize with 0 drift | CHARACTERIZE |
 | SC-GF-007 a pass is not satisfaction | multi-input criterion stays INSUFFICIENT | SUPPORTED on AES canonical (`test_evidence.py`, `test_evidence_controls.py`, `test_reconcile.py` recorded at `cb226ba`) | EVIDENCE |
 | SC-GF-008 dependency change stales evidence | change a dependency, evidence goes STALE | realized at the evidence level and at the gap level (`aes reconcile`/`aes status`, `test_reconcile.py`, §14); SUPPORTED on AES canonical (phase 6b) | EVIDENCE, RECONCILE |
-| SC-GF-009 one complete lifecycle on a new consumer | retained init/target/plan/realization/evidence/current/context at exact revisions | SUPPORTED on AES canonical after phase 7a by `OBS-AES-WG5-LIFECYCLE-38df3e5` (supersedes the INCONCLUSIVE `OBS-AES-WG5-LIFECYCLE`): whygame5 at `38df3e5` retains hand-written init `3a1c64b` (before `aes init` existed), six target commits, `PLAN-WG5-RUNNER` (`36b64ed`), realization `cceec15`/`ff6595a`/`26a12e4`, 18 observations, `aes status`, and the probe-0 context evaluation; the runner plan itself is still unrealized (§20) | all |
+| SC-GF-009 one complete lifecycle on a new consumer | retained init/target/plan/realization/evidence/current/context at exact revisions | SUPPORTED on AES canonical after phase 7a (and at acceptance, §21) by `OBS-AES-WG5-LIFECYCLE-38df3e5` (supersedes the INCONCLUSIVE `OBS-AES-WG5-LIFECYCLE`): whygame5 at `38df3e5` retains hand-written init `3a1c64b` (before `aes init` existed), six target commits, `PLAN-WG5-RUNNER` (`36b64ed`), realization `cceec15`/`ff6595a`/`26a12e4`, 18 observations, `aes status`, and the probe-0 context evaluation; the runner plan itself is still unrealized (§20) | all |
 
 Realized units: RECORDS, CONTEXT, TOPOLOGY, EVIDENCE, and the CLI for those
 four. Not realized: PROJECT, PLANNING, CHARACTERIZE, RECONCILE, DISTRIBUTION.
@@ -43,7 +45,10 @@ AES canonical governed by its own `.aes/` target; `aes status` there: 6 of 9
 criteria SUPPORTED, SC-GF-001/005/009 waiting on external runs, §17. Update
 after phase 7a: `aes status` on AES: 8 of 9 SUPPORTED, SC-GF-001 waiting on
 clean-user run 3; the eight empty v0.1 placeholders archived under
-`archive/v0.1-placeholders/`, `repository_context/` retained; §20.)
+`archive/v0.1-placeholders/`, `repository_context/` retained; §20. Update
+after phase 7b: promoted to `docs/architecture/greenfield-v0.2/` and accepted
+by Decision 0010; clean-user run 3 recorded at `3dd2b9a`; `aes status` on AES:
+**9 of 9 SUPPORTED**; accepted plans are checked for reachability; §21.)
 
 Kinks the consumer has already exposed and that this roadmap must close:
 
@@ -73,9 +78,13 @@ Kinks the consumer has already exposed and that this roadmap must close:
 - ~~`aes status` reports an externally bounded, unsupported requirement as "no
   route" (`reconcile._criterion_states` ignores `external_boundaries`), found
   by phase 6b (§17 item 2).~~ closed by the phase-6 A/B change (§18, `61e1edb`);
-- a plan's `accepted_at_revision` can name a commit on a squash-merged branch
+- ~~a plan's `accepted_at_revision` can name a commit on a squash-merged branch
   (whygame5's `PLAN-WG5-RUNNER` names `de7479c`, not reachable from its
-  main), the §19 trap for plans; found by phase 7a (§20), not fixed.
+  main), the §19 trap for plans; found by phase 7a (§20)~~ reported by phase
+  7b: `aes status`/`aes reconcile` count `plans: N accepted, M unreachable`
+  with a warning line per unreachable plan, and `aes plan accept` warns off
+  the default branch (§21). AES canonical's own `PLAN-AES-SELF-GOVERN`
+  (`80e6da3`, squash-merged PR #52) is unreachable too; it stays a warning.
 - ~~evidence recorded on a branch that is then squash-merged names a commit
   `main` never contains; any clone still holding it says CURRENT, and once the
   branch is deleted a fresh clone cannot resolve it (22 of AES canonical's
@@ -365,6 +374,19 @@ path` runs end to end on a throwaway project.
 
 Wrong when: acceptance needs any criterion downgraded to "documented instead
 of observed", or promotion changes semantics rather than location.
+
+Outcome (phases 7a and 7b, §20-§21 of `24`, Decision 0010): whygame5's three
+stranded records re-anchored (whygame5 `df47ddb`); its lifecycle recorded as
+`OBS-AES-WG5-LIFECYCLE-38df3e5`; 8 of 9 criteria SUPPORTED on AES canonical,
+SC-GF-001 INSUFFICIENT pending clean-user run 3 on current code (not
+downgraded); promotion to `docs/architecture/greenfield-v0.2/` as plain copies
+amended to the live target (location changed; where the candidate text
+differed from what was built, the accepted copy follows the build and lists
+the amendment); routing in `README.md`, `CLAUDE.md`/`AGENTS.md`,
+`wiki/index.md`; v0.1 placeholders archived, `repository_context/` retained;
+Decision 0010. Exit gate: the getting-started happy path ran end to end on a
+throwaway project with this branch's code (§21); the "fresh agent reading
+only `README.md`" half is clean-user run 3's job and has not been run.
 
 Size: ~1.0.
 

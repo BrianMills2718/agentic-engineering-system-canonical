@@ -1,0 +1,685 @@
+# Accepted AES v0.2 greenfield architecture. Plain copy of proposals/aes-v0.2-greenfield/02-semantic-model.candidate.yaml
+# (copied, not git mv'd, so the proposal lineage stays in place), accepted by Decision 0010
+# (2026-09-25). For AES canonical, .aes/target.yaml is the live authority: where this file and
+# the target disagree, this file is wrong. `accepted_amendments` lists what changed from the candidate.
+# File names below that are not in this directory refer to proposals/aes-v0.2-greenfield/ (proposal lineage).
+schema_version: aes.v0_2.semantic_model.v4
+status: accepted
+accepted_by: docs/decisions/0010-greenfield-v0.2-accepted.md
+source_proposal: proposals/aes-v0.2-greenfield/02-semantic-model.candidate.yaml
+review_basis:
+  - 07-semantic-clean-sheet-review-pass-1.md
+  - 08-semantic-clean-sheet-review-pass-2.md
+  - 09-semantic-clean-sheet-review-pass-3-topology.md
+  - 11-semantic-clean-sheet-review-pass-4-target-analysis.md
+
+lineage:
+  architecture_line: AES-v0.2
+  predecessor_revision: 36c205d3363a7304c6043ca645acae5eea58e97c
+  relationship: learned_from_not_automatically_inherited
+
+model_principles:
+  semantic_model_is_independent_of_storage_layout: true
+  one_mutable_authority_per_semantic_fact: true
+  reverse_navigation_is_derived_not_duplicated: true
+  typed_references_precede_generic_relationship_registry: true
+  relationship_semantics_distinguish_intended_observed_derived: true
+  plans_own_transitions_not_timeless_target: true
+  observations_do_not_become_normative_target: true
+  current_and_gap_are_derived: true
+
+semantic_families:
+  outcome:
+    meaning: >
+      A first-class accepted statement of intended value or result for an actor
+      or consumer. Outcomes justify downstream obligations but are not merely a
+      document container.
+    required:
+      - id
+      - statement
+      - actor_or_consumer
+    optional:
+      - non_goals
+      - rationale
+
+  accepted_target:
+    meaning: >
+      The logical set of currently accepted outcomes, normative obligations and
+      accepted realization commitments against which current state is compared.
+      This is a semantic boundary, not a required file or record type.
+    may_include:
+      - outcomes
+      - normative_items
+      - success_criteria
+      - capability_requirements
+      - provider_bindings
+      - accepted_realization_units
+      - accepted_planned_artifacts
+      - accepted_artifact_generation_rules
+      - accepted_symbol_commitments
+      - accepted_verification_subjects
+    storage_layout: undecided
+    mvp_realization: >
+      One file, .aes/target.yaml, with families outcomes, normative_items,
+      success_criteria (nested evidence_requirements), components,
+      planned_artifacts, verification_subjects and external_boundaries
+      (records.py TargetRecord). capability_requirements, provider_bindings and
+      artifact generation rules are not realized; symbol commitments are the
+      `exports` list of a planned artifact.
+
+  normative_item:
+    meaning: >
+      One accepted obligation or constraint on the target system. The semantic
+      item is independent from whichever file or record later stores it.
+    required:
+      - id
+      - statement
+      - outcome_refs
+    outcome_cardinality: one_or_more
+    candidate_kinds:
+      - behavior
+      - constraint
+      - invariant
+      - quality
+      - policy
+      - other
+    realized_kinds_in_v0_2_mvp: [constraint, behavior, invariant, quality]
+    optional:
+      - rationale
+      - scope
+    optional_realized_in_v0_2_mvp: false  # the loader accepts only id, kind, outcome_refs, statement
+
+  success_criterion:
+    meaning: >
+      An accepted condition capable of establishing one or more target facts when
+      supported by adequate current evidence.
+    required:
+      - id
+      - statement
+      - target_refs
+      - disproof
+      - evidence_requirements
+    target_refs_may_reference:
+      - outcome
+      - normative_item
+    target_cardinality: one_or_more
+    evidence_requirements:
+      meaning: >
+        Normative description of what kind and combination of evidence is capable
+        of establishing the criterion. Concrete verification subjects are chosen
+        later by planning.
+      candidate_kinds:
+        - deterministic_test
+        - static_analysis
+        - contract_validation
+        - runtime_observation
+        - human_review
+        - llm_rubric
+        - external_consumer_observation
+        - other
+      realized_kinds_in_v0_2_mvp: [deterministic_test, runtime_observation, human_review]
+      realized_kind_mapping: >
+        Mapped, not widened: contract_validation is written deterministic_test
+        and external_consumer_observation runtime_observation (24 §17 item 4).
+        static_analysis, llm_rubric and other are not realized.
+      composition: one_or_more_with_explicit_sufficiency_rule
+      composition_realized_in_v0_2_mvp: >
+        Conjunction only (decision D2): a criterion is SUPPORTED when every
+        evidence requirement has a CURRENT supporting assessment. No other
+        sufficiency rule can be declared.
+      route_realized_in_v0_2_mvp: >
+        Every evidence requirement must have a route: a verification subject
+        naming it, or an external_boundaries entry {evidence_requirement_ref,
+        boundary} saying who or what outside the repository supplies it
+        (SC-GF-004; `aes target validate`, `aes plan validate`).
+    rule: >
+      Criteria may be many-to-many with target facts. A pass-like result from one
+      verification subject does not by itself imply criterion satisfaction.
+
+  failure_mode:
+    realized_in_v0_2_mvp: false  # no record or target family
+    semantic_role: accepted_engineering_analysis
+    meaning: >
+      A plausible way an accepted outcome, normative obligation or criterion can
+      fail, plus the response requirements intended to mitigate it.
+    required:
+      - id
+      - statement
+      - consequence
+      - threatens_refs
+      - responses
+    threatens_refs_may_reference:
+      - outcome
+      - normative_item
+      - success_criterion
+    response:
+      required:
+        - id
+        - role
+        - required_response_refs
+      roles:
+        - prevent
+        - detect
+        - contain
+        - recover
+      required_response_refs_may_reference:
+        - capability_requirement
+        - normative_item
+        - success_criterion
+
+  capability_requirement:
+    realized_in_v0_2_mvp: false  # not a target family; CAP-GF-* refs are mapped to the GF-REQ item each serves (24 §17 item 4)
+    meaning: >
+      An ability the planned system or engineering process requires. Capability
+      identity is independent from provider, realization unit, package and
+      repository identity.
+    required:
+      - id
+      - statement
+      - target_refs
+    target_refs_may_reference:
+      - outcome
+      - normative_item
+      - success_criterion
+      - failure_mode_response
+    cardinality:
+      capability_may_span_realization_units: true
+      realization_unit_may_realize_many_capabilities: true
+
+  provider_binding:
+    realized_in_v0_2_mvp: false  # not a target family
+    semantic_role: accepted_target_realization
+    meaning: >
+      An accepted realization fact stating how a capability requirement is
+      satisfied by a distinct provider, composition or AES-local residual.
+    required:
+      - id
+      - capability_refs
+      - provider_identity
+      - disposition
+      - semantic_boundary
+      - replacement_boundary
+    capability_cardinality: one_or_more
+    dispositions:
+      - reuse
+      - configure
+      - adapt
+      - compose
+      - residual
+    optional:
+      - owned_elsewhere
+      - aes_residual
+      - provider_evidence_refs
+    non_goal: package_manager_dependency_inventory
+
+  realization_unit:
+    candidate_conventional_label: component
+    meaning: >
+      A coherent planned realization/governance boundary that groups
+      responsibility and governed artifacts because they share a meaningful
+      semantic, ownership, state, interface, replacement, verification, or
+      failure/recovery boundary.
+    required:
+      - id
+      - responsibility
+      - target_refs
+      - capability_refs
+      - planned_artifact_refs
+    candidate_split_reasons:
+      - semantic_responsibility
+      - authority_or_provider_ownership
+      - state_ownership
+      - consequential_interface
+      - replacement_or_reuse_boundary
+      - verification_lifecycle
+      - failure_or_recovery_boundary
+    storage_layout: undecided
+    mvp_realization: >
+      Realized as target `components` with id, responsibility, target_refs and
+      planned_artifact_refs; capability_refs is not realized (no capability
+      family).
+    rule: >
+      The realization unit owns the grouping edge to its artifacts. Reverse
+      artifact-to-unit navigation is derived rather than independently authored.
+
+  artifact_generation_rule:
+    realized_in_v0_2_mvp: false  # topology.py: bounded generation rules are not implemented
+    meaning: >
+      An accepted target rule admitting a bounded family of durable governed
+      artifacts when exact members are not usefully enumerable before generation.
+      It is not a wildcard escape from topology planning.
+    required:
+      - id
+      - admitted_path_namespace_or_pattern
+      - artifact_kind
+      - producer_identity_or_class
+      - purpose
+      - semantic_justification_refs
+      - creation_trigger
+      - lifecycle_or_retirement_rule
+      - editability
+      - characterization_rule
+    optional:
+      - reproducibility_requirement
+      - expected_member_constraints
+    rule: >
+      The admitted namespace must be narrow enough that unrelated durable files
+      cannot become legitimate merely by matching a broad directory wildcard.
+
+  initialization_contract:
+    meaning: >
+      The AES-distributed contract for creating the minimal starting topology of a
+      genuinely new governed project before project-specific planning exists.
+    required:
+      - id
+      - seed_artifact_refs
+      - seed_generation_rule_refs
+      - authority_classification
+      - distribution_dependency_refs
+    invariants:
+      - every_seed_durable_artifact_has_declared_reason
+      - authority_and_generated_scaffolding_are_distinguished
+      - no_undocumented_private_repository_prerequisite
+      - initialized_topology_is_inspectable
+    mvp_realization: >
+      Realized as code, not as a record: `aes init` (project.py) writes exactly
+      the seed artifacts .aes/project.yaml and .aes/target.yaml (the target
+      holding the first outcome) and refuses to create anything else. No
+      initialization-contract record with these required fields exists.
+
+  planned_artifact:
+    meaning: >
+      A durable governed repository artifact justified before or atomically with
+      creation by accepted target/planning semantics.
+    required:
+      - id
+      - locator
+      - kind
+      - purpose
+      - semantic_justification_refs
+    locator:
+      exactly_one_of:
+        - exact_path
+        - accepted_generation_rule_ref
+      preference: exact_path_when_knowable
+    candidate_kinds:
+      - source
+      - test
+      - contract
+      - configuration
+      - normative_authority
+      - documentation
+      - generated_projection
+      - migration
+      - other
+    rule: no_orphan_durable_artifacts
+    mvp_realization:
+      locator: exact_path only (accepted_generation_rule_ref is not realized)
+      realized_kinds: [source, test, configuration]
+      kind_mapping: normative_authority is written source and documentation configuration (24 §17 item 4); the other kinds are not realized
+      symbol_commitments: optional `exports` list on the artifact
+
+  planned_symbol_commitment:
+    meaning: >
+      A sparse target commitment for a selected native symbol whose existence,
+      public/load-bearing identity, signature/type, narrower obligation, or
+      verification role is intentionally governed.
+    subordinate_to: planned_artifact
+    required:
+      - id
+      - artifact_ref
+      - native_name
+      - purpose
+      - target_refs
+    optional:
+      - criterion_refs
+      - planned_signature_or_type
+    required_when_candidate:
+      - public_boundary_is_target_commitment
+      - signature_or_type_is_target_commitment
+      - symbol_has_narrower_normative_obligation
+      - symbol_is_independent_verification_boundary
+      - symbol_is_architecturally_significant
+    non_goal: predeclare_every_private_helper
+    mvp_realization: >
+      Not a separate record: the planned artifact's `exports` list, each entry
+      `name` or `name(args) -> ret`, Python source only. `aes characterize`
+      reports missing_export / signature_changed drift against it. No id,
+      purpose, target_refs or criterion_refs per commitment.
+
+  verification_subject:
+    meaning: >
+      A planned concrete method/subject intended to produce observations matching
+      one or more criterion evidence requirements.
+    required:
+      - id
+      - criterion_refs
+      - evidence_requirement_refs_or_match
+      - proof_kind
+      - purpose
+      - proof_role
+      - locator
+    locator:
+      candidate_forms:
+        - planned_artifact_ref
+        - planned_artifact_plus_symbol_ref
+        - external_review_or_runtime_ref
+    proof_kinds:
+      - deterministic_test
+      - static_analysis
+      - contract_validation
+      - runtime_observation
+      - human_review
+      - llm_rubric
+      - external_consumer_observation
+      - other
+    proof_roles:
+      - direct
+      - supporting
+      - negative_control
+      - recovery_control
+    mvp_realization:
+      fields: [id, criterion_refs, evidence_requirement_refs, proof_kind, proof_role, locator, purpose]
+      locator: a repository path string (the test file `aes evidence record` runs); one subject per test file, paired subjects merged (24 §17 item 4)
+      external_route: an external_boundaries target entry, not a verification subject
+      realized_proof_kinds: [deterministic_test, runtime_observation, human_review]
+      realized_proof_roles: [direct, negative_control]
+      proof_role_mapping: supporting is written direct (24 §17 item 4); recovery_control is not realized
+      negative_control: >
+        A negative-control observation carries `control: {kind: negative,
+        base_revision, expected_outcome: detected, observed_outcome: detected |
+        missed}`; its subject_revision is the mutated commit and its freshness is
+        computed from base_revision (24 §16).
+
+  plan:
+    semantic_role: accepted_transition
+    meaning: >
+      A time-bounded accepted transition from qualified current/gap state toward
+      accepted target. A plan may propose target changes, but accepted durable
+      target semantics are promoted into target authority rather than remaining
+      permanently owned by the historical plan.
+    required:
+      - id
+      - origin_gap_refs
+      - intended_transition
+      - proposed_target_changes
+      - planned_verticals_or_probes
+      - completion_evidence_requirements
+    rule: plan_completion_has_no_gap_closure_authority
+    mvp_realization: >
+      .aes/plans/<proposal_id>.yaml, written by `aes plan accept`: the proposal
+      (proposal_id, title, rationale, closes_gaps, target_delta with add /
+      change / remove, outside_governed_roots) plus accepted_at_revision and
+      accepted_at. origin_gap_refs is closes_gaps and proposed_target_changes is
+      target_delta; planned_verticals_or_probes and
+      completion_evidence_requirements are not realized. `aes status` counts
+      accepted plans and reports those whose accepted_at_revision is unreachable
+      from HEAD as a warning.
+
+  realized_repository_characterization:
+    authority: generated_revision_bound_observation
+    meaning: >
+      Structured observation of the realized repository at one exact revision.
+      Source analysis is one contributing provider, not the semantic boundary.
+    binds_to:
+      - repository_identity
+      - exact_revision
+      - producer_identity
+      - producer_version
+    may_include:
+      - durable_files_and_digests
+      - planned_to_realized_identity_matches
+      - native_symbols
+      - signatures_and_types
+      - docstrings
+      - observed_dependencies
+      - verification_target_edges
+      - generated_projection_status
+      - extraction_confidence_and_provenance
+    rule: >
+      A characterizer may report unresolved identity mapping but must not invent a
+      planned relationship because realized subjects look similar.
+    mvp_realization: >
+      `aes characterize` (aes.v0_2.characterization.probe0) binds
+      subject_revision, dirty and producer identity/version (no separate
+      repository identity) and records, from the HEAD tree under the governed
+      roots, each file's path, blob hash and size and, for Python (AST only),
+      module, top-level symbols with signatures, intra-repository imports and
+      parse_error. Docstrings, verification_target_edges,
+      generated_projection_status and extraction confidence are not realized.
+      It is computed on demand and not stored.
+
+  observation:
+    meaning: >
+      One revision/subject-bound record of an observation process that actually
+      ran or was attempted, without automatically claiming sufficiency for a
+      criterion. If no observation occurred, absence is represented by evidence
+      assessment/current rather than by inventing an observation record.
+    required_as_applicable:
+      - subject_refs
+      - revision_or_external_subject_identity
+      - observer_or_provider
+      - method
+      - execution_state
+      - result_or_error
+    execution_state:
+      - COMPLETED
+      - ERROR
+    result_shape: provider_specific_typed_value
+    mvp_realization: >
+      .aes/observations/ records (aes.v0_2.observation.probe0): subject_refs,
+      subject_revision or external_identity, dependency_paths,
+      dependency_target_refs (entry-level target dependencies), observer,
+      method, execution_state, result or error, produced_at, the per-evidence-
+      requirement assessments, optional `control` (negative control) and
+      optional `superseded_by`. Records are never deleted; a superseded
+      observation never counts toward standing.
+
+  evidence_assessment:
+    meaning: >
+      A qualified assessment of whether zero or more observations are applicable
+      and sufficient to support or contradict a criterion or claim.
+    required:
+      - criterion_or_claim_refs
+      - freshness
+      - adequacy
+      - standing
+    optional:
+      - observation_refs
+      - insufficiency_reason
+    freshness:
+      - CURRENT
+      - STALE
+      - UNKNOWN
+      - UNREACHABLE
+    adequacy:
+      - SUFFICIENT
+      - INSUFFICIENT
+      - UNASSESSED
+    standing:
+      - SUPPORTS
+      - REFUTES
+      - INCONCLUSIVE
+      - NOT_APPLICABLE
+    rule: >
+      An observed pass-like result is not equivalent to sufficient current
+      evidence for a success criterion.
+    mvp_realization:
+      assessment: >
+        Written inside the observation, one per evidence requirement, never per
+        criterion: SUPPORTS, REFUTES or INCONCLUSIVE. NOT_APPLICABLE is not
+        realized.
+      freshness: >
+        Computed per observation from Git: CURRENT, STALE (a dependency path or
+        a referenced target entry changed), UNKNOWN (no commit or no dependency,
+        e.g. external subjects), UNREACHABLE (its commit, or a negative
+        control's base_revision, is not an ancestor of HEAD). Only CURRENT
+        counts.
+      adequacy: not realized as a separate value; sufficiency is the conjunction rule
+      criterion_standing: >
+        SUPPORTED (every evidence requirement has a CURRENT supporting
+        assessment), REFUTED (any has a CURRENT refuting one), INSUFFICIENT
+        otherwise; per evidence requirement SUPPORTED, REFUTED or
+        NO_CURRENT_SUPPORT (evidence.py, decision D2).
+
+  current:
+    authority: derived_projection
+    inputs:
+      - accepted_target
+      - realized_repository_characterization
+      - qualified_evidence_assessments
+    rule: >
+      Current is revision-bound, invalidatable and explicit about unrealized,
+      unknown, stale, observation-error and insufficient-support states.
+    mvp_realization: >
+      `aes reconcile` (aes.v0_2.reconciliation.probe0) recomputes it from the
+      target, HEAD and the observations on every run and stores nothing:
+      artifacts REALIZED / UNREALIZED / DRIFTED, orphans, criterion standing,
+      observation freshness and superseded, accepted plans and their
+      reachability.
+
+  gap:
+    authority: derived_projection
+    function: variance_of_accepted_target_and_qualified_current
+    candidate_states:
+      - OPEN
+      - PARTIAL
+      - UNRESOLVED
+      - CLOSED
+      - NOT_YET_APPLICABLE
+    rule: plan_completion_does_not_close_gap
+    mvp_realization: >
+      A gap is either reported (open) or absent (closed); the other candidate
+      states are not realized. Kinds: drifted, refuted, orphan, unrealized,
+      insufficient; id `<kind>:<ref>`, the handle a proposal names in
+      closes_gaps (reconcile.py Gap).
+
+relationship_classes:
+  intended:
+    authority: accepted_target_or_plan
+    examples:
+      - criterion_targets_normative_item
+      - capability_required_for_target
+      - realization_unit_realizes_capability
+      - artifact_exists_for_semantic_reason
+      - verification_subject_targets_criterion
+
+  observed:
+    authority: revision_bound_observation
+    examples:
+      - source_imports_dependency
+      - symbol_signature_is
+      - test_targets_symbol
+      - artifact_digest_is
+
+  derived:
+    authority: generated_projection
+    examples:
+      - reverse_navigation
+      - change_impact
+      - evidence_invalidation_candidate
+      - target_realized_dependency_mismatch
+      - context_relevance
+
+derived_surfaces:
+  semantic_graph:
+    default: compiled_from_typed_authoritative_refs_and_realized_observations
+    authored_universal_relationship_registry_required: false
+
+  working_context:
+    role: smallest_complete_concern_specific_projection
+    requires_meaning_not_only_ids: true
+    candidate_contents:
+      - full_applicable_normative_text
+      - full_success_criterion_text
+      - full_disproof_text
+      - provenance
+      - qualified_current
+      - gap
+      - active_plan_when_applicable
+      - verification_obligations
+      - relevant_dependency_consequences
+    mvp_realization: >
+      `aes context <declared id>` carries the full normative, criterion and
+      disproof text, provenance, verification subjects and a list of omitted
+      ids. qualified_current, gap, active_plan and dependency consequences are
+      not in the packet (`aes status` / `aes reconcile` report them).
+
+  human_navigation_and_review:
+    never_authority: true
+    candidate_views:
+      - product_intent
+      - requirements
+      - architecture
+      - realization_map
+      - verification
+      - current
+      - gaps
+      - review_surface
+    mvp_realization: >
+      Only the text reports of `aes status` and `aes reconcile` are realized;
+      the other views and a review surface are not (a probe renderer,
+      scripts/probe/render_review.py, is not an `aes` command).
+
+deferred_semantic_or_materialization_questions:
+  - exact_record_and_file_partition
+  - whether_system_and_component_records_are_the_best_storage_layout
+  - whether_component_is_the_final_label_for_realization_unit
+  - whether_append_only_engineering_events_add_value_beyond_git_authorities_and_observations
+  - concrete_working_context_delivery_mechanism
+  - relationship_registry_if_any
+  - provider_interface_shapes
+  - source_characterization_provider
+  - configuration_file_shape
+  - exact_initialization_contract_materialization
+
+explicit_nonclaims:
+  - this_file_is_not_a_json_schema
+  - field_names_and_enums_are_not_frozen
+  - no_provider_is_selected
+  - no_storage_layout_is_selected
+  - no_relationship_registry_is_selected
+  - no_hook_or_execution_governance_implementation_is_selected
+  - no_append_only_event_layer_is_required_yet
+  - retrofit_is_not_supported_by_greenfield_mvp
+explicit_nonclaims_mvp_note: >
+  These nonclaims are about this model. The v0.2 MVP realization does select a
+  storage layout (.aes/project.yaml, .aes/target.yaml, .aes/plans/,
+  .aes/observations/; see 16-record-shapes.yaml), frozen probe0 schemas for its
+  records, and a hook (`aes hooks install`, running `aes target validate` and
+  `aes topology check`).
+
+accepted_amendments:
+  - change: "evidence_assessment.freshness gains UNREACHABLE."
+    reason: "evidence.py Freshness is CURRENT | STALE | UNKNOWN | UNREACHABLE; an observation whose commit is not an ancestor of HEAD never counts."
+    source: "evidence.py Freshness and module docstring; 24 §19"
+  - change: "evidence_assessment.standing CONTRADICTS renamed REFUTES."
+    reason: "the realized assessment vocabulary is SUPPORTS | REFUTES | INCONCLUSIVE."
+    source: "evidence.py Assessment"
+  - change: "evidence_assessment.mvp_realization added (per-requirement assessment inside the observation, per-observation freshness, no adequacy value, criterion standing SUPPORTED / INSUFFICIENT / REFUTED, NOT_APPLICABLE not realized)."
+    reason: "the model's single assessment record is split three ways in the code."
+    source: "evidence.py Assessment, Standing, ErStatus; 24 §9"
+  - change: "observation.mvp_realization added (dependency_paths, dependency_target_refs, control, superseded_by, assessments)."
+    reason: "realized record fields not named by the model."
+    source: "evidence.py ObservationRecord, NegativeControl; 24 §16, §19"
+  - change: "success_criterion.evidence_requirements gains realized_kinds_in_v0_2_mvp, realized_kind_mapping, composition_realized_in_v0_2_mvp and route_realized_in_v0_2_mvp."
+    reason: "EvidenceKind has three kinds, other kinds are mapped not widened; sufficiency is conjunction only; external_boundaries is a realized route."
+    source: "records.py EvidenceKind, ExternalBoundary; 24 §17 item 4, §15"
+  - change: "normative_item gains realized_kinds_in_v0_2_mvp and optional_realized_in_v0_2_mvp false."
+    reason: "NormativeKind has no policy or other; NormativeItem has no rationale or scope."
+    source: "records.py NormativeKind, NormativeItem"
+  - change: "failure_mode, capability_requirement, provider_binding and artifact_generation_rule marked realized_in_v0_2_mvp false."
+    reason: "none is a target family or record; generation rules are not implemented."
+    source: "records.py TargetRecord; topology.py docstring; 24 §17 item 4"
+  - change: "accepted_target, realization_unit, initialization_contract, planned_artifact, planned_symbol_commitment, verification_subject and plan gain mvp_realization notes (realized shapes, kind and proof-role mappings, negative controls)."
+    reason: "the file implies these exist in the model's shape; the realized shapes are narrower."
+    source: "records.py; project.py; planning.py AcceptedPlan; evidence.py NegativeControl; 24 §16, §17 item 4"
+  - change: "realized_repository_characterization, current and gap gain mvp_realization notes (fields realized, nothing stored, gap kinds and ids; only open/absent gap states)."
+    reason: "concrete vocabulary differs from the candidate lists."
+    source: "characterize.py Characterization; reconcile.py GapKind, Gap, module docstring"
+  - change: "derived_surfaces.working_context and human_navigation_and_review gain mvp_realization notes."
+    reason: "context packets carry no current, gaps or plan; no review surface is an `aes` command."
+    source: "context.py; cli.py"
+  - change: "explicit_nonclaims_mvp_note added."
+    reason: "the MVP realization selects a storage layout, probe0 schemas and a hook, which the model itself does not."
+    source: "16-record-shapes.yaml; hooks.py"

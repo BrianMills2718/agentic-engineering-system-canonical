@@ -2,7 +2,9 @@
 
 This directory contains AES-specific normative and delivery architecture for the canonical convergence project. Project-agnostic methodology remains owned by `BrianMills2718/wiki_methodology` at the revision declared in `.agentic/repo.yaml`; generic planning-method improvements should be proposed to Company Planning rather than silently duplicated here.
 
-Read in this order:
+**AES v0.2 (accepted, [Decision 0010](../decisions/0010-greenfield-v0.2-accepted.md)):** start at [`greenfield-v0.2/`](greenfield-v0.2/README.md). It governs `src/agentic_engineering_system/` and `tests/greenfield/` through `.aes/target.yaml`. The files listed below are the v0.1 bootstrap architecture, retained under Decision 0010's v0.1 disposition.
+
+Read in this order (v0.1):
 
 1. [`SYSTEM_BOUNDARY.md`](SYSTEM_BOUNDARY.md) — canonical AES clauses and subsystem boundaries.
 2. [`HUMAN_OBSERVABLE_DELIVERY.md`](HUMAN_OBSERVABLE_DELIVERY.md) — AES delivery constraints for human-observable slices, experience-backward design, feasibility probes, utility/conformance separation, attention checkpoints, and execution economics.

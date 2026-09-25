@@ -1,5 +1,33 @@
 # Agentic Engineering System — Canonical
 
+## AES v0.2 (accepted, Decision 0010)
+
+AES v0.2 is a small command-line tool, `aes`, that governs a software project
+from its first commit: you write down the outcome and the success criteria in
+`.aes/target.yaml`, every file under the project's governed roots must be
+planned there (a pre-commit hook refuses anything else), evidence is recorded
+by running the tests (`aes evidence record`) and stays bound to the exact
+commit and files it exercised, and `aes status` shows on one screen which
+criteria are supported, which evidence went stale, and the first open gap per
+component. Target changes go through `aes plan prepare / validate / accept`.
+
+- **Start here:** [`docs/greenfield/GETTING_STARTED.md`](docs/greenfield/GETTING_STARTED.md)
+  — install, `aes init`, and the lifecycle on a new project.
+- **Where things stand:** run `aes status` (or `make aes` in this repository).
+- **What is accepted, on what evidence, and what is not claimed:**
+  [Decision 0010](docs/decisions/0010-greenfield-v0.2-accepted.md).
+- **Accepted architecture:** [`docs/architecture/greenfield-v0.2/`](docs/architecture/greenfield-v0.2/README.md).
+  The proposal lineage (`proposals/aes-v0.2-greenfield/`) is history, not authority.
+
+**AES v0.2 governs this repository (2026-09-25).** `.aes/target.yaml` holds the Greenfield MVP target (outcome `OUT-GF-001`, criteria `SC-GF-001`..`009`) over the governed roots `src/agentic_engineering_system/` and `tests/greenfield/`; `.aes/observations/` holds the evidence and `.aes/plans/` the accepted plans. Run `aes status` (or `make aes`) for the current standing and the first open gap per component; the v0.2 proposal lineage is `proposals/aes-v0.2-greenfield/` and the user-facing start is `docs/greenfield/GETTING_STARTED.md`. The v0.1 material below is retained under Decision 0010's v0.1 disposition.
+
+## v0.1 (retained)
+
+The material below describes the v0.1 line (the convergence architecture, Plan
+001's Repository Context provider `aes-repo-context`, and Plan 002). It is
+retained, not superseded wholesale; Decision 0010 states which parts v0.2
+supersedes for its governed roots.
+
 This repository is the clean convergence and dogfood implementation of the Agentic Engineering System (AES) architecture.
 
 Its purpose is to integrate separately evolved planning, capability, execution-governance, context, policy, evidence, and learning systems into one coherent engineering lifecycle without duplicating their authorities:
@@ -10,9 +38,7 @@ orient -> target -> current -> gap -> plan -> capability composition
        -> learning / policy or capability improvement
 ```
 
-## Status
-
-**AES v0.2 governs this repository (2026-09-25).** `.aes/target.yaml` holds the Greenfield MVP target (outcome `OUT-GF-001`, criteria `SC-GF-001`..`009`) over the governed roots `src/agentic_engineering_system/` and `tests/greenfield/`; `.aes/observations/` holds the evidence and `.aes/plans/` the accepted plans. Run `aes status` (or `make aes`) for the current standing and the first open gap per component; the v0.2 proposal lineage is `proposals/aes-v0.2-greenfield/` and the user-facing start is `docs/greenfield/GETTING_STARTED.md`. The v0.1 material below remains until the v0.2 acceptance phase dispositions it.
+### Status (v0.1)
 
 **Bootstrap architecture adopted; Plan 001 / Repository Context Slice 1 is delivered at verified AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`.**
 
@@ -28,12 +54,12 @@ The final revision-bound characterization and conservatively recomputed gap ledg
 
 Start at [`wiki/index.md`](wiki/index.md).
 
-## Adopted project-agnostic architecture
+### Adopted project-agnostic architecture
 
 This repo adopts the standalone architecture in `BrianMills2718/wiki_methodology` at revision `0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe`, starting at `docs/architecture/README.md` there.
 
 The local repo owns only AES-specific intent, decisions, plans, evidence, and implementation. It must not copy the project-agnostic methodology into a second mutable authority.
 
-## Lineage
+### Lineage
 
 `Inside-Success/agentic-engineering-system` and the archived `BrianMills2718/aes` are incumbent/predecessor sources of mechanisms, decisions, evidence, and lessons. They are not implicitly copied here. Existing capability owners remain authoritative until an explicit evidence-backed disposition says otherwise.

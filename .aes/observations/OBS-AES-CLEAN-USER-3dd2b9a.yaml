@@ -1,12 +1,11 @@
 schema_version: aes.v0_2.observation.probe0
-observation_id: OBS-AES-CLEAN-USER-2d3486b
+observation_id: OBS-AES-CLEAN-USER-3dd2b9a
 subject_refs: [SC-GF-001, ART-DOC-GREENFIELD-GETTING-STARTED, ART-PACKAGING-PYPROJECT]
-subject_revision: 2d3486b02e66f5a9a6e4c179e76845de1782db2d
-superseded_by: OBS-AES-CLEAN-USER-3dd2b9a
+subject_revision: 3dd2b9a795352aef8f9db70d159cdf46e8d9894d
 # What the run installed and executed: the page, the packaging, and the modules
 # the page's commands reach (init, hooks install, plan prepare/validate/accept,
 # target validate, topology check, context, evidence record/status, status,
-# reconcile). Any change to them since 2d3486b means the run no longer speaks
+# reconcile). Any change to them since 3dd2b9a means the run no longer speaks
 # for the current distribution.
 dependency_paths:
   - docs/greenfield/GETTING_STARTED.md
@@ -25,45 +24,44 @@ observer:
   identity: fresh Claude Opus 5.5 agent session (clean-user runner), no access to the planning conversation, proposals/, AES source or other repositories; ran on the maintainer's machine with its GitHub credentials (repository is private by decision, roadmap phase 2)
   version: Claude Opus 5.5
 method: >
-  Roadmap phase 2 clean-user run, repeated at 2d3486b after phases 3-6 changed
-  the page and the modules it reaches. The runner was given only
-  docs/greenfield/GETTING_STARTED.md and followed it in order: found the pin
-  with git ls-remote as the page now says (2d3486b, matching the fallback it was
-  told to use only if that failed); git init; venv; pip install; aes --version;
-  .gitignore and pyproject.toml; aes init; aes hooks install; first commit
-  through the packaged hook; aes plan prepare, the page's proposal, aes plan
-  validate, aes plan accept; second commit; aes context SC-001; source and
-  test; third commit; aes evidence record VS-GREET; aes evidence status;
-  fourth commit; aes status; then the page's staleness demonstration (edit,
-  commit, aes status, aes reconcile). The runner reported that opening the page
-  auto-loaded the repository's AGENTS.md/CLAUDE.md into its session and that it
-  did not rely on them.
+  Roadmap phase 7 clean-user run 3, at the phase-7b commit 3dd2b9a (pre-merge;
+  merged with a merge commit so it stays reachable). Same setup as runs 1 and
+  2: a fresh Opus agent given only docs/greenfield/GETTING_STARTED.md, on the
+  maintainer's machine (repository private by decision). It ran the page's
+  git ls-remote step (printed main 34ca0ae) and was told to pin 3dd2b9a instead.
+  Steps in the page's order: git init; venv; pip install; aes --version; files;
+  aes init; aes hooks install; commit; aes plan prepare / proposal / validate /
+  accept; commit; aes context SC-001; source and test; commit; aes evidence
+  record VS-GREET; aes evidence status; commit; aes status; the page's
+  staleness demonstration (edit, commit, aes status, aes reconcile). The runner
+  reported that opening the page auto-loaded AGENTS.md/CLAUDE.md into its
+  session and that no step needed them.
 execution_state: COMPLETED
-produced_at: 2026-09-25T23:20:00+00:00
+produced_at: 2026-09-25T23:58:00+00:00
 result:
   every_command_exit_code: 0
-  aes_version: 0.1.dev379+g2d3486b02
+  aes_version: 0.1.dev397+g3dd2b9a79
   commits: 5, each gated by the packaged pre-commit hook
   init_wrote_exactly: [.aes/project.yaml, .aes/target.yaml]
-  plan_accept: accepted at e2bc5fff; added normative_items NI-001 (6 additions, 0 changes)
+  plan_accept: accepted at d72edf0b; PLAN-001-GREET 6 additions, 0 changes, 0 removals
   status_after_evidence: |
-    OK status: greeter-target at 84a45af013b1cfa4b3ddc772363eddabb7499afa
+    OK status: greeter-target at de7a16e4d68a786b394259c8ea669a990b9733dc
       artifacts: 2 realized, 0 unrealized, 0 drifted; 0 orphan(s)
       criteria: 1 supported, 0 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
       observations: 1 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded
+      plans: 1 accepted, 0 unreachable
       first open gap per component:
         CMP-GREETER: no open gap
-  status_after_dependency_edit: 0 supported, 1 insufficient; 1 stale; CMP-GREETER insufficient SC-001 - ER-001-01 NO_CURRENT_SUPPORT (matches the page's example)
+  status_after_dependency_edit: 0 supported, 1 insufficient; 0 current, 1 stale; CMP-GREETER insufficient SC-001 - ER-001-01 NO_CURRENT_SUPPORT (matches the page)
   stuck_at: nowhere
   page_under_specified: >
-    the section-6 staleness demonstration and aes reconcile are prose only (no
-    command block, no commit message); venv re-activation per shell is not
-    mentioned; the tool's own `aes init` hint says "plan it in .aes/target.yaml"
-    while the page routes through aes plan (tool/page mismatch, to fix in the
-    tool); the global core.hooksPath override is printed by the tool but not on
-    the page.
+    staleness step has no command block; `aes context SC-001` lists ART-TEST-GREET
+    but not ART-PKG though both hang off NI-001, and lines carry no per-line
+    source despite the page's wording; the "no origin" notes from plan accept and
+    evidence record are not on the page; `aes plan accept` did not refuse with an
+    untracked proposal file in the tree (the page says "uncommitted changes").
 retained_artifact_refs:
-  - evidence/greenfield/clean-user-run-2-2026-09-25.md
+  - evidence/greenfield/clean-user-run-3-2026-09-25.md
 assessments:
   - evidence_requirement_ref: ER-SC-GF-001-01
     assessment: SUPPORTS

@@ -1,0 +1,68 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-GF-CONTEXT-STRUCTURAL-62fe041b
+subject_refs:
+- VS-GF-CONTEXT-STRUCTURAL
+subject_revision: 62fe041ba9fd9945014b592b39c38e1b4eb21de2
+dependency_paths:
+- src/agentic_engineering_system/__init__.py
+- src/agentic_engineering_system/characterize.py
+- src/agentic_engineering_system/characterize_python.py
+- src/agentic_engineering_system/cli.py
+- src/agentic_engineering_system/context.py
+- src/agentic_engineering_system/evidence.py
+- src/agentic_engineering_system/hooks.py
+- src/agentic_engineering_system/planning.py
+- src/agentic_engineering_system/project.py
+- src/agentic_engineering_system/reconcile.py
+- src/agentic_engineering_system/records.py
+- src/agentic_engineering_system/topology.py
+- tests/greenfield/test_context.py
+dependency_basis:
+  locator: tests/greenfield/test_context.py
+  discovered:
+  - src/agentic_engineering_system/__init__.py
+  - src/agentic_engineering_system/characterize.py
+  - src/agentic_engineering_system/characterize_python.py
+  - src/agentic_engineering_system/cli.py
+  - src/agentic_engineering_system/context.py
+  - src/agentic_engineering_system/evidence.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/planning.py
+  - src/agentic_engineering_system/project.py
+  - src/agentic_engineering_system/reconcile.py
+  - src/agentic_engineering_system/records.py
+  - src/agentic_engineering_system/topology.py
+  declared: []
+dependency_target_refs:
+- VS-GF-CONTEXT-STRUCTURAL
+- ER-SC-GF-005-01
+- ART-SRC-CHARACTERIZE
+- ART-SRC-CHARACTERIZE-PYTHON
+- ART-SRC-CLI
+- ART-SRC-CONTEXT
+- ART-SRC-EVIDENCE
+- ART-SRC-HOOKS
+- ART-SRC-PLANNING
+- ART-SRC-PROJECT
+- ART-SRC-RECONCILE
+- ART-SRC-RECORDS
+- ART-SRC-TOPOLOGY
+- ART-TEST-CONTEXT
+- ART-V01---INIT---PY
+observer: &id001
+  identity: aes evidence record
+  version: '0.1.dev392+g34ca0aea2 (running: 62fe041)'
+method: /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest -q 
+  tests/greenfield/test_context.py
+execution_state: COMPLETED
+result:
+  exit_code: 0
+  output_tail: "...............                                                          [100%]\n15 passed
+    in 1.18s"
+produced_at: '2026-09-25T23:30:23+00:00'
+assessments:
+- evidence_requirement_ref: ER-SC-GF-005-01
+  assessment: SUPPORTS
+  basis: 'VS-GF-CONTEXT-STRUCTURAL (prove exact applicable semantic text and provenance are projected
+    for the governed subject) passed: exit 0'
+  assessor: *id001

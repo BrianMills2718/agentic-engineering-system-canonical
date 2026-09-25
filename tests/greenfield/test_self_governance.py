@@ -23,7 +23,8 @@ from agentic_engineering_system.records import load_project, load_target
 from agentic_engineering_system.topology import compare_topology, normalized_roots
 
 REPO = Path(__file__).resolve().parents[2]
-SEMANTIC_INSTANCE = REPO / "proposals" / "aes-v0.2-greenfield" / "12-greenfield-mvp-semantic-instance.candidate.yaml"
+# The accepted copy (Decision 0010), not the proposal lineage file it was copied from.
+SEMANTIC_INSTANCE = REPO / "docs" / "architecture" / "greenfield-v0.2" / "12-greenfield-mvp-semantic-instance.yaml"
 V01_RETAINED = ("repository_context",)  # real v0.1 code: console script aes-repo-context
 V01_ARCHIVED = (  # empty placeholders, moved to archive/v0.1-placeholders/ in phase 7a
     "capability_sourcing", "evidence_assessment", "execution", "gap_reconciliation", "learning",

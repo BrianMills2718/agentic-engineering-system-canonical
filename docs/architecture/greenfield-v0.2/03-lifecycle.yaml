@@ -1,0 +1,371 @@
+# Accepted AES v0.2 greenfield architecture. Plain copy of proposals/aes-v0.2-greenfield/03-lifecycle.candidate.yaml
+# (copied, not git mv'd, so the proposal lineage stays in place), accepted by Decision 0010
+# (2026-09-25). For AES canonical, .aes/target.yaml is the live authority: where this file and
+# the target disagree, this file is wrong. `accepted_amendments` lists what changed from the candidate.
+# File names below that are not in this directory refer to proposals/aes-v0.2-greenfield/ (proposal lineage).
+schema_version: aes.v0_2.lifecycle.v2
+status: accepted
+accepted_by: docs/decisions/0010-greenfield-v0.2-accepted.md
+source_proposal: proposals/aes-v0.2-greenfield/03-lifecycle.candidate.yaml
+review_basis: 07-semantic-clean-sheet-review-pass-1.md
+
+state_classes:
+  accepted_target_authority:
+    meaning: >
+      Accepted intent, normative items, criteria and accepted realization
+      commitments that define what should be true.
+    rule: one_mutable_authority_per_semantic_fact
+
+  accepted_engineering_analysis:
+    meaning: >
+      Accepted failure modes, provider/feasibility findings and explicit
+      planning uncertainty that inform target and transition decisions without
+      themselves becoming target-current conformance subjects.
+
+  native_realization_authority:
+    meaning: >
+      Native executable source, configuration, contracts and other repository
+      artifacts own their realized native behavior/bytes. They do not redefine
+      normative target merely by existing.
+
+  observations:
+    meaning: >
+      Revision/subject-bound records of what analyzers, tests, runtimes, humans
+      or other observers actually saw.
+    rule: observation_is_not_criterion_satisfaction
+
+  evidence_assessments:
+    meaning: >
+      Qualified judgments over observations establishing freshness, adequacy and
+      standing for a criterion or claim.
+    rule: pass_like_result_is_not_automatically_sufficient_evidence
+
+  derived_projections:
+    examples:
+      - realized_repository_characterization
+      - semantic_graph
+      - current
+      - gap
+      - working_context
+      - human_navigation_and_review
+    rule: rebuildable_with_provenance_and_freshness
+
+greenfield_flow:
+  - step: establish_intent
+    produces:
+      - accepted_outcomes
+      - actors_or_consumers
+      - constraints
+      - non_goals
+    mvp_realization: >
+      `aes init --actor --outcome` writes the first outcome (OUT-001, with
+      actor_or_consumer) into .aes/target.yaml; further intent is added through
+      `aes plan` proposals or hand edits checked by `aes target validate`.
+
+  - step: establish_normative_target
+    produces:
+      - normative_items
+      - success_criteria
+      - disproof
+      - failure_modes
+    mvp_realization: failure_modes are not realized (no record or target family); the other products are target entries
+
+  - step: characterize_initial_current
+    condition: new_project_has_no_realization_yet
+    produces:
+      - explicit_unrealized_current
+    rule: >
+      Absence of realization is known current state in greenfield work, not
+      missing information and not a reason to skip current characterization.
+
+  - step: derive_initial_gaps
+    consumes:
+      - accepted_normative_target
+      - explicit_unrealized_current
+    produces:
+      - initial_gap_set
+    mvp_realization: >
+      Both steps are `aes reconcile` (and `aes plan prepare`, which reconciles
+      internally), recomputed from HEAD on every run and not stored: unrealized
+      planned artifacts and insufficient criteria are open gaps. On a target
+      holding only the first outcome there are no gaps.
+
+  - step: perform_planning_analysis
+    realized_in_v0_2_mvp: false  # no failure-mode, landscape, feasibility or uncertainty records
+    consumes:
+      - accepted_normative_target
+      - qualified_current
+      - gap_set
+    produces:
+      - accepted_failure_modes
+      - provider_landscape_as_needed
+      - feasibility_findings_as_needed
+      - explicit_planning_uncertainty
+
+  - step: aes_planning
+    consumes:
+      - accepted_normative_target
+      - qualified_current
+      - gap_set
+      - accepted_engineering_analysis
+      - known_constraints
+    produces:
+      - capability_requirements
+      - provider_dispositions
+      - realization_units
+      - dependency_intent
+      - exact_durable_artifact_topology
+      - selected_symbol_commitments
+      - verification_topology
+      - execution_ready_verticals_or_probes
+    mvp_realization: >
+      AES does not derive the plan: a human or agent writes a proposal
+      (add / change / remove over the target families, plus closes_gaps) from
+      the `aes plan prepare` packet, and `aes plan validate` checks it.
+      Realized products: realization units (components), exact durable artifact
+      topology, symbol commitments (`exports`) and verification topology
+      (verification subjects, external boundaries). capability_requirements,
+      provider_dispositions, dependency_intent and verticals or probes are not
+      realized.
+
+  - step: accept_target_realization
+    effect: >
+      Accepted durable realization commitments become part of target authority.
+      The plan owns the transition that proposed them; the historical plan does
+      not remain the timeless owner of repository topology.
+    consequence: >
+      Current/gap can be rematerialized against the expanded accepted target,
+      making missing planned artifacts and verification subjects explicit gaps.
+    mvp_realization: >
+      `aes plan accept` (clean tree required; no commit) edits .aes/target.yaml
+      in place and writes .aes/plans/<proposal_id>.yaml with
+      accepted_at_revision; target and plan are committed together. Current/gap
+      against the new target is what the next `aes reconcile` / `aes status`
+      computes.
+
+  - step: materialize_initial_repository
+    produces:
+      - declared_durable_artifacts
+      - generated_or_tool_created_artifacts_allowed_by_accepted_rules
+      - initial_working_context
+    invariant: no_orphan_durable_governed_artifacts
+    mvp_realization: >
+      The invariant is enforced by `aes topology check` and the pre-commit hook
+      (`aes hooks install`) on every commit. Artifacts admitted by accepted
+      generation rules are not realized (exact paths only).
+
+  - step: project_working_context
+    consumes:
+      - accepted_target
+      - qualified_current
+      - gaps
+      - active_plan_when_applicable
+      - derived_semantic_graph
+      - verification_obligations
+    produces:
+      - smallest_complete_context_for_current_subject
+    semantic_requirement: >
+      Applicable normative, success and disproof meaning is present in full with
+      provenance. The delivery mechanism is not fixed by this lifecycle.
+    mvp_realization: >
+      `aes context <declared id>` consumes the accepted target only (typed-ref
+      closure with provenance); qualified_current, gaps, active plan and a
+      semantic-graph artifact are not inputs of the MVP packet.
+
+  - step: native_implementation
+    rule: >
+      Executable behavior is authored in native implementation forms.
+      Unplanned durable topology changes require accepted target amendment or
+      replan; ordinary non-governed ephemeral artifacts do not.
+
+  - step: characterize_realized_repository
+    produces:
+      - revision_bound_realized_repository_characterization
+      - derived_observed_dependencies
+    rule: >
+      Realized characterization may use language/source analyzers but is not
+      limited to source code.
+    mvp_realization: >
+      `aes characterize`: files, blob hashes and sizes under the governed roots
+      at HEAD, and Python AST facts (symbols, signatures, intra-repository
+      imports), plus drift against the target; computed on demand, not stored.
+
+  - step: execute_verification
+    produces:
+      - revision_bound_observations
+    rule: >
+      A verification subject produces observations. It does not decide its own
+      criterion adequacy merely by reporting a pass-like result.
+    mvp_realization: >
+      `aes evidence record <VS-ID>` runs a deterministic-test subject at HEAD and
+      writes one observation under .aes/observations/ with its per-requirement
+      assessment; other observations are hand-written in the same shape. A
+      negative control observes a mutated commit and carries `control: {kind:
+      negative, base_revision, ...}`; a replaced observation is kept with
+      `superseded_by`.
+
+  - step: assess_evidence
+    consumes:
+      - observations
+      - criterion_evidence_requirements
+      - dependency_and_revision_freshness
+    produces:
+      - evidence_assessments
+    mvp_realization: >
+      `aes evidence status`: per observation freshness CURRENT, STALE, UNKNOWN or
+      UNREACHABLE (commit, or a negative control's base_revision, not an
+      ancestor of HEAD), from dependency_paths and entry-level
+      dependency_target_refs; superseded observations never count; per
+      criterion SUPPORTED, INSUFFICIENT or REFUTED by conjunction.
+
+  - step: characterize_current
+    consumes:
+      - accepted_target
+      - realized_repository_characterization
+      - evidence_assessments
+    produces:
+      - qualified_current
+
+  - step: reconcile_gap
+    consumes:
+      - accepted_target
+      - qualified_current
+    produces:
+      - gap_projection
+    mvp_realization: >
+      Both steps are one `aes reconcile` / `aes status` run, which also reports
+      accepted plans (`plans: N accepted, M unreachable`, a warning per
+      unreachable plan). Nothing is stored.
+
+  - step: regenerate_working_and_review_projections
+    mvp_realization: >
+      Nothing is regenerated or stored: `aes context`, `aes status` and
+      `aes reconcile` compute on demand. The human review surface and a
+      semantic-graph artifact are not realized.
+    consumes:
+      - accepted_target
+      - realized_repository_characterization
+      - qualified_current
+      - gaps
+      - plan_state
+      - verification_state
+    produces:
+      - working_context
+      - human_navigation_and_review
+      - semantic_graph
+
+  - step: continue_change_stop_or_scale
+    rule: >
+      Next work derives from remaining gaps, intended outcomes, failure modes and
+      evidence. Plan completion has no independent closure authority.
+
+target_realized_comparison:
+  candidate_findings:
+    - declared_artifact_missing
+    - undeclared_durable_governed_artifact_present
+    - selected_planned_symbol_missing
+    - planned_signature_or_type_drift
+    - verification_subject_missing
+    - criterion_without_sufficient_current_evidence
+    - intended_dependency_disagrees_with_observed_dependency
+  rule: >
+    Findings preserve target intent, realized observation and derived impact as
+    distinct facts.
+  mvp_realization:
+    declared_artifact_missing: unrealized (reported, not a failure)
+    undeclared_durable_governed_artifact_present: orphan (failure)
+    selected_planned_symbol_missing: missing_export / missing_file drift against `exports`
+    planned_signature_or_type_drift: signature_changed drift (signatures only)
+    verification_subject_missing: an evidence requirement with no route is refused by `aes target validate` and `aes plan validate`
+    criterion_without_sufficient_current_evidence: insufficient gap
+    intended_dependency_disagrees_with_observed_dependency: not realized
+
+working_context_delivery:
+  semantic_requirement:
+    - full_applicable_normative_text
+    - full_success_criterion_text
+    - full_disproof_text
+    - provenance
+    - qualified_current
+    - relevant_gaps
+    - applicable_plan_transition
+    - verification_obligations
+    - relevant_dependency_consequences
+  mechanism_status: deferred
+  candidate_mechanisms_not_selected:
+    - generated_docstrings
+    - generated_file_headers
+    - adjacent_sidecar
+    - IDE_or_agent_injection
+    - hybrid
+  mvp_realization: >
+    Delivered on demand by the CLI (`aes context <subject> [--format
+    markdown|json]`), none of the candidate mechanisms; qualified_current,
+    relevant_gaps, applicable_plan_transition and dependency consequences are
+    not in the packet.
+
+freshness:
+  principle: >
+    A projection or evidence assessment that cannot establish applicability to
+    the claimed subject/revision must expose UNKNOWN, STALE, UNREACHABLE, ERROR,
+    UNOBSERVED or INSUFFICIENT semantics as appropriate rather than
+    current/green.
+  mvp_vocabulary:
+    observation_freshness: [CURRENT, STALE, UNKNOWN, UNREACHABLE]
+    observation_execution_state: [COMPLETED, ERROR]
+    criterion_standing: [SUPPORTED, INSUFFICIENT, REFUTED]
+    evidence_requirement_status: [SUPPORTED, REFUTED, NO_CURRENT_SUPPORT]
+    superseded: an observation with superseded_by keeps its freshness for the record and never counts
+    unobserved: not a value; an evidence requirement with no CURRENT assessment is NO_CURRENT_SUPPORT
+
+history:
+  git_is_baseline_source_lineage: true
+  durable_decisions_and_plans_preserve_accepted_reasoning: true
+  observations_and_evidence_are_revision_bound: true
+  append_only_semantic_event_layer:
+    status: deferred_candidate
+    adoption_test: >
+      Add only if the Greenfield MVP demonstrates material lifecycle information
+      that Git plus accepted authorities plus observations/evidence cannot
+      represent cleanly.
+
+provider_selection:
+  realized_in_v0_2_mvp: false  # no provider bindings or dispositions are recorded
+  occurs_after_semantic_requirement: true
+  prior_systems_have_automatic_preference: false
+  acceptable_dispositions:
+    - reuse
+    - configure
+    - adapt
+    - compose
+    - residual
+    - reject
+    - unresolved
+
+retrofit:
+  status: future_capability
+  not_part_of_greenfield_flow: true
+  expected_future_problem:
+    - characterize_existing_repository
+    - infer_candidate_intent_without_promoting_inference_to_truth
+    - expose_uncertainty
+    - obtain_human_or_authoritative_disposition
+    - establish_first_accepted_target
+    - enter_normal_AES_lifecycle_after_adoption
+
+accepted_amendments:
+  - change: "freshness.principle gains UNREACHABLE; freshness.mvp_vocabulary added (observation freshness, execution state, criterion standing, evidence-requirement status, superseded, how unobserved is expressed)."
+    reason: "the realized state vocabulary; an observation at a commit not reachable from HEAD never counts."
+    source: "evidence.py Freshness, Standing, ErStatus, ObservationRecord; 24 §19"
+  - change: "perform_planning_analysis and provider_selection marked realized_in_v0_2_mvp false; establish_normative_target notes failure_modes not realized."
+    reason: "no failure-mode, provider, landscape, feasibility or uncertainty records exist."
+    source: "records.py TargetRecord; planning.py"
+  - change: "mvp_realization notes on establish_intent, characterize_initial_current/derive_initial_gaps, aes_planning, accept_target_realization, materialize_initial_repository, project_working_context, characterize_realized_repository, execute_verification (negative controls, superseded_by), assess_evidence, characterize_current/reconcile_gap and regenerate_working_and_review_projections."
+    reason: "name the command that realizes each step and the parts not realized (no plan derivation, no stored projections, no review surface, context without current/gaps/plan)."
+    source: "cli.py; project.py; planning.py; characterize.py; evidence.py; reconcile.py; context.py; 24 §12-§16, §19"
+  - change: "target_realized_comparison.mvp_realization maps each candidate finding to the realized finding (unrealized, orphan, missing_export/missing_file, signature_changed, no-route refusal, insufficient) or not realized (dependency disagreement)."
+    reason: "concrete finding vocabulary as built."
+    source: "topology.py; characterize.py drift(); reconcile.py GapKind; planning.py route_violations"
+  - change: "working_context_delivery.mvp_realization added (CLI on demand; packet omits current, gaps, plan)."
+    reason: "the delivery mechanism realized is `aes context`, none of the candidates."
+    source: "context.py; cli.py"

@@ -1,7 +1,7 @@
 """Observations, freshness and criterion standing (`RU-AES-EVIDENCE`,
 `SC-GF-007`, `SC-GF-008`, decision D2).
 
-Observation records follow `16-record-shapes.candidate.yaml`. Assessments are
+Observation records follow `docs/architecture/greenfield-v0.2/16-record-shapes.yaml`. Assessments are
 materialized inside the observation (option `retained_inside_observation_
 assessment_receipt`), one per evidence requirement, never per criterion:
 an observation does not claim criterion sufficiency.
@@ -490,13 +490,15 @@ class Recorded:
     branch_note: str | None  # squash-merge warning or unchecked note; see `branch_note`
 
 
-def branch_note(root: Path, revision: str) -> str | None:
+def branch_note(root: Path, revision: str, consequence: str = "this evidence stays valid") -> str | None:
     """A warning when `revision` is not yet on the default branch, a note when that
     cannot be checked, None when it is already there.
 
     The default branch tip is `origin/HEAD`, else `origin/main`. Evidence recorded
     on a branch stays valid only if that exact commit reaches the default branch:
-    a squash merge rewrites it and leaves the observation UNREACHABLE.
+    a squash merge rewrites it and leaves the observation UNREACHABLE. `aes plan
+    accept` prints the same warning for a plan's `accepted_at_revision`, with
+    `consequence` naming the plan instead of the evidence.
     """
     tip = next((ref for ref in ("refs/remotes/origin/HEAD", "refs/remotes/origin/main")
                 if subprocess.run(["git", "rev-parse", "--verify", "-q", ref], cwd=root,
@@ -512,7 +514,7 @@ def branch_note(root: Path, revision: str) -> str | None:
         raise EvidenceError(f"git merge-base --is-ancestor {revision} {tip} failed: {proc.stderr.strip()}")
     name = _git(root, "rev-parse", "--abbrev-ref", "HEAD").strip()
     where = "a detached HEAD" if name == "HEAD" else f"branch {name}"
-    return (f"warning: recorded at {revision[:8]} on {where}; this evidence stays valid only if that commit "
+    return (f"warning: recorded at {revision[:8]} on {where}; {consequence} only if that commit "
             "reaches the default branch unchanged — merge with a merge commit (not squash), or re-record "
             "after merging")
 

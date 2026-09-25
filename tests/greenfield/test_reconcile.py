@@ -323,3 +323,57 @@ def test_squash_merged_evidence_is_unreachable_and_a_superseded_record_is_counte
     assert (f"    OBS-EVAL-BRANCH: UNREACHABLE (superseded by OBS-EVAL-MAIN) - subject commit {branch_rev[:8]} "
             "is not reachable from HEAD (squash-merged or deleted branch?)\n") in out
     assert _standing(reconcile(root))["SC-WG5-002"] == "SUPPORTED"
+
+
+def _plan(root: Path, plan_id: str, revision: str) -> None:
+    _write(root, f".aes/plans/{plan_id}.yaml", f"""schema_version: aes.v0_2.proposal.probe0
+proposal_id: {plan_id}
+title: fixture plan
+rationale: fixture
+closes_gaps: []
+target_delta:
+  add: {{}}
+accepted_at_revision: {revision}
+accepted_at: '2026-09-25T00:00:00+00:00'
+""")
+
+
+def test_plan_accepted_on_a_squash_merged_branch_is_an_unreachable_warning_not_a_failure(
+    root: Path, capsys: pytest.CaptureFixture[str],
+) -> None:
+    """§20: whygame5's PLAN-WG5-RUNNER names a commit of a squash-merged branch. The
+    target carries the delta either way, so the lost provenance commit warns only."""
+    main_rev = _git(root, "rev-parse", "HEAD")
+    _git(root, "checkout", "-q", "-b", "feature")
+    _write(root, "tests/test_replay.py", "def test_ok():\n    assert 1\n")
+    branch_rev = _commit(root, "feature work")
+    _git(root, "checkout", "-q", "-")
+    _git(root, "merge", "-q", "--squash", "feature")
+    _git(root, "commit", "-qm", "squash-merge feature")
+    _git(root, "branch", "-q", "-D", "feature")
+    _plan(root, "PLAN-ON-MAIN", main_rev)
+    _plan(root, "PLAN-SQUASHED", branch_rev)
+    _plan(root, "PLAN-MISSING", "0123456789abcdef0123456789abcdef01234567")  # a commit this clone lacks
+    _commit(root, "plans")
+
+    r = reconcile(root)
+    assert [(p.plan_id, p.reachable) for p in r.plans] == [
+        ("PLAN-MISSING", False), ("PLAN-ON-MAIN", True), ("PLAN-SQUASHED", False)]
+    assert r.ok
+
+    assert main(["status", "--root", str(root)]) == 0
+    out = capsys.readouterr().out
+    assert "  plans: 3 accepted, 2 unreachable\n" in out
+    assert (f"  warning: plan PLAN-SQUASHED accepted_at_revision {branch_rev[:8]} is not reachable from HEAD "
+            "(squash-merged or deleted branch?); the target already carries its delta, so this does not fail\n") in out
+    assert "warning: plan PLAN-ON-MAIN" not in out
+    assert main(["reconcile", "--root", str(root)]) == 0
+    out = capsys.readouterr().out
+    assert f"    PLAN-ON-MAIN: accepted at {main_rev[:12]}, reachable\n" in out
+    assert f"    PLAN-SQUASHED: accepted at {branch_rev[:12]}, UNREACHABLE from HEAD\n" in out
+
+
+def test_no_plans_directory_counts_zero(root: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    assert reconcile(root).plans == []
+    assert main(["status", "--root", str(root)]) == 0
+    assert "  plans: 0 accepted, 0 unreachable\n" in capsys.readouterr().out

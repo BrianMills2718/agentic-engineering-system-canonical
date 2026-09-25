@@ -2,7 +2,22 @@
 
 This is the progressive-disclosure front door for the canonical AES convergence project. It is a derived navigation surface, not a native authority. Follow links to the owning architecture, decision, plan, evidence, or code before making consequential claims.
 
-## Current orientation
+## AES v0.2 (accepted) — start here
+
+AES v0.2, the greenfield MVP, is accepted as realized by
+[Decision 0010](../docs/decisions/0010-greenfield-v0.2-accepted.md) and governs
+this repository's `src/agentic_engineering_system/` and `tests/greenfield/`
+through its own `.aes/` target.
+
+- Use it: [`docs/greenfield/GETTING_STARTED.md`](../docs/greenfield/GETTING_STARTED.md).
+- Current state: run `aes status` (or `make aes`); the live authority is `.aes/target.yaml`.
+- Accepted architecture: [`docs/architecture/greenfield-v0.2/`](../docs/architecture/greenfield-v0.2/README.md).
+- What is not claimed (value beyond mechanism, single machine, two consumers, private repository) and the one criterion not currently supported (SC-GF-001, waiting on clean-user run 3): Decision 0010.
+- History: [`proposals/aes-v0.2-greenfield/`](../proposals/aes-v0.2-greenfield/README.md) (lineage, not authority), especially `24-pre-probe-decisions.md` and `25-roadmap-to-mvp-acceptance.md`.
+
+Everything below describes the v0.1 line, retained under Decision 0010's v0.1 disposition.
+
+## Current orientation (v0.1)
 
 **Target**
 
