@@ -1,6 +1,7 @@
 schema_version: aes.v0_2.public_native_provider_evaluation.candidate.v0
 status: proposal_non_normative
 provider_contract: 17-provider-evaluation-contract.candidate.yaml
+# Review role: supporting public/native provider evidence; current candidate bindings are in 21-provider-bindings.candidate.yaml
 evaluated_at: 2026-09-24
 
 scope:
