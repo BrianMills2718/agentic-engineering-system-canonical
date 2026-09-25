@@ -47,9 +47,8 @@ after phase 7a: `aes status` on AES: 8 of 9 SUPPORTED, SC-GF-001 waiting on
 clean-user run 3; the eight empty v0.1 placeholders archived under
 `archive/v0.1-placeholders/`, `repository_context/` retained; §20. Update
 after phase 7b: promoted to `docs/architecture/greenfield-v0.2/` and accepted
-by Decision 0010; `aes status` on AES still 8 of 9 SUPPORTED, SC-GF-001
-waiting on clean-user run 3; accepted plans are checked for reachability;
-§21.)
+by Decision 0010; clean-user run 3 recorded at `3dd2b9a`; `aes status` on AES:
+**9 of 9 SUPPORTED**; accepted plans are checked for reachability; §21.)
 
 Kinks the consumer has already exposed and that this roadmap must close:
 

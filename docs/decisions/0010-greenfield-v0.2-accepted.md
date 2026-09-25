@@ -57,7 +57,7 @@ governs AES canonical's governed roots and whygame5.
 
 `aes status` on AES canonical at the evidence commit of this change (the
 header's HEAD is the commit the re-recorded evidence names; the records and
-this text are the next commit, which is why the header says dirty):
+this text are the next commit, which is why the header says dirty; clean-user run 3, recorded one commit later, moves SC-GF-001 to SUPPORTED — final counts: 9 supported, 0 insufficient):
 
 ```text
 OK status: agentic-engineering-system-canonical-target at 62fe041ba9fd9945014b592b39c38e1b4eb21de2 (dirty: working tree differs from HEAD under governed roots or .aes/)
@@ -84,7 +84,7 @@ Per criterion, from `aes evidence status` at the same commit:
 
 | criterion | evidence requirement | standing (from `aes evidence status`) |
 | --- | --- | --- |
-| SC-GF-001 (INSUFFICIENT) | ER-SC-GF-001-01 | NO_CURRENT_SUPPORT - OBS-AES-CLEAN-USER-2d3486b SUPPORTS (STALE); OBS-GF-INIT-UNIT-62fe041b and OBS-GF-DISTRIBUTION-INSTALL-62fe041b INCONCLUSIVE (CURRENT, local tests by design); earlier records STALE or superseded |
+| SC-GF-001 (SUPPORTED) | ER-SC-GF-001-01 | SUPPORTED - supported by OBS-AES-CLEAN-USER-3dd2b9a (clean-user run 3, recorded after the status block above); OBS-GF-INIT-UNIT-62fe041b and OBS-GF-DISTRIBUTION-INSTALL-62fe041b INCONCLUSIVE (CURRENT, local tests by design); earlier records STALE or superseded |
 | SC-GF-002 (SUPPORTED) | ER-SC-GF-002-01 | SUPPORTED - supported by OBS-GF-RECORDS-449cd54b |
 | SC-GF-003 (SUPPORTED) | ER-SC-GF-003-01 | SUPPORTED - supported by OBS-GF-TOPOLOGY-62fe041b |
 | SC-GF-003 (SUPPORTED) | ER-SC-GF-003-02 | SUPPORTED - supported by OBS-GF-SELF-GOVERNANCE-62fe041b, OBS-GF-TOPOLOGY-62fe041b |
@@ -97,15 +97,16 @@ Per criterion, from `aes evidence status` at the same commit:
 | SC-GF-008 (SUPPORTED) | ER-SC-GF-008-01 | SUPPORTED - supported by OBS-GF-EVIDENCE-62fe041b, OBS-GF-EVIDENCE-CONTROLS-62fe041b, OBS-GF-RECONCILE-62fe041b |
 | SC-GF-009 (SUPPORTED) | ER-SC-GF-009-01 | SUPPORTED - supported by OBS-AES-WG5-LIFECYCLE-38df3e5 |
 
-SC-GF-001 is the criterion not SUPPORTED. Its evidence of record,
-`OBS-AES-CLEAN-USER-2d3486b` (clean-user run 2, a fresh agent with only the
-getting-started page), SUPPORTS `ER-SC-GF-001-01` but is STALE: phase 7a and
-this change modified files that run exercised (`cli.py`, `planning.py`,
-`reconcile.py`, `evidence.py`). The local tests routed to it are recorded
-INCONCLUSIVE by design (24 §17). This acceptance does **not** downgrade SC-GF-001
-to "documented instead of observed" (the roadmap's phase-7 wrong-when): it
-stands INSUFFICIENT, and it closes only when clean-user run 3 on current code
-is recorded SUPPORTS. The mechanism was observed working twice (`0503735`,
+SC-GF-001 was the last criterion to close. Its evidence of record at the
+phase-7b evidence commit, `OBS-AES-CLEAN-USER-2d3486b`, had gone STALE because
+phase 7a and 7b modified files that run exercised. Clean-user run 3 was then
+run against this branch's commit `3dd2b9a` (a fresh agent with only the
+getting-started page, same setup and private-repository caveat as runs 1 and
+2) and recorded as `OBS-AES-CLEAN-USER-3dd2b9a`, SUPPORTS; with it, `aes
+status` at the merged state reads **9 supported, 0 insufficient, 0 refuted**.
+The local tests routed to ER-SC-GF-001-01 remain INCONCLUSIVE by design (24
+§17). This acceptance did **not** downgrade SC-GF-001 to "documented instead
+of observed" (the roadmap's phase-7 wrong-when). The mechanism was observed working twice (`0503735`,
 `2d3486b`); what is missing is a current observation, which the evidence rule
 correctly demands after every change to the exercised code.
 
