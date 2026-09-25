@@ -262,10 +262,17 @@ Evidence:
 - `ER-SC-GF-003-02`: on whygame5 `main@9c9ee2a` the check exits 0 with 6
   governed files and 5 unrealized planned artifacts.
 
-whygame5 now runs `aes target validate` and `aes topology check` from its own
-test suite and a committed pre-commit hook, with AES as a pinned dev
-dependency, so an agent working there hits the rules without being told to
-reach into this repository.
+whygame5 now runs `aes target validate` and `aes topology check` from a
+committed pre-commit hook (`make setup` enables it) and from `make check`, with
+AES as a pinned dev dependency and the rules stated in its `AGENTS.md`, so an
+agent working there hits the rules without being told to reach into this
+repository. Checked: a staged orphan `src/whygame5/stray.py` was refused by the
+hook; the wiring commit itself passed through it.
+
+The gate deliberately lives outside `src/` and `tests/`. A pytest file that
+checks AES conformance is not part of any whygame5 outcome, and giving it one
+would distort the target, so it is not a planned artifact. This is a first
+data point on where AES's own scaffolding belongs in a governed consumer.
 
 Wrong-when: a real whygame5 change needs a generated file under a governed root
 that cannot be listed by exact path (implement generation rules then), or an
