@@ -277,3 +277,59 @@ data point on where AES's own scaffolding belongs in a governed consumer.
 Wrong-when: a real whygame5 change needs a generated file under a governed root
 that cannot be listed by exact path (implement generation rules then), or an
 agent commits an orphan in whygame5 without the hook or the tests catching it.
+
+## 9. Evidence standing realized, and the consumer is a method (2026-09-25)
+
+**The consumer is a method, not the goal.** Brian, 2026-09-25: "i am ambivalent
+abotu why game5. if advancing it towards its final state helps us work otu
+kinks in aes canonical then lets do that i just dont want to mistake the methods
+with the goal." whygame5 advances only where that exercises or exposes something
+in AES. Product-quality work on WhyGame that teaches AES nothing is out of
+scope here. Wrong-when: whygame5 stops producing AES findings while it grows,
+which is the signal to change or add a consumer rather than keep building it.
+
+`aes evidence status` (`src/agentic_engineering_system/evidence.py`) realizes
+`RU-AES-EVIDENCE` in its smallest form. Choices made, each with a wrong-when:
+
+- **Assessments live inside the observation**, one per evidence requirement,
+  never per criterion (`16-record-shapes` option
+  `retained_inside_observation_assessment_receipt`). Wrong-when: two assessors
+  need to disagree about one observation without editing it.
+- **Freshness from Git.** An observation names the commit it observed and the
+  paths its result depends on; it is CURRENT until one of those paths changes,
+  then STALE. With no commit or no paths it is UNKNOWN and never counts, so a
+  human review names the commit and files it reviewed. Wrong-when: a real
+  dependency that is not a repository path (a model version, an external
+  service) changes and the evidence stays CURRENT.
+- **Standing** follows D2: SUPPORTED only when every requirement has a CURRENT
+  supporting assessment; REFUTED when any requirement has a CURRENT refuting
+  one; otherwise INSUFFICIENT with the reason per requirement. Wrong-when: a
+  CURRENT refutation should be outweighed rather than win.
+
+Evidence on the real consumer (whygame5 `main@0a093e7` plus its converted
+records): 6 criteria, 3 SUPPORTED by recorded test runs, 3 INSUFFICIENT with
+the missing live run, human review, or uncovered check named. The chain-fit
+refutation `OBS-WG5-006-CHAIN-FIT-1` is correctly STALE because the prompts,
+ontology and probe it observed have changed since (`SC-GF-008` on real data).
+Tests: `tests/greenfield/test_evidence.py` (`ER-SC-GF-007-01`, `ER-SC-GF-008`).
+
+Kinks the consumer exposed:
+
+1. **Hand-written observations did not load.** All three pre-existing whygame5
+   observations failed the strict loader (a combined revision/identity field,
+   extra top-level fields). Converted without content loss, checked by
+   comparing parsed content before and after.
+2. **Observations of uncommitted work have no revision.** Two were recorded as
+   "branch X on base <sha>" because the run happened before the commit. The
+   commit that later held the observed code was used. AES should require
+   committing before observing, or record the revision at commit time.
+3. **AES tests read the live consumer.** `tests/greenfield` loaded
+   `/home/brian/code/whygame5/.aes`, so the consumer growing broke four AES
+   tests and the tests only ran on Brian's machine. They now load a frozen copy
+   (`tests/greenfield/fixtures/whygame5-54043e2/`).
+4. **Recording a test run as an observation is manual.** Four observations were
+   hand-written from four pytest runs. Next: `aes evidence record`, which runs
+   a verification subject's command at HEAD and writes the observation with its
+   revision and dependency paths.
+5. **The consumer's pre-commit hook was hand-copied** and broke in linked
+   worktrees (no `.venv`). AES should ship it (`aes hooks install`).

@@ -23,7 +23,7 @@ from agentic_engineering_system.context import (
 )
 from agentic_engineering_system.records import RecordLoadError, TargetValidationError, load_target
 
-WHYGAME5_AES = Path("/home/brian/code/whygame5/.aes")
+WHYGAME5_AES = Path(__file__).parent / "fixtures" / "whygame5-54043e2" / ".aes"
 
 NI_002_TEXT = (
     "The evaluator selects findings from graph structure alone: two committed "

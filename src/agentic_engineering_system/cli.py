@@ -3,6 +3,7 @@
     aes target validate [--root DIR]
     aes context <subject> [--root DIR] [--format markdown|json]
     aes topology check [--root DIR]
+    aes evidence status [--root DIR]
 
 Exit 0 on success, 1 on any load/validation/context/topology error or orphan (message on stderr),
 2 on usage errors (argparse).
@@ -15,6 +16,8 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 
+from .evidence import EvidenceError, assess
+from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
 from .records import RecordLoadError, TargetValidationError, load_project, load_target
 from .topology import TopologyError, check_topology, render_report
@@ -38,6 +41,11 @@ def _build_parser() -> argparse.ArgumentParser:
     topology_sub = topology.add_subparsers(dest="topology_command", required=True)
     check = topology_sub.add_parser("check", help="fail on any governed file the target does not plan")
     check.add_argument("--root", type=Path, default=Path("."), help="project root (default: .)")
+
+    evidence = sub.add_parser("evidence", help="observations, freshness and criterion standing")
+    evidence_sub = evidence.add_subparsers(dest="evidence_command", required=True)
+    status = evidence_sub.add_parser("status", help="standing of every success criterion (decision D2)")
+    status.add_argument("--root", type=Path, default=Path("."), help="project root (default: .)")
     return parser
 
 
@@ -80,7 +88,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             return _cmd_context(args.root, args.subject, args.format)
         if args.command == "topology" and args.topology_command == "check":
             return _cmd_topology_check(args.root)
-    except (RecordLoadError, TargetValidationError, ContextError, TopologyError) as exc:
+        if args.command == "evidence" and args.evidence_command == "status":
+            print(render_evidence(assess(args.root)))
+            return 0
+    except (RecordLoadError, TargetValidationError, ContextError, TopologyError, EvidenceError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     raise AssertionError(f"unhandled command {args.command!r}")  # argparse prevents this

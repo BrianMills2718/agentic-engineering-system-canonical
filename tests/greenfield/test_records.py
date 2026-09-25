@@ -19,7 +19,7 @@ from agentic_engineering_system.records import (
     load_target,
 )
 
-WHYGAME5_AES = Path("/home/brian/code/whygame5/.aes")
+WHYGAME5_AES = Path(__file__).parent / "fixtures" / "whygame5-54043e2" / ".aes"
 
 
 @pytest.fixture
