@@ -442,3 +442,40 @@ def test_accept_removes_entries_and_keeps_every_other_line(root: Path) -> None:
     assert "CMP-WG5-REPORT" not in {c.id for c in target.components}
     plan = load_plan(root / ".aes" / "plans" / "PLAN-REMOVE.yaml")
     assert plan.target_delta.remove.components == ["CMP-WG5-REPORT"]
+
+
+def test_accept_on_a_branch_warns_like_evidence_record(root: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """§20: a plan accepted on a branch that is then squash-merged names a commit the
+    default branch never contains, so accept prints evidence record's warning."""
+    bare = root.parent / "origin.git"
+    _git(root.parent, "init", "-q", "--bare", str(bare))
+    _git(root, "branch", "-M", "main")
+    _git(root, "remote", "add", "origin", str(bare))
+    _git(root, "push", "-q", "-u", "origin", "main")
+    proposal = root / "proposal.yaml"
+    shutil.copy(RUNNER_PROPOSAL, proposal)
+
+    _git(root, "checkout", "-q", "-b", "feature")
+    _write(root, "src/whygame5/graph.py", "def normalize(s):\n    return s.strip()\n")
+    _git(root, "commit", "-qam", "feature work")
+    head = _git(root, "rev-parse", "HEAD")
+    assert main(["plan", "accept", str(proposal), "--root", str(root)]) == 0
+    captured = capsys.readouterr()
+    assert captured.out.startswith(f"accepted at {head}\n")
+    assert captured.err == (
+        f"warning: recorded at {head[:8]} on branch feature; this plan's accepted_at_revision stays reachable "
+        "only if that commit reaches the default branch unchanged — merge with a merge commit (not squash), "
+        "or re-record after merging\n"
+    )
+
+
+def test_accept_on_the_default_branch_prints_no_warning(root: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    bare = root.parent / "origin.git"
+    _git(root.parent, "init", "-q", "--bare", str(bare))
+    _git(root, "branch", "-M", "main")
+    _git(root, "remote", "add", "origin", str(bare))
+    _git(root, "push", "-q", "-u", "origin", "main")
+    proposal = root / "proposal.yaml"
+    shutil.copy(RUNNER_PROPOSAL, proposal)
+    assert main(["plan", "accept", str(proposal), "--root", str(root)]) == 0
+    assert capsys.readouterr().err == ""

@@ -12,7 +12,12 @@ about what is true:
   its freshness (UNREACHABLE when its commit is not an ancestor of HEAD) and
   whether it is superseded;
 - the target's own refs: which verification subjects route to an evidence
-  requirement, and which artifacts and criteria concern each component.
+  requirement, and which artifacts and criteria concern each component;
+- the accepted plans under the project's `plans_root`: each plan's
+  `accepted_at_revision` is checked with `git merge-base --is-ancestor` against
+  HEAD. An unreachable plan (accepted on a branch that was then squash-merged or
+  deleted) is reported as a warning line, not a failure: the target already
+  carries its delta, and only the plan's provenance commit is lost.
 
 Everything is recomputed on every call and nothing is written: a gap closes only
 through a new observation, a repository change, or a target change, never
@@ -50,7 +55,7 @@ from typing import Literal
 from pydantic import computed_field
 
 from .characterize import Producer, _git, characterize, drift
-from .evidence import Freshness, Standing, assess
+from .evidence import Freshness, Standing, _reachable, assess
 from .records import StrictModel, TargetRecord, load_project, load_target
 
 RECONCILIATION_SCHEMA = "aes.v0_2.reconciliation.probe0"
@@ -98,6 +103,12 @@ class ObservationState(StrictModel):
     superseded_by: str | None = None  # replaced by that observation; never counts, counted apart
 
 
+class PlanState(StrictModel):
+    plan_id: str
+    accepted_at_revision: str
+    reachable: bool  # accepted_at_revision is an ancestor of HEAD
+
+
 class Gap(StrictModel):
     kind: GapKind
     ref: str
@@ -128,6 +139,7 @@ class Reconciliation(StrictModel):
     artifacts: list[ArtifactState]
     criteria: list[CriterionState]
     observations: list[ObservationState]
+    plans: list[PlanState]
     orphans: list[str]
     components: list[ComponentState]
     unassigned_gaps: list[Gap]
@@ -208,6 +220,20 @@ def _criterion_states(target: TargetRecord, report) -> list[CriterionState]:
     ]
 
 
+def _plan_states(root: Path, plans_root: str) -> list[PlanState]:
+    from .planning import load_plan  # planning imports this module, so not at module level
+
+    plans_dir = root / plans_root
+    if not plans_dir.is_dir():
+        return []
+    states = []
+    for path in sorted(plans_dir.glob("*.yaml")):
+        plan = load_plan(path)
+        states.append(PlanState(plan_id=plan.proposal_id, accepted_at_revision=plan.accepted_at_revision,
+                                reachable=_reachable(root, plan.accepted_at_revision)))
+    return states
+
+
 def _artifact_gap(a: ArtifactState) -> Gap | None:
     if a.status == "DRIFTED":
         return Gap(kind="drifted", ref=a.artifact_id,
@@ -274,6 +300,7 @@ def reconcile(root: Path) -> Reconciliation:
         observations=[ObservationState(observation_id=o, freshness=f, detail=why,
                                        superseded_by=dict(evidence.superseded).get(o))
                       for o, f, why in evidence.observations],
+        plans=_plan_states(root, project.materialization.plans_root),
         orphans=orphans,
         components=components,
         unassigned_gaps=_ordered(unassigned),
@@ -307,7 +334,14 @@ def _counts(r: Reconciliation) -> list[str]:
         f"  observations: {n(live, 'freshness', 'CURRENT')} current, {n(live, 'freshness', 'STALE')} stale, "
         f"{n(live, 'freshness', 'UNKNOWN')} unknown, {n(live, 'freshness', 'UNREACHABLE')} unreachable; "
         f"{len(r.observations) - len(live)} superseded",
+        f"  plans: {len(r.plans)} accepted, {sum(not p.reachable for p in r.plans)} unreachable",
     ]
+
+
+def _plan_warnings(r: Reconciliation) -> list[str]:
+    return [f"  warning: plan {p.plan_id} accepted_at_revision {p.accepted_at_revision[:8]} is not reachable "
+            "from HEAD (squash-merged or deleted branch?); the target already carries its delta, so this "
+            "does not fail" for p in r.plans if not p.reachable]
 
 
 def _header(r: Reconciliation, word: str) -> str:
@@ -328,6 +362,7 @@ def render_status(r: Reconciliation) -> str:
     if r.unassigned_gaps:
         more = f" (+{len(r.unassigned_gaps) - 1} more)" if len(r.unassigned_gaps) > 1 else ""
         lines.append(f"    (no component): {_gap_line(r.unassigned_gaps[0])}{more}")
+    lines += _plan_warnings(r)
     lines += [f"  {f}" for f in r.failures]
     lines.append(f"  {INSUFFICIENT_NOTE}")
     return "\n".join(lines)
@@ -353,6 +388,9 @@ def render_report(r: Reconciliation) -> str:
     lines += [f"    {o.observation_id}: {o.freshness}"
               + (f" (superseded by {o.superseded_by})" if o.superseded_by else "") + f" - {o.detail}"
               for o in r.observations]
+    lines.append("  plans:" + ("" if r.plans else " none"))
+    lines += [f"    {p.plan_id}: accepted at {p.accepted_at_revision[:12]}, "
+              + ("reachable" if p.reachable else "UNREACHABLE from HEAD") for p in r.plans]
     lines.append("  orphans:" + ("" if r.orphans else " none"))
     lines += [f"    {p}" for p in r.orphans]
     lines.append("  gaps by component:")
@@ -361,6 +399,7 @@ def render_report(r: Reconciliation) -> str:
         lines += [f"      {_gap_line(g)}" for g in comp.gaps]
     lines.append("    (no component):" + ("" if r.unassigned_gaps else " no open gap"))
     lines += [f"      {_gap_line(g)}" for g in r.unassigned_gaps]
+    lines += _plan_warnings(r)
     lines += [f"  {f}" for f in r.failures]
     lines.append(f"  {INSUFFICIENT_NOTE}")
     return "\n".join(lines)

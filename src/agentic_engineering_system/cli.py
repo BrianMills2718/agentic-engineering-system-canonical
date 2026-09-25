@@ -20,8 +20,10 @@ the current one that holds .aes/project.yaml; init uses the current directory.
 
 Exit 0 on success, 1 on any load/validation/context/topology error or orphan (message on stderr),
 2 on usage errors (argparse). reconcile and status also exit 1 on a REFUTED criterion or drift;
-INSUFFICIENT criteria do not fail them. plan validate and plan accept exit 1 listing every
-violation; plan accept does not commit.
+INSUFFICIENT criteria do not fail them, and neither does an accepted plan whose
+accepted_at_revision is not reachable from HEAD (a warning line). plan validate and plan accept
+exit 1 listing every violation; plan accept does not commit, and warns on stderr, as evidence
+record does, when the revision it recorded is not on the default branch.
 """
 
 from __future__ import annotations
@@ -35,7 +37,7 @@ from .characterize import CharacterizeError
 from .characterize import check as characterize_check
 from .characterize import render_report as render_characterization
 from .characterize import running_version
-from .evidence import EvidenceError, assess, record
+from .evidence import EvidenceError, assess, branch_note, record
 from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
 from .hooks import HookInstallError, install_hooks
@@ -262,7 +264,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(render_validated(validate_proposal(args.root, load_proposal(args.proposal))))
             return 0
         if args.command == "plan" and args.plan_command == "accept":
-            print(render_accepted(args.root, accept_proposal(args.root, args.proposal)))
+            accepted = accept_proposal(args.root, args.proposal)
+            print(render_accepted(args.root, accepted))
+            note = branch_note(args.root, accepted.revision, "this plan's accepted_at_revision stays reachable")
+            if note:
+                print(note, file=sys.stderr)
             return 0
         if args.command == "hooks" and args.hooks_command == "install":
             hook, overridden = install_hooks(args.root)
