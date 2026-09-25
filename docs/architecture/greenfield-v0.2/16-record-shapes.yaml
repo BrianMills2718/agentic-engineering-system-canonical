@@ -19,28 +19,33 @@ principles:
   - exact_git_revision_binding_is_external_to_self_referential_authority_bytes
 
 project_record:
-  candidate_path: .aes/project.yaml
+  path: .aes/project.yaml
   purpose: operational_AES_adoption_configuration
-  candidate_fields:
-    schema_version: required
+  realized_model: records.ProjectRecord (strict; unknown fields rejected)
+  fields:
+    schema_version: required  # aes.v0_2.project.probe0 as written by aes init
     project_id: required
     aes:
       architecture_line: required
       distribution_version: required
-    materialization:
-      target_path: default_.aes/target.yaml
-      analysis_path: default_.aes/analysis.yaml
-      plans_root: default_.aes/plans/
-      observations_root: default_.aes/observations/
-      generated_root: default_.aes/generated/
+      initialized_at: optional  # written by aes init; absent in hand-made projects
+    governed_roots: required  # relative directories; the topology check's namespace (D1)
+    materialization:  # every key required; aes init writes these defaults
+      target_path: .aes/target.yaml
+      plans_root: .aes/plans/
+      observations_root: .aes/observations/
+      generated_root: .aes/generated/  # named, but nothing writes there in the v0.2 MVP
     ecosystem:
-      primary_language_or_runtime: optional_until_selected
-      supported_adapter_profile: optional_until_selected
+      primary_language_or_runtime: required  # aes init --language, default python
+  not_realized_in_v0_2_mvp:
+    materialization.analysis_path: no analysis record exists; the strict model rejects the key
+    ecosystem.supported_adapter_profile: no adapter profiles; the strict model rejects the key
     operational_provider_config_refs:
       purpose: >
         Reference non-normative operational provider configuration when needed.
         Accepted capability provider bindings remain in target authority.
       secrets_allowed_inline: false
+      status: no provider configuration exists; the strict model rejects the key
   prohibited_semantic_content:
     - normative_items
     - success_criteria
@@ -51,43 +56,60 @@ project_record:
     - secrets
 
 target_record:
-  candidate_path: .aes/target.yaml
+  path: .aes/target.yaml
   purpose: canonical_accepted_target_for_Greenfield_MVP
-  candidate_fields:
-    schema_version: required
+  realized_model: records.TargetRecord (strict; unknown fields rejected)
+  fields:
+    schema_version: required  # aes.v0_2.target.probe0
     target_id: required
-    outcomes: list
-    normative_items: list
-    success_criteria: list
-    capability_requirements: list
-    provider_bindings: list
-    artifact_generation_rules: list
-    planned_artifacts: list
-    realization_units: list
-    planned_symbol_commitments: list
-    verification_subjects: list
+    outcomes: list  # {id, actor_or_consumer, statement, non_goals?, rationale?}
+    normative_items: list  # {id, kind, outcome_refs, statement}
+    success_criteria: list  # {id, statement, target_refs, disproof, evidence_requirements: [{id, kind, requirement}]}
+    components: list  # {id, responsibility, target_refs, planned_artifact_refs}; the realization units (D3)
+    planned_artifacts: list  # {id, locator: {exact_path}, kind, purpose, semantic_justification_refs, exports?}
+    verification_subjects: list  # {id, criterion_refs, evidence_requirement_refs, proof_kind, proof_role, locator, purpose}
+    external_boundaries: optional_list  # {evidence_requirement_ref, boundary}
+  vocabularies:
+    normative_item_kind: [constraint, behavior, invariant, quality]
+    evidence_kind: [deterministic_test, runtime_observation, human_review]  # also verification_subjects.proof_kind
+    artifact_kind: [source, test, configuration]
+    proof_role: [direct, negative_control]
+    mapping_rule: >
+      Kinds outside these lists are mapped, not added: contract_validation ->
+      deterministic_test, external_consumer_observation -> runtime_observation,
+      normative_authority -> source, documentation -> configuration, supporting ->
+      direct; CAP-GF-* justification refs name the GF-REQ item the capability serves.
+  not_realized_in_v0_2_mvp:
+    capability_requirements: not a target family
+    provider_bindings: not a target family
+    artifact_generation_rules: not realized (every planned artifact has an exact_path)
+    realization_units: realized as components
+    planned_symbol_commitments: realized as exports on planned_artifacts (see realized_probe0_symbol_commitments)
   ordering_rule: >
     File ordering may be deterministic for reviewability but carries no semantic
     precedence unless a field explicitly defines it.
   minimum_after_first_acceptance:
     outcomes: at_least_one
   validation:
-    - IDs_unique_within_project_semantic_namespace
+    - IDs_unique_within_project_semantic_namespace  # across all families, nested evidence requirements included
     - all_typed_refs_resolve
     - every_normative_item_reaches_outcome
-    - every_success_criterion_reaches_target_fact
+    - every_success_criterion_reaches_target_fact  # realized as: its target_refs resolve
     - every_success_criterion_has_evidence_requirements
-    - every_provider_binding_reaches_capability
-    - every_realization_unit_reaches_target_and_capability
-    - every_realization_unit_artifact_ref_resolves
-    - every_planned_artifact_has_exact_path_or_generation_rule
-    - every_generation_rule_is_bounded_and_justified
-    - every_planned_symbol_commitment_reaches_artifact
-    - every_verification_subject_reaches_criterion_and_evidence_requirement
+    - every_realization_unit_artifact_ref_resolves  # components.planned_artifact_refs
+    - every_planned_artifact_has_exact_path_or_generation_rule  # realized: locator.exact_path is required
+    - every_planned_symbol_commitment_reaches_artifact  # by construction: exports nest in the artifact
+    - every_verification_subject_reaches_criterion_and_evidence_requirement  # each ER must belong to a criterion in criterion_refs
+    - every_evidence_requirement_has_a_route  # a verification subject or one external boundary (SC-GF-004); aes target validate, aes plan validate
     - no_duplicate_mutable_semantic_fact_is_encoded_through_reverse_edges
+  validation_not_realized_in_v0_2_mvp:
+    - every_provider_binding_reaches_capability
+    - every_realization_unit_reaches_target_and_capability  # components reach target refs; there are no capabilities
+    - every_generation_rule_is_bounded_and_justified
 
 analysis_record:
-  candidate_path: .aes/analysis.yaml
+  path: .aes/analysis.yaml
+  realized: false  # not realized in the v0.2 MVP; no model, command or project.yaml path
   creation_condition: accepted_engineering_analysis_exists
   purpose: accepted_non_target_engineering_analysis
   candidate_fields:
@@ -113,9 +135,31 @@ analysis_record:
     conformance merely by residing in a canonical AES record.
 
 plan_record:
-  candidate_path_pattern: .aes/plans/PLAN-<id>.yaml
+  path_pattern: .aes/plans/<proposal_id>.yaml  # proposal ids are named PLAN-<id> by convention
   purpose: accepted_time_bounded_transition
-  candidate_fields:
+  realized_shape:
+    model: planning.AcceptedPlan (a planning.Proposal plus two fields; strict)
+    written_by: aes plan accept, which refuses when the file already exists
+    fields:
+      schema_version: aes.v0_2.proposal.probe0
+      proposal_id: required  # [A-Za-z0-9][A-Za-z0-9._-]*; names the file
+      title: required
+      rationale: required
+      closes_gaps: required  # ids of gaps open in the current reconciliation, <kind>:<ref>
+      target_delta:
+        add: one list per target family, entries in the target's own shape
+        change: one list per target family; replaces the whole entry with the same key
+        remove: one list of keys per target family
+        key: id, or evidence_requirement_ref for external_boundaries
+      outside_governed_roots: optional  # [{artifact_ref, reason}]
+      accepted_at_revision: HEAD when accepted (40-hex)
+      accepted_at: UTC timestamp
+    reachability: >
+      aes reconcile and aes status report "plans: N accepted, M unreachable" and one
+      warning line per accepted plan whose accepted_at_revision is not an ancestor of
+      HEAD; it does not fail them. aes plan accept warns on stderr when HEAD is not on
+      the default branch.
+  candidate_fields_not_realized_in_v0_2_mvp:
     schema_version: required
     plan_id: required
     status: required
@@ -135,36 +179,68 @@ plan_record:
       target changes are represented by changes to target.yaml under normal
       version control; the plan records semantic refs/rationale and the governed
       execution base captures the exact accepted repository revision.
+    realized: >
+      A small delta language was needed: target_delta (add / change / remove, whole
+      entries by key). aes plan validate applies it in memory and reports every
+      violation; aes plan accept applies it to target.yaml through ruamel round-trip
+      and writes the plan file. The change still lands as an edit of target.yaml
+      under version control; accept does not commit, and the target and plan are
+      committed together.
   execution_revision_binding:
     rule: >
       The plan file does not embed the Git commit SHA containing itself. Execution
       custody/receipts bind the accepted plan and target bytes to the exact base
       revision after commit creation.
+    realized: >
+      accepted_at_revision is the base (HEAD before the accepting commit), not the
+      commit containing the plan. Execution custody/receipts are not realized in the
+      v0.2 MVP.
 
 observation_record:
-  candidate_path_pattern: .aes/observations/<observation-id>.yaml
+  path_pattern: .aes/observations/<observation-id>.yaml
   purpose: retained_revision_or_subject_bound_observation
-  candidate_fields:
-    schema_version: required
-    observation_id: required
-    subject_refs: required
-    subject_revision_or_external_identity: required
+  realized_model: evidence.ObservationRecord (strict)
+  fields:
+    schema_version: required  # aes.v0_2.observation.probe0
+    observation_id: required  # unique across the directory
+    subject_refs: required  # declared target ids
+    subject_revision_or_external_identity: required  # subject_revision (40-hex commit) and/or external_identity; at least one
+    dependency_paths: optional  # repository paths the result depends on
+    dependency_basis: optional  # see realized_probe0_observation_dependency_basis
+    dependency_target_refs: optional  # see realized_probe0_observation_dependency_target_refs
+    control: optional  # see realized_probe0_observation_negative_control
     observer:
       identity: required
       version: required_when_available
     method: required
     execution_state: COMPLETED_or_ERROR
-    result_or_error: required
+    result_or_error: required  # exactly one of result (mapping) or error; ERROR requires error and carries no assessments
     produced_at: required
     retained_artifact_refs: optional
+    assessments: optional  # [{evidence_requirement_ref, assessment: SUPPORTS|REFUTES|INCONCLUSIVE, basis, assessor: {identity, version}}]
+    superseded_by: optional  # observation_id of the replacing record, which must exist; never itself
   rules:
-    - append_only_after_retention
-    - observation_does_not_claim_criterion_sufficiency
+    - append_only_after_retention  # records are never deleted; the one later edit is adding superseded_by
+    - observation_does_not_claim_criterion_sufficiency  # assessments are per evidence requirement, never per criterion
     - external_or_large_native_artifacts_may_be_digest_referenced_not_copied
+  freshness:
+    computed: at read time from Git, never stored
+    states:
+      UNREACHABLE: >
+        checked first: subject_revision (control.base_revision for a negative control)
+        is not an ancestor of HEAD, or is absent from this clone
+      UNKNOWN: no subject_revision or no dependency at all (external subjects, human review)
+      STALE: a dependency path changed between the observed revision and HEAD, or a dependency_target_refs entry changed or disappeared
+      CURRENT: otherwise
+    counting: only CURRENT, non-superseded assessments count toward standing; superseded records are counted separately
 
 evidence_assessment_record:
-  materialization: undecided
-  options:
+  materialization: retained_inside_observation_assessment_receipt  # decided; one assessment per evidence requirement
+  realized: >
+    Assessments are retained inside the observation (assessments list). Freshness and
+    criterion standing (SUPPORTED | REFUTED | INSUFFICIENT, D2 conjunction) are
+    recomputed from observations plus the target on every call and are not retained.
+  options_considered:
     - retained_inside_observation_assessment_receipt
     - separate_retained_assessment_record
     - generated_and_reproducible_from_observations_plus_criterion_policy
@@ -183,6 +259,11 @@ evidence_assessment_record:
 
 generated_current:
   candidate_path: .aes/generated/current.yaml
+  realized: false  # not realized in the v0.2 MVP; nothing writes under .aes/generated/
+  realized_instead: >
+    aes reconcile / aes status compute qualified current state and gaps from the HEAD
+    characterization, evidence standing, the target and the accepted plans on every
+    call and print them; nothing is written, so no gap closes through reconcile's own state.
   authority: none
   required_provenance_inputs:
     - target_content_identity
@@ -193,6 +274,7 @@ generated_current:
 
 generated_gaps:
   candidate_path: .aes/generated/gaps.yaml
+  realized: false  # not realized in the v0.2 MVP; nothing writes under .aes/generated/
   authority: none
   required_provenance_inputs:
     - target_content_identity
@@ -209,6 +291,7 @@ generated_gaps:
 
 generated_semantic_graph:
   candidate_path: .aes/generated/semantic-graph.yaml
+  realized: false  # not realized in the v0.2 MVP; nothing writes under .aes/generated/
   authority: none
   inputs:
     - typed_target_refs
@@ -237,8 +320,12 @@ revision_and_content_identity:
     binding therefore occurs in the surrounding repository/receipt context.
 
 schema_strategy:
-  status: deferred_until_shapes_survive_review
+  status: realized_as_pydantic_models  # JSON Schema not adopted in the v0.2 MVP
   candidate: JSON_Schema_2020_12_for_YAML_loaded_data
+  realized: >
+    Strict Pydantic models (extra fields forbidden) over a ruamel YAML 1.2 loader with
+    duplicate keys rejected, plus records.validate_target_refs and
+    planning.route_violations for cross-record semantic invariants. There is no lenient mode.
   required_validator_behaviors:
     - reject_duplicate_YAML_mapping_keys
     - reject_unknown_fields_when_strictness_is_intended
@@ -307,3 +394,41 @@ realized_probe0_producer_version:
     Installed distribution version, plus " (running: <git describe --always --dirty>)"
     when the executing module is tracked by a Git checkout; "not installed (running: ...)"
     without a distribution; neither determinable fails.
+
+accepted_amendments:
+  - change: candidate_path / candidate_path_pattern renamed path / path_pattern for project, target, analysis, plan and observation records; candidate_fields renamed fields where realized.
+    reason: those paths are real (.aes/ in this repository), except analysis, which is marked realized false.
+    source: ls .aes/; project.py; planning.py; evidence.py
+  - change: project_record fields match records.ProjectRecord (governed_roots and aes.initialized_at added, materialization keys and primary_language_or_runtime required); analysis_path, supported_adapter_profile and operational_provider_config_refs moved to not_realized_in_v0_2_mvp.
+    reason: the strict model requires or rejects exactly these keys.
+    source: records.py ProjectRecord; 24-pre-probe-decisions.md section 12
+  - change: target_record fields match records.TargetRecord (components, external_boundaries added; entry shapes stated); capability_requirements, provider_bindings, artifact_generation_rules moved to not_realized; realization_units -> components; planned_symbol_commitments -> exports.
+    reason: the strict model rejects unknown families; D3 names components; symbol commitments nest in planned artifacts.
+    source: records.py TargetRecord; 24-pre-probe-decisions.md sections 1 (D3), 13, 15
+  - change: target_record vocabularies added (normative kinds, evidence kinds, artifact kinds, proof roles) with the mapping rule for kinds outside them.
+    reason: the loader's closed vocabularies; kinds were mapped, not widened.
+    source: records.py Literal types; 24-pre-probe-decisions.md section 17 item 4
+  - change: target validation list annotated with how each is realized; every_evidence_requirement_has_a_route added; provider-binding, capability and generation-rule checks moved to validation_not_realized_in_v0_2_mvp.
+    reason: matches records.validate_target_refs and planning.route_violations (used by aes target validate and the pre-commit hook).
+    source: records.py validate_target_refs; planning.py route_violations; 24-pre-probe-decisions.md section 16
+  - change: analysis_record marked realized false.
+    reason: no model, command or project.yaml path exists for it.
+    source: records.py; ls .aes/
+  - change: plan_record realized_shape added (proposal fields, target_delta add/change/remove, accepted_at_revision, accepted_at, reachability reporting and the off-default-branch warning); the candidate fields kept as candidate_fields_not_realized_in_v0_2_mvp.
+    reason: an accepted plan is planning.AcceptedPlan; the candidate's status/source_semantic_refs/verticals/etc. were not built.
+    source: planning.py Proposal, TargetDelta, AcceptedPlan; reconcile.py PlanState; cli.py docstring; 24-pre-probe-decisions.md sections 15, 20 item 1; branch commit 26f8428
+  - change: target_change_representation and execution_revision_binding gain realized notes (a delta language was needed; accepted_at_revision is the base revision; custody receipts not realized).
+    reason: target_delta is the patch language the candidate hoped to avoid; the rule's version-control half still holds.
+    source: planning.py module docstring; 24-pre-probe-decisions.md section 15
+  - change: observation_record fields match evidence.ObservationRecord (dependency_paths, dependency_basis, dependency_target_refs, control, assessments, superseded_by added); freshness states CURRENT/STALE/UNKNOWN/UNREACHABLE and supersession counting added; append-only rule annotated with the superseded_by exception.
+    reason: the realized model; superseded_by is added to already-retained records (e.g. OBS-AES-WG5-LIFECYCLE in 449cd54).
+    source: evidence.py ObservationRecord, freshness; 24-pre-probe-decisions.md sections 16, 19, 20 item 5
+  - change: evidence_assessment_record materialization set to retained_inside_observation_assessment_receipt (was undecided); options renamed options_considered.
+    reason: assessments are retained per evidence requirement inside observations; freshness and standing are recomputed.
+    source: evidence.py module docstring
+  - change: generated_current, generated_gaps and generated_semantic_graph marked realized false; generated_current notes that aes reconcile/status compute and print current state and gaps.
+    reason: nothing writes under .aes/generated/ in this repository or in the code.
+    source: reconcile.py module docstring; ls .aes/
+  - change: schema_strategy status set to realized_as_pydantic_models.
+    reason: validation is strict Pydantic plus ruamel duplicate-key rejection and semantic checks, not JSON Schema.
+    source: records.py; evidence.py; planning.py

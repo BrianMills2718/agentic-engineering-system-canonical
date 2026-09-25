@@ -59,6 +59,13 @@ semantic_families:
       - accepted_symbol_commitments
       - accepted_verification_subjects
     storage_layout: undecided
+    mvp_realization: >
+      One file, .aes/target.yaml, with families outcomes, normative_items,
+      success_criteria (nested evidence_requirements), components,
+      planned_artifacts, verification_subjects and external_boundaries
+      (records.py TargetRecord). capability_requirements, provider_bindings and
+      artifact generation rules are not realized; symbol commitments are the
+      `exports` list of a planned artifact.
 
   normative_item:
     meaning: >
@@ -76,9 +83,11 @@ semantic_families:
       - quality
       - policy
       - other
+    realized_kinds_in_v0_2_mvp: [constraint, behavior, invariant, quality]
     optional:
       - rationale
       - scope
+    optional_realized_in_v0_2_mvp: false  # the loader accepts only id, kind, outcome_refs, statement
 
   success_criterion:
     meaning: >
@@ -108,12 +117,27 @@ semantic_families:
         - llm_rubric
         - external_consumer_observation
         - other
+      realized_kinds_in_v0_2_mvp: [deterministic_test, runtime_observation, human_review]
+      realized_kind_mapping: >
+        Mapped, not widened: contract_validation is written deterministic_test
+        and external_consumer_observation runtime_observation (24 §17 item 4).
+        static_analysis, llm_rubric and other are not realized.
       composition: one_or_more_with_explicit_sufficiency_rule
+      composition_realized_in_v0_2_mvp: >
+        Conjunction only (decision D2): a criterion is SUPPORTED when every
+        evidence requirement has a CURRENT supporting assessment. No other
+        sufficiency rule can be declared.
+      route_realized_in_v0_2_mvp: >
+        Every evidence requirement must have a route: a verification subject
+        naming it, or an external_boundaries entry {evidence_requirement_ref,
+        boundary} saying who or what outside the repository supplies it
+        (SC-GF-004; `aes target validate`, `aes plan validate`).
     rule: >
       Criteria may be many-to-many with target facts. A pass-like result from one
       verification subject does not by itself imply criterion satisfaction.
 
   failure_mode:
+    realized_in_v0_2_mvp: false  # no record or target family
     semantic_role: accepted_engineering_analysis
     meaning: >
       A plausible way an accepted outcome, normative obligation or criterion can
@@ -144,6 +168,7 @@ semantic_families:
         - success_criterion
 
   capability_requirement:
+    realized_in_v0_2_mvp: false  # not a target family; CAP-GF-* refs are mapped to the GF-REQ item each serves (24 §17 item 4)
     meaning: >
       An ability the planned system or engineering process requires. Capability
       identity is independent from provider, realization unit, package and
@@ -162,6 +187,7 @@ semantic_families:
       realization_unit_may_realize_many_capabilities: true
 
   provider_binding:
+    realized_in_v0_2_mvp: false  # not a target family
     semantic_role: accepted_target_realization
     meaning: >
       An accepted realization fact stating how a capability requirement is
@@ -208,11 +234,16 @@ semantic_families:
       - verification_lifecycle
       - failure_or_recovery_boundary
     storage_layout: undecided
+    mvp_realization: >
+      Realized as target `components` with id, responsibility, target_refs and
+      planned_artifact_refs; capability_refs is not realized (no capability
+      family).
     rule: >
       The realization unit owns the grouping edge to its artifacts. Reverse
       artifact-to-unit navigation is derived rather than independently authored.
 
   artifact_generation_rule:
+    realized_in_v0_2_mvp: false  # topology.py: bounded generation rules are not implemented
     meaning: >
       An accepted target rule admitting a bounded family of durable governed
       artifacts when exact members are not usefully enumerable before generation.
@@ -250,6 +281,11 @@ semantic_families:
       - authority_and_generated_scaffolding_are_distinguished
       - no_undocumented_private_repository_prerequisite
       - initialized_topology_is_inspectable
+    mvp_realization: >
+      Realized as code, not as a record: `aes init` (project.py) writes exactly
+      the seed artifacts .aes/project.yaml and .aes/target.yaml (the target
+      holding the first outcome) and refuses to create anything else. No
+      initialization-contract record with these required fields exists.
 
   planned_artifact:
     meaning: >
@@ -277,6 +313,11 @@ semantic_families:
       - migration
       - other
     rule: no_orphan_durable_artifacts
+    mvp_realization:
+      locator: exact_path only (accepted_generation_rule_ref is not realized)
+      realized_kinds: [source, test, configuration]
+      kind_mapping: normative_authority is written source and documentation configuration (24 §17 item 4); the other kinds are not realized
+      symbol_commitments: optional `exports` list on the artifact
 
   planned_symbol_commitment:
     meaning: >
@@ -300,6 +341,11 @@ semantic_families:
       - symbol_is_independent_verification_boundary
       - symbol_is_architecturally_significant
     non_goal: predeclare_every_private_helper
+    mvp_realization: >
+      Not a separate record: the planned artifact's `exports` list, each entry
+      `name` or `name(args) -> ret`, Python source only. `aes characterize`
+      reports missing_export / signature_changed drift against it. No id,
+      purpose, target_refs or criterion_refs per commitment.
 
   verification_subject:
     meaning: >
@@ -332,6 +378,18 @@ semantic_families:
       - supporting
       - negative_control
       - recovery_control
+    mvp_realization:
+      fields: [id, criterion_refs, evidence_requirement_refs, proof_kind, proof_role, locator, purpose]
+      locator: a repository path string (the test file `aes evidence record` runs); one subject per test file, paired subjects merged (24 §17 item 4)
+      external_route: an external_boundaries target entry, not a verification subject
+      realized_proof_kinds: [deterministic_test, runtime_observation, human_review]
+      realized_proof_roles: [direct, negative_control]
+      proof_role_mapping: supporting is written direct (24 §17 item 4); recovery_control is not realized
+      negative_control: >
+        A negative-control observation carries `control: {kind: negative,
+        base_revision, expected_outcome: detected, observed_outcome: detected |
+        missed}`; its subject_revision is the mutated commit and its freshness is
+        computed from base_revision (24 §16).
 
   plan:
     semantic_role: accepted_transition
@@ -348,6 +406,15 @@ semantic_families:
       - planned_verticals_or_probes
       - completion_evidence_requirements
     rule: plan_completion_has_no_gap_closure_authority
+    mvp_realization: >
+      .aes/plans/<proposal_id>.yaml, written by `aes plan accept`: the proposal
+      (proposal_id, title, rationale, closes_gaps, target_delta with add /
+      change / remove, outside_governed_roots) plus accepted_at_revision and
+      accepted_at. origin_gap_refs is closes_gaps and proposed_target_changes is
+      target_delta; planned_verticals_or_probes and
+      completion_evidence_requirements are not realized. `aes status` counts
+      accepted plans and reports those whose accepted_at_revision is unreachable
+      from HEAD as a warning.
 
   realized_repository_characterization:
     authority: generated_revision_bound_observation
@@ -372,6 +439,15 @@ semantic_families:
     rule: >
       A characterizer may report unresolved identity mapping but must not invent a
       planned relationship because realized subjects look similar.
+    mvp_realization: >
+      `aes characterize` (aes.v0_2.characterization.probe0) binds
+      subject_revision, dirty and producer identity/version (no separate
+      repository identity) and records, from the HEAD tree under the governed
+      roots, each file's path, blob hash and size and, for Python (AST only),
+      module, top-level symbols with signatures, intra-repository imports and
+      parse_error. Docstrings, verification_target_edges,
+      generated_projection_status and extraction confidence are not realized.
+      It is computed on demand and not stored.
 
   observation:
     meaning: >
@@ -390,6 +466,14 @@ semantic_families:
       - COMPLETED
       - ERROR
     result_shape: provider_specific_typed_value
+    mvp_realization: >
+      .aes/observations/ records (aes.v0_2.observation.probe0): subject_refs,
+      subject_revision or external_identity, dependency_paths,
+      dependency_target_refs (entry-level target dependencies), observer,
+      method, execution_state, result or error, produced_at, the per-evidence-
+      requirement assessments, optional `control` (negative control) and
+      optional `superseded_by`. Records are never deleted; a superseded
+      observation never counts toward standing.
 
   evidence_assessment:
     meaning: >
@@ -407,18 +491,36 @@ semantic_families:
       - CURRENT
       - STALE
       - UNKNOWN
+      - UNREACHABLE
     adequacy:
       - SUFFICIENT
       - INSUFFICIENT
       - UNASSESSED
     standing:
       - SUPPORTS
-      - CONTRADICTS
+      - REFUTES
       - INCONCLUSIVE
       - NOT_APPLICABLE
     rule: >
       An observed pass-like result is not equivalent to sufficient current
       evidence for a success criterion.
+    mvp_realization:
+      assessment: >
+        Written inside the observation, one per evidence requirement, never per
+        criterion: SUPPORTS, REFUTES or INCONCLUSIVE. NOT_APPLICABLE is not
+        realized.
+      freshness: >
+        Computed per observation from Git: CURRENT, STALE (a dependency path or
+        a referenced target entry changed), UNKNOWN (no commit or no dependency,
+        e.g. external subjects), UNREACHABLE (its commit, or a negative
+        control's base_revision, is not an ancestor of HEAD). Only CURRENT
+        counts.
+      adequacy: not realized as a separate value; sufficiency is the conjunction rule
+      criterion_standing: >
+        SUPPORTED (every evidence requirement has a CURRENT supporting
+        assessment), REFUTED (any has a CURRENT refuting one), INSUFFICIENT
+        otherwise; per evidence requirement SUPPORTED, REFUTED or
+        NO_CURRENT_SUPPORT (evidence.py, decision D2).
 
   current:
     authority: derived_projection
@@ -429,6 +531,12 @@ semantic_families:
     rule: >
       Current is revision-bound, invalidatable and explicit about unrealized,
       unknown, stale, observation-error and insufficient-support states.
+    mvp_realization: >
+      `aes reconcile` (aes.v0_2.reconciliation.probe0) recomputes it from the
+      target, HEAD and the observations on every run and stores nothing:
+      artifacts REALIZED / UNREALIZED / DRIFTED, orphans, criterion standing,
+      observation freshness and superseded, accepted plans and their
+      reachability.
 
   gap:
     authority: derived_projection
@@ -440,6 +548,11 @@ semantic_families:
       - CLOSED
       - NOT_YET_APPLICABLE
     rule: plan_completion_does_not_close_gap
+    mvp_realization: >
+      A gap is either reported (open) or absent (closed); the other candidate
+      states are not realized. Kinds: drifted, refuted, orphan, unrealized,
+      insufficient; id `<kind>:<ref>`, the handle a proposal names in
+      closes_gaps (reconcile.py Gap).
 
 relationship_classes:
   intended:
@@ -486,6 +599,11 @@ derived_surfaces:
       - active_plan_when_applicable
       - verification_obligations
       - relevant_dependency_consequences
+    mvp_realization: >
+      `aes context <declared id>` carries the full normative, criterion and
+      disproof text, provenance, verification subjects and a list of omitted
+      ids. qualified_current, gap, active_plan and dependency consequences are
+      not in the packet (`aes status` / `aes reconcile` report them).
 
   human_navigation_and_review:
     never_authority: true
@@ -498,6 +616,10 @@ derived_surfaces:
       - current
       - gaps
       - review_surface
+    mvp_realization: >
+      Only the text reports of `aes status` and `aes reconcile` are realized;
+      the other views and a review surface are not (a probe renderer,
+      scripts/probe/render_review.py, is not an `aes` command).
 
 deferred_semantic_or_materialization_questions:
   - exact_record_and_file_partition
@@ -520,3 +642,44 @@ explicit_nonclaims:
   - no_hook_or_execution_governance_implementation_is_selected
   - no_append_only_event_layer_is_required_yet
   - retrofit_is_not_supported_by_greenfield_mvp
+explicit_nonclaims_mvp_note: >
+  These nonclaims are about this model. The v0.2 MVP realization does select a
+  storage layout (.aes/project.yaml, .aes/target.yaml, .aes/plans/,
+  .aes/observations/; see 16-record-shapes.yaml), frozen probe0 schemas for its
+  records, and a hook (`aes hooks install`, running `aes target validate` and
+  `aes topology check`).
+
+accepted_amendments:
+  - change: "evidence_assessment.freshness gains UNREACHABLE."
+    reason: "evidence.py Freshness is CURRENT | STALE | UNKNOWN | UNREACHABLE; an observation whose commit is not an ancestor of HEAD never counts."
+    source: "evidence.py Freshness and module docstring; 24 §19"
+  - change: "evidence_assessment.standing CONTRADICTS renamed REFUTES."
+    reason: "the realized assessment vocabulary is SUPPORTS | REFUTES | INCONCLUSIVE."
+    source: "evidence.py Assessment"
+  - change: "evidence_assessment.mvp_realization added (per-requirement assessment inside the observation, per-observation freshness, no adequacy value, criterion standing SUPPORTED / INSUFFICIENT / REFUTED, NOT_APPLICABLE not realized)."
+    reason: "the model's single assessment record is split three ways in the code."
+    source: "evidence.py Assessment, Standing, ErStatus; 24 §9"
+  - change: "observation.mvp_realization added (dependency_paths, dependency_target_refs, control, superseded_by, assessments)."
+    reason: "realized record fields not named by the model."
+    source: "evidence.py ObservationRecord, NegativeControl; 24 §16, §19"
+  - change: "success_criterion.evidence_requirements gains realized_kinds_in_v0_2_mvp, realized_kind_mapping, composition_realized_in_v0_2_mvp and route_realized_in_v0_2_mvp."
+    reason: "EvidenceKind has three kinds, other kinds are mapped not widened; sufficiency is conjunction only; external_boundaries is a realized route."
+    source: "records.py EvidenceKind, ExternalBoundary; 24 §17 item 4, §15"
+  - change: "normative_item gains realized_kinds_in_v0_2_mvp and optional_realized_in_v0_2_mvp false."
+    reason: "NormativeKind has no policy or other; NormativeItem has no rationale or scope."
+    source: "records.py NormativeKind, NormativeItem"
+  - change: "failure_mode, capability_requirement, provider_binding and artifact_generation_rule marked realized_in_v0_2_mvp false."
+    reason: "none is a target family or record; generation rules are not implemented."
+    source: "records.py TargetRecord; topology.py docstring; 24 §17 item 4"
+  - change: "accepted_target, realization_unit, initialization_contract, planned_artifact, planned_symbol_commitment, verification_subject and plan gain mvp_realization notes (realized shapes, kind and proof-role mappings, negative controls)."
+    reason: "the file implies these exist in the model's shape; the realized shapes are narrower."
+    source: "records.py; project.py; planning.py AcceptedPlan; evidence.py NegativeControl; 24 §16, §17 item 4"
+  - change: "realized_repository_characterization, current and gap gain mvp_realization notes (fields realized, nothing stored, gap kinds and ids; only open/absent gap states)."
+    reason: "concrete vocabulary differs from the candidate lists."
+    source: "characterize.py Characterization; reconcile.py GapKind, Gap, module docstring"
+  - change: "derived_surfaces.working_context and human_navigation_and_review gain mvp_realization notes."
+    reason: "context packets carry no current, gaps or plan; no review surface is an `aes` command."
+    source: "context.py; cli.py"
+  - change: "explicit_nonclaims_mvp_note added."
+    reason: "the MVP realization selects a storage layout, probe0 schemas and a hook, which the model itself does not."
+    source: "16-record-shapes.yaml; hooks.py"

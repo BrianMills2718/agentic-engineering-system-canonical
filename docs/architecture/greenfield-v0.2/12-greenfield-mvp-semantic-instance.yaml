@@ -10,12 +10,26 @@ source_proposal: proposals/aes-v0.2-greenfield/12-greenfield-mvp-semantic-instan
 subject: AES-v0.2-Greenfield-MVP
 model: 02-semantic-model.yaml
 
-stage: accepted_target_and_planning_analysis_before_provider_and_realization_selection
+stage: accepted_target_and_planning_analysis_realized_on_aes_canonical
 nonclaim: >
-  This instance tests whether the semantic model can express the accepted
-  Greenfield-MVP product target plus accepted failure-mode/capability analysis.
-  It does not select provider bindings, realization units, repository topology,
-  verification subjects, an execution plan, or implementation.
+  This instance states the accepted Greenfield-MVP product target (outcome,
+  GF-REQ items, SC-GF criteria and evidence requirements) plus the
+  failure-mode/capability analysis behind it. It does not itself select
+  realization; that selection now exists elsewhere. Realization units, planned
+  artifacts, selected symbol commitments, verification subjects and
+  provider/mechanism boundaries are accepted in
+  docs/architecture/greenfield-v0.2/20-realization-topology.yaml, and for AES
+  canonical are live in .aes/target.yaml (components RU-AES-*, planned_artifacts
+  with `exports` as the symbol commitments, verification_subjects,
+  external_boundaries), with accepted plans under .aes/plans/ and the
+  implementation in src/agentic_engineering_system/. The empty families below
+  are therefore not restated here, not unselected. The live target copies the
+  outcome, GF-REQ-001..009 and SC-GF-001..009 texts from this file
+  (whitespace-normalized) and adds NI-AES-HIST, an AES-canonical-only
+  constraint on retained v0.1 code that is not part of this product target.
+  The failure_modes and capability_requirements are analysis only: the live
+  target carries neither family, and its components and planned artifacts
+  cite the GF-REQ/SC-GF item a capability serves instead of CAP-GF-* ids.
 
 outcomes:
   - id: OUT-GF-001
@@ -117,7 +131,7 @@ success_criteria:
       access, or undocumented historical knowledge.
     evidence_requirements:
       - id: ER-SC-GF-001-01
-        kind: external_consumer_observation
+        kind: runtime_observation
         requirement: >
           A clean-user run from the supported distribution and documented
           dependencies reaches initialized governed-project state without private
@@ -134,7 +148,7 @@ success_criteria:
       checklist, or a criterion has no evidence requirement.
     evidence_requirements:
       - id: ER-SC-GF-002-01
-        kind: contract_validation
+        kind: deterministic_test
         requirement: >
           Validate the accepted target model for resolvable normative-to-criterion
           and criterion-to-evidence-requirement links.
@@ -172,7 +186,7 @@ success_criteria:
       obtaining its required evidence.
     evidence_requirements:
       - id: ER-SC-GF-004-01
-        kind: contract_validation
+        kind: deterministic_test
         requirement: >
           Validate criterion evidence requirements against the accepted
           verification topology.
@@ -199,7 +213,7 @@ success_criteria:
       # cost and missed obligations on one real change." Two runs could not
       # distinguish the arms; that discovery claim is recorded as not established.
       - id: ER-SC-GF-005-02
-        kind: external_consumer_observation
+        kind: runtime_observation
         requirement: >
           A fresh-agent comparison on one real change, scored against a pre-registered
           sheet, is run and retained at exact revisions with its verdict either way;
@@ -222,7 +236,7 @@ success_criteria:
           Deliberately mutate one planned artifact or selected symbol commitment
           and observe a target-realized mismatch.
       - id: ER-SC-GF-006-02
-        kind: contract_validation
+        kind: deterministic_test
         requirement: >
           Characterization binds every asserted realized fact to exact repository
           revision and producer identity.
@@ -269,7 +283,7 @@ success_criteria:
       fixtures, prose review, or a pre-existing project requiring retrofit.
     evidence_requirements:
       - id: ER-SC-GF-009-01
-        kind: external_consumer_observation
+        kind: runtime_observation
         requirement: >
           Retain the fresh project's initialization, target, plan, realization,
           observations/evidence, current/gap and fresh-agent context evaluation at
@@ -374,9 +388,52 @@ planned_symbol_commitments: []
 verification_subjects: []
 plans: []
 
-planning_frontier:
-  - provider_bindings_are_unselected
-  - realization_units_are_unselected
-  - repository_materialization_is_unselected
-  - verification_subjects_are_unselected
-  - first_authentic_greenfield_consumer_is_unselected
+planning_frontier: []
+planning_frontier_resolution:
+  provider_bindings: >
+    Selected as the first Python/Git source provider (characterize_python.py,
+    ART-SRC-CHARACTERIZE-PYTHON) and the mechanism boundaries in
+    20-realization-topology.yaml provider_and_mechanism_boundaries; the live
+    target has no provider_bindings family.
+  realization_units: selected; 20-realization-topology.yaml realization_units, live as .aes/target.yaml components RU-AES-*.
+  repository_materialization: >
+    Selected; exact-path planned_artifacts in 20-realization-topology.yaml and
+    .aes/target.yaml, enforced by `aes topology check` and the pre-commit hook.
+    Bounded artifact-generation rules are not realized in the v0.2 MVP
+    (topology.py: "not implemented: the first consumer has no file that needs one").
+  verification_subjects: selected; one per test file in .aes/target.yaml verification_subjects, plus external_boundaries for ER-SC-GF-001-01, ER-SC-GF-005-02 and ER-SC-GF-009-01.
+  first_authentic_greenfield_consumer: selected; BrianMills2718/whygame5, governed by AES from its first commit (24-pre-probe-decisions.md section 2).
+
+accepted_amendments:
+  - change: >
+      Evidence kinds mapped to the loader vocabulary: ER-SC-GF-002-01,
+      ER-SC-GF-004-01 and ER-SC-GF-006-02 contract_validation -> deterministic_test;
+      ER-SC-GF-001-01, ER-SC-GF-005-02 and ER-SC-GF-009-01
+      external_consumer_observation -> runtime_observation. Ids and requirement
+      texts unchanged.
+    reason: >
+      The target loader has only deterministic_test, runtime_observation and
+      human_review; the kinds were mapped rather than widened, and
+      .aes/target.yaml carries the mapped kinds.
+    source: 24-pre-probe-decisions.md section 17 item 4; src/agentic_engineering_system/records.py:53; .aes/target.yaml success_criteria
+  - change: >
+      stage and nonclaim rewritten: the instance no longer claims that
+      realization is unselected; it points to 20-realization-topology.yaml and
+      .aes/target.yaml for the realized units, topology and verification, notes
+      NI-AES-HIST as a target-only item, and states that failure_modes and
+      capability_requirements are analysis the live target does not carry.
+    reason: >
+      AES canonical now has ten realized RU-AES-* components, planned artifacts,
+      verification subjects and accepted plans; CAP-GF-* justification refs
+      were mapped to the GF-REQ items each capability serves because
+      capabilities are not a target family.
+    source: 24-pre-probe-decisions.md sections 17 (items 3-4) and 20; .aes/target.yaml; .aes/plans/
+  - change: >
+      planning_frontier emptied and planning_frontier_resolution added, naming
+      where each formerly unselected item was selected; bounded
+      artifact-generation rules marked not realized in the v0.2 MVP.
+    reason: >
+      All five frontier items were selected (first consumer whygame5; units,
+      topology and verification in file 20 and the live target). topology.py
+      does not implement generation rules.
+    source: 24-pre-probe-decisions.md sections 2, 8 and 17; src/agentic_engineering_system/topology.py:17-18

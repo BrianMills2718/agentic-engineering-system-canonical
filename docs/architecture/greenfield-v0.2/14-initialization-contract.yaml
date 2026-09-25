@@ -14,7 +14,7 @@ purpose: >
   genuinely new project before project-specific realization planning, so
   initialization itself satisfies the no-orphan-artifact invariant.
 
-candidate_control_root: .aes/
+control_root: .aes/
 
 phases:
   - id: INIT-PROJECT
@@ -23,6 +23,15 @@ phases:
       - project_id
       - AES_architecture_line
       - supported_distribution_identity
+      - governed_roots
+      - primary_language_or_runtime
+    realized_as: >
+      `aes init --project-id ID --actor TEXT --outcome TEXT [--governed-root R ...]
+      [--language L] [--root DIR]` (project.py initialize_project, cli.py). The
+      distribution identity is read from the installed distribution
+      (importlib.metadata), never typed; governed roots default to src/ and tests/;
+      the language defaults to python and selects the default test command of
+      `aes evidence record`. project.yaml also records aes.initialized_at.
     creates:
       - artifact_id: AES-PROJECT-CONFIG
         path: .aes/project.yaml
@@ -45,6 +54,13 @@ phases:
       - at_least_one_accepted_outcome
     required_inputs:
       - accepted_outcome
+      - accepted_outcome_actor_or_consumer
+    realized_as: >
+      The same `aes init` invocation as INIT-PROJECT: the outcome (--outcome) and its
+      actor (--actor) are required on the command line, so an accepted outcome always
+      exists and both seed artifacts are written together. They are staged in a
+      temporary sibling directory, loaded strictly, compared with exactly the seed
+      set, and renamed to .aes/ in one step; any refusal writes nothing.
     creates:
       - artifact_id: AES-TARGET-AUTHORITY
         path: .aes/target.yaml
@@ -81,35 +97,56 @@ deferred_artifacts:
   analysis:
     path: .aes/analysis.yaml
     creation_condition: accepted_engineering_analysis_exists
+    realized: false
+    note: not realized in the v0.2 MVP; no command writes it and project.yaml has no analysis path
   plan:
-    path_pattern: .aes/plans/PLAN-<id>.yaml
+    path_pattern: .aes/plans/<proposal_id>.yaml
+    convention: proposal ids are named PLAN-<id>, so files read PLAN-<id>.yaml
     creation_condition: accepted_transition_exists
+    realized_as: written by `aes plan accept` (planning.py)
   observation:
     path_pattern: .aes/observations/<observation-id>.yaml
     creation_condition: retained_AES_native_observation_exists
+    realized_as: written by `aes evidence record`, or by hand for external subjects
   generated:
     path_namespace: .aes/generated/
     creation_condition: a_defined_projection_has_inputs_to_materialize
     authority: none
+    realized: false
+    note: >
+      Not realized in the v0.2 MVP. project.yaml names generated_root, but nothing
+      writes under it: `aes reconcile`, `aes status`, `aes characterize` and
+      `aes context` compute current state, gaps and context on every call and print
+      them without writing.
 
 initial_target_minimum:
   required:
     - schema_version
-    - target_revision_or_identity
+    - target_id
     - outcomes
+  realized_initial_target: >
+    `aes init` writes schema_version aes.v0_2.target.probe0, target_id
+    <project_id>-target, one outcome OUT-001 {id, actor_or_consumer, statement}, and
+    empty lists for normative_items, success_criteria, components,
+    planned_artifacts and verification_subjects (records.TargetRecord requires those
+    keys; an empty list is not an empty authoritative shell because the outcome is
+    present). external_boundaries is optional and omitted.
   invariant:
     - outcomes_must_contain_at_least_one_accepted_outcome
     - no_unresolved_reference_is_silently_accepted
   optional_until_planning:
     - normative_items
     - success_criteria
-    - capability_requirements
-    - provider_bindings
-    - realization_units
+    - components
     - planned_artifacts
-    - artifact_generation_rules
-    - planned_symbol_commitments
     - verification_subjects
+    - external_boundaries
+  not_realized_as_target_families:
+    capability_requirements: not a target family in the v0.2 MVP
+    provider_bindings: not a target family in the v0.2 MVP
+    artifact_generation_rules: not realized in the v0.2 MVP (topology.py has no generation rules)
+    realization_units: realized as the components family (D3)
+    planned_symbol_commitments: realized as optional `exports` on planned_artifacts entries
 
 initialization_success:
   - every_created_durable_artifact_is_named_by_this_contract
@@ -128,9 +165,56 @@ initialization_disproof:
   - generated_current_or_gap_created_without_semantic_inputs
 
 explicit_nonclaims:
-  - CLI_shape_not_selected
   - interactive_flow_not_selected
-  - packaging_tool_not_selected
-  - project_language_not_selected
   - provider_defaults_not_selected
-  - this_contract_is_not_yet_an_implementation_schema
+
+resolved_by_realization:
+  CLI_shape: >
+    `aes init --project-id ID --actor TEXT --outcome TEXT [--governed-root R ...]
+    [--language L] [--root DIR]`, non-interactive; prints the written paths and the
+    next-step hint "next: aes plan prepare, write a proposal, aes plan
+    validate/accept; or edit .aes/target.yaml by hand, then aes target validate"
+    (cli.py INIT_NEXT_STEP).
+  packaging_tool: setuptools with setuptools-scm (Git-derived version, no fallback_version); distribution agentic-engineering-system
+  project_language: --language, default python, recorded as ecosystem.primary_language_or_runtime
+  implementation_schema: records.ProjectRecord and records.TargetRecord (strict, extra fields forbidden); project.py SEED_ARTIFACTS
+
+outside_this_contract:
+  - artifact: .githooks/pre-commit
+    written_by: aes hooks install (hooks.py), a separate command, not aes init
+    effect: also sets the repository-local git config core.hooksPath=.githooks
+    note: >
+      The initialization_success rule every_created_durable_artifact_is_named_by_this_contract
+      applies to aes init only; the hook is its own command's artifact.
+
+accepted_amendments:
+  - change: candidate_control_root renamed control_root.
+    reason: .aes/ is the realized control root, no longer a candidate.
+    source: src/agentic_engineering_system/project.py AES_DIR; .aes/ in this repository
+  - change: INIT-PROJECT required_inputs gain governed_roots and primary_language_or_runtime; realized_as added.
+    reason: ProjectRecord requires governed_roots and ecosystem.primary_language_or_runtime; aes init takes --governed-root and --language (default python) and records initialized_at.
+    source: 24-pre-probe-decisions.md section 12 items 2-3; project.py _documents; records.py ProjectRecord
+  - change: INIT-TARGET required_inputs gain accepted_outcome_actor_or_consumer; realized_as states both phases run in one atomic aes init.
+    reason: the outcome record requires actor_or_consumer, so aes init requires --actor; both seed files are staged, checked and renamed into .aes/ together.
+    source: 24-pre-probe-decisions.md section 12 item 1; project.py initialize_project
+  - change: initial_target_minimum.required target_revision_or_identity replaced by target_id; realized_initial_target added.
+    reason: the realized target identity field is target_id; aes init writes empty lists for the other required families.
+    source: records.py TargetRecord; project.py _documents
+  - change: optional_until_planning reduced to the realized families (components, external_boundaries added); capability_requirements, provider_bindings, artifact_generation_rules, realization_units, planned_symbol_commitments moved to not_realized_as_target_families with their disposition.
+    reason: records.TargetRecord forbids unknown families; realization units are components (D3); symbol commitments are exports on planned artifacts.
+    source: records.py TargetRecord; 24-pre-probe-decisions.md sections 1 (D3), 13, 15; topology.py
+  - change: deferred plan path_pattern is .aes/plans/<proposal_id>.yaml with PLAN-<id> as the naming convention; realized_as added.
+    reason: aes plan accept writes <plans_root>/<proposal_id>.yaml.
+    source: planning.py accept_proposal; .aes/plans/
+  - change: deferred analysis and generated marked realized false.
+    reason: no command writes .aes/analysis.yaml or anything under .aes/generated/; reconcile/status/context/characterize compute and print without writing; ProjectRecord.Materialization has no analysis path.
+    source: records.py Materialization; reconcile.py module docstring ("nothing is written"); ls .aes/
+  - change: observation realized_as added.
+    reason: aes evidence record writes observations; external ones are hand-written.
+    source: evidence.py record; 24-pre-probe-decisions.md section 17
+  - change: explicit_nonclaims CLI_shape_not_selected, packaging_tool_not_selected, project_language_not_selected and this_contract_is_not_yet_an_implementation_schema moved to resolved_by_realization with what was selected.
+    reason: each was selected by the realization, so the nonclaims were false.
+    source: cli.py; pyproject.toml; project.py; records.py; 24-pre-probe-decisions.md sections 11, 12, 20 item 2
+  - change: outside_this_contract added for .githooks/pre-commit and core.hooksPath.
+    reason: aes hooks install writes a durable file that this contract does not name; it is a separate command, so the init rule still holds.
+    source: hooks.py; 24-pre-probe-decisions.md section 11

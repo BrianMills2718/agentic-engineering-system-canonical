@@ -1,7 +1,7 @@
 """Observations, freshness and criterion standing (`RU-AES-EVIDENCE`,
 `SC-GF-007`, `SC-GF-008`, decision D2).
 
-Observation records follow `16-record-shapes.candidate.yaml`. Assessments are
+Observation records follow `docs/architecture/greenfield-v0.2/16-record-shapes.yaml`. Assessments are
 materialized inside the observation (option `retained_inside_observation_
 assessment_receipt`), one per evidence requirement, never per criterion:
 an observation does not claim criterion sufficiency.

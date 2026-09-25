@@ -1,6 +1,6 @@
 """`aes init` and project discovery (`RU-AES-PROJECT`, `SC-GF-001`).
 
-Initialization follows `14-initialization-contract.candidate.yaml`. It creates
+Initialization follows `docs/architecture/greenfield-v0.2/14-initialization-contract.yaml`. It creates
 exactly the two seed artifacts the contract names and nothing else:
 
 - `.aes/project.yaml` (INIT-PROJECT): adoption identity: project id, governed

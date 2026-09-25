@@ -1,6 +1,6 @@
 """`aes plan prepare / validate / accept` (`RU-AES-PLANNING`, `SC-GF-004`).
 
-Bounded to the target acceptance transaction of `15-planning-contract.candidate.yaml`
+Bounded to the target acceptance transaction of `docs/architecture/greenfield-v0.2/15-planning-contract.yaml`
 (validate the proposed target delta, accept it; recharacterization and the new
 gap set follow from `aes reconcile` on the next commit). No plan is generated here
 and no model is called: a human or agent writes the proposal, following
