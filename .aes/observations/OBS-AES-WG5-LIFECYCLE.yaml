@@ -1,0 +1,48 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-AES-WG5-LIFECYCLE
+subject_refs: [SC-GF-009]
+external_identity: whygame5@d5f993fd8419ca5933ad52cf6c2caaf5278f7be1 (main, 2026-09-25)
+observer:
+  identity: claude-code session opus-v02-self-govern (read-only inspection of /home/brian/code/whygame5)
+  version: Claude Opus 5.5, session_01Up1bDWMXtPyLG5xqgL51Pw
+method: >
+  Read whygame5's history and records at its main head (git log on .aes/,
+  .aes/plans/, .aes/observations/) and ran `aes status` there with its
+  pinned AES (.venv/bin/aes); nothing in whygame5 was modified.
+execution_state: COMPLETED
+produced_at: 2026-09-25T22:30:00+00:00
+result:
+  retained_so_far:
+    initialization: 3a1c64b663dbd8b7521581dc39a7aa4c7adb52ad (Initialize whygame5 under AES v0.2 governance)
+    target_history:
+      - 3a1c64b663dbd8b7521581dc39a7aa4c7adb52ad init
+      - 0afb3e07c15d84a697c76172ef85f6985920de6e agent instructions, pinned AES, pre-commit gate
+      - 26a12e475b5e93659baa0d9c0dd554353d339faa why-chain ontology
+      - eed13c47d86c62427426d0fb79c9a9cbe42b229a exports commitment
+      - a620cdc53dc133686bcb2163e781d5dde89d01aa ER-WG5-006-05 (reconcile)
+      - 36b64edece7e70e7e5e79917bd78b58dfa638795 PLAN-WG5-RUNNER accepted through aes plan accept
+    accepted_plans:
+      - .aes/plans/PLAN-WG5-RUNNER.yaml (accepted_at_revision de7479c89fa54c3abb433ed8900d6c7ea6ce4c41)
+    observations: 15 records under .aes/observations/ at d5f993f
+    status_at_head: |
+      OK status: whygame5-target at d5f993fd8419ca5933ad52cf6c2caaf5278f7be1
+        artifacts: 11 realized, 4 unrealized, 0 drifted; 0 orphan(s)
+        criteria: 3 supported, 4 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+        observations: 13 current, 1 stale, 1 unknown
+  missing:
+    - realization of the accepted plan (ART-WG5-RUNNER src/whygame5/runner.py and its test, the report and CLI are unrealized at d5f993f)
+    - evidence for the runner's criterion SC-WG5-007 after realization
+    - a fresh-agent context evaluation large enough to distinguish (probe 0's was indistinguishable)
+    - one observation listing the whole lifecycle at exact revisions (roadmap phase 7)
+assessments:
+  - evidence_requirement_ref: ER-SC-GF-009-01
+    assessment: INCONCLUSIVE
+    basis: >
+      whygame5 has retained initialization, target history, one accepted plan,
+      observations and a current/gap report at exact revisions, but the
+      accepted plan is not yet realized and no fresh-agent context evaluation
+      has distinguished anything, so the complete lifecycle the requirement
+      names does not exist yet.
+    assessor:
+      identity: claude-code session opus-v02-self-govern
+      version: Claude Opus 5.5, session_01Up1bDWMXtPyLG5xqgL51Pw

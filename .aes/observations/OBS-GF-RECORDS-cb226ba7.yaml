@@ -1,0 +1,41 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-GF-RECORDS-cb226ba7
+subject_refs:
+- VS-GF-RECORDS
+subject_revision: cb226ba75f4383f6923418d4faaa10fddeb4d576
+dependency_paths:
+- src/agentic_engineering_system/__init__.py
+- src/agentic_engineering_system/characterize_python.py
+- src/agentic_engineering_system/records.py
+- tests/greenfield/test_records.py
+dependency_basis:
+  locator: tests/greenfield/test_records.py
+  discovered:
+  - src/agentic_engineering_system/__init__.py
+  - src/agentic_engineering_system/characterize_python.py
+  - src/agentic_engineering_system/records.py
+  declared: []
+dependency_target_refs:
+- VS-GF-RECORDS
+- ER-SC-GF-002-01
+- ART-SRC-CHARACTERIZE-PYTHON
+- ART-SRC-RECORDS
+- ART-TEST-RECORDS
+- ART-V01---INIT---PY
+observer: &id001
+  identity: aes evidence record
+  version: '0.1.dev372+g0d5e41ae4 (running: cb226ba)'
+method: /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest -q 
+  tests/greenfield/test_records.py
+execution_state: COMPLETED
+result:
+  exit_code: 0
+  output_tail: ".........                                                                [100%]\n9 passed
+    in 0.56s"
+produced_at: '2026-09-25T22:22:53+00:00'
+assessments:
+- evidence_requirement_ref: ER-SC-GF-002-01
+  assessment: SUPPORTS
+  basis: 'VS-GF-RECORDS (validate target structure, refs and criterion evidence declarations) passed:
+    exit 0'
+  assessor: *id001

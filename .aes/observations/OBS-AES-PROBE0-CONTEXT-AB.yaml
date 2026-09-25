@@ -1,0 +1,46 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-AES-PROBE0-CONTEXT-AB
+subject_refs: [SC-GF-005, RU-AES-CONTEXT, ART-SRC-CONTEXT]
+external_identity: >-
+  whygame5@24ce41281fa97884d4fa36088b13bd509eaa481e (change: realize
+  CMP-WG5-EVALUATOR), context from AES probe-0-context@656eea6d639436e68d4e8ae6f70c2daf567fa5ae
+observer:
+  identity: claude-code coordinator session + two fresh general-purpose subagents (arm A, arm B)
+  version: Claude Fable 5.1, session_01EQ26W2fAr9sLDWsQ55jGgh
+method: >
+  Probe 0 (24-pre-probe-decisions.md section 3 and section 6). The same real
+  change was attempted by two fresh agent sessions in separate whygame5
+  worktrees from the same base commit. Arm A received the packet from `aes
+  context CMP-WG5-EVALUATOR` plus the repository; arm B the repository and
+  README only. The scoring sheet (obligations O1-O8, measures M1-M7) was
+  written before either arm's output was seen. The full sheet and both arms'
+  scores are retained in whygame5's OBS-PROBE0-CONTEXT-AB.yaml; this record
+  restates the result for AES's own criterion.
+execution_state: COMPLETED
+produced_at: 2026-09-25T12:00:11+00:00
+result:
+  arm_a: {commit: ff6595a700a6ac89e37c17f7a6829dd134d962cf, files_read: 8, tests: 12 passed, obligations_missed: 0,
+    topology_violations: 0, rework: none}
+  arm_b: {commit: fa828f47018f0893259a4867da85a980b08b9716, files_read: 9, tests: 10 passed, obligations_missed: 0,
+    topology_violations: 0, rework: none}
+  verdict: >
+    No material difference. On a ~300-line, 9-file repository reading
+    everything (including .aes/target.yaml) costs nothing, so the
+    projected-context claim is not distinguishable. Not refuted either.
+retained_artifact_refs:
+  - whygame5 .aes/observations/OBS-PROBE0-CONTEXT-AB.yaml (scoring sheet and both arms' scores)
+  - whygame5 branch ab-arm-a @ff6595a7 (pushed)
+  - whygame5 branch ab-arm-b @fa828f47 (pushed)
+assessments:
+  - evidence_requirement_ref: ER-SC-GF-005-02
+    assessment: INCONCLUSIVE
+    basis: >
+      Both arms found every obligation; arm A read one file fewer and wrote
+      two more tests. At this repository size the comparison cannot show
+      whether bounded projected context reduces reconstruction cost or missed
+      obligations. The orchestrator re-runs the A/B on one real AES change
+      (roadmap phase 6); if that is still indistinguishable, ER-02 is to be
+      re-scoped rather than re-run.
+    assessor:
+      identity: claude-code session opus-v02-self-govern (restated the recorded verdict; did not re-score)
+      version: Claude Opus 5.5, session_01Up1bDWMXtPyLG5xqgL51Pw
