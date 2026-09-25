@@ -238,3 +238,40 @@ schema_strategy:
     - validate_typed_ref_resolution_beyond_JSON_Schema
     - validate_cross_record_semantic_invariants
   nonclaim: JSON_Schema_alone_is_sufficient_for_semantic_validation
+
+# Appended 2026-09-25 (roadmap phase 3, 24-pre-probe-decisions.md section 13).
+realized_probe0_symbol_commitments:
+  status: realized_in_probe0_differs_from_candidate_above
+  shape: >
+    Probe 0 does not have a separate planned_symbol_commitments family. A
+    planned_artifacts entry carries an optional `exports: [entry, ...]`, each
+    entry `name` (the top-level public symbol exists) or
+    `name(args) -> ret` (it exists with that signature, compared after
+    parsing both sides and re-rendering with ast.unparse).
+  validation:
+    - exports_only_on_kind_source_with_a_py_exact_path
+    - each_entry_is_an_identifier_or_a_parseable_function_header
+    - no_duplicate_export_names_within_one_artifact
+  reason: >
+    One consumer, one language: a commitment always belongs to exactly one
+    file, so nesting it under that file's artifact satisfies
+    every_planned_symbol_commitment_reaches_artifact by construction.
+  wrong_when: >
+    A commitment needs its own identity (referenced by a criterion or a
+    verification subject), or spans files; then promote to the separate family.
+
+realized_probe0_characterization:
+  schema_version: aes.v0_2.characterization.probe0
+  fields: [schema_version, subject_revision, dirty, producer, governed_roots, files, produced_at]
+  file_fields: [path, blob_sha, size, python]
+  python_fields: [module, symbols, imports, parse_error]
+  note: >
+    Facts are read from the HEAD tree; `dirty` records that the working tree
+    or index differs. Every field except produced_at is deterministic for one
+    revision. This is the realized_characterization_identity input that
+    generated_current names; its content digest is left to RECONCILE.
+
+realized_probe0_observation_dependency_basis:
+  field: dependency_basis
+  shape: {locator: path, discovered: [paths], declared: [paths]}
+  rule: dependency_paths equals the sorted union of the three; a mismatch fails the load.

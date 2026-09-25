@@ -24,7 +24,7 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
-from .records import load_project, load_target
+from .records import TargetRecord, load_project, load_target
 
 
 class TopologyError(ValueError):
@@ -47,7 +47,7 @@ def _under(path: str, roots: tuple[str, ...]) -> bool:
     return any(path.startswith(root) for root in roots)
 
 
-def _normalized_roots(roots: list[str]) -> tuple[str, ...]:
+def normalized_roots(roots: list[str]) -> tuple[str, ...]:
     out = []
     for root in roots:
         if root.startswith("/") or ".." in Path(root).parts or root.strip("/") == "":
@@ -70,9 +70,18 @@ def check_topology(root: Path) -> TopologyReport:
     root = Path(root).resolve()
     project = load_project(root / ".aes" / "project.yaml")
     target = load_target(root / project.materialization.target_path)
-    governed = _normalized_roots(project.governed_roots)
+    governed = normalized_roots(project.governed_roots)
 
-    files = _indexed_files(root, governed)
+    return compare_topology(governed, _indexed_files(root, governed), target)
+
+
+def compare_topology(governed: tuple[str, ...], files: tuple[str, ...], target: TargetRecord) -> TopologyReport:
+    """Orphans and unrealized artifacts for a given governed file list.
+
+    `check_topology` feeds it the Git index; `characterize.drift` feeds it the
+    files of the characterized revision, so both apply one rule.
+    """
+    files = tuple(sorted(files))
     planned = {a.locator.exact_path: a.id for a in target.planned_artifacts}
     present = set(files)
     return TopologyReport(

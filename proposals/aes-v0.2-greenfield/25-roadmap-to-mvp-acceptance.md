@@ -28,20 +28,23 @@ and AES v0.2 replaces v0.1 as the surface AES canonical itself is governed by.
 | SC-GF-003 topology accounts for every governed artifact | orphan rejected; planned topology accepted | mechanism realized (`topology.py`); real orphan caught on whygame5 (§6, §8); no AES-side observation recorded | TOPOLOGY |
 | SC-GF-004 every evidence requirement has a route | validate ERs against verification topology | partially realized in the loader; no plan-acceptance step | PLANNING |
 | SC-GF-005 bounded context carries full text | ER-01 deterministic; ER-02 fresh-agent A/B | ER-01 realized (`context.py`); ER-02 inconclusive at probe 0 (§6) | CONTEXT |
-| SC-GF-006 revision-bound characterization + drift | mutate an artifact and see the mismatch; every fact bound to revision | not started | CHARACTERIZE |
+| SC-GF-006 revision-bound characterization + drift | mutate an artifact and see the mismatch; every fact bound to revision | mechanism realized (`characterize.py`, `aes characterize`); drift caught on a whygame5 scratch clone (§13); no observation recorded on the consumer | CHARACTERIZE |
 | SC-GF-007 a pass is not satisfaction | multi-input criterion stays INSUFFICIENT | realized (`evidence.py`, `test_evidence.py`) | EVIDENCE |
 | SC-GF-008 dependency change stales evidence | change a dependency, evidence goes STALE | realized at the evidence level; "current/gap state" wording needs RECONCILE | EVIDENCE, RECONCILE |
 | SC-GF-009 one complete lifecycle on a new consumer | retained init/target/plan/realization/evidence/current/context at exact revisions | in progress on whygame5; missing init, plan, characterize, reconcile | all |
 
 Realized units: RECORDS, CONTEXT, TOPOLOGY, EVIDENCE, and the CLI for those
 four. Not realized: PROJECT, PLANNING, CHARACTERIZE, RECONCILE, DISTRIBUTION.
+(Update 2026-09-25: DISTRIBUTION realized by phase 1, PROJECT by phase 2 and
+CHARACTERIZE by phase 3; see §11-§13 of `24-pre-probe-decisions.md`.)
 
 Kinks the consumer has already exposed and that this roadmap must close:
 
 - the AES version never changes (`0.1.0` across every commit), so a pin bump
   does not reinstall and the consumer silently runs old code;
 - the consumer's pre-commit hook was hand-copied and broke in linked worktrees;
-- `dependency_paths` on an observation are declared by hand, not discovered;
+- `dependency_paths` on an observation are declared by hand, not discovered
+  (closed by phase 3: discovered from imports, declared paths added, §13);
 - AES canonical does not follow its own planning (its v0.2 code is not under
   a `.aes/` target of its own).
 

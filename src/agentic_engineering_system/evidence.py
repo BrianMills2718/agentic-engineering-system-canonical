@@ -63,6 +63,15 @@ class ErAssessment(StrictModel):
     assessor: Observer
 
 
+class DependencyBasis(StrictModel):
+    """Where `dependency_paths` came from: the subject's own file, what AES
+    discovered from its intra-repository imports, and what the recorder declared."""
+
+    locator: str
+    discovered: list[str] = Field(default_factory=list)
+    declared: list[str] = Field(default_factory=list)
+
+
 class ObservationRecord(StrictModel):
     schema_version: Literal["aes.v0_2.observation.probe0"]
     observation_id: str
@@ -72,6 +81,7 @@ class ObservationRecord(StrictModel):
     )
     external_identity: str | None = None
     dependency_paths: list[str] = Field(default_factory=list)
+    dependency_basis: DependencyBasis | None = None
     observer: Observer
     method: str
     execution_state: Literal["COMPLETED", "ERROR"]
@@ -93,6 +103,13 @@ class ObservationRecord(StrictModel):
             raise ValueError("execution_state ERROR requires error, COMPLETED requires result")
         if self.execution_state == "ERROR" and self.assessments:
             raise ValueError("an ERROR observation cannot carry assessments")
+        if self.dependency_basis is not None:
+            b = self.dependency_basis
+            union = sorted({b.locator, *b.discovered, *b.declared})
+            if self.dependency_paths != union:
+                raise ValueError(
+                    f"dependency_paths {self.dependency_paths} is not the union of dependency_basis {union}"
+                )
         return self
 
 
@@ -233,6 +250,31 @@ __all__ = [
 # --------------------------------------------------------------------------- #
 
 RECORDER = "aes evidence record"
+
+
+def _discover_dependencies(root: Path, locator: str) -> list[str]:
+    """Governed files a Python test's imports reach at HEAD, the test excluded.
+
+    Non-Python subjects discover nothing. A Python subject that is not a
+    governed file at HEAD cannot be analyzed, so recording it fails.
+    """
+    if not locator.endswith(".py"):
+        return []
+    from .characterize import CharacterizeError, characterize
+    from .characterize_python import import_closure
+
+    try:
+        facts = characterize(root).python_facts()
+    except CharacterizeError as exc:
+        raise EvidenceError(f"cannot discover dependencies of {locator}: {exc}") from exc
+    if locator not in facts:
+        raise EvidenceError(
+            f"cannot discover dependencies of {locator}: not a governed Python file at HEAD "
+            "(commit it, or place it under a governed root)"
+        )
+    if facts[locator].parse_error:
+        raise EvidenceError(f"cannot discover dependencies of {locator}: {facts[locator].parse_error}")
+    return import_closure(locator, facts)
 _OUTPUT_TAIL_LINES = 20
 
 
@@ -260,6 +302,11 @@ def record(
 ) -> Recorded:
     """Run one deterministic-test verification subject at HEAD and write its observation.
 
+    Dependency paths are the test file, plus, for a Python test, every governed
+    file its imports reach at HEAD (discovered by `characterize`), plus
+    `depends_on` (declared). The observation's `dependency_basis` keeps the three
+    apart.
+
     Exit 0 assesses every evidence requirement the subject proves as SUPPORTS
     (INCONCLUSIVE with `downgrade_basis`, for a test that covers only part of a
     requirement); any other exit assesses them as REFUTES. Refuses when a
@@ -285,7 +332,9 @@ def record(
     if vs.locator.startswith("external:") or not (root / vs.locator).exists():
         raise EvidenceError(f"{subject_id} locator {vs.locator!r} is not a path in this repository")
 
-    deps = sorted({vs.locator, *depends_on})
+    discovered = _discover_dependencies(root, vs.locator)
+    declared = sorted(set(depends_on))
+    deps = sorted({vs.locator, *discovered, *declared})
     missing = [d for d in deps if not (root / d).exists()]
     if missing:
         raise EvidenceError(f"dependency paths do not exist: {missing}")
@@ -321,6 +370,7 @@ def record(
         "subject_refs": [subject_id],
         "subject_revision": revision,
         "dependency_paths": deps,
+        "dependency_basis": {"locator": vs.locator, "discovered": discovered, "declared": declared},
         "observer": assessor,
         "method": " ".join(command),
         "execution_state": "COMPLETED",

@@ -472,3 +472,102 @@ not at the Git work-tree top. Wrong-when: a command run inside a repository
 that has no `.aes/` of its own silently operates on an enclosing directory's
 project (a nested checkout under an initialized one); then discovery must
 stop at `git rev-parse --show-toplevel`.
+
+## 13. Characterization realized (2026-09-25)
+
+Roadmap phase 3 (`25-roadmap-to-mvp-acceptance.md`). Realized:
+
+- **`characterize.py`** (`ART-SRC-CHARACTERIZE`). `aes characterize [--json]`
+  lists every file under the governed roots at HEAD with blob hash and size,
+  bound to `subject_revision` (40-hex HEAD), `dirty`, and
+  `producer: {identity: aes, version}`; schema
+  `aes.v0_2.characterization.probe0`. The body is deterministic;
+  `produced_at` is a separate field and the text report omits it. On
+  whygame5 at `f5a0d01` two runs of the text report are byte-identical and
+  the two JSON outputs differ only in `produced_at` (the phase exit gate).
+- **`characterize_python.py`** (`ART-SRC-CHARACTERIZE-PYTHON`). With `ast`
+  only: module name (`src/` layout), top-level public symbols with a
+  signature string for functions, and intra-repository import edges
+  (absolute, `from`, relative; package `__init__.py` files a dotted import
+  executes; a bare sibling import from a non-package directory, which is how
+  pytest finds test helpers). A file that raises at import characterizes
+  normally; a file that does not parse records `parse_error`.
+- **Symbol commitments.** A planned artifact may carry `exports:`, each
+  `name` or `name(args) -> ret`, only on `kind: source` `.py` artifacts.
+  `aes characterize` exits 1 on a missing committed export, a changed
+  committed signature, or an orphan; orphans and unrealized artifacts come
+  from `topology.compare_topology`, now shared with `aes topology check`.
+  Unrealized artifacts are reported, not drift. Recorded in
+  `16-record-shapes.candidate.yaml` as `realized_probe0_symbol_commitments`.
+- **Dependency discovery.** `aes evidence record` on a Python test now takes
+  `dependency_paths` = the test file + every governed file its imports reach
+  at HEAD + `--depends-on`. The observation keeps
+  `dependency_basis: {locator, discovered, declared}`, and loading fails if
+  `dependency_paths` is not their union.
+
+Evidence: `tests/greenfield/test_characterize.py` (12 tests, including
+ER-SC-GF-006-01: an `exports:` commitment on `ART-WG5-PROMPTS`, the symbol
+renamed in a commit, `missing_export` reported and exit 1) and three new
+cases in `test_evidence.py`.
+
+What the consumer showed:
+
+1. **Existing standings unchanged.** `aes evidence status` on whygame5 at
+   `f5a0d01`, with the pinned AES (`2d4db5c`) and with this change, is
+   byte-identical: SC-WG5-002, 003, 004 SUPPORTED; 001, 005, 006
+   INSUFFICIENT; the only STALE observation is `OBS-WG5-006-CHAIN-FIT-1`,
+   stale before and after. Existing observations keep their stored
+   `dependency_paths`; discovery applies only to new recordings.
+2. **Discovered versus hand-declared**, re-recording all five
+   deterministic-test subjects in a scratch clone at `f5a0d01` with no
+   `--depends-on`, against the `-a7611a86` observations:
+   - all five: discovery adds `src/whygame5/__init__.py` (every test imports
+     through the `whygame5` package, which executes it);
+   - VS-WG5-PROMPTS: the hand list has `src/whygame5/contracts.py`, which
+     discovery does not find. `test_prompts.py` imports only
+     `whygame5.prompts`, and `prompts.py` imports nothing local. The file
+     was declared because the assessment's basis is about
+     `contracts.ModelProposal`: a claim-scope dependency, not an executed
+     one. That is exactly what `--depends-on` stays for.
+   - otherwise identical. No observation went STALE; all five new ones are
+     CURRENT at `f5a0d01`.
+3. **Drift on the real consumer.** In the same scratch clone,
+   `exports: [WhyChain, Misfit]` on `ART-WG5-ONTOLOGY` characterizes OK;
+   renaming `WhyChain` in a commit gives `missing_export:
+   src/whygame5/ontology.py (ART-WG5-ONTOLOGY) - committed export 'WhyChain'
+   is not a top-level public symbol`, exit 1. Not yet recorded as an
+   observation on whygame5 itself, which needs a consumer change.
+
+Decisions:
+
+- **Facts come from the HEAD tree, not the index.** `git ls-tree HEAD`,
+  with content read by blob hash, so every fact is a fact about
+  `subject_revision` (ER-SC-GF-006-02); `dirty` flags a working tree or
+  index that differs. `aes topology check` keeps using the index, because
+  it is a pre-commit gate. Wrong-when: a consumer wants symbol drift as a
+  pre-commit gate, where HEAD is the commit before the one being checked;
+  then add an index mode rather than weakening the revision binding.
+- **Signatures are committed only when written.** `name` commits existence;
+  `name(args) -> ret` also commits the signature, compared after both sides
+  are parsed and re-rendered, so spacing is not drift. Classes and
+  variables carry no signature. Wrong-when: a consumer reports drift that
+  is only annotation spelling (a quoted forward reference against an
+  unquoted one); then normalize annotations or compare parameter names only.
+- **All imports in a file count, including function-level and
+  `TYPE_CHECKING` ones; package `__init__.py` files count.** Code a test can
+  reach is a dependency. Wrong-when: evidence goes STALE on whygame5 or AES
+  canonical because only a `TYPE_CHECKING` import target changed; then skip
+  those blocks.
+- **Discovery is imports only, and declaration is additive.** It does not
+  see `conftest.py`, data files the test reads, pytest configuration, or
+  claim-scope files like `contracts.py` above. Wrong-when: a recorded
+  SUPPORTS stays CURRENT after a `conftest.py` or test-data change it
+  depended on; then add pytest's conftest chain to discovery.
+- **Producer version is the installed distribution's.** Like the evidence
+  recorder, it reads `importlib.metadata`, which in an editable dev venv is
+  the version at install time (run from this branch's worktree it reported
+  `0.1.dev367+g0503735f9`, the main checkout's install), not the code
+  actually running. Consumers install by pin, where the two agree.
+  Unlike the recorder it fails if the distribution is not installed.
+  Wrong-when: a characterization names a producer version whose code does
+  not match what produced it on a consumer install.
