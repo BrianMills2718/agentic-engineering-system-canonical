@@ -115,6 +115,8 @@ architecture chronologically from the numbered files.
 - `21-provider-bindings.candidate.yaml` — explicit candidate bindings and rejected default providers.
 - `22-portable-provider-boundaries.md` — provider-neutral planning exchange and explicit context CLI boundary.
 - `23-greenfield-cli-product-contract.md` — colleague-facing Greenfield lifecycle/command surface.
+- `24-pre-probe-decisions.md` — decisions taken before probe 0, the probe-0 result, and a dated section per realized unit.
+- `25-roadmap-to-mvp-acceptance.md` — sequenced phases from the realized units to MVP acceptance, with per-phase proof and wrong-when.
 
 ## Nonclaims
 
@@ -129,6 +131,10 @@ This proposal does **not**:
 - claim retrofit support;
 - claim the candidate YAML shapes are final schemas.
 
-The next gate is a **fresh pre-implementation architecture review** of the
-current candidate snapshot. Provider evaluation has already been performed at
-proposal level; no implementation/provider binding is accepted yet.
+Implementation is under way against these candidates: RECORDS, CONTEXT,
+TOPOLOGY and EVIDENCE are realized under `src/agentic_engineering_system/`
+and exercised on the first authentic consumer (`BrianMills2718/whygame5`).
+Current status per criterion and the remaining order of work are in
+`25-roadmap-to-mvp-acceptance.md`; what each realized unit taught is in
+`24-pre-probe-decisions.md`. No candidate is promoted to accepted
+architecture until roadmap phase 7.
