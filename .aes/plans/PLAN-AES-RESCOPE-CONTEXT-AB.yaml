@@ -1,0 +1,51 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-AES-RESCOPE-CONTEXT-AB
+title: Re-scope ER-SC-GF-005-02 to what a fresh-agent comparison can establish
+rationale: >
+  Two fresh-agent A/B runs of the bounded context packet (probe 0 on whygame5 at ~300 lines,
+  OBS-AES-PROBE0-CONTEXT-AB; phase 6 on AES canonical at ~4,000 governed lines,
+  OBS-AES-CONTEXT-AB-2509ea4) were both indistinguishable: with a strict target and a pre-commit
+  hook, a fresh agent reconstructs every obligation from the repository at no measurable cost. The
+  roadmap's wrong-when fired (25 section 5) and 24 section 18 decided to re-scope ER-SC-GF-005-02
+  rather than run a third A/B. The requirement becomes what the tool can establish: a comparison on
+  one real change, scored against a pre-registered sheet, run and retained at exact revisions with
+  its verdict either way, with the two existing runs as the minimum. SC-GF-005's statement and
+  disproof are unchanged (they are about the packet's content, which ER-SC-GF-005-01 covers); the
+  discovery claim (the packet reduces reconstruction cost) is recorded as not established. The
+  external boundary text is updated to the re-scoped requirement.
+closes_gaps:
+  - insufficient:SC-GF-005
+target_delta:
+  change:
+    success_criteria:
+      - id: SC-GF-005
+        statement: >
+          A fresh implementing agent receives the complete applicable normative, success and disproof
+          text with provenance in the bounded working context for the selected subject.
+        target_refs:
+          - GF-REQ-005
+        disproof: >
+          The context exposes only identifiers/links, omits a load-bearing obligation, or requires broad
+          repository archaeology before the agent can understand what must be preserved.
+        evidence_requirements:
+          - id: ER-SC-GF-005-01
+            kind: deterministic_test
+            requirement: >
+              Generated/projected context contains exact applicable semantic text and provenance for the
+              selected governed subject.
+          - id: ER-SC-GF-005-02
+            kind: runtime_observation
+            requirement: >
+              A fresh-agent comparison on one real change, scored against a pre-registered sheet, is run
+              and retained at exact revisions with its verdict either way; two such runs (probe 0 on
+              whygame5 at ~300 lines, phase 6 on AES itself at ~4,000 governed lines) are the minimum.
+    external_boundaries:
+      - evidence_requirement_ref: ER-SC-GF-005-02
+        boundary: >
+          The orchestrator runs each fresh-agent comparison on one real change (arm A gets `aes context
+          <subject>`, arm B the repository only, each in a separate session with no access to the planning
+          conversation or proposals/), scores it on a sheet written before either arm's output is seen,
+          retains the sheet, both arms' commits and the verdict at exact revisions, and records one
+          observation assessing the retained runs against this requirement.
+accepted_at_revision: 6adb72e3546402759f0474f5a8b5083da09618a6
+accepted_at: '2026-09-25T23:05:08+00:00'

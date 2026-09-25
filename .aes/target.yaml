@@ -169,8 +169,9 @@ success_criteria:
   - id: ER-SC-GF-005-02
     kind: runtime_observation
     requirement: >
-      A fresh-agent comparison shows whether bounded projected context reduces reconstruction
-      cost and missed obligations on one real change.
+      A fresh-agent comparison on one real change, scored against a pre-registered sheet, is run
+      and retained at exact revisions with its verdict either way; two such runs (probe 0 on
+      whygame5 at ~300 lines, phase 6 on AES itself at ~4,000 governed lines) are the minimum.
 - id: SC-GF-006
   statement: >
     At an exact revision AES characterizes the realized repository and mechanically detects missing/undeclared
@@ -929,10 +930,11 @@ external_boundaries:
     the maintainer's GitHub credentials, because this repository is private.
 - evidence_requirement_ref: ER-SC-GF-005-02
   boundary: >
-    A fresh-agent A/B on one real change: arm A gets `aes context <subject>`, arm B the repository
-    only, each in a separate session with no access to the planning conversation or proposals/;
-    scored by the orchestrator on a sheet written before either arm's output is seen, and recorded
-    as an observation.
+    The orchestrator runs each fresh-agent comparison on one real change (arm A gets `aes context
+    <subject>`, arm B the repository only, each in a separate session with no access to the planning
+    conversation or proposals/), scores it on a sheet written before either arm's output is seen,
+    retains the sheet, both arms' commits and the verdict at exact revisions, and records one
+    observation assessing the retained runs against this requirement.
 - evidence_requirement_ref: ER-SC-GF-009-01
   boundary: >
     The orchestrator retains whygame5's lifecycle at exact revisions (init commit, target history,
