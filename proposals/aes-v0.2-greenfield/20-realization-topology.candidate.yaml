@@ -164,6 +164,7 @@ realization_units:
     planned_artifact_refs:
       - ART-PACKAGING-PYPROJECT
       - ART-DOC-GREENFIELD-GETTING-STARTED
+      - ART-SRC-HOOKS
       - ART-TEST-DISTRIBUTION
 
 planned_artifacts:
@@ -330,6 +331,18 @@ planned_artifacts:
       Colleague-facing installation and first Greenfield lifecycle instructions
       that require no knowledge of private historical repositories.
     semantic_justification_refs: [OUT-GF-001, SC-GF-001]
+
+  # Added 2026-09-25 (roadmap phase 1): the consumer's pre-commit gate was
+  # hand-copied and broke in linked worktrees, so the hook ships with AES.
+  - id: ART-SRC-HOOKS
+    locator:
+      exact_path: src/agentic_engineering_system/hooks.py
+    kind: source
+    purpose: >
+      Generate and install the consumer's pre-commit gate (target validate +
+      topology check) with a worktree-safe interpreter lookup, refusing to
+      overwrite a hook AES did not write.
+    semantic_justification_refs: [CAP-GF-INIT]
 
   - id: ART-TEST-DISTRIBUTION
     locator:

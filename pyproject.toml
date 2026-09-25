@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=68", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentic-engineering-system"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Canonical Agentic Engineering System"
 requires-python = ">=3.11"
 dependencies = [
@@ -20,5 +20,12 @@ aes = "agentic_engineering_system.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools_scm]
+# No tags yet: every commit builds as 0.1.devN+g<sha>, so a git-pinned consumer
+# sees a new version on each pin bump and pip reinstalls. No fallback_version:
+# a build without Git metadata must fail, not ship a version that never moves.
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# a linked worktree shares the main checkout's venv; import this tree's source
+pythonpath = ["src"]
