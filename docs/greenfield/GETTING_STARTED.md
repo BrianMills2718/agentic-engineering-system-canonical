@@ -200,6 +200,51 @@ in the observation changes in a later commit, the observation becomes `STALE`
 and the criterion goes back to `INSUFFICIENT` until you record it again. A
 failing test is recorded as `REFUTES`, which makes the criterion `REFUTED`.
 
+## 6. See the whole state and what is still open
+
+```bash
+aes status
+```
+
+`aes status` puts everything above on one screen: the commit it describes,
+counts of planned artifacts (realized, unrealized, drifted), orphans, criteria
+by standing and observations by freshness, then the first open gap of each
+component. On the example at this point (your commit id will differ):
+
+```text
+OK status: greeter-target at 3dff1d43a241da11863d7b9280edc2d627bfe6fd
+  artifacts: 2 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 1 supported, 0 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 1 current, 0 stale, 0 unknown
+  first open gap per component:
+    CMP-GREETER: no open gap
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+```
+
+Change `src/greeter/__init__.py` (say, `Hello` to `Hi`) and commit it, and
+the gap re-opens: the observation depended on that file, so it is stale and
+`SC-001` has no current support.
+
+```text
+OK status: greeter-target at e70b01d9a3e2181f0aaabbf5f0ad72a5a8ac3b2a
+  artifacts: 2 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 0 supported, 1 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 0 current, 1 stale, 0 unknown
+  first open gap per component:
+    CMP-GREETER: insufficient SC-001 - ER-001-01 NO_CURRENT_SUPPORT
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+```
+
+`aes reconcile` prints the full report behind that screen: every planned
+artifact with its status, every criterion with the evidence requirements it
+is missing and the verification subjects that could supply each one (`NO
+ROUTE` when none does), every observation's freshness, orphans, and all gaps
+per component; `--json` prints the same as one JSON document. Both commands
+exit 1 on a `REFUTED` criterion, an orphan, or drift from a committed export,
+and 0 otherwise. Nothing is stored: every run recomputes the state from the
+target, the repository at `HEAD` and the observations, so a gap closes only
+through a new observation or a change to the code or the target.
+
 ## Commands
 
 | Command | What it does |
@@ -211,3 +256,5 @@ failing test is recorded as `REFUTES`, which makes the criterion `REFUTED`.
 | `aes context ID` | compile the working context for one ID |
 | `aes evidence record VS-ID [--depends-on PATH]` | run a test subject and write its observation |
 | `aes evidence status` | standing of every success criterion |
+| `aes status` | one screen: counts and the first open gap per component |
+| `aes reconcile [--json]` | full current state and every open gap |
