@@ -188,3 +188,46 @@ probe 0 has a recorded result.**
 10. Falsification profile: strong on paper; weak on n=1 and operator contamination (section 3 step 3).
 11. Provider rejections: justified.
 12. Decide now: D1–D4 and the consumer. Learn in probe: section 4.
+
+## 6. Probe 0 result (2026-09-25)
+
+Run on the first authentic consumer, `BrianMills2718/whygame5`, at base commit
+`24ce4128`. Change under test: realize `CMP-WG5-EVALUATOR` (evaluator module
+and its tests). Implementation used: `records.py`, `context.py`, `cli.py` on
+this branch (24 greenfield tests passing; `aes target validate` and
+`aes context CMP-WG5-EVALUATOR` run against the real consumer).
+
+| arm | input | files read | tests | obligations missed | topology violations |
+| --- | --- | --- | --- | --- | --- |
+| A | context packet + repository | 8 | 12 passed | 0 | 0 |
+| B | repository + README only | 9 | 10 passed | 0 | 0 |
+
+**Verdict: not distinguishable.** Both arms met all eight pre-registered
+obligations and produced mergeable code. Arm B found every obligation by reading
+the whole repository, including `.aes/target.yaml`, which is nine files and
+about three hundred lines. The projected-context claim (`SC-GF-005`,
+`SC-GF-008`) is neither supported nor refuted at this repository size; the
+experiment has no power until whole-repository orientation is measurably
+costly. Full observation with the pre-registered scoring sheet:
+`whygame5/.aes/observations/OBS-PROBE0-CONTEXT-AB.yaml`.
+
+What probe 0 did establish on a real consumer:
+
+- the strict loader rejects duplicate keys, unresolved refs and criteria
+  without evidence requirements on real edits of the real target;
+- the packet is bounded (the report obligation appears only in the
+  "not included" list) and carries full text, not IDs;
+- a real topology violation occurred during setup: a build tool wrote
+  `src/whygame5.egg-info/` under the governed `src/` root and it was
+  committed before anyone noticed. `SC-GF-003`'s topology check
+  (`RU-AES-TOPOLOGY`) is the next unit to build, and D1's governed-roots
+  rule is confirmed as the right boundary.
+
+Wrong-when for the verdict: a rerun of the same design on a consumer with at
+least several thousand lines and obligations spread across files shows arm A
+materially ahead, or shows arm B ahead. Either result is decisive; this one
+was not.
+
+Next: continue whygame5 toward its own `SC-WG5-001` (prompts, runner, live
+run) so the consumer grows for real reasons; build `topology.py` next on the
+AES side; rerun the A/B when whygame5 has a runner, report and CLI.

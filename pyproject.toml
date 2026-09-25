@@ -10,10 +10,12 @@ requires-python = ">=3.11"
 dependencies = [
   "pydantic==2.13.5",
   "PyYAML==6.0.3",
+  "ruamel.yaml>=0.18,<0.20",
 ]
 
 [project.scripts]
 aes-repo-context = "agentic_engineering_system.repository_context.cli:main"
+aes = "agentic_engineering_system.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
