@@ -362,7 +362,9 @@ selected_symbol_commitments:
     purpose: stable programmatic Greenfield initialization entrypoint
     target_refs: [CAP-GF-INIT]
     planned_signature_or_type: >
-      def initialize_project(root: Path, *, project_id: str, architecture_line: str = "AES-v0.2") -> ProjectRecord
+      def initialize_project(root: Path, *, project_id: str, outcome: str, actor: str,
+      governed_roots: Sequence[str] = ("src/", "tests/"), architecture_line: str = "AES-v0.2",
+      language: str = "python") -> InitResult
 
   - id: SYM-AES-RECORDS-LOAD
     artifact_ref: ART-SRC-RECORDS
