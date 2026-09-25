@@ -155,3 +155,72 @@ def test_cli_prints_standing(root: Path, capsys: pytest.CaptureFixture[str]) -> 
     out = capsys.readouterr().out
     assert out.startswith("evidence: 5 criteria: 0 supported, 5 insufficient, 0 refuted; 1 observation(s)")
     assert "ER-WG5-001-01: SUPPORTED - supported by OBS-1" in out
+
+
+# --------------------------------------------------------------------------- #
+# aes evidence record
+# --------------------------------------------------------------------------- #
+
+import sys  # noqa: E402
+
+from agentic_engineering_system.evidence import record  # noqa: E402
+
+PASS = [sys.executable, "-c", "print('4 passed')"]
+FAIL = [sys.executable, "-c", "raise SystemExit(1)"]
+
+
+@pytest.fixture
+def with_test(root: Path) -> Path:
+    _write(root, "tests/test_prompts.py", "def test_ok():\n    assert True\n")
+    _git(root, "add", ".")
+    _git(root, "commit", "-q", "-m", "add prompt test")
+    return root
+
+
+def test_recorded_pass_supports_and_counts_until_its_test_changes(with_test: Path) -> None:
+    done = record(with_test, "VS-WG5-PROMPTS", [PROMPTS], command=PASS)
+    obs = done.observation
+    assert obs.subject_revision == _git(with_test, "rev-parse", "HEAD")
+    assert obs.dependency_paths == [PROMPTS, "tests/test_prompts.py"]
+    assert [(a.evidence_requirement_ref, a.assessment) for a in obs.assessments] == [("ER-WG5-001-01", "SUPPORTS")]
+    assert "4 passed" in obs.result["output_tail"]
+
+    _git(with_test, "add", ".")
+    _git(with_test, "commit", "-q", "-m", "record")
+    er = _sc(assess(with_test), "SC-WG5-001").requirements[0]
+    assert (er.status, er.detail) == ("SUPPORTED", f"supported by {obs.observation_id}")
+
+    _write(with_test, "tests/test_prompts.py", "def test_ok():\n    assert 1\n")
+    _git(with_test, "commit", "-qam", "edit test")
+    assert _sc(assess(with_test), "SC-WG5-001").requirements[0].status == "NO_CURRENT_SUPPORT"
+
+
+def test_recorded_failure_refutes(with_test: Path) -> None:
+    obs = record(with_test, "VS-WG5-PROMPTS", [], command=FAIL).observation
+    assert obs.assessments[0].assessment == "REFUTES"
+    assert obs.result["exit_code"] == 1
+
+
+def test_partial_coverage_is_recorded_inconclusive(with_test: Path) -> None:
+    obs = record(with_test, "VS-WG5-PROMPTS", [], command=PASS, downgrade_basis="schema not checked").observation
+    assert (obs.assessments[0].assessment, obs.assessments[0].basis) == ("INCONCLUSIVE", "schema not checked")
+
+
+def test_uncommitted_dependency_is_refused(with_test: Path) -> None:
+    _write(with_test, PROMPTS, "PROMPT = 'edited'\n")
+    with pytest.raises(EvidenceError, match="commit before observing"):
+        record(with_test, "VS-WG5-PROMPTS", [PROMPTS], command=PASS)
+
+
+def test_human_review_and_external_subjects_are_refused(with_test: Path) -> None:
+    with pytest.raises(EvidenceError, match="human_review"):
+        record(with_test, "VS-WG5-BRIAN-FINDING", [], command=PASS)
+    with pytest.raises(EvidenceError, match="unknown verification subject"):
+        record(with_test, "VS-NOPE", [], command=PASS)
+
+
+def test_second_record_at_same_revision_gets_a_new_id(with_test: Path) -> None:
+    a = record(with_test, "VS-WG5-PROMPTS", [], command=PASS).observation.observation_id
+    b = record(with_test, "VS-WG5-PROMPTS", [], command=PASS).observation.observation_id
+    assert b == a + "-2"
+    assert len(assess(with_test).observations) == 2

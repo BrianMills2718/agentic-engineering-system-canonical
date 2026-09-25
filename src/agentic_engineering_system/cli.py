@@ -4,6 +4,7 @@
     aes context <subject> [--root DIR] [--format markdown|json]
     aes topology check [--root DIR]
     aes evidence status [--root DIR]
+    aes evidence record <VS-ID> [--depends-on PATH ...] [--command ...] [--inconclusive BASIS] [--root DIR]
 
 Exit 0 on success, 1 on any load/validation/context/topology error or orphan (message on stderr),
 2 on usage errors (argparse).
@@ -16,7 +17,7 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 
-from .evidence import EvidenceError, assess
+from .evidence import EvidenceError, assess, record
 from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
 from .records import RecordLoadError, TargetValidationError, load_project, load_target
@@ -46,6 +47,15 @@ def _build_parser() -> argparse.ArgumentParser:
     evidence_sub = evidence.add_subparsers(dest="evidence_command", required=True)
     status = evidence_sub.add_parser("status", help="standing of every success criterion (decision D2)")
     status.add_argument("--root", type=Path, default=Path("."), help="project root (default: .)")
+    rec = evidence_sub.add_parser("record", help="run a deterministic-test verification subject and write its observation")
+    rec.add_argument("subject", help="verification subject ID (VS-...)")
+    rec.add_argument("--depends-on", action="append", default=[], metavar="PATH",
+                     help="repository path the result depends on (repeatable); the test file is always included")
+    rec.add_argument("--command", nargs=argparse.REMAINDER,
+                     help="command to run instead of the ecosystem default (python: pytest on the locator)")
+    rec.add_argument("--inconclusive", metavar="BASIS",
+                     help="record a pass as INCONCLUSIVE, with this reason (test covers only part of the requirement)")
+    rec.add_argument("--root", type=Path, default=Path("."), help="project root (default: .)")
     return parser
 
 
@@ -88,6 +98,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             return _cmd_context(args.root, args.subject, args.format)
         if args.command == "topology" and args.topology_command == "check":
             return _cmd_topology_check(args.root)
+        if args.command == "evidence" and args.evidence_command == "record":
+            done = record(args.root, args.subject, args.depends_on, args.command or None, args.inconclusive)
+            a = done.observation.assessments
+            print(f"wrote {done.path}\n  {a[0].assessment if a else 'no assessment'} for "
+                  f"{', '.join(x.evidence_requirement_ref for x in a)} at {done.observation.subject_revision[:12]}")
+            return 0
         if args.command == "evidence" and args.evidence_command == "status":
             print(render_evidence(assess(args.root)))
             return 0
