@@ -186,11 +186,18 @@ success_criteria:
         requirement: >
           Generated/projected context contains exact applicable semantic text and
           provenance for the selected governed subject.
+      # Re-scoped 2026-09-25 (24-pre-probe-decisions.md sections 18 and 20; accepted
+      # on AES canonical as PLAN-AES-RESCOPE-CONTEXT-AB). Was: "A fresh-agent
+      # comparison shows whether bounded projected context reduces reconstruction
+      # cost and missed obligations on one real change." Two runs could not
+      # distinguish the arms; that discovery claim is recorded as not established.
       - id: ER-SC-GF-005-02
         kind: external_consumer_observation
         requirement: >
-          A fresh-agent comparison shows whether bounded projected context reduces
-          reconstruction cost and missed obligations on one real change.
+          A fresh-agent comparison on one real change, scored against a pre-registered
+          sheet, is run and retained at exact revisions with its verdict either way;
+          two such runs (probe 0 on whygame5 at ~300 lines, phase 6 on AES itself at
+          ~4,000 governed lines) are the minimum.
 
   - id: SC-GF-006
     target_refs: [GF-REQ-006]
