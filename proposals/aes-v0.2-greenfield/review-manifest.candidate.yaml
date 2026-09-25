@@ -90,12 +90,12 @@ resolved_preimplementation_decisions_2026_09_25:
   - evidence_requirement_composition_shape: conjunction_only
   - governed_artifact_scope: declared_governed_roots_in_project_yaml
   - build_order: probe_0_context_ab_test_first
+  - authentic_fresh_consumer: BrianMills2718/whygame5
 
 remaining_preimplementation_decisions:
   - evidence_assessment_record_materialization
   - exact_Python_version_range
   - exact_dependency_versions_and_clean_install_probe
   - stdlib_AST_minimum_vs_Griffe_after_bounded_probe
-  - authentic_fresh_consumer_selection_specific_tool_not_yet_named
   - v0_2_acceptance_and_v0_1_supersession_boundary
   - v0_1_runtime_artifact_disposition_before_final_cutover

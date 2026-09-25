@@ -118,7 +118,19 @@ the "new project from inception" requirement:
 | weekly ChatGPT supervisor dispatch | exists with 11 passing tests |
 | Never Absolute formation checklist (Priority 4) | not a tool; a legal filing |
 
-**Open:** Brian names the tool. Selection criteria the tool must meet:
+**Named by Brian, 2026-09-25: a new version of WhyGame.** Repository
+`BrianMills2718/whygame5`, a fresh private repo governed by AES from its first
+commit. Lineage: `whygame4` (recursive why-questioning into a graph) was
+superseded by `whygame-reboot` (graph as adversary). Brian's recorded
+judgement on the reboot's Plan 2 (2026-09-07) found that both runs' conflicts
+were planted by the proposal prompt, not found by the evaluator; the reboot's
+own deferred next goal was "an evaluator that can find its own conflicts
+rather than a planted one." That is the first accepted outcome of the new
+version. Neither prior repository is modified; `whygame-reboot` remains the
+Project Graph's current WhyGame generation until the new version earns
+supersession through Project Meta.
+
+Original open text: Selection criteria the tool must meet:
 Python, new Git repository, real user this week, at least two implementation
 files and one test file, one public function whose signature is a genuine
 commitment, one criterion that a passing test alone cannot establish (human

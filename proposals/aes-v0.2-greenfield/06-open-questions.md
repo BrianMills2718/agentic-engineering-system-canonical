@@ -264,7 +264,7 @@ compatibility contract after clean-install/round-trip probes?
 
 ### 20. Authentic Greenfield consumer and control
 
-**Selection rule resolved 2026-09-25 (`24-pre-probe-decisions.md` §2, option A approved by Brian); the specific tool is still to be named. Control isolation rule: §3 step 3.**
+**Selection rule resolved 2026-09-25 (`24-pre-probe-decisions.md` §2, option A approved by Brian); the consumer is `BrianMills2718/whygame5` (named by Brian 2026-09-25). Control isolation rule: §3 step 3.**
 
 Candidate direction:
 
