@@ -23,7 +23,7 @@ and AES v0.2 replaces v0.1 as the surface AES canonical itself is governed by.
 
 | criterion | what proves it | standing today | unit |
 | --- | --- | --- | --- |
-| SC-GF-001 clean-user install + init | a clean-user run reaches initialized state | not started: no `aes init`, no versioned distribution | PROJECT, DISTRIBUTION |
+| SC-GF-001 clean-user install + init | a clean-user run reaches initialized state | mechanism realized; on-machine clean-user run passed at `0503735` (`evidence/greenfield/clean-user-run-2026-09-25.md`); true no-private-access run deferred by decision (§6 note) | PROJECT, DISTRIBUTION |
 | SC-GF-002 obligations linked to criteria and evidence | contract validation on the target | mechanism realized (`records.py`, `aes target validate`); no AES-side observation recorded | RECORDS |
 | SC-GF-003 topology accounts for every governed artifact | orphan rejected; planned topology accepted | mechanism realized (`topology.py`); real orphan caught on whygame5 (§6, §8); no AES-side observation recorded | TOPOLOGY |
 | SC-GF-004 every evidence requirement has a route | validate ERs against verification topology | mechanism realized: `aes plan validate`/`accept` refuse a proposal whose resulting target has an ER with neither a verification subject nor an external boundary (`planning.py`, `test_planning.py`, §15); a whygame5 plan accepted on a clone only, so no consumer observation recorded; `aes target validate` (and so the `aes hooks install` pre-commit hook) enforces routes on the whole target since phase 6a (§16), effective on whygame5 after its next pin bump | PLANNING |
@@ -147,6 +147,13 @@ recorded as an observation in AES canonical's own `.aes/observations/`
 
 Exit gate: the clean-user run reaches initialized state without any file
 copied from a private repository.
+
+Decision (Brian, 2026-09-25): the AES repository stays private until AES has
+shown it provides value, so ER-SC-GF-001-01's evidence of record is the
+on-machine run above (fresh agent, page only, maintainer's credentials), and
+the true no-private-access run is deferred. Wrong when: a consumer other than
+whygame5 or AES itself needs to install AES; that is the trigger to make the
+distribution reachable and re-run the probe.
 
 Wrong when: the fresh agent has to read AES source, this proposals directory,
 or whygame5 to complete initialization.
