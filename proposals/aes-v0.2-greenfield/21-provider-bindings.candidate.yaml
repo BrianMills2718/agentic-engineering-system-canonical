@@ -91,10 +91,11 @@ bindings:
       src/agentic_engineering_system/planning.py plus
       src/agentic_engineering_system/planning_protocol.md
     planning_reasoning_provider:
-      status: unresolved
+      status: portable_protocol_boundary_defined
       rule: >
-        The reasoning provider may be human or agentic, but the Greenfield
-        distribution cannot require private Company Planning access.
+        A human or agentic reasoning provider consumes the AES planning request
+        and emits an AES planning proposal. No private Company Planning
+        installation is required by the Greenfield core.
 
   - id: PB-GF-AES-TOPOLOGY
     capability_refs: [CAP-GF-TOPOLOGY]
@@ -110,7 +111,10 @@ bindings:
     semantic_boundary: typed_ref_driven_subject_context_projection
     replacement_boundary: src/agentic_engineering_system/context.py
     delivery_adapter:
-      status: unresolved
+      status: explicit_CLI_is_MVP_boundary
+      rule: >
+        aes context <subject> is sufficient for the core MVP. Automatic
+        Claude/Codex/IDE injection is an optional later adapter.
 
   - id: PB-GF-AES-CHARACTERIZE
     capability_refs: [CAP-GF-CHARACTERIZE]
@@ -190,13 +194,14 @@ explicit_rejections:
     still_candidate_for: provider_discovery_knowledge_source
 
 acceptance_blockers:
-  - planning_reasoning_provider_and_distribution_path
-  - working_context_delivery_adapter
   - exact_supported_Python_version_range
-  - exact_dependency_versions_and_package_installation
+  - exact_dependency_versions_and_clean_install_probe
   - proof_that_ruamel_and_pydantic_composition_round_trips_real_target_records
   - proof_that_Python_AST_slice_meets_SC_GF_006_without_false_dependency_claims
+  - decision_on_stdlib_AST_minimum_vs_Griffe_after_bounded_probe
+  - evidence_assessment_record_materialization
   - authentic_fresh_consumer_selection
+  - explicit_v0_2_acceptance_and_v0_1_supersession_boundary
 
 nonclaims:
   - no_binding_here_is_accepted_target_yet
