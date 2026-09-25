@@ -1,5 +1,7 @@
 # AES v0.2 donor/provider re-entry rule
 
+Review role: **supporting principle**. Current provider decisions are summarized in `21-provider-bindings.candidate.yaml`.
+
 Status: **candidate evaluation rule / non-normative**
 
 ## Purpose
