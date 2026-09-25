@@ -229,8 +229,8 @@ materially ahead, or shows arm B ahead. Either result is decisive; this one
 was not.
 
 Next: continue whygame5 toward its own `SC-WG5-001` (prompts, runner, live
-run) so the consumer grows for real reasons; build `topology.py` next on the
-AES side; rerun the A/B when whygame5 has a runner, report and CLI.
+run) so the consumer grows for real reasons; rerun the A/B when whygame5 has a
+runner, report and CLI. (`topology.py` was built next; see section 8.)
 
 ## 7. How the two decisions in this file were delivered, and the fix (2026-09-25)
 
@@ -244,3 +244,29 @@ and `whygame5/.aes/generated/review.html`; the guidance now lives in the
 router profile (structured proposal/target case, pre-ask checklist) and open
 question 22 here. Wrong-when: a second real decision delivered through the
 page is answered no faster or no better than prose would have been.
+
+## 8. Topology check realized, and the consumer now enforces it (2026-09-25)
+
+`aes topology check` (`src/agentic_engineering_system/topology.py`) realizes
+`RU-AES-TOPOLOGY` for exact paths. Durable means in the Git index, so ignored
+build output is not an orphan and a staged orphan fails before it is committed.
+Planned artifacts with no file yet are listed as unrealized, not failed.
+Bounded generation rules are not implemented because no consumer file needs one.
+
+Evidence:
+
+- `ER-SC-GF-003-01`: replayed on the real historical whygame5 commit `cceec15`,
+  where the egg-info was committed, the check exits 1 and names all six
+  `src/whygame5.egg-info/*` files. `tests/greenfield/test_topology.py` holds the
+  same case as a regression test.
+- `ER-SC-GF-003-02`: on whygame5 `main@9c9ee2a` the check exits 0 with 6
+  governed files and 5 unrealized planned artifacts.
+
+whygame5 now runs `aes target validate` and `aes topology check` from its own
+test suite and a committed pre-commit hook, with AES as a pinned dev
+dependency, so an agent working there hits the rules without being told to
+reach into this repository.
+
+Wrong-when: a real whygame5 change needs a generated file under a governed root
+that cannot be listed by exact path (implement generation rules then), or an
+agent commits an orphan in whygame5 without the hook or the tests catching it.

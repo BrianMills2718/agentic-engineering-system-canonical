@@ -2,8 +2,9 @@
 
     aes target validate [--root DIR]
     aes context <subject> [--root DIR] [--format markdown|json]
+    aes topology check [--root DIR]
 
-Exit 0 on success, 1 on any load/validation/context error (message on stderr),
+Exit 0 on success, 1 on any load/validation/context/topology error or orphan (message on stderr),
 2 on usage errors (argparse).
 """
 
@@ -16,6 +17,7 @@ from pathlib import Path
 
 from .context import ContextError, project_context, render_json, render_markdown
 from .records import RecordLoadError, TargetValidationError, load_project, load_target
+from .topology import TopologyError, check_topology, render_report
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -31,6 +33,11 @@ def _build_parser() -> argparse.ArgumentParser:
     context.add_argument("subject", help="a declared ID: component, artifact, criterion, normative item or outcome")
     context.add_argument("--root", type=Path, default=Path("."), help="project root (default: .)")
     context.add_argument("--format", choices=["markdown", "json"], default="markdown")
+
+    topology = sub.add_parser("topology", help="compare governed roots in Git with planned artifacts")
+    topology_sub = topology.add_subparsers(dest="topology_command", required=True)
+    check = topology_sub.add_parser("check", help="fail on any governed file the target does not plan")
+    check.add_argument("--root", type=Path, default=Path("."), help="project root (default: .)")
     return parser
 
 
@@ -58,6 +65,12 @@ def _cmd_context(root: Path, subject: str, fmt: str) -> int:
     return 0
 
 
+def _cmd_topology_check(root: Path) -> int:
+    report = check_topology(root)
+    print(render_report(report), file=sys.stdout if report.ok else sys.stderr)
+    return 0 if report.ok else 1
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
     try:
@@ -65,7 +78,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             return _cmd_target_validate(args.root)
         if args.command == "context":
             return _cmd_context(args.root, args.subject, args.format)
-    except (RecordLoadError, TargetValidationError, ContextError) as exc:
+        if args.command == "topology" and args.topology_command == "check":
+            return _cmd_topology_check(args.root)
+    except (RecordLoadError, TargetValidationError, ContextError, TopologyError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     raise AssertionError(f"unhandled command {args.command!r}")  # argparse prevents this
