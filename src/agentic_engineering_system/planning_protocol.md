@@ -30,14 +30,27 @@ on the side.
      entry, matched by `id` (by `evidence_requirement_ref` for external
      boundaries). Omitted fields are not kept: repeat them. To add an
      evidence requirement to an existing criterion, change the criterion;
+   - `target_delta.remove.<family>`: the keys of entries to delete (`id`, or
+     `evidence_requirement_ref` for external boundaries). Nothing left in the
+     resulting target may still reference a removed entry, or an evidence
+     requirement nested in a removed criterion: change or remove those
+     entries in the same proposal. To remove one evidence requirement, change
+     its criterion. A key appears in one section only; a rename is a `remove`
+     plus an `add`, with every reference changed;
    - `outside_governed_roots`: `{artifact_ref, reason}` for each added or
      changed planned artifact whose path is not under a governed root. Only
      non-source artifacts may be there.
-   There is no `remove` in this probe. Removing or renaming an entry is a
-   hand edit of the target, committed on its own and reviewed as such.
+   A removed planned artifact under a governed root must have left the Git
+   index first: `git mv` it out of the governed roots (or `git rm` it) and
+   commit that before accepting, since accept needs a clean tree. Until the
+   removal is accepted the target lists it as unrealized, which the hook
+   allows; after, it is simply gone.
 3. **Validate until clean.** `aes plan validate <proposal>` applies the delta
-   in memory and lists every violation: a `change` for an id the target lacks
-   or an `add` for one it has; any strict target violation of the result
+   in memory and lists every violation: a `change` or `remove` for an id the
+   target lacks, an `add` for one it has, or a key in two sections; every
+   reference the result still holds to a removed entry, with its location; a
+   removed planned artifact whose file is still in the Git index under a
+   governed root (the topology check would orphan it); any strict target violation of the result
    (unique ids across families, every ref resolves, every criterion has at
    least one evidence requirement); every evidence requirement in the result
    without a route (a verification subject naming it in
@@ -50,7 +63,8 @@ on the side.
    `.aes/plans/<proposal_id>.yaml` exists. Otherwise it edits the target in
    place (comments, order and styles kept; added entries at the end of their
    family as written in the proposal; changed entries replaced where they
-   stand), writes `.aes/plans/<proposal_id>.yaml` (the proposal plus
+   stand; removed entries deleted, the comment or blank line that followed
+   one kept), writes `.aes/plans/<proposal_id>.yaml` (the proposal plus
    `accepted_at_revision`, the HEAD it was validated against, and
    `accepted_at`, UTC), and prints what changed. It does not commit.
 5. **Commit target and plan together**, in one commit and nothing else in it:
