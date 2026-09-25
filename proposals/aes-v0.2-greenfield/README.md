@@ -54,23 +54,23 @@ are explicit, obtainable, documented, and replaceable where appropriate.
 ## Core architectural hypothesis
 
 ```text
-accepted intent
+accepted outcome + normative target
     ↓
-normative model
+qualified current + gap
     ↓
 AES planning
     ↓
-planned repository + verification topology
+accepted realization + verification topology
     ↓
-generated working/source context
+bounded working context
     ↓
 native implementation
     ↓
-realized-source characterization
+realized-repository characterization
     ↓
-evidence
+observations + evidence assessment
     ↓
-current
+qualified current
     ↓
 gap
     ↓
@@ -81,6 +81,12 @@ Git is the baseline source lineage. A separate append-only semantic event layer
 is deferred until Greenfield-MVP work demonstrates lifecycle information that
 Git plus accepted authorities plus revision-bound observations/evidence cannot
 represent cleanly.
+
+## Fresh review
+
+Start with **`REVIEW.md`**. It defines the review question, current candidate
+reading order, artifact status, and decisions still open. Do not reconstruct the
+architecture chronologically from the numbered files.
 
 ## Proposal artifacts
 
@@ -101,8 +107,10 @@ represent cleanly.
 - `15-planning-contract.candidate.yaml` — design-delta → accepted target → recomputed gap → execution-plan contract.
 - `16-record-shapes.candidate.yaml` — candidate project/target/analysis/plan/observation/generated record shapes.
 - `17-provider-evaluation-contract.candidate.yaml` — capability-first gate every old or external provider must pass.
-- `18-provider-evaluation-round-1.md` — capability-by-capability dispositions for prior/private systems and core residuals.
-- `19-provider-evaluation-round-2-generic-dependencies.md` — candidate Git/Python/ruamel.yaml/Pydantic dependency baseline.
+- `18-internal-provider-evaluation.candidate.yaml` — detailed internal-donor evidence; supporting, not controlling.
+- `18-provider-evaluation-round-1.md` — synthesized internal-provider rationale; supporting.
+- `19-public-native-provider-evaluation.candidate.yaml` — detailed public/native provider evidence; supporting.
+- `19-provider-evaluation-round-2-generic-dependencies.md` — synthesized generic-dependency rationale; supporting.
 - `20-realization-topology.candidate.yaml` — exact candidate source/test topology and selected symbol commitments.
 - `21-provider-bindings.candidate.yaml` — explicit candidate bindings and rejected default providers.
 - `22-portable-provider-boundaries.md` — provider-neutral planning exchange and explicit context CLI boundary.
@@ -121,5 +129,6 @@ This proposal does **not**:
 - claim retrofit support;
 - claim the candidate YAML shapes are final schemas.
 
-The next gate is semantic review. Implementation/provider selection follows only
-after the information model and lifecycle are accepted enough to test.
+The next gate is a **fresh pre-implementation architecture review** of the
+current candidate snapshot. Provider evaluation has already been performed at
+proposal level; no implementation/provider binding is accepted yet.
