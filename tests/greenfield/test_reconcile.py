@@ -187,6 +187,26 @@ def test_requirement_without_verification_subject_is_reported_as_no_route(root: 
     assert r.ok  # a missing route is a planning gap, not a failure
 
 
+def test_requirement_with_external_boundary_is_routed(root: Path) -> None:
+    """An external boundary is a route, as `aes target validate` already accepts (SC-GF-004)."""
+    path = root / ".aes" / "target.yaml"
+    head, _ = path.read_text(encoding="utf-8").split("  - id: VS-WG5-BRIAN-REPORT\n", 1)
+    path.write_text(head + "external_boundaries:\n  - evidence_requirement_ref: ER-WG5-005-01\n"
+                    "    boundary: Brian reviews the report outside the repository\n", encoding="utf-8")
+    _commit(root, "route ER-WG5-005-01 through an external boundary instead of a subject")
+
+    r = reconcile(root)
+    missing = next(c for c in r.criteria if c.criterion_id == "SC-WG5-005").missing
+    assert [(m.er_id, m.has_route, m.verification_subject_refs, m.external_boundary) for m in missing] == [
+        ("ER-WG5-005-01", True, [], "Brian reviews the report outside the repository")]
+    gap = next(g for g in next(c for c in r.components if c.component_id == "CMP-WG5-REPORT").gaps
+               if g.ref == "SC-WG5-005")
+    assert gap.detail == "ER-WG5-005-01 NO_CURRENT_SUPPORT"
+    assert "0 unsupported evidence requirement(s) with no route" in render_status(r)
+    assert ("ER-WG5-005-01: NO_CURRENT_SUPPORT - no observation assesses it; "
+            "route: external boundary (Brian reviews the report outside the repository)") in render_report(r)
+
+
 # --------------------------------------------------------------------------- #
 # Exit codes
 # --------------------------------------------------------------------------- #
