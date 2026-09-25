@@ -46,6 +46,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
+from pydantic import computed_field
+
 from .characterize import Producer, _git, characterize, drift
 from .evidence import Freshness, Standing, assess
 from .records import StrictModel, TargetRecord, load_project, load_target
@@ -97,6 +99,16 @@ class Gap(StrictModel):
     ref: str
     detail: str
 
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def id(self) -> str:
+        """`<kind>:<ref>`, the handle a plan proposal names in `closes_gaps`.
+
+        The kind is part of it so a proposal written against an insufficient
+        criterion no longer matches once that criterion is refuted.
+        """
+        return f"{self.kind}:{self.ref}"
+
 
 class ComponentState(StrictModel):
     component_id: str
@@ -128,6 +140,13 @@ class Reconciliation(StrictModel):
     @property
     def ok(self) -> bool:
         return not self.failures
+
+    def open_gaps(self) -> list[Gap]:
+        """Every open gap once, in report order (a criterion gap can appear under several components)."""
+        seen: dict[str, Gap] = {}
+        for g in [g for comp in self.components for g in comp.gaps] + self.unassigned_gaps:
+            seen.setdefault(g.id, g)
+        return list(seen.values())
 
 
 def _present_at_head(root: Path, paths: list[str]) -> set[str]:

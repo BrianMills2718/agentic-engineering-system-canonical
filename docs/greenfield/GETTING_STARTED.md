@@ -65,81 +65,154 @@ git add .gitignore pyproject.toml .aes .githooks
 git commit -q -m "Initialize AES"
 ```
 
-## 3. Plan the work in `.aes/target.yaml`
+## 3. Plan the work: propose, validate, accept
 
-The initial target holds only the outcome. Open `.aes/target.yaml` and replace
-the empty lists so that one chain runs from the outcome to a test: outcome
-`OUT-001` → normative item `NI-001` → success criterion `SC-001` with evidence
-requirement `ER-001-01` → planned artifacts for the code and the test →
-verification subject `VS-001`, which says which test proves the requirement.
+The initial target holds only the outcome. Plan one chain from the outcome to
+a test before writing code: outcome `OUT-001` → normative item `NI-001` →
+success criterion `SC-001` with evidence requirement `ER-001-01` → planned
+artifacts for the code and the test → verification subject `VS-GREET`, which
+says which test proves the requirement.
+
+You write that as a proposal: the entries to add to the target, plus the ids
+of the open gaps it closes. `aes plan prepare` prints what to write against:
+the open gaps (none yet, on a new target), every id the target already
+declares, and an empty proposal (`proposal_skeleton`) to copy.
 
 ```bash
-cat > .aes/target.yaml <<'YAML'
-schema_version: aes.v0_2.target.probe0
-target_id: greeter-target
-
-outcomes:
-  - id: OUT-001
-    actor_or_consumer: a script author who needs a greeting
-    statement: Calling greet with a name returns a greeting that contains that name.
-
-normative_items:
-  - id: NI-001
-    kind: behavior
-    outcome_refs: [OUT-001]
-    statement: >
-      greet(name) returns "Hello, <name>!" and rejects an empty name with
-      ValueError instead of greeting nobody.
-
-success_criteria:
-  - id: SC-001
-    statement: greet greets a given name and refuses an empty one.
-    target_refs: [NI-001]
-    disproof: >
-      greet returns a string without the name, or returns anything for an
-      empty name.
-    evidence_requirements:
-      - id: ER-001-01
-        kind: deterministic_test
-        requirement: >
-          A test calls greet("Ada") and checks the exact greeting, and checks
-          that greet("") raises ValueError.
-
-components:
-  - id: CMP-GREETER
-    responsibility: produce greetings
-    target_refs: [NI-001]
-    planned_artifact_refs: [ART-PKG, ART-TEST-GREET]
-
-planned_artifacts:
-  - id: ART-PKG
-    locator: {exact_path: src/greeter/__init__.py}
-    kind: source
-    purpose: the greet function
-    semantic_justification_refs: [NI-001]
-  - id: ART-TEST-GREET
-    locator: {exact_path: tests/test_greet.py}
-    kind: test
-    purpose: prove SC-001
-    semantic_justification_refs: [SC-001]
-
-verification_subjects:
-  - id: VS-GREET
-    criterion_refs: [SC-001]
-    evidence_requirement_refs: [ER-001-01]
-    proof_kind: deterministic_test
-    proof_role: direct
-    locator: tests/test_greet.py
-    purpose: prove greet greets a name and refuses an empty one
-YAML
-aes target validate
-aes topology check
+aes plan prepare
 ```
 
-`aes target validate` loads the file strictly: an unknown field, a duplicate
-key or ID, or a reference to an ID that does not exist fails with its
-location. `aes topology check` lists both planned files as
-`unrealized` (planned, not yet written), which is not a failure.
+```text
+schema_version: aes.v0_2.plan_input.probe0
+target_id: greeter-target
+subject_revision: 8801d313294da670343e300c6ceb7a39d3085c0a
+dirty: false
+governed_roots:
+  - src/
+  - tests/
+open_gaps: []
+unrouted_evidence_requirements: []
+target_ids:
+  outcomes:
+    - OUT-001
+...
+```
+
+Write the proposal outside `.aes/`:
+
+```bash
+cat > plan-greeter.yaml <<'YAML'
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-001-GREET
+title: Greet by name
+rationale: >
+  OUT-001 has nothing planned under it yet. This plans one chain from the
+  outcome to a test before any code is written.
+closes_gaps: []
+target_delta:
+  add:
+    normative_items:
+      - id: NI-001
+        kind: behavior
+        outcome_refs: [OUT-001]
+        statement: >
+          greet(name) returns "Hello, <name>!" and rejects an empty name with
+          ValueError instead of greeting nobody.
+    success_criteria:
+      - id: SC-001
+        statement: greet greets a given name and refuses an empty one.
+        target_refs: [NI-001]
+        disproof: >
+          greet returns a string without the name, or returns anything for an
+          empty name.
+        evidence_requirements:
+          - id: ER-001-01
+            kind: deterministic_test
+            requirement: >
+              A test calls greet("Ada") and checks the exact greeting, and checks
+              that greet("") raises ValueError.
+    components:
+      - id: CMP-GREETER
+        responsibility: produce greetings
+        target_refs: [NI-001]
+        planned_artifact_refs: [ART-PKG, ART-TEST-GREET]
+    planned_artifacts:
+      - id: ART-PKG
+        locator: {exact_path: src/greeter/__init__.py}
+        kind: source
+        purpose: the greet function
+        semantic_justification_refs: [NI-001]
+      - id: ART-TEST-GREET
+        locator: {exact_path: tests/test_greet.py}
+        kind: test
+        purpose: prove SC-001
+        semantic_justification_refs: [SC-001]
+    verification_subjects:
+      - id: VS-GREET
+        criterion_refs: [SC-001]
+        evidence_requirement_refs: [ER-001-01]
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/test_greet.py
+        purpose: prove greet greets a name and refuses an empty one
+YAML
+aes plan validate plan-greeter.yaml
+```
+
+`aes plan validate` applies the proposal to a copy of the target in memory
+and lists every problem at once. Without the `verification_subjects` entry,
+for example, it refuses because nothing would ever prove the requirement:
+
+```text
+error: proposal PLAN-001-GREET: 1 violation(s):
+  - evidence requirement 'ER-001-01' (criterion 'SC-001') has no route: no verification subject names it in evidence_requirement_refs and external_boundaries does not list it
+```
+
+With it:
+
+```text
+OK proposal PLAN-001-GREET: 6 addition(s), 0 change(s)
+  closes: no current gap (target extension)
+  resulting target: success_criteria=1 evidence_requirements=1 verification_subjects=1 external_boundaries=0; every evidence requirement has a route
+```
+
+Accept it, then commit the target and the plan together:
+
+```bash
+aes plan accept plan-greeter.yaml
+rm plan-greeter.yaml
+git add .aes
+git commit -q -m "Plan PLAN-001-GREET"
+```
+
+```text
+accepted at 8801d313294da670343e300c6ceb7a39d3085c0a
+  added normative_items NI-001
+  added success_criteria SC-001
+  added components CMP-GREETER
+  added planned_artifacts ART-PKG
+  added planned_artifacts ART-TEST-GREET
+  added verification_subjects VS-GREET
+  updated .aes/target.yaml
+  wrote .aes/plans/PLAN-001-GREET.yaml
+  next: git add .aes/target.yaml .aes/plans/PLAN-001-GREET.yaml && git commit, then implement
+```
+
+`aes plan accept` refuses while the working tree has uncommitted changes, when
+the proposal does not validate, and when a plan with the same id was already
+accepted. It edits `.aes/target.yaml` in place (comments and order kept, new
+entries at the end of their list) and keeps the proposal, with the commit it
+was accepted at, in `.aes/plans/`. It does not commit. The full protocol,
+including how to change an existing entry, is in
+`src/agentic_engineering_system/planning_protocol.md` in the AES repository.
+Editing `.aes/target.yaml` by hand still works; the hook checks the result
+either way.
+
+The pre-commit hook ran `aes target validate` and `aes topology check` on the
+plan commit; the topology check lists both planned files as `unrealized`
+(planned, not yet written), which is not a failure. `aes target validate`
+loads the target strictly: an unknown field, a duplicate key or ID, or a
+reference to an ID that does not exist fails with its location.
 
 `aes context` prints what someone working on one ID needs to know: the chain
 above and below it, with the source of each line.
@@ -172,7 +245,7 @@ def test_refuses_an_empty_name() -> None:
     with pytest.raises(ValueError):
         greet("")
 PY
-git add .aes/target.yaml src tests
+git add src tests
 git commit -q -m "Greet by name"
 ```
 
@@ -253,6 +326,9 @@ through a new observation or a change to the code or the target.
 | `aes hooks install` | install the pre-commit gate |
 | `aes target validate` | strictly load and check the target |
 | `aes topology check` | fail on any tracked governed file the target does not plan |
+| `aes plan prepare [--out FILE]` | open gaps, existing ids and an empty proposal to write against |
+| `aes plan validate FILE` | apply a proposal in memory and list every violation |
+| `aes plan accept FILE` | apply a valid proposal to the target and keep it in `.aes/plans/` (no commit) |
 | `aes context ID` | compile the working context for one ID |
 | `aes evidence record VS-ID [--depends-on PATH]` | run a test subject and write its observation |
 | `aes evidence status` | standing of every success criterion |
