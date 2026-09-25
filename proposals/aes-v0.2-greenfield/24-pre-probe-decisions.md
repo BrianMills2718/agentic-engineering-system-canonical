@@ -231,3 +231,16 @@ was not.
 Next: continue whygame5 toward its own `SC-WG5-001` (prompts, runner, live
 run) so the consumer grows for real reasons; build `topology.py` next on the
 AES side; rerun the A/B when whygame5 has a runner, report and CLI.
+
+## 7. How the two decisions in this file were delivered, and the fix (2026-09-25)
+
+Both decisions handed to Brian today (the PR #35 verdict, and confirming the
+whygame5 outcome) went out as terminal prose with lettered options. Measured
+against Representation Router `references/planning-review.md` and AES's own
+`HUMAN_OBSERVABLE_DELIVERY.md` §7, that was the wrong surface: the coverage
+shape (which criteria have proof, which files exist, what nothing planned)
+was invisible. The fix is the temporary renderer `scripts/probe/render_review.py`
+and `whygame5/.aes/generated/review.html`; the guidance now lives in the
+router profile (structured proposal/target case, pre-ask checklist) and open
+question 22 here. Wrong-when: a second real decision delivered through the
+page is answered no faster or no better than prose would have been.

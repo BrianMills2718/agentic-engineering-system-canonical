@@ -294,6 +294,35 @@ What exact artifact/decision and Git revision marks that cutover, what v0.1
 material remains live in the working tree, and what class of later semantic change
 requires v0.3 instead of additive v0.2 capability maturity?
 
+### 22. Human review surface
+
+Candidate direction (added 2026-09-25):
+
+`aes review` renders one self-contained HTML page under `.aes/generated/`
+from target.yaml, generated current/gaps and the realized repository:
+pending human decision first, then outcome, normative items, criterion to
+evidence-requirement to verification-subject coverage with existence and
+execution marks, component to file map, and orphan files under governed
+roots. It is a derived projection in the sense of `02-semantic-model`
+`human_navigation_and_review` and is never authority. It follows
+Representation Router `references/planning-review.md` ("Reviewing a
+structured proposal or target before implementation").
+
+Evidence: `whygame5/.aes/generated/review.html` at whygame5 d989e8c, rendered
+by `scripts/probe/render_review.py` (probe-0-review branch). This was built
+after the first two v0.2 decisions (PR #35 accept/revise/reject, whygame5
+outcome confirmation) were delivered to Brian as terminal prose, which lost
+the coverage shape the decision depended on.
+
+Review question:
+
+Should `aes review` join the realization topology now, or only after a second
+consumer use of the temporary renderer shows it reduced review cost? The
+router's own rule says temporary first; the counter-argument is that AES's
+delivery doc (`HUMAN_OBSERVABLE_DELIVERY.md` §7) already requires "the
+smallest source-bound review surface" at every checkpoint, so the surface is
+not optional.
+
 ## Explicitly deferred
 
 Not prerequisites for the Greenfield MVP:

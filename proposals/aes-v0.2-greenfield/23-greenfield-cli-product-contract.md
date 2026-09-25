@@ -269,6 +269,18 @@ Compact output should answer:
 
 It is a projection, not another authority.
 
+## 12a. Human review surface (candidate, added 2026-09-25)
+
+~~~text
+aes review [--decision <file>]
+~~~
+
+Writes `.aes/generated/review.html`: a self-contained page a person opens
+with `file://` to judge the accepted target and its realization without
+reading YAML. Pending decision first, then intent, rules, proof coverage with
+existence marks, file map, orphans. Derived, never authority. See open
+question 22. Temporary renderer: AES `scripts/probe/render_review.py`.
+
 ## 13. Optional adapters
 
 Not required for core MVP:
