@@ -849,3 +849,174 @@ Decisions:
   `PLAN-<id>.yaml` as `16-record-shapes` sketched; the id is whatever the
   author chose, with a file-name-safe pattern. Wrong-when: two consumers'
   plan ids collide in a shared review surface for want of a prefix.
+
+## 16. Evidence fixes: entry-level target dependencies, negative controls, running-code producer, routed-ER gate (2026-09-25)
+
+Roadmap phase 6a (`25-roadmap-to-mvp-acceptance.md`): three evidence-model
+kinks the consumer exposed, and phase 5's unmet exit gate, fixed before AES
+records evidence about itself. Realized:
+
+- **Entry-level target dependencies** (`evidence.py`). An observation may carry
+  `dependency_target_refs: [ids]`. For each, the id's whole entry (a criterion
+  with its nested evidence requirements, a verification subject, an artifact,
+  ...) is taken from `git show <rev>:<target_path>` loaded strictly, serialized
+  as canonical JSON, and compared between the observed revision and HEAD:
+  changed or gone at HEAD is STALE, unchanged is CURRENT whatever else changed
+  in the file. An id absent at the observed revision fails loudly.
+  `dependency_paths` keeps real files; `.aes/target.yaml` listed there is the
+  coarse form and keeps file-level staleness. No existing record is rewritten.
+  `aes evidence record` now writes `dependency_target_refs` = the verification
+  subject, the evidence requirements it assesses, and every planned artifact
+  whose path is among the dependency paths, and refuses while the target has
+  uncommitted changes (the refs name entries as committed).
+- **Negative controls** (`evidence.py`). Optional `control: {kind: negative,
+  base_revision, mutation, expected_outcome: detected, observed_outcome:
+  detected|missed}`. Freshness is computed from `base_revision` (the unmodified
+  commit the mutation was made from), which must be on a branch (local or
+  remote-tracking) and an ancestor of `subject_revision`; `subject_revision`
+  may be on no branch as long as it resolves. The load rejects `detected` with
+  a result whose `exit_code` is 0 (the tool passed the mutated revision) and
+  any assessment the outcome does not allow: `detected` permits SUPPORTS or
+  INCONCLUSIVE, `missed` permits only REFUTES, so a control that failed
+  refutes its requirement instead of supporting it.
+- **Producer version from the running code** (`characterize.running_version`).
+  Characterize, reconcile (which reuses characterize's producer), the
+  `aes evidence record` observer/assessor and `aes --version` now report the
+  installed distribution version plus ` (running: <git describe --always
+  --dirty>)` when the executing module file is tracked by a Git checkout, the
+  installed version alone otherwise (a venv's site-packages inside a consumer
+  checkout is not tracked by it, so the consumer's commit is never reported as
+  AES's), `not installed (running: ...)` without a distribution, and an error
+  when neither exists. From this branch's worktree:
+  `0.1.dev371+g4979c9df8 (running: 4979c9d-dirty)` while uncommitted; the
+  metadata part is still the main checkout's install, the running part is the
+  worktree's. `aes evidence record` used to write `unknown` when not installed;
+  it now fails.
+- **Routed-ER gate** (`cli.py`, `planning.route_violations`). `aes target
+  validate` applies the whole-target SC-GF-004 rule `aes plan validate` already
+  applied to a resulting target, printing each unrouted evidence requirement
+  and exiting 1. The hook `aes hooks install` writes runs `aes target
+  validate`, so it now refuses a commit whose target has a criterion with no
+  route. No `--allow-unrouted`: the getting-started flow writes criteria and
+  their verification subjects in one proposal, and whygame5 has 0 unrouted.
+
+Evidence: `tests/greenfield/test_evidence_controls.py` (13 tests: the recorder's
+refs and dirty-target refusal; an unrelated target edit keeps an entry
+dependency CURRENT while the coarse form goes STALE on the same edit; an edited
+and a removed referenced entry each stale it; an absent ref and a duplicate ref
+are loud; a mutated revision is STALE without `control` and CURRENT with it,
+then STALE for its real dependency; `missed` + SUPPORTS rejected, `missed` +
+REFUTES makes the requirement REFUTED; exit 0 + `detected` rejected; a base on
+no branch and a base that is not the mutation's ancestor rejected);
+`test_characterize.py` (three running-version tests on a main checkout plus a
+linked worktree one commit ahead, a consumer checkout with an untracked venv
+module, and a plain directory); `test_distribution.py` (the hook refuses a
+commit adding an unrouted criterion, then admits it with an external boundary;
+`aes --version` names the running checkout). The getting-started flow
+(`docs/greenfield/GETTING_STARTED.md` §1-§6) was re-run with this branch's code
+on PATH: every step passes, the observation carries `dependency_target_refs:
+[VS-GREET, ER-001-01, ART-PKG, ART-TEST-GREET]`, `aes status` SC-001 SUPPORTED.
+
+What the consumer showed. On the real whygame5 at `36b64ed` (read-only),
+`aes status` with the pinned AES and with this branch are byte-identical, and so
+is `aes evidence status`:
+
+```text
+  criteria: 3 supported, 4 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 10 current, 4 stale, 1 unknown
+```
+
+`aes target validate` on it passes with the route line. In a copy of whygame5
+(`cp -a`), `OBS-WG5-RECONCILE-73fc0ad7` was rewritten to
+`dependency_target_refs: [VS-WG5-AES-RECONCILE, ER-WG5-006-05]` (no paths),
+`OBS-WG5-CHARACTERIZE-4921a159` to `dependency_paths: [src/whygame5/ontology.py]`
++ `dependency_target_refs: [VS-WG5-AES-CHARACTERIZE, ER-WG5-006-04,
+ART-WG5-ONTOLOGY]` (the ontology entry holds the `exports` commitment), and
+`OBS-WG5-DRIFT-b0c3e24f` to the same plus `control:` with `base_revision:
+4921a159b546dbc34bf179548224462dbe22b15a` (on `origin/aes-phase3-pin`, the
+drift commit's parent), `observed_outcome: detected`:
+
+```text
+== before (copy at 36b64ed, unmodified records)
+    ER-WG5-006-04: NO_CURRENT_SUPPORT - OBS-WG5-CHARACTERIZE-4921a159 SUPPORTS (STALE); OBS-WG5-DRIFT-b0c3e24f SUPPORTS (STALE)
+    ER-WG5-006-05: NO_CURRENT_SUPPORT - OBS-WG5-RECONCILE-73fc0ad7 SUPPORTS (STALE)
+    OBS-WG5-CHARACTERIZE-4921a159: STALE - changed since observed: .aes/target.yaml
+    OBS-WG5-DRIFT-b0c3e24f: STALE - changed since observed: .aes/target.yaml, src/whygame5/ontology.py
+    OBS-WG5-RECONCILE-73fc0ad7: STALE - changed since observed: .aes/target.yaml
+== after rewrite, at HEAD
+    ER-WG5-006-04: SUPPORTED - supported by OBS-WG5-CHARACTERIZE-4921a159, OBS-WG5-DRIFT-b0c3e24f
+    ER-WG5-006-05: SUPPORTED - supported by OBS-WG5-RECONCILE-73fc0ad7
+    OBS-WG5-CHARACTERIZE-4921a159: CURRENT - no dependency or target entry changed since 4921a159b546
+    OBS-WG5-DRIFT-b0c3e24f: CURRENT - negative control of 4921a159b546: no dependency or target entry changed since 4921a159b546
+    OBS-WG5-RECONCILE-73fc0ad7: CURRENT - no dependency or target entry changed since 73fc0ad713c7
+  observations: 13 current, 1 stale, 1 unknown
+== commit editing ER-WG5-006-05's text
+    OBS-WG5-CHARACTERIZE-4921a159: CURRENT - no dependency or target entry changed since 4921a159b546
+    OBS-WG5-DRIFT-b0c3e24f: CURRENT - negative control of 4921a159b546: no dependency or target entry changed since 4921a159b546
+    OBS-WG5-RECONCILE-73fc0ad7: STALE - target entries changed since observed: ER-WG5-006-05
+== then a commit dropping WhyChain from ART-WG5-ONTOLOGY's exports
+    OBS-WG5-CHARACTERIZE-4921a159: STALE - target entries changed since observed: ART-WG5-ONTOLOGY
+    OBS-WG5-DRIFT-b0c3e24f: STALE - negative control of 4921a159b546: target entries changed since observed: ART-WG5-ONTOLOGY
+== instead (from the rewrite commit), a commit appending a comment to src/whygame5/ontology.py
+    OBS-WG5-CHARACTERIZE-4921a159: STALE - changed since observed: src/whygame5/ontology.py
+    OBS-WG5-DRIFT-b0c3e24f: STALE - negative control of 4921a159b546: changed since observed: src/whygame5/ontology.py
+```
+
+1. **The three AES observations are CURRENT at the consumer's HEAD again**,
+   although `.aes/target.yaml` changed twice since they were made (the
+   `ER-WG5-006-05` addition and the `PLAN-WG5-RUNNER` accept). The edit to
+   `ER-WG5-006-05` staled only the reconcile observation, which is exactly
+   §15 item 2 no longer happening to the characterize one. With the rewrite,
+   the stale count's permanent drift entry (§14 item 2) is gone: the only
+   remaining STALE is `OBS-WG5-006-CHAIN-FIT-1`, stale for real reasons.
+2. **The copy's hook ran the old AES.** Its `.githooks/pre-commit` names the
+   real whygame5 checkout's `.venv/bin/python` by absolute path (the pinned AES,
+   `4979c9d`), so committing the rewritten records in the copy used that; the target and topology checks do not load
+   observations, so the new fields did not trip it. A consumer that bumps its
+   pin before rewriting records needs no special order.
+3. **The reconcile observation's real dependency is wider than any entry.** Its
+   stdout depends on every entry, every governed file and every observation;
+   the refs name only what its assessment claims (the subject and
+   ER-WG5-006-05). This is a judgement the recorder of a hand-written
+   observation now makes explicitly instead of by listing the whole file.
+
+Not done in this phase: whygame5's real records are unchanged (a consumer
+change, for the orchestrator: the rewrite above is three small YAML edits);
+characterize and reconcile still have no `record` command, so their
+observations remain hand-written.
+
+Decisions:
+
+- **An entry is the id's whole mapping, compared after a strict load.** Formatting,
+  comments and key order are not changes; a nested evidence requirement's edit
+  changes its criterion's entry as well as its own. Wrong-when: an observation
+  that references a criterion goes STALE on whygame5 because a sibling
+  requirement under the same criterion was edited; then reference the
+  requirement, not the criterion, or compare criteria without their nested list.
+- **A target that does not load strictly at an observed revision is an error,
+  not STALE.** Wrong-when: a schema change in AES makes historical targets
+  unloadable and `aes status` fails on a consumer for records nobody can fix;
+  then load historical targets structurally only.
+- **The recorder names the subject, its requirements and the artifacts among
+  its dependency paths**, not criteria, normative items or components.
+  Wrong-when: a recorded SUPPORTS stays CURRENT after its criterion's
+  statement or disproof is changed in a way that makes the old test
+  insufficient; then add the owning criterion.
+- **The negative control's base must be an ancestor of its mutated revision and
+  on some branch (remote-tracking counts).** whygame5's base is only on
+  `origin/aes-phase3-pin` (the PR was squash-merged), so requiring an ancestor
+  of HEAD would have rejected the real case. Wrong-when: a control's base branch
+  is deleted and `aes status` fails on the consumer; then accept a tag, as the
+  mutated commit already is kept alive by one.
+- **Outcome fields live inside `control:`**, not at the observation's top
+  level, so only controls carry them. Wrong-when: a positive observation needs
+  expected/observed outcomes too.
+- **The running version is `git describe` of the checkout that tracks the
+  executing module**, appended to the metadata version, rather than replacing
+  it. Wrong-when: a consumer-side record reports a `running:` part that is not
+  the AES commit that ran (e.g. AES vendored into a consumer's tracked tree);
+  then require the checkout's remote to be AES's.
+- **`aes target validate` enforces routes with no escape flag.** Wrong-when: a
+  consumer needs to commit a criterion before its verification subject exists
+  (the route rule blocks incremental target authoring); then add
+  `--allow-unrouted` to the hook, not remove the rule.

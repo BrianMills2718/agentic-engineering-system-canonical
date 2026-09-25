@@ -1,7 +1,7 @@
 """`aes` console entrypoint (probe 0).
 
     aes init --project-id ID --actor TEXT --outcome TEXT [--governed-root R ...] [--language L] [--root DIR]
-    aes target validate [--root DIR]
+    aes target validate [--root DIR]      (also: every evidence requirement has a route)
     aes context <subject> [--root DIR] [--format markdown|json]
     aes topology check [--root DIR]
     aes evidence status [--root DIR]
@@ -29,12 +29,12 @@ from __future__ import annotations
 import argparse
 import sys
 from collections.abc import Sequence
-from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 from .characterize import CharacterizeError
 from .characterize import check as characterize_check
 from .characterize import render_report as render_characterization
+from .characterize import running_version
 from .evidence import EvidenceError, assess, record
 from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
@@ -47,6 +47,7 @@ from .planning import (
     render_accepted,
     render_validated,
     render_yaml,
+    route_violations,
     validate_proposal,
 )
 from .project import ProjectError, find_project_root, initialize_project
@@ -56,22 +57,23 @@ from .records import RecordLoadError, TargetValidationError, load_project, load_
 from .topology import TopologyError, check_topology, render_report
 
 
-DISTRIBUTION = "agentic-engineering-system"
 ROOT_HELP = "project root (default: nearest directory at or above . holding .aes/project.yaml)"
 
 
 class _VersionAction(argparse.Action):
-    """Print the installed distribution's version (Git-derived at build time)."""
+    """Print the version of the running code: the installed distribution's version
+    (Git-derived at build time), plus the running checkout's `git describe` when the
+    code executes from a Git checkout (`characterize.running_version`)."""
 
     def __init__(self, option_strings: Sequence[str], dest: str, **kwargs: object) -> None:
-        super().__init__(option_strings, dest, nargs=0, help="print the installed AES version and exit")
+        super().__init__(option_strings, dest, nargs=0, help="print the running AES version and exit")
 
     def __call__(self, parser: argparse.ArgumentParser, *_: object) -> None:
         try:
-            installed = version(DISTRIBUTION)
-        except PackageNotFoundError:
-            parser.exit(1, f"error: distribution {DISTRIBUTION!r} is not installed; no version to report\n")
-        print(installed)
+            running = running_version()
+        except CharacterizeError as exc:
+            parser.exit(1, f"error: {exc}\n")
+        print(running)
         parser.exit(0)
 
 
@@ -92,7 +94,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
     target = sub.add_parser("target", help="operate on .aes/target.yaml")
     target_sub = target.add_subparsers(dest="target_command", required=True)
-    validate = target_sub.add_parser("validate", help="strictly load and validate the target")
+    validate = target_sub.add_parser("validate", help="strictly load and validate the target; every evidence requirement needs a route")
     validate.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
 
     context = sub.add_parser("context", help="compile the working context for one subject ID")
@@ -155,6 +157,14 @@ def _cmd_target_validate(root: Path) -> int:
     target_path = root / project.materialization.target_path
     target = load_target(target_path)
     er_count = len(target.evidence_requirements())
+    # SC-GF-004 on the whole current target, so the pre-commit hook refuses a
+    # commit that adds a criterion no verification subject or boundary can supply.
+    unrouted = route_violations(target)
+    if unrouted:
+        lines = "\n".join(f"  - {v}" for v in unrouted)
+        print(f"error: {target_path}: {len(unrouted)} evidence requirement(s) with no route:\n{lines}",
+              file=sys.stderr)
+        return 1
     print(
         f"OK {target_path}\n"
         f"  target_id={target.target_id} schema_version={target.schema_version}\n"
@@ -162,7 +172,8 @@ def _cmd_target_validate(root: Path) -> int:
         f"success_criteria={len(target.success_criteria)} evidence_requirements={er_count}\n"
         f"  components={len(target.components)} planned_artifacts={len(target.planned_artifacts)} "
         f"verification_subjects={len(target.verification_subjects)}\n"
-        f"  governed_roots={project.governed_roots}"
+        f"  governed_roots={project.governed_roots}\n"
+        f"  every evidence requirement has a route (verification subject or external boundary)"
     )
     return 0
 

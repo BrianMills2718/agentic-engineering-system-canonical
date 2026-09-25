@@ -224,17 +224,21 @@ def load_yaml_mapping(path: Path) -> dict[str, Any]:
     path = Path(path)
     if not path.is_file():
         raise RecordLoadError(f"{path}: file does not exist")
+    return parse_yaml_mapping(path.read_text(encoding="utf-8"), str(path))
+
+
+def parse_yaml_mapping(text: str, label: str) -> dict[str, Any]:
+    """`load_yaml_mapping` for text that is not a file on disk (e.g. `git show REV:path`)."""
     try:
-        with path.open("r", encoding="utf-8") as fh:
-            data = _yaml().load(fh)
+        data = _yaml().load(text)
     except DuplicateKeyError as exc:
-        raise RecordLoadError(f"{path}: duplicate mapping key rejected: {exc}") from exc
+        raise RecordLoadError(f"{label}: duplicate mapping key rejected: {exc}") from exc
     except YAMLError as exc:
-        raise RecordLoadError(f"{path}: YAML parse error: {exc}") from exc
+        raise RecordLoadError(f"{label}: YAML parse error: {exc}") from exc
     if data is None:
-        raise RecordLoadError(f"{path}: document is empty")
+        raise RecordLoadError(f"{label}: document is empty")
     if not isinstance(data, dict):
-        raise RecordLoadError(f"{path}: root must be a mapping, got {type(data).__name__}")
+        raise RecordLoadError(f"{label}: root must be a mapping, got {type(data).__name__}")
     return _to_plain(data)
 
 
@@ -253,7 +257,12 @@ def load_project(path: Path) -> ProjectRecord:
 def load_target(path: Path) -> TargetRecord:
     """Strict load + semantic validation. Raises RecordLoadError or TargetValidationError."""
     path = Path(path)
-    target: TargetRecord = _validate_model(TargetRecord, load_yaml_mapping(path), path)
+    return parse_target(load_yaml_mapping(path), path)
+
+
+def parse_target(data: dict[str, Any], path: Path) -> TargetRecord:
+    """`load_target` on an already-parsed mapping; `path` labels errors."""
+    target: TargetRecord = _validate_model(TargetRecord, data, path)
     violations = validate_target_refs(target)
     if violations:
         raise TargetValidationError(path, violations)

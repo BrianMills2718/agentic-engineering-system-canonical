@@ -275,3 +275,28 @@ realized_probe0_observation_dependency_basis:
   field: dependency_basis
   shape: {locator: path, discovered: [paths], declared: [paths]}
   rule: dependency_paths equals the sorted union of the three; a mismatch fails the load.
+
+# Appended 2026-09-25 (roadmap phase 6a, 24-pre-probe-decisions.md section 16).
+realized_probe0_observation_dependency_target_refs:
+  field: dependency_target_refs
+  shape: [target ids]
+  rule: >
+    STALE when a referenced entry (the id's whole mapping, nested evidence
+    requirements included, strictly loaded at both revisions and compared as
+    canonical JSON) differs between the observed revision and HEAD or is gone
+    at HEAD; an id absent at the observed revision fails loudly. The target
+    file in dependency_paths is the coarse form and keeps file-level staleness.
+realized_probe0_observation_negative_control:
+  field: control
+  shape: {kind: negative, base_revision: 40-hex, mutation: text, expected_outcome: detected, observed_outcome: detected|missed}
+  rules:
+    - freshness_is_computed_from_base_revision_not_subject_revision
+    - base_revision_is_on_a_branch_and_an_ancestor_of_subject_revision
+    - observed_outcome_detected_allows_SUPPORTS_or_INCONCLUSIVE_missed_allows_only_REFUTES
+    - result_exit_code_0_cannot_claim_detected
+realized_probe0_producer_version:
+  fields: [characterization.producer.version, reconciliation.producer.version, observation observer/assessor version from aes evidence record, aes --version]
+  rule: >
+    Installed distribution version, plus " (running: <git describe --always --dirty>)"
+    when the executing module is tracked by a Git checkout; "not installed (running: ...)"
+    without a distribution; neither determinable fails.

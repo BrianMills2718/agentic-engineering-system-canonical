@@ -269,6 +269,16 @@ planned_artifacts:
     purpose: prove pass-like observation is distinct from adequacy and exercise stale/insufficient states
     semantic_justification_refs: [SC-GF-007, SC-GF-008]
 
+  # Added 2026-09-25 (roadmap phase 6a, 24-pre-probe-decisions.md section 16):
+  # entry-level target dependencies and negative-control observations, kept
+  # apart from test_evidence.py's standing tests.
+  - id: ART-TEST-EVIDENCE-CONTROLS
+    locator:
+      exact_path: tests/greenfield/test_evidence_controls.py
+    kind: test
+    purpose: target-entry dependencies stale only on a referenced entry's change; negative controls are fresh against their base and must refute a missed mutation
+    semantic_justification_refs: [SC-GF-008]
+
   - id: ART-SRC-RECONCILE
     locator:
       exact_path: src/agentic_engineering_system/reconcile.py

@@ -212,7 +212,10 @@ The pre-commit hook ran `aes target validate` and `aes topology check` on the
 plan commit; the topology check lists both planned files as `unrealized`
 (planned, not yet written), which is not a failure. `aes target validate`
 loads the target strictly: an unknown field, a duplicate key or ID, or a
-reference to an ID that does not exist fails with its location.
+reference to an ID that does not exist fails with its location. It also
+refuses an evidence requirement with no route (no verification subject names
+it and no `external_boundaries` entry lists it), so a criterion added by hand
+without a way to prove it cannot be committed either.
 
 `aes context` prints what someone working on one ID needs to know: the chain
 above and below it, with the source of each line.
@@ -265,11 +268,15 @@ git commit -q -m "Record VS-GREET"
 `aes evidence record` runs the subject's test at the current commit (for
 Python: `pytest` on the locator) and writes an observation under
 `.aes/observations/` naming the commit, the command, the result, and the
-files the result depends on: the test itself plus each `--depends-on` path.
-It refuses while any of those files has uncommitted changes.
+files the result depends on: the test itself, the project files its imports
+reach, and each `--depends-on` path. It also names the target entries the
+result depends on (`dependency_target_refs`: here `VS-GREET`, `ER-001-01`,
+`ART-PKG`, `ART-TEST-GREET`); a later change to one of those entries makes the
+observation stale, a change elsewhere in `.aes/target.yaml` does not. It
+refuses while any of those files, or the target, has uncommitted changes.
 
-`aes evidence status` then reports `SC-001` as `SUPPORTED`. When a file listed
-in the observation changes in a later commit, the observation becomes `STALE`
+`aes evidence status` then reports `SC-001` as `SUPPORTED`. When a file or
+target entry listed in the observation changes in a later commit, the observation becomes `STALE`
 and the criterion goes back to `INSUFFICIENT` until you record it again. A
 failing test is recorded as `REFUTES`, which makes the criterion `REFUTED`.
 
