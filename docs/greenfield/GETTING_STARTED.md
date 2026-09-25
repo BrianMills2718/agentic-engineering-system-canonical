@@ -23,8 +23,11 @@ pip install -q pytest "agentic-engineering-system @ git+https://github.com/Brian
 aes --version
 ```
 
-Replace `<sha>` with the AES commit you want to pin; `aes --version` then
-names that commit. Keep the virtual environment and caches out of Git, and let
+Replace `<sha>` with the AES commit you want to pin. To find the current one,
+run `git ls-remote https://github.com/BrianMills2718/agentic-engineering-system-canonical.git main`
+and use the full 40-character id it prints (a short id works, but pip warns).
+`aes --version` then names that commit inside its version string, e.g.
+`0.1.dev367+g0503735f9`. Keep the virtual environment and caches out of Git, and let
 pytest import the project's own source:
 
 ```bash
