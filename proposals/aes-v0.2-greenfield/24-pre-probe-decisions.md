@@ -684,3 +684,168 @@ Decisions:
   for REFUTED, orphan and drift, as the roadmap specifies. Wrong-when: plan
   acceptance (phase 5) ships without also failing on an unrouted requirement,
   so SC-GF-004 is never enforced anywhere.
+
+## 15. Planning acceptance realized (2026-09-25)
+
+Roadmap phase 5 (`25-roadmap-to-mvp-acceptance.md`), bounded to the target
+acceptance transaction of `15-planning-contract.candidate.yaml`: no plan
+generation, no model call, no provider selection. Realized:
+
+- **`planning.py`** (`ART-SRC-PLANNING`). A proposal
+  (`aes.v0_2.proposal.probe0`) is `proposal_id`, `title`, `rationale`,
+  `closes_gaps` and a `target_delta` with `add:` and `change:` sections, one
+  list per target family, entries in exactly the target's shape; `change`
+  replaces the whole entry with the same id. No `remove`. The module file wins
+  over the empty v0.1 `planning/` directory on import (tested).
+- **`aes plan prepare [--out FILE]`**: the open gaps of the current
+  reconciliation with ids, unrouted evidence requirements, every declared id
+  by family, and an empty proposal. Deterministic; writes nothing in the
+  repository.
+- **`aes plan validate <proposal>`**: applies the delta in memory and reports
+  every violation: delta keys (`change` of an absent id, `add` of a present
+  one), the resulting target under `records.validate_target_refs`, every
+  evidence requirement of the resulting target without a verification subject
+  or an external boundary (SC-GF-004), `closes_gaps` ids not open now, and
+  planned artifacts outside the governed roots that are source or carry no
+  reason (`outside_governed_roots`).
+- **`aes plan accept <proposal>`**: refuses on tracked changes or anything
+  untracked under `.aes/`, on any violation, and on an existing
+  `.aes/plans/<proposal_id>.yaml`; otherwise edits `.aes/target.yaml` through
+  ruamel round-trip (the proposal's entries appended in the style they were
+  written, changed entries replaced in place, the blank line that ended a
+  family moved to its new last entry), checks the written text loads to
+  exactly the validated target, and writes the plan: the proposal plus
+  `accepted_at_revision` (HEAD) and `accepted_at` (UTC). No commit.
+- **`records.py`**: optional target family `external_boundaries:
+  [{evidence_requirement_ref, boundary}]`, refs checked. **`reconcile.py`**:
+  `Gap.id` (`<kind>:<ref>`, also in `--json`) and `Reconciliation.open_gaps()`.
+- **`planning_protocol.md`** (`ART-PLANNING-PROTOCOL`): the one-page protocol
+  with the whygame5 proposal as its example; a test keeps the example equal
+  to `tests/greenfield/fixtures/whygame5-proposal-runner.yaml`.
+
+Evidence: `tests/greenfield/test_planning.py` (19 tests, temp Git copy of the
+frozen whygame5 records as in `test_reconcile.py`): prepare deterministic with
+the fixture's eight open gaps; validate accepts the consumer proposal and
+rejects, each from a single mutation of it, a criterion without an evidence
+requirement, a requirement with no route (an external boundary instead is
+accepted), a gap that is not open, an unresolved ref, an add of an existing
+id (same and other family), a change of an absent id, and a source artifact
+outside the governed roots; accept refuses a dirty tree (tracked change;
+untracked observation), a failing proposal and a repeated plan id with the
+repository byte-identical; accept on the fixture removes exactly one target
+line (the changed component's refs), keeps a comment, writes only the plan
+file, binds it to HEAD, and the committed result loads strictly and
+reconciles with the claimed gaps still open; accept on an `aes init` target
+turns `[]` into block lists. The getting-started example
+(`docs/greenfield/GETTING_STARTED.md` §3, now planned through a proposal)
+was re-run end to end with this branch's code on PATH (not a clean-user pip
+install): prepare, the no-route refusal, validate, accept, commit, implement,
+record, `aes status` SC-001 SUPPORTED.
+
+What the consumer showed, on a clone of whygame5 at `a620cdc` (its main, AES
+pin `68a71fe`; the real checkout was not touched). `aes status` before: 11
+realized, 3 unrealized (RUNNER, CLI, REPORT); CMP-WG5-RUNNER's gaps are only
+its two unrealized files. Reading the target: the runner's defining
+constraint NI-WG5-006 (llm_client receipts, no retries, no fallback, a failed
+call stops the run) is named by the component and the artifact but by **no
+success criterion**, so a written runner could not be shown to obey it, and
+the runner has no test artifact. The proposal adds SC-WG5-007 with
+ER-WG5-007-01, the test artifact, and gives CMP-WG5-RUNNER the test.
+
+```text
+$ aes plan prepare --out packet.yaml        # open_gaps: insufficient:SC-WG5-001, insufficient:SC-WG5-006,
+                                            # unrealized:ART-WG5-RUNNER, unrealized:ART-WG5-CLI,
+                                            # unrealized:ART-WG5-REPORT, insufficient:SC-WG5-005
+$ aes plan validate proposal-runner.yaml    # first draft
+error: proposal PLAN-WG5-RUNNER: 2 violation(s):
+  - evidence requirement 'ER-WG5-007-01' (criterion 'SC-WG5-007') has no route: no verification subject names it in evidence_requirement_refs and external_boundaries does not list it
+  - closes_gaps[2] 'insufficient:SC-WG5-003' is not an open gap in the current reconciliation (open: insufficient:SC-WG5-001, insufficient:SC-WG5-006, unrealized:ART-WG5-RUNNER, unrealized:ART-WG5-CLI, unrealized:ART-WG5-REPORT, insufficient:SC-WG5-005)
+$ aes plan validate proposal-runner.yaml    # + VS-WG5-RUNNER-FAIL-STOP, SC-WG5-003 dropped
+OK proposal PLAN-WG5-RUNNER: 3 addition(s), 1 change(s)
+  closes: unrealized:ART-WG5-RUNNER, unrealized:ART-WG5-CLI
+  resulting target: success_criteria=7 evidence_requirements=13 verification_subjects=13 external_boundaries=0; every evidence requirement has a route
+$ aes plan accept proposal-runner.yaml
+accepted at a620cdc53dc133686bcb2163e781d5dde89d01aa
+  changed components CMP-WG5-RUNNER
+  added success_criteria SC-WG5-007
+  added planned_artifacts ART-WG5-TEST-RUNNER
+  added verification_subjects VS-WG5-RUNNER-FAIL-STOP
+  updated .aes/target.yaml
+  wrote .aes/plans/PLAN-WG5-RUNNER.yaml
+$ git diff --stat    # first run: .aes/target.yaml 44 insertions, 8 deletions (item 1 below);
+                     # clone reset, re-accepted with the fix: 30 insertions, 1 deletion (the changed refs line)
+$ aes target validate                       # OK ... success_criteria=7 evidence_requirements=13 planned_artifacts=15 verification_subjects=13
+$ git add .aes/target.yaml .aes/plans && git commit -m "Plan PLAN-WG5-RUNNER"
+$ aes status
+OK status: whygame5-target at 83c358f6a7750c9e189c71fec02344c636443e49
+  artifacts: 11 realized, 4 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 3 supported, 4 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 10 current, 4 stale, 1 unknown
+    CMP-WG5-RUNNER: unrealized ART-WG5-RUNNER - src/whygame5/runner.py: planned, no file at HEAD (+3 more)
+    CMP-WG5-ONTOLOGY: insufficient SC-WG5-006 - ...; ER-WG5-006-04 NO_CURRENT_SUPPORT; ER-WG5-006-05 NO_CURRENT_SUPPORT
+$ aes plan accept proposal-runner.yaml      # again
+error: proposal PLAN-WG5-RUNNER: 1 violation(s):
+  - .aes/plans/PLAN-WG5-RUNNER.yaml already exists; a plan id is accepted once
+```
+
+The first draft's two mistakes were written deliberately to exercise the
+refusal on the real consumer (the missing verification subject is the
+SC-GF-004 case; SC-WG5-003 is SUPPORTED, the runner's call-count property
+already has a route through `tests/test_evaluator.py`). The accepted proposal
+is `tests/greenfield/fixtures/whygame5-proposal-runner.yaml`.
+
+1. **The first acceptance rewrapped the consumer's target.** ruamel's default
+   width of 80-100 refolded every long plain scalar in `.aes/target.yaml`
+   (four component responsibilities, one purpose), and the blank line before
+   `components:` stayed on the old last criterion. 44 insertions and 8
+   deletions for a 1-line change. Fixed in this phase (width 4096; trailing
+   comment moved) and pinned by the test that the fixture accept removes
+   exactly one line. Only a real target with long one-line scalars showed it.
+2. **A target change stales AES's own observations on the consumer.**
+   `OBS-WG5-RECONCILE-73fc0ad7` lists `.aes/target.yaml` as a dependency, so
+   the accept commit made it STALE and ER-WG5-006-05 lost support (current
+   11 → 10, stale 3 → 4). That is the rule working: the observation was about
+   the old target. It means every accepted plan re-opens the consumer's
+   "AES works here" requirements until they are re-recorded; the protocol
+   says so.
+3. The whole-target route rule already holds on whygame5 (0 unrouted before
+   and after), because whygame5 routes its human and live-run requirements
+   through verification subjects with `external:` locators. The new
+   `external_boundaries` family is not used by any consumer yet.
+
+Not done in this phase: the plan is not yet accepted on the real whygame5
+(the orchestrator applies the fixture), and the roadmap's exit gate, the
+consumer's pre-commit hook rejecting a commit that adds a planned artifact
+whose criterion has no route, is not built: `aes hooks install` still runs only
+`aes target validate` and `aes topology check`, and the route rule lives in
+`aes plan validate`.
+
+Decisions:
+
+- **Gap ids are `<kind>:<ref>`**, computed on reconcile's `Gap`. The kind is
+  in the id so a proposal written against an insufficient criterion stops
+  validating if the criterion is refuted before acceptance. Wrong-when: valid
+  plans are repeatedly re-edited only because a gap changed kind between
+  prepare and accept.
+- **A proposal is add + whole-entry change, not a patch language and not
+  "edit target.yaml under version control"** (`16-record-shapes` plan_record
+  preferred the latter). The roadmap requires acceptance from the delta and
+  the gap ids alone, and whole-entry replacement needs no path syntax.
+  Wrong-when: real proposals need a `remove` or a field-level edit often
+  enough that the target is hand-edited after acceptance (the roadmap's own
+  wrong-when for this phase).
+- **The route rule covers the whole resulting target, not only new entries.**
+  Wrong-when: a consumer cannot accept an unrelated plan because an old
+  requirement it cannot yet route blocks it.
+- **Two route forms: a verification subject (with an `external:` locator for
+  humans and live runs, as whygame5 does) or an `external_boundaries` entry.**
+  Wrong-when: a consumer uses both for the same kind of requirement and
+  readers cannot tell which is intended; then drop one.
+- **`closes_gaps` may be empty** (a pure extension, e.g. the first plan after
+  `aes init`, whose target has no gaps). Wrong-when: plans with empty
+  `closes_gaps` are accepted on targets that have open gaps, i.e. plans stop
+  naming what they are for.
+- **The plan file is `<plans_root>/<proposal_id>.yaml`**, not
+  `PLAN-<id>.yaml` as `16-record-shapes` sketched; the id is whatever the
+  author chose, with a file-name-safe pattern. Wrong-when: two consumers'
+  plan ids collide in a shared review surface for want of a prefix.

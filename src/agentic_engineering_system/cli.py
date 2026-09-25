@@ -10,6 +10,9 @@
     aes characterize [--root DIR] [--json]
     aes reconcile [--root DIR] [--json]
     aes status [--root DIR]
+    aes plan prepare [--root DIR] [--out FILE]
+    aes plan validate <proposal> [--root DIR]
+    aes plan accept <proposal> [--root DIR]
     aes --version
 
 Without --root, every command except init uses the nearest directory at or above
@@ -17,7 +20,8 @@ the current one that holds .aes/project.yaml; init uses the current directory.
 
 Exit 0 on success, 1 on any load/validation/context/topology error or orphan (message on stderr),
 2 on usage errors (argparse). reconcile and status also exit 1 on a REFUTED criterion or drift;
-INSUFFICIENT criteria do not fail them.
+INSUFFICIENT criteria do not fail them. plan validate and plan accept exit 1 listing every
+violation; plan accept does not commit.
 """
 
 from __future__ import annotations
@@ -35,6 +39,16 @@ from .evidence import EvidenceError, assess, record
 from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
 from .hooks import HookInstallError, install_hooks
+from .planning import (
+    PlanError,
+    accept_proposal,
+    load_proposal,
+    prepare,
+    render_accepted,
+    render_validated,
+    render_yaml,
+    validate_proposal,
+)
 from .project import ProjectError, find_project_root, initialize_project
 from .reconcile import reconcile, render_status
 from .reconcile import render_report as render_reconciliation
@@ -120,6 +134,18 @@ def _build_parser() -> argparse.ArgumentParser:
     recon.add_argument("--json", action="store_true", help="print the reconciliation as JSON (failures go to stderr)")
     stat = sub.add_parser("status", help="one screen: revision, counts, first open gap per component")
     stat.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
+
+    plan = sub.add_parser("plan", help="propose, validate and accept a target change before implementing it")
+    plan_sub = plan.add_subparsers(dest="plan_command", required=True)
+    prep = plan_sub.add_parser("prepare", help="open gaps, existing ids and an empty proposal to write against")
+    prep.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
+    prep.add_argument("--out", type=Path, default=None, metavar="FILE", help="write the packet here instead of stdout")
+    pval = plan_sub.add_parser("validate", help="apply a proposal in memory and report every violation")
+    pval.add_argument("proposal", type=Path, help="proposal YAML (aes.v0_2.proposal.probe0)")
+    pval.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
+    pacc = plan_sub.add_parser("accept", help="apply a valid proposal to the target and write the plan (no commit)")
+    pacc.add_argument("proposal", type=Path, help="proposal YAML (aes.v0_2.proposal.probe0)")
+    pacc.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
     return parser
 
 
@@ -204,6 +230,20 @@ def main(argv: Sequence[str] | None = None) -> int:
                 text = render_status(r) if args.command == "status" else render_reconciliation(r)
                 print(text, file=sys.stdout if r.ok else sys.stderr)
             return 0 if r.ok else 1
+        if args.command == "plan" and args.plan_command == "prepare":
+            text = render_yaml(prepare(args.root))
+            if args.out is None:
+                print(text, end="")
+            else:
+                args.out.write_text(text, encoding="utf-8")
+                print(f"wrote {args.out}")
+            return 0
+        if args.command == "plan" and args.plan_command == "validate":
+            print(render_validated(validate_proposal(args.root, load_proposal(args.proposal))))
+            return 0
+        if args.command == "plan" and args.plan_command == "accept":
+            print(render_accepted(args.root, accept_proposal(args.root, args.proposal)))
+            return 0
         if args.command == "hooks" and args.hooks_command == "install":
             hook, overridden = install_hooks(args.root)
             print(f"wrote {hook}\n  core.hooksPath=.githooks; runs aes target validate + aes topology check")
@@ -211,7 +251,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print(f"  note: overrides the global core.hooksPath {overridden} in this repository", file=sys.stderr)
             return 0
     except (RecordLoadError, TargetValidationError, ContextError, TopologyError, EvidenceError,
-            HookInstallError, ProjectError, CharacterizeError) as exc:
+            HookInstallError, ProjectError, CharacterizeError, PlanError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     raise AssertionError(f"unhandled command {args.command!r}")  # argparse prevents this

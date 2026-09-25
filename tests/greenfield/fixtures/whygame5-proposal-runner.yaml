@@ -1,0 +1,56 @@
+# The proposal accepted on a clone of whygame5 at a620cdc (24-pre-probe-decisions.md §15).
+# It also validates against the frozen whygame5-54043e2 target (tests/greenfield/test_planning.py).
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-WG5-RUNNER
+title: Make the runner's fail-stop constraint verifiable before writing the runner
+rationale: >
+  CMP-WG5-RUNNER and ART-WG5-RUNNER are planned but unrealized, and the
+  runner's defining constraint NI-WG5-006 (every call through llm_client with a
+  retained receipt, no retries, no fallback model, a failed call stops the run
+  with prior receipts intact) has no success criterion, so nothing could show
+  that a written runner obeys it. This adds the criterion, a deterministic
+  negative-control test for it and the test artifact, and gives the runner
+  component the test.
+closes_gaps:
+  - unrealized:ART-WG5-RUNNER
+  - unrealized:ART-WG5-CLI
+target_delta:
+  add:
+    success_criteria:
+      - id: SC-WG5-007
+        statement: >
+          A model call that fails stops the run: the runner does not retry it,
+          does not call another model, writes no revision, and keeps the
+          receipts of every call made before the failure.
+        target_refs: [NI-WG5-006]
+        disproof: >
+          After a failed call the runner calls the model again (same or another
+          model), writes a revision event, or loses an earlier call's receipt.
+        evidence_requirements:
+          - id: ER-WG5-007-01
+            kind: deterministic_test
+            requirement: >
+              With llm_client replaced by a recording stub whose second call
+              raises, one run makes exactly two call attempts, both naming the
+              configured model; the first call's receipt is retained, no
+              revision event is written, and the run reports the failure.
+    planned_artifacts:
+      - id: ART-WG5-TEST-RUNNER
+        locator: {exact_path: tests/test_runner.py}
+        kind: test
+        purpose: failed call stops the run without retry or fallback; receipts retained
+        semantic_justification_refs: [SC-WG5-007]
+    verification_subjects:
+      - id: VS-WG5-RUNNER-FAIL-STOP
+        criterion_refs: [SC-WG5-007]
+        evidence_requirement_refs: [ER-WG5-007-01]
+        proof_kind: deterministic_test
+        proof_role: negative_control
+        locator: tests/test_runner.py
+        purpose: a failed call stops the run with no retry, no fallback and earlier receipts intact
+  change:
+    components:
+      - id: CMP-WG5-RUNNER
+        responsibility: the two-call loop over llm_client with receipts, no retries, no fallback; stops after one call on NO_FINDING
+        target_refs: [NI-WG5-003, NI-WG5-006]
+        planned_artifact_refs: [ART-WG5-RUNNER, ART-WG5-CLI, ART-WG5-TEST-RUNNER]

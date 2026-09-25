@@ -2,7 +2,9 @@
 
 Shape follows the first authentic consumer (whygame5). Seven semantic families:
 outcomes, normative items, success criteria (with nested evidence requirements),
-components, planned artifacts, verification subjects. Anything not declared here
+components, planned artifacts, verification subjects; plus optional external
+boundaries, which name an evidence requirement that no verification subject in
+this repository can supply and say who or what does. Anything not declared here
 is rejected (`extra='forbid'`); duplicate mapping keys and unresolved references
 fail loudly with their location. There is no lenient mode.
 """
@@ -118,6 +120,17 @@ class VerificationSubject(StrictModel):
     purpose: str
 
 
+class ExternalBoundary(StrictModel):
+    """An evidence requirement whose route is outside the repository (SC-GF-004).
+
+    `aes plan validate` accepts either this or a verification subject naming the
+    requirement as its route; `boundary` says who or what supplies the evidence.
+    """
+
+    evidence_requirement_ref: str
+    boundary: str
+
+
 class TargetRecord(StrictModel):
     schema_version: str
     target_id: str
@@ -127,6 +140,7 @@ class TargetRecord(StrictModel):
     components: list[Component]
     planned_artifacts: list[PlannedArtifact]
     verification_subjects: list[VerificationSubject]
+    external_boundaries: list[ExternalBoundary] = Field(default_factory=list)
 
     # -- indexes ----------------------------------------------------------- #
 
@@ -366,5 +380,18 @@ def validate_target_refs(target: TargetRecord) -> list[str]:
                     f"evidence requirement '{ref}' at {loc}.evidence_requirement_refs[{k}] "
                     f"belongs to criterion '{owner}', which is not in criterion_refs {v.criterion_refs}"
                 )
+
+    for i, b in enumerate(target.external_boundaries):
+        loc = f"external_boundaries[{i}]"
+        if b.evidence_requirement_ref not in er_index:
+            violations.append(
+                f"unresolved ref '{b.evidence_requirement_ref}' at {loc}.evidence_requirement_ref "
+                "(expected an evidence requirement id nested in a criterion)"
+            )
+        if not b.boundary:
+            violations.append(f"external boundary at {loc} ({b.evidence_requirement_ref}) has empty boundary text")
+    bounded = [b.evidence_requirement_ref for b in target.external_boundaries]
+    for ref in sorted({r for r in bounded if bounded.count(r) > 1}):
+        violations.append(f"evidence requirement '{ref}' has more than one external boundary")
 
     return violations
