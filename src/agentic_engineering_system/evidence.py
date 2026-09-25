@@ -226,3 +226,115 @@ __all__ = [
     "EvidenceError", "ObservationRecord", "assess", "freshness", "load_observations", "render_report",
     "RecordLoadError",
 ]
+
+
+# --------------------------------------------------------------------------- #
+# Recording: run a verification subject and write the observation
+# --------------------------------------------------------------------------- #
+
+RECORDER = "aes evidence record"
+_OUTPUT_TAIL_LINES = 20
+
+
+@dataclass(frozen=True)
+class Recorded:
+    path: Path
+    observation: ObservationRecord
+
+
+def _aes_version() -> str:
+    from importlib.metadata import PackageNotFoundError, version
+
+    try:
+        return version("agentic-engineering-system")
+    except PackageNotFoundError:
+        return "unknown"
+
+
+def record(
+    root: Path,
+    subject_id: str,
+    depends_on: list[str],
+    command: list[str] | None = None,
+    downgrade_basis: str | None = None,
+) -> Recorded:
+    """Run one deterministic-test verification subject at HEAD and write its observation.
+
+    Exit 0 assesses every evidence requirement the subject proves as SUPPORTS
+    (INCONCLUSIVE with `downgrade_basis`, for a test that covers only part of a
+    requirement); any other exit assesses them as REFUTES. Refuses when a
+    dependency has uncommitted changes, because the observation must name the
+    commit that holds exactly what was run.
+    """
+    import sys
+    from datetime import UTC
+
+    from ruamel.yaml import YAML
+
+    root = Path(root).resolve()
+    project = load_project(root / ".aes" / "project.yaml")
+    target = load_target(root / project.materialization.target_path)
+    subjects = {v.id: v for v in target.verification_subjects}
+    if subject_id not in subjects:
+        raise EvidenceError(f"unknown verification subject {subject_id!r}")
+    vs = subjects[subject_id]
+    if vs.proof_kind != "deterministic_test":
+        raise EvidenceError(
+            f"{subject_id} is {vs.proof_kind}; only deterministic_test subjects can be recorded by running them"
+        )
+    if vs.locator.startswith("external:") or not (root / vs.locator).exists():
+        raise EvidenceError(f"{subject_id} locator {vs.locator!r} is not a path in this repository")
+
+    deps = sorted({vs.locator, *depends_on})
+    missing = [d for d in deps if not (root / d).exists()]
+    if missing:
+        raise EvidenceError(f"dependency paths do not exist: {missing}")
+    dirty = [p for p in _git(root, "status", "--porcelain", "--", *deps).splitlines() if p]
+    if dirty:
+        raise EvidenceError("commit before observing; uncommitted dependency changes: " + "; ".join(dirty))
+    revision = _git(root, "rev-parse", "HEAD").strip()
+
+    if command is None:
+        if project.ecosystem.primary_language_or_runtime != "python":
+            raise EvidenceError("no default test command for this ecosystem; pass --command")
+        command = [sys.executable, "-m", "pytest", "-q", vs.locator]
+    proc = subprocess.run(command, cwd=root, capture_output=True, text=True, check=False)
+    output = (proc.stdout + proc.stderr).strip().splitlines()[-_OUTPUT_TAIL_LINES:]
+
+    if proc.returncode == 0:
+        assessment, basis = ("INCONCLUSIVE", downgrade_basis) if downgrade_basis else (
+            "SUPPORTS", f"{subject_id} ({vs.purpose}) passed: exit 0")
+    else:
+        assessment, basis = "REFUTES", f"{subject_id} failed: exit {proc.returncode}"
+    assessor = {"identity": RECORDER, "version": _aes_version()}
+
+    base = f"OBS-{subject_id.removeprefix('VS-')}-{revision[:8]}"
+    obs_dir = root / project.materialization.observations_root
+    obs_dir.mkdir(parents=True, exist_ok=True)
+    oid, n = base, 1
+    while (obs_dir / f"{oid}.yaml").exists():
+        n += 1
+        oid = f"{base}-{n}"
+    data = {
+        "schema_version": OBSERVATION_SCHEMA,
+        "observation_id": oid,
+        "subject_refs": [subject_id],
+        "subject_revision": revision,
+        "dependency_paths": deps,
+        "observer": assessor,
+        "method": " ".join(command),
+        "execution_state": "COMPLETED",
+        "result": {"exit_code": proc.returncode, "output_tail": "\n".join(output)},
+        "produced_at": datetime.now(UTC).isoformat(timespec="seconds"),
+        "assessments": [
+            {"evidence_requirement_ref": er, "assessment": assessment, "basis": basis, "assessor": assessor}
+            for er in vs.evidence_requirement_refs
+        ],
+    }
+    observation = ObservationRecord.model_validate(data)
+    path = obs_dir / f"{oid}.yaml"
+    yaml = YAML()
+    yaml.width = 100
+    with path.open("x", encoding="utf-8") as fh:
+        yaml.dump(data, fh)
+    return Recorded(path, observation)

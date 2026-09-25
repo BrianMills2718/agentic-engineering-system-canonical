@@ -333,3 +333,25 @@ Kinks the consumer exposed:
    revision and dependency paths.
 5. **The consumer's pre-commit hook was hand-copied** and broke in linked
    worktrees (no `.venv`). AES should ship it (`aes hooks install`).
+
+## 10. Recording evidence by running it (2026-09-25)
+
+`aes evidence record <VS-ID>` runs one deterministic-test verification subject
+at HEAD and writes the observation: the commit, the dependency paths (the test
+file plus `--depends-on`), the command, exit code and output tail, and one
+assessment per evidence requirement the subject proves. Exit 0 is SUPPORTS,
+or INCONCLUSIVE with `--inconclusive <basis>` for a test that covers only part
+of a requirement; any other exit is REFUTES. It refuses while a dependency has
+uncommitted changes, closing kink 2 of section 9, and refuses human-review and
+external subjects, which running a command cannot produce.
+
+Wrong-when: a recorded SUPPORTS stays CURRENT while the code it exercised has
+changed, because a source file it depends on was not listed in
+`--depends-on`. Dependency paths are declared, not discovered.
+
+A consumer hazard found while preparing the first real run: linked worktrees
+share the main checkout's `.venv`, where the consumer is installed editable
+from the main checkout. A test run inside a worktree can then import the main
+checkout's source while the observation names the worktree's commit. The
+consumer must make its test runner import its own tree (for whygame5,
+pytest `pythonpath = ["src"]`).
