@@ -60,6 +60,7 @@ Read these as the **current candidate**, not chronologically:
 7. **`21-provider-bindings.candidate.yaml`** and **`22-portable-provider-boundaries.md`** — provider choices/rejections and portable planning/context boundaries.
 8. **`10-greenfield-mvp-validation-profile.md`** and **`23-greenfield-cli-product-contract.md`** — falsifiable MVP proof and colleague-facing product flow.
 9. **`06-open-questions.md`** — unresolved review decisions.
+10. **`24-pre-probe-decisions.md`** — independent review verdict, decisions taken before probe 0, consumer-selection rule and build order.
 
 The numbered clean-sheet passes and detailed provider evaluations are supporting
 rationale/evidence. They are not competing current architectures.
@@ -270,6 +271,16 @@ This review snapshot does not:
 - claim a fresh consumer has passed the MVP;
 - claim chronological supporting notes remain current if they disagree with the
   primary candidate files.
+
+## Review outcome recorded (2026-09-25)
+
+An independent review returned **accept for bounded implementation probing**,
+conditional on `24-pre-probe-decisions.md`: governed-namespace scoping of the
+no-orphan rule, conjunction-only evidence sufficiency, `component` as the public
+term, an explicit supersession statement for Decisions 0001/0002/0009 at
+cutover, and probe 0 (the context A/B test) built before any other unit. The
+first authentic consumer is still to be named (a new small Python tool Brian
+already needs; option A approved by Brian 2026-09-25).
 
 ## Review outcome expected
 

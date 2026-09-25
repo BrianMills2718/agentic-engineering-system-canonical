@@ -12,6 +12,8 @@ For the current architecture, start at `REVIEW.md`.
 
 ### 1. Realization unit name and split rule
 
+**Resolved 2026-09-25 (D3 in `24-pre-probe-decisions.md`): public term is `component`.**
+
 Candidate direction:
 
 - keep the semantic concept;
@@ -37,6 +39,8 @@ Review question:
 Should the kinds be frozen in v0.2, extensible, or removed from the MVP?
 
 ### 3. Evidence-requirement composition
+
+**Resolved for the MVP 2026-09-25 (D2 in `24-pre-probe-decisions.md`): conjunction-only.**
 
 Candidate direction:
 
@@ -260,6 +264,8 @@ compatibility contract after clean-install/round-trip probes?
 
 ### 20. Authentic Greenfield consumer and control
 
+**Selection rule resolved 2026-09-25 (`24-pre-probe-decisions.md` §2, option A approved by Brian); the specific tool is still to be named. Control isolation rule: §3 step 3.**
+
 Candidate direction:
 
 Use a genuinely new project, not AES canonical, and compare one real change with
@@ -273,6 +279,8 @@ isolate the control from hidden conversational knowledge?
 ## Lineage/cutover
 
 ### 21. v0.2 acceptance and v0.1 supersession
+
+**Partially resolved 2026-09-25 (D4 in `24-pre-probe-decisions.md`): cutover must explicitly supersede 0001 §3/§6, 0002 and 0009; the marking artifact/revision remains open.**
 
 Candidate direction:
 

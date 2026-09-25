@@ -22,6 +22,7 @@ primary_current_candidate:
   - 21-provider-bindings.candidate.yaml
   - 22-portable-provider-boundaries.md
   - 23-greenfield-cli-product-contract.md
+  - 24-pre-probe-decisions.md
 
 supporting_principles_and_rationale:
   - 05-donor-reentry.md
@@ -84,13 +85,17 @@ superseded_parallel_proposal:
   disposition: superseded_by_clean_sheet_v0_2_review
   merge_recommended: false
 
+resolved_preimplementation_decisions_2026_09_25:
+  - realization_unit_naming_and_boundary: component
+  - evidence_requirement_composition_shape: conjunction_only
+  - governed_artifact_scope: declared_governed_roots_in_project_yaml
+  - build_order: probe_0_context_ab_test_first
+
 remaining_preimplementation_decisions:
-  - realization_unit_naming_and_boundary
-  - evidence_requirement_composition_shape
   - evidence_assessment_record_materialization
   - exact_Python_version_range
   - exact_dependency_versions_and_clean_install_probe
   - stdlib_AST_minimum_vs_Griffe_after_bounded_probe
-  - authentic_fresh_consumer_selection
+  - authentic_fresh_consumer_selection_specific_tool_not_yet_named
   - v0_2_acceptance_and_v0_1_supersession_boundary
   - v0_1_runtime_artifact_disposition_before_final_cutover
