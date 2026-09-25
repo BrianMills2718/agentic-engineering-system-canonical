@@ -1,0 +1,229 @@
+# Accepted AES v0.2 greenfield architecture. Plain copy of proposals/aes-v0.2-greenfield/15-planning-contract.candidate.yaml
+# (copied, not git mv'd, so the proposal lineage stays in place), accepted by Decision 0010
+# (2026-09-25). For AES canonical, .aes/target.yaml is the live authority: where this file and
+# the target disagree, this file is wrong. `accepted_amendments` lists what changed from the candidate.
+# File names below that are not in this directory refer to proposals/aes-v0.2-greenfield/ (proposal lineage).
+schema_version: aes.v0_2.planning_contract.v0
+status: accepted
+accepted_by: docs/decisions/0010-greenfield-v0.2-accepted.md
+source_proposal: proposals/aes-v0.2-greenfield/15-planning-contract.candidate.yaml
+semantic_model: 02-semantic-model.yaml
+lifecycle: 03-lifecycle.yaml
+
+purpose: >
+  Define the AES-specific planning capability without selecting Company Planning,
+  Enforced Planning, or any other provider.
+
+planning_capability:
+  id: aes.planning.derive
+  meaning: >
+    Convert accepted target, qualified current/gaps and accepted engineering
+    analysis into a proposed realization/verification target delta and an
+    execution transition that can be accepted without hidden design decisions.
+
+preconditions:
+  required:
+    - accepted_target_snapshot
+    - qualified_current_snapshot
+    - gap_snapshot
+  optional:
+    - accepted_failure_modes
+    - provider_landscape_refs
+    - feasibility_findings
+    - planning_uncertainty
+    - distribution_or_initialization_constraints
+  invariant: >
+    Planning may expose unresolved uncertainty but must not invent current facts,
+    provider fit, or target commitments to make the plan look complete.
+
+design_phase:
+  input_binding:
+    - source_target_identity
+    - source_current_identity
+    - source_gap_identity
+    - analysis_refs
+
+  produces:
+    proposed_target_delta:
+      may_add_update_or_remove:
+        - capability_requirements
+        - provider_bindings
+        - realization_units
+        - planned_artifacts
+        - artifact_generation_rules
+        - planned_symbol_commitments
+        - verification_subjects
+        - consequential_intended_dependencies
+      each_change_requires:
+        - semantic_reason
+        - affected_target_refs
+      nonclaim: >
+        Proposed target delta is not accepted target merely because planning
+        emitted it.
+
+    execution_design:
+      includes_as_needed:
+        - human_observable_verticals
+        - boundary_probes
+        - dependency_resolution
+        - enablers
+        - regression_or_hardening_work
+      each_non_vertical_item_requires:
+        - protected_or_unlocked_vertical
+        - stopping_or_return_rule
+
+    planning_uncertainty:
+      each_entry_requires:
+        - question_or_unknown
+        - current_known_facts
+        - resolution_method
+        - stopping_rule
+        - downstream_update_if_resolved
+      rule: unresolved_load_bearing_uncertainty_cannot_be_silently_frozen
+
+target_acceptance_transaction:
+  order:
+    - validate_proposed_target_delta
+    - accept_target_delta
+    - materialize_new_target_identity
+    - recharacterize_or_reuse_valid_realized_observations
+    - recompute_qualified_current_against_new_target
+    - recompute_gap_set_against_new_target
+  reason: >
+    Realization topology becomes durable target authority before the historical
+    execution plan claims to close it.
+
+  important_distinction:
+    trigger_gaps:
+      meaning: gaps that caused planning to begin against the pre-design target
+    closing_gaps:
+      meaning: >
+        gaps produced or retained after the accepted target delta is applied and
+        current/gap is rematerialized; these are the gaps the execution plan can
+        intend to close or narrow
+
+execution_plan_phase:
+  may_begin_only_after:
+    - target_delta_accepted
+    - new_current_materialized
+    - new_gap_set_materialized
+
+  plan_required:
+    - id
+    - source_target_identity
+    - source_current_identity
+    - trigger_gap_refs
+    - closing_gap_refs
+    - intended_transition
+    - verticals_or_probes
+    - completion_evidence_requirements
+    - stopping_and_reassessment_rules
+
+  vertical:
+    required:
+      - id
+      - actor_or_consumer_outcome
+      - included_target_refs
+      - included_realization_refs
+      - included_verification_refs
+      - observable_completion_boundary
+    rule: >
+      A vertical is outcome-bearing. Work graphs/task lists may coordinate its
+      execution but do not replace its semantic identity.
+
+  probe_or_enabler:
+    required:
+      - id
+      - class
+      - question_or_blocker
+      - protected_vertical_ref
+      - stopping_rule
+      - return_path
+    classes:
+      - boundary_probe
+      - dependency_resolution
+      - enabler
+      - regression_or_hardening
+
+provider_selection:
+  prerequisite:
+    - capability_requirement_exists
+    - provider_success_boundary_understood
+  candidate_process:
+    - examine_external_or_native_options
+    - examine_relevant_prior_donors_or_providers
+    - compare_against_AES_capability_and_distribution_requirements
+    - retain_provider_evidence
+    - propose_provider_binding
+  prohibited:
+    - selecting_provider_because_it_already_exists
+    - changing_AES_requirement_to_match_provider_vocabulary_without_target_decision
+    - undocumented_private_provider_as_default_distribution_dependency
+
+repository_topology_rules:
+  exact_path_default: true
+  generation_rule_allowed_when:
+    - exact_members_not_usefully_enumerable_before_generation
+    - bounded_namespace_and_producer_are_known
+    - semantic_reason_and_lifecycle_are_explicit
+  before_governed_execution:
+    - every_planned_durable_artifact_accounted_for
+    - every_selected_symbol_commitment_bound_to_planned_artifact
+    - every_exercised_criterion_has_verification_route
+    - intended_consequential_dependencies_explicit_where_needed
+  no_orphan_rule: >
+    Planning cannot authorize "create whatever files implementation needs" as an
+    unbounded topology.
+
+verification_design_rules:
+  criterion_owns: evidence_requirements
+  planning_owns: concrete_verification_subjects
+  each_verification_subject:
+    - maps_to_criterion
+    - matches_or_addresses_evidence_requirement
+    - has_exact_planned_locator_or_external_boundary
+    - has_proof_role
+  negative_or_recovery_control:
+    required_when: >
+      The target makes a load-bearing claim that a control blocks, detects,
+      contains, or recovers from a failure and positive-only evidence would not
+      demonstrate sensitivity.
+
+change_during_execution:
+  allowed_without_replan:
+    - native_body_details_not_governed_as_target_commitments
+    - private_helper_symbols
+    - ephemeral_runtime_or_build_artifacts
+    - reversible_details_within_accepted_artifact_and_boundary_scope
+  target_amendment_or_replan_required_for:
+    - durable_governed_artifact_add_remove_rename
+    - accepted_generation_rule_change
+    - realization_unit_responsibility_or_boundary_change
+    - provider_binding_change
+    - consequential_intended_dependency_change
+    - selected_symbol_identity_or_normative_signature_change
+    - criterion_or_evidence_requirement_change
+    - verification_topology_change_when_it_alters_accepted_proof_design
+  rule: >
+    Execution discovery is allowed; hidden architecture changes are not.
+
+completion:
+  plan_completion_means: >
+    The accepted transition work and plan-specific completion evidence were
+    executed/dispositioned according to the plan.
+  plan_completion_does_not_mean:
+    - target_conformant
+    - criterion_satisfied
+    - gap_closed
+    - stakeholder_utility_positive
+  required_next_step:
+    - characterize_realized_repository
+    - assess_evidence
+    - rematerialize_current
+    - reconcile_gaps
+    - project_next_context_or_stop
+
+provider_boundary_nonclaim: >
+  This contract defines what AES planning must accomplish. It does not select the
+  implementation that performs planning, validation, provider discovery,
+  execution custody, or enforcement.

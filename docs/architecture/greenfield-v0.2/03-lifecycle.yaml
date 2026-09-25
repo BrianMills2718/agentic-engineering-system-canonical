@@ -1,0 +1,273 @@
+# Accepted AES v0.2 greenfield architecture. Plain copy of proposals/aes-v0.2-greenfield/03-lifecycle.candidate.yaml
+# (copied, not git mv'd, so the proposal lineage stays in place), accepted by Decision 0010
+# (2026-09-25). For AES canonical, .aes/target.yaml is the live authority: where this file and
+# the target disagree, this file is wrong. `accepted_amendments` lists what changed from the candidate.
+# File names below that are not in this directory refer to proposals/aes-v0.2-greenfield/ (proposal lineage).
+schema_version: aes.v0_2.lifecycle.v2
+status: accepted
+accepted_by: docs/decisions/0010-greenfield-v0.2-accepted.md
+source_proposal: proposals/aes-v0.2-greenfield/03-lifecycle.candidate.yaml
+review_basis: 07-semantic-clean-sheet-review-pass-1.md
+
+state_classes:
+  accepted_target_authority:
+    meaning: >
+      Accepted intent, normative items, criteria and accepted realization
+      commitments that define what should be true.
+    rule: one_mutable_authority_per_semantic_fact
+
+  accepted_engineering_analysis:
+    meaning: >
+      Accepted failure modes, provider/feasibility findings and explicit
+      planning uncertainty that inform target and transition decisions without
+      themselves becoming target-current conformance subjects.
+
+  native_realization_authority:
+    meaning: >
+      Native executable source, configuration, contracts and other repository
+      artifacts own their realized native behavior/bytes. They do not redefine
+      normative target merely by existing.
+
+  observations:
+    meaning: >
+      Revision/subject-bound records of what analyzers, tests, runtimes, humans
+      or other observers actually saw.
+    rule: observation_is_not_criterion_satisfaction
+
+  evidence_assessments:
+    meaning: >
+      Qualified judgments over observations establishing freshness, adequacy and
+      standing for a criterion or claim.
+    rule: pass_like_result_is_not_automatically_sufficient_evidence
+
+  derived_projections:
+    examples:
+      - realized_repository_characterization
+      - semantic_graph
+      - current
+      - gap
+      - working_context
+      - human_navigation_and_review
+    rule: rebuildable_with_provenance_and_freshness
+
+greenfield_flow:
+  - step: establish_intent
+    produces:
+      - accepted_outcomes
+      - actors_or_consumers
+      - constraints
+      - non_goals
+
+  - step: establish_normative_target
+    produces:
+      - normative_items
+      - success_criteria
+      - disproof
+      - failure_modes
+
+  - step: characterize_initial_current
+    condition: new_project_has_no_realization_yet
+    produces:
+      - explicit_unrealized_current
+    rule: >
+      Absence of realization is known current state in greenfield work, not
+      missing information and not a reason to skip current characterization.
+
+  - step: derive_initial_gaps
+    consumes:
+      - accepted_normative_target
+      - explicit_unrealized_current
+    produces:
+      - initial_gap_set
+
+  - step: perform_planning_analysis
+    consumes:
+      - accepted_normative_target
+      - qualified_current
+      - gap_set
+    produces:
+      - accepted_failure_modes
+      - provider_landscape_as_needed
+      - feasibility_findings_as_needed
+      - explicit_planning_uncertainty
+
+  - step: aes_planning
+    consumes:
+      - accepted_normative_target
+      - qualified_current
+      - gap_set
+      - accepted_engineering_analysis
+      - known_constraints
+    produces:
+      - capability_requirements
+      - provider_dispositions
+      - realization_units
+      - dependency_intent
+      - exact_durable_artifact_topology
+      - selected_symbol_commitments
+      - verification_topology
+      - execution_ready_verticals_or_probes
+
+  - step: accept_target_realization
+    effect: >
+      Accepted durable realization commitments become part of target authority.
+      The plan owns the transition that proposed them; the historical plan does
+      not remain the timeless owner of repository topology.
+    consequence: >
+      Current/gap can be rematerialized against the expanded accepted target,
+      making missing planned artifacts and verification subjects explicit gaps.
+
+  - step: materialize_initial_repository
+    produces:
+      - declared_durable_artifacts
+      - generated_or_tool_created_artifacts_allowed_by_accepted_rules
+      - initial_working_context
+    invariant: no_orphan_durable_governed_artifacts
+
+  - step: project_working_context
+    consumes:
+      - accepted_target
+      - qualified_current
+      - gaps
+      - active_plan_when_applicable
+      - derived_semantic_graph
+      - verification_obligations
+    produces:
+      - smallest_complete_context_for_current_subject
+    semantic_requirement: >
+      Applicable normative, success and disproof meaning is present in full with
+      provenance. The delivery mechanism is not fixed by this lifecycle.
+
+  - step: native_implementation
+    rule: >
+      Executable behavior is authored in native implementation forms.
+      Unplanned durable topology changes require accepted target amendment or
+      replan; ordinary non-governed ephemeral artifacts do not.
+
+  - step: characterize_realized_repository
+    produces:
+      - revision_bound_realized_repository_characterization
+      - derived_observed_dependencies
+    rule: >
+      Realized characterization may use language/source analyzers but is not
+      limited to source code.
+
+  - step: execute_verification
+    produces:
+      - revision_bound_observations
+    rule: >
+      A verification subject produces observations. It does not decide its own
+      criterion adequacy merely by reporting a pass-like result.
+
+  - step: assess_evidence
+    consumes:
+      - observations
+      - criterion_evidence_requirements
+      - dependency_and_revision_freshness
+    produces:
+      - evidence_assessments
+
+  - step: characterize_current
+    consumes:
+      - accepted_target
+      - realized_repository_characterization
+      - evidence_assessments
+    produces:
+      - qualified_current
+
+  - step: reconcile_gap
+    consumes:
+      - accepted_target
+      - qualified_current
+    produces:
+      - gap_projection
+
+  - step: regenerate_working_and_review_projections
+    consumes:
+      - accepted_target
+      - realized_repository_characterization
+      - qualified_current
+      - gaps
+      - plan_state
+      - verification_state
+    produces:
+      - working_context
+      - human_navigation_and_review
+      - semantic_graph
+
+  - step: continue_change_stop_or_scale
+    rule: >
+      Next work derives from remaining gaps, intended outcomes, failure modes and
+      evidence. Plan completion has no independent closure authority.
+
+target_realized_comparison:
+  candidate_findings:
+    - declared_artifact_missing
+    - undeclared_durable_governed_artifact_present
+    - selected_planned_symbol_missing
+    - planned_signature_or_type_drift
+    - verification_subject_missing
+    - criterion_without_sufficient_current_evidence
+    - intended_dependency_disagrees_with_observed_dependency
+  rule: >
+    Findings preserve target intent, realized observation and derived impact as
+    distinct facts.
+
+working_context_delivery:
+  semantic_requirement:
+    - full_applicable_normative_text
+    - full_success_criterion_text
+    - full_disproof_text
+    - provenance
+    - qualified_current
+    - relevant_gaps
+    - applicable_plan_transition
+    - verification_obligations
+    - relevant_dependency_consequences
+  mechanism_status: deferred
+  candidate_mechanisms_not_selected:
+    - generated_docstrings
+    - generated_file_headers
+    - adjacent_sidecar
+    - IDE_or_agent_injection
+    - hybrid
+
+freshness:
+  principle: >
+    A projection or evidence assessment that cannot establish applicability to
+    the claimed subject/revision must expose UNKNOWN, STALE, ERROR, UNOBSERVED or
+    INSUFFICIENT semantics as appropriate rather than current/green.
+
+history:
+  git_is_baseline_source_lineage: true
+  durable_decisions_and_plans_preserve_accepted_reasoning: true
+  observations_and_evidence_are_revision_bound: true
+  append_only_semantic_event_layer:
+    status: deferred_candidate
+    adoption_test: >
+      Add only if the Greenfield MVP demonstrates material lifecycle information
+      that Git plus accepted authorities plus observations/evidence cannot
+      represent cleanly.
+
+provider_selection:
+  occurs_after_semantic_requirement: true
+  prior_systems_have_automatic_preference: false
+  acceptable_dispositions:
+    - reuse
+    - configure
+    - adapt
+    - compose
+    - residual
+    - reject
+    - unresolved
+
+retrofit:
+  status: future_capability
+  not_part_of_greenfield_flow: true
+  expected_future_problem:
+    - characterize_existing_repository
+    - infer_candidate_intent_without_promoting_inference_to_truth
+    - expose_uncertainty
+    - obtain_human_or_authoritative_disposition
+    - establish_first_accepted_target
+    - enter_normal_AES_lifecycle_after_adoption
