@@ -1,5 +1,7 @@
 # AES v0.2 semantic clean-sheet review — pass 4: target, analysis, transition, observation
 
+Review role: **historical/supporting rationale**. Current target/analysis/transition distinctions are incorporated into `02-semantic-model.candidate.yaml` and `03-lifecycle.candidate.yaml`.
+
 Status: **proposal review / non-normative**
 Date: 2026-09-24
 
