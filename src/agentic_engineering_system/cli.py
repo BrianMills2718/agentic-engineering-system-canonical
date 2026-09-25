@@ -6,6 +6,7 @@
     aes evidence status [--root DIR]
     aes evidence record <VS-ID> [--depends-on PATH ...] [--command ...] [--inconclusive BASIS] [--root DIR]
     aes hooks install [--root DIR]
+    aes characterize [--root DIR] [--json]
     aes --version
 
 Exit 0 on success, 1 on any load/validation/context/topology error or orphan (message on stderr),
@@ -20,6 +21,9 @@ from collections.abc import Sequence
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
+from .characterize import CharacterizeError
+from .characterize import check as characterize_check
+from .characterize import render_report as render_characterization
 from .evidence import EvidenceError, assess, record
 from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
@@ -73,7 +77,8 @@ def _build_parser() -> argparse.ArgumentParser:
     rec = evidence_sub.add_parser("record", help="run a deterministic-test verification subject and write its observation")
     rec.add_argument("subject", help="verification subject ID (VS-...)")
     rec.add_argument("--depends-on", action="append", default=[], metavar="PATH",
-                     help="repository path the result depends on (repeatable); the test file is always included")
+                     help="repository path the result depends on (repeatable), added to the test file and, "
+                          "for a Python test, its discovered intra-repository imports")
     rec.add_argument("--command", dest="run_command", nargs=argparse.REMAINDER,
                      help="command to run instead of the ecosystem default (python: pytest on the locator)")
     rec.add_argument("--inconclusive", metavar="BASIS",
@@ -84,6 +89,10 @@ def _build_parser() -> argparse.ArgumentParser:
     hooks_sub = hooks.add_subparsers(dest="hooks_command", required=True)
     install = hooks_sub.add_parser("install", help="write .githooks/pre-commit and set core.hooksPath")
     install.add_argument("--root", type=Path, default=Path("."), help="project root (default: .)")
+
+    charac = sub.add_parser("characterize", help="revision-bound facts about the governed files, and drift from the target")
+    charac.add_argument("--root", type=Path, default=Path("."), help="project root (default: .)")
+    charac.add_argument("--json", action="store_true", help="print the characterization as JSON (drift goes to stderr)")
     return parser
 
 
@@ -135,6 +144,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "evidence" and args.evidence_command == "status":
             print(render_evidence(assess(args.root)))
             return 0
+        if args.command == "characterize":
+            report = characterize_check(args.root)
+            if args.json:
+                print(report.characterization.model_dump_json(indent=2))
+                failing = [d for d in report.drift if d.failing]
+                for d in failing:
+                    print(f"drift {d.kind}: {d.path} - {d.detail}", file=sys.stderr)
+            else:
+                print(render_characterization(report), file=sys.stdout if report.ok else sys.stderr)
+            return 0 if report.ok else 1
         if args.command == "hooks" and args.hooks_command == "install":
             hook, overridden = install_hooks(args.root)
             print(f"wrote {hook}\n  core.hooksPath=.githooks; runs aes target validate + aes topology check")
@@ -142,7 +161,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print(f"  note: overrides the global core.hooksPath {overridden} in this repository", file=sys.stderr)
             return 0
     except (RecordLoadError, TargetValidationError, ContextError, TopologyError, EvidenceError,
-            HookInstallError) as exc:
+            HookInstallError, CharacterizeError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     raise AssertionError(f"unhandled command {args.command!r}")  # argparse prevents this

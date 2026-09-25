@@ -236,3 +236,41 @@ def test_cli_record_writes_an_observation(with_test: Path, capsys: pytest.Captur
     assert out.startswith("wrote ") and "SUPPORTS for ER-WG5-001-01" in out
     assert main(["evidence", "record", "VS-WG5-PROMPTS", "--root", str(with_test)]) == 0  # default pytest
 
+
+
+def test_discovered_dependencies_union_declared_ones(with_test: Path) -> None:
+    """--depends-on adds to what the test's imports reach; the basis keeps them apart."""
+    _write(with_test, "src/whygame5/__init__.py", "")
+    _write(with_test, "tests/test_prompts.py", "from whygame5 import prompts\n\ndef test_ok():\n    assert prompts\n")
+    _git(with_test, "add", ".")
+    _git(with_test, "commit", "-q", "-m", "test imports prompts")
+
+    obs = record(with_test, "VS-WG5-PROMPTS", [RUN, PROMPTS], command=PASS).observation
+    assert obs.dependency_basis.discovered == ["src/whygame5/__init__.py", PROMPTS]
+    assert obs.dependency_basis.declared == [RUN, PROMPTS]
+    assert obs.dependency_paths == [RUN, "src/whygame5/__init__.py", PROMPTS, "tests/test_prompts.py"]
+
+    # Discovery alone makes a change to an imported file stale the evidence.
+    _git(with_test, "add", ".")
+    _git(with_test, "commit", "-q", "-m", "record")
+    obs = record(with_test, "VS-WG5-PROMPTS", [], command=PASS).observation
+    _git(with_test, "add", ".")
+    _git(with_test, "commit", "-q", "-m", "record without declaring")
+    _write(with_test, PROMPTS, "PROMPT = 'changed'\n")
+    _git(with_test, "commit", "-qam", "change prompts")
+    fresh = {oid: f for oid, f, _ in assess(with_test).observations}
+    assert fresh[obs.observation_id] == "STALE"
+
+
+def test_dependency_paths_must_match_their_basis(with_test: Path) -> None:
+    path = record(with_test, "VS-WG5-PROMPTS", [PROMPTS], command=PASS).path
+    text = path.read_text(encoding="utf-8")
+    path.write_text(text.replace(f"- {PROMPTS}\n", "", 1), encoding="utf-8")  # drop it from dependency_paths only
+    with pytest.raises(RecordLoadError, match="is not the union of dependency_basis"):
+        assess(with_test)
+
+
+def test_uncommitted_python_test_cannot_be_discovered(root: Path) -> None:
+    _write(root, "tests/test_prompts.py", "def test_ok():\n    assert True\n")
+    with pytest.raises(EvidenceError, match="not a governed Python file at HEAD"):
+        record(root, "VS-WG5-PROMPTS", [], command=PASS)

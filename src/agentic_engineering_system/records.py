@@ -102,6 +102,9 @@ class PlannedArtifact(StrictModel):
     kind: ArtifactKind
     purpose: str
     semantic_justification_refs: list[str]
+    # Symbol commitments (SC-GF-006): `name` or `name(args) -> ret`. Python
+    # source artifacts only; `aes characterize` reports drift against them.
+    exports: list[str] = Field(default_factory=list)
 
 
 class VerificationSubject(StrictModel):
@@ -325,6 +328,25 @@ def validate_target_refs(target: TargetRecord) -> list[str]:
             f"{loc}.semantic_justification_refs",
             "an outcome, normative item, or criterion id",
         )
+        if a.exports:
+            # Imported here: characterize_python imports this module.
+            from .characterize_python import parse_export
+
+            if a.kind != "source" or not a.locator.exact_path.endswith(".py"):
+                violations.append(
+                    f"exports at {loc} require kind 'source' and a .py exact_path "
+                    f"(got kind '{a.kind}', path '{a.locator.exact_path}')"
+                )
+            names: set[str] = set()
+            for k, entry in enumerate(a.exports):
+                try:
+                    name, _ = parse_export(entry)
+                except ValueError as exc:
+                    violations.append(f"{exc} at {loc}.exports[{k}]")
+                    continue
+                if name in names:
+                    violations.append(f"duplicate export '{name}' at {loc}.exports[{k}]")
+                names.add(name)
 
     for i, v in enumerate(target.verification_subjects):
         loc = f"verification_subjects[{i}] ({v.id})"
