@@ -1,5 +1,7 @@
 # AES v0.2 provider evaluation — round 2: generic dependencies
 
+Review role: **supporting dependency rationale**. Current candidate bindings are in `21-provider-bindings.candidate.yaml`.
+
 Status: **candidate provider evaluation / non-normative**
 Date: 2026-09-24
 
