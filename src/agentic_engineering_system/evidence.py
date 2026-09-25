@@ -7,10 +7,29 @@ assessment_receipt`), one per evidence requirement, never per criterion:
 an observation does not claim criterion sufficiency.
 
 Freshness is computed from Git. An observation names the commit it observed
-(`subject_revision`) and the repository paths its result depends on
-(`dependency_paths`). It is CURRENT when none of those paths changed between
-that commit and HEAD, STALE when any did, and UNKNOWN when it names no commit
-or no paths (external subjects, human review). Only CURRENT assessments count.
+(`subject_revision`), the repository paths its result depends on
+(`dependency_paths`) and the target entries it depends on
+(`dependency_target_refs`). It is CURRENT when none of those paths changed
+between that commit and HEAD and every referenced entry of the target file is
+the same at both, STALE when any path changed or any referenced entry changed
+or disappeared, and UNKNOWN when it names no commit or no dependency at all
+(external subjects, human review). Only CURRENT assessments count.
+
+Target dependencies are entry-level: an entry is its id's whole mapping
+(a criterion with its nested evidence requirements, a verification subject,
+...), compared after a strict load of the target at each revision, so an edit
+elsewhere in the file does not stale the observation. Listing the target file
+itself in `dependency_paths` still works and is the coarse form: any edit to
+the file stales the observation. Existing records are never rewritten.
+
+A negative control (`control: {kind: negative, ...}`) observes a deliberately
+mutated revision that exists only to show a check detects the mutation. Its
+`subject_revision` is that mutated commit, which may be on no branch; its
+freshness is computed from `control.base_revision`, the unmodified commit on a
+real branch the mutation was made from, because that is the state whose
+dependencies the control speaks for. Its assessments follow its outcome:
+`observed_outcome: detected` may SUPPORT, `missed` must REFUTE, and a result
+whose `exit_code` is 0 (the tool reported passing) cannot claim `detected`.
 
 Standing per criterion (D2, conjunction only):
 - REFUTED when any evidence requirement has a CURRENT refuting assessment;
@@ -20,6 +39,7 @@ Standing per criterion (D2, conjunction only):
 
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 from dataclasses import dataclass
@@ -33,10 +53,13 @@ from .records import (
     RecordLoadError,
     StrictModel,
     TargetRecord,
+    TargetValidationError,
     _validate_model,
     load_project,
     load_target,
     load_yaml_mapping,
+    parse_target,
+    parse_yaml_mapping,
 )
 
 OBSERVATION_SCHEMA = "aes.v0_2.observation.probe0"
@@ -72,6 +95,30 @@ class DependencyBasis(StrictModel):
     declared: list[str] = Field(default_factory=list)
 
 
+class NegativeControl(StrictModel):
+    """The observation is of a deliberately broken revision (a "break it on purpose" run).
+
+    `base_revision` is the unmodified commit, on a real branch, that the mutation
+    was made from; freshness is computed from it. `mutation` says what was changed.
+    `expected_outcome` is always `detected`; `observed_outcome` says whether the
+    check under test detected the mutation, and fixes what the assessments may say.
+    """
+
+    kind: Literal["negative"]
+    base_revision: str
+    mutation: str
+    expected_outcome: Literal["detected"]
+    observed_outcome: Literal["detected", "missed"]
+
+    @model_validator(mode="after")
+    def _shape(self) -> NegativeControl:
+        if not _COMMIT.fullmatch(self.base_revision):
+            raise ValueError(f"control.base_revision must be a full 40-hex commit: {self.base_revision!r}")
+        if not self.mutation:
+            raise ValueError("control.mutation must say what was changed")
+        return self
+
+
 class ObservationRecord(StrictModel):
     schema_version: Literal["aes.v0_2.observation.probe0"]
     observation_id: str
@@ -82,6 +129,11 @@ class ObservationRecord(StrictModel):
     external_identity: str | None = None
     dependency_paths: list[str] = Field(default_factory=list)
     dependency_basis: DependencyBasis | None = None
+    dependency_target_refs: list[str] = Field(
+        default_factory=list,
+        description="target entry ids the result depends on; compared entry by entry, not as a file",
+    )
+    control: NegativeControl | None = None
     observer: Observer
     method: str
     execution_state: Literal["COMPLETED", "ERROR"]
@@ -103,6 +155,28 @@ class ObservationRecord(StrictModel):
             raise ValueError("execution_state ERROR requires error, COMPLETED requires result")
         if self.execution_state == "ERROR" and self.assessments:
             raise ValueError("an ERROR observation cannot carry assessments")
+        dup = sorted({r for r in self.dependency_target_refs if self.dependency_target_refs.count(r) > 1})
+        if dup:
+            raise ValueError(f"dependency_target_refs lists {dup} more than once")
+        if self.control is not None:
+            c = self.control
+            if self.subject_revision is None:
+                raise ValueError("a negative control needs subject_revision (the mutated commit)")
+            if c.base_revision == self.subject_revision:
+                raise ValueError("a negative control's base_revision must differ from its mutated subject_revision")
+            if c.observed_outcome == "detected" and self.result is not None and self.result.get("exit_code") == 0:
+                raise ValueError(
+                    "negative control claims observed_outcome detected, but its result reports exit_code 0 "
+                    "(the tool passed the mutated revision); record observed_outcome: missed with REFUTES"
+                )
+            allowed = {"detected": {"SUPPORTS", "INCONCLUSIVE"}, "missed": {"REFUTES"}}[c.observed_outcome]
+            wrong = [f"{a.evidence_requirement_ref} {a.assessment}" for a in self.assessments
+                     if a.assessment not in allowed]
+            if wrong:
+                raise ValueError(
+                    f"negative control observed_outcome {c.observed_outcome} allows only {sorted(allowed)}; "
+                    f"got {wrong}"
+                )
         if self.dependency_basis is not None:
             b = self.dependency_basis
             union = sorted({b.locator, *b.discovered, *b.declared})
@@ -145,17 +219,88 @@ def _git(root: Path, *args: str) -> str:
     return proc.stdout
 
 
-def freshness(root: Path, obs: ObservationRecord) -> tuple[Freshness, str]:
-    if obs.subject_revision is None or not obs.dependency_paths:
+def _target_entries_at(root: Path, revision: str, target_path: str) -> dict[str, str]:
+    """Every id of the target at `revision` -> its entry, canonically serialized.
+
+    Strict load, as for the live target: a target that does not load at an
+    observed revision is an error, not a freshness verdict.
+    """
+    key = (str(root), revision, target_path)
+    if key not in _ENTRY_CACHE:
+        label = f"{target_path}@{revision[:12]}"
+        text = _git(root, "show", f"{revision}:{target_path}")
+        try:
+            target = parse_target(parse_yaml_mapping(text, label), Path(label))
+        except (RecordLoadError, TargetValidationError) as exc:
+            raise EvidenceError(f"target at {revision[:12]} does not load strictly: {exc}") from exc
+        _ENTRY_CACHE[key] = {
+            rid: json.dumps(entry.model_dump(mode="json"), sort_keys=True, ensure_ascii=False)
+            for members in target.families().values() for rid, entry in members.items()
+        }
+    return _ENTRY_CACHE[key]
+
+
+_ENTRY_CACHE: dict[tuple[str, str, str], dict[str, str]] = {}
+
+
+def _check_control(root: Path, obs: ObservationRecord) -> str:
+    """The revision a negative control's freshness is computed from, after checking its commits."""
+    assert obs.control is not None and obs.subject_revision is not None
+    base, mutated = obs.control.base_revision, obs.subject_revision
+    _git(root, "cat-file", "-e", f"{mutated}^{{commit}}")
+    _git(root, "cat-file", "-e", f"{base}^{{commit}}")
+    if not _git(root, "for-each-ref", "--contains", base, "--format=%(refname)", "refs/heads", "refs/remotes").strip():
+        raise EvidenceError(
+            f"{obs.observation_id}: control.base_revision {base[:12]} is on no branch; a negative control "
+            "must be derived from a commit on a real branch"
+        )
+    if subprocess.run(["git", "merge-base", "--is-ancestor", base, mutated], cwd=root,
+                      capture_output=True, check=False).returncode != 0:
+        raise EvidenceError(
+            f"{obs.observation_id}: control.base_revision {base[:12]} is not an ancestor of the mutated "
+            f"subject_revision {mutated[:12]}"
+        )
+    return base
+
+
+def freshness(root: Path, obs: ObservationRecord, target_path: str = ".aes/target.yaml") -> tuple[Freshness, str]:
+    """CURRENT, STALE or UNKNOWN, with the reason; see the module docstring."""
+    if obs.subject_revision is None or not (obs.dependency_paths or obs.dependency_target_refs):
         return "UNKNOWN", "no subject_revision or no dependency_paths"
-    _git(root, "cat-file", "-e", f"{obs.subject_revision}^{{commit}}")
-    changed = [
-        p for p in _git(root, "diff", "--name-only", obs.subject_revision, "HEAD", "--", *obs.dependency_paths)
-        .splitlines() if p
-    ]
-    if changed:
-        return "STALE", "changed since observed: " + ", ".join(changed)
-    return "CURRENT", f"no dependency changed since {obs.subject_revision[:12]}"
+    if obs.control is not None:
+        since = _check_control(root, obs)
+        prefix = f"negative control of {since[:12]}: "
+    else:
+        since = obs.subject_revision
+        _git(root, "cat-file", "-e", f"{since}^{{commit}}")
+        prefix = ""
+    reasons = []
+    if obs.dependency_paths:
+        changed = [
+            p for p in _git(root, "diff", "--name-only", since, "HEAD", "--", *obs.dependency_paths)
+            .splitlines() if p
+        ]
+        if changed:
+            reasons.append("changed since observed: " + ", ".join(changed))
+    if obs.dependency_target_refs:
+        head = _git(root, "rev-parse", "HEAD").strip()
+        then, now = _target_entries_at(root, since, target_path), _target_entries_at(root, head, target_path)
+        absent = [r for r in obs.dependency_target_refs if r not in then]
+        if absent:
+            raise EvidenceError(
+                f"{obs.observation_id}: dependency_target_refs {absent} are not declared in {target_path} "
+                f"at the observed revision {since[:12]}"
+            )
+        removed = [r for r in obs.dependency_target_refs if r not in now]
+        edited = [r for r in obs.dependency_target_refs if r in now and now[r] != then[r]]
+        if edited:
+            reasons.append("target entries changed since observed: " + ", ".join(edited))
+        if removed:
+            reasons.append("target entries removed since observed: " + ", ".join(removed))
+    if reasons:
+        return "STALE", prefix + "; ".join(reasons)
+    what = "dependency" if not obs.dependency_target_refs else "dependency or target entry"
+    return "CURRENT", f"{prefix}no {what} changed since {since[:12]}"
 
 
 @dataclass(frozen=True)
@@ -184,7 +329,8 @@ def assess(root: Path) -> EvidenceReport:
     target = load_target(root / project.materialization.target_path)
     observations = load_observations(root, project.materialization.observations_root, target)
 
-    fresh = {o.observation_id: freshness(root, o) for o in observations}
+    target_path = project.materialization.target_path
+    fresh = {o.observation_id: freshness(root, o, target_path) for o in observations}
     by_er: dict[str, list[tuple[ObservationRecord, ErAssessment]]] = {}
     for o in observations:
         for a in o.assessments:
@@ -285,12 +431,13 @@ class Recorded:
 
 
 def _aes_version() -> str:
-    from importlib.metadata import PackageNotFoundError, version
+    """The running AES code's version (`characterize.running_version`); fails if undeterminable."""
+    from .characterize import CharacterizeError, running_version
 
     try:
-        return version("agentic-engineering-system")
-    except PackageNotFoundError:
-        return "unknown"
+        return running_version()
+    except CharacterizeError as exc:
+        raise EvidenceError(str(exc)) from exc
 
 
 def record(
@@ -305,7 +452,10 @@ def record(
     Dependency paths are the test file, plus, for a Python test, every governed
     file its imports reach at HEAD (discovered by `characterize`), plus
     `depends_on` (declared). The observation's `dependency_basis` keeps the three
-    apart.
+    apart. Target dependencies are entry-level (`dependency_target_refs`): the
+    verification subject, the evidence requirements it assesses, and every
+    planned artifact whose path is among the dependency paths; the target file
+    itself is not a dependency path, so an unrelated target edit does not stale it.
 
     Exit 0 assesses every evidence requirement the subject proves as SUPPORTS
     (INCONCLUSIVE with `downgrade_basis`, for a test that covers only part of a
@@ -338,7 +488,8 @@ def record(
     missing = [d for d in deps if not (root / d).exists()]
     if missing:
         raise EvidenceError(f"dependency paths do not exist: {missing}")
-    dirty = [p for p in _git(root, "status", "--porcelain", "--", *deps).splitlines() if p]
+    target_path = project.materialization.target_path
+    dirty = [p for p in _git(root, "status", "--porcelain", "--", *deps, target_path).splitlines() if p]
     if dirty:
         raise EvidenceError("commit before observing; uncommitted dependency changes: " + "; ".join(dirty))
     revision = _git(root, "rev-parse", "HEAD").strip()
@@ -356,6 +507,8 @@ def record(
     else:
         assessment, basis = "REFUTES", f"{subject_id} failed: exit {proc.returncode}"
     assessor = {"identity": RECORDER, "version": _aes_version()}
+    by_path = {a.locator.exact_path: a.id for a in target.planned_artifacts}
+    target_refs = [subject_id, *vs.evidence_requirement_refs, *sorted({by_path[d] for d in deps if d in by_path})]
 
     base = f"OBS-{subject_id.removeprefix('VS-')}-{revision[:8]}"
     obs_dir = root / project.materialization.observations_root
@@ -371,6 +524,7 @@ def record(
         "subject_revision": revision,
         "dependency_paths": deps,
         "dependency_basis": {"locator": vs.locator, "discovered": discovered, "declared": declared},
+        "dependency_target_refs": target_refs,
         "observer": assessor,
         "method": " ".join(command),
         "execution_state": "COMPLETED",

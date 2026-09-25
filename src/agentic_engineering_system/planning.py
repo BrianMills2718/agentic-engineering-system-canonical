@@ -189,6 +189,17 @@ def unrouted_requirements(target: TargetRecord) -> list[str]:
     return [er for er in target.evidence_requirements() if er not in routed]
 
 
+def route_violations(target: TargetRecord) -> list[str]:
+    """One line per unrouted evidence requirement (SC-GF-004); used by `aes plan validate`
+    on the resulting target and by `aes target validate` (the pre-commit hook) on the current one."""
+    owners = target.evidence_requirements()
+    return [
+        f"evidence requirement '{er}' (criterion '{owners[er][0].id}') has no route: no verification "
+        f"subject names it in evidence_requirement_refs and external_boundaries does not list it"
+        for er in unrouted_requirements(target)
+    ]
+
+
 def apply_delta(target: TargetRecord, delta: TargetDelta) -> tuple[TargetRecord, list[str]]:
     """Apply `delta` to a copy of `target`; return the result and every delta-level violation.
 
@@ -318,12 +329,7 @@ def validate_proposal(root: Path, proposal: Proposal) -> ValidatedProposal:
     result, violations = apply_delta(current, proposal.target_delta)
     violations += [f"resulting target: {v}" for v in validate_target_refs(result)]
 
-    owners = result.evidence_requirements()
-    for er in unrouted_requirements(result):
-        violations.append(
-            f"evidence requirement '{er}' (criterion '{owners[er][0].id}') has no route: no verification "
-            f"subject names it in evidence_requirement_refs and external_boundaries does not list it"
-        )
+    violations += route_violations(result)
 
     open_gaps = tuple(g.id for g in reconcile(root).open_gaps())
     for i, gap in enumerate(proposal.closes_gaps):

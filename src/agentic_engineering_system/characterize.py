@@ -75,13 +75,62 @@ def _git(root: Path, *args: str, input: bytes | None = None) -> bytes:
     return proc.stdout
 
 
-def _producer_version() -> str:
-    try:
-        return version(DISTRIBUTION)
-    except PackageNotFoundError as exc:
+def _source_checkout_revision(module_file: Path) -> str | None:
+    """`git describe --always --dirty` of the checkout that tracks `module_file`, else None.
+
+    None when the file is not inside a Git work tree, or is inside one that does
+    not track it (a venv's site-packages under a consumer checkout).
+    """
+    def git(cwd: Path, *args: str) -> subprocess.CompletedProcess[str] | None:
+        try:
+            return subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True, check=False)
+        except FileNotFoundError:  # no git executable: the checkout cannot be described
+            return None
+
+    top = git(module_file.parent, "rev-parse", "--show-toplevel")
+    if top is None or top.returncode != 0:
+        return None
+    toplevel = Path(top.stdout.strip())
+    tracked = git(toplevel, "ls-files", "--error-unmatch", "--", str(module_file))
+    if tracked is None or tracked.returncode != 0:
+        return None
+    described = git(toplevel, "describe", "--always", "--dirty")
+    if described is None or described.returncode != 0:
         raise CharacterizeError(
-            f"distribution {DISTRIBUTION!r} is not installed; a characterization needs a producer version"
-        ) from exc
+            f"{module_file} is tracked by {toplevel}, but git describe failed there: "
+            f"{described.stderr.strip() if described else 'git not found'}"
+        )
+    return described.stdout.strip()
+
+
+def running_version(module_file: Path | None = None) -> str:
+    """The AES version of the code that is actually executing.
+
+    `importlib.metadata` names what was installed, which in an editable venv
+    shared by linked worktrees is the main checkout's install-time version
+    (§13 of `24-pre-probe-decisions.md`). When the running module is tracked by
+    a Git checkout, that checkout's `git describe --always --dirty` is appended:
+    `0.1.dev371+g4979c9df8 (running: 3833a8b-dirty)`. Otherwise the installed
+    version alone. Neither determinable fails.
+    """
+    module_file = Path(module_file or __file__).resolve()
+    try:
+        installed: str | None = version(DISTRIBUTION)
+    except PackageNotFoundError:
+        installed = None
+    running = _source_checkout_revision(module_file)
+    if running is None:
+        if installed is None:
+            raise CharacterizeError(
+                f"distribution {DISTRIBUTION!r} is not installed and {module_file} is not tracked by a Git "
+                "checkout; no producer version can be reported"
+            )
+        return installed
+    return f"{installed or 'not installed'} (running: {running})"
+
+
+def _producer_version() -> str:
+    return running_version()
 
 
 def _read_blobs(root: Path, shas: list[str]) -> dict[str, bytes]:

@@ -17,10 +17,12 @@ from pathlib import Path
 import pytest
 
 from agentic_engineering_system.characterize import (
+    CharacterizeError,
     characterize,
     check,
     drift,
     render_report,
+    running_version,
 )
 from agentic_engineering_system.characterize_python import (
     analyze,
@@ -32,6 +34,7 @@ from agentic_engineering_system.cli import main
 from agentic_engineering_system.evidence import record
 from agentic_engineering_system.records import TargetValidationError, load_target
 
+REPO = Path(__file__).resolve().parents[2]
 WHYGAME5_AES = Path(__file__).parent / "fixtures" / "whygame5-54043e2" / ".aes"
 PASS = [sys.executable, "-c", "print('1 passed')"]
 
@@ -112,7 +115,11 @@ def test_output_is_deterministic_apart_from_produced_at(root: Path, capsys: pyte
 def test_every_fact_is_bound_to_head_and_producer(root: Path) -> None:
     c = characterize(root)
     assert c.subject_revision == _git(root, "rev-parse", "HEAD")
-    assert (c.producer.identity, c.producer.version) == ("aes", version("agentic-engineering-system"))
+    # The tests import this checkout's src/ (pytest pythonpath), so the producer names it.
+    running = subprocess.run(["git", "describe", "--always", "--dirty"], cwd=REPO, capture_output=True,
+                             text=True, check=True).stdout.strip()
+    assert (c.producer.identity, c.producer.version) == (
+        "aes", f"{version('agentic-engineering-system')} (running: {running})")
     assert c.dirty is False
     assert [f.path for f in c.files] == sorted(SOURCES)  # governed roots only: no .aes/, no pyproject
     prompts = next(f for f in c.files if f.path == "src/whygame5/prompts.py")
@@ -272,3 +279,73 @@ def test_record_discovers_dependencies_and_keeps_declared_ones(root: Path) -> No
         "src/whygame5/__init__.py", "src/whygame5/contracts.py", "src/whygame5/graph.py",
         "src/whygame5/prompts.py", "tests/test_prompts.py",
     ]
+
+
+# --------------------------------------------------------------------------- #
+# Producer version names the running code, not only the install (§13 note)
+# --------------------------------------------------------------------------- #
+
+
+def _checkout_with_module(tmp_path: Path) -> tuple[Path, Path]:
+    """A main checkout tracking pkg/mod.py and a linked worktree one commit ahead:
+    the layout in which an editable install reports the main checkout's version."""
+    main_co = tmp_path / "main"
+    _write(main_co, "pkg/mod.py", "X = 1\n")
+    _git(main_co, "init", "-q")
+    _commit(main_co, "base")
+    _git(main_co, "worktree", "add", "-q", "-b", "lane", str(tmp_path / "lane"))
+    lane = tmp_path / "lane"
+    _write(lane, "pkg/mod.py", "X = 2\n")
+    _commit(lane, "lane change")
+    return main_co, lane
+
+
+def test_running_version_names_the_checkout_that_is_executing(tmp_path: Path,
+                                                              monkeypatch: pytest.MonkeyPatch) -> None:
+    import agentic_engineering_system.characterize as ch
+
+    monkeypatch.setattr(ch, "version", lambda _: "0.1.dev9+gabc")
+    main_co, lane = _checkout_with_module(tmp_path)
+    main_sha = _git(main_co, "rev-parse", "--short", "HEAD")
+    lane_sha = _git(lane, "rev-parse", "--short", "HEAD")
+    assert main_sha != lane_sha
+    # Same installed version, but each names the tree its module file sits in.
+    assert running_version(main_co / "pkg" / "mod.py") == f"0.1.dev9+gabc (running: {main_sha})"
+    lane_version = running_version(lane / "pkg" / "mod.py")
+    assert lane_version.startswith("0.1.dev9+gabc (running: ") and lane_version.endswith(")")
+    assert _git(lane, "rev-parse", "HEAD").startswith(lane_version.split("running: ")[1].rstrip(")"))
+    _write(lane, "pkg/mod.py", "X = 3\n")
+    assert running_version(lane / "pkg" / "mod.py").endswith("-dirty)")
+
+
+def test_running_version_is_the_install_alone_outside_a_tracking_checkout(tmp_path: Path,
+                                                                          monkeypatch: pytest.MonkeyPatch) -> None:
+    """A venv's site-packages inside a consumer checkout is not tracked by it: the
+    consumer's commit must not be reported as the AES code's."""
+    import agentic_engineering_system.characterize as ch
+
+    monkeypatch.setattr(ch, "version", lambda _: "0.1.dev9+gabc")
+    consumer = tmp_path / "consumer"
+    _write(consumer, "README", "x\n")
+    _git(consumer, "init", "-q")
+    _commit(consumer, "base")
+    _write(consumer, ".venv/lib/site-packages/pkg/mod.py", "X = 1\n")
+    assert running_version(consumer / ".venv/lib/site-packages/pkg/mod.py") == "0.1.dev9+gabc"
+    _write(tmp_path / "plain", "pkg/mod.py", "X = 1\n")
+    assert running_version(tmp_path / "plain" / "pkg" / "mod.py") == "0.1.dev9+gabc"
+
+
+def test_running_version_fails_when_neither_is_determinable(tmp_path: Path,
+                                                            monkeypatch: pytest.MonkeyPatch) -> None:
+    import agentic_engineering_system.characterize as ch
+    from importlib.metadata import PackageNotFoundError
+
+    def missing(name: str) -> str:
+        raise PackageNotFoundError(name)
+
+    monkeypatch.setattr(ch, "version", missing)
+    _write(tmp_path / "plain", "pkg/mod.py", "X = 1\n")
+    with pytest.raises(CharacterizeError, match="no producer version"):
+        running_version(tmp_path / "plain" / "pkg" / "mod.py")
+    main_co, _ = _checkout_with_module(tmp_path / "co")
+    assert running_version(main_co / "pkg" / "mod.py").startswith("not installed (running: ")

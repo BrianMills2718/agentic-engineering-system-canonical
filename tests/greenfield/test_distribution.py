@@ -120,6 +120,45 @@ def test_hook_blocks_orphan_commit_and_admits_planned_one(consumer: Path) -> Non
     _assert_hook_gates_orphan(consumer, env)
 
 
+UNROUTED_CRITERION = """  - id: SC-WG5-900
+    statement: A criterion added with nothing that could ever supply its evidence.
+    target_refs: [OUT-WG5-001]
+    disproof: No verification subject or external boundary names its requirement.
+    evidence_requirements:
+      - id: ER-WG5-900-01
+        kind: deterministic_test
+        requirement: A test that nobody has planned.
+"""
+
+
+def test_hook_refuses_a_criterion_with_no_route_and_admits_it_once_routed(consumer: Path) -> None:
+    """Phase 5 exit gate (SC-GF-004 at commit time): the hook's `aes target validate`
+    rejects a target in which an evidence requirement has no route."""
+    assert main(["hooks", "install", "--root", str(consumer)]) == 0
+    _git(consumer, "add", ".githooks/pre-commit")
+    env = {**os.environ, "PYTHONPATH": str(SRC)}
+    assert _git(consumer, "commit", "-q", "-m", "install hook", env=env).returncode == 0
+
+    target = consumer / ".aes" / "target.yaml"
+    text = target.read_text(encoding="utf-8")
+    target.write_text(text.replace("components:\n", UNROUTED_CRITERION + "components:\n", 1), encoding="utf-8")
+    _git(consumer, "add", ".aes/target.yaml")
+    blocked = _git(consumer, "commit", "-m", "add unrouted criterion", env=env)
+    assert blocked.returncode != 0
+    assert "1 evidence requirement(s) with no route" in blocked.stderr
+    assert "'ER-WG5-900-01' (criterion 'SC-WG5-900') has no route" in blocked.stderr
+    assert _git(consumer, "rev-list", "--count", "HEAD").stdout == "2\n"
+
+    routed = target.read_text(encoding="utf-8") + (
+        "external_boundaries:\n  - evidence_requirement_ref: ER-WG5-900-01\n"
+        "    boundary: supplied outside this repository, for the test\n"
+    )
+    target.write_text(routed, encoding="utf-8")
+    _git(consumer, "add", ".aes/target.yaml")
+    allowed = _git(consumer, "commit", "-m", "add routed criterion", env=env)
+    assert allowed.returncode == 0, allowed.stderr
+
+
 def test_linked_worktree_falls_back_to_main_checkout_venv(consumer: Path) -> None:
     """whygame5's kink: a linked worktree has no .venv; the hook must find the main one."""
     install_hooks(consumer, interpreter="/nonexistent/python")  # installer gone
@@ -186,28 +225,32 @@ def test_refuses_without_a_target(consumer: Path) -> None:
     assert not (consumer / ".githooks").exists()
 
 
-def test_version_fails_loudly_when_not_installed(monkeypatch: pytest.MonkeyPatch,
-                                                 capsys: pytest.CaptureFixture[str]) -> None:
-    import agentic_engineering_system.cli as cli
+def test_version_fails_loudly_when_nothing_names_the_running_code(monkeypatch: pytest.MonkeyPatch,
+                                                                  capsys: pytest.CaptureFixture[str]) -> None:
+    import agentic_engineering_system.characterize as ch
     from importlib.metadata import PackageNotFoundError
 
     def missing(name: str) -> str:
         raise PackageNotFoundError(name)
 
-    monkeypatch.setattr(cli, "version", missing)
+    monkeypatch.setattr(ch, "version", missing)
+    monkeypatch.setattr(ch, "_source_checkout_revision", lambda _: None)
     with pytest.raises(SystemExit) as exc:
         main(["--version"])
     assert exc.value.code == 1
     assert "is not installed" in capsys.readouterr().err
 
 
-def test_version_prints_the_installed_version_on_stdout(capsys: pytest.CaptureFixture[str]) -> None:
+def test_version_names_the_install_and_the_running_checkout(capsys: pytest.CaptureFixture[str]) -> None:
+    """Run from this checkout's src/ (pytest pythonpath), the version is the installed
+    distribution's plus this checkout's describe, not the install alone (§13 kink)."""
     from importlib.metadata import version
 
     with pytest.raises(SystemExit) as exc:
         main(["--version"])
     assert exc.value.code == 0
-    assert capsys.readouterr().out == version("agentic-engineering-system") + "\n"
+    running = _git(REPO, "describe", "--always", "--dirty").stdout.strip()
+    assert capsys.readouterr().out == f"{version('agentic-engineering-system')} (running: {running})\n"
 
 
 @pytest.mark.skipif(os.environ.get("AES_SKIP_CLEAN_INSTALL") == "1", reason="AES_SKIP_CLEAN_INSTALL=1")

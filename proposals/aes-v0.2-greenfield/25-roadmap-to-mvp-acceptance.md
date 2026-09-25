@@ -26,7 +26,7 @@ and AES v0.2 replaces v0.1 as the surface AES canonical itself is governed by.
 | SC-GF-001 clean-user install + init | a clean-user run reaches initialized state | not started: no `aes init`, no versioned distribution | PROJECT, DISTRIBUTION |
 | SC-GF-002 obligations linked to criteria and evidence | contract validation on the target | mechanism realized (`records.py`, `aes target validate`); no AES-side observation recorded | RECORDS |
 | SC-GF-003 topology accounts for every governed artifact | orphan rejected; planned topology accepted | mechanism realized (`topology.py`); real orphan caught on whygame5 (§6, §8); no AES-side observation recorded | TOPOLOGY |
-| SC-GF-004 every evidence requirement has a route | validate ERs against verification topology | mechanism realized: `aes plan validate`/`accept` refuse a proposal whose resulting target has an ER with neither a verification subject nor an external boundary (`planning.py`, `test_planning.py`, §15); a whygame5 plan accepted on a clone only, so no consumer observation recorded; the consumer's pre-commit hook does not yet enforce routes | PLANNING |
+| SC-GF-004 every evidence requirement has a route | validate ERs against verification topology | mechanism realized: `aes plan validate`/`accept` refuse a proposal whose resulting target has an ER with neither a verification subject nor an external boundary (`planning.py`, `test_planning.py`, §15); a whygame5 plan accepted on a clone only, so no consumer observation recorded; `aes target validate` (and so the `aes hooks install` pre-commit hook) enforces routes on the whole target since phase 6a (§16), effective on whygame5 after its next pin bump | PLANNING |
 | SC-GF-005 bounded context carries full text | ER-01 deterministic; ER-02 fresh-agent A/B | ER-01 realized (`context.py`); ER-02 inconclusive at probe 0 (§6) | CONTEXT |
 | SC-GF-006 revision-bound characterization + drift | mutate an artifact and see the mismatch; every fact bound to revision | mechanism realized (`characterize.py`, `aes characterize`); drift caught on a whygame5 scratch clone (§13); no observation recorded on the consumer | CHARACTERIZE |
 | SC-GF-007 a pass is not satisfaction | multi-input criterion stays INSUFFICIENT | realized (`evidence.py`, `test_evidence.py`) | EVIDENCE |
@@ -42,11 +42,26 @@ accept; no plan generation) by phase 5; see §11-§15 of
 
 Kinks the consumer has already exposed and that this roadmap must close:
 
-- the AES version never changes (`0.1.0` across every commit), so a pin bump
-  does not reinstall and the consumer silently runs old code;
-- the consumer's pre-commit hook was hand-copied and broke in linked worktrees;
-- `dependency_paths` on an observation are declared by hand, not discovered
-  (closed by phase 3: discovered from imports, declared paths added, §13);
+- ~~the AES version never changes (`0.1.0` across every commit), so a pin bump
+  does not reinstall and the consumer silently runs old code;~~ closed by
+  phase 1 (Git-derived version, §11);
+- ~~the consumer's pre-commit hook was hand-copied and broke in linked
+  worktrees;~~ closed by phase 1 (`aes hooks install`, §11);
+- ~~`dependency_paths` on an observation are declared by hand, not
+  discovered~~ (closed by phase 3: discovered from imports, declared paths
+  added, §13);
+- ~~the producer version is the installed distribution's, so a worktree run
+  names the main checkout's install (§13)~~ closed by phase 6a: the running
+  checkout's `git describe` is appended (§16);
+- ~~an observation that lists `.aes/target.yaml` goes STALE on any target edit,
+  so accepting a plan or adding a requirement re-opens unrelated evidence
+  (§14, §15 item 2)~~ closed by phase 6a: `dependency_target_refs` compares
+  the referenced entries only; the file-level form remains as the coarse
+  option (§16);
+- ~~a "break it on purpose" observation is stale by construction because its
+  subject is a mutated scratch commit (§14 item 2)~~ closed by phase 6a:
+  `control: {kind: negative, base_revision, ...}` computes freshness from the
+  unmodified base, and a missed mutation must REFUTE (§16);
 - AES canonical does not follow its own planning (its v0.2 code is not under
   a `.aes/` target of its own).
 
@@ -239,6 +254,12 @@ observation for ER-SC-GF-004-01.
 
 Exit gate: the whygame5 pre-commit hook additionally rejects a commit that
 adds a planned artifact whose criterion has no verification route.
+(Update 2026-09-25, phase 6a, §16 of `24-pre-probe-decisions.md`: built in AES.
+`aes target validate`, which the hook written by `aes hooks install` runs,
+now fails on any evidence requirement of the whole current target that has
+no verification subject or external boundary, listing each; tested with the
+hook refusing such a commit. whygame5 passes (0 unrouted). The gate is met on
+the consumer once whygame5 bumps its pin to include it.)
 
 Wrong when: a proposal for a real change cannot be expressed without
 editing the target by hand afterwards, or acceptance needs more than the
@@ -250,7 +271,13 @@ Size: ~1.2.
 
 Moves: SC-GF-005 ER-02 (re-run with power), SC-GF-009's "genuinely new
 consumer" is whygame5, but AES itself is the consumer that makes the tooling
-credible; kink 4.
+credible; the last open kink in §0 (AES does not follow its own planning).
+
+Preceded by phase 6a (2026-09-25, §16 of `24-pre-probe-decisions.md`): the
+evidence-model fixes AES needs before it records evidence about itself
+(entry-level target dependencies, negative-control observations, producer
+version from the running code) and phase 5's route gate in
+`aes target validate`.
 
 Deliverable:
 

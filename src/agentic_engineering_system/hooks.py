@@ -1,7 +1,9 @@
 """`aes hooks install`: ship the consumer's pre-commit gate (`RU-AES-DISTRIBUTION`).
 
 The hook runs `aes target validate` and `aes topology check` on every commit, so
-an orphan under a governed root is refused before it is recorded. It replaces the
+an orphan under a governed root, and a target with an evidence requirement that
+no verification subject or external boundary routes (SC-GF-004), are refused
+before they are recorded. It replaces the
 hook whygame5 copied by hand, which broke in linked worktrees (no `.venv` there).
 
 Interpreter lookup, in order:
@@ -34,8 +36,9 @@ MANAGED_MARKER = "# managed by aes hooks install"
 
 _TEMPLATE = """#!/bin/sh
 {marker}
-# AES v0.2 gate: the target must load strictly and every file staged under a
-# governed root must be a planned artifact in the target. Regenerate with
+# AES v0.2 gate: the target must load strictly, every evidence requirement in it
+# must have a route, and every file staged under a governed root must be a
+# planned artifact in the target. Regenerate with
 # `aes hooks install`; edits here are overwritten.
 set -e
 root=$(git rev-parse --show-toplevel)
