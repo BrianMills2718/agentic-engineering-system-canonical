@@ -70,6 +70,13 @@ Kinks the consumer has already exposed and that this roadmap must close:
 - `aes status` reports an externally bounded, unsupported requirement as "no
   route" (`reconcile._criterion_states` ignores `external_boundaries`), found
   by phase 6b (§17 item 2).
+- ~~evidence recorded on a branch that is then squash-merged names a commit no
+  branch reaches; the recording clone still resolves it and says CURRENT, a
+  fresh clone cannot (22 of AES canonical's records, 3 of whygame5's)~~ fixed
+  in this phase (§19): such observations are UNREACHABLE and never count,
+  `superseded_by` retires replaced records without deleting them, `aes
+  evidence record` warns when recording off the default branch, and evidence
+  PRs merge with a merge commit.
 
 ## 1. Sequencing principle
 
@@ -326,6 +333,11 @@ Moves: SC-GF-009 ER-01; closes the v0.2 proposal lineage.
 
 Deliverable:
 
+- whygame5's three records at unreachable commits (`OBS-WG5-CHARACTERIZE-4921a159`,
+  `OBS-WG5-DRIFT-b0c3e24f` — its `base_revision` — and `OBS-WG5-RECONCILE-73fc0ad7`)
+  re-anchored the way AES canonical's were in §19: re-recorded at a commit on
+  whygame5's main, old records kept with `superseded_by` (done by the
+  orchestrator, not the AES fix);
 - whygame5's full lifecycle retained at exact revisions: init commit, target
   history, accepted plans, realization commits, observations, reconcile
   output, and the context evaluation — listed in one observation record;

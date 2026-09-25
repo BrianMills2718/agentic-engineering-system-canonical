@@ -1195,3 +1195,67 @@ appears whose target is large enough that reading it whole measurably costs
 Landed: arm A's fix as `61e1edb`, with the eleven test subjects re-recorded
 at that commit (not at the clone's commit, which would not resolve after
 merge — a trap for any evidence produced off-branch).
+
+## 19. Evidence at unreachable commits (2026-09-25)
+
+**Found.** §18 ended on a trap: evidence produced off-branch may not resolve
+after merge. It was worse than that. Freshness resolved `subject_revision` with
+`git cat-file` and diffed dependencies against HEAD, and never asked whether
+HEAD contains that commit. PRs #52 and #53 were squash-merged and their
+branches deleted, so every commit AES canonical's own test observations named
+became reachable from no branch: all 22 `OBS-GF-*-cb226ba7` and
+`OBS-GF-*-61e1edbf` records. In whygame5, `OBS-WG5-CHARACTERIZE-4921a159`,
+`OBS-WG5-RECONCILE-73fc0ad7` and the negative control
+`OBS-WG5-DRIFT-b0c3e24f` (whose `base_revision` 4921a159 sits only on the
+unmerged `origin/aes-phase3-pin`) are in the same state. Checked with `git
+merge-base --is-ancestor <commit> HEAD` for every record: 22 of 26 in AES
+canonical, 3 in whygame5; the rest are external (no commit) or reachable.
+It was masked because the recording machine's `.git` still holds the
+squashed-away objects: there `aes status` said CURRENT and six criteria
+SUPPORTED, while a fresh clone could not resolve the commits at all (an error,
+or at best UNKNOWN). Standing depended on which clone computed it.
+
+**Fixes.**
+
+1. *Reachability is part of freshness.* Before anything else, an observation
+   whose commit is not an ancestor of HEAD is `UNREACHABLE` — "subject commit
+   <sha8> is not reachable from HEAD (squash-merged or deleted branch?)" — and
+   never counts. A commit the clone lacks entirely gets the same verdict and
+   text, so every clone agrees; a resolvable-but-unreachable commit is never
+   CURRENT, because the local object store is exactly what lies. For a
+   negative control the rule applies to `control.base_revision`; the mutated
+   `subject_revision` is off-branch by design and only has to resolve (a tag
+   keeps it), and failing to resolve stays an error. `aes status`, `aes
+   reconcile` and `aes evidence status` count `N unreachable` separately.
+   Records are never rewritten, so an optional `superseded_by:
+   <observation_id>` field marks a record replaced by a later one; a
+   superseded observation never counts, whatever its freshness, and is
+   counted apart (`N superseded`).
+2. *Recording on a branch warns.* After writing, `aes evidence record` checks
+   whether HEAD is an ancestor of `origin/HEAD` (else `origin/main`) and, if
+   not, prints "recorded at <sha8> on branch <name>; this evidence stays valid
+   only if that commit reaches the default branch unchanged — merge with a
+   merge commit (not squash), or re-record after merging". It does not
+   refuse: recording on a branch is the normal workflow. Without a remote it
+   prints a note that the check was skipped.
+
+**Re-anchored.** The eleven test subjects were re-recorded at `c5ea63d`, the
+last code commit of branch `v02-evidence-reachability`; the 22 old records carry
+`superseded_by` pointing at their replacement. `aes status` there: every
+deterministic evidence requirement SUPPORTED, `12 current, 1 stale, 2
+unknown, 0 unreachable; 22 superseded` (the stale one is the external
+clean-user run, already stale at `cb00e13`).
+
+**Rule.** A PR whose commits carry evidence records is merged with a merge
+commit, never squashed or rebased (CLAUDE.md/AGENTS.md now say so). If one is
+squashed anyway, re-record on the default branch and set `superseded_by` on
+the stranded records.
+
+**Decision.** Reachability from HEAD is a precondition of freshness, and
+supersession is recorded, not done by deletion. Wrong when: a legitimate
+workflow needs evidence from a commit that is intentionally never merged
+(release branches maintained apart from main, say) and treating it as
+UNREACHABLE forces re-recording that proves nothing new; or `superseded_by`
+chains get long enough that people start deleting records instead — either
+is the signal to key freshness on a content identity (tree or dependency
+hashes) rather than on commit ancestry.

@@ -54,3 +54,4 @@ assessments:
   basis: "VS-GF-EVIDENCE-CONTROLS (prove a referenced target entry's change stales evidence and a negative
     control that missed its mutation refutes rather than supports) passed: exit 0"
   assessor: *id001
+superseded_by: OBS-GF-EVIDENCE-CONTROLS-c5ea63d0

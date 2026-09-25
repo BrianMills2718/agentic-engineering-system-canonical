@@ -1,8 +1,8 @@
 schema_version: aes.v0_2.observation.probe0
-observation_id: OBS-GF-RECONCILE-61e1edbf
+observation_id: OBS-GF-SELF-GOVERNANCE-c5ea63d0
 subject_refs:
-- VS-GF-RECONCILE
-subject_revision: 61e1edbfa26b04f50cafb32f6a140df8d606c755
+- VS-GF-SELF-GOVERNANCE
+subject_revision: c5ea63d077b285ca70841ed74cf0c5c772679ea8
 dependency_paths:
 - src/agentic_engineering_system/__init__.py
 - src/agentic_engineering_system/characterize.py
@@ -16,9 +16,9 @@ dependency_paths:
 - src/agentic_engineering_system/reconcile.py
 - src/agentic_engineering_system/records.py
 - src/agentic_engineering_system/topology.py
-- tests/greenfield/test_reconcile.py
+- tests/greenfield/test_self_governance.py
 dependency_basis:
-  locator: tests/greenfield/test_reconcile.py
+  locator: tests/greenfield/test_self_governance.py
   discovered:
   - src/agentic_engineering_system/__init__.py
   - src/agentic_engineering_system/characterize.py
@@ -34,9 +34,9 @@ dependency_basis:
   - src/agentic_engineering_system/topology.py
   declared: []
 dependency_target_refs:
-- VS-GF-RECONCILE
-- ER-SC-GF-007-01
-- ER-SC-GF-008-01
+- VS-GF-SELF-GOVERNANCE
+- ER-SC-GF-003-02
+- ER-SC-GF-004-01
 - ART-SRC-CHARACTERIZE
 - ART-SRC-CHARACTERIZE-PYTHON
 - ART-SRC-CLI
@@ -48,26 +48,27 @@ dependency_target_refs:
 - ART-SRC-RECONCILE
 - ART-SRC-RECORDS
 - ART-SRC-TOPOLOGY
-- ART-TEST-RECONCILE
+- ART-TEST-SELF-GOVERNANCE
 - ART-V01---INIT---PY
 observer: &id001
   identity: aes evidence record
-  version: '0.1.dev374+g2509ea441 (running: 61e1edb)'
+  version: '0.1.dev375+gcb00e130a (running: c5ea63d)'
 method: /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest -q 
-  tests/greenfield/test_reconcile.py
+  tests/greenfield/test_self_governance.py
 execution_state: COMPLETED
 result:
   exit_code: 0
-  output_tail: "..........                                                               [100%]\n10 passed
-    in 2.59s"
-produced_at: '2026-09-25T22:38:11+00:00'
+  output_tail: "....                                                                     [100%]\n4 passed
+    in 1.51s"
+produced_at: '2026-09-25T22:49:57+00:00'
 assessments:
-- evidence_requirement_ref: ER-SC-GF-007-01
+- evidence_requirement_ref: ER-SC-GF-003-02
   assessment: SUPPORTS
-  basis: 'VS-GF-RECONCILE (prove current/gap preserves insufficient and stale states) passed: exit 0'
+  basis: 'VS-GF-SELF-GOVERNANCE (on AES canonical itself: the unchanged planned topology is accepted at
+    HEAD and every evidence requirement of the live target has a route) passed: exit 0'
   assessor: *id001
-- evidence_requirement_ref: ER-SC-GF-008-01
+- evidence_requirement_ref: ER-SC-GF-004-01
   assessment: SUPPORTS
-  basis: 'VS-GF-RECONCILE (prove current/gap preserves insufficient and stale states) passed: exit 0'
+  basis: 'VS-GF-SELF-GOVERNANCE (on AES canonical itself: the unchanged planned topology is accepted at
+    HEAD and every evidence requirement of the live target has a route) passed: exit 0'
   assessor: *id001
-superseded_by: OBS-GF-RECONCILE-c5ea63d0

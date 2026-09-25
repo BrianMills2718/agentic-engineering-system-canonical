@@ -72,3 +72,4 @@ assessments:
   basis: 'VS-GF-TOPOLOGY (prove an intentionally introduced orphan is rejected and the unchanged planned
     topology is accepted) passed: exit 0'
   assessor: *id001
+superseded_by: OBS-GF-TOPOLOGY-c5ea63d0
