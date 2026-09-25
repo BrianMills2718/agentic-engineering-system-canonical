@@ -22,6 +22,28 @@ This repository is a protocol-pilot consumer of the standalone architecture in `
 
 ## Commands
 
+### AES governs itself (v0.2)
+
+AES canonical is governed by its own AES v0.2 target in `.aes/` (roadmap phase
+6b). The governed roots are `src/agentic_engineering_system/` and
+`tests/greenfield/`; the v0.1 commands below still work and are dispositioned in
+phase 7.
+
+- `.aes/target.yaml` is the plan. Every file under a governed root must be a
+  planned artifact with that exact path, or the pre-commit hook (written by
+  `aes hooks install`; do not edit or bypass it) refuses the commit. The v0.1
+  files there are planned as retained history (`NI-AES-HIST`), not v0.2 work.
+- Plan changes through AES, not by hand: `aes plan prepare`, write a proposal,
+  `aes plan validate <file>` until clean, `aes plan accept <file>`, then commit
+  the target and `.aes/plans/<id>.yaml` together before implementing.
+- Record evidence with `aes evidence record <VS-ID>` (runs the test, writes
+  `.aes/observations/`); hand-write only external observations, in the same
+  shape. `aes status` is the one-screen view; `make aes` runs validate,
+  topology and status with this checkout's code, `make aes-check` adds the
+  greenfield and repository_context tests.
+
+### v0.1 commands (retained until phase 7)
+
 ```bash
 # Slice 1 implementation + focused verification
 python -m pip install -e . pytest

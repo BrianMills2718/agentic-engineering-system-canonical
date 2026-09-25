@@ -552,6 +552,23 @@ check:  ## Run all checks (test, mypy, lint)
 check-agents-sync:  ## Validate generated AGENTS.md matches canonical governance inputs
 	@$(PYTHON) $(SCRIPTS_META)/check_agents_sync.py --repo-root . --check
 
+# --- AES v0.2 governs this repository (.aes/) ---
+# `aes` runs this checkout's code (PYTHONPATH=src), with the checkout's venv or,
+# in a linked worktree, the main checkout's. `check` above is enforced-planning's
+# and is kept as it is; `aes-check` is the AES v0.2 gate plus both test suites.
+.PHONY: aes aes-check
+AES_MAIN_CHECKOUT := $(shell dirname "$$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)" 2>/dev/null)
+AES_PYTHON ?= $(firstword $(wildcard .venv/bin/python $(AES_MAIN_CHECKOUT)/.venv/bin/python) python3)
+AES ?= PYTHONPATH=src $(AES_PYTHON) -m agentic_engineering_system.cli
+
+aes:  ## AES v0.2 on this repository: target validate, topology check, status
+	$(AES) target validate
+	$(AES) topology check
+	$(AES) status
+
+aes-check: aes  ## aes, then pytest on tests/greenfield and tests/repository_context
+	PYTHONPATH=src $(AES_PYTHON) -m pytest -q tests/greenfield tests/repository_context
+
 # --- PR Workflow ---
 .PHONY: pr-ready pr pr-auto-check pr-auto push-check
 

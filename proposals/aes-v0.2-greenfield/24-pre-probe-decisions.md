@@ -1020,3 +1020,145 @@ Decisions:
   consumer needs to commit a criterion before its verification subject exists
   (the route rule blocks incremental target authoring); then add
   `--allow-unrouted` to the hook, not remove the rule.
+
+## 17. AES governs itself (2026-09-25)
+
+Roadmap phase 6b (`25-roadmap-to-mvp-acceptance.md`, phase 6 minus the A/B,
+which the orchestrator runs after this merges). AES canonical now carries its
+own `.aes/` target, built with its own commands in this order: `aes init`
+(governed roots `src/agentic_engineering_system/` and `tests/greenfield/`),
+seed commit; `aes hooks install`; `aes plan prepare`, a generated proposal
+`PLAN-AES-SELF-GOVERN` (`.aes/plans/`), `aes plan validate`, `aes plan accept`,
+committed through the new hook; `tests/greenfield/test_self_governance.py`;
+`aes evidence record` on every deterministic subject; three hand-written
+external observations. Every commit on the branch after the seed went through
+`.githooks/pre-commit`.
+
+What the target holds: `OUT-GF-001`, `GF-REQ-001..009` and `SC-GF-001..009`
+with their evidence requirements, ids and text copied from
+`12-greenfield-mvp-semantic-instance` (whitespace-normalized;
+`test_self_governance.py` asserts the texts still match file 12);
+`NI-AES-HIST`; the ten `RU-AES-*` components; 47 planned artifacts (the
+`ART-*` entries of `20-realization-topology`, the four test fixtures, the new
+test, and 18 retained v0.1 files); `exports` on the eleven realized Python
+modules (their real public entry points: `load_target`, `initialize_project`,
+`prepare`/`validate_proposal`/`accept_proposal`/`route_violations`,
+`check_topology`, `characterize`/`drift`/`check`/`running_version`, `assess`/
+`record`/`freshness`, `reconcile`, `project_context`, `main`, `install_hooks`,
+...), which `aes characterize` reports 0 drift against; eleven
+`deterministic_test` subjects, one per test file; external boundaries for
+`ER-SC-GF-001-01`, `ER-SC-GF-005-02` and `ER-SC-GF-009-01`.
+
+`aes status` on AES canonical at `6d12cf8` (this checkout's code):
+
+```text
+OK status: agentic-engineering-system-canonical-target at 6d12cf87c3b10c7197c6d033ae6e0f83b6cd7fb3
+  artifacts: 47 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 6 supported, 3 insufficient, 0 refuted; 2 unsupported evidence requirement(s) with no route
+  observations: 11 current, 1 stale, 2 unknown
+  first open gap per component:
+    RU-AES-RECORDS: no open gap
+    RU-AES-PROJECT: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-PLANNING: no open gap
+    RU-AES-TOPOLOGY: no open gap
+    RU-AES-CHARACTERIZE: no open gap
+    RU-AES-EVIDENCE: no open gap
+    RU-AES-RECONCILE: no open gap
+    RU-AES-CONTEXT: insufficient SC-GF-005 - ER-SC-GF-005-02 NO_CURRENT_SUPPORT (no route)
+    RU-AES-CLI: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-DISTRIBUTION: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT (+1 more)
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+```
+
+SUPPORTED from recorded observations: SC-GF-002, 003, 004, 006, 007, 008, and
+`ER-SC-GF-005-01` (every deterministic requirement). The three external
+records: `OBS-AES-CLEAN-USER-0503735` SUPPORTS `ER-SC-GF-001-01` but is
+STALE, because the files that run exercised (the page, `cli.py`,
+`evidence.py`, `hooks.py`, `records.py`, `topology.py`) changed since
+`0503735`, so SC-GF-001 needs a re-run on current code, not a new argument;
+`OBS-AES-PROBE0-CONTEXT-AB` (INCONCLUSIVE, `ER-SC-GF-005-02`) and
+`OBS-AES-WG5-LIFECYCLE` (INCONCLUSIVE, `ER-SC-GF-009-01`, whygame5 at
+`d5f993f`: init, six target commits, `PLAN-WG5-RUNNER`, 15 observations and a
+status report retained; runner realization and a distinguishing context
+evaluation missing) are UNKNOWN freshness, as external subjects are. The
+local tests for SC-GF-001 (`test_project.py`, `test_distribution.py`) are
+recorded INCONCLUSIVE with `--inconclusive`: a local test is not the clean-user
+run the requirement names.
+
+What self-governance exposed:
+
+1. **The v0.1 code.** 44 governed files at the seed: 18 of them v0.1 (eight
+   `component.placeholder.yaml` under the reserved subpackages, nine files of
+   `repository_context/`, and the package `__init__.py`, whose `__all__` names
+   only `repository_context`). `topology.py` has no generation rules
+   ("not implemented: the first consumer has no file that needs one") and the
+   loader's artifact kinds are `source`, `test`, `configuration`, so each v0.1
+   file is its own planned artifact, `kind: source` (`.py`) or `configuration`
+   (`.yaml`), purpose "v0.1 provider retained pending phase 7 disposition",
+   justified by `NI-AES-HIST` only. No `historical` kind was added: the kind
+   names the file's form, and the disposition is carried by the justification,
+   which phase 7 can query. `tests/repository_context/` is outside the
+   governed roots and untouched.
+2. **`aes status` counts an externally bounded requirement as "no route".**
+   `reconcile._criterion_states` computes `has_route` from verification
+   subjects only, ignoring `external_boundaries`, while `aes target validate`
+   (and `aes plan validate`) count both. On AES that prints "2 unsupported
+   evidence requirement(s) with no route" and "(no route)" on
+   `ER-SC-GF-005-02` and `ER-SC-GF-009-01`, both of which have boundaries.
+   whygame5 never showed it because its bounded requirements are supported.
+   Not fixed here (`src/` was outside this phase's write scope): the fix is to
+   add `target.external_boundaries` to `routes` in `_criterion_states` and a
+   test with a bounded, unsupported requirement.
+3. **The target and the topology file disagreed in three places, all fixed in
+   the topology file:** `ART-TEST-CLI`/`VS-GF-CLI` named
+   `tests/greenfield/test_cli.py`, which was never created (every test file
+   drives the CLI through `cli.main`), so both were removed and
+   `RU-AES-CLI` lists only `cli.py`; `RU-AES-EVIDENCE` did not list
+   `ART-TEST-EVIDENCE-CONTROLS` (added in 6a); `ART-TEST-SELF-GOVERNANCE` and
+   `VS-GF-SELF-GOVERNANCE` are new.
+4. **Vocabulary the loader does not have**, mapped rather than widened, and
+   stated in the plan's rationale: evidence kinds `contract_validation` ->
+   `deterministic_test` and `external_consumer_observation` ->
+   `runtime_observation`; artifact kinds `normative_authority`
+   (`planning_protocol.md`) -> `source` and `documentation`
+   (`GETTING_STARTED.md`) -> `configuration`; `CAP-GF-*` justification refs
+   -> the `GF-REQ` item each capability serves (capabilities are not a target
+   family); proof roles `supporting` -> `direct` (the loader has `direct` and
+   `negative_control`). The topology's paired subjects
+   (`VS-GF-TOPOLOGY-NEGATIVE/POSITIVE`, `VS-GF-CHARACTERIZE-DRIFT/BINDING`)
+   became one subject per test file, because `aes evidence record` runs a
+   file.
+5. **OUT-GF-001 lists `retrofit_arbitrary_existing_repository` as a non-goal,
+   and this is a retrofit.** It needed no exception to D1 and no second record
+   shape (the roadmap's wrong-when for this phase), but it is also why
+   GF-REQ-009 keeps AES canonical from counting as the fresh consumer.
+6. **The hook turns the global hooks off in this repository.** `aes hooks
+   install` sets a local `core.hooksPath=.githooks`, which overrides the global
+   `~/.config/git/hooks` (the `.env` commit block and the canonical-checkout
+   warning); the tool printed the note. The setting is repository-wide, so the
+   main checkout and every worktree without `.githooks/pre-commit` (main until
+   this merges) run no pre-commit hook at all in the meantime. The AES hook
+   does not chain to the global one.
+7. **The self-governance observation's real dependency is wider than its
+   imports**, as with §16 item 3: it reads the whole live target and every
+   governed file. It was recorded with `--depends-on` file 12 (whose text it
+   compares) and the discovered imports; a target entry it does not name can
+   change without staling it.
+
+Decisions:
+
+- **v0.1 files are planned artifacts justified by `NI-AES-HIST`, with existing
+  kinds, not a `historical` kind or a generation rule.** Wrong-when: phase 7
+  cannot tell the retained files from v0.2 work by `semantic_justification_refs`
+  alone, or a v0.1 file is changed on main without anyone noticing it is not
+  v0.2 work; then add a kind or a disposition field.
+- **Kinds outside the loader's vocabulary are mapped, not added.** Wrong-when:
+  a consumer's evidence requirement is `contract_validation` in a sense that
+  `deterministic_test` misstates (for example a check no test runs); then add
+  the kind to `records.EvidenceKind`.
+- **Local tests route SC-GF-001 but are recorded INCONCLUSIVE.** Wrong-when:
+  anyone reads an INCONCLUSIVE local test as progress toward the clean-user
+  requirement; then drop the two subjects' route to `ER-SC-GF-001-01`.
+- **`make check` stays enforced-planning's; the AES gate is `make aes` /
+  `make aes-check`.** Wrong-when: an agent runs `make check` believing it
+  runs the AES gate; then make `check` depend on `aes`.

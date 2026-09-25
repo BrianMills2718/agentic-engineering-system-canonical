@@ -2,7 +2,9 @@
 
 Evidence for `ER-SC-GF-001-01` (external consumer observation), retained here
 until AES canonical has its own `.aes/observations/` (roadmap phase 6), when it
-is converted to an observation record at this exact revision.
+is converted to an observation record at this exact revision. Converted in
+roadmap phase 6b: `.aes/observations/OBS-AES-CLEAN-USER-0503735.yaml` (this
+file stays as the report the record cites).
 
 - AES revision installed: `0503735f9` (`aes --version` → `0.1.dev367+g0503735f9`)
 - Material given to the runner: `docs/greenfield/GETTING_STARTED.md` only, plus

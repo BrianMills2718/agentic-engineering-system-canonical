@@ -1,0 +1,68 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-AES-CLEAN-USER-0503735
+subject_refs: [SC-GF-001, ART-DOC-GREENFIELD-GETTING-STARTED, ART-PACKAGING-PYPROJECT]
+subject_revision: 0503735f904976c260bfb0686538ef52e1a6c96f
+# What the run installed and executed: the page, the packaging, and the modules
+# the page's commands reach (init, hooks install, target validate, topology
+# check, context, evidence record/status). Any change to them since 0503735
+# means the run no longer speaks for the current distribution.
+dependency_paths:
+  - docs/greenfield/GETTING_STARTED.md
+  - pyproject.toml
+  - src/agentic_engineering_system/cli.py
+  - src/agentic_engineering_system/context.py
+  - src/agentic_engineering_system/evidence.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/project.py
+  - src/agentic_engineering_system/records.py
+  - src/agentic_engineering_system/topology.py
+observer:
+  identity: fresh Claude Opus 5.5 agent session (clean-user runner), no access to the planning conversation, proposals/, AES source or other repositories
+  version: Claude Opus 5.5
+method: >
+  Converted from evidence/greenfield/clean-user-run-2026-09-25.md (roadmap
+  phase 2, retained there until AES had its own .aes/observations/). The
+  runner was given docs/greenfield/GETTING_STARTED.md and the pin id only and
+  followed the page in order: git init; venv; pip install
+  git+https://...@0503735f9; aes --version (0.1.dev367+g0503735f9); .gitignore
+  and pyproject.toml; aes init --project-id greeter; aes hooks install; first
+  commit through the packaged hook; target from the page's block; aes target
+  validate; aes topology check; aes context SC-001; source and test; second
+  commit; aes evidence record VS-GREET; aes evidence status; third commit.
+execution_state: COMPLETED
+produced_at: 2026-09-25T21:34:33+00:00
+result:
+  every_command_exit_code: 0
+  commits: 3, each gated by the packaged pre-commit hook
+  init_wrote_exactly: [.aes/project.yaml, .aes/target.yaml]
+  final_evidence_status: |
+    evidence: 1 criteria: 1 supported, 0 insufficient, 0 refuted; 1 observation(s)
+      SC-001: SUPPORTED
+        ER-001-01: SUPPORTED - supported by OBS-GREET-e122df8d
+      observations:
+        OBS-GREET-e122df8d: CURRENT - no dependency changed since e122df8d0e47
+  page_under_specified: >
+    no way to find a valid <sha> (fixed in the page in the same change); the
+    global core.hooksPath override is printed by the tool but not on the page;
+    the evidence step's order relative to the second commit was implicit; the
+    prose said "replace the empty lists" while the block overwrote the file.
+    The page's failure claims (orphan blocks a commit, STALE, REFUTED,
+    refusal on uncommitted changes) were not exercised by the runner.
+retained_artifact_refs:
+  - evidence/greenfield/clean-user-run-2026-09-25.md
+  - runner scratch tree clean-user/greeter (session scratchpad, ephemeral; not retained)
+assessments:
+  - evidence_requirement_ref: ER-SC-GF-001-01
+    assessment: SUPPORTS
+    basis: >
+      A fresh agent reached an initialized, validated, hook-gated governed
+      project with a SUPPORTED criterion using only the distributed page and
+      declared dependencies. Caveat that bounds this: the run was on the
+      maintainer's machine and the git+https install used that machine's
+      GitHub credentials, because the AES repository is private; it is not a
+      no-private-access run, and the true no-private-access run is deferred by
+      decision (25-roadmap-to-mvp-acceptance.md section 0). Freshness is
+      computed against the files the run exercised at 0503735.
+    assessor:
+      identity: claude-code session opus-v02-self-govern (converted the retained report; did not re-run it)
+      version: Claude Opus 5.5, session_01Up1bDWMXtPyLG5xqgL51Pw
