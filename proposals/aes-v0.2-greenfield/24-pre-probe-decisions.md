@@ -1162,3 +1162,36 @@ Decisions:
 - **`make check` stays enforced-planning's; the AES gate is `make aes` /
   `make aes-check`.** Wrong-when: an agent runs `make check` believing it
   runs the AES gate; then make `check` depend on `aes`.
+
+## 18. Context A/B rerun on AES itself: still not distinguishable (2026-09-25)
+
+The roadmap's phase 6 A/B was run on a real change to AES canonical at
+`2509ea4` — the "external boundary is a route" bug in `reconcile.py` found by
+the phase-6b builder — with two fresh Opus sessions in isolated clones, eight
+obligations and five measures pre-registered first. Arm A had the `aes context
+RU-AES-RECONCILE` packet; arm B the repository and README only. Both met all
+eight obligations, read the same eight files, produced near-identical
+ten-line fixes with the same test, and both re-recorded the nine observations
+the fix staled; arm B was 40 s faster. Full record:
+`evidence/greenfield/context-ab-2026-09-25/`; observation
+`OBS-AES-CONTEXT-AB-2509ea4` (INCONCLUSIVE for ER-SC-GF-005-02).
+
+Two things the packet lacked, both named by arm A: the route rule lives in
+`planning.py`, which the packet omits because RU-AES-RECONCILE's target refs
+do not include SC-GF-004 or RU-AES-PLANNING; and the packet does not describe
+the evidence consequences of a change. Arm B found both by grep.
+
+Decision: the roadmap §5 wrong-when fires. ER-SC-GF-005-02 as worded ("shows
+whether bounded projected context reduces reconstruction cost and missed
+obligations") is not decidable by a two-arm A/B on repositories of this shape,
+because a strict target plus a hook already makes obligations cheap to
+reconstruct from the repository. Phase 7 re-scopes it to a claim the tool can
+actually establish — the packet is *bounded and complete* for its subject
+(ER-01, already supported) — and records the discovery claim as not
+established rather than re-running a third A/B. Wrong when: a consumer
+appears whose target is large enough that reading it whole measurably costs
+(hundreds of criteria), and a rerun there shows arm A materially ahead.
+
+Landed: arm A's fix as `61e1edb`, with the eleven test subjects re-recorded
+at that commit (not at the clone's commit, which would not resolve after
+merge — a trap for any evidence produced off-branch).

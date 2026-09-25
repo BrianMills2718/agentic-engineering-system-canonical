@@ -1,0 +1,46 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-AES-CONTEXT-AB-2509ea4
+subject_refs: [SC-GF-005, RU-AES-CONTEXT, ART-SRC-CONTEXT]
+subject_revision: 2509ea441621bab76fd106330833168b70f5ffd8
+dependency_paths:
+  - src/agentic_engineering_system/context.py
+dependency_target_refs: [RU-AES-CONTEXT, SC-GF-005]
+observer:
+  identity: claude-code orchestrator session + two fresh general-purpose subagents (arm A, arm B)
+  version: Claude Fable 5.1, session_01Up1bDWMXtPyLG5xqgL51Pw
+method: >
+  Roadmap phase 6 rerun of the probe-0 A/B on one real AES change (the
+  external-boundary route fix in reconcile.py). Two fresh agent sessions in
+  separate clones of 2509ea4; arm A received the aes context RU-AES-RECONCILE
+  packet plus the repository, arm B the repository and README only. Eight
+  obligations and five measures pre-registered before either arm ran
+  (evidence/greenfield/context-ab-2026-09-25/preregistration.md).
+execution_state: COMPLETED
+produced_at: 2026-09-25T22:39:24+00:00
+result:
+  arm_a: {commit: 455fe6de4c24829368ad2f8180d79b39491f60f5, files_read: 8, tests: 145 passed, obligations_missed: 0, topology_violations: 0, rework: 1, wall_seconds: 238}
+  arm_b: {commit: 7a759ba141e3b716ffde92d4de98a515d7afa163, files_read: 8, tests: 145 passed, obligations_missed: 0, topology_violations: 0, rework: 1, wall_seconds: 199}
+  verdict: >
+    Not distinguishable. Identical obligations met, same files read, near-identical
+    diffs; arm B faster. Arm A named two packet gaps (route rule lives in the
+    omitted planning component; evidence consequences not described). Second
+    indistinguishable result; the roadmap's wrong-when fires and ER-SC-GF-005-02
+    is re-scoped rather than re-run.
+retained_artifact_refs:
+  - evidence/greenfield/context-ab-2026-09-25/result.md
+  - evidence/greenfield/context-ab-2026-09-25/preregistration.md
+  - evidence/greenfield/context-ab-2026-09-25/arm-a-fix.patch
+  - evidence/greenfield/context-ab-2026-09-25/arm-b-fix.patch
+assessments:
+  - evidence_requirement_ref: ER-SC-GF-005-02
+    assessment: INCONCLUSIVE
+    basis: >
+      At ~4,000 governed lines with a strict target and hook, a fresh agent
+      reconstructs every obligation from the repository at no measurable cost;
+      the comparison cannot show that bounded projected context reduces
+      reconstruction cost or missed obligations. Not refuted: the packet was
+      correct and bounded. The requirement as worded is not decidable by this
+      design; re-scope in phase 7.
+    assessor:
+      identity: claude-code orchestrator session (scored both arms against the pre-registration)
+      version: Claude Fable 5.1, session_01Up1bDWMXtPyLG5xqgL51Pw

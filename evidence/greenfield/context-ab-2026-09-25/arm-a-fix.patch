@@ -1,0 +1,99 @@
+From bd72f43e422a57f048ff18bb35bc8ff7bf512f29 Mon Sep 17 00:00:00 2001
+From: ab-armA <ab-armA@example.invalid>
+Date: Fri, 25 Sep 2026 18:34:17 -0400
+Subject: [PATCH] reconcile: an external boundary is a route
+
+`aes status` and `aes reconcile` counted only verification subjects as routes,
+so ER-SC-GF-005-02 and ER-SC-GF-009-01 (each listed under external_boundaries)
+showed "(no route)" although `aes target validate` accepts them as routed. The
+reconcile route check now matches planning.unrouted_requirements: a requirement
+is routed if a verification subject names it or an external boundary lists it.
+The full report names the boundary as the route. Regression test in
+tests/greenfield/test_reconcile.py.
+
+Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Up1bDWMXtPyLG5xqgL51Pw
+---
+ src/agentic_engineering_system/reconcile.py | 13 ++++++++++---
+ tests/greenfield/test_reconcile.py          | 20 ++++++++++++++++++++
+ 2 files changed, 30 insertions(+), 3 deletions(-)
+
+diff --git a/src/agentic_engineering_system/reconcile.py b/src/agentic_engineering_system/reconcile.py
+index 1cc8cbb..5c88485 100644
+--- a/src/agentic_engineering_system/reconcile.py
++++ b/src/agentic_engineering_system/reconcile.py
+@@ -79,7 +79,9 @@ class MissingRequirement(StrictModel):
+     status: Literal["REFUTED", "NO_CURRENT_SUPPORT"]
+     detail: str
+     verification_subject_refs: list[str]
+-    has_route: bool  # false: no verification subject names it (SC-GF-004 "no route")
++    external_boundary: str | None = None  # the target's external_boundaries entry for it, if any
++    has_route: bool  # false: no verification subject names it and no external boundary lists it
++    # (SC-GF-004 "no route"; the same rule as planning.unrouted_requirements)
+ 
+ 
+ class CriterionState(StrictModel):
+@@ -187,6 +189,7 @@ def _criterion_states(target: TargetRecord, report) -> list[CriterionState]:
+     for v in target.verification_subjects:
+         for er in v.evidence_requirement_refs:
+             routes.setdefault(er, []).append(v.id)
++    boundaries = {b.evidence_requirement_ref: " ".join(b.boundary.split()) for b in target.external_boundaries}
+     return [
+         CriterionState(
+             criterion_id=c.criterion_id,
+@@ -194,7 +197,8 @@ def _criterion_states(target: TargetRecord, report) -> list[CriterionState]:
+             missing=[
+                 MissingRequirement(er_id=s.er_id, status=s.status, detail=s.detail,
+                                    verification_subject_refs=routes.get(s.er_id, []),
+-                                   has_route=s.er_id in routes)
++                                   external_boundary=boundaries.get(s.er_id),
++                                   has_route=s.er_id in routes or s.er_id in boundaries)
+                 for s in c.requirements if s.status != "SUPPORTED"
+             ],
+         )
+@@ -335,7 +339,10 @@ def render_report(r: Reconciliation) -> str:
+     for c in r.criteria:
+         lines.append(f"    {c.criterion_id}: {c.standing}")
+         for m in c.missing:
+-            route = ", ".join(m.verification_subject_refs) if m.has_route else "NO ROUTE (no verification subject)"
++            routes = [*m.verification_subject_refs]
++            if m.external_boundary is not None:
++                routes.append(f"external boundary ({m.external_boundary})")
++            route = ", ".join(routes) if m.has_route else "NO ROUTE (no verification subject or external boundary)"
+             lines.append(f"      {m.er_id}: {m.status} - {m.detail}; route: {route}")
+     lines.append("  observations:")
+     lines += [f"    {o.observation_id}: {o.freshness} - {o.detail}" for o in r.observations]
+diff --git a/tests/greenfield/test_reconcile.py b/tests/greenfield/test_reconcile.py
+index 9acde61..936a31d 100644
+--- a/tests/greenfield/test_reconcile.py
++++ b/tests/greenfield/test_reconcile.py
+@@ -187,6 +187,26 @@ def test_requirement_without_verification_subject_is_reported_as_no_route(root:
+     assert r.ok  # a missing route is a planning gap, not a failure
+ 
+ 
++def test_requirement_with_external_boundary_is_routed(root: Path) -> None:
++    """An external boundary is a route, as `aes target validate` already accepts (SC-GF-004)."""
++    path = root / ".aes" / "target.yaml"
++    head, _ = path.read_text(encoding="utf-8").split("  - id: VS-WG5-BRIAN-REPORT\n", 1)
++    path.write_text(head + "external_boundaries:\n  - evidence_requirement_ref: ER-WG5-005-01\n"
++                    "    boundary: Brian reviews the report outside the repository\n", encoding="utf-8")
++    _commit(root, "route ER-WG5-005-01 through an external boundary instead of a subject")
++
++    r = reconcile(root)
++    missing = next(c for c in r.criteria if c.criterion_id == "SC-WG5-005").missing
++    assert [(m.er_id, m.has_route, m.verification_subject_refs, m.external_boundary) for m in missing] == [
++        ("ER-WG5-005-01", True, [], "Brian reviews the report outside the repository")]
++    gap = next(g for g in next(c for c in r.components if c.component_id == "CMP-WG5-REPORT").gaps
++               if g.ref == "SC-WG5-005")
++    assert gap.detail == "ER-WG5-005-01 NO_CURRENT_SUPPORT"
++    assert "0 unsupported evidence requirement(s) with no route" in render_status(r)
++    assert ("ER-WG5-005-01: NO_CURRENT_SUPPORT - no observation assesses it; "
++            "route: external boundary (Brian reviews the report outside the repository)") in render_report(r)
++
++
+ # --------------------------------------------------------------------------- #
+ # Exit codes
+ # --------------------------------------------------------------------------- #
+-- 
+2.43.0
+
