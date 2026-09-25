@@ -355,3 +355,56 @@ from the main checkout. A test run inside a worktree can then import the main
 checkout's source while the observation names the worktree's commit. The
 consumer must make its test runner import its own tree (for whygame5,
 pytest `pythonpath = ["src"]`).
+
+## 11. Distribution: version moves, hook ships (2026-09-25)
+
+Roadmap phase 1 (`25-roadmap-to-mvp-acceptance.md`). Realized:
+
+- **Git-derived version.** `pyproject.toml` takes its version from
+  `setuptools-scm`. With no tags every commit builds as `0.1.devN+g<sha>`, so
+  a pin bump is a version change and pip reinstalls without
+  `--force-reinstall`. There is no `fallback_version`: a build without Git
+  metadata fails instead of shipping a version that never moves.
+  `aes --version` prints the installed version and exits 1 if the
+  distribution is not installed.
+- **`aes hooks install`** (`src/agentic_engineering_system/hooks.py`, added to
+  the candidate topology as `ART-SRC-HOOKS`) writes `.githooks/pre-commit`
+  and sets the local `core.hooksPath`. The hook runs `aes target validate`
+  and `aes topology check` with the interpreter that installed it, then the
+  worktree's `.venv`, then the main checkout's `.venv` (via
+  `git rev-parse --git-common-dir`), then `PATH`; none found fails the
+  commit. It refuses outside a Git top level, without a target, over a
+  pre-commit hook it did not write (in `.githooks/` or the repository's own
+  hooks directory), and over a local `core.hooksPath` pointing elsewhere.
+  Its hooks carry `# managed by aes hooks install` on line 2 (line 1 is the
+  shebang) and are rewritten on reinstall.
+
+Evidence: `tests/greenfield/test_distribution.py` installs the repository
+into a fresh venv in the consumer's pin form, checks `aes --version` names
+the pinned commit, and runs the installed `aes hooks install` on a copy of
+the whygame5 records: a staged orphan is refused and names the file, the
+same commit passes once the target plans it. A linked-worktree case with no
+`.venv` of its own passes through the main checkout's venv, the case that
+broke whygame5's hand-copied hook.
+
+What it exposed:
+
+1. **A named `git+file://` pin is not a valid requirement.** PEP 508 named
+   URLs need a host, so `name @ git+file:///path@sha` is rejected by pip;
+   `git+file://localhost/path@sha` works. The consumer's `git+https://` form
+   is unaffected. Local pin tests use the `localhost` form.
+2. **A local `core.hooksPath` silences the global hooks.** This machine
+   sets a global `core.hooksPath` whose pre-commit refuses `.env` files and
+   chains to `.git/hooks`. Setting the repository-local path, as whygame5
+   and the governed repositories already do, bypasses it. `aes hooks
+   install` reports the override rather than refusing, because refusing
+   would make it unusable on every machine with a global path.
+3. **The hook names an absolute interpreter.** Committed into a consumer,
+   that path is machine-specific. On another machine it is absent and the
+   `.venv` lookup takes over, so it degrades to the old behavior rather
+   than failing, but the committed file differs per installer.
+
+Decision: report, do not refuse, a global `core.hooksPath` override.
+Wrong-when: a consumer commits a file the global hook would have refused
+(an `.env`, a canonical-checkout commit) because `aes hooks install`
+disabled it; then the AES hook must chain to the global one.

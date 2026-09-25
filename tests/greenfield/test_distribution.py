@@ -120,6 +120,24 @@ def test_hook_blocks_orphan_commit_and_admits_planned_one(consumer: Path) -> Non
     _assert_hook_gates_orphan(consumer, env)
 
 
+def test_linked_worktree_falls_back_to_main_checkout_venv(consumer: Path) -> None:
+    """whygame5's kink: a linked worktree has no .venv; the hook must find the main one."""
+    install_hooks(consumer, interpreter="/nonexistent/python")  # installer gone
+    shim = consumer / ".venv" / "bin" / "aes"  # untracked, as a real venv is
+    shim.parent.mkdir(parents=True)
+    shim.write_text(f'#!/bin/sh\nPYTHONPATH={SRC} exec {sys.executable} -m agentic_engineering_system.cli "$@"\n',
+                    encoding="utf-8")
+    shim.chmod(0o755)
+    (consumer / ".gitignore").write_text(".venv/\n", encoding="utf-8")
+    _git(consumer, "add", ".githooks/pre-commit", ".gitignore")
+    assert _git(consumer, "commit", "-q", "-m", "install hook").returncode == 0
+
+    linked = consumer.parent / "linked"
+    assert _git(consumer, "worktree", "add", "-q", "-b", "lane", str(linked)).returncode == 0
+    assert not (linked / ".venv").exists()
+    _assert_hook_gates_orphan(linked, None)
+
+
 def test_reinstall_rewrites_a_managed_hook(consumer: Path) -> None:
     hook, _ = install_hooks(consumer, interpreter="/old/python")
     hook2, _ = install_hooks(consumer, interpreter="/new/python")
