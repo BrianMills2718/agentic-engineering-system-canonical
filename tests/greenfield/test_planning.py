@@ -102,11 +102,13 @@ def _snapshot(root: Path) -> dict[str, bytes]:
 # --------------------------------------------------------------------------- #
 
 
-def test_planning_module_wins_over_the_v01_placeholder_directory() -> None:
+def test_planning_is_the_module_and_the_v01_placeholder_directory_is_gone() -> None:
     import agentic_engineering_system.planning as planning
 
     assert planning.__file__ is not None and planning.__file__.endswith("planning.py")
     assert planning.accept_proposal is accept_proposal
+    # archived to archive/v0.1-placeholders/planning/ in phase 7a; nothing shadows the module now
+    assert not (Path(planning.__file__).parent / "planning").exists()
 
 
 # --------------------------------------------------------------------------- #

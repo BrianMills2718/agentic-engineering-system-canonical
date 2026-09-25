@@ -24,9 +24,10 @@ from agentic_engineering_system.topology import compare_topology, normalized_roo
 
 REPO = Path(__file__).resolve().parents[2]
 SEMANTIC_INSTANCE = REPO / "proposals" / "aes-v0.2-greenfield" / "12-greenfield-mvp-semantic-instance.candidate.yaml"
-V01_PACKAGES = (
+V01_RETAINED = ("repository_context",)  # real v0.1 code: console script aes-repo-context
+V01_ARCHIVED = (  # empty placeholders, moved to archive/v0.1-placeholders/ in phase 7a
     "capability_sourcing", "evidence_assessment", "execution", "gap_reconciliation", "learning",
-    "normative_context", "planning", "policy_control", "repository_context",
+    "normative_context", "planning", "policy_control",
 )
 
 
@@ -68,10 +69,21 @@ def test_topology_at_head_has_no_orphan_and_plans_the_v01_files_as_history():
     report = compare_topology(governed, files, target)
     assert report.orphans == ()
     by_path = {a.locator.exact_path: a for a in target.planned_artifacts}
-    v01 = [p for p in files if p.split("/")[2] in V01_PACKAGES]
-    assert len(v01) >= len(V01_PACKAGES)  # every v0.1 subpackage still has its files at HEAD
+    v01 = [p for p in files if p.split("/")[2] in V01_RETAINED]
+    assert v01 and "src/agentic_engineering_system/repository_context/cli.py" in v01
     for path in [*v01, "src/agentic_engineering_system/__init__.py"]:
         assert by_path[path].semantic_justification_refs == ["NI-AES-HIST"], path
+    # the archived placeholders left the governed root and the target, and kept their history
+    gone = tuple(f"src/agentic_engineering_system/{pkg}/" for pkg in V01_ARCHIVED)
+    assert not [p for p in [*files, *by_path] if p.startswith(gone)]
+    archived = subprocess.run(
+        ["git", "ls-tree", "-r", "--name-only", "HEAD", "--", "archive/v0.1-placeholders/"],
+        cwd=REPO, capture_output=True, text=True, check=True,
+    ).stdout.split()
+    assert sorted(archived) == sorted(
+        [f"archive/v0.1-placeholders/{pkg}/component.placeholder.yaml" for pkg in V01_ARCHIVED]
+        + ["archive/v0.1-placeholders/README.md"]
+    )
     assert "tests/greenfield/test_self_governance.py" in by_path
 
 
