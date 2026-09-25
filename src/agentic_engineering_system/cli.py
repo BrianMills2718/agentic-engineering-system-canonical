@@ -51,7 +51,7 @@ def _build_parser() -> argparse.ArgumentParser:
     rec.add_argument("subject", help="verification subject ID (VS-...)")
     rec.add_argument("--depends-on", action="append", default=[], metavar="PATH",
                      help="repository path the result depends on (repeatable); the test file is always included")
-    rec.add_argument("--command", nargs=argparse.REMAINDER,
+    rec.add_argument("--command", dest="run_command", nargs=argparse.REMAINDER,
                      help="command to run instead of the ecosystem default (python: pytest on the locator)")
     rec.add_argument("--inconclusive", metavar="BASIS",
                      help="record a pass as INCONCLUSIVE, with this reason (test covers only part of the requirement)")
@@ -99,7 +99,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "topology" and args.topology_command == "check":
             return _cmd_topology_check(args.root)
         if args.command == "evidence" and args.evidence_command == "record":
-            done = record(args.root, args.subject, args.depends_on, args.command or None, args.inconclusive)
+            done = record(args.root, args.subject, args.depends_on, args.run_command or None, args.inconclusive)
             a = done.observation.assessments
             print(f"wrote {done.path}\n  {a[0].assessment if a else 'no assessment'} for "
                   f"{', '.join(x.evidence_requirement_ref for x in a)} at {done.observation.subject_revision[:12]}")
