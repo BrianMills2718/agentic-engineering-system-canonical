@@ -1,6 +1,7 @@
 schema_version: aes.v0_2.internal_provider_evaluation.candidate.v0
 status: proposal_non_normative
 provider_contract: 17-provider-evaluation-contract.candidate.yaml
+# Review role: supporting provider evidence; current candidate bindings are in 21-provider-bindings.candidate.yaml
 evaluated_at: 2026-09-24
 
 evaluated_revisions:
