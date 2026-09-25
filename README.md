@@ -12,6 +12,8 @@ orient -> target -> current -> gap -> plan -> capability composition
 
 ## Status
 
+**AES v0.2 governs this repository (2026-09-25).** `.aes/target.yaml` holds the Greenfield MVP target (outcome `OUT-GF-001`, criteria `SC-GF-001`..`009`) over the governed roots `src/agentic_engineering_system/` and `tests/greenfield/`; `.aes/observations/` holds the evidence and `.aes/plans/` the accepted plans. Run `aes status` (or `make aes`) for the current standing and the first open gap per component; the v0.2 proposal lineage is `proposals/aes-v0.2-greenfield/` and the user-facing start is `docs/greenfield/GETTING_STARTED.md`. The v0.1 material below remains until the v0.2 acceptance phase dispositions it.
+
 **Bootstrap architecture adopted; Plan 001 / Repository Context Slice 1 is delivered at verified AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`.**
 
 The canonical architecture now includes the component-aligned planning/governance model, AES-local Company Planning profile, minimal architecture-realization schema, and reserved component/verification homes. Reserved homes remain topology only; they are not implementation or verification evidence.

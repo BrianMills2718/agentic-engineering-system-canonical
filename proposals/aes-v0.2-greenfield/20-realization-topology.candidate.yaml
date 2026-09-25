@@ -6,6 +6,15 @@ basis:
   - 18-provider-evaluation-round-1.md
   - 19-provider-evaluation-round-2-generic-dependencies.md
 
+# Since roadmap phase 6b (2026-09-25) the live authority for AES canonical's own
+# topology is `.aes/target.yaml` (accepted through `aes plan accept
+# PLAN-AES-SELF-GOVERN`); this file is kept in step with it for the entries it
+# lists. Differences at that point (24-pre-probe-decisions.md section 17): the
+# target merges VS-GF-TOPOLOGY-NEGATIVE/POSITIVE and VS-GF-CHARACTERIZE-DRIFT/
+# BINDING into one subject per test file, maps capability refs to the GF-REQ
+# items they serve, maps artifact kinds normative_authority -> source and
+# documentation -> configuration (the loader's three kinds), and additionally
+# plans the test fixtures and the retained v0.1 files (NI-AES-HIST).
 purpose: >
   Candidate exact implementation, distribution and verification topology for the
   AES v0.2 Greenfield MVP itself. This is a planning proposal, not implementation
@@ -93,6 +102,7 @@ realization_units:
     planned_artifact_refs:
       - ART-SRC-TOPOLOGY
       - ART-TEST-TOPOLOGY
+      - ART-TEST-SELF-GOVERNANCE
 
   - id: RU-AES-CHARACTERIZE
     target_refs: [GF-REQ-006, SC-GF-006]
@@ -115,6 +125,7 @@ realization_units:
     planned_artifact_refs:
       - ART-SRC-EVIDENCE
       - ART-TEST-EVIDENCE
+      - ART-TEST-EVIDENCE-CONTROLS
 
   - id: RU-AES-RECONCILE
     target_refs: [GF-REQ-008, SC-GF-007, SC-GF-008]
@@ -150,9 +161,10 @@ realization_units:
       - CAP-GF-CHARACTERIZE
       - CAP-GF-EVIDENCE
       - CAP-GF-RECONCILE
+    # ART-TEST-CLI (tests/greenfield/test_cli.py) removed in phase 6b: it was
+    # never created; every greenfield test file drives the CLI through cli.main.
     planned_artifact_refs:
       - ART-SRC-CLI
-      - ART-TEST-CLI
 
   - id: RU-AES-DISTRIBUTION
     target_refs: [OUT-GF-001, GF-REQ-001, GF-REQ-009, SC-GF-001, SC-GF-009]
@@ -293,6 +305,17 @@ planned_artifacts:
     purpose: exercise unrealized, implemented-unverified, supported, contradicted and stale reconciliation
     semantic_justification_refs: [SC-GF-007, SC-GF-008]
 
+  # Added 2026-09-25 (roadmap phase 6b): AES canonical governs itself.
+  - id: ART-TEST-SELF-GOVERNANCE
+    locator:
+      exact_path: tests/greenfield/test_self_governance.py
+    kind: test
+    purpose: >
+      AES canonical's own target loads strictly, its governed roots hold no
+      orphan at HEAD, every SC-GF evidence requirement has a route, and aes
+      status exits 0 on this repository (reads the live repository on purpose)
+    semantic_justification_refs: [SC-GF-003, SC-GF-004]
+
   - id: ART-SRC-CONTEXT
     locator:
       exact_path: src/agentic_engineering_system/context.py
@@ -313,13 +336,6 @@ planned_artifacts:
     kind: source
     purpose: compose AES commands over the capability modules
     semantic_justification_refs: [OUT-GF-001]
-
-  - id: ART-TEST-CLI
-    locator:
-      exact_path: tests/greenfield/test_cli.py
-    kind: test
-    purpose: command-surface verification for initialization/check/context/reconcile workflows
-    semantic_justification_refs: [OUT-GF-001, SC-GF-009]
 
   - id: ART-PACKAGING-PYPROJECT
     locator:
@@ -552,13 +568,14 @@ verification_subjects:
     proof_role: supporting
     locator: tests/greenfield/test_reconcile.py
 
-  - id: VS-GF-CLI
-    criterion_refs: [SC-GF-009]
-    evidence_requirement_refs_or_match: [ER-SC-GF-009-01]
+  # VS-GF-CLI (tests/greenfield/test_cli.py) removed in phase 6b with ART-TEST-CLI.
+  - id: VS-GF-SELF-GOVERNANCE
+    criterion_refs: [SC-GF-003, SC-GF-004]
+    evidence_requirement_refs_or_match: [ER-SC-GF-003-02, ER-SC-GF-004-01]
     proof_kind: deterministic_test
-    purpose: support full-lifecycle evidence by exercising the user-facing command composition
-    proof_role: supporting
-    locator: tests/greenfield/test_cli.py
+    purpose: on AES canonical itself, the unchanged planned topology is accepted at HEAD and every evidence requirement has a route
+    proof_role: direct
+    locator: tests/greenfield/test_self_governance.py
 
   - id: VS-GF-LIFECYCLE-FRESH-CONSUMER
     criterion_refs: [SC-GF-009]
