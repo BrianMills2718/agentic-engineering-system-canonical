@@ -1,5 +1,7 @@
 # AES v0.2 provider evaluation — round 1
 
+Review role: **supporting provider rationale**. Current candidate bindings are in `21-provider-bindings.candidate.yaml`.
+
 Status: **candidate provider evaluation / non-normative**
 Date: 2026-09-24
 Contract: `17-provider-evaluation-contract.candidate.yaml`
