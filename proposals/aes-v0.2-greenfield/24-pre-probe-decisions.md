@@ -1201,19 +1201,24 @@ merge — a trap for any evidence produced off-branch).
 **Found.** §18 ended on a trap: evidence produced off-branch may not resolve
 after merge. It was worse than that. Freshness resolved `subject_revision` with
 `git cat-file` and diffed dependencies against HEAD, and never asked whether
-HEAD contains that commit. PRs #52 and #53 were squash-merged and their
-branches deleted, so every commit AES canonical's own test observations named
-became reachable from no branch: all 22 `OBS-GF-*-cb226ba7` and
-`OBS-GF-*-61e1edbf` records. In whygame5, `OBS-WG5-CHARACTERIZE-4921a159`,
+HEAD contains that commit. PRs #52 and #53 were squash-merged, so no commit
+AES canonical's own test observations named is on `main`: all 22
+`OBS-GF-*-cb226ba7` and `OBS-GF-*-61e1edbf` records. (Their branches,
+`v02-self-govern` and `v02-route-fix-ab`, still exist on GitHub today, so a
+fresh clone still fetches the objects; deleting either branch removes them
+from every future clone.) In whygame5, `OBS-WG5-CHARACTERIZE-4921a159`,
 `OBS-WG5-RECONCILE-73fc0ad7` and the negative control
 `OBS-WG5-DRIFT-b0c3e24f` (whose `base_revision` 4921a159 sits only on the
 unmerged `origin/aes-phase3-pin`) are in the same state. Checked with `git
 merge-base --is-ancestor <commit> HEAD` for every record: 22 of 26 in AES
 canonical, 3 in whygame5; the rest are external (no commit) or reachable.
-It was masked because the recording machine's `.git` still holds the
-squashed-away objects: there `aes status` said CURRENT and six criteria
-SUPPORTED, while a fresh clone could not resolve the commits at all (an error,
-or at best UNKNOWN). Standing depended on which clone computed it.
+It was masked because freshness only needs the object to exist: the recording
+machine's `.git` (and, while the branches survive, any clone) still holds the
+squashed-away commits, so `aes status` said CURRENT and six criteria
+SUPPORTED on evidence about commits `main` never contained. Once a branch is
+deleted, a fresh clone cannot resolve the commit at all and `aes status`
+errors, while the recording machine keeps saying CURRENT: standing would
+depend on which clone computed it.
 
 **Fixes.**
 

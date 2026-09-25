@@ -70,9 +70,10 @@ Kinks the consumer has already exposed and that this roadmap must close:
 - `aes status` reports an externally bounded, unsupported requirement as "no
   route" (`reconcile._criterion_states` ignores `external_boundaries`), found
   by phase 6b (§17 item 2).
-- ~~evidence recorded on a branch that is then squash-merged names a commit no
-  branch reaches; the recording clone still resolves it and says CURRENT, a
-  fresh clone cannot (22 of AES canonical's records, 3 of whygame5's)~~ fixed
+- ~~evidence recorded on a branch that is then squash-merged names a commit
+  `main` never contains; any clone still holding it says CURRENT, and once the
+  branch is deleted a fresh clone cannot resolve it (22 of AES canonical's
+  records, 3 of whygame5's)~~ fixed
   in this phase (§19): such observations are UNREACHABLE and never count,
   `superseded_by` retires replaced records without deleting them, `aes
   evidence record` warns when recording off the default branch, and evidence
