@@ -5,6 +5,8 @@
     aes topology check [--root DIR]
     aes evidence status [--root DIR]
     aes evidence record <VS-ID> [--depends-on PATH ...] [--command ...] [--inconclusive BASIS] [--root DIR]
+    aes hooks install [--root DIR]
+    aes --version
 
 Exit 0 on success, 1 on any load/validation/context/topology error or orphan (message on stderr),
 2 on usage errors (argparse).
@@ -15,17 +17,38 @@ from __future__ import annotations
 import argparse
 import sys
 from collections.abc import Sequence
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 from .evidence import EvidenceError, assess, record
 from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
+from .hooks import HookInstallError, install_hooks
 from .records import RecordLoadError, TargetValidationError, load_project, load_target
 from .topology import TopologyError, check_topology, render_report
 
 
+DISTRIBUTION = "agentic-engineering-system"
+
+
+class _VersionAction(argparse.Action):
+    """Print the installed distribution's version (Git-derived at build time)."""
+
+    def __init__(self, option_strings: Sequence[str], dest: str, **kwargs: object) -> None:
+        super().__init__(option_strings, dest, nargs=0, help="print the installed AES version and exit")
+
+    def __call__(self, parser: argparse.ArgumentParser, *_: object) -> None:
+        try:
+            installed = version(DISTRIBUTION)
+        except PackageNotFoundError:
+            parser.exit(1, f"error: distribution {DISTRIBUTION!r} is not installed; no version to report\n")
+        print(installed)
+        parser.exit(0)
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="aes", description="Agentic Engineering System (v0.2 probe 0)")
+    parser.add_argument("--version", action=_VersionAction)
     sub = parser.add_subparsers(dest="command", required=True)
 
     target = sub.add_parser("target", help="operate on .aes/target.yaml")
@@ -56,6 +79,11 @@ def _build_parser() -> argparse.ArgumentParser:
     rec.add_argument("--inconclusive", metavar="BASIS",
                      help="record a pass as INCONCLUSIVE, with this reason (test covers only part of the requirement)")
     rec.add_argument("--root", type=Path, default=Path("."), help="project root (default: .)")
+
+    hooks = sub.add_parser("hooks", help="Git hooks that enforce the target")
+    hooks_sub = hooks.add_subparsers(dest="hooks_command", required=True)
+    install = hooks_sub.add_parser("install", help="write .githooks/pre-commit and set core.hooksPath")
+    install.add_argument("--root", type=Path, default=Path("."), help="project root (default: .)")
     return parser
 
 
@@ -107,7 +135,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "evidence" and args.evidence_command == "status":
             print(render_evidence(assess(args.root)))
             return 0
-    except (RecordLoadError, TargetValidationError, ContextError, TopologyError, EvidenceError) as exc:
+        if args.command == "hooks" and args.hooks_command == "install":
+            hook, overridden = install_hooks(args.root)
+            print(f"wrote {hook}\n  core.hooksPath=.githooks; runs aes target validate + aes topology check")
+            if overridden:
+                print(f"  note: overrides the global core.hooksPath {overridden} in this repository", file=sys.stderr)
+            return 0
+    except (RecordLoadError, TargetValidationError, ContextError, TopologyError, EvidenceError,
+            HookInstallError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     raise AssertionError(f"unhandled command {args.command!r}")  # argparse prevents this
