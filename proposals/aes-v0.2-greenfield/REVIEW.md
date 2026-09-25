@@ -150,7 +150,7 @@ in ecosystem-native locations.
 
 ## Candidate implementation/provider boundary
 
-Current candidate default:
+Current clean-core candidate:
 
 ```text
 AES-local semantic core
@@ -160,6 +160,12 @@ AES-local semantic core
 + ruamel.yaml
 + Pydantic v2
 ```
+
+Transition caveat: while pre-cutover probes coexist with executable v0.1
+Repository Context in the same distribution, PyYAML must remain installed because
+that retained v0.1 code imports it. Final v0.2 cutover must explicitly retain,
+migrate, or remove each v0.1 runtime artifact rather than preserving historical
+machinery by default.
 
 JSON Schema 2020-12 is a candidate published structural contract format.
 
@@ -178,19 +184,20 @@ mechanism donor. Neither controls v0.2 semantics.
 
 The current topology proposal contains:
 
-- 9 realization units;
-- 18 exact source/test artifacts;
-- 7 selected public/load-bearing symbol/signature commitments;
-- criterion-linked verification subjects.
+- 10 realization units;
+- 23 planned durable artifacts / exact paths;
+- 20 source-or-test artifacts plus 3 distribution/planning/documentation artifacts;
+- 8 selected public/load-bearing symbol/signature commitments;
+- 16 criterion-linked verification subjects covering every current evidence requirement.
 
 A proposal self-check across the Greenfield semantic instance and realization
 topology found:
 
-- 109 declared IDs;
-- 125 typed references;
+- 122 declared IDs;
+- 188 typed references;
 - 0 unresolved references;
 - 0 duplicate IDs;
-- 20 exact planned paths;
+- 23 exact planned paths;
 - 0 duplicate exact paths.
 
 This is a consistency check only, not evidence that the architecture is correct.
@@ -240,8 +247,9 @@ A fresh review should concentrate on these, not wording/style:
    AES-wide semantics?
 8. Are the AES-local residuals actually AES-specific, or are we unnecessarily
    rebuilding mature generic providers?
-9. Does the exact realization topology create meaningful engineering boundaries,
-   or merely another file layout?
+9. Does the exact realization topology—including packaging, distribution and
+   v0.1 cutover disposition—create meaningful engineering boundaries, or merely
+   another file layout?
 10. Is the Greenfield validation profile strong enough to falsify the product
     claim?
 11. Are the provider rejections justified, especially Company Planning and
