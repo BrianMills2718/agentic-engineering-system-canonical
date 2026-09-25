@@ -186,10 +186,12 @@ The current topology proposal contains:
 A proposal self-check across the Greenfield semantic instance and realization
 topology found:
 
-- 97 declared IDs;
-- 114 typed references;
+- 109 declared IDs;
+- 125 typed references;
 - 0 unresolved references;
-- 0 duplicate IDs.
+- 0 duplicate IDs;
+- 20 exact planned paths;
+- 0 duplicate exact paths.
 
 This is a consistency check only, not evidence that the architecture is correct.
 
