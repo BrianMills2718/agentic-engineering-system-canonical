@@ -9,6 +9,7 @@ fail loudly with their location. There is no lenient mode.
 
 from __future__ import annotations
 
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Literal
 
@@ -156,6 +157,7 @@ class TargetRecord(StrictModel):
 class AesInfo(StrictModel):
     architecture_line: str
     distribution_version: str
+    initialized_at: datetime | None = None  # written by `aes init`; absent in hand-made projects
 
 
 class Materialization(StrictModel):
