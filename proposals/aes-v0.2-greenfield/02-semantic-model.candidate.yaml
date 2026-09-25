@@ -1,4 +1,4 @@
-schema_version: aes.v0_2.semantic_model.candidate.v3
+schema_version: aes.v0_2.semantic_model.candidate.v4
 status: proposal_non_normative
 review_basis:
   - 07-semantic-clean-sheet-review-pass-1.md
@@ -161,11 +161,12 @@ semantic_families:
       satisfied by a distinct provider, composition or AES-local residual.
     required:
       - id
-      - capability_ref
+      - capability_refs
       - provider_identity
       - disposition
       - semantic_boundary
       - replacement_boundary
+    capability_cardinality: one_or_more
     dispositions:
       - reuse
       - configure
@@ -264,6 +265,7 @@ semantic_families:
       - contract
       - configuration
       - normative_authority
+      - documentation
       - generated_projection
       - migration
       - other
