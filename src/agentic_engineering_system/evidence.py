@@ -1,0 +1,228 @@
+"""Observations, freshness and criterion standing (`RU-AES-EVIDENCE`,
+`SC-GF-007`, `SC-GF-008`, decision D2).
+
+Observation records follow `16-record-shapes.candidate.yaml`. Assessments are
+materialized inside the observation (option `retained_inside_observation_
+assessment_receipt`), one per evidence requirement, never per criterion:
+an observation does not claim criterion sufficiency.
+
+Freshness is computed from Git. An observation names the commit it observed
+(`subject_revision`) and the repository paths its result depends on
+(`dependency_paths`). It is CURRENT when none of those paths changed between
+that commit and HEAD, STALE when any did, and UNKNOWN when it names no commit
+or no paths (external subjects, human review). Only CURRENT assessments count.
+
+Standing per criterion (D2, conjunction only):
+- REFUTED when any evidence requirement has a CURRENT refuting assessment;
+- SUPPORTED when every evidence requirement has a CURRENT supporting assessment;
+- INSUFFICIENT otherwise, with the reason per requirement.
+"""
+
+from __future__ import annotations
+
+import re
+import subprocess
+from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Literal
+
+from pydantic import Field, model_validator
+
+from .records import (
+    RecordLoadError,
+    StrictModel,
+    TargetRecord,
+    _validate_model,
+    load_project,
+    load_target,
+    load_yaml_mapping,
+)
+
+OBSERVATION_SCHEMA = "aes.v0_2.observation.probe0"
+_COMMIT = re.compile(r"^[0-9a-f]{40}$")
+
+Assessment = Literal["SUPPORTS", "REFUTES", "INCONCLUSIVE"]
+Freshness = Literal["CURRENT", "STALE", "UNKNOWN"]
+Standing = Literal["SUPPORTED", "REFUTED", "INSUFFICIENT"]
+
+
+class EvidenceError(ValueError):
+    """Observations could not be loaded or checked against the target."""
+
+
+class Observer(StrictModel):
+    identity: str
+    version: str | None = None
+
+
+class ErAssessment(StrictModel):
+    evidence_requirement_ref: str
+    assessment: Assessment
+    basis: str
+    assessor: Observer
+
+
+class ObservationRecord(StrictModel):
+    schema_version: Literal["aes.v0_2.observation.probe0"]
+    observation_id: str
+    subject_refs: list[str]
+    subject_revision: str | None = Field(
+        default=None, description="40-hex commit the observation observed; None for external subjects",
+    )
+    external_identity: str | None = None
+    dependency_paths: list[str] = Field(default_factory=list)
+    observer: Observer
+    method: str
+    execution_state: Literal["COMPLETED", "ERROR"]
+    result: dict[str, Any] | None = None
+    error: str | None = None
+    produced_at: datetime
+    retained_artifact_refs: list[str] = Field(default_factory=list)
+    assessments: list[ErAssessment] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _shape(self) -> ObservationRecord:
+        if self.subject_revision is None and self.external_identity is None:
+            raise ValueError("needs subject_revision or external_identity")
+        if self.subject_revision is not None and not _COMMIT.fullmatch(self.subject_revision):
+            raise ValueError(f"subject_revision must be a full 40-hex commit: {self.subject_revision!r}")
+        if (self.result is None) == (self.error is None):
+            raise ValueError("exactly one of result or error is required")
+        if (self.execution_state == "ERROR") != (self.error is not None):
+            raise ValueError("execution_state ERROR requires error, COMPLETED requires result")
+        if self.execution_state == "ERROR" and self.assessments:
+            raise ValueError("an ERROR observation cannot carry assessments")
+        return self
+
+
+def load_observations(root: Path, observations_root: str, target: TargetRecord) -> list[ObservationRecord]:
+    directory = root / observations_root
+    if not directory.is_dir():
+        return []
+    ers = target.evidence_requirements()
+    ids = {i for members in target.families().values() for i in members}
+    out: list[ObservationRecord] = []
+    seen: set[str] = set()
+    for path in sorted(directory.glob("*.yaml")):
+        obs: ObservationRecord = _validate_model(ObservationRecord, load_yaml_mapping(path), path)
+        problems = []
+        if obs.observation_id in seen:
+            problems.append(f"duplicate observation_id {obs.observation_id!r}")
+        seen.add(obs.observation_id)
+        problems += [f"unknown subject_ref {r!r}" for r in obs.subject_refs if r not in ids]
+        problems += [
+            f"unknown evidence_requirement_ref {a.evidence_requirement_ref!r}"
+            for a in obs.assessments if a.evidence_requirement_ref not in ers
+        ]
+        if problems:
+            raise EvidenceError(f"{path}: " + "; ".join(problems))
+        out.append(obs)
+    return out
+
+
+def _git(root: Path, *args: str) -> str:
+    proc = subprocess.run(["git", *args], cwd=root, capture_output=True, text=True, check=False)
+    if proc.returncode != 0:
+        raise EvidenceError(f"git {' '.join(args)} failed: {proc.stderr.strip()}")
+    return proc.stdout
+
+
+def freshness(root: Path, obs: ObservationRecord) -> tuple[Freshness, str]:
+    if obs.subject_revision is None or not obs.dependency_paths:
+        return "UNKNOWN", "no subject_revision or no dependency_paths"
+    _git(root, "cat-file", "-e", f"{obs.subject_revision}^{{commit}}")
+    changed = [
+        p for p in _git(root, "diff", "--name-only", obs.subject_revision, "HEAD", "--", *obs.dependency_paths)
+        .splitlines() if p
+    ]
+    if changed:
+        return "STALE", "changed since observed: " + ", ".join(changed)
+    return "CURRENT", f"no dependency changed since {obs.subject_revision[:12]}"
+
+
+@dataclass(frozen=True)
+class ErStatus:
+    er_id: str
+    status: Literal["SUPPORTED", "REFUTED", "NO_CURRENT_SUPPORT"]
+    detail: str
+
+
+@dataclass(frozen=True)
+class CriterionStanding:
+    criterion_id: str
+    standing: Standing
+    requirements: tuple[ErStatus, ...]
+
+
+@dataclass(frozen=True)
+class EvidenceReport:
+    criteria: tuple[CriterionStanding, ...]
+    observations: tuple[tuple[str, Freshness, str], ...]
+
+
+def assess(root: Path) -> EvidenceReport:
+    root = Path(root).resolve()
+    project = load_project(root / ".aes" / "project.yaml")
+    target = load_target(root / project.materialization.target_path)
+    observations = load_observations(root, project.materialization.observations_root, target)
+
+    fresh = {o.observation_id: freshness(root, o) for o in observations}
+    by_er: dict[str, list[tuple[ObservationRecord, ErAssessment]]] = {}
+    for o in observations:
+        for a in o.assessments:
+            by_er.setdefault(a.evidence_requirement_ref, []).append((o, a))
+
+    criteria = []
+    for sc in target.success_criteria:
+        statuses = []
+        for er in sc.evidence_requirements:
+            entries = by_er.get(er.id, [])
+            current = [(o, a) for o, a in entries if fresh[o.observation_id][0] == "CURRENT"]
+            refuting = [o.observation_id for o, a in current if a.assessment == "REFUTES"]
+            supporting = [o.observation_id for o, a in current if a.assessment == "SUPPORTS"]
+            if refuting:
+                statuses.append(ErStatus(er.id, "REFUTED", "refuted by " + ", ".join(refuting)))
+            elif supporting:
+                statuses.append(ErStatus(er.id, "SUPPORTED", "supported by " + ", ".join(supporting)))
+            elif entries:
+                why = "; ".join(
+                    f"{o.observation_id} {a.assessment} ({fresh[o.observation_id][0]})" for o, a in entries
+                )
+                statuses.append(ErStatus(er.id, "NO_CURRENT_SUPPORT", why))
+            else:
+                statuses.append(ErStatus(er.id, "NO_CURRENT_SUPPORT", "no observation assesses it"))
+        if any(s.status == "REFUTED" for s in statuses):
+            standing: Standing = "REFUTED"
+        elif all(s.status == "SUPPORTED" for s in statuses):
+            standing = "SUPPORTED"
+        else:
+            standing = "INSUFFICIENT"
+        criteria.append(CriterionStanding(sc.id, standing, tuple(statuses)))
+    return EvidenceReport(
+        criteria=tuple(criteria),
+        observations=tuple((oid, f[0], f[1]) for oid, f in fresh.items()),
+    )
+
+
+def render_report(report: EvidenceReport) -> str:
+    counts = {s: sum(c.standing == s for c in report.criteria) for s in ("SUPPORTED", "INSUFFICIENT", "REFUTED")}
+    lines = [
+        f"evidence: {len(report.criteria)} criteria: {counts['SUPPORTED']} supported, "
+        f"{counts['INSUFFICIENT']} insufficient, {counts['REFUTED']} refuted; "
+        f"{len(report.observations)} observation(s)"
+    ]
+    for c in report.criteria:
+        lines.append(f"  {c.criterion_id}: {c.standing}")
+        for s in c.requirements:
+            lines.append(f"    {s.er_id}: {s.status} - {s.detail}")
+    lines.append("  observations:")
+    for oid, f, why in report.observations:
+        lines.append(f"    {oid}: {f} - {why}")
+    return "\n".join(lines)
+
+
+__all__ = [
+    "EvidenceError", "ObservationRecord", "assess", "freshness", "load_observations", "render_report",
+    "RecordLoadError",
+]

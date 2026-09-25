@@ -1,0 +1,291 @@
+schema_version: aes.v0_2.target.probe0
+target_id: whygame5-target
+
+outcomes:
+  - id: OUT-WG5-001
+    actor_or_consumer: a person asking a bounded "why" question
+    statement: >
+      The person sees the graph challenge the model's causal explanation with a
+      conflict that no prompt asked the model to produce, and sees exactly how
+      the explanation changed in response.
+    non_goals:
+      - a world model or truth discovery
+      - general contradiction detection beyond the typed evaluator
+      - a live collaborative UI
+      - feature parity with whygame4 or whygame-reboot
+    rationale: >
+      whygame-reboot's two recorded runs (Brian's judgement, 2026-09-07) both
+      produced conflicts that the proposal prompt planted. An adversary that
+      only finds what it was told to plant is not an adversary.
+
+normative_items:
+  - id: NI-WG5-001
+    kind: constraint
+    outcome_refs: [OUT-WG5-001]
+    statement: >
+      No prompt text sent to a model, and no output schema requested from a
+      model, may ask for a competing, contradicting, opposed, or alternative
+      claim. The model is asked only for its best causal explanation.
+  - id: NI-WG5-002
+    kind: behavior
+    outcome_refs: [OUT-WG5-001]
+    statement: >
+      The evaluator selects findings from graph structure alone: two committed
+      claims with the same normalized subject and object and opposed causal
+      polarity, or a committed claim opposed to a source observation. Committed
+      claims include those persisted by earlier runs on the same graph.
+  - id: NI-WG5-003
+    kind: behavior
+    outcome_refs: [OUT-WG5-001]
+    statement: >
+      When the evaluator finds no conflict it reports NO_FINDING explicitly and
+      the run ends without a revision call. It never manufactures a finding.
+  - id: NI-WG5-004
+    kind: invariant
+    outcome_refs: [OUT-WG5-001]
+    statement: >
+      Revision is append-only. The active graph is a replayed projection of the
+      immutable proposal and revision events; history is never overwritten.
+  - id: NI-WG5-005
+    kind: invariant
+    outcome_refs: [OUT-WG5-001]
+    statement: >
+      Model-local identifiers are untrusted. The system assigns durable claim
+      IDs and content digests, and every revision binds to exact input digests.
+  - id: NI-WG5-006
+    kind: constraint
+    outcome_refs: [OUT-WG5-001]
+    statement: >
+      Every model call goes through the shared llm_client with a retained call
+      receipt. There are no automatic retries and no fallback model; a failed
+      call stops the run with prior receipts intact.
+  - id: NI-WG5-007
+    kind: quality
+    outcome_refs: [OUT-WG5-001]
+    statement: >
+      A static report lets a reader see what was proposed, what challenged it,
+      what changed, and which claims remain active, without reading logs or
+      source code.
+
+success_criteria:
+  - id: SC-WG5-001
+    statement: >
+      On at least one real question run through the live loop, the evaluator
+      selects a finding whose claims were all produced under prompts that
+      contain no conflict solicitation.
+    target_refs: [OUT-WG5-001, NI-WG5-001, NI-WG5-002]
+    disproof: >
+      Any prompt or requested output schema solicits an opposed or competing
+      claim; or every finding ever selected traces to such a solicitation; or
+      the selected finding is an artifact of endpoint normalization rather than
+      opposed polarity over the same normalized endpoints.
+    evidence_requirements:
+      - id: ER-WG5-001-01
+        kind: deterministic_test
+        requirement: >
+          A test loads every prompt and output schema the runner can send and
+          asserts none contains a conflict-solicitation phrase from a fixed
+          list, and that the proposal schema has no competing-pair field.
+      - id: ER-WG5-001-02
+        kind: runtime_observation
+        requirement: >
+          One retained live run with llm_client receipts in which the evaluator
+          selected a finding and the revision call ran.
+      - id: ER-WG5-001-03
+        kind: human_review
+        requirement: >
+          Brian reads the report of that run and judges whether the finding is
+          a genuine conflict rather than a normalization artifact.
+  - id: SC-WG5-002
+    statement: >
+      A conflict between a claim committed in an earlier run and a claim from
+      the current proposal is found and selectable.
+    target_refs: [NI-WG5-002]
+    disproof: >
+      The evaluator only inspects claims from the current proposal.
+    evidence_requirements:
+      - id: ER-WG5-002-01
+        kind: deterministic_test
+        requirement: >
+          Two fixture runs on one graph where the only opposed pair spans the
+          runs; the evaluator returns exactly that finding.
+  - id: SC-WG5-003
+    statement: >
+      On a proposal with no opposed pair the run reports NO_FINDING and makes
+      no revision call.
+    target_refs: [NI-WG5-003]
+    disproof: >
+      The evaluator returns a finding for an all-consistent proposal, or the
+      runner calls the model a second time without a finding.
+    evidence_requirements:
+      - id: ER-WG5-003-01
+        kind: deterministic_test
+        requirement: >
+          Negative control: consistent fixture proposal yields NO_FINDING and
+          the recorded call count is one.
+  - id: SC-WG5-004
+    statement: >
+      Replaying the immutable proposal and revision events reproduces the same
+      active graph and the same artifact digest.
+    target_refs: [NI-WG5-004, NI-WG5-005]
+    disproof: >
+      Two replays of the same event log differ, or a revision plan whose input
+      digests do not match the committed proposal is applied.
+    evidence_requirements:
+      - id: ER-WG5-004-01
+        kind: deterministic_test
+        requirement: >
+          Replay twice and compare digests; reject a mismatched-digest plan.
+  - id: SC-WG5-005
+    statement: >
+      A reader with only the static report answers what was proposed, what
+      challenged it, what changed, and what remains active.
+    target_refs: [NI-WG5-007]
+    disproof: >
+      Answering any of the four questions requires opening run.json, logs, or
+      source.
+    evidence_requirements:
+      - id: ER-WG5-005-01
+        kind: human_review
+        requirement: >
+          Brian answers the four questions from report.html alone and records
+          whether he could.
+
+components:
+  - id: CMP-WG5-CONTRACTS
+    responsibility: typed records for claims, proposals, findings, revision plans, events, receipts and run state; durable IDs and digests
+    target_refs: [NI-WG5-005]
+    planned_artifact_refs: [ART-WG5-CONTRACTS]
+  - id: CMP-WG5-GRAPH
+    responsibility: endpoint normalization, append-only event log, replayed active graph
+    target_refs: [NI-WG5-004, NI-WG5-005]
+    planned_artifact_refs: [ART-WG5-GRAPH, ART-WG5-TEST-REPLAY]
+  - id: CMP-WG5-EVALUATOR
+    responsibility: find opposed-polarity conflicts over the whole committed graph and source observations; report NO_FINDING honestly
+    target_refs: [NI-WG5-002, NI-WG5-003]
+    planned_artifact_refs: [ART-WG5-EVALUATOR, ART-WG5-TEST-EVALUATOR]
+  - id: CMP-WG5-PROMPTS
+    responsibility: the only prompt and output-schema text the runner may send; inspectable as code
+    target_refs: [NI-WG5-001]
+    planned_artifact_refs: [ART-WG5-PROMPTS, ART-WG5-TEST-PROMPTS]
+  - id: CMP-WG5-RUNNER
+    responsibility: the two-call loop over llm_client with receipts, no retries, no fallback; stops after one call on NO_FINDING
+    target_refs: [NI-WG5-003, NI-WG5-006]
+    planned_artifact_refs: [ART-WG5-RUNNER, ART-WG5-CLI]
+  - id: CMP-WG5-REPORT
+    responsibility: static HTML report of proposal, challenge, change and active state
+    target_refs: [NI-WG5-007]
+    planned_artifact_refs: [ART-WG5-REPORT]
+
+planned_artifacts:
+  - id: ART-WG5-PKG
+    locator: {exact_path: src/whygame5/__init__.py}
+    kind: source
+    purpose: package marker and version
+    semantic_justification_refs: [OUT-WG5-001]
+  - id: ART-WG5-CONTRACTS
+    locator: {exact_path: src/whygame5/contracts.py}
+    kind: source
+    purpose: strict Pydantic contracts and digest assignment
+    semantic_justification_refs: [NI-WG5-005]
+  - id: ART-WG5-GRAPH
+    locator: {exact_path: src/whygame5/graph.py}
+    kind: source
+    purpose: normalization, event log, replay
+    semantic_justification_refs: [NI-WG5-004]
+  - id: ART-WG5-EVALUATOR
+    locator: {exact_path: src/whygame5/evaluator.py}
+    kind: source
+    purpose: structural conflict finder over the whole graph
+    semantic_justification_refs: [NI-WG5-002, NI-WG5-003]
+  - id: ART-WG5-PROMPTS
+    locator: {exact_path: src/whygame5/prompts.py}
+    kind: source
+    purpose: all prompt text and output schemas as inspectable constants
+    semantic_justification_refs: [NI-WG5-001]
+  - id: ART-WG5-RUNNER
+    locator: {exact_path: src/whygame5/runner.py}
+    kind: source
+    purpose: two-call loop via llm_client with receipts
+    semantic_justification_refs: [NI-WG5-006, NI-WG5-003]
+  - id: ART-WG5-REPORT
+    locator: {exact_path: src/whygame5/report.py}
+    kind: source
+    purpose: static HTML report renderer
+    semantic_justification_refs: [NI-WG5-007]
+  - id: ART-WG5-CLI
+    locator: {exact_path: src/whygame5/cli.py}
+    kind: source
+    purpose: whygame5 command entrypoint
+    semantic_justification_refs: [OUT-WG5-001]
+  - id: ART-WG5-TEST-PROMPTS
+    locator: {exact_path: tests/test_prompts.py}
+    kind: test
+    purpose: no prompt or schema solicits conflict
+    semantic_justification_refs: [SC-WG5-001]
+  - id: ART-WG5-TEST-EVALUATOR
+    locator: {exact_path: tests/test_evaluator.py}
+    kind: test
+    purpose: cross-run conflict found; consistent proposal yields NO_FINDING
+    semantic_justification_refs: [SC-WG5-002, SC-WG5-003]
+  - id: ART-WG5-TEST-REPLAY
+    locator: {exact_path: tests/test_replay.py}
+    kind: test
+    purpose: replay determinism and mismatched-digest rejection
+    semantic_justification_refs: [SC-WG5-004]
+  - id: ART-WG5-PYPROJECT
+    locator: {exact_path: pyproject.toml}
+    kind: configuration
+    purpose: distribution, dependencies (llm_client, pydantic; AES as a pinned dev dependency), whygame5 entrypoint
+    semantic_justification_refs: [NI-WG5-006]
+
+verification_subjects:
+  - id: VS-WG5-PROMPTS
+    criterion_refs: [SC-WG5-001]
+    evidence_requirement_refs: [ER-WG5-001-01]
+    proof_kind: deterministic_test
+    proof_role: direct
+    locator: tests/test_prompts.py
+    purpose: prove no prompt or schema solicits a conflict
+  - id: VS-WG5-LIVE-RUN
+    criterion_refs: [SC-WG5-001]
+    evidence_requirement_refs: [ER-WG5-001-02]
+    proof_kind: runtime_observation
+    proof_role: direct
+    locator: external:evidence/runs/<run-id>/
+    purpose: one retained live run with a selected finding
+  - id: VS-WG5-BRIAN-FINDING
+    criterion_refs: [SC-WG5-001]
+    evidence_requirement_refs: [ER-WG5-001-03]
+    proof_kind: human_review
+    proof_role: direct
+    locator: external:brian-review/finding
+    purpose: Brian judges the finding genuine
+  - id: VS-WG5-EVAL-CROSS-RUN
+    criterion_refs: [SC-WG5-002]
+    evidence_requirement_refs: [ER-WG5-002-01]
+    proof_kind: deterministic_test
+    proof_role: direct
+    locator: tests/test_evaluator.py
+    purpose: cross-run conflict is found
+  - id: VS-WG5-EVAL-NEGATIVE
+    criterion_refs: [SC-WG5-003]
+    evidence_requirement_refs: [ER-WG5-003-01]
+    proof_kind: deterministic_test
+    proof_role: negative_control
+    locator: tests/test_evaluator.py
+    purpose: consistent proposal yields NO_FINDING and one call
+  - id: VS-WG5-REPLAY
+    criterion_refs: [SC-WG5-004]
+    evidence_requirement_refs: [ER-WG5-004-01]
+    proof_kind: deterministic_test
+    proof_role: direct
+    locator: tests/test_replay.py
+    purpose: replay determinism and digest rejection
+  - id: VS-WG5-BRIAN-REPORT
+    criterion_refs: [SC-WG5-005]
+    evidence_requirement_refs: [ER-WG5-005-01]
+    proof_kind: human_review
+    proof_role: direct
+    locator: external:brian-review/report
+    purpose: Brian answers the four questions from the report alone

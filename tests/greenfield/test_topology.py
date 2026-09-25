@@ -17,7 +17,7 @@ import pytest
 from agentic_engineering_system.cli import main
 from agentic_engineering_system.topology import TopologyError, check_topology
 
-WHYGAME5_AES = Path("/home/brian/code/whygame5/.aes")
+WHYGAME5_AES = Path(__file__).parent / "fixtures" / "whygame5-54043e2" / ".aes"
 
 # whygame5's realized governed files at 9c9ee2a (git ls-files src tests).
 REALIZED = (
