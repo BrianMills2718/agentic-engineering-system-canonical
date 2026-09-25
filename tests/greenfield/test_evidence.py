@@ -224,3 +224,15 @@ def test_second_record_at_same_revision_gets_a_new_id(with_test: Path) -> None:
     b = record(with_test, "VS-WG5-PROMPTS", [], command=PASS).observation.observation_id
     assert b == a + "-2"
     assert len(assess(with_test).observations) == 2
+
+
+def test_cli_record_writes_an_observation(with_test: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """The first real use crashed: --command shared argparse dest 'command' with the
+    subcommand, so every `aes evidence record` raised 'unhandled command None'."""
+    rc = main(["evidence", "record", "VS-WG5-PROMPTS", "--depends-on", PROMPTS,
+               "--root", str(with_test), "--command", *PASS])
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert out.startswith("wrote ") and "SUPPORTS for ER-WG5-001-01" in out
+    assert main(["evidence", "record", "VS-WG5-PROMPTS", "--root", str(with_test)]) == 0  # default pytest
+
