@@ -1,0 +1,570 @@
+schema_version: aes.v0_2.realization_topology.candidate.v1
+status: proposal_non_normative
+basis:
+  - 12-greenfield-mvp-semantic-instance.candidate.yaml
+  - 15-planning-contract.candidate.yaml
+  - 18-provider-evaluation-round-1.md
+  - 19-provider-evaluation-round-2-generic-dependencies.md
+
+purpose: >
+  Candidate exact implementation, distribution and verification topology for the
+  AES v0.2 Greenfield MVP itself. This is a planning proposal, not implementation
+  authorization and not accepted target authority.
+
+package_strategy:
+  python_distribution: agentic-engineering-system
+  python_package: agentic_engineering_system
+  rationale: >
+    Keep the existing public product/package identity rather than creating a
+    version-numbered Python namespace. Existing v0.1 package contents do not
+    automatically become v0.2 target merely because they share the package.
+  first_supported_project_ecosystem: python_git
+  proposed_cli: aes
+  legacy_cli_during_probe_coexistence: aes-repo-context
+  final_legacy_cli_disposition: unresolved_until_v0_2_cutover
+
+transition_and_cutover:
+  pre_cutover_probe_coexistence:
+    allowed: true
+    meaning: >
+      Bounded implementation probes may temporarily coexist with v0.1 runtime
+      artifacts on a branch while v0.1 remains current accepted architecture.
+  final_v0_2_working_tree:
+    rule: >
+      Historical v0.1 runtime machinery has no automatic right to remain. Before
+      v0.2 cutover, every pre-existing durable runtime/governance artifact must be
+      explicitly retained as a v0.2 artifact, retained as historical evidence
+      with a justified live-tree purpose, or removed with history preserved by
+      Git.
+    repository_context_disposition: unresolved
+    broader_v0_1_governance_mechanism_disposition: unresolved
+  dependency_consequence:
+    pyyaml: >
+      PyYAML remains necessary during probe coexistence while retained v0.1 code
+      that imports yaml is still executable. It is not part of the clean
+      Greenfield semantic-core dependency hypothesis unless a final retained v0.2
+      artifact still requires it.
+    ruamel_yaml: >
+      Candidate parser for new v0.2 canonical AES YAML records.
+  cutover_gate: >
+    Do not claim final v0.2 repository conformance while undispositioned v0.1
+    durable artifacts remain outside the accepted v0.2 topology.
+
+realization_units:
+  - id: RU-AES-RECORDS
+    target_refs: [GF-REQ-002, SC-GF-002]
+    responsibility: >
+      Own typed AES record models, strict YAML loading/writing, stable semantic
+      reference resolution and structural/semantic validation of canonical
+      project records.
+    capability_refs: [CAP-GF-TARGET]
+    planned_artifact_refs:
+      - ART-SRC-RECORDS
+      - ART-TEST-RECORDS
+
+  - id: RU-AES-PROJECT
+    target_refs: [GF-REQ-001, SC-GF-001]
+    responsibility: >
+      Initialize and open the minimal .aes project control surface under the
+      accepted initialization contract without creating placeholder artifacts.
+    capability_refs: [CAP-GF-INIT]
+    planned_artifact_refs:
+      - ART-SRC-PROJECT
+      - ART-TEST-PROJECT
+
+  - id: RU-AES-PLANNING
+    target_refs: [GF-REQ-004, SC-GF-004]
+    responsibility: >
+      Represent, validate and project the AES planning contract: target-realization
+      deltas, accepted transition plans, uncertainty/probe semantics and
+      criterion-linked verification topology.
+    capability_refs: [CAP-GF-PLANNING]
+    planned_artifact_refs:
+      - ART-SRC-PLANNING
+      - ART-PLANNING-PROTOCOL
+      - ART-TEST-PLANNING
+
+  - id: RU-AES-TOPOLOGY
+    target_refs: [GF-REQ-003, SC-GF-003]
+    responsibility: >
+      Compare accepted durable topology and bounded generation rules with the
+      Git-realized repository and emit actionable conformance findings.
+    capability_refs: [CAP-GF-TOPOLOGY]
+    planned_artifact_refs:
+      - ART-SRC-TOPOLOGY
+      - ART-TEST-TOPOLOGY
+
+  - id: RU-AES-CHARACTERIZE
+    target_refs: [GF-REQ-006, SC-GF-006]
+    responsibility: >
+      Produce revision-bound realized-repository characterization for the first
+      Python/Git ecosystem without importing target project code or inventing
+      target mappings.
+    capability_refs: [CAP-GF-CHARACTERIZE]
+    planned_artifact_refs:
+      - ART-SRC-CHARACTERIZE
+      - ART-SRC-CHARACTERIZE-PYTHON
+      - ART-TEST-CHARACTERIZE
+
+  - id: RU-AES-EVIDENCE
+    target_refs: [GF-REQ-007, GF-REQ-008, SC-GF-007, SC-GF-008]
+    responsibility: >
+      Represent observations and compute evidence freshness, adequacy and standing
+      independently from pass-like provider results.
+    capability_refs: [CAP-GF-EVIDENCE]
+    planned_artifact_refs:
+      - ART-SRC-EVIDENCE
+      - ART-TEST-EVIDENCE
+
+  - id: RU-AES-RECONCILE
+    target_refs: [GF-REQ-008, SC-GF-007, SC-GF-008]
+    responsibility: >
+      Derive qualified current state and target/current gaps from accepted target,
+      realized characterization and evidence assessments.
+    capability_refs: [CAP-GF-RECONCILE]
+    planned_artifact_refs:
+      - ART-SRC-RECONCILE
+      - ART-TEST-RECONCILE
+
+  - id: RU-AES-CONTEXT
+    target_refs: [GF-REQ-005, SC-GF-005]
+    responsibility: >
+      Compile the smallest complete subject-specific working context from typed
+      target refs, realized state, current/gaps, plan and verification semantics.
+    capability_refs: [CAP-GF-CONTEXT]
+    planned_artifact_refs:
+      - ART-SRC-CONTEXT
+      - ART-TEST-CONTEXT
+
+  - id: RU-AES-CLI
+    target_refs: [OUT-GF-001, GF-REQ-009, SC-GF-009]
+    responsibility: >
+      Expose one coherent user/agent command surface that composes the capability
+      units without owning their semantics.
+    capability_refs:
+      - CAP-GF-INIT
+      - CAP-GF-TARGET
+      - CAP-GF-PLANNING
+      - CAP-GF-TOPOLOGY
+      - CAP-GF-CONTEXT
+      - CAP-GF-CHARACTERIZE
+      - CAP-GF-EVIDENCE
+      - CAP-GF-RECONCILE
+    planned_artifact_refs:
+      - ART-SRC-CLI
+      - ART-TEST-CLI
+
+  - id: RU-AES-DISTRIBUTION
+    target_refs: [OUT-GF-001, GF-REQ-001, GF-REQ-009, SC-GF-001, SC-GF-009]
+    responsibility: >
+      Own the installable Python distribution boundary, declared dependencies,
+      console entrypoints, packaged planning resource, Greenfield getting-started
+      material and clean-install verification.
+    capability_refs: [CAP-GF-INIT]
+    planned_artifact_refs:
+      - ART-PACKAGING-PYPROJECT
+      - ART-DOC-GREENFIELD-GETTING-STARTED
+      - ART-TEST-DISTRIBUTION
+
+planned_artifacts:
+  - id: ART-SRC-RECORDS
+    locator:
+      exact_path: src/agentic_engineering_system/records.py
+    kind: source
+    purpose: typed record models, strict YAML I/O primitives and semantic ref validation
+    semantic_justification_refs: [CAP-GF-TARGET]
+
+  - id: ART-TEST-RECORDS
+    locator:
+      exact_path: tests/greenfield/test_records.py
+    kind: test
+    purpose: structural, duplicate-key, typed-ref and semantic-invariant verification
+    semantic_justification_refs: [SC-GF-002]
+
+  - id: ART-SRC-PROJECT
+    locator:
+      exact_path: src/agentic_engineering_system/project.py
+    kind: source
+    purpose: initialization contract, project discovery and canonical AES control-surface paths
+    semantic_justification_refs: [CAP-GF-INIT]
+
+  - id: ART-TEST-PROJECT
+    locator:
+      exact_path: tests/greenfield/test_project.py
+    kind: test
+    purpose: prove minimal initialization and reject unauthorized bootstrap artifacts/private prerequisites
+    semantic_justification_refs: [SC-GF-001]
+
+  - id: ART-SRC-PLANNING
+    locator:
+      exact_path: src/agentic_engineering_system/planning.py
+    kind: source
+    purpose: planning contract models, target-delta validation and transition-plan validation
+    semantic_justification_refs: [CAP-GF-PLANNING]
+
+  - id: ART-PLANNING-PROTOCOL
+    locator:
+      exact_path: src/agentic_engineering_system/planning_protocol.md
+    kind: normative_authority
+    purpose: >
+      Distributed provider-neutral AES planning instructions used by a human or
+      agent planning provider; contains the actual v0.2 planning contract without
+      depending on Company Planning.
+    semantic_justification_refs: [CAP-GF-PLANNING]
+
+  - id: ART-TEST-PLANNING
+    locator:
+      exact_path: tests/greenfield/test_planning.py
+    kind: test
+    purpose: validate design-delta/acceptance/execution ordering and incomplete-plan rejection
+    semantic_justification_refs: [SC-GF-004]
+
+  - id: ART-SRC-TOPOLOGY
+    locator:
+      exact_path: src/agentic_engineering_system/topology.py
+    kind: source
+    purpose: Git-backed durable artifact inventory and target-realized topology comparison
+    semantic_justification_refs: [CAP-GF-TOPOLOGY]
+
+  - id: ART-TEST-TOPOLOGY
+    locator:
+      exact_path: tests/greenfield/test_topology.py
+    kind: test
+    purpose: positive and negative controls for exact paths, orphan files and bounded generation rules
+    semantic_justification_refs: [SC-GF-003]
+
+  - id: ART-SRC-CHARACTERIZE
+    locator:
+      exact_path: src/agentic_engineering_system/characterize.py
+    kind: source
+    purpose: provider-neutral realized-repository characterization contract and aggregation
+    semantic_justification_refs: [CAP-GF-CHARACTERIZE]
+
+  - id: ART-SRC-CHARACTERIZE-PYTHON
+    locator:
+      exact_path: src/agentic_engineering_system/characterize_python.py
+    kind: source
+    purpose: Python AST characterization provider for symbols, signatures/types, docstrings and static imports
+    semantic_justification_refs: [CAP-GF-CHARACTERIZE]
+
+  - id: ART-TEST-CHARACTERIZE
+    locator:
+      exact_path: tests/greenfield/test_characterize.py
+    kind: test
+    purpose: revision binding, Python AST extraction, uncertainty and deliberate selected-symbol drift verification
+    semantic_justification_refs: [SC-GF-006]
+
+  - id: ART-SRC-EVIDENCE
+    locator:
+      exact_path: src/agentic_engineering_system/evidence.py
+    kind: source
+    purpose: observation receipts and criterion evidence-assessment engine
+    semantic_justification_refs: [CAP-GF-EVIDENCE]
+
+  - id: ART-TEST-EVIDENCE
+    locator:
+      exact_path: tests/greenfield/test_evidence.py
+    kind: test
+    purpose: prove pass-like observation is distinct from adequacy and exercise stale/insufficient states
+    semantic_justification_refs: [SC-GF-007, SC-GF-008]
+
+  - id: ART-SRC-RECONCILE
+    locator:
+      exact_path: src/agentic_engineering_system/reconcile.py
+    kind: source
+    purpose: deterministic current and gap materialization
+    semantic_justification_refs: [CAP-GF-RECONCILE]
+
+  - id: ART-TEST-RECONCILE
+    locator:
+      exact_path: tests/greenfield/test_reconcile.py
+    kind: test
+    purpose: exercise unrealized, implemented-unverified, supported, contradicted and stale reconciliation
+    semantic_justification_refs: [SC-GF-007, SC-GF-008]
+
+  - id: ART-SRC-CONTEXT
+    locator:
+      exact_path: src/agentic_engineering_system/context.py
+    kind: source
+    purpose: typed-ref-driven bounded working-context compiler with full semantic text/provenance
+    semantic_justification_refs: [CAP-GF-CONTEXT]
+
+  - id: ART-TEST-CONTEXT
+    locator:
+      exact_path: tests/greenfield/test_context.py
+    kind: test
+    purpose: prove full applicable text, provenance, boundedness and explicit unresolved context
+    semantic_justification_refs: [SC-GF-005]
+
+  - id: ART-SRC-CLI
+    locator:
+      exact_path: src/agentic_engineering_system/cli.py
+    kind: source
+    purpose: compose AES commands over the capability modules
+    semantic_justification_refs: [OUT-GF-001]
+
+  - id: ART-TEST-CLI
+    locator:
+      exact_path: tests/greenfield/test_cli.py
+    kind: test
+    purpose: command-surface verification for initialization/check/context/reconcile workflows
+    semantic_justification_refs: [OUT-GF-001, SC-GF-009]
+
+  - id: ART-PACKAGING-PYPROJECT
+    locator:
+      exact_path: pyproject.toml
+    kind: configuration
+    change_mode: modify_existing
+    purpose: >
+      Declare the installable AES distribution, supported Python range,
+      dependencies, aes console entrypoint and packaging of the planning protocol.
+      During pre-cutover coexistence it must not accidentally break retained v0.1
+      entrypoints/dependencies.
+    semantic_justification_refs: [OUT-GF-001, SC-GF-001]
+
+  - id: ART-DOC-GREENFIELD-GETTING-STARTED
+    locator:
+      exact_path: docs/greenfield/GETTING_STARTED.md
+    kind: documentation
+    purpose: >
+      Colleague-facing installation and first Greenfield lifecycle instructions
+      that require no knowledge of private historical repositories.
+    semantic_justification_refs: [OUT-GF-001, SC-GF-001]
+
+  - id: ART-TEST-DISTRIBUTION
+    locator:
+      exact_path: tests/greenfield/test_distribution.py
+    kind: test
+    purpose: >
+      Build/install the distribution in isolation, verify the aes entrypoint and
+      packaged planning resource, and detect accidental dependency on a source
+      checkout or private repository.
+    semantic_justification_refs: [SC-GF-001, SC-GF-009]
+
+selected_symbol_commitments:
+  - id: SYM-AES-PROJECT-INIT
+    artifact_ref: ART-SRC-PROJECT
+    native_name: initialize_project
+    kind: function
+    purpose: stable programmatic Greenfield initialization entrypoint
+    target_refs: [CAP-GF-INIT]
+    planned_signature_or_type: >
+      def initialize_project(root: Path, *, project_id: str, architecture_line: str = "AES-v0.2") -> ProjectRecord
+
+  - id: SYM-AES-RECORDS-LOAD
+    artifact_ref: ART-SRC-RECORDS
+    native_name: load_target
+    kind: function
+    purpose: strict canonical target loader and semantic validator entrypoint
+    target_refs: [CAP-GF-TARGET]
+    planned_signature_or_type: >
+      def load_target(path: Path) -> TargetRecord
+
+  - id: SYM-AES-TOPOLOGY-CHECK
+    artifact_ref: ART-SRC-TOPOLOGY
+    native_name: check_topology
+    kind: function
+    purpose: stable target-realized topology validation boundary
+    target_refs: [CAP-GF-TOPOLOGY]
+    planned_signature_or_type: >
+      def check_topology(project: ProjectState) -> TopologyReport
+
+  - id: SYM-AES-CHARACTERIZE
+    artifact_ref: ART-SRC-CHARACTERIZE
+    native_name: characterize_repository
+    kind: function
+    purpose: stable realized-repository characterization boundary
+    target_refs: [CAP-GF-CHARACTERIZE]
+    planned_signature_or_type: >
+      def characterize_repository(project: ProjectState) -> RepositoryCharacterization
+
+  - id: SYM-AES-EVIDENCE-ASSESS
+    artifact_ref: ART-SRC-EVIDENCE
+    native_name: assess_criterion
+    kind: function
+    purpose: stable criterion evidence-assessment boundary
+    target_refs: [CAP-GF-EVIDENCE]
+    planned_signature_or_type: >
+      def assess_criterion(criterion: SuccessCriterion, observations: Sequence[Observation], context: EvidenceContext) -> EvidenceAssessment
+
+  - id: SYM-AES-RECONCILE
+    artifact_ref: ART-SRC-RECONCILE
+    native_name: reconcile
+    kind: function
+    purpose: stable current/gap derivation boundary
+    target_refs: [CAP-GF-RECONCILE]
+    planned_signature_or_type: >
+      def reconcile(target: TargetRecord, realization: RepositoryCharacterization, assessments: Sequence[EvidenceAssessment]) -> ReconciliationResult
+
+  - id: SYM-AES-CONTEXT-PROJECT
+    artifact_ref: ART-SRC-CONTEXT
+    native_name: project_context
+    kind: function
+    purpose: stable governed-subject context projection boundary
+    target_refs: [CAP-GF-CONTEXT]
+    planned_signature_or_type: >
+      def project_context(project: ProjectState, subject: SubjectRef) -> WorkingContext
+
+  - id: SYM-AES-CLI-MAIN
+    artifact_ref: ART-SRC-CLI
+    native_name: main
+    kind: function
+    purpose: stable installed aes console-entrypoint boundary
+    target_refs: [OUT-GF-001, CAP-GF-INIT]
+    planned_signature_or_type: >
+      def main(argv: Sequence[str] | None = None) -> int
+
+verification_subjects:
+  - id: VS-GF-RECORDS
+    criterion_refs: [SC-GF-002]
+    evidence_requirement_refs_or_match: [ER-SC-GF-002-01]
+    proof_kind: contract_validation
+    purpose: validate target structure, refs and criterion evidence declarations
+    proof_role: direct
+    locator: tests/greenfield/test_records.py
+
+  - id: VS-GF-INIT-UNIT
+    criterion_refs: [SC-GF-001]
+    evidence_requirement_refs_or_match: [ER-SC-GF-001-01]
+    proof_kind: deterministic_test
+    purpose: support the cold-user criterion by proving initialization contract behavior locally
+    proof_role: supporting
+    locator: tests/greenfield/test_project.py
+
+  - id: VS-GF-DISTRIBUTION-INSTALL
+    criterion_refs: [SC-GF-001, SC-GF-009]
+    evidence_requirement_refs_or_match: [ER-SC-GF-001-01, ER-SC-GF-009-01]
+    proof_kind: deterministic_test
+    purpose: support fresh-user/fresh-project proof with isolated build/install/CLI checks
+    proof_role: supporting
+    locator: tests/greenfield/test_distribution.py
+
+  - id: VS-GF-DISTRIBUTION-COLD-USER
+    criterion_refs: [SC-GF-001]
+    evidence_requirement_refs_or_match: [ER-SC-GF-001-01]
+    proof_kind: external_consumer_observation
+    purpose: directly prove a fresh user can install and initialize without private historical infrastructure
+    proof_role: direct
+    locator: external:greenfield-validation/cold-user-install
+
+  - id: VS-GF-TOPOLOGY-NEGATIVE
+    criterion_refs: [SC-GF-003]
+    evidence_requirement_refs_or_match: [ER-SC-GF-003-01]
+    proof_kind: deterministic_test
+    purpose: prove an intentionally introduced orphan durable artifact is rejected
+    proof_role: negative_control
+    locator: tests/greenfield/test_topology.py
+
+  - id: VS-GF-TOPOLOGY-POSITIVE
+    criterion_refs: [SC-GF-003]
+    evidence_requirement_refs_or_match: [ER-SC-GF-003-02]
+    proof_kind: deterministic_test
+    purpose: prove accepted exact topology and natural bounded generation rules are admitted correctly
+    proof_role: direct
+    locator: tests/greenfield/test_topology.py
+
+  - id: VS-GF-PLANNING
+    criterion_refs: [SC-GF-004]
+    evidence_requirement_refs_or_match: [ER-SC-GF-004-01]
+    proof_kind: contract_validation
+    purpose: validate criterion evidence requirements against accepted verification topology
+    proof_role: direct
+    locator: tests/greenfield/test_planning.py
+
+  - id: VS-GF-CONTEXT-STRUCTURAL
+    criterion_refs: [SC-GF-005]
+    evidence_requirement_refs_or_match: [ER-SC-GF-005-01]
+    proof_kind: deterministic_test
+    purpose: prove exact applicable semantic text and provenance are projected for the governed subject
+    proof_role: direct
+    locator: tests/greenfield/test_context.py
+
+  - id: VS-GF-CONTEXT-FRESH-AGENT
+    criterion_refs: [SC-GF-005]
+    evidence_requirement_refs_or_match: [ER-SC-GF-005-02]
+    proof_kind: external_consumer_observation
+    purpose: compare one real change with bounded AES context against ordinary repository orientation
+    proof_role: direct
+    locator: external:greenfield-validation/context-control
+
+  - id: VS-GF-CHARACTERIZE-DRIFT
+    criterion_refs: [SC-GF-006]
+    evidence_requirement_refs_or_match: [ER-SC-GF-006-01]
+    proof_kind: deterministic_test
+    purpose: deliberately mutate a planned artifact or selected symbol and detect target-realized drift
+    proof_role: negative_control
+    locator: tests/greenfield/test_characterize.py
+
+  - id: VS-GF-CHARACTERIZE-BINDING
+    criterion_refs: [SC-GF-006]
+    evidence_requirement_refs_or_match: [ER-SC-GF-006-02]
+    proof_kind: contract_validation
+    purpose: prove realized facts bind to exact revision and producer identity
+    proof_role: direct
+    locator: tests/greenfield/test_characterize.py
+
+  - id: VS-GF-EVIDENCE-INSUFFICIENCY
+    criterion_refs: [SC-GF-007]
+    evidence_requirement_refs_or_match: [ER-SC-GF-007-01]
+    proof_kind: deterministic_test
+    purpose: prove a pass-like partial observation remains insufficient for a multi-evidence criterion
+    proof_role: negative_control
+    locator: tests/greenfield/test_evidence.py
+
+  - id: VS-GF-EVIDENCE-STALE
+    criterion_refs: [SC-GF-008]
+    evidence_requirement_refs_or_match: [ER-SC-GF-008-01]
+    proof_kind: deterministic_test
+    purpose: prove a material dependency change invalidates/stales affected evidence
+    proof_role: negative_control
+    locator: tests/greenfield/test_evidence.py
+
+  - id: VS-GF-RECONCILE
+    criterion_refs: [SC-GF-007, SC-GF-008]
+    evidence_requirement_refs_or_match: [ER-SC-GF-007-01, ER-SC-GF-008-01]
+    proof_kind: deterministic_test
+    purpose: support evidence criteria by proving current/gap preserves insufficient and stale states
+    proof_role: supporting
+    locator: tests/greenfield/test_reconcile.py
+
+  - id: VS-GF-CLI
+    criterion_refs: [SC-GF-009]
+    evidence_requirement_refs_or_match: [ER-SC-GF-009-01]
+    proof_kind: deterministic_test
+    purpose: support full-lifecycle evidence by exercising the user-facing command composition
+    proof_role: supporting
+    locator: tests/greenfield/test_cli.py
+
+  - id: VS-GF-LIFECYCLE-FRESH-CONSUMER
+    criterion_refs: [SC-GF-009]
+    evidence_requirement_refs_or_match: [ER-SC-GF-009-01]
+    proof_kind: external_consumer_observation
+    purpose: directly retain one complete lifecycle on a genuinely fresh AES-governed consumer project
+    proof_role: direct
+    locator: external:greenfield-validation/full-lifecycle
+
+provider_and_mechanism_boundaries:
+  planning_reasoning_provider:
+    status: portable_protocol_boundary_defined
+    invariant: >
+      planning_protocol.md is distributed with AES and defines the provider-neutral
+      reasoning contract; a human or agent provider may produce proposals without
+      requiring private Company Planning access.
+  commit_enforcement:
+    status: unresolved_adapter
+    invariant: >
+      topology/record validators are directly runnable. A Git hook or agent hook
+      may invoke them but is not the semantic implementation.
+  working_context_delivery:
+    status: explicit_CLI_is_MVP_boundary
+    invariant: >
+      context.py owns projection content and aes context <subject> is the first
+      supported delivery boundary. Native IDE/agent injection remains an adapter.
+
+explicit_nonclaims:
+  - no_source_or_configuration_file_is_authorized_for_creation_or_change_by_this_candidate
+  - exact_function_signatures_may_change_during_architecture_review_before_target_acceptance
+  - no_hook_or_CI_topology_is_selected
+  - no_planning_LLM_or_agent_provider_is_selected
+  - no_v0_1_repository_context_code_is_assumed_reused_or_retained
+  - no_v0_1_runtime_artifact_is_authorized_to_remain_after_cutover_without_explicit_disposition

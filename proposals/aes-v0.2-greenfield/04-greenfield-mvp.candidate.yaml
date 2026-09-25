@@ -1,0 +1,144 @@
+schema_version: aes.v0_2.greenfield_mvp.candidate.v0
+status: proposal_non_normative
+
+identity:
+  architecture_line: AES-v0.2
+  delivery_scope: Greenfield-MVP
+
+product_outcome: >
+  A user can start a new software project under AES governance, express the
+  intended outcome and success conditions, derive and accept a planned repository
+  and verification topology, implement within that topology, obtain projected
+  working context, verify the result, and see revision-bound current and gap state
+  without access to the author's private historical repositories.
+
+supported:
+  project_origin:
+    - new_empty_repository
+    - new_project_created_under_AES_from_inception
+  lifecycle:
+    - intent_to_normative_target
+    - normative_target_to_planned_realization
+    - planned_realization_to_repository_materialization
+    - native_implementation_under_declared_topology
+    - source_local_context_projection
+    - realized_source_characterization
+    - criterion_linked_verification
+    - evidence_to_current
+    - target_current_to_gap
+    - next_work_projection
+  distribution:
+    - documented_installation
+    - documented_default_configuration
+    - explicit_obtainable_dependencies
+    - no_undocumented_private_repository_prerequisites
+
+not_supported:
+  - arbitrary_existing_repository_retrofit
+  - automatic_reconstruction_of_legacy_intent
+  - automatic_reconstruction_of_why_legacy_files_exist
+  - automatic_migration_of_existing_repository_topology
+  - universal_language_support
+  - universal_framework_abstraction
+  - autonomous_gap_closure_from_plan_completion
+  - implicit_provider_inheritance_from_AES_v0_1
+
+minimum_greenfield_acceptance:
+  - id: SC-GF-001
+    statement: >
+      A fresh user with no access to Brian's other private repositories can
+      install/configure the supported AES distribution and initialize a new
+      governed project using only distributed material and declared dependencies.
+    disproof: >
+      Successful initialization requires copying undeclared files, private-repo
+      access, or undocumented historical knowledge.
+
+  - id: SC-GF-002
+    statement: >
+      The accepted target expresses requirements with explicit success and
+      disproof criteria before implementation of the governed vertical.
+    disproof: >
+      Implementation begins while the intended success condition exists only in
+      prose conversation, code, or an unowned checklist.
+
+  - id: SC-GF-003
+    statement: >
+      Planning produces an accepted durable repository topology in which every
+      governed durable artifact has an exact planned path or an accepted
+      generation/tooling rule and semantic purpose.
+    disproof: >
+      A durable governed file can be added without a declared purpose, accepted
+      topology amendment, or applicable generation rule.
+
+  - id: SC-GF-004
+    statement: >
+      Every success criterion states what evidence can establish it, and before
+      governed execution the accepted plan maps those evidence requirements to
+      concrete verification subjects or an explicit external/human observation
+      boundary.
+    disproof: >
+      A criterion can appear complete merely because unrelated tests are green,
+      or implementation starts without a concrete way to obtain its required
+      evidence.
+
+  - id: SC-GF-005
+    statement: >
+      The working/source context for the first governed implementation subject
+      contains the complete applicable normative, success and disproof text with
+      provenance, without requiring the implementing agent to dereference IDs.
+    disproof: >
+      The working context provides only IDs/links or omits an applicable
+      load-bearing obligation.
+
+  - id: SC-GF-006
+    statement: >
+      AES generates a revision-bound realized-repository characterization and can
+      mechanically identify planned-versus-realized durable-artifact drift plus
+      selected symbol/signature/type drift when those commitments exist for the
+      first supported source provider.
+    disproof: >
+      Current realization must be reconstructed manually from repository contents
+      before target-realized comparison is possible.
+
+  - id: SC-GF-007
+    statement: >
+      Current state and gap state are materialized from accepted target plus
+      revision-bound observations/evidence and preserve stale, error, unobserved,
+      and insufficient states.
+    disproof: >
+      Plan completion, file presence, or a stale projection can produce a closed
+      or green state.
+
+  - id: SC-GF-008
+    statement: >
+      A second fresh agent can receive a bounded projected context for one real
+      implementation change and act correctly without reconstructing the entire
+      repository or reading unrelated architecture history.
+    disproof: >
+      Correct action requires broad repository archaeology or hidden conversational
+      context.
+
+  - id: SC-GF-009
+    statement: >
+      The Greenfield MVP performs one complete lifecycle vertical on a genuinely
+      fresh consumer project created under AES governance from inception before
+      claiming the lifecycle usable.
+    disproof: >
+      Acceptance is based only on AES canonical's existing repository, schema
+      validation, fixtures, prose review, or a project whose pre-existing
+      structure had to be retrofitted.
+
+retrofit:
+  capability_id: aes.adoption.retrofit
+  Greenfield_MVP_status: NOT_SUPPORTED
+  future_goal: >
+    Bring an existing repository under AES by characterizing current realization,
+    producing explicitly uncertain candidate intent/topology, obtaining accepted
+    disposition, and then entering the normal AES lifecycle.
+  nonclaim: Greenfield_MVP_success_does_not_validate_retrofit
+
+provider_policy:
+  rule: >
+    Default providers must be selected only after these capabilities and criteria
+    are accepted enough to evaluate providers. Prior private systems are donors
+    and candidates, not hidden prerequisites.

@@ -1,0 +1,129 @@
+schema_version: aes.v0_2.initialization_contract.candidate.v0
+status: proposal_non_normative
+materialization_basis: 13-greenfield-materialization.candidate.md
+
+purpose: >
+  Define the minimum durable AES control surface that may be created in a
+  genuinely new project before project-specific realization planning, so
+  initialization itself satisfies the no-orphan-artifact invariant.
+
+candidate_control_root: .aes/
+
+phases:
+  - id: INIT-PROJECT
+    purpose: establish_AES_adoption_identity
+    required_inputs:
+      - project_id
+      - AES_architecture_line
+      - supported_distribution_identity
+    creates:
+      - artifact_id: AES-PROJECT-CONFIG
+        path: .aes/project.yaml
+        kind: configuration
+        authority_class: operational_adoption_configuration
+        purpose: >
+          Identify AES adoption/version and operational project defaults without
+          storing normative target, current/gap, or secrets.
+    does_not_create:
+      - empty_analysis_file
+      - empty_plan_directory_marker
+      - empty_observations_directory_marker
+      - generated_current_without_target
+      - generated_gap_without_target
+
+  - id: INIT-TARGET
+    purpose: establish_first_accepted_target
+    prerequisite:
+      - INIT-PROJECT
+      - at_least_one_accepted_outcome
+    required_inputs:
+      - accepted_outcome
+    creates:
+      - artifact_id: AES-TARGET-AUTHORITY
+        path: .aes/target.yaml
+        kind: normative_authority
+        authority_class: accepted_target
+        purpose: >
+          Own the structured accepted target facts for the Greenfield MVP,
+          beginning with at least one accepted outcome and expanding only through
+          accepted target changes.
+
+seed_artifacts:
+  - id: AES-PROJECT-CONFIG
+    exact_path: .aes/project.yaml
+    semantic_reason: configure_supported_AES_adoption
+    lifecycle:
+      mutable_authority: true
+      retirement: when_AES_adoption_removed_or_migrated
+    prohibited_content:
+      - normative_requirements
+      - accepted_repository_topology
+      - current_state
+      - gaps
+      - secrets
+
+  - id: AES-TARGET-AUTHORITY
+    exact_path: .aes/target.yaml
+    semantic_reason: own_accepted_project_target
+    lifecycle:
+      mutable_authority: true
+      creation_condition: first_accepted_outcome_exists
+      retirement: only_through_explicit_AES_target_storage_migration
+
+deferred_artifacts:
+  analysis:
+    path: .aes/analysis.yaml
+    creation_condition: accepted_engineering_analysis_exists
+  plan:
+    path_pattern: .aes/plans/PLAN-<id>.yaml
+    creation_condition: accepted_transition_exists
+  observation:
+    path_pattern: .aes/observations/<observation-id>.yaml
+    creation_condition: retained_AES_native_observation_exists
+  generated:
+    path_namespace: .aes/generated/
+    creation_condition: a_defined_projection_has_inputs_to_materialize
+    authority: none
+
+initial_target_minimum:
+  required:
+    - schema_version
+    - target_revision_or_identity
+    - outcomes
+  invariant:
+    - outcomes_must_contain_at_least_one_accepted_outcome
+    - no_unresolved_reference_is_silently_accepted
+  optional_until_planning:
+    - normative_items
+    - success_criteria
+    - capability_requirements
+    - provider_bindings
+    - realization_units
+    - planned_artifacts
+    - artifact_generation_rules
+    - planned_symbol_commitments
+    - verification_subjects
+
+initialization_success:
+  - every_created_durable_artifact_is_named_by_this_contract
+  - no_private_historical_repository_is_required
+  - no_secret_is_written_into_AES_canonical_records
+  - no_empty_placeholder_artifact_is_created_without_active_semantic_content
+  - target_authority_is_not_created_until_an_accepted_outcome_exists
+  - generated_projection_is_not_created_before_its_inputs_exist
+
+initialization_disproof:
+  - undocumented_file_created
+  - target_yaml_created_as_empty_authoritative_shell
+  - private_repo_copy_required
+  - hidden_v0_1_mechanism_installed_without_declared_provider_selection
+  - secret_or_environment_credential_written_into_project_or_target_yaml
+  - generated_current_or_gap_created_without_semantic_inputs
+
+explicit_nonclaims:
+  - CLI_shape_not_selected
+  - interactive_flow_not_selected
+  - packaging_tool_not_selected
+  - project_language_not_selected
+  - provider_defaults_not_selected
+  - this_contract_is_not_yet_an_implementation_schema

@@ -1,0 +1,101 @@
+schema_version: aes.v0_2.review_manifest.candidate.v0
+status: review_snapshot_non_normative
+branch: architecture/v0.2-greenfield
+base_revision: 36c205d3363a7304c6043ca645acae5eea58e97c
+
+review_entrypoint: REVIEW.md
+
+primary_current_candidate:
+  - 01-design-thesis.md
+  - 02-semantic-model.candidate.yaml
+  - 03-lifecycle.candidate.yaml
+  - 04-greenfield-mvp.candidate.yaml
+  - 06-open-questions.md
+  - 10-greenfield-mvp-validation-profile.md
+  - 12-greenfield-mvp-semantic-instance.candidate.yaml
+  - 13-greenfield-materialization.candidate.md
+  - 14-initialization-contract.candidate.yaml
+  - 15-planning-contract.candidate.yaml
+  - 16-record-shapes.candidate.yaml
+  - 17-provider-evaluation-contract.candidate.yaml
+  - 20-realization-topology.candidate.yaml
+  - 21-provider-bindings.candidate.yaml
+  - 22-portable-provider-boundaries.md
+  - 23-greenfield-cli-product-contract.md
+  - 24-pre-probe-decisions.md
+
+supporting_principles_and_rationale:
+  - 05-donor-reentry.md
+  - 07-semantic-clean-sheet-review-pass-1.md
+  - 08-semantic-clean-sheet-review-pass-2.md
+  - 09-semantic-clean-sheet-review-pass-3-topology.md
+  - 11-semantic-clean-sheet-review-pass-4-target-analysis.md
+
+supporting_provider_evidence:
+  - 18-internal-provider-evaluation.candidate.yaml
+  - 18-provider-evaluation-round-1.md
+  - 19-public-native-provider-evaluation.candidate.yaml
+  - 19-provider-evaluation-round-2-generic-dependencies.md
+
+navigation:
+  - README.md
+
+authority:
+  all_files_are_proposal_non_normative: true
+  modifies_v0_1_authority: false
+  authorizes_implementation: false
+  chronological_supporting_files_override_primary_candidate: false
+  primary_candidate_controls_if_supporting_material_conflicts: true
+
+review_scope:
+  architecture_line: AES-v0.2
+  delivery_scope: Greenfield-MVP
+  retrofit_supported: false
+  first_ecosystem_candidate: Python_plus_Git
+
+candidate_default_dependencies:
+  required_candidate:
+    - Git
+    - Python
+    - ruamel.yaml
+    - Pydantic-v2
+  structural_schema_candidate:
+    - JSON-Schema-Draft-2020-12
+  transition_coexistence_dependency:
+    - PyYAML-until-v0_1-runtime-is-migrated-or-removed
+  explicitly_not_required_default_runtime:
+    - BrianMills2718/enforced-planning
+    - BrianMills2718/project-meta
+    - BrianMills2718/company-planning
+    - BrianMills2718/agentic-capability-architecture-canonical
+    - BrianMills2718/data-contracts
+
+consistency_checks:
+  semantic_instance_plus_realization_topology:
+    declared_ids: 122
+    typed_refs: 188
+    unresolved_refs: 0
+    duplicate_ids: 0
+    exact_paths: 23
+    duplicate_exact_paths: 0
+  meaning: structural_reference_check_only
+
+superseded_parallel_proposal:
+  pull_request: 34
+  disposition: superseded_by_clean_sheet_v0_2_review
+  merge_recommended: false
+
+resolved_preimplementation_decisions_2026_09_25:
+  - realization_unit_naming_and_boundary: component
+  - evidence_requirement_composition_shape: conjunction_only
+  - governed_artifact_scope: declared_governed_roots_in_project_yaml
+  - build_order: probe_0_context_ab_test_first
+  - authentic_fresh_consumer: BrianMills2718/whygame5
+
+remaining_preimplementation_decisions:
+  - evidence_assessment_record_materialization
+  - exact_Python_version_range
+  - exact_dependency_versions_and_clean_install_probe
+  - stdlib_AST_minimum_vs_Griffe_after_bounded_probe
+  - v0_2_acceptance_and_v0_1_supersession_boundary
+  - v0_1_runtime_artifact_disposition_before_final_cutover

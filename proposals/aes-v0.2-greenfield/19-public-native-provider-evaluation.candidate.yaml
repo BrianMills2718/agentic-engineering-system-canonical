@@ -1,0 +1,398 @@
+schema_version: aes.v0_2.public_native_provider_evaluation.candidate.v0
+status: proposal_non_normative
+provider_contract: 17-provider-evaluation-contract.candidate.yaml
+# Review role: supporting public/native provider evidence; current candidate bindings are in 21-provider-bindings.candidate.yaml
+evaluated_at: 2026-09-24
+
+scope:
+  purpose: >
+    Evaluate public standards, public tools and language-native facilities against
+    the Greenfield MVP after internal donors were evaluated without creating any
+    accepted provider binding.
+  accepted_provider_bindings_created: false
+  reason: >
+    These are preferred provider candidates and probe directions. Exact package
+    pins and accepted bindings require bounded implementation/evidence probes.
+
+public_sources:
+  python_packaging:
+    - https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+    - https://packaging.python.org/en/latest/guides/creating-command-line-tools/
+    - https://packaging.python.org/en/latest/guides/installing-stand-alone-command-line-tools/
+    - https://packaging.python.org/en/latest/flow/
+  pydantic:
+    - https://docs.pydantic.dev/latest/concepts/models/
+    - https://docs.pydantic.dev/latest/concepts/strict_mode/
+    - https://docs.pydantic.dev/latest/concepts/json_schema/
+  yaml:
+    - https://yaml.dev/doc/ruamel.yaml/api/
+  json_schema:
+    - https://json-schema.org/draft/2020-12/
+  python_ast:
+    - https://docs.python.org/3/library/ast.html
+  griffe:
+    - https://mkdocstrings.github.io/griffe/introduction/
+    - https://mkdocstrings.github.io/griffe/guide/users/loading/
+    - https://mkdocstrings.github.io/griffe/guide/users/navigating/
+  libcst:
+    - https://libcst.readthedocs.io/en/latest/metadata.html
+  git:
+    - https://git-scm.com/docs/git-diff
+    - https://git-scm.com/docs/git-ls-files
+    - https://git-scm.com/docs/git-rev-parse
+  pre_commit:
+    - https://pre-commit.com/
+  uv:
+    - https://docs.astral.sh/uv/concepts/projects/init/
+    - https://docs.astral.sh/uv/guides/package/
+
+ecosystem_scope:
+  candidate_first_supported_consumer_ecosystem: Python
+  disposition: preferred_for_Greenfield_MVP_not_architecture_wide
+  reasons:
+    - >
+      One bounded source ecosystem is necessary to prove symbol/signature/type
+      commitments, source characterization and dependency uncertainty honestly.
+    - >
+      Python has a standard distributable package/CLI path and sufficient public
+      static-analysis facilities for the first authentic vertical.
+    - >
+      The AES implementation can use the same runtime without implying that AES
+      target semantics are Python-specific.
+    - >
+      Limiting the first source adapter avoids pretending that one weak generic
+      analyzer supports every language.
+  nonclaims:
+    - AES_semantics_are_Python_specific
+    - future_projects_must_use_Python
+    - Python_source_analysis_proves_other_language_support
+  extension_rule: >
+    Additional language/runtime adapters must satisfy the same realized-repository
+    characterization contract and expose their own uncertainty/limitations.
+
+distribution_and_packaging:
+  capability_refs: [CAP-GF-INIT]
+  preferred_substrate:
+    provider: Python_Packaging_standards
+    disposition: preferred_public_substrate
+    facts:
+      - pyproject.toml standardizes build-system/project metadata surfaces
+      - project.scripts provides installed console entry points
+      - wheel_and_sdist_are_standard_distribution_formats
+      - pip_can_install_standard_distributions
+      - pipx_is_documented_for_isolated_installation_of_Python_CLI_apps
+    AES_shape:
+      - package_AES_as_a_normal_Python_distribution
+      - expose_aes_as_project.scripts_console_entrypoint
+      - build_standard_wheel_and_sdist
+      - support_standard_install_without_uv
+      - recommend_isolated_CLI_installation_path_such_as_pipx_for_end_users
+    semantic_boundary:
+      PyPA_owns: package_and_entrypoint_standards
+      AES_owns: initialization_target_planning_governance_semantics
+    replacement_boundary: >
+      Any packaging frontend/backend capable of producing/installing the same
+      standard distribution can replace the development tooling.
+    acceptance_probe:
+      - build_wheel_and_sdist
+      - install_into_clean_isolated_environment
+      - aes_command_runs_without_source_checkout
+      - initialize_fresh_repo_without_private_repositories
+    current_direction: strong_candidate
+
+  uv:
+    disposition: optional_development_and_user_convenience_not_required_provider
+    strengths:
+      - can create/build/run/publish standard Python projects
+      - current uv_init_supports_bare_mode_for_minimal_pyproject_creation
+      - can install/run tools and manage environments
+    blockers_as_required_AES_dependency:
+      - AES_distribution_should_not_require_one_project_manager_when_standard_Python_packaging_is_sufficient
+      - uv_init_default_creates_project_files_that_AES_would_need_to_preplan_or_explicitly_adopt
+    rule: >
+      Do not call default uv init from AES initialization. If a later
+      python-project template uses uv, enumerate/admit every created durable
+      artifact or use uv --bare under an accepted template contract.
+    current_direction: optional_not_default_semantic_dependency
+
+structured_record_validation:
+  capability_refs: [CAP-GF-TARGET]
+  preferred_composition:
+    yaml_parser:
+      provider: ruamel.yaml
+      disposition: preferred_probe_candidate
+      fit:
+        - duplicate_mapping_keys_are_rejected_by_default_in_current_API
+        - supports_human_readable_YAML_representation
+      AES_residual:
+        - prohibit_multiple_documents_if_not_explicitly_supported
+        - normalize_and_validate_safe_project_relative_paths
+        - preserve_source_location_for_actionable_validation_errors_if_needed
+      rejection_probe:
+        - duplicate_key_fails_loudly
+        - malformed_yaml_fails_loudly
+        - aliases_or_advanced_yaml_features_cannot_bypass_semantic_validation
+
+    typed_models:
+      provider: Pydantic
+      disposition: preferred_probe_candidate
+      required_configuration:
+        - strict_validation_for_authoritative_records
+        - extra_forbid_on_closed_contract_models
+      fit:
+        - typed_BaseModel_validation
+        - nested_models
+        - model_level_and_field_validators
+        - JSON_Schema_generation
+        - generated_schema_is_Draft_2020_12_compatible
+      important_default_hazards:
+        - default_input_coercion_requires_strict_mode_for_authority
+        - default_extra_fields_are_ignored_unless_extra_forbid_is_configured
+      AES_residual:
+        - cross_record_and_cross_item_ref_resolution
+        - semantic_ID_uniqueness
+        - one_authority_and_no_symmetric_duplicate_edge_invariants
+        - topology_and_generation_rule_semantics
+        - evidence_requirement_to_verification_matching
+
+    public_structural_contract:
+      provider: JSON_Schema_Draft_2020_12
+      disposition: preferred_generated_contract
+      fit:
+        - language_neutral_structural_validation_vocabulary
+        - Pydantic_can_generate_Draft_2020_12_compliant_JSON_schema
+      boundary: >
+        JSON Schema validates structure. AES semantic reference resolution and
+        lifecycle invariants remain AES validation logic.
+  alternatives_considered:
+    PyYAML:
+      disposition: not_preferred_for_first_probe
+      reason: >
+        Duplicate-key rejection would require AES-specific loader behavior while
+        the current ruamel.yaml API rejects duplicate mapping keys by default.
+    JSON_as_authoritative_format:
+      disposition: rejected_for_Greenfield_authoring_surface
+      reason: >
+        Structurally unambiguous but worse for multiline normative prose and
+        ordinary Git review. JSON remains an export/schema/interchange surface.
+  current_direction: strong_candidate_composition
+
+revision_and_repository_substrate:
+  capability_refs: [CAP-GF-TOPOLOGY, CAP-GF-CHARACTERIZE, CAP-GF-EVIDENCE]
+  provider: Git
+  disposition: preferred_required_substrate_for_Greenfield_MVP
+  fit:
+    - exact_commit_identity
+    - tracked_index_inventory
+    - staged_and_working_tree_diffs
+    - object_ids_for_tracked_content
+    - rename_add_delete_status_available_through_diff
+  AES_boundary:
+    Git_owns: versioned_repository_bytes_history_index_diff
+    AES_owns: semantic_IDs_target_meaning_evidence_adequacy_current_gap
+  required_usage_patterns:
+    - NUL_safe_path_inventory_for_machine_processing
+    - exact_revision_binding_for_retained_observations
+    - explicit_dirty_or_working_copy_state_when_observing_uncommitted_bytes
+  nonclaims:
+    - Git_history_replaces_AES_target_semantics
+    - Git_commit_message_is_structured_AES_event_authority
+  current_direction: strong_candidate
+
+python_realized_characterization:
+  capability_refs: [CAP-GF-CHARACTERIZE]
+  required_first_MVP_facts:
+    - tracked_durable_artifacts_and_content_identity
+    - module_class_function_method_identity
+    - source_spans
+    - selected_symbol_signature_or_type
+    - docstring_text_when_present
+    - import_dependencies_with_honest_static_scope
+    - analyzer_identity_version_and_failure_diagnostics
+
+  candidate_A_stdlib_ast:
+    provider: Python_ast_plus_AES_normalization
+    disposition: preferred_minimum_probe
+    strengths:
+      - standard_library_no_extra_runtime_dependency
+      - static_parse_does_not_require_importing_project_modules
+      - AST_nodes_expose_source_positions
+      - straightforward_definition_annotation_and_import_extraction
+      - small_enough_to_keep_AES_observation_shape_owned_by_AES
+    limitations:
+      - does_not_resolve_general_dynamic_behavior
+      - simple_AST_import_extraction_does_not_equal_runtime_dependency_graph
+      - name_and_import_resolution_requires_AES_residual_or_other_provider
+      - source_parse_success_is_not_full_runtime_or_type_correctness
+    AES_rule: >
+      Report only facts actually established by the parser. Dynamic/import/call
+      uncertainty remains explicit and cannot be promoted to complete dependency
+      truth.
+
+  candidate_B_Griffe:
+    provider: Griffe
+    disposition: strong_external_candidate_for_public_API_and_signature_layer
+    strengths:
+      - static_first_Python_API_extraction
+      - package_module_class_function_attribute_models
+      - canonical_and_alias_paths
+      - source_file_line_and_source_access
+      - signatures_parameters_return_annotations_docstrings
+      - public_API_semantics
+      - can_serialize_data_and_check_API_breakage
+      - supports_loading_at_Git_refs
+    important_safety_configuration:
+      - disable_dynamic_inspection_for_Greenfield_characterization_by_default
+    limitations:
+      - primarily_models_Python_API_not_full_repository_dependency_truth
+      - does_not_remove_need_for_Git_artifact_inventory
+      - call_dataflow_runtime_dependencies_and_non_Python_artifacts_remain_outside
+      - importing_its_object_model_as_AES_semantics_would_duplicate_authority
+    integration_candidate: >
+      Use Griffe as an extractor provider whose observations are normalized into
+      AES realized-repository characterization, not as the AES corpus model.
+
+  candidate_C_LibCST:
+    provider: LibCST_metadata
+    disposition: defer_until_needed
+    strengths:
+      - scope_and_qualified_name_metadata
+      - fully_qualified_name_provider_can_resolve_relative_imports_with_repo_manager
+      - concrete_syntax_preservation
+    reason_to_defer: >
+      Greenfield MVP does not yet require source rewriting or full concrete-syntax
+      preservation. Add only if AST/Griffe cannot satisfy a selected load-bearing
+      identity or context requirement.
+
+  preferred_probe_order:
+    - implement_Git_artifact_inventory_and_minimal_stdlib_AST_extractor
+    - test_against_selected_symbol_and_import_falsifiers
+    - compare_Griffe_on_same_fixture
+    - adopt_Griffe_if_it_materially_reduces_AES_residual_or_improves_identity_correctness
+    - do_not_add_LibCST_without_a_failed_requirement
+  current_direction: minimum_first_then_external_fit_probe
+
+topology_enforcement:
+  capability_refs: [CAP-GF-TOPOLOGY]
+  core_provider:
+    provider: AES_local_deterministic_topology_evaluator
+    disposition: likely_required_residual
+    reason: >
+      The exact-path/generation-rule semantics are AES-specific target semantics.
+      An external hook framework can invoke the evaluator but should not own the
+      decision model.
+    required_entrypoints:
+      - whole_repository_audit
+      - staged_candidate_check
+      - explicit_CLI_check
+    required_behavior:
+      - orphan_governed_artifact_detected
+      - missing_planned_artifact_detected
+      - bounded_generation_rule_applied
+      - ephemeral_exclusions_explicit
+      - exact_recovery_points_to_target_amendment_or_replan
+
+  pre_commit:
+    provider: pre_commit_framework
+    disposition: optional_adapter_candidate
+    strengths:
+      - public_cross_project_hook_framework
+      - repository_local_hooks_supported
+      - can_run_staged_changed_files_or_all_files
+      - usable_in_CI
+    blockers_as_authority:
+      - local_hook_install_is_an_extra_user_action
+      - hooks_can_be_skipped
+      - hook_framework_does_not_own_AES_semantic_decisions
+    integration_shape: >
+      Optional early-feedback adapter invokes the same AES evaluator. Greenfield
+      conformance must remain checkable through AES CLI/CI without pre-commit.
+    current_direction: optional_adapter
+
+  client_specific_pre_write_hooks:
+    disposition: deferred_optional_adapters
+    reason: >
+      Helpful for earlier feedback, but not necessary to define the Greenfield
+      conformance authority and would prematurely couple AES to specific agents.
+
+working_context_delivery:
+  capability_refs: [CAP-GF-CONTEXT]
+  provider_binding_status: unresolved
+  reason: >
+    Public tooling does not replace the AES-specific compilation problem. The
+    semantic graph, applicability, full-text target/current/gap/plan projection
+    and completeness diagnostics are AES-owned.
+  likely_core:
+    provider: AES_local_context_compiler
+    inputs:
+      - typed_target_refs
+      - realized_characterization
+      - current
+      - gaps
+      - active_plan
+      - verification_topology
+    output:
+      - deterministic_subject_context_packet
+  delivery_adapters_to_probe_later:
+    - aes_context_CLI
+    - generated_sidecar
+    - agent_or_IDE_injection
+    - generated_source_region
+  rule: >
+    Delivery mechanism must not become a second normative authority and must
+    prove the agent receives full semantic text rather than identifier-only hints.
+
+evidence_and_reconciliation:
+  capability_refs: [CAP-GF-EVIDENCE, CAP-GF-RECONCILE]
+  provider_binding_status: likely_AES_local_core
+  reason: >
+    Freshness/adequacy/standing and target-current-gap semantics are defining AES
+    semantics rather than generic testing framework behavior.
+  external_tools_role:
+    - tests_static_analysis_runtime_human_or_model_tools_produce_observations
+    - they_do_not_decide_AES_evidence_adequacy_unless_explicitly_bound_as_assessor
+  candidate_baseline:
+    - deterministic_AES_assessor_for_machine_decidable_evidence_composition
+    - explicit_human_or_model_assessor_identity_for_judgmental_criteria
+    - revision_and_dependency_bound_freshness
+  current_direction: AES_local_semantic_core
+
+Greenfield_default_stack_hypothesis:
+  distribution:
+    - standard_Python_distribution
+    - aes_console_entrypoint
+    - pipx_or_equivalent_isolated_install_recommended
+    - uv_optional_not_required
+  records:
+    - YAML_authority
+    - ruamel.yaml_strict_loading
+    - Pydantic_strict_models_extra_forbid
+    - generated_JSON_Schema_Draft_2020_12
+    - AES_cross_ref_and_semantic_validator
+  repository:
+    - Git
+  first_source_ecosystem:
+    - Python
+    - Git_tracked_inventory
+    - stdlib_AST_minimum_extractor
+    - Griffe_fit_probe_before_final_characterizer_binding
+  topology:
+    - AES_local_evaluator
+    - CLI_and_staged_checks_authoritative
+    - pre_commit_optional_adapter
+  planning:
+    - Company_Planning_adapt_or_compose_probe_from_internal_evaluation
+    - AES_owned_planning_contract_and_validator
+  context:
+    - AES_local_compiler
+    - delivery_adapter_unresolved
+  evidence_current_gap:
+    - AES_local_semantic_core
+
+next_required_probes_before_any_binding:
+  - RECORD-P0_strict_yaml_pydantic_schema_and_cross_ref_negative_controls
+  - DIST-P0_build_install_aes_CLI_in_clean_isolated_environment
+  - SOURCE-P0_compare_stdlib_AST_vs_Griffe_on_realistic_Python_fixture
+  - TOPO-P0_one_evaluator_used_by_aes_check_and_staged_candidate_path
+  - PLAN-P0_Company_Planning_to_AES_target_delta_fixture
+  - CONTEXT-P0_compile_full_semantic_text_for_one_governed_subject
