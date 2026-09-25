@@ -67,3 +67,4 @@ assessments:
     initialization/distribution mechanism on this machine; ER-SC-GF-001-01 needs a clean-user run 
     from the distribution (OBS-AES-CLEAN-USER-0503735)
   assessor: *id001
+superseded_by: OBS-GF-INIT-UNIT-c5ea63d0

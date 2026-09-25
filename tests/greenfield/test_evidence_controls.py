@@ -204,10 +204,14 @@ def _control(base: str, observed: str = "detected") -> str:
 REFS = ["VS-WG5-PROMPTS", "ER-WG5-001-01"]
 
 
-def test_mutated_revision_is_stale_by_construction_without_control(root: Path) -> None:
+def test_mutated_revision_without_control_is_unreachable(root: Path) -> None:
+    """Without `control`, the tag-only mutated commit is judged on its own: it is not
+    an ancestor of HEAD, so it never counts (it used to be STALE by construction)."""
     _, mutated = _mutated(root)
     _observation(root, "OBS-DRIFT", rev=mutated, deps=[PROMPTS], target_refs=REFS)
-    assert _fresh(root)["OBS-DRIFT"] == ("STALE", f"changed since observed: {PROMPTS}")
+    assert _fresh(root)["OBS-DRIFT"] == (
+        "UNREACHABLE", f"subject commit {mutated[:8]} is not reachable from HEAD (squash-merged or deleted branch?)",
+    )
 
 
 def test_negative_control_is_current_against_its_base_and_stales_for_the_right_reason(root: Path) -> None:
@@ -251,8 +255,13 @@ def test_control_base_must_be_on_a_branch_and_the_mutations_ancestor(root: Path)
     twice = _commit(root, "mutate again")
     _git(root, "checkout", "-q", "main")
     _observation(root, "OBS-C", rev=twice, deps=[PROMPTS], target_refs=REFS, control=_control(mutated))
+    # from main, a base on no branch is not reachable from HEAD either: it never counts
+    assert _fresh(root)["OBS-C"][0] == "UNREACHABLE"
+    # from a detached HEAD that does contain it, the no-branch rule is what refuses it
+    _git(root, "checkout", "-q", "--detach", twice)
     with pytest.raises(EvidenceError, match="is on no branch"):
         assess(root)
+    _git(root, "checkout", "-q", "main")
     # base on a branch but not the mutation's ancestor
     _write(root, "src/whygame5/__init__.py", '"""pkg"""\n')
     later = _commit(root, "later main commit")
@@ -260,3 +269,31 @@ def test_control_base_must_be_on_a_branch_and_the_mutations_ancestor(root: Path)
     with pytest.raises(EvidenceError, match="is not an ancestor"):
         assess(root)
     assert base != later
+
+
+def test_reachability_applies_to_the_base_and_the_mutation_only_has_to_resolve(root: Path) -> None:
+    """The mutated commit is off-branch by design (a tag keeps it); the base is what must
+    be reachable from HEAD. A base left on an unmerged side branch is UNREACHABLE."""
+    base, mutated = _mutated(root)
+    _observation(root, "OBS-DRIFT", rev=mutated, deps=[PROMPTS], target_refs=REFS, control=_control(base))
+    assert _fresh(root)["OBS-DRIFT"][0] == "CURRENT"  # tag-only subject_revision is fine
+
+    _git(root, "checkout", "-q", "-b", "side", base)
+    _write(root, "src/whygame5/__init__.py", '"""side"""\n')
+    side = _commit(root, "side branch commit, never merged")
+    _git(root, "checkout", "-q", "--detach", side)
+    _write(root, PROMPTS, "SIDE_BROKEN = 1\n")
+    side_mutated = _commit(root, "break it on the side branch")
+    _git(root, "checkout", "-q", "main")
+    _observation(root, "OBS-SIDE", rev=side_mutated, deps=[PROMPTS], target_refs=REFS, control=_control(side))
+    assert _fresh(root)["OBS-SIDE"] == (
+        "UNREACHABLE", f"subject commit {side[:8]} is not reachable from HEAD (squash-merged or deleted branch?)",
+    )
+
+
+def test_a_mutated_commit_that_does_not_resolve_is_loud(root: Path) -> None:
+    base = _git(root, "rev-parse", "HEAD")
+    _observation(root, "OBS-GONE", rev="0123456789abcdef0123456789abcdef01234567", deps=[PROMPTS],
+                 target_refs=REFS, control=_control(base))
+    with pytest.raises(EvidenceError, match="cat-file"):
+        assess(root)

@@ -38,7 +38,10 @@ phase 7.
   the target and `.aes/plans/<id>.yaml` together before implementing.
 - Record evidence with `aes evidence record <VS-ID>` (runs the test, writes
   `.aes/observations/`); hand-write only external observations, in the same
-  shape. `aes status` is the one-screen view; `make aes` runs validate,
+  shape. Evidence recorded on a branch names that branch's commit, so merge
+  such PRs with a merge commit, never squash: a squashed-away commit makes
+  its observations UNREACHABLE (re-record and set `superseded_by` if it
+  happens). `aes status` is the one-screen view; `make aes` runs validate,
   topology and status with this checkout's code, `make aes-check` adds the
   greenfield and repository_context tests.
 

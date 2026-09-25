@@ -66,3 +66,4 @@ assessments:
   basis: 'VS-GF-PLANNING (validate criterion evidence requirements against accepted verification topology)
     passed: exit 0'
   assessor: *id001
+superseded_by: OBS-GF-PLANNING-c5ea63d0

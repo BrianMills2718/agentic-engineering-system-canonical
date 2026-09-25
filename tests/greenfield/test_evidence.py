@@ -153,8 +153,101 @@ def test_cli_prints_standing(root: Path, capsys: pytest.CaptureFixture[str]) -> 
     _observe(root, "OBS-1", "ER-WG5-001-01", "SUPPORTS", [PROMPTS])
     assert main(["evidence", "status", "--root", str(root)]) == 0
     out = capsys.readouterr().out
-    assert out.startswith("evidence: 5 criteria: 0 supported, 5 insufficient, 0 refuted; 1 observation(s)")
+    assert out.startswith("evidence: 5 criteria: 0 supported, 5 insufficient, 0 refuted; 1 observation(s): "
+                          "1 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded\n")
     assert "ER-WG5-001-01: SUPPORTED - supported by OBS-1" in out
+
+
+# --------------------------------------------------------------------------- #
+# Reachability: evidence at a commit HEAD does not contain (§19)
+# --------------------------------------------------------------------------- #
+
+
+def _squash_merged_branch_commit(root: Path) -> str:
+    """A commit on a branch that is then squash-merged into main and deleted: the
+    object stays in this clone's store, but no branch reaches it."""
+    _git(root, "checkout", "-q", "-b", "feature")
+    _write(root, PROMPTS, "PROMPT = 'why, twice'\n")
+    _git(root, "commit", "-qam", "feature work")
+    feature = _git(root, "rev-parse", "HEAD")
+    _git(root, "checkout", "-q", "-")
+    _git(root, "merge", "-q", "--squash", "feature")
+    _git(root, "commit", "-qm", "squash-merge feature")
+    _git(root, "branch", "-q", "-D", "feature")
+    return feature
+
+
+def test_squash_merged_commit_is_unreachable_although_it_still_resolves(root: Path) -> None:
+    feature = _squash_merged_branch_commit(root)
+    _git(root, "cat-file", "-e", f"{feature}^{{commit}}")  # the local object store still has it
+    # same file content at HEAD as at the observed commit: dependency diff alone would say CURRENT
+    assert _git(root, "diff", "--name-only", feature, "HEAD") == ""
+    _observe(root, "OBS-SQUASHED", "ER-WG5-001-01", "SUPPORTS", [PROMPTS], rev=feature)
+    report = assess(root)
+    assert report.observations == ((
+        "OBS-SQUASHED", "UNREACHABLE",
+        f"subject commit {feature[:8]} is not reachable from HEAD (squash-merged or deleted branch?)",
+    ),)
+    er = _sc(report, "SC-WG5-001").requirements[0]
+    assert (er.status, er.detail) == ("NO_CURRENT_SUPPORT", "OBS-SQUASHED SUPPORTS (UNREACHABLE)")
+
+
+def test_commit_this_clone_lacks_is_unreachable_with_the_same_text(root: Path) -> None:
+    """A fresh clone does not have the squashed branch's objects at all; it must agree."""
+    missing = "0123456789abcdef0123456789abcdef01234567"
+    _observe(root, "OBS-ELSEWHERE", "ER-WG5-001-01", "SUPPORTS", [PROMPTS], rev=missing)
+    assert assess(root).observations[0][1:] == (
+        "UNREACHABLE", "subject commit 01234567 is not reachable from HEAD (squash-merged or deleted branch?)",
+    )
+
+
+def test_cli_counts_unreachable_separately(root: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    feature = _squash_merged_branch_commit(root)
+    _observe(root, "OBS-SQUASHED", "ER-WG5-001-01", "SUPPORTS", [PROMPTS], rev=feature)
+    _observe(root, "OBS-HERE", "ER-WG5-001-01", "SUPPORTS", [PROMPTS])
+    assert main(["evidence", "status", "--root", str(root)]) == 0
+    out = capsys.readouterr().out
+    assert "2 observation(s): 1 current, 0 stale, 0 unknown, 1 unreachable; 0 superseded\n" in out
+    assert f"    OBS-SQUASHED: UNREACHABLE - subject commit {feature[:8]} is not reachable" in out
+
+
+# --------------------------------------------------------------------------- #
+# superseded_by: a replaced record is kept and never counts
+# --------------------------------------------------------------------------- #
+
+
+def _supersede(root: Path, oid: str, by: str) -> None:
+    path = root / f".aes/observations/{oid}.yaml"
+    path.write_text(path.read_text(encoding="utf-8") + f"superseded_by: {by}\n", encoding="utf-8")
+
+
+def test_superseded_observation_never_counts_even_when_current(root: Path) -> None:
+    _observe(root, "OBS-OLD", "ER-WG5-001-01", "SUPPORTS", [PROMPTS])
+    _observe(root, "OBS-NEW", "ER-WG5-001-01", "REFUTES", [PROMPTS])
+    _supersede(root, "OBS-NEW", "OBS-OLD")  # the CURRENT refutation is withdrawn by being superseded
+    report = assess(root)
+    assert {oid: f for oid, f, _ in report.observations} == {"OBS-NEW": "CURRENT", "OBS-OLD": "CURRENT"}
+    assert report.superseded == (("OBS-NEW", "OBS-OLD"),)
+    assert report.counts() == "1 current, 0 stale, 0 unknown, 0 unreachable; 1 superseded"
+    er = _sc(report, "SC-WG5-001").requirements[0]
+    assert (er.status, er.detail) == ("SUPPORTED", "supported by OBS-OLD")
+
+    _supersede(root, "OBS-OLD", "OBS-NEW")  # both superseded: nothing counts
+    er = _sc(assess(root), "SC-WG5-001").requirements[0]
+    assert er.status == "NO_CURRENT_SUPPORT"
+    assert er.detail == ("OBS-NEW REFUTES (CURRENT, superseded by OBS-OLD); "
+                         "OBS-OLD SUPPORTS (CURRENT, superseded by OBS-NEW)")
+
+
+def test_superseded_by_must_name_another_loaded_observation(root: Path) -> None:
+    _observe(root, "OBS-1", "ER-WG5-001-01", "SUPPORTS", [PROMPTS])
+    _supersede(root, "OBS-1", "OBS-NOWHERE")
+    with pytest.raises(EvidenceError, match="OBS-1 superseded_by 'OBS-NOWHERE'"):
+        assess(root)
+    _observe(root, "OBS-1", "ER-WG5-001-01", "SUPPORTS", [PROMPTS])
+    _supersede(root, "OBS-1", "OBS-1")
+    with pytest.raises(RecordLoadError, match="cannot be superseded_by itself"):
+        assess(root)
 
 
 # --------------------------------------------------------------------------- #
@@ -268,6 +361,43 @@ def test_dependency_paths_must_match_their_basis(with_test: Path) -> None:
     path.write_text(text.replace(f"- {PROMPTS}\n", "", 1), encoding="utf-8")  # drop it from dependency_paths only
     with pytest.raises(RecordLoadError, match="is not the union of dependency_basis"):
         assess(with_test)
+
+
+def _with_origin(root: Path) -> Path:
+    """Give `root` a bare `origin` holding main, as a clone would have."""
+    bare = root.parent / "origin.git"
+    _git(root.parent, "init", "-q", "--bare", str(bare))
+    _git(root, "branch", "-M", "main")
+    _git(root, "remote", "add", "origin", str(bare))
+    _git(root, "push", "-q", "-u", "origin", "main")
+    return bare
+
+
+def test_record_on_a_branch_warns_about_squash_merging(with_test: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    _with_origin(with_test)
+    assert record(with_test, "VS-WG5-PROMPTS", [], command=PASS).branch_note is None  # at origin/main
+    _git(with_test, "add", ".")
+    _git(with_test, "commit", "-q", "-m", "record on main")
+    _git(with_test, "push", "-q", "origin", "main")
+
+    _git(with_test, "checkout", "-q", "-b", "feature")
+    _write(with_test, "tests/test_prompts.py", "def test_ok():\n    assert 1\n")
+    _git(with_test, "commit", "-qam", "feature work")
+    head = _git(with_test, "rev-parse", "HEAD")
+    assert main(["evidence", "record", "VS-WG5-PROMPTS", "--root", str(with_test), "--command", *PASS]) == 0
+    captured = capsys.readouterr()
+    assert captured.out.startswith("wrote ")  # recorded, not refused
+    assert captured.err == (
+        f"warning: recorded at {head[:8]} on branch feature; this evidence stays valid only if that commit "
+        "reaches the default branch unchanged — merge with a merge commit (not squash), or re-record "
+        "after merging\n"
+    )
+
+
+def test_record_without_a_remote_notes_the_check_was_skipped(with_test: Path) -> None:
+    note = record(with_test, "VS-WG5-PROMPTS", [], command=PASS).branch_note
+    assert note == ("note: no origin/HEAD or origin/main here, so whether the recorded commit is on the "
+                    "default branch was not checked")
 
 
 def test_uncommitted_python_test_cannot_be_discovered(root: Path) -> None:

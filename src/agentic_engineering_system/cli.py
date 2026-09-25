@@ -217,6 +217,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             a = done.observation.assessments
             print(f"wrote {done.path}\n  {a[0].assessment if a else 'no assessment'} for "
                   f"{', '.join(x.evidence_requirement_ref for x in a)} at {done.observation.subject_revision[:12]}")
+            if done.branch_note:
+                print(done.branch_note, file=sys.stderr)
             return 0
         if args.command == "evidence" and args.evidence_command == "status":
             print(render_evidence(assess(args.root)))

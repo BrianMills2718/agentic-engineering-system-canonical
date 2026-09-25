@@ -72,3 +72,4 @@ assessments:
   basis: 'VS-GF-SELF-GOVERNANCE (on AES canonical itself: the unchanged planned topology is accepted at
     HEAD and every evidence requirement of the live target has a route) passed: exit 0'
   assessor: *id001
+superseded_by: OBS-GF-SELF-GOVERNANCE-c5ea63d0

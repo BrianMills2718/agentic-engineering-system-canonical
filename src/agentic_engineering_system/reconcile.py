@@ -9,7 +9,8 @@ about what is true:
   are orphans;
 - evidence standing (`evidence.assess`): per criterion SUPPORTED | INSUFFICIENT |
   REFUTED under decision D2, per evidence requirement its status, per observation
-  its freshness;
+  its freshness (UNREACHABLE when its commit is not an ancestor of HEAD) and
+  whether it is superseded;
 - the target's own refs: which verification subjects route to an evidence
   requirement, and which artifacts and criteria concern each component.
 
@@ -94,6 +95,7 @@ class ObservationState(StrictModel):
     observation_id: str
     freshness: Freshness
     detail: str
+    superseded_by: str | None = None  # replaced by that observation; never counts, counted apart
 
 
 class Gap(StrictModel):
@@ -269,7 +271,8 @@ def reconcile(root: Path) -> Reconciliation:
         target_id=target.target_id,
         artifacts=artifacts,
         criteria=criteria,
-        observations=[ObservationState(observation_id=o, freshness=f, detail=why)
+        observations=[ObservationState(observation_id=o, freshness=f, detail=why,
+                                       superseded_by=dict(evidence.superseded).get(o))
                       for o, f, why in evidence.observations],
         orphans=orphans,
         components=components,
@@ -293,6 +296,7 @@ def _counts(r: Reconciliation) -> list[str]:
         return sum(getattr(i, attr) == value for i in items)
 
     no_route = sum(not m.has_route for c in r.criteria for m in c.missing)
+    live = [o for o in r.observations if o.superseded_by is None]
     return [
         f"  artifacts: {n(r.artifacts, 'status', 'REALIZED')} realized, "
         f"{n(r.artifacts, 'status', 'UNREALIZED')} unrealized, {n(r.artifacts, 'status', 'DRIFTED')} drifted; "
@@ -300,8 +304,9 @@ def _counts(r: Reconciliation) -> list[str]:
         f"  criteria: {n(r.criteria, 'standing', 'SUPPORTED')} supported, "
         f"{n(r.criteria, 'standing', 'INSUFFICIENT')} insufficient, {n(r.criteria, 'standing', 'REFUTED')} refuted; "
         f"{no_route} unsupported evidence requirement(s) with no route",
-        f"  observations: {n(r.observations, 'freshness', 'CURRENT')} current, "
-        f"{n(r.observations, 'freshness', 'STALE')} stale, {n(r.observations, 'freshness', 'UNKNOWN')} unknown",
+        f"  observations: {n(live, 'freshness', 'CURRENT')} current, {n(live, 'freshness', 'STALE')} stale, "
+        f"{n(live, 'freshness', 'UNKNOWN')} unknown, {n(live, 'freshness', 'UNREACHABLE')} unreachable; "
+        f"{len(r.observations) - len(live)} superseded",
     ]
 
 
@@ -345,7 +350,9 @@ def render_report(r: Reconciliation) -> str:
             route = ", ".join(routes) if m.has_route else "NO ROUTE (no verification subject or external boundary)"
             lines.append(f"      {m.er_id}: {m.status} - {m.detail}; route: {route}")
     lines.append("  observations:")
-    lines += [f"    {o.observation_id}: {o.freshness} - {o.detail}" for o in r.observations]
+    lines += [f"    {o.observation_id}: {o.freshness}"
+              + (f" (superseded by {o.superseded_by})" if o.superseded_by else "") + f" - {o.detail}"
+              for o in r.observations]
     lines.append("  orphans:" + ("" if r.orphans else " none"))
     lines += [f"    {p}" for p in r.orphans]
     lines.append("  gaps by component:")

@@ -70,3 +70,4 @@ assessments:
   assessment: SUPPORTS
   basis: 'VS-GF-RECONCILE (prove current/gap preserves insufficient and stale states) passed: exit 0'
   assessor: *id001
+superseded_by: OBS-GF-RECONCILE-c5ea63d0

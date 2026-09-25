@@ -72,3 +72,4 @@ assessments:
   basis: 'VS-GF-CHARACTERIZE (deliberately mutate a planned artifact or selected symbol and detect drift;
     bind realized facts to exact revision and producer identity) passed: exit 0'
   assessor: *id001
+superseded_by: OBS-GF-CHARACTERIZE-c5ea63d0

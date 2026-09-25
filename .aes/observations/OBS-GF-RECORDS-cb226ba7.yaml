@@ -39,3 +39,4 @@ assessments:
   basis: 'VS-GF-RECORDS (validate target structure, refs and criterion evidence declarations) passed:
     exit 0'
   assessor: *id001
+superseded_by: OBS-GF-RECORDS-c5ea63d0

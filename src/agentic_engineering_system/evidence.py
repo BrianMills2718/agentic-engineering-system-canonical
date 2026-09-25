@@ -15,6 +15,19 @@ the same at both, STALE when any path changed or any referenced entry changed
 or disappeared, and UNKNOWN when it names no commit or no dependency at all
 (external subjects, human review). Only CURRENT assessments count.
 
+Reachability comes first: an observation whose commit is not an ancestor of
+HEAD (`git merge-base --is-ancestor`) is UNREACHABLE, whatever its dependencies
+say. A squash-merged and deleted branch leaves its commits in the recording
+machine's object store, where they still resolve and diff, but in no fresh
+clone; judging freshness from them would make standing depend on which clone
+computed it. A commit this clone does not have at all is UNREACHABLE for the
+same reason and with the same text, so every clone agrees.
+
+`superseded_by: <observation_id>` marks an observation replaced by a later one
+(re-recorded after a squash merge, say). Records are never deleted; a
+superseded observation keeps its freshness for the record but never counts
+toward standing, and reports count it separately.
+
 Target dependencies are entry-level: an entry is its id's whole mapping
 (a criterion with its nested evidence requirements, a verification subject,
 ...), compared after a strict load of the target at each revision, so an edit
@@ -27,7 +40,8 @@ mutated revision that exists only to show a check detects the mutation. Its
 `subject_revision` is that mutated commit, which may be on no branch; its
 freshness is computed from `control.base_revision`, the unmodified commit on a
 real branch the mutation was made from, because that is the state whose
-dependencies the control speaks for. Its assessments follow its outcome:
+dependencies the control speaks for; reachability applies to that base, while
+the mutated commit only has to resolve (a tag keeps it). Its assessments follow its outcome:
 `observed_outcome: detected` may SUPPORT, `missed` must REFUTE, and a result
 whose `exit_code` is 0 (the tool reported passing) cannot claim `detected`.
 
@@ -66,7 +80,7 @@ OBSERVATION_SCHEMA = "aes.v0_2.observation.probe0"
 _COMMIT = re.compile(r"^[0-9a-f]{40}$")
 
 Assessment = Literal["SUPPORTS", "REFUTES", "INCONCLUSIVE"]
-Freshness = Literal["CURRENT", "STALE", "UNKNOWN"]
+Freshness = Literal["CURRENT", "STALE", "UNKNOWN", "UNREACHABLE"]
 Standing = Literal["SUPPORTED", "REFUTED", "INSUFFICIENT"]
 
 
@@ -142,9 +156,14 @@ class ObservationRecord(StrictModel):
     produced_at: datetime
     retained_artifact_refs: list[str] = Field(default_factory=list)
     assessments: list[ErAssessment] = Field(default_factory=list)
+    superseded_by: str | None = Field(
+        default=None, description="observation_id of the record that replaces this one; it then never counts",
+    )
 
     @model_validator(mode="after")
     def _shape(self) -> ObservationRecord:
+        if self.superseded_by == self.observation_id:
+            raise ValueError("an observation cannot be superseded_by itself")
         if self.subject_revision is None and self.external_identity is None:
             raise ValueError("needs subject_revision or external_identity")
         if self.subject_revision is not None and not _COMMIT.fullmatch(self.subject_revision):
@@ -209,6 +228,10 @@ def load_observations(root: Path, observations_root: str, target: TargetRecord) 
         if problems:
             raise EvidenceError(f"{path}: " + "; ".join(problems))
         out.append(obs)
+    dangling = [f"{o.observation_id} superseded_by {o.superseded_by!r}" for o in out
+                if o.superseded_by is not None and o.superseded_by not in seen]
+    if dangling:
+        raise EvidenceError(f"{directory}: superseded_by names no loaded observation: " + "; ".join(dangling))
     return out
 
 
@@ -243,12 +266,31 @@ def _target_entries_at(root: Path, revision: str, target_path: str) -> dict[str,
 _ENTRY_CACHE: dict[tuple[str, str, str], dict[str, str]] = {}
 
 
+def _reachable(root: Path, commit: str) -> bool:
+    """Whether `commit` is an ancestor of HEAD. A commit this clone lacks is not;
+    any other git failure is an error."""
+    proc = subprocess.run(["git", "merge-base", "--is-ancestor", commit, "HEAD"], cwd=root,
+                          capture_output=True, text=True, check=False)
+    if proc.returncode in (0, 1):
+        return proc.returncode == 0
+    if subprocess.run(["git", "cat-file", "-e", f"{commit}^{{commit}}"], cwd=root,
+                      capture_output=True, check=False).returncode != 0:
+        return False
+    raise EvidenceError(f"git merge-base --is-ancestor {commit} HEAD failed: {proc.stderr.strip()}")
+
+
+def _unreachable(commit: str) -> tuple[Freshness, str]:
+    return "UNREACHABLE", f"subject commit {commit[:8]} is not reachable from HEAD (squash-merged or deleted branch?)"
+
+
 def _check_control(root: Path, obs: ObservationRecord) -> str:
-    """The revision a negative control's freshness is computed from, after checking its commits."""
+    """The revision a negative control's freshness is computed from, after checking its commits.
+
+    Call only once `control.base_revision` is known to be reachable from HEAD.
+    """
     assert obs.control is not None and obs.subject_revision is not None
     base, mutated = obs.control.base_revision, obs.subject_revision
     _git(root, "cat-file", "-e", f"{mutated}^{{commit}}")
-    _git(root, "cat-file", "-e", f"{base}^{{commit}}")
     if not _git(root, "for-each-ref", "--contains", base, "--format=%(refname)", "refs/heads", "refs/remotes").strip():
         raise EvidenceError(
             f"{obs.observation_id}: control.base_revision {base[:12]} is on no branch; a negative control "
@@ -264,15 +306,17 @@ def _check_control(root: Path, obs: ObservationRecord) -> str:
 
 
 def freshness(root: Path, obs: ObservationRecord, target_path: str = ".aes/target.yaml") -> tuple[Freshness, str]:
-    """CURRENT, STALE or UNKNOWN, with the reason; see the module docstring."""
+    """CURRENT, STALE, UNKNOWN or UNREACHABLE, with the reason; see the module docstring."""
     if obs.subject_revision is None or not (obs.dependency_paths or obs.dependency_target_refs):
         return "UNKNOWN", "no subject_revision or no dependency_paths"
+    anchor = obs.control.base_revision if obs.control is not None else obs.subject_revision
+    if not _reachable(root, anchor):
+        return _unreachable(anchor)
     if obs.control is not None:
         since = _check_control(root, obs)
         prefix = f"negative control of {since[:12]}: "
     else:
         since = obs.subject_revision
-        _git(root, "cat-file", "-e", f"{since}^{{commit}}")
         prefix = ""
     reasons = []
     if obs.dependency_paths:
@@ -321,6 +365,15 @@ class CriterionStanding:
 class EvidenceReport:
     criteria: tuple[CriterionStanding, ...]
     observations: tuple[tuple[str, Freshness, str], ...]
+    superseded: tuple[tuple[str, str], ...] = ()  # (observation_id, superseded_by); never counted
+
+    def counts(self) -> str:
+        """`N current, N stale, N unknown, N unreachable; N superseded`: freshness over the
+        observations that count, superseded ones apart."""
+        gone = {oid for oid, _ in self.superseded}
+        live = [f for oid, f, _ in self.observations if oid not in gone]
+        return (", ".join(f"{live.count(f)} {f.lower()}" for f in ("CURRENT", "STALE", "UNKNOWN", "UNREACHABLE"))
+                + f"; {len(gone)} superseded")
 
 
 def assess(root: Path) -> EvidenceReport:
@@ -341,7 +394,8 @@ def assess(root: Path) -> EvidenceReport:
         statuses = []
         for er in sc.evidence_requirements:
             entries = by_er.get(er.id, [])
-            current = [(o, a) for o, a in entries if fresh[o.observation_id][0] == "CURRENT"]
+            current = [(o, a) for o, a in entries
+                       if fresh[o.observation_id][0] == "CURRENT" and o.superseded_by is None]
             refuting = [o.observation_id for o, a in current if a.assessment == "REFUTES"]
             supporting = [o.observation_id for o, a in current if a.assessment == "SUPPORTS"]
             if refuting:
@@ -350,7 +404,9 @@ def assess(root: Path) -> EvidenceReport:
                 statuses.append(ErStatus(er.id, "SUPPORTED", "supported by " + ", ".join(supporting)))
             elif entries:
                 why = "; ".join(
-                    f"{o.observation_id} {a.assessment} ({fresh[o.observation_id][0]})" for o, a in entries
+                    f"{o.observation_id} {a.assessment} ({fresh[o.observation_id][0]}"
+                    + (f", superseded by {o.superseded_by})" if o.superseded_by else ")")
+                    for o, a in entries
                 )
                 statuses.append(ErStatus(er.id, "NO_CURRENT_SUPPORT", why))
             else:
@@ -365,6 +421,7 @@ def assess(root: Path) -> EvidenceReport:
     return EvidenceReport(
         criteria=tuple(criteria),
         observations=tuple((oid, f[0], f[1]) for oid, f in fresh.items()),
+        superseded=tuple((o.observation_id, o.superseded_by) for o in observations if o.superseded_by),
     )
 
 
@@ -373,15 +430,17 @@ def render_report(report: EvidenceReport) -> str:
     lines = [
         f"evidence: {len(report.criteria)} criteria: {counts['SUPPORTED']} supported, "
         f"{counts['INSUFFICIENT']} insufficient, {counts['REFUTED']} refuted; "
-        f"{len(report.observations)} observation(s)"
+        f"{len(report.observations)} observation(s): {report.counts()}"
     ]
     for c in report.criteria:
         lines.append(f"  {c.criterion_id}: {c.standing}")
         for s in c.requirements:
             lines.append(f"    {s.er_id}: {s.status} - {s.detail}")
     lines.append("  observations:")
+    replaced = dict(report.superseded)
     for oid, f, why in report.observations:
-        lines.append(f"    {oid}: {f} - {why}")
+        by = f" (superseded by {replaced[oid]})" if oid in replaced else ""
+        lines.append(f"    {oid}: {f}{by} - {why}")
     return "\n".join(lines)
 
 
@@ -428,6 +487,34 @@ _OUTPUT_TAIL_LINES = 20
 class Recorded:
     path: Path
     observation: ObservationRecord
+    branch_note: str | None  # squash-merge warning or unchecked note; see `branch_note`
+
+
+def branch_note(root: Path, revision: str) -> str | None:
+    """A warning when `revision` is not yet on the default branch, a note when that
+    cannot be checked, None when it is already there.
+
+    The default branch tip is `origin/HEAD`, else `origin/main`. Evidence recorded
+    on a branch stays valid only if that exact commit reaches the default branch:
+    a squash merge rewrites it and leaves the observation UNREACHABLE.
+    """
+    tip = next((ref for ref in ("refs/remotes/origin/HEAD", "refs/remotes/origin/main")
+                if subprocess.run(["git", "rev-parse", "--verify", "-q", ref], cwd=root,
+                                  capture_output=True, check=False).returncode == 0), None)
+    if tip is None:
+        return ("note: no origin/HEAD or origin/main here, so whether the recorded commit is on the "
+                "default branch was not checked")
+    proc = subprocess.run(["git", "merge-base", "--is-ancestor", revision, tip], cwd=root,
+                          capture_output=True, text=True, check=False)
+    if proc.returncode == 0:
+        return None
+    if proc.returncode != 1:
+        raise EvidenceError(f"git merge-base --is-ancestor {revision} {tip} failed: {proc.stderr.strip()}")
+    name = _git(root, "rev-parse", "--abbrev-ref", "HEAD").strip()
+    where = "a detached HEAD" if name == "HEAD" else f"branch {name}"
+    return (f"warning: recorded at {revision[:8]} on {where}; this evidence stays valid only if that commit "
+            "reaches the default branch unchanged — merge with a merge commit (not squash), or re-record "
+            "after merging")
 
 
 def _aes_version() -> str:
@@ -461,7 +548,8 @@ def record(
     (INCONCLUSIVE with `downgrade_basis`, for a test that covers only part of a
     requirement); any other exit assesses them as REFUTES. Refuses when a
     dependency has uncommitted changes, because the observation must name the
-    commit that holds exactly what was run.
+    commit that holds exactly what was run. Recording on a branch is normal and
+    is not refused; `Recorded.branch_note` carries the squash-merge warning.
     """
     import sys
     from datetime import UTC
@@ -541,4 +629,4 @@ def record(
     yaml.width = 100
     with path.open("x", encoding="utf-8") as fh:
         yaml.dump(data, fh)
-    return Recorded(path, observation)
+    return Recorded(path, observation, branch_note(root, revision))

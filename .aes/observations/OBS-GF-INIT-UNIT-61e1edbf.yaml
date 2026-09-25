@@ -66,3 +66,4 @@ assessments:
   basis: VS-GF-INIT-UNIT passed (exit 0), but a local test proves only the 
     initialization/distribution mechanism on this machine; ER-SC-GF-001-01 needs a clean-user run
   assessor: *id001
+superseded_by: OBS-GF-INIT-UNIT-c5ea63d0

@@ -66,3 +66,4 @@ assessments:
   basis: 'VS-GF-CONTEXT-STRUCTURAL (prove exact applicable semantic text and provenance are projected
     for the governed subject) passed: exit 0'
   assessor: *id001
+superseded_by: OBS-GF-CONTEXT-STRUCTURAL-c5ea63d0

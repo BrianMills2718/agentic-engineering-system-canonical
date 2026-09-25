@@ -72,3 +72,4 @@ assessments:
   basis: 'VS-GF-EVIDENCE (prove a pass-like partial observation remains insufficient and a material dependency
     change stales evidence) passed: exit 0'
   assessor: *id001
+superseded_by: OBS-GF-EVIDENCE-c5ea63d0
