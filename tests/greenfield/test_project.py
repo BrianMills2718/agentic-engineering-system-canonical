@@ -70,6 +70,10 @@ def test_init_writes_only_seed_artifacts_and_passes_the_next_commands(
     out = capsys.readouterr().out
     assert f"wrote {repo / '.aes' / 'project.yaml'}" in out
     assert f"wrote {repo / '.aes' / 'target.yaml'}" in out
+    # the printed next step routes through planning, as GETTING_STARTED.md does
+    assert ("next: aes plan prepare, write a proposal, aes plan validate/accept; "
+            "or edit .aes/target.yaml by hand, then aes target validate") in out
+    assert "plan it in .aes/target.yaml" not in out
     created = sorted(p.relative_to(repo).as_posix() for p in (repo / ".aes").rglob("*"))
     assert created == sorted(SEED_ARTIFACTS)  # no plans/, observations/, generated/, analysis
 

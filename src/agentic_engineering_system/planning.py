@@ -7,16 +7,21 @@ and no model is called: a human or agent writes the proposal, following
 `planning_protocol.md`.
 
 A proposal (`aes.v0_2.proposal.probe0`) is a target delta plus the ids of the
-open gaps it claims to close. The delta has an `add:` and a `change:` section,
-each with one list per target family. `add` appends new entries; `change`
-replaces the whole existing entry with the same key (`id`, or
-`evidence_requirement_ref` for external boundaries). There is no `remove` in
-this probe.
+open gaps it claims to close. The delta has `add:`, `change:` and `remove:`
+sections, each with one list per target family. `add` appends new entries;
+`change` replaces the whole existing entry with the same key (`id`, or
+`evidence_requirement_ref` for external boundaries); `remove` lists the keys of
+entries to delete. An evidence requirement is removed by changing its criterion.
 
 `validate_proposal` applies the delta to an in-memory copy of the target and
 reports every violation, not the first:
-- the delta itself: a `change` key the target does not declare, an `add` key it
-  already declares, a key given twice in one section, an empty delta;
+- the delta itself: a `change` or `remove` key the target does not declare, an
+  `add` key it already declares, a key given twice in one section or in two
+  sections, an empty delta;
+- every reference the resulting target still holds to a removed entry (or to an
+  evidence requirement nested in a removed criterion), each with its location;
+- every removed planned artifact under a governed root whose file is still in
+  the Git index: the topology check would report it as an orphan;
 - the resulting target under `records.validate_target_refs` (ids unique across
   families, every ref resolves, every criterion has an evidence requirement);
 - SC-GF-004: every evidence requirement in the resulting target has a route, a
@@ -33,7 +38,8 @@ untracked under `.aes/`), on any validation violation, and when
 `<plans_root>/<proposal_id>.yaml` exists. Otherwise it edits the target through
 ruamel round-trip, so comments, key order and scalar styles survive (new entries
 appended at the end of their family in the style the proposal wrote them,
-changed entries replaced in place), checks that the written text loads to
+changed entries replaced in place, removed entries deleted with the comment that
+followed them kept on the entry before), checks that the written text loads to
 exactly the validated target, and writes the plan file: the proposal plus
 `accepted_at_revision` (HEAD) and `accepted_at` (UTC). It does not commit; the
 target and the plan are committed together by whoever accepted.
@@ -112,9 +118,26 @@ class FamilyEntries(StrictModel):
         return [(f, getattr(e, _KEY[f]), e) for f in FAMILIES for e in getattr(self, f)]
 
 
+class FamilyKeys(StrictModel):
+    """`remove:` - the keys (`id`, or `evidence_requirement_ref`) of entries to delete."""
+
+    outcomes: list[str] = Field(default_factory=list)
+    normative_items: list[str] = Field(default_factory=list)
+    success_criteria: list[str] = Field(default_factory=list)
+    components: list[str] = Field(default_factory=list)
+    planned_artifacts: list[str] = Field(default_factory=list)
+    verification_subjects: list[str] = Field(default_factory=list)
+    external_boundaries: list[str] = Field(default_factory=list)
+
+    def entries(self) -> list[tuple[str, str]]:
+        """(family, key) for every key, in family then file order."""
+        return [(f, k) for f in FAMILIES for k in getattr(self, f)]
+
+
 class TargetDelta(StrictModel):
     add: FamilyEntries = Field(default_factory=FamilyEntries)
     change: FamilyEntries = Field(default_factory=FamilyEntries)
+    remove: FamilyKeys = Field(default_factory=FamilyKeys)
 
 
 class OutsideGovernedRoot(StrictModel):
@@ -208,6 +231,15 @@ def apply_delta(target: TargetRecord, delta: TargetDelta) -> tuple[TargetRecord,
     """
     violations: list[str] = []
     data = target.model_dump()
+    sections: dict[tuple[str, str], str] = {}  # (family, key) -> first section naming it
+    for family, key in delta.remove.entries():
+        loc = f"target_delta.remove.{family} ({key})"
+        if (family, key) in sections:
+            violations.append(f"'{key}' appears more than once at target_delta.remove.{family}")
+            continue
+        sections[(family, key)] = "remove"
+        if not any(m[_KEY[family]] == key for m in data.get(family, [])):
+            violations.append(f"{loc}: the target declares no {family} entry '{key}' to remove")
     for section in ("change", "add"):  # changes index the target as it was
         seen: set[tuple[str, str]] = set()
         for family, key, entry in getattr(delta, section).entries():
@@ -216,6 +248,11 @@ def apply_delta(target: TargetRecord, delta: TargetDelta) -> tuple[TargetRecord,
                 violations.append(f"'{key}' appears more than once at target_delta.{section}.{family}")
                 continue
             seen.add((family, key))
+            if sections.get((family, key), section) != section:
+                violations.append(f"{loc}: '{key}' is also under target_delta.{sections[(family, key)]}.{family}; "
+                                  f"name each entry in one section only")
+                continue
+            sections.setdefault((family, key), section)
             members = data.setdefault(family, [])
             index = next((i for i, m in enumerate(members) if m[_KEY[family]] == key), None)
             if section == "change":
@@ -230,9 +267,71 @@ def apply_delta(target: TargetRecord, delta: TargetDelta) -> tuple[TargetRecord,
                                       f"(replace it under change)")
                     continue
                 members.append(entry.model_dump())
-    if not delta.add.entries() and not delta.change.entries():
-        violations.append("target_delta adds and changes nothing")
+    removed = {(f, k) for f, k in delta.remove.entries()}
+    for family in FAMILIES:
+        if family in data:
+            data[family] = [m for m in data[family] if (family, m[_KEY[family]]) not in removed]
+    if not delta.add.entries() and not delta.change.entries() and not delta.remove.entries():
+        violations.append("target_delta adds, changes and removes nothing")
     return TargetRecord.model_validate(data), violations
+
+
+def references(target: TargetRecord) -> list[tuple[str, str]]:
+    """(referenced key, location) for every reference the target holds, in file order."""
+    out: list[tuple[str, str]] = []
+
+    def add(refs: list[str], loc: str) -> None:
+        out.extend((r, f"{loc}[{k}]") for k, r in enumerate(refs))
+
+    for i, n in enumerate(target.normative_items):
+        add(n.outcome_refs, f"normative_items[{i}] ({n.id}).outcome_refs")
+    for i, s in enumerate(target.success_criteria):
+        add(s.target_refs, f"success_criteria[{i}] ({s.id}).target_refs")
+    for i, c in enumerate(target.components):
+        add(c.target_refs, f"components[{i}] ({c.id}).target_refs")
+        add(c.planned_artifact_refs, f"components[{i}] ({c.id}).planned_artifact_refs")
+    for i, a in enumerate(target.planned_artifacts):
+        add(a.semantic_justification_refs, f"planned_artifacts[{i}] ({a.id}).semantic_justification_refs")
+    for i, v in enumerate(target.verification_subjects):
+        add(v.criterion_refs, f"verification_subjects[{i}] ({v.id}).criterion_refs")
+        add(v.evidence_requirement_refs, f"verification_subjects[{i}] ({v.id}).evidence_requirement_refs")
+    for i, b in enumerate(target.external_boundaries):
+        out.append((b.evidence_requirement_ref, f"external_boundaries[{i}].evidence_requirement_ref"))
+    return out
+
+
+def _removal_violations(root: Path, current: TargetRecord, result: TargetRecord, delta: TargetDelta,
+                        governed: list[str]) -> tuple[list[str], set[str]]:
+    """Dangling references to removed entries, and removed artifacts whose files are still indexed.
+
+    Returns the violations and the removed keys (nested evidence requirements of a
+    removed criterion included), so the generic unresolved-ref lines for the same
+    refs are not reported twice.
+    """
+    violations: list[str] = []
+    gone: dict[str, str] = {}  # removed key -> how it was removed
+    criteria = {s.id: s for s in current.success_criteria}
+    for family, key in delta.remove.entries():
+        gone[key] = f"target_delta.remove.{family} ({key})"
+        if family == "success_criteria" and key in criteria:
+            for er in criteria[key].evidence_requirements:
+                gone[er.id] = f"evidence requirement of removed criterion '{key}'"
+    for ref, loc in references(result):
+        if ref in gone:
+            violations.append(f"{gone[ref]}: removed '{ref}' is still referenced by the resulting target at {loc}")
+
+    artifacts = {a.id: a for a in current.planned_artifacts}
+    for key in delta.remove.planned_artifacts:
+        a = artifacts.get(key)
+        if a is None or not any(a.locator.exact_path.startswith(g) for g in governed):
+            continue
+        indexed = _git(root, "ls-files", "--cached", "--", a.locator.exact_path).strip()
+        if indexed:
+            violations.append(
+                f"target_delta.remove.planned_artifacts ({key}): {a.locator.exact_path} is still in the Git "
+                f"index under a governed root; the file must be moved or deleted in the same change, or the "
+                f"topology check will orphan it")
+    return violations, set(gone)
 
 
 # --------------------------------------------------------------------------- #
@@ -248,7 +347,8 @@ def skeleton() -> dict[str, Any]:
         "title": "",
         "rationale": "",
         "closes_gaps": [],
-        "target_delta": {"add": dict(families), "change": {f: [] for f in FAMILIES}},
+        "target_delta": {"add": dict(families), "change": {f: [] for f in FAMILIES},
+                         "remove": {f: [] for f in FAMILIES}},
         "outside_governed_roots": [],
     }
 
@@ -327,7 +427,10 @@ def validate_proposal(root: Path, proposal: Proposal) -> ValidatedProposal:
     target_file, governed, _ = _target_path(root)
     current = load_target(target_file)
     result, violations = apply_delta(current, proposal.target_delta)
-    violations += [f"resulting target: {v}" for v in validate_target_refs(result)]
+    removal, gone = _removal_violations(root, current, result, proposal.target_delta, governed)
+    violations += removal
+    violations += [f"resulting target: {v}" for v in validate_target_refs(result)
+                   if not any(v.startswith(f"unresolved ref '{ref}' at ") for ref in gone)]
 
     violations += route_violations(result)
 
@@ -354,7 +457,7 @@ def validate_proposal(root: Path, proposal: Proposal) -> ValidatedProposal:
 class AcceptResult:
     target_path: Path
     plan_path: Path
-    changes: tuple[str, ...]  # "added <family> <key>" / "changed <family> <key>"
+    changes: tuple[str, ...]  # "added|changed|removed <family> <key>"
     revision: str
 
 
@@ -419,6 +522,18 @@ def _edit_target(target_text: str, proposal_doc: CommentedMap) -> tuple[str, lis
     doc = _yaml().load(target_text)
     changes: list[str] = []
     delta = proposal_doc.get("target_delta") or {}
+    for family in FAMILIES:
+        for key in (delta.get("remove") or {}).get(family) or []:
+            seq = doc[family]
+            index = next(i for i, m in enumerate(seq) if str(m[_KEY[family]]) == str(key))
+            # the comment after the removed entry introduces what follows it: it moves to the
+            # entry before, replacing the one that introduced the removed entry
+            token = _take_trailing(seq[index])
+            if index > 0:
+                _take_trailing(seq[index - 1])
+                _put_trailing(seq[index - 1], token)
+            del seq[index]
+            changes.append(f"removed {family} {key}")
     for section in ("change", "add"):
         entries = delta.get(section) or {}
         for family in FAMILIES:
@@ -495,7 +610,7 @@ def render_validated(v: ValidatedProposal) -> str:
     t = v.target
     return (
         f"OK proposal {v.proposal.proposal_id}: {len(d.add.entries())} addition(s), "
-        f"{len(d.change.entries())} change(s)\n"
+        f"{len(d.change.entries())} change(s), {len(d.remove.entries())} removal(s)\n"
         f"  closes: {', '.join(v.proposal.closes_gaps) or 'no current gap (target extension)'}\n"
         f"  resulting target: success_criteria={len(t.success_criteria)} "
         f"evidence_requirements={len(t.evidence_requirements())} "

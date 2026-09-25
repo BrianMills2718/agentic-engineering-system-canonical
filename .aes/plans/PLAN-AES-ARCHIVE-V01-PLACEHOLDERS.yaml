@@ -1,0 +1,118 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-AES-ARCHIVE-V01-PLACEHOLDERS
+title: 'Disposition the v0.1 files: archive the eight empty placeholders, retain repository_context'
+rationale: >
+  Roadmap phase 7 (25-roadmap-to-mvp-acceptance.md) archives the v0.1 subpackages the topology does not
+  need, with a disposition each. Eight of the nine v0.1 subpackages under src/agentic_engineering_system/
+  held only a component.placeholder.yaml and never any code; they are moved with git mv to
+  archive/v0.1-placeholders/ (disposition historical, README there) and their planned artifacts removed.
+  Removing planning/ also ends the planning.py / planning/ name overlap. repository_context/ is real
+  v0.1 code with an installed console script (aes-repo-context) and tests under tests/repository_context/,
+  so it and the package __init__.py stay, with purpose and NI-AES-HIST saying their disposition is retained.
+closes_gaps: []
+target_delta:
+  change:
+    normative_items:
+      - id: NI-AES-HIST
+        kind: constraint
+        outcome_refs:
+          - OUT-GF-001
+        statement: >
+          v0.1 code is retained, not deleted. Phase 7a dispositioned it: the eight empty v0.1 component
+          placeholders were moved with history to archive/v0.1-placeholders/ (historical); repository_context/
+          (the installed console script aes-repo-context, tested by tests/repository_context/) and the package
+          __init__.py are retained, each a planned artifact of this target so the no-orphan rule holds. They
+          carry no v0.2 obligation; changing them is v0.1 maintenance, not v0.2 work.
+    planned_artifacts:
+      - id: ART-V01---INIT---PY
+        locator:
+          exact_path: src/agentic_engineering_system/__init__.py
+        kind: source
+        purpose: >
+          package marker shared by v0.1 and v0.2 modules; v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
+        semantic_justification_refs:
+          - NI-AES-HIST
+      - id: ART-V01-REPOSITORY-CONTEXT---INIT---PY
+        locator:
+          exact_path: src/agentic_engineering_system/repository_context/__init__.py
+        kind: source
+        purpose: >
+          v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
+        semantic_justification_refs:
+          - NI-AES-HIST
+      - id: ART-V01-REPOSITORY-CONTEXT-CLI-PY
+        locator:
+          exact_path: src/agentic_engineering_system/repository_context/cli.py
+        kind: source
+        purpose: >
+          v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
+        semantic_justification_refs:
+          - NI-AES-HIST
+      - id: ART-V01-REPOSITORY-CONTEXT-COMPONENT-CONTEXT-GENERATED-YAML
+        locator:
+          exact_path: src/agentic_engineering_system/repository_context/component.context.generated.yaml
+        kind: configuration
+        purpose: >
+          v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
+        semantic_justification_refs:
+          - NI-AES-HIST
+      - id: ART-V01-REPOSITORY-CONTEXT-GIT-SOURCE-PY
+        locator:
+          exact_path: src/agentic_engineering_system/repository_context/git_source.py
+        kind: source
+        purpose: >
+          v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
+        semantic_justification_refs:
+          - NI-AES-HIST
+      - id: ART-V01-REPOSITORY-CONTEXT-LEGACY-PY
+        locator:
+          exact_path: src/agentic_engineering_system/repository_context/legacy.py
+        kind: source
+        purpose: >
+          v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
+        semantic_justification_refs:
+          - NI-AES-HIST
+      - id: ART-V01-REPOSITORY-CONTEXT-MANIFEST-PY
+        locator:
+          exact_path: src/agentic_engineering_system/repository_context/manifest.py
+        kind: source
+        purpose: >
+          v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
+        semantic_justification_refs:
+          - NI-AES-HIST
+      - id: ART-V01-REPOSITORY-CONTEXT-MODELS-PY
+        locator:
+          exact_path: src/agentic_engineering_system/repository_context/models.py
+        kind: source
+        purpose: >
+          v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
+        semantic_justification_refs:
+          - NI-AES-HIST
+      - id: ART-V01-REPOSITORY-CONTEXT-RENDER-HTML-PY
+        locator:
+          exact_path: src/agentic_engineering_system/repository_context/render_html.py
+        kind: source
+        purpose: >
+          v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
+        semantic_justification_refs:
+          - NI-AES-HIST
+      - id: ART-V01-REPOSITORY-CONTEXT-RESOLVER-PY
+        locator:
+          exact_path: src/agentic_engineering_system/repository_context/resolver.py
+        kind: source
+        purpose: >
+          v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
+        semantic_justification_refs:
+          - NI-AES-HIST
+  remove:
+    planned_artifacts:
+      - ART-V01-CAPABILITY-SOURCING-COMPONENT-PLACEHOLDER-YAML
+      - ART-V01-EVIDENCE-ASSESSMENT-COMPONENT-PLACEHOLDER-YAML
+      - ART-V01-EXECUTION-COMPONENT-PLACEHOLDER-YAML
+      - ART-V01-GAP-RECONCILIATION-COMPONENT-PLACEHOLDER-YAML
+      - ART-V01-LEARNING-COMPONENT-PLACEHOLDER-YAML
+      - ART-V01-NORMATIVE-CONTEXT-COMPONENT-PLACEHOLDER-YAML
+      - ART-V01-PLANNING-COMPONENT-PLACEHOLDER-YAML
+      - ART-V01-POLICY-CONTROL-COMPONENT-PLACEHOLDER-YAML
+accepted_at_revision: 4b011a2835d47553dec8d44b14d199c59b588bcb
+accepted_at: '2026-09-25T23:07:20+00:00'

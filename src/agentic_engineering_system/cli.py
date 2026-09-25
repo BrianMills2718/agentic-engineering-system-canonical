@@ -190,6 +190,12 @@ def _cmd_topology_check(root: Path) -> int:
     return 0 if report.ok else 1
 
 
+INIT_NEXT_STEP = (
+    "next: aes plan prepare, write a proposal, aes plan validate/accept; "
+    "or edit .aes/target.yaml by hand, then aes target validate"
+)
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
     try:
@@ -202,7 +208,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"  project_id={done.project.project_id} governed_roots={done.project.governed_roots} "
                   f"language={done.project.ecosystem.primary_language_or_runtime} "
                   f"aes={done.project.aes.distribution_version}\n"
-                  f"  outcome {done.target.outcomes[0].id}; next: plan it in .aes/target.yaml, then aes target validate")
+                  f"  outcome {done.target.outcomes[0].id}\n"
+                  f"  {INIT_NEXT_STEP}")
             return 0
         if args.root is None:
             args.root = find_project_root(Path.cwd())

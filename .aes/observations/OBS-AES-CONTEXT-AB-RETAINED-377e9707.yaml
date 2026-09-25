@@ -1,0 +1,69 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-AES-CONTEXT-AB-RETAINED-377e9707
+subject_refs: [SC-GF-005, RU-AES-CONTEXT]
+subject_revision: 377e97073a00d8339e5b6172eb316248dc4e4bac
+# The assessment below is of the two retained runs against ER-SC-GF-005-02 as
+# re-scoped by PLAN-AES-RESCOPE-CONTEXT-AB; it goes stale if either run's record
+# or retained files change, or if the criterion (and so the requirement) changes.
+dependency_paths:
+  - .aes/observations/OBS-AES-PROBE0-CONTEXT-AB.yaml
+  - .aes/observations/OBS-AES-CONTEXT-AB-2509ea4.yaml
+  - evidence/greenfield/context-ab-2026-09-25/preregistration.md
+  - evidence/greenfield/context-ab-2026-09-25/result.md
+  - evidence/greenfield/context-ab-2026-09-25/arm-a-fix.patch
+  - evidence/greenfield/context-ab-2026-09-25/arm-b-fix.patch
+dependency_target_refs: [SC-GF-005]
+observer:
+  identity: claude-code session opus-v02-phase7a (roadmap phase 7a implementer; checked that each run is retained, did not re-score either)
+  version: Claude Opus 5.5, session_01Up1bDWMXtPyLG5xqgL51Pw
+method: >
+  Re-assessment of ER-SC-GF-005-02 after its re-scope (24-pre-probe-decisions.md
+  sections 18 and 20). The requirement now asks that a fresh-agent comparison on
+  one real change, scored against a pre-registered sheet, is run and retained at
+  exact revisions with its verdict either way, and names the two existing runs as
+  the minimum. For each run this record checks the three retained elements (the
+  pre-registered sheet, both arms' work at exact commits, the verdict) and where
+  they are. The earlier records keep their own INCONCLUSIVE assessments of the
+  requirement as it was worded then; neither is superseded, they remain the runs.
+execution_state: COMPLETED
+produced_at: 2026-09-25T23:06:05+00:00
+result:
+  run_probe0:
+    record: .aes/observations/OBS-AES-PROBE0-CONTEXT-AB.yaml
+    consumer: whygame5 at 24ce41281fa97884d4fa36088b13bd509eaa481e (~300 lines, 9 files), change realize CMP-WG5-EVALUATOR
+    preregistered_sheet: whygame5 .aes/observations/OBS-PROBE0-CONTEXT-AB.yaml (added in d989e8c, present at 38df3e5)
+    arm_commits: {arm_a: ff6595a700a6ac89e37c17f7a6829dd134d962cf, arm_b: fa828f47018f0893259a4867da85a980b08b9716}
+    arm_commits_retained: whygame5 origin/ab-arm-a and origin/ab-arm-b (both resolve at 38df3e5; arm A is also on main)
+    verdict: no material difference (not refuted)
+  run_phase6:
+    record: .aes/observations/OBS-AES-CONTEXT-AB-2509ea4.yaml
+    consumer: AES canonical at 2509ea441621bab76fd106330833168b70f5ffd8 (~4,000 governed lines, reachable from main), change reconcile external-boundary route fix
+    preregistered_sheet: evidence/greenfield/context-ab-2026-09-25/preregistration.md
+    arm_commits: {arm_a: 455fe6de4c24829368ad2f8180d79b39491f60f5, arm_b: 7a759ba141e3b716ffde92d4de98a515d7afa163}
+    arm_commits_retained: as patches (arm-a-fix.patch, arm-b-fix.patch) in the same directory; the clones' commits themselves are not on any AES branch; arm A's fix landed as 61e1edb
+    verdict: not distinguishable (not refuted)
+  discovery_claim: >
+    Whether bounded projected context reduces reconstruction cost or missed
+    obligations is not established by either run and is no longer what this
+    requirement asks.
+retained_artifact_refs:
+  - .aes/observations/OBS-AES-PROBE0-CONTEXT-AB.yaml
+  - .aes/observations/OBS-AES-CONTEXT-AB-2509ea4.yaml
+  - evidence/greenfield/context-ab-2026-09-25/preregistration.md
+  - evidence/greenfield/context-ab-2026-09-25/result.md
+  - evidence/greenfield/context-ab-2026-09-25/arm-a-fix.patch
+  - evidence/greenfield/context-ab-2026-09-25/arm-b-fix.patch
+  - whygame5 .aes/observations/OBS-PROBE0-CONTEXT-AB.yaml @38df3e546584719de13dcd01722fb9c7b08eeae5
+assessments:
+  - evidence_requirement_ref: ER-SC-GF-005-02
+    assessment: SUPPORTS
+    basis: >
+      Both named runs exist and are retained with the three elements the
+      re-scoped requirement asks for: a sheet written before either arm's output
+      was seen, each arm's work at an exact commit (whygame5 branches for probe
+      0; patches plus the base commit for phase 6), and a verdict. Both verdicts
+      are "not distinguishable"; the requirement accepts a verdict either way, so
+      that does not count against it.
+    assessor:
+      identity: claude-code session opus-v02-phase7a
+      version: Claude Opus 5.5, session_01Up1bDWMXtPyLG5xqgL51Pw

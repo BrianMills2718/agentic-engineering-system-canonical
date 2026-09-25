@@ -1,0 +1,101 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-AES-WG5-LIFECYCLE-38df3e5
+subject_refs: [SC-GF-009]
+subject_revision: d23af3d3d8f0738cd8872971b59c91ff5279deb1
+external_identity: whygame5@38df3e546584719de13dcd01722fb9c7b08eeae5 (main, 2026-09-25)
+# Freshness is tied to the criterion entry only: the subject is whygame5's
+# history, which a change to AES's own files does not alter. A change to
+# SC-GF-009 (and so to ER-SC-GF-009-01) stales this record.
+dependency_target_refs: [SC-GF-009]
+observer:
+  identity: claude-code session opus-v02-phase7a (read-only inspection of /home/brian/code/whygame5 at 38df3e5; nothing there was modified)
+  version: Claude Opus 5.5, session_01Up1bDWMXtPyLG5xqgL51Pw
+method: >
+  Read whygame5's history at its main head 38df3e5 (git log over the whole
+  repository, over .aes/target.yaml, .aes/plans/ and .aes/observations/, and
+  git log --diff-filter=A for each realized source and test file), and ran
+  `aes status` there with its pinned AES (.venv/bin/aes, 0.1.dev379+g2d3486b02)
+  on a clean tree; git status was empty before and after. Each element of
+  ER-SC-GF-009-01 is listed below with the exact commit that retains it.
+execution_state: COMPLETED
+produced_at: 2026-09-25T23:10:51+00:00
+result:
+  initialization:
+    commit: 3a1c64b663dbd8b7521581dc39a7aa4c7adb52ad (Initialize whygame5 under AES v0.2 governance)
+    note: >
+      The repository's first commit, holding .aes/project.yaml and .aes/target.yaml
+      (12 planned artifacts) and nothing under src/ or tests/. It was written by
+      hand: aes init did not exist yet (roadmap phase 2 built it later), so this
+      is governed from inception but not initialized by the tool.
+  target_history:
+    - 3a1c64b663dbd8b7521581dc39a7aa4c7adb52ad init
+    - 0afb3e07c15d84a697c76172ef85f6985920de6e agent instructions, pinned AES, pre-commit gate
+    - 26a12e475b5e93659baa0d9c0dd554353d339faa why-chain ontology and prompts (target and realization in one commit)
+    - eed13c47d86c62427426d0fb79c9a9cbe42b229a exports commitment
+    - a620cdc53dc133686bcb2163e781d5dde89d01aa reconcile evidence requirement ER-WG5-006-05
+    - 36b64edece7e70e7e5e79917bd78b58dfa638795 PLAN-WG5-RUNNER accepted through aes plan accept
+  plan:
+    file: .aes/plans/PLAN-WG5-RUNNER.yaml
+    committed_in: 36b64edece7e70e7e5e79917bd78b58dfa638795
+    accepted_at_revision: de7479c89fa54c3abb433ed8900d6c7ea6ce4c41
+    note: >
+      accepted_at_revision names the commit of the squash-merged branch of PR #10;
+      it resolves in this clone but is not reachable from main (the section-19
+      squash trap, for plans). The plan itself is retained at 36b64ed.
+    realized: >
+      no - its runner, report, CLI and runner test (ART-WG5-RUNNER, -REPORT, -CLI,
+      -TEST-RUNNER) are unrealized at 38df3e5, as aes status reports.
+  realization:
+    - cceec152a8b9d6ad84e2b243b9e0bbeadcd180e1 contracts.py, graph.py, tests/test_replay.py (planned in the initial target)
+    - ff6595a700a6ac89e37c17f7a6829dd134d962cf evaluator.py, tests/test_evaluator.py (planned in the initial target; probe 0 arm A)
+    - 26a12e475b5e93659baa0d9c0dd554353d339faa prompts.py, ontology.py, tests/test_prompts.py, tests/test_ontology.py
+  observations:
+    count_at_38df3e5: 18 records under .aes/observations/ (3 superseded)
+    aes_governance: >
+      OBS-WG5-CHARACTERIZE-0d46c8d5, OBS-WG5-DRIFT-732d751e (negative control),
+      OBS-WG5-RECONCILE-0d46c8d5, re-anchored in df47ddbe6c3afa976761bda6a04d70ee2b9e11ce
+      on reachable commit 0d46c8d58d0fbd60142581587760f1afea0056ef; they supersede
+      OBS-WG5-CHARACTERIZE-4921a159, OBS-WG5-DRIFT-b0c3e24f, OBS-WG5-RECONCILE-73fc0ad7
+    test_evidence: >
+      recorded with aes evidence record at a7611a86ac7ca3eafd928cd28ff9baa3ce84d9ed
+      (6917fc4) and 0a093e742a63b859f9f1ecfb7a6a5abd80ab64a7 (fad9d59)
+  current_gap_at_38df3e5: |
+    OK status: whygame5-target at 38df3e546584719de13dcd01722fb9c7b08eeae5
+      artifacts: 11 realized, 4 unrealized, 0 drifted; 0 orphan(s)
+      criteria: 3 supported, 4 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+      observations: 13 current, 1 stale, 1 unknown, 0 unreachable; 3 superseded
+      first open gap per component:
+        CMP-WG5-CONTRACTS: no open gap
+        CMP-WG5-GRAPH: no open gap
+        CMP-WG5-EVALUATOR: insufficient SC-WG5-001 - ER-WG5-001-01 NO_CURRENT_SUPPORT; ER-WG5-001-02 NO_CURRENT_SUPPORT; ER-WG5-001-03 NO_CURRENT_SUPPORT
+        CMP-WG5-PROMPTS: insufficient SC-WG5-001 - ER-WG5-001-01 NO_CURRENT_SUPPORT; ER-WG5-001-02 NO_CURRENT_SUPPORT; ER-WG5-001-03 NO_CURRENT_SUPPORT (+1 more)
+        CMP-WG5-RUNNER: unrealized ART-WG5-RUNNER - src/whygame5/runner.py: planned, no file at HEAD (+3 more)
+        CMP-WG5-REPORT: unrealized ART-WG5-REPORT - src/whygame5/report.py: planned, no file at HEAD (+1 more)
+        CMP-WG5-ONTOLOGY: insufficient SC-WG5-006 - ER-WG5-006-02 NO_CURRENT_SUPPORT; ER-WG5-006-03 NO_CURRENT_SUPPORT
+      INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+  context_evaluation:
+    record: whygame5 .aes/observations/OBS-PROBE0-CONTEXT-AB.yaml (added in d989e8c1cf650ee739d8eeff02596f932f4037d8)
+    subject_revision: 24ce41281fa97884d4fa36088b13bd509eaa481e
+    arms: {arm_a: ff6595a700a6ac89e37c17f7a6829dd134d962cf, arm_b: fa828f47018f0893259a4867da85a980b08b9716}
+    verdict: not distinguishable; counts toward ER-SC-GF-005-02 as re-scoped (OBS-AES-CONTEXT-AB-RETAINED-377e9707)
+retained_artifact_refs:
+  - whygame5@38df3e546584719de13dcd01722fb9c7b08eeae5 (.aes/target.yaml history, .aes/plans/PLAN-WG5-RUNNER.yaml, .aes/observations/)
+assessments:
+  - evidence_requirement_ref: ER-SC-GF-009-01
+    assessment: SUPPORTS
+    basis: >
+      Every element the requirement names is retained in whygame5 at an exact
+      revision: initialization (3a1c64b, its first commit), six target commits,
+      an accepted plan (PLAN-WG5-RUNNER, 36b64ed), realization of artifacts the
+      target planned before any code existed (cceec15, ff6595a, 26a12e4),
+      18 observations including test evidence and the re-anchored AES-governance
+      records, the current/gap report above, and a fresh-agent context evaluation
+      (OBS-PROBE0-CONTEXT-AB). Stated plainly, not stretched: initialization was
+      by hand before aes init existed; the one plan accepted through aes plan
+      accept is not yet realized (the realized chain is target-planned artifact
+      -> realization -> evidence -> current state for contracts, graph and
+      replay, which aes status shows with no open gap); and the context
+      evaluation did not distinguish its arms.
+    assessor:
+      identity: claude-code session opus-v02-phase7a
+      version: Claude Opus 5.5, session_01Up1bDWMXtPyLG5xqgL51Pw

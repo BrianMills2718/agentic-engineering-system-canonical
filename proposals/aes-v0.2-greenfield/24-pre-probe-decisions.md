@@ -1264,3 +1264,128 @@ UNREACHABLE forces re-recording that proves nothing new; or `superseded_by`
 chains get long enough that people start deleting records instead — either
 is the signal to key freshness on a content identity (tree or dependency
 hashes) rather than on commit ancestry.
+
+## 20. Phase 7a (2026-09-25)
+
+The first slice of roadmap phase 7, on branch `v02-phase7a`. Every target
+change went through `aes plan` on AES itself; both plans are retained under
+`.aes/plans/`.
+
+**Done.**
+
+1. *`remove:` in proposals* (`planning.py`, `planning_protocol.md`,
+   `test_planning.py`). `target_delta.remove.<family>` lists keys to delete.
+   Validate reports a removed key the target lacks, a key named in two
+   sections, every reference the resulting target still holds to a removed
+   entry (an evidence requirement nested in a removed criterion included),
+   each with its location and without a second generic "unresolved ref" line,
+   and a removed governed planned artifact whose file is still in the Git
+   index ("the file must be moved or deleted in the same change, or the
+   topology check will orphan it"). Accept deletes the entries through ruamel;
+   the comment or blank line that followed a removed entry moves to the entry
+   before it. The index, not HEAD, is what the file check reads, because it
+   is what `aes topology check` reads; since accept needs a clean tree the two
+   agree whenever accept runs, so in practice the move is committed first and
+   the removal accepted after (the hook allows the interval: the entries are
+   only unrealized).
+2. *`aes init`'s next-step hint* now reads "next: aes plan prepare, write a
+   proposal, aes plan validate/accept; or edit .aes/target.yaml by hand, then
+   aes target validate", matching `GETTING_STARTED.md` (clean-user run 2's
+   finding); `test_project.py` asserts the text. The hint lives in `cli.py`,
+   not `project.py`.
+3. *ER-SC-GF-005-02 re-scoped* by `aes plan accept PLAN-AES-RESCOPE-CONTEXT-AB`
+   (as decided in §18): the requirement is now "A fresh-agent comparison on one
+   real change, scored against a pre-registered sheet, is run and retained at
+   exact revisions with its verdict either way; two such runs (probe 0 on
+   whygame5 at ~300 lines, phase 6 on AES itself at ~4,000 governed lines) are
+   the minimum." SC-GF-005's statement and disproof are unchanged; the external
+   boundary text follows the requirement. File 12 carries the new text with the
+   old one in a comment, because `test_self_governance.py` compares the target
+   against it. `OBS-AES-CONTEXT-AB-RETAINED-377e9707` assesses both retained
+   runs against the re-scoped requirement and SUPPORTS it; the two run records
+   keep their INCONCLUSIVE assessments of the old wording and are not
+   superseded. The discovery claim (the packet reduces reconstruction cost) is
+   not established and no longer asked.
+4. *v0.1 dispositioned* by `aes plan accept PLAN-AES-ARCHIVE-V01-PLACEHOLDERS`.
+   Each of the eight reserved subpackages (`capability_sourcing`,
+   `evidence_assessment`, `execution`, `gap_reconciliation`, `learning`,
+   `normative_context`, `planning`, `policy_control`) held only its
+   `component.placeholder.yaml`; each was `git mv`'d to
+   `archive/v0.1-placeholders/<pkg>/` (README there: historical, never held
+   code) and its `ART-V01-*` entry removed. Before the move, `aes plan
+   validate` on a clone refused the proposal with the eight "still in the Git
+   index" violations, the new check's first real use. `repository_context/`
+   (console script `aes-repo-context`, `tests/repository_context/`) and the
+   package `__init__.py` stay, with purpose "v0.1 provider retained: ...;
+   disposition retained (see NI-AES-HIST)" and `NI-AES-HIST` restated as the
+   disposition. `planning.py` no longer sits beside a `planning/` directory;
+   the module-identity test now asserts the directory is gone.
+5. *whygame5 lifecycle* recorded as `OBS-AES-WG5-LIFECYCLE-38df3e5`, SUPPORTS
+   `ER-SC-GF-009-01`; `OBS-AES-WG5-LIFECYCLE` carries `superseded_by`. At
+   whygame5 `38df3e5` (read only; `aes status` run with its pinned AES on a
+   clean tree): initialization `3a1c64b`, its first commit, written by hand
+   because `aes init` did not exist yet; six target commits; `PLAN-WG5-RUNNER`
+   committed in `36b64ed`; realization `cceec15` (contracts, graph, replay
+   test), `ff6595a` (evaluator), `26a12e4` (prompts, ontology); 18
+   observations, three superseded by the re-anchored AES-governance records of
+   `df47ddb`; the status report; `OBS-PROBE0-CONTEXT-AB`. Not stretched, and
+   said in the record: the runner plan accepted through `aes plan accept` is
+   still unrealized (the complete chain is the initially planned contracts,
+   graph and replay: planned at `3a1c64b`, realized, evidenced, "no open gap").
+6. *Evidence*: all eleven test subjects were STALE after items 1-4 and were
+   re-recorded at `449cd54` (INIT-UNIT and DISTRIBUTION-INSTALL `--inconclusive`
+   with their existing basis; SELF-GOVERNANCE with `--depends-on` file 12,
+   which it reads and which the `c5ea63d` record had dropped).
+
+`aes status` on AES canonical with those records (the header's HEAD is the
+commit the evidence names; the records and this section are the next commit):
+
+```text
+OK status: agentic-engineering-system-canonical-target at 449cd54bdb0b5a722a904798f3deba1b604ca2c1
+  artifacts: 39 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 8 supported, 1 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 13 current, 13 stale, 1 unknown, 0 unreachable; 24 superseded
+  first open gap per component:
+    RU-AES-RECORDS: no open gap
+    RU-AES-PROJECT: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-PLANNING: no open gap
+    RU-AES-TOPOLOGY: no open gap
+    RU-AES-CHARACTERIZE: no open gap
+    RU-AES-EVIDENCE: no open gap
+    RU-AES-RECONCILE: no open gap
+    RU-AES-CONTEXT: no open gap
+    RU-AES-CLI: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-DISTRIBUTION: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+```
+
+SC-GF-001 is the one criterion not SUPPORTED: `OBS-AES-CLEAN-USER-2d3486b` is
+STALE because this phase changed `cli.py` (the init hint that run flagged) and
+`planning.py`, both of which the run exercised. That is the rule working; it
+needs clean-user run 3 on current code, not an argument. The 13 stale records
+are the eleven `c5ea63d` test records, the clean-user run and the phase-6 A/B
+record (its criterion entry changed with the re-scope).
+
+**Found.** whygame5's `PLAN-WG5-RUNNER.yaml` has `accepted_at_revision:
+de7479c`, a commit of the squash-merged PR #10 branch: it resolves in the
+maintainer's clone but is not reachable from whygame5's main. It is §19's trap
+for plans; `aes plan accept` records HEAD and does not warn off the default
+branch as `aes evidence record` now does. Not fixed here.
+
+**Decisions.**
+
+- *Removal of a governed artifact requires its file out of the index first.*
+  Wrong when: a real removal needs the file and the entry to leave in one
+  commit (a reviewer asks for it, or a consumer's hook runs a check that fails
+  on unrealized entries); then let accept stage the `git mv`/`git rm` itself.
+- *Removal validation reports dangling references itself and suppresses the
+  generic unresolved-ref line for those refs.* Wrong when: a removal-caused
+  violation appears twice or not at all in a real proposal.
+- *The re-scoped ER-SC-GF-005-02 is supported by a record that assesses the
+  retained runs, not by re-scoring them.* Wrong when: the re-scoped wording is
+  read as evidence that the packet helps; then the requirement's text is
+  unclear and needs the "verdict either way" made more prominent.
+- *whygame5's lifecycle SUPPORTS with the unrealized runner plan stated, not
+  hidden.* Wrong when: acceptance review reads "complete lifecycle" as
+  requiring the `aes plan`-accepted plan to be realized; then realize
+  `PLAN-WG5-RUNNER` in whygame5 and re-record before promotion.

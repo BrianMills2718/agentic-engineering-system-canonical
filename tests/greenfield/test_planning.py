@@ -102,11 +102,13 @@ def _snapshot(root: Path) -> dict[str, bytes]:
 # --------------------------------------------------------------------------- #
 
 
-def test_planning_module_wins_over_the_v01_placeholder_directory() -> None:
+def test_planning_is_the_module_and_the_v01_placeholder_directory_is_gone() -> None:
     import agentic_engineering_system.planning as planning
 
     assert planning.__file__ is not None and planning.__file__.endswith("planning.py")
     assert planning.accept_proposal is accept_proposal
+    # archived to archive/v0.1-placeholders/planning/ in phase 7a; nothing shadows the module now
+    assert not (Path(planning.__file__).parent / "planning").exists()
 
 
 # --------------------------------------------------------------------------- #
@@ -352,3 +354,91 @@ def test_protocol_example_is_the_accepted_consumer_proposal() -> None:
     protocol = Path(__file__).parents[2] / "src" / "agentic_engineering_system" / "planning_protocol.md"
     example = protocol.read_text(encoding="utf-8").split("```yaml\n", 1)[1].split("```", 1)[0]
     assert YAML(typ="safe").load(example) == _proposal_data()
+
+
+# --------------------------------------------------------------------------- #
+# remove
+# --------------------------------------------------------------------------- #
+
+
+def _removal(remove: dict[str, list[str]], change: dict[str, list[dict[str, Any]]] | None = None) -> dict[str, Any]:
+    return {
+        "schema_version": "aes.v0_2.proposal.probe0", "proposal_id": "PLAN-REMOVE", "title": "remove",
+        "rationale": "drop entries the target no longer plans", "closes_gaps": [],
+        "target_delta": {"remove": remove, "change": change or {}},
+    }
+
+
+REPORT_COMPONENT = {  # CMP-WG5-REPORT without ART-WG5-REPORT
+    "id": "CMP-WG5-REPORT", "responsibility": "static HTML report", "target_refs": ["NI-WG5-007"],
+    "planned_artifact_refs": [],
+}
+
+
+def test_remove_rejects_a_key_the_target_does_not_declare_and_a_key_in_two_sections(root: Path) -> None:
+    data = _removal({"planned_artifacts": ["ART-WG5-NOPE"], "components": ["CMP-WG5-REPORT"]},
+                    {"components": [REPORT_COMPONENT]})
+    violations = _violations(root, data)
+    assert ("target_delta.remove.planned_artifacts (ART-WG5-NOPE): the target declares no planned_artifacts "
+            "entry 'ART-WG5-NOPE' to remove") in violations
+    assert any("'CMP-WG5-REPORT' is also under target_delta.remove.components" in v for v in violations)
+
+
+def test_remove_reports_every_dangling_reference_once(root: Path) -> None:
+    # SC-WG5-003 is named by VS-WG5-EVAL-NEGATIVE (criterion and its ER) and by
+    # ART-WG5-TEST-EVALUATOR; ART-WG5-REPORT by CMP-WG5-REPORT.
+    violations = _violations(root, _removal({"success_criteria": ["SC-WG5-003"],
+                                             "planned_artifacts": ["ART-WG5-REPORT"]}))
+    at = "is still referenced by the resulting target at"
+    assert sorted(violations) == sorted([
+        f"target_delta.remove.success_criteria (SC-WG5-003): removed 'SC-WG5-003' {at} "
+        "planned_artifacts[8] (ART-WG5-TEST-EVALUATOR).semantic_justification_refs[1]",
+        f"target_delta.remove.success_criteria (SC-WG5-003): removed 'SC-WG5-003' {at} "
+        "verification_subjects[4] (VS-WG5-EVAL-NEGATIVE).criterion_refs[0]",
+        f"evidence requirement of removed criterion 'SC-WG5-003': removed 'ER-WG5-003-01' {at} "
+        "verification_subjects[4] (VS-WG5-EVAL-NEGATIVE).evidence_requirement_refs[0]",
+        f"target_delta.remove.planned_artifacts (ART-WG5-REPORT): removed 'ART-WG5-REPORT' {at} "
+        "components[5] (CMP-WG5-REPORT).planned_artifact_refs[0]",
+    ])  # no second "unresolved ref" line for the same references
+
+
+def test_remove_rejects_a_planned_artifact_whose_file_is_still_indexed(root: Path) -> None:
+    prompts = {"id": "CMP-WG5-PROMPTS", "responsibility": "prompt text", "target_refs": ["NI-WG5-001"],
+               "planned_artifact_refs": ["ART-WG5-TEST-PROMPTS"]}
+    data = _removal({"planned_artifacts": ["ART-WG5-PROMPTS"]}, {"components": [prompts]})
+    assert _violations(root, data) == [
+        "target_delta.remove.planned_artifacts (ART-WG5-PROMPTS): src/whygame5/prompts.py is still in the Git "
+        "index under a governed root; the file must be moved or deleted in the same change, or the topology "
+        "check will orphan it"
+    ]
+    _git(root, "mv", "src/whygame5/prompts.py", "prompts.py")  # moved out of the governed roots
+    assert validate_proposal(root, Proposal.model_validate(data)).target is not None
+
+
+def test_accept_removes_entries_and_keeps_every_other_line(root: Path) -> None:
+    before_target = (root / ".aes" / "target.yaml").read_text()
+    proposal = root.parent / "remove.yaml"
+    # the last component (its trailing blank line ends the family) and a middle artifact
+    proposal.write_text(render_yaml(_removal({"components": ["CMP-WG5-REPORT"],
+                                              "planned_artifacts": ["ART-WG5-REPORT"]})))
+    assert main(["plan", "accept", str(proposal), "--root", str(root)]) == 0
+
+    after_target = (root / ".aes" / "target.yaml").read_text()
+    diff = [line for line in difflib.ndiff(before_target.splitlines(), after_target.splitlines())
+            if line[:2] in ("- ", "+ ")]
+    assert diff == [
+        "-   - id: CMP-WG5-REPORT",
+        "-     responsibility: static HTML report of proposal, challenge, change and active state",
+        "-     target_refs: [NI-WG5-007]",
+        "-     planned_artifact_refs: [ART-WG5-REPORT]",
+        "-   - id: ART-WG5-REPORT",
+        "-     locator: {exact_path: src/whygame5/report.py}",
+        "-     kind: source",
+        "-     purpose: static HTML report renderer",
+        "-     semantic_justification_refs: [NI-WG5-007]",
+    ]
+    assert "planned_artifact_refs: [ART-WG5-RUNNER, ART-WG5-CLI]\n\nplanned_artifacts:" in after_target
+    target = load_target(root / ".aes" / "target.yaml")
+    assert "CMP-WG5-REPORT" not in {c.id for c in target.components}
+    plan = load_plan(root / ".aes" / "plans" / "PLAN-REMOVE.yaml")
+    assert plan.target_delta.remove.components == ["CMP-WG5-REPORT"]

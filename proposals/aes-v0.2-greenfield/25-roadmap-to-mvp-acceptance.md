@@ -23,15 +23,15 @@ and AES v0.2 replaces v0.1 as the surface AES canonical itself is governed by.
 
 | criterion | what proves it | standing today | unit |
 | --- | --- | --- | --- |
-| SC-GF-001 clean-user install + init | a clean-user run reaches initialized state | mechanism realized; on-machine clean-user run passed at `0503735` (`evidence/greenfield/clean-user-run-2026-09-25.md`); true no-private-access run deferred by decision (§6 note); on AES's own `aes status` (phase 6b, §17 of `24`) that run is `OBS-AES-CLEAN-USER-0503735`, SUPPORTS but STALE because the files it exercised changed since `0503735`: needs a re-run on current code | PROJECT, DISTRIBUTION |
+| SC-GF-001 clean-user install + init | a clean-user run reaches initialized state | mechanism realized; on-machine clean-user runs passed at `0503735` and `2d3486b` (`evidence/greenfield/clean-user-run-2-2026-09-25.md`, `OBS-AES-CLEAN-USER-2d3486b`); true no-private-access run deferred by decision (§6 note); STALE again after phase 7a, which changed `cli.py` (the `aes init` hint that run 2 flagged) and `planning.py` (`remove:`): needs clean-user run 3 on current code, the only criterion not SUPPORTED on AES (§20 of `24`) | PROJECT, DISTRIBUTION |
 | SC-GF-002 obligations linked to criteria and evidence | contract validation on the target | SUPPORTED on AES canonical (`OBS-GF-RECORDS-cb226ba7`, phase 6b) | RECORDS |
 | SC-GF-003 topology accounts for every governed artifact | orphan rejected; planned topology accepted | mechanism realized (`topology.py`); real orphan caught on whygame5 (§6, §8); SUPPORTED on AES canonical, whose own 45 governed files (18 of them retained v0.1) are all planned (`OBS-GF-TOPOLOGY-cb226ba7`, `OBS-GF-SELF-GOVERNANCE-cb226ba7`) | TOPOLOGY |
-| SC-GF-004 every evidence requirement has a route | validate ERs against verification topology | mechanism realized: `aes plan validate`/`accept` refuse a proposal whose resulting target has an ER with neither a verification subject nor an external boundary (`planning.py`, `test_planning.py`, §15); `PLAN-WG5-RUNNER` accepted on whygame5 itself (`36b64ed`); AES canonical's own target built through `aes plan accept PLAN-AES-SELF-GOVERN` and SUPPORTED there (phase 6b); `aes target validate` (and so the `aes hooks install` pre-commit hook) enforces routes on the whole target since phase 6a (§16), effective on whygame5 after its next pin bump | PLANNING |
-| SC-GF-005 bounded context carries full text | ER-01 deterministic; ER-02 fresh-agent A/B | ER-01 SUPPORTED on AES canonical (`OBS-GF-CONTEXT-STRUCTURAL-cb226ba7`); ER-02 inconclusive at probe 0 (§6), recorded on AES as `OBS-AES-PROBE0-CONTEXT-AB`; the phase 6 re-run is the orchestrator's | CONTEXT |
+| SC-GF-004 every evidence requirement has a route | validate ERs against verification topology | mechanism realized: `aes plan validate`/`accept` refuse a proposal whose resulting target has an ER with neither a verification subject nor an external boundary (`planning.py`, `test_planning.py`, §15); `PLAN-WG5-RUNNER` accepted on whygame5 itself (`36b64ed`); AES canonical's own target built through `aes plan accept PLAN-AES-SELF-GOVERN` and SUPPORTED there (phase 6b); `aes target validate` (and so the `aes hooks install` pre-commit hook) enforces routes on the whole target since phase 6a (§16), effective on whygame5 after its next pin bump; `remove:` in proposals since phase 7a, used on AES itself by `PLAN-AES-ARCHIVE-V01-PLACEHOLDERS` (§20) | PLANNING |
+| SC-GF-005 bounded context carries full text | ER-01 deterministic; ER-02 a pre-registered fresh-agent comparison run and retained, verdict either way (re-scoped, §18/§20) | SUPPORTED on AES canonical after phase 7a: ER-01 by `OBS-GF-CONTEXT-STRUCTURAL-449cd54b`; ER-02 re-scoped through `aes plan accept PLAN-AES-RESCOPE-CONTEXT-AB` and supported by `OBS-AES-CONTEXT-AB-RETAINED-377e9707`, which assesses the two retained runs (probe 0, `OBS-AES-PROBE0-CONTEXT-AB`; phase 6, `OBS-AES-CONTEXT-AB-2509ea4`); whether the packet reduces reconstruction cost is recorded as not established | CONTEXT |
 | SC-GF-006 revision-bound characterization + drift | mutate an artifact and see the mismatch; every fact bound to revision | mechanism realized (`characterize.py`, `aes characterize`); drift caught on a whygame5 scratch clone (§13), recorded on whygame5 (`OBS-WG5-DRIFT-b0c3e24f`); SUPPORTED on AES canonical, whose `exports` on eleven modules characterize with 0 drift | CHARACTERIZE |
 | SC-GF-007 a pass is not satisfaction | multi-input criterion stays INSUFFICIENT | SUPPORTED on AES canonical (`test_evidence.py`, `test_evidence_controls.py`, `test_reconcile.py` recorded at `cb226ba`) | EVIDENCE |
 | SC-GF-008 dependency change stales evidence | change a dependency, evidence goes STALE | realized at the evidence level and at the gap level (`aes reconcile`/`aes status`, `test_reconcile.py`, §14); SUPPORTED on AES canonical (phase 6b) | EVIDENCE, RECONCILE |
-| SC-GF-009 one complete lifecycle on a new consumer | retained init/target/plan/realization/evidence/current/context at exact revisions | in progress on whygame5 (`OBS-AES-WG5-LIFECYCLE`, INCONCLUSIVE at `d5f993f`): init, target history, `PLAN-WG5-RUNNER`, 15 observations and status retained; missing the runner's realization and a context evaluation that distinguishes anything | all |
+| SC-GF-009 one complete lifecycle on a new consumer | retained init/target/plan/realization/evidence/current/context at exact revisions | SUPPORTED on AES canonical after phase 7a by `OBS-AES-WG5-LIFECYCLE-38df3e5` (supersedes the INCONCLUSIVE `OBS-AES-WG5-LIFECYCLE`): whygame5 at `38df3e5` retains hand-written init `3a1c64b` (before `aes init` existed), six target commits, `PLAN-WG5-RUNNER` (`36b64ed`), realization `cceec15`/`ff6595a`/`26a12e4`, 18 observations, `aes status`, and the probe-0 context evaluation; the runner plan itself is still unrealized (§20) | all |
 
 Realized units: RECORDS, CONTEXT, TOPOLOGY, EVIDENCE, and the CLI for those
 four. Not realized: PROJECT, PLANNING, CHARACTERIZE, RECONCILE, DISTRIBUTION.
@@ -40,7 +40,10 @@ CHARACTERIZE by phase 3, RECONCILE by phase 4, PLANNING (prepare, validate,
 accept; no plan generation) by phase 5; see §11-§15 of
 `24-pre-probe-decisions.md`. Update after phase 6b: all ten units realized and
 AES canonical governed by its own `.aes/` target; `aes status` there: 6 of 9
-criteria SUPPORTED, SC-GF-001/005/009 waiting on external runs, §17.)
+criteria SUPPORTED, SC-GF-001/005/009 waiting on external runs, §17. Update
+after phase 7a: `aes status` on AES: 8 of 9 SUPPORTED, SC-GF-001 waiting on
+clean-user run 3; the eight empty v0.1 placeholders archived under
+`archive/v0.1-placeholders/`, `repository_context/` retained; §20.)
 
 Kinks the consumer has already exposed and that this roadmap must close:
 
@@ -67,9 +70,12 @@ Kinks the consumer has already exposed and that this roadmap must close:
 - ~~AES canonical does not follow its own planning (its v0.2 code is not under
   a `.aes/` target of its own).~~ closed by phase 6b (§17): `.aes/` target,
   plan, observations and pre-commit hook of its own;
-- `aes status` reports an externally bounded, unsupported requirement as "no
+- ~~`aes status` reports an externally bounded, unsupported requirement as "no
   route" (`reconcile._criterion_states` ignores `external_boundaries`), found
-  by phase 6b (§17 item 2).
+  by phase 6b (§17 item 2).~~ closed by the phase-6 A/B change (§18, `61e1edb`);
+- a plan's `accepted_at_revision` can name a commit on a squash-merged branch
+  (whygame5's `PLAN-WG5-RUNNER` names `de7479c`, not reachable from its
+  main), the §19 trap for plans; found by phase 7a (§20), not fixed.
 - ~~evidence recorded on a branch that is then squash-merged names a commit
   `main` never contains; any clone still holding it says CURRENT, and once the
   branch is deleted a fresh clone cannot resolve it (22 of AES canonical's

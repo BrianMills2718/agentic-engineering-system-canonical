@@ -46,3 +46,4 @@ assessments:
     assessor:
       identity: claude-code session opus-v02-self-govern
       version: Claude Opus 5.5, session_01Up1bDWMXtPyLG5xqgL51Pw
+superseded_by: OBS-AES-WG5-LIFECYCLE-38df3e5
