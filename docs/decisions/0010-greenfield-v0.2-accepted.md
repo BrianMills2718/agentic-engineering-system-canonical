@@ -57,15 +57,45 @@ governs AES canonical's governed roots and whygame5.
 
 `aes status` on AES canonical at the evidence commit of this change (the
 header's HEAD is the commit the re-recorded evidence names; the records and
-this text are the next commit):
+this text are the next commit, which is why the header says dirty):
 
 ```text
-{{STATUS}}
+OK status: agentic-engineering-system-canonical-target at 62fe041ba9fd9945014b592b39c38e1b4eb21de2 (dirty: working tree differs from HEAD under governed roots or .aes/)
+  artifacts: 39 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 8 supported, 1 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 13 current, 23 stale, 1 unknown, 0 unreachable; 24 superseded
+  plans: 3 accepted, 1 unreachable
+  first open gap per component:
+    RU-AES-RECORDS: no open gap
+    RU-AES-PROJECT: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-PLANNING: no open gap
+    RU-AES-TOPOLOGY: no open gap
+    RU-AES-CHARACTERIZE: no open gap
+    RU-AES-EVIDENCE: no open gap
+    RU-AES-RECONCILE: no open gap
+    RU-AES-CONTEXT: no open gap
+    RU-AES-CLI: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-DISTRIBUTION: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+  warning: plan PLAN-AES-SELF-GOVERN accepted_at_revision 80e6da33 is not reachable from HEAD (squash-merged or deleted branch?); the target already carries its delta, so this does not fail
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
 ```
 
 Per criterion, from `aes evidence status` at the same commit:
 
-{{CRITERIA}}
+| criterion | evidence requirement | standing (from `aes evidence status`) |
+| --- | --- | --- |
+| SC-GF-001 (INSUFFICIENT) | ER-SC-GF-001-01 | NO_CURRENT_SUPPORT - OBS-AES-CLEAN-USER-2d3486b SUPPORTS (STALE); OBS-GF-INIT-UNIT-62fe041b and OBS-GF-DISTRIBUTION-INSTALL-62fe041b INCONCLUSIVE (CURRENT, local tests by design); earlier records STALE or superseded |
+| SC-GF-002 (SUPPORTED) | ER-SC-GF-002-01 | SUPPORTED - supported by OBS-GF-RECORDS-449cd54b |
+| SC-GF-003 (SUPPORTED) | ER-SC-GF-003-01 | SUPPORTED - supported by OBS-GF-TOPOLOGY-62fe041b |
+| SC-GF-003 (SUPPORTED) | ER-SC-GF-003-02 | SUPPORTED - supported by OBS-GF-SELF-GOVERNANCE-62fe041b, OBS-GF-TOPOLOGY-62fe041b |
+| SC-GF-004 (SUPPORTED) | ER-SC-GF-004-01 | SUPPORTED - supported by OBS-GF-PLANNING-62fe041b, OBS-GF-SELF-GOVERNANCE-62fe041b |
+| SC-GF-005 (SUPPORTED) | ER-SC-GF-005-01 | SUPPORTED - supported by OBS-GF-CONTEXT-STRUCTURAL-62fe041b |
+| SC-GF-005 (SUPPORTED) | ER-SC-GF-005-02 | SUPPORTED - supported by OBS-AES-CONTEXT-AB-RETAINED-377e9707 |
+| SC-GF-006 (SUPPORTED) | ER-SC-GF-006-01 | SUPPORTED - supported by OBS-GF-CHARACTERIZE-62fe041b |
+| SC-GF-006 (SUPPORTED) | ER-SC-GF-006-02 | SUPPORTED - supported by OBS-GF-CHARACTERIZE-62fe041b |
+| SC-GF-007 (SUPPORTED) | ER-SC-GF-007-01 | SUPPORTED - supported by OBS-GF-EVIDENCE-62fe041b, OBS-GF-EVIDENCE-CONTROLS-62fe041b, OBS-GF-RECONCILE-62fe041b |
+| SC-GF-008 (SUPPORTED) | ER-SC-GF-008-01 | SUPPORTED - supported by OBS-GF-EVIDENCE-62fe041b, OBS-GF-EVIDENCE-CONTROLS-62fe041b, OBS-GF-RECONCILE-62fe041b |
+| SC-GF-009 (SUPPORTED) | ER-SC-GF-009-01 | SUPPORTED - supported by OBS-AES-WG5-LIFECYCLE-38df3e5 |
 
 SC-GF-001 is the criterion not SUPPORTED. Its evidence of record,
 `OBS-AES-CLEAN-USER-2d3486b` (clean-user run 2, a fresh agent with only the

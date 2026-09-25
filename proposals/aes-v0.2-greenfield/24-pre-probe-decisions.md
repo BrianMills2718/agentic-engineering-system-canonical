@@ -1462,10 +1462,28 @@ Decision 0010, and routing.
    existing basis; SELF-GOVERNANCE with `--depends-on` the accepted `12`).
 
 `aes status` on AES canonical with those records (the header's HEAD is the
-commit the evidence names; the records and this section are the next commit):
+commit the evidence names; the records and this section are the next commit,
+which is why the header says dirty):
 
 ```text
-{{STATUS}}
+OK status: agentic-engineering-system-canonical-target at 62fe041ba9fd9945014b592b39c38e1b4eb21de2 (dirty: working tree differs from HEAD under governed roots or .aes/)
+  artifacts: 39 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 8 supported, 1 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 13 current, 23 stale, 1 unknown, 0 unreachable; 24 superseded
+  plans: 3 accepted, 1 unreachable
+  first open gap per component:
+    RU-AES-RECORDS: no open gap
+    RU-AES-PROJECT: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-PLANNING: no open gap
+    RU-AES-TOPOLOGY: no open gap
+    RU-AES-CHARACTERIZE: no open gap
+    RU-AES-EVIDENCE: no open gap
+    RU-AES-RECONCILE: no open gap
+    RU-AES-CONTEXT: no open gap
+    RU-AES-CLI: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-DISTRIBUTION: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+  warning: plan PLAN-AES-SELF-GOVERN accepted_at_revision 80e6da33 is not reachable from HEAD (squash-merged or deleted branch?); the target already carries its delta, so this does not fail
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
 ```
 
 SC-GF-001 remains the one criterion not SUPPORTED, now STALE on `cli.py`,
