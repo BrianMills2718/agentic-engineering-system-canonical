@@ -8,13 +8,16 @@
     aes evidence record <VS-ID> [--depends-on PATH ...] [--command ...] [--inconclusive BASIS] [--root DIR]
     aes hooks install [--root DIR]
     aes characterize [--root DIR] [--json]
+    aes reconcile [--root DIR] [--json]
+    aes status [--root DIR]
     aes --version
 
 Without --root, every command except init uses the nearest directory at or above
 the current one that holds .aes/project.yaml; init uses the current directory.
 
 Exit 0 on success, 1 on any load/validation/context/topology error or orphan (message on stderr),
-2 on usage errors (argparse).
+2 on usage errors (argparse). reconcile and status also exit 1 on a REFUTED criterion or drift;
+INSUFFICIENT criteria do not fail them.
 """
 
 from __future__ import annotations
@@ -33,6 +36,8 @@ from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
 from .hooks import HookInstallError, install_hooks
 from .project import ProjectError, find_project_root, initialize_project
+from .reconcile import reconcile, render_status
+from .reconcile import render_report as render_reconciliation
 from .records import RecordLoadError, TargetValidationError, load_project, load_target
 from .topology import TopologyError, check_topology, render_report
 
@@ -109,6 +114,12 @@ def _build_parser() -> argparse.ArgumentParser:
     charac = sub.add_parser("characterize", help="revision-bound facts about the governed files, and drift from the target")
     charac.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
     charac.add_argument("--json", action="store_true", help="print the characterization as JSON (drift goes to stderr)")
+
+    recon = sub.add_parser("reconcile", help="current state and open gaps: artifacts, criteria, observations, components")
+    recon.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
+    recon.add_argument("--json", action="store_true", help="print the reconciliation as JSON (failures go to stderr)")
+    stat = sub.add_parser("status", help="one screen: revision, counts, first open gap per component")
+    stat.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
     return parser
 
 
@@ -183,6 +194,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             else:
                 print(render_characterization(report), file=sys.stdout if report.ok else sys.stderr)
             return 0 if report.ok else 1
+        if args.command in ("reconcile", "status"):
+            r = reconcile(args.root)
+            if args.command == "reconcile" and args.json:
+                print(r.model_dump_json(indent=2))
+                for f in r.failures:
+                    print(f"failure {f}", file=sys.stderr)
+            else:
+                text = render_status(r) if args.command == "status" else render_reconciliation(r)
+                print(text, file=sys.stdout if r.ok else sys.stderr)
+            return 0 if r.ok else 1
         if args.command == "hooks" and args.hooks_command == "install":
             hook, overridden = install_hooks(args.root)
             print(f"wrote {hook}\n  core.hooksPath=.githooks; runs aes target validate + aes topology check")

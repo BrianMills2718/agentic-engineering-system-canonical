@@ -571,3 +571,116 @@ Decisions:
   Unlike the recorder it fails if the distribution is not installed.
   Wrong-when: a characterization names a producer version whose code does
   not match what produced it on a consumer install.
+
+## 14. Reconcile and status realized (2026-09-25)
+
+Roadmap phase 4 (`25-roadmap-to-mvp-acceptance.md`). Realized:
+
+- **`reconcile.py`** (`ART-SRC-RECONCILE`). `reconcile(root)` composes
+  `characterize` + `drift` (whose orphans and unrealized artifacts come from
+  `topology.compare_topology` over the HEAD tree) and `evidence.assess`, and
+  adds only what the target's refs say: which verification subjects route to
+  an evidence requirement, and which artifacts and criteria concern each
+  component. Output schema `aes.v0_2.reconciliation.probe0`, bound to
+  `subject_revision` (HEAD), `dirty` and `producer` as a characterization is;
+  `produced_at` is separate and the text reports omit it. Per planned
+  artifact REALIZED | UNREALIZED | DRIFTED with the drift findings; per
+  criterion its D2 standing and every evidence requirement without current
+  support, each with the verification subjects that could supply it (`has_route`
+  false is the SC-GF-004 "no route" gap); per observation its freshness; per
+  component its open gaps, ordered drifted, refuted, unrealized, insufficient.
+  Orphans, artifacts no component owns and criteria that concern no
+  component are listed as project-level gaps.
+- **`aes reconcile [--json]`** (full report) and **`aes status`** (one
+  screen: revision and dirty flag, counts, first open gap per component).
+  Both exit 1 on a REFUTED criterion, an orphan, or failing drift; INSUFFICIENT
+  exits 0 and the output says so.
+- Nothing is written. Every run recomputes from target, repository at HEAD and
+  observations, so a gap closes only through a new observation or a change to
+  code or target.
+
+Evidence: `tests/greenfield/test_reconcile.py` (9 tests, on a temp Git copy of
+the frozen whygame5 records with stand-in files): baseline statuses; a
+criterion SUPPORTED at commit N whose dependency changes at N+1 is INSUFFICIENT
+with its observation STALE and the gap back on its component (SC-GF-008 at the
+gap level); an evidence requirement whose only verification subject is removed
+is reported as no route; exit 1 for REFUTED, orphan and drift, exit 0 for
+INSUFFICIENT only; two runs equal apart from `produced_at`, text output
+byte-identical; no file anywhere in the repository changes. The getting-started
+example (`docs/greenfield/GETTING_STARTED.md` §6) was re-run with this branch:
+SC-001 SUPPORTED with no open gap, then after a commit to the greeter source
+`insufficient SC-001`, observation stale.
+
+What the consumer showed, read-only on whygame5 at `eed13c4` (its main, AES pin
+`52567f9`), `aes status`:
+
+```text
+OK status: whygame5-target at eed13c47d86c62427426d0fb79c9a9cbe42b229a
+  artifacts: 11 realized, 3 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 3 supported, 3 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 11 current, 2 stale, 1 unknown
+  first open gap per component:
+    CMP-WG5-CONTRACTS: no open gap
+    CMP-WG5-GRAPH: no open gap
+    CMP-WG5-EVALUATOR: insufficient SC-WG5-001 - ER-WG5-001-01 NO_CURRENT_SUPPORT; ER-WG5-001-02 NO_CURRENT_SUPPORT; ER-WG5-001-03 NO_CURRENT_SUPPORT
+    CMP-WG5-PROMPTS: insufficient SC-WG5-001 - ER-WG5-001-01 NO_CURRENT_SUPPORT; ER-WG5-001-02 NO_CURRENT_SUPPORT; ER-WG5-001-03 NO_CURRENT_SUPPORT (+1 more)
+    CMP-WG5-RUNNER: unrealized ART-WG5-RUNNER - src/whygame5/runner.py: planned, no file at HEAD (+1 more)
+    CMP-WG5-REPORT: unrealized ART-WG5-REPORT - src/whygame5/report.py: planned, no file at HEAD (+1 more)
+    CMP-WG5-ONTOLOGY: insufficient SC-WG5-006 - ER-WG5-006-02 NO_CURRENT_SUPPORT; ER-WG5-006-03 NO_CURRENT_SUPPORT
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+```
+
+1. **The gaps are the ones the consumer knows.** SC-WG5-001, 005, 006
+   INSUFFICIENT; ART-WG5-RUNNER, REPORT, CLI unrealized; exit 0.
+   `OBS-WG5-006-CHAIN-FIT-1` is STALE, as in §13. The second STALE one,
+   `OBS-WG5-DRIFT-b0c3e24f`, arrived with whygame5 `eed13c4` after this phase
+   was specified: it observed a scratch commit that renamed a symbol in
+   `ontology.py`, so it is stale from birth and its commit message says so. At
+   the previous main `f5a0d01` (a clone) the counts are
+   `10 current, 1 stale, 1 unknown`, exactly the one expected.
+2. **A stale-from-birth observation is a kink.** A drift observation is evidence
+   about a deliberately mutated scratch revision, not about the consumer's
+   line of history, so the freshness rule (any dependency changed between the
+   observed commit and HEAD) marks it STALE and its SUPPORTS for
+   ER-WG5-006-04 never counts. ER-WG5-006-04 stands SUPPORTED only through
+   `OBS-WG5-CHARACTERIZE-4921a159`, and the stale count carries a permanent
+   entry that is not a gap anyone can close. Not changed here; it belongs to
+   EVIDENCE (observations of a mutated subject need their own freshness basis).
+3. **Components share criteria through normative items.** SC-WG5-001 shows
+   under both EVALUATOR and PROMPTS, SC-WG5-006 under PROMPTS and ONTOLOGY,
+   and in the fixture SC-WG5-003 under RUNNER, because their `target_refs`
+   share a normative item. That is what the target says; whether it is the
+   useful reading is for the consumer to tell.
+4. Two runs of `aes reconcile` on whygame5 are byte-identical; `dirty` false;
+   whygame5's working tree unchanged.
+
+Not done in this phase: the reconciliation is not yet recorded as an
+observation on whygame5, and whygame5's `make check` still runs the three
+separate commands (both are consumer changes, the roadmap's exit gate). Note for
+that swap: `aes status` covers `aes target validate` (it loads the target
+strictly) and `aes evidence status`, but reads topology from HEAD, not the
+index, so it is not a pre-commit replacement for `aes topology check`.
+
+Decisions:
+
+- **Topology in reconcile is HEAD's, not the index's.** Everything in one
+  reconciliation is a fact about `subject_revision`; the pre-commit hook keeps
+  the index check. Wrong-when: a consumer relies on `aes status` alone and an
+  orphan staged but not committed goes unreported where it mattered.
+- **`dirty` also covers `.aes/`, untracked files included.** The target and
+  observations are read from disk, so a new unrecorded observation makes the
+  reconciliation not purely a fact about HEAD. Wrong-when: `dirty` is true on
+  every consumer run because of generated files under `.aes/` that Git does
+  not ignore.
+- **Artifacts outside the governed roots get presence only.** `pyproject.toml`
+  is REALIZED if it exists at HEAD, with a note that it is not characterized.
+  Wrong-when: such an artifact reports REALIZED while its content has
+  drifted from what the target commits.
+- **A criterion concerns a component by declared refs only**: named in the
+  component's `target_refs`, sharing a ref with them, or named by an artifact the
+  component owns. Wrong-when: a component's first gap on whygame5 is one
+  nobody working on that component would act on (as item 3 may turn out to be).
+- **"No route" and unrealized are gaps, not failures.** Exit 1 is reserved
+  for REFUTED, orphan and drift, as the roadmap specifies. Wrong-when: plan
+  acceptance (phase 5) ships without also failing on an unrouted requirement,
+  so SC-GF-004 is never enforced anywhere.

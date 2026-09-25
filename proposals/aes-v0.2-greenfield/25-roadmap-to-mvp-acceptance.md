@@ -26,17 +26,18 @@ and AES v0.2 replaces v0.1 as the surface AES canonical itself is governed by.
 | SC-GF-001 clean-user install + init | a clean-user run reaches initialized state | not started: no `aes init`, no versioned distribution | PROJECT, DISTRIBUTION |
 | SC-GF-002 obligations linked to criteria and evidence | contract validation on the target | mechanism realized (`records.py`, `aes target validate`); no AES-side observation recorded | RECORDS |
 | SC-GF-003 topology accounts for every governed artifact | orphan rejected; planned topology accepted | mechanism realized (`topology.py`); real orphan caught on whygame5 (§6, §8); no AES-side observation recorded | TOPOLOGY |
-| SC-GF-004 every evidence requirement has a route | validate ERs against verification topology | partially realized in the loader; no plan-acceptance step | PLANNING |
+| SC-GF-004 every evidence requirement has a route | validate ERs against verification topology | partially realized in the loader; `aes reconcile` reports an unsupported ER with no verification subject as "no route" (§14), not a failure; no plan-acceptance step | PLANNING |
 | SC-GF-005 bounded context carries full text | ER-01 deterministic; ER-02 fresh-agent A/B | ER-01 realized (`context.py`); ER-02 inconclusive at probe 0 (§6) | CONTEXT |
 | SC-GF-006 revision-bound characterization + drift | mutate an artifact and see the mismatch; every fact bound to revision | mechanism realized (`characterize.py`, `aes characterize`); drift caught on a whygame5 scratch clone (§13); no observation recorded on the consumer | CHARACTERIZE |
 | SC-GF-007 a pass is not satisfaction | multi-input criterion stays INSUFFICIENT | realized (`evidence.py`, `test_evidence.py`) | EVIDENCE |
-| SC-GF-008 dependency change stales evidence | change a dependency, evidence goes STALE | realized at the evidence level; "current/gap state" wording needs RECONCILE | EVIDENCE, RECONCILE |
+| SC-GF-008 dependency change stales evidence | change a dependency, evidence goes STALE | realized at the evidence level and at the gap level (`aes reconcile`/`aes status`, `test_reconcile.py`, §14); no observation recorded on the consumer | EVIDENCE, RECONCILE |
 | SC-GF-009 one complete lifecycle on a new consumer | retained init/target/plan/realization/evidence/current/context at exact revisions | in progress on whygame5; missing init, plan, characterize, reconcile | all |
 
 Realized units: RECORDS, CONTEXT, TOPOLOGY, EVIDENCE, and the CLI for those
 four. Not realized: PROJECT, PLANNING, CHARACTERIZE, RECONCILE, DISTRIBUTION.
 (Update 2026-09-25: DISTRIBUTION realized by phase 1, PROJECT by phase 2 and
-CHARACTERIZE by phase 3; see §11-§13 of `24-pre-probe-decisions.md`.)
+CHARACTERIZE by phase 3, RECONCILE by phase 4; see §11-§14 of
+`24-pre-probe-decisions.md`.)
 
 Kinks the consumer has already exposed and that this roadmap must close:
 
