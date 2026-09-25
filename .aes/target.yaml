@@ -81,9 +81,11 @@ normative_items:
   outcome_refs:
   - OUT-GF-001
   statement: >
-    v0.1 code is retained, not deleted, until phase 7 dispositions it. Each v0.1 file under src/agentic_engineering_system/
-    is a planned artifact of this target only so that the no-orphan rule can hold while it stays;
-    it carries no v0.2 obligation, and phase 7 archives it with history or re-plans it with a disposition.
+    v0.1 code is retained, not deleted. Phase 7a dispositioned it: the eight empty v0.1 component
+    placeholders were moved with history to archive/v0.1-placeholders/ (historical); repository_context/
+    (the installed console script aes-repo-context, tested by tests/repository_context/) and the package
+    __init__.py are retained, each a planned artifact of this target so the no-orphan rule holds. They
+    carry no v0.2 obligation; changing them is v0.1 maintenance, not v0.2 work.
 success_criteria:
 - id: SC-GF-001
   statement: >
@@ -655,71 +657,7 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/__init__.py
   kind: source
   purpose: >
-    package marker shared by v0.1 and v0.2 modules; v0.1 provider retained pending phase 7 disposition
-  semantic_justification_refs:
-  - NI-AES-HIST
-- id: ART-V01-CAPABILITY-SOURCING-COMPONENT-PLACEHOLDER-YAML
-  locator:
-    exact_path: src/agentic_engineering_system/capability_sourcing/component.placeholder.yaml
-  kind: configuration
-  purpose: >
-    v0.1 provider retained pending phase 7 disposition
-  semantic_justification_refs:
-  - NI-AES-HIST
-- id: ART-V01-EVIDENCE-ASSESSMENT-COMPONENT-PLACEHOLDER-YAML
-  locator:
-    exact_path: src/agentic_engineering_system/evidence_assessment/component.placeholder.yaml
-  kind: configuration
-  purpose: >
-    v0.1 provider retained pending phase 7 disposition
-  semantic_justification_refs:
-  - NI-AES-HIST
-- id: ART-V01-EXECUTION-COMPONENT-PLACEHOLDER-YAML
-  locator:
-    exact_path: src/agentic_engineering_system/execution/component.placeholder.yaml
-  kind: configuration
-  purpose: >
-    v0.1 provider retained pending phase 7 disposition
-  semantic_justification_refs:
-  - NI-AES-HIST
-- id: ART-V01-GAP-RECONCILIATION-COMPONENT-PLACEHOLDER-YAML
-  locator:
-    exact_path: src/agentic_engineering_system/gap_reconciliation/component.placeholder.yaml
-  kind: configuration
-  purpose: >
-    v0.1 provider retained pending phase 7 disposition
-  semantic_justification_refs:
-  - NI-AES-HIST
-- id: ART-V01-LEARNING-COMPONENT-PLACEHOLDER-YAML
-  locator:
-    exact_path: src/agentic_engineering_system/learning/component.placeholder.yaml
-  kind: configuration
-  purpose: >
-    v0.1 provider retained pending phase 7 disposition
-  semantic_justification_refs:
-  - NI-AES-HIST
-- id: ART-V01-NORMATIVE-CONTEXT-COMPONENT-PLACEHOLDER-YAML
-  locator:
-    exact_path: src/agentic_engineering_system/normative_context/component.placeholder.yaml
-  kind: configuration
-  purpose: >
-    v0.1 provider retained pending phase 7 disposition
-  semantic_justification_refs:
-  - NI-AES-HIST
-- id: ART-V01-PLANNING-COMPONENT-PLACEHOLDER-YAML
-  locator:
-    exact_path: src/agentic_engineering_system/planning/component.placeholder.yaml
-  kind: configuration
-  purpose: >
-    v0.1 provider retained pending phase 7 disposition
-  semantic_justification_refs:
-  - NI-AES-HIST
-- id: ART-V01-POLICY-CONTROL-COMPONENT-PLACEHOLDER-YAML
-  locator:
-    exact_path: src/agentic_engineering_system/policy_control/component.placeholder.yaml
-  kind: configuration
-  purpose: >
-    v0.1 provider retained pending phase 7 disposition
+    package marker shared by v0.1 and v0.2 modules; v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
 - id: ART-V01-REPOSITORY-CONTEXT---INIT---PY
@@ -727,7 +665,7 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/repository_context/__init__.py
   kind: source
   purpose: >
-    v0.1 provider retained pending phase 7 disposition
+    v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
 - id: ART-V01-REPOSITORY-CONTEXT-CLI-PY
@@ -735,7 +673,7 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/repository_context/cli.py
   kind: source
   purpose: >
-    v0.1 provider retained pending phase 7 disposition
+    v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
 - id: ART-V01-REPOSITORY-CONTEXT-COMPONENT-CONTEXT-GENERATED-YAML
@@ -743,7 +681,7 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/repository_context/component.context.generated.yaml
   kind: configuration
   purpose: >
-    v0.1 provider retained pending phase 7 disposition
+    v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
 - id: ART-V01-REPOSITORY-CONTEXT-GIT-SOURCE-PY
@@ -751,7 +689,7 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/repository_context/git_source.py
   kind: source
   purpose: >
-    v0.1 provider retained pending phase 7 disposition
+    v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
 - id: ART-V01-REPOSITORY-CONTEXT-LEGACY-PY
@@ -759,7 +697,7 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/repository_context/legacy.py
   kind: source
   purpose: >
-    v0.1 provider retained pending phase 7 disposition
+    v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
 - id: ART-V01-REPOSITORY-CONTEXT-MANIFEST-PY
@@ -767,7 +705,7 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/repository_context/manifest.py
   kind: source
   purpose: >
-    v0.1 provider retained pending phase 7 disposition
+    v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
 - id: ART-V01-REPOSITORY-CONTEXT-MODELS-PY
@@ -775,7 +713,7 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/repository_context/models.py
   kind: source
   purpose: >
-    v0.1 provider retained pending phase 7 disposition
+    v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
 - id: ART-V01-REPOSITORY-CONTEXT-RENDER-HTML-PY
@@ -783,7 +721,7 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/repository_context/render_html.py
   kind: source
   purpose: >
-    v0.1 provider retained pending phase 7 disposition
+    v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
 - id: ART-V01-REPOSITORY-CONTEXT-RESOLVER-PY
@@ -791,7 +729,7 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/repository_context/resolver.py
   kind: source
   purpose: >
-    v0.1 provider retained pending phase 7 disposition
+    v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
 verification_subjects:
