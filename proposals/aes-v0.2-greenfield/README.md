@@ -1,3 +1,5 @@
+Promoted to docs/architecture/greenfield-v0.2/ by Decision 0010 (2026-09-25); this directory is the proposal lineage, not authority.
+
 # AES v0.2 — clean-sheet Greenfield MVP proposal
 
 Status: **proposal / non-normative**

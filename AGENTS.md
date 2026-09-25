@@ -20,14 +20,15 @@ Start with `wiki/index.md`.
 
 This repository is a protocol-pilot consumer of the standalone architecture in `BrianMills2718/wiki_methodology` at revision `0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe`.
 
-## Commands
+### AES governs itself (v0.2, primary workflow)
 
-### AES governs itself (v0.2)
-
-AES canonical is governed by its own AES v0.2 target in `.aes/` (roadmap phase
-6b). The governed roots are `src/agentic_engineering_system/` and
-`tests/greenfield/`; the v0.1 commands below still work and are dispositioned in
-phase 7.
+AES canonical is governed by its own AES v0.2 target in `.aes/`, accepted by
+`docs/decisions/0010-greenfield-v0.2-accepted.md` (accepted architecture:
+`docs/architecture/greenfield-v0.2/`; user start:
+`docs/greenfield/GETTING_STARTED.md`). The governed roots are
+`src/agentic_engineering_system/` and `tests/greenfield/`. This is the primary
+workflow for work under those roots; the v0.1 commands further down still work
+and are retained under Decision 0010's v0.1 disposition.
 
 - `.aes/target.yaml` is the plan. Every file under a governed root must be a
   planned artifact with that exact path, or the pre-commit hook (written by
@@ -41,11 +42,15 @@ phase 7.
   shape. Evidence recorded on a branch names that branch's commit, so merge
   such PRs with a merge commit, never squash: a squashed-away commit makes
   its observations UNREACHABLE (re-record and set `superseded_by` if it
-  happens). `aes status` is the one-screen view; `make aes` runs validate,
+  happens). The same holds for plans: `aes plan accept` warns off the default
+  branch, and `aes status` counts an unreachable accepted plan as a warning.
+  `aes status` is the one-screen view; `make aes` runs validate,
   topology and status with this checkout's code, `make aes-check` adds the
   greenfield and repository_context tests.
 
-### v0.1 commands (retained until phase 7)
+## Commands
+
+### v0.1 provider commands (retained; Decision 0010)
 
 ```bash
 # Slice 1 implementation + focused verification
@@ -94,15 +99,15 @@ read `CLAUDE.md` directly.
 
 ### Workflow
 
-- Do not create an implementation root merely to begin coding. First derive target implementation and verification topology through Company Planning.
-- Do not hand-author a first execution plan before the target/current gap set has been materialized and dispositioned.
+- Do not create an implementation root merely to begin coding. First derive target implementation and verification topology through Company Planning. (For the v0.2 governed roots this is superseded by Decision 0010: topology and plans come from `.aes/target.yaml` through `aes plan`.)
+- Do not hand-author a first execution plan before the target/current gap set has been materialized and dispositioned. (Under v0.2 the gap set is `aes status`/`aes plan prepare`; Decision 0010.)
 - Apply `docs/architecture/SYSTEM_BOUNDARY.md` AES-CAP-001 through AES-CAP-005 and Decision 0009 during normal product design: adopt a sufficient existing product/framework first, use its native modules and extension points, consult ACA's relevant published boundaries/evidence, and record the reuse/configure/adapt/local-residual disposition in the existing design packet. ACA is not a separate runtime or prerequisite experiment.
 - Keep cohesive reusable behavior behind a consumer-independent boundary; keep consequential product policy in configuration/strategies and thin adapters. Use the selected ecosystem's normal packages, declared dependencies, examples, and compatibility tests; do not require framework neutrality, speculative extraction, or a new interface for every function.
-- Do not restart standalone ACA benchmarks, demonstration products, or mechanism-building from historical plans. They require separate explicit authorization for a concrete product decision/blocker. Product acceptance and compatibility tests remain required; existing provider ownership and the current Plan 001 frontier are unchanged.
-- Use Enforced Planning as the execution-governance incumbent unless and until an AES-owned replacement is accepted from authentic evidence.
+- Do not restart standalone ACA benchmarks, demonstration products, or mechanism-building from historical plans. They require separate explicit authorization for a concrete product decision/blocker. Product acceptance and compatibility tests remain required; existing provider ownership and the current Plan 001 frontier are unchanged. (Decision 0010 changes provider ownership for the v0.2 governed roots only.)
+- Use Enforced Planning as the execution-governance incumbent unless and until an AES-owned replacement is accepted from authentic evidence. (Decision 0010 accepts AES v0.2 as that replacement for its governed roots; Enforced Planning stays for the v0.1 material and `make check`.)
 - A block must provide a runnable recovery path or an explicit human escalation boundary.
 - Plan completion never closes a gap by itself; fresh observation and re-characterization determine closure.
-- Verification is provider-independent under Decision 0008: local/external execution is first-class, hosted CI is optional infrastructure, evidence reuse is claim-specific over the transitive executed subject, and fresh exact-revision runs should use the incumbent Enforced Planning verification-batch mechanism.
+- Verification is provider-independent under Decision 0008: local/external execution is first-class, hosted CI is optional infrastructure, evidence reuse is claim-specific over the transitive executed subject, and fresh exact-revision runs should use the incumbent Enforced Planning verification-batch mechanism. (For the v0.2 governed roots, fresh runs are `aes evidence record`; Decision 0010.)
 - Prefer ChatGPT Work for substantial machine-dependent AES execution when available; normal Chat remains suitable for GitHub/research work but is not assumed to retain custom Remote MCP exposure across long conversations. In either surface, run the Execution readiness preflight below before any machine-dependent plan or promise. Missing Remote MCP tools are a session/tool-exposure failure, not evidence that the machine or WSL is offline.
 - Proposed changes to the adopted methodology go through `proposals/` and then the owning methodology repository; this consumer does not silently redefine the standard.
 
@@ -113,10 +118,12 @@ read `CLAUDE.md` directly.
 ## References
 
 - `wiki/index.md` — progressive-disclosure navigation only; follow links to native authority.
+- `docs/decisions/0010-greenfield-v0.2-accepted.md` — AES v0.2 greenfield MVP accepted as realized: evidence, standing decisions with wrong-when conditions, non-claims, v0.1 disposition.
+- `docs/architecture/greenfield-v0.2/` — accepted v0.2 architecture; `.aes/target.yaml` is the live authority for this repository.
 - `.agentic/repo.yaml` — repository protocol, active frontier, selected providers, and concern roots.
 - `docs/plans/001_repository_context_resolution_vertical.md` — completed Plan 001 / Repository Context Slice 1 record and closure evidence.
 - `docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md` - AES-local modular-design integration, existing owner boundaries, and the stop rule for standalone ACA work.
-- `docs/architecture/SYSTEM_BOUNDARY.md` — AES-specific normative target.
+- `docs/architecture/SYSTEM_BOUNDARY.md` — AES-specific normative target (v0.1 bootstrap; v0.2 in `docs/architecture/greenfield-v0.2/`).
 - `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md` — actor-surface and attention-economics constraints.
 - `docs/architecture/INITIAL_GAP_LEDGER.md` — recomputed current gap projection from the post-integration characterization.
 - `docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md` — provider-independent verification, transitive executed-subject evidence boundaries, and Enforced Planning verification-batch ownership.

@@ -1389,3 +1389,101 @@ branch as `aes evidence record` now does. Not fixed here.
   hidden.* Wrong when: acceptance review reads "complete lifecycle" as
   requiring the `aes plan`-accepted plan to be realized; then realize
   `PLAN-WG5-RUNNER` in whygame5 and re-record before promotion.
+
+## 21. Phase 7b: promotion (2026-09-25)
+
+The second slice of roadmap phase 7, on branch `v02-phase7b`: plan-revision
+reachability, promotion of the realized candidates to accepted architecture,
+Decision 0010, and routing.
+
+**Done.**
+
+1. *Unreachable accepted plans are reported* (`reconcile.py`, `cli.py`,
+   `evidence.py`; `test_reconcile.py`, `test_planning.py`). `aes status` and
+   `aes reconcile` load `<plans_root>/*.yaml` strictly (`planning.load_plan`)
+   and check each `accepted_at_revision` with `git merge-base --is-ancestor`
+   against HEAD, the same check observations get (§19); a commit the clone
+   lacks is unreachable too. Both print `plans: N accepted, M unreachable`
+   after the observation counts, and one `warning: plan <id>
+   accepted_at_revision <sha8> is not reachable from HEAD (squash-merged or
+   deleted branch?); the target already carries its delta, so this does not
+   fail` line per unreachable plan; `aes reconcile` also lists every plan.
+   It is a warning and not a failure because the target already carries the
+   delta: only the plan's provenance commit is lost. `aes plan accept` prints
+   `aes evidence record`'s branch warning (`evidence.branch_note`, now with
+   the consequence as a parameter: "this plan's accepted_at_revision stays
+   reachable only if ...") when the revision it recorded is not on the
+   default branch, and the no-remote note when there is no `origin`.
+2. *Found by the change on AES itself:* `PLAN-AES-SELF-GOVERN`
+   (`accepted_at_revision` `80e6da3`) is unreachable, because PR #52 was
+   squash-merged — the same trap as whygame5's `PLAN-WG5-RUNNER`
+   (`de7479c`, confirmed with this branch's `aes status` run read-only on
+   whygame5 main `7f081b6`, the phase-7a pin bump after `38df3e5`: `plans: 1
+   accepted, 1 unreachable`). Plans are records
+   and are not rewritten; both stay as warnings.
+3. *Promotion.* `docs/architecture/greenfield-v0.2/` holds plain copies (not
+   `git mv`, so the proposals keep their lineage; commit `ef6fc25` is the
+   unmodified copy, the amendments are the next commit) of `02`, `03`, `04`,
+   `12`, `13`, `14`, `15`, `16`, `20` and `23`, renamed without `.candidate`,
+   `status: accepted` with `accepted_by` and `source_proposal`, and amended
+   where the build differs; each file lists its amendments
+   (`accepted_amendments:` / "Accepted amendments"), and a README indexes
+   them. `.aes/target.yaml` stays the live authority. The largest
+   amendments: `20` regenerated from the target's components, planned
+   artifacts and verification subjects (a script comparing the two reports
+   no id, path, kind or ref difference); `04`'s minimum acceptance texts for
+   SC-GF-002..009 replaced by the target's, because the candidate's
+   SC-GF-008 had a different meaning under the same id; `12`'s evidence kinds
+   mapped as in §17 and its "selects no realization" nonclaim retired;
+   `13`/`14`/`16` describe the realized `.aes/` layout, record fields,
+   freshness states, supersession, negative controls and the plan file, with
+   unbuilt parts (analysis, generated views, generation rules) marked not
+   realized; `15`/`23` describe prepare/validate/accept with `remove:` and
+   the commands as built. `test_self_governance.py` now compares the target
+   with the accepted `12`, not the proposal copy.
+4. *Decision 0010* records the acceptance, the evidence, the standing
+   decisions with their wrong-when conditions, the partial supersession of
+   Decisions 0001/0002/0009 for the v0.2 governed roots (§1 D4), and the
+   non-claims. Routing: `README.md` leads with v0.2; `CLAUDE.md` (and the
+   regenerated `AGENTS.md`) puts "AES governs itself" first — as a `###`
+   block in the preamble, because the Enforced Planning renderer copies only
+   the preamble and the Commands/Principles/Workflow/References sections —
+   retitles the v0.1 command block, and notes Decision 0010 on each
+   contradicting workflow bullet; `wiki/index.md`, `docs/architecture/README.md`,
+   `.agentic/repo.yaml` (active line, decision, roadmap, target, frontier;
+   Plan 002 kept as `v0_1_active_plan`) and `evidence/README.md` route to it.
+5. *Happy path re-run.* The getting-started page's commands ran end to end on
+   a throwaway project with this branch's code (`aes` from the worktree, not a
+   pip install from a pushed commit); its `aes plan prepare/validate/accept`
+   and `aes status` outputs were replaced with that run's, which adds the
+   `plans:` line and the `0 removal(s)` count phase 7a had already added.
+6. *Evidence*: the test subjects this branch staled were re-recorded as the
+   last commit (INIT-UNIT and DISTRIBUTION-INSTALL `--inconclusive` with their
+   existing basis; SELF-GOVERNANCE with `--depends-on` the accepted `12`).
+
+`aes status` on AES canonical with those records (the header's HEAD is the
+commit the evidence names; the records and this section are the next commit):
+
+```text
+{{STATUS}}
+```
+
+SC-GF-001 remains the one criterion not SUPPORTED, now STALE on `cli.py`,
+`planning.py`, `reconcile.py` and `evidence.py`; it needs clean-user run 3 on
+current code. Decision 0010 records it as INSUFFICIENT, not downgraded.
+
+**Decisions.**
+
+- *An unreachable accepted plan is a warning, not a failure.* Wrong when: an
+  agent or reviewer needs a plan's accepted revision (to see what the target
+  was when it was accepted) and cannot get it, or a plan's delta is found
+  not to be in the target; then make it a gap, or record the target's blob id
+  in the plan at accept time so the provenance survives a squash.
+- *Accepted documents are plain copies amended to the build, with the
+  amendments listed, and the target stays the live authority.* Wrong when:
+  an accepted document and the target disagree on main and nothing catches
+  it; then extend `test_self_governance.py` from `12` to `20` (the comparison
+  script in item 3 is the start of that test).
+- *`CLAUDE.md`'s v0.2 block sits in the preamble.* Wrong when: the renderer
+  changes how it extracts the preamble and `AGENTS.md` loses the block; then
+  move it back under Commands.
