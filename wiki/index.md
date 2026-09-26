@@ -4,6 +4,8 @@ This is the progressive-disclosure front door for the canonical AES convergence 
 
 ## AES v0.2 (accepted) — start here
 
+This repository is the Agentic Engineering System; `Inside-Success/agentic-engineering-system` is archived and its borrowable ideas are harvested with adoption triggers ([Decision 0011](../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md), [harvest](../research/synthesis/2026-09-26-inside-success-aes-harvest.md)).
+
 AES v0.2, the greenfield MVP, is accepted as realized by
 [Decision 0010](../docs/decisions/0010-greenfield-v0.2-accepted.md) and governs
 this repository's `src/agentic_engineering_system/` and `tests/greenfield/`
