@@ -71,7 +71,7 @@ Planning, is the work v0.2 already re-derived from a clean sheet.
 
 Item 5 is done. whygame5 realized its runner (PR #15), the value tally came
 back at 0 AES catches and 4 hand checks on that build (`docs/aes-value-tally.md`
-there; addendum after the follow-up: 0 catches, 6 hand checks), and after
+there; addendum after the follow-up: 1 catch, 6 hand checks; the catch was STALE evidence on two criteria that the agent merged past, found by `aes status` on main), and after
 `PLAN-WG5-PATH-FINDINGS` live run 6 produced the first finding and revision
 (`OBS-WG5-LIVE-REVISED-be78a0b4`). Item 4's condition for resuming the Inside
 Success rollout is therefore met; whether to resume is Brian's call and has
