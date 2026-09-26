@@ -308,3 +308,34 @@ Record and disposition that failure family so future planning shortens the stake
 > **Use AI autonomy to multiply human judgment, not to postpone human judgment until after its leverage has disappeared.**
 
 The practical consequence is contextual rather than formulaic: design to the level justified by maturity and certainty, spend automation where it buys value or information cheaply, surface authentic usable outcomes early enough for high-leverage human judgment, and let observed utility reshape the plan.
+
+## 13. A surface a person judges is chosen through Representation Router
+
+Added 2026-09-26 on Brian's instruction after the first whygame5 run report:
+"I have different expectations for how I want reports to be. Some of them
+should be in Representation Router."
+
+Sections 2 and 8 ask for a human-usable surface; they did not say how its
+form is chosen. Between 2026-08-23 and 2026-09-25 that gap was filled by one
+agent's default, a hand-laid static HTML page with fixed sections that "Brian
+judges from alone", first written for whygame-reboot and then copied into
+whygame5's target and generalized here. That default is withdrawn.
+
+Rule: any report, page, or artifact whose purpose is a person's judgement
+(including every `human_review` evidence requirement's surface) is chosen and
+judged through the `representation-router` skill:
+
+1. write the use case (who, which question, what they must do next, scale,
+   consequence) before building;
+2. take the router's recommendation and composition plan and build to it,
+   recording the justification against the alternatives;
+3. disposition the page-level checks against the real rendered surface and
+   keep `use-case.json`, `rec.json` and `disposition.json` beside the artifact;
+4. the disposition is part of the evidence for the criterion the surface
+   serves; a surface with no router record is unreviewed, whatever it looks
+   like.
+
+Existing targets that specify a fixed page shape (whygame5 `NI-WG5-007`,
+`SC-WG5-005`) are brought under this rule through `aes plan`, not by editing
+the target by hand. Friction with this rule is logged in
+`project-meta/policy_friction.md` so a wrong call surfaces.
