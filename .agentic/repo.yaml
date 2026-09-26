@@ -33,7 +33,7 @@ planning:
   active_acceptance_decision: docs/decisions/0010-greenfield-v0.2-accepted.md
   active_roadmap: proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md
   active_target: .aes/target.yaml
-  active_frontier: v0.2-accepted/whygame5-runner-and-first-value-measure (Decision 0011 item 5)
+  active_frontier: v0.2-accepted/decision-on-scope-after-first-value-measure (Decision 0011 item 5 done 2026-09-26; tally 0 catches)
   lineage_decision: docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md
   archived_predecessor: Inside-Success/agentic-engineering-system
   predecessor_harvest: research/synthesis/2026-09-26-inside-success-aes-harvest.md

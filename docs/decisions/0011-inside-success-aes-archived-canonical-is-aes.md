@@ -67,6 +67,18 @@ Planning, is the work v0.2 already re-derived from a clean sheet.
    or an INSUFFICIENT criterion, and every hand check a person still needed.
    No new v0.2 component is planned until that record exists.
 
+## Status, 2026-09-26 evening
+
+Item 5 is done. whygame5 realized its runner (PR #15), the value tally came
+back at 0 AES catches and 4 hand checks on that build (`docs/aes-value-tally.md`
+there; addendum after the follow-up: 0 catches, 6 hand checks), and after
+`PLAN-WG5-PATH-FINDINGS` live run 6 produced the first finding and revision
+(`OBS-WG5-LIVE-REVISED-be78a0b4`). Item 4's condition for resuming the Inside
+Success rollout is therefore met; whether to resume is Brian's call and has
+not been made. The tally's zero catches is the weak form of this decision's
+third wrong-when; it is recorded, not yet acted on, because the build was
+single-session and small.
+
 ## Consequences
 
 - `README.md`, `wiki/index.md` and `.agentic/repo.yaml` here name this
