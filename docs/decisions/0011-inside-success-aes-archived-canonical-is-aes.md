@@ -60,8 +60,9 @@ Planning, is the work v0.2 already re-derived from a clean sheet.
    governance (item 5).
 5. **Next frontier is an outcome, not a mechanism:** whygame5 realizes
    `PLAN-WG5-RUNNER` and produces the result its README promises. During that
-   work one pre-registered value measure is kept (see
-   `docs/plans/README.md` entry for the whygame5 value probe once written):
+   work one pre-registered value measure is kept (whygame5
+   `docs/aes-value-tally.md`, pre-registered 2026-09-26 before the runner was
+   written):
    every time an agent reports done while `aes status` shows drift, an orphan
    or an INSUFFICIENT criterion, and every hand check a person still needed.
    No new v0.2 component is planned until that record exists.
