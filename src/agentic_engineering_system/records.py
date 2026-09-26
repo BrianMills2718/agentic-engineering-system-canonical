@@ -15,7 +15,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 from ruamel.yaml import YAML
 from ruamel.yaml.constructor import DuplicateKeyError
 from ruamel.yaml.error import YAMLError
@@ -195,6 +195,19 @@ class ProjectRecord(StrictModel):
     governed_roots: list[str]
     materialization: Materialization
     ecosystem: Ecosystem
+
+    @field_validator("governed_roots")
+    @classmethod
+    def _one_trailing_slash(cls, roots: list[str]) -> list[str]:
+        # Consumers test containment with `path.startswith(root)`; a hand-written
+        # "src" would also capture "src_backup/...". Normalize once, at the load
+        # boundary, the same way `aes init` writes roots.
+        out = []
+        for root in roots:
+            if root.startswith("/") or ".." in Path(root).parts or root.strip("/") == "":
+                raise ValueError(f"governed root must be a relative subdirectory: {root!r}")
+            out.append(root.rstrip("/") + "/")
+        return out
 
 
 # --------------------------------------------------------------------------- #
