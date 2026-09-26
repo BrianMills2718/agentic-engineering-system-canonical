@@ -1,5 +1,7 @@
 # Agentic Engineering System — Canonical
 
+**This repository is the Agentic Engineering System** ([Decision 0011](docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md), 2026-09-26). `Inside-Success/agentic-engineering-system` is archived; the ideas worth borrowing from it are in [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](research/synthesis/2026-09-26-inside-success-aes-harvest.md), each with the consumer trigger that would bring it in. Next frontier: whygame5 realizes its runner and records the first value measure (Decision 0011, item 5).
+
 ## AES v0.2 (accepted, Decision 0010)
 
 AES v0.2 is a small command-line tool, `aes`, that governs a software project
