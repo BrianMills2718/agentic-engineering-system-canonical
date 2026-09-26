@@ -339,3 +339,22 @@ Existing targets that specify a fixed page shape (whygame5 `NI-WG5-007`,
 `SC-WG5-005`) are brought under this rule through `aes plan`, not by editing
 the target by hand. Friction with this rule is logged in
 `project-meta/policy_friction.md` so a wrong call surfaces.
+
+## 14. `human_review` evidence names a person only when the judgement is genuinely that person's
+
+Added 2026-09-26 after Brian, asked to judge a whygame5 finding: "I don't
+know why you need me for this."
+
+The v0.2 record model offers `human_review` as an evidence kind. A target
+must not use it to route a judgement to Brian that a fresh reviewer with only
+the artifact could make: whether a finding is genuine, whether a page answers
+its questions on its own, whether a structure captures a transcript. Those are
+`runtime_observation` requirements satisfied by an independent cold reviewer
+(a fresh agent or a second model with no conversation context), which is also
+the stronger test, because a person who watched the build is not a cold
+reader. `human_review` is for what only the named person can decide: whether
+they want the product, a spend, a scope, a boundary that is theirs. When a
+target names Brian, the proposal states in one sentence why no automated
+substitute satisfies the real requirement (workspace AGENTS.md, "Before naming
+a human as a required party"). whygame5 `PLAN-WG5-INDEPENDENT-REVIEW` is the
+first correction under this rule.
