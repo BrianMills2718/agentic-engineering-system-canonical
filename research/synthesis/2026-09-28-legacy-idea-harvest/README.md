@@ -149,9 +149,11 @@ one directly before acting.
    workspace rules did not; run from `~/code`, the workspace rules arrived.
    **Fixed:** added `project_root_markers = [".codex-workspace-root"]`,
    `project_doc_max_bytes = 131072` and a marker file at `~/.codex-workspace-root`.
-   Re-checked in `whygame5` with no overrides: both the workspace rules and the
-   repo's last sentence arrived. Delivery for very large repo files
-   (`hermes-agent`, 75 KB) is still being checked. Consequence:
+   Re-checked with no overrides: in `whygame5`, both the workspace rules and the
+   repo's last sentence arrived. In `hermes-agent`, the largest repo file at
+   75 KB, both the workspace rules and a phrase from the file's last paragraph
+   arrived; that session used about 38k tokens against about 14k before the
+   fix. Consequence:
    `project-meta/scripts/check_instruction_payload_size.py` models a 32,768-byte
    combined budget, and that model no longer matches the configuration.
 2. **Phone alerts failed from 2026-09-18.** `deliver_ntfy` crashed on any title
