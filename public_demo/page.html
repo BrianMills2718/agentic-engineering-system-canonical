@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AES: does the evidence really prove it?</title>
+<style>
+:root{--bg:#fafaf7;--card:#fff;--ink:#1c1f24;--mute:#5b6470;--line:#d8dbe0;--ok:#16794a;--okbg:#e4f4ea;--warn:#5b6470;--warnbg:#eceef1;--bad:#b3261e;--badbg:#fbe9e7;--live:#1f5fbf;--accent:#1f5fbf;--ai:#8a5a00}
+@media (prefers-color-scheme:dark){:root{--bg:#14161a;--card:#1c1f25;--ink:#ecedef;--mute:#9aa3ae;--line:#343a43;--ok:#59c48d;--okbg:#14301f;--warn:#a8b0ba;--warnbg:#272b32;--bad:#ff8a80;--badbg:#3a1c1a;--live:#7fb0ff;--accent:#7fb0ff;--ai:#e0b050}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:980px;margin:0 auto;padding:16px}
+h1{font-size:clamp(1.35rem,4.5vw,2rem);line-height:1.2;margin:.2em 0 .3em}
+h2{font-size:1.25rem;margin:0 0 .2em}
+p{margin:.3em 0}
+.sub{color:var(--mute);margin-bottom:12px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.toggle{display:flex;gap:8px;align-items:center;font-size:.9rem;color:var(--mute);cursor:pointer;user-select:none;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+.toggle input{width:18px;height:18px}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:16px 0}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 14px;min-height:44px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+@media (prefers-color-scheme:dark){button.primary{color:#0b1220}}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:focus-visible,textarea:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:2px 8px;border-radius:12px;border:1px solid var(--line);color:var(--mute)}
+.chip.live{border-color:var(--live);color:var(--live)}
+.chip.rec{border-style:dashed}
+.chip.ai{border:1px dashed var(--ai);color:var(--ai)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-weight:650;font-size:.92rem;padding:3px 10px 3px 8px;border-radius:999px;white-space:nowrap}
+.badge .sh{display:inline-block;width:14px;height:14px;position:relative;flex:none}
+.b-SUPPORTED{background:var(--okbg);color:var(--ok)}.b-SUPPORTED .sh{border-radius:50%;background:var(--ok)}
+.b-SUPPORTED .sh::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.b-INSUFFICIENT{background:var(--warnbg);color:var(--warn)}.b-INSUFFICIENT .sh{border-radius:50%;border:2px solid var(--warn)}
+.b-INSUFFICIENT .sh::after{content:"";position:absolute;left:1px;top:4px;width:8px;height:2px;background:var(--warn)}
+.b-REFUTED{background:var(--badbg);color:var(--bad)}.b-REFUTED .sh{background:var(--bad);border-radius:2px}
+.b-REFUTED .sh::after{content:"\00d7";position:absolute;inset:-4px 0 0 0;color:#fff;font-size:15px;line-height:16px;text-align:center}
+.b-NONE{background:transparent;color:var(--mute);border:1px dashed var(--line)}.b-NONE .sh{border:2px dashed var(--line);border-radius:50%}
+.term{display:none;font-weight:400;opacity:.8;font-size:.78rem}
+body.adv .term{display:inline}
+.adv-only{display:none}body.adv .adv-only{display:block}body.adv span.adv-only,body.adv code.adv-only{display:inline}
+/* step track */
+.track{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.step{border:1px solid var(--line);border-radius:10px;padding:8px;min-width:0;background:var(--bg)}
+.step .n{font-size:.75rem;color:var(--mute)}
+.step .t{font-weight:600;font-size:.88rem;line-height:1.25;margin:2px 0 6px}
+.step.done{background:var(--card)}
+.step.now{outline:2px solid var(--accent)}
+.step .badge{white-space:normal;font-size:.8rem}
+.step .will{font-size:.72rem;color:var(--mute);border-top:1px dashed var(--line);padding-top:4px;margin-top:4px}
+@media(max-width:620px){.track{grid-template-columns:1fr 1fr}.col .msg{font-size:.66rem}.col .msg,.pinlab{overflow-wrap:anywhere}.pinlab{font-size:.62rem}.pin .head{width:28px;height:28px}}
+/* timeline */
+.tl{display:flex;gap:0;margin:14px 0 4px;overflow-x:auto}
+.col{flex:1 1 0;min-width:48px;position:relative;text-align:center;padding:0 2px}
+.col .pinrow{height:46px;display:flex;align-items:flex-end;justify-content:center}
+.col .axis{height:16px;position:relative}
+.col .axis::before{content:"";position:absolute;left:0;right:0;top:7px;height:2px;background:var(--line)}
+.col:first-child .axis::before{left:50%}.col:last-child .axis::before{right:50%}
+.col .dot{position:absolute;left:calc(50% - 7px);top:1px;width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--card)}
+.col .msg{font-size:.76rem;line-height:1.2;color:var(--ink);margin-top:2px}
+.col .sha{font-size:.7rem;color:var(--mute);font-family:ui-monospace,Menlo,monospace}
+.col .edit{display:inline-block;margin-top:3px;font-size:.68rem;padding:1px 6px;border-radius:6px;background:var(--badbg);color:var(--bad)}
+.pin{display:inline-flex;flex-direction:column;align-items:center;gap:2px;font-size:.68rem;color:var(--mute)}
+.pin .head{width:34px;height:34px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid var(--ok);background:var(--ok);color:#fff}
+.pin .head b{transform:rotate(45deg);font-size:16px;line-height:1}
+.pin.REFUTES .head{border-color:var(--bad);background:var(--bad)}
+.pin.STALE .head{background:repeating-linear-gradient(45deg,var(--warnbg) 0 4px,var(--card) 4px 8px);color:var(--warn);border-color:var(--warn);border-style:dashed}
+.pin.STALE.REFUTES .head{border-color:var(--bad);color:var(--bad)}
+.col .msg,.pinlab{overflow-wrap:anywhere}.pinlab{font-size:.7rem;line-height:1.2;margin-top:3px;color:var(--mute)}.pinlab b{color:var(--ink)}.pinlab.REFUTES b{color:var(--bad)}.pinlab.CURRENT.SUPPORTS b{color:var(--ok)}
+.note{border-left:4px solid var(--accent);padding:6px 10px;margin:10px 0;background:var(--bg);border-radius:0 8px 8px 0}
+.crit{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;margin:8px 0}
+.crit .s{flex:1 1 260px;min-width:0}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px;overflow-x:auto;font-size:.78rem;white-space:pre-wrap;word-break:break-word;max-height:260px}
+details.cmd{margin-top:8px}details.cmd summary{cursor:pointer;color:var(--mute);font-size:.85rem}
+.err{background:var(--badbg);color:var(--bad);border-radius:8px;padding:8px 10px;margin:8px 0;font-weight:500}
+/* self rows */
+.srow{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--card)}
+.srow>summary{list-style:none;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px;cursor:pointer}
+.srow>summary::-webkit-details-marker{display:none}
+.srow .st{flex:1 1 240px;min-width:0;font-size:.92rem}
+.bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--warnbg);flex:0 0 160px;border:1px solid var(--line)}
+.bar i{display:block;height:100%}
+.f-CURRENT{background:var(--ok)}.f-STALE{background:repeating-linear-gradient(45deg,#c58a00 0 3px,#e9b949 3px 6px)}.f-UNKNOWN{background:#8d96a1}.f-UNREACHABLE{background:var(--bad)}.f-SUPERSEDED{background:var(--line)}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:.76rem;color:var(--mute);margin:6px 0}
+.legend span::before{content:"";display:inline-block;width:12px;height:10px;margin-right:4px;border-radius:2px;vertical-align:-1px;background:var(--line)}
+.legend .l-CURRENT::before{background:var(--ok)}.legend .l-STALE::before{background:repeating-linear-gradient(45deg,#c58a00 0 3px,#e9b949 3px 6px)}.legend .l-UNKNOWN::before{background:#8d96a1}.legend .l-SUPERSEDED::before{background:var(--line)}
+.srow .body{padding:0 12px 12px}
+.er{border-top:1px dashed var(--line);padding:8px 0;font-size:.88rem}
+.obs{font-size:.8rem;color:var(--mute);margin:2px 0}
+.big{font-size:1.15rem;font-weight:650;margin:6px 0}
+/* tree */
+textarea{width:100%;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:72px;resize:vertical}
+.tree{margin:12px 0}
+.tnode{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card)}
+.tnode.drafted{border-style:dashed;border-color:var(--ai)}
+.tkids{margin:6px 0 0 14px;padding-left:12px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.kind{font-size:.74rem;padding:1px 7px;border-radius:6px;background:var(--warnbg);color:var(--mute)}
+.route{font-size:.85rem;color:var(--ink)}.route.none{color:var(--bad);font-weight:600}
+.verdict{font-weight:700;padding:8px 12px;border-radius:8px;margin:8px 0}
+.verdict.ok{background:var(--okbg);color:var(--ok)}.verdict.no{background:var(--badbg);color:var(--bad)}
+.problem{background:var(--badbg);color:var(--bad);border-radius:6px;padding:4px 8px;margin-top:4px;font-size:.85rem}
+.dis{font-size:.82rem;color:var(--mute);margin-top:3px}
+footer{color:var(--mute);font-size:.82rem;padding:8px 0 24px}
+a{color:var(--accent)}
+.sr{position:absolute;left:-9999px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp 0.8s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div>
+      <h1>AES won't call software "done" until a real test proves it. Watch it judge a tiny project.</h1>
+      <p class="sub">No AI in the judging: every verdict below comes from the real AES program, running real tests at real code versions.</p>
+    </div>
+    <label class="toggle"><input type="checkbox" id="adv"> Show the commands</label>
+  </div>
+
+  <section id="s1" aria-labelledby="h1a">
+    <h2 id="h1a">1. A tiny project, judged step by step</h2>
+    <p>The goal: a function <code>greet(name)</code> greets a name and refuses an empty one. Press the button, then watch how the verdict changes as the code changes.</p>
+    <div class="track" id="track" aria-label="The four steps"></div>
+    <div class="row"><button class="primary" id="gbtn">Run step 1: plan it</button><button id="greset" hidden>Start over</button><span id="gwait" hidden><span class="spin"></span> running real AES...</span></div>
+    <div id="gout" aria-live="polite"></div>
+  </section>
+
+  <section id="s2" aria-labelledby="h2a">
+    <h2 id="h2a">2. AES grades itself</h2>
+    <div id="sself"><p class="sub">Loading...</p></div>
+  </section>
+
+  <section id="s3" aria-labelledby="h3a">
+    <h2 id="h3a">3. Try your own goal</h2>
+    <p>Write one sentence about something you want to be true of a piece of software. An AI drafts how it could be proven; then real AES decides whether that plan is acceptable, and shows that nothing is proven yet.</p>
+    <textarea id="goal" maxlength="300" aria-label="Your goal, one sentence" placeholder="Example: A visitor can book a table on the restaurant's website in under a minute on a phone."></textarea>
+    <div class="row">
+      <button class="primary" id="gobtn">Draft and check my goal</button>
+      <button id="exbtn">Show a recorded example</button>
+      <button id="refbtn">Show a plan AES refuses</button>
+      <span id="owait" hidden><span class="spin"></span> <span id="owaittxt">working...</span></span>
+    </div>
+    <div id="oout" aria-live="polite"></div>
+  </section>
+
+  <footer>
+    This is the real <a href="https://github.com/BrianMills2718/agentic-engineering-system-canonical">Agentic Engineering System</a> (the <code>aes</code> command) running on a server.
+    Sections 1 and the refusal run it live on fixed sample files in a throwaway folder; section 2 runs it over AES's own repository at a pinned version; the model in section 3 only drafts text and never decides anything.
+    Nothing you type is stored.
+  </footer>
+</main>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === false || v == null) continue;
+    if (k === "class") el.className = v; else if (k === "text") el.textContent = v; else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+  return el;
+}
+const WORD = {SUPPORTED: "Proven", INSUFFICIENT: "Not proven yet", REFUTED: "Disproven"};
+function badge(standing) {
+  const s = standing || "NONE";
+  return h("span", {class: "badge b-" + s}, h("span", {class: "sh", "aria-hidden": "true"}), WORD[s] || "Not run yet",
+           standing ? h("span", {class: "term"}, " (" + standing + ")") : null);
+}
+function chip(text, cls) { return h("span", {class: "chip " + (cls || "")}, text); }
+async function api(path, body) {
+  const opt = body === undefined ? {} : {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)};
+  let r;
+  try { r = await fetch(path, opt); } catch (e) { throw new Error("Could not reach the server. Check your connection and try again."); }
+  let j = null;
+  try { j = await r.json(); } catch (e) { /* non-JSON from a proxy */ }
+  if (!r.ok || !j || j.ok === false) throw new Error((j && j.error) || (r.status === 429 ? "Limit reached. Try again later." : "Something went wrong (" + r.status + ")."));
+  return j;
+}
+function cmdBox(log) {
+  if (!log || !log.length) return null;
+  const d = h("details", {class: "cmd adv-only"}, h("summary", {text: "The real commands AES ran and what they printed"}));
+  d.append(h("pre", {text: log.map((l) => "$ " + l.cmd + "   (exit " + l.exit + ")\n" + l.output).join("\n\n")}));
+  return d;
+}
+$("adv").addEventListener("change", (e) => { document.body.classList.toggle("adv", e.target.checked); try { localStorage.setItem("aes_adv", e.target.checked ? "1" : "0"); } catch (x) {} });
+try { if (localStorage.getItem("aes_adv") === "1") { $("adv").checked = true; document.body.classList.add("adv"); } } catch (x) {}
+
+/* ---------------- section 1: the sample project ---------------- */
+const STEPS = [
+  {id: "plan", label: "Plan the goal", will: "INSUFFICIENT"},
+  {id: "build", label: "Write the code, run its test", will: "SUPPORTED"},
+  {id: "change", label: "Change the greeting to \"Hi\"", will: "INSUFFICIENT"},
+  {id: "retest", label: "Run the test again", will: "REFUTED"},
+];
+const BTN = ["Run step 1: plan it", "Run step 2: write the code and test it", "Run step 3: change the greeting", "Run step 4: test again", "All four steps done"];
+let gState = null; const history = {};
+function renderTrack() {
+  const done = gState ? gState.done : [];
+  const t = $("track"); t.replaceChildren();
+  STEPS.forEach((s, i) => {
+    const isDone = done.includes(s.id);
+    const card = h("div", {class: "step" + (isDone ? " done" : "") + (done.length === i ? " now" : "")},
+      h("div", {class: "n", text: "Step " + (i + 1)}), h("div", {class: "t", text: s.label}),
+      isDone ? badge(history[s.id]) : h("div", {class: "will"}, "AES will say: ", h("b", {text: WORD[s.will]})));
+    t.append(card);
+  });
+  const n = done.length;
+  $("gbtn").textContent = BTN[n]; $("gbtn").disabled = n >= 4; $("greset").hidden = n === 0;
+}
+function timeline(state) {
+  const obsByCommit = {};
+  for (const o of state.observations) (obsByCommit[o.commit] = obsByCommit[o.commit] || []).push(o);
+  const tl = h("div", {class: "tl", role: "img", "aria-label": "Timeline of commits with the recorded test results pinned to the commit they ran at"});
+  state.commits.forEach((c, idx) => {
+    const pins = [], labs = [];
+    for (const [sha, list] of Object.entries(obsByCommit)) if (c.sha.startsWith(sha) || sha.startsWith(c.sha)) for (const o of list) {
+      const stale = o.freshness === "STALE";
+      const pin = h("div", {class: "pin " + o.freshness + " " + o.assessment, title: o.reason},
+        h("div", {class: "head"}, h("b", {"aria-hidden": "true", text: o.assessment === "REFUTES" ? "\u00d7" : "\u2713"})));
+      labs.push(h("div", {class: "pinlab " + o.freshness + " " + o.assessment},
+        h("b", {text: (o.assessment === "REFUTES" ? "Test failed" : "Test passed") + (stale ? ", out of date" : ", current")}),
+        stale ? h("div", {text: shortReason(o.reason)}) : null, h("div", {class: "adv-only", text: o.id})));
+      pins.push(pin);
+    }
+    // a commit that edits a file some earlier observation depended on
+    const edited = state.observations.filter((o) => o.freshness === "STALE" && c.files.some((f) => o.reason.includes(f)) && idx > state.commits.findIndex((x) => o.commit && (x.sha.startsWith(o.commit) || o.commit.startsWith(x.sha)))).length;
+    tl.append(h("div", {class: "col"}, h("div", {class: "pinrow"}, pins), h("div", {class: "axis"}, h("span", {class: "dot"})),
+      h("div", {class: "msg", text: c.message}), h("div", {class: "sha adv-only", text: c.sha}), labs,
+      edited ? h("div", {class: "edit", text: "edited a file the test depends on"}) : null));
+  });
+  return tl;
+}
+function renderGreeter(state, secs) {
+  const c = state.criteria[0];
+  const out = $("gout"); out.replaceChildren();
+  out.append(h("div", {class: "crit"}, badge(c.standing), h("div", {class: "s"}, h("div", {class: "big", text: c.statement}),
+      h("div", {class: "dis", text: "It would be disproven by: " + c.disproof}))));
+  out.append(timeline(state));
+  out.append(h("div", {class: "note", text: state.note}));
+  out.append(h("div", {class: "row"}, chip("LIVE · real aes ran just now in " + secs + " s", "live"),
+      chip(state.commits.length + " commits in a throwaway repo"), chip(state.freshness_counts)));
+  const er = c.requirements[0];
+  out.append(h("div", {class: "adv-only dis"}, er.id + " (" + er.kind + "): " + er.text + "  Route: " + er.route + "  Status: " + er.status));
+  const cb = cmdBox(state.log); if (cb) out.append(cb);
+}
+async function gStep(step) {
+  $("gbtn").disabled = true; $("gwait").hidden = false; $("gout").querySelectorAll(".err").forEach((e) => e.remove());
+  try {
+    const r = await api("/api/greeter", {step});
+    gState = r.state; history[step] = gState.criteria[0].standing;
+    renderTrack(); renderGreeter(gState, r.state.seconds);
+  } catch (e) { $("gout").prepend(h("div", {class: "err", role: "alert", text: e.message})); }
+  finally { $("gwait").hidden = true; renderTrack(); }
+}
+$("gbtn").addEventListener("click", () => gStep(STEPS[gState ? gState.done.length : 0].id));
+$("greset").addEventListener("click", async () => {
+  try { await api("/api/greeter", {step: "reset"}); } catch (e) { /* the session may have expired; a fresh one starts clean anyway */ }
+  gState = null; for (const k of Object.keys(history)) delete history[k]; $("gout").replaceChildren(); renderTrack();
+});
+renderTrack();
+
+/* ---------------- section 2: AES on itself ---------------- */
+function obsCounts(state) {
+  const erToCrit = {}; for (const c of state.criteria) for (const r of c.requirements) erToCrit[r.id] = c.id;
+  const per = {}; for (const c of state.criteria) per[c.id] = {CURRENT: 0, STALE: 0, UNKNOWN: 0, UNREACHABLE: 0, SUPERSEDED: 0, list: []};
+  for (const o of state.observations) for (const er of new Set(o.ers)) {
+    const cid = erToCrit[er]; if (!cid) continue;
+    const key = o.superseded_by ? "SUPERSEDED" : o.freshness; per[cid][key]++; per[cid].list.push({o, er});
+  }
+  return per;
+}
+function shortReason(r) {
+  const m = r.match(/^(?:.*?)changed since observed: (.*)$/);
+  if (!m) return r;
+  const files = m[1].split(", ");
+  return files.length > 3 ? files.slice(0, 3).join(", ") + " and " + (files.length - 3) + " more changed" : files.join(", ") + " changed";
+}
+function renderSelf(st) {
+  const box = $("sself"); box.replaceChildren();
+  const n = st.counts, total = st.criteria.length;
+  box.append(h("p", {class: "big", text: n.SUPPORTED + " of " + total + " of its own goals are currently proven."}));
+  box.append(h("p", {text: n.INSUFFICIENT + " are not proven right now, not because they failed, but because the tests that once passed were run on older code and AES no longer trusts them. That is the point: it will not say \"done\" on stale evidence."}));
+  box.append(h("div", {class: "row"}, chip("REAL AES · over its own repository at commit " + st.revision.slice(0, 7) + ", computed " + st.computed_at, "live"),
+      chip(st.observations.length + " recorded test results"), chip(st.freshness_counts)));
+  box.append(h("div", {class: "legend"}, h("span", {class: "l-CURRENT", text: "test result still valid"}), h("span", {class: "l-STALE", text: "out of date (code changed since)"}),
+      h("span", {class: "l-UNKNOWN", text: "unknown"}), h("span", {class: "l-SUPERSEDED", text: "replaced by a newer run"})));
+  const per = obsCounts(st);
+  for (const c of st.criteria) {
+    const p = per[c.id]; const tot = Math.max(1, p.CURRENT + p.STALE + p.UNKNOWN + p.UNREACHABLE + p.SUPERSEDED);
+    const bar = h("div", {class: "bar", role: "img", "aria-label": `${p.CURRENT} valid, ${p.STALE} out of date, ${p.UNKNOWN} unknown, ${p.SUPERSEDED} replaced`});
+    for (const k of ["CURRENT", "STALE", "UNKNOWN", "UNREACHABLE", "SUPERSEDED"]) if (p[k]) bar.append(h("i", {class: "f-" + k, style: `width:${(100 * p[k]) / tot}%`}));
+    const body = h("div", {class: "body"});
+    body.append(h("div", {class: "dis", text: "It would be disproven by: " + c.disproof}));
+    for (const r of c.requirements) {
+      const mine = p.list.filter((x) => x.er === r.id);
+      const live = mine.filter((x) => !x.o.superseded_by);
+      const er = h("div", {class: "er"}, h("div", {}, h("b", {text: r.status === "SUPPORTED" ? "Proven: " : r.status === "REFUTED" ? "Disproven: " : "No valid evidence: "}), r.text),
+        h("div", {class: "dis", text: "How it would be proven: " + (r.route || "no route")}));
+      for (const x of live.slice(0, 4)) er.append(h("div", {class: "obs"}, (x.o.assessment === "REFUTES" ? "failed" : "passed") + ", " + x.o.freshness.toLowerCase() + ": " + shortReason(x.o.reason),
+          h("span", {class: "adv-only", text: "  [" + x.o.id + " at " + x.o.commit + "]"})));
+      if (live.length > 4) er.append(h("div", {class: "obs", text: "+ " + (live.length - 4) + " more recorded runs"}));
+      const sup = mine.length - live.length; if (sup) er.append(h("div", {class: "obs", text: sup + " older run(s) replaced by newer ones"}));
+      er.append(h("div", {class: "adv-only dis", text: r.id + " · " + r.kind + " · " + r.status}));
+      body.append(er);
+    }
+    box.append(h("details", {class: "srow"}, h("summary", {}, badge(c.standing), h("span", {class: "st", text: c.statement}), bar, h("span", {class: "adv-only chip", text: c.id})), body));
+  }
+  const adv = h("div", {class: "adv-only"}, h("h3", {text: "Each part of AES and its first open gap"}));
+  for (const comp of st.components) adv.append(h("div", {class: "obs", text: comp.id + ": " + (comp.gaps[0] ? comp.gaps[0].kind + " " + comp.gaps[0].ref : "no open gap")}));
+  box.append(adv);
+  const cb = cmdBox(st.log); if (cb) box.append(cb);
+}
+api("/api/self").then((r) => renderSelf(r.state)).catch((e) => { $("sself").replaceChildren(h("div", {class: "err", role: "alert", text: e.message})); });
+
+/* ---------------- section 3: your goal / a refused plan ---------------- */
+const KIND = {deterministic_test: "automated test", runtime_observation: "watch it running", human_review: "a person checks"};
+function renderTree(res, label) {
+  const out = $("oout"); out.replaceChildren();
+  const verdict = res.accepted ? h("div", {class: "verdict ok", text: "AES accepted this plan."}) :
+    h("div", {class: "verdict no", text: "AES refused this plan: " + res.violations.length + " problem" + (res.violations.length === 1 ? "" : "s") + "."});
+  out.append(verdict);
+  const tree = h("div", {class: "tree"});
+  const root = h("div", {class: "tnode"}, h("div", {}, h("b", {text: "Goal: "}), res.outcome));
+  const kids = h("div", {class: "tkids"});
+  const drafted = label.ai;
+  for (const c of res.tree.criteria) {
+    const node = h("div", {class: "tnode" + (drafted ? " drafted" : "")},
+      h("div", {class: "row", style: "margin:0"}, res.accepted ? badge(c.standing || "INSUFFICIENT") : null, drafted ? chip("drafted by AI", "ai") : null, h("span", {class: "adv-only chip", text: c.id})),
+      h("div", {text: c.statement}), h("div", {class: "dis", text: "Disproven if: " + c.disproof}));
+    const rk = h("div", {class: "tkids"});
+    for (const r of c.requirements) {
+      const n = h("div", {class: "tnode" + (drafted ? " drafted" : "")},
+        h("div", {}, h("span", {class: "kind", text: KIND[r.kind] || r.kind}), " ", r.text),
+        h("div", {class: "route" + (r.route ? "" : " none"), text: r.route ? "How it gets proven: " + r.route.replace(/^[a-z_]+: /, "") : "No way to prove this was named"}),
+        h("div", {class: "adv-only dis", text: r.id + (r.route ? " · " + r.route : "")}));
+      for (const p of r.problems) n.append(h("div", {class: "problem", role: "alert"}, "AES: " + p));
+      rk.append(n);
+    }
+    node.append(rk); kids.append(node);
+  }
+  root.append(kids); tree.append(root); out.append(tree);
+  for (const p of res.tree.other_problems) out.append(h("div", {class: "problem", text: "AES: " + p}));
+  if (res.accepted) out.append(h("div", {class: "note", text: "Every criterion says \"Not proven yet\" because nothing has been tested. AES will only move one to \"Proven\" after a real test or review is recorded."}));
+  out.append(h("div", {class: "row"}, label.chip, ...(label.more || [])));
+  const cb = cmdBox(res.log); if (cb) out.append(cb);
+  if (label.yaml) { const d = h("details", {class: "cmd adv-only"}, h("summary", {text: "The plan file the AI drafted (what AES read)"}), h("pre", {text: res.proposal_yaml})); out.append(d); }
+}
+function busy(on, text) { $("owait").hidden = !on; if (text) $("owaittxt").textContent = text; for (const id of ["gobtn", "exbtn", "refbtn"]) $(id).disabled = on; }
+async function run(fn, text) {
+  busy(true, text); $("oout").replaceChildren();
+  try { await fn(); } catch (e) { $("oout").replaceChildren(h("div", {class: "err", role: "alert", text: e.message})); } finally { busy(false); }
+}
+$("gobtn").addEventListener("click", () => run(async () => {
+  const r = await api("/api/goal", {outcome: $("goal").value});
+  renderTree(r.result, {ai: true, yaml: true, chip: chip("LIVE · one real model call, then real aes · " + r.usage.seconds + " s · $" + r.usage.cost_usd.toFixed(4), "live"), more: [chip(r.usage.model.replace("openrouter/", ""))]});
+}, "drafting with the model, then checking with AES (about 10 s)..."));
+$("exbtn").addEventListener("click", () => run(async () => {
+  const r = await api("/api/example/goal");
+  renderTree(r.result, {ai: true, yaml: true, chip: chip("RECORDED · a real model draft and real aes verdict from " + r.recorded_at, "rec"), more: [chip(r.usage.model.replace("openrouter/", "") + " · $" + r.usage.cost_usd.toFixed(4))]});
+}, "loading..."));
+$("refbtn").addEventListener("click", () => run(async () => {
+  const r = await api("/api/refused", {});
+  renderTree(r.result, {ai: false, yaml: false, chip: chip("LIVE · real aes just checked a fixed sample plan, no AI involved", "live")});
+}, "asking AES..."));
+api("/api/example/goal").then((r) => renderTree(r.result, {ai: true, yaml: true, chip: chip("RECORDED · a real model draft and real aes verdict from " + r.recorded_at + " (example goal: " + r.result.outcome.slice(0, 50) + "...)", "rec"), more: []})).catch(() => {});
+</script>
+</body>
+</html>

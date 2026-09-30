@@ -1,0 +1,625 @@
+{
+  "availability": {
+    "status": "available",
+    "present": [],
+    "missing": [],
+    "note": null
+  },
+  "primary": {
+    "representation": "hierarchy-tree",
+    "interaction": [
+      "details-on-demand",
+      "path-highlighting",
+      "provenance-inspector"
+    ],
+    "implementation": {
+      "renderer": "react-flow",
+      "layout": null,
+      "notes": [
+        "supports hierarchy (+7)",
+        "strong direct-manipulation fit (+9)"
+      ],
+      "playbook": {
+        "id": "measured-graph-layout",
+        "buildSteps": [
+          "measure-real-node-content",
+          "pass-node-dimensions-to-layout",
+          "choose-layout-from-semantic-order",
+          "route-edges-after-node-placement",
+          "place-edge-labels-after-routing",
+          "reserve-clearance-for-arrowheads-and-ports",
+          "recompute-layout-after-material-label-size-changes",
+          "run-render-quality-gate"
+        ],
+        "avoid": [
+          "force-layout-for-inherently-ordered-processes",
+          "fixed-size-nodes-with-overflowing-labels",
+          "edge-labels-before-routing"
+        ]
+      }
+    }
+  },
+  "alternatives": [
+    "scroll-linked-explainer",
+    "layered-architecture-view",
+    "node-link-graph"
+  ],
+  "alternativesDetailed": [
+    {
+      "representation": "scroll-linked-explainer",
+      "relationshipToPrimary": "unclassified",
+      "reason": "No reviewed substitute/complement relation is recorded for this pair yet."
+    },
+    {
+      "representation": "layered-architecture-view",
+      "relationshipToPrimary": "unclassified",
+      "reason": "No reviewed substitute/complement relation is recorded for this pair yet."
+    },
+    {
+      "representation": "node-link-graph",
+      "relationshipToPrimary": "unclassified",
+      "reason": "No reviewed substitute/complement relation is recorded for this pair yet."
+    }
+  ],
+  "avoid": [],
+  "rationale": [
+    "structure: hierarchy (+5)",
+    "intent: understand, inspect (+6)",
+    "task: inspect, trace (+8)",
+    "explanatory focus: structure (+4)",
+    "representation role: explanatory (+3)",
+    "abstraction: overview (+3)",
+    "interaction: authoring (+2)",
+    "dynamics: interactive (+3)",
+    "density: low (+2)",
+    "supports provenance (+2)",
+    "strong accessibility fit (+1)"
+  ],
+  "assumptions": [],
+  "interfacePatterns": [
+    {
+      "id": "architecture-context-to-component",
+      "title": "Architecture from context to components",
+      "family": "architecture",
+      "score": 17,
+      "reason": "supports inspect, trace; serves understand, inspect; fits hierarchy",
+      "apply": [
+        "Show current and proposed elements distinctly",
+        "Name boundary ownership",
+        "Label arrows by their exact relationship",
+        "Expose contracts and material omissions in the inspector"
+      ],
+      "avoid": [
+        "One diagram containing every abstraction level",
+        "Unlabeled arrows",
+        "Boxes with no owner or contract meaning"
+      ],
+      "implementationHints": [
+        "c4-inspired-levels",
+        "boundary-node-types",
+        "typed-edges",
+        "details-on-demand"
+      ],
+      "sources": [
+        {
+          "name": "C4 model",
+          "url": "https://c4model.com/",
+          "role": "architecture-view-reference"
+        },
+        {
+          "name": "Structurizr DSL",
+          "url": "https://docs.structurizr.com/dsl",
+          "role": "text-model-reference"
+        }
+      ]
+    },
+    {
+      "id": "completion-receipt",
+      "title": "Completion receipt and next step",
+      "family": "completion",
+      "score": 14,
+      "reason": "supports inspect, confirm; serves understand; fits list",
+      "apply": [
+        "State the completed outcome",
+        "Give the exact evidence identity",
+        "Explain what happens next",
+        "Keep limitations adjacent"
+      ],
+      "avoid": [
+        "Celebratory status without evidence",
+        "Calling a supporting artifact the user outcome",
+        "Adding a feedback survey as the default next step"
+      ],
+      "implementationHints": [
+        "receipt-card",
+        "evidence-link",
+        "next-action"
+      ],
+      "sources": [
+        {
+          "name": "GOV.UK confirmation pages",
+          "url": "https://design-system.service.gov.uk/patterns/confirmation-pages/",
+          "role": "behavior-reference"
+        }
+      ]
+    },
+    {
+      "id": "linked-planning-and-architecture-lenses",
+      "title": "Linked work and system lenses",
+      "family": "multi-view architecture",
+      "score": 14,
+      "reason": "supports inspect, trace; serves understand; fits hierarchy",
+      "apply": [
+        "Name the question answered by each lens",
+        "Keep edge semantics distinct per lens",
+        "Carry stable semantic selection across views",
+        "Keep one inspector and provenance grammar"
+      ],
+      "avoid": [
+        "Combining work dependencies and system interfaces in one graph",
+        "Calling a work graph an architecture diagram",
+        "Changing the selected subject silently when switching lenses"
+      ],
+      "implementationHints": [
+        "semantic-lens-toggle",
+        "linked-highlighting",
+        "stable-ids",
+        "shared-inspector"
+      ],
+      "sources": [
+        {
+          "name": "C4 model diagrams",
+          "url": "https://c4model.com/diagrams",
+          "role": "architecture-view-reference"
+        },
+        {
+          "name": "arc42 documentation structure",
+          "url": "https://arc42.org/",
+          "role": "architecture-concern-reference"
+        }
+      ]
+    },
+    {
+      "id": "review-before-completion",
+      "title": "Review before completion",
+      "family": "review",
+      "score": 14,
+      "reason": "supports inspect, confirm; serves inspect; fits list",
+      "apply": [
+        "Show what changed",
+        "Bind evidence to the exact revision",
+        "Separate pass evidence from limitations",
+        "Offer approve and request-changes dispositions"
+      ],
+      "avoid": [
+        "Equating green tests with human acceptance",
+        "Making the reviewer reconstruct the change from raw files",
+        "Hiding non-claims"
+      ],
+      "implementationHints": [
+        "diff-summary",
+        "evidence-links",
+        "disposition-controls",
+        "details-on-demand"
+      ],
+      "sources": [
+        {
+          "name": "GitHub pull request reviews",
+          "url": "https://docs.github.com/en/pull-requests/reference/pull-request-reviews",
+          "role": "interaction-model"
+        },
+        {
+          "name": "GOV.UK check answers",
+          "url": "https://design-system.service.gov.uk/patterns/check-answers/",
+          "role": "behavior-reference"
+        }
+      ]
+    },
+    {
+      "id": "task-list-progress",
+      "title": "Task list with meaningful progress",
+      "family": "planning",
+      "score": 14,
+      "reason": "supports inspect, confirm; fits hierarchy, list",
+      "apply": [
+        "Group tasks by outcome",
+        "Show prerequisite state",
+        "Use action labels rather than generic status",
+        "Keep completed tasks available but quiet"
+      ],
+      "avoid": [
+        "Treating activity count as progress",
+        "Presenting blocked tasks as actionable",
+        "Duplicating one task across views"
+      ],
+      "implementationHints": [
+        "task-list",
+        "dependency-state",
+        "progressive-disclosure"
+      ],
+      "sources": [
+        {
+          "name": "GOV.UK complete multiple tasks",
+          "url": "https://design-system.service.gov.uk/patterns/complete-multiple-tasks/",
+          "role": "behavior-reference"
+        },
+        {
+          "name": "PatternFly dashboard",
+          "url": "https://www.patternfly.org/patterns/dashboard/design-guidelines/",
+          "role": "behavior-reference"
+        }
+      ]
+    }
+  ],
+  "quality": {
+    "method": "graph-diagram-quality",
+    "compositionMethod": "one-page-composition-quality",
+    "workflow": [
+      "measure-node-content",
+      "layout-with-real-node-dimensions",
+      "route-edges",
+      "place-edge-labels",
+      "audit-crossings-and-overlaps",
+      "validate-focus-and-selection",
+      "human-composition-review",
+      "capture-visual-regression",
+      "state-the-title-and-the-one-question-first",
+      "sketch-the-whole-on-one-page-before-any-section",
+      "match-each-part-to-its-job",
+      "let-structure-emerge-from-the-content",
+      "give-the-whole-room-to-breathe",
+      "check-the-sixty-second-read-with-a-cold-reader",
+      "date-and-version-the-page"
+    ],
+    "hardChecks": [
+      "no-node-overlap",
+      "no-critical-label-overlap",
+      "labels-fit-node-bounds",
+      "ports-and-arrowheads-clear",
+      "selected-path-remains-legible",
+      "title-states-what-this-is-and-for-whom",
+      "whole-design-visible-on-one-screen-at-the-target-viewport",
+      "cold-reader-gets-the-mechanism-in-sixty-seconds",
+      "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect",
+      "relationships-drawn-not-implied-by-adjacency-or-links",
+      "same-object-same-mark-across-every-view",
+      "every-object-reveals-more-on-click-nothing-is-a-dead-end"
+    ],
+    "softChecks": [
+      "minimize-edge-crossings",
+      "preserve-reading-order",
+      "stable-layout",
+      "group-boundary-clearance",
+      "first-frame-legibility",
+      "one-primary-drawing-with-callouts-not-parallel-columns-of-text",
+      "white-space-separates-groups-and-carries-hierarchy",
+      "size-and-weight-follow-importance",
+      "structure-earned-by-content-not-imposed-taxonomy",
+      "space-and-time-shown-together-when-the-subject-changes-over-time",
+      "page-carries-its-date-and-version",
+      "a-person-would-pin-it-on-a-wall",
+      "one-element-dominates-by-size-weight-or-contrast",
+      "reading-order-is-obvious-without-instructions",
+      "gap-between-groups-larger-than-gap-within",
+      "enclosure-nesting-at-most-two-levels",
+      "elements-share-a-small-set-of-edges",
+      "same-role-same-treatment-everywhere",
+      "every-mark-carries-information",
+      "context-quiet-subject-loud",
+      "comparisons-use-identical-small-frames",
+      "one-highlighted-state-not-several",
+      "object-count-within-density-budget-or-aggregated"
+    ],
+    "usabilityChecks": [
+      "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read",
+      "no-block-of-prose-longer-than-the-drawing-it-explains",
+      "reader-can-point-to-where-any-one-fact-lives"
+    ],
+    "repairOrder": [
+      "recompute-layout-with-measured-sizes",
+      "change-routing-mode",
+      "increase-layer-spacing",
+      "relocate-edge-label",
+      "progressively-disclose-secondary-links",
+      "rewrite-the-title-as-the-one-question",
+      "move-the-whole-onto-one-screen-before-polishing-any-part",
+      "replace-prose-columns-with-one-drawing-plus-callouts",
+      "cut-imposed-sections-until-content-asks-for-them",
+      "unify-marks-across-views",
+      "add-reveal-on-click-for-every-dead-end",
+      "never-fix-by-hiding-source-or-caveat-truth"
+    ]
+  },
+  "compositionPlan": {
+    "question": "A visitor types one sentence goal; a model drafts outcome -> 3-5 success criteria (each with a disproof sentence) -> 1-2 evidence requirements (kind: deterministic test, runtime observation, human review) -> how each would be proven; AES validation accepts it or refuses it with named violations, and every accepted criterion shows INSUFFICIENT because nothing is proven yet. A one-click hand-written refused proposal shows the refusal case.",
+    "audience": "cold portfolio visitor (hiring manager or researcher), technical-ish, desktop or phone",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "primary": {
+      "representation": "hierarchy-tree",
+      "form": "map",
+      "carries": [
+        "refines",
+        "requires",
+        "proven-by",
+        "violates"
+      ]
+    },
+    "secondary": [
+      {
+        "id": "time-strip",
+        "job": "show change over time beside the structure"
+      },
+      {
+        "id": "detail-panel",
+        "job": "what opens when an object is selected"
+      }
+    ],
+    "readingOrder": [
+      "title",
+      "primary",
+      "time-strip",
+      "detail-panel"
+    ],
+    "groups": [
+      {
+        "id": "outcome",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "success-criterion",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "evidence-requirement",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "proof-route",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "violation",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "standing",
+        "by": "entity kind",
+        "enclosed": false
+      }
+    ],
+    "hierarchy": {
+      "levels": [
+        "title",
+        "primary",
+        "secondary",
+        "detail"
+      ],
+      "typeSizes": 3
+    },
+    "marks": {
+      "outcome": "one mark for every outcome, reused in every view",
+      "success-criterion": "one mark for every success-criterion, reused in every view",
+      "evidence-requirement": "one mark for every evidence-requirement, reused in every view",
+      "proof-route": "one mark for every proof-route, reused in every view",
+      "violation": "one mark for every violation, reused in every view",
+      "standing": "one mark for every standing, reused in every view"
+    },
+    "emphasis": {
+      "channel": "one highlight colour",
+      "state": "selected"
+    },
+    "densityBudget": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "maxObjects": 40,
+      "minMarginPx": 24,
+      "items": 20,
+      "withinBudget": true,
+      "ifOver": "aggregate, filter, or reveal on demand; do not shrink"
+    },
+    "revealOnClick": {
+      "outcome": "its detail, its source, and what it connects to",
+      "success-criterion": "its detail, its source, and what it connects to",
+      "evidence-requirement": "its detail, its source, and what it connects to",
+      "proof-route": "its detail, its source, and what it connects to",
+      "violation": "its detail, its source, and what it connects to",
+      "standing": "its detail, its source, and what it connects to"
+    },
+    "coldReadTarget": "After a minute a newcomer can say what the page answers: A visitor types one sentence goal; a model drafts outcome -> 3-5 success criteria (each with a disproof sentence) -> 1-2 evidence requirements (kind: deterministic test, runtime observation, human review) -> how each would be proven; AES validation accepts it or refuses it with named violations, and every accepted criterion shows INSUFFICIENT because nothing is proven yet. A one-click hand-written refused proposal shows the refusal case.",
+    "heuristics": [
+      "one-question-title",
+      "whole-on-one-screen",
+      "single-focal-point",
+      "hierarchy-by-size-and-weight",
+      "reading-order-follows-layout",
+      "proximity-groups",
+      "similarity-means-sameness",
+      "enclosure-and-common-region",
+      "alignment-creates-structure",
+      "repetition-builds-language",
+      "white-space-carries-hierarchy",
+      "data-ink-and-chartjunk",
+      "layering-and-separation",
+      "small-multiples-for-comparison",
+      "overview-zoom-detail",
+      "preattentive-pop-out",
+      "form-matches-job",
+      "relationships-drawn",
+      "one-drawing-with-callouts",
+      "structure-earned-not-imposed",
+      "space-and-time-together",
+      "sixty-second-cold-read",
+      "density-budget"
+    ],
+    "sketchInstructions": [
+      "Put one short title at the top that states what this page answers and for whom.",
+      "Everything important is visible at once; no scrolling implied.",
+      "One main drawing occupies most of the area; other elements are visibly smaller and lighter.",
+      "Use at most three type sizes; headings heavier than body; important boxes larger.",
+      "Entry point top-left; the thing to do next bottom-right; if the order differs, number the parts.",
+      "Related items touch or nearly touch; unrelated items have clear gaps between them.",
+      "Every object of one kind is drawn the same way in every picture of the set.",
+      "Draw at most one level of boxes-around-groups; use white space for the rest.",
+      "Left edges of text and boxes line up on a few shared vertical lines.",
+      "Reuse one card style, one label style, and one legend position across the set.",
+      "Leave generous empty space around the main drawing and between groups.",
+      "No decorative borders, shadows, icons, or gridlines that carry no meaning.",
+      "Draw context in light grey and the subject in black.",
+      "Show the variants as a grid of identical small panels on one scale.",
+      "The first view is the whole; a detail panel shows what opens when something is selected.",
+      "Exactly one kind of thing is highlighted; everything else is grey scale.",
+      "Draw each part in the form that fits its job: list, table, flow, or map.",
+      "Connections are lines or containment, not just items placed near each other.",
+      "One large drawing with a few short labels pointing at parts of it; no columns of text.",
+      "Only draw a section or tab if the content shown needs it.",
+      "If things change over time, include a small time strip on the same screen.",
+      "A stranger should get the point from the title and the main drawing alone.",
+      "Show a handful of objects at readable size, not dozens at tiny size."
+    ],
+    "checks": [
+      "title-states-what-this-is-and-for-whom",
+      "whole-design-visible-on-one-screen-at-the-target-viewport",
+      "one-element-dominates-by-size-weight-or-contrast",
+      "size-and-weight-follow-importance",
+      "reading-order-is-obvious-without-instructions",
+      "gap-between-groups-larger-than-gap-within",
+      "same-object-same-mark-across-every-view",
+      "enclosure-nesting-at-most-two-levels",
+      "elements-share-a-small-set-of-edges",
+      "same-role-same-treatment-everywhere",
+      "white-space-separates-groups-and-carries-hierarchy",
+      "every-mark-carries-information",
+      "context-quiet-subject-loud",
+      "comparisons-use-identical-small-frames",
+      "every-object-reveals-more-on-click-nothing-is-a-dead-end",
+      "one-highlighted-state-not-several",
+      "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect",
+      "relationships-drawn-not-implied-by-adjacency-or-links",
+      "one-primary-drawing-with-callouts-not-parallel-columns-of-text",
+      "structure-earned-by-content-not-imposed-taxonomy",
+      "space-and-time-shown-together-when-the-subject-changes-over-time",
+      "cold-reader-gets-the-mechanism-in-sixty-seconds",
+      "object-count-within-density-budget-or-aggregated"
+    ]
+  },
+  "viewSpec": {
+    "version": "0.1",
+    "id": "aes-demo-own-goal--hierarchy-tree",
+    "concern": "A visitor types one sentence goal; a model drafts outcome -> 3-5 success criteria (each with a disproof sentence) -> 1-2 evidence requirements (kind: deterministic test, runtime observation, human review) -> how each would be proven; AES validation accepts it or refuses it with named violations, and every accepted criterion shows INSUFFICIENT because nothing is proven yet. A one-click hand-written refused proposal shows the refusal case.",
+    "viewpoint": {
+      "stakeholder": "cold portfolio visitor (hiring manager or researcher), technical-ish, desktop or phone",
+      "intent": [
+        "understand",
+        "create",
+        "inspect"
+      ],
+      "tasks": [
+        "enter",
+        "inspect",
+        "trace",
+        "confirm"
+      ],
+      "explanatoryFocus": [
+        "structure",
+        "transformation",
+        "state"
+      ],
+      "audience": {
+        "expertise": "mixed",
+        "frequency": "one-off",
+        "domainFamiliarity": "novice",
+        "notationFamiliarity": "novice",
+        "visualizationLiteracy": "mixed"
+      }
+    },
+    "surfaceContext": {
+      "repeatedCollection": false,
+      "neighboringRepresentations": "heterogeneous",
+      "sharedInteractionGrammar": true,
+      "medium": "portfolio"
+    },
+    "representationContext": {
+      "role": "explanatory",
+      "abstractionLevel": "overview",
+      "concernHierarchy": {
+        "primary": "see your goal decomposed into provable parts and see AES refuse an unprovable plan",
+        "secondary": [
+          "model vs deterministic step labelling",
+          "cost and latency"
+        ],
+        "assuranceRole": "coequal"
+      }
+    },
+    "availability": {
+      "status": "available",
+      "present": [],
+      "missing": [],
+      "note": null
+    },
+    "projection": {
+      "entities": [
+        "outcome",
+        "success-criterion",
+        "evidence-requirement",
+        "proof-route",
+        "violation",
+        "standing"
+      ],
+      "relationships": [
+        "refines",
+        "requires",
+        "proven-by",
+        "violates"
+      ],
+      "focus": null,
+      "operations": []
+    },
+    "representation": {
+      "pattern": "hierarchy-tree",
+      "family": "hierarchy",
+      "dynamics": "interactive",
+      "layout": "indented-or-node-link"
+    },
+    "interactions": [
+      {
+        "trigger": "select visual mark",
+        "effect": "open persistent details",
+        "purpose": "Reveal model properties and provenance on demand."
+      },
+      {
+        "trigger": "select model element",
+        "effect": "highlight related path",
+        "purpose": "Expose relationship chains without losing context."
+      }
+    ],
+    "provenance": {
+      "enabled": true,
+      "linkVisualMarksToModel": true,
+      "showDerivedCalculation": true,
+      "showEvidence": true
+    },
+    "rationale": [
+      "structure: hierarchy (+5)",
+      "intent: understand, inspect (+6)",
+      "task: inspect, trace (+8)",
+      "explanatory focus: structure (+4)",
+      "representation role: explanatory (+3)",
+      "abstraction: overview (+3)",
+      "interaction: authoring (+2)",
+      "dynamics: interactive (+3)",
+      "density: low (+2)",
+      "supports provenance (+2)",
+      "strong accessibility fit (+1)"
+    ]
+  }
+}

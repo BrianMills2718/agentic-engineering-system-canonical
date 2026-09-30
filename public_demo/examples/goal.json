@@ -1,0 +1,231 @@
+{
+ "recorded_at": "2026-09-30",
+ "usage": {
+  "model": "openrouter/openai/gpt-5.6-luna",
+  "trace_id": "aes-public-3f7258d1532c",
+  "calls": 1,
+  "cost_usd": 0.0006034
+ },
+ "draft": {
+  "criteria": [
+   {
+    "statement": "On a representative current mobile device and a clean browser profile, Brian's portfolio homepage reaches Largest Contentful Paint within 2.5 seconds on a simulated 4G connection.",
+    "disproof": "The homepage's Largest Contentful Paint exceeds 2.5 seconds in any defined mobile test run under the stated conditions.",
+    "requirements": [
+     {
+      "kind": "deterministic_test",
+      "requirement": "The homepage's Largest Contentful Paint is at or below 2.5 seconds on the specified mobile viewport, clean profile, and simulated 4G network.",
+      "how": "tests/test_mobile_performance.py"
+     }
+    ]
+   },
+   {
+    "statement": "A first-time visitor can load the portfolio site on a phone and view the homepage's primary content without an error, blank state, or horizontal scrolling.",
+    "disproof": "Any tested first-time phone session shows a load error, blank or missing primary content, or horizontal scrolling.",
+    "requirements": [
+     {
+      "kind": "deterministic_test",
+      "requirement": "An automated clean-session mobile browser test confirms successful loading, visible primary content, and no horizontal overflow on the homepage.",
+      "how": "tests/test_mobile_first_visit.py"
+     },
+     {
+      "kind": "runtime_observation",
+      "requirement": "A real phone session from a clean browser profile confirms the homepage is usable on initial load.",
+      "how": "A QA tester observes the site on a physical iOS and Android phone using a new private browsing session."
+     }
+    ]
+   },
+   {
+    "statement": "The site's primary navigation and portfolio project links are usable by a first-time visitor on a phone without clipped controls, unreadable text, or touch targets that cannot be activated.",
+    "disproof": "Any tested navigation or project link is clipped, unreadable, or cannot be activated through normal phone touch interaction.",
+    "requirements": [
+     {
+      "kind": "deterministic_test",
+      "requirement": "Mobile browser tests verify that primary navigation and project links are visible, within the viewport, and activate their intended destinations.",
+      "how": "tests/test_mobile_navigation.py"
+     },
+     {
+      "kind": "human_review",
+      "requirement": "A reviewer judges the navigation and project links usable on a phone for a first-time visitor.",
+      "how": "A UX reviewer inspects the site on a physical phone."
+     }
+    ]
+   }
+  ]
+ },
+ "result": {
+  "accepted": true,
+  "violations": [],
+  "proposal_yaml": "schema_version: aes.v0_2.proposal.probe0\nproposal_id: PLAN-001-VISITOR-GOAL\ntitle: Plan the visitor's goal\nrationale: Drafted from the visitor's sentence; AES decides whether it is acceptable.\ncloses_gaps: []\ntarget_delta:\n  add:\n    normative_items:\n    - id: NI-001\n      kind: behavior\n      outcome_refs:\n      - OUT-001\n      statement: Brian's portfolio site loads fast and works for first-time visitors on a phone.\n    success_criteria:\n    - id: SC-001\n      statement: On a representative current mobile device and a clean browser profile, Brian's portfolio\n        homepage reaches Largest Contentful Paint within 2.5 seconds on a simulated 4G connection.\n      target_refs:\n      - NI-001\n      disproof: The homepage's Largest Contentful Paint exceeds 2.5 seconds in any defined mobile test\n        run under the stated conditions.\n      evidence_requirements:\n      - id: ER-SC-001-01\n        kind: deterministic_test\n        requirement: The homepage's Largest Contentful Paint is at or below 2.5 seconds on the specified\n          mobile viewport, clean profile, and simulated 4G network.\n    - id: SC-002\n      statement: A first-time visitor can load the portfolio site on a phone and view the homepage's primary\n        content without an error, blank state, or horizontal scrolling.\n      target_refs:\n      - NI-001\n      disproof: Any tested first-time phone session shows a load error, blank or missing primary content,\n        or horizontal scrolling.\n      evidence_requirements:\n      - id: ER-SC-002-01\n        kind: deterministic_test\n        requirement: An automated clean-session mobile browser test confirms successful loading, visible\n          primary content, and no horizontal overflow on the homepage.\n      - id: ER-SC-002-02\n        kind: runtime_observation\n        requirement: A real phone session from a clean browser profile confirms the homepage is usable\n          on initial load.\n    - id: SC-003\n      statement: The site's primary navigation and portfolio project links are usable by a first-time\n        visitor on a phone without clipped controls, unreadable text, or touch targets that cannot be\n        activated.\n      target_refs:\n      - NI-001\n      disproof: Any tested navigation or project link is clipped, unreadable, or cannot be activated through\n        normal phone touch interaction.\n      evidence_requirements:\n      - id: ER-SC-003-01\n        kind: deterministic_test\n        requirement: Mobile browser tests verify that primary navigation and project links are visible,\n          within the viewport, and activate their intended destinations.\n      - id: ER-SC-003-02\n        kind: human_review\n        requirement: A reviewer judges the navigation and project links usable on a phone for a first-time\n          visitor.\n    verification_subjects:\n    - id: VS-001-01\n      criterion_refs:\n      - SC-001\n      evidence_requirement_refs:\n      - ER-SC-001-01\n      proof_kind: deterministic_test\n      proof_role: direct\n      locator: tests/test_mobile_performance.py\n      purpose: On a representative current mobile device and a clean browser profile, Brian's portfolio\n        homepage reaches Largest Conten\n    - id: VS-002-01\n      criterion_refs:\n      - SC-002\n      evidence_requirement_refs:\n      - ER-SC-002-01\n      proof_kind: deterministic_test\n      proof_role: direct\n      locator: tests/test_mobile_first_visit.py\n      purpose: A first-time visitor can load the portfolio site on a phone and view the homepage's primary\n        content without an error, bl\n    - id: VS-003-01\n      criterion_refs:\n      - SC-003\n      evidence_requirement_refs:\n      - ER-SC-003-01\n      proof_kind: deterministic_test\n      proof_role: direct\n      locator: tests/test_mobile_navigation.py\n      purpose: 'The site''s primary navigation and portfolio project links are usable by a first-time\n        visitor on a phone without clipped '\n    planned_artifacts:\n    - id: ART-TEST-01\n      locator:\n        exact_path: tests/test_mobile_performance.py\n      kind: test\n      purpose: On a representative current mobile device and a clean browser profile, Brian's portfolio\n        homepage reaches Largest Conten\n      semantic_justification_refs:\n      - SC-001\n    - id: ART-TEST-02\n      locator:\n        exact_path: tests/test_mobile_first_visit.py\n      kind: test\n      purpose: A first-time visitor can load the portfolio site on a phone and view the homepage's primary\n        content without an error, bl\n      semantic_justification_refs:\n      - SC-002\n    - id: ART-TEST-03\n      locator:\n        exact_path: tests/test_mobile_navigation.py\n      kind: test\n      purpose: 'The site''s primary navigation and portfolio project links are usable by a first-time\n        visitor on a phone without clipped '\n      semantic_justification_refs:\n      - SC-003\n    components:\n    - id: CMP-GOAL\n      responsibility: deliver the goal\n      target_refs:\n      - NI-001\n      planned_artifact_refs:\n      - ART-TEST-01\n      - ART-TEST-02\n      - ART-TEST-03\n    external_boundaries:\n    - evidence_requirement_ref: ER-SC-002-02\n      boundary: A QA tester observes the site on a physical iOS and Android phone using a new private\n        browsing session.\n    - evidence_requirement_ref: ER-SC-003-02\n      boundary: A UX reviewer inspects the site on a physical phone.\n",
+  "outcome": "Brian's portfolio site loads fast and works for first-time visitors on a phone.",
+  "tree": {
+   "criteria": [
+    {
+     "id": "SC-001",
+     "statement": "On a representative current mobile device and a clean browser profile, Brian's portfolio homepage reaches Largest Contentful Paint within 2.5 seconds on a simulated 4G connection.",
+     "disproof": "The homepage's Largest Contentful Paint exceeds 2.5 seconds in any defined mobile test run under the stated conditions.",
+     "standing": "INSUFFICIENT",
+     "requirements": [
+      {
+       "id": "ER-SC-001-01",
+       "kind": "deterministic_test",
+       "text": "The homepage's Largest Contentful Paint is at or below 2.5 seconds on the specified mobile viewport, clean profile, and simulated 4G network.",
+       "route": "deterministic_test: tests/test_mobile_performance.py",
+       "problems": []
+      }
+     ]
+    },
+    {
+     "id": "SC-002",
+     "statement": "A first-time visitor can load the portfolio site on a phone and view the homepage's primary content without an error, blank state, or horizontal scrolling.",
+     "disproof": "Any tested first-time phone session shows a load error, blank or missing primary content, or horizontal scrolling.",
+     "standing": "INSUFFICIENT",
+     "requirements": [
+      {
+       "id": "ER-SC-002-01",
+       "kind": "deterministic_test",
+       "text": "An automated clean-session mobile browser test confirms successful loading, visible primary content, and no horizontal overflow on the homepage.",
+       "route": "deterministic_test: tests/test_mobile_first_visit.py",
+       "problems": []
+      },
+      {
+       "id": "ER-SC-002-02",
+       "kind": "runtime_observation",
+       "text": "A real phone session from a clean browser profile confirms the homepage is usable on initial load.",
+       "route": "outside the repo: A QA tester observes the site on a physical iOS and Android phone using a new private browsing session.",
+       "problems": []
+      }
+     ]
+    },
+    {
+     "id": "SC-003",
+     "statement": "The site's primary navigation and portfolio project links are usable by a first-time visitor on a phone without clipped controls, unreadable text, or touch targets that cannot be activated.",
+     "disproof": "Any tested navigation or project link is clipped, unreadable, or cannot be activated through normal phone touch interaction.",
+     "standing": "INSUFFICIENT",
+     "requirements": [
+      {
+       "id": "ER-SC-003-01",
+       "kind": "deterministic_test",
+       "text": "Mobile browser tests verify that primary navigation and project links are visible, within the viewport, and activate their intended destinations.",
+       "route": "deterministic_test: tests/test_mobile_navigation.py",
+       "problems": []
+      },
+      {
+       "id": "ER-SC-003-02",
+       "kind": "human_review",
+       "text": "A reviewer judges the navigation and project links usable on a phone for a first-time visitor.",
+       "route": "outside the repo: A UX reviewer inspects the site on a physical phone.",
+       "problems": []
+      }
+     ]
+    }
+   ],
+   "other_problems": []
+  },
+  "state": {
+   "target_id": "your-goal-target",
+   "criteria": [
+    {
+     "id": "SC-001",
+     "statement": "On a representative current mobile device and a clean browser profile, Brian's portfolio homepage reaches Largest Contentful Paint within 2.5 seconds on a simulated 4G connection.",
+     "disproof": "The homepage's Largest Contentful Paint exceeds 2.5 seconds in any defined mobile test run under the stated conditions.",
+     "standing": "INSUFFICIENT",
+     "requirements": [
+      {
+       "id": "ER-SC-001-01",
+       "status": "NO_CURRENT_SUPPORT",
+       "detail": "no observation assesses it",
+       "kind": "deterministic_test",
+       "text": "The homepage's Largest Contentful Paint is at or below 2.5 seconds on the specified mobile viewport, clean profile, and simulated 4G network.",
+       "route": "deterministic_test: tests/test_mobile_performance.py"
+      }
+     ]
+    },
+    {
+     "id": "SC-002",
+     "statement": "A first-time visitor can load the portfolio site on a phone and view the homepage's primary content without an error, blank state, or horizontal scrolling.",
+     "disproof": "Any tested first-time phone session shows a load error, blank or missing primary content, or horizontal scrolling.",
+     "standing": "INSUFFICIENT",
+     "requirements": [
+      {
+       "id": "ER-SC-002-01",
+       "status": "NO_CURRENT_SUPPORT",
+       "detail": "no observation assesses it",
+       "kind": "deterministic_test",
+       "text": "An automated clean-session mobile browser test confirms successful loading, visible primary content, and no horizontal overflow on the homepage.",
+       "route": "deterministic_test: tests/test_mobile_first_visit.py"
+      },
+      {
+       "id": "ER-SC-002-02",
+       "status": "NO_CURRENT_SUPPORT",
+       "detail": "no observation assesses it",
+       "kind": "runtime_observation",
+       "text": "A real phone session from a clean browser profile confirms the homepage is usable on initial load.",
+       "route": "outside the repo: A QA tester observes the site on a physical iOS and Android phone using a new private browsing session."
+      }
+     ]
+    },
+    {
+     "id": "SC-003",
+     "statement": "The site's primary navigation and portfolio project links are usable by a first-time visitor on a phone without clipped controls, unreadable text, or touch targets that cannot be activated.",
+     "disproof": "Any tested navigation or project link is clipped, unreadable, or cannot be activated through normal phone touch interaction.",
+     "standing": "INSUFFICIENT",
+     "requirements": [
+      {
+       "id": "ER-SC-003-01",
+       "status": "NO_CURRENT_SUPPORT",
+       "detail": "no observation assesses it",
+       "kind": "deterministic_test",
+       "text": "Mobile browser tests verify that primary navigation and project links are visible, within the viewport, and activate their intended destinations.",
+       "route": "deterministic_test: tests/test_mobile_navigation.py"
+      },
+      {
+       "id": "ER-SC-003-02",
+       "status": "NO_CURRENT_SUPPORT",
+       "detail": "no observation assesses it",
+       "kind": "human_review",
+       "text": "A reviewer judges the navigation and project links usable on a phone for a first-time visitor.",
+       "route": "outside the repo: A UX reviewer inspects the site on a physical phone."
+      }
+     ]
+    }
+   ],
+   "counts": {
+    "SUPPORTED": 0,
+    "INSUFFICIENT": 3,
+    "REFUTED": 0
+   },
+   "observations": [],
+   "outcomes": [
+    {
+     "id": "OUT-001",
+     "statement": "Brian's portfolio site loads fast and works for first-time visitors on a phone.",
+     "actor": "the person who wrote this goal"
+    }
+   ],
+   "freshness_counts": "0 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded"
+  },
+  "log": [
+   {
+    "cmd": "aes init --project-id your-goal --actor the person who wrote this goal --outcome Brian's portfolio site loads fast and works for first-time visitors on a phone.",
+    "exit": 0,
+    "output": "wrote <project>/.aes/project.yaml\nwrote <project>/.aes/target.yaml\n  project_id=your-goal governed_roots=['src/', 'tests/'] language=python aes=0.1.dev400+g84bca4658\n  outcome OUT-001\n  next: aes plan prepare, write a proposal, aes plan validate/accept; or edit .aes/target.yaml by hand, then aes target validate"
+   },
+   {
+    "cmd": "aes plan validate proposal.yaml",
+    "exit": 0,
+    "output": "OK proposal PLAN-001-VISITOR-GOAL: 13 addition(s), 0 change(s), 0 removal(s)\n  closes: no current gap (target extension)\n  resulting target: success_criteria=3 evidence_requirements=5 verification_subjects=3 external_boundaries=2; every evidence requirement has a route"
+   },
+   {
+    "cmd": "aes plan accept proposal.yaml",
+    "exit": 0,
+    "output": "accepted at cc2072608d9b3cdfd98ef96a4d07630452c87987\n  added normative_items NI-001\n  added success_criteria SC-001\n  added success_criteria SC-002\n  added success_criteria SC-003\n  added components CMP-GOAL\n  added planned_artifacts ART-TEST-01\n  added planned_artifacts ART-TEST-02\n  added planned_artifacts ART-TEST-03\n  added verification_subjects VS-001-01\n  added verification_subjects VS-002-01\n  added verification_subjects VS-003-01\n  added external_boundaries ER-SC-002-02\n  added external_boundaries ER-SC-003-02\n  updated .aes/target.yaml\n  wrote .aes/plans/PLAN-001-VISITOR-GOAL.yaml\n  next: git add .aes/target.yaml .aes/plans/PLAN-001-VISITOR-GOAL.yaml && git commit, then implement\nnote: no origin/HEAD or origin/main here, so whether the recorded commit is on the default branch was not checked"
+   },
+   {
+    "cmd": "aes evidence status",
+    "exit": 0,
+    "output": "evidence: 3 criteria: 0 supported, 3 insufficient, 0 refuted; 0 observation(s): 0 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded\n  SC-001: INSUFFICIENT\n    ER-SC-001-01: NO_CURRENT_SUPPORT - no observation assesses it\n  SC-002: INSUFFICIENT\n    ER-SC-002-01: NO_CURRENT_SUPPORT - no observation assesses it\n    ER-SC-002-02: NO_CURRENT_SUPPORT - no observation assesses it\n  SC-003: INSUFFICIENT\n    ER-SC-003-01: NO_CURRENT_SUPPORT - no observation assesses it\n    ER-SC-003-02: NO_CURRENT_SUPPORT - no observation assesses it\n  observations:"
+   }
+  ]
+ }
+}
