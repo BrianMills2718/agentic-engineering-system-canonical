@@ -1,7 +1,8 @@
 # Now (2026-10-02, Claude Code session)
 
-**Stopped at:** M1 pilot blocked on the agents' Claude login; M3 slice 2 and
-the M4 first slice (this brain, `brain_fresh.py`) done.
+**Stopped at:** M1 pilot blocked on the agents' Claude login. Done meanwhile:
+M3 slice 2, the M4 first slice (this brain, `brain_fresh.py`), the restore
+check, Codex's Jev hook confirmed, and `scripts/hive/controls.py`.
 
 **Next step:** follow "Exact next action" in `proposals/hive-brain-v1/ROADMAP.md`.
 In short:
@@ -9,7 +10,7 @@ In short:
    `python3 scripts/hive/decisions.py` shows "Agents not working: 0", then let
    the Coordinator pick pilot tasks (BRI-13).
 2. Seed `.project-brain/` in each pilot project the Coordinator picks.
-3. After 2026-10-03 13:11, test the Jev hook in Codex.
+3. Run `python3 scripts/hive/controls.py` at each stop (exit 0 = no control silent).
 
 **Rule for every agent:** read this file first. When your change moves where
 the project stands, update `now.md` (and `state.md` if needed) in the same pull

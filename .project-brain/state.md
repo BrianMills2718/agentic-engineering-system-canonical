@@ -12,7 +12,9 @@ Detail and evidence: `proposals/hive-brain-v1/ROADMAP.md` ("Capabilities",
     working, then tasks waiting on Brian.
   - Learning loop slices 1–2 built: legacy learnings labelled; new `kind:*`
     issues labelled weekly by a timer on personal-vps (summaries on issue #74).
-  - Jev gate: observe mode in every Claude session; Codex untested.
+  - Jev gate: observe mode in every Claude and Codex session.
+  - Silence check: `python3 scripts/hive/controls.py`; backups restore
+    (`host/restore-check.sh` in personal-vps).
   - Project brains: this one is the first; `scripts/hive/brain_fresh.py`
     reports a stale brain.
 - **AES v0.2 product** (`approved` as realized, Decision 0010): governed by
