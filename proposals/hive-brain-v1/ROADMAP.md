@@ -59,9 +59,9 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 | C-ORCH orchestration | Paperclip on personal-vps | running, but every agent run has failed since 2026-10-02 20:30 UTC (expired Claude login, see Progress log); fix waits on Brian's token | agents run again; it drove the three pilot tasks |
 | C-MSG agent messaging | Paperclip task threads | in use (BRI-5 → BRI-8 handoff) | the same, on pilot tasks |
 | C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; dashboard later | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; first run 2026-10-02 found 2 stale setup tasks (closed) | pilot reviews done through it |
-| C-IDENTITY identity | one brain per project | none | each pilot project has a project brain agents read |
-| C-KNOW knowledge | personal knowledge layer, to be chosen (candidates: gbrain, Hermes, Paperclip company documents) | none | chosen, running, used by a pilot task |
-| C-CONTEXT context freshness | to be chosen | none | agents get current instructions/state; a stale-context case is caught |
+| C-IDENTITY identity | one brain per project: `.project-brain/` in each repo (agent-skills `project-brain.md` layout), read first via the repo's `CLAUDE.md`/`AGENTS.md` | AES has the first brain (2026-10-02) | each pilot project has a project brain agents read |
+| C-KNOW knowledge | git: each repo's `.project-brain/`; one task's plan in Paperclip issue documents (chosen 2026-10-02 after a landscape review; gbrain, Hermes, mem0/Letta/Cognee rejected for v1, reasons in `.project-brain/truth.md`) | chosen; AES brain committed | used by a pilot task |
+| C-CONTEXT context freshness | Paperclip re-reads agent and project settings each run (its `DEVELOPING.md`, "Config Freshness"); `scripts/hive/brain_fresh.py` for stale brains and checkouts behind GitHub | checker built; caught theory-forge `HANDOFF.md` (183 days, 209 commits since, exit 1) | run before pilot tasks; a stale case caught on a pilot project |
 | C-GOV governance | Jev gate + CC Safety Net + hive-brain settings as AES config | CC Safety Net on for Claude and Codex; Jev gate in observe mode in every Claude session (2,334 decisions logged by 2026-10-02 late; Codex untested); settings not in config | Jev gate in guard mode across projects; settings file; a block shows up in the log |
 | C-LEARN learning | AES learning loop (GitHub issues + Jev labels) | slice 1 done: 2,575 legacy learnings labelled (PR #66); first lesson filed (issue #64) | condition 3 |
 | C-EVAL evaluation | readout from logs and traces | none | a weekly readout over pilot tasks |
@@ -74,7 +74,7 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 | M1 | **Pilot running.** The Coordinator picks agent-doable items from Brian's personal weekly plan, agents build them, and decisions reach the terminal | in progress: pieces 1–3 done; blocked until agents can sign in to Claude again (Brian's token), then the Coordinator's first picks (BRI-13) | one pilot task is reviewed through `decisions.py` |
 | M2 | **Governance on everywhere.** Jev gate observe mode in all of Brian's repositories for Claude and Codex, then guard mode after a log review; hive-brain settings as an AES config file | fully_specifiable_now | guard mode on, with a week of log |
 | M3 | **Learning loop slices 2–5,** plus coaching for Brian | slice 2 fully specifiable; 3–5 conditional on slice 2 counts | condition 3 |
-| M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | exploration_required (short landscape review first) | each used by a pilot task |
+| M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | in progress: chosen (landscape review 2026-10-02); first brain (AES) and freshness check built; pilot projects' brains next | each used by a pilot task |
 | M5 | **Evaluation and observability.** Weekly readout; check that no control went silent | conditional on M1–M3 producing logs | condition 4 |
 | M6 | **v1 acceptance.** All five conditions shown with evidence | conditional | — |
 
@@ -172,6 +172,15 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     agent's latest run failed, so a dead fleet shows up the next time it runs.
   - The local AES checkout was realigned to `origin/main` (`0 0`); its stray
     merge commit is kept on `origin/wip/main-merge-20261002`.
+  - Jev policy (agent-skills #422): merging Brian's own PRs moved to allow; the
+    secrets-file rule fires only on direct reads. Replaying the whole log, wrong
+    blocks fell from 4 to 2. In guard mode only "deny" blocks; "ask" falls back
+    to Claude's own prompt, so ask-before-merge never blocked.
+  - Learning loop slice 2: `label_items.py issues` labelled #64, #71–#73; a
+    weekly timer on personal-vps (personal-vps #41) posts summaries to #74.
+  - M4: landscape review chose per-repo `.project-brain/` folders; AES brain
+    seeded; `brain_fresh.py` built and tested (theory-forge `HANDOFF.md` stale,
+    exit 1).
 
 ## Exact next action
 
@@ -180,6 +189,9 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    next runs. Wake BRI-14 (health check) by commenting on it and confirm a
    `succeeded` run in `/api/companies/<C>/heartbeat-runs`.
 1. Run `python3 scripts/hive/decisions.py` and read BRI-13's comments.
+   Before a pilot task starts on a project, seed that repo's `.project-brain/`
+   (copy AES's four files as the pattern) and add the read-first line to its
+   `CLAUDE.md`/`AGENTS.md`.
    Expected: the Coordinator has named one or two `Pilot:` tasks assigned to
    Research and Code Review. If it has not acted within a few hours, look at
    its run log on the board.

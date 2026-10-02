@@ -18,6 +18,11 @@ Canonical governance sources:
 
 Start with `wiki/index.md`.
 
+**Project brain:** read `.project-brain/now.md` first (layout: agent-skills
+`contracts/client-config/agents/project-brain.md`). When a change moves where
+the project stands, update `now.md` (and `state.md` if needed) in the same pull
+request; `python3 scripts/hive/brain_fresh.py .` exits 1 when the brain is stale.
+
 This repository is a protocol-pilot consumer of the standalone architecture in `BrianMills2718/wiki_methodology` at revision `0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe`.
 
 ### AES governs itself (v0.2, primary workflow)
