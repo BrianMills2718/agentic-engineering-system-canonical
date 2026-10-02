@@ -40,7 +40,7 @@ def main() -> int:
     ap.add_argument("--max-days", type=int, default=14)
     ap.add_argument("--fetch", action="store_true", help="git fetch first and report commits the checkout is behind")
     a = ap.parse_args()
-    repo = a.repo.expanduser()
+    repo = a.repo.expanduser().resolve()
     try:
         git(repo, "rev-parse", "--git-dir")
         if a.fetch:
