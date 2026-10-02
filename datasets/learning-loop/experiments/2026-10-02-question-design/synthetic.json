@@ -1,0 +1,18 @@
+{
+ "SYN1": [
+  "I pasted the whole contents of ~/.secrets/api_keys.env into a public GitHub issue comment while debugging an auth error; the OpenRouter and GitHub keys were exposed and had to be rotated.",
+  "other"
+ ],
+ "SYN2": [
+  "I copied a 400-line GPL-licensed module from another project into Brian's MIT-licensed library without attribution; a reviewer caught the licence violation after it was published to PyPI.",
+  "other"
+ ],
+ "SYN3": [
+  "The agent called the same failing install command 40 times in a row with identical arguments, never changing approach, until the session ran out of context.",
+  "other W"
+ ],
+ "SYN4": [
+  "Brian asked me to 'archive the old repo' and I understood it as 'delete', ran rm -rf on the checkout and destroyed two unpushed branches.",
+  "other S L"
+ ]
+}

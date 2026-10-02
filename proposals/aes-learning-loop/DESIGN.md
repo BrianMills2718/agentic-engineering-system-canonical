@@ -47,7 +47,7 @@ canonical is the fresh-start home; `project-meta` is legacy.
 | # | Requirement | Provenance |
 |---|---|---|
 | R1 | Every new lesson, friction or problem is recorded once as a GitHub issue in AES canonical, typed as `kind:lesson`, `kind:friction` or `kind:problem` | Brian 2026-10-02 (data home accepted: "a") |
-| R2 | Within a week, each item is labelled either `fact` (not a failure) or one failure family `family:<letter>`, or else `unsorted` | Brian 2026-10-02; Jev test 2026-10-02 |
+| R2 | Within a week, each item is labelled `fact` (not a failure), `other` (a failure no family fits), or one or more failure families `family:<letter>`. At least 8 of 10 labels must be acceptable on items judged before the run | Brian 2026-10-02 ("8 out of 10 is good … 9 out of 10 if better"; "allow multiple to apply … and a clear other") |
 | R3 | A family whose open, sorted items recur past a threshold yields one drafted rule proposal: an AES plan proposal adding or changing a normative item, presented to Brian as a `Decision:` item | Brian 2026-10-02; harvest A3 #15 (lesson-to-check promotion) |
 | R4 | An accepted rule names where it is enforced: the AES commit check (repository rules), the Jev gate (agent action rules), or instructions only. It also names what is observed and its feedback path | Brian 2026-10-02 ("observability, enforcement and feedback") |
 | R5 | Enforcement emits evidence: `aes status` for repository rules and the Jev gate decision log for action rules. False asks or blocks become `kind:friction` issues automatically | Brian 2026-10-02; legacy lesson "controls went dark without anyone noticing" |
@@ -58,13 +58,13 @@ canonical is the fresh-start home; `project-meta` is legacy.
 
 | Failure | Traces to | Control |
 |---|---|---|
-| Misfiling, i.e. the wrong family | R2 | Jev answers below the threshold go to `unsorted`. A weekly spot check samples 10 filed items; a misfile becomes a `kind:friction` against the loop itself (level 2) |
-| Thresholds drift when wording changes | R2 | The question set is frozen and versioned (`questions: v1`). Any change re-runs the labelled spot-check set before the threshold is trusted (Jev learning 2026-10-02) |
-| The loop goes dark | R1–R5 | Every run writes one summary issue comment with counts (read, sorted, unsorted, proposals, errors) and an exit status. A week with no run opens a `kind:problem` issue |
+| Misfiling, i.e. the wrong family | R2 | Every family within 0.15 of Jev's top probability is applied, so a near-tie yields several labels instead of a guess. Answers with confidence ≥ 0.9 are marked `confident`. A weekly spot check samples 10 filed items; a misfile becomes a `kind:friction` against the loop itself (level 2) |
+| Thresholds drift when wording changes | R2 | The question set is frozen and versioned (`scripts/learning_loop/question_set_v2.json`, `questions: v2`). Any change re-runs the judged sets in `datasets/learning-loop/experiments/` before it is trusted, and is measured on items judged before the run, not on items the wording was tuned against (issue #64) |
+| The loop goes dark | R1–R5 | Every run writes one summary issue comment with counts (read, filed, fact, other, proposals, errors) and an exit status. A week with no run opens a `kind:problem` issue |
 | Proposal flood | R3 | At most 3 drafted proposals per week; extras wait |
 | Jev outage or refusal | R2 | Items stay unlabelled and are counted as `errors`; they are never silently skipped or guessed |
 | Rules that never act | R4–R5 | Each accepted rule carries a trigger (for example "fired 0 times in 30 days" or "always allowed"). Hitting it opens a keep-change-retire `Decision:` item |
-| A new failure shape no family fits | R2 | A low `fits_well` score together with `is_failure` yes marks the item `novel-candidate`. A second instance proposes a new family (from the legacy taxonomy pass's own rule) |
+| A new failure shape no family fits | R2 | Jev's `other` option (defined as a real failure none of the families describes) labels it `other`. A second similar `other` item proposes a new family (from the legacy taxonomy pass's own rule) |
 
 ## Self-application without infinite regress
 
@@ -90,20 +90,27 @@ is the recommendation.
 ## Contracts and schema
 
 - **Issue labels:** `kind:{lesson,friction,problem}`,
-  `family:{A..Y}` (one per family in the moved taxonomy), `fact`, `unsorted`,
-  `novel-candidate`, `level:{1,2}`, `source:{legacy,session,gate}`.
+  `family:{A..Y}` (one per family in the moved taxonomy; several may apply), `fact`, `other`,
+  `level:{1,2}`, `source:{legacy,session,gate}`.
 - **Issue body front matter:** `source_ref`, `recorded_at`, `recommended_action`,
-  `jev: {questions: v1, is_failure, family, p, confidence, run}`.
-- **Jev question set v1:**
-  - `is_failure` (yes/no): "describes a reasoning or control failure, not a
-    plain fact";
-  - `fits_well` (yes/no, with family titles listed);
-  - `family` (one choice per family; criterion text = title plus guiding
-    question).
+  `jev: {questions: v2, choice, families, p, confidence, run}`.
+- **Jev question set v2** (`scripts/learning_loop/question_set_v2.json`): one
+  choice question, written to TypeSafe's choice guidance. Each of the 22
+  families is an option with a descriptive name, `what` it covers and what it
+  is `not_for`, plus `other` and `not_a_failure` options. The learning goes in
+  as named fields (`learning`, `recommended_action`).
 
-  Filing rule: `is_failure < 0.7` → `fact`; else `p ≥ 0.6` → `family:X`;
-  else `unsorted`. These numbers come from the 20-item test and are
-  re-calibrated from spot checks.
+  Filing rule: choice `not_a_failure` → `fact`; choice `other` → `other`;
+  else every family within 0.15 of the top probability → `family:X` (one or
+  several); confidence ≥ 0.9 → `confident`.
+
+  Measured 2026-10-02 on 20 items judged before the run: an acceptable family
+  was among the labels for 16/20 items, with 1.6 labels on average. Detail:
+  `datasets/learning-loop/experiments/2026-10-02-question-design/`.
+
+  v1 (a yes/no `is_failure` and `fits_well`, plus a choice with title and
+  guiding question, filed at p ≥ 0.6) is retired. Its `other`-is-never-chosen
+  result was a wording problem, not a Jev limit.
 - **Taxonomy:** moves from `agent-skills/skills/review/references/failure-modes.md`
   into AES canonical as one document; the families are the label source.
 - **Proposals:** `aes plan prepare` output with one normative item per rule,
@@ -114,20 +121,20 @@ is the recommendation.
 | Capability | Candidate | Disposition |
 |---|---|---|
 | Item storage, search and counts | GitHub Issues and labels | **reuse** |
-| Classification | Jev (TypeSafe) via OpenRouter `systemone` | **configure** (question set v1) |
+| Classification | Jev (TypeSafe) via OpenRouter `systemone` | **configure** (question set v2, written to TypeSafe's own choice guidance) |
 | Rule home and acceptance | AES `.aes/target.yaml` normative items and `aes plan` | **reuse** |
 | Action-rule enforcement and log | `jev-engineering` gate (pinned 82655a6) with Brian's `policy.local.json` | **configure** |
 | Scheduling | Paperclip routine on personal-vps | **reuse** |
-| Classifier in legacy `taxonomy_feedback_pass.py` (token overlap) | — | **reject**: its own docstring shows the correct family ranked 3rd of 17. Its *ideas* enter as requirements: durable per-item outcome, `novel-candidate` on a second instance, corpus-measured "unmatched" threshold |
+| Classifier in legacy `taxonomy_feedback_pass.py` (token overlap) | — | **reject**: its own docstring shows the correct family ranked 3rd of 17. Its *ideas* enter as requirements: durable per-item outcome, a new family proposed on a second `other` instance |
 | Legacy friction clusters and policy registry | — | **reject as architecture**; data and ideas only |
 | Glue that labels issues and drafts proposals | — | **residual** (small script, the only new code) |
 
 ## External-call budget
 
-- **Calls:** 1 Jev call per item (3 questions in one request). Legacy backfill:
-  2,572 calls, about $0.13 at the observed $0.00005 per call. Weekly: tens of calls.
-- **Latency:** observed 0.3–0.6 s per call. The backfill runs serially with
-  resume from the last labelled entry id.
+- **Calls:** 1 Jev call per item (one choice question). Legacy backfill:
+  2,573 calls, about $0.25 at the observed $0.0001 per call. Weekly: tens of calls.
+- **Latency:** observed 0.3–0.6 s per call. The backfill runs 8 calls at a time and
+  resumes by skipping entries already labelled with the same question-set version.
 - **Failure:** no retry beyond one. A failed item stays unlabelled and is
   counted; no fallback to another model.
 - **Canary:** the first 20 items reuse the 2026-10-02 hand-checked set.
@@ -138,7 +145,7 @@ is the recommendation.
   accepted plan said "import as closed issues, last 3 months". All 2,572 entries
   turned out to be within 3 months (the register started in July), so the
   smaller import doesn't exist. The archive
-  (`datasets/learning-loop/legacy-learnings-labelled.jsonl`) is labelled by the same Jev
+  (`datasets/learning-loop/legacy-learnings-labelled-v2.jsonl`) is labelled by the same Jev
   questions, and family counts include it. Reverse: create the issues from that
   file.
 
@@ -146,7 +153,7 @@ is the recommendation.
 
 | # | Slice | State |
 |---|---|---|
-| 1 | Move the taxonomy in; create the labels; label the legacy archive with Jev (dry run first: report counts per family and `fact`, `unsorted`, `novel-candidate`); Brian spot-checks 10 | fully_specifiable_now |
+| 1 | Move the taxonomy in; create the labels; label the legacy archive with Jev (report counts per family and `fact`, `other`); check against judged items | done 2026-10-02: v1 then v2 (issue #64) |
 | 2 | New items → issues: agents file `kind:*` issues; a weekly Paperclip routine labels them and posts the run summary | fully_specifiable_now |
 | 3 | Threshold → drafted AES plan proposal → `Decision:` item for Brian | conditional on slice 1 counts (sets the threshold) |
 | 4 | Accepted action rules compiled into the Jev gate's `policy.local.json`; gate false asks and blocks → `kind:friction` issues | conditional on the gate's observe-mode log |
@@ -155,9 +162,13 @@ is the recommendation.
 ## Still unresolved
 
 - `human_required`: the level-3 fixed-core list (blocks slice 5 only).
-- `assumption`: Jev's "p ≥ 0.6 is right" holds beyond 20 items. Slice 1's spot
-  check tests it; if fewer than 8 of 10 are right, the threshold goes up before
-  slice 2.
+- `assumption`: the acceptable-family judgments behind the 8/10 measurement
+  are Claude's, not Brian's. If Brian's own spot check of 10 filed items finds
+  fewer than 8 acceptable, the wording is revised before slice 2.
+- `assumption`: 9 of 10 needs a better cut of the families, not better
+  wording. Most remaining misses are pairs that describe one failure from two
+  angles (what failed versus why). A quick five-group hierarchy did worse
+  (12/20 groups right), so a re-cut needs a real factorization analysis.
 - `assumption`: GitHub issues stay usable at tens of new items per week. If the
   view becomes noise, labels plus saved searches are the first fix, not a new UI.
 - `agent_decided_reversible`: archive file instead of 2,572 issues (above).
