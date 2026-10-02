@@ -62,10 +62,10 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 | C-IDENTITY identity | one brain per project: `.project-brain/` in each repo (agent-skills `project-brain.md` layout), read first via the repo's `CLAUDE.md`/`AGENTS.md` | AES has the first brain (2026-10-02) | each pilot project has a project brain agents read |
 | C-KNOW knowledge | git: each repo's `.project-brain/`; one task's plan in Paperclip issue documents (chosen 2026-10-02 after a landscape review; gbrain, Hermes, mem0/Letta/Cognee rejected for v1, reasons in `.project-brain/truth.md`) | chosen; AES brain committed | used by a pilot task |
 | C-CONTEXT context freshness | Paperclip re-reads agent and project settings each run (its `DEVELOPING.md`, "Config Freshness"); `scripts/hive/brain_fresh.py` for stale brains and checkouts behind GitHub | checker built; caught theory-forge `HANDOFF.md` (183 days, 209 commits since, exit 1) | run before pilot tasks; a stale case caught on a pilot project |
-| C-GOV governance | Jev gate + CC Safety Net + hive-brain settings as AES config | CC Safety Net on for Claude and Codex; Jev gate in observe mode in every Claude session (2,334 decisions logged by 2026-10-02 late; Codex untested); settings not in config | Jev gate in guard mode across projects; settings file; a block shows up in the log |
+| C-GOV governance | Jev gate + CC Safety Net + hive-brain settings as AES config | CC Safety Net on for Claude and Codex; Jev gate in observe mode in every Claude and Codex session (2,334 decisions logged by 2026-10-02 late; Codex confirmed 2026-10-02, see Progress log); settings not in config | Jev gate in guard mode across projects; settings file; a block shows up in the log |
 | C-LEARN learning | AES learning loop (GitHub issues + Jev labels) | slice 1 done: 2,575 legacy learnings labelled (PR #66); first lesson filed (issue #64) | condition 3 |
 | C-EVAL evaluation | readout from logs and traces | none | a weekly readout over pilot tasks |
-| C-RUNTIME runtime | netcup personal-vps, nightly backups to Drive | running; `vps-backup.timer` ran 2026-10-02 03:34 | a restore check |
+| C-RUNTIME runtime | netcup personal-vps, nightly backups to Drive | running; `vps-backup.timer` ran 2026-10-02 03:34; restore check passed 2026-10-02 (personal-vps `host/restore-check.sh`, #42) | done for v1 (rerun before acceptance) |
 
 ## Milestones
 
@@ -75,7 +75,7 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 | M2 | **Governance on everywhere.** Jev gate observe mode in all of Brian's repositories for Claude and Codex, then guard mode after a log review; hive-brain settings as an AES config file | fully_specifiable_now | guard mode on, with a week of log |
 | M3 | **Learning loop slices 2–5,** plus coaching for Brian | slice 2 fully specifiable; 3–5 conditional on slice 2 counts | condition 3 |
 | M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | in progress: chosen (landscape review 2026-10-02); first brain (AES) and freshness check built; pilot projects' brains next | each used by a pilot task |
-| M5 | **Evaluation and observability.** Weekly readout; check that no control went silent | conditional on M1–M3 producing logs | condition 4 |
+| M5 | **Evaluation and observability.** Weekly readout; check that no control went silent | in progress: `scripts/hive/controls.py` built (silence check); weekly readout waits on pilot logs | condition 4 |
 | M6 | **v1 acceptance.** All five conditions shown with evidence | conditional | — |
 
 M1 runs first because pilot tasks run unattended in the background while
@@ -181,6 +181,17 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   - M4: landscape review chose per-repo `.project-brain/` folders; AES brain
     seeded; `brain_fresh.py` built and tested (theory-forge `HANDOFF.md` stale,
     exit 1).
+  - Codex runs the Jev hook: a Codex session ran
+    `gh api -X DELETE repos/o-nonexistent/...` at 22:53:09 UTC (CC Safety Net
+    log, `agent: codex`, no Claude session ran it), and Jev logged that exact
+    command in the same second. Jev's log has no client field; the Safety Net
+    log does, so match commands across the two.
+  - Restore check: the 2026-10-02 Drive backup restored into a throwaway
+    Postgres 18 (1 company, 3 agents, 4 issues, Coordinator row present).
+  - `scripts/hive/controls.py` (condition 4): last activity of each control
+    against its normal gap; exit 1 on SILENT/FAILING/STALE. First run: Paperclip
+    FAILING (expected, login), everything else ok. A fake 8-day-old Jev log
+    showed SILENT.
 
 ## Exact next action
 
@@ -198,12 +209,10 @@ token at the hidden prompt. It ends with PASSED or FAILED.
 2. Meanwhile, M2 toward guard mode. Done 2026-10-02: Jev gate in observe
    mode in every Claude session through agent-skills' hook manifest
    (agent-skills #417); personal-vps's project-only copy is gone. Still open:
-   - Codex: after its usage limit resets (2026-10-03 13:11), run one
-     `codex exec` with `</dev/null` that runs a unique command (for example
-     `echo jev-codex-probe-<random>`) and find that exact command in
-     `~/.jev-gate/decisions.jsonl`. The log has no agent field, so match the
-     command, not a count.
-   - The policy's "ask" list includes merging to a default branch, which
-     contradicts "merge your own PRs" (`~/code/AGENTS.md`). Fix in agent-skills
-     `contracts/client-config/jev/policy.local.json` before guard mode.
-   - Review a week of the log, then switch to guard mode.
+   - Done 2026-10-02: Codex confirmed (Progress log); merge rule and
+     secrets-file rule fixed (agent-skills #422).
+   - Review a week of the log (from 2026-10-02), then switch to guard mode
+     (`jev-gate-hook --mode guard`; only "deny" blocks). Check the replay
+     first: `deny` rows in `~/.jev-gate/decisions.jsonl` must all be right.
+3. Run `python3 scripts/hive/controls.py` at each stop; it must exit 0 for a
+   week before condition 4 can be claimed.
