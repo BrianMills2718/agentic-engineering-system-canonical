@@ -92,8 +92,10 @@ is the recommendation.
 - **Issue labels:** `kind:{lesson,friction,problem}`,
   `family:{A..Y}` (one per family in the moved taxonomy; several may apply), `fact`, `other`,
   `level:{1,2}`, `source:{legacy,session,gate}`.
-- **Issue body front matter:** `source_ref`, `recorded_at`, `recommended_action`,
-  `jev: {questions: v2, choice, families, p, confidence, run}`.
+- **Issue body front matter:** `source_ref`, `recorded_at`, `recommended_action`.
+  Jev's answer (questions version, choice, families, p, confidence, runner-up)
+  goes in a comment by the label run, so the filer's text is never rewritten.
+  Labels `other` and `confident` were created 2026-10-02.
 - **Jev question set v2** (`scripts/learning_loop/question_set_v2.json`): one
   choice question, written to TypeSafe's choice guidance. Each of the 22
   families is an option with a descriptive name, `what` it covers and what it
@@ -124,7 +126,7 @@ is the recommendation.
 | Classification | Jev (TypeSafe) via OpenRouter `systemone` | **configure** (question set v2, written to TypeSafe's own choice guidance) |
 | Rule home and acceptance | AES `.aes/target.yaml` normative items and `aes plan` | **reuse** |
 | Action-rule enforcement and log | `jev-engineering` gate (pinned 82655a6) with Brian's `policy.local.json` | **configure** |
-| Scheduling | Paperclip routine on personal-vps | **reuse** |
+| Scheduling | systemd timer on personal-vps (`learning-loop.timer`, personal-vps `apps/learning-loop/`), like the nightly backup | **reuse** (was: Paperclip routine; a fixed script needs no agent, and the timer keeps running when Paperclip agents are down, as on 2026-10-02) |
 | Classifier in legacy `taxonomy_feedback_pass.py` (token overlap) | — | **reject**: its own docstring shows the correct family ranked 3rd of 17. Its *ideas* enter as requirements: durable per-item outcome, a new family proposed on a second `other` instance |
 | Legacy friction clusters and policy registry | — | **reject as architecture**; data and ideas only |
 | Glue that labels issues and drafts proposals | — | **residual** (small script, the only new code) |
@@ -154,7 +156,7 @@ is the recommendation.
 | # | Slice | State |
 |---|---|---|
 | 1 | Move the taxonomy in; create the labels; label the legacy archive with Jev (report counts per family and `fact`, `other`); check against judged items | done 2026-10-02: v1 then v2 (issue #64) |
-| 2 | New items → issues: agents file `kind:*` issues; a weekly Paperclip routine labels them and posts the run summary | fully_specifiable_now |
+| 2 | New items → issues: agents file `kind:*` issues; a weekly run labels them and posts the run summary | built 2026-10-02: `label_items.py issues` labelled #64, #71–#73 (4 filed, $0.0004); weekly timer on personal-vps posts to issue #74. Open: agents filing items on their own (the `learned` skill still writes to project-meta) |
 | 3 | Threshold → drafted AES plan proposal → `Decision:` item for Brian | conditional on slice 1 counts (sets the threshold) |
 | 4 | Accepted action rules compiled into the Jev gate's `policy.local.json`; gate false asks and blocks → `kind:friction` issues | conditional on the gate's observe-mode log |
 | 5 | Level-2 and level-3 controls as normative items; trigger evaluation | human_decision_required (level-3 list) |

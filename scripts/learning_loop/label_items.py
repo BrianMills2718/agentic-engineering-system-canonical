@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Label lessons with Jev into failure-mode families (AES learning loop, slice 1).
+"""Label lessons with Jev into failure-mode families (AES learning loop, slices 1-2).
 
 Design: proposals/aes-learning-loop/DESIGN.md. The question set is frozen in
 question_set_v2.json; changing it means re-running the judged test sets in
@@ -13,6 +13,14 @@ probability. `confident` marks confidence >= `confident_at`.
 
   python3 scripts/learning_loop/label_items.py legacy --out datasets/learning-loop/legacy-learnings-labelled-v2.jsonl
   python3 scripts/learning_loop/label_items.py report --in datasets/learning-loop/legacy-learnings-labelled-v2.jsonl
+  python3 scripts/learning_loop/label_items.py issues [--dry-run] [--summary-issue N]
+
+`issues` (slice 2) labels every open issue that has a `kind:*` label and no
+`family:*`, `fact` or `other` label yet, records Jev's answer as an issue
+comment, and prints the run summary (posted to --summary-issue if given).
+GitHub token: GH_TOKEN or GITHUB_TOKEN, else `gh auth token`. Exit status: 0 =
+every item labelled, 1 = some Jev or GitHub calls failed (those items stay
+unlabelled and are retried next run), 2 = could not list issues.
 
 Reads OPENROUTER_API_KEY from the environment, else by name from
 ~/.secrets/api_keys.env. Resumes: entries already in --out are skipped. A failed
@@ -41,6 +49,8 @@ ENDPOINT = "https://openrouter.ai/api/v1/systemone"
 MODEL = "typesafe/jev-1.13"
 QUESTION_SET = Path(__file__).with_name("question_set_v2.json")
 LEGACY_GLOB = "~/code/project-meta/learnings/entries/*.json"
+REPO = "BrianMills2718/agentic-engineering-system-canonical"
+KINDS = ("kind:lesson", "kind:friction", "kind:problem")
 
 
 def api_key() -> str:
@@ -174,6 +184,74 @@ def cmd_report(args) -> int:
     return 0
 
 
+def github_token() -> str:
+    tok = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    if not tok:
+        import subprocess
+        tok = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True).stdout.strip()
+    if not tok:
+        sys.exit("no GitHub token: set GH_TOKEN or log in with gh")
+    return tok
+
+
+def gh(method: str, path: str, tok: str, body: dict | None = None):
+    req = urllib.request.Request("https://api.github.com" + path, method=method,
+                                 data=json.dumps(body).encode() if body is not None else None,
+                                 headers={"Authorization": "Bearer " + tok, "Accept": "application/vnd.github+json"})
+    return json.loads(urllib.request.urlopen(req, timeout=30).read() or b"null")
+
+
+def cmd_issues(args) -> int:
+    qs, key, tok = question_set(), api_key(), github_token()
+    try:
+        seen = {}
+        for kind in KINDS:
+            for i in gh("GET", f"/repos/{args.repo}/issues?state=open&per_page=100&labels={kind}", tok):
+                if "pull_request" not in i:
+                    seen[i["number"]] = i
+    except (urllib.error.URLError, TimeoutError, ValueError) as e:
+        print(f"issues: could not list issues in {args.repo}: {e}", file=sys.stderr)
+        return 2
+    names = lambda i: {l["name"] for l in i["labels"]}
+    todo = [i for i in seen.values() if not any(n.startswith("family:") or n in ("fact", "other") for n in names(i))]
+    counts = collections.Counter(already_labelled=len(seen) - len(todo))
+    lines, cost = [], 0.0
+    for i in sorted(todo, key=lambda i: i["number"]):
+        body = i.get("body") or ""
+        m = re.search(r"^recommended_action:\s*(.+)$", body, re.M)
+        state = {"learning": (i["title"] + "\n\n" + body)[:1800], "recommended_action": (m.group(1) if m else "")[:400]}
+        r, err, secs = ask(state, qs["question"], key)
+        if err:
+            counts["error"] += 1
+            lines.append(f"- #{i['number']}: Jev failed ({err[:120]}); left unlabelled")
+            continue
+        d = decide(r["answers"], qs)
+        cost += r.get("usage", {}).get("cost") or 0
+        labels = [f"family:{k}" for k in d["families"]] if d["outcome"] == "filed" else [d["outcome"]]
+        labels += ["confident"] if d["confident"] and d["outcome"] == "filed" else []
+        lines.append(f"- #{i['number']} {i['title'][:80]} -> {', '.join(labels)} (p={d['p']}, confidence={d['confidence']})")
+        counts[d["outcome"]] += 1
+        if args.dry_run:
+            continue
+        try:
+            gh("POST", f"/repos/{args.repo}/issues/{i['number']}/labels", tok, {"labels": labels})
+            gh("POST", f"/repos/{args.repo}/issues/{i['number']}/comments", tok, {"body": (
+                f"Learning loop label run ({qs['version']} questions, {MODEL}): **{', '.join(labels)}**\n\n"
+                f"choice `{d['choice']}`, p={d['p']}, confidence={d['confidence']}, runner-up `{d['second']}`. "
+                "Wrong label? Relabel by hand and add `kind:friction` to a new issue saying why.")})
+        except (urllib.error.URLError, TimeoutError, ValueError) as e:
+            counts["error"] += 1
+            lines[-1] += f" — GitHub write failed ({e}); not labelled"
+            counts[d["outcome"]] -= 1
+    summary = (f"learning loop issues run{' (dry run)' if args.dry_run else ''}: {len(seen)} open kind:* issues, "
+               f"{dict(counts)}, cost=${cost:.4f}, questions={qs['version']}")
+    print(summary)
+    print("\n".join(lines))
+    if args.summary_issue and not args.dry_run:
+        gh("POST", f"/repos/{args.repo}/issues/{args.summary_issue}/comments", tok, {"body": summary + "\n\n" + "\n".join(lines)})
+    return 1 if counts["error"] else 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -184,8 +262,12 @@ def main() -> int:
     b = sub.add_parser("report")
     b.add_argument("--in", dest="inp", required=True)
     b.add_argument("--seed", type=int, default=20261002)
+    c = sub.add_parser("issues")
+    c.add_argument("--repo", default=REPO)
+    c.add_argument("--dry-run", action="store_true")
+    c.add_argument("--summary-issue", type=int, default=0)
     args = ap.parse_args()
-    return cmd_legacy(args) if args.cmd == "legacy" else cmd_report(args)
+    return {"legacy": cmd_legacy, "report": cmd_report, "issues": cmd_issues}[args.cmd](args)
 
 
 if __name__ == "__main__":
