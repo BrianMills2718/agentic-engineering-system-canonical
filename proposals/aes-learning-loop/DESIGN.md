@@ -138,7 +138,7 @@ is the recommendation.
   accepted plan said "import as closed issues, last 3 months". All 2,572 entries
   turned out to be within 3 months (the register started in July), so the
   smaller import doesn't exist. The archive
-  (`datasets/legacy-learnings-labelled.jsonl`) is labelled by the same Jev
+  (`datasets/learning-loop/legacy-learnings-labelled.jsonl`) is labelled by the same Jev
   questions, and family counts include it. Reverse: create the issues from that
   file.
 
