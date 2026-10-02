@@ -10,6 +10,9 @@
 **Last outcome-bearing update:** 2026-10-02.
 - Plan written; state taken from live checks (see "Evidence").
 - M1 pieces 1–3 done; the pilot was kicked off as Paperclip task BRI-13.
+- Late 2026-10-02: every Paperclip agent run was failing (expired Claude login,
+  upstream bug). Fix wired; it waits on Brian creating a one-year token
+  ("Human decisions" below).
 
 ## Outcome
 
@@ -53,13 +56,13 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 
 | Capability | Chosen tool | State 2026-10-02 | v1 evidence still needed |
 |---|---|---|---|
-| C-ORCH orchestration | Paperclip on personal-vps | running: Coordinator (30-min heartbeat), Research and Code Review, Brian Contact; 12 tasks, 9 done | it drove the three pilot tasks |
+| C-ORCH orchestration | Paperclip on personal-vps | running, but every agent run has failed since 2026-10-02 20:30 UTC (expired Claude login, see Progress log); fix waits on Brian's token | agents run again; it drove the three pilot tasks |
 | C-MSG agent messaging | Paperclip task threads | in use (BRI-5 → BRI-8 handoff) | the same, on pilot tasks |
-| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; dashboard later | `python3 scripts/hive/decisions.py` lists every task waiting on Brian or blocked; first run 2026-10-02 found 2 stale setup tasks (closed) | pilot reviews done through it |
+| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; dashboard later | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; first run 2026-10-02 found 2 stale setup tasks (closed) | pilot reviews done through it |
 | C-IDENTITY identity | one brain per project | none | each pilot project has a project brain agents read |
 | C-KNOW knowledge | personal knowledge layer, to be chosen (candidates: gbrain, Hermes, Paperclip company documents) | none | chosen, running, used by a pilot task |
 | C-CONTEXT context freshness | to be chosen | none | agents get current instructions/state; a stale-context case is caught |
-| C-GOV governance | Jev gate + CC Safety Net + hive-brain settings as AES config | CC Safety Net on for Claude and Codex; Jev gate in observe mode **in personal-vps only** (3 decisions logged); settings not in config | Jev gate in guard mode across projects; settings file; a block shows up in the log |
+| C-GOV governance | Jev gate + CC Safety Net + hive-brain settings as AES config | CC Safety Net on for Claude and Codex; Jev gate in observe mode in every Claude session (2,334 decisions logged by 2026-10-02 late; Codex untested); settings not in config | Jev gate in guard mode across projects; settings file; a block shows up in the log |
 | C-LEARN learning | AES learning loop (GitHub issues + Jev labels) | slice 1 done: 2,575 legacy learnings labelled (PR #66); first lesson filed (issue #64) | condition 3 |
 | C-EVAL evaluation | readout from logs and traces | none | a weekly readout over pilot tasks |
 | C-RUNTIME runtime | netcup personal-vps, nightly backups to Drive | running; `vps-backup.timer` ran 2026-10-02 03:34 | a restore check |
@@ -68,7 +71,7 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 
 | # | Milestone | State | Done when |
 |---|---|---|---|
-| M1 | **Pilot running.** The Coordinator picks agent-doable items from Brian's personal weekly plan, agents build them, and decisions reach the terminal | in progress: pieces 1–3 done; waiting for the Coordinator's first picks (BRI-13) | one pilot task is reviewed through `decisions.py` |
+| M1 | **Pilot running.** The Coordinator picks agent-doable items from Brian's personal weekly plan, agents build them, and decisions reach the terminal | in progress: pieces 1–3 done; blocked until agents can sign in to Claude again (Brian's token), then the Coordinator's first picks (BRI-13) | one pilot task is reviewed through `decisions.py` |
 | M2 | **Governance on everywhere.** Jev gate observe mode in all of Brian's repositories for Claude and Codex, then guard mode after a log review; hive-brain settings as an AES config file | fully_specifiable_now | guard mode on, with a week of log |
 | M3 | **Learning loop slices 2–5,** plus coaching for Brian | slice 2 fully specifiable; 3–5 conditional on slice 2 counts | condition 3 |
 | M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | exploration_required (short landscape review first) | each used by a pilot task |
@@ -126,12 +129,18 @@ read-only.
 | Paperclip running, three agents idle | `docker ps` on personal-vps (up 16 h); board API agents list | 2026-10-02 |
 | Paperclip tasks | 12 total: 9 done, 1 todo (BRI-4), 1 backlog (BRI-2, Telegram), 1 blocked (BRI-1) | 2026-10-02 |
 | Backups | `systemctl list-timers` shows `vps-backup.timer` last ran 2026-10-02 03:34 CEST | 2026-10-02 |
-| Jev gate barely observing | `~/.jev-gate/decisions.jsonl` has 3 entries (deny, allow, ask) | 2026-10-02 |
+| Jev gate observing every Claude session | `~/.jev-gate/decisions.jsonl` has 2,334 entries: 1,489 allow, 841 ask, 4 deny, all mode `observe` | 2026-10-02 |
 | Learning loop slice 1 | PR #66 merged `3bc351e`; 2,575 labelled, 0 errors | 2026-10-02 |
 
 ## Human decisions
 
-None open. All six design points were settled by the goal.
+No decisions open; all six design points were settled by the goal.
+
+**Waiting on Brian (action, 2026-10-02):** create the agents' one-year Claude
+token. In his own terminal (not a Claude session, so the token stays out of
+transcripts): `ssh -t personal-vps sudo /srv/apps/paperclip/set-claude-token.sh`,
+open the link, approve, paste the code, then paste the printed `sk-ant-oat01-…`
+token at the hidden prompt. It ends with PASSED or FAILED.
 
 ## Progress log
 
@@ -144,14 +153,45 @@ None open. All six design points were settled by the goal.
     the board API; the backup is `AGENTS.md.bak-20261002-pilot` beside the
     file in the container.
   - Kickoff task BRI-13 was assigned to the Coordinator.
+  - **Every agent run failed** from 20:30 UTC with "ACP agent reported a
+    terminal access failure" (0 tokens); health check BRI-14 showed Research
+    and Code Review failing too. Nothing showed it for 16 hours. Cause, read in
+    Paperclip's code and confirmed by open upstream issues
+    paperclipai/paperclip#13725 and #14182: the "My Claude subscription"
+    connection stores only Claude's access token, which expires about 8 hours
+    after sign-in and is never refreshed. "terminal access" means a final
+    sign-in failure, not a shell. No upstream fix is merged (#13726, #14698,
+    #14027 open), so upgrading does not help.
+  - Fix (personal-vps PR #40): company secret `CLAUDE_CODE_OAUTH_TOKEN` bound
+    to all three agents; their `aiConnection` binding removed in the database
+    (this version cannot unbind through the API; old rows in
+    `/root/paperclip-agents-backup-20261002-claude-token.json`);
+    `set-claude-token.sh` lets Brian set the one-year token. The secret holds a
+    placeholder until he runs it.
+  - `decisions.py` now prints "Agents not working" first and exits 1 when any
+    agent's latest run failed, so a dead fleet shows up the next time it runs.
+  - The local AES checkout was realigned to `origin/main` (`0 0`); its stray
+    merge commit is kept on `origin/wip/main-merge-20261002`.
 
 ## Exact next action
 
+0. Once Brian's `set-claude-token.sh` prints PASSED: check that
+   `python3 scripts/hive/decisions.py` shows "Agents not working: 0" after the
+   next runs. Wake BRI-14 (health check) by commenting on it and confirm a
+   `succeeded` run in `/api/companies/<C>/heartbeat-runs`.
 1. Run `python3 scripts/hive/decisions.py` and read BRI-13's comments.
    Expected: the Coordinator has named one or two `Pilot:` tasks assigned to
    Research and Code Review. If it has not acted within a few hours, look at
    its run log on the board.
-2. Meanwhile, M2: put the Jev gate (observe mode) in every session through
-   agent-skills' hook manifest (`contracts/client-config/hook-manifest.v1.json`,
-   `scripts/manage_client_config.py apply`) for both Claude and Codex. Then
-   remove personal-vps's project-only copy so commands aren't logged twice.
+2. Meanwhile, M2 toward guard mode. Done 2026-10-02: Jev gate in observe
+   mode in every Claude session through agent-skills' hook manifest
+   (agent-skills #417); personal-vps's project-only copy is gone. Still open:
+   - Codex: after its usage limit resets (2026-10-03 13:11), run one
+     `codex exec` with `</dev/null` that runs a unique command (for example
+     `echo jev-codex-probe-<random>`) and find that exact command in
+     `~/.jev-gate/decisions.jsonl`. The log has no agent field, so match the
+     command, not a count.
+   - The policy's "ask" list includes merging to a default branch, which
+     contradicts "merge your own PRs" (`~/code/AGENTS.md`). Fix in agent-skills
+     `contracts/client-config/jev/policy.local.json` before guard mode.
+   - Review a week of the log, then switch to guard mode.
