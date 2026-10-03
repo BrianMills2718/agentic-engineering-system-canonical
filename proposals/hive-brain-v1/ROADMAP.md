@@ -7,12 +7,12 @@
 - Brian, for "where are we against v1".
 
 **Stage:** personal pilot (Brian plus agents), not a team product.
-**Last outcome-bearing update:** 2026-10-03 (UTC).
-- Plan written; state taken from live checks (see "Evidence").
-- M1 pieces 1–3 done; the pilot was kicked off as Paperclip task BRI-13.
-- Late 2026-10-02: every Paperclip agent run was failing (expired Claude login,
-  upstream bug). Fix wired; it waits on Brian creating a one-year token
-  ("Human decisions" below).
+**Last outcome-bearing update:** 2026-10-03 17:55 UTC.
+- Pilot task 1 of 3 merged (AES PR #88, 2026-10-03). Pilot task 2 is scoped
+  (BRI-20, `personal-wiki`, confidence-label currency) and waits on the
+  Coordinator's slice choice; earliest creation 21:35 UTC (6-hour floor).
+- Agents sign in again since 15:22 UTC (one-year token); project brains in
+  four repositories; 11 of 11 controls clean.
 
 ## Outcome
 
@@ -56,12 +56,12 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 
 | Capability | Chosen tool | State 2026-10-02 | v1 evidence still needed |
 |---|---|---|---|
-| C-ORCH orchestration | Paperclip on personal-vps | running, but every agent run has failed since 2026-10-02 20:30 UTC (expired Claude login, see Progress log); fix waits on Brian's token | agents run again; it drove the three pilot tasks |
+| C-ORCH orchestration | Paperclip on personal-vps | running again since 2026-10-03 15:22 UTC (one-year token); drove pilot task 1 (BRI-17 → AES PR #88); pilot floor one task per 6 hours, 2 open at once | it drives pilot tasks 2 and 3 |
 | C-MSG agent messaging | Paperclip task threads | in use (BRI-5 → BRI-8 handoff) | the same, on pilot tasks |
-| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; dashboard later | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; first run 2026-10-02 found 2 stale setup tasks (closed) | pilot reviews done through it |
-| C-IDENTITY identity | one brain per project: `.project-brain/` in each repo (agent-skills `project-brain.md` layout), read first via the repo's `CLAUDE.md`/`AGENTS.md` | brains in AES (2026-10-02), theory-forge (#22) and cybernetic_influence_v3 (#43), 2026-10-03; each records its docs' conflicts as `needs_resolution` (e.g. theory-forge README says 5 theories compiled, AGENTS.md says 39; cybernetic_influence_v3 AGENTS.md says CI gates every merge, but GitHub Actions has been off since 2026-09-14) | each pilot project has a project brain agents read |
+| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; dashboard later | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; pilot 1's merge decision (BRI-19) went through it 2026-10-03 | pilot 2 and 3 reviews done through it |
+| C-IDENTITY identity | one brain per project: `.project-brain/` in each repo (agent-skills `project-brain.md` layout), read first via the repo's `CLAUDE.md`/`AGENTS.md` | brains in AES (2026-10-02), theory-forge (#22), cybernetic_influence_v3 (#43) and personal-wiki (#12, with a two-line `CLAUDE.md` pointer because the VPS agents' Claude Code loads only `CLAUDE.md`), 2026-10-03; each records its docs' conflicts as `needs_resolution` (e.g. theory-forge README says 5 theories compiled, AGENTS.md says 39; cybernetic_influence_v3 AGENTS.md says CI gates every merge, but GitHub Actions has been off since 2026-09-14) | each pilot project has a project brain agents read |
 | C-KNOW knowledge | git: each repo's `.project-brain/`; one task's plan in Paperclip issue documents (chosen 2026-10-02 after a landscape review; gbrain, Hermes, mem0/Letta/Cognee rejected for v1, reasons in `.project-brain/truth.md`) | chosen; AES brain committed | used by a pilot task |
-| C-CONTEXT context freshness | Paperclip re-reads agent and project settings each run (its `DEVELOPING.md`, "Config Freshness"); `scripts/hive/brain_fresh.py` for stale brains and checkouts behind GitHub | checker built; caught theory-forge `HANDOFF.md` (183 days, 209 commits since, exit 1) | run before pilot tasks; a stale case caught on a pilot project |
+| C-CONTEXT context freshness | Paperclip re-reads agent and project settings each run (its `DEVELOPING.md`, "Config Freshness"); `scripts/hive/brain_fresh.py` for stale brains and checkouts behind GitHub | checker built; caught theory-forge `HANDOFF.md` (183 days, 209 commits since, exit 1); `controls.py` runs it daily for every `~/code` repo with a brain (4 on 2026-10-03) | run before pilot tasks; a stale case caught on a pilot project |
 | C-GOV governance | Jev gate + CC Safety Net + hive-brain settings as AES config | CC Safety Net on for Claude and Codex; Jev gate in observe mode in every Claude and Codex session (Codex confirmed 2026-10-02); rule K1 enforced 2026-10-03; settings in `scripts/hive/settings.json`, checked against the live system by `settings_check.py` (22 of 22 match, 2026-10-03; part of `controls.py`) | Jev gate in guard mode across projects; settings file; a block shows up in the log |
 | C-LEARN learning | AES learning loop (GitHub issues + Jev labels) | slice 1 done: 2,575 legacy learnings labelled (PR #66); first lesson filed (issue #64) | condition 3 |
 | C-EVAL evaluation | readout from logs and traces: `python3 scripts/hive/readout.py [--days N]` (Paperclip tasks, pilot tasks, runs and failure codes; Jev and Safety Net decisions; learning-loop items by family; controls) | built 2026-10-03; first run showed the outage (13 failed runs, all `acpx_turn_failed`) | a weekly readout over pilot tasks |
@@ -71,10 +71,10 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 
 | # | Milestone | State | Done when |
 |---|---|---|---|
-| M1 | **Pilot running.** The Coordinator picks agent-doable items from Brian's personal weekly plan, agents build them, and decisions reach the terminal | in progress: pieces 1–3 done; blocked until agents can sign in to Claude again (Brian's token), then the Coordinator's first picks (BRI-13) | one pilot task is reviewed through `decisions.py` |
+| M1 | **Pilot running.** The Coordinator picks agent-doable items from Brian's personal weekly plan, agents build them, and decisions reach the terminal | done 2026-10-03: pilot task 1 (BRI-17) was reviewed through `decisions.py` (BRI-19) and merged as AES PR #88; the queue continues for pilots 2 and 3 | one pilot task is reviewed through `decisions.py` |
 | M2 | **Governance on everywhere.** Jev gate observe mode in all of Brian's repositories for Claude and Codex, then guard mode after a log review; hive-brain settings as an AES config file (`scripts/hive/settings.json`: agents, heartbeats and caps, gate mode, timers) | in progress: observe mode on everywhere (2026-10-02); rule K1 enforced and settings file with a live check done (2026-10-03); guard mode waits on the wrong-deny fix (AES #73) and the log review until 2026-10-09 | guard mode on, with a week of log |
 | M3 | **Learning loop slices 2–5,** plus coaching for Brian | slice 2 fully specifiable; 3–5 conditional on slice 2 counts | condition 3 |
-| M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | in progress: chosen (landscape review 2026-10-02); first brain (AES) and freshness check built; pilot projects' brains next | each used by a pilot task |
+| M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | in progress: chosen (landscape review 2026-10-02); brains in AES, theory-forge, cybernetic_influence_v3 and personal-wiki; freshness checked daily by `controls.py`; pilot 2 is the first task told to read and update a brain | each used by a pilot task |
 | M5 | **Evaluation and observability.** Weekly readout; check that no control went silent | in progress: `controls.py` (silence check) and `readout.py` (weekly readout) built; both wait on pilot logs | condition 4 |
 | M6 | **v1 acceptance.** All five conditions shown with evidence | conditional | — |
 
@@ -121,15 +121,19 @@ read-only.
 | Thin glue around off-the-shelf tools lives in `scripts/` (ungoverned); AES product logic goes through `aes plan` | agent_decided_reversible | speed. **Wrong when:** a script passes ~300 lines or holds logic that isn't tied to one tool; then it moves under `aes plan` |
 | Failure families are not re-cut for v1 | agent_decided_reversible | issue #64. **Wrong when:** a weekly spot check finds fewer than 8 of 10 acceptable |
 | The weekly plan (dated week of 2026-09-21) is still a fair source of pilot tasks | assumption | if Brian's priorities moved, the Coordinator picks stale work; Brian's review catches it |
+| Pilot cadence: at most one new pilot task every 6 hours (was 12), 2 open at once | agent_decided_reversible | 2026-10-03: pilot 1 took about 80 minutes from creation to merge, so a 12-hour floor would spend two days on a few hours of work; the 2-open cap already bounds Brian's review load. Old rule kept as `AGENTS.md.bak-20261003-cadence` beside the Coordinator's instructions. **Wrong when:** two `Decision:` tasks wait on Brian for more than a day, or he says reviews arrive too fast |
+| Repositories with only `AGENTS.md` get a two-line `CLAUDE.md` that points to it and to the brain | agent_decided_reversible | 2026-10-03: the VPS agents' Claude Code (2.1.278, no `instructionFiles` setting) loads only `CLAUDE.md`; the local setting that also loads `AGENTS.md` is not there. **Wrong when:** a pilot run log on an `AGENTS.md`-only repo without the pointer shows the brain was read anyway |
 
 ## Evidence
 
 | Claim | Evidence | Date |
 |---|---|---|
-| Paperclip running; Coordinator and Research and Code Review fail every run (login); Brian Contact runs only when woken and has not run since 04:13 on 2026-10-02, so it has not failed yet but would | `python3 scripts/hive/decisions.py` ("Agents not working: 2 of 3") | 2026-10-03 |
-| Paperclip tasks | 15 total: BRI-13 (pilot kickoff) and BRI-14 (health check) in progress, BRI-15 (Brian: token) todo, BRI-2 backlog, the rest done | `scripts/hive/board.sh GET /api/companies/$C/issues` | 2026-10-03 |
+| Paperclip running; all three agents' latest runs succeed | `python3 scripts/hive/decisions.py` ("Agents not working: 0 of 3", exit 0); `readout.py --days 7`: 95 runs, 50 succeeded, 43 failed (all in the login outage) | 2026-10-03 17:40 UTC |
+| Paperclip tasks | 21 total: BRI-13 (pilot kickoff) in progress, BRI-20 (pilot 2 scoping) in review, BRI-2 backlog, the rest done, including BRI-17 (pilot 1) and BRI-19 (its merge decision) | `scripts/hive/board.sh GET /api/companies/$C/issues` | 2026-10-03 17:40 UTC |
+| Coordinator re-reads its instructions each run | its comment at 17:53 UTC cites the 6-hour floor written into the file at 17:45 UTC | 2026-10-03 |
+| Project brains fresh in 4 repositories; no control silent | `python3 scripts/hive/controls.py`: 11 of 11 ok, exit 0; `brain_fresh.py ~/code/personal-wiki --fetch` exit 0 | 2026-10-03 17:50 UTC |
 | Backups | `systemctl list-timers` shows `vps-backup.timer` last ran 2026-10-02 03:34 CEST | 2026-10-02 |
-| Jev gate observing every Claude and Codex session | `python3 scripts/hive/readout.py`: about 3,500 decisions by 2026-10-03, all mode `observe`; 9 deny (hard rules), 0 rule K1 blocks (K1 not installed) | 2026-10-03 |
+| Jev gate observing every Claude and Codex session | `python3 scripts/hive/readout.py --days 7`: 7,033 decisions, all mode `observe`; 18 deny (hard rules); 1 rule K1 block (the live test) | 2026-10-03 17:40 UTC |
 | Learning loop slice 1 | PR #66 merged `3bc351e`; 2,575 labelled, 0 errors | 2026-10-02 |
 
 ## Human decisions
@@ -237,6 +241,37 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     `69846223`. Hand-holding: one scope question (BRI-18, the over-broad Inside
     Success rule, AES #87) answered by the terminal session.
 
+- **2026-10-03, later (pilot 2 preparation):**
+  - Pilot 2 target: the Coordinator first chose a `portfolio` citation pass,
+    then withdrew it as a duplicate of V16.17 and chose `personal-wiki`
+    (weekly plan Priority 5, "keep confidence labels current"). Scoping task
+    BRI-20 (read-only) found all 274 typed pages labelled and all 963 inline
+    markers well-formed; the real defect is currency (70 of 100 watched pages
+    stale by the repo's own `watch`/`sources_checked` rule, 18 unverifiable
+    because 14 watched repositories return 404), and the documented lint
+    command exits 2 for a cold reader because the script lives outside the
+    repo. It recommends "report, don't fix": a checker in `tools/` plus the
+    corrected lint line. Its question card (which slice) waits on the
+    Coordinator, not Brian.
+  - `personal-wiki` brain seeded (personal-wiki PR #12): the four files, the
+    read-first paragraph in `AGENTS.md`, and a two-line `CLAUDE.md` pointer.
+    `brain_fresh.py` exit 0; `controls.py` now checks 11 controls (11 ok).
+  - Coordinator rules changed (backup `AGENTS.md.bak-20261003-cadence`):
+    pilot floor 12 hours → 6 hours; each pilot task tells the agent to read
+    `.project-brain/now.md` first and update it in the same PR.
+  - Facts posted on BRI-20 and BRI-13 (17:52 UTC): the lint script exists on
+    Brian's machine (exit 0, 272 pages, 18 thin warnings, no confidence
+    check); the 404s are probably the Inside Success repositories moved into
+    `inside-success-mega` on 2026-10-02.
+  - The Coordinator read the changed rules on its next run (17:52–17:54 UTC;
+    its 17:53 comment cites the 6-hour floor, moves its monitor to 21:40 UTC
+    and puts the brain clause in the pilot 2 spec) and answered BRI-20's
+    slice question itself: report-only, three states, no page edits.
+  - Ecosystem gap filed as project-meta #2346: the workspace instruction names
+    `check_coordination_claims.py` without a path, and the copies in nine
+    repos crash on import; the working one is
+    `project-meta/scripts/meta/check_coordination_claims.py`.
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
@@ -244,7 +279,8 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   Company `C=da165590-b0b3-4bf9-bb7f-e455292df499`. Tasks: BRI-13 (pilot
   kickoff) `c8a83262-03e9-4b7a-b8fd-734cfe1d9b44`; BRI-14 (health check)
   `3b1cd68f-0d58-4699-bf6f-e38a79fe487a`; BRI-15 (Brian: token)
-  `36109986-51a2-4276-b4f5-225758ed87cc`. Board in a browser:
+  `36109986-51a2-4276-b4f5-225758ed87cc`; BRI-20 (pilot 2 scoping)
+  `f1cb19d0-9a87-440a-9fc6-7b43c20e668c`. Board in a browser:
   `https://paperclip.brianmills.dev/BRI/issues/<BRI-n>`.
 - **Dashboard (Brian's view, phone-friendly):** https://claude.ai/artifact/SvMbUicpBhWEQYR7xZi4qc,
   built by `python3 scripts/hive/dashboard.py --out <file.html>` and republished with
@@ -252,6 +288,10 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   Progress on the five conditions lives in `scripts/hive/conditions.json`; update it
   with evidence whenever a condition moves. Design: Representation Router, use case
   `scripts/hive/dashboard-use-case.json`.
+- **Coordinator rules:** `/paperclip/instances/default/companies/<C>/agents/8964a584-ddfe-4fb1-b14f-c1503ae5ec23/instructions/AGENTS.md`
+  inside the `paperclip` container on personal-vps ("Pilot work" section).
+  Edit it with a dated `.bak-` copy beside it; Paperclip re-reads it each run.
+  Proof it was read: the Coordinator's next comment cites the new rule.
 - **Terminal relay:** `python3 scripts/hive/decisions.py` (agents not working,
   then tasks waiting on Brian; exit 1 while an agent is broken).
 - **Silence check:** `python3 scripts/hive/controls.py` (exit 0 = no control
@@ -265,39 +305,46 @@ token at the hidden prompt. It ends with PASSED or FAILED.
 
 ## Exact next action
 
-0. Done 2026-10-03: token fixed, agents run (Progress log). To re-check any
-   time: wake the health check with
+0. Agents run (since 2026-10-03 15:22 UTC). To re-check any time: wake the
+   health check with
    `echo '{"body":"Health check: reply ok."}' | scripts/hive/board.sh POST /api/issues/3b1cd68f-0d58-4699-bf6f-e38a79fe487a/comments`,
    then `scripts/hive/board.sh GET "/api/companies/$C/heartbeat-runs?agentId=4d008def-4e59-47c2-bccf-ec5313e12ce2&limit=3"`
    shows `"status":"succeeded"`.
 1. Optional, Brian: rerun `set-claude-token.sh` once without pasting its
    output anywhere, so the saved token never appeared in a chat.
-2. **Pilot:** BRI-16 (Research and Code Review reads the weekly plan,
-   id `b8f04463-8fe7-43d0-9c51-86b336c829d2`) unblocks BRI-13. Read the Coordinator's picks:
-   `scripts/hive/board.sh GET /api/issues/c8a83262-03e9-4b7a-b8fd-734cfe1d9b44/comments`.
-   Expected: one or two `Pilot:` tasks assigned to Research and Code Review.
-   If none within a few hours, wake BRI-13 with a comment the same way and
-   read the Coordinator's latest run (heartbeat-runs with
-   `agentId=8964a584-ddfe-4fb1-b14f-c1503ae5ec23`). Before a pilot task starts
-   on a project, make sure that repo has `.project-brain/` (done: AES,
-   theory-forge; portfolio waits for another session's claim to clear) and a
-   read-first line where Claude Code reads it: `CLAUDE.md`. theory-forge has
-   only `AGENTS.md`, so check in the first theory-forge run log that the brain
-   was read. The weekly plan the Coordinator picks from is dated the week of
-   2026-09-21; if its picks look stale, say so in the review.
-3. **Condition 3:** K1 is proposed, accepted, enforced, and its log shows a
+2. **Pilot 2** (`personal-wiki`): BRI-20 is in review with a question card for
+   the Coordinator (which slice). The Coordinator answered it at 17:53 UTC
+   (slice: report-only checker `tools/confidence_check.py` with three states,
+   stale / current / unreachable, plus the `AGENTS.md` lint-line fix and the
+   `now.md` update) and confirmed the 6-hour floor; its monitor fires at
+   21:40 UTC to create the `Pilot:` task. Check:
+   `scripts/hive/board.sh GET "/api/companies/$C/issues"` lists a new `Pilot:`
+   task assigned to Research and Code Review after 21:35 UTC. If none by
+   22:15 UTC, wake BRI-13 with a comment. Then the pilot's PR appears and `decisions.py` shows
+   `Decision: merge personal-wiki PR #<n>?`; Brian answers in the terminal;
+   relay the yes by merging with a merge commit and closing the Decision
+   task. In that review, check the run log shows `.project-brain/now.md` was
+   read and the PR updates it (C-IDENTITY and C-KNOW evidence).
+3. **Pilot 3:** earliest 6 hours after pilot 2 is created. The Coordinator
+   picks the repo; before the task starts, make sure the repo has
+   `.project-brain/` (done: AES, theory-forge, cybernetic_influence_v3,
+   personal-wiki; portfolio waits for another session's claim to clear) and a
+   `CLAUDE.md` read-first line. The weekly plan is dated the week of
+   2026-09-21; say so in the review if the pick looks stale.
+4. **Condition 3:** K1 is proposed, accepted, enforced, and its log shows a
    live-test block. Still needed: a block in real work (watch K1 rows in
    `readout.py`) and one wrong block coming back as a `kind:friction`,
    `source:gate` issue. The 8 wrong Jev denies (AES #72, #73) are gate
    frictions already, but from the pre-existing secret rules, not K1.
-4. **M2:** review the Jev log until 2026-10-09 (every `deny` row must be
+5. **M2:** review the Jev log until 2026-10-09 (every `deny` row must be
    right), then switch to guard mode (`jev-gate-hook --mode guard`; only
-   "deny" blocks). **Not safe yet (2026-10-03):** of 9 `deny` rows, 1 is right
-   (WSL shutdown) and 8 are text-matching rules firing on heredoc or PR/issue
-   text that only mentions a forbidden command (AES #72, #73). Fix that first:
-   either the rules stop matching text inside heredocs and messages, or Jev's
-   base `env … | curl` rule is changed upstream (posting there needs Brian's
-   yes).
-5. `controls.py` runs daily (user timer) and at each stop; condition 4 can be
+   "deny" blocks). **Not safe yet (2026-10-03):** of the `deny` rows, 1 is
+   right (WSL shutdown) and the rest are text-matching rules firing on heredoc
+   or PR/issue text that only mentions a forbidden command (AES #72, #73). Fix
+   that first: either the rules stop matching text inside heredocs and
+   messages, or Jev's base `env … | curl` rule is changed upstream (posting
+   there needs Brian's yes; the exact text was shown to him by the earlier
+   session and is not yet approved).
+6. `controls.py` runs daily (user timer) and at each stop; condition 4 can be
    claimed when `python3 scripts/hive/readout.py --days 7` shows 7 days with
    only clean runs (first clean day 2026-10-03).
