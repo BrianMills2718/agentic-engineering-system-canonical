@@ -13,6 +13,7 @@ Controls and where their activity is read:
   - Learning loop: latest summary comment on AES issue #74 (weekly timer on personal-vps)
   - VPS backup: last result of vps-backup.service on personal-vps
   - Project brains: scripts/hive/brain_fresh.py for every ~/code repo with a .project-brain/
+  - Hive settings: scripts/hive/settings_check.py (live system matches scripts/hive/settings.json)
 Exit status: 0 = every control active, 1 = something SILENT, FAILING or STALE,
 2 = a source could not be read (printed as UNKNOWN, never as fine).
 
@@ -118,6 +119,11 @@ def main() -> int:
         status = "ok" if b.returncode == 0 else ("STALE" if b.returncode == 1 else "UNKNOWN")
         rows.append((f"Project brain: {repo.name}", b.stdout.split("last updated ")[-1].split(" at ")[0] if b.stdout else "?",
                      "15 commits/14d", status))
+
+    sc = subprocess.run([sys.executable, str(HERE / "settings_check.py")], capture_output=True, text=True, timeout=300)
+    summary = (sc.stdout.strip().splitlines() or ["?"])[-1].replace("settings check: ", "")
+    rows.append(("Hive settings match settings.json", "now", "-",
+                 "ok" if sc.returncode == 0 else (f"FAILING: {summary}" if sc.returncode == 1 else f"UNKNOWN: {summary}")))
 
     w = max(len(r[0]) for r in rows)
     for name, last, gap, status in rows:
