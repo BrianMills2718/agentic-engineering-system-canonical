@@ -15,7 +15,10 @@ component. Target changes go through `aes plan prepare / validate / accept`.
 
 - **Start here:** [`docs/greenfield/GETTING_STARTED.md`](docs/greenfield/GETTING_STARTED.md)
   — install, `aes init`, and the lifecycle on a new project.
-- **Where things stand:** run `aes status` (or `make aes` in this repository).
+- **Where things stand:** in a clone of this repository, install first —
+  `python3 -m venv .venv && .venv/bin/python -m pip install -e .` (Python 3.11 or
+  newer) — then run `.venv/bin/aes status`, or `make aes`, which finds that
+  `.venv` itself.
 - **What is accepted, on what evidence, and what is not claimed:**
   [Decision 0010](docs/decisions/0010-greenfield-v0.2-accepted.md).
 - **Accepted architecture:** [`docs/architecture/greenfield-v0.2/`](docs/architecture/greenfield-v0.2/README.md).
