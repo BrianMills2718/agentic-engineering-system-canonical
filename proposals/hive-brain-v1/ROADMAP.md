@@ -7,7 +7,7 @@
 - Brian, for "where are we against v1".
 
 **Stage:** personal pilot (Brian plus agents), not a team product.
-**Last outcome-bearing update:** 2026-10-02.
+**Last outcome-bearing update:** 2026-10-03 (UTC).
 - Plan written; state taken from live checks (see "Evidence").
 - M1 pieces 1–3 done; the pilot was kicked off as Paperclip task BRI-13.
 - Late 2026-10-02: every Paperclip agent run was failing (expired Claude login,
@@ -34,7 +34,7 @@ when a specific decision needs one.
    proposal Brian accepts. The rule is enforced (an AES check or the Jev gate),
    its log shows it firing, and a wrong block comes back as a friction. The
    loop's own rules sit behind the three-level brake
-   (`../aes-learning-loop/DESIGN.md`).
+   (`proposals/aes-learning-loop/DESIGN.md`).
 4. **Nothing silent.** Every control logs what it did, and none went silent for
    a week.
 5. **Pick-up.** A fresh agent can resume from this file alone: where we are,
@@ -72,7 +72,7 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 | # | Milestone | State | Done when |
 |---|---|---|---|
 | M1 | **Pilot running.** The Coordinator picks agent-doable items from Brian's personal weekly plan, agents build them, and decisions reach the terminal | in progress: pieces 1–3 done; blocked until agents can sign in to Claude again (Brian's token), then the Coordinator's first picks (BRI-13) | one pilot task is reviewed through `decisions.py` |
-| M2 | **Governance on everywhere.** Jev gate observe mode in all of Brian's repositories for Claude and Codex, then guard mode after a log review; hive-brain settings as an AES config file | fully_specifiable_now | guard mode on, with a week of log |
+| M2 | **Governance on everywhere.** Jev gate observe mode in all of Brian's repositories for Claude and Codex, then guard mode after a log review; hive-brain settings as an AES config file (one file listing the agents, their heartbeats and caps, the gate mode and the controls; not started) | in progress: observe mode on in every Claude and Codex session (2026-10-02); log review until 2026-10-09; rule K1 proposed (agent-skills PR #424); settings file not started | guard mode on, with a week of log |
 | M3 | **Learning loop slices 2–5,** plus coaching for Brian | slice 2 fully specifiable; 3–5 conditional on slice 2 counts | condition 3 |
 | M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | in progress: chosen (landscape review 2026-10-02); first brain (AES) and freshness check built; pilot projects' brains next | each used by a pilot task |
 | M5 | **Evaluation and observability.** Weekly readout; check that no control went silent | in progress: `controls.py` (silence check) and `readout.py` (weekly readout) built; both wait on pilot logs | condition 4 |
@@ -116,7 +116,7 @@ read-only.
 | The terminal is the dashboard for now | human_set | same; Brian 2026-10-02 "for now in tui" |
 | Coaching for Brian is part of the learning loop | human_set | same |
 | Where cross-project rules live: action rules in the Jev gate policy (all repositories); repository rules in each repository's own checks or AES target; cross-project working rules in one rulebook section here | human_set (as recommended) | same; recommended 2026-10-02 |
-| The loop's fixed core is the four items in `../aes-learning-loop/DESIGN.md` | human_set (as recommended) | same |
+| The loop's fixed core is the four items in `proposals/aes-learning-loop/DESIGN.md` | human_set (as recommended) | same |
 | Pilot tasks are picked by the Coordinator from Brian's weekly plan, not by Claude | agent_decided_reversible | the hive-brain design gives planning to the orchestrator; it tests C-ORCH for real |
 | Thin glue around off-the-shelf tools lives in `scripts/` (ungoverned); AES product logic goes through `aes plan` | agent_decided_reversible | speed. **Wrong when:** a script passes ~300 lines or holds logic that isn't tied to one tool; then it moves under `aes plan` |
 | Failure families are not re-cut for v1 | agent_decided_reversible | issue #64. **Wrong when:** a weekly spot check finds fewer than 8 of 10 acceptable |
@@ -126,17 +126,18 @@ read-only.
 
 | Claim | Evidence | Date |
 |---|---|---|
-| Paperclip running, three agents idle | `docker ps` on personal-vps (up 16 h); board API agents list | 2026-10-02 |
-| Paperclip tasks | 12 total: 9 done, 1 todo (BRI-4), 1 backlog (BRI-2, Telegram), 1 blocked (BRI-1) | 2026-10-02 |
+| Paperclip running; Coordinator and Research and Code Review fail every run (login); Brian Contact runs only when woken and has not run since 04:13 on 2026-10-02, so it has not failed yet but would | `python3 scripts/hive/decisions.py` ("Agents not working: 2 of 3") | 2026-10-03 |
+| Paperclip tasks | 15 total: BRI-13 (pilot kickoff) and BRI-14 (health check) in progress, BRI-15 (Brian: token) todo, BRI-2 backlog, the rest done | `scripts/hive/board.sh GET /api/companies/$C/issues` | 2026-10-03 |
 | Backups | `systemctl list-timers` shows `vps-backup.timer` last ran 2026-10-02 03:34 CEST | 2026-10-02 |
-| Jev gate observing every Claude session | `~/.jev-gate/decisions.jsonl` has 2,334 entries: 1,489 allow, 841 ask, 4 deny, all mode `observe` | 2026-10-02 |
+| Jev gate observing every Claude and Codex session | `python3 scripts/hive/readout.py`: about 3,500 decisions by 2026-10-03, all mode `observe`; 9 deny (hard rules), 0 rule K1 blocks (K1 not installed) | 2026-10-03 |
 | Learning loop slice 1 | PR #66 merged `3bc351e`; 2,575 labelled, 0 errors | 2026-10-02 |
 
 ## Human decisions
 
-No decisions open; all six design points were settled by the goal.
+One decision queued for after the token: accept rule K1 (agent-skills PR
+#424, see "How to check and act"). All six design points were settled by the goal.
 
-**Waiting on Brian (action, 2026-10-02):** create the agents' one-year Claude
+**Waiting on Brian (action, 2026-10-02; Paperclip task BRI-15):** create the agents' one-year Claude
 token. In his own terminal (not a Claude session, so the token stays out of
 transcripts): `ssh -t personal-vps sudo /srv/apps/paperclip/set-claude-token.sh`,
 open the link, approve, paste the code, then paste the printed `sk-ant-oat01-…`
@@ -193,26 +194,68 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     FAILING (expected, login), everything else ok. A fake 8-day-old Jev log
     showed SILENT.
 
+- **2026-10-03:**
+  - Brian ran `set-claude-token.sh` twice; both good tokens were refused because
+    Claude's sign-in screen leaves the terminal wrapping pastes in invisible
+    markers. Fixed (personal-vps #43). The two tokens were pasted into a chat,
+    so they are treated as exposed and not used.
+  - A session ended because it removed the worktree it stood in (AES #78,
+    family K, the second time). Rule K1 proposed with a replay: 54 logged
+    removals, 1 block, the real one (agent-skills PR #424, held for Brian).
+  - `scripts/hive/readout.py` (C-EVAL) and `scripts/hive/board.sh` built;
+    theory-forge brain seeded (theory-forge #22).
+  - Cold pick-up test (condition 5): a fresh agent given only this file got the
+    state, blocker and checks right, verdict "partly"; it lacked board commands
+    and ids, and the Evidence table was stale. Fixed in this revision; the
+    Brian action is now Paperclip task BRI-15, so `decisions.py` shows it.
+
+## How to check and act
+
+- **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
+  Paperclip board over `ssh personal-vps` (ids are in the script's header).
+  Company `C=da165590-b0b3-4bf9-bb7f-e455292df499`. Tasks: BRI-13 (pilot
+  kickoff) `c8a83262-03e9-4b7a-b8fd-734cfe1d9b44`; BRI-14 (health check)
+  `3b1cd68f-0d58-4699-bf6f-e38a79fe487a`; BRI-15 (Brian: token)
+  `36109986-51a2-4276-b4f5-225758ed87cc`. Board in a browser:
+  `https://paperclip.brianmills.dev/BRI/issues/<BRI-n>`.
+- **Terminal relay:** `python3 scripts/hive/decisions.py` (agents not working,
+  then tasks waiting on Brian; exit 1 while an agent is broken).
+- **Silence check:** `python3 scripts/hive/controls.py` (exit 0 = no control
+  silent). **Weekly readout:** `python3 scripts/hive/readout.py`.
+- **Brain freshness:** `python3 scripts/hive/brain_fresh.py <repo>`.
+- **Rule K1** (proposed, agent-skills PR #424, not installed): the Jev
+  launcher blocks `git worktree remove` of the folder the session stands in
+  (AES #78). Brian accepts or rejects it; on yes, merge #424 and install
+  `jev/worktree_guard.py` as `~/.local/bin/jev-gate-worktree-guard` and the
+  new `jev/jev-gate-hook` as `~/.local/bin/jev-gate-hook`.
+
 ## Exact next action
 
-0. Once Brian's `set-claude-token.sh` prints PASSED: check that
-   `python3 scripts/hive/decisions.py` shows "Agents not working: 0" after the
-   next runs. Wake BRI-14 (health check) by commenting on it and confirm a
-   `succeeded` run in `/api/companies/<C>/heartbeat-runs`.
-1. Run `python3 scripts/hive/decisions.py` and read BRI-13's comments.
-   Before a pilot task starts on a project, seed that repo's `.project-brain/`
-   (copy AES's four files as the pattern) and add the read-first line to its
-   `CLAUDE.md`/`AGENTS.md`.
-   Expected: the Coordinator has named one or two `Pilot:` tasks assigned to
-   Research and Code Review. If it has not acted within a few hours, look at
-   its run log on the board.
-2. Meanwhile, M2 toward guard mode. Done 2026-10-02: Jev gate in observe
-   mode in every Claude session through agent-skills' hook manifest
-   (agent-skills #417); personal-vps's project-only copy is gone. Still open:
-   - Done 2026-10-02: Codex confirmed (Progress log); merge rule and
-     secrets-file rule fixed (agent-skills #422).
-   - Review a week of the log (from 2026-10-02), then switch to guard mode
-     (`jev-gate-hook --mode guard`; only "deny" blocks). Check the replay
-     first: `deny` rows in `~/.jev-gate/decisions.jsonl` must all be right.
-3. Run `python3 scripts/hive/controls.py` at each stop; it must exit 0 for a
+0. **Brian:** run `set-claude-token.sh` (BRI-15; steps under "Human
+   decisions"). Until it prints PASSED every agent run fails.
+1. **Then an agent** checks the fix: `python3 scripts/hive/decisions.py` must
+   print "Agents not working: 0 of 3" after the next run. Wake the health
+   check:
+   `echo '{"body":"Health check again after the token fix: reply ok."}' | scripts/hive/board.sh POST /api/issues/3b1cd68f-0d58-4699-bf6f-e38a79fe487a/comments`,
+   then within a few minutes
+   `scripts/hive/board.sh GET "/api/companies/$C/heartbeat-runs?agentId=4d008def-4e59-47c2-bccf-ec5313e12ce2&limit=3"`
+   shows `"status":"succeeded"`. Close BRI-15 and BRI-14 with a comment.
+2. **Pilot:** read the Coordinator's picks:
+   `scripts/hive/board.sh GET /api/issues/c8a83262-03e9-4b7a-b8fd-734cfe1d9b44/comments`.
+   Expected: one or two `Pilot:` tasks assigned to Research and Code Review.
+   If none within a few hours, wake BRI-13 with a comment the same way and
+   read the Coordinator's latest run (heartbeat-runs with
+   `agentId=8964a584-ddfe-4fb1-b14f-c1503ae5ec23`). Before a pilot task starts
+   on a project, make sure that repo has `.project-brain/` (done: AES,
+   theory-forge; portfolio waits for another session's claim to clear) and a
+   read-first line where Claude Code reads it: `CLAUDE.md`. theory-forge has
+   only `AGENTS.md`, so check in the first theory-forge run log that the brain
+   was read. The weekly plan the Coordinator picks from is dated the week of
+   2026-09-21; if its picks look stale, say so in the review.
+3. **Rule K1:** bring Brian the accept/reject decision (agent-skills PR #424)
+   once the token is done, one decision at a time.
+4. **M2:** review the Jev log until 2026-10-09 (every `deny` row must be
+   right), then switch to guard mode (`jev-gate-hook --mode guard`; only
+   "deny" blocks).
+5. Run `python3 scripts/hive/controls.py` at each stop; it must exit 0 for a
    week before condition 4 can be claimed.
