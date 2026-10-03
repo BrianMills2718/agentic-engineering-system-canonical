@@ -7,10 +7,11 @@
 - Brian, for "where are we against v1".
 
 **Stage:** personal pilot (Brian plus agents), not a team product.
-**Last outcome-bearing update:** 2026-10-03 17:55 UTC.
-- Pilot task 1 of 3 merged (AES PR #88, 2026-10-03). Pilot task 2 is scoped
-  (BRI-20, `personal-wiki`, confidence-label currency) and waits on the
-  Coordinator's slice choice; earliest creation 21:35 UTC (6-hour floor).
+**Last outcome-bearing update:** 2026-10-03 21:50 UTC.
+- Pilot task 1 of 3 merged (AES PR #88). Pilot task 2 (BRI-21, a stale-page
+  checker for `personal-wiki`) was created at 21:41 UTC and is being built.
+- Review rule changed by Brian at 21:45 UTC: agents merge their own pilot
+  PRs; he is asked only for public-facing or irreversible changes.
 - Agents sign in again since 15:22 UTC (one-year token); project brains in
   four repositories; 11 of 11 controls clean.
 
@@ -22,11 +23,23 @@ scaled to him, his agents, and one brain per project. It is built from
 off-the-shelf tools wherever they exist, as a speedrun, with benchmarks only
 when a specific decision needs one.
 
+**Brian, 2026-10-03 (changes the review step):** "i dont even want to answer
+merge for anything that isnt public facing and that is not irreversible." So
+agents merge their own pilot pull requests once the repository's checks pass
+and leave a report on the task; Brian is asked first only when a change is
+public-facing (a live site, a published package, anything visible outside his
+own machines and private repositories) or irreversible (deletes data or
+history, deploys, migrates a database, sends anything outward). He also asked
+for plain language, so this file says what each name means where it can.
+
 **v1 is done when all five are true, each shown by a command's output or a link:**
 
 1. **Pilot.** At least three real tasks from at least two of Brian's projects
-   each went through four steps without hand-holding in between: plan, agents
-   build it unattended, Brian reviews in the terminal, merge.
+   each went from the weekly plan to a merged pull request without
+   hand-holding: the Coordinator plans it, agents build it unattended, the
+   repository's checks pass, the agents merge it and leave a report Brian can
+   read. Brian is asked first only for a public-facing or irreversible change
+   (his rule of 2026-10-03). Task 1 was merged on his yes before that rule.
 2. **Capabilities.** All 10 capabilities have a chosen off-the-shelf tool that
    is running and was used by those tasks (table below).
 3. **Learning loop closed once.** Lessons, frictions and problems are filed as
@@ -58,7 +71,7 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 |---|---|---|---|
 | C-ORCH orchestration | Paperclip on personal-vps | running again since 2026-10-03 15:22 UTC (one-year token); drove pilot task 1 (BRI-17 → AES PR #88); pilot floor one task per 6 hours, 2 open at once | it drives pilot tasks 2 and 3 |
 | C-MSG agent messaging | Paperclip task threads | in use (BRI-5 → BRI-8 handoff) | the same, on pilot tasks |
-| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; dashboard later | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; pilot 1's merge decision (BRI-19) went through it 2026-10-03 | pilot 2 and 3 reviews done through it |
+| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; dashboard later | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; pilot 1's merge decision (BRI-19) went through it 2026-10-03. Since Brian's 2026-10-03 rule it is normally empty: private, reversible pilot PRs merge without him | it shows a `Decision:` only for a public-facing or irreversible change; what merged is readable in the pilot task's comments |
 | C-IDENTITY identity | one brain per project: `.project-brain/` in each repo (agent-skills `project-brain.md` layout), read first via the repo's `CLAUDE.md`/`AGENTS.md` | brains in AES (2026-10-02), theory-forge (#22), cybernetic_influence_v3 (#43) and personal-wiki (#12, with a two-line `CLAUDE.md` pointer because the VPS agents' Claude Code loads only `CLAUDE.md`), 2026-10-03; each records its docs' conflicts as `needs_resolution` (e.g. theory-forge README says 5 theories compiled, AGENTS.md says 39; cybernetic_influence_v3 AGENTS.md says CI gates every merge, but GitHub Actions has been off since 2026-09-14) | each pilot project has a project brain agents read |
 | C-KNOW knowledge | git: each repo's `.project-brain/`; one task's plan in Paperclip issue documents (chosen 2026-10-02 after a landscape review; gbrain, Hermes, mem0/Letta/Cognee rejected for v1, reasons in `.project-brain/truth.md`) | chosen; AES brain committed | used by a pilot task |
 | C-CONTEXT context freshness | Paperclip re-reads agent and project settings each run (its `DEVELOPING.md`, "Config Freshness"); `scripts/hive/brain_fresh.py` for stale brains and checkouts behind GitHub | checker built; caught theory-forge `HANDOFF.md` (183 days, 209 commits since, exit 1); `controls.py` runs it daily for every `~/code` repo with a brain (4 on 2026-10-03) | run before pilot tasks; a stale case caught on a pilot project |
@@ -83,26 +96,30 @@ M2–M4 are built, and they produce the logs M3 and M5 need.
 
 ## Active slice: M1
 
-**Visible result:** Brian sees, in his terminal, every Paperclip task waiting on
-him, each with a recommendation. The Coordinator keeps a small queue of real
-pilot tasks moving.
+**Visible result:** real items from Brian's weekly plan get built and merged by
+the agents, each with a report on its task; his terminal shows only what needs
+him (normally nothing, since 2026-10-03). The Coordinator keeps a small queue
+of real pilot tasks moving.
 
 **Pieces:**
 1. **`scripts/hive/decisions.py`.** It lists Paperclip tasks assigned to Brian
    (status not done), each with its title, link and last comment. It reaches
    the board API over `ssh personal-vps` and runs the request inside the
    container, because the board's hostname allowlist refuses other hosts.
-2. **Coordinator instruction.** Twice a day at most, the Coordinator picks
-   one agent-doable item from `weekly-plans/personal/THIS_WEEK.md` ("Agent-
-   executable work" lines), with at most 2 pilot tasks open at once. It assigns
-   the item to Research and Code Review. The PR is opened but not merged; a
-   `Decision: merge …?` task goes to Brian with a recommendation. Nothing is
-   sent outward.
+2. **Coordinator instruction.** At most one new pilot task every 6 hours
+   (12 until 2026-10-03), the Coordinator picks one agent-doable item from
+   `weekly-plans/personal/THIS_WEEK.md` ("Agent-executable work" lines), with
+   at most 2 pilot tasks open at once. It assigns the item to Research and
+   Code Review, who read the repo's `.project-brain/now.md` first. When the
+   repository's checks pass they merge the PR with a merge commit and report
+   on the task; a `Decision: merge …?` task goes to Brian only for a
+   public-facing or irreversible change (2026-10-03). Nothing is sent outward.
 3. **Clean-up of stale setup tasks:** BRI-4 (setup decisions, answered
    2026-10-02 with "approve all") and BRI-1 (onboarding, blocked).
 
-**Check:** run `decisions.py`. A pilot task appears there as a `Decision:` with
-a PR link. **Negative case:** a task assigned to an agent must not appear.
+**Check:** the pilot task's comments show the merged PR and the check output;
+`decisions.py` shows a `Decision:` only for a public-facing or irreversible
+change. **Negative case:** a task assigned to an agent must not appear there.
 
 **Rollback:** delete the Coordinator instruction paragraph; the script is
 read-only.
@@ -121,6 +138,7 @@ read-only.
 | Thin glue around off-the-shelf tools lives in `scripts/` (ungoverned); AES product logic goes through `aes plan` | agent_decided_reversible | speed. **Wrong when:** a script passes ~300 lines or holds logic that isn't tied to one tool; then it moves under `aes plan` |
 | Failure families are not re-cut for v1 | agent_decided_reversible | issue #64. **Wrong when:** a weekly spot check finds fewer than 8 of 10 acceptable |
 | The weekly plan (dated week of 2026-09-21) is still a fair source of pilot tasks | assumption | if Brian's priorities moved, the Coordinator picks stale work; Brian's review catches it |
+| Agents merge their own pilot PRs after the repository's checks; Brian is asked only for public-facing or irreversible changes | human_set | Brian, 2026-10-03 (quote under Outcome); replaces the 2026-10-02 "Decision: merge" step for private, reversible changes; Coordinator rule backup `AGENTS.md.bak-20261003-merge-rule` |
 | Pilot cadence: at most one new pilot task every 6 hours (was 12), 2 open at once | agent_decided_reversible | 2026-10-03: pilot 1 took about 80 minutes from creation to merge, so a 12-hour floor would spend two days on a few hours of work; the 2-open cap already bounds Brian's review load. Old rule kept as `AGENTS.md.bak-20261003-cadence` beside the Coordinator's instructions. **Wrong when:** two `Decision:` tasks wait on Brian for more than a day, or he says reviews arrive too fast |
 | Repositories with only `AGENTS.md` get a two-line `CLAUDE.md` that points to it and to the brain | agent_decided_reversible | 2026-10-03: the VPS agents' Claude Code (2.1.278, no `instructionFiles` setting) loads only `CLAUDE.md`; the local setting that also loads `AGENTS.md` is not there. **Wrong when:** a pilot run log on an `AGENTS.md`-only repo without the pointer shows the brain was read anyway |
 
@@ -272,6 +290,31 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     repos crash on import; the working one is
     `project-meta/scripts/meta/check_coordination_claims.py`.
 
+- **2026-10-03, 21:41–21:50 UTC (pilot 2 running; review rule changed):**
+  - Pilot task 2 created by the Coordinator at 21:41 UTC (BRI-21, "give
+    personal-wiki a runnable confidence-currency check": a script that reports
+    which wiki pages' sources have not been re-checked since the repos they
+    watch changed, plus the lint line fixed so it works from a clean clone).
+    Research and Code Review started building it at 21:41; the task tells it
+    to read `.project-brain/now.md` first and update it in the same PR.
+  - Brian, in the terminal: no merge questions for anything that is not
+    public-facing or irreversible, and plain language. The Coordinator's merge
+    bullet was rewritten (backup `AGENTS.md.bak-20261003-merge-rule`), both
+    agents were told on BRI-21 and BRI-13 at 21:47 UTC, and the Outcome,
+    condition 1, M1 and the decisions table here were changed to match.
+    Recorded for every session in `~/projects/.claude/AGENTS.md`.
+  - One Coordinator run failed at 19:40 UTC in 5 s with "terminal limit
+    failure" (`acpx_turn_failed`); the next run at 20:11 succeeded. Probably
+    the Claude usage limit shared with Brian's local sessions; watch for a
+    repeat in `readout.py`.
+  - Not done, dropped for now: `CLAUDE.md` pointers in theory-forge and
+    cybernetic_influence_v3. theory-forge's claimed lane exists (worktree
+    `worktrees/claude-md-pointer-20261003`, claim expires 2026-10-04 20:35 UTC,
+    nothing committed); cybernetic_influence_v3's lane was denied because the
+    claim tool cannot resolve the `github.com-personal` SSH alias (concern
+    still to file), and its local branch `claude-md-pointer-20261003` holds the
+    two-line file unpushed. Do this only if pilot 3 lands in one of those repos.
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
@@ -312,19 +355,16 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    shows `"status":"succeeded"`.
 1. Optional, Brian: rerun `set-claude-token.sh` once without pasting its
    output anywhere, so the saved token never appeared in a chat.
-2. **Pilot 2** (`personal-wiki`): BRI-20 is in review with a question card for
-   the Coordinator (which slice). The Coordinator answered it at 17:53 UTC
-   (slice: report-only checker `tools/confidence_check.py` with three states,
-   stale / current / unreachable, plus the `AGENTS.md` lint-line fix and the
-   `now.md` update) and confirmed the 6-hour floor; its monitor fires at
-   21:40 UTC to create the `Pilot:` task. Check:
-   `scripts/hive/board.sh GET "/api/companies/$C/issues"` lists a new `Pilot:`
-   task assigned to Research and Code Review after 21:35 UTC. If none by
-   22:15 UTC, wake BRI-13 with a comment. Then the pilot's PR appears and `decisions.py` shows
-   `Decision: merge personal-wiki PR #<n>?`; Brian answers in the terminal;
-   relay the yes by merging with a merge commit and closing the Decision
-   task. In that review, check the run log shows `.project-brain/now.md` was
-   read and the PR updates it (C-IDENTITY and C-KNOW evidence).
+2. **Pilot 2** (`personal-wiki`, BRI-21 `45c54efb-8535-45e1-8b4c-63e300906881`):
+   in build since 21:41 UTC. Under Brian's 2026-10-03 rule, Research and Code
+   Review merges it when its check passes and reports on the task. Check:
+   `scripts/hive/board.sh GET /api/issues/45c54efb-8535-45e1-8b4c-63e300906881/comments`
+   shows the merged PR and the check output; in the agent's run log confirm
+   `.project-brain/now.md` was read and the PR updated it (C-IDENTITY and
+   C-KNOW evidence). If a `Decision: merge` task appears anyway, answer it on
+   the board with the rule (private and reversible: merge it yourselves) and
+   close it. If the task is still open with no PR by 00:30 UTC, read the
+   latest Research run (heartbeat-runs, `agentId=4d008def-…`) for the cause.
 3. **Pilot 3:** earliest 6 hours after pilot 2 is created. The Coordinator
    picks the repo; before the task starts, make sure the repo has
    `.project-brain/` (done: AES, theory-forge, cybernetic_influence_v3,

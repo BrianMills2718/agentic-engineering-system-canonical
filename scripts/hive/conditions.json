@@ -5,11 +5,11 @@
     {
       "n": 1,
       "name": "Pilot",
-      "plain": "Three real tasks from at least two projects go plan, build, your review, merge, without hand-holding.",
+      "plain": "Three real tasks from at least two projects go from your weekly plan to a merged pull request without hand-holding; you are asked first only for public-facing or irreversible changes (your rule, 2026-10-03).",
       "status": "partway",
-      "progress": "1 of 3 done; pilot 2 scoped",
+      "progress": "1 of 3 done; task 2 in build",
       "evidence": "Task 1 (AES quickstart fix) merged 2026-10-03 as AES PR #88 after your review. Pilot 2 (personal-wiki, confidence-label currency) is scoped as BRI-20; the Coordinator creates its task from 21:35 UTC on 2026-10-03 (one pilot per 6 hours).",
-      "next": "Coordinator answers the slice question on BRI-20 and creates pilot task 2 in personal-wiki."
+      "next": "Task 2 (a stale-page checker for your private people wiki, started 21:41 UTC on 2026-10-03) merges itself when its check passes; then task 3 from about 03:40 UTC."
     },
     {
       "n": 2,
