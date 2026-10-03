@@ -6,19 +6,19 @@
       "n": 1,
       "name": "Pilot",
       "plain": "Three real tasks from at least two projects go from your weekly plan to a merged pull request without hand-holding; you are asked first only for public-facing or irreversible changes (your rule, 2026-10-03).",
-      "status": "partway",
-      "progress": "2 of 3 done; task 3 in build",
-      "evidence": "Task 1 (AES quickstart fix) merged 2026-10-03 as AES PR #88 after Brian's terminal review. Task 2 (personal-wiki confidence check) merged 2026-10-03 as personal-wiki PR #13 by the agent, under Brian's 2026-10-03 rule that private, reversible changes are merged by agents and reported (no terminal review); its one follow-up question (BRI-23) was answered by the terminal session with a root-commit identity test.",
-      "next": "Task 3 (repairing the wiki's pointers to repositories that moved, started 22:25 UTC on 2026-10-03 in personal-wiki) merges itself when its check passes; then the three jobs are done."
+      "status": "done",
+      "progress": "3 of 3 done",
+      "evidence": "Task 1 (AES quickstart fix) merged 2026-10-03 as AES PR #88 after Brian's terminal review. Task 2 (personal-wiki confidence check) merged 2026-10-03 as personal-wiki PR #13 by the agent, under Brian's 2026-10-03 rule that private, reversible changes are merged by agents and reported (no terminal review); its one follow-up question (BRI-23) was answered by the terminal session with a root-commit identity test. Task 3 (personal-wiki watch-pointer repair, 18 to 6 unreachable) merged 2026-10-03 22:34 UTC as personal-wiki PR #14 by the agent, with the project brain updated. readout.py --days 7 at 22:37 UTC lists all three, from two projects (AES, personal-wiki).",
+      "next": "Nothing; the workers keep taking jobs under the same rules so the other conditions get their logs."
     },
     {
       "n": 2,
       "name": "Capabilities",
       "plain": "All 11 capabilities have a chosen off-the-shelf tool that is running and was used by the pilot tasks.",
       "status": "partway",
-      "progress": "11 running; 7 used by a pilot task",
-      "evidence": "Pilot task 1 used orchestration, messaging, the terminal relay, governance, the project brain, runtime and learning. Not yet shown in pilot use: knowledge, context freshness, evaluation. Model routing became capability 11 on 2026-10-03: the Coordinator plans on Sonnet 5, the builder codes on Opus 5.",
-      "next": "Pilot tasks 2 and 3, then the weekly readout over all three."
+      "progress": "11 running; 10 used by a pilot task",
+      "evidence": "Task 1 used orchestration, messaging, the terminal relay, the project brain, runtime and learning. Tasks 2 and 3 read the wiki's project brain first and updated it (knowledge, identity); the freshness check ran on that brain before task 2 (context); the weekly readout ran over all three tasks at 22:37 UTC (evaluation). Governance has watched every session but no rule has yet blocked real work. Model routing became capability 11 on 2026-10-03: the Coordinator plans on Sonnet 5, the builder codes on Opus 5.",
+      "next": "Governance: a rule blocking real work (the same event the learning-loop condition needs)."
     },
     {
       "n": 3,
@@ -50,7 +50,8 @@
   ],
   "decisions_in_terminal": [
     {
-      "question": "May I put the dashboard on your server so it updates itself?", "answered": "yes (Brian, 2026-10-03 22:48 UTC: \"yes it should be hosted on brianmills.dev\"); deployment owned by session aes",
+      "question": "May I put the dashboard on your server so it updates itself?",
+      "answered": "yes (Brian, 2026-10-03 22:48 UTC: \"yes it should be hosted on brianmills.dev\"); deployment owned by session aes",
       "context": "A private page at a new address (for example `hive.brianmills.dev`) behind the same Cloudflare login as the Paperclip board, rebuilt every 15 minutes. It is a new deployment, which needs your yes.",
       "recommendation": "Yes: one bookmark on your phone that is always current. Private, and removable with one change.",
       "options": [
