@@ -2,13 +2,13 @@
   "id": "hive-brain-v1-status-dashboard",
   "stakeholder": "Brian, owner of the system, not technical about its internals, increasingly reading on his phone",
   "concern": "Answer, on one phone screen first: is my hive brain working right now, how close is v1, and is anything waiting on me? Then let him open what has been built (10 capabilities, each with its chosen tool and whether it is running), what the agents are doing (3 agents, latest runs, open pilot and decision tasks), and the plan (5 done-conditions with progress and the next steps).",
-  "intent": ["monitor", "understand", "decide"],
+  "intent": ["monitor", "understand", "decide", "act"],
   "informationStructure": ["list", "table", "process"],
   "tasks": ["lookup", "inspect", "locate"],
   "scale": {"items": 30, "density": "medium"},
-  "interaction": {"mode": "exploratory", "dynamics": "static"},
+  "interaction": {"mode": "exploratory", "dynamics": "live", "note": "2026-10-03: hosted page rebuilt every 15 min, polls every 60 s, one-tap answers on decision cards (Brian, 2026-10-03: host it on brianmills.dev)"},
   "audience": {"expertise": "novice", "frequency": "high", "domainFamiliarity": "mixed", "notationFamiliarity": "novice", "visualizationLiteracy": "mixed"},
   "consequence": {"risk": "low", "reversibility": "reversible"},
-  "constraints": {"mobile": true, "accessibility": "baseline", "realtime": false, "provenance": true, "allowAggregation": true},
+  "constraints": {"mobile": true, "accessibility": "baseline", "realtime": false, "freshnessShown": true, "provenance": true, "allowAggregation": true},
   "surfaceContext": {"repeatedCollection": false, "neighboringRepresentations": "unknown", "sharedInteractionGrammar": false, "medium": "dashboard"}
 }

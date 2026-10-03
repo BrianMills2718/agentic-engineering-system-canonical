@@ -20,10 +20,17 @@ Exit status: 0 = every control active, 1 = something SILENT, FAILING or STALE,
 Every run appends one line to ~/.hive-brain/controls.jsonl (time, exit status,
 counts, the rows not ok), so "exit 0 for a week" can be shown, not remembered.
 `readout.py` prints that history.
+
+Every run also replaces ~/.hive-brain/controls-latest.json (or --json-out PATH)
+with this run's full rows, each tagged with where it was measured: "wsl" (only
+this machine can see it) or "vps" (the VPS can measure it itself). The hosted
+dashboard (dashboard.py --vps) reads the "wsl" rows from the copy that
+push_controls.sh puts on the VPS, and recomputes the "vps" rows locally.
 """
 from __future__ import annotations
 
 import datetime as dt
+import argparse
 import glob
 import json
 import os
@@ -69,7 +76,13 @@ def jsonl_last(path: str) -> dict | None:
     return json.loads(lines[-1]) if lines else None
 
 
+VPS_SIDE = ("Paperclip agents", "VPS backup")
+
+
 def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--json-out", type=Path, default=Path.home() / ".hive-brain" / "controls-latest.json")
+    args = ap.parse_args()
     rows: list[tuple[str, str, str, str]] = []  # control, last activity, normal gap, status
 
     def add(name: str, last: dt.datetime | None, gap: dt.timedelta, failing: str = "") -> None:
@@ -141,6 +154,16 @@ def main() -> int:
                                  "not_ok": [f"{r[0]}: {r[3]}" for r in rows if r[3] != "ok"]}) + "\n")
     except OSError as e:
         print(f"controls: could not record this run: {e}", file=sys.stderr)
+    try:
+        args.json_out.parent.mkdir(parents=True, exist_ok=True)
+        tmp = args.json_out.with_suffix(".tmp")
+        tmp.write_text(json.dumps({
+            "at": NOW.isoformat(timespec="seconds"), "exit": code, "host": os.uname().nodename,
+            "rows": [{"name": n, "last": l, "gap": g, "status": st, "side": "vps" if n.startswith(VPS_SIDE) else "wsl"}
+                     for n, l, g, st in rows]}, indent=1) + "\n")
+        tmp.replace(args.json_out)
+    except OSError as e:
+        print(f"controls: could not write {args.json_out}: {e}", file=sys.stderr)
     return code
 
 

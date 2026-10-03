@@ -5,6 +5,11 @@ pilot (BRI-13, waiting on BRI-16 for the weekly plan). Done before that:
 M3 slice 2, the M4 first slice (this brain, `brain_fresh.py`), the restore
 check, Codex's Jev hook confirmed, and `scripts/hive/controls.py`.
 
+**Hosted dashboard (2026-10-03):** `scripts/hive/dashboard.py --vps` builds the
+page on the VPS with one-tap answers on decision cards; the server, timer and
+deploy/rollback steps are personal-vps `apps/hive-dashboard/` (prepared, not
+deployed yet; the deploy needs Brian's yes, already given 2026-10-03).
+
 **Next step:** follow "Exact next action" in `proposals/hive-brain-v1/ROADMAP.md`.
 In short:
 1. Follow the Coordinator's first `Pilot:` task (BRI-13 comments) through

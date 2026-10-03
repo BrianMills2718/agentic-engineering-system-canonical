@@ -9,3 +9,6 @@ WorkingDirectory=%h/code/agentic-engineering-system-canonical
 # recorded in ~/.hive-brain/controls.jsonl, so it must not mark the unit failed.
 SuccessExitStatus=1 2
 ExecStart=/usr/bin/python3 %h/code/agentic-engineering-system-canonical/scripts/hive/controls.py
+# Copy the result to the hosted dashboard (personal-vps apps/hive-dashboard), which
+# cannot see the WSL-only controls itself. A failed copy fails the unit, loudly.
+ExecStartPost=/usr/bin/bash %h/code/agentic-engineering-system-canonical/scripts/hive/push_controls.sh
