@@ -13,11 +13,17 @@
 # 4d008def-4e59-47c2-bccf-ec5313e12ce2, Brian Contact 4331dfbd-6a12-4965-b28a-d296c5aa9d3a.
 # Brian's user id: Fr6jPHXrgB7tlyFcDMdJEiKNmBk2vjAl. Issue ids: the "id" field of
 # the issues list (BRI-13 is its "identifier"). Exit status is curl's (22 = HTTP error).
+#
+# HIVE_BOARD_LOCAL=1 runs the same request on this machine instead of over ssh:
+# use it ON the VPS (as root, which can read board.env), e.g. the hive-dashboard
+# timer (personal-vps apps/hive-dashboard).
 set -euo pipefail
 method=${1:?usage: board.sh GET|POST|PATCH|PUT <api-path>}; path=${2:?api path}
 body=""
 [ "$method" != GET ] && body=$(base64 -w0)
-ssh -o BatchMode=yes -o ConnectTimeout=15 personal-vps "sudo -n bash -s" <<REMOTE
+if [ "${HIVE_BOARD_LOCAL:-}" = 1 ]; then run=(bash -s); else
+  run=(ssh -o BatchMode=yes -o ConnectTimeout=15 personal-vps "sudo -n bash -s"); fi
+"${run[@]}" <<REMOTE
 set -euo pipefail
 set -a; . /root/.paperclip-cli/board.env; set +a
 printf '%s' "$body" | base64 -d | K="\$PAPERCLIP_API_KEY" docker exec -i -e K paperclip sh -c \
