@@ -1,14 +1,14 @@
 # Now (2026-10-02, Claude Code session)
 
-**Stopped at:** M1 pilot blocked on the agents' Claude login. Done meanwhile:
+**Stopped at (2026-10-03):** agents sign in again; the Coordinator started the
+pilot (BRI-13, waiting on BRI-16 for the weekly plan). Done before that:
 M3 slice 2, the M4 first slice (this brain, `brain_fresh.py`), the restore
 check, Codex's Jev hook confirmed, and `scripts/hive/controls.py`.
 
 **Next step:** follow "Exact next action" in `proposals/hive-brain-v1/ROADMAP.md`.
 In short:
-1. Once Brian's `set-claude-token.sh` prints PASSED, confirm
-   `python3 scripts/hive/decisions.py` shows "Agents not working: 0", then let
-   the Coordinator pick pilot tasks (BRI-13).
+1. Follow the Coordinator's first `Pilot:` task (BRI-13 comments) through
+   build, Brian's review in the terminal, and merge.
 2. Seed `.project-brain/` in each pilot project the Coordinator picks (done:
    AES, theory-forge; portfolio waits for another session's claim to clear).
 3. Run `python3 scripts/hive/controls.py` at each stop (exit 0 = no control silent).

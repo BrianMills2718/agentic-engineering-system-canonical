@@ -15,6 +15,10 @@ Controls and where their activity is read:
   - Project brains: scripts/hive/brain_fresh.py for every ~/code repo with a .project-brain/
 Exit status: 0 = every control active, 1 = something SILENT, FAILING or STALE,
 2 = a source could not be read (printed as UNKNOWN, never as fine).
+
+Every run appends one line to ~/.hive-brain/controls.jsonl (time, exit status,
+counts, the rows not ok), so "exit 0 for a week" can be shown, not remembered.
+`readout.py` prints that history.
 """
 from __future__ import annotations
 
@@ -122,7 +126,16 @@ def main() -> int:
     unread = [r for r in rows if r[3].startswith("UNKNOWN")]
     print(f"checked {len(rows)} controls: {len(rows) - len(bad) - len(unread)} ok, {len(bad)} silent/failing/stale, "
           f"{len(unread)} unknown")
-    return 1 if bad else (2 if unknown else 0)
+    code = 1 if bad else (2 if unknown else 0)
+    try:
+        hist = Path.home() / ".hive-brain" / "controls.jsonl"
+        hist.parent.mkdir(exist_ok=True)
+        with hist.open("a") as fh:
+            fh.write(json.dumps({"at": NOW.isoformat(timespec="seconds"), "exit": code, "controls": len(rows),
+                                 "not_ok": [f"{r[0]}: {r[3]}" for r in rows if r[3] != "ok"]}) + "\n")
+    except OSError as e:
+        print(f"controls: could not record this run: {e}", file=sys.stderr)
+    return code
 
 
 if __name__ == "__main__":

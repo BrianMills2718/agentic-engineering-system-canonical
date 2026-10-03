@@ -1,0 +1,11 @@
+[Unit]
+Description=Hive brain v1: record whether any control went silent (scripts/hive/controls.py)
+Documentation=file:%h/code/agentic-engineering-system-canonical/proposals/hive-brain-v1/ROADMAP.md
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/code/agentic-engineering-system-canonical
+# controls.py exits 1 when a control is SILENT/FAILING/STALE; that is a finding,
+# recorded in ~/.hive-brain/controls.jsonl, so it must not mark the unit failed.
+SuccessExitStatus=1 2
+ExecStart=/usr/bin/python3 %h/code/agentic-engineering-system-canonical/scripts/hive/controls.py
