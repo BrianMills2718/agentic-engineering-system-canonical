@@ -156,6 +156,7 @@ read-only.
 | Paperclip running; all three agents' latest runs succeed | `python3 scripts/hive/decisions.py` ("Agents not working: 0 of 3", exit 0); run counts: `python3 scripts/hive/readout.py --days 7` (the failures are from the 2026-10-02/03 login outage) | live |
 | Paperclip tasks | pilots: BRI-17 (1, done) and BRI-21 (2, done); BRI-13 (pilot kickoff) in progress; for counts run `scripts/hive/board.sh GET /api/companies/$C/issues` | live; pilots as of 2026-10-03 22:50 UTC |
 | Coordinator re-reads its instructions each run | its comment at 17:53 UTC cites the 6-hour floor written into the file at 17:45 UTC | 2026-10-03 |
+| Cost per pilot task | `readout.py --days 7`: pilot 1 four runs, $7.14 at API prices (all on the Claude subscription), 1.4 h; pilot 2 two runs, $8.35, 0.3 h; the Coordinator's first Sonnet 5 run $0.26 against $1.32–2.34 for its Opus runs | 2026-10-03 22:35 UTC |
 | Project brains fresh in 4 repositories; no control silent | `python3 scripts/hive/controls.py`: 11 of 11 ok, exit 0; `brain_fresh.py ~/code/personal-wiki --fetch` exit 0 | 2026-10-03 17:50 UTC |
 | Backups | `systemctl list-timers` shows `vps-backup.timer` last ran 2026-10-02 03:34 CEST | 2026-10-02 |
 | Jev gate observing every Claude and Codex session | `python3 scripts/hive/readout.py --days 7`: 7,033 decisions, all mode `observe`; 18 deny (hard rules); 1 rule K1 block (the live test) | 2026-10-03 17:40 UTC |
@@ -322,6 +323,20 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     still to file), and its local branch `claude-md-pointer-20261003` holds the
     two-line file unpushed. Do this only if pilot 3 lands in one of those repos.
 
+- **2026-10-03, 22:00–22:40 UTC (pilot 3 running; two sessions split the work):**
+  - Pilot 3 (BRI-24) filed by the Coordinator at 22:25 UTC, ahead of its
+    6-hour floor, because the BRI-23 answer (same-name repositories count as
+    successors only when their root commits match) gave it a ready spec. Same
+    repository as pilot 2, so the three pilots span AES and personal-wiki.
+  - Two Claude sessions worked this goal in parallel for about 40 minutes.
+    Split agreed at 22:35 UTC: session "aes" keeps the dashboard (artifact
+    and the hosting question), answers agent questions on the board, model
+    routing (C-ROUTE) and `readout.py`; this session keeps this file,
+    `conditions.json` (keeping the `decisions_in_terminal` key the dashboard
+    reads) and the pilot count.
+  - Cost per pilot task is now in `readout.py` (AES #100); numbers in the
+    Evidence table.
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
@@ -368,13 +383,17 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    rewrite a watch entry only where both repositories share a root commit. Two
    Decision tasks (BRI-22, BRI-23) still reached Brian despite the merge rule;
    if that recurs, file a `kind:friction` issue.
-3. **Pilot 3:** earliest 6 hours after pilot 2 was created (21:41 UTC), so
-   about 03:41 UTC on 2026-10-04. The Coordinator
-   picks the repo; before the task starts, make sure the repo has
-   `.project-brain/` (done: AES, theory-forge, cybernetic_influence_v3,
-   personal-wiki; portfolio waits for another session's claim to clear) and a
-   `CLAUDE.md` read-first line. The weekly plan is dated the week of
-   2026-09-21; say so in the review if the pick looks stale.
+3. **Pilot 3: in progress** (BRI-24 `f3f02c9e-8439-4fd4-9542-ef207169f878`,
+   `personal-wiki`, created 22:25 UTC by the Coordinator ahead of its 6-hour
+   floor because the BRI-23 answer gave it a ready spec): rewrite the wiki's
+   `watch:` entries only where the old and new repositories share a root
+   commit. Under the merge rule, Research merges it and reports on the task.
+   Check: the BRI-24 comments show the merged PR and the check output;
+   `python3 scripts/hive/readout.py --days 7` lists three pilot tasks done
+   across two projects (AES, personal-wiki). Then condition 1 is met: record
+   it in `conditions.json` and here. If BRI-24 is still open with no PR by
+   00:30 UTC on 2026-10-04, read the latest Research run (heartbeat-runs,
+   `agentId=4d008def-…`) for the cause.
 4. **Condition 3:** K1 is proposed, accepted, enforced, and its log shows a
    live-test block. Still needed: a block in real work (watch K1 rows in
    `readout.py`) and one wrong block coming back as a `kind:friction`,
