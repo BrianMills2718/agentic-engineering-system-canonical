@@ -7,15 +7,12 @@
 - Brian, for "where are we against v1".
 
 **Stage:** personal pilot (Brian plus agents), not a team product.
-**Last outcome-bearing update:** 2026-10-03 22:50 UTC. **Live status beats this
-file:** for current numbers run `python3 scripts/hive/readout.py` and read
-`scripts/hive/conditions.json`; prose here can lag the board.
-- Pilot tasks 1 and 2 of 3 merged: AES PR #88 and personal-wiki PR #13 (BRI-21,
-  a stale-page checker, merged by the agent at 21:55 UTC under Brian's rule).
-- Review rule changed by Brian at 21:45 UTC: agents merge their own pilot
-  PRs; he is asked only for public-facing or irreversible changes.
-- Agents sign in again since 15:22 UTC (one-year token); project brains in
-  four repositories; 11 of 11 controls clean.
+**Last outcome-bearing update:** 2026-10-03 23:00 UTC.
+- **Condition 1 met:** three pilot tasks merged from two projects (AES PR #88;
+  personal-wiki PRs #13 and #14), shown by `readout.py --days 7` at 22:37 UTC.
+- Brian's rules of 2026-10-03: agents merge their own private, reversible PRs;
+  anything that needs him goes to his phone (Telegram thread BRI-2) at once.
+  The dashboard will be hosted at hive.brianmills.dev (session "aes").
 
 ## Outcome
 
@@ -74,16 +71,16 @@ want model routing in v1").
 
 | Capability | Chosen tool | State (latest dated entry wins) | v1 evidence still needed |
 |---|---|---|---|
-| C-ORCH orchestration | Paperclip on personal-vps | running again since 2026-10-03 15:22 UTC (one-year token); drove pilot task 1 (BRI-17 → AES PR #88); pilot floor one task per 6 hours, 2 open at once | it drives pilot tasks 2 and 3 |
-| C-MSG agent messaging | Paperclip task threads | in use (BRI-5 → BRI-8 handoff) | the same, on pilot tasks |
-| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; Brian's Telegram-bound board thread BRI-2 for anything that needs him, at the moment it is asked (Brian, 2026-10-03: "i want to know as soon as my agents try to send me a message and for them to get my response as soon as i respond"); the dashboard, hosted at hive.brianmills.dev (his yes, 2026-10-03), as the overview | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; pilot 1's merge decision (BRI-19) went through it 2026-10-03. Since Brian's 2026-10-03 rule it is normally empty: private, reversible pilot PRs merge without him | it shows a `Decision:` only for a public-facing or irreversible change; what merged is readable in the pilot task's comments |
-| C-IDENTITY identity | one brain per project: `.project-brain/` in each repo (agent-skills `project-brain.md` layout), read first via the repo's `CLAUDE.md`/`AGENTS.md` | brains in AES (2026-10-02), theory-forge (#22), cybernetic_influence_v3 (#43) and personal-wiki (#12, with a two-line `CLAUDE.md` pointer because the VPS agents' Claude Code loads only `CLAUDE.md`), 2026-10-03; each records its docs' conflicts as `needs_resolution` (e.g. theory-forge README says 5 theories compiled, AGENTS.md says 39; cybernetic_influence_v3 AGENTS.md says CI gates every merge, but GitHub Actions has been off since 2026-09-14) | each pilot project has a project brain agents read |
-| C-KNOW knowledge | git: each repo's `.project-brain/`; one task's plan in Paperclip issue documents (chosen 2026-10-02 after a landscape review; gbrain, Hermes, mem0/Letta/Cognee rejected for v1, reasons in `.project-brain/truth.md`) | chosen; AES brain committed | used by a pilot task |
-| C-CONTEXT context freshness | Paperclip re-reads agent and project settings each run (its `DEVELOPING.md`, "Config Freshness"); `scripts/hive/brain_fresh.py` for stale brains and checkouts behind GitHub | checker built; caught theory-forge `HANDOFF.md` (183 days, 209 commits since, exit 1); `controls.py` runs it daily for every `~/code` repo with a brain (4 on 2026-10-03) | run before pilot tasks; a stale case caught on a pilot project |
-| C-GOV governance | Jev gate + CC Safety Net + hive-brain settings as AES config | CC Safety Net on for Claude and Codex; Jev gate in observe mode in every Claude and Codex session (Codex confirmed 2026-10-02); rule K1 enforced 2026-10-03; settings in `scripts/hive/settings.json`, checked against the live system by `settings_check.py` (22 of 22 match, 2026-10-03; part of `controls.py`) | Jev gate in guard mode across projects; settings file; a block shows up in the log |
+| C-ORCH orchestration | Paperclip on personal-vps | running again since 2026-10-03 15:22 UTC (one-year token); drove pilot task 1 (BRI-17 → AES PR #88); pilot floor one task per 6 hours, 2 open at once | done: drove pilot tasks 1–3 (BRI-17, BRI-21, BRI-24; `readout.py` 2026-10-03 22:37 UTC) |
+| C-MSG agent messaging | Paperclip task threads | in use (BRI-5 → BRI-8 handoff) | done: the pilots ran as task threads with child tasks and wake-ups (BRI-16→17→19; BRI-20→21→23→24→25) |
+| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; Brian's Telegram-bound board thread BRI-2 for anything that needs him, at the moment it is asked (Brian, 2026-10-03: "i want to know as soon as my agents try to send me a message and for them to get my response as soon as i respond"); the dashboard, hosted at hive.brianmills.dev (his yes, 2026-10-03), as the overview | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; pilot 1's merge decision (BRI-19) went through it 2026-10-03. Since Brian's 2026-10-03 rule it is normally empty: private, reversible pilot PRs merge without him | pilot 1 through `decisions.py` (BRI-19); agent→phone shown by BRI-25 posted on BRI-2 at 22:38 UTC; phone→agent awaits Brian's first Telegram reply |
+| C-IDENTITY identity | one brain per project: `.project-brain/` in each repo (agent-skills `project-brain.md` layout), read first via the repo's `CLAUDE.md`/`AGENTS.md` | brains in AES (2026-10-02), theory-forge (#22), cybernetic_influence_v3 (#43) and personal-wiki (#12, with a two-line `CLAUDE.md` pointer because the VPS agents' Claude Code loads only `CLAUDE.md`), 2026-10-03; each records its docs' conflicts as `needs_resolution` (e.g. theory-forge README says 5 theories compiled, AGENTS.md says 39; cybernetic_influence_v3 AGENTS.md says CI gates every merge, but GitHub Actions has been off since 2026-09-14) | done: pilots 2 and 3 read personal-wiki's `.project-brain/now.md` first and updated it in PRs #13 and #14 |
+| C-KNOW knowledge | git: each repo's `.project-brain/`; one task's plan in Paperclip issue documents (chosen 2026-10-02 after a landscape review; gbrain, Hermes, mem0/Letta/Cognee rejected for v1, reasons in `.project-brain/truth.md`) | chosen; AES brain committed | done: the same PRs updated `now.md` and `state.md`; the brain was the knowledge the pilot started from |
+| C-CONTEXT context freshness | Paperclip re-reads agent and project settings each run (its `DEVELOPING.md`, "Config Freshness"); `scripts/hive/brain_fresh.py` for stale brains and checkouts behind GitHub | checker built; caught theory-forge `HANDOFF.md` (183 days, 209 commits since, exit 1); `controls.py` runs it daily for every `~/code` repo with a brain (4 on 2026-10-03) | done: `brain_fresh.py ~/code/personal-wiki --fetch` exit 0 before pilot 2; `controls.py` checks all four brains daily |
+| C-GOV governance | Jev gate + CC Safety Net + hive-brain settings as AES config | CC Safety Net on for Claude and Codex; Jev gate in observe mode in every Claude and Codex session (Codex confirmed 2026-10-02); rule K1 enforced 2026-10-03; settings in `scripts/hive/settings.json`, checked against the live system by `settings_check.py` (22 of 22 match, 2026-10-03; part of `controls.py`) | partway: Safety Net and Jev observed every session; K1 enforced; a block in real work and guard mode still needed (condition 3, M2) |
 | C-LEARN learning | AES learning loop (GitHub issues + Jev labels) | slice 1 done: 2,575 legacy learnings labelled (PR #66); first lesson filed (issue #64) | condition 3 |
-| C-EVAL evaluation | readout from logs and traces: `python3 scripts/hive/readout.py [--days N]` (Paperclip tasks, pilot tasks, runs and failure codes; Jev and Safety Net decisions; learning-loop items by family; controls) | built 2026-10-03; first run showed the outage (13 failed runs, all `acpx_turn_failed`) | a weekly readout over pilot tasks |
-| C-RUNTIME runtime | netcup personal-vps, nightly backups to Drive | running; `vps-backup.timer` ran 2026-10-02 03:34; restore check passed 2026-10-02 (personal-vps `host/restore-check.sh`, #42) | done for v1 (rerun before acceptance) |
+| C-EVAL evaluation | readout from logs and traces: `python3 scripts/hive/readout.py [--days N]` (Paperclip tasks, pilot tasks, runs and failure codes; Jev and Safety Net decisions; learning-loop items by family; controls) | built 2026-10-03; first run showed the outage (13 failed runs, all `acpx_turn_failed`) | done: `readout.py --days 7` (2026-10-03 22:37 UTC) lists the three pilot tasks with runs, cost and hours |
+| C-RUNTIME runtime | netcup personal-vps, nightly backups to Drive | running; `vps-backup.timer` ran 2026-10-02 03:34; restore check passed 2026-10-02 (personal-vps `host/restore-check.sh`, #42) | done for v1 (rerun the restore check before acceptance) |
 | C-ROUTE model routing (throughput and cost) | Paperclip's own per-agent model and per-task model override (landscape review 2026-10-03: per-prompt routers such as OpenRouter Auto, RouteLLM, NotDiamond and the new `typesafe/jev-router` don't yet handle long tool-using agent sessions); a Codex builder agent on the ChatGPT subscription next | Coordinator on `claude-sonnet-5`, builder on `claude-opus-5` (2026-10-03, checked by `settings_check.py`); cost per run is in Paperclip's run records | a pilot task run under the routed setup, with cost and throughput per task in `readout.py` |
 
 ## Milestones
@@ -93,8 +90,8 @@ want model routing in v1").
 | M1 | **Pilot running.** The Coordinator picks agent-doable items from Brian's personal weekly plan, agents build them, and decisions reach the terminal | done 2026-10-03: pilot task 1 (BRI-17) was reviewed through `decisions.py` (BRI-19) and merged as AES PR #88; the queue continues for pilots 2 and 3 | one pilot task is reviewed through `decisions.py` |
 | M2 | **Governance on everywhere.** Jev gate observe mode in all of Brian's repositories for Claude and Codex, then guard mode after a log review; hive-brain settings as an AES config file (`scripts/hive/settings.json`: agents, heartbeats and caps, gate mode, timers) | in progress: observe mode on everywhere (2026-10-02); rule K1 enforced and settings file with a live check done (2026-10-03); guard mode waits on the wrong-deny fix (AES #73) and the log review until 2026-10-09 | guard mode on, with a week of log |
 | M3 | **Learning loop slices 2–5,** plus coaching for Brian | slice 2 fully specifiable; 3–5 conditional on slice 2 counts | condition 3 |
-| M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | in progress: chosen (landscape review 2026-10-02); brains in AES, theory-forge, cybernetic_influence_v3 and personal-wiki; freshness checked daily by `controls.py`; pilot 2 is the first task told to read and update a brain | each used by a pilot task |
-| M5 | **Evaluation and observability.** Weekly readout; check that no control went silent | in progress: `controls.py` (silence check) and `readout.py` (weekly readout) built; both wait on pilot logs | condition 4 |
+| M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | done for v1 2026-10-03 (pilots 2 and 3 read and updated the personal-wiki brain; `brain_fresh.py` checked it first); earlier: chosen (landscape review 2026-10-02); brains in AES, theory-forge, cybernetic_influence_v3 and personal-wiki; freshness checked daily by `controls.py`; pilot 2 is the first task told to read and update a brain | each used by a pilot task |
+| M5 | **Evaluation and observability.** Weekly readout; check that no control went silent | in progress: readout ran over all three pilots 2026-10-03 22:37 UTC; silence check day 1 of 7; earlier: `controls.py` (silence check) and `readout.py` (weekly readout) built; both wait on pilot logs | condition 4 |
 | M6 | **Model routing.** Per-agent models (done 2026-10-03), a Codex builder agent on the ChatGPT subscription, per-task overrides, cost and throughput per task in the readout, then more parallel runs once a week of logs shows no subscription caps hit | in progress | C-ROUTE row |
 | M7 | **v1 acceptance.** All five conditions shown with evidence | conditional | — |
 
@@ -363,6 +360,27 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     Policy first. The hosted page's one-tap answers are the second leg of the
     same channel.
 
+- **2026-10-03, 22:34–23:00 UTC (condition 1 met):**
+  - Pilot 3 (BRI-24) merged by the agent at 22:34 UTC as personal-wiki PR #14
+    (merge commit `788ab54`; `now.md` and `state.md` updated; checker result
+    18 → 6 unreachable). It could not run Brian's root-commit test directly
+    (no credential reads the old Inside-Success repositories) and proved the
+    same property from `inside-success-mega`'s own submodule history; the
+    report says so and names the revert.
+  - `readout.py --days 7` at 22:37 UTC: three pilot tasks done across AES and
+    personal-wiki; cost at API prices $7.14 / $8.35 / $4.34, all on the
+    subscription; 1.4 h / 0.3 h / 0.2 h from created to done. **Condition 1
+    met.** Capabilities table updated: 9 of 11 rows done for v1; governance
+    and learning wait on condition 3.
+  - First question under the real-time rule: BRI-25 (three questions about
+    the last six unreachable wiki pages) was posted on Brian's Telegram thread
+    at 22:38 UTC by the Coordinator and at 22:39 by Brian Contact, each with a
+    safe default. The terminal session settled it by checking (the two repos'
+    own descriptions and folder lists; the work-account login exists only on
+    Brian's machine) and closed it; Brian can overrule with one line.
+  - Still unproven: the phone→agent leg (Brian has not replied on Telegram
+    yet).
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
@@ -403,23 +421,15 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    shows `"status":"succeeded"`.
 1. Optional, Brian: rerun `set-claude-token.sh` once without pasting its
    output anywhere, so the saved token never appeared in a chat.
-2. **Pilot 2: done** 2026-10-03 (personal-wiki PR #13, merge commit `e320239`,
-   merged by the agent; `.project-brain/now.md` updated in the same PR). Its
-   follow-up BRI-23 (repo-name mapping) was answered by the terminal session:
-   rewrite a watch entry only where both repositories share a root commit. Two
-   Decision tasks (BRI-22, BRI-23) still reached Brian despite the merge rule;
-   if that recurs, file a `kind:friction` issue.
-3. **Pilot 3: in progress** (BRI-24 `f3f02c9e-8439-4fd4-9542-ef207169f878`,
-   `personal-wiki`, created 22:25 UTC by the Coordinator ahead of its 6-hour
-   floor because the BRI-23 answer gave it a ready spec): rewrite the wiki's
-   `watch:` entries only where the old and new repositories share a root
-   commit. Under the merge rule, Research merges it and reports on the task.
-   Check: the BRI-24 comments show the merged PR and the check output;
-   `python3 scripts/hive/readout.py --days 7` lists three pilot tasks done
-   across two projects (AES, personal-wiki). Then condition 1 is met: record
-   it in `conditions.json` and here. If BRI-24 is still open with no PR by
-   00:30 UTC on 2026-10-04, read the latest Research run (heartbeat-runs,
-   `agentId=4d008def-…`) for the cause.
+2. **Pilots 1–3: done** (AES PR #88; personal-wiki PRs #13 and #14). Condition
+   1 is met; `python3 scripts/hive/readout.py --days 7` shows it. The
+   Coordinator keeps picking under the same rules so later conditions get
+   logs; nothing here needs a hand.
+3. **Follow-ups from pilot 3:** BRI-25 was answered by the terminal session
+   (Q1 yes, Q2 yes with folder evidence, Q3 leave unreachable). If the
+   Coordinator files the pointer rewrite for Q1/Q2, it merges under the merge
+   rule. Watch for a `Decision:` task that appears without a BRI-2 post: that
+   means the real-time rule did not fire (file a `kind:friction` issue).
 4. **Condition 3:** K1 is proposed, accepted, enforced, and its log shows a
    live-test block. Still needed: a block in real work (watch K1 rows in
    `readout.py`) and one wrong block coming back as a `kind:friction`,
