@@ -76,7 +76,7 @@ want model routing in v1").
 |---|---|---|---|
 | C-ORCH orchestration | Paperclip on personal-vps | running again since 2026-10-03 15:22 UTC (one-year token); drove pilot task 1 (BRI-17 → AES PR #88); pilot floor one task per 6 hours, 2 open at once | it drives pilot tasks 2 and 3 |
 | C-MSG agent messaging | Paperclip task threads | in use (BRI-5 → BRI-8 handoff) | the same, on pilot tasks |
-| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; dashboard later | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; pilot 1's merge decision (BRI-19) went through it 2026-10-03. Since Brian's 2026-10-03 rule it is normally empty: private, reversible pilot PRs merge without him | it shows a `Decision:` only for a public-facing or irreversible change; what merged is readable in the pilot task's comments |
+| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; Brian's Telegram-bound board thread BRI-2 for anything that needs him, at the moment it is asked (Brian, 2026-10-03: "i want to know as soon as my agents try to send me a message and for them to get my response as soon as i respond"); the dashboard, hosted at hive.brianmills.dev (his yes, 2026-10-03), as the overview | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; pilot 1's merge decision (BRI-19) went through it 2026-10-03. Since Brian's 2026-10-03 rule it is normally empty: private, reversible pilot PRs merge without him | it shows a `Decision:` only for a public-facing or irreversible change; what merged is readable in the pilot task's comments |
 | C-IDENTITY identity | one brain per project: `.project-brain/` in each repo (agent-skills `project-brain.md` layout), read first via the repo's `CLAUDE.md`/`AGENTS.md` | brains in AES (2026-10-02), theory-forge (#22), cybernetic_influence_v3 (#43) and personal-wiki (#12, with a two-line `CLAUDE.md` pointer because the VPS agents' Claude Code loads only `CLAUDE.md`), 2026-10-03; each records its docs' conflicts as `needs_resolution` (e.g. theory-forge README says 5 theories compiled, AGENTS.md says 39; cybernetic_influence_v3 AGENTS.md says CI gates every merge, but GitHub Actions has been off since 2026-09-14) | each pilot project has a project brain agents read |
 | C-KNOW knowledge | git: each repo's `.project-brain/`; one task's plan in Paperclip issue documents (chosen 2026-10-02 after a landscape review; gbrain, Hermes, mem0/Letta/Cognee rejected for v1, reasons in `.project-brain/truth.md`) | chosen; AES brain committed | used by a pilot task |
 | C-CONTEXT context freshness | Paperclip re-reads agent and project settings each run (its `DEVELOPING.md`, "Config Freshness"); `scripts/hive/brain_fresh.py` for stale brains and checkouts behind GitHub | checker built; caught theory-forge `HANDOFF.md` (183 days, 209 commits since, exit 1); `controls.py` runs it daily for every `~/code` repo with a brain (4 on 2026-10-03) | run before pilot tasks; a stale case caught on a pilot project |
@@ -163,6 +163,14 @@ read-only.
 | Learning loop slice 1 | PR #66 merged `3bc351e`; 2,575 labelled, 0 errors | 2026-10-02 |
 
 ## Human decisions
+
+**Answered 2026-10-03 22:48 UTC:** host the dashboard on brianmills.dev ("yes it
+should be hosted on brianmills.dev"); owned by session "aes". Same message:
+Brian wants a real-time channel both ways. Done the same hour: the Coordinator
+and Research instructions tell agents to post anything that needs him on his
+Telegram thread (BRI-2) at the moment they ask, and to treat his reply there as
+the answer (backups `AGENTS.md.bak-20261003-telegram` beside each file); one
+test message was sent to that thread at 22:34 UTC and waits for his "ok".
 
 None open. Rule K1 was accepted 2026-10-03. All six design points were settled by the goal.
 
@@ -337,6 +345,24 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   - Cost per pilot task is now in `readout.py` (AES #100); numbers in the
     Evidence table.
 
+- **2026-10-03, 22:30–22:55 UTC (hosting yes; real-time channel):**
+  - Brian: yes to hosting the dashboard on brianmills.dev; and "i want to
+    know as soon as my agents try to send me a message and for them to get my
+    response as soon as i respond". Off-the-shelf answer already in place:
+    his Telegram DM is bound to board task BRI-2 (a comment there lands on his
+    phone; his reply comes back as a comment), proven 2026-10-02 with a
+    19-minute round trip while an in-board question card expired unanswered.
+    He had chosen terminal-only decisions on 2026-10-02; the 2026-10-03 ask
+    supersedes that for things that need him.
+  - Both agents' instructions now carry the rule (post on BRI-2 at the moment
+    of asking, reply there is the answer, progress reports stay off it) and
+    Research also carries the merge rule it lacked. Test message sent on BRI-2
+    at 22:34 UTC; the first real question after this proves the round trip.
+  - Hosting (private page behind the board's Cloudflare login, rebuilt every
+    15 minutes) is session "aes"'s lane; it reads the Deployment Hosting
+    Policy first. The hosted page's one-tap answers are the second leg of the
+    same channel.
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
@@ -411,3 +437,11 @@ token at the hidden prompt. It ends with PASSED or FAILED.
 6. `controls.py` runs daily (user timer) and at each stop; condition 4 can be
    claimed when `python3 scripts/hive/readout.py --days 7` shows 7 days with
    only clean runs (first clean day 2026-10-03).
+7. **Real-time channel:** on the next task that needs Brian, confirm the agent
+   posted on BRI-2 at the same time, that the message reached his phone, and
+   that his reply was copied onto the task and acted on in the same heartbeat
+   (`scripts/hive/board.sh GET /api/issues/519c6831-6967-4177-aef5-5aaea5d91850/comments`).
+   If a `Decision:` task appears without a BRI-2 comment, the rule did not
+   fire: file a `kind:friction` issue and fix the instruction. Hosted
+   dashboard: session "aes" deploys it; when it is live, add its address here
+   and to `conditions.json`.
