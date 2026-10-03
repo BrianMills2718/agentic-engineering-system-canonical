@@ -7,9 +7,11 @@
 - Brian, for "where are we against v1".
 
 **Stage:** personal pilot (Brian plus agents), not a team product.
-**Last outcome-bearing update:** 2026-10-03 21:50 UTC.
-- Pilot task 1 of 3 merged (AES PR #88). Pilot task 2 (BRI-21, a stale-page
-  checker for `personal-wiki`) was created at 21:41 UTC and is being built.
+**Last outcome-bearing update:** 2026-10-03 22:50 UTC. **Live status beats this
+file:** for current numbers run `python3 scripts/hive/readout.py` and read
+`scripts/hive/conditions.json`; prose here can lag the board.
+- Pilot tasks 1 and 2 of 3 merged: AES PR #88 and personal-wiki PR #13 (BRI-21,
+  a stale-page checker, merged by the agent at 21:55 UTC under Brian's rule).
 - Review rule changed by Brian at 21:45 UTC: agents merge their own pilot
   PRs; he is asked only for public-facing or irreversible changes.
 - Agents sign in again since 15:22 UTC (one-year token); project brains in
@@ -26,6 +28,8 @@ when a specific decision needs one.
 **Brian, 2026-10-03 (changes the review step):** "i dont even want to answer
 merge for anything that isnt public facing and that is not irreversible." So
 agents merge their own pilot pull requests once the repository's checks pass
+(its own local checks, `make check` or the equivalent; no hosted CI, Brian 2026-10-03; a
+new checker that reports findings by exiting 1 is not a failing check)
 and leave a report on the task; Brian is asked first only when a change is
 public-facing (a live site, a published package, anything visible outside his
 own machines and private repositories) or irreversible (deletes data or
@@ -64,11 +68,11 @@ API costs, and anything sent outward.
 
 ## Capabilities
 
-The 10 capability ids come from the AI Astronauts hive-brain roadmap
+The first 10 capability ids come from the AI Astronauts hive-brain roadmap
 (`PL.roadmap.capabilities` in the hive-brain explainer, 2026-10-01). C-ROUTE (model routing) was added to v1 by Brian on 2026-10-03 ("yes i
 want model routing in v1").
 
-| Capability | Chosen tool | State 2026-10-02 | v1 evidence still needed |
+| Capability | Chosen tool | State (latest dated entry wins) | v1 evidence still needed |
 |---|---|---|---|
 | C-ORCH orchestration | Paperclip on personal-vps | running again since 2026-10-03 15:22 UTC (one-year token); drove pilot task 1 (BRI-17 → AES PR #88); pilot floor one task per 6 hours, 2 open at once | it drives pilot tasks 2 and 3 |
 | C-MSG agent messaging | Paperclip task threads | in use (BRI-5 → BRI-8 handoff) | the same, on pilot tasks |
@@ -91,8 +95,8 @@ want model routing in v1").
 | M3 | **Learning loop slices 2–5,** plus coaching for Brian | slice 2 fully specifiable; 3–5 conditional on slice 2 counts | condition 3 |
 | M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | in progress: chosen (landscape review 2026-10-02); brains in AES, theory-forge, cybernetic_influence_v3 and personal-wiki; freshness checked daily by `controls.py`; pilot 2 is the first task told to read and update a brain | each used by a pilot task |
 | M5 | **Evaluation and observability.** Weekly readout; check that no control went silent | in progress: `controls.py` (silence check) and `readout.py` (weekly readout) built; both wait on pilot logs | condition 4 |
-| M7 | **Model routing.** Per-agent models (done 2026-10-03), a Codex builder agent on the ChatGPT subscription, per-task overrides, cost and throughput per task in the readout, then more parallel runs once a week of logs shows no subscription caps hit | in progress | C-ROUTE row |
-| M6 | **v1 acceptance.** All five conditions shown with evidence | conditional | — |
+| M6 | **Model routing.** Per-agent models (done 2026-10-03), a Codex builder agent on the ChatGPT subscription, per-task overrides, cost and throughput per task in the readout, then more parallel runs once a week of logs shows no subscription caps hit | in progress | C-ROUTE row |
+| M7 | **v1 acceptance.** All five conditions shown with evidence | conditional | — |
 
 M1 runs first because pilot tasks run unattended in the background while
 M2–M4 are built, and they produce the logs M3 and M5 need.
@@ -149,8 +153,8 @@ read-only.
 
 | Claim | Evidence | Date |
 |---|---|---|
-| Paperclip running; all three agents' latest runs succeed | `python3 scripts/hive/decisions.py` ("Agents not working: 0 of 3", exit 0); `readout.py --days 7`: 95 runs, 50 succeeded, 43 failed (all in the login outage) | 2026-10-03 17:40 UTC |
-| Paperclip tasks | 21 total: BRI-13 (pilot kickoff) in progress, BRI-20 (pilot 2 scoping) in review, BRI-2 backlog, the rest done, including BRI-17 (pilot 1) and BRI-19 (its merge decision) | `scripts/hive/board.sh GET /api/companies/$C/issues` | 2026-10-03 17:40 UTC |
+| Paperclip running; all three agents' latest runs succeed | `python3 scripts/hive/decisions.py` ("Agents not working: 0 of 3", exit 0); run counts: `python3 scripts/hive/readout.py --days 7` (the failures are from the 2026-10-02/03 login outage) | live |
+| Paperclip tasks | pilots: BRI-17 (1, done) and BRI-21 (2, done); BRI-13 (pilot kickoff) in progress; for counts run `scripts/hive/board.sh GET /api/companies/$C/issues` | live; pilots as of 2026-10-03 22:50 UTC |
 | Coordinator re-reads its instructions each run | its comment at 17:53 UTC cites the 6-hour floor written into the file at 17:45 UTC | 2026-10-03 |
 | Project brains fresh in 4 repositories; no control silent | `python3 scripts/hive/controls.py`: 11 of 11 ok, exit 0; `brain_fresh.py ~/code/personal-wiki --fetch` exit 0 | 2026-10-03 17:50 UTC |
 | Backups | `systemctl list-timers` shows `vps-backup.timer` last ran 2026-10-02 03:34 CEST | 2026-10-02 |
@@ -358,17 +362,14 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    shows `"status":"succeeded"`.
 1. Optional, Brian: rerun `set-claude-token.sh` once without pasting its
    output anywhere, so the saved token never appeared in a chat.
-2. **Pilot 2** (`personal-wiki`, BRI-21 `45c54efb-8535-45e1-8b4c-63e300906881`):
-   in build since 21:41 UTC. Under Brian's 2026-10-03 rule, Research and Code
-   Review merges it when its check passes and reports on the task. Check:
-   `scripts/hive/board.sh GET /api/issues/45c54efb-8535-45e1-8b4c-63e300906881/comments`
-   shows the merged PR and the check output; in the agent's run log confirm
-   `.project-brain/now.md` was read and the PR updated it (C-IDENTITY and
-   C-KNOW evidence). If a `Decision: merge` task appears anyway, answer it on
-   the board with the rule (private and reversible: merge it yourselves) and
-   close it. If the task is still open with no PR by 00:30 UTC, read the
-   latest Research run (heartbeat-runs, `agentId=4d008def-…`) for the cause.
-3. **Pilot 3:** earliest 6 hours after pilot 2 is created. The Coordinator
+2. **Pilot 2: done** 2026-10-03 (personal-wiki PR #13, merge commit `e320239`,
+   merged by the agent; `.project-brain/now.md` updated in the same PR). Its
+   follow-up BRI-23 (repo-name mapping) was answered by the terminal session:
+   rewrite a watch entry only where both repositories share a root commit. Two
+   Decision tasks (BRI-22, BRI-23) still reached Brian despite the merge rule;
+   if that recurs, file a `kind:friction` issue.
+3. **Pilot 3:** earliest 6 hours after pilot 2 was created (21:41 UTC), so
+   about 03:41 UTC on 2026-10-04. The Coordinator
    picks the repo; before the task starts, make sure the repo has
    `.project-brain/` (done: AES, theory-forge, cybernetic_influence_v3,
    personal-wiki; portfolio waits for another session's claim to clear) and a
