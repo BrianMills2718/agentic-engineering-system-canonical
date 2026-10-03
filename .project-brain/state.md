@@ -13,7 +13,8 @@ Detail and evidence: `proposals/hive-brain-v1/ROADMAP.md` ("Capabilities",
   - Learning loop slices 1–2 built: legacy learnings labelled; new `kind:*`
     issues labelled weekly by a timer on personal-vps (summaries on issue #74).
   - Jev gate: observe mode in every Claude and Codex session.
-  - Silence check: `python3 scripts/hive/controls.py`; backups restore
+  - Silence check: `python3 scripts/hive/controls.py`; weekly readout:
+    `python3 scripts/hive/readout.py`; backups restore
     (`host/restore-check.sh` in personal-vps).
   - Project brains: this one is the first; `scripts/hive/brain_fresh.py`
     reports a stale brain.
