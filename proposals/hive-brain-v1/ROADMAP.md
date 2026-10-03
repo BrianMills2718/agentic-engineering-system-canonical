@@ -40,7 +40,7 @@ for plain language, so this file says what each name means where it can.
    repository's checks pass, the agents merge it and leave a report Brian can
    read. Brian is asked first only for a public-facing or irreversible change
    (his rule of 2026-10-03). Task 1 was merged on his yes before that rule.
-2. **Capabilities.** All 10 capabilities have a chosen off-the-shelf tool that
+2. **Capabilities.** All 11 capabilities have a chosen off-the-shelf tool that
    is running and was used by those tasks (table below).
 3. **Learning loop closed once.** Lessons, frictions and problems are filed as
    issues and labelled by Jev. A recurring failure family produces a rule
@@ -65,7 +65,8 @@ API costs, and anything sent outward.
 ## Capabilities
 
 The 10 capability ids come from the AI Astronauts hive-brain roadmap
-(`PL.roadmap.capabilities` in the hive-brain explainer, 2026-10-01).
+(`PL.roadmap.capabilities` in the hive-brain explainer, 2026-10-01). C-ROUTE (model routing) was added to v1 by Brian on 2026-10-03 ("yes i
+want model routing in v1").
 
 | Capability | Chosen tool | State 2026-10-02 | v1 evidence still needed |
 |---|---|---|---|
@@ -79,6 +80,7 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 | C-LEARN learning | AES learning loop (GitHub issues + Jev labels) | slice 1 done: 2,575 legacy learnings labelled (PR #66); first lesson filed (issue #64) | condition 3 |
 | C-EVAL evaluation | readout from logs and traces: `python3 scripts/hive/readout.py [--days N]` (Paperclip tasks, pilot tasks, runs and failure codes; Jev and Safety Net decisions; learning-loop items by family; controls) | built 2026-10-03; first run showed the outage (13 failed runs, all `acpx_turn_failed`) | a weekly readout over pilot tasks |
 | C-RUNTIME runtime | netcup personal-vps, nightly backups to Drive | running; `vps-backup.timer` ran 2026-10-02 03:34; restore check passed 2026-10-02 (personal-vps `host/restore-check.sh`, #42) | done for v1 (rerun before acceptance) |
+| C-ROUTE model routing (throughput and cost) | Paperclip's own per-agent model and per-task model override (landscape review 2026-10-03: per-prompt routers such as OpenRouter Auto, RouteLLM, NotDiamond and the new `typesafe/jev-router` don't yet handle long tool-using agent sessions); a Codex builder agent on the ChatGPT subscription next | Coordinator on `claude-sonnet-5`, builder on `claude-opus-5` (2026-10-03, checked by `settings_check.py`); cost per run is in Paperclip's run records | a pilot task run under the routed setup, with cost and throughput per task in `readout.py` |
 
 ## Milestones
 
@@ -89,6 +91,7 @@ The 10 capability ids come from the AI Astronauts hive-brain roadmap
 | M3 | **Learning loop slices 2–5,** plus coaching for Brian | slice 2 fully specifiable; 3–5 conditional on slice 2 counts | condition 3 |
 | M4 | **Knowledge, identity, context.** Choose the knowledge layer; one brain per project; context freshness | in progress: chosen (landscape review 2026-10-02); brains in AES, theory-forge, cybernetic_influence_v3 and personal-wiki; freshness checked daily by `controls.py`; pilot 2 is the first task told to read and update a brain | each used by a pilot task |
 | M5 | **Evaluation and observability.** Weekly readout; check that no control went silent | in progress: `controls.py` (silence check) and `readout.py` (weekly readout) built; both wait on pilot logs | condition 4 |
+| M7 | **Model routing.** Per-agent models (done 2026-10-03), a Codex builder agent on the ChatGPT subscription, per-task overrides, cost and throughput per task in the readout, then more parallel runs once a week of logs shows no subscription caps hit | in progress | C-ROUTE row |
 | M6 | **v1 acceptance.** All five conditions shown with evidence | conditional | — |
 
 M1 runs first because pilot tasks run unattended in the background while

@@ -53,6 +53,8 @@ def main() -> int:
             hb = rc.get("heartbeat") or {}
             check(f"{name} heartbeat", {k: hb.get(k) for k in want["heartbeat"]}, want["heartbeat"])
             check(f"{name} env keys", sorted((ac.get("env") or {}).keys()), sorted(want["env"]))
+            if "model" in want:
+                check(f"{name} model", ac.get("model"), want["model"])
             check(f"{name} AI-connection binding", "aiConnection" in rc, False)
     else:
         unknown.append("Paperclip agents")

@@ -14,10 +14,10 @@
     {
       "n": 2,
       "name": "Capabilities",
-      "plain": "All 10 capabilities have a chosen off-the-shelf tool that is running and was used by the pilot tasks.",
+      "plain": "All 11 capabilities have a chosen off-the-shelf tool that is running and was used by the pilot tasks.",
       "status": "partway",
-      "progress": "10 running; 7 used by a pilot task",
-      "evidence": "Pilot task 1 used orchestration, messaging, the terminal relay, governance, the project brain, runtime and learning. Not yet shown in pilot use: knowledge, context freshness, evaluation.",
+      "progress": "11 running; 7 used by a pilot task",
+      "evidence": "Pilot task 1 used orchestration, messaging, the terminal relay, governance, the project brain, runtime and learning. Not yet shown in pilot use: knowledge, context freshness, evaluation. Model routing became capability 11 on 2026-10-03: the Coordinator plans on Sonnet 5, the builder codes on Opus 5.",
       "next": "Pilot tasks 2 and 3, then the weekly readout over all three."
     },
     {
