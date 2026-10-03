@@ -9,7 +9,8 @@ In short:
 1. Once Brian's `set-claude-token.sh` prints PASSED, confirm
    `python3 scripts/hive/decisions.py` shows "Agents not working: 0", then let
    the Coordinator pick pilot tasks (BRI-13).
-2. Seed `.project-brain/` in each pilot project the Coordinator picks.
+2. Seed `.project-brain/` in each pilot project the Coordinator picks (done:
+   AES, theory-forge; portfolio waits for another session's claim to clear).
 3. Run `python3 scripts/hive/controls.py` at each stop (exit 0 = no control silent).
 
 **Rule for every agent:** read this file first. When your change moves where
