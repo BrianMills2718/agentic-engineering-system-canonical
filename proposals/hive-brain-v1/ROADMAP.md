@@ -73,7 +73,7 @@ want model routing in v1").
 |---|---|---|---|
 | C-ORCH orchestration | Paperclip on personal-vps | running again since 2026-10-03 15:22 UTC (one-year token); drove pilot task 1 (BRI-17 → AES PR #88); pilot floor one task per 6 hours, 2 open at once | done: drove pilot tasks 1–3 (BRI-17, BRI-21, BRI-24; `readout.py` 2026-10-03 22:37 UTC) |
 | C-MSG agent messaging | Paperclip task threads | in use (BRI-5 → BRI-8 handoff) | done: the pilots ran as task threads with child tasks and wake-ups (BRI-16→17→19; BRI-20→21→23→24→25) |
-| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; Brian's Telegram-bound board thread BRI-2 for anything that needs him, at the moment it is asked (Brian, 2026-10-03: "i want to know as soon as my agents try to send me a message and for them to get my response as soon as i respond"); the dashboard, hosted at hive.brianmills.dev (his yes, 2026-10-03), as the overview | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; pilot 1's merge decision (BRI-19) went through it 2026-10-03. Since Brian's 2026-10-03 rule it is normally empty: private, reversible pilot PRs merge without him | pilot 1 through `decisions.py` (BRI-19); agent→phone shown by BRI-25 posted on BRI-2 at 22:38 UTC; phone→agent awaits Brian's first Telegram reply |
+| C-HUMAN-IF human interface | terminal relay of Paperclip `Decision:` tasks; Brian's Telegram-bound board thread BRI-2 for anything that needs him, at the moment it is asked (Brian, 2026-10-03: "i want to know as soon as my agents try to send me a message and for them to get my response as soon as i respond"); the dashboard, hosted at hive.brianmills.dev (his yes, 2026-10-03), as the overview | `python3 scripts/hive/decisions.py` lists agents not working (exit 1), then every task waiting on Brian or blocked; pilot 1's merge decision (BRI-19) went through it 2026-10-03. Since Brian's 2026-10-03 rule it is normally empty: private, reversible pilot PRs merge without him | done for v1 2026-10-03: both legs shown. Board→phone: Paperclip publishes an agent comment to Telegram only when it is the reply inside a run woken by an inbound Telegram message, so `telegram-relay.service` on personal-vps (apps/telegram-relay, PR #54) publishes every new agent comment on BRI-2 with the board key (manual publish of BRI-25's digest at 22:57 UTC reached his phone; his reply came back at 22:58). Phone→agent: the relay posted his reply on BRI-13 at 23:05:05 and the Coordinator woke the same second. Pilot 1 went through `decisions.py` (BRI-19) |
 | C-IDENTITY identity | one brain per project: `.project-brain/` in each repo (agent-skills `project-brain.md` layout), read first via the repo's `CLAUDE.md`/`AGENTS.md` | brains in AES (2026-10-02), theory-forge (#22), cybernetic_influence_v3 (#43) and personal-wiki (#12, with a two-line `CLAUDE.md` pointer because the VPS agents' Claude Code loads only `CLAUDE.md`), 2026-10-03; each records its docs' conflicts as `needs_resolution` (e.g. theory-forge README says 5 theories compiled, AGENTS.md says 39; cybernetic_influence_v3 AGENTS.md says CI gates every merge, but GitHub Actions has been off since 2026-09-14) | done: pilots 2 and 3 read personal-wiki's `.project-brain/now.md` first and updated it in PRs #13 and #14 |
 | C-KNOW knowledge | git: each repo's `.project-brain/`; one task's plan in Paperclip issue documents (chosen 2026-10-02 after a landscape review; gbrain, Hermes, mem0/Letta/Cognee rejected for v1, reasons in `.project-brain/truth.md`) | chosen; AES brain committed | done: the same PRs updated `now.md` and `state.md`; the brain was the knowledge the pilot started from |
 | C-CONTEXT context freshness | Paperclip re-reads agent and project settings each run (its `DEVELOPING.md`, "Config Freshness"); `scripts/hive/brain_fresh.py` for stale brains and checkouts behind GitHub | checker built; caught theory-forge `HANDOFF.md` (183 days, 209 commits since, exit 1); `controls.py` runs it daily for every `~/code` repo with a brain (4 on 2026-10-03) | done: `brain_fresh.py ~/code/personal-wiki --fetch` exit 0 before pilot 2; `controls.py` checks all four brains daily |
@@ -381,6 +381,31 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   - Still unproven: the phone→agent leg (Brian has not replied on Telegram
     yet).
 
+- **2026-10-03, 22:45–23:10 UTC (the phone channel, found broken and fixed):**
+  - Brian saw none of the evening's messages on Telegram. Cause, read in
+    Paperclip's code (`server/services/issues.js`): an agent comment on the
+    bound thread is pushed to Telegram only when it is that agent's reply
+    inside a run woken by an inbound Telegram message; the publish route
+    (`POST /api/chat-endpoints/<id>/conversations/<id>/publications`) needs a
+    board user, so agents get 403. The bot's last delivery had been 2026-10-02
+    03:37 UTC. His replies, in turn, land on BRI-2 as user comments and wake
+    nobody.
+  - Proof of the route: publishing Brian Contact's 22:39 digest by hand at
+    22:57:30 UTC (publication `ec8a6e16`, state `published`); Brian's "Ok"
+    arrived on BRI-2 at 22:58:11.
+  - Fix, deployed under Brian's yes: `telegram-relay.service` on personal-vps
+    (apps/telegram-relay, PR #54), a 15-second loop with the board key that
+    publishes each new agent comment on BRI-2 to his phone and relays each new
+    user comment on BRI-2 to BRI-13. First cycle 23:05:05 UTC relayed his
+    "Ok"; the Coordinator woke at 23:05:05, found nothing waiting (BRI-25 had
+    been answered), and stayed quiet, as its rule says. `controls.py` now
+    checks the relay's heartbeat (12 of 12 ok).
+  - Also tonight: BRI-26 (folder-scoped watch targets for the monorepo)
+    merged as personal-wiki PR #15, 6 → 3 unreachable. The Coordinator reports
+    the pipeline "dry until `weekly-plans` refreshes": the plan of the week of
+    2026-09-21 has no agent-executable line left that it has not done or
+    ruled out. Its next cadence wake is 2026-10-04 03:40 UTC.
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
@@ -447,11 +472,13 @@ token at the hidden prompt. It ends with PASSED or FAILED.
 6. `controls.py` runs daily (user timer) and at each stop; condition 4 can be
    claimed when `python3 scripts/hive/readout.py --days 7` shows 7 days with
    only clean runs (first clean day 2026-10-03).
-7. **Real-time channel:** on the next task that needs Brian, confirm the agent
-   posted on BRI-2 at the same time, that the message reached his phone, and
-   that his reply was copied onto the task and acted on in the same heartbeat
-   (`scripts/hive/board.sh GET /api/issues/519c6831-6967-4177-aef5-5aaea5d91850/comments`).
-   If a `Decision:` task appears without a BRI-2 comment, the rule did not
-   fire: file a `kind:friction` issue and fix the instruction. Hosted
-   dashboard: session "aes" deploys it; when it is live, add its address here
-   and to `conditions.json`.
+7. **Real-time channel (live since 23:05 UTC):** `ssh personal-vps sudo
+   journalctl -u telegram-relay -n 30` shows one line per message either way;
+   `controls.py` row "Telegram relay" must be ok. Still to see once: the relay's
+   own "to phone" line on the next agent post on BRI-2 (the route itself was
+   proven by hand at 22:57). If a `Decision:` task appears without a BRI-2
+   post, the agents' rule did not fire: file a `kind:friction` issue.
+8. **Plan refresh:** the Coordinator has exhausted the weekly plan's
+   agent-executable lines. New pilot work needs a refreshed
+   `weekly-plans/personal/THIS_WEEK.md` (Brian's priorities) or his say-so on
+   what the workers should take next; until then the pipeline idles by design.

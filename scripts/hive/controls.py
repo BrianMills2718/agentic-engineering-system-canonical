@@ -12,6 +12,8 @@ Controls and where their activity is read:
   - Paperclip agents: latest heartbeat run, and latest successful one (board API on personal-vps)
   - Learning loop: latest summary comment on AES issue #74 (weekly timer on personal-vps)
   - VPS backup: last result of vps-backup.service on personal-vps
+  - Telegram relay: heartbeat file written every cycle by telegram-relay.service on personal-vps
+    (personal-vps apps/telegram-relay); silent after 10 minutes
   - Project brains: scripts/hive/brain_fresh.py for every ~/code repo with a .project-brain/
   - Hive settings: scripts/hive/settings_check.py (live system matches scripts/hive/settings.json)
 Exit status: 0 = every control active, 1 = something SILENT, FAILING or STALE,
@@ -50,7 +52,8 @@ set -euo pipefail
 set -a; . /root/.paperclip-cli/board.env; set +a
 runs=$(docker exec -e K="$PAPERCLIP_API_KEY" paperclip sh -c "curl -sf -H \"Authorization: Bearer \$K\" \"http://127.0.0.1:3100/api/companies/__C__/heartbeat-runs?limit=200\"")
 backup=$(systemctl show vps-backup.service -p Result -p ExecMainExitTimestamp --value --timestamp=unix | paste -sd'|')
-echo "$runs" | python3 -c 'import json,sys; r=json.load(sys.stdin); r=r if isinstance(r,list) else r.get("runs",[]); print(json.dumps({"runs":[{k:x.get(k) for k in ("status","startedAt","errorCode")} for x in r],"backup":sys.argv[1]}))' "$backup"
+relay=$(cat /var/lib/telegram-relay/heartbeat 2>/dev/null || echo 0)
+echo "$runs" | python3 -c 'import json,sys; r=json.load(sys.stdin); r=r if isinstance(r,list) else r.get("runs",[]); print(json.dumps({"runs":[{k:x.get(k) for k in ("status","startedAt","errorCode")} for x in r],"backup":sys.argv[1],"relay":sys.argv[2]}))' "$backup" "$relay"
 """
 
 
@@ -87,7 +90,8 @@ def main() -> int:
 
     def add(name: str, last: dt.datetime | None, gap: dt.timedelta, failing: str = "") -> None:
         status = "FAILING: " + failing if failing else ("SILENT" if last is None or NOW - last > gap else "ok")
-        rows.append((name, ago(last), f"{gap.days}d", status))
+        gap_s = f"{gap.days}d" if gap >= DAY else f"{int(gap.total_seconds() // 60)}m"
+        rows.append((name, ago(last), gap_s, status))
 
     j = jsonl_last(os.path.expanduser("~/.jev-gate/decisions.jsonl"))
     add("Jev gate (Claude + Codex)", ts(j["at"]) if j else None, 7 * DAY)
@@ -113,6 +117,9 @@ def main() -> int:
         result, _, when = vps["backup"].partition("|")
         when_d = dt.datetime.fromtimestamp(int(when.strip().lstrip("@")), dt.timezone.utc) if when.strip() else None
         add("VPS backup (nightly)", when_d, 2 * DAY, "" if result == "success" else f"result {result}")
+        relay_ts = int(vps.get("relay") or 0)
+        add("Telegram relay (VPS, every 15 s)", dt.datetime.fromtimestamp(relay_ts, dt.timezone.utc) if relay_ts else None,
+            dt.timedelta(minutes=10))
     else:
         unknown = True
         rows.append(("Paperclip agents + VPS backup", "?", "-", f"UNKNOWN: ssh failed ({r.stderr.strip()[:80]})"))
