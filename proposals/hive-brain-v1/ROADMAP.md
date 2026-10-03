@@ -493,7 +493,10 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    own "to phone" line on the next agent post on BRI-2 (the route itself was
    proven by hand at 22:57). If a `Decision:` task appears without a BRI-2
    post, the agents' rule did not fire: file a `kind:friction` issue.
-8. **Plan refresh:** the Coordinator has exhausted the weekly plan's
-   agent-executable lines. New pilot work needs a refreshed
-   `weekly-plans/personal/THIS_WEEK.md` (Brian's priorities) or his say-so on
-   what the workers should take next; until then the pipeline idles by design.
+8. **Plan refreshed 2026-10-04** (weekly-plans main `e7ba2ad`, approved by Brian in
+   the terminal): Priority 7 (hive brain v1) gives the workers four lines (AES
+   `make check` from a clean clone; cold-reader sweep of public repos; `CLAUDE.md`
+   pointers and brains; Jev wrong-deny rules), Priority 5 two more (thin people
+   pages; project pages). The Coordinator was told on BRI-13 at the same time.
+   Check: a new `Pilot:` task within its next run; if none by 2026-10-04 04:00
+   UTC, read the latest Coordinator run for the cause.
