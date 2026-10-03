@@ -10,7 +10,8 @@ In short:
 1. Follow the Coordinator's first `Pilot:` task (BRI-13 comments) through
    build, Brian's review in the terminal, and merge.
 2. Seed `.project-brain/` in each pilot project the Coordinator picks (done:
-   AES, theory-forge; portfolio waits for another session's claim to clear).
+   AES, theory-forge, cybernetic_influence_v3; portfolio waits for another
+   session's claim to clear).
 3. Run `python3 scripts/hive/controls.py` at each stop (exit 0 = no control silent).
 
 **Rule for every agent:** read this file first. When your change moves where
