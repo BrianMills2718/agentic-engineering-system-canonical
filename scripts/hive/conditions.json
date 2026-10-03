@@ -1,26 +1,62 @@
 {
-  "about": "Progress on the five v1 done-conditions (proposals/hive-brain-v1/ROADMAP.md, Outcome). Updated by hand at each stop, each line with its evidence. status: done | partway | not_started.",
+  "about": "Progress on the five v1 done-conditions (proposals/hive-brain-v1/ROADMAP.md, Outcome). Updated by hand at each stop, each line with its evidence. status: done | partway | not_started. decisions_in_terminal: decisions the terminal session is holding for Brian (shown on the dashboard's Decisions screen).",
   "updated": "2026-10-03",
   "conditions": [
-    {"n": 1, "name": "Pilot", "plain": "Three real tasks from at least two projects go plan, build, your review, merge, without hand-holding.",
-     "status": "partway", "progress": "1 of 3 done; pilot 2 scoped",
-     "evidence": "Task 1 (AES quickstart fix) merged 2026-10-03 as AES PR #88 after your review. Pilot 2 (personal-wiki, confidence-label currency) is scoped as BRI-20; the Coordinator creates its task from 21:35 UTC on 2026-10-03 (one pilot per 6 hours).",
-     "next": "Coordinator answers the slice question on BRI-20 and creates pilot task 2 in personal-wiki."},
-    {"n": 2, "name": "Capabilities", "plain": "All 10 capabilities have a chosen off-the-shelf tool that is running and was used by the pilot tasks.",
-     "status": "partway", "progress": "10 running; 7 used by a pilot task",
-     "evidence": "Pilot task 1 used orchestration, messaging, the terminal relay, governance, the project brain, runtime and learning. Not yet shown in pilot use: knowledge, context freshness, evaluation.",
-     "next": "Pilot tasks 2 and 3, then the weekly readout over all three."},
-    {"n": 3, "name": "Learning loop", "plain": "A recurring failure becomes a rule you accept; the rule is enforced, its log shows it firing, and a wrong block comes back as an issue.",
-     "status": "partway", "progress": "3 of 5 steps",
-     "evidence": "Rule K1 (never delete the folder a session stands in) came from a failure that happened twice, you accepted it, and it is enforced; a live test was blocked and logged.",
-     "next": "A block during real work, and one wrong block reported back as an issue."},
-    {"n": 4, "name": "Nothing silent", "plain": "Every control logs what it did, and none went quiet for a week.",
-     "status": "partway", "progress": "day 1 of 7 clean",
-     "evidence": "The silence check runs daily and records each result; first all-clean day 2026-10-03 (11 of 11 controls at 17:50 UTC, now including four project brains).",
-     "next": "Six more clean days."},
-    {"n": 5, "name": "Pick-up", "plain": "A fresh agent can resume from the plan alone.",
-     "status": "partway", "progress": "tested once, gaps fixed",
-     "evidence": "A fresh agent given only the plan got the state right but lacked commands and ids; those were added (AES #82).",
-     "next": "Re-test with a fresh agent after more pilot tasks."}
+    {
+      "n": 1,
+      "name": "Pilot",
+      "plain": "Three real tasks from at least two projects go plan, build, your review, merge, without hand-holding.",
+      "status": "partway",
+      "progress": "1 of 3 done; pilot 2 scoped",
+      "evidence": "Task 1 (AES quickstart fix) merged 2026-10-03 as AES PR #88 after your review. Pilot 2 (personal-wiki, confidence-label currency) is scoped as BRI-20; the Coordinator creates its task from 21:35 UTC on 2026-10-03 (one pilot per 6 hours).",
+      "next": "Coordinator answers the slice question on BRI-20 and creates pilot task 2 in personal-wiki."
+    },
+    {
+      "n": 2,
+      "name": "Capabilities",
+      "plain": "All 10 capabilities have a chosen off-the-shelf tool that is running and was used by the pilot tasks.",
+      "status": "partway",
+      "progress": "10 running; 7 used by a pilot task",
+      "evidence": "Pilot task 1 used orchestration, messaging, the terminal relay, governance, the project brain, runtime and learning. Not yet shown in pilot use: knowledge, context freshness, evaluation.",
+      "next": "Pilot tasks 2 and 3, then the weekly readout over all three."
+    },
+    {
+      "n": 3,
+      "name": "Learning loop",
+      "plain": "A recurring failure becomes a rule you accept; the rule is enforced, its log shows it firing, and a wrong block comes back as an issue.",
+      "status": "partway",
+      "progress": "3 of 5 steps",
+      "evidence": "Rule K1 (never delete the folder a session stands in) came from a failure that happened twice, you accepted it, and it is enforced; a live test was blocked and logged.",
+      "next": "A block during real work, and one wrong block reported back as an issue."
+    },
+    {
+      "n": 4,
+      "name": "Nothing silent",
+      "plain": "Every control logs what it did, and none went quiet for a week.",
+      "status": "partway",
+      "progress": "day 1 of 7 clean",
+      "evidence": "The silence check runs daily and records each result; first all-clean day 2026-10-03 (11 of 11 controls at 17:50 UTC, now including four project brains).",
+      "next": "Six more clean days."
+    },
+    {
+      "n": 5,
+      "name": "Pick-up",
+      "plain": "A fresh agent can resume from the plan alone.",
+      "status": "partway",
+      "progress": "tested once, gaps fixed",
+      "evidence": "A fresh agent given only the plan got the state right but lacked commands and ids; those were added (AES #82).",
+      "next": "Re-test with a fresh agent after more pilot tasks."
+    }
+  ],
+  "decisions_in_terminal": [
+    {
+      "question": "May I report a bug to the Jev gate's maintainer?",
+      "context": "One of Jev's built-in rules wrongly blocks commands that only mention `env \u2026 | curl` (4 of its 8 wrong blocks in our log). Our settings can't loosen a built-in rule. A tested fix keeps all 6 real leaks blocked and fires 1 time instead of 7 across 8,285 logged commands.",
+      "recommendation": "Post the issue on eugeniughelbur/jev-engineering (public, under your GitHub account) and patch our copy meanwhile.",
+      "options": [
+        "Post it",
+        "Don't post"
+      ]
+    }
   ]
 }
