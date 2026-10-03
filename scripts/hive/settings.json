@@ -1,0 +1,36 @@
+{
+  "about": "Hive brain v1 settings: how the hive should be configured. scripts/hive/settings_check.py compares this with the live system and exits 1 on any difference. Change the live system and this file together, in one pull request.",
+  "paperclip": {
+    "company": "da165590-b0b3-4bf9-bb7f-e455292df499",
+    "agents": {
+      "Coordinator": {
+        "id": "8964a584-ddfe-4fb1-b14f-c1503ae5ec23",
+        "role": "ceo",
+        "heartbeat": {"enabled": true, "intervalSec": 1800, "maxConcurrentRuns": 2, "skipTimerWhenNoActionableWork": true},
+        "env": ["CLAUDE_CODE_OAUTH_TOKEN"]
+      },
+      "Research and Code Review": {
+        "id": "4d008def-4e59-47c2-bccf-ec5313e12ce2",
+        "role": "engineer",
+        "heartbeat": {"enabled": false, "maxConcurrentRuns": 2},
+        "env": ["CLAUDE_CODE_OAUTH_TOKEN", "GH_TOKEN", "GITHUB_TOKEN"]
+      },
+      "Brian Contact": {
+        "id": "4331dfbd-6a12-4965-b28a-d296c5aa9d3a",
+        "role": "general",
+        "heartbeat": {"enabled": false, "maxConcurrentRuns": 2},
+        "env": ["CLAUDE_CODE_OAUTH_TOKEN"]
+      }
+    },
+    "no_ai_connection_binding": "Agents sign in with the one-year token, never Paperclip's subscription connection (8-hour token, paperclipai/paperclip#13725)."
+  },
+  "gates": {
+    "jev_mode": "observe",
+    "k1_guard_installed": true,
+    "cc_safety_net_plugin": "cc-safety-net@cc-marketplace"
+  },
+  "timers": {
+    "wsl_user": ["hive-controls.timer"],
+    "personal_vps": ["learning-loop.timer", "vps-backup.timer"]
+  }
+}
