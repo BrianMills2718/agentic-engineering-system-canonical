@@ -134,8 +134,7 @@ read-only.
 
 ## Human decisions
 
-One decision queued for after the token: accept rule K1 (agent-skills PR
-#424, see "How to check and act"). All six design points were settled by the goal.
+None open. Rule K1 was accepted 2026-10-03. All six design points were settled by the goal.
 
 **Waiting on Brian (action, 2026-10-02; Paperclip task BRI-15):** create the agents' one-year Claude
 token. In his own terminal (not a Claude session, so the token stays out of
@@ -219,6 +218,11 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     It names one pilot task per 12 hours (its own cap). Its question "should I
     get GitHub access?" was answered no for now: the only token can write to
     every repo.
+  - **Rule K1 accepted and enforced** (Brian, in the terminal): the first rule
+    to go the whole way from a recurring failure (family K, AES #78) to a
+    proposal with a replay (1 block in 54) to Brian's yes to enforcement. A
+    simulated removal of the session's own worktree was blocked live and
+    logged; a removal from outside the worktree was allowed.
   - Condition 4 clock started: first all-clean `controls.py` run (8 of 8 ok) at
     15:29 UTC. Every run now appends to `~/.hive-brain/controls.jsonl`, and a
     daily user timer runs it (`scripts/hive/systemd/`); `readout.py` counts the
@@ -238,11 +242,11 @@ token at the hidden prompt. It ends with PASSED or FAILED.
 - **Silence check:** `python3 scripts/hive/controls.py` (exit 0 = no control
   silent). **Weekly readout:** `python3 scripts/hive/readout.py`.
 - **Brain freshness:** `python3 scripts/hive/brain_fresh.py <repo>`.
-- **Rule K1** (proposed, agent-skills PR #424, not installed): the Jev
-  launcher blocks `git worktree remove` of the folder the session stands in
-  (AES #78). Brian accepts or rejects it; on yes, merge #424 and install
-  `jev/worktree_guard.py` as `~/.local/bin/jev-gate-worktree-guard` and the
-  new `jev/jev-gate-hook` as `~/.local/bin/jev-gate-hook`.
+- **Rule K1** (accepted by Brian 2026-10-03, enforced): the Jev launcher
+  blocks `git worktree remove` of the folder the session stands in (AES #78,
+  agent-skills #424). Installed as `~/.local/bin/jev-gate-worktree-guard` and
+  `~/.local/bin/jev-gate-hook`; blocks are `rule: K1-worktree-cwd` rows in
+  `~/.jev-gate/decisions.jsonl`, counted by `readout.py`.
 
 ## Exact next action
 
@@ -266,8 +270,11 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    only `AGENTS.md`, so check in the first theory-forge run log that the brain
    was read. The weekly plan the Coordinator picks from is dated the week of
    2026-09-21; if its picks look stale, say so in the review.
-3. **Rule K1:** bring Brian the accept/reject decision (agent-skills PR #424)
-   once the token is done, one decision at a time.
+3. **Condition 3:** K1 is proposed, accepted, enforced, and its log shows a
+   live-test block. Still needed: a block in real work (watch K1 rows in
+   `readout.py`) and one wrong block coming back as a `kind:friction`,
+   `source:gate` issue. The 8 wrong Jev denies (AES #72, #73) are gate
+   frictions already, but from the pre-existing secret rules, not K1.
 4. **M2:** review the Jev log until 2026-10-09 (every `deny` row must be
    right), then switch to guard mode (`jev-gate-hook --mode guard`; only
    "deny" blocks). **Not safe yet (2026-10-03):** of 9 `deny` rows, 1 is right
