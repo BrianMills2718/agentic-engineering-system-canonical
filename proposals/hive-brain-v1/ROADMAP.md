@@ -246,6 +246,12 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   `3b1cd68f-0d58-4699-bf6f-e38a79fe487a`; BRI-15 (Brian: token)
   `36109986-51a2-4276-b4f5-225758ed87cc`. Board in a browser:
   `https://paperclip.brianmills.dev/BRI/issues/<BRI-n>`.
+- **Dashboard (Brian's view, phone-friendly):** https://claude.ai/artifact/SvMbUicpBhWEQYR7xZi4qc,
+  built by `python3 scripts/hive/dashboard.py --out <file.html>` and republished with
+  the Artifact tool at each stop (it is a snapshot and shows when it was built).
+  Progress on the five conditions lives in `scripts/hive/conditions.json`; update it
+  with evidence whenever a condition moves. Design: Representation Router, use case
+  `scripts/hive/dashboard-use-case.json`.
 - **Terminal relay:** `python3 scripts/hive/decisions.py` (agents not working,
   then tasks waiting on Brian; exit 1 while an agent is broken).
 - **Silence check:** `python3 scripts/hive/controls.py` (exit 0 = no control
