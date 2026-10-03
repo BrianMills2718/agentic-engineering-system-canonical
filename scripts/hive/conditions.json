@@ -7,9 +7,9 @@
       "name": "Pilot",
       "plain": "Three real tasks from at least two projects go from your weekly plan to a merged pull request without hand-holding; you are asked first only for public-facing or irreversible changes (your rule, 2026-10-03).",
       "status": "partway",
-      "progress": "2 of 3 done",
+      "progress": "2 of 3 done; task 3 in build",
       "evidence": "Task 1 (AES quickstart fix) merged 2026-10-03 as AES PR #88 after Brian's terminal review. Task 2 (personal-wiki confidence check) merged 2026-10-03 as personal-wiki PR #13 by the agent, under Brian's 2026-10-03 rule that private, reversible changes are merged by agents and reported (no terminal review); its one follow-up question (BRI-23) was answered by the terminal session with a root-commit identity test.",
-      "next": "Pilot task 3, in a third project or one of the two already used."
+      "next": "Task 3 (repairing the wiki's pointers to repositories that moved, started 22:25 UTC on 2026-10-03 in personal-wiki) merges itself when its check passes; then the three jobs are done."
     },
     {
       "n": 2,
