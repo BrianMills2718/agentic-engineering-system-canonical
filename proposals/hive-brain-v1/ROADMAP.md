@@ -256,6 +256,11 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    once the token is done, one decision at a time.
 4. **M2:** review the Jev log until 2026-10-09 (every `deny` row must be
    right), then switch to guard mode (`jev-gate-hook --mode guard`; only
-   "deny" blocks).
+   "deny" blocks). **Not safe yet (2026-10-03):** of 9 `deny` rows, 1 is right
+   (WSL shutdown) and 8 are text-matching rules firing on heredoc or PR/issue
+   text that only mentions a forbidden command (AES #72, #73). Fix that first:
+   either the rules stop matching text inside heredocs and messages, or Jev's
+   base `env … | curl` rule is changed upstream (posting there needs Brian's
+   yes).
 5. Run `python3 scripts/hive/controls.py` at each stop; it must exit 0 for a
    week before condition 4 can be claimed.
