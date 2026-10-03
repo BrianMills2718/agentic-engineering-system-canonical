@@ -51,7 +51,7 @@
   "decisions_in_terminal": [
     {
       "question": "May I put the dashboard on your server so it updates itself?",
-      "answered": "yes (Brian, 2026-10-03 22:48 UTC: \"yes it should be hosted on brianmills.dev\"); deployment owned by session aes",
+      "answered": "yes (Brian, 2026-10-03 22:48 UTC: \"yes it should be hosted on brianmills.dev\"); deployed 2026-10-03 23:10 UTC at https://hive.brianmills.dev (personal-vps #55)",
       "context": "A private page at a new address (for example `hive.brianmills.dev`) behind the same Cloudflare login as the Paperclip board, rebuilt every 15 minutes. It is a new deployment, which needs your yes.",
       "recommendation": "Yes: one bookmark on your phone that is always current. Private, and removable with one change.",
       "options": [

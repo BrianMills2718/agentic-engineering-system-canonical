@@ -406,6 +406,15 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     2026-09-21 has no agent-executable line left that it has not done or
     ruled out. Its next cadence wake is 2026-10-04 03:40 UTC.
 
+- **2026-10-03, 23:08–23:12 UTC (dashboard hosted):** personal-vps #55
+  (built by session "aes") merged and deployed by this session under Brian's
+  yes: Access app "Hive dashboard" (policy "Brian only", 30-day session),
+  container on 127.0.0.1:8795 (ungated request 403), tunnel route and DNS for
+  hive.brianmills.dev, build timer every 15 minutes (first build 23:10:34 UTC),
+  local `hive-controls.timer` pushing the silence check (12 ok) to the page.
+  Public check: 302 to the Cloudflare login. Not checked by an agent: the page
+  as Brian sees it after login, and a one-tap answer end to end.
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
@@ -416,9 +425,15 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   `36109986-51a2-4276-b4f5-225758ed87cc`; BRI-20 (pilot 2 scoping)
   `f1cb19d0-9a87-440a-9fc6-7b43c20e668c`. Board in a browser:
   `https://paperclip.brianmills.dev/BRI/issues/<BRI-n>`.
-- **Dashboard (Brian's view, phone-friendly):** https://claude.ai/artifact/SvMbUicpBhWEQYR7xZi4qc,
-  built by `python3 scripts/hive/dashboard.py --out <file.html>` and republished with
-  the Artifact tool at each stop (it is a snapshot and shows when it was built).
+- **Dashboard (Brian's view, phone-friendly):** https://hive.brianmills.dev, private
+  behind Cloudflare Access (Brian's email only), rebuilt every 15 minutes on
+  personal-vps (`apps/hive-dashboard`, personal-vps #55, deployed 2026-10-03
+  23:10 UTC); one-tap answers post a comment on the waiting task. The earlier
+  snapshot artifact https://claude.ai/artifact/SvMbUicpBhWEQYR7xZi4qc points there.
+  Checks: an anonymous `GET https://hive.brianmills.dev/` is a 302 to the Access
+  login; `ssh personal-vps systemctl list-timers hive-dashboard-build.timer`
+  shows the next run; this machine's `hive-controls.timer` pushes the silence
+  check's rows to the page. Rollback: `apps/hive-dashboard/README.md`.
   Progress on the five conditions lives in `scripts/hive/conditions.json`; update it
   with evidence whenever a condition moves. Design: Representation Router, use case
   `scripts/hive/dashboard-use-case.json`.
