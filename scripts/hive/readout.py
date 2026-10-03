@@ -37,7 +37,7 @@ set -euo pipefail
 set -a; . /root/.paperclip-cli/board.env; set +a
 q(){ docker exec -e K="$PAPERCLIP_API_KEY" paperclip sh -c "curl -sf -H \"Authorization: Bearer \$K\" \"http://127.0.0.1:3100$1\""; }
 { q "/api/companies/__C__/issues?limit=500"; echo; q "/api/companies/__C__/heartbeat-runs?limit=500"; echo; q "/api/companies/__C__/agents"; } \
- | python3 -c 'import json,sys; i,r,a=[json.loads(l) for l in sys.stdin if l.strip()]; L=lambda x,k: x if isinstance(x,list) else x.get(k,[]); print(json.dumps({"issues":[{k:x.get(k) for k in ("identifier","title","status","createdAt","updatedAt","completedAt")} for x in L(i,"issues")],"runs":[{k:x.get(k) for k in ("agentId","status","startedAt","errorCode")} for x in L(r,"runs")],"agents":{x["id"]:x["name"] for x in L(a,"agents")}}))'
+ | python3 -c 'import json,sys; i,r,a=[json.loads(l) for l in sys.stdin if l.strip()]; L=lambda x,k: x if isinstance(x,list) else x.get(k,[]); print(json.dumps({"issues":[{k:x.get(k) for k in ("id","identifier","title","status","createdAt","updatedAt","completedAt")} for x in L(i,"issues")],"runs":[{**{k:x.get(k) for k in ("agentId","status","startedAt","finishedAt","errorCode")},"issueId":(x.get("contextSnapshot") or {}).get("issueId"),"model":(x.get("usageJson") or {}).get("model"),"costUsd":(x.get("usageJson") or {}).get("costUsd"),"billing":(x.get("usageJson") or {}).get("billingType"),"tokens":((x.get("usageJson") or {}).get("inputTokens") or 0)+((x.get("usageJson") or {}).get("outputTokens") or 0)} for x in L(r,"runs")],"agents":{x["id"]:x["name"] for x in L(a,"agents")}}))'
 """
 
 
@@ -67,8 +67,20 @@ def main() -> int:
         pilot = [i for i in pc["issues"] if (i["title"] or "").lower().startswith("pilot")]
         print(f"  tasks: {len(made)} created, {len(done)} finished")
         print(f"  pilot tasks: {len(pilot)} ({dict(collections.Counter(i['status'] for i in pilot))})")
+        byissue = collections.defaultdict(list)
+        for x in pc["runs"]:
+            byissue[x.get("issueId")].append(x)
+        ids = {i["identifier"]: i for i in pc["issues"]}
         for i in pilot:
             print(f"    {i['identifier']} [{i['status']}] {(i['title'] or '')[:90]}")
+            rs = byissue.get(i.get("id"), [])
+            cost = sum(x.get("costUsd") or 0 for x in rs)
+            models = dict(collections.Counter(x.get("model") or "?" for x in rs))
+            start, end = when(i.get("createdAt")), when(i.get("completedAt") or (i["updatedAt"] if i["status"] == "done" else None))
+            hours = f"{(end - start).total_seconds() / 3600:.1f} h from created to done" if start and end else "not done yet"
+            subs = sum((x.get("billing") or "").startswith("subscription") for x in rs)
+            print(f"      cost and throughput: {len(rs)} runs, ${cost:.2f} at API prices ({subs} of {len(rs)} covered by a subscription), "
+                  f"models {models}, {sum(x.get('tokens') or 0 for x in rs):,} tokens, {hours}")
         runs = [x for x in pc["runs"] if inside(x["startedAt"])]
         by = collections.defaultdict(collections.Counter)
         for x in runs:
