@@ -208,6 +208,21 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     state, blocker and checks right, verdict "partly"; it lacked board commands
     and ids, and the Evidence table was stale. Fixed in this revision; the
     Brian action is now Paperclip task BRI-15, so `decisions.py` shows it.
+  - **Agents work again** (15:22 UTC): Brian's `set-claude-token.sh` run saved
+    the token (secret v5). The script printed FAILED only because Paperclip
+    skipped its sign-in probe (wording fixed, personal-vps #44). Proof: health
+    check BRI-14 ran at 15:23 and replied ok; the Coordinator ran at 15:24.
+    BRI-14 and BRI-15 closed. The token was pasted into the chat, so Brian was
+    asked to rerun the script once without pasting its output.
+  - Pilot kickoff: the Coordinator has no GitHub token, so it asked Research
+    and Code Review to read the weekly plan (BRI-16) and blocked BRI-13 on it.
+    It names one pilot task per 12 hours (its own cap). Its question "should I
+    get GitHub access?" was answered no for now: the only token can write to
+    every repo.
+  - Condition 4 clock started: first all-clean `controls.py` run (8 of 8 ok) at
+    15:29 UTC. Every run now appends to `~/.hive-brain/controls.jsonl`, and a
+    daily user timer runs it (`scripts/hive/systemd/`); `readout.py` counts the
+    clean days.
 
 ## How to check and act
 
@@ -231,16 +246,15 @@ token at the hidden prompt. It ends with PASSED or FAILED.
 
 ## Exact next action
 
-0. **Brian:** run `set-claude-token.sh` (BRI-15; steps under "Human
-   decisions"). Until it prints PASSED every agent run fails.
-1. **Then an agent** checks the fix: `python3 scripts/hive/decisions.py` must
-   print "Agents not working: 0 of 3" after the next run. Wake the health
-   check:
-   `echo '{"body":"Health check again after the token fix: reply ok."}' | scripts/hive/board.sh POST /api/issues/3b1cd68f-0d58-4699-bf6f-e38a79fe487a/comments`,
-   then within a few minutes
-   `scripts/hive/board.sh GET "/api/companies/$C/heartbeat-runs?agentId=4d008def-4e59-47c2-bccf-ec5313e12ce2&limit=3"`
-   shows `"status":"succeeded"`. Close BRI-15 and BRI-14 with a comment.
-2. **Pilot:** read the Coordinator's picks:
+0. Done 2026-10-03: token fixed, agents run (Progress log). To re-check any
+   time: wake the health check with
+   `echo '{"body":"Health check: reply ok."}' | scripts/hive/board.sh POST /api/issues/3b1cd68f-0d58-4699-bf6f-e38a79fe487a/comments`,
+   then `scripts/hive/board.sh GET "/api/companies/$C/heartbeat-runs?agentId=4d008def-4e59-47c2-bccf-ec5313e12ce2&limit=3"`
+   shows `"status":"succeeded"`.
+1. Optional, Brian: rerun `set-claude-token.sh` once without pasting its
+   output anywhere, so the saved token never appeared in a chat.
+2. **Pilot:** BRI-16 (Research and Code Review reads the weekly plan,
+   id `b8f04463-8fe7-43d0-9c51-86b336c829d2`) unblocks BRI-13. Read the Coordinator's picks:
    `scripts/hive/board.sh GET /api/issues/c8a83262-03e9-4b7a-b8fd-734cfe1d9b44/comments`.
    Expected: one or two `Pilot:` tasks assigned to Research and Code Review.
    If none within a few hours, wake BRI-13 with a comment the same way and
@@ -262,5 +276,6 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    either the rules stop matching text inside heredocs and messages, or Jev's
    base `env … | curl` rule is changed upstream (posting there needs Brian's
    yes).
-5. Run `python3 scripts/hive/controls.py` at each stop; it must exit 0 for a
-   week before condition 4 can be claimed.
+5. `controls.py` runs daily (user timer) and at each stop; condition 4 can be
+   claimed when `python3 scripts/hive/readout.py --days 7` shows 7 days with
+   only clean runs (first clean day 2026-10-03).

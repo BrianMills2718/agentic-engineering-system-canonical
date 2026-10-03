@@ -125,6 +125,17 @@ def main() -> int:
         if "SILENT" in line or "FAILING" in line or "STALE" in line or "UNKNOWN" in line:
             print("  " + " ".join(line.split()))
     print("  " + (lines[-1] if lines else f"UNREADABLE: controls.py exit {c.returncode}"))
+    try:
+        runs = [json.loads(l) for l in (Path.home() / ".hive-brain" / "controls.jsonl").read_text().splitlines() if l.strip()]
+        runs = [x for x in runs if inside(x["at"])]
+        days = collections.defaultdict(set)
+        for x in runs:
+            days[x["at"][:10]].add(x["exit"])
+        clean = sorted(d for d, codes in days.items() if codes == {0})
+        print(f"  history: {len(runs)} recorded runs on {len(days)} days; days with only clean runs: {len(clean)} "
+              f"({', '.join(clean) or 'none'})")
+    except OSError:
+        print("  history: none recorded yet (~/.hive-brain/controls.jsonl)")
 
     if unreadable:
         print(f"\nUNREADABLE sources: {', '.join(unreadable)}")
