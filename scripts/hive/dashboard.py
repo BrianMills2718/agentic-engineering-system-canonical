@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
 """Build Brian's hive-brain dashboard page (hive brain v1).
 
-One phone-first page answering: is it working, how close is v1, what is waiting
-on Brian; then, on tap, the plan, what the agents are doing, what is built, and
-the health checks. Design: Representation Router recommendation (list primary,
-status line, details on demand), use case in scripts/hive/dashboard-use-case.json.
+Five phone screens, each question in the form that answers it (Brian's
+AI Astronauts design plus Representation Router; picked from a ChatGPT sketch
+2026-10-03):
+  Map       what the system is made of: you, the communication route, project
+            brains, agents, tools (a drawn graph);
+  Live      what is happening now: work in progress and just finished (a feed);
+  Path      the way to v1: the five done-conditions as a path, each step with
+            what it waits on;
+  Decisions what needs you: one item at a time with the recommendation;
+  Health    is anything broken or gone quiet (calm list, the quiet one stands out).
 
   python3 scripts/hive/dashboard.py --out <file.html>
 
 Sources: the Paperclip board (scripts/hive/board.sh), scripts/hive/controls.py,
-the roadmap's Capabilities table, and scripts/hive/conditions.json (progress on
-the five done-conditions, updated by hand with evidence). The page is a
-snapshot: it states when it was built. Exit 2 if the board cannot be read.
+and scripts/hive/conditions.json (progress on the five conditions plus any
+decisions held in the terminal session). The page is a snapshot and says when
+it was built. Exit 2 if the board cannot be read.
 """
 from __future__ import annotations
 
@@ -25,20 +31,13 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[1]
 C = "da165590-b0b3-4bf9-bb7f-e455292df499"
 BRIAN = "Fr6jPHXrgB7tlyFcDMdJEiKNmBk2vjAl"
-AGENT_JOB = {
-    "Coordinator": "plans: picks pilot work from your weekly plan and assigns it",
-    "Research and Code Review": "builds: researches, writes code, opens pull requests",
-    "Brian Contact": "messages you (Telegram, currently unused)",
-}
-CAP_PLAIN = {
-    "C-ORCH": "Running the agents", "C-MSG": "Agents talking to each other", "C-HUMAN-IF": "Reaching you",
-    "C-IDENTITY": "One brain per project", "C-KNOW": "Where knowledge lives", "C-CONTEXT": "Keeping context fresh",
-    "C-GOV": "Rules and safety", "C-LEARN": "Learning from mistakes", "C-EVAL": "Measuring how it's doing",
-    "C-RUNTIME": "The server it runs on",
-}
+AGENT_JOB = {"Coordinator": "plans the work", "Research and Code Review": "builds and reviews",
+             "Brian Contact": "messages you"}
+PROJECT_REPOS = ["agentic-engineering-system-canonical", "theory-forge", "cybernetic_influence_v3", "personal-wiki", "portfolio"]
+SHORT = {"agentic-engineering-system-canonical": "AES", "cybernetic_influence_v3": "Cybernetic", "personal-wiki": "Personal wiki",
+         "theory-forge": "Theory Forge", "portfolio": "Portfolio"}
 e = html.escape
 
 
@@ -46,34 +45,69 @@ def board(path: str):
     r = subprocess.run(["bash", str(HERE / "board.sh"), "GET", path], capture_output=True, text=True, timeout=120)
     if r.returncode != 0:
         raise RuntimeError(r.stderr.strip()[:200])
-    return json.loads(r.stdout)
+    d = json.loads(r.stdout)
+    return d if isinstance(d, list) else next((v for v in d.values() if isinstance(v, list)), [])
 
 
 def ago(s: str | None) -> str:
     if not s:
         return "never"
     d = dt.datetime.fromisoformat(s.replace("Z", "+00:00"))
-    h = (dt.datetime.now(dt.timezone.utc) - d).total_seconds() / 3600
-    return "just now" if h < 1 else (f"{h:.0f} h ago" if h < 48 else f"{h / 24:.0f} days ago")
-
-
-def pill(kind: str, text: str) -> str:
-    return f'<span class="pill {kind}">{e(text)}</span>'
-
-
-def capabilities() -> list[dict]:
-    text = (ROOT / "proposals/hive-brain-v1/ROADMAP.md").read_text()
-    rows = []
-    for line in text.splitlines():
-        m = re.match(r"^\| (C-[A-Z-]+) [^|]*\| ([^|]*)\| ([^|]*)\| ([^|]*)\|$", line)
-        if m:
-            rows.append({"id": m.group(1), "tool": m.group(2).strip(), "state": m.group(3).strip(), "needed": m.group(4).strip()})
-    return rows
+    if d.tzinfo is None:
+        d = d.astimezone()
+    m = (dt.datetime.now(dt.timezone.utc) - d).total_seconds() / 60
+    return "just now" if m < 2 else (f"{m:.0f} min ago" if m < 90 else (f"{m / 60:.0f} h ago" if m < 2880 else f"{m / 1440:.0f} days ago"))
 
 
 def md(s: str) -> str:
-    """Escape, then turn `code` into <code>."""
     return re.sub(r"`([^`]+)`", r"<code>\1</code>", e(s))
+
+
+def brain_ok(repo: str) -> bool | None:
+    p = Path.home() / "code" / repo
+    if not (p / ".project-brain").exists():
+        return None
+    return subprocess.run([sys.executable, str(HERE / "brain_fresh.py"), str(p)], capture_output=True).returncode == 0
+
+
+def map_svg(agents, busy: set[str]) -> str:
+    """You at the top, the communication route, project brains around it, agents and tools below."""
+    W = 360
+    out = [f'<svg viewBox="0 0 {W} 520" role="img" aria-label="Map of the hive brain">']
+    def node(x, y, label, sub, kind, href=""):
+        cls = {"you": "n-you", "hub": "n-hub", "on": "n-on", "off": "n-off", "tool": "n-tool"}[kind]
+        out.append(f'<g class="node {cls}" tabindex="0" data-info="{e(sub)}"><rect x="{x-54}" y="{y-20}" width="108" height="40" rx="12"/>'
+                   f'<text x="{x}" y="{y-3}" class="t1">{e(label)}</text><text x="{x}" y="{y+12}" class="t2">{e(sub.split(" · ")[0])}</text></g>')
+    def line(x1, y1, x2, y2, on=False):
+        out.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" class="{"edge-on" if on else "edge"}"/>')
+    projects = [(r, brain_ok(r)) for r in PROJECT_REPOS]
+    you, hub = (180, 36), (180, 116)
+    agent_pos = [(60, 206), (180, 206), (300, 206)]
+    proj_pos = [(60, 306), (180, 306), (300, 306), (120, 366), (240, 366)]
+    tool_pos = [(60, 466), (180, 466), (300, 466)]
+    line(*you, *hub, True)
+    for x, y in agent_pos:
+        line(*hub, x, y, agents and agents[agent_pos.index((x, y))]["name"] in busy if agent_pos.index((x, y)) < len(agents) else False)
+    for x, y in proj_pos:
+        line(180, 206, x, y)
+    for x, y in tool_pos:
+        line(x, y - 20, x, 386 if x != 180 else 386)
+    node(*you, "You", "the one who decides", "you")
+    node(*hub, "Terminal relay", "communication route · decisions come to you here, one at a time", "hub")
+    for (x, y), a in zip(agent_pos, agents):
+        node(x, y, {"Brian Contact": "Contact"}.get(a["name"], a["name"].split(" ")[0]), f"{AGENT_JOB.get(a['name'], '')} · {'working now' if a['name'] in busy else 'idle'}",
+             "on" if a["name"] in busy else "off")
+    for (x, y), (r, ok) in zip(proj_pos, projects):
+        state = "brain fresh" if ok else ("brain stale" if ok is False else "no brain yet")
+        node(x, y, SHORT[r], f"{state} · project {r}", "on" if ok else "off")
+    for (x, y), (t, sub) in zip(tool_pos, [("Safety rules", "checks commands · Jev gate and CC Safety Net"),
+                                         ("Learning loop", "issues to rules · GitHub issues, labelled weekly"),
+                                         ("Server", "personal-vps · agents run here, backed up nightly")]):
+        node(x, y, t, sub, "tool")
+    out.append('<text x="180" y="262" class="t2">projects (each with its own brain)</text>')
+    out.append('<text x="180" y="426" class="t2">what keeps it safe and running</text>')
+    out.append("</svg>")
+    return "".join(out)
 
 
 def main() -> int:
@@ -83,135 +117,134 @@ def main() -> int:
     built = dt.datetime.now(dt.timezone.utc)
     try:
         issues = board(f"/api/companies/{C}/issues")
-        issues = issues if isinstance(issues, list) else issues.get("issues", [])
         runs = board(f"/api/companies/{C}/heartbeat-runs?limit=100")
-        runs = runs if isinstance(runs, list) else runs.get("runs", [])
         agents = board(f"/api/companies/{C}/agents")
-        agents = agents if isinstance(agents, list) else agents.get("agents", [])
     except (RuntimeError, ValueError, subprocess.TimeoutExpired) as err:
         print(f"dashboard: could not read the Paperclip board: {err}", file=sys.stderr)
         return 2
     cond = json.loads((HERE / "conditions.json").read_text())
     ctl = subprocess.run([sys.executable, str(HERE / "controls.py")], capture_output=True, text=True, timeout=400)
-    ctl_rows = []
-    for line in ctl.stdout.splitlines()[:-1]:
-        m = re.match(r"^(.*?)\s{2,}last (.*?)\s{2,}normal gap .*?\s{2,}(\S.*)$", line)
-        if m:
-            ctl_rows.append((m.group(1).strip(), m.group(2).strip(), m.group(3).strip()))
-    ctl_ok = ctl.returncode == 0
-
-    # Agents and their latest run
+    ctl_rows = [(m.group(1).strip(), m.group(2).strip(), m.group(3).strip()) for line in ctl.stdout.splitlines()[:-1]
+                if (m := re.match(r"^(.*?)\s{2,}last (.*?)\s{2,}normal gap .*?\s{2,}(\S.*)$", line))]
     names = {x["id"]: x["name"] for x in agents}
-    agent_rows, broken = [], 0
-    for x in agents:
-        mine = sorted((r for r in runs if r.get("agentId") == x["id"]), key=lambda r: r.get("startedAt") or "", reverse=True)
-        last = mine[0] if mine else None
-        status = last["status"] if last else "no runs"
-        bad = status == "failed"
-        broken += bad
-        agent_rows.append((x["name"], AGENT_JOB.get(x["name"], ""), status, ago(last["startedAt"]) if last else "never", bad))
+    latest = {}
+    for r in sorted(runs, key=lambda r: r.get("startedAt") or ""):
+        latest[r.get("agentId")] = r
+    busy = {names[k] for k, r in latest.items() if k in names and r.get("status") in ("running", "queued")}
+    broken = [names[k] for k, r in latest.items() if k in names and r.get("status") == "failed"]
+    open_t = [i for i in issues if i.get("status") not in ("done", "cancelled")]
+    waiting = [i for i in open_t if i.get("assigneeUserId") == BRIAN]
+    held = cond.get("decisions_in_terminal", [])
+    done_t = sorted((i for i in issues if i.get("status") == "done"), key=lambda i: i.get("updatedAt") or "", reverse=True)[:5]
+    quiet = [r for r in ctl_rows if r[2] != "ok"]
+    n_need = len(waiting) + len(held)
 
-    open_tasks = [i for i in issues if i.get("status") not in ("done", "cancelled")]
-    waiting = [i for i in open_tasks if i.get("assigneeUserId") == BRIAN]
-    recent_done = sorted((i for i in issues if i.get("status") == "done"), key=lambda i: i.get("updatedAt") or "", reverse=True)[:4]
-    done_n = sum(c["status"] == "done" for c in cond["conditions"])
-    pilot = next(c for c in cond["conditions"] if c["n"] == 1)
+    p = ['<title>Is my hive brain working?</title>', STYLE, '<div class="app">']
+    p.append(f'<header class="top"><b>Hive brain</b><span>snapshot {built:%a %H:%M} UTC</span></header>')
 
-    # Answer strip
-    working = broken == 0 and ctl_ok
-    strip = [
-        ("Working right now?", pill("ok" if working else "warn", "Yes" if working else "Needs attention"),
-         f"{len(agents) - broken} of {len(agents)} agents' last run succeeded; {sum(r[2] == 'ok' for r in ctl_rows)} of {len(ctl_rows)} health checks ok"),
-        ("How close is v1?", pill("ok" if done_n == 5 else "mid", f"{done_n} of 5 done"),
-         f"all five under way; pilot {pilot['progress']}"),
-        ("Waiting on you?", pill("warn" if waiting else "ok", f"{len(waiting)} item{'s' if len(waiting) != 1 else ''}" if waiting else "Nothing"),
-         "; ".join(i["title"] for i in waiting)[:200] if waiting else "agents are working on their own"),
-    ]
-    p = []
-    p.append('<title>Is my hive brain working?</title>')
-    p.append(STYLE)
-    p.append('<main><header><h1>Is my hive brain working?</h1>'
-             f'<p class="sub">Your personal hive brain: you, three AI agents on your server, and one brain per project. Snapshot built {built:%a %d %b, %H:%M} UTC.</p></header>')
-    p.append('<section class="strip">' + "".join(
-        f'<div class="ans"><div class="q">{e(q)}</div><div class="a">{a_}</div><div class="why">{e(w)}</div></div>' for q, a_, w in strip) + "</section>")
+    # Map
+    p.append('<section class="screen" id="map"><h1>The big picture</h1><p class="sub">How everything fits together. Tap a box to see what it is.</p>')
+    p.append(map_svg(agents, busy))
+    p.append('<p class="info" id="info">Blue = active or fresh. Grey = idle or not set up yet.</p></section>')
 
-    # The plan: five conditions (primary)
-    kind = {"done": "ok", "partway": "mid", "not_started": "idle"}
-    word = {"done": "Done", "partway": "Under way", "not_started": "Not started"}
-    p.append('<section><h2>The plan: five things that make v1 done</h2><ol class="conds">')
-    for c in cond["conditions"]:
-        p.append(f'<li><details><summary><span class="cname">{e(c["name"])}</span>{pill(kind[c["status"]], word[c["status"]])}'
-                 f'<span class="prog">{e(c["progress"])}</span></summary>'
-                 f'<p>{e(c["plain"])}</p><p><b>So far:</b> {md(c["evidence"])}</p><p><b>Next:</b> {md(c["next"])}</p></details></li>')
-    p.append(f'</ol><p class="note">Progress last updated {e(cond["updated"])} by the terminal session, with evidence.</p></section>')
-
-    # What it is doing now
-    p.append('<section><h2>What the agents are doing</h2><ul class="rows">')
-    for name, job, status, when, bad in agent_rows:
-        p.append(f'<li><div class="row"><b>{e(name)}</b>{pill("warn" if bad else ("ok" if status == "succeeded" else "idle"), "last run failed" if bad else ("last run ok" if status == "succeeded" else status))}</div>'
-                 f'<div class="meta">{e(job)} · last ran {e(when)}</div></li>')
-    p.append("</ul><h3>Open tasks</h3><ul class=\"rows\">")
-    for i in sorted(open_tasks, key=lambda i: i["identifier"]):
+    # Live
+    p.append('<section class="screen" id="live" hidden><h1>What\'s happening right now</h1><p class="sub">Work in motion, newest first.</p><ol class="feed">')
+    for i in sorted(open_t, key=lambda i: i.get("updatedAt") or "", reverse=True):
         who = "you" if i.get("assigneeUserId") == BRIAN else names.get(i.get("assigneeAgentId"), "nobody")
-        p.append(f'<li><div class="row"><span>{e(i["title"])}</span>{pill("warn" if who == "you" else "idle", i["status"].replace("_", " "))}</div>'
-                 f'<div class="meta">{e(i["identifier"])} · with {e(who)}</div></li>')
-    if not open_tasks:
-        p.append('<li class="meta">No open tasks.</li>')
-    p.append("</ul><h3>Recently finished</h3><ul class=\"rows\">")
-    for i in recent_done:
-        p.append(f'<li><div class="row"><span>{e(i["title"])}</span>{pill("ok", "done")}</div><div class="meta">{e(i["identifier"])} · {e(ago(i.get("updatedAt")))}</div></li>')
-    p.append('</ul><p class="note">Live board: <a href="https://paperclip.brianmills.dev/BRI/issues">paperclip.brianmills.dev</a></p></section>')
+        p.append(f'<li class="now"><span class="dot"></span><div><b>{e(i["title"])}</b><span class="m">with {e(who)} · {e(i["status"].replace("_", " "))} · {e(ago(i.get("updatedAt")))}</span></div></li>')
+    p.append('</ol><h2>Just finished</h2><ol class="feed">')
+    for i in done_t:
+        p.append(f'<li class="done"><span class="dot"></span><div><b>{e(i["title"])}</b><span class="m">done · {e(ago(i.get("updatedAt")))}</span></div></li>')
+    p.append('</ol></section>')
 
-    # What is built
-    p.append('<section><h2>What has been built</h2><p class="note">Ten capabilities from your AI Astronauts hive-brain design. Tap one for its tool and what v1 still needs.</p><ul class="rows">')
-    for c in capabilities():
-        p.append(f'<li><details><summary><span>{e(CAP_PLAIN.get(c["id"], c["id"]))}</span><span class="meta">{e(c["id"])}</span></summary>'
-                 f'<p><b>Tool:</b> {md(c["tool"])}</p><p><b>State:</b> {md(c["state"])}</p><p><b>Still needed for v1:</b> {md(c["needed"])}</p></details></li>')
-    p.append("</ul></section>")
+    # Path
+    p.append('<section class="screen" id="path" hidden><h1>Path to v1</h1><p class="sub">Five things make the first version done. Each says what it is waiting on.</p><ol class="path">')
+    for c in cond["conditions"]:
+        st = {"done": "done", "partway": "underway", "not_started": "todo"}[c["status"]]
+        p.append(f'<li class="{st}"><span class="dot"></span><details><summary><b>{e(c["name"])}</b><span class="m">{e(c["progress"])}</span></summary>'
+                 f'<p>{e(c["plain"])}</p><p><b>So far:</b> {md(c["evidence"])}</p><p class="wait"><b>Waiting on:</b> {md(c["next"])}</p></details></li>')
+    p.append(f'</ol><p class="sub">Updated {e(cond["updated"])} with evidence.</p></section>')
 
-    # Health checks
-    p.append('<section><h2>Health checks</h2><p class="note">Each check asks whether one part of the system has done its job recently. One goes quiet or fails, and this list says so.</p><ul class="rows">')
-    for name, last, status in ctl_rows:
+    # Decisions
+    p.append(f'<section class="screen" id="decide" hidden><h1>{"Nothing needs you" if not n_need else ("You have a decision" if n_need == 1 else f"You have {n_need} decisions")}</h1>')
+    p.append('<p class="sub">The communication route brings you only what needs you, one at a time. Answer in the terminal or on the board.</p>')
+    for i in waiting:
+        p.append(f'<article class="decision"><b>{e(i["title"])}</b><p>{e((i.get("description") or "")[:420])}</p>'
+                 f'<a class="btn" href="https://paperclip.brianmills.dev/BRI/issues/{e(i["identifier"])}">Open {e(i["identifier"])}</a></article>')
+    for d in held:
+        p.append(f'<article class="decision"><b>{e(d["question"])}</b><p>{md(d["context"])}</p><p class="rec"><b>Recommended:</b> {md(d["recommendation"])}</p>'
+                 f'<div class="opts">' + "".join(f'<span class="opt">{e(o)}</span>' for o in d["options"]) + '</div><p class="m">Reply in the terminal session.</p></article>')
+    if not n_need:
+        p.append('<p class="calm">The agents are working on their own. You will see a decision here when one needs you.</p>')
+    p.append('</section>')
+
+    # Health
+    p.append(f'<section class="screen" id="health" hidden><h1>System health</h1><p class="sub">Each check asks whether one part did its job recently.</p>'
+             f'<div class="overall {"ok" if not quiet and not broken else "warn"}"><b>{"Everything is running" if not quiet and not broken else "Something needs a look"}</b>'
+             f'<span>{len(ctl_rows) - len(quiet)} of {len(ctl_rows)} checks fine{"; agent failing: " + ", ".join(broken) if broken else ""}</span></div><ul class="checks">')
+    for name, last, status in sorted(ctl_rows, key=lambda r: r[2] == "ok"):
         ok = status == "ok"
-        p.append(f'<li><div class="row"><span>{e(name)}</span>{pill("ok" if ok else "warn", "ok" if ok else status.split(":")[0].lower())}</div>'
-                 f'<div class="meta">last activity {e(last)}{"" if ok else " · " + e(status)}</div></li>')
+        p.append(f'<li class="{"ok" if ok else "warn"}"><span>{e(name)}</span><span class="m">{e("fine" if ok else status)} · {e(last)}</span></li>')
     p.append('</ul></section>')
-    p.append(f'<footer class="note">Built by <code>scripts/hive/dashboard.py</code> in agentic-engineering-system-canonical from the Paperclip board, '
-             f'the health checks, the roadmap and <code>conditions.json</code>, {built:%Y-%m-%d %H:%M} UTC. '
-             'Colours: blue = fine, orange = needs a look, grey = waiting or idle; every colour also has a word.</footer></main>')
+
+    p.append(f'<nav class="tabs">' + "".join(
+        f'<button data-s="{s}"{" aria-current=\"page\"" if s == "map" else ""}>{l}{" <i>" + str(n_need) + "</i>" if s == "decide" and n_need else ""}</button>'
+        for s, l in [("map", "Map"), ("live", "Live"), ("path", "Path"), ("decide", "Decisions"), ("health", "Health")]) + "</nav></div>")
+    p.append(SCRIPT)
     a.out.write_text("\n".join(p))
-    print(f"dashboard: wrote {a.out} ({a.out.stat().st_size} bytes); agents broken {broken}, waiting on Brian {len(waiting)}, controls exit {ctl.returncode}")
+    print(f"dashboard: wrote {a.out} ({a.out.stat().st_size} bytes); busy {sorted(busy)}, broken {broken}, "
+          f"decisions {n_need}, checks not ok {len(quiet)}, controls exit {ctl.returncode}")
     return 0
 
 
 STYLE = """<style>
-/* Layout: one narrow column, answer strip first, then tap-to-open sections. */
-:root{--bg:#f6f7f9;--card:#ffffff;--fg:#1d2430;--muted:#5d6878;--line:#dde2ea;--ok:#1f5fbf;--ok-bg:#e3edfb;--warn:#a85300;--warn-bg:#fdecd9;--idle:#5d6878;--idle-bg:#eceff3;--mid:#3d4f7a;--mid-bg:#e6e9f3;
---display:"Fraunces",Georgia,serif;--body:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11151c;--card:#1a202a;--fg:#e6eaf0;--muted:#9aa6b6;--line:#2c3442;--ok:#8ab4ff;--ok-bg:#1d2c47;--warn:#ffb36b;--warn-bg:#3a2714;--idle:#9aa6b6;--idle-bg:#252c38;--mid:#b9c4e4;--mid-bg:#262e45;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#11151c;--card:#1a202a;--fg:#e6eaf0;--muted:#9aa6b6;--line:#2c3442;--ok:#8ab4ff;--ok-bg:#1d2c47;--warn:#ffb36b;--warn-bg:#3a2714;--idle:#9aa6b6;--idle-bg:#252c38;--mid:#b9c4e4;--mid-bg:#262e45;color-scheme:dark}
-body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--body)}
-main{max-width:42rem;margin:0 auto;padding-inline:16px;padding-block:20px 40px;display:grid;gap:22px}
-h1{font:600 1.7rem/1.15 var(--display);margin:0;text-wrap:balance}
-h2{font:600 1.15rem/1.3 var(--display);margin:0 0 10px}
-h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:16px 0 6px}
-.sub,.note,.meta{color:var(--muted);font-size:.85rem;margin:4px 0 0}
-.strip{display:grid;gap:10px}
-.ans{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:2px 10px}
-.ans .q{font-weight:600}.ans .a{grid-row:span 2;align-self:center}.ans .why{color:var(--muted);font-size:.85rem;min-width:0}
-.pill{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
-.ok{color:var(--ok);background:var(--ok-bg)}.warn{color:var(--warn);background:var(--warn-bg);outline:1px dashed var(--warn)}.idle{color:var(--idle);background:var(--idle-bg)}.mid{color:var(--mid);background:var(--mid-bg)}
-ol.conds,ul.rows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-ol.conds>li,ul.rows>li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0}
-summary{cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
-summary:focus-visible{outline:2px solid var(--ok);outline-offset:3px}
-.cname{font-weight:600}.prog{color:var(--muted);font-size:.85rem;margin-left:auto}
-details p{margin:8px 0 0;font-size:.9rem}
-.row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.row>span{min-width:0}
-code{font-family:var(--mono);font-size:.82em;overflow-wrap:anywhere}
-a{color:var(--ok)}footer{padding-top:6px;border-top:1px solid var(--line)}
+/* Layout: phone app, five screens behind a bottom tab bar; blue / orange / grey with words (red-green colourblind). */
+:root{--bg:#f3f5f9;--card:#fff;--fg:#1b2333;--mute:#64708a;--line:#dbe1ea;--on:#1f5fbf;--on-bg:#e4edfb;--warn:#a65200;--warn-bg:#fdeedd;--off:#8b95a7;--off-bg:#eef1f5;
+--body:"IBM Plex Sans",system-ui,sans-serif;--display:"Fraunces",Georgia,serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10141b;--card:#1a2029;--fg:#e7ebf1;--mute:#9aa5b8;--line:#2b3340;--on:#8ab4ff;--on-bg:#1c2b45;--warn:#ffb26a;--warn-bg:#3a2713;--off:#7d889b;--off-bg:#232a35;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10141b;--card:#1a2029;--fg:#e7ebf1;--mute:#9aa5b8;--line:#2b3340;--on:#8ab4ff;--on-bg:#1c2b45;--warn:#ffb26a;--warn-bg:#3a2713;--off:#7d889b;--off-bg:#232a35;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.45 var(--body)}
+.app{max-width:30rem;margin:0 auto;padding-inline:16px;padding-block:8px 84px}
+.top{display:flex;justify-content:space-between;align-items:baseline;padding-block:8px}.top span{color:var(--mute);font-size:.8rem}
+h1{font:600 1.45rem/1.2 var(--display);margin:6px 0 2px;text-wrap:balance}h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:18px 0 6px}
+.sub,.m,.info{color:var(--mute);font-size:.84rem}.m{display:block}
+svg{width:100%;height:auto;margin-top:8px}.edge{stroke:var(--line);stroke-width:2}.edge-on{stroke:var(--on);stroke-width:3}
+.node rect{fill:var(--card);stroke:var(--line);stroke-width:1.5}.node{cursor:pointer}.node:focus rect,.node:hover rect{stroke:var(--fg)}
+.t1{font:600 12px var(--body);fill:var(--fg);text-anchor:middle}.t2{font:10px var(--body);fill:var(--mute);text-anchor:middle}
+.n-you rect{fill:var(--fg)}.n-you .t1,.n-you .t2{fill:var(--bg)}.n-hub rect,.n-on rect{fill:var(--on-bg);stroke:var(--on)}.n-hub .t1,.n-on .t1{fill:var(--on)}
+.n-off rect{fill:var(--off-bg);stroke-dasharray:4 3}.n-tool rect{fill:var(--card);stroke:var(--mute)}
+.info{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+ol.feed,ol.path,ul.checks{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+ol.feed li,ol.path li{display:grid;grid-template-columns:14px 1fr;gap:10px;align-items:start}
+.dot{width:12px;height:12px;border-radius:99px;margin-top:5px;border:2px solid var(--off);background:var(--card)}
+.feed .now .dot,.path .underway .dot{border-color:var(--on);background:var(--on-bg)}.feed .done .dot,.path .done .dot{border-color:var(--on);background:var(--on)}
+.feed li>div,.path details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-width:0}
+.path summary{cursor:pointer}.path details p{margin:8px 0 0;font-size:.88rem}.wait{color:var(--warn)}
+.decision{background:var(--card);border:1px solid var(--warn);border-radius:12px;padding:12px 14px;margin-top:12px}.decision p{font-size:.9rem;margin:8px 0 0}
+.rec{background:var(--on-bg);border-radius:8px;padding:8px 10px}.opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.opt{border:1px solid var(--on);color:var(--on);border-radius:99px;padding:3px 10px;font-size:.82rem}
+.btn{display:inline-block;margin-top:10px;background:var(--on);color:var(--bg);border-radius:10px;padding:8px 14px;text-decoration:none;font-weight:600}
+.calm{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
+.overall{border-radius:12px;padding:12px 14px;margin-top:12px;display:grid}.overall.ok{background:var(--on-bg);color:var(--on)}.overall.warn{background:var(--warn-bg);color:var(--warn)}
+ul.checks li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px}ul.checks li.warn{border:1px dashed var(--warn);background:var(--warn-bg)}
+ul.checks li span:first-child{font-weight:600;display:block}
+code{font-size:.82em;overflow-wrap:anywhere}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px))}
+.tabs button{background:none;border:0;color:var(--mute);font:600 .78rem var(--body);padding:6px 4px;cursor:pointer}.tabs button[aria-current]{color:var(--on)}
+.tabs i{font-style:normal;background:var(--warn);color:var(--bg);border-radius:99px;padding:0 6px;margin-left:3px}
+.tabs button:focus-visible,summary:focus-visible{outline:2px solid var(--on);outline-offset:2px}
 </style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&display=swap">"""
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400;600&display=swap">"""
+
+SCRIPT = """<script>
+const tabs=[...document.querySelectorAll('.tabs button')];
+function show(s){document.querySelectorAll('.screen').forEach(x=>x.hidden=x.id!==s);tabs.forEach(b=>b.toggleAttribute('aria-current',b.dataset.s===s));try{localStorage.setItem('hive-tab',s)}catch(e){}}
+tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.s)));
+const h=location.hash.slice(1);let saved=null;try{saved=localStorage.getItem('hive-tab')}catch(e){}
+if(h&&document.getElementById(h))show(h);else if(saved&&document.getElementById(saved))show(saved);
+const info=document.getElementById('info');
+document.querySelectorAll('.node').forEach(n=>{const f=()=>{info.textContent=n.querySelector('.t1').textContent+': '+n.dataset.info};n.addEventListener('click',f);n.addEventListener('keydown',ev=>{if(ev.key==='Enter')f()})});
+</script>"""
 
 
 if __name__ == "__main__":
