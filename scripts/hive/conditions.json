@@ -50,12 +50,12 @@
   ],
   "decisions_in_terminal": [
     {
-      "question": "May I report a bug to the Jev gate's maintainer?",
-      "context": "One of Jev's built-in rules wrongly blocks commands that only mention `env \u2026 | curl` (4 of its 8 wrong blocks in our log). Our settings can't loosen a built-in rule. A tested fix keeps all 6 real leaks blocked and fires 1 time instead of 7 across 8,285 logged commands.",
-      "recommendation": "Post the issue on eugeniughelbur/jev-engineering (public, under your GitHub account) and patch our copy meanwhile.",
+      "question": "May I put the dashboard on your server so it updates itself?",
+      "context": "A private page at a new address (for example `hive.brianmills.dev`) behind the same Cloudflare login as the Paperclip board, rebuilt every 15 minutes. It is a new deployment, which needs your yes.",
+      "recommendation": "Yes: one bookmark on your phone that is always current. Private, and removable with one change.",
       "options": [
-        "Post it",
-        "Don't post"
+        "Yes, host it",
+        "Keep the hand-refreshed page"
       ]
     }
   ]
