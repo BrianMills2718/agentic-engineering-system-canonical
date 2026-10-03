@@ -228,6 +228,15 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     daily user timer runs it (`scripts/hive/systemd/`); `readout.py` counts the
     clean days.
 
+- **Pilot task 1 of 3 done (2026-10-03):** BRI-17 "make the public AES quickstart
+    work from a clean clone" went plan → build → review → merge. The Coordinator
+    picked it from the weekly plan; Research and Code Review built it (AES PR
+    #88); the terminal review found `aes status` still failed from a fresh clone
+    (exit 127), Brian approved "fix then merge", the agent fixed it, a fresh-clone
+    retest passed (`.venv/bin/aes status` and `make aes` exit 0), merged
+    `69846223`. Hand-holding: one scope question (BRI-18, the over-broad Inside
+    Success rule, AES #87) answered by the terminal session.
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
