@@ -189,18 +189,18 @@ def vps_rows(runs: list[dict]) -> list[dict]:
     return rows
 
 
-def thread_feed(issues: list[dict], names: dict[str, str]) -> tuple[list[dict], str]:
+def thread_feed(issues: list[dict], names: dict[str, str]) -> tuple[list[dict], str, str]:
     """Newest exchanges on Brian's Telegram-bound thread."""
     t = next((i for i in issues if i.get("identifier") == BRIAN_THREAD), None)
     if t is None:
-        return [], f"{BRIAN_THREAD} is not in the issues list"
+        return [], f"{BRIAN_THREAD} is not in the issues list", ""
     try:
         cs = board(f"/api/issues/{t['id']}/comments")
     except (RuntimeError, ValueError, subprocess.TimeoutExpired) as err:
-        return [], f"could not read {BRIAN_THREAD}: {err}"
+        return [], f"could not read {BRIAN_THREAD}: {err}", t["id"]
     cs = sorted((c for c in cs if not c.get("deletedAt")), key=lambda c: c.get("createdAt") or "", reverse=True)[:6]
     return [{"who": "you" if c.get("authorUserId") == BRIAN else names.get(c.get("authorAgentId"), "an agent"),
-             "at": c.get("createdAt"), "body": c.get("body") or ""} for c in cs], ""
+             "at": c.get("createdAt"), "body": c.get("body") or ""} for c in cs], "", t["id"]
 
 
 def plain(s: str, n: int) -> str:
@@ -287,7 +287,7 @@ def main() -> int:
     quiet = [r for r in ctl_rows if r["status"] != "ok"]
     bad_sources = [s for s in sources if s["state"] != "ok"]
     n_need = len(waiting) + len(held_open)
-    thread, thread_err = thread_feed(issues, names)
+    thread, thread_err, thread_id = thread_feed(issues, names)
     interactive = a.vps
 
     p = ['<title>Hive brain</title>', STYLE, '<div class="app">']
@@ -299,6 +299,13 @@ def main() -> int:
     p.append(map_svg(agents, busy, brains))
     p.append('<p class="info" id="info">Blue = active or fresh. Grey dashed = idle, not set up yet, or not known.</p></section>')
 
+    def message_box(where: str) -> str:
+        if not interactive:
+            return '<p class="sub">Open hive.brianmills.dev to message your agents from here.</p>'
+        return (f'<form class="message" data-where="{where}"><label for="msg-{where}"><b>Message your agents</b></label>'
+                f'<p class="sub">Goes to your Telegram thread ({BRIAN_THREAD}); the Coordinator wakes and replies there and on your phone.</p>'
+                f'<textarea id="msg-{where}" name="text" rows="3" maxlength="2000" placeholder="e.g. Pause pilot work until Monday"></textarea>'
+                '<button type="submit" class="pick">Send</button><p class="result" aria-live="polite"></p></form>')
     # Live
     p.append('<section class="screen" id="live" hidden><h1>What\'s happening right now</h1><p class="sub">Work in motion, newest first.</p>')
     p.append(f'<h2>Your Telegram thread ({BRIAN_THREAD})</h2><ol class="feed">')
@@ -307,7 +314,7 @@ def main() -> int:
                  f'<span class="m">{e(ago(c["at"]))}</span><p class="msg">{e(plain(c["body"], 280))}</p></div></li>')
     if thread_err:
         p.append(f'<li class="warn"><span class="dot"></span><div><b>Could not show the thread</b><span class="m">{e(thread_err)}</span></div></li>')
-    p.append('</ol><h2>Tasks in motion</h2><ol class="feed">')
+    p.append('</ol>' + message_box("live") + '<h2>Tasks in motion</h2><ol class="feed">')
     for i in sorted(open_t, key=lambda i: i.get("updatedAt") or "", reverse=True):
         who = "you" if i.get("assigneeUserId") == BRIAN else names.get(i.get("assigneeAgentId"), "nobody")
         p.append(f'<li class="now"><span class="dot"></span><div><b>{e(i["title"])}</b><span class="m">with {e(who)} · {e(i["status"].replace("_", " "))} · {e(ago(i.get("updatedAt")))}</span></div></li>')
@@ -349,7 +356,7 @@ def main() -> int:
                      + "".join(f'<span class="opt">{e(o)}</span>' for o in d["options"]) + '</div><p class="m">Reply in the terminal session.</p></article>')
     if not n_need:
         p.append('<p class="calm">The agents are working on their own. You will see a decision here when one needs you.</p>')
-    p.append('</section>')
+    p.append(message_box("decide") + '</section>')
 
     # Health
     all_ok = not quiet and not broken and not bad_sources
@@ -372,7 +379,7 @@ def main() -> int:
         for s, l in [("map", "Map"), ("live", "Live"), ("path", "Path"), ("decide", "Decisions"), ("health", "Health")]) + "</nav></div>")
     status = {"built": built.isoformat(timespec="seconds"), "build_max_min": BUILD_MAX_MIN, "sources": sources,
               "decisions": [{"id": i["id"], "identifier": i["identifier"], "title": i["title"]} for i in waiting],
-              "answer_options": ANSWER_OPTIONS, "hosted": interactive, "need": n_need, "checks_not_ok": len(quiet)}
+              "answer_options": ANSWER_OPTIONS, "hosted": interactive, "thread_id": thread_id, "need": n_need, "checks_not_ok": len(quiet)}
     p.append(f'<script id="page-status" type="application/json">{json.dumps(status).replace("<", "\\u003c")}</script>')
     p.append(SCRIPT)
     write_atomic(a.out, "\n".join(p))
@@ -428,7 +435,8 @@ code{font-size:.82em;overflow-wrap:anywhere}
 .feed li.warn>div{border:1px dashed var(--warn);background:var(--warn-bg)}.msg{margin:4px 0 0;font-size:.88rem;overflow-wrap:anywhere}
 .decision>.m{margin-top:2px}.decision.answered{border-color:var(--line)}.full{white-space:pre-wrap;font-size:.85rem;margin-top:6px;overflow-wrap:anywhere}
 .answer{margin-top:10px}.answer label{display:grid;gap:4px;font-size:.84rem;color:var(--mute)}
-.answer textarea{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;width:100%;box-sizing:border-box}
+.message{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px;display:grid;gap:8px}
+.answer textarea,.message textarea{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;width:100%;box-sizing:border-box}
 .pick{font:600 .88rem var(--body);border:1px solid var(--on);color:var(--on);background:var(--card);border-radius:10px;padding:9px 12px;min-height:44px;cursor:pointer}
 .pick:disabled{opacity:.55;cursor:wait}.pick.chosen{background:var(--on);color:var(--bg)}
 .result{margin:8px 0 0;font-size:.88rem}.result.ok{color:var(--on);font-weight:600}.result.err{color:var(--warn);font-weight:600}
@@ -488,6 +496,20 @@ document.querySelectorAll('form.answer').forEach(f=>{
       out.textContent=(d.dry_run?'DRY RUN, nothing posted. Would have sent: ':'Sent to the task at '+new Date(d.posted_at||Date.now()).toLocaleTimeString()+': ')+d.body;
     }catch(err){out.className='result err';out.textContent='Not sent: '+err.message+'. Try again, or answer on the board.';btns.forEach(x=>x.disabled=false)}
   }))});
+// Free-text messages: post to the page's own server, which comments on Brian's Telegram thread.
+document.querySelectorAll('form.message').forEach(f=>{
+  const out=f.querySelector('.result'),btn=f.querySelector('button');
+  f.addEventListener('submit',async ev=>{
+    ev.preventDefault();const text=f.text.value.trim();if(!text){out.className='result err';out.textContent='Type a message first.';return}
+    btn.disabled=true;out.className='result';out.textContent='Sending...';
+    try{
+      const r=await fetch('api/message',{method:'POST',headers:{'Content-Type':'application/json','X-Hive-Dashboard':'1'},body:JSON.stringify({text})});
+      let d={};try{d=await r.json()}catch(e){}
+      if(!r.ok||!d.ok)throw new Error(d.error||('HTTP '+r.status));
+      out.className='result ok';out.textContent=(d.dry_run?'DRY RUN, nothing posted. Would have sent: ':'Sent at '+new Date(d.posted_at||Date.now()).toLocaleTimeString()+': ')+d.body;f.text.value='';
+    }catch(err){out.className='result err';out.textContent='Not sent: '+err.message+'. Try again, or reply on Telegram.'}
+    btn.disabled=false;
+  })});
 </script>"""
 
 
