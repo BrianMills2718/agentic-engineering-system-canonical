@@ -16,10 +16,18 @@ component. Target changes go through `aes plan prepare / validate / accept`.
 - **Start here:** [`docs/greenfield/GETTING_STARTED.md`](docs/greenfield/GETTING_STARTED.md)
   — install, `aes init`, and the lifecycle on a new project.
 - **Where things stand:** in a clone of this repository, install first —
-  `python3 -m venv .venv && .venv/bin/python -m pip install -e ".[dev]"` (Python
-  3.11 or newer) — then run `.venv/bin/aes status`, or `make aes`, which finds
-  that `.venv` itself. The `[dev]` extra adds pytest and mypy, which the
-  `make` test and type targets need; plain `-e .` installs the library only.
+  `uv venv .venv && uv pip install -e ".[dev]"` (Python 3.11 or newer) — then
+  run `.venv/bin/aes status`, or `make aes`, which finds that `.venv` itself.
+  The `[dev]` extra adds pytest and mypy, which the `make` test and type
+  targets need; plain `-e .` installs the library only. `uv venv` leaves no
+  `pip` inside the venv and nothing here needs one; pass `--seed` if you want
+  it anyway.
+- **If you do not have `uv`:** `curl -LsSf https://astral.sh/uv/install.sh | sh`
+  ([other install methods](https://docs.astral.sh/uv/getting-started/installation/)),
+  then restart the shell or `source "$HOME/.local/bin/env"`. This repository
+  assumes `git`, `make` and `uv` on `PATH`; `uv` replaced `python3 -m venv` plus
+  `pip` here on 2026-10-04 and is the install path everywhere in these
+  repositories, for its shared cache across them.
 - **Running the gates:** `make aes` and `make aes-check` are the AES v0.2 gate
   ([Decision 0010](docs/decisions/0010-greenfield-v0.2-accepted.md)); run those
   after the install above. `make check` is Enforced Planning's separate v0.1
