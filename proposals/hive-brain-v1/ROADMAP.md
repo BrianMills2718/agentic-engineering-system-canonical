@@ -444,7 +444,10 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   session merged PR #110 (`8d9fc0c`) and PR #112 (`6f617a3`) with merge
   commits and closed BRI-28 with his words. Fifth merged job; the full `make
   check` is green from a clean clone for the first time (the repo's own
-  2026-09-22 evidence had recorded it as "not green").
+  2026-09-22 evidence had recorded it as "not green"). Post-merge re-check of
+  `main` `6f617a3` from the same clean clone, README install line only:
+  183 passed, 1 skipped; mypy "Success: no issues found in 20 source files";
+  "All checks passed!"; exit 0.
 
 ## How to check and act
 
