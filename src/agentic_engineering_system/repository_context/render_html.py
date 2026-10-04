@@ -115,21 +115,21 @@ def render_html(artifact: RepositoryContextArtifact) -> str:
             )
 
     authority_details = []
-    for item in artifact.authorities:
+    for authority in artifact.authorities:
         authority_details.append(
             "<details>"
-            f"<summary><strong>{html.escape(item.role.value)}</strong> — {_state(item.state)}</summary>"
-            f"<p>{html.escape(item.summary)}</p>"
-            f"<p>Locations: <code>{html.escape(', '.join(item.locations) or 'none')}</code></p>"
-            f"<div>Evidence: {evidence_links(item.evidence_refs)}</div>"
+            f"<summary><strong>{html.escape(authority.role.value)}</strong> — {_state(authority.state)}</summary>"
+            f"<p>{html.escape(authority.summary)}</p>"
+            f"<p>Locations: <code>{html.escape(', '.join(authority.locations) or 'none')}</code></p>"
+            f"<div>Evidence: {evidence_links(authority.evidence_refs)}</div>"
             "</details>"
         )
 
     unresolved = []
-    for item in artifact.unresolved:
+    for surface in artifact.unresolved:
         unresolved.append(
-            f"<li><strong>{html.escape(item.subject)}</strong>: {html.escape(item.reason)}"
-            f"<div>Evidence: {evidence_links(item.evidence_refs)}</div></li>"
+            f"<li><strong>{html.escape(surface.subject)}</strong>: {html.escape(surface.reason)}"
+            f"<div>Evidence: {evidence_links(surface.evidence_refs)}</div></li>"
         )
 
     return f"""<!doctype html>

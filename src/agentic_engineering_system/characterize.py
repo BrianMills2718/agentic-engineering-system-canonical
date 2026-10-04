@@ -29,13 +29,13 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
-from typing import Literal
+from typing import Final, Literal
 
 from .characterize_python import PythonFacts, analyze, module_name, parse_export
 from .records import StrictModel, TargetRecord, load_project, load_target
 from .topology import compare_topology, normalized_roots
 
-CHARACTERIZATION_SCHEMA = "aes.v0_2.characterization.probe0"
+CHARACTERIZATION_SCHEMA: Final = "aes.v0_2.characterization.probe0"
 DISTRIBUTION = "agentic-engineering-system"
 
 
