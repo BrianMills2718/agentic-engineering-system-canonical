@@ -8,7 +8,7 @@
         "role": "ceo",
         "heartbeat": {
           "enabled": true,
-          "intervalSec": 1800,
+          "intervalSec": 7200,
           "maxConcurrentRuns": 2,
           "skipTimerWhenNoActionableWork": true
         },
