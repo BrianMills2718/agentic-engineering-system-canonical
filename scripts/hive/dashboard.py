@@ -111,6 +111,107 @@ def brain_from_rows(repo: str, rows: list[dict], report_ok: bool) -> str:
 BRAIN_LABEL = {"fresh": "brain fresh", "stale": "brain stale", "none": "no brain yet", "unknown": "brain status unknown"}
 
 
+
+def _ts(v):
+    if not v:
+        return None
+    d = dt.datetime.fromisoformat(str(v).replace("Z", "+00:00"))
+    return d if d.tzinfo else d.astimezone()
+
+
+def _clip(t: str, n: int) -> str:
+    t = " ".join(t.split())
+    return t if len(t) <= n else t[: t.rfind(" ", 0, n) if " " in t[:n] else n].rstrip(",;:") + "…"
+
+
+def _fraction(c: dict) -> tuple[float, str]:
+    """How far one condition is, from its numeric fields, else its status."""
+    if isinstance(c.get("steps_done"), (int, float)) and c.get("steps_total"):
+        return max(0.0, min(1.0, c["steps_done"] / c["steps_total"])), f'{c["steps_done"]:g}/{c["steps_total"]:g}'
+    m = re.search(r"(\d+)\s+of\s+(\d+)", c.get("progress") or "")
+    if m and int(m.group(2)):
+        return int(m.group(1)) / int(m.group(2)), f"{m.group(1)}/{m.group(2)}"
+    return {"done": (1.0, "done"), "not_started": (0.0, "")}.get(c.get("status"), (0.5, ""))
+
+
+def path_svg(conds: list[dict]) -> str:
+    """The five done-conditions as stations on one line, each filled by its progress."""
+    H = 96 * len(conds) + 20
+    out = [f'<svg viewBox="0 0 360 {H}" role="img" aria-label="Path to v1">',
+           f'<line x1="40" y1="40" x2="40" y2="{H - 40}" class="edge"/>']
+    for k, c in enumerate(conds):
+        y = 40 + 96 * k
+        f, lab = _fraction(c)
+        done = c.get("status") == "done" or f >= 1
+        r, circ = 22, 2 * 3.14159 * 22
+        cls = "st-done" if done else ("st-todo" if f == 0 else "st-on")
+        out.append(f'<g class="station {cls}"><circle cx="40" cy="{y}" r="{r}" class="ring"/>')
+        if done:
+            out.append(f'<circle cx="40" cy="{y}" r="{r}" class="fill"/><path d="M30 {y} l7 7 l13 -14" class="tick"/>')
+        elif f > 0:
+            out.append(f'<circle cx="40" cy="{y}" r="{r}" class="arc" stroke-dasharray="{circ * f:.1f} {circ:.1f}" transform="rotate(-90 40 {y})"/>'
+                       f'<text x="40" y="{y + 4}" class="frac">{e(lab)}</text>')
+        out.append(f'<text x="76" y="{y - 4}" class="t1 left">{e(c["name"])}</text>'
+                   f'<text x="76" y="{y + 13}" class="t2 left">{e("done" if done else _clip(c.get("progress") or "", 40))}</text>')
+        if not done:
+            out.append(f'<text x="76" y="{y + 30}" class="t2 left waitc">waiting on: {e(_clip(c.get("next") or "", 34))}</text>')
+        out.append("</g>")
+    out.append("</svg>")
+    return "".join(out)
+
+
+def timeline_svg(runs: list[dict], agents: list[dict], thread: list[dict], now: dt.datetime) -> str:
+    """Last 24 hours: one lane per agent (runs as bars) and one for Brian (messages as dots)."""
+    x0, x1, span = 70, 350, 24 * 3600
+    lanes = [(a["id"], {"Brian Contact": "Contact", "Research and Code Review": "Builder"}.get(a["name"], a["name"].split(" ")[0])) for a in agents]
+    H = 34 + 36 * (len(lanes) + 1) + 26
+    xs = lambda d: x0 + (x1 - x0) * max(0.0, min(1.0, 1 - (now - d).total_seconds() / span))
+    out = [f'<svg viewBox="0 0 360 {H}" role="img" aria-label="Agent activity, last 24 hours">']
+    for h in (24, 18, 12, 6, 0):
+        x = x0 + (x1 - x0) * (1 - h / 24)
+        out.append(f'<line x1="{x:.1f}" y1="24" x2="{x:.1f}" y2="{H - 22}" class="grid"/><text x="{x:.1f}" y="{H - 8}" class="t2">{"now" if h == 0 else f"-{h}h"}</text>')
+    for k, (aid, name) in enumerate(lanes):
+        y = 34 + 36 * k
+        out.append(f'<text x="{x0 - 8}" y="{y + 14}" class="t1 right">{e(name)}</text><line x1="{x0}" y1="{y + 10}" x2="{x1}" y2="{y + 10}" class="lane"/>')
+        for r in runs:
+            if r.get("agentId") != aid:
+                continue
+            st, fin = _ts(r.get("startedAt")), _ts(r.get("finishedAt")) or now
+            if not st or (now - st).total_seconds() > span:
+                continue
+            a_, b_ = xs(st), xs(fin)
+            cls = {"succeeded": "bar-ok", "failed": "bar-bad", "running": "bar-run", "queued": "bar-run"}.get(r.get("status"), "bar-other")
+            out.append(f'<rect x="{a_:.1f}" y="{y + 2}" width="{max(3.0, b_ - a_):.1f}" height="16" rx="3" class="{cls}"><title>{e(r.get("status") or "")}</title></rect>')
+    y = 34 + 36 * len(lanes)
+    out.append(f'<text x="{x0 - 8}" y="{y + 14}" class="t1 right">You</text><line x1="{x0}" y1="{y + 10}" x2="{x1}" y2="{y + 10}" class="lane"/>')
+    for c in thread:
+        d = _ts(c.get("at"))
+        if d and (now - d).total_seconds() <= span:
+            out.append(f'<circle cx="{xs(d):.1f}" cy="{y + 10}" r="5" class="{"msg-you" if c["who"] == "you" else "msg-agent"}"><title>{e(c["who"])}</title></circle>')
+    out.append("</svg>")
+    return "".join(out)
+
+
+def week_strip(conds: list[dict]) -> str:
+    """Condition 4 (nothing silent for a week) as seven day cells."""
+    c4 = next((c for c in conds if c.get("n") == 4), None)
+    if not c4:
+        return ""
+    f, _ = _fraction(c4)
+    n = round(7 * f)
+    cells = "".join(f'<rect x="{8 + 49 * i}" y="8" width="42" height="28" rx="6" class="{"day-ok" if i < n else "day-todo"}"/>'
+                    f'<text x="{29 + 49 * i}" y="27" class="t2">{"✓" if i < n else i + 1}</text>' for i in range(7))
+    return (f'<h2>A clean week ({n} of 7 days)</h2><svg viewBox="0 0 360 44" role="img" aria-label="{n} of 7 clean days">{cells}</svg>')
+
+
+def health_tiles(rows: list[dict]) -> str:
+    tiles = []
+    for r in sorted(rows, key=lambda r: r["status"] == "ok"):
+        ok = r["status"] == "ok"
+        tiles.append(f'<div class="tile {"ok" if ok else "warn"}"><span class="glyph">{"✓" if ok else "!"}</span>'
+                     f'<b>{e(r["name"])}</b><span class="m">{e("fine" if ok else r["status"])} · {e(r["last"])}</span></div>')
+    return '<div class="tiles">' + "".join(tiles) + "</div>"
+
 def map_svg(agents, busy: set[str], brains: dict[str, str]) -> str:
     """You at the top, the communication route, project brains around it, agents and tools below."""
     W = 360
@@ -307,29 +408,37 @@ def main() -> int:
                 f'<textarea id="msg-{where}" name="text" rows="3" maxlength="2000" placeholder="e.g. Pause pilot work until Monday"></textarea>'
                 '<button type="submit" class="pick">Send</button><p class="result" aria-live="polite"></p></form>')
     # Live
-    p.append('<section class="screen" id="live" hidden><h1>What\'s happening right now</h1><p class="sub">Work in motion, newest first.</p>')
+    p.append('<section class="screen" id="live" hidden><h1>What\'s happening right now</h1><p class="sub">The last 24 hours: each bar is an agent at work, each dot a message.</p>')
+    p.append(timeline_svg(runs, agents, thread, built))
+    p.append('<p class="legend"><span class="sw bar-ok"></span>finished <span class="sw bar-bad"></span>failed <span class="sw bar-run"></span>working now '
+             '<span class="sw msg-you round"></span>you <span class="sw msg-agent round"></span>agent message</p>')
     p.append(f'<h2>Your Telegram thread ({BRIAN_THREAD})</h2><ol class="feed">')
-    for c in thread:
+    for k, c in enumerate(thread):
+        if k == 3:
+            p.append('</ol><details class="more"><summary>Older messages</summary><ol class="feed">')
         p.append(f'<li class="{"done" if c["who"] == "you" else "now"}"><span class="dot"></span><div><b>{e(c["who"])}</b>'
-                 f'<span class="m">{e(ago(c["at"]))}</span><p class="msg">{e(plain(c["body"], 280))}</p></div></li>')
+                 f'<span class="m">{e(ago(c["at"]))}</span><p class="msg">{e(plain(c["body"], 160))}</p></div></li>')
     if thread_err:
         p.append(f'<li class="warn"><span class="dot"></span><div><b>Could not show the thread</b><span class="m">{e(thread_err)}</span></div></li>')
-    p.append('</ol>' + message_box("live") + '<h2>Tasks in motion</h2><ol class="feed">')
+    p.append(('</ol></details>' if len(thread) > 3 else '</ol>') + message_box("live")
+             + f'<details class="more"><summary>Tasks in motion ({len(open_t)}) and just finished ({len(done_t)})</summary><h2>Tasks in motion</h2><ol class="feed">')
     for i in sorted(open_t, key=lambda i: i.get("updatedAt") or "", reverse=True):
         who = "you" if i.get("assigneeUserId") == BRIAN else names.get(i.get("assigneeAgentId"), "nobody")
         p.append(f'<li class="now"><span class="dot"></span><div><b>{e(i["title"])}</b><span class="m">with {e(who)} · {e(i["status"].replace("_", " "))} · {e(ago(i.get("updatedAt")))}</span></div></li>')
     p.append('</ol><h2>Just finished</h2><ol class="feed">')
     for i in done_t:
         p.append(f'<li class="done"><span class="dot"></span><div><b>{e(i["title"])}</b><span class="m">done · {e(ago(i.get("updatedAt")))}</span></div></li>')
-    p.append('</ol></section>')
+    p.append('</ol></details></section>')
 
     # Path
-    p.append('<section class="screen" id="path" hidden><h1>Path to v1</h1><p class="sub">Five things make the first version done. Each says what it is waiting on.</p><ol class="path">')
+    p.append('<section class="screen" id="path" hidden><h1>Path to v1</h1><p class="sub">Five stations; each fills as it gets done.</p>')
+    p.append(path_svg(cond["conditions"]))
+    p.append('<details class="more"><summary>What each one means, and the evidence</summary><ol class="path">')
     for c in cond["conditions"]:
         st = {"done": "done", "partway": "underway", "not_started": "todo"}[c["status"]]
         p.append(f'<li class="{st}"><span class="dot"></span><details><summary><b>{e(c["name"])}</b><span class="m">{e(c["progress"])}</span></summary>'
                  f'<p>{e(c["plain"])}</p><p><b>So far:</b> {md(c["evidence"])}</p><p class="wait"><b>Waiting on:</b> {md(c["next"])}</p></details></li>')
-    p.append(f'</ol><p class="sub">Updated {e(cond["updated"])} with evidence.</p></section>')
+    p.append(f'</ol></details><p class="sub">Updated {e(cond["updated"])} with evidence.</p></section>')
 
     # Decisions
     p.append(f'<section class="screen" id="decide" hidden><h1>{"Nothing needs you" if not n_need else ("You have a decision" if n_need == 1 else f"You have {n_need} decisions")}</h1>')
@@ -363,16 +472,14 @@ def main() -> int:
     p.append(f'<section class="screen" id="health" hidden><h1>System health</h1><p class="sub">Each check asks whether one part did its job recently.</p>'
              f'<div class="overall {"ok" if all_ok else "warn"}"><b>{"Everything is running" if all_ok else "Something needs a look"}</b>'
              f'<span>{len(ctl_rows) - len(quiet)} of {len(ctl_rows)} checks fine{"; agent failing: " + ", ".join(broken) if broken else ""}'
-             f'{"; data not current: " + ", ".join(s["name"] for s in bad_sources) if bad_sources else ""}</span></div><ul class="checks">')
-    for r in sorted(ctl_rows, key=lambda r: r["status"] == "ok"):
-        ok = r["status"] == "ok"
-        p.append(f'<li class="{"ok" if ok else "warn"}"><span>{e(r["name"])}</span><span class="m">{e("fine" if ok else r["status"])} · {e(r["last"])}</span></li>')
-    p.append('</ul><h2>Where this page\'s data comes from</h2><ul class="checks">')
+             f'{"; data not current: " + ", ".join(s["name"] for s in bad_sources) if bad_sources else ""}</span></div>')
+    p.append(health_tiles(ctl_rows) + week_strip(cond["conditions"]))
+    p.append('<details class="more"><summary>Where this page\'s data comes from</summary><ul class="checks">')
     for s in sources:
         ok = s["state"] == "ok"
         p.append(f'<li class="{"ok" if ok else "warn"}"><span>{e(s["name"])}</span><span class="m">{e("current" if ok else s["state"])} · '
                  f'{e(ago(s["at"]) if s["at"] else "never")} · {e(s["note"])}</span></li>')
-    p.append('</ul></section>')
+    p.append('</ul></details></section>')
 
     p.append(f'<nav class="tabs">' + "".join(
         f'<button data-s="{s}"{" aria-current=\"page\"" if s == "map" else ""}>{l}{" <i>" + str(n_need) + "</i>" if s == "decide" and n_need else ""}</button>'
@@ -445,6 +552,25 @@ code{font-size:.82em;overflow-wrap:anywhere}
 .tabs button{background:none;border:0;color:var(--mute);font:600 .78rem var(--body);padding:6px 4px;cursor:pointer}.tabs button[aria-current]{color:var(--on)}
 .tabs i{font-style:normal;background:var(--warn);color:var(--bg);border-radius:99px;padding:0 6px;margin-left:3px}
 .tabs button:focus-visible,summary:focus-visible{outline:2px solid var(--on);outline-offset:2px}
+/* Pictures (picture-before-prose): path stations, 24 h timeline, health tiles, week strip */
+.t1.left,.t2.left{text-anchor:start}.t1.right{text-anchor:end}
+.station .ring{fill:var(--card);stroke:var(--line);stroke-width:4}.station .fill{fill:var(--on)}
+.station .tick{fill:none;stroke:var(--bg);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.station .arc{fill:none;stroke:var(--on);stroke-width:5;stroke-linecap:round}.st-todo .ring{stroke-dasharray:5 4}
+.frac{font:700 10px var(--body);fill:var(--on);text-anchor:middle}.waitc{fill:var(--warn)}
+.grid{stroke:var(--line);stroke-width:1}.lane{stroke:var(--line);stroke-width:1;stroke-dasharray:2 3}
+.bar-ok{fill:var(--on)}.bar-run{fill:var(--on-bg);stroke:var(--on);stroke-width:1.5}.bar-bad{fill:var(--warn-bg);stroke:var(--warn);stroke-width:1.5;stroke-dasharray:3 2}.bar-other{fill:var(--off)}
+.msg-you{fill:var(--fg)}.msg-agent{fill:var(--card);stroke:var(--on);stroke-width:2}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;color:var(--mute);font-size:.8rem}
+.sw{display:inline-block;width:16px;height:10px;border-radius:3px;margin-right:4px;vertical-align:middle}.sw.round{width:10px;border-radius:99px}
+.sw.bar-ok{background:var(--on)}.sw.bar-bad{background:var(--warn-bg);border:1.5px dashed var(--warn)}.sw.bar-run{background:var(--on-bg);border:1.5px solid var(--on)}
+.sw.msg-you{background:var(--fg)}.sw.msg-agent{background:var(--card);border:2px solid var(--on)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:2px;min-width:0}
+.tile b{font-size:.84rem;overflow-wrap:anywhere}.tile.warn{border:1.5px dashed var(--warn);background:var(--warn-bg)}
+.glyph{width:30px;height:30px;border-radius:99px;display:grid;place-items:center;font-weight:700;background:var(--on);color:var(--bg)}.tile.warn .glyph{background:var(--warn)}
+.day-ok{fill:var(--on)}.day-ok+text{fill:var(--bg);font-weight:700}.day-todo{fill:var(--card);stroke:var(--line);stroke-dasharray:4 3}
+details.more{margin-top:14px}details.more>summary{cursor:pointer;color:var(--on);font-weight:600;font-size:.88rem}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400;600&display=swap">"""
 
