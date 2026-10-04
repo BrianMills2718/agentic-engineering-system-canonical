@@ -14,9 +14,17 @@ uv pip install -e ".[dev]"` (2026-10-04), not `python3 -m venv` plus `pip`:
 Brian's standing preference is uv with its shared cache in every repository.
 The Makefile needed no change, because `$(PYTHON)` only ever consumed
 `.venv/bin/python` and never created it. `docs/greenfield/GETTING_STARTED.md`
-still says venv plus pip on purpose — it is a planned artifact named in three
-external clean-user observations, so changing it goes through AES, not a docs
-edit.
+now installs with uv too (BRI-36, 2026-10-04), so no venv-plus-pip install path
+is left in this repository: the page was run end to end from an empty directory
+at `d89fe2e` and recorded as `OBS-AES-CLEAN-USER-d89fe2e`, which supersedes the
+three earlier clean-user observations, and the clean-install test in
+`tests/greenfield/test_distribution.py` builds its throwaway venv with uv
+instead of stdlib `venv` plus `pip` (so it needs no `ensurepip`; it skips only
+where uv is missing). That observation assesses `ER-SC-GF-001-01` INCONCLUSIVE
+rather than SUPPORTS on purpose: the runner was the session that wrote the
+change, not an independent fresh reader, so it proves the page's commands work
+and not that the page reads well cold. Restoring SUPPORTS needs one fresh
+session given only the page and a pin — the open follow-up on the install path.
 
 **Next step:** follow "Exact next action" in the roadmap. In short: the
 Coordinator keeps taking jobs from the refreshed weekly plan; agents merge

@@ -35,14 +35,18 @@ component. Target changes go through `aes plan prepare / validate / accept`.
   clone: its test and type steps run the `.venv` tools rather than a bare
   `pytest`/`mypy` on `PATH`, and the pre-existing `mypy src/` errors in the
   retained v0.1 `repository_context` renderer and in the v0.2 CLI were
-  annotated away in PR #112. Measured at `00fbb82` from a fresh clone with the
-  `uv` install line above and nothing else on `PATH`: `make check` exit 0 (185
-  passed, 1 skipped; mypy clean on 20 files), `make aes` exit 0, `make
-  aes-check` exit 0 (179 passed, 1 skipped). One test in that suite,
-  `test_clean_install_in_pin_form_...`, builds its own throwaway venv with the
-  standard library's `venv` and `pip` rather than `uv`, so it needs an
-  interpreter that has `ensurepip`; where that is missing (Debian without
-  `python3.13-venv`, for one) set `AES_SKIP_CLEAN_INSTALL=1` to skip it. The
+  annotated away in PR #112. Measured at `d89fe2e` from a fresh clone with the
+  `uv` install line above and only `git`, `make` and `uv` on `PATH`: `make
+  check` exit 0 (185 passed, 1 skipped; mypy clean on 20 files), `make aes`
+  exit 0, `make aes-check` exit 0 (179 passed, 1 skipped). That one skip is
+  `tests/repository_context/test_data_contracts_pinned.py`, which needs
+  `AES_DATA_CONTRACTS_CHECKOUT`. One test in that suite,
+  `test_clean_install_in_pin_form_...`, builds its own throwaway venv and
+  installs the pin into it; since 2026-10-04 it does that with `uv`, as the
+  documented install does, so it no longer needs an interpreter with
+  `ensurepip` — in that measurement it ran, and passed, on a `python3` that has
+  none. It skips where `uv` is not on `PATH`, and `AES_SKIP_CLEAN_INSTALL=1`
+  still skips it. The
   earlier not-green state in
   [`evidence/modular-design-integration-2026-09-22.md`](evidence/modular-design-integration-2026-09-22.md)
   is history as of 2026-10-04, not current.

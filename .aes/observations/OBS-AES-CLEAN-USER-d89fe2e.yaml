@@ -1,0 +1,110 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-AES-CLEAN-USER-d89fe2e
+subject_refs: [SC-GF-001, ART-DOC-GREENFIELD-GETTING-STARTED, ART-PACKAGING-PYPROJECT]
+subject_revision: d89fe2e329dc3f874e889739ef24e642cddeb962
+# What the run installed and executed: the page, the packaging, and the modules
+# the page's commands reach (init, hooks install, plan prepare/validate/accept,
+# target validate, topology check, context, evidence record/status, status,
+# reconcile). Any change to them since d89fe2e means the run no longer speaks
+# for the current distribution.
+dependency_paths:
+  - docs/greenfield/GETTING_STARTED.md
+  - pyproject.toml
+  - src/agentic_engineering_system/cli.py
+  - src/agentic_engineering_system/context.py
+  - src/agentic_engineering_system/evidence.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/planning.py
+  - src/agentic_engineering_system/project.py
+  - src/agentic_engineering_system/reconcile.py
+  - src/agentic_engineering_system/records.py
+  - src/agentic_engineering_system/topology.py
+dependency_target_refs: [SC-GF-001, ART-DOC-GREENFIELD-GETTING-STARTED]
+observer:
+  identity: >
+    NOT an independent fresh reader, unlike runs 1-3: the same Claude Opus 5
+    session that wrote the page's uv change (Paperclip agent "Research and Code
+    Review", task BRI-36) ran the page's commands mechanically. Debian 13
+    container, /usr/bin/python3 3.13.5 without stdlib ensurepip, no uv on PATH
+    at the start, fresh empty directory, and the host gh token for the private
+    repository (same credential caveat as runs 1-3).
+  version: Claude Opus 5
+method: >
+  Clean-user run 4, at d89fe2e on branch bri36-getting-started-uv (pre-merge;
+  merged with a merge commit so it stays reachable), the commit that moved the
+  page's install from `python3 -m venv` plus `pip` to `uv venv` plus `uv pip
+  install`. Every command the page states, in the page's order, with no flag,
+  path or environment variable the page does not itself state, and with
+  `which uv`, `which python3` and $VIRTUAL_ENV printed before each step:
+  the page's uv install line and `source "$HOME/.local/bin/env"`; mkdir/cd;
+  git init; uv venv .venv; . .venv/bin/activate; uv pip install -q pytest plus
+  the pinned package; aes --version; .gitignore and pyproject.toml; aes init;
+  aes hooks install; first commit; aes plan prepare, the page's proposal, aes
+  plan validate, aes plan accept; second commit; aes context SC-001; source and
+  test; third commit; aes evidence record VS-GREET --depends-on; aes evidence
+  status; fourth commit; aes status; then the page's staleness demonstration
+  (Hello->Hi, commit, aes status, aes reconcile). One deviation, forced and
+  disclosed in the transcript where it happened: the first `git commit` failed
+  with "Author identity unknown" (exit 128) because the container has no git
+  identity and the page's prerequisites do not name one, so user.name/user.email
+  were set in the greeter repository only and the page's command repeated.
+execution_state: COMPLETED
+produced_at: 2026-10-04T06:35:04+00:00
+result:
+  every_command_exit_code: 0, except the first `git commit` at exit 128 (see first_failure)
+  first_failure: >
+    git commit, section 2: "Author identity unknown ... fatal: unable to
+    auto-detect email address", exit 128. Environment, not the uv change; git's
+    own message states the fix and the run continued after applying it.
+  aes_version: 0.1.dev531+gd89fe2e32
+  commits: 5, each gated by the packaged pre-commit hook
+  init_wrote_exactly: [.aes/project.yaml, .aes/target.yaml]
+  plan_accept: accepted at af837ca7752c; PLAN-001-GREET 6 additions, 0 changes, 0 removals
+  install_timing: section 1 (uv install, uv venv, activate, uv pip install, aes --version) 5 seconds end to end
+  status_after_evidence: |
+    OK status: greeter-target at b80befa356365cbd700993147a11d2b9c7b48e1a
+      artifacts: 2 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+      criteria: 1 supported, 0 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+      observations: 1 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded
+      plans: 1 accepted, 0 unreachable
+      first open gap per component:
+        CMP-GREETER: no open gap
+  status_after_dependency_edit: 0 supported, 1 insufficient; 0 current, 1 stale; CMP-GREETER insufficient SC-001 - ER-001-01 NO_CURRENT_SUPPORT (matches the page)
+  stuck_at: nowhere
+  uv_form_under_specified: >
+    nothing. `uv pip install` installed into the activated .venv with no extra
+    flag; the page's short-id note matches uv's behaviour (it resolves a short
+    id and prints the full one); the old `python3 -m venv` form could not have
+    run in this container at all, because /usr/bin/python3 has no ensurepip.
+  page_under_specified: >
+    the prerequisites name Git but not a configured git identity, which the
+    first commit needs (new finding, the only command that failed). Carried
+    over from runs 2-3 and untouched by this change: the section-6 staleness
+    demonstration has no command block; re-activating the virtual environment in
+    a new shell is not mentioned; `aes context SC-001` lists ART-TEST-GREET but
+    not ART-PKG (it does say so under "Not included"); the "no origin" notes
+    from `aes plan accept` and `aes evidence record` are not on the page.
+retained_artifact_refs:
+  - evidence/greenfield/clean-user-run-4-2026-10-04.md
+assessments:
+  - evidence_requirement_ref: ER-SC-GF-001-01
+    assessment: INCONCLUSIVE
+    basis: >
+      What this establishes: every command on the page, in the uv form, works
+      as written at d89fe2e on a machine that could not have run the previous
+      `python3 -m venv` form at all, and reaches an initialized, hook-gated,
+      validated project with a SUPPORTED criterion and the page's own printed
+      staleness behaviour. What it does not establish, and why this is
+      INCONCLUSIVE rather than SUPPORTS: the external boundary for
+      ER-SC-GF-001-01 names "a fresh agent or person with only
+      docs/greenfield/GETTING_STARTED.md and a pin id", and this runner was the
+      session that had just written the page's uv change, with full access to
+      the repository. It therefore tests the page's commands, not the page's
+      comprehensibility to a first-time reader, which is the part runs 1-3
+      tested and which no longer speaks for the current install path. Restoring
+      SUPPORTS needs one independent fresh session given only the page and a
+      pin; the no-private-access condition stays deferred by decision (roadmap
+      phase 2, 25-roadmap-to-mvp-acceptance.md section 0).
+    assessor:
+      identity: the same session, scoring its own run against the external boundary in .aes/target.yaml
+      version: Claude Opus 5 (Paperclip agent "Research and Code Review", task BRI-36)
