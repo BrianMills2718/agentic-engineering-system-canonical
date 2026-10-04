@@ -177,15 +177,14 @@ def render(root: Path, decision_md: str | None, proposal_path: Path | None, rp_p
     art_path = {a.id: a.locator.exact_path for a in target.planned_artifacts}
     exists = lambda p: p in tracked  # noqa: E731
 
-    def short(text: str, n: int = 44) -> str:
-        t = " ".join(text.split())
-        return t if len(t) <= n else t[: n - 1].rstrip(" ,;:") + "…"
+    def short(text: str, n: int = 0) -> str:  # whole text on one line; boxes grow to fit, nothing is cut
+        return " ".join(text.split())
 
     nodes: list[dict] = []
     edges: list[tuple[str, str, str]] = []
     for o in sorted(target.outcomes, key=lambda o: o.id not in proposed):
         nodes.append({"id": o.id, "layer": 0, "label": short(o.statement, 60), "state": "outcome", "mark": "outcome",
-                      "full": o.statement.strip(), "extra": {"for": o.actor_or_consumer, "why": (o.rationale or "").strip(), "not trying to do": "; ".join(o.non_goals or [])}})
+                      "full": o.statement.strip(), "extra": {"for": o.actor_or_consumer, "why": (o.rationale or "").strip(), "not trying to do": [g.replace("_", " ") for g in (o.non_goals or [])]}})
     for n in target.normative_items:
         nodes.append({"id": n.id, "layer": 1, "label": short(n.statement), "state": "rule", "mark": n.kind, "full": n.statement.strip(), "extra": {"kind": n.kind}})
         edges += [(ref, n.id, "derived from") for ref in n.outcome_refs]
@@ -259,21 +258,39 @@ def render(root: Path, decision_md: str | None, proposal_path: Path | None, rp_p
 
     out: list[str] = []
     w = out.append
+
+    def bullets(items: list[str], cls: str = "") -> str:  # items are already-escaped HTML
+        items = [i for i in items if i]
+        return f"<ul class='pts {cls}'>" + "".join(f"<li>{i}</li>" for i in items) + "</ul>" if items else ""
+
+    def md_block(text: str) -> str:
+        """Paragraphs, "- " bullet lists and **bold** from a small markdown file."""
+        import re
+        parts = []
+        for block in text.strip().split("\n\n"):
+            lines = block.splitlines()
+            fmt = lambda t: re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", re.sub(r"`([^`]+)`", r"<code>\1</code>", E(t)))  # noqa: E731
+            if all(l.lstrip().startswith("- ") for l in lines):
+                parts.append(bullets([fmt(l.lstrip()[2:]) for l in lines]))
+            elif len(lines) > 1 and all(l.lstrip().startswith("- ") for l in lines[1:]):
+                parts.append(f"<p>{fmt(lines[0])}</p>" + bullets([fmt(l.lstrip()[2:]) for l in lines[1:]]))
+            else:
+                parts.append(f"<p>{fmt(' '.join(lines))}</p>")
+        return "".join(parts)
     w("<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>")
     w(f"<title>{E(title_subject.split(':')[0])} review</title>")
     w(STYLE)
     w(f"</head><body><h1>{E(title_subject)}</h1>")
-    w("<p class='lede'>This page is built from the project's own target record"
-      + (" and a proposed change to it, applied in memory" if proposal_path else "")
-      + " and the repository at one exact revision. It shows what is promised, what would prove each promise, which promised files exist and which proofs have run. "
-      "It is a derived view, not the record itself: nothing here is authority.</p>")
+    w("<div class='lede'>" + bullets([
+        "Built from the project's target record" + (" plus a proposed change, applied in memory" if proposal_path else "") + ", and the repository at one exact revision.",
+        "Shows what is promised, what would prove each promise, which promised files exist and which proofs have run.",
+        "A derived view, not the record: nothing here is authority."]) + "</div>")
     w(f"<p class='small'>Source: <code>.aes/target.yaml</code>" + (f" + <code>{E(str(proposal_path.name))}</code>" if proposal_path else "")
       + f" · repository <code>{E(project.project_id)}</code> at <code>{E(head[:12])}</code> · built {E(now)}</p>")
 
     if decision_md:
         w("<div class='box decision'><h2 class='h0'>Decision needed from you</h2>")
-        for para in decision_md.strip().split("\n\n"):
-            w(f"<p>{E(para).replace(chr(10), '<br>')}</p>")
+        w(md_block(decision_md))
         w("</div>")
 
     sec = 0
@@ -286,7 +303,9 @@ def render(root: Path, decision_md: str | None, proposal_path: Path | None, rp_p
     if rp_path:
         rps = yaml.safe_load(rp_path.read_text())["review_points"]
         h2(f"The {len(rps)} points where you would get something to open")
-        w("<p class='lede'>Each review point is a working slice you open, not a document. Before it reaches you, an automatic check loads it at phone width (390 px) and fails it if it is blank, an error page or throws a script error.</p><ol class='rps'>")
+        w("<div class='lede'>" + bullets(["Each review point is a working slice you open, not a document.",
+            "Before it reaches you, an automatic check loads it at phone width (390 px).",
+            "The check fails it if it is blank, an error page, or throws a script error."]) + "</div><ol class='rps'>")
         for rp in rps:
             w(f"<li class='box'><p><strong>{E(rp['title'])}</strong> <span class='id'>{E(rp['id'])}</span></p><p class='small'>Open: <code>{E(rp['entrypoint'])}</code></p><p class='small'>Try:</p><ul>")
             for t in rp["try"]:
@@ -300,16 +319,22 @@ def render(root: Path, decision_md: str | None, proposal_path: Path | None, rp_p
             continue
         w(f"<div class='box'><p><strong>Outcome</strong> <span class='id'>{E(o.id)}</span> for <em>{E(o.actor_or_consumer)}</em></p><p>{E(o.statement.strip())}</p>")
         if o.non_goals:
-            w("<p class='small'><strong>Not trying to do:</strong> " + "; ".join(E(x) for x in o.non_goals) + "</p>")
+            w("<p class='small'><strong>Not trying to do:</strong></p>" + bullets([E(x.replace("_", " ")) for x in o.non_goals], "small"))
         w("</div>")
 
     n_ex = sum(n["state"] == "exists" for n in nodes); n_miss = sum(n["state"] == "missing" for n in nodes)
     n_ext = sum(n["state"] == "external" for n in nodes); n_run = sum(n["state"] == "run" for n in nodes)
     h2("How the outcome turns into proof and files")
-    w("<p class='lede'>Read left to right: outcome, the rules it implies, what counts as success, the evidence each success needs, the planned proof, and the file it lives in. "
-      f"<span class='sw ex'></span> file exists ({n_ex}) · <span class='sw miss'></span> not written yet ({n_miss}) · <span class='sw run'></span> evidence has run and supports ({n_run}) · <span class='sw ext'></span> proved outside the repository, by a person or a live run ({n_ext})"
-      + (" · <span class='sw prop'></span> thick dashed outline: added or changed by this proposal" if proposal_path else "")
-      + ". Tap a box to light up its chain and read it in full. On a phone the same chains are a list you open one step at a time; the drawing is one tap away.</p>")
+    w("<div class='lede'><p><strong>How to read it</strong></p>" + bullets([
+        "Left to right: outcome → rules it implies → what counts as success → evidence each success needs → planned proof → file it lives in.",
+        "The small words under each column heading say what a line into that column means.",
+        "Tap a box to light up its chain; the panel lists every link with its meaning.",
+        "On a phone the same chains are a list you open one step at a time; the drawing is one tap away."])
+      + "<p><strong>Colours and outlines</strong></p>" + bullets([
+        f"<span class='sw ex'></span> file exists ({n_ex})", f"<span class='sw miss'></span> not written yet ({n_miss})",
+        f"<span class='sw run'></span> evidence has run and supports ({n_run})",
+        f"<span class='sw ext'></span> proved outside the repository, by a person or a live run ({n_ext})",
+        "<span class='sw prop'></span> thick dashed outline: added or changed by this proposal" if proposal_path else ""]) + "</div>")
     w("<div class='view'><div class='graphwrap'><svg id='g' role='img' aria-label='derivation graph from outcome to files'></svg></div>"
       "<aside id='insp' class='insp'><p class='small'>Nothing selected. Tap a box in the diagram.</p></aside></div>")
     w("<script id='model' type='application/json'>" + json.dumps(model).replace("</", "<\\/") + "</script>")
@@ -320,16 +345,22 @@ def render(root: Path, decision_md: str | None, proposal_path: Path | None, rp_p
     w(f"<p class='{'miss' if bad else 'okt'}'>{len(refs)} references checked, {bad} problem{'s' if bad != 1 else ''}.</p>")
     for v in delta_violations + ref_violations:
         w(f"<p class='small'>{E(v)}</p>")
-    w("<p class='small'>Method: every id the target names (rules to outcomes, criteria to rules, components to files, proofs to evidence) is looked up with AES's own "
-      "<code>references()</code> and <code>validate_target_refs()</code>, which also catch duplicate ids and duplicate paths. Zero problems means the record is consistent. It does not mean the design is right.</p>")
+    w("<p class='small'><strong>Method</strong></p>" + bullets([
+        "Every id the target names (rules to outcomes, criteria to rules, components to files, proofs to evidence) is looked up with AES's own <code>references()</code> and <code>validate_target_refs()</code>.",
+        "Those also catch duplicate ids and duplicate paths.",
+        "Zero problems means the record is consistent. It does not mean the design is right."], "small"))
 
     h2("What data passes between the functions")
     if ports_svg:
         src = {"plan": "typed signatures in the plan", "code": "the functions in the code at this revision (the plan has no typed signatures)"}
-        w("<p class='lede'>Each box is one function. A wire means one function's result is the input another one needs, matched by type. "
-          f"Built from {' and '.join(src[o] for o in ports['origin'])}. A grey stub on top of a box is an input nothing here produces: it comes from outside."
-          + (" Solid outline: added by this proposal; dashed outline: existing." if proposal_path else "")
-          + " Tap a function to see the file it lives in. On a phone each function is one line: what it takes and from whom, what it gives and to whom.</p>")
+        w("<div class='lede'>" + bullets([
+            "Each box is one function.",
+            "A wire means one function's result is the input another one needs, matched by type; the word on the wire is that type.",
+            "A grey stub on top of a box is an input nothing here produces: it comes from outside.",
+            "Solid outline: added by this proposal. Dashed outline: existing." if proposal_path else "",
+            "Tap a function to see the file it lives in.",
+            "On a phone each function is one entry: what it takes and from whom, what it gives and to whom.",
+            f"Built from {' and '.join(src[o] for o in ports['origin'])}."]) + "</div>")
         # Phone: the drawing is wider than the screen and loses to a list there, so the same wires
         # are also written as one line per function (shown at phone width; the drawing is one tap away).
         name = {n["id"]: n["name"] for n in ports["nodes"]}
@@ -338,15 +369,15 @@ def render(root: Path, decision_md: str | None, proposal_path: Path | None, rp_p
             ins = [f"<code>{E(x['label'])}</code> from <code>{E(name[x['from']])}</code>" + (" (or another function giving the same type)" if x['ambiguous'] else "") for x in ports["wires"] if x["to"] == n["id"]]
             ins += [f"<code>{E(a['annotation'])}</code> from outside" for a in n["args"] if a.get("unfed")]
             outs = [f"<code>{E(name[x['to']])}</code>" for x in ports["wires"] if x["from"] == n["id"]]
-            w(f"<li><a href='#' data-id='{E(n['artifact'])}' class='pfl'><strong><code>{E(n['name'])}</code></strong></a> <span class='id'>{E(n['component_label'])}{'' if n['proposed'] or not proposal_path else ', existing'}</span><br>"
-              + (f"takes {'; '.join(ins)}" if ins else "takes nothing from the functions here")
-              + (f"<br>gives <code>{E(n['ret'])}</code> to {', '.join(outs)}" if outs else (f"<br>returns <code>{E(n['ret'])}</code> (used outside this drawing)" if n['ret'] else "")) + "</li>")
+            w(f"<li><a href='#' data-id='{E(n['artifact'])}' class='pfl'><strong><code>{E(n['name'])}</code></strong></a> <span class='id'>{E(n['component_label'])}{'' if n['proposed'] or not proposal_path else ', existing'}</span>"
+              + bullets([f"takes {x}" for x in ins] or ["takes nothing from the functions here"])
+              + bullets([f"gives <code>{E(n['ret'])}</code> to {', '.join(outs)}" if outs else (f"returns <code>{E(n['ret'])}</code> (used outside this drawing)" if n['ret'] else "")]) + "</li>")
         w("</ul>")
         w(f"<div class='graphwrap pg'>{ports_svg}</div>")
-        w(f"<p class='small'>{len(ports['nodes'])} functions, {len(ports['wires'])} wires, {len(unfed)} inputs from outside"
-          + (f" ({', '.join(E(f'{n}: {t}') for n, t in unfed)})" if unfed else "")
-          + (f"; not drawn because no type joins them to anything: {', '.join(E(n['name']) for n in ports['loose'])}" if ports['loose'] else "")
-          + (f"; {len(ambiguous)} wire{'s' if len(ambiguous) != 1 else ''} where more than one function could supply the input (drawn dashed)" if ambiguous else "") + ".</p>")
+        w(bullets([f"{len(ports['nodes'])} functions, {len(ports['wires'])} wires",
+                   f"{len(unfed)} inputs from outside" + (f": {', '.join(E(f'{n}: {t}') for n, t in unfed)}" if unfed else ""),
+                   f"Not drawn, because no type joins them to anything: {', '.join(E(n['name']) for n in ports['loose'])}" if ports['loose'] else "",
+                   f"{len(ambiguous)} wire{'s' if len(ambiguous) != 1 else ''} where more than one function could supply the input (drawn dashed)" if ambiguous else ""], "small"))
     else:
         w("<p class='miss'>Unavailable: no planned or realized typed function signatures to draw from"
           + ("" if elk else ", or no ELK layout engine given (--elk)") + ".</p>")
@@ -362,11 +393,13 @@ def render(root: Path, decision_md: str | None, proposal_path: Path | None, rp_p
         w("<p class='okt'>None. Every tracked file under " + ", ".join(f"<code>{E(r)}</code>" for r in project.governed_roots) + " is planned.</p>")
 
     h2("Where this comes from")
-    w("<p class='small'>Governed roots: " + ", ".join(f"<code>{E(r)}</code>" for r in project.governed_roots)
-      + f". Target <code>{E(target.target_id)}</code>, schema <code>{E(target.schema_version)}</code>. "
-      "File marks come from <code>git ls-files</code> at the revision above: a file is tracked, not correct. Run marks come from <code>aes evidence status</code>: a current observation supports it."
-      + (f" Run status unavailable: {E(standing['__error__'])}." if "__error__" in standing else "")
-      + " Rendered by <code>scripts/probe/render_review.py</code> (temporary; the plan gate proposes <code>aes review</code>).</p>")
+    w(bullets([
+        "Governed roots: " + ", ".join(f"<code>{E(r)}</code>" for r in project.governed_roots),
+        f"Target <code>{E(target.target_id)}</code>, schema <code>{E(target.schema_version)}</code>",
+        "File marks come from <code>git ls-files</code> at the revision above: a file is tracked, not correct.",
+        "Run marks come from <code>aes evidence status</code>: a current observation supports it.",
+        f"Run status unavailable: {E(standing['__error__'])}" if "__error__" in standing else "",
+        "Rendered by <code>scripts/probe/render_review.py</code> (temporary; the plan gate proposes <code>aes review</code>)."], "small"))
     w("</body></html>")
     return "".join(out)
 
@@ -382,13 +415,14 @@ h1{font-size:1.45rem;margin:.2em 0}h2{font-size:1.15rem;margin:1.6em 0 .4em;bord
 .decision{border-left:5px solid var(--warn)}.okt{color:var(--accent);font-weight:600}.miss{color:var(--warn);font-weight:600}
 .id{font-family:ui-monospace,monospace;font-size:.85em;color:var(--muted)}code{font-family:ui-monospace,monospace;font-size:.9em;overflow-wrap:anywhere}
 .small{font-size:.85rem;color:var(--muted)}ul{margin:.3em 0 .3em 1.2em}ol.rps{padding-left:0;list-style:none}
-.view{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start}@media (max-width:900px){.view{grid-template-columns:1fr}.insp{position:static;max-height:none}}
+.view{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start}@media (max-width:900px){.view{grid-template-columns:minmax(0,1fr)}.insp{position:static;max-height:none}}
 .graphwrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--box);padding:6px}
-.insp{border:1px solid var(--line);border-radius:8px;padding:10px 12px;position:sticky;top:8px;max-height:90vh;overflow:auto;background:var(--bg)}.insp h3{margin:.2em 0 .4em;font-size:1.05rem}
+.insp{border:1px solid var(--line);border-radius:8px;padding:10px 12px;position:sticky;top:8px;max-height:90vh;overflow:auto;background:var(--bg)}.insp h3{margin:.2em 0 .4em;font-size:1.05rem}.insp{overflow-wrap:anywhere}
 .sw{display:inline-block;width:.9em;height:.9em;border-radius:3px;vertical-align:-2px;margin-right:3px;border:1.5px solid var(--line)}
 .sw.ex{background:var(--ex);border-color:var(--exs)}.sw.miss{background:var(--miss);border-color:var(--misss)}.sw.ext{background:var(--ext);border-color:var(--exts)}
 .sw.run{background:var(--bg);border:2.5px solid var(--run)}.sw.prop{background:var(--bg);border:2.5px dashed var(--fg)}
-svg .lay{font:600 12px system-ui,sans-serif;fill:var(--muted)}
+svg .lay{font:600 12px system-ui,sans-serif;fill:var(--muted)}svg .rel{font:italic 10.5px system-ui,sans-serif;fill:var(--muted)}
+ul.pts{margin:.25em 0 .5em 1.2em;padding:0}ul.pts li{margin:.15em 0}div.lede p{margin:.4em 0 .1em}
 svg .node rect{fill:var(--bg);stroke:var(--line);stroke-width:1.2}svg .node.st-outcome rect{stroke:var(--fg);stroke-width:2}
 svg .node.st-exists rect{fill:var(--ex);stroke:var(--exs)}svg .node.st-missing rect{fill:var(--miss);stroke:var(--misss)}svg .node.st-external rect{fill:var(--ext);stroke:var(--exts)}
 svg .node.st-run rect{stroke:var(--run);stroke-width:2.5}svg .node.st-refuted rect{stroke:var(--warn);stroke-width:2.5}svg .node.st-notrun rect{stroke-dasharray:3 2}
@@ -422,41 +456,52 @@ DERIVATION_JS = r"""<script>
 const M=JSON.parse(document.getElementById('model').textContent);
 const svg=document.getElementById('g'), insp=document.getElementById('insp');
 const NS='http://www.w3.org/2000/svg';
-const colW=168, gapX=26, nodeH=50, gapY=9, padTop=30;
+// Boxes grow to hold their whole text: no label on this page is ever shortened.
+const colW=210, gapX=34, gapY=10, padTop=46, lineH=14, subH=11, CH=31, SUBCH=36;
+M.nodes.forEach(n=>{n.lines=wrap(n.label,CH);n.subl=wrap(n.id+' · '+n.mark,SUBCH);n.h=12+n.lines.length*lineH+4+n.subl.length*subH;});
 const cols=M.layers.map((_,i)=>M.nodes.filter(n=>n.layer===i));
 const used=cols.map((c,i)=>c.length?i:-1).filter(i=>i>=0);
-const maxRows=Math.max(...cols.map(c=>c.length));
-const H=padTop+maxRows*(nodeH+gapY)+10, W=used.length*(colW+gapX);
-svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.style.width='100%'; svg.style.minWidth=Math.min(1000,W)+"px"; svg.style.height='auto';
+const colH=c=>c.reduce((s,n)=>s+n.h+gapY,0)-gapY;
+const maxH=Math.max(...used.map(li=>colH(cols[li])));
+const H=padTop+maxH+10, W=used.length*(colW+gapX);
+svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.style.width='100%'; svg.style.minWidth=Math.min(1100,W)+"px"; svg.style.height='auto';
+const layerOf=Object.fromEntries(M.nodes.map(n=>[n.id,n.layer]));
+const kindInto={};M.edges.forEach(e=>{const l=layerOf[e.to];(kindInto[l]=kindInto[l]||new Set()).add(e.kind);});
 const pos={};
-used.forEach((li,i)=>{const c=cols[li];const total=c.length*(nodeH+gapY)-gapY; const y0=padTop+(maxRows*(nodeH+gapY)-gapY-total)/2;
-  c.forEach((n,j)=>{pos[n.id]={x:i*(colW+gapX),y:y0+j*(nodeH+gapY)};});
-  const t=el('text',{x:i*(colW+gapX),y:20,class:'lay'}); t.textContent=M.layers[li]; svg.appendChild(t);});
+used.forEach((li,i)=>{const c=cols[li];let y=padTop+(maxH-colH(c))/2;
+  c.forEach(n=>{pos[n.id]={x:i*(colW+gapX),y,h:n.h};y+=n.h+gapY;});
+  const t=el('text',{x:i*(colW+gapX),y:16,class:'lay'}); t.textContent=M.layers[li]; svg.appendChild(t);
+  if(kindInto[li]){const k=el('text',{x:i*(colW+gapX),y:31,class:'rel'}); k.textContent='lines in: '+[...kindInto[li]].join(', '); svg.appendChild(k);}});
 function el(tag,attrs){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
 const up={},down={};
 M.edges.forEach(e=>{(down[e.from]=down[e.from]||[]).push(e.to);(up[e.to]=up[e.to]||[]).push(e.from);});
 const edgeEls=[];
 M.edges.forEach(e=>{const a=pos[e.from],b=pos[e.to];if(!a||!b)return;
-  const x1=a.x+colW,y1=a.y+nodeH/2,x2=b.x,y2=b.y+nodeH/2,mx=(x1+x2)/2;
+  const x1=a.x+colW,y1=a.y+a.h/2,x2=b.x,y2=b.y+b.h/2,mx=(x1+x2)/2;
   const p=el('path',{d:`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`,class:'edge','data-from':e.from,'data-to':e.to});
   const ti=el('title',{});ti.textContent=`${e.from} → ${e.to}: ${e.kind}`;p.appendChild(ti);svg.appendChild(p);edgeEls.push(p);});
 const nodeEls={};
 M.nodes.forEach(n=>{const p=pos[n.id];const g=el('g',{class:'node st-'+n.state+(n.proposed?' prop':''),transform:`translate(${p.x},${p.y})`,tabindex:'0',role:'button','data-id':n.id});
-  g.appendChild(el('rect',{width:colW,height:nodeH,rx:6}));
-  wrap(n.label,25).forEach((ln,i)=>{const t=el('text',{x:7,y:15+i*13,class:'lbl'});t.textContent=ln;g.appendChild(t);});
-  const s=el('text',{x:7,y:44,class:'sub'});s.textContent=(n.id+' · '+n.mark).slice(0,34);g.appendChild(s);
+  g.appendChild(el('rect',{width:colW,height:n.h,rx:6}));
+  n.lines.forEach((ln,i)=>{const t=el('text',{x:8,y:16+i*lineH,class:'lbl'});t.textContent=ln;g.appendChild(t);});
+  n.subl.forEach((ln,i)=>{const t=el('text',{x:8,y:16+n.lines.length*lineH+2+i*subH,class:'sub'});t.textContent=ln;g.appendChild(t);});
   g.addEventListener('click',()=>select(n.id,true));g.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();select(n.id,true);}});
   svg.appendChild(g);nodeEls[n.id]=g;});
-function wrap(str,n){const words=str.split(' ');const out=[];let cur='';for(const w of words){if((cur+' '+w).trim().length>n){if(cur)out.push(cur);cur=w;}else cur=(cur+' '+w).trim();}if(cur)out.push(cur);if(out.length>2){out.length=2;out[1]=out[1].slice(0,n-1)+'…';}return out;}
+// Every word kept; a word longer than a line (a path, an id) is split across lines, never dropped.
+function wrap(str,n){const words=[];String(str).split(' ').forEach(w=>{while(w.length>n){words.push(w.slice(0,n));w=w.slice(n);}if(w)words.push(w);});
+  const out=[];let cur='';for(const w of words){if(cur&&(cur+' '+w).length>n){out.push(cur);cur=w;}else cur=cur?cur+' '+w:w;}if(cur)out.push(cur);return out.length?out:[''];}
 function chain(id){const s=new Set([id]);const walk=(m,x)=>{(m[x]||[]).forEach(y=>{if(!s.has(y)){s.add(y);walk(m,y);}});};walk(up,id);walk(down,id);return s;}
 function select(id,scroll){const n=M.nodes.find(x=>x.id===id);if(!n)return;const s=chain(id);
   Object.entries(nodeEls).forEach(([k,g])=>{g.classList.toggle('dim',!s.has(k));g.classList.toggle('sel',k===id);});
   edgeEls.forEach(p=>p.classList.toggle('lit',s.has(p.dataset.from)&&s.has(p.dataset.to)));
-  let h=`<p class='small'>${M.layers[n.layer]}${n.proposed?' · added or changed by this proposal':''}</p><h3>${esc(n.label)}</h3><p>${esc(n.full)}</p>`;
-  for(const k in n.extra){if(n.extra[k])h+=`<p><strong>${esc(k)}:</strong> ${esc(n.extra[k])}</p>`;}
+  let h=`<p class='small'>${M.layers[n.layer]}${n.proposed?' · added or changed by this proposal':''}</p><h3>${esc(n.full)}</h3>`;
+  const ex=Object.keys(n.extra).filter(k=>Array.isArray(n.extra[k])?n.extra[k].length:n.extra[k]);
+  const val=v=>Array.isArray(v)?`<ul class='pts'>${v.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:esc(v);
+  if(ex.length)h+=`<ul class='pts'>${ex.map(k=>`<li><strong>${esc(k)}:</strong> ${val(n.extra[k])}</li>`).join('')}</ul>`;
+  const kind=(a,b)=>(M.edges.find(e=>e.from===a&&e.to===b)||{}).kind||'';
   const upN=(up[id]||[]),dnN=(down[id]||[]);
-  if(upN.length)h+=`<p class='small'><strong>comes from:</strong> ${upN.map(link).join(', ')}</p>`;
-  if(dnN.length)h+=`<p class='small'><strong>leads to:</strong> ${dnN.map(link).join(', ')}</p>`;
+  if(upN.length)h+=`<p class='small'><strong>Comes from</strong></p><ul class='pts small'>${upN.map(u=>`<li>${link(u)} <span class='id'>(${esc(kind(u,id))})</span></li>`).join('')}</ul>`;
+  if(dnN.length)h+=`<p class='small'><strong>Leads to</strong></p><ul class='pts small'>${dnN.map(d=>`<li>${link(d)} <span class='id'>(${esc(kind(id,d))})</span></li>`).join('')}</ul>`;
   h+=`<p class='small'>Source: <code>.aes/target.yaml</code> id <code>${esc(id)}</code></p>`;
   insp.innerHTML=h;insp.querySelectorAll('a[data-id]').forEach(a=>a.addEventListener('click',ev=>{ev.preventDefault();select(a.dataset.id,true);}));
   if(scroll&&window.innerWidth<900)insp.scrollIntoView({block:'nearest'});}
