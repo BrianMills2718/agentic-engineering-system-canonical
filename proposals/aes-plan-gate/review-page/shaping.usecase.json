@@ -1,0 +1,75 @@
+{
+  "id": "aes-plan-gate-shaping",
+  "concern": "Should Brian approve the shape of the AES plan gate: can he see, from diagrams generated out of the gate's own plan, what parts it adds and what data passes between them, which 3 review points he would get, and exactly what he would click at review point 1 - on his phone, without reading YAML?",
+  "stakeholder": "Brian, owner approving a plan shape on his phone",
+  "intent": [
+    "decide",
+    "understand",
+    "trace"
+  ],
+  "informationStructure": [
+    "process",
+    "network",
+    "list",
+    "table"
+  ],
+  "tasks": [
+    "trace",
+    "inspect",
+    "confirm",
+    "lookup"
+  ],
+  "entities": [
+    "component",
+    "function",
+    "typed-port",
+    "wire",
+    "review-point",
+    "success-criterion",
+    "proof-route"
+  ],
+  "relationships": [
+    "passes-data-to",
+    "uses",
+    "proved-by"
+  ],
+  "focus": "the port graph of the gate's own plan, then the review-point list",
+  "explanatoryFocus": [
+    "dataflow",
+    "interface",
+    "structure"
+  ],
+  "scale": {
+    "items": 30,
+    "density": "medium"
+  },
+  "interaction": {
+    "mode": "read-only",
+    "dynamics": "static"
+  },
+  "audience": {
+    "expertise": "expert",
+    "frequency": "one-off",
+    "domainFamiliarity": "expert",
+    "notationFamiliarity": "novice",
+    "visualizationLiteracy": "mixed"
+  },
+  "consequence": {
+    "risk": "medium",
+    "reversibility": "reversible"
+  },
+  "constraints": {
+    "mobile": true,
+    "accessibility": "baseline",
+    "realtime": false,
+    "provenance": true,
+    "allowAggregation": true
+  },
+  "representationRole": "explanatory",
+  "abstractionLevel": "overview",
+  "successCriteria": [
+    "At 390 px Brian can name the two new parts and follow TargetRecord to the gate verdict without zooming",
+    "Brian can say what he would click at review point 1 from the page alone",
+    "Each diagram on the page shows something a list could not; anything list-shaped is shown as a list or table"
+  ]
+}

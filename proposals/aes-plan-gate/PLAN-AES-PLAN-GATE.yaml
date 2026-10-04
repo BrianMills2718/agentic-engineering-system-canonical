@@ -1,0 +1,261 @@
+# SHAPING DRAFT - validated with `aes plan validate`, NOT accepted, NOT implemented.
+# Brian, 2026-10-04: "we should ahve a structure that enforceds rigorous upfront plannign so tht at
+# each review point i get a workable ui. and that during th eplannign i am looking at diagrams etc."
+# Diagrams of this plan are generated from it (generated/), not drawn; see the PR body.
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-AES-PLAN-GATE
+title: Plan gate - plans are reviewed through generated diagrams and end in working UI slices
+rationale: >
+  Brian reviews plans by looking, not by reading YAML, and wants a working UI at every review point.
+  Today `aes plan validate` checks traceability (outcome -> criterion -> evidence route) but says
+  nothing about whether a plan can be pictured or whether its review points can be opened. This plan
+  adds a gate: validate/accept refuse a proposal whose resulting target cannot generate a structure
+  view and a port graph from its own records (typed export signatures supply the ports and wires;
+  `name(args) -> ret` is already a supported export form), and refuse a proposal that adds components
+  without naming 2-4 review points, each a runnable UI slice with three things to try and an automatic
+  phone-width render check. The generated port graph of this plan's first draft showed render_check
+  taking a ReviewPoint that no planned function produced; review_points_of was added to close it. Custom dynamic visualizations stay optional and are linked with their
+  Representation Router disposition. Off-the-shelf rendering: Mermaid text for structure and sequence
+  views (GitHub renders it natively, on a phone), ELK layout for the port graph, Playwright for the
+  render check. Records gains three optional target families (review_points, flows, visualizations);
+  their schema is part of this plan's realization in ART-SRC-RECORDS, so the review points of this
+  plan itself are listed in the PR until the family exists - RP-1 diagrams of a plan on a phone,
+  RP-2 the gate refusing a plan and the render check failing a blank page, RP-3 a real next plan
+  reviewed end to end from Brian's phone.
+closes_gaps: []
+target_delta:
+  add:
+    outcomes:
+      - id: OUT-GF-002
+        actor_or_consumer: human_plan_reviewer
+        statement: >
+          The person who approves an AES plan reviews it through diagrams generated from the plan's own
+          records, and at each review point the plan names opens a working UI slice that has already
+          passed an automatic render check, from a phone.
+        non_goals:
+          - hand_drawn_or_free_text_diagrams
+          - pixel_level_visual_regression_testing
+          - replacing_representation_router_design_judgement
+    normative_items:
+      - id: GF-REQ-010
+        kind: constraint
+        outcome_refs:
+          - OUT-GF-002
+        statement: >
+          `aes plan validate` and `aes plan accept` refuse a proposal whose resulting target cannot
+          generate its required static diagrams from its own records: a structure view (components,
+          their planned files, the criteria they serve and each criterion's proof route) and a port
+          graph (components as nodes, typed export signatures as ports, a wire wherever one export's
+          return type is another export's argument type). Every source artifact the proposal adds or
+          changes must carry at least one typed export, and every component the proposal adds must be
+          wired to at least one other component; each declared flow also yields a sequence view.
+          Diagrams are written by accept beside the plan and are never edited by hand.
+      - id: GF-REQ-011
+        kind: constraint
+        outcome_refs:
+          - OUT-GF-002
+        statement: >
+          A proposal that adds components must leave the target with 2 to 4 review points covering
+          them, each naming a runnable entrypoint (a URL or a command that serves one), exactly three
+          things for the reviewer to try, and a render check: a screenshot at 390 px width of a page
+          that must not be blank, must not be an error page (stack trace, server error, missing route)
+          and must not throw a script error, recorded as an observation. The check matches error-page
+          signatures, not the word "error", which a working page may contain.
+      - id: GF-REQ-012
+        kind: behavior
+        outcome_refs:
+          - OUT-GF-002
+        statement: >
+          A plan may link custom dynamic visualizations; each link names its page and its
+          Representation Router use case and disposition files, and the gate checks that those files
+          exist without judging the design.
+    success_criteria:
+      - id: SC-GF-010
+        statement: >
+          The plan gate refuses proposals that cannot be pictured or reviewed, and accepts and draws
+          ones that can.
+        target_refs:
+          - GF-REQ-010
+          - GF-REQ-011
+          - GF-REQ-012
+        disproof: >
+          A proposal with an untyped new source artifact, an unwired new component, fewer than two or
+          more than four review points, a review point without three things to try or a render check,
+          or a visualization link to a missing disposition is accepted; or a committed diagram differs
+          from one regenerated from the target.
+        evidence_requirements:
+          - id: ER-SC-GF-010-01
+            kind: deterministic_test
+            requirement: >
+              Fixture proposals for each refusal case are refused with a finding naming the entry, a
+              complete fixture is accepted, and its written diagrams equal a fresh regeneration.
+      - id: SC-GF-011
+        statement: >
+          The review-point render check passes a working page and fails a blank page and an error page.
+        target_refs:
+          - GF-REQ-011
+        disproof: >
+          A blank page, a stack-trace or server-error page, a page that throws a script error, or an
+          unreachable URL records PASS; or a working page that merely mentions errors records FAIL.
+        evidence_requirements:
+          - id: ER-SC-GF-011-01
+            kind: deterministic_test
+            requirement: >
+              The render check runs against local fixture pages at 390 px - working, working but
+              mentioning errors, blank, stack trace, script error - and records PASS, PASS, FAIL, FAIL,
+              FAIL.
+      - id: SC-GF-012
+        statement: >
+          On one real plan after this one, the reviewer approves from the generated diagrams and opens
+          review point 1 on a phone without reading the YAML.
+        target_refs:
+          - OUT-GF-002
+        disproof: >
+          The reviewer has to read the proposal YAML or ask what a diagram means to approve, or review
+          point 1 does not open on a phone.
+        evidence_requirements:
+          - id: ER-SC-GF-012-01
+            kind: runtime_observation
+            requirement: >
+              An observation of the reviewer's approval of a real plan, naming the diagrams and the
+              review point 1 slice opened, at exact revisions.
+    components:
+      - id: RU-AES-DIAGRAMS
+        responsibility: >
+          Generate the structure view, port graph and sequence views of a target from its records, and
+          report the findings that make a proposal unpicturable.
+        target_refs:
+          - GF-REQ-010
+          - SC-GF-010
+        planned_artifact_refs:
+          - ART-SRC-DIAGRAMS
+          - ART-TEST-DIAGRAMS
+      - id: RU-AES-REVIEW-POINTS
+        responsibility: >
+          Check review-point and visualization declarations, and run and record the phone-width render
+          check of a review point's UI slice.
+        target_refs:
+          - GF-REQ-011
+          - GF-REQ-012
+          - SC-GF-011
+        planned_artifact_refs:
+          - ART-SRC-REVIEW-POINTS
+          - ART-TEST-REVIEW-POINTS
+    planned_artifacts:
+      - id: ART-SRC-DIAGRAMS
+        locator:
+          exact_path: src/agentic_engineering_system/diagrams.py
+        kind: source
+        purpose: >
+          diagrams-as-code from target records: Mermaid structure and sequence text, ELK port-graph
+          JSON, one phone-width HTML viewer, and unpicturable-plan findings
+        semantic_justification_refs:
+          - GF-REQ-010
+        exports:
+          - "structure_view(target: TargetRecord) -> MermaidSource"
+          - "port_graph(target: TargetRecord) -> PortGraph"
+          - "sequence_views(target: TargetRecord) -> list[MermaidSource]"
+          - "bundle(structure: MermaidSource, ports: PortGraph, sequences: list[MermaidSource]) -> DiagramSet"
+          - "diagram_findings(diagrams: DiagramSet, changed: set[str]) -> list[GateFinding]"
+          - "write_diagrams(diagrams: DiagramSet, out_dir: Path) -> list[Path]"
+      - id: ART-TEST-DIAGRAMS
+        locator:
+          exact_path: tests/greenfield/test_diagrams.py
+        kind: test
+        purpose: >
+          prove SC-GF-010: each refusal fixture is refused by name, the complete fixture is drawn,
+          and written diagrams equal a regeneration
+        semantic_justification_refs:
+          - SC-GF-010
+      - id: ART-SRC-REVIEW-POINTS
+        locator:
+          exact_path: src/agentic_engineering_system/review_points.py
+        kind: source
+        purpose: >
+          review-point and visualization declaration checks, and the Playwright render check that
+          records a review point's slice as an observation
+        semantic_justification_refs:
+          - GF-REQ-011
+          - GF-REQ-012
+        exports:
+          - "review_points_of(target: TargetRecord) -> list[ReviewPoint]"
+          - "review_point_findings(target: TargetRecord) -> list[GateFinding]"
+          - "render_check(point: ReviewPoint, out_dir: Path) -> RenderResult"
+          - "observe_render(result: RenderResult, root: Path) -> Path"
+      - id: ART-TEST-REVIEW-POINTS
+        locator:
+          exact_path: tests/greenfield/test_review_points.py
+        kind: test
+        purpose: >
+          prove SC-GF-011 against working, blank, stack-trace and script-error fixture pages, and the review-point count
+          and shape refusals of SC-GF-010
+        semantic_justification_refs:
+          - SC-GF-011
+          - SC-GF-010
+    verification_subjects:
+      - id: VS-GF-DIAGRAMS
+        criterion_refs:
+          - SC-GF-010
+        evidence_requirement_refs:
+          - ER-SC-GF-010-01
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/greenfield/test_diagrams.py
+        purpose: >
+          refusal fixtures refused by name; complete fixture drawn; written diagrams equal regeneration
+      - id: VS-GF-REVIEW-RENDER
+        criterion_refs:
+          - SC-GF-011
+        evidence_requirement_refs:
+          - ER-SC-GF-011-01
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/greenfield/test_review_points.py
+        purpose: >
+          render check records PASS for the working fixtures and FAIL for the blank, stack-trace and
+          script-error fixtures
+    external_boundaries:
+      - evidence_requirement_ref: ER-SC-GF-012-01
+        boundary: >
+          The orchestrating session records one observation when Brian approves the first real plan
+          after this one from its generated diagrams and opens its review point 1 on his phone, naming
+          the plan id, diagram files and slice URL at exact revisions.
+  change:
+    planned_artifacts:
+      - id: ART-SRC-RECORDS
+        locator:
+          exact_path: src/agentic_engineering_system/records.py
+        kind: source
+        purpose: >
+          typed record models, strict YAML I/O primitives and semantic ref validation, including the
+          optional review_points, flows and visualizations target families of the plan gate
+        semantic_justification_refs:
+          - GF-REQ-002
+          - GF-REQ-011
+        exports:
+          - "load_target(path: Path) -> TargetRecord"
+          - load_project
+          - parse_target
+          - validate_target_refs
+          - ReviewPoint
+          - Flow
+          - Visualization
+      - id: ART-SRC-PLANNING
+        locator:
+          exact_path: src/agentic_engineering_system/planning.py
+        kind: source
+        purpose: >
+          planning contract models, target-delta validation and transition-plan validation; validate
+          and accept apply the plan gate's diagram and review-point findings and accept writes the
+          plan's diagrams
+        semantic_justification_refs:
+          - GF-REQ-004
+          - GF-REQ-010
+        exports:
+          - prepare
+          - validate_proposal
+          - accept_proposal
+          - route_violations
+          - unrouted_requirements
+          - load_proposal
+          - "gate_violations(diagram: list[GateFinding], review: list[GateFinding]) -> list[str]"

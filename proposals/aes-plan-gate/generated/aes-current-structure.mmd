@@ -1,0 +1,29 @@
+flowchart TB
+classDef hub fill:#eff6ff,stroke:#1d4ed8,stroke-width:2px;
+classDef new fill:#fff7ed,stroke:#c2410c,stroke-width:3px;
+classDef cyc fill:#fff7ed,stroke:#c2410c,stroke-width:2px,stroke-dasharray:6 3;
+RU_AES_RECORDS["<b>Records</b><br/><span style='font-size:11px'>used by 9 others</span>"]
+class RU_AES_RECORDS cyc;
+RU_AES_PROJECT["<b>Project</b><br/><span style='font-size:11px'>1 file</span>"]
+RU_AES_PLANNING["<b>Planning</b><br/><span style='font-size:11px'>2 files</span>"]
+class RU_AES_PLANNING cyc;
+RU_AES_TOPOLOGY["<b>Topology</b><br/><span style='font-size:11px'>1 file</span>"]
+RU_AES_CHARACTERIZE["<b>Characterize</b><br/><span style='font-size:11px'>2 files</span>"]
+class RU_AES_CHARACTERIZE cyc;
+RU_AES_EVIDENCE["<b>Evidence</b><br/><span style='font-size:11px'>1 file</span>"]
+RU_AES_RECONCILE["<b>Reconcile</b><br/><span style='font-size:11px'>1 file</span>"]
+class RU_AES_RECONCILE cyc;
+RU_AES_CONTEXT["<b>Context</b><br/><span style='font-size:11px'>1 file</span>"]
+RU_AES_CLI["<b>Cli</b><br/><span style='font-size:11px'>uses 9 others</span>"]
+class RU_AES_CLI hub;
+RU_AES_DISTRIBUTION["<b>Distribution</b><br/><span style='font-size:11px'>3 files</span>"]
+RU_AES_RECORDS -->|1| RU_AES_CHARACTERIZE
+RU_AES_PLANNING -->|1| RU_AES_RECONCILE
+RU_AES_CHARACTERIZE -->|4| RU_AES_RECORDS
+RU_AES_CHARACTERIZE -->|2| RU_AES_TOPOLOGY
+RU_AES_EVIDENCE -->|4| RU_AES_CHARACTERIZE
+RU_AES_RECONCILE -->|3| RU_AES_CHARACTERIZE
+RU_AES_RECONCILE -->|3| RU_AES_EVIDENCE
+RU_AES_RECONCILE -->|1| RU_AES_PLANNING
+linkStyle 0,1,2,7 stroke:#c2410c,stroke-width:2.5px;
+RU_AES_CLI ~~~ RU_AES_RECORDS

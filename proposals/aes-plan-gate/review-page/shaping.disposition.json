@@ -1,0 +1,338 @@
+{
+ "choice-justified:directed-handoff-flow": {
+  "status": "satisfied",
+  "why": "Deviated to its listed alternative port-graph (catalog id port-graph): the data passed between steps is typed (TargetRecord, DiagramSet, GateFinding), and port-graph carries typed-ports/typed-payloads that directed-handoff-flow lacks. First run without 'process' picked requirements-traceability-matrix; that job is served by the generated criterion table in a disclosure, since the chain is near one-to-one."
+ },
+ "guessing-text-widths": {
+  "status": "skipped",
+  "why": "Node widths come from character-count estimates in render.mjs, not measured text; screenshots at 390px show no clipping, but this is still an estimate."
+ },
+ "one-fixed-label-coordinate-per-mark": {
+  "status": "satisfied",
+  "why": "ELK places edge labels per route."
+ },
+ "shrinking-required-text-to-fix-collisions": {
+  "status": "satisfied",
+  "why": "Fixed by min-width + sideways scroll, not by shrinking fonts."
+ },
+ "desktop-layout-scaled-blindly-to-mobile": {
+  "status": "satisfied",
+  "why": "Port graph keeps a 540px minimum width inside a sideways-scrolling figure instead of shrinking to 7px labels; the page itself has no horizontal scroll (checked: h_scroll=false)."
+ },
+ "mixing-source-derived-phrases-with-interpretive-glosses": {
+  "status": "satisfied",
+  "why": "Generated drawing text is verbatim plan ids/types; interpretation is only in legend and callout."
+ },
+ "putting-full-semantic-prose-inside-visual-marks": {
+  "status": "satisfied",
+  "why": "Boxes carry only part name and function name; full signature shows in the tap panel."
+ },
+ "using-an-expert-explorer-as-the-default-onboarding-surface": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "calling-progressive-disclosure-a-lesson-without-an-instructional-sequence": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "lesson-deck-with-static-diagrams": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "interaction-bolted-on-after-the-explanation": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "replacing-the-primary-visual-object-at-every-step": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "free-form-practice-controls-that-permit-semantically-impossible-moves": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "revealing-the-destination-before-the-learner-predicts-it": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "correctness-only-feedback-with-no-semantic-explanation": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "calling-guided-task-completion-evidence-of-independent-understanding": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "assessment-that-repeats-the-exact-guided-example": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "assessment-choices-that-signal-the-answer-before-commitment": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "no-critical-text-text-overlap": {
+  "status": "satisfied",
+  "why": "Checked by eye in shots/shaping-top.png and shots/gate-plan-ports.png at 390px."
+ },
+ "no-critical-text-node-overlap": {
+  "status": "satisfied",
+  "why": "Same screenshots; wire labels have a white halo."
+ },
+ "no-clipped-required-labels": {
+  "status": "satisfied",
+  "why": "'Planning (existing)' clipping fixed by widening node estimate; rechecked screenshot."
+ },
+ "no-required-controls-offscreen": {
+  "status": "satisfied",
+  "why": "Only control is tapping boxes; drawing scrolls sideways with a stated hint."
+ },
+ "minimum-readable-font-size": {
+  "status": "satisfied",
+  "why": "Smallest diagram text 10px at natural size (no downscaling below 540px)."
+ },
+ "title-states-what-this-is-and-for-whom": {
+  "status": "satisfied",
+  "why": "Title is the one question: 'Plan gate: should AES refuse plans you can't see?'"
+ },
+ "whole-design-visible-on-one-screen-at-the-target-viewport": {
+  "status": "skipped",
+  "why": "Router viewport defaulted to 1440 although constraints.mobile=true (router gap). At 390px the page is ~3 screens; the primary drawing plus rule is the first screen; secondary material is in disclosures."
+ },
+ "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+  "status": "skipped",
+  "why": "No cold reader run in this session; Brian's review is the first read."
+ },
+ "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+  "status": "satisfied",
+  "why": "Data flow = port graph; review points = numbered list; criterion->proof = table; dependency cycles = graph."
+ },
+ "relationships-drawn-not-implied-by-adjacency-or-links": {
+  "status": "satisfied",
+  "why": "Every data relation is a drawn wire with its type."
+ },
+ "same-object-same-mark-across-every-view": {
+  "status": "satisfied",
+  "why": "Same box style for a function in the current and first-draft port graphs."
+ },
+ "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+  "status": "skipped",
+  "why": "Port-graph boxes reveal signature, inputs, outputs; structure-view boxes and table rows do not."
+ },
+ "edge-label-clearance": {
+  "status": "satisfied",
+  "why": "ELK places labels; halo prevents collision with lines."
+ },
+ "arrowhead-clearance": {
+  "status": "satisfied",
+  "why": "ELK orthogonal routing ends at ports."
+ },
+ "balanced-whitespace": {
+  "status": "satisfied",
+  "why": "Checked by eye in screenshot."
+ },
+ "focal-hierarchy": {
+  "status": "satisfied",
+  "why": "Drawing is the largest element."
+ },
+ "stable-layout-across-steps": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "first-frame-legibility": {
+  "status": "satisfied",
+  "why": "Static page."
+ },
+ "narrative-visual-synchronization": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "persistent-object-continuity": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "manipulation-consequence-legibility": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+  "status": "satisfied",
+  "why": "One primary drawing plus one callout."
+ },
+ "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+  "status": "satisfied",
+  "why": "Port graph and structure view answer different questions (data flow vs dependency cycles); not merged."
+ },
+ "structural-devices-encode-information-not-decoration": {
+  "status": "satisfied",
+  "why": "Borders encode new/existing."
+ },
+ "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+  "status": "satisfied",
+  "why": "System font, no caps labels, plain cards."
+ },
+ "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+  "status": "satisfied",
+  "why": "Functions = boxes with typed ports; data = wires."
+ },
+ "white-space-separates-groups-and-carries-hierarchy": {
+  "status": "satisfied",
+  "why": "Yes."
+ },
+ "size-and-weight-follow-importance": {
+  "status": "satisfied",
+  "why": "Rule bold, drawing biggest, details collapsed."
+ },
+ "structure-earned-by-content-not-imposed-taxonomy": {
+  "status": "satisfied",
+  "why": "Sections follow the review question, not a template."
+ },
+ "space-and-time-shown-together-when-the-subject-changes-over-time": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "page-carries-its-date-and-version": {
+  "status": "satisfied",
+  "why": "Status line: 2026-10-04, proposal id, AES main b9a708d."
+ },
+ "a-person-would-pin-it-on-a-wall": {
+  "status": "skipped",
+  "why": "Not judged."
+ },
+ "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+  "status": "satisfied",
+  "why": "Review points and calls are lists by design."
+ },
+ "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+  "status": "satisfied",
+  "why": "Port graph shows fan-out of TargetRecord, the 3-into-1 bundle, two-source gate verdict and caught a dangling input; structure view shows two dependency cycles. The gate plan's own 4-box structure view was dropped (a list says the same), and the trace chain is a table."
+ },
+ "one-element-dominates-by-size-weight-or-contrast": {
+  "status": "satisfied",
+  "why": "Port graph."
+ },
+ "reading-order-is-obvious-without-instructions": {
+  "status": "satisfied",
+  "why": "Single column, top to bottom."
+ },
+ "gap-between-groups-larger-than-gap-within": {
+  "status": "satisfied",
+  "why": "Yes."
+ },
+ "enclosure-nesting-at-most-two-levels": {
+  "status": "satisfied",
+  "why": "One level (cards)."
+ },
+ "elements-share-a-small-set-of-edges": {
+  "status": "satisfied",
+  "why": "Single column."
+ },
+ "same-role-same-treatment-everywhere": {
+  "status": "satisfied",
+  "why": "Yes."
+ },
+ "every-mark-carries-information": {
+  "status": "satisfied",
+  "why": "Port squares = typed inputs/outputs; colours = part."
+ },
+ "context-quiet-subject-loud": {
+  "status": "satisfied",
+  "why": "Existing parts dashed, new parts solid."
+ },
+ "every-encoding-explained-on-the-same-screen": {
+  "status": "satisfied",
+  "why": "Legend directly under the drawing."
+ },
+ "one-highlighted-state-not-several": {
+  "status": "satisfied",
+  "why": "Only the tapped box is highlighted."
+ },
+ "object-count-within-density-budget-or-aggregated": {
+  "status": "satisfied",
+  "why": "12 function boxes, 14 wires; whole-AES view folds hub arrows into box text."
+ },
+ "first-run-does-not-require-expert-exploration": {
+  "status": "satisfied",
+  "why": "The page is readable without tapping anything."
+ },
+ "terms-are-defined-before-first-use": {
+  "status": "satisfied",
+  "why": "Wire, stub and type are defined in the legend; 'review point' is defined by the list."
+ },
+ "one-new-semantic-distinction-per-instructional-step": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "likely-wrong-readings-are-explicitly-disambiguated": {
+  "status": "satisfied",
+  "why": "Legend says solid = new part and dashed = existing part being changed, so dashed is not read as 'planned only'."
+ },
+ "novice-can-read-a-simple-example-before-seeing-the-full-model": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "expert-reference-mode-is-separate-from-guided-onboarding": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "observed-user-confusions-become-regression-cases": {
+  "status": "na",
+  "why": "No user observed yet."
+ },
+ "narrative-and-visual-state-remain-synchronized": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "persistent-visual-object-retains-identity-across-steps": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "direct-manipulation-produces-an-explanatory-consequence": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "abstraction-levels-remain-linked-to-the-same-semantic-object": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "if-constructive-practice-is-present-actions-come-from-semantic-model": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "if-prediction-is-used-state-does-not-change-before-commit": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "if-constructive-practice-is-present-feedback-explains-the-governing-rule": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "if-transfer-assessment-is-present-guidance-does-not-give-away-the-answer": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "if-transfer-assessment-is-present-at-least-one-task-uses-an-unseen-state-route-or-example": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "if-transfer-assessment-is-present-feedback-occurs-after-commitment": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "if-scaffolding-fade-is-present-core-accessibility-controls-remain-available": {
+  "status": "na",
+  "why": "Static one-off review page, not a lesson, animation or multi-step explorer."
+ },
+ "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+  "status": "satisfied",
+  "why": "Rule in bold under title, then the drawing."
+ },
+ "no-block-of-prose-longer-than-the-drawing-it-explains": {
+  "status": "satisfied",
+  "why": "Longest prose is the callout, about 4 lines."
+ },
+ "reader-can-point-to-where-any-one-fact-lives": {
+  "status": "satisfied",
+  "why": "Sections: drawing, refusals, review points, RP-1 steps, disclosures."
+ }
+}
