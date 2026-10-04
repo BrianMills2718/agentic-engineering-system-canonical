@@ -255,6 +255,10 @@ def health_tiles(rows: list[dict]) -> str:
     return '<div class="tiles">' + "".join(tiles) + "</div>"
 
 GH = "https://github.com/BrianMills2718"
+# Paperclip's own pages are the detail view for agents and projects (landscape review 2026-10-04: its agent page
+# already has overview, instructions, skills, tools, configuration, runs, budget and audit; its project page has
+# configuration, issues and workspaces). This page only links into them.
+PC = "https://paperclip.brianmills.dev/BRI"
 BRAIN_STATE_EXPLAIN = {"fresh": "Its notes are up to date with the project's recent work.",
                        "stale": "Its notes are behind: the project changed since they were last updated.",
                        "none": "This project has no brain yet: no .project-brain/ folder in the repository.",
@@ -272,12 +276,16 @@ def node_details(agents, busy: set[str], brains: dict[str, str], brain_text: dic
     for a in agents:
         st = "failing: its latest run failed" if a["name"] in failing else ("working now" if a["name"] in busy else "idle, waiting for its next task")
         d["agent:" + a["name"]] = (f"<h3>{e(a['name'])}</h3><ul><li>Job: {e(AGENT_JOB.get(a['name'], 'an agent'))}.</li><li>Now: {e(st)}.</li>"
-                                   "<li>Its runs are the bars on <a href='#live' data-go='live'>Live</a>.</li>"
-                                   "<li><a href='https://paperclip.brianmills.dev/'>Open the board</a></li></ul>")
+                                   "<li>Its runs are the bars on <a href='#live' data-go='live'>Live</a>.</li></ul>"
+                                   f"<a class='btn' href='{PC}/agents/{e(a.get('urlKey') or a['id'])}'>Open {e(a['name'])} in Paperclip</a>"
+                                   "<p class='m'>Its page there shows its instructions, skills, tools, configuration, every run with its transcript, "
+                                   "budget, and the history of every change to its setup.</p>")
     for r in PROJECT_REPOS:
         state = brains.get(r, "unknown")
         bt = brain_text.get(r) or {}
-        head = f"<h3>{e(SHORT[r])} brain</h3><p class='m'>Project <code>{e(r)}</code> · {e(BRAIN_LABEL[state])}. {e(BRAIN_STATE_EXPLAIN[state])}</p>"
+        head = (f"<h3>{e(SHORT[r])} brain</h3><p class='m'>Project <code>{e(r)}</code> · {e(BRAIN_LABEL[state])}. {e(BRAIN_STATE_EXPLAIN[state])}</p>"
+                f"<a class='btn' href='{PC}/projects/{e(r.replace('_', '-'))}'>Open {e(SHORT[r])} in Paperclip</a>"
+                "<p class='m'>Its project page there shows its configuration, the agents' tasks on it and their history.</p>")
         if bt.get("now"):
             files = bt.get("files") or ["now.md"]
             links = "".join(f"<li><a href='{GH}/{e(r)}/blob/main/.project-brain/{e(f)}'>{e(f)}</a></li>" for f in files)
@@ -675,12 +683,14 @@ details.more{margin-top:14px}
 .mdout pre{white-space:pre-wrap}.mdsrc-raw{white-space:pre-wrap;font-size:.85rem}
 [data-tip]{cursor:help}.tipsheet{position:fixed;left:12px;right:12px;bottom:76px;z-index:9;background:var(--card);border:1.5px solid var(--on);border-radius:12px;
 padding:12px 40px 12px 14px;font-size:.9rem;box-shadow:0 6px 24px rgba(0,0,0,.18)}.tipsheet button{position:absolute;top:6px;right:6px;border:0;background:none;color:var(--mute);font-size:1.2rem;cursor:pointer;min-width:32px;min-height:32px}
-/* Laptop: every screen at once in columns, no tab bar (the tabs are a phone device). */
+/* Laptop: the bottom tabs become a left side menu; one screen at a time, with room to read. */
 @media (min-width:64rem){
-.app{max-width:96rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 28px;align-items:start;padding-block:8px 24px}
-.top,.banner{grid-column:1/-1}.screen,.screen[hidden]{display:block}.tabs{display:none}
-#decide{grid-column:1;grid-row:3}#map{grid-column:2;grid-row:3/5}#live{grid-column:3;grid-row:3/5}#path{grid-column:1;grid-row:4}#health{grid-column:1/-1;grid-row:5}
-#health .tiles{grid-template-columns:repeat(4,minmax(0,1fr))}.tipsheet{left:auto;right:24px;bottom:24px;max-width:28rem}}details.more>summary{cursor:pointer;color:var(--on);font-weight:600;font-size:.88rem}
+.app{max-width:64rem;padding-left:15rem;padding-block:8px 24px}
+.tabs{top:0;bottom:0;left:0;right:auto;width:13rem;flex-direction:column;justify-content:flex-start;gap:4px;padding:64px 12px;border-top:0;border-right:1px solid var(--line)}
+.tabs button{text-align:left;font-size:.95rem;padding:10px 12px;border-radius:8px}.tabs button[aria-current]{background:var(--on-bg)}
+#map svg{max-width:34rem}#map:not([hidden]){display:grid;grid-template-columns:minmax(0,34rem) minmax(0,1fr);gap:0 24px;align-items:start}#map>h1,#map>.sub{grid-column:1/-1}
+#map>svg{grid-column:1;grid-row:3/6}#map>.legend,#map>.info{grid-column:2}
+#health .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.tipsheet{left:auto;right:24px;bottom:24px;max-width:28rem}}details.more>summary{cursor:pointer;color:var(--on);font-weight:600;font-size:.88rem}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400;600&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
@@ -694,7 +704,7 @@ const h=location.hash.slice(1);let saved=null;try{saved=localStorage.getItem('hi
 if(h&&document.getElementById(h))show(h);else if(saved&&document.getElementById(saved))show(saved);
 const info=document.getElementById('info');
 const wide=()=>matchMedia('(min-width:64rem)').matches;
-function go(s){if(wide()){const el=document.getElementById(s);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}else show(s)}
+function go(s){show(s)}
 function wireGo(root){root.querySelectorAll('a[data-go]').forEach(a=>a.addEventListener('click',ev=>{ev.preventDefault();go(a.dataset.go)}))}
 // Brain notes are Markdown: render with marked + DOMPurify (cdnjs); without them, show the text as written.
 function renderMd(root){root.querySelectorAll('.mdsrc').forEach(src=>{const out=src.nextElementSibling;
