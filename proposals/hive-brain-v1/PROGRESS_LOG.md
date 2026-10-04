@@ -345,3 +345,13 @@ find out where things stand, read it to find out why.
   (AES install to `uv`, Brian's 2026-10-03 rule; weekly-plans `9845234`). The
   hosted dashboard rebuilt at 06:00 UTC and lists the AES job.
 
+- **2026-10-04, 06:2x UTC (Coordinator heartbeat):** session "aes" (C-ROUTE)
+  slowed the Coordinator's idle heartbeat from 30 minutes to 2 hours (live
+  PATCH; model and env kept; `settings.json` in AES #131; `settings_check.py`
+  25 of 25). Reason: over the previous 24 h, 32 of at least 60 Coordinator
+  runs were idle timer wakes, $8.34 of $28.93 at API prices, and three runs
+  failed with Paperclip's "limit" category (budget or usage), consistent with
+  the shared Claude window. Event wakes (comments, finished children, Brian's
+  messages) are unchanged. Next lever if the failures persist a day: move the
+  Coordinator to the Codex subscription.
+
