@@ -108,13 +108,13 @@ migrations, sending anything outward).
 **Brian decides before it happens:** restarting WSL, spending more than trivial
 API costs, and anything sent outward.
 
-## Where we are (2026-10-04 15:05 UTC)
+## Where we are (2026-10-04 16:20 UTC)
 
 | Condition | Status | Evidence |
 |---|---|---|
 | 1 Pilot | **done** | seven jobs merged from two repositories: BRI-17 → AES #88 (Brian's yes, 2026-10-03); BRI-21 → personal-wiki #13, BRI-24 → #14, BRI-26 → #15 (merged by the worker); BRI-27 → AES #110, #112, #116, #118 (merged from the terminal on his yes and under his rules, 2026-10-04); BRI-33 → AES #133 (06:18 UTC) and BRI-36 → AES #134 (06:44 UTC), both merged by the worker with no one in the loop, the first unattended AES merges. `python3 scripts/hive/readout.py --days 7` lists them with cost and hours |
-| 2 Capabilities | partway | 11 rows running; 10 used by a job. The one not yet used is governance (C-GOV): the gate has watched every session but no rule has blocked real work (table below) |
-| 3 Learning loop | partway | rule K1 came from a failure that happened twice, Brian accepted it, it is enforced and a live-test block is logged (2026-10-03); still needed: a block in real work, and one wrong block filed as a `kind:friction` issue |
+| 2 Capabilities | partway | 11 rows running; 10 used by a job. Governance (C-GOV) has now blocked real work (K1, in the terminal session's clean-ups) but not yet inside a pilot job |
+| 3 Learning loop | **done** | rule K1 came from a failure that happened twice, Brian accepted it and it is enforced (2026-10-03). It blocked real work twice (2026-10-03 19:46 and 2026-10-04 16:09 UTC, worktree clean-ups; `~/.jev-gate/decisions.jsonl`), and that wrong block came back as friction issue AES #137 (`kind:friction`, `source:gate`). Caveat: both real-work blocks were wrong ones; no right block from real work yet |
 | 4 Nothing silent | partway | `controls.py` runs daily and at each stop (12 controls, 12 ok on 2026-10-04); first all-clean day 2026-10-03; seven needed |
 | 5 Pick-up | partway | cold pick-up tests on 2026-10-03 (twice; gaps fixed in AES #82 and #99) and 2026-10-04 after this rewrite: verdict "partly" (a stale row, a wrong count, one unexplained sentence, one overstated "done"), all fixed in the same commit; next test after the next rewrite |
 
@@ -260,12 +260,10 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
    merges its own pull request in every repository, AES included, once the
    checks pass. If a `Decision:` task appears for a merge, the rule did not
    fire: answer it on the board with the rule and fix the instruction.
-2. **Condition 3 (and the governance row of condition 2):** rule K1 must block
-   real work once (watch `rule K1 blocks` in `readout.py`) and one wrong block
-   must come back as a `kind:friction`, `source:gate` issue. K1 had no wrong
-   block in 54 replayed cases; if a week passes with none, reword the
-   condition to count the gate's wrong denies (AES #72, #73) or wait for guard
-   mode.
+2. **Governance row of condition 2:** condition 3 is done (K1 blocked real
+   work; the wrong block is AES #137). Still open: a rule firing inside a pilot
+   job. Fix the K1 wrong block (AES #137: allow a leading `cd` out of the
+   worktree) as a pilot job, which also gives the governance row its use.
 3. **M2:** the Jev wrong-deny fix is weekly-plan Priority 7 line 4; guard mode
    (`jev-gate-hook --mode guard`) only after the 2026-10-09 log review shows
    every `deny` row right.
@@ -300,6 +298,10 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
 ## Recent changes
 
 Full chronicle with evidence: `PROGRESS_LOG.md`. Latest, newest first:
+
+- 2026-10-04 16:20 UTC: condition 3 done. Rule K1 blocked real work and the
+  wrong block was filed as AES #137. Brian's dashboard critiques logged and
+  four router heuristics added (router PR #55); dashboard fixes live (AES #136).
 
 - 2026-10-04 15:00 UTC: jobs 6 and 7 recorded (AES #133, #134, both merged by
   the worker); the Coordinator has been stopped by the Claude usage limit

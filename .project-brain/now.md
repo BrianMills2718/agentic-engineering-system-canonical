@@ -1,12 +1,18 @@
 # Now (2026-10-04, hive-brain session)
 
-**Stopped at (2026-10-04 05:50 UTC):** hive brain v1 has five merged jobs
-(condition 1 of 5 met), a hosted dashboard (https://hive.brianmills.dev), a
-phone channel both ways (the relay on personal-vps), and Brian's merge rule of
-2026-10-04 (no merge needs his yes unless a surface is out with other people
-for review; irreversible actions still ask). The plan was rewritten the same
-morning: `proposals/hive-brain-v1/ROADMAP.md` holds the current state and
-`proposals/hive-brain-v1/PROGRESS_LOG.md` the chronicle with evidence. In this
+**Stopped at (2026-10-04 16:20 UTC):** hive brain v1 has seven merged jobs;
+conditions 1 (pilot) and 3 (learning loop) are met. Rule K1 blocked real work
+and its wrong block came back as friction issue #137. Still open: governance
+firing inside a pilot job (condition 2), seven clean days (condition 4, earliest
+2026-10-10), and a fresh-reader test of the plan (condition 5). Since 08:47 UTC
+the Coordinator has been stopped by the Claude weekly usage limit; it should
+resume after the 17:00 UTC reset. The hosted dashboard
+(https://hive.brianmills.dev) now opens a panel for every map box, explains
+every label, reloads itself and has a laptop layout (#136). The plan:
+`proposals/hive-brain-v1/ROADMAP.md`; the chronicle with evidence:
+`proposals/hive-brain-v1/PROGRESS_LOG.md`.
+
+**Install path.** In this
 repository, all three `make` gates pass from a clean clone with the README's
 install line since PRs #110, #112 and #118 (2026-10-04); the measurements are
 in the README and the progress log. That install line is now `uv venv .venv &&

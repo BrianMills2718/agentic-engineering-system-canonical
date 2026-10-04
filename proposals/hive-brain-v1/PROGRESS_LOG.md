@@ -371,3 +371,15 @@ find out where things stand, read it to find out why.
   terminal session's subagents hit "You've hit your weekly limit · resets 1pm
   (America/New_York)" in the same window. Evidence:
   `board.sh GET "/api/companies/$C/heartbeat-runs?limit=6"`.
+
+## 2026-10-04 16:20 UTC: condition 3 done; dashboard critiques logged
+
+- Rule K1 denied a worktree clean-up in real work at 16:09 UTC (and the same
+  pattern at 2026-10-03 19:46): the command `cd`s to the main checkout first,
+  so the denial was wrong. Filed as AES #137 (`kind:friction`, `source:gate`).
+  Evidence: `~/.jev-gate/decisions.jsonl`, rule `K1-worktree-cwd`.
+- Brian's dashboard critiques (brain cards open nothing, no tooltips, no
+  automatic reload, no laptop layout) fixed by the dashboard lane (AES #136),
+  logged in `scripts/hive/DASHBOARD_FEEDBACK.md`, and added as four
+  Representation Router heuristics (router PR #55, npm test 324 pass, 0 fail,
+  1 skipped).

@@ -17,17 +17,17 @@
       "plain": "All 11 capabilities have a chosen off-the-shelf tool that is running and was used by the pilot tasks.",
       "status": "partway",
       "progress": "11 running; 10 used by a pilot task",
-      "evidence": "Task 1 used orchestration, messaging, the terminal relay, the project brain, runtime and learning. Tasks 2 and 3 read the wiki's project brain first and updated it (knowledge, identity); the freshness check ran on that brain before task 2 (context); the weekly readout ran over all three tasks at 22:37 UTC (evaluation). Governance has watched every session but no rule has yet blocked real work. Model routing became capability 11 on 2026-10-03: the Coordinator plans on Sonnet 5, the builder codes on Opus 5.",
-      "next": "Governance: a rule blocking real work (the same event the learning-loop condition needs)."
+      "evidence": "Task 1 used orchestration, messaging, the terminal relay, the project brain, runtime and learning. Tasks 2 and 3 read the wiki's project brain first and updated it (knowledge, identity); the freshness check ran on that brain before task 2 (context); the weekly readout ran over all three tasks at 22:37 UTC (evaluation). Governance has watched every session and rule K1 blocked real work in the terminal session (AES #137), but no rule has fired inside a pilot job yet. Model routing became capability 11 on 2026-10-03: the Coordinator plans on Sonnet 5, the builder codes on Opus 5.",
+      "next": "Governance: a rule firing inside a pilot job (fixing AES #137 as a pilot would do it)."
     },
     {
       "n": 3,
       "name": "Learning loop",
       "plain": "A recurring failure becomes a rule you accept; the rule is enforced, its log shows it firing, and a wrong block comes back as an issue.",
-      "status": "partway",
-      "progress": "3 of 5 steps",
-      "evidence": "Rule K1 (never delete the folder a session stands in) came from a failure that happened twice, you accepted it, and it is enforced; a live test was blocked and logged.",
-      "next": "A block during real work, and one wrong block reported back as an issue."
+      "status": "done",
+      "progress": "5 of 5 steps",
+      "evidence": "Rule K1 (never delete the folder a session stands in) came from a failure that happened twice, you accepted it, and it is enforced; a live test was blocked and logged. It blocked real work on 2026-10-03 19:46 and 2026-10-04 16:09 UTC (worktree clean-ups, ~/.jev-gate/decisions.jsonl), and that wrong block came back as friction issue AES #137. Both real-work blocks were wrong ones; no right block from real work yet.",
+      "next": "None for this condition; fixing AES #137 is a good pilot job."
     },
     {
       "n": 4,
