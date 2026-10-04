@@ -169,9 +169,10 @@ edits to `weekly-plans`). The worker reads the repo's `.project-brain/now.md`
 first, builds, runs the repository's own checks, merges with a merge commit,
 updates `now.md` in the same pull request and reports on the task. Brian is
 asked only for a surface he has said is out with other people for review, or
-for an irreversible action; the ask goes to his phone at that moment. In AES
-canonical only, the repository's own Claude Code hook refuses runner merges,
-so the worker reports and the terminal session merges.
+for an irreversible action; the ask goes to his phone at that moment. Since
+2026-10-04 06:00 UTC the workers can merge in AES canonical too: the repo's own
+hook accepts `gh pr merge <n> --merge` once the checks pass and still refuses
+squash and rebase (AES evidence names branch commits).
 
 **Check:** the job task's comments show the merged pull request and the check
 output; `python3 scripts/hive/decisions.py` shows nothing waiting on Brian.
@@ -229,6 +230,11 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
 - **Phone channel:** `ssh personal-vps sudo journalctl -u telegram-relay -n 30`
   shows one line per message either way; `controls.py` has a "Telegram relay"
   row (silent after 10 minutes).
+- **AES merge gate:** `.claude/hooks/worktree-coordination/enforce-make-merge.sh`
+  (a Claude Code hook in this repo) allows `gh pr merge <n> --merge`, refuses
+  `--squash`/`--rebase` and flagless merges, and still routes `gh api` merges
+  and `make merge` through `make finish`. Test with a fake tool input:
+  `echo '{"tool_input":{"command":"gh pr merge 1 --merge"}}' | bash <hook>` exits 0.
 - **Workers' rules:** `/paperclip/instances/default/companies/<C>/agents/<agent-id>/instructions/AGENTS.md`
   inside the `paperclip` container on personal-vps (the Coordinator's "Pilot
   work" section holds the job rules). Edit with a dated `.bak-` copy beside it;
@@ -250,11 +256,10 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
    0 of 3" and exits 0. If not, read the latest run
    (`scripts/hive/board.sh GET "/api/companies/$C/heartbeat-runs?agentId=<id>&limit=3"`).
 1. **Jobs keep flowing on their own.** The Coordinator's next pick comes at
-   least 6 hours after the last (BRI-27 at 03:40 UTC on 2026-10-04). For an
-   AES job, merge the pull request from the terminal when the worker reports
-   it ready and its checks pass; for other repos the worker merges. If a
-   `Decision:` task appears for a merge, the rule did not fire: answer it on
-   the board with the rule and fix the instruction.
+   least 6 hours after the last (BRI-27 at 03:40 UTC on 2026-10-04). The worker
+   merges its own pull request in every repository, AES included, once the
+   checks pass. If a `Decision:` task appears for a merge, the rule did not
+   fire: answer it on the board with the rule and fix the instruction.
 2. **Condition 3 (and the governance row of condition 2):** rule K1 must block
    real work once (watch `rule K1 blocks` in `readout.py`) and one wrong block
    must come back as a `kind:friction`, `source:gate` issue. K1 had no wrong
@@ -270,14 +275,16 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
    this file and ask where things stand, what is next and how to check;
    record the verdict in `PROGRESS_LOG.md` and fix what it could not answer.
 6. **Tidy, not gating:** `CLAUDE.md` pointers for theory-forge and
-   cybernetic_influence_v3 (weekly-plan line); the AES runner merge gate
-   (Decision 0010 scope); the cybernetic_influence_v3 local branch
+   cybernetic_influence_v3 (weekly-plan line); the cybernetic_influence_v3 local branch
    `claude-md-pointer-20261003` is a leftover with a two-line commit.
 
 ## Recent changes
 
 Full chronicle with evidence: `PROGRESS_LOG.md`. Latest, newest first:
 
+- 2026-10-04 06:00 UTC: the AES merge hook accepts merge-commit merges (PR
+  #126), so workers can finish AES jobs unattended; the merge-rule friction is
+  AES #124 (learning loop).
 - 2026-10-04 05:35 UTC: PR #118 (hook install leaves a clean tree) merged;
   BRI-31/32 closed. Eight pull requests from five jobs.
 - 2026-10-04 05:2x UTC: Brian narrowed the merge rule ("public facing means

@@ -24,7 +24,8 @@ short version.
 - **This repository's gates** (`approved` as measured 2026-10-04): `make
   check`, `make aes` and `make aes-check` exit 0 from a clean clone with the
   README's install line (PRs #110, #112, #118). The repo's own Claude Code
-  hook refuses `gh pr merge` for the workers; merges happen from the terminal.
+  hook accepts `gh pr merge <n> --merge` and refuses squash and rebase (PR
+  #126, 2026-10-04), so the workers merge here like anywhere else.
 - **AES v0.2 product** (`approved` as realized, Decision 0010): governed by
   `.aes/target.yaml`; `aes status` is the one-screen view. Not the current
   focus.

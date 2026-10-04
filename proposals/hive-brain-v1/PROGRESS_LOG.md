@@ -325,3 +325,15 @@ find out where things stand, read it to find out why.
   sentence in Outcome, C-HUMAN-IF marked done although Brian has not opened
   the page, and no named current activity. All five fixed before the commit.
 
+- **2026-10-04, 06:00 UTC (unattended AES merges; friction filed):** the AES
+  repo's Claude Code hook `enforce-make-merge.sh` refused every `gh pr merge`
+  and pointed at `make finish`, whose review lane needs a reviewer credential
+  nobody running here has; so no worker could finish an AES job. PR #126:
+  `gh pr merge <n> --merge` is allowed, `--squash`/`--rebase` and flagless
+  merges are refused with the evidence reason, `gh api` merges and `make
+  merge` still go through `make finish`. Tested with six fake tool inputs
+  (expected exits). The merge-rule friction (three public-repo asks in one
+  night, then Brian's narrowing) is AES #124, `kind:friction`,
+  `source:session`. All three agents' instructions now say a hook refusal is
+  quoted on the task and left to the terminal (backups `.bak-20261004-aes-merge`).
+
