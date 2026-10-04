@@ -27,6 +27,7 @@ ssh); checks only Brian's PC can see come from the JSON his PC pushes up
 Decision cards get one-tap answer buttons that post to the page's own server
 (personal-vps apps/hive-dashboard/server.py), which comments on the Paperclip
 task. --json-out writes the small status file that server hands the page's
+(and, beside it, status-full.json: every check, condition, brain, cost and decision for the Glance page)
 30-second poll.
 
 Every data source is shown with its age. A source past its normal age is
@@ -369,7 +370,8 @@ def vps_rows(runs: list[dict]) -> list[dict]:
         st = f"FAILING: latest run failed ({rs[0].get('errorCode')})"
     else:
         st = "SILENT" if good_at is None or now - good_at > 7 * dt.timedelta(days=1) else "ok"
-    rows.append({"name": "Paperclip agents (last good run)", "last": ago(good.get("startedAt")) if good else "never", "status": st, "side": "vps"})
+    rows.append({"name": "Paperclip agents (last good run)", "last": ago(good.get("startedAt")) if good else "never", "status": st, "side": "vps",
+                 "at": good.get("startedAt") if good else None})
     r = subprocess.run(["systemctl", "show", "vps-backup.service", "-p", "Result", "-p", "ExecMainExitTimestamp", "--value", "--timestamp=unix"],
                        capture_output=True, text=True)
     lines = r.stdout.split("\n")
@@ -380,7 +382,8 @@ def vps_rows(runs: list[dict]) -> list[dict]:
         when_d = dt.datetime.fromtimestamp(int(when), dt.timezone.utc) if when else None
         st = (f"FAILING: result {result}" if result != "success" else
               ("SILENT" if when_d is None or now - when_d > 2 * dt.timedelta(days=1) else "ok"))
-        rows.append({"name": "VPS backup (nightly)", "last": ago(when_d.isoformat()) if when_d else "never", "status": st, "side": "vps"})
+        rows.append({"name": "VPS backup (nightly)", "last": ago(when_d.isoformat()) if when_d else "never", "status": st, "side": "vps",
+                     "at": when_d.isoformat() if when_d else None})
     return rows
 
 
@@ -598,10 +601,57 @@ def main() -> int:
     write_atomic(a.out, "\n".join(p))
     if a.json_out:
         write_atomic(a.json_out, json.dumps(status, indent=1) + "\n")
+        write_atomic(a.json_out.with_name("status-full.json"), json.dumps(
+            full_status(built, n_need, ctl_rows, cond, brains, brain_text, waiting, held_open, runs, names), indent=1) + "\n")
     print(f"dashboard: wrote {a.out} ({a.out.stat().st_size} bytes){' and ' + str(a.json_out) if a.json_out else ''}; "
           f"busy {sorted(busy)}, broken {broken}, decisions {n_need}, checks {len(ctl_rows)} ({len(quiet)} not ok), "
           f"sources not current {len(bad_sources)}, thread messages {len(thread)}{' (' + thread_err + ')' if thread_err else ''}, {ctl_note}")
     return 0
+
+
+def md_html(text: str) -> str:
+    """Markdown to HTML with raw HTML escaped (markdown-it, CommonMark, html=False); escaped text if it is missing."""
+    try:
+        from markdown_it import MarkdownIt
+    except ImportError:
+        return f"<pre>{e(text)}</pre>"
+    return MarkdownIt("commonmark", {"html": False, "linkify": False}).enable("table").render(text)
+
+
+def full_status(built, n_need, ctl_rows, cond, brains, brain_text, waiting, held_open, runs, names) -> dict:
+    """Everything the page shows, as plain data, for the Glance page (personal-vps apps/glance) to read."""
+    def state(st: str) -> str:
+        return "ok" if st == "ok" else next((v for k, v in (("STALE", "stale"), ("FAILING", "failing"), ("SILENT", "silent"))
+                                             if st.startswith(k)), "unknown")
+    week = built - 7 * dt.timedelta(days=1)
+    recent = [r for r in runs if (parse_ts(r.get("startedAt")) or built) >= week]
+    oldest = min((parse_ts(r.get("startedAt")) for r in runs if r.get("startedAt")), default=None)
+    by = {}
+    for r in recent:
+        u = r.get("usageJson") or {}
+        a = by.setdefault(names.get(r.get("agentId"), "unknown agent"), {"usd": 0.0, "runs": 0, "failed": 0})
+        a["usd"] += float(u.get("costUsd") or 0)
+        a["runs"] += 1
+        a["failed"] += r.get("status") == "failed"
+    return {
+        "built": built.isoformat(timespec="seconds"), "need": n_need,
+        "checks": [{"name": r["name"], "state": state(r["status"]), "last": r.get("at"),
+                    "note": ("fine" if r["status"] == "ok" else r["status"]) + f"; last activity {r['last']}. " + explain_check(r),
+                    "where": "vps" if r.get("side") == "vps" else "pc"} for r in ctl_rows],
+        "conditions": [{k: c.get(k) for k in ("n", "name", "plain", "status", "progress", "next")} for c in cond["conditions"]],
+        "brains": [{"repo": r, "state": brains.get(r, "unknown"),
+                    "now_html": md_html((brain_text.get(r) or {}).get("now") or "") if (brain_text.get(r) or {}).get("now") else None,
+                    "paperclip_url": f"{PC}/projects/{r.replace('_', '-')}"} for r in PROJECT_REPOS],
+        "costs": {"days": 7, "total_usd": round(sum(a["usd"] for a in by.values()), 2),
+                  "by_agent": [{"name": n, "usd": round(a["usd"], 2), "runs": a["runs"], "failed": a["failed"]} for n, a in sorted(by.items())],
+                  "note": "API-price cost of the board's latest 100 runs inside the last 7 days"
+                          + (f"; those runs only reach back to {oldest.isoformat(timespec='minutes')}" if oldest and oldest > week else "")
+                          + ". Runs on a subscription are counted at API prices too."} if runs else None,
+        "decisions": [{"title": i["title"], "url": f"{PC}/issues/{i['identifier']}"} for i in waiting]
+                     + [{"title": d["question"], "url": None} for d in held_open],
+        "links": {"paperclip": f"{PC}/dashboard", "costs": f"{PC}/costs", "inbox": f"{PC}/inbox", "decisions": f"{PC}/decisions",
+                  "agents": f"{PC}/agents", "old_dashboard": "https://hive.brianmills.dev"},
+    }
 
 
 def write_atomic(path: Path, text: str) -> None:
