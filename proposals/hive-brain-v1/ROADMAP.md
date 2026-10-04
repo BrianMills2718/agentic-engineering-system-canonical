@@ -108,11 +108,11 @@ migrations, sending anything outward).
 **Brian decides before it happens:** restarting WSL, spending more than trivial
 API costs, and anything sent outward.
 
-## Where we are (2026-10-04 05:50 UTC)
+## Where we are (2026-10-04 15:05 UTC)
 
 | Condition | Status | Evidence |
 |---|---|---|
-| 1 Pilot | **done** | five jobs merged from two repositories: BRI-17 → AES #88 (Brian's yes, 2026-10-03); BRI-21 → personal-wiki #13, BRI-24 → #14, BRI-26 → #15 (merged by the worker); BRI-27 → AES #110, #112, #116, #118 (merged from the terminal on his yes and under his rules, 2026-10-04). `python3 scripts/hive/readout.py --days 7` lists them with cost and hours |
+| 1 Pilot | **done** | seven jobs merged from two repositories: BRI-17 → AES #88 (Brian's yes, 2026-10-03); BRI-21 → personal-wiki #13, BRI-24 → #14, BRI-26 → #15 (merged by the worker); BRI-27 → AES #110, #112, #116, #118 (merged from the terminal on his yes and under his rules, 2026-10-04); BRI-33 → AES #133 (06:18 UTC) and BRI-36 → AES #134 (06:44 UTC), both merged by the worker with no one in the loop, the first unattended AES merges. `python3 scripts/hive/readout.py --days 7` lists them with cost and hours |
 | 2 Capabilities | partway | 11 rows running; 10 used by a job. The one not yet used is governance (C-GOV): the gate has watched every session but no rule has blocked real work (table below) |
 | 3 Learning loop | partway | rule K1 came from a failure that happened twice, Brian accepted it, it is enforced and a live-test block is logged (2026-10-03); still needed: a block in real work, and one wrong block filed as a `kind:friction` issue |
 | 4 Nothing silent | partway | `controls.py` runs daily and at each stop (12 controls, 12 ok on 2026-10-04); first all-clean day 2026-10-03; seven needed |
@@ -256,7 +256,7 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
    0 of 3" and exits 0. If not, read the latest run
    (`scripts/hive/board.sh GET "/api/companies/$C/heartbeat-runs?agentId=<id>&limit=3"`).
 1. **Jobs keep flowing on their own.** The Coordinator's next pick comes at
-   least 6 hours after the last (BRI-27 at 03:40 UTC on 2026-10-04). The worker
+   least 6 hours after the last (BRI-36, about 06:30 UTC on 2026-10-04). The worker
    merges its own pull request in every repository, AES included, once the
    checks pass. If a `Decision:` task appears for a merge, the rule did not
    fire: answer it on the board with the rule and fix the instruction.
@@ -281,6 +281,13 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
    idle wakes, $8.34 of $28.93 at API prices; `settings.json` updated in AES
    #131, `settings_check.py` 25 of 25). If the failures still appear after a
    day, the next lever is moving the Coordinator to the Codex subscription.
+   **Stalled 2026-10-04 08:47 to at least 15:00 UTC:** every Coordinator run
+   (08:47, 10:47, 12:06 three times, 14:08) failed with the same limit; the
+   terminal session's helper agents hit "weekly limit, resets 1pm
+   America/New_York" (17:00 UTC) at the same time. No job was lost; the next
+   pick waits for the reset. After 17:00 UTC, confirm one Coordinator run
+   succeeds; if the weekly limit recurs, move the Coordinator to Codex
+   (C-ROUTE lane).
 5. **Condition 4:** `python3 scripts/hive/readout.py --days 7` must show seven
    days with only clean runs (first clean day 2026-10-03; earliest 2026-10-10).
 6. **Condition 5:** after any rewrite of this file, give a fresh agent only
@@ -293,6 +300,10 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
 ## Recent changes
 
 Full chronicle with evidence: `PROGRESS_LOG.md`. Latest, newest first:
+
+- 2026-10-04 15:00 UTC: jobs 6 and 7 recorded (AES #133, #134, both merged by
+  the worker); the Coordinator has been stopped by the Claude usage limit
+  since 08:47 UTC, reset expected 17:00 UTC.
 
 - 2026-10-04 06:2x UTC: Coordinator idle heartbeat 30 min → 2 h (C-ROUTE lane,
   AES #131) after three "limit" run failures; event wakes unchanged.

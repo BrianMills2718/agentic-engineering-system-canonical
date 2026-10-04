@@ -355,3 +355,19 @@ find out where things stand, read it to find out why.
   messages) are unchanged. Next lever if the failures persist a day: move the
   Coordinator to the Codex subscription.
 
+
+## 2026-10-04 15:00 UTC: jobs 6 and 7; Coordinator stalled on the usage limit
+
+- Job 6: BRI-33 → AES #133 (README install with uv), merged by the worker at
+  06:18 UTC. A fresh clone at `d741056` ran `uv venv .venv && uv pip install -e ".[dev]"`
+  (exit 0) and `make check` (exit 0, "Success: no issues found in 20 source
+  files", "All checks passed!").
+- Job 7: BRI-36 → AES #134 (GETTING_STARTED and the clean-install test with uv,
+  clean-user run 4 superseding three venv-era runs), merged by the worker at
+  06:44 UTC. BRI-34 (the follow-up that asked for scope) answered by the
+  terminal at 06:25 UTC and closed 06:46.
+- Coordinator heartbeat runs at 08:47, 10:47, 12:06 (x3) and 14:08 UTC all
+  failed in seconds with "ACP agent reported a terminal limit failure". The
+  terminal session's subagents hit "You've hit your weekly limit · resets 1pm
+  (America/New_York)" in the same window. Evidence:
+  `board.sh GET "/api/companies/$C/heartbeat-runs?limit=6"`.
