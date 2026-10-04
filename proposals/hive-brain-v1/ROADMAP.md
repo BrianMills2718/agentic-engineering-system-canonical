@@ -218,7 +218,16 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
   `4d008def-4e59-47c2-bccf-ec5313e12ce2`, Brian Contact
   `4331dfbd-6a12-4965-b28a-d296c5aa9d3a`. Board in a browser:
   `https://paperclip.brianmills.dev/BRI/issues/<BRI-n>`.
-- **Dashboard (Brian's view, phone-friendly):** https://hive.brianmills.dev,
+- **Brian's views (2026-10-04, his approval to adopt off-the-shelf tools):**
+  agents, tasks and answers on the Paperclip board
+  (https://paperclip.brianmills.dev, with the Project brain tab); everything
+  else on the Glance status page https://status.brianmills.dev (Cloudflare
+  Access, Brian only; personal-vps `apps/glance`, fed by `status-full.json`
+  that `scripts/hive/dashboard.py` writes every minute). Check: an anonymous
+  `GET` is a 302 to the Access login; `ssh personal-vps docker logs --tail 3
+  glance-feed` shows one line per build with each source's state. The
+  hand-built page below stays up until Brian has tried the new ones.
+- **Old dashboard (hand-built, being replaced):** https://hive.brianmills.dev,
   private behind Cloudflare Access (his email only), rebuilt every 15 minutes
   on personal-vps (`apps/hive-dashboard`); one-tap answers post on the waiting
   task; the message box posts on BRI-2. Checks: an anonymous `GET` is a 302 to
@@ -298,6 +307,10 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
 ## Recent changes
 
 Full chronicle with evidence: `PROGRESS_LOG.md`. Latest, newest first:
+
+- 2026-10-04 17:00 UTC: Brian called the hand-built dashboard "a nightmare" and
+  approved adopting off-the-shelf tools: Paperclip board for agents, Glance
+  status page (status.brianmills.dev, personal-vps #63) for the rest.
 
 - 2026-10-04 16:20 UTC: condition 3 done. Rule K1 blocked real work and the
   wrong block was filed as AES #137. Brian's dashboard critiques logged and
