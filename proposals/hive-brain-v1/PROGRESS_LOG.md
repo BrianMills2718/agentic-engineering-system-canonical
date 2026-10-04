@@ -337,3 +337,11 @@ find out where things stand, read it to find out why.
   `source:session`. All three agents' instructions now say a hook refusal is
   quoted on the task and left to the terminal (backups `.bak-20261004-aes-merge`).
 
+- **2026-10-04, 06:05 UTC:** readout over the last day: 98 runs, 22 failed, all
+  `acpx_turn_failed`; 19 are from the 2026-10-03 login outage before 15:22 UTC,
+  3 are Coordinator "terminal limit failure" runs after it (19:40, 00:12,
+  00:43 UTC), each about 5 s and each followed by a good run. Reported to the
+  C-ROUTE lane; next-action step 4. Weekly plan gained one Priority 7 line
+  (AES install to `uv`, Brian's 2026-10-03 rule; weekly-plans `9845234`). The
+  hosted dashboard rebuilt at 06:00 UTC and lists the AES job.
+

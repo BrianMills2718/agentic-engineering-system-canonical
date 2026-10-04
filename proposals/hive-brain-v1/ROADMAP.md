@@ -269,12 +269,19 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
 3. **M2:** the Jev wrong-deny fix is weekly-plan Priority 7 line 4; guard mode
    (`jev-gate-hook --mode guard`) only after the 2026-10-09 log review shows
    every `deny` row right.
-4. **Condition 4:** `python3 scripts/hive/readout.py --days 7` must show seven
+4. **Run failures to watch:** three Coordinator runs failed in about 5 s with
+   "terminal limit failure" (2026-10-03 19:40, 2026-10-04 00:12 and 00:43 UTC),
+   each followed by a good run; it looks like the Claude usage limit shared by
+   Brian's local sessions and the agents near 5-hour window edges. `readout.py`
+   counts them under `failure codes`; `decisions.py` stays green because the
+   latest run succeeded. If they keep coming, the C-ROUTE lane (session "aes")
+   lowers the Coordinator's 30-minute idle heartbeat or its model.
+5. **Condition 4:** `python3 scripts/hive/readout.py --days 7` must show seven
    days with only clean runs (first clean day 2026-10-03; earliest 2026-10-10).
-5. **Condition 5:** after any rewrite of this file, give a fresh agent only
+6. **Condition 5:** after any rewrite of this file, give a fresh agent only
    this file and ask where things stand, what is next and how to check;
    record the verdict in `PROGRESS_LOG.md` and fix what it could not answer.
-6. **Tidy, not gating:** `CLAUDE.md` pointers for theory-forge and
+7. **Tidy, not gating:** `CLAUDE.md` pointers for theory-forge and
    cybernetic_influence_v3 (weekly-plan line); the cybernetic_influence_v3 local branch
    `claude-md-pointer-20261003` is a leftover with a two-line commit.
 
