@@ -1,48 +1,22 @@
-# Now (2026-10-02, Claude Code session)
+# Now (2026-10-04, hive-brain session)
 
-**Stopped at (2026-10-04):** pilot BRI-27 measured the cold-reader state of the
-`make` gates at main `56044f0` and fixed what docs/install/Makefile can fix:
-`test`/`test-quick`/`check` now run `$(PYTHON) -m pytest|mypy` instead of a bare
-`pytest`/`mypy` on `PATH` (that was the exit-127 `pytest: No such file or
-directory`), pytest and mypy are declared as a `[dev]` extra in
-`pyproject.toml`, and the README install step installs it. That makes
-`make aes-check` runnable from a clean clone; it had failed with
-`.venv/bin/python: No module named pytest`, which is the `ModuleNotFoundError`
-the weekly plan reported.
+**Stopped at (2026-10-04 05:50 UTC):** hive brain v1 has five merged jobs
+(condition 1 of 5 met), a hosted dashboard (https://hive.brianmills.dev), a
+phone channel both ways (the relay on personal-vps), and Brian's merge rule of
+2026-10-04 (no merge needs his yes unless a surface is out with other people
+for review; irreversible actions still ask). The plan was rewritten the same
+morning: `proposals/hive-brain-v1/ROADMAP.md` holds the current state and
+`proposals/hive-brain-v1/PROGRESS_LOG.md` the chronicle with evidence. In this
+repository, all three `make` gates pass from a clean clone with the README's
+install line since PRs #110, #112 and #118 (2026-10-04); the measurements are
+in the README and the progress log.
 
-**All three `make` gates now exit 0 from a clean clone** (2026-10-04). The
-16-19 pre-existing `mypy src/` errors that kept `make check` red — in the
-retained v0.1 `repository_context/render_html.py` and in the v0.2
-`cli.py`/`characterize.py`/`reconcile.py`/`planning.py` — were cleared
-annotation-only under BRI-29 in PR #112, which merged on Brian's yes together
-with BRI-27's PR #110. Re-measured at `c00b3e2` in a fresh clone, with only the
-README's install line and nothing else on `PATH`: `make check` exit 0 (183
-passed, 1 skipped; mypy clean on 20 source files), `make aes` exit 0,
-`make aes-check` exit 0 (177 passed, 1 skipped). The "not green" finding in
-`evidence/modular-design-integration-2026-09-22.md` is therefore superseded as
-a statement about current state; it stands as the 2026-09-22 observation.
-Decision 0010 is unchanged: `make check` is Enforced Planning's gate and
-`make aes`/`make aes-check` are the AES gate — green is not the same as
-authoritative.
-
-**Stopped at (2026-10-03):** agents sign in again; the Coordinator started the
-pilot (BRI-13, waiting on BRI-16 for the weekly plan). Done before that:
-M3 slice 2, the M4 first slice (this brain, `brain_fresh.py`), the restore
-check, Codex's Jev hook confirmed, and `scripts/hive/controls.py`.
-
-**Hosted dashboard (2026-10-03):** `scripts/hive/dashboard.py --vps` builds the
-page on the VPS with one-tap answers on decision cards; the server, timer and
-deploy/rollback steps are personal-vps `apps/hive-dashboard/` (prepared, not
-deployed yet; the deploy needs Brian's yes, already given 2026-10-03).
-
-**Next step:** follow "Exact next action" in `proposals/hive-brain-v1/ROADMAP.md`.
-In short:
-1. Follow the Coordinator's first `Pilot:` task (BRI-13 comments) through
-   build, Brian's review in the terminal, and merge.
-2. Seed `.project-brain/` in each pilot project the Coordinator picks (done:
-   AES, theory-forge, cybernetic_influence_v3; portfolio waits for another
-   session's claim to clear).
-3. Run `python3 scripts/hive/controls.py` at each stop (exit 0 = no control silent).
+**Next step:** follow "Exact next action" in the roadmap. In short: the
+Coordinator keeps taking jobs from the refreshed weekly plan; the terminal
+session merges AES pull requests (this repo's own hook refuses runner merges)
+and keeps the roadmap current; the remaining v1 conditions are evidence that
+accrues on its own (a rule blocking real work, seven quiet days, a pick-up
+retest after each rewrite of the roadmap).
 
 **Rule for every agent:** read this file first. When your change moves where
 the project stands, update `now.md` (and `state.md` if needed) in the same pull
