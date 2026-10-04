@@ -10,9 +10,10 @@ worktrees. These tests hold both:
   a governed root and admits it once the target plans the file;
 - installation refuses when it would fail every commit or silence another hook.
 
-The clean install needs network access for dependencies. Set
-AES_SKIP_CLEAN_INSTALL=1 to skip it where a venv cannot be built; nothing else
-skips it.
+The clean install builds its venv with `uv`, the install path the README and
+docs/greenfield/GETTING_STARTED.md document, and needs network access for
+dependencies. It skips when `uv` is not on `PATH`, and when
+AES_SKIP_CLEAN_INSTALL=1 is set; nothing else skips it.
 """
 
 from __future__ import annotations
@@ -293,14 +294,17 @@ def test_version_names_the_install_and_the_running_checkout(capsys: pytest.Captu
 
 
 @pytest.mark.skipif(os.environ.get("AES_SKIP_CLEAN_INSTALL") == "1", reason="AES_SKIP_CLEAN_INSTALL=1")
+@pytest.mark.skipif(shutil.which("uv") is None, reason="uv is not on PATH")
 def test_clean_install_in_pin_form_reports_commit_version_and_ships_the_hook(tmp_path: Path) -> None:
     head = _git(REPO, "rev-parse", "HEAD").stdout.strip()
     venv = tmp_path / "venv"
-    made = _run([sys.executable, "-m", "venv", str(venv)], tmp_path)
+    # with uv, as the README and docs/greenfield/GETTING_STARTED.md install; `uv venv` needs no
+    # stdlib ensurepip, and `--python` names the venv to install into without activating it
+    made = _run(["uv", "venv", "-q", str(venv)], tmp_path)
     assert made.returncode == 0, made.stderr
     # PEP 508 named URLs need a host; git accepts file://localhost/<path>
     pin = f"agentic-engineering-system @ git+file://localhost{REPO}@{head}"
-    installed = _run([str(venv / "bin" / "python"), "-m", "pip", "install", "-q", pin], tmp_path)
+    installed = _run(["uv", "pip", "install", "-q", "--python", str(venv / "bin" / "python"), pin], tmp_path)
     assert installed.returncode == 0, installed.stderr[-2000:]
 
     aes = venv / "bin" / "aes"

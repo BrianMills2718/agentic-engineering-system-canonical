@@ -2,6 +2,7 @@ schema_version: aes.v0_2.observation.probe0
 observation_id: OBS-AES-CLEAN-USER-3dd2b9a
 subject_refs: [SC-GF-001, ART-DOC-GREENFIELD-GETTING-STARTED, ART-PACKAGING-PYPROJECT]
 subject_revision: 3dd2b9a795352aef8f9db70d159cdf46e8d9894d
+superseded_by: OBS-AES-CLEAN-USER-d89fe2e
 # What the run installed and executed: the page, the packaging, and the modules
 # the page's commands reach (init, hooks install, plan prepare/validate/accept,
 # target validate, topology check, context, evidence record/status, status,

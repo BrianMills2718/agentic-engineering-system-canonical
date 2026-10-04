@@ -1,9 +1,8 @@
 schema_version: aes.v0_2.observation.probe0
-observation_id: OBS-GF-DISTRIBUTION-INSTALL-c5ea63d0
+observation_id: OBS-GF-DISTRIBUTION-INSTALL-d89fe2e3
 subject_refs:
 - VS-GF-DISTRIBUTION-INSTALL
-subject_revision: c5ea63d077b285ca70841ed74cf0c5c772679ea8
-superseded_by: OBS-GF-DISTRIBUTION-INSTALL-d89fe2e3
+subject_revision: d89fe2e329dc3f874e889739ef24e642cddeb962
 dependency_paths:
 - src/agentic_engineering_system/__init__.py
 - src/agentic_engineering_system/characterize.py
@@ -52,15 +51,15 @@ dependency_target_refs:
 - ART-V01---INIT---PY
 observer: &id001
   identity: aes evidence record
-  version: '0.1.dev375+gcb00e130a (running: c5ea63d)'
-method: /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest -q 
+  version: '0.1.dev531+gd89fe2e32 (running: d89fe2e)'
+method: /tmp/paperclip-run-bri-36-6e74f41b-216-OaefNb/freshclone/.venv/bin/python -m pytest -q 
   tests/greenfield/test_distribution.py
 execution_state: COMPLETED
 result:
   exit_code: 0
-  output_tail: "............                                                             [100%]\n12 passed
-    in 17.13s"
-produced_at: '2026-09-25T22:50:17+00:00'
+  output_tail: "..............                                                           [100%]\n14 passed
+    in 11.48s"
+produced_at: '2026-10-04T06:38:56+00:00'
 assessments:
 - evidence_requirement_ref: ER-SC-GF-001-01
   assessment: INCONCLUSIVE
