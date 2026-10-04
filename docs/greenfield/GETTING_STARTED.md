@@ -9,26 +9,33 @@ consistent, that every file under the governed directories is planned, and
 which criteria current evidence supports.
 
 This page takes a new Python project from nothing to one recorded piece of
-evidence. You need Git, Python 3.11 or newer, and read access to the AES
-repository on GitHub.
+evidence. You need Git, Python 3.11 or newer, [uv](https://docs.astral.sh/uv/),
+and read access to the AES repository on GitHub. If you do not have `uv`:
+`curl -LsSf https://astral.sh/uv/install.sh | sh`
+([other install methods](https://docs.astral.sh/uv/getting-started/installation/)),
+then restart the shell or `source "$HOME/.local/bin/env"`.
 
 ## 1. Create the project and install AES
 
 ```bash
 mkdir greeter && cd greeter
 git init -q
-python3 -m venv .venv
+uv venv .venv
 . .venv/bin/activate
-pip install -q pytest "agentic-engineering-system @ git+https://github.com/BrianMills2718/agentic-engineering-system-canonical.git@<sha>"
+uv pip install -q pytest "agentic-engineering-system @ git+https://github.com/BrianMills2718/agentic-engineering-system-canonical.git@<sha>"
 aes --version
 ```
 
 Replace `<sha>` with the AES commit you want to pin. To find the current one,
 run `git ls-remote https://github.com/BrianMills2718/agentic-engineering-system-canonical.git main`
-and use the full 40-character id it prints (a short id works, but pip warns).
-`aes --version` then names that commit inside its version string, e.g.
-`0.1.dev367+g0503735f9`. Keep the virtual environment and caches out of Git, and let
-pytest import the project's own source:
+and use the full 40-character id it prints (a short id works too: `uv` resolves
+it and prints the full one). `aes --version` then names that commit inside its
+version string, e.g. `0.1.dev367+g0503735f9`. `uv pip install` installs into the
+activated virtual environment, or into a `.venv` in the current directory when
+none is activated; `uv venv` leaves no `pip` inside it, and nothing here needs
+one (pass `--seed` to `uv venv` if you want it anyway). Keep the virtual
+environment and caches out of Git, and let pytest import the project's own
+source:
 
 ```bash
 printf '.venv/\n__pycache__/\n' > .gitignore
