@@ -5,7 +5,7 @@
     {
       "n": 1,
       "name": "Pilot",
-      "plain": "Three real tasks from at least two projects go from your weekly plan to a merged pull request without hand-holding; you are asked first only for public-facing or irreversible changes (your rule, 2026-10-03).",
+      "plain": "Three real tasks from at least two projects go from your weekly plan to a merged pull request without hand-holding; the workers merge their own work after the checks pass and ask you only for something you have said is out with other people for review, or for an irreversible action (your rules, 2026-10-03 and 2026-10-04).",
       "status": "done",
       "progress": "5 jobs merged (3 needed)",
       "evidence": "Task 1 (AES quickstart fix) merged 2026-10-03 as AES PR #88 after Brian's terminal review. Task 2 (personal-wiki confidence check) merged 2026-10-03 as personal-wiki PR #13 by the agent, under Brian's 2026-10-03 rule that private, reversible changes are merged by agents and reported (no terminal review); its one follow-up question (BRI-23) was answered by the terminal session with a root-commit identity test. Task 3 (personal-wiki watch-pointer repair, 18 to 6 unreachable) merged 2026-10-03 22:34 UTC as personal-wiki PR #14 by the agent, with the project brain updated. readout.py --days 7 at 22:37 UTC lists all three, from two projects (AES, personal-wiki). Job 4 (personal-wiki PR #15, folder-scoped watch targets) and job 5 (AES PRs #110 and #112: the repo's own checks work from a fresh clone, merged on Brian's yes because the repo is public) followed on 2026-10-04.",

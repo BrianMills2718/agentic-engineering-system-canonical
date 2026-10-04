@@ -33,14 +33,25 @@ own machines and private repositories) or irreversible (deletes data or
 history, deploys, migrates a database, sends anything outward). He also asked
 for plain language, so this file says what each name means where it can.
 
+**Brian, 2026-10-04 (narrows it again):** "public facing means only live sites.
+and actually the assumption should be that i dont need to explicitly approve
+merges even for those unless i say so. really no one is looking at my website so
+i only care about things that i have already sent out for people to review." So
+no merge needs his yes, public repositories and live sites included, unless he
+has said that specific surface is out with other people for review; agents
+still ask for irreversible actions (deleting data or history, database
+migrations, sending anything outward).
+
 **v1 is done when all five are true, each shown by a command's output or a link:**
 
 1. **Pilot.** At least three real tasks from at least two of Brian's projects
    each went from the weekly plan to a merged pull request without
    hand-holding: the Coordinator plans it, agents build it unattended, the
    repository's checks pass, the agents merge it and leave a report Brian can
-   read. Brian is asked first only for a public-facing or irreversible change
-   (his rule of 2026-10-03). Task 1 was merged on his yes before that rule.
+   read. Brian is asked first only for a surface he has said is out with
+   other people for review, or for an irreversible action (his rules of
+   2026-10-03 and 2026-10-04). Tasks 1 and 5 were merged on his yes before the
+   rule was narrowed.
 2. **Capabilities.** All 11 capabilities have a chosen off-the-shelf tool that
    is running and was used by those tasks (table below).
 3. **Learning loop closed once.** Lessons, frictions and problems are filed as
@@ -142,7 +153,8 @@ read-only.
 | Thin glue around off-the-shelf tools lives in `scripts/` (ungoverned); AES product logic goes through `aes plan` | agent_decided_reversible | speed. **Wrong when:** a script passes ~300 lines or holds logic that isn't tied to one tool; then it moves under `aes plan` |
 | Failure families are not re-cut for v1 | agent_decided_reversible | issue #64. **Wrong when:** a weekly spot check finds fewer than 8 of 10 acceptable |
 | The weekly plan (dated week of 2026-09-21) is still a fair source of pilot tasks | assumption | if Brian's priorities moved, the Coordinator picks stale work; Brian's review catches it |
-| Agents merge their own pilot PRs after the repository's checks; Brian is asked only for public-facing or irreversible changes | human_set | Brian, 2026-10-03 (quote under Outcome); replaces the 2026-10-02 "Decision: merge" step for private, reversible changes; Coordinator rule backup `AGENTS.md.bak-20261003-merge-rule` |
+| Agents merge their own pilot PRs after the repository's checks; Brian is asked only for a surface he has said is out with others for review, or for an irreversible action | human_set | Brian, 2026-10-04 (quote under Outcome): "public facing means only live sites" and no merge approval is assumed unless he says so; replaces the 2026-10-03 public-facing exception, under which pilot 5 (public repo) asked him twice. In all three agents' instructions (backups `.bak-20261004-merge-rule-v3`), the workspace rules (projects-dotclaude #77) and memory |
+| (superseded 2026-10-04) agents merge private, reversible PRs; Brian asked for public-facing or irreversible changes | human_set | Brian, 2026-10-03 (quote under Outcome); replaces the 2026-10-02 "Decision: merge" step for private, reversible changes; Coordinator rule backup `AGENTS.md.bak-20261003-merge-rule` |
 | A docs-only follow-up that only records what an approved merge made true is covered by that approval: agents merge it and report, no new `Decision:` | agent_decided_reversible | 2026-10-04: PR #116 fixed two README/brain sentences that Brian's 05:04 yes to #110+#112 had made false; asking again is the noise his 2026-10-03 rule removes. In both working agents' instructions (backups `.bak-20261004-docs-followup`). **Wrong when:** Brian objects to a docs merge he was not asked about, or a "docs-only follow-up" turns out to change behaviour |
 | Pilot cadence: at most one new pilot task every 6 hours (was 12), 2 open at once | agent_decided_reversible | 2026-10-03: pilot 1 took about 80 minutes from creation to merge, so a 12-hour floor would spend two days on a few hours of work; the 2-open cap already bounds Brian's review load. Old rule kept as `AGENTS.md.bak-20261003-cadence` beside the Coordinator's instructions. **Wrong when:** two `Decision:` tasks wait on Brian for more than a day, or he says reviews arrive too fast |
 | Repositories with only `AGENTS.md` get a two-line `CLAUDE.md` that points to it and to the brain | agent_decided_reversible | 2026-10-03: the VPS agents' Claude Code (2.1.278, no `instructionFiles` setting) loads only `CLAUDE.md`; the local setting that also loads `AGENTS.md` is not there. **Wrong when:** a pilot run log on an `AGENTS.md`-only repo without the pointer shows the brain was read anyway |
@@ -457,6 +469,15 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   made true, closed BRI-30 with that reason, and wrote the clause into the
   Coordinator's and Research's instructions. Pilot 5 is complete end to end
   (PRs #110, #112, #116).
+
+- **2026-10-04, 05:20–05:30 UTC (merge rule narrowed by Brian):** a third
+  merge question for the same public repo (BRI-32, PR #118: `aes hooks
+  install` wrote the installing machine's path into a tracked file) prompted
+  the question; Brian's answer is quoted under Outcome. Applied in the same
+  half hour to the Coordinator, Research and Brian Contact instructions, the
+  workspace rules and memory. The AES-specific limit stays: the repo's own
+  hook refuses runner merges, so the terminal session merges AES pull requests
+  without asking him.
 
 ## How to check and act
 
