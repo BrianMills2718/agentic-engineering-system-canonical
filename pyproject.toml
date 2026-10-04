@@ -13,6 +13,15 @@ dependencies = [
   "ruamel.yaml>=0.18,<0.20",
 ]
 
+[project.optional-dependencies]
+# The tools the Makefile's test/type targets run. They were previously
+# undeclared, so `pip install -e .` left `make aes-check` and `make check`
+# without pytest. Declared once here instead of re-listed per caller.
+dev = [
+  "pytest>=8",
+  "mypy>=1.8",
+]
+
 [project.scripts]
 aes-repo-context = "agentic_engineering_system.repository_context.cli:main"
 aes = "agentic_engineering_system.cli:main"

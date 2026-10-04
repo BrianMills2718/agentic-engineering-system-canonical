@@ -1,5 +1,26 @@
 # Now (2026-10-02, Claude Code session)
 
+**Stopped at (2026-10-04):** pilot BRI-27 measured the cold-reader state of the
+`make` gates at main `56044f0` and fixed what docs/install/Makefile can fix:
+`test`/`test-quick`/`check` now run `$(PYTHON) -m pytest|mypy` instead of a bare
+`pytest`/`mypy` on `PATH` (that was the exit-127 `pytest: No such file or
+directory`), pytest and mypy are declared as a `[dev]` extra in
+`pyproject.toml`, and the README install step installs it. That makes
+`make aes-check` runnable from a clean clone; it had failed with
+`.venv/bin/python: No module named pytest`, which is the `ModuleNotFoundError`
+the weekly plan reported.
+
+**`make check` still does not exit 0, by design of this task's scope.** Its
+`mypy src/ --ignore-missing-imports` step reports 16-19 pre-existing errors
+(16 on mypy 2.4.0, 18 on 1.18.2, 19 on 1.8.0) in the retained v0.1
+`repository_context/render_html.py` and in the v0.2 `cli.py`/`characterize.py`/
+`reconcile.py`/`planning.py`. This is already recorded in
+`evidence/modular-design-integration-2026-09-22.md` ("the complete `make check`
+equivalent is therefore **not green**"). Closing it needs a `src/` change under
+a governed root, so it needs an `aes plan` cycle, not a docs fix. Decision 0010
+keeps `make check` as Enforced Planning's gate and `make aes`/`make aes-check`
+as the AES gate; the README now says so.
+
 **Stopped at (2026-10-03):** agents sign in again; the Coordinator started the
 pilot (BRI-13, waiting on BRI-16 for the weekly plan). Done before that:
 M3 slice 2, the M4 first slice (this brain, `brain_fresh.py`), the restore

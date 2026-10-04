@@ -531,21 +531,24 @@ surface-audit:  ## Compare registry, lease, process, and served identity (SURFAC
 # --- During Implementation ---
 .PHONY: test test-quick check check-agents-sync
 
+# pytest and mypy run through $(PYTHON), which prefers .venv/bin/python, so a
+# clean clone that followed the README's install uses the venv's tools. A bare
+# `pytest` resolves on PATH instead and exits 127 for a cold reader.
 test:  ## Run pytest
-	pytest tests/ -v
+	$(PYTHON) -m pytest tests/ -v
 
 test-quick:  ## Run pytest (no traceback)
-	pytest tests/ -q --tb=no
+	$(PYTHON) -m pytest tests/ -q --tb=no
 
 check:  ## Run all checks (test, mypy, lint)
 	@echo "Checking generated AGENTS.md synchronization..."
 	@$(PYTHON) $(SCRIPTS_META)/check_agents_sync.py --repo-root . --check
 	@echo ""
 	@echo "Running tests..."
-	@pytest tests/ -q --tb=short
+	@$(PYTHON) -m pytest tests/ -q --tb=short
 	@echo ""
 	@echo "Running mypy..."
-	@mypy src/ --ignore-missing-imports
+	@$(PYTHON) -m mypy src/ --ignore-missing-imports
 	@echo ""
 	@echo "All checks passed!"
 

@@ -16,9 +16,19 @@ component. Target changes go through `aes plan prepare / validate / accept`.
 - **Start here:** [`docs/greenfield/GETTING_STARTED.md`](docs/greenfield/GETTING_STARTED.md)
   — install, `aes init`, and the lifecycle on a new project.
 - **Where things stand:** in a clone of this repository, install first —
-  `python3 -m venv .venv && .venv/bin/python -m pip install -e .` (Python 3.11 or
-  newer) — then run `.venv/bin/aes status`, or `make aes`, which finds that
-  `.venv` itself.
+  `python3 -m venv .venv && .venv/bin/python -m pip install -e ".[dev]"` (Python
+  3.11 or newer) — then run `.venv/bin/aes status`, or `make aes`, which finds
+  that `.venv` itself. The `[dev]` extra adds pytest and mypy, which the
+  `make` test and type targets need; plain `-e .` installs the library only.
+- **Running the gates:** `make aes` and `make aes-check` are the AES v0.2 gate
+  ([Decision 0010](docs/decisions/0010-greenfield-v0.2-accepted.md)); run those
+  after the install above. `make check` is Enforced Planning's separate v0.1
+  gate and is **not** the AES gate; its `mypy src/` step has pre-existing errors
+  in the retained v0.1 `repository_context` renderer and in the v0.2 CLI, so
+  `make check` does not exit 0 today — see
+  [`evidence/modular-design-integration-2026-09-22.md`](evidence/modular-design-integration-2026-09-22.md).
+  Its test and type steps do now run the `.venv` tools rather than a bare
+  `pytest`/`mypy` on `PATH`.
 - **What is accepted, on what evidence, and what is not claimed:**
   [Decision 0010](docs/decisions/0010-greenfield-v0.2-accepted.md).
 - **Accepted architecture:** [`docs/architecture/greenfield-v0.2/`](docs/architecture/greenfield-v0.2/README.md).
