@@ -10,16 +10,20 @@ directory`), pytest and mypy are declared as a `[dev]` extra in
 `.venv/bin/python: No module named pytest`, which is the `ModuleNotFoundError`
 the weekly plan reported.
 
-**`make check` still does not exit 0, by design of this task's scope.** Its
-`mypy src/ --ignore-missing-imports` step reports 16-19 pre-existing errors
-(16 on mypy 2.4.0, 18 on 1.18.2, 19 on 1.8.0) in the retained v0.1
-`repository_context/render_html.py` and in the v0.2 `cli.py`/`characterize.py`/
-`reconcile.py`/`planning.py`. This is already recorded in
-`evidence/modular-design-integration-2026-09-22.md` ("the complete `make check`
-equivalent is therefore **not green**"). Closing it needs a `src/` change under
-a governed root, so it needs an `aes plan` cycle, not a docs fix. Decision 0010
-keeps `make check` as Enforced Planning's gate and `make aes`/`make aes-check`
-as the AES gate; the README now says so.
+**All three `make` gates now exit 0 from a clean clone** (2026-10-04). The
+16-19 pre-existing `mypy src/` errors that kept `make check` red — in the
+retained v0.1 `repository_context/render_html.py` and in the v0.2
+`cli.py`/`characterize.py`/`reconcile.py`/`planning.py` — were cleared
+annotation-only under BRI-29 in PR #112, which merged on Brian's yes together
+with BRI-27's PR #110. Re-measured at `c00b3e2` in a fresh clone, with only the
+README's install line and nothing else on `PATH`: `make check` exit 0 (183
+passed, 1 skipped; mypy clean on 20 source files), `make aes` exit 0,
+`make aes-check` exit 0 (177 passed, 1 skipped). The "not green" finding in
+`evidence/modular-design-integration-2026-09-22.md` is therefore superseded as
+a statement about current state; it stands as the 2026-09-22 observation.
+Decision 0010 is unchanged: `make check` is Enforced Planning's gate and
+`make aes`/`make aes-check` are the AES gate — green is not the same as
+authoritative.
 
 **Stopped at (2026-10-03):** agents sign in again; the Coordinator started the
 pilot (BRI-13, waiting on BRI-16 for the weekly plan). Done before that:
