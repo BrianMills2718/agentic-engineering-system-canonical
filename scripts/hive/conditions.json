@@ -43,9 +43,9 @@
       "name": "Pick-up",
       "plain": "A fresh agent can resume from the plan alone.",
       "status": "partway",
-      "progress": "tested once, gaps fixed",
-      "evidence": "A fresh agent given only the plan got the state right but lacked commands and ids; those were added (AES #82).",
-      "next": "Re-test with a fresh agent after more pilot tasks."
+      "progress": "tested three times; gaps fixed each time",
+      "evidence": "A fresh agent given only the plan: 2026-10-03 twice (gaps fixed, AES #82, #99); 2026-10-04 after the plan was rewritten into a current-state file plus a separate chronicle: verdict partly, five gaps (a stale row, a wrong count, an unexplained sentence, an overstated done, no named current activity), all fixed in the same commit.",
+      "next": "Test again after the next rewrite of the plan."
     }
   ],
   "decisions_in_terminal": [
