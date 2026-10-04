@@ -9,12 +9,20 @@ morning: `proposals/hive-brain-v1/ROADMAP.md` holds the current state and
 `proposals/hive-brain-v1/PROGRESS_LOG.md` the chronicle with evidence. In this
 repository, all three `make` gates pass from a clean clone with the README's
 install line since PRs #110, #112 and #118 (2026-10-04); the measurements are
-in the README and the progress log.
+in the README and the progress log. That install line is now `uv venv .venv &&
+uv pip install -e ".[dev]"` (2026-10-04), not `python3 -m venv` plus `pip`:
+Brian's standing preference is uv with its shared cache in every repository.
+The Makefile needed no change, because `$(PYTHON)` only ever consumed
+`.venv/bin/python` and never created it. `docs/greenfield/GETTING_STARTED.md`
+still says venv plus pip on purpose — it is a planned artifact named in three
+external clean-user observations, so changing it goes through AES, not a docs
+edit.
 
 **Next step:** follow "Exact next action" in the roadmap. In short: the
-Coordinator keeps taking jobs from the refreshed weekly plan; the terminal
-session merges AES pull requests (this repo's own hook refuses runner merges)
-and keeps the roadmap current; the remaining v1 conditions are evidence that
+Coordinator keeps taking jobs from the refreshed weekly plan; agents merge
+their own AES pull requests with `gh pr merge <n> --merge`, which this repo's
+hook has accepted since PR #126 (it still refuses `--squash` and `--rebase`),
+and keep the roadmap current; the remaining v1 conditions are evidence that
 accrues on its own (a rule blocking real work, seven quiet days, a pick-up
 retest after each rewrite of the roadmap).
 
