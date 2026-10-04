@@ -1,0 +1,186 @@
+{
+  "stage": "built and rendered; desktop 1440x1000 and phone 390x844 exercised with a real click on 2026-10-04",
+  "choice-justified:grouped-tile-map": {
+    "status": "satisfied",
+    "why": "The question is which family each project belongs to and what a visitor can open, across 25 projects at once. One tile per project inside four enclosed family groups puts membership, today's format and interface state on one screen, so a misplaced project or a weak family shows as a tile in the wrong box. This is the router's small-multiples idea applied to one frame per family."
+  },
+  "rejected:project-schedule": {
+    "status": "rejected",
+    "why": "Router's top score, but nothing here has dates or durations; a schedule would invent a time axis."
+  },
+  "rejected:timeline": {
+    "status": "rejected",
+    "why": "No time dimension in the question."
+  },
+  "rejected:requirements-traceability-matrix": {
+    "status": "rejected",
+    "why": "A project-by-attribute matrix shows the same facts but hides the grouping, which is the thing being decided."
+  },
+  "rejected:three-full-page-mockups": {
+    "status": "rejected",
+    "why": "Drawing today, one format and two formats each with 25 labelled marks would be about 78 objects against a 40-object budget; today's layout is aggregated into three bars instead."
+  },
+  "title-states-what-this-is-and-for-whom": {
+    "status": "satisfied",
+    "why": "The h1 is the one question; the line under it says it is for Brian, a proposal, dated, nothing built."
+  },
+  "whole-design-visible-on-one-screen-at-the-target-viewport": {
+    "status": "satisfied",
+    "why": "The 1440x1000 capture shows title through detail panel with no scrolling. After a project is selected the detail panel grows by a few lines and the page becomes slightly taller than the viewport; the panel stays visible because it sticks to the bottom."
+  },
+  "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+    "status": "skipped",
+    "why": "No cold reader has read it. Brian is the first reader."
+  },
+  "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+    "status": "satisfied",
+    "why": "Grouping is shown as enclosed groups, counts as bars, format options as small mock layouts, the three calls as short text."
+  },
+  "relationships-drawn-not-implied-by-adjacency-or-links": {
+    "status": "satisfied",
+    "why": "Family membership is a drawn enclosure; interface state is fill, border style and glyph; today's format and the shown-twice cases are a written tag on each tile."
+  },
+  "same-object-same-mark-across-every-view": {
+    "status": "satisfied",
+    "why": "Each project appears once, as one tile. The side mock-ups do not redraw projects."
+  },
+  "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+    "status": "satisfied",
+    "why": "All 25 project tiles open a detail panel (checked with a real click at 1440 and 390 wide). Family headings and the three side boxes are not clickable."
+  },
+  "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+    "status": "satisfied",
+    "why": "The family map takes most of the screen. The decision box above it is three short text calls, kept as text because they are choices, not structure."
+  },
+  "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+    "status": "na",
+    "why": "One view."
+  },
+  "attributed-claims-traced-to-source-no-invented-items": {
+    "status": "satisfied",
+    "why": "Every tile is generated from an inventory parsed from the page source at portfolio main f6dafa1; counts are asserted in the generator (25 projects; 16, 8 and 1 by state; 5, 8, 7 and 5 by family). Short names and family assignments are the agent's and are labelled draft on the page."
+  },
+  "structural-devices-encode-information-not-decoration": {
+    "status": "satisfied",
+    "why": "Fill and border style mean interface state, enclosure means family. The only decoration is rounded corners and a shadow on the detail panel."
+  },
+  "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+    "status": "satisfied",
+    "why": "System sans font, no cream, no all-caps labels (removed after first render), no middle dots. The regions are plain bordered boxes, which is close to a card kit; kept because the boxes are the groups."
+  },
+  "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+    "status": "satisfied",
+    "why": "One format is drawn as identical bars, two formats as bars plus thin dashed rows, three formats as three bars of different length."
+  },
+  "white-space-separates-groups-and-carries-hierarchy": {
+    "status": "satisfied",
+    "why": "14px between families, 5px between tiles inside one."
+  },
+  "size-and-weight-follow-importance": {
+    "status": "satisfied",
+    "why": "Title largest, decision box has the heaviest border, project names bold, tags and status small and grey."
+  },
+  "structure-earned-by-content-not-imposed-taxonomy": {
+    "status": "satisfied",
+    "why": "The page's own structure is decision, map, legend. The four families are the proposal under review, not a settled taxonomy, and the three borderline projects are marked."
+  },
+  "space-and-time-shown-together-when-the-subject-changes-over-time": {
+    "status": "na",
+    "why": "Nothing here changes over time."
+  },
+  "page-carries-its-date-and-version": {
+    "status": "satisfied",
+    "why": "Date in the opening line; source commits in the status line; the plans site labels the page with its own commit."
+  },
+  "a-person-would-pin-it-on-a-wall": {
+    "status": "skipped",
+    "why": "Only Brian can say."
+  },
+  "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+    "status": "skipped",
+    "why": "The decision box is text. It was not redrawn as a picture."
+  },
+  "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+    "status": "satisfied",
+    "why": "Family sizes, the mix of usable and recording-only projects in each family, and the lone project with nothing to open are visible at once; a list would lose the comparison between families."
+  },
+  "one-element-dominates-by-size-weight-or-contrast": {
+    "status": "satisfied",
+    "why": "The family map dominates by area and colour. The decision box competes by border weight, deliberately, because it is what Brian must answer."
+  },
+  "reading-order-is-obvious-without-instructions": {
+    "status": "satisfied",
+    "why": "Top to bottom: title, decision, map, legend, status, detail."
+  },
+  "gap-between-groups-larger-than-gap-within": {
+    "status": "satisfied",
+    "why": "14px versus 5px."
+  },
+  "enclosure-nesting-at-most-two-levels": {
+    "status": "satisfied",
+    "why": "Family box then tile; decision box then call."
+  },
+  "elements-share-a-small-set-of-edges": {
+    "status": "satisfied",
+    "why": "One sidebar edge and four column edges on a grid."
+  },
+  "same-role-same-treatment-everywhere": {
+    "status": "satisfied",
+    "why": "All tiles share one structure; all side boxes share one."
+  },
+  "every-mark-carries-information": {
+    "status": "satisfied",
+    "why": "Glyph and fill both mean interface state (doubled on purpose so it reads without colour), the tag means today's format, the question mark means borderline."
+  },
+  "context-quiet-subject-loud": {
+    "status": "satisfied",
+    "why": "Side boxes and status are grey; project tiles carry the colour."
+  },
+  "comparisons-use-identical-small-frames": {
+    "status": "satisfied",
+    "why": "The one-format and two-format mock-ups use the same frame. Today's formats are bars of counts, a different form because it is a count, not a layout."
+  },
+  "every-encoding-explained-on-the-same-screen": {
+    "status": "satisfied",
+    "why": "The legend sits under the map inside the 1440x1000 screen."
+  },
+  "one-highlighted-state-not-several": {
+    "status": "satisfied",
+    "why": "Only the selected project gets the dark outline."
+  },
+  "object-count-within-density-budget-or-aggregated": {
+    "status": "satisfied",
+    "why": "25 tiles, 4 family boxes, 3 side boxes and 1 decision box is 33 objects against a budget of 40; today's 28 entries are aggregated into three bars."
+  },
+  "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+    "status": "satisfied",
+    "why": "The headline asks the question and the picture shows four families of same-shaped tiles."
+  },
+  "no-block-of-prose-longer-than-the-drawing-it-explains": {
+    "status": "satisfied",
+    "why": "The longest text is the decision box, about 130 words, above a map of 25 tiles."
+  },
+  "reader-can-point-to-where-any-one-fact-lives": {
+    "status": "satisfied",
+    "why": "Counts live in the Today box, interface state in the tile fill, links in the detail panel, sources in the status line."
+  },
+  "wrong-if": [
+    "Brian asks which projects to drop or feature rather than how to group them (then the job was ranking, and a ranked list was the form)",
+    "Brian cannot tell usable from recording-only tiles without colour",
+    "the 390px render needs horizontal scroll (checked: it does not)",
+    "a project's family is disputed for more than the three marked borderline"
+  ],
+  "router-gaps": [
+    "primary scored project-schedule again on a question with no time axis",
+    "no catalog entry for a grouped tile map (hierarchy by enclosure with a state badge); small-multiples was the nearest",
+    "compositionPlan viewport stays 1440x1000 with constraints.mobile=true"
+  ],
+  "not-verified": [
+    "how the sticky detail panel behaves on a real phone (the phone layout instead places the panel under the tapped tile; checked in a 390x844 headless browser only)",
+    "whether each project link gives a visitor a result in one click"
+  ],
+  "choice-justified:project-schedule": {
+    "status": "na",
+    "why": "Not chosen. The router's top score was a schedule, but nothing in this question has dates or durations. The page is a grouped tile map instead; the reasoning is under choice-justified:grouped-tile-map."
+  }
+}

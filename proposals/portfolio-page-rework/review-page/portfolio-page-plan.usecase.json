@@ -1,0 +1,20 @@
+{
+  "id": "portfolio-page-rework-planning-review",
+  "concern": "Should the portfolio page show every project in one format, grouped into four families, instead of today's three formats, and are these the right families?",
+  "stakeholder": "Brian Mills, owner, reading alone on laptop or phone, red-green colorblind",
+  "intent": ["decide", "compare", "understand"],
+  "informationStructure": ["hierarchy", "table"],
+  "tasks": ["compare", "inspect", "locate", "confirm"],
+  "entities": ["project", "family", "format on the page today", "what a visitor can open"],
+  "relationships": ["belongs-to-family", "shown-today-as", "shown-twice", "has-working-interface"],
+  "explanatoryFocus": ["structure", "comparison", "state"],
+  "surfaceContext": { "medium": "report" },
+  "scale": { "items": 25, "density": "medium" },
+  "interaction": { "mode": "read-only", "dynamics": "static" },
+  "audience": { "expertise": "expert", "frequency": "one-off", "domainFamiliarity": "expert" },
+  "consequence": { "risk": "low", "reversibility": "reversible" },
+  "constraints": { "mobile": true, "accessibility": "high", "realtime": false, "provenance": true, "allowAggregation": false },
+  "representationRole": "explanatory",
+  "abstractionLevel": "overview",
+  "successCriteria": ["Brian can say one format or two, and name any project in the wrong family, in under a minute from the picture alone", "interface state legible in greyscale and without red or green", "no horizontal scroll at 390px"]
+}
