@@ -24,7 +24,8 @@ counts, the rows not ok), so "exit 0 for a week" can be shown, not remembered.
 `readout.py` prints that history.
 
 Every run also replaces ~/.hive-brain/controls-latest.json (or --json-out PATH)
-with this run's full rows, each tagged with where it was measured: "wsl" (only
+with this run's full rows (and each project brain's now.md, for the dashboard's
+project cards), each row tagged with where it was measured: "wsl" (only
 this machine can see it) or "vps" (the VPS can measure it itself). The hosted
 dashboard (dashboard.py --vps) reads the "wsl" rows from the copy that
 push_controls.sh puts on the VPS, and recomputes the "vps" rows locally.
@@ -133,8 +134,14 @@ def main() -> int:
         unknown = True
         rows.append(("Learning loop (weekly, #74)", "?", "-", "UNKNOWN: gh api failed"))
 
+    brain_text: dict[str, dict] = {}  # what each brain says, for the hosted dashboard's project cards
     for brain in sorted(glob.glob(os.path.expanduser("~/code/*/.project-brain"))):
         repo = Path(brain).parent
+        try:
+            brain_text[repo.name] = {"now": (Path(brain) / "now.md").read_text(),
+                                     "files": sorted(f.name for f in Path(brain).glob("*.md"))}
+        except OSError as e:
+            brain_text[repo.name] = {"now": "", "files": [], "error": f"could not read now.md: {e}"}
         b = subprocess.run([sys.executable, str(HERE / "brain_fresh.py"), str(repo)], capture_output=True, text=True)
         status = "ok" if b.returncode == 0 else ("STALE" if b.returncode == 1 else "UNKNOWN")
         rows.append((f"Project brain: {repo.name}", b.stdout.split("last updated ")[-1].split(" at ")[0] if b.stdout else "?",
@@ -167,7 +174,7 @@ def main() -> int:
         tmp.write_text(json.dumps({
             "at": NOW.isoformat(timespec="seconds"), "exit": code, "host": os.uname().nodename,
             "rows": [{"name": n, "last": l, "gap": g, "status": st, "side": "vps" if n.startswith(VPS_SIDE) else "wsl"}
-                     for n, l, g, st in rows]}, indent=1) + "\n")
+                     for n, l, g, st in rows], "brains": brain_text}, indent=1) + "\n")
         tmp.replace(args.json_out)
     except OSError as e:
         print(f"controls: could not write {args.json_out}: {e}", file=sys.stderr)
