@@ -1,14 +1,19 @@
 [Unit]
 Description=Hive brain v1: record whether any control went silent (scripts/hive/controls.py)
-Documentation=file:%h/code/agentic-engineering-system-canonical/proposals/hive-brain-v1/ROADMAP.md
+Documentation=https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/proposals/hive-brain-v1/ROADMAP.md
 
 [Service]
 Type=oneshot
-WorkingDirectory=%h/code/agentic-engineering-system-canonical
+# Runs from its own clone of AES main (~/.hive-brain/aes), refreshed first, never from the
+# shared ~/code checkout: that one is a working copy other sessions switch to their own branches,
+# so a merged fix there could be missing for days (2026-10-04, the brain panels went stale this way).
+WorkingDirectory=%h/.hive-brain/aes
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes fetch --quiet --depth 1 origin main
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes reset --quiet --hard FETCH_HEAD
 # controls.py exits 1 when a control is SILENT/FAILING/STALE; that is a finding,
 # recorded in ~/.hive-brain/controls.jsonl, so it must not mark the unit failed.
 SuccessExitStatus=1 2
-ExecStart=/usr/bin/python3 %h/code/agentic-engineering-system-canonical/scripts/hive/controls.py
+ExecStart=/usr/bin/python3 %h/.hive-brain/aes/scripts/hive/controls.py
 # Copy the result to the hosted dashboard (personal-vps apps/hive-dashboard), which
 # cannot see the WSL-only controls itself. A failed copy fails the unit, loudly.
-ExecStartPost=/usr/bin/bash %h/code/agentic-engineering-system-canonical/scripts/hive/push_controls.sh
+ExecStartPost=/usr/bin/bash %h/.hive-brain/aes/scripts/hive/push_controls.sh
