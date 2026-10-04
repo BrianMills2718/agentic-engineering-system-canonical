@@ -440,6 +440,12 @@ token at the hidden prompt. It ends with PASSED or FAILED.
     instructions still said "Telegram unused"; fixed (backup
     `AGENTS.md.bak-20261004-telegram`).
 
+- **2026-10-04, 05:04 UTC:** Brian answered "yes" to merging both; the terminal
+  session merged PR #110 (`8d9fc0c`) and PR #112 (`6f617a3`) with merge
+  commits and closed BRI-28 with his words. Fifth merged job; the full `make
+  check` is green from a clean clone for the first time (the repo's own
+  2026-09-22 evidence had recorded it as "not green").
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
@@ -518,13 +524,14 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    own "to phone" line on the next agent post on BRI-2 (the route itself was
    proven by hand at 22:57). If a `Decision:` task appears without a BRI-2
    post, the agents' rule did not fire: file a `kind:friction` issue.
-8. **Plan refreshed 2026-10-04** (weekly-plans main `e7ba2ad`): pilot 5 (BRI-27,
-   AES gates from a clean clone) is built and waits on Brian's merge yes
-   (BRI-28 covers PR #110 and the BRI-29 type-fix PR). On his yes: merge both
-   with merge commits from the terminal, close BRI-28 with his words, and the
-   Coordinator's next pick follows (its runner-up: the `CLAUDE.md` pointers in
-   theory-forge and cybernetic_influence_v3). Check: `decisions.py` shows
-   nothing waiting; `make check` exit 0 from a clean clone of `main`.
+8. **Pilot 5 done 2026-10-04 05:04 UTC:** Brian's yes in the terminal; PR #110
+   (merge `8d9fc0c`) and PR #112 (merge `6f617a3`, the annotation-only type
+   fix) merged by the terminal session. `make check` now exits 0 from a clean
+   clone of `main` (verified before the merge at the same content; re-run after
+   the merge recorded in the Progress log). Five jobs merged in all. The
+   Coordinator's next pick follows its 6-hour floor (earliest 09:40 UTC): its
+   runner-up is the `CLAUDE.md` pointers in theory-forge and
+   cybernetic_influence_v3. Check: `decisions.py` shows nothing waiting.
 9. **AES merge gate:** the workers cannot merge AES PRs (legacy Enforced
    Planning hook plus a reviewer lane without a credential). Either accept
    that AES merges stay in the terminal (public repo asks Brian anyway) or
