@@ -23,12 +23,16 @@ component. Target changes go through `aes plan prepare / validate / accept`.
 - **Running the gates:** `make aes` and `make aes-check` are the AES v0.2 gate
   ([Decision 0010](docs/decisions/0010-greenfield-v0.2-accepted.md)); run those
   after the install above. `make check` is Enforced Planning's separate v0.1
-  gate and is **not** the AES gate; its `mypy src/` step has pre-existing errors
-  in the retained v0.1 `repository_context` renderer and in the v0.2 CLI, so
-  `make check` does not exit 0 today — see
-  [`evidence/modular-design-integration-2026-09-22.md`](evidence/modular-design-integration-2026-09-22.md).
-  Its test and type steps do now run the `.venv` tools rather than a bare
-  `pytest`/`mypy` on `PATH`.
+  gate and is still **not** the AES gate, but it does now exit 0 from a clean
+  clone: its test and type steps run the `.venv` tools rather than a bare
+  `pytest`/`mypy` on `PATH`, and the pre-existing `mypy src/` errors in the
+  retained v0.1 `repository_context` renderer and in the v0.2 CLI were
+  annotated away in PR #112. Measured at `c00b3e2` from a fresh clone with the
+  install line above and nothing else on `PATH`: `make check` exit 0 (183
+  passed, 1 skipped; mypy clean on 20 files), `make aes` exit 0, `make
+  aes-check` exit 0 (177 passed, 1 skipped). The earlier not-green state in
+  [`evidence/modular-design-integration-2026-09-22.md`](evidence/modular-design-integration-2026-09-22.md)
+  is history as of 2026-10-04, not current.
 - **What is accepted, on what evidence, and what is not claimed:**
   [Decision 0010](docs/decisions/0010-greenfield-v0.2-accepted.md).
 - **Accepted architecture:** [`docs/architecture/greenfield-v0.2/`](docs/architecture/greenfield-v0.2/README.md).
