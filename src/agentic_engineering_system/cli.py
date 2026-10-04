@@ -273,7 +273,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 0
         if args.command == "hooks" and args.hooks_command == "install":
             hook, overridden = install_hooks(args.root)
-            print(f"wrote {hook}\n  core.hooksPath=.githooks; runs aes target validate + aes topology check")
+            print(f"wrote {hook}\n  core.hooksPath=.githooks; runs aes target validate + aes topology check"
+                  f"\n  aes.installer={sys.executable} in .git/config, so the tracked hook stays unchanged")
             if overridden:
                 print(f"  note: overrides the global core.hooksPath {overridden} in this repository", file=sys.stderr)
             return 0

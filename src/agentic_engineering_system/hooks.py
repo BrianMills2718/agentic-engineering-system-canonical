@@ -14,6 +14,14 @@ Interpreter lookup, in order:
 3. `aes` on PATH.
 None found is a hook failure with the install command, never a silent pass.
 
+The hook body is the same bytes on every machine. `.githooks/pre-commit` is a
+tracked, shared file, so the installing checkout's absolute interpreter path
+(step 1) is not written into it: `aes hooks install` records that path in the
+repository's own `.git/config` as `aes.installer` and the hook reads it back.
+Baking it in instead left the hook dirty in `git status` after the documented
+install, so one `git add -A` published a path that exists on nobody else's
+machine, where step 1 would silently fail over to step 2.
+
 Refusals (nothing is written): the root is not the top of a Git work tree; the
 target named by `.aes/project.yaml` is absent; a pre-commit hook AES did not
 write exists in `.githooks/` or the repository's own hooks directory; a local
@@ -24,7 +32,6 @@ second line (the first is the shebang) and are rewritten.
 
 from __future__ import annotations
 
-import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -33,6 +40,7 @@ from .records import load_project
 
 HOOKS_DIR = ".githooks"
 MANAGED_MARKER = "# managed by aes hooks install"
+INSTALLER_CONFIG_KEY = "aes.installer"
 
 _TEMPLATE = """#!/bin/sh
 {marker}
@@ -44,13 +52,17 @@ set -e
 root=$(git rev-parse --show-toplevel)
 # linked worktrees have no .venv of their own; fall back to the main checkout's
 main=$(cd "$(git rev-parse --git-common-dir)/.." && pwd)
-installer={installer}
-if [ -x "$installer" ]; then aes() {{ "$installer" -m agentic_engineering_system.cli "$@"; }}
+# the interpreter that ran `aes hooks install`, in this clone's .git/config so
+# that this tracked file stays byte-identical on every machine
+installer=$(git config --get {config_key} 2>/dev/null) || installer=
+if [ -n "$installer" ] && [ -x "$installer" ]; then
+  aes() {{ "$installer" -m agentic_engineering_system.cli "$@"; }}
 elif [ -x "$root/.venv/bin/aes" ]; then aes() {{ "$root/.venv/bin/aes" "$@"; }}
 elif [ -x "$main/.venv/bin/aes" ]; then aes() {{ "$main/.venv/bin/aes" "$@"; }}
 elif command -v aes >/dev/null 2>&1; then aes() {{ command aes "$@"; }}
 else
-  echo "pre-commit: 'aes' not found (tried $installer, $root/.venv, $main/.venv, PATH)." >&2
+  echo "pre-commit: 'aes' not found (tried {config_key}=${{installer:-<unset>}}," \\
+       "$root/.venv, $main/.venv, PATH)." >&2
   echo "pre-commit: install AES into the project venv, then rerun 'aes hooks install'." >&2
   exit 1
 fi
@@ -63,8 +75,9 @@ class HookInstallError(ValueError):
     """The hook was not installed; the message says why and what to do."""
 
 
-def render_hook(interpreter: str) -> str:
-    return _TEMPLATE.format(marker=MANAGED_MARKER, installer=shlex.quote(interpreter))
+def render_hook() -> str:
+    """The hook body: machine-independent, so the tracked file never churns."""
+    return _TEMPLATE.format(marker=MANAGED_MARKER, config_key=INSTALLER_CONFIG_KEY)
 
 
 def _git(root: Path, *args: str) -> subprocess.CompletedProcess[str]:
@@ -84,7 +97,10 @@ def _refuse_foreign_hook(path: Path) -> None:
 
 
 def install_hooks(root: Path, interpreter: str | None = None) -> tuple[Path, str | None]:
-    """Write `<root>/.githooks/pre-commit` and set the repository's `core.hooksPath`.
+    """Write `<root>/.githooks/pre-commit`, set `core.hooksPath` and `aes.installer`.
+
+    The hook body is machine-independent; the installing interpreter goes into
+    this clone's `.git/config` as `aes.installer`, never into the tracked file.
 
     Returns the hook path and, when a global `core.hooksPath` exists, that path:
     the local setting overrides it for this repository, which the caller reports.
@@ -117,10 +133,15 @@ def install_hooks(root: Path, interpreter: str | None = None) -> tuple[Path, str
         _refuse_foreign_hook(root / common.stdout.strip() / "hooks" / "pre-commit")
 
     hook.parent.mkdir(exist_ok=True)
-    hook.write_text(render_hook(interpreter or sys.executable), encoding="utf-8")
+    hook.write_text(render_hook(), encoding="utf-8")
     hook.chmod(0o755)
     configured = _git(root, "config", "--local", "core.hooksPath", HOOKS_DIR)
     if configured.returncode != 0:
         raise HookInstallError(f"{root}: git config core.hooksPath failed: {configured.stderr.strip()}")
+    recorded = _git(root, "config", "--local", INSTALLER_CONFIG_KEY, interpreter or sys.executable)
+    if recorded.returncode != 0:
+        raise HookInstallError(
+            f"{root}: git config {INSTALLER_CONFIG_KEY} failed: {recorded.stderr.strip()}"
+        )
     overridden = _git(root, "config", "--global", "--get", "core.hooksPath")
     return hook, (overridden.stdout.strip() or None) if overridden.returncode == 0 else None
