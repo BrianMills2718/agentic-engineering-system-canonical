@@ -4,7 +4,9 @@
 # Also blocks direct script calls that bypass make targets
 #
 # Rules:
-# 1. No direct GitHub merge CLI - must use make finish
+# 1. GitHub CLI merges only as merge commits (`gh pr merge <n> --merge`; squash and
+#    rebase refused; allowed since 2026-10-04, see the merge block below); `gh api`
+#    merges and `make merge` still go through make finish
 # 2. No direct python scripts/safe_worktree_remove.py - must use make worktree-remove
 # 3. No direct finish_pr.py invocation - must use make finish
 # 4. No direct python scripts/merge_pr.py - must use make merge/finish
@@ -187,6 +189,25 @@ PY
 
 if [[ "$BLOCK_KIND" == "merge" ]]; then
     PR_NUM=$(echo "$COMMAND" | grep -oE 'merge\s+[0-9]+' | grep -oE '[0-9]+' || echo "N")
+
+    # Since 2026-10-04 (hive brain v1, Brian's merge rule): a merge-commit merge
+    # through the GitHub CLI is allowed once the repository's own checks pass,
+    # because the `make finish` lane needs a signed-off review from a reviewer
+    # credential nobody running here has. Squash and rebase stay refused: AES
+    # evidence names branch commits (CLAUDE.md), and a squash makes them
+    # unreachable.
+    if echo "$COMMAND" | grep -qE '(^|\s)gh\s+pr\s+merge(\s|$)'; then
+        if echo "$COMMAND" | grep -qE -- '(^|\s)(--squash|--rebase|-s|-r)(\s|$)'; then
+            echo "BLOCKED: squash and rebase merges are refused here: AES evidence names branch commits (CLAUDE.md)." >&2
+            echo "Use: gh pr merge $PR_NUM --merge" >&2
+            exit 2
+        fi
+        if echo "$COMMAND" | grep -qE -- '(^|\s)(--merge|-m)(\s|$)'; then
+            exit 0
+        fi
+        echo "BLOCKED: say how to merge. Only a merge commit is allowed here: gh pr merge $PR_NUM --merge" >&2
+        exit 2
+    fi
 
     echo "BLOCKED: Direct GitHub CLI merge is not allowed" >&2
     echo "" >&2
