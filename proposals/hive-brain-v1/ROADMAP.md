@@ -415,6 +415,31 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   Public check: 302 to the Cloudflare login. Not checked by an agent: the page
   as Brian sees it after login, and a one-tap answer end to end.
 
+- **2026-10-04, 03:40–05:10 UTC (pilot 5 from the refreshed plan):**
+  - The Coordinator filed BRI-27 at 03:40 UTC exactly at its floor: make AES's
+    own gates run from a clean clone. Research opened PR #110 at 03:58 (Makefile
+    runs pytest and mypy through the venv; `[dev]` extra; README install line;
+    `now.md`). Because the repository is public, the Coordinator read Brian's
+    rule as "public-facing" and routed the merge to him (BRI-28); the relay
+    pushed that question to his phone at 03:57 and 04:10 UTC on its own, the
+    last unproven leg of the channel.
+  - Research split the remaining failure into BRI-29: 16 pre-existing mypy
+    errors in `src/` keep `make check` red; it built an annotation-only fix
+    (branch `bri29-mypy-annotation-only`, 464ca05, +20 −19, no behaviour
+    change). The terminal session verified both from a fresh clone with the
+    README's install line: main fails `make aes-check` (no pytest); PR #110
+    passes it (177 passed, 1 skipped); 464ca05 passes `make check` (mypy
+    "Success", exit 0). BRI-29 authorized as a second PR; one decision (BRI-28)
+    covers both; the terminal merges on Brian's yes.
+  - Found: AES canonical's own Claude Code hook
+    (`.claude/hooks/worktree-coordination/enforce-make-merge.sh`) blocks any
+    runner `gh pr merge`, and the sanctioned `make finish` needs a signed-off
+    review from a Codex lane that has no credential. So the workers cannot
+    merge in this repo at all; AES merges stay with the terminal session until
+    that legacy gate is replaced (Decision 0010 scope). Brian Contact's
+    instructions still said "Telegram unused"; fixed (backup
+    `AGENTS.md.bak-20261004-telegram`).
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
@@ -493,10 +518,14 @@ token at the hidden prompt. It ends with PASSED or FAILED.
    own "to phone" line on the next agent post on BRI-2 (the route itself was
    proven by hand at 22:57). If a `Decision:` task appears without a BRI-2
    post, the agents' rule did not fire: file a `kind:friction` issue.
-8. **Plan refreshed 2026-10-04** (weekly-plans main `e7ba2ad`, approved by Brian in
-   the terminal): Priority 7 (hive brain v1) gives the workers four lines (AES
-   `make check` from a clean clone; cold-reader sweep of public repos; `CLAUDE.md`
-   pointers and brains; Jev wrong-deny rules), Priority 5 two more (thin people
-   pages; project pages). The Coordinator was told on BRI-13 at the same time.
-   Check: a new `Pilot:` task within its next run; if none by 2026-10-04 04:00
-   UTC, read the latest Coordinator run for the cause.
+8. **Plan refreshed 2026-10-04** (weekly-plans main `e7ba2ad`): pilot 5 (BRI-27,
+   AES gates from a clean clone) is built and waits on Brian's merge yes
+   (BRI-28 covers PR #110 and the BRI-29 type-fix PR). On his yes: merge both
+   with merge commits from the terminal, close BRI-28 with his words, and the
+   Coordinator's next pick follows (its runner-up: the `CLAUDE.md` pointers in
+   theory-forge and cybernetic_influence_v3). Check: `decisions.py` shows
+   nothing waiting; `make check` exit 0 from a clean clone of `main`.
+9. **AES merge gate:** the workers cannot merge AES PRs (legacy Enforced
+   Planning hook plus a reviewer lane without a credential). Either accept
+   that AES merges stay in the terminal (public repo asks Brian anyway) or
+   replace the gate under Decision 0010; not a pilot task.
