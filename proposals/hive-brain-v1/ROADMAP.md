@@ -274,8 +274,13 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
    each followed by a good run; it looks like the Claude usage limit shared by
    Brian's local sessions and the agents near 5-hour window edges. `readout.py`
    counts them under `failure codes`; `decisions.py` stays green because the
-   latest run succeeded. If they keep coming, the C-ROUTE lane (session "aes")
-   lowers the Coordinator's 30-minute idle heartbeat or its model.
+   latest run succeeded. Paperclip types the failure as "limit" (budget or
+   usage). Done 2026-10-04 06:2x UTC by the C-ROUTE lane: the Coordinator's
+   idle heartbeat went from 30 minutes to 2 hours (event wakes unchanged, so
+   nothing waits longer; in the previous 24 h, 32 of its 60-plus runs were
+   idle wakes, $8.34 of $28.93 at API prices; `settings.json` updated in AES
+   #131, `settings_check.py` 25 of 25). If the failures still appear after a
+   day, the next lever is moving the Coordinator to the Codex subscription.
 5. **Condition 4:** `python3 scripts/hive/readout.py --days 7` must show seven
    days with only clean runs (first clean day 2026-10-03; earliest 2026-10-10).
 6. **Condition 5:** after any rewrite of this file, give a fresh agent only
@@ -289,6 +294,8 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
 
 Full chronicle with evidence: `PROGRESS_LOG.md`. Latest, newest first:
 
+- 2026-10-04 06:2x UTC: Coordinator idle heartbeat 30 min → 2 h (C-ROUTE lane,
+  AES #131) after three "limit" run failures; event wakes unchanged.
 - 2026-10-04 06:00 UTC: the AES merge hook accepts merge-commit merges (PR
   #126), so workers can finish AES jobs unattended; the merge-rule friction is
   AES #124 (learning loop).
