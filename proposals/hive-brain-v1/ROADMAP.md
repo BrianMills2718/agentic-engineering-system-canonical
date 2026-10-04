@@ -479,6 +479,12 @@ token at the hidden prompt. It ends with PASSED or FAILED.
   hook refuses runner merges, so the terminal session merges AES pull requests
   without asking him.
 
+- **2026-10-04, 05:35 UTC:** PR #118 (hook install keeps the machine path out of
+  the tracked hook; from BRI-31) merged by the terminal session (`2111702`) under
+  the narrowed rule after a clean-clone check (`make check` exit 0; `aes hooks
+  install` leaves 0 dirty files). BRI-31 and BRI-32 closed. Six pull requests
+  from five pilot jobs so far.
+
 ## How to check and act
 
 - **Board:** `scripts/hive/board.sh GET|POST <api-path>` runs a request on the
