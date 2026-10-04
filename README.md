@@ -16,10 +16,18 @@ component. Target changes go through `aes plan prepare / validate / accept`.
 - **Start here:** [`docs/greenfield/GETTING_STARTED.md`](docs/greenfield/GETTING_STARTED.md)
   — install, `aes init`, and the lifecycle on a new project.
 - **Where things stand:** in a clone of this repository, install first —
-  `python3 -m venv .venv && .venv/bin/python -m pip install -e ".[dev]"` (Python
-  3.11 or newer) — then run `.venv/bin/aes status`, or `make aes`, which finds
-  that `.venv` itself. The `[dev]` extra adds pytest and mypy, which the
-  `make` test and type targets need; plain `-e .` installs the library only.
+  `uv venv .venv && uv pip install -e ".[dev]"` (Python 3.11 or newer) — then
+  run `.venv/bin/aes status`, or `make aes`, which finds that `.venv` itself.
+  The `[dev]` extra adds pytest and mypy, which the `make` test and type
+  targets need; plain `-e .` installs the library only. `uv venv` leaves no
+  `pip` inside the venv and nothing here needs one; pass `--seed` if you want
+  it anyway.
+- **If you do not have `uv`:** `curl -LsSf https://astral.sh/uv/install.sh | sh`
+  ([other install methods](https://docs.astral.sh/uv/getting-started/installation/)),
+  then restart the shell or `source "$HOME/.local/bin/env"`. This repository
+  assumes `git`, `make` and `uv` on `PATH`; `uv` replaced `python3 -m venv` plus
+  `pip` here on 2026-10-04 and is the install path everywhere in these
+  repositories, for its shared cache across them.
 - **Running the gates:** `make aes` and `make aes-check` are the AES v0.2 gate
   ([Decision 0010](docs/decisions/0010-greenfield-v0.2-accepted.md)); run those
   after the install above. `make check` is Enforced Planning's separate v0.1
@@ -27,10 +35,15 @@ component. Target changes go through `aes plan prepare / validate / accept`.
   clone: its test and type steps run the `.venv` tools rather than a bare
   `pytest`/`mypy` on `PATH`, and the pre-existing `mypy src/` errors in the
   retained v0.1 `repository_context` renderer and in the v0.2 CLI were
-  annotated away in PR #112. Measured at `c00b3e2` from a fresh clone with the
-  install line above and nothing else on `PATH`: `make check` exit 0 (183
+  annotated away in PR #112. Measured at `00fbb82` from a fresh clone with the
+  `uv` install line above and nothing else on `PATH`: `make check` exit 0 (185
   passed, 1 skipped; mypy clean on 20 files), `make aes` exit 0, `make
-  aes-check` exit 0 (177 passed, 1 skipped). The earlier not-green state in
+  aes-check` exit 0 (179 passed, 1 skipped). One test in that suite,
+  `test_clean_install_in_pin_form_...`, builds its own throwaway venv with the
+  standard library's `venv` and `pip` rather than `uv`, so it needs an
+  interpreter that has `ensurepip`; where that is missing (Debian without
+  `python3.13-venv`, for one) set `AES_SKIP_CLEAN_INSTALL=1` to skip it. The
+  earlier not-green state in
   [`evidence/modular-design-integration-2026-09-22.md`](evidence/modular-design-integration-2026-09-22.md)
   is history as of 2026-10-04, not current.
 - **What is accepted, on what evidence, and what is not claimed:**
