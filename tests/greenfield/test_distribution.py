@@ -26,7 +26,8 @@ from pathlib import Path
 import pytest
 
 from agentic_engineering_system.cli import main
-from agentic_engineering_system.hooks import MANAGED_MARKER, HookInstallError, install_hooks
+from agentic_engineering_system.hooks import (INSTALLER_CONFIG_KEY, MANAGED_MARKER, HookInstallError,
+                                              install_hooks)
 
 REPO = Path(__file__).resolve().parents[2]
 SRC = REPO / "src"
@@ -179,10 +180,48 @@ def test_linked_worktree_falls_back_to_main_checkout_venv(consumer: Path) -> Non
 
 def test_reinstall_rewrites_a_managed_hook(consumer: Path) -> None:
     hook, _ = install_hooks(consumer, interpreter="/old/python")
+    first = hook.read_text(encoding="utf-8")
     hook2, _ = install_hooks(consumer, interpreter="/new/python")
     assert hook == hook2
-    text = hook.read_text(encoding="utf-8")
-    assert "/new/python" in text and "/old/python" not in text
+    assert hook.read_text(encoding="utf-8") == first  # the body does not depend on the installer
+    assert _git(consumer, "config", "--local", "--get", INSTALLER_CONFIG_KEY).stdout.strip() == "/new/python"
+
+
+def test_install_leaves_the_tracked_hook_clean_on_another_machine(consumer: Path) -> None:
+    """BRI-31: `.githooks/pre-commit` is tracked and shared, so the installing
+    checkout's absolute interpreter path must not land in it — otherwise the
+    documented install dirties the worktree and one `git add -A` publishes a
+    path that exists on nobody else's machine."""
+    hook, _ = install_hooks(consumer, interpreter=sys.executable)
+    _git(consumer, "add", ".githooks/pre-commit")
+    env = {**os.environ, "PYTHONPATH": str(SRC)}
+    assert _git(consumer, "commit", "-q", "-m", "install hook", env=env).returncode == 0
+    assert _git(consumer, "status", "--short").stdout == ""
+
+    # a second machine installs over the same clone: no tracked change at all
+    install_hooks(consumer, interpreter="/home/other/elsewhere/.venv/bin/python")
+    assert _git(consumer, "status", "--short").stdout == ""
+    body = hook.read_text(encoding="utf-8")
+    assert sys.executable not in body and "/home/other" not in body
+    assert INSTALLER_CONFIG_KEY in body  # it reads the path back from .git/config
+    assert (_git(consumer, "config", "--local", "--get", INSTALLER_CONFIG_KEY).stdout.strip()
+            == "/home/other/elsewhere/.venv/bin/python")
+
+
+def test_hook_runs_without_the_installer_config(consumer: Path) -> None:
+    """A clone that never ran `aes hooks install` (or whose aes.installer is gone)
+    falls through to the worktree venv instead of failing on an empty path."""
+    install_hooks(consumer, interpreter=sys.executable)
+    assert _git(consumer, "config", "--local", "--unset", INSTALLER_CONFIG_KEY).returncode == 0
+    shim = consumer / ".venv" / "bin" / "aes"
+    shim.parent.mkdir(parents=True)
+    shim.write_text(f'#!/bin/sh\nPYTHONPATH={SRC} exec {sys.executable} -m agentic_engineering_system.cli "$@"\n',
+                    encoding="utf-8")
+    shim.chmod(0o755)
+    (consumer / ".gitignore").write_text(".venv/\n", encoding="utf-8")
+    _git(consumer, "add", ".githooks/pre-commit", ".gitignore")
+    assert _git(consumer, "commit", "-q", "-m", "install hook").returncode == 0
+    _assert_hook_gates_orphan(consumer, None)
 
 
 def test_refuses_outside_a_git_repository(tmp_path: Path) -> None:
@@ -275,7 +314,10 @@ def test_clean_install_in_pin_form_reports_commit_version_and_ships_the_hook(tmp
     consumer = _consumer(tmp_path / "consumer")
     hooked = _run([str(aes), "hooks", "install", "--root", str(consumer)], tmp_path)
     assert hooked.returncode == 0, hooked.stderr
-    assert str(venv / "bin" / "python") in (consumer / ".githooks" / "pre-commit").read_text(encoding="utf-8")
+    # the installing interpreter is recorded per clone, not baked into the tracked hook
+    assert (_git(consumer, "config", "--local", "--get", INSTALLER_CONFIG_KEY).stdout.strip()
+            == str(venv / "bin" / "python"))
+    assert str(venv) not in (consumer / ".githooks" / "pre-commit").read_text(encoding="utf-8")
     _git(consumer, "add", ".githooks/pre-commit")
     env = {k: v for k, v in os.environ.items() if k != "PYTHONPATH"}
     assert _git(consumer, "commit", "-q", "-m", "install hook", env=env).returncode == 0

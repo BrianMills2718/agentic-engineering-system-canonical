@@ -8,13 +8,17 @@ set -e
 root=$(git rev-parse --show-toplevel)
 # linked worktrees have no .venv of their own; fall back to the main checkout's
 main=$(cd "$(git rev-parse --git-common-dir)/.." && pwd)
-installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python
-if [ -x "$installer" ]; then aes() { "$installer" -m agentic_engineering_system.cli "$@"; }
+# the interpreter that ran `aes hooks install`, in this clone's .git/config so
+# that this tracked file stays byte-identical on every machine
+installer=$(git config --get aes.installer 2>/dev/null) || installer=
+if [ -n "$installer" ] && [ -x "$installer" ]; then
+  aes() { "$installer" -m agentic_engineering_system.cli "$@"; }
 elif [ -x "$root/.venv/bin/aes" ]; then aes() { "$root/.venv/bin/aes" "$@"; }
 elif [ -x "$main/.venv/bin/aes" ]; then aes() { "$main/.venv/bin/aes" "$@"; }
 elif command -v aes >/dev/null 2>&1; then aes() { command aes "$@"; }
 else
-  echo "pre-commit: 'aes' not found (tried $installer, $root/.venv, $main/.venv, PATH)." >&2
+  echo "pre-commit: 'aes' not found (tried aes.installer=${installer:-<unset>}," \
+       "$root/.venv, $main/.venv, PATH)." >&2
   echo "pre-commit: install AES into the project venv, then rerun 'aes hooks install'." >&2
   exit 1
 fi
