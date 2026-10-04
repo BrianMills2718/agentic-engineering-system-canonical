@@ -1,0 +1,10 @@
+{
+  "stage": "design, pre-build; per-check build dispositions not yet possible",
+  "choice-justified:directed-handoff-flow": {"status": "satisfied", "why": "The question is about routing (which source goes where, which store, where they meet). A two-lane flow puts the routing on the page as edges; a mis-placed or missing piece shows as a wrong or missing arrow."},
+  "rejected:project-schedule": {"status": "rejected", "why": "Router's top score, but the plan has no dates or durations; a Gantt would invent a time axis and hide the two-store convergence."},
+  "rejected:state-machine-view": {"status": "rejected", "why": "State is one attribute per node (done/running/not started), not transitions; carried as a badge instead."},
+  "rejected:staged-explanatory-machine": {"status": "rejected", "why": "Scroll-staged reveal breaks whole-on-one-screen and the under-a-minute read."},
+  "rejected:prose-or-table": {"status": "rejected", "why": "Brian asked for a picture; a list cannot show the convergence on the register."},
+  "wrong-if": ["Brian's reply asks about order, dates, or effort rather than placement (then a schedule was the job)", "Brian cannot say which step is running in greyscale", "the 390px render needs horizontal scroll or text under 11px", "the ChatGPT archive actually goes through Find, so the two lanes are one"],
+  "router-gaps": ["primary scored project-schedule on a flow with no time axis", "compositionPlan viewport is 1440x1000 even with constraints.mobile=true", "no reviewed relation between project-schedule and directed-handoff-flow"]
+}

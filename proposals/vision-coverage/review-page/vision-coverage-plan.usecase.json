@@ -1,0 +1,20 @@
+{
+  "id": "vision-coverage-flow-planning-review",
+  "concern": "Is this the right flow for getting Brian's already-written vision material covered, and is anything missing or in the wrong place?",
+  "stakeholder": "Brian Mills, owner, reading alone on laptop or phone, red-green colorblind",
+  "intent": ["understand", "decide"],
+  "informationStructure": ["process", "network"],
+  "tasks": ["trace", "inspect", "confirm"],
+  "entities": ["source", "step", "store", "register", "not-building item"],
+  "relationships": ["feeds", "captured-into", "compiled-into", "cited-by", "depends-on-running-job"],
+  "explanatoryFocus": ["flow", "state", "provenance"],
+  "surfaceContext": { "medium": "report" },
+  "scale": { "items": 13, "density": "low" },
+  "interaction": { "mode": "read-only", "dynamics": "static" },
+  "audience": { "expertise": "expert", "frequency": "one-off", "domainFamiliarity": "expert" },
+  "consequence": { "risk": "medium", "reversibility": "reversible" },
+  "constraints": { "mobile": true, "accessibility": "high", "realtime": false, "provenance": true, "allowAggregation": false },
+  "representationRole": "explanatory",
+  "abstractionLevel": "overview",
+  "successCriteria": ["Brian answers the review question in under a minute from the picture alone", "state legible in greyscale", "no horizontal scroll at 390px"]
+}
