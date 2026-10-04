@@ -3,7 +3,7 @@
 import { chromium } from 'playwright';
 import path from 'node:path';
 const args = process.argv.slice(2);
-const b = await chromium.launch();
+const b = await chromium.launch({ args: ['--disable-gpu'] });
 const p = await b.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1.5 });
 let failed = 0;
 for (let i = 0; i < args.length; i += 2) {
@@ -21,7 +21,7 @@ for (let i = 0; i < args.length; i += 2) {
     overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
     h: document.documentElement.scrollHeight,
   }));
-  await p.screenshot({ path: png, fullPage: true, timeout: 120000 });
+  await p.screenshot({ path: png, fullPage: true, timeout: 280000 });
   const ok = (r.text > 20 || r.svgs > 0) && !r.error && errs.length === 0 && (status === 0 || status < 400);
   if (!ok) failed++;
   console.log(`${ok ? 'PASS' : 'FAIL'} ${png} text=${r.text} svgs=${r.svgs} error_text=${r.error} js_errors=${errs.length} http=${status} h_scroll=${r.overflow} height=${r.h}`);

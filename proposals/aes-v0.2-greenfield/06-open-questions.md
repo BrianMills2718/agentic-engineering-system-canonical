@@ -323,6 +323,14 @@ delivery doc (`HUMAN_OBSERVABLE_DELIVERY.md` §7) already requires "the
 smallest source-bound review surface" at every checkpoint, so the surface is
 not optional.
 
+Update 2026-10-04: the plan gate shaping (`proposals/aes-plan-gate/`, draft PR
+#125) is the second real use. It extends the probe (execution marks, the
+reference check with its method, a port-graph lens laid out by ELK, phone
+outlines, no red-versus-green marks), renders the gate's own proposal and
+whygame5's target with it, and proposes promoting it to `aes review` as
+`ART-SRC-REVIEW`. The question is answered by that plan's acceptance or
+rejection, not here.
+
 ## Explicitly deferred
 
 Not prerequisites for the Greenfield MVP:

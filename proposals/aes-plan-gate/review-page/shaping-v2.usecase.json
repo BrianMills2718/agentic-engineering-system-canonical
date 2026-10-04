@@ -1,0 +1,25 @@
+{
+  "id": "aes-plan-gate-shaping-v2",
+  "concern": "Should Brian approve the revised shape of the AES plan gate: it promotes the existing review page (render_review.py) into an `aes review` command, adds a port graph as the Architecture lens, and makes plan validation require a clean review and 2-4 phone-checked review points. Can he see, on his phone and without reading YAML, what the page shows for the gate's own plan and for a real project (whygame5), what the gate refuses, and what he would open at review point 1?",
+  "stakeholder": "Brian, owner approving a plan shape on his phone",
+  "intent": ["decide", "understand", "trace"],
+  "informationStructure": ["hierarchy", "network", "process", "list"],
+  "tasks": ["trace", "inspect", "confirm", "lookup"],
+  "entities": ["outcome", "rule", "success-criterion", "evidence-requirement", "verification-subject", "planned-file", "component", "function", "typed-port", "wire", "review-point"],
+  "relationships": ["derived-from", "proved-by", "lives-in", "passes-data-to"],
+  "focus": "the pending decision, then the derivation chain from outcome to files, then the data passing between the new functions, then the review points",
+  "explanatoryFocus": ["structure", "dataflow", "interface"],
+  "scale": { "items": 60, "density": "medium" },
+  "interaction": { "mode": "exploratory", "dynamics": "interactive" },
+  "audience": { "expertise": "expert", "frequency": "one-off", "domainFamiliarity": "expert", "notationFamiliarity": "novice", "visualizationLiteracy": "mixed" },
+  "consequence": { "risk": "medium", "reversibility": "reversible" },
+  "constraints": { "mobile": true, "accessibility": "baseline", "realtime": false, "provenance": true, "allowAggregation": true },
+  "representationRole": "explanatory",
+  "abstractionLevel": "overview",
+  "successCriteria": [
+    "At 390 px Brian can read the decision and the three review points without zooming or scrolling sideways",
+    "Brian can follow one chain from the outcome to a planned file and see whether each step exists or has run",
+    "Brian can follow TargetRecord through the new functions to the gate verdict in the port graph",
+    "Each drawing on the page shows something a list could not; anything list-shaped is a list"
+  ]
+}
