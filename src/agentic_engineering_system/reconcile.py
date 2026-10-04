@@ -50,7 +50,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Literal
+from typing import Final, Literal
 
 from pydantic import computed_field
 
@@ -58,7 +58,7 @@ from .characterize import Producer, _git, characterize, drift
 from .evidence import Freshness, Standing, _reachable, assess
 from .records import StrictModel, TargetRecord, load_project, load_target
 
-RECONCILIATION_SCHEMA = "aes.v0_2.reconciliation.probe0"
+RECONCILIATION_SCHEMA: Final = "aes.v0_2.reconciliation.probe0"
 
 ArtifactStatus = Literal["REALIZED", "UNREALIZED", "DRIFTED"]
 GapKind = Literal["drifted", "refuted", "unrealized", "insufficient", "orphan"]

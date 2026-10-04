@@ -340,7 +340,7 @@ def _removal_violations(root: Path, current: TargetRecord, result: TargetRecord,
 
 
 def skeleton() -> dict[str, Any]:
-    families = {f: [] for f in FAMILIES}
+    families: dict[str, list[Any]] = {f: [] for f in FAMILIES}
     return {
         "schema_version": PROPOSAL_SCHEMA,
         "proposal_id": "",

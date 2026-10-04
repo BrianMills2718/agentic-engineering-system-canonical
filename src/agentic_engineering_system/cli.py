@@ -222,12 +222,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "topology" and args.topology_command == "check":
             return _cmd_topology_check(args.root)
         if args.command == "evidence" and args.evidence_command == "record":
-            done = record(args.root, args.subject, args.depends_on, args.run_command or None, args.inconclusive)
-            a = done.observation.assessments
-            print(f"wrote {done.path}\n  {a[0].assessment if a else 'no assessment'} for "
-                  f"{', '.join(x.evidence_requirement_ref for x in a)} at {done.observation.subject_revision[:12]}")
-            if done.branch_note:
-                print(done.branch_note, file=sys.stderr)
+            recorded = record(args.root, args.subject, args.depends_on, args.run_command or None, args.inconclusive)
+            a = recorded.observation.assessments
+            assert recorded.observation.subject_revision is not None  # record() always runs at HEAD
+            print(f"wrote {recorded.path}\n  {a[0].assessment if a else 'no assessment'} for "
+                  f"{', '.join(x.evidence_requirement_ref for x in a)} at {recorded.observation.subject_revision[:12]}")
+            if recorded.branch_note:
+                print(recorded.branch_note, file=sys.stderr)
             return 0
         if args.command == "evidence" and args.evidence_command == "status":
             print(render_evidence(assess(args.root)))
