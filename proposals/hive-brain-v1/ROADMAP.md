@@ -226,16 +226,15 @@ dashboard (2026-10-03, deployed the same night); the weekly plan refresh
   that `scripts/hive/dashboard.py` writes every minute). Check: an anonymous
   `GET` is a 302 to the Access login; `ssh personal-vps docker logs --tail 3
   glance-feed` shows one line per build with each source's state. The
-  hand-built page below stays up until Brian has tried the new ones.
-- **Old dashboard (hand-built, being replaced):** https://hive.brianmills.dev,
-  private behind Cloudflare Access (his email only), rebuilt every 15 minutes
-  on personal-vps (`apps/hive-dashboard`); one-tap answers post on the waiting
-  task; the message box posts on BRI-2. Checks: an anonymous `GET` is a 302 to
-  the Access login; `ssh personal-vps systemctl list-timers
-  hive-dashboard-build.timer` shows the next run; this machine's
-  `hive-controls.timer` pushes the silence check's rows to the page. Rollback
-  and design notes: `apps/hive-dashboard/README.md`, `scripts/hive/dashboard-use-case.json`,
-  `scripts/hive/DASHBOARD_FEEDBACK.md`.
+  hand-built page below is retired (Brian tried the new ones on 2026-10-04).
+- **Old dashboard: retired 2026-10-04**, after Brian tried the status page ("ok
+  its working"). https://hive.brianmills.dev now answers a 302 to
+  https://status.brianmills.dev behind the same Cloudflare Access gate
+  (personal-vps #67). Still there: plan review pages at
+  https://hive.brianmills.dev/plans/, and the minute build
+  (`hive-dashboard-build.timer`), which writes `data/status-full.json` for
+  Glance. Paperclip's inbox and the Telegram thread replace the old one-tap
+  answers and message box. Design history: `scripts/hive/DASHBOARD_FEEDBACK.md`.
 - **Phone channel:** `ssh personal-vps sudo journalctl -u telegram-relay -n 30`
   shows one line per message either way; `controls.py` has a "Telegram relay"
   row (silent after 10 minutes).
