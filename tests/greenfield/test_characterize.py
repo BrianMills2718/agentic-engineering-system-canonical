@@ -75,8 +75,8 @@ def _commit(root: Path, message: str) -> None:
 @pytest.fixture
 def root(tmp_path: Path) -> Path:
     (tmp_path / ".aes").mkdir()
-    shutil.copy(WHYGAME5_AES / "project.yaml", tmp_path / ".aes" / "project.yaml")
-    shutil.copy(WHYGAME5_AES / "target.yaml", tmp_path / ".aes" / "target.yaml")
+    shutil.copyfile(WHYGAME5_AES / "project.yaml", tmp_path / ".aes" / "project.yaml")
+    shutil.copyfile(WHYGAME5_AES / "target.yaml", tmp_path / ".aes" / "target.yaml")
     for rel, text in SOURCES.items():
         _write(tmp_path, rel, text)
     _git(tmp_path, "init", "-q")

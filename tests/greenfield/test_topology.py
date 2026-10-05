@@ -52,8 +52,8 @@ def project_root(tmp_path: Path) -> Path:
     if not (WHYGAME5_AES / "target.yaml").is_file():
         pytest.fail(f"authentic consumer target missing: {WHYGAME5_AES / 'target.yaml'}")
     (tmp_path / ".aes").mkdir()
-    shutil.copy(WHYGAME5_AES / "project.yaml", tmp_path / ".aes" / "project.yaml")
-    shutil.copy(WHYGAME5_AES / "target.yaml", tmp_path / ".aes" / "target.yaml")
+    shutil.copyfile(WHYGAME5_AES / "project.yaml", tmp_path / ".aes" / "project.yaml")
+    shutil.copyfile(WHYGAME5_AES / "target.yaml", tmp_path / ".aes" / "target.yaml")
     _touch(tmp_path, *REALIZED, "ui/registry.yaml", "README.md")
     _git(tmp_path, "init", "-q")
     _git(tmp_path, "add", ".")
@@ -103,8 +103,8 @@ def test_root_prefix_does_not_match_sibling_directory(project_root: Path) -> Non
 
 def test_not_a_git_repository_is_loud(tmp_path: Path) -> None:
     (tmp_path / ".aes").mkdir()
-    shutil.copy(WHYGAME5_AES / "project.yaml", tmp_path / ".aes" / "project.yaml")
-    shutil.copy(WHYGAME5_AES / "target.yaml", tmp_path / ".aes" / "target.yaml")
+    shutil.copyfile(WHYGAME5_AES / "project.yaml", tmp_path / ".aes" / "project.yaml")
+    shutil.copyfile(WHYGAME5_AES / "target.yaml", tmp_path / ".aes" / "target.yaml")
     with pytest.raises(TopologyError, match="git ls-files failed"):
         check_topology(tmp_path)
 
