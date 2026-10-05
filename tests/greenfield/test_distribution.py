@@ -69,8 +69,8 @@ def _consumer(root: Path) -> Path:
     """The frozen whygame5 records plus its realized governed files, committed."""
     root.mkdir(parents=True, exist_ok=True)
     (root / ".aes").mkdir()
-    shutil.copy(WHYGAME5_AES / "project.yaml", root / ".aes" / "project.yaml")
-    shutil.copy(WHYGAME5_AES / "target.yaml", root / ".aes" / "target.yaml")
+    shutil.copyfile(WHYGAME5_AES / "project.yaml", root / ".aes" / "project.yaml")
+    shutil.copyfile(WHYGAME5_AES / "target.yaml", root / ".aes" / "target.yaml")
     _touch(root, *REALIZED)
     assert _git(root, "init", "-q").returncode == 0
     _git(root, "add", ".")
@@ -227,8 +227,8 @@ def test_hook_runs_without_the_installer_config(consumer: Path) -> None:
 
 def test_refuses_outside_a_git_repository(tmp_path: Path) -> None:
     (tmp_path / ".aes").mkdir()
-    shutil.copy(WHYGAME5_AES / "project.yaml", tmp_path / ".aes" / "project.yaml")
-    shutil.copy(WHYGAME5_AES / "target.yaml", tmp_path / ".aes" / "target.yaml")
+    shutil.copyfile(WHYGAME5_AES / "project.yaml", tmp_path / ".aes" / "project.yaml")
+    shutil.copyfile(WHYGAME5_AES / "target.yaml", tmp_path / ".aes" / "target.yaml")
     with pytest.raises(HookInstallError, match="not a Git repository"):
         install_hooks(tmp_path)
     assert not (tmp_path / ".githooks").exists()

@@ -71,7 +71,7 @@ def _write(root: Path, rel: str, text: str) -> None:
 def root(tmp_path: Path) -> Path:
     repo = tmp_path / "repo"
     (repo / ".aes").mkdir(parents=True)
-    shutil.copy(WHYGAME5_AES / "project.yaml", repo / ".aes" / "project.yaml")
+    shutil.copyfile(WHYGAME5_AES / "project.yaml", repo / ".aes" / "project.yaml")
     target = (WHYGAME5_AES / "target.yaml").read_text(encoding="utf-8")
     (repo / ".aes" / "target.yaml").write_text(target.replace("\ncomponents:\n", f"\n{COMMENT}components:\n"))
     for rel, text in FILES.items():
@@ -248,7 +248,7 @@ def test_accept_applies_delta_preserves_target_text_and_writes_plan(root: Path) 
     head = _git(root, "rev-parse", "HEAD")
     before_target = (root / ".aes" / "target.yaml").read_text()
     proposal = root / "proposal.yaml"  # untracked outside .aes/: not dirty
-    shutil.copy(RUNNER_PROPOSAL, proposal)
+    shutil.copyfile(RUNNER_PROPOSAL, proposal)
     before = set(_snapshot(root))
 
     assert main(["plan", "accept", str(proposal), "--root", str(root)]) == 0
@@ -453,7 +453,7 @@ def test_accept_on_a_branch_warns_like_evidence_record(root: Path, capsys: pytes
     _git(root, "remote", "add", "origin", str(bare))
     _git(root, "push", "-q", "-u", "origin", "main")
     proposal = root / "proposal.yaml"
-    shutil.copy(RUNNER_PROPOSAL, proposal)
+    shutil.copyfile(RUNNER_PROPOSAL, proposal)
 
     _git(root, "checkout", "-q", "-b", "feature")
     _write(root, "src/whygame5/graph.py", "def normalize(s):\n    return s.strip()\n")
@@ -476,6 +476,6 @@ def test_accept_on_the_default_branch_prints_no_warning(root: Path, capsys: pyte
     _git(root, "remote", "add", "origin", str(bare))
     _git(root, "push", "-q", "-u", "origin", "main")
     proposal = root / "proposal.yaml"
-    shutil.copy(RUNNER_PROPOSAL, proposal)
+    shutil.copyfile(RUNNER_PROPOSAL, proposal)
     assert main(["plan", "accept", str(proposal), "--root", str(root)]) == 0
     assert capsys.readouterr().err == ""

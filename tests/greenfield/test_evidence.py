@@ -38,8 +38,8 @@ def _write(root: Path, rel: str, text: str) -> None:
 @pytest.fixture
 def root(tmp_path: Path) -> Path:
     (tmp_path / ".aes").mkdir()
-    shutil.copy(WHYGAME5_AES / "project.yaml", tmp_path / ".aes" / "project.yaml")
-    shutil.copy(WHYGAME5_AES / "target.yaml", tmp_path / ".aes" / "target.yaml")
+    shutil.copyfile(WHYGAME5_AES / "project.yaml", tmp_path / ".aes" / "project.yaml")
+    shutil.copyfile(WHYGAME5_AES / "target.yaml", tmp_path / ".aes" / "target.yaml")
     _write(tmp_path, PROMPTS, "PROMPT = 'why'\n")
     _write(tmp_path, RUN, "<p>run r1</p>\n")
     _git(tmp_path, "init", "-q")

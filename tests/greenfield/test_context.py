@@ -61,8 +61,8 @@ def project_root(tmp_path: Path) -> Path:
         pytest.fail(f"authentic consumer target missing: {WHYGAME5_AES / 'target.yaml'}")
     dest = tmp_path / ".aes"
     dest.mkdir()
-    shutil.copy(WHYGAME5_AES / "project.yaml", dest / "project.yaml")
-    shutil.copy(WHYGAME5_AES / "target.yaml", dest / "target.yaml")
+    shutil.copyfile(WHYGAME5_AES / "project.yaml", dest / "project.yaml")
+    shutil.copyfile(WHYGAME5_AES / "target.yaml", dest / "target.yaml")
     _git(tmp_path, "init", "-q")
     _git(tmp_path, "add", ".aes")
     _git(tmp_path, "commit", "-q", "-m", "probe fixture")
@@ -214,8 +214,8 @@ def test_context_refuses_invalid_target(project_root: Path) -> None:
 def test_context_requires_git_head(tmp_path: Path) -> None:
     dest = tmp_path / ".aes"
     dest.mkdir()
-    shutil.copy(WHYGAME5_AES / "project.yaml", dest / "project.yaml")
-    shutil.copy(WHYGAME5_AES / "target.yaml", dest / "target.yaml")
+    shutil.copyfile(WHYGAME5_AES / "project.yaml", dest / "project.yaml")
+    shutil.copyfile(WHYGAME5_AES / "target.yaml", dest / "target.yaml")
     with pytest.raises(ContextError, match="git rev-parse HEAD"):
         project_context(tmp_path, "CMP-WG5-EVALUATOR")
 

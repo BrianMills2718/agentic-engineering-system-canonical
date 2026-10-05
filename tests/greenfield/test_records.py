@@ -28,8 +28,8 @@ def aes_dir(tmp_path: Path) -> Path:
         pytest.fail(f"authentic consumer target missing: {WHYGAME5_AES / 'target.yaml'}")
     dest = tmp_path / ".aes"
     dest.mkdir()
-    shutil.copy(WHYGAME5_AES / "project.yaml", dest / "project.yaml")
-    shutil.copy(WHYGAME5_AES / "target.yaml", dest / "target.yaml")
+    shutil.copyfile(WHYGAME5_AES / "project.yaml", dest / "project.yaml")
+    shutil.copyfile(WHYGAME5_AES / "target.yaml", dest / "target.yaml")
     return dest
 
 
