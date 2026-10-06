@@ -44,3 +44,10 @@ retest after each rewrite of the roadmap).
 the project stands, update `now.md` (and `state.md` if needed) in the same pull
 request. `python3 scripts/hive/brain_fresh.py .` exits 1 when this brain is
 older than the work since.
+
+
+## Standing policy update — 2026-10-06
+
+AES capability sourcing now treats **apparent novelty as unresolved search debt**, not as a positive design signal. When a needed capability or abstraction appears to have no established owner, the expected response is increased sourcing pressure: try alternate terminology and standards, adjacent disciplines/ecosystems, structural analogues, mature compositions/adapters, internal/historical attempts, failed approaches, and requirement/frame challenge before authorizing bespoke implementation. The more consequential and apparently novel the machinery, the stronger the burden to falsify the novelty claim and shrink the residual gap. Custom construction is a last-resort bounded residual, not an achievement in itself.
+
+This policy is encoded in `docs/architecture/SYSTEM_BOUNDARY.md` under AES-CAP-002 and surfaced in `docs/plans/TEMPLATE.md` as an apparent-novelty check plus residual-invention declaration.
