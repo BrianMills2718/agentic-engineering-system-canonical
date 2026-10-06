@@ -1,0 +1,4 @@
+# AES planning (AP-REQ-002; plan proposals/aes-planning, work unit P3): every proposal names the
+# Company Planning plan it implements (adopted_plan_ref), and `aes plan validate/accept` refuse
+# unless that plan's adoption decision is `adopted` for its current bytes.
+require_adopted_plan: true

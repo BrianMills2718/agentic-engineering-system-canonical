@@ -1,0 +1,11 @@
+# P3 live check in AES canonical at beedf30 (.aes/planning.yaml require_adopted_plan: true)
+$ aes plan validate demo.yaml   (no adopted_plan_ref)
+error: proposal PLAN-P3-DEMO: 1 violation(s):
+  - adopted_plan_ref is missing: .aes/planning.yaml requires every proposal to name the Company Planning plan it implements, adopted through its adoption gate
+exit 1
+
+$ aes plan validate demo-with-ref.yaml   (adopted_plan_ref: proposals/aes-planning/README.md)
+OK proposal PLAN-P3-DEMO: 1 addition(s), 0 change(s), 0 removal(s)
+  closes: no current gap (target extension)
+  resulting target: success_criteria=11 evidence_requirements=15 verification_subjects=13 external_boundaries=4; every evidence requirement has a route
+exit 0

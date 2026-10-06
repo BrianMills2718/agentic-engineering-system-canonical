@@ -153,6 +153,9 @@ class Proposal(StrictModel):
     closes_gaps: list[str]
     target_delta: TargetDelta
     outside_governed_roots: list[OutsideGovernedRoot] = Field(default_factory=list)
+    # The Company Planning plan this proposal implements (repository-relative Markdown path);
+    # required when .aes/planning.yaml sets require_adopted_plan (AP-REQ-002).
+    adopted_plan_ref: str | None = None
 
     @field_validator("proposal_id")
     @classmethod
@@ -421,6 +424,34 @@ def _artifact_violations(proposal: Proposal, governed: list[str]) -> list[str]:
     return violations
 
 
+PLANNING_CONFIG = Path(".aes") / "planning.yaml"
+
+
+def require_adopted_plan(root: Path) -> bool:
+    """`.aes/planning.yaml` `require_adopted_plan` (default false, so a project without Company
+    Planning still works; Brian's repositories turn it on one at a time)."""
+    path = Path(root) / PLANNING_CONFIG
+    if not path.is_file():
+        return False
+    value = (load_yaml_mapping(path) or {}).get("require_adopted_plan", False)
+    if not isinstance(value, bool):
+        raise PlanError(f"{path}", [f"require_adopted_plan must be true or false, not {value!r}"])
+    return value
+
+
+def _adoption_violations(root: Path, proposal: Proposal) -> list[str]:
+    """AP-REQ-002: a named plan must be adopted for its current bytes; required when configured."""
+    from .commit_rule import plan_adoption
+
+    if proposal.adopted_plan_ref is None:
+        if require_adopted_plan(root):
+            return [f"adopted_plan_ref is missing: {PLANNING_CONFIG} requires every proposal to name the "
+                    f"Company Planning plan it implements, adopted through its adoption gate"]
+        return []
+    ok, why = plan_adoption(root, root / proposal.adopted_plan_ref)
+    return [] if ok else [f"adopted_plan_ref {proposal.adopted_plan_ref}: {why}"]
+
+
 def validate_proposal(root: Path, proposal: Proposal) -> ValidatedProposal:
     """Every violation at once as PlanError, or the resulting target."""
     root = Path(root).resolve()
@@ -443,6 +474,7 @@ def validate_proposal(root: Path, proposal: Proposal) -> ValidatedProposal:
                               f"(open: {', '.join(open_gaps) or 'none'})")
 
     violations += _artifact_violations(proposal, governed)
+    violations += _adoption_violations(root, proposal)
     if violations:
         raise PlanError(f"proposal {proposal.proposal_id}", violations)
     return ValidatedProposal(proposal, result, open_gaps)

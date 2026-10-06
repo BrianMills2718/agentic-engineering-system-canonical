@@ -165,6 +165,30 @@ def _plan_candidates(plan_root: Path, number: str | None, plan_id: str | None) -
     return found
 
 
+def plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]:
+    """Whether `plan` declares a Company Planning receipt whose adoption decision is `adopted`
+    for the current bytes of both the plan and the receipt; the reason either way."""
+    if not plan.is_file():
+        return False, f"{plan}: plan file not found"
+    match = FRONT_MATTER_RE.match(plan.read_text(encoding="utf-8", errors="replace"))
+    meta = (_YAML.load(match.group(1)) or {}) if match else {}
+    receipt_ref = meta.get("method_conformance_receipt")
+    if not receipt_ref:
+        return False, f"{plan}: no method_conformance_receipt in front matter (not adopted through Company Planning)"
+    receipt = plan_root / receipt_ref
+    decision = receipt.with_name(receipt.name.removesuffix(".json") + ".adoption-decision.json")
+    if not (receipt.is_file() and decision.is_file()):
+        return False, f"{plan}: receipt or adoption decision missing ({receipt_ref})"
+    record = json.loads(decision.read_text(encoding="utf-8"))
+    if record.get("decision") != "adopted":
+        return False, f"{plan}: adoption decision is {record.get('decision')!r}, not adopted"
+    if record.get("plan_sha256") != _sha256(plan):
+        return False, f"{plan}: plan changed since adoption; re-adopt it"
+    if record.get("receipt_sha256") != _sha256(receipt):
+        return False, f"{plan}: receipt changed since adoption"
+    return True, f"{plan.relative_to(plan_root) if plan.is_relative_to(plan_root) else plan} adopted"
+
+
 def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None) -> tuple[bool, str]:
     """Whether the named plan has a current adopted Company Planning receipt, and why not."""
     label = f"#{number}" if number is not None else plan_id
@@ -173,26 +197,10 @@ def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: st
         return False, f"no plan {label} found under {', '.join(str(r) for r in plan_roots)}"
     reasons = []
     for plan_root, plan in plans:
-        match = FRONT_MATTER_RE.match(plan.read_text(encoding="utf-8", errors="replace"))
-        meta = (_YAML.load(match.group(1)) or {}) if match else {}
-        receipt_ref = meta.get("method_conformance_receipt")
-        if not receipt_ref:
-            reasons.append(f"{plan}: no method_conformance_receipt in front matter (not adopted through Company Planning)")
-            continue
-        receipt = plan_root / receipt_ref
-        decision = receipt.with_name(receipt.name.removesuffix(".json") + ".adoption-decision.json")
-        if not (receipt.is_file() and decision.is_file()):
-            reasons.append(f"{plan}: receipt or adoption decision missing ({receipt_ref})")
-            continue
-        record = json.loads(decision.read_text(encoding="utf-8"))
-        if record.get("decision") != "adopted":
-            reasons.append(f"{plan}: adoption decision is {record.get('decision')!r}, not adopted")
-        elif record.get("plan_sha256") != _sha256(plan):
-            reasons.append(f"{plan}: plan changed since adoption; re-adopt it")
-        elif record.get("receipt_sha256") != _sha256(receipt):
-            reasons.append(f"{plan}: receipt changed since adoption")
-        else:
+        ok, why = plan_adoption(plan_root, plan)
+        if ok:
             return True, f"plan {label} adopted ({plan.relative_to(plan_root)})"
+        reasons.append(why)
     return False, "; ".join(reasons)
 
 

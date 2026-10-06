@@ -105,6 +105,14 @@ normative_items:
     or [Shaping <id>] (git's own merge, fixup and squash messages excepted), and the rule checks the
     tag against facts: an adopted receipt for the named plan, the staged diff's measured size and
     paths, an Emergency trailer, or the plan's proposals folder.
+- id: AP-REQ-002
+  kind: constraint
+  outcome_refs:
+  - OUT-AP-001
+  statement: >
+    In a repository that requires adopted plans, a target change is accepted only for a proposal whose
+    adopted_plan_ref names a Company Planning plan adopted for its current bytes; a proposal that
+    names a plan is checked the same way in any repository.
 success_criteria:
 - id: SC-GF-001
   statement: >
@@ -287,6 +295,24 @@ success_criteria:
       In AES canonical with the hook installed, the three canonical-example commits are judged as
       stated (output and exit codes quoted), and `aes commit replay` over the last 300 commits of
       AES canonical and of personal-vps lists personal-vps #87's commit as refuse, with counts.
+- id: SC-AP-002
+  statement: >
+    With require_adopted_plan true, `aes plan validate` and `aes plan accept` refuse a proposal with no
+    adopted_plan_ref, one naming a missing plan, and one whose plan changed after adoption, each with
+    the reason; the same proposal naming a freshly adopted plan is accepted. With the setting absent,
+    a proposal without adopted_plan_ref is accepted as before.
+  target_refs:
+  - OUT-AP-001
+  - AP-REQ-002
+  disproof: >
+    accept succeeds without an adopted receipt where one is required, or with a receipt for older plan
+    bytes; or the default (setting absent) refuses a proposal that does not name a plan.
+  evidence_requirements:
+  - id: ER-AP-002-01
+    kind: deterministic_test
+    requirement: >
+      Tests run `aes plan validate` and `aes plan accept` in real Git repositories for each case above,
+      asserting exit status, the reason text and whether the target and plan file were written.
 components:
 - id: RU-AES-RECORDS
   responsibility: >
@@ -402,14 +428,18 @@ components:
   - ART-TEST-DISTRIBUTION
 - id: RU-AES-COMMIT-RULE
   responsibility: >
-    Judge a commit message's tag against facts about the staged change and the plan it names,
-    log every verdict, and replay the same judgement over past commits.
+    Judge a commit message's tag against facts about the staged change and the plan it names, log
+    every verdict, replay the same judgement over past commits, and resolve whether a named plan is
+    adopted for its current bytes (used by the commit rule and by plan acceptance).
   target_refs:
   - AP-REQ-001
   - SC-AP-001
+  - AP-REQ-002
+  - SC-AP-002
   planned_artifact_refs:
   - ART-SRC-COMMIT-RULE
   - ART-TEST-COMMIT-RULE
+  - ART-TEST-PLAN-RECEIPT
 planned_artifacts:
 - id: ART-SRC-RECORDS
   locator:
@@ -456,9 +486,11 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/planning.py
   kind: source
   purpose: >
-    planning contract models, target-delta validation and transition-plan validation
+    planning contract models, target-delta validation and transition-plan validation, including the
+    adopted-plan requirement (adopted_plan_ref, .aes/planning.yaml)
   semantic_justification_refs:
   - GF-REQ-004
+  - AP-REQ-002
   exports:
   - prepare
   - validate_proposal
@@ -796,14 +828,17 @@ planned_artifacts:
   kind: source
   purpose: >
     Commit-tag rule: parse the tag, measure the staged or historical diff, resolve plan receipts,
-    produce a verdict with reasons, log it, and replay a revision range.
+    produce a verdict with reasons, log it, and replay a revision range; plan_adoption resolves one
+    named plan's adoption for plan acceptance too.
   semantic_justification_refs:
   - AP-REQ-001
+  - AP-REQ-002
   exports:
   - check_message
   - judge
   - replay
   - load_rule_config
+  - plan_adoption
 - id: ART-TEST-COMMIT-RULE
   locator:
     exact_path: tests/greenfield/test_commit_rule.py
@@ -813,6 +848,15 @@ planned_artifacts:
     commit-msg hook and replay counts.
   semantic_justification_refs:
   - SC-AP-001
+- id: ART-TEST-PLAN-RECEIPT
+  locator:
+    exact_path: tests/greenfield/test_plan_receipt.py
+  kind: test
+  purpose: >
+    Real-repository tests that plan validate and accept require a fresh adopted receipt when the
+    repository asks for it, and behave as before when it does not.
+  semantic_justification_refs:
+  - SC-AP-002
 verification_subjects:
 - id: VS-GF-RECORDS
   criterion_refs:
@@ -950,6 +994,16 @@ verification_subjects:
   locator: tests/greenfield/test_commit_rule.py
   purpose: >
     prove each tag's verdict on real staged commits through the installed hook
+- id: VS-AP-PLAN-RECEIPT
+  criterion_refs:
+  - SC-AP-002
+  evidence_requirement_refs:
+  - ER-AP-002-01
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/greenfield/test_plan_receipt.py
+  purpose: >
+    prove accept refuses without, and accepts with, a fresh adopted receipt
 external_boundaries:
 - evidence_requirement_ref: ER-SC-GF-001-01
   boundary: >
