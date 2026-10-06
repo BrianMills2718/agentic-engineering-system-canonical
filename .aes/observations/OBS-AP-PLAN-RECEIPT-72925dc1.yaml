@@ -1,8 +1,8 @@
 schema_version: aes.v0_2.observation.probe0
-observation_id: OBS-AP-PLAN-RECEIPT-8ace3cd8
+observation_id: OBS-AP-PLAN-RECEIPT-72925dc1
 subject_refs:
 - VS-AP-PLAN-RECEIPT
-subject_revision: 8ace3cd804bf6ecd820175b5d643e426346f5c75
+subject_revision: 72925dc15fe7114205f69de2e7fc9616d7d4c9e8
 dependency_paths:
 - src/agentic_engineering_system/__init__.py
 - src/agentic_engineering_system/characterize.py
@@ -54,20 +54,19 @@ dependency_target_refs:
 - ART-V01---INIT---PY
 observer: &id001
   identity: aes evidence record
-  version: '0.1.dev535+g618a6e475 (running: 8ace3cd)'
+  version: '0.1.dev535+g618a6e475 (running: 72925dc)'
 method: 
   /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-planning/.venv/bin/python -m 
   pytest -q tests/greenfield/test_plan_receipt.py
 execution_state: COMPLETED
 result:
   exit_code: 0
-  output_tail: ".......                                                                  [100%]\n7 passed
-    in 11.73s"
-produced_at: '2026-10-06T20:28:52+00:00'
+  output_tail: "........                                                                 [100%]\n8 passed
+    in 5.62s"
+produced_at: '2026-10-06T20:55:46+00:00'
 assessments:
 - evidence_requirement_ref: ER-AP-002-01
   assessment: SUPPORTS
   basis: 'VS-AP-PLAN-RECEIPT (prove accept refuses without, and accepts with, a fresh adopted receipt)
     passed: exit 0'
   assessor: *id001
-superseded_by: OBS-AP-PLAN-RECEIPT-72925dc1
