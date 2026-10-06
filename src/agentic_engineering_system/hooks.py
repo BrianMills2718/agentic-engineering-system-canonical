@@ -92,6 +92,13 @@ else
   echo "commit-msg: install AES into the project venv, then rerun 'aes hooks install'." >&2
   exit 1
 fi
+# An older AES with no commit rule (for example a main checkout on an earlier branch)
+# must not block every commit: say so loudly and let the commit through unchecked.
+if ! aes commit --help >/dev/null 2>&1; then
+  echo "commit-msg: WARNING: this AES has no 'commit' command, so the commit rule did not run;" \\
+       "update the AES install named by {config_key} or the venv, then rerun 'aes hooks install'." >&2
+  exit 0
+fi
 aes commit check "$1" --root "$root"
 """
 

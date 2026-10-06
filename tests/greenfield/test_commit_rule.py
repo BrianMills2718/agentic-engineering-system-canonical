@@ -200,3 +200,20 @@ def test_replay_judges_history_with_counts(repo: Path) -> None:
     assert verdicts["[Unplanned] install hooks and draft plan"] == "accept"  # emergency recorded
     assert verdicts["fixture"] == "refuse"  # no tag
     assert counts == {"commits": 3, "accept": 2, "refuse": 1, "tag:Trivial": 1, "tag:Unplanned": 1, "tag:none": 1}
+
+
+def test_an_older_aes_without_the_rule_warns_and_does_not_block(repo: Path, tmp_path: Path) -> None:
+    """A main checkout on an older branch must not stop every commit in every worktree."""
+    old_aes = tmp_path / "old-python"
+    old_aes.write_text("#!/bin/sh\necho 'aes: error: invalid choice: commit' >&2\nexit 2\n", encoding="utf-8")
+    old_aes.chmod(0o755)
+    assert _git(repo, "config", "--local", "aes.installer", str(old_aes)).returncode == 0
+    _write(repo, "notes.md", "x\n")
+    _git(repo, "add", "notes.md")
+    done = _git(repo, "commit", "--no-verify", "-m", "placeholder")  # pre-commit would also use the old aes
+    assert done.returncode == 0
+    _git(repo, "reset", "--soft", "HEAD~1")
+    hook = subprocess.run([str(repo / ".githooks" / "commit-msg"), str(repo / ".git" / "COMMIT_EDITMSG")],
+                          cwd=repo, capture_output=True, text=True, env=ENV)
+    assert hook.returncode == 0
+    assert "WARNING: this AES has no 'commit' command, so the commit rule did not run" in hook.stderr
