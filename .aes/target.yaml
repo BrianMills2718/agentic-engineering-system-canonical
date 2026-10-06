@@ -9,6 +9,16 @@ outcomes:
   - universal_language_support
   - universal_framework_abstraction
   - organization_portfolio_orchestration
+- id: OUT-AP-001
+  actor_or_consumer: brian_and_his_engineering_agents
+  statement: >
+    Real implementation work in an AES-governed repository lands only under a plan that Company
+    Planning adopted; trivial work still lands, decided by measured facts about the change, not by
+    the tag an agent types.
+  non_goals:
+  - judging_commit_prose_with_regex
+  - a_stop_hook
+  - migrating_other_repositories_in_this_change
 normative_items:
 - id: GF-REQ-001
   kind: constraint
@@ -86,6 +96,23 @@ normative_items:
     (the installed console script aes-repo-context, tested by tests/repository_context/) and the package
     __init__.py are retained, each a planned artifact of this target so the no-orphan rule holds. They
     carry no v0.2 obligation; changing them is v0.1 maintenance, not v0.2 work.
+- id: AP-REQ-001
+  kind: constraint
+  outcome_refs:
+  - OUT-AP-001
+  statement: >
+    Every commit message's first line carries one of [Plan #N], [Goal <id>], [Trivial], [Unplanned]
+    or [Shaping <id>] (git's own merge, fixup and squash messages excepted), and the rule checks the
+    tag against facts: an adopted receipt for the named plan, the staged diff's measured size and
+    paths, an Emergency trailer, or the plan's proposals folder.
+- id: AP-REQ-002
+  kind: constraint
+  outcome_refs:
+  - OUT-AP-001
+  statement: >
+    In a repository that requires adopted plans, a target change is accepted only for a proposal whose
+    adopted_plan_ref names a Company Planning plan adopted for its current bytes; a proposal that
+    names a plan is checked the same way in any repository.
 success_criteria:
 - id: SC-GF-001
   statement: >
@@ -242,6 +269,50 @@ success_criteria:
     requirement: >
       Retain the fresh project's initialization, target, plan, realization, observations/evidence,
       current/gap and fresh-agent context evaluation at exact revisions.
+- id: SC-AP-001
+  statement: >
+    With the commit-message hook installed, a staged change adding a Dockerfile committed as
+    "[Unplanned] ..." with no Emergency trailer is judged refuse and names the running-thing file;
+    the same change under a [Goal <id>] whose plan is adopted is judged accept; a one-line README
+    change under [Trivial] is judged accept; in observe mode every verdict is logged and none blocks.
+  target_refs:
+  - OUT-AP-001
+  - AP-REQ-001
+  disproof: >
+    The rule accepts or refuses on the tag text alone; or a running-thing file passes as [Trivial];
+    or a [Goal] or [Plan] commit is accepted with no adopted receipt, or with a receipt for older
+    plan bytes; or observe mode blocks a commit.
+  evidence_requirements:
+  - id: ER-AP-001-01
+    kind: deterministic_test
+    requirement: >
+      Tests build real Git repositories, install the hooks with `aes hooks install`, stage real
+      changes and run real commits, asserting each tag's verdict and reason, observe versus enforce
+      exit status, the log line, and replay counts.
+  - id: ER-AP-001-02
+    kind: runtime_observation
+    requirement: >
+      In AES canonical with the hook installed, the three canonical-example commits are judged as
+      stated (output and exit codes quoted), and `aes commit replay` over the last 300 commits of
+      AES canonical and of personal-vps lists personal-vps #87's commit as refuse, with counts.
+- id: SC-AP-002
+  statement: >
+    With require_adopted_plan true, `aes plan validate` and `aes plan accept` refuse a proposal with no
+    adopted_plan_ref, one naming a missing plan, and one whose plan changed after adoption, each with
+    the reason; the same proposal naming a freshly adopted plan is accepted. With the setting absent,
+    a proposal without adopted_plan_ref is accepted as before.
+  target_refs:
+  - OUT-AP-001
+  - AP-REQ-002
+  disproof: >
+    accept succeeds without an adopted receipt where one is required, or with a receipt for older plan
+    bytes; or the default (setting absent) refuses a proposal that does not name a plan.
+  evidence_requirements:
+  - id: ER-AP-002-01
+    kind: deterministic_test
+    requirement: >
+      Tests run `aes plan validate` and `aes plan accept` in real Git repositories for each case above,
+      asserting exit status, the reason text and whether the target and plan file were written.
 components:
 - id: RU-AES-RECORDS
   responsibility: >
@@ -355,6 +426,20 @@ components:
   - ART-DOC-GREENFIELD-GETTING-STARTED
   - ART-SRC-HOOKS
   - ART-TEST-DISTRIBUTION
+- id: RU-AES-COMMIT-RULE
+  responsibility: >
+    Judge a commit message's tag against facts about the staged change and the plan it names, log
+    every verdict, replay the same judgement over past commits, and resolve whether a named plan is
+    adopted for its current bytes (used by the commit rule and by plan acceptance).
+  target_refs:
+  - AP-REQ-001
+  - SC-AP-001
+  - AP-REQ-002
+  - SC-AP-002
+  planned_artifact_refs:
+  - ART-SRC-COMMIT-RULE
+  - ART-TEST-COMMIT-RULE
+  - ART-TEST-PLAN-RECEIPT
 planned_artifacts:
 - id: ART-SRC-RECORDS
   locator:
@@ -401,9 +486,11 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/planning.py
   kind: source
   purpose: >
-    planning contract models, target-delta validation and transition-plan validation
+    planning contract models, target-delta validation and transition-plan validation, including the
+    adopted-plan requirement (adopted_plan_ref, .aes/planning.yaml)
   semantic_justification_refs:
   - GF-REQ-004
+  - AP-REQ-002
   exports:
   - prepare
   - validate_proposal
@@ -587,13 +674,16 @@ planned_artifacts:
     exact_path: src/agentic_engineering_system/hooks.py
   kind: source
   purpose: >
-    Generate and install the consumer's pre-commit gate (target validate + topology check) with
-    a worktree-safe interpreter lookup, refusing to overwrite a hook AES did not write.
+    Generate and install the consumer's pre-commit gate (target validate + topology check) and
+    commit-msg gate (aes commit check) with a worktree-safe interpreter lookup, refusing to overwrite
+    a hook AES did not write.
   semantic_justification_refs:
   - GF-REQ-001
+  - AP-REQ-001
   exports:
   - install_hooks
   - render_hook
+  - render_commit_msg_hook
 - id: ART-TEST-DISTRIBUTION
   locator:
     exact_path: tests/greenfield/test_distribution.py
@@ -732,6 +822,41 @@ planned_artifacts:
     v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)
   semantic_justification_refs:
   - NI-AES-HIST
+- id: ART-SRC-COMMIT-RULE
+  locator:
+    exact_path: src/agentic_engineering_system/commit_rule.py
+  kind: source
+  purpose: >
+    Commit-tag rule: parse the tag, measure the staged or historical diff, resolve plan receipts,
+    produce a verdict with reasons, log it, and replay a revision range; plan_adoption resolves one
+    named plan's adoption for plan acceptance too.
+  semantic_justification_refs:
+  - AP-REQ-001
+  - AP-REQ-002
+  exports:
+  - check_message
+  - judge
+  - replay
+  - load_rule_config
+  - plan_adoption
+- id: ART-TEST-COMMIT-RULE
+  locator:
+    exact_path: tests/greenfield/test_commit_rule.py
+  kind: test
+  purpose: >
+    Real-repository tests of every tag's verdict, observe and enforce exit status, the installed
+    commit-msg hook and replay counts.
+  semantic_justification_refs:
+  - SC-AP-001
+- id: ART-TEST-PLAN-RECEIPT
+  locator:
+    exact_path: tests/greenfield/test_plan_receipt.py
+  kind: test
+  purpose: >
+    Real-repository tests that plan validate and accept require a fresh adopted receipt when the
+    repository asks for it, and behave as before when it does not.
+  semantic_justification_refs:
+  - SC-AP-002
 verification_subjects:
 - id: VS-GF-RECORDS
   criterion_refs:
@@ -859,6 +984,26 @@ verification_subjects:
   purpose: >
     on AES canonical itself: the unchanged planned topology is accepted at HEAD and every evidence
     requirement of the live target has a route
+- id: VS-AP-COMMIT-RULE
+  criterion_refs:
+  - SC-AP-001
+  evidence_requirement_refs:
+  - ER-AP-001-01
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/greenfield/test_commit_rule.py
+  purpose: >
+    prove each tag's verdict on real staged commits through the installed hook
+- id: VS-AP-PLAN-RECEIPT
+  criterion_refs:
+  - SC-AP-002
+  evidence_requirement_refs:
+  - ER-AP-002-01
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/greenfield/test_plan_receipt.py
+  purpose: >
+    prove accept refuses without, and accepts with, a fresh adopted receipt
 external_boundaries:
 - evidence_requirement_ref: ER-SC-GF-001-01
   boundary: >
@@ -878,3 +1023,8 @@ external_boundaries:
     The orchestrator retains whygame5's lifecycle at exact revisions (init commit, target history,
     accepted plans, realization commits, observations, aes status output, fresh-agent context evaluation)
     and records one observation listing them; no test in this repository can establish it.
+- evidence_requirement_ref: ER-AP-001-02
+  boundary: >
+    The orchestrating session installs the hook in AES canonical, makes the three canonical-example
+    commits in a scratch branch, quotes each verdict and exit code, runs `aes commit replay` over the
+    last 300 commits of AES canonical and personal-vps, and records one observation with the output.

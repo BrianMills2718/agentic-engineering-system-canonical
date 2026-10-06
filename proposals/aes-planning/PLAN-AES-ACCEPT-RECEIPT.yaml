@@ -1,0 +1,115 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-AES-ACCEPT-RECEIPT
+title: aes plan accept requires the Company Planning adoption receipt (aes-planning P3)
+rationale: >
+  Work unit P3 of the adopted plan proposals/aes-planning/README.md. A proposal may name the Company
+  Planning plan it implements (adopted_plan_ref). When it does, or when the repository sets
+  require_adopted_plan in .aes/planning.yaml, `aes plan validate` and `aes plan accept` resolve that
+  plan's method_conformance_receipt and refuse unless its adoption decision is `adopted` for the plan's
+  and the receipt's current bytes (the same lookup the commit rule uses for [Plan]/[Goal] tags). The
+  setting defaults to off, so a new user without access to Company Planning can still start a project
+  (SC-GF-001); Brian's repositories turn it on one at a time, AES canonical first.
+closes_gaps: []
+target_delta:
+  add:
+    normative_items:
+      - id: AP-REQ-002
+        kind: constraint
+        outcome_refs:
+          - OUT-AP-001
+        statement: >
+          In a repository that requires adopted plans, a target change is accepted only for a proposal whose
+          adopted_plan_ref names a Company Planning plan adopted for its current bytes; a proposal that
+          names a plan is checked the same way in any repository.
+    success_criteria:
+      - id: SC-AP-002
+        statement: >
+          With require_adopted_plan true, `aes plan validate` and `aes plan accept` refuse a proposal with no
+          adopted_plan_ref, one naming a missing plan, and one whose plan changed after adoption, each with
+          the reason; the same proposal naming a freshly adopted plan is accepted. With the setting absent,
+          a proposal without adopted_plan_ref is accepted as before.
+        target_refs:
+          - OUT-AP-001
+          - AP-REQ-002
+        disproof: >
+          accept succeeds without an adopted receipt where one is required, or with a receipt for older plan
+          bytes; or the default (setting absent) refuses a proposal that does not name a plan.
+        evidence_requirements:
+          - id: ER-AP-002-01
+            kind: deterministic_test
+            requirement: >
+              Tests run `aes plan validate` and `aes plan accept` in real Git repositories for each case above,
+              asserting exit status, the reason text and whether the target and plan file were written.
+    planned_artifacts:
+      - id: ART-TEST-PLAN-RECEIPT
+        locator:
+          exact_path: tests/greenfield/test_plan_receipt.py
+        kind: test
+        purpose: >
+          Real-repository tests that plan validate and accept require a fresh adopted receipt when the
+          repository asks for it, and behave as before when it does not.
+        semantic_justification_refs:
+          - SC-AP-002
+    verification_subjects:
+      - id: VS-AP-PLAN-RECEIPT
+        criterion_refs:
+          - SC-AP-002
+        evidence_requirement_refs:
+          - ER-AP-002-01
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/greenfield/test_plan_receipt.py
+        purpose: >
+          prove accept refuses without, and accepts with, a fresh adopted receipt
+  change:
+    components:
+      - id: RU-AES-COMMIT-RULE
+        responsibility: >
+          Judge a commit message's tag against facts about the staged change and the plan it names, log
+          every verdict, replay the same judgement over past commits, and resolve whether a named plan is
+          adopted for its current bytes (used by the commit rule and by plan acceptance).
+        target_refs:
+          - AP-REQ-001
+          - SC-AP-001
+          - AP-REQ-002
+          - SC-AP-002
+        planned_artifact_refs:
+          - ART-SRC-COMMIT-RULE
+          - ART-TEST-COMMIT-RULE
+          - ART-TEST-PLAN-RECEIPT
+    planned_artifacts:
+      - id: ART-SRC-COMMIT-RULE
+        locator:
+          exact_path: src/agentic_engineering_system/commit_rule.py
+        kind: source
+        purpose: >
+          Commit-tag rule: parse the tag, measure the staged or historical diff, resolve plan receipts,
+          produce a verdict with reasons, log it, and replay a revision range; plan_adoption resolves one
+          named plan's adoption for plan acceptance too.
+        semantic_justification_refs:
+          - AP-REQ-001
+          - AP-REQ-002
+        exports:
+          - check_message
+          - judge
+          - replay
+          - load_rule_config
+          - plan_adoption
+      - id: ART-SRC-PLANNING
+        locator:
+          exact_path: src/agentic_engineering_system/planning.py
+        kind: source
+        purpose: >
+          planning contract models, target-delta validation and transition-plan validation, including the
+          adopted-plan requirement (adopted_plan_ref, .aes/planning.yaml)
+        semantic_justification_refs:
+          - GF-REQ-004
+          - AP-REQ-002
+        exports:
+          - prepare
+          - validate_proposal
+          - accept_proposal
+          - route_violations
+          - unrouted_requirements
+          - load_proposal
+outside_governed_roots: []

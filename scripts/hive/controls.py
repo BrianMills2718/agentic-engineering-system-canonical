@@ -11,6 +11,8 @@ Controls and where their activity is read:
   - CC Safety Net: newest entry under ~/.cc-safety-net/logs, per client
   - Paperclip agents: latest heartbeat run, and latest successful one (board API on personal-vps)
   - Learning loop: latest summary comment on AES issue #74 (weekly timer on personal-vps)
+  - Feedback collector: last line of ~/projects/data/feedback-collector/runs.jsonl (nightly
+    feedback-collector.timer here; scripts/learning_loop/collect_feedback.py); FAILING when it had errors
   - VPS backup: last result of vps-backup.service on personal-vps
   - Telegram relay: heartbeat file written every cycle by telegram-relay.service on personal-vps
     (personal-vps apps/telegram-relay); silent after 10 minutes
@@ -134,6 +136,10 @@ def main() -> int:
     else:
         unknown = True
         rows.append(("Paperclip agents + VPS backup", "?", "-", f"UNKNOWN: ssh failed ({r.stderr.strip()[:80]})"))
+
+    fc = jsonl_last(os.path.expanduser("~/projects/data/feedback-collector/runs.jsonl"))
+    fc_when = dt.datetime.strptime(fc["run_id"], "%Y%m%dT%H%M%SZ").replace(tzinfo=dt.timezone.utc) if fc else None
+    add("Feedback collector (nightly)", fc_when, 2 * DAY, f"{fc['errors']} errors in last run" if fc and fc["errors"] else "")
 
     g = subprocess.run(["gh", "api", f"repos/{AES_REPO}/issues/{SUMMARY_ISSUE}/comments?per_page=100"],
                        capture_output=True, text=True)

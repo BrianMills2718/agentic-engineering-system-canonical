@@ -29,6 +29,7 @@ record does, when the revision it recorded is not on the default branch.
 from __future__ import annotations
 
 import argparse
+import subprocess
 import sys
 from collections.abc import Sequence
 from pathlib import Path
@@ -37,6 +38,7 @@ from .characterize import CharacterizeError
 from .characterize import check as characterize_check
 from .characterize import render_report as render_characterization
 from .characterize import running_version
+from .commit_rule import check_message, replay
 from .evidence import EvidenceError, assess, branch_note, record
 from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
@@ -126,7 +128,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
     hooks = sub.add_parser("hooks", help="Git hooks that enforce the target")
     hooks_sub = hooks.add_subparsers(dest="hooks_command", required=True)
-    install = hooks_sub.add_parser("install", help="write .githooks/pre-commit and set core.hooksPath")
+    install = hooks_sub.add_parser("install", help="write .githooks/pre-commit and commit-msg and set core.hooksPath")
     install.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
 
     charac = sub.add_parser("characterize", help="revision-bound facts about the governed files, and drift from the target")
@@ -150,7 +152,33 @@ def _build_parser() -> argparse.ArgumentParser:
     pacc = plan_sub.add_parser("accept", help="apply a valid proposal to the target and write the plan (no commit)")
     pacc.add_argument("proposal", type=Path, help="proposal YAML (aes.v0_2.proposal.probe0)")
     pacc.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
+    commit = sub.add_parser("commit", help="the commit-tag rule (AP-REQ-001): real work lands only under an adopted plan")
+    commit_sub = commit.add_subparsers(dest="commit_command", required=True)
+    cchk = commit_sub.add_parser("check", help="judge the commit being made (run by the commit-msg hook)")
+    cchk.add_argument("message_file", type=Path, help="the commit message file git passes to commit-msg")
+    cchk.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
+    crep = commit_sub.add_parser("replay", help="judge past commits with today's rule and receipts")
+    crep.add_argument("revisions", nargs="?", default="HEAD", help="revision or range (default HEAD)")
+    crep.add_argument("-n", "--max-count", type=int, default=300, help="commits to judge (default 300)")
+    crep.add_argument("--root", type=Path, default=None,
+                      help="repository root (default: top of the current Git work tree)")
+    crep.add_argument("--json", action="store_true", help="one JSON object per commit, then the counts")
     return parser
+
+
+def _cmd_commit_replay(root: Path, revisions: str, max_count: int, as_json: bool) -> int:
+    import json
+    from dataclasses import asdict
+
+    rows, counts = replay(root, revisions, max_count)
+    for sha, subject, verdict in rows:
+        if as_json:
+            print(json.dumps({"sha": sha, "subject": subject, **asdict(verdict)}))
+        else:
+            print(f"{verdict.verdict:<6} {sha[:8]} [{verdict.tag}] {subject[:90]}\n         {'; '.join(verdict.reasons)[:300]}")
+    print(json.dumps(counts) if as_json else
+          "replay: " + ", ".join(f"{k}={v}" for k, v in counts.items()))
+    return 0
 
 
 def _cmd_target_validate(root: Path) -> int:
@@ -271,9 +299,17 @@ def main(argv: Sequence[str] | None = None) -> int:
             if note:
                 print(note, file=sys.stderr)
             return 0
+        if args.command == "commit" and args.commit_command == "check":
+            rule_status, rule_report = check_message(args.root or Path.cwd(), args.message_file)
+            print(rule_report, file=sys.stderr)
+            return rule_status
+        if args.command == "commit" and args.commit_command == "replay":
+            repo_root = args.root or Path(subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True,
+                                                    text=True, check=True).stdout.strip())
+            return _cmd_commit_replay(repo_root, args.revisions, args.max_count, args.json)
         if args.command == "hooks" and args.hooks_command == "install":
             hook, overridden = install_hooks(args.root)
-            print(f"wrote {hook}\n  core.hooksPath=.githooks; runs aes target validate + aes topology check"
+            print(f"wrote {hook} and {hook.with_name('commit-msg')}\n  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check"
                   f"\n  aes.installer={sys.executable} in .git/config, so the tracked hook stays unchanged")
             if overridden:
                 print(f"  note: overrides the global core.hooksPath {overridden} in this repository", file=sys.stderr)

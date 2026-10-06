@@ -1,0 +1,60 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-AP-COMMIT-RULE-RUNTIME-08f5343
+subject_refs: [SC-AP-001, ART-SRC-COMMIT-RULE, ART-SRC-HOOKS]
+subject_revision: 08f53436b1b5ca03ab2fb500ce1bffb121a0aea7
+# What the run executed: the rule, the hooks it installed, and the command surface.
+dependency_paths:
+  - src/agentic_engineering_system/commit_rule.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/cli.py
+dependency_target_refs: [SC-AP-001]
+observer:
+  identity: >
+    The orchestrating session (Claude Code session code-71, which wrote the rule), as the external
+    boundary for ER-AP-001-02 names; not an independent reviewer.
+  version: Claude Opus 5.5
+method: >
+  In AES canonical, on throwaway branch scratch/commit-rule-demo cut from 08f5343, `aes hooks install`
+  with this revision's code (PYTHONPATH pointed at the branch's src, because the shared venv is an
+  editable install of the main checkout, which is on an older branch), `.aes/commit_rule.yaml` set to
+  enforce, then real `git commit` runs: Dockerfile + compose.yaml as "[Unplanned] add worker tools";
+  the same staged change as "[Goal aes-planning] U2: worker tools" (the real Company Planning receipt of
+  proposals/aes-planning, decision adopted); one README line as "[Trivial] fix typo"; then mode observe
+  and "[Unplanned] add another worker image". Then `aes commit replay origin/main -n 300` over AES
+  canonical and over personal-vps, and each refused commit re-judged as if tagged [Trivial] to measure
+  how much history the trivial lane covers.
+execution_state: COMPLETED
+produced_at: 2026-10-06T20:05:00+00:00
+result:
+  unplanned_running_thing: "exit 1: refuse [Unplanned] ... touches running-thing file(s) Dockerfile, compose.yaml and needs a plan"
+  goal_with_adopted_receipt: "exit 0: accept [Goal aes-planning] - plan aes-planning adopted (proposals/aes-planning/README.md)"
+  trivial_readme_line: "exit 0: accept [Trivial] - trivial: 1 file(s), 2 line(s), no running-thing file"
+  observe_mode: "exit 0: would refuse (observe mode) [Unplanned]; commit landed; logged with mode observe"
+  replay_aes_canonical: "commits=300, accept=2, refuse=298, tag:none=217, tag:Unplanned=81, tag:Trivial=1, tag:git=1"
+  replay_personal_vps: "commits=103 (all of its history), refuse=103, all untagged; personal-vps #87 (1e41a612) refuse"
+  trivial_share: >
+    Of AES canonical's 298 refused commits, 156 would pass the measured trivial test once tagged and 142
+    would not (124 over 60 lines, 47 over 3 files, 23 running-thing files, 10 new governed files); of
+    personal-vps's 103, 34 would pass and 69 would not (61 touch running-thing files).
+  not_shown: >
+    personal-vps #87 is refused in replay because it carries no tag at all, not because of its
+    running-thing files; with an [Unplanned] tag and no Emergency line it would be refused for those files
+    (the same rule as the live Dockerfile case above).
+retained_artifact_refs:
+  - proposals/aes-planning/evidence/p4-canonical-example-transcript.txt
+  - proposals/aes-planning/evidence/p4-replay-aes-canonical-300.txt
+  - proposals/aes-planning/evidence/p4-replay-personal-vps-300.txt
+  - proposals/aes-planning/evidence/p4-replay-trivial-share.txt
+assessments:
+  - evidence_requirement_ref: ER-AP-001-02
+    assessment: SUPPORTS
+    basis: >
+      The installed hook in AES canonical gave the three canonical-example verdicts on real commits with the
+      stated exit codes, observe mode logged without blocking, and the replay over 300 commits of AES
+      canonical and all 103 of personal-vps ran with the real rule and lists personal-vps #87's commit as
+      refuse, with counts. The run used this revision's code through PYTHONPATH; until the main checkout
+      runs an AES with the rule, the installed hook there warns and lets commits through (tested).
+    assessor:
+      identity: the same session, scoring its own run against the external boundary in .aes/target.yaml
+      version: Claude Opus 5.5
+superseded_by: OBS-AP-COMMIT-RULE-RUNTIME-b023fb0

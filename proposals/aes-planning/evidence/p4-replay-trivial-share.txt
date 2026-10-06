@@ -1,0 +1,2 @@
+AES canonical: 300 commits, 298 refused; re-judged as [Trivial]: 156 would pass the measured trivial test, 142 would not; reasons among the latter: {'changed lines': 124, 'files': 47, 'touches running-thing file(s)': 23, 'adds file(s) under a governed root': 10}
+personal-vps: 103 commits, 103 refused; re-judged as [Trivial]: 34 would pass the measured trivial test, 69 would not; reasons among the latter: {'files': 41, 'changed lines': 39, 'touches running-thing file(s)': 61}

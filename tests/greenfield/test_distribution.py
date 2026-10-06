@@ -194,7 +194,7 @@ def test_install_leaves_the_tracked_hook_clean_on_another_machine(consumer: Path
     documented install dirties the worktree and one `git add -A` publishes a
     path that exists on nobody else's machine."""
     hook, _ = install_hooks(consumer, interpreter=sys.executable)
-    _git(consumer, "add", ".githooks/pre-commit")
+    _git(consumer, "add", ".githooks")  # pre-commit and commit-msg
     env = {**os.environ, "PYTHONPATH": str(SRC)}
     assert _git(consumer, "commit", "-q", "-m", "install hook", env=env).returncode == 0
     assert _git(consumer, "status", "--short").stdout == ""

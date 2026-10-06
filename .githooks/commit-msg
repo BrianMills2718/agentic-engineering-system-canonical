@@ -1,15 +1,12 @@
 #!/bin/sh
 # managed by aes hooks install
-# AES v0.2 gate: the target must load strictly, every evidence requirement in it
-# must have a route, and every file staged under a governed root must be a
-# planned artifact in the target. Regenerate with
+# AES commit rule (AP-REQ-001): the first line's tag is checked against facts about
+# the staged change and the plan it names (`aes commit check`). Mode is set in
+# .aes/commit_rule.yaml (observe: log only; enforce: refuse). Regenerate with
 # `aes hooks install`; edits here are overwritten.
 set -e
 root=$(git rev-parse --show-toplevel)
-# linked worktrees have no .venv of their own; fall back to the main checkout's
 main=$(cd "$(git rev-parse --git-common-dir)/.." && pwd)
-# the interpreter that ran `aes hooks install`, in this clone's .git/config so
-# that this tracked file stays byte-identical on every machine
 installer=$(git config --get aes.installer 2>/dev/null) || installer=
 # In AES's own repository, check this working copy with its own code (as `make aes`
 # does), not with whichever branch the shared venv's editable install points at.
@@ -22,10 +19,16 @@ elif [ -x "$root/.venv/bin/aes" ]; then aes() { "$root/.venv/bin/aes" "$@"; }
 elif [ -x "$main/.venv/bin/aes" ]; then aes() { "$main/.venv/bin/aes" "$@"; }
 elif command -v aes >/dev/null 2>&1; then aes() { command aes "$@"; }
 else
-  echo "pre-commit: 'aes' not found (tried aes.installer=${installer:-<unset>}," \
+  echo "commit-msg: 'aes' not found (tried aes.installer=${installer:-<unset>}," \
        "$root/.venv, $main/.venv, PATH)." >&2
-  echo "pre-commit: install AES into the project venv, then rerun 'aes hooks install'." >&2
+  echo "commit-msg: install AES into the project venv, then rerun 'aes hooks install'." >&2
   exit 1
 fi
-aes target validate --root "$root" >/dev/null
-aes topology check --root "$root"
+# An older AES with no commit rule (for example a main checkout on an earlier branch)
+# must not block every commit: say so loudly and let the commit through unchecked.
+if ! aes commit --help >/dev/null 2>&1; then
+  echo "commit-msg: WARNING: this AES has no 'commit' command, so the commit rule did not run;" \
+       "update the AES install named by aes.installer or the venv, then rerun 'aes hooks install'." >&2
+  exit 0
+fi
+aes commit check "$1" --root "$root"

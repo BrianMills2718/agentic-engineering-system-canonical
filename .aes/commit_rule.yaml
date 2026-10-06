@@ -1,0 +1,7 @@
+# AES commit rule (AP-REQ-001; plan proposals/aes-planning, work unit P4).
+# observe: every verdict is logged to <git-common-dir>/aes/commit-rule-<date>.jsonl and nothing is refused.
+# enforce is switched on only after an observe week whose false refusals are at or under 1 in 5,
+# with that log quoted in the switching commit (plan: "Irreversible actions and spend").
+mode: observe
+trivial_max_files: 3
+trivial_max_lines: 60
