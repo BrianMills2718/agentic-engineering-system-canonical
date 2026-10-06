@@ -1,0 +1,698 @@
+{
+  "availability": {
+    "status": "available",
+    "present": [],
+    "missing": [],
+    "note": null
+  },
+  "primary": {
+    "representation": "schema-explorer",
+    "interaction": [
+      "path-highlighting",
+      "details-on-demand",
+      "search-focus",
+      "provenance-inspector"
+    ],
+    "implementation": {
+      "renderer": "native-web",
+      "layout": null,
+      "notes": [
+        "supports application-ui (+7)",
+        "low-dependency baseline (+3)"
+      ],
+      "playbook": {
+        "id": "responsive-application-composition",
+        "buildSteps": [
+          "establish-primary-task-and-panel-hierarchy",
+          "design-target-width-breakpoints",
+          "use-minmax-and-content-aware-sizing",
+          "keep-details-from-obscuring-primary-context",
+          "test-empty-normal-and-max-content",
+          "verify-keyboard-and-focus-order",
+          "run-render-quality-gate"
+        ],
+        "avoid": [
+          "fixed-desktop-panel-widths",
+          "page-level-horizontal-scroll",
+          "secondary-panels-dominating-primary-task"
+        ]
+      }
+    }
+  },
+  "alternatives": [
+    "node-link-graph",
+    "composite-linked-view",
+    "uml-component-diagram"
+  ],
+  "alternativesDetailed": [
+    {
+      "representation": "node-link-graph",
+      "relationshipToPrimary": "unclassified",
+      "reason": "No reviewed substitute/complement relation is recorded for this pair yet."
+    },
+    {
+      "representation": "composite-linked-view",
+      "relationshipToPrimary": "unclassified",
+      "reason": "No reviewed substitute/complement relation is recorded for this pair yet."
+    },
+    {
+      "representation": "uml-component-diagram",
+      "relationshipToPrimary": "unclassified",
+      "reason": "No reviewed substitute/complement relation is recorded for this pair yet."
+    }
+  ],
+  "avoid": [],
+  "rationale": [
+    "structure: list, hierarchy, network (+15)",
+    "intent: understand (+3)",
+    "task: lookup, inspect, trace (+12)",
+    "explanatory focus: structure (+4)",
+    "interaction: exploratory (+2)",
+    "dynamics: interactive (+3)",
+    "density: medium (+2)",
+    "supports provenance (+2)",
+    "strong mobile fit (+1)"
+  ],
+  "assumptions": [],
+  "interfacePatterns": [
+    {
+      "id": "linked-planning-and-architecture-lenses",
+      "title": "Linked work and system lenses",
+      "family": "multi-view architecture",
+      "score": 26,
+      "reason": "supports trace, inspect; serves decide, understand, trace; fits hierarchy, network, process",
+      "apply": [
+        "Name the question answered by each lens",
+        "Keep edge semantics distinct per lens",
+        "Carry stable semantic selection across views",
+        "Keep one inspector and provenance grammar"
+      ],
+      "avoid": [
+        "Combining work dependencies and system interfaces in one graph",
+        "Calling a work graph an architecture diagram",
+        "Changing the selected subject silently when switching lenses"
+      ],
+      "implementationHints": [
+        "semantic-lens-toggle",
+        "linked-highlighting",
+        "stable-ids",
+        "shared-inspector"
+      ],
+      "sources": [
+        {
+          "name": "C4 model diagrams",
+          "url": "https://c4model.com/diagrams",
+          "role": "architecture-view-reference"
+        },
+        {
+          "name": "arc42 documentation structure",
+          "url": "https://arc42.org/",
+          "role": "architecture-concern-reference"
+        }
+      ]
+    },
+    {
+      "id": "project-graph-home",
+      "title": "Project graph as home",
+      "family": "navigation",
+      "score": 20,
+      "reason": "supports trace, inspect; serves understand, trace; fits network, process",
+      "apply": [
+        "Keep the active path visible",
+        "Use status labels as well as color",
+        "Open detail without replacing the graph",
+        "Collapse completed or secondary groups"
+      ],
+      "avoid": [
+        "Treating every datum as a node",
+        "Using animation without an execution meaning",
+        "Hiding blocked work with filters"
+      ],
+      "implementationHints": [
+        "react-flow",
+        "elkjs",
+        "details-on-demand",
+        "path-highlighting"
+      ],
+      "sources": [
+        {
+          "name": "React Flow",
+          "url": "https://reactflow.dev/",
+          "role": "implementation"
+        },
+        {
+          "name": "PatternFly Topology",
+          "url": "https://github.com/patternfly/react-topology",
+          "role": "behavior-reference"
+        }
+      ]
+    },
+    {
+      "id": "task-list-progress",
+      "title": "Task list with meaningful progress",
+      "family": "planning",
+      "score": 20,
+      "reason": "supports inspect, confirm; serves decide; fits hierarchy, process, list",
+      "apply": [
+        "Group tasks by outcome",
+        "Show prerequisite state",
+        "Use action labels rather than generic status",
+        "Keep completed tasks available but quiet"
+      ],
+      "avoid": [
+        "Treating activity count as progress",
+        "Presenting blocked tasks as actionable",
+        "Duplicating one task across views"
+      ],
+      "implementationHints": [
+        "task-list",
+        "dependency-state",
+        "progressive-disclosure"
+      ],
+      "sources": [
+        {
+          "name": "GOV.UK complete multiple tasks",
+          "url": "https://design-system.service.gov.uk/patterns/complete-multiple-tasks/",
+          "role": "behavior-reference"
+        },
+        {
+          "name": "PatternFly dashboard",
+          "url": "https://www.patternfly.org/patterns/dashboard/design-guidelines/",
+          "role": "behavior-reference"
+        }
+      ]
+    },
+    {
+      "id": "architecture-context-to-component",
+      "title": "Architecture from context to components",
+      "family": "architecture",
+      "score": 17,
+      "reason": "supports trace, inspect; serves understand; fits hierarchy, network",
+      "apply": [
+        "Show current and proposed elements distinctly",
+        "Name boundary ownership",
+        "Label arrows by their exact relationship",
+        "Expose contracts and material omissions in the inspector"
+      ],
+      "avoid": [
+        "One diagram containing every abstraction level",
+        "Unlabeled arrows",
+        "Boxes with no owner or contract meaning"
+      ],
+      "implementationHints": [
+        "c4-inspired-levels",
+        "boundary-node-types",
+        "typed-edges",
+        "details-on-demand"
+      ],
+      "sources": [
+        {
+          "name": "C4 model",
+          "url": "https://c4model.com/",
+          "role": "architecture-view-reference"
+        },
+        {
+          "name": "Structurizr DSL",
+          "url": "https://docs.structurizr.com/dsl",
+          "role": "text-model-reference"
+        }
+      ]
+    },
+    {
+      "id": "human-attention-queue",
+      "title": "Human attention queue",
+      "family": "attention",
+      "score": 17,
+      "reason": "supports inspect, confirm; serves decide; fits process, list",
+      "apply": [
+        "Name the requested decision",
+        "Show urgency and consequence",
+        "Group duplicate notifications",
+        "Remove the item when its underlying state resolves"
+      ],
+      "avoid": [
+        "Asking whether generic output was useful",
+        "Using notification count as importance",
+        "Interrupting for agent-resolvable work"
+      ],
+      "implementationHints": [
+        "priority-list",
+        "status-badge",
+        "source-linked-reason"
+      ],
+      "sources": [
+        {
+          "name": "Carbon dialogs and notifications",
+          "url": "https://carbondesignsystem.com/patterns/overview/",
+          "role": "behavior-reference"
+        },
+        {
+          "name": "GOV.UK notification banner",
+          "url": "https://design-system.service.gov.uk/components/notification-banner/",
+          "role": "behavior-reference"
+        }
+      ]
+    }
+  ],
+  "quality": {
+    "method": "application-layout-quality",
+    "compositionMethod": "one-page-composition-quality",
+    "workflow": [
+      "layout-at-target-widths",
+      "measure-control-and-text-bounds",
+      "check-scroll-containment",
+      "check-focus-order",
+      "check-empty-and-max-content",
+      "human-composition-review",
+      "capture-visual-regression",
+      "state-the-title-and-the-one-question-first",
+      "sketch-the-whole-on-one-page-before-any-section",
+      "match-each-part-to-its-job",
+      "let-structure-emerge-from-the-content",
+      "give-the-whole-room-to-breathe",
+      "check-the-sixty-second-read-with-a-cold-reader",
+      "date-and-version-the-page"
+    ],
+    "hardChecks": [
+      "no-control-overlap",
+      "no-page-level-horizontal-overflow",
+      "keyboard-reachable-controls",
+      "persistent-selection-visible",
+      "title-states-what-this-is-and-for-whom",
+      "whole-design-visible-on-one-screen-at-the-target-viewport",
+      "cold-reader-gets-the-mechanism-in-sixty-seconds",
+      "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect",
+      "relationships-drawn-not-implied-by-adjacency-or-links",
+      "same-object-same-mark-across-every-view",
+      "every-object-reveals-more-on-click-nothing-is-a-dead-end"
+    ],
+    "softChecks": [
+      "balanced-panel-sizing",
+      "clear-primary-action",
+      "details-do-not-obscure-context",
+      "first-frame-legibility",
+      "one-primary-drawing-with-callouts-not-parallel-columns-of-text",
+      "overlapping-views-merged-into-one-view-with-forms-not-thinned",
+      "attributed-claims-traced-to-source-no-invented-items",
+      "structural-devices-encode-information-not-decoration",
+      "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots",
+      "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour",
+      "white-space-separates-groups-and-carries-hierarchy",
+      "size-and-weight-follow-importance",
+      "structure-earned-by-content-not-imposed-taxonomy",
+      "space-and-time-shown-together-when-the-subject-changes-over-time",
+      "page-carries-its-date-and-version",
+      "a-person-would-pin-it-on-a-wall",
+      "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits",
+      "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists",
+      "one-element-dominates-by-size-weight-or-contrast",
+      "reading-order-is-obvious-without-instructions",
+      "gap-between-groups-larger-than-gap-within",
+      "enclosure-nesting-at-most-two-levels",
+      "elements-share-a-small-set-of-edges",
+      "same-role-same-treatment-everywhere",
+      "every-mark-carries-information",
+      "context-quiet-subject-loud",
+      "comparisons-use-identical-small-frames",
+      "every-encoding-explained-on-the-same-screen",
+      "one-highlighted-state-not-several",
+      "object-count-within-density-budget-or-aggregated"
+    ],
+    "usabilityChecks": [
+      "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read",
+      "no-block-of-prose-longer-than-the-drawing-it-explains",
+      "reader-can-point-to-where-any-one-fact-lives"
+    ],
+    "repairOrder": [
+      "reflow-layout",
+      "allocate-minmax-space",
+      "wrap-or-truncate-secondary-text",
+      "move-detail-to-drawer-or-inspector",
+      "rewrite-the-title-as-the-one-question",
+      "move-the-whole-onto-one-screen-before-polishing-any-part",
+      "replace-prose-columns-with-one-drawing-plus-callouts",
+      "cut-imposed-sections-until-content-asks-for-them",
+      "unify-marks-across-views",
+      "add-reveal-on-click-for-every-dead-end",
+      "never-fix-by-hiding-source-or-caveat-truth"
+    ]
+  },
+  "compositionPlan": {
+    "question": "Should Brian approve the revised shape of the AES plan gate: it promotes the existing review page (render_review.py) into an `aes review` command, adds a port graph as the Architecture lens, and makes plan validation require a clean review and 2-4 phone-checked review points. Can he see, on his phone and without reading YAML, what the page shows for the gate's own plan and for a real project (whygame5), what the gate refuses, and what he would open at review point 1?",
+    "audience": "Brian, owner approving a plan shape on his phone",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "primary": {
+      "representation": "schema-explorer",
+      "form": "map",
+      "carries": [
+        "derived-from",
+        "proved-by",
+        "lives-in",
+        "passes-data-to"
+      ]
+    },
+    "secondary": [
+      {
+        "id": "legend",
+        "job": "explain every encoding on the same screen"
+      },
+      {
+        "id": "status-line",
+        "job": "source, revision, freshness, and what is missing"
+      },
+      {
+        "id": "time-strip",
+        "job": "show change over time beside the structure"
+      },
+      {
+        "id": "detail-panel",
+        "job": "what opens when an object is selected"
+      }
+    ],
+    "readingOrder": [
+      "title",
+      "primary",
+      "legend",
+      "status-line",
+      "time-strip",
+      "detail-panel"
+    ],
+    "groups": [
+      {
+        "id": "outcome",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "rule",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "success-criterion",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "evidence-requirement",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "verification-subject",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "planned-file",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "component",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "function",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "typed-port",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "wire",
+        "by": "entity kind",
+        "enclosed": false
+      },
+      {
+        "id": "review-point",
+        "by": "entity kind",
+        "enclosed": false
+      }
+    ],
+    "hierarchy": {
+      "levels": [
+        "title",
+        "primary",
+        "secondary",
+        "detail"
+      ],
+      "typeSizes": 3
+    },
+    "marks": {
+      "outcome": "one mark for every outcome, reused in every view",
+      "rule": "one mark for every rule, reused in every view",
+      "success-criterion": "one mark for every success-criterion, reused in every view",
+      "evidence-requirement": "one mark for every evidence-requirement, reused in every view",
+      "verification-subject": "one mark for every verification-subject, reused in every view",
+      "planned-file": "one mark for every planned-file, reused in every view",
+      "component": "one mark for every component, reused in every view",
+      "function": "one mark for every function, reused in every view",
+      "typed-port": "one mark for every typed-port, reused in every view",
+      "wire": "one mark for every wire, reused in every view",
+      "review-point": "one mark for every review-point, reused in every view"
+    },
+    "emphasis": {
+      "channel": "one highlight colour",
+      "state": "selected"
+    },
+    "densityBudget": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "maxObjects": 40,
+      "minMarginPx": 24,
+      "items": 60,
+      "withinBudget": false,
+      "ifOver": "aggregate, filter, or reveal on demand; do not shrink"
+    },
+    "revealOnClick": {
+      "outcome": "its detail, its source, and what it connects to",
+      "rule": "its detail, its source, and what it connects to",
+      "success-criterion": "its detail, its source, and what it connects to",
+      "evidence-requirement": "its detail, its source, and what it connects to",
+      "verification-subject": "its detail, its source, and what it connects to",
+      "planned-file": "its detail, its source, and what it connects to",
+      "component": "its detail, its source, and what it connects to",
+      "function": "its detail, its source, and what it connects to",
+      "typed-port": "its detail, its source, and what it connects to",
+      "wire": "its detail, its source, and what it connects to",
+      "review-point": "its detail, its source, and what it connects to"
+    },
+    "coldReadTarget": "After a minute a newcomer can say what the page answers: Should Brian approve the revised shape of the AES plan gate: it promotes the existing review page (render_review.py) into an `aes review` command, adds a port graph as the Architecture lens, and makes plan validation require a clean review and 2-4 phone-checked review points. Can he see, on his phone and without reading YAML, what the page shows for the gate's own plan and for a real project (whygame5), what the gate refuses, and what he would open at review point 1?",
+    "heuristics": [
+      "one-question-title",
+      "whole-on-one-screen",
+      "single-focal-point",
+      "hierarchy-by-size-and-weight",
+      "reading-order-follows-layout",
+      "proximity-groups",
+      "similarity-means-sameness",
+      "enclosure-and-common-region",
+      "alignment-creates-structure",
+      "repetition-builds-language",
+      "white-space-carries-hierarchy",
+      "data-ink-and-chartjunk",
+      "layering-and-separation",
+      "small-multiples-for-comparison",
+      "overview-zoom-detail",
+      "recognition-over-recall",
+      "visibility-of-status",
+      "preattentive-pop-out",
+      "form-matches-job",
+      "relationships-drawn",
+      "structure-encodes-information",
+      "avoid-generated-defaults",
+      "one-drawing-with-callouts",
+      "structure-earned-not-imposed",
+      "space-and-time-together",
+      "sixty-second-cold-read",
+      "density-budget",
+      "picture-before-prose",
+      "diagram-earns-its-space"
+    ],
+    "sketchInstructions": [
+      "Put one short title at the top that states what this page answers and for whom.",
+      "Everything important is visible at once; no scrolling implied.",
+      "One main drawing occupies most of the area; other elements are visibly smaller and lighter.",
+      "Use at most three type sizes; headings heavier than body; important boxes larger.",
+      "Entry point top-left; the thing to do next bottom-right; if the order differs, number the parts.",
+      "Related items touch or nearly touch; unrelated items have clear gaps between them.",
+      "Every object of one kind is drawn the same way in every picture of the set.",
+      "Draw at most one level of boxes-around-groups; use white space for the rest.",
+      "Left edges of text and boxes line up on a few shared vertical lines.",
+      "Reuse one card style, one label style, and one legend position across the set.",
+      "Leave generous empty space around the main drawing and between groups.",
+      "No decorative borders, shadows, icons, or gridlines that carry no meaning.",
+      "Draw context in light grey and the subject in black.",
+      "Show the variants as a grid of identical small panels on one scale.",
+      "The first view is the whole; a detail panel shows what opens when something is selected.",
+      "Any colour or badge used has its meaning shown right there.",
+      "A small status line shows source and date.",
+      "Exactly one kind of thing is highlighted; everything else is grey scale.",
+      "Draw each part in the form that fits its job: list, table, flow, or map.",
+      "Connections are lines or containment, not just items placed near each other.",
+      "Only draw a border, number or label where it tells the reader something; never number things that are not a sequence.",
+      "Before drawing, ask whether this page would look the same for an unrelated subject; if so, change the defaults.",
+      "One large drawing with a few short labels pointing at parts of it; no columns of text.",
+      "Only draw a section or tab if the content shown needs it.",
+      "If things change over time, include a small time strip on the same screen.",
+      "A stranger should get the point from the title and the main drawing alone.",
+      "Show a handful of objects at readable size, not dozens at tiny size.",
+      "Show each answer as a picture first (a path, bars, a strip of days, a map); use a sentence only where nothing visual says it better.",
+      "Draw boxes and arrows only where things branch, loop back meaningfully, connect many-to-many, or pass typed data between ports; a straight chain of steps is a numbered list."
+    ],
+    "checks": [
+      "title-states-what-this-is-and-for-whom",
+      "whole-design-visible-on-one-screen-at-the-target-viewport",
+      "one-element-dominates-by-size-weight-or-contrast",
+      "size-and-weight-follow-importance",
+      "reading-order-is-obvious-without-instructions",
+      "gap-between-groups-larger-than-gap-within",
+      "same-object-same-mark-across-every-view",
+      "enclosure-nesting-at-most-two-levels",
+      "elements-share-a-small-set-of-edges",
+      "same-role-same-treatment-everywhere",
+      "white-space-separates-groups-and-carries-hierarchy",
+      "every-mark-carries-information",
+      "context-quiet-subject-loud",
+      "comparisons-use-identical-small-frames",
+      "every-object-reveals-more-on-click-nothing-is-a-dead-end",
+      "every-encoding-explained-on-the-same-screen",
+      "page-carries-its-date-and-version",
+      "one-highlighted-state-not-several",
+      "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect",
+      "relationships-drawn-not-implied-by-adjacency-or-links",
+      "structural-devices-encode-information-not-decoration",
+      "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots",
+      "one-primary-drawing-with-callouts-not-parallel-columns-of-text",
+      "structure-earned-by-content-not-imposed-taxonomy",
+      "space-and-time-shown-together-when-the-subject-changes-over-time",
+      "cold-reader-gets-the-mechanism-in-sixty-seconds",
+      "object-count-within-density-budget-or-aggregated",
+      "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits",
+      "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists"
+    ]
+  },
+  "viewSpec": {
+    "version": "0.1",
+    "id": "aes-plan-gate-shaping-v2--schema-explorer",
+    "concern": "Should Brian approve the revised shape of the AES plan gate: it promotes the existing review page (render_review.py) into an `aes review` command, adds a port graph as the Architecture lens, and makes plan validation require a clean review and 2-4 phone-checked review points. Can he see, on his phone and without reading YAML, what the page shows for the gate's own plan and for a real project (whygame5), what the gate refuses, and what he would open at review point 1?",
+    "viewpoint": {
+      "stakeholder": "Brian, owner approving a plan shape on his phone",
+      "intent": [
+        "decide",
+        "understand",
+        "trace"
+      ],
+      "tasks": [
+        "trace",
+        "inspect",
+        "confirm",
+        "lookup"
+      ],
+      "explanatoryFocus": [
+        "structure",
+        "dataflow",
+        "interface"
+      ],
+      "audience": {
+        "expertise": "expert",
+        "frequency": "one-off",
+        "domainFamiliarity": "expert",
+        "notationFamiliarity": "novice",
+        "visualizationLiteracy": "mixed"
+      }
+    },
+    "successCriteria": [
+      "At 390 px Brian can read the decision and the three review points without zooming or scrolling sideways",
+      "Brian can follow one chain from the outcome to a planned file and see whether each step exists or has run",
+      "Brian can follow TargetRecord through the new functions to the gate verdict in the port graph",
+      "Each drawing on the page shows something a list could not; anything list-shaped is a list"
+    ],
+    "representationContext": {
+      "role": "explanatory",
+      "abstractionLevel": "overview",
+      "concernHierarchy": null
+    },
+    "availability": {
+      "status": "available",
+      "present": [],
+      "missing": [],
+      "note": null
+    },
+    "projection": {
+      "entities": [
+        "outcome",
+        "rule",
+        "success-criterion",
+        "evidence-requirement",
+        "verification-subject",
+        "planned-file",
+        "component",
+        "function",
+        "typed-port",
+        "wire",
+        "review-point"
+      ],
+      "relationships": [
+        "derived-from",
+        "proved-by",
+        "lives-in",
+        "passes-data-to"
+      ],
+      "focus": "the pending decision, then the derivation chain from outcome to files, then the data passing between the new functions, then the review points",
+      "operations": [
+        "select"
+      ]
+    },
+    "representation": {
+      "pattern": "schema-explorer",
+      "family": "application-ui",
+      "dynamics": "interactive",
+      "layout": "search-tree-inspector"
+    },
+    "interactions": [
+      {
+        "trigger": "select model element",
+        "effect": "highlight related path",
+        "purpose": "Expose relationship chains without losing context."
+      },
+      {
+        "trigger": "select visual mark",
+        "effect": "open persistent details",
+        "purpose": "Reveal model properties and provenance on demand."
+      },
+      {
+        "trigger": "search or selection",
+        "effect": "focus matching element",
+        "purpose": "Reach a known model element quickly."
+      }
+    ],
+    "provenance": {
+      "enabled": true,
+      "linkVisualMarksToModel": true,
+      "showDerivedCalculation": true,
+      "showEvidence": true
+    },
+    "rationale": [
+      "structure: list, hierarchy, network (+15)",
+      "intent: understand (+3)",
+      "task: lookup, inspect, trace (+12)",
+      "explanatory focus: structure (+4)",
+      "interaction: exploratory (+2)",
+      "dynamics: interactive (+3)",
+      "density: medium (+2)",
+      "supports provenance (+2)",
+      "strong mobile fit (+1)"
+    ]
+  }
+}

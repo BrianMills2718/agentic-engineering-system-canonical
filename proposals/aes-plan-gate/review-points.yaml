@@ -1,0 +1,30 @@
+# Review points of PLAN-AES-PLAN-GATE. The review_points target family does not exist until this
+# plan's ART-SRC-RECORDS change lands, so they live here; on accept they move into the target.
+review_points:
+  - id: RP-1
+    title: A real project's review page on your phone
+    entrypoint: aes review --root ~/code/whygame5, then open whygame5/.aes/generated/review.html
+    try:
+      - Tap the outcome box and follow one chain to a file; say whether that file exists and whether its proof has run
+      - Scroll to the port graph and name the type that load_log hands to apply_plan
+      - Find the list of files nobody planned and say whether it is empty
+    covers: [RU-AES-REVIEW, SC-GF-010]
+    render_check: "probe run 2026-10-04: PASS at 390 px (not yet the planned check)"
+  - id: RP-2
+    title: This plan's own review page, and the gate saying no
+    entrypoint: aes review --proposal proposals/aes-plan-gate/PLAN-AES-PLAN-GATE.yaml, then aes plan validate on each refusal fixture
+    try:
+      - Follow TargetRecord through the port graph to gate_violations, the gate's verdict
+      - Run aes plan validate on the fixture with an untyped new file and read which entry it names
+      - Run the render check on the blank and traceback fixture pages and see both fail
+    covers: [RU-AES-REVIEW, RU-AES-REVIEW-POINTS, SC-GF-011, SC-GF-012]
+    render_check: "probe run 2026-10-04: PASS at 390 px (not yet the planned check)"
+  - id: RP-3
+    title: The next real plan, approved from your phone
+    entrypoint: the review page link of the first plan after this one
+    try:
+      - Approve or reject it from the page alone, without opening its YAML
+      - Open its review point 1 on your phone
+      - Say anything on the page you had to ask about
+    covers: [SC-GF-013]
+    render_check: runs when that plan exists

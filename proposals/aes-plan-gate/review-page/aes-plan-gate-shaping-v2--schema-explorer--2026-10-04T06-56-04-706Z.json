@@ -1,0 +1,203 @@
+{
+  "version": "0.2",
+  "recordedAt": "2026-10-04T06:56:04.706Z",
+  "actor": "claude-aes-plan-gate-v2",
+  "recommendationId": "aes-plan-gate-shaping-v2--schema-explorer",
+  "primaryPattern": "schema-explorer",
+  "checklistSize": 48,
+  "acceptanceReferences": [],
+  "dispositions": {
+    "choice-justified:schema-explorer": {
+      "status": "satisfied",
+      "why": "Primary was schema-explorer with path-highlighting, details-on-demand and a provenance inspector; the existing derivation graph (render_review.py) is exactly that and was kept. port-graph is a secondary Architecture lens (router planning-review 'Default linked lenses'), not a replacement."
+    },
+    "fixed-desktop-panel-widths": {
+      "status": "satisfied",
+      "why": "Inspector is 300px only above 900px; below it the grid is one column and the inspector is static."
+    },
+    "page-level-horizontal-scroll": {
+      "status": "satisfied",
+      "why": "Render check at 390px measured h_scroll=false on shaping-v2, gate and whygame5 pages; wide drawings scroll inside their own box behind a disclosure on phones."
+    },
+    "secondary-panels-dominating-primary-task": {
+      "status": "satisfied",
+      "why": "Decision and review points come first; drawings follow; provenance last."
+    },
+    "no-control-overlap": {
+      "status": "satisfied",
+      "why": "Looked at 390px full-page and 1280px screenshots: no overlapping controls."
+    },
+    "no-page-level-horizontal-overflow": {
+      "status": "satisfied",
+      "why": "h_scroll=false at 390px (shoot.mjs)."
+    },
+    "keyboard-reachable-controls": {
+      "status": "satisfied",
+      "why": "Graph nodes and port nodes have tabindex=0 and Enter/Space handlers; outline and wiring entries are links; disclosures are native details."
+    },
+    "persistent-selection-visible": {
+      "status": "satisfied",
+      "why": "Selected node keeps a thick outline and the rest dims; the inspector shows the selected id."
+    },
+    "title-states-what-this-is-and-for-whom": {
+      "status": "satisfied",
+      "why": "H1: 'AES plan gate, second shaping: what this plan would add to AES, for Brian to approve'."
+    },
+    "whole-design-visible-on-one-screen-at-the-target-viewport": {
+      "status": "skipped",
+      "why": "Not met: the page is long (about 7,000 px at 390px). The router planned a 1440px viewport even with mobile true (AES issue #127); at 390 the decision fits the first screen, the rest scrolls."
+    },
+    "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+      "status": "skipped",
+      "why": "Not tested with a cold reader; only the author has read it."
+    },
+    "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+      "status": "satisfied",
+      "why": "Review points, reference check and orphan files are lists; derivation and data flow are drawings on wide screens, outline and one-line-per-function lists on phones, after judging each at 390px."
+    },
+    "relationships-drawn-not-implied-by-adjacency-or-links": {
+      "status": "satisfied",
+      "why": "Derivation edges and port wires are drawn; on phones nesting and 'takes X from f' state each relation explicitly."
+    },
+    "same-object-same-mark-across-every-view": {
+      "status": "satisfied",
+      "why": "Same ids everywhere; file/run marks use the same colour tokens in drawing, outline and legend; port nodes select the same inspector entry as the file node."
+    },
+    "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+      "status": "satisfied",
+      "why": "Every derivation node, outline item, port node and wiring line opens the inspector with full text and source id."
+    },
+    "balanced-panel-sizing": {
+      "status": "satisfied",
+      "why": "Drawing takes the width, inspector 300px on wide screens."
+    },
+    "clear-primary-action": {
+      "status": "satisfied",
+      "why": "Decision box names the three answers and what each causes."
+    },
+    "details-do-not-obscure-context": {
+      "status": "satisfied",
+      "why": "Inspector is beside (wide) or below (phone) the drawing, never over it."
+    },
+    "first-frame-legibility": {
+      "status": "satisfied",
+      "why": "390px first screen: title, what the page is, source revision, decision."
+    },
+    "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+      "status": "satisfied",
+      "why": "One derivation drawing with an inspector; the port drawing is a separate lens."
+    },
+    "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+      "status": "satisfied",
+      "why": "The first shaping's separate structure view and criterion table were dropped because the derivation view already carries them."
+    },
+    "attributed-claims-traced-to-source-no-invented-items": {
+      "status": "satisfied",
+      "why": "All drawing text is verbatim from target/proposal records or code signatures; inspector cites .aes/target.yaml id."
+    },
+    "structural-devices-encode-information-not-decoration": {
+      "status": "satisfied",
+      "why": "Fill = file existence, outline = run status, dashed thick outline = proposed; component colour in the port graph."
+    },
+    "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+      "status": "skipped",
+      "why": "Uses the existing render_review.py style, which has cards and middle-dot separators; not restyled in this shaping."
+    },
+    "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+      "status": "satisfied",
+      "why": "Functions as boxes with typed input ports on top and output port below; derivation as left-to-right layers."
+    },
+    "white-space-separates-groups-and-carries-hierarchy": {
+      "status": "satisfied",
+      "why": "Sections separated by headings and spacing."
+    },
+    "size-and-weight-follow-importance": {
+      "status": "satisfied",
+      "why": "Decision first with accent border; provenance small and last."
+    },
+    "structure-earned-by-content-not-imposed-taxonomy": {
+      "status": "satisfied",
+      "why": "Six layers are the target's own families."
+    },
+    "space-and-time-shown-together-when-the-subject-changes-over-time": {
+      "status": "na",
+      "why": "The subject is one revision; no time dimension. The router's time-strip secondary was not built for that reason."
+    },
+    "page-carries-its-date-and-version": {
+      "status": "satisfied",
+      "why": "Source line shows repository revision and build time."
+    },
+    "a-person-would-pin-it-on-a-wall": {
+      "status": "skipped",
+      "why": "Not judged; it is a working review page, not a poster."
+    },
+    "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+      "status": "satisfied",
+      "why": "Marks are visual (fill/outline) with words beside them for colour-blind reading."
+    },
+    "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+      "status": "satisfied",
+      "why": "Judged per view at 390 and 1280: drawings kept on wide screens for fan-in/fan-out; replaced by lists on phones where they did not beat a list."
+    },
+    "one-element-dominates-by-size-weight-or-contrast": {
+      "status": "satisfied",
+      "why": "Decision box on first screen."
+    },
+    "reading-order-is-obvious-without-instructions": {
+      "status": "satisfied",
+      "why": "Numbered sections top to bottom."
+    },
+    "gap-between-groups-larger-than-gap-within": {
+      "status": "satisfied",
+      "why": "Section margins larger than card gaps."
+    },
+    "enclosure-nesting-at-most-two-levels": {
+      "status": "satisfied",
+      "why": "Cards inside sections only; the phone outline nests lists, not boxes."
+    },
+    "elements-share-a-small-set-of-edges": {
+      "status": "satisfied",
+      "why": "Single column on phone; two-column grid on wide."
+    },
+    "same-role-same-treatment-everywhere": {
+      "status": "satisfied",
+      "why": "Same mark tokens in every lens."
+    },
+    "every-mark-carries-information": {
+      "status": "satisfied",
+      "why": "No decorative marks."
+    },
+    "context-quiet-subject-loud": {
+      "status": "satisfied",
+      "why": "Existing context chains are thin-outlined; proposed entries bold/thick dashed."
+    },
+    "comparisons-use-identical-small-frames": {
+      "status": "na",
+      "why": "No side-by-side comparisons on the page."
+    },
+    "every-encoding-explained-on-the-same-screen": {
+      "status": "satisfied",
+      "why": "Legend sits directly above each drawing."
+    },
+    "one-highlighted-state-not-several": {
+      "status": "satisfied",
+      "why": "One selection at a time."
+    },
+    "object-count-within-density-budget-or-aggregated": {
+      "status": "satisfied",
+      "why": "Proposal mode limits to touched entries and their chains (about 40 nodes); untouched functions are listed, not drawn."
+    },
+    "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+      "status": "skipped",
+      "why": "Not verified with a reader."
+    },
+    "no-block-of-prose-longer-than-the-drawing-it-explains": {
+      "status": "satisfied",
+      "why": "Legends are 3 to 5 lines above drawings."
+    },
+    "reader-can-point-to-where-any-one-fact-lives": {
+      "status": "satisfied",
+      "why": "Every fact carries its record id and the source file."
+    }
+  }
+}
