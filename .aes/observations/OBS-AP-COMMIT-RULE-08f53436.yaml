@@ -70,3 +70,4 @@ assessments:
   basis: "VS-AP-COMMIT-RULE (prove each tag's verdict on real staged commits through the installed hook)
     passed: exit 0"
   assessor: *id001
+superseded_by: OBS-AP-COMMIT-RULE-b023fb02

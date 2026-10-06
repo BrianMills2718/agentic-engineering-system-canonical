@@ -57,3 +57,4 @@ assessments:
     assessor:
       identity: the same session, scoring its own run against the external boundary in .aes/target.yaml
       version: Claude Opus 5.5
+superseded_by: OBS-AP-COMMIT-RULE-RUNTIME-b023fb0
