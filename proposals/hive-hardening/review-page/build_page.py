@@ -22,7 +22,7 @@ GAPS = [
 # id, title, detail, state (done|next|todo|you), causes it fixes
 UNITS = [
     ("U0", "Checks survive damaged logs", "crash fails service · PR #151", "done", ["F3"]),
-    ("U1", "Only you can answer your questions", "author checked on every reply", "next", ["F1"]),
+    ("U1", "Only you can answer your questions", "rule applied to agents; relay check next", "run", ["F1"]),
     ("U2", "Unstick workers + stall alert", "tools installed; alert after 12 h next", "run", ["F2"]),
     ("U3", "Every running thing is a file in git", "compose, linked units, rule files, containers", "run", ["G1"]),
     ("U4", "AES checks running = files", "new kinds; drift check; default in scope", "todo", ["G1"]),

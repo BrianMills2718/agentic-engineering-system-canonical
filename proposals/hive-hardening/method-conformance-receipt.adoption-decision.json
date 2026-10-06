@@ -1,0 +1,15 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "proposals/hive-hardening/README.md",
+  "plan_sha256": "01bb4e69c99ee82041e1271766d9b576cc01b40edba257ddd1f8ce0d2b9b691b",
+  "receipt_ref": "proposals/hive-hardening/method-conformance-receipt.json",
+  "receipt_sha256": "8c88f74fce884a83bdd22a7cfcf75ed18da6411b73ed60ebdd2982b513d9ad9b",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 12 items evidenced, 1 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "decided_at": "2026-10-06T21:10:16Z"
+}
