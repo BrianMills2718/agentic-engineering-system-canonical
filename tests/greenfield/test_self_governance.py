@@ -45,7 +45,8 @@ def test_own_target_loads_strictly_with_the_greenfield_criteria_verbatim():
     _, target = _target()
     source = YAML(typ="safe").load(SEMANTIC_INSTANCE.read_text(encoding="utf-8"))
     want = {c["id"]: c for c in source["success_criteria"]}
-    got = {c.id: c for c in target.success_criteria}
+    # the greenfield criteria, verbatim; later outcomes (SC-AP-*, PLAN-AES-COMMIT-RULE) add their own
+    got = {c.id: c for c in target.success_criteria if c.id.startswith("SC-GF-")}
     assert sorted(got) == sorted(want) == [f"SC-GF-00{i}" for i in range(1, 10)]
     for sc_id, c in want.items():
         assert _words(got[sc_id].statement) == _words(c["statement"]), sc_id
@@ -92,7 +93,8 @@ def test_every_greenfield_evidence_requirement_has_a_route():
     _, target = _target()
     assert route_violations(target) == []
     external = {b.evidence_requirement_ref for b in target.external_boundaries}
-    assert external == {"ER-SC-GF-001-01", "ER-SC-GF-005-02", "ER-SC-GF-009-01"}
+    assert {e for e in external if e.startswith("ER-SC-GF-")} == {"ER-SC-GF-001-01", "ER-SC-GF-005-02", "ER-SC-GF-009-01"}
+    assert external - {"ER-SC-GF-001-01", "ER-SC-GF-005-02", "ER-SC-GF-009-01"} == {"ER-AP-001-02"}
 
 
 def test_aes_status_on_this_repository_exits_zero(capsys):

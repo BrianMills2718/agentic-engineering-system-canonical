@@ -1,0 +1,140 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-AES-COMMIT-RULE
+title: Commit rule - real implementation work lands only under an adopted plan (aes-planning P4)
+rationale: >
+  Work unit P4 of the adopted Company Planning plan proposals/aes-planning/README.md (receipt
+  proposals/aes-planning/method-conformance-receipt.json, decision adopted 2026-10-06). On 2026-10-06
+  an agent wrote and partly implemented a plan without adopting it, committing under [Unplanned];
+  81 of AES canonical's last 300 commits carry that tag and no commit-message check runs here at
+  all (only the pre-commit topology hook). This adds `aes commit check`, run by a commit-message
+  hook that `aes hooks install` writes beside the pre-commit hook, and `aes commit replay` to judge
+  past commits with the same rule. Tags: [Plan #N] and [Goal <id>] must resolve to a plan whose
+  Company Planning adoption decision is `adopted` for the plan's current bytes; [Trivial] is
+  measured from the staged diff (at most 3 files and 60 changed lines, no added file under a governed
+  root, no running-thing file such as a Dockerfile, compose file, systemd unit, hook, deploy script,
+  CI workflow or agent instructions); [Unplanned] needs an `Emergency:` trailer and is logged;
+  [Shaping <id>] may touch only proposals/<id>/. Mode is read from .aes/commit_rule.yaml: observe
+  logs every verdict and refuses nothing; enforce refuses. Verdicts append to one log file per day.
+closes_gaps: []
+target_delta:
+  add:
+    outcomes:
+      - id: OUT-AP-001
+        actor_or_consumer: brian_and_his_engineering_agents
+        statement: >
+          Real implementation work in an AES-governed repository lands only under a plan that Company
+          Planning adopted; trivial work still lands, decided by measured facts about the change, not by
+          the tag an agent types.
+        non_goals:
+          - judging_commit_prose_with_regex
+          - a_stop_hook
+          - migrating_other_repositories_in_this_change
+    normative_items:
+      - id: AP-REQ-001
+        kind: constraint
+        outcome_refs:
+          - OUT-AP-001
+        statement: >
+          Every commit message's first line carries one of [Plan #N], [Goal <id>], [Trivial], [Unplanned]
+          or [Shaping <id>] (git's own merge, fixup and squash messages excepted), and the rule checks the
+          tag against facts: an adopted receipt for the named plan, the staged diff's measured size and
+          paths, an Emergency trailer, or the plan's proposals folder.
+    success_criteria:
+      - id: SC-AP-001
+        statement: >
+          With the commit-message hook installed, a staged change adding a Dockerfile committed as
+          "[Unplanned] ..." with no Emergency trailer is judged refuse and names the running-thing file;
+          the same change under a [Goal <id>] whose plan is adopted is judged accept; a one-line README
+          change under [Trivial] is judged accept; in observe mode every verdict is logged and none blocks.
+        target_refs:
+          - OUT-AP-001
+          - AP-REQ-001
+        disproof: >
+          The rule accepts or refuses on the tag text alone; or a running-thing file passes as [Trivial];
+          or a [Goal] or [Plan] commit is accepted with no adopted receipt, or with a receipt for older
+          plan bytes; or observe mode blocks a commit.
+        evidence_requirements:
+          - id: ER-AP-001-01
+            kind: deterministic_test
+            requirement: >
+              Tests build real Git repositories, install the hooks with `aes hooks install`, stage real
+              changes and run real commits, asserting each tag's verdict and reason, observe versus enforce
+              exit status, the log line, and replay counts.
+          - id: ER-AP-001-02
+            kind: runtime_observation
+            requirement: >
+              In AES canonical with the hook installed, the three canonical-example commits are judged as
+              stated (output and exit codes quoted), and `aes commit replay` over the last 300 commits of
+              AES canonical and of personal-vps lists personal-vps #87's commit as refuse, with counts.
+    components:
+      - id: RU-AES-COMMIT-RULE
+        responsibility: >
+          Judge a commit message's tag against facts about the staged change and the plan it names,
+          log every verdict, and replay the same judgement over past commits.
+        target_refs:
+          - AP-REQ-001
+          - SC-AP-001
+        planned_artifact_refs:
+          - ART-SRC-COMMIT-RULE
+          - ART-TEST-COMMIT-RULE
+    planned_artifacts:
+      - id: ART-SRC-COMMIT-RULE
+        locator:
+          exact_path: src/agentic_engineering_system/commit_rule.py
+        kind: source
+        purpose: >
+          Commit-tag rule: parse the tag, measure the staged or historical diff, resolve plan receipts,
+          produce a verdict with reasons, log it, and replay a revision range.
+        semantic_justification_refs:
+          - AP-REQ-001
+        exports:
+          - check_message
+          - judge
+          - replay
+          - load_rule_config
+      - id: ART-TEST-COMMIT-RULE
+        locator:
+          exact_path: tests/greenfield/test_commit_rule.py
+        kind: test
+        purpose: >
+          Real-repository tests of every tag's verdict, observe and enforce exit status, the installed
+          commit-msg hook and replay counts.
+        semantic_justification_refs:
+          - SC-AP-001
+    verification_subjects:
+      - id: VS-AP-COMMIT-RULE
+        criterion_refs:
+          - SC-AP-001
+        evidence_requirement_refs:
+          - ER-AP-001-01
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/greenfield/test_commit_rule.py
+        purpose: >
+          prove each tag's verdict on real staged commits through the installed hook
+    external_boundaries:
+      - evidence_requirement_ref: ER-AP-001-02
+        boundary: >
+          The orchestrating session installs the hook in AES canonical, makes the three canonical-example
+          commits in a scratch branch, quotes each verdict and exit code, runs `aes commit replay` over the
+          last 300 commits of AES canonical and personal-vps, and records one observation with the output.
+  change:
+    planned_artifacts:
+      - id: ART-SRC-HOOKS
+        locator:
+          exact_path: src/agentic_engineering_system/hooks.py
+        kind: source
+        purpose: >
+          Generate and install the consumer's pre-commit gate (target validate + topology check) and
+          commit-msg gate (aes commit check) with a worktree-safe interpreter lookup, refusing to overwrite
+          a hook AES did not write.
+        semantic_justification_refs:
+          - GF-REQ-001
+          - AP-REQ-001
+        exports:
+          - install_hooks
+          - render_hook
+          - render_commit_msg_hook
+outside_governed_roots: []
+accepted_at_revision: 10314ddb0718789651f936d2eef9ff4310bedda4
+accepted_at: '2026-10-06T19:36:18+00:00'

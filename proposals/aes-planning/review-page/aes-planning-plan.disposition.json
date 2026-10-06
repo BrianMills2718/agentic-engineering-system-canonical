@@ -1,0 +1,9 @@
+{"stage":"built and rendered at 1440 and 390 px",
+ "choice-justified:directed-handoff-flow":{"status":"satisfied","why":"The question is which lane a change takes and where it is checked; a handoff flow puts each lane and each refusing check on the page as nodes and edges. Router listed it as an alternative."},
+ "rejected:project-schedule":{"status":"rejected","why":"Router's top pick, but the plan has no dates; order of work units is in the plan text, and a schedule would hide the lanes."},
+ "rejected:scroll-linked-explainer":{"status":"rejected","why":"Breaks the whole-flow-on-one-screen read."},
+ "rejected:process-swimlane":{"status":"rejected","why":"Lanes here are routes a change can take, not actors; swimlanes by actor would split the single commit hook across rows."},
+ "accessibility":"state by outline (exists: solid blue fill; planned: dashed; refusing check: heavy black; escape case: orange), plus words on every node; no red/green",
+ "mobile":"under 760 px the graph becomes nine numbered cards; 390 px render 390 wide, no horizontal scroll",
+ "wrong-if":["Brian asks which lane a specific change takes and cannot tell from the page","Brian asks when each unit lands (then a schedule was needed)"],
+ "router-gaps":["primary scored project-schedule for a flow with no time axis (second time today)"]}

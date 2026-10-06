@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AES planning plan</title><style>:root{--bg:#fff;--fg:#111827;--muted:#4b5563;--line:#9ca3af;--panel:#f3f4f6;--blue:#1d4ed8;--bluefill:#dbeafe;--orange:#b45309;--grey:#6b7280}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#6b7280;--panel:#1a2030;--blue:#7fb2ff;--bluefill:#1e3a5f;--orange:#f5a524;--grey:#a3adba}}
+:root[data-theme="dark"]{--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#6b7280;--panel:#1a2030;--blue:#7fb2ff;--bluefill:#1e3a5f;--orange:#f5a524;--grey:#a3adba}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:1300px;margin:0 auto;padding:20px 16px 40px}h1{font-size:1.35rem;line-height:1.25;margin:0 0 6px}
+p.q{font-size:1.05rem;margin:0 0 14px;border-left:4px solid var(--blue);padding:4px 0 4px 12px}
+svg{width:100%;height:auto;display:block}svg text{fill:var(--fg);font-family:inherit}
+.t-title{font-size:14px;font-weight:700}.t-state{font-size:12px;font-weight:700}.t-prov{font-size:12px;fill:var(--muted)}
+.k-src rect{fill:var(--panel);stroke:var(--fg);stroke-width:1.5}.k-step rect{fill:none;stroke:var(--fg);stroke-width:1.5}
+.k-gate rect{fill:none;stroke:var(--fg);stroke-width:3.5}
+.st-done rect{fill:var(--bluefill);stroke:var(--blue)}.st-todo rect{stroke-dasharray:6 5}
+.callout rect{fill:none;stroke:var(--orange);stroke-width:2}
+.arrow{stroke:var(--line);stroke-width:1.6}.ahp{fill:var(--line)}
+.wide{display:block}.narrow{display:none}@media (max-width:760px){.wide{display:none}.narrow{display:block}h1{font-size:1.15rem}}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 12px;margin:10px 0}.card h2{font-size:1rem;margin:0 0 4px}.card p{margin:0}
+ul.legend{list-style:none;padding:0;margin:16px 0 8px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.9rem}
+ul.legend span{display:inline-block;width:26px;height:14px;vertical-align:-2px;margin-right:6px;border-radius:3px}
+.l-done{background:var(--bluefill);border:2px solid var(--blue)}.l-todo{border:2px dashed var(--fg)}.l-gate{border:3.5px solid var(--fg)}.l-case{border:2px solid var(--orange)}
+footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:.78rem;overflow-wrap:anywhere}</style></head><body><main>
+<h1>AES planning: facts decide whether work needs a plan; real work needs an adopted plan, which writes its /goal; the commit hook checks every lane.</h1>
+<p class="q">Is this the flow you want every project on? Reply in the terminal. (Adopted by Company Planning's gate on its fourth run; nothing is enforced yet.)</p>
+<svg class="wide" viewBox="0 0 1260 500" role="img" aria-label="Work arrives, facts decide the route: trivial, emergency, or a Company Planning plan that goes through the adoption gate, writes the goal text and is accepted by AES; the commit hook checks every lane before work lands.">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ahp"/></marker></defs>
+<path d="M210,303.0 L250,303.0" class="arrow" marker-end="url(#ah)"/>
+<path d="M450,303.0 L500,83.0" class="arrow" marker-end="url(#ah)"/>
+<path d="M450,303.0 L500,188.0" class="arrow" marker-end="url(#ah)"/>
+<path d="M450,303.0 L500,303.0" class="arrow" marker-end="url(#ah)"/>
+<path d="M625.0,346 L625.0,390" class="arrow" marker-end="url(#ah)"/>
+<path d="M750,433.0 L800,433.0" class="arrow" marker-end="url(#ah)"/>
+<path d="M750,433.0 L800,303.0" class="arrow" marker-end="url(#ah)"/>
+<path d="M1000,303.0 L1040,188.0" class="arrow" marker-end="url(#ah)"/>
+<path d="M750,83.0 L1040,188.0" class="arrow" marker-end="url(#ah)"/>
+<path d="M750,188.0 L1040,188.0" class="arrow" marker-end="url(#ah)"/>
+<path d="M1140.0,231 L1140.0,290" class="arrow" marker-end="url(#ah)"/>
+<g class="k-src st-"><rect x="20" y="260" width="190" height="86" rx="6"/><text x="30" y="282" class="t-title">Work arrives</text><text x="30" y="300" class="t-prov">an agent is about to</text><text x="30" y="314" class="t-prov">change something</text></g>
+<g class="k-step st-done"><rect x="250" y="260" width="200" height="86" rx="6"/><text x="260" y="282" class="t-title">Facts, not a label</text><text x="260" y="300" class="t-prov">14 yes/no facts → route</text><text x="260" y="314" class="t-prov">(code decides)</text><text x="260" y="336" class="t-state">✓ exists</text></g>
+<g class="k-step st-todo"><rect x="500" y="40" width="250" height="86" rx="6"/><text x="510" y="62" class="t-title">Trivial lane: [Trivial]</text><text x="510" y="80" class="t-prov">≤3 files, ≤60 lines, no</text><text x="510" y="94" class="t-prov">running-thing file</text><text x="510" y="116" class="t-state">P4 · planned</text></g>
+<g class="k-step st-todo"><rect x="500" y="145" width="250" height="86" rx="6"/><text x="510" y="167" class="t-title">Emergency: [Unplanned]</text><text x="510" y="185" class="t-prov">needs Emergency: trailer; logged;</text><text x="510" y="199" class="t-prov">fyi to you</text><text x="510" y="221" class="t-state">P4 · planned</text></g>
+<g class="k-step st-todo"><rect x="500" y="260" width="250" height="86" rx="6"/><text x="510" y="282" class="t-title">Company Planning plan</text><text x="510" y="300" class="t-prov">+ AES overlay: running things</text><text x="510" y="314" class="t-prov">declared, 2–4 UI review points</text><text x="510" y="336" class="t-state">P1 · planned</text></g>
+<g class="k-gate st-done"><rect x="500" y="390" width="250" height="86" rx="6"/><text x="510" y="412" class="t-title">Adoption gate (adopt)</text><text x="510" y="430" class="t-prov">checklist + evidence + AI check →</text><text x="510" y="444" class="t-prov">receipt</text><text x="510" y="466" class="t-state">✓ exists</text></g>
+<g class="k-step st-todo"><rect x="800" y="390" width="200" height="86" rx="6"/><text x="810" y="412" class="t-title">/goal text written</text><text x="810" y="430" class="t-prov">from the plan&#x27;s own fields</text><text x="810" y="466" class="t-state">P2 · planned</text></g>
+<g class="k-gate st-todo"><rect x="800" y="260" width="200" height="86" rx="6"/><text x="810" y="282" class="t-title">aes plan accept</text><text x="810" y="300" class="t-prov">refuses without a fresh</text><text x="810" y="314" class="t-prov">adopted receipt</text><text x="810" y="336" class="t-state">P3 · planned</text></g>
+<g class="k-gate st-todo"><rect x="1040" y="145" width="200" height="86" rx="6"/><text x="1050" y="167" class="t-title">Commit hook</text><text x="1050" y="185" class="t-prov">[Plan #N] must find the</text><text x="1050" y="199" class="t-prov">receipt; [Trivial] measured</text><text x="1050" y="221" class="t-state">P4 · planned</text></g>
+<g class="k-src st-todo"><rect x="1040" y="290" width="200" height="86" rx="6"/><text x="1050" y="312" class="t-title">Work lands</text><text x="1050" y="330" class="t-prov">observe week, then enforce</text><text x="1050" y="344" class="t-prov">per repo</text><text x="1050" y="366" class="t-state">P6 · planned</text></g>
+<g class="callout"><rect x="20" y="40" width="440" height="150" rx="6"/><text x="32" y="64" class="t-title">The case that started this (10-06)</text><text x="32" y="86" class="t-prov">"[Unplanned] Paperclip: add make, uv and PyYAML"</text><text x="32" y="104" class="t-prov">new Dockerfile + compose change, then a live deploy.</text><text x="32" y="122" class="t-prov">Today: accepted everywhere. After P4: refused,</text><text x="32" y="140" class="t-prov">it touches running-thing files and has no plan.</text><text x="32" y="166" class="t-prov">81 of AES canonical's last 300 commits were [Unplanned].</text></g>
+</svg>
+<div class="narrow"><section class="card"><h2>1. Facts decide the route</h2><p>An agent records 14 yes/no facts; code picks the route. Labels don&#x27;t.</p></section><section class="card"><h2>2a. Trivial: [Trivial]</h2><p>Allowed only if the change is ≤3 files, ≤60 lines and touches no running-thing file (P4).</p></section><section class="card"><h2>2b. Emergency: [Unplanned]</h2><p>Needs an Emergency: line; logged; you get an fyi the same day (P4).</p></section><section class="card"><h2>2c. Real work: a plan</h2><p>Company Planning plan with the AES overlay: running things declared, 2–4 working-UI review points (P1).</p></section><section class="card"><h2>3. Adoption gate</h2><p>Checklist + evidence + AI check → receipt. Already exists; it refused this plan three times before adopting it.</p></section><section class="card"><h2>4. /goal text written</h2><p>From the plan&#x27;s own fields (P2). This plan&#x27;s goal was written by hand as the prototype.</p></section><section class="card"><h2>5. aes plan accept</h2><p>Refuses without a fresh adopted receipt (P3).</p></section><section class="card"><h2>6. Commit hook</h2><p>[Plan #N] must find the receipt; [Trivial] is measured from the diff (P4).</p></section><section class="card"><h2>7. Rollout</h2><p>Observe for a week, then enforce, one repository at a time (P6).</p></section></div>
+<ul class="legend"><li><span class="l-done"></span>Already exists</li><li><span class="l-todo"></span>Planned (work unit)</li><li><span class="l-gate"></span>A check that can refuse</li><li><span class="l-case"></span>The escape it closes</li></ul>
+<footer>Source: <code>proposals/aes-planning/README.md</code> (adopted; receipt <code>method-conformance-receipt.json</code>) and goal <code>aes-planning.goal.md</code> on branch <code>shaping/aes-planning</code> of BrianMills2718/agentic-engineering-system-canonical. Generated by <code>review-page/build_page.py</code>.</footer>
+</main></body></html>
