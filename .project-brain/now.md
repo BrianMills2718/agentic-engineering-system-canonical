@@ -1,5 +1,20 @@
 # Now (2026-10-04, hive-brain session)
 
+**AES planning (2026-10-06):** real implementation work now needs an adopted
+plan. Plans go through Company Planning's adoption gate, which writes the plan's
+`/goal` text (company-planning #49). `aes plan accept` refuses a proposal
+without a fresh adoption receipt (`.aes/planning.yaml`, on here, AES #153), and
+every commit's tag is checked by `aes commit check` through `.githooks/commit-msg`
+(`.aes/commit_rule.yaml`, **observe** mode: logged to
+`.git/aes/commit-rule-<date>.jsonl`, nothing refused yet; AES #152). Use
+`[Goal <plan_id>]` or `[Plan #N]` for planned work, `[Trivial]` for at most 3
+files and 60 lines with no running-thing file, `[Shaping <plan_id>]` for edits
+inside `proposals/<plan_id>/`, `[Unplanned]` only with an `Emergency:` line.
+Plans: `proposals/aes-planning/` and `proposals/hive-hardening/` (both adopted).
+Next: after a week of observe log, switch AES canonical to enforce if false
+refusals are at or under 1 in 5; P1 (AES overlay in the gate's profile) waits
+on company-planning's plan-48 work.
+
 **Feedback collector (2026-10-06):** a nightly job on Brian's PC now reads
 every changed Claude Code and Codex transcript, collects closeout Learnings,
 Concerns, Policy and Decisions fields, Brian's corrections and friction, labels
