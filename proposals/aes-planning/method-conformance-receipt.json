@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-README-c1f34bf1bdb3",
+  "receipt_id": "RECEIPT-README-85981caede3a",
   "plan": {
     "plan_ref": "proposals/aes-planning/README.md",
-    "plan_sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1"
+    "plan_sha256": "85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a"
   },
   "path_decision": {
     "ref": "proposals/aes-planning/planning-path-decision.json",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/aes-planning/activation-facts.json",
-    "facts_sha256": "e73cf1b27605b9c96220aaf9399302a4398b1bffeba39c1371db5647cee3c79c",
+    "facts_sha256": "055c8401716b4d5f3c793c2c4b3ed461e0d8061e1b6456c73f92ff2c63f7425e",
     "facts": {
       "shared_mechanism": true,
       "empirical_comparison_proposed": false,
@@ -86,10 +86,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:ea325082fcac1d8eb1d21440c35fab57898a4260e94cb4cc4bb572aad25aed93",
-    "definition_sha256": "a323079ae688141650385452c732fde200e0f6ec127995925e0944d30defb941",
+    "revision": "sha256:e800291257637f3e45a7d668aec039df81e47ca7d2c9959ff0770837a8ac6b43",
+    "definition_sha256": "057be769ded2f5aff55224e23faf76c109f6e8fa103181365e16efa57d4307b5",
     "bundle_ref": "proposals/aes-planning/checklist-bundle.json",
-    "bundle_sha256": "655fd985ce721ad622bead9fef591034297f7a62ef706e5de000ffc0a3cffbea",
+    "bundle_sha256": "f4f2d49a6da8771624a69114bffb0faf40b4961a6ba420e89d2cd6bf3d1f70a2",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -107,16 +107,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-planning/README.md#who-it-serves-the-result-one-example",
-          "sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1"
+          "sha256": "85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/CORE-ACTOR-RESULT-EXAMPLE",
+        "trace_id": "company-planning/method-conformance/README/ab29d81bdf69/CORE-ACTOR-RESULT-EXAMPLE",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the actors (“Brian, and every agent”), states the desired result, and gives a dated, concrete user-visible example involving a specific commit, changed files, and the hook’s resulting refusal or acceptance."
+        "rationale": "The evidence explicitly names the actor served (Brian and implementation agents), the desired result (implementation work lands only under an adopted and accepted plan, producing runnable `/goal` text), and a stable, concrete user-visible example involving commit-hook responses for planned, emergency, and trivial changes."
       },
       "suggested_action": null
     },
@@ -152,16 +152,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-planning/README.md#success-and-what-would-disprove-it",
-          "sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1"
+          "sha256": "85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/CORE-SUCCESS-DISPROOF",
+        "trace_id": "company-planning/method-conformance/README/ab29d81bdf69/CORE-SUCCESS-DISPROOF",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly defines success criteria, including required commit markers, diff-check status, logged emergencies, and generated `/goal` text. It also gives concrete disproof conditions with measurable thresholds for false trivial classifications, split commits, emergency frequency, and plan adoption effort."
+        "rationale": "The evidence explicitly defines success: every commit in a week must satisfy one of the listed traceability, triviality, or emergency conditions, and the hardening work must run from generated `/goal` text. It also gives concrete disproof conditions, including a quantified false-refusal rate, commit-splitting and emergency thresholds, and average plan-adoption time across the first three plans."
       },
       "suggested_action": null
     },
@@ -178,16 +178,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-planning/README.md#brians-direction-authority",
-          "sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1"
+          "sha256": "85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/CORE-AUTHORITY-NONGOALS",
+        "trace_id": "company-planning/method-conformance/README/ab29d81bdf69/CORE-AUTHORITY-NONGOALS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies Brian as the authority over the work and lists the owners of the touched pieces. It also explicitly states multiple non-goals, including no new planning method or tooling, no Stop hook, no full repository migration, and no change to what reaches Brian."
+        "rationale": "The evidence explicitly identifies Brian as the authority over the work and lists the owners of the touched pieces. It also explicitly states multiple non-goals, including no new planning method or tools, no Stop hook, limited repository migration, and no change to what reaches Brian."
       },
       "suggested_action": null
     },
@@ -198,26 +198,24 @@
       "condition_fact": "irreversible_or_spend_action",
       "condition_value": true,
       "verifier_kind": "semantic",
-      "disposition": "unresolved",
-      "verifier_result": "fail",
-      "reason_codes": [
-        "semantic_unresolved"
-      ],
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-planning/README.md#irreversible-actions-and-spend",
-          "sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1"
+          "sha256": "85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/CORE-IRREVERSIBLE-SPEND",
+        "trace_id": "company-planning/method-conformance/README/ab29d81bdf69/CORE-IRREVERSIBLE-SPEND",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unresolved",
-        "materiality": "material",
-        "missing": "The 22-repository hook change does not explicitly name who must authorize it or the boundary governing when it may proceed. The spend also lacks a clearly defined authorization boundary: it states under one dollar per plan and that costs above “trivial” require Brian’s reply, but does not define “trivial.”",
-        "rationale": "The evidence provides containment for the hook change (per-repository config rollback or reverting the commit) and for spend (call and cost logging), and identifies Brian for provider routing and above-trivial costs. However, it does not explicitly satisfy the boundary and authorization requirements for every proposed action or define the spend-authorization threshold precisely."
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies the 22-repository hook change and the verifier’s model-call spend, names their authorization by Brian, and defines boundaries and containment. It specifies observe-only rollout and per-repository switching thresholds for the hooks, and a per-plan cost limit, escalation thresholds, and call-cost logging for spend."
       },
-      "suggested_action": "Add to the plan: The 22-repository hook change does not explicitly name who must authorize it or the boundary governing when it may proceed. The spend also lacks a clearly defined authorization boundary: it states under one dollar per plan and that costs above “trivial” require Brian’s reply, but does not define “trivial.”"
+      "suggested_action": null
     },
     {
       "item_id": "CORE-UNCERTAINTIES",
@@ -232,16 +230,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-planning/README.md#uncertainties",
-          "sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1"
+          "sha256": "85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/CORE-UNCERTAINTIES",
+        "trace_id": "company-planning/method-conformance/README/ab29d81bdf69/CORE-UNCERTAINTIES",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly lists five uncertainties and provides an owner or resolving evidence for each: P4, P5, claims checks, or the specified hook behavior. Each uncertainty is paired with a concrete resolution action or responsible party."
+        "rationale": "The evidence explicitly lists five uncertainties and, for each, identifies an owner or concrete resolving evidence/action. Owners and resolution mechanisms include P4, P5, claims checks, and specified observations or hook behavior."
       },
       "suggested_action": null
     },
@@ -252,26 +250,24 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "unresolved",
-      "verifier_result": "fail",
-      "reason_codes": [
-        "semantic_unresolved"
-      ],
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-planning/README.md#design",
-          "sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1"
+          "sha256": "85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/README/ab29d81bdf69/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unresolved",
-        "materiality": "material",
-        "missing": "The plan explicitly proposes paid LLM calls by the gate’s semantic verifier, but declares llm_central=false. It does not establish that these LLM calls are non-central to the plan’s behavior.",
-        "rationale": "The plan says the semantic verifier makes model calls costing under one dollar per plan and that an unavailable verifier prevents a passing receipt. The declared llm_central=false is therefore not consistent with the described dependency."
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly introduces shared mechanisms, including the `aes` overlay, generated goal output, receipt-gated acceptance, and shared hook enforcement, supporting `shared_mechanism=true`. It explicitly states that no empirical comparison is proposed, that model calls are not central, and it documents model-call spend through the existing verifier, supporting the other declared facts."
       },
-      "suggested_action": "Add to the plan: The plan explicitly proposes paid LLM calls by the gate’s semantic verifier, but declares llm_central=false. It does not establish that these LLM calls are non-central to the plan’s behavior."
+      "suggested_action": null
     },
     {
       "item_id": "OV-PRIOR-ART-DISPOSITION",
@@ -280,26 +276,24 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "unresolved",
-      "verifier_result": "fail",
-      "reason_codes": [
-        "semantic_unresolved"
-      ],
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-planning/README.md#what-exists-and-what-this-plan-does-with-it",
-          "sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1"
+          "sha256": "85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/OV-PRIOR-ART-DISPOSITION",
+        "trace_id": "company-planning/method-conformance/README/ab29d81bdf69/OV-PRIOR-ART-DISPOSITION",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unresolved",
-        "materiality": "material",
-        "missing": "The internal-lineage candidate from data-contracts is described as “adopted as the pattern, no code reused,” but it is not explicitly dispositioned as reuse, extend, compose, supersede, or bounded exception.",
-        "rationale": "The evidence explicitly identifies searches of ownership, internal lineage, and external practice, and dispositions the listed existing pieces and external practice. However, the closest internal-lineage candidate lacks one of the required disposition categories."
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies searches of ownership, internal lineage, and external practice, and assigns dispositions to the existing pieces and prior-art patterns. Each cited candidate is dispositioned as reuse, extend, or supersede, with no-disposition gap identified."
       },
-      "suggested_action": "Add to the plan: The internal-lineage candidate from data-contracts is described as “adopted as the pattern, no code reused,” but it is not explicitly dispositioned as reuse, extend, compose, supersede, or bounded exception."
+      "suggested_action": null
     },
     {
       "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
@@ -314,16 +308,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-planning/README.md#what-exists-and-what-this-plan-does-with-it",
-          "sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1"
+          "sha256": "85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/OV-PRIOR-ART-PARALLEL-CHECK",
+        "trace_id": "company-planning/method-conformance/README/ab29d81bdf69/OV-PRIOR-ART-PARALLEL-CHECK",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan names a concrete structural check: search installed hooks for any second commit-tag validator. It also specifies a consumer-path test verifying that an `[Unplanned]` commit with a running-thing file is refused by exactly one hook."
+        "rationale": "The evidence explicitly names a structural check: search installed hooks for any second commit-tag validator. It also specifies a consumer-path test verifying that an `[Unplanned]` commit with a running-thing file is refused by exactly one hook, which would expose parallel validation."
       },
       "suggested_action": null
     },
@@ -340,23 +334,23 @@
       "evidence": [
         {
           "ref": "proposals/aes-planning/README.md#coordination",
-          "sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1"
+          "sha256": "85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/OV-COORD-OWNERSHIP",
+        "trace_id": "company-planning/method-conformance/README/ab29d81bdf69/OV-COORD-OWNERSHIP",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The table explicitly identifies each writer, the files or policy artifacts owned, conflict surfaces, integration owner and integration procedure, dependencies or sequencing constraints, and concrete work-unit evidence. These elements are provided for each listed concurrent writer."
+        "rationale": "The table explicitly identifies each writer, the files or artifacts it owns, its conflict surface, dependencies or sequencing constraints, the integration owner and integration method, and concrete work-unit evidence. It also identifies code-71 as the plan-wide integration owner and specifies evidence for each listed writer."
       },
       "suggested_action": null
     }
   ],
   "item_counts": {
-    "pass": 7,
-    "unresolved": 3,
+    "pass": 10,
+    "unresolved": 0,
     "not_applicable": 0,
     "unavailable": 0,
     "missing": 0
@@ -370,66 +364,25 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-README-c1f34bf1bdb3",
+    "report_id": "REPORT-README-85981caede3a",
     "snapshot_ref": "SNAPSHOT-README",
-    "snapshot_revision": "sha256:655fd985ce721ad622bead9fef591034297f7a62ef706e5de000ffc0a3cffbea",
+    "snapshot_revision": "sha256:f4f2d49a6da8771624a69114bffb0faf40b4961a6ba420e89d2cd6bf3d1f70a2",
     "packet_ref": "proposals/aes-planning/README.md",
-    "packet_revision": "sha256:c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1",
+    "packet_revision": "sha256:85981caede3a699de9604312c4ad46b326552ed770b49a90f19da1e03c38473a",
     "structural_status": "pass",
     "semantic_review_status": "complete",
-    "diagnostics": [
-      {
-        "diagnostic_id": "DIAG-README-4",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
-        "message": "CORE-IRREVERSIBLE-SPEND: The 22-repository hook change does not explicitly name who must authorize it or the boundary governing when it may proceed. The spend also lacks a clearly defined authorization boundary: it states under one dollar per plan and that costs above “trivial” require Brian’s reply, but does not define “trivial.”",
-        "source_locator": "proposals/aes-planning/README.md",
-        "materiality": "material",
-        "suggested_action": "Add to the plan: The 22-repository hook change does not explicitly name who must authorize it or the boundary governing when it may proceed. The spend also lacks a clearly defined authorization boundary: it states under one dollar per plan and that costs above “trivial” require Brian’s reply, but does not define “trivial.”",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/CORE-IRREVERSIBLE-SPEND"
-      },
-      {
-        "diagnostic_id": "DIAG-README-6",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
-        "message": "CORE-ACTIVATION-FACTS: The plan explicitly proposes paid LLM calls by the gate’s semantic verifier, but declares llm_central=false. It does not establish that these LLM calls are non-central to the plan’s behavior.",
-        "source_locator": "proposals/aes-planning/README.md",
-        "materiality": "material",
-        "suggested_action": "Add to the plan: The plan explicitly proposes paid LLM calls by the gate’s semantic verifier, but declares llm_central=false. It does not establish that these LLM calls are non-central to the plan’s behavior.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/CORE-ACTIVATION-FACTS"
-      },
-      {
-        "diagnostic_id": "DIAG-README-7",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
-        "message": "OV-PRIOR-ART-DISPOSITION: The internal-lineage candidate from data-contracts is described as “adopted as the pattern, no code reused,” but it is not explicitly dispositioned as reuse, extend, compose, supersede, or bounded exception.",
-        "source_locator": "proposals/aes-planning/README.md",
-        "materiality": "material",
-        "suggested_action": "Add to the plan: The internal-lineage candidate from data-contracts is described as “adopted as the pattern, no code reused,” but it is not explicitly dispositioned as reuse, extend, compose, supersede, or bounded exception.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/README/96e1469774c2/OV-PRIOR-ART-DISPOSITION"
-      }
-    ],
+    "diagnostics": [],
     "route": "coordinated",
-    "adoption_readiness": "contributor_disposition_needed",
+    "adoption_readiness": "ready_for_contributor",
     "limitations": [
       "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
     ]
   },
   "advisory_deviations": [],
-  "result": "fail",
-  "reason_codes": [
-    "semantic_unresolved"
-  ],
+  "result": "pass",
+  "reason_codes": [],
   "actionable_summary": [
-    "CORE-IRREVERSIBLE-SPEND: semantic_unresolved -> Add to the plan: The 22-repository hook change does not explicitly name who must authorize it or the boundary governing when it may proceed. The spend also lacks a clearly defined authorization boundary: it states under one dollar per plan and that costs above “trivial” require Brian’s reply, but does not define “trivial.”",
-    "CORE-ACTIVATION-FACTS: semantic_unresolved -> Add to the plan: The plan explicitly proposes paid LLM calls by the gate’s semantic verifier, but declares llm_central=false. It does not establish that these LLM calls are non-central to the plan’s behavior.",
-    "OV-PRIOR-ART-DISPOSITION: semantic_unresolved -> Add to the plan: The internal-lineage candidate from data-contracts is described as “adopted as the pattern, no code reused,” but it is not explicitly dispositioned as reuse, extend, compose, supersede, or bounded exception."
+    "pass: 10 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
   ],
   "limitations": [
     "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
@@ -438,7 +391,7 @@
     "client": "claude-code",
     "session": "code-71"
   },
-  "started_at": "2026-10-06T19:28:11Z",
-  "completed_at": "2026-10-06T19:28:22Z",
-  "duration_ms": 11413
+  "started_at": "2026-10-06T19:28:56Z",
+  "completed_at": "2026-10-06T19:29:30Z",
+  "duration_ms": 30359
 }
