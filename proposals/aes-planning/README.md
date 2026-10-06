@@ -64,6 +64,15 @@ Nothing new is built where an existing piece covers it. The parallel-implementat
 | P5 | hive-hardening re-planned through the gate as the first case | AES canonical | its receipt is adopted, `aes plan accept` passes, its `/goal` text exists |
 | P6 | enforce mode in AES canonical, then repository by repository | each repository | a week of observe log reviewed; enforce switched on with that log as evidence |
 
+## Coordination
+
+| Writer | Owns | Conflict surface with this plan | Integration |
+|---|---|---|---|
+| Session holding claim `company-planning:plan-48-method-conformance` (adoption gate, merged as company-planning #40; claim still open) | `plugins/company-planning/contracts/method-conformance`, `scripts/method_conformance`, `tests/test_method_conformance.py` | P1 (profile overlay) and P2 (`adopt` writes goal text) edit the same files | messaged with this plan before P1; P1/P2 start only after its claim is closed or it agrees in a reply; then one pull request each in company-planning |
+| Session that wrote the situation-checklists policy (project-meta #2394) | the policy entry and its enforcement matrix | P4 is that policy's enforcement at commit for implementation work | P4 records itself against that policy entry; no change to the policy text |
+| Session moving company-planning's canonical source back to BrianMills2718 (#43) | install source, updater, docs | none in code; P1/P2 must land in BrianMills2718/company-planning, not the Inside-Success copy | check the remote before the first P1 push |
+| This session (code-71) | the AES pieces: P3, P4's rule file, P5, P6 | `.aes/target.yaml` and the governed roots (single writer, checked by claims before P3) | integration owner for the plan as a whole; work-unit evidence per row of "Work units" |
+
 ## Success, and what would disprove it
 
 **Success:** in AES canonical, after enforce mode, every commit in a week carries `[Plan #N]` / `[Goal …]` resolving to an adopted plan, `[Trivial]` passing the diff check, or a logged emergency; and the hive-hardening work runs from its generated `/goal` text.
@@ -85,6 +94,7 @@ None irreversible: every piece is a commit or a config switch, and observe mode 
 | Whether the hook can find a cross-repository plan's receipt offline (plan in AES, commit in personal-vps) | P4: resolve from a local AES checkout path recorded in the repository's `meta-process.yaml`; fail visibly when it is missing |
 | Whether the gate's semantic verifier is reachable from the worker container | P5 run on the VPS; when unavailable the receipt says `unavailable`, never `pass` |
 | Whether other sessions are changing the same Company Planning files | claims check before P1/P2; the plan-48 owner is messaged with this plan |
+| How a plan's own drafting commits are tagged before it is adopted (this plan's first commit had to use `[Unplanned]`) | P4 adds a `[Shaping <plan-id>]` tag allowed only for files under that plan's `proposals/<plan-id>/` folder; checked by the hook from the diff |
 
 ## Non-goals
 
