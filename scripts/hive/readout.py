@@ -96,7 +96,14 @@ def main() -> int:
 
     print("\nGates")
     try:
-        rows = [json.loads(l) for l in Path(os.path.expanduser("~/.jev-gate/decisions.jsonl")).read_text().splitlines() if l.strip()]
+        rows, damaged = [], 0
+        for l in Path(os.path.expanduser("~/.jev-gate/decisions.jsonl")).read_text(errors="replace").splitlines():
+            try:
+                rows.append(json.loads(l))
+            except ValueError:
+                damaged += l.strip() != ""
+        if damaged:
+            print(f"  note: skipped {damaged} damaged line(s) in the Jev log")
         rows = [x for x in rows if inside(x.get("at"))]
         print(f"  Jev: {len(rows)} decisions; by verdict {dict(collections.Counter(x['verdict'] for x in rows))}; "
               f"by source {dict(collections.Counter(x['source'] for x in rows))}")

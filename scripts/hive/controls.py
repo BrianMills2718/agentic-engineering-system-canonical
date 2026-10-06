@@ -72,12 +72,22 @@ def ago(d: dt.datetime | None) -> str:
     return f"{h:.0f}h ago" if h < 48 else f"{h / 24:.0f}d ago"
 
 
+DAMAGED: list[str] = []  # logs with unparseable lines, e.g. NUL padding left by a WSL crash
+
+
 def jsonl_last(path: str) -> dict | None:
+    """Last parseable record; skips damaged lines and names the file in DAMAGED."""
     try:
-        lines = [l for l in Path(path).read_text().splitlines() if l.strip()]
+        lines = [l for l in Path(path).read_text(errors="replace").splitlines() if l.strip()]
     except OSError:
         return None
-    return json.loads(lines[-1]) if lines else None
+    for line in reversed(lines):
+        try:
+            return json.loads(line)
+        except ValueError:
+            if path not in DAMAGED:
+                DAMAGED.append(path)
+    return None
 
 
 VPS_SIDE = ("Paperclip agents", "VPS backup")
@@ -159,6 +169,8 @@ def main() -> int:
     unread = [r for r in rows if r[3].startswith("UNKNOWN")]
     print(f"checked {len(rows)} controls: {len(rows) - len(bad) - len(unread)} ok, {len(bad)} silent/failing/stale, "
           f"{len(unread)} unknown")
+    for f in DAMAGED:
+        print(f"note: skipped damaged line(s) in {f}")
     code = 1 if bad else (2 if unknown else 0)
     try:
         hist = Path.home() / ".hive-brain" / "controls.jsonl"
@@ -182,4 +194,11 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except Exception:
+        # Exit 1 and 2 are findings (hive-controls.service SuccessExitStatus); a crash
+        # must fail the unit instead, so the dashboard is not sent the last good result.
+        import traceback
+        traceback.print_exc()
+        sys.exit(3)
