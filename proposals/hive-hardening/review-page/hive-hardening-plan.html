@@ -12,6 +12,7 @@ svg{width:100%;height:auto;display:block}svg text{fill:var(--fg);font-family:inh
 .k-gap rect{fill:none;stroke:var(--fg);stroke-width:3}
 .st-done rect{fill:var(--bluefill);stroke:var(--blue);stroke-width:2.5}
 .st-next rect{fill:none;stroke:var(--orange);stroke-width:3;stroke-dasharray:10 4 2 4}
+.st-run rect{fill:none;stroke:var(--orange);stroke-width:3}
 .st-todo rect{fill:none;stroke:var(--grey);stroke-width:2;stroke-dasharray:6 5}
 .st-you rect{fill:none;stroke:var(--fg);stroke-width:4}
 .arrow{stroke:var(--line);stroke-width:1.5}.ahp{fill:var(--line)}
@@ -22,11 +23,11 @@ svg{width:100%;height:auto;display:block}svg text{fill:var(--fg);font-family:inh
 .card ul{margin:0;padding-left:18px}.badge{font-size:.8rem;font-weight:700;white-space:nowrap}
 ul.legend{list-style:none;padding:0;margin:16px 0 8px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.9rem}
 ul.legend span{display:inline-block;width:26px;height:14px;vertical-align:-2px;margin-right:6px;border-radius:3px}
-.l-done{background:var(--bluefill);border:2.5px solid var(--blue)}.l-next{border:3px dashed var(--orange)}.l-todo{border:2px dashed var(--grey)}.l-you{border:4px solid var(--fg)}
+.l-done{background:var(--bluefill);border:2.5px solid var(--blue)}.l-run{border:3px solid var(--orange)}.l-next{border:3px dashed var(--orange)}.l-todo{border:2px dashed var(--grey)}.l-you{border:4px solid var(--fg)}
 .decide{border:2px solid var(--fg);border-radius:6px;padding:10px 14px;margin:16px 0}.decide h2{font-size:1.05rem;margin:0 0 6px}
 footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:.78rem;overflow-wrap:anywhere}</style></head><body><main>
 <h1>Hive hardening plan: five things broke on 10-06 because AES's plan declared only files in two folders. Fix: declare the running system too, scan to prove the plan complete, record every run end to end, check the rules against what happened.</h1>
-<p class="q">Does each fix close the gap it points at, and what should the workers aim at? Reply in the terminal.</p>
+<p class="q">Does each fix close the gap it points at? Reply in the terminal.</p>
 <svg class="wide" viewBox="0 0 1200 750" role="img" aria-label="Five failures on the left, each linked to the gaps in AES that let it through in the middle, each gap linked to the fix units on the right with their state.">
 <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ahp"/></marker></defs>
 <text x="10" y="30" class="lane">What went wrong (10-06)</text>
@@ -63,13 +64,13 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <g class="k-gap"><rect x="425" y="518" width="350" height="70" rx="6"/><text x="437" y="540" class="t-title">G5 · Success counted activity</text><text x="437" y="558" class="t-prov">v1 conditions count jobs merged, not value</text></g>
 <g class="k-unit st-done"><rect x="840" y="50" width="350" height="54" rx="6"/><text x="852" y="72" class="t-title">U0 · Checks survive damaged logs</text><text x="852" y="90" class="t-prov">✓ Done · crash fails service · PR #151 · fixes F3</text></g>
 <g class="k-unit st-next"><rect x="840" y="112" width="350" height="54" rx="6"/><text x="852" y="134" class="t-title">U1 · Only you can answer your questions</text><text x="852" y="152" class="t-prov">▶ Next · author checked on every reply · fixes F1</text></g>
-<g class="k-unit st-next"><rect x="840" y="174" width="350" height="54" rx="6"/><text x="852" y="196" class="t-title">U2 · Unstick workers + stall alert</text><text x="852" y="214" class="t-prov">▶ Next · install packages; alert after 12 h · fixes F2</text></g>
-<g class="k-unit st-todo"><rect x="840" y="236" width="350" height="54" rx="6"/><text x="852" y="258" class="t-title">U3 · Worker rules kept in git</text><text x="852" y="276" class="t-prov">○ Planned · daily check reports drift</text></g>
-<g class="k-unit st-todo"><rect x="840" y="298" width="350" height="54" rx="6"/><text x="852" y="320" class="t-title">U4 · Declare the environment too</text><text x="852" y="338" class="t-prov">○ Planned · running things in the plan; scan finds gaps</text></g>
+<g class="k-unit st-run"><rect x="840" y="174" width="350" height="54" rx="6"/><text x="852" y="196" class="t-title">U2 · Unstick workers + stall alert</text><text x="852" y="214" class="t-prov">◐ Started · tools installed; alert after 12 h next · fixes F2</text></g>
+<g class="k-unit st-run"><rect x="840" y="236" width="350" height="54" rx="6"/><text x="852" y="258" class="t-title">U3 · Every running thing is a file in git</text><text x="852" y="276" class="t-prov">◐ Started · compose, linked units, rule files, containers</text></g>
+<g class="k-unit st-todo"><rect x="840" y="298" width="350" height="54" rx="6"/><text x="852" y="320" class="t-title">U4 · AES checks running = files</text><text x="852" y="338" class="t-prov">○ Planned · new kinds; drift check; default in scope</text></g>
 <g class="k-unit st-todo"><rect x="840" y="360" width="350" height="54" rx="6"/><text x="852" y="382" class="t-title">U5 · AES asks what must never happen</text><text x="852" y="400" class="t-prov">○ Planned · STPA list; failure-input tests</text></g>
 <g class="k-unit st-todo"><rect x="840" y="422" width="350" height="54" rx="6"/><text x="852" y="444" class="t-title">U6 · One trace per run, end to end</text><text x="852" y="462" class="t-prov">○ Planned · OpenTelemetry; viewer with filters</text></g>
 <g class="k-unit st-todo"><rect x="840" y="484" width="350" height="54" rx="6"/><text x="852" y="506" class="t-title">U7 · Rules checked against traces</text><text x="852" y="524" class="t-prov">○ Planned · results into aes status; heartbeats</text></g>
-<g class="k-unit st-you"><rect x="840" y="546" width="350" height="54" rx="6"/><text x="852" y="568" class="t-title">U8 · Jobs aim at your outcomes</text><text x="852" y="586" class="t-prov">◆ Your pick · jobs name their outcome; upkeep ≤ 1 in 3</text></g>
+<g class="k-unit st-done"><rect x="840" y="546" width="350" height="54" rx="6"/><text x="852" y="568" class="t-title">U8 · Jobs aim at your outcomes</text><text x="852" y="586" class="t-prov">✓ Done · DIGIMON #215 + process tracing</text></g>
 <g class="k-unit st-todo"><rect x="840" y="608" width="350" height="54" rx="6"/><text x="852" y="630" class="t-title">U9 · One front door</text><text x="852" y="648" class="t-prov">○ Planned · README current; services follow main</text></g>
 <g class="k-unit st-todo"><rect x="840" y="670" width="350" height="54" rx="6"/><text x="852" y="692" class="t-title">U10 · Review whole traces, not outputs</text><text x="852" y="710" class="t-prov">○ Planned · failures, your channel, sampled passes</text></g>
 </svg>
@@ -79,8 +80,8 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <li><b>G2</b> Criteria only say what should work: never what must not happen; tests use clean inputs</li>
 </ul><p class="lbl">Fix</p><ul>
 <li class="st-next"><b>U1</b> Only you can answer your questions <span class="badge">▶ Next</span></li>
-<li class="st-todo"><b>U3</b> Worker rules kept in git <span class="badge">○ Planned</span></li>
-<li class="st-todo"><b>U4</b> Declare the environment too <span class="badge">○ Planned</span></li>
+<li class="st-run"><b>U3</b> Every running thing is a file in git <span class="badge">◐ Started</span></li>
+<li class="st-todo"><b>U4</b> AES checks running = files <span class="badge">○ Planned</span></li>
 <li class="st-todo"><b>U5</b> AES asks what must never happen <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F2 · Workers stuck a day, no one told</h2><p class="sub">both slots blocked; Coordinator says &quot;succeeded&quot;</p><p class="lbl">Why AES let it through</p><ul>
@@ -88,11 +89,11 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <li><b>G3</b> AES checks at commit time: these broke at run time</li>
 <li><b>G5</b> Success counted activity: v1 conditions count jobs merged, not value</li>
 </ul><p class="lbl">Fix</p><ul>
-<li class="st-next"><b>U2</b> Unstick workers + stall alert <span class="badge">▶ Next</span></li>
+<li class="st-run"><b>U2</b> Unstick workers + stall alert <span class="badge">◐ Started</span></li>
 <li class="st-todo"><b>U5</b> AES asks what must never happen <span class="badge">○ Planned</span></li>
 <li class="st-todo"><b>U6</b> One trace per run, end to end <span class="badge">○ Planned</span></li>
 <li class="st-todo"><b>U7</b> Rules checked against traces <span class="badge">○ Planned</span></li>
-<li class="st-you"><b>U8</b> Jobs aim at your outcomes <span class="badge">◆ Your pick</span></li>
+<li class="st-done"><b>U8</b> Jobs aim at your outcomes <span class="badge">✓ Done</span></li>
 <li class="st-todo"><b>U10</b> Review whole traces, not outputs <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F3 · Silence check crashed, hid it</h2><p class="sub">dashboard got yesterday&#x27;s all-clear</p><p class="lbl">Why AES let it through</p><ul>
@@ -100,14 +101,14 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <li><b>G2</b> Criteria only say what should work: never what must not happen; tests use clean inputs</li>
 </ul><p class="lbl">Fix</p><ul>
 <li class="st-done"><b>U0</b> Checks survive damaged logs <span class="badge">✓ Done</span></li>
-<li class="st-todo"><b>U3</b> Worker rules kept in git <span class="badge">○ Planned</span></li>
-<li class="st-todo"><b>U4</b> Declare the environment too <span class="badge">○ Planned</span></li>
+<li class="st-run"><b>U3</b> Every running thing is a file in git <span class="badge">◐ Started</span></li>
+<li class="st-todo"><b>U4</b> AES checks running = files <span class="badge">○ Planned</span></li>
 <li class="st-todo"><b>U5</b> AES asks what must never happen <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F4 · Jobs mostly upkeep of itself</h2><p class="sub">installs, READMEs; AES frontier idle since 09-27</p><p class="lbl">Why AES let it through</p><ul>
 <li><b>G5</b> Success counted activity: v1 conditions count jobs merged, not value</li>
 </ul><p class="lbl">Fix</p><ul>
-<li class="st-you"><b>U8</b> Jobs aim at your outcomes <span class="badge">◆ Your pick</span></li>
+<li class="st-done"><b>U8</b> Jobs aim at your outcomes <span class="badge">✓ Done</span></li>
 <li class="st-todo"><b>U10</b> Review whole traces, not outputs <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F5 · AES status always red</h2><p class="sub">1 of 9 criteria supported; 32 of 37 stale</p><p class="lbl">Why AES let it through</p><ul>
@@ -118,11 +119,9 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <li class="st-todo"><b>U10</b> Review whole traces, not outputs <span class="badge">○ Planned</span></li>
 </ul></section>
 </div>
-<ul class="legend"><li><span class="l-done"></span>Done</li><li><span class="l-next"></span>Next</li><li><span class="l-todo"></span>Planned</li><li><span class="l-you"></span>Needs your pick</li></ul>
-<section class="decide"><h2>◆ Your one pick (U8): what should the workers aim at?</h2>
+<ul class="legend"><li><span class="l-done"></span>Done</li><li><span class="l-run"></span>Started</li><li><span class="l-next"></span>Next</li><li><span class="l-todo"></span>Planned</li></ul>
+<section class="decide"><h2>✓ U8 decided: what the workers aim at</h2>
 <p>Right now they take any agent-doable line from your weekly plan, which turned out to be mostly upkeep.
-<b>Recommended:</b> aim them at Priority 7 (advance the vision): next is case three of the pressure-test ledger, milestone 3,
-plus Priority 1's next synthesis build, with upkeep capped at one job in three. Confidence: medium; impact: medium, easy to change weekly.</p>
-<p><b>If you don't answer:</b> they keep using the weekly plan, but each job must name the weekly outcome it serves and upkeep is capped at one in three.</p></section>
+<b>Your answer, 2026-10-06:</b> "completing the digimon architecture and process tracing." Set in the weekly plan: DIGIMON Plan #215 slices and process tracing's GOAL order, upkeep at most one job in three.</p></section>
 <footer>Source: <code>proposals/hive-hardening/README.md</code> on branch <code>shaping/hive-hardening</code> of BrianMills2718/agentic-engineering-system-canonical (evidence for every row there). Generated by <code>review-page/build_page.py</code>.</footer>
 </main></body></html>

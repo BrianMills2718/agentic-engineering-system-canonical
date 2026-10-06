@@ -23,18 +23,18 @@ GAPS = [
 UNITS = [
     ("U0", "Checks survive damaged logs", "crash fails service · PR #151", "done", ["F3"]),
     ("U1", "Only you can answer your questions", "author checked on every reply", "next", ["F1"]),
-    ("U2", "Unstick workers + stall alert", "install packages; alert after 12 h", "next", ["F2"]),
-    ("U3", "Worker rules kept in git", "daily check reports drift", "todo", ["G1"]),
-    ("U4", "Declare the environment too", "running things in the plan; scan finds gaps", "todo", ["G1"]),
+    ("U2", "Unstick workers + stall alert", "tools installed; alert after 12 h next", "run", ["F2"]),
+    ("U3", "Every running thing is a file in git", "compose, linked units, rule files, containers", "run", ["G1"]),
+    ("U4", "AES checks running = files", "new kinds; drift check; default in scope", "todo", ["G1"]),
     ("U5", "AES asks what must never happen", "STPA list; failure-input tests", "todo", ["G2"]),
     ("U6", "One trace per run, end to end", "OpenTelemetry; viewer with filters", "todo", ["G3"]),
     ("U7", "Rules checked against traces", "results into aes status; heartbeats", "todo", ["G3", "G4"]),
-    ("U8", "Jobs aim at your outcomes", "jobs name their outcome; upkeep ≤ 1 in 3", "you", ["G5"]),
+    ("U8", "Jobs aim at your outcomes", "DIGIMON #215 + process tracing", "done", ["G5"]),
     ("U9", "One front door", "README current; services follow main", "todo", ["G4"]),
     ("U10", "Review whole traces, not outputs", "failures, your channel, sampled passes", "todo", ["G4", "G5"]),
 ]
 F_TO_G = {"F1": ["G1", "G2"], "F2": ["G2", "G3", "G5"], "F3": ["G1", "G2"], "F4": ["G5"], "F5": ["G4"]}
-STATE = {"done": "✓ Done", "next": "▶ Next", "todo": "○ Planned", "you": "◆ Your pick"}
+STATE = {"done": "✓ Done", "run": "◐ Started", "next": "▶ Next", "todo": "○ Planned", "you": "◆ Your pick"}
 
 W, X1, X2, X3, BW = 1200, 10, 425, 840, 350
 FY, FH, FS = 70, 70, 112
@@ -108,6 +108,7 @@ svg{width:100%;height:auto;display:block}svg text{fill:var(--fg);font-family:inh
 .k-gap rect{fill:none;stroke:var(--fg);stroke-width:3}
 .st-done rect{fill:var(--bluefill);stroke:var(--blue);stroke-width:2.5}
 .st-next rect{fill:none;stroke:var(--orange);stroke-width:3;stroke-dasharray:10 4 2 4}
+.st-run rect{fill:none;stroke:var(--orange);stroke-width:3}
 .st-todo rect{fill:none;stroke:var(--grey);stroke-width:2;stroke-dasharray:6 5}
 .st-you rect{fill:none;stroke:var(--fg);stroke-width:4}
 .arrow{stroke:var(--line);stroke-width:1.5}.ahp{fill:var(--line)}
@@ -118,25 +119,23 @@ svg{width:100%;height:auto;display:block}svg text{fill:var(--fg);font-family:inh
 .card ul{margin:0;padding-left:18px}.badge{font-size:.8rem;font-weight:700;white-space:nowrap}
 ul.legend{list-style:none;padding:0;margin:16px 0 8px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.9rem}
 ul.legend span{display:inline-block;width:26px;height:14px;vertical-align:-2px;margin-right:6px;border-radius:3px}
-.l-done{background:var(--bluefill);border:2.5px solid var(--blue)}.l-next{border:3px dashed var(--orange)}.l-todo{border:2px dashed var(--grey)}.l-you{border:4px solid var(--fg)}
+.l-done{background:var(--bluefill);border:2.5px solid var(--blue)}.l-run{border:3px solid var(--orange)}.l-next{border:3px dashed var(--orange)}.l-todo{border:2px dashed var(--grey)}.l-you{border:4px solid var(--fg)}
 .decide{border:2px solid var(--fg);border-radius:6px;padding:10px 14px;margin:16px 0}.decide h2{font-size:1.05rem;margin:0 0 6px}
 footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:.78rem;overflow-wrap:anywhere}"""
 
-DECIDE = """<section class="decide"><h2>◆ Your one pick (U8): what should the workers aim at?</h2>
+DECIDE = """<section class="decide"><h2>✓ U8 decided: what the workers aim at</h2>
 <p>Right now they take any agent-doable line from your weekly plan, which turned out to be mostly upkeep.
-<b>Recommended:</b> aim them at Priority 7 (advance the vision): next is case three of the pressure-test ledger, milestone 3,
-plus Priority 1's next synthesis build, with upkeep capped at one job in three. Confidence: medium; impact: medium, easy to change weekly.</p>
-<p><b>If you don't answer:</b> they keep using the weekly plan, but each job must name the weekly outcome it serves and upkeep is capped at one in three.</p></section>"""
+<b>Your answer, 2026-10-06:</b> "completing the digimon architecture and process tracing." Set in the weekly plan: DIGIMON Plan #215 slices and process tracing's GOAL order, upkeep at most one job in three.</p></section>"""
 
 
 def main() -> None:
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hive hardening plan</title><style>{CSS}</style></head><body><main>
 <h1>Hive hardening plan: five things broke on 10-06 because AES's plan declared only files in two folders. Fix: declare the running system too, scan to prove the plan complete, record every run end to end, check the rules against what happened.</h1>
-<p class="q">Does each fix close the gap it points at, and what should the workers aim at? Reply in the terminal.</p>
+<p class="q">Does each fix close the gap it points at? Reply in the terminal.</p>
 {svg()}
 {narrow()}
-<ul class="legend"><li><span class="l-done"></span>Done</li><li><span class="l-next"></span>Next</li><li><span class="l-todo"></span>Planned</li><li><span class="l-you"></span>Needs your pick</li></ul>
+<ul class="legend"><li><span class="l-done"></span>Done</li><li><span class="l-run"></span>Started</li><li><span class="l-next"></span>Next</li><li><span class="l-todo"></span>Planned</li></ul>
 {DECIDE}
 <footer>Source: <code>proposals/hive-hardening/README.md</code> on branch <code>shaping/hive-hardening</code> of BrianMills2718/agentic-engineering-system-canonical (evidence for every row there). Generated by <code>review-page/build_page.py</code>.</footer>
 </main></body></html>"""
