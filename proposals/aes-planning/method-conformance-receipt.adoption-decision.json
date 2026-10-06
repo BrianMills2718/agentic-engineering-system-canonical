@@ -3,19 +3,17 @@
   "record_type": "method_adoption_decision",
   "decision": "refused",
   "plan_ref": "proposals/aes-planning/README.md",
-  "plan_sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f",
+  "plan_sha256": "c1f34bf1bdb3e1085d6575f89b42aaed6887ebe66c201a920fbc86f36d7635c1",
   "receipt_ref": "proposals/aes-planning/method-conformance-receipt.json",
-  "receipt_sha256": "fb529617b92b1bbfd85b94375df8778ac1aab2124ca2733dc01043832334af2b",
+  "receipt_sha256": "6a6e4147694c6c30910a6dd5dfc7af284884c42ce244192f5273b3c1a4359888",
   "receipt_result": "fail",
   "reason_codes": [
     "semantic_unresolved"
   ],
   "summary": [
-    "CORE-AUTHORITY-NONGOALS: semantic_unresolved -> Add to the plan: Explicit non-goals—what the plan will not do—are not stated.",
-    "CORE-IRREVERSIBLE-SPEND: semantic_unresolved -> Add to the plan: The proposed spend does not name who must authorize it. Although it states a boundary of under one dollar per plan and containment through the shared LLM client with no new paid service, it does not identify an authorizer.",
-    "CORE-ACTIVATION-FACTS: semantic_unresolved -> Add to the plan: empirical_comparison_proposed should be true because the plan proposes empirical evaluation through an observe week, replay of the last 300 commits, and explicit success/disproof thresholds. irreversible_or_spend_action should be true because the plan explicitly proposes spend on semantic-verifier LLM calls (under one dollar per plan).",
-    "OV-PRIOR-ART-DISPOSITION: semantic_unresolved -> Add to the plan: Explicit evidence that ownership, internal lineage, and relevant external prior art were searched, especially the external prior-art search and its results. The table lists internal existing pieces and dispositions but does not establish that these search categories were comprehensively performed.",
-    "OV-COORD-OWNERSHIP: semantic_unresolved -> Add to the plan: Exact work-unit evidence for each concurrent writer is not explicitly provided. The evidence gives work-unit evidence only for \"This session (code-71)\" via the reference to the \"Work units\" table, not for the other three writers; it also does not explicitly name the integration owner for each writer, beyond naming this session as the plan-wide integration owner."
+    "CORE-IRREVERSIBLE-SPEND: semantic_unresolved -> Add to the plan: The 22-repository hook change does not explicitly name who must authorize it or the boundary governing when it may proceed. The spend also lacks a clearly defined authorization boundary: it states under one dollar per plan and that costs above “trivial” require Brian’s reply, but does not define “trivial.”",
+    "CORE-ACTIVATION-FACTS: semantic_unresolved -> Add to the plan: The plan explicitly proposes paid LLM calls by the gate’s semantic verifier, but declares llm_central=false. It does not establish that these LLM calls are non-central to the plan’s behavior.",
+    "OV-PRIOR-ART-DISPOSITION: semantic_unresolved -> Add to the plan: The internal-lineage candidate from data-contracts is described as “adopted as the pattern, no code reused,” but it is not explicitly dispositioned as reuse, extend, compose, supersede, or bounded exception."
   ],
-  "decided_at": "2026-10-06T19:27:10Z"
+  "decided_at": "2026-10-06T19:28:22Z"
 }
