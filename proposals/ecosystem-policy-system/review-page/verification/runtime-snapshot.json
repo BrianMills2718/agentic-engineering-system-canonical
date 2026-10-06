@@ -1,0 +1,107 @@
+{
+  "observedAt": "2026-10-06T18:15:26.583224+00:00",
+  "registry": {
+    "total": 262,
+    "active": 249,
+    "activeMeasuredOrEnforced": 125,
+    "withBudget": 1,
+    "withRetireWhen": 1,
+    "sourceRevision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+    "sourceSha256": "cfed5cc889f21ab3478bc2c8e420d5021bc2448d2ef48de98ac90969c6ed0cff",
+    "sourcePath": "policy/registry.yaml"
+  },
+  "codexHooksList": {
+    "cwd": "project-meta",
+    "configured": 14,
+    "trustedAndEnabled": 8,
+    "untrusted": 6,
+    "errors": [],
+    "states": [
+      {
+        "event": "preToolUse",
+        "enabled": true,
+        "trust": "trusted",
+        "source": "user"
+      },
+      {
+        "event": "preToolUse",
+        "enabled": true,
+        "trust": "trusted",
+        "source": "user"
+      },
+      {
+        "event": "preToolUse",
+        "enabled": true,
+        "trust": "trusted",
+        "source": "user"
+      },
+      {
+        "event": "preToolUse",
+        "enabled": true,
+        "trust": "untrusted",
+        "source": "project"
+      },
+      {
+        "event": "preToolUse",
+        "enabled": true,
+        "trust": "untrusted",
+        "source": "project"
+      },
+      {
+        "event": "postToolUse",
+        "enabled": true,
+        "trust": "untrusted",
+        "source": "project"
+      },
+      {
+        "event": "sessionStart",
+        "enabled": true,
+        "trust": "untrusted",
+        "source": "project"
+      },
+      {
+        "event": "userPromptSubmit",
+        "enabled": true,
+        "trust": "untrusted",
+        "source": "project"
+      },
+      {
+        "event": "stop",
+        "enabled": true,
+        "trust": "untrusted",
+        "source": "project"
+      },
+      {
+        "event": "postToolUse",
+        "enabled": true,
+        "trust": "trusted",
+        "source": "plugin"
+      },
+      {
+        "event": "sessionStart",
+        "enabled": true,
+        "trust": "trusted",
+        "source": "plugin"
+      },
+      {
+        "event": "sessionStart",
+        "enabled": true,
+        "trust": "trusted",
+        "source": "plugin"
+      },
+      {
+        "event": "stop",
+        "enabled": true,
+        "trust": "trusted",
+        "source": "plugin"
+      },
+      {
+        "event": "stop",
+        "enabled": true,
+        "trust": "trusted",
+        "source": "plugin"
+      }
+    ]
+  },
+  "boundary": "Read-only registry census and Codex hooks/list. Hook eligibility is not an execution receipt; no runtime configuration was changed."
+}

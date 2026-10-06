@@ -1,0 +1,163 @@
+specification {
+  element responsibility { style { color sky } }
+  element implemented { style { color green } }
+  element partial { style { color amber } }
+  element intended { style { color gray } }
+  element record { style { color sky } }
+  element lifecycle { style { color sky } }
+}
+
+model {
+  authority = responsibility "Intent and authority" {
+    description "What Brian wants, who can decide, and what actions are authorized. A responsibility in the accepted architecture; not a declaration that every mechanism is complete."
+  }
+  context = responsibility "Context and attention" {
+    description "Relevant knowledge reaches an agent at decision time; only consequential exceptions require Brian's attention."
+  }
+  assurance = responsibility "Policy and assurance" {
+    description "Rules, applicability, decision evidence, verification and the least costly adequate control."
+  }
+  capabilities = responsibility "Capability and composition" {
+    description "Find existing tools and components, preserve their owners, and compose their supported interfaces."
+  }
+  planning = responsibility "Planning and decisions" {
+    description "Convert an authorized outcome into bounded work and explicit acceptance evidence."
+  }
+  execution = responsibility "Execution and coordination" {
+    description "Agents act through tools in claimed worktrees while respecting scope and preserving recoverable state."
+  }
+  learning = responsibility "Observation and learning" {
+    description "Observe behavior, detect problems, learn from corrections, and feed the next decision."
+  }
+
+  authority -> planning "outcome and limits"
+  context -> planning "relevant knowledge"
+  assurance -> planning "constraints and evidence"
+  capabilities -> planning "available components"
+  planning -> execution "authorized work"
+  execution -> learning "results and observations"
+  learning -> planning "revises the next decision"
+
+  definitions = implemented "Define the rule" {
+    description "Policy intent, source documents and structured inventory. Owner: Project Meta; repository-specific rules remain with their repository."
+  }
+  delivery = partial "Deliver relevant context" {
+    description "Workspace, repository and subtree instructions, skills and expected-context packets. Delivery, receipt, reading and comprehension remain different claims."
+  }
+  resolution = partial "Resolve applicability" {
+    description "Determine which rule applies to this actor, action, target and stage. The portable resolution/evaluator boundary is assigned to Enforced Planning; uniform deployment is not established by this model."
+  }
+  control = partial "Guide or check the action" {
+    description "Agent guidance, deterministic checks, model judgment and hooks. Intended effect and observed client execution are separate; an untrusted hook cannot establish enforcement."
+  }
+  action = implemented "Execute authorized work" {
+    description "An agent uses the real tool or product entrypoint. Claims own writes; messages do not grant write authority. Existing capability owners perform the action."
+  }
+  observations = partial "Record what happened" {
+    description "Native receipts, observations, friction, human corrections and learnings. Universal capture and cross-machine coverage are not established."
+  }
+  concerns = partial "Own one concern" {
+    description "A stable key groups actionable observations into one concern with an owner. GitHub Issues is the accepted concern register; native evidence stays in its own stores."
+  }
+  repair = partial "Correct and verify" {
+    description "The owning agent corrects the original failure, retains revision-bound verification and reopens the concern on recurrence. Some paths are implemented; universal closure and effect checking remain incomplete."
+  }
+
+  definitions -> delivery "instructions and procedures"
+  definitions -> resolution "rule, scope and authority"
+  delivery -> resolution "task and target context"
+  resolution -> control "applicable rule and effect"
+  control -> action "guidance or allow / block"
+  action -> observations "actual outcome"
+  control -> observations "allow / block / error receipt"
+  observations -> concerns "actionable signal"
+  concerns -> repair "owned correction"
+  repair -> definitions "verified policy improvement"
+  repair -> control "verified tool or check repair"
+
+  policy_record = record "Policy version" {
+    description "Stable policy ID, rule, intent, scope, sources, owner and declared mechanism. Registry metadata is distinct from runtime behavior."
+  }
+  mechanism_record = record "Control configuration" {
+    description "The configured guidance, hook or check and its intended enforcement effect. Configuration alone does not prove execution."
+  }
+  invocation_record = record "Action attempt" {
+    description "Actor, session, action, target, stage and exact revision: the occurrence to which a policy may apply."
+  }
+  decision_record = record "Policy decision" {
+    description "Applicable rules, evaluation result, allowed or blocked effect, explanation and authority. A decision is not proof of the action's outcome."
+  }
+  observation_record = record "Observation receipt" {
+    description "What actually ran and what happened, with occurrence and subject revisions. The reporter, occurrence, suspected subject and remedy owner are separate."
+  }
+  evidence_record = record "Native evidence" {
+    description "Traces, tests, friction, human corrections and learnings remain in their native stores. A link to evidence is not the evidence's verified conclusion."
+  }
+  concern_record = record "Concern" {
+    description "Stable keyed issue, linked observations, owner, state and correction history. This is the accepted resolution-state record."
+  }
+  correction_record = record "Correction" {
+    description "An owned change to the actual policy, tool, workflow or implementation, tied to the original failure and a recoverable revision."
+  }
+  verification_record = record "Verification evidence" {
+    description "Execution against the original counterexample and a permitted control on the exact changed revision. Unknown coverage cannot mean clear."
+  }
+  effect_record = intended "Effect observation" {
+    description "Whether the correction reduced the original failure and whether its ongoing cost is acceptable. The target includes this; ecosystem-wide effect measurement is not established."
+  }
+
+  policy_record -> mechanism_record "configured through"
+  mechanism_record -> decision_record "evaluates"
+  invocation_record -> decision_record "supplies action context"
+  decision_record -> observation_record "recorded execution"
+  observation_record -> evidence_record "retained in"
+  observation_record -> concern_record "may support"
+  concern_record -> correction_record "assigned remedy"
+  correction_record -> verification_record "must be checked by"
+  verification_record -> concern_record "licenses closure"
+  correction_record -> effect_record "should improve"
+  effect_record -> policy_record "review or retire"
+
+  observed = lifecycle "Observed" { description "A real occurrence produced a signal. It does not yet establish root cause." }
+  triaged = lifecycle "Triaged" { description "Reconcile duplicates, scope and likely owner; preserve the observation." }
+  selected = lifecycle "Selected" { description "The owner has selected a bounded correction within authority." }
+  deferred = lifecycle "Deferred" { description "The concern remains visible with a reason and explicit review event." }
+  repairing = lifecycle "Remedy in progress" { description "The owning agent changes the actual cause in a claimed lane." }
+  pending = lifecycle "Verification pending" { description "A landed change awaits evidence against the original failure." }
+  resolved = lifecycle "Verified resolved" { description "Verification supports closure on the landed revision. Unknown or unmapped evidence cannot authorize this transition." }
+  reopened = lifecycle "Reopened" { description "An equivalent recurrence invalidates the prior resolution and returns the existing concern to triage." }
+
+  observed -> triaged "classify and assign"
+  triaged -> selected "select correction"
+  triaged -> deferred "retain with review event"
+  deferred -> selected "review becomes due"
+  selected -> repairing "start owned work"
+  repairing -> pending "land correction"
+  pending -> resolved "original case passes"
+  pending -> repairing "verification fails"
+  resolved -> reopened "equivalent recurrence"
+  reopened -> triaged "reconcile and assign"
+}
+
+views {
+  view whole_system {
+    title "Seven responsibilities compose the engineering control plane"
+    include authority, context, assurance, capabilities, planning, execution, learning
+    autoLayout TopBottom
+  }
+  view policy_loop {
+    title "How a rule reaches an action and returns as verified correction"
+    include definitions, delivery, resolution, control, action, observations, concerns, repair
+    autoLayout TopBottom
+  }
+  view records {
+    title "Records keep intent, execution, evidence and resolution separate"
+    include policy_record, mechanism_record, invocation_record, decision_record, observation_record, evidence_record, concern_record, correction_record, verification_record, effect_record
+    autoLayout TopBottom
+  }
+  view concern_lifecycle {
+    title "A concern closes on verification and reopens on recurrence"
+    include observed, triaged, selected, deferred, repairing, pending, resolved, reopened
+    autoLayout TopBottom
+  }
+}

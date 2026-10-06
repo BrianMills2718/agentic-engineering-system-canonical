@@ -1,0 +1,232 @@
+{
+  "version": "0.1",
+  "id": "ecosystem-policy-system",
+  "purpose": {
+    "job": "Model the policy system before repairing it",
+    "audience": "Brian",
+    "lifecycleStages": [
+      "planning"
+    ],
+    "modes": []
+  },
+  "views": [
+    {
+      "viewSpecId": "whole_system",
+      "role": "primary",
+      "question": "How do the seven responsibilities connect?"
+    },
+    {
+      "viewSpecId": "policy_loop",
+      "role": "complementary",
+      "question": "How does a policy reach action and correction?"
+    },
+    {
+      "viewSpecId": "records",
+      "role": "complementary",
+      "question": "Which records separate intent, action, observation and verified closure?"
+    },
+    {
+      "viewSpecId": "concern_lifecycle",
+      "role": "complementary",
+      "question": "How can an observed concern reach verified resolution or reopen?"
+    },
+    {
+      "viewSpecId": "evidence",
+      "role": "complementary",
+      "question": "What observations support or limit this model?"
+    }
+  ],
+  "sourceBindings": [
+    {
+      "sourceId": "architecture",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/docs/ops/ADR-2026-07-16-engineering-control-plane-system-model.md#L29",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "framework",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/vision/02_FRAMEWORK.md#L110",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "frontdoor",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/docs/ops/POLICY_SYSTEM.md#L24",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "policy_model",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/docs/ops/ECOSYSTEM_POLICY_MODEL.md#L201",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "operations",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/docs/ops/POLICY_SYSTEM_OPERATIONS.md#L18",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "registry",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/policy/registry.yaml#L1",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "concern_decision",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/docs/ops/ADR-2026-09-14-one-feedback-concern-lifecycle.md#L30",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "concern_tool",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/scripts/concern_issue.py#L1",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "checks",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "implementation",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/scripts/control_triggers.py#L193",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "liveness",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/scripts/check_enforcement_liveness.py#L180",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "delivery",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/scripts/prepare_expected_context.py#L1",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "observability",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/scripts/policy_observability.py#L105",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "claim_incident",
+      "owner": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "role": "evidence",
+      "locator": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/policy_friction.md#L6521",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "hook_manifest",
+      "owner": "BrianMills2718/agent-skills",
+      "revision": "18da628ae25a5e39d7bd32961532a4ae2b439499",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/agent-skills/blob/18da628ae25a5e39d7bd32961532a4ae2b439499/contracts/client-config/hook-manifest.v1.json#L46",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "hook_runtime",
+      "owner": "BrianMills2718/agent-skills",
+      "revision": "18da628ae25a5e39d7bd32961532a4ae2b439499",
+      "role": "implementation",
+      "locator": "https://github.com/BrianMills2718/agent-skills/blob/18da628ae25a5e39d7bd32961532a4ae2b439499/scripts/codex_app_server.py#L76",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    },
+    {
+      "sourceId": "aes_boundary",
+      "owner": "BrianMills2718/agentic-engineering-system-canonical",
+      "revision": "4d0f863756ad4891a4762419dde256fc57c9c3a9",
+      "role": "semantic-authority",
+      "locator": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/4d0f863756ad4891a4762419dde256fc57c9c3a9/docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md#L1",
+      "note": "Pinned source; relationship does not certify runtime behavior."
+    }
+  ],
+  "interfacePatterns": [
+    "linked-planning-and-architecture-lenses",
+    "provenance-inspector"
+  ],
+  "stateContract": {
+    "selectionIdentity": "semantic-id",
+    "persistAcrossViewPivots": true,
+    "whenSelectionNotRepresented": "retain-and-mark-not-represented",
+    "sourceRevisionChange": "clear-semantic-focus",
+    "sharedFilters": "none"
+  },
+  "actions": [
+    {
+      "id": "inspect-part",
+      "label": "Inspect selected part",
+      "kind": "inspect",
+      "effect": "read-only",
+      "destination": null,
+      "subjectRevision": null,
+      "authority": null,
+      "staleSubmission": "not-applicable",
+      "retainEvidence": false
+    },
+    {
+      "id": "change-view",
+      "label": "Change model view",
+      "kind": "navigate",
+      "effect": "surface-local",
+      "destination": null,
+      "subjectRevision": null,
+      "authority": null,
+      "staleSubmission": "not-applicable",
+      "retainEvidence": false
+    },
+    {
+      "id": "open-source",
+      "label": "Open pinned source",
+      "kind": "navigate",
+      "effect": "read-only",
+      "destination": null,
+      "subjectRevision": null,
+      "authority": null,
+      "staleSubmission": "not-applicable",
+      "retainEvidence": false
+    }
+  ],
+  "provenance": {
+    "linkSurfaceToSources": true,
+    "linkViewsToSources": true,
+    "linkClaimsToEvidence": true
+  },
+  "successCriteria": [
+    "Trace a policy from definition through action and correction.",
+    "See owner and pinned source for each modeled part.",
+    "Distinguish implemented, partial, intended and conceptual elements.",
+    "Preserve semantic selection across views and mark absence.",
+    "Read the model on a phone and laptop."
+  ],
+  "notes": [
+    "No policy writes, runtime repair, universal schema, or human acceptance are performed by this artifact.",
+    "Router suggested a scroll-linked explainer. The bounded surface uses named view buttons with the same staged explanation, one main drawing and shared inspector; it omits scroll-driven transitions to keep the model directly navigable.",
+    "LikeC4 is the existing planning-review architecture renderer; the retained adapter projects its native layout into SVG."
+  ]
+}

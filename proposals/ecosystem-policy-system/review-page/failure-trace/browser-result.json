@@ -1,0 +1,286 @@
+{
+  "results": [
+    {
+      "name": "trace contains exact expected stage membership",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "five handoffs connect the expected endpoints",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "all stages bind to existing semantic model parts",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "pinned source line exists: contract",
+      "outcome": "passed",
+      "evidence": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/control_triggers.py#L11"
+    },
+    {
+      "name": "pinned source line exists: index",
+      "outcome": "passed",
+      "evidence": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/hook_receipt_index.py#L331"
+    },
+    {
+      "name": "pinned source line exists: reader",
+      "outcome": "passed",
+      "evidence": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/control_triggers.py#L193"
+    },
+    {
+      "name": "pinned source line exists: mapping",
+      "outcome": "passed",
+      "evidence": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/control_triggers.py#L231"
+    },
+    {
+      "name": "pinned source line exists: report",
+      "outcome": "passed",
+      "evidence": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/control_triggers.py#L353"
+    },
+    {
+      "name": "pinned source line exists: route",
+      "outcome": "passed",
+      "evidence": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/control_triggers.py#L311"
+    },
+    {
+      "name": "pinned source line exists: entrypoint",
+      "outcome": "passed",
+      "evidence": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/policy_system_status.py#L297"
+    },
+    {
+      "name": "pinned source line exists: audit",
+      "outcome": "passed",
+      "evidence": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/run_local_daily_audit.sh#L221"
+    },
+    {
+      "name": "review page returns HTTP 200",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "six stages render with exact membership",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "root break is selected on load",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "fixture boundary and unimplemented repair are visible",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "desktop whole flow fits on one screen",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "desktop has no page overflow",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "stage opens its own explanation: meaning",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "source link opens exact pinned commit",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "stage opens its own explanation: execution",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "live hook execution stays visibly unverified",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "stage opens its own explanation: coverage",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "source link opens exact pinned commit",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "stage opens its own explanation: classification",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "source link opens exact pinned commit",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "source link opens exact pinned commit",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "stage opens its own explanation: reporting",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "source link opens exact pinned commit",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "source link opens exact pinned commit",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "source link opens exact pinned commit",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "stage opens its own explanation: closure",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "closure disclosure remains isolated",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "source link opens exact pinned commit",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 0",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 1",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 2",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 3",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 4",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 5",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 6",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 7",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 8",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 9",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 10",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "styled tooltip within 200ms: 11",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "keyboard focus shows the styled tooltip",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "painted stage text stays inside its button",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "evidence opens: trace.json",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "evidence opens: probe-output.json",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "phone layout has no page overflow",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "phone tap opens stage details",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "phone tap shows a styled tooltip",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "model navigation link has a styled tooltip",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "model navigation opens the failure trace",
+      "outcome": "passed",
+      "evidence": ""
+    },
+    {
+      "name": "no JavaScript page errors",
+      "outcome": "passed",
+      "evidence": []
+    }
+  ],
+  "counts": {
+    "passed": 55,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0
+  },
+  "exit_status": 0
+}

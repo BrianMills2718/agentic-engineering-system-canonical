@@ -1,0 +1,222 @@
+{
+  "schema": "ecosystem-failure-trace/v1",
+  "question": "Where does missing evidence become a clear result?",
+  "observedAt": "2026-10-06T20:50:08.950578+00:00",
+  "subject": {
+    "repository": "BrianMills2718/project-meta",
+    "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+    "sources": [
+      {
+        "path": "scripts/control_triggers.py",
+        "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+        "sha256": "c2be7c9c1a0d1018f193d571afae4a59d02edaae2fa8473b5b6d135ab3708266"
+      },
+      {
+        "path": "scripts/hook_receipt_index.py",
+        "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+        "sha256": "531970aa515a7dc56e279f8cf0d514d9c84aa9974a30bed7edeba122522dcce0"
+      },
+      {
+        "path": "scripts/policy_system_status.py",
+        "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+        "sha256": "33e1c53996a29c5b6b76e9d4a04a20471b28acc8ebb0e3c818017c7479ea71f2"
+      },
+      {
+        "path": "scripts/run_local_daily_audit.sh",
+        "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+        "sha256": "f8449f3b436d2eafc3ad4f3ace5462e230604658423bf5f0eec04132b19ed48b"
+      },
+      {
+        "path": "policy/control_triggers.yaml",
+        "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+        "sha256": "bb3e88a89c2f9fe4a66de80057f041cd35523cde27e6b73de6e810ae30449698"
+      }
+    ]
+  },
+  "boundary": "Real index/check/CLI/router; temporary observations and isolated concern adapter",
+  "stages": [
+    {
+      "id": "meaning",
+      "modelRef": "definitions",
+      "title": "Define what “clear” means",
+      "state": "working",
+      "mark": "Contract verified",
+      "summary": "The source was read; the trigger did not fire.",
+      "detail": "The owning check explicitly distinguishes clear from unknown. This step verifies a source contract, rather than proving that every agent received the rule.",
+      "sourceIds": [
+        "contract"
+      ]
+    },
+    {
+      "id": "execution",
+      "modelRef": "action",
+      "title": "Run hooks and leave evidence",
+      "state": "unknown",
+      "mark": "Live execution untested",
+      "summary": "Whether the live hooks ran is outside this test.",
+      "detail": "Temporary observation folders stand in for the receipt store. The test does not establish which live hooks executed, whether they obeyed policy, or whether a real historical issue was closed.",
+      "sourceIds": []
+    },
+    {
+      "id": "coverage",
+      "modelRef": "observations",
+      "title": "Read the available evidence",
+      "state": "working",
+      "mark": "Executed in isolation",
+      "summary": "1 session exists; 0 fully read. Coverage is partial.",
+      "detail": "The real index refresh ran against a temporary session folder with a zero-second scan budget. It reported budget_exhausted=true and no rows. Uncertainty is present before the check assigns its status.",
+      "sourceIds": [
+        "index"
+      ]
+    },
+    {
+      "id": "classification",
+      "modelRef": "control",
+      "title": "Turn evidence into a status",
+      "state": "broken",
+      "mark": "Root break reproduced",
+      "summary": "Partial evidence becomes “clear”.",
+      "detail": "The latency reader returns clear with partial coverage and either no samples or one fast sample. Another reader returns clear for an unmapped required control even with complete coverage. Coverage and mapping warnings remain in prose, but do not constrain the status.",
+      "sourceIds": [
+        "reader",
+        "mapping"
+      ]
+    },
+    {
+      "id": "reporting",
+      "modelRef": "evidence_record",
+      "title": "Write the result for consumers",
+      "state": "working",
+      "mark": "Executed in isolation",
+      "summary": "The report says clear and the command exits 0.",
+      "detail": "The real CLI wrote clear into its report. Its successful exit means the command completed; it does not establish complete coverage or control health. The daily audit reaches this CLI through policy_system_status --triggers; live scheduling was not exercised.",
+      "sourceIds": [
+        "report",
+        "entrypoint",
+        "audit"
+      ]
+    },
+    {
+      "id": "closure",
+      "modelRef": "concerns",
+      "title": "Decide whether to close the concern",
+      "state": "broken",
+      "mark": "Consequence reproduced",
+      "summary": "The router asks to close the fixture concern.",
+      "detail": "The real router called close_concern for trigger:hook-latency-p90. An isolated in-memory issue adapter retained that attempted action; no GitHub issue was closed by the probe. With unknown, the same router performs no close. Positive slow evidence still opens a concern.",
+      "sourceIds": [
+        "route"
+      ]
+    }
+  ],
+  "sources": {
+    "contract": {
+      "path": "scripts/control_triggers.py",
+      "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+      "sha256": "c2be7c9c1a0d1018f193d571afae4a59d02edaae2fa8473b5b6d135ab3708266",
+      "line": 11,
+      "url": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/control_triggers.py#L11"
+    },
+    "index": {
+      "path": "scripts/hook_receipt_index.py",
+      "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+      "sha256": "531970aa515a7dc56e279f8cf0d514d9c84aa9974a30bed7edeba122522dcce0",
+      "line": 331,
+      "url": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/hook_receipt_index.py#L331"
+    },
+    "reader": {
+      "path": "scripts/control_triggers.py",
+      "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+      "sha256": "c2be7c9c1a0d1018f193d571afae4a59d02edaae2fa8473b5b6d135ab3708266",
+      "line": 193,
+      "url": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/control_triggers.py#L193"
+    },
+    "mapping": {
+      "path": "scripts/control_triggers.py",
+      "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+      "sha256": "c2be7c9c1a0d1018f193d571afae4a59d02edaae2fa8473b5b6d135ab3708266",
+      "line": 231,
+      "url": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/control_triggers.py#L231"
+    },
+    "report": {
+      "path": "scripts/control_triggers.py",
+      "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+      "sha256": "c2be7c9c1a0d1018f193d571afae4a59d02edaae2fa8473b5b6d135ab3708266",
+      "line": 353,
+      "url": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/control_triggers.py#L353"
+    },
+    "route": {
+      "path": "scripts/control_triggers.py",
+      "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+      "sha256": "c2be7c9c1a0d1018f193d571afae4a59d02edaae2fa8473b5b6d135ab3708266",
+      "line": 311,
+      "url": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/control_triggers.py#L311"
+    },
+    "entrypoint": {
+      "path": "scripts/policy_system_status.py",
+      "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+      "sha256": "33e1c53996a29c5b6b76e9d4a04a20471b28acc8ebb0e3c818017c7479ea71f2",
+      "line": 297,
+      "url": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/policy_system_status.py#L297"
+    },
+    "audit": {
+      "path": "scripts/run_local_daily_audit.sh",
+      "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+      "sha256": "f8449f3b436d2eafc3ad4f3ace5462e230604658423bf5f0eec04132b19ed48b",
+      "line": 221,
+      "url": "https://github.com/BrianMills2718/project-meta/blob/b43298574be5f4cd49ad054448ad4a8053bc2256/scripts/run_local_daily_audit.sh#L221"
+    }
+  },
+  "links": [
+    {
+      "from": "meaning",
+      "to": "execution"
+    },
+    {
+      "from": "execution",
+      "to": "coverage"
+    },
+    {
+      "from": "coverage",
+      "to": "classification"
+    },
+    {
+      "from": "classification",
+      "to": "reporting"
+    },
+    {
+      "from": "reporting",
+      "to": "closure"
+    }
+  ],
+  "modelRevision": "6145a13a1f43163d423c175a28a8fc40b17d6126",
+  "recommendation": "Repair the check that assigns status: unresolved coverage or mapping must not justify clear. Preserve positive fired evidence. The existing unknown route already leaves concerns open.",
+  "issue": "https://github.com/BrianMills2718/project-meta/issues/2412",
+  "counts": {
+    "passed": 8,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0
+  },
+  "cases": [
+    {
+      "id": "partial-empty",
+      "expected": "unknown",
+      "observed": "clear",
+      "evidence": "no receipts with elapsed_ms in the 7d window. index coverage: 0 of 1 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)"
+    },
+    {
+      "id": "partial-low",
+      "expected": "unknown",
+      "observed": "clear",
+      "evidence": "p90 hook wall time over 1 receipt(s) in 7d is 100.0 ms (threshold 1500 ms). index coverage: 0 of 1 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)"
+    },
+    {
+      "id": "complete-unmapped",
+      "expected": "unknown",
+      "observed": "clear",
+      "evidence": "0 of 1 Enforced session-hook row(s) have no matching receipt in 14d: none (1 row(s) declare no linked_scripts and could not be mapped: fixture-unmapped). index coverage: 1 of 1 in-window session(s) fully read this call (0 receipt(s) read)"
+    }
+  ],
+  "repairState": "Not implemented by this modeling step"
+}

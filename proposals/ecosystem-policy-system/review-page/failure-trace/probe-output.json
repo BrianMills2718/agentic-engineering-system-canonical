@@ -1,0 +1,182 @@
+{
+  "schema": "ecosystem-evidence-flow/v1",
+  "observed_at": "2026-10-06T20:50:08.950578+00:00",
+  "subject": {
+    "repository": "BrianMills2718/project-meta",
+    "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+    "sources": [
+      {
+        "path": "scripts/control_triggers.py",
+        "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+        "sha256": "c2be7c9c1a0d1018f193d571afae4a59d02edaae2fa8473b5b6d135ab3708266"
+      },
+      {
+        "path": "scripts/hook_receipt_index.py",
+        "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+        "sha256": "531970aa515a7dc56e279f8cf0d514d9c84aa9974a30bed7edeba122522dcce0"
+      },
+      {
+        "path": "scripts/policy_system_status.py",
+        "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+        "sha256": "33e1c53996a29c5b6b76e9d4a04a20471b28acc8ebb0e3c818017c7479ea71f2"
+      },
+      {
+        "path": "scripts/run_local_daily_audit.sh",
+        "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+        "sha256": "f8449f3b436d2eafc3ad4f3ace5462e230604658423bf5f0eec04132b19ed48b"
+      },
+      {
+        "path": "policy/control_triggers.yaml",
+        "revision": "b43298574be5f4cd49ad054448ad4a8053bc2256",
+        "sha256": "bb3e88a89c2f9fe4a66de80057f041cd35523cde27e6b73de6e810ae30449698"
+      }
+    ]
+  },
+  "boundary": "Real index/check/CLI/router; temporary observations and isolated concern adapter",
+  "cases": [
+    {
+      "id": "partial-empty",
+      "expected": "unknown",
+      "observed": "clear",
+      "evidence": "no receipts with elapsed_ms in the 7d window. index coverage: 0 of 1 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)"
+    },
+    {
+      "id": "partial-low",
+      "expected": "unknown",
+      "observed": "clear",
+      "evidence": "p90 hook wall time over 1 receipt(s) in 7d is 100.0 ms (threshold 1500 ms). index coverage: 0 of 1 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)"
+    },
+    {
+      "id": "complete-unmapped",
+      "expected": "unknown",
+      "observed": "clear",
+      "evidence": "0 of 1 Enforced session-hook row(s) have no matching receipt in 14d: none (1 row(s) declare no linked_scripts and could not be mapped: fixture-unmapped). index coverage: 1 of 1 in-window session(s) fully read this call (0 receipt(s) read)"
+    }
+  ],
+  "downstream": {
+    "cli_exit": 0,
+    "report_status": "clear",
+    "actions": [
+      {
+        "action": "close",
+        "key": "trigger:hook-latency-p90",
+        "evidence": "`hook-latency-p90` evaluated clear: no receipts with elapsed_ms in the 7d window. index coverage: 0 of 1 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)"
+      }
+    ],
+    "stdout": "[clear] hook-latency-p90: no receipts with elapsed_ms in the 7d window. index coverage: 0 of 1 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run) -> fixture concern closed\nregistry backfill warning: 0 of 0 Measured/Enforced rows lack budget or retire_when\ncounts: {'fired': 0, 'clear': 1, 'unknown': 0, 'not_automated': 0} (report written to /tmp/evidence-flow-8ybz5wqe/report.json)\n",
+    "issue_store": "isolated fixture"
+  },
+  "checks": [
+    {
+      "name": "real index reports unread evidence",
+      "outcome": "passed",
+      "evidence": {
+        "sessions_in_window": 1,
+        "sessions_fully_read": 0,
+        "sessions_partially_read": 0,
+        "sessions_skipped_out_of_budget": 1,
+        "receipts_read_this_call": 0,
+        "journal_events_read_this_call": 0,
+        "malformed_journal_events": 0,
+        "journals_in_window": 0,
+        "budget_exhausted": true
+      }
+    },
+    {
+      "name": "partial empty evidence reproduces false clear",
+      "outcome": "passed",
+      "evidence": {
+        "id": "hook-latency-p90",
+        "observe": "slow hook wall time",
+        "status": "clear",
+        "evidence": "no receipts with elapsed_ms in the 7d window. index coverage: 0 of 1 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)",
+        "concern": null
+      }
+    },
+    {
+      "name": "a fast observed sample does not restore missing coverage",
+      "outcome": "passed",
+      "evidence": "p90 hook wall time over 1 receipt(s) in 7d is 100.0 ms (threshold 1500 ms). index coverage: 0 of 1 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)"
+    },
+    {
+      "name": "unmapped control reproduces false clear independently of coverage",
+      "outcome": "passed",
+      "evidence": "0 of 1 Enforced session-hook row(s) have no matching receipt in 14d: none (1 row(s) declare no linked_scripts and could not be mapped: fixture-unmapped). index coverage: 1 of 1 in-window session(s) fully read this call (0 receipt(s) read)"
+    },
+    {
+      "name": "real CLI preserves clear in its report and exits successfully",
+      "outcome": "passed",
+      "evidence": {
+        "exit": 0,
+        "report": {
+          "schema": "control-triggers-report/v1",
+          "evaluated_at": "2026-10-06T20:50:08.948560+00:00",
+          "dry_run": false,
+          "cap": 5,
+          "cap_deferred": [],
+          "counts": {
+            "fired": 0,
+            "clear": 1,
+            "unknown": 0,
+            "not_automated": 0
+          },
+          "registry_backfill_warning": {
+            "measured_or_enforced_rows": 0,
+            "missing_budget_or_retire_when": 0
+          },
+          "triggers": [
+            {
+              "id": "hook-latency-p90",
+              "observe": "slow hook wall time",
+              "status": "clear",
+              "evidence": "no receipts with elapsed_ms in the 7d window. index coverage: 0 of 1 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)",
+              "concern": "fixture concern closed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "real routing attempts to close the isolated concern",
+      "outcome": "passed",
+      "evidence": [
+        {
+          "action": "close",
+          "key": "trigger:hook-latency-p90",
+          "evidence": "`hook-latency-p90` evaluated clear: no receipts with elapsed_ms in the 7d window. index coverage: 0 of 1 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)"
+        }
+      ]
+    },
+    {
+      "name": "unknown preserves the concern in the existing router",
+      "outcome": "passed",
+      "evidence": [
+        {
+          "id": "hook-latency-p90",
+          "observe": "slow hook wall time",
+          "status": "unknown",
+          "evidence": "fixture source unreadable",
+          "concern": null
+        }
+      ]
+    },
+    {
+      "name": "observed slow evidence opens rather than closes a concern",
+      "outcome": "passed",
+      "evidence": [
+        {
+          "action": "open",
+          "key": "trigger:hook-latency-p90"
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "passed": 8,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0
+  },
+  "exit_status": 0,
+  "meaning": "Passing checks reproduce false-clear defects. No repair or live issue closure is claimed."
+}

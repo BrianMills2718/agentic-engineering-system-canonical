@@ -1,0 +1,6619 @@
+{
+  "_stage": "layouted",
+  "projectId": "default",
+  "project": {
+    "id": "default",
+    "title": "default"
+  },
+  "specification": {
+    "tags": {},
+    "elements": {
+      "responsibility": {
+        "style": {
+          "color": "sky"
+        }
+      },
+      "implemented": {
+        "style": {
+          "color": "green"
+        }
+      },
+      "partial": {
+        "style": {
+          "color": "amber"
+        }
+      },
+      "intended": {
+        "style": {
+          "color": "gray"
+        }
+      },
+      "record": {
+        "style": {
+          "color": "sky"
+        }
+      },
+      "lifecycle": {
+        "style": {
+          "color": "sky"
+        }
+      }
+    },
+    "relationships": {},
+    "deployments": {},
+    "customColors": {}
+  },
+  "elements": {
+    "authority": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "What Brian wants, who can decide, and what actions are authorized. A responsibility in the accepted architecture; not a declaration that every mechanism is complete."
+      },
+      "title": "Intent and authority",
+      "kind": "responsibility",
+      "id": "authority"
+    },
+    "context": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Relevant knowledge reaches an agent at decision time; only consequential exceptions require Brian's attention."
+      },
+      "title": "Context and attention",
+      "kind": "responsibility",
+      "id": "context"
+    },
+    "assurance": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Rules, applicability, decision evidence, verification and the least costly adequate control."
+      },
+      "title": "Policy and assurance",
+      "kind": "responsibility",
+      "id": "assurance"
+    },
+    "capabilities": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Find existing tools and components, preserve their owners, and compose their supported interfaces."
+      },
+      "title": "Capability and composition",
+      "kind": "responsibility",
+      "id": "capabilities"
+    },
+    "planning": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Convert an authorized outcome into bounded work and explicit acceptance evidence."
+      },
+      "title": "Planning and decisions",
+      "kind": "responsibility",
+      "id": "planning"
+    },
+    "execution": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Agents act through tools in claimed worktrees while respecting scope and preserving recoverable state."
+      },
+      "title": "Execution and coordination",
+      "kind": "responsibility",
+      "id": "execution"
+    },
+    "learning": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Observe behavior, detect problems, learn from corrections, and feed the next decision."
+      },
+      "title": "Observation and learning",
+      "kind": "responsibility",
+      "id": "learning"
+    },
+    "definitions": {
+      "style": {
+        "color": "green"
+      },
+      "description": {
+        "txt": "Policy intent, source documents and structured inventory. Owner: Project Meta; repository-specific rules remain with their repository."
+      },
+      "title": "Define the rule",
+      "kind": "implemented",
+      "id": "definitions"
+    },
+    "delivery": {
+      "style": {
+        "color": "amber"
+      },
+      "description": {
+        "txt": "Workspace, repository and subtree instructions, skills and expected-context packets. Delivery, receipt, reading and comprehension remain different claims."
+      },
+      "title": "Deliver relevant context",
+      "kind": "partial",
+      "id": "delivery"
+    },
+    "resolution": {
+      "style": {
+        "color": "amber"
+      },
+      "description": {
+        "txt": "Determine which rule applies to this actor, action, target and stage. The portable resolution/evaluator boundary is assigned to Enforced Planning; uniform deployment is not established by this model."
+      },
+      "title": "Resolve applicability",
+      "kind": "partial",
+      "id": "resolution"
+    },
+    "control": {
+      "style": {
+        "color": "amber"
+      },
+      "description": {
+        "txt": "Agent guidance, deterministic checks, model judgment and hooks. Intended effect and observed client execution are separate; an untrusted hook cannot establish enforcement."
+      },
+      "title": "Guide or check the action",
+      "kind": "partial",
+      "id": "control"
+    },
+    "action": {
+      "style": {
+        "color": "green"
+      },
+      "description": {
+        "txt": "An agent uses the real tool or product entrypoint. Claims own writes; messages do not grant write authority. Existing capability owners perform the action."
+      },
+      "title": "Execute authorized work",
+      "kind": "implemented",
+      "id": "action"
+    },
+    "observations": {
+      "style": {
+        "color": "amber"
+      },
+      "description": {
+        "txt": "Native receipts, observations, friction, human corrections and learnings. Universal capture and cross-machine coverage are not established."
+      },
+      "title": "Record what happened",
+      "kind": "partial",
+      "id": "observations"
+    },
+    "concerns": {
+      "style": {
+        "color": "amber"
+      },
+      "description": {
+        "txt": "A stable key groups actionable observations into one concern with an owner. GitHub Issues is the accepted concern register; native evidence stays in its own stores."
+      },
+      "title": "Own one concern",
+      "kind": "partial",
+      "id": "concerns"
+    },
+    "repair": {
+      "style": {
+        "color": "amber"
+      },
+      "description": {
+        "txt": "The owning agent corrects the original failure, retains revision-bound verification and reopens the concern on recurrence. Some paths are implemented; universal closure and effect checking remain incomplete."
+      },
+      "title": "Correct and verify",
+      "kind": "partial",
+      "id": "repair"
+    },
+    "policy_record": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Stable policy ID, rule, intent, scope, sources, owner and declared mechanism. Registry metadata is distinct from runtime behavior."
+      },
+      "title": "Policy version",
+      "kind": "record",
+      "id": "policy_record"
+    },
+    "mechanism_record": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "The configured guidance, hook or check and its intended enforcement effect. Configuration alone does not prove execution."
+      },
+      "title": "Control configuration",
+      "kind": "record",
+      "id": "mechanism_record"
+    },
+    "invocation_record": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Actor, session, action, target, stage and exact revision: the occurrence to which a policy may apply."
+      },
+      "title": "Action attempt",
+      "kind": "record",
+      "id": "invocation_record"
+    },
+    "decision_record": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Applicable rules, evaluation result, allowed or blocked effect, explanation and authority. A decision is not proof of the action's outcome."
+      },
+      "title": "Policy decision",
+      "kind": "record",
+      "id": "decision_record"
+    },
+    "observation_record": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "What actually ran and what happened, with occurrence and subject revisions. The reporter, occurrence, suspected subject and remedy owner are separate."
+      },
+      "title": "Observation receipt",
+      "kind": "record",
+      "id": "observation_record"
+    },
+    "evidence_record": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Traces, tests, friction, human corrections and learnings remain in their native stores. A link to evidence is not the evidence's verified conclusion."
+      },
+      "title": "Native evidence",
+      "kind": "record",
+      "id": "evidence_record"
+    },
+    "concern_record": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Stable keyed issue, linked observations, owner, state and correction history. This is the accepted resolution-state record."
+      },
+      "title": "Concern",
+      "kind": "record",
+      "id": "concern_record"
+    },
+    "correction_record": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "An owned change to the actual policy, tool, workflow or implementation, tied to the original failure and a recoverable revision."
+      },
+      "title": "Correction",
+      "kind": "record",
+      "id": "correction_record"
+    },
+    "verification_record": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Execution against the original counterexample and a permitted control on the exact changed revision. Unknown coverage cannot mean clear."
+      },
+      "title": "Verification evidence",
+      "kind": "record",
+      "id": "verification_record"
+    },
+    "effect_record": {
+      "style": {
+        "color": "gray"
+      },
+      "description": {
+        "txt": "Whether the correction reduced the original failure and whether its ongoing cost is acceptable. The target includes this; ecosystem-wide effect measurement is not established."
+      },
+      "title": "Effect observation",
+      "kind": "intended",
+      "id": "effect_record"
+    },
+    "observed": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "A real occurrence produced a signal. It does not yet establish root cause."
+      },
+      "title": "Observed",
+      "kind": "lifecycle",
+      "id": "observed"
+    },
+    "triaged": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Reconcile duplicates, scope and likely owner; preserve the observation."
+      },
+      "title": "Triaged",
+      "kind": "lifecycle",
+      "id": "triaged"
+    },
+    "selected": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "The owner has selected a bounded correction within authority."
+      },
+      "title": "Selected",
+      "kind": "lifecycle",
+      "id": "selected"
+    },
+    "deferred": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "The concern remains visible with a reason and explicit review event."
+      },
+      "title": "Deferred",
+      "kind": "lifecycle",
+      "id": "deferred"
+    },
+    "repairing": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "The owning agent changes the actual cause in a claimed lane."
+      },
+      "title": "Remedy in progress",
+      "kind": "lifecycle",
+      "id": "repairing"
+    },
+    "pending": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "A landed change awaits evidence against the original failure."
+      },
+      "title": "Verification pending",
+      "kind": "lifecycle",
+      "id": "pending"
+    },
+    "resolved": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "Verification supports closure on the landed revision. Unknown or unmapped evidence cannot authorize this transition."
+      },
+      "title": "Verified resolved",
+      "kind": "lifecycle",
+      "id": "resolved"
+    },
+    "reopened": {
+      "style": {
+        "color": "sky"
+      },
+      "description": {
+        "txt": "An equivalent recurrence invalidates the prior resolution and returns the existing concern to triage."
+      },
+      "title": "Reopened",
+      "kind": "lifecycle",
+      "id": "reopened"
+    }
+  },
+  "relations": {
+    "1va5f21": {
+      "source": {
+        "model": "authority"
+      },
+      "target": {
+        "model": "planning"
+      },
+      "id": "1va5f21",
+      "title": "outcome and limits"
+    },
+    "1msfviw": {
+      "source": {
+        "model": "context"
+      },
+      "target": {
+        "model": "planning"
+      },
+      "id": "1msfviw",
+      "title": "relevant knowledge"
+    },
+    "1qong7d": {
+      "source": {
+        "model": "assurance"
+      },
+      "target": {
+        "model": "planning"
+      },
+      "id": "1qong7d",
+      "title": "constraints and evidence"
+    },
+    "50oko": {
+      "source": {
+        "model": "capabilities"
+      },
+      "target": {
+        "model": "planning"
+      },
+      "id": "50oko",
+      "title": "available components"
+    },
+    "19e16bx": {
+      "source": {
+        "model": "planning"
+      },
+      "target": {
+        "model": "execution"
+      },
+      "id": "19e16bx",
+      "title": "authorized work"
+    },
+    "1an2oh3": {
+      "source": {
+        "model": "execution"
+      },
+      "target": {
+        "model": "learning"
+      },
+      "id": "1an2oh3",
+      "title": "results and observations"
+    },
+    "15rugi1": {
+      "source": {
+        "model": "learning"
+      },
+      "target": {
+        "model": "planning"
+      },
+      "id": "15rugi1",
+      "title": "revises the next decision"
+    },
+    "gz5xp4": {
+      "source": {
+        "model": "definitions"
+      },
+      "target": {
+        "model": "delivery"
+      },
+      "id": "gz5xp4",
+      "title": "instructions and procedures"
+    },
+    "k97l4b": {
+      "source": {
+        "model": "definitions"
+      },
+      "target": {
+        "model": "resolution"
+      },
+      "id": "k97l4b",
+      "title": "rule, scope and authority"
+    },
+    "1asy186": {
+      "source": {
+        "model": "delivery"
+      },
+      "target": {
+        "model": "resolution"
+      },
+      "id": "1asy186",
+      "title": "task and target context"
+    },
+    "tocwto": {
+      "source": {
+        "model": "resolution"
+      },
+      "target": {
+        "model": "control"
+      },
+      "id": "tocwto",
+      "title": "applicable rule and effect"
+    },
+    "yeuedb": {
+      "source": {
+        "model": "control"
+      },
+      "target": {
+        "model": "action"
+      },
+      "id": "yeuedb",
+      "title": "guidance or allow / block"
+    },
+    "42gcdk": {
+      "source": {
+        "model": "action"
+      },
+      "target": {
+        "model": "observations"
+      },
+      "id": "42gcdk",
+      "title": "actual outcome"
+    },
+    "xfqsam": {
+      "source": {
+        "model": "control"
+      },
+      "target": {
+        "model": "observations"
+      },
+      "id": "xfqsam",
+      "title": "allow / block / error receipt"
+    },
+    "b11s0j": {
+      "source": {
+        "model": "observations"
+      },
+      "target": {
+        "model": "concerns"
+      },
+      "id": "b11s0j",
+      "title": "actionable signal"
+    },
+    "1wj0x93": {
+      "source": {
+        "model": "concerns"
+      },
+      "target": {
+        "model": "repair"
+      },
+      "id": "1wj0x93",
+      "title": "owned correction"
+    },
+    "fabp3v": {
+      "source": {
+        "model": "repair"
+      },
+      "target": {
+        "model": "definitions"
+      },
+      "id": "fabp3v",
+      "title": "verified policy improvement"
+    },
+    "ewig6x": {
+      "source": {
+        "model": "repair"
+      },
+      "target": {
+        "model": "control"
+      },
+      "id": "ewig6x",
+      "title": "verified tool or check repair"
+    },
+    "1wnou6": {
+      "source": {
+        "model": "policy_record"
+      },
+      "target": {
+        "model": "mechanism_record"
+      },
+      "id": "1wnou6",
+      "title": "configured through"
+    },
+    "ih50y1": {
+      "source": {
+        "model": "mechanism_record"
+      },
+      "target": {
+        "model": "decision_record"
+      },
+      "id": "ih50y1",
+      "title": "evaluates"
+    },
+    "1kh92nn": {
+      "source": {
+        "model": "invocation_record"
+      },
+      "target": {
+        "model": "decision_record"
+      },
+      "id": "1kh92nn",
+      "title": "supplies action context"
+    },
+    "1fb9ppu": {
+      "source": {
+        "model": "decision_record"
+      },
+      "target": {
+        "model": "observation_record"
+      },
+      "id": "1fb9ppu",
+      "title": "recorded execution"
+    },
+    "1l4f2q8": {
+      "source": {
+        "model": "observation_record"
+      },
+      "target": {
+        "model": "evidence_record"
+      },
+      "id": "1l4f2q8",
+      "title": "retained in"
+    },
+    "1we5b04": {
+      "source": {
+        "model": "observation_record"
+      },
+      "target": {
+        "model": "concern_record"
+      },
+      "id": "1we5b04",
+      "title": "may support"
+    },
+    "1h2bdvl": {
+      "source": {
+        "model": "concern_record"
+      },
+      "target": {
+        "model": "correction_record"
+      },
+      "id": "1h2bdvl",
+      "title": "assigned remedy"
+    },
+    "519dqg": {
+      "source": {
+        "model": "correction_record"
+      },
+      "target": {
+        "model": "verification_record"
+      },
+      "id": "519dqg",
+      "title": "must be checked by"
+    },
+    "s00rr": {
+      "source": {
+        "model": "verification_record"
+      },
+      "target": {
+        "model": "concern_record"
+      },
+      "id": "s00rr",
+      "title": "licenses closure"
+    },
+    "1bvoaro": {
+      "source": {
+        "model": "correction_record"
+      },
+      "target": {
+        "model": "effect_record"
+      },
+      "id": "1bvoaro",
+      "title": "should improve"
+    },
+    "pvzvpv": {
+      "source": {
+        "model": "effect_record"
+      },
+      "target": {
+        "model": "policy_record"
+      },
+      "id": "pvzvpv",
+      "title": "review or retire"
+    },
+    "o6u9o0": {
+      "source": {
+        "model": "observed"
+      },
+      "target": {
+        "model": "triaged"
+      },
+      "id": "o6u9o0",
+      "title": "classify and assign"
+    },
+    "1llzfie": {
+      "source": {
+        "model": "triaged"
+      },
+      "target": {
+        "model": "selected"
+      },
+      "id": "1llzfie",
+      "title": "select correction"
+    },
+    "225g17": {
+      "source": {
+        "model": "triaged"
+      },
+      "target": {
+        "model": "deferred"
+      },
+      "id": "225g17",
+      "title": "retain with review event"
+    },
+    "1icfivf": {
+      "source": {
+        "model": "deferred"
+      },
+      "target": {
+        "model": "selected"
+      },
+      "id": "1icfivf",
+      "title": "review becomes due"
+    },
+    "q5gj92": {
+      "source": {
+        "model": "selected"
+      },
+      "target": {
+        "model": "repairing"
+      },
+      "id": "q5gj92",
+      "title": "start owned work"
+    },
+    "6gp5kx": {
+      "source": {
+        "model": "repairing"
+      },
+      "target": {
+        "model": "pending"
+      },
+      "id": "6gp5kx",
+      "title": "land correction"
+    },
+    "c6dlmr": {
+      "source": {
+        "model": "pending"
+      },
+      "target": {
+        "model": "resolved"
+      },
+      "id": "c6dlmr",
+      "title": "original case passes"
+    },
+    "17yepqn": {
+      "source": {
+        "model": "pending"
+      },
+      "target": {
+        "model": "repairing"
+      },
+      "id": "17yepqn",
+      "title": "verification fails"
+    },
+    "q4rsc7": {
+      "source": {
+        "model": "resolved"
+      },
+      "target": {
+        "model": "reopened"
+      },
+      "id": "q4rsc7",
+      "title": "equivalent recurrence"
+    },
+    "13uclji": {
+      "source": {
+        "model": "reopened"
+      },
+      "target": {
+        "model": "triaged"
+      },
+      "id": "13uclji",
+      "title": "reconcile and assign"
+    }
+  },
+  "globals": {
+    "predicates": {},
+    "dynamicPredicates": {},
+    "styles": {}
+  },
+  "views": {
+    "index": {
+      "_stage": "layouted",
+      "_type": "element",
+      "id": "index",
+      "title": "Landscape view",
+      "description": null,
+      "autoLayout": {
+        "direction": "TB"
+      },
+      "hash": "RB07hl51YUGv-6kh9MDbpo5kdt51Pp1MGgMKNbocqXU",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 4498,
+        "height": 2440
+      },
+      "nodes": [
+        {
+          "id": "authority",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "1i14jt2"
+          ],
+          "title": "Intent and authority",
+          "modelRef": "authority",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "What Brian wants, who can decide, and what actions are authorized. A responsibility in the accepted architecture; not a declaration that every mechanism is complete."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 0,
+          "y": 0,
+          "width": 339,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 303,
+            "height": 101
+          }
+        },
+        {
+          "id": "context",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "ig32mg"
+          ],
+          "title": "Context and attention",
+          "modelRef": "context",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Relevant knowledge reaches an agent at decision time; only consequential exceptions require Brian's attention."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 450,
+          "y": 0,
+          "width": 336,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 300,
+            "height": 83
+          }
+        },
+        {
+          "id": "assurance",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "65udvc"
+          ],
+          "title": "Policy and assurance",
+          "modelRef": "assurance",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Rules, applicability, decision evidence, verification and the least costly adequate control."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 896,
+          "y": 0,
+          "width": 320,
+          "height": 180,
+          "labelBBox": {
+            "x": 22,
+            "y": 47,
+            "width": 275,
+            "height": 83
+          }
+        },
+        {
+          "id": "capabilities",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "1dlvf6p"
+          ],
+          "title": "Capability and composition",
+          "modelRef": "capabilities",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Find existing tools and components, preserve their owners, and compose their supported interfaces."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 1326,
+          "y": 0,
+          "width": 341,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 306,
+            "height": 83
+          }
+        },
+        {
+          "id": "learning",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1r70w3w"
+          ],
+          "outEdges": [
+            "e0dkoz"
+          ],
+          "title": "Observation and learning",
+          "modelRef": "learning",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Observe behavior, detect problems, learn from corrections, and feed the next decision."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 482,
+          "y": 968,
+          "width": 349,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 313,
+            "height": 65
+          }
+        },
+        {
+          "id": "repair",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1tmotr0"
+          ],
+          "outEdges": [
+            "i449ch",
+            "12hk0eo"
+          ],
+          "title": "Correct and verify",
+          "modelRef": "repair",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "The owning agent corrects the original failure, retains revision-bound verification and reopens the concern on recurrence. Some paths are implemented; universal closure and effect checking remain incomplete."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 1886,
+          "y": 0,
+          "width": 350,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 29,
+            "width": 314,
+            "height": 119
+          }
+        },
+        {
+          "id": "effect_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1xqy83v"
+          ],
+          "outEdges": [
+            "1b33ye5"
+          ],
+          "title": "Effect observation",
+          "modelRef": "effect_record",
+          "shape": "rectangle",
+          "color": "gray",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Whether the correction reduced the original failure and whether its ongoing cost is acceptable. The target includes this; ecosystem-wide effect measurement is not established."
+          },
+          "tags": [],
+          "kind": "intended",
+          "x": 2635,
+          "y": 0,
+          "width": 327,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 29,
+            "width": 292,
+            "height": 119
+          }
+        },
+        {
+          "id": "invocation_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "v3x21m"
+          ],
+          "title": "Action attempt",
+          "modelRef": "invocation_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Actor, session, action, target, stage and exact revision: the occurrence to which a policy may apply."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 3195,
+          "y": 0,
+          "width": 320,
+          "height": 180,
+          "labelBBox": {
+            "x": 22,
+            "y": 47,
+            "width": 275,
+            "height": 83
+          }
+        },
+        {
+          "id": "verification_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "l9vp39"
+          ],
+          "outEdges": [
+            "5x6dij"
+          ],
+          "title": "Verification evidence",
+          "modelRef": "verification_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Execution against the original counterexample and a permitted control on the exact changed revision. Unknown coverage cannot mean clear."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 3113,
+          "y": 2260,
+          "width": 360,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 324,
+            "height": 83
+          }
+        },
+        {
+          "id": "observed",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "11nroik"
+          ],
+          "title": "Observed",
+          "modelRef": "observed",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "A real occurrence produced a signal. It does not yet establish root cause."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 3924,
+          "y": 0,
+          "width": 333,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 298,
+            "height": 65
+          }
+        },
+        {
+          "id": "reopened",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "xhcjaw"
+          ],
+          "outEdges": [
+            "19zyry8"
+          ],
+          "title": "Reopened",
+          "modelRef": "reopened",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "An equivalent recurrence invalidates the prior resolution and returns the existing concern to triage."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 4030,
+          "y": 2260,
+          "width": 320,
+          "height": 180,
+          "labelBBox": {
+            "x": 24,
+            "y": 47,
+            "width": 271,
+            "height": 83
+          }
+        },
+        {
+          "id": "planning",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1i14jt2",
+            "ig32mg",
+            "65udvc",
+            "1dlvf6p",
+            "e0dkoz"
+          ],
+          "outEdges": [
+            "y62a11"
+          ],
+          "title": "Planning and decisions",
+          "modelRef": "planning",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Convert an authorized outcome into bounded work and explicit acceptance evidence."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 512,
+          "y": 323,
+          "width": 340,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 304,
+            "height": 65
+          }
+        },
+        {
+          "id": "definitions",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "i449ch"
+          ],
+          "outEdges": [
+            "13ouss0",
+            "1b1poyq"
+          ],
+          "title": "Define the rule",
+          "modelRef": "definitions",
+          "shape": "rectangle",
+          "color": "green",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Policy intent, source documents and structured inventory. Owner: Project Meta; repository-specific rules remain with their repository."
+          },
+          "tags": [],
+          "kind": "implemented",
+          "x": 1521,
+          "y": 323,
+          "width": 321,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 285,
+            "height": 101
+          }
+        },
+        {
+          "id": "policy_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1b33ye5"
+          ],
+          "outEdges": [
+            "1wn39dd"
+          ],
+          "title": "Policy version",
+          "modelRef": "policy_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Stable policy ID, rule, intent, scope, sources, owner and declared mechanism. Registry metadata is distinct from runtime behavior."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 2847,
+          "y": 323,
+          "width": 320,
+          "height": 180,
+          "labelBBox": {
+            "x": 19,
+            "y": 38,
+            "width": 282,
+            "height": 101
+          }
+        },
+        {
+          "id": "triaged",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "11nroik",
+            "19zyry8"
+          ],
+          "outEdges": [
+            "h1mi2z",
+            "eevqf5"
+          ],
+          "title": "Triaged",
+          "modelRef": "triaged",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Reconcile duplicates, scope and likely owner; preserve the observation."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 3920,
+          "y": 323,
+          "width": 341,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 306,
+            "height": 65
+          }
+        },
+        {
+          "id": "execution",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "y62a11"
+          ],
+          "outEdges": [
+            "1r70w3w"
+          ],
+          "title": "Execution and coordination",
+          "modelRef": "execution",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Agents act through tools in claimed worktrees while respecting scope and preserving recoverable state."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 247,
+          "y": 646,
+          "width": 342,
+          "height": 180,
+          "labelBBox": {
+            "x": 17,
+            "y": 47,
+            "width": 307,
+            "height": 83
+          }
+        },
+        {
+          "id": "delivery",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "13ouss0"
+          ],
+          "outEdges": [
+            "ye6wyg"
+          ],
+          "title": "Deliver relevant context",
+          "modelRef": "delivery",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Workspace, repository and subtree instructions, skills and expected-context packets. Delivery, receipt, reading and comprehension remain different claims."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 1142,
+          "y": 646,
+          "width": 320,
+          "height": 180,
+          "labelBBox": {
+            "x": 26,
+            "y": 38,
+            "width": 268,
+            "height": 101
+          }
+        },
+        {
+          "id": "mechanism_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1wn39dd"
+          ],
+          "outEdges": [
+            "fo5ach"
+          ],
+          "title": "Control configuration",
+          "modelRef": "mechanism_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "The configured guidance, hook or check and its intended enforcement effect. Configuration alone does not prove execution."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 2843,
+          "y": 646,
+          "width": 346,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 310,
+            "height": 83
+          }
+        },
+        {
+          "id": "deferred",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "eevqf5"
+          ],
+          "outEdges": [
+            "1ywwgbk"
+          ],
+          "title": "Deferred",
+          "modelRef": "deferred",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "The concern remains visible with a reason and explicit review event."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 3521,
+          "y": 646,
+          "width": 349,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 313,
+            "height": 65
+          }
+        },
+        {
+          "id": "resolution",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1b1poyq",
+            "ye6wyg"
+          ],
+          "outEdges": [
+            "18bin6r"
+          ],
+          "title": "Resolve applicability",
+          "modelRef": "resolution",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Determine which rule applies to this actor, action, target and stage. The portable resolution/evaluator boundary is assigned to Enforced Planning; uniform deployment is not established by this model."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 1511,
+          "y": 968,
+          "width": 342,
+          "height": 180,
+          "labelBBox": {
+            "x": 17,
+            "y": 29,
+            "width": 307,
+            "height": 119
+          }
+        },
+        {
+          "id": "decision_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "fo5ach",
+            "v3x21m"
+          ],
+          "outEdges": [
+            "1fyipqw"
+          ],
+          "title": "Policy decision",
+          "modelRef": "decision_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Applicable rules, evaluation result, allowed or blocked effect, explanation and authority. A decision is not proof of the action's outcome."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 3088,
+          "y": 968,
+          "width": 330,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 294,
+            "height": 101
+          }
+        },
+        {
+          "id": "selected",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "h1mi2z",
+            "1ywwgbk"
+          ],
+          "outEdges": [
+            "1p8oj1a"
+          ],
+          "title": "Selected",
+          "modelRef": "selected",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "The owner has selected a bounded correction within authority."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 3756,
+          "y": 968,
+          "width": 344,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 308,
+            "height": 65
+          }
+        },
+        {
+          "id": "control",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "18bin6r",
+            "12hk0eo"
+          ],
+          "outEdges": [
+            "q6g2kz",
+            "ebeyjg"
+          ],
+          "title": "Guide or check the action",
+          "modelRef": "control",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Agent guidance, deterministic checks, model judgment and hooks. Intended effect and observed client execution are separate; an untrusted hook cannot establish enforcement."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 1777,
+          "y": 1291,
+          "width": 343,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 308,
+            "height": 101
+          }
+        },
+        {
+          "id": "observation_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1fyipqw"
+          ],
+          "outEdges": [
+            "1eh8bmj",
+            "1j16amo"
+          ],
+          "title": "Observation receipt",
+          "modelRef": "observation_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "What actually ran and what happened, with occurrence and subject revisions. The reporter, occurrence, suspected subject and remedy owner are separate."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 3087,
+          "y": 1291,
+          "width": 332,
+          "height": 180,
+          "labelBBox": {
+            "x": 17,
+            "y": 38,
+            "width": 297,
+            "height": 101
+          }
+        },
+        {
+          "id": "repairing",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1p8oj1a",
+            "8uknu0"
+          ],
+          "outEdges": [
+            "137vhm0"
+          ],
+          "title": "Remedy in progress",
+          "modelRef": "repairing",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "The owning agent changes the actual cause in a claimed lane."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 3753,
+          "y": 1291,
+          "width": 349,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 313,
+            "height": 65
+          }
+        },
+        {
+          "id": "action",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "q6g2kz"
+          ],
+          "outEdges": [
+            "bt0yf9"
+          ],
+          "title": "Execute authorized work",
+          "modelRef": "action",
+          "shape": "rectangle",
+          "color": "green",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "An agent uses the real tool or product entrypoint. Claims own writes; messages do not grant write authority. Existing capability owners perform the action."
+          },
+          "tags": [],
+          "kind": "implemented",
+          "x": 1514,
+          "y": 1614,
+          "width": 332,
+          "height": 180,
+          "labelBBox": {
+            "x": 17,
+            "y": 38,
+            "width": 297,
+            "height": 101
+          }
+        },
+        {
+          "id": "evidence_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1eh8bmj"
+          ],
+          "outEdges": [],
+          "title": "Native evidence",
+          "modelRef": "evidence_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Traces, tests, friction, human corrections and learnings remain in their native stores. A link to evidence is not the evidence's verified conclusion."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 2843,
+          "y": 1614,
+          "width": 322,
+          "height": 180,
+          "labelBBox": {
+            "x": 17,
+            "y": 38,
+            "width": 287,
+            "height": 101
+          }
+        },
+        {
+          "id": "concern_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1j16amo",
+            "5x6dij"
+          ],
+          "outEdges": [
+            "1mdkwzo"
+          ],
+          "title": "Concern",
+          "modelRef": "concern_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Stable keyed issue, linked observations, owner, state and correction history. This is the accepted resolution-state record."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 3275,
+          "y": 1614,
+          "width": 321,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 285,
+            "height": 83
+          }
+        },
+        {
+          "id": "pending",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "137vhm0"
+          ],
+          "outEdges": [
+            "8uknu0",
+            "1bqkqg5"
+          ],
+          "title": "Verification pending",
+          "modelRef": "pending",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "A landed change awaits evidence against the original failure."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 3844,
+          "y": 1614,
+          "width": 341,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 305,
+            "height": 65
+          }
+        },
+        {
+          "id": "observations",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "ebeyjg",
+            "bt0yf9"
+          ],
+          "outEdges": [
+            "t0rer4"
+          ],
+          "title": "Record what happened",
+          "modelRef": "observations",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Native receipts, observations, friction, human corrections and learnings. Universal capture and cross-machine coverage are not established."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 1897,
+          "y": 1937,
+          "width": 337,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 302,
+            "height": 101
+          }
+        },
+        {
+          "id": "correction_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1mdkwzo"
+          ],
+          "outEdges": [
+            "l9vp39",
+            "1xqy83v"
+          ],
+          "title": "Correction",
+          "modelRef": "correction_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "An owned change to the actual policy, tool, workflow or implementation, tied to the original failure and a recoverable revision."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 2890,
+          "y": 1937,
+          "width": 325,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 289,
+            "height": 83
+          }
+        },
+        {
+          "id": "resolved",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1bqkqg5"
+          ],
+          "outEdges": [
+            "xhcjaw"
+          ],
+          "title": "Verified resolved",
+          "modelRef": "resolved",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Verification supports closure on the landed revision. Unknown or unmapped evidence cannot authorize this transition."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 3831,
+          "y": 1937,
+          "width": 368,
+          "height": 180,
+          "labelBBox": {
+            "x": 17,
+            "y": 47,
+            "width": 333,
+            "height": 83
+          }
+        },
+        {
+          "id": "concerns",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "t0rer4"
+          ],
+          "outEdges": [
+            "1tmotr0"
+          ],
+          "title": "Own one concern",
+          "modelRef": "concerns",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "A stable key groups actionable observations into one concern with an owner. GitHub Issues is the accepted concern register; native evidence stays in its own stores."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 2100,
+          "y": 2260,
+          "width": 350,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 314,
+            "height": 101
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "1i14jt2",
+          "source": "authority",
+          "target": "planning",
+          "label": "outcome and limits",
+          "points": [
+            [
+              312,
+              180
+            ],
+            [
+              380,
+              223
+            ],
+            [
+              462,
+              274
+            ],
+            [
+              531,
+              317
+            ]
+          ],
+          "labelBBox": {
+            "x": 442,
+            "y": 241,
+            "width": 121,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1va5f21"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "ig32mg",
+          "source": "context",
+          "target": "planning",
+          "label": "relevant knowledge",
+          "points": [
+            [
+              635,
+              180
+            ],
+            [
+              644,
+              221
+            ],
+            [
+              654,
+              270
+            ],
+            [
+              662,
+              313
+            ]
+          ],
+          "labelBBox": {
+            "x": 653,
+            "y": 241,
+            "width": 125,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1msfviw"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "65udvc",
+          "source": "assurance",
+          "target": "planning",
+          "label": "constraints and evidence",
+          "points": [
+            [
+              952,
+              180
+            ],
+            [
+              903,
+              222
+            ],
+            [
+              843,
+              273
+            ],
+            [
+              793,
+              316
+            ]
+          ],
+          "labelBBox": {
+            "x": 881,
+            "y": 241,
+            "width": 159,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1qong7d"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1dlvf6p",
+          "source": "capabilities",
+          "target": "planning",
+          "label": "available components",
+          "points": [
+            [
+              1326,
+              160
+            ],
+            [
+              1247,
+              192
+            ],
+            [
+              1153,
+              229
+            ],
+            [
+              1068,
+              263
+            ],
+            [
+              1000,
+              289
+            ],
+            [
+              926,
+              318
+            ],
+            [
+              861,
+              343
+            ]
+          ],
+          "labelBBox": {
+            "x": 1115,
+            "y": 241,
+            "width": 139,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "50oko"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "y62a11",
+          "source": "planning",
+          "target": "execution",
+          "label": "authorized work",
+          "points": [
+            [
+              609,
+              503
+            ],
+            [
+              574,
+              545
+            ],
+            [
+              533,
+              595
+            ],
+            [
+              497,
+              638
+            ]
+          ],
+          "labelBBox": {
+            "x": 559,
+            "y": 564,
+            "width": 103,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "19e16bx"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "e0dkoz",
+          "source": "learning",
+          "target": "planning",
+          "label": "revises the next decision",
+          "points": [
+            [
+              708,
+              969
+            ],
+            [
+              716,
+              949
+            ],
+            [
+              724,
+              929
+            ],
+            [
+              729,
+              908
+            ],
+            [
+              760,
+              773
+            ],
+            [
+              733,
+              613
+            ],
+            [
+              709,
+              513
+            ]
+          ],
+          "labelBBox": {
+            "x": 744,
+            "y": 725,
+            "width": 157,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "15rugi1"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1r70w3w",
+          "source": "execution",
+          "target": "learning",
+          "label": "results and observations",
+          "points": [
+            [
+              484,
+              826
+            ],
+            [
+              515,
+              867
+            ],
+            [
+              553,
+              918
+            ],
+            [
+              584,
+              960
+            ]
+          ],
+          "labelBBox": {
+            "x": 545,
+            "y": 887,
+            "width": 156,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1an2oh3"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "13ouss0",
+          "source": "definitions",
+          "target": "delivery",
+          "label": "instructions and procedures",
+          "points": [
+            [
+              1521,
+              490
+            ],
+            [
+              1486,
+              511
+            ],
+            [
+              1451,
+              535
+            ],
+            [
+              1421,
+              563
+            ],
+            [
+              1397,
+              584
+            ],
+            [
+              1376,
+              611
+            ],
+            [
+              1358,
+              637
+            ]
+          ],
+          "labelBBox": {
+            "x": 1422,
+            "y": 564,
+            "width": 176,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "gz5xp4"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1b1poyq",
+          "source": "definitions",
+          "target": "resolution",
+          "label": "rule, scope and authority",
+          "points": [
+            [
+              1682,
+              503
+            ],
+            [
+              1682,
+              622
+            ],
+            [
+              1682,
+              834
+            ],
+            [
+              1682,
+              958
+            ]
+          ],
+          "labelBBox": {
+            "x": 1683,
+            "y": 725,
+            "width": 157,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "k97l4b"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "i449ch",
+          "source": "repair",
+          "target": "definitions",
+          "label": "verified policy improvement",
+          "points": [
+            [
+              1886,
+              178
+            ],
+            [
+              1856,
+              196
+            ],
+            [
+              1827,
+              217
+            ],
+            [
+              1802,
+              240
+            ],
+            [
+              1779,
+              262
+            ],
+            [
+              1757,
+              288
+            ],
+            [
+              1739,
+              314
+            ]
+          ],
+          "labelBBox": {
+            "x": 1803,
+            "y": 241,
+            "width": 174,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "fabp3v"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "ye6wyg",
+          "source": "delivery",
+          "target": "resolution",
+          "label": "task and target context",
+          "points": [
+            [
+              1371,
+              825
+            ],
+            [
+              1395,
+              853
+            ],
+            [
+              1423,
+              884
+            ],
+            [
+              1451,
+              908
+            ],
+            [
+              1473,
+              927
+            ],
+            [
+              1497,
+              946
+            ],
+            [
+              1522,
+              963
+            ]
+          ],
+          "labelBBox": {
+            "x": 1452,
+            "y": 887,
+            "width": 146,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1asy186"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "18bin6r",
+          "source": "resolution",
+          "target": "control",
+          "label": "applicable rule and effect",
+          "points": [
+            [
+              1749,
+              1148
+            ],
+            [
+              1770,
+              1175
+            ],
+            [
+              1794,
+              1205
+            ],
+            [
+              1816,
+              1231
+            ],
+            [
+              1831,
+              1249
+            ],
+            [
+              1846,
+              1267
+            ],
+            [
+              1862,
+              1284
+            ]
+          ],
+          "labelBBox": {
+            "x": 1817,
+            "y": 1209,
+            "width": 160,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "tocwto"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "q6g2kz",
+          "source": "control",
+          "target": "action",
+          "label": "guidance or allow / block",
+          "points": [
+            [
+              1874,
+              1471
+            ],
+            [
+              1857,
+              1491
+            ],
+            [
+              1840,
+              1512
+            ],
+            [
+              1823,
+              1531
+            ],
+            [
+              1803,
+              1556
+            ],
+            [
+              1781,
+              1582
+            ],
+            [
+              1760,
+              1606
+            ]
+          ],
+          "labelBBox": {
+            "x": 1824,
+            "y": 1532,
+            "width": 157,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "yeuedb"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "ebeyjg",
+          "source": "control",
+          "target": "observations",
+          "label": "allow / block / error receipt",
+          "points": [
+            [
+              1987,
+              1471
+            ],
+            [
+              1994,
+              1490
+            ],
+            [
+              2001,
+              1511
+            ],
+            [
+              2006,
+              1531
+            ],
+            [
+              2039,
+              1666
+            ],
+            [
+              2054,
+              1826
+            ],
+            [
+              2061,
+              1927
+            ]
+          ],
+          "labelBBox": {
+            "x": 2050,
+            "y": 1694,
+            "width": 167,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "xfqsam"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "12hk0eo",
+          "source": "repair",
+          "target": "control",
+          "label": "verified tool or check repair",
+          "points": [
+            [
+              2061,
+              180
+            ],
+            [
+              2061,
+              244
+            ],
+            [
+              2061,
+              333
+            ],
+            [
+              2061,
+              412
+            ],
+            [
+              2061,
+              412
+            ],
+            [
+              2061,
+              412
+            ],
+            [
+              2061,
+              1059
+            ],
+            [
+              2061,
+              1137
+            ],
+            [
+              2031,
+              1220
+            ],
+            [
+              2002,
+              1282
+            ]
+          ],
+          "labelBBox": {
+            "x": 2062,
+            "y": 725,
+            "width": 172,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "ewig6x"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "bt0yf9",
+          "source": "action",
+          "target": "observations",
+          "label": "actual outcome",
+          "points": [
+            [
+              1783,
+              1794
+            ],
+            [
+              1815,
+              1821
+            ],
+            [
+              1850,
+              1850
+            ],
+            [
+              1882,
+              1877
+            ],
+            [
+              1903,
+              1894
+            ],
+            [
+              1926,
+              1913
+            ],
+            [
+              1947,
+              1931
+            ]
+          ],
+          "labelBBox": {
+            "x": 1883,
+            "y": 1855,
+            "width": 99,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "42gcdk"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "t0rer4",
+          "source": "observations",
+          "target": "concerns",
+          "label": "actionable signal",
+          "points": [
+            [
+              2124,
+              2117
+            ],
+            [
+              2151,
+              2158
+            ],
+            [
+              2183,
+              2208
+            ],
+            [
+              2211,
+              2251
+            ]
+          ],
+          "labelBBox": {
+            "x": 2177,
+            "y": 2178,
+            "width": 108,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "b11s0j"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1tmotr0",
+          "source": "concerns",
+          "target": "repair",
+          "label": "owned correction",
+          "points": [
+            [
+              2330,
+              2260
+            ],
+            [
+              2364,
+              2197
+            ],
+            [
+              2401,
+              2111
+            ],
+            [
+              2401,
+              2028
+            ],
+            [
+              2401,
+              412
+            ],
+            [
+              2401,
+              412
+            ],
+            [
+              2401,
+              412
+            ],
+            [
+              2401,
+              314
+            ],
+            [
+              2325,
+              236
+            ],
+            [
+              2244,
+              183
+            ]
+          ],
+          "labelBBox": {
+            "x": 2402,
+            "y": 1209,
+            "width": 111,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1wj0x93"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1wn39dd",
+          "source": "policy_record",
+          "target": "mechanism_record",
+          "label": "configured through",
+          "points": [
+            [
+              3009,
+              503
+            ],
+            [
+              3010,
+              544
+            ],
+            [
+              3012,
+              593
+            ],
+            [
+              3013,
+              635
+            ]
+          ],
+          "labelBBox": {
+            "x": 3012,
+            "y": 564,
+            "width": 121,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1wnou6"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1b33ye5",
+          "source": "effect_record",
+          "target": "policy_record",
+          "label": "review or retire",
+          "points": [
+            [
+              2856,
+              180
+            ],
+            [
+              2883,
+              222
+            ],
+            [
+              2916,
+              271
+            ],
+            [
+              2943,
+              314
+            ]
+          ],
+          "labelBBox": {
+            "x": 2910,
+            "y": 241,
+            "width": 97,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "pvzvpv"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "fo5ach",
+          "source": "mechanism_record",
+          "target": "decision_record",
+          "label": "evaluates",
+          "points": [
+            [
+              3081,
+              826
+            ],
+            [
+              3112,
+              867
+            ],
+            [
+              3149,
+              917
+            ],
+            [
+              3181,
+              960
+            ]
+          ],
+          "labelBBox": {
+            "x": 3142,
+            "y": 887,
+            "width": 64,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "ih50y1"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "v3x21m",
+          "source": "invocation_record",
+          "target": "decision_record",
+          "label": "supplies action context",
+          "points": [
+            [
+              3345,
+              180
+            ],
+            [
+              3326,
+              360
+            ],
+            [
+              3283,
+              770
+            ],
+            [
+              3263,
+              958
+            ]
+          ],
+          "labelBBox": {
+            "x": 3306,
+            "y": 564,
+            "width": 146,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1kh92nn"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1fyipqw",
+          "source": "decision_record",
+          "target": "observation_record",
+          "label": "recorded execution",
+          "points": [
+            [
+              3253,
+              1148
+            ],
+            [
+              3253,
+              1190
+            ],
+            [
+              3253,
+              1239
+            ],
+            [
+              3253,
+              1281
+            ]
+          ],
+          "labelBBox": {
+            "x": 3254,
+            "y": 1209,
+            "width": 123,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1fb9ppu"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1eh8bmj",
+          "source": "observation_record",
+          "target": "evidence_record",
+          "label": "retained in",
+          "points": [
+            [
+              3184,
+              1471
+            ],
+            [
+              3151,
+              1513
+            ],
+            [
+              3112,
+              1563
+            ],
+            [
+              3079,
+              1606
+            ]
+          ],
+          "labelBBox": {
+            "x": 3137,
+            "y": 1532,
+            "width": 69,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1l4f2q8"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1j16amo",
+          "source": "observation_record",
+          "target": "concern_record",
+          "label": "may support",
+          "points": [
+            [
+              3303,
+              1471
+            ],
+            [
+              3327,
+              1513
+            ],
+            [
+              3356,
+              1562
+            ],
+            [
+              3380,
+              1605
+            ]
+          ],
+          "labelBBox": {
+            "x": 3351,
+            "y": 1532,
+            "width": 81,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1we5b04"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1mdkwzo",
+          "source": "concern_record",
+          "target": "correction_record",
+          "label": "assigned remedy",
+          "points": [
+            [
+              3315,
+              1794
+            ],
+            [
+              3290,
+              1813
+            ],
+            [
+              3264,
+              1834
+            ],
+            [
+              3240,
+              1854
+            ],
+            [
+              3211,
+              1878
+            ],
+            [
+              3181,
+              1905
+            ],
+            [
+              3154,
+              1930
+            ]
+          ],
+          "labelBBox": {
+            "x": 3241,
+            "y": 1855,
+            "width": 111,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1h2bdvl"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "5x6dij",
+          "source": "verification_record",
+          "target": "concern_record",
+          "label": "licenses closure",
+          "points": [
+            [
+              3321,
+              2260
+            ],
+            [
+              3327,
+              2240
+            ],
+            [
+              3333,
+              2219
+            ],
+            [
+              3338,
+              2200
+            ],
+            [
+              3372,
+              2063
+            ],
+            [
+              3402,
+              1904
+            ],
+            [
+              3419,
+              1804
+            ]
+          ],
+          "labelBBox": {
+            "x": 3395,
+            "y": 2016,
+            "width": 104,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "s00rr"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "l9vp39",
+          "source": "correction_record",
+          "target": "verification_record",
+          "label": "must be checked by",
+          "points": [
+            [
+              3119,
+              2117
+            ],
+            [
+              3151,
+              2159
+            ],
+            [
+              3188,
+              2209
+            ],
+            [
+              3220,
+              2252
+            ]
+          ],
+          "labelBBox": {
+            "x": 3181,
+            "y": 2178,
+            "width": 129,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "519dqg"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1xqy83v",
+          "source": "correction_record",
+          "target": "effect_record",
+          "label": "should improve",
+          "points": [
+            [
+              2890,
+              1961
+            ],
+            [
+              2789,
+              1909
+            ],
+            [
+              2677,
+              1825
+            ],
+            [
+              2677,
+              1705
+            ],
+            [
+              2677,
+              412
+            ],
+            [
+              2677,
+              412
+            ],
+            [
+              2677,
+              412
+            ],
+            [
+              2677,
+              333
+            ],
+            [
+              2709,
+              251
+            ],
+            [
+              2740,
+              189
+            ]
+          ],
+          "labelBBox": {
+            "x": 2678,
+            "y": 1048,
+            "width": 99,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1bvoaro"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "11nroik",
+          "source": "observed",
+          "target": "triaged",
+          "label": "classify and assign",
+          "points": [
+            [
+              4091,
+              180
+            ],
+            [
+              4091,
+              221
+            ],
+            [
+              4091,
+              270
+            ],
+            [
+              4091,
+              313
+            ]
+          ],
+          "labelBBox": {
+            "x": 4092,
+            "y": 241,
+            "width": 122,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "o6u9o0"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "h1mi2z",
+          "source": "triaged",
+          "target": "selected",
+          "label": "select correction",
+          "points": [
+            [
+              4074,
+              503
+            ],
+            [
+              4055,
+              602
+            ],
+            [
+              4020,
+              768
+            ],
+            [
+              3980,
+              908
+            ],
+            [
+              3975,
+              925
+            ],
+            [
+              3970,
+              942
+            ],
+            [
+              3964,
+              959
+            ]
+          ],
+          "labelBBox": {
+            "x": 4045,
+            "y": 725,
+            "width": 106,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1llzfie"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "eevqf5",
+          "source": "triaged",
+          "target": "deferred",
+          "label": "retain with review event",
+          "points": [
+            [
+              3938,
+              503
+            ],
+            [
+              3909,
+              521
+            ],
+            [
+              3881,
+              542
+            ],
+            [
+              3855,
+              563
+            ],
+            [
+              3828,
+              585
+            ],
+            [
+              3801,
+              612
+            ],
+            [
+              3777,
+              638
+            ]
+          ],
+          "labelBBox": {
+            "x": 3856,
+            "y": 564,
+            "width": 150,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "225g17"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "19zyry8",
+          "source": "reopened",
+          "target": "triaged",
+          "label": "reconcile and assign",
+          "points": [
+            [
+              4269,
+              2260
+            ],
+            [
+              4316,
+              2199
+            ],
+            [
+              4365,
+              2114
+            ],
+            [
+              4365,
+              2028
+            ],
+            [
+              4365,
+              735
+            ],
+            [
+              4365,
+              735
+            ],
+            [
+              4365,
+              735
+            ],
+            [
+              4365,
+              644
+            ],
+            [
+              4300,
+              565
+            ],
+            [
+              4234,
+              509
+            ]
+          ],
+          "labelBBox": {
+            "x": 4366,
+            "y": 1371,
+            "width": 132,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "13uclji"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1p8oj1a",
+          "source": "selected",
+          "target": "repairing",
+          "label": "start owned work",
+          "points": [
+            [
+              3928,
+              1148
+            ],
+            [
+              3928,
+              1190
+            ],
+            [
+              3928,
+              1239
+            ],
+            [
+              3928,
+              1281
+            ]
+          ],
+          "labelBBox": {
+            "x": 3929,
+            "y": 1209,
+            "width": 110,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "q5gj92"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1ywwgbk",
+          "source": "deferred",
+          "target": "selected",
+          "label": "review becomes due",
+          "points": [
+            [
+              3760,
+              826
+            ],
+            [
+              3790,
+              867
+            ],
+            [
+              3826,
+              917
+            ],
+            [
+              3857,
+              960
+            ]
+          ],
+          "labelBBox": {
+            "x": 3820,
+            "y": 887,
+            "width": 132,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1icfivf"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "137vhm0",
+          "source": "repairing",
+          "target": "pending",
+          "label": "land correction",
+          "points": [
+            [
+              3834,
+              1471
+            ],
+            [
+              3817,
+              1497
+            ],
+            [
+              3808,
+              1526
+            ],
+            [
+              3822,
+              1554
+            ],
+            [
+              3832,
+              1574
+            ],
+            [
+              3845,
+              1591
+            ],
+            [
+              3861,
+              1607
+            ]
+          ],
+          "labelBBox": {
+            "x": 3823,
+            "y": 1532,
+            "width": 96,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "6gp5kx"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "8uknu0",
+          "source": "pending",
+          "target": "repairing",
+          "label": "verification fails",
+          "points": [
+            [
+              3991,
+              1614
+            ],
+            [
+              3979,
+              1573
+            ],
+            [
+              3966,
+              1524
+            ],
+            [
+              3955,
+              1481
+            ]
+          ],
+          "labelBBox": {
+            "x": 3975,
+            "y": 1532,
+            "width": 100,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "17yepqn"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1bqkqg5",
+          "source": "pending",
+          "target": "resolved",
+          "label": "original case passes",
+          "points": [
+            [
+              4015,
+              1794
+            ],
+            [
+              4015,
+              1835
+            ],
+            [
+              4015,
+              1884
+            ],
+            [
+              4015,
+              1927
+            ]
+          ],
+          "labelBBox": {
+            "x": 4016,
+            "y": 1855,
+            "width": 131,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "c6dlmr"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "xhcjaw",
+          "source": "resolved",
+          "target": "reopened",
+          "label": "equivalent recurrence",
+          "points": [
+            [
+              4063,
+              2117
+            ],
+            [
+              4086,
+              2158
+            ],
+            [
+              4113,
+              2208
+            ],
+            [
+              4136,
+              2251
+            ]
+          ],
+          "labelBBox": {
+            "x": 4108,
+            "y": 2178,
+            "width": 139,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "q4rsc7"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        }
+      ]
+    },
+    "whole_system": {
+      "_type": "element",
+      "tags": null,
+      "links": null,
+      "_stage": "layouted",
+      "sourcePath": "system.c4",
+      "description": null,
+      "title": "Seven responsibilities compose the engineering control plane",
+      "id": "whole_system",
+      "autoLayout": {
+        "direction": "TB"
+      },
+      "hash": "gQJMmjZjeamtmS180gWlva4SGTsXj6huBy1Kx6P7jl4",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1668,
+        "height": 1148
+      },
+      "nodes": [
+        {
+          "id": "authority",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "1i14jt2"
+          ],
+          "title": "Intent and authority",
+          "modelRef": "authority",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "What Brian wants, who can decide, and what actions are authorized. A responsibility in the accepted architecture; not a declaration that every mechanism is complete."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 0,
+          "y": 0,
+          "width": 339,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 303,
+            "height": 101
+          }
+        },
+        {
+          "id": "context",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "ig32mg"
+          ],
+          "title": "Context and attention",
+          "modelRef": "context",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Relevant knowledge reaches an agent at decision time; only consequential exceptions require Brian's attention."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 450,
+          "y": 0,
+          "width": 336,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 300,
+            "height": 83
+          }
+        },
+        {
+          "id": "assurance",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "65udvc"
+          ],
+          "title": "Policy and assurance",
+          "modelRef": "assurance",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Rules, applicability, decision evidence, verification and the least costly adequate control."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 896,
+          "y": 0,
+          "width": 320,
+          "height": 180,
+          "labelBBox": {
+            "x": 22,
+            "y": 47,
+            "width": 275,
+            "height": 83
+          }
+        },
+        {
+          "id": "capabilities",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "1dlvf6p"
+          ],
+          "title": "Capability and composition",
+          "modelRef": "capabilities",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Find existing tools and components, preserve their owners, and compose their supported interfaces."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 1326,
+          "y": 0,
+          "width": 341,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 306,
+            "height": 83
+          }
+        },
+        {
+          "id": "planning",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1i14jt2",
+            "ig32mg",
+            "65udvc",
+            "1dlvf6p",
+            "e0dkoz"
+          ],
+          "outEdges": [
+            "y62a11"
+          ],
+          "title": "Planning and decisions",
+          "modelRef": "planning",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Convert an authorized outcome into bounded work and explicit acceptance evidence."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 667,
+          "y": 323,
+          "width": 340,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 304,
+            "height": 65
+          }
+        },
+        {
+          "id": "execution",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "y62a11"
+          ],
+          "outEdges": [
+            "1r70w3w"
+          ],
+          "title": "Execution and coordination",
+          "modelRef": "execution",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Agents act through tools in claimed worktrees while respecting scope and preserving recoverable state."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 470,
+          "y": 646,
+          "width": 342,
+          "height": 180,
+          "labelBBox": {
+            "x": 17,
+            "y": 47,
+            "width": 307,
+            "height": 83
+          }
+        },
+        {
+          "id": "learning",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1r70w3w"
+          ],
+          "outEdges": [
+            "e0dkoz"
+          ],
+          "title": "Observation and learning",
+          "modelRef": "learning",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Observe behavior, detect problems, learn from corrections, and feed the next decision."
+          },
+          "tags": [],
+          "kind": "responsibility",
+          "x": 661,
+          "y": 968,
+          "width": 349,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 313,
+            "height": 65
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "1i14jt2",
+          "source": "authority",
+          "target": "planning",
+          "label": "outcome and limits",
+          "points": [
+            [
+              339,
+              173
+            ],
+            [
+              437,
+              219
+            ],
+            [
+              559,
+              278
+            ],
+            [
+              658,
+              326
+            ]
+          ],
+          "labelBBox": {
+            "x": 524,
+            "y": 241,
+            "width": 121,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1va5f21"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "ig32mg",
+          "source": "context",
+          "target": "planning",
+          "label": "relevant knowledge",
+          "points": [
+            [
+              678,
+              180
+            ],
+            [
+              707,
+              222
+            ],
+            [
+              741,
+              272
+            ],
+            [
+              770,
+              315
+            ]
+          ],
+          "labelBBox": {
+            "x": 735,
+            "y": 241,
+            "width": 125,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1msfviw"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "65udvc",
+          "source": "assurance",
+          "target": "planning",
+          "label": "constraints and evidence",
+          "points": [
+            [
+              995,
+              180
+            ],
+            [
+              966,
+              222
+            ],
+            [
+              932,
+              272
+            ],
+            [
+              903,
+              315
+            ]
+          ],
+          "labelBBox": {
+            "x": 954,
+            "y": 241,
+            "width": 159,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1qong7d"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1dlvf6p",
+          "source": "capabilities",
+          "target": "planning",
+          "label": "available components",
+          "points": [
+            [
+              1326,
+              174
+            ],
+            [
+              1231,
+              220
+            ],
+            [
+              1113,
+              278
+            ],
+            [
+              1016,
+              325
+            ]
+          ],
+          "labelBBox": {
+            "x": 1188,
+            "y": 241,
+            "width": 139,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "50oko"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "y62a11",
+          "source": "planning",
+          "target": "execution",
+          "label": "authorized work",
+          "points": [
+            [
+              782,
+              503
+            ],
+            [
+              757,
+              544
+            ],
+            [
+              726,
+              594
+            ],
+            [
+              700,
+              637
+            ]
+          ],
+          "labelBBox": {
+            "x": 746,
+            "y": 564,
+            "width": 103,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "19e16bx"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1r70w3w",
+          "source": "execution",
+          "target": "learning",
+          "label": "results and observations",
+          "points": [
+            [
+              695,
+              826
+            ],
+            [
+              720,
+              867
+            ],
+            [
+              750,
+              917
+            ],
+            [
+              776,
+              960
+            ]
+          ],
+          "labelBBox": {
+            "x": 745,
+            "y": 887,
+            "width": 156,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1an2oh3"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "e0dkoz",
+          "source": "learning",
+          "target": "planning",
+          "label": "revises the next decision",
+          "points": [
+            [
+              902,
+              969
+            ],
+            [
+              913,
+              950
+            ],
+            [
+              923,
+              929
+            ],
+            [
+              929,
+              908
+            ],
+            [
+              967,
+              773
+            ],
+            [
+              921,
+              613
+            ],
+            [
+              881,
+              512
+            ]
+          ],
+          "labelBBox": {
+            "x": 944,
+            "y": 725,
+            "width": 157,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "15rugi1"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        }
+      ]
+    },
+    "policy_loop": {
+      "_type": "element",
+      "tags": null,
+      "links": null,
+      "_stage": "layouted",
+      "sourcePath": "system.c4",
+      "description": null,
+      "title": "How a rule reaches an action and returns as verified correction",
+      "id": "policy_loop",
+      "autoLayout": {
+        "direction": "TB"
+      },
+      "hash": "JO9OUEX32M1iP3jRDmdRk8PZZwUXX07N7kWh_nyPcMg",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1403,
+        "height": 2440
+      },
+      "nodes": [
+        {
+          "id": "definitions",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "i449ch"
+          ],
+          "outEdges": [
+            "13ouss0",
+            "1b1poyq"
+          ],
+          "title": "Define the rule",
+          "modelRef": "definitions",
+          "shape": "rectangle",
+          "color": "green",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Policy intent, source documents and structured inventory. Owner: Project Meta; repository-specific rules remain with their repository."
+          },
+          "tags": [],
+          "kind": "implemented",
+          "x": 741,
+          "y": 0,
+          "width": 321,
+          "height": 180,
+          "labelBBox": {
+            "x": 19,
+            "y": 38,
+            "width": 285,
+            "height": 101
+          }
+        },
+        {
+          "id": "delivery",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "13ouss0"
+          ],
+          "outEdges": [
+            "ye6wyg"
+          ],
+          "title": "Deliver relevant context",
+          "modelRef": "delivery",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Workspace, repository and subtree instructions, skills and expected-context packets. Delivery, receipt, reading and comprehension remain different claims."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 362,
+          "y": 323,
+          "width": 320,
+          "height": 180,
+          "labelBBox": {
+            "x": 26,
+            "y": 38,
+            "width": 268,
+            "height": 101
+          }
+        },
+        {
+          "id": "resolution",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1b1poyq",
+            "ye6wyg"
+          ],
+          "outEdges": [
+            "18bin6r"
+          ],
+          "title": "Resolve applicability",
+          "modelRef": "resolution",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Determine which rule applies to this actor, action, target and stage. The portable resolution/evaluator boundary is assigned to Enforced Planning; uniform deployment is not established by this model."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 381,
+          "y": 646,
+          "width": 342,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 29,
+            "width": 307,
+            "height": 119
+          }
+        },
+        {
+          "id": "control",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "18bin6r",
+            "12hk0eo"
+          ],
+          "outEdges": [
+            "q6g2kz",
+            "ebeyjg"
+          ],
+          "title": "Guide or check the action",
+          "modelRef": "control",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Agent guidance, deterministic checks, model judgment and hooks. Intended effect and observed client execution are separate; an untrusted hook cannot establish enforcement."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 380,
+          "y": 968,
+          "width": 343,
+          "height": 180,
+          "labelBBox": {
+            "x": 19,
+            "y": 38,
+            "width": 308,
+            "height": 101
+          }
+        },
+        {
+          "id": "action",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "q6g2kz"
+          ],
+          "outEdges": [
+            "bt0yf9"
+          ],
+          "title": "Execute authorized work",
+          "modelRef": "action",
+          "shape": "rectangle",
+          "color": "green",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "An agent uses the real tool or product entrypoint. Claims own writes; messages do not grant write authority. Existing capability owners perform the action."
+          },
+          "tags": [],
+          "kind": "implemented",
+          "x": 0,
+          "y": 1291,
+          "width": 332,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 297,
+            "height": 101
+          }
+        },
+        {
+          "id": "observations",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "ebeyjg",
+            "bt0yf9"
+          ],
+          "outEdges": [
+            "t0rer4"
+          ],
+          "title": "Record what happened",
+          "modelRef": "observations",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Native receipts, observations, friction, human corrections and learnings. Universal capture and cross-machine coverage are not established."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 329,
+          "y": 1614,
+          "width": 337,
+          "height": 180,
+          "labelBBox": {
+            "x": 19,
+            "y": 38,
+            "width": 302,
+            "height": 101
+          }
+        },
+        {
+          "id": "concerns",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "t0rer4"
+          ],
+          "outEdges": [
+            "1tmotr0"
+          ],
+          "title": "Own one concern",
+          "modelRef": "concerns",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "A stable key groups actionable observations into one concern with an owner. GitHub Issues is the accepted concern register; native evidence stays in its own stores."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 359,
+          "y": 1937,
+          "width": 350,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 314,
+            "height": 101
+          }
+        },
+        {
+          "id": "repair",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1tmotr0"
+          ],
+          "outEdges": [
+            "i449ch",
+            "12hk0eo"
+          ],
+          "title": "Correct and verify",
+          "modelRef": "repair",
+          "shape": "rectangle",
+          "color": "amber",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "The owning agent corrects the original failure, retains revision-bound verification and reopens the concern on recurrence. Some paths are implemented; universal closure and effect checking remain incomplete."
+          },
+          "tags": [],
+          "kind": "partial",
+          "x": 712,
+          "y": 2260,
+          "width": 350,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 29,
+            "width": 314,
+            "height": 119
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "13ouss0",
+          "source": "definitions",
+          "target": "delivery",
+          "label": "instructions and procedures",
+          "points": [
+            [
+              742,
+              167
+            ],
+            [
+              707,
+              188
+            ],
+            [
+              671,
+              213
+            ],
+            [
+              641,
+              240
+            ],
+            [
+              618,
+              261
+            ],
+            [
+              597,
+              288
+            ],
+            [
+              579,
+              314
+            ]
+          ],
+          "labelBBox": {
+            "x": 642,
+            "y": 241,
+            "width": 176,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "gz5xp4"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1b1poyq",
+          "source": "definitions",
+          "target": "resolution",
+          "label": "rule, scope and authority",
+          "points": [
+            [
+              882,
+              180
+            ],
+            [
+              855,
+              284
+            ],
+            [
+              801,
+              458
+            ],
+            [
+              713,
+              586
+            ],
+            [
+              701,
+              604
+            ],
+            [
+              685,
+              622
+            ],
+            [
+              669,
+              639
+            ]
+          ],
+          "labelBBox": {
+            "x": 838,
+            "y": 402,
+            "width": 157,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "k97l4b"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "ye6wyg",
+          "source": "delivery",
+          "target": "resolution",
+          "label": "task and target context",
+          "points": [
+            [
+              531,
+              503
+            ],
+            [
+              535,
+              544
+            ],
+            [
+              539,
+              593
+            ],
+            [
+              543,
+              635
+            ]
+          ],
+          "labelBBox": {
+            "x": 539,
+            "y": 564,
+            "width": 146,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1asy186"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "18bin6r",
+          "source": "resolution",
+          "target": "control",
+          "label": "applicable rule and effect",
+          "points": [
+            [
+              552,
+              826
+            ],
+            [
+              552,
+              867
+            ],
+            [
+              552,
+              916
+            ],
+            [
+              552,
+              958
+            ]
+          ],
+          "labelBBox": {
+            "x": 553,
+            "y": 887,
+            "width": 160,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "tocwto"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "q6g2kz",
+          "source": "control",
+          "target": "action",
+          "label": "guidance or allow / block",
+          "points": [
+            [
+              391,
+              1148
+            ],
+            [
+              363,
+              1167
+            ],
+            [
+              335,
+              1187
+            ],
+            [
+              310,
+              1208
+            ],
+            [
+              284,
+              1231
+            ],
+            [
+              260,
+              1257
+            ],
+            [
+              238,
+              1283
+            ]
+          ],
+          "labelBBox": {
+            "x": 311,
+            "y": 1209,
+            "width": 157,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "yeuedb"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "ebeyjg",
+          "source": "control",
+          "target": "observations",
+          "label": "allow / block / error receipt",
+          "points": [
+            [
+              545,
+              1148
+            ],
+            [
+              535,
+              1268
+            ],
+            [
+              517,
+              1479
+            ],
+            [
+              507,
+              1604
+            ]
+          ],
+          "labelBBox": {
+            "x": 533,
+            "y": 1371,
+            "width": 167,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "xfqsam"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "bt0yf9",
+          "source": "action",
+          "target": "observations",
+          "label": "actual outcome",
+          "points": [
+            [
+              258,
+              1471
+            ],
+            [
+              302,
+              1513
+            ],
+            [
+              354,
+              1564
+            ],
+            [
+              399,
+              1607
+            ]
+          ],
+          "labelBBox": {
+            "x": 343,
+            "y": 1532,
+            "width": 99,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "42gcdk"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "t0rer4",
+          "source": "observations",
+          "target": "concerns",
+          "label": "actionable signal",
+          "points": [
+            [
+              508,
+              1794
+            ],
+            [
+              513,
+              1835
+            ],
+            [
+              518,
+              1884
+            ],
+            [
+              523,
+              1927
+            ]
+          ],
+          "labelBBox": {
+            "x": 518,
+            "y": 1855,
+            "width": 108,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "b11s0j"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1tmotr0",
+          "source": "concerns",
+          "target": "repair",
+          "label": "owned correction",
+          "points": [
+            [
+              610,
+              2117
+            ],
+            [
+              635,
+              2144
+            ],
+            [
+              664,
+              2174
+            ],
+            [
+              692,
+              2200
+            ],
+            [
+              712,
+              2218
+            ],
+            [
+              734,
+              2236
+            ],
+            [
+              756,
+              2253
+            ]
+          ],
+          "labelBBox": {
+            "x": 693,
+            "y": 2178,
+            "width": 111,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1wj0x93"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "i449ch",
+          "source": "repair",
+          "target": "definitions",
+          "label": "verified policy improvement",
+          "points": [
+            [
+              1062,
+              2263
+            ],
+            [
+              1146,
+              2209
+            ],
+            [
+              1227,
+              2130
+            ],
+            [
+              1227,
+              2028
+            ],
+            [
+              1227,
+              412
+            ],
+            [
+              1227,
+              412
+            ],
+            [
+              1227,
+              412
+            ],
+            [
+              1227,
+              313
+            ],
+            [
+              1150,
+              234
+            ],
+            [
+              1071,
+              180
+            ]
+          ],
+          "labelBBox": {
+            "x": 1228,
+            "y": 1209,
+            "width": 174,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "fabp3v"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "12hk0eo",
+          "source": "repair",
+          "target": "control",
+          "label": "verified tool or check repair",
+          "points": [
+            [
+              887,
+              2260
+            ],
+            [
+              887,
+              2195
+            ],
+            [
+              887,
+              2106
+            ],
+            [
+              887,
+              2028
+            ],
+            [
+              887,
+              1380
+            ],
+            [
+              887,
+              1380
+            ],
+            [
+              887,
+              1380
+            ],
+            [
+              887,
+              1282
+            ],
+            [
+              812,
+              1205
+            ],
+            [
+              732,
+              1151
+            ]
+          ],
+          "labelBBox": {
+            "x": 888,
+            "y": 1694,
+            "width": 172,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "ewig6x"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        }
+      ]
+    },
+    "records": {
+      "_type": "element",
+      "tags": null,
+      "links": null,
+      "_stage": "layouted",
+      "sourcePath": "system.c4",
+      "description": null,
+      "title": "Records keep intent, execution, evidence and resolution separate",
+      "id": "records",
+      "autoLayout": {
+        "direction": "TB"
+      },
+      "hash": "nEy64Gdl2Ca9oJpKVLQzVlY05Kg5UKkWwyie6nwRwtk",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1029,
+        "height": 2117
+      },
+      "nodes": [
+        {
+          "id": "policy_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1b33ye5"
+          ],
+          "outEdges": [
+            "1wn39dd"
+          ],
+          "title": "Policy version",
+          "modelRef": "policy_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Stable policy ID, rule, intent, scope, sources, owner and declared mechanism. Registry metadata is distinct from runtime behavior."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 601,
+          "y": 0,
+          "width": 320,
+          "height": 180,
+          "labelBBox": {
+            "x": 19,
+            "y": 38,
+            "width": 282,
+            "height": 101
+          }
+        },
+        {
+          "id": "invocation_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "v3x21m"
+          ],
+          "title": "Action attempt",
+          "modelRef": "invocation_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Actor, session, action, target, stage and exact revision: the occurrence to which a policy may apply."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 180,
+          "labelBBox": {
+            "x": 23,
+            "y": 47,
+            "width": 275,
+            "height": 83
+          }
+        },
+        {
+          "id": "mechanism_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1wn39dd"
+          ],
+          "outEdges": [
+            "fo5ach"
+          ],
+          "title": "Control configuration",
+          "modelRef": "mechanism_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "The configured guidance, hook or check and its intended enforcement effect. Configuration alone does not prove execution."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 418,
+          "y": 323,
+          "width": 346,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 310,
+            "height": 83
+          }
+        },
+        {
+          "id": "decision_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "fo5ach",
+            "v3x21m"
+          ],
+          "outEdges": [
+            "1fyipqw"
+          ],
+          "title": "Policy decision",
+          "modelRef": "decision_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Applicable rules, evaluation result, allowed or blocked effect, explanation and authority. A decision is not proof of the action's outcome."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 285,
+          "y": 646,
+          "width": 330,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 294,
+            "height": 101
+          }
+        },
+        {
+          "id": "observation_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1fyipqw"
+          ],
+          "outEdges": [
+            "1eh8bmj",
+            "1j16amo"
+          ],
+          "title": "Observation receipt",
+          "modelRef": "observation_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "What actually ran and what happened, with occurrence and subject revisions. The reporter, occurrence, suspected subject and remedy owner are separate."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 284,
+          "y": 968,
+          "width": 332,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 297,
+            "height": 101
+          }
+        },
+        {
+          "id": "evidence_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1eh8bmj"
+          ],
+          "outEdges": [],
+          "title": "Native evidence",
+          "modelRef": "evidence_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Traces, tests, friction, human corrections and learnings remain in their native stores. A link to evidence is not the evidence's verified conclusion."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 442,
+          "y": 1291,
+          "width": 322,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 38,
+            "width": 287,
+            "height": 101
+          }
+        },
+        {
+          "id": "concern_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1j16amo",
+            "5x6dij"
+          ],
+          "outEdges": [
+            "1mdkwzo"
+          ],
+          "title": "Concern",
+          "modelRef": "concern_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Stable keyed issue, linked observations, owner, state and correction history. This is the accepted resolution-state record."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 10,
+          "y": 1291,
+          "width": 321,
+          "height": 180,
+          "labelBBox": {
+            "x": 19,
+            "y": 47,
+            "width": 285,
+            "height": 83
+          }
+        },
+        {
+          "id": "correction_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1mdkwzo"
+          ],
+          "outEdges": [
+            "l9vp39",
+            "1xqy83v"
+          ],
+          "title": "Correction",
+          "modelRef": "correction_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "An owned change to the actual policy, tool, workflow or implementation, tied to the original failure and a recoverable revision."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 386,
+          "y": 1614,
+          "width": 325,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 289,
+            "height": 83
+          }
+        },
+        {
+          "id": "verification_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "l9vp39"
+          ],
+          "outEdges": [
+            "5x6dij"
+          ],
+          "title": "Verification evidence",
+          "modelRef": "verification_record",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Execution against the original counterexample and a permitted control on the exact changed revision. Unknown coverage cannot mean clear."
+          },
+          "tags": [],
+          "kind": "record",
+          "x": 99,
+          "y": 1937,
+          "width": 360,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 47,
+            "width": 324,
+            "height": 83
+          }
+        },
+        {
+          "id": "effect_record",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1xqy83v"
+          ],
+          "outEdges": [
+            "1b33ye5"
+          ],
+          "title": "Effect observation",
+          "modelRef": "effect_record",
+          "shape": "rectangle",
+          "color": "gray",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Whether the correction reduced the original failure and whether its ongoing cost is acceptable. The target includes this; ecosystem-wide effect measurement is not established."
+          },
+          "tags": [],
+          "kind": "intended",
+          "x": 640,
+          "y": 1937,
+          "width": 327,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 29,
+            "width": 292,
+            "height": 119
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "1wn39dd",
+          "source": "policy_record",
+          "target": "mechanism_record",
+          "label": "configured through",
+          "points": [
+            [
+              714,
+              180
+            ],
+            [
+              692,
+              221
+            ],
+            [
+              666,
+              271
+            ],
+            [
+              643,
+              314
+            ]
+          ],
+          "labelBBox": {
+            "x": 682,
+            "y": 241,
+            "width": 121,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1wnou6"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "fo5ach",
+          "source": "mechanism_record",
+          "target": "decision_record",
+          "label": "evaluates",
+          "points": [
+            [
+              552,
+              503
+            ],
+            [
+              534,
+              544
+            ],
+            [
+              512,
+              594
+            ],
+            [
+              493,
+              636
+            ]
+          ],
+          "labelBBox": {
+            "x": 526,
+            "y": 564,
+            "width": 64,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "ih50y1"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "v3x21m",
+          "source": "invocation_record",
+          "target": "decision_record",
+          "label": "supplies action context",
+          "points": [
+            [
+              156,
+              180
+            ],
+            [
+              155,
+              267
+            ],
+            [
+              164,
+              400
+            ],
+            [
+              215,
+              503
+            ],
+            [
+              241,
+              554
+            ],
+            [
+              283,
+              601
+            ],
+            [
+              324,
+              639
+            ]
+          ],
+          "labelBBox": {
+            "x": 216,
+            "y": 402,
+            "width": 146,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1kh92nn"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1fyipqw",
+          "source": "decision_record",
+          "target": "observation_record",
+          "label": "recorded execution",
+          "points": [
+            [
+              450,
+              826
+            ],
+            [
+              450,
+              867
+            ],
+            [
+              450,
+              916
+            ],
+            [
+              450,
+              958
+            ]
+          ],
+          "labelBBox": {
+            "x": 451,
+            "y": 887,
+            "width": 123,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1fb9ppu"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1eh8bmj",
+          "source": "observation_record",
+          "target": "evidence_record",
+          "label": "retained in",
+          "points": [
+            [
+              492,
+              1148
+            ],
+            [
+              512,
+              1190
+            ],
+            [
+              536,
+              1239
+            ],
+            [
+              556,
+              1282
+            ]
+          ],
+          "labelBBox": {
+            "x": 532,
+            "y": 1209,
+            "width": 69,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1l4f2q8"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1j16amo",
+          "source": "observation_record",
+          "target": "concern_record",
+          "label": "may support",
+          "points": [
+            [
+              373,
+              1148
+            ],
+            [
+              336,
+              1190
+            ],
+            [
+              293,
+              1241
+            ],
+            [
+              255,
+              1283
+            ]
+          ],
+          "labelBBox": {
+            "x": 320,
+            "y": 1209,
+            "width": 81,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1we5b04"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1mdkwzo",
+          "source": "concern_record",
+          "target": "correction_record",
+          "label": "assigned remedy",
+          "points": [
+            [
+              276,
+              1471
+            ],
+            [
+              326,
+              1514
+            ],
+            [
+              386,
+              1564
+            ],
+            [
+              437,
+              1608
+            ]
+          ],
+          "labelBBox": {
+            "x": 372,
+            "y": 1532,
+            "width": 111,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1h2bdvl"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "l9vp39",
+          "source": "correction_record",
+          "target": "verification_record",
+          "label": "must be checked by",
+          "points": [
+            [
+              474,
+              1794
+            ],
+            [
+              439,
+              1836
+            ],
+            [
+              397,
+              1886
+            ],
+            [
+              360,
+              1929
+            ]
+          ],
+          "labelBBox": {
+            "x": 423,
+            "y": 1855,
+            "width": 129,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "519dqg"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "5x6dij",
+          "source": "verification_record",
+          "target": "concern_record",
+          "label": "licenses closure",
+          "points": [
+            [
+              256,
+              1937
+            ],
+            [
+              246,
+              1894
+            ],
+            [
+              234,
+              1842
+            ],
+            [
+              225,
+              1794
+            ],
+            [
+              206,
+              1688
+            ],
+            [
+              191,
+              1565
+            ],
+            [
+              181,
+              1481
+            ]
+          ],
+          "labelBBox": {
+            "x": 226,
+            "y": 1694,
+            "width": 104,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "s00rr"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1xqy83v",
+          "source": "correction_record",
+          "target": "effect_record",
+          "label": "should improve",
+          "points": [
+            [
+              620,
+              1794
+            ],
+            [
+              653,
+              1836
+            ],
+            [
+              693,
+              1886
+            ],
+            [
+              727,
+              1929
+            ]
+          ],
+          "labelBBox": {
+            "x": 685,
+            "y": 1855,
+            "width": 99,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1bvoaro"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1b33ye5",
+          "source": "effect_record",
+          "target": "policy_record",
+          "label": "review or retire",
+          "points": [
+            [
+              859,
+              1937
+            ],
+            [
+              893,
+              1875
+            ],
+            [
+              930,
+              1788
+            ],
+            [
+              930,
+              1705
+            ],
+            [
+              930,
+              412
+            ],
+            [
+              930,
+              412
+            ],
+            [
+              930,
+              412
+            ],
+            [
+              930,
+              330
+            ],
+            [
+              887,
+              249
+            ],
+            [
+              844,
+              188
+            ]
+          ],
+          "labelBBox": {
+            "x": 931,
+            "y": 1048,
+            "width": 97,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "pvzvpv"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        }
+      ]
+    },
+    "concern_lifecycle": {
+      "_type": "element",
+      "tags": null,
+      "links": null,
+      "_stage": "layouted",
+      "sourcePath": "system.c4",
+      "description": null,
+      "title": "A concern closes on verification and reopens on recurrence",
+      "id": "concern_lifecycle",
+      "autoLayout": {
+        "direction": "TB"
+      },
+      "hash": "gDK9xSjL8yDGYv_0OqOBOKNK8dRH_Sog9BFZ1gckEJI",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 977,
+        "height": 2440
+      },
+      "nodes": [
+        {
+          "id": "observed",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [],
+          "outEdges": [
+            "11nroik"
+          ],
+          "title": "Observed",
+          "modelRef": "observed",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "A real occurrence produced a signal. It does not yet establish root cause."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 403,
+          "y": 0,
+          "width": 333,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 298,
+            "height": 65
+          }
+        },
+        {
+          "id": "triaged",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "11nroik",
+            "19zyry8"
+          ],
+          "outEdges": [
+            "h1mi2z",
+            "eevqf5"
+          ],
+          "title": "Triaged",
+          "modelRef": "triaged",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Reconcile duplicates, scope and likely owner; preserve the observation."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 399,
+          "y": 323,
+          "width": 341,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 306,
+            "height": 65
+          }
+        },
+        {
+          "id": "deferred",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "eevqf5"
+          ],
+          "outEdges": [
+            "1ywwgbk"
+          ],
+          "title": "Deferred",
+          "modelRef": "deferred",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "The concern remains visible with a reason and explicit review event."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 0,
+          "y": 646,
+          "width": 349,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 313,
+            "height": 65
+          }
+        },
+        {
+          "id": "selected",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "h1mi2z",
+            "1ywwgbk"
+          ],
+          "outEdges": [
+            "1p8oj1a"
+          ],
+          "title": "Selected",
+          "modelRef": "selected",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "The owner has selected a bounded correction within authority."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 235,
+          "y": 968,
+          "width": 344,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 308,
+            "height": 65
+          }
+        },
+        {
+          "id": "repairing",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1p8oj1a",
+            "8uknu0"
+          ],
+          "outEdges": [
+            "137vhm0"
+          ],
+          "title": "Remedy in progress",
+          "modelRef": "repairing",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "The owning agent changes the actual cause in a claimed lane."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 232,
+          "y": 1291,
+          "width": 349,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 313,
+            "height": 65
+          }
+        },
+        {
+          "id": "pending",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "137vhm0"
+          ],
+          "outEdges": [
+            "8uknu0",
+            "1bqkqg5"
+          ],
+          "title": "Verification pending",
+          "modelRef": "pending",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "A landed change awaits evidence against the original failure."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 323,
+          "y": 1614,
+          "width": 341,
+          "height": 180,
+          "labelBBox": {
+            "x": 18,
+            "y": 56,
+            "width": 305,
+            "height": 65
+          }
+        },
+        {
+          "id": "resolved",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "1bqkqg5"
+          ],
+          "outEdges": [
+            "xhcjaw"
+          ],
+          "title": "Verified resolved",
+          "modelRef": "resolved",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "Verification supports closure on the landed revision. Unknown or unmapped evidence cannot authorize this transition."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 310,
+          "y": 1937,
+          "width": 368,
+          "height": 180,
+          "labelBBox": {
+            "x": 17,
+            "y": 47,
+            "width": 333,
+            "height": 83
+          }
+        },
+        {
+          "id": "reopened",
+          "parent": null,
+          "level": 0,
+          "children": [],
+          "inEdges": [
+            "xhcjaw"
+          ],
+          "outEdges": [
+            "19zyry8"
+          ],
+          "title": "Reopened",
+          "modelRef": "reopened",
+          "shape": "rectangle",
+          "color": "sky",
+          "style": {
+            "opacity": 15,
+            "size": "md"
+          },
+          "description": {
+            "txt": "An equivalent recurrence invalidates the prior resolution and returns the existing concern to triage."
+          },
+          "tags": [],
+          "kind": "lifecycle",
+          "x": 509,
+          "y": 2260,
+          "width": 320,
+          "height": 180,
+          "labelBBox": {
+            "x": 24,
+            "y": 47,
+            "width": 271,
+            "height": 83
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "11nroik",
+          "source": "observed",
+          "target": "triaged",
+          "label": "classify and assign",
+          "points": [
+            [
+              570,
+              180
+            ],
+            [
+              570,
+              221
+            ],
+            [
+              570,
+              270
+            ],
+            [
+              570,
+              313
+            ]
+          ],
+          "labelBBox": {
+            "x": 571,
+            "y": 241,
+            "width": 122,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "o6u9o0"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "h1mi2z",
+          "source": "triaged",
+          "target": "selected",
+          "label": "select correction",
+          "points": [
+            [
+              553,
+              503
+            ],
+            [
+              534,
+              602
+            ],
+            [
+              499,
+              768
+            ],
+            [
+              459,
+              908
+            ],
+            [
+              454,
+              925
+            ],
+            [
+              449,
+              942
+            ],
+            [
+              443,
+              959
+            ]
+          ],
+          "labelBBox": {
+            "x": 524,
+            "y": 725,
+            "width": 106,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1llzfie"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "eevqf5",
+          "source": "triaged",
+          "target": "deferred",
+          "label": "retain with review event",
+          "points": [
+            [
+              417,
+              503
+            ],
+            [
+              388,
+              521
+            ],
+            [
+              360,
+              542
+            ],
+            [
+              334,
+              563
+            ],
+            [
+              307,
+              585
+            ],
+            [
+              280,
+              612
+            ],
+            [
+              256,
+              638
+            ]
+          ],
+          "labelBBox": {
+            "x": 335,
+            "y": 564,
+            "width": 150,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "225g17"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1ywwgbk",
+          "source": "deferred",
+          "target": "selected",
+          "label": "review becomes due",
+          "points": [
+            [
+              239,
+              826
+            ],
+            [
+              269,
+              867
+            ],
+            [
+              305,
+              917
+            ],
+            [
+              336,
+              960
+            ]
+          ],
+          "labelBBox": {
+            "x": 299,
+            "y": 887,
+            "width": 132,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "1icfivf"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1p8oj1a",
+          "source": "selected",
+          "target": "repairing",
+          "label": "start owned work",
+          "points": [
+            [
+              407,
+              1148
+            ],
+            [
+              407,
+              1190
+            ],
+            [
+              407,
+              1239
+            ],
+            [
+              407,
+              1281
+            ]
+          ],
+          "labelBBox": {
+            "x": 408,
+            "y": 1209,
+            "width": 110,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "q5gj92"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "137vhm0",
+          "source": "repairing",
+          "target": "pending",
+          "label": "land correction",
+          "points": [
+            [
+              313,
+              1471
+            ],
+            [
+              296,
+              1497
+            ],
+            [
+              287,
+              1526
+            ],
+            [
+              301,
+              1554
+            ],
+            [
+              311,
+              1574
+            ],
+            [
+              324,
+              1591
+            ],
+            [
+              340,
+              1607
+            ]
+          ],
+          "labelBBox": {
+            "x": 302,
+            "y": 1532,
+            "width": 96,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "6gp5kx"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "8uknu0",
+          "source": "pending",
+          "target": "repairing",
+          "label": "verification fails",
+          "points": [
+            [
+              470,
+              1614
+            ],
+            [
+              458,
+              1573
+            ],
+            [
+              445,
+              1524
+            ],
+            [
+              434,
+              1481
+            ]
+          ],
+          "labelBBox": {
+            "x": 454,
+            "y": 1532,
+            "width": 100,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "17yepqn"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "1bqkqg5",
+          "source": "pending",
+          "target": "resolved",
+          "label": "original case passes",
+          "points": [
+            [
+              494,
+              1794
+            ],
+            [
+              494,
+              1835
+            ],
+            [
+              494,
+              1884
+            ],
+            [
+              494,
+              1927
+            ]
+          ],
+          "labelBBox": {
+            "x": 495,
+            "y": 1855,
+            "width": 131,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "c6dlmr"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "xhcjaw",
+          "source": "resolved",
+          "target": "reopened",
+          "label": "equivalent recurrence",
+          "points": [
+            [
+              542,
+              2117
+            ],
+            [
+              565,
+              2158
+            ],
+            [
+              592,
+              2208
+            ],
+            [
+              615,
+              2251
+            ]
+          ],
+          "labelBBox": {
+            "x": 587,
+            "y": 2178,
+            "width": 139,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "q4rsc7"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        },
+        {
+          "id": "19zyry8",
+          "source": "reopened",
+          "target": "triaged",
+          "label": "reconcile and assign",
+          "points": [
+            [
+              748,
+              2260
+            ],
+            [
+              795,
+              2199
+            ],
+            [
+              844,
+              2114
+            ],
+            [
+              844,
+              2028
+            ],
+            [
+              844,
+              735
+            ],
+            [
+              844,
+              735
+            ],
+            [
+              844,
+              735
+            ],
+            [
+              844,
+              644
+            ],
+            [
+              779,
+              565
+            ],
+            [
+              713,
+              509
+            ]
+          ],
+          "labelBBox": {
+            "x": 845,
+            "y": 1371,
+            "width": 132,
+            "height": 18
+          },
+          "parent": null,
+          "relations": [
+            "13uclji"
+          ],
+          "color": "gray",
+          "line": "dashed",
+          "head": "normal"
+        }
+      ]
+    }
+  },
+  "deployments": {
+    "elements": {},
+    "relations": {}
+  },
+  "imports": {},
+  "manualLayouts": {}
+}

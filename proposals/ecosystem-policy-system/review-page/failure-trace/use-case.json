@@ -1,0 +1,14 @@
+{
+  "id": "ecosystem-missing-evidence-trace",
+  "concern": "Where does missing evidence become a clear result, and what does that result cause?",
+  "stakeholder": "Brian, understanding one verified policy-system failure before deciding on repairs",
+  "intent": ["understand", "trace", "inspect"],
+  "informationStructure": ["process", "state-machine"],
+  "tasks": ["trace", "inspect", "compare"],
+  "explanatoryFocus": ["mechanism", "provenance", "uncertainty", "state", "flow"],
+  "scale": {"items": 6, "density": "low"},
+  "interaction": {"mode": "exploratory", "dynamics": "interactive"},
+  "audience": {"expertise": "mixed", "frequency": "occasional"},
+  "consequence": {"risk": "medium", "reversibility": "reversible"},
+  "constraints": {"mobile": true, "accessibility": "high", "realtime": false, "provenance": true, "allowAggregation": false}
+}

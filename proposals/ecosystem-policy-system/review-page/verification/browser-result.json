@@ -1,0 +1,934 @@
+{
+  "boundary": "Rendered model reviewer path; not runtime policy certification or Brian acceptance.",
+  "viewport": [
+    "1440x1000",
+    "390x844"
+  ],
+  "results": [
+    {
+      "name": "seven accepted responsibilities are present",
+      "outcome": "passed",
+      "detail": "authority, context, assurance, capabilities, planning, execution, learning"
+    },
+    {
+      "name": "desktop has no page-width overflow",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "whole architecture fits inside its canvas on load",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "selected responsibility shows meaning and owner",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "native description is projected as text",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "source link is pinned to a git revision and line",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "selection survives a view where the subject is absent",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "partial control coverage is explicit",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "edge inspection distinguishes a declared handoff from execution",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Whole system\nSeven responsibilities",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Policy loop\nRule → action → correction",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Records\nWhat passes between parts",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Concern states\nHow problems close",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Evidence and gaps\nObserved, partial, intended",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Readable scale",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Show whole diagram",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Zoom in",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Zoom out",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Scrollable model diagram",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect relationship: outcome and limits",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect relationship: relevant knowledge",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect relationship: constraints and evidence",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect relationship: available components",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect relationship: authorized work",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect relationship: results and observations",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect relationship: revises the next decision",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect Intent and authority",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect Context and attention",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect Policy and assurance",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect Capability and composition",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect Planning and decisions",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect Execution and coordination",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Inspect Observation and learning",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / contracts/client-config/hook-manifest.v1.json\nBrianMills2718/agent-ski",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / scripts/check_enforcement_liveness.py\nBrianMills2718/project-meta · 5f",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / scripts/codex_app_server.py\nBrianMills2718/agent-skills · 18da628a · l",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Model boundary and reproducibility",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Model source",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Pinned sources",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: whole_system / Verification",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "no painted node label extends beyond its box: whole_system",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Whole system\nSeven responsibilities",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Policy loop\nRule → action → correction",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Records\nWhat passes between parts",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Concern states\nHow problems close",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Evidence and gaps\nObserved, partial, intended",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Readable scale",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Show whole diagram",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Zoom in",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Zoom out",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Scrollable model diagram",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: instructions and procedures",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: rule, scope and authority",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: task and target context",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: applicable rule and effect",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: guidance or allow / block",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: allow / block / error receipt",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: actual outcome",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: actionable signal",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: owned correction",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: verified policy improvement",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect relationship: verified tool or check repair",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect Define the rule",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect Deliver relevant context",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect Resolve applicability",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect Guide or check the action",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect Execute authorized work",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect Record what happened",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect Own one concern",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Inspect Correct and verify",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / contracts/client-config/hook-manifest.v1.json\nBrianMills2718/agent-ski",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / scripts/check_enforcement_liveness.py\nBrianMills2718/project-meta · 5f",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / scripts/codex_app_server.py\nBrianMills2718/agent-skills · 18da628a · l",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Model boundary and reproducibility",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Model source",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Pinned sources",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: policy_loop / Verification",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "no painted node label extends beyond its box: policy_loop",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Whole system\nSeven responsibilities",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Policy loop\nRule → action → correction",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Records\nWhat passes between parts",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Concern states\nHow problems close",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Evidence and gaps\nObserved, partial, intended",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Readable scale",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Show whole diagram",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Zoom in",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Zoom out",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Scrollable model diagram",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: configured through",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: evaluates",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: supplies action context",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: recorded execution",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: retained in",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: may support",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: assigned remedy",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: must be checked by",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: licenses closure",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: should improve",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect relationship: review or retire",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect Policy version",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect Action attempt",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect Control configuration",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect Policy decision",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect Observation receipt",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect Native evidence",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect Concern",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect Correction",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect Verification evidence",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Inspect Effect observation",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / contracts/client-config/hook-manifest.v1.json\nBrianMills2718/agent-ski",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / scripts/check_enforcement_liveness.py\nBrianMills2718/project-meta · 5f",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / scripts/codex_app_server.py\nBrianMills2718/agent-skills · 18da628a · l",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Model boundary and reproducibility",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Model source",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Pinned sources",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: records / Verification",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "no painted node label extends beyond its box: records",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Whole system\nSeven responsibilities",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Policy loop\nRule → action → correction",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Records\nWhat passes between parts",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Concern states\nHow problems close",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Evidence and gaps\nObserved, partial, intended",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Readable scale",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Show whole diagram",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Zoom in",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Zoom out",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Scrollable model diagram",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect relationship: classify and assign",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect relationship: select correction",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect relationship: retain with review event",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect relationship: review becomes due",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect relationship: start owned work",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect relationship: land correction",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect relationship: verification fails",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect relationship: original case passes",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect relationship: equivalent recurrence",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect relationship: reconcile and assign",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect Observed",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect Triaged",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect Deferred",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect Selected",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect Remedy in progress",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect Verification pending",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect Verified resolved",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Inspect Reopened",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / contracts/client-config/hook-manifest.v1.json\nBrianMills2718/agent-ski",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / scripts/check_enforcement_liveness.py\nBrianMills2718/project-meta · 5f",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / scripts/codex_app_server.py\nBrianMills2718/agent-skills · 18da628a · l",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Model boundary and reproducibility",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Model source",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Pinned sources",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: concern_lifecycle / Verification",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "no painted node label extends beyond its box: concern_lifecycle",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Whole system\nSeven responsibilities",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Policy loop\nRule → action → correction",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Records\nWhat passes between parts",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Concern states\nHow problems close",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Evidence and gaps\nObserved, partial, intended",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Readable scale",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Show whole diagram",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Zoom in",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Zoom out",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Scrollable model diagram",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Inspect retained evidence",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Inspect retained evidence",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Inspect retained evidence",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / policy_friction.md\nBrianMills2718/project-meta · 5ffa7394 · line 6521",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / contracts/client-config/hook-manifest.v1.json\nBrianMills2718/agent-ski",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / scripts/check_enforcement_liveness.py\nBrianMills2718/project-meta · 5f",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / scripts/codex_app_server.py\nBrianMills2718/agent-skills · 18da628a · l",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Model boundary and reproducibility",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Model source",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Pinned sources",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "styled hover tooltip: evidence / Verification",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "no painted node label extends beyond its box: evidence",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "tooltip checks exercised real rendered controls",
+      "outcome": "passed",
+      "detail": "161"
+    },
+    {
+      "name": "reproduced defect remains visible as unfixed",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "keyboard focus shows a custom tooltip",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "machine-readable model source downloads through allowed serving type",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "retained reproduction evidence opens",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "phone layout has no page-width overflow",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "phone tap shows a styled tooltip",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "phone can inspect a model part",
+      "outcome": "passed",
+      "detail": ""
+    },
+    {
+      "name": "no JavaScript page errors",
+      "outcome": "passed",
+      "detail": ""
+    }
+  ],
+  "passed": 184,
+  "failed": 0,
+  "errored": 0,
+  "skipped": 0,
+  "exit": 0
+}

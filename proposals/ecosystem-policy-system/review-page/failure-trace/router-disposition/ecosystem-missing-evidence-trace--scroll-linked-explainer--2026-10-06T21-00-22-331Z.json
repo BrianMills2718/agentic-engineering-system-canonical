@@ -1,0 +1,415 @@
+{
+  "version": "0.2",
+  "recordedAt": "2026-10-06T21:00:22.331Z",
+  "actor": "codex",
+  "recommendationId": "ecosystem-missing-evidence-trace--scroll-linked-explainer",
+  "primaryPattern": "scroll-linked-explainer",
+  "checklistSize": 101,
+  "acceptanceReferences": [],
+  "dispositions": {
+    "choice-justified:scroll-linked-explainer": {
+      "status": "satisfied",
+      "why": "Use the recommended explainer family with six directly selectable handoffs and one persistent evidence inspector. Explicit selection replaces scroll-triggered stage changes; a state-machine graph obscures the specific conversion failure. Native HTML/CSS reuses the existing artifact stack without adding D3. The source/evidence model remains independent of presentation."
+    },
+    "guessing-text-widths": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "one-fixed-label-coordinate-per-mark": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "shrinking-required-text-to-fix-collisions": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "desktop-layout-scaled-blindly-to-mobile": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "mixing-source-derived-phrases-with-interpretive-glosses": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "putting-full-semantic-prose-inside-visual-marks": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "using-an-expert-explorer-as-the-default-onboarding-surface": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "calling-progressive-disclosure-a-lesson-without-an-instructional-sequence": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "lesson-deck-with-static-diagrams": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "interaction-bolted-on-after-the-explanation": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "replacing-the-primary-visual-object-at-every-step": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "free-form-practice-controls-that-permit-semantically-impossible-moves": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "revealing-the-destination-before-the-learner-predicts-it": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "correctness-only-feedback-with-no-semantic-explanation": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "calling-guided-task-completion-evidence-of-independent-understanding": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "assessment-that-repeats-the-exact-guided-example": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "assessment-choices-that-signal-the-answer-before-commitment": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "no-critical-text-text-overlap": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "no-critical-text-node-overlap": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "no-clipped-required-labels": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "no-required-controls-offscreen": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "minimum-readable-font-size": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "title-states-what-this-is-and-for-whom": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "whole-design-visible-on-one-screen-at-the-target-viewport": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "relationships-drawn-not-implied-by-adjacency-or-links": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "same-object-same-mark-across-every-view": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "edge-label-clearance": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "arrowhead-clearance": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "balanced-whitespace": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "focal-hierarchy": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "stable-layout-across-steps": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "first-frame-legibility": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "narrative-visual-synchronization": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "persistent-object-continuity": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "manipulation-consequence-legibility": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "attributed-claims-traced-to-source-no-invented-items": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "argument-pages-follow-the-speakers-order-and-keep-their-reasons": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "drawing-laid-out-by-engine-with-content-and-optional-motion-layers": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "structural-devices-encode-information-not-decoration": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "white-space-separates-groups-and-carries-hierarchy": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "size-and-weight-follow-importance": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "structure-earned-by-content-not-imposed-taxonomy": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "space-and-time-shown-together-when-the-subject-changes-over-time": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "page-carries-its-date-and-version": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "a-person-would-pin-it-on-a-wall": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "every-drawing-fits-its-frame-on-load-and-zooms-and-pans-within-it": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "diagram-text-is-dom-or-svg-and-no-label-overlaps-a-box-or-another-label": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "one-element-dominates-by-size-weight-or-contrast": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "reading-order-is-obvious-without-instructions": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "gap-between-groups-larger-than-gap-within": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "enclosure-nesting-at-most-two-levels": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "elements-share-a-small-set-of-edges": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "same-role-same-treatment-everywhere": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "every-mark-carries-information": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "context-quiet-subject-loud": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "comparisons-use-identical-small-frames": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "one-highlighted-state-not-several": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "object-count-within-density-budget-or-aggregated": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "every-named-element-opens-its-subject-on-click-or-tap": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "no-ellipsis-or-clipped-text-in-rendered-page": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "hovering-or-focusing-every-control-in-a-real-browser-shows-a-styled-tooltip-within-200ms-and-tap-works-on-phones": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "phone-and-laptop-each-have-a-layout-that-uses-their-width": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "every-view-stays-listed-in-sight-while-others-are-open-and-views-open-from-it-or-the-agent": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "chat-suggestions-are-chips-below-the-input-and-ask-in-one-click": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "picking-an-item-lights-its-counterparts-in-every-open-view-and-can-be-cleared": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "agent-adds-to-the-readers-choices-unless-asked-to-replace-verified-with-live-asks": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "checks-measure-painted-geometry-after-fonts-load-at-each-supported-viewport": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "transient-explanations-are-at-most-five-short-points": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "every-navigation-item-has-content-and-stays-or-shows-its-way-back": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "groups-the-page-filters-by-have-one-view-relating-them-with-unlinked-groups-named": {
+      "status": "na",
+      "why": "A read-only six-stage linear flow with direct selection, one inspector and source links has no editable geometry, semantic zoom, chat, grouping filter, time animation, parallel comparison or open multi-view selection contract."
+    },
+    "first-run-does-not-require-expert-exploration": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "terms-are-defined-before-first-use": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "one-new-semantic-distinction-per-instructional-step": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "likely-wrong-readings-are-explicitly-disambiguated": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "novice-can-read-a-simple-example-before-seeing-the-full-model": {
+      "status": "satisfied",
+      "why": "Evidence: browser-result.json exercises exact stage/model membership, details, source bindings, desktop fit, phone overflow, painted stage bounds, every visible tooltip, keyboard/touch and return navigation. desktop.png and phone.png were inspected for page hierarchy, clear root emphasis, native text and readable labels; dated exact source revision and fixture limits are visible."
+    },
+    "expert-reference-mode-is-separate-from-guided-onboarding": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "observed-user-confusions-become-regression-cases": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "narrative-and-visual-state-remain-synchronized": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "persistent-visual-object-retains-identity-across-steps": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "direct-manipulation-produces-an-explanatory-consequence": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "abstraction-levels-remain-linked-to-the-same-semantic-object": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "if-constructive-practice-is-present-actions-come-from-semantic-model": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "if-prediction-is-used-state-does-not-change-before-commit": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "if-constructive-practice-is-present-feedback-explains-the-governing-rule": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "if-transfer-assessment-is-present-guidance-does-not-give-away-the-answer": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "if-transfer-assessment-is-present-at-least-one-task-uses-an-unseen-state-route-or-example": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "if-transfer-assessment-is-present-feedback-occurs-after-commitment": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "if-scaffolding-fade-is-present-core-accessibility-controls-remain-available": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "no-block-of-prose-longer-than-the-drawing-it-explains": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    },
+    "reader-can-point-to-where-any-one-fact-lives": {
+      "status": "skipped",
+      "why": "Not independently verified by the bounded execution/browser checks. No cold-reader comprehension, complete all-text collision audit, scroll-driven narrative synchronization, generic playbook adoption or broader system effectiveness is claimed."
+    }
+  }
+}

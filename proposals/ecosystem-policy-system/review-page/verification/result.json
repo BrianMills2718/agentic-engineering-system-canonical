@@ -1,0 +1,81 @@
+{
+  "observedAt": "2026-10-06T18:29:08.624643+00:00",
+  "boundary": "Checks validate this descriptive model artifact. They do not certify complete implementation, universal policy effectiveness or Brian acceptance.",
+  "checks": [
+    {
+      "name": "LikeC4 syntax",
+      "command": "likec4 validate proposals/ecosystem-policy-system/review-page",
+      "outcome": "passed",
+      "detail": "1 source file valid",
+      "exit": 0
+    },
+    {
+      "name": "projection references",
+      "command": "node proposals/ecosystem-policy-system/review-page/render.mjs",
+      "outcome": "passed",
+      "detail": "33 elements, 39 relationships, 4 diagram views, 65 source references, no unresolved references",
+      "exit": 0
+    },
+    {
+      "name": "pinned source bytes",
+      "command": "git show <pinned-revision>:<source-path>, SHA-256 and line checks",
+      "outcome": "passed",
+      "detail": "16 files verified against exact git bytes",
+      "exit": 0
+    },
+    {
+      "name": "browser reviewer path",
+      "command": "node verification/browser.mjs <playwright-module> <existing-chromium> http://127.0.0.1:8768/",
+      "outcome": "passed",
+      "detail": "184 passed, 0 failed, 0 errored, 0 skipped; laptop 1440x1000 and phone 390x844",
+      "exit": 0
+    },
+    {
+      "name": "SurfaceSpec contract",
+      "command": "buildSurfaceSpec via representation-router/src/surface-spec.mjs",
+      "outcome": "passed",
+      "detail": "5 lenses, 16 owner/revision bindings, 3 read-only or local actions",
+      "exit": 0
+    },
+    {
+      "name": "router disposition completeness",
+      "command": "node representation-router/src/disposition-cli.mjs <recommendation> <disposition>",
+      "outcome": "passed",
+      "detail": "60 items accounted for: 40 satisfied, 5 not applicable, 15 explicitly skipped; completeness is not verification of those judgments",
+      "exit": 0
+    },
+    {
+      "name": "recorded defect reproduction",
+      "command": "python verification/probe.py <project-meta-checkout>",
+      "outcome": "passed",
+      "detail": "2 existing false-clear counterexamples reproduced; no policy repair applied",
+      "exit": 0
+    },
+    {
+      "name": "project brain freshness",
+      "command": "python3 scripts/hive/brain_fresh.py .",
+      "outcome": "passed",
+      "detail": "fresh, exit 0; local change adds the model checkpoint",
+      "exit": 0
+    },
+    {
+      "name": "diff whitespace",
+      "command": "git diff --check",
+      "outcome": "passed",
+      "detail": "no whitespace errors",
+      "exit": 0
+    }
+  ],
+  "passed": 9,
+  "failed": 0,
+  "errored": 0,
+  "skipped": 0,
+  "exit": 0,
+  "unverified": [
+    "Brian cold-read comprehension and model acceptance",
+    "All repositories, machines and policy execution paths",
+    "Universal policy effect measurement",
+    "General edge-label collision and measured theme-contrast audit"
+  ],
+  "policyRepairs": "held; none applied"
+}

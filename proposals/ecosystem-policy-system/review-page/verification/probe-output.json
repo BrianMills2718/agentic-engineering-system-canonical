@@ -1,0 +1,20 @@
+{
+  "results": [
+    {
+      "case": "incomplete-receipt-coverage",
+      "observed": "clear",
+      "desired": "unknown",
+      "evidence": "no receipts with elapsed_ms in the 7d window. index coverage: 0 of 3 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)"
+    },
+    {
+      "case": "unmapped-required-control",
+      "observed": "clear",
+      "desired": "unknown",
+      "evidence": "0 of 1 Enforced session-hook row(s) have no matching receipt in 14d: none (1 row(s) declare no linked_scripts and could not be mapped: synthetic-unmapped-control). index coverage: 0 of 3 in-window session(s) fully read this call (0 receipt(s) read; budget exhausted, partial coverage extends on next run)"
+    }
+  ],
+  "reproduced": 2,
+  "not_reproduced": 0,
+  "exit": 0,
+  "meaning": "Reproduction success means the existing false-clear defects remain present."
+}
