@@ -1,0 +1,52 @@
+{
+  "id": "ecosystem-policy-system",
+  "concern": "How do ecosystem policies reach an agent action, observe failures, and get corrected?",
+  "stakeholder": "Brian, reviewing the system before any policy repair",
+  "intent": [
+    "understand",
+    "trace",
+    "inspect"
+  ],
+  "informationStructure": [
+    "network",
+    "process",
+    "state-machine"
+  ],
+  "tasks": [
+    "trace",
+    "inspect",
+    "lookup",
+    "compare"
+  ],
+  "explanatoryFocus": [
+    "structure",
+    "mechanism",
+    "provenance",
+    "uncertainty",
+    "state",
+    "flow"
+  ],
+  "scale": {
+    "items": 8,
+    "density": "medium"
+  },
+  "interaction": {
+    "mode": "exploratory",
+    "dynamics": "interactive"
+  },
+  "audience": {
+    "expertise": "mixed",
+    "frequency": "occasional"
+  },
+  "consequence": {
+    "risk": "medium",
+    "reversibility": "reversible"
+  },
+  "constraints": {
+    "mobile": true,
+    "accessibility": "high",
+    "realtime": false,
+    "provenance": true,
+    "allowAggregation": false
+  }
+}

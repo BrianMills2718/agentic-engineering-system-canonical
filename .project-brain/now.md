@@ -51,3 +51,14 @@ older than the work since.
 AES capability sourcing now treats **apparent novelty as unresolved search debt**, not as a positive design signal. When a needed capability or abstraction appears to have no established owner, the expected response is increased sourcing pressure: try alternate terminology and standards, adjacent disciplines/ecosystems, structural analogues, mature compositions/adapters, internal/historical attempts, failed approaches, and requirement/frame challenge before authorizing bespoke implementation. The more consequential and apparently novel the machinery, the stronger the burden to falsify the novelty claim and shrink the residual gap. Custom construction is a last-resort bounded residual, not an achievement in itself.
 
 This policy is encoded in `docs/architecture/SYSTEM_BOUNDARY.md` under AES-CAP-002 and surfaced in `docs/plans/TEMPLATE.md` as an apparent-novelty check plus residual-invention declaration.
+
+## Ecosystem policy model — 2026-10-06
+
+Brian directed “i want to model the system first” after the ecosystem policy
+assessment. The descriptive model is in `proposals/ecosystem-policy-system/`
+on `shaping/ecosystem-policy-model`, with a self-contained review page, native
+LikeC4 source and pinned provenance. It starts from Project Meta's accepted
+seven-responsibility architecture and separates the policy loop, records,
+concern lifecycle and observed gaps. The model is unreviewed; no policy repair
+or new authority was adopted. Continue from this modeling checkpoint before
+implementing the previously approved repairs.

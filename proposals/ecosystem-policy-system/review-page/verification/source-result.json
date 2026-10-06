@@ -1,0 +1,74 @@
+{
+  "results": [
+    {
+      "sourceId": "architecture",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "framework",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "frontdoor",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "policy_model",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "operations",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "registry",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "concern_decision",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "concern_tool",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "checks",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "liveness",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "delivery",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "observability",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "claim_incident",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "hook_manifest",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "hook_runtime",
+      "outcome": "passed"
+    },
+    {
+      "sourceId": "aes_boundary",
+      "outcome": "passed"
+    }
+  ],
+  "passed": 16,
+  "failed": 0,
+  "errored": 0,
+  "skipped": 0,
+  "exit": 0,
+  "boundary": "Exact pinned git file bytes and line existence; no assertion of runtime conformance."
+}

@@ -1,0 +1,242 @@
+{
+  "choice-justified:scroll-linked-explainer": {
+    "status": "satisfied",
+    "why": "Explicit model stages use named view buttons, one drawing and a shared inspector instead of automatic scroll transitions. Stable IDs, provenance, and direct navigation preserve the recommended explainer and linked-lens composition. LikeC4 is the planning-review profile incumbent."
+  },
+  "assuming-generated-layout-is-acceptable-without-rendering": {
+    "status": "satisfied",
+    "why": "LikeC4 parsing and generated layout are retained. The initial layout was rendered and inspected; descriptions and node wrapping were corrected. Final painted geometry and control behavior are exercised by verification/browser.mjs."
+  },
+  "long-labels-with-no-review-pass": {
+    "status": "satisfied",
+    "why": "LikeC4 parsing and generated layout are retained. The initial layout was rendered and inspected; descriptions and node wrapping were corrected. Final painted geometry and control behavior are exercised by verification/browser.mjs."
+  },
+  "source-remains-reviewable": {
+    "status": "satisfied",
+    "why": "LikeC4 parsing and generated layout are retained. The initial layout was rendered and inspected; descriptions and node wrapping were corrected. Final painted geometry and control behavior are exercised by verification/browser.mjs."
+  },
+  "stable-generated-layout": {
+    "status": "satisfied",
+    "why": "LikeC4 parsing and generated layout are retained. The initial layout was rendered and inspected; descriptions and node wrapping were corrected. Final painted geometry and control behavior are exercised by verification/browser.mjs."
+  },
+  "drawing-laid-out-by-engine-with-content-and-optional-motion-layers": {
+    "status": "satisfied",
+    "why": "LikeC4 parsing and generated layout are retained. The initial layout was rendered and inspected; descriptions and node wrapping were corrected. Final painted geometry and control behavior are exercised by verification/browser.mjs."
+  },
+  "title-states-what-this-is-and-for-whom": {
+    "status": "satisfied",
+    "why": "The source has a specific question, exact git pins, ownership annotations, relationship verbs, and four separately scoped models. The generated diagram uses native SVG text and a shared inspector; it is not a repository map or invented authority."
+  },
+  "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+    "status": "satisfied",
+    "why": "The source has a specific question, exact git pins, ownership annotations, relationship verbs, and four separately scoped models. The generated diagram uses native SVG text and a shared inspector; it is not a repository map or invented authority."
+  },
+  "relationships-drawn-not-implied-by-adjacency-or-links": {
+    "status": "satisfied",
+    "why": "The source has a specific question, exact git pins, ownership annotations, relationship verbs, and four separately scoped models. The generated diagram uses native SVG text and a shared inspector; it is not a repository map or invented authority."
+  },
+  "same-object-same-mark-across-every-view": {
+    "status": "satisfied",
+    "why": "The source has a specific question, exact git pins, ownership annotations, relationship verbs, and four separately scoped models. The generated diagram uses native SVG text and a shared inspector; it is not a repository map or invented authority."
+  },
+  "attributed-claims-traced-to-source-no-invented-items": {
+    "status": "satisfied",
+    "why": "The source has a specific question, exact git pins, ownership annotations, relationship verbs, and four separately scoped models. The generated diagram uses native SVG text and a shared inspector; it is not a repository map or invented authority."
+  },
+  "structural-devices-encode-information-not-decoration": {
+    "status": "satisfied",
+    "why": "The source has a specific question, exact git pins, ownership annotations, relationship verbs, and four separately scoped models. The generated diagram uses native SVG text and a shared inspector; it is not a repository map or invented authority."
+  },
+  "structure-earned-by-content-not-imposed-taxonomy": {
+    "status": "satisfied",
+    "why": "The source has a specific question, exact git pins, ownership annotations, relationship verbs, and four separately scoped models. The generated diagram uses native SVG text and a shared inspector; it is not a repository map or invented authority."
+  },
+  "same-role-same-treatment-everywhere": {
+    "status": "satisfied",
+    "why": "The source has a specific question, exact git pins, ownership annotations, relationship verbs, and four separately scoped models. The generated diagram uses native SVG text and a shared inspector; it is not a repository map or invented authority."
+  },
+  "every-mark-carries-information": {
+    "status": "satisfied",
+    "why": "The source has a specific question, exact git pins, ownership annotations, relationship verbs, and four separately scoped models. The generated diagram uses native SVG text and a shared inspector; it is not a repository map or invented authority."
+  },
+  "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+    "status": "satisfied",
+    "why": "The source has a specific question, exact git pins, ownership annotations, relationship verbs, and four separately scoped models. The generated diagram uses native SVG text and a shared inspector; it is not a repository map or invented authority."
+  },
+  "reasonable-line-length": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "first-frame-legibility": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "one-element-dominates-by-size-weight-or-contrast": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "size-and-weight-follow-importance": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "reading-order-is-obvious-without-instructions": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "white-space-separates-groups-and-carries-hierarchy": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "enclosure-nesting-at-most-two-levels": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "elements-share-a-small-set-of-edges": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "object-count-within-density-budget-or-aggregated": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "phone-and-laptop-each-have-a-layout-that-uses-their-width": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "transient-explanations-are-at-most-five-short-points": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "no-block-of-prose-longer-than-the-drawing-it-explains": {
+    "status": "satisfied",
+    "why": "The representative laptop and phone screenshots retain the title, labeled states, view choices and one main diagram. Owners, record descriptions and sources appear on selection; the inspector is below the diagram on a phone."
+  },
+  "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+    "status": "satisfied",
+    "why": "Real-browser checks select nodes and edges, preserve semantic selection across views, open pinned source and retained evidence links, and hover every rendered control. Verification/browser-result.json carries the actual outcome; screenshots show the painted page."
+  },
+  "every-named-element-opens-its-subject-on-click-or-tap": {
+    "status": "satisfied",
+    "why": "Real-browser checks select nodes and edges, preserve semantic selection across views, open pinned source and retained evidence links, and hover every rendered control. Verification/browser-result.json carries the actual outcome; screenshots show the painted page."
+  },
+  "no-clipped-labels": {
+    "status": "satisfied",
+    "why": "Real-browser checks select nodes and edges, preserve semantic selection across views, open pinned source and retained evidence links, and hover every rendered control. Verification/browser-result.json carries the actual outcome; screenshots show the painted page."
+  },
+  "no-ellipsis-or-clipped-text-in-rendered-page": {
+    "status": "satisfied",
+    "why": "Real-browser checks select nodes and edges, preserve semantic selection across views, open pinned source and retained evidence links, and hover every rendered control. Verification/browser-result.json carries the actual outcome; screenshots show the painted page."
+  },
+  "hovering-or-focusing-every-control-in-a-real-browser-shows-a-styled-tooltip-within-200ms-and-tap-works-on-phones": {
+    "status": "satisfied",
+    "why": "Real-browser checks select nodes and edges, preserve semantic selection across views, open pinned source and retained evidence links, and hover every rendered control. Verification/browser-result.json carries the actual outcome; screenshots show the painted page."
+  },
+  "checks-measure-painted-geometry-after-fonts-load-at-each-supported-viewport": {
+    "status": "satisfied",
+    "why": "Real-browser checks select nodes and edges, preserve semantic selection across views, open pinned source and retained evidence links, and hover every rendered control. Verification/browser-result.json carries the actual outcome; screenshots show the painted page."
+  },
+  "every-navigation-item-has-content-and-stays-or-shows-its-way-back": {
+    "status": "satisfied",
+    "why": "Real-browser checks select nodes and edges, preserve semantic selection across views, open pinned source and retained evidence links, and hover every rendered control. Verification/browser-result.json carries the actual outcome; screenshots show the painted page."
+  },
+  "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+    "status": "satisfied",
+    "why": "Each diagram has at most ten nodes. The overview fits its own frame on load; larger policy, records and lifecycle drawings keep readable scale, internal scrolling and fit/zoom controls. Their different subjects and relation meanings earn separate views."
+  },
+  "context-quiet-subject-loud": {
+    "status": "satisfied",
+    "why": "Each diagram has at most ten nodes. The overview fits its own frame on load; larger policy, records and lifecycle drawings keep readable scale, internal scrolling and fit/zoom controls. Their different subjects and relation meanings earn separate views."
+  },
+  "one-highlighted-state-not-several": {
+    "status": "satisfied",
+    "why": "Each diagram has at most ten nodes. The overview fits its own frame on load; larger policy, records and lifecycle drawings keep readable scale, internal scrolling and fit/zoom controls. Their different subjects and relation meanings earn separate views."
+  },
+  "page-carries-its-date-and-version": {
+    "status": "satisfied",
+    "why": "The page carries the source date. sources.json pins every authority file revision and digest; the private hosted plans index labels the branch and served commit."
+  },
+  "space-and-time-shown-together-when-the-subject-changes-over-time": {
+    "status": "na",
+    "why": "This is a present architecture snapshot with one observation time and a separately dated recorded incident. No historical time-series data supports a change strip."
+  },
+  "argument-pages-follow-the-speakers-order-and-keep-their-reasons": {
+    "status": "na",
+    "why": "No argument transcript, chat product, agent-editing interaction, or comparison-series task is part of this model-first artifact."
+  },
+  "comparisons-use-identical-small-frames": {
+    "status": "na",
+    "why": "No argument transcript, chat product, agent-editing interaction, or comparison-series task is part of this model-first artifact."
+  },
+  "chat-suggestions-are-chips-below-the-input-and-ask-in-one-click": {
+    "status": "na",
+    "why": "No argument transcript, chat product, agent-editing interaction, or comparison-series task is part of this model-first artifact."
+  },
+  "agent-adds-to-the-readers-choices-unless-asked-to-replace-verified-with-live-asks": {
+    "status": "na",
+    "why": "No argument transcript, chat product, agent-editing interaction, or comparison-series task is part of this model-first artifact."
+  },
+  "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+    "status": "skipped",
+    "why": "Brian has not reviewed the model. This build does not substitute an agent walkthrough for human cold-read comprehension, acceptance or preference."
+  },
+  "a-person-would-pin-it-on-a-wall": {
+    "status": "skipped",
+    "why": "Brian has not reviewed the model. This build does not substitute an agent walkthrough for human cold-read comprehension, acceptance or preference."
+  },
+  "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+    "status": "skipped",
+    "why": "Brian has not reviewed the model. This build does not substitute an agent walkthrough for human cold-read comprehension, acceptance or preference."
+  },
+  "reader-can-point-to-where-any-one-fact-lives": {
+    "status": "skipped",
+    "why": "Brian has not reviewed the model. This build does not substitute an agent walkthrough for human cold-read comprehension, acceptance or preference."
+  },
+  "whole-design-visible-on-one-screen-at-the-target-viewport": {
+    "status": "skipped",
+    "why": "Only the initial whole-system drawing fits completely on load at the target laptop size. Larger detail drawings deliberately retain readable internal scroll, with Fit available. The entire inspector, evidence and reproducibility text do not fit on one screen."
+  },
+  "every-drawing-fits-its-frame-on-load-and-zooms-and-pans-within-it": {
+    "status": "skipped",
+    "why": "Only the initial whole-system drawing fits completely on load at the target laptop size. Larger detail drawings deliberately retain readable internal scroll, with Fit available. The entire inspector, evidence and reproducibility text do not fit on one screen."
+  },
+  "every-view-stays-listed-in-sight-while-others-are-open-and-views-open-from-it-or-the-agent": {
+    "status": "skipped",
+    "why": "Views are listed in the top navigation and preserve selection, but only one drawing is open at once and no explicit Clear selection control is provided."
+  },
+  "picking-an-item-lights-its-counterparts-in-every-open-view-and-can-be-cleared": {
+    "status": "skipped",
+    "why": "Views are listed in the top navigation and preserve selection, but only one drawing is open at once and no explicit Clear selection control is provided."
+  },
+  "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+    "status": "skipped",
+    "why": "The artifact uses the incumbent LikeC4 rectangular architecture mark grammar. It does not introduce custom shapes for each domain behavior."
+  },
+  "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+    "status": "skipped",
+    "why": "The source question is represented visually, with record properties and limits expressed as inspector text. Not every descriptive property has a visual encoding."
+  },
+  "no-unreadable-generated-overlap": {
+    "status": "skipped",
+    "why": "Painted node-label bounds are measured and screenshots inspected. A general edge-label/edge collision test was not run; no universal overlap claim is made."
+  },
+  "diagram-text-is-dom-or-svg-and-no-label-overlaps-a-box-or-another-label": {
+    "status": "skipped",
+    "why": "Painted node-label bounds are measured and screenshots inspected. A general edge-label/edge collision test was not run; no universal overlap claim is made."
+  },
+  "theme-contrast": {
+    "status": "skipped",
+    "why": "Theme uses labeled states in addition to color and has a dark-mode stylesheet. A measured contrast audit was not run."
+  },
+  "gap-between-groups-larger-than-gap-within": {
+    "status": "skipped",
+    "why": "The source-driven architecture uses four lenses and a consistent node grammar. It does not add separate spacing-based clusters or redesign the shared layout engine."
+  },
+  "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+    "status": "skipped",
+    "why": "The styling is simple and semantically labeled, but the artifact retains bordered node boxes, badges and source separators rather than proving avoidance of every generic visual convention."
+  }
+}

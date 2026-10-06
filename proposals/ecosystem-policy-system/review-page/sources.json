@@ -1,0 +1,414 @@
+{
+  "asOf": "2026-10-06T18:09:57.527327+00:00",
+  "scope": "Engineering control plane, with policy-system detail. Derived descriptive model; no authority transfer and no runtime-conformance claim.",
+  "sourcePins": [
+    {
+      "id": "architecture",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "docs/ops/ADR-2026-07-16-engineering-control-plane-system-model.md",
+      "line": 29,
+      "sha256": "dd5208a47cfad81602b36a1d6c7aaa9327769b0d4497f9eee5b62ebb5a21ddab",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/docs/ops/ADR-2026-07-16-engineering-control-plane-system-model.md#L29"
+    },
+    {
+      "id": "framework",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "vision/02_FRAMEWORK.md",
+      "line": 110,
+      "sha256": "bb2509794e43efdfef064399236ec89cb880407dda8c3b68a7de763130273c52",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/vision/02_FRAMEWORK.md#L110"
+    },
+    {
+      "id": "frontdoor",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "docs/ops/POLICY_SYSTEM.md",
+      "line": 24,
+      "sha256": "fec24a1458d0cabe4261e252eb52aa38aea7ee5752ed0ac93c76ef0ea495c6d8",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/docs/ops/POLICY_SYSTEM.md#L24"
+    },
+    {
+      "id": "policy_model",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "docs/ops/ECOSYSTEM_POLICY_MODEL.md",
+      "line": 201,
+      "sha256": "92d4816c0d9f348cfa562e7eac964927a31107f5107cec759b4617f8961decca",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/docs/ops/ECOSYSTEM_POLICY_MODEL.md#L201"
+    },
+    {
+      "id": "operations",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "docs/ops/POLICY_SYSTEM_OPERATIONS.md",
+      "line": 18,
+      "sha256": "dcb68064ef7bfa0f30e6109c1420af2b76e8dd3104afdf30d913a15b28568f47",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/docs/ops/POLICY_SYSTEM_OPERATIONS.md#L18"
+    },
+    {
+      "id": "registry",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "policy/registry.yaml",
+      "line": 1,
+      "sha256": "cfed5cc889f21ab3478bc2c8e420d5021bc2448d2ef48de98ac90969c6ed0cff",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/policy/registry.yaml#L1"
+    },
+    {
+      "id": "concern_decision",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "docs/ops/ADR-2026-09-14-one-feedback-concern-lifecycle.md",
+      "line": 30,
+      "sha256": "7ce6895c6247b99750eb9a7add916bb7dd1896eaff40b73971ff7d7be62ee8c3",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/docs/ops/ADR-2026-09-14-one-feedback-concern-lifecycle.md#L30"
+    },
+    {
+      "id": "concern_tool",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "scripts/concern_issue.py",
+      "line": 1,
+      "sha256": "3b270105fccc45669df2e3676cd963c1170e75d31b33d3b0b96e498ebeab42ec",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/scripts/concern_issue.py#L1"
+    },
+    {
+      "id": "checks",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "scripts/control_triggers.py",
+      "line": 193,
+      "sha256": "c2be7c9c1a0d1018f193d571afae4a59d02edaae2fa8473b5b6d135ab3708266",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/scripts/control_triggers.py#L193"
+    },
+    {
+      "id": "liveness",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "scripts/check_enforcement_liveness.py",
+      "line": 180,
+      "sha256": "f1275986417ea76fbf0ff9c047ffc3b3b36de5c844334e292b8adc324f9ca8a8",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/scripts/check_enforcement_liveness.py#L180"
+    },
+    {
+      "id": "delivery",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "scripts/prepare_expected_context.py",
+      "line": 1,
+      "sha256": "10675b754bb62249abbeb78278a6ac3384643ab7f51076ffe52bac241d3ae9bc",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/scripts/prepare_expected_context.py#L1"
+    },
+    {
+      "id": "observability",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "scripts/policy_observability.py",
+      "line": 105,
+      "sha256": "2ed474d27538b3f97a02527a1854cf577cde796e77d7658a31a49a9386e85d71",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/scripts/policy_observability.py#L105"
+    },
+    {
+      "id": "claim_incident",
+      "repository": "BrianMills2718/project-meta",
+      "revision": "5ffa7394d07394f67ead6bd6f2114d88efa84542",
+      "path": "policy_friction.md",
+      "line": 6521,
+      "sha256": "c4b89d7a8feb9660286a058bf2ad0a3e2c3ac4f4b86d7a89c0939571e39785b6",
+      "url": "https://github.com/BrianMills2718/project-meta/blob/5ffa7394d07394f67ead6bd6f2114d88efa84542/policy_friction.md#L6521"
+    },
+    {
+      "id": "hook_manifest",
+      "repository": "BrianMills2718/agent-skills",
+      "revision": "18da628ae25a5e39d7bd32961532a4ae2b439499",
+      "path": "contracts/client-config/hook-manifest.v1.json",
+      "line": 46,
+      "sha256": "dcbc52db84ec5b198d552b682f5c2c2018337209ead3551b4f204eea84fc3673",
+      "url": "https://github.com/BrianMills2718/agent-skills/blob/18da628ae25a5e39d7bd32961532a4ae2b439499/contracts/client-config/hook-manifest.v1.json#L46"
+    },
+    {
+      "id": "hook_runtime",
+      "repository": "BrianMills2718/agent-skills",
+      "revision": "18da628ae25a5e39d7bd32961532a4ae2b439499",
+      "path": "scripts/codex_app_server.py",
+      "line": 76,
+      "sha256": "081d883ab13747ba87e57416ac7a4b437df38f3b2698764282f69c31f7a72454",
+      "url": "https://github.com/BrianMills2718/agent-skills/blob/18da628ae25a5e39d7bd32961532a4ae2b439499/scripts/codex_app_server.py#L76"
+    },
+    {
+      "id": "aes_boundary",
+      "repository": "BrianMills2718/agentic-engineering-system-canonical",
+      "revision": "4d0f863756ad4891a4762419dde256fc57c9c3a9",
+      "path": "docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md",
+      "line": 1,
+      "sha256": "8b11adb7a6d40270d26aa24f3652fe8aa720efcefcd3adeb64686d47d9a1258c",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/4d0f863756ad4891a4762419dde256fc57c9c3a9/docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md#L1"
+    }
+  ],
+  "annotations": {
+    "authority": {
+      "owner": "Brian and native outcome authorities",
+      "sourceIds": [
+        "architecture"
+      ]
+    },
+    "context": {
+      "owner": "Project Meta routing; Agent Skills client delivery",
+      "sourceIds": [
+        "frontdoor",
+        "delivery"
+      ]
+    },
+    "assurance": {
+      "owner": "Project Meta meaning; Enforced Planning portable contracts",
+      "sourceIds": [
+        "framework",
+        "policy_model"
+      ]
+    },
+    "capabilities": {
+      "owner": "Project Meta discovery; existing capability repositories",
+      "sourceIds": [
+        "architecture",
+        "frontdoor"
+      ]
+    },
+    "planning": {
+      "owner": "Company Planning procedures; Enforced Planning lifecycle; native plans",
+      "sourceIds": [
+        "architecture",
+        "frontdoor"
+      ]
+    },
+    "execution": {
+      "owner": "Enforced Planning claims and sessions; native tool/product owners",
+      "sourceIds": [
+        "architecture",
+        "frontdoor"
+      ]
+    },
+    "learning": {
+      "owner": "Project Meta evidence and concerns; owner-specific repair/runtime",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "definitions": {
+      "owner": "Project Meta and each repository for its local rules",
+      "sourceIds": [
+        "registry",
+        "policy_model"
+      ]
+    },
+    "delivery": {
+      "owner": "Project Meta context routes; Agent Skills client integration",
+      "sourceIds": [
+        "delivery",
+        "frontdoor"
+      ]
+    },
+    "resolution": {
+      "owner": "Enforced Planning declared portable owner",
+      "sourceIds": [
+        "framework"
+      ]
+    },
+    "control": {
+      "owner": "Agent Skills hook declarations; individual check owners",
+      "sourceIds": [
+        "hook_manifest",
+        "liveness",
+        "hook_runtime"
+      ]
+    },
+    "action": {
+      "owner": "Acting agent and the owning capability repository",
+      "sourceIds": [
+        "frontdoor",
+        "architecture"
+      ]
+    },
+    "observations": {
+      "owner": "Native evidence owners; Project Meta feedback",
+      "sourceIds": [
+        "operations",
+        "observability"
+      ]
+    },
+    "concerns": {
+      "owner": "Owning repository GitHub Issues; Project Meta shared contract",
+      "sourceIds": [
+        "concern_decision",
+        "concern_tool"
+      ]
+    },
+    "repair": {
+      "owner": "Named concern owner; revision-bound verifier",
+      "sourceIds": [
+        "operations",
+        "concern_decision",
+        "checks"
+      ]
+    },
+    "policy_record": {
+      "owner": "Project Meta policy registry",
+      "sourceIds": [
+        "registry",
+        "policy_model"
+      ]
+    },
+    "mechanism_record": {
+      "owner": "Mechanism configuration owner",
+      "sourceIds": [
+        "hook_manifest",
+        "frontdoor"
+      ]
+    },
+    "invocation_record": {
+      "owner": "Acting client/tool and receipt owner",
+      "sourceIds": [
+        "operations"
+      ]
+    },
+    "decision_record": {
+      "owner": "Applicable evaluator/enforcer owner",
+      "sourceIds": [
+        "framework",
+        "operations"
+      ]
+    },
+    "observation_record": {
+      "owner": "Native observation owner",
+      "sourceIds": [
+        "operations",
+        "observability"
+      ]
+    },
+    "evidence_record": {
+      "owner": "Native evidence store owner",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "concern_record": {
+      "owner": "Owning repository concern register",
+      "sourceIds": [
+        "concern_decision",
+        "concern_tool"
+      ]
+    },
+    "correction_record": {
+      "owner": "Concern remedy owner",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "verification_record": {
+      "owner": "Verifier at the changed revision",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "effect_record": {
+      "owner": "Policy/concern owner; target coverage not established",
+      "sourceIds": [
+        "operations",
+        "policy_model"
+      ]
+    },
+    "observed": {
+      "owner": "Concern owner and verifier",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "triaged": {
+      "owner": "Concern owner and verifier",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "selected": {
+      "owner": "Concern owner and verifier",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "deferred": {
+      "owner": "Concern owner and verifier",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "repairing": {
+      "owner": "Concern owner and verifier",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "pending": {
+      "owner": "Concern owner and verifier",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "resolved": {
+      "owner": "Concern owner and verifier",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    },
+    "reopened": {
+      "owner": "Concern owner and verifier",
+      "sourceIds": [
+        "operations",
+        "concern_decision"
+      ]
+    }
+  },
+  "observations": [
+    {
+      "id": "false-clear",
+      "status": "reproduced",
+      "subject": "checks",
+      "statement": "Existing, unfixed defect: two synthetic counterexamples reported clear with incomplete receipt coverage or an unmapped required hook; the appropriate result is unknown. This proves those check paths, not every live concern closure. No policy repair was made in this modeling lane.",
+      "evidence": "verification/probe.py and verification/probe-output.json"
+    },
+    {
+      "id": "runtime-trust",
+      "status": "observed",
+      "subject": "control",
+      "statement": "Codex hooks/list at Project Meta reported 14 configured hooks, 8 trusted and 6 untrusted on 2026-10-06. Trust eligibility is distinct from an execution receipt.",
+      "evidence": "verification/runtime-snapshot.json"
+    },
+    {
+      "id": "lifecycle-cost",
+      "status": "observed",
+      "subject": "definitions",
+      "statement": "The fresh registry census contains 125 active Measured or Enforced entries. One declares budget and retire_when; 124 omit both. This identifies incomplete lifecycle metadata, not the net value of the policies. The registry changed outside this model lane during the investigation.",
+      "evidence": "verification/runtime-snapshot.json"
+    },
+    {
+      "id": "claim-journey",
+      "status": "recorded incident",
+      "subject": "action",
+      "statement": "The 2026-09-29 friction record describes a claim accepted as Claimed but rejected at push for missing lifecycle metadata. This model has not re-executed that write journey.",
+      "sourceIds": [
+        "claim_incident"
+      ]
+    }
+  ]
+}
