@@ -11,6 +11,11 @@ main=$(cd "$(git rev-parse --git-common-dir)/.." && pwd)
 # the interpreter that ran `aes hooks install`, in this clone's .git/config so
 # that this tracked file stays byte-identical on every machine
 installer=$(git config --get aes.installer 2>/dev/null) || installer=
+# In AES's own repository, check this working copy with its own code (as `make aes`
+# does), not with whichever branch the shared venv's editable install points at.
+if [ -f "$root/src/agentic_engineering_system/cli.py" ]; then
+  PYTHONPATH="$root/src${PYTHONPATH:+:$PYTHONPATH}"; export PYTHONPATH
+fi
 if [ -n "$installer" ] && [ -x "$installer" ]; then
   aes() { "$installer" -m agentic_engineering_system.cli "$@"; }
 elif [ -x "$root/.venv/bin/aes" ]; then aes() { "$root/.venv/bin/aes" "$@"; }

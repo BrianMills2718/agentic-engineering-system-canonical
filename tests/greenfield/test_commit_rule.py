@@ -217,3 +217,16 @@ def test_an_older_aes_without_the_rule_warns_and_does_not_block(repo: Path, tmp_
                           cwd=repo, capture_output=True, text=True, env=ENV)
     assert hook.returncode == 0
     assert "WARNING: this AES has no 'commit' command, so the commit rule did not run" in hook.stderr
+
+
+def test_in_aes_itself_the_hooks_run_the_working_copy_code() -> None:
+    """Both hooks put `<root>/src` first when the repository is AES, so a worktree is checked
+    by its own code, not by the branch the shared venv's editable install points at."""
+    from agentic_engineering_system.hooks import render_commit_msg_hook, render_hook
+
+    for body in (render_hook(), render_commit_msg_hook()):
+        assert 'if [ -f "$root/src/agentic_engineering_system/cli.py" ]; then' in body
+        assert 'PYTHONPATH="$root/src${PYTHONPATH:+:$PYTHONPATH}"; export PYTHONPATH' in body
+    # this repository's tracked hooks are the rendered ones
+    assert (REPO / ".githooks" / "pre-commit").read_text(encoding="utf-8") == render_hook()
+    assert (REPO / ".githooks" / "commit-msg").read_text(encoding="utf-8") == render_commit_msg_hook()
