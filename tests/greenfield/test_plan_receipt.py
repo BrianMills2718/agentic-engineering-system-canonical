@@ -133,3 +133,17 @@ def test_a_named_plan_is_checked_even_when_not_required(tmp_path: Path, capsys: 
     status = main(["plan", "validate", str(_proposal(repo, "proposals/nosuch/README.md")), "--root", str(repo)])
     assert status == 1
     assert "plan file not found" in capsys.readouterr().err
+
+
+def test_receipt_named_dot_receipt_json_finds_company_planning_decision(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """Company Planning names the decision for `x.receipt.json` `x.adoption-decision.json`."""
+    repo = _repo(tmp_path, require=True)
+    _write(repo, PLAN, "---\nplan_id: runner\nmethod_conformance_receipt: proposals/runner/runner.receipt.json\n---\n\n# Runner\n")
+    _write(repo, "proposals/runner/runner.receipt.json", json.dumps({"verdict": "pass"}) + "\n")
+    sha = lambda rel: hashlib.sha256((repo / rel).read_bytes()).hexdigest()  # noqa: E731
+    _write(repo, "proposals/runner/runner.adoption-decision.json", json.dumps(
+        {"decision": "adopted", "plan_sha256": sha(PLAN), "receipt_sha256": sha("proposals/runner/runner.receipt.json")}) + "\n")
+    _git(repo, "add", "-A")
+    _git(repo, "commit", "-q", "-m", "receipt named like Company Planning's probe")
+    status, err, written = _accept(repo, _proposal(repo, PLAN), capsys)
+    assert (status, written) == (0, True), err
