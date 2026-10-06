@@ -1,0 +1,29 @@
+#!/bin/sh
+# managed by aes hooks install
+# AES commit rule (AP-REQ-001): the first line's tag is checked against facts about
+# the staged change and the plan it names (`aes commit check`). Mode is set in
+# .aes/commit_rule.yaml (observe: log only; enforce: refuse). Regenerate with
+# `aes hooks install`; edits here are overwritten.
+set -e
+root=$(git rev-parse --show-toplevel)
+main=$(cd "$(git rev-parse --git-common-dir)/.." && pwd)
+installer=$(git config --get aes.installer 2>/dev/null) || installer=
+if [ -n "$installer" ] && [ -x "$installer" ]; then
+  aes() { "$installer" -m agentic_engineering_system.cli "$@"; }
+elif [ -x "$root/.venv/bin/aes" ]; then aes() { "$root/.venv/bin/aes" "$@"; }
+elif [ -x "$main/.venv/bin/aes" ]; then aes() { "$main/.venv/bin/aes" "$@"; }
+elif command -v aes >/dev/null 2>&1; then aes() { command aes "$@"; }
+else
+  echo "commit-msg: 'aes' not found (tried aes.installer=${installer:-<unset>}," \
+       "$root/.venv, $main/.venv, PATH)." >&2
+  echo "commit-msg: install AES into the project venv, then rerun 'aes hooks install'." >&2
+  exit 1
+fi
+# An older AES with no commit rule (for example a main checkout on an earlier branch)
+# must not block every commit: say so loudly and let the commit through unchecked.
+if ! aes commit --help >/dev/null 2>&1; then
+  echo "commit-msg: WARNING: this AES has no 'commit' command, so the commit rule did not run;" \
+       "update the AES install named by aes.installer or the venv, then rerun 'aes hooks install'." >&2
+  exit 0
+fi
+aes commit check "$1" --root "$root"
