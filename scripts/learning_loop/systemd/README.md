@@ -18,3 +18,12 @@ systemctl --user start feedback-collector.service   # one run now; then: journal
 
 Exit 1 (some LLM, Jev or filing calls failed) and 2 (crash) fail the unit and
 open a keyed agent concern through `project-meta/scripts/notify_operator.py`.
+
+## Filing is off (2026-10-06)
+
+The installed timer runs log-only: items go to `~/projects/data/feedback-collector/items-<date>.jsonl`,
+nothing is filed to the learnings register. The first night filed 36 entries, and a spot check found
+that a Jev `learning` label at p=0.98 can still be a one-off, project-specific remark (an agent naming a
+firm from a client's mailer), because the triage question asks what kind an item is, not whether it is
+reusable. Turn filing back on (`--file --max-file N`) only after the weekly spot check of 10 filed items
+passes and a reusability question gates filing.
