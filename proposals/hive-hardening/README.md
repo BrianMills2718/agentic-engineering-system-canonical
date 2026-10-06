@@ -125,9 +125,9 @@ Order: U1, U2, then U3 and U4 together (U4 needs U3's rules in git to test N1), 
 | Writer | Owns | Depends on | Conflict surface | Integration owner and how | Work-unit evidence |
 |---|---|---|---|---|---|
 | Session building the learning-loop feedback collector (AES #156) | `scripts/learning_loop/`, edits to `scripts/hive/controls.py` and `settings.json` | AES main and the hive's controls.py as merged | U2's stall alert and U0's controls changes edit the same `controls.py` | code-71 merges main before each hive change and re-runs `controls.py` | the controls run output after each merge |
-| Paperclip workers (Coordinator, Research and Code Review) | jobs such as BRI-45 in process tracing | the Paperclip container image and their rules files; the weekly plan for job sources | U1 and U2 change their rules and container | code-71, through the agents' rules files in git (U3) with Brian's yes for rule changes | read-back of each agent's rules after upload |
+| Paperclip workers (Coordinator, Research and Code Review) | the jobs the Coordinator creates from the weekly plan's "Hive workers focus" section: DIGIMON Plan #215 slices and process tracing (at present BRI-45); none of them edits this plan's files | the Paperclip container image and their rules files; the weekly plan for job sources | U1 and U2 change their rules and container | code-71, through the agents' rules files in git (U3) with Brian's yes for rule changes | read-back of each agent's rules after upload |
 | personal-file-infra (C: drive guard) | `scripts/c-drive-guard` | Telegram bot credentials on the laptop; the relay's author check (U1) | U1 moves its alert to the bot identity | code-71, one pull request in personal-file-infra | the next alert on BRI-2 posted by the bot account |
-| This session (code-71) | U1–U7, U9, U10 | Company Planning's gate; personal-vps deploy scripts; Brian's yes for agent-rule changes | AES target for the hive outcome (single writer) | integration owner for the plan | per-unit evidence in the Plan table |
+| This session (code-71) | U1–U7, U9, U10; integration procedure: each unit lands as its own pull request in its owning repository after that repository's own checks; before each unit code-71 merges main into this plan's branch, re-runs `controls.py` and `make aes`, and records the unit's evidence in the Plan table before starting the next | Company Planning's gate; personal-vps deploy scripts; Brian's yes for agent-rule changes | AES target for the hive outcome (single writer) | integration owner for the plan | per-unit evidence in the Plan table |
 
 ## Success, and what would disprove it
 
@@ -141,13 +141,15 @@ Nothing irreversible: every change is a commit, a container image or a config sw
 
 ## Uncertainties
 
-| Uncertainty | Owner or evidence that resolves it |
-|---|---|
-| Whether the relay can tell Brian's replies from agents' (Telegram user id vs Paperclip author) | U1: read the relay code and one real reply of each kind |
-| Whether 12 hours is the right stall threshold | U2: replay of 2026-10-05/06 board data, then the first week |
-| Whether Phoenix accepts Claude Code's OpenTelemetry export | U6: one real session sent to it first |
-| Whether the 65 copied laptop units can be linked from git without breaking any | U3: convert one, run it a day, then the rest |
-| Whether the main AES checkout returns to main (the live hive checks run from it) | the session owning `shaping/vision-coverage`; until then U9 moves the services to a copy that follows main |
+These are all the uncertainties that could change a unit's design or its order; smaller choices (message wording, file names, thresholds inside a unit) are decided and recorded inside the unit.
+
+| Uncertainty | Why it is material | Owner or evidence that resolves it |
+|---|---|---|
+| Whether the relay can tell Brian's replies from agents' (Telegram user id vs Paperclip author) | if it cannot, U1 needs a new identity source rather than a check in the relay | U1 (code-71): read the relay code and one real reply of each kind |
+| Whether 12 hours is the right stall threshold | too short alerts Brian about queues that are correctly waiting; too long repeats the 2026-10-05/06 day of silence | U2 (code-71): replay of 2026-10-05/06 board data, then the first week's alerts |
+| Whether Phoenix accepts Claude Code's OpenTelemetry export | if not, U6 needs another viewer, which changes U7's queries | U6 (code-71): one real session sent to it first |
+| Whether the 65 copied laptop units can be linked from git without breaking any | a broken unit can silence a check, which is the failure this plan closes | U3 (code-71): convert one, run it a day, then the rest |
+| Whether the main AES checkout returns to main (the live hive checks run from it) | until it does, merged fixes such as U0 are not live | the session owning `shaping/vision-coverage`; until then U9 moves the services to a copy that follows main |
 
 ## Decisions
 
