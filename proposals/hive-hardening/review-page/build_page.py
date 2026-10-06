@@ -25,12 +25,13 @@ UNITS = [
     ("U1", "Only you can answer your questions", "author checked on every reply", "next", ["F1"]),
     ("U2", "Unstick workers + stall alert", "install packages; alert after 12 h", "next", ["F2"]),
     ("U3", "Worker rules kept in git", "daily check reports drift", "todo", ["G1"]),
-    ("U4", "Hive governed by AES", "must-never criteria N1–N4 with tests", "todo", ["G1", "G2"]),
-    ("U5", "AES asks what must never happen", "plan check needs a failure-input test", "todo", ["G2"]),
-    ("U6", "Run-time results feed AES status", "a silent control shows in aes status", "todo", ["G3"]),
-    ("U7", "Status that means something", "re-record nightly; refutations first", "todo", ["G4"]),
+    ("U4", "Territory found, not declared", "daily sweep; unmapped = orphan", "todo", ["G1"]),
+    ("U5", "AES asks what must never happen", "STPA list; failure-input tests", "todo", ["G2"]),
+    ("U6", "One trace per run, end to end", "OpenTelemetry; viewer with filters", "todo", ["G3"]),
+    ("U7", "Rules checked against traces", "results into aes status; heartbeats", "todo", ["G3", "G4"]),
     ("U8", "Jobs aim at your outcomes", "jobs name their outcome; upkeep ≤ 1 in 3", "you", ["G5"]),
     ("U9", "One front door", "README current; services follow main", "todo", ["G4"]),
+    ("U10", "Review whole traces, not outputs", "failures, your channel, sampled passes", "todo", ["G4", "G5"]),
 ]
 F_TO_G = {"F1": ["G1", "G2"], "F2": ["G2", "G3", "G5"], "F3": ["G1", "G2"], "F4": ["G5"], "F5": ["G4"]}
 STATE = {"done": "✓ Done", "next": "▶ Next", "todo": "○ Planned", "you": "◆ Your pick"}
@@ -56,7 +57,7 @@ def svg() -> str:
     fy = {fid: FY + i * FS for i, (fid, *_) in enumerate(FAILURES)}
     gy = {gid: FY + i * FS for i, (gid, *_) in enumerate(GAPS)}
     uy = {u[0]: UY + i * US for i, u in enumerate(UNITS)}
-    out = [f'<svg class="wide" viewBox="0 0 {W} 690" role="img" aria-label="Five failures on the left, each linked to the gaps in AES that let it through in the middle, each gap linked to the fix units on the right with their state.">',
+    out = [f'<svg class="wide" viewBox="0 0 {W} 750" role="img" aria-label="Five failures on the left, each linked to the gaps in AES that let it through in the middle, each gap linked to the fix units on the right with their state.">',
            '<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ahp"/></marker></defs>',
            f'<text x="{X1}" y="30" class="lane">What went wrong (10-06)</text>',
            f'<text x="{X2}" y="30" class="lane">Why AES let it through</text>',
@@ -131,7 +132,7 @@ plus Priority 1's next synthesis build, with upkeep capped at one job in three. 
 def main() -> None:
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hive hardening plan</title><style>{CSS}</style></head><body><main>
-<h1>Hive hardening plan: five things broke on 10-06 because AES only checked its own folders, only for things that should work, and only at commit time.</h1>
+<h1>Hive hardening plan: five things broke on 10-06 because AES checked only the territory it was told about. Fix: find the territory, record every run end to end, check the rules against what happened.</h1>
 <p class="q">Does each fix close the gap it points at, and what should the workers aim at? Reply in the terminal.</p>
 {svg()}
 {narrow()}

@@ -25,9 +25,9 @@ ul.legend span{display:inline-block;width:26px;height:14px;vertical-align:-2px;m
 .l-done{background:var(--bluefill);border:2.5px solid var(--blue)}.l-next{border:3px dashed var(--orange)}.l-todo{border:2px dashed var(--grey)}.l-you{border:4px solid var(--fg)}
 .decide{border:2px solid var(--fg);border-radius:6px;padding:10px 14px;margin:16px 0}.decide h2{font-size:1.05rem;margin:0 0 6px}
 footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:.78rem;overflow-wrap:anywhere}</style></head><body><main>
-<h1>Hive hardening plan: five things broke on 10-06 because AES only checked its own folders, only for things that should work, and only at commit time.</h1>
+<h1>Hive hardening plan: five things broke on 10-06 because AES checked only the territory it was told about. Fix: find the territory, record every run end to end, check the rules against what happened.</h1>
 <p class="q">Does each fix close the gap it points at, and what should the workers aim at? Reply in the terminal.</p>
-<svg class="wide" viewBox="0 0 1200 690" role="img" aria-label="Five failures on the left, each linked to the gaps in AES that let it through in the middle, each gap linked to the fix units on the right with their state.">
+<svg class="wide" viewBox="0 0 1200 750" role="img" aria-label="Five failures on the left, each linked to the gaps in AES that let it through in the middle, each gap linked to the fix units on the right with their state.">
 <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ahp"/></marker></defs>
 <text x="10" y="30" class="lane">What went wrong (10-06)</text>
 <text x="425" y="30" class="lane">Why AES let it through</text>
@@ -43,12 +43,14 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <path d="M360,553.0 C392.5,553.0 392.5,441.0 419,441.0" class="arrow" fill="none" marker-end="url(#ah)"/>
 <path d="M775,105.0 C807.5,105.0 807.5,263.0 834,263.0" class="arrow" fill="none" marker-end="url(#ah)"/>
 <path d="M775,105.0 C807.5,105.0 807.5,325.0 834,325.0" class="arrow" fill="none" marker-end="url(#ah)"/>
-<path d="M775,217.0 C807.5,217.0 807.5,325.0 834,325.0" class="arrow" fill="none" marker-end="url(#ah)"/>
 <path d="M775,217.0 C807.5,217.0 807.5,387.0 834,387.0" class="arrow" fill="none" marker-end="url(#ah)"/>
 <path d="M775,329.0 C807.5,329.0 807.5,449.0 834,449.0" class="arrow" fill="none" marker-end="url(#ah)"/>
+<path d="M775,329.0 C807.5,329.0 807.5,511.0 834,511.0" class="arrow" fill="none" marker-end="url(#ah)"/>
 <path d="M775,441.0 C807.5,441.0 807.5,511.0 834,511.0" class="arrow" fill="none" marker-end="url(#ah)"/>
 <path d="M775,553.0 C807.5,553.0 807.5,573.0 834,573.0" class="arrow" fill="none" marker-end="url(#ah)"/>
 <path d="M775,441.0 C807.5,441.0 807.5,635.0 834,635.0" class="arrow" fill="none" marker-end="url(#ah)"/>
+<path d="M775,441.0 C807.5,441.0 807.5,697.0 834,697.0" class="arrow" fill="none" marker-end="url(#ah)"/>
+<path d="M775,553.0 C807.5,553.0 807.5,697.0 834,697.0" class="arrow" fill="none" marker-end="url(#ah)"/>
 <g class="k-fail"><rect x="10" y="70" width="350" height="70" rx="6"/><text x="22" y="92" class="t-title">F1 · An agent answered for you</text><text x="22" y="110" class="t-prov">said &quot;compact now&quot; on your phone thread, 06:02 UTC</text></g>
 <g class="k-fail"><rect x="10" y="182" width="350" height="70" rx="6"/><text x="22" y="204" class="t-title">F2 · Workers stuck a day, no one told</text><text x="22" y="222" class="t-prov">both slots blocked; Coordinator says &quot;succeeded&quot;</text></g>
 <g class="k-fail"><rect x="10" y="294" width="350" height="70" rx="6"/><text x="22" y="316" class="t-title">F3 · Silence check crashed, hid it</text><text x="22" y="334" class="t-prov">dashboard got yesterday&#x27;s all-clear</text></g>
@@ -63,12 +65,13 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <g class="k-unit st-next"><rect x="840" y="112" width="350" height="54" rx="6"/><text x="852" y="134" class="t-title">U1 · Only you can answer your questions</text><text x="852" y="152" class="t-prov">▶ Next · author checked on every reply · fixes F1</text></g>
 <g class="k-unit st-next"><rect x="840" y="174" width="350" height="54" rx="6"/><text x="852" y="196" class="t-title">U2 · Unstick workers + stall alert</text><text x="852" y="214" class="t-prov">▶ Next · install packages; alert after 12 h · fixes F2</text></g>
 <g class="k-unit st-todo"><rect x="840" y="236" width="350" height="54" rx="6"/><text x="852" y="258" class="t-title">U3 · Worker rules kept in git</text><text x="852" y="276" class="t-prov">○ Planned · daily check reports drift</text></g>
-<g class="k-unit st-todo"><rect x="840" y="298" width="350" height="54" rx="6"/><text x="852" y="320" class="t-title">U4 · Hive governed by AES</text><text x="852" y="338" class="t-prov">○ Planned · must-never criteria N1–N4 with tests</text></g>
-<g class="k-unit st-todo"><rect x="840" y="360" width="350" height="54" rx="6"/><text x="852" y="382" class="t-title">U5 · AES asks what must never happen</text><text x="852" y="400" class="t-prov">○ Planned · plan check needs a failure-input test</text></g>
-<g class="k-unit st-todo"><rect x="840" y="422" width="350" height="54" rx="6"/><text x="852" y="444" class="t-title">U6 · Run-time results feed AES status</text><text x="852" y="462" class="t-prov">○ Planned · a silent control shows in aes status</text></g>
-<g class="k-unit st-todo"><rect x="840" y="484" width="350" height="54" rx="6"/><text x="852" y="506" class="t-title">U7 · Status that means something</text><text x="852" y="524" class="t-prov">○ Planned · re-record nightly; refutations first</text></g>
+<g class="k-unit st-todo"><rect x="840" y="298" width="350" height="54" rx="6"/><text x="852" y="320" class="t-title">U4 · Territory found, not declared</text><text x="852" y="338" class="t-prov">○ Planned · daily sweep; unmapped = orphan</text></g>
+<g class="k-unit st-todo"><rect x="840" y="360" width="350" height="54" rx="6"/><text x="852" y="382" class="t-title">U5 · AES asks what must never happen</text><text x="852" y="400" class="t-prov">○ Planned · STPA list; failure-input tests</text></g>
+<g class="k-unit st-todo"><rect x="840" y="422" width="350" height="54" rx="6"/><text x="852" y="444" class="t-title">U6 · One trace per run, end to end</text><text x="852" y="462" class="t-prov">○ Planned · OpenTelemetry; viewer with filters</text></g>
+<g class="k-unit st-todo"><rect x="840" y="484" width="350" height="54" rx="6"/><text x="852" y="506" class="t-title">U7 · Rules checked against traces</text><text x="852" y="524" class="t-prov">○ Planned · results into aes status; heartbeats</text></g>
 <g class="k-unit st-you"><rect x="840" y="546" width="350" height="54" rx="6"/><text x="852" y="568" class="t-title">U8 · Jobs aim at your outcomes</text><text x="852" y="586" class="t-prov">◆ Your pick · jobs name their outcome; upkeep ≤ 1 in 3</text></g>
 <g class="k-unit st-todo"><rect x="840" y="608" width="350" height="54" rx="6"/><text x="852" y="630" class="t-title">U9 · One front door</text><text x="852" y="648" class="t-prov">○ Planned · README current; services follow main</text></g>
+<g class="k-unit st-todo"><rect x="840" y="670" width="350" height="54" rx="6"/><text x="852" y="692" class="t-title">U10 · Review whole traces, not outputs</text><text x="852" y="710" class="t-prov">○ Planned · failures, your channel, sampled passes</text></g>
 </svg>
 <div class="narrow">
 <section class="card"><h2>F1 · An agent answered for you</h2><p class="sub">said &quot;compact now&quot; on your phone thread, 06:02 UTC</p><p class="lbl">Why AES let it through</p><ul>
@@ -77,7 +80,7 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 </ul><p class="lbl">Fix</p><ul>
 <li class="st-next"><b>U1</b> Only you can answer your questions <span class="badge">▶ Next</span></li>
 <li class="st-todo"><b>U3</b> Worker rules kept in git <span class="badge">○ Planned</span></li>
-<li class="st-todo"><b>U4</b> Hive governed by AES <span class="badge">○ Planned</span></li>
+<li class="st-todo"><b>U4</b> Territory found, not declared <span class="badge">○ Planned</span></li>
 <li class="st-todo"><b>U5</b> AES asks what must never happen <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F2 · Workers stuck a day, no one told</h2><p class="sub">both slots blocked; Coordinator says &quot;succeeded&quot;</p><p class="lbl">Why AES let it through</p><ul>
@@ -86,10 +89,11 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <li><b>G5</b> Success counted activity: v1 conditions count jobs merged, not value</li>
 </ul><p class="lbl">Fix</p><ul>
 <li class="st-next"><b>U2</b> Unstick workers + stall alert <span class="badge">▶ Next</span></li>
-<li class="st-todo"><b>U4</b> Hive governed by AES <span class="badge">○ Planned</span></li>
 <li class="st-todo"><b>U5</b> AES asks what must never happen <span class="badge">○ Planned</span></li>
-<li class="st-todo"><b>U6</b> Run-time results feed AES status <span class="badge">○ Planned</span></li>
+<li class="st-todo"><b>U6</b> One trace per run, end to end <span class="badge">○ Planned</span></li>
+<li class="st-todo"><b>U7</b> Rules checked against traces <span class="badge">○ Planned</span></li>
 <li class="st-you"><b>U8</b> Jobs aim at your outcomes <span class="badge">◆ Your pick</span></li>
+<li class="st-todo"><b>U10</b> Review whole traces, not outputs <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F3 · Silence check crashed, hid it</h2><p class="sub">dashboard got yesterday&#x27;s all-clear</p><p class="lbl">Why AES let it through</p><ul>
 <li><b>G1</b> AES only watches its own folders: hive scripts, services, worker rules sit outside</li>
@@ -97,19 +101,21 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 </ul><p class="lbl">Fix</p><ul>
 <li class="st-done"><b>U0</b> Checks survive damaged logs <span class="badge">✓ Done</span></li>
 <li class="st-todo"><b>U3</b> Worker rules kept in git <span class="badge">○ Planned</span></li>
-<li class="st-todo"><b>U4</b> Hive governed by AES <span class="badge">○ Planned</span></li>
+<li class="st-todo"><b>U4</b> Territory found, not declared <span class="badge">○ Planned</span></li>
 <li class="st-todo"><b>U5</b> AES asks what must never happen <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F4 · Jobs mostly upkeep of itself</h2><p class="sub">installs, READMEs; AES frontier idle since 09-27</p><p class="lbl">Why AES let it through</p><ul>
 <li><b>G5</b> Success counted activity: v1 conditions count jobs merged, not value</li>
 </ul><p class="lbl">Fix</p><ul>
 <li class="st-you"><b>U8</b> Jobs aim at your outcomes <span class="badge">◆ Your pick</span></li>
+<li class="st-todo"><b>U10</b> Review whole traces, not outputs <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F5 · AES status always red</h2><p class="sub">1 of 9 criteria supported; 32 of 37 stale</p><p class="lbl">Why AES let it through</p><ul>
 <li><b>G4</b> Always-red status gets skipped: nothing re-records stale evidence</li>
 </ul><p class="lbl">Fix</p><ul>
-<li class="st-todo"><b>U7</b> Status that means something <span class="badge">○ Planned</span></li>
+<li class="st-todo"><b>U7</b> Rules checked against traces <span class="badge">○ Planned</span></li>
 <li class="st-todo"><b>U9</b> One front door <span class="badge">○ Planned</span></li>
+<li class="st-todo"><b>U10</b> Review whole traces, not outputs <span class="badge">○ Planned</span></li>
 </ul></section>
 </div>
 <ul class="legend"><li><span class="l-done"></span>Done</li><li><span class="l-next"></span>Next</li><li><span class="l-todo"></span>Planned</li><li><span class="l-you"></span>Needs your pick</li></ul>
