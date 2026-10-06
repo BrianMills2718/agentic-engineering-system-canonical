@@ -1,0 +1,21 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "proposals/hive-hardening/README.md",
+  "plan_sha256": "01bb4e69c99ee82041e1271766d9b576cc01b40edba257ddd1f8ce0d2b9b691b",
+  "path_decision_ref": "proposals/hive-hardening/planning-path-decision.json",
+  "path_decision_sha256": "69adcb60c496304d55502425aec7f778bf6511b882ca29d0d27c8440f95cb1a6",
+  "facts": {
+    "shared_mechanism": true,
+    "empirical_comparison_proposed": false,
+    "llm_central": true,
+    "irreversible_or_spend_action": false
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-06T21:09:48Z"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "hive-hardening-planning-review",
+  "concern": "Why did AES's planning, requirements and tests not prevent the 2026-10-06 hive failures, is this the right fix plan, and what should the workers aim at?",
+  "stakeholder": "Brian Mills, owner, reading alone on laptop or phone, red-green colorblind",
+  "intent": ["understand", "decide"],
+  "informationStructure": ["network", "process"],
+  "tasks": ["trace", "inspect", "confirm"],
+  "entities": ["failure", "root gap in AES", "fix unit", "decision"],
+  "relationships": ["caused-by", "fixed-by", "depends-on"],
+  "explanatoryFocus": ["causality", "state", "provenance"],
+  "surfaceContext": { "medium": "report" },
+  "scale": { "items": 19, "density": "low" },
+  "interaction": { "mode": "read-only", "dynamics": "static" },
+  "audience": { "expertise": "expert", "frequency": "one-off", "domainFamiliarity": "expert" },
+  "consequence": { "risk": "medium", "reversibility": "reversible" },
+  "constraints": { "mobile": true, "accessibility": "high", "realtime": false, "provenance": true, "allowAggregation": false },
+  "representationRole": "explanatory",
+  "abstractionLevel": "overview",
+  "successCriteria": ["Brian can trace any failure to its root gap and its fix from the picture alone", "state legible in greyscale, no red/green", "no horizontal scroll at 390px", "the one decision is answerable from the page"]
+}
