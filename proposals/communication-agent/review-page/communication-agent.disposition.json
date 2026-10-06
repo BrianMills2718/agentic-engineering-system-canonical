@@ -1,0 +1,20 @@
+{
+  "useCase": "communication-agent.usecase.json",
+  "recommendation": "communication-agent.recommendation.json",
+  "chosen": "directed-handoff-flow (router alternative 3), drawn as a typed port graph, plus a clickable phone mock",
+  "whyNotPrimary": "The router's primary, project-schedule, is a time chart; nothing in this question is temporal (the time-strip secondary has no data). Brian's logged rule (scripts/hive/DASHBOARD_FEEDBACK.md, 2026-10-04) asks for port graphs with typed inputs and outputs; a hand-off flow is that.",
+  "checks": {
+    "title-states-what-this-is-and-for-whom": "satisfied: title is the review question; subtitle names Brian",
+    "whole-design-visible-on-one-screen-at-the-target-viewport": "satisfied at 1440x1000 except the third mock card, which sits below the fold inside the phone frame (scrolling a phone queue is the thing being mocked)",
+    "every-drawing-fits-its-frame-on-load-and-zooms-and-pans-within-it": "satisfied: + / - / fit buttons and drag to pan; at phone width the diagram keeps a readable 720px and pans inside its frame (page horizontal scroll 0)",
+    "diagram-text-is-dom-or-svg-and-no-label-overlaps-a-box-or-another-label": "satisfied: SVG text; automated check found 0 label overlaps and 0 names overflowing their boxes at 1440 and 390",
+    "one-element-dominates-by-size-weight-or-contrast": "satisfied: the diagram, with the one NEW box in dashed orange",
+    "relationships-drawn-not-implied-by-adjacency-or-links": "satisfied: every hand-off is a labelled wire",
+    "every-object-reveals-more-on-click-nothing-is-a-dead-end": "satisfied: every box opens its detail; every card answers and shows where the answer goes",
+    "every-control-has-a-visible-tooltip": "satisfied: 29 of 29 visible controls show the styled tooltip on hover (automated check); touch uses long press",
+    "no-red-green": "satisfied: blue / orange / grey with words (EXISTS, EXTENDED, NEW) and solid vs dashed outlines",
+    "time-strip": "not applicable: no change over time in this question",
+    "cold-reader-gets-the-mechanism-in-sixty-seconds": "not verified: no cold reader run yet"
+  },
+  "verifiedBy": "~/code/.scratch/comm-agent-check/check.mjs (Playwright, Chromium 1247), 2026-10-06: failures=0 at 1440 and 390"
+}

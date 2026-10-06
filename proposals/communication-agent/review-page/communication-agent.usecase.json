@@ -1,0 +1,79 @@
+{
+  "id": "communication-agent-first-slice-planning-review",
+  "concern": "Is a communication agent that turns any waiting agent (hive workers or local Claude Code/Codex sessions) into one decision card, in the form that best answers it, the right first slice, and does the phone card feel right to answer by tap or voice?",
+  "stakeholder": "Brian Mills, owner, reading alone mostly on his phone, red-green colorblind, wants pictures before prose but accepts text when it is the best form",
+  "intent": [
+    "understand",
+    "decide",
+    "modify"
+  ],
+  "informationStructure": [
+    "process",
+    "network"
+  ],
+  "tasks": [
+    "trace",
+    "inspect",
+    "confirm",
+    "compare"
+  ],
+  "entities": [
+    "worker session",
+    "triage check (Jev)",
+    "communication agent",
+    "representation router",
+    "decision card",
+    "dashboard",
+    "answer"
+  ],
+  "relationships": [
+    "emits waiting state",
+    "filters",
+    "condenses",
+    "chooses form for",
+    "renders",
+    "answered by",
+    "routed back to"
+  ],
+  "explanatoryFocus": [
+    "flow",
+    "state",
+    "interface"
+  ],
+  "surfaceContext": {
+    "medium": "report"
+  },
+  "scale": {
+    "items": 9,
+    "density": "low"
+  },
+  "interaction": {
+    "mode": "exploratory",
+    "dynamics": "interactive"
+  },
+  "audience": {
+    "expertise": "expert",
+    "frequency": "one-off",
+    "domainFamiliarity": "expert"
+  },
+  "consequence": {
+    "risk": "low",
+    "reversibility": "reversible"
+  },
+  "constraints": {
+    "mobile": true,
+    "accessibility": "high",
+    "realtime": false,
+    "provenance": true,
+    "allowAggregation": false
+  },
+  "representationRole": "explanatory",
+  "abstractionLevel": "overview",
+  "successCriteria": [
+    "Brian can say yes/no to the slice from the picture alone",
+    "Brian can click each card in the mock and see what answering does",
+    "every control has a visible tooltip",
+    "state legible in greyscale, no red-green pairs",
+    "no horizontal scroll at 390px"
+  ]
+}

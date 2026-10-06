@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Communication agent: first slice</title>
+<style>
+:root{
+  --bg:#f7f7f5; --panel:#ffffff; --ink:#1d1d1f; --muted:#5f6368; --line:#c9c9c4;
+  --blue:#1f6fd1; --blue-soft:#e3eefb; --orange:#d9730d; --orange-soft:#fcefe1; --grey-soft:#ececea;
+  --focus:#1f6fd1; --shadow:0 1px 3px rgba(0,0,0,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151517; --panel:#1f1f22; --ink:#ececec; --muted:#a2a2a8; --line:#3a3a3f;
+    --blue:#6aa8ff; --blue-soft:#1b2b44; --orange:#f0a050; --orange-soft:#3a2a18; --grey-soft:#2a2a2e; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151517; --panel:#1f1f22; --ink:#ececec; --muted:#a2a2a8; --line:#3a3a3f;
+  --blue:#6aa8ff; --blue-soft:#1b2b44; --orange:#f0a050; --orange-soft:#3a2a18; --grey-soft:#2a2a2e; --shadow:none;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:18px 24px 6px}
+h1{font-size:22px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0;max-width:980px}
+main{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;padding:12px 24px 24px;align-items:start}
+@media (max-width:760px){#flow{width:720px;max-width:none}}
+@media (max-width:980px){main{grid-template-columns:minmax(0,1fr);padding:12px 16px 24px} header{padding:16px 16px 4px}}
+.panel{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:14px}
+.panel h2{font-size:15px;margin:0 0 8px}
+/* diagram */
+.diagram-wrap{position:relative;overflow:auto;border-radius:8px;background:var(--bg);touch-action:none}
+.zoom{position:absolute;right:8px;top:8px;display:flex;gap:4px;z-index:2}
+.zoom button{width:30px;height:30px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:16px;cursor:pointer}
+svg text{font-family:inherit}
+.node rect.box{fill:var(--panel);stroke:var(--ink);stroke-width:1.5}
+.node.new rect.box{stroke:var(--orange);stroke-dasharray:6 4;stroke-width:2}
+.node.extend rect.box{stroke:var(--blue);stroke-width:2}
+.node.exists rect.box{stroke:var(--muted)}
+.node{cursor:pointer}
+.node:focus{outline:none}
+.node:focus rect.box,.node.sel rect.box{stroke-width:3.5}
+.node .kind{font-size:11px;fill:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.node .name{font-size:14px;font-weight:600;fill:var(--ink)}
+.node .tag{font-size:11px;font-weight:600}
+.port{fill:var(--panel);stroke:var(--ink);stroke-width:1.2}
+.wire{fill:none;stroke:var(--muted);stroke-width:1.6}
+.wire.sel{stroke:var(--blue);stroke-width:3}
+.wlabel{font-size:11.5px;fill:var(--ink)}
+.wlabel-bg{fill:var(--bg)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:13px;color:var(--muted)}
+.sw{display:inline-block;width:26px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px;background:var(--panel)}
+.sw.exists{border:1.5px solid var(--muted)} .sw.extend{border:2px solid var(--blue)} .sw.new{border:2px dashed var(--orange)}
+.detail{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;min-height:96px}
+.detail h3{margin:0 0 4px;font-size:14px}
+.detail p{margin:4px 0;color:var(--ink)}
+.detail .src{color:var(--muted);font-size:13px}
+/* phone mock */
+.phone{width:100%;max-width:360px;margin:0 auto;border:10px solid #222;border-radius:34px;background:var(--bg);overflow:hidden;min-height:640px;display:flex;flex-direction:column}
+.pbar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line);font-size:13px}
+.pbar b{font-size:14px}
+.count{background:var(--blue);color:#fff;border-radius:10px;padding:1px 8px;font-weight:600}
+.stack{padding:12px;display:flex;flex-direction:column;gap:12px;flex:1}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow)}
+.card .who{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
+.card .q{font-size:16px;font-weight:600;margin:6px 0 8px}
+.form-tag{border:1px solid var(--line);border-radius:10px;padding:0 7px;font-size:11px;background:var(--grey-soft);color:var(--ink);cursor:pointer}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:2px solid var(--blue);background:var(--blue-soft);color:var(--ink);border-radius:10px;padding:8px;text-align:left;cursor:pointer;font:inherit}
+.opt b{display:block;font-size:15px}
+.opt span{font-size:12px;color:var(--muted)}
+.opt.alt{border-color:var(--orange);background:var(--orange-soft)}
+.row{display:flex;gap:8px;margin-top:8px}
+.btn{flex:1;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:9px;font:inherit;font-weight:600;cursor:pointer}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.mic{flex:0 0 46px;border:1px solid var(--line);background:var(--panel);border-radius:10px;cursor:pointer;font-size:18px;color:var(--ink)}
+.sent{font-size:14px;color:var(--ink);background:var(--blue-soft);border-radius:10px;padding:10px}
+.listening{font-size:13px;color:var(--muted);margin-top:6px;min-height:18px}
+.mini{width:100%;height:auto;margin:2px 0 6px}
+.mini rect{fill:var(--panel);stroke:var(--muted)} .mini .add rect{stroke:var(--orange);stroke-dasharray:4 3;stroke-width:2}
+.mini text{font-size:11px;fill:var(--ink)} .mini path{stroke:var(--muted);fill:none}
+.empty{color:var(--muted);text-align:center;padding:40px 10px}
+.status{color:var(--muted);font-size:12.5px;padding:0 24px 24px}
+@media (max-width:980px){.status{padding:0 16px 24px}}
+/* tooltips */
+.tip{position:fixed;z-index:50;max-width:260px;background:var(--ink);color:var(--bg);font-size:12.5px;line-height:1.35;padding:7px 9px;border-radius:7px;pointer-events:none;opacity:0;transition:opacity .12s}
+.tip.on{opacity:1}
+.info{border:none;background:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 2px}
+button:focus-visible,.node:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Communication agent, first slice: is this the right step, and does the card feel right?</h1>
+  <p class="sub">For Brian. Left: how a waiting agent becomes one decision card on your phone. Each box shows what it takes in and gives out; click any box. Right: a clickable mock of the phone screen. Answer the cards to see what happens.</p>
+</header>
+<main>
+  <section class="panel" aria-labelledby="flow-h">
+    <h2 id="flow-h">How one waiting agent reaches you, and your answer gets back</h2>
+    <div class="diagram-wrap" id="wrap">
+      <div class="zoom">
+        <button id="zin" data-tip="Zoom in on the diagram" aria-label="Zoom in">+</button>
+        <button id="zout" data-tip="Zoom out" aria-label="Zoom out">−</button>
+        <button id="zfit" data-tip="Fit the whole diagram in the frame" aria-label="Fit">⤢</button>
+      </div>
+      <svg id="flow" viewBox="0 0 980 430" width="100%" role="img" aria-label="Port graph of the communication agent slice"></svg>
+    </div>
+    <div class="legend">
+      <span data-tip="Already running today; this slice only uses it"><i class="sw exists"></i>exists, used as is</span>
+      <span data-tip="Running today; this slice adds to it"><i class="sw extend"></i>exists, extended</span>
+      <span data-tip="Does not exist yet; this slice builds it"><i class="sw new"></i>new in this slice</span>
+      <span data-tip="Small circles are typed inputs (left) and outputs (right); the words on each wire say what flows">○ ports: what goes in and out</span>
+    </div>
+    <div class="detail" id="detail" aria-live="polite">
+      <h3>Click a box</h3>
+      <p class="src">Each box opens here: what it does, whether it exists, and where it lives.</p>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="mock-h">
+    <h2 id="mock-h">Your phone: decision cards (mock)</h2>
+    <div class="phone">
+      <div class="pbar"><b>Hive</b><span data-tip="How many decisions are waiting for you"><span class="count" id="count">3</span> waiting</span></div>
+      <div class="stack" id="stack"></div>
+    </div>
+    <p class="src" style="font-size:12.5px;color:var(--muted);margin:10px 4px 0">Each card says which agent is asking and, in the grey tag, why it uses that form. Tap the tag to see the router's reason. The microphone button stands for answering by voice.</p>
+  </section>
+</main>
+<p class="status">Source: AES <code>proposals/communication-agent/</code> on branch <code>shaping/communication-agent</code>, 2026-10-06. This is a mock: no card is wired to a real agent yet. Builds on the hive dashboard (hive.brianmills.dev), the Telegram relay, Jev triage in <code>llm_client</code>, the Representation Router and Agent Deck. Not decided yet: where the communication agent runs (Paperclip worker or local service).</p>
+<div class="tip" id="tip" role="tooltip"></div>
+<script>
+// ---------- diagram data ----------
+const NODES=[
+ {id:"workers",x:10,y:60,w:150,h:90,kind:"source",name:"Waiting|agents",st:"exists",tag:"EXISTS",
+  out:["waiting + last message"],
+  detail:["Hive workers (Paperclip on personal-vps) and local Claude Code / Codex sessions in Agent Deck.","Both already report when they stop and wait: Paperclip tasks, Agent Deck status.","Lives: personal-vps Paperclip; ~/code/attention-manager reads Agent Deck."]},
+ {id:"jev",x:280,y:60,w:150,h:90,kind:"system 1 check",name:"Jev triage",st:"exists",tag:"EXISTS",
+  out:["needs Brian? (probability)"],
+  detail:["One cheap yes/no question per waiting agent: is it stuck until you answer, or just done?","Costs about $0.00002 and 0.3 s. Today it ranks sessions in attn; here it decides which ones get a card.","Lives: llm_client call_decisions (typesafe/jev-1.13); later a local Laya model."]},
+ {id:"comm",x:550,y:60,w:150,h:90,kind:"new agent",name:"Communication|agent",st:"new",tag:"NEW",
+  out:["decision request"],
+  detail:["Reads the waiting agent's recent work and boils it down to the one decision it needs: the question, the real options, one line of context each.","It is the only route from agents to you (your hive-brain design, R4). It drops chatter and merges duplicates.","Not built. Open choice: a Paperclip worker (replacing 'Brian Contact') or a small local service."]},
+ {id:"router",x:820,y:60,w:150,h:90,kind:"chooser",name:"Representation|Router",st:"extend",tag:"EXTENDED",
+  out:["form: choice · picture · text"],
+  detail:["Picks the form that answers this decision best: buttons for a choice, a small picture for a structural change, plain text when text is clearest.","Extension needed: a fast call that takes one decision request and returns a form plus a reason.","Lives: ~/code/representation-router (catalog + recommend)."]},
+ {id:"card",x:820,y:300,w:150,h:90,kind:"page",name:"Card on hive|dashboard",st:"extend",tag:"EXTENDED",
+  out:["card on your phone","phone alert"],
+  detail:["Draws the card in the chosen form on hive.brianmills.dev, the page that already has one-tap answers, and pings your phone.","Extension needed: card types beyond today's text cards (choice, picture), and local sessions as a source.","Lives: personal-vps apps/hive-dashboard; alerts through the Telegram relay."]},
+ {id:"brian",x:550,y:300,w:150,h:90,kind:"person",name:"You",st:"exists",tag:"YOU",
+  out:["answer (tap or voice)"],
+  detail:["You tap an option, or speak with the keyboard microphone. Nothing to read beyond the card.","If a card is wrong or unclear, saying so is an answer too; it goes back as feedback to the communication agent."]},
+ {id:"back",x:280,y:300,w:150,h:90,kind:"route back",name:"Reply",st:"extend",tag:"EXTENDED",
+  out:[],
+  detail:["Sends your answer into the exact agent that asked: Paperclip task thread (exists, via the relay) or the local session (agent-deck session send, exists).","Extension needed: one router that knows which kind of agent a card came from.","Then the agent continues, and the card disappears."]}
+];
+const WIRES=[
+ {f:"workers",t:"jev",label:"waiting",fx:"r",tx:"l"},
+ {f:"jev",t:"comm",label:"needs you",fx:"r",tx:"l"},
+ {f:"comm",t:"router",label:"decision",fx:"r",tx:"l"},
+ {f:"router",t:"card",label:"form + reason",fx:"b",tx:"t"},
+ {f:"card",t:"brian",label:"card + alert",fx:"l",tx:"r"},
+ {f:"brian",t:"back",label:"answer",fx:"l",tx:"r"},
+ {f:"back",t:"workers",label:"into the session",fx:"l",tx:"b",route:"corner"}
+];
+const svg=document.getElementById("flow"), NS="http://www.w3.org/2000/svg";
+const byId=Object.fromEntries(NODES.map(n=>[n.id,n]));
+function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e}
+function anchor(n,side,dy=0){switch(side){case"r":return[n.x+n.w,n.y+n.h/2+dy];case"l":return[n.x,n.y+n.h/2+dy];case"t":return[n.x+n.w/2,n.y];case"b":return[n.x+n.w/2,n.y+n.h]}}
+const wireEls=[];
+const gW=el("g",{}),gN=el("g",{}),gL=el("g",{});
+WIRES.forEach(w=>{
+ const a=byId[w.f],b=byId[w.t];let [x1,y1]=anchor(a,w.fx,w.dy||0),[x2,y2]=anchor(b,w.tx,w.dy||0),d,lx,ly;
+ if(w.route==="corner"){d=`M${x1},${y1} H${x2} V${y2}`;lx=x2+8;ly=(y1+y2)/2+30;}
+ else if(y1===y2){d=`M${x1},${y1} H${x2}`;lx=(x1+x2)/2;ly=y1-10}
+ else{d=`M${x1},${y1} V${y2}`;lx=x1;ly=(y1+y2)/2}
+ const p=el("path",{d,class:"wire","marker-end":"url(#arr)"},gW);wireEls.push({w,p});el("circle",{cx:x1,cy:y1,r:4.5,class:"port"},gL);
+ const t=el("text",{x:lx,y:ly+4,"text-anchor":w.route==="corner"?"start":"middle",class:"wlabel"},gL);t.textContent=w.label;
+ const bb=t.getBBox();const r=el("rect",{x:bb.x-4,y:bb.y-1,width:bb.width+8,height:bb.height+2,rx:3,class:"wlabel-bg"},gL);gL.insertBefore(r,t);
+});
+const defs=el("defs",{});const m=el("marker",{id:"arr",viewBox:"0 0 10 10",refX:9,refY:5,markerWidth:7,markerHeight:7,orient:"auto-start-reverse"},defs);el("path",{d:"M0,0 L10,5 L0,10 z",fill:"currentColor",style:"color:var(--muted)"},m);
+NODES.forEach(n=>{
+ const g=el("g",{class:`node ${n.st}`,tabindex:0,role:"button","aria-label":`${n.name.replace("|"," ")}: ${n.tag}`,"data-id":n.id},gN);
+ el("rect",{x:n.x,y:n.y,width:n.w,height:n.h,rx:10,class:"box"},g);
+ const k=el("text",{x:n.x+12,y:n.y+22,class:"kind"},g);k.textContent=n.kind;
+ const nm=el("text",{x:n.x+12,y:n.y+42,class:"name"},g);n.name.split("|").forEach((ln,i)=>{const t=el("tspan",{x:n.x+12,dy:i?17:0},nm);t.textContent=ln});n.name=n.name.replace("|"," ");
+ const tg=el("text",{x:n.x+12,y:n.y+n.h-12,class:"tag",fill:n.st==="new"?"var(--orange)":n.st==="extend"?"var(--blue)":"var(--muted)"},g);tg.textContent=n.tag;
+ g.dataset.tip=`${n.name} (${n.tag.toLowerCase()}): click for details`;
+ g.addEventListener("click",()=>select(n.id));
+ g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();select(n.id)}});
+});
+function select(id){
+ document.querySelectorAll(".node").forEach(g=>g.classList.toggle("sel",g.dataset.id===id));
+ wireEls.forEach(({w,p})=>p.classList.toggle("sel",w.f===id||w.t===id));
+ const n=byId[id];const d=document.getElementById("detail");
+ d.innerHTML=`<h3>${n.name} <span class="src">· ${n.tag.toLowerCase()}</span></h3>`+n.detail.map((t,i)=>`<p class="${i===n.detail.length-1&&t.startsWith("Lives")?"src":""}">${t}</p>`).join("")+
+  (n.out.length?`<p class="src">Gives out: ${n.out.join(", ")}</p>`:"");
+}
+// zoom/pan
+let vb={x:0,y:0,w:980,h:430};const FIT={...vb};
+function setVB(){svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${vb.h}`)}
+function zoom(f){const cx=vb.x+vb.w/2,cy=vb.y+vb.h/2;vb.w=Math.min(FIT.w*2,Math.max(200,vb.w*f));vb.h=vb.w*FIT.h/FIT.w;vb.x=cx-vb.w/2;vb.y=cy-vb.h/2;setVB()}
+document.getElementById("zin").onclick=()=>zoom(.8);document.getElementById("zout").onclick=()=>zoom(1.25);document.getElementById("zfit").onclick=()=>{vb={...FIT};setVB()};
+let drag=null;svg.addEventListener("pointerdown",e=>{if(e.target.closest(".node"))return;drag={x:e.clientX,y:e.clientY,vx:vb.x,vy:vb.y}});
+window.addEventListener("pointermove",e=>{if(!drag)return;const s=vb.w/svg.clientWidth;vb.x=drag.vx-(e.clientX-drag.x)*s;vb.y=drag.vy-(e.clientY-drag.y)*s;setVB()});
+window.addEventListener("pointerup",()=>drag=null);
+
+// ---------- phone mock ----------
+const CARDS=[
+ {who:"codex-1 · ~/code/llm_client",form:"choice",why:"Two clear options with one trade-off each: buttons answer it fastest.",
+  q:"Cache for model calls: Redis or SQLite?",
+  opts:[["SQLite","one file, nothing to run"],["Redis","shared across machines, needs a server"]]},
+ {who:"hive Coordinator · AES",form:"picture",why:"It changes how parts connect; a small before/after picture shows that faster than a paragraph.",
+  q:"Add a 'Reply' step between the dashboard and the agents?",picture:true,
+  opts:[["Approve","merge it"],["Hold","ask me later"]]},
+ {who:"claude-1 · ~/code/personal-wiki",form:"text",why:"A single fact you need to act on; a short sentence is the clearest form.",
+  q:"Google Drive login expired, so tonight's backup will skip. Sign in again at drive.google.com?",
+  opts:[["Done","I signed in"],["Later","remind me tonight"]],plain:true}
+];
+let queue=CARDS.slice();const stack=document.getElementById("stack");
+function render(){
+ stack.innerHTML="";document.getElementById("count").textContent=queue.length;
+ if(!queue.length){stack.innerHTML=`<div class="empty">Nothing needs you.<br>Agents keep working; the next card will alert your phone.<br><br><button class="btn" id="reset" data-tip="Put the three example cards back">Show the examples again</button></div>`;document.getElementById("reset").onclick=()=>{queue=CARDS.slice();render()};return}
+ queue.forEach((c,i)=>{
+  const d=document.createElement("div");d.className="card";
+  d.innerHTML=`<div class="who"><span>${c.who}</span><button class="form-tag" data-tip="The router chose this form. Tap to see why.">${c.form}</button></div>
+   <div class="q">${c.q}</div>
+   ${c.picture?`<svg class="mini" viewBox="0 0 300 70"><g><rect x="4" y="20" width="80" height="30" rx="5"/><text x="44" y="39" text-anchor="middle">Dashboard</text></g><g class="add"><rect x="110" y="20" width="80" height="30" rx="5"/><text x="150" y="39" text-anchor="middle">Reply (new)</text></g><g><rect x="216" y="20" width="80" height="30" rx="5"/><text x="256" y="39" text-anchor="middle">Agents</text></g><path d="M84 35 H110 M190 35 H216"/></svg>`:""}
+   ${c.plain?`<div class="row">${c.opts.map((o,j)=>`<button class="btn ${j===0?"primary":""}" data-j="${j}" data-tip="${o[1]}">${o[0]}</button>`).join("")}<button class="mic" data-tip="Answer by voice: tap, then speak" aria-label="Answer by voice"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></div>`
+     :`<div class="opts">${c.opts.map((o,j)=>`<button class="opt ${j?"alt":""}" data-j="${j}" data-tip="Choose ${o[0]}: ${o[1]}"><b>${o[0]}</b><span>${o[1]}</span></button>`).join("")}</div><div class="row"><button class="btn" data-j="other" data-tip="Neither: say or type what you want instead">Something else</button><button class="mic" data-tip="Answer by voice: tap, then speak" aria-label="Answer by voice"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></div>`}
+   <div class="listening"></div>`;
+  d.querySelector(".form-tag").onclick=()=>{d.querySelector(".listening").textContent="Why this form: "+c.why};
+  d.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>answer(i,d,b.dataset.j==="other"?"Something else (you'd say what)":c.opts[+b.dataset.j][0]));
+  d.querySelector(".mic").onclick=()=>{const l=d.querySelector(".listening");l.textContent="Listening… (mock) heard: “"+c.opts[0][0].toLowerCase()+"”";setTimeout(()=>answer(i,d,c.opts[0][0]+" (by voice)"),1100)};
+  stack.appendChild(d);
+ });
+ bindTips(stack);
+}
+function answer(i,d,txt){
+ const c=queue[i];d.innerHTML=`<div class="sent">Sent “${txt}” to <b>${c.who.split(" · ")[0]}</b>. It continues; this card leaves your queue.</div>`;
+ setTimeout(()=>{queue.splice(queue.indexOf(c),1);render()},1300);
+}
+// ---------- tooltips (hover, focus, long-press) ----------
+const tip=document.getElementById("tip");let tipT;
+function show(e,t){clearTimeout(tipT);tip.textContent=t;tip.classList.add("on");const r=e.getBoundingClientRect();
+ let x=Math.min(window.innerWidth-tip.offsetWidth-8,Math.max(8,r.left+r.width/2-tip.offsetWidth/2)),y=r.top-tip.offsetHeight-8;if(y<8)y=r.bottom+8;tip.style.left=x+"px";tip.style.top=y+"px"}
+function hide(){tipT=setTimeout(()=>tip.classList.remove("on"),80)}
+function bindTips(root){root.querySelectorAll("[data-tip]").forEach(e=>{if(e._tip)return;e._tip=1;
+ e.addEventListener("mouseenter",()=>show(e,e.dataset.tip));e.addEventListener("mouseleave",hide);
+ e.addEventListener("focus",()=>show(e,e.dataset.tip));e.addEventListener("blur",hide);
+ let lp;e.addEventListener("touchstart",()=>{lp=setTimeout(()=>{show(e,e.dataset.tip);setTimeout(hide,2200)},450)},{passive:true});e.addEventListener("touchend",()=>clearTimeout(lp))})}
+render();bindTips(document);
+</script>
+</body>
+</html>
