@@ -25,7 +25,7 @@ ul.legend span{display:inline-block;width:26px;height:14px;vertical-align:-2px;m
 .l-done{background:var(--bluefill);border:2.5px solid var(--blue)}.l-next{border:3px dashed var(--orange)}.l-todo{border:2px dashed var(--grey)}.l-you{border:4px solid var(--fg)}
 .decide{border:2px solid var(--fg);border-radius:6px;padding:10px 14px;margin:16px 0}.decide h2{font-size:1.05rem;margin:0 0 6px}
 footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:.78rem;overflow-wrap:anywhere}</style></head><body><main>
-<h1>Hive hardening plan: five things broke on 10-06 because AES checked only the territory it was told about. Fix: find the territory, record every run end to end, check the rules against what happened.</h1>
+<h1>Hive hardening plan: five things broke on 10-06 because AES's plan declared only files in two folders. Fix: declare the running system too, scan to prove the plan complete, record every run end to end, check the rules against what happened.</h1>
 <p class="q">Does each fix close the gap it points at, and what should the workers aim at? Reply in the terminal.</p>
 <svg class="wide" viewBox="0 0 1200 750" role="img" aria-label="Five failures on the left, each linked to the gaps in AES that let it through in the middle, each gap linked to the fix units on the right with their state.">
 <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ahp"/></marker></defs>
@@ -56,7 +56,7 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <g class="k-fail"><rect x="10" y="294" width="350" height="70" rx="6"/><text x="22" y="316" class="t-title">F3 · Silence check crashed, hid it</text><text x="22" y="334" class="t-prov">dashboard got yesterday&#x27;s all-clear</text></g>
 <g class="k-fail"><rect x="10" y="406" width="350" height="70" rx="6"/><text x="22" y="428" class="t-title">F4 · Jobs mostly upkeep of itself</text><text x="22" y="446" class="t-prov">installs, READMEs; AES frontier idle since 09-27</text></g>
 <g class="k-fail"><rect x="10" y="518" width="350" height="70" rx="6"/><text x="22" y="540" class="t-title">F5 · AES status always red</text><text x="22" y="558" class="t-prov">1 of 9 criteria supported; 32 of 37 stale</text></g>
-<g class="k-gap"><rect x="425" y="70" width="350" height="70" rx="6"/><text x="437" y="92" class="t-title">G1 · AES only watches its own folders</text><text x="437" y="110" class="t-prov">hive scripts, services, worker rules sit outside</text></g>
+<g class="k-gap"><rect x="425" y="70" width="350" height="70" rx="6"/><text x="437" y="92" class="t-title">G1 · AES declared only files in 2 folders</text><text x="437" y="110" class="t-prov">running things had no plan, so no check</text></g>
 <g class="k-gap"><rect x="425" y="182" width="350" height="70" rx="6"/><text x="437" y="204" class="t-title">G2 · Criteria only say what should work</text><text x="437" y="222" class="t-prov">never what must not happen; tests use clean inputs</text></g>
 <g class="k-gap"><rect x="425" y="294" width="350" height="70" rx="6"/><text x="437" y="316" class="t-title">G3 · AES checks at commit time</text><text x="437" y="334" class="t-prov">these broke at run time</text></g>
 <g class="k-gap"><rect x="425" y="406" width="350" height="70" rx="6"/><text x="437" y="428" class="t-title">G4 · Always-red status gets skipped</text><text x="437" y="446" class="t-prov">nothing re-records stale evidence</text></g>
@@ -65,7 +65,7 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <g class="k-unit st-next"><rect x="840" y="112" width="350" height="54" rx="6"/><text x="852" y="134" class="t-title">U1 · Only you can answer your questions</text><text x="852" y="152" class="t-prov">▶ Next · author checked on every reply · fixes F1</text></g>
 <g class="k-unit st-next"><rect x="840" y="174" width="350" height="54" rx="6"/><text x="852" y="196" class="t-title">U2 · Unstick workers + stall alert</text><text x="852" y="214" class="t-prov">▶ Next · install packages; alert after 12 h · fixes F2</text></g>
 <g class="k-unit st-todo"><rect x="840" y="236" width="350" height="54" rx="6"/><text x="852" y="258" class="t-title">U3 · Worker rules kept in git</text><text x="852" y="276" class="t-prov">○ Planned · daily check reports drift</text></g>
-<g class="k-unit st-todo"><rect x="840" y="298" width="350" height="54" rx="6"/><text x="852" y="320" class="t-title">U4 · Territory found, not declared</text><text x="852" y="338" class="t-prov">○ Planned · daily sweep; unmapped = orphan</text></g>
+<g class="k-unit st-todo"><rect x="840" y="298" width="350" height="54" rx="6"/><text x="852" y="320" class="t-title">U4 · Declare the environment too</text><text x="852" y="338" class="t-prov">○ Planned · running things in the plan; scan finds gaps</text></g>
 <g class="k-unit st-todo"><rect x="840" y="360" width="350" height="54" rx="6"/><text x="852" y="382" class="t-title">U5 · AES asks what must never happen</text><text x="852" y="400" class="t-prov">○ Planned · STPA list; failure-input tests</text></g>
 <g class="k-unit st-todo"><rect x="840" y="422" width="350" height="54" rx="6"/><text x="852" y="444" class="t-title">U6 · One trace per run, end to end</text><text x="852" y="462" class="t-prov">○ Planned · OpenTelemetry; viewer with filters</text></g>
 <g class="k-unit st-todo"><rect x="840" y="484" width="350" height="54" rx="6"/><text x="852" y="506" class="t-title">U7 · Rules checked against traces</text><text x="852" y="524" class="t-prov">○ Planned · results into aes status; heartbeats</text></g>
@@ -75,12 +75,12 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 </svg>
 <div class="narrow">
 <section class="card"><h2>F1 · An agent answered for you</h2><p class="sub">said &quot;compact now&quot; on your phone thread, 06:02 UTC</p><p class="lbl">Why AES let it through</p><ul>
-<li><b>G1</b> AES only watches its own folders: hive scripts, services, worker rules sit outside</li>
+<li><b>G1</b> AES declared only files in 2 folders: running things had no plan, so no check</li>
 <li><b>G2</b> Criteria only say what should work: never what must not happen; tests use clean inputs</li>
 </ul><p class="lbl">Fix</p><ul>
 <li class="st-next"><b>U1</b> Only you can answer your questions <span class="badge">▶ Next</span></li>
 <li class="st-todo"><b>U3</b> Worker rules kept in git <span class="badge">○ Planned</span></li>
-<li class="st-todo"><b>U4</b> Territory found, not declared <span class="badge">○ Planned</span></li>
+<li class="st-todo"><b>U4</b> Declare the environment too <span class="badge">○ Planned</span></li>
 <li class="st-todo"><b>U5</b> AES asks what must never happen <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F2 · Workers stuck a day, no one told</h2><p class="sub">both slots blocked; Coordinator says &quot;succeeded&quot;</p><p class="lbl">Why AES let it through</p><ul>
@@ -96,12 +96,12 @@ footer{margin-top:14px;font-size:.8rem;color:var(--muted)}footer code{font-size:
 <li class="st-todo"><b>U10</b> Review whole traces, not outputs <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F3 · Silence check crashed, hid it</h2><p class="sub">dashboard got yesterday&#x27;s all-clear</p><p class="lbl">Why AES let it through</p><ul>
-<li><b>G1</b> AES only watches its own folders: hive scripts, services, worker rules sit outside</li>
+<li><b>G1</b> AES declared only files in 2 folders: running things had no plan, so no check</li>
 <li><b>G2</b> Criteria only say what should work: never what must not happen; tests use clean inputs</li>
 </ul><p class="lbl">Fix</p><ul>
 <li class="st-done"><b>U0</b> Checks survive damaged logs <span class="badge">✓ Done</span></li>
 <li class="st-todo"><b>U3</b> Worker rules kept in git <span class="badge">○ Planned</span></li>
-<li class="st-todo"><b>U4</b> Territory found, not declared <span class="badge">○ Planned</span></li>
+<li class="st-todo"><b>U4</b> Declare the environment too <span class="badge">○ Planned</span></li>
 <li class="st-todo"><b>U5</b> AES asks what must never happen <span class="badge">○ Planned</span></li>
 </ul></section>
 <section class="card"><h2>F4 · Jobs mostly upkeep of itself</h2><p class="sub">installs, READMEs; AES frontier idle since 09-27</p><p class="lbl">Why AES let it through</p><ul>

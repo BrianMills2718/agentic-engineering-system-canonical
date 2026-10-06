@@ -13,7 +13,7 @@ FAILURES = [
     ("F5", "AES status always red", "1 of 9 criteria supported; 32 of 37 stale"),
 ]
 GAPS = [
-    ("G1", "AES only watches its own folders", "hive scripts, services, worker rules sit outside"),
+    ("G1", "AES declared only files in 2 folders", "running things had no plan, so no check"),
     ("G2", "Criteria only say what should work", "never what must not happen; tests use clean inputs"),
     ("G3", "AES checks at commit time", "these broke at run time"),
     ("G4", "Always-red status gets skipped", "nothing re-records stale evidence"),
@@ -25,7 +25,7 @@ UNITS = [
     ("U1", "Only you can answer your questions", "author checked on every reply", "next", ["F1"]),
     ("U2", "Unstick workers + stall alert", "install packages; alert after 12 h", "next", ["F2"]),
     ("U3", "Worker rules kept in git", "daily check reports drift", "todo", ["G1"]),
-    ("U4", "Territory found, not declared", "daily sweep; unmapped = orphan", "todo", ["G1"]),
+    ("U4", "Declare the environment too", "running things in the plan; scan finds gaps", "todo", ["G1"]),
     ("U5", "AES asks what must never happen", "STPA list; failure-input tests", "todo", ["G2"]),
     ("U6", "One trace per run, end to end", "OpenTelemetry; viewer with filters", "todo", ["G3"]),
     ("U7", "Rules checked against traces", "results into aes status; heartbeats", "todo", ["G3", "G4"]),
@@ -132,7 +132,7 @@ plus Priority 1's next synthesis build, with upkeep capped at one job in three. 
 def main() -> None:
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hive hardening plan</title><style>{CSS}</style></head><body><main>
-<h1>Hive hardening plan: five things broke on 10-06 because AES checked only the territory it was told about. Fix: find the territory, record every run end to end, check the rules against what happened.</h1>
+<h1>Hive hardening plan: five things broke on 10-06 because AES's plan declared only files in two folders. Fix: declare the running system too, scan to prove the plan complete, record every run end to end, check the rules against what happened.</h1>
 <p class="q">Does each fix close the gap it points at, and what should the workers aim at? Reply in the terminal.</p>
 {svg()}
 {narrow()}
