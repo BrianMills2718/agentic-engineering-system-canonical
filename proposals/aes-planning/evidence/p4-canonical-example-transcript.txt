@@ -1,0 +1,39 @@
+# P4 canonical example, AES canonical, scratch branch scratch/commit-rule-demo from 08f5343, 2026-10-06T20:02:13Z
+# hooks installed with this branch's code; PYTHONPATH=/home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-demo/src so the installed hook runs it
+  note: overrides the global core.hooksPath /home/brian/.config/git/hooks in this repository
+wrote /home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-demo/.githooks/pre-commit and /home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-demo/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/worktrees/aes-planning/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+# .aes/commit_rule.yaml (untracked): mode: enforce
+
+$ git commit -m "[Unplanned] add worker tools"   (staged: Dockerfile, compose.yaml)
+aes commit rule: refuse [Unplanned] — [Unplanned] is for emergencies: add an 'Emergency: <reason>' line; this change touches running-thing file(s) Dockerfile, compose.yaml and needs a plan ([Plan #N] or [Goal <id>]) (logged to /home/brian/code/agentic-engineering-system-canonical/.git/aes/commit-rule-2026-10-06.jsonl)
+exit 1
+
+$ git commit -m "[Goal aes-planning] U2: worker tools"   (same staged change)
+aes commit rule: accept [Goal aes-planning] — plan aes-planning adopted (proposals/aes-planning/README.md) (logged to /home/brian/code/agentic-engineering-system-canonical/.git/aes/commit-rule-2026-10-06.jsonl)
+[scratch/commit-rule-demo baa575d] [Goal aes-planning] U2: worker tools
+ 2 files changed, 5 insertions(+)
+ create mode 100644 Dockerfile
+ create mode 100644 compose.yaml
+exit 0
+
+$ git commit -m "[Trivial] fix typo"   (staged: README.md, one line)
+aes commit rule: accept [Trivial] — trivial: 1 file(s), 2 line(s), no running-thing file (logged to /home/brian/code/agentic-engineering-system-canonical/.git/aes/commit-rule-2026-10-06.jsonl)
+[scratch/commit-rule-demo 2d3371a] [Trivial] fix typo
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+exit 0
+
+# .aes/commit_rule.yaml: mode: observe
+$ git commit -m "[Unplanned] add another worker image"   (staged: Dockerfile.worker)
+aes commit rule: would refuse (observe mode) [Unplanned] — [Unplanned] is for emergencies: add an 'Emergency: <reason>' line; this change touches running-thing file(s) Dockerfile.worker and needs a plan ([Plan #N] or [Goal <id>]) (logged to /home/brian/code/agentic-engineering-system-canonical/.git/aes/commit-rule-2026-10-06.jsonl)
+[scratch/commit-rule-demo 11444b9] [Unplanned] add another worker image
+ 1 file changed, 1 insertion(+)
+ create mode 100644 Dockerfile.worker
+exit 0
+
+# log: /home/brian/code/agentic-engineering-system-canonical/.git/aes/commit-rule-2026-10-06.jsonl, last 4 lines
+{"at": "2026-10-06T20:02:22+00:00", "mode": "enforce", "subject": "[Unplanned] add worker tools", "verdict": "refuse", "tag": "Unplanned", "reasons": ["[Unplanned] is for emergencies: add an 'Emergency: <reason>' line; this change touches running-thing file(s)
+{"at": "2026-10-06T20:02:30+00:00", "mode": "enforce", "subject": "[Goal aes-planning] U2: worker tools", "verdict": "accept", "tag": "Goal aes-planning", "reasons": ["plan aes-planning adopted (proposals/aes-planning/README.md)"], "files": 2, "lines": 5, "run
+{"at": "2026-10-06T20:02:47+00:00", "mode": "enforce", "subject": "[Trivial] fix typo", "verdict": "accept", "tag": "Trivial", "reasons": ["trivial: 1 file(s), 2 line(s), no running-thing file"], "files": 1, "lines": 2, "running_things": []}
+{"at": "2026-10-06T20:02:54+00:00", "mode": "observe", "subject": "[Unplanned] add another worker image", "verdict": "refuse", "tag": "Unplanned", "reasons": ["[Unplanned] is for emergencies: add an 'Emergency: <reason>' line; this change touches running-thing
