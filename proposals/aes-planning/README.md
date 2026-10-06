@@ -5,6 +5,14 @@ selected_path: coordinated
 planning_path_decision: proposals/aes-planning/planning-path-decision.json
 method_conformance_receipt: proposals/aes-planning/method-conformance-receipt.json
 review_page: proposals/aes-planning/review-page/aes-planning-plan.html
+goal:
+  outcome: real implementation work in Brian's repositories lands only under an adopted plan; trivial work is decided by measured facts; adopting a plan writes its /goal text
+  canonical_example: in AES canonical, "[Unplanned] add worker tools" adding a Dockerfile with no Emergency line is refused naming the running-thing files; the same change as "[Goal aes-planning] ..." with an adopted receipt is accepted; "[Trivial] fix typo" on one README line is accepted
+  forbidden_substitutes: a tag-text-only check; a unit test without the installed hook refusing a real staged commit; a replay not run with the real rule over real commits
+  boundaries: company-planning files only after the plan-48 claims covering them close or their owner agrees; no policy-text edits in project-meta; enforce mode per repository only after an observe week with false refusals at or under 1 in 5; model cost above 5 dollars a plan is a needs-reply to Brian
+  done_when: 'the installed hook in AES canonical gives those three verdicts (output and exit codes quoted); the replay lists personal-vps #87 as would-refuse with counts; aes plan accept refuses without and accepts with a fresh adopted receipt (tests with counts); company-planning tests pass and adoption writes the goal file; hive-hardening''s adoption decision reads adopted'
+  do_not_gate_on: Brian's review of the plan page; other repositories' migration; the observe week's elapsed time beyond AES canonical
+  owner: coordinator:code-71
 ---
 
 # AES planning: no real implementation work without an adopted plan
