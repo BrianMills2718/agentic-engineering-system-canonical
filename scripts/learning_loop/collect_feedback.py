@@ -62,7 +62,7 @@ JEV = "openrouter/typesafe/jev-1.13"
 KINDS = {
     "learning": "A reusable fact or practice about tools, code, data, process or the environment that would help a future agent.",
     "friction": "A rule, tool, process or policy got in the way, wasted work, misfired, or had to be worked around.",
-    "correction": "Brian told an agent it was wrong, misunderstood him, or should work differently.",
+    "correction": "Brian told an agent it was wrong, misunderstood him, or should work differently, or stated how he wants agents to work.",
     "concern": "An open risk or unresolved problem that still needs action; not yet a lesson.",
     "noise": "Nothing reusable: routine status, compliance boilerplate, 'none', or text that only makes sense inside its own session.",
 }
@@ -70,7 +70,7 @@ FILE_KINDS = ("learning", "friction", "correction")
 # Closeout Concerns and Decisions have their own homes (concern issues, decision records) and stay in
 # the daily log; only these sources can be filed to the register.
 FILE_SOURCES = {("closeout", "Learnings"), ("closeout", "Policy"), ("llm", "learning"), ("llm", "friction"),
-                ("llm", "correction")}
+                ("llm", "correction"), ("llm", "direction")}
 WINDOW_CHARS, TURN_CHARS = 14000, 1500
 
 
@@ -171,6 +171,7 @@ EXTRACT_PROMPT = """You read part of a conversation between Brian (a software de
 Find feedback that should change how agents work in future:
 - correction: Brian objects to what the agent did or said, says it is wrong or not what he asked, has to repeat himself, or says he does not understand the agent's wording ("no, do X", "why did you...", "I already said...", "what do you mean X?").
 - friction: Brian or the agent says a rule, tool, hook, process or policy got in the way, misfired, wasted time, or had to be worked around.
+- direction: Brian states a standing preference or how he wants agents or his systems to work in general, beyond the task at hand ("we should make X broader", "from now on...", "I always want...").
 - learning: the agent or Brian states a reusable fact or practice that future agents should know (not routine progress, not a plan for this task).
 Skip approvals ("yes", "proceed", "ok do that"), new task requests, routine status, and questions that only ask for information.
 For each item give: kind; speaker (brian or agent); quote = an exact verbatim excerpt (max 300 characters, copied character for character from ONE message, typos included); lesson = one plain sentence a future agent could act on, using only what this conversation shows (do not invent context or generalize beyond it).
@@ -186,7 +187,7 @@ def extract(t: T.Transcript, text: str, turns: list[T.Turn], counts, errors) -> 
     from llm_client import call_llm_structured
 
     class Found(BaseModel):
-        kind: Literal["correction", "friction", "learning"]
+        kind: Literal["correction", "direction", "friction", "learning"]
         speaker: Literal["brian", "agent"]
         quote: str = Field(description="exact verbatim excerpt from one message")
         lesson: str
@@ -281,10 +282,11 @@ def jev_covered(it: dict, reg: Register) -> dict:
 # ---------- 7. file ----------
 def file_item(it: dict) -> str:
     kind = it["triage"]["kind"]
-    body = (it["lesson"] or it["quote"]).strip()
-    body = f"[{kind}, collected automatically from a {it['client']} transcript] {body}"
-    if it["lesson"] and norm(it["lesson"]) != norm(it["quote"]):
-        body += f"\n\nSource quote ({it['speaker']}): {it['quote']}"
+    who = "Brian" if it["speaker"] == "brian" else "the agent"
+    body = (f"[{kind}, collected automatically from a {it['client']} transcript; Jev p={it['triage']['p']}] "
+            f"{who} wrote: {it['quote'].strip()}")
+    if it["lesson"]:  # machine-drawn, so labelled as a suggestion rather than stated as the lesson
+        body += f"\n\nSuggested lesson (light LLM, unreviewed): {it['lesson'].strip()}"
     if len(body) < 80:  # the register's own minimum; a shorter item is not actionable on review
         raise ValueError("body under 80 characters")
     cmd = [sys.executable, str(PROJECT_META / "scripts/log_learning.py"), "--type", "learning",
