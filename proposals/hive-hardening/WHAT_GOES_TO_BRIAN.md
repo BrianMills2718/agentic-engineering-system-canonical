@@ -1,8 +1,8 @@
 # What goes to Brian
 
-Status: proposed (hive-hardening plan, unit U1). One rule for every agent and script, replacing the Brian-facing sections now scattered across the workspace `AGENTS.md`, Claude memory, the hive roadmap and the three Paperclip agents' instructions, which contradict each other (listed at the end).
+Status: adopted 2026-10-06 (Brian: "ok"), hive-hardening plan unit U1. One rule for every agent and script, replacing the Brian-facing sections now scattered across the workspace `AGENTS.md`, Claude memory, the hive roadmap and the three Paperclip agents' instructions, which contradict each other (listed at the end).
 
-Every message to Brian carries one of two labels. Only a `needs-reply` message accepts an answer, and only an answer that really comes from Brian (his Telegram account or his dashboard login) counts.
+Every message to Brian starts with one of three labels: `needs-reply`, `review` or `fyi`. Only a `needs-reply` message waits for an answer, and only an answer that really comes from Brian (his Telegram account or his dashboard login) counts.
 
 ## needs-reply: only these
 
@@ -18,6 +18,15 @@ Each is Brian's own rule, quoted where it was set.
 
 Never `needs-reply`: technical or correctness questions (decide, verify, report), "is this safe", "should I proceed" on reversible work, merges, deploys of his own tools with nothing private in them.
 
+## review: something for him to open and judge
+
+Brian, 2026-10-06: "on the reaches me would be stuff to review. the way this is supposed to work is that this is by default a working ui for me to examine during the implementation stage. or plans during the planning stage."
+
+- **Planning stage:** the plan as a picture he can open (a review page served from git at hive.brianmills.dev/plans/, designed through Representation Router), not prose.
+- **Implementation stage:** a working UI slice he can open and click, at a URL, showing the new behaviour on real data; not a report about it, not a diff.
+- Before it is sent: the work's own checks pass and a cold reviewer (an agent that did not build it) has opened it and found it usable; the message says in one line what to look at and what changed since the last review.
+- His feedback is welcome but the work does not stop to wait for it; anything he says becomes input to the next step. If the plan contains a call only he can make, that call goes separately as `needs-reply` (item 7).
+
 ## fyi: reaches him, no reply expected
 
 - **Finished:** something he asked for is done, with where to look.
@@ -28,7 +37,9 @@ One plain sentence, once per change of state. Not: progress, routine failures (t
 
 ## How it is delivered
 
-- At the moment it happens, on his Telegram thread (board BRI-2) and in the terminal session if one is open. (2026-10-03: "i want to know as soon as my agents try to send me a message and for them to get my response as soon as i respond.")
+- `needs-reply` and `review`: at the moment it happens, posted by the agent that needs him on his Telegram thread (board BRI-2), first word the label, then one or two plain sentences and the link. (2026-10-03: "i want to know as soon as my agents try to send me a message and for them to get my response as soon as i respond.")
+- `fyi`: gathered by Brian Contact into one short digest per cycle; nothing else goes to him.
+- His answers: Brian Contact (or the waiting agent) copies his reply verbatim onto the waiting task.
 - Scripts post as the alert bot, never as Brian.
 - No agent replies on a `needs-reply` message. An agent that acts on a reply checks its author first.
 
