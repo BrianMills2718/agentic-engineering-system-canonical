@@ -136,7 +136,7 @@ const NODES=[
  {id:"workers",x:10,y:60,w:150,h:90,kind:"source",name:"Waiting|agents",st:"exists",tag:"EXISTS",
   out:["waiting + last message"],
   detail:["Hive workers (Paperclip on personal-vps) and local Claude Code / Codex sessions in Agent Deck.","Both already report when they stop and wait: Paperclip tasks, Agent Deck status.","Lives: personal-vps Paperclip; ~/code/attention-manager reads Agent Deck."]},
- {id:"jev",x:280,y:60,w:150,h:90,kind:"system 1 check",name:"Jev triage",st:"exists",tag:"EXISTS",
+ {id:"jev",x:280,y:60,w:150,h:90,kind:"quick yes/no check",name:"Jev triage",st:"exists",tag:"EXISTS",
   out:["needs Brian? (probability)"],
   detail:["One cheap yes/no question per waiting agent: is it stuck until you answer, or just done?","Costs about $0.00002 and 0.3 s. Today it ranks sessions in attn; here it decides which ones get a card.","Lives: llm_client call_decisions (typesafe/jev-1.13); later a local Laya model."]},
  {id:"comm",x:550,y:60,w:150,h:90,kind:"new agent",name:"Communication|agent",st:"new",tag:"NEW",
@@ -212,7 +212,7 @@ const CARDS=[
   q:"Cache for model calls: Redis or SQLite?",
   opts:[["SQLite","one file, nothing to run"],["Redis","shared across machines, needs a server"]]},
  {who:"hive Coordinator · AES",form:"picture",why:"It changes how parts connect; a small before/after picture shows that faster than a paragraph.",
-  q:"Add a 'Reply' step between the dashboard and the agents?",picture:true,
+  q:"Add a 'Retry once' step between build and merge?",picture:true,
   opts:[["Approve","merge it"],["Hold","ask me later"]]},
  {who:"claude-1 · ~/code/personal-wiki",form:"text",why:"A single fact you need to act on; a short sentence is the clearest form.",
   q:"Google Drive login expired, so tonight's backup will skip. Sign in again at drive.google.com?",
@@ -226,7 +226,7 @@ function render(){
   const d=document.createElement("div");d.className="card";
   d.innerHTML=`<div class="who"><span>${c.who}</span><button class="form-tag" data-tip="The router chose this form. Tap to see why.">${c.form}</button></div>
    <div class="q">${c.q}</div>
-   ${c.picture?`<svg class="mini" viewBox="0 0 300 70"><g><rect x="4" y="20" width="80" height="30" rx="5"/><text x="44" y="39" text-anchor="middle">Dashboard</text></g><g class="add"><rect x="110" y="20" width="80" height="30" rx="5"/><text x="150" y="39" text-anchor="middle">Reply (new)</text></g><g><rect x="216" y="20" width="80" height="30" rx="5"/><text x="256" y="39" text-anchor="middle">Agents</text></g><path d="M84 35 H110 M190 35 H216"/></svg>`:""}
+   ${c.picture?`<svg class="mini" viewBox="0 0 300 70"><g><rect x="4" y="20" width="80" height="30" rx="5"/><text x="44" y="39" text-anchor="middle">Build</text></g><g class="add"><rect x="110" y="20" width="80" height="30" rx="5"/><text x="150" y="39" text-anchor="middle">Retry (new)</text></g><g><rect x="216" y="20" width="80" height="30" rx="5"/><text x="256" y="39" text-anchor="middle">Merge</text></g><path d="M84 35 H110 M190 35 H216"/></svg>`:""}
    ${c.plain?`<div class="row">${c.opts.map((o,j)=>`<button class="btn ${j===0?"primary":""}" data-j="${j}" data-tip="${o[1]}">${o[0]}</button>`).join("")}<button class="mic" data-tip="Answer by voice: tap, then speak" aria-label="Answer by voice"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></div>`
      :`<div class="opts">${c.opts.map((o,j)=>`<button class="opt ${j?"alt":""}" data-j="${j}" data-tip="Choose ${o[0]}: ${o[1]}"><b>${o[0]}</b><span>${o[1]}</span></button>`).join("")}</div><div class="row"><button class="btn" data-j="other" data-tip="Neither: say or type what you want instead">Something else</button><button class="mic" data-tip="Answer by voice: tap, then speak" aria-label="Answer by voice"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" fill="none" stroke="currentColor" stroke-width="2"/></svg></button></div>`}
    <div class="listening"></div>`;
@@ -250,7 +250,7 @@ function bindTips(root){root.querySelectorAll("[data-tip]").forEach(e=>{if(e._ti
  e.addEventListener("mouseenter",()=>show(e,e.dataset.tip));e.addEventListener("mouseleave",hide);
  e.addEventListener("focus",()=>show(e,e.dataset.tip));e.addEventListener("blur",hide);
  let lp;e.addEventListener("touchstart",()=>{lp=setTimeout(()=>{show(e,e.dataset.tip);setTimeout(hide,2200)},450)},{passive:true});e.addEventListener("touchend",()=>clearTimeout(lp))})}
-render();bindTips(document);
+render();bindTips(document);select("comm");
 </script>
 </body>
 </html>

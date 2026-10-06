@@ -14,7 +14,7 @@
     "every-control-has-a-visible-tooltip": "satisfied: 29 of 29 visible controls show the styled tooltip on hover (automated check); touch uses long press",
     "no-red-green": "satisfied: blue / orange / grey with words (EXISTS, EXTENDED, NEW) and solid vs dashed outlines",
     "time-strip": "not applicable: no change over time in this question",
-    "cold-reader-gets-the-mechanism-in-sixty-seconds": "not verified: no cold reader run yet"
+    "cold-reader-gets-the-mechanism-in-sixty-seconds": "satisfied 2026-10-06: a cold reader (no context, screenshot only) restated the full loop correctly; its three confusions fixed: 'Reply (new)' contradiction in an example card, unexplained 'system 1 check', empty detail panel on load"
   },
   "verifiedBy": "~/code/.scratch/comm-agent-check/check.mjs (Playwright, Chromium 1247), 2026-10-06: failures=0 at 1440 and 390"
 }
