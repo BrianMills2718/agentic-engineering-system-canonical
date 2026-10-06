@@ -1,9 +1,60 @@
+---
+plan_id: hive-hardening
+status: shaping
+selected_path: coordinated
+planning_path_decision: proposals/hive-hardening/planning-path-decision.json
+method_conformance_receipt: proposals/hive-hardening/method-conformance-receipt.json
+review_page: proposals/hive-hardening/review-page/hive-hardening-plan.html
+goal:
+  outcome: 'the hive brain cannot repeat the 2026-10-06 failures: only Brian answers his questions, a stuck queue reaches him, a crashed check never reads as a pass, and everything that runs is declared and checked against what actually ran'
+  canonical_example: 'an agent posts ''compact now'' on Brian''s phone thread: the relay marks it as not Brian''s, nothing acts on it, and the attempt is logged; the same words from Brian''s Telegram account are accepted and acted on'
+  forbidden_substitutes: a rule sentence in an agent's instructions without the relay's author check; a unit test of the author check without a real reply through the relay; a dashboard showing ok from a check that did not run
+  boundaries: no WSL restart or compaction without Brian's own yes; Paperclip and relay changes deploy through personal-vps from git with the previous image kept for rollback; no message to anyone but Brian; agent-rule changes need Brian's yes (given 2026-10-06 for the what-goes-to-Brian rule)
+  done_when: a forged agent reply on BRI-2 is ignored and logged while Brian's real reply is accepted (relay log lines quoted); the stall alert fires on a replay of the 2026-10-05/06 board data; the hive's timers, services, containers and agent rules are declared in an AES target and aes status turns red for an undeclared one; must-never rules N1 to N4 report from traces
+  do_not_gate_on: Brian reading the plan page; other repositories adopting AES planning; a week of observe logs beyond the first one
+  owner: coordinator:code-71
+---
+
 # Hive hardening: why AES did not catch the 2026-10-06 failures, and the fix
 
-Status: shaping
-Role: proposed plan
+Role: plan, adopted through Company Planning's gate (route coordinated)
 Authority: Brian, 2026-10-06: "lets plan it all out. but we should think through why aes's planning and requirements and tests system didnt prevent this?" Product changes under the governed roots still go through `aes plan`.
 Review page: `review-page/hive-hardening-plan.html` (served at hive.brianmills.dev/plans/)
+
+## Who it serves, the result, one example
+
+**Actor:** Brian, and the hive brain he runs (the Coordinator, Research and Code Review and Brian Contact agents on personal-vps, the checks and alerts on his laptop).
+
+**Result:** the five 2026-10-06 failures cannot recur, and the class behind them (things running that no plan declared and nothing checked) is closed: only Brian answers his questions, a stuck queue reaches him within 12 hours, a crashed check never reads as a pass, and every running thing is a file in git that AES compares with what actually runs.
+
+**Example:** at 06:02 UTC on 2026-10-06 the Coordinator posted "compact now" on Brian's phone thread under a question meant for him. After U1, the relay marks that reply as an agent's, the disk alert ignores it and logs the attempt, and only the same words from Brian's own Telegram account are taken as his yes.
+
+## Authority and non-goals
+
+Brian, 2026-10-06: "lets plan it all out. but we should think through why aes's planning and requirements and tests system didnt prevent this?"; "the way this is supposed to work is that this is by default a working ui for me to examine"; "completing the digimon architecture and process tracing is what they should be working on." Authority over the work: Brian. Owners of the pieces: personal-vps (Paperclip, relay, dashboard), AES canonical (checks, plan, AES product changes through `aes plan`), personal-file-infra (the C: drive guard), the Paperclip agents' rules (changed only on Brian's yes, given 2026-10-06 for the what-goes-to-Brian rule).
+
+### Non-goals
+
+- No new dashboard, orchestration layer or approval tool: Paperclip, the relay and AES stay.
+- No WSL restart or disk compaction as part of this plan.
+- No change to who the workers serve (U8 is decided) and no Inside Success work.
+- Not making every repository AES-governed here; that is the aes-planning plan's rollout.
+
+## What exists, and what this plan does with it
+
+**What was searched (2026-10-06):** the hive's own scripts, units and roadmap (`scripts/hive/`, `proposals/hive-brain-v1/`); Paperclip's run records (it already keeps full run logs, `lastUsefulActionAt` and liveness state per run); the ideas register `vision/legacy/project-meta-vision/ARCHITECTURAL_IDEAS.md` (castaway-world's event journal with a parent event on every event; agent_ecology3's authentic-versus-fallback mark on every action; twin's orphan detection); project-meta's capability index (scheduled-unit health checks); external practice (GitOps: the repository describes the system and deploys apply it; OpenTelemetry traces; Arize Phoenix as a self-hosted trace viewer; missed-heartbeat pingers; STPA hazard analysis for unsafe control actions; Nix as the stronger declare-everything option).
+
+| Candidate | Disposition |
+|---|---|
+| Paperclip run records and liveness fields | reuse: joined into traces by run id (U6) and read by the stall alert (U2) |
+| castaway-world parent-event journal, agent_ecology3 authentic/fallback mark | reuse of the pattern: every trace step records its cause and whether it was a real decision (U6) |
+| GitOps (compose files in git, units linked from git, agent rules as files) | reuse: U3 |
+| OpenTelemetry + Arize Phoenix | reuse after one real-session test (U6) |
+| STPA | reuse as the method for must-never rules (U5) |
+| aes-planning's commit rule and adoption gate | reuse: this plan's own commits and acceptance go through them |
+| Nix | rejected for now: it rebuilds both machines; revisit if drift recurs after U3 and U4 |
+
+Parallel-implementation check: before U6 and U7, search `scripts/`, personal-vps and project-meta for any second trace store or stall alert, and list the result in the unit's evidence.
 
 ## What went wrong on 2026-10-06
 
@@ -41,6 +92,10 @@ AES is plan-first, and stays so: the plan declares what should exist, and anythi
 
 Prior art reused: OpenTelemetry (trace format), Claude Code's built-in OpenTelemetry export, Arize Phoenix (self-hosted trace viewer), a missed-heartbeat pinger, STPA, and Paperclip's own run logs and liveness fields. From Brian's own earlier projects (ideas register `vision/legacy/project-meta-vision/ARCHITECTURAL_IDEAS.md`): castaway-world's event journal with a parent event on every event (causality you can audit without re-running), agent_ecology3's mark on every action saying whether it was a real decision or a stand-in (a "succeeded" no-op would carry that mark), and twin's automatic orphan detection.
 
+## Design notes
+
+**No model call is added by this plan**; the relay's author check, the stall alert, the drift check and the trace queries are deterministic. **No empirical comparison is proposed**: U6's one real-session test checks that Phoenix accepts the traces, it does not compare tools.
+
 ## Plan
 
 Fix the instance first (U0 to U2), then the causes (U3 to U9). Each unit names the check that shows it done.
@@ -60,6 +115,35 @@ Fix the instance first (U0 to U2), then the causes (U3 to U9). Each unit names t
 | U10 | Review the whole trace, not the output: AES evidence for a criterion links the trace it came from; reviews read end to end every failed run, every run that wrote to Brian's channel, and a random sample of runs that "succeeded", because success can be a no-op (on 2026-10-06 the Coordinator "succeeded" twelve times while doing nothing) | G4, G5 | the weekly readout lists the traces read and what each showed; a criterion whose evidence has no trace link shows as weaker in `aes status` | planned |
 
 Order: U1, U2, then U3 and U4 together (U4 needs U3's rules in git to test N1), then U6 (traces), U5 and U7 (must-never rules and the queries that check them, product changes through `aes plan`), U10, U9, and U8 once Brian picks.
+
+## Coordination
+
+| Writer | Owns | Conflict surface | Integration owner and how | Work-unit evidence |
+|---|---|---|---|---|
+| Session building the learning-loop feedback collector (AES #156) | `scripts/learning_loop/`, edits to `scripts/hive/controls.py` and `settings.json` | U2's stall alert and U0's controls changes edit the same `controls.py` | code-71 merges main before each hive change and re-runs `controls.py` | the controls run output after each merge |
+| Paperclip workers (Coordinator, Research and Code Review) | jobs such as BRI-45 in process tracing | U1 and U2 change their rules and container | code-71, through the agents' rules files in git (U3) with Brian's yes for rule changes | read-back of each agent's rules after upload |
+| personal-file-infra (C: drive guard) | `scripts/c-drive-guard` | U1 moves its alert to the bot identity | code-71, one pull request in personal-file-infra | the next alert on BRI-2 posted by the bot account |
+| This session (code-71) | U1–U7, U9, U10 | AES target for the hive outcome (single writer) | integration owner for the plan | per-unit evidence in the Plan table |
+
+## Success, and what would disprove it
+
+**Success:** the done-when list in the goal block, each shown by quoted output; and one week with no hive failure that a declared check missed.
+
+**Disproof:** an agent's reply is again taken as Brian's; a stall over 12 hours is again unreported; a check crash again shows as ok; or a running thing turns up that no plan declared and no check flagged.
+
+## Irreversible actions, deployment and spend
+
+Nothing irreversible: every change is a commit, a container image or a config switch. Deployments (Paperclip image, relay, dashboard, a Phoenix container) go to personal-vps from git by its deploy scripts; owning authority Brian (2026-10-04: "you can deploy anything that doesnt have private information publicly"); rollback is the previous image tag kept on the server and a revert of the deploy commit; containment: deploy only when no agent run is active, health check after each. Spend: none new; Phoenix runs on the existing server. Authorizer for anything above trivial cost: Brian, as a `needs-reply`.
+
+## Uncertainties
+
+| Uncertainty | Owner or evidence that resolves it |
+|---|---|
+| Whether the relay can tell Brian's replies from agents' (Telegram user id vs Paperclip author) | U1: read the relay code and one real reply of each kind |
+| Whether 12 hours is the right stall threshold | U2: replay of 2026-10-05/06 board data, then the first week |
+| Whether Phoenix accepts Claude Code's OpenTelemetry export | U6: one real session sent to it first |
+| Whether the 65 copied laptop units can be linked from git without breaking any | U3: convert one, run it a day, then the rest |
+| Whether the main AES checkout returns to main (the live hive checks run from it) | the session owning `shaping/vision-coverage`; until then U9 moves the services to a copy that follows main |
 
 ## Decisions
 
