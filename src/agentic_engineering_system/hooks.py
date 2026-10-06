@@ -71,6 +71,31 @@ aes topology check --root "$root"
 """
 
 
+_COMMIT_MSG_TEMPLATE = """#!/bin/sh
+{marker}
+# AES commit rule (AP-REQ-001): the first line's tag is checked against facts about
+# the staged change and the plan it names (`aes commit check`). Mode is set in
+# .aes/commit_rule.yaml (observe: log only; enforce: refuse). Regenerate with
+# `aes hooks install`; edits here are overwritten.
+set -e
+root=$(git rev-parse --show-toplevel)
+main=$(cd "$(git rev-parse --git-common-dir)/.." && pwd)
+installer=$(git config --get {config_key} 2>/dev/null) || installer=
+if [ -n "$installer" ] && [ -x "$installer" ]; then
+  aes() {{ "$installer" -m agentic_engineering_system.cli "$@"; }}
+elif [ -x "$root/.venv/bin/aes" ]; then aes() {{ "$root/.venv/bin/aes" "$@"; }}
+elif [ -x "$main/.venv/bin/aes" ]; then aes() {{ "$main/.venv/bin/aes" "$@"; }}
+elif command -v aes >/dev/null 2>&1; then aes() {{ command aes "$@"; }}
+else
+  echo "commit-msg: 'aes' not found (tried {config_key}=${{installer:-<unset>}}," \\
+       "$root/.venv, $main/.venv, PATH)." >&2
+  echo "commit-msg: install AES into the project venv, then rerun 'aes hooks install'." >&2
+  exit 1
+fi
+aes commit check "$1" --root "$root"
+"""
+
+
 class HookInstallError(ValueError):
     """The hook was not installed; the message says why and what to do."""
 
@@ -78,6 +103,11 @@ class HookInstallError(ValueError):
 def render_hook() -> str:
     """The hook body: machine-independent, so the tracked file never churns."""
     return _TEMPLATE.format(marker=MANAGED_MARKER, config_key=INSTALLER_CONFIG_KEY)
+
+
+def render_commit_msg_hook() -> str:
+    """The commit-msg hook body; machine-independent like the pre-commit hook."""
+    return _COMMIT_MSG_TEMPLATE.format(marker=MANAGED_MARKER, config_key=INSTALLER_CONFIG_KEY)
 
 
 def _git(root: Path, *args: str) -> subprocess.CompletedProcess[str]:
@@ -91,13 +121,13 @@ def _is_managed(path: Path) -> bool:
 def _refuse_foreign_hook(path: Path) -> None:
     if path.exists() and not _is_managed(path):
         raise HookInstallError(
-            f"{path}: a pre-commit hook AES did not write already exists; "
+            f"{path}: a {path.name} hook AES did not write already exists; "
             f"merge it by hand or move it away, then rerun `aes hooks install`"
         )
 
 
 def install_hooks(root: Path, interpreter: str | None = None) -> tuple[Path, str | None]:
-    """Write `<root>/.githooks/pre-commit`, set `core.hooksPath` and `aes.installer`.
+    """Write `<root>/.githooks/pre-commit` and `commit-msg`, set `core.hooksPath` and `aes.installer`.
 
     The hook body is machine-independent; the installing interpreter goes into
     this clone's `.git/config` as `aes.installer`, never into the tracked file.
@@ -118,7 +148,9 @@ def install_hooks(root: Path, interpreter: str | None = None) -> tuple[Path, str
         raise HookInstallError(f"{target}: target absent; the hook would fail every commit")
 
     hook = root / HOOKS_DIR / "pre-commit"
+    commit_msg = root / HOOKS_DIR / "commit-msg"
     _refuse_foreign_hook(hook)
+    _refuse_foreign_hook(commit_msg)
     current = _git(root, "config", "--local", "--get", "core.hooksPath")
     if current.returncode == 0 and current.stdout.strip() not in (HOOKS_DIR, HOOKS_DIR + "/"):
         raise HookInstallError(
@@ -131,10 +163,13 @@ def install_hooks(root: Path, interpreter: str | None = None) -> tuple[Path, str
         # not refused, because the governed-repo convention is a local hooksPath.
         common = _git(root, "rev-parse", "--git-common-dir")
         _refuse_foreign_hook(root / common.stdout.strip() / "hooks" / "pre-commit")
+        _refuse_foreign_hook(root / common.stdout.strip() / "hooks" / "commit-msg")
 
     hook.parent.mkdir(exist_ok=True)
     hook.write_text(render_hook(), encoding="utf-8")
     hook.chmod(0o755)
+    commit_msg.write_text(render_commit_msg_hook(), encoding="utf-8")
+    commit_msg.chmod(0o755)
     configured = _git(root, "config", "--local", "core.hooksPath", HOOKS_DIR)
     if configured.returncode != 0:
         raise HookInstallError(f"{root}: git config core.hooksPath failed: {configured.stderr.strip()}")
