@@ -8,7 +8,7 @@ Checks, one line each:
     values and env keys, and has no AI-connection binding; no extra agents;
   - Jev gate mode (~/.jev-gate/mode, default observe) and the rule K1 guard
     (~/.local/bin/jev-gate-worktree-guard, wired into ~/.local/bin/jev-gate-hook);
-  - CC Safety Net enabled in ~/.claude/settings.json;
+  - CC Safety Net enabled in ~/.claude/settings.json (as the plugin or a direct hook);
   - each named timer is enabled (WSL user timers here, VPS timers over ssh).
 Exit status: 0 = live matches the file, 1 = a difference (each printed as
 DIFF), 2 = a source could not be read (UNKNOWN).
@@ -68,8 +68,12 @@ def main() -> int:
     wired = guard.exists() and os.access(guard, os.X_OK) and hook.exists() and "jev-gate-worktree-guard" in hook.read_text()
     check("rule K1 guard installed and wired", wired, WANT["gates"]["k1_guard_installed"])
     try:
-        plugins = json.loads((Path.home() / ".claude/settings.json").read_text()).get("enabledPlugins", {})
-        check("CC Safety Net enabled", bool(plugins.get(WANT["gates"]["cc_safety_net_plugin"])), True)
+        claude = json.loads((Path.home() / ".claude/settings.json").read_text())
+        plugin_on = bool(claude.get("enabledPlugins", {}).get(WANT["gates"]["cc_safety_net_plugin"]))
+        # Since 2026-10 it can run as a direct PreToolUse hook (with a cwd fallback
+        # wrapper) and the plugin entry is off so it does not run twice; either counts.
+        hook_on = "cc-safety-net" in json.dumps(claude.get("hooks", {}))
+        check("CC Safety Net enabled", plugin_on or hook_on, True)
     except (OSError, ValueError) as e:
         unknown.append("Claude settings")
         print(f"UNKNOWN CC Safety Net: {e}")
