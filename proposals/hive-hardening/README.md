@@ -44,15 +44,16 @@ Brian, 2026-10-06: "lets plan it all out. but we should think through why aes's 
 
 **What was searched (2026-10-06):** the hive's own scripts, units and roadmap (`scripts/hive/`, `proposals/hive-brain-v1/`); Paperclip's run records (it already keeps full run logs, `lastUsefulActionAt` and liveness state per run); the ideas register `vision/legacy/project-meta-vision/ARCHITECTURAL_IDEAS.md` (castaway-world's event journal with a parent event on every event; agent_ecology3's authentic-versus-fallback mark on every action; twin's orphan detection); project-meta's capability index (scheduled-unit health checks); external practice (GitOps: the repository describes the system and deploys apply it; OpenTelemetry traces; Arize Phoenix as a self-hosted trace viewer; missed-heartbeat pingers; STPA hazard analysis for unsafe control actions; Nix as the stronger declare-everything option).
 
-| Candidate | Disposition |
-|---|---|
-| Paperclip run records and liveness fields | reuse: joined into traces by run id (U6) and read by the stall alert (U2) |
-| castaway-world parent-event journal, agent_ecology3 authentic/fallback mark | reuse of the pattern: every trace step records its cause and whether it was a real decision (U6) |
-| GitOps (compose files in git, units linked from git, agent rules as files) | reuse: U3 |
-| OpenTelemetry + Arize Phoenix | reuse after one real-session test (U6) |
-| STPA | reuse as the method for must-never rules (U5) |
-| aes-planning's commit rule and adoption gate | reuse: this plan's own commits and acceptance go through them |
-| Nix | rejected for now: it rebuilds both machines; revisit if drift recurs after U3 and U4 |
+| Candidate | Owner | Disposition |
+|---|---|---|
+| Paperclip run records and liveness fields | Paperclip (upstream), deployed by personal-vps | reuse: joined into traces by run id (U6) and read by the stall alert (U2) |
+| castaway-world parent-event journal, agent_ecology3 authentic/fallback mark | Brian's repositories castaway-world and agent_ecology3 | reuse of the pattern only: every trace step records its cause and whether it was a real decision (U6) |
+| GitOps (compose files in git, units linked from git, agent rules as files) | external practice; personal-vps already follows it for 27 of 30 containers | extend: to the remaining containers, laptop units and agent rules (U3) |
+| OpenTelemetry + Arize Phoenix | OpenTelemetry project; Arize (open source) | compose: Claude Code's built-in export into a Phoenix container, after one real-session test (U6) |
+| STPA | external method (Leveson, MIT) | reuse as the method for must-never rules (U5) |
+| aes-planning's commit rule and adoption gate | AES canonical; company-planning | reuse: this plan's own commits and acceptance go through them |
+| project-meta scheduled-unit health checks | project-meta (legacy) | supersede for the hive: `controls.py` plus the stall alert own the hive's silence checks |
+| Nix | external (NixOS, home-manager) | bounded exception: not adopted in this plan because it rebuilds both machines; the exception ends if drift recurs after U3 and U4, when Nix is reconsidered |
 
 Parallel-implementation check: before U6 and U7, search `scripts/`, personal-vps and project-meta for any second trace store or stall alert, and list the result in the unit's evidence.
 
@@ -94,7 +95,9 @@ Prior art reused: OpenTelemetry (trace format), Claude Code's built-in OpenTelem
 
 ## Design notes
 
-**No model call is added by this plan**; the relay's author check, the stall alert, the drift check and the trace queries are deterministic. **No empirical comparison is proposed**: U6's one real-session test checks that Phoenix accepts the traces, it does not compare tools.
+**Model calls are central to the system this plan protects**, though the plan adds none of its own. The call graph: Paperclip wakes each agent (Coordinator on claude-sonnet-5, Research and Code Review on claude-opus-5, Brian Contact) as a Claude Code session; each run reads its task thread and rules, calls tools, and ends in task comments, commits or a message on BRI-2. The structured boundary each run returns is Paperclip's run record (status, error code, usage, `lastUsefulActionAt`, liveness, full log), and every message an agent posts carries its author, which U1's author check reads. Tracing: Paperclip's run logs today; one OpenTelemetry trace per run joined by run id after U6. Provider and spend authority: Brian's existing Claude subscription on the server (Paperclip's per-agent model setting; no API spend added). Authentic-run condition before U1 counts as done: a real Coordinator run, after the change, that sees a `needs-reply` question on BRI-2 and does not answer it, shown in its run log; and a real Brian reply accepted by the relay.
+
+The relay's author check, the stall alert, the drift check and the trace queries are deterministic. **No empirical comparison is proposed**: U6's one real-session test checks that Phoenix accepts the traces, it does not compare tools.
 
 ## Plan
 
@@ -118,12 +121,12 @@ Order: U1, U2, then U3 and U4 together (U4 needs U3's rules in git to test N1), 
 
 ## Coordination
 
-| Writer | Owns | Conflict surface | Integration owner and how | Work-unit evidence |
-|---|---|---|---|---|
-| Session building the learning-loop feedback collector (AES #156) | `scripts/learning_loop/`, edits to `scripts/hive/controls.py` and `settings.json` | U2's stall alert and U0's controls changes edit the same `controls.py` | code-71 merges main before each hive change and re-runs `controls.py` | the controls run output after each merge |
-| Paperclip workers (Coordinator, Research and Code Review) | jobs such as BRI-45 in process tracing | U1 and U2 change their rules and container | code-71, through the agents' rules files in git (U3) with Brian's yes for rule changes | read-back of each agent's rules after upload |
-| personal-file-infra (C: drive guard) | `scripts/c-drive-guard` | U1 moves its alert to the bot identity | code-71, one pull request in personal-file-infra | the next alert on BRI-2 posted by the bot account |
-| This session (code-71) | U1–U7, U9, U10 | AES target for the hive outcome (single writer) | integration owner for the plan | per-unit evidence in the Plan table |
+| Writer | Owns | Depends on | Conflict surface | Integration owner and how | Work-unit evidence |
+|---|---|---|---|---|---|
+| Session building the learning-loop feedback collector (AES #156) | `scripts/learning_loop/`, edits to `scripts/hive/controls.py` and `settings.json` | AES main and the hive's controls.py as merged | U2's stall alert and U0's controls changes edit the same `controls.py` | code-71 merges main before each hive change and re-runs `controls.py` | the controls run output after each merge |
+| Paperclip workers (Coordinator, Research and Code Review) | jobs such as BRI-45 in process tracing | the Paperclip container image and their rules files; the weekly plan for job sources | U1 and U2 change their rules and container | code-71, through the agents' rules files in git (U3) with Brian's yes for rule changes | read-back of each agent's rules after upload |
+| personal-file-infra (C: drive guard) | `scripts/c-drive-guard` | Telegram bot credentials on the laptop; the relay's author check (U1) | U1 moves its alert to the bot identity | code-71, one pull request in personal-file-infra | the next alert on BRI-2 posted by the bot account |
+| This session (code-71) | U1–U7, U9, U10 | Company Planning's gate; personal-vps deploy scripts; Brian's yes for agent-rule changes | AES target for the hive outcome (single writer) | integration owner for the plan | per-unit evidence in the Plan table |
 
 ## Success, and what would disprove it
 
@@ -133,7 +136,7 @@ Order: U1, U2, then U3 and U4 together (U4 needs U3's rules in git to test N1), 
 
 ## Irreversible actions, deployment and spend
 
-Nothing irreversible: every change is a commit, a container image or a config switch. Deployments (Paperclip image, relay, dashboard, a Phoenix container) go to personal-vps from git by its deploy scripts; owning authority Brian (2026-10-04: "you can deploy anything that doesnt have private information publicly"); rollback is the previous image tag kept on the server and a revert of the deploy commit; containment: deploy only when no agent run is active, health check after each. Spend: none new; Phoenix runs on the existing server. Authorizer for anything above trivial cost: Brian, as a `needs-reply`.
+Nothing irreversible: every change is a commit, a container image or a config switch. **No private information becomes public:** the Paperclip board, the relay and the hive dashboard stay behind their existing sign-in (Paperclip password, Cloudflare Access); nothing in this plan publishes content or adds a public surface; credentials stay in the server's `.env` files and `~/.secrets`, never in git. Deployments (Paperclip image, relay, dashboard, a Phoenix container) go to personal-vps from git by its deploy scripts; owning authority Brian (2026-10-04: "you can deploy anything that doesnt have private information publicly"); rollback is the previous image tag kept on the server and a revert of the deploy commit; containment: deploy only when no agent run is active, health check after each. Spend: none new; Phoenix runs on the existing server. Authorizer for anything above trivial cost: Brian, as a `needs-reply`.
 
 ## Uncertainties
 
