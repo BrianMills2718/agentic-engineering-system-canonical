@@ -176,7 +176,8 @@ def plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]:
     if not receipt_ref:
         return False, f"{plan}: no method_conformance_receipt in front matter (not adopted through Company Planning)"
     receipt = plan_root / receipt_ref
-    decision = receipt.with_name(receipt.name.removesuffix(".json") + ".adoption-decision.json")
+    # Company Planning's decision_path_for: drop ".json", then a trailing ".receipt"
+    decision = receipt.with_name(receipt.name.removesuffix(".json").removesuffix(".receipt") + ".adoption-decision.json")
     if not (receipt.is_file() and decision.is_file()):
         return False, f"{plan}: receipt or adoption decision missing ({receipt_ref})"
     record = json.loads(decision.read_text(encoding="utf-8"))
