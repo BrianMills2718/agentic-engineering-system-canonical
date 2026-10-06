@@ -1,7 +1,7 @@
 schema_version: aes.v0_2.observation.probe0
-observation_id: OBS-AP-COMMIT-RULE-RUNTIME-b023fb0
+observation_id: OBS-AP-COMMIT-RULE-RUNTIME-8ace3cd
 subject_refs: [SC-AP-001, ART-SRC-COMMIT-RULE, ART-SRC-HOOKS]
-subject_revision: b023fb021da45075e9ed0df7d985d69b201f2603
+subject_revision: 8ace3cd804bf6ecd820175b5d643e426346f5c75
 # What the run executed: the rule, the hooks it installed, and the command surface.
 dependency_paths:
   - src/agentic_engineering_system/commit_rule.py
@@ -14,7 +14,7 @@ observer:
     boundary for ER-AP-001-02 names; not an independent reviewer.
   version: Claude Opus 5.5
 method: >
-  In AES canonical, on throwaway branch scratch/commit-rule-demo2 cut from b023fb0, with the tracked
+  In AES canonical, by proposals/aes-planning/evidence/run_p4_live.sh on a throwaway branch cut from 8ace3cd, with the tracked
   hooks as committed (they run the working copy's own code; no PYTHONPATH or other override),
   `.aes/commit_rule.yaml` switched to enforce in the scratch copy only, then real `git commit` runs: Dockerfile + compose.yaml as "[Unplanned] add worker tools";
   the same staged change as "[Goal aes-planning] U2: worker tools" (the real Company Planning receipt of
@@ -23,7 +23,7 @@ method: >
   canonical and over personal-vps, and each refused commit re-judged as if tagged [Trivial] to measure
   how much history the trivial lane covers.
 execution_state: COMPLETED
-produced_at: 2026-10-06T20:15:00+00:00
+produced_at: 2026-10-06T20:45:00+00:00
 result:
   unplanned_running_thing: "exit 1: refuse [Unplanned] ... touches running-thing file(s) Dockerfile, compose.yaml and needs a plan"
   goal_with_adopted_receipt: "exit 0: accept [Goal aes-planning] - plan aes-planning adopted (proposals/aes-planning/README.md)"
@@ -40,7 +40,8 @@ result:
     running-thing files; with an [Unplanned] tag and no Emergency line it would be refused for those files
     (the same rule as the live Dockerfile case above).
 retained_artifact_refs:
-  - proposals/aes-planning/evidence/p4-canonical-example-transcript-b023fb0.txt
+  - proposals/aes-planning/evidence/p4-canonical-example-transcript-8ace3cd.txt
+  - proposals/aes-planning/evidence/run_p4_live.sh
   - proposals/aes-planning/evidence/p4-canonical-example-transcript.txt
   - proposals/aes-planning/evidence/p4-replay-aes-canonical-300.txt
   - proposals/aes-planning/evidence/p4-replay-personal-vps-300.txt
@@ -58,4 +59,3 @@ assessments:
     assessor:
       identity: the same session, scoring its own run against the external boundary in .aes/target.yaml
       version: Claude Opus 5.5
-superseded_by: OBS-AP-COMMIT-RULE-RUNTIME-8ace3cd

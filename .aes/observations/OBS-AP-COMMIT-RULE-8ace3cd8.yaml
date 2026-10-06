@@ -1,8 +1,8 @@
 schema_version: aes.v0_2.observation.probe0
-observation_id: OBS-AP-COMMIT-RULE-b023fb02
+observation_id: OBS-AP-COMMIT-RULE-8ace3cd8
 subject_refs:
 - VS-AP-COMMIT-RULE
-subject_revision: b023fb021da45075e9ed0df7d985d69b201f2603
+subject_revision: 8ace3cd804bf6ecd820175b5d643e426346f5c75
 dependency_paths:
 - src/agentic_engineering_system/__init__.py
 - src/agentic_engineering_system/characterize.py
@@ -54,7 +54,7 @@ dependency_target_refs:
 - ART-V01---INIT---PY
 observer: &id001
   identity: aes evidence record
-  version: '0.1.dev535+g618a6e475 (running: b023fb0)'
+  version: '0.1.dev535+g618a6e475 (running: 8ace3cd)'
 method: 
   /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-planning/.venv/bin/python -m 
   pytest -q tests/greenfield/test_commit_rule.py
@@ -62,12 +62,11 @@ execution_state: COMPLETED
 result:
   exit_code: 0
   output_tail: "...............                                                          [100%]\n15 passed
-    in 89.19s (0:01:29)"
-produced_at: '2026-10-06T20:14:16+00:00'
+    in 53.48s"
+produced_at: '2026-10-06T20:28:35+00:00'
 assessments:
 - evidence_requirement_ref: ER-AP-001-01
   assessment: SUPPORTS
   basis: "VS-AP-COMMIT-RULE (prove each tag's verdict on real staged commits through the installed hook)
     passed: exit 0"
   assessor: *id001
-superseded_by: OBS-AP-COMMIT-RULE-8ace3cd8
