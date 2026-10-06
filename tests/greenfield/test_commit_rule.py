@@ -12,6 +12,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -142,13 +143,10 @@ def test_trivial_is_measured_not_trusted(repo: Path, files: dict[str, str], reas
     for rel, text in files.items():
         _write(repo, rel, text)
         _git(repo, "add", rel)
-    done = _git(repo, "commit", "--no-verify", "-m", "[Trivial] small thing")
-    # --no-verify skips commit-msg too, so run the hook's command directly on the staged change
-    assert done.returncode == 0  # the bypass itself is outside the rule's reach; see the next assertion
-    _git(repo, "reset", "--soft", "HEAD~1")
+    # the same command the installed hook runs, on the staged change, before any commit
     msg = repo / ".git" / "MSG"
     msg.write_text("[Trivial] small thing\n", encoding="utf-8")
-    checked = subprocess.run([ENV.get("PYTHON", "python3"), "-m", "agentic_engineering_system.cli", "commit", "check",
+    checked = subprocess.run([sys.executable, "-m", "agentic_engineering_system.cli", "commit", "check",
                               str(msg), "--root", str(repo)], cwd=repo, capture_output=True, text=True, env=ENV)
     assert checked.returncode == 1
     assert reason in checked.stderr
