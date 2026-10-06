@@ -24,6 +24,13 @@ review_page: proposals/aes-planning/review-page/aes-planning-plan.html
 - 2026-10-06: "in general we want to be upfront planning what is optimal then using /goal ... company planning ... should generate the /goal text where it is known as part of the plans."
 - 2026-10-06: "once we get aes canonical working we refactor all my projects into aes and force all work going forward into aes compliance."
 
+### Non-goals (what this plan will not do)
+
+- No new planning method, route engine, renderer or approval tool.
+- No Stop hook; enforcement is at commit, merge, plan adoption and claim admission only.
+- Not migrating every repository in this plan; it does AES canonical and the first cases, and makes migration mechanical for the rest.
+- No change to what reaches Brian (`proposals/hive-hardening/WHAT_GOES_TO_BRIAN.md` stays the rule); emergencies use its `fyi` label.
+
 Authority over the work: Brian. Owners of the touched pieces: Company Planning (`BrianMills2718/company-planning`, the method and its adoption gate), AES canonical (`aes plan accept`, the pre-commit hook), the shared commit-message hook (`project-meta/hooks/commit-msg`, installed in 22 repositories; project-meta is legacy, so its rule moves into AES and the hook reads it from there).
 
 ## What exists, and what this plan does with it
@@ -39,6 +46,8 @@ Authority over the work: Brian. Owners of the touched pieces: Company Planning (
 | `/goal` objective shape | `authoring-goals` skill, "Goal Objective" | **reuse** as the template the gate fills |
 | Enforced Planning plan admission (observe mode) | vendored in AES, `meta-process.yaml` `plans.integrity` | **supersede** for repositories under AES planning |
 
+**What was searched (2026-10-06):** ownership: `project-meta/PROJECT_GRAPH.json` and the coordination claims for company-planning, project-meta and AES canonical; internal lineage: the ideas register `vision/legacy/project-meta-vision/ARCHITECTURAL_IDEAS.md` (closest: data-contracts' governed lifecycle, which separates proposal, authority decision and receipt into hash-bound stages, the same shape as plan, adoption decision and receipt here; adopted as the pattern, no code reused), Company Planning's contracts and scripts, AES's `meta-process.yaml` and branches, project-meta's hooks; external practice: commit-message hooks that require a ticket or issue key on every commit (the common Jira-key and conventional-commits patterns) and required-status-check merge gates. Disposition of external practice: the pattern is reused through the existing commit-message hook; no external tool is added, because the hook already exists in 22 repositories and the receipt it must check is specific to Company Planning.
+
 Nothing new is built where an existing piece covers it. The parallel-implementation check: after U3, a search across the installed hooks for any second commit-tag validator, and the gate's own test that an `[Unplanned]` commit with a running-thing file is refused by exactly one hook.
 
 ## Design
@@ -53,6 +62,8 @@ Nothing new is built where an existing piece covers it. The parallel-implementat
    - Rollout: one week in observe mode (log what would be refused, refuse nothing), then enforce, repository by repository, starting with AES canonical.
 5. **First real cases.** The hive-hardening plan (AES `shaping/hive-hardening`) is re-planned through this gate, then whygame5 (already AES), then DIGIMON and process tracing (where the workers are), then the rest.
 
+**No empirical comparison is proposed.** The observe week and the 300-commit replay measure one design's false-refusal rate against its own thresholds; no alternative design, tool or model is compared with it, and no benchmark decides anything.
+
 ## Work units
 
 | ID | Change | Where | Done when |
@@ -66,12 +77,12 @@ Nothing new is built where an existing piece covers it. The parallel-implementat
 
 ## Coordination
 
-| Writer | Owns | Conflict surface with this plan | Integration |
-|---|---|---|---|
-| Session holding claim `company-planning:plan-48-method-conformance` (adoption gate, merged as company-planning #40; claim still open) | `plugins/company-planning/contracts/method-conformance`, `scripts/method_conformance`, `tests/test_method_conformance.py` | P1 (profile overlay) and P2 (`adopt` writes goal text) edit the same files | messaged with this plan before P1; P1/P2 start only after its claim is closed or it agrees in a reply; then one pull request each in company-planning |
-| Session that wrote the situation-checklists policy (project-meta #2394) | the policy entry and its enforcement matrix | P4 is that policy's enforcement at commit for implementation work | P4 records itself against that policy entry; no change to the policy text |
-| Session moving company-planning's canonical source back to BrianMills2718 (#43) | install source, updater, docs | none in code; P1/P2 must land in BrianMills2718/company-planning, not the Inside-Success copy | check the remote before the first P1 push |
-| This session (code-71) | the AES pieces: P3, P4's rule file, P5, P6 | `.aes/target.yaml` and the governed roots (single writer, checked by claims before P3) | integration owner for the plan as a whole; work-unit evidence per row of "Work units" |
+| Writer | Owns | Conflict surface with this plan | Integration owner and how | Work-unit evidence |
+|---|---|---|---|---|
+| Session holding claim `company-planning:plan-48-method-conformance` (adoption gate, merged as company-planning #40; claim still open) | `plugins/company-planning/contracts/method-conformance`, `scripts/method_conformance`, `tests/test_method_conformance.py` | P1 (profile overlay) and P2 (`adopt` writes goal text) edit the same files | code-71 (this session) integrates, after the plan-48 owner's reply or claim closure; messaged with this plan before P1; P1/P2 start only after its claim is closed or it agrees in a reply; then one pull request each in company-planning | P1 and P2 pull requests in BrianMills2718/company-planning with `tests/test_method_conformance.py` passing, and the claim's reply or closure quoted on the pull request |
+| Session that wrote the situation-checklists policy (project-meta #2394) | the policy entry and its enforcement matrix | P4 is that policy's enforcement at commit for implementation work | code-71 integrates; the policy owner is told after P4 lands; P4 records itself against that policy entry; no change to the policy text | P4's observe log and its policy-registry reference to `situation-declared-checklists` |
+| Session moving company-planning's canonical source back to BrianMills2718 (#43) | install source, updater, docs | none in code; P1/P2 must land in BrianMills2718/company-planning, not the Inside-Success copy | code-71 checks before pushing; check the remote before the first P1 push | the git remote of the P1/P2 push is `BrianMills2718/company-planning` |
+| This session (code-71) | the AES pieces: P3, P4's rule file, P5, P6 | `.aes/target.yaml` and the governed roots (single writer, checked by claims before P3) | code-71; integration owner for the plan as a whole; work-unit evidence per row of "Work units" | P3, P5 and P6 evidence recorded with `aes evidence record`; P4's replay listing |
 
 ## Success, and what would disprove it
 
@@ -84,7 +95,7 @@ Nothing new is built where an existing piece covers it. The parallel-implementat
 
 ## Irreversible actions and spend
 
-None irreversible: every piece is a commit or a config switch, and observe mode refuses nothing. Hooks change in 22 repositories; rollback is one config value per repository (`observe`/`off`) or reverting the hook commit. Spend: the gate's semantic verifier makes light model calls through the shared LLM client on Brian's OpenRouter route, under one dollar per plan; no new paid service.
+None irreversible: every piece is a commit or a config switch, and observe mode refuses nothing. Hooks change in 22 repositories; rollback is one config value per repository (`observe`/`off`) or reverting the hook commit. Spend: the gate's semantic verifier makes light model calls through the shared LLM client on Brian's OpenRouter route, under one dollar per plan; no new paid service. Authorizer: Brian's standing rule that provider-unspecified model work runs on his OpenRouter route (workspace rules, "LLM and durable contracts") covers it; anything above trivial cost is a `needs-reply` to Brian (item 4 of `WHAT_GOES_TO_BRIAN.md`). Containment: the shared client logs every call and its cost to the day's call log.
 
 ## Uncertainties
 
@@ -95,10 +106,3 @@ None irreversible: every piece is a commit or a config switch, and observe mode 
 | Whether the gate's semantic verifier is reachable from the worker container | P5 run on the VPS; when unavailable the receipt says `unavailable`, never `pass` |
 | Whether other sessions are changing the same Company Planning files | claims check before P1/P2; the plan-48 owner is messaged with this plan |
 | How a plan's own drafting commits are tagged before it is adopted (this plan's first commit had to use `[Unplanned]`) | P4 adds a `[Shaping <plan-id>]` tag allowed only for files under that plan's `proposals/<plan-id>/` folder; checked by the hook from the diff |
-
-## Non-goals
-
-- No new planning method, route engine, renderer or approval tool.
-- No Stop hook; enforcement is at commit, merge, plan adoption and claim admission only.
-- Not migrating every repository in this plan; it does AES canonical and the first cases, and makes migration mechanical for the rest.
-- No change to what reaches Brian (`proposals/hive-hardening/WHAT_GOES_TO_BRIAN.md` stays the rule); emergencies use its `fyi` label.

@@ -1,0 +1,474 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-README-259b4aef82fa",
+  "plan": {
+    "plan_ref": "proposals/aes-planning/README.md",
+    "plan_sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f"
+  },
+  "path_decision": {
+    "ref": "proposals/aes-planning/planning-path-decision.json",
+    "sha256": "cda51f0242ffe3d776892b1e9e580342bcd466dae4a128e18d08fb6a179c4098",
+    "selected_path": "coordinated",
+    "classified_path": "coordinated",
+    "errors": []
+  },
+  "route": "coordinated",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@1",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "b90d291501dcf225b26b41ccd0eac81adffeda979c1d6a8e0c3dbcecb3deca58"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "9e43185f097d145859cb996e6715b750dd2e06a7d5f7715e912e6c8fb927c4fa"
+  },
+  "activation": {
+    "facts_ref": "proposals/aes-planning/activation-facts.json",
+    "facts_sha256": "88187d2962868d45cf17d4dfd1364a96850204c0be8d57db5a2bddb972ff5813",
+    "facts": {
+      "shared_mechanism": true,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "multiple_writers": true,
+      "consequential_boundary": false,
+      "inline_prototype": false
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:explicit_user",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": true,
+        "reason": "shared_mechanism=true (declared:explicit_user)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": true,
+        "reason": "multiple_writers=true (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": false,
+        "reason": "inline_prototype=false (derived:classified_path==prototype)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:90e277e4198c0d8628476551b2e0937768a8083e94843235612988e47b659960",
+    "definition_sha256": "297349e06234606ea206ee2849874f4e681ce40245b739637b6db85c79b005b9",
+    "bundle_ref": "proposals/aes-planning/checklist-bundle.json",
+    "bundle_sha256": "86fd118fd908fdd217a3a28c234ef06e20fbb4d2bbb4676009a6546cd4eb008f",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-planning/README.md#who-it-serves-the-result-one-example",
+          "sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the actor served (Brian and implementation agents), states the desired result (implementation work lands only under an adopted and accepted plan), and gives a stable, concrete, user-visible example involving commit-hook behavior for planned, emergency, and trivial changes."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-planning/planning-path-decision.json#/selected_path",
+          "sha256": "cda51f0242ffe3d776892b1e9e580342bcd466dae4a128e18d08fb6a179c4098"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-planning/README.md#success-and-what-would-disprove-it",
+          "sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines success criteria: commits must carry an adopted-plan reference, pass the triviality check, or have a logged emergency, and the specified work must use generated `/goal` text. It also gives concrete disproof conditions with thresholds for false trivial classifications, commit splitting, emergency frequency, and plan-adoption time."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "unresolved",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "semantic_unresolved"
+      ],
+      "evidence": [
+        {
+          "ref": "proposals/aes-planning/README.md#brians-direction-authority",
+          "sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "unresolved",
+        "materiality": "material",
+        "missing": "Explicit non-goals—what the plan will not do—are not stated.",
+        "rationale": "The evidence explicitly identifies Brian as the authority and lists owners of the touched pieces. It describes intended enforcement and adoption, but does not state what the work explicitly will not do."
+      },
+      "suggested_action": "Add to the plan: Explicit non-goals—what the plan will not do—are not stated."
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "unresolved",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "semantic_unresolved"
+      ],
+      "evidence": [
+        {
+          "ref": "proposals/aes-planning/README.md#irreversible-actions-and-spend",
+          "sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/CORE-IRREVERSIBLE-SPEND",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "unresolved",
+        "materiality": "material",
+        "missing": "The proposed spend does not name who must authorize it. Although it states a boundary of under one dollar per plan and containment through the shared LLM client with no new paid service, it does not identify an authorizer.",
+        "rationale": "The evidence explicitly proposes model-call spend through Brian's OpenRouter route, capped at under one dollar per plan. It does not specify who must authorize that spend, so the requirement is not fully satisfied."
+      },
+      "suggested_action": "Add to the plan: The proposed spend does not name who must authorize it. Although it states a boundary of under one dollar per plan and containment through the shared LLM client with no new paid service, it does not identify an authorizer."
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-planning/README.md#uncertainties",
+          "sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly lists five material uncertainties. Each has an owner or resolution evidence: P4, P5, a claims check with the plan-48 owner, or a specified hook/tagging mechanism."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "unresolved",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "semantic_unresolved"
+      ],
+      "evidence": [
+        {
+          "ref": "proposals/aes-planning/README.md#design",
+          "sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "unresolved",
+        "materiality": "material",
+        "missing": "empirical_comparison_proposed should be true because the plan proposes empirical evaluation through an observe week, replay of the last 300 commits, and explicit success/disproof thresholds. irreversible_or_spend_action should be true because the plan explicitly proposes spend on semantic-verifier LLM calls (under one dollar per plan).",
+        "rationale": "The plan declares both facts false, but it proposes empirical comparison/evaluation and explicitly identifies planned spend. shared_mechanism=true is supported by the new AES overlay, hook rules, and acceptance mechanism; llm_central=false is not contradicted because LLM calls are described as a light verifier rather than the central behavior."
+      },
+      "suggested_action": "Add to the plan: empirical_comparison_proposed should be true because the plan proposes empirical evaluation through an observe week, replay of the last 300 commits, and explicit success/disproof thresholds. irreversible_or_spend_action should be true because the plan explicitly proposes spend on semantic-verifier LLM calls (under one dollar per plan)."
+    },
+    {
+      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "unresolved",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "semantic_unresolved"
+      ],
+      "evidence": [
+        {
+          "ref": "proposals/aes-planning/README.md#what-exists-and-what-this-plan-does-with-it",
+          "sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/OV-PRIOR-ART-DISPOSITION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "unresolved",
+        "materiality": "material",
+        "missing": "Explicit evidence that ownership, internal lineage, and relevant external prior art were searched, especially the external prior-art search and its results. The table lists internal existing pieces and dispositions but does not establish that these search categories were comprehensively performed.",
+        "rationale": "The evidence dispositiones each listed internal piece as reuse, extend, or supersede, and mentions a duplicate-validator search. However, it does not explicitly document searches for ownership, internal lineage, and relevant external prior art, nor disposition any externally found candidates."
+      },
+      "suggested_action": "Add to the plan: Explicit evidence that ownership, internal lineage, and relevant external prior art were searched, especially the external prior-art search and its results. The table lists internal existing pieces and dispositions but does not establish that these search categories were comprehensively performed."
+    },
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "effect": "advisory",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-planning/README.md#what-exists-and-what-this-plan-does-with-it",
+          "sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/OV-PRIOR-ART-PARALLEL-CHECK",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names a concrete structural check: search installed hooks for any second commit-tag validator. It also names a consumer-path test checking that an `[Unplanned]` commit with a running-thing file is refused by exactly one hook."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-COORD-OWNERSHIP",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "unresolved",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "semantic_unresolved"
+      ],
+      "evidence": [
+        {
+          "ref": "proposals/aes-planning/README.md#coordination",
+          "sha256": "259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/OV-COORD-OWNERSHIP",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "unresolved",
+        "materiality": "material",
+        "missing": "Exact work-unit evidence for each concurrent writer is not explicitly provided. The evidence gives work-unit evidence only for \"This session (code-71)\" via the reference to the \"Work units\" table, not for the other three writers; it also does not explicitly name the integration owner for each writer, beyond naming this session as the plan-wide integration owner.",
+        "rationale": "The table explicitly names ownership, conflict surfaces, and integration actions for the listed writers, and identifies this session as the integration owner for the plan as a whole. However, the requirement asks for work-unit evidence for each concurrent writer, and that evidence is only stated for this session."
+      },
+      "suggested_action": "Add to the plan: Exact work-unit evidence for each concurrent writer is not explicitly provided. The evidence gives work-unit evidence only for \"This session (code-71)\" via the reference to the \"Work units\" table, not for the other three writers; it also does not explicitly name the integration owner for each writer, beyond naming this session as the plan-wide integration owner."
+    }
+  ],
+  "item_counts": {
+    "pass": 5,
+    "unresolved": 5,
+    "not_applicable": 0,
+    "unavailable": 0,
+    "missing": 0
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-README-259b4aef82fa",
+    "snapshot_ref": "SNAPSHOT-README",
+    "snapshot_revision": "sha256:86fd118fd908fdd217a3a28c234ef06e20fbb4d2bbb4676009a6546cd4eb008f",
+    "packet_ref": "proposals/aes-planning/README.md",
+    "packet_revision": "sha256:259b4aef82faeb7235f15406304a73d7ba95acf89eeb846ce3cf60581cd64b4f",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [
+      {
+        "diagnostic_id": "DIAG-README-3",
+        "class": "semantic",
+        "severity": "warning",
+        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
+        "message": "CORE-AUTHORITY-NONGOALS: Explicit non-goals—what the plan will not do—are not stated.",
+        "source_locator": "proposals/aes-planning/README.md",
+        "materiality": "material",
+        "suggested_action": "Add to the plan: Explicit non-goals—what the plan will not do—are not stated.",
+        "disposition": "unresolved",
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/CORE-AUTHORITY-NONGOALS"
+      },
+      {
+        "diagnostic_id": "DIAG-README-4",
+        "class": "semantic",
+        "severity": "warning",
+        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
+        "message": "CORE-IRREVERSIBLE-SPEND: The proposed spend does not name who must authorize it. Although it states a boundary of under one dollar per plan and containment through the shared LLM client with no new paid service, it does not identify an authorizer.",
+        "source_locator": "proposals/aes-planning/README.md",
+        "materiality": "material",
+        "suggested_action": "Add to the plan: The proposed spend does not name who must authorize it. Although it states a boundary of under one dollar per plan and containment through the shared LLM client with no new paid service, it does not identify an authorizer.",
+        "disposition": "unresolved",
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/CORE-IRREVERSIBLE-SPEND"
+      },
+      {
+        "diagnostic_id": "DIAG-README-6",
+        "class": "semantic",
+        "severity": "warning",
+        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
+        "message": "CORE-ACTIVATION-FACTS: empirical_comparison_proposed should be true because the plan proposes empirical evaluation through an observe week, replay of the last 300 commits, and explicit success/disproof thresholds. irreversible_or_spend_action should be true because the plan explicitly proposes spend on semantic-verifier LLM calls (under one dollar per plan).",
+        "source_locator": "proposals/aes-planning/README.md",
+        "materiality": "material",
+        "suggested_action": "Add to the plan: empirical_comparison_proposed should be true because the plan proposes empirical evaluation through an observe week, replay of the last 300 commits, and explicit success/disproof thresholds. irreversible_or_spend_action should be true because the plan explicitly proposes spend on semantic-verifier LLM calls (under one dollar per plan).",
+        "disposition": "unresolved",
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/CORE-ACTIVATION-FACTS"
+      },
+      {
+        "diagnostic_id": "DIAG-README-7",
+        "class": "semantic",
+        "severity": "warning",
+        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
+        "message": "OV-PRIOR-ART-DISPOSITION: Explicit evidence that ownership, internal lineage, and relevant external prior art were searched, especially the external prior-art search and its results. The table lists internal existing pieces and dispositions but does not establish that these search categories were comprehensively performed.",
+        "source_locator": "proposals/aes-planning/README.md",
+        "materiality": "material",
+        "suggested_action": "Add to the plan: Explicit evidence that ownership, internal lineage, and relevant external prior art were searched, especially the external prior-art search and its results. The table lists internal existing pieces and dispositions but does not establish that these search categories were comprehensively performed.",
+        "disposition": "unresolved",
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/OV-PRIOR-ART-DISPOSITION"
+      },
+      {
+        "diagnostic_id": "DIAG-README-9",
+        "class": "semantic",
+        "severity": "warning",
+        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
+        "message": "OV-COORD-OWNERSHIP: Exact work-unit evidence for each concurrent writer is not explicitly provided. The evidence gives work-unit evidence only for \"This session (code-71)\" via the reference to the \"Work units\" table, not for the other three writers; it also does not explicitly name the integration owner for each writer, beyond naming this session as the plan-wide integration owner.",
+        "source_locator": "proposals/aes-planning/README.md",
+        "materiality": "material",
+        "suggested_action": "Add to the plan: Exact work-unit evidence for each concurrent writer is not explicitly provided. The evidence gives work-unit evidence only for \"This session (code-71)\" via the reference to the \"Work units\" table, not for the other three writers; it also does not explicitly name the integration owner for each writer, beyond naming this session as the plan-wide integration owner.",
+        "disposition": "unresolved",
+        "trace_id": "company-planning/method-conformance/README/1bce999292d3/OV-COORD-OWNERSHIP"
+      }
+    ],
+    "route": "coordinated",
+    "adoption_readiness": "contributor_disposition_needed",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "fail",
+  "reason_codes": [
+    "semantic_unresolved"
+  ],
+  "actionable_summary": [
+    "CORE-AUTHORITY-NONGOALS: semantic_unresolved -> Add to the plan: Explicit non-goals—what the plan will not do—are not stated.",
+    "CORE-IRREVERSIBLE-SPEND: semantic_unresolved -> Add to the plan: The proposed spend does not name who must authorize it. Although it states a boundary of under one dollar per plan and containment through the shared LLM client with no new paid service, it does not identify an authorizer.",
+    "CORE-ACTIVATION-FACTS: semantic_unresolved -> Add to the plan: empirical_comparison_proposed should be true because the plan proposes empirical evaluation through an observe week, replay of the last 300 commits, and explicit success/disproof thresholds. irreversible_or_spend_action should be true because the plan explicitly proposes spend on semantic-verifier LLM calls (under one dollar per plan).",
+    "OV-PRIOR-ART-DISPOSITION: semantic_unresolved -> Add to the plan: Explicit evidence that ownership, internal lineage, and relevant external prior art were searched, especially the external prior-art search and its results. The table lists internal existing pieces and dispositions but does not establish that these search categories were comprehensively performed.",
+    "OV-COORD-OWNERSHIP: semantic_unresolved -> Add to the plan: Exact work-unit evidence for each concurrent writer is not explicitly provided. The evidence gives work-unit evidence only for \"This session (code-71)\" via the reference to the \"Work units\" table, not for the other three writers; it also does not explicitly name the integration owner for each writer, beyond naming this session as the plan-wide integration owner."
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "claude-code",
+    "session": "code-71"
+  },
+  "started_at": "2026-10-06T19:27:01Z",
+  "completed_at": "2026-10-06T19:27:10Z",
+  "duration_ms": 9032
+}
