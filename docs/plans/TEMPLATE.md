@@ -113,6 +113,19 @@ If no additional research beyond repo-local references was needed, write:
 
 **Alternatives:** Adopt, extend, build, buy, defer, or reject the relevant options.
 
+**Apparent-novelty check:** If any required capability or proposed abstraction
+appears to lack an established owner, do not treat that as a positive novelty
+claim. Record it as unresolved search debt and try to falsify the novelty before
+building: alternate terminology/standards, adjacent disciplines/ecosystems,
+structural analogues, mature compositions/adapters, internal/historical attempts,
+failed or abandoned approaches, and requirement/frame challenge. For consequential
+custom machinery, summarize what survived that search and state the smallest
+residual that truly needs local implementation.
+
+**Residual invention:** [none | bounded residual]. If bounded residual, name the
+exact uncovered behavior, why existing options/compositions are insufficient,
+and what evidence or future provider would let this custom behavior be removed.
+
 **Project implications:** State which assumptions, requirements, boundaries,
 architecture, ADRs, or plan decisions change because of the comparison.
 
