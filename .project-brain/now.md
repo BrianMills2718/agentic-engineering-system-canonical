@@ -1,5 +1,15 @@
 # Now (2026-10-04, hive-brain session)
 
+**Feedback collector (2026-10-06):** a nightly job on Brian's PC now reads
+every changed Claude Code and Codex transcript, collects closeout Learnings,
+Concerns, Policy and Decisions fields, Brian's corrections and friction, labels
+each with Jev, writes one line per item to
+`~/projects/data/feedback-collector/items-<date>.jsonl`, and files sure
+learning/friction/correction items to the project-meta learnings register
+(at most 25 a night). Code: `scripts/learning_loop/collect_feedback.py`; design
+and wrong-when: `proposals/aes-learning-loop/DESIGN.md` ("Input: the nightly
+feedback collector"); silence check in `scripts/hive/controls.py`.
+
 **Stopped at (2026-10-04 16:20 UTC):** hive brain v1 has seven merged jobs;
 conditions 1 (pilot) and 3 (learning loop) are met. Rule K1 blocked real work
 and its wrong block came back as friction issue #137. Still open: governance
