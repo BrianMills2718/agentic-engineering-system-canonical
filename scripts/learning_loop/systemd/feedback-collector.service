@@ -1,0 +1,17 @@
+[Unit]
+Description=Nightly feedback collector: Claude Code and Codex transcripts -> daily feedback log -> learnings register
+Documentation=https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/proposals/aes-learning-loop/DESIGN.md
+
+[Service]
+Type=oneshot
+# Same clone of AES main as hive-controls (never the shared ~/code checkout, which other
+# sessions switch to their own branches); refreshed before every run.
+WorkingDirectory=%h/.hive-brain/aes
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes fetch --quiet --depth 1 origin main
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes reset --quiet --hard FETCH_HEAD
+Environment=FEEDBACK_OUT=%h/projects/data/feedback-collector
+# llm_client from Brian's checkout, through uv's shared cache. The script opens a keyed agent
+# concern itself (notify_operator.py) on exit 1 or 2, so a failed unit is also visible here.
+ExecStart=%h/.local/bin/uv run --quiet --no-project --with-editable %h/code/llm_client python %h/.hive-brain/aes/scripts/learning_loop/collect_feedback.py --file --max-file 25
+TimeoutStartSec=2h
+Nice=10

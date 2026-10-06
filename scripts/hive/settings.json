@@ -53,7 +53,8 @@
   },
   "timers": {
     "wsl_user": [
-      "hive-controls.timer"
+      "hive-controls.timer",
+   "feedback-collector.timer"
     ],
     "personal_vps": [
       "learning-loop.timer",

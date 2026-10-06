@@ -156,10 +156,40 @@ is the recommendation.
 | # | Slice | State |
 |---|---|---|
 | 1 | Move the taxonomy in; create the labels; label the legacy archive with Jev (report counts per family and `fact`, `other`); check against judged items | done 2026-10-02: v1 then v2 (issue #64) |
-| 2 | New items → issues: agents file `kind:*` issues; a weekly run labels them and posts the run summary | built 2026-10-02: `label_items.py issues` labelled #64, #71–#73 (4 filed, $0.0004); weekly timer on personal-vps posts to issue #74. Open: agents filing items on their own (the `learned` skill still writes to project-meta) |
+| 2 | New items → issues: agents file `kind:*` issues; a weekly run labels them and posts the run summary | built 2026-10-02: `label_items.py issues` labelled #64, #71–#73 (4 filed, $0.0004); weekly timer on personal-vps posts to issue #74. Open: agents filing items on their own (the `learned` skill still writes to project-meta). Input side added 2026-10-06: the nightly feedback collector (below) files what closeouts and transcripts carry into that same project-meta register, so the register, not issues, is still the one recurring input (`docs/failure-modes.md`) |
 | 3 | Threshold → drafted AES plan proposal → `Decision:` item for Brian | conditional on slice 1 counts (sets the threshold) |
 | 4 | Accepted action rules compiled into the Jev gate's `policy.local.json`; gate false asks and blocks → `kind:friction` issues | conditional on the gate's observe-mode log |
 | 5 | Level-2 and level-3 controls as normative items; trigger evaluation | human_decision_required (level-3 list) |
+
+## Input: the nightly feedback collector (2026-10-06)
+
+Brian approved it 2026-10-06 ("ok do that") after finding that closeout
+**Learnings**, **Concerns**, **Policy** and **Decisions** fields, his own
+corrections, and friction agents mention in passing reached no log unless an
+agent ran the `learned` skill by hand.
+
+`scripts/learning_loop/collect_feedback.py` (pure parsing in `transcripts.py`)
+runs nightly from `feedback-collector.timer` on Brian's PC (units in
+`scripts/learning_loop/systemd/`, installed like `scripts/hive/systemd/`):
+
+| Step | How | Disposition |
+|---|---|---|
+| Read new transcript bytes (Claude Code `~/.claude/projects/*/*.jsonl`, Codex `~/.codex/sessions/**`) | byte offsets in `state.sqlite`; only complete lines | residual (claude-miner and llm_client's `tool_usage` parse tool calls, not message text) |
+| Closeout fields | code: the fixed bold headings; `None` fields counted and skipped; a field naming a register entry is marked already recorded | residual |
+| Corrections, friction, in-passing learnings in interactive sessions | light LLM (`deepseek-v4-flash`) through `llm_client` structured output; a quote not found verbatim in the window is dropped and counted | configure |
+| Kind (learning / friction / correction / concern / noise) | Jev `call_decisions` choice question | configure |
+| Already in the register? | nearest entry by word overlap, then Jev's probability that it states the same lesson. **Annotation only**: Jev's stance accuracy was weak in Brian's own test (6/15, inquiry-graph `docs/goals/cross-conversation-linker.md`), so it drops nothing until measured on a labeled sample | configure, unmeasured |
+| Output | one JSON line per item in `~/projects/data/feedback-collector/items-<date>.jsonl` (exact quote, transcript, byte offset, session, time, client, kind, Jev probability), run summary in `runs.jsonl` | reuse (one file per day rule) |
+| Filing | learning/friction/correction items from closeout Learnings or Policy fields or the LLM step, Jev p ≥ 0.8, at most 25 a night, through `project-meta/scripts/log_learning.py` with `--transcript-ref` and the transcript byte offset as `--source-ref`. Concerns and Decisions stay in the daily log (their homes are concern issues and decision records) | reuse |
+| Going dark | non-zero exit opens a keyed agent concern (`notify_operator.py`); `scripts/hive/controls.py` reads `runs.jsonl` | reuse |
+
+Privacy: transcript text goes only to OpenRouter through `llm_client` and to
+the local data folder. This repository is public, so no transcript text or
+extracted quote is ever committed here; the tests use synthetic transcripts.
+
+**Wrong when:** Brian's or an agent's spot check of 10 filed entries finds
+fewer than 7 worth keeping (then raise the filing threshold or narrow the
+sources), or the nightly cost passes $0.50.
 
 ## Still unresolved
 
