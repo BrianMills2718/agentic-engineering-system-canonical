@@ -280,6 +280,12 @@ def jev_covered(it: dict, reg: Register) -> dict:
 
 
 # ---------- 7. file ----------
+class RegisterLocked(Exception):
+    pass
+
+
+PENDING = ("eligible_not_filed", "deferred_cap", "deferred_register_locked")
+
 def file_item(it: dict) -> str:
     kind = it["triage"]["kind"]
     who = "Brian" if it["speaker"] == "brian" else "the agent"
@@ -295,6 +301,11 @@ def file_item(it: dict) -> str:
            "--transcript-ref", f"{'claude-code' if it['client'] == 'claude' else 'codex'}:{it['session_id']}",
            "--source-ref", f"{it['transcript']}@byte{it['byte_offset']}", "--push", body]
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=PROJECT_META, timeout=300)
+    if r.returncode != 0 and "requires the current native" in r.stdout + r.stderr:
+        # The register is read-only while any lane claims project-meta, and log_learning's own lane
+        # needs an agent session id a timer does not have. Root fix filed as a keyed concern
+        # (feedback-collector-register-locked); until then the item waits for a later run.
+        raise RegisterLocked()
     if r.returncode != 0:
         raise RuntimeError(f"log_learning exit {r.returncode}: {(r.stderr or r.stdout)[-300:]}")
     m = re.search(r"lrn-\d{8}T\d+Z-[0-9a-f]+", r.stdout + r.stderr)
@@ -316,7 +327,11 @@ def main() -> int:
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     if args.file_pending:
-        return file_pending(Path(args.file_pending), args.max_file)
+        filed, errs = file_pending(Path(args.file_pending), args.max_file)
+        log(f"RESULT filed={filed} errors={len(errs)} exit={1 if errs else 0}")
+        for e in errs[:5]:
+            log(f"error: {e}")
+        return 1 if errs else 0
     db = sqlite3.connect(OUT / "state.sqlite")
     db.execute("CREATE TABLE IF NOT EXISTS files (path TEXT PRIMARY KEY, offset INT, mtime REAL)")
     db.execute("CREATE TABLE IF NOT EXISTS items (id TEXT PRIMARY KEY, day TEXT, kind TEXT, filed TEXT)")
@@ -396,7 +411,7 @@ def main() -> int:
 
     # 7. filing (sequential: each call is one git commit in project-meta)
     def file_all():
-        filed = 0
+        filed, locked = 0, False
         for it in sorted(items, key=lambda i: -(i["triage"] or {}).get("p", 0)):
             tr = it["triage"]
             if not tr or tr["kind"] not in FILE_KINDS:
@@ -411,10 +426,14 @@ def main() -> int:
                 it["filing"] = "eligible_not_filed (run without --file)"
             elif filed >= args.max_file:
                 it["filing"] = "deferred_cap"
+            elif locked:
+                it["filing"] = "deferred_register_locked"
             else:
                 try:
                     it["filing"] = file_item(it)
                     filed += 1
+                except RegisterLocked:
+                    it["filing"], locked = "deferred_register_locked", True
                 except Exception as exc:
                     it["filing"] = "error"
                     errors.append(f"file {it['id']}: {str(exc)[:300]}")
@@ -434,6 +453,16 @@ def main() -> int:
         db.commit()
     step("write", write)
 
+    if args.file:  # earlier days' items still waiting (cap or a locked register), oldest first
+        left = args.max_file - counts["filing_filed"]
+        for f in sorted(OUT.glob("items-*.jsonl"))[-8:]:
+            if left <= 0:
+                break
+            n, errs = file_pending(f, left)
+            counts["backlog_filed"] += n
+            left -= n
+            errors.extend(errs)
+
     for it in items:
         k = (it["triage"] or {}).get("kind", "untriaged")
         counts[f"kind_{k}"] += 1
@@ -451,7 +480,7 @@ def main() -> int:
     return 1 if errors else 0
 
 
-def file_pending(path: Path, cap: int) -> int:
+def file_pending(path: Path, cap: int) -> tuple[int, list[str]]:
     """File items a dry run judged eligible; the day file stays append-only (update lines carry `filing_update`)."""
     items: dict[str, dict] = {}
     for line in open(path):
@@ -460,7 +489,7 @@ def file_pending(path: Path, cap: int) -> int:
             items[d["id"]]["filing"] = d["filing_update"]
         else:
             items[d["id"]] = d
-    todo = [i for i in items.values() if str(i.get("filing", "")).startswith(("eligible_not_filed", "deferred_cap"))]
+    todo = [i for i in items.values() if str(i.get("filing", "")).startswith(PENDING)]
     todo.sort(key=lambda i: -i["triage"]["p"])
     filed, errors = 0, []
     with open(path, "a") as fh:
@@ -468,15 +497,16 @@ def file_pending(path: Path, cap: int) -> int:
             try:
                 entry = file_item(it)
                 filed += 1
+            except RegisterLocked:
+                log("register locked by a live project-meta lane; the rest wait for the next run")
+                break
             except Exception as exc:
                 entry = "error"
                 errors.append(str(exc)[:300])
             fh.write(json.dumps({"id": it["id"], "filing_update": entry}) + "\n")
             log(f"filed {it['id']} -> {entry}")
-    log(f"RESULT pending={len(todo)} filed={filed} errors={len(errors)} exit={1 if errors else 0}")
-    for e in errors[:5]:
-        log(f"error: {e}")
-    return 1 if errors else 0
+    log(f"{path.name}: pending={len(todo)} filed={filed} errors={len(errors)}")
+    return filed, errors
 
 
 def alert(code: int, detail: str) -> None:
