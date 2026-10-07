@@ -19,11 +19,13 @@ systemctl --user start feedback-collector.service   # one run now; then: journal
 Exit 1 (some LLM, Jev or filing calls failed) and 2 (crash) fail the unit and
 open a keyed agent concern through `project-meta/scripts/notify_operator.py`.
 
-## Filing is off (2026-10-06)
+## Filing gate (2026-10-07)
 
-The installed timer runs log-only: items go to `~/projects/data/feedback-collector/items-<date>.jsonl`,
-nothing is filed to the learnings register. The first night filed 36 entries, and a spot check found
-that a Jev `learning` label at p=0.98 can still be a one-off, project-specific remark (an agent naming a
-firm from a client's mailer), because the triage question asks what kind an item is, not whether it is
-reusable. Turn filing back on (`--file --max-file N`) only after the weekly spot check of 10 filed items
-passes and a reusability question gates filing.
+The timer files at most 10 entries a night, and only lines an agent wrote under its own closeout
+**Learnings** heading. Hand check of the first night's 33 filed entries: those lines were 8/8 reusable;
+items the light LLM extracted from session narration were 7/25, and Jev's yes/no "reusable?" answer did
+not separate them (best 64%), so it is recorded on each item as `reusable_p` but does not gate. A line
+whose text was already filed is skipped (`duplicate_of_filed`). Hand check of 10 entries filed through
+this gate on 2026-10-07: 8/10 reusable and correctly typed; the 2 failures were exact repeats, which the
+duplicate skip now removes. Everything else stays in the daily log. Wrong if the next 10-entry spot check
+falls below 8/10; then turn filing off again (drop `--file`).
