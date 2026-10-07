@@ -1,0 +1,115 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-HH-RUNNING-CHECK
+title: Running pieces in the target; aes status fails on an undeclared one (hive hardening U4)
+adopted_plan_ref: proposals/hive-hardening/README.md
+trace_review:
+  runs_traced_work: false
+  reason: >
+    A deterministic comparison of a snapshot of running items with the declared running pieces; no
+    model, agent or pipeline runs inside the check (the inventory collector only lists units,
+    containers and agents).
+rationale: >
+  Work unit U4 of the adopted hive-hardening plan. On 2026-10-06 things ran that no plan declared
+  (the C: drive guard posting under Brian's login, the silence check's service), so nothing compared
+  them with a plan. The target gains running_scopes (where everything running must be declared) and
+  running_pieces (each running systemd unit, container or agent and the file in git that defines it).
+  A collector writes a snapshot of what runs to .aes/running-inventory.json (not tracked);
+  `aes running check` and `aes status` compare it with the declarations, and an undeclared item inside
+  a scope fails status. Without a snapshot, status is unchanged.
+closes_gaps: []
+target_delta:
+  add:
+    outcomes:
+      - id: OUT-HH-001
+        actor_or_consumer: brian_and_his_hive_agents
+        statement: >
+          The hive brain cannot repeat the 2026-10-06 failures: everything that runs for it is declared
+          with the file in git that defines it, and anything running undeclared inside its scope turns
+          AES status red.
+        non_goals:
+          - declaring_other_projects_running_pieces
+          - starting_or_stopping_services
+    normative_items:
+      - id: HH-REQ-001
+        kind: constraint
+        outcome_refs:
+          - OUT-HH-001
+        statement: >
+          Inside each declared running scope, every running item is a declared running piece naming the
+          file in git that defines it; a snapshot showing an undeclared item fails aes status.
+    success_criteria:
+      - id: SC-HH-001
+        statement: >
+          With a running-inventory snapshot present, an item inside a running scope that no running piece
+          declares makes `aes running check` exit 1 and `aes status` FAIL with "undeclared running:
+          <host>/<kind>/<name>"; declared items pass; without a snapshot status behaves as before; a scope
+          whose source was unreadable is reported, never counted clean.
+        target_refs:
+          - OUT-HH-001
+          - HH-REQ-001
+        disproof: >
+          An undeclared in-scope item passes; a declared item is reported undeclared; status fails with no
+          snapshot; or an unreadable source is counted as clean.
+        evidence_requirements:
+          - id: ER-HH-001-01
+            kind: deterministic_test
+            requirement: >
+              Tests build a target with running scopes and pieces in a real Git repository, write snapshots,
+              and assert the check's exit status, the undeclared and not-running lists, the unreadable case,
+              and aes status with and without a snapshot.
+          - id: ER-HH-001-02
+            kind: runtime_observation
+            requirement: >
+              On AES canonical, the hive's real inventory (laptop units, server containers and units,
+              Paperclip agents) checked against the declared pieces turns aes status red for an undeclared
+              in-scope item, with the output quoted.
+    components:
+      - id: RU-AES-RUNNING
+        responsibility: >
+          Compare a snapshot of what runs with the target's running scopes and pieces, for aes running
+          check and aes status.
+        target_refs:
+          - HH-REQ-001
+          - SC-HH-001
+        planned_artifact_refs:
+          - ART-SRC-RUNNING
+          - ART-TEST-RUNNING
+    planned_artifacts:
+      - id: ART-SRC-RUNNING
+        locator:
+          exact_path: src/agentic_engineering_system/running.py
+        kind: source
+        purpose: >
+          Load a running-inventory snapshot and compare it with the target's running scopes and pieces.
+        semantic_justification_refs:
+          - HH-REQ-001
+        exports:
+          - check_running
+          - load_inventory
+          - inventory_path
+          - render
+      - id: ART-TEST-RUNNING
+        locator:
+          exact_path: tests/greenfield/test_running.py
+        kind: test
+        purpose: >
+          Real-repository tests of the running check and its effect on aes status.
+        semantic_justification_refs:
+          - SC-HH-001
+    verification_subjects:
+      - id: VS-HH-RUNNING
+        criterion_refs:
+          - SC-HH-001
+        evidence_requirement_refs:
+          - ER-HH-001-01
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/greenfield/test_running.py
+        purpose: >
+          prove undeclared in-scope items fail the check and status, and the other cases do not
+    external_boundaries:
+      - evidence_requirement_ref: ER-HH-001-02
+        boundary: >
+          The orchestrating session runs scripts/hive/inventory.py on AES canonical, then aes running check
+          and aes status, and records one observation quoting the output.
+outside_governed_roots: []
