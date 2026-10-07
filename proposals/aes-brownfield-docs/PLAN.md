@@ -19,7 +19,7 @@ goal:
 **Selected controls:** continuity across sessions (this plan); uncertainty (layout never applied to an existing repo); one writer; reversible (git); no external effect beyond pull requests.
 **Artifact consumer / decision value:** Brian and the agents that continue this work; it decides whether AES's documentation layout replaces the 100-file count as the documentation rule.
 **Stage / investment boundary:** pilot on one repository.
-**Last outcome-bearing update:** 2026-10-07, graph-retrieval main 4e1403fb (after consolidation PR #245).
+**Last outcome-bearing update:** 2026-10-07, graph-retrieval main 8cc8c598 (PRs #246 and #248): 0 orphans, 76 documents reachable within two clicks, cold reader answered all five questions; see [RETROFIT_NOTE.md](RETROFIT_NOTE.md).
 
 ## Outcome And Boundaries
 
@@ -66,9 +66,9 @@ reader finds doc <- wiki/index.md links <- declared roots (.agentic/repo.yaml) <
 
 | Milestone | Planning state | Inspectable output / stable boundary | Required capability and evidence | Promotion or replan trigger |
 |---|---|---|---|---|
-| M1 Pilot on graph-retrieval | fully_specifiable_now | merged PR; reach classification with zero orphans; cold-reader transcript | active slice below | promote to M2 when success evidence holds; replan if disproof fires |
-| M2 Record the retrofit in AES canonical | conditional | a retrofit note in this proposal folder: what the layout required of an existing repo, what tooling changed | M1 evidence | M1 merged |
-| M3 Replace the count rule | conditional | project-meta daily check reports orphans and layout per repo; AGENTS.md rule reworded from "100 files" to reachability with 100 as a tripwire | M1 + M2 | Brian's go-ahead on the rule wording (human decision) |
+| M1 Pilot on graph-retrieval | done 2026-10-07 (graph-retrieval #246, #248) | merged PR; reach classification with zero orphans; cold-reader transcript | active slice below | promote to M2 when success evidence holds; replan if disproof fires |
+| M2 Record the retrofit in AES canonical | done 2026-10-07 ([RETROFIT_NOTE.md](RETROFIT_NOTE.md)) | a retrofit note in this proposal folder: what the layout required of an existing repo, what tooling changed | M1 evidence | M1 merged |
+| M3 Replace the count rule | human_decision_required | project-meta daily check reports orphans and layout per repo; AGENTS.md rule reworded from "100 files" to reachability with 100 as a tripwire | M1 + M2 | Brian's go-ahead on the rule wording (human decision) |
 | M4 Roll out to further repos | deliberately_deferred | one PR per repo | M3 | after M3 |
 
 ## Active Slice
@@ -108,7 +108,10 @@ Material uncertainties. These three are the complete set; each could make the pi
 
 | Claim or result | Exact evidence | Limitation | Status |
 |---|---|---|---|
-| 41 of 97 docs unreachable from wiki | reach.py on graph-retrieval 4e1403fb | link-following only; does not judge usefulness | measured |
+| 41 of 97 docs unreachable from wiki | reach.py on graph-retrieval 4e1403fb | link-following only; does not judge usefulness | measured (before) |
+| 0 orphans; 76 of 98 reachable within two clicks; 22 unlinked are instruction files, a fixture and a template | reach.py on graph-retrieval 8cc8c598; negative control (README link removed) reports 1 orphan, exit 1 | link-following only | measured (after) |
+| Cold reader answers all five questions within two clicks | [cold-reader-transcripts.json](cold-reader-transcripts.json) run 2 at 8cc8c598; tool calls checked against claims | harness auto-loads nested instruction files | passed (run 1 at a1d401b9 failed question 5; repaired in #248) |
+| Repository checks unchanged | same command set on branch and on unchanged main, both runs | `check_doc_coupling --validate-config` fails on both (pre-existing) | identical |
 | 18 of the 41 are instruction files | basename CLAUDE.md/AGENTS.md among unreachable | other loader-read files not yet classified | measured |
 | Consolidation kept checks green | graph-retrieval PR #245 check list | same failures on main and branch | merged |
 | AES treats retrofit as later capability | AES Decision 0010; v0.2 design thesis section 2 | no retrofit procedure exists | read |
@@ -119,7 +122,7 @@ Material uncertainties. These three are the complete set; each could make the pi
 
 ## Exact Next Action
 
-Create a claimed worktree in graph-retrieval from main, run `reach.py` with classification to produce the exact list of the 23 non-instruction unreachable documents with a proposed disposition each, then implement the active slice.
+Brian decides M3 (see Human Decisions). On a yes, change the workspace documentation rule and extend project-meta `scripts/md_file_cap.py` with the reachability measure from `reach.py`; on a no, the 100-file rule stays and this pilot remains recorded evidence.
 
 <a id="prior-art"></a>
 ## Prior Art And Parallel-Implementation Check
