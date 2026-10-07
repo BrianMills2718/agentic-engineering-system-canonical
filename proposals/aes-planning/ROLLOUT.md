@@ -60,3 +60,26 @@ What would have to change before enforce is safe anywhere but AES canonical:
    `[Goal <id>]` that resolves; today only AES canonical's two plans are adopted.
 3. The 2-day observe logs (`<repo>/.git/aes/commit-rule-<date>.jsonl`) measure today's work,
    which the replay of past work cannot; read them on 2026-10-09 before any switch.
+
+## Stage 2 (Brian, 2026-10-07: "i approve" option (a))
+
+Enforce in stages: (1) scheduled jobs carry a recognised tag; (2) enforce "every commit has a
+tag, and [Trivial] really is small" everywhere; (3) keep "the named plan is adopted" observe-only
+until each active project has adopted plans.
+
+Done 2026-10-07:
+
+- The rule gained `[Auto]` (needs `Auto-job: <job>`, no running-thing file) and
+  `plan_adoption` (observe under `mode: enforce`), AES #177.
+- The automated committers measured over the last 7 days were tagged at the source: plan-execution
+  cursor commits use `[Trivial]` (company-planning #55, plugin updated in Claude Code and Codex, #56);
+  learnings-register commits use `[Trivial]` (project-meta). Nightly mega-repo refreshes run in
+  GitHub Actions, outside local hooks; rescue and backup snapshots were one-off agent commits.
+- Every agent's instructions list the tags (projects-dotclaude #96).
+- `~/.config/aes/commit_rule.yaml` sets `plan_adoption: observe` and makes AES plans resolve from
+  every repository (plan root: the hook-runtime checkout, refreshed by the daily report).
+
+The switch to `mode: enforce` is made at the 2026-10-09 review rather than at once: sessions
+already running keep the old cursor code until they restart, and its `[Generated]` / `[Unplanned]`
+cursor commits would be refused and strand the cursor (the 2026-09-09 failure). The review reads two
+days of observe logs for any remaining untagged automated commits before switching.
