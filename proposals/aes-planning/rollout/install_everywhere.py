@@ -91,6 +91,12 @@ def repositories(workspace: Path) -> list[Path]:
     return sorted(p for p in workspace.iterdir() if p.is_dir() and (p / ".git").exists())
 
 
+def repo_id(repo: Path) -> str:
+    """The underlying repository's name: linked worktrees share one config, so they share one wrapper folder."""
+    common = git(repo, "rev-parse", "--path-format=absolute", "--git-common-dir")
+    return Path(common).parent.name if common else repo.name
+
+
 def _hooks_dir(repo: Path, path: str) -> Path:
     return Path(path) if Path(path).is_absolute() else repo / path
 
@@ -108,7 +114,7 @@ def kind(repo: Path) -> tuple[str, str]:
         return "aes", local
     if not local or _hooks_dir(repo, local).resolve() == GLOBAL_HOOKS.resolve():
         return "global", local
-    if Path(local).is_absolute() and Path(local).resolve() == (LOCAL_WRAPPERS / repo.name).resolve():
+    if Path(local).is_absolute() and Path(local).resolve() == (LOCAL_WRAPPERS / repo_id(repo)).resolve():
         return "local", local
     hook = _hooks_dir(repo, local) / "commit-msg"
     if hook.is_file() and AES_MARK in hook.read_text(encoding="utf-8", errors="replace"):
@@ -140,7 +146,7 @@ def install_global() -> str:
 
 def install_local(repo: Path) -> str:
     current = git(repo, "config", "--local", "core.hooksPath")
-    wrappers = LOCAL_WRAPPERS / repo.name
+    wrappers = LOCAL_WRAPPERS / repo_id(repo)
     original = git(repo, "config", "--local", "aes.originalHooksPath") or current
     if not git(repo, "config", "--local", "aes.originalHooksPath"):
         git(repo, "config", "--local", "aes.originalHooksPath", original, check=True)
@@ -165,7 +171,7 @@ def uninstall_local(repo: Path) -> str:
         return f"{repo.name}: nothing to undo"
     git(repo, "config", "--local", "core.hooksPath", original, check=True)
     git(repo, "config", "--local", "--unset", "aes.originalHooksPath")
-    shutil.rmtree(LOCAL_WRAPPERS / repo.name, ignore_errors=True)
+    shutil.rmtree(LOCAL_WRAPPERS / repo_id(repo), ignore_errors=True)
     return f"{repo.name}: hooksPath restored to {original}"
 
 
@@ -177,8 +183,8 @@ def wired(repo: Path) -> tuple[str, bool, str]:
         hook = GLOBAL_HOOKS / "commit-msg"
         ok = SNIPPET.is_file() and hook.is_file() and CALL_LINE in hook.read_text(encoding="utf-8")
         return k, ok, "global commit-msg calls the rule" if ok else "global commit-msg does not call the rule"
-    hook = LOCAL_WRAPPERS / repo.name / "commit-msg"
-    ok = local == str(LOCAL_WRAPPERS / repo.name) and hook.is_file() and "aes_commit_rule" in hook.read_text(encoding="utf-8")
+    hook = LOCAL_WRAPPERS / repo_id(repo) / "commit-msg"
+    ok = local == str(LOCAL_WRAPPERS / repo_id(repo)) and hook.is_file() and "aes_commit_rule" in hook.read_text(encoding="utf-8")
     return k, ok, f"hooksPath={local}" + ("" if ok else " (not wired)")
 
 
