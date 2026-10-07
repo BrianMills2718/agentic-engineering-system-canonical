@@ -1,0 +1,247 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.16, pytest-9.1.1, pluggy-1.6.0 -- /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python
+rootdir: /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-adopt-existing
+configfile: pyproject.toml
+collecting ... collected 8 items
+
+tests/greenfield/test_adopt.py::test_adopt_real_repository_lists_every_tracked_file $ aes adopt --dry-run --project-id existing --actor a maintainer --outcome The code keeps working while it is brought under AES.  (exit 0)
+would adopt (dry run, nothing written) at 22d44831cd65a7a8a5ccda05cfb0169533c17400
+  63 legacy file(s) under ['src/', 'tests/']: src/ 23, tests/ 40
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 6210 bytes
+
+$ aes adopt --project-id existing --actor a maintainer --outcome The code keeps working while it is brought under AES.  (exit 0)
+adopted at 22d44831cd65a7a8a5ccda05cfb0169533c17400
+  63 legacy file(s) under ['src/', 'tests/']: src/ 23, tests/ 40
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 6210 bytes
+  wrote .aes/project.yaml
+  wrote .aes/target.yaml
+  wrote .aes/legacy_baseline.json
+  next: git add .aes && git commit, then aes hooks install; edit a legacy file only after planning it (aes plan accept removes it from the baseline)
+
+$ aes status  (exit 0)
+OK status: existing-target at 22d44831cd65a7a8a5ccda05cfb0169533c17400 (dirty: working tree differs from HEAD under governed roots or .aes/)
+  artifacts: 0 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 0 supported, 0 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 0 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded
+  plans: 0 accepted, 0 unreachable
+  first open gap per component:
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+  legacy: 63 of 63 governed file(s) still in the baseline (100.0%), 0 changed since adoption at 22d44831cd65
+
+$ aes adopt  (exit 1)
+error: /tmp/pytest-of-brian/pytest-138/test_adopt_real_repository_lis0/existing/.aes/legacy_baseline.json: already exists; a repository is adopted once and its baseline only shrinks (aes plan accept prunes it)
+
+PASSED
+tests/greenfield/test_adopt.py::test_adoption_commit_passes_installed_hooks $ aes adopt --project-id existing --actor a maintainer --outcome The code keeps working while it is brought under AES.  (exit 0)
+adopted at 64f5be32d9196c8f5740663aae4f0e476a731ee3
+  63 legacy file(s) under ['src/', 'tests/']: src/ 23, tests/ 40
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 6210 bytes
+  wrote .aes/project.yaml
+  wrote .aes/target.yaml
+  wrote .aes/legacy_baseline.json
+  next: git add .aes && git commit, then aes hooks install; edit a legacy file only after planning it (aes plan accept removes it from the baseline)
+
+$ aes hooks install  (exit 0)
+wrote /tmp/pytest-of-brian/pytest-138/test_adoption_commit_passes_in0/existing/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-138/test_adoption_commit_passes_in0/existing/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+  note: overrides the global core.hooksPath /home/brian/.config/git/hooks in this repository
+
+$ git commit -m '[Unplanned] Adopt AES'  (exit 0)
+[goal/aes-adopt-existing cc57e23] [Unplanned] Adopt AES
+ 4 files changed, 102 insertions(+)
+ create mode 100644 .aes/commit_rule.yaml
+ create mode 100644 .aes/legacy_baseline.json
+ create mode 100644 .aes/project.yaml
+ create mode 100644 .aes/target.yaml
+OK topology: 63 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 63 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Unplanned] — emergency recorded (Emergency: line present); logged for review (logged to /tmp/pytest-of-brian/pytest-138/test_adoption_commit_passes_in0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+PASSED
+tests/greenfield/test_adopt.py::test_unplanned_legacy_edit_observe_logs_enforce_refuses $ aes adopt --project-id existing --actor a maintainer --outcome The code keeps working while it is brought under AES.  (exit 0)
+adopted at c937bb5c7f7e6edafeaebf0cc663792e210d925a
+  63 legacy file(s) under ['src/', 'tests/']: src/ 23, tests/ 40
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 6210 bytes
+  wrote .aes/project.yaml
+  wrote .aes/target.yaml
+  wrote .aes/legacy_baseline.json
+  next: git add .aes && git commit, then aes hooks install; edit a legacy file only after planning it (aes plan accept removes it from the baseline)
+
+$ aes hooks install  (exit 0)
+wrote /tmp/pytest-of-brian/pytest-138/test_unplanned_legacy_edit_obs0/existing/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-138/test_unplanned_legacy_edit_obs0/existing/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+  note: overrides the global core.hooksPath /home/brian/.config/git/hooks in this repository
+
+$ git commit -m '[Shaping demo] hooks and demo plan'  (exit 0)
+[goal/aes-adopt-existing 4152661] [Shaping demo] hooks and demo plan
+ 3 files changed, 8 insertions(+)
+ create mode 100644 proposals/demo/README.md
+ create mode 100644 proposals/demo/receipt.adoption-decision.json
+ create mode 100644 proposals/demo/receipt.json
+OK topology: 63 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 63 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Shaping demo] — drafting plan demo inside proposals/demo/ (logged to /tmp/pytest-of-brian/pytest-138/test_unplanned_legacy_edit_obs0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ git commit -m '[Goal demo] edit a legacy file'  (exit 1)
+OK topology: 63 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 63 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: refuse [Goal demo] — unplanned legacy edit: tests/repository_context/test_models.py still in .aes/legacy_baseline.json and planned by no target artifact; plan the file first (aes plan accept removes it from the baseline) (logged to /tmp/pytest-of-brian/pytest-138/test_unplanned_legacy_edit_obs0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ git commit -m '[Goal demo] edit a legacy file'  (exit 0)
+[goal/aes-adopt-existing 2fc304e] [Goal demo] edit a legacy file
+ 1 file changed, 1 insertion(+)
+OK topology: 63 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 63 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: would refuse (observe mode) [Goal demo] — unplanned legacy edit: tests/repository_context/test_models.py still in .aes/legacy_baseline.json and planned by no target artifact; plan the file first (aes plan accept removes it from the baseline) (logged to /tmp/pytest-of-brian/pytest-138/test_unplanned_legacy_edit_obs0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+{"at": "2026-10-07T21:41:35+00:00", "mode": "observe", "config": "/tmp/pytest-of-brian/pytest-138/test_unplanned_legacy_edit_obs0/existing/.aes/commit_rule.yaml", "subject": "[Goal demo] edit a legacy file", "verdict": "refuse", "tag": "Goal demo", "reasons": ["unplanned legacy edit: tests/repository_context/test_models.py still in .aes/legacy_baseline.json and planned by no target artifact; plan the file first (aes plan accept removes it from the baseline)"], "files": 1, "lines": 1, "running_things": [], "check": "legacy-edit"}
+$ aes status  (exit 0)
+OK status: existing-target at 2fc304e0f1c51ccf4612ad3bccda80e30d922cd6 (dirty: working tree differs from HEAD under governed roots or .aes/)
+  artifacts: 0 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 0 supported, 0 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 0 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded
+  plans: 0 accepted, 0 unreachable
+  first open gap per component:
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+  legacy: 63 of 63 governed file(s) still in the baseline (100.0%), 1 changed since adoption at c937bb5c7f7e
+    changed legacy: tests/repository_context/test_models.py
+
+PASSED
+tests/greenfield/test_adopt.py::test_plan_accept_removes_exactly_the_planned_file $ aes adopt --project-id existing --actor a maintainer --outcome The code keeps working while it is brought under AES.  (exit 0)
+adopted at aca8668a10b074618ef9ec76421f35aac04af92c
+  63 legacy file(s) under ['src/', 'tests/']: src/ 23, tests/ 40
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 6210 bytes
+  wrote .aes/project.yaml
+  wrote .aes/target.yaml
+  wrote .aes/legacy_baseline.json
+  next: git add .aes && git commit, then aes hooks install; edit a legacy file only after planning it (aes plan accept removes it from the baseline)
+
+$ aes hooks install  (exit 0)
+wrote /tmp/pytest-of-brian/pytest-138/test_plan_accept_removes_exact0/existing/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-138/test_plan_accept_removes_exact0/existing/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+  note: overrides the global core.hooksPath /home/brian/.config/git/hooks in this repository
+
+$ git commit -m '[Shaping demo] hooks and demo plan'  (exit 0)
+[goal/aes-adopt-existing 0d88cf0] [Shaping demo] hooks and demo plan
+ 3 files changed, 8 insertions(+)
+ create mode 100644 proposals/demo/README.md
+ create mode 100644 proposals/demo/receipt.adoption-decision.json
+ create mode 100644 proposals/demo/receipt.json
+OK topology: 63 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 63 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Shaping demo] — drafting plan demo inside proposals/demo/ (logged to /tmp/pytest-of-brian/pytest-138/test_plan_accept_removes_exact0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ aes plan accept /tmp/pytest-of-brian/pytest-138/test_plan_accept_removes_exact0/plan.yaml  (exit 0)
+accepted at 0d88cf08f875d0b899d809cefb297cfb99ca9605
+  added planned_artifacts ART-TEST-MODELS
+  updated .aes/target.yaml
+  wrote .aes/plans/PLAN-TOUCH-MODELS.yaml
+  next: git add .aes/target.yaml .aes/plans/PLAN-TOUCH-MODELS.yaml && git commit, then implement
+  baseline: removed 1 now planned or untracked from .aes/legacy_baseline.json (commit it with the target): tests/repository_context/test_models.py
+warning: recorded at 0d88cf08 on branch goal/aes-adopt-existing; this plan's accepted_at_revision stays reachable only if that commit reaches the default branch unchanged — merge with a merge commit (not squash), or re-record after merging
+
+$ git commit -m '[Goal demo] plan the models test'  (exit 0)
+[goal/aes-adopt-existing c281e0e] [Goal demo] plan the models test
+ 3 files changed, 29 insertions(+), 2 deletions(-)
+ create mode 100644 .aes/plans/PLAN-TOUCH-MODELS.yaml
+OK topology: 63 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 62 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Goal demo] — plan demo adopted (proposals/demo/README.md) (logged to /tmp/pytest-of-brian/pytest-138/test_plan_accept_removes_exact0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ git commit -m '[Goal demo] edit the planned models test'  (exit 0)
+[goal/aes-adopt-existing 1808b5e] [Goal demo] edit the planned models test
+ 1 file changed, 1 insertion(+)
+OK topology: 63 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 62 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Goal demo] — plan demo adopted (proposals/demo/README.md) (logged to /tmp/pytest-of-brian/pytest-138/test_plan_accept_removes_exact0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+PASSED
+tests/greenfield/test_adopt.py::test_new_unplanned_file_is_still_an_orphan $ aes adopt --project-id existing --actor a maintainer --outcome The code keeps working while it is brought under AES.  (exit 0)
+adopted at 717279aa91d7c7ff9b655bea42ddc8a315e3455d
+  63 legacy file(s) under ['src/', 'tests/']: src/ 23, tests/ 40
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 6210 bytes
+  wrote .aes/project.yaml
+  wrote .aes/target.yaml
+  wrote .aes/legacy_baseline.json
+  next: git add .aes && git commit, then aes hooks install; edit a legacy file only after planning it (aes plan accept removes it from the baseline)
+
+$ aes hooks install  (exit 0)
+wrote /tmp/pytest-of-brian/pytest-138/test_new_unplanned_file_is_sti0/existing/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-138/test_new_unplanned_file_is_sti0/existing/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+  note: overrides the global core.hooksPath /home/brian/.config/git/hooks in this repository
+
+$ git commit -m '[Shaping demo] hooks and demo plan'  (exit 0)
+[goal/aes-adopt-existing e82a57b] [Shaping demo] hooks and demo plan
+ 3 files changed, 8 insertions(+)
+ create mode 100644 proposals/demo/README.md
+ create mode 100644 proposals/demo/receipt.adoption-decision.json
+ create mode 100644 proposals/demo/receipt.json
+OK topology: 63 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 63 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Shaping demo] — drafting plan demo inside proposals/demo/ (logged to /tmp/pytest-of-brian/pytest-138/test_new_unplanned_file_is_sti0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ git commit -m '[Goal demo] add a new test'  (exit 1)
+FAIL topology: 64 governed file(s) under ['src/', 'tests/'], 1 orphan(s), 0 planned but not yet realized, 63 legacy (in .aes/legacy_baseline.json, accepted as-is)
+  orphan: tests/test_brand_new.py
+  fix: add a planned_artifacts entry with this exact_path to the target, move the file outside the governed roots, or remove it from Git
+
+PASSED
+tests/greenfield/test_adopt.py::test_deleting_a_legacy_file_needs_no_plan_and_prunes_on_accept $ aes adopt --project-id existing --actor a maintainer --outcome The code keeps working while it is brought under AES.  (exit 0)
+adopted at d887611f1e76a21a2e2ff036be9a7f948f48e958
+  63 legacy file(s) under ['src/', 'tests/']: src/ 23, tests/ 40
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 6210 bytes
+  wrote .aes/project.yaml
+  wrote .aes/target.yaml
+  wrote .aes/legacy_baseline.json
+  next: git add .aes && git commit, then aes hooks install; edit a legacy file only after planning it (aes plan accept removes it from the baseline)
+
+$ aes hooks install  (exit 0)
+wrote /tmp/pytest-of-brian/pytest-138/test_deleting_a_legacy_file_ne0/existing/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-138/test_deleting_a_legacy_file_ne0/existing/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+  note: overrides the global core.hooksPath /home/brian/.config/git/hooks in this repository
+
+$ git commit -m '[Shaping demo] hooks and demo plan'  (exit 0)
+[goal/aes-adopt-existing 15b9f3d] [Shaping demo] hooks and demo plan
+ 3 files changed, 8 insertions(+)
+ create mode 100644 proposals/demo/README.md
+ create mode 100644 proposals/demo/receipt.adoption-decision.json
+ create mode 100644 proposals/demo/receipt.json
+OK topology: 63 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 63 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Shaping demo] — drafting plan demo inside proposals/demo/ (logged to /tmp/pytest-of-brian/pytest-138/test_deleting_a_legacy_file_ne0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ git commit -m '[Goal demo] retire a legacy test'  (exit 0)
+[goal/aes-adopt-existing ceaef3b] [Goal demo] retire a legacy test
+ 1 file changed, 76 deletions(-)
+ delete mode 100644 tests/repository_context/test_models.py
+OK topology: 62 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 62 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Goal demo] — plan demo adopted (proposals/demo/README.md) (logged to /tmp/pytest-of-brian/pytest-138/test_deleting_a_legacy_file_ne0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ aes status  (exit 0)
+OK status: existing-target at ceaef3b7ba95018ab9874d26ab94cd142d1badbe (dirty: working tree differs from HEAD under governed roots or .aes/)
+  artifacts: 0 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 0 supported, 0 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 0 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded
+  plans: 0 accepted, 0 unreachable
+  first open gap per component:
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+  legacy: 62 of 62 governed file(s) still in the baseline (100.0%), 0 changed since adoption at d887611f1e76
+
+PASSED
+tests/greenfield/test_adopt.py::test_refusals_and_malformed_baseline PASSED
+tests/greenfield/test_adopt.py::test_init_warns_on_an_existing_codebase PASSED
+
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/greenfield/test_adopt.py::test_adopt_real_repository_lists_every_tracked_file
+PASSED tests/greenfield/test_adopt.py::test_adoption_commit_passes_installed_hooks
+PASSED tests/greenfield/test_adopt.py::test_unplanned_legacy_edit_observe_logs_enforce_refuses
+PASSED tests/greenfield/test_adopt.py::test_plan_accept_removes_exactly_the_planned_file
+PASSED tests/greenfield/test_adopt.py::test_new_unplanned_file_is_still_an_orphan
+PASSED tests/greenfield/test_adopt.py::test_deleting_a_legacy_file_needs_no_plan_and_prunes_on_accept
+PASSED tests/greenfield/test_adopt.py::test_refusals_and_malformed_baseline
+PASSED tests/greenfield/test_adopt.py::test_init_warns_on_an_existing_codebase
+============================== 8 passed in 55.80s ==============================
