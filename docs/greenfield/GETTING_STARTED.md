@@ -365,7 +365,7 @@ existing file is an orphan, because the target plans none of them. Do not plan
 them all. Run `aes adopt` instead of `aes init`, with the same arguments, then
 commit, then install the hooks:
 
-```bash
+```sh
 aes adopt --project-id my-service \
   --actor "the team that runs my-service" \
   --outcome "Orders placed through the API are charged once and shipped." \
