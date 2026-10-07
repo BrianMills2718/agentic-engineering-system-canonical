@@ -1,0 +1,72 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-GF-DISTRIBUTION-INSTALL-42765501
+subject_refs:
+- VS-GF-DISTRIBUTION-INSTALL
+subject_revision: 42765501eaf2c6277b63325f70d725947c0975c4
+dependency_paths:
+- src/agentic_engineering_system/__init__.py
+- src/agentic_engineering_system/characterize.py
+- src/agentic_engineering_system/characterize_python.py
+- src/agentic_engineering_system/cli.py
+- src/agentic_engineering_system/commit_rule.py
+- src/agentic_engineering_system/context.py
+- src/agentic_engineering_system/evidence.py
+- src/agentic_engineering_system/hooks.py
+- src/agentic_engineering_system/planning.py
+- src/agentic_engineering_system/project.py
+- src/agentic_engineering_system/reconcile.py
+- src/agentic_engineering_system/records.py
+- src/agentic_engineering_system/topology.py
+- tests/greenfield/test_distribution.py
+dependency_basis:
+  locator: tests/greenfield/test_distribution.py
+  discovered:
+  - src/agentic_engineering_system/__init__.py
+  - src/agentic_engineering_system/characterize.py
+  - src/agentic_engineering_system/characterize_python.py
+  - src/agentic_engineering_system/cli.py
+  - src/agentic_engineering_system/commit_rule.py
+  - src/agentic_engineering_system/context.py
+  - src/agentic_engineering_system/evidence.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/planning.py
+  - src/agentic_engineering_system/project.py
+  - src/agentic_engineering_system/reconcile.py
+  - src/agentic_engineering_system/records.py
+  - src/agentic_engineering_system/topology.py
+  declared: []
+dependency_target_refs:
+- VS-GF-DISTRIBUTION-INSTALL
+- ER-SC-GF-001-01
+- ART-SRC-CHARACTERIZE
+- ART-SRC-CHARACTERIZE-PYTHON
+- ART-SRC-CLI
+- ART-SRC-COMMIT-RULE
+- ART-SRC-CONTEXT
+- ART-SRC-EVIDENCE
+- ART-SRC-HOOKS
+- ART-SRC-PLANNING
+- ART-SRC-PROJECT
+- ART-SRC-RECONCILE
+- ART-SRC-RECORDS
+- ART-SRC-TOPOLOGY
+- ART-TEST-DISTRIBUTION
+- ART-V01---INIT---PY
+observer: &id001
+  identity: aes evidence record
+  version: '0.1.dev535+g618a6e475 (running: 4276550)'
+method: /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest -q 
+  tests/greenfield/test_distribution.py
+execution_state: COMPLETED
+result:
+  exit_code: 0
+  output_tail: "...............                                                          [100%]\n15 passed
+    in 72.98s (0:01:12)"
+produced_at: '2026-10-07T22:14:37+00:00'
+assessments:
+- evidence_requirement_ref: ER-SC-GF-001-01
+  assessment: SUPPORTS
+  basis: 'VS-GF-DISTRIBUTION-INSTALL (support fresh-user proof with isolated build/install/CLI and hook
+    checks; recorded INCONCLUSIVE because a local test is not the clean-user run the requirement names)
+    passed: exit 0'
+  assessor: *id001

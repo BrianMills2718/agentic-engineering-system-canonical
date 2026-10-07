@@ -1,0 +1,243 @@
+refuse 63bb6497 [none] [Goal PATH-brent-v1-2026-10-02] Brent daily check: honest 60-minute limit, and a stopped u
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+accept 4a5b0110 [Goal aes-planning] [Goal aes-planning] hive-controls unit: unpack hive/ from personal-vps origin/main instead
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 3b0476a5 [Goal aes-planning] [Goal aes-planning] The hive moves here from AES canonical: hive/ scripts, its two plans, 
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 843717e5 [Trivial] [Trivial] Plan pages: redirect hypergraph-views to representation-router
+         trivial: 1 file(s), 2 line(s), no running-thing file
+accept 3a859a2f [Goal upwork-automation] [Goal upwork-automation] upwork-bri2: concern op so Mac mini loop failures open a keyed co
+         plan upwork-automation adopted (proposals/upwork-automation/README.md)
+accept d3684449 [Goal upwork-automation] [Goal upwork-automation] upwork-bri2: Mac mini key may only post on BRI-2 and read Brian's
+         plan upwork-automation adopted (proposals/upwork-automation/README.md)
+accept 49556b3a [Goal aes-planning] [Goal aes-planning] Plan pages: also collect Company Planning's docs/plans/*.review.html
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 018baafa [Trivial] [Trivial] Plan pages: redirect vision-coverage, portfolio-page-rework and communication-ag
+         trivial: 1 file(s), 3 line(s), no running-thing file
+accept e70bbe85 [Goal aes-planning] [Goal aes-planning] Plan pages: representation-router is private; never publish a repo Git
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 1ebcd2ef [Goal aes-planning] [Goal aes-planning] Review site reads plan pages from every repo; private repos behind log
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept bc220396 [Goal hive-hardening] [Goal hive-hardening] Relay wakes the Coordinator on BRI-61; BRI-13's thread made its runs
+         plan hive-hardening adopted (proposals/hive-hardening/README.md)
+accept 0169049f [Goal hive-hardening] [Goal hive-hardening] Stall alert counts Job:/Pilot: tasks the Coordinator holds (BRI-50 c
+         plan hive-hardening adopted (proposals/hive-hardening/README.md)
+accept 817a33ce [Goal hive-hardening] [Goal hive-hardening] Hive stall alert: tell Brian when the workers stop moving (U2)
+         plan hive-hardening adopted (proposals/hive-hardening/README.md)
+accept 39c71106 [Goal hive-hardening] [Goal hive-hardening] Relay: only Brian's own replies are relayed as his (U1)
+         plan hive-hardening adopted (proposals/hive-hardening/README.md)
+refuse 3e19ebbe [none] Note that the wiki password also opens brianmills.dev/me (#99)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse fcb96e87 [none] Hive compose comment: drop leftover words
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ee9353fa [none] Hive compose comment: /plans is public
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5915c224 [none] Hive plan pages public: no login for /plans (Access bypass + server)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 050d0fa4 [none] test_brent_deploy_wait: remove each run's temp folder (left 6 in /tmp per run) (#95)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d49ae6ed [none] Brent: carry the Settings password (alert emails) through provision-secrets (#94)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ff7b3df2 [none] Brent deploy waits for a running daily change check (#88); docker-less wiki test skips (#9
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 6646dcd5 [none] wiki-publish: timer disabled; target retired, Personal Wiki publish covers the trees (#91)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 4b5a09ed [none] Silent VPS jobs open a keyed concern on failure (brent, wiki, personal-wiki) (#90)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1e41a612 [none] Paperclip: add make, uv and PyYAML so agents can run repositories' checks
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 768efae0 [none] qual: failures reach an agent (heartbeat + job/run/credit watcher via keyed concern) (#86)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 65c60fc5 [none] qual: no client-side time limit on model calls (LLM_CLIENT_TIMEOUT_POLICY=ban) (#85)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse e5f74b9a [none] na-brain: heartbeat timer (10 min) alerts an agent when the bot stops checking Discord; al
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 69713975 [none] na-brain deploy: never extract the laptop's committed wiki output over the VPS-built outpu
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3a23e369 [none] na-brain: failed VPS jobs raise a keyed concern issue (OnFailure -> na-brain-alert@); toke
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse af8a4f34 [none] apps/world-builder: owner password override and $40 monthly stop (#81)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 159a5e98 [none] na-brain deploy: stop copying laptop wiki records (the VPS builds them; a copy overwrote n
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d62c192b [none] na-brain: pass LLM_CLIENT_TIMEOUT_POLICY=ban to the container, as on the laptop (#79)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 2b44d368 [none] na-brain: daily build and wiki publish on the VPS (image with Python+Node); publish.sh loc
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 22be1def [none] na-brain: Never Absolute Discord bot and daily brief on the VPS (#77)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1060b758 [none] na-wiki publish: compare MediaWiki titles (first letter capitalised), not file names (#76)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse cc0ceeb1 [none] na-wiki publish: delete pages that were removed upstream (#75)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 06459559 [none] apps/world-builder: World Builder generate/run backend on the VPS (#74)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 8886e360 [none] na-wiki: Never Absolute company wiki (MediaWiki) behind the single-password gate (#73)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 117f09fd [none] qual deploy: in-flight check reads flat project files (#72)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 0ac0ad00 [none] brent deploy: health check expects the access mode the server's .env decides (open or pass
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 9c81e031 [none] brent: provision the open site (BRENT_PUBLIC=1 writes BRENT_REVIEW_PUBLIC=1 and no login),
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5843c1bc [none] brent: provision OPENROUTER_API_KEY too (optional) for the shared LLM client's default rou
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 4f2a82a6 [none] tests/run.sh: pass on a clean clone, and say what it needs
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 03be9417 [none] hive-dashboard: retire the hand-built page; / redirects to status.brianmills.dev
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1dd3faeb [none] Project brain tab v0.2.0: drawn answers to five questions, one detail panel
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 70bef274 [none] DNS: record the *.brianmills.dev wildcard to the tunnel (new names resolve at once)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ed2d29a0 [none] Glance project cards: show only each brain's next step, link to Paperclip for the rest
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse a7942d0b [none] Glance status page at status.brianmills.dev (replaces the hand-built hive dashboard)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5c33d8f5 [none] Paperclip: Project brain tab plugin (overview, documents, history)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 414e7f70 [none] wiki.brianmills.dev: answer bare empty 404 instead of the moved notice (#61)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1f031c74 [none] hive-dashboard: rebuild every minute (build takes ~3 s; the page reloads itself only when 
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 9ea20d0a [none] hive-dashboard: serve plan review pages from git at /plans/
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse b9579fb2 [none] README: hive dashboard is deployed; add the Telegram relay
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1b5c5ddb [none] telegram-relay: say where Brian wrote (phone, dashboard, terminal)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5a7f5302 [none] Hive dashboard server: /api/message posts Brian's free-text message to his Telegram thread
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 743fd04c [none] Hive dashboard: private self-updating page with one-tap answers (prepared, not deployed)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 9389d12d [none] Telegram relay: workers' messages to Brian's phone, his replies back to the board
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5b53967f [none] Personal Wiki: refresh the Inside Success trees nightly from Brian's own GitHub copies
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 4907b385 [none] Voila start page: widget-only view with a notebook chooser
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse de0df521 [none] Streamed browser: software WebGL, single-document mode, no token or published port
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 11affb51 [none] Private section: maps.brianmills.dev behind the single-password gate
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 16eddc5f [none] Retire public Project Wiki: wiki.brianmills.dev serves only a moved-notice page
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 33899b4f [none] verify-gate.sh: always clear the failed-login lockout it creates (trap) and assert login w
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3e085c06 [none] personal-wiki: back up exports/ nightly
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 420d4930 [none] personal-wiki: superset of the Project Wiki (project bundles in publish.sh, mirror-project
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 2b238bdd [none] personal-wiki: copy Brian-owned Project Wiki trees behind the stricter gate; Main Page lis
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 7f6ec9bf [none] personal-wiki: publish.sh sets Main Page to the Personal Wiki index and runs pending jobs
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 10cc4cf2 [none] set-claude-token.sh: report PASSED when Paperclip passes but skips its sign-in probe
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ba5b2014 [none] set-claude-token.sh: accept a paste wrapped in bracketed-paste markers
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse e11027a3 [none] Paperclip restore check: prove a nightly Drive backup loads, off the live instance
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3993cc25 [none] Learning loop: weekly Jev label run on the VPS (AES slice 2)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse be61bb61 [none] Paperclip agents: one-year Claude setup token instead of the 8-hour subscription connectio
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5a0bfa6f [none] Personal Wiki: single-password gate (Caddy forward_auth) replaces Cloudflare Access email 
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 35003719 [none] Brent deploy: take compose.yaml and backup-prepare.sh from origin/main (#38)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse a8851aa1 [none] Brent: data paths and appraiser-link result path in the managed compose file (#37)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 692d2882 [none] Private Personal Wiki behind Cloudflare Access plus MediaWiki login (#36)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse f5bf7564 [none] Paperclip README: Coordinator role ceo and the instructions API (#35)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 018fc93f [none] Paperclip README: decisions come to Brian in the terminal, not Telegram (#34)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 2374a759 [none] Paperclip README: how agents actually reach Brian on Telegram (#33)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse c87c640c [none] Paperclip: agents call the API on loopback, not through Cloudflare Access (#32)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ec60a67b [none] Paperclip README: agents, limited GitHub token, unattended settings (#31)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5384015b [none] Paperclip backup: one archive instead of thousands of small files (#30)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 132cb7f6 [none] Exclude custodied statewide data and caches from nightly Brent backup
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 17f3cc43 [none] Carry-over notes: Brian stays at Inside Success part time; original stays canonical (#28)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 7ed04771 [none] Paperclip: document Cloudflare Access; personal copy of carry-over notes (#27)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 38368c69 [none] Act on Paperclip review BRI-3: docs, firewall, stray bytecode (#26)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 45a070ac [none] Paperclip public board behind password login; Tailscale on the VPS (#25)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 8e4a6610 [none] Paperclip README: webhook auth response and allowed hostname (#24)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 6ef5c237 [none] Paperclip: allow the chat webhook hostname (#23)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d8f5aaed [none] Paperclip: webhook-only public route for chat apps (#22)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse fbc2921d [none] Stage Brent deploy context in a temporary worktree
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3b02e304 [none] Document Paperclip sign-in entrypoint
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d046cd42 [none] Add private Paperclip VPS deployment
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5a8ff530 [none] apps/rules: the Semantic Compiler public demo at rules.brianmills.dev, behind the limits g
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 150978c1 [none] apps/process-tracing: the Process Tracing public board at tracing.brianmills.dev, behind t
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 58c0fec0 [none] apps/theory-forge: live at theory.brianmills.dev (#16)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 8fda16de [none] apps/_common: generic limits gateway for hosted apps (per-visitor per-hour and shared dail
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 488b4f66 [none] apps/wargame: the wargame's real web UI, public, behind visitor limits (#14)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse c9c36f50 [none] Brent: provision the Gmail SMTP login for the daily FDOT alert email (#13)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 2be94537 [none] Brent: password-protect the review site and keep the login through re-provisioning (#12)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 764c7c82 [none] Brent: daily FDOT project change check timer (#11)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 394c52b5 [none] Brent: deploy the v2 (FY2027-2031) Work Program fixture and expect 6,350 rows (#10)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1747cab9 [none] Brent: record review access as an explicit decision and check it on deploy (#9)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse f9ae774f [none] Deploy guards fail closed; wiki publisher drops stale tree bundles (#8)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 74032efd [none] Wiki publisher: pass credentials to every git step (#7)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse db7fef04 [none] Wiki: nightly projection of every registered Markdown wiki (#6)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 533020cc [none] README: wiki is login-only since 2026-09-25
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse b46b5409 [none] Wiki: require login to read (reader account brian) (#5)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 59c15288 [none] Document verified Brent migration
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5bb52c7d [none] [VPS] Add Brent durable backend deployment
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5d9282af [none] Document verified CREST migration (#3)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 8c617ab5 [none] Prepare CREST data volume ownership (#2)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse e87b7589 [none] Add durable CREST VPS runtime (#1)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 2c33edc6 [none] Qual: reserve $1 per run, not $5, so a day holds 15 visitors
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1baec4cc [none] Add apps/qual: the full Qualitative Analysis workbench behind the tunnel
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse b798a92a [none] Add apps/waltzman: live Waltzman simulator behind the tunnel
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 340afab8 [none] Publish the Project Wiki from the VPS on a timer, with no desktop
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 9a0afef5 [none] Host remote-mcp on the VPS (Brian's option B), with backup snapshot hook
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 49c45815 [none] Project Wiki on the VPS; nightly plain backups to Google Drive; route helper
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 22fba4c7 [none] Edge tunnel (cloudflared) and Cloudflare API helpers
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse cb763eb7 [none] Personal VPS baseline: Docker, unattended upgrades, SSH-only firewall
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+replay: commits=121, accept=13, refuse=108, tag:none=108, tag:Goal=11, tag:Trivial=2
