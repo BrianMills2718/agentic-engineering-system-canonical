@@ -20,6 +20,14 @@ total, models and settings, context per step, outputs and reasons, decisions
 checked against source) and can SUPPORT only when every step was read and no
 checked decision was wrong. Bug-fix plans (Company Planning route `repair`) can
 now be adopted (company-planning #52, #53).
+**Existing repositories (2026-10-07, PLAN-AES-ADOPT-EXISTING, issues #180/#155):** `aes adopt`
+(instead of `aes init` where the governed roots already hold code) writes `.aes/legacy_baseline.json`:
+every tracked governed file at a named commit with its blob id. Those files are legacy, not orphans;
+a commit that edits one without a plan is refused under enforce and logged under observe (commit
+rule check `legacy-edit`); `aes plan accept` removes files the target now plans; `aes status` ends
+with the legacy share. Order: `aes adopt`, commit, `aes hooks install`. DIGIMON trial (not committed
+there): 1,071 files under 12 roots, 94 KB baseline, `aes status` 8.6 s at 100.0% legacy
+(`proposals/aes-adopt-existing/evidence/`). Next: adopt DIGIMON for real once a DIGIMON plan covers it.
 **The hive moved to personal-vps (2026-10-07):** its scripts (`hive/`) and plans (`proposals/hive-brain-v1/`, `proposals/hive-hardening/`) now live in BrianMills2718/personal-vps (PRs #113, #114); the dashboard build, Glance and the PC controls timer run from there. `scripts/hive/brain_fresh.py` stays here because other repos call it by this path.
 
 **Federated plans and misuse review (2026-10-07):** a `[Goal <id>]` now resolves from a plan in any repository under `~/code` (`plan_workspace` in `~/.config/aes/commit_rule.yaml`), so plans can move to the repository that owns them. A nightly report-only light-model review (`aes-commit-misuse-review` timer) judges accepted `[Unplanned]`/`[Trivial]` commits and opens concern `aes-commit-tag-misuse`; details in `proposals/aes-planning/ROLLOUT.md`.

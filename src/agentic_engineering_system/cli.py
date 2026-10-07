@@ -1,6 +1,7 @@
 """`aes` console entrypoint (probe 0).
 
     aes init --project-id ID --actor TEXT --outcome TEXT [--governed-root R ...] [--language L] [--root DIR]
+    aes adopt [--project-id ID --actor TEXT --outcome TEXT] [--governed-root R ...] [--revision REV] [--dry-run] [--root DIR]
     aes target validate [--root DIR]      (also: every evidence requirement has a route)
     aes context <subject> [--root DIR] [--format markdown|json]
     aes topology check [--root DIR]
@@ -34,6 +35,7 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 
+from . import adopt as _adopt
 from .characterize import CharacterizeError
 from .characterize import check as characterize_check
 from .characterize import render_report as render_characterization
@@ -95,6 +97,18 @@ def _build_parser() -> argparse.ArgumentParser:
     init.add_argument("--language", default="python",
                       help="primary language; selects evidence record's default test command (default: python)")
     init.add_argument("--root", type=Path, default=Path("."), help="top of the Git work tree (default: .)")
+
+    adp = sub.add_parser("adopt", help="existing repository: accept today's governed files as legacy in "
+                         ".aes/legacy_baseline.json (initializing .aes/ first if absent)")
+    adp.add_argument("--project-id", help="as aes init; only when the repository has no .aes/ yet")
+    adp.add_argument("--actor", help="as aes init; only when the repository has no .aes/ yet")
+    adp.add_argument("--outcome", help="as aes init; only when the repository has no .aes/ yet")
+    adp.add_argument("--governed-root", action="append", dest="governed_roots", metavar="R",
+                     help="as aes init (default: src/ tests/); only when the repository has no .aes/ yet")
+    adp.add_argument("--language", default="python", help="as aes init (default: python)")
+    adp.add_argument("--revision", default="HEAD", help="commit whose tracked files become legacy (default HEAD)")
+    adp.add_argument("--dry-run", action="store_true", help="print what would be adopted; write nothing")
+    adp.add_argument("--root", type=Path, default=Path("."), help="top of the Git work tree (default: .)")
 
     target = sub.add_parser("target", help="operate on .aes/target.yaml")
     target_sub = target.add_subparsers(dest="target_command", required=True)
@@ -240,6 +254,15 @@ def main(argv: Sequence[str] | None = None) -> int:
                   f"aes={done.project.aes.distribution_version}\n"
                   f"  outcome {done.target.outcomes[0].id}\n"
                   f"  {INIT_NEXT_STEP}")
+            if tracked := _adopt.tracked_under(args.root, done.project.governed_roots):
+                print(f"warning: the governed roots already hold {tracked} tracked file(s); the pre-commit hook will "
+                      f"refuse each as an orphan. For an existing codebase run `rm -r .aes && aes adopt` with the "
+                      f"same arguments instead (docs/greenfield/GETTING_STARTED.md)", file=sys.stderr)
+            return 0
+        if args.command == "adopt":
+            print(_adopt.render_adopted(_adopt.adopt(
+                args.root, revision=args.revision, dry_run=args.dry_run, project_id=args.project_id,
+                actor=args.actor, outcome=args.outcome, governed_roots=args.governed_roots, language=args.language)))
             return 0
         if args.root is None:
             args.root = find_project_root(Path.cwd())
@@ -279,6 +302,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                     print(f"failure {f}", file=sys.stderr)
             else:
                 text = render_status(r) if args.command == "status" else render_reconciliation(r)
+                if args.command == "status" and (legacy := _adopt.legacy_state(args.root)):
+                    text += "\n" + _adopt.render_legacy(legacy)
                 print(text, file=sys.stdout if r.ok else sys.stderr)
             return 0 if r.ok else 1
         if args.command == "plan" and args.plan_command == "prepare":
@@ -295,6 +320,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "plan" and args.plan_command == "accept":
             accepted = accept_proposal(args.root, args.proposal)
             print(render_accepted(args.root, accepted))
+            if pruned := _adopt.prune_baseline(args.root):
+                print(f"  baseline: removed {len(pruned)} now planned or untracked from {_adopt.BASELINE_PATH} "
+                      f"(commit it with the target): {', '.join(pruned)}")
             note = branch_note(args.root, accepted.revision, "this plan's accepted_at_revision stays reachable")
             if note:
                 print(note, file=sys.stderr)

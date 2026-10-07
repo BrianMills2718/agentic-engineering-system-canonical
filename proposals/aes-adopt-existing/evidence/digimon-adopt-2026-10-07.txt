@@ -1,0 +1,82 @@
+# DIGIMON is a private repository and this one is public: file paths are redacted; directory roots, counts,
+# blob ids, exit codes and timings are kept. Full unredacted log: ~/code/.scratch/aes-adopt-digimon/ (local only).
+
+DIGIMON adoption trial 2026-10-07T21:38:30Z; worktree aes-adopt-trial at 8ed0347e0c213cf713e0657283f5fc4cac71ae47; AES code at 05b7a05b39213d5cc953f7a7b2571fca8fbed577 + working tree
+tracked files total: 1804
+$ aes status --root <digimon-worktree>
+error: <digimon-worktree>/.aes/project.yaml: file does not exist
+(exit 1, 1.55 s)
+
+$ aes adopt --dry-run --project-id digimon --actor Brian, analysing social and knowledge graphs --outcome DIGIMON answers graph questions with every number traceable to a receipt. --governed-root Core/ --governed-root digimon/ --governed-root tests/ --governed-root scripts/ --governed-root eval/ --governed-root investigation_browser/ --governed-root workbench/ --governed-root graph_viz/ --governed-root tools/ --governed-root Option/ --governed-root Config/ --governed-root prompts/
+would adopt (dry run, nothing written) at 8ed0347e0c213cf713e0657283f5fc4cac71ae47
+  1071 legacy file(s) under ['Core/', 'digimon/', 'tests/', 'scripts/', 'eval/', 'investigation_browser/', 'workbench/', 'graph_viz/', 'tools/', 'Option/', 'Config/', 'prompts/']: Core/ 198, digimon/ 172, tests/ 330, scripts/ 161, eval/ 51, investigation_browser/ 37, workbench/ 32, graph_viz/ 22, tools/ 15, Option/ 16, Config/ 9, prompts/ 28
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 94491 bytes
+(exit 0, 1.07 s)
+
+$ aes adopt --project-id digimon --actor Brian, analysing social and knowledge graphs --outcome DIGIMON answers graph questions with every number traceable to a receipt. --governed-root Core/ --governed-root digimon/ --governed-root tests/ --governed-root scripts/ --governed-root eval/ --governed-root investigation_browser/ --governed-root workbench/ --governed-root graph_viz/ --governed-root tools/ --governed-root Option/ --governed-root Config/ --governed-root prompts/
+adopted at 8ed0347e0c213cf713e0657283f5fc4cac71ae47
+  1071 legacy file(s) under ['Core/', 'digimon/', 'tests/', 'scripts/', 'eval/', 'investigation_browser/', 'workbench/', 'graph_viz/', 'tools/', 'Option/', 'Config/', 'prompts/']: Core/ 198, digimon/ 172, tests/ 330, scripts/ 161, eval/ 51, investigation_browser/ 37, workbench/ 32, graph_viz/ 22, tools/ 15, Option/ 16, Config/ 9, prompts/ 28
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 94491 bytes
+  wrote .aes/project.yaml
+  wrote .aes/target.yaml
+  wrote .aes/legacy_baseline.json
+  next: git add .aes && git commit, then aes hooks install; edit a legacy file only after planning it (aes plan accept removes it from the baseline)
+(exit 0, 3.77 s)
+
+$ per-root: git ls-files count vs baseline entries
+  Core/ git=198 baseline=198
+  digimon/ git=172 baseline=172
+  tests/ git=330 baseline=330
+  scripts/ git=161 baseline=161
+  eval/ git=51 baseline=51
+  investigation_browser/ git=37 baseline=37
+  workbench/ git=32 baseline=32
+  graph_viz/ git=22 baseline=22
+  tools/ git=15 baseline=15
+  Option/ git=16 baseline=16
+  Config/ git=9 baseline=9
+  prompts/ git=28 baseline=28
+  membership: baseline == git ls-files under roots: True (1071 vs 1071)
+  baseline bytes: 94491
+$ head -12 .aes/legacy_baseline.json
+{
+ "schema_version": "aes.v0_2.legacy_baseline.v1",
+ "adopted_at_revision": "8ed0347e0c213cf713e0657283f5fc4cac71ae47",
+ "adopted_at": "2026-10-07T21:38:34+00:00",
+ "governed_roots": [
+  "Core/",
+  "digimon/",
+  "tests/",
+  "scripts/",
+  "eval/",
+  "investigation_browser/",
+  "workbench/",
+
+$ aes topology check --root <digimon-worktree>
+OK topology: 1071 governed file(s) under ['Core/', 'digimon/', 'tests/', 'scripts/', 'eval/', 'investigation_browser/', 'workbench/', 'graph_viz/', 'tools/', 'Option/', 'Config/', 'prompts/'], 0 orphan(s), 0 planned but not yet realized, 1071 legacy (in .aes/legacy_baseline.json, accepted as-is)
+(exit 0, 0.31 s)
+
+$ aes status --root <digimon-worktree>
+OK status: digimon-target at 8ed0347e0c213cf713e0657283f5fc4cac71ae47 (dirty: working tree differs from HEAD under governed roots or .aes/)
+  artifacts: 0 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 0 supported, 0 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 0 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded
+  plans: 0 accepted, 0 unreachable
+  first open gap per component:
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+  legacy: 1071 of 1071 governed file(s) still in the baseline (100.0%), 0 changed since adoption at 8ed0347e0c21
+(exit 0, 8.59 s)
+
+$ (append one comment line to one Core/ file, git add it)
+  legacy: 1071 of 1071 governed file(s) still in the baseline (100.0%), 1 changed since adoption at 8ed0347e0c21
+    changed legacy: Core/<redacted>
+(exit 0)
+$ (restored from backup) git status --short:
+?? .aes/
+
+$ sample baseline entries (first, middle, last of the sorted files map; paths redacted)
+  "Config/<redacted, depth 1>": "104921413ca41d4674a9eee8a1a1aaf90384681a"
+  "scripts/<redacted, depth 1>": "d3a748f2970da61c5a6a9eeef84a0f7e0fbb0269"
+  "workbench/<redacted, depth 2>": "baaa4be45029148b7dd2f51b1211106fd71752fb"

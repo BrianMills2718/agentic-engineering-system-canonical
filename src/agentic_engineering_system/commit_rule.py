@@ -25,6 +25,13 @@ enforce`` refuse missing tags, oversized ``[Trivial]`` and the rest while a ``[P
 ``[Goal <id>]`` naming a plan that is not adopted is only logged (Brian, 2026-10-07: enforce
 in stages; plan adoption stays observe until each project has adopted plans).
 
+In a repository adopted with ``aes adopt``, a commit that modifies (``M``/``T``) a
+file still in ``.aes/legacy_baseline.json`` that the target does not plan is an
+unplanned legacy edit, refused under any tag (check ``legacy-edit``) except Git's own
+messages and an ``[Unplanned]`` emergency: plan the file through ``aes plan accept``
+first, which removes it from the baseline. Deleting a legacy file is allowed.
+``replay`` judges history against today's baseline.
+
 Git's own merge, fixup, squash and amend messages are accepted. Paths and tags
 are matched with regular expressions (identifiers, not prose); nothing judges
 what a message means.
@@ -277,7 +284,20 @@ def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: st
     return False, "; ".join(reasons)
 
 
-def judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig) -> Verdict:
+def judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig,
+          legacy: frozenset[str] = frozenset()) -> Verdict:
+    """The tag's verdict, then the adopted repository's legacy-edit check (`adopt`)."""
+    v = _judge_tag(message, changes, governed_roots, config)
+    edited = sorted(c.path for c in changes if c.status in ("M", "T") and c.path in legacy)
+    if not edited or v.tag == "git" or (v.tag == "Unplanned" and v.verdict == "accept"):
+        return v
+    reason = (f"unplanned legacy edit: {', '.join(edited)} still in .aes/legacy_baseline.json and planned by no "
+              f"target artifact; plan the file first (aes plan accept removes it from the baseline)")
+    return Verdict("refuse", v.tag, (v.reasons if v.verdict == "refuse" else []) + [reason],
+                   v.files, v.lines, v.running_things, check="legacy-edit")
+
+
+def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig) -> Verdict:
     first = message.lstrip().splitlines()[0] if message.strip() else ""
     files = len(changes)
     lines = sum(c.added + c.deleted for c in changes)
@@ -341,6 +361,16 @@ def _governed_roots(root: Path) -> list[str]:
         return []
 
 
+def _legacy(root: Path) -> frozenset[str]:
+    """Legacy baseline paths the target does not plan; empty outside an adopted AES project. The
+    pre-commit hook has already refused a target that does not load, so a load error here is raised."""
+    from .adopt import legacy_paths
+
+    if not (root / ".aes" / "project.yaml").is_file():
+        return frozenset()
+    return legacy_paths(root)
+
+
 def _log(root: Path, entry: dict) -> Path:
     common = Path(_git(root, "rev-parse", "--git-common-dir").strip())
     log_dir = (common if common.is_absolute() else root / common) / "aes"
@@ -357,7 +387,7 @@ def check_message(root: Path, message_file: Path) -> tuple[int, str]:
     root = root.resolve()
     config = load_rule_config(root)
     message = "\n".join(l for l in message_file.read_text(encoding="utf-8").splitlines() if not l.startswith("#"))
-    verdict = judge(message, staged_changes(root), _governed_roots(root), config)
+    verdict = judge(message, staged_changes(root), _governed_roots(root), config, _legacy(root))
     log = _log(root, {"mode": config.mode, "config": config.source, "subject": message.strip().splitlines()[0] if message.strip() else "",
                       **asdict(verdict)})
     word = (verdict.verdict if verdict.verdict == "accept"
@@ -375,13 +405,14 @@ def replay(root: Path, revisions: str = "HEAD", max_count: int = 300) -> tuple[l
     root = root.resolve()
     config = load_rule_config(root)
     governed = _governed_roots(root)
+    legacy = _legacy(root)
     out = _git(root, "log", "--no-merges", f"--max-count={max_count}", "--format=%H%x00%B%x01", revisions)
     rows = []
     for record in out.split("\x01"):
         if "\x00" not in record:
             continue
         sha, body = record.strip("\n").split("\x00", 1)
-        verdict = judge(body, commit_changes(root, sha), governed, config)
+        verdict = judge(body, commit_changes(root, sha), governed, config, legacy)
         rows.append((sha, body.strip().splitlines()[0] if body.strip() else "", verdict))
     counts: dict[str, int] = {"commits": len(rows), "accept": 0, "refuse": 0}
     for _, _, v in rows:

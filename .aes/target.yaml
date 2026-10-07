@@ -123,6 +123,19 @@ normative_items:
     of kind trace_review; an observation assessing a trace_review requirement carries a TraceReview
     record whose reviewer is not the author, and may SUPPORT only when every trace step was read and
     no checked decision was wrong.
+- id: ADOPT-REQ-001
+  kind: behavior
+  outcome_refs:
+  - OUT-GF-001
+  statement: >
+    aes adopt writes .aes/legacy_baseline.json listing every tracked file under the governed roots at
+    a named revision with its blob hash (minus files the target already plans), initializing the
+    project first when it has no .aes/. Baseline files the target does not plan are legacy, not
+    orphans, in topology, characterize and reconcile; a file in neither is still an orphan. A commit
+    that modifies a legacy file is an unplanned legacy edit under the commit rule's mode (observe logs
+    it, enforce refuses it), except Git's own messages and [Unplanned] emergencies. aes plan accept
+    removes baseline entries the target now plans or Git no longer tracks. aes status shows the
+    legacy share and how many legacy files changed since adoption.
 success_criteria:
 - id: SC-GF-001
   statement: >
@@ -341,6 +354,25 @@ success_criteria:
     requirement: >
       tests/greenfield/test_trace_review.py builds real proposals against the frozen whygame5 target
       and real observation files, asserting each refusal's message and each acceptance.
+- id: SC-ADOPT-001
+  statement: >
+    Adopting a real repository lists exactly its tracked governed files with their blobs and status
+    reads 100% legacy; the adoption commit passes the installed hooks; an unplanned legacy edit is
+    logged in observe and refused in enforce; planning that file removes exactly that path from the
+    baseline and its edit is then accepted; a new unplanned file is still an orphan.
+  target_refs:
+  - ADOPT-REQ-001
+  disproof: >
+    The baseline misses or adds a tracked governed file or binds a wrong blob; the adoption commit is
+    refused as orphans; an unplanned legacy edit lands under enforce; aes plan accept removes any path
+    other than the newly planned ones; or a new unplanned file passes the pre-commit hook.
+  evidence_requirements:
+  - id: ER-ADOPT-001-01
+    kind: deterministic_test
+    requirement: >
+      tests/greenfield/test_adopt.py clones this repository, adopts it with src/ and tests/ as roots,
+      and drives the real CLI and installed hooks through each case, asserting baseline membership
+      by set equality and the exact path removed.
 components:
 - id: RU-AES-RECORDS
   responsibility: >
@@ -472,6 +504,17 @@ components:
   - ART-SRC-COMMIT-RULE
   - ART-TEST-COMMIT-RULE
   - ART-TEST-PLAN-RECEIPT
+- id: RU-AES-ADOPT
+  responsibility: >
+    Bring an existing repository under AES without planning its old files: the legacy baseline, its
+    effect on topology and the commit rule, its pruning on plan acceptance, and the legacy share in
+    status.
+  target_refs:
+  - ADOPT-REQ-001
+  - SC-ADOPT-001
+  planned_artifact_refs:
+  - ART-SRC-ADOPT
+  - ART-TEST-ADOPT
 planned_artifacts:
 - id: ART-SRC-RECORDS
   locator:
@@ -896,6 +939,28 @@ planned_artifacts:
   purpose: prove plans require trace reviews and trace-review observations are checked
   semantic_justification_refs:
   - SC-TR-001
+- id: ART-SRC-ADOPT
+  locator:
+    exact_path: src/agentic_engineering_system/adopt.py
+  kind: source
+  purpose: >
+    Legacy baseline for adopting an existing repository: write it at a named revision, load it,
+    derive the legacy set, prune planned or untracked entries, and report the legacy share.
+  semantic_justification_refs:
+  - ADOPT-REQ-001
+  exports:
+  - adopt
+  - load_baseline
+  - legacy_paths
+  - prune_baseline
+  - legacy_state
+- id: ART-TEST-ADOPT
+  locator:
+    exact_path: tests/greenfield/test_adopt.py
+  kind: test
+  purpose: prove adoption of a real repository, unplanned legacy edits by mode, and baseline pruning
+  semantic_justification_refs:
+  - SC-ADOPT-001
 verification_subjects:
 - id: VS-GF-RECORDS
   criterion_refs:
@@ -1052,6 +1117,15 @@ verification_subjects:
   proof_role: direct
   locator: tests/greenfield/test_trace_review.py
   purpose: prove plans require trace reviews and trace-review observations are checked
+- id: VS-ADOPT
+  criterion_refs:
+  - SC-ADOPT-001
+  evidence_requirement_refs:
+  - ER-ADOPT-001-01
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/greenfield/test_adopt.py
+  purpose: prove adoption of a real repository, unplanned legacy edits by mode, and baseline pruning
 external_boundaries:
 - evidence_requirement_ref: ER-SC-GF-001-01
   boundary: >

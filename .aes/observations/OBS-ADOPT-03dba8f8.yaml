@@ -1,0 +1,74 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-ADOPT-03dba8f8
+subject_refs:
+- VS-ADOPT
+subject_revision: 03dba8f86b148a958d9a660684501aa89dc819e4
+dependency_paths:
+- src/agentic_engineering_system/__init__.py
+- src/agentic_engineering_system/adopt.py
+- src/agentic_engineering_system/characterize.py
+- src/agentic_engineering_system/characterize_python.py
+- src/agentic_engineering_system/cli.py
+- src/agentic_engineering_system/commit_rule.py
+- src/agentic_engineering_system/context.py
+- src/agentic_engineering_system/evidence.py
+- src/agentic_engineering_system/hooks.py
+- src/agentic_engineering_system/planning.py
+- src/agentic_engineering_system/project.py
+- src/agentic_engineering_system/reconcile.py
+- src/agentic_engineering_system/records.py
+- src/agentic_engineering_system/topology.py
+- tests/greenfield/test_adopt.py
+dependency_basis:
+  locator: tests/greenfield/test_adopt.py
+  discovered:
+  - src/agentic_engineering_system/__init__.py
+  - src/agentic_engineering_system/adopt.py
+  - src/agentic_engineering_system/characterize.py
+  - src/agentic_engineering_system/characterize_python.py
+  - src/agentic_engineering_system/cli.py
+  - src/agentic_engineering_system/commit_rule.py
+  - src/agentic_engineering_system/context.py
+  - src/agentic_engineering_system/evidence.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/planning.py
+  - src/agentic_engineering_system/project.py
+  - src/agentic_engineering_system/reconcile.py
+  - src/agentic_engineering_system/records.py
+  - src/agentic_engineering_system/topology.py
+  declared: []
+dependency_target_refs:
+- VS-ADOPT
+- ER-ADOPT-001-01
+- ART-SRC-ADOPT
+- ART-SRC-CHARACTERIZE
+- ART-SRC-CHARACTERIZE-PYTHON
+- ART-SRC-CLI
+- ART-SRC-COMMIT-RULE
+- ART-SRC-CONTEXT
+- ART-SRC-EVIDENCE
+- ART-SRC-HOOKS
+- ART-SRC-PLANNING
+- ART-SRC-PROJECT
+- ART-SRC-RECONCILE
+- ART-SRC-RECORDS
+- ART-SRC-TOPOLOGY
+- ART-TEST-ADOPT
+- ART-V01---INIT---PY
+observer: &id001
+  identity: aes evidence record
+  version: '0.1.dev535+g618a6e475 (running: 03dba8f)'
+method: /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest -q 
+  tests/greenfield/test_adopt.py
+execution_state: COMPLETED
+result:
+  exit_code: 0
+  output_tail: "........                                                                 [100%]\n8 passed
+    in 57.40s"
+produced_at: '2026-10-07T21:43:14+00:00'
+assessments:
+- evidence_requirement_ref: ER-ADOPT-001-01
+  assessment: SUPPORTS
+  basis: 'VS-ADOPT (prove adoption of a real repository, unplanned legacy edits by mode, and baseline
+    pruning) passed: exit 0'
+  assessor: *id001

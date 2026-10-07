@@ -33,6 +33,7 @@ from typing import Final, Literal
 
 from .characterize_python import PythonFacts, analyze, module_name, parse_export
 from .records import StrictModel, TargetRecord, load_project, load_target
+from .adopt import legacy_paths
 from .topology import compare_topology, normalized_roots
 
 CHARACTERIZATION_SCHEMA: Final = "aes.v0_2.characterization.probe0"
@@ -211,7 +212,8 @@ class Drift:
         return self.kind != "unrealized"
 
 
-def drift(target: TargetRecord, characterization: Characterization) -> list[Drift]:
+def drift(target: TargetRecord, characterization: Characterization,
+          legacy: frozenset[str] = frozenset()) -> list[Drift]:
     files = {f.path: f for f in characterization.files}
     found: list[Drift] = []
     for a in target.planned_artifacts:
@@ -237,7 +239,7 @@ def drift(target: TargetRecord, characterization: Characterization) -> list[Drif
                 found.append(Drift("signature_changed", path, a.id, f"'{name}' committed {signature}, found {actual}"))
 
     topology = compare_topology(
-        tuple(characterization.governed_roots), tuple(files), target,
+        tuple(characterization.governed_roots), tuple(files), target, legacy,
     )
     found += [Drift("orphan", p, None, "no planned artifact has this exact_path") for p in topology.orphans]
     found += [Drift("unrealized", p, aid, "planned, no file at this revision") for aid, p in topology.unrealized]
@@ -259,7 +261,7 @@ def check(root: Path) -> CharacterizeReport:
     project = load_project(root / ".aes" / "project.yaml")
     target = load_target(root / project.materialization.target_path)
     c = characterize(root)
-    return CharacterizeReport(c, tuple(drift(target, c)))
+    return CharacterizeReport(c, tuple(drift(target, c, legacy_paths(root, target))))
 
 
 def render_report(report: CharacterizeReport) -> str:

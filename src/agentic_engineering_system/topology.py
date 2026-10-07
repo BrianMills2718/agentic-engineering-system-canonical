@@ -13,6 +13,9 @@ Findings:
 - orphan: a durable governed file no planned artifact accounts for. Failure.
 - unrealized: a planned artifact under a governed root with no durable file yet.
   Reported, not a failure; planned work legitimately precedes its files.
+- legacy: a durable governed file the target does not plan but the adopted
+  repository's `.aes/legacy_baseline.json` lists (`adopt`). Reported, not a failure;
+  editing it without a plan is the commit rule's concern, not this check's.
 
 Bounded generation rules (the second locator form in the candidate topology)
 are not implemented: the first consumer has no file that needs one.
@@ -37,6 +40,7 @@ class TopologyReport:
     governed_files: tuple[str, ...]
     orphans: tuple[str, ...]
     unrealized: tuple[tuple[str, str], ...]  # (artifact id, exact path)
+    legacy: tuple[str, ...] = ()  # in the legacy baseline, not planned: accepted as-is, not orphans
 
     @property
     def ok(self) -> bool:
@@ -71,11 +75,13 @@ def check_topology(root: Path) -> TopologyReport:
     project = load_project(root / ".aes" / "project.yaml")
     target = load_target(root / project.materialization.target_path)
     governed = normalized_roots(project.governed_roots)
+    from .adopt import legacy_paths  # adopt imports this module
 
-    return compare_topology(governed, _indexed_files(root, governed), target)
+    return compare_topology(governed, _indexed_files(root, governed), target, legacy_paths(root, target))
 
 
-def compare_topology(governed: tuple[str, ...], files: tuple[str, ...], target: TargetRecord) -> TopologyReport:
+def compare_topology(governed: tuple[str, ...], files: tuple[str, ...], target: TargetRecord,
+                     legacy: frozenset[str] = frozenset()) -> TopologyReport:
     """Orphans and unrealized artifacts for a given governed file list.
 
     `check_topology` feeds it the Git index; `characterize.drift` feeds it the
@@ -87,11 +93,12 @@ def compare_topology(governed: tuple[str, ...], files: tuple[str, ...], target: 
     return TopologyReport(
         governed_roots=governed,
         governed_files=files,
-        orphans=tuple(p for p in files if p not in planned),
+        orphans=tuple(p for p in files if p not in planned and p not in legacy),
         unrealized=tuple(
             (aid, path) for path, aid in sorted(planned.items())
             if _under(path, governed) and path not in present
         ),
+        legacy=tuple(p for p in files if p not in planned and p in legacy),
     )
 
 
@@ -99,7 +106,8 @@ def render_report(report: TopologyReport) -> str:
     lines = [
         f"{'OK' if report.ok else 'FAIL'} topology: {len(report.governed_files)} governed file(s) "
         f"under {list(report.governed_roots)}, {len(report.orphans)} orphan(s), "
-        f"{len(report.unrealized)} planned but not yet realized",
+        f"{len(report.unrealized)} planned but not yet realized"
+        + (f", {len(report.legacy)} legacy (in .aes/legacy_baseline.json, accepted as-is)" if report.legacy else ""),
     ]
     for path in report.orphans:
         lines.append(f"  orphan: {path}")
