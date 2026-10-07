@@ -1,0 +1,371 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-PLAN-de84f63eaf1e",
+  "plan": {
+    "plan_ref": "proposals/aes-brownfield-docs/PLAN.md",
+    "plan_sha256": "de84f63eaf1e9c2593735c081835fa384008be6ad6efb1845f6d11fc7051d809"
+  },
+  "path_decision": {
+    "ref": "proposals/aes-brownfield-docs/PLANNING_PATH.json",
+    "sha256": "46d44352e8e6bc8786b09a1202b005106697327a3b7e7b60b437aabdf4516958",
+    "selected_path": "durable_solo",
+    "classified_path": "durable_solo",
+    "errors": []
+  },
+  "route": "durable_solo",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@3",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "8a70805fcdf40b3c68c57ea3cf137ec1b26c71eaca4db0bb9de20c34404cc8dc"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "b2aaf9581e24108cf0bc7642bbc381cfb1868cb40491982fe6963ab5c126184e"
+  },
+  "activation": {
+    "facts_ref": "proposals/aes-brownfield-docs/activation-facts.json",
+    "facts_sha256": "df01812f0891ada9a98638f9437f4d8c66ae9d2d24f6197355e6d3fd22afe9bb",
+    "facts": {
+      "shared_mechanism": true,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "multiple_writers": false,
+      "consequential_boundary": false,
+      "inline_prototype": false
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": true,
+        "reason": "shared_mechanism=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": false,
+        "reason": "multiple_writers=false (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": false,
+        "reason": "inline_prototype=false (derived:classified_path==prototype)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:6ee5cdec9bb29c413a62fdb55d3b7fb19c93f2e815702e9428b416b19dfd05ce",
+    "definition_sha256": "861f27d32183ce3fc08b4b6e72694149a34f1fa49339f9c1fd03b45537361025",
+    "bundle_ref": "proposals/aes-brownfield-docs/checklist.bundle.json",
+    "bundle_sha256": "8f4e18213a65769960774723582d3f20ee4d19dc578fabbde6ca9d126bf8d4a0",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-brownfield-docs/PLAN.md#outcome-and-boundaries",
+          "sha256": "de84f63eaf1e9c2593735c081835fa384008be6ad6efb1845f6d11fc7051d809"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/cb0772ea1a50/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the served actors as “an agent or Brian” and states the desired result: reaching repository documents from `wiki/index.md` within two clicks. It provides a concrete user-visible example in which a new agent follows `wiki/index.md` → “Decisions” → the decision document and cites the relevant section."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-brownfield-docs/PLANNING_PATH.json",
+          "sha256": "46d44352e8e6bc8786b09a1202b005106697327a3b7e7b60b437aabdf4516958"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-brownfield-docs/PLAN.md#outcome-and-boundaries",
+          "sha256": "de84f63eaf1e9c2593735c081835fa384008be6ad6efb1845f6d11fc7051d809"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/cb0772ea1a50/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly defines success evidence: zero orphan reader documents, a cold-reader run answering five questions with reachable citations, and unchanged repository checks passing. It also gives concrete disproof conditions, including any remaining orphan, unreachable required file, newly failing check, or tooling changes exceeding about 10 files of non-documentation code."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-brownfield-docs/PLAN.md#outcome-and-boundaries",
+          "sha256": "de84f63eaf1e9c2593735c081835fa384008be6ad6efb1845f6d11fc7051d809"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/cb0772ea1a50/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies authority: the agent may merge pull requests after checks pass, subject to Brian’s standing merge rule, with limits on spending and external publication. It also explicitly lists non-goals, including code governance, file-count targets, content rewriting, other repositories before the pilot, and changing the layout contract."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-brownfield-docs/PLAN.md#irreversible-actions-and-spend",
+          "sha256": "de84f63eaf1e9c2593735c081835fa384008be6ad6efb1845f6d11fc7051d809"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/cb0772ea1a50/CORE-IRREVERSIBLE-SPEND",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence lists each proposed action with an explicit boundary, authorizer, and containment method in the table. It also states that there is no additional spend, deployment, data deletion, or outward transmission."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-brownfield-docs/PLAN.md#decisions-and-assumptions",
+          "sha256": "de84f63eaf1e9c2593735c081835fa384008be6ad6efb1845f6d11fc7051d809"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/cb0772ea1a50/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that the three listed uncertainties are the complete set and provides an owner and resolving evidence for each. Each row names the uncertainty, identifies an owner, and specifies the result or decision that would resolve it."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-brownfield-docs/PLAN.md#activation-facts",
+          "sha256": "de84f63eaf1e9c2593735c081835fa384008be6ad6efb1845f6d11fc7051d809"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/cb0772ea1a50/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly declares `shared_mechanism` true, matching its stated extension of the shared daily documentation check. It explicitly declares the other three facts false, and the evidence characterizes the cold-reader run as verification rather than an experiment, the LLM as an evaluation step rather than a central dependency, and the changes as reversible with zero spend or irreversible actions."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-brownfield-docs/PLAN.md#prior-art-and-parallel-implementation-check",
+          "sha256": "de84f63eaf1e9c2593735c081835fa384008be6ad6efb1845f6d11fc7051d809"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/cb0772ea1a50/OV-PRIOR-ART-DISPOSITION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states searches of internal lineage, existing repositories/ownership, and external documentation-structure practice. Each listed capability or prior-art candidate has an explicit disposition of reuse, extend, compose, or bounded exception, with rationale; no supersede disposition is required where none was selected."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "effect": "advisory",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-brownfield-docs/PLAN.md#prior-art-and-parallel-implementation-check",
+          "sha256": "de84f63eaf1e9c2593735c081835fa384008be6ad6efb1845f6d11fc7051d809"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/cb0772ea1a50/OV-PRIOR-ART-PARALLEL-CHECK",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names concrete structural checks: `git grep -l \"wiki/index.md\" -- 'scripts/*.py'` to detect a second reachability checker and `git grep -n \"docs/adr/\"` across the merged branch to detect consumers still using the old decisions home. It also identifies the scheduled `workspace-map-check` consumer-path proof."
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 9,
+    "unresolved": 0,
+    "not_applicable": 0,
+    "unavailable": 0,
+    "missing": 0
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-PLAN-de84f63eaf1e",
+    "snapshot_ref": "SNAPSHOT-PLAN",
+    "snapshot_revision": "sha256:8f4e18213a65769960774723582d3f20ee4d19dc578fabbde6ca9d126bf8d4a0",
+    "packet_ref": "proposals/aes-brownfield-docs/PLAN.md",
+    "packet_revision": "sha256:de84f63eaf1e9c2593735c081835fa384008be6ad6efb1845f6d11fc7051d809",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [],
+    "route": "durable_solo",
+    "adoption_readiness": "ready_for_contributor",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "pass",
+  "reason_codes": [],
+  "actionable_summary": [
+    "pass: 9 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "claude-code",
+    "session": "e8c5f5c3-bf08-4029-afda-df0a6b5f84cc"
+  },
+  "started_at": "2026-10-07T23:40:48Z",
+  "completed_at": "2026-10-07T23:41:09Z",
+  "duration_ms": 17279
+}
