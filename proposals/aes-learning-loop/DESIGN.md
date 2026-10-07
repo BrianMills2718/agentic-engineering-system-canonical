@@ -170,7 +170,7 @@ agent ran the `learned` skill by hand.
 
 `scripts/learning_loop/collect_feedback.py` (pure parsing in `transcripts.py`)
 runs nightly from `feedback-collector.timer` on Brian's PC (units in
-`scripts/learning_loop/systemd/`, installed like `scripts/hive/systemd/`):
+`scripts/learning_loop/systemd/`, installed like personal-vps `hive/systemd/`):
 
 | Step | How | Disposition |
 |---|---|---|
@@ -181,7 +181,7 @@ runs nightly from `feedback-collector.timer` on Brian's PC (units in
 | Already in the register? | nearest entry by word overlap, then Jev's probability that it states the same lesson. **Annotation only**: Jev's stance accuracy was weak in Brian's own test (6/15, inquiry-graph `docs/goals/cross-conversation-linker.md`), so it drops nothing until measured on a labeled sample | configure, unmeasured |
 | Output | one JSON line per item in `~/projects/data/feedback-collector/items-<date>.jsonl` (exact quote, transcript, byte offset, session, time, client, kind, Jev probability), run summary in `runs.jsonl` | reuse (one file per day rule) |
 | Filing | learning/friction/correction items from closeout Learnings or Policy fields or the LLM step, Jev p ≥ 0.8, at most 25 a night, through `project-meta/scripts/log_learning.py` with `--transcript-ref` and the transcript byte offset as `--source-ref`. Concerns and Decisions stay in the daily log (their homes are concern issues and decision records) | reuse |
-| Going dark | non-zero exit opens a keyed agent concern (`notify_operator.py`); `scripts/hive/controls.py` reads `runs.jsonl` | reuse |
+| Going dark | non-zero exit opens a keyed agent concern (`notify_operator.py`); personal-vps `hive/controls.py` reads `runs.jsonl` | reuse |
 
 Privacy: transcript text goes only to OpenRouter through `llm_client` and to
 the local data folder. This repository is public, so no transcript text or
