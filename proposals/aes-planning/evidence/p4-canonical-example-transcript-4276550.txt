@@ -1,0 +1,29 @@
+# P4 live run in AES canonical at 4276550, 2026-10-07T22:21:41Z; tracked hooks, no PYTHONPATH
+# .aes/commit_rule.yaml set to enforce in this throwaway copy only
+
+$ git commit -m "[Unplanned] add worker tools"   (staged: Dockerfile, compose.yaml)
+aes commit rule: refuse [Unplanned] — [Unplanned] is for emergencies: add an 'Emergency: <reason>' line; this change touches running-thing file(s) Dockerfile, compose.yaml and needs a plan ([Plan #N] or [Goal <id>]) (logged to /home/brian/code/agentic-engineering-system-canonical/.git/aes/commit-rule-2026-10-07.jsonl)
+exit 1
+
+$ git commit -m "[Goal aes-planning] U2: worker tools"   (same staged change)
+aes commit rule: accept [Goal aes-planning] — plan aes-planning adopted (proposals/aes-planning/README.md) (logged to /home/brian/code/agentic-engineering-system-canonical/.git/aes/commit-rule-2026-10-07.jsonl)
+[scratch/p4-live-4276550 bf1b475] [Goal aes-planning] U2: worker tools
+ 2 files changed, 5 insertions(+)
+ create mode 100644 Dockerfile
+ create mode 100644 compose.yaml
+exit 0
+
+$ git commit -m "[Trivial] fix typo"   (staged: README.md, one line)
+aes commit rule: accept [Trivial] — trivial: 1 file(s), 2 line(s), no running-thing file (logged to /home/brian/code/agentic-engineering-system-canonical/.git/aes/commit-rule-2026-10-07.jsonl)
+[scratch/p4-live-4276550 61f5ce9] [Trivial] fix typo
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+exit 0
+
+# back to the committed mode: observe
+
+$ git commit -m "[Unplanned] add another worker image"   (staged: Dockerfile.worker)
+aes commit rule: would refuse (observe mode) [Unplanned] — [Unplanned] is for emergencies: add an 'Emergency: <reason>' line; this change touches running-thing file(s) Dockerfile.worker and needs a plan ([Plan #N] or [Goal <id>]) (logged to /home/brian/code/agentic-engineering-system-canonical/.git/aes/commit-rule-2026-10-07.jsonl)
+[scratch/p4-live-4276550 3036bbf] [Unplanned] add another worker image
+ 1 file changed, 1 insertion(+)
+ create mode 100644 Dockerfile.worker
+exit 0
