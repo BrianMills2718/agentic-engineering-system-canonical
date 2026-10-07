@@ -18,6 +18,12 @@ one sorted JSON object with one line per file, never one file per entry.
   is only logged (observe). Deleting a legacy file is allowed.
 - **Only shrinks.** `aes plan accept` calls `prune_baseline`, which drops entries the
   target now plans or Git no longer tracks. Nothing ever adds an entry after adoption.
+- **Released by a plan's scope (#218).** A repository planned through Company Planning
+  never runs `aes plan accept`. A legacy file that has changed at `HEAD` and lies inside a
+  `write`/`exclusive` `conflict_surfaces` entry of an adopted plan in this repository is
+  released: `unplanned_legacy` (what the commit rule refuses edits to, and what `aes status`
+  counts as legacy) leaves it out. The JSON file keeps the entry, so `topology` still knows
+  the file and does not call it an orphan; only planning it in the target prunes the entry.
 - **Visible.** `aes status` prints `render_legacy(legacy_state(root))`: the legacy
   share, and how many legacy files changed since adoption (edits that landed in
   observe mode).
@@ -73,6 +79,7 @@ class LegacyState:
     governed: int  # governed files in the Git index
     legacy: int  # of those, still in the baseline and not planned
     changed: tuple[str, ...]  # legacy files whose indexed blob differs from the baseline's
+    released: int = 0  # baseline files an adopted plan's scope released (`scope_released`)
 
 
 def _git(root: Path, *args: str) -> str:
@@ -239,6 +246,33 @@ def legacy_paths(root: Path, target: TargetRecord | None = None) -> frozenset[st
     return frozenset(baseline.files) - _planned(target)
 
 
+def scope_released(root: Path, baseline: Baseline | None = None) -> frozenset[str]:
+    """Baseline files changed at HEAD that lie in a write surface of an adopted Company Planning
+    plan in this repository's plan roots (`commit_rule.adopted_write_scopes`). HEAD, not the
+    index: the commit being judged has not released the file it edits yet."""
+    from .commit_rule import adopted_write_scopes, in_surface, load_rule_config
+
+    root = Path(root).resolve()
+    baseline = baseline if baseline is not None else load_baseline(root)
+    if baseline is None:
+        return frozenset()
+    if subprocess.run(["git", "-C", str(root), "rev-parse", "-q", "--verify", "HEAD^{commit}"],
+                      capture_output=True, check=False).returncode != 0:
+        return frozenset()
+    head = _tree_blobs(root, "HEAD", baseline.governed_roots)
+    changed = [p for p, blob in baseline.files.items() if p in head and head[p] != blob]
+    if not changed:
+        return frozenset()
+    config = load_rule_config(root)
+    scopes = adopted_write_scopes(config.plan_roots, config.repository_names)
+    return frozenset(p for p in changed if any(in_surface(p, t) for t in scopes))
+
+
+def unplanned_legacy(root: Path) -> frozenset[str]:
+    """`legacy_paths` minus `scope_released`: the files whose edit still needs a plan's scope."""
+    return legacy_paths(root) - scope_released(root)
+
+
 def legacy_state(root: Path) -> LegacyState | None:
     root = Path(root).resolve()
     baseline = load_baseline(root)
@@ -247,9 +281,11 @@ def legacy_state(root: Path) -> LegacyState | None:
     project = load_project(root / ".aes" / "project.yaml")
     planned = _planned(load_target(root / project.materialization.target_path))
     index = _index_blobs(root, _roots(project.governed_roots))
-    legacy = [p for p in baseline.files if p in index and p not in planned]
+    released = scope_released(root, baseline)
+    legacy = [p for p in baseline.files if p in index and p not in planned and p not in released]
     return LegacyState(baseline.adopted_at_revision, len(index), len(legacy),
-                       tuple(sorted(p for p in legacy if index[p] != baseline.files[p])))
+                       tuple(sorted(p for p in legacy if index[p] != baseline.files[p])),
+                       released=len(released - planned))
 
 
 def prune_baseline(root: Path) -> tuple[str, ...]:
@@ -298,7 +334,8 @@ def render_adopted(r: AdoptResult) -> str:
 def render_legacy(s: LegacyState) -> str:
     share = 100.0 * s.legacy / s.governed if s.governed else 0.0
     line = (f"  legacy: {s.legacy} of {s.governed} governed file(s) still in the baseline ({share:.1f}%), "
-            f"{len(s.changed)} changed since adoption at {s.adopted_at_revision[:12]}")
+            f"{len(s.changed)} changed since adoption at {s.adopted_at_revision[:12]}"
+            + (f", {s.released} released by an adopted plan's conflict_surfaces" if s.released else ""))
     if s.changed:
         line += "\n" + "\n".join(f"    changed legacy: {p}" for p in s.changed[:10])
         if len(s.changed) > 10:

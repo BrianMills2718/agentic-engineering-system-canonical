@@ -329,3 +329,33 @@ def test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_els
                            "[Goal onmain] U1: worker tools"], cwd=repo, capture_output=True, text=True, env=env)
     assert done.returncode == 0, done.stderr
     assert "adopted on the default branch (owner origin/main:proposals/onmain/README.md)" in done.stderr
+
+
+def test_conflict_surface_matching_and_repository_names(tmp_path: Path) -> None:
+    """#218: the scope vocabulary is Company Planning's conflictSurface; only write/exclusive
+    repository_path surfaces naming this repository grant edits."""
+    from agentic_engineering_system.commit_rule import in_surface, repository_names, write_scope
+
+    assert in_surface("tests/unit/test_x.py", "tests/unit/test_x.py")
+    assert in_surface("tests/unit/test_x.py", "tests/unit") and in_surface("tests/unit/test_x.py", "tests/unit/")
+    assert not in_surface("tests/unit_other/a.py", "tests/unit")
+    assert in_surface("pkg/a/b/c.py", "pkg/**/*.py") and in_surface("pkg/c.py", "pkg/**/*.py")
+    assert in_surface("pkg/c.py", "pkg/*.py") and not in_surface("pkg/a/c.py", "pkg/*.py")
+    assert not in_surface("anything", "")
+
+    meta = {"conflict_surfaces": [
+        {"kind": "repository_path", "repository": "Owner/Repo", "target": "src/a.py", "access": "write"},
+        {"kind": "repository_path", "repository": "repo", "target": "src/b", "access": "exclusive"},
+        {"kind": "repository_path", "repository": "owner/repo", "target": "src/c.py", "access": "read"},
+        {"kind": "repository_path", "repository": "other/repo2", "target": "src/d.py", "access": "write"},
+        {"kind": "contract", "repository": "owner/repo", "target": "src/e.py", "access": "write"},
+        "not a mapping",
+    ]}
+    assert write_scope(meta, ("owner/repo", "repo")) == ["src/a.py", "src/b"]
+    assert write_scope({"conflict_surfaces": "src/"}, ("repo",)) == []
+
+    root = tmp_path / "checkout-folder"
+    root.mkdir()
+    _git(root, "init", "-q")
+    _git(root, "remote", "add", "origin", "git@github-personal:Owner/Repo.git")
+    assert repository_names(root) == ("owner/repo", "repo", "checkout-folder")
