@@ -57,6 +57,11 @@ import transcripts as T  # noqa: E402
 HOME = Path.home()
 OUT = Path(os.environ.get("FEEDBACK_OUT", HOME / "projects/data/feedback-collector"))
 PROJECT_META = Path(os.environ.get("PROJECT_META", HOME / "code/project-meta"))
+# log_learning.py runs from a copy refreshed to origin/main before each run (the timer's ExecStartPre):
+# the canonical checkout is read-only, and stale, whenever any lane claims it, so its own copy of the
+# tool can lag the fixes the collector depends on (2026-10-07: it lacked --auto-job). Entries still
+# go to the canonical register through --store-path.
+PROJECT_META_TOOLS = Path(os.environ.get("PROJECT_META_TOOLS", HOME / ".hive-brain/project-meta"))
 EXTRACT_MODEL = "openrouter/deepseek/deepseek-v4-flash"
 JEV = "openrouter/typesafe/jev-1.13"
 KINDS = {
@@ -328,7 +333,9 @@ def file_item(it: dict) -> str:
         body += f"\n\nSuggested lesson (light LLM, unreviewed): {it['lesson'].strip()}"
     if len(body) < 80:  # the register's own minimum; a shorter item is not actionable on review
         raise ValueError("body under 80 characters")
-    cmd = [sys.executable, str(PROJECT_META / "scripts/log_learning.py"), "--type", "learning",
+    tools = PROJECT_META_TOOLS if (PROJECT_META_TOOLS / "scripts/log_learning.py").exists() else PROJECT_META
+    cmd = [sys.executable, str(tools / "scripts/log_learning.py"), "--type", "learning",
+           "--store-path", str(PROJECT_META / "learnings/entries"), "--repo-root", str(PROJECT_META),
            "--agent", "claude-code" if it["client"] == "claude" else "codex", "--invocation", "import",
            "--knowledge-kind", "observation", "--applicability-task-type", "other",
            "--transcript-ref", f"{'claude-code' if it['client'] == 'claude' else 'codex'}:{it['session_id']}",

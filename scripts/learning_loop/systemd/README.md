@@ -29,3 +29,10 @@ whose text was already filed is skipped (`duplicate_of_filed`). Hand check of 10
 this gate on 2026-10-07: 8/10 reusable and correctly typed; the 2 failures were exact repeats, which the
 duplicate skip now removes. Everything else stays in the daily log. Wrong if the next 10-entry spot check
 falls below 8/10; then turn filing off again (drop `--file`).
+
+## project-meta tools copy (2026-10-07)
+
+The collector runs `log_learning.py` from `~/.hive-brain/project-meta`, which the service refreshes to
+origin/main before each run, and writes entries to `~/code/project-meta/learnings/entries` through
+`--store-path`. The canonical checkout is read-only and stale while any lane claims it. Set up once:
+`git clone --depth 1 git@github-personal:BrianMills2718/project-meta.git ~/.hive-brain/project-meta`.
