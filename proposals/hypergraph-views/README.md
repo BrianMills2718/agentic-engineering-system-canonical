@@ -3,6 +3,7 @@ plan_id: hypergraph-views
 status: shaping
 selected_path: coordinated
 planning_path_decision: proposals/hypergraph-views/planning-path-decision.json
+method_conformance_receipt: proposals/hypergraph-views/method-conformance-receipt.json
 review_page: proposals/hypergraph-views/review-page/hypergraph-views-plan.html
 goal:
   outcome: any project whose facts join more than two things in named roles is drawn without breaking them into pairs, through the shared graph viewer and the Representation Router; the DoDAF demo shows its model and the whole DM2 metamodel that way, and a reader or the agent can build a custom view from a checked recipe
@@ -55,12 +56,104 @@ The graph then stays connected where the facts connect.
 | View recipes (selection, grouping, shape) as a registry | dodaf `semantic_authority/projections.py` | **reuse** the shape for recipe-built views |
 | Router catalog: 26 representations, none for hypergraphs | representation-router `catalog/` | **extend**: relation-hub-graph, paoh-hypergraph, upset-plot; hypergraph structure; three heuristics; recipe-built-views pattern (ready as a tested patch) |
 
-**What was searched:** the two repositories above for hub and hypergraph rendering; the router catalog
+**Ownership searched (2026-10-07):** `project-meta/PROJECT_GRAPH.json` and the coordination claims for
+representation-router (1 active claim: this plan's own lane), dodaf (none), onto-canon6 (4, none on views or
+the DM2 pack) and scientific-hypergraph (none). Representation Router owns the shared viewer and the
+catalog; dodaf owns its demo; nobody else owns hub drawing.
+
+**Internal lineage searched:** the ideas register `vision/legacy/project-meta-vision/ARCHITECTURAL_IDEAS.md`
+for hypergraph, hyperedge, n-ary and role-typed:
+
+| Earlier work | Disposition |
+|---|---|
+| onto-canon6 "n-ary assertions with role-preserving projection" (assertion node plus role edges; `docs/topics/views/n-ary-assertion-model.md`) | **reuse** as the hyperedge encoding in typed-graph/v1: a fact is a node of kind relation with role-labelled edges |
+| onto-canon6 "projection-scoped loss accounting" (`make kg-conformance`) | **reuse** the idea: each view states what it flattens; the piece count is that statement for the hub view |
+| dodaf "dual graph surfaces" (`thin/corpus.py`, ADR 0006: an evidence surface keeping n-ary role edges beside a readable surface) | **extend**: H3 draws from this existing evidence surface instead of adding a new one |
+| sb_ontologies "model type selection through parallel detectors" (property_graph, hypergraph, ...) | **bounded exception**: representation choice stays in the Representation Router's routing; not used |
+| agent_ontology "typed hypergraph with code generation" | **bounded exception**: different domain (agent architectures); nothing to reuse here |
+
+**What was searched externally:** the two repositories above for hub and hypergraph rendering; the router catalog
 for hypergraph, hyperedge, n-ary, incidence and bipartite entries (none); published methods:
 Fischer et al. (2021, IEEE VIS, survey of hypergraph visualizations), Valdivia et al. (2021, IEEE
 TVCG, PAOH), Lex et al. (2014, IEEE TVCG, UpSet), Shen et al. (2021, IEEE TVCG, natural-language
-interfaces to visualization). Disposition: adopt these established forms; build only the hub
-support the shared viewer lacks.
+interfaces to visualization). Dispositions, one per candidate:
+
+| Candidate | Disposition |
+|---|---|
+| Relation-as-hub drawing (scientific-hypergraph viewer; incidence drawing in the survey) | **reuse** the approach in the shared viewer |
+| PAOH (Valdivia et al. 2021) | **compose**: catalogued as a router view type for many or changing facts; not built in this plan |
+| UpSet (Lex et al. 2014) | **compose**: catalogued as a router view type for unordered co-occurrence; not built in this plan |
+| Hypergraph visualization survey (Fischer et al. 2021) | **reuse** as the routing guidance for choosing among the three forms |
+| Natural-language interfaces to visualization (Shen et al. 2021) | **reuse** as the pattern for question-built views (H5) |
+| Shared graph viewer | **extend** (hyperedges added) |
+| DoDAF projection registry | **extend** (recipe-built views use its selection, grouping and shape) |
+
+## Authority and non-goals
+
+**Authority:** Brian (directions quoted above). Owners of the touched pieces: Representation Router
+(`representation-router`: catalog and shared graph viewer), the DoDAF demo (`dodaf`: model export,
+demo page, agent worker), onto-canon6 (read only: its DM2 pack is input data).
+
+**Non-goals:**
+- No second graph viewer; scientific-hypergraph's code is a reference for the hub approach, not copied.
+- No migration of scientific-hypergraph, onto-canon6 or other projects onto the shared viewer in this plan.
+- No new facts in the DoDAF model: place, date and quantity are promoted only where a cited passage
+  already states them.
+- No free-form agent drawing: recipe-built views draw only what a checked recipe selects from the model.
+
+## Success, and what would disprove it
+
+**Success:** the live whole-model hub view on brianmills.dev/dodaf-mock/ states a measured piece count
+of 2 or fewer for the 131 facts (7 as pairs today); the shared viewer's existing graphs render unchanged;
+a hypergraph use case routes to relation-hub-graph; three live questions each return a checked,
+labelled custom view.
+
+**Disproof:** the approach is wrong if, after H3, the hub view still shows more than 3 pieces (place and
+date did not unify the facts), or if hubs at DM2's size are unreadable at 1440px with no filter that
+fixes it (then PAOH or a matrix replaces the hub graph for the metamodel), or if more than 1 in 3 of
+the agent's recipes is refused (the recipe language is too loose for the agent).
+
+## Full-trace review
+
+Each acceptance check is judged from the whole run, not its final line:
+- H1, H2: the router and viewer test runs (full output with counts and exit status, saved under
+  `proposals/hypergraph-views/evidence/`), plus the headless-browser run that renders the three-role
+  fixture, whose screenshot and console log are kept beside it.
+- H3, H4: the release run: build log, the per-file byte audit of the live site and the browser run's
+  console and screenshot, recorded in dodaf `ui/registry.yaml` as for every demo release.
+- H5: the worker's request log (`npx wrangler tail brian-dodaf-mock`: one line per question with model,
+  generation id, usage, latency, recipe validity and refusal reason), captured to
+  `proposals/hypergraph-views/evidence/h5-worker-tail-<date>.txt`, with the OpenRouter generation record
+  for each logged generation id saved beside it (the worker calls OpenRouter directly, not through the
+  shared Python client); read end to end for each of the three live questions and the refused recipe.
+
+## Model calls (H5)
+
+**Call graph:** one model call per reader question, from the demo's worker, through the existing
+OpenRouter route (`deepseek/deepseek-v4-flash`, the same call the agent makes today). **Structured
+result:** JSON with the answer text, cited passage ids and an optional view recipe (relation types,
+roles, filters, grouping); the worker validates the recipe against the published model's types before
+the page draws it, and drops anything that does not validate, logging why. **Tracing:** the worker logs
+one line per call (model, usage, latency, recipe valid or refused with reason); no call is retried on
+failure. **Spend and provider authority:** Brian's standing rule that provider-unspecified model work runs
+on his OpenRouter route; cost stays at the current ~$0.001 per question. **Promotion condition:** the
+recipe-built view is switched on for readers only after one authentic traced run in which a live
+question returns a recipe that validates and draws, and an invalid one is refused with its reason.
+
+## Deployment boundary
+
+The plan deploys Brian's own demo (brianmills.dev/dodaf-mock/). Authority: the workspace rule that his
+own sites deploy without a yes when nothing private is published. Containment: every release is built
+from an exact git revision, byte-audited and browser-checked, and recorded; rollback is redeploying the
+previous recorded release. The shared viewer change is additive (typed-graph/v1 without hyperedges
+renders as before), so other projects are unaffected until they opt in.
+
+## Parallel-implementation check
+
+After H2, search every repository's tracked files for a second hub or hyperedge renderer (hypergraph,
+hyperedge, relation-hub) outside representation-router `graph-viewer/` and scientific-hypergraph's
+reference viewer; any new one is a defect. The DoDAF demo's test asserts it draws hubs only through
+`GraphViewer.mount`.
 
 ## Work units
 
@@ -76,13 +169,31 @@ Order: H1 and H2 first (they serve every project), then H3, H4, H5. Each lands a
 
 ## Uncertainties
 
-| Uncertainty | Evidence that resolves it |
-|---|---|
-| Whether a date participant joins the Sendai piece | H3's measured piece count with and without dates |
-| Whether hubs stay readable at DM2's size (86 hubs, 193 types) | H4 in a real browser at 1440px and 390px; fall back to PAOH or a filtered start if not |
-| How much the agent's recipes need constraining | H5's refused-recipe count over its live checks |
+| Uncertainty | Owner | Evidence that resolves it |
+|---|---|---|
+| Whether a date participant joins the Sendai piece | the implementing session (integration owner) | H3's measured piece count with and without dates |
+| Whether hubs stay readable at DM2's size (86 hubs, 193 types) | the implementing session | H4 in a real browser at 1440px and 390px; fall back to PAOH or a filtered start if not |
+| How much the agent's recipes need constraining | the implementing session | H5's refused-recipe count over its live checks |
 
 ## Irreversible actions and spend
 
-None irreversible: commits, an additive format change and redeploys of Brian's own demo, each
-revertable. LLM spend is the demo agent's existing route (about $0.001 a question).
+**Irreversible actions:** none. Every change is a revertable commit, the viewer format change is
+additive, and each demo release can be rolled back by redeploying the previous recorded release.
+
+**Spend:** model calls for H5 only, on the demo agent's existing call.
+- Boundary: one call per reader question, at about $0.001 each; no new paid service.
+- Authorizer: Brian's standing rule that provider-unspecified model work runs on his OpenRouter route
+  (workspace rules, "LLM and durable contracts").
+- Containment: the worker logs usage per call; more than $5 in one week, or more than $1 in one day,
+  is reported to Brian as a needs-reply before the feature stays on; the existing OpenRouter key limit
+  caps the worst case.
+
+## Activation facts
+
+`activation-facts.json` declares, for this exact plan revision:
+- `shared_mechanism` = true: the shared graph viewer's format and the router's catalog are used by every project.
+- `llm_central` = true: H5's recipe-built views depend on the demo agent's model call.
+- `empirical_comparison_proposed` = false: no A/B test or benchmark is proposed; piece counts are
+  measurements of one design against its own target.
+- `irreversible_or_spend_action` = true: nothing is irreversible, but H5 spends on a model call per
+  question (bounded, authorized and contained as described above).
