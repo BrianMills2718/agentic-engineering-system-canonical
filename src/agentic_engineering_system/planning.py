@@ -55,7 +55,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal
 
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, model_validator
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap, CommentedSeq
 
@@ -145,6 +145,26 @@ class OutsideGovernedRoot(StrictModel):
     reason: str
 
 
+class TraceReviewDeclaration(StrictModel):
+    """Whether the planned work runs a model, agent or pipeline, which every proposal must say.
+
+    `runs_traced_work: true` obliges the delta to add or change at least one evidence requirement
+    of kind `trace_review`; `false` needs `reason`. Judging a run by its final output alone let a
+    coder mislabel interview passages through two amendments (vision milestone 4, 2026-10-06):
+    the cause (one paragraph of context, a definition with no exclusions, bare labels with no
+    reasons) was visible only in the trace, which nobody had read.
+    """
+
+    runs_traced_work: bool
+    reason: str | None = None
+
+    @model_validator(mode="after")
+    def _reason_when_none(self) -> TraceReviewDeclaration:
+        if not self.runs_traced_work and not (self.reason or "").strip():
+            raise ValueError("runs_traced_work: false needs a reason saying why no model, agent or pipeline runs")
+        return self
+
+
 class Proposal(StrictModel):
     schema_version: Literal["aes.v0_2.proposal.probe0"]
     proposal_id: str
@@ -156,6 +176,9 @@ class Proposal(StrictModel):
     # The Company Planning plan this proposal implements (repository-relative Markdown path);
     # required when .aes/planning.yaml sets require_adopted_plan (AP-REQ-002).
     adopted_plan_ref: str | None = None
+    # Required on every new proposal (validate_proposal); optional here only so plans accepted
+    # before 2026-10-07 still load.
+    trace_review: TraceReviewDeclaration | None = None
 
     @field_validator("proposal_id")
     @classmethod
@@ -353,6 +376,7 @@ def skeleton() -> dict[str, Any]:
         "target_delta": {"add": dict(families), "change": {f: [] for f in FAMILIES},
                          "remove": {f: [] for f in FAMILIES}},
         "outside_governed_roots": [],
+        "trace_review": {"runs_traced_work": None, "reason": ""},
     }
 
 
@@ -452,6 +476,26 @@ def _adoption_violations(root: Path, proposal: Proposal) -> list[str]:
     return [] if ok else [f"adopted_plan_ref {proposal.adopted_plan_ref}: {why}"]
 
 
+def _trace_review_violations(proposal: Proposal) -> list[str]:
+    """Every proposal says whether its work runs a model, agent or pipeline; if it does, the delta
+    carries a `trace_review` evidence requirement, so the run is judged by its trace, not its output."""
+    d = proposal.trace_review
+    if d is None:
+        return ["trace_review is missing: say whether the planned work runs a model, agent or pipeline "
+                "(trace_review: {runs_traced_work: true}) or why it does not "
+                "(trace_review: {runs_traced_work: false, reason: ...})"]
+    if not d.runs_traced_work:
+        return []
+    delta = proposal.target_delta
+    kinds = [er.kind for section in (delta.add, delta.change)
+             for sc in section.success_criteria for er in sc.evidence_requirements]
+    if "trace_review" in kinds:
+        return []
+    return ["trace_review.runs_traced_work is true, but no success criterion the delta adds or changes "
+            "has an evidence requirement of kind trace_review: add one saying whose run's trace is read "
+            "end to end, by someone other than its author"]
+
+
 def validate_proposal(root: Path, proposal: Proposal) -> ValidatedProposal:
     """Every violation at once as PlanError, or the resulting target."""
     root = Path(root).resolve()
@@ -475,6 +519,7 @@ def validate_proposal(root: Path, proposal: Proposal) -> ValidatedProposal:
 
     violations += _artifact_violations(proposal, governed)
     violations += _adoption_violations(root, proposal)
+    violations += _trace_review_violations(proposal)
     if violations:
         raise PlanError(f"proposal {proposal.proposal_id}", violations)
     return ValidatedProposal(proposal, result, open_gaps)

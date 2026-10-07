@@ -10,6 +10,16 @@ every commit's tag is checked by `aes commit check` through `.githooks/commit-ms
 `[Goal <plan_id>]` or `[Plan #N]` for planned work, `[Trivial]` for at most 3
 files and 60 lines with no running-thing file, `[Shaping <plan_id>]` for edits
 inside `proposals/<plan_id>/`, `[Unplanned]` only with an `Emergency:` line.
+
+**Trace reviews (2026-10-07, PLAN-AES-TRACE-REVIEW):** every proposal must
+declare `trace_review: {runs_traced_work: true}` or `{runs_traced_work: false,
+reason: ...}`; `aes plan validate` refuses a proposal without it, and traced work
+must add a `trace_review` evidence requirement. Its observation carries a
+`trace_review` record (trace ids, author, a different reviewer, steps read of
+total, models and settings, context per step, outputs and reasons, decisions
+checked against source) and can SUPPORT only when every step was read and no
+checked decision was wrong. Bug-fix plans (Company Planning route `repair`) can
+now be adopted (company-planning #52, #53).
 Plans: `proposals/aes-planning/` and `proposals/hive-hardening/` (both adopted).
 Rollout to every repository (2026-10-07, Brian "go" on observe everywhere now,
 enforce after two days where false refusals are at or under 1 in 5):

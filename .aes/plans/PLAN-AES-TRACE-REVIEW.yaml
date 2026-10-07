@@ -1,0 +1,85 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-AES-TRACE-REVIEW
+title: Plans require trace reviews - work that runs a model, agent or pipeline is judged by its full trace
+rationale: >
+  Company Planning plan proposals/trace-review/README.md (adopted 2026-10-07, route repair). On
+  2026-10-06 an interview coder mislabelled passages through two rule amendments because reviews read
+  its output; the cause was visible only in its unread trace. Brian, 2026-10-07: "we need aes plans to
+  require trace reviews as part of its planning." Every proposal now declares trace_review; work that
+  runs must carry a trace_review evidence requirement, and the observation assessing it carries a
+  structured review record that can SUPPORT only when every step was read by someone other than the
+  author and no checked decision was wrong.
+closes_gaps: []
+adopted_plan_ref: proposals/trace-review/README.md
+trace_review:
+  runs_traced_work: false
+  reason: the change is a validator and its deterministic tests; no model, agent or pipeline runs under this plan
+target_delta:
+  add:
+    normative_items:
+      - id: TR-REQ-001
+        kind: constraint
+        outcome_refs:
+          - OUT-AP-001
+        statement: >
+          Every proposal declares whether its work runs a model, agent or pipeline (trace_review); a
+          proposal declaring traced work adds or changes a success criterion with an evidence requirement
+          of kind trace_review; an observation assessing a trace_review requirement carries a TraceReview
+          record whose reviewer is not the author, and may SUPPORT only when every trace step was read and
+          no checked decision was wrong.
+    success_criteria:
+      - id: SC-TR-001
+        statement: >
+          aes plan validate refuses a proposal with no trace_review declaration and one declaring traced
+          work without a trace_review requirement, and accepts the declared and routed case; observation
+          loading refuses a trace_review assessment with no record, SUPPORTS with unread steps or a wrong
+          checked decision, and a review by the run's author.
+        target_refs:
+          - TR-REQ-001
+        disproof: >
+          A proposal without the declaration validates; traced work validates without a trace_review
+          requirement; or a trace_review observation SUPPORTS with unread steps, a wrong decision, no record,
+          or the author as reviewer.
+        evidence_requirements:
+          - id: ER-TR-001-01
+            kind: deterministic_test
+            requirement: >
+              tests/greenfield/test_trace_review.py builds real proposals against the frozen whygame5 target
+              and real observation files, asserting each refusal's message and each acceptance.
+    planned_artifacts:
+      - id: ART-TEST-TRACE-REVIEW
+        locator:
+          exact_path: tests/greenfield/test_trace_review.py
+        kind: test
+        purpose: prove plans require trace reviews and trace-review observations are checked
+        semantic_justification_refs:
+          - SC-TR-001
+    verification_subjects:
+      - id: VS-TRACE-REVIEW
+        criterion_refs:
+          - SC-TR-001
+        evidence_requirement_refs:
+          - ER-TR-001-01
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/greenfield/test_trace_review.py
+        purpose: prove plans require trace reviews and trace-review observations are checked
+  change:
+    components:
+      - id: RU-AES-PLANNING
+        responsibility: >
+          Represent, validate and project the AES planning contract: target-realization deltas, accepted
+          transition plans, uncertainty/probe semantics, criterion-linked verification topology, and the
+          trace-review declaration every proposal makes.
+        target_refs:
+          - GF-REQ-004
+          - SC-GF-004
+          - TR-REQ-001
+          - SC-TR-001
+        planned_artifact_refs:
+          - ART-SRC-PLANNING
+          - ART-PLANNING-PROTOCOL
+          - ART-TEST-PLANNING
+          - ART-TEST-TRACE-REVIEW
+accepted_at_revision: a9a707b963350ecaf6710190f525a8903b4e1c4a
+accepted_at: '2026-10-07T04:56:05+00:00'

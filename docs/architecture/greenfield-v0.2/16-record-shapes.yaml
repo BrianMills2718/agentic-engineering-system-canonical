@@ -71,7 +71,7 @@ target_record:
     external_boundaries: optional_list  # {evidence_requirement_ref, boundary}
   vocabularies:
     normative_item_kind: [constraint, behavior, invariant, quality]
-    evidence_kind: [deterministic_test, runtime_observation, human_review]  # also verification_subjects.proof_kind
+    evidence_kind: [deterministic_test, runtime_observation, human_review, trace_review]  # also verification_subjects.proof_kind; trace_review added 2026-10-07 (PLAN-AES-TRACE-REVIEW)
     artifact_kind: [source, test, configuration]
     proof_role: [direct, negative_control]
     mapping_rule: >

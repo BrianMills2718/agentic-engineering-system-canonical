@@ -113,6 +113,16 @@ normative_items:
     In a repository that requires adopted plans, a target change is accepted only for a proposal whose
     adopted_plan_ref names a Company Planning plan adopted for its current bytes; a proposal that
     names a plan is checked the same way in any repository.
+- id: TR-REQ-001
+  kind: constraint
+  outcome_refs:
+  - OUT-AP-001
+  statement: >
+    Every proposal declares whether its work runs a model, agent or pipeline (trace_review); a
+    proposal declaring traced work adds or changes a success criterion with an evidence requirement
+    of kind trace_review; an observation assessing a trace_review requirement carries a TraceReview
+    record whose reviewer is not the author, and may SUPPORT only when every trace step was read and
+    no checked decision was wrong.
 success_criteria:
 - id: SC-GF-001
   statement: >
@@ -313,6 +323,24 @@ success_criteria:
     requirement: >
       Tests run `aes plan validate` and `aes plan accept` in real Git repositories for each case above,
       asserting exit status, the reason text and whether the target and plan file were written.
+- id: SC-TR-001
+  statement: >
+    aes plan validate refuses a proposal with no trace_review declaration and one declaring traced
+    work without a trace_review requirement, and accepts the declared and routed case; observation
+    loading refuses a trace_review assessment with no record, SUPPORTS with unread steps or a wrong
+    checked decision, and a review by the run's author.
+  target_refs:
+  - TR-REQ-001
+  disproof: >
+    A proposal without the declaration validates; traced work validates without a trace_review
+    requirement; or a trace_review observation SUPPORTS with unread steps, a wrong decision, no record,
+    or the author as reviewer.
+  evidence_requirements:
+  - id: ER-TR-001-01
+    kind: deterministic_test
+    requirement: >
+      tests/greenfield/test_trace_review.py builds real proposals against the frozen whygame5 target
+      and real observation files, asserting each refusal's message and each acceptance.
 components:
 - id: RU-AES-RECORDS
   responsibility: >
@@ -337,14 +365,18 @@ components:
 - id: RU-AES-PLANNING
   responsibility: >
     Represent, validate and project the AES planning contract: target-realization deltas, accepted
-    transition plans, uncertainty/probe semantics and criterion-linked verification topology.
+    transition plans, uncertainty/probe semantics, criterion-linked verification topology, and the
+    trace-review declaration every proposal makes.
   target_refs:
   - GF-REQ-004
   - SC-GF-004
+  - TR-REQ-001
+  - SC-TR-001
   planned_artifact_refs:
   - ART-SRC-PLANNING
   - ART-PLANNING-PROTOCOL
   - ART-TEST-PLANNING
+  - ART-TEST-TRACE-REVIEW
 - id: RU-AES-TOPOLOGY
   responsibility: >
     Compare accepted durable topology and bounded generation rules with the Git-realized repository
@@ -857,6 +889,13 @@ planned_artifacts:
     repository asks for it, and behave as before when it does not.
   semantic_justification_refs:
   - SC-AP-002
+- id: ART-TEST-TRACE-REVIEW
+  locator:
+    exact_path: tests/greenfield/test_trace_review.py
+  kind: test
+  purpose: prove plans require trace reviews and trace-review observations are checked
+  semantic_justification_refs:
+  - SC-TR-001
 verification_subjects:
 - id: VS-GF-RECORDS
   criterion_refs:
@@ -1004,6 +1043,15 @@ verification_subjects:
   locator: tests/greenfield/test_plan_receipt.py
   purpose: >
     prove accept refuses without, and accepts with, a fresh adopted receipt
+- id: VS-TRACE-REVIEW
+  criterion_refs:
+  - SC-TR-001
+  evidence_requirement_refs:
+  - ER-TR-001-01
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/greenfield/test_trace_review.py
+  purpose: prove plans require trace reviews and trace-review observations are checked
 external_boundaries:
 - evidence_requirement_ref: ER-SC-GF-001-01
   boundary: >

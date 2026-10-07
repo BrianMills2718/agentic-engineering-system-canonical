@@ -50,7 +50,10 @@ class TargetValidationError(ValueError):
 # --------------------------------------------------------------------------- #
 
 NormativeKind = Literal["constraint", "behavior", "invariant", "quality"]
-EvidenceKind = Literal["deterministic_test", "runtime_observation", "human_review"]
+# trace_review: someone other than the work's author read the full trace of a model, agent or pipeline
+# run (what each step was shown, which model and settings, every output with its reason) and checked
+# decisions against their sources; its observation carries a TraceReview record (evidence.py).
+EvidenceKind = Literal["deterministic_test", "runtime_observation", "human_review", "trace_review"]
 ArtifactKind = Literal["source", "test", "configuration"]
 ProofRole = Literal["direct", "negative_control"]
 

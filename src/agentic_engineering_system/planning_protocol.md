@@ -39,7 +39,23 @@ on the side.
      plus an `add`, with every reference changed;
    - `outside_governed_roots`: `{artifact_ref, reason}` for each added or
      changed planned artifact whose path is not under a governed root. Only
-     non-source artifacts may be there.
+     non-source artifacts may be there;
+   - `trace_review` (required): does the planned work run a model, an agent or
+     a pipeline whose trace someone can read? `{runs_traced_work: true}`
+     obliges the delta to add or change at least one evidence requirement of
+     kind `trace_review`, saying whose run is read; `{runs_traced_work: false,
+     reason: ...}` says why nothing runs. A run is judged by its full trace,
+     never by its final output alone: what each step was shown, which model
+     and settings it used, each output with its reason, and decisions followed
+     back to their sources. The observation that assesses a `trace_review`
+     requirement carries a `trace_review` record (trace ids, author, a
+     reviewer who is not the author, steps read of steps total, models and
+     settings, context per step, outputs and reasons, decisions checked
+     against source, findings); it may SUPPORT only when every step was read
+     and no checked decision was wrong. Why: on 2026-10-06 an interview coder
+     mislabelled passages through two rule amendments because reviews read its
+     output; the cause (one paragraph of context, a definition with no
+     exclusions, labels with no reasons) was in the trace nobody opened.
    A removed planned artifact under a governed root must have left the Git
    index first: `git mv` it out of the governed roots (or `git rm` it) and
    commit that before accepting, since accept needs a clean tree. Until the
@@ -56,7 +72,9 @@ on the side.
    without a route (a verification subject naming it in
    `evidence_requirement_refs`, or an `external_boundaries` entry saying who or
    what supplies it); a `closes_gaps` id that is not open now; a planned
-   artifact outside the governed roots that is source or has no reason. Fix
+   artifact outside the governed roots that is source or has no reason; a
+   missing `trace_review` declaration, or one that says work runs with no
+   `trace_review` evidence requirement in the delta. Fix
    the proposal, not the target, and rerun.
 4. **Accept.** `aes plan accept <proposal>` refuses on uncommitted tracked
    changes or anything untracked under `.aes/`, on any violation, and when
@@ -142,4 +160,7 @@ target_delta:
         responsibility: the two-call loop over llm_client with receipts, no retries, no fallback; stops after one call on NO_FINDING
         target_refs: [NI-WG5-003, NI-WG5-006]
         planned_artifact_refs: [ART-WG5-RUNNER, ART-WG5-CLI, ART-WG5-TEST-RUNNER]
+trace_review:
+  runs_traced_work: false
+  reason: the criterion is proven by a deterministic test with a stubbed model; this plan runs no real model call
 ```

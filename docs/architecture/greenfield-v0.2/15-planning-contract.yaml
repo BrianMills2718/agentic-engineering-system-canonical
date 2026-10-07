@@ -85,7 +85,7 @@ design_phase:
         emitted it.
       mvp_realization:
         proposal_schema: aes.v0_2.proposal.probe0
-        proposal_fields: [schema_version, proposal_id, title, rationale, closes_gaps, target_delta, outside_governed_roots]
+        proposal_fields: [schema_version, proposal_id, title, rationale, closes_gaps, target_delta, outside_governed_roots, adopted_plan_ref, trace_review]  # trace_review required on validate since 2026-10-07 (PLAN-AES-TRACE-REVIEW)
         delta_sections:
           add: whole new entries, in exactly the target's shape
           change: the whole replacement for an existing entry, matched by id (evidence_requirement_ref for external_boundaries)
