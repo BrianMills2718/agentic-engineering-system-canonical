@@ -329,3 +329,16 @@ def test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_els
                            "[Goal onmain] U1: worker tools"], cwd=repo, capture_output=True, text=True, env=env)
     assert done.returncode == 0, done.stderr
     assert "adopted on the default branch (owner origin/main:proposals/onmain/README.md)" in done.stderr
+
+
+def test_asked_line_is_recorded_and_never_changes_the_verdict() -> None:
+    """Asked: says who wanted the change, in their words; size and effect still decide the tag."""
+    config = RuleConfig(plan_roots=())
+    small = [FileChange("README.md", "M", 1, 1)]
+    big = [FileChange(f"notes/{i}.md", "A", 30, 0) for i in range(5)]
+    ok = judge('[Trivial] fix typo\n\nAsked: Brian 2026-10-07 "fix the typo"', small, [], config)
+    assert ok.verdict == "accept" and ok.asked == 'Brian 2026-10-07 "fix the typo"'
+    refused = judge('[Trivial] add notes\n\nAsked: Brian 2026-10-07 "write the notes"', big, [], config)
+    assert refused.verdict == "refuse" and "not trivial" in refused.reasons[0]
+    assert refused.asked.startswith("Brian")
+    assert judge("[Trivial] fix typo", small, [], config).asked == ""
