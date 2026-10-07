@@ -134,6 +134,33 @@ class ExternalBoundary(StrictModel):
     boundary: str
 
 
+RunningKind = Literal["systemd_unit", "container", "agent"]
+
+
+class RunningScope(StrictModel):
+    """A place where everything that runs must be declared (hive hardening U4): on `host`, every item of
+    `kind` whose name matches one of the `include` globs must be a declared running piece."""
+
+    id: str
+    host: str
+    kind: RunningKind
+    include: list[str]
+    purpose: str
+
+
+class RunningPiece(StrictModel):
+    """One running thing (a systemd unit, a container, an agent) and the file in git that defines it,
+    as `<repository>:<path>`."""
+
+    id: str
+    host: str
+    kind: RunningKind
+    name: str
+    source: str
+    purpose: str
+    component_refs: list[str] = Field(default_factory=list)
+
+
 class TargetRecord(StrictModel):
     schema_version: str
     target_id: str
@@ -144,6 +171,8 @@ class TargetRecord(StrictModel):
     planned_artifacts: list[PlannedArtifact]
     verification_subjects: list[VerificationSubject]
     external_boundaries: list[ExternalBoundary] = Field(default_factory=list)
+    running_scopes: list[RunningScope] = Field(default_factory=list)
+    running_pieces: list[RunningPiece] = Field(default_factory=list)
 
     # -- indexes ----------------------------------------------------------- #
 
@@ -165,6 +194,8 @@ class TargetRecord(StrictModel):
             "components": {c.id: c for c in self.components},
             "planned_artifacts": {a.id: a for a in self.planned_artifacts},
             "verification_subjects": {v.id: v for v in self.verification_subjects},
+            "running_scopes": {r.id: r for r in self.running_scopes},
+            "running_pieces": {r.id: r for r in self.running_pieces},
         }
 
     def kind_of(self, record_id: str) -> str | None:
@@ -311,6 +342,10 @@ def validate_target_refs(target: TargetRecord) -> list[str]:
         declared.append((a.id, f"planned_artifacts[{i}]"))
     for i, v in enumerate(target.verification_subjects):
         declared.append((v.id, f"verification_subjects[{i}]"))
+    for i, rs in enumerate(target.running_scopes):
+        declared.append((rs.id, f"running_scopes[{i}]"))
+    for i, rp in enumerate(target.running_pieces):
+        declared.append((rp.id, f"running_pieces[{i}]"))
     for record_id, location in declared:
         if record_id in seen:
             violations.append(
@@ -418,5 +453,23 @@ def validate_target_refs(target: TargetRecord) -> list[str]:
     bounded = [b.evidence_requirement_ref for b in target.external_boundaries]
     for ref in sorted({r for r in bounded if bounded.count(r) > 1}):
         violations.append(f"evidence requirement '{ref}' has more than one external boundary")
+
+    # Running pieces (hive hardening U4): components resolve, sources name a file in a repository,
+    # and no two pieces declare the same running thing.
+    component_ids = {c.id for c in target.components}
+    seen_running: dict[tuple[str, str, str], str] = {}
+    for i, rp in enumerate(target.running_pieces):
+        loc = f"running_pieces[{i}]"
+        check_refs(rp.component_refs, component_ids, f"{loc}.component_refs", "a component id")
+        repo, _, path = rp.source.partition(":")
+        if not repo or not path:
+            violations.append(f"source '{rp.source}' at {loc} must be <repository>:<path>")
+        key = (rp.host, rp.kind, rp.name)
+        if key in seen_running:
+            violations.append(f"{loc} declares {rp.host}/{rp.kind}/{rp.name} again (first at {seen_running[key]})")
+        seen_running.setdefault(key, loc)
+    for i, rs in enumerate(target.running_scopes):
+        if not rs.include:
+            violations.append(f"running_scopes[{i}] ({rs.id}) has no include patterns")
 
     return violations
