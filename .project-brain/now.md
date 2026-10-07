@@ -18,7 +18,10 @@ repositories under ~/code in observe mode (machine-wide mode in
 `~/.config/aes/commit_rule.yaml`); `check` reports any unwired repository. The
 replay of 21,948 recent commits in 185 repositories would refuse 99% (79% carry
 no tag at all), so no repository meets the enforce condition; see
-`proposals/aes-planning/ROLLOUT.md`. Next: read the observe logs on 2026-10-09;
+`proposals/aes-planning/ROLLOUT.md`. Installed 2026-10-07: 189 of 190 repositories wired
+(the exception, an AES-project worktree on an old branch, is AES #167); the user timer
+`aes-commit-rule-daily` checks coverage at 07:15 and opens the enforce-review concern once on
+2026-10-09. Next: read the observe logs on 2026-10-09;
 before enforce anywhere, give scheduled-job commits a recognised tag and get
 adopted plans for each active project's real work. P1 (AES overlay in the gate's
 profile) still waits on company-planning's plan-48 work.
