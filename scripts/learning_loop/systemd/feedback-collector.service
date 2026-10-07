@@ -9,6 +9,8 @@ Type=oneshot
 WorkingDirectory=%h/.hive-brain/aes
 ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes fetch --quiet --depth 1 origin main
 ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes reset --quiet --hard FETCH_HEAD
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/project-meta fetch --quiet --depth 1 origin main
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/project-meta reset --quiet --hard FETCH_HEAD
 Environment=FEEDBACK_OUT=%h/projects/data/feedback-collector
 # llm_client from Brian's checkout, through uv's shared cache. The script opens a keyed agent
 # concern itself (notify_operator.py) on exit 1 or 2, so a failed unit is also visible here.
