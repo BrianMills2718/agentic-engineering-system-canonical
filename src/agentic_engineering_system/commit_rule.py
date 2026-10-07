@@ -22,7 +22,11 @@ what a message means.
 
 ``.aes/commit_rule.yaml`` sets ``mode`` (``observe``: log every verdict, refuse
 nothing, the default; ``enforce``: refuse), the trivial limits and extra
-``plan_roots``. Every verdict appends one JSON line to
+``plan_roots``. A repository without one falls back to the machine-wide file
+(``$AES_COMMIT_RULE_MACHINE_CONFIG``, default ``~/.config/aes/commit_rule.yaml``),
+whose top-level keys are the defaults and whose ``repos: {<directory name>: {...}}``
+entries override them for one repository; that is how the rule reaches
+repositories that are not AES projects yet. Every verdict appends one JSON line to
 ``<git-common-dir>/aes/commit-rule-<UTC date>.jsonl``.
 """
 
@@ -32,6 +36,7 @@ import datetime as dt
 import fnmatch
 import hashlib
 import json
+import os
 import re
 import subprocess
 from dataclasses import asdict, dataclass, field
@@ -44,6 +49,7 @@ from .records import load_project
 _YAML = YAML(typ="safe")
 
 CONFIG_PATH = Path(".aes") / "commit_rule.yaml"
+MACHINE_CONFIG_ENV = "AES_COMMIT_RULE_MACHINE_CONFIG"
 TAG_RE = re.compile(
     r"^\[(?:Plan #(?P<plan>\d+)|Goal (?P<goal>[a-z0-9][a-z0-9._:-]*)|(?P<trivial>Trivial)"
     r"|(?P<unplanned>Unplanned)|Shaping (?P<shaping>[a-z0-9][a-z0-9._-]*))\]"
@@ -73,6 +79,7 @@ class RuleConfig:
     trivial_max_files: int = 3
     trivial_max_lines: int = 60
     plan_roots: tuple[Path, ...] = ()
+    source: str = "default"
 
 
 @dataclass
@@ -92,11 +99,21 @@ def _git(root: Path, *args: str) -> str:
     return done.stdout
 
 
+def machine_config_path() -> Path:
+    return Path(os.environ.get(MACHINE_CONFIG_ENV) or Path.home() / ".config" / "aes" / "commit_rule.yaml")
+
+
 def load_rule_config(root: Path) -> RuleConfig:
     path = root / CONFIG_PATH
-    if not path.is_file():
-        return RuleConfig(plan_roots=(root,))
-    data = _YAML.load(path.read_text(encoding="utf-8")) or {}
+    if path.is_file():
+        data = _YAML.load(path.read_text(encoding="utf-8")) or {}
+    else:
+        path = machine_config_path()
+        if not path.is_file():
+            return RuleConfig(plan_roots=(root,))
+        machine = _YAML.load(path.read_text(encoding="utf-8")) or {}
+        override = (machine.get("repos") or {}).get(root.name) or {}
+        data = {**{k: v for k, v in machine.items() if k != "repos"}, **override}
     mode = data.get("mode", "observe")
     if mode not in ("observe", "enforce"):
         raise ValueError(f"{path}: mode must be observe or enforce, not {mode!r}")
@@ -107,6 +124,7 @@ def load_rule_config(root: Path) -> RuleConfig:
         trivial_max_files=int(data.get("trivial_max_files", 3)),
         trivial_max_lines=int(data.get("trivial_max_lines", 60)),
         plan_roots=(root, *extra),
+        source=str(path),
     )
 
 
@@ -277,7 +295,7 @@ def check_message(root: Path, message_file: Path) -> tuple[int, str]:
     config = load_rule_config(root)
     message = "\n".join(l for l in message_file.read_text(encoding="utf-8").splitlines() if not l.startswith("#"))
     verdict = judge(message, staged_changes(root), _governed_roots(root), config)
-    log = _log(root, {"mode": config.mode, "subject": message.strip().splitlines()[0] if message.strip() else "",
+    log = _log(root, {"mode": config.mode, "config": config.source, "subject": message.strip().splitlines()[0] if message.strip() else "",
                       **asdict(verdict)})
     word = verdict.verdict if config.mode == "enforce" or verdict.verdict == "accept" else "would refuse (observe mode)"
     report = f"aes commit rule: {word} [{verdict.tag}] — {'; '.join(verdict.reasons)} (logged to {log})"

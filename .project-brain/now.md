@@ -21,9 +21,20 @@ checked against source) and can SUPPORT only when every step was read and no
 checked decision was wrong. Bug-fix plans (Company Planning route `repair`) can
 now be adopted (company-planning #52, #53).
 Plans: `proposals/aes-planning/` and `proposals/hive-hardening/` (both adopted).
-Next: after a week of observe log, switch AES canonical to enforce if false
-refusals are at or under 1 in 5; P1 (AES overlay in the gate's profile) waits
-on company-planning's plan-48 work.
+Rollout to every repository (2026-10-07, Brian "go" on observe everywhere now,
+enforce after two days where false refusals are at or under 1 in 5):
+`proposals/aes-planning/rollout/install_everywhere.py` wires the rule into all
+repositories under ~/code in observe mode (machine-wide mode in
+`~/.config/aes/commit_rule.yaml`); `check` reports any unwired repository. The
+replay of 21,948 recent commits in 185 repositories would refuse 99% (79% carry
+no tag at all), so no repository meets the enforce condition; see
+`proposals/aes-planning/ROLLOUT.md`. Installed 2026-10-07: 189 of 190 repositories wired
+(the exception, an AES-project worktree on an old branch, is AES #167); the user timer
+`aes-commit-rule-daily` checks coverage at 07:15 and opens the enforce-review concern once on
+2026-10-09. Next: read the observe logs on 2026-10-09;
+before enforce anywhere, give scheduled-job commits a recognised tag and get
+adopted plans for each active project's real work. P1 (AES overlay in the gate's
+profile) still waits on company-planning's plan-48 work.
 
 **Feedback collector (2026-10-06):** a nightly job on Brian's PC now reads
 every changed Claude Code and Codex transcript, collects closeout Learnings,

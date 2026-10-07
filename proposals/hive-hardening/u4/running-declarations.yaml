@@ -1,0 +1,32 @@
+# Hive hardening U4 draft (2026-10-07): the hive's running pieces and the scope inside which anything
+# running must be declared. Loaded into .aes/target.yaml by the U4 plan once the trace-review-in-plans
+# claim over records.py and target.yaml closes. Sources are <repository>:<path> on that repository's main.
+running_scope:
+  - {host: wsl, kind: systemd_unit, include: ["hive-*", "c-drive-guard.*", "feedback-collector.*", "aes-*"]}
+  - {host: personal-vps, kind: container, include: ["paperclip", "hive-*"]}
+  - {host: personal-vps, kind: systemd_unit, include: ["hive-*", "telegram-relay.*", "vps-backup.*", "concern-alert@.service"]}
+  - {host: paperclip, kind: agent, include: ["*"]}
+running:
+  - {host: wsl, kind: systemd_unit, name: hive-controls.service, source: "agentic-engineering-system-canonical:scripts/hive/systemd/hive-controls.service"}
+  - {host: wsl, kind: systemd_unit, name: hive-controls.timer, source: "agentic-engineering-system-canonical:scripts/hive/systemd/hive-controls.timer"}
+  - {host: wsl, kind: systemd_unit, name: feedback-collector.service, source: "agentic-engineering-system-canonical:scripts/learning_loop/systemd/feedback-collector.service"}
+  - {host: wsl, kind: systemd_unit, name: feedback-collector.timer, source: "agentic-engineering-system-canonical:scripts/learning_loop/systemd/feedback-collector.timer"}
+  - {host: wsl, kind: systemd_unit, name: aes-commit-rule-daily.service, source: "agentic-engineering-system-canonical:proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.service"}
+  - {host: wsl, kind: systemd_unit, name: aes-commit-rule-daily.timer, source: "agentic-engineering-system-canonical:proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.timer"}
+  - {host: wsl, kind: systemd_unit, name: c-drive-guard.service, source: "personal-file-infra:systemd/c-drive-guard.service"}
+  - {host: wsl, kind: systemd_unit, name: c-drive-guard.timer, source: "personal-file-infra:systemd/c-drive-guard.timer"}
+  - {host: personal-vps, kind: container, name: paperclip, source: "personal-vps:apps/paperclip/compose.yaml"}
+  - {host: personal-vps, kind: container, name: hive-dashboard, source: "personal-vps:apps/hive-dashboard/compose.yaml"}
+  - {host: personal-vps, kind: systemd_unit, name: hive-dashboard-build.service, source: "personal-vps:apps/hive-dashboard/hive-dashboard-build.service"}
+  - {host: personal-vps, kind: systemd_unit, name: hive-dashboard-build.timer, source: "personal-vps:apps/hive-dashboard/hive-dashboard-build.timer"}
+  - {host: personal-vps, kind: systemd_unit, name: hive-stall.service, source: "personal-vps:apps/hive-stall/hive-stall.service"}
+  - {host: personal-vps, kind: systemd_unit, name: hive-stall.timer, source: "personal-vps:apps/hive-stall/hive-stall.timer"}
+  - {host: personal-vps, kind: systemd_unit, name: telegram-relay.service, source: "personal-vps:apps/telegram-relay/telegram-relay.service"}
+  - {host: personal-vps, kind: systemd_unit, name: vps-backup.service, source: "personal-vps:host/vps-backup.service"}
+  - {host: personal-vps, kind: systemd_unit, name: vps-backup.timer, source: "personal-vps:host/vps-backup.timer"}
+  - {host: personal-vps, kind: systemd_unit, name: concern-alert@.service, source: "personal-vps:host/concern-alert/concern-alert@.service"}
+  - {host: paperclip, kind: agent, name: Coordinator, source: "agentic-engineering-system-canonical:proposals/hive-hardening/agents/coordinator.AGENTS.md"}
+  - {host: paperclip, kind: agent, name: Brian Contact, source: "agentic-engineering-system-canonical:proposals/hive-hardening/agents/contact.AGENTS.md"}
+  - {host: paperclip, kind: agent, name: Research and Code Review, source: "agentic-engineering-system-canonical:proposals/hive-hardening/agents/research.AGENTS.md"}
+# Found undeclared on 2026-10-07 (in scope, running, no source file in any repository): aes-audit.service/.timer
+# and aes-gate-watch.service/.timer on the laptop. Left undeclared on purpose: the first U4 check must show them.

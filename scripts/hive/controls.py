@@ -168,6 +168,18 @@ def main() -> int:
     rows.append(("Hive settings match settings.json", "now", "-",
                  "ok" if sc.returncode == 0 else (f"FAILING: {summary}" if sc.returncode == 1 else f"UNKNOWN: {summary}")))
 
+    # Must-never rules N1-N4 judged from what actually ran over the last two days (hive hardening U7).
+    since = (NOW - 2 * DAY).astimezone().strftime("%Y-%m-%d %H:%M:%S")
+    mn = subprocess.run([sys.executable, str(Path(__file__).with_name("must_never.py")), "--since", since, "--json"],
+                        capture_output=True, text=True, timeout=600)
+    verdicts = [json.loads(l) for l in mn.stdout.splitlines() if l.startswith("{")]
+    for v in verdicts:
+        detail = "; ".join(v.get("violations") or []) or v.get("error") or ""
+        status = {"PASS": "ok", "VIOLATION": f"FAILING: {detail[:120]}"}.get(v["status"], f"UNKNOWN: {detail[:120]}")
+        rows.append((f"Must-never {v['rule']}", "now", "2d window", status))
+    if not verdicts:
+        rows.append(("Must-never N1-N4", "?", "-", f"UNKNOWN: must_never.py exit {mn.returncode} {mn.stderr.strip()[-120:]}"))
+
     w = max(len(r[0]) for r in rows)
     for name, last, gap, status in rows:
         print(f"{name:<{w}}  last {last:<9}  normal gap {gap:<15} {status}")

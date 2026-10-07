@@ -1,0 +1,15 @@
+# must_never.py --since 2026-10-03 (replay over history), run 2026-10-07
+N1 VIOLATION checked=15 29918677 2026-10-06T06:01 'C: drive is down to 13 GB free (alert below 30). T'; fbbd27d5 2026-10-06T17:49 'Correction: the "compact now" reply at 06:02 UTC t'
+N2 VIOLATION checked=3 2026-10-06T16:14+00:00
+N3 PASS      checked=2 
+N4 PASS      checked=3 
+must-never: 2 pass, 2 violation, 0 unknown
+exit 1
+
+# must_never.py --since '2026-10-07 00:14' (local time; after U1 deployed 04:14 UTC)
+N1 PASS      checked=7 
+N2 PASS      checked=2 
+N3 PASS      checked=2 
+N4 PASS      checked=3 
+must-never: 4 pass, 0 violation, 0 unknown
+exit 0

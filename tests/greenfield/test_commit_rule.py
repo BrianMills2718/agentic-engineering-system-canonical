@@ -230,3 +230,22 @@ def test_in_aes_itself_the_hooks_run_the_working_copy_code() -> None:
     # this repository's tracked hooks are the rendered ones
     assert (REPO / ".githooks" / "pre-commit").read_text(encoding="utf-8") == render_hook()
     assert (REPO / ".githooks" / "commit-msg").read_text(encoding="utf-8") == render_commit_msg_hook()
+
+
+def test_machine_config_reaches_repositories_without_their_own(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A plain repository takes the machine-wide mode; a per-repository entry overrides it; a repo file wins."""
+    from agentic_engineering_system.commit_rule import load_rule_config
+
+    machine = tmp_path / "machine.yaml"
+    machine.write_text("mode: enforce\ntrivial_max_lines: 40\nrepos:\n  quiet:\n    mode: observe\n", encoding="utf-8")
+    monkeypatch.setenv("AES_COMMIT_RULE_MACHINE_CONFIG", str(machine))
+    plain, quiet, own = tmp_path / "plain", tmp_path / "quiet", tmp_path / "own"
+    for root in (plain, quiet, own):
+        root.mkdir()
+    _write(own, ".aes/commit_rule.yaml", "mode: observe\n")
+    assert (load_rule_config(plain).mode, load_rule_config(plain).trivial_max_lines) == ("enforce", 40)
+    assert load_rule_config(plain).source == str(machine)
+    assert load_rule_config(quiet).mode == "observe"
+    assert load_rule_config(own).mode == "observe" and load_rule_config(own).source.endswith(".aes/commit_rule.yaml")
+    monkeypatch.setenv("AES_COMMIT_RULE_MACHINE_CONFIG", str(tmp_path / "absent.yaml"))
+    assert load_rule_config(plain).mode == "observe" and load_rule_config(plain).source == "default"
