@@ -8,9 +8,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts" / "learni
 import collect_feedback as C  # noqa: E402
 
 
-def _item(i, quote, source="closeout", field="Learnings", filing="eligible_not_filed"):
+def _item(i, quote, source="closeout", field="Learnings", filing="eligible_not_filed", reusable=0.9):
     return {"id": i, "quote": quote, "source": source, "field": field, "filing": filing,
-            "triage": {"kind": "learning", "p": 0.95}, "speaker": "agent", "client": "claude", "lesson": ""}
+            "triage": {"kind": "learning", "p": 0.95, "reusable_p": reusable}, "speaker": "agent", "client": "claude",
+            "lesson": ""}
 
 
 def test_only_closeout_learnings_auto_file():
@@ -25,6 +26,7 @@ def test_file_pending_skips_text_already_filed(tmp_path, monkeypatch):
         _item("b", "check which version a project locks to"),                    # same text, other session
         _item("c", "a git branch name cannot sit under an existing branch name"),
         _item("d", "narration from the chat", source="llm", field="learning"),   # not an auto-file source
+        _item("e", "renamed the third card for this page only", reusable=0.3),  # fails the reusable question
     ]
     day.write_text("".join(json.dumps(r) + "\n" for r in rows))
     filed = []

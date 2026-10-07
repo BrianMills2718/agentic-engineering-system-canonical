@@ -79,8 +79,9 @@ FILE_SOURCES = {("closeout", "Learnings"), ("closeout", "Policy"), ("llm", "lear
 # Reusability gate (2026-10-06 spot check of the first night's 33 filed entries, hand-labelled):
 # lines an agent wrote under its own closeout "Learnings" heading were 8/8 reusable; items the
 # light LLM extracted from session narration were 7/25. Jev's yes/no "reusable?" answer did not
-# separate them (best 9/14 = 64% at p>=0.8), so it is recorded on each item as `reusable_p` for
-# later measurement but does not gate. Only these sources are filed automatically; every other
+# separate them on its own (best 9/14 = 64% at p>=0.8). It gates as a second filter at p>=0.6
+# (--min-reusable): every entry the hand check judged reusable scored >= 0.61, so it drops nothing
+# good there, and it stops an obviously session-bound line that slips past the source gate. Only these sources are filed automatically; every other
 # item stays in the daily log. Wrong if a 10-entry spot check of filed items falls below 8/10.
 AUTO_FILE_SOURCES = {("closeout", "Learnings")}
 REUSABLE_Q = ("Would this help a future AI coding agent working on a DIFFERENT task or project? "
@@ -362,6 +363,8 @@ def main() -> int:
     ap.add_argument("--file", action="store_true", help="file sure learning/friction/correction items to the register")
     ap.add_argument("--max-file", type=int, default=25, help="cap on register filings per run")
     ap.add_argument("--min-p", type=float, default=0.8, help="Jev probability needed to file")
+    ap.add_argument("--min-reusable", type=float, default=0.6,
+                    help="Jev probability the item is reusable beyond its own task, needed to file")
     ap.add_argument("--limit-files", type=int, default=None, help="testing: stop after N changed transcripts")
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--file-pending", metavar="ITEMS_JSONL",
@@ -370,7 +373,7 @@ def main() -> int:
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     if args.file_pending:
-        filed, errs = file_pending(Path(args.file_pending), args.max_file)
+        filed, errs = file_pending(Path(args.file_pending), args.max_file, args.min_reusable)
         log(f"RESULT filed={filed} errors={len(errs)} exit={1 if errs else 0}")
         for e in errs[:5]:
             log(f"error: {e}")
@@ -466,6 +469,8 @@ def main() -> int:
                 it["filing"] = "log_only_source"
             elif tr["p"] < args.min_p:
                 it["filing"] = "below_threshold"
+            elif tr.get("reusable_p", 0.0) < args.min_reusable:
+                it["filing"] = "not_reusable"
             elif norm(it["quote"]) in seen:
                 it["filing"] = "duplicate_of_filed"
             elif not args.file:
@@ -505,7 +510,7 @@ def main() -> int:
         for f in sorted(OUT.glob("items-*.jsonl"))[-8:]:
             if left <= 0:
                 break
-            n, errs = file_pending(f, left)
+            n, errs = file_pending(f, left, args.min_reusable)
             counts["backlog_filed"] += n
             left -= n
             errors.extend(errs)
@@ -527,7 +532,7 @@ def main() -> int:
     return 1 if errors else 0
 
 
-def file_pending(path: Path, cap: int) -> tuple[int, list[str]]:
+def file_pending(path: Path, cap: int, min_reusable: float = 0.6) -> tuple[int, list[str]]:
     """File items a dry run judged eligible; the day file stays append-only (update lines carry `filing_update`)."""
     items: dict[str, dict] = {}
     for line in open(path):
@@ -537,7 +542,8 @@ def file_pending(path: Path, cap: int) -> tuple[int, list[str]]:
         else:
             items[d["id"]] = d
     todo = [i for i in items.values() if str(i.get("filing", "")).startswith(PENDING)
-            and (i["source"], i["field"]) in AUTO_FILE_SOURCES]
+            and (i["source"], i["field"]) in AUTO_FILE_SOURCES
+            and (i.get("triage") or {}).get("reusable_p", 0.0) >= min_reusable]
     todo.sort(key=lambda i: -i["triage"]["p"])
     filed, errors, seen = 0, [], filed_quotes()
     with open(path, "a") as fh:
