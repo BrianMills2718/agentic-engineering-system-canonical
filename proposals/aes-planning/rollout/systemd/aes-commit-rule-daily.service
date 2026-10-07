@@ -1,0 +1,6 @@
+[Unit]
+Description=AES commit rule: daily coverage check and observe-log report (aes-planning P4/P6)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/code/agentic-engineering-system-canonical/worktrees/hook-runtime/proposals/aes-planning/rollout/daily_report.py
