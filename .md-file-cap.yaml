@@ -1,0 +1,7 @@
+limit: 140
+reason: >
+  Accepted decision records here cite these research, proposal and evidence pages as their evidence
+  (research/ and proposals/aes-v0.2-greenfield/ alone are cited from 38 other files), so pruning them
+  would break those citations. New per-item records go in .aes/ YAML, not Markdown; side projects moved
+  to their own repositories on 2026-10-07 (143 -> 130 files). Limit kept close to the count so growth
+  still trips the check.
