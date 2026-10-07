@@ -8,7 +8,7 @@ truth) or `needs_resolution`.
   Agentic Engineering System. `Inside-Success/agentic-engineering-system` is archived.
 - **What it is for now** (`approved`, Brian's goal 2026-10-02): the home of
   Brian's personal hive brain v1: Brian, his agents, one brain per project,
-  built from off-the-shelf tools. Plan: `proposals/hive-brain-v1/ROADMAP.md`.
+  built from off-the-shelf tools. Plan: personal-vps `proposals/hive-brain-v1/ROADMAP.md`.
 - **AES governs itself** (`approved`, Decision 0010): product code under
   `src/agentic_engineering_system/` and `tests/greenfield/` changes only through
   `aes plan` (`.aes/target.yaml`). `scripts/` and `proposals/` are outside the
