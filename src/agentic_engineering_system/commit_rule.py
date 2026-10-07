@@ -91,6 +91,10 @@ class RuleConfig:
     plan_roots: tuple[Path, ...] = ()
     source: str = "default"
     plan_adoption: str = "observe"
+    # Federated plans: a [Goal <id>] not found under plan_roots is looked up in every Git
+    # repository directly under this folder (one level), so a plan lives in the repository
+    # that owns it and work in any other repository can still name it.
+    plan_workspace: Path | None = None
 
 
 @dataclass
@@ -141,6 +145,7 @@ def load_rule_config(root: Path) -> RuleConfig:
         plan_roots=(root, *extra),
         source=str(path),
         plan_adoption=plan_adoption,
+        plan_workspace=Path(data["plan_workspace"]).expanduser() if data.get("plan_workspace") else None,
     )
 
 
@@ -224,12 +229,45 @@ def plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]:
     return True, f"{plan.relative_to(plan_root) if plan.is_relative_to(plan_root) else plan} adopted"
 
 
-def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None) -> tuple[bool, str]:
-    """Whether the named plan has a current adopted Company Planning receipt, and why not."""
+def workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] = ()) -> list[Path]:
+    """Repositories directly under `workspace` holding a plan whose front matter names `plan_id`.
+
+    A cheap text test picks the candidate files before any YAML is parsed; the whole
+    workspace (about 1,700 plan files in ~/code) scans in well under a second."""
+    needle = re.compile(rf"^plan_id:\s*['\"]?{re.escape(plan_id)}['\"]?\s*$", re.MULTILINE)
+    skipped = {s.resolve() for s in skip}
+    roots = []
+    for repo in sorted(workspace.iterdir()) if workspace.is_dir() else []:
+        if not (repo / ".git").exists() or repo.resolve() in skipped:
+            continue
+        for p in [*repo.glob("proposals/*/*.md"), *repo.glob("docs/plans/*.md")]:
+            try:
+                with p.open(encoding="utf-8", errors="replace") as fh:
+                    head = fh.read(8192)
+            except OSError:
+                continue
+            match = FRONT_MATTER_RE.match(head)
+            if match and needle.search(match.group(1)):
+                roots.append(repo)
+                break
+    return roots
+
+
+def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None,
+                   plan_workspace: Path | None = None) -> tuple[bool, str]:
+    """Whether the named plan has a current adopted Company Planning receipt, and why not.
+
+    [Plan #N] numbers are per repository, so only a [Goal <id>] is looked up across the
+    workspace, and only when no plan root holds it."""
     label = f"#{number}" if number is not None else plan_id
     plans = [(r, p) for r in plan_roots for p in _plan_candidates(r, number, plan_id)]
+    searched = [str(r) for r in plan_roots]
+    if not plans and plan_id is not None and plan_workspace is not None:
+        for repo in workspace_plan_roots(plan_workspace, plan_id, plan_roots):
+            plans += [(repo, p) for p in _plan_candidates(repo, None, plan_id)]
+        searched.append(f"every repository in {plan_workspace}")
     if not plans:
-        return False, f"no plan {label} found under {', '.join(str(r) for r in plan_roots)}"
+        return False, f"no plan {label} found under {', '.join(searched)}"
     reasons = []
     for plan_root, plan in plans:
         ok, why = plan_adoption(plan_root, plan)
@@ -256,7 +294,7 @@ def judge(message: str, changes: list[FileChange], governed_roots: list[str], co
                        "no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]")
     if match["plan"] is not None or match["goal"] is not None:
         tag = f"Plan #{match['plan']}" if match["plan"] is not None else f"Goal {match['goal']}"
-        ok, why = receipt_status(config.plan_roots, match["plan"], match["goal"])
+        ok, why = receipt_status(config.plan_roots, match["plan"], match["goal"], config.plan_workspace)
         result = verdict("accept" if ok else "refuse", tag, why)
         result.check = "plan-adoption"
         return result

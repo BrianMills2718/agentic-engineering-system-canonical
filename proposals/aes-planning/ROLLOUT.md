@@ -83,3 +83,27 @@ The switch to `mode: enforce` is made at the 2026-10-09 review rather than at on
 already running keep the old cursor code until they restart, and its `[Generated]` / `[Unplanned]`
 cursor commits would be refused and strand the cursor (the 2026-09-09 failure). The review reads two
 days of observe logs for any remaining untagged automated commits before switching.
+
+## Federated plans and the misuse review (2026-10-07)
+
+- **Plans live in the repository that owns them.** With `plan_workspace: ~/code` in
+  `~/.config/aes/commit_rule.yaml`, a `[Goal <id>]` not found in the committing repository or
+  the plan roots is looked up in every Git repository directly under `~/code` (front matter
+  `plan_id: <id>`), so moving a plan out of AES canonical keeps its tags working. Measured: about
+  1,700 plan files scan in under a second; a world-substrate plan named from personal-vps
+  resolves in 0.26 s. `[Plan #N]` stays per repository.
+- **What the 2026-10-07 live refusals were** (outside AES canonical, deduplicated by subject): of
+  the plan-tag refusals, two were commits made before their plan was adopted or before the shared
+  plan root existed (both resolve today), and the rest named ids that are not plans anywhere
+  (`review-20261007`, a roadmap id; `vision-coverage`, a page with no `plan_id`). Those stay
+  refused; the fix there is a plan, not a looser rule.
+- **Misuse review** (`rollout/misuse_review.py`, timer `aes-commit-misuse-review` at 07:30): the
+  rule accepts `[Unplanned]` on any `Emergency:` line and `[Trivial]` on counts alone; each night a
+  light model (Jev via llm_client) judges yesterday's accepted ones (real emergency? behaviour
+  change?), logs every verdict to `~/.local/state/aes/commit-misuse-review.jsonl`, and opens the
+  keyed concern `aes-commit-tag-misuse` for p ≥ 0.8. Report-only; it never blocks a commit. Run for
+  2026-10-07: 25 judged, 3 flagged, 8 skipped (smoke tests never committed, a squashed-away lane, a
+  duplicate folder), $0.0014, 47 s, issue #188. All three flags were right on reading (a cursor-tag
+  behaviour change, the C: reserve lowered from 30 to 20 GiB, a changed agent skill); of four
+  `[Unplanned]` commits read by hand, three stated real emergencies and one (a plan-adoption blocker)
+  is debatable. Squash-merged commits are matched by their `<subject> (#N)` form.

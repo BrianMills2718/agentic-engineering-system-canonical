@@ -1,0 +1,6 @@
+[Unit]
+Description=AES commit rule: nightly light-model review of accepted [Unplanned]/[Trivial] commits (report-only)
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/uv run --no-project --with-editable %h/code/llm_client python %h/code/agentic-engineering-system-canonical/worktrees/hook-runtime/proposals/aes-planning/rollout/misuse_review.py

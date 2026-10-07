@@ -20,6 +20,7 @@ total, models and settings, context per step, outputs and reasons, decisions
 checked against source) and can SUPPORT only when every step was read and no
 checked decision was wrong. Bug-fix plans (Company Planning route `repair`) can
 now be adopted (company-planning #52, #53).
+**Federated plans and misuse review (2026-10-07):** a `[Goal <id>]` now resolves from a plan in any repository under `~/code` (`plan_workspace` in `~/.config/aes/commit_rule.yaml`), so plans can move to the repository that owns them. A nightly report-only light-model review (`aes-commit-misuse-review` timer) judges accepted `[Unplanned]`/`[Trivial]` commits and opens concern `aes-commit-tag-misuse`; details in `proposals/aes-planning/ROLLOUT.md`.
 Plans: `proposals/aes-planning/` and `proposals/hive-hardening/` (both adopted).
 Rollout to every repository (2026-10-07, Brian "go" on observe everywhere now,
 enforce after two days where false refusals are at or under 1 in 5):
