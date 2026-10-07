@@ -51,6 +51,8 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Literal
 
+from pydantic import BaseModel
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import transcripts as T  # noqa: E402
 
@@ -303,7 +305,7 @@ class RegisterLocked(Exception):
     pass
 
 
-PENDING = ("eligible_not_filed", "deferred_cap", "deferred_register_locked")
+PENDING = ("eligible_not_filed", "deferred_cap", "deferred_register_locked", "deferred_repeat_check")
 
 
 def filed_quotes() -> set[str]:
@@ -324,6 +326,67 @@ def filed_quotes() -> set[str]:
                 by_id[d["id"]] = d
         seen.update(norm(d["quote"]) for d in by_id.values() if str(d.get("filing", "")).startswith("lrn-"))
     return seen
+
+def filed_texts(days: int = 14, limit: int = 60) -> list[str]:
+    """Quotes filed in the last `days` daily logs, newest last, for the reworded-repeat check."""
+    cutoff = (dt.date.today() - dt.timedelta(days=days)).isoformat()
+    out: list[str] = []
+    for p in sorted(OUT.glob("items-*.jsonl")):
+        if p.stem[len("items-"):] < cutoff:
+            continue
+        by_id: dict[str, dict] = {}
+        for line in open(p):
+            try:
+                d = json.loads(line)
+            except ValueError:
+                continue
+            if "filing_update" in d:
+                if d["id"] in by_id:
+                    by_id[d["id"]]["filing"] = d["filing_update"]
+            else:
+                by_id[d["id"]] = d
+        out += [d["quote"].strip() for d in by_id.values() if str(d.get("filing", "")).startswith("lrn-")]
+    return out[-limit:]
+
+
+class _SameLesson(BaseModel):
+    same_lesson_as: int | None
+    reason: str
+
+
+def repeats_filed(quote: str, recent: list[str]) -> bool:
+    """Light-model check: does this line state the same lesson as one filed recently, even reworded?
+
+    2026-10-07: exact-text dedup let 2 of 10 filed entries through as paraphrased repeats; this
+    prompt caught both and flagged none of the 8 distinct entries (9/9 on that set). Raises on a
+    model failure so the caller defers the item rather than filing a possible repeat.
+    """
+    if not recent:
+        return False
+    from llm_client import call_llm_structured
+    earlier = "\n".join(f"[{i}] {t[:600]}" for i, t in enumerate(recent))
+    r = call_llm_structured(
+        EXTRACT_MODEL,
+        [{"role": "user", "content": (
+            "A new lesson is about to be added to a register of lessons for AI coding agents. Does it state the SAME "
+            "lesson as one of the earlier entries (same fact or practice, even if worded differently or mixed with "
+            "other points)? Answer the earlier entry's number, or null if none.\n\nEarlier entries:\n"
+            f"{earlier}\n\nNew lesson:\n{quote[:1500]}")}],
+        _SameLesson, task="feedback-collector.repeat-check", trace_id=f"feedback-collector/repeat-check/{item_id(quote)}",
+        max_budget=0.02, reasoning_effort="none",
+        model_justification="light model for prose meaning: does a new lesson repeat an earlier one")
+    res = r[0] if isinstance(r, tuple) else r
+    return res.same_lesson_as is not None
+
+
+def _repeat_or_defer(it: dict, recent: list[str]) -> str | None:
+    """'repeats_filed' for a reworded repeat, 'deferred_repeat_check' if the check failed (retried next run), else None."""
+    try:
+        return "repeats_filed" if repeats_filed(it["quote"], recent) else None
+    except Exception as exc:  # never file an unchecked possible repeat; the item stays pending
+        log(f"repeat check failed for {it['id']}: {type(exc).__name__}: {str(exc)[:200]}")
+        return "deferred_repeat_check"
+
 
 def file_item(it: dict) -> str:
     kind = it["triage"]["kind"]
@@ -458,7 +521,7 @@ def main() -> int:
     # 7. filing (sequential: each call is one git commit in project-meta)
     def file_all():
         filed, locked = 0, False
-        seen = filed_quotes()
+        seen, recent = filed_quotes(), filed_texts()
         for it in sorted(items, key=lambda i: -(i["triage"] or {}).get("p", 0)):
             tr = it["triage"]
             if not tr or tr["kind"] not in FILE_KINDS:
@@ -473,6 +536,8 @@ def main() -> int:
                 it["filing"] = "not_reusable"
             elif norm(it["quote"]) in seen:
                 it["filing"] = "duplicate_of_filed"
+            elif (verdict := _repeat_or_defer(it, recent)) is not None:
+                it["filing"] = verdict
             elif not args.file:
                 it["filing"] = "eligible_not_filed (run without --file)"
             elif filed >= args.max_file:
@@ -484,6 +549,7 @@ def main() -> int:
                     it["filing"] = file_item(it)
                     filed += 1
                     seen.add(norm(it["quote"]))
+                    recent.append(it["quote"].strip())
                 except RegisterLocked:
                     it["filing"], locked = "deferred_register_locked", True
                 except Exception as exc:
@@ -545,7 +611,7 @@ def file_pending(path: Path, cap: int, min_reusable: float = 0.6) -> tuple[int, 
             and (i["source"], i["field"]) in AUTO_FILE_SOURCES
             and (i.get("triage") or {}).get("reusable_p", 0.0) >= min_reusable]
     todo.sort(key=lambda i: -i["triage"]["p"])
-    filed, errors, seen = 0, [], filed_quotes()
+    filed, errors, seen, recent = 0, [], filed_quotes(), filed_texts()
     with open(path, "a") as fh:
         for it in todo:
             if filed >= cap:
@@ -553,10 +619,15 @@ def file_pending(path: Path, cap: int, min_reusable: float = 0.6) -> tuple[int, 
             if norm(it["quote"]) in seen:
                 fh.write(json.dumps({"id": it["id"], "filing_update": "duplicate_of_filed"}) + "\n")
                 continue
+            verdict = _repeat_or_defer(it, recent)
+            if verdict is not None:
+                fh.write(json.dumps({"id": it["id"], "filing_update": verdict}) + "\n")
+                continue
             try:
                 entry = file_item(it)
                 filed += 1
                 seen.add(norm(it["quote"]))
+                recent.append(it["quote"].strip())
             except RegisterLocked:
                 log("register locked by a live project-meta lane; the rest wait for the next run")
                 break

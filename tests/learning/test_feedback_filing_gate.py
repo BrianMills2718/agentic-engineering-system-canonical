@@ -31,8 +31,35 @@ def test_file_pending_skips_text_already_filed(tmp_path, monkeypatch):
     day.write_text("".join(json.dumps(r) + "\n" for r in rows))
     filed = []
     monkeypatch.setattr(C, "file_item", lambda it: filed.append(it["id"]) or f"lrn-{it['id']}")
+    monkeypatch.setattr(C, "repeats_filed", lambda quote, recent: False)
     n, errors = C.file_pending(day, cap=10)
     assert (n, errors, filed) == (1, [], ["c"])
     updates = [json.loads(l) for l in day.read_text().splitlines() if "filing_update" in l]
     assert {"id": "b", "filing_update": "duplicate_of_filed"} in updates
     assert C.norm(rows[2]["quote"]) in C.filed_quotes()
+
+
+def test_file_pending_skips_a_reworded_repeat_and_defers_when_the_check_fails(tmp_path, monkeypatch):
+    monkeypatch.setattr(C, "OUT", tmp_path)
+    day = tmp_path / f"items-{C.dt.date.today().isoformat()}.jsonl"
+    rows = [
+        _item("a", "Codex on the command line can grade interactive pages; ChatGPT Chat cannot.", filing="lrn-x"),
+        _item("b", "Codex grades interactive pages end to end and ChatGPT Chat can't."),  # same lesson, reworded
+        _item("c", "Removing the worktree you are in blocks the shell; cd out first."),  # check fails -> deferred
+        _item("d", "GitHub's file-editing API turns a linked file into a plain copy."),
+    ]
+    day.write_text("".join(json.dumps(r) + "\n" for r in rows))
+
+    def fake_repeats(quote, recent):
+        assert recent[0].startswith("Codex on the command line")
+        if quote.startswith("Removing"):
+            raise RuntimeError("model down")
+        return quote.startswith("Codex grades")
+
+    filed = []
+    monkeypatch.setattr(C, "repeats_filed", fake_repeats)
+    monkeypatch.setattr(C, "file_item", lambda it: filed.append(it["id"]) or f"lrn-{it['id']}")
+    n, errors = C.file_pending(day, cap=10)
+    assert (n, errors, filed) == (1, [], ["d"])
+    updates = {u["id"]: u["filing_update"] for u in (json.loads(l) for l in day.read_text().splitlines()) if "filing_update" in u}
+    assert updates == {"b": "repeats_filed", "c": "deferred_repeat_check", "d": "lrn-d"}
