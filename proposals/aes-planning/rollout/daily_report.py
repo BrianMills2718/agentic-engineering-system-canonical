@@ -6,7 +6,8 @@ Runs from a user timer. Each run:
 1. runs ``install_everywhere.py check`` and, when any repository is unwired or the ``aes``
    runtime is missing, opens or updates the keyed concern ``aes-commit-rule-coverage``
    (a control that went dark somewhere reaches an agent the same day);
-2. reads every repository's observe log for the previous days
+2. rebuilds the plan index (`aes commit index`: which plans each repository holds on its default
+   branch), then reads every repository's observe log for the previous days
    (``<git-common-dir>/aes/commit-rule-<date>.jsonl``), counts verdicts by tag and refusal
    reason, and appends one line per day to ``~/.local/state/aes/commit-rule-daily.jsonl``;
 3. once, on the first run on or after ``REVIEW_DATE``, opens the keyed concern ``aes-commit-rule-enforce-review`` with
@@ -95,6 +96,11 @@ def refresh_runtime() -> str:
 def main() -> int:
     today = dt.date.today()
     print(refresh_runtime())
+    # [Goal <id>] lookups read each repository's default branch from this index when its checkout is
+    # elsewhere (AES #215); the hook also refreshes it in the background when it is over an hour old.
+    aes = Path.home() / ".local" / "bin" / "aes"
+    idx = run(str(aes), "commit", "index", "--workspace", str(WORKSPACE))
+    print((idx.stdout or idx.stderr).strip().splitlines()[-1] if (idx.stdout or idx.stderr).strip() else f"plan index: exit {idx.returncode}")
     check = run(sys.executable, str(HERE / "install_everywhere.py"), "check")
     summary = check.stdout.strip().splitlines()[-1] if check.stdout.strip() else check.stderr.strip()
     print(summary)

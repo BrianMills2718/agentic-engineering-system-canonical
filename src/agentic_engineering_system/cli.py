@@ -177,6 +177,11 @@ def _build_parser() -> argparse.ArgumentParser:
     crep.add_argument("--root", type=Path, default=None,
                       help="repository root (default: top of the current Git work tree)")
     crep.add_argument("--json", action="store_true", help="one JSON object per commit, then the counts")
+    cidx = commit_sub.add_parser("index", help="record which plans each repository holds on its default branch "
+                                 "(read through git), for [Goal <id>] lookups when a checkout is on another branch")
+    cidx.add_argument("--workspace", type=Path, default=Path.home() / "code",
+                      help="folder whose child repositories are indexed (default ~/code)")
+    cidx.add_argument("--root", type=Path, default=None, help=argparse.SUPPRESS)
     return parser
 
 
@@ -263,6 +268,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(_adopt.render_adopted(_adopt.adopt(
                 args.root, revision=args.revision, dry_run=args.dry_run, project_id=args.project_id,
                 actor=args.actor, outcome=args.outcome, governed_roots=args.governed_roots, language=args.language)))
+            return 0
+        # needs no AES project: it reads every repository under the workspace
+        if args.command == "commit" and args.commit_command == "index":
+            import time
+            from .commit_rule import build_plan_index, plan_index_path
+            t0 = time.perf_counter()
+            index = build_plan_index(args.workspace)
+            plans = sum(len(e["plans"]) for e in index["repos"].values())
+            print(f"plan index: {len(index['repos'])} repositories, {plans} plan ids on default branches, "
+                  f"{time.perf_counter() - t0:.1f}s -> {plan_index_path()}")
             return 0
         if args.root is None:
             args.root = find_project_root(Path.cwd())

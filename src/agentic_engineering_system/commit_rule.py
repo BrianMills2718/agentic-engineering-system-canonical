@@ -55,6 +55,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
@@ -211,29 +212,43 @@ def _plan_candidates(plan_root: Path, number: str | None, plan_id: str | None) -
     return found
 
 
-def plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]:
-    """Whether `plan` declares a Company Planning receipt whose adoption decision is `adopted`
-    for the current bytes of both the plan and the receipt; the reason either way."""
-    if not plan.is_file():
-        return False, f"{plan}: plan file not found"
-    match = FRONT_MATTER_RE.match(plan.read_text(encoding="utf-8", errors="replace"))
+def _adoption(read, plan_rel: str, where: str) -> tuple[bool, str]:
+    """The adoption check over any byte source: `read(path relative to the plan root)` returns the
+    file's bytes or None. `where` names the plan in messages."""
+    text = read(plan_rel)
+    if text is None:
+        return False, f"{where}: plan file not found"
+    match = FRONT_MATTER_RE.match(text.decode("utf-8", errors="replace"))
     meta = (_YAML.load(match.group(1)) or {}) if match else {}
     receipt_ref = meta.get("method_conformance_receipt")
     if not receipt_ref:
-        return False, f"{plan}: no method_conformance_receipt in front matter (not adopted through Company Planning)"
-    receipt = plan_root / receipt_ref
+        return False, f"{where}: no method_conformance_receipt in front matter (not adopted through Company Planning)"
     # Company Planning's decision_path_for: drop ".json", then a trailing ".receipt"
-    decision = receipt.with_name(receipt.name.removesuffix(".json").removesuffix(".receipt") + ".adoption-decision.json")
-    if not (receipt.is_file() and decision.is_file()):
-        return False, f"{plan}: receipt or adoption decision missing ({receipt_ref})"
-    record = json.loads(decision.read_text(encoding="utf-8"))
+    head, _, name = str(receipt_ref).rpartition("/")
+    decision_ref = (head + "/" if head else "") + name.removesuffix(".json").removesuffix(".receipt") + ".adoption-decision.json"
+    receipt, decision = read(str(receipt_ref)), read(decision_ref)
+    if receipt is None or decision is None:
+        return False, f"{where}: receipt or adoption decision missing ({receipt_ref})"
+    record = json.loads(decision.decode("utf-8"))
     if record.get("decision") != "adopted":
-        return False, f"{plan}: adoption decision is {record.get('decision')!r}, not adopted"
-    if record.get("plan_sha256") != _sha256(plan):
-        return False, f"{plan}: plan changed since adoption; re-adopt it"
-    if record.get("receipt_sha256") != _sha256(receipt):
-        return False, f"{plan}: receipt changed since adoption"
-    return True, f"{plan.relative_to(plan_root) if plan.is_relative_to(plan_root) else plan} adopted"
+        return False, f"{where}: adoption decision is {record.get('decision')!r}, not adopted"
+    if record.get("plan_sha256") != hashlib.sha256(text).hexdigest():
+        return False, f"{where}: plan changed since adoption; re-adopt it"
+    if record.get("receipt_sha256") != hashlib.sha256(receipt).hexdigest():
+        return False, f"{where}: receipt changed since adoption"
+    return True, f"{where} adopted"
+
+
+def plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]:
+    """Whether `plan` declares a Company Planning receipt whose adoption decision is `adopted`
+    for the current bytes of both the plan and the receipt; the reason either way."""
+    rel = str(plan.relative_to(plan_root)) if plan.is_relative_to(plan_root) else str(plan)
+
+    def read(r: str) -> bytes | None:
+        f = plan if r == rel else plan_root / r
+        return f.read_bytes() if f.is_file() else None
+    ok, why = _adoption(read, rel, str(plan))
+    return ok, (f"{rel} adopted" if ok else why)
 
 
 def workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] = ()) -> list[Path]:
@@ -260,6 +275,105 @@ def workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] =
     return roots
 
 
+PLAN_INDEX_ENV = "AES_PLAN_INDEX"
+PLAN_INDEX_FRESH_SECONDS = 3600
+DEFAULT_REFS = ("origin/HEAD", "origin/main", "origin/master", "main", "master")
+
+
+def plan_index_path() -> Path:
+    return Path(os.environ.get(PLAN_INDEX_ENV) or Path.home() / ".cache" / "aes" / "plan-index.json")
+
+
+def _default_ref(repo: Path) -> tuple[str, str] | None:
+    for ref in DEFAULT_REFS:
+        done = subprocess.run(["git", "-C", str(repo), "rev-parse", "-q", "--verify", f"{ref}^{{commit}}"],
+                              capture_output=True, text=True, check=False)
+        if done.returncode == 0 and done.stdout.strip():
+            return ref, done.stdout.strip()
+    return None
+
+
+def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
+    """Which plan ids each repository directly under `workspace` holds on its default branch (read
+    through git, not its working tree, which may sit on another branch). Incremental: a repository
+    whose default-branch commit is unchanged keeps its previous entry, so only moved repositories are
+    re-read (a full rebuild over ~/code takes about 20 s, a refresh a few)."""
+    path = path or plan_index_path()
+    try:
+        old = json.loads(path.read_text(encoding="utf-8")).get("repos", {})
+    except (OSError, ValueError):
+        old = {}
+    repos: dict[str, dict] = {}
+    for repo in sorted(workspace.iterdir()) if workspace.is_dir() else []:
+        if not (repo / ".git").exists():
+            continue
+        found = _default_ref(repo)
+        if found is None:
+            continue
+        ref, sha = found
+        key = str(repo.resolve())
+        if old.get(key, {}).get("sha") == sha:
+            repos[key] = old[key]
+            continue
+        grep = subprocess.run(["git", "-C", str(repo), "grep", "-E", r"^plan_id:", sha, "--",
+                               "proposals/*/*.md", "docs/plans/*.md"], capture_output=True, text=True, check=False)
+        plans: dict[str, list[str]] = {}
+        for line in grep.stdout.splitlines():
+            # "<sha>:<path>:plan_id: <id>"
+            parts = line.split(":", 3)
+            if len(parts) == 4:
+                pid = parts[3].strip().strip("'\"")
+                if pid:
+                    plans.setdefault(pid, []).append(parts[1])
+        repos[key] = {"ref": ref, "sha": sha, "plans": plans}
+    index = {"built_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+             "workspace": str(workspace), "repos": repos}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps(index, indent=1) + "\n", encoding="utf-8")
+    tmp.replace(path)
+    return index
+
+
+def _refresh_index_in_background(workspace: Path) -> None:
+    """Start an index rebuild that outlives this commit; the next commit reads its result.
+    AES_PLAN_INDEX_REFRESH=0 turns this off (tests build the index explicitly)."""
+    if os.environ.get("AES_PLAN_INDEX_REFRESH") == "0":
+        return
+    try:
+        subprocess.Popen([sys.executable, "-m", "agentic_engineering_system.cli", "commit", "index",
+                          "--workspace", str(workspace)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                         start_new_session=True)
+    except OSError:
+        pass
+
+
+def indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, str]], bool]:
+    """Judge `plan_id` from each repository's default branch as recorded in the plan index.
+    Returns the per-candidate verdicts and whether the index was missing or stale (and so a
+    background refresh was started)."""
+    path = plan_index_path()
+    try:
+        index = json.loads(path.read_text(encoding="utf-8"))
+        age = (dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(index["built_at"])).total_seconds()
+    except (OSError, ValueError, KeyError):
+        index, age = {"repos": {}}, float("inf")
+    stale = age > PLAN_INDEX_FRESH_SECONDS or index.get("workspace") != str(workspace)
+    verdicts = []
+    for repo, entry in index.get("repos", {}).items():
+        for rel in entry.get("plans", {}).get(plan_id, []):
+            sha = entry["sha"]
+
+            def read(r: str, _repo: str = repo, _sha: str = sha) -> bytes | None:
+                done = subprocess.run(["git", "-C", _repo, "show", f"{_sha}:{r}"], capture_output=True, check=False)
+                return done.stdout if done.returncode == 0 else None
+            ok, why = _adoption(read, rel, f"{Path(repo).name} {entry['ref']}:{rel}")
+            verdicts.append((ok, why))
+    if stale:
+        _refresh_index_in_background(workspace)
+    return verdicts, stale
+
+
 def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None,
                    plan_workspace: Path | None = None) -> tuple[bool, str]:
     """Whether the named plan has a current adopted Company Planning receipt, and why not.
@@ -273,14 +387,24 @@ def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: st
         for repo in workspace_plan_roots(plan_workspace, plan_id, plan_roots):
             plans += [(repo, p) for p in _plan_candidates(repo, None, plan_id)]
         searched.append(f"every repository in {plan_workspace}")
-    if not plans:
+    if not plans and (plan_id is None or plan_workspace is None):
         return False, f"no plan {label} found under {', '.join(searched)}"
-    reasons = []
+    reasons = [] if plans else [f"no plan {label} found under {', '.join(searched)}"]
     for plan_root, plan in plans:
         ok, why = plan_adoption(plan_root, plan)
         if ok:
             return True, f"plan {label} adopted ({plan.relative_to(plan_root)})"
         reasons.append(why)
+    if plan_id is not None and plan_workspace is not None:
+        # A checkout may sit on another branch or behind main: judge each repository's default
+        # branch too, from the plan index (rebuilt daily and in the background when stale).
+        verdicts, stale = indexed_adoption(plan_workspace, plan_id)
+        for ok, why in verdicts:
+            if ok:
+                return True, f"plan {label} adopted on the default branch ({why.removesuffix(' adopted')})"
+            reasons.append(why)
+        if stale:
+            reasons.append("plan index missing or older than an hour; a refresh was started")
     return False, "; ".join(reasons)
 
 
