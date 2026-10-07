@@ -147,9 +147,10 @@ def load_baseline(root: Path) -> Baseline | None:
     files = data.get("files")
     if not isinstance(files, dict) or not all(isinstance(k, str) and _HEX40.fullmatch(str(v)) for k, v in files.items()):
         problems.append("files must map each path to its 40-hex blob id")
-    if problems:
+    if problems or not isinstance(roots, list) or not isinstance(files, dict):
         raise AdoptError(f"{path}: " + "; ".join(problems))
-    return Baseline(data["adopted_at_revision"], str(data.get("adopted_at", "")), tuple(roots), dict(files))
+    return Baseline(data["adopted_at_revision"], str(data.get("adopted_at", "")),
+                    tuple(str(r) for r in roots), {str(k): str(v) for k, v in files.items()})
 
 
 def _write(root: Path, baseline: Baseline, *, exclusive: bool) -> Path:
