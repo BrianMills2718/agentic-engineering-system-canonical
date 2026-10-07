@@ -11,9 +11,17 @@ every commit's tag is checked by `aes commit check` through `.githooks/commit-ms
 files and 60 lines with no running-thing file, `[Shaping <plan_id>]` for edits
 inside `proposals/<plan_id>/`, `[Unplanned]` only with an `Emergency:` line.
 Plans: `proposals/aes-planning/` and `proposals/hive-hardening/` (both adopted).
-Next: after a week of observe log, switch AES canonical to enforce if false
-refusals are at or under 1 in 5; P1 (AES overlay in the gate's profile) waits
-on company-planning's plan-48 work.
+Rollout to every repository (2026-10-07, Brian "go" on observe everywhere now,
+enforce after two days where false refusals are at or under 1 in 5):
+`proposals/aes-planning/rollout/install_everywhere.py` wires the rule into all
+repositories under ~/code in observe mode (machine-wide mode in
+`~/.config/aes/commit_rule.yaml`); `check` reports any unwired repository. The
+replay of 21,948 recent commits in 185 repositories would refuse 99% (79% carry
+no tag at all), so no repository meets the enforce condition; see
+`proposals/aes-planning/ROLLOUT.md`. Next: read the observe logs on 2026-10-09;
+before enforce anywhere, give scheduled-job commits a recognised tag and get
+adopted plans for each active project's real work. P1 (AES overlay in the gate's
+profile) still waits on company-planning's plan-48 work.
 
 **Feedback collector (2026-10-06):** a nightly job on Brian's PC now reads
 every changed Claude Code and Codex transcript, collects closeout Learnings,
