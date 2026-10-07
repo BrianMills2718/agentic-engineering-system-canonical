@@ -52,13 +52,15 @@ SNIPPET_TEXT = """#!/bin/sh
 # in enforce mode a refusal stops the commit. Edits here are overwritten by the installer.
 aes_commit_rule() {
   top=$(git rev-parse --show-toplevel 2>/dev/null) || return 0
-  if ! command -v aes >/dev/null 2>&1; then
+  # scheduled jobs run without ~/.local/bin on PATH, and their commits must be checked too
+  aes_bin=$(command -v aes 2>/dev/null) || aes_bin="$HOME/.local/bin/aes"
+  if [ ! -x "$aes_bin" ]; then
     echo "commit-msg: WARNING: 'aes' is not installed, so the AES commit rule did not run." >&2
     mkdir -p "$HOME/.local/state/aes" && \\
       printf '%s rule-not-run no-aes %s\\n' "$(date -u +%FT%TZ)" "$top" >> "$HOME/.local/state/aes/commit-rule-missing.log"
     return 0
   fi
-  aes commit check --root "$top" "$1"
+  "$aes_bin" commit check --root "$top" "$1"
 }
 """
 
@@ -78,6 +80,13 @@ orig="{orig}/{name}"
 [ -x "$orig" ] || exit 0
 exec "$orig" "$@"
 """
+
+
+def aes_runtime() -> str | None:
+    """The `aes` the hooks will find: PATH first, then ~/.local/bin (where scheduled jobs look)."""
+    found = shutil.which("aes")
+    fallback = HOME / ".local" / "bin" / "aes"
+    return found or (str(fallback) if fallback.is_file() and os.access(fallback, os.X_OK) else None)
 
 
 def git(repo: Path, *args: str, check: bool = False) -> str:
@@ -196,7 +205,7 @@ def main() -> int:
     args = ap.parse_args()
     repos = repositories(args.workspace)
     if args.action == "install":
-        if not shutil.which("aes"):
+        if not aes_runtime():
             print("install: 'aes' is not on PATH; install it first (uv tool install --from <AES checkout> agentic-engineering-system)", file=sys.stderr)
             return 2
         if not MACHINE_CONFIG.exists():
@@ -228,7 +237,7 @@ def main() -> int:
         return 0
     rows = [(repo.name, *wired(repo)) for repo in repos]
     unwired = [r for r in rows if not r[2]]
-    runtime = shutil.which("aes")
+    runtime = aes_runtime()
     if args.json:
         print(json.dumps({"runtime": runtime, "machine_config": str(MACHINE_CONFIG) if MACHINE_CONFIG.exists() else None,
                           "repositories": [{"repo": n, "kind": k, "wired": w, "detail": d} for n, k, w, d in rows]}, indent=1))
