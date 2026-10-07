@@ -249,3 +249,27 @@ def test_machine_config_reaches_repositories_without_their_own(tmp_path: Path, m
     assert load_rule_config(own).mode == "observe" and load_rule_config(own).source.endswith(".aes/commit_rule.yaml")
     monkeypatch.setenv("AES_COMMIT_RULE_MACHINE_CONFIG", str(tmp_path / "absent.yaml"))
     assert load_rule_config(plain).mode == "observe" and load_rule_config(plain).source == "default"
+
+
+def test_auto_tag_names_its_job_and_touches_no_running_thing() -> None:
+    """[Auto] is for scheduled jobs: it must name the job and may not change anything that runs."""
+    config = RuleConfig(plan_roots=())
+    data = [FileChange("data/prices.csv", "M", 4000, 3900)]
+    assert judge("[Auto] refresh prices", data, [], config).verdict == "refuse"
+    ok = judge("[Auto] refresh prices\n\nAuto-job: price-sync.timer", data, [], config)
+    assert ok.verdict == "accept" and "price-sync.timer" in ok.reasons[0]
+    risky = judge("[Auto] refresh\n\nAuto-job: price-sync.timer", [FileChange("Dockerfile", "M", 1, 0)], [], config)
+    assert risky.verdict == "refuse" and "Dockerfile" in risky.reasons[0]
+
+
+def test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans(repo: Path) -> None:
+    """Staged enforcement: tags and trivial size are refused; a plan that is not adopted is only logged."""
+    _write(repo, ".aes/commit_rule.yaml", "mode: enforce\nplan_adoption: observe\n")
+    _git(repo, "add", ".aes/commit_rule.yaml")
+    assert _git(repo, "commit", "-m", "[Unplanned] stage config\n\nEmergency: test setup").returncode == 0
+    _write(repo, "README.md", "# Consumer\n\nA line with a typo fixed.\n")
+    _git(repo, "add", "README.md")
+    untagged = _git(repo, "commit", "-m", "fix typo")
+    assert untagged.returncode != 0 and "no tag" in untagged.stderr
+    unadopted = _git(repo, "commit", "-m", "[Plan #999] fix typo under a plan that does not exist")
+    assert unadopted.returncode == 0 and "plan adoption is observe-only" in unadopted.stderr
