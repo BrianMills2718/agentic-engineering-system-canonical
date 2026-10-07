@@ -49,6 +49,9 @@ TOML
 
 Run `aes init` at the top of the repository with the project's first outcome:
 who it is for, and what they get.
+If the governed directories already hold code, use `aes adopt` instead (see
+[Starting on an existing codebase](#starting-on-an-existing-codebase));
+`aes init` warns when it finds tracked files there.
 
 ```bash
 aes init --project-id greeter \
@@ -348,11 +351,58 @@ and 0 otherwise. Nothing is stored: every run recomputes the state from the
 target, the repository at `HEAD` and the observations, so a gap closes only
 through a new observation or a change to the code or the target.
 
+## Starting on an existing codebase
+
+The steps above assume the governed directories are empty. In a repository that
+already has code there, `aes init` followed by a commit is refused: every
+existing file is an orphan, because the target plans none of them. Do not plan
+them all. Run `aes adopt` instead of `aes init`, with the same arguments, then
+commit, then install the hooks:
+
+```bash
+aes adopt --project-id my-service \
+  --actor "the team that runs my-service" \
+  --outcome "Orders placed through the API are charged once and shipped." \
+  --governed-root src/ --governed-root tests/
+git add .aes && git commit -m "Adopt AES"
+aes hooks install
+```
+
+`aes adopt` writes `.aes/project.yaml` and `.aes/target.yaml` as `aes init`
+does, plus `.aes/legacy_baseline.json`: every tracked file under the governed
+directories at `HEAD` (or `--revision REV`), each with its Git blob id. Those
+files are **legacy**: accepted as they are, and not orphans. `--dry-run`
+prints the same summary and writes nothing. In a repository that already has
+`.aes/`, `aes adopt` (no arguments) writes only the baseline.
+
+From then on:
+
+- A commit that leaves legacy files alone needs nothing extra.
+- A commit that edits a legacy file is an **unplanned legacy edit**. The
+  commit-msg hook logs it in `observe` mode and refuses it in `enforce` mode
+  (`mode:` in `.aes/commit_rule.yaml`). Plan the file first: a proposal that
+  adds a planned artifact with that exact path, accepted with `aes plan
+  accept`, also removes the file from the baseline. Commit the target, the plan
+  and the baseline together, then edit the file.
+- Deleting a legacy file needs no plan; the next `aes plan accept` drops its
+  entry. Nothing ever adds an entry to the baseline after adoption.
+- A new file under a governed directory is an orphan until a plan lists it,
+  exactly as in a new project.
+- `aes status` ends with the share still legacy, for example
+  `legacy: 1210 of 1214 governed file(s) still in the baseline (99.7%), 2
+  changed since adoption at 3f2a9c01d4e5`. "Changed" counts legacy files edited
+  while the rule was only observing.
+
+A repository's own older plans (for example `docs/plans/NNN_*.md`) are history:
+a `[Plan #N]` commit counts only once that plan is adopted through Company
+Planning with a receipt, as for any plan.
+
 ## Commands
 
 | Command | What it does |
 | --- | --- |
 | `aes init --project-id ID --actor TEXT --outcome TEXT` | create `.aes/project.yaml` and a target holding the first outcome |
+| `aes adopt [--dry-run] [--revision REV]` | existing codebase: initialize if needed and accept today's governed files as legacy |
 | `aes hooks install` | install the pre-commit gate |
 | `aes target validate` | strictly load and check the target |
 | `aes topology check` | fail on any tracked governed file the target does not plan |

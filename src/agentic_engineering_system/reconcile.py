@@ -54,6 +54,7 @@ from typing import Final, Literal
 
 from pydantic import computed_field
 
+from .adopt import legacy_paths
 from .characterize import Producer, _git, characterize, drift
 from .evidence import Freshness, Standing, _reachable, assess
 from .records import StrictModel, TargetRecord, load_project, load_target
@@ -260,7 +261,7 @@ def reconcile(root: Path) -> Reconciliation:
     project = load_project(root / ".aes" / "project.yaml")
     target = load_target(root / project.materialization.target_path)
     c = characterize(root)
-    found = drift(target, c)
+    found = drift(target, c, legacy_paths(root, target))
     evidence = assess(root)
 
     artifacts = _artifact_states(root, target, tuple(c.governed_roots), found)
