@@ -3,6 +3,14 @@ plan_id: aes-brownfield-docs
 status: shaping
 method_conformance_receipt: proposals/aes-brownfield-docs/conformance.receipt.json
 planning_path_decision: proposals/aes-brownfield-docs/PLANNING_PATH.json
+goal:
+  outcome: graph-retrieval's documentation follows AES canonical's declared layout, and a reader reaches every document meant for reading from wiki/index.md within two clicks; the retrofit is recorded in AES canonical as evidence for the documentation-rule decision
+  canonical_example: an agent new to graph-retrieval, asked "why does this repository orchestrate agents the way it does?", clicks wiki/index.md -> Decisions -> docs/decisions/DECISIONS.md#001-agent-orchestration-architecture and cites that section; proposals/aes-brownfield-docs/reach.py on merged main reports every unreachable file as an instruction file, fixture, generated output or tool-read template, and none as an orphan
+  forbidden_substitutes: a file-count target; one flat list of every file in place of routed navigation; rewriting or summarising document content; a reachability number without classifying each unreachable file; a cold-reader run that is handed file paths instead of starting at wiki/index.md
+  boundaries: Inside-Success/graph-retrieval through one pull request at a time (gh-insidesuccess) and this plan folder only; no other repository; no change to AES's .agentic/repo.yaml contract or to the workspace documentation rule (that is Brian's M3 decision)
+  done_when: the M1 pull request is merged and reach.py on graph-retrieval main reports 0 orphan reader documents; the cold-reader transcript answers the plan's five questions, each citing a document reached through wiki links within two hops; graph-retrieval's checks give the same results as on main before the change; the M2 retrofit note is committed in this folder
+  do_not_gate_on: Brian reading this plan or a review page; the M3 rule decision; other repositories adopting the layout
+  owner: claude-code:shaping-aes-brownfield-docs
 ---
 
 # AES Brownfield Documentation Layout: Living Plan
@@ -25,7 +33,7 @@ planning_path_decision: proposals/aes-brownfield-docs/PLANNING_PATH.json
 **System model:** exempt: one repository's documentation layout; the layout contract (`.agentic/repo.yaml`) is the model.
 
 <a id="canonical-probe"></a>
-**Canonical probe:** Starting state: graph-retrieval main 4e1403fb, `reach.py` reports 97 tracked .md, 56 reachable from `wiki/index.md`, 41 unreachable (18 instruction files, 23 others). Action: apply the active slice. Inspectable result: `reach.py` reports every unreachable file as one of the allowed kinds (instruction file read by path, test fixture, generated output with its generator named, template read by a tool), and a cold agent answers five fixed questions using only links from `wiki/index.md`. Negative case: a reader document deliberately left unlinked must be reported as an orphan by the check.
+**Canonical probe:** Starting state: graph-retrieval main 4e1403fb, `proposals/aes-brownfield-docs/reach.py` reports 97 tracked .md, 56 reachable from `wiki/index.md`, 41 unreachable (18 instruction files, 23 others). Action: apply the active slice. Inspectable result: `reach.py` reports every unreachable file as one of the allowed kinds (instruction file read by path, test fixture, generated output with its generator named, template read by a tool), and a cold agent answers five fixed questions using only links from `wiki/index.md`. Negative case: a reader document deliberately left unlinked must be reported as an orphan by the check.
 
 <a id="success-disproof"></a>
 **Success evidence:** (1) `reach.py` classification shows zero orphan reader documents; (2) the cold-reader run answers the five questions with the source document cited for each, every citation reached via wiki links; (3) the repository's own checks give the same results as on unchanged main (doc-links, sync_plan_status --check, check_doc_coupling --strict, validate_document_authority, make ci-check, targeted pytest).
@@ -51,7 +59,7 @@ reader finds doc <- wiki/index.md links <- declared roots (.agentic/repo.yaml) <
 | Capability | Canonical owner/seam | Typed dependencies | Evidence | State |
 |---|---|---|---|---|
 | Layout declaration | AES canonical `.agentic/repo.yaml` (schema 0.1-pilot) | none | AES canonical's own copy | reuse, unchanged |
-| Reachability measure | new `reach.py` (session scratch); to move into project-meta `scripts/md_file_cap.py` daily check | git refs | 4-repo run 2026-10-07 | extend existing daily check at milestone 3; no new service |
+| Reachability measure | `proposals/aes-brownfield-docs/reach.py` (committed with this plan); to move into project-meta `scripts/md_file_cap.py` daily check | git refs | 4-repo run 2026-10-07 | extend existing daily check at milestone 3; no new service |
 | Doc tooling in graph-retrieval | `scripts/check_markdown_links.py`, `scripts/meta/sync_plan_status.py`, `scripts/relationships.yaml` | paths of moved docs | PR #245 changed the same seams successfully | adapt (repoint paths only) |
 
 ## Milestone Horizon
