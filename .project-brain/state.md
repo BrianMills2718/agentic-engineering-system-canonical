@@ -1,7 +1,7 @@
 # State (2026-10-04)
 
-Detail and evidence: `proposals/hive-brain-v1/ROADMAP.md` ("Where we are",
-"Capabilities") and `proposals/hive-brain-v1/PROGRESS_LOG.md`. This page is the
+Detail and evidence: personal-vps `proposals/hive-brain-v1/ROADMAP.md` ("Where we are",
+"Capabilities") and personal-vps `proposals/hive-brain-v1/PROGRESS_LOG.md`. This page is the
 short version.
 
 - **Hive brain v1** (`working`): condition 1 of 5 met (five jobs merged from
@@ -14,9 +14,9 @@ short version.
     on https://hive.brianmills.dev. Agents merge their own work after the
     repository's checks; he is asked only for a surface he said is out with
     other people for review, or for an irreversible action (2026-10-04).
-  - Terminal relay `scripts/hive/decisions.py`; silence check
-    `scripts/hive/controls.py` (12 controls, daily); weekly
-    `scripts/hive/readout.py` with cost per job.
+  - Terminal relay personal-vps `hive/decisions.py`; silence check
+    personal-vps `hive/controls.py` (12 controls, daily); weekly
+    personal-vps `hive/readout.py` with cost per job.
   - Learning loop slices 1–2 done; rule K1 enforced since 2026-10-03; Jev
     gate in observe mode; guard mode after the 2026-10-09 log review.
   - Project brains in AES, theory-forge, cybernetic_influence_v3 and

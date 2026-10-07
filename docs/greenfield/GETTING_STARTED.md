@@ -108,7 +108,10 @@ target_ids:
 ...
 ```
 
-Write the proposal outside `.aes/`:
+Write the proposal outside `.aes/`. Every proposal says whether the planned work runs a
+model, agent or pipeline (`trace_review`). Here nothing does, so it says why; work that does
+must add a `trace_review` evidence requirement, so its result is judged by reading the full
+run, not only its final output.
 
 ```bash
 cat > plan-greeter.yaml <<'YAML'
@@ -119,6 +122,9 @@ rationale: >
   OUT-001 has nothing planned under it yet. This plans one chain from the
   outcome to a test before any code is written.
 closes_gaps: []
+trace_review:
+  runs_traced_work: false
+  reason: greet is a plain function; no model, agent or pipeline runs under this plan
 target_delta:
   add:
     normative_items:

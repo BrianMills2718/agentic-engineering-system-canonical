@@ -1,6 +1,6 @@
 # Decisions and rejected alternatives
 
-Full table with reasons: `proposals/hive-brain-v1/ROADMAP.md` "Decisions and
+Full table with reasons: personal-vps `proposals/hive-brain-v1/ROADMAP.md` "Decisions and
 assumptions" and `proposals/aes-learning-loop/DESIGN.md`. Rejected
 alternatives, which are the point of this page:
 

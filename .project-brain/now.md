@@ -28,8 +28,10 @@ rule check `legacy-edit`); `aes plan accept` removes files the target now plans;
 with the legacy share. Order: `aes adopt`, commit, `aes hooks install`. DIGIMON trial (not committed
 there): 1,071 files under 12 roots, 94 KB baseline, `aes status` 8.6 s at 100.0% legacy
 (`proposals/aes-adopt-existing/evidence/`). Next: adopt DIGIMON for real once a DIGIMON plan covers it.
+**The hive moved to personal-vps (2026-10-07):** its scripts (`hive/`) and plans (`proposals/hive-brain-v1/`, `proposals/hive-hardening/`) now live in BrianMills2718/personal-vps (PRs #113, #114); the dashboard build, Glance and the PC controls timer run from there. `scripts/hive/brain_fresh.py` stays here because other repos call it by this path.
+
 **Federated plans and misuse review (2026-10-07):** a `[Goal <id>]` now resolves from a plan in any repository under `~/code` (`plan_workspace` in `~/.config/aes/commit_rule.yaml`), so plans can move to the repository that owns them. A nightly report-only light-model review (`aes-commit-misuse-review` timer) judges accepted `[Unplanned]`/`[Trivial]` commits and opens concern `aes-commit-tag-misuse`; details in `proposals/aes-planning/ROLLOUT.md`.
-Plans: `proposals/aes-planning/` and `proposals/hive-hardening/` (both adopted).
+Plans: `proposals/aes-planning/` and personal-vps `proposals/hive-hardening/` (both adopted).
 Rollout to every repository (2026-10-07, Brian "go" on observe everywhere now,
 enforce after two days where false refusals are at or under 1 in 5):
 `proposals/aes-planning/rollout/install_everywhere.py` wires the rule into all
@@ -53,7 +55,7 @@ each with Jev, writes one line per item to
 learning/friction/correction items to the project-meta learnings register
 (at most 25 a night). Code: `scripts/learning_loop/collect_feedback.py`; design
 and wrong-when: `proposals/aes-learning-loop/DESIGN.md` ("Input: the nightly
-feedback collector"); silence check in `scripts/hive/controls.py`.
+feedback collector"); silence check in personal-vps `hive/controls.py`.
 
 **Stopped at (2026-10-04 16:20 UTC):** hive brain v1 has seven merged jobs;
 conditions 1 (pilot) and 3 (learning loop) are met. Rule K1 blocked real work
@@ -64,8 +66,8 @@ the Coordinator has been stopped by the Claude weekly usage limit; it should
 resume after the 17:00 UTC reset. The hosted dashboard
 (https://hive.brianmills.dev) now opens a panel for every map box, explains
 every label, reloads itself and has a laptop layout (#136). The plan:
-`proposals/hive-brain-v1/ROADMAP.md`; the chronicle with evidence:
-`proposals/hive-brain-v1/PROGRESS_LOG.md`.
+personal-vps `proposals/hive-brain-v1/ROADMAP.md`; the chronicle with evidence:
+personal-vps `proposals/hive-brain-v1/PROGRESS_LOG.md`.
 
 **Install path.** In this
 repository, all three `make` gates pass from a clean clone with the README's
