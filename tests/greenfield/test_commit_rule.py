@@ -294,3 +294,38 @@ def test_goal_plan_owned_by_another_repository_resolves_through_the_workspace(re
     _git(repo, "add", "notes.md")
     done = _git(repo, "commit", "-m", "[Goal nosuch] more work")
     assert done.returncode == 1 and f"every repository in {tmp_path}" in done.stderr
+
+
+def test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere(
+        repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """The owner repository's checkout sits on a branch without the plan; its main has it. The
+    working-tree scan cannot see it; the plan index, read from main through git, can."""
+    from agentic_engineering_system.commit_rule import build_plan_index
+
+    index = tmp_path / "plan-index.json"
+    monkeypatch.setenv("AES_PLAN_INDEX", str(index))
+    monkeypatch.setenv("AES_PLAN_INDEX_REFRESH", "0")
+    owner = tmp_path / "owner"
+    owner.mkdir()
+    assert _git(owner, "init", "-q", "-b", "main").returncode == 0
+    _adopted_plan(owner, "onmain")
+    _git(owner, "add", ".")
+    assert _git(owner, "commit", "-q", "-m", "adopt onmain").returncode == 0
+    _git(owner, "update-ref", "refs/remotes/origin/main", "main")
+    assert _git(owner, "checkout", "-q", "--orphan", "other").returncode == 0
+    _git(owner, "rm", "-rq", "--cached", ".")
+    shutil.rmtree(owner / "proposals")
+    assert not (owner / "proposals").exists()
+    _write(repo, ".aes/commit_rule.yaml", f"mode: enforce\nplan_workspace: {tmp_path}\n")
+    _git(repo, "add", ".aes/commit_rule.yaml")
+    _stage_worker_tools(repo)
+    env = {**ENV, "AES_PLAN_INDEX": str(index), "AES_PLAN_INDEX_REFRESH": "0"}
+    refused = subprocess.run(["git", "-c", "user.name=probe", "-c", "user.email=probe@example.invalid", "commit", "-m",
+                              "[Goal onmain] U1: worker tools"], cwd=repo, capture_output=True, text=True, env=env)
+    assert refused.returncode == 1 and "no plan onmain found" in refused.stderr, refused.stderr
+    built = build_plan_index(tmp_path, index)
+    assert built["repos"][str(owner.resolve())]["plans"] == {"onmain": ["proposals/onmain/README.md"]}
+    done = subprocess.run(["git", "-c", "user.name=probe", "-c", "user.email=probe@example.invalid", "commit", "-m",
+                           "[Goal onmain] U1: worker tools"], cwd=repo, capture_output=True, text=True, env=env)
+    assert done.returncode == 0, done.stderr
+    assert "adopted on the default branch (owner origin/main:proposals/onmain/README.md)" in done.stderr
