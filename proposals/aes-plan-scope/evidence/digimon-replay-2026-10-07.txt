@@ -1,0 +1,26 @@
+# SC-4: DIGIMON pull request 414 replay, AES c3866f2, DIGIMON main 835ed9ba, 2026-10-07T23:45:58Z
+# Scratch clone of DIGIMON (private): DIGIMON file paths replaced by roles; nothing committed or pushed there.
+## as-merged: aes commit replay main..<PR 414 head> --json  (exit 0, 0.96 s for 3 commits)
+   Plan 216 as merged on main (no conflict_surfaces); adoption decision as committed
+   42fc1834 verdict=accept check=plan-adoption scope_entries=0 reasons=['plan #216 adopted (docs/plans/216_<plan>.md)']
+   21f9cdeb verdict=refuse check=legacy-edit scope_entries=0 reasons=['unplanned legacy edit: <legacy test file under tests/unit/> still in .aes/legacy_baseline.json and planned by no target artifact; plan the file first ']
+   fe4a401d verdict=accept check=plan-adoption scope_entries=0 reasons=['plan #216 adopted (docs/plans/216_<plan>.md)']
+   counts {'commits': 3, 'accept': 2, 'refuse': 1, 'tag:Plan': 3}
+## scope-declared: aes commit replay main..<PR 414 head> --json  (exit 0, 0.91 s for 3 commits)
+   Plan 216 front matter declares 5 conflict_surfaces entries; adoption decision plan_sha256 rebound to these bytes
+   42fc1834 verdict=accept check=plan-adoption scope_entries=5 reasons=['plan #216 adopted (docs/plans/216_<plan>.md)']
+   21f9cdeb verdict=accept check=plan-adoption scope_entries=5 reasons=['plan #216 adopted (docs/plans/216_<plan>.md)', "legacy edit inside Plan #216's declared conflict_surfaces: <legacy test file under tests/unit/>"]
+   fe4a401d verdict=accept check=plan-adoption scope_entries=5 reasons=['plan #216 adopted (docs/plans/216_<plan>.md)']
+   counts {'commits': 3, 'accept': 3, 'refuse': 0, 'tag:Plan': 3}
+## control-without-test-file: aes commit replay main..<PR 414 head> --json  (exit 0, 0.92 s for 3 commits)
+   Plan 216 front matter declares 4 conflict_surfaces entries; adoption decision plan_sha256 rebound to these bytes
+   42fc1834 verdict=accept check=plan-adoption scope_entries=4 reasons=['plan #216 adopted (docs/plans/216_<plan>.md)']
+   21f9cdeb verdict=refuse check=legacy-edit scope_entries=4 reasons=['unplanned legacy edit: <legacy test file under tests/unit/> still in .aes/legacy_baseline.json and planned by no target artifact; plan the file first ']
+   fe4a401d verdict=accept check=plan-adoption scope_entries=4 reasons=['plan #216 adopted (docs/plans/216_<plan>.md)']
+   counts {'commits': 3, 'accept': 2, 'refuse': 1, 'tag:Plan': 3}
+## as-merged: aes commit replay main..<PR 414 head> --json  (exit 0, 0.84 s for 3 commits)
+   Plan 216 as merged on main (no conflict_surfaces); adoption decision as committed
+   42fc1834 verdict=accept check=plan-adoption scope_entries=0 reasons=['plan #216 adopted (docs/plans/216_<plan>.md)']
+   21f9cdeb verdict=refuse check=legacy-edit scope_entries=0 reasons=['unplanned legacy edit: <legacy test file under tests/unit/> still in .aes/legacy_baseline.json and planned by no target artifact; plan the file first ']
+   fe4a401d verdict=accept check=plan-adoption scope_entries=0 reasons=['plan #216 adopted (docs/plans/216_<plan>.md)']
+   counts {'commits': 3, 'accept': 2, 'refuse': 1, 'tag:Plan': 3}

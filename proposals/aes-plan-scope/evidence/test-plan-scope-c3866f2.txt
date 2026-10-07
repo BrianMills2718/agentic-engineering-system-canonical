@@ -1,0 +1,132 @@
+# SC-1..SC-3 + surface unit test at c3866f2, 2026-10-07T23:45:04Z
+$ PYTHONPATH=src .venv/bin/python -m pytest -v -rA -s tests/greenfield/test_adopt.py -k scope tests/greenfield/test_commit_rule.py::test_conflict_surface_matching_and_repository_names
+============================= test session starts ==============================
+platform linux -- Python 3.11.16, pytest-9.1.1, pluggy-1.6.0 -- /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-218-plan-scope/../../.venv/bin/python
+rootdir: /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-218-plan-scope
+configfile: pyproject.toml
+collecting ... collected 12 items / 8 deselected / 4 selected
+
+tests/greenfield/test_adopt.py::test_plan_scope_admits_a_legacy_edit_inside_it_and_releases_the_file $ aes adopt --project-id existing --actor a maintainer --outcome The code keeps working while it is brought under AES.  (exit 0)
+adopted at dabdd70c2157f2b6115153a19f328cbf6eda95ae
+  64 legacy file(s) under ['src/', 'tests/']: src/ 23, tests/ 41
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 6277 bytes
+  wrote .aes/project.yaml
+  wrote .aes/target.yaml
+  wrote .aes/legacy_baseline.json
+  next: git add .aes && git commit, then aes hooks install; edit a legacy file only after planning it (aes plan accept removes it from the baseline)
+
+$ aes hooks install  (exit 0)
+wrote /tmp/pytest-of-brian/pytest-308/test_plan_scope_admits_a_legac0/existing/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-308/test_plan_scope_admits_a_legac0/existing/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+
+$ git commit -m '[Shaping demo] hooks and demo plan'  (exit 0)
+[aes-218-plan-scope 99df906] [Shaping demo] hooks and demo plan
+ 3 files changed, 8 insertions(+)
+ create mode 100644 proposals/demo/README.md
+ create mode 100644 proposals/demo/receipt.adoption-decision.json
+ create mode 100644 proposals/demo/receipt.json
+OK topology: 64 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 64 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Shaping demo] — drafting plan demo inside proposals/demo/ (logged to /tmp/pytest-of-brian/pytest-308/test_plan_scope_admits_a_legac0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ git commit -m "[Plan #7] edit a legacy file inside the plan's scope"  (exit 0)
+[aes-218-plan-scope d1f7071] [Plan #7] edit a legacy file inside the plan's scope
+ 1 file changed, 1 insertion(+)
+OK topology: 64 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 64 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Plan #7] — plan #7 adopted (docs/plans/7_scoped.md); legacy edit inside Plan #7's declared conflict_surfaces: tests/repository_context/test_models.py (logged to /tmp/pytest-of-brian/pytest-308/test_plan_scope_admits_a_legac0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+{"at": "2026-10-07T23:45:13+00:00", "mode": "enforce", "config": "/tmp/pytest-of-brian/pytest-308/test_plan_scope_admits_a_legac0/existing/.aes/commit_rule.yaml", "subject": "[Plan #7] edit a legacy file inside the plan's scope", "verdict": "accept", "tag": "Plan #7", "reasons": ["plan #7 adopted (docs/plans/7_scoped.md)", "legacy edit inside Plan #7's declared conflict_surfaces: tests/repository_context/test_models.py"], "files": 1, "lines": 1, "running_things": [], "check": "plan-adoption", "scope": ["tests/repository_context/test_models.py"]}
+$ aes status  (exit 0)
+OK status: existing-target at d1f70713a5e0d5633a303363471fe5b2bb545da5 (dirty: working tree differs from HEAD under governed roots or .aes/)
+  artifacts: 0 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 0 supported, 0 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 0 current, 0 stale, 0 unknown, 0 unreachable; 0 superseded
+  plans: 0 accepted, 0 unreachable
+  first open gap per component:
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+  legacy: 63 of 64 governed file(s) still in the baseline (98.4%), 0 changed since adoption at dabdd70c2157, 1 released by an adopted plan's conflict_surfaces
+
+$ aes topology check  (exit 0)
+OK topology: 64 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 64 legacy (in .aes/legacy_baseline.json, accepted as-is)
+
+$ git commit -m '[Trivial] follow-up comment'  (exit 0)
+[aes-218-plan-scope d363206] [Trivial] follow-up comment
+ 1 file changed, 1 insertion(+)
+OK topology: 64 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 64 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Trivial] — trivial: 1 file(s), 1 line(s), no running-thing file (logged to /tmp/pytest-of-brian/pytest-308/test_plan_scope_admits_a_legac0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+PASSED
+tests/greenfield/test_adopt.py::test_plan_scope_refuses_a_legacy_edit_outside_it $ aes adopt --project-id existing --actor a maintainer --outcome The code keeps working while it is brought under AES.  (exit 0)
+adopted at 8c2ad9db0a6160e9dfadaa558026309cd5066b66
+  64 legacy file(s) under ['src/', 'tests/']: src/ 23, tests/ 41
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 6277 bytes
+  wrote .aes/project.yaml
+  wrote .aes/target.yaml
+  wrote .aes/legacy_baseline.json
+  next: git add .aes && git commit, then aes hooks install; edit a legacy file only after planning it (aes plan accept removes it from the baseline)
+
+$ aes hooks install  (exit 0)
+wrote /tmp/pytest-of-brian/pytest-308/test_plan_scope_refuses_a_lega0/existing/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-308/test_plan_scope_refuses_a_lega0/existing/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+
+$ git commit -m '[Shaping demo] hooks and demo plan'  (exit 0)
+[aes-218-plan-scope 7e3da49] [Shaping demo] hooks and demo plan
+ 3 files changed, 8 insertions(+)
+ create mode 100644 proposals/demo/README.md
+ create mode 100644 proposals/demo/receipt.adoption-decision.json
+ create mode 100644 proposals/demo/receipt.json
+OK topology: 64 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 64 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Shaping demo] — drafting plan demo inside proposals/demo/ (logged to /tmp/pytest-of-brian/pytest-308/test_plan_scope_refuses_a_lega0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ git commit -m "[Plan #7] edit inside and outside the plan's scope"  (exit 1)
+OK topology: 64 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 64 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: refuse [Plan #7] — unplanned legacy edit: tests/repository_context/test_resolver.py still in .aes/legacy_baseline.json and planned by no target artifact; plan the file first (aes plan accept removes it from the baseline), or declare it in Plan #7's front matter conflict_surfaces (kind: repository_path, repository, target, access: write) and re-adopt the plan (logged to /tmp/pytest-of-brian/pytest-308/test_plan_scope_refuses_a_lega0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+{"at": "2026-10-07T23:45:24+00:00", "mode": "enforce", "config": "/tmp/pytest-of-brian/pytest-308/test_plan_scope_refuses_a_lega0/existing/.aes/commit_rule.yaml", "subject": "[Plan #7] edit inside and outside the plan's scope", "verdict": "refuse", "tag": "Plan #7", "reasons": ["unplanned legacy edit: tests/repository_context/test_resolver.py still in .aes/legacy_baseline.json and planned by no target artifact; plan the file first (aes plan accept removes it from the baseline), or declare it in Plan #7's front matter conflict_surfaces (kind: repository_path, repository, target, access: write) and re-adopt the plan"], "files": 2, "lines": 2, "running_things": [], "check": "legacy-edit", "scope": ["tests/repository_context/test_models.py"]}
+PASSED
+tests/greenfield/test_adopt.py::test_unadopted_or_widened_plan_scope_admits_nothing $ aes adopt --project-id existing --actor a maintainer --outcome The code keeps working while it is brought under AES.  (exit 0)
+adopted at 12ddb0e33b25b90fb8e55154a691d156e27f7dd1
+  64 legacy file(s) under ['src/', 'tests/']: src/ 23, tests/ 41
+  0 already planned in the target (left out)
+  baseline .aes/legacy_baseline.json: 6277 bytes
+  wrote .aes/project.yaml
+  wrote .aes/target.yaml
+  wrote .aes/legacy_baseline.json
+  next: git add .aes && git commit, then aes hooks install; edit a legacy file only after planning it (aes plan accept removes it from the baseline)
+
+$ aes hooks install  (exit 0)
+wrote /tmp/pytest-of-brian/pytest-308/test_unadopted_or_widened_plan0/existing/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-308/test_unadopted_or_widened_plan0/existing/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+
+$ git commit -m '[Shaping demo] hooks and demo plan'  (exit 0)
+[aes-218-plan-scope 8fbc507] [Shaping demo] hooks and demo plan
+ 3 files changed, 8 insertions(+)
+ create mode 100644 proposals/demo/README.md
+ create mode 100644 proposals/demo/receipt.adoption-decision.json
+ create mode 100644 proposals/demo/receipt.json
+OK topology: 64 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 64 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: accept [Shaping demo] — drafting plan demo inside proposals/demo/ (logged to /tmp/pytest-of-brian/pytest-308/test_unadopted_or_widened_plan0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ git commit -m '[Plan #8] edit under a plan nobody adopted'  (exit 1)
+OK topology: 64 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 64 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: refuse [Plan #8] — /tmp/pytest-of-brian/pytest-308/test_unadopted_or_widened_plan0/existing/docs/plans/8_scoped.md: receipt or adoption decision missing (docs/plans/8_scoped.receipt.json); unplanned legacy edit: tests/repository_context/test_resolver.py still in .aes/legacy_baseline.json and planned by no target artifact; plan the file first (aes plan accept removes it from the baseline), or declare it in Plan #8's front matter conflict_surfaces (kind: repository_path, repository, target, access: write) and re-adopt the plan (logged to /tmp/pytest-of-brian/pytest-308/test_unadopted_or_widened_plan0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+$ git commit -m '[Plan #9] edit under a scope widened after adoption'  (exit 1)
+OK topology: 64 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 0 planned but not yet realized, 64 legacy (in .aes/legacy_baseline.json, accepted as-is)
+aes commit rule: refuse [Plan #9] — /tmp/pytest-of-brian/pytest-308/test_unadopted_or_widened_plan0/existing/docs/plans/9_scoped.md: plan changed since adoption; re-adopt it; unplanned legacy edit: tests/repository_context/test_resolver.py still in .aes/legacy_baseline.json and planned by no target artifact; plan the file first (aes plan accept removes it from the baseline), or declare it in Plan #9's front matter conflict_surfaces (kind: repository_path, repository, target, access: write) and re-adopt the plan (logged to /tmp/pytest-of-brian/pytest-308/test_unadopted_or_widened_plan0/existing/.git/aes/commit-rule-2026-10-07.jsonl)
+
+PASSED
+tests/greenfield/test_commit_rule.py::test_conflict_surface_matching_and_repository_names PASSED
+
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/greenfield/test_adopt.py::test_plan_scope_admits_a_legacy_edit_inside_it_and_releases_the_file
+PASSED tests/greenfield/test_adopt.py::test_plan_scope_refuses_a_legacy_edit_outside_it
+PASSED tests/greenfield/test_adopt.py::test_unadopted_or_widened_plan_scope_admits_nothing
+PASSED tests/greenfield/test_commit_rule.py::test_conflict_surface_matching_and_repository_names
+======================= 4 passed, 8 deselected in 27.54s =======================
+exit=0
