@@ -133,6 +133,46 @@ class NegativeControl(StrictModel):
         return self
 
 
+class DecisionCheck(StrictModel):
+    """One output of the run, followed back to the source it was made from."""
+
+    decision: str
+    source: str
+    verdict: Literal["correct", "wrong", "unclear"]
+    note: str = ""
+
+
+class TraceReview(StrictModel):
+    """What a `trace_review` observation must say: the run read end to end, not judged by its output.
+
+    The reviewer is not the author. Every step of the trace is read (`steps_read == steps_total`
+    for SUPPORTS); the record says which model and settings each step used, what each step was
+    shown, whether outputs carry reasons, and follows decisions back to their sources.
+    """
+
+    trace_refs: list[str] = Field(min_length=1, description="trace ids and where their records are stored")
+    author: str
+    reviewer: str
+    steps_total: int = Field(ge=1)
+    steps_read: int = Field(ge=0)
+    models_and_settings: str
+    context_per_step: str
+    outputs_and_reasons: str
+    decisions_checked: list[DecisionCheck] = Field(min_length=1)
+    findings: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _shape(self) -> TraceReview:
+        if self.author.strip().lower() == self.reviewer.strip().lower():
+            raise ValueError("trace_review.reviewer must not be the work's author")
+        if self.steps_read > self.steps_total:
+            raise ValueError(f"trace_review.steps_read {self.steps_read} exceeds steps_total {self.steps_total}")
+        for name in ("models_and_settings", "context_per_step", "outputs_and_reasons"):
+            if not getattr(self, name).strip():
+                raise ValueError(f"trace_review.{name} must say what the trace showed")
+        return self
+
+
 class ObservationRecord(StrictModel):
     schema_version: Literal["aes.v0_2.observation.probe0"]
     observation_id: str
@@ -156,6 +196,9 @@ class ObservationRecord(StrictModel):
     produced_at: datetime
     retained_artifact_refs: list[str] = Field(default_factory=list)
     assessments: list[ErAssessment] = Field(default_factory=list)
+    trace_review: TraceReview | None = Field(
+        default=None, description="required when any assessment is of a trace_review evidence requirement",
+    )
     superseded_by: str | None = Field(
         default=None, description="observation_id of the record that replaces this one; it then never counts",
     )
@@ -206,6 +249,30 @@ class ObservationRecord(StrictModel):
         return self
 
 
+def _trace_review_problems(obs: ObservationRecord, ers: dict[str, Any]) -> list[str]:
+    """A trace_review assessment needs a TraceReview record, and SUPPORTS needs the whole trace read
+    with no decision found wrong."""
+    refs = [a for a in obs.assessments if a.evidence_requirement_ref in ers
+            and ers[a.evidence_requirement_ref][1].kind == "trace_review"]
+    if not refs:
+        return []
+    tr = obs.trace_review
+    if tr is None:
+        return [f"assesses trace_review requirement(s) {[a.evidence_requirement_ref for a in refs]} "
+                f"but carries no trace_review record"]
+    problems = []
+    for a in refs:
+        if a.assessment != "SUPPORTS":
+            continue
+        if tr.steps_read < tr.steps_total:
+            problems.append(f"{a.evidence_requirement_ref} SUPPORTS, but only {tr.steps_read} of "
+                            f"{tr.steps_total} trace steps were read")
+        wrong = [d.decision for d in tr.decisions_checked if d.verdict == "wrong"]
+        if wrong:
+            problems.append(f"{a.evidence_requirement_ref} SUPPORTS, but decisions were found wrong: {wrong}")
+    return problems
+
+
 def load_observations(root: Path, observations_root: str, target: TargetRecord) -> list[ObservationRecord]:
     directory = root / observations_root
     if not directory.is_dir():
@@ -225,6 +292,7 @@ def load_observations(root: Path, observations_root: str, target: TargetRecord) 
             f"unknown evidence_requirement_ref {a.evidence_requirement_ref!r}"
             for a in obs.assessments if a.evidence_requirement_ref not in ers
         ]
+        problems += _trace_review_problems(obs, ers)
         if problems:
             raise EvidenceError(f"{path}: " + "; ".join(problems))
         out.append(obs)
