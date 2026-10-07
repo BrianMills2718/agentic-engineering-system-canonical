@@ -332,7 +332,10 @@ def file_item(it: dict) -> str:
            "--agent", "claude-code" if it["client"] == "claude" else "codex", "--invocation", "import",
            "--knowledge-kind", "observation", "--applicability-task-type", "other",
            "--transcript-ref", f"{'claude-code' if it['client'] == 'claude' else 'codex'}:{it['session_id']}",
-           "--source-ref", f"{it['transcript']}@byte{it['byte_offset']}", "--push", body]
+           "--source-ref", f"{it['transcript']}@byte{it['byte_offset']}", "--push",
+           # A timer has no agent session: when a live claim locks the register, log_learning appends
+           # straight onto main instead of opening a claimed lane (project-meta #2414).
+           "--auto-job", "feedback-collector", body]
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=PROJECT_META, timeout=300)
     if r.returncode != 0 and "requires the current native" in r.stdout + r.stderr:
         # The register is read-only while any lane claims project-meta, and log_learning's own lane
