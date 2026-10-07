@@ -71,6 +71,17 @@ FILE_KINDS = ("learning", "friction", "correction")
 # the daily log; only these sources can be filed to the register.
 FILE_SOURCES = {("closeout", "Learnings"), ("closeout", "Policy"), ("llm", "learning"), ("llm", "friction"),
                 ("llm", "correction"), ("llm", "direction")}
+# Reusability gate (2026-10-06 spot check of the first night's 33 filed entries, hand-labelled):
+# lines an agent wrote under its own closeout "Learnings" heading were 8/8 reusable; items the
+# light LLM extracted from session narration were 7/25. Jev's yes/no "reusable?" answer did not
+# separate them (best 9/14 = 64% at p>=0.8), so it is recorded on each item as `reusable_p` for
+# later measurement but does not gate. Only these sources are filed automatically; every other
+# item stays in the daily log. Wrong if a 10-entry spot check of filed items falls below 8/10.
+AUTO_FILE_SOURCES = {("closeout", "Learnings")}
+REUSABLE_Q = ("Would this help a future AI coding agent working on a DIFFERENT task or project? "
+              "Yes only if it states a general fact or practice about tools, code, data, process or the "
+              "environment. No if it is narration of what this session is doing, a status update, or "
+              "details that only matter for this one task, document, client or person.")
 WINDOW_CHARS, TURN_CHARS = 14000, 1500
 
 
@@ -222,15 +233,17 @@ def extract(t: T.Transcript, text: str, turns: list[T.Turn], counts, errors) -> 
 
 # ---------- 4. triage / 5. covered ----------
 def jev_triage(it: dict) -> dict:
-    from llm_client import ChoiceQuestion, call_decisions
+    from llm_client import ChoiceQuestion, NoulQuestion, call_decisions
     r = call_decisions(
         JEV, state={"where": f"{it['source']} {it['field']}", "speaker": it["speaker"],
                     "text": it["quote"][:2000], "lesson": it["lesson"]},
         questions={"kind": ChoiceQuestion(
-            "What kind of feedback is this text from a coding-agent session, for improving future agent work?", KINDS)},
+            "What kind of feedback is this text from a coding-agent session, for improving future agent work?", KINDS),
+            "reusable": NoulQuestion(REUSABLE_Q)},
         task="feedback-collector.triage", trace_id=f"feedback-collector/triage/{it['id']}", max_budget=0.01)
     a = r.answers["kind"]
     return {"kind": a.choice, "p": round(a.probabilities.get(a.choice, 0.0), 3), "confidence": a.confidence,
+            "reusable_p": round(float(r.answers["reusable"].probability), 3),
             "probabilities": {k: round(v, 3) for k, v in a.probabilities.items()}, "cost": r.cost}
 
 
@@ -285,6 +298,26 @@ class RegisterLocked(Exception):
 
 
 PENDING = ("eligible_not_filed", "deferred_cap", "deferred_register_locked")
+
+
+def filed_quotes() -> set[str]:
+    """Normalized text of every item already filed (from the daily logs), so a closeout line repeated
+    across sessions is filed once. 2026-10-07 spot check: 2 of 10 filed entries were exact repeats."""
+    seen: set[str] = set()
+    for p in sorted(OUT.glob("items-*.jsonl")):
+        by_id: dict[str, dict] = {}
+        for line in open(p):
+            try:
+                d = json.loads(line)
+            except ValueError:
+                continue
+            if "filing_update" in d:
+                if d["id"] in by_id:
+                    by_id[d["id"]]["filing"] = d["filing_update"]
+            else:
+                by_id[d["id"]] = d
+        seen.update(norm(d["quote"]) for d in by_id.values() if str(d.get("filing", "")).startswith("lrn-"))
+    return seen
 
 def file_item(it: dict) -> str:
     kind = it["triage"]["kind"]
@@ -412,16 +445,19 @@ def main() -> int:
     # 7. filing (sequential: each call is one git commit in project-meta)
     def file_all():
         filed, locked = 0, False
+        seen = filed_quotes()
         for it in sorted(items, key=lambda i: -(i["triage"] or {}).get("p", 0)):
             tr = it["triage"]
             if not tr or tr["kind"] not in FILE_KINDS:
                 continue
             if it["already_recorded"]:
                 it["filing"] = "already_recorded"
-            elif (it["source"], it["field"]) not in FILE_SOURCES:
+            elif (it["source"], it["field"]) not in AUTO_FILE_SOURCES:
                 it["filing"] = "log_only_source"
             elif tr["p"] < args.min_p:
                 it["filing"] = "below_threshold"
+            elif norm(it["quote"]) in seen:
+                it["filing"] = "duplicate_of_filed"
             elif not args.file:
                 it["filing"] = "eligible_not_filed (run without --file)"
             elif filed >= args.max_file:
@@ -432,6 +468,7 @@ def main() -> int:
                 try:
                     it["filing"] = file_item(it)
                     filed += 1
+                    seen.add(norm(it["quote"]))
                 except RegisterLocked:
                     it["filing"], locked = "deferred_register_locked", True
                 except Exception as exc:
@@ -489,14 +526,21 @@ def file_pending(path: Path, cap: int) -> tuple[int, list[str]]:
             items[d["id"]]["filing"] = d["filing_update"]
         else:
             items[d["id"]] = d
-    todo = [i for i in items.values() if str(i.get("filing", "")).startswith(PENDING)]
+    todo = [i for i in items.values() if str(i.get("filing", "")).startswith(PENDING)
+            and (i["source"], i["field"]) in AUTO_FILE_SOURCES]
     todo.sort(key=lambda i: -i["triage"]["p"])
-    filed, errors = 0, []
+    filed, errors, seen = 0, [], filed_quotes()
     with open(path, "a") as fh:
-        for it in todo[:cap]:
+        for it in todo:
+            if filed >= cap:
+                break
+            if norm(it["quote"]) in seen:
+                fh.write(json.dumps({"id": it["id"], "filing_update": "duplicate_of_filed"}) + "\n")
+                continue
             try:
                 entry = file_item(it)
                 filed += 1
+                seen.add(norm(it["quote"]))
             except RegisterLocked:
                 log("register locked by a live project-meta lane; the rest wait for the next run")
                 break

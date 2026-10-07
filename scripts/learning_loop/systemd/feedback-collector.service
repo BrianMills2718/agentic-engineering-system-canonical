@@ -12,6 +12,6 @@ ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes reset --quiet --hard FETCH_HEAD
 Environment=FEEDBACK_OUT=%h/projects/data/feedback-collector
 # llm_client from Brian's checkout, through uv's shared cache. The script opens a keyed agent
 # concern itself (notify_operator.py) on exit 1 or 2, so a failed unit is also visible here.
-ExecStart=%h/.local/bin/uv run --quiet --no-project --with-editable %h/code/llm_client python %h/.hive-brain/aes/scripts/learning_loop/collect_feedback.py
+ExecStart=%h/.local/bin/uv run --quiet --no-project --with-editable %h/code/llm_client python %h/.hive-brain/aes/scripts/learning_loop/collect_feedback.py --file --max-file 10
 TimeoutStartSec=2h
 Nice=10
