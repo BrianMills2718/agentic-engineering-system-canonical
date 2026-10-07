@@ -36,3 +36,11 @@ The collector runs `log_learning.py` from `~/.hive-brain/project-meta`, which th
 origin/main before each run, and writes entries to `~/code/project-meta/learnings/entries` through
 `--store-path`. The canonical checkout is read-only and stale while any lane claims it. Set up once:
 `git clone --depth 1 git@github-personal:BrianMills2718/project-meta.git ~/.hive-brain/project-meta`.
+
+## Reworded repeats (2026-10-07)
+
+Exact-text dedup let 2 of 10 filed entries through as reworded repeats (independent Gemini grade).
+Before filing, the light extraction model now checks the line against lessons filed in the last 14
+days (`repeats_filed`); a repeat is logged as `repeats_filed`, and if the check itself fails the item
+waits as `deferred_repeat_check` for the next run rather than being filed unchecked. On the graded set
+the prompt caught both repeats and flagged none of the 8 distinct entries (9/9).
