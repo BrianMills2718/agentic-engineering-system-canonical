@@ -101,8 +101,9 @@ days of observe logs for any remaining untagged automated commits before switchi
   rule accepts `[Unplanned]` on any `Emergency:` line and `[Trivial]` on counts alone; each night a
   light model (Jev via llm_client) judges yesterday's accepted ones (real emergency? behaviour
   change?), logs every verdict to `~/.local/state/aes/commit-misuse-review.jsonl`, and opens the
-  keyed concern `aes-commit-tag-misuse` for p ≥ 0.8. Report-only; it never blocks a commit. First
-  run (2026-10-07): 17 judged, 2 flagged, 11 skipped (smoke tests never committed, squashed
-  branches, a duplicate folder), $0.001, 45 s, issue #188. Both flags were right on reading (a
-  cursor-tag behaviour change; the C: reserve lowered from 30 to 20 GiB); of four `[Unplanned]`
-  commits read by hand, three stated real emergencies and one (a plan-adoption blocker) is debatable.
+  keyed concern `aes-commit-tag-misuse` for p ≥ 0.8. Report-only; it never blocks a commit. Run for
+  2026-10-07: 25 judged, 3 flagged, 8 skipped (smoke tests never committed, a squashed-away lane, a
+  duplicate folder), $0.0014, 47 s, issue #188. All three flags were right on reading (a cursor-tag
+  behaviour change, the C: reserve lowered from 30 to 20 GiB, a changed agent skill); of four
+  `[Unplanned]` commits read by hand, three stated real emergencies and one (a plan-adoption blocker)
+  is debatable. Squash-merged commits are matched by their `<subject> (#N)` form.

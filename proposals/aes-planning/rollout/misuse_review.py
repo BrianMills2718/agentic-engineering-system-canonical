@@ -78,9 +78,14 @@ def find_commit(repo: Path, subject: str, day: dt.date) -> str | None:
     until = f"{(day + dt.timedelta(days=2)).isoformat()} 00:00"
     out = daily_report.run("git", "-C", str(repo), "log", "--all", f"--since={since}", f"--until={until}",
                            "--format=%H%x00%s").stdout
-    for line in out.splitlines():
-        sha, _, subj = line.partition("\x00")
+    lines = [line.partition("\x00")[::2] for line in out.splitlines()]
+    for sha, subj in lines:
         if subj == subject:
+            return sha
+    # a branch commit squash-merged on GitHub reappears on main as "<subject> (#N)"
+    squashed = re.compile(re.escape(subject) + r" \(#\d+\)$")
+    for sha, subj in lines:
+        if squashed.match(subj):
             return sha
     return None
 
@@ -174,7 +179,7 @@ def main() -> int:
             "For each: read the commit. If the tag was wrong, tell the agent or owner that made it (the plan "
             "route is `[Goal <id>]` under an adopted plan); if the model was wrong, note it in this issue so "
             "the question can be tuned (proposals/aes-planning/rollout/misuse_review.py). Every judged commit: "
-            f"`{STATE}`.", occurrence=f"misuse:{args.day}"))
+            f"`{STATE}`.", occurrence=f"misuse:{args.day}:" + ",".join(sorted(r["sha"][:8] for r in flagged))))
     if failures:
         print(daily_report.concern(
             "aes-commit-misuse-review-failed", "AES commit misuse review could not judge every commit",
