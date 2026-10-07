@@ -19,6 +19,7 @@ AES_SKIP_CLEAN_INSTALL=1 is set; nothing else skips it.
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -326,3 +327,32 @@ def test_clean_install_in_pin_form_reports_commit_version_and_ships_the_hook(tmp
     env = {k: v for k, v in os.environ.items() if k != "PYTHONPATH"}
     assert _git(consumer, "commit", "-q", "-m", "install hook", env=env).returncode == 0
     _assert_hook_gates_orphan(consumer, env)
+
+
+GUIDE = REPO / "docs" / "greenfield" / "GETTING_STARTED.md"
+GUIDE_INSTALL = re.compile(r'"agentic-engineering-system @ git\+https://[^"@]+@<sha>"')
+
+
+@pytest.mark.skipif(os.environ.get("AES_SKIP_CLEAN_INSTALL") == "1", reason="AES_SKIP_CLEAN_INSTALL=1")
+@pytest.mark.skipif(shutil.which("uv") is None, reason="uv is not on PATH")
+def test_getting_started_guide_runs_end_to_end_as_written(tmp_path: Path) -> None:
+    """Every ```bash block of docs/greenfield/GETTING_STARTED.md, in order, in a fresh folder, must
+    succeed and end with the guide's criterion supported. The only substitution is the install pin:
+    this checkout's HEAD instead of `<sha>` on GitHub. Machine-wide Git config and hooks are switched
+    off, as a colleague's clean machine would have none. (2026-10-07: the guide's proposal stopped
+    validating when plans began to require `trace_review`, and nothing ran the guide to notice.)"""
+    blocks = re.findall(r"```bash\n(.*?)```", GUIDE.read_text(encoding="utf-8"), re.S)
+    assert len(blocks) >= 10, f"expected the guide's ten-plus bash blocks, found {len(blocks)}"
+    script = "\n".join(blocks)
+    head = _git(REPO, "rev-parse", "HEAD").stdout.strip()
+    assert GUIDE_INSTALL.search(script), "the guide's install line changed; update GUIDE_INSTALL"
+    script = GUIDE_INSTALL.sub(f'"agentic-engineering-system @ git+file://localhost{REPO}@{head}"', script)
+    gitconfig = tmp_path / "gitconfig"
+    gitconfig.write_text("[user]\n\tname = Guide Reader\n\temail = reader@example.invalid\n", encoding="utf-8")
+    env = {k: v for k, v in os.environ.items() if k not in ("PYTHONPATH", "VIRTUAL_ENV")}
+    env.update(GIT_CONFIG_GLOBAL=str(gitconfig), GIT_CONFIG_NOSYSTEM="1")
+    ran = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script], cwd=tmp_path, env=env,
+                         capture_output=True, text=True, timeout=900)
+    assert ran.returncode == 0, f"guide failed (exit {ran.returncode}):\n{ran.stdout[-3000:]}\n{ran.stderr[-3000:]}"
+    assert "SUPPORTS for ER-001-01" in ran.stdout + ran.stderr, ran.stdout[-2000:]
+    assert "SUPPORTED" in ran.stdout, ran.stdout[-2000:]
