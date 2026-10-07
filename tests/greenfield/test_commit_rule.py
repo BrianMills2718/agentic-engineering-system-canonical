@@ -273,3 +273,24 @@ def test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_pl
     assert untagged.returncode != 0 and "no tag" in untagged.stderr
     unadopted = _git(repo, "commit", "-m", "[Plan #999] fix typo under a plan that does not exist")
     assert unadopted.returncode == 0 and "plan adoption is observe-only" in unadopted.stderr
+
+
+def test_goal_plan_owned_by_another_repository_resolves_through_the_workspace(repo: Path, tmp_path: Path) -> None:
+    """Federated plans: the plan and its receipt live in the repository that owns them; a commit
+    in another repository under the same workspace that names it is judged against it."""
+    owner = tmp_path / "owner"
+    owner.mkdir()
+    assert _git(owner, "init", "-q").returncode == 0
+    _adopted_plan(owner, "fed")
+    _stage_worker_tools(repo)
+    done = _git(repo, "commit", "-m", "[Goal fed] U1: worker tools")
+    assert done.returncode == 1 and "no plan fed found" in done.stderr
+    _write(repo, ".aes/commit_rule.yaml", f"mode: enforce\nplan_workspace: {tmp_path}\n")
+    _git(repo, "add", ".aes/commit_rule.yaml")
+    done = _git(repo, "commit", "-m", "[Goal fed] U1: worker tools")
+    assert done.returncode == 0, done.stderr
+    assert "plan fed adopted (proposals/fed/README.md)" in done.stderr
+    _write(repo, "notes.md", "x\n" * 70)
+    _git(repo, "add", "notes.md")
+    done = _git(repo, "commit", "-m", "[Goal nosuch] more work")
+    assert done.returncode == 1 and f"every repository in {tmp_path}" in done.stderr
