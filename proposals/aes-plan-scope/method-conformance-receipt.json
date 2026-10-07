@@ -1,0 +1,385 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-README-1fcf700f1681",
+  "plan": {
+    "plan_ref": "proposals/aes-plan-scope/README.md",
+    "plan_sha256": "1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe"
+  },
+  "path_decision": {
+    "ref": "proposals/aes-plan-scope/planning-path-decision.json",
+    "sha256": "b02eda827a5c376f7e3f08a232aa7b75806f7c0e92d4962da2f5550f4b506f95",
+    "selected_path": "repair",
+    "classified_path": "repair",
+    "errors": []
+  },
+  "route": "repair",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@4",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "8ef56347e0d354416b7ec547ab97208e8d767a58ed7c3f82c72dcd96c1deba97"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "b2aaf9581e24108cf0bc7642bbc381cfb1868cb40491982fe6963ab5c126184e"
+  },
+  "activation": {
+    "facts_ref": "proposals/aes-plan-scope/activation-facts.json",
+    "facts_sha256": "78384c8213a78547c393ab9e258617ee543e4683239fc7a73124ab5e72c4abb6",
+    "facts": {
+      "shared_mechanism": true,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "multiple_writers": false,
+      "consequential_boundary": false,
+      "inline_prototype": false
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": true,
+        "reason": "shared_mechanism=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": false,
+        "reason": "multiple_writers=false (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": false,
+        "reason": "inline_prototype=false (derived:classified_path==prototype)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:a14643d4465b5d8ff1bdd2e003435857909fd18647a31eb76e1563f2f8989639",
+    "definition_sha256": "9b18c7beef371dfa9d8e7a62d84300b27e45b6a45b8177b14bc5dfacc9a13173",
+    "bundle_ref": "proposals/aes-plan-scope/checklist-bundle.json",
+    "bundle_sha256": "8f1459cb22f5003363970e17bcc2680d76c6141c6393d1055d8050600b383363",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-plan-scope/README.md#who-it-serves-the-result-one-example",
+          "sha256": "1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/9d5842a85edb/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the served actors (“every agent working in a repository adopted with `aes adopt`” and Brian), states the desired result for planning and enforcement, and gives a stable, concrete user-visible example involving DIGIMON’s robot worker, pull request 414, Plan 216, and replay outcomes changing from 2 accepted/1 refused to 3 accepted."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-plan-scope/planning-path-decision.json",
+          "sha256": "b02eda827a5c376f7e3f08a232aa7b75806f7c0e92d4962da2f5550f4b506f95"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-plan-scope/README.md#success-and-what-would-disprove-it",
+          "sha256": "1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/9d5842a85edb/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines success through SC-1–SC-4 and the gates, including runs, traces, and observable outcomes. It also gives concrete disproof conditions: accepting an out-of-scope legacy edit, changing conflict surfaces without rebinding adoption, or reporting a released file as an orphan."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-plan-scope/README.md#success-and-what-would-disprove-it",
+          "sha256": "1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/9d5842a85edb/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names each run, identifies where its full trace is stored, and specifies observations beyond final outcomes, including commit behavior, log fields, scope details, refusal reasons, topology results, and gate counts. It also states the run and trace to examine for disproving evidence and defines the required trace findings beyond commits landing."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-plan-scope/README.md#authority-and-non-goals",
+          "sha256": "1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/9d5842a85edb/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies authority as “the direction above” and Brian’s repository as canonical, and it explicitly lists what the change will not do under “Non-goals.”"
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "not_applicable",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-plan-scope/README.md#uncertainties",
+          "sha256": "1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/9d5842a85edb/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states these are the plan’s material uncertainties and says there are no others. Each listed uncertainty has both an owner and specific resolving evidence: the first uses the first enforce week’s commit-rule log, and the second uses the DIGIMON replay’s wall time."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-plan-scope/README.md#activation-facts",
+          "sha256": "1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/9d5842a85edb/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly declares `empirical_comparison_proposed: false`, while its tests and DIGIMON replay verify expected outcomes rather than compare alternative designs to choose among them. It declares `llm_central: false` and `irreversible_or_spend_action: false`; the plan states there is no model call except the adoption verifier, zero irreversible actions, and zero spend. The only triggered fact, `shared_mechanism`, is declared true."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-plan-scope/README.md#prior-art",
+          "sha256": "1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/9d5842a85edb/OV-PRIOR-ART-DISPOSITION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that existing ownership, internal lineage, and external prior art were searched. It lists each candidate found in a table and assigns every one a disposition of reuse or extend, both allowed disposition categories."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "effect": "advisory",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-plan-scope/README.md#prior-art",
+          "sha256": "1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/9d5842a85edb/OV-PRIOR-ART-PARALLEL-CHECK",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names a concrete structural check: `git grep -n \"conflict_surfaces\" -- src/agentic_engineering_system`, expecting one reader and its consumer scan, plus a single `legacy_baseline.json` loader. These checks would expose a silent parallel implementation of the same concern."
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 9,
+    "unresolved": 0,
+    "not_applicable": 1,
+    "unavailable": 0,
+    "missing": 0
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-README-1fcf700f1681",
+    "snapshot_ref": "SNAPSHOT-README",
+    "snapshot_revision": "sha256:8f1459cb22f5003363970e17bcc2680d76c6141c6393d1055d8050600b383363",
+    "packet_ref": "proposals/aes-plan-scope/README.md",
+    "packet_revision": "sha256:1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [],
+    "route": "repair",
+    "adoption_readiness": "ready_for_contributor",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "pass",
+  "reason_codes": [],
+  "actionable_summary": [
+    "pass: 9 items evidenced, 1 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "claude-code",
+    "session": "5684f215-3f7a-4f13-98a4-9ed83f0b0ecd"
+  },
+  "started_at": "2026-10-07T23:44:16Z",
+  "completed_at": "2026-10-07T23:44:30Z",
+  "duration_ms": 10534
+}
