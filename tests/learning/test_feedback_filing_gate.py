@@ -63,3 +63,10 @@ def test_file_pending_skips_a_reworded_repeat_and_defers_when_the_check_fails(tm
     assert (n, errors, filed) == (1, [], ["d"])
     updates = {u["id"]: u["filing_update"] for u in (json.loads(l) for l in day.read_text().splitlines()) if "filing_update" in u}
     assert updates == {"b": "repeats_filed", "c": "deferred_repeat_check", "d": "lrn-d"}
+
+
+def test_clip_keeps_the_failing_step_and_the_tail():
+    err = "AUTOMATIC LEARNING LANE FAILED at: commit the entry inside the lane\n" + "x" * 5000 + "\nA human must land or clear this lane."
+    out = C.clip(err)
+    assert out.startswith("AUTOMATIC LEARNING LANE FAILED at: commit the entry") and out.endswith("land or clear this lane.")
+    assert len(out) < 1100 and C.clip("short") == "short"

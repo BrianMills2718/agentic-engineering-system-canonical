@@ -34,7 +34,7 @@ falls below 8/10; then turn filing off again (drop `--file`).
 
 The collector runs `log_learning.py` from `~/.hive-brain/project-meta`, which the service refreshes to
 origin/main before each run, and writes entries to `~/code/project-meta/learnings/entries` through
-`--store-path`. The canonical checkout is read-only and stale while any lane claims it. Set up once:
+`--store-path`. The canonical checkout is read-only while any lane claims it, and canonical-sync refreshes it only about every 17 minutes, so right after a merge it can lack a fix the collector needs. Set up once:
 `git clone --depth 1 git@github-personal:BrianMills2718/project-meta.git ~/.hive-brain/project-meta`.
 
 ## Reworded repeats (2026-10-07)
