@@ -1,0 +1,7 @@
+# U1 live test, 2026-10-07, relay on personal-vps after personal-vps #100 (journalctl -u telegram-relay)
+2026-10-07 04:14:34Z NOT BRIAN: board-key comment 65b22935 sent to his phone, relayed to the Coordinator labelled as not Brian ('needs-reply — test of the new check that')
+2026-10-07 04:15:05Z from phone: Brian's reply f742e889 (brian_telegram) relayed to the Coordinator ('Yes')
+2026-10-07 04:24:58Z NOT BRIAN: board-key comment 18f3a48e sent to his phone, relayed to the Coordinator labelled as not Brian ('needs-reply — second test of the reply c')
+2026-10-07 04:26:29Z NOT BRIAN'S ANSWER (observe mode): agent comment 7c83f68c posted while question 18f3a48e awaits Brian ('compact now (deliberate test by the Coor')
+2026-10-07 04:26:29Z to phone: agent comment 7c83f68c -> publication a0e1590d state=published
+2026-10-07 04:26:45Z from phone: Brian's reply 14be93a7 (brian_telegram) relayed to the Coordinator ('Done')
