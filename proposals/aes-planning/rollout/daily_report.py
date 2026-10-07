@@ -79,7 +79,13 @@ def refresh_runtime() -> str:
     from every repository through this checkout)."""
     runtime = RUNTIME
     if not (runtime / ".git").exists():
-        return f"runtime checkout {runtime} missing; recreate it with `git worktree add --detach {runtime} origin/main`"
+        # Recreate rather than report: it went missing once (2026-10-07, remover unknown) and every
+        # repository's hook reads plans and the installed `aes` from it.
+        main = runtime.parents[1]
+        run("git", "-C", str(main), "worktree", "prune")
+        made = run("git", "-C", str(main), "worktree", "add", "-q", "--detach", str(runtime), "origin/main")
+        if made.returncode != 0:
+            return f"runtime checkout {runtime} missing and could not be recreated: {made.stderr.strip()}"
     before = run("git", "-C", str(runtime), "rev-parse", "HEAD").stdout.strip()
     run("git", "-C", str(runtime), "fetch", "-q", "origin")
     moved = run("git", "-C", str(runtime), "checkout", "-q", "--detach", "origin/main")
