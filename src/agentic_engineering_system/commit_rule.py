@@ -15,6 +15,15 @@ text alone. The first line of every commit message carries one tag:
   hook, deploy script, CI workflow, agent instructions).
 - ``[Unplanned]``: an emergency; the message needs an ``Emergency: <reason>`` line.
 - ``[Shaping <id>]``: drafting a plan; every changed file is under ``proposals/<id>/``.
+- ``[Auto]``: a commit made by a scheduled job; the message needs an ``Auto-job: <job>``
+  line naming the job, and the change may touch no running-thing file. There is no size
+  limit (data refreshes are large); the daily report counts ``[Auto]`` commits per job so
+  misuse shows up as a job that should not be committing.
+
+``plan_adoption`` (``observe`` or ``enforce``; default: the same as ``mode``) lets ``mode:
+enforce`` refuse missing tags, oversized ``[Trivial]`` and the rest while a ``[Plan #N]`` /
+``[Goal <id>]`` naming a plan that is not adopted is only logged (Brian, 2026-10-07: enforce
+in stages; plan adoption stays observe until each project has adopted plans).
 
 Git's own merge, fixup, squash and amend messages are accepted. Paths and tags
 are matched with regular expressions (identifiers, not prose); nothing judges
@@ -52,10 +61,11 @@ CONFIG_PATH = Path(".aes") / "commit_rule.yaml"
 MACHINE_CONFIG_ENV = "AES_COMMIT_RULE_MACHINE_CONFIG"
 TAG_RE = re.compile(
     r"^\[(?:Plan #(?P<plan>\d+)|Goal (?P<goal>[a-z0-9][a-z0-9._:-]*)|(?P<trivial>Trivial)"
-    r"|(?P<unplanned>Unplanned)|Shaping (?P<shaping>[a-z0-9][a-z0-9._-]*))\]"
+    r"|(?P<unplanned>Unplanned)|(?P<auto>Auto)|Shaping (?P<shaping>[a-z0-9][a-z0-9._-]*))\]"
 )
 GIT_OWN_PREFIXES = ("Merge ", "fixup! ", "squash! ", "amend! ")
 EMERGENCY_RE = re.compile(r"^Emergency:\s*\S", re.MULTILINE)
+AUTO_JOB_RE = re.compile(r"^Auto-job:\s*(\S.*)$", re.MULTILINE)
 RUNNING_THING_NAMES = (
     "Dockerfile", "Dockerfile.*", "*.dockerfile", "compose.yaml", "compose.yml",
     "docker-compose*.yaml", "docker-compose*.yml", "*.service", "*.timer", "*.socket",
@@ -80,6 +90,7 @@ class RuleConfig:
     trivial_max_lines: int = 60
     plan_roots: tuple[Path, ...] = ()
     source: str = "default"
+    plan_adoption: str = "observe"
 
 
 @dataclass
@@ -90,6 +101,7 @@ class Verdict:
     files: int = 0
     lines: int = 0
     running_things: list[str] = field(default_factory=list)
+    check: str = ""  # "plan-adoption" for a plan named but not adopted; lets that check stay observe-only
 
 
 def _git(root: Path, *args: str) -> str:
@@ -117,6 +129,9 @@ def load_rule_config(root: Path) -> RuleConfig:
     mode = data.get("mode", "observe")
     if mode not in ("observe", "enforce"):
         raise ValueError(f"{path}: mode must be observe or enforce, not {mode!r}")
+    plan_adoption = data.get("plan_adoption", mode)
+    if plan_adoption not in ("observe", "enforce"):
+        raise ValueError(f"{path}: plan_adoption must be observe or enforce, not {plan_adoption!r}")
     extra = tuple((root / p).resolve() if not Path(p).is_absolute() else Path(p)
                   for p in data.get("plan_roots", []))
     return RuleConfig(
@@ -125,6 +140,7 @@ def load_rule_config(root: Path) -> RuleConfig:
         trivial_max_lines=int(data.get("trivial_max_lines", 60)),
         plan_roots=(root, *extra),
         source=str(path),
+        plan_adoption=plan_adoption,
     )
 
 
@@ -237,11 +253,13 @@ def judge(message: str, changes: list[FileChange], governed_roots: list[str], co
     match = TAG_RE.match(first)
     if not match:
         return verdict("refuse", "none",
-                       "no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned] or [Shaping <id>]")
+                       "no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]")
     if match["plan"] is not None or match["goal"] is not None:
         tag = f"Plan #{match['plan']}" if match["plan"] is not None else f"Goal {match['goal']}"
         ok, why = receipt_status(config.plan_roots, match["plan"], match["goal"])
-        return verdict("accept" if ok else "refuse", tag, why)
+        result = verdict("accept" if ok else "refuse", tag, why)
+        result.check = "plan-adoption"
+        return result
     if match["trivial"]:
         problems = []
         if files > config.trivial_max_files:
@@ -264,6 +282,13 @@ def judge(message: str, changes: list[FileChange], governed_roots: list[str], co
         if running:
             why += f"; this change touches running-thing file(s) {', '.join(running)} and needs a plan ([Plan #N] or [Goal <id>])"
         return verdict("refuse", "Unplanned", why)
+    if match["auto"]:
+        job = AUTO_JOB_RE.search(message)
+        if not job:
+            return verdict("refuse", "Auto", "[Auto] is for scheduled jobs: add an 'Auto-job: <job name>' line")
+        if running:
+            return verdict("refuse", "Auto", f"[Auto] may not touch running-thing file(s) {', '.join(running)}; plan it ([Plan #N] or [Goal <id>])")
+        return verdict("accept", "Auto", f"scheduled job {job.group(1).strip()}: {files} file(s), {lines} line(s)")
     plan_id = match["shaping"]
     outside = sorted(c.path for c in changes if not c.path.startswith(f"proposals/{plan_id}/"))
     if outside:
@@ -297,9 +322,13 @@ def check_message(root: Path, message_file: Path) -> tuple[int, str]:
     verdict = judge(message, staged_changes(root), _governed_roots(root), config)
     log = _log(root, {"mode": config.mode, "config": config.source, "subject": message.strip().splitlines()[0] if message.strip() else "",
                       **asdict(verdict)})
-    word = verdict.verdict if config.mode == "enforce" or verdict.verdict == "accept" else "would refuse (observe mode)"
+    word = (verdict.verdict if verdict.verdict == "accept"
+            else "would refuse (observe mode)" if config.mode != "enforce"
+            else "would refuse (plan adoption is observe-only)" if verdict.check == "plan-adoption" and config.plan_adoption == "observe"
+            else "refuse")
     report = f"aes commit rule: {word} [{verdict.tag}] — {'; '.join(verdict.reasons)} (logged to {log})"
-    blocked = config.mode == "enforce" and verdict.verdict == "refuse"
+    soft = verdict.check == "plan-adoption" and config.plan_adoption == "observe"
+    blocked = config.mode == "enforce" and verdict.verdict == "refuse" and not soft
     return (1 if blocked else 0), report
 
 
