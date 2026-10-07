@@ -325,6 +325,7 @@ proposal_id: PLAN-001
 title: first chain
 rationale: plan the greeter before writing it
 closes_gaps: []
+trace_review: {runs_traced_work: false, reason: "a pure function; nothing runs a model, agent or pipeline"}
 target_delta:
   add:
     normative_items:
@@ -365,6 +366,7 @@ def _removal(remove: dict[str, list[str]], change: dict[str, list[dict[str, Any]
     return {
         "schema_version": "aes.v0_2.proposal.probe0", "proposal_id": "PLAN-REMOVE", "title": "remove",
         "rationale": "drop entries the target no longer plans", "closes_gaps": [],
+        "trace_review": {"runs_traced_work": False, "reason": "removes target entries; nothing runs"},
         "target_delta": {"remove": remove, "change": change or {}},
     }
 

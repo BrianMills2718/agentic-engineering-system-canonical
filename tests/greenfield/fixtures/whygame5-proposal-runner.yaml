@@ -1,4 +1,5 @@
 # The proposal accepted on a clone of whygame5 at a620cdc (24-pre-probe-decisions.md §15).
+# trace_review was added on 2026-10-07, when every proposal had to declare it.
 # It also validates against the frozen whygame5-54043e2 target (tests/greenfield/test_planning.py).
 schema_version: aes.v0_2.proposal.probe0
 proposal_id: PLAN-WG5-RUNNER
@@ -54,3 +55,6 @@ target_delta:
         responsibility: the two-call loop over llm_client with receipts, no retries, no fallback; stops after one call on NO_FINDING
         target_refs: [NI-WG5-003, NI-WG5-006]
         planned_artifact_refs: [ART-WG5-RUNNER, ART-WG5-CLI, ART-WG5-TEST-RUNNER]
+trace_review:
+  runs_traced_work: false
+  reason: the criterion is proven by a deterministic test with a stubbed model; this plan runs no real model call
