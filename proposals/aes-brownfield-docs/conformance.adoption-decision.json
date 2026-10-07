@@ -1,0 +1,15 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "proposals/aes-brownfield-docs/PLAN.md",
+  "plan_sha256": "a4e6d55e4946a0b5e0528fc9fe53a26cf2c3ce072200272b7ee3bf16edbf648f",
+  "receipt_ref": "proposals/aes-brownfield-docs/conformance.receipt.json",
+  "receipt_sha256": "fd7762235cd4ee33499d683a13bd6f22674f23bdaf099880ca1ce51600200c03",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 9 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "decided_at": "2026-10-07T23:38:20Z"
+}
