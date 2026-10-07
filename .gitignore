@@ -4,3 +4,6 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 build/
+
+# hive hardening U4: snapshot of what runs, written by scripts/hive/inventory.py (not tracked)
+.aes/running-inventory.json

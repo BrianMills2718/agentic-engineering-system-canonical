@@ -57,6 +57,7 @@ from pydantic import computed_field
 from .characterize import Producer, _git, characterize, drift
 from .evidence import Freshness, Standing, _reachable, assess
 from .records import StrictModel, TargetRecord, load_project, load_target
+from .running import check_running, inventory_path, load_inventory
 
 RECONCILIATION_SCHEMA: Final = "aes.v0_2.reconciliation.probe0"
 
@@ -130,6 +131,17 @@ class ComponentState(StrictModel):
     gaps: list[Gap]
 
 
+class RunningState(StrictModel):
+    """What runs against the declared running pieces (hive hardening U4); see `running.py`."""
+
+    snapshot: str
+    collected_at: str | None
+    in_scope: int
+    undeclared: list[str]
+    not_running: list[str]
+    unreadable: list[str]
+
+
 class Reconciliation(StrictModel):
     schema_version: Literal["aes.v0_2.reconciliation.probe0"]
     subject_revision: str
@@ -144,6 +156,7 @@ class Reconciliation(StrictModel):
     components: list[ComponentState]
     unassigned_gaps: list[Gap]
     produced_at: datetime
+    running: RunningState | None = None
 
     @property
     def failures(self) -> list[str]:
@@ -151,6 +164,7 @@ class Reconciliation(StrictModel):
             [f"refuted: {c.criterion_id}" for c in self.criteria if c.standing == "REFUTED"]
             + [f"orphan: {p}" for p in self.orphans]
             + [f"drifted: {a.artifact_id}" for a in self.artifacts if a.status == "DRIFTED"]
+            + [f"undeclared running: {u}" for u in (self.running.undeclared if self.running else [])]
         )
 
     @property
@@ -288,7 +302,15 @@ def reconcile(root: Path) -> Reconciliation:
     unassigned += [g for aid, g in artifact_gaps.items() if aid not in owned]
     unassigned += [g for sid, g in criterion_gaps.items() if sid not in concerned]
 
-    aes_dirty = bool(_git(root, "status", "--porcelain", "--untracked-files=all", "--", ".aes").strip())
+    aes_dirty = bool(_git(root, "status", "--porcelain", "--untracked-files=all", "--", ".aes",
+                          ":(exclude).aes/running-inventory.json").strip())
+    running = None
+    snapshot = inventory_path(root)
+    inventory = load_inventory(snapshot) if target.running_scopes else None
+    if inventory is not None:
+        rr = check_running(target, inventory)
+        running = RunningState(snapshot=str(snapshot), collected_at=rr.collected_at, in_scope=rr.in_scope,
+                               undeclared=rr.undeclared, not_running=rr.not_running, unreadable=rr.unreadable)
     return Reconciliation(
         schema_version=RECONCILIATION_SCHEMA,
         subject_revision=c.subject_revision,
@@ -305,6 +327,7 @@ def reconcile(root: Path) -> Reconciliation:
         components=components,
         unassigned_gaps=_ordered(unassigned),
         produced_at=datetime.now(UTC).replace(microsecond=0),
+        running=running,
     )
 
 
@@ -335,7 +358,10 @@ def _counts(r: Reconciliation) -> list[str]:
         f"{n(live, 'freshness', 'UNKNOWN')} unknown, {n(live, 'freshness', 'UNREACHABLE')} unreachable; "
         f"{len(r.observations) - len(live)} superseded",
         f"  plans: {len(r.plans)} accepted, {sum(not p.reachable for p in r.plans)} unreachable",
-    ]
+    ] + ([f"  running: {r.running.in_scope} in scope, {len(r.running.undeclared)} undeclared, "
+          f"{len(r.running.not_running)} declared but not running (snapshot {r.running.collected_at})"]
+         + [f"    undeclared: {u}" for u in r.running.undeclared]
+         + [f"    unreadable: {u}" for u in r.running.unreadable] if r.running else [])
 
 
 def _plan_warnings(r: Reconciliation) -> list[str]:

@@ -39,6 +39,8 @@ from .characterize import check as characterize_check
 from .characterize import render_report as render_characterization
 from .characterize import running_version
 from .commit_rule import check_message, replay
+from .running import check_running, inventory_path, load_inventory
+from .running import render as render_running
 from .evidence import EvidenceError, assess, branch_note, record
 from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
@@ -149,6 +151,12 @@ def _build_parser() -> argparse.ArgumentParser:
     pval = plan_sub.add_parser("validate", help="apply a proposal in memory and report every violation")
     pval.add_argument("proposal", type=Path, help="proposal YAML (aes.v0_2.proposal.probe0)")
     pval.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
+    running = sub.add_parser("running", help="what actually runs against the declared running pieces")
+    running_sub = running.add_subparsers(dest="running_command", required=True)
+    rchk = running_sub.add_parser("check", help="compare a running-inventory snapshot with the target's running pieces")
+    rchk.add_argument("--inventory", type=Path, default=None,
+                      help="snapshot JSON (default .aes/running-inventory.json, or $AES_RUNNING_INVENTORY)")
+    rchk.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
     pacc = plan_sub.add_parser("accept", help="apply a valid proposal to the target and write the plan (no commit)")
     pacc.add_argument("proposal", type=Path, help="proposal YAML (aes.v0_2.proposal.probe0)")
     pacc.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
@@ -299,6 +307,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             if note:
                 print(note, file=sys.stderr)
             return 0
+        if args.command == "running" and args.running_command == "check":
+            root = args.root or find_project_root(Path.cwd())
+            project = load_project(root / ".aes" / "project.yaml")
+            target = load_target(root / project.materialization.target_path)
+            snap = args.inventory or inventory_path(root)
+            inventory = load_inventory(snap)
+            if inventory is None:
+                print(f"error: no running inventory at {snap}; collect one first", file=sys.stderr)
+                return 2
+            rep = check_running(target, inventory)
+            print(render_running(rep), file=sys.stdout if rep.ok else sys.stderr)
+            return 0 if rep.ok else 1
         if args.command == "commit" and args.commit_command == "check":
             rule_status, rule_report = check_message(args.root or Path.cwd(), args.message_file)
             print(rule_report, file=sys.stderr)

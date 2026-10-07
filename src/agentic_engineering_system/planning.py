@@ -66,6 +66,8 @@ from .records import (
     NormativeItem,
     Outcome,
     PlannedArtifact,
+    RunningPiece,
+    RunningScope,
     StrictModel,
     SuccessCriterion,
     TargetRecord,
@@ -84,6 +86,7 @@ PLAN_INPUT_SCHEMA = "aes.v0_2.plan_input.probe0"
 FAMILIES = (
     "outcomes", "normative_items", "success_criteria", "components",
     "planned_artifacts", "verification_subjects", "external_boundaries",
+    "running_scopes", "running_pieces",
 )
 _KEY = {f: "id" for f in FAMILIES} | {"external_boundaries": "evidence_requirement_ref"}
 _PROPOSAL_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*")  # also the plan file name
@@ -112,6 +115,8 @@ class FamilyEntries(StrictModel):
     planned_artifacts: list[PlannedArtifact] = Field(default_factory=list)
     verification_subjects: list[VerificationSubject] = Field(default_factory=list)
     external_boundaries: list[ExternalBoundary] = Field(default_factory=list)
+    running_scopes: list[RunningScope] = Field(default_factory=list)
+    running_pieces: list[RunningPiece] = Field(default_factory=list)
 
     def entries(self) -> list[tuple[str, str, Any]]:
         """(family, key, entry) for every entry, in family then file order."""
@@ -128,6 +133,8 @@ class FamilyKeys(StrictModel):
     planned_artifacts: list[str] = Field(default_factory=list)
     verification_subjects: list[str] = Field(default_factory=list)
     external_boundaries: list[str] = Field(default_factory=list)
+    running_scopes: list[str] = Field(default_factory=list)
+    running_pieces: list[str] = Field(default_factory=list)
 
     def entries(self) -> list[tuple[str, str]]:
         """(family, key) for every key, in family then file order."""
