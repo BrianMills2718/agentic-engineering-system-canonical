@@ -29,6 +29,8 @@ HERE = Path(__file__).resolve().parent
 WORKSPACE = Path.home() / "code"
 STATE = Path.home() / ".local" / "state" / "aes" / "commit-rule-daily.jsonl"
 REVIEW_MARKER = STATE.with_name("commit-rule-review-opened")
+# The checkout the hooks' `aes` tool is installed from and that serves as the shared plan root.
+RUNTIME = Path.home() / "code" / "agentic-engineering-system-canonical" / "worktrees" / "hook-runtime"
 CONCERN = Path.home() / "code" / "project-meta" / "scripts" / "concern_issue.py"
 CONCERN_REPO = "BrianMills2718/agentic-engineering-system-canonical"
 OBSERVE_START = dt.date(2026, 10, 7)
@@ -70,8 +72,29 @@ def classify(entry: dict) -> str:
     return f"refuse: {tag}"
 
 
+def refresh_runtime() -> str:
+    """Keep the hook runtime and shared plan root at AES main: fetch, move the runtime worktree
+    to origin/main, and reinstall the `aes` tool when main moved (plans adopted in AES resolve
+    from every repository through this checkout)."""
+    runtime = RUNTIME
+    if not (runtime / ".git").exists():
+        return f"runtime checkout {runtime} missing; recreate it with `git worktree add --detach {runtime} origin/main`"
+    before = run("git", "-C", str(runtime), "rev-parse", "HEAD").stdout.strip()
+    run("git", "-C", str(runtime), "fetch", "-q", "origin")
+    moved = run("git", "-C", str(runtime), "checkout", "-q", "--detach", "origin/main")
+    after = run("git", "-C", str(runtime), "rev-parse", "HEAD").stdout.strip()
+    if moved.returncode != 0:
+        return f"runtime refresh failed: {moved.stderr.strip()}"
+    if before != after:
+        uv = Path.home() / ".local" / "bin" / "uv"
+        done = run(str(uv), "tool", "install", "--force", "--from", str(runtime), "agentic-engineering-system")
+        return f"runtime moved {before[:8]} -> {after[:8]}; aes reinstalled (exit {done.returncode})"
+    return f"runtime at {after[:8]} (unchanged)"
+
+
 def main() -> int:
     today = dt.date.today()
+    print(refresh_runtime())
     check = run(sys.executable, str(HERE / "install_everywhere.py"), "check")
     summary = check.stdout.strip().splitlines()[-1] if check.stdout.strip() else check.stderr.strip()
     print(summary)
