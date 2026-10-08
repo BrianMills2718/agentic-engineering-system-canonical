@@ -1,0 +1,191 @@
+{
+  "069c328787a1c10048be11cf4a11ba44b92f32dbe51a446795bc897bb92a4609": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The table explicitly lists three uncertainties and assigns owner `code-83` to each. It also specifies resolving evidence or checks for each, including replay comparison, first-day logs, and logs showing whether agents add `wiki/index.md`.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  },
+  "08ab0e4161ce16b13468165c2273ef03caac5f6527f95b5161dc35c7603d495c": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines three success measures: replay agreement, refusal and later acceptance in a scratch clone, and a passing `make check`. It also gives concrete disproof conditions involving disagreement in commit-rule logs or unrelated catch-all link lists in subsequent wiki diffs.",
+    "trace_id": "company-planning/method-conformance/PLAN/649a73bc00af/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "0b0c2e402465a6e3577953de122690ae2ef6cfc3a1171a9c1e9052683991fe6b": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence identifies each run and where its full trace is stored: `replay-after.txt`, `check.txt` for the scratch commits and commit-rule logs, and `check.txt` for the complete `make check` output. It also specifies what must be examined beyond outcomes, including per-file replay rows, refusal text and exact link lines, log fields, test names, skipped tests, counts, and exit status.",
+    "trace_id": "company-planning/method-conformance/PLAN/649a73bc00af/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  },
+  "0b3a6cae16bfedb03eeb3e5d2ba37c17981d337385394186171d5793bcdb1839": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names a concrete structural check: replaying the commit rule\u2019s answer against the daily check\u2019s answer for every added file. It explicitly states that any disagreement indicates drift between the two implementations, thereby detecting a silent parallel implementation of the same concern.",
+    "trace_id": "company-planning/method-conformance/PLAN/649a73bc00af/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "0ba723ee23a685cedcc49d570032212d3ed3d758544bed9bf2145224faa8d23d": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines success through three checks: replay agreement for every added file, refusal and later acceptance of a real scratch-clone commit, and passing `make check`. It also gives concrete disproof conditions: disagreement between the commit rule and daily check, or agents using unrelated catch-all link lists instead of the printed line.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "1b91110cd74a8d8d11c2da29033bb14df440bff5af4a42e968d5b54a20d5a677": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares shared_mechanism true, matching the new shared commit rule. It explicitly characterizes the replay as verification rather than an experiment comparing alternatives, states that no model call is involved, and states that there is no irreversible action or spend; these declarations are consistent with the described plan.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "2adfbe806e262ddd2a42b6784319bb4a279383b3b1afdc6eef693d3dbb3a0340": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "material",
+    "missing": "A concrete check or consumer-path observation that would detect an independently added parallel implementation of the same concern.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The replay compares the commit rule with the existing daily check and detects disagreement or implementation drift, but it does not explicitly detect a separate silent implementation added elsewhere. The search inventory only reports that no other check was found; it is not a detection mechanism.",
+    "trace_id": "company-planning/method-conformance/PLAN/f9382a9184d9/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "unresolved"
+  },
+  "3a292545d755bae7f17b48b3694e5efcb8f381bbe9cf1408cc6bf647541c11a1": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "material",
+    "missing": "A valid exemption or a system-model link is missing. The stated exemption says the project keeps an append-only log and writes a record, so it does not fit the required no-stored-state condition; no model path is provided.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence includes no system-model link and its exemption is inconsistent with the requirement because it explicitly describes stored state in an append-only log and a written record. Although it states what the run must show, that does not cure the invalid exemption.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/CORE-SYSTEM-MODEL",
+    "verdict": "unresolved"
+  },
+  "473cf46636f9e0d8c2dbc80b6d154f3893d778ae681b14c0935662f0bdac8900": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares `shared_mechanism` true, matching its new commit-rule mechanism. It explicitly identifies the replay as verification rather than an experiment comparing alternatives, states no model call, and states that no irreversible action or spend is proposed; these declarations are supported by the plan.",
+    "trace_id": "company-planning/method-conformance/PLAN/649a73bc00af/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "494ba7ca001ec7bc828da21eb9081585bd1aadb14258a606b0ca3df7084c2be8": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "material",
+    "missing": "The external candidates (markdown-link-check, lychee, and pre-commit frameworks) are described but are not each explicitly dispositioned as reuse, extend, compose, supersede, or bounded exception. The evidence also does not explicitly identify the search of existing ownership and internal lineage as completed beyond listing two candidates.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly labels `project-meta ... reachability()` as reuse and `aes-brownfield-docs` as compose, and labels the reachability gap as a bounded exception. However, it does not assign a permitted disposition to each named external candidate, so the requirement is not fully satisfied.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "unresolved"
+  },
+  "50b038e49ff22f289c782a73c25d13f0d296b8a4d994634a1c715de7705a2dc6": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "material",
+    "missing": "An explicit search for existing ownership is not provided; the evidence lists searches of project-meta, AES proposals, and the commit rule module, but does not establish that ownership records or sources were searched.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly searches internal sources and external prior art, and gives a disposition for each named candidate. However, it does not explicitly substantiate the required existing-ownership search.",
+    "trace_id": "company-planning/method-conformance/PLAN/649a73bc00af/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "unresolved"
+  },
+  "5a24186718804f4d829eb5d9c8967c3b07fc82f4c94d4b6bb16be288fcfcecec": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "material",
+    "missing": "The `make check` criterion does not identify or preserve a full trace of that run beyond its final outcome: it only specifies saved pass/fail counts and exit status in `check.txt`. It lacks the run\u2019s detailed checks, commands, or other trace evidence showing what was examined.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The replay and scratch-commit criteria name their runs, trace locations, and required non-outcome details. However, `make check` is judged only by saved pass/fail counts and exit status, which is an outcome-only criterion under the requirement.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/CORE-TRACE-REVIEW",
+    "verdict": "unresolved"
+  },
+  "7a1903f571e74e3d2cc1d776e72abd9347bcb165de3f5547e35c451902a021da": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "material",
+    "missing": "Explicit work-unit evidence for each concurrent writer, including identification of each writer and its specific commit-rule log line or equivalent evidence.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the owner/integration owner, dependencies, and conflict surfaces. It only states generally that every agent\u2019s evidence is a commit-rule log line, without identifying each concurrent writer or providing that evidence for each one.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/OV-COORD-OWNERSHIP",
+    "verdict": "unresolved"
+  },
+  "85a0dd2dd8e947dbfb89c8c7fe07f6d1555caa8ca751fae3e54c3f3ff01f5bbf": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies the owner and integration owner (code-83), dependencies, conflict surfaces, and the concurrent writer scope. It also provides work-unit evidence for that writer through the named claim and commits on the specified branch.",
+    "trace_id": "company-planning/method-conformance/PLAN/649a73bc00af/OV-COORD-OWNERSHIP",
+    "verdict": "pass"
+  },
+  "b5129a40f4e5018781461c4750202d5ac8575bf2f9c4fa0bc9581bb75e59c2f2": {
+    "item_id": "CORE-IRREVERSIBLE-SPEND",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that the plan proposes no irreversible action and no spend. Therefore, there are no such actions requiring a named boundary, authorization, or containment method.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "pass"
+  },
+  "c57902cbbb50e96a95cc9072ff28f475a7749826315a5411fecefbaf11cc9dde": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence identifies the system model as `.aes/target.yaml` and names the affected process, record, view, and relied-on rule. For each, it explicitly states what the scratch-commit or replay run must show, including the relevant outputs and values.",
+    "trace_id": "company-planning/method-conformance/PLAN/649a73bc00af/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "cabc3d7b314aace46c617a44c16f10e4c095361728a0a2e32ee849dfe90d1de9": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares `shared_mechanism` true, matching its new commit-rule mechanism. It also explicitly explains that the replay is verification rather than an alternative-design experiment, that no model call occurs, and that there is no irreversible action or spend, so the other declared false facts are not contradicted.",
+    "trace_id": "company-planning/method-conformance/PLAN/f9382a9184d9/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "cf14fa9f536cbc86f3f55c6d0c4fda1600910fab98c32d15101830e739651cf8": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the actors served (every agent and Brian, plus the next reader), states the desired result (unreachable new reader documents are refused with the exact line to add, then pass once added), and gives a stable, concrete user-visible example in the graph-retrieval repository.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "cfaf014c573fc2e0584d2804181f19f37ff095678c86e2f52ee7f842e370d8a2": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies searches of ownership records, internal sources and lineage (including `md_file_cap.py` and `aes-brownfield-docs`), and external prior art. Each candidate is explicitly dispositioned as reuse, compose, or bounded exception; the evidence also states that no other commit-time documentation check exists, so no undispositioned candidate is identified.",
+    "trace_id": "company-planning/method-conformance/PLAN/f9382a9184d9/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "pass"
+  },
+  "d509e8f6e8abe0531fc7eda4458d78d1f4c5f8c709940bc80bb190cc0883ac27": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies authority: Brian holds authority in his own repositories, AES canonical owns the commit rule, and this session is its writer. It also explicitly lists non-goals, including no checks of existing documents, no changes to document classification rules, no work in others\u2019 repositories, and no automatic wiki editing.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "ea0b46afe8850bcd75938fa9f315f7d182baae19b401ffd2621fc60ac8684732": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names a concrete structural check: replaying the commit rule against the daily check for every added file and flagging any disagreement. This would detect drift between parallel implementations of the same reachability concern.",
+    "trace_id": "company-planning/method-conformance/PLAN/a4eb4b5c86c7/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  }
+}
