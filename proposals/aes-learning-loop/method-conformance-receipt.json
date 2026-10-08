@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-94e27e0572ff",
+  "receipt_id": "RECEIPT-PLAN-e2bfc3e06ab6",
   "plan": {
     "plan_ref": "proposals/aes-learning-loop/PLAN.md",
-    "plan_sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+    "plan_sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
   },
   "path_decision": {
     "ref": "proposals/aes-learning-loop/planning-path-decision.json",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/aes-learning-loop/activation-facts.json",
-    "facts_sha256": "ea528ab96962f703e5858f0ecd544e6c069d646c53ef0800117995385a4e1007",
+    "facts_sha256": "04e6bfa688e0bf5e6d36c22c0c0d7c890361ba7abc16e7dba91f9258b94ecd98",
     "facts": {
       "shared_mechanism": true,
       "empirical_comparison_proposed": true,
@@ -86,10 +86,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:4f6f1bf2881f7d0535b951de0fa65f479e33752511881934cf4d135ff78222e2",
-    "definition_sha256": "360b912f784af0a1a436d5952d10b03fed5afb53459ca77720cff931ec534bbb",
+    "revision": "sha256:14cd153babbafe6d30e0955637a25a8083169b1537aeed10dc4548362abbdc66",
+    "definition_sha256": "28658249c389d4ead69db3512da1d62ef20ae8560ac08fb044be886736dcf40a",
     "bundle_ref": "proposals/aes-learning-loop/checklist-bundle.json",
-    "bundle_sha256": "bc9abdf3180d96f38575973b97702e5c8500912f7942adabee0dd8f76cd1ec8a",
+    "bundle_sha256": "522b580edf027845e68810ed4b4197e48de5db23b55a6ef76213688b54d88f0b",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -102,25 +102,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#who-it-serves-the-result-one-example",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-ACTOR-RESULT-EXAMPLE",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/CORE-ACTOR-RESULT-EXAMPLE",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the served actors, including Claude and Codex agents, loop runs, and Brian. It states the desired result and gives a stable, concrete user-visible example: the stranded-lanes failure of 2026-10-07 traced through its full lifecycle."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "CORE-ROUTE",
@@ -149,25 +147,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#success-and-what-would-disprove-it",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-SUCCESS-DISPROOF",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/CORE-SUCCESS-DISPROOF",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines success criteria S1–S5, including the traces to examine and what must be observed beyond outcomes. It also gives concrete disproof conditions, such as adoption based on single sessions, revocation by effect counts, Brian reversing decisions, and no licensed rule reaching enforcement after 60 days."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "CORE-TRACE-REVIEW",
@@ -177,25 +173,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#success-and-what-would-disprove-it",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-TRACE-REVIEW",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/CORE-TRACE-REVIEW",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "Each criterion names the run whose full trace is examined, identifies where the trace resides, and specifies evidence required beyond the outcome. The evidence also defines disproof checks against the same traces, including run records, model calls, observations, links, licence decisions, and reversals."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "CORE-AUTHORITY-NONGOALS",
@@ -205,25 +199,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#authority-and-non-goals",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-AUTHORITY-NONGOALS",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/CORE-AUTHORITY-NONGOALS",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies authority: “the direction above,” with AES canonical in Brian’s repository and shared contracts for Claude and Codex. It also explicitly lists non-goals, including not changing the Observation-to-Action specification, adding rule changes without feedback paths, building a dashboard, or rewriting existing issues/register entries."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "CORE-IRREVERSIBLE-SPEND",
@@ -233,25 +225,23 @@
       "condition_value": true,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-IRREVERSIBLE-SPEND",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/CORE-IRREVERSIBLE-SPEND",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence identifies each proposed spend—nightly Jev/extraction calls, weekly problem analysis, and the S2 measurement—and explicitly states a boundary, authorizer, and containment for each. It also states that no irreversible action is proposed because records are appended and nothing is deleted."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "CORE-UNCERTAINTIES",
@@ -261,25 +251,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#uncertainties",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-UNCERTAINTIES",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/CORE-UNCERTAINTIES",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly lists four uncertainties and identifies a materiality rationale for each. It assigns an owner to every item and specifies evidence that would resolve each uncertainty, including the S2 labelled run, S3 hand check, S1 repository test, and nightly grammar run."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "CORE-ACTIVATION-FACTS",
@@ -289,25 +277,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#activation-facts",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan declares all four activation facts true. The evidence explicitly describes a shared Feedback contract, an S2 comparison of Jev against a stronger model using hand labels, central LLM calls for extraction/triage/analysis, and authorized model spend; it declares none of these facts false."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "OV-PRIOR-ART-DISPOSITION",
@@ -317,25 +303,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#current-truth-and-reuse",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-PRIOR-ART-DISPOSITION",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/OV-PRIOR-ART-DISPOSITION",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that existing owners, Brian’s internal lineage, and external prior art were searched. It then provides candidate-by-candidate dispositions using the required categories—reuse, extend, compose, supersede, or bounded exception—including the listed internal and external candidates."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
@@ -345,25 +329,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#detecting-a-silent-parallel-implementation",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-PRIOR-ART-PARALLEL-CHECK",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/OV-PRIOR-ART-PARALLEL-CHECK",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names a concrete structural check: a test in `tests/learning/` that fails when scripts other than `records.py` write feedback records. It also names a consumer-path observation that flags records from unknown writing paths in the weekly summary."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "OV-EVAL-DECISION",
@@ -373,25 +355,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-EVAL-DECISION",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/OV-EVAL-DECISION",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the decision: who judges relations between new and existing records. It specifies different actions by result—Jev judges nightly at or above 8/10, while the stronger model judges relations below that threshold—and also states the fallback if S3 later finds Jev unreliable."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
@@ -401,25 +381,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan identifies the irreducibly empirical uncertainty as how Jev performs on short agent reports with links, and states that this cannot be reasoned out from first principles. It also explains why the existing inquiry-graph probe cannot resolve it: that evidence used chat sentences, a different input, so only a labelled comparison run can answer the question."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "OV-EVAL-PARITY",
@@ -429,25 +407,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-EVAL-PARITY",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/OV-EVAL-PARITY",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly defines parity as requiring every compared judge to return one of the four relations for all 30 pairs, with no refusals or free text, at the stated cost bound. It also specifies identical pairs, answer options, fields, and hand labels for both judges."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "OV-EVAL-COST",
@@ -457,25 +433,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-EVAL-COST",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/OV-EVAL-COST",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly compares the costs: choosing the stronger model now costs about $1–$3 more per week, while choosing Jev and being wrong can corrupt licence statuses and require later correction. It also states that the measurement costs under $1 and one run, directly explaining why the comparison is cheaper than making the reversible choice now and correcting it later."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "OV-LLM-CALL-BOUNDARY",
@@ -485,25 +459,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#model-calls",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-LLM-CALL-BOUNDARY",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/OV-LLM-CALL-BOUNDARY",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly provides the call graph and ordering, a structured result for each listed call, and trace identifiers plus the JSONL trace location for all calls. It also states that each call writes to the shared trace file and identifies how calls are traced."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "OV-LLM-AUTHORITY-PROMOTION",
@@ -513,25 +485,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#model-calls",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-LLM-AUTHORITY-PROMOTION",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/OV-LLM-AUTHORITY-PROMOTION",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names Brian's configured OpenRouter route as the provider and the shared client's budgets as spend authority. It also states the authentic-run promotion condition: one run on real transcripts, with the full trace read and records resolving their links, before becoming the nightly default."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "OV-COORD-OWNERSHIP",
@@ -541,25 +511,23 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#ownership-and-coordination",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-COORD-OWNERSHIP",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/OV-COORD-OWNERSHIP",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the integration owner, each writer’s ownership surface, dependencies, conflict surfaces, and work-unit evidence. The table provides evidence for every listed concurrent writer, including pull requests, commits, evaluator decision processes, and timer run summaries."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     },
     {
       "item_id": "OV-BOUNDARY-DISPOSITION",
@@ -569,295 +537,69 @@
       "condition_value": null,
       "verifier_kind": "semantic",
       "disposition": "pass",
-      "verifier_result": "unavailable",
-      "reason_codes": [
-        "semantic_verifier_unavailable"
-      ],
+      "verifier_result": "pass",
+      "reason_codes": [],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#boundaries",
-          "sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a"
+          "sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-BOUNDARY-DISPOSITION",
+        "trace_id": "company-planning/method-conformance/PLAN/0e553c9e4b4e/OV-BOUNDARY-DISPOSITION",
         "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "unavailable",
-        "materiality": null,
-        "missing": "LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "rationale": null
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies an owning authority, rollback or containment, and disposition for each listed boundary, including private content publication, the Feedback-field change, the migration of 68 issues, and rule enforcement."
       },
-      "suggested_action": "Re-run adoption when the semantic verifier is reachable."
+      "suggested_action": null
     }
   ],
   "item_counts": {
-    "pass": 1,
+    "pass": 18,
     "unresolved": 0,
     "not_applicable": 0,
-    "unavailable": 17,
+    "unavailable": 0,
     "missing": 0
   },
   "semantic_verifier": {
     "kind": "llm_client",
-    "available": false,
+    "available": true,
     "model": "openrouter/openai/gpt-5.6-luna",
     "task": "company_planning.method_conformance.semantic_item_review"
   },
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-94e27e0572ff",
+    "report_id": "REPORT-PLAN-e2bfc3e06ab6",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:bc9abdf3180d96f38575973b97702e5c8500912f7942adabee0dd8f76cd1ec8a",
+    "snapshot_revision": "sha256:522b580edf027845e68810ed4b4197e48de5db23b55a6ef76213688b54d88f0b",
     "packet_ref": "proposals/aes-learning-loop/PLAN.md",
-    "packet_revision": "sha256:94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a",
+    "packet_revision": "sha256:e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74",
     "structural_status": "pass",
-    "semantic_review_status": "unavailable",
-    "diagnostics": [
-      {
-        "diagnostic_id": "DIAG-PLAN-0",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "CORE-ACTOR-RESULT-EXAMPLE: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-ACTOR-RESULT-EXAMPLE"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-2",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "CORE-SUCCESS-DISPROOF: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-SUCCESS-DISPROOF"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-3",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "CORE-TRACE-REVIEW: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-TRACE-REVIEW"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-4",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "CORE-AUTHORITY-NONGOALS: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-AUTHORITY-NONGOALS"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-5",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "CORE-IRREVERSIBLE-SPEND: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-IRREVERSIBLE-SPEND"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-6",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "CORE-UNCERTAINTIES: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-UNCERTAINTIES"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-7",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "CORE-ACTIVATION-FACTS: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/CORE-ACTIVATION-FACTS"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-8",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "OV-PRIOR-ART-DISPOSITION: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-PRIOR-ART-DISPOSITION"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-9",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "OV-PRIOR-ART-PARALLEL-CHECK: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-PRIOR-ART-PARALLEL-CHECK"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-10",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "OV-EVAL-DECISION: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-EVAL-DECISION"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-11",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "OV-EVAL-IRREDUCIBLE-UNCERTAINTY: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-EVAL-IRREDUCIBLE-UNCERTAINTY"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-12",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "OV-EVAL-PARITY: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-EVAL-PARITY"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-13",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "OV-EVAL-COST: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-EVAL-COST"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-14",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "OV-LLM-CALL-BOUNDARY: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-LLM-CALL-BOUNDARY"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-15",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "OV-LLM-AUTHORITY-PROMOTION: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-LLM-AUTHORITY-PROMOTION"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-16",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "OV-COORD-OWNERSHIP: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-COORD-OWNERSHIP"
-      },
-      {
-        "diagnostic_id": "DIAG-PLAN-17",
-        "class": "semantic",
-        "severity": "warning",
-        "rule_id": "PL-MCR-SEMANTIC-VERIFIER-UNAVAILABLE",
-        "message": "OV-BOUNDARY-DISPOSITION: LLMRateLimitError: litellm.APIError: APIError: OpenrouterException - {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 19746. To increase, visit https://openrouter.ai/settings/credits and add more credits\",\"code\":402,\"metadata\":{\"limit_s",
-        "source_locator": "proposals/aes-learning-loop/PLAN.md",
-        "materiality": "material",
-        "suggested_action": "Re-run adoption when the semantic verifier is reachable.",
-        "disposition": "unresolved",
-        "trace_id": "company-planning/method-conformance/PLAN/c19c1dd0dc26/OV-BOUNDARY-DISPOSITION"
-      }
-    ],
+    "semantic_review_status": "complete",
+    "diagnostics": [],
     "route": "coordinated",
-    "adoption_readiness": "contributor_disposition_needed",
+    "adoption_readiness": "ready_for_contributor",
     "limitations": [
-      "Semantic verifier was unavailable for at least one item; no semantic item counted as passing without it.",
       "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
     ]
   },
   "advisory_deviations": [],
-  "result": "unavailable",
-  "reason_codes": [
-    "semantic_verifier_unavailable"
-  ],
+  "result": "pass",
+  "reason_codes": [],
   "actionable_summary": [
-    "CORE-ACTOR-RESULT-EXAMPLE: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "CORE-SUCCESS-DISPROOF: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "CORE-TRACE-REVIEW: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "CORE-AUTHORITY-NONGOALS: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "CORE-IRREVERSIBLE-SPEND: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "CORE-UNCERTAINTIES: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "CORE-ACTIVATION-FACTS: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "OV-PRIOR-ART-DISPOSITION: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "OV-EVAL-DECISION: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "OV-EVAL-IRREDUCIBLE-UNCERTAINTY: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "OV-EVAL-PARITY: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "OV-EVAL-COST: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "OV-LLM-CALL-BOUNDARY: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "OV-LLM-AUTHORITY-PROMOTION: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "OV-COORD-OWNERSHIP: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
-    "OV-BOUNDARY-DISPOSITION: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable."
+    "pass: 18 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
   ],
   "limitations": [
-    "Semantic verifier was unavailable for at least one item; no semantic item counted as passing without it.",
     "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
   ],
   "caller": {
     "client": "claude-code",
     "session": "3b596c23-2476-404a-85f2-42e19a6afad4"
   },
-  "started_at": "2026-10-08T09:23:13Z",
-  "completed_at": "2026-10-08T09:23:34Z",
-  "duration_ms": 21631
+  "started_at": "2026-10-08T16:26:35Z",
+  "completed_at": "2026-10-08T16:26:56Z",
+  "duration_ms": 17577
 }

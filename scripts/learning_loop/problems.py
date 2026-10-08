@@ -108,6 +108,8 @@ def open_db(out: Path) -> sqlite3.Connection:
     db.execute("CREATE TABLE IF NOT EXISTS relation (pair TEXT PRIMARY KEY, answer TEXT)")
     db.execute("CREATE TABLE IF NOT EXISTS problem (id TEXT PRIMARY KEY, issue TEXT, members TEXT, analysis TEXT)")
     db.execute("CREATE TABLE IF NOT EXISTS evidence (ref TEXT PRIMARY KEY, text TEXT)")
+    # A licence is handed to agents once; only the effects step reopens its concern, on a real recurrence.
+    db.execute("CREATE TABLE IF NOT EXISTS handed (key TEXT PRIMARY KEY, at TEXT)")
     return db
 
 
@@ -520,11 +522,15 @@ def main() -> int:
         company planning, or the check into the audit skill); Brian is notified of high-impact ones."""
         if not a.file:
             return
+        fresh: list[str] = []
         for p in recurring:
             for x in p.get("licences", []):
                 if x["status"] != "active":
                     continue
                 key = f"feedback-rule-{p['id']}-{hashlib.sha256(x['text'].encode()).hexdigest()[:8]}"
+                if db.execute("SELECT 1 FROM handed WHERE key=?", (key,)).fetchone():
+                    counts["licence_already_handed"] += 1
+                    continue
                 route = "a rule adopted through company planning (aes plan prepare)" if x["intent"] == "Prevent" \
                     else "a check added to the audit skill"
                 body = (f"The feedback loop licensed a general fix for a recurring problem ({p['sightings']} independent "
@@ -540,13 +546,17 @@ def main() -> int:
                     errors.append(f"concern {key}: {(cp.stderr or cp.stdout).strip()[-200:]}")
                     continue
                 counts["concerns_opened"] += 1
+                db.execute("INSERT OR REPLACE INTO handed VALUES (?,?)", (key, dt.datetime.now(dt.timezone.utc).isoformat()))
+                db.commit()
                 if rank(p)[0] >= NOTIFY_AT_IMPACT:
-                    subprocess.run([sys.executable, str(PROJECT_META / "scripts/operator_notify_router.py"),
-                                    "--severity", "attention", "--key", key, "--state", "licensed",
-                                    "--source", "feedback-loop", "--title", "Feedback loop handed agents a new rule",
-                                    "--body", f"{x['text'][:200]} ({p['sightings']} separate sightings)."],
-                                   capture_output=True, text=True, timeout=120)
-                    counts["notified"] += 1
+                    fresh.append(x["text"][:120])
+        if fresh:  # one digest per run, not one push per licence
+            day = dt.date.today().isoformat()
+            subprocess.run([sys.executable, str(PROJECT_META / "scripts/operator_notify_router.py"),
+                            "--severity", "attention", "--key", f"feedback-loop-digest-{day}", "--state", "licensed",
+                            "--source", "feedback-loop", "--title", f"Feedback loop handed agents {len(fresh)} new rule(s)",
+                            "--body", "; ".join(fresh)[:600]], capture_output=True, text=True, timeout=120)
+            counts["notified"] += 1
     step("hand_to_agents", hand_to_agents)
 
     def effects():
