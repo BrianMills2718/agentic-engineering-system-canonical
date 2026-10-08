@@ -24,8 +24,8 @@ code{font-size:13px}</style></head><body><main>
 <g class="box built"><rect x="490" y="30" width="200" height="90" rx="10"/><text class="t" x="504" y="58">3 Sort (Jev)</text><text class="s" x="504" y="80">fixed choices: kind, family,</text><text class="s" x="504" y="96">intent; relation to other</text><text class="s" x="504" y="112">records tested in S2</text></g>
 <g class="box planned"><rect x="730" y="30" width="200" height="90" rx="10"/><text class="t" x="744" y="58">4 Group &amp; analyse</text><text class="s" x="744" y="80">weekly; a problem seen in</text><text class="s" x="744" y="96">2+ sessions gets a cause</text><text class="s" x="744" y="112">chain and a general fix</text></g>
 <g class="box planned"><rect x="950" y="160" width="200" height="90" rx="10"/><text class="t" x="964" y="188">5 Licence (derived)</text><text class="s" x="964" y="210">Observation-to-Action rule:</text><text class="s" x="964" y="226">active only with 2 separate</text><text class="s" x="964" y="242">sightings; never set by hand</text></g>
-<g class="box planned"><rect x="730" y="300" width="200" height="90" rx="10"/><text class="t" x="744" y="328">6 Propose to Brian</text><text class="s" x="744" y="350">Prevent → company planning</text><text class="s" x="744" y="366">Detect → audit check</text><text class="s" x="744" y="382">Repair → stays in the repo</text></g>
-<g class="box built"><rect x="490" y="300" width="200" height="90" rx="10"/><text class="t" x="504" y="328">7 Enforce</text><text class="s" x="504" y="350">existing points: commit</text><text class="s" x="504" y="366">check, action gate, rules;</text><text class="s" x="504" y="382">only on Brian's yes</text></g>
+<g class="box planned"><rect x="730" y="300" width="200" height="90" rx="10"/><text class="t" x="744" y="328">6 Agents decide</text><text class="s" x="744" y="350">Prevent → company planning</text><text class="s" x="744" y="366">Detect → audit check</text><text class="s" x="744" y="382">Repair → stays in the repo</text></g>
+<g class="box built"><rect x="490" y="300" width="200" height="90" rx="10"/><text class="t" x="504" y="328">7 Enforce</text><text class="s" x="504" y="350">existing points: commit</text><text class="s" x="504" y="366">check, action gate, rules;</text><text class="s" x="504" y="382">by the agent's judgment</text></g>
 <g class="box planned"><rect x="250" y="300" width="200" height="90" rx="10"/><text class="t" x="264" y="328">8 Observe the effect</text><text class="s" x="264" y="350">count the failure before and</text><text class="s" x="264" y="366">after; if it recurs, the</text><text class="s" x="264" y="382">licence is revoked (S5)</text></g>
 <path class="arrow" d="M210 75 H246" marker-end="url(#a)"/><path class="arrow" d="M450 75 H486" marker-end="url(#a)"/><path class="arrow" d="M690 75 H726" marker-end="url(#a)"/>
 <path class="arrow" d="M930 75 H1050 V156" marker-end="url(#a)"/><path class="arrow" d="M1050 250 V345 H934" marker-end="url(#a)"/>
@@ -37,7 +37,7 @@ code{font-size:13px}</style></head><body><main>
 <tr><td>Report</td><td><b>obs:</b> ten learnings lanes left entries uncommitted [log lines]. <b>claim (inferred, high):</b> the commit rule refuses the <code>[Discovery]</code> tag [commit-rule log].</td></tr>
 <tr><td>Sort &amp; group</td><td>Jev files both as one problem; failure family "the sanctioned route is impassable".</td></tr>
 <tr><td>Licence</td><td>Once a second, separate session reports the same problem → licence <b>active</b>. (Illustration: that check is not built yet.)</td></tr>
-<tr><td>Propose &amp; enforce</td><td>Prevent action: the filing tool's fallback append (project-meta #2442).</td></tr>
+<tr><td>Decide &amp; enforce</td><td>The loop's agent adopts the Prevent action (the filing tool's fallback append, project-meta #2442); it tops your impact-and-uncertainty view and you get one notification.</td></tr>
 <tr><td>Effect</td><td>After the fix, new stranded-entry reports would be counted nightly (S5, not built yet).</td></tr></table>
 <h2>Three kinds of record (replacing lesson / friction / problem)</h2>
 <div class="rec"><div class="card"><b>Observation</b>Something seen, with links. A "problem" is one that contradicts an expectation; "friction" is one about a rule or tool.</div>
@@ -48,8 +48,9 @@ code{font-size:13px}</style></head><body><main>
 <tr><td>S1</td><td>New Feedback format for all agents; collector writes linked records to a private log</td><td>ready to specify</td></tr>
 <tr><td>S2</td><td>Measure whether Jev judges "supports / challenges / same problem" well enough (8 of 10)</td><td>needs a measurement</td></tr>
 <tr><td>S3</td><td>Weekly grouping and cause analysis of recurring problems</td><td>after S2</td></tr>
-<tr><td>S4</td><td>Licences derived by the Observation-to-Action evaluator; proposals to you</td><td>after S3</td></tr>
+<tr><td>S4</td><td>Licences derived by the Observation-to-Action evaluator; agents adopt rules; your ranked view and notifications</td><td>after S3</td></tr>
 <tr><td>S5</td><td>Count whether each enforced rule stopped its failure</td><td>after S4</td></tr>
 <tr><td>S6</td><td>Re-label the 68 existing feedback issues</td><td>deferred</td></tr></table>
-<p class="s" style="font-size:13px;color:var(--muted)">Plan: <code>proposals/aes-learning-loop/PLAN.md</code>. Built after vision milestone 4. Nothing is built until you adopt the plan.</p>
+<h2>What you see</h2><p>A page ranked by <b>impact</b> (how many sessions and repositories a problem hits, how often, what it cost) and then <b>uncertainty</b> (how thin the evidence is, whether a rule's effect is measured yet). High impact with high uncertainty is at the top. You are notified when a high-impact rule is adopted or a rule is revoked, plus a weekly one-line digest. Nothing asks you to approve.</p>
+<p class="s" style="font-size:13px;color:var(--muted)">Plan: <code>proposals/aes-learning-loop/PLAN.md</code>. Built after vision milestone 4. Adopted by the planning agent (you asked not to approve goals).</p>
 </main></body></html>

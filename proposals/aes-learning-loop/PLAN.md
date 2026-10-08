@@ -7,11 +7,11 @@ method_conformance_receipt: proposals/aes-learning-loop/method-conformance-recei
 supersedes_in_part: proposals/aes-learning-loop/DESIGN.md
 goal:
   outcome: every lesson, friction, problem, experiment and research finding an agent meets becomes a short report whose claims link to their evidence and say how they are known; the loop extracts and sorts the reports, analyses problems that recur, turns licensed claims into enforced rules or checks, and observes whether the failure stops recurring
-  canonical_example: on 2026-10-07 ten learnings lanes stranded their entries; the agents' Feedback sections yield observations linked to the failing log lines, a claim "the commit rule refuses the [Discovery] tag" (inferred, high, linked to the commit-rule log), Jev groups the reports into one problem, the claim's licence becomes active on two independent observations, a Prevent action (the lane fallback, project-meta #2442) is proposed to Brian and enforced, and the count of stranded-lane observations after the fix is zero
+  canonical_example: on 2026-10-07 ten learnings lanes stranded their entries; the agents' Feedback sections yield observations linked to the failing log lines, a claim "the commit rule refuses the [Discovery] tag" (inferred, high, linked to the commit-rule log), Jev groups the reports into one problem, the claim's licence becomes active on two independent observations, a Prevent action (the lane fallback, project-meta #2442) is adopted by the loop's agent and enforced, the change appears at the top of Brian's impact-and-uncertainty view with one notification, and stranded-lane observations after the fix are counted nightly
   forbidden_substitutes: a register of notes that no check enforces (the 1,321-lesson history); a report that explains instead of linking; a licence status set by hand; Jev writing claim text; a rule counted as working without an observed effect
   boundaries: AES canonical scripts/learning_loop, the learned skill, the Feedback closeout field, the private feedback log, docs/failure-modes.md input section, and this proposal folder; the Observation-to-Action metamodel is read and reused, not changed, except through its own decision process
   done_when: slices S1-S5 meet their success criteria below with full traces reviewed
-  do_not_gate_on: vision milestone 4; Brian reading individual reports; migration of the 68 existing issues (S6, deferred)
+  do_not_gate_on: vision milestone 4; Brian reading or approving anything (he observes and is notified); migration of the 68 existing issues (S6, deferred)
   owner: claude-code:code-8c
 ---
 
@@ -20,8 +20,9 @@ goal:
 ## Who it serves, the result, one example
 
 **Actors.** Every Claude and Codex agent working in Brian's repositories (they report), the nightly
-and weekly loop runs (they sort and analyse), and Brian (he decides on rules and judges whether the
-loop earns its cost).
+and weekly loop runs (they sort, analyse, and adopt or retire rules by their best judgment), and Brian
+(he observes a view ranked by impact and uncertainty and is notified of the items that matter; he is
+not an approver).
 
 **Result.** One private feedback log of linked, qualified reports; problems grouped across sessions;
 rules and checks that exist because the evidence licensed them; and, for each rule, an observed count
@@ -43,8 +44,9 @@ All 2026-10-07, this session unless dated otherwise:
 - "problems and leanrings is tnot the opteial canoncial favotricaiotn";
 - "i dont care wihether feedback is public or private";
 - "i approve. lets plan this out using company planning".
+- "i dont want to be in the feedback loop for goals. i want to be able to observe it sorted by like impact ucnertainty and notified buti need agents to maek their best judgment".
 - 2026-10-05 (vision thesis, approved): "a lesson or rule counts only once a check enforces it, until then it is a note", after "1,321 logged lessons, 638 self-described repeats, none turned into a binding check".
-- 2026-10-02 (this folder's DESIGN.md): rules are proposed to Brian, never changed automatically.
+- 2026-10-02 (this folder's DESIGN.md): rules were to be proposed to Brian. **Superseded** by his 2026-10-07 direction above: agents adopt and retire rules; Brian observes.
 
 ## Authority and non-goals
 
@@ -54,7 +56,7 @@ Feedback field are shared contracts, changed together for Claude and Codex (clau
 Non-goals:
 
 - changing Observation-to-Action's specification; the loop is a consumer of it;
-- automatic rule changes without Brian (unchanged from DESIGN.md);
+- rule changes with no feedback path: every adopted rule carries its effect count and retire trigger (the workspace condition for agent-made policy);
 - a dashboard;
 - rewriting existing issues or register entries (they are only annotated).
 
@@ -158,14 +160,26 @@ never support a licence.
 4. **Group and analyse** (weekly): records grouped into problems; a problem with two or more
    independent observations gets one stronger-model analysis that drafts the causal chain and a
    general fix, each line marked as a claim with links.
-5. **Licence and propose** (weekly): a claim whose licence derives `active` and whose action is
-   Prevent becomes an `aes plan prepare` proposal sent to Brian as a decision; Detect becomes a
-   proposed audit check; Repair and Mitigate stay with the repository.
-6. **Enforce** (on Brian's yes): through the existing enforcement points (DESIGN.md R4: commit check,
+5. **Licence and decide** (weekly, agents): a claim whose licence derives `active` and whose action is
+   Prevent becomes an `aes plan prepare` plan that the loop's agent adopts through the company-planning
+   gate by its best judgment; Detect becomes an audit check added the same way; Repair and Mitigate
+   stay with the repository. Each decision is recorded with its impact, uncertainty and retire trigger.
+6. **Enforce** (agents, on adoption): through the existing enforcement points (DESIGN.md R4: commit check,
    Jev gate, or instructions only).
 7. **Observe the effect** (nightly): every enforced rule names the observation pattern it should
    stop; matching observations after enforcement are counted per rule; a rule whose failure recurs
    revokes its licence and reopens the problem.
+
+### What Brian sees
+
+- **A view ranked by impact and uncertainty** (a page on the plans site, rebuilt nightly): every open
+  problem, active licence and adopted rule, sorted by impact first (how many sessions and repositories
+  hit it, how often, and what it cost: time, money, or a wrong claim reaching a person) and then by
+  uncertainty (licence `conditional` or `unestablished`, few independent observations, a rule whose
+  effect is not yet measured). High impact with high uncertainty sorts to the top.
+- **Notifications** (through `project-meta/scripts/notify_operator.py`, once per state change, plain
+  sentences): a high-impact rule adopted, a rule revoked because its failure recurred, and a weekly
+  one-line digest. Nothing asks him for a decision.
 
 ### Storage
 
@@ -186,7 +200,8 @@ comments, labels for kind, family and licence status. The public AES record keep
 | Q7 | Failure families feed the audit skill; general fixes go to company planning | explicit_user 2026-10-07 |
 | Q8 | A claim drives a rule only through a licence whose status is derived | governing_authority: metamodel R-401; vision 2026-10-05 |
 | Q9 | Every enforced rule has an observed effect count, and a recurring failure revokes it | governing_authority: vision milestone 7; DESIGN.md R5 |
-| Q10 | Rules change only on Brian's decision | governing_authority: DESIGN.md non-goals, 2026-10-02 |
+| Q10 | Agents adopt and retire rules by their best judgment; Brian is not an approver | explicit_user 2026-10-07 |
+| Q12 | Brian observes a view ranked by impact and uncertainty and is notified of high-impact changes | explicit_user 2026-10-07 |
 | Q11 | The log is private | derived_current_boundary: workspace no-private-information rule; Brian indifferent |
 
 ## Material failure modes and controls
@@ -229,7 +244,7 @@ comments, labels for kind, family and licence status. The public AES record keep
 | S1 | Feedback field format in AGENTS.md and the learned skill; `records.py`; the collector reads the field and writes records to the private log; failure-modes input repointed | fully_specifiable_now |
 | S2 | Labelled set of 30 record pairs from real reports; Jev's relation judgments measured; bar 8 of 10 acceptable; below it, the stronger model judges relations | exploration_required |
 | S3 | Weekly grouping into problems and one stronger-model analysis per recurring problem | conditional on S2 |
-| S4 | Licence derivation through the metamodel evaluator; Prevent proposals through `aes plan prepare`; Detect proposals as audit checks | conditional on S3 |
+| S4 | Licence derivation through the metamodel evaluator; agents adopt Prevent plans through `aes plan prepare` and the company-planning gate, and Detect checks into the audit skill; Brian's impact-and-uncertainty view and notifications | conditional on S3 |
 | S5 | Effect counting per enforced rule; recurrence revokes the licence | conditional on S4 |
 | S6 | Annotate the 68 existing issues and the legacy register with the new record split | deliberately_deferred |
 
@@ -243,7 +258,7 @@ Sequencing: after vision milestone 4 (Brian, 2026-10-07).
 | S2: Jev's relation judgments are good enough | the S2 labelling run; its traces under `feedback-collector/relation-check/*` | per-pair answers against the hand labels; at least 8 of 10 acceptable, or the fallback chosen |
 | S3-S4: a recurring problem yields a licensed proposal | the first weekly run that drafts a proposal; its run summary issue comment in the private log, and the stronger model's calls (trace id `feedback-loop/analyse/<problem>`) in `~/projects/data/llm_client/llm_client_llm_client_data/calls_<date>.jsonl` | the licence status derived by the evaluator from two independent observations; the proposal links back to every record it rests on |
 | S5: the loop observes effect | the nightly runs for 30 days after the first enforced rule; each run's record is a line in `~/projects/data/feedback-collector/runs.jsonl`, its model calls in the llm_client call log for that date, and the per-rule counts in `~/projects/data/feedback-collector/effects-<date>.jsonl` | the per-rule count of matching observations before and after enforcement, the observations that matched (with their links), and any licence the counts revoked |
-| Disproof | the same traces | proposals rest on single sessions or guesses; rules are proposed with no observation pattern; Brian rejects most proposals as noise; after 60 days no licensed rule has reached enforcement |
+| Disproof | the same traces | adopted rules rest on single sessions or guesses; rules are adopted with no observation pattern; most adopted rules are revoked by their own effect counts; Brian reverses agent decisions after seeing the view; after 60 days no licensed rule has reached enforcement |
 
 ## Verification
 
@@ -267,8 +282,8 @@ not from outcomes alone.
   made before either runs.
 - **Why it is cheaper than choosing now and correcting later:** the reversible choice now would be
   either judge. Choosing the stronger model now costs about $1 to $3 a week more for as long as it runs;
-  choosing Jev now and being wrong corrupts licence statuses, which reach Brian as wrong rule proposals,
-  and correcting that costs his attention and a re-derivation of every licence. The measurement costs
+  choosing Jev now and being wrong corrupts licence statuses, which lead agents to adopt wrong rules
+  that every agent then has to follow until their effect counts revoke them. The measurement costs
   under $1 and one run.
 - **Why it is cheaper than guessing:** 30 pairs cost under $0.05 with Jev and under $1 with the stronger
   model, and the labels are reused as S3's regression fixture. Guessing wrong would make every licence
@@ -332,7 +347,7 @@ run on real transcripts whose full trace has been read and whose records resolve
 | Private chat content in reports | workspace rule: nothing private becomes public | the log lives in a private repository; the public repository holds code and ids only | contained |
 | Change to every agent's Feedback field | AGENTS.md (project-meta source) and the learned skill | revert the one change; old reports remain readable | reversible, made in S1 |
 | Migration of 68 issues and the legacy register | AES learning-loop design R7 | annotations are new comments; originals untouched | deferred (S6) |
-| Rule enforcement | Brian's decision per rule (DESIGN.md) | each rule names its retire trigger | unchanged |
+| Rule enforcement | the loop's agent, by best judgment (Brian, 2026-10-07) | each rule names its effect pattern and retire trigger; a recurring failure revokes it automatically | agent-decided, observed |
 
 ## Detecting a silent parallel implementation
 
@@ -377,7 +392,7 @@ Owner of every item below: this plan's lane (`claude-code`, claim `aes-learning-
 | Independence means different sessions or days, each with a resolvable link | agent_decided_reversible | S3's first grouped problems: a hand check of 10 licences finds none resting on one session's echo |
 | The private log is GitHub issues in a private repository | agent_decided_reversible | S1: a record filed and read back from the private repository, and a scan of the public repository finding no record text |
 | Agents write the Feedback grammar consistently | assumption | S1's first nightly run: the share of Feedback lines that needed the light model; above 30% triggers a grammar revision |
-| Adoption of this plan | human_required | Brian's yes in conversation |
+| Whether agent-adopted rules do more good than harm | assumption | S5's effect counts and the share of adopted rules later revoked |
 
 ## System model
 
