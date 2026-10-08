@@ -1,22 +1,134 @@
 [
   {
+    "number": 274,
+    "title": "Lesson: Trace fresh, resumed and forked callers before claiming shared agent behavior",
+    "kind": "kind:lesson",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/274"
+  },
+  {
+    "number": 275,
+    "title": "Lesson: put extraction source identity in required schema keys instead of asking a model to copy hashes",
+    "kind": "kind:lesson",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/275"
+  },
+  {
+    "number": 276,
+    "title": "Friction: Native Claude audit probes need explicit access to harness files outside their launch repository",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/276"
+  },
+  {
+    "number": 277,
+    "title": "Friction: skill usage counts include duplicate events and usually lack a client identity",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/277"
+  },
+  {
+    "number": 278,
+    "title": "Lesson: bound inventory output by bytes and selected fields before it reaches the tool response",
+    "kind": "kind:lesson",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/278"
+  },
+  {
+    "number": 282,
     "title": "Friction: plan adoption can demand completed work from concurrent writers",
     "kind": "kind:friction",
     "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282"
   },
   {
+    "number": 283,
     "title": "Problem: skill feedback aggregator ignores Codex skill-read events",
     "kind": "kind:problem",
     "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/283"
   },
   {
+    "number": 284,
     "title": "Problem: instruction mirror check reports missing instruction roots as successful skips",
     "kind": "kind:problem",
     "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/284"
   },
   {
+    "number": 285,
     "title": "Friction: privacy review invents restricted categories beyond the publication policy",
     "kind": "kind:friction",
     "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/285"
+  },
+  {
+    "number": 287,
+    "title": "Friction: Jev approval advice lags Brian\u2019s delegated merge and deployment authority",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/287"
+  },
+  {
+    "number": 288,
+    "title": "Friction: a repo worktree bootstrap reconciles unrelated repositories without exposing that scope",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/288"
+  },
+  {
+    "number": 289,
+    "title": "Friction: writing routes name a skill that is absent from the shared catalog",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/289"
+  },
+  {
+    "number": 290,
+    "title": "Lesson: one installed consumer does not establish the current shared implementation",
+    "kind": "kind:lesson",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/290"
+  },
+  {
+    "number": 292,
+    "title": "Lesson: A native Codex role setting did not remove the inherited bootstrap in a fresh child",
+    "kind": "kind:lesson",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/292"
+  },
+  {
+    "number": 293,
+    "title": "Problem: Agent-skills baseline checks have six failures and one error before the harness canary change",
+    "kind": "kind:problem",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/293"
+  },
+  {
+    "number": 294,
+    "title": "Friction: Native Codex strict output rejects a valid portable result schema with top-level allOf",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/294"
+  },
+  {
+    "number": 296,
+    "title": "Friction: AES commit lookup misses an adopted external plan that is durable on its shaping branch",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/296"
+  },
+  {
+    "number": 297,
+    "title": "Friction: Project Meta\u2019s local commit hook rejects the required adopted-plan Goal prefix",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/297"
+  },
+  {
+    "number": 298,
+    "title": "Friction: Tiny scratch admission waits for a recursive scan of the entire shared scratch tree",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/298"
+  },
+  {
+    "number": 304,
+    "title": "Friction: Codex discovers a symlinked role but refuses it when spawning the child",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/304"
+  },
+  {
+    "number": 305,
+    "title": "Friction: A closed goal tracker blocks a new claimed repair lane in the same native session",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/305"
+  },
+  {
+    "number": 310,
+    "title": "Friction: the shared skill catalog exceeds its own metadata budget",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/310"
   }
 ]

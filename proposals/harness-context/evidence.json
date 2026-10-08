@@ -39,7 +39,7 @@
     "hash_before_after_equal": true,
     "causal_decisions_checked": "default scope, forwarding, program/write ownership, explicit schema v6, broad-scope check, explicit override, excluded wrapper limitation",
     "conclusion": "source-supported conditional cause; not executed worktree reproduction or permission-isolation proof",
-    "context_result": "Failed context isolation: inherited workspace bootstrap remains; fresh native exec probe pending"
+    "context_result": "Failed context isolation: inherited workspace bootstrap remains; fresh native exec probe completed with smaller initial context"
   },
   "native_measurements": {
     "claude_real_task_initial_input": 6259,
@@ -50,6 +50,52 @@
     "comparison_limit": "Observed native route comparison; different launch/coordinator shape; not a controlled benchmark or cost comparison",
     "source_context": "Codex child retained72,320character bootstrap; fresh native exec1439character bootstrap without Workspace Bootstrap",
     "source_task": "same frozen maintenance diagnosis packet; schema-valid outputs; three source hashes unchanged",
-    "persistent_installation": "pending agent-skills merge and native installation"
+    "persistent_installation": "Claude native child and Codex documented fresh-session entrypoint both completed from persisted installed role files. Codex native-child regular-file repair awaits exact one-PR exception."
+  },
+  "public_delivery": {
+    "route": "existing Hive plans service; no hosting changes",
+    "url": "https://hive.brianmills.dev/plans/shaping-harness-context/proposals/harness-context/review-page/index.html",
+    "native_browser_http_status": 200,
+    "python_urllib_status": 403,
+    "python_body": "error code:1010",
+    "conclusion": "Public page works in native Chromium; basic Python user-agent denied at Cloudflare edge"
+  },
+  "persisted_native_consumers": {
+    "claude_child": {
+      "native_discovery": true,
+      "first_input_tokens": 5752,
+      "read_grep_tool_calls": 7,
+      "tool_results": 7,
+      "source_citations": 10,
+      "limitations": 5,
+      "trace_sha256": "0e87a500f3151bb03658b096763c8a22550a1c205c2587452d08c7aa1320368e",
+      "parent_review": "All7tool inputs,7tool results and final result read; causal line citations checked directly against source. First tool searched supplied authority. Leaf could not hash with its toolset; external wrapper and root independently checked source hashes.",
+      "source_hashes_unchanged": true
+    },
+    "codex_standalone": {
+      "native_entrypoint": "documented fresh codex exec loading installed role TOML",
+      "first_input_tokens": 16017,
+      "cached_first_input_tokens": 0,
+      "read_only_exec_calls": 3,
+      "tool_results": 3,
+      "source_citations": 7,
+      "limitations": 4,
+      "trace_sha256": "8692621bfba3f5b186e5ee6de81bd731ece7384d6b65e5c094475812eb1bbd56",
+      "parent_review": "All3tool inputs and final result read. All7causal line citations and supplied file hashes checked directly against canonical source.",
+      "source_hashes_unchanged": true,
+      "workspace_bootstrap_inherited": false
+    },
+    "codex_child": {
+      "status": "unavailable from installed symlink",
+      "cause": "Codex0.161.0 final role read uses O_NOFOLLOW",
+      "repair_checkpoint": "agent-skills4cf8759",
+      "repair_tests_passed": 12,
+      "gate": "second PR requires explicit exception to one-PR-per-repository instruction"
+    },
+    "limits": [
+      "Different client permission surfaces and launch shapes; no claim of exact tool-isolation parity.",
+      "Successful bounded source diagnosis does not prove end-to-end worktree admission.",
+      "Token observations are initial-request measurements, not a controlled benchmark or billing comparison."
+    ]
   }
 }
