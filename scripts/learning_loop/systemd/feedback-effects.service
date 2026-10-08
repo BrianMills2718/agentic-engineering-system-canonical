@@ -1,0 +1,12 @@
+[Unit]
+Description=Observe feedback rule effects without drafting or adopting new rules
+After=feedback-collector.service feedback-problems.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/.hive-brain/aes
+Environment=FEEDBACK_OUT=%h/projects/data/feedback-collector
+Environment=PROJECT_META=%h/.hive-brain/project-meta
+ExecStart=%h/.local/bin/uv run --quiet --no-project --with-editable %h/code/llm_client python %h/.hive-brain/aes/scripts/learning_loop/problems.py --file --days 14 --effects-only
+TimeoutStartSec=2h
+Nice=10

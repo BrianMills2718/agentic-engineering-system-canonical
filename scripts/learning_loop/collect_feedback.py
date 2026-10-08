@@ -177,6 +177,7 @@ def closeout_items(t: T.Transcript, counts: collections.Counter) -> list[dict]:
 
 def base_item(t, turn, source, field_name, speaker, quote, lesson, already_recorded=False) -> dict:
     return {"id": item_id(t.session_id, source, field_name, norm(quote)), "client": t.client,
+            "cwd": turn.cwd or t.cwd,
             "transcript": t.path, "byte_offset": turn.offset, "session_id": t.session_id, "ts": turn.ts,
             "source": source, "field": field_name, "speaker": speaker, "quote": quote, "lesson": lesson,
             "already_recorded": already_recorded}
@@ -451,6 +452,8 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--reports-only", action="store_true",
                     help="testing: only the report path (skip extraction, triage, covered and legacy filing)")
+    ap.add_argument("--corrections-only", action="store_true",
+                    help="recover already-extracted human corrections without rereading transcripts or model calls")
     ap.add_argument("--file-pending", metavar="ITEMS_JSONL",
                     help="file items an earlier run left eligible_not_filed or deferred_cap (appends filing updates)")
     ap.add_argument("--no-alert", action="store_true", help="testing: do not open a concern on failure")
@@ -477,7 +480,7 @@ def main() -> int:
         log(f"step {name}: {timing[name]}s")
         return r
 
-    trs, skipped = step("read", lambda: read_changed(db, args.since_days, args.limit_files))
+    trs, skipped = step("read", lambda: ([], 0) if args.corrections_only else read_changed(db, args.since_days, args.limit_files))
     counts["transcripts_unchanged"] = skipped
     for t in trs:
         counts[f"transcripts_{t.client}"] += 1
@@ -521,6 +524,8 @@ def main() -> int:
                 try:
                     r["filing"] = FL.file_report(r)
                     n += 1
+                    if n % 10 == 0:
+                        log(f"file_reports: {n}/{len(reps)} filed")
                 except Exception as exc:
                     r["filing"] = "error"
                     errors.append(f"report {r['id']}: {clip(str(exc))}")
@@ -530,7 +535,6 @@ def main() -> int:
             for rec in r["records"]:
                 counts["records_unprovenanced"] += rec["unprovenanced"]
                 counts[f"records_{rec['kind']}"] += 1
-    step("file_reports", file_reports)
 
     def extract_one(job):
         t, text, turns = job
@@ -550,7 +554,7 @@ def main() -> int:
                     errors.extend(errs)
                     failed_files.add(path)
         return found
-    if args.reports_only:
+    if args.reports_only or args.corrections_only:
         items = []
     else:
         items += step("extract", extract_all)
@@ -574,6 +578,19 @@ def main() -> int:
             failed_files.add(it["transcript"])
     with ThreadPoolExecutor(args.workers) as ex:
         step("triage", lambda: list(ex.map(triage_one, items)))
+
+    # Existing offsets must not strand previously extracted human corrections.
+    # Backfill the bounded daily logs; the report id and filing table dedupe it.
+    backlog = []
+    cutoff = (dt.date.today() - dt.timedelta(days=14)).isoformat()
+    for path in sorted(OUT.glob("items-*.jsonl")):
+        if path.stem.removeprefix("items-") >= cutoff:
+            with path.open() as fh:
+                backlog.extend(json.loads(line) for line in fh)
+    human = [r for r in FL.correction_reports(backlog + items) if r["id"] not in filed_reports]
+    reps.extend(human)
+    counts["human_reports_new"] = len(human)
+    step("file_reports", file_reports)
 
     reg = step("load_register", Register)
     counts["register_entries"] = len(reg.ids)

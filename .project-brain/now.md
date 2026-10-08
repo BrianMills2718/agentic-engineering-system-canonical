@@ -60,15 +60,15 @@ before enforce anywhere, give scheduled-job commits a recognised tag and get
 adopted plans for each active project's real work. P1 (AES overlay in the gate's
 profile) still waits on company-planning's plan-48 work.
 
-**Feedback collector (2026-10-06):** a nightly job on Brian's PC now reads
-every changed Claude Code and Codex transcript, collects closeout Learnings,
-Concerns, Policy and Decisions fields, Brian's corrections and friction, labels
-each with Jev, writes one line per item to
-`~/projects/data/feedback-collector/items-<date>.jsonl`, and files sure
-learning/friction/correction items to the project-meta learnings register
-(at most 25 a night). Code: `scripts/learning_loop/collect_feedback.py`; design
-and wrong-when: `proposals/aes-learning-loop/DESIGN.md` ("Input: the nightly
-feedback collector"); silence check in personal-vps `hive/controls.py`.
+**Feedback loop (2026-10-08):** the nightly collector reads changed Claude and
+Codex transcripts, files Feedback reports to the private agent-feedback-log,
+and bridges extracted human corrections directly into the same reports (including
+a deduplicated 14-day backlog). The old project-meta register is opt-in only.
+Each proposed fix needs its own independent, resolved evidence. Weekly analysis
+drafts fixes; the nightly effects mode reuses analyses and requires an explicit
+enforcement receipt with time, revision and verification before counting subsequent
+incidents. See [the approved repair](../proposals/aes-learning-loop/REPAIR.md)
+and [operator commands](../scripts/learning_loop/systemd/README.md).
 
 **Stopped at (2026-10-04 16:20 UTC):** hive brain v1 has seven merged jobs;
 conditions 1 (pilot) and 3 (learning loop) are met. Rule K1 blocked real work

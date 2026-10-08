@@ -4,7 +4,7 @@ A general fix that S3's analysis proposes for a recurring problem is a claim tha
 (Prevent) or a check (Detect). Its licence is a `sci:LicenseRelation` with three conditions, and its status
 is derived by the metamodel's own `evaluate.derive_licence_status` (R-401), never set here:
 
-  sightings   at least two independent sightings (problems.sightings)      judged by code   -> derived
+  sightings   at least two resolved independent observations cited by fix judged by code   -> derived
   challenge   no confirmed `challenges` relation touches the problem        judged by code   -> derived
   cause       every cause step the fix rests on is `seen` or `inferred`     judged by the agent (decision
               (a guessed step leaves the condition unassessed)                035 default) -> asserted
@@ -20,6 +20,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+from evidence import sightings
+
 METAMODEL = Path(os.environ.get("O2A_METAMODEL", Path.home() / "code/observation-to-action-metamodel"))
 CONSEQUENCE_CLASS = "exploratory"
 
@@ -29,6 +31,8 @@ def fixture_for(problem: dict, fix: dict, challenged: bool, revoked: bool = Fals
     rests = set(fix.get("rests_on") or [])
     causes = [c for c in (problem.get("analysis") or {}).get("cause_chain", []) if rests & set(c.get("rests_on") or [])]
     cause_ok = bool(causes) and all(c["basis"] in ("seen", "inferred") for c in causes)
+    supporting = [r for r in problem.get("members", []) if r["id"] in rests]
+    support_count = len(sightings(supporting))
     label = {"satisfied": "n-sat", "unassessed": "n-unassessed", "unsatisfied": "n-unsat"}
     nodes = [{"id": i, "kind": "element", "label": l} for i, l in [
         ("n-claim", fix["text"]), ("n-subjects", problem["id"]), ("n-class", CONSEQUENCE_CLASS),
@@ -41,7 +45,7 @@ def fixture_for(problem: dict, fix: dict, challenged: bool, revoked: bool = Fals
         lic_roles["revoked"] = "n-true"
     edges = [{"id": "lic", "type": "sci:LicenseRelation", "roles": lic_roles}]
     for cid, status, establishment, basis in [
-            ("c-sightings", "satisfied" if problem["sightings"] >= 2 else "unassessed", "n-derived", "n-basis-code"),
+            ("c-sightings", "satisfied" if support_count >= 2 else "unassessed", "n-derived", "n-basis-code"),
             ("c-challenge", "unsatisfied" if challenged else "satisfied", "n-derived", "n-basis-code"),
             ("c-cause", "satisfied" if cause_ok else "unassessed", "n-asserted", "n-basis-agent")]:
         edges.append({"id": cid, "type": "sci:LicenseConditionRelation",
@@ -70,5 +74,7 @@ def licences_for(problem: dict, challenged: bool) -> list[dict]:
             continue
         fx = fixture_for(problem, fix, challenged)
         out.append({"problem": problem["id"], "intent": fix["intent"], "text": fix["text"],
+                    "supporting_sightings": len(sightings([r for r in problem.get("members", [])
+                                                          if r["id"] in fix.get("rests_on", [])])),
                     "status": derive(fx), "conditions": {e["id"]: e["roles"]["status"] for e in fx["hyperedges"][1:]}})
     return out
