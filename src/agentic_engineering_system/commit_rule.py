@@ -92,6 +92,8 @@ RUNNING_THING_NAMES = (
     "Dockerfile", "Dockerfile.*", "*.dockerfile", "compose.yaml", "compose.yml",
     "docker-compose*.yaml", "docker-compose*.yml", "*.service", "*.timer", "*.socket",
     "deploy.sh", "deploy-*.sh", "deploy_*.sh", "AGENTS.md", "CLAUDE.md", "*.AGENTS.md",
+    # pytest loads it into every test run (plan commit-rule-followups; AES #239)
+    "conftest.py",
 )
 RUNNING_THING_DIRS = (".githooks/", "hooks/", ".github/workflows/", ".claude/", ".codex/")
 FRONT_MATTER_RE = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
@@ -120,6 +122,8 @@ class RuleConfig:
     # Names a conflict surface's `repository` may use for this repository (lower case):
     # origin's owner/repo, its repo part, and the main checkout's folder name.
     repository_names: tuple[str, ...] = ()
+    # files a systemd unit tracked in this repository runs (ExecStart*), so [Trivial] may not touch them
+    running_extra: frozenset[str] = frozenset()
 
 
 @dataclass
@@ -133,6 +137,7 @@ class Verdict:
     check: str = ""  # "plan-adoption" for a plan named but not adopted; lets that check stay observe-only
     scope: list[str] = field(default_factory=list)  # the adopted plan's write surfaces in this repository
     asked: str = ""  # the commit's Asked: line, if any; recorded for review, never changes the verdict
+    notes: list[str] = field(default_factory=list)  # logged observations that never change the verdict
 
 
 def _git(root: Path, *args: str) -> str:
@@ -164,6 +169,28 @@ def repository_names(root: Path) -> tuple[str, ...]:
     return tuple(dict.fromkeys(n.lower() for n in names if n))
 
 
+def unit_scripts(root: Path) -> frozenset[str]:
+    """Tracked files that a systemd unit tracked in this repository runs: every token of an Exec*
+    line that ends with a tracked file's path (units name scripts by absolute or %h paths)."""
+    try:
+        listed = _git(root, "ls-files", "-z").split("\0")
+    except (RuntimeError, OSError):
+        return frozenset()
+    tracked = [f for f in listed if f]
+    tokens: set[str] = set()
+    for unit in (f for f in tracked if f.endswith(".service")):
+        try:
+            text = (root / unit).read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        for line in text.splitlines():
+            key, _, value = line.partition("=")
+            if key.strip().startswith("Exec"):
+                tokens.update(t.strip("'\"") for t in value.split())
+    return frozenset(f for f in tracked if not f.endswith(".service")
+                     and any(t == f or t.endswith("/" + f) for t in tokens))
+
+
 def load_rule_config(root: Path) -> RuleConfig:
     path = root / CONFIG_PATH
     if path.is_file():
@@ -171,7 +198,7 @@ def load_rule_config(root: Path) -> RuleConfig:
     else:
         path = machine_config_path()
         if not path.is_file():
-            return RuleConfig(plan_roots=(root,), repository_names=repository_names(root))
+            return RuleConfig(plan_roots=(root,), repository_names=repository_names(root), running_extra=unit_scripts(root))
         machine = _YAML.load(path.read_text(encoding="utf-8")) or {}
         override = (machine.get("repos") or {}).get(root.name) or {}
         data = {**{k: v for k, v in machine.items() if k != "repos"}, **override}
@@ -184,6 +211,7 @@ def load_rule_config(root: Path) -> RuleConfig:
     extra = tuple((root / p).resolve() if not Path(p).is_absolute() else Path(p)
                   for p in data.get("plan_roots", []))
     return RuleConfig(
+        running_extra=unit_scripts(root),
         mode=mode,
         trivial_max_files=int(data.get("trivial_max_files", 3)),
         trivial_max_lines=int(data.get("trivial_max_lines", 60)),
@@ -563,8 +591,75 @@ def adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str 
     return False, "; ".join(reasons), {}
 
 
+QUICK_FILE_RE = re.compile(r"^- `([^`]+)`\s*$", re.MULTILINE)
+
+
+def _plan_text(config: RuleConfig, plan_id: str) -> tuple[Path, str, str] | None:
+    """(repository, plan path relative to it, text) of the named plan: the plan roots and the
+    workspace checkouts first, then each repository's default branch from the plan index."""
+    roots = list(config.plan_roots)
+    if config.plan_workspace is not None:
+        roots += workspace_plan_roots(config.plan_workspace, plan_id, config.plan_roots)
+    for root in roots:
+        for plan in _plan_candidates(root, None, plan_id):
+            return root, str(plan.relative_to(root)), plan.read_text(encoding="utf-8", errors="replace")
+    if config.plan_workspace is not None:
+        try:
+            index = json.loads(plan_index_path().read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            index = {}
+        for repo, entry in index.get("repos", {}).items():
+            for rel in entry.get("plans", {}).get(plan_id, []):
+                done = subprocess.run(["git", "-C", repo, "show", f"{entry['sha']}:{rel}"],
+                                      capture_output=True, text=True, check=False)
+                if done.returncode == 0:
+                    return Path(repo), rel, done.stdout
+    return None
+
+
+def quick_plan_notes(plan_id: str, changes: list[FileChange], config: RuleConfig) -> list[str]:
+    """For a plan made by Company Planning's quick-adopt (front matter `planning_path: requested`):
+    whether the commit's changes stay inside the plan's file list (its Vertical and reset section, plus
+    the plan's own folder and AES evidence records) and whether the plan's saved check output
+    (`<plan folder>/<id>.check.txt`) is present. Notes only: they never change the verdict."""
+    found = _plan_text(config, plan_id)
+    if found is None:
+        return []
+    repo, rel, text = found
+    match = FRONT_MATTER_RE.match(text)
+    meta = (_YAML.load(match.group(1)) or {}) if match else {}
+    if meta.get("planning_path") != "requested":
+        return []
+    folder = rel.rsplit("/", 1)[0] if "/" in rel else ""
+    section = text.split("## Vertical and reset", 1)[1].split("\n## ", 1)[0] if "## Vertical and reset" in text else ""
+    listed = set(QUICK_FILE_RE.findall(section))
+    same_repo = bool(config.plan_roots) and repo.resolve() == config.plan_roots[0].resolve()
+    check_rel = f"{folder}/{plan_id}.check.txt" if folder else f"{plan_id}.check.txt"
+    staged = {c.path for c in changes if c.status != "D"}
+    outside = sorted(p for p in staged if p not in listed and not p.startswith(".aes/observations/")
+                     and not (same_repo and folder and p.startswith(folder + "/")))
+    present = (same_repo and check_rel in staged) or (repo / check_rel).is_file()
+    notes = [f"quick plan {plan_id}: saved check output {check_rel} " + ("present" if present else "missing")]
+    notes.append(f"quick plan {plan_id}: files outside the plan's list: {', '.join(outside)}" if outside
+                 else f"quick plan {plan_id}: every changed file is in the plan's list")
+    return notes
+
+
 def judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig,
           legacy: frozenset[str] = frozenset()) -> Verdict:
+    """The tag's verdict (with the legacy-edit check), plus notes for a quick-adopt plan."""
+    v = _judge_with_legacy(message, changes, governed_roots, config, legacy)
+    goal = TAG_RE.match(message.lstrip().splitlines()[0] if message.strip() else "")
+    if goal and goal["goal"] and v.verdict == "accept":
+        try:
+            v.notes = quick_plan_notes(goal["goal"], changes, config)
+        except (OSError, ValueError, RuntimeError) as err:  # a note must never break a commit
+            v.notes = [f"quick plan check skipped: {type(err).__name__}: {err}"]
+    return v
+
+
+def _judge_with_legacy(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig,
+                       legacy: frozenset[str] = frozenset()) -> Verdict:
     """The tag's verdict, then the adopted repository's legacy-edit check (`adopt`). An `Asked:` line is
     recorded on the verdict either way and never changes it: being asked does not make large work trivial."""
     asked = ASKED_RE.search(message)
@@ -594,7 +689,7 @@ def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str
     first = message.lstrip().splitlines()[0] if message.strip() else ""
     files = len(changes)
     lines = sum(c.added + c.deleted for c in changes)
-    running = sorted(c.path for c in changes if running_thing(c.path))
+    running = sorted(c.path for c in changes if running_thing(c.path) or c.path in config.running_extra)
 
     def verdict(result: str, tag: str, reason: str) -> Verdict:
         return Verdict(result, tag, [reason], files, lines, running)
@@ -690,7 +785,8 @@ def check_message(root: Path, message_file: Path) -> tuple[int, str]:
             else "would refuse (plan adoption is observe-only)" if verdict.check == "plan-adoption" and config.plan_adoption == "observe"
             else "refuse")
     asked = f"; asked: {verdict.asked}" if verdict.asked else ""
-    report = f"aes commit rule: {word} [{verdict.tag}] — {'; '.join(verdict.reasons)}{asked} (logged to {log})"
+    notes = "".join(f"; {n}" for n in verdict.notes)
+    report = f"aes commit rule: {word} [{verdict.tag}] — {'; '.join(verdict.reasons)}{asked}{notes} (logged to {log})"
     soft = verdict.check == "plan-adoption" and config.plan_adoption == "observe"
     blocked = config.mode == "enforce" and verdict.verdict == "refuse" and not soft
     return (1 if blocked else 0), report
