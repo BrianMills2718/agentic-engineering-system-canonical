@@ -15,6 +15,7 @@ through its own `.aes/` target.
 - Use it: [`docs/greenfield/GETTING_STARTED.md`](../docs/greenfield/GETTING_STARTED.md).
 - Current state: run `aes status` (or `make aes`); the live authority is `.aes/target.yaml`.
 - Harness audit and specialist routing: [plan and evidence](../proposals/harness-context/README.md), [interactive review](../proposals/harness-context/review-page/index.html).
+- Commit rule, new documents linked from the wiki (2026-10-08): [plan](../proposals/doc-reach-new-docs/PLAN.md), [goal](../proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md); rollout record: [`ROLLOUT.md`](../proposals/aes-planning/ROLLOUT.md).
 - Accepted architecture: [`docs/architecture/greenfield-v0.2/`](../docs/architecture/greenfield-v0.2/README.md).
 - What is not claimed (value beyond mechanism, single machine, two consumers, private repository) and the one criterion not currently supported (SC-GF-001, waiting on clean-user run 3): Decision 0010.
 - History: [`proposals/aes-v0.2-greenfield/`](../proposals/aes-v0.2-greenfield/README.md) (lineage, not authority), especially `24-pre-probe-decisions.md` and `25-roadmap-to-mvp-acceptance.md`.

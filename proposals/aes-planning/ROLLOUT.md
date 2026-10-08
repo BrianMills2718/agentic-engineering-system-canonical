@@ -185,3 +185,15 @@ The commit-msg check now looks first at the files staged in the commit (`git dif
 `git show :path`), for `[Plan #N]` (`docs/plans/0*N_*.md`) and `[Goal <id>]` (`plan_id` front matter
 under `proposals/*/` or `docs/plans/`). Two tests stage a plan and its adoption decision that are absent
 from disk; both were refused before the change and are accepted after it.
+
+## New documents must be linked from the wiki (from 2026-10-09 08:00)
+
+Brian, 2026-10-08: "cant we just do it for new docuemtnts while we work on getting the rest of the repos
+aligned". In repositories owned by BrianMills2718 or brianmills-spec, a commit that adds a reader document
+`wiki/index.md` does not reach within two links is refused, with the exact link line to add (or, with no
+wiki, a request to add one). Existing documents are not checked; `[Auto]` commits are logged only. The
+rules are the daily check's (`md_file_cap.py`), applied to the staged tree. `doc_reach` follows `mode`, so
+it enforces with the stage-2 switch; `doc_reach: observe` turns it back to logging. Plan, replay (157 of
+157 added files judged the same as the daily check) and check output: `proposals/doc-reach-new-docs/`.
+Expect friction: 72 of 78 commits that added documents on 2026-10-08 would have been refused; quick plans
+add unlinked plan files (company-planning #71).
