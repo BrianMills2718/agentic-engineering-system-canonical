@@ -411,3 +411,93 @@ def test_only_one_background_index_refresh_runs_at_a_time(tmp_path: Path, monkey
     for _ in range(5):
         cr._refresh_index_in_background(tmp_path)
     assert len(started) == 1, f"{len(started)} rebuilds started for one stale index"
+
+
+def _last_log(root: Path) -> dict:
+    """The rule's own record of the commit just attempted (the hook writes one JSON line per verdict)."""
+    logs = sorted((root / ".git" / "aes").glob("commit-rule-*.jsonl"))
+    return json.loads(logs[-1].read_text(encoding="utf-8").splitlines()[-1])
+
+
+def _quick_plan(root: Path, plan_id: str, files: list[str]) -> None:
+    """A plan shaped like Company Planning's quick-adopt output, with an adoption decision bound to its bytes."""
+    listing = "\n".join(f"- `{f}`" for f in files)
+    _write(root, f"proposals/{plan_id}/{plan_id}.md",
+           f"---\nplan_id: {plan_id}\nplanning_path: requested\n"
+           f"method_conformance_receipt: proposals/{plan_id}/{plan_id}.receipt.json\n---\n\n# Quick plan\n\n"
+           f"## Vertical and reset\n\nOne vertical over these files:\n\n{listing}\n\nReset: git revert.\n")
+    _write(root, f"proposals/{plan_id}/{plan_id}.receipt.json", json.dumps({"verdict": "pass"}) + "\n")
+    digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()  # noqa: E731
+    _write(root, f"proposals/{plan_id}/{plan_id}.adoption-decision.json", json.dumps({
+        "decision": "adopted", "plan_sha256": digest(root / f"proposals/{plan_id}/{plan_id}.md"),
+        "receipt_sha256": digest(root / f"proposals/{plan_id}/{plan_id}.receipt.json")}) + "\n")
+
+
+def test_quick_plan_commit_is_logged_for_its_check_output_and_file_list(repo: Path) -> None:
+    """Plan commit-rule-followups: for a quick-adopt plan, the rule logs whether the commit adds the saved
+    check output and stays inside the plan's file list. The notes never change the verdict."""
+    _quick_plan(repo, "fix-label", ["README.md"])
+    _git(repo, "add", "proposals/fix-label")
+    assert _git(repo, "commit", "-q", "-m", "[Shaping fix-label] adopt the plan").returncode == 0
+    # inside the list, with the check output: accepted, both notes clean
+    _write(repo, "README.md", "# Consumer\n\nA line with a typo fixed.\n")
+    _write(repo, "proposals/fix-label/fix-label.check.txt", "$ grep -c tpyo README.md\n0\nexit 1\n")
+    _git(repo, "add", "README.md", "proposals/fix-label/fix-label.check.txt")
+    done = _git(repo, "commit", "-q", "-m", '[Goal fix-label] fix the typo\n\nAsked: Brian 2026-10-07 "fix the typo"')
+    assert done.returncode == 0, done.stderr
+    entry = _last_log(repo)
+    assert entry["verdict"] == "accept"
+    assert entry["notes"] == ["quick plan fix-label: saved check output proposals/fix-label/fix-label.check.txt present",
+                              "quick plan fix-label: every changed file is in the plan's list"]
+    # a file outside the list: still accepted (notes only), the note names the file
+    _write(repo, "notes.md", "unrelated\n")
+    _git(repo, "add", "notes.md")
+    done = _git(repo, "commit", "-q", "-m", "[Goal fix-label] also a note")
+    assert done.returncode == 0, done.stderr
+    entry = _last_log(repo)
+    assert entry["verdict"] == "accept"
+    assert "quick plan fix-label: files outside the plan's list: notes.md" in entry["notes"]
+    assert "files outside the plan's list: notes.md" in done.stderr
+
+
+def test_quick_plan_commit_without_its_check_output_is_logged_as_missing(repo: Path) -> None:
+    _quick_plan(repo, "fix-label", ["README.md"])
+    _git(repo, "add", "proposals/fix-label")
+    assert _git(repo, "commit", "-q", "-m", "[Shaping fix-label] adopt the plan").returncode == 0
+    _write(repo, "README.md", "# Consumer\n\nA line with a typo fixed.\n")
+    _git(repo, "add", "README.md")
+    done = _git(repo, "commit", "-q", "-m", "[Goal fix-label] fix the typo")
+    assert done.returncode == 0, done.stderr
+    entry = _last_log(repo)
+    assert entry["verdict"] == "accept"
+    assert entry["notes"][0] == "quick plan fix-label: saved check output proposals/fix-label/fix-label.check.txt missing"
+
+
+def test_a_full_plan_gets_no_quick_plan_notes(repo: Path) -> None:
+    _stage_worker_tools(repo)
+    done = _git(repo, "commit", "-q", "-m", "[Goal demo] U2: worker tools")
+    assert done.returncode == 0, done.stderr
+    assert _last_log(repo)["notes"] == []
+
+
+def test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs(repo: Path) -> None:
+    """conftest.py changes every test run; a script named in a tracked unit's ExecStart runs on a schedule."""
+    _write(repo, "integration/conftest.py", "import os\n")
+    _write(repo, "scripts/job.py", "print('job')\n")
+    _write(repo, "deploy/job.service", "[Service]\nExecStart=/usr/bin/python3 %h/code/consumer/scripts/job.py\n")
+    _git(repo, "add", "integration/conftest.py", "scripts/job.py", "deploy/job.service")
+    assert _git(repo, "commit", "-q", "-m", "[Unplanned] add the job\n\nEmergency: test setup").returncode == 0
+    _write(repo, "integration/conftest.py", "import os\nimport sys\n")
+    _git(repo, "add", "integration/conftest.py")
+    done = _git(repo, "commit", "-q", "-m", "[Trivial] tidy test setup")
+    assert done.returncode == 1, done.stderr
+    entry = _last_log(repo)
+    assert entry["verdict"] == "refuse" and "touches running-thing file(s): integration/conftest.py" in entry["reasons"][0]
+    _git(repo, "reset", "-q", "HEAD", "integration/conftest.py")
+    _git(repo, "checkout", "-q", "--", "integration/conftest.py")
+    _write(repo, "scripts/job.py", "print('job, now quieter')\n")
+    _git(repo, "add", "scripts/job.py")
+    done = _git(repo, "commit", "-q", "-m", "[Trivial] quieter job")
+    assert done.returncode == 1, done.stderr
+    entry = _last_log(repo)
+    assert entry["verdict"] == "refuse" and "touches running-thing file(s): scripts/job.py" in entry["reasons"][0]
