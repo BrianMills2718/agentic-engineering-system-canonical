@@ -3,13 +3,13 @@
   "record_type": "method_adoption_decision",
   "decision": "adopted",
   "plan_ref": "proposals/aes-learning-loop/PLAN.md",
-  "plan_sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8",
+  "plan_sha256": "6af26d9909ee82827c009f4c32b9277a76f3a2bea650a1c1083a7ecb4a74bc40",
   "receipt_ref": "proposals/aes-learning-loop/method-conformance-receipt.json",
-  "receipt_sha256": "407e2c371368c6a0da74168d7b9346389aafcbb409b7b52e3605f3ef742a427e",
+  "receipt_sha256": "8657f307f0ca6e3c45056f8152ee5c96da99e465bd389b008c23fc1593d0172e",
   "receipt_result": "pass",
   "reason_codes": [],
   "summary": [
     "pass: 18 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
   ],
-  "decided_at": "2026-10-08T05:54:39Z"
+  "decided_at": "2026-10-08T06:16:02Z"
 }

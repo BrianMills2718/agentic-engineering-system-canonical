@@ -289,6 +289,25 @@ not from outcomes alone.
   model, and the labels are reused as S3's regression fixture. Guessing wrong would make every licence
   rest on bad relations, and finding that later means re-deriving every licence.
 
+### S2 result (2026-10-08)
+
+Run: 30 pairs from 115 real reports (`scripts/learning_loop/relation_check.py`), hand-labelled with
+every defensible answer before either judge ran (20 unrelated, 5 supports, 5 same problem; no true
+challenge pair occurred). Pairs, answers and scores: private log repository,
+`relation-check/2026-10-08/`. Traces: `feedback-collector/relation-check/{jev,strong}/<pair>` in the
+per-project call log for 2026-10-08, 30 calls each, no errors.
+
+| Judge | Acceptable | Related pairs right | False `challenges` on unrelated | Cost |
+| --- | --- | --- | --- | --- |
+| Jev (`typesafe/jev-1.13`) | 24 of 30 (bar 24) | 9 of 10 | 2 | $0.0006 |
+| `openai/gpt-5.6-sol`, reasoning medium | 27 of 30 | 9 of 10 | 0 | $0.03 |
+
+Decision (the rule fixed above): Jev judges relations nightly. Because a `challenges` relation blocks a
+licence and Jev's only two `challenges` answers were both wrong, a Jev `challenges` answer is confirmed
+by the stronger model before it counts. Wrong when: S3's hand check finds more than 2 of 10 licences
+resting on a wrong Jev relation, or a confirmed true challenge is missed; then the stronger model judges
+all relations. The 30 labelled pairs are S3's regression fixture; S3 adds real challenge pairs.
+
 ## Model calls
 
 Call graph, in order (each arrow waits for the step before it; nothing runs in parallel across steps):
@@ -388,7 +407,7 @@ Owner of every item below: this plan's lane (`claude-code`, claim `aes-learning-
 
 | Uncertainty | Kind | Why it is material (what changes if it is wrong) | Evidence that resolves it |
 | --- | --- | --- | --- |
-| Jev judges record relations well enough | assumption | wrong relations corrupt every licence; the relation judge switches to the stronger model | S2's labelled run: at least 8 of 10 acceptable, otherwise the fallback |
+| Jev judges record relations well enough | resolved 2026-10-08 (S2 result above) | wrong relations corrupt every licence; the relation judge switches to the stronger model | S2's labelled run: at least 8 of 10 acceptable, otherwise the fallback |
 | Independence means different sessions or days, each with a resolvable link | agent_decided_reversible | too loose and one noisy session licenses a rule every agent must follow; too strict and nothing is ever licensed | S3's first grouped problems: a hand check of 10 licences finds none resting on one session's echo |
 | The private log is GitHub issues in a private repository | agent_decided_reversible | if issues cannot carry the volume or the S3 grouping, storage moves to a database and the ranked view reads that | S1: a record filed and read back from the private repository (done 2026-10-08, agent-feedback-log #1), and a scan of the public repository finding no record text |
 | Agents write the Feedback grammar consistently | assumption | free text needs the light model on every line, its cost grows and its links depend on position rules | S1's first nightly run: the share of Feedback lines that needed the light model; above 30% triggers a grammar revision. Trial 2026-10-08 (before the grammar shipped): 100% free text, 23 of 92 records without a link |

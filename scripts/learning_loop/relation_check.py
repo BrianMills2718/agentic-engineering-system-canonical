@@ -28,7 +28,7 @@ DEFINITIONS = {
     "unrelated": "A and B are about different things",
 }
 JEV = "openrouter/typesafe/jev-1.13"
-STRONG = "openrouter/anthropic/claude-sonnet-5.5"
+STRONG = "openrouter/openai/gpt-5.6-sol"  # on the llm_client execution allowlist
 WORD = re.compile(r"[a-z][a-z0-9_]{3,}")
 
 
@@ -97,8 +97,7 @@ def judge(pairs: list[dict], which: str) -> list[dict]:
             if which == "jev":
                 r = call_decisions(JEV, state={"A": _view_text(p["a"]), "B": _view_text(p["b"])},
                                    questions={"relation": ChoiceQuestion(
-                                       "How does record B relate to record A? " + "; ".join(
-                                           f"{k} = {v}" for k, v in DEFINITIONS.items()), list(RELATIONS))},
+                                       "How does record B relate to record A?", dict(DEFINITIONS))},
                                    task="feedback-collector.relation-check", trace_id=trace, max_budget=0.01)
                 a = r.answers["relation"]
                 out.append({"pair_id": p["pair_id"], "relation": a.choice,
@@ -106,6 +105,7 @@ def judge(pairs: list[dict], which: str) -> list[dict]:
             else:
                 res, meta = call_llm_structured(
                     STRONG, [{"role": "user", "content": _prompt(p)}], response_model=Relation,
+                    reasoning_effort="medium",
                     task="feedback-collector.relation-check", trace_id=trace, max_budget=0.05,
                     model_justification="S2 comparison judge (stronger model) per PLAN.md")
                 out.append({"pair_id": p["pair_id"], "relation": res.relation, "cost": meta.cost})
