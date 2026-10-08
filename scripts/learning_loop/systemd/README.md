@@ -44,3 +44,25 @@ Before filing, the light extraction model now checks the line against lessons fi
 days (`repeats_filed`); a repeat is logged as `repeats_filed`, and if the check itself fails the item
 waits as `deferred_repeat_check` for the next run rather than being filed unchecked. On the graded set
 the prompt caught both repeats and flagged none of the 8 distinct entries (9/9).
+
+## Feedback reports and the weekly loop (plan aes-learning-loop, 2026-10-08)
+
+The nightly collector also turns each closeout **Feedback** field (and the older **Learnings**
+heading) into one `feedback-report.v1` report, files it as one issue in the private log
+`BrianMills2718/agent-feedback-log` (`--max-reports`, default 80), and writes `reports-<date>.jsonl`.
+Filing into the legacy project-meta register is off unless `--legacy-register` is passed.
+
+`feedback-problems.timer` runs `problems.py --file` on Sundays at 05:00: Jev failure families, Jev
+relations between similar records (a `challenges` answer is confirmed by the stronger model), problems
+grouped from `supports`/`same_problem` relations, recurring = two independent linked observations,
+one stronger-model analysis per recurring problem (at most 3 a run) that reads the linked issues,
+licences derived by the Observation-to-Action evaluator, active licences opened as keyed concerns in
+AES canonical for agents to adopt, high-impact ones also pushed to Brian (`attention`, no decision),
+and effects: a recurrence after a rule's concern is closed revokes its licence. Brian's view:
+`VIEW.md` in the private log, ranked by impact then uncertainty. Output: `problems-<date>.jsonl`,
+`problems-runs.jsonl`, `effects-<date>.jsonl`, `problems.sqlite` (cache).
+
+```bash
+cp scripts/learning_loop/systemd/feedback-problems.{service,timer} ~/.config/systemd/user/
+systemctl --user daemon-reload && systemctl --user enable --now feedback-problems.timer
+```

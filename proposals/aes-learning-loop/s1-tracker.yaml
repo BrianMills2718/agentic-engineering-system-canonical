@@ -1,9 +1,38 @@
 plan: proposals/aes-learning-loop/PLAN.md
 slice: S1
-goal: Agent feedback becomes linked records the loop sorts, licenses, enforces and measures
+goal: Agent feedback becomes linked records the loop sorts, licenses, enforces and
+  measures
 lanes:
-  - {repo: agentic-engineering-system-canonical, branch: goal/aes-learning-loop-s1}
-  - {repo: llm_client, branch: llm-sync-safety-ceiling}
-  - {repo: agent-skills, branch: learned-record-lines}
-  - {repo: projects-dotclaude, branch: feedback-record-lines}
-merge_order: [llm-sync-safety-ceiling, goal/aes-learning-loop-s1, learned-record-lines, feedback-record-lines]
+- repo: agentic-engineering-system-canonical
+  branch: goal/aes-learning-loop-s1
+- repo: llm_client
+  branch: llm-sync-safety-ceiling
+- repo: agent-skills
+  branch: learned-record-lines
+- repo: projects-dotclaude
+  branch: feedback-record-lines
+merge_order:
+- llm-sync-safety-ceiling
+- goal/aes-learning-loop-s1
+- learned-record-lines
+- feedback-record-lines
+tracker:
+  current_phase: closed
+  intended_next_phases:
+  - S1 nightly trace review
+  - S3 trial run
+  - S4 licences and ranked view
+  - S5 effect counting
+  depends_on_repos:
+  - llm_client
+  - agent-skills
+  - projects-dotclaude
+  - personal-file-infra
+  requires_shared_infra_changes: true
+  stop_conditions:
+  - three attempts on one reproduced blocker without new evidence
+  notes: 'closed claimed lane with disposition=superseded; reason=squash-merged to
+    main as a87b5b552c (PR #452)'
+timestamps:
+  created_at: '2026-10-08T05:40:00+00:00'
+  updated_at: '2026-10-08T07:18:03.648148+00:00'
