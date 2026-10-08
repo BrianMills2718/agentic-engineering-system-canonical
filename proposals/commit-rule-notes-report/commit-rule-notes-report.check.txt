@@ -1,0 +1,32 @@
+# Success check for plan commit-rule-notes-report, run 2026-10-08T05:31:27Z on the working tree that becomes the [Goal commit-rule-notes-report] commit (base b3f9bbd)
+$ python -m pytest tests/rollout/test_daily_report.py -v -p no:cacheprovider
+============================= test session starts ==============================
+platform linux -- Python 3.11.16, pytest-9.1.1, pluggy-1.6.0 -- /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python
+rootdir: /home/brian/code/agentic-engineering-system-canonical/worktrees/notes-report-impl
+configfile: pyproject.toml
+collecting ... collected 3 items
+
+tests/rollout/test_daily_report.py::test_clean_notes_and_other_tags_are_not_problems PASSED [ 33%]
+tests/rollout/test_daily_report.py::test_missing_check_output_and_files_outside_the_list_are_counted_per_commit PASSED [ 66%]
+tests/rollout/test_daily_report.py::test_concern_names_each_problem_commit_its_repository_plan_and_note PASSED [100%]
+
+============================== 3 passed in 0.02s ===============================
+exit status: 0
+
+$ python3 proposals/aes-planning/rollout/daily_report.py   # the real report on this machine's observe logs
+runtime moved 23c6bf52 -> b3f9bbde; aes reinstalled (exit 0)
+plan index: 185 repositories, 402 plan ids on default branches, 33.0s -> /home/brian/.cache/aes/plan-index.json
+check: 186 repositories (154 global, 29 local, 3 aes); 185 wired, 1 unwired; runtime at /home/brian/.local/bin/aes
+commented #167
+quick-plan notes 2026-10-07: 0 commit(s) with a missing check output or files outside the plan
+exit status: 1
+$ tail -1 ~/.local/state/aes/commit-rule-daily.jsonl
+{"day": "2026-10-07", "commits": 348, "counts": {"refuse: no tag": 22, "refuse: plan not adopted": 84, "accept Unplanned": 51, "accept Plan #216": 3, "accept Plan #217": 2, "accept Trivial": 50, "accept Goal aes-planning": 25, "accept Goal hive-hardening": 6, "accept Shaping trace-review": 1, "accept Goal trace-review": 5, "accept git": 6, "accept Shaping hypergraph-views": 2, "accept Goal hypergraph-views": 31, "accept Shaping aes-adopt-existing": 2, "accept Goal aes-adopt-existing": 6, "refuse: Unplanned": 16, "accept Shaping aes-brownfield-docs": 4, "accept Shaping aes-plan-scope": 3, "acce
+
+$ # is the 0 for 2026-10-07 real? count log entries carrying any notes that day, then run the same function on 2026-10-08's real logs
+2026-10-07: 348 log entries, 0 with quick-plan notes, 0 problem commit(s)
+2026-10-08: 176 log entries, 9 with quick-plan notes, 3 problem commit(s)
+  agentic-engineering-system-canonical | commit-rule-followups | [Goal commit-rule-followups] Evidence: ER-AP-001-02 re-observed at b91 | quick plan commit-rule-followups: files outside the plan's list: proposals/aes-planning/evidence/p4-canonical-example-transcript-b91592b.txt, proposals/aes-planning/evidence/p4-replay-aes-canonical-300-b91592b.txt, proposals/aes-planning/evidence/p4-replay-personal-vps-300-b91592b.txt
+  agentic-engineering-system-canonical | commit-tag-case | [Goal commit-tag-case] Evidence: ER-AP-001-02 re-observed at ca78424 ( | quick plan commit-tag-case: files outside the plan's list: proposals/aes-planning/evidence/p4-canonical-example-transcript-ca78424.txt, proposals/aes-planning/evidence/p4-replay-aes-canonical-300-ca78424.txt, proposals/aes-planning/evidence/p4-replay-personal-vps-300-ca78424.txt
+  never-absolute-brain | na-daily-auto-tag | [Goal na-daily-auto-tag] Plan adopted through Company Planning quick-a | quick plan na-daily-auto-tag: saved check output docs/plans/na-daily-auto-tag.check.txt missing
+exit status: 0
