@@ -1,0 +1,1 @@
+{"attempted_at": "2026-10-08T23:00:43Z", "decision": "adopted", "not_passed_items": [], "plan_ref": "proposals/agent-router/PLAN.md", "plan_sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085", "reason_codes": [], "receipt_result": "pass", "record_type": "method_adoption_attempt", "route": "coordinated", "route_fit": null}
