@@ -7,13 +7,13 @@
     "schema_version": "checklist-definition.v1",
     "record_type": "checklist_definition",
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:c86ce8699c84477b55c730c094e96a30b20b795b8add9ad46f85df2bf112d840",
+    "revision": "sha256:92b02a0f8e84be17e3af8375ad88c3249ea3a4bcb709ba1fa9d9ce692be98778",
     "title": "bounded-design method conformance for PLAN",
     "purpose": "Route-bound evidence that the selected Company Planning method was applied before adoption.",
     "subject_ref": {
       "kind": "planning_review",
       "id": "PLAN",
-      "revision": "sha256:5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13"
+      "revision": "sha256:2227b94dadc42ead00d993e3dbb6a754efd95e001cc9a8cde57305245d4120ae"
     },
     "items": [
       {
@@ -187,8 +187,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ACTOR-RESULT-EXAMPLE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:c86ce8699c84477b55c730c094e96a30b20b795b8add9ad46f85df2bf112d840",
-      "definition_sha256": "e7420387b19b0a90c4bb551a0d0eaa860c85ff9933fd36010e1df875f9f4f817",
+      "checklist_revision": "sha256:92b02a0f8e84be17e3af8375ad88c3249ea3a4bcb709ba1fa9d9ce692be98778",
+      "definition_sha256": "76b203d234799d5e9fd0799a688bd14a5b636970f8af0bd53d8490ed43c7bac0",
       "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
       "evidence_types": [
         "plan_section"
@@ -201,9 +201,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#outcome-and-boundaries",
         "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T15:33:14Z",
+        "observed_at": "2026-10-08T15:44:16Z",
         "producer": "claude-code",
-        "source_revision": "sha256:5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13",
+        "source_revision": "sha256:2227b94dadc42ead00d993e3dbb6a754efd95e001cc9a8cde57305245d4120ae",
         "limitations": []
       },
       "annotation": null
@@ -213,8 +213,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ROUTE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:c86ce8699c84477b55c730c094e96a30b20b795b8add9ad46f85df2bf112d840",
-      "definition_sha256": "e7420387b19b0a90c4bb551a0d0eaa860c85ff9933fd36010e1df875f9f4f817",
+      "checklist_revision": "sha256:92b02a0f8e84be17e3af8375ad88c3249ea3a4bcb709ba1fa9d9ce692be98778",
+      "definition_sha256": "76b203d234799d5e9fd0799a688bd14a5b636970f8af0bd53d8490ed43c7bac0",
       "item_id": "CORE-ROUTE",
       "evidence_types": [
         "path_decision_record"
@@ -227,9 +227,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-brownfield-docs/PLANNING_PATH.json",
         "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T15:33:15Z",
+        "observed_at": "2026-10-08T15:44:16Z",
         "producer": "claude-code",
-        "source_revision": "sha256:5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13",
+        "source_revision": "sha256:2227b94dadc42ead00d993e3dbb6a754efd95e001cc9a8cde57305245d4120ae",
         "limitations": []
       },
       "annotation": null
@@ -239,8 +239,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-SUCCESS-DISPROOF",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:c86ce8699c84477b55c730c094e96a30b20b795b8add9ad46f85df2bf112d840",
-      "definition_sha256": "e7420387b19b0a90c4bb551a0d0eaa860c85ff9933fd36010e1df875f9f4f817",
+      "checklist_revision": "sha256:92b02a0f8e84be17e3af8375ad88c3249ea3a4bcb709ba1fa9d9ce692be98778",
+      "definition_sha256": "76b203d234799d5e9fd0799a688bd14a5b636970f8af0bd53d8490ed43c7bac0",
       "item_id": "CORE-SUCCESS-DISPROOF",
       "evidence_types": [
         "plan_section"
@@ -253,9 +253,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#outcome-and-boundaries",
         "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T15:33:15Z",
+        "observed_at": "2026-10-08T15:44:17Z",
         "producer": "claude-code",
-        "source_revision": "sha256:5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13",
+        "source_revision": "sha256:2227b94dadc42ead00d993e3dbb6a754efd95e001cc9a8cde57305245d4120ae",
         "limitations": []
       },
       "annotation": null
@@ -265,8 +265,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-AUTHORITY-NONGOALS",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:c86ce8699c84477b55c730c094e96a30b20b795b8add9ad46f85df2bf112d840",
-      "definition_sha256": "e7420387b19b0a90c4bb551a0d0eaa860c85ff9933fd36010e1df875f9f4f817",
+      "checklist_revision": "sha256:92b02a0f8e84be17e3af8375ad88c3249ea3a4bcb709ba1fa9d9ce692be98778",
+      "definition_sha256": "76b203d234799d5e9fd0799a688bd14a5b636970f8af0bd53d8490ed43c7bac0",
       "item_id": "CORE-AUTHORITY-NONGOALS",
       "evidence_types": [
         "plan_section"
@@ -279,9 +279,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#outcome-and-boundaries",
         "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T15:33:15Z",
+        "observed_at": "2026-10-08T15:44:17Z",
         "producer": "claude-code",
-        "source_revision": "sha256:5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13",
+        "source_revision": "sha256:2227b94dadc42ead00d993e3dbb6a754efd95e001cc9a8cde57305245d4120ae",
         "limitations": []
       },
       "annotation": null
@@ -291,8 +291,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-IRREVERSIBLE-SPEND",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:c86ce8699c84477b55c730c094e96a30b20b795b8add9ad46f85df2bf112d840",
-      "definition_sha256": "e7420387b19b0a90c4bb551a0d0eaa860c85ff9933fd36010e1df875f9f4f817",
+      "checklist_revision": "sha256:92b02a0f8e84be17e3af8375ad88c3249ea3a4bcb709ba1fa9d9ce692be98778",
+      "definition_sha256": "76b203d234799d5e9fd0799a688bd14a5b636970f8af0bd53d8490ed43c7bac0",
       "item_id": "CORE-IRREVERSIBLE-SPEND",
       "evidence_types": [
         "plan_section"
@@ -305,9 +305,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#irreversible-actions-and-spend",
         "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T15:33:15Z",
+        "observed_at": "2026-10-08T15:44:17Z",
         "producer": "claude-code",
-        "source_revision": "sha256:5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13",
+        "source_revision": "sha256:2227b94dadc42ead00d993e3dbb6a754efd95e001cc9a8cde57305245d4120ae",
         "limitations": []
       },
       "annotation": null
@@ -317,8 +317,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-UNCERTAINTIES",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:c86ce8699c84477b55c730c094e96a30b20b795b8add9ad46f85df2bf112d840",
-      "definition_sha256": "e7420387b19b0a90c4bb551a0d0eaa860c85ff9933fd36010e1df875f9f4f817",
+      "checklist_revision": "sha256:92b02a0f8e84be17e3af8375ad88c3249ea3a4bcb709ba1fa9d9ce692be98778",
+      "definition_sha256": "76b203d234799d5e9fd0799a688bd14a5b636970f8af0bd53d8490ed43c7bac0",
       "item_id": "CORE-UNCERTAINTIES",
       "evidence_types": [
         "plan_section"
@@ -331,9 +331,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#decisions-and-assumptions",
         "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T15:33:15Z",
+        "observed_at": "2026-10-08T15:44:17Z",
         "producer": "claude-code",
-        "source_revision": "sha256:5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13",
+        "source_revision": "sha256:2227b94dadc42ead00d993e3dbb6a754efd95e001cc9a8cde57305245d4120ae",
         "limitations": []
       },
       "annotation": null
@@ -343,8 +343,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ACTIVATION-FACTS",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:c86ce8699c84477b55c730c094e96a30b20b795b8add9ad46f85df2bf112d840",
-      "definition_sha256": "e7420387b19b0a90c4bb551a0d0eaa860c85ff9933fd36010e1df875f9f4f817",
+      "checklist_revision": "sha256:92b02a0f8e84be17e3af8375ad88c3249ea3a4bcb709ba1fa9d9ce692be98778",
+      "definition_sha256": "76b203d234799d5e9fd0799a688bd14a5b636970f8af0bd53d8490ed43c7bac0",
       "item_id": "CORE-ACTIVATION-FACTS",
       "evidence_types": [
         "plan_document",
@@ -358,9 +358,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#activation-facts",
         "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T15:33:16Z",
+        "observed_at": "2026-10-08T15:44:17Z",
         "producer": "claude-code",
-        "source_revision": "sha256:5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13",
+        "source_revision": "sha256:2227b94dadc42ead00d993e3dbb6a754efd95e001cc9a8cde57305245d4120ae",
         "limitations": []
       },
       "annotation": null
@@ -370,8 +370,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-PRIOR-ART-DISPOSITION",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:c86ce8699c84477b55c730c094e96a30b20b795b8add9ad46f85df2bf112d840",
-      "definition_sha256": "e7420387b19b0a90c4bb551a0d0eaa860c85ff9933fd36010e1df875f9f4f817",
+      "checklist_revision": "sha256:92b02a0f8e84be17e3af8375ad88c3249ea3a4bcb709ba1fa9d9ce692be98778",
+      "definition_sha256": "76b203d234799d5e9fd0799a688bd14a5b636970f8af0bd53d8490ed43c7bac0",
       "item_id": "OV-PRIOR-ART-DISPOSITION",
       "evidence_types": [
         "plan_section"
@@ -384,9 +384,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#prior-art-and-parallel-implementation-check",
         "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T15:33:16Z",
+        "observed_at": "2026-10-08T15:44:18Z",
         "producer": "claude-code",
-        "source_revision": "sha256:5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13",
+        "source_revision": "sha256:2227b94dadc42ead00d993e3dbb6a754efd95e001cc9a8cde57305245d4120ae",
         "limitations": []
       },
       "annotation": null
@@ -396,8 +396,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-PRIOR-ART-PARALLEL-CHECK",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:c86ce8699c84477b55c730c094e96a30b20b795b8add9ad46f85df2bf112d840",
-      "definition_sha256": "e7420387b19b0a90c4bb551a0d0eaa860c85ff9933fd36010e1df875f9f4f817",
+      "checklist_revision": "sha256:92b02a0f8e84be17e3af8375ad88c3249ea3a4bcb709ba1fa9d9ce692be98778",
+      "definition_sha256": "76b203d234799d5e9fd0799a688bd14a5b636970f8af0bd53d8490ed43c7bac0",
       "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
       "evidence_types": [
         "plan_section"
@@ -410,9 +410,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#prior-art-and-parallel-implementation-check",
         "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T15:33:16Z",
+        "observed_at": "2026-10-08T15:44:18Z",
         "producer": "claude-code",
-        "source_revision": "sha256:5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13",
+        "source_revision": "sha256:2227b94dadc42ead00d993e3dbb6a754efd95e001cc9a8cde57305245d4120ae",
         "limitations": []
       },
       "annotation": null

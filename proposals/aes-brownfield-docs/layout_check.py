@@ -48,7 +48,7 @@ for p in tracked:
     if not p.lower().endswith(".md") or kept(p) or os.path.basename(p) in ("CLAUDE.md", "AGENTS.md", "README.md", "INDEX.md"):
         continue
     parts = p.split("/")
-    if any(p.startswith(g) for g in gen_roots):
+    if p.startswith("generated/") or any(p == g.rstrip("/") or p.startswith(g) for g in gen_roots):
         continue  # generator output is judged by the generated-outside rule, not as a record
     if "okf" in parts[:-1]:
         continue  # OKF knowledge bundles hold typed concepts about the organization, not this repository's own decisions or design
