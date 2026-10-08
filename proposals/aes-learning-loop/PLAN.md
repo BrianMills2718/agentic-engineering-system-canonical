@@ -308,7 +308,7 @@ trace ids below.
 
 | Call | Model (OpenRouter through `llm_client`) | Structured result | Traced as |
 | --- | --- | --- | --- |
-| Split a free-text Feedback line | `deepseek/deepseek-v4-flash` | `FeedbackRecord` list (Pydantic) | `feedback-collector/extract/<id>` |
+| Split a free-text Feedback field | `deepseek/deepseek-v4-flash` | `_Splits` (records: kind, text, verbatim excerpt; links read by code from the excerpt) | `feedback-collector/split/<report id>` |
 | Kind, subject, family, intent | `typesafe/jev-1.13` via `call_decisions` | `ChoiceQuestion` answers with probabilities | `feedback-collector/triage/<id>` |
 | Relation to nearest record | Jev, or the stronger model per S2 | one of four relations | `feedback-collector/relate/<id>` |
 | Problem analysis | the stronger model chosen in S3 | claims and actions as records, each with links | `feedback-loop/analyse/<problem>` |
