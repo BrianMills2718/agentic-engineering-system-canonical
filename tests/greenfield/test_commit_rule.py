@@ -651,3 +651,21 @@ def test_the_suggested_line_works_for_a_file_name_with_a_hash(repo: Path) -> Non
     _write(repo, "wiki/index.md", "# Wiki\n\n" + line + "\n")
     _git(repo, "add", "wiki/index.md")
     assert _git(repo, "commit", "-m", "[Trivial] goal document for plan 218").returncode == 0
+
+
+def test_a_skeleton_plan_named_by_id_is_found(repo: Path) -> None:
+    # Company Planning's `skeleton` writes `id:` (artifact_type: design_plan), not `plan_id:`.
+    rel = "proposals/built/PLAN.md"
+    _write(repo, rel, "---\nartifact_type: design_plan\nid: built\n"
+                      "method_conformance_receipt: proposals/built/PLAN.receipt.json\n---\n\n# Built plan\n")
+    _write(repo, "proposals/built/PLAN.receipt.json", json.dumps({"verdict": "pass"}) + "\n")
+    digest = lambda p: hashlib.sha256((repo / p).read_bytes()).hexdigest()  # noqa: E731
+    _write(repo, "proposals/built/PLAN.adoption-decision.json", json.dumps({
+        "decision": "adopted", "plan_sha256": digest(rel),
+        "receipt_sha256": digest("proposals/built/PLAN.receipt.json")}) + "\n")
+    _git(repo, "add", "proposals/built")
+    assert _git(repo, "commit", "-m", "[Shaping built] adopt the plan").returncode == 0
+    _stage_worker_tools(repo)
+    done = _git(repo, "commit", "-m", "[Goal built] worker tools")
+    assert done.returncode == 0, done.stderr
+    assert "plan built adopted" in done.stderr

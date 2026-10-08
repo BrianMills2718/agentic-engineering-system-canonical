@@ -288,6 +288,19 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _front_matter_plan_id(meta: object) -> str | None:
+    """A plan's id: `plan_id:`, or `id:` as Company Planning's `skeleton` writes it for a
+    design plan (artifact_type: design_plan); found 2026-10-08 when a skeleton-built plan's own
+    [Goal <id>] commit was reported as "no plan found"."""
+    if not isinstance(meta, dict):
+        return None
+    if meta.get("plan_id"):
+        return str(meta["plan_id"])
+    if meta.get("id") and (meta.get("artifact_type") == "design_plan" or meta.get("method_conformance_receipt")):
+        return str(meta["id"])
+    return None
+
+
 def _plan_candidates(plan_root: Path, number: str | None, plan_id: str | None) -> list[Path]:
     if number is not None:
         return [p for p in sorted((plan_root / "docs" / "plans").glob("*.md"))
@@ -295,7 +308,7 @@ def _plan_candidates(plan_root: Path, number: str | None, plan_id: str | None) -
     found = []
     for p in sorted(plan_root.glob("proposals/*/*.md")) + sorted(plan_root.glob("docs/plans/*.md")):
         match = FRONT_MATTER_RE.match(p.read_text(encoding="utf-8", errors="replace"))
-        if match and (_YAML.load(match.group(1)) or {}).get("plan_id") == plan_id:
+        if match and _front_matter_plan_id(_YAML.load(match.group(1))) == plan_id:
             found.append(p)
     return found
 
@@ -429,7 +442,7 @@ def workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] =
 
     A cheap text test picks the candidate files before any YAML is parsed; the whole
     workspace (about 1,700 plan files in ~/code) scans in well under a second."""
-    needle = re.compile(rf"^plan_id:\s*['\"]?{re.escape(plan_id)}['\"]?\s*$", re.MULTILINE)
+    needle = re.compile(rf"^(?:plan_)?id:\s*['\"]?{re.escape(plan_id)}['\"]?\s*$", re.MULTILINE)
     skipped = {s.resolve() for s in skip}
     roots = []
     for repo in sorted(workspace.iterdir()) if workspace.is_dir() else []:
@@ -466,6 +479,9 @@ def _default_ref(repo: Path) -> tuple[str, str] | None:
     return None
 
 
+PLAN_INDEX_VERSION = 2
+
+
 def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
     """Which plan ids each repository directly under `workspace` holds on its default branch (read
     through git, not its working tree, which may sit on another branch). Incremental: a repository
@@ -473,7 +489,9 @@ def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
     re-read (a full rebuild over ~/code takes about 20 s, a refresh a few)."""
     path = path or plan_index_path()
     try:
-        old = json.loads(path.read_text(encoding="utf-8")).get("repos", {})
+        cached = json.loads(path.read_text(encoding="utf-8"))
+        # entries built by an older id pattern are rebuilt, not reused (version 2 also reads `id:`)
+        old = cached.get("repos", {}) if cached.get("version") == PLAN_INDEX_VERSION else {}
     except (OSError, ValueError):
         old = {}
     repos: dict[str, dict] = {}
@@ -489,7 +507,7 @@ def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
         if old.get(key, {}).get("sha") == sha:
             repos[key] = old[key]
             continue
-        grep = subprocess.run(["git", "-C", str(repo), "grep", "-E", r"^plan_id:", sha, "--",
+        grep = subprocess.run(["git", "-C", str(repo), "grep", "-E", r"^(plan_)?id:", sha, "--",
                                "proposals/*/*.md", "docs/plans/*.md"], capture_output=True, text=True, check=False)
         if grep.returncode > 1:
             # exit 1 is "no match"; 2+ is an error. Leave the repository out so the next build retries
@@ -498,14 +516,15 @@ def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
             continue
         plans: dict[str, list[str]] = {}
         for line in grep.stdout.splitlines():
-            # "<sha>:<path>:plan_id: <id>"
+            # "<sha>:<path>:plan_id: <id>" or "<sha>:<path>:id: <id>" (skeleton-built plans); a
+            # non-plan `id:` only costs an adoption check that then fails
             parts = line.split(":", 3)
             if len(parts) == 4:
                 pid = parts[3].strip().strip("'\"")
                 if pid:
                     plans.setdefault(pid, []).append(parts[1])
         repos[key] = {"ref": ref, "sha": sha, "plans": plans}
-    index = {"built_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+    index = {"version": PLAN_INDEX_VERSION, "built_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
              "workspace": str(workspace), "repos": repos, "errors": errors}
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_name(f"{path.name}.{os.getpid()}.tmp")  # concurrent builders never share a temp file
@@ -600,7 +619,7 @@ def staged_adoption(root: Path, number: str | None, plan_id: str | None) -> tupl
             if not re.fullmatch(r"(proposals/[^/]+|docs/plans)/[^/]*\.md", rel):
                 continue
             match = FRONT_MATTER_RE.match((read(rel) or b"").decode("utf-8", errors="replace"))
-            if not (match and (_YAML.load(match.group(1)) or {}).get("plan_id") == plan_id):
+            if not (match and _front_matter_plan_id(_YAML.load(match.group(1))) == plan_id):
                 continue
         ok, why, meta = _adoption(read, rel, f"{rel} (in the commit being made)")
         return ok, why, meta
