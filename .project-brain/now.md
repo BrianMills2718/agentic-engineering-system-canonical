@@ -1,5 +1,12 @@
 # Now (2026-10-04, hive-brain session)
 
+**Harness detour (2026-10-08):** the [audit and specialist plan](../proposals/harness-context/README.md)
+inventories instruction/skill/hook/policy delivery across both clients. Its
+[interactive review](../proposals/harness-context/review-page/index.html) shows
+the findings and measured native context boundaries. Vision work remains with
+its existing session; this detour makes no vision changes. Detailed private
+source judgments are retained in Project Meta, with public references in the inventory.
+
 **AES planning (2026-10-06):** real implementation work now needs an adopted
 plan. Plans go through Company Planning's adoption gate, which writes the plan's
 `/goal` text (company-planning #49). `aes plan accept` refuses a proposal
