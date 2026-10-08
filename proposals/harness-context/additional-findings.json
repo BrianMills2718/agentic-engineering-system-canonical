@@ -1,0 +1,56 @@
+{
+  "record_type": "HarnessFindingsV1",
+  "frozen_before_repairs": false,
+  "findings": [
+    {
+      "id": "skill-feedback",
+      "title": "Codex skill reads disappear in the feedback summary",
+      "evidence": "The Codex logger emits source=hook-skill-read; aggregate_feedback.py counts only source=hook. A native audit found 549 such Codex events plus five agent records, while the aggregator reported zero hook use across 43 logs.",
+      "cost": "False missing-hook warnings and unreliable decisions about unused skills.",
+      "smallest_fix": "Recognize both event kinds, separate reads from invocations, and include both client roots.",
+      "rechecked": "verified consumer mismatch; repair remains",
+      "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/283",
+      "owner": "agent-skills feedback consumer"
+    },
+    {
+      "id": "missing-instructions",
+      "title": "Missing instruction files can appear as successful skips",
+      "evidence": "The mirror checker scanned 188 entries and produced nine issues, while 67 entries were ok:true/status:skipped for missing CLAUDE.md. Direct inventory separately found 43 active configured roots without instruction files. Non-repository collections are distinguished.",
+      "cost": "Coverage reports conceal roots needing instructions or explicit exemption.",
+      "smallest_fix": "Classify missing-both as incomplete; accept valid AGENTS-only sources and documented exemptions.",
+      "rechecked": "verified checker classification; repair remains",
+      "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/284",
+      "owner": "project-meta instruction checker"
+    },
+    {
+      "id": "prospective-gate",
+      "title": "A plan gate can ask for completed work before admitting that work",
+      "evidence": "The audit plan and maintenance repair encountered prospective ownership/admission friction. The isolated #257 repair additionally reproduced a circular gate: it requires actual after-repair traces before accepting the plan that permits the repair. Four real admission outcomes are preserved in proposals/evidence-recorder-counts; a separate incomplete-quote ownership refusal was corrected and is not attributed to policy drift.",
+      "cost": "The reproduced skip-only evidence defect remains unfixed because required plan admission demands future execution proof. Repeated clarification calls add latency and context before any implementation.",
+      "smallest_fix": "Distinguish prospective acceptance criteria from completed observations at admission; include complete existing evidence quotes; bound semantic revision loops. Keep execution proof at its actual completion gate.",
+      "rechecked": "observed native adoption outcomes; both plans now admitted",
+      "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282",
+      "owner": "company-planning method conformance"
+    },
+    {
+      "id": "feedback-identity",
+      "title": "Repeated feedback events and missing client identity distort usage counts",
+      "evidence": "Claude feedback contained 1,183 rows but 892 exact distinct events, with 291 extra copies; 1,116 lacked client identity. A timestamp alone is not an invocation identity.",
+      "cost": "Usage and parity comparisons can count the same event twice or mix clients.",
+      "smallest_fix": "Use a stable invocation/event identifier and client attribution; preserve distinct events sharing a timestamp.",
+      "rechecked": "verified structural audit; repair remains",
+      "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/277",
+      "owner": "shared feedback event contract"
+    },
+    {
+      "id": "codex-inherited-bootstrap",
+      "title": "Codex child roles still inherit the large workspace bootstrap",
+      "evidence": "A native child launched with project_doc_max_bytes=0 contained a 72,320-character bootstrap and began with 37,225 input tokens. The compact role setting did not remove the inherited user instructions.",
+      "cost": "Specialist role files alone do not deliver Codex context savings.",
+      "smallest_fix": "Use and verify a native fresh-session boundary with explicit compact safety instructions; preserve the inherited-child limitation until measured.",
+      "rechecked": "live inherited-child isolation test failed; fresh-session probe running",
+      "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/292",
+      "owner": "agent-skills native routing"
+    }
+  ]
+}

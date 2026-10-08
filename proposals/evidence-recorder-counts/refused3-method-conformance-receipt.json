@@ -1,0 +1,440 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-README-620f1652c8cf",
+  "plan": {
+    "plan_ref": "proposals/evidence-recorder-counts/README.md",
+    "plan_sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+  },
+  "path_decision": {
+    "ref": "proposals/evidence-recorder-counts/planning-path-decision.json",
+    "sha256": "2fbda59d4b42bb91cb4990621f6cdd2dd4705542ede5990d95dafd23da598cde",
+    "selected_path": "repair",
+    "classified_path": "repair",
+    "errors": []
+  },
+  "route": "repair",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@4",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "8ef56347e0d354416b7ec547ab97208e8d767a58ed7c3f82c72dcd96c1deba97"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "b2aaf9581e24108cf0bc7642bbc381cfb1868cb40491982fe6963ab5c126184e"
+  },
+  "activation": {
+    "facts_ref": "proposals/evidence-recorder-counts/method-facts.json",
+    "facts_sha256": "3d67e453cbb121d5ec1d1b7734a8fc37387433f2de2a70687a305facbe12e6c8",
+    "facts": {
+      "shared_mechanism": true,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "multiple_writers": true,
+      "consequential_boundary": false,
+      "inline_prototype": false
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": true,
+        "reason": "shared_mechanism=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": true,
+        "reason": "multiple_writers=true (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": false,
+        "reason": "inline_prototype=false (derived:classified_path==prototype)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:5a3df91d161051695b226933c85a8bb79999b2d3fd2d8c0ce38349e77a3d7b6b",
+    "definition_sha256": "bf706c8a556769bd5d92a700d389a603c27ae8d1a33efef5abe8546a73fbe797",
+    "bundle_ref": "proposals/evidence-recorder-counts/method-bundle.json",
+    "bundle_sha256": "9ee909ee367cc2c809b29ec1593c33481cf7a860fea107e16610a8510d064af9",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#actor-result-and-example",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the actor (“An agent using `aes evidence record`”), the desired result (knowing whether its tests actually ran), and a stable, concrete user-visible example: the recorded outcome for a pytest run with one skipped assertion, including `INCONCLUSIVE` and typed counts."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/planning-path-decision.json",
+          "sha256": "2fbda59d4b42bb91cb4990621f6cdd2dd4705542ede5990d95dafd23da598cde"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#verification-and-disproof",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines success evidence through pytest fixture runs and assertions of exact saved counts, exit status, and assessment, including malformed/unavailable JUnit and custom-command cases. It also gives concrete disproof conditions: all-skipped runs still supporting, count disagreement, malformed or missing results promoting support, or custom prose being counted as test evidence."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#trace-review",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names each run, identifies where its full trace lives, and specifies what must be inspected beyond the final outcome, including commands, inputs, outputs, counts, sources, statuses, and saved assessments. It also explicitly states the no-run exemption context for the implementation subject and distinguishes executed evidence from prospective checks."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#authority-and-boundaries",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies authority by stating that the coordinator delegated the repair and that the native lane owns the listed files, while also identifying other writers' boundaries. It explicitly lists non-goals, including vision work, observation migration, new test framework, hosted CI, release, deployment, deletion, and outbound communication."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#action-authority-and-containment",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/CORE-IRREVERSIBLE-SPEND",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that no irreversible implementation action or spend, including a new paid runtime, is proposed. Therefore, there is no proposed irreversible item for which boundary, authorizer, and containment details are required."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#material-uncertainty-ledger",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly lists three material uncertainties, assigns an owner to each, and specifies evidence that would resolve each one. It also explicitly states that there are no other material uncertainties at this bounded seam."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#method-activation-facts",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly describes the implementation as deterministic with no paid model calls, so llm_central=false is supported. It also explicitly states that no benchmark or alternative-comparison experiment is proposed and that there is no irreversible implementation action, release, deployment, deletion, migration, or new paid runtime; the existing governance check is described as already authorized rather than a new proposed spend."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#prior-art-dispositions-and-lineage",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/OV-PRIOR-ART-DISPOSITION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that existing ownership and internal lineage were inspected and that an external source, pytest’s official JUnit documentation, was consulted. It assigns the found implementation candidates the required dispositions—reuse, extend, compose, supersede, or bounded exception; items marked “not applicable” are explicitly identified as evidence or rejected alternatives rather than implementation candidates."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "effect": "advisory",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#prior-art-dispositions-and-lineage",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/OV-PRIOR-ART-PARALLEL-CHECK",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names a concrete structural check: a source search verifying one `record()` owner, combined with code review and exact changed-path membership checks. These checks would expose an additional parallel recorder, plugin, or runner implementing the same concern."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-COORD-OWNERSHIP",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "unresolved",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "semantic_unresolved"
+      ],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#concurrent-ownership-and-integration-handoff",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/OV-COORD-OWNERSHIP",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "unresolved",
+        "materiality": "material",
+        "missing": "The child codex:evidence-recorder-counts ownership is not exact because the six paths it supposedly owns are not included in the quoted evidence. Therefore exact ownership and work-unit evidence for that concurrent writer are incomplete.",
+        "rationale": "The evidence explicitly names the three work units, dependencies, conflict surfaces, and /root as the integration owner. However, it refers to the child’s “six precise paths listed above” without quoting those paths, so the requirement is not fully evidenced."
+      },
+      "suggested_action": "Add to the plan: The child codex:evidence-recorder-counts ownership is not exact because the six paths it supposedly owns are not included in the quoted evidence. Therefore exact ownership and work-unit evidence for that concurrent writer are incomplete."
+    }
+  ],
+  "item_counts": {
+    "pass": 10,
+    "unresolved": 1,
+    "not_applicable": 0,
+    "unavailable": 0,
+    "missing": 0
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-README-620f1652c8cf",
+    "snapshot_ref": "SNAPSHOT-README",
+    "snapshot_revision": "sha256:9ee909ee367cc2c809b29ec1593c33481cf7a860fea107e16610a8510d064af9",
+    "packet_ref": "proposals/evidence-recorder-counts/README.md",
+    "packet_revision": "sha256:620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [
+      {
+        "diagnostic_id": "DIAG-README-10",
+        "class": "semantic",
+        "severity": "warning",
+        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
+        "message": "OV-COORD-OWNERSHIP: The child codex:evidence-recorder-counts ownership is not exact because the six paths it supposedly owns are not included in the quoted evidence. Therefore exact ownership and work-unit evidence for that concurrent writer are incomplete.",
+        "source_locator": "proposals/evidence-recorder-counts/README.md",
+        "materiality": "material",
+        "suggested_action": "Add to the plan: The child codex:evidence-recorder-counts ownership is not exact because the six paths it supposedly owns are not included in the quoted evidence. Therefore exact ownership and work-unit evidence for that concurrent writer are incomplete.",
+        "disposition": "unresolved",
+        "trace_id": "company-planning/method-conformance/README/7cb3694cbcf2/OV-COORD-OWNERSHIP"
+      }
+    ],
+    "route": "repair",
+    "adoption_readiness": "contributor_disposition_needed",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "fail",
+  "reason_codes": [
+    "semantic_unresolved"
+  ],
+  "actionable_summary": [
+    "OV-COORD-OWNERSHIP: semantic_unresolved -> Add to the plan: The child codex:evidence-recorder-counts ownership is not exact because the six paths it supposedly owns are not included in the quoted evidence. Therefore exact ownership and work-unit evidence for that concurrent writer are incomplete."
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "codex",
+    "session": "codex:01a1198c-0b1e-7273-a86d-8990618cc1fb"
+  },
+  "started_at": "2026-10-08T04:28:13Z",
+  "completed_at": "2026-10-08T04:28:30Z",
+  "duration_ms": 14394
+}

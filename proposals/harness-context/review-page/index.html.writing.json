@@ -1,0 +1,76 @@
+{
+ "situation": {
+  "schema": "writing-situation/v2",
+  "medium": "web_page",
+  "route": "finding",
+  "rationale": "The findings explain repeated harness failure mechanisms; the diagram locates the proposed fixes.",
+  "facts": {
+   "asks_for_approval_or_resources": {
+    "value": false,
+    "evidence": "Canary plan already adopted; page changes no authority"
+   },
+   "central_claim_needs_argument": {
+    "value": false,
+    "evidence": "Source-backed configuration findings and prototype"
+   },
+   "is_chat_message": {
+    "value": false,
+    "evidence": "Browser page"
+   },
+   "is_dloa": {
+    "value": false,
+    "evidence": "Harness audit"
+   },
+   "is_email": {
+    "value": false,
+    "evidence": "Browser page"
+   },
+   "is_job_application": {
+    "value": false,
+    "evidence": "Harness audit"
+   },
+   "is_message_to_brian": {
+    "value": false,
+    "evidence": "Standalone browser artifact"
+   },
+   "reader_decides_from_this": {
+    "value": false,
+    "evidence": "No approval required to finish authorized canary"
+   },
+   "reader_performs_task": {
+    "value": false,
+    "evidence": "Inspect evidence and architecture"
+   },
+   "reports_transferable_failure": {
+    "value": true,
+    "evidence": "Harness failures across repositories and clients"
+   },
+   "subject_is_built_artifact": {
+    "value": true,
+    "evidence": "Native specialist canary and review projection"
+   }
+  }
+ },
+ "items": {
+  "c-symptom-mechanism": {
+   "status": "pass",
+   "quote": "Every session pays for situation-specific procedures",
+   "note": ""
+  },
+  "c-conditions-early": {
+   "status": "pass",
+   "quote": "One coordinator holds the outcome. Specialists receive the shared safety boundaries, the rules for their target, and the procedure their job activates.",
+   "note": ""
+  },
+  "c-cost": {
+   "status": "pass",
+   "quote": "~12,580tokens by bytes/4 estimate; native token cost varies.",
+   "note": ""
+  },
+  "rep-considered": {
+   "status": "pass",
+   "quote": "Give each agent the context its job needs",
+   "note": "review-recommendation.json and review-page/disposition.json record architecture/bar/detail choices."
+  }
+ }
+}

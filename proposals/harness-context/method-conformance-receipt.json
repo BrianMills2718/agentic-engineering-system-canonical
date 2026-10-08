@@ -1,0 +1,475 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-README-adb7a0d79f12",
+  "plan": {
+    "plan_ref": "proposals/harness-context/README.md",
+    "plan_sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+  },
+  "path_decision": {
+    "ref": "proposals/harness-context/planning-path-decision.json",
+    "sha256": "b9c7a5b84f7571ae9168828dfa7885d6ca25b6cffb99ea9aaec9a653915268ff",
+    "selected_path": "coordinated",
+    "classified_path": "coordinated",
+    "errors": []
+  },
+  "route": "coordinated",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@4",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "8ef56347e0d354416b7ec547ab97208e8d767a58ed7c3f82c72dcd96c1deba97"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "b2aaf9581e24108cf0bc7642bbc381cfb1868cb40491982fe6963ab5c126184e"
+  },
+  "activation": {
+    "facts_ref": "proposals/harness-context/activation-facts.json",
+    "facts_sha256": "aa343ea382d0d5b704dd17ad1ea67f875bcb67a6b2d842a9530ac22637618903",
+    "facts": {
+      "shared_mechanism": true,
+      "empirical_comparison_proposed": false,
+      "llm_central": true,
+      "irreversible_or_spend_action": true,
+      "multiple_writers": true,
+      "consequential_boundary": false,
+      "inline_prototype": false
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": true,
+        "reason": "shared_mechanism=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": true,
+        "reason": "llm_central=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": true,
+        "reason": "multiple_writers=true (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": false,
+        "reason": "inline_prototype=false (derived:classified_path==prototype)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:cf9c730ecb8c270fea9de0d23a1baaee9dc76c979dcd296d5c684facb071b290",
+    "definition_sha256": "5ab1e0bc74b1222a351b70fb44cc031ddfb65e28dd3813a1b10bbce67db32a52",
+    "bundle_ref": "proposals/harness-context/checklist-bundle.json",
+    "bundle_sha256": "e34b9c08e0e61627174b859fe8e98a5eace697f7f47b4f48d931d2bc251a6acb",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#actor-result-and-example",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the served actor (“Brian”), states the desired result (a harness that follows his rules without making every job carry every procedure), and gives stable, concrete, user-visible examples: Brian asks why `maintenance-worktree` refuses a documented command, and he sees the explanation and bounded-context receipt on the review page."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/planning-path-decision.json",
+          "sha256": "b9c7a5b84f7571ae9168828dfa7885d6ca25b6cffb99ea9aaec9a653915268ff"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#success-disproof-and-checks",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines success evidence through inventories, findings/repairs, canary traces, local gates, and browser inspection. It also gives concrete disproof conditions, including omitted global payload despite a shrink claim, missing invariants, unowned edits, source-linked disagreement, and enforced controls that cannot fail under negative control."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#success-disproof-and-checks",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the Codex session and specialist children, native transcript store, evidence.json indexes, runtime stores, and browser/session paths, and requires inspecting commands, inputs, tool calls, skips, failures, interactions, and other trace details beyond final outcomes. It also explicitly exempts pure design prose because its artifact is read directly, while stating the runnable page and canary are not exempt."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#authority-and-non-goals",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies authority: Brian requested the work and the workspace authority delegates the technical decisions. It also explicitly states non-goals and exclusions, including vision work, data deletion, WSL restart, public exposure, outbound messaging, new runtime or hosting, and restoring disabled historical hooks."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": true,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#native-calls-trace-and-promotion-boundary",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/CORE-IRREVERSIBLE-SPEND",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence itemizes both proposed spend categories, names Brian and the stated authorization bases, and specifies containment boundaries for each. It also explicitly states that no irreversible actions are proposed and identifies the limits preventing such actions."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#uncertainties-and-reversible-choices",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies the uncertainties and unresolved items, including the native-usage assumption, bootstrap inheritance and tool restrictions, read-first hooks, and audit defects. Each has an owner and specified resolving evidence, such as native usage records, client traces, hook listings, source history, or issue status."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan declares `empirical_comparison_proposed: false`, and the quoted evidence describes a single native canary and reuse of existing implementations rather than an A/B test, benchmark, bake-off, or experiment comparing alternatives for selection. The stated baseline/context measurements are verification of the selected canary, not an alternative-design comparison."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#prior-art-and-disposition",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/OV-PRIOR-ART-DISPOSITION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that internal lineage, existing ownership, and relevant external prior art were searched. Every listed candidate has an explicit disposition—reuse, extend, or compose—with reasons, and the external candidates and inspected sources are identified."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "effect": "advisory",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#prior-art-and-disposition",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/OV-PRIOR-ART-PARALLEL-CHECK",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names a concrete structural check: verify that the canary source digest in both projections resolves to `contracts/specialists/development-investigator.v1.json` and that native dispatch uses those projections. This would detect a parallel implementation or separate role source."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-LLM-CALL-BOUNDARY",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#native-calls-trace-and-promotion-boundary",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/OV-LLM-CALL-BOUNDARY",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly describes the call graph: one coordinator request to one native read-only leaf, with no delegation or router. It identifies structured results for the native call (`DevelopmentInvestigationResultV1`), semantic adoption (`SemanticJudgment`), and inventory classification (typed judgments), and explains tracing through `trace_id`, calls_<date>.jsonl/trace storage, and retained transcripts, tool calls, results, source revision, role digest, and usage."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-LLM-AUTHORITY-PROMOTION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#native-calls-trace-and-promotion-boundary",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/OV-LLM-AUTHORITY-PROMOTION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the providers/routes (native Claude/Codex subscription routes and the shared OpenRouter route) and the spend authority (Brian's explicit request plus workspace standing authority). It also states an authentic-run promotion condition: one authentic native dispatch must resolve the actual maintenance-route failure, use only permitted reads, return valid structured evidence, and leave the target status unchanged."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-COORD-OWNERSHIP",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/harness-context/README.md#route-and-ownership",
+          "sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/2989f0409890/OV-COORD-OWNERSHIP",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names each writer’s ownership, exact conflict surface, dependency, and inspected work-unit evidence in the mapping table. It also explicitly states that the coordinator owns integration and identifies the integration evidence, while describing the audit and canary writers’ scopes and dependencies."
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 13,
+    "unresolved": 0,
+    "not_applicable": 0,
+    "unavailable": 0,
+    "missing": 0
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-README-adb7a0d79f12",
+    "snapshot_ref": "SNAPSHOT-README",
+    "snapshot_revision": "sha256:e34b9c08e0e61627174b859fe8e98a5eace697f7f47b4f48d931d2bc251a6acb",
+    "packet_ref": "proposals/harness-context/README.md",
+    "packet_revision": "sha256:adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [],
+    "route": "coordinated",
+    "adoption_readiness": "ready_for_contributor",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "pass",
+  "reason_codes": [],
+  "actionable_summary": [
+    "pass: 13 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "codex",
+    "session": "01a1198b-539e-7d32-8dc4-7fe62cc903d9"
+  },
+  "started_at": "2026-10-08T03:43:25Z",
+  "completed_at": "2026-10-08T03:43:40Z",
+  "duration_ms": 14147
+}

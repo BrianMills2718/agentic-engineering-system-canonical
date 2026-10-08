@@ -1,0 +1,440 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-README-620f1652c8cf",
+  "plan": {
+    "plan_ref": "proposals/evidence-recorder-counts/README.md",
+    "plan_sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+  },
+  "path_decision": {
+    "ref": "proposals/evidence-recorder-counts/planning-path-decision.json",
+    "sha256": "2fbda59d4b42bb91cb4990621f6cdd2dd4705542ede5990d95dafd23da598cde",
+    "selected_path": "repair",
+    "classified_path": "repair",
+    "errors": []
+  },
+  "route": "repair",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@4",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "8ef56347e0d354416b7ec547ab97208e8d767a58ed7c3f82c72dcd96c1deba97"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "b2aaf9581e24108cf0bc7642bbc381cfb1868cb40491982fe6963ab5c126184e"
+  },
+  "activation": {
+    "facts_ref": "proposals/evidence-recorder-counts/method-facts.json",
+    "facts_sha256": "3d67e453cbb121d5ec1d1b7734a8fc37387433f2de2a70687a305facbe12e6c8",
+    "facts": {
+      "shared_mechanism": true,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "multiple_writers": true,
+      "consequential_boundary": false,
+      "inline_prototype": false
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": true,
+        "reason": "shared_mechanism=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": true,
+        "reason": "multiple_writers=true (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": false,
+        "reason": "inline_prototype=false (derived:classified_path==prototype)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:5a3df91d161051695b226933c85a8bb79999b2d3fd2d8c0ce38349e77a3d7b6b",
+    "definition_sha256": "bf706c8a556769bd5d92a700d389a603c27ae8d1a33efef5abe8546a73fbe797",
+    "bundle_ref": "proposals/evidence-recorder-counts/method-bundle.json",
+    "bundle_sha256": "51b3a211b3a601d7d5d7440237c72ee9d8967513882f49089ec961d6d565eeb6",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#actor-result-and-example",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the actor as “an agent using `aes evidence record`,” states the desired result as knowing whether tests actually ran, and gives a concrete user-visible example: a pytest run with one skipped test saves INCONCLUSIVE with explicit typed counts."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/planning-path-decision.json",
+          "sha256": "2fbda59d4b42bb91cb4990621f6cdd2dd4705542ede5990d95dafd23da598cde"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#verification-and-disproof",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines success evidence through pytest fixtures and exact assertions of saved counts, exit, and assessment, including malformed/unavailable JUnit and custom-command cases. It also gives concrete disproof conditions: an all-skipped run still supporting, count disagreement, promotion of malformed/missing results, or counting custom prose as test evidence."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "unresolved",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "semantic_unresolved"
+      ],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#trace-review",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "unresolved",
+        "materiality": "material",
+        "missing": "Actual full-trace examination for the six after-repair criteria: after-native-pass, after-native-fail, after-native-skip-only, after-native-mixed, after-native-unavailable, and after-custom-unknown. The evidence only specifies prospective traces and says no observation exists yet.",
+        "rationale": "The evidence explicitly names each run, trace location, and beyond-outcome evidence required, and confirms the before-repair trace was fully read. However, it also states that every after-repair row is prospective and that `verification.after.json` does not yet exist, so those criteria have not actually been judged from a full run trace."
+      },
+      "suggested_action": "Add to the plan: Actual full-trace examination for the six after-repair criteria: after-native-pass, after-native-fail, after-native-skip-only, after-native-mixed, after-native-unavailable, and after-custom-unknown. The evidence only specifies prospective traces and says no observation exists yet."
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#authority-and-boundaries",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies authority: the coordinator delegated the repair, the native lane owns specified files, and other writers retain other concerns. It also explicitly lists non-goals, including vision work, observation migration, new test frameworks, hosted CI, release, deployment, deletion, outbound communication, and CLI console formatting."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#action-authority-and-containment",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/CORE-IRREVERSIBLE-SPEND",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that no irreversible action or new paid runtime is proposed. For the referenced existing paid admission check, it names Brian/task authority, the approved light route and shared-client spend gate as boundaries, and stopping after a repeated route failure as containment."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#material-uncertainty-ledger",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly lists three material uncertainties, assigns each an owner, and identifies evidence that would resolve each one. It also states that there are no other material uncertainties at the bounded seam."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#method-activation-facts",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan declares shared_mechanism=true, matching its explicit proposal to extend the shared evidence recorder/result seam. It does not propose comparative experiments, centrally LLM-dependent behavior, or irreversible/spend actions, so the false declarations for those facts are supported by the quoted evidence."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#prior-art-dispositions-and-lineage",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/OV-PRIOR-ART-DISPOSITION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that existing ownership and internal lineage were inspected, and identifies pytest’s official JUnit documentation and native JUnit output as the relevant external source and mechanism. The candidate mechanisms are explicitly dispositioned as reuse, extend, compose, supersede, or bounded exception; the items marked “not applicable” are identified as evidence/documentation sources or rejected alternatives rather than implementation candidates."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "effect": "advisory",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md#prior-art-dispositions-and-lineage",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/OV-PRIOR-ART-PARALLEL-CHECK",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names a concrete structural check: a source search verifying there is only one `record()` owner. It also states that code review and exact changed-path membership checks preserve that boundary, which would expose a silent parallel recorder or runner."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-COORD-OWNERSHIP",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/evidence-recorder-counts/README.md",
+          "sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/OV-COORD-OWNERSHIP",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names three concurrent work units, each with an owner and precise path ownership: the child owns six listed paths, `/root` owns `proposals/harness-context`, `.project-brain/now.md`, and `wiki/index.md`, and the Claude lane owns `proposals/aes-learning-loop/PLAN.md`. It also explicitly states dependencies, identifies `.aes/target.yaml` and the accepted plan as conflict surfaces, and names `/root` as the coordinator and integration recipient for the single AES PR."
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 10,
+    "unresolved": 1,
+    "not_applicable": 0,
+    "unavailable": 0,
+    "missing": 0
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-README-620f1652c8cf",
+    "snapshot_ref": "SNAPSHOT-README",
+    "snapshot_revision": "sha256:51b3a211b3a601d7d5d7440237c72ee9d8967513882f49089ec961d6d565eeb6",
+    "packet_ref": "proposals/evidence-recorder-counts/README.md",
+    "packet_revision": "sha256:620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [
+      {
+        "diagnostic_id": "DIAG-README-3",
+        "class": "semantic",
+        "severity": "warning",
+        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
+        "message": "CORE-TRACE-REVIEW: Actual full-trace examination for the six after-repair criteria: after-native-pass, after-native-fail, after-native-skip-only, after-native-mixed, after-native-unavailable, and after-custom-unknown. The evidence only specifies prospective traces and says no observation exists yet.",
+        "source_locator": "proposals/evidence-recorder-counts/README.md",
+        "materiality": "material",
+        "suggested_action": "Add to the plan: Actual full-trace examination for the six after-repair criteria: after-native-pass, after-native-fail, after-native-skip-only, after-native-mixed, after-native-unavailable, and after-custom-unknown. The evidence only specifies prospective traces and says no observation exists yet.",
+        "disposition": "unresolved",
+        "trace_id": "company-planning/method-conformance/README/37b02d3aa7d5/CORE-TRACE-REVIEW"
+      }
+    ],
+    "route": "repair",
+    "adoption_readiness": "contributor_disposition_needed",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "fail",
+  "reason_codes": [
+    "semantic_unresolved"
+  ],
+  "actionable_summary": [
+    "CORE-TRACE-REVIEW: semantic_unresolved -> Add to the plan: Actual full-trace examination for the six after-repair criteria: after-native-pass, after-native-fail, after-native-skip-only, after-native-mixed, after-native-unavailable, and after-custom-unknown. The evidence only specifies prospective traces and says no observation exists yet."
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "codex",
+    "session": "codex:01a1198c-0b1e-7273-a86d-8990618cc1fb"
+  },
+  "started_at": "2026-10-08T04:30:30Z",
+  "completed_at": "2026-10-08T04:30:45Z",
+  "duration_ms": 11862
+}

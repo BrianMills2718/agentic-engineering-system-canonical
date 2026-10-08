@@ -1,0 +1,10 @@
+{
+  "schema": "PublicationPatternScanV1",
+  "email_pattern_matches": 6,
+  "actual_personal_email_findings": 0,
+  "false_matches": "all exact Python decorator identifiers preceded by JSON-escaped newline; validated membership in three known embedded fixture patterns",
+  "phone_pattern_matches": 0,
+  "gitleaks": "gitleaks dir proposals/evidence-recorder-counts --no-banner --redact; exit0 no leaks",
+  "approved_light_prose": "privacy-checkpoint.json safe_to_publish=true; exact publication policy correction",
+  "initial_pattern_assertion": "rejected code decorator false positives; inspected exact file and field identity before classifying"
+}

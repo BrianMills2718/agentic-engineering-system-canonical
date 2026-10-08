@@ -1,0 +1,25 @@
+{
+  "reviewer": "codex:evidence-recorder-counts",
+  "steps_read": 15,
+  "steps_total": 15,
+  "trace": "reproduction.trace.json",
+  "source_revision": "431deeb67a2a3b5af67065ecc07de0170a143d59",
+  "checked_decisions": [
+    {
+      "claim": "skipped assertion executes no substantive test",
+      "status": "confirmed",
+      "evidence": "fixture_source plus pytest stdout1skipped"
+    },
+    {
+      "claim": "runner exit0 proves assertion passed",
+      "status": "wrong",
+      "evidence": "step10 exit0 with1skipped"
+    },
+    {
+      "claim": "saved SUPPORTS is justified",
+      "status": "wrong",
+      "evidence": "saved_assessment SUPPORTS despite skipped assertion"
+    }
+  ],
+  "temporary_fixture_provenance": "Replay from durable fixture helper and embedded source; historical cwd/revision are not retained deliverables."
+}

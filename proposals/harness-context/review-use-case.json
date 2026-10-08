@@ -1,0 +1,60 @@
+{
+  "id": "harness-context",
+  "concern": "Which harness controls fail today, and how can specialists receive only the context their task needs?",
+  "stakeholder": "Brian Mills",
+  "intent": [
+    "understand",
+    "inspect",
+    "trace"
+  ],
+  "informationStructure": [
+    "network",
+    "matrix"
+  ],
+  "tasks": [
+    "trace",
+    "compare",
+    "inspect",
+    "filter"
+  ],
+  "entities": [
+    "coordinator",
+    "specialist",
+    "instruction source",
+    "native client",
+    "enforcement boundary",
+    "finding"
+  ],
+  "relationships": [
+    "routes-to",
+    "loads",
+    "enforces",
+    "derived-from"
+  ],
+  "scale": {
+    "items": 12,
+    "density": "low"
+  },
+  "interaction": {
+    "mode": "exploratory",
+    "dynamics": "interactive"
+  },
+  "audience": {
+    "expertise": "mixed",
+    "frequency": "occasional"
+  },
+  "consequence": {
+    "risk": "medium",
+    "reversibility": "reversible"
+  },
+  "constraints": {
+    "mobile": true,
+    "accessibility": "baseline",
+    "realtime": false,
+    "provenance": true,
+    "allowAggregation": true
+  },
+  "requiredCapabilities": [
+    "drill-down"
+  ]
+}
