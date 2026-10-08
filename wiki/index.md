@@ -17,6 +17,7 @@ through its own `.aes/` target.
 - [Feedback system: collection, consumers and recurrence](../proposals/aes-learning-loop/feedback-system.svg).
 - Agent router design (2026-10-08, shaping): [`proposals/agent-router/README.md`](../proposals/agent-router/README.md), a fast model choosing each job's subagent, extra rules, model and effort.
 - Rules agents follow (2026-10-08): [`docs/rules/RULES.md`](../docs/rules/RULES.md), one page with every rule, how it is enforced and its evidence, built from [the rules register](../docs/rules/register.yaml) by `scripts/rules/build_rules_page.py`; [plan](../docs/plans/rules-register.md), [goal](../docs/plans/rules-register.goal.md).
+- Capability catalogue (2026-10-08, Decision 0012): every repository's capabilities and tools in one list, built by `scripts/catalogue/` from each repository's Backstage `catalog-info.yaml` plus the tools found in its own files; [plan](../docs/plans/capability-catalogue.md), [goal](../docs/plans/capability-catalogue.goal.md).
 - Harness audit and specialist routing: [plan and evidence](../proposals/harness-context/README.md), [interactive review](../proposals/harness-context/review-page/index.html).
 - Commit rule, new documents linked from the wiki (2026-10-08): [plan](../proposals/doc-reach-new-docs/PLAN.md), [goal](../proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md); rollout record: [`ROLLOUT.md`](../proposals/aes-planning/ROLLOUT.md).
 - Accepted architecture: [`docs/architecture/greenfield-v0.2/`](../docs/architecture/greenfield-v0.2/README.md).

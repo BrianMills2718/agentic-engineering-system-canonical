@@ -1,0 +1,128 @@
+{
+  "0541c702dd1af7ade1506c0bf2f989a785a1eb29a086c89dbdaaeb4c7404c25a": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly documents searches for existing ownership, internal lineage, and relevant external prior art, then lists each identified candidate with a disposition of reuse, extend, compose, supersede, or bounded exception.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/3ce0ef22a1c7/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "pass"
+  },
+  "0f4f7744c727cbac93b1466d4a0e9ada51e64a12e3e063ce47a4761f82ff50e9": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names a concrete structural check: the collector reports every repository containing `capability_registry.*` or `reuse_candidates.*`. It explicitly identifies a new result outside ACA as a silent parallel catalogue.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/3ce0ef22a1c7/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "10e4224bb8e7b6da426e3090853be886e1a6408d4ea3b4f580546157f4095d2f": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the served actor (\u201can agent (or Brian) about to plan new work\u201d), the desired result (a published capability catalogue and page), and a stable, concrete, user-visible example: specific DIGIMON and ACA rows with named capabilities and tool information.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "1ebde4ee919926128fee0f9a55e16839ae3da2cc9ceec040b4f97a4ee6309d25": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines success through four concrete checks, including test results, collector output, browser tooltip verification, and merged PRs. It also gives concrete disproof conditions: inability to read tools without scanning the whole source tree, or inability to carry capabilities in a Backstage-conformant descriptor without a parallel format.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "5e587e2c4cf19678aee57b96e69ce4a046bb3630d39b6885236d30c6bde355ba": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies authority: Brian requested the work, owns all four repositories, and relevant decisions govern the catalogue and software projection. It also explicitly lists multiple non-goals, including no Backstage server, no repository behavior changes, and no whole-source scan.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "7587dfc71466924610cf3314e0f12abbcdda312325793c7fbbef52108ed442c2": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names a concrete structural check: the collector reports every repository containing `capability_registry.*` or `reuse_candidates.*`. It also explains what observation detects the concern\u2014a new matching file outside ACA indicates a silent parallel catalogue.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "7b5f9d8e4db95d963deb9bae8ba5605111885f91c132a6dee9852c7a4e8ddd2e": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares shared_mechanism true, matching its proposed cross-repository collector and descriptor convention. It explicitly states that no alternatives are compared, no LLM calls occur, and no irreversible action or spend is proposed; publishing is described as reversible, so all triggered facts are correctly declared.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "aa129903b11937f381aab061a90ec572b2d62ae6c1af0251b0dac4c8691bdd70": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly lists five uncertainties in a table. Each has either an owner or concrete resolving evidence, including schema references, a specific commit, repository-counting criteria, named files/goals, or a reuse path and gate.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  },
+  "cba6eb9fde0a8bcfbf0384558356c0ad7e9c3806ba89d74e948a976d5f2f6461": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence links the system model at `generated/capabilities/capability_catalogue.yaml`, names the capability record, tool record, flags, and catalogue view, and specifies what the collector, fixture/real runs, or browser check must show for each. This satisfies the required per-element examined-run evidence.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "d7abfcc989bd6cb0f7faeac52d19c580d22799904e28da3eb400c5888f6b697d": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "material",
+    "missing": "Explicit evidence that existing ownership, internal lineage, and relevant external prior art were searched; the table lists candidates and dispositions but does not substantiate that those searches occurred or that the candidate set is complete.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The table explicitly assigns an allowed disposition to each listed candidate. However, repeating the requirement and listing candidates does not demonstrate that ownership, internal lineage, and external prior art were actually searched.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "unresolved"
+  },
+  "e0f254c31874425b9eafc5b3ff831f8710dacd7cb326cfcfdd81491a1a5c8b73": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the owning/integrating session and worktree, identifies the concurrent writer and its claim and files, specifies the conflict surface (`catalog-info.yaml`), gives dependencies, and cites work-unit evidence with the exact check command and result.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/OV-COORD-OWNERSHIP",
+    "verdict": "pass"
+  },
+  "f0026463d8851aede46fbe9b88a9dd14bac77a291451428dfe8f43f5ebdb3ee4": {
+    "item_id": "CORE-IRREVERSIBLE-SPEND",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that there are no irreversible actions or spends: publishing is reversible, covered by Brian\u2019s standing deploy rule, and involves no spend. Therefore, no irreversible action or spend requires a boundary, authorization, or containment specification.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "pass"
+  },
+  "f4d6424c08380572522b7f145c9b9a9aab2289926cdc838ab3cc1e011262d155": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares shared_mechanism true, matching its proposed cross-repository collector and descriptor convention. It does not propose an A/B test or alternative-selection experiment, centrally depend on LLM calls, or perform an irreversible/spend action; those facts are explicitly declared false.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/3ce0ef22a1c7/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "facc2e051ff5c2c44a97ceda15765a50e9784b4ecd6ec016a7c0e779095c3d3f": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies each run, where its full trace is saved, and what must appear beyond the final outcome. It also explicitly exempts model, agent, and LLM pipeline runs by stating that none run under this plan.",
+    "trace_id": "company-planning/method-conformance/capability-catalogue/fa903fc1411a/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  }
+}
