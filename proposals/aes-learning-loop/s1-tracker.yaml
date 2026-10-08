@@ -1,0 +1,9 @@
+plan: proposals/aes-learning-loop/PLAN.md
+slice: S1
+goal: Agent feedback becomes linked records the loop sorts, licenses, enforces and measures
+lanes:
+  - {repo: agentic-engineering-system-canonical, branch: goal/aes-learning-loop-s1}
+  - {repo: llm_client, branch: llm-sync-safety-ceiling}
+  - {repo: agent-skills, branch: learned-record-lines}
+  - {repo: projects-dotclaude, branch: feedback-record-lines}
+merge_order: [llm-sync-safety-ceiling, goal/aes-learning-loop-s1, learned-record-lines, feedback-record-lines]

@@ -1,0 +1,218 @@
+{
+ "$defs": {
+  "Link": {
+   "properties": {
+    "kind": {
+     "enum": [
+      "url",
+      "issue",
+      "commit",
+      "path",
+      "entry"
+     ],
+     "title": "Kind",
+     "type": "string"
+    },
+    "ref": {
+     "title": "Ref",
+     "type": "string"
+    }
+   },
+   "required": [
+    "kind",
+    "ref"
+   ],
+   "title": "Link",
+   "type": "object"
+  },
+  "Provenance": {
+   "description": "Who filed it, when, and from where (the nanopublication-style pubinfo).",
+   "properties": {
+    "client": {
+     "default": "",
+     "title": "Client",
+     "type": "string"
+    },
+    "cwd": {
+     "default": "",
+     "title": "Cwd",
+     "type": "string"
+    },
+    "line": {
+     "default": "",
+     "title": "Line",
+     "type": "string"
+    },
+    "session_id": {
+     "default": "",
+     "title": "Session Id",
+     "type": "string"
+    },
+    "ts": {
+     "default": "",
+     "title": "Ts",
+     "type": "string"
+    },
+    "turn_offset": {
+     "default": 0,
+     "title": "Turn Offset",
+     "type": "integer"
+    }
+   },
+   "title": "Provenance",
+   "type": "object"
+  }
+ },
+ "properties": {
+  "basis": {
+   "anyOf": [
+    {
+     "enum": [
+      "seen",
+      "inferred",
+      "guessed"
+     ],
+     "type": "string"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null,
+   "title": "Basis"
+  },
+  "confidence": {
+   "anyOf": [
+    {
+     "enum": [
+      "low",
+      "medium",
+      "high"
+     ],
+     "type": "string"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null,
+   "title": "Confidence"
+  },
+  "contract": {
+   "default": "feedback-report.v1",
+   "title": "Contract",
+   "type": "string"
+  },
+  "evidence_word": {
+   "default": "",
+   "title": "Evidence Word",
+   "type": "string"
+  },
+  "expected": {
+   "default": "",
+   "title": "Expected",
+   "type": "string"
+  },
+  "id": {
+   "default": "",
+   "title": "Id",
+   "type": "string"
+  },
+  "intent": {
+   "anyOf": [
+    {
+     "enum": [
+      "Investigate",
+      "Mitigate",
+      "Repair",
+      "Detect",
+      "Prevent"
+     ],
+     "type": "string"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null,
+   "title": "Intent"
+  },
+  "kind": {
+   "enum": [
+    "observation",
+    "claim",
+    "action"
+   ],
+   "title": "Kind",
+   "type": "string"
+  },
+  "links": {
+   "items": {
+    "$ref": "#/$defs/Link"
+   },
+   "title": "Links",
+   "type": "array"
+  },
+  "parsed_by": {
+   "default": "markers",
+   "enum": [
+    "markers",
+    "light_model"
+   ],
+   "title": "Parsed By",
+   "type": "string"
+  },
+  "provenance": {
+   "$ref": "#/$defs/Provenance"
+  },
+  "result": {
+   "items": {
+    "$ref": "#/$defs/Link"
+   },
+   "title": "Result",
+   "type": "array"
+  },
+  "status": {
+   "default": "",
+   "enum": [
+    "proposed",
+    "done",
+    ""
+   ],
+   "title": "Status",
+   "type": "string"
+  },
+  "subject_kind": {
+   "default": "",
+   "enum": [
+    "work",
+    "control",
+    ""
+   ],
+   "title": "Subject Kind",
+   "type": "string"
+  },
+  "supports": {
+   "items": {
+    "type": "string"
+   },
+   "title": "Supports",
+   "type": "array"
+  },
+  "text": {
+   "title": "Text",
+   "type": "string"
+  },
+  "unprovenanced": {
+   "default": false,
+   "title": "Unprovenanced",
+   "type": "boolean"
+  }
+ },
+ "required": [
+  "kind",
+  "text"
+ ],
+ "title": "Record",
+ "type": "object"
+}

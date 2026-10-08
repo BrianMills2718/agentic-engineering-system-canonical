@@ -42,11 +42,19 @@ epistemic errors, one of three classes.
 
 ## Accepted inputs and maintenance contract
 
-The recurring automatic input is the immutable Project Meta learning register
-at `project-meta/learnings/entries/`. Review findings, audit findings, policy
-friction, human corrections, concern outcomes, skill feedback, and runtime
-incidents reach this taxonomy only after their reusable substance is recorded
-in that register; their native stores are evidence references, not parallel
+The recurring automatic input is the private feedback log
+(`BrianMills2718/agent-feedback-log`): one issue per agent report, its records
+(observations, claims, actions) in the `feedback-report.v1` contract of
+`scripts/learning_loop/records.py`, filed nightly by
+`scripts/learning_loop/collect_feedback.py` since 2026-10-08 (plan
+`proposals/aes-learning-loop/`, slice S1). Assigning families to those records
+and grouping recurring problems is slice S3 and is not built yet; until it is,
+nothing reads the log into this taxonomy. The immutable Project Meta learning
+register at `project-meta/learnings/entries/` was the input until 2026-10-08
+and is history: it is read for duplicates and derivation, never added to.
+Review findings, audit findings, policy friction, human corrections, concern
+outcomes, skill feedback, and runtime incidents reach this taxonomy only as
+records in the log; their native stores are evidence references, not parallel
 taxonomy queues. The frozen 315-diagnosis bundle above is derivation evidence
 and is never re-ingested as if it were new feedback.
 
