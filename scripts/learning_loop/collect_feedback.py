@@ -60,8 +60,8 @@ HOME = Path.home()
 OUT = Path(os.environ.get("FEEDBACK_OUT", HOME / "projects/data/feedback-collector"))
 PROJECT_META = Path(os.environ.get("PROJECT_META", HOME / "code/project-meta"))
 # log_learning.py runs from a copy refreshed to origin/main before each run (the timer's ExecStartPre):
-# the canonical checkout is read-only, and stale, whenever any lane claims it, so its own copy of the
-# tool can lag the fixes the collector depends on (2026-10-07: it lacked --auto-job). Entries still
+# the canonical checkout is refreshed by canonical-sync about every 17 minutes, so right after a merge it
+# can lack the fix the collector depends on (2026-10-07: minutes after --auto-job merged). Entries still
 # go to the canonical register through --store-path.
 PROJECT_META_TOOLS = Path(os.environ.get("PROJECT_META_TOOLS", HOME / ".hive-brain/project-meta"))
 EXTRACT_MODEL = "openrouter/deepseek/deepseek-v4-flash"
@@ -95,6 +95,14 @@ WINDOW_CHARS, TURN_CHARS = 14000, 1500
 
 def log(msg: str) -> None:
     print(f"[{dt.datetime.now().strftime('%H:%M:%S')}] {msg}", flush=True)
+
+
+def clip(text: str, head: int = 700, tail: int = 300) -> str:
+    """Keep the start and the end of a long error. log_learning prints the failing step first
+    ("AUTOMATIC LEARNING LANE FAILED at: <step>") and the closeout residue last; keeping only the
+    last 300 characters hid the cause of the 2026-10-07 stranded entries."""
+    text = text.strip()
+    return text if len(text) <= head + tail else f"{text[:head]} … [{len(text) - head - tail} chars] … {text[-tail:]}"
 
 
 def norm(s: str) -> str:
@@ -414,7 +422,7 @@ def file_item(it: dict) -> str:
         # (feedback-collector-register-locked); until then the item waits for a later run.
         raise RegisterLocked()
     if r.returncode != 0:
-        raise RuntimeError(f"log_learning exit {r.returncode}: {(r.stderr or r.stdout)[-300:]}")
+        raise RuntimeError(f"log_learning exit {r.returncode}: {clip(r.stderr or r.stdout)}")
     m = re.search(r"lrn-\d{8}T\d+Z-[0-9a-f]+", r.stdout + r.stderr)
     return m.group(0) if m else "recorded"
 
@@ -554,7 +562,7 @@ def main() -> int:
                     it["filing"], locked = "deferred_register_locked", True
                 except Exception as exc:
                     it["filing"] = "error"
-                    errors.append(f"file {it['id']}: {str(exc)[:300]}")
+                    errors.append(f"file {it['id']}: {clip(str(exc))}")
             counts["filing_" + ("filed" if it["filing"].startswith("lrn-") or it["filing"] == "recorded"
                                 else it["filing"].split(" ")[0])] += 1
     step("file", file_all)
@@ -633,7 +641,7 @@ def file_pending(path: Path, cap: int, min_reusable: float = 0.6) -> tuple[int, 
                 break
             except Exception as exc:
                 entry = "error"
-                errors.append(str(exc)[:300])
+                errors.append(clip(str(exc)))
             fh.write(json.dumps({"id": it["id"], "filing_update": entry}) + "\n")
             log(f"filed {it['id']} -> {entry}")
     log(f"{path.name}: pending={len(todo)} filed={filed} errors={len(errors)}")

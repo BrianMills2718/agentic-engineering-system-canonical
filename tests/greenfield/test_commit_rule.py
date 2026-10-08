@@ -359,3 +359,16 @@ def test_conflict_surface_matching_and_repository_names(tmp_path: Path) -> None:
     _git(root, "init", "-q")
     _git(root, "remote", "add", "origin", "git@github-personal:Owner/Repo.git")
     assert repository_names(root) == ("owner/repo", "repo", "checkout-folder")
+
+
+def test_asked_line_is_recorded_and_never_changes_the_verdict() -> None:
+    """Asked: says who wanted the change, in their words; size and effect still decide the tag."""
+    config = RuleConfig(plan_roots=())
+    small = [FileChange("README.md", "M", 1, 1)]
+    big = [FileChange(f"notes/{i}.md", "A", 30, 0) for i in range(5)]
+    ok = judge('[Trivial] fix typo\n\nAsked: Brian 2026-10-07 "fix the typo"', small, [], config)
+    assert ok.verdict == "accept" and ok.asked == 'Brian 2026-10-07 "fix the typo"'
+    refused = judge('[Trivial] add notes\n\nAsked: Brian 2026-10-07 "write the notes"', big, [], config)
+    assert refused.verdict == "refuse" and "not trivial" in refused.reasons[0]
+    assert refused.asked.startswith("Brian")
+    assert judge("[Trivial] fix typo", small, [], config).asked == ""

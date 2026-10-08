@@ -12,7 +12,8 @@ Each run, for one day (default: yesterday):
    accepted ``[Unplanned]`` and ``[Trivial]`` commits;
 2. finds each commit by its subject in that repository's history for the day, and sends its
    message, file list and the first part of its diff to Jev (``llm_client.call_decisions``,
-   OpenRouter) with one two-way choice;
+   OpenRouter) with one two-way choice, plus the commit's Asked: line if it has one (who requested it,
+   recorded by the commit rule; never a reason to pass);
 3. appends one line per judged commit to ``~/.local/state/aes/commit-misuse-review.jsonl``
    (choice, probabilities, cost) and prints a summary with counts;
 4. opens or updates the keyed concern ``aes-commit-tag-misuse`` listing commits judged misuse
@@ -55,14 +56,16 @@ QUESTIONS = {
     "Unplanned": ("emergency", "ordinary_work", (
         "This commit was tagged [Unplanned], which the commit rule reserves for emergencies: something "
         "broken or at risk that could not wait for a plan. Judge from the message, the files and the diff "
-        "whether it is such an emergency or ordinary work that should have gone through a plan."), {
+        "whether it is such an emergency or ordinary work that should have gone through a plan. The 'asked' "
+        "field names who requested the change, if anyone; a request alone does not make ordinary work an emergency."), {
         "emergency": "fixes or contains something broken, failing, leaking or at immediate risk, and waiting for a plan would have cost real harm",
         "ordinary_work": "a feature, refactor, test, cleanup, documentation or other change that could have waited for a plan",
     }),
     "Trivial": ("no_behavior_change", "behavior_change", (
         "This commit was tagged [Trivial], which the commit rule allows only for changes that do not alter how "
         "anything behaves. Judge from the files and the diff whether running code, configuration values, prompts, "
-        "rules, schedules or agent instructions now behave differently."), {
+        "rules, schedules or agent instructions now behave differently. The 'asked' field names who requested "
+        "it, if anyone; being asked does not make a behaviour change trivial."), {
         "no_behavior_change": "wording, typo, formatting, comments, documentation or records only; nothing runs differently",
         "behavior_change": "changes logic, a configuration value, a prompt, a rule, a threshold, a schedule, a dependency or any instruction an agent or program follows",
     }),
@@ -126,11 +129,11 @@ def main() -> int:
         if e.get("verdict") != "accept" or tag not in QUESTIONS or (repo_name, e.get("subject")) in seen:
             continue
         seen.add((repo_name, e.get("subject")))
-        picked.append((repo_name, tag, e.get("subject", "")))
+        picked.append((repo_name, tag, e.get("subject", ""), e.get("asked") or ""))
     print(f"misuse review {args.day}: {len(picked)} accepted [Unplanned]/[Trivial] commit(s) to judge")
     rows, failures, skipped, flagged, cost = [], [], [], [], 0.0
     judged_shas: set[str] = set()
-    for repo_name, tag, subject in picked:
+    for repo_name, tag, subject, asked in picked:
         repo = daily_report.WORKSPACE / repo_name
         sha = find_commit(repo, subject, args.day)
         # Not found is normal, not a failure: smoke tests whose commit was never made, and commits
@@ -144,12 +147,13 @@ def main() -> int:
             continue
         t0 = time.perf_counter()
         try:
-            verdict = judge(tag, commit_state(repo, sha), f"aes-commit-misuse/{args.day}/{repo_name}/{sha[:12]}")
+            state = {**commit_state(repo, sha), "asked": asked or "(no Asked: line: nobody is recorded as requesting this)"}
+            verdict = judge(tag, state, f"aes-commit-misuse/{args.day}/{repo_name}/{sha[:12]}")
         except Exception as exc:  # one failed call must not hide the rest; it is counted and reported
             failures.append(f"{repo_name} {sha[:8]}: {type(exc).__name__}: {str(exc)[:200]}")
             continue
         cost += verdict["cost"] or 0.0
-        row = {"day": args.day.isoformat(), "repository": repo_name, "sha": sha, "tag": tag, "subject": subject,
+        row = {"day": args.day.isoformat(), "repository": repo_name, "sha": sha, "tag": tag, "subject": subject, "asked": asked,
                **verdict, "seconds": round(time.perf_counter() - t0, 2)}
         rows.append(row)
         if row["misuse"]:
@@ -170,12 +174,12 @@ def main() -> int:
     if args.dry_run:
         return 1 if failures else 0
     if flagged:
-        table = "\n".join(f"| {r['repository']} | `{r['sha'][:8]}` | [{r['tag']}] | {r['choice']} ({r['p_misuse']}) | {r['subject'][:90]} |"
-                          for r in flagged)
+        table = "\n".join(f"| {r['repository']} | `{r['sha'][:8]}` | [{r['tag']}] | {r['choice']} ({r['p_misuse']}) | "
+                          f"{'yes' if r['asked'] else 'no'} | {r['subject'][:90]} |" for r in flagged)
         print(daily_report.concern(
             "aes-commit-tag-misuse", "Commits that passed the AES commit rule but may misuse their tag",
             f"Light-model review of {args.day} (Jev, report-only; a flag is a lead to read, not a verdict).\n\n"
-            f"| Repository | Commit | Tag | Judged | Subject |\n|---|---|---|---|---|\n{table}\n\n"
+            f"| Repository | Commit | Tag | Judged | Asked: line | Subject |\n|---|---|---|---|---|---|\n{table}\n\n"
             "For each: read the commit. If the tag was wrong, tell the agent or owner that made it (the plan "
             "route is `[Goal <id>]` under an adopted plan); if the model was wrong, note it in this issue so "
             "the question can be tuned (proposals/aes-planning/rollout/misuse_review.py). Every judged commit: "

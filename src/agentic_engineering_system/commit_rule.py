@@ -85,6 +85,9 @@ TAG_RE = re.compile(
 GIT_OWN_PREFIXES = ("Merge ", "fixup! ", "squash! ", "amend! ")
 EMERGENCY_RE = re.compile(r"^Emergency:\s*\S", re.MULTILINE)
 AUTO_JOB_RE = re.compile(r"^Auto-job:\s*(\S.*)$", re.MULTILINE)
+# Provenance, not a verdict input (Brian, 2026-10-07: "it depends on what i asked ... maybe a secondary
+# tag"): who asked for the change, in their words, e.g. Asked: Brian 2026-10-07 "make it public".
+ASKED_RE = re.compile(r"^Asked:\s*(\S.*)$", re.MULTILINE)
 RUNNING_THING_NAMES = (
     "Dockerfile", "Dockerfile.*", "*.dockerfile", "compose.yaml", "compose.yml",
     "docker-compose*.yaml", "docker-compose*.yml", "*.service", "*.timer", "*.socket",
@@ -129,6 +132,7 @@ class Verdict:
     running_things: list[str] = field(default_factory=list)
     check: str = ""  # "plan-adoption" for a plan named but not adopted; lets that check stay observe-only
     scope: list[str] = field(default_factory=list)  # the adopted plan's write surfaces in this repository
+    asked: str = ""  # the commit's Asked: line, if any; recorded for review, never changes the verdict
 
 
 def _git(root: Path, *args: str) -> str:
@@ -541,8 +545,11 @@ def adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str 
 
 def judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig,
           legacy: frozenset[str] = frozenset()) -> Verdict:
-    """The tag's verdict, then the adopted repository's legacy-edit check (`adopt`)."""
+    """The tag's verdict, then the adopted repository's legacy-edit check (`adopt`). An `Asked:` line is
+    recorded on the verdict either way and never changes it: being asked does not make large work trivial."""
+    asked = ASKED_RE.search(message)
     v = _judge_tag(message, changes, governed_roots, config)
+    v.asked = asked.group(1).strip()[:300] if asked else ""
     edited = sorted(c.path for c in changes if c.status in ("M", "T") and c.path in legacy)
     if not edited or v.tag == "git" or (v.tag == "Unplanned" and v.verdict == "accept"):
         return v
@@ -560,7 +567,7 @@ def judge(message: str, changes: list[FileChange], governed_roots: list[str], co
         reason += (f", or declare it in {v.tag}'s front matter conflict_surfaces (kind: repository_path, "
                    f"repository, target, access: write) and re-adopt the plan")
     return Verdict("refuse", v.tag, (v.reasons if v.verdict == "refuse" else []) + [reason],
-                   v.files, v.lines, v.running_things, check="legacy-edit", scope=v.scope)
+                   v.files, v.lines, v.running_things, check="legacy-edit", scope=v.scope, asked=v.asked)
 
 
 def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig) -> Verdict:
@@ -662,7 +669,8 @@ def check_message(root: Path, message_file: Path) -> tuple[int, str]:
             else "would refuse (observe mode)" if config.mode != "enforce"
             else "would refuse (plan adoption is observe-only)" if verdict.check == "plan-adoption" and config.plan_adoption == "observe"
             else "refuse")
-    report = f"aes commit rule: {word} [{verdict.tag}] — {'; '.join(verdict.reasons)} (logged to {log})"
+    asked = f"; asked: {verdict.asked}" if verdict.asked else ""
+    report = f"aes commit rule: {word} [{verdict.tag}] — {'; '.join(verdict.reasons)}{asked} (logged to {log})"
     soft = verdict.check == "plan-adoption" and config.plan_adoption == "observe"
     blocked = config.mode == "enforce" and verdict.verdict == "refuse" and not soft
     return (1 if blocked else 0), report
