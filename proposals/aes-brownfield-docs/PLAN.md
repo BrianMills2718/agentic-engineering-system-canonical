@@ -68,7 +68,7 @@ reader finds doc <- wiki/index.md links <- declared roots (.agentic/repo.yaml) <
 |---|---|---|---|---|
 | M1 Pilot on graph-retrieval | done 2026-10-07 (graph-retrieval #246, #248) | merged PR; reach classification with zero orphans; cold-reader transcript | active slice below | promote to M2 when success evidence holds; replan if disproof fires |
 | M2 Record the retrofit in AES canonical | done 2026-10-07 ([RETROFIT_NOTE.md](RETROFIT_NOTE.md)) | a retrofit note in this proposal folder: what the layout required of an existing repo, what tooling changed | M1 evidence | M1 merged |
-| M3 Replace the count rule | human_decision_required | project-meta daily check reports orphans and layout per repo; AGENTS.md rule reworded from "100 files" to reachability with 100 as a tripwire | M1 + M2 | Brian's go-ahead on the rule wording (human decision) |
+| M3 Replace the count rule | done 2026-10-07: Brian chose both rules ("probably both"); workspace AGENTS.md (projects-dotclaude #102) and the daily check (project-meta #2444) | project-meta daily check reports orphans and layout per repo; AGENTS.md rule reworded from "100 files" to reachability with 100 as a tripwire | M1 + M2 | Brian's go-ahead on the rule wording (human decision) |
 | M4 Roll out to further repos | deliberately_deferred | one PR per repo | M3 | after M3 |
 
 ## Active Slice
@@ -102,7 +102,7 @@ Material uncertainties. These three are the complete set; each could make the pi
 |---|---|---|---|
 | "Two clicks" is the right reachability bound | assumption | this plan's owner (claude-code:shaping-aes-brownfield-docs) | The M1 cold-reader run records link hops to each cited document; any answer needing more than two hops, or Brian setting a different bound when he reads the M1 result, changes the bound and the wiki page before M3. |
 | The AES layout fits an existing repository without large tooling changes | assumption | this plan's owner | The M1 pull request's diff: more than about 10 changed non-documentation files triggers the disproof in "Success evidence" and a retrofit note at M2 saying what the layout should change. |
-| Whether the workspace rule changes from a 100-file cap to wiki reachability | human_required | Brian | His answer to the M3 decision, given after he has seen the merged M1 pull request, the reachability result and the cold-reader transcript. Until then the 100-file rule stays in force. |
+| Whether the workspace rule changes from a 100-file cap to wiki reachability | human_set: both rules ("probably both", 2026-10-07) | Brian | His answer to the M3 decision, given after he has seen the merged M1 pull request, the reachability result and the cold-reader transcript. Until then the 100-file rule stays in force. |
 
 ## Evidence And Current State
 
@@ -118,11 +118,11 @@ Material uncertainties. These three are the complete set; each could make the pi
 
 ## Human Decisions
 
-- At M3: whether the documentation rule changes from a 100-file cap to "reachable from the wiki", with 100 kept as a tripwire.
+- None open. M3 was decided by Brian on 2026-10-07: keep the 100-file cap and add wiki reachability.
 
 ## Exact Next Action
 
-Brian decides M3 (see Human Decisions). On a yes, change the workspace documentation rule and extend project-meta `scripts/md_file_cap.py` with the reachability measure from `reach.py`; on a no, the 100-file rule stays and this pilot remains recorded evidence.
+M4 rollout, deliberately deferred until scoped: the first daily run of the extended check (project-meta `scripts/md_file_cap.py`) lists every owned repository breaking either rule (2026-10-07 dry run: 36 over the cap, 152 with unreachable reader documents, 28 with no `wiki/index.md`). Each repository is brought into the AES layout with this pilot's method, one pull request per repository, starting with those whose orphans are a few reader documents rather than source collections.
 
 <a id="prior-art"></a>
 ## Prior Art And Parallel-Implementation Check
