@@ -18,13 +18,13 @@ Measured with [`reach.py`](reach.py). Negative control: a throwaway commit of th
 
 ## What the layout required of an existing repository
 
-1. **Moves, not rewrites.** Decisions moved from `docs/adr/` to `docs/decisions/`; the three governing design documents (`GRAPH_DESIGN.md`, `REFERENCE.md`, `REPO_SURFACE.md`, identified as design by the repository's own `docs/ACTIVE_DOCS.md`) moved to `docs/architecture/`; plans were already in `docs/plans/`. Seven `git mv` operations; no document content changed.
+1. **Moves, not rewrites.** Decisions moved from `docs/adr/` to `docs/decisions/`; the three governing design documents (`GRAPH_DESIGN.md`, `REFERENCE.md`, `REPO_SURFACE.md`, identified as design by the repository's own `docs/ACTIVE_DOCS.md`) moved to `docs/architecture/`; plans were already in `docs/plans/`. Seven `git mv` operations. No document was rewritten; the only content edits were path and link repointing (step 2) and the new wiki links (step 6).
 2. **Repointing is the real work.** 28 files carried repo-root paths to moved documents and 7 carried relative links whose base or target moved. A two-pass transform (path strings, then link resolution from each file's original location) is committed in the repository as `scripts/doc_consolidation/aes_layout_move_2026-10-07.py`.
 3. **History must be left alone.** Archive manifests, the 2026-10-07 consolidation mapping and restore commands describe past state; closed work graphs are bound to coordination claims by content hash, so editing them would break the binding. The transform excludes them explicitly.
 4. **Short relative route text escapes path matching.** A nested instruction file (`docs/CLAUDE.md`) routed readers with paths relative to `docs/` (`adr/DECISIONS.md`), which a repo-root pattern does not match; it was fixed by hand after a search for short forms.
 5. **The declaration is small.** `.agentic/repo.yaml` copies AES canonical's `navigation` and `authorities` keys unchanged; no planning keys, because the repository's plan tooling is its own.
 6. **Navigation needed links, not structure.** All 14 orphans were reader documents that already existed (the root `README.md`, `FUNCTIONALITY.md`, `KNOWLEDGE.md`, folder READMEs, plan design companions). Each got one line in the wiki section a reader would look in; the wiki copies no content.
-7. **Tooling changed: none.** No checker, hook or generator needed code changes for the layout (the disproof threshold was about 10 non-documentation files). The only script added is the move transform itself.
+7. **Tooling changed: two path lists, no logic.** `scripts/check_markdown_links.py` (two default link-check targets) and `scripts/doc_coupling.yaml` (three coupled-doc paths) had moved paths repointed; no checker, hook or generator logic changed (the disproof threshold was about 10 non-documentation files). The only script added is the move transform itself.
 
 ## Cold-reader test
 
@@ -42,7 +42,7 @@ Limitation reported by the cold reader itself: the harness loads nested `CLAUDE.
 
 ## Findings for the AES layout contract
 
-- **The contract held.** Three roots plus a wiki entry fit an existing repository with seven moves and no tooling change.
+- **The contract held.** Three roots plus a wiki entry fit an existing repository with seven moves and no change to any tool's logic.
 - **Reachability needs a classification rule.** A count of unreachable files means nothing until each is classified; `reach.py` classifies by path and by code assignment (`*OUTPUT*` constants), never by reading prose.
 - **Reachability is necessary, not sufficient.** Run 1 shows a reader can reach every document and still not reach the thing a question needs (a generator script). The cold-reader run is the check that catches this; keep both.
 - **Repository plans versus AES plans.** The repository's commit rule wants `[Plan #N]`, and the AES commit rule (observe mode) logged that repository Plan #207 has no Company Planning receipt; the adopted Company Planning plan lives here in AES canonical. A repository plan that tracks an AES-adopted plan has no way to cite that receipt today.
