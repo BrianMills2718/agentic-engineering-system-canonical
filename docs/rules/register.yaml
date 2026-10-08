@@ -1,0 +1,437 @@
+schema_version: aes-rules-register/v1
+about: 'The rules agents in Brian''s workspace are expected to follow, with how each is enforced and where its evidence
+  is. Fields follow project-meta policy/registry.yaml (id, rule, source, enforcement_status, enforcement_mechanism,
+  feedback_path); feedback-loop rules add evidence, licence key and effect. project-meta''s 263-rule register is
+  legacy: docs/rules/RULES.md shows it read-only, and a legacy rule moves here only when the feedback loop gathers
+  evidence for it or retires it.'
+enforcement_statuses:
+  enforced: a hook, gate or check refuses the violation
+  partially-enforced: enforced on some paths only
+  checked: a check reports violations but does not refuse them
+  advisory: written instruction only
+  licensed: the feedback loop licensed it from evidence and handed it to agents; not yet adopted
+  withdrawn: licence withdrawn; kept for the record
+rules:
+- id: root-cause-over-symptom
+  rule: Fix a recurring problem where it originates (the shared tool, library, hook or policy); a local workaround
+    is allowed only while that fix is filed, and the agent says which it applied.
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: advisory
+  enforcement_mechanism: Instruction only; nothing checks it.
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: integrate-before-build
+  rule: Adopt what already exists, else combine or fork off-the-shelf systems; build only what a landscape review
+    shows nothing covers, naming why.
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: advisory
+  enforcement_mechanism: Instruction only; nothing checks it.
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: plan-nontrivial-work
+  rule: Non-trivial work runs under an adopted Company Planning plan sized to it; trivial changes (at most 3 files
+    and 60 lines, touching nothing that runs) need none.
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: enforced
+  enforcement_mechanism: 'The AES commit rule refuses a non-trivial commit without a [Goal <plan_id>] or [Plan #N]
+    tag (`aes commit check`, installed on every hook path).'
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: commit-tags
+  rule: 'Every commit''s first line starts with one tag: [Plan #N], [Goal <plan_id>], [Trivial], [Auto], [Unplanned]
+    with an Emergency line, or [Shaping <plan_id>].'
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: enforced
+  enforcement_mechanism: The AES commit rule (`aes commit check`) refuses a commit without a valid tag and names
+    the fix.
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: observable-fast-work
+  rule: Long jobs run detached with per-step timing; an outside call that fails the same way twice is treated as
+    down; only changed inputs are rebuilt.
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: advisory
+  enforcement_mechanism: Instruction only; nothing checks it.
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: md-file-cap
+  rule: A repository Brian owns keeps at most 100 tracked Markdown files (unless a reasoned exception file says
+    otherwise) and every reader document is reachable from wiki/index.md within two links.
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: checked
+  enforcement_mechanism: project-meta scripts/md_file_cap.py checks both rules and keeps one concern open while
+    a repository breaks either. On 2026-10-08 no timer for it was found on the laptop.
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: loud-failures-reach-an-agent
+  rule: A service, timer or pipeline that errors, skips a run or misses a heartbeat tells any waiting user and opens
+    a keyed concern an agent works, within minutes.
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: advisory
+  enforcement_mechanism: Instruction only; each service implements it itself (for example, ui-index and control-publish
+    open a keyed concern on failure).
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: read-the-trace
+  rule: Before reporting a score or naming a cause for any graded run, open the full trace of every failing or surprising
+    item and a sample of passes.
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: advisory
+  enforcement_mechanism: Instruction only; nothing checks it.
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: situation-declared-checklists
+  rule: Planning, writing and representation work declare their situation as yes/no facts through the domain's command,
+    then check off that situation's checklist with evidence.
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: partially-enforced
+  enforcement_mechanism: Portfolio articles are gated at merge and deploy by tools/check_article_review.py; Company
+    Planning checks it at plan adoption (quick-adopt / adopt); Representation Router dispositions are recorded but
+    not counted.
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: ui-tooltips-default
+  rule: Every UI control an agent builds shows a styled tooltip within about 200 ms of hover or focus, and on tap
+    on phones; verified in a real browser.
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: advisory
+  enforcement_mechanism: Instruction only; verification is the building agent's own browser test.
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: recommendations-not-question-lists
+  rule: Settle what checking can settle, then give Brian approvable recommendations with safe defaults, never a
+    list of open questions.
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: advisory
+  enforcement_mechanism: Instruction only; nothing checks it.
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: cross-owner-policy-override-protocol
+  rule: 'Acting outside another project''s policy domain follows the cross-project notification protocol: find participants,
+    draft, send only after exact-content approval, log the result.'
+  origin: workspace-instructions
+  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  enforcement_status: advisory
+  enforcement_mechanism: Instruction only (procedure in WORKING_RULES.md).
+  feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+- id: jev-m1-merge-reads-exit-code
+  rule: Do not run `gh pr merge` after a check whose commands were joined with `;`; the check's exit code must be
+    read before merging.
+  origin: feedback-loop
+  source: agent-skills contracts/client-config/jev/merge_guard.py (#453)
+  enforcement_status: enforced
+  enforcement_mechanism: Jev gate rule M1, installed at ~/.local/bin/jev-gate-merge-guard and wired into jev-gate-hook
+    for Claude Code and Codex.
+  evidence:
+    adopted_from:
+    - loop-387
+    - loop-389
+  effect: the effects step counts recurrences for 30 days from 2026-10-08
+  feedback_path: agent-feedback-log (Feedback field lines)
+- id: loop-378
+  rule: Require that every replay or backtest document declares its population boundary as a structured field, and
+    that every documented tool-invocation route embeds explicit environment pre-checks so an agent cannot reach
+    a success-or-failure output via a path whose preconditions are unmet.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: withdrawn
+  enforcement_mechanism: 'Withdrawn 2026-10-08: the problem behind it joined two unrelated incidents (#202, #221)'
+  evidence:
+    sightings: 2
+    problem: null
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/378
+  licence_key: feedback-rule-prob-01c29416f2-9addbd70
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-379
+  rule: Before quoting any rate or metric from a document, verify that the source population was computed over the
+    same regime as the current question; before declaring a capability unavailable, confirm that all documented
+    fallback paths were actually attempted.
+  intent: Detect
+  origin: feedback-loop
+  enforcement_status: withdrawn
+  enforcement_mechanism: 'Withdrawn 2026-10-08: the problem behind it joined two unrelated incidents (#202, #221)'
+  evidence:
+    sightings: 2
+    problem: null
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/379
+  licence_key: feedback-rule-prob-01c29416f2-ce269a47
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-384
+  rule: Require that any probe failure be marked cause-unresolved in the progress record unless a second, materially
+    different verification path has been tried and its result recorded alongside the first.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 3
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/47
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/384
+  licence_key: feedback-rule-prob-82866ebb43-ea133771
+  handed_at: '2026-10-08'
+  effect: watched for recurrence by the nightly effects step
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-385
+  rule: Add a gate check that rejects any finding recorded as an established failure condition when only one probe
+    path contributed to it and no corroborating route is cited.
+  intent: Detect
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 3
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/47
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/385
+  licence_key: feedback-rule-prob-82866ebb43-46cb3f4e
+  handed_at: '2026-10-08'
+  effect: watched for recurrence by the nightly effects step
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-386
+  rule: Never truncate or pipe away the output of a failing check; preserve the full diagnostic output so causality
+    can be investigated after the fact.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: withdrawn
+  enforcement_mechanism: 'Withdrawn 2026-10-08: a replay found one independent sighting, below the two the licence
+    needs'
+  evidence:
+    sightings: 3
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/47
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/386
+  licence_key: feedback-rule-prob-82866ebb43-fc1676ed
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-387
+  rule: Gate every merge on the suite's exit code by using `&&` instead of `;` (or a separate step that reads the
+    result) so a failing suite structurally blocks the downstream merge command.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: enforced
+  enforcement_mechanism: 'Jev gate rule M1 (agent-skills #453) blocks `gh pr merge` after a check joined with `;`
+    unless the exit code is read'
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/48
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/387
+  licence_key: feedback-rule-prob-db124d9ce2-92f2d401
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-388
+  rule: Run the full test suite after committing rather than before, so history-reading checks operate on the committed
+    state they are designed to inspect.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/48
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/388
+  licence_key: feedback-rule-prob-db124d9ce2-7c7ce3e5
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-389
+  rule: Add a pre-merge hook or required status check that explicitly reads the suite's exit code and blocks merge
+    when it is non-zero, as a second line of defence independent of how the agent composed its shell invocation.
+  intent: Detect
+  origin: feedback-loop
+  enforcement_status: enforced
+  enforcement_mechanism: 'Jev gate rule M1 (agent-skills #453) blocks `gh pr merge` after a check joined with `;`
+    unless the exit code is read'
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/48
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/389
+  licence_key: feedback-rule-prob-db124d9ce2-0bb672ef
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-390
+  rule: Include the branch or lane name in tracker path derivation so closed and new lanes under the same session
+    and goal are always distinct keys.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/49
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/390
+  licence_key: feedback-rule-prob-4e7de595ea-2c791877
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-391
+  rule: Scope the one-root-lane limit to session-plus-repository rather than session alone, or accept an explicit
+    cross-project parent scope, so a task spanning two repositories can hold both root lanes open simultaneously.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/49
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/391
+  licence_key: feedback-rule-prob-4e7de595ea-568bc9c9
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-392
+  rule: Emit the exact continuation command or workaround label in every lane-claim refusal so agents follow a known
+    recovery path instead of discovering it empirically.
+  intent: Detect
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/49
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/392
+  licence_key: feedback-rule-prob-4e7de595ea-cd3d645f
+  handed_at: '2026-10-08'
+  effect: watched for recurrence by the nightly effects step
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-405
+  rule: Make the writing router and its check accept an explicit no-fit disposition that allows a supplied contract
+    or existing authority to govern when truthful classification matches no catalog route.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/50
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/405
+  licence_key: feedback-rule-prob-1d668c4e91-f96a7eab
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-406
+  rule: Define one canonical claim contract and require every documented creation path to produce all state and
+    inputs required by every downstream enforcement check.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/51
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/406
+  licence_key: feedback-rule-prob-4031c97e27-20a27bb2
+  handed_at: '2026-10-08'
+  effect: watched for recurrence by the nightly effects step
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-407
+  rule: Add conformance checks that run each documented claim path through downstream enforcement and require every
+    refusal to identify the triggering input and sanctioned resolution.
+  intent: Detect
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/51
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/407
+  licence_key: feedback-rule-prob-4031c97e27-48e49ecc
+  handed_at: '2026-10-08'
+  effect: watched for recurrence by the nightly effects step
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-408
+  rule: Make every write, commit, or push workflow fail closed by checking each preparatory command, explicitly
+    verifying the intended working directory, and requiring clean-worktree admission before publication rather than
+    relying on shell error modes or partial commits.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/52
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/408
+  licence_key: feedback-rule-prob-4f9e132279-92fd6e4b
+  handed_at: '2026-10-08'
+  effect: watched for recurrence by the nightly effects step
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-411
+  rule: Storage admission must distinguish entries that vanish during concurrent transient-cache mutation from genuine
+    measurement failures while preserving host-reserve and cache-admission checks.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/54
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/411
+  licence_key: feedback-rule-prob-591239abb5-024b0bcc
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-412
+  rule: Storage-policy tests must include concurrent transient-cache mutation during measurement to detect regressions
+    in vanished-entry handling.
+  intent: Detect
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/54
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/412
+  licence_key: feedback-rule-prob-591239abb5-92a1b3ac
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-413
+  rule: Make registry-backed lifecycle operations return a structured busy result with the actual writer and provide
+    a bounded observable release-and-retry path while preserving the no-state-change guarantee and never forcing
+    or deleting the lock.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/55
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/413
+  licence_key: feedback-rule-prob-6526d5c37a-1bbfb112
+  handed_at: '2026-10-08'
+  effect: not yet watched
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-414
+  rule: Make the authoritative planning-tag contract the single source of truth for every shared and repository-local
+    commit validator, including required tag classes and the actual identifier formats used by planning records.
+  intent: Prevent
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/56
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/414
+  licence_key: feedback-rule-prob-b16ce19e52-0de6adf6
+  handed_at: '2026-10-08'
+  effect: watched for recurrence by the nightly effects step
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+- id: loop-415
+  rule: Run compatibility tests through the complete chained validation path using valid tags derived from authoritative
+    planning records so any consumer that rejects them is detected before enforcement.
+  intent: Detect
+  origin: feedback-loop
+  enforcement_status: licensed
+  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  evidence:
+    sightings: 2
+    problem: https://github.com/BrianMills2718/agent-feedback-log/issues/56
+    concern: https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/415
+  licence_key: feedback-rule-prob-b16ce19e52-2747a435
+  handed_at: '2026-10-08'
+  effect: watched for recurrence by the nightly effects step
+  feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
