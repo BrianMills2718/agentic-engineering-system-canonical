@@ -1,0 +1,21 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "proposals/commit-tag-case/commit-tag-case.md",
+  "plan_sha256": "35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265",
+  "path_decision_ref": "proposals/commit-tag-case/commit-tag-case.path-decision.json",
+  "path_decision_sha256": "10a8619a73d97dceca96a817336a83d44f8c554b262f2f513ce372a2af113930",
+  "facts": {
+    "shared_mechanism": false,
+    "empirical_comparison_proposed": false,
+    "llm_central": false,
+    "irreversible_or_spend_action": false
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-08T03:56:11Z"
+}
