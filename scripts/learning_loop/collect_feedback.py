@@ -21,7 +21,14 @@ Steps, each timed and counted in the printed summary and in runs.jsonl:
                 to drop an item until it is measured on a labeled sample.
   6. write      one JSON line per item to items-<date>.jsonl
   7. file       learning/friction/correction items Jev is sure of go to the
-                register through project-meta/scripts/log_learning.py (--file)
+                legacy register through project-meta/scripts/log_learning.py, only
+                with --file --legacy-register (off since 2026-10-08: the register is
+                legacy; AES issue #242)
+  R. reports    each closeout Feedback (or older Learnings) field becomes one
+                feedback-report.v1 report: marked lines parsed by records.py, free
+                text split by the light model (links always read by code), filed as
+                one issue in the private log FEEDBACK_LOG_REPO with --file
+                (plan proposals/aes-learning-loop, slice S1)
 
 Privacy: transcript text goes only to OpenRouter through llm_client and to the
 local output folder; nothing here is committed anywhere. Exit 0 = clean, 1 = some
@@ -55,6 +62,7 @@ from pydantic import BaseModel
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import transcripts as T  # noqa: E402
+import feedback_log as FL  # noqa: E402
 
 HOME = Path.home()
 OUT = Path(os.environ.get("FEEDBACK_OUT", HOME / "projects/data/feedback-collector"))
@@ -433,11 +441,16 @@ def main() -> int:
     ap.add_argument("--since-days", type=float, default=1.0, help="first-seen files: only records this recent")
     ap.add_argument("--file", action="store_true", help="file sure learning/friction/correction items to the register")
     ap.add_argument("--max-file", type=int, default=25, help="cap on register filings per run")
+    ap.add_argument("--legacy-register", action="store_true",
+                    help="with --file, also file items to the legacy project-meta register (off by default)")
+    ap.add_argument("--max-reports", type=int, default=80, help="cap on private-log report issues per run")
     ap.add_argument("--min-p", type=float, default=0.8, help="Jev probability needed to file")
     ap.add_argument("--min-reusable", type=float, default=0.6,
                     help="Jev probability the item is reusable beyond its own task, needed to file")
     ap.add_argument("--limit-files", type=int, default=None, help="testing: stop after N changed transcripts")
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--reports-only", action="store_true",
+                    help="testing: only the report path (skip extraction, triage, covered and legacy filing)")
     ap.add_argument("--file-pending", metavar="ITEMS_JSONL",
                     help="file items an earlier run left eligible_not_filed or deferred_cap (appends filing updates)")
     ap.add_argument("--no-alert", action="store_true", help="testing: do not open a concern on failure")
@@ -452,6 +465,7 @@ def main() -> int:
     db = sqlite3.connect(OUT / "state.sqlite")
     db.execute("CREATE TABLE IF NOT EXISTS files (path TEXT PRIMARY KEY, offset INT, mtime REAL)")
     db.execute("CREATE TABLE IF NOT EXISTS items (id TEXT PRIMARY KEY, day TEXT, kind TEXT, filed TEXT)")
+    db.execute("CREATE TABLE IF NOT EXISTS reports (id TEXT PRIMARY KEY, day TEXT, records INT, issue TEXT)")
     counts, errors, timing = collections.Counter(), [], {}
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     day = run_id[:4] + "-" + run_id[4:6] + "-" + run_id[6:8]
@@ -473,6 +487,51 @@ def main() -> int:
     items = step("closeouts", lambda: [i for t in trs for i in closeout_items(t, counts)])
     failed_files: set[str] = set()
 
+    # R. reports: closeout Feedback fields -> records -> the private log
+    filed_reports = {r[0] for r in db.execute("SELECT id FROM reports WHERE issue LIKE 'http%'")}
+    reps = [r for r in step("reports", lambda: [r for t in trs for r in FL.reports(t, counts)])
+            if r["id"] not in filed_reports]
+    counts["reports_new"] = len(reps)
+
+    def split_one(r):
+        errs = FL.split_rest(r, counts)
+        counts["split_done"] += 1
+        if counts["split_done"] % 25 == 0:
+            log(f"split: {counts['split_done']}/{len(reps)} reports")
+        if errs:
+            errors.extend(errs)
+            failed_files.add(r["transcript"])
+            r["filing"] = "split_failed"
+    with ThreadPoolExecutor(args.workers) as ex:
+        step("split", lambda: list(ex.map(split_one, reps)))
+
+    def file_reports():
+        n = 0
+        for r in reps:
+            if r.get("filing") == "split_failed":
+                continue
+            if not r["records"]:
+                r["filing"] = "no_records"
+            elif not args.file:
+                r["filing"] = "not_filed (run without --file)"
+            elif n >= args.max_reports:
+                r["filing"] = "deferred_cap"
+                failed_files.add(r["transcript"])
+            else:
+                try:
+                    r["filing"] = FL.file_report(r)
+                    n += 1
+                except Exception as exc:
+                    r["filing"] = "error"
+                    errors.append(f"report {r['id']}: {clip(str(exc))}")
+                    failed_files.add(r["transcript"])
+            counts["reports_" + ("filed" if r["filing"].startswith("http") else r["filing"].split(" ")[0])] += 1
+        for r in reps:
+            for rec in r["records"]:
+                counts["records_unprovenanced"] += rec["unprovenanced"]
+                counts[f"records_{rec['kind']}"] += 1
+    step("file_reports", file_reports)
+
     def extract_one(job):
         t, text, turns = job
         errs: list[str] = []
@@ -491,7 +550,10 @@ def main() -> int:
                     errors.extend(errs)
                     failed_files.add(path)
         return found
-    items += step("extract", extract_all)
+    if args.reports_only:
+        items = []
+    else:
+        items += step("extract", extract_all)
 
     seen = {r[0] for r in db.execute("SELECT id FROM items")}
     fresh, dup = {}, 0
@@ -546,8 +608,8 @@ def main() -> int:
                 it["filing"] = "duplicate_of_filed"
             elif (verdict := _repeat_or_defer(it, recent)) is not None:
                 it["filing"] = verdict
-            elif not args.file:
-                it["filing"] = "eligible_not_filed (run without --file)"
+            elif not (args.file and args.legacy_register):
+                it["filing"] = "eligible_not_filed (legacy register off)"
             elif filed >= args.max_file:
                 it["filing"] = "deferred_cap"
             elif locked:
@@ -576,10 +638,15 @@ def main() -> int:
         for t in trs:  # a file with a failed call is re-read next run (item ids dedupe the rest)
             if t.path not in failed_files:
                 db.execute("INSERT OR REPLACE INTO files VALUES (?,?,?)", (t.path, t.end_offset, t.mtime))
+        with open(OUT / f"reports-{day}.jsonl", "a") as fh:
+            for r in reps:
+                fh.write(json.dumps(r | {"run_id": run_id}, ensure_ascii=False) + "\n")
+                db.execute("INSERT OR REPLACE INTO reports VALUES (?,?,?,?)",
+                           (r["id"], day, len(r["records"]), r.get("filing", "")))
         db.commit()
     step("write", write)
 
-    if args.file:  # earlier days' items still waiting (cap or a locked register), oldest first
+    if args.file and args.legacy_register:  # earlier days' items still waiting (cap or a locked register), oldest first
         left = args.max_file - counts["filing_filed"]
         for f in sorted(OUT.glob("items-*.jsonl"))[-8:]:
             if left <= 0:
@@ -597,12 +664,14 @@ def main() -> int:
         counts["cost_jev_usd_micro"] += int((it.get("covered") or {}).get("cost", 0) * 1e6)
     summary = {"run_id": run_id, "items": len(items), "errors": len(errors), "error_samples": errors[:5],
                "timing_s": timing, "counts": dict(sorted(counts.items())),
-               "cost_usd": round((counts["cost_extract_usd_micro"] + counts["cost_jev_usd_micro"]) / 1e6, 4),
+               "cost_usd": round((counts["cost_extract_usd_micro"] + counts["cost_jev_usd_micro"]
+                                  + counts["cost_split_usd_micro"]) / 1e6, 4),
+               "reports": len(reps), "reports_out": str(OUT / f"reports-{day}.jsonl"),
                "out": str(OUT / f"items-{day}.jsonl")}
     with open(OUT / "runs.jsonl", "a") as fh:
         fh.write(json.dumps(summary) + "\n")
     print(json.dumps(summary, indent=1))
-    log(f"RESULT items={len(items)} errors={len(errors)} cost=${summary['cost_usd']} exit={1 if errors else 0}")
+    log(f"RESULT reports={len(reps)} filed={counts['reports_filed']} items={len(items)} errors={len(errors)} cost=${summary['cost_usd']} exit={1 if errors else 0}")
     return 1 if errors else 0
 
 

@@ -27,8 +27,8 @@ _NOT_HUMAN_PREFIXES = (
 # Closeout headings from the workspace AGENTS.md "Persist and close" format.
 CLOSEOUT_HEADINGS = (
     "Answer", "Session goal", "Active subgoals", "Done", "Verification", "Policy",
-    "Concerns", "Learnings", "Decisions", "Recommended next", "Need anything from human",
-)
+    "Concerns", "Feedback", "Learnings", "Decisions", "Recommended next", "Need anything from human",
+)  # "Feedback" replaced "Learnings" on 2026-10-07; both are read (feedback_log.REPORT_FIELDS)
 COLLECTED_FIELDS = ("Learnings", "Concerns", "Policy", "Decisions")
 _HEADING_RE = re.compile(
     r"^[ \t]*(?:[-*][ \t]+)?\*\*(" + "|".join(re.escape(h) for h in CLOSEOUT_HEADINGS)
