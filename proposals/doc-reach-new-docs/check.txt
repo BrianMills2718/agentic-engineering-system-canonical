@@ -22,3 +22,7 @@ make exit=0
 $ pytest tests/greenfield/test_commit_rule.py
 38 passed in 381.21s
 (the scratch-commit output above predates this fix: its refusal began with the tag's 'trivial: ...' reason)
+
+## make check on the final branch
+310 passed, 1 skipped in 1064.35s (0:17:44)
+make exit=0
