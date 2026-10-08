@@ -77,6 +77,31 @@ def reports(t: T.Transcript, counts) -> list[dict]:
     return out
 
 
+def correction_reports(items: list[dict]) -> list[dict]:
+    """Bridge already-extracted human corrections directly to immutable reports.
+
+    No second semantic judgment or agent closeout is needed. Keep the literal
+    human quote, with the transcript and byte offset that extraction verified.
+    """
+    out = {}
+    for item in items:
+        if item.get("speaker") != "brian" or item.get("source") != "llm" or item.get("field") not in ("correction", "direction"):
+            continue
+        if not item.get("quote", "").strip() or not item.get("transcript"):
+            continue
+        prov = R.Provenance(client=item["client"], session_id=item["session_id"],
+                            turn_offset=item["byte_offset"], ts=item["ts"], cwd=item.get("cwd", ""), line=item["quote"])
+        rec = R.Record(kind="observation", text=item["quote"],
+                       links=[R.Link(kind="path", ref=item["transcript"])],
+                       subject_kind="work", provenance=prov)
+        rec.id = R.record_id(prov, rec.kind, rec.text)
+        rid = "rep-human-" + item["id"]
+        out[rid] = {"id": rid, "field": "Human correction", "transcript": item["transcript"],
+                    "provenance": prov.model_dump(), "value": item["quote"],
+                    "records": [rec.model_dump()], "rest": []}
+    return list(out.values())
+
+
 SPLIT_PROMPT = """An AI coding agent ended its work with this free-text Feedback note. Split what it reports into records:
 - observation: something that happened (including a mistake the agent made, a tool or rule that got in the way, a failure).
 - claim: what the agent now believes: a cause, a lesson, a practice to follow or avoid. basis: seen (directly observed), inferred (reasoned from evidence), or guessed. A lesson drawn from a mistake is a claim about the reasoning that went wrong.
@@ -167,7 +192,7 @@ def issue_title(rep: dict) -> str:
 
 def issue_body(rep: dict) -> str:
     p = rep["provenance"]
-    lines = [f"Report `{rep['id']}` from the closeout **{rep['field']}** field.",
+    lines = [f"Report `{rep['id']}` from **{rep['field']}**.",
              f"Source: {p['client']} session `{p['session_id']}`, turn offset {p['turn_offset']}, {p['ts']}",
              *([f"Transcript: `{rep['transcript']}`"] if rep["transcript"] else []), "", "Records:"]
     for r in rep["records"]:
@@ -184,7 +209,8 @@ def issue_body(rep: dict) -> str:
 
 def issue_labels(rep: dict) -> list[str]:
     labels = {f"kind:{r['kind']}" for r in rep["records"]} | {f"parsed:{r['parsed_by']}" for r in rep["records"]}
-    labels.add("source:manual" if rep["field"] == "manual" else "source:closeout")
+    labels.add("source:human" if rep["field"] == "Human correction" else
+               "source:manual" if rep["field"] == "manual" else "source:closeout")
     if any(r["unprovenanced"] for r in rep["records"]):
         labels.add("unprovenanced")
     return sorted(labels)

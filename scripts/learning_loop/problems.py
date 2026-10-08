@@ -44,6 +44,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import label_items as LI  # noqa: E402
 import licences as LC  # noqa: E402
 import relation_check as RC  # noqa: E402
+import effects as EF  # noqa: E402
+from evidence import resolve_records, sightings  # noqa: E402
 
 OUT = Path(os.environ.get("FEEDBACK_OUT", Path.home() / "projects/data/feedback-collector"))
 LOG_REPO = os.environ.get("FEEDBACK_LOG_REPO", "BrianMills2718/agent-feedback-log")
@@ -110,6 +112,8 @@ def open_db(out: Path) -> sqlite3.Connection:
     db.execute("CREATE TABLE IF NOT EXISTS evidence (ref TEXT PRIMARY KEY, text TEXT)")
     # A licence is handed to agents once; only the effects step reopens its concern, on a real recurrence.
     db.execute("CREATE TABLE IF NOT EXISTS handed (key TEXT PRIMARY KEY, at TEXT)")
+    db.execute("CREATE TABLE IF NOT EXISTS revoked (key TEXT PRIMARY KEY, at TEXT)")
+    db.execute("CREATE TABLE IF NOT EXISTS effect_watch (key TEXT PRIMARY KEY, payload TEXT)")
     return db
 
 
@@ -170,32 +174,6 @@ def group(n: int, edges: list[tuple[int, int]]) -> list[list[int]]:
     for i in range(n):
         comps[find(i)].append(i)
     return [sorted(c) for c in comps.values() if len(c) > 1]
-
-
-def _evidence(lk: dict) -> str:
-    """A comparable form of one link: an issue is its number when either side is bare (#270 = owner/repo#270)."""
-    ref = lk["ref"]
-    m = re.search(r"(?:#|/(?:issues|pull)/)(\d+)$", ref)
-    return f"#{m.group(1)}" if m and lk["kind"] in ("issue", "url") else ref
-
-
-def sightings(members: list[dict]) -> list[set[str]]:
-    """Independent sightings (PLAN.md: two or more independent observations, each with a resolvable link).
-    Only observations count, never claims or actions; each needs a link; and two sessions that cite the same
-    evidence are one sighting, since a second session restating a filed issue is an echo, not a new sighting."""
-    groups: list[tuple[set[str], set[str]]] = []  # (sessions, evidence)
-    for r in members:
-        if r["kind"] != "observation" or r["unprovenanced"]:
-            continue
-        ev = {_evidence(lk) for lk in r["links"]}
-        who = {r["session"] or r["day"]}
-        hits = [g for g in groups if g[1] & ev or g[0] & who]
-        for g in hits:
-            groups.remove(g)
-            who |= g[0]
-            ev |= g[1]
-        groups.append((who, ev))
-    return [g[0] for g in groups]
 
 
 def problem_id(members: list[dict]) -> str:
@@ -307,16 +285,21 @@ def issue_body(p: dict) -> str:
     return "\n".join(lines)
 
 
-def concern_closed_at(key: str) -> str:
-    """When the rule's concern was closed as completed (the agent enforced it), else ""."""
+def concern_enforcement(key: str) -> dict | None:
+    """A completed concern needs an explicit, revision-bound enforcement receipt."""
     p = subprocess.run(["gh", "issue", "list", "--repo", RULE_REPO, "--state", "closed", "--search",
-                        f'"concern-key: {key}" in:body', "--json", "closedAt,stateReason", "--limit", "1"],
+                        f'"concern-key: {key}" in:body', "--json", "number,stateReason", "--limit", "1"],
                        capture_output=True, text=True, timeout=60)
-    try:
-        rows = json.loads(p.stdout or "[]")
-    except ValueError:
-        return ""
-    return rows[0]["closedAt"] if rows and rows[0].get("stateReason") in ("COMPLETED", "completed") else ""
+    if p.returncode:
+        raise RuntimeError("failed to find enforcement concern")
+    rows = json.loads(p.stdout)
+    if not rows or rows[0].get("stateReason") not in ("COMPLETED", "completed"):
+        return None
+    p = subprocess.run(["gh", "issue", "view", str(rows[0]["number"]), "--repo", RULE_REPO,
+                        "--json", "comments"], capture_output=True, text=True, timeout=30)
+    if p.returncode:
+        raise RuntimeError("failed to read enforcement receipt")
+    return EF.enforcement_receipt(json.loads(p.stdout)["comments"])
 
 
 def rank(p: dict) -> tuple:
@@ -378,6 +361,7 @@ def main() -> int:
     ap.add_argument("--days", type=int, default=14)
     ap.add_argument("--file", action="store_true", help="create or update problem issues in the private log")
     ap.add_argument("--max-analyse", type=int, default=3, help="stronger-model analyses per run (PLAN.md spend cap)")
+    ap.add_argument("--effects-only", action="store_true", help="nightly observation: reuse analyses, create no proposals")
     a = ap.parse_args()
     timing, counts, errors = {}, collections.Counter(), []
 
@@ -390,7 +374,16 @@ def main() -> int:
 
     db = open_db(OUT)
     recs = step("load", lambda: load_records(OUT, a.days))
+    # An adopted rule must keep being observed after its original reports age
+    # out of the collection window or its group acquires a new identifier.
+    known_ids = {r["id"] for r in recs}
+    for payload, in db.execute("SELECT payload FROM effect_watch"):
+        for r in json.loads(payload)["members"]:
+            if r["id"] not in known_ids:
+                recs.append(r)
+                known_ids.add(r["id"])
     counts["records"] = len(recs)
+    counts.update(step("resolve_evidence", lambda: resolve_records(recs, db)))
 
     qs, key = LI.question_set(), LI.api_key()
 
@@ -454,10 +447,10 @@ def main() -> int:
         for p in recurring:
             members_key = ",".join(sorted(r["id"] for r in p["members"]))
             row = db.execute("SELECT members, analysis FROM problem WHERE id=?", (p["id"],)).fetchone()
-            if row and row[0] == members_key and row[1]:
+            if row and row[1] and (row[0] == members_key or a.effects_only):
                 p["analysis"] = json.loads(row[1])
                 continue
-            if done >= a.max_analyse:
+            if a.effects_only or done >= a.max_analyse:
                 p["analysis_deferred"] = "spend cap"
                 counts["analyse_deferred"] += 1
                 continue
@@ -486,9 +479,15 @@ def main() -> int:
                 continue
             p["licence"] = "active" if any(x["status"] == "active" for x in p["licences"]) else \
                 (p["licences"][0]["status"] if p["licences"] else "none")
-            for x in p["licences"]:
-                counts[f"licence_{x['status']}"] += 1
     step("licence", licence_all)
+
+    for p in recurring:
+        for x in p.get("licences", []):
+            key = f"feedback-rule-{p['id']}-{hashlib.sha256(x['text'].encode()).hexdigest()[:8]}"
+            if x["status"] == "active":
+                db.execute("INSERT OR IGNORE INTO effect_watch VALUES (?,?)", (key, json.dumps(
+                    {"id": p["id"], "members": p["members"], "analysis": p["analysis"], "licences": [x]})))
+    db.commit()
 
 
     def write_all():
@@ -500,7 +499,7 @@ def main() -> int:
             members_key = ",".join(sorted(r["id"] for r in p["members"]))
             row = db.execute("SELECT issue, members FROM problem WHERE id=?", (p["id"],)).fetchone()
             issue = row[0] if row else ""
-            if a.file and "analysis" in p:
+            if a.file and not a.effects_only and "analysis" in p:
                 try:
                     if not issue:
                         title = f"Problem ({p['sightings']} sightings): {p['analysis']['cause_chain'][-1]['text'] if p['analysis']['cause_chain'] else p['members'][0]['text']}"[:200]
@@ -520,7 +519,7 @@ def main() -> int:
     def hand_to_agents():
         """Active licences become keyed concerns in the agent work queue (an agent adopts the rule through
         company planning, or the check into the audit skill); Brian is notified of high-impact ones."""
-        if not a.file:
+        if not a.file or a.effects_only:
             return
         fresh: list[str] = []
         for p in recurring:
@@ -528,15 +527,22 @@ def main() -> int:
                 if x["status"] != "active":
                     continue
                 key = f"feedback-rule-{p['id']}-{hashlib.sha256(x['text'].encode()).hexdigest()[:8]}"
+                if db.execute("SELECT 1 FROM revoked WHERE key=?", (key,)).fetchone():
+                    continue
                 if db.execute("SELECT 1 FROM handed WHERE key=?", (key,)).fetchone():
                     counts["licence_already_handed"] += 1
                     continue
                 route = "a rule adopted through company planning (aes plan prepare)" if x["intent"] == "Prevent" \
                     else "a check added to the audit skill"
-                body = (f"The feedback loop licensed a general fix for a recurring problem ({p['sightings']} independent "
-                        f"sightings; licence derived `active` by the Observation-to-Action evaluator).\n\n"
+                body = (f"The feedback loop licensed a general fix for a recurring problem "
+                        f"({x['supporting_sightings']} independent supporting sightings; licence derived `active` "
+                        f"by the Observation-to-Action evaluator).\n\n"
                         f"Fix ({x['intent']}): {x['text']}\n\nAdopt it as {route}, by your best judgment; record the "
                         f"observation pattern it should stop, so the nightly effect count can revoke it.\n\n"
+                        'Before closing, add an enforcement receipt comment: '
+                        '`<!-- feedback-enforcement {"enforced_at":"<UTC timestamp>",'
+                        '"revision":"<exact source revision>","verification":"<proof link>"} -->`. '
+                        'Closing an issue alone does not establish enforcement.\n\n'
                         f"Problem, records and analysis: {p.get('issue') or 'private feedback log'}")
                 cp = subprocess.run([sys.executable, str(PROJECT_META / "scripts/concern_issue.py"), "open",
                                      "--repo", RULE_REPO, "--key", key, "--title", f"Feedback loop: adopt {x['intent'].lower()} — {x['text'][:90]}",
@@ -564,32 +570,48 @@ def main() -> int:
         sightings before and after enforcement; a new independent sighting afterwards revokes the licence."""
         day = dt.date.today().isoformat()
         rows = []
-        for p in recurring:
+        for key, payload in db.execute("SELECT key, payload FROM effect_watch").fetchall():
+            p = json.loads(payload)
+            anchor_ids = {r["id"] for r in p["members"]}
+            current = {r["id"]: r for r in p["members"]}
+            for comp in problems:
+                if anchor_ids.intersection(r["id"] for r in comp["members"]):
+                    current.update((r["id"], r) for r in comp["members"])
+            p["members"] = list(current.values())
+            resolve_records(p["members"], db)
             for x in p.get("licences", []):
                 if x["status"] != "active":
                     continue
-                key = f"feedback-rule-{p['id']}-{hashlib.sha256(x['text'].encode()).hexdigest()[:8]}"
-                enforced = concern_closed_at(key)
-                if not enforced:
+                revoked = db.execute("SELECT 1 FROM revoked WHERE key=?", (key,)).fetchone()
+                if revoked:
+                    x["status"] = "revoked"
                     continue
-                before = [r for r in p["members"] if r["day"] and r["day"] < enforced[:10]]
-                after = [r for r in p["members"] if r["day"] and r["day"] >= enforced[:10]]
-                new_sightings = sightings(after)
-                row = {"day": day, "rule": key, "problem": p["id"], "enforced_at": enforced,
-                       "sightings_before": len(sightings(before)), "sightings_after": len(new_sightings),
-                       "matched_after": [{"id": r["id"], "text": r["text"], "links": r["links"]} for r in after]}
-                if new_sightings:
+                try:
+                    receipt = concern_enforcement(key)
+                except (RuntimeError, ValueError, subprocess.SubprocessError) as exc:
+                    errors.append(f"enforcement {key}: {type(exc).__name__}")
+                    continue
+                if not receipt:
+                    counts["enforcement_unverified"] += 1
+                    continue
+                row = {"day": day, "rule": key, "problem": p["id"], **EF.measure(p["members"], receipt)}
+                if row["sightings_after"]:
                     x["status"] = LC.derive(LC.fixture_for(p, {"text": x["text"], "rests_on": [], "intent": x["intent"]},
                                                            False, revoked=True))
                     row["revoked"] = x["status"] == "revoked"
                     counts["licence_revoked"] += row["revoked"]
                     if a.file and row["revoked"]:
-                        subprocess.run([sys.executable, str(PROJECT_META / "scripts/concern_issue.py"), "open",
+                        cp = subprocess.run([sys.executable, str(PROJECT_META / "scripts/concern_issue.py"), "open",
                                         "--repo", RULE_REPO, "--key", key, "--title", f"Feedback loop: rule did not stop its failure",
-                                        "--body", f"The failure recurred after enforcement ({len(new_sightings)} new sighting(s)); "
+                                        "--body", f"The failure recurred after enforcement ({row['sightings_after']} new sighting(s)); "
                                                   f"the licence derives revoked. Problem: {p.get('issue') or p['id']}",
                                         "--source", "feedback-loop", "--occurrence", f"{key}-revoked-{day}"],
                                        capture_output=True, text=True, timeout=120)
+                        if cp.returncode:
+                            errors.append(f"failed to reopen revoked rule {key}")
+                            continue
+                        db.execute("INSERT OR REPLACE INTO revoked VALUES (?,?)", (key, dt.datetime.now(dt.timezone.utc).isoformat()))
+                        db.commit()
                         subprocess.run([sys.executable, str(PROJECT_META / "scripts/operator_notify_router.py"),
                                         "--severity", "attention", "--key", key, "--state", "revoked", "--source", "feedback-loop",
                                         "--title", "A feedback-loop rule did not stop its failure",
@@ -597,11 +619,21 @@ def main() -> int:
                                        capture_output=True, text=True, timeout=120)
                 rows.append(row)
                 counts["rules_enforced"] += 1
+            db.execute("UPDATE effect_watch SET payload=? WHERE key=?", (json.dumps(p), key))
+        db.commit()
         if rows:
             with open(OUT / f"effects-{day}.jsonl", "a") as fh:
                 for row in rows:
                     fh.write(json.dumps(row, ensure_ascii=False) + "\n")
     step("effects", effects)
+    for p in recurring:
+        for x in p.get("licences", []):
+            key = f"feedback-rule-{p['id']}-{hashlib.sha256(x['text'].encode()).hexdigest()[:8]}"
+            if db.execute("SELECT 1 FROM revoked WHERE key=?", (key,)).fetchone():
+                x["status"] = "revoked"
+            counts[f"licence_{x['status']}"] += 1
+        if p.get("licences"):
+            p["licence"] = "active" if any(x["status"] == "active" for x in p["licences"]) else p["licences"][0]["status"]
 
     def view():
         day = dt.date.today().isoformat()

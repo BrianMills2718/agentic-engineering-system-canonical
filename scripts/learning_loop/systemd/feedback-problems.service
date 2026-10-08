@@ -1,5 +1,6 @@
 [Unit]
 Description=Weekly feedback loop: group recurring problems, analyse, license fixes, hand them to agents, count effects
+After=feedback-collector.service
 Documentation=https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/proposals/aes-learning-loop/PLAN.md
 
 [Service]

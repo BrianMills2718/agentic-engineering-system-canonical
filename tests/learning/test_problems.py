@@ -7,8 +7,9 @@ import problems as PB  # noqa: E402
 
 
 def rec(kind, session, links, basis=None):
+    verified = [{"kind": k, "ref": r} for k, r in links]
     return {"kind": kind, "session": session, "day": "2026-10-08", "basis": basis, "unprovenanced": not links,
-            "links": [{"kind": k, "ref": r} for k, r in links]}
+            "links": verified, "resolved_links": verified}
 
 
 def test_two_sessions_seeing_different_evidence_are_two_sightings():
@@ -17,7 +18,7 @@ def test_two_sessions_seeing_different_evidence_are_two_sightings():
 
 
 def test_a_second_session_citing_the_same_issue_is_an_echo():
-    m = [rec("observation", "s1", [("issue", "#316")]),
+    m = [rec("observation", "s1", [("issue", "o/r#316")]),
          rec("observation", "s2", [("url", "https://github.com/o/r/issues/316")])]
     assert len(PB.sightings(m)) == 1
 
@@ -30,6 +31,18 @@ def test_claims_actions_and_unlinked_observations_are_not_sightings():
 
 def test_group_joins_transitively():
     assert sorted(PB.group(5, [(0, 1), (1, 2), (3, 4)])) == [[0, 1, 2], [3, 4]]
+
+
+def test_same_issue_number_in_different_repositories_is_independent():
+    m = [rec("observation", "s1", [("issue", "o/one#316")]),
+         rec("observation", "s2", [("url", "https://github.com/o/two/issues/316")])]
+    assert len(PB.sightings(m)) == 2
+
+
+def test_a_syntactic_but_unresolved_link_never_counts():
+    r = rec("observation", "s1", [("issue", "o/r#999")])
+    r["resolved_links"] = []
+    assert PB.sightings([r]) == []
 
 
 def test_effect_split_uses_sightings_after_enforcement(monkeypatch):

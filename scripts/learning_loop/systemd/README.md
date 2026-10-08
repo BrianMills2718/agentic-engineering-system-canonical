@@ -58,11 +58,46 @@ grouped from `supports`/`same_problem` relations, recurring = two independent li
 one stronger-model analysis per recurring problem (at most 3 a run) that reads the linked issues,
 licences derived by the Observation-to-Action evaluator, active licences opened as keyed concerns in
 AES canonical for agents to adopt, high-impact ones also pushed to Brian (`attention`, no decision),
-and effects: a recurrence after a rule's concern is closed revokes its licence. Brian's view:
+and effects: a verified recurrence after the rule's recorded enforcement revokes its licence. Brian's view:
 `VIEW.md` in the private log, ranked by impact then uncertainty. Output: `problems-<date>.jsonl`,
 `problems-runs.jsonl`, `effects-<date>.jsonl`, `problems.sqlite` (cache).
 
 ```bash
 cp scripts/learning_loop/systemd/feedback-problems.{service,timer} ~/.config/systemd/user/
 systemctl --user daemon-reload && systemctl --user enable --now feedback-problems.timer
+```
+
+## Evidence and nightly effects (approved feedback repair, 2026-10-08)
+
+Each fix needs two independent observations among its own `rests_on` records,
+with references resolved before counting. An issue's identity includes its
+repository. Unresolved references remain in the report but cannot license a rule.
+
+Human corrections and standing directions already found by transcript extraction
+also become reports, preserving the literal quote and transcript byte offset.
+The last 14 days of item logs are backfilled automatically and deduplicated by
+report id. Recover just this backlog with
+`collect_feedback.py --file --corrections-only`; it makes no new model calls.
+The private log needs the label `source:human`.
+
+`feedback-effects.timer` runs at 07:30 daily, after the collection and weekly
+analysis windows. `problems.py --file --effects-only` reuses analyses and does
+not draft or hand off proposals. Watches survive report-window expiry and group
+identifier changes; revocations persist and reopen the concern only once.
+
+Closing a concern is not enforcement evidence. Before closing it, the adopting
+agent adds a comment with the actual time, exact source revision and verification:
+
+```text
+<!-- feedback-enforcement {"enforced_at":"2026-10-08T16:00:00Z","revision":"<exact revision>","verification":"<proof link>"} -->
+```
+
+Events are compared as timezone-aware timestamps. An incident at or before
+enforcement, a later restatement of its evidence, and a record with an unknown
+timestamp cannot revoke the rule. No receipt means enforcement is unverified.
+This measures reported recurrences; zero reports alone does not prove success.
+
+```bash
+cp scripts/learning_loop/systemd/feedback-effects.{service,timer} ~/.config/systemd/user/
+systemctl --user daemon-reload && systemctl --user enable --now feedback-effects.timer
 ```

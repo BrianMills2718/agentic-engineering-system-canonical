@@ -1,0 +1,10 @@
+[Unit]
+Description=Nightly feedback rule effect observation
+
+[Timer]
+OnCalendar=*-*-* 07:30:00
+Persistent=true
+RandomizedDelaySec=15m
+
+[Install]
+WantedBy=timers.target
