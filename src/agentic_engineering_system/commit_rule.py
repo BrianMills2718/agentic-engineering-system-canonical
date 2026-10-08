@@ -79,8 +79,9 @@ _YAML = YAML(typ="safe")
 CONFIG_PATH = Path(".aes") / "commit_rule.yaml"
 MACHINE_CONFIG_ENV = "AES_COMMIT_RULE_MACHINE_CONFIG"
 TAG_RE = re.compile(
-    r"^\[(?:Plan #(?P<plan>\d+)|Goal (?P<goal>[a-z0-9][a-z0-9._:-]*)|(?P<trivial>Trivial)"
-    r"|(?P<unplanned>Unplanned)|(?P<auto>Auto)|Shaping (?P<shaping>[a-z0-9][a-z0-9._-]*))\]"
+    # plan ids may contain capitals (e.g. [Goal PATH-brent-v1-2026-10-02]); #193
+    r"^\[(?:Plan #(?P<plan>\d+)|Goal (?P<goal>[A-Za-z0-9][A-Za-z0-9._:-]*)|(?P<trivial>Trivial)"
+    r"|(?P<unplanned>Unplanned)|(?P<auto>Auto)|Shaping (?P<shaping>[A-Za-z0-9][A-Za-z0-9._-]*))\]"
 )
 GIT_OWN_PREFIXES = ("Merge ", "fixup! ", "squash! ", "amend! ")
 EMERGENCY_RE = re.compile(r"^Emergency:\s*\S", re.MULTILINE)
