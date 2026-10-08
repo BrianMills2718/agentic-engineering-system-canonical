@@ -50,3 +50,57 @@ Limitation reported by the cold reader itself: the harness loads nested `CLAUDE.
 ## What this means for the open decision (M3)
 
 The pilot supports measuring documentation by reachability from the wiki plus a cold-reader run, with a file count kept only as a tripwire. Whether the workspace rule changes is Brian's call (see `PLAN.md`, "Human Decisions").
+
+## Second repository: Inside-Success/brians-2nd-brain-integration-work (M5, 2026-10-08)
+
+Organized into the AES layout in four merged pull requests, each checked against `main` before merging:
+[#932](https://github.com/Inside-Success/brians-2nd-brain-integration-work/pull/932) decisions and design,
+[#933](https://github.com/Inside-Success/brians-2nd-brain-integration-work/pull/933) plans,
+[#934](https://github.com/Inside-Success/brians-2nd-brain-integration-work/pull/934) generated output,
+[#935](https://github.com/Inside-Success/brians-2nd-brain-integration-work/pull/935) wiki routing. `main` at `1b91cc9f`.
+
+| Measure | Before (`7f91be42`) | After (`1b91cc9f`) |
+|---|---|---|
+| Decision records under `docs/decisions/` | 0 (in `roadmap/decisions/` and `plan/ADR-*`) | 16 |
+| Design under `docs/architecture/` | 0 (in `roadmap/architecture/`, `requirements/`, `governance/`, `plan/`) | 34 |
+| Markdown under `docs/plans/` | 2 session records | 121: 118 moved plans and goals, the 2 session records, and a new index |
+| Generated OKF output | 822 files in `plan/okf_exports/` | `generated/okf_exports/` |
+| [`layout_check.py`](layout_check.py) | no `.agentic/repo.yaml`: layout not declared, exit 1 | 0 findings |
+| [`reach.py`](reach.py) findings (two-link rule) | 1843 (224 documents within two links) | 0 (714 within two links) |
+| Repository checks | baseline | no failure only on the branch, in each of the four pull requests |
+
+Negative controls on throwaway commits of `main`: a copy of an ADR placed in `plan/` gives one
+`decision-outside` finding and exit 1; removing the wiki's link to `docs/plans/README.md` gives 27 findings
+(plans now three links deep) and exit 1.
+
+Cold reader (Haiku, no file paths, links only; transcript `integration_run1` in
+[cold-reader-transcripts.json](cold-reader-transcripts.json)): all five questions answered, the longest path
+two links, eight files opened. It also found two pre-existing documentation gaps, recorded below.
+
+### Findings for the AES layout contract (second repository)
+
+- **A repository's own classifier can silently reclassify moved documents.** `plan/documentation_inventory.py`
+  treated everything under `docs/plans/` as session state, so moving 118 plans there would have dropped them
+  out of the authored-document count (213 to 167) and the review index. The fix narrowed the rule to the
+  records already there. A brownfield move must run the repository's own inventory, not only path checks.
+- **Byte-pinned and git-snapshot references must keep their bytes and old paths.** A goal map pinned
+  byte-identical by a test stays in `plan/` (its own links to moved documents now resolve to nothing); a
+  `git_snapshot` pin reads a recorded revision, so it keeps `plan/okf_exports/`. Path rewriting has to skip
+  both.
+- **Paths are written in more forms than one string.** The move tool had to follow Python path-segment
+  chains (`"plan" / "second_brain" / name`), relative paths in front-matter lists, and folder prefixes, as
+  well as repo-root strings and Markdown links.
+- **Records need a declared, reasoned exception, chosen by the repository's own classes.** After the moves,
+  1,049 of the 1,177 remaining findings (`main` `529fbd3f`) were corpus, generated readouts, evidence, session records, archive and fixtures.
+  25 `unlinked_ok` folders cover them, each holding only record classes and carrying a reason. The 128 reader
+  documents were linked from their folder's index, and each index page from `wiki/index.md`.
+- **Separate-file records need one index by question.** The 369 knowledge entries stay separate files, as
+  the registry requires, behind `knowledge/corpus/README.md`, which groups them by their front-matter type.
+- **The checks had to match the rule.** `reach.py` now applies the workspace two-link rule (`DEEP` findings,
+  `unlinked_ok` with reasons, `generated/`), and `layout_check.py` accepts single-file exceptions (AES
+  canonical [#393](https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/393)).
+
+Pre-existing gaps the cold reader found, left for the repository's owner (not migration changes): the wiki
+index names the generated bundles in code spans rather than links (`wiki/index.md` lines 50-53), and its
+summary of the dated source page for Plan 250 still says "proposal, not approval" while the plan itself
+says "approved and in execution".

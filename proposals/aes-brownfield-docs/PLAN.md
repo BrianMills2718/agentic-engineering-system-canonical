@@ -19,7 +19,7 @@ goal:
 **Selected controls:** continuity across sessions (this plan); uncertainty (layout never applied to an existing repo); one writer; reversible (git); no external effect beyond pull requests.
 **Artifact consumer / decision value:** Brian and the agents that continue this work; it decides whether AES's documentation layout replaces the 100-file count as the documentation rule.
 **Stage / investment boundary:** pilot on one repository.
-**Last outcome-bearing update:** 2026-10-07, graph-retrieval main 8cc8c598 (PRs #246 and #248): 0 orphans, 76 documents reachable within two clicks, cold reader answered all five questions; see [RETROFIT_NOTE.md](RETROFIT_NOTE.md).
+**Last outcome-bearing update:** 2026-10-08, integration repository main 1b91cc9f (PRs #932, #933, #934, #935): layout check and reach.py 0 findings, cold reader answered all five questions within two links; see [RETROFIT_NOTE.md](RETROFIT_NOTE.md#second-repository-inside-successbrians-2nd-brain-integration-work-m5-2026-10-08). Earlier: 2026-10-07, graph-retrieval main 8cc8c598 (PRs #246, #248).
 
 ## Outcome And Boundaries
 
@@ -69,7 +69,7 @@ reader finds doc <- wiki/index.md links <- declared roots (.agentic/repo.yaml) <
 | M2 Record the retrofit in AES canonical | done 2026-10-07 ([RETROFIT_NOTE.md](RETROFIT_NOTE.md)) | a retrofit note in this proposal folder: what the layout required of an existing repo, what tooling changed | M1 evidence | M1 merged |
 | M3 Replace the count rule | done 2026-10-07: Brian chose both rules ("probably both"); workspace AGENTS.md (projects-dotclaude #102) and the daily check (project-meta #2444) | project-meta daily check reports orphans and layout per repo; AGENTS.md rule reworded from "100 files" to reachability with 100 as a tripwire | M1 + M2 | Brian's go-ahead on the rule wording (human decision) |
 | M4 Roll out to further repos | deliberately_deferred | one PR per repo | M3 | after M3 |
-| M5 Organize the integration repository in the AES layout | fully_specifiable_now (after the migration map, step 1 of the active slice) | merged PR; layout check and reach.py clean; fresh-agent run | migration map; layout check | promote when success evidence holds; replan if the map shows the move breaks generators beyond path repointing |
+| M5 Organize the integration repository in the AES layout | done 2026-10-08 (integration repo #932, #933, #934, #935; [RETROFIT_NOTE.md](RETROFIT_NOTE.md)) | merged PR; layout check and reach.py clean; fresh-agent run | migration map; layout check | promote when success evidence holds; replan if the map shows the move breaks generators beyond path repointing |
 | M6 Measure organization daily | conditional | project-meta daily check reports layout conformance per repository beside count and reachability | M5's layout check proven on two repositories | M5 done |
 
 ## Active Slice
