@@ -3,13 +3,13 @@
   "record_type": "method_adoption_decision",
   "decision": "adopted",
   "plan_ref": "proposals/aes-brownfield-docs/PLAN.md",
-  "plan_sha256": "504cad2cd11e6267bb402dac2de2aafedca391977b5f1ad3d32fc11f582f978c",
+  "plan_sha256": "5fc584049661f99db978db4721cb2c2ca7cd65ce0d515d6de1b628a78844dc13",
   "receipt_ref": "proposals/aes-brownfield-docs/conformance.receipt.json",
-  "receipt_sha256": "3904e8954016fa41d48688e196ce7257fabfa7acf2db3c3d376c254d4d83c542",
+  "receipt_sha256": "044c52418899fef0f84fa444dde7be4f40bc1f8dde03ce99a1239fd2740f1990",
   "receipt_result": "pass",
   "reason_codes": [],
   "summary": [
     "pass: 9 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
   ],
-  "decided_at": "2026-10-08T04:47:24Z"
+  "decided_at": "2026-10-08T15:33:26Z"
 }
