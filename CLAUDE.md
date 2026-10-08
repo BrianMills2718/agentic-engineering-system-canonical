@@ -43,7 +43,9 @@ and are retained under Decision 0010's v0.1 disposition.
 
 ```bash
 # Slice 1 implementation + focused verification
-python -m pip install -e . pytest
+uv venv .venv
+. .venv/bin/activate
+uv pip install -e '.[dev]'
 python -m pytest -q tests/repository_context
 AES_DATA_CONTRACTS_CHECKOUT=/path/to/data-contracts \
   python -m pytest -q tests/repository_context/test_data_contracts_pinned.py
