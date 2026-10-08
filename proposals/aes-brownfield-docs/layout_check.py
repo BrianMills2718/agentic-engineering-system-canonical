@@ -33,7 +33,7 @@ keep = [(str(e["path"]).rstrip("/") + "/", str(e.get("reason") or "").strip()) f
 bad_keep = [p for p, r in keep if not r]
 tracked = git("ls-tree", "-r", "--name-only", ref).splitlines()
 inside = lambda p, rs: any(p.startswith(r) for r in rs)
-kept = lambda p: any(p.startswith(k) for k, _ in keep)
+kept = lambda p: any(p == k.rstrip("/") or p.startswith(k) for k, _ in keep)  # a file or a folder
 outputs = set()
 for f in (p for p in tracked if p.endswith(".py")):
     outputs.update(re.findall(r"^\s*\w*OUTPUT\w*\s*=\s*Path\(\s*[\"']([^\"']+)[\"']", git("show", f"{ref}:{f}"), re.M | re.I))
