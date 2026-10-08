@@ -1,5 +1,7 @@
 # Now (2026-10-04, hive-brain session)
 
+**Feedback system diagram (2026-10-08):** [the source-bound map](../proposals/aes-learning-loop/feedback-system.svg) shows collection, agent-applied rules/checks and recurrence observation; it explicitly marks the missing default bridge to the legacy taxonomy input.
+
 **Feedback repair tooling (2026-10-08):** the installed claim runtime consumes
 canonical Enforced Planning's [successor-tracker repair](https://github.com/BrianMills2718/enforced-planning/commit/9baad04).
 It preserves a closed lane's tracker and allocates a bounded path for a distinct
