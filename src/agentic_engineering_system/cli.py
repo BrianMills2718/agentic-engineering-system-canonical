@@ -278,7 +278,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             plans = sum(len(e["plans"]) for e in index["repos"].values())
             print(f"plan index: {len(index['repos'])} repositories, {plans} plan ids on default branches, "
                   f"{time.perf_counter() - t0:.1f}s -> {plan_index_path()}")
-            return 0
+            for err in index.get("errors", []):
+                print(f"  not indexed (retried next build): {err}", file=sys.stderr)
+            return 1 if index.get("errors") else 0
         if args.root is None:
             args.root = find_project_root(Path.cwd())
         if args.command == "target" and args.target_command == "validate":

@@ -372,3 +372,42 @@ def test_asked_line_is_recorded_and_never_changes_the_verdict() -> None:
     assert refused.verdict == "refuse" and "not trivial" in refused.reasons[0]
     assert refused.asked.startswith("Brian")
     assert judge("[Trivial] fix typo", small, [], config).asked == ""
+
+
+def test_plan_index_does_not_cache_a_failed_search_as_no_plans(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """git grep exits 1 for 'no match' and 2+ for an error; an error must not be recorded as 'this
+    repository holds no plans', or the plan stays invisible until the repository's main moves."""
+    import agentic_engineering_system.commit_rule as cr
+
+    repo = tmp_path / "ws" / "owner"
+    repo.mkdir(parents=True)
+    assert _git(repo, "init", "-q", "-b", "main").returncode == 0
+    _adopted_plan(repo, "solid")
+    _git(repo, "add", ".")
+    assert _git(repo, "commit", "-q", "-m", "plan").returncode == 0
+    index = tmp_path / "idx.json"
+    real_run = subprocess.run
+
+    def failing_grep(cmd, *a, **k):
+        if "grep" in cmd:
+            return subprocess.CompletedProcess(cmd, 128, "", "fatal: simulated failure")
+        return real_run(cmd, *a, **k)
+    monkeypatch.setattr(cr.subprocess, "run", failing_grep)
+    built = cr.build_plan_index(tmp_path / "ws", index)
+    assert str(repo.resolve()) not in built["repos"], "a failed search was cached as an empty entry"
+    assert built["errors"] and "simulated failure" in built["errors"][0]
+    monkeypatch.setattr(cr.subprocess, "run", real_run)
+    again = cr.build_plan_index(tmp_path / "ws", index)
+    assert again["repos"][str(repo.resolve())]["plans"] == {"solid": ["proposals/solid/README.md"]}
+
+
+def test_only_one_background_index_refresh_runs_at_a_time(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import agentic_engineering_system.commit_rule as cr
+
+    monkeypatch.setenv("AES_PLAN_INDEX", str(tmp_path / "idx.json"))
+    monkeypatch.delenv("AES_PLAN_INDEX_REFRESH", raising=False)
+    started: list[list[str]] = []
+    monkeypatch.setattr(cr.subprocess, "Popen", lambda cmd, **k: started.append(cmd))
+    for _ in range(5):
+        cr._refresh_index_in_background(tmp_path)
+    assert len(started) == 1, f"{len(started)} rebuilds started for one stale index"
