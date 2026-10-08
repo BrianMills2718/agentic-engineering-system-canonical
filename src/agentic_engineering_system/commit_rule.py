@@ -427,6 +427,7 @@ def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
     except (OSError, ValueError):
         old = {}
     repos: dict[str, dict] = {}
+    errors: list[str] = []
     for repo in sorted(workspace.iterdir()) if workspace.is_dir() else []:
         if not (repo / ".git").exists():
             continue
@@ -440,6 +441,11 @@ def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
             continue
         grep = subprocess.run(["git", "-C", str(repo), "grep", "-E", r"^plan_id:", sha, "--",
                                "proposals/*/*.md", "docs/plans/*.md"], capture_output=True, text=True, check=False)
+        if grep.returncode > 1:
+            # exit 1 is "no match"; 2+ is an error. Leave the repository out so the next build retries
+            # it, instead of caching "no plans" under this commit until its main moves.
+            errors.append(f"{repo.name}: git grep exit {grep.returncode}: {grep.stderr.strip()[-200:]}")
+            continue
         plans: dict[str, list[str]] = {}
         for line in grep.stdout.splitlines():
             # "<sha>:<path>:plan_id: <id>"
@@ -450,11 +456,12 @@ def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
                     plans.setdefault(pid, []).append(parts[1])
         repos[key] = {"ref": ref, "sha": sha, "plans": plans}
     index = {"built_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-             "workspace": str(workspace), "repos": repos}
+             "workspace": str(workspace), "repos": repos, "errors": errors}
     path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(".tmp")
+    tmp = path.with_name(f"{path.name}.{os.getpid()}.tmp")  # concurrent builders never share a temp file
     tmp.write_text(json.dumps(index, indent=1) + "\n", encoding="utf-8")
     tmp.replace(path)
+    path.with_name(path.name + ".refreshing").unlink(missing_ok=True)  # releases the background-refresh lock
     return index
 
 
@@ -463,6 +470,19 @@ def _refresh_index_in_background(workspace: Path) -> None:
     AES_PLAN_INDEX_REFRESH=0 turns this off (tests build the index explicitly)."""
     if os.environ.get("AES_PLAN_INDEX_REFRESH") == "0":
         return
+    # One rebuild at a time: a rebuild takes 12-18 s, and every commit that misses a plan meanwhile
+    # would otherwise start another. The lock is ignored once older than ten minutes (a crashed rebuild).
+    lock = plan_index_path().with_name(plan_index_path().name + ".refreshing")
+    try:
+        lock.parent.mkdir(parents=True, exist_ok=True)
+        if lock.exists() and dt.datetime.now().timestamp() - lock.stat().st_mtime < 600:
+            return
+        lock.unlink(missing_ok=True)
+        os.close(os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY))
+    except FileExistsError:
+        return
+    except OSError:
+        pass
     try:
         subprocess.Popen([sys.executable, "-m", "agentic_engineering_system.cli", "commit", "index",
                           "--workspace", str(workspace)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
