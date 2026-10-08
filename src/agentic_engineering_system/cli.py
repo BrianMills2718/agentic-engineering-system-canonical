@@ -181,6 +181,8 @@ def _build_parser() -> argparse.ArgumentParser:
                                  "(read through git), for [Goal <id>] lookups when a checkout is on another branch")
     cidx.add_argument("--workspace", type=Path, default=Path.home() / "code",
                       help="folder whose child repositories are indexed (default ~/code)")
+    cidx.add_argument("--fetch", action="store_true",
+                      help="git fetch origin in every repository first, so plans merged on GitHub are seen")
     cidx.add_argument("--root", type=Path, default=None, help=argparse.SUPPRESS)
     return parser
 
@@ -274,6 +276,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             import time
             from .commit_rule import build_plan_index, plan_index_path
             t0 = time.perf_counter()
+            if args.fetch:
+                from .commit_rule import fetch_all
+                failed = fetch_all(args.workspace)
+                print(f"fetch: {len(failed)} repositories failed, {time.perf_counter() - t0:.1f}s")
+                for err in failed[:20]:
+                    print(f"  {err}", file=sys.stderr)
             index = build_plan_index(args.workspace)
             plans = sum(len(e["plans"]) for e in index["repos"].values())
             print(f"plan index: {len(index['repos'])} repositories, {plans} plan ids on default branches, "

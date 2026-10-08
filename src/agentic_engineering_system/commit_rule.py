@@ -463,6 +463,7 @@ def workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] =
 
 PLAN_INDEX_ENV = "AES_PLAN_INDEX"
 PLAN_INDEX_FRESH_SECONDS = 3600
+PLAN_INDEX_MISS_SECONDS = 300
 DEFAULT_REFS = ("origin/HEAD", "origin/main", "origin/master", "main", "master")
 
 
@@ -480,6 +481,25 @@ def _default_ref(repo: Path) -> tuple[str, str] | None:
 
 
 PLAN_INDEX_VERSION = 2
+
+
+def fetch_all(workspace: Path, timeout: int = 60) -> list[str]:
+    """`git fetch origin` in every repository directly under `workspace`, 16 at a time, so the plan
+    index reads each default branch as GitHub has it (a plan merged there is not in a clone's
+    origin/HEAD until a fetch). Never prompts for credentials. Returns one line per failure."""
+    from concurrent.futures import ThreadPoolExecutor
+    repos = [r for r in sorted(workspace.iterdir()) if (r / ".git").exists()] if workspace.is_dir() else []
+    env = {**os.environ, "GIT_TERMINAL_PROMPT": "0", "GIT_SSH_COMMAND": "ssh -o BatchMode=yes"}
+
+    def one(repo: Path) -> str | None:
+        try:
+            done = subprocess.run(["git", "-C", str(repo), "-c", "gc.auto=0", "-c", "maintenance.auto=false", "fetch", "-q", "origin"], capture_output=True,
+                                  text=True, timeout=timeout, env=env, check=False)
+        except subprocess.TimeoutExpired:
+            return f"{repo.name}: fetch timed out after {timeout}s"
+        return f"{repo.name}: fetch exit {done.returncode}: {done.stderr.strip()[-160:]}" if done.returncode else None
+    with ThreadPoolExecutor(max_workers=16) as pool:
+        return [e for e in pool.map(one, repos) if e]
 
 
 def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
@@ -553,7 +573,7 @@ def _refresh_index_in_background(workspace: Path) -> None:
     except OSError:
         pass
     try:
-        subprocess.Popen([sys.executable, "-m", "agentic_engineering_system.cli", "commit", "index",
+        subprocess.Popen([sys.executable, "-m", "agentic_engineering_system.cli", "commit", "index", "--fetch",
                           "--workspace", str(workspace)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                          start_new_session=True)
     except OSError:
@@ -581,9 +601,12 @@ def indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, st
                 return done.stdout if done.returncode == 0 else None
             ok, why, meta = _adoption(read, rel, f"{Path(repo).name} {entry['ref']}:{rel}")
             verdicts.append((ok, why, meta))
-    if stale:
+    # A plan the index does not hold may have been merged on GitHub since the last fetch: refresh
+    # (with fetch) on a miss too, at most once every PLAN_INDEX_MISS_SECONDS.
+    missed = not any(ok for ok, _, _ in verdicts) and age > PLAN_INDEX_MISS_SECONDS
+    if stale or missed:
         _refresh_index_in_background(workspace)
-    return verdicts, stale
+    return verdicts, stale or missed
 
 
 def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None,
@@ -662,7 +685,8 @@ def adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str 
                 return True, f"plan {label} adopted on the default branch ({why.removesuffix(' adopted')})", meta
             reasons.append(why)
         if stale:
-            reasons.append("plan index missing or older than an hour; a refresh was started")
+            reasons.append("plan index missing, older than an hour, or without this plan; a refresh that fetches every "
+                           "repository was started, so retry in a few minutes if the plan was merged on GitHub just now")
     return False, "; ".join(reasons), {}
 
 

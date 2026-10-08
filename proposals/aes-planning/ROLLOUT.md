@@ -197,3 +197,14 @@ it enforces with the stage-2 switch; `doc_reach: observe` turns it back to loggi
 157 added files judged the same as the daily check) and check output: `proposals/doc-reach-new-docs/`.
 Expect friction: 72 of 78 commits that added documents on 2026-10-08 would have been refused; quick plans
 add unlinked plan files (company-planning #71).
+
+## Plans named by `id:`, and plans merged on GitHub since the last fetch (2026-10-08)
+
+Session code-15 reported `[Goal meeting-claims-true]` refused though the plan was adopted on AES main.
+Two causes: (1) plans built with Company Planning's `skeleton` say `id:` (artifact_type: design_plan),
+and lookup read only `plan_id:` (this session's own `doc-reach-new-docs` plan hit the same); (2) the plan
+index read each clone's `origin/HEAD` without fetching, so a plan merged on GitHub stayed invisible until
+someone fetched. Now lookup, the staged check and the index read both fields (index version 2, so cached
+entries rebuild), `aes commit index --fetch` fetches every repository first (16 at a time, about 35 s for
+186), the daily report and the background refresh use it, and a miss starts that refresh at most every
+five minutes.

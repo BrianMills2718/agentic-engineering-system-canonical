@@ -669,3 +669,29 @@ def test_a_skeleton_plan_named_by_id_is_found(repo: Path) -> None:
     done = _git(repo, "commit", "-m", "[Goal built] worker tools")
     assert done.returncode == 0, done.stderr
     assert "plan built adopted" in done.stderr
+
+
+def test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild(tmp_path: Path) -> None:
+    from agentic_engineering_system import commit_rule as cr
+    remote, ws = tmp_path / "remote.git", tmp_path / "ws"
+    assert subprocess.run(["git", "init", "-q", "--bare", "-b", "main", str(remote)]).returncode == 0
+    ws.mkdir()
+    clone = ws / "owner"
+    assert subprocess.run(["git", "clone", "-q", str(remote), str(clone)], capture_output=True).returncode == 0
+    _write(clone, "README.md", "# Owner\n")
+    _git(clone, "add", ".")
+    _git(clone, "-c", "core.hooksPath=/dev/null", "commit", "-q", "-m", "start")
+    _git(clone, "push", "-q", "origin", "HEAD:main")
+    # another machine (here: another clone) merges an adopted plan on the remote's main
+    other = tmp_path / "other"
+    subprocess.run(["git", "clone", "-q", str(remote), str(other)], capture_output=True)
+    _adopted_plan(other, "merged")
+    _git(other, "add", ".")
+    _git(other, "-c", "core.hooksPath=/dev/null", "commit", "-q", "-m", "plan")
+    _git(other, "push", "-q", "origin", "HEAD:main")
+    index = tmp_path / "index.json"
+    before = cr.build_plan_index(ws, index)
+    assert not any("merged" in e["plans"] for e in before["repos"].values())  # the clone has not fetched
+    assert cr.fetch_all(ws) == []
+    after = cr.build_plan_index(ws, index)
+    assert any("merged" in e["plans"] for e in after["repos"].values())
