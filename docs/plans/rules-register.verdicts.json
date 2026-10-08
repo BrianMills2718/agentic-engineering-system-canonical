@@ -1,0 +1,128 @@
+{
+  "3cacb94c07cbf90c6a81940f2e14d2d64660dfc370a7ada2580538970d2f4074": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares all four activation facts false. The quoted work describes a bounded documentation generator, tests, and page build; it proposes no A/B test or alternative comparison, centrally dependent LLM behavior, irreversible action, spend, or new shared mechanism/contract/algorithm.",
+    "trace_id": "company-planning/method-conformance/rules-register/b938e0d235b4/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "53f2a5e8a184b7d3c57055b64c0a62eef1df75f40b08cfae313b9a1ebdb26543": {
+    "item_id": "OV-PROTO-VERTICAL-RESET",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the minimal vertical result, including the built page content and success condition; defines the reset boundary as `git revert` of the commit; and states the non-goal as anything outside the listed files. It adds no coordinated-work ceremony.",
+    "trace_id": "company-planning/method-conformance/rules-register/e1093b1bb725/OV-PROTO-VERTICAL-RESET",
+    "verdict": "pass"
+  },
+  "6035c5aa0e5673a4cdfb219034d6f80fe187b4e200d4d5bff7510178be1950aa": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly links the system model as `docs/rules/register.yaml`. It names the affected elements\u2014register rule entries and the `RULES.md` page\u2014and specifies what the saved check output must show for each: every entry with its status and matching summary counts.",
+    "trace_id": "company-planning/method-conformance/rules-register/3dfbe6caf0e5/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "66f0f14c2d66c8c6455a51bc56e3801fce6efc85f71d2565388de792545f9943": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states there is \u201cno shared mechanism, no comparison, no LLM at the centre, no irreversible action or spend,\u201d and declares all four facts false. The proposed test is a success/verification check rather than an experiment comparing alternative designs, so no declared-false activation fact is contradicted.",
+    "trace_id": "company-planning/method-conformance/rules-register/3dfbe6caf0e5/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "70134f84ad17cb2b3cc3069ddae2c0fc6ad7c0e8a8e6ec82038013fc6ad8e67e": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies the run as the success check on the change commit, specifies that its full trace is the complete saved check output at `docs/plans/rules-register.check.txt`, and states what must appear beyond the final result, including commands, named checks and results, skip status, exit-status agreement, and System model lines. It also addresses the absence of model/agent/LLM runs and defines success and disproof from that trace.",
+    "trace_id": "company-planning/method-conformance/rules-register/e1093b1bb725/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  },
+  "7663cfca8020bc2f916e037371fba546a03b2df903d261066dcc9de6b38dedc1": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly links the system model as `docs/rules/register.yaml`. It names the model elements\u2014register rule entries and the `RULES.md` page\u2014and specifies what the saved check output must show for each, including every entry with its status and the page\u2019s summary counts.",
+    "trace_id": "company-planning/method-conformance/rules-register/b938e0d235b4/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "80f563f044380b88fef2549ebcedeb819d246966b656f11b44685bb2fe0ac1b7": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the actor as Brian, states the desired result for docs/rules/RULES.md, and gives a concrete, user-visible stable example: the feedback-loop table showing loop-387 as enforced via Jev gate rule M1 and loop-378 as withdrawn, with issue links.",
+    "trace_id": "company-planning/method-conformance/rules-register/e1093b1bb725/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "840570ccea37b25a05af86acde87e7608464188c9e7dbeaca46de6e8cb6d2368": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies authority: Brian requested the change in his own repository, with one agent making it. It also explicitly states non-goals: work outside the listed files, irreversible actions, and spending.",
+    "trace_id": "company-planning/method-conformance/rules-register/e1093b1bb725/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "8e2b32eb3a77518ec30c5a965150c6b047aa31c44f64ac9c64239fb92eb7c03f": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly states \u201cNo shared mechanism, no comparison, no LLM at the centre, no irreversible action or spend\u201d and declares all four activation facts false. The quoted work describes a bounded page build and acceptance check, not an experiment comparing alternatives or an irreversible/spend action.",
+    "trace_id": "company-planning/method-conformance/rules-register/e1093b1bb725/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "8eea31d3ef6d238bdc46fc8805f8903008c3edb957d9444b79a6bd673f389bc9": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines success as the test passing and the built page listing 12 workspace rules, 21 feedback-loop rules, and 263 legacy rules. It also gives concrete disproof conditions: a register or legacy rule ID is missing, or the page claims enforcement not stated by the register.",
+    "trace_id": "company-planning/method-conformance/rules-register/e1093b1bb725/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "9edd8c4ee0472e3b58fd5249bbd89e7610c05429cd346791c879acab336bc414": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly links a system model via `System model: docs/rules/register.yaml`. It names two model elements and states what the saved check output must show for each: every register entry with its status on the built page, and matching summary counts for the RULES.md page.",
+    "trace_id": "company-planning/method-conformance/rules-register/e1093b1bb725/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "a3972cbf3dbc96a84e33aeff18588f356e9f550291c50663dce7fc9e083af088": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "material",
+    "missing": "The first uncertainty lacks explicit evidence that the five files shown by `git status` are exactly the complete change and that no files beyond the listed scope are needed; a file count alone does not resolve that.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The other uncertainties name an owner and/or concrete resolving evidence. For the scope uncertainty, the evidence only says `git status: 5 files` without identifying those files or demonstrating that the list is complete.",
+    "trace_id": "company-planning/method-conformance/rules-register/b938e0d235b4/CORE-UNCERTAINTIES",
+    "verdict": "unresolved"
+  },
+  "b7dc9252452f7e1c765ee3ca9af0b6c248cba802f6320345365cf6f9676436fb": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "material",
+    "missing": "The plan does not establish that this is a complete list of its material uncertainties; it only lists one uncertainty. It also does not clearly identify an owner, and the cited \u201cgit status: 5 files\u201d is not evidence that would resolve whether additional files are needed.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The table explicitly names one uncertainty and cites a pre-edit git status result, but it neither demonstrates coverage of all material uncertainties nor shows that the evidence resolves the stated question about files beyond the list.",
+    "trace_id": "company-planning/method-conformance/rules-register/e1093b1bb725/CORE-UNCERTAINTIES",
+    "verdict": "unresolved"
+  },
+  "e5a3c4c587bea211fd113cd57299a1e719c8700a6cac1a35b70d6fa4ec7d58c3": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly lists four uncertainties and provides an owner or resolving evidence for each. It also states that this is the complete list of uncertainties for the change.",
+    "trace_id": "company-planning/method-conformance/rules-register/3dfbe6caf0e5/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  }
+}
