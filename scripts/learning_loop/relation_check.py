@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import re
 import sys
@@ -28,7 +29,7 @@ DEFINITIONS = {
     "unrelated": "A and B are about different things",
 }
 JEV = "openrouter/typesafe/jev-1.13"
-STRONG = "openrouter/openai/gpt-5.6-sol"  # on the llm_client execution allowlist
+STRONG = os.environ.get("FEEDBACK_STRONG_MODEL", "openrouter/openai/gpt-5.6-sol")  # any llm_client-allowlisted route
 WORD = re.compile(r"[a-z][a-z0-9_]{3,}")
 
 
@@ -105,7 +106,7 @@ def judge(pairs: list[dict], which: str) -> list[dict]:
             else:
                 res, meta = call_llm_structured(
                     STRONG, [{"role": "user", "content": _prompt(p)}], response_model=Relation,
-                    reasoning_effort="medium",
+                    **({"reasoning_effort": "medium"} if STRONG.startswith("openrouter/") else {}),
                     task="feedback-collector.relation-check", trace_id=trace, max_budget=0.05,
                     model_justification="S2 comparison judge (stronger model) per PLAN.md")
                 out.append({"pair_id": p["pair_id"], "relation": res.relation, "cost": meta.cost})
