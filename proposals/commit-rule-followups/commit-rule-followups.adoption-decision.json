@@ -1,0 +1,15 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "proposals/commit-rule-followups/commit-rule-followups.md",
+  "plan_sha256": "81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c",
+  "receipt_ref": "proposals/commit-rule-followups/commit-rule-followups.receipt.json",
+  "receipt_sha256": "520c72f7c9ce51a0bf2594debba397f1cba9a8c7c8bbf5dd9f6bab95b1a0a281",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 8 items evidenced, 1 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "decided_at": "2026-10-08T02:53:23Z"
+}

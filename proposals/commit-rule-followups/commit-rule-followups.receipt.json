@@ -1,0 +1,359 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-commit-rule-followups-81a52810fadd",
+  "plan": {
+    "plan_ref": "proposals/commit-rule-followups/commit-rule-followups.md",
+    "plan_sha256": "81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c"
+  },
+  "path_decision": {
+    "ref": "proposals/commit-rule-followups/commit-rule-followups.path-decision.json",
+    "sha256": "9baf02cd47f9f5a0ee629a8df6ebe40052b53b97c768535651cf414b9bbfcf26",
+    "selected_path": "prototype",
+    "classified_path": "prototype",
+    "errors": []
+  },
+  "route": "inline_prototype",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@4",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "8ef56347e0d354416b7ec547ab97208e8d767a58ed7c3f82c72dcd96c1deba97"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "b2aaf9581e24108cf0bc7642bbc381cfb1868cb40491982fe6963ab5c126184e"
+  },
+  "activation": {
+    "facts_ref": "proposals/commit-rule-followups/commit-rule-followups.facts.json",
+    "facts_sha256": "8357edf7ae35a58ccab05a365537bbd7f2ddd575c75b3cf6cfb648ca9298fcb6",
+    "facts": {
+      "shared_mechanism": false,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "multiple_writers": false,
+      "consequential_boundary": false,
+      "inline_prototype": true
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": false,
+        "reason": "shared_mechanism=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": false,
+        "reason": "multiple_writers=false (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": true,
+        "reason": "inline_prototype=true (derived:classified_path==prototype)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:a623b7dd38da8a1057ec67688274e7332d65e7d8e3d5a1311a925ca566e69b02",
+    "definition_sha256": "6400bacb7706fcaba31d65488165fa04d191dd1fbede81315ed3f4b850275230",
+    "bundle_ref": "proposals/commit-rule-followups/commit-rule-followups.bundle.json",
+    "bundle_sha256": "c02042a4ffb5ee41c5f55961c30554eabe6614e905190faadba5ce1483fe4581",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/commit-rule-followups/commit-rule-followups.md#actor-and-result",
+          "sha256": "81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-followups/c73e9bdab03f/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the actor as Brian and states the desired result for the AES commit rule. It also gives a stable, concrete example involving a specific goal, files, logged reason, and refusal behavior."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/commit-rule-followups/commit-rule-followups.path-decision.json",
+          "sha256": "9baf02cd47f9f5a0ee629a8df6ebe40052b53b97c768535651cf414b9bbfcf26"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/commit-rule-followups/commit-rule-followups.md#success-and-disproof",
+          "sha256": "81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-followups/c73e9bdab03f/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines success through named tests, expected verdicts and reasons, and a saved trace with required checks and matching exit status. It also gives concrete disproof conditions: any listed commit receiving a different verdict or new checks blocking a commit in observe mode."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/commit-rule-followups/commit-rule-followups.md#success-and-disproof",
+          "sha256": "81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-followups/c73e9bdab03f/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the judged run (the success check run on the change commit), identifies its trace location (the complete output saved at the specified path), and specifies what must be seen beyond the outcome, including the command, files, named checks/tests, non-skipped status, results, and matching exit status. It also states that both success and disproof are judged from that trace."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/commit-rule-followups/commit-rule-followups.md#authority-and-non-goals",
+          "sha256": "81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-followups/c73e9bdab03f/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies Brian as requesting the change in his own repository and states that one agent makes it, establishing authority. It also explicitly lists non-goals: work outside the specified files, irreversible actions, and spending."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "not_applicable",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/commit-rule-followups/commit-rule-followups.md#uncertainties",
+          "sha256": "81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-followups/c73e9bdab03f/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly lists the uncertainty about whether additional files are needed and provides concrete resolving evidence: a grep result identifying where the running-thing list lives and confirmation that the misuse review reads the same log."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/commit-rule-followups/commit-rule-followups.md#activation-facts",
+          "sha256": "81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-followups/c73e9bdab03f/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly declares all four activation facts false. The evidence describes verification checks rather than an experiment comparing alternative designs, states no model/agent/LLM pipeline runs, and explicitly excludes irreversible actions and spending; it presents the work as a bounded change to an existing commit rule rather than a new shared mechanism."
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PROTO-VERTICAL-RESET",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/commit-rule-followups/commit-rule-followups.md#vertical-and-reset",
+          "sha256": "81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-followups/c73e9bdab03f/OV-PROTO-VERTICAL-RESET",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines the vertical’s files and delivered behavior, gives a concrete completion check, and sets the reset boundary as `git revert` of the commit. It also states the non-goal as anything outside those files and contains no coordinated-work ceremony."
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 8,
+    "unresolved": 0,
+    "not_applicable": 1,
+    "unavailable": 0,
+    "missing": 0
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-commit-rule-followups-81a52810fadd",
+    "snapshot_ref": "SNAPSHOT-commit-rule-followups",
+    "snapshot_revision": "sha256:c02042a4ffb5ee41c5f55961c30554eabe6614e905190faadba5ce1483fe4581",
+    "packet_ref": "proposals/commit-rule-followups/commit-rule-followups.md",
+    "packet_revision": "sha256:81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [],
+    "route": "inline_prototype",
+    "adoption_readiness": "ready_for_contributor",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "pass",
+  "reason_codes": [],
+  "actionable_summary": [
+    "pass: 8 items evidenced, 1 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "quick-adopt",
+    "session": "759226d8-09ef-4336-9707-794b39537dc4"
+  },
+  "started_at": "2026-10-08T02:53:07Z",
+  "completed_at": "2026-10-08T02:53:23Z",
+  "duration_ms": 15999
+}
