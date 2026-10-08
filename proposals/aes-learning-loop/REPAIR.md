@@ -21,3 +21,6 @@ test success alone is not evidence that recurring failures have stopped.
 
 Operator commands and the receipt contract are in
 [the service guide](../../scripts/learning_loop/systemd/README.md).
+
+[How feedback works and what it feeds](feedback-system.svg) shows the automatic flow,
+agent-applied changes, recurrence checks and the separate legacy taxonomy input.
