@@ -85,6 +85,13 @@ TAG_RE = re.compile(
 )
 GIT_OWN_PREFIXES = ("Merge ", "fixup! ", "squash! ", "amend! ")
 EMERGENCY_RE = re.compile(r"^Emergency:\s*\S", re.MULTILINE)
+EMERGENCY_LINE_RE = re.compile(r"^Emergency:.*$", re.MULTILINE)
+# An Emergency: line that declares there is none ("Emergency: none; ...", "Emergency: n/a").
+# A declared placeholder value, checked like a field value; judging whether a stated reason is a
+# real emergency is the nightly light-model review's job (misuse_review.py), not this hook's.
+# "none" or "n/a" must stand alone (end of line or ; . , : ( or a dash next), so a real reason that
+# starts with the word ("Emergency: none of the backups ran") is still accepted.
+NO_EMERGENCY_RE = re.compile(r"^Emergency:\s*(?:none|n/a|na)\s*(?:$|[;.,:(\u2014-])", re.MULTILINE | re.IGNORECASE)
 AUTO_JOB_RE = re.compile(r"^Auto-job:\s*(\S.*)$", re.MULTILINE)
 # Provenance, not a verdict input (Brian, 2026-10-07: "it depends on what i asked ... maybe a secondary
 # tag"): who asked for the change, in their words, e.g. Asked: Brian 2026-10-07 "make it public".
@@ -704,6 +711,9 @@ def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str
     if match["plan"] is not None or match["goal"] is not None:
         tag = f"Plan #{match['plan']}" if match["plan"] is not None else f"Goal {match['goal']}"
         ok, why, meta = adopted_plan(config.plan_roots, match["plan"], match["goal"], config.plan_workspace)
+        if not ok:
+            why += ("; adopt the plan through Company Planning (`quick-adopt` turns a small single-repository "
+                    "request into an adopted plan in about 10 s) or use [Trivial] for at most 3 files and 60 lines")
         result = verdict("accept" if ok else "refuse", tag, why)
         result.check = "plan-adoption"
         result.scope = write_scope(meta, config.repository_names) if ok else []
@@ -724,6 +734,11 @@ def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str
             return verdict("refuse", "Trivial", "not trivial: " + "; ".join(problems) + "; plan it ([Plan #N] or [Goal <id>])")
         return verdict("accept", "Trivial", f"trivial: {files} file(s), {lines} line(s), no running-thing file")
     if match["unplanned"]:
+        if NO_EMERGENCY_RE.search(message) and not any(
+                not NO_EMERGENCY_RE.match(line) for line in EMERGENCY_LINE_RE.findall(message)):
+            return verdict("refuse", "Unplanned", "[Unplanned] is for emergencies, and the Emergency: line says there "
+                           "is none; plan it in about 10 s with Company Planning's `quick-adopt` and tag [Goal <id>], "
+                           "or use [Trivial] for at most 3 files and 60 lines that touch nothing that runs")
         if EMERGENCY_RE.search(message):
             return verdict("accept", "Unplanned", "emergency recorded (Emergency: line present); logged for review")
         why = "[Unplanned] is for emergencies: add an 'Emergency: <reason>' line"

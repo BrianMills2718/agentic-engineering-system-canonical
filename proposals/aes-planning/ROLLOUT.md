@@ -150,3 +150,29 @@ that is not adopted is still only logged. Backup of the config before the switch
 every commit reads it). Basis: the pre-review above (wrong refusals 2 of 41 after #193); the nightly
 never-absolute-brain backup now commits as `[Auto]` (never-absolute-brain PR #9; its first committing run is
 still to be observed).
+
+## "Emergency: none" is refused (2026-10-08)
+
+Session code-15 reported that `[Unplanned]` accepted any `Emergency:` line, including one that
+declares there is none ("Emergency: none; [Unplanned] is the tag this repository accepts for
+unplanned maintenance (AES #189)"). The rule now refuses an `[Unplanned]` commit whose every
+`Emergency:` line is `none`, `n/a` or `na` standing alone, and names quick-adopt and `[Trivial]` as
+the routes. A reason that only starts with the word ("none of the backups ran since 06:00") is still
+accepted; whether a stated reason is a real emergency stays the nightly misuse review's call. Replay
+over every `[Unplanned]` commit in `~/code` since 2026-10-07: 276 commits, 25 would be refused, and
+all 25 read "Emergency: none; …" (project-meta, brians-2nd-brain-integration-work, agent-skills,
+grounded-research and seven other repositories). It takes effect with the stage-2 switch, since
+observe mode only logs. Script: `rollout/replay_emergency.py`.
+
+## Plan lookup refuses too, from 2026-10-09 08:00:30
+
+Brian approved (2026-10-08 19:01, "i approve", in session code-15) the recommendation that every
+non-trivial change runs under an adopted plan sized to the work, with the commit rule refusing
+rather than logging. So `plan_adoption` switches to `enforce` 30 s after the stage-2 switch (transient
+timer `aes-commit-rule-plan-adoption-enforce`, logged to `~/.local/state/aes/commit-rule-switch.log`).
+A plan-lookup refusal now names the routes: `quick-adopt` for a small single-repository change, or
+`[Trivial]`. Pre-check of 2026-10-08's 82 plan-lookup refusals (21 tags): none named a plan that is
+adopted and was missed; each named no plan, a roadmap or path-decision id, a numbered plan never
+adopted through Company Planning, or a plan edited after adoption (`aes-learning-loop`,
+`aes-brownfield-docs`: re-adopt). Wrong if the first enforced day shows a refusal of a commit whose
+plan is adopted on its repository's default branch.

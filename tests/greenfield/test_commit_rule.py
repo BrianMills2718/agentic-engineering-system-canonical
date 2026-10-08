@@ -167,6 +167,23 @@ def test_emergency_and_shaping(repo: Path) -> None:
     assert done.returncode == 1 and "also touches README.md" in done.stderr
 
 
+def test_plan_refusal_names_the_way_to_adopt_one(repo: Path) -> None:
+    _stage_worker_tools(repo)
+    done = _git(repo, "commit", "-m", "[Goal no-such-plan] add worker tools")
+    assert done.returncode == 1 and "no-such-plan" in done.stderr and "quick-adopt" in done.stderr
+
+
+def test_unplanned_whose_emergency_line_says_none_is_refused(repo: Path) -> None:
+    _stage_worker_tools(repo)
+    for reason in ("none; [Unplanned] is the tag this repository accepts for unplanned maintenance (AES #189)",
+                   "None.", "n/a", "NA - routine cleanup"):
+        done = _git(repo, "commit", "-m", f"[Unplanned] add worker tools\n\nEmergency: {reason}")
+        assert done.returncode == 1 and "says there is none" in done.stderr and "quick-adopt" in done.stderr, reason
+    # A real reason that merely starts with the word is still an emergency.
+    done = _git(repo, "commit", "-m", "[Unplanned] add worker tools\n\nEmergency: none of the backups ran since 06:00")
+    assert done.returncode == 0 and "emergency recorded" in done.stderr
+
+
 def test_observe_mode_logs_and_never_blocks(repo: Path) -> None:
     _set_mode(repo, "observe")
     _stage_worker_tools(repo)
