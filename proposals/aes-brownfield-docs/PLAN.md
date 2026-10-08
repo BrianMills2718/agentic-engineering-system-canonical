@@ -18,6 +18,7 @@ goal:
 **Authority:** Brian, 2026-10-07: "ok lets make our plans movigin forward company plans complaint", following his approval of the graph-retrieval pilot and "we want the wiki to act as a naviagational alyer". Repository authority: AES canonical `.agentic/repo.yaml` (layout pilot contract), project-meta `docs/ops/WIKI_AND_DOCS_POLICY.md` (docs/generated/wiki split).
 **Selected controls:** continuity across sessions (this plan); uncertainty (layout never applied to an existing repo); one writer; reversible (git); no external effect beyond pull requests.
 **Artifact consumer / decision value:** Brian and the agents that continue this work; it decides whether AES's documentation layout replaces the 100-file count as the documentation rule.
+**Execution profile:** continuous-light
 **Stage / investment boundary:** pilot on one repository.
 **Last outcome-bearing update:** 2026-10-07, graph-retrieval main 8cc8c598 (PRs #246 and #248): 0 orphans, 76 documents reachable within two clicks, cold reader answered all five questions; see [RETROFIT_NOTE.md](RETROFIT_NOTE.md).
 
