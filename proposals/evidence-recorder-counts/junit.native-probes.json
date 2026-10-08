@@ -1,0 +1,212 @@
+{
+  "schema": "NativePytestJUnitProbeV1",
+  "subject": "pytest native report fields before recorder repair; no fixed recorder claim",
+  "recorder_source_revision": "431deeb67a2a3b5af67065ecc07de0170a143d59",
+  "interpreter": "/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+  "fixtures_ephemeral_inputs_embedded": true,
+  "results": [
+    {
+      "case": "pass",
+      "source": "def test_case():\n    assert True\n",
+      "command": [
+        "/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--junit-xml",
+        "/home/brian/code/.scratch/evidence-recorder-counts/tmpvf8sijyu/pass/out.xml",
+        "test_case.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.287,
+      "native_suite_attributes": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "1",
+          "time": "0.015",
+          "timestamp": "2026-10-08T00:32:36.532406-04:00",
+          "hostname": "WINDOWS-STQ88HK"
+        }
+      ],
+      "stdout": ".                                                                        [100%]\n1 passed in 0.01s\n",
+      "stderr": ""
+    },
+    {
+      "case": "fail",
+      "source": "def test_case():\n    assert False\n",
+      "command": [
+        "/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--junit-xml",
+        "/home/brian/code/.scratch/evidence-recorder-counts/tmpvf8sijyu/fail/out.xml",
+        "test_case.py"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.263,
+      "native_suite_attributes": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "1",
+          "skipped": "0",
+          "tests": "1",
+          "time": "0.028",
+          "timestamp": "2026-10-08T00:32:36.795230-04:00",
+          "hostname": "WINDOWS-STQ88HK"
+        }
+      ],
+      "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n__________________________________ test_case ___________________________________\n\n    def test_case():\n>       assert False\nE       assert False\n\ntest_case.py:2: AssertionError\n=========================== short test summary info ============================\nFAILED test_case.py::test_case - assert False\n1 failed in 0.03s\n",
+      "stderr": ""
+    },
+    {
+      "case": "skip",
+      "source": "import pytest\n@pytest.mark.skip(reason=\"fixture\")\ndef test_case():\n    assert False\n",
+      "command": [
+        "/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--junit-xml",
+        "/home/brian/code/.scratch/evidence-recorder-counts/tmpvf8sijyu/skip/out.xml",
+        "test_case.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.235,
+      "native_suite_attributes": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "1",
+          "tests": "1",
+          "time": "0.012",
+          "timestamp": "2026-10-08T00:32:37.058154-04:00",
+          "hostname": "WINDOWS-STQ88HK"
+        }
+      ],
+      "stdout": "s                                                                        [100%]\n1 skipped in 0.01s\n",
+      "stderr": ""
+    },
+    {
+      "case": "mixed",
+      "source": "import pytest\ndef test_pass():\n    assert True\n@pytest.mark.skip(reason=\"fixture\")\ndef test_skip():\n    assert False\n",
+      "command": [
+        "/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--junit-xml",
+        "/home/brian/code/.scratch/evidence-recorder-counts/tmpvf8sijyu/mixed/out.xml",
+        "test_case.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.285,
+      "native_suite_attributes": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "1",
+          "tests": "2",
+          "time": "0.020",
+          "timestamp": "2026-10-08T00:32:37.312119-04:00",
+          "hostname": "WINDOWS-STQ88HK"
+        }
+      ],
+      "stdout": ".s                                                                       [100%]\n1 passed, 1 skipped in 0.02s\n",
+      "stderr": ""
+    },
+    {
+      "case": "error",
+      "source": "import pytest\n@pytest.fixture\ndef broken():\n    raise RuntimeError(\"fixture\")\ndef test_case(broken):\n    assert True\n",
+      "command": [
+        "/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--junit-xml",
+        "/home/brian/code/.scratch/evidence-recorder-counts/tmpvf8sijyu/error/out.xml",
+        "test_case.py"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.265,
+      "native_suite_attributes": [
+        {
+          "name": "pytest",
+          "errors": "1",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "1",
+          "time": "0.024",
+          "timestamp": "2026-10-08T00:32:37.591296-04:00",
+          "hostname": "WINDOWS-STQ88HK"
+        }
+      ],
+      "stdout": "E                                                                        [100%]\n==================================== ERRORS ====================================\n_________________________ ERROR at setup of test_case __________________________\n\n    @pytest.fixture\n    def broken():\n>       raise RuntimeError(\"fixture\")\nE       RuntimeError: fixture\n\ntest_case.py:4: RuntimeError\n=========================== short test summary info ============================\nERROR test_case.py::test_case - RuntimeError: fixture\n1 error in 0.02s\n",
+      "stderr": ""
+    },
+    {
+      "case": "xfail",
+      "source": "import pytest\n@pytest.mark.xfail(reason=\"fixture\")\ndef test_case():\n    assert False\n",
+      "command": [
+        "/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--junit-xml",
+        "/home/brian/code/.scratch/evidence-recorder-counts/tmpvf8sijyu/xfail/out.xml",
+        "test_case.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.246,
+      "native_suite_attributes": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "1",
+          "tests": "1",
+          "time": "0.022",
+          "timestamp": "2026-10-08T00:32:37.842677-04:00",
+          "hostname": "WINDOWS-STQ88HK"
+        }
+      ],
+      "stdout": "x                                                                        [100%]\n1 xfailed in 0.02s\n",
+      "stderr": ""
+    },
+    {
+      "case": "empty",
+      "source": "# no tests\n",
+      "command": [
+        "/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--junit-xml",
+        "/home/brian/code/.scratch/evidence-recorder-counts/tmpvf8sijyu/empty/out.xml",
+        "test_case.py"
+      ],
+      "exit_code": 5,
+      "elapsed_seconds": 0.254,
+      "native_suite_attributes": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "0",
+          "time": "0.006",
+          "timestamp": "2026-10-08T00:32:38.109759-04:00",
+          "hostname": "WINDOWS-STQ88HK"
+        }
+      ],
+      "stdout": "\nno tests ran in 0.00s\n",
+      "stderr": ""
+    }
+  ]
+}

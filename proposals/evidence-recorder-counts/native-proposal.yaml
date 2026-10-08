@@ -1,0 +1,58 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-AES-EVIDENCE-COUNTS
+title: Record substantive pytest outcomes before evidence supports a claim
+rationale: 'Repairs reproduced AES issue257: real default pytest run1skipped/exit0 saved SUPPORTS at431deeb6.
+  Adopt native pytestJUnit and typed counts; retain explicit unknown counts for customcommands. Company
+  Planning repair in proposals/evidence-recorder-counts/README.md governs this bounded source change.'
+closes_gaps: []
+adopted_plan_ref: proposals/evidence-recorder-counts/README.md
+trace_review:
+  runs_traced_work: false
+  reason: The implementation subject is deterministic recorder behavior and real pytest fixtures,
+    with no model, agent or data pipeline.
+target_delta:
+  add:
+    success_criteria:
+    - id: SC-EVIDENCE-COUNTS-001
+      statement: The default Python pytest evidence recorder saves typed
+        passed/failed/errored/skipped counts and exitstatus; allskipped or unavailable native counts
+        with exit0 assess INCONCLUSIVE, substantive pass SUPPORTS unless downgraded, failure
+        REFUTES. Customcommands carry explicitly unknown/unsupported counts rather than invented
+        results.
+      target_refs:
+      - GF-REQ-007
+      - GF-REQ-008
+      disproof: A default allskipped run SUPPORTS; native counts disagree with real fixtures;
+        invalid or absent native counts support evidence; custom prose manufactures counts.
+      evidence_requirements:
+      - id: ER-EVIDENCE-COUNTS-001-01
+        kind: deterministic_test
+        requirement: Run real pytest pass,fail,allskip and mixed fixtures through record(); assert
+          exact result counts, exit and assessment. Verify malformed or missing native reports do
+          not promote SUPPORTS and customcommand counts remain explicitly unknown.
+    verification_subjects:
+    - id: VS-EVIDENCE-COUNTS
+      criterion_refs:
+      - SC-EVIDENCE-COUNTS-001
+      evidence_requirement_refs:
+      - ER-EVIDENCE-COUNTS-001-01
+      proof_kind: deterministic_test
+      proof_role: direct
+      locator: tests/greenfield/test_evidence.py
+      purpose: Verify recorder counts and assessments using real pytest execution, plus report
+        integrity and custom-command compatibility.
+  change:
+    components:
+    - id: RU-AES-EVIDENCE
+      responsibility: "Represent observations and compute evidence freshness, adequacy and standing independently
+        from pass-like provider results.\n"
+      target_refs:
+      - GF-REQ-007
+      - GF-REQ-008
+      - SC-GF-007
+      - SC-GF-008
+      - SC-EVIDENCE-COUNTS-001
+      planned_artifact_refs:
+      - ART-SRC-EVIDENCE
+      - ART-TEST-EVIDENCE
+      - ART-TEST-EVIDENCE-CONTROLS

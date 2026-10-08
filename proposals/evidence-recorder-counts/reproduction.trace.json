@@ -1,0 +1,218 @@
+{
+  "source_revision": "431deeb67a2a3b5af67065ecc07de0170a143d59",
+  "boundary": "Every subprocess.run issued inside default record(), including its Git/dependency checks and pytest; fixture preparation is setup, not recorder trace.",
+  "fixture_source": "import pytest\n@pytest.mark.skip(reason='reproducer')\ndef test_obligation():\n    assert False\n",
+  "steps": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "HEAD^{commit}"
+      ],
+      "cwd": "/home/brian/code/.scratch/evidence-recorder-counts/tmp6d_sxjj5",
+      "exit_code": 0,
+      "stdout": "879f1430e577bf5f54f91e12ec412cb3ea4ba70c\n",
+      "stderr": "",
+      "seconds": 0.0926
+    },
+    {
+      "argv": [
+        "git",
+        "ls-tree",
+        "-r",
+        "-l",
+        "-z",
+        "HEAD",
+        "--",
+        "src/",
+        "tests/"
+      ],
+      "cwd": "/home/brian/code/.scratch/evidence-recorder-counts/tmp6d_sxjj5",
+      "exit_code": 0,
+      "stdout": "100644 blob 725b50a5bc4087fb5c3a4b32f0cd5db5265fc6fa      15\tsrc/whygame5/prompts.py\u0000100644 blob f4ae64ca668ff2f9f7a4feacb38174818b4ef14c      93\ttests/test_prompts.py\u0000",
+      "stderr": "",
+      "seconds": 0.0837
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain",
+        "--untracked-files=no",
+        "--",
+        "src/",
+        "tests/"
+      ],
+      "cwd": "/home/brian/code/.scratch/evidence-recorder-counts/tmp6d_sxjj5",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0977
+    },
+    {
+      "argv": [
+        "git",
+        "cat-file",
+        "--batch"
+      ],
+      "cwd": "/home/brian/code/.scratch/evidence-recorder-counts/tmp6d_sxjj5",
+      "exit_code": 0,
+      "stdout": "725b50a5bc4087fb5c3a4b32f0cd5db5265fc6fa blob 15\nPROMPT = 'why'\n\nf4ae64ca668ff2f9f7a4feacb38174818b4ef14c blob 93\nimport pytest\n@pytest.mark.skip(reason='reproducer')\ndef test_obligation():\n    assert False\n\n",
+      "stderr": "",
+      "seconds": 0.0886
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--show-toplevel"
+      ],
+      "cwd": "/home/brian/code/agentic-engineering-system-canonical/worktrees/evidence-recorder-counts/src/agentic_engineering_system",
+      "exit_code": 0,
+      "stdout": "/home/brian/code/agentic-engineering-system-canonical/worktrees/evidence-recorder-counts\n",
+      "stderr": "",
+      "seconds": 0.0782
+    },
+    {
+      "argv": [
+        "git",
+        "ls-files",
+        "--error-unmatch",
+        "--",
+        "/home/brian/code/agentic-engineering-system-canonical/worktrees/evidence-recorder-counts/src/agentic_engineering_system/characterize.py"
+      ],
+      "cwd": "/home/brian/code/agentic-engineering-system-canonical/worktrees/evidence-recorder-counts",
+      "exit_code": 0,
+      "stdout": "src/agentic_engineering_system/characterize.py\n",
+      "stderr": "",
+      "seconds": 0.0794
+    },
+    {
+      "argv": [
+        "git",
+        "describe",
+        "--always",
+        "--dirty"
+      ],
+      "cwd": "/home/brian/code/agentic-engineering-system-canonical/worktrees/evidence-recorder-counts",
+      "exit_code": 0,
+      "stdout": "431deeb\n",
+      "stderr": "",
+      "seconds": 0.0923
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain",
+        "--",
+        "tests/test_prompts.py",
+        ".aes/target.yaml"
+      ],
+      "cwd": "/home/brian/code/.scratch/evidence-recorder-counts/tmp6d_sxjj5",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0944
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "/home/brian/code/.scratch/evidence-recorder-counts/tmp6d_sxjj5",
+      "exit_code": 0,
+      "stdout": "879f1430e577bf5f54f91e12ec412cb3ea4ba70c\n",
+      "stderr": "",
+      "seconds": 0.0777
+    },
+    {
+      "argv": [
+        "/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_prompts.py"
+      ],
+      "cwd": "/home/brian/code/.scratch/evidence-recorder-counts/tmp6d_sxjj5",
+      "exit_code": 0,
+      "stdout": "s                                                                        [100%]\n1 skipped in 0.01s\n",
+      "stderr": "",
+      "seconds": 0.3385
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--show-toplevel"
+      ],
+      "cwd": "/home/brian/code/agentic-engineering-system-canonical/worktrees/evidence-recorder-counts/src/agentic_engineering_system",
+      "exit_code": 0,
+      "stdout": "/home/brian/code/agentic-engineering-system-canonical/worktrees/evidence-recorder-counts\n",
+      "stderr": "",
+      "seconds": 0.0802
+    },
+    {
+      "argv": [
+        "git",
+        "ls-files",
+        "--error-unmatch",
+        "--",
+        "/home/brian/code/agentic-engineering-system-canonical/worktrees/evidence-recorder-counts/src/agentic_engineering_system/characterize.py"
+      ],
+      "cwd": "/home/brian/code/agentic-engineering-system-canonical/worktrees/evidence-recorder-counts",
+      "exit_code": 0,
+      "stdout": "src/agentic_engineering_system/characterize.py\n",
+      "stderr": "",
+      "seconds": 0.0771
+    },
+    {
+      "argv": [
+        "git",
+        "describe",
+        "--always",
+        "--dirty"
+      ],
+      "cwd": "/home/brian/code/agentic-engineering-system-canonical/worktrees/evidence-recorder-counts",
+      "exit_code": 0,
+      "stdout": "431deeb\n",
+      "stderr": "",
+      "seconds": 0.0791
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "-q",
+        "refs/remotes/origin/HEAD"
+      ],
+      "cwd": "/home/brian/code/.scratch/evidence-recorder-counts/tmp6d_sxjj5",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0752
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "-q",
+        "refs/remotes/origin/main"
+      ],
+      "cwd": "/home/brian/code/.scratch/evidence-recorder-counts/tmp6d_sxjj5",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0794
+    }
+  ],
+  "saved_observation_result": {
+    "exit_code": 0,
+    "output_tail": "s                                                                        [100%]\n1 skipped in 0.01s"
+  },
+  "saved_assessment": "SUPPORTS"
+}
