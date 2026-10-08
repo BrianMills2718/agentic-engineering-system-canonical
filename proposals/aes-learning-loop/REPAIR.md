@@ -22,5 +22,9 @@ test success alone is not evidence that recurring failures have stopped.
 Operator commands and the receipt contract are in
 [the service guide](../../scripts/learning_loop/systemd/README.md).
 
-[How feedback works and what it feeds](feedback-system.svg) shows the automatic flow,
-agent-applied changes, recurrence checks and the separate legacy taxonomy input.
+[Feedback types, generalized causes and enforced prevention](feedback-system.svg) maps
+problems, control friction, lessons, research, human corrections and skill-use feedback
+to their shared improvement targets. A local repair alone is insufficient: the agent
+tests the generalized cause, applies prevention at its source, records enforcement
+proof and checks recurrence. Separate skill feedback and the legacy taxonomy gap
+remain explicit; the tooltip example illustrates a possible cause, not a diagnosis.
