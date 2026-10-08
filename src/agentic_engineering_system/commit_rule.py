@@ -32,6 +32,17 @@ messages and an ``[Unplanned]`` emergency: plan the file through ``aes plan acce
 first, which removes it from the baseline. Deleting a legacy file is allowed.
 ``replay`` judges history against today's baseline.
 
+Company Planning plans declare their path scope with the work-unit record's own field
+(issue #218): front matter ``conflict_surfaces``, each entry shaped as Company Planning's
+work-unit schema 1.1 ``conflictSurface`` (``kind: repository_path``, ``repository``,
+``target``, ``access``). A ``[Plan #N]`` / ``[Goal <id>]`` commit whose plan is adopted may
+edit a legacy file inside one of that plan's ``write`` or ``exclusive`` surfaces for this
+repository; ``target`` is a file, a directory (everything under it) or a glob (``*``, ``?``,
+``**``). The surfaces are inside the plan's adopted bytes, so widening them means
+re-adopting the plan. A legacy edit outside the named plan's surfaces is still refused.
+Once such a file has changed at ``HEAD`` it leaves the unplanned-legacy set
+(``adopt.unplanned_legacy``), the way ``aes plan accept`` drops a file the target plans.
+
 Git's own merge, fixup, squash and amend messages are accepted. Paths and tags
 are matched with regular expressions (identifiers, not prose); nothing judges
 what a message means.
@@ -106,6 +117,9 @@ class RuleConfig:
     # repository directly under this folder (one level), so a plan lives in the repository
     # that owns it and work in any other repository can still name it.
     plan_workspace: Path | None = None
+    # Names a conflict surface's `repository` may use for this repository (lower case):
+    # origin's owner/repo, its repo part, and the main checkout's folder name.
+    repository_names: tuple[str, ...] = ()
 
 
 @dataclass
@@ -117,6 +131,7 @@ class Verdict:
     lines: int = 0
     running_things: list[str] = field(default_factory=list)
     check: str = ""  # "plan-adoption" for a plan named but not adopted; lets that check stay observe-only
+    scope: list[str] = field(default_factory=list)  # the adopted plan's write surfaces in this repository
     asked: str = ""  # the commit's Asked: line, if any; recorded for review, never changes the verdict
 
 
@@ -131,6 +146,24 @@ def machine_config_path() -> Path:
     return Path(os.environ.get(MACHINE_CONFIG_ENV) or Path.home() / ".config" / "aes" / "commit_rule.yaml")
 
 
+def repository_names(root: Path) -> tuple[str, ...]:
+    """What a conflict surface's `repository` may say to mean this repository, lower-cased:
+    origin's `owner/repo` and `repo`, and the main checkout's folder name (a linked
+    worktree's own folder name is not the repository's)."""
+    names = []
+    url = subprocess.run(["git", "-C", str(root), "remote", "get-url", "origin"],
+                         capture_output=True, text=True, check=False).stdout.strip()
+    if url:
+        parts = re.split(r"[/:]", url.removesuffix(".git").rstrip("/"))
+        if len(parts) >= 2 and parts[-1]:
+            names += [f"{parts[-2]}/{parts[-1]}", parts[-1]]
+    common = subprocess.run(["git", "-C", str(root), "rev-parse", "--path-format=absolute", "--git-common-dir"],
+                            capture_output=True, text=True, check=False).stdout.strip()
+    if common:
+        names.append(Path(common).parent.name)
+    return tuple(dict.fromkeys(n.lower() for n in names if n))
+
+
 def load_rule_config(root: Path) -> RuleConfig:
     path = root / CONFIG_PATH
     if path.is_file():
@@ -138,7 +171,7 @@ def load_rule_config(root: Path) -> RuleConfig:
     else:
         path = machine_config_path()
         if not path.is_file():
-            return RuleConfig(plan_roots=(root,))
+            return RuleConfig(plan_roots=(root,), repository_names=repository_names(root))
         machine = _YAML.load(path.read_text(encoding="utf-8")) or {}
         override = (machine.get("repos") or {}).get(root.name) or {}
         data = {**{k: v for k, v in machine.items() if k != "repos"}, **override}
@@ -158,6 +191,7 @@ def load_rule_config(root: Path) -> RuleConfig:
         source=str(path),
         plan_adoption=plan_adoption,
         plan_workspace=Path(data["plan_workspace"]).expanduser() if data.get("plan_workspace") else None,
+        repository_names=repository_names(root),
     )
 
 
@@ -216,14 +250,21 @@ def _plan_candidates(plan_root: Path, number: str | None, plan_id: str | None) -
     return found
 
 
-def _adoption(read, plan_rel: str, where: str) -> tuple[bool, str]:
+def _adoption(read, plan_rel: str, where: str) -> tuple[bool, str, dict]:
     """The adoption check over any byte source: `read(path relative to the plan root)` returns the
-    file's bytes or None. `where` names the plan in messages."""
+    file's bytes or None. `where` names the plan in messages. The third value is the plan's front
+    matter (empty when the plan is missing)."""
     text = read(plan_rel)
     if text is None:
-        return False, f"{where}: plan file not found"
+        return False, f"{where}: plan file not found", {}
     match = FRONT_MATTER_RE.match(text.decode("utf-8", errors="replace"))
     meta = (_YAML.load(match.group(1)) or {}) if match else {}
+    meta = meta if isinstance(meta, dict) else {}
+    ok, why = _adoption_of(read, text, meta, where)
+    return ok, why, meta
+
+
+def _adoption_of(read, text: bytes, meta: dict, where: str) -> tuple[bool, str]:
     receipt_ref = meta.get("method_conformance_receipt")
     if not receipt_ref:
         return False, f"{where}: no method_conformance_receipt in front matter (not adopted through Company Planning)"
@@ -251,8 +292,86 @@ def plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]:
     def read(r: str) -> bytes | None:
         f = plan if r == rel else plan_root / r
         return f.read_bytes() if f.is_file() else None
-    ok, why = _adoption(read, rel, str(plan))
+    ok, why, _meta = _adoption(read, rel, str(plan))
     return ok, (f"{rel} adopted" if ok else why)
+
+
+def _glob_re(pattern: str) -> re.Pattern[str]:
+    out, i = [], 0
+    while i < len(pattern):
+        if pattern.startswith("**/", i):
+            out.append("(?:.*/)?")
+            i += 3
+        elif pattern.startswith("**", i):
+            out.append(".*")
+            i += 2
+        elif pattern[i] == "*":
+            out.append("[^/]*")
+            i += 1
+        elif pattern[i] == "?":
+            out.append("[^/]")
+            i += 1
+        else:
+            out.append(re.escape(pattern[i]))
+            i += 1
+    return re.compile("".join(out))
+
+
+def in_surface(path: str, target: str) -> bool:
+    """Whether `path` lies in a repository_path surface `target`: the same file, anything under
+    that directory, or a glob match (`*` and `?` stay within one directory, `**` crosses them)."""
+    target = target.strip().removeprefix("./")
+    if any(ch in target for ch in "*?"):
+        return bool(_glob_re(target).fullmatch(path))
+    target = target.rstrip("/")
+    return bool(target) and (path == target or path.startswith(target + "/"))
+
+
+def write_scope(meta: dict, names: tuple[str, ...]) -> list[str]:
+    """The plan's `conflict_surfaces` targets this repository may write: Company Planning's
+    work-unit `conflictSurface` shape, `kind: repository_path`, `access: write | exclusive`, and a
+    `repository` that names this repository. Other entries (read access, other kinds, other
+    repositories, malformed ones) grant nothing."""
+    out = []
+    surfaces = meta.get("conflict_surfaces")
+    for s in surfaces if isinstance(surfaces, list) else []:
+        if not isinstance(s, dict) or s.get("kind") != "repository_path" or s.get("access") not in ("write", "exclusive"):
+            continue
+        if str(s.get("repository", "")).strip().lower() not in names:
+            continue
+        if isinstance(s.get("target"), str) and s["target"].strip():
+            out.append(s["target"].strip())
+    return out
+
+
+def adopted_write_scopes(plan_roots: tuple[Path, ...], names: tuple[str, ...]) -> list[str]:
+    """Write surfaces for this repository of every adopted plan under `plan_roots`
+    (`docs/plans/*.md`, `proposals/*/*.md`). Only plans whose front matter mentions
+    `conflict_surfaces` are parsed and checked."""
+    out: list[str] = []
+    for plan_root in plan_roots:
+        for plan in sorted(plan_root.glob("docs/plans/*.md")) + sorted(plan_root.glob("proposals/*/*.md")):
+            try:
+                text = plan.read_bytes()
+            except OSError:
+                continue
+            match = FRONT_MATTER_RE.match(text.decode("utf-8", errors="replace"))
+            if not match or "conflict_surfaces" not in match.group(1):
+                continue
+            try:
+                meta = _YAML.load(match.group(1)) or {}
+            except Exception:  # a malformed plan grants no scope; its own [Plan #N] commits say why
+                continue
+            if not isinstance(meta, dict):
+                continue
+
+            def read(r: str, _root: Path = plan_root) -> bytes | None:
+                f = _root / r
+                return f.read_bytes() if f.is_file() else None
+            ok, _why = _adoption_of(read, text, meta, str(plan))
+            if ok:
+                out += write_scope(meta, names)
+    return out
 
 
 def workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] = ()) -> list[Path]:
@@ -352,7 +471,7 @@ def _refresh_index_in_background(workspace: Path) -> None:
         pass
 
 
-def indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, str]], bool]:
+def indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, str, dict]], bool]:
     """Judge `plan_id` from each repository's default branch as recorded in the plan index.
     Returns the per-candidate verdicts and whether the index was missing or stale (and so a
     background refresh was started)."""
@@ -371,8 +490,8 @@ def indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, st
             def read(r: str, _repo: str = repo, _sha: str = sha) -> bytes | None:
                 done = subprocess.run(["git", "-C", _repo, "show", f"{_sha}:{r}"], capture_output=True, check=False)
                 return done.stdout if done.returncode == 0 else None
-            ok, why = _adoption(read, rel, f"{Path(repo).name} {entry['ref']}:{rel}")
-            verdicts.append((ok, why))
+            ok, why, meta = _adoption(read, rel, f"{Path(repo).name} {entry['ref']}:{rel}")
+            verdicts.append((ok, why, meta))
     if stale:
         _refresh_index_in_background(workspace)
     return verdicts, stale
@@ -384,6 +503,13 @@ def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: st
 
     [Plan #N] numbers are per repository, so only a [Goal <id>] is looked up across the
     workspace, and only when no plan root holds it."""
+    ok, why, _meta = adopted_plan(plan_roots, number, plan_id, plan_workspace)
+    return ok, why
+
+
+def adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None,
+                 plan_workspace: Path | None = None) -> tuple[bool, str, dict]:
+    """`receipt_status`, plus the adopted plan's front matter (empty unless adopted)."""
     label = f"#{number}" if number is not None else plan_id
     plans = [(r, p) for r in plan_roots for p in _plan_candidates(r, number, plan_id)]
     searched = [str(r) for r in plan_roots]
@@ -392,24 +518,29 @@ def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: st
             plans += [(repo, p) for p in _plan_candidates(repo, None, plan_id)]
         searched.append(f"every repository in {plan_workspace}")
     if not plans and (plan_id is None or plan_workspace is None):
-        return False, f"no plan {label} found under {', '.join(searched)}"
+        return False, f"no plan {label} found under {', '.join(searched)}", {}
     reasons = [] if plans else [f"no plan {label} found under {', '.join(searched)}"]
     for plan_root, plan in plans:
-        ok, why = plan_adoption(plan_root, plan)
+        rel = str(plan.relative_to(plan_root)) if plan.is_relative_to(plan_root) else str(plan)
+
+        def read(r: str, _plan: Path = plan, _rel: str = rel, _root: Path = plan_root) -> bytes | None:
+            f = _plan if r == _rel else _root / r
+            return f.read_bytes() if f.is_file() else None
+        ok, why, meta = _adoption(read, rel, str(plan))
         if ok:
-            return True, f"plan {label} adopted ({plan.relative_to(plan_root)})"
+            return True, f"plan {label} adopted ({plan.relative_to(plan_root)})", meta
         reasons.append(why)
     if plan_id is not None and plan_workspace is not None:
         # A checkout may sit on another branch or behind main: judge each repository's default
         # branch too, from the plan index (rebuilt daily and in the background when stale).
         verdicts, stale = indexed_adoption(plan_workspace, plan_id)
-        for ok, why in verdicts:
+        for ok, why, meta in verdicts:
             if ok:
-                return True, f"plan {label} adopted on the default branch ({why.removesuffix(' adopted')})"
+                return True, f"plan {label} adopted on the default branch ({why.removesuffix(' adopted')})", meta
             reasons.append(why)
         if stale:
             reasons.append("plan index missing or older than an hour; a refresh was started")
-    return False, "; ".join(reasons)
+    return False, "; ".join(reasons), {}
 
 
 def judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig,
@@ -422,10 +553,21 @@ def judge(message: str, changes: list[FileChange], governed_roots: list[str], co
     edited = sorted(c.path for c in changes if c.status in ("M", "T") and c.path in legacy)
     if not edited or v.tag == "git" or (v.tag == "Unplanned" and v.verdict == "accept"):
         return v
+    named_plan = v.check == "plan-adoption"
+    if named_plan and v.verdict == "accept":
+        inside = [p for p in edited if any(in_surface(p, t) for t in v.scope)]
+        if inside:
+            v.reasons.append(f"legacy edit inside {v.tag}'s declared conflict_surfaces: {', '.join(inside)}")
+        edited = [p for p in edited if p not in inside]
+        if not edited:
+            return v
     reason = (f"unplanned legacy edit: {', '.join(edited)} still in .aes/legacy_baseline.json and planned by no "
               f"target artifact; plan the file first (aes plan accept removes it from the baseline)")
+    if named_plan:
+        reason += (f", or declare it in {v.tag}'s front matter conflict_surfaces (kind: repository_path, "
+                   f"repository, target, access: write) and re-adopt the plan")
     return Verdict("refuse", v.tag, (v.reasons if v.verdict == "refuse" else []) + [reason],
-                   v.files, v.lines, v.running_things, check="legacy-edit", asked=v.asked)
+                   v.files, v.lines, v.running_things, check="legacy-edit", scope=v.scope, asked=v.asked)
 
 
 def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig) -> Verdict:
@@ -445,9 +587,10 @@ def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str
                        "no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]")
     if match["plan"] is not None or match["goal"] is not None:
         tag = f"Plan #{match['plan']}" if match["plan"] is not None else f"Goal {match['goal']}"
-        ok, why = receipt_status(config.plan_roots, match["plan"], match["goal"], config.plan_workspace)
+        ok, why, meta = adopted_plan(config.plan_roots, match["plan"], match["goal"], config.plan_workspace)
         result = verdict("accept" if ok else "refuse", tag, why)
         result.check = "plan-adoption"
+        result.scope = write_scope(meta, config.repository_names) if ok else []
         return result
     if match["trivial"]:
         problems = []
@@ -492,14 +635,15 @@ def _governed_roots(root: Path) -> list[str]:
         return []
 
 
-def _legacy(root: Path) -> frozenset[str]:
-    """Legacy baseline paths the target does not plan; empty outside an adopted AES project. The
+def _legacy(root: Path, *, released: bool = True) -> frozenset[str]:
+    """Legacy baseline paths the target does not plan, minus (with `released`) those an adopted
+    plan's scope released (`adopt.unplanned_legacy`); empty outside an adopted AES project. The
     pre-commit hook has already refused a target that does not load, so a load error here is raised."""
-    from .adopt import legacy_paths
+    from .adopt import legacy_paths, unplanned_legacy
 
     if not (root / ".aes" / "project.yaml").is_file():
         return frozenset()
-    return legacy_paths(root)
+    return unplanned_legacy(root) if released else legacy_paths(root)
 
 
 def _log(root: Path, entry: dict) -> Path:
@@ -533,11 +677,13 @@ def check_message(root: Path, message_file: Path) -> tuple[int, str]:
 
 
 def replay(root: Path, revisions: str = "HEAD", max_count: int = 300) -> tuple[list[tuple[str, str, Verdict]], dict[str, int]]:
-    """Judge past commits (non-merge, first-parent order) with today's rule and today's receipts."""
+    """Judge past commits (non-merge, first-parent order) with today's rule and today's receipts.
+    Legacy is today's baseline without the scope release: a file the replayed commits themselves
+    changed is still judged against the plan each commit names."""
     root = root.resolve()
     config = load_rule_config(root)
     governed = _governed_roots(root)
-    legacy = _legacy(root)
+    legacy = _legacy(root, released=False)
     out = _git(root, "log", "--no-merges", f"--max-count={max_count}", "--format=%H%x00%B%x01", revisions)
     rows = []
     for record in out.split("\x01"):

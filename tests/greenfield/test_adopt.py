@@ -253,3 +253,117 @@ def test_init_warns_on_an_existing_codebase(existing: Path, capsys: pytest.Captu
     err = capsys.readouterr().err
     tracked = len(_git(existing, "ls-files", "--", *ROOTS).stdout.split())
     assert f"the governed roots already hold {tracked} tracked file(s)" in err and "aes adopt" in err
+
+
+# --- Issue #218: a Company Planning plan's declared scope admits legacy edits -------------
+
+OUTSIDE_FILE = "tests/repository_context/test_resolver.py"
+
+
+def _numbered_plan(root: Path, number: int, surfaces: list[dict] | None, *, adopt_it: bool = True) -> Path:
+    """`docs/plans/<N>_scoped.md`, Company Planning-shaped, with `conflict_surfaces` in its front
+    matter (the work-unit schema 1.1 conflictSurface shape) and, when `adopt_it`, an adoption
+    decision bound to its bytes."""
+    stem = f"docs/plans/{number}_scoped"
+    front = f"---\nplan_id: existing#{number}\nmethod_conformance_receipt: {stem}.receipt.json\n"
+    if surfaces is not None:
+        front += "conflict_surfaces:\n" + "".join(
+            "  - " + json.dumps(s) + "\n" for s in surfaces)
+    _write(root, f"{stem}.md", front + f"---\n\n# Plan #{number}\n")
+    _write(root, f"{stem}.receipt.json", json.dumps({"verdict": "pass"}) + "\n")
+    if adopt_it:
+        digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()  # noqa: E731
+        _write(root, f"{stem}.adoption-decision.json", json.dumps({
+            "decision": "adopted", "plan_ref": f"{stem}.md", "plan_sha256": digest(root / f"{stem}.md"),
+            "receipt_sha256": digest(root / f"{stem}.receipt.json")}) + "\n")
+    return root / f"{stem}.md"
+
+
+def _scope(target: str, access: str = "write", repository: str = "existing") -> dict:
+    return {"kind": "repository_path", "repository": repository, "target": target, "access": access}
+
+
+def _touch(root: Path, rel: str, note: str) -> None:
+    _write(root, rel, (root / rel).read_text(encoding="utf-8") + f"# {note}\n")
+    _git(root, "add", rel)
+
+
+def test_plan_scope_admits_a_legacy_edit_inside_it_and_releases_the_file(adopted: Path) -> None:
+    """#218 test 1: under enforce, a [Plan #N] commit editing a legacy file inside its adopted
+    plan's conflict_surfaces lands, and the file then leaves the unplanned-legacy set."""
+    from agentic_engineering_system.adopt import legacy_paths, unplanned_legacy
+
+    _numbered_plan(adopted, 7, [_scope("tests/repository_context/test_models.py"),
+                                _scope("tests/repository_context/**", access="read")])
+    _git(adopted, "add", "docs/plans")
+    _git(adopted, "-c", "core.hooksPath=/dev/null", "commit", "-qm", "add plan 7")
+    assert LEGACY_FILE in unplanned_legacy(adopted)
+
+    _write(adopted, ".aes/commit_rule.yaml", "mode: enforce\n")
+    _touch(adopted, LEGACY_FILE, "edited under plan 7")
+    before = _head(adopted)
+    done = _commit(adopted, "[Plan #7] edit a legacy file inside the plan's scope")
+    assert done.returncode == 0, done.stderr
+    assert _head(adopted) != before
+    line = _log_lines(adopted)[-1]
+    print(json.dumps(line))
+    assert line["mode"] == "enforce" and line["verdict"] == "accept" and line["tag"] == "Plan #7"
+    assert line["scope"] == ["tests/repository_context/test_models.py"]  # the read surface grants nothing
+    assert any(f"inside Plan #7's declared conflict_surfaces: {LEGACY_FILE}" in r for r in line["reasons"])
+
+    # It left the unplanned-legacy set (still listed in the JSON, so topology knows it).
+    assert LEGACY_FILE not in unplanned_legacy(adopted) and LEGACY_FILE in legacy_paths(adopted)
+    assert unplanned_legacy(adopted) == legacy_paths(adopted) - {LEGACY_FILE}
+    status = _aes(adopted, "status")
+    assert "1 released by an adopted plan's conflict_surfaces" in status.stdout
+    topology = _aes(adopted, "topology", "check")
+    assert topology.returncode == 0 and f"orphan: {LEGACY_FILE}" not in topology.stdout
+
+    # Released: a later small edit no longer needs plan 7's scope.
+    _touch(adopted, LEGACY_FILE, "a trivial follow-up")
+    assert _commit(adopted, "[Trivial] follow-up comment").returncode == 0
+
+
+def test_plan_scope_refuses_a_legacy_edit_outside_it(adopted: Path) -> None:
+    """#218 test 2: the same adopted plan editing a legacy file outside its scope is refused,
+    naming only the file outside, and a mixed commit is refused as a whole."""
+    _numbered_plan(adopted, 7, [_scope("tests/repository_context/test_models.py"),
+                                _scope(OUTSIDE_FILE, repository="someone/else")])
+    _git(adopted, "add", "docs/plans")
+    _git(adopted, "-c", "core.hooksPath=/dev/null", "commit", "-qm", "add plan 7")
+    _write(adopted, ".aes/commit_rule.yaml", "mode: enforce\n")
+
+    _touch(adopted, OUTSIDE_FILE, "outside plan 7")
+    _touch(adopted, LEGACY_FILE, "inside plan 7")
+    before = _head(adopted)
+    refused = _commit(adopted, "[Plan #7] edit inside and outside the plan's scope")
+    assert refused.returncode == 1 and _head(adopted) == before
+    assert f"unplanned legacy edit: {OUTSIDE_FILE} still in" in refused.stderr
+    assert f"unplanned legacy edit: {LEGACY_FILE}" not in refused.stderr
+    assert "declare it in Plan #7's front matter conflict_surfaces" in refused.stderr
+    line = _log_lines(adopted)[-1]
+    print(json.dumps(line))
+    assert line["verdict"] == "refuse" and line["check"] == "legacy-edit"
+
+
+def test_unadopted_or_widened_plan_scope_admits_nothing(adopted: Path) -> None:
+    """#218 test 3: a plan that is not adopted is refused even though its front matter names the
+    file; a plan whose scope was widened after adoption is refused until re-adopted."""
+    _numbered_plan(adopted, 8, [_scope("tests/repository_context")], adopt_it=False)
+    plan9 = _numbered_plan(adopted, 9, [_scope("tests/repository_context/test_models.py")])
+    plan9.write_text(plan9.read_text(encoding="utf-8").replace(
+        "---\n\n# Plan", "  - " + json.dumps(_scope("tests/**")) + "\n---\n\n# Plan", 1), encoding="utf-8")
+    _git(adopted, "add", "docs/plans")
+    _git(adopted, "-c", "core.hooksPath=/dev/null", "commit", "-qm", "add plans 8 and 9")
+    _write(adopted, ".aes/commit_rule.yaml", "mode: enforce\n")
+    _touch(adopted, OUTSIDE_FILE, "edit")
+    before = _head(adopted)
+
+    unadopted = _commit(adopted, "[Plan #8] edit under a plan nobody adopted")
+    assert unadopted.returncode == 1 and _head(adopted) == before
+    assert "no method_conformance_receipt" in unadopted.stderr or "receipt or adoption decision missing" in unadopted.stderr
+    assert f"unplanned legacy edit: {OUTSIDE_FILE}" in unadopted.stderr
+
+    widened = _commit(adopted, "[Plan #9] edit under a scope widened after adoption")
+    assert widened.returncode == 1 and _head(adopted) == before
+    assert "plan changed since adoption" in widened.stderr

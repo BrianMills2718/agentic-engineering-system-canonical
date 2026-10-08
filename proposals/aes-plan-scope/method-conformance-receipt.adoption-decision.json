@@ -1,0 +1,15 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "proposals/aes-plan-scope/README.md",
+  "plan_sha256": "1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe",
+  "receipt_ref": "proposals/aes-plan-scope/method-conformance-receipt.json",
+  "receipt_sha256": "80ce64b1d4e95c46674e2a1f1405b4e0bcb79d8ad51c18f90437a52757433abe",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 9 items evidenced, 1 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "decided_at": "2026-10-07T23:44:30Z"
+}

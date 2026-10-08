@@ -1,0 +1,87 @@
+# Gates at 47d6e14, 2026-10-07T23:46:24Z
+## make aes
+PYTHONPATH=src /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli target validate
+OK /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-218-plan-scope/.aes/target.yaml
+  target_id=agentic-engineering-system-canonical-target schema_version=aes.v0_2.target.probe0
+  outcomes=2 normative_items=14 success_criteria=13 evidence_requirements=17
+  components=12 planned_artifacts=45 verification_subjects=15
+  governed_roots=['src/agentic_engineering_system/', 'tests/greenfield/']
+  every evidence requirement has a route (verification subject or external boundary)
+PYTHONPATH=src /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli topology check
+OK topology: 43 governed file(s) under ['src/agentic_engineering_system/', 'tests/greenfield/'], 0 orphan(s), 0 planned but not yet realized
+PYTHONPATH=src /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli status
+OK status: agentic-engineering-system-canonical-target at 47d6e148bf72da77c5117c7d7e7925e200697d38
+  artifacts: 45 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 2 supported, 11 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 3 current, 59 stale, 1 unknown, 0 unreachable; 34 superseded
+  plans: 7 accepted, 1 unreachable
+  first open gap per component:
+    RU-AES-RECORDS: no open gap
+    RU-AES-PROJECT: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-PLANNING: insufficient SC-GF-003 - ER-SC-GF-003-01 NO_CURRENT_SUPPORT; ER-SC-GF-003-02 NO_CURRENT_SUPPORT (+2 more)
+    RU-AES-TOPOLOGY: insufficient SC-GF-003 - ER-SC-GF-003-01 NO_CURRENT_SUPPORT; ER-SC-GF-003-02 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-CHARACTERIZE: insufficient SC-GF-006 - ER-SC-GF-006-01 NO_CURRENT_SUPPORT; ER-SC-GF-006-02 NO_CURRENT_SUPPORT
+    RU-AES-EVIDENCE: insufficient SC-GF-007 - ER-SC-GF-007-01 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-RECONCILE: insufficient SC-GF-007 - ER-SC-GF-007-01 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-CONTEXT: insufficient SC-GF-005 - ER-SC-GF-005-01 NO_CURRENT_SUPPORT
+    RU-AES-CLI: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-DISTRIBUTION: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-COMMIT-RULE: insufficient SC-AP-001 - ER-AP-001-01 NO_CURRENT_SUPPORT; ER-AP-001-02 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-ADOPT: insufficient SC-ADOPT-001 - ER-ADOPT-001-01 NO_CURRENT_SUPPORT
+  warning: plan PLAN-AES-SELF-GOVERN accepted_at_revision 80e6da33 is not reachable from HEAD (squash-merged or deleted branch?); the target already carries its delta, so this does not fail
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+## make aes exit=0 (21 s)
+## make aes-check
+PYTHONPATH=src /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli target validate
+OK /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-218-plan-scope/.aes/target.yaml
+  target_id=agentic-engineering-system-canonical-target schema_version=aes.v0_2.target.probe0
+  outcomes=2 normative_items=14 success_criteria=13 evidence_requirements=17
+  components=12 planned_artifacts=45 verification_subjects=15
+  governed_roots=['src/agentic_engineering_system/', 'tests/greenfield/']
+  every evidence requirement has a route (verification subject or external boundary)
+PYTHONPATH=src /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli topology check
+OK topology: 43 governed file(s) under ['src/agentic_engineering_system/', 'tests/greenfield/'], 0 orphan(s), 0 planned but not yet realized
+PYTHONPATH=src /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli status
+OK status: agentic-engineering-system-canonical-target at 47d6e148bf72da77c5117c7d7e7925e200697d38
+  artifacts: 45 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 2 supported, 11 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 3 current, 59 stale, 1 unknown, 0 unreachable; 34 superseded
+  plans: 7 accepted, 1 unreachable
+  first open gap per component:
+    RU-AES-RECORDS: no open gap
+    RU-AES-PROJECT: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-PLANNING: insufficient SC-GF-003 - ER-SC-GF-003-01 NO_CURRENT_SUPPORT; ER-SC-GF-003-02 NO_CURRENT_SUPPORT (+2 more)
+    RU-AES-TOPOLOGY: insufficient SC-GF-003 - ER-SC-GF-003-01 NO_CURRENT_SUPPORT; ER-SC-GF-003-02 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-CHARACTERIZE: insufficient SC-GF-006 - ER-SC-GF-006-01 NO_CURRENT_SUPPORT; ER-SC-GF-006-02 NO_CURRENT_SUPPORT
+    RU-AES-EVIDENCE: insufficient SC-GF-007 - ER-SC-GF-007-01 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-RECONCILE: insufficient SC-GF-007 - ER-SC-GF-007-01 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-CONTEXT: insufficient SC-GF-005 - ER-SC-GF-005-01 NO_CURRENT_SUPPORT
+    RU-AES-CLI: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-DISTRIBUTION: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-COMMIT-RULE: insufficient SC-AP-001 - ER-AP-001-01 NO_CURRENT_SUPPORT; ER-AP-001-02 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-ADOPT: insufficient SC-ADOPT-001 - ER-ADOPT-001-01 NO_CURRENT_SUPPORT
+  warning: plan PLAN-AES-SELF-GOVERN accepted_at_revision 80e6da33 is not reachable from HEAD (squash-merged or deleted branch?); the target already carries its delta, so this does not fail
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+PYTHONPATH=src /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest -q tests/greenfield tests/repository_context
+........................................................................ [ 30%]
+........................................................................ [ 61%]
+........................................................................ [ 92%]
+...s.............                                                        [100%]
+232 passed, 1 skipped in 355.68s (0:05:55)
+## make aes-check exit=0 (423 s)
+## make check
+Checking generated AGENTS.md synchronization...
+AGENTS.md is in sync: /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-218-plan-scope/AGENTS.md
+
+Running tests...
+........................................................................ [ 29%]
+........................................................................ [ 58%]
+........................................................................ [ 87%]
+............s...................                                         [100%]
+247 passed, 1 skipped in 256.43s (0:04:16)
+
+Running mypy...
+Success: no issues found in 22 source files
+
+All checks passed!
+## make check exit=0 (287 s)
