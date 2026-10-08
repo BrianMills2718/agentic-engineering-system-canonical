@@ -1,15 +1,32 @@
 {
   "schema_version": "method-adoption-decision.v1",
   "record_type": "method_adoption_decision",
-  "decision": "adopted",
+  "decision": "refused",
   "plan_ref": "proposals/aes-learning-loop/PLAN.md",
-  "plan_sha256": "642525ce148952d84e1c78ae80ced1080165ba090dfa9f12cf65d2149b5ba9d3",
+  "plan_sha256": "94e27e0572ffdf2a6c943451a7c95fd55523b82b9da98e35522c5e6a3ebde05a",
   "receipt_ref": "proposals/aes-learning-loop/method-conformance-receipt.json",
-  "receipt_sha256": "5a05b57bcc2211f6b47cbd38d0b7359f864717ee427cf768fc226277e7d60c66",
-  "receipt_result": "pass",
-  "reason_codes": [],
-  "summary": [
-    "pass: 18 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  "receipt_sha256": "1c41cd298d16d69889cf0b261cecdcc8c22eccdbf2a55ce9cc319fc816a0ae3f",
+  "receipt_result": "unavailable",
+  "reason_codes": [
+    "semantic_verifier_unavailable"
   ],
-  "decided_at": "2026-10-08T07:33:37Z"
+  "summary": [
+    "CORE-ACTOR-RESULT-EXAMPLE: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "CORE-SUCCESS-DISPROOF: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "CORE-TRACE-REVIEW: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "CORE-AUTHORITY-NONGOALS: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "CORE-IRREVERSIBLE-SPEND: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "CORE-UNCERTAINTIES: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "CORE-ACTIVATION-FACTS: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "OV-PRIOR-ART-DISPOSITION: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "OV-EVAL-DECISION: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "OV-EVAL-IRREDUCIBLE-UNCERTAINTY: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "OV-EVAL-PARITY: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "OV-EVAL-COST: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "OV-LLM-CALL-BOUNDARY: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "OV-LLM-AUTHORITY-PROMOTION: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "OV-COORD-OWNERSHIP: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable.",
+    "OV-BOUNDARY-DISPOSITION: semantic_verifier_unavailable -> Re-run adoption when the semantic verifier is reachable."
+  ],
+  "decided_at": "2026-10-08T09:23:34Z"
 }

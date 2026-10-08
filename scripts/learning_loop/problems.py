@@ -112,7 +112,7 @@ def open_db(out: Path) -> sqlite3.Connection:
 
 
 def pair_key(a: dict, b: dict) -> str:
-    return "|".join(sorted((a["id"], b["id"])))
+    return "v2|" + "|".join(sorted((a["id"], b["id"])))  # v2: judged with linked evidence
 
 
 # ---------- 1. family ----------
@@ -125,11 +125,25 @@ def family(rec: dict, qs: dict, key: str) -> dict:
 
 
 # ---------- 2. relate ----------
-def relate(a: dict, b: dict) -> dict:
+def _with_evidence(rec: dict, db: sqlite3.Connection | None) -> dict:
+    """A record's view for a relation judge, with the title and opening of the issues it links to: a record's
+    sentence is often a pointer ("another occurrence happened (#202)") and its content is in the evidence."""
+    v = RC._view(rec)
+    if db is not None:
+        ev = read_evidence([rec], db, limit=2)
+        if ev:
+            v["text"] = v["text"] + " | evidence: " + " / ".join(e[:300] for e in ev)
+    return v
+
+
+def relate(a: dict, b: dict, db: sqlite3.Connection | None = None) -> dict:
     pair = {"pair_id": hashlib.sha256(pair_key(a, b).encode()).hexdigest()[:12],
-            "a": RC._view(a), "b": RC._view(b), "label": "unrelated"}
+            "a": _with_evidence(a, db), "b": _with_evidence(b, db), "label": "unrelated"}
     jev = RC.judge([pair], "jev")[0]
     out = {"jev": jev.get("relation"), "jev_p": jev.get("p"), "error": jev.get("error")}
+    if jev.get("relation") is None:  # Jev unavailable: the stronger judge decides (PLAN.md S2 fallback)
+        strong = RC.judge([pair], "strong")[0]
+        return out | {"fallback": RC.STRONG, "relation": strong.get("relation"), "error": strong.get("error")}
     if jev.get("relation") == "challenges":
         strong = RC.judge([pair], "strong")[0]
         out |= {"confirmed_by": RC.STRONG, "strong": strong.get("relation"), "error": strong.get("error")}
@@ -250,7 +264,8 @@ def analyse(pid: str, members: list[dict], evidence: list[str] | None = None) ->
     try:
         res, meta = call_llm_structured(
             ANALYSE_MODEL, [{"role": "user", "content": ANALYSE_PROMPT + body}], response_model=_Analysis,
-            reasoning_effort="medium", task="feedback-loop.analyse", trace_id=f"feedback-loop/analyse/{pid}",
+            **({"reasoning_effort": "medium"} if ANALYSE_MODEL.startswith("openrouter/") else {}),
+            task="feedback-loop.analyse", trace_id=f"feedback-loop/analyse/{pid}",
             max_budget=0.25, model_justification="S3 problem analysis, stronger model per PLAN.md")
     except Exception as exc:
         return None, f"analyse {pid}: {type(exc).__name__}: {str(exc)[:200]}", 0.0
@@ -406,7 +421,7 @@ def main() -> int:
             if row:
                 ans = json.loads(row[0])
             else:
-                ans = relate(recs[i], recs[j])
+                ans = relate(recs[i], recs[j], db)
                 counts["relate_calls"] += 1
                 if ans.get("error") or ans.get("relation") is None:
                     errors.append(f"relate {k}: {ans.get('error')}")
@@ -472,6 +487,33 @@ def main() -> int:
             for x in p["licences"]:
                 counts[f"licence_{x['status']}"] += 1
     step("licence", licence_all)
+
+
+    def write_all():
+        day = dt.date.today().isoformat()
+        with open(OUT / f"problems-{day}.jsonl", "a") as fh:
+            for p in recurring:
+                fh.write(json.dumps(p, ensure_ascii=False) + "\n")
+        for p in recurring:
+            members_key = ",".join(sorted(r["id"] for r in p["members"]))
+            row = db.execute("SELECT issue, members FROM problem WHERE id=?", (p["id"],)).fetchone()
+            issue = row[0] if row else ""
+            if a.file and "analysis" in p:
+                try:
+                    if not issue:
+                        title = f"Problem ({p['sightings']} sightings): {p['analysis']['cause_chain'][-1]['text'] if p['analysis']['cause_chain'] else p['members'][0]['text']}"[:200]
+                        issue = gh_issue(["issue", "create", "--repo", LOG_REPO, "--title", title, "--label", "problem"], issue_body(p))
+                        counts["issues_created"] += 1
+                    elif row[1] != members_key:
+                        gh_issue(["issue", "comment", issue, "--repo", LOG_REPO], "Updated:\n\n" + issue_body(p))
+                        counts["issues_updated"] += 1
+                except Exception as exc:
+                    errors.append(f"issue {p['id']}: {str(exc)[:200]}")
+            db.execute("INSERT OR REPLACE INTO problem VALUES (?,?,?,?)",
+                       (p["id"], issue, members_key, json.dumps(p.get("analysis")) if p.get("analysis") else ""))
+            p["issue"] = issue
+        db.commit()
+    step("write", write_all)
 
     def hand_to_agents():
         """Active licences become keyed concerns in the agent work queue (an agent adopts the rule through
@@ -550,33 +592,6 @@ def main() -> int:
                 for row in rows:
                     fh.write(json.dumps(row, ensure_ascii=False) + "\n")
     step("effects", effects)
-
-    def write_all():
-        day = dt.date.today().isoformat()
-        with open(OUT / f"problems-{day}.jsonl", "a") as fh:
-            for p in recurring:
-                fh.write(json.dumps(p, ensure_ascii=False) + "\n")
-        for p in recurring:
-            members_key = ",".join(sorted(r["id"] for r in p["members"]))
-            row = db.execute("SELECT issue, members FROM problem WHERE id=?", (p["id"],)).fetchone()
-            issue = row[0] if row else ""
-            if a.file and "analysis" in p:
-                try:
-                    if not issue:
-                        title = f"Problem ({p['sightings']} sightings): {p['analysis']['cause_chain'][-1]['text'] if p['analysis']['cause_chain'] else p['members'][0]['text']}"[:200]
-                        issue = gh_issue(["issue", "create", "--repo", LOG_REPO, "--title", title, "--label", "problem"], issue_body(p))
-                        counts["issues_created"] += 1
-                    elif row[1] != members_key:
-                        gh_issue(["issue", "comment", issue, "--repo", LOG_REPO], "Updated:\n\n" + issue_body(p))
-                        counts["issues_updated"] += 1
-                except Exception as exc:
-                    errors.append(f"issue {p['id']}: {str(exc)[:200]}")
-                    continue
-            db.execute("INSERT OR REPLACE INTO problem VALUES (?,?,?,?)",
-                       (p["id"], issue, members_key, json.dumps(p.get("analysis")) if p.get("analysis") else ""))
-            p["issue"] = issue
-        db.commit()
-    step("write", write_all)
 
     def view():
         day = dt.date.today().isoformat()
