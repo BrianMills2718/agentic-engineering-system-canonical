@@ -2,7 +2,7 @@
   "schema_version": "method-activation-facts.v1",
   "record_type": "method_activation_facts",
   "plan_ref": "proposals/second-brain-evaluation/PLAN.md",
-  "plan_sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1",
+  "plan_sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521",
   "path_decision_ref": "proposals/second-brain-evaluation/PLANNING_PATH.json",
   "path_decision_sha256": "38a2d785304dc70f5233959a40f61ec41c9d28b4b903633a230cde4c0b4b0220",
   "facts": {
@@ -17,5 +17,5 @@
     "llm_central": "derived_current_boundary",
     "irreversible_or_spend_action": "derived_current_boundary"
   },
-  "recorded_at": "2026-10-08T18:56:31Z"
+  "recorded_at": "2026-10-08T18:57:57Z"
 }
