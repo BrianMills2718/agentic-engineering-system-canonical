@@ -78,7 +78,7 @@ reader finds doc <- wiki/index.md links <- declared roots (.agentic/repo.yaml) <
 | M1 Pilot on graph-retrieval | done 2026-10-07 (graph-retrieval #246, #248) | merged PR; reach classification with zero orphans; cold-reader transcript | active slice below | promote to M2 when success evidence holds; replan if disproof fires |
 | M2 Record the retrofit in AES canonical | done 2026-10-07 ([RETROFIT_NOTE.md](RETROFIT_NOTE.md)) | a retrofit note in this proposal folder: what the layout required of an existing repo, what tooling changed | M1 evidence | M1 merged |
 | M3 Replace the count rule | done 2026-10-07: Brian chose both rules ("probably both"); workspace AGENTS.md (projects-dotclaude #102) and the daily check (project-meta #2444) | project-meta daily check reports orphans and layout per repo; AGENTS.md rule reworded from "100 files" to reachability with 100 as a tripwire | M1 + M2 | Brian's go-ahead on the rule wording (human decision) |
-| M4 Roll out to further repos | deliberately_deferred | one PR per repo | M3 | after M3 |
+| M4 Roll out to further repos | active since 2026-10-08 evening, waiting on disk space (personal-file-infra #121): the 2026-10-08 09:18 daily run lists 153 repos failing a rule, 37 over the 100-file cap and 116 failing only reachability (project-meta #2428) | one PR per repo; the daily check drops the repo from #2428 | M3, M6 | after M6 (done) |
 | M5 Organize the integration repository in the AES layout | done 2026-10-08 (integration repo #932, #933, #934, #935; [RETROFIT_NOTE.md](RETROFIT_NOTE.md)) | merged PR; layout check and reach.py clean; fresh-agent run | migration map; layout check | promote when success evidence holds; replan if the map shows the move breaks generators beyond path repointing |
 | M6 Measure organization daily | done 2026-10-08 (project-meta #2454): `scripts/md_file_cap.py` reports layout per repository beside count and reachability, same rules as `layout_check.py` and `reach.py` (identical finding lists on both pilots); live run over 170 Brian-owned repos: layout ok 1, findings 1 (collective-competence), undeclared 168; seeded misplaced ADR flagged; graph-retrieval brought to layout 0 (graph-retrieval #251: five generated plan readouts moved to `generated/plans/`, `Data/` and `results/` declared `layout_ok` with reasons); output-file matching fixed in both checks (project-meta #2455) | project-meta daily check reports layout conformance per repository beside count and reachability | M5's layout check proven on two repositories | M5 done |
 
@@ -148,7 +148,7 @@ Material uncertainties. These three are the complete set; each could make the pi
 
 ## Exact Next Action
 
-Fix migration PR 1's test regressions (repoint the tests' paths and fingerprint records, re-run until the failure list matches main), merge it, then PR 2.
+M4 rollout, once free disk space is back above the storage reserve (personal-file-infra #121; checkouts are paused below it). Start with the 116 repos that fail only reachability: per repo, link each reader document from `wiki/index.md` by question, or list a source-material folder under `unlinked_ok` with its reason; one Haiku agent per repo, the parent reviews each diff and the daily check's next run. Then the 37 over the cap: add `.md-file-cap.yaml` where the Markdown is the product (corpora and vaults such as personal-vault and osd-corpus), otherwise pack generated output. M5's migration PRs are merged (integration repo #932-#935); the earlier "fix migration PR 1" step is done.
 
 ## Prior Art And Parallel-Implementation Check
 
