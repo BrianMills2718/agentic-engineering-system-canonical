@@ -1,0 +1,74 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-AP-COMMIT-RULE-247c56f7
+subject_refs:
+- VS-AP-COMMIT-RULE
+subject_revision: 247c56f7e6a2471344c3a7bfe21605afb5d35394
+dependency_paths:
+- src/agentic_engineering_system/__init__.py
+- src/agentic_engineering_system/adopt.py
+- src/agentic_engineering_system/characterize.py
+- src/agentic_engineering_system/characterize_python.py
+- src/agentic_engineering_system/cli.py
+- src/agentic_engineering_system/commit_rule.py
+- src/agentic_engineering_system/context.py
+- src/agentic_engineering_system/evidence.py
+- src/agentic_engineering_system/hooks.py
+- src/agentic_engineering_system/planning.py
+- src/agentic_engineering_system/project.py
+- src/agentic_engineering_system/reconcile.py
+- src/agentic_engineering_system/records.py
+- src/agentic_engineering_system/topology.py
+- tests/greenfield/test_commit_rule.py
+dependency_basis:
+  locator: tests/greenfield/test_commit_rule.py
+  discovered:
+  - src/agentic_engineering_system/__init__.py
+  - src/agentic_engineering_system/adopt.py
+  - src/agentic_engineering_system/characterize.py
+  - src/agentic_engineering_system/characterize_python.py
+  - src/agentic_engineering_system/cli.py
+  - src/agentic_engineering_system/commit_rule.py
+  - src/agentic_engineering_system/context.py
+  - src/agentic_engineering_system/evidence.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/planning.py
+  - src/agentic_engineering_system/project.py
+  - src/agentic_engineering_system/reconcile.py
+  - src/agentic_engineering_system/records.py
+  - src/agentic_engineering_system/topology.py
+  declared: []
+dependency_target_refs:
+- VS-AP-COMMIT-RULE
+- ER-AP-001-01
+- ART-SRC-ADOPT
+- ART-SRC-CHARACTERIZE
+- ART-SRC-CHARACTERIZE-PYTHON
+- ART-SRC-CLI
+- ART-SRC-COMMIT-RULE
+- ART-SRC-CONTEXT
+- ART-SRC-EVIDENCE
+- ART-SRC-HOOKS
+- ART-SRC-PLANNING
+- ART-SRC-PROJECT
+- ART-SRC-RECONCILE
+- ART-SRC-RECORDS
+- ART-SRC-TOPOLOGY
+- ART-TEST-COMMIT-RULE
+- ART-V01---INIT---PY
+observer: &id001
+  identity: aes evidence record
+  version: '0.1.dev535+g618a6e475 (running: 247c56f)'
+method: /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest -q 
+  tests/greenfield/test_commit_rule.py
+execution_state: COMPLETED
+result:
+  exit_code: 0
+  output_tail: ".............................                                            [100%]\n29 passed
+    in 157.66s (0:02:37)"
+produced_at: '2026-10-08T04:04:25+00:00'
+assessments:
+- evidence_requirement_ref: ER-AP-001-01
+  assessment: SUPPORTS
+  basis: "VS-AP-COMMIT-RULE (prove each tag's verdict on real staged commits through the installed hook)
+    passed: exit 0"
+  assessor: *id001
