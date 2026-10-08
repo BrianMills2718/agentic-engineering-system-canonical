@@ -176,3 +176,12 @@ adopted and was missed; each named no plan, a roadmap or path-decision id, a num
 adopted through Company Planning, or a plan edited after adoption (`aes-learning-loop`,
 `aes-brownfield-docs`: re-adopt). Wrong if the first enforced day shows a refusal of a commit whose
 plan is adopted on its repository's default branch.
+
+## A plan adopted in the commit being made is found (2026-10-08)
+
+Session code-15 reported two refusals of commits that added their own adopted plan (company-planning
+`[Plan #56]`, projects-dotclaude `[Goal plan-nontrivial-work]`): the lookup read checkouts on disk only.
+The commit-msg check now looks first at the files staged in the commit (`git diff --cached`, read with
+`git show :path`), for `[Plan #N]` (`docs/plans/0*N_*.md`) and `[Goal <id>]` (`plan_id` front matter
+under `proposals/*/` or `docs/plans/`). Two tests stage a plan and its adoption decision that are absent
+from disk; both were refused before the change and are accepted after it.
