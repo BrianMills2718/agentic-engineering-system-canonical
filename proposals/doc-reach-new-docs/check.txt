@@ -1,0 +1,28 @@
+# Checks for plan doc-reach-new-docs, 2026-10-08T16:59:51-04:00, branch doc-reach-new-docs
+
+## Replay vs the daily check (replay_compare.py; full rows in replay-after.txt)
+files compared: 157; same answer: 157; different: 0
+     17 daily=ok rule=ok
+    140 daily=unreached rule=unreached
+
+## Scratch-commit run: a local clone of brianmills-spec/representation-router (origin set to that owner), this branch's code, machine config in observe mode
+$ git add docs/notes/why-agents.md; aes commit check (message "[Trivial] note why we use agents")
+aes commit rule: would refuse (observe mode) [Trivial] — trivial: 1 file(s), 1 line(s), no running-thing file; new document(s) not reached from wiki/index.md within 2 links: docs/notes/why-agents.md; add a line for each to wiki/index.md (or to a page it links): - [why-agents](../docs/notes/why-agents.md); or list a folder readers never open under unlinked_ok in .md-file-cap.yaml with a reason
+$ add the printed line to wiki/index.md; git add; aes commit check
+aes commit rule: accept [Trivial] — trivial: 2 file(s), 2 line(s), no running-thing file
+log lines (.git/aes/commit-rule-2026-10-08.jsonl):
+{"verdict": "refuse", "check": "doc-reach", "tag": "Trivial", "reasons": ["trivial: 1 file(s), 1 line(s), no running-thing file", "new document(s) not reached from wiki/index.md within 2 links: docs/notes/why-agents.md; add a line for each to wiki/index.md (or to a page it links): - [why-agents](../docs/notes/why-agents.md); or list a folder readers never open under unlinked_ok in .md-file-cap.yaml with a reason"]}
+{"verdict": "accept", "check": "", "tag": "Trivial", "reasons": ["trivial: 2 file(s), 2 line(s), no running-thing file"]}
+
+## make check (before the message fix)
+307 passed, 1 skipped in 671.17s (0:11:11)
+make exit=0
+
+## After the message fix (refusal reason only; '#' in a file name percent-encoded in the suggested line)
+$ pytest tests/greenfield/test_commit_rule.py
+38 passed in 381.21s
+(the scratch-commit output above predates this fix: its refusal began with the tag's 'trivial: ...' reason)
+
+## make check on the final branch
+310 passed, 1 skipped in 1064.35s (0:17:44)
+make exit=0

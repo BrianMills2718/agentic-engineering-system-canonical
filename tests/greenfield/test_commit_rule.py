@@ -563,3 +563,135 @@ def test_plan_names_with_capital_letters_are_read_as_plan_tags(repo: Path) -> No
     entry = _last_log(repo)
     assert entry["tag"] == "Shaping Upper-Case-Plan" and entry["verdict"] == "accept", entry
     assert done.returncode == 0, done.stderr
+
+
+def _brian_owned(root: Path, owner: str = "BrianMills2718") -> None:
+    _git(root, "remote", "add", "origin", f"git@github.com:{owner}/consumer.git")
+
+
+def test_new_document_the_wiki_does_not_reach_is_refused_with_the_line_to_add(repo: Path) -> None:
+    _brian_owned(repo)
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [Readme](../README.md)\n")
+    _git(repo, "add", "wiki/index.md")
+    assert _git(repo, "commit", "-m", "[Trivial] add the wiki entry page").returncode == 0
+    _write(repo, "docs/notes/why-agents.md", "# Why agents\n")
+    _git(repo, "add", "docs/notes/why-agents.md")
+    done = _git(repo, "commit", "-m", "[Trivial] note why we use agents")
+    assert done.returncode == 1, done.stderr
+    assert "docs/notes/why-agents.md" in done.stderr and "- [why-agents](../docs/notes/why-agents.md)" in done.stderr
+    log = _last_log(repo)
+    assert log["verdict"] == "refuse" and log["check"] == "doc-reach"
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [Readme](../README.md)\n- [why-agents](../docs/notes/why-agents.md)\n")
+    _git(repo, "add", "wiki/index.md")
+    done = _git(repo, "commit", "-m", "[Trivial] note why we use agents")
+    assert done.returncode == 0, done.stderr
+
+
+def test_new_document_two_links_deep_is_accepted_three_is_not(repo: Path) -> None:
+    _brian_owned(repo)
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [Docs](../docs/README.md)\n")
+    _write(repo, "docs/README.md", "# Docs\n\n- [Deep](deep/README.md)\n- [Two](two.md)\n")
+    _write(repo, "docs/deep/README.md", "# Deep\n\n- [Three](three.md)\n")
+    _write(repo, "docs/two.md", "# Two\n")
+    _git(repo, "add", "wiki", "docs/README.md", "docs/two.md")
+    assert _git(repo, "commit", "-m", "[Trivial] wiki and a page two links deep").returncode == 0
+    _write(repo, "docs/deep/three.md", "# Three\n")
+    _git(repo, "add", "docs/deep")
+    done = _git(repo, "commit", "-m", "[Trivial] a page three links deep")
+    assert done.returncode == 1 and "docs/deep/three.md" in done.stderr
+    assert "docs/deep/README.md" not in done.stderr.split("within")[1].split(";")[0]
+
+
+def test_no_wiki_asks_for_one_and_a_new_wiki_linking_it_is_accepted(repo: Path) -> None:
+    _brian_owned(repo)
+    _write(repo, "docs/guide.md", "# Guide\n")
+    _git(repo, "add", "docs/guide.md")
+    done = _git(repo, "commit", "-m", "[Trivial] add a guide")
+    assert done.returncode == 1 and "has no wiki/index.md" in done.stderr
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [guide](../docs/guide.md)\n")
+    _git(repo, "add", "wiki/index.md")
+    assert _git(repo, "commit", "-m", "[Trivial] add a guide").returncode == 0
+
+
+def test_existing_documents_exempt_files_auto_jobs_and_other_owners_are_not_refused(repo: Path) -> None:
+    _brian_owned(repo)
+    _write(repo, "README.md", "# Consumer\n\nEdited, still unlinked; it existed before.\n")
+    _git(repo, "add", "README.md")
+    assert _git(repo, "commit", "-m", "[Trivial] edit an existing unlinked page").returncode == 0
+    # exempt by the daily check's rules: a template, a hidden tool folder (AGENTS.md and tests/ are
+    # exempt too, but those touch a running thing and a governed root here, which other checks judge)
+    _write(repo, "docs/TEMPLATE.md", "# Template\n")
+    _write(repo, ".templates/page.md", "# Page template\n")
+    _git(repo, "add", "docs/TEMPLATE.md", ".templates/page.md")
+    done = _git(repo, "commit", "-m", "[Trivial] a template and a hidden tool page")
+    assert done.returncode == 0, done.stderr
+    _write(repo, "pages/daily.md", "# Daily page\n")
+    _git(repo, "add", "pages/daily.md")
+    done = _git(repo, "commit", "-m", "[Auto] daily page\n\nAuto-job: daily-pages")
+    assert done.returncode == 0, done.stderr
+    assert "logged only for [Auto]" in done.stderr
+    _git(repo, "remote", "set-url", "origin", "git@github.com:Inside-Success/consumer.git")
+    _write(repo, "docs/theirs.md", "# Someone else's repository\n")
+    _git(repo, "add", "docs/theirs.md")
+    assert _git(repo, "commit", "-m", "[Trivial] a page in a repository Brian does not own").returncode == 0
+
+
+def test_the_suggested_line_works_for_a_file_name_with_a_hash(repo: Path) -> None:
+    _brian_owned(repo)
+    _write(repo, "wiki/index.md", "# Wiki\n")
+    _git(repo, "add", "wiki/index.md")
+    assert _git(repo, "commit", "-m", "[Trivial] add the wiki entry page").returncode == 0
+    rel = "docs/plans/repo#218.goal.md"
+    _write(repo, rel, "# Goal 218\n")
+    _git(repo, "add", rel)
+    done = _git(repo, "commit", "-m", "[Trivial] goal document for plan 218")
+    assert done.returncode == 1 and "trivial:" not in done.stderr.split(" — ", 1)[1]
+    line = done.stderr.split("(or to a page it links): ", 1)[1].split("; or list", 1)[0]
+    assert line == "- [repo#218.goal](../docs/plans/repo%23218.goal.md)"
+    _write(repo, "wiki/index.md", "# Wiki\n\n" + line + "\n")
+    _git(repo, "add", "wiki/index.md")
+    assert _git(repo, "commit", "-m", "[Trivial] goal document for plan 218").returncode == 0
+
+
+def test_a_skeleton_plan_named_by_id_is_found(repo: Path) -> None:
+    # Company Planning's `skeleton` writes `id:` (artifact_type: design_plan), not `plan_id:`.
+    rel = "proposals/built/PLAN.md"
+    _write(repo, rel, "---\nartifact_type: design_plan\nid: built\n"
+                      "method_conformance_receipt: proposals/built/PLAN.receipt.json\n---\n\n# Built plan\n")
+    _write(repo, "proposals/built/PLAN.receipt.json", json.dumps({"verdict": "pass"}) + "\n")
+    digest = lambda p: hashlib.sha256((repo / p).read_bytes()).hexdigest()  # noqa: E731
+    _write(repo, "proposals/built/PLAN.adoption-decision.json", json.dumps({
+        "decision": "adopted", "plan_sha256": digest(rel),
+        "receipt_sha256": digest("proposals/built/PLAN.receipt.json")}) + "\n")
+    _git(repo, "add", "proposals/built")
+    assert _git(repo, "commit", "-m", "[Shaping built] adopt the plan").returncode == 0
+    _stage_worker_tools(repo)
+    done = _git(repo, "commit", "-m", "[Goal built] worker tools")
+    assert done.returncode == 0, done.stderr
+    assert "plan built adopted" in done.stderr
+
+
+def test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild(tmp_path: Path) -> None:
+    from agentic_engineering_system import commit_rule as cr
+    remote, ws = tmp_path / "remote.git", tmp_path / "ws"
+    assert subprocess.run(["git", "init", "-q", "--bare", "-b", "main", str(remote)]).returncode == 0
+    ws.mkdir()
+    clone = ws / "owner"
+    assert subprocess.run(["git", "clone", "-q", str(remote), str(clone)], capture_output=True).returncode == 0
+    _write(clone, "README.md", "# Owner\n")
+    _git(clone, "add", ".")
+    _git(clone, "-c", "core.hooksPath=/dev/null", "commit", "-q", "-m", "start")
+    _git(clone, "push", "-q", "origin", "HEAD:main")
+    # another machine (here: another clone) merges an adopted plan on the remote's main
+    other = tmp_path / "other"
+    subprocess.run(["git", "clone", "-q", str(remote), str(other)], capture_output=True)
+    _adopted_plan(other, "merged")
+    _git(other, "add", ".")
+    _git(other, "-c", "core.hooksPath=/dev/null", "commit", "-q", "-m", "plan")
+    _git(other, "push", "-q", "origin", "HEAD:main")
+    index = tmp_path / "index.json"
+    before = cr.build_plan_index(ws, index)
+    assert not any("merged" in e["plans"] for e in before["repos"].values())  # the clone has not fetched
+    assert cr.fetch_all(ws) == []
+    after = cr.build_plan_index(ws, index)
+    assert any("merged" in e["plans"] for e in after["repos"].values())

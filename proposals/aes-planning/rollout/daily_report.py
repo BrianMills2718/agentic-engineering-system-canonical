@@ -136,7 +136,7 @@ def main() -> int:
     # [Goal <id>] lookups read each repository's default branch from this index when its checkout is
     # elsewhere (AES #215); the hook also refreshes it in the background when it is over an hour old.
     aes = Path.home() / ".local" / "bin" / "aes"
-    idx = run(str(aes), "commit", "index", "--workspace", str(WORKSPACE))
+    idx = run(str(aes), "commit", "index", "--fetch", "--workspace", str(WORKSPACE))
     print((idx.stdout or idx.stderr).strip().splitlines()[-1] if (idx.stdout or idx.stderr).strip() else f"plan index: exit {idx.returncode}")
     check = run(sys.executable, str(HERE / "install_everywhere.py"), "check")
     summary = check.stdout.strip().splitlines()[-1] if check.stdout.strip() else check.stderr.strip()

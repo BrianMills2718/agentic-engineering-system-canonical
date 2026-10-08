@@ -70,6 +70,7 @@ import subprocess
 import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+from urllib.parse import quote, unquote
 
 from ruamel.yaml import YAML
 
@@ -130,6 +131,11 @@ class RuleConfig:
     plan_workspace: Path | None = None
     # The repository whose commit is being judged: its staged files are searched for the named plan.
     index_root: Path | None = None
+    # New-document reachability (doc_reach: observe or enforce; default: the same as mode): in a
+    # repository whose origin owner is listed here, a reader document the commit adds must be reached
+    # from wiki/index.md within two links (Brian, 2026-10-08; plan proposals/doc-reach-new-docs/).
+    doc_reach: str = "observe"
+    doc_reach_owners: tuple[str, ...] = ("brianmills2718", "brianmills-spec")
     # Names a conflict surface's `repository` may use for this repository (lower case):
     # origin's owner/repo, its repo part, and the main checkout's folder name.
     repository_names: tuple[str, ...] = ()
@@ -219,6 +225,9 @@ def load_rule_config(root: Path) -> RuleConfig:
     plan_adoption = data.get("plan_adoption", mode)
     if plan_adoption not in ("observe", "enforce"):
         raise ValueError(f"{path}: plan_adoption must be observe or enforce, not {plan_adoption!r}")
+    doc_reach = data.get("doc_reach", mode)
+    if doc_reach not in ("observe", "enforce"):
+        raise ValueError(f"{path}: doc_reach must be observe or enforce, not {doc_reach!r}")
     extra = tuple((root / p).resolve() if not Path(p).is_absolute() else Path(p)
                   for p in data.get("plan_roots", []))
     return RuleConfig(
@@ -231,6 +240,8 @@ def load_rule_config(root: Path) -> RuleConfig:
         plan_adoption=plan_adoption,
         plan_workspace=Path(data["plan_workspace"]).expanduser() if data.get("plan_workspace") else None,
         repository_names=repository_names(root),
+        doc_reach=doc_reach,
+        doc_reach_owners=tuple(str(o).lower() for o in data.get("doc_reach_owners", RuleConfig.doc_reach_owners)),
     )
 
 
@@ -277,6 +288,19 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _front_matter_plan_id(meta: object) -> str | None:
+    """A plan's id: `plan_id:`, or `id:` as Company Planning's `skeleton` writes it for a
+    design plan (artifact_type: design_plan); found 2026-10-08 when a skeleton-built plan's own
+    [Goal <id>] commit was reported as "no plan found"."""
+    if not isinstance(meta, dict):
+        return None
+    if meta.get("plan_id"):
+        return str(meta["plan_id"])
+    if meta.get("id") and (meta.get("artifact_type") == "design_plan" or meta.get("method_conformance_receipt")):
+        return str(meta["id"])
+    return None
+
+
 def _plan_candidates(plan_root: Path, number: str | None, plan_id: str | None) -> list[Path]:
     if number is not None:
         return [p for p in sorted((plan_root / "docs" / "plans").glob("*.md"))
@@ -284,7 +308,7 @@ def _plan_candidates(plan_root: Path, number: str | None, plan_id: str | None) -
     found = []
     for p in sorted(plan_root.glob("proposals/*/*.md")) + sorted(plan_root.glob("docs/plans/*.md")):
         match = FRONT_MATTER_RE.match(p.read_text(encoding="utf-8", errors="replace"))
-        if match and (_YAML.load(match.group(1)) or {}).get("plan_id") == plan_id:
+        if match and _front_matter_plan_id(_YAML.load(match.group(1))) == plan_id:
             found.append(p)
     return found
 
@@ -418,7 +442,7 @@ def workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] =
 
     A cheap text test picks the candidate files before any YAML is parsed; the whole
     workspace (about 1,700 plan files in ~/code) scans in well under a second."""
-    needle = re.compile(rf"^plan_id:\s*['\"]?{re.escape(plan_id)}['\"]?\s*$", re.MULTILINE)
+    needle = re.compile(rf"^(?:plan_)?id:\s*['\"]?{re.escape(plan_id)}['\"]?\s*$", re.MULTILINE)
     skipped = {s.resolve() for s in skip}
     roots = []
     for repo in sorted(workspace.iterdir()) if workspace.is_dir() else []:
@@ -439,6 +463,7 @@ def workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] =
 
 PLAN_INDEX_ENV = "AES_PLAN_INDEX"
 PLAN_INDEX_FRESH_SECONDS = 3600
+PLAN_INDEX_MISS_SECONDS = 300
 DEFAULT_REFS = ("origin/HEAD", "origin/main", "origin/master", "main", "master")
 
 
@@ -455,6 +480,28 @@ def _default_ref(repo: Path) -> tuple[str, str] | None:
     return None
 
 
+PLAN_INDEX_VERSION = 2
+
+
+def fetch_all(workspace: Path, timeout: int = 60) -> list[str]:
+    """`git fetch origin` in every repository directly under `workspace`, 16 at a time, so the plan
+    index reads each default branch as GitHub has it (a plan merged there is not in a clone's
+    origin/HEAD until a fetch). Never prompts for credentials. Returns one line per failure."""
+    from concurrent.futures import ThreadPoolExecutor
+    repos = [r for r in sorted(workspace.iterdir()) if (r / ".git").exists()] if workspace.is_dir() else []
+    env = {**os.environ, "GIT_TERMINAL_PROMPT": "0", "GIT_SSH_COMMAND": "ssh -o BatchMode=yes"}
+
+    def one(repo: Path) -> str | None:
+        try:
+            done = subprocess.run(["git", "-C", str(repo), "-c", "gc.auto=0", "-c", "maintenance.auto=false", "fetch", "-q", "origin"], capture_output=True,
+                                  text=True, timeout=timeout, env=env, check=False)
+        except subprocess.TimeoutExpired:
+            return f"{repo.name}: fetch timed out after {timeout}s"
+        return f"{repo.name}: fetch exit {done.returncode}: {done.stderr.strip()[-160:]}" if done.returncode else None
+    with ThreadPoolExecutor(max_workers=16) as pool:
+        return [e for e in pool.map(one, repos) if e]
+
+
 def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
     """Which plan ids each repository directly under `workspace` holds on its default branch (read
     through git, not its working tree, which may sit on another branch). Incremental: a repository
@@ -462,7 +509,9 @@ def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
     re-read (a full rebuild over ~/code takes about 20 s, a refresh a few)."""
     path = path or plan_index_path()
     try:
-        old = json.loads(path.read_text(encoding="utf-8")).get("repos", {})
+        cached = json.loads(path.read_text(encoding="utf-8"))
+        # entries built by an older id pattern are rebuilt, not reused (version 2 also reads `id:`)
+        old = cached.get("repos", {}) if cached.get("version") == PLAN_INDEX_VERSION else {}
     except (OSError, ValueError):
         old = {}
     repos: dict[str, dict] = {}
@@ -478,7 +527,7 @@ def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
         if old.get(key, {}).get("sha") == sha:
             repos[key] = old[key]
             continue
-        grep = subprocess.run(["git", "-C", str(repo), "grep", "-E", r"^plan_id:", sha, "--",
+        grep = subprocess.run(["git", "-C", str(repo), "grep", "-E", r"^(plan_)?id:", sha, "--",
                                "proposals/*/*.md", "docs/plans/*.md"], capture_output=True, text=True, check=False)
         if grep.returncode > 1:
             # exit 1 is "no match"; 2+ is an error. Leave the repository out so the next build retries
@@ -487,14 +536,15 @@ def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
             continue
         plans: dict[str, list[str]] = {}
         for line in grep.stdout.splitlines():
-            # "<sha>:<path>:plan_id: <id>"
+            # "<sha>:<path>:plan_id: <id>" or "<sha>:<path>:id: <id>" (skeleton-built plans); a
+            # non-plan `id:` only costs an adoption check that then fails
             parts = line.split(":", 3)
             if len(parts) == 4:
                 pid = parts[3].strip().strip("'\"")
                 if pid:
                     plans.setdefault(pid, []).append(parts[1])
         repos[key] = {"ref": ref, "sha": sha, "plans": plans}
-    index = {"built_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+    index = {"version": PLAN_INDEX_VERSION, "built_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
              "workspace": str(workspace), "repos": repos, "errors": errors}
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_name(f"{path.name}.{os.getpid()}.tmp")  # concurrent builders never share a temp file
@@ -523,7 +573,7 @@ def _refresh_index_in_background(workspace: Path) -> None:
     except OSError:
         pass
     try:
-        subprocess.Popen([sys.executable, "-m", "agentic_engineering_system.cli", "commit", "index",
+        subprocess.Popen([sys.executable, "-m", "agentic_engineering_system.cli", "commit", "index", "--fetch",
                           "--workspace", str(workspace)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                          start_new_session=True)
     except OSError:
@@ -551,9 +601,12 @@ def indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, st
                 return done.stdout if done.returncode == 0 else None
             ok, why, meta = _adoption(read, rel, f"{Path(repo).name} {entry['ref']}:{rel}")
             verdicts.append((ok, why, meta))
-    if stale:
+    # A plan the index does not hold may have been merged on GitHub since the last fetch: refresh
+    # (with fetch) on a miss too, at most once every PLAN_INDEX_MISS_SECONDS.
+    missed = not any(ok for ok, _, _ in verdicts) and age > PLAN_INDEX_MISS_SECONDS
+    if stale or missed:
         _refresh_index_in_background(workspace)
-    return verdicts, stale
+    return verdicts, stale or missed
 
 
 def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None,
@@ -589,7 +642,7 @@ def staged_adoption(root: Path, number: str | None, plan_id: str | None) -> tupl
             if not re.fullmatch(r"(proposals/[^/]+|docs/plans)/[^/]*\.md", rel):
                 continue
             match = FRONT_MATTER_RE.match((read(rel) or b"").decode("utf-8", errors="replace"))
-            if not (match and (_YAML.load(match.group(1)) or {}).get("plan_id") == plan_id):
+            if not (match and _front_matter_plan_id(_YAML.load(match.group(1))) == plan_id):
                 continue
         ok, why, meta = _adoption(read, rel, f"{rel} (in the commit being made)")
         return ok, why, meta
@@ -632,7 +685,8 @@ def adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str 
                 return True, f"plan {label} adopted on the default branch ({why.removesuffix(' adopted')})", meta
             reasons.append(why)
         if stale:
-            reasons.append("plan index missing or older than an hour; a refresh was started")
+            reasons.append("plan index missing, older than an hour, or without this plan; a refresh that fetches every "
+                           "repository was started, so retry in a few minutes if the plan was merged on GitHub just now")
     return False, "; ".join(reasons), {}
 
 
@@ -690,10 +744,108 @@ def quick_plan_notes(plan_id: str, changes: list[FileChange], config: RuleConfig
     return notes
 
 
+# New-document reachability. The rules are project-meta scripts/md_file_cap.py `reachability()`
+# (the daily check, policy md-file-cap), applied to the staged tree and to added files only.
+WIKI_ENTRY = "wiki/index.md"
+WIKI_MAX_HOPS = 2
+_MD_LINK = re.compile(r"\]\(([^)\s]+)\)")
+_OUTPUT_ASSIGN = re.compile(r"^\s*\w*OUTPUT\w*\s*=\s*Path\(\s*[\"']([^\"']+\.md)[\"']", re.M | re.I)
+DOC_EXCEPTION_FILE = ".md-file-cap.yaml"
+
+
+def _under(path: str, prefix: str) -> bool:
+    return path == prefix or path.startswith(prefix.rstrip("/") + "/")
+
+
+def unreached_new_docs(root: Path, added: list[str]) -> list[str]:
+    """The added reader documents that wiki/index.md does not reach within two links in the staged
+    tree (the index), by the daily check's rules: instruction files, hidden folders, test fixtures,
+    templates, generated output and `.md-file-cap.yaml` `unlinked_ok` paths are exempt."""
+    added = [a for a in added if a.lower().endswith(".md")]
+    if not added:
+        return []
+    tracked = _git(root, "ls-files", "-z").split("\0")
+    md = {t for t in tracked if t.lower().endswith(".md")}
+
+    def show(rel: str) -> str:
+        done = subprocess.run(["git", "-C", str(root), "show", f":{rel}"], capture_output=True, check=False)
+        return done.stdout.decode("utf-8", "replace") if done.returncode == 0 else ""
+    allowed: list[str] = []
+    exception = show(DOC_EXCEPTION_FILE)
+    if exception:
+        for entry in (_YAML.load(exception) or {}).get("unlinked_ok") or []:
+            prefix = str((entry or {}).get("path") or "").strip().rstrip("/")
+            if prefix and prefix not in (".", "/") and str((entry or {}).get("reason") or "").strip():
+                allowed.append(prefix)
+    generated: set[str] = set()
+    named = subprocess.run(["git", "-C", str(root), "grep", "--cached", "-l", "-F",
+                            *[x for a in added for x in ("-e", a)], "--", "*.py"],
+                           capture_output=True, text=True, check=False).stdout.split()
+    for py in named:  # only scripts that mention a new document can declare it as their output
+        generated.update(_OUTPUT_ASSIGN.findall(show(py)))
+
+    def exempt(rel: str) -> bool:
+        base = os.path.basename(rel)
+        return (base in ("CLAUDE.md", "AGENTS.md", "SKILL.md") or rel.startswith(".claude/")
+                or any(part.startswith(".") for part in rel.split("/")[:-1])
+                or rel.startswith("tests/fixtures/") or base == "TEMPLATE.md"
+                or rel.startswith("generated/") or rel in generated
+                or any(_under(rel, prefix) for prefix in allowed))
+    candidates = [a for a in added if not exempt(a)]
+    if not candidates:
+        return []
+    dist = {WIKI_ENTRY: 0} if WIKI_ENTRY in md else {}
+    queue = list(dist)
+    while queue:
+        cur = queue.pop(0)
+        if dist[cur] >= WIKI_MAX_HOPS:
+            continue
+        for target in _MD_LINK.findall(show(cur)):
+            if "://" in target or target.startswith(("#", "mailto:")):
+                continue
+            rel = os.path.normpath(os.path.join(os.path.dirname(cur), unquote(target.split("#")[0])))
+            if rel in md and rel not in dist:
+                dist[rel] = dist[cur] + 1
+                queue.append(rel)
+    return [c for c in candidates if c not in dist]
+
+
+def doc_reach_refusal(unreached: list[str], has_wiki: bool) -> str:
+    # link targets are percent-encoded: a '#' in a file name would otherwise start an anchor
+    lines = "; ".join(f"- [{Path(u).stem}]({quote('../' + u, safe='/.-_~')})" for u in unreached)
+    where = (f"add a line for each to {WIKI_ENTRY} (or to a page it links): {lines}" if has_wiki
+             else f"this repository has no {WIKI_ENTRY}: add one in this commit with: {lines}")
+    return (f"new document(s) not reached from {WIKI_ENTRY} within {WIKI_MAX_HOPS} links: {', '.join(unreached)}; "
+            f"{where}; or list a folder readers never open under unlinked_ok in {DOC_EXCEPTION_FILE} with a reason")
+
+
+def _owner_in(config: RuleConfig) -> bool:
+    owners = {n.split("/")[0] for n in config.repository_names if "/" in n}
+    return bool(owners & set(config.doc_reach_owners))
+
+
 def judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig,
           legacy: frozenset[str] = frozenset()) -> Verdict:
     """The tag's verdict (with the legacy-edit check), plus notes for a quick-adopt plan."""
     v = _judge_with_legacy(message, changes, governed_roots, config, legacy)
+    if config.index_root is not None and v.tag != "git" and _owner_in(config):
+        added = [c.path for c in changes if c.status == "A"]
+        try:
+            unreached = unreached_new_docs(config.index_root, added)
+        except (OSError, ValueError, RuntimeError) as err:  # the check must never break a commit
+            v.notes.append(f"new-document check skipped: {type(err).__name__}: {err}")
+            unreached = []
+        if unreached:
+            has_wiki = subprocess.run(["git", "-C", str(config.index_root), "cat-file", "-e", f":{WIKI_ENTRY}"],
+                                      capture_output=True, check=False).returncode == 0
+            why = doc_reach_refusal(unreached, has_wiki)
+            if v.tag == "Auto":
+                v.notes.append(f"logged only for [Auto]: {why}")
+            elif v.verdict == "accept":
+                v = Verdict("refuse", v.tag, [why], v.files, v.lines, v.running_things,
+                            check="doc-reach", scope=v.scope, asked=v.asked, notes=v.notes)
+            else:
+                v.reasons.append(why)
     goal = TAG_RE.match(message.lstrip().splitlines()[0] if message.strip() else "")
     if goal and goal["goal"] and v.verdict == "accept":
         try:
@@ -837,11 +989,13 @@ def check_message(root: Path, message_file: Path) -> tuple[int, str]:
     word = (verdict.verdict if verdict.verdict == "accept"
             else "would refuse (observe mode)" if config.mode != "enforce"
             else "would refuse (plan adoption is observe-only)" if verdict.check == "plan-adoption" and config.plan_adoption == "observe"
+            else "would refuse (new-document check is observe-only)" if verdict.check == "doc-reach" and config.doc_reach == "observe"
             else "refuse")
     asked = f"; asked: {verdict.asked}" if verdict.asked else ""
     notes = "".join(f"; {n}" for n in verdict.notes)
     report = f"aes commit rule: {word} [{verdict.tag}] — {'; '.join(verdict.reasons)}{asked}{notes} (logged to {log})"
-    soft = verdict.check == "plan-adoption" and config.plan_adoption == "observe"
+    soft = ((verdict.check == "plan-adoption" and config.plan_adoption == "observe")
+            or (verdict.check == "doc-reach" and config.doc_reach == "observe"))
     blocked = config.mode == "enforce" and verdict.verdict == "refuse" and not soft
     return (1 if blocked else 0), report
 
