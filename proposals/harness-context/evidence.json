@@ -97,5 +97,12 @@
       "Successful bounded source diagnosis does not prove end-to-end worktree admission.",
       "Token observations are initial-request measurements, not a controlled benchmark or billing comparison."
     ]
+  },
+  "private_archive": {
+    "repository": "BrianMills2718/project-meta",
+    "commit": "ca785d014d758b5c9d16954af2b20baa1c72060d",
+    "path": "proposals/harness-maintenance-diagnostic/harness-inventory.private.json",
+    "scope": "Detailed authority and semantic inventories; private source prose remains private",
+    "durable_checkpoint_verified_by_owner": true
   }
 }

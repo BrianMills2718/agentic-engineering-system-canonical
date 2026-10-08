@@ -23578,19 +23578,25 @@
     "source_ref": "project-meta:proposals/harness-maintenance-diagnostic/harness-inventory.private.json#hooks_policy_inventory",
     "raw_snapshot_sha256": "e839ed9199348c743823a7775458c29acad86845119c9db9501f4dedf05556ab",
     "raw_preservation_confirmed": "instructions_skills confirmed full raw snapshot before this export",
-    "export_boundary": "Private requirement prose, enforcement narratives, source quotes and semantic judgments are retained only in the private archive. Structural rows and nonprivate systemic findings remain here."
+    "export_boundary": "Private requirement prose, enforcement narratives, source quotes and semantic judgments are retained only in the private archive. Structural rows and nonprivate systemic findings remain here.",
+    "archive_commit": "ca785d014d758b5c9d16954af2b20baa1c72060d",
+    "archive_url": "https://github.com/BrianMills2718/project-meta/blob/ca785d014d758b5c9d16954af2b20baa1c72060d/proposals/harness-maintenance-diagnostic/harness-inventory.private.json",
+    "owning_pr": "https://github.com/BrianMills2718/project-meta/pull/2449"
   },
   "feedback": {
     "new_findings": [
       "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/287",
-      "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/288"
+      "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/288",
+      "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/297"
     ],
     "correction_lesson": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/290",
     "recurrence_comments": [
       "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/182#issuecomment-6051854745",
       "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/257#issuecomment-6051855791",
       "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/190#issuecomment-6051856549",
-      "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/275#issuecomment-6051929844"
+      "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/275#issuecomment-6051929844",
+      "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/200#issuecomment-6052118260",
+      "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/200#issuecomment-6052135755"
     ]
   },
   "hook_bindings": [

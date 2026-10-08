@@ -130,5 +130,23 @@
     "title": "Friction: the shared skill catalog exceeds its own metadata budget",
     "kind": "kind:friction",
     "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/310"
+  },
+  {
+    "number": 317,
+    "title": "Problem: Existing role parity checks ignore model, skill preload and native tool behavior",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/317",
+    "kind": "kind:problem"
+  },
+  {
+    "number": 318,
+    "title": "Lesson: verify expanded rendered layouts before certifying their readability",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/318",
+    "kind": "kind:lesson"
+  },
+  {
+    "number": 319,
+    "title": "Maintenance lane cannot narrowly extend claimed write paths through its sanctioned refresh",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/319",
+    "kind": "kind:friction"
   }
 ]

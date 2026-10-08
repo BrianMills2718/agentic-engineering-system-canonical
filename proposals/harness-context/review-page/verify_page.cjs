@@ -56,8 +56,14 @@ const {pathToFileURL} = require('node:url');
     if (mobile.overlaps || mobile.overflow.length) throw Error(JSON.stringify(mobile));
     if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth))
       throw Error('Mobile page overflow');
-    await page.locator('[data-role="review"]').dispatchEvent('pointerdown', {pointerType: 'touch'});
-    if (!await page.locator('#tip').isVisible()) throw Error('Touch tooltip missing');
+    const touchPage = await browser.newPage({viewport: {width: 390, height: 844},
+      hasTouch: true, isMobile: true});
+    touchPage.on('pageerror', error => errors.push(error.message));
+    await touchPage.goto(page.url());
+    await touchPage.evaluate(() => document.fonts.ready);
+    await touchPage.locator('[data-role="review"]').tap();
+    if (!await touchPage.locator('#tip').isVisible()) throw Error('Touch tooltip missing');
+    await touchPage.close();
     if (errors.length) throw Error(errors.join(';'));
     const receipt = {hover_passed: hover, focus_passed: focus, touch_passed: 1,
       role_selection_passed: 7, other_interaction_passed: 4,
