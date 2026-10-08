@@ -256,8 +256,9 @@ Sequencing: starts now. An earlier line here sequenced it after vision milestone
 | --- | --- | --- |
 | S1 | merged (AES #360, agent-skills #452, projects-dotclaude #104; llm_client #251/#252 hang fix) | first production run 2026-10-08 03:18 (`runs.jsonl` run of that time, journal `feedback-collector`): 83 reports (55 Claude, 28 Codex), 40 issues filed to the private log, 69 records, 22 without a link (all written before the line grammar shipped), 0 errors, $0.024; a random 15 links: 13 resolve, the 2 that do not are a bare `#316` (no repository) and a bare number qualified with the session folder's repository that belonged to another repository |
 | S2 | done | S2 result above |
-| S3-S4 | built, trial run on the 2-day trial data: 13 problems, 1 recurring (storage guard sizing), 3 active licences | judged on the first `feedback-problems` run with `--file` |
+| S3-S4 | merged (AES #370) and running weekly; first production runs 2026-10-08 05:01-05:21 (`problems-runs.jsonl`, `problems-manual-2026-10-08{,b,c}.log`) | trace review of run b: Jev joined two unrelated incidents (#202, #221) whose record sentences were empty pointers; the analysis bridged them and two licences derived active; their concerns (AES #378, #379) were withdrawn before adoption and Brian was told once. Root fix: relations are judged with the linked issues' text. Run c on the same 69 records: 5 problems, 0 recurring, 0 errors (correct: nothing recurs yet). A real recurrence is still to come from nightly data; the weekly timer checks it |
 | S5 | built | needs 30 days of nightly runs after the first enforced rule |
+| Routes | OpenRouter credit exhausted 2026-10-08 (project-meta #2452) | Jev's endpoint still answers; the stronger judge and the analysis run on `FEEDBACK_STRONG_MODEL=claude-code/sonnet` (allowlisted) until credit returns |
 
 Known limitation: a bare `#N` is qualified with the repository of the session's working folder; when the
 agent meant another repository the link is wrong but still marked as a link. Agents writing the new line
