@@ -604,12 +604,12 @@ def main() -> int:
                 it["filing"] = "below_threshold"
             elif tr.get("reusable_p", 0.0) < args.min_reusable:
                 it["filing"] = "not_reusable"
+            elif not (args.file and args.legacy_register):  # before the repeat check: its model calls only serve filing
+                it["filing"] = "eligible_not_filed (legacy register off)"
             elif norm(it["quote"]) in seen:
                 it["filing"] = "duplicate_of_filed"
             elif (verdict := _repeat_or_defer(it, recent)) is not None:
                 it["filing"] = verdict
-            elif not (args.file and args.legacy_register):
-                it["filing"] = "eligible_not_filed (legacy register off)"
             elif filed >= args.max_file:
                 it["filing"] = "deferred_cap"
             elif locked:

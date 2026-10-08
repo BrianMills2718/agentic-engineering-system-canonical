@@ -1,0 +1,18 @@
+[Unit]
+Description=Weekly feedback loop: group recurring problems, analyse, license fixes, hand them to agents, count effects
+Documentation=https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/proposals/aes-learning-loop/PLAN.md
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/.hive-brain/aes
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes fetch --quiet --depth 1 origin main
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes reset --quiet --hard FETCH_HEAD
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/project-meta fetch --quiet --depth 1 origin main
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/project-meta reset --quiet --hard FETCH_HEAD
+Environment=FEEDBACK_OUT=%h/projects/data/feedback-collector
+Environment=PROJECT_META=%h/.hive-brain/project-meta
+# The licence evaluator is read from the metamodel checkout (evaluate.derive_licence_status, R-401).
+Environment=O2A_METAMODEL=%h/code/observation-to-action-metamodel
+ExecStart=%h/.local/bin/uv run --quiet --no-project --with-editable %h/code/llm_client python %h/.hive-brain/aes/scripts/learning_loop/problems.py --file --days 14 --max-analyse 3
+TimeoutStartSec=2h
+Nice=10
