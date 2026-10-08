@@ -248,7 +248,7 @@ comments, labels for kind, family and licence status. The public AES record keep
 | S5 | Effect counting per enforced rule; recurrence revokes the licence | conditional on S4 |
 | S6 | Annotate the 68 existing issues and the legacy register with the new record split | deliberately_deferred |
 
-Sequencing: after vision milestone 4 (Brian, 2026-10-07).
+Sequencing: starts now. An earlier line here sequenced it after vision milestone 4; that came from the planning agent's own recommendation, which Brian approved without comment, and no slice depends on milestone 4 (which ended unmet on 2026-10-06 and has no active lane). Corrected 2026-10-08 after Brian asked how the plan was blocked on vision.
 
 ## Success and what would disprove it
 
