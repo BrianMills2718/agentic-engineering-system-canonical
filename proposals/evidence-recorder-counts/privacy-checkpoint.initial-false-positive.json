@@ -1,0 +1,16 @@
+{
+  "schema": "PublicPrivacyReviewV1",
+  "model": "openrouter/openai/gpt-5.6-luna",
+  "reasoning_effort": "medium",
+  "trace_id": "harness-context/evidence-recorder-counts/privacy-checkpoint-configured",
+  "input_chars": 59582,
+  "elapsed_seconds": 8.35,
+  "safe_to_publish": false,
+  "concerns": [
+    "The artifact contains non-public company engineering and governance data: internal repair plans, acceptance criteria, ownership/delegation details, AES target changes, issue-tracking context, and coordination/integration instructions.",
+    "It includes internal execution logs and provenance, including systemd service names and commands, internal plugin/cache paths, worktree/repository locations, session identifiers, commit and receipt hashes, and host metadata. These may expose operational details that should not be publicly disclosed.",
+    "It contains internal messages and decisions attributed to Brian and other engineering lanes, including authorization, adoption refusals, review findings, and handoff status.",
+    "It references private project-brain/wiki locations and internal planning artifacts, even though their contents are not included; the surrounding context still reveals internal organizational structure and work ownership.",
+    "No obvious credentials, API keys, personal contact details, postal addresses, financial, health, or job-search data were found. Local paths and hostnames are present but are not flagged as standalone concerns under the stated policy."
+  ]
+}

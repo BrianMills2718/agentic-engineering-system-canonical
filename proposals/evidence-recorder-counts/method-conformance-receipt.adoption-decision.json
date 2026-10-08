@@ -1,0 +1,17 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "refused",
+  "plan_ref": "proposals/evidence-recorder-counts/README.md",
+  "plan_sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7",
+  "receipt_ref": "proposals/evidence-recorder-counts/method-conformance-receipt.json",
+  "receipt_sha256": "3c2ff336de952246b190c5556f8e3eec198cca9ccdaaaee27ed0f6882918dd6c",
+  "receipt_result": "fail",
+  "reason_codes": [
+    "semantic_unresolved"
+  ],
+  "summary": [
+    "CORE-TRACE-REVIEW: semantic_unresolved -> Add to the plan: Actual full-trace examination for the six after-repair criteria: after-native-pass, after-native-fail, after-native-skip-only, after-native-mixed, after-native-unavailable, and after-custom-unknown. The evidence only specifies prospective traces and says no observation exists yet."
+  ],
+  "decided_at": "2026-10-08T04:30:45Z"
+}

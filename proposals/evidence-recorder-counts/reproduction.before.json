@@ -1,0 +1,8 @@
+{
+  "source_revision": "431deeb67a2a3b5af67065ecc07de0170a143d59",
+  "command": "default record(root,VS-WG5-PROMPTS,[]) against real pytest.mark.skip fixture",
+  "exit_code": 0,
+  "saved_assessment": "SUPPORTS",
+  "observed_defect": true,
+  "stdout_summary_line": "1 skipped in 0.01s"
+}

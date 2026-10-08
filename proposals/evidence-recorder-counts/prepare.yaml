@@ -1,0 +1,215 @@
+schema_version: aes.v0_2.plan_input.probe0
+target_id: agentic-engineering-system-canonical-target
+subject_revision: 431deeb67a2a3b5af67065ecc07de0170a143d59
+dirty: false
+governed_roots:
+  - src/agentic_engineering_system/
+  - tests/greenfield/
+open_gaps:
+  - id: insufficient:SC-GF-001
+    kind: insufficient
+    ref: SC-GF-001
+    detail: ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+  - id: insufficient:SC-GF-003
+    kind: insufficient
+    ref: SC-GF-003
+    detail: ER-SC-GF-003-01 NO_CURRENT_SUPPORT; ER-SC-GF-003-02 NO_CURRENT_SUPPORT
+  - id: insufficient:SC-GF-004
+    kind: insufficient
+    ref: SC-GF-004
+    detail: ER-SC-GF-004-01 NO_CURRENT_SUPPORT
+  - id: insufficient:SC-TR-001
+    kind: insufficient
+    ref: SC-TR-001
+    detail: ER-TR-001-01 NO_CURRENT_SUPPORT
+  - id: insufficient:SC-GF-006
+    kind: insufficient
+    ref: SC-GF-006
+    detail: ER-SC-GF-006-01 NO_CURRENT_SUPPORT; ER-SC-GF-006-02 NO_CURRENT_SUPPORT
+  - id: insufficient:SC-GF-007
+    kind: insufficient
+    ref: SC-GF-007
+    detail: ER-SC-GF-007-01 NO_CURRENT_SUPPORT
+  - id: insufficient:SC-GF-008
+    kind: insufficient
+    ref: SC-GF-008
+    detail: ER-SC-GF-008-01 NO_CURRENT_SUPPORT
+  - id: insufficient:SC-GF-005
+    kind: insufficient
+    ref: SC-GF-005
+    detail: ER-SC-GF-005-01 NO_CURRENT_SUPPORT
+  - id: insufficient:SC-AP-002
+    kind: insufficient
+    ref: SC-AP-002
+    detail: ER-AP-002-01 NO_CURRENT_SUPPORT
+  - id: insufficient:SC-ADOPT-001
+    kind: insufficient
+    ref: SC-ADOPT-001
+    detail: ER-ADOPT-001-01 NO_CURRENT_SUPPORT
+unrouted_evidence_requirements: []
+target_ids:
+  outcomes:
+    - OUT-GF-001
+    - OUT-AP-001
+  normative_items:
+    - GF-REQ-001
+    - GF-REQ-002
+    - GF-REQ-003
+    - GF-REQ-004
+    - GF-REQ-005
+    - GF-REQ-006
+    - GF-REQ-007
+    - GF-REQ-008
+    - GF-REQ-009
+    - NI-AES-HIST
+    - AP-REQ-001
+    - AP-REQ-002
+    - TR-REQ-001
+    - ADOPT-REQ-001
+  success_criteria:
+    - SC-GF-001
+    - SC-GF-002
+    - SC-GF-003
+    - SC-GF-004
+    - SC-GF-005
+    - SC-GF-006
+    - SC-GF-007
+    - SC-GF-008
+    - SC-GF-009
+    - SC-AP-001
+    - SC-AP-002
+    - SC-TR-001
+    - SC-ADOPT-001
+  evidence_requirements:
+    - ER-SC-GF-001-01
+    - ER-SC-GF-002-01
+    - ER-SC-GF-003-01
+    - ER-SC-GF-003-02
+    - ER-SC-GF-004-01
+    - ER-SC-GF-005-01
+    - ER-SC-GF-005-02
+    - ER-SC-GF-006-01
+    - ER-SC-GF-006-02
+    - ER-SC-GF-007-01
+    - ER-SC-GF-008-01
+    - ER-SC-GF-009-01
+    - ER-AP-001-01
+    - ER-AP-001-02
+    - ER-AP-002-01
+    - ER-TR-001-01
+    - ER-ADOPT-001-01
+  components:
+    - RU-AES-RECORDS
+    - RU-AES-PROJECT
+    - RU-AES-PLANNING
+    - RU-AES-TOPOLOGY
+    - RU-AES-CHARACTERIZE
+    - RU-AES-EVIDENCE
+    - RU-AES-RECONCILE
+    - RU-AES-CONTEXT
+    - RU-AES-CLI
+    - RU-AES-DISTRIBUTION
+    - RU-AES-COMMIT-RULE
+    - RU-AES-ADOPT
+  planned_artifacts:
+    - ART-SRC-RECORDS
+    - ART-TEST-RECORDS
+    - ART-SRC-PROJECT
+    - ART-TEST-PROJECT
+    - ART-SRC-PLANNING
+    - ART-PLANNING-PROTOCOL
+    - ART-TEST-PLANNING
+    - ART-SRC-TOPOLOGY
+    - ART-TEST-TOPOLOGY
+    - ART-SRC-CHARACTERIZE
+    - ART-SRC-CHARACTERIZE-PYTHON
+    - ART-TEST-CHARACTERIZE
+    - ART-SRC-EVIDENCE
+    - ART-TEST-EVIDENCE
+    - ART-TEST-EVIDENCE-CONTROLS
+    - ART-SRC-RECONCILE
+    - ART-TEST-RECONCILE
+    - ART-SRC-CONTEXT
+    - ART-TEST-CONTEXT
+    - ART-SRC-CLI
+    - ART-PACKAGING-PYPROJECT
+    - ART-DOC-GREENFIELD-GETTING-STARTED
+    - ART-SRC-HOOKS
+    - ART-TEST-DISTRIBUTION
+    - ART-TEST-SELF-GOVERNANCE
+    - ART-FIXTURE-WG5-PROJECT
+    - ART-FIXTURE-WG5-TARGET
+    - ART-FIXTURE-WG5-README
+    - ART-FIXTURE-WG5-PROPOSAL
+    - ART-V01---INIT---PY
+    - ART-V01-REPOSITORY-CONTEXT---INIT---PY
+    - ART-V01-REPOSITORY-CONTEXT-CLI-PY
+    - ART-V01-REPOSITORY-CONTEXT-COMPONENT-CONTEXT-GENERATED-YAML
+    - ART-V01-REPOSITORY-CONTEXT-GIT-SOURCE-PY
+    - ART-V01-REPOSITORY-CONTEXT-LEGACY-PY
+    - ART-V01-REPOSITORY-CONTEXT-MANIFEST-PY
+    - ART-V01-REPOSITORY-CONTEXT-MODELS-PY
+    - ART-V01-REPOSITORY-CONTEXT-RENDER-HTML-PY
+    - ART-V01-REPOSITORY-CONTEXT-RESOLVER-PY
+    - ART-SRC-COMMIT-RULE
+    - ART-TEST-COMMIT-RULE
+    - ART-TEST-PLAN-RECEIPT
+    - ART-TEST-TRACE-REVIEW
+    - ART-SRC-ADOPT
+    - ART-TEST-ADOPT
+  verification_subjects:
+    - VS-GF-RECORDS
+    - VS-GF-INIT-UNIT
+    - VS-GF-DISTRIBUTION-INSTALL
+    - VS-GF-TOPOLOGY
+    - VS-GF-PLANNING
+    - VS-GF-CONTEXT-STRUCTURAL
+    - VS-GF-CHARACTERIZE
+    - VS-GF-EVIDENCE
+    - VS-GF-EVIDENCE-CONTROLS
+    - VS-GF-RECONCILE
+    - VS-GF-SELF-GOVERNANCE
+    - VS-AP-COMMIT-RULE
+    - VS-AP-PLAN-RECEIPT
+    - VS-TRACE-REVIEW
+    - VS-ADOPT
+  external_boundaries:
+    - ER-SC-GF-001-01
+    - ER-SC-GF-005-02
+    - ER-SC-GF-009-01
+    - ER-AP-001-02
+proposal_skeleton:
+  schema_version: aes.v0_2.proposal.probe0
+  proposal_id: ''
+  title: ''
+  rationale: ''
+  closes_gaps: []
+  target_delta:
+    add:
+      outcomes: []
+      normative_items: []
+      success_criteria: []
+      components: []
+      planned_artifacts: []
+      verification_subjects: []
+      external_boundaries: []
+    change:
+      outcomes: []
+      normative_items: []
+      success_criteria: []
+      components: []
+      planned_artifacts: []
+      verification_subjects: []
+      external_boundaries: []
+    remove:
+      outcomes: []
+      normative_items: []
+      success_criteria: []
+      components: []
+      planned_artifacts: []
+      verification_subjects: []
+      external_boundaries: []
+  outside_governed_roots: []
+  trace_review:
+    runs_traced_work:
+    reason: ''

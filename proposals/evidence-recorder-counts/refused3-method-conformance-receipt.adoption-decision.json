@@ -1,0 +1,17 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "refused",
+  "plan_ref": "proposals/evidence-recorder-counts/README.md",
+  "plan_sha256": "620f1652c8cf0f5b649877b9f0175af8b190be03640611d7cad7acd1d3a98fd7",
+  "receipt_ref": "proposals/evidence-recorder-counts/method-conformance-receipt.json",
+  "receipt_sha256": "4c1cea6be1879ac1de5f7d17f6a51df2d4861cff0490993d96afc29a6d29cdb1",
+  "receipt_result": "fail",
+  "reason_codes": [
+    "semantic_unresolved"
+  ],
+  "summary": [
+    "OV-COORD-OWNERSHIP: semantic_unresolved -> Add to the plan: The child codex:evidence-recorder-counts ownership is not exact because the six paths it supposedly owns are not included in the quoted evidence. Therefore exact ownership and work-unit evidence for that concurrent writer are incomplete."
+  ],
+  "decided_at": "2026-10-08T04:28:30Z"
+}
