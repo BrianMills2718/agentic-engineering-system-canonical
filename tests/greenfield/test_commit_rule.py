@@ -167,6 +167,34 @@ def test_emergency_and_shaping(repo: Path) -> None:
     assert done.returncode == 1 and "also touches README.md" in done.stderr
 
 
+def test_plan_adopted_in_the_commit_being_made_is_found_in_the_index(repo: Path) -> None:
+    # The plan and its adoption decision exist only in the commit being made (staged, not on disk),
+    # as when a plan is adopted and committed together with its first work (code-15, 2026-10-08).
+    _adopted_plan(repo, "fresh")
+    _stage_worker_tools(repo)
+    _git(repo, "add", "proposals/fresh")
+    shutil.rmtree(repo / "proposals" / "fresh")
+    done = _git(repo, "commit", "-m", "[Goal fresh] adopt the plan and add worker tools")
+    assert done.returncode == 0, done.stderr
+    assert "plan fresh adopted" in done.stderr and "commit being made" in done.stderr
+
+
+def test_numbered_plan_adopted_in_the_commit_being_made_is_found(repo: Path) -> None:
+    rel = "docs/plans/56_first_try.md"
+    _write(repo, rel, "---\nmethod_conformance_receipt: docs/plans/56_first_try.receipt.json\n---\n\n# Plan 56\n")
+    _write(repo, "docs/plans/56_first_try.receipt.json", json.dumps({"verdict": "pass"}) + "\n")
+    digest = lambda p: hashlib.sha256((repo / p).read_bytes()).hexdigest()  # noqa: E731
+    _write(repo, "docs/plans/56_first_try.adoption-decision.json", json.dumps({
+        "decision": "adopted", "plan_sha256": digest(rel),
+        "receipt_sha256": digest("docs/plans/56_first_try.receipt.json")}) + "\n")
+    _stage_worker_tools(repo)
+    _git(repo, "add", "docs/plans")
+    shutil.rmtree(repo / "docs" / "plans")
+    done = _git(repo, "commit", "-m", "[Plan #56] adopt plan 56 and add worker tools")
+    assert done.returncode == 0, done.stderr
+    assert "plan #56 adopted" in done.stderr
+
+
 def test_plan_refusal_names_the_way_to_adopt_one(repo: Path) -> None:
     _stage_worker_tools(repo)
     done = _git(repo, "commit", "-m", "[Goal no-such-plan] add worker tools")

@@ -59,6 +59,7 @@ repositories that are not AES projects yet. Every verdict appends one JSON line 
 
 from __future__ import annotations
 
+import dataclasses
 import datetime as dt
 import fnmatch
 import hashlib
@@ -127,6 +128,8 @@ class RuleConfig:
     # repository directly under this folder (one level), so a plan lives in the repository
     # that owns it and work in any other repository can still name it.
     plan_workspace: Path | None = None
+    # The repository whose commit is being judged: its staged files are searched for the named plan.
+    index_root: Path | None = None
     # Names a conflict surface's `repository` may use for this repository (lower case):
     # origin's owner/repo, its repo part, and the main checkout's folder name.
     repository_names: tuple[str, ...] = ()
@@ -563,10 +566,44 @@ def receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: st
     return ok, why
 
 
+def staged_adoption(root: Path, number: str | None, plan_id: str | None) -> tuple[bool, str, dict] | None:
+    """The named plan as staged in the commit being made, judged from the index (with the working
+    tree as fallback for files the commit does not touch): a plan adopted and committed together
+    with its first work exists nowhere else yet. None when the commit stages no such plan."""
+    staged = subprocess.run(["git", "-C", str(root), "diff", "--cached", "--name-only", "--diff-filter=AMR"],
+                            capture_output=True, text=True)
+    if staged.returncode != 0:
+        return None
+
+    def read(r: str) -> bytes | None:
+        shown = subprocess.run(["git", "-C", str(root), "show", f":{r}"], capture_output=True)
+        if shown.returncode == 0:
+            return shown.stdout
+        f = root / r
+        return f.read_bytes() if f.is_file() else None
+    for rel in staged.stdout.splitlines():
+        if number is not None:
+            if not re.fullmatch(rf"docs/plans/0*{int(number)}_[^/]*\.md", rel):
+                continue
+        else:
+            if not re.fullmatch(r"(proposals/[^/]+|docs/plans)/[^/]*\.md", rel):
+                continue
+            match = FRONT_MATTER_RE.match((read(rel) or b"").decode("utf-8", errors="replace"))
+            if not (match and (_YAML.load(match.group(1)) or {}).get("plan_id") == plan_id):
+                continue
+        ok, why, meta = _adoption(read, rel, f"{rel} (in the commit being made)")
+        return ok, why, meta
+    return None
+
+
 def adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None,
-                 plan_workspace: Path | None = None) -> tuple[bool, str, dict]:
+                 plan_workspace: Path | None = None, index_root: Path | None = None) -> tuple[bool, str, dict]:
     """`receipt_status`, plus the adopted plan's front matter (empty unless adopted)."""
     label = f"#{number}" if number is not None else plan_id
+    if index_root is not None:
+        found = staged_adoption(index_root, number, plan_id)
+        if found is not None and found[0]:
+            return True, f"plan {label} adopted ({found[1].removesuffix(' adopted')})", found[2]
     plans = [(r, p) for r in plan_roots for p in _plan_candidates(r, number, plan_id)]
     searched = [str(r) for r in plan_roots]
     if not plans and plan_id is not None and plan_workspace is not None:
@@ -710,7 +747,8 @@ def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str
                        "no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]")
     if match["plan"] is not None or match["goal"] is not None:
         tag = f"Plan #{match['plan']}" if match["plan"] is not None else f"Goal {match['goal']}"
-        ok, why, meta = adopted_plan(config.plan_roots, match["plan"], match["goal"], config.plan_workspace)
+        ok, why, meta = adopted_plan(config.plan_roots, match["plan"], match["goal"], config.plan_workspace,
+                                      config.index_root)
         if not ok:
             why += ("; adopt the plan through Company Planning (`quick-adopt` turns a small single-repository "
                     "request into an adopted plan in about 10 s) or use [Trivial] for at most 3 files and 60 lines")
@@ -791,7 +829,7 @@ def _log(root: Path, entry: dict) -> Path:
 def check_message(root: Path, message_file: Path) -> tuple[int, str]:
     """Judge the commit being made; return (exit status, report). Observe mode never refuses."""
     root = root.resolve()
-    config = load_rule_config(root)
+    config = dataclasses.replace(load_rule_config(root), index_root=root)
     message = "\n".join(l for l in message_file.read_text(encoding="utf-8").splitlines() if not l.startswith("#"))
     verdict = judge(message, staged_changes(root), _governed_roots(root), config, _legacy(root))
     log = _log(root, {"mode": config.mode, "config": config.source, "subject": message.strip().splitlines()[0] if message.strip() else "",
