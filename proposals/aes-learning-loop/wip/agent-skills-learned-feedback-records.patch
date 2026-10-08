@@ -1,0 +1,339 @@
+From dac517ae8eac48ae91993c6ff24ffb6a1b1ab7c8 Mon Sep 17 00:00:00 2001
+From: Brian Mills <brianmills2718@gmail.com>
+Date: Thu, 8 Oct 2026 01:27:43 -0400
+Subject: [PATCH] [Unplanned] learned skill: Feedback record lines
+ (obs/claim/action) filed to the private log
+
+Emergency: part of aes-learning-loop S1; held until the AES collector change merges. make test: same 6 failures + 1 error as origin/main (#441).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ skills/learned/SKILL.md | 278 ++++++++++++++++------------------------
+ 1 file changed, 108 insertions(+), 170 deletions(-)
+
+diff --git a/skills/learned/SKILL.md b/skills/learned/SKILL.md
+index 02fa0de..505ac36 100644
+--- a/skills/learned/SKILL.md
++++ b/skills/learned/SKILL.md
+@@ -1,13 +1,14 @@
+ ---
+ name: learned
+ description: |
+-  Record one feedback item -- a lesson, a friction, or a problem -- as an issue
+-  in the AES canonical feedback record for the weekly learning loop. Use for
+-  any durable observation, bug pattern, gotcha, workaround, tool discovery,
+-  failure mode, best practice, strategy that worked or failed, a rule or tool
+-  that got in the way, or a failure nobody was told about. Invoke this
+-  proactively whenever a session hits one, not only when a user asks; explicit
+-  requests remain distinguishable from proactive capture in the record.
++  Record what a session saw, believes or tried -- a lesson, a friction, a
++  problem, an experiment or a research finding -- as Feedback record lines
++  (observation, claim, action) that point at their evidence, for the agent
++  feedback loop. Use for any durable observation, bug pattern, gotcha,
++  workaround, tool discovery, failure mode, practice that worked or failed, a
++  rule or tool that got in the way, a failure nobody was told about, or a
++  correction. Invoke proactively whenever a session hits one, not only when a
++  user asks.
+ user-invocable: true
+ allowed-tools:
+   - Bash
+@@ -15,196 +16,133 @@ allowed-tools:
+   - Grep
+ ---
+ 
+-# Skill: Record a Feedback Item
++# Skill: Record Feedback
+ 
+-The feedback record is one GitHub issue per item in
+-`BrianMills2718/agentic-engineering-system-canonical`, labelled `kind:lesson`,
+-`kind:friction` or `kind:problem` plus `source:session`. A weekly run sorts
+-the issues into failure families and drafts rule proposals from recurring ones
+-(design: AES canonical `proposals/aes-learning-loop/DESIGN.md`). Lessons and
+-friction go to the same record, so a closeout's **Feedback** field can list
+-everything the session hit in one place. Brian, 2026-10-07: "this is suppsoed
+-to be like a feedback record whcih would include friction as well as learning."
+-
+-`project-meta/learnings/entries/`, `project-meta/learnings.md` and
+-`project-meta/policy_friction.md` are the legacy registers: search them for
+-duplicates, do not add to them.
+-
+-One item per invocation. Invoke again for a second item.
++Feedback is a short report of records, each one sentence that points at its
++evidence instead of retelling it. Agents write the records in the closeout's
++**Feedback** field; a nightly collector files every report into the private
++feedback log (`BrianMills2718/agent-feedback-log`, one issue per report), and
++the loop later groups recurring problems, derives which claims are licensed
++by independent evidence, adopts rules or checks, and counts whether the
++failure stops (design: AES canonical `proposals/aes-learning-loop/PLAN.md`).
++Brian, 2026-10-07: report "as much information as it can provide and
++qualified and provenanced"; provenance should link "out to evidence [rather]
++than explains it or else it consumes my attention"; agents "dont always know
++the whole causal chain ... this is part of the post processing loop".
+ 
+ ## Input
+ 
+ `$ARGUMENTS` is the item text.
+ 
+-**An empty invocation is a trigger, not a question.** It means: record what
+-this session learned or hit and has not already recorded. Review the session
+-for lessons, friction and problems, and file each un-recorded one (one issue
+-per item). Do not ask the user what they learned -- they invoked this precisely
+-so they would not have to write it themselves.
+-
+-Say so plainly and stop only when there is genuinely nothing to record: every
+-candidate is already in the record, or the session learned nothing durable and
+-hit nothing in its way. A session in which you corrected yourself, worked
+-around a tool, or waited on something stalled is never in that state.
+-Naming what you considered and rejected is more useful than an empty
+-acknowledgement, and far more useful than a padded entry.
+-
+-## Step 0: Which kind?
+-
+-- **`kind:lesson`** — something learned: an observation true at the cited
+-  evidence boundary (bug pattern, gotcha, tool behavior), an approach to use or
+-  avoid, or both in one item. Corrections are lessons (Step 1).
+-- **`kind:friction`** — a rule, tool, gate, hook, skill or instruction got in
+-  the way: it was unclear, wrong, blocked the right action, or made it costly.
+-  When a specific policy is involved, name its id in the body (`Policy: <id>`).
+-- **`kind:problem`** — something failed and nobody was told, or a failure
+-  outlived the run that hit it.
+-
+-A session that hit a blocked route, needed a workaround, corrected itself, or
+-waited on something stalled has at least one item. Record each one.
+-
+-## Step 1: Always record a correction
+-
+-Before applying any skip rule below, check this first. **If you corrected a
+-claim you had already made, or the user corrected a claim you asserted, record
+-it as a practice-bearing learning.** This is not optional and does not depend
+-on how the surrounding work turns out.
+-
+-A correction is durable the moment it happens. Whether the substantive question
+-is still open is a separate matter, and deferring the one does not license
+-dropping the other. When the correction establishes both what was wrong and how
+-to avoid repeating it, use both `observation` and `practice` on one entry. If the
+-domain observation is genuinely unsettled, record only the proven practice now
+-and the observation later. Do not write the correction into a
+-Concerns line and move on — a closing report is read once and discarded, and
+-that is where corrections go to die.
+-
+-Record it as `kind:lesson`, with `recommended_action` naming what to do
+-instead and the body naming the reasoning that produced the error, not the
+-topic it was about. "Asserted a count from a status field without checking what
+-the field measures" is a reasoning; "Repository inventory" is a topic.
+-
+-The bar is whether it happened, not whether it feels significant. An agent is a
+-poor judge of which of its own errors will recur, and the corpus shows the same
+-few reasoning failures repeating across unrelated projects for months.
+-
+-## Step 2: Check it is worth recording
+-
+-Skip, and say so, when the input is:
+-
+-- already recorded by the repository — code structure, git history, or a fix
+-  visible in the diff;
+-- session bookkeeping, status, or narration;
+-- a restatement of the task rather than something learned or hit;
+-- already an open or closed issue in the record. Search first:
+-  `gh issue list --repo BrianMills2718/agentic-engineering-system-canonical --state all --search "<keywords>" --limit 10`,
+-  and grep the legacy registers (`project-meta/learnings/entries/`,
+-  `project-meta/learnings.md`, `project-meta/policy_friction.md`). If the same
+-  item exists, add a comment to the open issue with this occurrence (a second
+-  independent instance is the signal the weekly run counts) instead of filing a
+-  duplicate.
+-
+-**A decline must name what it defers to.** Cite the issue number, legacy entry
+-ID, commit, or memory slug. "Already recorded" with no reference is not a
+-reason. Measured across 296 closing reports: of 55 declines given on those
+-grounds, the 49% that cited something checkable all verified, and the other 51%
+-cited nothing at all.
+-
+-## Step 3: File
+-
+-Title starts with `Lesson:`, `Friction:` or `Problem:` and says the item in
+-one plain sentence. The body opens with three lines, then what happened:
++**An empty invocation is a trigger, not a question.** It means: write the
++Feedback lines for what this session saw, believed or tried that are not yet
++in a Feedback field. Do not ask the user what they learned.
+ 
+-```bash
+-gh issue create --repo BrianMills2718/agentic-engineering-system-canonical \
+-  --title "Friction: <the item in one plain sentence>" \
+-  --label kind:friction --label source:session \
+-  --body-file <file>
+-```
++Say so plainly and stop only when there is genuinely nothing to record. A
++session in which you corrected yourself, worked around a tool, or waited on
++something stalled is never in that state.
+ 
+-```text
+-source_ref: <PR, commit, issue, log line, or file that evidences this>
+-recorded_at: <YYYY-MM-DD>
+-recommended_action: <what future agents or the tool owner should do>
++## Step 1: Write the lines
+ 
+-What happened: <the evidence-bounded account: exact error text, names,
+-counts, and who was affected. For a correction, the reasoning that produced
+-the error. For friction tied to a policy, `Policy: <id>`.>
+-```
+-
+-Use the repository's own `gh` identity (it is Brian's personal account). Do
+-not add `family:*` labels; the weekly run assigns them.
++One record per line, in the closeout's **Feedback** field:
+ 
+-## Step 4: Confirm
+-
+-Tell the user the issue number and URL, its kind, and its title. List every
+-item filed this turn in the closeout's **Feedback** field with its link. If
+-`gh issue create` fails, say so plainly with its error; do not claim the item
+-is recorded.
++```text
++- obs: <one sentence> [<link>] [<link>]  expected: <link or sentence>
++- obs (control): <one sentence about a rule, tool, hook or skill> [<link>]
++- claim (<seen|inferred|guessed>, <low|medium|high>): <one sentence>  ← obs 1, <link>
++- action (<Investigate|Mitigate|Repair|Detect|Prevent>, <proposed|done>): <one sentence> → <result link>
++```
+ 
+-In Claude Code the skill is invoked directly as `/learned <text>`. In Codex,
+-invoke it as `$learned <text>`, or use the native `/skills` picker. Any
+-explicit user invocation says so in the body (`invocation: manual`).
++- **Observation**: something that happened. `expected:` says what should have
++  happened; a problem is an observation whose expectation it contradicts.
++  Friction is `obs (control)`.
++- **Claim**: what you now believe -- a cause, a lesson, a practice. Mark how
++  you know it: `seen`, `inferred` or `guessed`, and a confidence. Guesses are
++  welcome when marked; they are kept and never count as support. `← obs 1`
++  points at the first observation in the same report. A claim may add a
++  vision-register evidence word (`supported`, `hypothesis`, ...) as a third
++  qualifier.
++- **Action**: something tried, done or proposed. Experiments and research are
++  `Investigate`; `→` links the result. Prevent and Detect actions are what
++  rules and audit checks are made from.
++
++**Links, not explanations.** A link is a file path with a line
++(`scripts/x.py:42`, `Makefile:96`), a commit in backticks, an issue or pull
++request (`owner/repo#12`), a log path with a line, or a URL. A record with no
++link is kept but marked unprovenanced and can never support a rule. Write
++causes you are unsure of as claims marked `inferred` or `guessed`; working out
++the full causal chain is the loop's job, not yours.
++
++## Step 2: Always record a correction
++
++If you corrected a claim you had already made, or the user corrected one, it
++is at least an observation (what was asserted and what was true, with links)
++and a claim naming the reasoning that produced the error, not the topic:
++"asserted a count from a status field without reading what writes it" is a
++reasoning; "repository inventory" is a topic. This does not depend on how the
++surrounding work turns out.
++
++## Step 3: Skip only what records nothing
++
++Skip, and say so, when an item is session bookkeeping, a restatement of the
++task, or already visible in the repository (the diff, git history). Do not
++skip an item because something similar exists: a second independent
++occurrence is exactly the evidence the loop counts. Search before writing only
++to link to the earlier record:
++`gh issue list --repo BrianMills2718/agent-feedback-log --state all --search "<keywords>" --limit 5`.
++
++## Step 4: File now (explicit invocation only)
++
++The closeout's Feedback field is filed nightly; nothing else is needed. When a
++user invokes this skill explicitly, or the item must be visible before
++tonight, file the lines now and put the issue link in the Feedback field
++instead of the lines:
+ 
+-## Step 5: Rules come from the loop
++```bash
++printf '%s\n' '<line 1>' '<line 2>' | ~/.local/bin/uv run --quiet --no-project \
++  --with-editable ~/code/llm_client python ~/.hive-brain/aes/scripts/learning_loop/feedback_log.py \
++  --session "<session id>" --client <claude|codex>
++```
+ 
+-Do not write rule proposals by hand. When the same failure shape recurs, the
+-weekly learning-loop run drafts an AES plan proposal from the labelled issues
+-and puts it to Brian as a decision. Commenting a repeat occurrence on the
+-existing issue (Step 2) is how a recurring item reaches that threshold.
++It prints the issue URL and a `RESULT records=N unprovenanced=M filed=<url>`
++line; `--dry-run` shows the report without filing. Free text without the
++markers is split by a light model, but links are always read by code from
++your own words, so write them in.
+ 
+ ## Rules
+ 
+-1. **Be specific, with names.** "Parsing is tricky" is not a lesson.
+-   "onto-canon6: Pydantic `extra='forbid'` crashes whole responses when a model
+-   drifts a field name, use `extra='ignore'` for parsing models" is. Include
+-   project, file, symbol, and the exact error where they apply.
+-2. **Give a source ref.** An item nobody can verify on review is not worth
+-   reviewing.
+-3. **Never rewrite a filed item.** Add a comment for new evidence or a repeat
+-   occurrence; the weekly run's labels go in its own comments.
+-4. **One item per invocation.**
+-5. **No duplicates.** Search the record and the legacy registers first (Step 2).
+-6. **No secrets, credentials, or personal paths** in portable guidance.
+-7. **Friction is not a complaint.** Name the rule or tool, what it blocked or
+-   cost, and the smallest change that would have let the right action through.
++1. **Be specific, with names.** "Parsing is tricky" is not a record.
++   "onto-canon6: Pydantic `extra='forbid'` crashes whole responses when a
++   model drifts a field name" is.
++2. **One sentence per record; evidence by link.**
++3. **Never rewrite a filed report.** Write a new record; a later claim can
++   challenge an earlier one by linking it.
++4. **No secrets or credentials** in a record; the log is private but still a
++   record.
++5. **Do not write rules by hand.** Rules come from the loop when evidence
++   licenses a claim.
+ 
+ ## Examples
+ 
+-Friction:
+-
+ ```text
+-Friction: the storage guard leaves no claimable route for a three-file change
+-source_ref: personal-file-infra scripts/storage-policy.py gate(); project-meta PR #2423
+-recorded_at: 2026-10-07
+-recommended_action: admit a worktree whose need is far below the headroom, and let the claim tool accept a remote-branch claim.
+-What happened: with C: at 14 GB free the guard refused every worktree, and the claim tool refused a claim without one ...
++- obs: ten learnings lanes left their entries uncommitted [~/projects/data/learnings/file9.log:41]  expected: each lane commits its entry
++- obs (control): the commit rule refused the [Discovery] tag on every lane [`3f9c2ab`]
++- claim (inferred, high): the commit rule refusing that tag stranded the lanes  ← obs 1, obs 2
++- action (Prevent, done): fall back to a detached append when a lane step fails → BrianMills2718/project-meta#2442
+ ```
+ 
+-Correction (a lesson):
+-
+-```text
+-Lesson: a failure's start time was stated from the first error found, not the unit's run history
+-source_ref: journalctl canonical-sync history, 2026-10-07
+-recorded_at: 2026-10-07
+-recommended_action: read the unit's full run history (last success, every failure since) before stating when a failure started.
+-What happened: the agent said the sync "had been crashing since 14:42"; the last success was 01:10 ... A sufficient-looking cause ended the search.
+-```
+-
+-Problem:
+-
+ ```text
+-Problem: every Paperclip agent failed for 16 hours and nothing showed it
+-(AES canonical issue #71)
++- obs: I stated the sync had crashed since 14:42; its last success was 01:10 [~/projects/data/logs/canonical-sync.log:118]
++- claim (seen, high): I took the first error found as the start, without reading the unit's run history  ← obs 1
+ ```
+ 
+ ## Note on prior storage
+ 
+-Earlier versions of this skill wrote `learning/v3` JSON entries under
+-`project-meta/learnings/entries/` and sent policy friction to
+-`project-meta/policy_friction.md`, so friction never appeared in the record a
+-closeout lists. Both remain readable history for duplicate checks; new items go
+-to the AES canonical issue record (Brian, 2026-10-07).
++Until 2026-10-08 this skill filed one public issue per item in
++`BrianMills2718/agentic-engineering-system-canonical` (`kind:lesson`,
++`kind:friction`, `kind:problem`); before that, `learning/v3` entries in
++`project-meta/learnings/entries/` and `project-meta/policy_friction.md`. All
++remain readable history; link to them, do not add to them.
+ 
+ <!-- skill-feedback-contract:v1:start -->
+ After each use, assess its trigger, instructions, tools, and workflow for friction or a suboptimal result; record only a concrete improvement:
+-- 
+2.43.0
+
