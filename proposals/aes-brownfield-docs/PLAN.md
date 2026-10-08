@@ -4,12 +4,12 @@ status: shaping
 method_conformance_receipt: proposals/aes-brownfield-docs/conformance.receipt.json
 planning_path_decision: proposals/aes-brownfield-docs/PLANNING_PATH.json
 goal:
-  outcome: graph-retrieval's documentation follows AES canonical's declared layout, and a reader reaches every document meant for reading from wiki/index.md within two clicks; the retrofit is recorded in AES canonical as evidence for the documentation-rule decision
-  canonical_example: an agent new to graph-retrieval, asked "why does this repository orchestrate agents the way it does?", clicks wiki/index.md -> Decisions -> docs/decisions/DECISIONS.md#001-agent-orchestration-architecture and cites that section; proposals/aes-brownfield-docs/reach.py on merged main reports every unreachable file as an instruction file, fixture, generated output or tool-read template, and none as an orphan
-  forbidden_substitutes: a file-count target; one flat list of every file in place of routed navigation; rewriting or summarising document content; a reachability number without classifying each unreachable file; a cold-reader run that is handed file paths instead of starting at wiki/index.md
-  boundaries: Inside-Success/graph-retrieval through one pull request at a time (gh-insidesuccess) and this plan folder only; no other repository; no change to AES's .agentic/repo.yaml contract or to the workspace documentation rule (that is Brian's M3 decision)
-  done_when: the M1 pull request is merged and reach.py on graph-retrieval main reports 0 orphan reader documents; the cold-reader transcript answers the plan's five questions, each citing a document reached through wiki links within two hops; graph-retrieval's checks give the same results as on main before the change; the M2 retrofit note is committed in this folder
-  do_not_gate_on: Brian reading this plan or a review page; the M3 rule decision; other repositories adopting the layout
+  outcome: Inside-Success/brians-2nd-brain-integration-work is organized in AES canonical's layout (decisions in docs/decisions/, governing design in docs/architecture/, plans in docs/plans/, generated output separated from reading), with wiki/index.md routing by question to every reader document within two links
+  canonical_example: an agent new to the repository, asked "why was the Foundation IR wiki visibility handled the way it is?", clicks wiki/index.md -> Decisions -> docs/decisions/ and cites the decision record; a decision record found outside the declared decision root fails the layout check
+  forbidden_substitutes: reachability through generated per-folder lists without moving documents to their homes; a file-count target; rewriting or summarising document content; merging records the repository's registry keeps separate on purpose; a cold-reader run handed file paths
+  boundaries: this repository through one pull request at a time (gh-insidesuccess) plus this plan folder; no change to the AES .agentic/repo.yaml contract; generated output keeps its generators working (paths repointed, not reimplemented)
+  done_when: the migration map in this plan is complete and executed in a merged pull request; the layout check (declared roots exist and hold the decision, design and plan documents; generated output is under a generated area) and reach.py report no findings on main; a fresh agent answers the plan's five questions from wiki links within two hops; the repository's checks match main before the change
+  do_not_gate_on: Brian reading this plan; other repositories; the daily check's rollout to Brian's own repositories
   owner: claude-code:shaping-aes-brownfield-docs
 ---
 
@@ -24,7 +24,7 @@ goal:
 ## Outcome And Boundaries
 
 <a id="outcome"></a>
-**Outcome:** A reader of graph-retrieval (Brian, or an agent with no prior context) opens `wiki/index.md` and reaches any document meant for reading within two clicks, finding decisions under `docs/decisions/`, governing design under `docs/architecture/`, and plans under `docs/plans/`, as declared in the repository's `.agentic/repo.yaml`. Today 23 reader documents (including the root `README.md`, `KNOWLEDGE.md`, `FUNCTIONALITY.md`) cannot be reached from the wiki at all.
+**Outcome:** Documentation is *organized*, not only reachable (Brian, 2026-10-08: "it isnt as much about unreachable pages to me as well organized pages ... the organization in aes canonical is at least a first approximation"). For Inside-Success/brians-2nd-brain-integration-work that means decisions in `docs/decisions/`, governing design in `docs/architecture/`, plans in `docs/plans/`, generated output separated from reading material, and `wiki/index.md` routing by question. graph-retrieval (M1) already has this shape.
 
 **Example.** An agent new to graph-retrieval is asked "why does this repository orchestrate agents the way it does?". Today it opens `wiki/index.md` and finds no route to the decision log or the root `README.md`; it falls back to searching the tree. After M1 it clicks `wiki/index.md` -> "Decisions" -> `docs/decisions/DECISIONS.md#001-agent-orchestration-architecture` (two clicks) and cites that section. The same path works for the root `README.md` ("What this repository does", one click) and for the active plan (`docs/plans/206_...`, two clicks).
 
@@ -33,11 +33,10 @@ goal:
 **System model:** exempt: one repository's documentation layout; the layout contract (`.agentic/repo.yaml`) is the model.
 
 <a id="canonical-probe"></a>
-**Canonical probe:** Starting state: graph-retrieval main 4e1403fb, `proposals/aes-brownfield-docs/reach.py` reports 97 tracked .md, 56 reachable from `wiki/index.md`, 41 unreachable (18 instruction files, 23 others). Action: apply the active slice. Inspectable result: `reach.py` reports every unreachable file as one of the allowed kinds (instruction file read by path, test fixture, generated output with its generator named, template read by a tool), and a cold agent answers five fixed questions using only links from `wiki/index.md`. Negative case: a reader document deliberately left unlinked must be reported as an orphan by the check.
+**Canonical probe:** Starting state: integration repo main `7f91be42`, 2,086 tracked .md; decision records in `roadmap/decisions/` and as `plan/ADR-*.md`; design in `roadmap/architecture/`; plans in `plan/`; 666 generated pages in `plan/okf_exports/`; wiki reaches 264 documents. Action: the active slice. Inspectable result: the layout check finds every decision, design and plan document under its declared root and generated output in a generated area; `reach.py` finds no orphan; a fresh agent answers five questions from wiki links. Negative case: a decision record left in `plan/` fails the layout check.
 
 <a id="success-disproof"></a>
-**Success evidence:** (1) `reach.py` classification shows zero orphan reader documents; (2) the cold-reader run answers the five questions with the source document cited for each, every citation reached via wiki links; (3) the repository's own checks give the same results as on unchanged main (doc-links, sync_plan_status --check, check_doc_coupling --strict, validate_document_authority, make ci-check, targeted pytest).
-**Disproof:** any orphan reader document remains; the cold agent needs a file it could not reach from the wiki; or any repository check newly fails. Also disproved if the AES layout forces tooling changes larger than the documentation moves themselves (more than about 10 files of non-documentation code), which would mean the layout does not fit existing repositories.
+**Success evidence:** (1) the migration map below is complete (every moved folder, its consumers, and their repointing) and executed in a merged pull request; (2) the layout check and `reach.py` report no findings on main; (3) a fresh agent on Haiku answers the five questions within two links; (4) the repository's checks (meta tests, `validate-okf`, `repo-hygiene`, `roadmap-spine-check`, the wiki-reading tests) match main before the change.
 
 <a id="non-goals"></a>
 **Non-goals:** AES code governance of existing repositories, which `proposals/aes-adopt-existing` owns (`aes adopt` legacy baseline for `src/` and `tests/`, merged 2026-10-07); a file-count target; rewriting document content; other repositories before the pilot result; changing AES's layout contract itself.
@@ -70,18 +69,20 @@ reader finds doc <- wiki/index.md links <- declared roots (.agentic/repo.yaml) <
 | M2 Record the retrofit in AES canonical | done 2026-10-07 ([RETROFIT_NOTE.md](RETROFIT_NOTE.md)) | a retrofit note in this proposal folder: what the layout required of an existing repo, what tooling changed | M1 evidence | M1 merged |
 | M3 Replace the count rule | done 2026-10-07: Brian chose both rules ("probably both"); workspace AGENTS.md (projects-dotclaude #102) and the daily check (project-meta #2444) | project-meta daily check reports orphans and layout per repo; AGENTS.md rule reworded from "100 files" to reachability with 100 as a tripwire | M1 + M2 | Brian's go-ahead on the rule wording (human decision) |
 | M4 Roll out to further repos | deliberately_deferred | one PR per repo | M3 | after M3 |
+| M5 Organize the integration repository in the AES layout | fully_specifiable_now (after the migration map, step 1 of the active slice) | merged PR; layout check and reach.py clean; fresh-agent run | migration map; layout check | promote when success evidence holds; replan if the map shows the move breaks generators beyond path repointing |
+| M6 Measure organization daily | conditional | project-meta daily check reports layout conformance per repository beside count and reachability | M5's layout check proven on two repositories | M5 done |
 
 ## Active Slice
 
-**Visible result:** graph-retrieval main where every reader document is reachable from `wiki/index.md` within two clicks, laid out under the AES roots and declared in `.agentic/repo.yaml`.
+**Visible result:** the integration repository organized in the AES layout, with the wiki routing by question.
 
-**Input / output and affected boundaries:** input graph-retrieval main 4e1403fb. Output one PR that: adds `.agentic/repo.yaml` (roots as AES canonical's, no planning keys); moves `docs/adr/*` to `docs/decisions/`; moves the governing design documents (identified by `validate_document_authority.py` and `docs/ACTIVE_DOCS.md` as authority) to `docs/architecture/`; links the 23 unreachable non-instruction documents from `wiki/index.md` or classifies them (generated output, template, fixture); repoints every reference across all file types.
+**Input / output and affected boundaries:** input main `7f91be42`. Step 1 (no file moves): the migration map, one row per current home: `roadmap/decisions/` and `plan/ADR-*.md` -> `docs/decisions/`; `roadmap/architecture/` -> `docs/architecture/`; current plans in `plan/` -> `docs/plans/`; `plan/okf_exports/` -> under `generated/`; each row lists its consumers (scripts, Makefile targets, tests, `scripts/relationships.yaml` records, OKF validators) and how each is repointed. Step 2: one pull request that executes the map with `git mv`, repoints every consumer, and rewrites `wiki/index.md` to route by question. Knowledge entries stay separate files behind one index (the registry keeps each separately citable on purpose); evaluation readouts that tests open stay where the tests read them, declared as evidence.
 
-**Implementation constraints:** claimed worktree in graph-retrieval; Inside Success git transport (`gh-insidesuccess`); the repo's own hooks, never bypassed; no content rewriting.
+**Implementation constraints:** claimed worktree; the repository's hooks; generators keep working with repointed paths; no content rewriting; Haiku agents for mechanical per-folder consumer inventory, the parent for the map and review.
 
-**Focused check and authentic observation:** `reach.py` with classification on the branch; the repo checks listed under success evidence, on branch and main; then a fresh agent, given only the repository and the instruction "start at wiki/index.md", answers: (1) what does the repo do, (2) where is the decision about agent orchestration architecture, (3) what plan is in progress, (4) how are plan statuses checked, (5) where do generated readouts come from. Each answer must cite a document reached through wiki links.
+**Focused check and authentic observation:** layout check (a script beside `reach.py`: roots exist; decision, design and plan documents inside their roots; generator outputs under the generated area); `reach.py`; the repository checks on branch and main; then a fresh Haiku agent answers: what the repository does; where decisions are and one decision; one plan in progress; one knowledge entry of type decision; where generated pages come from.
 
-**Failure / containment / rollback:** if any repo check newly fails or the cold reader cannot reach a cited document, fix within the slice or revert the PR; old paths remain in git history.
+**Failure / containment / rollback:** if a generator or test cannot follow a moved path by repointing alone, that row stays and is recorded as a finding; revert the merge if checks newly fail. The earlier reachability-only branch (57 generated folder lists, unmerged) is not merged: it made pages reachable without organizing them.
 
 ## Decisions And Assumptions
 
@@ -94,6 +95,9 @@ Settled choices:
 | Plans follow Company Planning | human_set | Brian, 2026-10-07 | this plan |
 | Path durable_solo, depth Small | agent_decided_reversible | PLANNING_PATH.json validated (classified durable_solo) | planning |
 | Five fixed cold-reader questions | agent_decided_reversible | cover purpose, a decision, an active plan, tooling, generated outputs | M1 acceptance |
+| Target is organization in the AES layout; reachability is a check on it | human_set | Brian, 2026-10-08 (quoted in Outcome) | M5, M6 |
+| Knowledge entries stay separate files behind one index | agent_decided_reversible | the repository's registry records each entry with `separate_file_reason` and its own review questions | M5 |
+| Integration repository is the next repository | human_set | Brian chose Inside Success second-brain repositories first; reverse-ontology-engine skipped ("it is not my repo") | M5 |
 | AES's pinned wiki_methodology entrypoint is valid | agent_decided_reversible | `git cat-file -e 0cddc6b1:docs/architecture/README.md` succeeds; the file was removed on later main only | layout contract |
 
 Material uncertainties. These three are the complete set; each could make the pilot fail its purpose, and there are no others.
@@ -122,9 +126,8 @@ Material uncertainties. These three are the complete set; each could make the pi
 
 ## Exact Next Action
 
-M4 rollout, deliberately deferred until scoped: the first daily run of the extended check (project-meta `scripts/md_file_cap.py`) lists every owned repository breaking either rule (2026-10-07 dry run: 36 over the cap, 152 with unreachable reader documents, 28 with no `wiki/index.md`). Each repository is brought into the AES layout with this pilot's method, one pull request per repository, starting with those whose orphans are a few reader documents rather than source collections.
+Build the M5 migration map for the integration repository (active slice, step 1): one row per current home with its consumers and repointing, from a read-only inventory.
 
-<a id="prior-art"></a>
 ## Prior Art And Parallel-Implementation Check
 
 Searched: internal lineage in AES canonical (`git grep -i 'retrofit|brownfield|existing repositor'` over docs, proposals and research, which found Decision 0010, the v0.2 architecture and `proposals/aes-adopt-existing`), every `~/code` repository for an existing `.agentic/repo.yaml` (AES canonical, collective-competence, collective-competence-aeon-p0), project-meta's wiki policies, and external documentation-structure practice. Existing ownership searched in graph-retrieval itself: its documentation tooling (`scripts/check_markdown_links.py`, `scripts/meta/sync_plan_status.py`, `scripts/meta/validate_plan.py`, `scripts/validate_document_authority.py`, `scripts/relationships.yaml`, `docs/ACTIVE_DOCS.md`).
