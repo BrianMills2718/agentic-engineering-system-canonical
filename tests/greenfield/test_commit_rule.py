@@ -501,3 +501,20 @@ def test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs(repo: 
     assert done.returncode == 1, done.stderr
     entry = _last_log(repo)
     assert entry["verdict"] == "refuse" and "touches running-thing file(s): scripts/job.py" in entry["reasons"][0]
+
+
+def test_plan_names_with_capital_letters_are_read_as_plan_tags(repo: Path) -> None:
+    """#193: '[Goal PATH-brent-v1-2026-10-02]' was logged as 'no tag'. A plan id may contain capitals."""
+    _write(repo, "notes.md", "a\n" * 70)
+    _git(repo, "add", "notes.md")
+    _git(repo, "commit", "-q", "-m", "[Goal Upper-Case-Plan] work under a plan named with capitals")
+    entry = _last_log(repo)
+    assert entry["tag"] == "Goal Upper-Case-Plan", entry
+    assert "no tag" not in entry["reasons"][0]
+    _git(repo, "reset", "-q", "HEAD", "notes.md")
+    _write(repo, "proposals/Upper-Case-Plan/README.md", "# draft\n")
+    _git(repo, "add", "proposals/Upper-Case-Plan/README.md")
+    done = _git(repo, "commit", "-q", "-m", "[Shaping Upper-Case-Plan] draft")
+    entry = _last_log(repo)
+    assert entry["tag"] == "Shaping Upper-Case-Plan" and entry["verdict"] == "accept", entry
+    assert done.returncode == 0, done.stderr
