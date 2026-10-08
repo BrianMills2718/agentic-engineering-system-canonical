@@ -73,6 +73,37 @@ def classify(entry: dict) -> str:
     return f"refuse: {tag}"
 
 
+QUICK_PROBLEM_MARKERS = ("saved check output", "files outside the plan's list")
+
+
+def quick_plan_problems(rows: list[tuple[str, dict]]) -> list[dict]:
+    """[Goal] commits whose quick-plan notes (AES #269) say the saved check output is missing or that files
+    fall outside the plan's list, one record per commit with the problem notes. Clean notes are not problems."""
+    found = []
+    seen = set()
+    for repo, entry in rows:
+        if not str(entry.get("tag", "")).startswith("Goal "):
+            continue
+        bad = [n for n in entry.get("notes") or []
+               if (n.startswith("quick plan ") and n.endswith(" missing")) or "files outside the plan's list:" in n]
+        key = (repo, entry.get("subject"))
+        if bad and key not in seen:
+            seen.add(key)
+            found.append({"repo": repo, "plan": str(entry["tag"]).split(" ", 1)[1], "subject": entry.get("subject", ""),
+                          "problems": bad})
+    return found
+
+
+def quick_plan_concern_body(day: dt.date, problems: list[dict]) -> str:
+    rows = "\n".join(f"| {p['repo']} | {p['plan']} | {p['subject'][:80]} | {'; '.join(p['problems'])} |" for p in problems)
+    return (f"Commits on {day} under quick-adopt plans whose commit-rule notes report a problem (the rule logs these "
+            f"and never blocks on them):\n\n| Repository | Plan | Commit subject | Notes |\n|---|---|---|---|\n{rows}\n\n"
+            "For each: if the plan's saved check output is missing, commit it (`<plan folder>/<id>.check.txt`); if files "
+            "fall outside the plan's list, either the work drifted beyond the plan (plan it, or move it to its own plan) "
+            "or the list was incomplete (re-adopt the plan with the right files). Source: each repository's "
+            "`.git/aes/commit-rule-<date>.jsonl`; plan commit-rule-notes-report, AES #279.")
+
+
 def refresh_runtime() -> str:
     """Keep the hook runtime and shared plan root at AES main: fetch, move the runtime worktree
     to origin/main, and reinstall the `aes` tool when main moved (plans adopted in AES resolve
@@ -124,9 +155,15 @@ def main() -> int:
             rows = log_rows(day)
             counts = collections.Counter(classify(e) for _, e in rows)
             repos = collections.Counter(r for r, e in rows if e.get("verdict") == "refuse")
+            problems = quick_plan_problems(rows)
+            print(f"quick-plan notes {day}: {len(problems)} commit(s) with a missing check output or files outside the plan")
             with STATE.open("a", encoding="utf-8") as fh:
                 fh.write(json.dumps({"day": day.isoformat(), "commits": len(rows), "counts": dict(counts),
-                                     "top_refusing_repos": repos.most_common(10)}) + "\n")
+                                     "top_refusing_repos": repos.most_common(10), "quick_plan_problems": len(problems),
+                                     "quick_plan_commits": [f"{p['repo']}: {p['subject'][:80]}" for p in problems]}) + "\n")
+            if problems:
+                print(concern("aes-quick-plan-drift", "Quick-plan commits with a missing check output or files outside the plan",
+                              quick_plan_concern_body(day, problems), occurrence=f"quick-plan:{day}:{len(problems)}"))
         day += dt.timedelta(days=1)
     if today >= REVIEW_DATE and not REVIEW_MARKER.exists():
         days = [json.loads(l) for l in STATE.read_text(encoding="utf-8").splitlines()] if STATE.exists() else []
