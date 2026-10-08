@@ -139,3 +139,14 @@ Recommendation for 10-09: switch stage 2 on only after the #193 fix is installed
 never-absolute-brain daily job tags its commits `[Auto]` with an `Auto-job:` line. The plan-adoption check
 stays observe-only: 64 of 78 plan-tag refusals name ids that are not plans (`review-20261007` 50,
 `2026-10-06-review-fixes` 14); those sessions need adopted plans (Company Planning `quick-adopt`) first.
+
+## Stage 2 switched on 2026-10-09 (Brian, 2026-10-08: "yes turn on tomorrow")
+
+A one-time user timer on Brian's machine (`aes-commit-rule-stage2-enforce2.timer`, 2026-10-09 08:00 New York,
+after the 07:15 daily report) changes `mode: observe` to `mode: enforce` in `~/.config/aes/commit_rule.yaml` and
+appends a line to `~/.local/state/aes/commit-rule-switch.log`. `plan_adoption` stays `observe`, so naming a plan
+that is not adopted is still only logged. Backup of the config before the switch:
+`~/.config/aes/commit_rule.yaml.bak-2026-10-08`. Roll back: set `mode: observe` in that file (no restart needed;
+every commit reads it). Basis: the pre-review above (wrong refusals 2 of 41 after #193); the nightly
+never-absolute-brain backup now commits as `[Auto]` (never-absolute-brain PR #9; its first committing run is
+still to be observed).
