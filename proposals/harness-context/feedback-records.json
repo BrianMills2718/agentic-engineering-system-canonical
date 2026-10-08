@@ -1,5 +1,11 @@
 [
   {
+    "number": 142,
+    "title": "Vendored session-close leaves canonical checkout locked (qualitative_coding)",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/142",
+    "kind": "existing feedback"
+  },
+  {
     "number": 274,
     "title": "Lesson: Trace fresh, resumed and forked callers before claiming shared agent behavior",
     "kind": "kind:lesson",
@@ -148,5 +154,17 @@
     "title": "Maintenance lane cannot narrowly extend claimed write paths through its sanctioned refresh",
     "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/319",
     "kind": "kind:friction"
+  },
+  {
+    "number": 326,
+    "title": "Friction: a default local test scans the live workspace for a count-only assertion",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/326",
+    "kind": "kind:friction"
+  },
+  {
+    "number": 329,
+    "title": "LLM structured-call return and logging attribution require their explicit contracts",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/329",
+    "kind": "kind:lesson"
   }
 ]

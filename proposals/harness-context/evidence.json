@@ -3,14 +3,18 @@
   "plan_commit": "208573210bc1730fe57bb38b87b76010fbcb5e38",
   "local_gate": {
     "command": "make check PYTHON=<existing canonical AES venv>/bin/python",
-    "systemd_unit": "harness-aes-check.service",
-    "passed": 249,
+    "systemd_unit": "harness-aes-final-check.service",
+    "passed": 254,
     "failed": 0,
     "errored": 0,
     "skipped": 3,
     "type_checked_sources": 22,
     "exit_status": 0,
-    "elapsed_seconds": 272
+    "elapsed_seconds": 218.76,
+    "finished_at_utc": "2026-10-08T04:36:23Z",
+    "source_tree": "07e70f8fde111eddc3e4825bebee88e8ac579783",
+    "test_tree": "df1561c2eeb45da5d47e67a5be53c46914ac3d1a",
+    "scope": "Fresh integrated upstream code; later additions are audit/proposal evidence, not source/test changes"
   },
   "adoption": {
     "passed": 13,
@@ -27,7 +31,26 @@
     "leaks": 0,
     "patterns_files": 12,
     "contact_pattern_hits": 0,
-    "review": "public-plan-check.json"
+    "review": "public-plan-check.json",
+    "final_new_prose": {
+      "safe_to_publish": true,
+      "flags": [],
+      "trace_id": "harness-context/root-final-new-prose-privacy/v1",
+      "input_sha256": "01545051f21f2a84ff48d341cad3596854ac7f236c0606be825f6821e92701f9",
+      "new_string_values": 118,
+      "characters": 9564,
+      "model": "openrouter/openai/gpt-5.6-luna",
+      "call_id": 9182991,
+      "actual_project": "unscoped",
+      "requested_project": "agentic-engineering-system-canonical",
+      "stored_input_fingerprint_verified": true,
+      "reviewed_file_sha256": {
+        "recommendations.json": "ea3ad76b7a4736542c81a882555eff473f9f20d73f823470637248f26f404be5",
+        "evidence.json": "93e5c635bd510589d4ee06cd41a04d34c2fcb292b96c2d62d4042cbb047c59f7",
+        "additional-findings.json": "f4e4534e4ca675d143c003f6eb000254079580590ecc65755137e71d65154e50"
+      },
+      "fingerprint_scope": "Review snapshot before adding this structural receipt; no reviewed prose changed."
+    }
   },
   "native_codex_child_trace_review": {
     "reviewer": "root integration owner, distinct from native leaf",
@@ -50,7 +73,17 @@
     "comparison_limit": "Observed native route comparison; different launch/coordinator shape; not a controlled benchmark or cost comparison",
     "source_context": "Codex child retained72,320character bootstrap; fresh native exec1439character bootstrap without Workspace Bootstrap",
     "source_task": "same frozen maintenance diagnosis packet; schema-valid outputs; three source hashes unchanged",
-    "persistent_installation": "Claude native child and Codex documented fresh-session entrypoint both completed from persisted installed role files. Codex native-child regular-file repair awaits exact one-PR exception."
+    "persistent_installation": "Both clients installed from agent-skills5450e585. Claude native child, Codex fresh entrypoint, and repaired Codex child all completed bounded source investigations. Native child still inherits the full bootstrap.",
+    "method": "Claude: new input plus cache writes and reads. Codex: input_tokens already includes its cached portion. First model request, not repeated whole-task input.",
+    "current_installed_pair": {
+      "claude_child_first_input": 5752,
+      "codex_child_first_input": 34650,
+      "codex_fresh_first_input": 16017,
+      "fresh_vs_child_reduction_percent": 53.77,
+      "scope": "Same2file documentation/override investigation; native route comparison, not controlled benchmark or total cost",
+      "codex_child_status": "inconclusive because downstream admission and policy authority were outside packet",
+      "codex_fresh_status": "supported local documentation/forwarding facts only"
+    }
   },
   "public_delivery": {
     "route": "existing Hive plans service; no hosting changes",
@@ -58,7 +91,9 @@
     "native_browser_http_status": 200,
     "python_urllib_status": 403,
     "python_body": "error code:1010",
-    "conclusion": "Public page works in native Chromium; basic Python user-agent denied at Cloudflare edge"
+    "conclusion": "Public page works in native Chromium; basic Python user-agent denied at Cloudflare edge",
+    "final_target": "https://hive.brianmills.dev/plans/main/proposals/harness-context/review-page/index.html",
+    "final_target_status": "Pending normal merge and existing plans publication cycle; preview was browser-verified."
   },
   "persisted_native_consumers": {
     "claude_child": {
@@ -86,11 +121,28 @@
       "workspace_bootstrap_inherited": false
     },
     "codex_child": {
-      "status": "unavailable from installed symlink",
+      "status": "installed native child completed; valid inconclusive result with10sourcecitations/6limits",
       "cause": "Codex0.161.0 final role read uses O_NOFOLLOW",
       "repair_checkpoint": "agent-skills4cf8759",
       "repair_tests_passed": 12,
-      "gate": "second PR requires explicit exception to one-PR-per-repository instruction"
+      "gate": "Brian explicitly approved second small repair PR",
+      "repair_merge": "agent-skills5450e5858c92367bdbe1d68f33deba3a0cfa4d3d",
+      "repair_pr": "https://github.com/BrianMills2718/agent-skills/pull/451",
+      "initial_input_tokens": 34650,
+      "inherited_workspace_bootstrap": true,
+      "cached_first_input_tokens": 0,
+      "tool_calls": 4,
+      "tool_results": 4,
+      "trace_sha256": "c1219889a3de5970b0f781592e6a2b1bcccd7b51745079b01d44efd971d37aff",
+      "parent_review": "All4tool inputs and final result read; all10source citations checked directly; target hashes unchanged. Whole authority output matches already-inspected source.",
+      "result_limit": "Verified missing path guidance and preserved explicit overrides; correctly declined to attribute downstream admission cause outside allowed sources.",
+      "parent_schema_validation": {
+        "tool": "jsonschema.validate with resolved canonical result schema",
+        "exit_status": 0,
+        "citations": 10,
+        "limitations": 6,
+        "status": "inconclusive"
+      }
     },
     "limits": [
       "Different client permission surfaces and launch shapes; no claim of exact tool-isolation parity.",
@@ -104,5 +156,27 @@
     "path": "proposals/harness-maintenance-diagnostic/harness-inventory.private.json",
     "scope": "Detailed authority and semantic inventories; private source prose remains private",
     "durable_checkpoint_verified_by_owner": true
+  },
+  "recorder_repair": {
+    "status": "unfixed; production source unchanged",
+    "proposal_checkpoint": "5412471ad62f2b873abc5ce68e15f70470d407c4",
+    "integration_commit": "febb68e",
+    "actual_reproducer": "proposals/evidence-recorder-counts/reproduction.trace.json",
+    "native_junit_probes": "proposals/evidence-recorder-counts/junit.native-probes.json",
+    "admission_outcomes": 4,
+    "gate_issue": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282",
+    "defect_issue": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/257",
+    "limitation": "Full refused receipts1/2 were overwritten by native writer; actual refusal journals retained. Receipts3/4 retained. quick-adopt inspected but hardcoded facts do not honestly fit shared reproduced repair."
+  },
+  "specialist_cleanup": {
+    "owner_checked_source_commit": "agent-skills5450e5858c92367bdbe1d68f33deba3a0cfa4d3d",
+    "canonical_git_status": "empty",
+    "claims": "none",
+    "task_worktrees_removed": true,
+    "task_local_branches_removed": true,
+    "preexisting_worktrees_preserved": 2,
+    "task_helper_processes": "no matching processes",
+    "claude_installed_type": "canonical symlink",
+    "codex_installed_type": "managed regular file; body matches canonical; O_NOFOLLOW passes"
   }
 }

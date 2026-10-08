@@ -23587,7 +23587,8 @@
     "new_findings": [
       "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/287",
       "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/288",
-      "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/297"
+      "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/297",
+      "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/326"
     ],
     "correction_lesson": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/290",
     "recurrence_comments": [
@@ -25884,7 +25885,7 @@
       },
       "enforcement": {
         "binding_state": "live_enabled_trusted",
-        "execution_observed": false,
+        "execution_observed": true,
         "timeout_seconds": 10,
         "matcher": "Bash",
         "live_rpc_metadata": {
@@ -25898,7 +25899,8 @@
           "sourcePath": "/home/brian/.codex/config.toml",
           "source": "user",
           "pluginId": null
-        }
+        },
+        "runtime_probe_ref": "codex-jev-20261008"
       },
       "discoverability": {
         "binding_source": "/home/brian/.codex/config.toml",
@@ -25906,12 +25908,16 @@
       },
       "cost": {
         "configured_command_estimated_tokens_chars_div_4": 0,
-        "runtime": "not measured for this binding"
+        "runtime": "runtime_probes/codex-jev-20261008",
+        "observed_latency_ms": 314.3618649992277
       },
       "duplicates_conflicts": {
         "system_item_ref": "codex-live-hooks"
       },
-      "claude_codex_parity": "Compare live client binding inventory; this binding was not behaviorally replayed.",
+      "claude_codex_parity": {
+        "system_item_ref": "jev-gate",
+        "runtime_probe_ref": "codex-jev-20261008"
+      },
       "recorded_friction": {
         "system_item_ref": "codex-live-hooks"
       }
@@ -41959,5 +41965,49 @@
       "flags": [],
       "basis": "No private data appears. The sentences contain generic technical configuration, repository/hook audit findings, and measurement limitations; no secrets, personal contact/health/financial/job-search details, other nonpublic company material, or Brian private records are included."
     }
-  }
+  },
+  "runtime_probes": [
+    {
+      "id": "codex-jev-20261008",
+      "client": "codex",
+      "hook": "jev-gate",
+      "binding_ref": "codex-live:/home/brian/.codex/config.toml:pre_tool_use:0:0",
+      "entrypoint": "tools.exec_command",
+      "command_sha256": "6fa413c86b1c67a402171a9ea2c7302fb7cafc8717d6cd1b2969b6650f91e49f",
+      "exit_status": 0,
+      "stdout": "harness_hook_probe_20261008_audit",
+      "log_path": "/home/brian/.jev-gate/decisions.jsonl",
+      "log_start_offset": 56429377,
+      "bytes_observed": 1691,
+      "records_observed": 3,
+      "exact_command_matches": 1,
+      "matching_receipt": {
+        "at": "2026-10-08T00:30:13",
+        "mode": "observe",
+        "tool": "Bash",
+        "verdict": "allow",
+        "source": "model",
+        "latency_ms": 314.3618649992277
+      },
+      "other_bindings_execution_observed": false
+    }
+  ],
+  "local_gate_cost_observations": [
+    {
+      "repo": "project-meta",
+      "pr": 2449,
+      "command": [
+        "make",
+        "check",
+        "PYTHON=/home/brian/.local/share/project-meta-policy-venv/bin/python"
+      ],
+      "collected_tests": 3007,
+      "observed_elapsed_lower_bound_seconds": 2554,
+      "state_at_observation": "running",
+      "full_outcome_known": false,
+      "whole_runtime_cause_attributed": false,
+      "live_workspace_scan_source": "tests/test_policy_observability.py:133",
+      "finding_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/326"
+    }
+  ]
 }

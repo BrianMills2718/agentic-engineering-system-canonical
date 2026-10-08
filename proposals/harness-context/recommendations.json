@@ -1,0 +1,126 @@
+{
+  "record_type": "HarnessRecommendationPackageV1",
+  "scope": "Remaining harness follow-ups; no vision work",
+  "priority": "Planning admission first; then dependency-ready repairs; root extraction after both-client task boundaries are certified",
+  "one_go_recommendation": "Adopt this ordered package; individual technical fixes still need their owning claims, truthful plan authority and verification. No disabled hook restoration, reserve reduction, fabricated proof, new hosting or outbound messaging is implied.",
+  "recommendations": [
+    {
+      "id": "planning-admission",
+      "recommended_change": "Make plan admission accept prospective verification methods; require completed traces at execution/completion, preserving real authority and complete evidence quotations.",
+      "why": "Stops the demonstrated proof-before-permission deadlock.",
+      "confidence": "high",
+      "owner": "company-planning",
+      "issues": [
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282"
+      ],
+      "on_approval": "Execute in claimed owning-repository increments with local checks and native consumer evidence; keep policy unchanged until its replacement passes the named counterexamples."
+    },
+    {
+      "id": "authority-delivery",
+      "recommended_change": "Certify a targeted first-write authority loader in both clients against an out-of-directory write; preserve the explicit retirement of old broad hooks.",
+      "why": "Nearest-repository rules need to arrive before the first mutation.",
+      "confidence": "high",
+      "owner": "instruction delivery",
+      "issues": [
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/200"
+      ],
+      "on_approval": "Execute in claimed owning-repository increments with local checks and native consumer evidence; keep policy unchanged until its replacement passes the named counterexamples."
+    },
+    {
+      "id": "commit-labels",
+      "recommended_change": "Use the active commit-rule owner to account for declared generated output and supply an honest short planning path for instruction maintenance.",
+      "why": "A wiki refresh or necessary instruction fix must have a truthful commit label.",
+      "confidence": "high",
+      "owner": "AES commit-rule follow-up",
+      "issues": [
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/190",
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/296"
+      ],
+      "on_approval": "Execute in claimed owning-repository increments with local checks and native consumer evidence; keep policy unchanged until its replacement passes the named counterexamples."
+    },
+    {
+      "id": "storage-worktree",
+      "recommended_change": "Replace the fixed2GiB worktree charge with a verified tracked-checkout estimate while retaining the reserve and scratch cap.",
+      "why": "Small sanctioned worktrees should be admitted when actual headroom covers them.",
+      "confidence": "high",
+      "owner": "personal-file-infra",
+      "issues": [
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/182",
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/298"
+      ],
+      "on_approval": "Execute in claimed owning-repository increments with local checks and native consumer evidence; keep policy unchanged until its replacement passes the named counterexamples."
+    },
+    {
+      "id": "evidence-counts",
+      "recommended_change": "After admission is repaired, implement the preserved native JUnit/Pydantic recorder design; represent zero substantive tests as inconclusive and explicitly handle uncounted custom commands.",
+      "why": "An exit0 process is not substantive test proof.",
+      "confidence": "high",
+      "owner": "AES evidence recorder",
+      "issues": [
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/257",
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/319"
+      ],
+      "on_approval": "Execute in claimed owning-repository increments with local checks and native consumer evidence; keep policy unchanged until its replacement passes the named counterexamples."
+    },
+    {
+      "id": "feedback-events",
+      "recommended_change": "Normalize Codex and Claude event kinds, keep reads distinct from invocations, and deduplicate by stable event identity with client provenance.",
+      "why": "Current usage summaries omit one client and double-count some events.",
+      "confidence": "high",
+      "owner": "agent-skills feedback consumer",
+      "issues": [
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/277",
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/283"
+      ],
+      "on_approval": "Execute in claimed owning-repository increments with local checks and native consumer evidence; keep policy unchanged until its replacement passes the named counterexamples."
+    },
+    {
+      "id": "instruction-checkers",
+      "recommended_change": "Discover both instruction filenames and classify missing-both roots as incomplete; test mixed nested layouts and documented exemptions.",
+      "why": "Successful skips currently hide coverage gaps.",
+      "confidence": "high",
+      "owner": "Project Meta instruction checks",
+      "issues": [
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/284"
+      ],
+      "on_approval": "Execute in claimed owning-repository increments with local checks and native consumer evidence; keep policy unchanged until its replacement passes the named counterexamples."
+    },
+    {
+      "id": "native-parity",
+      "recommended_change": "Preserve the single-source role contract but certify native model/loading/tool behavior; expose unsupported fields instead of treating byte consistency as behavioral parity.",
+      "why": "Installed native tests found failures invisible to projection checks.",
+      "confidence": "high",
+      "owner": "agent-skills role distribution",
+      "issues": [
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/292",
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/304",
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/317"
+      ],
+      "on_approval": "Execute in claimed owning-repository increments with local checks and native consumer evidence; keep policy unchanged until its replacement passes the named counterexamples."
+    },
+    {
+      "id": "context-rollout",
+      "recommended_change": "Move one procedure block at a time from the root to its roster owner only after preserving the compact invariant core, task trigger, source authority and an authentic consumer in each client. Measure initial native usage and loaded bodies separately from catalog estimates.",
+      "why": "The working leaf proves the fresh-session boundary; global extraction and the complete roster remain a later rollout.",
+      "confidence": "medium",
+      "owner": "workspace instructions and agent-skills",
+      "issues": [
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/310",
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/317"
+      ],
+      "on_approval": "Execute in claimed owning-repository increments with local checks and native consumer evidence; keep policy unchanged until its replacement passes the named counterexamples."
+    },
+    {
+      "id": "gate-test-isolation",
+      "recommended_change": "Keep local merge gates but make unit fixtures use the existing synthetic graph and assert exact violation membership; retain an explicit live smoke test when needed.",
+      "why": "At least one ordinary local test walks the real sibling repositories.",
+      "confidence": "high",
+      "owner": "Project Meta tests",
+      "issues": [
+        "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/326"
+      ],
+      "on_approval": "Execute in claimed owning-repository increments with local checks and native consumer evidence; keep policy unchanged until its replacement passes the named counterexamples."
+    }
+  ],
+  "deferred_unverified_incident": "The goal wording to public-hosting diversion needs its exact native goal/evaluator trace before changing semantics."
+}

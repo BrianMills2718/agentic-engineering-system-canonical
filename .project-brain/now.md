@@ -6,6 +6,10 @@ inventories instruction/skill/hook/policy delivery across both clients. Its
 the findings and measured native context boundaries. Vision work remains with
 its existing session; this detour makes no vision changes. Detailed private
 source judgments are retained in Project Meta, with public references in the inventory.
+The installed specialist completed native tasks in both clients. Codex children still inherit
+the bootstrap; the fresh-session route is the measured smaller-context boundary.
+The [skip-only recorder repair](../proposals/evidence-recorder-counts/README.md) is
+reproduced but unimplemented: required adoption demands future execution proof ([#282](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282)); do not report #257 fixed.
 
 **AES planning (2026-10-06):** real implementation work now needs an adopted
 plan. Plans go through Company Planning's adoption gate, which writes the plan's

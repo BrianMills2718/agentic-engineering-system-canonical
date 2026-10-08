@@ -25,9 +25,9 @@
     {
       "id": "prospective-gate",
       "title": "A plan gate can ask for completed work before admitting that work",
-      "evidence": "The coordinated ownership judge demanded completed work-unit evidence during prospective adoption. Exact future handoff evidence tables finally admitted the root and maintenance plans; prior gate outcomes changed between revisions.",
-      "cost": "Repeated paid semantic reviews and a delayed three-line diagnostic repair.",
-      "smallest_fix": "Separate prospective owner assignments and handoff criteria from execution proof; bound clarification rounds.",
+      "evidence": "The audit plan and maintenance repair encountered prospective ownership/admission friction. The isolated #257 repair additionally reproduced a circular gate: it requires actual after-repair traces before accepting the plan that permits the repair. Four real admission outcomes are preserved in proposals/evidence-recorder-counts; a separate incomplete-quote ownership refusal was corrected and is not attributed to policy drift.",
+      "cost": "The reproduced skip-only evidence defect remains unfixed because required plan admission demands future execution proof. Repeated clarification calls add latency and context before any implementation.",
+      "smallest_fix": "Distinguish prospective acceptance criteria from completed observations at admission; include complete existing evidence quotes; bound semantic revision loops. Keep execution proof at its actual completion gate.",
       "rechecked": "observed native adoption outcomes; both plans now admitted",
       "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282",
       "owner": "company-planning method conformance"
