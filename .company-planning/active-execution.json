@@ -1,0 +1,50 @@
+{
+  "active_slice": {
+    "description": "Capture native lifecycle and parent-verified outcomes through existing feedback report path",
+    "next_action": "Implement collector adapter and execute one bounded native canary",
+    "requires_external_action": false,
+    "requires_spend": false,
+    "slice_id": "native-subagent-outcomes",
+    "status": "executing",
+    "target_revision": "9005982d31468d02b55c70980cc0752a737115a9"
+  },
+  "authority": {
+    "external_action_authorized": true,
+    "human_decision": null,
+    "human_decision_required": false,
+    "implementation_authorized": true,
+    "spend_cap_usd": 1,
+    "spend_used_usd": 0
+  },
+  "circuit_breakers": {
+    "context_integrity_valid": true,
+    "max_same_boundary_failures": 3,
+    "runtime_integrity_valid": true
+  },
+  "completion": {
+    "evidence_revision": null,
+    "receipt_ref": null,
+    "remaining_ready_work": 1,
+    "requested": false,
+    "verifier_outcome": null
+  },
+  "cursor_id": "aes-subagent-feedback",
+  "cursor_revision": 1,
+  "failure_state": {
+    "boundary": null,
+    "last_failure_ref": null,
+    "same_boundary_failures": 0
+  },
+  "goal_ref": "proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md",
+  "lifecycle_state": "active",
+  "observations": [],
+  "plan_revision": "9005982d31468d02b55c70980cc0752a737115a9",
+  "ready_alternatives": [],
+  "record_type": "plan_execution_cursor",
+  "schema_version": "1.0",
+  "target": {
+    "branch": "subagent-feedback",
+    "repository": "BrianMills2718/agentic-engineering-system-canonical",
+    "worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/subagent-feedback"
+  }
+}
