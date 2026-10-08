@@ -2,7 +2,7 @@
   "schema_version": "method-activation-facts.v1",
   "record_type": "method_activation_facts",
   "plan_ref": "proposals/aes-brownfield-docs/PLAN.md",
-  "plan_sha256": "2ca32338e9637fc80f1f56d4605ef616258aa42480e4837573b8c9f250a97bc0",
+  "plan_sha256": "ee571d4856dc23091601d0dd55c9ff9761317480cd97cb247102200592dc325e",
   "path_decision_ref": "proposals/aes-brownfield-docs/PLANNING_PATH.json",
   "path_decision_sha256": "46d44352e8e6bc8786b09a1202b005106697327a3b7e7b60b437aabdf4516958",
   "facts": {
@@ -17,5 +17,5 @@
     "llm_central": "derived_current_boundary",
     "irreversible_or_spend_action": "derived_current_boundary"
   },
-  "recorded_at": "2026-10-07T23:57:15Z"
+  "recorded_at": "2026-10-08T02:51:35Z"
 }
