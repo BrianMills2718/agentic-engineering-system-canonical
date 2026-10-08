@@ -75,12 +75,12 @@
     },
     {
       "id": "canary-discovery",
-      "title": "The newer specialist exists as generated output but is not installed",
-      "evidence": "development-investigator is absent from both installed native agent directories; its Claude comments precede YAML frontmatter.",
+      "title": "Native discovery alone did not prove the specialist could load",
+      "evidence": "The initial generated specialist was uninstalled and Claude frontmatter was misplaced. Native installation then exposed Codex O_NOFOLLOW rejection of symlinks. Agent-skills PRs450/451 repaired discovery and managed regular-file loading; installed Claude and Codex consumers now complete the bounded investigation.",
       "cost": "Projection tests cannot demonstrate native file discovery or use.",
-      "smallest_fix": "Fix native frontmatter, preserve an invariant closure and install committed projections through the existing agent route.",
-      "rechecked": "survives",
-      "source": "prior-art-ownership-evidence.json",
+      "smallest_fix": "Completed: native frontmatter, compact shared boundaries and source-owned installation; retain installed-consumer checks for both clients.",
+      "rechecked": "fixed; installed native consumers completed",
+      "source": "evidence.json",
       "owner": "agent-skills canary"
     },
     {
