@@ -150,3 +150,16 @@ that is not adopted is still only logged. Backup of the config before the switch
 every commit reads it). Basis: the pre-review above (wrong refusals 2 of 41 after #193); the nightly
 never-absolute-brain backup now commits as `[Auto]` (never-absolute-brain PR #9; its first committing run is
 still to be observed).
+
+## "Emergency: none" is refused (2026-10-08)
+
+Session code-15 reported that `[Unplanned]` accepted any `Emergency:` line, including one that
+declares there is none ("Emergency: none; [Unplanned] is the tag this repository accepts for
+unplanned maintenance (AES #189)"). The rule now refuses an `[Unplanned]` commit whose every
+`Emergency:` line is `none`, `n/a` or `na` standing alone, and names quick-adopt and `[Trivial]` as
+the routes. A reason that only starts with the word ("none of the backups ran since 06:00") is still
+accepted; whether a stated reason is a real emergency stays the nightly misuse review's call. Replay
+over every `[Unplanned]` commit in `~/code` since 2026-10-07: 276 commits, 25 would be refused, and
+all 25 read "Emergency: none; …" (project-meta, brians-2nd-brain-integration-work, agent-skills,
+grounded-research and seven other repositories). It takes effect with the stage-2 switch, since
+observe mode only logs. Script: `~/code/.scratch/replay_emergency.py`.
