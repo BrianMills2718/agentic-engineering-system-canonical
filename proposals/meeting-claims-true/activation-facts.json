@@ -1,0 +1,21 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "proposals/meeting-claims-true/PLAN.md",
+  "plan_sha256": "4556c915dc474f8bfdef57a0a7f342a1394d837c7719cc17f0faf06c88c2593d",
+  "path_decision_ref": "proposals/meeting-claims-true/PLANNING_PATH.json",
+  "path_decision_sha256": "beda1c22e4fd708e3e8dffbf7b044929a982a99251c58b62606018f674011593",
+  "facts": {
+    "shared_mechanism": true,
+    "llm_central": true,
+    "irreversible_or_spend_action": true,
+    "empirical_comparison_proposed": false
+  },
+  "fact_sources": {
+    "shared_mechanism": "explicit_user",
+    "empirical_comparison_proposed": "explicit_user",
+    "llm_central": "explicit_user",
+    "irreversible_or_spend_action": "explicit_user"
+  },
+  "recorded_at": "2026-10-08T21:06:42Z"
+}
