@@ -107,3 +107,14 @@ days of observe logs for any remaining untagged automated commits before switchi
   behaviour change, the C: reserve lowered from 30 to 20 GiB, a changed agent skill); of four
   `[Unplanned]` commits read by hand, three stated real emergencies and one (a plan-adoption blocker)
   is debatable. Squash-merged commits are matched by their `<subject> (#N)` form.
+
+## Asked lines, quick plans and running things (2026-10-07/08)
+
+- `Asked: <who> <date> "<their words>"` on a commit records who requested it; the rule logs it and never
+  changes the verdict (#231). The nightly misuse review shows it.
+- Company Planning `quick-adopt` turns a bounded request (at most 5 files) into an adopted plan with
+  `/goal` text in about 10 s (company-planning #59-#61). For such a plan the rule logs, as notes, whether
+  the commit adds `<plan folder>/<id>.check.txt` and which changed files fall outside the plan's list
+  (#269). Nothing reads these notes after commit time yet (AES issue to follow).
+- `[Trivial]` may no longer touch `conftest.py` or a tracked file that a tracked systemd unit's `Exec*`
+  line runs (#269), the gap behind seven mislabelled commits on 2026-10-07 (#239).
