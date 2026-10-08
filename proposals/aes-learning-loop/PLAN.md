@@ -250,6 +250,19 @@ comments, labels for kind, family and licence status. The public AES record keep
 
 Sequencing: starts now. An earlier line here sequenced it after vision milestone 4; that came from the planning agent's own recommendation, which Brian approved without comment, and no slice depends on milestone 4 (which ended unmet on 2026-10-06 and has no active lane). Corrected 2026-10-08 after Brian asked how the plan was blocked on vision.
 
+## Status (2026-10-08)
+
+| Slice | State | Evidence |
+| --- | --- | --- |
+| S1 | merged (AES #360, agent-skills #452, projects-dotclaude #104; llm_client #251/#252 hang fix) | first production run 2026-10-08 03:18 (`runs.jsonl` run of that time, journal `feedback-collector`): 83 reports (55 Claude, 28 Codex), 40 issues filed to the private log, 69 records, 22 without a link (all written before the line grammar shipped), 0 errors, $0.024; a random 15 links: 13 resolve, the 2 that do not are a bare `#316` (no repository) and a bare number qualified with the session folder's repository that belonged to another repository |
+| S2 | done | S2 result above |
+| S3-S4 | built, trial run on the 2-day trial data: 13 problems, 1 recurring (storage guard sizing), 3 active licences | judged on the first `feedback-problems` run with `--file` |
+| S5 | built | needs 30 days of nightly runs after the first enforced rule |
+
+Known limitation: a bare `#N` is qualified with the repository of the session's working folder; when the
+agent meant another repository the link is wrong but still marked as a link. Agents writing the new line
+grammar should write `owner/repo#N`; the skill's examples do.
+
 ## Success and what would disprove it
 
 | Criterion | Run whose full trace is examined, and where | What must be seen beyond the outcome |
