@@ -28,7 +28,7 @@
       "evidence": "The audit plan and maintenance repair encountered prospective ownership/admission friction. The isolated #257 repair additionally reproduced a circular gate: it requires actual after-repair traces before accepting the plan that permits the repair. Four real admission outcomes are preserved in proposals/evidence-recorder-counts; a separate incomplete-quote ownership refusal was corrected and is not attributed to policy drift.",
       "cost": "The reproduced skip-only evidence defect remains unfixed because required plan admission demands future execution proof. Repeated clarification calls add latency and context before any implementation.",
       "smallest_fix": "Distinguish prospective acceptance criteria from completed observations at admission; include complete existing evidence quotes; bound semantic revision loops. Keep execution proof at its actual completion gate.",
-      "rechecked": "observed native adoption outcomes; both plans now admitted",
+      "rechecked": "audit and maintenance plans admitted; recorder repair still refused",
       "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282",
       "owner": "company-planning method conformance"
     },
@@ -45,11 +45,11 @@
     {
       "id": "codex-inherited-bootstrap",
       "title": "Codex child roles still inherit the large workspace bootstrap",
-      "evidence": "A native child launched with project_doc_max_bytes=0 contained a 72,320-character bootstrap and began with 37,225 input tokens. The compact role setting did not remove the inherited user instructions.",
+      "evidence": "The repaired installed Codex child still inherited a72,319-character workspace bootstrap and began with34,650 input tokens. On the same two-file task the installed fresh-session route began with16,017 tokens without Workspace Bootstrap, about54%less initial input. Different native launch shapes; not a controlled benchmark or total-cost claim.",
       "cost": "Specialist role files alone do not deliver Codex context savings.",
       "smallest_fix": "Use and verify a native fresh-session boundary with explicit compact safety instructions; preserve the inherited-child limitation until measured.",
-      "rechecked": "live inherited-child isolation test failed; fresh-session probe running",
-      "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/292",
+      "rechecked": "native child inheritance persists; fresh-session route verified",
+      "source": "evidence.json",
       "owner": "agent-skills native routing"
     }
   ]
