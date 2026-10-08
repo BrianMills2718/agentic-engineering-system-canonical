@@ -1,0 +1,245 @@
+{
+  "00f3abef2ecb29c539601fddb1ac4ccb4a71c146a4913887bff0fbe3582d6e41": {
+    "item_id": "OV-LLM-CALL-BOUNDARY",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly describes the call graph and each call\u2019s structured result boundary: assertion lists with fields, embedding vectors, brain run records/build-ledger lines, and structured judge verdicts. It also explains tracing through `llm_client`, including the plan ID, trace ID, and Hermes session IDs.",
+    "trace_id": "company-planning/method-conformance/PLAN/5bdf2e3383a8/OV-LLM-CALL-BOUNDARY",
+    "verdict": "pass"
+  },
+  "04391c1ba8ffd52d4f6551dfe17cacef4e6829dfa1684a08d63072492f175529": {
+    "item_id": "OV-LLM-AUTHORITY-PROMOTION",
+    "materiality": "material",
+    "missing": "The provider for embeddings is not named; it is only described as \u201cthe provider the Digimon stack already uses.\u201d",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names OpenRouter for models, Brian as spend authority within the $25 boundary, and a live gold-set run condition before promotion. However, it does not explicitly identify the embeddings provider, which is part of the model-call provider requirement.",
+    "trace_id": "company-planning/method-conformance/PLAN/5bdf2e3383a8/OV-LLM-AUTHORITY-PROMOTION",
+    "verdict": "unresolved"
+  },
+  "0d514b5bb7cb26a8c2297f0f24508af18d3af651ef4625b8070ce30f00cd7715": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "material",
+    "missing": "Criterion 3 does not explicitly identify the named before/after runs or where their full traces live; it only says \u201cthe same gold set before and after M2\u201d and \u201cper-item traces.\u201d",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "Criteria 1 and 2 name runs, trace locations, and required trace evidence beyond outcomes. Criterion 3 requires examining traces but does not explicitly specify the runs or trace storage/location, so the requirement is not fully satisfied.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/CORE-TRACE-REVIEW",
+    "verdict": "unresolved"
+  },
+  "2c8bdc09a344731a0dbd8e827edcf16eda59d827f70af7280d6a6a9d81dae682": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies the uncertainties as material and provides an owner or resolving evidence for all five entries. Each row includes either an owner, evidence, or both.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  },
+  "2d0ac904d476e96ec5e9b40b7bf85132a31d0c58c62dfc04fb840409d3f91af0": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines success through three concrete, trace-based criteria: register rows closing, specified answer-quality retrieval and citation outcomes, and no regressions between before and after runs. It also gives concrete disproof conditions for M2 (G003/G010 still never retrieve their assertions) and M3 (the next five runs still read only `.md` files).",
+    "trace_id": "company-planning/method-conformance/PLAN/5bdf2e3383a8/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "2eb44c792577d0d00673d488d964ddba278fde226abf8626c6f10213fb991fc1": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "material",
+    "missing": "Explicit work-unit evidence for each concurrent writer; the evidence specifies one issue per milestone and pull-request/re-check traces generally, but does not identify the work-unit evidence attributable to each named writer.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly names owners and claimed paths, dependencies, conflict surfaces, and an integration owner. However, its work-unit evidence is stated at the milestone level rather than explicitly for each concurrent writer, so the requirement is not fully met.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/OV-COORD-OWNERSHIP",
+    "verdict": "unresolved"
+  },
+  "3ab0147c1580a4808c74f28548cdc98d2776f66e969ced005d998bb1ee2f0983": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides multiple system-model links, including `docs/model/ODD.md`, and explicitly states the elements changed or relied on. For each named element, it specifies what the examined run must show, such as ranking mode in the receipt, referent and reason in rewrites, tool calls in the session, or an installed build number.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "3b6eaa5d53a860002cc0629c34695e555f05402278f5429d93c6acf5558ba070": {
+    "item_id": "OV-BOUNDARY-DISPOSITION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly covers each named boundary: deployment, shared-server external action, sensitive data access, and publication. For every boundary it names an owning authority, a rollback or containment measure, and an explicit disposition such as \u201cproceed\u201d or \u201cdeferred until approved.\u201d",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/OV-BOUNDARY-DISPOSITION",
+    "verdict": "pass"
+  },
+  "4d20156e7255e6b311d132c8404425bc697157fb8514f2a6a76dbe2f0db07474": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly requires every criterion to be judged from the full trace of a named run, identifies where each trace lives, and specifies behavior that must be observed beyond the final outcome. It also defines concrete before/after runs, trace sources, and disproof conditions, with no pure-document-edit exemption needed.",
+    "trace_id": "company-planning/method-conformance/PLAN/5bdf2e3383a8/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  },
+  "5549c4a549f1c34752bfcd782d54489e7deb35fc8231cced8ebf7469c4a0a14c": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares shared_mechanism, llm_central, and irreversible_or_spend_action true, matching its proposed shared search/planning/feedback changes, LLM calls, repository sync, deploys, and spend. It declares empirical_comparison_proposed false, and the quoted gold-set and before/after checks are verification rather than experiments comparing alternatives to choose among them.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "5bf9b37b69f70765d3e4830640fe23a9b81a812ea7245f185d05e7e9d74d1ef4": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names concrete structural checks: a post-M2 `git grep` verifying one ranking entry point used by both TF-IDF and embedding modes, and a post-M3 check that `brain_runs` is the only page showing a run\u2019s tool calls. These checks would detect parallel implementations of the same search or run-observation concern.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "5c57519c87a7d00df045f62e625fa466a505e1e8f5a331f338ad1bf358467757": {
+    "item_id": "OV-LLM-CALL-BOUNDARY",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly describes the call graph for extraction, embeddings, brain runs, and judges, and states each call\u2019s result boundary: assertion lists, vectors, run records/build-ledger lines, and structured verdicts. It also specifies tracing through `llm_client`, including the plan ID and trace ID, with Hermes session IDs retained for brain runs.",
+    "trace_id": "company-planning/method-conformance/PLAN/0d3db9025cef/OV-LLM-CALL-BOUNDARY",
+    "verdict": "pass"
+  },
+  "5fa4bcaee8f830f3ef456ace8810bd70e2fb283bd594910374470efeb46d237e": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies Brian as the authority, including approval requirements for repository mutations, teammate messages, and claim corrections. It also explicitly lists the work\u2019s non-goals, including the context hub, meeting decision, startup application, X posting, lane changes, and new verifier or planning profile.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "6abbc0cfb700739b2d58afb8f2888926a9027f5f41a32dc06d0884964ace2cab": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names owners and owned paths, dependencies, conflict surfaces, and the integration owner. It also specifies work-unit evidence for each listed writer, including issues, pull requests, re-check traces, or explicit handback/declination replies; code-83 is explicitly identified as having no work unit because its rule is relied on rather than changed.",
+    "trace_id": "company-planning/method-conformance/PLAN/5bdf2e3383a8/OV-COORD-OWNERSHIP",
+    "verdict": "pass"
+  },
+  "75879718459549efd05cc12f21f2ba2d2c364387f1f01b3c8baf12ffeba6245f": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines success evidence through three checks: register-row closure traces, gold-set answer-quality traces, and regression comparison. It also gives concrete disproof conditions for M2 and M3, including specific failed retrievals and continued `.md`-only reads.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "79ef187d5ce242f23875f32fe95c5e3a53c6067b123c8377710380f485daa686": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the actors served as Brian and his teammates, and states the desired result: claims are true of running systems based on real-run traces, with corrections approved by Brian. It also gives stable, concrete user-visible examples, including Dagim installing from the README and receiving the build with `skeleton` and `check`, plus a run page listing source-file and GitHub-search calls.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "8867129174ce120e7913a8952ddf44ffd0bbbd634477668e324e8d0f8b6f4f95": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares `empirical_comparison_proposed false`, while describing the gold set as verification against expected answers and not as a comparison selecting among alternatives. It declares `shared_mechanism`, `llm_central`, and `irreversible_or_spend_action` true, matching the proposed shared changes, model-dependent behavior, repository sync, deploys, and spend.",
+    "trace_id": "company-planning/method-conformance/PLAN/5bdf2e3383a8/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "8d6e90728f456ed9c924270f694c4ca7e61db2863d9907d666e7deebe48b8d45": {
+    "item_id": "OV-LLM-AUTHORITY-PROMOTION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names OpenRouter as the provider and Brian as the spend authority within the $25 boundary. It also states that promotion requires one live gold-set run with traces showing G003, G005, and G010 retrieving and using their assertions.",
+    "trace_id": "company-planning/method-conformance/PLAN/0d3db9025cef/OV-LLM-AUTHORITY-PROMOTION",
+    "verdict": "pass"
+  },
+  "a3c79a5f928b761b2e03375fed595a592f9b709f7d3bf68cbcb0a587b64ab6db": {
+    "item_id": "CORE-IRREVERSIBLE-SPEND",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies each proposed irreversible action or spend, its boundary, authorizer, and containment: the repository main and backup ref, shared server and rollback deploy process, and the $25 spend cap with logging and cost-stop rule. The message item is explicitly prohibited absent Brian\u2019s approval.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "pass"
+  },
+  "a4930a9ec615bdd85b6b2ce9806f0bfa4b74afcfb3c5dc55f3f38b69a495183e": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names a concrete structural check: after M2, running `git grep -n \"tfidf\\|embedding\"` in the Digimon governed search package must show one ranking entry point through which both modes pass. This directly detects a silent parallel search implementation.",
+    "trace_id": "company-planning/method-conformance/PLAN/0d3db9025cef/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "bc96c26bd020546300f87820b09fa8140a8b671f6611d64340ca8209b4b0f111": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names a concrete structural check: after M2, `git grep -n \"tfidf\\|embedding\"` must show one ranking entry point through which both modes pass, detecting a parallel search implementation. It also provides a consumer-path check requiring `brain_runs` to be the only page showing a run\u2019s tool calls.",
+    "trace_id": "company-planning/method-conformance/PLAN/5bdf2e3383a8/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "bf204060fc9dcc444bd6d3fb2726a3853dbf56cd36ddb134b0f3a9f9c46277d6": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares `shared_mechanism`, `llm_central`, and `irreversible_or_spend_action` true, matching its stated shared changes, model calls, repository sync, and spend. It declares `empirical_comparison_proposed` false, and the quoted evidence describes gold-set checks and a ranking implementation rather than an experiment comparing alternatives to choose among them.",
+    "trace_id": "company-planning/method-conformance/PLAN/0d3db9025cef/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "d700254f4423609b899c4a5cb697b74be9d29fb64a930a00787b657eef6d9d8b": {
+    "item_id": "OV-LLM-AUTHORITY-PROMOTION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names OpenRouter as the default model provider and Brian as the spend authority, with a $25 boundary. It also states the authentic-run promotion condition: one live gold-set run whose traces show G003, G005, and G010 retrieving and using their assertions.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/OV-LLM-AUTHORITY-PROMOTION",
+    "verdict": "pass"
+  },
+  "dfce7aa25a8473b099e45cb7a929005d5b32b1b90ad88258f3dd87361fccc0c4": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "material",
+    "missing": "The evidence does not explicitly disposition every candidate found under the required categories. In particular, the ownership/lineage entries identify owners and dispositions for listed internal candidates, but the evidence does not establish that the search covered all relevant existing ownership, internal lineage, and external prior art or that each candidate found was dispositioned.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The table explicitly assigns dispositions to the listed external and internal candidates, including reuse, extend, compose, and bounded exception. However, it does not demonstrate completeness of the search or provide a disposition for every candidate found, as required.",
+    "trace_id": "company-planning/method-conformance/PLAN/5bdf2e3383a8/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "unresolved"
+  },
+  "e118862fed2125e1026abafe695c0346cca4d24adabb6e99b42aff910178ee75": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "material",
+    "missing": "A definitive disposition for the external candidate group \u201cGitHub Spec Kit analyze/converge, OpenSpec, openlore drift\u201d is missing; \u201ccompose or reuse\u201d is only a pending choice to be decided in M4.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly records ownership, internal candidates, external candidates, and dispositions for most rows. However, one candidate group has two possible dispositions rather than a completed disposition, so not every candidate found is dispositioned as required.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "unresolved"
+  },
+  "f6e7a52a6ee55724b613480b051d7c3311a6f7fdc0fe46369b59e303fdbf2b81": {
+    "item_id": "OV-LLM-CALL-BOUNDARY",
+    "materiality": "material",
+    "missing": "The structured result boundary for the brain runs is not specified; the evidence only identifies them as the existing Hermes agent loop and mentions their session IDs.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly gives structured outputs for the assertion extractor and judges, and vectors for embeddings, and it explains tracing through `llm_client` and Hermes session IDs. It does not state what structured result each brain run returns.",
+    "trace_id": "company-planning/method-conformance/PLAN/72d0c51011bf/OV-LLM-CALL-BOUNDARY",
+    "verdict": "unresolved"
+  },
+  "f738798f67c5ecd81a3ee25dc5860e2aa4474b04d0943e859c86af991664fcb6": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that ownership, internal lineage, and external prior art were searched, identifies the search sources and topics, and says every candidate found is listed with a disposition. The table assigns each candidate one of the required dispositions\u2014reuse, extend, compose, supersede, or bounded exception\u2014and states that none was left undecided.",
+    "trace_id": "company-planning/method-conformance/PLAN/0d3db9025cef/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "pass"
+  }
+}
