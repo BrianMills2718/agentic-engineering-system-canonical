@@ -26,6 +26,24 @@ SPLIT_MODEL = "openrouter/deepseek/deepseek-v4-flash"
 REPORT_FIELDS = ("Feedback", "Learnings")
 
 
+_REPOS: dict[str, str] = {}
+
+
+def repo_of(cwd: str) -> str:
+    """`owner/repo` of the GitHub remote of the session's working directory ("" when unknown), cached."""
+    if not cwd:
+        return ""
+    if cwd not in _REPOS:
+        try:
+            url = subprocess.run(["git", "-C", cwd, "remote", "get-url", "origin"], capture_output=True,
+                                 text=True, timeout=10).stdout.strip()
+        except (OSError, subprocess.SubprocessError):
+            url = ""
+        m = __import__("re").search(r"github[^:/]*[:/]([\w.-]+/[\w.-]+?)(?:\.git)?$", url)
+        _REPOS[cwd] = m.group(1) if m else ""
+    return _REPOS[cwd]
+
+
 def _norm(s: str) -> str:
     return " ".join(s.split()).lower()
 
@@ -49,8 +67,8 @@ def reports(t: T.Transcript, counts) -> list[dict]:
                 counts[f"report_{name}_none"] += 1
                 continue
             prov = R.Provenance(client=t.client, session_id=t.session_id, turn_offset=turn.offset, ts=turn.ts,
-                                cwd=getattr(t, "cwd", ""))
-            recs, rest = R.parse_feedback(value, prov)
+                                cwd=turn.cwd)
+            recs, rest = R.parse_feedback(value, prov, repo_of(turn.cwd))
             counts[f"report_{name}"] += 1
             counts["records_markers"] += len(recs)
             out.append({"id": report_id(t, turn, name), "field": name, "transcript": t.path,
@@ -124,7 +142,8 @@ def split_rest(rep: dict, counts) -> list[str]:
             counts["split_duplicate_text"] += 1
             continue
         seen_text.add(_norm(s.text))
-        links = R.find_links(s.excerpt) or sentence_links(text, s.excerpt.strip())
+        links = R.normalize_links(R.find_links(s.excerpt) or sentence_links(text, s.excerpt.strip()),
+                                  repo_of(prov.cwd))
         rec = R.Record(kind=s.kind, text=s.text.strip(), links=links, parsed_by="light_model",
                        basis=s.basis if s.kind == "claim" else None,
                        confidence=s.confidence if s.kind == "claim" else None,
@@ -150,9 +169,9 @@ def issue_body(rep: dict) -> str:
     p = rep["provenance"]
     lines = [f"Report `{rep['id']}` from the closeout **{rep['field']}** field.",
              f"Source: {p['client']} session `{p['session_id']}`, turn offset {p['turn_offset']}, {p['ts']}",
-             f"Transcript: `{rep['transcript']}`", "", "Records:"]
+             *([f"Transcript: `{rep['transcript']}`"] if rep["transcript"] else []), "", "Records:"]
     for r in rep["records"]:
-        q = {"observation": "", "claim": f" ({r.get('basis') or '?'}, {r.get('confidence') or '?'})",
+        q = {"observation": " (control)" if r.get("subject_kind") == "control" else "", "claim": f" ({r.get('basis') or '?'}, {r.get('confidence') or '?'})",
              "action": f" ({r.get('intent') or '?'}, {r.get('status') or '?'})"}[r["kind"]]
         refs = " ".join(f"[{lk['ref']}]" for lk in r["links"] + r.get("result", [])) or "**unprovenanced**"
         lines.append(f"- {r['kind']}{q}: {r['text']} {refs}  `{r['id']}` ({r['parsed_by']})")
@@ -165,7 +184,7 @@ def issue_body(rep: dict) -> str:
 
 def issue_labels(rep: dict) -> list[str]:
     labels = {f"kind:{r['kind']}" for r in rep["records"]} | {f"parsed:{r['parsed_by']}" for r in rep["records"]}
-    labels.add("source:closeout")
+    labels.add("source:manual" if rep["field"] == "manual" else "source:closeout")
     if any(r["unprovenanced"] for r in rep["records"]):
         labels.add("unprovenanced")
     return sorted(labels)
@@ -204,7 +223,7 @@ def main() -> int:
     value = (a.text if a.text is not None else sys.stdin.read()).strip()
     ts = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     prov = R.Provenance(client=a.client, session_id=a.session, ts=ts, cwd=os.getcwd())
-    recs, rest = R.parse_feedback(value, prov)
+    recs, rest = R.parse_feedback(value, prov, repo_of(prov.cwd))
     rep = {"id": "rep-" + hashlib.sha256(f"{a.client}|{a.session}|{ts}|{value}".encode()).hexdigest()[:12],
            "field": "manual", "transcript": "", "provenance": prov.model_dump(), "value": value,
            "records": [r.model_dump() for r in recs], "rest": rest}

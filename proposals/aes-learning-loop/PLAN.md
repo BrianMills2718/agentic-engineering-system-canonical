@@ -254,11 +254,11 @@ Sequencing: starts now. An earlier line here sequenced it after vision milestone
 
 | Criterion | Run whose full trace is examined, and where | What must be seen beyond the outcome |
 | --- | --- | --- |
-| S1: reports become linked records | the first nightly collector run after S1 merges; `~/projects/data/feedback-collector/runs.jsonl` and the llm_client call log for that date | each record's links resolve; no record carries retold evidence; link-free lines marked `unprovenanced`; Claude and Codex transcripts both parsed |
+| S1: reports become linked records | the first nightly collector run after S1 merges; `~/projects/data/feedback-collector/runs.jsonl` and the llm_client call log for that date (`~/projects/data/agentic-engineering-system-canonical/agentic-engineering-system-canonical_llm_client_data/calls_<date>.jsonl`; logs are per project) | each record's links resolve; no record carries retold evidence; link-free lines marked `unprovenanced`; Claude and Codex transcripts both parsed |
 | S2: Jev's relation judgments are good enough | the S2 labelling run; its traces under `feedback-collector/relation-check/*` | per-pair answers against the hand labels; at least 8 of 10 acceptable, or the fallback chosen |
-| S3-S4: a recurring problem yields a licensed proposal | the first weekly run that drafts a proposal; its run summary issue comment in the private log, and the stronger model's calls (trace id `feedback-loop/analyse/<problem>`) in `~/projects/data/llm_client/llm_client_llm_client_data/calls_<date>.jsonl` | the licence status derived by the evaluator from two independent observations; the proposal links back to every record it rests on |
-| S5: the loop observes effect | the nightly runs for 30 days after the first enforced rule; each run's record is a line in `~/projects/data/feedback-collector/runs.jsonl`, its model calls in the llm_client call log for that date, and the per-rule counts in `~/projects/data/feedback-collector/effects-<date>.jsonl` | the per-rule count of matching observations before and after enforcement, the observations that matched (with their links), and any licence the counts revoked |
-| Disproof | the same traces | adopted rules rest on single sessions or guesses; rules are adopted with no observation pattern; most adopted rules are revoked by their own effect counts; Brian reverses agent decisions after seeing the view; after 60 days no licensed rule has reached enforcement (judged from the nightly and weekly run records in `~/projects/data/feedback-collector/runs.jsonl` and the llm_client call logs for days 1 to 60 after S4 merges, each run showing the licences derived and any rule adopted) |
+| S3-S4: a recurring problem yields a licensed proposal | the first weekly run that drafts a proposal; its run summary issue comment in the private log, and the stronger model's calls (trace id `feedback-loop/analyse/<problem>`) in `~/projects/data/agentic-engineering-system-canonical/agentic-engineering-system-canonical_llm_client_data/calls_<date>.jsonl` | the licence status derived by the evaluator from two independent observations; the proposal links back to every record it rests on |
+| S5: the loop observes effect | the nightly runs for 30 days after the first enforced rule; each run's record is a line in `~/projects/data/feedback-collector/runs.jsonl`, its model calls in the llm_client call log for that date (`~/projects/data/agentic-engineering-system-canonical/agentic-engineering-system-canonical_llm_client_data/calls_<date>.jsonl`; logs are per project), and the per-rule counts in `~/projects/data/feedback-collector/effects-<date>.jsonl` | the per-rule count of matching observations before and after enforcement, the observations that matched (with their links), and any licence the counts revoked |
+| Disproof | the same traces | adopted rules rest on single sessions or guesses; rules are adopted with no observation pattern; most adopted rules are revoked by their own effect counts; Brian reverses agent decisions after seeing the view; after 60 days no licensed rule has reached enforcement (judged from the nightly and weekly run records in `~/projects/data/feedback-collector/runs.jsonl` and the llm_client call logs (same per-project folder) for days 1 to 60 after S4 merges, each run showing the licences derived and any rule adopted) |
 
 ## Verification
 
@@ -303,7 +303,7 @@ weekly, per problem with >= 2 independent observations:
   claim --> licence status derived by the metamodel evaluator (code, no model)
 ```
 
-All calls write to `~/projects/data/llm_client/llm_client_llm_client_data/calls_<date>.jsonl` with the
+All calls write to `~/projects/data/agentic-engineering-system-canonical/agentic-engineering-system-canonical_llm_client_data/calls_<date>.jsonl` with the
 trace ids below.
 
 | Call | Model (OpenRouter through `llm_client`) | Structured result | Traced as |

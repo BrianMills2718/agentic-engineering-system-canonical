@@ -23,6 +23,8 @@ def test_canonical_example_parses_into_linked_records():
     o1, o2, claim, action = recs
     assert {lk.ref for lk in o1.links} == {"~/projects/data/learnings/file9.log:41", "BrianMills2718/project-meta#2431"}
     assert o1.expected == "each lane commits its entry"
+    assert o1.text == "ten learnings lanes left their entries uncommitted"
+    assert o2.text == "the commit rule refused the [Discovery] tag on every lane"
     assert o1.subject_kind == "work" and o2.subject_kind == "control"
     assert [lk.ref for lk in o2.links] == ["3f9c2ab"]
     assert (claim.basis, claim.confidence, claim.evidence_word) == ("inferred", "high", "supported")
@@ -87,3 +89,26 @@ def test_published_schema_matches_the_model():
     path = Path(__file__).resolve().parents[2] / "contracts/learning-loop/feedback-report.v1.schema.json"
     assert json.loads(path.read_text()) == json.loads(json.dumps(R.Record.model_json_schema(), sort_keys=True)), \
         "regenerate contracts/learning-loop/feedback-report.v1.schema.json from records.Record"
+
+
+def test_bare_issue_numbers_take_the_session_repo_and_url_duplicates_drop():
+    links = R.find_links("tags [#300](https://github.com/o/r/issues/300) and #300, also #12")
+    assert [lk.ref for lk in R.normalize_links(links, "o/r")] == ["https://github.com/o/r/issues/300", "o/r#12"]
+    assert [lk.ref for lk in R.normalize_links(R.find_links("see #12"), "")] == ["#12"]
+    recs, _ = R.parse_feedback("- obs: refused again [#7]", PROV, "BrianMills2718/aes")
+    assert [lk.ref for lk in recs[0].links] == ["BrianMills2718/aes#7"]
+
+
+def test_legacy_register_ids_are_links():
+    links = R.find_links("recorded as `lrn-20261006T050845618039Z-ae28bc755c`")
+    assert [(lk.kind, lk.ref) for lk in links] == [("entry", "lrn-20261006T050845618039Z-ae28bc755c")]
+
+
+def test_transcript_turns_carry_the_session_folder(tmp_path):
+    import json
+    import transcripts as T
+    p = tmp_path / "s.jsonl"
+    p.write_text(json.dumps({"type": "assistant", "sessionId": "s1", "cwd": "/w/repo", "timestamp": "2026-10-08T00:00:00Z",
+                             "message": {"content": [{"type": "text", "text": "hi"}]}}) + "\n")
+    t = T.read_transcript(p, "claude")
+    assert [(x.role, x.cwd) for x in t.turns] == [("agent", "/w/repo")]

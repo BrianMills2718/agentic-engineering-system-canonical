@@ -44,6 +44,7 @@ class Turn:
     text: str
     ts: str
     offset: int          # byte offset of the record in the transcript file
+    cwd: str = ""        # working directory the session was in when the turn was written
 
 
 @dataclass
@@ -55,6 +56,7 @@ class Transcript:
     turns: list[Turn] = field(default_factory=list)
     end_offset: int = 0
     bad_lines: int = 0
+    cwd: str = ""        # latest working directory seen
 
 
 def _texts(content, kinds: tuple[str, ...]) -> list[str]:
@@ -80,6 +82,7 @@ def read_transcript(path: Path, client: str, offset: int = 0, since: str = "") -
             try:
                 meta = json.loads(fh.readline()).get("payload", {})
                 t.session_id = meta.get("id") or t.session_id
+                t.cwd = str(meta.get("cwd") or "")
                 t.interactive = meta.get("originator") != "codex_exec" and meta.get("thread_source") != "subagent" \
                     and not isinstance(meta.get("source"), dict)
             except ValueError:
@@ -96,10 +99,12 @@ def read_transcript(path: Path, client: str, offset: int = 0, since: str = "") -
                 t.bad_lines += 1
                 continue
             ts = str(d.get("timestamp") or "")
+            if client == "claude" and d.get("cwd"):
+                t.cwd = str(d["cwd"])
             for role, text in (_claude(d, t) if client == "claude" else _codex(d)):
                 if since and ts and ts < since:
                     continue
-                t.turns.append(Turn(role, text, ts, at))
+                t.turns.append(Turn(role, text, ts, at, t.cwd))
     return t
 
 

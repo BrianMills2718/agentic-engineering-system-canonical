@@ -32,7 +32,7 @@ EVIDENCE_WORDS = ("implemented", "demonstrated", "supported", "current judgment"
 
 
 class Link(BaseModel):
-    kind: Literal["url", "issue", "commit", "path"]
+    kind: Literal["url", "issue", "commit", "path", "entry"]  # entry: a legacy learnings-register id
     ref: str
 
 
@@ -74,6 +74,8 @@ _URL = re.compile(r"https?://[^\s)\]>`'\"]+")
 _ISSUE = re.compile(r"(?<![\w/])((?:[\w.-]+/)?[\w.-]+)?#(\d{1,6})\b")
 _COMMIT = re.compile(r"`([0-9a-f]{7,40})`")
 _PATH = re.compile(r"(?<![\w/.:])((?:~|\.{0,2})?/?(?:[\w.@-]+/)+[\w.@-]+\.[A-Za-z0-9]{1,8}(?::\d+(?:-\d+)?)?)")
+_ENTRY = re.compile(r"\b(lrn-\d{8}T\d{6,12}Z-[0-9a-f]{6,12})\b")
+_GH_ISSUE_URL = re.compile(r"github\.com/([\w.-]+/[\w.-]+)/(?:issues|pull)/(\d+)")
 # a bare file name with a line number (Makefile:96, README.md:12); a letter first, so times are not read
 _FILE_LINE = re.compile(r"(?<![\w/.:~-])([A-Za-z][\w.-]*:\d+(?:-\d+)?)\b")
 
@@ -98,12 +100,32 @@ def find_links(text: str) -> list[Link]:
     scrub = _URL.sub(" ", _MD_LINK.sub(" ", text))  # markdown links first, so their text is not read twice
     for m in _ISSUE.finditer(scrub):
         add("issue", f"{m.group(1)}#{m.group(2)}" if m.group(1) else f"#{m.group(2)}")
+    for m in _ENTRY.finditer(scrub):
+        add("entry", m.group(1))
     for m in _COMMIT.finditer(scrub):
         add("commit", m.group(1))
     for m in _PATH.finditer(scrub):
         add("path", m.group(1))
     for m in _FILE_LINE.finditer(_PATH.sub(" ", scrub)):
         add("path", m.group(1))
+    return out
+
+
+def normalize_links(links: list[Link], default_repo: str = "") -> list[Link]:
+    """Qualify a bare `#N` with the session's repository, and drop an issue reference that a GitHub URL in
+    the same list already names (`#300` beside `.../issues/300`)."""
+    urls = {(m.group(1).lower(), m.group(2)) for lk in links if lk.kind == "url"
+            for m in [_GH_ISSUE_URL.search(lk.ref)] if m}
+    url_nums = {n for _, n in urls}
+    out: list[Link] = []
+    for lk in links:
+        if lk.kind == "issue":
+            repo, _, num = lk.ref.partition("#")
+            if (not repo and num in url_nums) or (repo.lower(), num) in urls:
+                continue
+            lk = Link(kind="issue", ref=f"{repo or default_repo}#{num}" if (repo or default_repo) else f"#{num}")
+        if all(lk.ref != o.ref for o in out):
+            out.append(lk)
     return out
 
 
@@ -125,10 +147,15 @@ def _qualifiers(raw: str | None) -> list[str]:
 
 
 def _strip_links(text: str) -> str:
-    return re.sub(r"\s+", " ", _MD_LINK.sub(lambda m: m.group(0).split("](")[0][1:], text)).strip()
+    """The sentence without its bracketed link references (kept in `links`); markdown link text stays."""
+    text = _MD_LINK.sub(lambda m: m.group(0).split("](")[0][1:], text)
+    for lk in find_links(text):
+        for form in (f"[{lk.ref}]", f"[`{lk.ref}`]"):
+            text = text.replace(form, " ")
+    return re.sub(r"\s+", " ", text).strip()
 
 
-def parse_line(line: str, prov: Provenance, observations: list[Record]) -> Record | None:
+def parse_line(line: str, prov: Provenance, observations: list[Record], default_repo: str = "") -> Record | None:
     """One marked Feedback line -> a Record, or None when the line carries no marker."""
     m = _LINE.match(line)
     if not m:
@@ -172,19 +199,21 @@ def parse_line(line: str, prov: Provenance, observations: list[Record]) -> Recor
         status = next((q for q in quals if q in ("proposed", "done")), "")
         rec = Record(kind="action", text=_strip_links(body), links=find_links(body), intent=intent,
                      status=status, result=find_links(result_raw), provenance=p)
+    rec.links = normalize_links(rec.links, default_repo)
+    rec.result = normalize_links(rec.result, default_repo)
     rec.unprovenanced = not (rec.links or rec.result)
     rec.id = record_id(prov, rec.kind, rec.text)
     return rec
 
 
-def parse_feedback(value: str, prov: Provenance) -> tuple[list[Record], list[str]]:
+def parse_feedback(value: str, prov: Provenance, default_repo: str = "") -> tuple[list[Record], list[str]]:
     """A Feedback field -> (records from marked lines, unmarked non-empty lines left for the light model)."""
     records: list[Record] = []
     rest: list[str] = []
     for line in value.splitlines():
         if not line.strip():
             continue
-        rec = parse_line(line, prov, [r for r in records if r.kind == "observation"])
+        rec = parse_line(line, prov, [r for r in records if r.kind == "observation"], default_repo)
         if rec is None:
             rest.append(line)
         else:
