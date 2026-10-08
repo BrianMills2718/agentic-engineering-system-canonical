@@ -711,6 +711,9 @@ def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str
     if match["plan"] is not None or match["goal"] is not None:
         tag = f"Plan #{match['plan']}" if match["plan"] is not None else f"Goal {match['goal']}"
         ok, why, meta = adopted_plan(config.plan_roots, match["plan"], match["goal"], config.plan_workspace)
+        if not ok:
+            why += ("; adopt the plan through Company Planning (`quick-adopt` turns a small single-repository "
+                    "request into an adopted plan in about 10 s) or use [Trivial] for at most 3 files and 60 lines")
         result = verdict("accept" if ok else "refuse", tag, why)
         result.check = "plan-adoption"
         result.scope = write_scope(meta, config.repository_names) if ok else []

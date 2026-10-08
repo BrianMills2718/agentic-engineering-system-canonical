@@ -163,3 +163,16 @@ over every `[Unplanned]` commit in `~/code` since 2026-10-07: 276 commits, 25 wo
 all 25 read "Emergency: none; …" (project-meta, brians-2nd-brain-integration-work, agent-skills,
 grounded-research and seven other repositories). It takes effect with the stage-2 switch, since
 observe mode only logs. Script: `rollout/replay_emergency.py`.
+
+## Plan lookup refuses too, from 2026-10-09 08:00:30
+
+Brian approved (2026-10-08 19:01, "i approve", in session code-15) the recommendation that every
+non-trivial change runs under an adopted plan sized to the work, with the commit rule refusing
+rather than logging. So `plan_adoption` switches to `enforce` 30 s after the stage-2 switch (transient
+timer `aes-commit-rule-plan-adoption-enforce`, logged to `~/.local/state/aes/commit-rule-switch.log`).
+A plan-lookup refusal now names the routes: `quick-adopt` for a small single-repository change, or
+`[Trivial]`. Pre-check of 2026-10-08's 82 plan-lookup refusals (21 tags): none named a plan that is
+adopted and was missed; each named no plan, a roadmap or path-decision id, a numbered plan never
+adopted through Company Planning, or a plan edited after adoption (`aes-learning-loop`,
+`aes-brownfield-docs`: re-adopt). Wrong if the first enforced day shows a refusal of a commit whose
+plan is adopted on its repository's default branch.

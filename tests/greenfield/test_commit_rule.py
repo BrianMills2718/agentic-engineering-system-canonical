@@ -167,6 +167,12 @@ def test_emergency_and_shaping(repo: Path) -> None:
     assert done.returncode == 1 and "also touches README.md" in done.stderr
 
 
+def test_plan_refusal_names_the_way_to_adopt_one(repo: Path) -> None:
+    _stage_worker_tools(repo)
+    done = _git(repo, "commit", "-m", "[Goal no-such-plan] add worker tools")
+    assert done.returncode == 1 and "no-such-plan" in done.stderr and "quick-adopt" in done.stderr
+
+
 def test_unplanned_whose_emergency_line_says_none_is_refused(repo: Path) -> None:
     _stage_worker_tools(repo)
     for reason in ("none; [Unplanned] is the tag this repository accepts for unplanned maintenance (AES #189)",
