@@ -1,0 +1,127 @@
+{
+  "record_type": "HarnessFindingsV1",
+  "frozen_before_repairs": true,
+  "scope": "Harness detour only; no vision work",
+  "findings": [
+    {
+      "id": "root-context",
+      "title": "Every session pays for situation-specific procedures",
+      "evidence": "The workspace root is720lines/50,322bytes. Existing guidance is200lines or12KB; procedures for job materials, hosting, claims and writing are mixed with universal boundaries.",
+      "cost": "~12,580tokens by bytes/4 estimate; native token cost varies.",
+      "smallest_fix": "Keep a compact invariant spine and route procedures to their job; move text with ownership/trigger/consumer proof.",
+      "rechecked": "survives",
+      "source": "instructions-skills-inventory.json#workspace_root_sections",
+      "owner": "root source and specialist design"
+    },
+    {
+      "id": "instruction-route",
+      "title": "Repository rules are not guaranteed to arrive before an out-of-directory write",
+      "evidence": "Claude settings has no PostToolUse instruction loader and live Codex hooks/list has no read-first/loader. Historical loaders were deliberately disabled; Jev does not supply the omitted instructions.",
+      "cost": "Agents discover authority after an unsafe route, or carry the50KBroot defensively.",
+      "smallest_fix": "Certify targeted first-write authority surfacing; correct docs now; preserve the deliberate old-hook retirement.",
+      "rechecked": "already recorded",
+      "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/200",
+      "owner": "instruction delivery owner"
+    },
+    {
+      "id": "maintenance-route",
+      "title": "An older installed maintenance command hides its recovery path",
+      "evidence": "Project Meta old recipe defaults write scope to dot without typed broad-scope metadata; current upstream typed bootstrap handles this intentionally. The root example omits file paths.",
+      "cost": "Failed sanctioned route and manual investigation; one current bootstrap took~60s silently.",
+      "smallest_fix": "Repair old consumer diagnostic/example or upgrade through sanctioned installer; name SESSION_WRITE_PATHS and its maintenance alias.",
+      "rechecked": "corrected diagnosis; repair pending",
+      "source": "hooks-policy-inventory.json#items",
+      "owner": "project-meta repair lane"
+    },
+    {
+      "id": "commit-accounting",
+      "title": "Generated wiki files can push a small edit over the trivial limit",
+      "evidence": "Installed commit rule counts every diff and treats AGENTS/CLAUDE as running things; AES#190/#204 remain open. Current active followup ownership must be respected.",
+      "cost": "Plan/adoption work for small documentation or instruction maintenance.",
+      "smallest_fix": "Account for declared generated output and provide an honest quick planning path; retain instruction-change scrutiny.",
+      "rechecked": "already recorded",
+      "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/190",
+      "owner": "active commit-rule followup"
+    },
+    {
+      "id": "skipped-evidence",
+      "title": "A successful process can be recorded as substantive proof when all tests skipped",
+      "evidence": "Installed evidence.py maps exit0 to SUPPORTS absent a downgrade; it does not require a substantive executed verification.",
+      "cost": "False confidence in evidence driving acceptance.",
+      "smallest_fix": "Use structured runner outcomes; zero substantive executed checks yields INCONCLUSIVE, with both skipped and passed controls.",
+      "rechecked": "already recorded",
+      "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/257",
+      "owner": "AES evidence owner"
+    },
+    {
+      "id": "storage-estimate",
+      "title": "A tiny worktree is charged a fixed2GiB admission request",
+      "evidence": "storage-policy tool wrapper calls gate(2) for every git worktree add; an earlier gate(0.1) cannot change that request. AES#182 records20.57GiBfree,20GiBreserve.",
+      "cost": "Sanctioned isolation blocked despite ample space for a small checkout.",
+      "smallest_fix": "Estimate tracked checkout blobs and preserve the reserve and scratch cap.",
+      "rechecked": "already recorded",
+      "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/182",
+      "owner": "personal-file-infra"
+    },
+    {
+      "id": "role-parity",
+      "title": "Generated role files match while important role semantics disappear",
+      "evidence": "sync_agents.py preserves body/description and inferred sandbox but drops model/skills/tool-list meaning in Codex; its parity check compares the same lossy projection.",
+      "cost": "False parity assurance and context/tool behavior differing by client.",
+      "smallest_fix": "Translate supported native fields, expose unsupported semantics and verify actual dispatch/tool/loading behavior.",
+      "rechecked": "survives",
+      "source": "prior-art-ownership-evidence.json",
+      "owner": "agent-skills"
+    },
+    {
+      "id": "canary-discovery",
+      "title": "The newer specialist exists as generated output but is not installed",
+      "evidence": "development-investigator is absent from both installed native agent directories; its Claude comments precede YAML frontmatter.",
+      "cost": "Projection tests cannot demonstrate native file discovery or use.",
+      "smallest_fix": "Fix native frontmatter, preserve an invariant closure and install committed projections through the existing agent route.",
+      "rechecked": "survives",
+      "source": "prior-art-ownership-evidence.json",
+      "owner": "agent-skills canary"
+    },
+    {
+      "id": "skill-budget",
+      "title": "Skill catalog estimates omit part of the real session catalog",
+      "evidence": "Shared sync passes but its own policy check fails:45automaticCodexvs32;17,102metadatacharacters. Native local skills/list reports92enabled. Remote injected and cached catalogs differ.",
+      "cost": "Catalog context and misleading thresholds; no native truncation established.",
+      "smallest_fix": "Measure actual exposed metadata separately from loaded skill bodies; narrow job catalogs only after consumer evidence.",
+      "rechecked": "survives",
+      "source": "instructions-skills-inventory.json#checks",
+      "owner": "agent-skills"
+    },
+    {
+      "id": "checker-coverage",
+      "title": "The instruction quality checker can omit mixed instruction filenames",
+      "evidence": "The checker selects CLAUDE or AGENTS for an entire repository; the audit independent git-index inventory retains both and806instructionfiles.",
+      "cost": "A clean checker result can miss nested authority.",
+      "smallest_fix": "Discover both filenames, then classify source authority separately; add a mixed-layout test.",
+      "rechecked": "survives",
+      "source": "instructions-skills-inventory.json#instruction_quality",
+      "owner": "project-meta checker"
+    },
+    {
+      "id": "stale-guard-policy",
+      "title": "A live guard still carries older approval instructions",
+      "evidence": "Installed Jev policy fromOct2asks deployment/default-push/org-merge approval despite later root grants. Bounded log501decisions all observe;495modelcalls median350.75ms.",
+      "cost": "Delay and misleading recommendations; this sample does not establish a hard approval block.",
+      "smallest_fix": "Reconcile the owning policy source with later authority and replay the relevant counterexamples.",
+      "rechecked": "survives",
+      "source": "hooks-policy-inventory.json#items",
+      "owner": "agent-skills Jev source"
+    },
+    {
+      "id": "goal-boundary",
+      "title": "The reported goal-to-hosting diversion remains unverified",
+      "evidence": "No exact native evaluator trace was supplied or recovered by this audit yet; the retired local stop hook does not prove behavior of the native evaluator.",
+      "cost": "The historical cost cannot yet be attributed to a particular hook.",
+      "smallest_fix": "Inspect the exact goal/evaluator trace before changing stop semantics; state linkability/deployment boundaries in goals.",
+      "rechecked": "unverified report",
+      "source": "hooks-policy-inventory.json#reported_findings",
+      "owner": "native goal evidence needed"
+    }
+  ]
+}

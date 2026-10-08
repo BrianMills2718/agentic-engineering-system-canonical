@@ -1,0 +1,15 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "proposals/harness-context/README.md",
+  "plan_sha256": "adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0",
+  "receipt_ref": "proposals/harness-context/method-conformance-receipt.json",
+  "receipt_sha256": "9398dc70aaf5b2debd4d535f910c410676c5d7d4dc1693f1ea766c7307c28ca9",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 13 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "decided_at": "2026-10-08T03:43:40Z"
+}

@@ -1,0 +1,72 @@
+{
+  "record_type": "prior-art-and-ownership-evidence",
+  "external_prior_art_search": {
+    "performed": true,
+    "actor": "agent_prior_art",
+    "scope": "current native Claude subagents and Codex role/bootstrap loading",
+    "sources": [
+      "https://code.claude.com/docs/en/sub-agents#pass-context-to-subagents",
+      "https://developers.openai.com/codex/subagents/",
+      "https://github.com/openai/codex/blob/rust-v0.161.0/codex-rs/core/src/thread_manager.rs",
+      "https://github.com/openai/codex/blob/rust-v0.161.0/codex-rs/core/src/agents_md.rs"
+    ],
+    "disposition": "reuse native roles; extend existing specialist canary; do not build an orchestrator"
+  },
+  "internal_lineage_search": {
+    "performed": true,
+    "sources": [
+      "agent-skills/scripts/sync_agents.py",
+      "agent-skills/contracts/client-config/agents",
+      "agent-skills/scripts/render_specialist_agents.py",
+      "agent-skills/contracts/specialists/development-investigator.v1.json"
+    ],
+    "dispositions": [
+      "reuse nine native role sources and install conventions",
+      "extend one-source read-only canary",
+      "preserve claims as a separate authorization owner"
+    ]
+  },
+  "unit_evidence": [
+    {
+      "unit": "audit-instructions-skills",
+      "writer": "instructions_skills",
+      "dependency": "registered source discovery",
+      "conflict_surface": "proposals/harness-context/instructions-skills-inventory.json",
+      "evidence": "instructions-skills-inventory.json",
+      "observed": "806 instruction and437 skill/cache rows generated; semantic enrichment running, not declared finished"
+    },
+    {
+      "unit": "audit-hooks-policy",
+      "writer": "hooks_enforcement",
+      "dependency": "live hook list and current sources",
+      "conflict_surface": "proposals/harness-context/hooks-policy-inventory.json",
+      "evidence": "hooks-policy-inventory.json",
+      "observed": "19 system items,263 policy rows,206 repo entrypoints; source and live hook metadata retained"
+    },
+    {
+      "unit": "native-canary-investigation",
+      "writer": "agent_prior_art",
+      "dependency": "prior art and adopted plan before source changes",
+      "conflict_surface": "agent-skills scripts/render_specialist_agents.py, contracts/specialists/development-investigator.v1.json, distribution/agents, tests/test_render_specialist_agents.py, README.md",
+      "evidence": [
+        "/home/brian/.claude/projects/-home-brian-code-agent-skills/ca7f018b-679e-44df-a2df-f310b087f4a2/subagents/agent-a07686ae1cfdfcdaa.jsonl",
+        "/home/brian/.claude/projects/-home-brian-code-agent-skills/d70b4118-e165-4937-b8a2-1b82cd5f4a16/subagents/agent-a13bd44981e9b5335.jsonl"
+      ],
+      "observed": "Native read-only preliminary context probe complete; source implementation remains pending adoption/claim."
+    },
+    {
+      "unit": "integration-and-review",
+      "writer": "coordinator",
+      "dependency": "frozen audit findings and returned owned artifacts",
+      "conflict_surface": "proposals/harness-context except the two auditor inventory files",
+      "evidence": [
+        "README.md",
+        "planning-path-decision.json",
+        "review-recommendation.json"
+      ],
+      "observed": "PlanningPathDecisionV1 validates coordinated; representation-router selected layered architecture. Coordinator verifies source and native traces, runs final local gates and owns the one AES artifact PR."
+    }
+  ],
+  "integration_owner": "coordinator",
+  "authority": "Brian explicitly authorized audit, plan, reversible fixes and a smallest working native-agent slice; other active commit-rule and vision owners remain outside this lane."
+}

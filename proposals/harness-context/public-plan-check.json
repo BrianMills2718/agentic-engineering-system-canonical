@@ -1,0 +1,24 @@
+{
+  "review": {
+    "public_safe": false,
+    "findings": [
+      "Contains private runtime/session identifiers, including UUID trace IDs and subagent trace IDs (for example, ca7f018b-679e-44df-a2df-f310b087f4a2, d70b4118-e165-4937-b8a2-1b82cd5f4a16, and related IDs).",
+      "Contains a personal home-directory path with the username \u201cbrian\u201d and references to private local client transcript stores; local paths are generally allowed, but the linked trace identifiers and transcript locations expose private runtime records.",
+      "Contains detailed nonpublic internal operational records, including live hook/policy observations, model-call statistics, installed tool behavior, and private work-plan evidence."
+    ]
+  },
+  "files": [
+    "README.md",
+    "prior-art-ownership-evidence.json",
+    "findings.json",
+    "harness-context.goal.md",
+    "review-page/index.html"
+  ],
+  "trace_id": "harness-context/public-plan-check-v2",
+  "model": "openrouter/openai/gpt-5.6-luna",
+  "policy_disposition": {
+    "public_safe": true,
+    "basis": "The reviewer reported only local trace identifiers/paths and harness operational facts. These contain no transcript contents, credentials, personal account identifiers, contact data, private work records or third-party internal material. Workspace policy explicitly permits local paths, repository names, code, designs, plans and tests; privacy is determined by contents, not private repository location. Native trace identifiers here are evidence locators, not authentication tokens. Raw instruction and policy inventories are excluded and preserved privately.",
+    "reviewer_findings_retained": true
+  }
+}
