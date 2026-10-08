@@ -386,13 +386,12 @@ ExpeL and CoALA (agent experience stores revised over time). Research notes: ses
 
 Owner of every item below: this plan's lane (`claude-code`, claim `aes-learning-loop-o2a`).
 
-| Uncertainty | Kind | Evidence that resolves it |
-| --- | --- | --- |
-| Jev judges record relations well enough | assumption | S2's labelled run: at least 8 of 10 acceptable, otherwise the fallback |
-| Independence means different sessions or days, each with a resolvable link | agent_decided_reversible | S3's first grouped problems: a hand check of 10 licences finds none resting on one session's echo |
-| The private log is GitHub issues in a private repository | agent_decided_reversible | S1: a record filed and read back from the private repository, and a scan of the public repository finding no record text |
-| Agents write the Feedback grammar consistently | assumption | S1's first nightly run: the share of Feedback lines that needed the light model; above 30% triggers a grammar revision |
-| Whether agent-adopted rules do more good than harm | assumption | S5's effect counts and the share of adopted rules later revoked |
+| Uncertainty | Kind | Why it is material (what changes if it is wrong) | Evidence that resolves it |
+| --- | --- | --- | --- |
+| Jev judges record relations well enough | assumption | wrong relations corrupt every licence; the relation judge switches to the stronger model | S2's labelled run: at least 8 of 10 acceptable, otherwise the fallback |
+| Independence means different sessions or days, each with a resolvable link | agent_decided_reversible | too loose and one noisy session licenses a rule every agent must follow; too strict and nothing is ever licensed | S3's first grouped problems: a hand check of 10 licences finds none resting on one session's echo |
+| The private log is GitHub issues in a private repository | agent_decided_reversible | if issues cannot carry the volume or the S3 grouping, storage moves to a database and the ranked view reads that | S1: a record filed and read back from the private repository (done 2026-10-08, agent-feedback-log #1), and a scan of the public repository finding no record text |
+| Agents write the Feedback grammar consistently | assumption | free text needs the light model on every line, its cost grows and its links depend on position rules | S1's first nightly run: the share of Feedback lines that needed the light model; above 30% triggers a grammar revision. Trial 2026-10-08 (before the grammar shipped): 100% free text, 23 of 92 records without a link |
 
 ## System model
 

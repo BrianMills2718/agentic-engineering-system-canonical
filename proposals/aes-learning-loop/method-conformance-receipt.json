@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-b6f2c368ec5f",
+  "receipt_id": "RECEIPT-PLAN-5c29c7aedd3f",
   "plan": {
     "plan_ref": "proposals/aes-learning-loop/PLAN.md",
-    "plan_sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+    "plan_sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
   },
   "path_decision": {
     "ref": "proposals/aes-learning-loop/planning-path-decision.json",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/aes-learning-loop/activation-facts.json",
-    "facts_sha256": "2eee0e9b13569085714f8f6c358cbfd1c8cf71834d48f8104797655e8170fe3d",
+    "facts_sha256": "66fb9397b781b9fe8d0660252adef2834b5142a7daa32194563d6d51250435da",
     "facts": {
       "shared_mechanism": true,
       "empirical_comparison_proposed": true,
@@ -86,10 +86,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:121d3882be8737084774fc75834e23ea723cdc4007924acf4878d60367e5a523",
-    "definition_sha256": "13b8ae1d1d848e5a697d10eba00ef5ee1f3ba119707ca05d254cd7058f40db5e",
+    "revision": "sha256:3e4a2b3120df001002eebf1518a63d31fae9d54317a4517ad4e4ea3c5b32c383",
+    "definition_sha256": "a999e5f0db6c65d6b5aa26a67d682ff1fec39df014a750478dae9d1dea81b828",
     "bundle_ref": "proposals/aes-learning-loop/checklist-bundle.json",
-    "bundle_sha256": "73fd0576c31ca2c59d6cae64c11a7bf46f0e33465f8807618fb6b40772b0daf3",
+    "bundle_sha256": "4147e5ed8966235e285619a3f461be04d2e26e094d2c9281301b78dae8293709",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -107,16 +107,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#who-it-serves-the-result-one-example",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/CORE-ACTOR-RESULT-EXAMPLE",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/CORE-ACTOR-RESULT-EXAMPLE",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the actors served, states the desired result, and gives one concrete, stable user-visible example: the stranded-lanes failure of 2026-10-07 traced through observation, claim, grouping, licence, prevention, enforcement, and effect."
+        "rationale": "The evidence explicitly names the actors served (Claude and Codex agents, loop runs, and Brian), states the desired result, and gives a stable, concrete user-visible example: the stranded-lanes failure of 2026-10-07 traced through its lifecycle."
       },
       "suggested_action": null
     },
@@ -152,16 +152,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#success-and-what-would-disprove-it",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/CORE-SUCCESS-DISPROOF",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/CORE-SUCCESS-DISPROOF",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly defines success criteria S1–S5, identifies the traces and locations to examine, and specifies what must be observed for each. It also gives concrete disproof conditions, including unsupported or patternless rules, frequent revocation, Brian reversing decisions, and no licensed rule reaching enforcement after 60 days."
+        "rationale": "The evidence explicitly identifies what must be observed for success across S1–S5, including traces, linked records, labels, licence status, and before/after effect counts. It also states concrete disproof conditions, including unsupported rules, revocations, Brian reversing decisions, and no licensed rule reaching enforcement after 60 days."
       },
       "suggested_action": null
     },
@@ -178,16 +178,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#success-and-what-would-disprove-it",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/CORE-TRACE-REVIEW",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/CORE-TRACE-REVIEW",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "Each success criterion names the run to examine, identifies where its trace or associated records/calls are stored, and specifies observations required beyond the outcome. The disproof criteria likewise identify the same traces and the additional evidence to inspect, so the evidence does not rely only on final statuses such as passing tests or adoption."
+        "rationale": "Every criterion names the run to examine, identifies where its traces or logs live, and specifies evidence required beyond the final outcome. S1–S5 and Disproof include concrete trace artifacts and observations such as parsed transcripts, linked records, per-pair judgments, licence derivation, enforcement effects, and reversals."
       },
       "suggested_action": null
     },
@@ -204,16 +204,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#authority-and-non-goals",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/CORE-AUTHORITY-NONGOALS",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/CORE-AUTHORITY-NONGOALS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies authority as “the direction above,” with AES canonical in Brian's repository and the learned skill and Feedback field as shared contracts. It also explicitly lists non-goals, including not changing the Observation-to-Action specification, making rule changes without a feedback path, creating a dashboard, or rewriting existing issues or register entries."
+        "rationale": "The evidence explicitly identifies authority: “the direction above,” with AES canonical in Brian’s repository, and specifies shared contracts for Claude and Codex. It also explicitly lists multiple non-goals, including not changing Observation-to-Action’s specification, adding a dashboard, or rewriting existing issues or register entries."
       },
       "suggested_action": null
     },
@@ -230,16 +230,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/CORE-IRREVERSIBLE-SPEND",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/CORE-IRREVERSIBLE-SPEND",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence states that no irreversible action is proposed and lists each spend category with an explicit boundary, authorizer, and containment. The table specifies limits such as “stop and report if one night exceeds $1,” authorization by “Brian's configured OpenRouter route and the shared client's budgets,” and concrete containment measures for each spend."
+        "rationale": "The evidence explicitly identifies each proposed spend, its boundary, authorizer, and containment. The table names limits such as $1 per night, three analyses per week, and one S2 run; identifies Brian's configured OpenRouter route and shared-client budgets as the authorizer; and states containment actions for each."
       },
       "suggested_action": null
     },
@@ -256,16 +256,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#uncertainties",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/CORE-UNCERTAINTIES",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/CORE-UNCERTAINTIES",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence lists five material uncertainties, assigns an owner to every item, and explicitly identifies evidence that would resolve each one. Each row pairs a named uncertainty with a concrete resolving check or measurement."
+        "rationale": "The evidence explicitly lists four material uncertainties, explains why each is material, and provides evidence that would resolve each one. It also assigns an owner to every item via the stated lane ownership."
       },
       "suggested_action": null
     },
@@ -282,16 +282,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#activation-facts",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan declares all four activation facts true. The evidence explicitly supports each trigger: a shared Feedback skill/closeout contract, S2's Jev comparison against hand labels and a fallback, central Jev/analysis-model calls, and bounded model spend; no triggered fact is declared false."
+        "rationale": "The plan explicitly declares all four relevant activation facts true: `shared_mechanism`, `empirical_comparison_proposed`, `llm_central`, and `irreversible_or_spend_action`. None of the activation facts it triggers is declared false."
       },
       "suggested_action": null
     },
@@ -308,16 +308,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#current-truth-and-reuse",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/OV-PRIOR-ART-DISPOSITION",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/OV-PRIOR-ART-DISPOSITION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly states that existing owners, Brian’s internal lineage, and external prior art were searched, naming the relevant sources. It also provides dispositions for the listed candidates using only reuse, extend, compose, supersede, or bounded exception."
+        "rationale": "The evidence explicitly states that existing owners, Brian’s internal lineage, and external prior art were searched. The candidate tables provide a disposition for each listed candidate using only reuse, extend, compose, supersede, or bounded exception."
       },
       "suggested_action": null
     },
@@ -334,16 +334,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#detecting-a-silent-parallel-implementation",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/OV-PRIOR-ART-PARALLEL-CHECK",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/OV-PRIOR-ART-PARALLEL-CHECK",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence names a concrete structural test that detects scripts other than `records.py` writing feedback records, and a consumer-path observation that flags records from unknown writing paths in the weekly summary."
+        "rationale": "The evidence explicitly names a structural test that greps for writers outside `records.py` and a consumer-path observation that flags records from unknown writing paths. Either satisfies the requirement."
       },
       "suggested_action": null
     },
@@ -360,16 +360,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/OV-EVAL-DECISION",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/OV-EVAL-DECISION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the decision: who judges whether a new record supports, challenges, or belongs to the same problem as an existing one. It also specifies the different actions for each result: at or above 8/10, Jev judges relations nightly; below that, the stronger model judges them in weekly analysis while Jev only classifies."
+        "rationale": "The evidence names the decision: who judges relations between new and existing records. It explicitly states the alternatives for each result: at or above 8/10, Jev judges nightly; below 8/10, the stronger model judges in weekly analysis while Jev only classifies."
       },
       "suggested_action": null
     },
@@ -386,16 +386,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies the irreducibly empirical uncertainty as how Jev performs on short agent reports with links, and states that it cannot be resolved by first-principles reasoning. It also explains that the existing inquiry-graph probe used a different input and therefore cannot answer this question; only a labelled comparison can."
+        "rationale": "The evidence identifies the irreducibly empirical uncertainty as how Jev performs on short agent reports with links and states that only a labelled run can resolve it. It explains that first principles cannot determine this and that the existing inquiry-graph probe used a different input, so it cannot resolve the comparison."
       },
       "suggested_action": null
     },
@@ -412,16 +412,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/OV-EVAL-PARITY",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/OV-EVAL-PARITY",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly states the minimum parity conditions: each candidate must return one of four relations for all 30 pairs, with no refusals or free text, within the stated cost bound. It also specifies identical pairs, answer options and definitions, input fields, and pre-existing hand labels for both judges."
+        "rationale": "The evidence explicitly states that a judge is compared only if it returns one of the four relations for all 30 pairs, with no refusals or free text, at the stated cost bound. It also specifies shared pairs, answer options and definitions, input fields, and hand-label scoring, establishing the minimum parity conditions every candidate must meet."
       },
       "suggested_action": null
     },
@@ -438,16 +438,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/OV-EVAL-COST",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/OV-EVAL-COST",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly compares the costs: measuring costs under $1 and one run, while choosing the stronger model costs $1–$3 more per week for as long as it runs, and choosing Jev incorrectly can corrupt licence statuses and require later re-derivation. This explains why running the comparison is cheaper than making a reversible choice now and correcting it later."
+        "rationale": "The evidence explicitly compares the costs: measuring costs under $1 and one run, while choosing the stronger model costs $1–$3 more per week for its duration, and choosing Jev incorrectly can corrupt licence statuses and require later correction. It therefore explains why running the comparison is cheaper than making a reversible choice now and correcting it later."
       },
       "suggested_action": null
     },
@@ -464,16 +464,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#model-calls",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/OV-LLM-CALL-BOUNDARY",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/OV-LLM-CALL-BOUNDARY",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly gives the ordered call graph, including nightly and weekly calls; identifies each call’s structured result (such as Pydantic `FeedbackRecord` lists, `ChoiceQuestion` answers, relations, and claim/action records); and specifies tracing through JSONL call logs and per-call trace IDs."
+        "rationale": "The evidence explicitly gives the ordered call graph, including dependencies and weekly versus nightly execution. It specifies a structured result for every model call—Pydantic records, ChoiceQuestion answers, relations, or claim/action records—and states that all calls are written to a dated JSONL file with explicit trace IDs."
       },
       "suggested_action": null
     },
@@ -490,16 +490,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#model-calls",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/OV-LLM-AUTHORITY-PROMOTION",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/OV-LLM-AUTHORITY-PROMOTION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the provider and spend authority as Brian’s configured OpenRouter route and the shared client’s budgets. It also states the promotion condition: one authentic run on real transcripts, with the full trace read and records resolving their links, before becoming the nightly default."
+        "rationale": "The evidence explicitly names Brian’s configured OpenRouter route as the provider and the shared client’s budgets as spend authority. It also states the authentic-run promotion condition: one authentic run on real transcripts, with the full trace read and records resolving their links, before becoming the nightly default."
       },
       "suggested_action": null
     },
@@ -516,16 +516,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#ownership-and-coordination",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/OV-COORD-OWNERSHIP",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/OV-COORD-OWNERSHIP",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names ownership for each writer, identifies this lane as the integration owner, lists conflict surfaces and dependencies, and provides work-unit evidence for every concurrent writer in the table."
+        "rationale": "The evidence explicitly names ownership for each listed writer, identifies the integration owner as this plan’s lane, enumerates conflict surfaces and dependencies, and provides work-unit evidence for every concurrent writer in the table. Each writer’s owned surface and resulting evidence are stated directly."
       },
       "suggested_action": null
     },
@@ -542,16 +542,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#boundaries",
-          "sha256": "b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c"
+          "sha256": "5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/dbe175ff7921/OV-BOUNDARY-DISPOSITION",
+        "trace_id": "company-planning/method-conformance/PLAN/2f40395621a1/OV-BOUNDARY-DISPOSITION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names an owning authority, rollback or containment, and disposition for each listed boundary. This includes private data (“workspace rule,” private repository, “contained”), the issue migration (“AES learning-loop design R7,” originals untouched, “deferred”), and rule enforcement (agent authority, automatic revocation, “agent-decided, observed”)."
+        "rationale": "The evidence explicitly lists each boundary with an owning authority, rollback or containment, and disposition. It covers private/public handling, the Feedback-field change, the migration of 68 issues and the legacy register, and rule enforcement."
       },
       "suggested_action": null
     }
@@ -572,11 +572,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-b6f2c368ec5f",
+    "report_id": "REPORT-PLAN-5c29c7aedd3f",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:73fd0576c31ca2c59d6cae64c11a7bf46f0e33465f8807618fb6b40772b0daf3",
+    "snapshot_revision": "sha256:4147e5ed8966235e285619a3f461be04d2e26e094d2c9281301b78dae8293709",
     "packet_ref": "proposals/aes-learning-loop/PLAN.md",
-    "packet_revision": "sha256:b6f2c368ec5f14964f33f55721d0cdbc9e6dd74dfe96d1c3c5749f940f4c3d9c",
+    "packet_revision": "sha256:5c29c7aedd3f942236df12db3750e233fd9eeaf3352a53a1848e2e33bbf5d0b8",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -599,7 +599,7 @@
     "client": "claude-code",
     "session": "3b596c23-2476-404a-85f2-42e19a6afad4"
   },
-  "started_at": "2026-10-08T04:10:35Z",
-  "completed_at": "2026-10-08T04:10:54Z",
-  "duration_ms": 16533
+  "started_at": "2026-10-08T05:53:59Z",
+  "completed_at": "2026-10-08T05:54:39Z",
+  "duration_ms": 36859
 }
