@@ -140,7 +140,7 @@ never-absolute-brain daily job tags its commits `[Auto]` with an `Auto-job:` lin
 stays observe-only: 64 of 78 plan-tag refusals name ids that are not plans (`review-20261007` 50,
 `2026-10-06-review-fixes` 14); those sessions need adopted plans (Company Planning `quick-adopt`) first.
 
-## Stage 2 switched on 2026-10-09 (Brian, 2026-10-08: "yes turn on tomorrow")
+## Stage 2 (Brian, 2026-10-08: "yes turn on tomorrow"); switched early, see the last section
 
 A one-time user timer on Brian's machine (`aes-commit-rule-stage2-enforce2.timer`, 2026-10-09 08:00 New York,
 after the 07:15 daily report) changes `mode: observe` to `mode: enforce` in `~/.config/aes/commit_rule.yaml` and
@@ -164,7 +164,7 @@ all 25 read "Emergency: none; …" (project-meta, brians-2nd-brain-integration-w
 grounded-research and seven other repositories). It takes effect with the stage-2 switch, since
 observe mode only logs. Script: `rollout/replay_emergency.py`.
 
-## Plan lookup refuses too, from 2026-10-09 08:00:30
+## Plan lookup refuses too (switched early, see the last section)
 
 Brian approved (2026-10-08 19:01, "i approve", in session code-15) the recommendation that every
 non-trivial change runs under an adopted plan sized to the work, with the commit rule refusing
@@ -186,7 +186,7 @@ The commit-msg check now looks first at the files staged in the commit (`git dif
 under `proposals/*/` or `docs/plans/`). Two tests stage a plan and its adoption decision that are absent
 from disk; both were refused before the change and are accepted after it.
 
-## New documents must be linked from the wiki (from 2026-10-09 08:00)
+## New documents must be linked from the wiki (switched early, see the last section)
 
 Brian, 2026-10-08: "cant we just do it for new docuemtnts while we work on getting the rest of the repos
 aligned". In repositories owned by BrianMills2718 or brianmills-spec, a commit that adds a reader document
@@ -208,3 +208,15 @@ someone fetched. Now lookup, the staged check and the index read both fields (in
 entries rebuild), `aes commit index --fetch` fetches every repository first (16 at a time, about 35 s for
 186), the daily report and the background refresh use it, and a miss starts that refresh at most every
 five minutes.
+
+## Switched on now, not at 08:00 (2026-10-08 evening)
+
+Brian, 2026-10-08: "why are we waiting for 8am tomorrow? if we re ready now let switch if not lets get
+ready". The 08:00 timers (`aes-commit-rule-stage2-enforce2`, `aes-commit-rule-plan-adoption-enforce`)
+were stopped and `~/.config/aes/commit_rule.yaml` set to `mode: enforce` and `plan_adoption: enforce`
+at 2026-10-08 18:10 EDT (the file before the change is kept in `~/.local/state/aes/`; the switch is logged in
+`commit-rule-switch.log`). `doc_reach` follows `mode`. Probe in a throwaway repository owned (by its
+origin URL) by BrianMills2718: an untagged commit, `[Unplanned]` with "Emergency: none", a `[Goal]` naming
+no plan, and a new unlinked document were each refused (no commit made); the same document with its wiki
+link was accepted. To step back: set `mode: observe` (everything logs only) or `plan_adoption` /
+`doc_reach` to `observe` for one check.
