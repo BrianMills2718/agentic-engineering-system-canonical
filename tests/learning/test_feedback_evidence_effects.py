@@ -48,6 +48,34 @@ def test_closeout_prose_and_closed_dates_are_not_enforcement_receipts():
     assert EF.enforcement_receipt([receipt]) is None
 
 
+def test_enforcement_lookup_uses_fields_available_in_the_service_cli(monkeypatch):
+    calls = []
+    receipt = {"body": EF.MARKER + json.dumps(RECEIPT) + " -->", "createdAt": "2026-10-08T17:00:00Z"}
+    replies = iter([json.dumps([{"number": 387}]), "completed\n", json.dumps({"comments": [receipt]})])
+    def run(args, **kwargs):
+        calls.append(args)
+        assert "number,stateReason" not in args
+        return type("Result", (), {"returncode": 0, "stdout": next(replies), "stderr": ""})()
+    monkeypatch.setattr(PB.subprocess, "run", run)
+    assert PB.concern_enforcement("a-rule") == RECEIPT
+    assert calls[1] == ["gh", "api", f"repos/{PB.RULE_REPO}/issues/387", "-q", ".state_reason"]
+
+
+def test_withdrawn_concern_does_not_establish_enforcement(monkeypatch):
+    replies = iter(['[{"number": 386}]', "not_planned\n"])
+    monkeypatch.setattr(PB.subprocess, "run", lambda *a, **k:
+                        type("Result", (), {"returncode": 0, "stdout": next(replies), "stderr": ""})())
+    assert PB.concern_enforcement("withdrawn-rule") is None
+
+
+def test_enforcement_search_failure_is_reported_instead_of_looking_unenforced(monkeypatch):
+    import pytest
+    monkeypatch.setattr(PB.subprocess, "run", lambda *a, **k:
+                        type("Result", (), {"returncode": 1, "stdout": "", "stderr": "Unknown JSON field"})())
+    with pytest.raises(RuntimeError, match="Unknown JSON field"):
+        PB.concern_enforcement("a-rule")
+
+
 def test_resolution_checks_real_files_lines_and_missing_references(tmp_path):
     log = tmp_path / "run.log"
     log.write_text("first\nsecond\n")

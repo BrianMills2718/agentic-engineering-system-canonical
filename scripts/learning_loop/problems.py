@@ -288,12 +288,20 @@ def issue_body(p: dict) -> str:
 def concern_enforcement(key: str) -> dict | None:
     """A completed concern needs an explicit, revision-bound enforcement receipt."""
     p = subprocess.run(["gh", "issue", "list", "--repo", RULE_REPO, "--state", "closed", "--search",
-                        f'"concern-key: {key}" in:body', "--json", "number,stateReason", "--limit", "1"],
+                        f'"concern-key: {key}" in:body', "--json", "number", "--limit", "1"],
                        capture_output=True, text=True, timeout=60)
     if p.returncode:
-        raise RuntimeError("failed to find enforcement concern")
+        raise RuntimeError(f"failed to find enforcement concern: {p.stderr.strip()[-200:]}")
     rows = json.loads(p.stdout)
-    if not rows or rows[0].get("stateReason") not in ("COMPLETED", "completed"):
+    if not rows:
+        return None
+    # Older service-installed gh versions omit stateReason from their GraphQL
+    # field list. The REST field is stable across both service and agent CLIs.
+    p = subprocess.run(["gh", "api", f"repos/{RULE_REPO}/issues/{rows[0]['number']}", "-q", ".state_reason"],
+                       capture_output=True, text=True, timeout=30)
+    if p.returncode:
+        raise RuntimeError(f"failed to read enforcement state: {p.stderr.strip()[-200:]}")
+    if p.stdout.strip() != "completed":
         return None
     p = subprocess.run(["gh", "issue", "view", str(rows[0]["number"]), "--repo", RULE_REPO,
                         "--json", "comments"], capture_output=True, text=True, timeout=30)
