@@ -162,4 +162,4 @@ accepted; whether a stated reason is a real emergency stays the nightly misuse r
 over every `[Unplanned]` commit in `~/code` since 2026-10-07: 276 commits, 25 would be refused, and
 all 25 read "Emergency: none; …" (project-meta, brians-2nd-brain-integration-work, agent-skills,
 grounded-research and seven other repositories). It takes effect with the stage-2 switch, since
-observe mode only logs. Script: `~/code/.scratch/replay_emergency.py`.
+observe mode only logs. Script: `rollout/replay_emergency.py`.
