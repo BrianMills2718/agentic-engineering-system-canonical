@@ -1,6 +1,6 @@
 # Agent router: a fast model chooses the agent, its rules, its model and its effort
 
-Status: shaping (not adopted). Opened 2026-10-08.
+Status: adopted 2026-10-08 as a Company Planning plan: [PLAN.md](PLAN.md) (20 of 20 checklist items evidenced; [receipt](receipt.json), [goal](agent-router.goal.md)). This page is the design; the plan holds the slices, spend bounds, trace criteria and ownership.
 
 ## What Brian asked for
 
