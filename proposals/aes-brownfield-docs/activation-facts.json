@@ -2,14 +2,14 @@
   "schema_version": "method-activation-facts.v1",
   "record_type": "method_activation_facts",
   "plan_ref": "proposals/aes-brownfield-docs/PLAN.md",
-  "plan_sha256": "edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5",
+  "plan_sha256": "504cad2cd11e6267bb402dac2de2aafedca391977b5f1ad3d32fc11f582f978c",
   "path_decision_ref": "proposals/aes-brownfield-docs/PLANNING_PATH.json",
   "path_decision_sha256": "46d44352e8e6bc8786b09a1202b005106697327a3b7e7b60b437aabdf4516958",
   "facts": {
     "shared_mechanism": true,
     "empirical_comparison_proposed": false,
     "llm_central": false,
-    "irreversible_or_spend_action": false
+    "irreversible_or_spend_action": true
   },
   "fact_sources": {
     "shared_mechanism": "derived_current_boundary",
@@ -17,5 +17,5 @@
     "llm_central": "derived_current_boundary",
     "irreversible_or_spend_action": "derived_current_boundary"
   },
-  "recorded_at": "2026-10-08T04:12:12Z"
+  "recorded_at": "2026-10-08T04:47:09Z"
 }

@@ -84,6 +84,18 @@ reader finds doc <- wiki/index.md links <- declared roots (.agentic/repo.yaml) <
 
 **Failure / containment / rollback:** if a generator or test cannot follow a moved path by repointing alone, that row stays and is recorded as a finding; revert the merge if checks newly fail. The earlier reachability-only branch (57 generated folder lists, unmerged) is not merged: it made pages reachable without organizing them.
 
+## Migration Map (M5, integration repository)
+
+Built 2026-10-08 from read-only Haiku inventories at main `7f91be42` (one batched consumer search per row) and a document-by-document classification of the plan folder (rules for 106 documents, a light model for the 139 that names could not settle; each call carries a quoted reason). Executed as three pull requests, in order, each compared with unchanged main before merge.
+
+| PR | Row | Moves | Consumers to repoint | State |
+|---|---|---|---|---|
+| 1 | Decisions and design | 13 decision records (`roadmap/decisions/`, every `ADR-*`) to `docs/decisions/`; 17 design, requirement and governance documents (`roadmap/architecture/`, `roadmap/requirements/`, `roadmap/governance/`, four named methodology and contract documents) to `docs/architecture/` | about 11 tests and generators (`tests/meta/test_roadmap_spine.py` with sha256 fingerprints, `test_documentation_inventory.py`, `test_relationship_context_pilot.py`, `plan/documentation_review_index.py`), 445 registry lines, about 525 document-link lines; `docs/WIKI_BACKLINK_INDEX.json` rebuilt by its own tool | moved and repointed in the worktree; layout check clean except row 3's generated pages; test comparison showed regressions to fix before merge |
+| 2 | Plans | 119 plans and goals to `docs/plans/` (keeping their sub-paths), 17 standards and design documents to `docs/architecture/`, 3 decision records to `docs/decisions/`; 106 stay (fixtures, release snapshots, dated notes and findings, redirect stubs, READMEs of code folders) | 21 tests and code readers (including a sha256 fingerprint ledger), 2,586 registry lines, about 1,343 link lines, 230 relative links into files that stay | classified; not started |
+| 3 | Generated pages | `plan/okf_exports/` (822 files) to `generated/okf_exports/` | generator output-root guards (`plan/okf_projection/contracts.py`, `project_foundation_ir*.py`), Makefile targets, `scripts/artifact_directory_policy.yaml`, 3,602 registry lines, manifests that record each page's sha256 and embed its path | not started; if the guards and manifests cannot follow by path repointing and regeneration alone, the row stays and is recorded as a finding (see Failure / containment) |
+
+Unchanged on purpose: `plan/graph/okf/` (the planning graph that `make validate-okf` checks), `plan/atlas_refinement/readouts/` (evidence tests open), `knowledge/corpus/entries/` (kept separate by the registry), and all code under `plan/`. The layout check (`layout_check.py` in this folder) and `reach.py` are the done-when instruments.
+
 ## Decisions And Assumptions
 
 <a id="uncertainties"></a>
@@ -126,7 +138,7 @@ Material uncertainties. These three are the complete set; each could make the pi
 
 ## Exact Next Action
 
-Build the M5 migration map for the integration repository (active slice, step 1): one row per current home with its consumers and repointing, from a read-only inventory.
+Fix migration PR 1's test regressions (repoint the tests' paths and fingerprint records, re-run until the failure list matches main), merge it, then PR 2.
 
 ## Prior Art And Parallel-Implementation Check
 
@@ -151,7 +163,7 @@ Searched: internal lineage in AES canonical (`git grep -i 'retrofit|brownfield|e
 
 ## Activation Facts
 
-Declared in `activation-facts.json`: `shared_mechanism` true, because M3 extends the shared daily documentation check in project-meta (`scripts/md_file_cap.py`) and the workspace rule every agent follows. `empirical_comparison_proposed` false: no alternative designs are compared; the cold-reader run checks the built result against fixed questions. `llm_central` false: no model call is part of the change; the cold reader is an evaluation step, not a product component. `irreversible_or_spend_action` false: see "Irreversible Actions And Spend".
+Declared in `activation-facts.json`: `shared_mechanism` true, because M3 extends the shared daily documentation check in project-meta (`scripts/md_file_cap.py`) and the workspace rule every agent follows. `empirical_comparison_proposed` false: no alternative designs are compared; the cold-reader run checks the built result against fixed questions. `llm_central` false: no model call is part of the change; the cold reader is an evaluation step, not a product component. `irreversible_or_spend_action` true: M5 spends model tokens on bounded read-only Haiku agent fan-outs (boundary, authorizer and containment in "Irreversible Actions And Spend"); nothing irreversible.
 
 <a id="route"></a>
 ## Route
@@ -167,6 +179,7 @@ This plan proposes zero irreversible actions and zero spend.
 |---|---|---|---|
 | Moving and linking documents in graph-retrieval | one pull request to Inside-Success/graph-retrieval, merged after its checks pass | Brian's standing merge rule (workspace AGENTS.md, 2026-10-04) | `git revert` of the merge commit; every moved file keeps its full history and its old path is listed in `docs/ARCHIVED_DOCS_INDEX.md` |
 | Proposal files in AES canonical | this folder on branch `shaping/aes-brownfield-docs` | Brian (approved the pilot, 2026-10-07) | delete the branch or revert the merge |
+| Agent work for M5 (read-only inventories and classifications on Haiku; the parent's own implementation runs) | one fan-out of at most four Haiku agents per migration step, read-only, no writes outside the session scratch folder | Brian's standing approval of multi-agent workflows and Haiku for bulk work (2026-10-07) | stop the fan-out if a step's agents exceed about 500k tokens without a usable result, and record it |
 | Rule change at M3 | workspace AGENTS.md and project-meta daily check | Brian (human decision listed above) | revert the two commits |
 
-No model spend beyond ordinary agent use, no deployment, no data deletion, nothing sent outward.
+Model spend is limited to the agent work row above; no deployment, no data deletion, nothing sent outward.
