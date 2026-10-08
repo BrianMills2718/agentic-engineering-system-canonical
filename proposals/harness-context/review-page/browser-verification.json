@@ -1,0 +1,21 @@
+{
+  "hover_passed": 49,
+  "focus_passed": 49,
+  "touch_passed": 1,
+  "role_selection_passed": 7,
+  "other_interaction_passed": 4,
+  "desktop_geometry": {
+    "nodes": 9,
+    "overlaps": 0,
+    "overflow": []
+  },
+  "mobile_geometry": {
+    "nodes": 9,
+    "overlaps": 0,
+    "overflow": []
+  },
+  "page_errors": [],
+  "passed": 112,
+  "failed": 0,
+  "exit_status": 0
+}

@@ -1,0 +1,299 @@
+{
+  "version": "0.2",
+  "recordedAt": "2026-10-08T03:55:21.249Z",
+  "actor": "codex",
+  "recommendationId": "harness-context--layered-architecture-view",
+  "primaryPattern": "layered-architecture-view",
+  "checklistSize": 72,
+  "acceptanceReferences": [],
+  "dispositions": {
+    "requirements-traceability-matrix": {
+      "status": "satisfied",
+      "why": "The main question is context flow, not many-to-many requirement coverage."
+    },
+    "node-link-graph": {
+      "status": "satisfied",
+      "why": "A fixed three-layer architecture shows routing direction without arbitrary force layout."
+    },
+    "adjacency-matrix": {
+      "status": "satisfied",
+      "why": "Seven roles and one routing hierarchy need direct connections, not a dense pairwise matrix."
+    },
+    "hierarchy-tree": {
+      "status": "satisfied",
+      "why": "Context comes from a shared core as well as coordinator routing, which a pure tree hides."
+    },
+    "sequence-diagram": {
+      "status": "satisfied",
+      "why": "The question concerns ownership/loading structure, not call ordering."
+    },
+    "choice-justified:layered-architecture-view": {
+      "status": "satisfied",
+      "why": "Native DOM/SVG uses the recommended three layers and stable selection; seven fixed roles do not need a new React Flow/ELK dependency."
+    },
+    "force-layout-for-inherently-ordered-processes": {
+      "status": "satisfied",
+      "why": "Roles occupy fixed reading-order slots; browser screenshots show stable geometry."
+    },
+    "fixed-size-nodes-with-overflowing-labels": {
+      "status": "satisfied",
+      "why": "Desktop and 390px mobile screenshot inspection shows labels wrapped inside panning diagram boxes."
+    },
+    "edge-labels-before-routing": {
+      "status": "satisfied",
+      "why": "Bus/selected paths are computed from measured node rectangles before labels are positioned."
+    },
+    "no-node-overlap": {
+      "status": "satisfied",
+      "why": "Desktop rendered screenshot inspection: seven role boxes, coordinator and shared core do not overlap."
+    },
+    "no-critical-label-overlap": {
+      "status": "satisfied",
+      "why": "Desktop screenshot inspection: routing/loading labels occupy the gaps."
+    },
+    "labels-fit-node-bounds": {
+      "status": "satisfied",
+      "why": "Screenshot inspection at desktop and mobile; all role labels fit."
+    },
+    "ports-and-arrowheads-clear": {
+      "status": "na",
+      "why": "Connections are buses with explicit routing/loading labels; no arrowhead glyphs."
+    },
+    "selected-path-remains-legible": {
+      "status": "satisfied",
+      "why": "Selected path uses dark green stroke and selected role has a green border, checked in rendered desktop."
+    },
+    "title-states-what-this-is-and-for-whom": {
+      "status": "satisfied",
+      "why": "Headline and introduction state the context-loading outcome and coordinator/specialist audience."
+    },
+    "whole-design-visible-on-one-screen-at-the-target-viewport": {
+      "status": "satisfied",
+      "why": "Entire architecture and measurement visible at 1440x1000; mobile uses readable pan and inspector below."
+    },
+    "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+      "status": "skipped",
+      "why": "Brian has not reviewed this page; do not substitute an agent verdict for his comprehension."
+    },
+    "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+      "status": "satisfied",
+      "why": "Architecture draws routes; bars compare measured initial inputs; findings expand evidence."
+    },
+    "relationships-drawn-not-implied-by-adjacency-or-links": {
+      "status": "satisfied",
+      "why": "Coordinator bus and selected context path connect the actual boxes."
+    },
+    "same-object-same-mark-across-every-view": {
+      "status": "satisfied",
+      "why": "Current/proposed tabs preserve role IDs, positions and selected role; browser interaction checked."
+    },
+    "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "minimize-edge-crossings": {
+      "status": "satisfied",
+      "why": "One bus and one selected context path avoid a mesh."
+    },
+    "preserve-reading-order": {
+      "status": "satisfied",
+      "why": "Coordinator first, seven roles next, shared context last; inspector then findings."
+    },
+    "stable-layout": {
+      "status": "satisfied",
+      "why": "Switching tabs changes loading text while retaining semantic IDs and fixed slot layout."
+    },
+    "group-boundary-clearance": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "first-frame-legibility": {
+      "status": "satisfied",
+      "why": "Viewed actual desktop screenshot; primary title, architecture and cautious measurement are legible."
+    },
+    "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+      "status": "satisfied",
+      "why": "One layered architecture plus a selected-role inspector."
+    },
+    "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "attributed-claims-traced-to-source-no-invented-items": {
+      "status": "satisfied",
+      "why": "Findings are projected from frozen evidence and additional source-linked findings; uncertainty remains visible."
+    },
+    "argument-pages-follow-the-speakers-order-and-keep-their-reasons": {
+      "status": "na",
+      "why": "This is an audit prototype, not an attributed argument."
+    },
+    "drawing-laid-out-by-engine-with-content-and-optional-motion-layers": {
+      "status": "skipped",
+      "why": "For this seven-role prototype native measured DOM/SVG is used instead of introducing a layout engine; no general graph renderer is claimed."
+    },
+    "structural-devices-encode-information-not-decoration": {
+      "status": "satisfied",
+      "why": "Three visual layers encode routing, roles and context loading."
+    },
+    "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "white-space-separates-groups-and-carries-hierarchy": {
+      "status": "satisfied",
+      "why": "Rendered page separates heading, architecture, measurement and findings."
+    },
+    "size-and-weight-follow-importance": {
+      "status": "satisfied",
+      "why": "Headline and primary diagram dominate; uncertainty and provenance use smaller text."
+    },
+    "structure-earned-by-content-not-imposed-taxonomy": {
+      "status": "satisfied",
+      "why": "Seven job groups come directly from the task and adopted plan."
+    },
+    "space-and-time-shown-together-when-the-subject-changes-over-time": {
+      "status": "na",
+      "why": "No time-varying system state claimed."
+    },
+    "page-carries-its-date-and-version": {
+      "status": "satisfied",
+      "why": "Visible date and footer source boundary name the pinned base and branch."
+    },
+    "a-person-would-pin-it-on-a-wall": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "every-drawing-fits-its-frame-on-load-and-zooms-and-pans-within-it": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "diagram-text-is-dom-or-svg-and-no-label-overlaps-a-box-or-another-label": {
+      "status": "satisfied",
+      "why": "DOM node labels and SVG edge labels inspected in actual desktop screenshot."
+    },
+    "one-element-dominates-by-size-weight-or-contrast": {
+      "status": "satisfied",
+      "why": "The architecture is the largest element and green selection carries focus."
+    },
+    "reading-order-is-obvious-without-instructions": {
+      "status": "satisfied",
+      "why": "Vertical hierarchy: outcome, architecture, measured claim, findings."
+    },
+    "gap-between-groups-larger-than-gap-within": {
+      "status": "satisfied",
+      "why": "Architecture has separated layers; seven role slots use smaller equal gaps."
+    },
+    "enclosure-nesting-at-most-two-levels": {
+      "status": "satisfied",
+      "why": "One diagram shell containing stage and inspector; no further nested panels."
+    },
+    "elements-share-a-small-set-of-edges": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "same-role-same-treatment-everywhere": {
+      "status": "satisfied",
+      "why": "Every specialist uses the same node/inspector treatment."
+    },
+    "every-mark-carries-information": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "context-quiet-subject-loud": {
+      "status": "satisfied",
+      "why": "Muted provenance/context and strong title/selected path."
+    },
+    "comparisons-use-identical-small-frames": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "one-highlighted-state-not-several": {
+      "status": "satisfied",
+      "why": "One selected specialist; current/proposed tabs have one active state."
+    },
+    "object-count-within-density-budget-or-aggregated": {
+      "status": "satisfied",
+      "why": "Seven specialists plus coordinator/core; details stay in inspector."
+    },
+    "every-named-element-opens-its-subject-on-click-or-tap": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "no-ellipsis-or-clipped-text-in-rendered-page": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "hovering-or-focusing-every-control-in-a-real-browser-shows-a-styled-tooltip-within-200ms-and-tap-works-on-phones": {
+      "status": "satisfied",
+      "why": "Browser verified27hover+27focus+touch. Additional findings add four summaries; final rerun recorded separately."
+    },
+    "phone-and-laptop-each-have-a-layout-that-uses-their-width": {
+      "status": "satisfied",
+      "why": "390px rendered page stacks inspector/metric and keeps diagram panning; no document overflow."
+    },
+    "every-view-stays-listed-in-sight-while-others-are-open-and-views-open-from-it-or-the-agent": {
+      "status": "satisfied",
+      "why": "Both tabs remain in the toolbar."
+    },
+    "chat-suggestions-are-chips-below-the-input-and-ask-in-one-click": {
+      "status": "na",
+      "why": "No chat input."
+    },
+    "picking-an-item-lights-its-counterparts-in-every-open-view-and-can-be-cleared": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "agent-adds-to-the-readers-choices-unless-asked-to-replace-verified-with-live-asks": {
+      "status": "na",
+      "why": "No agent chat interaction."
+    },
+    "checks-measure-painted-geometry-after-fonts-load-at-each-supported-viewport": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "transient-explanations-are-at-most-five-short-points": {
+      "status": "na",
+      "why": "Tooltips are one sentence."
+    },
+    "every-navigation-item-has-content-and-stays-or-shows-its-way-back": {
+      "status": "satisfied",
+      "why": "Both tabs and seven role selections update the inspector; no screen replacement."
+    },
+    "groups-the-page-filters-by-have-one-view-relating-them-with-unlinked-groups-named": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "every-standard-code-labels-a-pure-view-and-custom-views-say-so": {
+      "status": "na",
+      "why": "No standards-coded views."
+    },
+    "non-specialist-front-door-is-a-question-with-views-delivered-and-catalog-secondary": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+      "status": "skipped",
+      "why": "Not independently verified in this bounded prototype; no claim of passing."
+    },
+    "no-block-of-prose-longer-than-the-drawing-it-explains": {
+      "status": "satisfied",
+      "why": "Evidence is collapsed by default; selected-role explanation is shorter than the diagram."
+    },
+    "reader-can-point-to-where-any-one-fact-lives": {
+      "status": "satisfied",
+      "why": "Each finding opens its evidence, cost, smallest fix and source; loading facts live in selected inspector."
+    }
+  }
+}

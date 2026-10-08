@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Friction: plan adoption can demand completed work from concurrent writers",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282"
+  },
+  {
+    "title": "Problem: skill feedback aggregator ignores Codex skill-read events",
+    "kind": "kind:problem",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/283"
+  },
+  {
+    "title": "Problem: instruction mirror check reports missing instruction roots as successful skips",
+    "kind": "kind:problem",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/284"
+  },
+  {
+    "title": "Friction: privacy review invents restricted categories beyond the publication policy",
+    "kind": "kind:friction",
+    "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/285"
+  }
+]
