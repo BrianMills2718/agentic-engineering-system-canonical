@@ -600,7 +600,7 @@ def _validate_session_ended_closeout_reconciliation(
                 "owner" if claim.session_id == resolved_actor else "successor"
             ),
             "recorded_worktree_path": str(recorded_worktree),
-            "worktree_present_before": recorded_worktree.is_dir(),
+            "worktree_present_before": recorded_worktree.is_dir() and not _is_closed_lane_placeholder(recorded_worktree),
             "claim_sha256": actual_claim_digest,
             "tracker_path": None,
             "tracker_sha256": None,
@@ -627,7 +627,7 @@ def _validate_session_ended_closeout_reconciliation(
             "owner" if claim.session_id == resolved_actor else "successor"
         ),
         "recorded_worktree_path": str(recorded_worktree),
-        "worktree_present_before": recorded_worktree.is_dir(),
+        "worktree_present_before": recorded_worktree.is_dir() and not _is_closed_lane_placeholder(recorded_worktree),
         "claim_sha256": actual_claim_digest,
         "tracker_path": str(tracker),
         "tracker_sha256": actual_tracker_digest,
@@ -775,8 +775,8 @@ def _validate_canonical_root_reconciliation(
     repo_root: Path,
     expected_claim_sha256: str | None,
     expected_tracker_sha256: str | None,
-) -> dict[str, str]:
-    """Bind a legacy claim to a clean canonical root without removing Git state."""
+) -> dict[str, Any]:
+    """Bind ended owned custody to a retained root and digest-bound tracker."""
 
     if claim.status != coordination_claims.SESSION_ENDED_STATUS:
         raise ValueError(
@@ -802,13 +802,9 @@ def _validate_canonical_root_reconciliation(
     expected_tracker_digest = (expected_tracker_sha256 or "").strip().lower()
     if not re.fullmatch(r"[0-9a-f]{64}", expected_tracker_digest):
         raise ValueError("Canonical-root reconciliation requires --tracker-sha256 as a SHA-256 digest.")
-    trackers = _exact_tracker_candidates(claim)
-    if not trackers:
-        raise ValueError("Canonical-root reconciliation requires one exact session tracker")
-    if len(trackers) != 1:
-        rendered = ", ".join(str(path) for path in trackers)
-        raise ValueError("Ambiguous exact session trackers for canonical-root reconciliation: " + rendered)
-    tracker = trackers[0]
+    # The legacy tracker-name collision may leave a later scope in this file.
+    # Reuse stable-owner validation; closeout never updates a non-matching tracker.
+    tracker, tracker_identity_drift = _session_ended_reconciliation_tracker(claim)
     if claim.tracker_path and Path(claim.tracker_path).expanduser() != tracker:
         raise ValueError("Claim tracker path does not match the exact reconciliation tracker")
     actual_tracker_digest = _tracker_sha256(tracker)
@@ -847,7 +843,14 @@ def _validate_canonical_root_reconciliation(
         raise ValueError(
             "Canonical-root reconciliation requires a clean canonical checkout. Uncommitted state:\n" + dirty_details
         )
-    current_branch = git_output("symbolic-ref", "--quiet", "--short", "HEAD")
+    symbolic = subprocess.run(
+        ["git", "symbolic-ref", "--quiet", "--short", "HEAD"],
+        cwd=recorded_worktree, capture_output=True, text=True, check=False,
+    )
+    if symbolic.returncode not in (0, 1):
+        raise ValueError("Canonical-root reconciliation could not prove checked-out branch identity.")
+    current_branch = symbolic.stdout.strip() if symbolic.returncode == 0 else "HEAD"
+    head_commit = git_output("rev-parse", "--verify", "HEAD^{commit}")
     if not claim.branch or current_branch != claim.branch:
         raise ValueError(
             "Canonical-root reconciliation requires the checked-out branch to match the recorded claim branch."
@@ -855,15 +858,17 @@ def _validate_canonical_root_reconciliation(
     return {
         "schema_version": "1.0",
         "claim_status_before": claim.status,
+        "tracker_identity_drift": tracker_identity_drift,
         "recorded_worktree_path": str(recorded_worktree),
         "canonical_repo_root": str(canonical_root),
         "branch": current_branch,
+        "head_commit": head_commit,
         "claim_path": str(claim_file),
         "claim_sha256": actual_claim_digest,
         "tracker_path": str(tracker),
         "tracker_sha256": actual_tracker_digest,
         "filesystem_action": "retained_canonical_root",
-        "branch_action": "retained_canonical_branch",
+        "branch_action": "retained_detached_head" if current_branch == "HEAD" else "retained_canonical_branch",
     }
 
 
@@ -2979,6 +2984,28 @@ def _validate_closeout_preflight(
     )
 
 
+def _detached_canonical_preflight(
+    *, repo_root: Path, disposition: str, disposition_reason: str | None,
+    recovery_ref: str | None, head_commit: str,
+) -> CloseoutPreflight:
+    """Archive metadata for a retained pin only with independent remote history."""
+    if disposition != "archived" or not disposition_reason or not disposition_reason.strip():
+        raise ValueError("Detached canonical closeout requires disposition=archived and a reason.")
+    if not recovery_ref or not recovery_ref.startswith("refs/remotes/"):
+        raise ValueError("Detached canonical closeout requires an independent remote recovery ref.")
+    if not _ref_exists(repo_root, recovery_ref) or not _is_ancestor(repo_root, head_commit, recovery_ref):
+        raise ValueError("Detached canonical recovery ref does not contain the retained HEAD commit.")
+    if _git_capture(repo_root, "rev-parse", "--verify", "HEAD^{commit}").strip() != head_commit:
+        raise ValueError("Detached canonical HEAD changed during closeout preflight.")
+    return CloseoutPreflight(
+        disposition=disposition, branch_exists=False,
+        default_branch=push_safety.resolve_default_branch(repo_root),
+        merged_to_default=None, default_remote_ref=None, default_branch_pushed=None,
+        merge_commit=None, merge_evidence=None, recovery_ref=recovery_ref,
+        force_delete_branch=False,
+    )
+
+
 def _captured_lane_preflight(
     *,
     repo_root: Path,
@@ -3030,10 +3057,38 @@ def _captured_lane_preflight(
     )
 
 
+def _is_closed_lane_placeholder(path: Path) -> bool:
+    """Return whether ``path`` is the empty directory a closed lane leaves behind."""
+
+    try:
+        return path.is_dir() and not any(path.iterdir())
+    except OSError:
+        return False
+
+
+def _leave_closed_lane_placeholder(worktree_path: Path) -> None:
+    """Recreate the removed lane path as an empty directory.
+
+    Another live agent session (a parent of the closing subagent, or a sibling)
+    can still record the lane as its working directory; that location is held
+    inside the agent client, not in any OS process this closeout can see or
+    move. When the path vanished, the CC Safety Net hook refused every tool
+    call in those sessions until a human restarted them (process_tracing,
+    2026-10-05; project-meta policy friction session-close-deletes-active-cwd).
+    An empty directory keeps their working directory valid, and ``git worktree
+    add`` accepts an empty target, so the lane name stays reusable.
+    """
+
+    try:
+        worktree_path.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
+
+
 def _remove_worktree_path(repo_root: Path, worktree_path: Path) -> str:
     """Remove one worktree path from a safe root-anchored control session."""
 
-    if not worktree_path.exists():
+    if not worktree_path.exists() or _is_closed_lane_placeholder(worktree_path):
         return "already_missing"
     if _cwd_inside(worktree_path):
         os.chdir(repo_root)
@@ -3060,6 +3115,7 @@ def _remove_worktree_path(repo_root: Path, worktree_path: Path) -> str:
         )
     if result.returncode != 0:
         raise RuntimeError((result.stderr or result.stdout).strip())
+    _leave_closed_lane_placeholder(worktree_path)
     return "removed"
 
 
@@ -5114,7 +5170,7 @@ def close_session(
                 "repository, worktree, and branch custody."
             )
         retained_parent_scope = parent_matches[0].scope
-    elif resolved_worktree_path:
+    elif resolved_worktree_path and canonical_root_reconciliation is None:
         canonical_worktree_path = resolved_worktree_path.resolve()
         sibling_scopes = sorted(
             sibling.scope
@@ -5166,6 +5222,12 @@ def close_session(
             disposition=disposition,
             disposition_reason=disposition_reason,
             capture=lane_state_capture,
+        )
+    elif canonical_root_reconciliation is not None and canonical_root_reconciliation["branch"] == "HEAD":
+        preflight = _detached_canonical_preflight(
+            repo_root=repo_root, disposition=disposition,
+            disposition_reason=disposition_reason, recovery_ref=recovery_ref,
+            head_commit=canonical_root_reconciliation["head_commit"],
         )
     else:
         preflight = _validate_closeout_preflight(
@@ -5236,7 +5298,10 @@ def close_session(
         preferred_path=claim.tracker_path,
     )
     tracker_path_text = str(tracker_path) if tracker_path is not None else claim.tracker_path
-    if tracker_path is not None and session_ended_reconciliation is None:
+    preserve_stale_tracker = canonical_root_reconciliation is not None and bool(
+        canonical_root_reconciliation["tracker_identity_drift"]
+    )
+    if tracker_path is not None and session_ended_reconciliation is None and not preserve_stale_tracker:
         session_contracts.update_session_tracker(
             tracker_path,
             current_phase="closing",
@@ -5301,7 +5366,7 @@ def close_session(
             claims_dir=coordination_claims.CLAIMS_DIR,
         )
 
-    if tracker_path is not None:
+    if tracker_path is not None and not preserve_stale_tracker:
         session_contracts.update_session_tracker(
             tracker_path,
             current_phase="closed",

@@ -1,5 +1,12 @@
 # Now (2026-10-04, hive-brain session)
 
+**Feedback repair tooling (2026-10-08):** the installed claim runtime consumes
+canonical Enforced Planning's [successor-tracker repair](https://github.com/BrianMills2718/enforced-planning/commit/9baad04).
+It preserves a closed lane's tracker and allocates a bounded path for a distinct
+lane under the unchanged session goal; active and conflicting identities remain
+occupied or refused. Owner lifecycle regressions pass; installed native lifecycle
+evidence and closure are tracked in [#437](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/437).
+
 **Harness detour (2026-10-08):** the [audit and specialist plan](../proposals/harness-context/README.md)
 inventories instruction/skill/hook/policy delivery across both clients. Its
 [interactive review](../proposals/harness-context/review-page/index.html) shows

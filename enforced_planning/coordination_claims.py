@@ -33,7 +33,7 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import asdict, dataclass, replace
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any, Literal, get_args
 
 import yaml  # type: ignore[import-untyped]
@@ -798,6 +798,209 @@ class PlanAuthorityBinding:
     external: bool
 
 
+# --- Company Planning method-conformance receipt binding (Plan #48 WU-CP-MCR-002) ---
+# Bind plan-backed claims to an exact Company Planning method-conformance receipt.
+#
+# Company Planning owns method profiles, compilation, validation, and the adoption
+# decision (``PlanningMethodConformanceReceiptV1``, written only by its adoption
+# gate). Enforced Planning owns claim admission. This module consumes the receipt
+# without re-deciding method policy: it re-resolves the receipt bytes and the plan
+# bytes at the exact plan-authority revision, and refuses a missing receipt, a
+# digest mismatch, a non-passing receipt, a receipt for another plan, or a plan
+# revision newer than its receipt.
+#
+# Requirement is per repository, declared structurally in ``meta-process.yaml``::
+#
+#     meta_process:
+#       plans:
+#         method_conformance:
+#           mode: required   # or: off (default)
+#
+# With ``mode: off`` a claim may still cite a receipt, and the citation is
+# verified the same way; it can never be cited by an explicitly unplanned claim.
+# Consumer contract: company-planning
+# ``plugins/company-planning/contracts/method-conformance/README.md``.
+
+RECEIPT_SCHEMA_VERSION = "planning-method-conformance-receipt.v1"
+RECEIPT_RECORD_TYPE = "planning_method_conformance_receipt"
+METHOD_FRONT_MATTER_KEY = "method_conformance_receipt"
+_RECEIPT_SHA256 = re.compile(r"^[0-9a-f]{64}$")
+
+
+class MethodConformanceRefusal(ValueError):
+    """A claim-admission refusal with one stable reason code."""
+
+    def __init__(self, code: str, message: str) -> None:
+        super().__init__(f"method conformance refused ({code}): {message}")
+        self.code = code
+
+
+class MethodConformanceBindingV1(BaseModel):
+    """The exact receipt identity a plan-backed claim retains."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    schema_version: Literal["1.0.0"] = "1.0.0"
+    mode: Literal["required", "off"]
+    plan_path: str
+    plan_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    plan_revision: str = Field(pattern=r"^[0-9a-f]{40}$")
+    receipt_path: str
+    receipt_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    receipt_id: str
+    route: str
+    profile_revision: str
+    checklist_definition_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
+def _method_git_show(root: Path, revision: str, path: str) -> bytes | None:
+    completed = subprocess.run(
+        ["git", "--no-replace-objects", "-C", str(root), "show", f"{revision}:{path}"],
+        capture_output=True,
+        check=False,
+    )
+    return completed.stdout if completed.returncode == 0 else None
+
+
+def _method_repo_relative(path: str, label: str) -> str:
+    normalized = PurePosixPath(path.replace("\\", "/"))
+    if normalized.is_absolute() or ".." in normalized.parts or not normalized.parts:
+        raise MethodConformanceRefusal("method_receipt_invalid", f"{label} {path!r} must be repository-relative")
+    return normalized.as_posix()
+
+
+def method_conformance_mode(plan_root: Path, revision: str) -> Literal["required", "off"]:
+    """Read the repository's structural requirement at the exact plan revision."""
+
+    content = _method_git_show(plan_root, revision, "meta-process.yaml")
+    if content is None:
+        return "off"
+    payload = yaml.safe_load(content) or {}
+    meta = payload.get("meta_process", payload) if isinstance(payload, dict) else {}
+    plans = meta.get("plans", {}) if isinstance(meta, dict) else {}
+    setting = plans.get("method_conformance") if isinstance(plans, dict) else None
+    if setting is None:
+        return "off"
+    mode = setting.get("mode") if isinstance(setting, dict) else None
+    if mode not in ("required", "off"):
+        raise MethodConformanceRefusal(
+            "invalid_method_conformance_config",
+            "meta-process.yaml plans.method_conformance.mode must be 'required' or 'off'",
+        )
+    return mode
+
+
+def _method_front_matter(content: str) -> dict[str, Any]:
+    if not content.startswith("---\n"):
+        return {}
+    end = content.find("\n---", 4)
+    if end < 0:
+        return {}
+    loaded = yaml.safe_load(content[4:end])
+    return loaded if isinstance(loaded, dict) else {}
+
+
+def _plan_number_from_path(path: str) -> int | None:
+    match = re.fullmatch(r"(\d+)_.*\.md", PurePosixPath(path).name, re.IGNORECASE)
+    return int(match.group(1)) if match else None
+
+
+def resolve_method_conformance_binding(
+    *,
+    plan_root: Path | str,
+    plan_revision: str,
+    plan_number: int | None,
+    receipt_ref: str | None,
+    receipt_sha256: str | None,
+) -> MethodConformanceBindingV1 | None:
+    """Resolve the exact passing receipt a plan-backed claim names, or refuse.
+
+    Returns ``None`` only when the repository does not require a receipt and the
+    claim names none.
+    """
+
+    root = Path(plan_root).expanduser().resolve()
+    mode = method_conformance_mode(root, plan_revision)
+    if receipt_ref is None and receipt_sha256 is None:
+        if mode == "required":
+            raise MethodConformanceRefusal(
+                "missing_method_receipt",
+                "this repository requires every plan-backed claim to name its passing Company Planning "
+                "method-conformance receipt: pass --method-receipt <path> and --method-receipt-sha256 <digest> "
+                "from the plan's adoption decision",
+            )
+        return None
+    if receipt_ref is None or receipt_sha256 is None:
+        raise MethodConformanceRefusal(
+            "missing_method_receipt", "--method-receipt and --method-receipt-sha256 must be given together"
+        )
+    if _RECEIPT_SHA256.fullmatch(receipt_sha256) is None:
+        raise MethodConformanceRefusal("method_receipt_digest_mismatch", "receipt digest must be 64 lowercase hex")
+    receipt_path = _method_repo_relative(receipt_ref, "receipt path")
+    receipt_bytes = _method_git_show(root, plan_revision, receipt_path)
+    if receipt_bytes is None:
+        raise MethodConformanceRefusal(
+            "method_receipt_missing", f"receipt {receipt_path} is not committed at plan revision {plan_revision}"
+        )
+    observed = hashlib.sha256(receipt_bytes).hexdigest()
+    if observed != receipt_sha256:
+        raise MethodConformanceRefusal(
+            "method_receipt_digest_mismatch",
+            f"receipt {receipt_path} at {plan_revision} has sha256 {observed}, not the claimed {receipt_sha256}",
+        )
+    try:
+        receipt = json.loads(receipt_bytes)
+    except json.JSONDecodeError as exc:
+        raise MethodConformanceRefusal("method_receipt_invalid", f"receipt is not JSON: {exc}") from exc
+    if (
+        not isinstance(receipt, dict)
+        or receipt.get("schema_version") != RECEIPT_SCHEMA_VERSION
+        or receipt.get("record_type") != RECEIPT_RECORD_TYPE
+    ):
+        raise MethodConformanceRefusal("method_receipt_invalid", "not a PlanningMethodConformanceReceiptV1")
+    if receipt.get("result") != "pass":
+        raise MethodConformanceRefusal(
+            "method_receipt_not_passing",
+            f"receipt result is {receipt.get('result')!r}; only a passing receipt admits a plan-backed claim",
+        )
+    plan = receipt.get("plan") or {}
+    plan_path = _method_repo_relative(str(plan.get("plan_ref") or ""), "receipt plan_ref")
+    if plan_number is not None and _plan_number_from_path(plan_path) != plan_number:
+        raise MethodConformanceRefusal(
+            "method_receipt_plan_mismatch", f"receipt is for {plan_path}, not plan #{plan_number}"
+        )
+    plan_bytes = _method_git_show(root, plan_revision, plan_path)
+    if plan_bytes is None:
+        raise MethodConformanceRefusal("method_receipt_plan_missing", f"plan {plan_path} is absent at {plan_revision}")
+    plan_sha256 = hashlib.sha256(plan_bytes).hexdigest()
+    if plan_sha256 != plan.get("plan_sha256"):
+        raise MethodConformanceRefusal(
+            "stale_plan_revision",
+            f"plan {plan_path} changed after its receipt (now sha256 {plan_sha256}); re-run Company Planning "
+            "adoption for this revision before claiming",
+        )
+    declared = _method_front_matter(plan_bytes.decode("utf-8")).get(METHOD_FRONT_MATTER_KEY)
+    if declared != receipt_path:
+        raise MethodConformanceRefusal(
+            "method_receipt_not_declared_by_plan",
+            f"plan front matter declares {METHOD_FRONT_MATTER_KEY}={declared!r}, not {receipt_path!r}",
+        )
+    checklist = receipt.get("checklist") or {}
+    profile = receipt.get("profile") or {}
+    return MethodConformanceBindingV1(
+        mode=mode,
+        plan_path=plan_path,
+        plan_sha256=plan_sha256,
+        plan_revision=plan_revision,
+        receipt_path=receipt_path,
+        receipt_sha256=receipt_sha256,
+        receipt_id=str(receipt.get("receipt_id")),
+        route=str(receipt.get("route")),
+        profile_revision=str(profile.get("revision")),
+        checklist_definition_sha256=str(checklist.get("definition_sha256")),
+    )
+
+
 @dataclass(frozen=True)
 class CanonicalWorkUnitBinding:
     """Exact target-graph and optional external-plan authority custody."""
@@ -808,6 +1011,7 @@ class CanonicalWorkUnitBinding:
     plan_repo_root: str | None = None
     plan_revision: str | None = None
     plan_sha256: str | None = None
+    method_conformance: MethodConformanceBindingV1 | None = None
 
     def __iter__(self) -> Iterator[object]:
         """Retain the historical three-value unpacking API for local consumers."""
@@ -876,6 +1080,8 @@ class ClaimRecord:
     target_worktree_path: str | None = None
     contact_ref: str | None = None
     new_files: tuple[str, ...] = ()
+    method_receipt_ref: str | None = None
+    method_receipt_sha256: str | None = None
 
     def primary_project(self) -> str | None:
         """Return the first project for CLI compatibility surfaces."""
@@ -1270,6 +1476,22 @@ def session_root_conflicts(
     )
 
 
+def normalize_parent_scope(parent_scope: str | None, project: str | None) -> str | None:
+    """Store a parent scope as the bare scope its parent claim records.
+
+    The root-lane error prints lanes as ``<project>:<scope>`` and tells the
+    agent to start a child with ``--parent-scope``; agents then pass that
+    printed form. Every parent lookup compares against the bare ``scope``, so a
+    prefixed value never matched and the child could never be closed
+    (brent-chatgpt, 2026-10-02). Strip the claim's own project prefix.
+    """
+
+    if not parent_scope or not project:
+        return parent_scope
+    prefix = f"{project}:"
+    return parent_scope[len(prefix):] if parent_scope.startswith(prefix) else parent_scope
+
+
 def validate_session_root_for_creation(
     candidate: ClaimRecord,
     *,
@@ -1543,6 +1765,109 @@ def claim_lifecycle_issues(claim: ClaimRecord) -> list[str]:
                     issues.append("branch_merged_to_default")
 
     return issues
+
+
+def _claim_branch_unmerged_progress(claim: ClaimRecord) -> dict[str, Any] | None:
+    """Return git evidence that a claim's branch holds real unmerged commits.
+
+    Returns `None` when there is no such evidence: the claim has no
+    branch/repo_root, the repo is unreachable, the branch no longer exists,
+    the branch is identical to the default branch, or the branch is already
+    a merged ancestor of the default branch. Deliberately reuses the same
+    git primitives as `claim_lifecycle_issues` (`_resolve_default_branch`,
+    `_default_integration_ref`, `_run_git`) rather than a second git-status
+    implementation.
+    """
+    if not claim.branch or not claim.repo_root:
+        return None
+    repo_root = Path(claim.repo_root).expanduser()
+    if not repo_root.is_dir():
+        return None
+    branch_ref = f"refs/heads/{claim.branch}"
+    branch_check = _run_git(repo_root, ["show-ref", "--verify", branch_ref])
+    if branch_check.returncode != 0:
+        return None
+    default_branch = _resolve_default_branch(repo_root)
+    if not default_branch or default_branch == claim.branch:
+        return None
+    default_ref = _default_integration_ref(repo_root, default_branch)
+    branch_sha = _run_git(repo_root, ["rev-parse", branch_ref])
+    default_sha = _run_git(repo_root, ["rev-parse", default_ref])
+    if branch_sha.returncode != 0 or default_sha.returncode != 0:
+        return None
+    if branch_sha.stdout.strip() == default_sha.stdout.strip():
+        return None
+    merged_check = _run_git(repo_root, ["merge-base", "--is-ancestor", branch_ref, default_ref])
+    if merged_check.returncode == 0:
+        return None
+    ahead = _run_git(repo_root, ["rev-list", "--count", f"{default_ref}..{branch_ref}"])
+    if ahead.returncode != 0:
+        return None
+    try:
+        ahead_count = int(ahead.stdout.strip() or "0")
+    except ValueError:
+        return None
+    if ahead_count <= 0:
+        return None
+    last_commit = _run_git(repo_root, ["log", "-1", "--format=%cI", branch_ref])
+    return {
+        "branch": claim.branch,
+        "default_branch": default_branch,
+        "ahead_of_default": ahead_count,
+        "last_commit_at": last_commit.stdout.strip() if last_commit.returncode == 0 else None,
+    }
+
+
+def list_abandoned_claims(
+    project: str | None = None,
+    *,
+    claims_dir: Path | None = None,
+    min_ahead: int = 1,
+) -> list[tuple[ClaimRecord, dict[str, Any]]]:
+    """Surface EXPIRED claims whose branch still holds real unmerged commits.
+
+    `_load_claims` (used by `check_claims`, `--list`, and `--list-stale`)
+    intentionally excludes every expired claim before evaluation -- expired
+    records stay on disk as read-only audit history until an explicit
+    `--prune`/`--prune-stale` removes them. That is correct for
+    conflict-checking (an expired claim should never block a new one), but it
+    has a real blind spot: a claim that dies mid-task with substantial real,
+    never-merged commits behind it becomes permanently invisible to every
+    listing the moment it expires -- exactly the kind of abandoned-but-valuable
+    work someone should be told about, not silently forgotten (observed
+    2026-09-24: a 24-commit NYC-QC-1 QC pipeline branch sat dead for 9 days
+    with no PR and no follow-up; see project-meta issue #2155).
+
+    This walks the claims directory without the expiry filter, keeps only
+    genuinely expired claims, and checks each one's actual git state so a
+    false positive (branch already merged, deleted, or never diverged) is
+    never reported. `--prune`/`--prune-stale` should run only after this,
+    not before -- they delete the exact claim files this function reads.
+    """
+    resolved_claims_dir = claims_dir or CLAIMS_DIR
+    if not resolved_claims_dir.exists():
+        return []
+    now = datetime.now(timezone.utc)
+    abandoned: list[tuple[ClaimRecord, dict[str, Any]]] = []
+    for claim_file in sorted(resolved_claims_dir.glob("*.yaml")):
+        try:
+            data = yaml.safe_load(claim_file.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not isinstance(data, dict):
+            continue
+        expires_at = _parse_iso_datetime(data.get("expires_at"))
+        if expires_at is None or expires_at >= now:
+            continue
+        claim = normalize_claim(data, source_file=str(claim_file))
+        if claim is None:
+            continue
+        if project and project not in claim.projects:
+            continue
+        progress = _claim_branch_unmerged_progress(claim)
+        if progress is not None and progress["ahead_of_default"] >= min_ahead:
+            abandoned.append((claim, progress))
+    return abandoned
 
 
 def claim_liveness_issues(
@@ -1941,8 +2266,15 @@ def resolve_canonical_work_unit_binding(
     plan_repo_root: str | None = None,
     plan_start_point: str | None = None,
     target_repository_id: str | None = None,
+    method_receipt_ref: str | None = None,
+    method_receipt_sha256: str | None = None,
 ) -> CanonicalWorkUnitBinding:
-    """Validate an owning plan graph and its target revision independently."""
+    """Validate an owning plan graph and its target revision independently.
+
+    When the plan-authority repository requires Company Planning method
+    conformance (or the claim cites a receipt), the exact passing receipt is
+    re-resolved at the plan-authority revision before the unit is admitted.
+    """
 
     from enforced_planning.plan_validation import validate_plan_integrity_at_revision
 
@@ -2054,6 +2386,13 @@ def resolve_canonical_work_unit_binding(
             )
         approval_revisions.append(f"{approval_type}={matching[0]['approved_revision'].strip()}")
     graph_sha256 = hashlib.sha256(rendered.stdout.encode("utf-8")).hexdigest()
+    method_conformance = resolve_method_conformance_binding(
+        plan_root=authority_root,
+        plan_revision=authority_revision,
+        plan_number=plan_number,
+        receipt_ref=method_receipt_ref,
+        receipt_sha256=method_receipt_sha256,
+    )
     return CanonicalWorkUnitBinding(
         work_graph_sha256=graph_sha256,
         approval_revisions=tuple(sorted(approval_revisions)),
@@ -2061,6 +2400,7 @@ def resolve_canonical_work_unit_binding(
         plan_repo_root=str(authority_root) if cross_repository else None,
         plan_revision=authority_revision if cross_repository else None,
         plan_sha256=plan_sha256,
+        method_conformance=method_conformance,
     )
 
 
@@ -2283,9 +2623,12 @@ def classify_broad_write_paths(
             resolved.relative_to(resolved_root)
         except ValueError as exc:
             raise ValueError(f"broad path {path!r} escapes repo_root through symlink resolution") from exc
+        # A broken symlink is still an existing directory entry. It can be
+        # reserved exactly for repair after the resolved target passed the
+        # repository-containment check above.
         if not candidate.exists() and path in verified_files:
             continue
-        if not candidate.exists():
+        if not candidate.exists() and not candidate.is_symlink():
             raise ValueError(f"broad_scope_ambiguous: top-level path {path!r} does not exist")
         if candidate.is_dir():
             broad[path] = "existing_top_level_directory"
@@ -2856,7 +3199,10 @@ def normalize_claim(data: dict[str, Any], *, source_file: str | None = None) -> 
         heartbeat_at=data.get("heartbeat_at") if isinstance(data.get("heartbeat_at"), str) else None,
         status=status,
         updated_at=data.get("updated_at") if isinstance(data.get("updated_at"), str) else None,
-        parent_scope=data.get("parent_scope") if isinstance(data.get("parent_scope"), str) else None,
+        parent_scope=normalize_parent_scope(
+            data.get("parent_scope") if isinstance(data.get("parent_scope"), str) else None,
+            projects[0] if projects else None,
+        ),
         notes=data.get("notes") if isinstance(data.get("notes"), str) else None,
         plan_ref=data.get("plan_ref") if isinstance(data.get("plan_ref"), str) else None,
         source_file=source_file,
@@ -2901,6 +3247,12 @@ def normalize_claim(data: dict[str, Any], *, source_file: str | None = None) -> 
         target_worktree_path=target_worktree_path,
         contact_ref=data.get("contact_ref") if isinstance(data.get("contact_ref"), str) else None,
         new_files=tuple(_safe_string_list(data.get("new_files"))),
+        method_receipt_ref=(
+            data.get("method_receipt_ref") if isinstance(data.get("method_receipt_ref"), str) else None
+        ),
+        method_receipt_sha256=(
+            data.get("method_receipt_sha256") if isinstance(data.get("method_receipt_sha256"), str) else None
+        ),
     )
 
 
@@ -3211,6 +3563,8 @@ def build_candidate_claim(
     contact_ref: str | None = None,
     new_files: list[str] | tuple[str, ...] | None = None,
     schema_version: int | None = None,
+    method_receipt_ref: str | None = None,
+    method_receipt_sha256: str | None = None,
 ) -> ClaimRecord:
     """Build a normalized candidate claim from CLI or test inputs."""
     normalized_write_paths = [_normalize_repo_path(path) for path in (write_paths or [])]
@@ -3248,7 +3602,7 @@ def build_candidate_claim(
         heartbeat_at=heartbeat_at,
         status=status,
         updated_at=updated_at,
-        parent_scope=parent_scope,
+        parent_scope=normalize_parent_scope(parent_scope, project),
         notes=notes,
         plan_ref=plan_ref,
         source_file=None,
@@ -3285,6 +3639,8 @@ def build_candidate_claim(
         target_worktree_path=effective_target_worktree,
         contact_ref=contact_ref,
         new_files=tuple(_normalize_repo_path(path) for path in (new_files or ())),
+        method_receipt_ref=method_receipt_ref,
+        method_receipt_sha256=method_receipt_sha256,
     )
 
 
@@ -3476,8 +3832,23 @@ def create_claim(
     new_files: list[str] | None = None,
     verified_goal_default_revision: str | None = None,
     verified_maintenance_default_revision: str | None = None,
+    method_receipt_ref: str | None = None,
+    method_receipt_sha256: str | None = None,
 ) -> tuple[bool, str]:
-    """Create a new claim after checking for hard conflicts."""
+    """Create a new claim after checking for hard conflicts.
+
+    A plan-backed write claim re-resolves its Company Planning
+    method-conformance receipt (``method_receipt_ref`` plus
+    ``method_receipt_sha256``) when the plan repository requires one or the
+    claim cites one. An unplanned claim can never cite plan conformance.
+    """
+    method_receipt_cited = method_receipt_ref is not None or method_receipt_sha256 is not None
+    if method_receipt_cited and not (write_paths and requires_work_graph(plan_ref)):
+        raise MethodConformanceRefusal(
+            "method_receipt_on_unplanned_claim",
+            "only a plan-backed write claim bound to a work unit can cite a method-conformance receipt; "
+            "explicitly unplanned work keeps its separate admission rule and cannot imply plan conformance",
+        )
     if verified_goal_default_revision is not None and not is_goal_authority_ref(plan_ref):
         raise ValueError("verified goal default revision is valid only for goal-bound ownership")
     if verified_maintenance_default_revision is not None and is_goal_authority_ref(plan_ref):
@@ -3544,11 +3915,17 @@ def create_claim(
                 plan_repo_root=plan_repo_root,
                 plan_start_point=plan_start_point,
                 target_repository_id=project,
+                method_receipt_ref=method_receipt_ref,
+                method_receipt_sha256=method_receipt_sha256,
             )
         )
         work_graph_sha256 = binding.work_graph_sha256
         approval_revisions = binding.approval_revisions
         start_revision = binding.start_revision
+        method_binding = binding.method_conformance
+        if method_binding is not None:
+            method_receipt_ref = method_binding.receipt_path
+            method_receipt_sha256 = method_binding.receipt_sha256
         retained_plan_repo_root = binding.plan_repo_root
         plan_revision = binding.plan_revision
         plan_sha256 = binding.plan_sha256
@@ -3655,6 +4032,8 @@ def create_claim(
         contact_ref=contact_ref,
         new_files=new_files,
         schema_version=6,
+        method_receipt_ref=method_receipt_ref,
+        method_receipt_sha256=method_receipt_sha256,
         **_progress_event_payload(initial_progress),
     )
     validate_claim_for_creation(candidate)
@@ -3728,6 +4107,9 @@ def create_claim(
         claim_payload = candidate.to_dict()
         claim_payload.pop("source_file", None)
         claim_payload.pop("project", None)
+        for key in ("method_receipt_ref", "method_receipt_sha256"):
+            if claim_payload.get(key) is None:
+                claim_payload.pop(key, None)
         if candidate.start_revision is None:
             claim_payload.pop("start_revision", None)
         _atomic_write_claim(claim_path, claim_payload)
@@ -4334,6 +4716,32 @@ def release_claim(
     return False, f"No claim found for {agent} → {project}:{scope}"
 
 
+def release_claims_for_branch(branch: str) -> tuple[int, list[str]]:
+    """Release every live canonical claim attached to one branch.
+
+    Backs the legacy ``worktree-coordination/check_claims.py --release --id
+    BRANCH`` facade (called by ``merge_pr.py`` after a merge). A managed lane
+    whose worktree or branch still exists is refused by :func:`release_claim`
+    with a ``ValueError`` naming ``session-close``; that error propagates so the
+    caller can exit non-zero with the message instead of silently succeeding.
+    """
+
+    normalized = branch.strip()
+    if not normalized:
+        raise ValueError("branch must be non-empty")
+    released: list[str] = []
+    for claim in check_claims():
+        if claim.branch != normalized:
+            continue
+        project = claim.primary_project()
+        if not project:
+            continue
+        ok, message = release_claim(claim.agent, project, claim.scope)
+        if ok:
+            released.append(message)
+    return len(released), released
+
+
 def _archive_completed_claim_locked(
     claim_file: Path,
     *,
@@ -4874,6 +5282,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
             "covering' before assuming a claim is abandoned."
         ),
     )
+    group.add_argument(
+        "--list-abandoned",
+        action="store_true",
+        help=(
+            "Report EXPIRED claims whose branch still holds real unmerged "
+            "commits (ahead of default, not already merged), read-only. "
+            "--list-stale never sees these: expired claims are excluded from "
+            "every other listing before evaluation. Use this to find "
+            "substantive work that died mid-task with nobody following up, "
+            "before --prune/--prune-stale deletes the claim record."
+        ),
+    )
     group.add_argument("--prune", action="store_true", help="Remove expired claims")
     group.add_argument(
         "--prune-stale",
@@ -4945,6 +5365,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--plan-start-point",
         help="Full immutable plan-authority revision for a qualified external plan.",
+    )
+    parser.add_argument(
+        "--method-receipt",
+        help=(
+            "Repository-relative path of the plan's passing Company Planning method-conformance receipt "
+            "(required for plan-backed claims when meta-process.yaml sets plans.method_conformance.mode: required)."
+        ),
+    )
+    parser.add_argument(
+        "--method-receipt-sha256",
+        help="SHA-256 of the receipt file bytes, from the plan's adoption decision.",
     )
     parser.add_argument(
         "--resume",
@@ -5266,6 +5697,42 @@ def main(argv: list[str] | None = None) -> int:
             print(f"    heartbeat_at: {claim.heartbeat_at}")
         return 0
 
+    if args.list_abandoned:
+        abandoned = list_abandoned_claims(args.project)
+        if args.json:
+            print(
+                json.dumps(
+                    [
+                        {
+                            "agent": claim.agent,
+                            "project": claim.primary_project(),
+                            "scope": claim.scope,
+                            "intent": claim.intent,
+                            "repo_root": claim.repo_root,
+                            "expires_at": claim.expires_at,
+                            "next_action": claim.next_action,
+                            **progress,
+                        }
+                        for claim, progress in abandoned
+                    ],
+                    indent=2,
+                )
+            )
+            return 0
+        if not abandoned:
+            print("No expired claims with real unmerged branch progress.")
+            return 0
+        for claim, progress in abandoned:
+            print(f"  [{claim.agent}] {claim.primary_project()}:{claim.scope} — {claim.intent}")
+            print(
+                f"    branch: {progress['branch']} ({progress['ahead_of_default']} ahead of "
+                f"{progress['default_branch']}, last commit {progress['last_commit_at']})"
+            )
+            print(f"    expired: {claim.expires_at}")
+            if claim.next_action:
+                print(f"    next_action: {claim.next_action}")
+        return 0
+
     if args.progress:
         if not all(
             [
@@ -5360,6 +5827,8 @@ def main(argv: list[str] | None = None) -> int:
                 contact_ref=args.contact_ref,
                 require_native_session_binding=True,
                 require_native_session_marker=True,
+                method_receipt_ref=args.method_receipt,
+                method_receipt_sha256=args.method_receipt_sha256,
             )
         except MutationAuditError as exc:
             return _render_mutation_audit_failure(exc, as_json=args.json)
