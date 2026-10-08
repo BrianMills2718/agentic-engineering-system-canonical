@@ -1,7 +1,8 @@
 # 2026-10-07 filing-gate evidence
 
-Scripts behind the feedback collector's filing gates (AES #181, #216, #220). Each reads public
-learnings entries from project-meta by id; none contains transcript text.
+Scripts behind the feedback collector's filing gates (AES #181, #216, #220). Each reads learnings
+entries by id from project-meta (a private repository) at run time; the scripts themselves contain no
+transcript text, only entry ids and hand labels.
 
 | Script | What it measured | Result |
 | --- | --- | --- |
