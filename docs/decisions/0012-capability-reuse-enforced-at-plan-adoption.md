@@ -36,9 +36,10 @@ from its own search. Evidence that this lets work start from scratch:
 
 ## Decision
 
-1. **One catalogue.** The authoritative capability catalogue is
-   `capability_registry.yml` in agentic-capability-architecture-canonical, applied through AES
-   (Decision 0009). Each entry names a capability (the job), its implementations (off-the-shelf
+1. **One catalogue.** The authoritative capability catalogue is agentic-capability-architecture-canonical,
+   applied through AES (Decision 0009). It has two files: `reuse_candidates.yml` for capabilities
+   observed across projects and their selected off-the-shelf implementations (candidate, then
+   promoted), and `capability_registry.yml` for the packages that repository itself holds. Each entry names a capability (the job), its implementations (off-the-shelf
    engines first, per AES-CAP-002), its tool (the callable agents use), its boundary (the typed
    input and output), and its consumers. The catalogue holds pointers and evidence, never the
    product code (AES-CAP-004). The ecosystem-ops registry becomes a read-only view of it or is
@@ -56,8 +57,8 @@ from its own search. Evidence that this lets work start from scratch:
    Contracts types (AES-CONTRACT-001), including the receipt, `measured_on` and claim-scope
    contract once it moves from DIGIMON.
 
-First case: "documents to text" (MarkItDown as implementation), consumed by DIGIMON and
-crest_kg.
+First case: "documents to text" (IBM Docling as primary implementation, because it keeps page and
+position provenance per passage; MarkItDown as fallback), consumed by DIGIMON and crest_kg.
 
 ## Wrong if
 
