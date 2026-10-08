@@ -1,0 +1,601 @@
+accept c760d3e0 [Goal commit-rule-followups] [Goal commit-rule-followups] Evidence: VS-AP-COMMIT-RULE at c860a86
+         plan commit-rule-followups adopted (proposals/commit-rule-followups/commit-rule-followups.md)
+accept c860a860 [Goal commit-rule-followups] [Goal commit-rule-followups] Commit rule checks quick-plan promises and counts test setup 
+         plan commit-rule-followups adopted (proposals/commit-rule-followups/commit-rule-followups.md)
+accept 5b702e9c [Shaping commit-rule-followups] [Shaping commit-rule-followups] Plan adopted through Company Planning quick-adopt (prototy
+         drafting plan commit-rule-followups inside proposals/commit-rule-followups/
+accept 65da0a5b [Shaping aes-brownfield-docs] [Shaping aes-brownfield-docs] M3 decided: both rules (cap and wiki reachability); M4 rollo
+         drafting plan aes-brownfield-docs inside proposals/aes-brownfield-docs/
+accept f46a67d1 [Trivial] [Trivial] Learning loop evidence README: project-meta is private (#263)
+         trivial: 1 file(s), 5 line(s), no running-thing file
+accept 303c9ca8 [Unplanned] [Unplanned] Learning loop: commit the 2026-10-07 filing-gate evaluation scripts (#262)
+         emergency recorded (Emergency: line present); logged for review
+accept 253d1ba6 [Goal aes-planning] [Goal aes-planning] Evidence: VS-AP-COMMIT-RULE (plan index audit fixes)
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 40c43386 [Goal aes-planning] [Goal aes-planning] Plan index: a failed search is retried, not cached as "no plans"; one 
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 07e5a3f0 [Shaping aes-brownfield-docs] [Shaping aes-brownfield-docs] Retrofit note: correct two overstatements found by audit
+         drafting plan aes-brownfield-docs inside proposals/aes-brownfield-docs/
+accept ada8b412 [Unplanned] [Unplanned] Keep uv setup consistent across client instructions
+         emergency recorded (Emergency: line present); logged for review
+accept 2e96e32f [Shaping aes-plan-scope] [Shaping aes-plan-scope] Evidence: gates at 9c981a5 after merging main (all exit 0)
+         drafting plan aes-plan-scope inside proposals/aes-plan-scope/
+accept 1c092b6f [Shaping aes-plan-scope] [Shaping aes-plan-scope] Evidence: gates at 47d6e14 (make aes, aes-check, check all exit 0
+         drafting plan aes-plan-scope inside proposals/aes-plan-scope/
+accept 62b4f211 [Shaping aes-brownfield-docs] [Shaping aes-brownfield-docs] M1 done, M2 retrofit note: graph-retrieval in the AES layout
+         drafting plan aes-brownfield-docs inside proposals/aes-brownfield-docs/
+accept 991cf81b [Shaping aes-brownfield-docs] [Shaping aes-brownfield-docs] reach.py: classify every unreachable file; orphans exit 1
+         drafting plan aes-brownfield-docs inside proposals/aes-brownfield-docs/
+accept bcfe6adc [Unplanned] [Unplanned] Feedback collector: keep the failing step in log_learning errors; correct the 
+         emergency recorded (Emergency: line present); logged for review
+accept 47d6e148 [Shaping aes-plan-scope] [Shaping aes-plan-scope] Evidence: SC-1..SC-3 test trace and the DIGIMON PR 414 replay (re
+         drafting plan aes-plan-scope inside proposals/aes-plan-scope/
+accept 6cce3211 [Goal aes-planning] [Goal aes-planning] Evidence: VS-AP-COMMIT-RULE (Asked: line)
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept c3866f26 [Goal aes-plan-scope] [Goal aes-plan-scope] Commit rule: a plan's conflict_surfaces admit legacy edits inside th
+         plan aes-plan-scope adopted (proposals/aes-plan-scope/README.md)
+accept 0bd121e7 [Shaping aes-plan-scope] [Shaping aes-plan-scope] Plan: Company Planning plans may edit the legacy files they decla
+         drafting plan aes-plan-scope inside proposals/aes-plan-scope/
+accept b7a54252 [Goal aes-planning] [Goal aes-planning] Commit rule records an Asked: line; the misuse review weighs it (#204 
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept ebc5cf44 [Shaping aes-brownfield-docs] [Shaping aes-brownfield-docs] Add the goal block and commit reach.py; re-adopted (9 items 
+         drafting plan aes-brownfield-docs inside proposals/aes-brownfield-docs/
+accept 3c658687 [Shaping aes-brownfield-docs] [Shaping aes-brownfield-docs] Plan: bring an existing repo's docs into the AES layout (gra
+         drafting plan aes-brownfield-docs inside proposals/aes-brownfield-docs/
+refuse a6d0bb57 [Trivial] [Trivial] Tests keep the plan index out of ~/.cache; the daily report recreates a missing 
+         not trivial: touches running-thing file(s): proposals/aes-planning/rollout/daily_report.py, tests/conftest.py; plan it ([Plan #N] or [Goal <id>])
+accept da793536 [Goal aes-planning] [Goal aes-planning] Evidence: VS-AP-COMMIT-RULE (plan lookup on default branches)
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 4ee979fe [Goal aes-planning] [Goal aes-planning] Commit rule reads each repository's main for [Goal <id>], not only its
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 0d628b17 [Unplanned] [Unplanned] Feedback collector: skip reworded repeats of recently filed lessons (#220)
+         emergency recorded (Emergency: line present); logged for review
+accept ec8ddb28 [Shaping aes-adopt-existing] [Shaping aes-adopt-existing] Gate log at 1539967: make aes 0, make aes-check 0 (227 passed
+         drafting plan aes-adopt-existing inside proposals/aes-adopt-existing/
+accept df3b2cd2 [Unplanned] [Unplanned] Feedback collector: the reusable-beyond-this-task question gates filing (#216)
+         emergency recorded (Emergency: line present); logged for review
+accept 0a325b4d [Goal aes-planning] [Goal aes-planning] Evidence refreshed at 4276550: all 14 verification subjects re-recorde
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 1539967d [Goal aes-adopt-existing] [Goal aes-adopt-existing] GETTING_STARTED: existing-codebase example is a separate scenari
+         plan aes-adopt-existing adopted (proposals/aes-adopt-existing/README.md)
+accept fcdb3cd2 [Trivial] [Trivial] Markdown file cap: a 140-file exception with its reason
+         trivial: 1 file(s), 7 line(s), no running-thing file
+accept dfe8e651 [Unplanned] [Unplanned] Feedback collector: run log_learning from a refreshed project-meta copy (#212)
+         emergency recorded (Emergency: line present); logged for review
+accept ba9d786b [Goal aes-adopt-existing] [Goal aes-adopt-existing] Re-record VS-ADOPT evidence after the type fix
+         plan aes-adopt-existing adopted (proposals/aes-adopt-existing/README.md)
+refuse d46ebb97 [Trivial] [Trivial] Tests run as on a clean machine: no machine-wide Git config or hooks
+         not trivial: touches running-thing file(s): tests/conftest.py; plan it ([Plan #N] or [Goal <id>])
+accept e101ef70 [Goal aes-adopt-existing] [Goal aes-adopt-existing] adopt.py: type the baseline loader's returns (make check mypy)
+         plan aes-adopt-existing adopted (proposals/aes-adopt-existing/README.md)
+accept c5474766 [Goal trace-review] [Goal trace-review] Evidence: VS-GF-DISTRIBUTION-INSTALL at 4546d17 (guide replays end to 
+         plan trace-review adopted (proposals/trace-review/README.md)
+accept 4546d179 [Goal trace-review] [Goal trace-review] Getting started works again: the guide's proposal declares trace_revie
+         plan trace-review adopted (proposals/trace-review/README.md)
+accept 0f19ab59 [Unplanned] [Unplanned] Feedback collector: file with log_learning --auto-job (#209)
+         emergency recorded (Emergency: line present); logged for review
+accept ebbd42df [Goal aes-planning] [Goal aes-planning] The hive moved to personal-vps: remove scripts/hive (except brain_fres
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept b688735c [Goal aes-adopt-existing] [Goal aes-adopt-existing] Record VS-ADOPT evidence (SUPPORTS at 03dba8f), save the test tr
+         plan aes-adopt-existing adopted (proposals/aes-adopt-existing/README.md)
+accept 03dba8f8 [Goal aes-adopt-existing] [Goal aes-adopt-existing] aes adopt: legacy baseline for existing repositories; unplanned 
+         plan aes-adopt-existing adopted (proposals/aes-adopt-existing/README.md)
+accept a4ca849e [Shaping hypergraph-views] [Shaping hypergraph-views] Plan moved to representation-router (its owning repository)
+         drafting plan hypergraph-views inside proposals/hypergraph-views/
+accept 05b7a05b [Goal aes-adopt-existing] [Goal aes-adopt-existing] Accept PLAN-AES-ADOPT-EXISTING: plan aes adopt, its module, test
+         plan aes-adopt-existing adopted (proposals/aes-adopt-existing/README.md)
+accept 1e64ec06 [Shaping aes-adopt-existing] [Shaping aes-adopt-existing] Plan: adopt existing repositories with a legacy baseline (iss
+         drafting plan aes-adopt-existing inside proposals/aes-adopt-existing/
+refuse 73bc6619 [Goal hypergraph-views] [Goal hypergraph-views] Save H1, H2 and H4 run evidence and a progress index under the pla
+         no plan hypergraph-views found under /home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-runtime-evidence
+accept c6aa7b92 [Goal aes-planning] [Goal aes-planning] Misuse review: match squash-merged subjects; a new flag updates the op
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 388340f8 [Goal aes-planning] [Goal aes-planning] Nightly light-model review of accepted [Unplanned]/[Trivial] commits; 
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept f0f24a06 [Goal aes-planning] [Goal aes-planning] Evidence: VS-AP-COMMIT-RULE at 68450fe (workspace plan lookup)
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 68450fe8 [Goal aes-planning] [Goal aes-planning] Commit rule finds a [Goal <id>] plan in any repository under the works
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept c7721bfb [Unplanned] [Unplanned] Feedback collector: file only closeout Learnings lines, once each (#181)
+         emergency recorded (Emergency: line present); logged for review
+accept fcc170ed [Shaping hypergraph-views] [Shaping hypergraph-views] Plan adopted through Company Planning's gate (coordinated, 13 o
+         drafting plan hypergraph-views inside proposals/hypergraph-views/
+accept 8820819c [Shaping hypergraph-views] [Shaping hypergraph-views] Plan: draw n-ary facts whole (shared viewer hubs, router entrie
+         drafting plan hypergraph-views inside proposals/hypergraph-views/
+accept c0657330 [Goal aes-planning] [Goal aes-planning] Daily report keeps the hook runtime at AES main; ROLLOUT records stage
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 2cc5efb3 [Goal aes-planning] [Goal aes-planning] Evidence: VS-AP-COMMIT-RULE (staged enforcement)
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept bbde5185 [Goal aes-planning] [Goal aes-planning] Staged enforcement: [Auto] tag for scheduled jobs; plan_adoption can s
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 862aeb64 [Goal trace-review] [Goal trace-review] Evidence: VS-TRACE-REVIEW SUPPORTS at 7a637486
+         plan trace-review adopted (proposals/trace-review/README.md)
+accept 7a637486 [Goal trace-review] [Goal trace-review] Plans require trace reviews
+         plan trace-review adopted (proposals/trace-review/README.md)
+accept 5ca823d4 [Goal trace-review] [Goal trace-review] Accept PLAN-AES-TRACE-REVIEW: target gains TR-REQ-001, SC-TR-001 and t
+         plan trace-review adopted (proposals/trace-review/README.md)
+accept 9b990beb [Shaping trace-review] [Shaping trace-review] Plan: AES plans require trace reviews (adopted by Company Planning,
+         drafting plan trace-review inside proposals/trace-review/
+refuse f9a58189 [Goal hive-hardening] [Goal hive-hardening] U4 prep: inventory collector and draft running declarations (21 decl
+         no plan hive-hardening found under /home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-runtime-evidence
+refuse 24a40a12 [Goal hive-hardening] [Goal hive-hardening] Must-never rules N1-N4 judged from what ran (U7), shown in the daily
+         no plan hive-hardening found under /home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-runtime-evidence
+refuse fe3be82f [Goal hive-hardening] [Goal hive-hardening] U1 and U2 evidence; unit status outside the plan bytes
+         no plan hive-hardening found under /home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-runtime-evidence
+accept d1647a65 [Trivial] [Trivial] Project brain: commit rule installed in 189 of 190 repositories, daily timer
+         trivial: 1 file(s), 5 line(s), no running-thing file
+accept ec0ecb83 [Goal aes-planning] [Goal aes-planning] Hooks and check find aes in ~/.local/bin when PATH lacks it
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 0ff61e20 [Goal aes-planning] [Goal aes-planning] Daily coverage check and observe-log report for the commit rule
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept c2d2437e [Goal aes-planning] [Goal aes-planning] Installer: linked worktrees share one wrapper folder (their config is 
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 6d3352f9 [Goal aes-planning] [Goal aes-planning] Installer: leave AES projects to their own hooks; handle absolute hook
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept b9190956 [Goal aes-planning] [Goal aes-planning] Evidence: VS-AP-COMMIT-RULE at 5978e55
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 5978e55e [Goal aes-planning] [Goal aes-planning] Commit rule reaches every repository: machine-wide mode, installer, re
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept d0439e0d [Trivial] [Trivial] Project brain: AES planning is live in observe mode
+         trivial: 1 file(s), 15 line(s), no running-thing file
+refuse 1688eca9 [Goal hive-hardening] [Goal hive-hardening] Adopted through Company Planning's gate (route coordinated, 12 evide
+         no plan hive-hardening found under /home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-runtime-evidence
+accept b1611abc [Shaping hive-hardening] [Shaping hive-hardening] Author check stays log-only until the authentic-run condition hol
+         drafting plan hive-hardening inside proposals/hive-hardening/
+accept e36d3063 [Shaping hive-hardening] [Shaping hive-hardening] Uncertainties say why each matters and that the list is complete;
+         drafting plan hive-hardening inside proposals/hive-hardening/
+refuse 4234dd82 [none] Feedback collector: log-only until a spot check passes (#159)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+accept 994aea6a [Shaping hive-hardening] [Shaping hive-hardening] Heartbeat disposition (no new pinger; Brian 2026-09-14) and the p
+         drafting plan hive-hardening inside proposals/hive-hardening/
+accept 49817b3d [Shaping hive-hardening] [Shaping hive-hardening] Fixes from the gate's first refusal: model calls, dispositions, d
+         drafting plan hive-hardening inside proposals/hive-hardening/
+accept 78ed8dfc [Shaping hive-hardening] [Shaping hive-hardening] Plan in gate form: actor and example, authority, prior art, coord
+         drafting plan hive-hardening inside proposals/hive-hardening/
+refuse c3eb8ea0 [Unplanned] [Unplanned] Feedback collector: defer filing while the register is lane-locked; retry back
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line; this change touches running-thing file(s) scripts/learning_loop/collect_feedback.py and needs a plan ([Plan #N] or [Goal <id>])
+accept cc074f48 [Goal aes-planning] [Goal aes-planning] Evidence at 72925dc: tests re-recorded; live run by script
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 72925dc1 [Goal aes-planning] [Goal aes-planning] Receipt lookup matches Company Planning's decision naming for x.receip
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+refuse aa6631d1 [none] Feedback collector: parallel extraction, 'direction' kind, file-pending mode, quote-first 
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+accept 0eff0528 [Goal aes-planning] [Goal aes-planning] Re-adopted after the goal block; goal file now written by the gate (P2
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 49dd7c2d [Shaping aes-planning] [Shaping aes-planning] Plan front matter: goal block for the gate to write the /goal text 
+         drafting plan aes-planning inside proposals/aes-planning/
+accept 277e9fb3 [Goal aes-planning] [Goal aes-planning] Commit the 8ace3cd live-run transcript the runtime observation cites
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+refuse fb683124 [none] Learning loop: nightly feedback collector (transcripts -> daily feedback log -> learnings 
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+accept 2cc50b50 [Goal aes-planning] [Goal aes-planning] Evidence at 8ace3cd: commit rule and plan receipt tests; live run by s
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 8ace3cd8 [Goal aes-planning] [Goal aes-planning] P3 live validate transcript; P4 live run as a script
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept beedf302 [Goal aes-planning] [Goal aes-planning] P3: plan validate/accept require a fresh adoption receipt; on in AES c
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 2aa916e3 [Goal aes-planning] [Goal aes-planning] Accept PLAN-AES-ACCEPT-RECEIPT (P3) into the target
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 4f5dd9ec [Goal aes-planning] [Goal aes-planning] P3 proposal: accept requires the adoption receipt (validate clean)
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 04ed146e [Trivial] [Trivial] Mark the 08f5343 commit-rule observations superseded by the b023fb0 ones
+         trivial: 2 file(s), 2 line(s), no running-thing file
+accept 05173df4 [Goal aes-planning] [Goal aes-planning] P4 evidence at b023fb0: tests re-recorded; live run with no override
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept b023fb02 [Goal aes-planning] [Goal aes-planning] P4: in AES itself, hooks run the working copy's own code
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 92b623a4 [Goal aes-planning] [Goal aes-planning] P4: commit-msg hook and observe-mode rule config in AES canonical
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 249d011f [Goal aes-planning] [Goal aes-planning] P4 evidence: test observation and the AES canonical runtime run (three
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 08f53436 [Goal aes-planning] [Goal aes-planning] P4: an older AES without the rule warns and lets the commit through
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 182c0bd0 [Goal aes-planning] [Goal aes-planning] P4 tests: use the test interpreter; scope greenfield pins to SC-GF-*; 
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 137f4758 [Goal aes-planning] [Goal aes-planning] P4: aes commit check/replay and the commit-msg hook (observe by defaul
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept a3e62885 [Goal aes-planning] [Goal aes-planning] Accept PLAN-AES-COMMIT-RULE (P4) into the target
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+accept 10314ddb [Goal aes-planning] [Goal aes-planning] P4 proposal: commit rule (aes plan validate clean)
+         plan aes-planning adopted (proposals/aes-planning/README.md)
+refuse 097937b4 [Unplanned] [Unplanned] AES planning: adopted receipt, goal document (validated), review page
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse d7a4d5a5 [Unplanned] [Unplanned] AES planning plan: fixes from the adoption gate's second refusal
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 6c363929 [Unplanned] [Unplanned] AES planning plan: fixes from the adoption gate's first refusal
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse ba40680a [Unplanned] [Unplanned] AES planning plan: coordination section; shaping-commit uncertainty
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 7155adfd [Unplanned] [Unplanned] Shaping: AES planning plan (adoption required, unplanned locked down, /goal fr
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 2061f9c7 [none] Hive hardening U1: "What goes to Brian" (needs-reply, review, fyi) applied to the three ag
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 71a3c3d6 [none] Hive hardening: one rule for what goes to Brian (needs-reply vs fyi)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3a8a3f7d [none] Hive hardening plan: "every running thing is a file in git" (U3), drift check (U4), U8 dec
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1f1f9e67 [none] Hive hardening plan: declaration stays the authority; the scan proves it complete
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 9c323b2c [none] Hive hardening plan: territory found not declared, one trace per run, rules checked agains
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 2542b1da [none] Shaping: hive hardening plan (why AES did not catch the 10-06 failures) with review page
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 51d1c855 [none] Hive checks: survive damaged log lines; a crash fails the unit; Safety Net hook counts
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1bb61d2c [none] Record novelty search-pressure policy in project brain
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 0e391931 [none] Add novelty-falsification planning check
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 080178ed [none] Treat apparent novelty as sourcing search debt
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 848a1d57 [none] Add ecosystem terms list: first 14 entries (10 terms, 4 utility primitives) (#149)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ed79487a [none] Tests: copy fixtures with copyfile so a read-only checkout does not fail them
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 4db013d6 [none] Roadmap: old hand-built dashboard retired; hive.brianmills.dev redirects to the status pag
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse f86a0cbb [none] hive-brain plan: Brian's views are now the Paperclip board and the Glance status page
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse b0625127 [none] Hive dashboard writes status-full.json for the Glance page
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse afc32e2f [none] hive-controls: run from its own refreshed clone of main, not the shared checkout; units no
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 516533ae [none] Hive dashboard: agents and projects open their Paperclip pages; laptop gets a side menu, n
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 15fb43ed [none] hive-brain plan: condition 3 done (K1 blocked real work, wrong block filed as #137); dashb
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3663d207 [none] Hive dashboard: boxes open their subject, everything explains itself, laptop layout, self-
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 59c1ee17 [none] hive-brain plan: record jobs 6 and 7 and the usage-limit stall
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 98a042d6 [none] Record clean-user run 4 of the uv page, superseding the three venv-era runs
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d89fe2e3 [none] GETTING_STARTED/clean-install test: install with uv, not python3 -m venv plus pip
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 8b09285e [none] README/brain: record the uv measurement and the one test that still needs ensurepip
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 00fbb82e [none] README: install with uv instead of python3 -m venv plus pip
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse bed2b33c [none] Hive v1: Coordinator idle heartbeat now 2 h (C-ROUTE lane, AES #131) noted
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 313bbce1 [none] Hive settings: Coordinator heartbeat every 2 hours instead of 30 minutes
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse e0828ea1 [none] Hive v1: limit-failure watch item; day's readout recorded
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5ca5ec16 [none] Hive v1 docs: AES merge hook change (PR #126) and friction #124 recorded
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+accept a9faf8bd [git] Merge hook: allow gh pr merge --merge; refuse squash and rebase (hive brain v1)
+         git's own merge/fixup/squash message
+refuse a2c23f91 [none] Hive v1: condition 5 evidence (third cold pick-up test, gaps fixed)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d8f8e544 [none] Hive v1 docs cleanup: roadmap is current state, chronicle moved to PROGRESS_LOG.md
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 0f3619a2 [none] Hive v1: PR #118 merged under the narrowed rule; BRI-31/32 closed
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 0072c503 [none] Hive v1: merge rule narrowed by Brian 2026-10-04 (no merge approval unless a surface is ou
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5c8db806 [none] Visuals feedback log: Brian's 2026-10-04 critiques (diagram must beat a list; port graphs,
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 2d64681d [none] hooks: keep the installing machine's path out of the tracked pre-commit hook
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse fa8d1415 [none] Hive v1: docs-follow-up clause; PR #116 merged under the 05:04 approval
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d3c4d3ea [none] docs: the make gates are green now — say so instead of the pre-#112 state
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ce9032d0 [none] Hive v1: post-merge clean-clone check of main recorded (make check exit 0)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse c00b3e22 [none] Hive dashboard v3: pictures first (path, 24 h timeline, health tiles, clean-week strip)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d8c08212 [none] Hive v1: pilot 5 merged on Brian's yes (PRs #110, #112); five jobs merged
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse b924385d [none] Hive v1: pilot 5 built and verified from a clean clone; AES merge gate finding
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 464ca05d [none] src: clear the 16 mypy errors with annotation-only changes (BRI-29 candidate)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse e11c417d [none] make: run pytest/mypy through the venv; declare them as a [dev] extra
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5252ea00 [none] Hive v1: weekly plan refreshed (Priority 7); Coordinator told
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse c60dd778 [none] Hive dashboard: a 'Message your agents' box on Live and Decisions
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 906a512a [none] Hive v1: dashboard hosted at hive.brianmills.dev (deployed under Brian's yes)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 283a2926 [none] Hive v1: Telegram relay live (both legs shown); controls.py checks its heartbeat
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse c08962d7 [none] Hive dashboard: hosted VPS mode, one-tap answers, data age on every source
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse f88d9f6a [none] Hive v1: conditions.json condition 1 done, condition 2 evidence (standard JSON formatting)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 61dada0f [none] Hive v1: condition 1 met (three pilots merged); capability rows updated; BRI-25 answered
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse b03c39ed [none] Hive v1: hosting yes; real-time channel to Brian via his Telegram thread
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ef952d49 [none] Hive v1: pilot 3 in progress (BRI-24); lane split; cost per task
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse c2ffbada [none] Hive v1 readout: cost and throughput per pilot task
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3de01744 [none] Hive v1 roadmap: fixes from the second cold pick-up test
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3e1ce1ae [none] Hive v1 dashboard: Jev report decision answered; hosting decision pending
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ec2e34bb [none] Hive v1: pilot task 2 of 3 done (personal-wiki PR #13)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 9a8eebfc [none] Hive v1: model routing is capability 11; per-agent models set and checked
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse a590b83f [none] Hive v1: Brian's merge rule (ask only for public-facing or irreversible)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 8a80c30b [none] Hive v1 dashboard v2: five screens, each question in its own form
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 7c61f8c9 [none] Hive v1: pilot 2 prepared (personal-wiki brain, 6-hour pilot floor)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse c3a127c7 [none] Hive v1: Brian's dashboard page, built from live data
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse eb0cfd10 [none] Hive v1: pilot task 1 of 3 done (AES PR #88)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 6246f3fd [none] README: use .venv/bin/aes, which works without activating the venv
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d33dc467 [none] Hive v1: cybernetic_influence_v3 has a project brain
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 7aea254c [none] README: state the install prerequisite for aes status / make aes
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse fd09b97e [none] Hive v1 C-GOV: settings file with a live check, part of the silence check
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 8614ab85 [none] Hive v1: rule K1 accepted by Brian and enforced
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d89b4693 [none] Hive v1: agents run again; pilot started; daily recorded silence check
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse de9973e3 [none] Hive v1 roadmap: guard mode not safe yet (8 of 9 Jev denies were wrong)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse c9e5002b [none] Hive v1 roadmap: fixes from a cold pick-up test; board.sh; Brian's action on the board
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 36cd4194 [none] Hive v1: theory-forge has a project brain
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 22f7b8d2 [none] Hive v1 C-EVAL: weekly readout from the system's own logs
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse a89a74d6 [none] Hive v1: controls.py silence check; Codex Jev hook confirmed; restore check recorded
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 95df94a7 [none] brain_fresh: name the repo when called with a relative path
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 0c09bc19 [none] Hive v1 M4: first project brain (AES) and a stale-brain check
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse df90225b [none] Learning loop slice 2: label new kind:* issues with Jev and post the run summary
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse a90e4ee5 [none] Hive v1: decisions.py shows agents not working; roadmap records the Paperclip login outage
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1c231555 [Unplanned] [Unplanned] Sync doc-coupling checker (default .doc-coupling-acks) (#69)
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+accept d631b648 [Trivial] [Trivial] Exclude build artifacts
+         trivial: 1 file(s), 1 line(s), no running-thing file
+refuse 507d3ca8 [none] Hive brain v1: living plan and the decisions relay command
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1c22b444 [none] Learning loop: Jev question set v2 (TypeSafe choice guidance), multi-label, relabelled arc
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 5a0a396b [none] Learning loop: keep the Jev question-design test data (issue #64)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse f6f6f93e [none] Learning loop slice 1: taxonomy copy, Jev labeller, labelled legacy archive
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3de2826b [none] Propose the AES learning loop design (lessons to enforced, observed rules)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1ddaed61 [none] Harvest: record the hermes-agent large-file Codex delivery check
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 1ffb992b [none] Research: idea harvest from Brian's earlier agent-engineering systems
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 0d513904 [Unplanned] [Unplanned] Normalize governed roots when .aes/project.yaml is loaded (#59)
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse c2b52d2c [none] Delivery constraint: human_review names a person only for judgements that are genuinely th
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse be9827f8 [none] Decision 0011 status: tally corrected to 1 catch after the staled-evidence catch
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 40c96bda [none] Decision 0011 status: whygame5 runner and first live finding done; tally 0 catches; rollou
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse fbd6740e [none] Delivery constraint: a surface a person judges is chosen through Representation Router (Br
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 0b3210c4 [none] Decision 0011: point the value measure at whygame5 docs/aes-value-tally.md
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse f3fc397b [none] Decision 0011: this repository is the AES; archive Inside-Success/agentic-engineering-syst
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 71285c89 [none] Decision 0010 and roadmap: SC-GF-001 closed by clean-user run 3; 9 of 9
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3c614237 [none] Clean-user run 3 at 3dd2b9a: SC-GF-001 supported on the accepted code
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 3dd2b9a7 [none] Record evidence at 62fe041 (phase 7b); fill Decision 0010 and 24 section 21 status
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 62fe041b [none] Decision 0010: AES v0.2 greenfield MVP accepted as realized; route to v0.2
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ac60d1c0 [none] Amend the accepted v0.2 documents to match .aes/target.yaml and the code
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse ef6fc254 [none] Copy the ten realized v0.2 candidates to docs/architecture/greenfield-v0.2/
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 26f84286 [none] Report unreachable accepted plans; plan accept warns off the default branch
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 71643089 [none] Phase 7a evidence at 449cd54; 24 section 20 and roadmap table
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 449cd54b [none] Record OBS-AES-WG5-LIFECYCLE-38df3e5: whygame5 lifecycle SUPPORTS ER-SC-GF-009-01
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d23af3d3 [none] Tests follow the v0.1 disposition
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse f6ed9737 [none] aes plan accept PLAN-AES-ARCHIVE-V01-PLACEHOLDERS: v0.1 dispositioned
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 4b011a28 [none] Archive the eight empty v0.1 component placeholders with history
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 637e8394 [none] Record OBS-AES-CONTEXT-AB-RETAINED-377e9707: ER-SC-GF-005-02 as re-scoped
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 377e9707 [none] File 12: ER-SC-GF-005-02 carries the re-scoped requirement
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d3090eef [none] aes plan accept PLAN-AES-RESCOPE-CONTEXT-AB: re-scope ER-SC-GF-005-02
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 6adb72e3 [none] aes init: next-step hint routes through planning
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 0a901687 [none] aes plan: remove entries through a proposal
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 279af731 [none] Clean-user run 2 at 2d3486b recorded; supersedes the 0503735 record
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 7b065602 [none] §19: the squashed branches still exist on GitHub; say so precisely
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse f6ee4d1e [none] evidence: re-anchor AES's own test evidence at c5ea63d; supersede the 22 unreachable recor
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse c5ea63d0 [none] evidence: commits not reachable from HEAD are UNREACHABLE; superseded_by; branch-recording
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse cb00e130 [none] reconcile: external boundary is a route; context A/B rerun recorded (#53)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 2509ea44 [none] v0.2 phase 6b: AES governs itself (#52)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 4c98c849 [none] Roadmap: SC-GF-001 standing and the keep-private decision (#51)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 0d5e41ae [none] v0.2 phase 6a: entry-level target deps, negative controls, running-code producer, routed-E
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 4979c9df [none] v0.2 phase 5: plan prepare, validate, accept (#49)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 68a71fe2 [none] v0.2 phase 4: reconcile current state and gaps; aes status (#48)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 52567f95 [none] v0.2 phase 3: characterize, symbol drift, dependency discovery (#47)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 74388a5b [none] Retain clean-user getting-started run at 0503735; say how to find the pin (#46)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 0503735f [none] v0.2 phase 2: aes init, project discovery, getting-started (#45)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 2d4db5c6 [none] v0.2 phase 1: git-derived version and aes hooks install (#44)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse 86ffecad [none] v0.2: roadmap from realized units to MVP acceptance (#43)
+         no tag: start the first line with [Plan #N], [Goal <id>], [Trivial], [Unplanned], [Auto] or [Shaping <id>]
+refuse d5efbb82 [Unplanned] [Unplanned] Fix aes evidence record: --command clobbered the subcommand dest
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse e92184f1 [Unplanned] [Unplanned] v0.2: aes evidence record runs a verification subject and writes its observati
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse e70284db [Unplanned] [Unplanned] v0.2: aes evidence status (RU-AES-EVIDENCE), frozen consumer fixture
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse fbabf739 [Unplanned] [Unplanned] v0.2 section 8: record how whygame5 enforces the gate
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse f9c78b49 [Unplanned] [Unplanned] v0.2: aes topology check (RU-AES-TOPOLOGY) with real-history replay
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 59c0a33d [Unplanned] [Unplanned] Probe 0 review page: linked derivation graph instead of tables
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse d08c5d2b [Unplanned] [Unplanned] v0.2: human review surface as open question 22 and aes review candidate
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 16d63327 [Unplanned] [Unplanned] Probe 0: temporary review projection renderer
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 5f84104b [Unplanned] [Unplanned] Probe 0 result: context A/B not distinguishable at consumer size
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 0e31d973 [Unplanned] [Unplanned] Probe 0: strict target loader and context compiler
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse df253a0a [Unplanned] [Unplanned] Name whygame5 as the first authentic v0.2 consumer
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse fdac282e [Unplanned] [Unplanned] Record independent v0.2 review verdict and pre-probe decisions
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 81a5a0a7 [Unplanned] [Unplanned] Refresh v0.2 review manifest after second sweep
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse d70802dc [Unplanned] [Unplanned] Refresh v0.2 fresh-review topology and transition snapshot
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse f822d0d9 [Unplanned] [Unplanned] Clarify clean-core versus transition dependency question
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 1883651d [Unplanned] [Unplanned] Make v0.1 coexistence dependency explicit in v0.2 provider review
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 4a8aef5f [Unplanned] [Unplanned] Align realization topology with v0.2 semantic contract
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 14029b08 [Unplanned] [Unplanned] Align v0.2 semantic kernel with provider and documentation topology
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 724639c1 [Unplanned] [Unplanned] Correct v0.2 topology, distribution, verification and cutover semantics
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 0a05ed93 [Unplanned] [Unplanned] Refresh final v0.2 review integrity snapshot
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 4f5fa336 [Unplanned] [Unplanned] Refresh final v0.2 review integrity snapshot
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 210f897f [Unplanned] [Unplanned] Reduce v0.2 review queue to unresolved decisions
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 6148a718 [Unplanned] [Unplanned] Add v0.2 review artifact manifest
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 5beabb5f [Unplanned] [Unplanned] Add fresh v0.2 architecture review entrypoint
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 3961113a [Unplanned] [Unplanned] Label supporting v0.2 review material
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 7c83991c [Unplanned] [Unplanned] Label supporting v0.2 review material
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse fac171d5 [Unplanned] [Unplanned] Label supporting v0.2 review material
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse e20dbbc9 [Unplanned] [Unplanned] Label supporting v0.2 review material
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse ecbcb57a [Unplanned] [Unplanned] Label supporting v0.2 review material
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 7e338c4b [Unplanned] [Unplanned] Label supporting v0.2 review material
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 89878212 [Unplanned] [Unplanned] Label supporting v0.2 review material
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse cfe25a05 [Unplanned] [Unplanned] Label supporting v0.2 review material
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 2faab21c [Unplanned] [Unplanned] Label supporting v0.2 review material
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 330d3445 [Unplanned] [Unplanned] Reconcile provider blockers with portable MVP boundaries
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 776557ad [Unplanned] [Unplanned] Make v0.2 proposal entrypoint review-oriented
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 8164a44e [Unplanned] [Unplanned] Extend v0.2 navigation through product surface
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse d6b4e633 [Unplanned] [Unplanned] Reconcile v0.2 questions after portable provider design
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse f067354e [Unplanned] [Unplanned] Define colleague-facing v0.2 Greenfield CLI lifecycle
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 526aa289 [Unplanned] [Unplanned] Resolve portable planning and context provider boundaries
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse eec7b57d [Unplanned] [Unplanned] Make v0.2 candidate provider bindings and rejections explicit
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse fa335ab7 [Unplanned] [Unplanned] Derive candidate v0.2 implementation and verification topology
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 84da1630 [Unplanned] [Unplanned] Evaluate minimal generic dependencies for v0.2
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse a16c1095 [Unplanned] [Unplanned] Evaluate v0.2 Greenfield providers from capability requirements
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse ecac6ed0 [Unplanned] [Unplanned] Evaluate public/native providers for v0.2 Greenfield MVP
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 5931b6c1 [Unplanned] [Unplanned] Evaluate prior internal systems against v0.2 capabilities
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 6dac3ba5 [Unplanned] [Unplanned] Complete v0.2 proposal navigation through provider gate
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 6bae7bcd [Unplanned] [Unplanned] Define v0.2 provider evaluation gate
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 32784c90 [Unplanned] [Unplanned] Define v0.2 Greenfield candidate record shapes
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 08fb6033 [Unplanned] [Unplanned] Define clean-sheet AES v0.2 planning contract
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 49d53b78 [Unplanned] [Unplanned] Consolidate v0.2 proposal navigation
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 0a65ed32 [Unplanned] [Unplanned] Define v0.2 Greenfield initialization contract
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse e5cf1125 [Unplanned] [Unplanned] Propose v0.2 Greenfield structured materialization
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse cf853055 [Unplanned] [Unplanned] Rebase v0.2 open questions after semantic review
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 8798cc51 [Unplanned] [Unplanned] Correct Greenfield semantic-instance stage
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 82e6cc16 [Unplanned] [Unplanned] Model Greenfield MVP in the v0.2 semantic kernel
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 37cb507c [Unplanned] [Unplanned] Reflect target-analysis split in v0.2 lifecycle
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 6c512adb [Unplanned] [Unplanned] Separate failure-mode analysis from accepted target
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 1911abfd [Unplanned] [Unplanned] Separate v0.2 target from accepted engineering analysis
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 08b5f74a [Unplanned] [Unplanned] Define authentic Greenfield MVP validation profile
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 1ac0a32c [Unplanned] [Unplanned] Add initialization and generation-rule semantics
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 32b10651 [Unplanned] [Unplanned] Add v0.2 repository topology review pass 3
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse e10f58a3 [Unplanned] [Unplanned] Refine v0.2 semantic reference and provider model
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 44ad3942 [Unplanned] [Unplanned] Add v0.2 semantic reference review pass 2
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 32368dbe [Unplanned] [Unplanned] Align v0.2 overview with semantic review
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse f5618eba [Unplanned] [Unplanned] Make Greenfield MVP proof genuinely greenfield
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 2ee30a80 [Unplanned] [Unplanned] Remove mechanism assumptions from v0.2 thesis
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 33739451 [Unplanned] [Unplanned] Correct observation versus unobserved semantics
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse e4d20edd [Unplanned] [Unplanned] Separate criterion proof requirements from verification planning
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse c114635c [Unplanned] [Unplanned] Correct v0.2 greenfield lifecycle semantics
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+refuse 88713585 [Unplanned] [Unplanned] Refine v0.2 semantic model after clean-sheet review
+         [Unplanned] is for emergencies: add an 'Emergency: <reason>' line
+replay: commits=300, accept=91, refuse=209, tag:Goal=58, tag:Shaping=23, tag:Trivial=8, tag:Unplanned=86, tag:none=124, tag:git=1

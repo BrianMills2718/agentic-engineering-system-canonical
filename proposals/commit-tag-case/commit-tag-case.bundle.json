@@ -1,19 +1,19 @@
 {
   "schema_version": "checklist-evidence-bundle.v1",
   "record_type": "checklist_evidence_bundle",
-  "bundle_id": "BUNDLE-PLAN",
+  "bundle_id": "BUNDLE-commit-tag-case",
   "coverage": "complete",
   "definition": {
     "schema_version": "checklist-definition.v1",
     "record_type": "checklist_definition",
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:8aa570132adc5f2646b4189cafe5bb09f8a48d4645fb8450e7c0b42f78de0a9f",
-    "title": "bounded-design method conformance for PLAN",
+    "revision": "sha256:bcc6ee5668fd4d003d6ea57899cbaab06e590ea966875a545eff1a4d9afa9cea",
+    "title": "bounded-design method conformance for commit-tag-case",
     "purpose": "Route-bound evidence that the selected Company Planning method was applied before adoption.",
     "subject_ref": {
       "kind": "planning_review",
-      "id": "PLAN",
-      "revision": "sha256:edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5"
+      "id": "commit-tag-case",
+      "revision": "sha256:35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265"
     },
     "items": [
       {
@@ -48,7 +48,7 @@
         "source_ref": {
           "repository": "BrianMills2718/company-planning",
           "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
-          "revision": "288337d670d928c2604e32c2e073a866c0a897b4",
+          "revision": "71d5edd684d19a1bb1760b8f1223e9e8eebf5df1",
           "pointer": "#choose-the-route-before-adding-structure"
         }
       },
@@ -66,7 +66,25 @@
         "source_ref": {
           "repository": "BrianMills2718/company-planning",
           "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
-          "revision": "288337d670d928c2604e32c2e073a866c0a897b4",
+          "revision": "71d5edd684d19a1bb1760b8f1223e9e8eebf5df1",
+          "pointer": "#4-derive-the-design"
+        }
+      },
+      {
+        "item_id": "CORE-TRACE-REVIEW",
+        "statement": "Every success or acceptance criterion in the plan is judged from the full trace of a run, not only its final outcome: it names the run whose full trace is examined (for example the session, its tool and LLM calls, commits, check output, or messages), where that trace lives, and what must be seen in that trace beyond the final outcome. A criterion that names only an outcome, such as tests passing, a PR merged, a test fixture reproducing the journey, or a status reading succeeded, fails this item. A criterion for which no run exists, such as a pure document edit, passes only when the plan states that exemption and its reason explicitly.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
+          "revision": "71d5edd684d19a1bb1760b8f1223e9e8eebf5df1",
           "pointer": "#4-derive-the-design"
         }
       },
@@ -144,8 +162,8 @@
         }
       },
       {
-        "item_id": "OV-PRIOR-ART-DISPOSITION",
-        "statement": "Existing ownership, internal lineage, and relevant external prior art were searched, and each candidate found is dispositioned as reuse, extend, compose, supersede, or bounded exception.",
+        "item_id": "OV-PROTO-VERTICAL-RESET",
+        "statement": "The plan names the minimal vertical result, the reset boundary, and the non-goals, without adding coordinated-work ceremony.",
         "effect": "blocking",
         "applicability": {
           "mode": "required",
@@ -157,26 +175,8 @@
         "source_ref": {
           "repository": "BrianMills2718/company-planning",
           "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
-          "revision": "288337d670d928c2604e32c2e073a866c0a897b4",
-          "pointer": "#3-establish-current-truth"
-        }
-      },
-      {
-        "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
-        "statement": "The plan names one concrete structural check or consumer-path observation that would detect a silent parallel implementation of the same concern.",
-        "effect": "advisory",
-        "applicability": {
-          "mode": "required",
-          "condition": null
-        },
-        "evidence_required": [
-          "plan_section"
-        ],
-        "source_ref": {
-          "repository": "BrianMills2718/company-planning",
-          "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
-          "revision": "288337d670d928c2604e32c2e073a866c0a897b4",
-          "pointer": "#3-establish-current-truth"
+          "revision": "71d5edd684d19a1bb1760b8f1223e9e8eebf5df1",
+          "pointer": "#4-derive-the-design"
         }
       }
     ]
@@ -187,8 +187,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ACTOR-RESULT-EXAMPLE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:8aa570132adc5f2646b4189cafe5bb09f8a48d4645fb8450e7c0b42f78de0a9f",
-      "definition_sha256": "2ed29ce41ffba4d82c5fb60b23c3cd31771f1e1213b068df88f3ab7abf23c928",
+      "checklist_revision": "sha256:bcc6ee5668fd4d003d6ea57899cbaab06e590ea966875a545eff1a4d9afa9cea",
+      "definition_sha256": "a99b5217ab62de20ef33aaaaa3fffd701c981b81334773544cee51a34dd870ed",
       "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
       "evidence_types": [
         "plan_section"
@@ -199,11 +199,11 @@
         "evidence_id": "EVIDENCE-CORE-ACTOR-RESULT-EXAMPLE",
         "criterion_id": "CORE-ACTOR-RESULT-EXAMPLE",
         "status": "pass",
-        "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#outcome-and-boundaries",
-        "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T04:12:13Z",
-        "producer": "claude-code",
-        "source_revision": "sha256:edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5",
+        "evidence_ref": "proposals/commit-tag-case/commit-tag-case.md#actor-and-result",
+        "scope": "plan:proposals/commit-tag-case/commit-tag-case.md",
+        "observed_at": "2026-10-08T03:56:12Z",
+        "producer": "quick-adopt",
+        "source_revision": "sha256:35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265",
         "limitations": []
       },
       "annotation": null
@@ -213,8 +213,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ROUTE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:8aa570132adc5f2646b4189cafe5bb09f8a48d4645fb8450e7c0b42f78de0a9f",
-      "definition_sha256": "2ed29ce41ffba4d82c5fb60b23c3cd31771f1e1213b068df88f3ab7abf23c928",
+      "checklist_revision": "sha256:bcc6ee5668fd4d003d6ea57899cbaab06e590ea966875a545eff1a4d9afa9cea",
+      "definition_sha256": "a99b5217ab62de20ef33aaaaa3fffd701c981b81334773544cee51a34dd870ed",
       "item_id": "CORE-ROUTE",
       "evidence_types": [
         "path_decision_record"
@@ -225,11 +225,11 @@
         "evidence_id": "EVIDENCE-CORE-ROUTE",
         "criterion_id": "CORE-ROUTE",
         "status": "pass",
-        "evidence_ref": "proposals/aes-brownfield-docs/PLANNING_PATH.json",
-        "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T04:12:14Z",
-        "producer": "claude-code",
-        "source_revision": "sha256:edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5",
+        "evidence_ref": "proposals/commit-tag-case/commit-tag-case.path-decision.json",
+        "scope": "plan:proposals/commit-tag-case/commit-tag-case.md",
+        "observed_at": "2026-10-08T03:56:12Z",
+        "producer": "quick-adopt",
+        "source_revision": "sha256:35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265",
         "limitations": []
       },
       "annotation": null
@@ -239,8 +239,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-SUCCESS-DISPROOF",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:8aa570132adc5f2646b4189cafe5bb09f8a48d4645fb8450e7c0b42f78de0a9f",
-      "definition_sha256": "2ed29ce41ffba4d82c5fb60b23c3cd31771f1e1213b068df88f3ab7abf23c928",
+      "checklist_revision": "sha256:bcc6ee5668fd4d003d6ea57899cbaab06e590ea966875a545eff1a4d9afa9cea",
+      "definition_sha256": "a99b5217ab62de20ef33aaaaa3fffd701c981b81334773544cee51a34dd870ed",
       "item_id": "CORE-SUCCESS-DISPROOF",
       "evidence_types": [
         "plan_section"
@@ -251,11 +251,37 @@
         "evidence_id": "EVIDENCE-CORE-SUCCESS-DISPROOF",
         "criterion_id": "CORE-SUCCESS-DISPROOF",
         "status": "pass",
-        "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#outcome-and-boundaries",
-        "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T04:12:14Z",
-        "producer": "claude-code",
-        "source_revision": "sha256:edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5",
+        "evidence_ref": "proposals/commit-tag-case/commit-tag-case.md#success-and-disproof",
+        "scope": "plan:proposals/commit-tag-case/commit-tag-case.md",
+        "observed_at": "2026-10-08T03:56:12Z",
+        "producer": "quick-adopt",
+        "source_revision": "sha256:35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265",
+        "limitations": []
+      },
+      "annotation": null
+    },
+    {
+      "schema_version": "checklist-item-observation.v1",
+      "record_type": "checklist_item_observation",
+      "observation_id": "OBS-CORE-TRACE-REVIEW",
+      "checklist_id": "method-conformance.bounded-design",
+      "checklist_revision": "sha256:bcc6ee5668fd4d003d6ea57899cbaab06e590ea966875a545eff1a4d9afa9cea",
+      "definition_sha256": "a99b5217ab62de20ef33aaaaa3fffd701c981b81334773544cee51a34dd870ed",
+      "item_id": "CORE-TRACE-REVIEW",
+      "evidence_types": [
+        "plan_section"
+      ],
+      "evidence": {
+        "schema_version": "1.0",
+        "record_type": "evidence_record",
+        "evidence_id": "EVIDENCE-CORE-TRACE-REVIEW",
+        "criterion_id": "CORE-TRACE-REVIEW",
+        "status": "pass",
+        "evidence_ref": "proposals/commit-tag-case/commit-tag-case.md#success-and-disproof",
+        "scope": "plan:proposals/commit-tag-case/commit-tag-case.md",
+        "observed_at": "2026-10-08T03:56:12Z",
+        "producer": "quick-adopt",
+        "source_revision": "sha256:35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265",
         "limitations": []
       },
       "annotation": null
@@ -265,8 +291,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-AUTHORITY-NONGOALS",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:8aa570132adc5f2646b4189cafe5bb09f8a48d4645fb8450e7c0b42f78de0a9f",
-      "definition_sha256": "2ed29ce41ffba4d82c5fb60b23c3cd31771f1e1213b068df88f3ab7abf23c928",
+      "checklist_revision": "sha256:bcc6ee5668fd4d003d6ea57899cbaab06e590ea966875a545eff1a4d9afa9cea",
+      "definition_sha256": "a99b5217ab62de20ef33aaaaa3fffd701c981b81334773544cee51a34dd870ed",
       "item_id": "CORE-AUTHORITY-NONGOALS",
       "evidence_types": [
         "plan_section"
@@ -277,11 +303,11 @@
         "evidence_id": "EVIDENCE-CORE-AUTHORITY-NONGOALS",
         "criterion_id": "CORE-AUTHORITY-NONGOALS",
         "status": "pass",
-        "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#outcome-and-boundaries",
-        "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T04:12:14Z",
-        "producer": "claude-code",
-        "source_revision": "sha256:edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5",
+        "evidence_ref": "proposals/commit-tag-case/commit-tag-case.md#authority-and-non-goals",
+        "scope": "plan:proposals/commit-tag-case/commit-tag-case.md",
+        "observed_at": "2026-10-08T03:56:12Z",
+        "producer": "quick-adopt",
+        "source_revision": "sha256:35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265",
         "limitations": []
       },
       "annotation": null
@@ -291,8 +317,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-IRREVERSIBLE-SPEND",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:8aa570132adc5f2646b4189cafe5bb09f8a48d4645fb8450e7c0b42f78de0a9f",
-      "definition_sha256": "2ed29ce41ffba4d82c5fb60b23c3cd31771f1e1213b068df88f3ab7abf23c928",
+      "checklist_revision": "sha256:bcc6ee5668fd4d003d6ea57899cbaab06e590ea966875a545eff1a4d9afa9cea",
+      "definition_sha256": "a99b5217ab62de20ef33aaaaa3fffd701c981b81334773544cee51a34dd870ed",
       "item_id": "CORE-IRREVERSIBLE-SPEND",
       "evidence_types": [
         "plan_section"
@@ -302,23 +328,24 @@
         "record_type": "evidence_record",
         "evidence_id": "EVIDENCE-CORE-IRREVERSIBLE-SPEND",
         "criterion_id": "CORE-IRREVERSIBLE-SPEND",
-        "status": "pass",
-        "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#irreversible-actions-and-spend",
-        "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T04:12:15Z",
-        "producer": "claude-code",
-        "source_revision": "sha256:edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5",
-        "limitations": []
+        "status": "not_applicable",
+        "evidence_ref": "proposals/commit-tag-case/commit-tag-case.md#authority-and-non-goals",
+        "scope": "plan:proposals/commit-tag-case/commit-tag-case.md",
+        "observed_at": "2026-10-08T03:56:12Z",
+        "producer": "quick-adopt",
+        "source_revision": "sha256:35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265",
+        "limitations": [],
+        "not_applicable_reason": "irreversible_or_spend_action=false"
       },
-      "annotation": null
+      "annotation": "none proposed"
     },
     {
       "schema_version": "checklist-item-observation.v1",
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-UNCERTAINTIES",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:8aa570132adc5f2646b4189cafe5bb09f8a48d4645fb8450e7c0b42f78de0a9f",
-      "definition_sha256": "2ed29ce41ffba4d82c5fb60b23c3cd31771f1e1213b068df88f3ab7abf23c928",
+      "checklist_revision": "sha256:bcc6ee5668fd4d003d6ea57899cbaab06e590ea966875a545eff1a4d9afa9cea",
+      "definition_sha256": "a99b5217ab62de20ef33aaaaa3fffd701c981b81334773544cee51a34dd870ed",
       "item_id": "CORE-UNCERTAINTIES",
       "evidence_types": [
         "plan_section"
@@ -329,11 +356,11 @@
         "evidence_id": "EVIDENCE-CORE-UNCERTAINTIES",
         "criterion_id": "CORE-UNCERTAINTIES",
         "status": "pass",
-        "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#decisions-and-assumptions",
-        "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T04:12:15Z",
-        "producer": "claude-code",
-        "source_revision": "sha256:edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5",
+        "evidence_ref": "proposals/commit-tag-case/commit-tag-case.md#uncertainties",
+        "scope": "plan:proposals/commit-tag-case/commit-tag-case.md",
+        "observed_at": "2026-10-08T03:56:12Z",
+        "producer": "quick-adopt",
+        "source_revision": "sha256:35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265",
         "limitations": []
       },
       "annotation": null
@@ -343,8 +370,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ACTIVATION-FACTS",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:8aa570132adc5f2646b4189cafe5bb09f8a48d4645fb8450e7c0b42f78de0a9f",
-      "definition_sha256": "2ed29ce41ffba4d82c5fb60b23c3cd31771f1e1213b068df88f3ab7abf23c928",
+      "checklist_revision": "sha256:bcc6ee5668fd4d003d6ea57899cbaab06e590ea966875a545eff1a4d9afa9cea",
+      "definition_sha256": "a99b5217ab62de20ef33aaaaa3fffd701c981b81334773544cee51a34dd870ed",
       "item_id": "CORE-ACTIVATION-FACTS",
       "evidence_types": [
         "plan_document",
@@ -356,11 +383,11 @@
         "evidence_id": "EVIDENCE-CORE-ACTIVATION-FACTS",
         "criterion_id": "CORE-ACTIVATION-FACTS",
         "status": "pass",
-        "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#activation-facts",
-        "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T04:12:15Z",
-        "producer": "claude-code",
-        "source_revision": "sha256:edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5",
+        "evidence_ref": "proposals/commit-tag-case/commit-tag-case.md#activation-facts",
+        "scope": "plan:proposals/commit-tag-case/commit-tag-case.md",
+        "observed_at": "2026-10-08T03:56:12Z",
+        "producer": "quick-adopt",
+        "source_revision": "sha256:35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265",
         "limitations": []
       },
       "annotation": null
@@ -368,51 +395,25 @@
     {
       "schema_version": "checklist-item-observation.v1",
       "record_type": "checklist_item_observation",
-      "observation_id": "OBS-OV-PRIOR-ART-DISPOSITION",
+      "observation_id": "OBS-OV-PROTO-VERTICAL-RESET",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:8aa570132adc5f2646b4189cafe5bb09f8a48d4645fb8450e7c0b42f78de0a9f",
-      "definition_sha256": "2ed29ce41ffba4d82c5fb60b23c3cd31771f1e1213b068df88f3ab7abf23c928",
-      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "checklist_revision": "sha256:bcc6ee5668fd4d003d6ea57899cbaab06e590ea966875a545eff1a4d9afa9cea",
+      "definition_sha256": "a99b5217ab62de20ef33aaaaa3fffd701c981b81334773544cee51a34dd870ed",
+      "item_id": "OV-PROTO-VERTICAL-RESET",
       "evidence_types": [
         "plan_section"
       ],
       "evidence": {
         "schema_version": "1.0",
         "record_type": "evidence_record",
-        "evidence_id": "EVIDENCE-OV-PRIOR-ART-DISPOSITION",
-        "criterion_id": "OV-PRIOR-ART-DISPOSITION",
+        "evidence_id": "EVIDENCE-OV-PROTO-VERTICAL-RESET",
+        "criterion_id": "OV-PROTO-VERTICAL-RESET",
         "status": "pass",
-        "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#prior-art-and-parallel-implementation-check",
-        "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T04:12:16Z",
-        "producer": "claude-code",
-        "source_revision": "sha256:edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5",
-        "limitations": []
-      },
-      "annotation": null
-    },
-    {
-      "schema_version": "checklist-item-observation.v1",
-      "record_type": "checklist_item_observation",
-      "observation_id": "OBS-OV-PRIOR-ART-PARALLEL-CHECK",
-      "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:8aa570132adc5f2646b4189cafe5bb09f8a48d4645fb8450e7c0b42f78de0a9f",
-      "definition_sha256": "2ed29ce41ffba4d82c5fb60b23c3cd31771f1e1213b068df88f3ab7abf23c928",
-      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
-      "evidence_types": [
-        "plan_section"
-      ],
-      "evidence": {
-        "schema_version": "1.0",
-        "record_type": "evidence_record",
-        "evidence_id": "EVIDENCE-OV-PRIOR-ART-PARALLEL-CHECK",
-        "criterion_id": "OV-PRIOR-ART-PARALLEL-CHECK",
-        "status": "pass",
-        "evidence_ref": "proposals/aes-brownfield-docs/PLAN.md#prior-art-and-parallel-implementation-check",
-        "scope": "plan:proposals/aes-brownfield-docs/PLAN.md",
-        "observed_at": "2026-10-08T04:12:16Z",
-        "producer": "claude-code",
-        "source_revision": "sha256:edb60b2746fb0d0b0ea16ec904351adec37252aa6df72871fd02ac3d456795d5",
+        "evidence_ref": "proposals/commit-tag-case/commit-tag-case.md#vertical-and-reset",
+        "scope": "plan:proposals/commit-tag-case/commit-tag-case.md",
+        "observed_at": "2026-10-08T03:56:12Z",
+        "producer": "quick-adopt",
+        "source_revision": "sha256:35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265",
         "limitations": []
       },
       "annotation": null

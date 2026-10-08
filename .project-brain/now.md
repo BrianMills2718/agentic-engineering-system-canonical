@@ -35,6 +35,8 @@ rule check `legacy-edit`); `aes plan accept` removes files the target now plans;
 with the legacy share. Order: `aes adopt`, commit, `aes hooks install`. DIGIMON trial (not committed
 there): 1,071 files under 12 roots, 94 KB baseline, `aes status` 8.6 s at 100.0% legacy
 (`proposals/aes-adopt-existing/evidence/`). Next: adopt DIGIMON for real once a DIGIMON plan covers it.
+**Commit rule, 2026-10-08 (plan commit-rule-followups, #269):** `[Trivial]` may not touch `conftest.py` or any script a tracked systemd unit runs; for a `[Goal <id>]` whose plan came from Company Planning `quick-adopt` (`planning_path: requested`), the rule logs whether the saved check output (`<plan folder>/<id>.check.txt`) is present and which files fall outside the plan's list (notes, never a verdict). Commits may carry an `Asked: <who> <date> "<words>"` line (#231).
+
 **The hive moved to personal-vps (2026-10-07):** its scripts (`hive/`) and plans (`proposals/hive-brain-v1/`, `proposals/hive-hardening/`) now live in BrianMills2718/personal-vps (PRs #113, #114); the dashboard build, Glance and the PC controls timer run from there. `scripts/hive/brain_fresh.py` stays here because other repos call it by this path.
 
 **Federated plans and misuse review (2026-10-07):** a `[Goal <id>]` now resolves from a plan in any repository under `~/code` (`plan_workspace` in `~/.config/aes/commit_rule.yaml`), so plans can move to the repository that owns them. A nightly report-only light-model review (`aes-commit-misuse-review` timer) judges accepted `[Unplanned]`/`[Trivial]` commits and opens concern `aes-commit-tag-misuse`; details in `proposals/aes-planning/ROLLOUT.md`.

@@ -107,3 +107,35 @@ days of observe logs for any remaining untagged automated commits before switchi
   behaviour change, the C: reserve lowered from 30 to 20 GiB, a changed agent skill); of four
   `[Unplanned]` commits read by hand, three stated real emergencies and one (a plan-adoption blocker)
   is debatable. Squash-merged commits are matched by their `<subject> (#N)` form.
+
+## Asked lines, quick plans and running things (2026-10-07/08)
+
+- `Asked: <who> <date> "<their words>"` on a commit records who requested it; the rule logs it and never
+  changes the verdict (#231). The nightly misuse review shows it.
+- Company Planning `quick-adopt` turns a bounded request (at most 5 files) into an adopted plan with
+  `/goal` text in about 10 s (company-planning #59-#61). For such a plan the rule logs, as notes, whether
+  the commit adds `<plan folder>/<id>.check.txt` and which changed files fall outside the plan's list
+  (#269). Nothing reads these notes after commit time yet (AES issue to follow).
+- `[Trivial]` may no longer touch `conftest.py` or a tracked file that a tracked systemd unit's `Exec*`
+  line runs (#269), the gap behind seven mislabelled commits on 2026-10-07 (#239).
+
+## Pre-review for the 2026-10-09 stage-2 switch (commits of 2026-10-07/08)
+
+Read from every repository's observe log (deduplicated by repository and subject; smoke tests, the
+live-demo script's test commits and one commit seen twice through a duplicate folder excluded): 369 real
+commits, 246 accepted. Stage 2 would block the 45 refused for no tag, `[Unplanned]` without an
+`Emergency:` line, or `[Trivial]` over its limit; 41 after the exclusions. Each was read and judged:
+
+| Group | Commits | Rule right? |
+| --- | ---: | --- |
+| Real `[Goal ...]` tags whose plan id has capitals, logged as "no tag" (brent-chatgpt 11, personal-vps 3, vision 1) | 15 | No: TAG_RE was lowercase-only (#193), fixed in commit-tag-case |
+| A docs-only decision record (world-substrate Decision 007) and a generated-index refresh (vision) over the `[Trivial]` size limit | 2 | No: harmless work with no honest tag |
+| Untagged agent commits (2nd-brain-plan-repo x2, agent-skills, company-planning, personal-file-infra, an old `[Discovery]` path in project-meta) and a scheduled VPS job (never-absolute-brain "wiki: daily update") | 7 | Yes; the scheduled job must carry `[Auto]` before enforce or it stops |
+| `[Unplanned]` used for ordinary work | 12 | Yes |
+| `[Trivial]` over the limit or touching running things | 5 | Yes |
+
+False refusals: 17 of 41 (41%) before the #193 fix, above Brian's 1-in-5 condition; 2 of 41 (5%) after it.
+Recommendation for 10-09: switch stage 2 on only after the #193 fix is installed machine-wide and the
+never-absolute-brain daily job tags its commits `[Auto]` with an `Auto-job:` line. The plan-adoption check
+stays observe-only: 64 of 78 plan-tag refusals name ids that are not plans (`review-20261007` 50,
+`2026-10-06-review-fixes` 14); those sessions need adopted plans (Company Planning `quick-adopt`) first.
