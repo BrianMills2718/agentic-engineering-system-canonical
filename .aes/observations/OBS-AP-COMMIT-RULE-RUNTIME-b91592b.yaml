@@ -1,0 +1,48 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-AP-COMMIT-RULE-RUNTIME-b91592b
+subject_refs: [SC-AP-001, ART-SRC-COMMIT-RULE, ART-SRC-HOOKS]
+subject_revision: b91592bf9f89ba62f97f4df920ebaf742ddfe559
+# What the run executed: the rule, the hooks it installed, and the command surface.
+dependency_paths:
+  - src/agentic_engineering_system/commit_rule.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/cli.py
+dependency_target_refs: [SC-AP-001]
+observer:
+  identity: >
+    Claude Code session code-83, which changed the rule in #269 (plan commit-rule-followups); not an
+    independent reviewer.
+  version: Claude Opus 5.5
+method: >
+  In AES canonical, by proposals/aes-planning/evidence/run_p4_live.sh on a throwaway branch cut from b91592b, with
+  the tracked hooks as committed (no PYTHONPATH or other override), .aes/commit_rule.yaml switched to enforce
+  in the scratch copy only, then real git commit runs: Dockerfile + compose.yaml as "[Unplanned] add worker
+  tools"; the same staged change as "[Goal aes-planning] U2: worker tools" (the real adopted receipt of
+  proposals/aes-planning); one README line as "[Trivial] fix typo"; then mode observe and "[Unplanned] add
+  another worker image". Then aes commit replay origin/main -n 300 over AES canonical and over personal-vps
+  with the rule at b91592b.
+execution_state: COMPLETED
+produced_at: 2026-10-08T03:38:45+00:00
+result:
+  unplanned_running_thing: "exit 1: refuse [Unplanned] ... touches running-thing file(s) Dockerfile, compose.yaml"
+  goal_with_adopted_receipt: "exit 0: accept [Goal aes-planning] - plan aes-planning adopted (proposals/aes-planning/README.md)"
+  trivial_readme_line: "exit 0: accept [Trivial] - trivial: 1 file(s), 2 line(s), no running-thing file"
+  observe_mode: "exit 0: would refuse (observe mode) [Unplanned]; commit landed; logged"
+  replay_aes_canonical: "commits=300, accept=91, refuse=209, tag:none=124, tag:Unplanned=86, tag:Goal=58, tag:Shaping=23, tag:Trivial=8, tag:git=1"
+  replay_personal_vps: "commits=125 (all of its history), accept=14, refuse=111, tag:none=110; personal-vps #87 (1e41a612) refuse"
+retained_artifact_refs:
+  - proposals/aes-planning/evidence/p4-canonical-example-transcript-b91592b.txt
+  - proposals/aes-planning/evidence/run_p4_live.sh
+  - proposals/aes-planning/evidence/p4-replay-aes-canonical-300-b91592b.txt
+  - proposals/aes-planning/evidence/p4-replay-personal-vps-300-b91592b.txt
+assessments:
+  - evidence_requirement_ref: ER-AP-001-02
+    assessment: SUPPORTS
+    basis: >
+      The installed hook in AES canonical gave the three canonical-example verdicts on real commits with the
+      stated exit codes, observe mode logged without blocking, and the replay over 300 commits of AES
+      canonical and all 125 of personal-vps ran with the rule as it is at b91592b (including the quick-plan notes
+      and the wider running-thing set of #269) and lists personal-vps #87's commit as refuse, with counts.
+    assessor:
+      identity: the same session, scoring its own run against the external boundary in .aes/target.yaml
+      version: Claude Opus 5.5
