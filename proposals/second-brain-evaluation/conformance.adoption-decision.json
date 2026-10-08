@@ -3,13 +3,13 @@
   "record_type": "method_adoption_decision",
   "decision": "adopted",
   "plan_ref": "proposals/second-brain-evaluation/PLAN.md",
-  "plan_sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1",
+  "plan_sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521",
   "receipt_ref": "proposals/second-brain-evaluation/conformance.receipt.json",
-  "receipt_sha256": "ea138434871d011f4a491f2e5bd95ee93b844af05b390076145998803ade6e0e",
+  "receipt_sha256": "d79a8d544784091c0adddc970d67c5bced4a4c845d03cb0a7b60170c1195931d",
   "receipt_result": "pass",
   "reason_codes": [],
   "summary": [
     "pass: 18 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
   ],
-  "decided_at": "2026-10-08T18:56:55Z"
+  "decided_at": "2026-10-08T18:58:21Z"
 }

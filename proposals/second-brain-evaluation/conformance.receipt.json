@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-f081f0c2a790",
+  "receipt_id": "RECEIPT-PLAN-f69d9ad3309c",
   "plan": {
     "plan_ref": "proposals/second-brain-evaluation/PLAN.md",
-    "plan_sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+    "plan_sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
   },
   "path_decision": {
     "ref": "proposals/second-brain-evaluation/PLANNING_PATH.json",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/second-brain-evaluation/activation-facts.json",
-    "facts_sha256": "dbe88a367bad68f9de4dd8bd2844f622d59dfd67176bf2ce04817afb8d3d88a8",
+    "facts_sha256": "2a8de62c86ef845bed183837ee3ebe219821cc8429365960098d92594de7287a",
     "facts": {
       "shared_mechanism": true,
       "empirical_comparison_proposed": true,
@@ -86,10 +86,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:8a788bc40ecf7e84e7243ea838ee3b3babf94809611cce87dd80ee9403b59608",
-    "definition_sha256": "75cadfe56f80c316960de25ba3399cabebed6b596c8c9f576c1dcb56645f71bb",
+    "revision": "sha256:3c9f85ccf0c62107b62c082abb9f9117830fb7a678fc7c1197a6686042c0c9c3",
+    "definition_sha256": "aeb2851d8651d5f43bbe381a981da88a0bd763d6b8a502b852bd0fc9652f76c1",
     "bundle_ref": "proposals/second-brain-evaluation/checklist.bundle.json",
-    "bundle_sha256": "6ed0344091890032fb989ad0b0cef8d7632c17241bb2dac6ddcfed5cd89432a5",
+    "bundle_sha256": "cfe5bf48bb9901b1a3c8306bff70ff2d45190afa6dee1c9f4f49d79dd1a37eec",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -107,16 +107,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#outcome-and-boundaries",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/CORE-ACTOR-RESULT-EXAMPLE",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/CORE-ACTOR-RESULT-EXAMPLE",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan explicitly names Brian (and agents on his behalf) as the actor served and states his desired job: deciding whether the second brain is worth using and what to fix next. It gives a concrete, user-visible example: G003 must retrieve Tyler’s message by meaning, with the trace showing the search that found it."
+        "rationale": "The evidence explicitly names the actor as “Brian (and agents on his behalf)” and states the desired result: deciding whether the second brain is worth using and what to fix next. It also provides a stable, concrete, user-visible example: Gold question G003 must retrieve Tyler’s message by meaning, with the trace showing the search that found it."
       },
       "suggested_action": null
     },
@@ -152,16 +152,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#success-evidence",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/CORE-SUCCESS-DISPROOF",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/CORE-SUCCESS-DISPROOF",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly defines what success must show for five criteria, including traces, expected observations, and control results. It also states concrete disproof conditions: persistent gold-set retrieval misses, insufficient movement relative to fixed misses, or inability to separate per-feature usage from agents’ calls, along with the runs and traces to inspect."
+        "rationale": "The evidence explicitly defines success criteria with runs, trace locations, and required observations, including gold-set remeasurement, Slack retrieval, pilot isolation, usage attribution, and feature checks. It also gives concrete disproof conditions: persistent gold-set retrieval misses, insufficient improvement relative to fixed misses, or inability to separate feature usage from agents’ calls, with specified reruns and ledger traces."
       },
       "suggested_action": null
     },
@@ -178,16 +178,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#success-evidence",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/CORE-TRACE-REVIEW",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/CORE-TRACE-REVIEW",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names each run, identifies where its full trace lives, and specifies what must be seen beyond the final outcome. It also provides trace-based disproof conditions and identifies the runs and traces used to evaluate them."
+        "rationale": "Every listed criterion explicitly names a run, identifies where its full trace lives, and specifies what must be observed beyond the final outcome. The evidence also explicitly states an exemption rule for pure document edits, but no criterion here relies on that exemption."
       },
       "suggested_action": null
     },
@@ -204,16 +204,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#outcome-and-boundaries",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/CORE-AUTHORITY-NONGOALS",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/CORE-AUTHORITY-NONGOALS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies Brian, with agents acting on his behalf, as deciding whether the second brain is worth using and what to fix next. It also explicitly lists non-goals: new assistant features, Tyler-ness scoring, changing who answers brain decisions, and posting to company Slack."
+        "rationale": "The evidence identifies Brian, with agents acting on his behalf, as deciding whether the second brain is worth using and what to fix next, and states that brain-decision authority remains in Brian’s lane. It explicitly lists non-goals: new assistant features, Tyler-ness scoring, changing who answers brain decisions, and posting to company Slack."
       },
       "suggested_action": null
     },
@@ -230,16 +230,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/CORE-IRREVERSIBLE-SPEND",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/CORE-IRREVERSIBLE-SPEND",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies the spend boundary, Brian’s authorization requirement, and the per-call budget containment. It also addresses the potentially irreversible company Slack action by naming its boundary, requiring Brian’s authorization per exact post, and containing it by using the non-mirrored `ask_my_brain` tool instead."
+        "rationale": "The evidence explicitly names the boundary, authorizer, and containment for the proposed spend: named runs, Brian’s approval, and the per-call `max_budget`. It also does so for Company Slack calls: any `ask_person_brain` call, Brian’s exact-post authorization, and containment by using `ask_my_brain` instead."
       },
       "suggested_action": null
     },
@@ -256,16 +256,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#decisions-and-assumptions",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/CORE-UNCERTAINTIES",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/CORE-UNCERTAINTIES",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies three material uncertainties and provides resolving evidence for each: E2 review and trace comparison, Tyler’s replacement pack or reply, and E4 event kinds in Brian’s report. The second uncertainty also names an owner."
+        "rationale": "The evidence explicitly identifies three material uncertainties and gives each an owner or resolving evidence. The table specifies resolving evidence for the #369 approach and ledger separation, and both an owner and resolving evidence for Tyler’s pack."
       },
       "suggested_action": null
     },
@@ -282,16 +282,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#activation-facts",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "No activation fact is declared false. The plan explicitly declares all four facts true, and the evidence describes an empirical before/after comparison, central LLM-dependent behavior, LLM spend and deploy actions, and shared harness/register mechanisms."
+        "rationale": "The plan declares all four activation facts true: shared_mechanism, empirical_comparison_proposed, llm_central, and irreversible_or_spend_action. No activation fact is declared false, so the requirement is satisfied."
       },
       "suggested_action": null
     },
@@ -308,16 +308,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#prior-art-and-parallel-implementation-check",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/OV-PRIOR-ART-DISPOSITION",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/OV-PRIOR-ART-DISPOSITION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly states that existing owners, internal lineage, and external evaluation frameworks were searched. It provides a disposition for each listed candidate using reuse, extend, or bounded exception, with supersede not needed because no candidate is described as requiring supersession."
+        "rationale": "The evidence explicitly states that existing owners, internal lineage, and external evaluation frameworks were searched. It lists each identified candidate and assigns a permitted disposition—reuse, extend, or bounded exception—including the external frameworks and internal candidates."
       },
       "suggested_action": null
     },
@@ -334,16 +334,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#prior-art-and-parallel-implementation-check",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/OV-PRIOR-ART-PARALLEL-CHECK",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/OV-PRIOR-ART-PARALLEL-CHECK",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies code-c1's thumbs feedback (RV-T3) as the feedback source for E4 and states that the plan counts it rather than building a second feedback path. This is a concrete consumer-path observation that would expose a parallel implementation of the same concern."
+        "rationale": "The evidence explicitly names a concrete consumer-path check: verify that E4 uses code-c1’s thumbs feedback (RV-T3) as its feedback source and that the plan does not build a second feedback path. This would expose a silent parallel implementation of the same feedback concern."
       },
       "suggested_action": null
     },
@@ -360,16 +360,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#evaluation-design",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/OV-EVAL-DECISION",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/OV-EVAL-DECISION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence names the specific decision: whether the chosen Slack retrieval change stays deployed. It explicitly states what happens under each result—keep it deployed and proceed with E3 if the specified retrieval and accuracy conditions hold; otherwise roll it back and try the alternative approach."
+        "rationale": "The evidence names the decision: whether the chosen Slack retrieval change stays deployed. It specifies both outcomes: if the listed messages are retrieved and accuracy rises, keep it deployed and proceed with E3; otherwise roll it back and try ingesting Slack positions into governed passages."
       },
       "suggested_action": null
     },
@@ -386,16 +386,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#evaluation-design",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the irreducibly empirical uncertainty: whether meaning-based search over this company’s Slack retrieves Tyler’s short, informal messages when questions use different wording. It also explains that first principles, prior art on other corpora, and the existing evidence of three traced misses cannot settle that question."
+        "rationale": "The evidence explicitly names the irreducibly empirical uncertainty: whether meaning-based search over this company's Slack retrieves Tyler's short, informal messages when questions use different wording. It explains that corpus-specific embedding behavior is not settled by first principles or prior art on other corpora, and that the existing evidence of three traced misses only demonstrates keyword-search failure."
       },
       "suggested_action": null
     },
@@ -412,16 +412,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#evaluation-design",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/OV-EVAL-PARITY",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/OV-EVAL-PARITY",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly defines parity as the minimum every compared run must meet before its score counts, including successful answers and session IDs for all 22 questions, zero errors, harness controls, healthy retrieval services, trace review for low-scoring misses, and shared questions, gold-set revision, route, judge settings, and session conditions."
+        "rationale": "The plan explicitly defines parity as the minimum every compared run must meet before its score counts: successful answers and session IDs for all 22 questions, harness and retrieval-service health, and trace review for low-scoring misses. It also specifies shared questions, gold-set revision, adapter route, judge settings, and harness controls for both runs."
       },
       "suggested_action": null
     },
@@ -438,16 +438,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#evaluation-design",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/OV-EVAL-COST",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/OV-EVAL-COST",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence quantifies the comparison cost as about $0.05 and 12 minutes, and explains that choosing now requires later detection through the same comparison plus tracing affected answers, with worse answers experienced by teammates in the meantime. It explicitly concludes that the run costs less than the intervening harm and avoids those later detection costs."
+        "rationale": "The plan quantifies the comparison cost (about $0.05 and 12 minutes) and explains that choosing now would require the same comparison later to detect a regression, plus tracing affected answers and incurring harm to teammates in the interim. It explicitly concludes that the run costs the same as later detection and less than the intervening harm."
       },
       "suggested_action": null
     },
@@ -464,16 +464,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#model-calls",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/OV-LLM-CALL-BOUNDARY",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/OV-LLM-CALL-BOUNDARY",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly describes the call graph, including one assistant/tool call and one judge call per question, and states the structured results returned by each (`answer`, `session_id`, `mirror`, `tools_used`; and the judge schema `score`, `explanation`). It also explains tracing for assistant turns in `state.db` and judge calls under the run’s `trace_id`."
+        "rationale": "The evidence explicitly describes the call graph, including one assistant turn and one structured judge call per question, and specifies each call’s structured JSON result fields/schema. It also explicitly explains tracing for assistant turns in `state.db` and judge calls via `llm_client` logs keyed by `trace_id`."
       },
       "suggested_action": null
     },
@@ -490,16 +490,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#model-calls",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/OV-LLM-AUTHORITY-PROMOTION",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/OV-LLM-AUTHORITY-PROMOTION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence names OpenRouter as the judge provider, identifies Brian as the spend authority, and states an authentic-run condition requiring a full live run with harness controls passing and all sub-0.7 misses traced and classified before reporting a score. It also states that this condition held for the 2026-10-08 run."
+        "rationale": "The evidence explicitly names the provider (OpenRouter), spend authority (Brian), and an authentic-run condition before promotion: a full live run with harness controls passing in the same session and all misses below 0.7 traced and classified."
       },
       "suggested_action": null
     },
@@ -516,16 +516,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#coordination",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/OV-COORD-OWNERSHIP",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/OV-COORD-OWNERSHIP",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names both concurrent writers and their owned paths/issues, lists dependencies and conflict surfaces, identifies the integration owner and integration rules, and specifies issue and pull-request evidence for each writer’s work units."
+        "rationale": "The evidence explicitly names ownership and claimed paths for both sessions, dependencies, conflict surfaces, and the integration owner. It also specifies work-unit evidence for each writer through the listed issues, pull requests, and code-c1’s #651, #652, and RV-T1/T3 work."
       },
       "suggested_action": null
     },
@@ -542,16 +542,16 @@
       "evidence": [
         {
           "ref": "proposals/second-brain-evaluation/PLAN.md#boundaries",
-          "sha256": "f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1"
+          "sha256": "f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/88a40397cf0d/OV-BOUNDARY-DISPOSITION",
+        "trace_id": "company-planning/method-conformance/PLAN/c3a7b8b5e20c/OV-BOUNDARY-DISPOSITION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the owning authority, rollback or containment, and disposition for each boundary. It covers deployment, Slack posting, and teammates’ usage data with dispositions of “proceed,” “excluded unless Brian approves,” and “proceed with counts only.”"
+        "rationale": "The evidence explicitly names an owning authority, rollback or containment, and disposition for each boundary. For example, deployment is owned by Brian with script-based restoration/redeployment and a disposition to proceed; Slack posting is owned by Brian with containment and an exclusion disposition unless approved; usage data is owned by each person with counts-only containment and a disposition to proceed."
       },
       "suggested_action": null
     }
@@ -572,11 +572,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-f081f0c2a790",
+    "report_id": "REPORT-PLAN-f69d9ad3309c",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:6ed0344091890032fb989ad0b0cef8d7632c17241bb2dac6ddcfed5cd89432a5",
+    "snapshot_revision": "sha256:cfe5bf48bb9901b1a3c8306bff70ff2d45190afa6dee1c9f4f49d79dd1a37eec",
     "packet_ref": "proposals/second-brain-evaluation/PLAN.md",
-    "packet_revision": "sha256:f081f0c2a79098bb3d2a430bc19af36a06069572e7a80802d5fcb796bef621d1",
+    "packet_revision": "sha256:f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -599,7 +599,7 @@
     "client": "claude-code",
     "session": "e8c5f5c3-bf08-4029-afda-df0a6b5f84cc"
   },
-  "started_at": "2026-10-08T18:56:39Z",
-  "completed_at": "2026-10-08T18:56:55Z",
-  "duration_ms": 12320
+  "started_at": "2026-10-08T18:58:07Z",
+  "completed_at": "2026-10-08T18:58:21Z",
+  "duration_ms": 14323
 }
