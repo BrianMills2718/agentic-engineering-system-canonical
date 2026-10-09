@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "record_type": "trace_review",
+  "review_id": "authentic-privacy-review",
+  "reviewer": "codex:trace-review-enforcement",
+  "goal_ref": "goal:trace-review-enforcement",
+  "criterion_ids": [
+    "privacy-diagnosis"
+  ],
+  "evidence_revision": "3e2633f11cceb8c6ce900a046f85d8c6f6dda698",
+  "run_id": "auto/call_llm/859635d2d8f8",
+  "run_outcome": "fail",
+  "source": {
+    "path": "proposals/trace-review-enforcement/authentic-source.json",
+    "sha256": "5dcc995c3cacee2e21852da293350f4c7a908ca30486fab3ef95c0b765eea0f3",
+    "format": "llm_call"
+  },
+  "reviewed_entries": [
+    {
+      "pointer": "/error",
+      "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "observation": "No provider or execution error was recorded; this is a reasoning failure."
+    },
+    {
+      "pointer": "/messages/0",
+      "sha256": "001d6cb49b39bca517fdd1fc577b18f0f7125a2628500af80b2e669259bd707c",
+      "observation": "Publication rule explicitly allows local paths and repository names; it defines the privacy check boundary."
+    },
+    {
+      "pointer": "/messages/1",
+      "sha256": "10fdfe6df1d1a096f5e32948c0a94272ff576ee9724cf6e8be881f6f54e5c436",
+      "observation": "The complete staged diff is the provided source; no tool retrieval occurs in this run."
+    },
+    {
+      "pointer": "/response",
+      "sha256": "03e585c9b3c11296810a03bb996f17055b73379614779c421436622edf4a7a98",
+      "observation": "The answer classifies local paths as private despite the rule."
+    }
+  ],
+  "findings": [
+    {
+      "classification": "evidence_unused",
+      "description": "The rule was present in the system instructions. The answer classified the explicitly allowed local paths as private operational/project details. The needed evidence came back and was contradicted; this is an instruction-use failure, not missing retrieval.",
+      "citations": [
+        {
+          "pointer": "/messages/0/content",
+          "quote": "Local paths, repo names, quoted UI requests and synthetic fixtures are allowed."
+        },
+        {
+          "pointer": "/response",
+          "quote": "local filesystem paths (`~/code`, `~/.codex`)"
+        }
+      ]
+    }
+  ],
+  "assessment": {
+    "path": "proposals/trace-review-enforcement/authentic-assessment.json",
+    "sha256": "7e84b05bca67e7c39386ea41bffd38c9261206306eb74dd0b069a8ca41acc9b8"
+  }
+}

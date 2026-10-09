@@ -1,0 +1,75 @@
+{
+ "pipeline": "ecosystem_ops.dashboard_health_privacy",
+ "passed": false,
+ "corruption_selfcheck_passed": true,
+ "ground_truth_source": "artifacts/trace_review/dashboard-privacy-reference.json",
+ "ground_truth_sha256": "6079fc52392385da72e8f012e80b0424b53e5813230b908ff0bdf4e37a03299e",
+ "source_sha256": {
+  "proposals/trace-review-connection/build-recorded-review.py": "c2e9e4ec98598e6aa0273858ae81843d89c57d84f25b3356d1e076bf8a66e93d"
+ },
+ "evidence_class": "recorded_response",
+ "replay_fixture": {
+  "path": "artifacts/trace_review/dashboard-privacy-20261009.json",
+  "sha256": "5dcc995c3cacee2e21852da293350f4c7a908ca30486fab3ef95c0b765eea0f3"
+ },
+ "trace": {
+  "review_format": "ecosystem-ops/retained-call-v1",
+  "trace_id": "auto/call_llm/859635d2d8f8",
+  "review": {
+   "authority": "Brian’s workspace publication rule, supplied in this conversation 2026-10-09; canonical workspace AGENTS.md",
+   "source": "/home/brian/projects/.claude/AGENTS.md",
+   "publication_rule": "Local paths, repo and commit names, Brian's quoted feedback in project docs, public datasets and synthetic test data are not private.",
+   "prompt_witness": "Local paths, repo names, quoted UI requests and synthetic fixtures are allowed.",
+   "response_witness": "local filesystem paths (`~/code`, `~/.codex`)",
+   "finding": "The rule was present in the system instructions. The answer classified the explicitly allowed local paths as private operational/project details. The needed evidence came back and was contradicted; this is an instruction-use failure, not missing retrieval.",
+   "scope": "One historical source-diff privacy check; no claim that the model is repaired or that other runs passed.",
+   "reviewer": "Codex, source-grounded review 2026-10-09; prior disposition committed in proposals/dashboard-feed-repair/health-sessions-privacy.json",
+   "criterion": "An answer must not label local paths in the supplied source-code diff private when the independent publication rule and the call’s own instructions expressly allow them."
+  },
+  "stage_outputs": {
+   "privacy_policy_review": {
+    "trace_id": "auto/call_llm/859635d2d8f8"
+   }
+  }
+ },
+ "result": {
+  "theory_id": "ecosystem_ops.dashboard_health_privacy",
+  "case_name": "Privacy rule contradicted",
+  "negative_case": false,
+  "passed": false,
+  "stage_results": [
+   {
+    "name": "retained_call_grounding",
+    "programmatic_pass": true,
+    "programmatic_failures": [],
+    "transition_score": null,
+    "transition_pass": null,
+    "provenance_score": null,
+    "provenance_pass": null,
+    "progress_score": null,
+    "progress_pass": null,
+    "failure_type": null,
+    "notes": "Exact witnesses verified; native corruption control detects changed witnesses. This is evidence integrity, not a model-quality pass."
+   },
+   {
+    "name": "privacy_policy_review",
+    "programmatic_pass": true,
+    "programmatic_failures": [],
+    "transition_score": null,
+    "transition_pass": false,
+    "provenance_score": null,
+    "provenance_pass": null,
+    "progress_score": null,
+    "progress_pass": null,
+    "failure_type": "execution",
+    "notes": "The rule was present in the system instructions. The answer classified the explicitly allowed local paths as private operational/project details. The needed evidence came back and was contradicted; this is an instruction-use failure, not missing retrieval. Verdict authored from the full call and independent publication rule; no numeric grader score."
+   }
+  ],
+  "root_cause_stage": "privacy_policy_review",
+  "cascade_failures": [],
+  "convergence_failure": false,
+  "end_to_end_score": null,
+  "end_to_end_pass": null,
+  "summary": "The privacy checker received the rule allowing local paths, then flagged those paths as private. Evidence was present but contradicted in the answer."
+ }
+}

@@ -445,6 +445,7 @@ class EvidenceReport:
 
 
 def assess(root: Path) -> EvidenceReport:
+    from .trace_review import check_source_review
     root = Path(root).resolve()
     project = load_project(root / ".aes" / "project.yaml")
     target = load_target(root / project.materialization.target_path)
@@ -465,7 +466,17 @@ def assess(root: Path) -> EvidenceReport:
             current = [(o, a) for o, a in entries
                        if fresh[o.observation_id][0] == "CURRENT" and o.superseded_by is None]
             refuting = [o.observation_id for o, a in current if a.assessment == "REFUTES"]
-            supporting = [o.observation_id for o, a in current if a.assessment == "SUPPORTS"]
+            blocked_reviews = []
+            supporting = []
+            for o, a in current:
+                if a.assessment != "SUPPORTS":
+                    continue
+                if er.kind == "trace_review":
+                    reviewed = check_source_review(root, o, sc.id)
+                    if reviewed.status != "complete" or reviewed.run_outcome != "pass":
+                        blocked_reviews.append(f"{o.observation_id}: {reviewed.reason}")
+                        continue
+                supporting.append(o.observation_id)
             if refuting:
                 statuses.append(ErStatus(er.id, "REFUTED", "refuted by " + ", ".join(refuting)))
             elif supporting:
@@ -476,6 +487,8 @@ def assess(root: Path) -> EvidenceReport:
                     + (f", superseded by {o.superseded_by})" if o.superseded_by else ")")
                     for o, a in entries
                 )
+                if blocked_reviews:
+                    why += "; " + "; ".join(blocked_reviews)
                 statuses.append(ErStatus(er.id, "NO_CURRENT_SUPPORT", why))
             else:
                 statuses.append(ErStatus(er.id, "NO_CURRENT_SUPPORT", "no observation assesses it"))
