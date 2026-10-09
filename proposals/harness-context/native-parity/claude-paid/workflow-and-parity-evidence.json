@@ -1,0 +1,213 @@
+{
+  "record_type": "harness-workflow-parity-research-refresh.v1",
+  "checked_at": "2026-10-09T14:24:25.084209+00:00",
+  "owning_plan": "../../README.md",
+  "artifact": "../../subagent-research.md",
+  "scope": "Current Workflow comparison, compact Codex candidates and structural plus semantic parity; no new model execution or global changes",
+  "sources": [
+    {
+      "url": "https://code.claude.com/docs/en/workflows",
+      "check": "Official Workflow documentation opened; script API and runtime sections inspected",
+      "runtime_test": false
+    },
+    {
+      "url": "https://learn.chatgpt.com/docs/agent-configuration/subagents",
+      "check": "Official documentation MCP searched then fetched",
+      "runtime_test": false
+    },
+    {
+      "url": "https://learn.chatgpt.com/docs/codex-sdk",
+      "check": "Official documentation MCP fetched; native thread control inspected",
+      "runtime_test": false
+    },
+    {
+      "url": "https://learn.chatgpt.com/docs/app-server",
+      "check": "Official documentation MCP fetched; thread/start and instructionSources inspected",
+      "runtime_test": false
+    },
+    {
+      "url": "https://github.com/openai/codex/blob/rust-v0.162.0/codex-rs/core/src/agents_md_manager.rs#L150",
+      "check": "Pinned source inspection by read-only prior-art investigator",
+      "runtime_test": false
+    },
+    {
+      "url": "https://github.com/openai/codex/blob/rust-v0.162.0/codex-rs/core/src/agents_md.rs#L58",
+      "check": "Pinned source inspection by read-only prior-art investigator",
+      "runtime_test": false
+    },
+    {
+      "url": "https://github.com/openai/codex/blob/rust-v0.162.0/codex-rs/core/src/agent/role.rs#L33",
+      "check": "Pinned source inspection by read-only prior-art investigator",
+      "runtime_test": false
+    },
+    {
+      "url": "https://github.com/openai/codex/blob/rust-v0.162.0/codex-rs/app-server-protocol/src/protocol/v2/thread.rs#L62",
+      "check": "Pinned public fresh-thread API fields inspected",
+      "runtime_test": false
+    }
+  ],
+  "projection_check": {
+    "command": [
+      "/home/brian/.local/bin/python",
+      "-B",
+      "/home/brian/code/agent-skills/scripts/render_specialist_agents.py",
+      "--check"
+    ],
+    "exit_status": 0,
+    "output": "specialist projections in sync: 1 contract, 2 clients"
+  },
+  "deterministic_checks": {
+    "passed": 5,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0,
+    "exit_status": 0
+  },
+  "native_claude_delivery": {
+    "parent_session_id": "8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7",
+    "child_id": "aff90f2e49dbf83f8",
+    "agent_tool_use_id": "toolu_bdrk_01MFmY73yqvFQ6tG5XVW2VwE",
+    "child_trace_ref": "/home/brian/.claude/projects/-home-brian-code-agentic-engineering-system-canonical-worktrees-harness-claude-live/8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7/subagents/agent-aff90f2e49dbf83f8.jsonl",
+    "child_trace_sha256": "68498b59a73eb9e8117d5506fb9f35c66489908088ede71624592d06313904de",
+    "execution_ready_snapshot_line": 13,
+    "contract_sha256": "2e73498f27329b6569839ede88466e6bed356633fc4ea0f09cfba02db7ee6771",
+    "compiled_role_characters": 3869,
+    "system_prompt_characters": 5313,
+    "system_prompt_sha256": "5c6af30024a6a374f580b52d3d6254bd55672661f58c71a95c59c99a6feb4a85",
+    "compiled_body_exactly_present": true,
+    "observed_tools": [
+      "Read",
+      "Grep",
+      "Glob"
+    ],
+    "expected_tools_exact_match": true,
+    "final_child_line": 89,
+    "forwarded_stream_ref": "/home/brian/.codex/log/harness-claude-live-8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7-one-turn.jsonl",
+    "forwarded_final_line": 58,
+    "native_and_forwarded_final_match": true,
+    "result_sha256": "28ff45de4c8b7adc1c0e98eadd440f4668ae7d22af9456adc348cb0044eaad0a",
+    "result_transport_framing": "JSON code fence removed only for decoding; native and forwarded text preserved and hash-bound",
+    "result_json_equals_saved_artifact": true,
+    "permission_runtime_field": "not established by these membership checks",
+    "hook_execution_parity": "not established by these membership checks",
+    "prompt_measurement_method": "Join recorded systemPrompt parts with one newline; not a claim about provider wire serialization or token usage",
+    "system_prompt_parts_count": 4,
+    "system_prompt_parts_content_characters": 5310
+  },
+  "existing_collector_probe": {
+    "revision": "6329a23671629acc659f89dadb96c00da8b822d9",
+    "method": "Existing pure records/transcripts/subagents functions executed in memory by independent read-only investigator",
+    "parent_calls": 1,
+    "child_ref": "unknown",
+    "terminal_status": "dispatch_unresolved",
+    "result_characters": 0,
+    "claude_enrich_changes": 0,
+    "forwarded_stream_calls": 0,
+    "owner": "Parallel coordinator owns admitted shared collector repair",
+    "qualification": "Earlier missing-final observation superseded by native final at line89; collector binding gap independently reproduced"
+  },
+  "semantic_findings": [
+    {
+      "field": "causal_chain[0]",
+      "finding": "Frozen target definition is at Makefile L314; L325 starts recursive make command",
+      "evidence": "child-result.json and ../input/project-meta/Makefile#L314"
+    },
+    {
+      "field": "causal_chain[6] and limitations[0]",
+      "finding": "Narrative assumes no inherited broad-scope metadata while limitations correctly leave environment unknown",
+      "evidence": "child-result.json"
+    }
+  ],
+  "limitations": [
+    "No Workflow activation or compact Codex0.162 model execution",
+    "Structural membership is not complete permission or behavior certification",
+    "Selected semantic contradictions are not exhaustive paired acceptance",
+    "Private approval and billing/account records excluded from public artifacts"
+  ],
+  "publication_verification": {
+    "local_links_checked": 16,
+    "two_link_navigation": "wiki/index.md -> docs/architecture/README.md -> subagent-research.md",
+    "result_schema": "Draft202012Validator development-investigation-result.v1.schema.json",
+    "result_schema_errors": 0,
+    "writing_records": "Consolidated subagent-research.md writing_record.py check exit0; original representation/writing records remain active; duplicate appendix records removed",
+    "fresh_publisher_goal": "goal:harness-context",
+    "executed_object_comparison": [
+      {
+        "path": "src",
+        "expected": "8b4f5d5620a478affc315767da7e1ff795c6483e",
+        "actual": "8b4f5d5620a478affc315767da7e1ff795c6483e",
+        "matches": true
+      },
+      {
+        "path": "tests",
+        "expected": "25af6b682d40021fb3f42f4f4f31467dd36031d2",
+        "actual": "25af6b682d40021fb3f42f4f4f31467dd36031d2",
+        "matches": true
+      },
+      {
+        "path": "scripts",
+        "expected": "446d72c8f9408ccad5d2dd2ff3ab04f2ea3201fd",
+        "actual": "446d72c8f9408ccad5d2dd2ff3ab04f2ea3201fd",
+        "matches": true
+      },
+      {
+        "path": "contracts",
+        "expected": "9fc7d7d454cbefa602a20f268837290c86d8443e",
+        "actual": "9fc7d7d454cbefa602a20f268837290c86d8443e",
+        "matches": true
+      },
+      {
+        "path": "enforced_planning",
+        "expected": "63c423d3c5e634accfdeae2b5ed76af715ee6326",
+        "actual": "63c423d3c5e634accfdeae2b5ed76af715ee6326",
+        "matches": true
+      },
+      {
+        "path": "Makefile",
+        "expected": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+        "actual": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+        "matches": true
+      },
+      {
+        "path": "pyproject.toml",
+        "expected": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+        "actual": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+        "matches": true
+      },
+      {
+        "path": "AGENTS.md",
+        "expected": "4f5e1ed522ab302074d1f31f7e18334b38469815",
+        "actual": "4f5e1ed522ab302074d1f31f7e18334b38469815",
+        "matches": true
+      },
+      {
+        "path": "CLAUDE.md",
+        "expected": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808",
+        "actual": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808",
+        "matches": true
+      }
+    ],
+    "reused_full_gate": {
+      "command": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+      "tested_revision": "8e451dbe709e23af207197c6f6d58359eec18e8a",
+      "passed": 362,
+      "skipped": 1,
+      "failed": 0,
+      "errored": 0,
+      "exit_status": 0,
+      "mypy_source_files": 22,
+      "elapsed_seconds": 1230.702
+    },
+    "reuse_qualification": "Documentation-only patch; nine exact executed subject objects match. Full suite not rerun. Prior log lines12,15,17,18 directly checked.",
+    "private_local_record_preservation": {
+      "archive_ref": "/home/brian/.codex/log/harness-claude-live-private-2026-10-09.jsonl",
+      "offset_bytes": 0,
+      "record_sha256": "b648d7eb13ad557807406b120dc5341134d0e72c6dc9c6f642eeb83d541d21f0",
+      "files": 56,
+      "byte_hashes_reread_verified": 56,
+      "content_not_published": true
+    },
+    "current_research_consolidation": "Workflow/compact-route/parity refresh integrated into existing research document; duplicate reader Markdown and duplicate authoring/disposition records removed from current tree, preserved in Git history",
+    "baseline_document_policy": "Whole repository check remains over its140-page exception and has older unreachable documents; this patch adds no net Markdown and gives current research a two-link entrypoint"
+  }
+}

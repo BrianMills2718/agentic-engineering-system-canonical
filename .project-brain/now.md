@@ -19,6 +19,13 @@ The installed specialist completed native tasks in both clients. In those record
 Codex child invocations, the bootstrap was inherited; the separate fresh-session
 route was the measured smaller-context boundary. This describes those invocations,
 not every native child configuration.
+The [current Workflow and parity research](../proposals/harness-context/subagent-research.md)
+adds Claude's dynamic script runtime, source-supported compact Codex entrypoints,
+and automatic delivery checks followed by semantic trace review. Saved native
+Claude evidence proves the compiled role and exact read-only tool catalogue were
+delivered; complete behavior/permission parity is not certified. The PR497 source
+foundation merged; it does not prove router activation. The collector at that
+revision misses this child's result binding; the coordinator owns its repair.
 The [skip-only recorder repair](../proposals/evidence-recorder-counts/README.md) is
 reproduced but unimplemented: required adoption demands future execution proof ([#282](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282)); do not report #257 fixed.
 
