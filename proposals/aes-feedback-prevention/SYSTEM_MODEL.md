@@ -10,10 +10,10 @@ flowchart LR
   state --> fix[Shared CLAUDE instruction: scope by transport]
   fix --> projection[Generated Codex authority]
   projection --> native[Native case: source inspection proceeds]
-  fix --> remote[Remote-required case: preflight still blocks without tools]
+  fix --> remote[Remote-required case: readiness and ping remain required]
   native --> check[Executable parent schema, source and outcome checks]
   remote --> check
   check --> report
 ```
 
-All edges are claims until the named feedback-prevention-v1 trace shows the exact source record, actual semantic review, committed disposition, authority reads, source inspection or remote stop, and parent receipts. Private transcript/result bytes stay in the existing private verification log; this model contains no copied private report. The original inconclusive child must fail the native-positive check. Matching hashes prove identity only. Existing licensing and recurrence processes are unchanged; this case does not establish universal prevention.
+The feedback-prevention-v1 traces show the exact source record at default intake, semantic review against all 22 existing families, its family N disposition, native source inspection and a remote-only stop. The remote route was unavailable within the no-network task: tools were advertised, but readiness/ping could not be called. The first remote expectation incorrectly required a missing-tool citation; its parent check failed, and a fresh corrected case passed. This is not a live remote-connectivity check. Private transcript/result bytes stay in the existing private verification log. The original inconclusive child fails the native-positive check. Matching hashes prove identity only. Existing licensing and recurrence processes are unchanged; this case does not establish universal prevention.

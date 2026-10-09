@@ -124,6 +124,7 @@ read `CLAUDE.md` directly.
 
 ## References
 
+- Feedback intake and transport prevention: [plan](proposals/aes-feedback-prevention/PLAN.md), [system flow](proposals/aes-feedback-prevention/SYSTEM_MODEL.md), and [goal](proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md). These are a bounded repair record, not additional repository authority.
 - `wiki/index.md` — progressive-disclosure navigation only; follow links to native authority.
 - `docs/decisions/0010-greenfield-v0.2-accepted.md` — AES v0.2 greenfield MVP accepted as realized: evidence, standing decisions with wrong-when conditions, non-claims, v0.1 disposition.
 - `docs/architecture/greenfield-v0.2/` — accepted v0.2 architecture; `.aes/target.yaml` is the live authority for this repository.

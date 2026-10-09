@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-f193a8525590",
+  "receipt_id": "RECEIPT-PLAN-654aacd1db0b",
   "plan": {
     "plan_ref": "proposals/aes-feedback-prevention/PLAN.md",
-    "plan_sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+    "plan_sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
   },
   "path_decision": {
     "ref": "proposals/aes-feedback-prevention/planning-path-decision.json",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/aes-feedback-prevention/facts.json",
-    "facts_sha256": "94a37a934420fe0512889325b115ef5cdb0f14309a4847a30d8f9c27481f34d1",
+    "facts_sha256": "cf50cab2a311e2e1e603fa9eb2be6ccfb5819f4e78b01457263d9c65e58ba3cd",
     "facts": {
       "shared_mechanism": true,
       "llm_central": true,
@@ -34,8 +34,8 @@
       "irreversible_or_spend_action": true,
       "claims_external_standard": true,
       "aes_governed_target": true,
-      "crosses_system_boundary": false,
-      "deploys": false,
+      "crosses_system_boundary": true,
+      "deploys": true,
       "multiple_writers": true,
       "consequential_boundary": false,
       "inline_prototype": false
@@ -47,8 +47,8 @@
       "irreversible_or_spend_action": "declared:derived_current_boundary",
       "claims_external_standard": "declared:derived_current_boundary",
       "aes_governed_target": "declared:derived_current_boundary",
-      "crosses_system_boundary": "default:not_declared",
-      "deploys": "default:not_declared",
+      "crosses_system_boundary": "declared:derived_current_boundary",
+      "deploys": "declared:derived_current_boundary",
       "multiple_writers": "derived:path_decision.concurrent_writers",
       "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
       "inline_prototype": "derived:classified_path==prototype"
@@ -93,14 +93,14 @@
       {
         "overlay_id": "OV-SYSTEM-BOUNDARY",
         "activation_fact": "crosses_system_boundary",
-        "active": false,
-        "reason": "crosses_system_boundary=false (default:not_declared)"
+        "active": true,
+        "reason": "crosses_system_boundary=true (declared:derived_current_boundary)"
       },
       {
         "overlay_id": "OV-DEPLOYMENT",
         "activation_fact": "deploys",
-        "active": false,
-        "reason": "deploys=false (default:not_declared)"
+        "active": true,
+        "reason": "deploys=true (declared:derived_current_boundary)"
       },
       {
         "overlay_id": "OV-STANDARD-CONFORMANCE",
@@ -118,10 +118,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:df10a55ca1313222d7151ef730f5b3d38fbd5cab07e7a0553b27306e7a08ff17",
-    "definition_sha256": "cacca8a0f420476b317e6ac111eb6fecb1a2d250a1cd91b1ec1b6f332932b222",
+    "revision": "sha256:c0f60c0174b4cf99db220e5fb7d656f686e6ccd9747fd991537bb130c1547344",
+    "definition_sha256": "1e26b4a69a2c2c9a0c7fc1c93a8f5daacb4217e7648af251c498c17db5e05d1b",
     "bundle_ref": "proposals/aes-feedback-prevention/bundle.json",
-    "bundle_sha256": "0d1048122e0d578c24dde236a517677275f2d4b3915052e472c1d7f205212b10",
+    "bundle_sha256": "a531311c825783009bfd22c889e8553744f5324cdb926b99b90534da978e08b1",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -139,16 +139,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#actor-and-result",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/6a2ce5430153/CORE-ACTOR-RESULT-EXAMPLE",
+        "trace_id": "company-planning/method-conformance/PLAN/eb8041f3db1c/CORE-ACTOR-RESULT-EXAMPLE",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the served actors (“Brian and parent coding agents”), states the desired result (“reach a generalized failure mode and an enforceable prevention check”), and gives a stable, concrete, user-visible example in the canonical case: a repeated native read-only task completes while a task requiring unavailable Remote MCP remains inconclusive.",
+        "rationale": "The evidence explicitly names the served actors (“Brian and parent coding agents”) and the desired result (“reach a generalized failure mode and an enforceable prevention check”). It also gives a stable, concrete example—canonical case feedback-prevention-v1—with a feedback report, source-grounded disposition, scoped instruction, and observable task outcomes.",
         "reused": true
       },
       "suggested_action": null
@@ -185,7 +185,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#requirements",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
@@ -212,16 +212,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#success-and-disproof",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/6a2ce5430153/CORE-SUCCESS-DISPROOF",
+        "trace_id": "company-planning/method-conformance/PLAN/9bff42d9cc07/CORE-SUCCESS-DISPROOF",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly defines success through direct checks of the claimed behavior, including reading the actual failure sentence and links, exact-source dispositions, native and remote-required behavior, and rejection of the old inconclusive result. It also gives concrete disproof conditions, including missing records, count-only acceptance, duplicate or mutated IDs, status-only inference, prerequisite violations, and schema violations.",
+        "rationale": "The evidence explicitly defines success through direct consumer behaviors, including reading the actual failure sentence and links, covering the exact source, using the permitted parser source, and stopping when remote prerequisites cannot be performed. It also gives concrete disproof conditions, including absent records, missing sentence membership, silently accepted mutations, status-only inference, prerequisite violations, and schema violation, while expressly rejecting receipt hashes or candidate lists as semantic correctness.",
         "reused": true
       },
       "suggested_action": null
@@ -239,16 +239,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#success-and-disproof",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/6a2ce5430153/CORE-TRACE-REVIEW",
+        "trace_id": "company-planning/method-conformance/PLAN/9bff42d9cc07/CORE-TRACE-REVIEW",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence names the run (`feedback-prevention-v1` and its session/child trace IDs), where traces and verification artifacts live, and what must be examined beyond final outcomes, including source reads, tool arguments/results, prompts, citations, mutations, checker I/O, logs, and negative evidence. It also explicitly exempts documentation edits from separate behavioral execution and requires source-link and authority-sync verification.",
+        "rationale": "The evidence names the run (`feedback-prevention-v1` in native parent session `01a11cac-2557-7dc0-8edd-8487ed5968d1`), the complete child traces, their storage locations, and the required trace contents, including source reads, tool activity, citations, mutations, checker I/O, logs, and negative evidence beyond final outcomes. It also explicitly exempts documentation edits from separate behavioral execution and requires source-link and authority-sync verification.",
         "reused": true
       },
       "suggested_action": null
@@ -266,16 +266,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#system-model",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/6a2ce5430153/CORE-SYSTEM-MODEL",
+        "trace_id": "company-planning/method-conformance/PLAN/eb8041f3db1c/CORE-SYSTEM-MODEL",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence links SYSTEM_MODEL.md, identifies the model scope and each affected element with specific observations required in the examined run. It also provides the documentation discovery path, applicable views and omission rationale, concrete freshness/drift checks, and same-change reconciliation steps.",
+        "rationale": "The evidence links SYSTEM_MODEL.md, identifies the model scope and each affected element with the required run observations, and cites the discovery/documentation path. It also names applicable views, explains the no-new-UI omission, specifies concrete freshness checks, and states how model, view, and verification evidence will be reconciled in the same change.",
         "reused": true
       },
       "suggested_action": null
@@ -293,7 +293,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#capability-reuse",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
@@ -320,7 +320,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#authority-and-non-goals",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
@@ -347,16 +347,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/720f1c74bf92/CORE-IRREVERSIBLE-SPEND",
+        "trace_id": "company-planning/method-conformance/PLAN/eb8041f3db1c/CORE-IRREVERSIBLE-SPEND",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly bounds the proposed work to routine checks, one taxonomy decision, two native role cases, at most 12 turns per native assignment, and a maximum $2 budget. It identifies Brian’s standing configured-model authority and the scoped approval as authorization, and contains the work through read-only constraints, no model override, approved routing, quota/billing stop conditions, and prohibition of retries or broader evaluation.",
+        "rationale": "The evidence explicitly bounds the proposed semantic-check spend to a maximum of $2 overall and $0.05 per light call, identifies Brian’s standing configured-model authority and scoped approval, and contains usage through approved routes, turn limits, read-only assignments, stopping on quota/billing errors, and excluding paid comparison or broad evaluation. It also expressly rules out destructive operations, migrations, announcements, and publication of private data.",
         "reused": true
       },
       "suggested_action": null
@@ -374,16 +374,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#uncertainties",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/720f1c74bf92/CORE-UNCERTAINTIES",
+        "trace_id": "company-planning/method-conformance/PLAN/eb8041f3db1c/CORE-UNCERTAINTIES",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly lists four material uncertainty areas—projection compatibility, semantic family coverage, transport behavior, and federation/landing—and assigns Root ownership to each. It also specifies the resolving evidence or action for each, including reports and regression cases, traced review, positive/negative traces, and canonical-plan or binding verification.",
+        "rationale": "The evidence explicitly identifies the material, blocking uncertainties—projection compatibility, semantic family coverage, transport behavior, and federation/landing—and assigns Root as owner for each. It also specifies the evidence or actions that would resolve each uncertainty, such as regression cases, traced review, native/remote traces, and canonical-plan verification.",
         "reused": true
       },
       "suggested_action": null
@@ -401,16 +401,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#activation-facts",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/28f3890c7ab7/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/41a03f195e6c/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "Every triggered activation fact is not declared false: the plan declares shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, and aes_governed_target true. It explicitly declares empirical_comparison_proposed false, but the evidence describes acceptance/regression cases rather than an experiment comparing alternatives, so that fact is not triggered; the optional boundary and deployment facts are also declared false without evidence of such activity.",
+        "rationale": "All triggered activation facts are not declared false. The plan explicitly declares shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, aes_governed_target, crosses_system_boundary, and deploys as true; it correctly declares empirical_comparison_proposed false because the native/remote cases are acceptance and regression checks rather than a comparison used to choose among alternatives.",
         "reused": true
       },
       "suggested_action": null
@@ -428,7 +428,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#prior-art-and-ownership",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
@@ -455,7 +455,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#prior-art-and-ownership",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
@@ -482,7 +482,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#llm-call-boundary",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
@@ -509,7 +509,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#llm-call-boundary",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
@@ -536,7 +536,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#coordination",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
@@ -546,6 +546,87 @@
         "materiality": "non_material",
         "missing": null,
         "rationale": "The evidence explicitly identifies the root writer and its owned paths, states there is no dependency on another writer, and describes conflict boundaries through non-overlapping claims and read-only roles. It names the root as integrator and identifies official bootstrap receipts and claims as ownership evidence for the work units.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-CONTRACTS-SCHEMAS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-feedback-prevention/PLAN.md#contracts-and-dependencies",
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/41a03f195e6c/OV-CONTRACTS-SCHEMAS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence identifies the crossed contracts and schemas, their owners, and file paths, including AES feedback records, agent-skills projections and evidence contracts, specialist results, and Company Planning schemas. It explicitly states whether each is changed or consumed unchanged, including the additive projection/hash changes and unchanged schemas and keys.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-CONTRACTS-DEPENDENCIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-feedback-prevention/PLAN.md#contracts-and-dependencies",
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/41a03f195e6c/OV-CONTRACTS-DEPENDENCIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies producers and consumers for each listed schema or contract, including feedback reports, taxonomy evidence, specialist results, adoption receipts, planning decisions, and execution cursors. It also specifies the landing order and explains compatibility measures—backward-compatible readers, retained old API/source support, and additive fields—so consumers do not break between changes.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-DEPLOY-PLAN",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-feedback-prevention/PLAN.md#deployment",
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/8b923ebc4b7e/OV-DEPLOY-PLAN",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the deployment target checkout, deployment commands (`git fetch origin` and `git checkout --detach <verified merged commit>`), a live check using the deployed checkout’s default emit-observation command and verification of emitted evidence and commit disposition, and rollback procedures via a recoverable revert or retained pre-deploy revision.",
         "reused": true
       },
       "suggested_action": null
@@ -563,7 +644,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#standard-conformance",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
@@ -590,7 +671,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#standard-conformance",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
@@ -617,23 +698,23 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#aes-target",
-          "sha256": "f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b"
+          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/6a2ce5430153/OV-AES-TARGET-TRACE",
+        "trace_id": "company-planning/method-conformance/PLAN/eb8041f3db1c/OV-AES-TARGET-TRACE",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies `.aes/target.yaml`, maps R1–R5 to verification subjects, and associates those requirements with normative items and success criteria including TR-REQ-001, SC-TR-001, RU-AES-PLANNING, RU-AES-COMMIT-RULE, SC-AP-001, and SC-AP-002. It declares that there is no target delta, names the existing items and verification subjects served, and explicitly states that no `aes plan validate` is needed because the target is unchanged.",
+        "rationale": "The evidence identifies `.aes/target.yaml`, explicitly maps R1–R5 to verification subjects, and associates those subjects with normative items and success criteria. It explicitly declares that there is no target delta, names the existing requirements and success criteria served, and explains that no target proposal or `aes plan validate` result is needed because the target is unchanged.",
         "reused": true
       },
       "suggested_action": null
     }
   ],
   "item_counts": {
-    "pass": 19,
+    "pass": 22,
     "unresolved": 0,
     "not_applicable": 0,
     "unavailable": 0,
@@ -648,11 +729,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-f193a8525590",
+    "report_id": "REPORT-PLAN-654aacd1db0b",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:0d1048122e0d578c24dde236a517677275f2d4b3915052e472c1d7f205212b10",
+    "snapshot_revision": "sha256:a531311c825783009bfd22c889e8553744f5324cdb926b99b90534da978e08b1",
     "packet_ref": "proposals/aes-feedback-prevention/PLAN.md",
-    "packet_revision": "sha256:f193a85255904d126f373dbde46e896925c90b1086d1766ff884e0149b9d907b",
+    "packet_revision": "sha256:654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -666,7 +747,7 @@
   "result": "pass",
   "reason_codes": [],
   "actionable_summary": [
-    "pass: 19 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+    "pass: 22 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
   ],
   "limitations": [
     "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
@@ -675,7 +756,7 @@
     "client": "codex",
     "session": "01a11cac-2557-7dc0-8edd-8487ed5968d1"
   },
-  "started_at": "2026-10-09T03:38:35Z",
-  "completed_at": "2026-10-09T03:38:39Z",
-  "duration_ms": 1326
+  "started_at": "2026-10-09T04:20:14Z",
+  "completed_at": "2026-10-09T04:20:15Z",
+  "duration_ms": 1338
 }

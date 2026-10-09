@@ -1,6 +1,6 @@
 # Now (2026-10-04, hive-brain session)
 
-**Feedback system diagram (2026-10-08):** [the source-bound map](../proposals/aes-learning-loop/feedback-system.svg) now distinguishes six feedback types and six agent-selected improvement targets, with generalized causes, enforced prevention and recurrence at the center. Skill-use feedback remains a separate input path, and the missing default bridge to the legacy taxonomy review remains marked.
+**Feedback system diagram (2026-10-08):** [the source-bound map](../proposals/aes-learning-loop/feedback-system.svg) now distinguishes six feedback types and six agent-selected improvement targets, with generalized causes, enforced prevention and recurrence at the center. Skill-use feedback remains a separate input path. The default taxonomy reader accepts current feedback alongside the retained legacy entries; see the [bounded prevention model](../proposals/aes-feedback-prevention/SYSTEM_MODEL.md) for the source-bound case and verification limits.
 
 **Feedback repair tooling (2026-10-08):** the installed claim runtime consumes
 canonical Enforced Planning's [successor-tracker repair](https://github.com/BrianMills2718/enforced-planning/commit/9baad04).
@@ -74,9 +74,11 @@ parent-executed checks extend the same private feedback reports, with exact
 parent/call/child/result attribution and separate inconclusive/checker-failure
 states. See [the plan](../proposals/aes-subagent-feedback/PLAN.md) and
 [commands](../scripts/learning_loop/systemd/README.md#native-subagent-feedback).
-The live Codex canary preserved an honest inconclusive instruction-scope stop;
-this is capture evidence, not proof of successful parser diagnosis or improved
-model selection. Claude parity remains native-trace replay, not a new live run.
+The original live Codex canary preserved an honest inconclusive instruction-scope stop.
+The [follow-on repair](../proposals/aes-feedback-prevention/PLAN.md) scopes Remote MCP
+preflight to that transport; native local inspection now completes with a source-supported
+result, and a remote-only no-network task stops before substituting local inspection.
+This proves the bounded behavior, not improved model selection or live remote connectivity. Claude parity remains native-trace replay, not a new live run.
 The corrected [parent check](https://github.com/BrianMills2718/agent-feedback-log/issues/263)
 matches native replay and all five records in the weekly reader. Delayed checks
 preserve native occurrence time; checker failures remain separate events.
