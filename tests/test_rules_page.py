@@ -35,7 +35,7 @@ def test_page_lists_every_rule_and_legacy_group(tmp_path: Path) -> None:
         {"id": "old-a", "policy": "A", "enforcement_status": "advisory", "enforcement_mechanism": "prose"},
         {"id": "old-b", "policy": "B", "enforcement_status": "enforced", "enforcement_mechanism": "hook"},
     ]}), encoding="utf-8")
-    page = module.build(_register(tmp_path), legacy)
+    page = module.build(_register(tmp_path), legacy, tmp_path / "no-dispositions.yaml", private=True)
     for rule_id in ("commit-tags", "loop-1", "old-a", "old-b"):
         assert f"**{rule_id}**" in page
     assert "[issue #1](https://github.com/o/r/issues/1); 2 sightings" in page
@@ -44,7 +44,7 @@ def test_page_lists_every_rule_and_legacy_group(tmp_path: Path) -> None:
 
 
 def test_missing_legacy_register_is_stated_not_hidden(tmp_path: Path) -> None:
-    page = _module().build(_register(tmp_path), tmp_path / "absent.yaml")
+    page = _module().build(_register(tmp_path), tmp_path / "absent.yaml", tmp_path / "no-dispositions.yaml", private=True)
     assert "Not available when this page was built" in page
     assert "**commit-tags**" in page
 
@@ -55,3 +55,51 @@ def test_committed_page_matches_a_fresh_build_of_the_committed_register(tmp_path
     committed = module.OUTPUT.read_text(encoding="utf-8").split("## Legacy project-meta register")[0]
     current_rules = built.split("| Section |")[1].split("\n\n", 1)[1]
     assert committed.split("| Section |")[1].split("\n\n", 1)[1] == current_rules
+
+
+def test_sorted_legacy_rules_show_their_disposition(tmp_path: Path) -> None:
+    module = _module()
+    legacy = tmp_path / "registry.yaml"
+    legacy.write_text(yaml.safe_dump({"policies": [
+        {"id": "old-a", "policy": "A", "enforcement_status": "advisory"},
+        {"id": "old-b", "policy": "B", "enforcement_status": "advisory"},
+        {"id": "old-c", "policy": "C", "enforcement_status": "advisory"},
+    ]}), encoding="utf-8")
+    dispositions = tmp_path / "dispositions.yaml"
+    dispositions.write_text(yaml.safe_dump({"rules": [
+        {"id": "old-a", "disposition": "covered", "covered_by": "commit-tags", "reason": "same rule"},
+        {"id": "old-b", "disposition": "retire", "retire_kind": "source_missing", "reason": "doc gone"},
+        {"id": "old-c", "disposition": "keep"},
+    ]}), encoding="utf-8")
+    page = module.build(_register(tmp_path), legacy, dispositions, private=True)
+    assert "**1 keep**, **1 covered**, **1 retire**" in page
+    assert "covered by commit-tags: same rule" in page and "source_missing: doc gone" in page
+    assert "**old-c**" not in page.split("## Legacy project-meta register")[1]  # kept rules are listed above, not here
+
+
+def test_public_page_never_reads_private_legacy_prose(tmp_path: Path) -> None:
+    module = _module()
+    legacy = tmp_path / "registry.yaml"
+    legacy.write_text("This is private source prose, and deliberately invalid YAML: [")
+    dispositions = tmp_path / "dispositions.yaml"
+    dispositions.write_text(yaml.safe_dump({"schema_version": "aes-legacy-dispositions-public/v1", "rules": [
+        {"id": "old-a", "disposition": "keep", "quote_sha256": "0" * 64}]}))
+    page = module.build(_register(tmp_path), legacy, dispositions)
+    assert "**1 keep**" in page
+    assert "private source prose" not in page
+    assert "No mandatory legacy rule is removed or activated" in page
+
+
+def test_public_page_rejects_full_private_inventory(tmp_path: Path) -> None:
+    import pytest
+    module = _module()
+    register = _register(tmp_path)
+    data = yaml.safe_load(register.read_text())
+    data["rules"][0]["origin"] = "legacy-migrated"
+    register.write_text(yaml.safe_dump(data))
+    with pytest.raises(ValueError, match="requires a private output"):
+        module.build(register, tmp_path / "absent.yaml", tmp_path / "absent-dispositions.yaml")
+    dispositions = tmp_path / "full.yaml"
+    dispositions.write_text(yaml.safe_dump({"schema_version": "aes-legacy-dispositions/v1", "rules": []}))
+    with pytest.raises(ValueError, match="hash-only"):
+        module.build(_register(tmp_path), tmp_path / "absent.yaml", dispositions)

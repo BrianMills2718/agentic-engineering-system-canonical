@@ -1,0 +1,13 @@
+{
+  "pid": 262460,
+  "subject": "8aa680e3747cc104e747a39926ed605fddd941dd",
+  "started_at": "2026-10-09T16:07:49.834079+00:00",
+  "log": "/home/brian/projects/data/agentic-engineering-system-canonical/agent-router-local-check-2026-10-09.log",
+  "state": "passed",
+  "exit_status": 0,
+  "passed": 386,
+  "failed": 0,
+  "errored": 0,
+  "skipped": 1,
+  "elapsed_seconds": 771.504
+}

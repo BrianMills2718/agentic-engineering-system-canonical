@@ -239,6 +239,31 @@
         "claude-feedback-capture.json"
       ],
       "limits": "Exact native packet/identity joins the completed child to its interrupted dispatch; structural parent checks produce verified_inconclusive and the existing weekly reader contains the exact record. This does not grade the investigation conclusion, establish router delivery/fallback or complete either observation period."
+    },
+    {
+      "id": "offline-source-inventory-and-publication-boundary",
+      "state": "partial",
+      "requirements": [
+        "AR-INVENTORY"
+      ],
+      "checks": [
+        "inventory-check.json",
+        "tests/test_sort_legacy.py",
+        "tests/test_rules_page.py",
+        "../../docs/rules/legacy-dispositions.yaml"
+      ],
+      "limits": "All 263 current source IDs have offline validated dispositions and all 229 kept policies retain complete private source text and nonempty applicability. Public projection excludes imported prose; existing mandatory instructions unchanged. This does not establish semantic routing coverage, activation, four-cell delivery/fallback or observation periods."
+    },
+    {
+      "id": "deployed-collector-native-consumer",
+      "state": "partial",
+      "requirements": [
+        "AR-ACCOUNTING"
+      ],
+      "checks": [
+        "deployed-collector-check.json"
+      ],
+      "limits": "Fresh deployed collector reads the actual native child and preserves an independently structurally checked inconclusive record in the weekly reader. Investigation causality remains ungraded; no full router acceptance."
     }
   ]
 }
