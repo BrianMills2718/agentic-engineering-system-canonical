@@ -23,5 +23,6 @@ Current research: [Claude Code/Codex delegation](../../proposals/harness-context
 - `generated/bootstrap-normative/` is generated dogfood/probe material, not editable normative authority.
 - `architecture-realization.bootstrap.yaml` is superseded exploratory research history; do not use it as the current design packet.
 - Research and evidence support decisions but do not become normative merely by being referenced.
+- Consumer validation proposal: [Process Tracing matched-control preregistration](../../proposals/pt-control004-preregistration/PROTOCOL.md) (design only; separate execution approval required).
 
 These documents may specialize how canonical AES applies upstream methodology, but they should not silently fork project-agnostic rules. Reusable friction or improvements belong upstream once dogfood evidence supports them.
