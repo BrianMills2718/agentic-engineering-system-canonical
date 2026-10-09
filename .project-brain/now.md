@@ -1,6 +1,6 @@
 # Now (2026-10-04, hive-brain session)
 
-**Feedback system diagram (2026-10-08):** [the source-bound map](../proposals/aes-learning-loop/feedback-system.svg) now distinguishes six feedback types and six agent-selected improvement targets, with generalized causes, enforced prevention and recurrence at the center. Skill-use feedback remains a separate input path. The default taxonomy reader accepts current feedback alongside the retained legacy entries; see the [bounded prevention model](../proposals/aes-feedback-prevention/SYSTEM_MODEL.md) for the source-bound case and verification limits.
+**Feedback system diagram (2026-10-08):** [the source-bound map](../proposals/aes-learning-loop/feedback-system.svg) now distinguishes six feedback types and six agent-selected improvement targets, with generalized causes, enforced prevention and recurrence at the center. Skill-use feedback remains a separate input path. The default taxonomy reader is merged (Agent Skills #460) and the installed private runtime at d709bcf preserved the original record and passed its disposition verifier; it accepts current feedback alongside retained legacy entries; see the [bounded prevention model](../proposals/aes-feedback-prevention/SYSTEM_MODEL.md) for the source-bound case and verification limits.
 
 **Feedback repair tooling (2026-10-08):** the installed claim runtime consumes
 canonical Enforced Planning's [successor-tracker repair](https://github.com/BrianMills2718/enforced-planning/commit/9baad04).
@@ -78,7 +78,7 @@ The original live Codex canary preserved an honest inconclusive instruction-scop
 The [follow-on repair](../proposals/aes-feedback-prevention/PLAN.md) scopes Remote MCP
 preflight to that transport; native local inspection now completes with a source-supported
 result, and a remote-only no-network task stops before substituting local inspection.
-This proves the bounded behavior, not improved model selection or live remote connectivity. Claude parity remains native-trace replay, not a new live run.
+AES #479 merged the scoped instruction; all 466 Agent Skills tests and the AES gate (340 passed, one skipped) passed. This proves the bounded behavior, not improved model selection or live remote connectivity. Claude parity remains native-trace replay, not a new live run.
 The corrected [parent check](https://github.com/BrianMills2718/agent-feedback-log/issues/263)
 matches native replay and all five records in the weekly reader. Delayed checks
 preserve native occurrence time; checker failures remain separate events.
@@ -144,3 +144,5 @@ older than the work since.
 AES capability sourcing now treats **apparent novelty as unresolved search debt**, not as a positive design signal. When a needed capability or abstraction appears to have no established owner, the expected response is increased sourcing pressure: try alternate terminology and standards, adjacent disciplines/ecosystems, structural analogues, mature compositions/adapters, internal/historical attempts, failed approaches, and requirement/frame challenge before authorizing bespoke implementation. The more consequential and apparently novel the machinery, the stronger the burden to falsify the novelty claim and shrink the residual gap. Custom construction is a last-resort bounded residual, not an achievement in itself.
 
 This policy is encoded in `docs/architecture/SYSTEM_BOUNDARY.md` under AES-CAP-002 and surfaced in `docs/plans/TEMPLATE.md` as an apparent-novelty check plus residual-invention declaration.
+
+**Worktree lifecycle navigation (2026-10-09):** the adopted [plan](../proposals/worktree-lifecycle/PLAN.md) is merged in AES #481; its owner retains execution custody. The [proposal index](../proposals/README.md) and canonical instruction references link the four reader documents directly.

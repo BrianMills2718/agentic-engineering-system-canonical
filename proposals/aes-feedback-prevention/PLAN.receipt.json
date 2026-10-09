@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-2993405f5d20",
+  "receipt_id": "RECEIPT-PLAN-664e310495ad",
   "plan": {
     "plan_ref": "proposals/aes-feedback-prevention/PLAN.md",
-    "plan_sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+    "plan_sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
   },
   "path_decision": {
     "ref": "proposals/aes-feedback-prevention/planning-path-decision.json",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/aes-feedback-prevention/facts.json",
-    "facts_sha256": "ba3d8592f096c2fcccc72ae8ef71fd79124b079508eadfd0a0cbfc88374cff5a",
+    "facts_sha256": "f7290280b4231e1c0e1f781d4c23fcb0e9051f943082e1d5a1b1875fdd4c5dcd",
     "facts": {
       "shared_mechanism": true,
       "llm_central": true,
@@ -118,10 +118,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:86f333fda0355184efb647fb608ce3d15b2803d9254fcf4efa4ad2bf9969b402",
-    "definition_sha256": "9b332806cebc0e4a796d27489918964d0af6d1f79b3ad78e7168e3ae480f46eb",
+    "revision": "sha256:75e2a4e6ea5839be3c93883f609ce2a43f9bdc1407ced72f8cc2b6fe4d7c1749",
+    "definition_sha256": "06cd74159f5a351a00a381486de39317063b2caa192685d931de755a0ddab007",
     "bundle_ref": "proposals/aes-feedback-prevention/bundle.json",
-    "bundle_sha256": "00b711f7af4830e964dcdeeb8179759067e2e4961ce8bd13c7d7f1c21dbb6fb5",
+    "bundle_sha256": "5f272e56aa6e22bc16409182ffdfbeffb8be2fbe4a00df911c0e0db6dcfa0e75",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -139,7 +139,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#actor-and-result",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -185,16 +185,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#requirements",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/28f3890c7ab7/CORE-REQUIREMENTS-TRACED",
+        "trace_id": "company-planning/method-conformance/PLAN/fd111e9a160c/CORE-REQUIREMENTS-TRACED",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence provides a requirements list (R1–R5), gives each requirement an explicit check and a planned/not-yet-run status, and states that no requirement is deferred. It also explicitly addresses the external schema-validation claim and clarifies that the taxonomy projection is not presented as a feedback-report.v1 object.",
+        "rationale": "The evidence provides a requirements list (R1–R5), and each requirement explicitly names one or more checks and a status of passing. It also states that no requirement is deferred and addresses the presented schema claim by including External DevelopmentInvestigationResultV1 validation in R3 while clarifying that the taxonomy Entry projection is not labelled as a feedback-report.v1 object.",
         "reused": true
       },
       "suggested_action": null
@@ -212,7 +212,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#success-and-disproof",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -239,7 +239,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#success-and-disproof",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -266,7 +266,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#system-model",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -293,7 +293,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#capability-reuse",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -320,7 +320,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#authority-and-non-goals",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -347,7 +347,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -374,7 +374,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#uncertainties",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -401,16 +401,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#activation-facts",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/739322b23452/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/fd111e9a160c/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan declares shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, and aes_governed_target true, matching the new shared intake seam, LLM-dependent checks, approved spend, external DevelopmentInvestigationResultV1 schema, and governed AES target. It explicitly states that the native/remote cases are acceptance and regression checks rather than a comparison of designs or models, so empirical_comparison_proposed=false is not a triggered false fact.",
+        "rationale": "All triggered activation facts evidenced by the plan are declared true: shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, aes_governed_target, crosses_system_boundary, and deploys. The declared false empirical_comparison_proposed is not triggered because the native and remote cases are acceptance/regression checks against expected behavior, not an experiment comparing alternatives to choose among them.",
         "reused": true
       },
       "suggested_action": null
@@ -428,7 +428,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#prior-art-and-ownership",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -455,7 +455,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#prior-art-and-ownership",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -482,7 +482,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#llm-call-boundary",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -509,7 +509,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#llm-call-boundary",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -536,7 +536,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#coordination",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -563,7 +563,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#contracts-and-dependencies",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -590,7 +590,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#contracts-and-dependencies",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -617,16 +617,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#deployment",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/53f31761edf2/OV-DEPLOY-PLAN",
+        "trace_id": "company-planning/method-conformance/PLAN/fd111e9a160c/OV-DEPLOY-PLAN",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence identifies both deployment targets: the branch-protection rule and the private checkout used by taxonomy-feedback.service. It explicitly provides deployment commands, live checks demonstrating the updated protection or deployed checkout behavior, and rollbacks for each.",
+        "rationale": "The evidence names the deployment targets, including the branch-protection rule and the private checkout, and specifies the deployment operations (`gh api graphql`, `git fetch origin`, and `git checkout --detach <verified merged commit>`). It also defines live checks for the protection state and deployed checkout, plus rollback procedures for both changes.",
         "reused": true
       },
       "suggested_action": null
@@ -644,7 +644,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#standard-conformance",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -671,7 +671,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#standard-conformance",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -698,7 +698,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#aes-target",
-          "sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8"
+          "sha256": "664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97"
         }
       ],
       "semantic": {
@@ -729,11 +729,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-2993405f5d20",
+    "report_id": "REPORT-PLAN-664e310495ad",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:00b711f7af4830e964dcdeeb8179759067e2e4961ce8bd13c7d7f1c21dbb6fb5",
+    "snapshot_revision": "sha256:5f272e56aa6e22bc16409182ffdfbeffb8be2fbe4a00df911c0e0db6dcfa0e75",
     "packet_ref": "proposals/aes-feedback-prevention/PLAN.md",
-    "packet_revision": "sha256:2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8",
+    "packet_revision": "sha256:664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -756,7 +756,7 @@
     "client": "codex",
     "session": "01a11cac-2557-7dc0-8edd-8487ed5968d1"
   },
-  "started_at": "2026-10-09T05:29:35Z",
-  "completed_at": "2026-10-09T05:29:35Z",
-  "duration_ms": 185
+  "started_at": "2026-10-09T05:46:38Z",
+  "completed_at": "2026-10-09T05:46:39Z",
+  "duration_ms": 270
 }

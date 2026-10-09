@@ -125,6 +125,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/9bff42d9cc07/CORE-TRACE-REVIEW",
     "verdict": "pass"
   },
+  "3008df838bfad1a0c399ee7836654ae68abc10d6b2d1922b1e8f0ea7108653a1": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "All triggered activation facts evidenced by the plan are declared true: shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, aes_governed_target, crosses_system_boundary, and deploys. The declared false empirical_comparison_proposed is not triggered because the native and remote cases are acceptance/regression checks against expected behavior, not an experiment comparing alternatives to choose among them.",
+    "trace_id": "company-planning/method-conformance/PLAN/fd111e9a160c/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
   "3437a2cc471605ff398f0f587b56bfc692ebc48d936f55f9af12888c26af36b0": {
     "item_id": "CORE-ACTIVATION-FACTS",
     "materiality": "material",
@@ -141,6 +150,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The plan declares shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, and aes_governed_target true, matching the new shared intake seam, LLM-dependent checks, approved spend, external DevelopmentInvestigationResultV1 schema, and governed AES target. It explicitly states that the native/remote cases are acceptance and regression checks rather than a comparison of designs or models, so empirical_comparison_proposed=false is not a triggered false fact.",
     "trace_id": "company-planning/method-conformance/PLAN/739322b23452/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "37d3e1024b1ac858145b195f595335582a55c48812ffcbb82d74a76dc979bb08": {
+    "item_id": "OV-DEPLOY-PLAN",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the deployment targets, including the branch-protection rule and the private checkout, and specifies the deployment operations (`gh api graphql`, `git fetch origin`, and `git checkout --detach <verified merged commit>`). It also defines live checks for the protection state and deployed checkout, plus rollback procedures for both changes.",
+    "trace_id": "company-planning/method-conformance/PLAN/fd111e9a160c/OV-DEPLOY-PLAN",
     "verdict": "pass"
   },
   "3c24652d076a2ad56d877b3cf2b38fea03f8c81e3b1e5e51607568f11a10aecf": {
@@ -258,6 +276,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "Every triggered activation fact is not declared false: the plan declares shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, and aes_governed_target true. It explicitly declares empirical_comparison_proposed false, but the evidence describes acceptance/regression cases rather than an experiment comparing alternatives, so that fact is not triggered; the optional boundary and deployment facts are also declared false without evidence of such activity.",
     "trace_id": "company-planning/method-conformance/PLAN/28f3890c7ab7/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "60734ac8e2e4bd1b0d363b3e99e99b8bd1945f77e94a480c22a74ba7eedde8cd": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides a requirements list (R1\u2013R5), and each requirement explicitly names one or more checks and a status of passing. It also states that no requirement is deferred and addresses the presented schema claim by including External DevelopmentInvestigationResultV1 validation in R3 while clarifying that the taxonomy Entry projection is not labelled as a feedback-report.v1 object.",
+    "trace_id": "company-planning/method-conformance/PLAN/fd111e9a160c/CORE-REQUIREMENTS-TRACED",
     "verdict": "pass"
   },
   "610da4fa95415688468f2078241572412ef373416089b1b6a53e17c6a4f8b33f": {

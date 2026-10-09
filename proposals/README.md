@@ -13,3 +13,5 @@ This root is predeclared so future agents do not invent an ad hoc competing home
 - `aes-learning-loop/` — design proposal (2026-10-02) for the lessons → failure modes → rules → enforcement → feedback loop. Not accepted.
 
 - [Feedback prevention case](aes-feedback-prevention/PLAN.md) — adopted repair: current reports reach the existing taxonomy reviewer and a real native-agent failure reaches a checked instruction repair; [system model](aes-feedback-prevention/SYSTEM_MODEL.md).
+
+- Worktree lifecycle — adopted implementation plan merged in PR #481: [plan](worktree-lifecycle/PLAN.md), [system model](worktree-lifecycle/SYSTEM_MODEL.md), [validation](worktree-lifecycle/VALIDATION.md), and [goal](worktree-lifecycle/worktree-lifecycle.goal.md). Execution remains with its owning lane.
