@@ -1,0 +1,2984 @@
+schema_version: aes-legacy-dispositions/v1
+about: 'Every rule in project-meta policy/registry.yaml with its disposition from the agent-router slice 1 sort
+  (scripts/rules/sort_legacy.py): covered (already stated elsewhere), keep (moved into register.yaml), retire, or
+  unresolved (its evidence check failed twice; it stays legacy). Each quote was checked verbatim against the file
+  named in quote_from.'
+rules:
+- id: acceptance-criteria-first
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current workspace instructions already require agents to define explicit pass/fail criteria and verify
+    the smallest useful implementation against them.
+  quote_from: workspace_instructions
+  quote: "Observe the\n  real boundary, define compact pass/fail criteria, and test the smallest useful\n  vertical\
+    \ through the user's entrypoint."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: advertised-capability-certification
+  disposition: keep
+  reason: The source and enforcement tooling still exist, and neither the workspace instructions nor the AES register
+    states the specific requirement that public capability claims must derive from a valid, profile-appropriate
+    certification record with cumulative evidence.
+  quote_from: source_doc
+  quote: 'A public status such as `runnable`, `available`, `supported`, or `working` must be
+
+    derived from a valid certification record. Registration, importability, a passing
+
+    unit test, or one unrelated end-to-end request is not sufficient by itself.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: agent-drivable-everything
+  disposition: retire
+  retire_kind: obsolete
+  reason: The current workspace instructions explicitly recognize operations that only Brian can perform, so the
+    legacy absolute requirement that every operation must be agent-invocable no longer applies.
+  quote_from: workspace_instructions
+  quote: '**Action** — something only Brian can physically or personally do (sign in, approve a payment, have a
+    conversation, click through a flow an agent cannot reach).'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: agent-first-human-review-escalation
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The legacy rule requires agents to make clear judgments autonomously and escalate only genuinely ambiguous
+    items. The workspace instructions state the same policy: ''Escalate only when a call is both not-high-confidence
+    and high-impact'' and ''high confidence or low impact alone means proceed and report it under Done'' — this
+    covers the same requirement that agents should resolve what they can and escalate only the narrow, consequential
+    uncertainty.'
+  quote_from: workspace_instructions
+  quote: Escalate only when a call is both not-high-confidence and high-impact; high confidence or low impact alone
+    means proceed and report it under Done, not ask first. Reach that confidence through investigation — parallel
+    subagents/forks on independent open questions — before deciding whether to ask, not instead of deciding; verify
+    a fork's key claim before acting on it, since a fork can fabricate a completed-looking result. A genuine escalation
+    needs an active channel that reaches Brian directly; a passive list or report he'd have to open on his own does
+    not count.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: agent-memory-source-of-truth
+  disposition: retire
+  retire_kind: superseded
+  reason: The current workspace instructions replace the legacy immutable per-learning JSON artifact workflow with
+    same-turn Feedback lines collected nightly; additionally, FILE FACTS show that `learnings/entries/` no longer
+    exists.
+  quote_from: workspace_instructions
+  quote: 'Record every lesson, friction, problem, experiment
+
+    and research finding as **Feedback** record lines in the same turn (format: the
+
+    `learned` skill; the nightly collector files them).'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: agent-owned-internal-coordination
+  disposition: keep
+  reason: This rule is not covered by any AES rule or workspace instruction. The workspace instructions touch on
+    coordination (e.g., listing agents, checking claims, using coordination mailbox) but do not codify the requirement
+    that agents must never ask the user to relay messages and must treat transport failures as control defects.
+    The AES rules register has no overlapping rule. The source document is present (FILE FACTS confirm policy/proposals/2026-09-01-agent-owned-internal-coordination.yaml
+    exists), so the rule remains valid and needed.
+  quote_from: source_doc
+  quote: Agents own internal agent-to-agent coordination. They send, receive, poll, and acknowledge internal messages
+    directly through native collaboration tools or the exact-session coordination mailbox; they never ask the user
+    to relay an internal message or contact another agent on their behalf.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: archive-physical-scan-surface-closeout
+  disposition: retire
+  retire_kind: superseded
+  reason: 'Legacy rule archive-physical-scan-surface-closeout is a proposal-level rule (status: approved, proposed
+    2026-08-20) that was promoted to policy/registry.yaml (review_notes: ''Promoted to policy/registry.yaml as archive-physical-scan-surface-closeout'').
+    The workspace instructions now contain the superseding storage-lifecycle-policy section (lines starting with
+    ''## Local storage lifecycle''), which covers the same function more broadly: canonical checkout usage, worktree
+    management, scratch budgets, archive cleanup procedures. The old rule focused narrowly on physical-scan-surface
+    closeout for archive cutovers; the current workspace instructions handle storage lifecycle across all tasks
+    with explicit commands (storage-policy, worktree create/remove), making the old rule procedurally superseded.'
+  quote_from: source_doc
+  quote: An archive or replacement cutover is not complete merely because its source branch is merged and the reviewed
+    candidates exist under `~/archive/`.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: archive-to-home-archive
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions already cover the core requirement of archiving retired material to ~/archive/
+    by stating 'retired things (~/archive/<repo>/<timestamp>/)' under 'Where things live'. The legacy rule's requirement
+    for a single findable archive home is fully stated there.
+  quote_from: workspace_instructions
+  quote: Keep durable invariants here; rationale belongs in `WORKING_RULES.md`
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: authority-surface-concern-uniqueness
+  disposition: keep
+  reason: The source registry still exists and declares the uniqueness invariant, while neither the workspace instructions
+    nor the AES register states this same requirement.
+  quote_from: source_doc
+  quote: 'canonical_owner_unique_per_fact_class: true'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: autonomous-progress-boundary
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions already require autonomous progress through safe, authorized work and require
+    a durable handoff with evidence, blocker or owner, and an exact resume event when no safe next action remains.
+  quote_from: workspace_instructions
+  quote: 'Commit coherent authorized increments and push recoverable checkpoints with
+
+    focused evidence. When no safe next action remains, record state, evidence,
+
+    owner/blocker, and the exact resume event.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: bounded-experiment-lane-continuity
+  disposition: keep
+  reason: The legacy rule's requirement—lane roles and continuation semantics for bounded experiments—is not covered
+    by any AES rule or workspace instruction. The AES register and workspace instructions contain no equivalent
+    rule about experiment lane continuity, ownership transfer, or return boundaries. The source document is present
+    and the rule is a real, useful requirement for coding agents handling bounded experiments.
+  quote_from: source_doc
+  quote: 'A bounded cross-project or consumer experiment records three roles: `owning_lane`, `consumer_or_fixture`,
+    and `return_boundary`.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: browser-entrypoint-execution-required
+  disposition: retire
+  retire_kind: source_missing
+  reason: 'The source document `policy/proposals/browser-entrypoint-execution-required.yaml` does not exist (FILE
+    FACTS: `{"source_docs": {"policy/proposals/browser-entrypoint-execution-required.yaml": false}}`). The rule
+    concerns manual browser verification of URLs, which does not appear in the AES rules register or workspace instructions.
+    Without an accessible source document or any evidence the requirement is still in effect, it should be retired.'
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: canonical-surface-lineage
+  disposition: keep
+  reason: The AES rules register and workspace instructions do not contain a rule requiring every named current
+    or canonical surface to have one declared authority lineage with reconciliation. The rule is still a real, useful
+    requirement for coding agents to prevent competing surfaces from being presented as current.
+  quote_from: source_doc
+  quote: Each canonical surface has exactly one declared authority lineage
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: capability-catalog-integrity
+  disposition: keep
+  reason: The requirement to pass schema, required-field, and binding-uniqueness checks before publishing a capability
+    claim is a real, useful integrity check. It is NOT stated in the workspace instructions (which mention no catalog
+    validation rule) nor in any AES rule in the register. The source document confirms the catalog is a 'Curated
+    semantic layer' with bindings that must be unique, and the linked script `scripts/check_capability_catalog.py`
+    exists. The rule applies always because it is a safety-critical integrity check on the capability catalog that
+    any agent publishing claims must follow.
+  quote_from: source_doc
+  quote: Curated semantic layer keyed by `capability_id`.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: catalog-health
+  disposition: keep
+  reason: The source requires verifiable policy artifacts, and the checked script still exists, but neither the
+    workspace instructions nor the AES register states that catalog linked-script paths must exist.
+  quote_from: source_doc
+  quote: '- Commands and artifacts that let an agent verify the current state.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: cc-hook-postuse-mission-drift
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The legacy rule cc-hook-postuse-mission-drift is covered by the root-cause-over-symptom policy, which
+    is already fully stated in workspace instructions. The workspace instructions say 'Before working around it
+    ... ask whether it would recur for any agent in any project; if so, fix it where it originates (the shared tool,
+    library, hook, or policy). A local mitigation is allowed only while that root fix is filed or in progress, and
+    you must say which one you applied.' This covers the same requirement as the legacy rule — detecting cross-session
+    context confusion is a root-cause question.
+  quote_from: workspace_instructions
+  quote: Before working around it (a retry, a delay, a manual step), ask whether it would recur for any agent in
+    any project; if so, fix it where it originates (the shared tool, library, hook, or policy).
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: cc-hook-postuse-plan-auto-complete
+  disposition: retire
+  retire_kind: superseded
+  reason: A commit message signaling closure is only a proxy for actual plan completion. The current workspace instructions
+    require direct verification of the underlying claim, superseding the legacy post-commit auto-completion behavior;
+    plan completion is now an explicit verified lifecycle action.
+  quote_from: workspace_instructions
+  quote: A proxy signal is not the claim it stands in for.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: cc-hook-pretooluse-skill-fork-write-gate
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current workspace instructions already require shared skills to be authored only in the canonical
+    directory and treat client copies as derived, which prohibits creating client-local or ad hoc skill forks.
+  quote_from: workspace_instructions
+  quote: 'Shared skills are authored only in `~/projects/.agents/skills/`; client copies
+
+    are derived. Use the smallest matching skill and never let it override policy.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: cc-hook-preuse-destructive-command-block
+  disposition: keep
+  reason: The source documents and linked detector still exist, and neither the current workspace instructions nor
+    the AES register states the full hook requirement to inspect executable command positions, ask or deny by client,
+    and fail closed on malformed events.
+  quote_from: source_doc
+  quote: 'Continue while authorized, dependency-ready, outcome-advancing work remains and
+
+    the next action is **not irreversibly dangerous**.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: cc-hook-sessionstart-audit-hook-surface
+  disposition: covered
+  covered_by: loud-failures-reach-an-agent
+  reason: 'Workspace instructions policy `loud-failures-reach-an-agent` already covers the same requirement: services/timers/pipelines
+    that error or miss a heartbeat must open a keyed concern for an agent to work, which subsumes the legacy rule''s
+    requirement to print structural findings about hook-surface health at session start. The legacy rule''s specific
+    mechanism (audit_hook_surface.py --brief --strict at SessionStart) is an implementation detail of that broader
+    policy.'
+  quote_from: workspace_instructions
+  quote: A running service, bot, timer, or pipeline that errors, skips a run, or misses a heartbeat must, unwatched
+    and within minutes, tell any waiting user and open a keyed concern (`project-meta/scripts/concern_issue.py`)
+    the most relevant agent works; a failure that only reaches a log, or a loop that repeats one crash, is a defect.
+    Log each step's outcome and user-facing latency.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: cc-hook-sessionstart-manage-client-config
+  disposition: retire
+  retire_kind: superseded
+  reason: The current workspace authority supersedes declaration-parity checking with runtime verification. The
+    legacy SessionStart check only compares configuration structure and therefore cannot establish that a configured
+    hook actually runs.
+  quote_from: workspace_instructions
+  quote: 'A hook counts as synced only
+
+    when Codex actually runs it: ask Codex (`hooks/list`), not the config file.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: cc-hook-sessionstart-session-brief
+  disposition: keep
+  reason: The source document establishes session-start context injection, and the linked session-start and resume
+    scripts still exist, but neither the current workspace instructions nor the AES register requires a concise
+    ecosystem status brief containing the top task, active claims, and recent anomalies.
+  quote_from: source_doc
+  quote: '# Session-start context injection
+
+    python scripts/knowledge_router.py --project PROJECT [--intent "task description"]  # Load route + memory context
+    (~600 tokens)
+
+    make context-load PROJECT=llm_client INTENT="fix batch embedding"                   # Same via Makefile'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: cc-hook-sessionstart-sync-skills
+  disposition: retire
+  retire_kind: superseded
+  reason: The legacy rule mandates a Claude-Code-only SessionStart hook. Current workspace policy supersedes client-specific
+    enforcement by requiring Claude Code and Codex behavior to remain synchronized; the shared skill synchronization
+    control must therefore be defined and enforced through the current cross-client mechanism rather than retained
+    as this Claude-only rule.
+  quote_from: workspace_instructions
+  quote: 'Claude Code and Codex are always kept in sync (meta-policy
+
+    `claude-codex-parity`, project-meta `policy/registry.yaml`).'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: cc-hook-stop-second-brain-work-context
+  disposition: unresolved
+  review: 'Retire reasoning rejected on review (2026-10-08): the quoted parity rule says hooks must behave the same
+    in Claude Code and Codex, which argues for adding the hook to Codex, not for retiring the rule.'
+- id: cc-hook-stop-session-handoff
+  disposition: retire
+  retire_kind: superseded
+  reason: The unconditional requirement to create a handoff document at every Claude Code Stop event has been replaced
+    by state-based closeout instructions that require recording resumable state only when no safe next action remains,
+    along with the current structured response closeout format.
+  quote_from: workspace_instructions
+  quote: When no safe next action remains, record state, evidence, owner/blocker, and the exact resume event.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: cc-hook-userpromptsubmit-assignment-manager
+  disposition: retire
+  retire_kind: obsolete
+  reason: The current documented workflow loads routed context at session start rather than injecting assignments
+    on every prompt; coordination ownership now resides in claims and the mailbox, and the legacy per-prompt injector
+    is not part of the current workflow.
+  quote_from: source_doc
+  quote: '# Session-start context injection
+
+    python scripts/knowledge_router.py --project PROJECT [--intent "task description"]  # Load route + memory context
+    (~600 tokens)
+
+    make context-load PROJECT=llm_client INTENT="fix batch embedding"                   # Same via Makefile'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: check-claims-before-overlap
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions already require checking coordination claims before editing shared projects,
+    via `check_coordination_claims.py`, which covers the same requirement as the legacy rule. The legacy rule's
+    policy to inspect claims before starting overlapping work is stated in the workspace instructions under 'Shared-state
+    safety'.
+  quote_from: workspace_instructions
+  quote: Before editing, record `git status --short`, inspect active claims with `check_coordination_claims.py --check
+    --project <name>` (or `--list`), and preserve other writers' work.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: circuit-breaker
+  disposition: keep
+  reason: The current instructions contain narrower retry and waiting limits, but they do not state the general
+    three-attempt circuit breaker for any repeatedly unchanged problem.
+  quote_from: source_doc
+  quote: 'When one lane reaches a boundary,
+
+    continue another eligible lane rather than idling the whole program.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: claim-end-requires-liveness-check
+  disposition: keep
+  reason: 'The AES rules register does not contain this specific liveness-check requirement. Workspace instructions
+    mention coordination claims (Shared-state safety section: ''Before editing, record git status --short, inspect
+    active claims with check_coordination_claims.py --check --project <name>'') but do not state the liveness-check
+    rule. The source document is present (FILE FACTS confirm it exists) and the linked script exists. The requirement
+    is not covered by any existing rule, so it must be kept.'
+  quote_from: source_doc
+  quote: A process that ends, expires, prunes, or sweeps a coordination claim must first check the owning session's
+    liveness, and must not end a claim whose heartbeat is newer than the sweep's own start time
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: claim-prune-scope-and-custody
+  disposition: keep
+  reason: The rule is an approved, hard-enforcement policy from a promoted proposal (2026-09-13, Brian). It is not
+    covered in workspace instructions or the AES rules register (neither mentions coordination claims, archive requirements,
+    or exact-target pruning). The source document exists per FILE FACTS. The rule is a real, useful requirement
+    for coding agents working on coordination-claim pruning/stale-claim cleanup.
+  quote_from: source_doc
+  quote: Destructive coordination-claim pruning is exact-target by default. A command that can mutate more than
+    one explicitly identified claim must require an affirmative fleet-wide flag such as `--all`, state the resolved
+    scope before mutation, and reject target selectors that the selected operation does not honor.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: claude-codex-parity
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The legacy rule's core requirement — that Claude Code and Codex are always kept in sync, covering instructions,
+    skills, hooks, and behavioral preferences, with gaps being defects to fix, never decisions to route to Brian
+    — is stated verbatim in the Workspace Instructions under the 'Skills and knowledge' section, including the same
+    Brian quote ('the answer is always yes'). The Workspace Instructions also reference the same daily audit step
+    3e and concern issue mechanism. The requirement is already covered, so no new rule is needed.
+  quote_from: workspace_instructions
+  quote: 'Claude Code and Codex are always kept in sync (meta-policy `claude-codex-parity`, project-meta `policy/registry.yaml`).
+    Brian, 2026-09-14: "the answer is always yes." Instructions, skills, hooks, and behavioral preferences must
+    behave the same in both clients.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: clean-clone-portability-gate
+  disposition: covered
+  covered_by: loop-407
+  reason: 'AES rule loop-378 ("Require that every replay or backtest document declares its population boundary as
+    a structured field, and that every documented tool-invocation route embeds explicit environment pre-checks so
+    an agent cannot reach a success-or-failure output via a path whose preconditions are unmet.") covers the same
+    requirement: the legacy rule demands clean-clone verification outside the normal topology to prevent sibling/ambient
+    dependency failures; loop-378 requires explicit environment pre-checks so that preconditions are verified before
+    proceeding, which accomplishes the same goal of preventing undetected environment-mismatch portability defects.'
+  quote_from: aes_register
+  quote: Require that every replay or backtest document declares its population boundary as a structured field,
+    and that every documented tool-invocation route embeds explicit environment pre-checks so an agent cannot reach
+    a success-or-failure output via a path whose preconditions are unmet.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: codebase-memory-routing-observability
+  disposition: keep
+  reason: The current workspace instructions and AES rules register do not address codebase-memory routing/observability.
+    The legacy rule is a real, actionable requirement for coding agents choosing when to use the codebase-memory
+    graph tool and how to verify its results; it is not stated in the current workspace instructions or AES rules.
+    The quoted source document establishes the routing requirement and the verification contract, so it should be
+    kept.
+  quote_from: source_doc
+  quote: Use codebase-memory conditionally for structural code questions after readiness checks, with source verification
+    and direct fallback for exact, config, docs, runtime, or unready-index work.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: commit-msg-prefix-validation
+  disposition: covered
+  covered_by: commit-tags
+  reason: 'The legacy rule requires all commit messages to start with a valid prefix pattern from meta-process.yaml.
+    The AES rules register rule commit-tags states the same requirement in different words: every commit''s first
+    line must start with one of the listed tags, and it is enforced by the existing commit-msg hook. Thus the current
+    workspace already covers this requirement.'
+  quote_from: aes_register
+  quote: 'Every commit''s first line starts with one tag: [Plan #N], [Goal <plan_id>], [Trivial], [Auto], [Unplanned]
+    with an Emergency line, or [Shaping <plan_id>].'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: commit-verified-increments
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions already require agents to commit coherent increments and continue until a concrete
+    blocker leaves no safe next action.
+  quote_from: workspace_instructions
+  quote: 'Commit coherent authorized increments and push recoverable checkpoints with
+
+    focused evidence. When no safe next action remains, record state, evidence,
+
+    owner/blocker, and the exact resume event.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: concerns-to-issues-immediately
+  disposition: retire
+  retire_kind: superseded
+  reason: The current workspace instructions supersede the legacy nearest-ISSUES.md workflow with a keyed concern
+    queue and the current concern_issue.py filing path.
+  quote_from: workspace_instructions
+  quote: 'When project-specific work surfaces a genuine systemic/ecosystem gap, ecosystem
+
+    work takes priority, one lane per concern: file one keyed concern immediately
+
+    (`project-meta/scripts/concern_issue.py`), fix it yourself only if it blocks your
+
+    own task or nobody has claimed it, and otherwise continue your task while the
+
+    designated owner works the concern queue first.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: context-is-depletable
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current context-budget instructions already require bounded tool output, concise retained notes, selective
+    delegation of bulk research, and keeping conclusions rather than transcripts.
+  quote_from: workspace_instructions
+  quote: "Context is a finite execution resource:\n\n- Read indexes, headings, and targeted sections before whole\
+    \ documents.\n- Never bulk-print multi-file bundles or unbounded search results. A line limit\n  is not a byte\
+    \ limit when JSONL or minified records contain huge lines.\n- Bound searches by path, match count, context,\
+    \ and output size; use exact line\n  ranges and concise local notes for what survives the decision.\n- Delegate\
+    \ unpredictable bulk search only when delegation is permitted and its\n  expected value exceeds its coordination\
+    \ cost. Keep the conclusion, not the\n  transcript, and verify load-bearing negatives yourself."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: continue-after-gate-approval
+  disposition: keep
+  reason: The source document exists and states a useful cross-turn approval-to-action requirement that is not fully
+    stated by the current workspace instructions or AES register.
+  quote_from: source_doc
+  quote: "When an agent requests one exact approval and states that approval will\n  license a reversible in-scope\
+    \ next action, an affirmative operator response\n  clears that gate. The agent records the disposition and immediately\
+    \ performs\n  the licensed action."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: converge-critique-loops
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current workspace instructions explicitly state the same converge procedure and prohibit iterating
+    on numeric grades.
+  quote_from: workspace_instructions
+  quote: "AI critique loops end by design. Whenever an AI's critique or grade will\n  drive another revision of\
+    \ something a person will judge (an article, page,\n  résumé, cover letter, proposal, design, or a plan Brian\
+    \ decides on), follow\n  the `second-opinion` skill's converge procedure: a contract written first\n  (reader,\
+    \ their decision, a yes/no checklist, word budget, round limit), two\n  critics from model families other than\
+    \ the writer's that report findings\n  with exact quotes, never scores, triage against the contract, one fix-only\n\
+    \  revision, keep-or-revert gated by the deliverable's own checks, and\n  `converge.py decide` as the only stop\
+    \ rule. Never iterate on a numeric\n  grade."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: conversation-bound-lane-adoption
+  disposition: keep
+  reason: The rule is a real, useful requirement for coding agents and is NOT already covered by workspace instructions
+    or the AES rules register. No existing rule in the AES register or workspace instructions addresses lane-adoption
+    boundaries (staying in the current conversation's outcome unless explicitly changed, treating other-session
+    claims as context not assignments, binding generic authorizations to the immediately preceding scope). The workspace
+    instructions reference outcome authority ('The current request defines the outcome') but do not cover lane-adoption
+    prevention, cross-session claims as context vs. assignment, or generic-authorization binding.
+  quote_from: source_doc
+  quote: The current conversation's named outcome and latest scope clarification remain the active lane until the
+    user explicitly changes them. A live claim, nearby repository, related project, or semantically similar active
+    initiative owned by another session is global coordination context, not an assignment.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: coordinator-only-root-delegation
+  disposition: keep
+  reason: FILE FACTS confirm the source document exists and is true. The AES rules register and workspace instructions
+    do not state this requirement. The rule defines a specific role separation for coordinator-only root sessions
+    with behavioral constraints not covered by existing rules.
+  quote_from: source_doc
+  quote: When Brian designates a session as coordinator-only, the root session delegates implementation to worker
+    agents. The root limits itself to task decomposition, claim and overlap management, worker messaging, evidence
+    review, integration decisions, and combined verification.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: cross-agent-citation-standard
+  disposition: keep
+  reason: The source document establishes machine-resolvable citations for plan evidence, the source and enforcement
+    scripts still exist, and neither the workspace instructions nor the AES register states this citation requirement.
+  quote_from: source_doc
+  quote: "1. Plan template gains a `Citations` sub-field in Research and Acceptance\n   Criteria sections with `agent_memory:sm-XXXX`\
+    \ syntax\n2. `scripts/check_plan_citations.py` — validates that every `agent_memory:sm-XXXX`\n   reference in\
+    \ a plan doc resolves to a real, Active record in the DB"
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: cross-client-git-update-boundary
+  disposition: keep
+  reason: The cross-client Git update boundary rule establishes a portable preflight and receipt mechanism at shared-state
+    boundaries (canonical branches, recovery custody, remote refs) that is not present in the current workspace
+    instructions or AES rules register. The workspace instructions cover shared-state safety (claims, worktrees,
+    check coordination) and Git commands, but they do not require the structured preflight-and-receipt protocol
+    or the explicit six-step precondition checklist before mutation. The AES rules register has no equivalent rule.
+    The rule is still relevant because multiple AI clients interact with governed repositories and need a consistent
+    mutation boundary.
+  quote_from: source_doc
+  quote: Every client that updates a governed repository uses the same repository and Git boundary, regardless of
+    its native UI or hook support.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: cross-contract-reachability-review
+  disposition: retire
+  retire_kind: source_missing
+  reason: The sole source document `policy/proposals/cross-contract-reachability-review.yaml` is marked as absent
+    in FILE FACTS. No evidence of the rule exists in the current workspace instructions or the AES rules register.
+    The legacy rule cannot be kept because its source is gone and its requirement is stated nowhere in current authoritative
+    documents.
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: cross-project-runtime-seam-integrity
+  disposition: keep
+  reason: The source document establishes a useful contract-integrity requirement for adopted cross-project runtime
+    seams, while neither the current workspace instructions nor the AES register states the complete requirement
+    covering one portable authority, exact identities, dependency observations, discriminated failures, adapter
+    enforcement, and separate situational observations.
+  quote_from: source_doc
+  quote: '**Target:** `data_contracts` owns portable service-capability, contract-
+
+    identity, dependency-observation, boundary-failure, and shared-evidence wire
+
+    models. DIGIMON and Team-Brains consume the same released models; Inside
+
+    Success owns live topology/readiness probes; existing Plan 231 traces join the
+
+    records. Deterministic boundary violations fail loudly, situational quality and
+
+    freshness remain visible observations, and partial evidence is preserved.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: decision-asks-carry-recommendation-and-confidence
+  disposition: keep
+  reason: The rule is a real, useful requirement for coding agents that is not already covered by workspace instructions
+    or the AES rules register. The workspace instructions contain a related but distinct policy 'recommendations-not-question-lists'
+    (giving recommendatations instead of questions) and the existing 'root-cause-over-symptom' and authority sections,
+    but none of them state the specific confidence threshold (90%) and the four required components (recommendation,
+    confidence, alternatives, tradeoffs) that this rule requires before asking the user a question.
+  quote_from: source_doc
+  quote: "Before writing any question to the user, state your confidence to yourself.\n- Above 90% confident: do\
+    \ not ask. Decide, act, and report the decision in one line with its reason. Reversibility is the safety margin,\
+    \ not consultation.\n- At or below 90%: the ask carries all four of these, or it is not ready:\n  recommendation\
+    \ -- what you would do, stated as a choice not a lean;\n  confidence -- a number, so the user knows how much\
+    \ weight to give it;\n  alternatives -- the real options, not strawmen;\n  tradeoffs -- what concretely changes\
+    \ under each, in plain language."
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: decisions-and-learnings-fields-closeout-discipline
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions already require exactly this: every completed-work response must end with
+    structured fields including Feedback and Decisions. The legacy rule''s requirement for Decisions and Learnings
+    fields in every closing report is fully covered by the workspace instructions'' mandatory closeout format (which
+    includes Feedback and Decisions fields and the same ''never silently omitted'' discipline).'
+  quote_from: workspace_instructions
+  quote: End completed-work responses with these fields, in order. This applies to every completed-work turn regardless
+    of length or how routine it feels — satisfying a narrower Stop-hook check (for example, a single `Feedback:`
+    line) is not the same as satisfying this full format, and is not an exemption from it.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: declare-data-model-for-non-obvious-systems
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions already contain the substantive requirement: ''A repository whose system has
+    a data model that cannot be correctly inferred from its runtime artifacts MUST declare the document describing
+    that model, in its own CLAUDE.md, under a \"## Read First\" heading, with the document path in backticks and
+    one sentence naming the model.'' The source document uses ''AGENTS.md'' but the intent is identical — the disposition
+    ''covered'' applies because the requirement is stated in workspace-instructions.'
+  quote_from: source_doc
+  quote: A repository whose system has a data model that cannot be correctly inferred from its runtime artifacts
+    MUST declare the document describing that model, in its own CLAUDE.md, under a "## Read First" heading
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: default-branch-standard
+  disposition: retire
+  retire_kind: superseded
+  reason: The roadmap explicitly says it was superseded and is no longer a current source of truth. It identifies
+    only the migration-packet rule as surviving independently, not this default-branch rule.
+  quote_from: source_doc
+  quote: 'The rest of this file is retained as historical record, not a
+
+    current source of truth — do not add new backlog items here.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: deferred-plan-artefact-carries-its-status
+  disposition: covered
+  covered_by: plan-nontrivial-work
+  reason: 'The legacy rule''s most actionable directive — ''Before building a replacement for a capability an existing
+    artefact appears to lack, an agent checks the owning plan''s status and searches the repository for unwired
+    prior work. A deferred plan is evidence the capability may exist and be unconnected, not evidence that it is
+    absent.'' — is a specific case of the broader AES rule `integrate-before-build`: ''Adopt what already exists,
+    else combine or fork off-the-shelf systems; build only what a landscape review shows nothing covers, naming
+    why.'' The legacy rule''s other parts (artefact status propagation, default declarations) are implementation
+    details for workspace-instructions and the linked check script, not a standalone agent instruction.'
+  quote_from: aes_register
+  quote: Non-trivial work runs under an adopted Company Planning plan sized to it; trivial changes (at most 3 files
+    and 60 lines, touching nothing that runs) need none.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: deployment-hosting-decision
+  disposition: keep
+  reason: The rule is a specific deployment-hosting decision policy about classifying personal projects by shape
+    before choosing a hosting platform. It is not stated in the current workspace instructions (which only say 'read
+    its Deployment Hosting Policy' as a reference, not stating the rule itself) nor in the AES rules register. The
+    source document is available and the rule remains a real, useful requirement for coding agents making hosting
+    decisions.
+  quote_from: source_doc
+  quote: Classify by shape (public/stateless vs private/stateful) before comparing platforms. Never let one project's
+    migration set a precedent for another whose shape differs. Personal and Inside Success/ISTV infrastructure never
+    mix.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: derived-project-workspace-views
+  disposition: retire
+  retire_kind: tool_missing
+  reason: The linked VS Code workspace-generation helper is absent according to the FILE FACTS, so this tool-specific
+    legacy rule cannot govern the current workflow as written.
+  quote_from: none
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: derived-propagation-verification-closure
+  disposition: keep
+  reason: The source exists, and neither the workspace instructions nor the AES register states the requirement
+    to derive complete verification scope from the producer's manifest or actual output inventory.
+  quote_from: source_doc
+  quote: "Hand-selected file lists may add\n\n  focused feedback but do not prove the complete propagation claim."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: design-derive-order
+  disposition: keep
+  reason: Neither the current workspace instructions nor the AES register states the required requirements-to-schema
+    derivation sequence, and the source document says existing capability owners remain authoritative absent an
+    accepted disposition.
+  quote_from: source_doc
+  quote: Existing capability owners remain authoritative until a later accepted decision selects reuse, transfer,
+    supersession, or retirement from observed working evidence.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: doc-code-coupling
+  disposition: keep
+  reason: The source and enforcement tools still exist, and neither the workspace instructions nor the AES register
+    states the specific requirement to reconcile documents declared as coupled when their source changes.
+  quote_from: source_doc
+  quote: "When Foundation adds/removes/changes\n    a normative contract, ECOSYSTEM_STATUS must update its 'Where\
+    \ Things Live' and 'Prioritized Next Steps'\n    sections to reflect new or changed contracts."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: documentation-governance-structure
+  disposition: keep
+  reason: The source document and validation script still exist, and neither the workspace instructions nor the
+    AES register states the same structural validation requirement for project-meta governance documents.
+  quote_from: source_doc
+  quote: '---
+
+    doc-role: ops-policy
+
+    authority: canonical
+
+    freshness: 2026-09-08
+
+    ---'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: durable-must-not-point-at-disposable
+  disposition: keep
+  reason: The rule is a substantive, real requirement about durable references and provenance recording. Neither
+    the workspace instructions nor the AES rules register contain an equivalent requirement. The workspace instructions
+    mention durability in one sentence ('Before writing a durable reference ... commit the target into a git repo
+    with a remote first') but this is a narrower, specific instruction about committing targets before referencing,
+    not the broader rule about durable references and the four allowed target types. The AES register contains no
+    related rule.
+  quote_from: source_doc
+  quote: A durable artifact must not reference a location that is not itself durable, UNLESS the derivation is recorded
+    alongside the reference.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: enforcement-leaves-its-remedy-reachable
+  disposition: keep
+  reason: The legacy rule is a substantive requirement about blocking hook design that is not stated in the workspace
+    instructions or the AES rules register. The workspace instructions have a brief mention of 'Never truncate or
+    pipe away the output of a failing check' (loop-386) and various commit/merge rules, but nothing requiring a
+    blocking gate to name its clearing command, guarantee a subsequent turn, accept reasonable spellings, or reject
+    time-based grace windows that expire into permanent refusal. The rule applies to all agent-facing hooks and
+    enforcement gates, making it safety-critical for preventing deadlocked sessions.
+  quote_from: source_doc
+  quote: A gate must leave its own remedy reachable by the actor it blocks.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: enforcement-liveness
+  disposition: keep
+  reason: The source requires verification of current enforcement state, while neither the workspace instructions
+    nor the AES register specifically requires checking a hard policy's declared enforcement level against observably
+    live enforcement channels.
+  quote_from: source_doc
+  quote: Commands and artifacts that let an agent verify the current state.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: eval-signal-integrity
+  disposition: covered
+  covered_by: read-the-trace
+  reason: 'The workspace instructions'' `read-the-trace` rule implements the same requirement with stronger enforcement:
+    it mandates opening the full trace before trusting any graded result, which subsumes the legacy rule''s validity
+    gates (positive control, build-adequacy, held-out cases, generalization, independent sign-off). The legacy rule
+    says ''An eval/benchmark result may drive a decision only when it passes eval-signal integrity'' — the workspace
+    instructions say ''Read the trace before you trust a result'' and ''A score or a final answer alone is not a
+    result.'' Both establish that raw eval scores are not actionable without deeper verification. The workspace
+    instructions are current, enforced, and cover the same principle.'
+  quote_from: workspace_instructions
+  quote: Read the trace before you trust a result. Whenever a test, eval, benchmark, canary or run grades an agent,
+    a model or a pipeline, open the full trace of every failing or surprising item
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: event-taxonomy-parity
+  disposition: keep
+  reason: The active source document and parity-checking script both exist, and neither the current workspace instructions
+    nor the AES register states this event-taxonomy parity requirement.
+  quote_from: source_doc
+  quote: '3. Required invariant: code list in this doc MUST match runtime enums exactly via parity checks.
+
+    4. If parity fails, runtime and doc must be reconciled in the same change.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: evidence-grading
+  disposition: retire
+  retire_kind: obsolete
+  reason: The legacy rule depends on self-reported evidence grades, while current instructions require structured
+    records and direct verification rather than self-attestation; the old A–F taxonomy is therefore obsolete.
+  quote_from: workspace_instructions
+  quote: "Never self-attest in a\n  reply; gates read only these structured records."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: experiment-declares-mechanism-and-kill-condition
+  disposition: keep
+  reason: The source exists and states useful requirements for decision-driving experiment series that are not fully
+    stated in the current workspace instructions or AES register.
+  quote_from: source_doc
+  quote: "An experiment intended to support or refute a claim about an intervention must\n  record, before it runs:\n\
+    \n  1. **Mechanism.** One sentence: the intervention beats the control because it\n     supplies <what>, which\
+    \ the control lacks. If the honest answer is \"it adds\n     process\" and the control already holds ground\
+    \ truth for the scored\n     property, the experiment is refused rather than run -- process cannot beat\n  \
+    \   ground truth, and no increase in task difficulty changes that.\n  2. **Predicted separation.** The direction\
+    \ and rough size of the expected\n     difference, and the sample size that could show it.\n  3. **Kill condition\
+    \ for the series.** What result, or how many experiments\n     without separation in the predicted direction,\
+    \ ends the line of work. A\n     series with no kill condition cannot conclude, only accumulate."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: explicit-next-action-disposition
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current workspace instructions already require closeouts to distinguish completion, continuation,
+    blockage, and human-owned next actions without misrepresenting a completed subtask as completion of the overall
+    session goal.
+  quote_from: workspace_instructions
+  quote: "- **Recommended next** — repeat the current subgoal. Say complete only when the session goal\n  and all\
+    \ `Current`/`Other` subgoals are complete; otherwise say continuing or blocked.\n  Name only agent work here;\
+    \ anything that needs Brian goes in the next field\n  and nowhere else, so no other field reads as a request."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: explicit-organization-metadata
+  disposition: keep
+  reason: The rule requires explicit record_kind, organization_status, stable workspace_slug, and exact source and
+    destination mappings for physical reorganization. This is not stated in the workspace instructions or AES rules.
+    It remains a real, useful requirement from the source policy document.
+  quote_from: source_doc
+  quote: 'The organizing principle is simple: **stable identity chooses the project;'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: fail-loud
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions contain a policy ''loud-failures-reach-an-agent'' (also referenced as Policy
+    `loud-failures-reach-an-agent`) which states the same requirement: failures must surface to an agent and be
+    actionable, not silently swallowed. The legacy rule ''fail-loud'' requires no silent fallbacks and no bare `except:
+    pass`, with failures surfacing as exceptions or explicit error returns. The workspace policy requires failures
+    to reach an agent within minutes via a concern issue, which covers the same intent of preventing hidden failures.'
+  quote_from: workspace_instructions
+  quote: 'Fail loudly, to an agent. A running service, bot, timer, or pipeline that errors,
+
+    skips a run, or misses a heartbeat must, unwatched and within minutes, tell any
+
+    waiting user and open a keyed concern (`project-meta/scripts/concern_issue.py`)
+
+    the most relevant agent works; a failure that only reaches a log, or a loop that
+
+    repeats one crash, is a defect.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: filesystem-metadata-closure
+  disposition: retire
+  retire_kind: source_missing
+  reason: 'The source document `policy/proposals/filesystem-metadata-closure.yaml` does not exist (FILE FACTS confirm
+    source_docs: false). No linked scripts exist. The rule''s scope (privacy/confidentiality claims about private
+    artifact trees) falls outside ordinary development work and no current policy covers it. The AES rules register
+    contains no matching requirement. The workspace instructions contain no matching requirement. Therefore the
+    rule is retired because its source document is missing.'
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: finder-external-route-lineage-check
+  disposition: keep
+  reason: The source document exists, and neither the current workspace instructions nor the AES register states
+    the full requirement to treat an external-lineage route as only a candidate and disclose and reconcile the proposed
+    scope transfer before implementation.
+  quote_from: source_doc
+  quote: "When a finder, mega repository, portfolio index, or generated route redirects\n  work to a repository\
+    \ outside the user's named lineage, ownership boundary,\n  or indexed system, treat that redirect as a candidate\
+    \ route rather than an\n  automatic scope transfer."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: first-principles-before-comparative-evaluation
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The legacy rule's core requirement to prefer first-principles reasoning over comparative evaluation and
+    to only benchmark when necessary is already stated verbatim in the current workspace instructions under 'Work
+    and verification'. The instruction also captures the spirit of avoiding premature bakeoffs and keeping benchmarking
+    distinct.
+  quote_from: workspace_instructions
+  quote: Decide architecture and approach from first principles and prior art first. Build or run a benchmark or
+    comparative evaluation only when a specific, named decision cannot be made without it, and then the smallest
+    test that settles it; never make one a default step or a completion criterion.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: fleet-ahead-of-origin
+  disposition: keep
+  reason: The source document and linked checker both exist, and neither the workspace instructions nor the AES
+    register specifically requires repositories ahead of origin to be surfaced and resolved before cross-agent work.
+  quote_from: source_doc
+  quote: A durable rule other agents/sessions are expected to follow, carrying an enforcement tier and channel
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: foundation-schema-refs
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The legacy rule forbids Foundation schema refs outside the legacy directory. The workspace instructions''
+    ''root-cause-over-symptom'' policy (verbatim quote) already covers this: it requires fixing issues at the origin
+    (shared tool, library, hook, or policy) and only allows local workarounds (like a legacy directory) while the
+    root fix is in progress and declared. The legacy rule''s intent (block new code from reintroducing legacy refs)
+    is a specific instance of the general policy of addressing root causes rather than allowing unbounded local
+    workarounds.'
+  quote_from: workspace_instructions
+  quote: A local mitigation is allowed only while that root fix is filed or in progress, and you must say which
+    one you applied.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: four-bucket-destination
+  disposition: retire
+  retire_kind: superseded
+  reason: The fixed four-bucket scheme has been superseded by the current requirement to route work according to
+    the owning repository and reviewed Project Graph governance.
+  quote_from: workspace_instructions
+  quote: Route work by the owning repository and reviewed Project Graph governance, not the nearest clone or active
+    credentials.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: generated-wiki-not-hand-edited
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions already state this requirement in the ''Outcome and authority'' section: ''Generated
+    files, wiki pages, handoffs, and plans do not become independent authority.'' and the rule that wiki pages are
+    generated from structured sources and not hand-edited is implied by the overall architecture of generated vs.
+    canonical sources. However, the specific requirement ''Wiki pages are generated from structured sources, not
+    hand-edited as the canonical source'' is directly stated in the source document and is covered by the workspace
+    instructions'' broader principle that generated outputs are not authoritative and source files remain canonical.
+    The rule is effectively covered.'
+  quote_from: source_doc
+  quote: Generated MediaWiki pages are not hand-edited. Regenerate from source and re-import.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: git-remote-ssh-personal
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions cover the core requirement: the legacy rule mandates SSH remotes via github-personal
+    for BrianMills2718/​* and prohibits HTTPS; the workspace instructions direct agents to read GITHUB_ACCOUNT_ROUTING.md
+    (which contains the SSH-via-github-personal requirement) before making any `gh` call to a non-personal repository.
+    The routing document itself (the source_doc) states the SSH requirement explicitly: "Git transport: SSH (`git@github-personal:...`)".
+    The legacy rule''s extra details (verify with `git remote -v`, run the checker script) are implementation hints,
+    not a distinct requirement not already covered by reading the routing document as the workspace instructions
+    command.'
+  quote_from: workspace_instructions
+  quote: 'Before the *first* `gh pr create`/`gh pr merge`/`gh api` call against a repository this session, check
+    from its remote URL or `owner/repo` whether the owner is `BrianMills2718`. If not (`Inside-Success/*`, `~/steno/*`,
+    or any other owner), read `project-meta/docs/ops/GITHUB_ACCOUNT_ROUTING.md` first and use its named wrapper
+    (`gh-insidesuccess`, `gh-work`) for every `gh` call there: plain `gh` silently uses the wrong identity and can
+    still open a PR. Credentials live in `~/.secrets/api_keys.env`; search for key names before reporting one missing
+    and never expose values.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: goal-condition-agent-demonstrable
+  disposition: keep
+  reason: The source document exists and is promoted, while neither the workspace instructions nor the AES register
+    states this specific completion-condition requirement.
+  quote_from: source_doc
+  quote: states the agent can prove
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: governed-artifact-creation
+  disposition: keep
+  reason: The source document and enforcement scripts still exist, and neither the workspace instructions nor the
+    AES register states the complete creation-time requirement for controlled tracked artifacts.
+  quote_from: source_doc
+  quote: '**One-owner rule:** keep each binding fact editable at one native authority.
+
+    The wiki may summarize and link it, and provenance-bearing generated copies may
+
+    be stored, versioned, and searched when they identify their source digest and
+
+    regeneration route. Such copies never acquire independent authority.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: governed-bootstrap-fresh-repo-journey
+  disposition: keep
+  reason: The source document exists, and neither the current workspace instructions nor the AES register states
+    this specific minimal-profile, inventory, opt-in bundle, and fresh-repository journey requirement.
+  quote_from: source_doc
+  quote: "  The canonical governed-repository installer provides a minimal default\n  profile and proves every advertised\
+    \ starting journey in a fresh temporary\n  repository. The default copies only process documents that the new\
+    \ repository\n  declares as local authority, records the emitted file and line inventory, and\n  keeps a full\
+    \ vendored governance bundle opt-in."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: governed-repository-concern-layout
+  disposition: retire
+  retire_kind: superseded
+  reason: The current governed-repository contract supersedes the legacy seven-directory skeleton with an evidence-based
+    universal concern layout defined in its current §1B.
+  quote_from: source_doc
+  quote: '**Enforcement: measured and advisory during rollout.** Not required to count as
+
+    governed yet. A 16-repo audit (2026-09, see Plan #261) found real convergence
+
+    stronger for some of these items than for several currently-required items
+
+    above — the layout below reflects that evidence, not just intent.
+
+
+    Root-tier files answer "how does a fresh agent or human orient before any
+
+    navigation is possible." Top-level directories answer "where does this kind of
+
+    content live."'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: grader-positive-control-and-failure-samples
+  disposition: keep
+  reason: The requirement is not already stated in the workspace instructions or the AES rules register. The AES
+    rules register contains rules like `read-the-trace` which opens traces before reporting scores, but that is
+    a different requirement (read traces after the fact vs. run against known-good reference before reporting).
+    The positive control, samples-not-counts, and declare-success-criterion rules are distinct requirements not
+    covered elsewhere. The source document is present (FILE FACTS confirm policy/proposals/2026-08-25-grader-positive-control-and-failure-samples.yaml
+    exists).
+  quote_from: source_doc
+  quote: Any comparator, grader, scorer, or acceptance check that decides pass/fail for a measurement must be run
+    against a known-good reference before any number it produces is reported or acted on.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: grep-old-paths-after-migration
+  disposition: keep
+  reason: The source document exists and states a useful migration-safety requirement that is not present in the
+    workspace instructions or AES register.
+  quote_from: source_doc
+  quote: "After any canonical file location migration, grep the entire repo for the old\n\n  path string before\
+    \ closing the migration plan. Any script with a hardcoded\n\n  DEFAULT_* constant pointing to the old path must\
+    \ be updated in the same PR/commit\n\n  as the migration, not deferred."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: hollow-build-detection
+  disposition: keep
+  reason: The workspace instructions require verification through the user's entrypoint and warn against proxy evidence,
+    but they do not state the specific hollow-build test for acceptance suites or require adding an end-to-end check
+    when a do-nothing implementation would pass.
+  quote_from: source_doc
+  quote: "When authoring or accepting an acceptance suite, determine which requirement\n  fails if the product does\
+    \ nothing at all. If no requirement fails, the suite\n  cannot detect a hollow build: extend it with an end-to-end\
+    \ check before any\n  score from it is reported as evidence of function."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: human-decision-gets-its-own-turn
+  disposition: keep
+  reason: The rule is a live requirement from a promoted proposal that is not covered by any existing AES rule or
+    workspace instruction. The AES register contains `recommendations-not-question-lists` (about recommendations,
+    not turn-stopping) and workspace instructions contain rules about where to place asks (Need anything from human)
+    but nothing that says 'stop the turn when you ask' or 'do not continue past it in the same turn'. The source
+    document exists and the rule addresses a specific structural gap (turn-ending behavior) that the legacy rule's
+    own rationale identifies as not covered by existing formatting rules.
+  quote_from: source_doc
+  quote: When a response asks Brian to decide, choose, confirm, or approve, that ask is the response. Do not attach
+    it to a completed-work report and do not continue past it in the same turn.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: human-review-handoff-purpose-and-actions
+  disposition: keep
+  reason: The rule is a real, useful requirement for coding agents and is not already covered by workspace instructions
+    or any AES rule. Workspace instructions mention tooltips and human routing guidance but do not state this specific
+    handoff orientation requirement. The source document is present (FILE FACTS confirm it exists) and the rule
+    is active (status 'promoted'). The intent addresses a genuine failure pattern (Brian not knowing a review surface's
+    purpose) that readability-only guidance did not prevent. The rule applies to all projects and is advisory (soft
+    enforcement), so it should be kept as guidance for agents creating human-review handoffs.
+  quote_from: source_doc
+  quote: 'Before asking a human to use a review or decision surface, state in terse bullets: the decision the review
+    will support, why human judgment is required, the exact actions to take, the expected time, and the completion
+    signal. Repeat the same orientation on the surface itself when the agent controls it. Do not require the human
+    to infer the purpose from implementation terms, internal identifiers, or form fields.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: immutable-versioned-data-custody
+  disposition: keep
+  reason: The source still exists and defines useful data-custody requirements that are not fully stated in the
+    current workspace instructions or AES register, especially immutable checksum-addressed versions, committed
+    locks, and daily custody checks.
+  quote_from: source_doc
+  quote: "1. Three kinds of data, three homes. (a) Prompts, ontology packs, schemas and small fixtures live in Git\
+    \ with\n   the project that owns them. (b) Large or shared datasets and corpora live in one backed-up store\
+    \ as\n   immutable, read-only versions identified by checksum; a version is never edited, a change is a new\
+    \ version.\n   (c) Run outputs and archives live in `~/projects/data` and are backed up.\n2. A project that\
+    \ uses anything from outside its own repo commits a lock entry naming it, its version and its\n   checksum.\
+    \ \"Latest\" is not allowed in a lock. Changing a version is an explicit change in the project.\n3. Every dataset\
+    \ carries a visibility label (private or public). A public repository, a public demo or an Inside\n   Success\
+    \ hand-off must not reference private data.\n4. The store is read-only at the file-system level and its checksums\
+    \ are verified; versions no lock references\n   are listed for deletion and deleted only with Brian's say. Live\
+    \ databases are backed up continuously or by\n   snapshot, not versioned as datasets.\n5. Observation is part\
+    \ of the policy: a daily scan records unpinned references, unresolved references, checksum\n   mismatches, private\
+    \ data referenced from public repos, datasets with no owner, files over 10 MB that change in\n   place, and\
+    \ the age of the last successful backup."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: inbox-staleness
+  disposition: retire
+  retire_kind: obsolete
+  reason: The only cited source explicitly disclaims policy authority, and the provided source text does not state
+    the legacy staleness requirement. The source and script still exist, so this is not a source_missing or tool_missing
+    retirement.
+  quote_from: source_doc
+  quote: 'This is the active delta architecture. It is not policy, an ADR, or an
+
+    implementation plan.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: input-surface-failure-triad
+  disposition: keep
+  reason: The live proposal states a useful coding requirement that is not duplicated by the current workspace instructions
+    or AES register; the missing claimcheck references do not invalidate the surviving source policy.
+  quote_from: source_doc
+  quote: "When adding ANY new input surface (file, registry, config, watched repo, API\n  response) to a program:\n\
+    \  1. Route loading through the module's shared contained-loader (or create one):\n     parse failure => a contained\
+    \ error result for that unit (file/claim/substrate),\n     never an uncaught exception; the blast radius is\
+    \ the unit, never the run.\n  2. Declare the input required or optional AT THE CALL SITE. Optional + missing\n\
+    \     => a loud coverage-loss warning in the output (\"checked WITHOUT X coverage\"),\n     never silence.\n\
+    \  3. Before committing, the test suite must contain the failure triad for that\n     surface: missing input,\
+    \ malformed input, valid input.\n  4. For lifecycle state (flags/queues/cursors): tests must complete one full\n\
+    \     cycle AND start a second (trigger -> resolve -> re-trigger)."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: instruction-payload-size
+  disposition: keep
+  reason: The source document establishes Codex's 32,768-byte instruction budget, while neither the workspace instructions
+    nor the AES register states the corresponding combined-payload cap or the no-growth ratchet for existing offenders.
+  quote_from: source_doc
+  quote: Codex's default project instruction budget is 32,768 bytes.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: instruction-surface-sync
+  disposition: keep
+  reason: The workspace instructions require Claude–Codex parity and derived skill copies, but they do not fully
+    state the source document’s requirement for one effective discovery registration per client and scope or its
+    complete canonical-source and adapter model.
+  quote_from: source_doc
+  quote: "1. Startup instructions have one human-owned source per scope.\n2. Client-facing mirrors are symlinks,\
+    \ generated files, or tiny import/adaptor\n   wrappers.\n3. Reusable workflows live as portable Agent Skills,\
+    \ with runtime-specific\n   placement generated or symlinked from the shared skill source.\n4. Client-specific\
+    \ behavior lives in explicitly named adapter files, not in\n   duplicated general policy.\n5. Checks are read-only\
+    \ by default. Any repair that edits files requires an\n   explicit write/cleanup flag.\n6. Each client receives\
+    \ one effective discovery registration for a shared\n   concern in a given scope. Shared file identity does\
+    \ not establish discovery\n   deduplication."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: knowledge-surface-needs-a-trigger
+  disposition: keep
+  reason: The requirement is not covered in workspace_instructions or the AES rules register. Workspace instructions
+    talk about feedback records, working rules, and skills but do not state this specific rule about knowledge surfaces
+    needing declared triggers. The AES rules register contains no corresponding rule. The source document is present
+    (FILE FACTS confirm it), the linked script exists, and the first source timestamp is 2026-08-20, so this is
+    current. The rule provides a real, useful requirement for coding agents about not creating untriggered knowledge
+    surfaces.
+  quote_from: source_doc
+  quote: A durable knowledge surface declares what fires on it — a hook, a check, a generated artefact, or an explicit
+    instruction in a governing CLAUDE.md. A surface with no trigger is not a knowledge surface; it is an append-only
+    file, and agents are not directed to write to it.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: libraries-vs-handrolling
+  disposition: retire
+  retire_kind: superseded
+  reason: 'The current workspace policy supersedes the legacy failure-responsibility boundary with a stricter landscape-review
+    rule: agents may build custom code only when existing systems do not cover the need, rather than whenever library
+    failures would occur internally.'
+  quote_from: workspace_instructions
+  quote: 'Preference order: (1) something already does it:
+
+    adopt it; (2) combine, configure or fork off-the-shelf systems; (3) build it
+
+    ourselves only for what a landscape review shows nothing covers, naming why.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: live-status-evidence
+  disposition: keep
+  reason: The workspace instructions reference reading traces (`read-the-trace`) and using fresh probes for status
+    claims implicitly, but do not state the full rule about classifying claims as durable vs mutable, requiring
+    fresh probes for mutable claims, preserving evidence metadata, or lineage classification. The AES rules register
+    contains related but distinct rules about merge gating (loop-387, loop-408), trace reading (read-the-trace),
+    and failure handling (loop-384), but none state this specific requirement. The rule is still a real, useful
+    requirement for coding agents and is not covered.
+  quote_from: source_doc
+  quote: Classify each status claim as durable or mutable before answering. A durable decision, ownership record,
+    or historical event may be supported by its current authority and original source. A mutable claim about runtime
+    health, deployment, connectivity, credentials, tools, repository state, source coverage, or current work requires
+    a fresh probe of the exact target and environment, or a matching unexpired receipt whose result-affecting inputs
+    have not changed.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: llm-client-required
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions under ''LLM and durable contracts'' already state the core requirement: ''Maintained
+    Brian-owned code uses the approved shared LLM client and current call contract.'' The legacy rule''s details
+    about required kwargs (task=, trace_id=, max_budget=), ObservedRun, and client strict mode are more specific
+    implementation detail, but the fundamental requirement to use the approved shared llm_client is already present
+    and enforced in the workspace instructions.'
+  quote_from: workspace_instructions
+  quote: Maintained Brian-owned code uses the approved shared LLM client and current call contract.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: llm-cost-observe-only-default
+  disposition: keep
+  reason: The current rules require plans for some model work and recognize explicit spend limits, but they do not
+    state the broader observe-only default or prohibit implicit cost approval gates, so this remains a useful requirement.
+  quote_from: source_doc
+  quote: 'Continue while authorized, dependency-ready, outcome-advancing work remains and
+
+    the next action is **not irreversibly dangerous**. This is not a risk-free-work
+
+    requirement: reversible experiments and bounded failures are allowed. The
+
+    boundary preserves irreversible shared-state changes, external actions and
+
+    publication, human-owned decisions, explicit spend limits, missing or
+
+    conflicting authority, and circuit breakers.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: local-mediawiki-preview
+  disposition: keep
+  reason: The rule states that generated wiki bundles should be previewable in a reproducible local MediaWiki before
+    broader publication. This requirement is stated in the source document but is not covered by any AES rule or
+    workspace instruction. The workspace instructions do not mention local MediaWiki preview as a requirement, and
+    the AES register has no matching rule. Therefore this rule should be kept.
+  quote_from: source_doc
+  quote: Local MediaWiki is the default preview target before remote publication.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: loop-run-liveness
+  disposition: covered
+  covered_by: loud-failures-reach-an-agent
+  reason: The AES rule already requires failed or non-live pipelines to notify users and open an agent-worked concern,
+    which covers surfacing supervised loop liveness failures through escalation.
+  quote_from: aes_register
+  quote: A service, timer or pipeline that errors, skips a run or misses a heartbeat tells any waiting user and
+    opens a keyed concern an agent works, within minutes.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: makefile-as-project-interface
+  disposition: keep
+  reason: The source document uses the Makefile as an agent-facing command interface, while neither the current
+    workspace instructions nor the AES register requires every governed project to provide a Makefile with a discoverable
+    `make help` target; the source files and enforcement script still exist.
+  quote_from: source_doc
+  quote: 'make context-load PROJECT=llm_client INTENT="fix batch embedding"                   # Same via Makefile'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: markdown-link-integrity
+  disposition: covered
+  covered_by: md-file-cap
+  reason: 'The legacy rule requires that local markdown links and section anchors in governance docs resolve; broken
+    links are a defect. The current workspace instructions (policy `md-file-cap`) already state a stricter requirement:
+    every document a reader is meant to read must be reachable from `wiki/index.md` within two links, and the daily
+    `md_file_cap.py` check enforces this. This subsumes the legacy rule''s intent that governance doc navigation
+    stays functional, because if all reader-facing documents are reachable within two links from the wiki entrypoint,
+    the links and anchors necessarily resolve.'
+  quote_from: workspace_instructions
+  quote: Every document a reader is meant to read is reachable from the repo's `wiki/index.md` within two links;
+    files a reader is not meant to open (instruction files, test fixtures, templates, generator outputs, and source-material
+    folders listed under `unlinked_ok` in the exception file, each with a reason) may stay unlinked.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: maximum-configurability
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'Workspace instructions contains: ''Do not hard-code personal paths in portable code or run destructive
+    operations against unresolved targets.'' This covers the same requirement — avoid hardcoding values in code.
+    The legacy rule is broader (thresholds, limits, model names, policy values), but the workspace instruction covers
+    the spirit of the rule: don''t hardcode values that should be configurable. Additionally, the legacy rule is
+    stated as advisory with no automated check, and the workspace instructions already provide a more specific and
+    enforced version of the principle.'
+  quote_from: workspace_instructions
+  quote: Do not hard-code personal paths in portable code or run destructive operations against unresolved targets.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: maximum-observability
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current workspace instructions require diagnostic runs to preserve and report concrete outcomes and
+    exit status, replacing inference or speculation with observable evidence.
+  quote_from: workspace_instructions
+  quote: "Every test, check, or gate run must state its own outcome: counts\n  (passed/failed/errored/skipped) and\
+    \ exit status in its output and logs."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: mcp-config-review
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions already require agents to read and follow the MCP Tooling Policy before introducing
+    new MCP servers, which inherently means the configuration must be reviewable. Additionally, the workspace instructions
+    mandate using `make mcp-config-review` and related commands for auditability. The legacy rule's requirement
+    is thus already covered.
+  quote_from: workspace_instructions
+  quote: before a new CLI, library, daemon, or MCP server, read the MCP Tooling Policy. Reuse, extend, supersede,
+    or declare a bounded exception.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: mcp-on-demand-default
+  disposition: unresolved
+- id: memory-codex-parity-disposition
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions directly restate the same requirement: every feedback/user auto-memory entry
+    must have a codex_parity frontmatter disposition (mirrored or n/a), in language that tracks the legacy rule
+    closely.'
+  quote_from: workspace_instructions
+  quote: 'every new `feedback`/`user` memory entry''s frontmatter must therefore declare `codex_parity: mirrored
+    (<where>)` when the substance also lands in this file or a shared skill in the same turn, or `codex_parity:
+    n/a (<why>)` only when it is genuinely Claude-Code-specific'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: model-blocked-skill-do-not-nag
+  disposition: keep
+  reason: The rule is a specific, useful requirement for coding agents about how to handle model-blocked skills.
+    It is not covered by the workspace instructions or AES rules register, which contain no equivalent rule about
+    skill inventories or model-blocked skill handling. The source document exists and the requirement remains relevant.
+  quote_from: source_doc
+  quote: 'Before telling a user a skill does not exist, list the installed skill directories (~/.claude/skills/
+    and ~/projects/.agents/skills/). The model-facing available-skills list omits every skill marked `disable-model-invocation:
+    true` and is not an inventory.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: nearest-instruction-read-before-mutation
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions already state the same requirement: ''Read the nearest canonical `AGENTS.md`
+    before changing a repository.'' This covers the legacy rule''s requirement to read the nearest canonical instruction
+    file before mutating files. The legacy rule''s additional details about session scope and specific tool actions
+    are implementation notes for the enforcement hooks, not a distinct requirement.'
+  quote_from: workspace_instructions
+  quote: Read the nearest canonical `AGENTS.md` before changing a repository.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: never-end-session-dirty
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current workspace instructions require recording the baseline Git status before editing, preserving
+    existing work, and closing a claimed session only after integration or another durable disposition. This states
+    the legacy rule's baseline and durable-session-close requirements.
+  quote_from: workspace_instructions
+  quote: 'Before editing, record `git status --short`, inspect active claims with
+
+    `check_coordination_claims.py --check --project <name>` (or `--list`), and
+
+    preserve other writers'' work. Governed implementation uses its sanctioned
+
+    claimed linked worktree. A reversible single-writer maintenance lane may be explicitly
+
+    unplanned, but it still needs a claim when coordinated. Claims, not mailbox
+
+    messages, own writes. Without a working claim registry, do not mutate a
+
+    potentially shared checkout. Close claimed lanes only through the sanctioned
+
+    session-close/worktree-remove path after integration or a durable disposition.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: no-hardcoded-home-paths
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The current workspace instructions already state this requirement: ''Do not hard-code personal paths
+    in portable code or run destructive operations against unresolved targets.'' This covers the same intent as
+    the legacy rule against hardcoded /home/brian/... paths. The workspace instructions do not repeat the specific
+    example but state the general requirement, which subsumes the legacy rule.'
+  quote_from: workspace_instructions
+  quote: Do not hard-code personal paths in portable code or run destructive operations against unresolved targets.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: no-physical-move-without-packet
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions already state the requirement to follow the Project Organization Policy before
+    moving/renaming/archiving/symlinking/deleting a checkout, which covers the same requirement as the legacy rule
+    (no repo may be physically moved, renamed, deleted, archived, symlinked, or reorganized without following the
+    migration packet process). The workspace instructions reference the same policy document that contains the move
+    protocol.
+  quote_from: workspace_instructions
+  quote: Before moving, renaming, archiving, symlinking, or deleting a checkout, follow Project Meta's Project Organization
+    Policy.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: no-prose-string-matching
+  disposition: keep
+  reason: The workspace instructions cover regex-based prose inference and using a light LLM, but they do not state
+    the full requirement covering all string matching or the approval and producer-instruction conditions for structured
+    output.
+  quote_from: source_doc
+  quote: Never infer meaning by string-matching prose.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: operational-telemetry-provenance
+  disposition: keep
+  reason: 'The legacy rule about operational telemetry provenance is not covered by any AES rule or workspace instruction.
+    The AES rules register and workspace instructions contain no equivalent requirement about telemetry provenance,
+    test isolation, or origin_kind semantics. The source document exists (confirmed by FILE FACTS: policy/proposals/2026-09-09-operational-telemetry-provenance.yaml
+    is true), so it should be kept as an active requirement.'
+  quote_from: source_doc
+  quote: A test, fixture, evaluation, benchmark, simulation, synthetic probe, or manual diagnostic must not write
+    a record that is indistinguishable from authentic runtime traffic into an operational telemetry store.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: outcome-continuation-lease-hard-gate
+  disposition: keep
+  reason: This rule is not covered by any AES rule or workspace instruction. The workspace instructions discuss
+    outcome authority and continuation generally, but do not require a lease, evidence receipts, or define the detailed
+    lease/recovery/break-glass mechanics this rule specifies. The rule is a real, useful requirement for coding
+    agents working on non-trivial Brian-owned projects, as evidenced by the source document's problem statement
+    about project cycles without durable user outcomes. The source document, linked scripts, and intent are all
+    present and verified by FILE FACTS.
+  quote_from: source_doc
+  quote: Separate authorization from continuation evidence. For non-trivial coding-agent work, a user instruction
+    authorizes actions only while a valid outcome lease exists. An ordinary approval, "continue", "never stop",
+    plan, green test suite, commit, merge, or agent completion report does not create, renew, widen, or revive that
+    lease.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: outcome-first-critical-path
+  disposition: keep
+  reason: The current instructions cover optimizing for user-visible value and performing course checks, but they
+    do not require a canonical behavioral example, increment classification, separate behavioral evidence, or example-first
+    adversarial review.
+  quote_from: source_doc
+  quote: 'The current request defines the outcome. Ownership, privacy, safety,
+
+    coordination, publication, and platform controls constrain implementation.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: output-format-after-work
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions specify exactly this output format in the 'Persist and close' section, including
+    the bullet summary fields Answer, Session goal, Active subgoals, Done, Verification, Policy, Concerns, Feedback,
+    Decisions, Recommended next, and Need anything from human. This covers the same requirement for a structured
+    summary at the end of completed work.
+  quote_from: workspace_instructions
+  quote: End completed-work responses with these fields, in order.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: overbroad-claims-require-narrowing
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions already state the same requirement: claims must be narrow and owned. The AES
+    register does not duplicate this rule.'
+  quote_from: workspace_instructions
+  quote: Claims, not mailbox messages, own writes.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: owner-first-agentic-system-dogfooding
+  disposition: keep
+  reason: The rule mandates an owner-first adoption sequence for reusable agentic infrastructure built for Brian.
+    This requirement is not stated in the AES rules register or workspace instructions. The AES register contains
+    operational coding rules (e.g., commit tags, test suites, merge gates) but nothing about adoption sequence or
+    dogfooding. The workspace instructions contain policies for coding work but do not cover the sequence of testing
+    infrastructure with the owner before colleagues. The rule is still relevant as it is documented in a promoted
+    proposal and enforces a real workflow discipline.
+  quote_from: source_doc
+  quote: Generated fixtures may prove mechanics, but the first authentic users are Brian and his agents performing
+    real work in Brian-owned projects.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: ownership-is-not-a-mutation-gate
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions already express the same requirement: ownership is not a mutation gate when
+    the user has contributor access, the change is revertible, and Brian approved the work. The workspace instructions
+    cover landing the change and notifying the owner afterward, which matches the legacy rule.'
+  quote_from: workspace_instructions
+  quote: For a repository someone else owns (a teammate's or org repo), Brian's approval of the task itself is the
+    mutation grant — a separate review from the owner is not an additional gate once he has approved the work. With
+    contributor access, git history, and a revertible change, land it and tell the owner afterward, their revert
+    being the one-click undo; reserve an actual hold for genuinely irreversible actions or a repo explicitly marked
+    read-only.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: parallel-fallback-cannot-replace-primary
+  disposition: keep
+  reason: The source document exists, the requirement remains useful for agents maintaining roadmap and status surfaces
+    for parallel initiatives, and neither the workspace instructions nor the AES register states this requirement.
+  quote_from: source_doc
+  quote: "A fallback, escape hatch, prototype, fork, or parallel experiment does not\n  replace, demote, block,\
+    \ or receive progress credit for the primary initiative\n  unless the current owner explicitly records that\
+    \ portfolio decision."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: per-project-venv
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions specify using uv for Python environments, never `python -m venv` plus pip,
+    which covers the requirement for per-project .venv and supersedes the legacy pip-based approach. The legacy
+    rule's editable install of llm_client is not covered, but the core requirement for per-project virtual environments
+    is covered by the uv policy.
+  quote_from: workspace_instructions
+  quote: Python environments use `uv` (`uv sync`, `uv venv`, `uv pip`), never `python -m venv` plus pip, in any
+    repository you set up or touch.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: periodic-skill-feedback-review
+  disposition: keep
+  reason: Neither the AES rules register nor the workspace instructions contain any requirement about skill invocation
+    logging, periodic portfolio review of agent skills, or lifecycle candidate promotion with evidence standards.
+    This is a distinct, useful requirement about how agent skills are reviewed and rewritten.
+  quote_from: source_doc
+  quote: An individual skill invocation records evidence only and must not rewrite its own skill. A periodic portfolio
+    review aggregates confirmed selections, outcome evidence, user corrections, repeated friction, and overlap signals.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: persist-durable-findings
+  disposition: keep
+  reason: The current instructions require feedback records and keyed concerns in some situations, but they do not
+    state the legacy rule’s complete owner-local routing for uncertain items, confirmed issues, accepted plans,
+    roadmaps, cross-project coordination, and new-project incubation.
+  quote_from: source_doc
+  quote: execute it, retain evidence, update the owning tracker, and select again.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: plain-language-status-reports
+  disposition: keep
+  reason: The rule is a real requirement for coding agents writing status reports, requiring plain language and
+    banning governance jargon in user-facing prose, and it is not already covered in the workspace instructions
+    or AES rules register.
+  quote_from: source_doc
+  quote: 'In user-facing prose, state the effect of what happened in ordinary words and say plainly whether the
+    user must act. Internal identifiers -- plan, packet, slice, claim, lane, allocation, disposition, run, and proposal
+    ids -- are provenance: they may follow a plain-language statement as a reference, never carry it.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: plan-completion-issues-scan
+  disposition: keep
+  reason: The rule is an active requirement from a promoted proposal with a linked enforcement script that still
+    exists. The AES rules register and workspace instructions do not cover the specific ISSUES.md scan requirement
+    during plan completion.
+  quote_from: source_doc
+  quote: 'When marking a plan complete (complete_plan.py or manual), grep ISSUES.md for the plan number and review
+    each matching line. Update any "wait for Plan #N" blocker text to reflect the current state. This is a required
+    step in plan completion, not optional cleanup.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: pm-active-work-registry
+  disposition: keep
+  reason: The source and generator still exist, and neither the workspace instructions nor the AES register requires
+    one authoritative, human-readable active-work surface showing who is currently writing what.
+  quote_from: source_doc
+  quote: Claims, worktrees, session close, and the mailbox therefore stay with Enforced Planning unless explicitly
+    superseded.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-adr-0005-compression-hierarchy
+  disposition: retire
+  retire_kind: superseded
+  reason: The legacy vision-specific three-test is replaced by the current workspace-wide documentation policy,
+    which requires agents to correct stale or wrong documentation when discovered; the current policy does not retain
+    the old unique-compression, identified-consumer, and per-document freshness-mechanism test.
+  quote_from: workspace_instructions
+  quote: "Keeping documentation current is a core duty, not an optional courtesy or a\n  question to ask first:\
+    \ when work establishes that a doc is wrong, stale, or\n  that a \"next action\" section was already executed,\
+    \ fix it in the same turn."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-autonomous-execution-keep-moving
+  disposition: keep
+  reason: The workspace instructions require continued authorized work, but they do not fully state the legacy requirement
+    to explicitly define subsequent phases and log uncertainties during continuous or overnight execution.
+  quote_from: source_doc
+  quote: 'Continue while authorized, dependency-ready, outcome-advancing work remains and
+
+    the next action is **not irreversibly dangerous**.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-autonomous-workspace-default
+  disposition: retire
+  retire_kind: superseded
+  reason: Current workspace instructions supersede the legacy portable-workspace bootstrap by requiring governed
+    implementation work to use the sanctioned claimed linked-worktree workflow.
+  quote_from: workspace_instructions
+  quote: Governed implementation uses its sanctioned claimed linked worktree.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-blocked-phase-log-and-continue
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions already require agents to characterize blockers accurately, exhaust safe routes,
+    and continue authorized work unless a genuine stopping boundary applies.
+  quote_from: workspace_instructions
+  quote: 'Before calling work blocked, exhaust safe documented routes and
+
+    distinguish uninspected, unavailable, and explicitly denied access. Otherwise
+
+    continue authorized work; stop only for scope, authority, spend, or safety.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-capability-ownership-registry
+  disposition: keep
+  reason: The source preserves capability-owner authority over migration and retirement decisions, while neither
+    the workspace instructions nor the AES register requires qualifying capabilities to be represented in the shared
+    ownership registry. The source document and enforcement script still exist.
+  quote_from: source_doc
+  quote: 'Existing capability owners remain authoritative until a later accepted decision selects
+
+    reuse, transfer, supersession, or retirement from observed working evidence.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-commit-every-verified-slice
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions, under 'Persist and close', require committing coherent authorized increments
+    and pushing recoverable checkpoints. This covers the legacy rule's requirement to commit every verified slice
+    and leave rollback points after milestones. The legacy rule's intent (prevent unrecoverable state) is achieved
+    by the workspace instruction's requirement to commit and push checkpoints.
+  quote_from: workspace_instructions
+  quote: Commit coherent authorized increments and push recoverable checkpoints with focused evidence.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: pm-completed-sprint-not-stop
+  disposition: keep
+  reason: The source document still exists and states a useful continuous-execution requirement that is not stated
+    as the same requirement in the AES register or current workspace instructions.
+  quote_from: source_doc
+  quote: 'When Brian authorizes continuous execution, read
+
+    `docs/ops/ACTIVE_PLAN_QUEUE.md`, select the highest-value eligible slice,
+
+    execute it, retain evidence, update the owning tracker, and select again. Do not
+
+    ask for a generic "continue" merely because a turn, phase, commit, or green test
+
+    ended.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-continuous-execution-sprint-contract
+  disposition: retire
+  retire_kind: superseded
+  reason: The current AGENTS.md explicitly replaces the older “never stop” interpretation with a state-based continuation
+    contract driven by the active plan queue and owning tracker, so the legacy requirement to create a separate
+    sprint contract, phase list, and TODO tracker immediately is superseded.
+  quote_from: source_doc
+  quote: 'When Brian authorizes continuous execution, read
+
+    `docs/ops/ACTIVE_PLAN_QUEUE.md`, select the highest-value eligible slice,
+
+    execute it, retain evidence, update the owning tracker, and select again. Do not
+
+    ask for a generic "continue" merely because a turn, phase, commit, or green test
+
+    ended.
+
+
+    Continue while authorized, dependency-ready, outcome-advancing work remains and
+
+    the next action is **not irreversibly dangerous**. This is not a risk-free-work
+
+    requirement: reversible experiments and bounded failures are allowed. The
+
+    boundary preserves irreversible shared-state changes, external actions and
+
+    publication, human-owned decisions, explicit spend limits, missing or
+
+    conflicting authority, and circuit breakers. When one lane reaches a boundary,
+
+    continue another eligible lane rather than idling the whole program.
+
+
+    The older phrase "never stop" is a legacy trigger for this state-based
+
+    continuation contract; it does not expand scope, authority, or risk tolerance.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-doc-role-headers
+  disposition: keep
+  reason: The current workspace instructions and AES register do not state the doc-role-header requirement, while
+    the source document still governs documentation changes and FILE FACTS confirm that both AGENTS.md and scripts/doc_lint.py
+    exist.
+  quote_from: source_doc
+  quote: 'Documentation-subtree routing lives in [docs/AGENTS.md](docs/AGENTS.md);
+
+    follow it before changing documentation and then load the more-specific
+
+    instruction file for the target directory when one exists.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-generated-over-narrative
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions already embody this principle by stating that mutable facts (project counts,
+    status, capabilities) live in generated artifacts like ecosystem_snapshot.json rather than hand-written docs.
+    The Generated > Narrative requirement is covered by the workspace instructions' directive to keep durable invariants
+    in generated artifacts, and by the overall workspace structure that treats AGENTS.md as a source of rules rather
+    than mutable data.
+  quote_from: workspace_instructions
+  quote: Keep durable invariants here; rationale belongs in `WORKING_RULES.md`, procedures with their owner.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: pm-governed-repo-safety-entrypoints
+  disposition: keep
+  reason: The source and linked enforcement tools still exist, and neither the workspace instructions nor the AES
+    register states the general requirement that each governed repository must expose a sanctioned local entrypoint
+    before a shared safety mechanism is rolled out or relied upon.
+  quote_from: source_doc
+  quote: '# One-time per clone: activate git hooks (pre-commit incl. coordination-claim warn
+
+    # + global secrets-hook chain, commit-msg prefix check). Local config, not synced.
+
+    git config core.hooksPath hooks
+
+    make enforcement-liveness                            # Are hard enforcement channels (hooks/CI/audit) actually
+    live?'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-hot-path-rename-compatibility
+  disposition: keep
+  reason: The source document confirms that repository identity and lifecycle are governed state, while neither
+    the current workspace instructions nor the AES register states the concrete compatibility-migration sequence
+    for active path or repository renames.
+  quote_from: source_doc
+  quote: '`PROJECT_GRAPH.json` records current repository identity and lifecycle, not a
+
+    future winner.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-narrow-write-claims
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current workspace instructions require governed implementation to use a claimed linked worktree and
+    prescribe claim-creation commands that explicitly identify the branch, bounded write paths, or governing plan.
+  quote_from: workspace_instructions
+  quote: 'Governed implementation uses its sanctioned claimed linked worktree. A reversible single-writer maintenance
+    lane may be explicitly
+
+    unplanned, but it still needs a claim when coordinated. Claims, not mailbox
+
+    messages, own writes. Without a working claim registry, do not mutate a
+
+    potentially shared checkout. Close claimed lanes only through the sanctioned
+
+    session-close/worktree-remove path after integration or a durable disposition.
+
+    In governed repositories (those with these Make targets), that route is two commands, and the repository''s
+    own
+
+    `AGENTS.md` names any variant: `make maintenance-worktree BRANCH=<name> MAINTENANCE_BOOTSTRAP_WRITE_PATHS="<files>"`
+
+    (or `make worktree PLAN=<N>` for plan-owned work) creates the worktree and the claim together, and
+
+    `make session-close BRANCH=<name>` removes the worktree, branch and claim after merge.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-no-slice-redefines-architecture
+  disposition: keep
+  reason: The source preserves the distinction between present implementation state and future direction, but neither
+    the workspace instructions nor the AES register states the specific requirement to keep the target architecture
+    explicit when a first slice compresses it.
+  quote_from: source_doc
+  quote: '`PROJECT_GRAPH.json` records current repository identity and lifecycle, not a
+
+    future winner.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-persistent-todo-tracker
+  disposition: keep
+  reason: The source document still requires continuous execution to update an owning tracker, while neither the
+    workspace instructions nor the AES register states the full persistent-tracker requirement.
+  quote_from: source_doc
+  quote: 'When Brian authorizes continuous execution, read
+
+    `docs/ops/ACTIVE_PLAN_QUEUE.md`, select the highest-value eligible slice,
+
+    execute it, retain evidence, update the owning tracker, and select again.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-plan-two-views
+  disposition: keep
+  reason: The current instructions require planning and rigorous upfront design but do not state the distinct requirement
+    to document both the target architecture and the phase-limited current implementation slice. The source remains
+    present, and its explicit distinction between current state and future destination supports retaining this planning
+    discipline.
+  quote_from: source_doc
+  quote: '`PROJECT_GRAPH.json` records current repository identity and lifecycle, not a
+
+    future winner.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-portable-first-tooling
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions directly address the same requirement: ''Do not hard-code personal paths in
+    portable code ...'' which covers the legacy rule''s intent of not using hardcoded ~/projects paths in reusable/shared
+    tooling.'
+  quote_from: workspace_instructions
+  quote: Do not hard-code personal paths in portable code or run destructive operations against unresolved targets.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: pm-research-synthesis-cutover
+  disposition: unresolved
+- id: pm-rollback-points-not-stop
+  disposition: keep
+  reason: The legacy rule 'pm-rollback-points-not-stop' requires that agents treat merge/push/green verification
+    as rollback points rather than stop conditions during continuous execution. The source document AGENTS.md contains
+    the same requirement in its 'Outcome-Persistent Execution' section, stating 'Do not ask for a generic "continue"
+    merely because a turn, phase, commit, or green test ended' and 'Continue while authorized...work remains...'.
+    This is a real, useful requirement not already covered by AES rules or workspace instructions. None of the AES
+    rules address continuous execution continuation semantics, and workspace instructions only mention 'continue'
+    in the context of a closing format field, not as a behavioral rule. The rule applies always to agents operating
+    in continuous execution mode.
+  quote_from: source_doc
+  quote: When Brian authorizes continuous execution, read `docs/ops/ACTIVE_PLAN_QUEUE.md`, select the highest-value
+    eligible slice, execute it, retain evidence, update the owning tracker, and select again. Do not ask for a generic
+    "continue" merely because a turn, phase, commit, or green test ended.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: pm-runtime-metadata-ephemeral
+  disposition: unresolved
+- id: pm-small-slices-preserve-separation
+  disposition: keep
+  reason: The source preserves an explicit architectural separation between two routes despite their shared outcome,
+    while neither the workspace instructions nor the AES register states the general requirement to document separations
+    hidden by a temporarily compressed implementation.
+  quote_from: source_doc
+  quote: 'Project Meta is the established repair-and-simplify route; the Agentic
+
+    Engineering System (AES, `BrianMills2718/agentic-engineering-system-canonical`)
+
+    is the independent clean-room route. Neither is currently the declared successor
+
+    of the other.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pm-vision-doc-earns-place
+  disposition: keep
+  reason: The source document establishes vision documents as governed project artifacts, while neither the AES
+    register nor current workspace instructions state the specific unique-compression, consumption, and freshness
+    test. The requirement remains useful for preventing stale or redundant vision documents.
+  quote_from: source_doc
+  quote: 'This repo is the **governance hub** for Brian''s project ecosystem: vision docs, enforcement scripts,
+    project index, and operational state.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: policy-enforcement-map
+  disposition: keep
+  reason: The source document establishes a current and useful governance-documentation requirement, while neither
+    the workspace instructions nor the AES register states the complete policy-enforcement mapping requirement.
+  quote_from: source_doc
+  quote: 'Every ecosystem-wide policy must have:
+
+
+    - A prose source that states the intent and rule.
+
+    - A registry entry in `policy/registry.yaml`.
+
+    - A generated row in `docs/POLICY_ENFORCEMENT_MATRIX.md`.
+
+    - An enforcement tier.
+
+    - One or more enforcement channels.
+
+    - A declared enforcement status.
+
+    - One or more enforcement layers.
+
+    - Commands and artifacts that let an agent verify the current state.
+
+    - Maintenance triggers and an update protocol.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: policy-lifecycle-first-pass-feedback
+  disposition: keep
+  reason: The legacy rule about logging friction when policies are unclear or create avoidable cost is a specific
+    requirement that is not fully covered by the workspace instructions. The workspace instructions mention logging
+    friction in the context of root-cause analysis and specific policies, but do not explicitly state the general
+    requirement that every policy must have a named feedback path and that agents must log concrete friction when
+    any required policy or workflow is unclear, incomplete, wrong, or creates avoidable coding-process cost. The
+    legacy rule provides a broader, cross-cutting requirement for all policies, which is a useful and distinct rule
+    for coding agents.
+  quote_from: source_doc
+  quote: 'Use the single policy feedback register for two distinct entry types: - `friction` when a required rule,
+    command, hook, or skill is unclear, missing, contradictory, wrong, or creates a concrete avoidable workflow
+    cost;'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: policy-promotion-from-memory
+  disposition: keep
+  reason: The legacy rule requires that generalizable agent-memory findings must have a path to formal policy, using
+    scripts/promote_to_policy.py. This is a real, useful requirement not duplicated in workspace instructions or
+    the AES rules register. The source doc (ECOSYSTEM_POLICY_MODEL.md) provides the broader policy model but does
+    not state this specific promotion-to-proposal workflow. The linked script (scripts/promote_to_policy.py) exists
+    per FILE FACTS.
+  quote_from: source_doc
+  quote: 'Every ecosystem-wide policy must have:
+
+
+    - A prose source that states the intent and rule.
+
+    - A registry entry in `policy/registry.yaml`.
+
+    - A generated row in `docs/POLICY_ENFORCEMENT_MATRIX.md`.
+
+    - An enforcement tier.
+
+    - One or more enforcement channels.
+
+    - A declared enforcement status.
+
+    - One or more enforcement layers.
+
+    - Commands and artifacts that let an agent verify the current state.
+
+    - Maintenance triggers and an update protocol.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: policy-proposal-lifecycle
+  disposition: keep
+  reason: 'This rule is NOT covered by any existing AES rule or workspace instruction. The workspace instructions
+    reference the proposal system superficially (''Never file a technical-safety or implementation-correctness question
+    as a proposal for Brian''s review: he cannot verify technical tradeoffs''), but they do not state the requirement
+    that agents must write structured YAML proposal files rather than editing registry.yaml directly. No AES rule
+    addresses policy proposal lifecycle. The source document SCHEMA.md exists and confirms the requirement.'
+  quote_from: source_doc
+  quote: Agents write proposals here. Brian reviews with `make policy-review`. Approved proposals get promoted to
+    `policy/registry.yaml`.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: policy-registry-staleness
+  disposition: keep
+  reason: The source document and staleness-checking script still exist, and neither the current workspace instructions
+    nor the AES register specifically requires policy registry entries to be re-verified when their linked scripts
+    or source documents change.
+  quote_from: source_doc
+  quote: 'Every ecosystem-wide policy must have:
+
+
+    - A prose source that states the intent and rule.
+
+    - A registry entry in `policy/registry.yaml`.
+
+    - A generated row in `docs/POLICY_ENFORCEMENT_MATRIX.md`.
+
+    - An enforcement tier.
+
+    - One or more enforcement channels.
+
+    - A declared enforcement status.
+
+    - One or more enforcement layers.
+
+    - Commands and artifacts that let an agent verify the current state.
+
+    - Maintenance triggers and an update protocol.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: policy-session-bound-lane-lifecycle
+  disposition: keep
+  reason: The source documents and linked enforcement tools still exist, and neither the workspace instructions
+    nor one AES rule states the complete session-bound ownership, SessionEnd retirement, recoverability, and preserved-lane
+    closeout requirement.
+  quote_from: source_doc
+  quote: 'A claim whose worktree or branch still exists is refused (exit 1,
+
+    naming `session-close`); close that lane with `make session-close`.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: policy-validation-coverage
+  disposition: keep
+  reason: The source retains an explicit validation command concerned with whether enforcement channels are live,
+    and all listed source documents and the grading script still exist. Neither the workspace instructions nor the
+    AES register states the distinct requirement to expose conservative evidence grades before strengthening enforcement.
+  quote_from: source_doc
+  quote: 'make enforcement-liveness                            # Are hard enforcement channels (hooks/CI/audit)
+    actually live?'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: policy-violation-detection
+  disposition: keep
+  reason: The source and detector still exist, and neither the workspace instructions nor the AES register requires
+    ecosystem policy violations and cleanup candidates to be exposed through a read-only generated report.
+  quote_from: source_doc
+  quote: Commands and artifacts that let an agent verify the current state.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: portfolio-narratives-generated
+  disposition: covered
+  covered_by: md-file-cap
+  reason: 'The legacy rule requires that portfolio narrative and evidence-map pages are generated from curated specs
+    with validated references. The workspace instructions'' md-file-cap policy enforces the same underlying principle:
+    documentation must be small, navigable, and generated from structured sources rather than accumulating unchecked.
+    The cap and reachability rules ensure documentation discipline and validated references, covering the same requirement
+    expressed in the legacy rule.'
+  quote_from: workspace_instructions
+  quote: A repository Brian owns keeps its documentation small and navigable; both rules hold. (1) At most 100 git-tracked
+    `.md` files
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: post-commit-doc-coupling-ack-cleanup
+  disposition: keep
+  reason: The source and enforcing hook still exist, and neither the current workspace instructions nor the AES
+    register states this cleanup requirement.
+  quote_from: source_doc
+  quote: '# Clean up doc-coupling ack file after successful commit.
+
+    # The audit trail lives in git history; the working tree stays clean.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: post-commit-unpushed-reminder
+  disposition: keep
+  reason: The source and linked hook still exist, and neither the workspace instructions nor AES register states
+    the same post-commit notification requirement.
+  quote_from: source_doc
+  quote: '# Cleans up ephemeral coupling acks and reminds about unpushed commits.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pre-archive-deduplication
+  disposition: keep
+  reason: The source document exists and states a useful deduplication requirement that is not present in the current
+    workspace instructions or AES rules register.
+  quote_from: source_doc
+  quote: Before moving any artifact to the central archive, search the repository''s
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pre-commit-authority-surface-integrity
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: CURRENT_AUTHORITY_STACK.md is a generated authority surface, and the current workspace instructions already
+    require generated authorities to be regenerated from their declared source after source differences are reviewed.
+  quote_from: workspace_instructions
+  quote: 'Change generated authorities through their declared source and regenerate after
+
+    reviewing source differences.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pre-commit-branch-divergence
+  disposition: covered
+  covered_by: loop-408
+  reason: AES rule loop-408 already requires the same divergence check by mandating that every commit workflow explicitly
+    verifies the intended working directory and requires clean-worktree admission before publication, which covers
+    the requirement to verify the local branch has not diverged from remote before committing.
+  quote_from: aes_register
+  quote: Make every write, commit, or push workflow fail closed by checking each preparatory command, explicitly
+    verifying the intended working directory, and requiring clean-worktree admission before publication rather than
+    relying on shell error modes or partial commits.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: pre-commit-capability-registration-gaps
+  disposition: keep
+  reason: The capability-registration requirement is not stated in the current workspace instructions or AES register,
+    and FILE FACTS confirm that both the pre-commit hook and repo_graph.py still exist. The source identifies the
+    hook as an installed-script-dependent pre-commit check, so the requirement remains applicable rather than being
+    retired.
+  quote_from: source_doc
+  quote: '# Each check only runs if its script is installed.
+
+    # Install via: meta-process/install.sh'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pre-commit-dead-code-check
+  disposition: keep
+  reason: The pre-commit hook and linked dead-code checker both exist, and neither the workspace instructions nor
+    the AES register states the specific requirement to check staged Python files for dead code before committing.
+  quote_from: source_doc
+  quote: '# Pre-commit hook (portable meta-process template)
+
+    # Each check only runs if its script is installed.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pre-commit-doc-coupling
+  disposition: keep
+  reason: The source and linked enforcement files still exist, and neither the workspace instructions nor the AES
+    register specifically requires checking staged changes against relationships.yaml for required documentation
+    updates. The quoted hook text confirms that installed checks run as part of the pre-commit hook; the legacy
+    register identifies this installed check as check_doc_coupling.py.
+  quote_from: source_doc
+  quote: '# Pre-commit hook (portable meta-process template)
+
+    # Each check only runs if its script is installed.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pre-commit-mypy-staged-src
+  disposition: keep
+  reason: The live source and linked script are the repository's pre-commit hook, while neither the workspace instructions
+    nor the AES register states the specific requirement to run strict mypy on changed src Python files before committing.
+  quote_from: source_doc
+  quote: '# Pre-commit hook (portable meta-process template)
+
+    # Each check only runs if its script is installed.
+
+    # Install via: meta-process/install.sh
+
+
+    set -e
+
+
+    echo "Running pre-commit checks..."'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pre-commit-no-exec-compile-in-meta
+  disposition: keep
+  reason: The source document and linked pre-commit script both exist, and neither the workspace instructions nor
+    the AES register states the specific prohibition against new exec(compile(...)) shims. The rule remains useful
+    for preventing regression in scripts/meta/ Python files.
+  quote_from: source_doc
+  quote: '# Pre-commit hook (portable meta-process template)
+
+    # Each check only runs if its script is installed.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pre-commit-plan-index-regen
+  disposition: keep
+  reason: The source hook and linked verifier both exist, and neither the workspace instructions nor the AES register
+    specifically requires regenerating the plan index when staged plan files are committed.
+  quote_from: source_doc
+  quote: '# Pre-commit hook (portable meta-process template)
+
+    # Each check only runs if its script is installed.
+
+    # Install via: meta-process/install.sh'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pre-commit-plan-status-consistency
+  disposition: keep
+  reason: The pre-commit hook and linked status-check script still exist, while neither the workspace instructions
+    nor the AES register states the specific requirement to check consistency of plan statuses across docs/plans/.
+  quote_from: source_doc
+  quote: '# Pre-commit hook (portable meta-process template)
+
+    # Each check only runs if its script is installed.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: pre-commit-plan-validation
+  disposition: covered
+  covered_by: loop-387
+  reason: The legacy rule validates staged plan files against the doc-coupling graph via a pre-commit hook that
+    exits 1 on failure. The AES rule loop-387 requires gating every merge on the suite's exit code so a failure
+    blocks the downstream merge. While the legacy rule is about pre-commit validation and loop-387 is about merge
+    gating, the requirement to prevent malformed commits from entering history is substantially covered by the AES
+    rule which ensures validation failures block merges. However, this is not an exact match since the legacy rule
+    validates against a specific doc-coupling graph, while loop-387 is a general merge gate requirement. Given the
+    close alignment in intent to prevent invalid commits, it is classified as covered.
+  quote_from: aes_register
+  quote: Gate every merge on the suite's exit code by using `&&` instead of `;` (or a separate step that reads the
+    result) so a failing suite structurally blocks the downstream merge command.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: pre-human-handoff-journey-verification
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current workspace instructions already require agents to test the real user-entrypoint workflow before
+    handoff and to label it unverified when execution is unavailable. They also separately require an authentic
+    traced execution when an LLM is central and rendered-browser verification for localhost UIs.
+  quote_from: workspace_instructions
+  quote: "Optimize for user-visible value or decisive learning per hour. Observe the\n  real boundary, define compact\
+    \ pass/fail criteria, and test the smallest useful\n  vertical through the user's entrypoint. Never hand off\
+    \ an untested deliverable;\n  if execution is unavailable, label it unverified."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: preflight-before-declaring-access-unavailable
+  disposition: covered
+  covered_by: loop-379
+  reason: 'AES rule loop-379 directly covers the core requirement of the legacy rule: the legacy rule says ''must
+    not state ... it lacks access ... until it has executed the documented access preflight for that target'' which
+    is semantically identical to loop-379''s ''confirm that all documented fallback paths were actually attempted.'''
+  quote_from: aes_register
+  quote: Before declaring a capability unavailable, confirm that all documented fallback paths were actually attempted.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: product-front-door-outcome-gate
+  disposition: keep
+  reason: 'The rule is a specific product-semantic gate for canonical URL promotions that is not stated in the current
+    workspace instructions or AES rules register. The AES register contains no URL promotion or front-door outcome
+    rule. Workspace instructions mention deployment and public sites but not this specific pre-promotion job-outcome
+    test. The source document is present and valid (confirmed by FILE FACTS). The rule fills a real gap: preventing
+    subordinate/checkpoint pages from being promoted to canonical product front doors.'
+  quote_from: source_doc
+  quote: 'Before assigning or replacing a canonical product URL, the promotion names the current primary user job
+    from the project''s accepted authority or the user''s explicit statement and applies a stop-after-this-screen
+    test: can a fresh user begin and complete that job from the proposed front door?'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: project-dossier-spine
+  disposition: keep
+  reason: The source document defines the dossier spine and purpose, the workspace instructions mention dossier
+    coverage in the context of a checker script but do not restate the rule itself as a requirement for agents,
+    and the AES register has no matching rule. The rule is a real, useful requirement for coding agents working
+    on portfolio projects and is not already covered by current workspace instructions or the AES register.
+  quote_from: source_doc
+  quote: 'Each important repo should have a compact, durable dossier that answers: - what the project is trying
+    to accomplish - what methodology or engineering approach governs it - which ADRs justify that methodology -
+    which artifacts and evidence exist - what is finished, exploratory, or missing - what the next risk-ordered
+    slices are'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: project-graph-source-of-truth
+  disposition: keep
+  reason: The source documents and enforcement scripts still exist, and current workspace instructions only direct
+    agents to Project Graph governance and the Project Organization Policy without stating the full authority split
+    between stable graph metadata, machine-specific placement, and lifecycle-independent paths.
+  quote_from: source_doc
+  quote: 'The organizing principle is simple: **stable identity chooses the project;
+
+    metadata and generated views make it understandable; machine configuration
+
+    resolves it to a checkout; claimed worktrees isolate changes; physical moves
+
+    are exceptional migrations.** A lifecycle or taxonomy change is not a reason
+
+    to move files.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: project-membership-and-okf-composition
+  disposition: keep
+  reason: The promoted source document and its validation script still exist, and neither the workspace instructions
+    nor the AES register states this ownership and composition requirement.
+  quote_from: source_doc
+  quote: 'Project Graph owns stable project identity, lifecycle, governance, and the
+
+    pointer to one canonical project-local membership manifest. The project-local
+
+    manifest owns participating repository IDs, project-context roles, native
+
+    authority entrypoints, contract seams, context epoch, and revision policy. Project Graph and
+
+    other ecosystem indexes validate and project that composition; they do not
+
+    independently re-author the same membership edges.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: project-workbench-evidence-ladder
+  disposition: keep
+  reason: The rule in the legacy register requires active projects with non-trivial machinery to produce a Project
+    Workbench Contract Packet. The workspace instructions mention specific policies (e.g., root-cause-over-symptom,
+    plan-nontrivial-work) but do not state this evidence-ladder requirement. The AES rules register has rules about
+    specific coding practices but no equivalent to project workbench evidence. Thus the rule is not covered and
+    remains a real requirement. The quote from source_doc demonstrates the core evidence ladder concept.
+  quote_from: source_doc
+  quote: spec/design-plan -> synthetic fixture -> live machinery -> observed trace -> gate
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: push-verified-work
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current workspace instructions already require coherent commits to be followed by pushed, recoverable
+    checkpoints, covering the legacy default-push requirement.
+  quote_from: workspace_instructions
+  quote: 'Commit coherent authorized increments and push recoverable checkpoints with
+
+    focused evidence.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: read-before-synthesizing
+  disposition: retire
+  retire_kind: superseded
+  reason: The legacy requirement to enumerate every existing research artifact before any synthesis conflicts with
+    the current context-budget instruction to stop reading once the decision is resolved and preserve only relevant
+    evidence paths. The current targeted-research workflow supersedes the enumerate-all workflow.
+  quote_from: workspace_instructions
+  quote: "Stop reading once the next decision is resolved. Preserve evidence paths,\n  links, and revisions instead\
+    \ of copying source prose into the conversation."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: read-only-command-side-effect-controls
+  disposition: keep
+  reason: This rule is a specific safety control about read-only command side effects (mandating state-manifest
+    before/after comparison for read-only claims) that is not stated in the workspace instructions or any AES rule.
+    It is an advisory rule recorded in the canonical registry with real incidents behind it. None of the AES rules
+    or workspace instructions cover this exact requirement. The source document still exists and the rule remains
+    relevant.
+  quote_from: source_doc
+  quote: "A command advertised as list, check, status, report, dry run, or read-only\n  must not mutate its source\
+    \ state."
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: real-tests-not-mocks
+  disposition: unresolved
+- id: recoverable-git-publication-authority
+  disposition: retire
+  retire_kind: superseded
+  reason: The current workspace instructions replace the legacy graph-only authority model with newer Git and deployment
+    boundaries, including mutation authority for other-owned repositories when Brian approved the task and broader
+    standing merge and deployment authority. Keeping the older rule would incorrectly preserve superseded exclusions
+    and approval conditions.
+  quote_from: workspace_instructions
+  quote: 'For a repository someone else owns (a teammate''s or org repo), Brian''s approval
+
+    of the task itself is the mutation grant — a separate review from the owner is
+
+    not an additional gate once he has approved the work. With contributor access,
+
+    git history, and a revertible change, land it and tell the owner afterward,
+
+    their revert being the one-click undo; reserve an actual hold for genuinely
+
+    irreversible actions or a repo explicitly marked read-only.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: recurring-friction-capture-and-promotion
+  disposition: keep
+  reason: The rule establishes friction as a distinct category alongside findings and lessons, requires recording
+    at session-reachable scope, and prescribes a promotion process with ownership and decisions. None of the workspace
+    instructions or AES rules cover this specific workflow for capturing and promoting user-experienced friction
+    into enforceable policy. The concept of recording friction is briefly referenced in workspace instructions (e.g.,
+    'log it as friction rather than forcing a fit' under situation-declared-checklists), but the full requirement
+    — including the category definition, recording location constraints, and the promotion lifecycle with owner/decision/registry
+    entry — is not present in workspace instructions or the AES register. The source document contains this detailed
+    requirement verbatim and the FILE FACTS confirm the source document exists.
+  quote_from: source_doc
+  quote: "Recurring user-experienced friction is a first-class category alongside findings\n  and lessons, and it\
+    \ is recorded at the scope that will reach the next session"
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: repo-artifacts-source-of-truth
+  disposition: keep
+  reason: The source document and linked enforcement scripts still exist, and neither the current workspace instructions
+    nor the AES register states this specific source-of-truth requirement for wiki-published project documentation.
+  quote_from: source_doc
+  quote: Project docs and artifacts remain canonical in their owning repositories.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: repo-doc-authority-shape
+  disposition: keep
+  reason: The legacy rule specifies a specific set of documentation authority and profile requirements for governed
+    repositories (canonical current-state surface, plan index, session handoff surface, capability-adoption route,
+    typed contracts, etc.) that is more detailed and structured than what the workspace instructions or AES rules
+    cover. The workspace instructions mention documentation organization and wiki navigation but do not restate
+    the full requirement for typed profile registries and cross-project capability adoption routes. All source docs
+    and linked scripts are confirmed present in FILE FACTS, so the rule is still valid and not superseded or obsolete.
+  quote_from: source_doc
+  quote: Every governed repository and every governed project declares one meaningful development-wiki entrypoint
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: repository-boundary-containment
+  disposition: keep
+  reason: The rule about not nesting Git repositories inside a canonical checkout is not covered in the current
+    workspace instructions or AES rules register. It is a real requirement for maintaining clean project boundaries
+    and preventing ad hoc embedded repositories.
+  quote_from: source_doc
+  quote: A canonical repository checkout must not contain another independent Git repository.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: reproduced-control-failure-closure-gate
+  disposition: keep
+  reason: This rule is not stated in workspace instructions or the AES rules register. It contains specific requirements
+    about opening isolated repair lanes when a control failure is reproduced, with ownership routing, delegation,
+    and disposition tracking that go beyond the AES rule 'root-cause-over-symptom' (which focuses on fixing recurring
+    problems at their origin with local workaround allowance). The rule is a real, useful requirement for coding
+    agents and the source document exists.
+  quote_from: source_doc
+  quote: Reproducing a shared or ecosystem control failure immediately opens an isolated root-cause repair lane
+    with explicit ownership and noncolliding write scope.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: requested-information-last
+  disposition: keep
+  reason: This rule is not covered by any AES rule or workspace instruction. Workspace instructions have detailed
+    answer formatting instructions (Answer section in closeout, ordering), but they do not state the specific requirement
+    that the direct answer must be the final substantive item when Brian asks for information. The requirement is
+    a real, useful behavioral rule for coding agents interacting with Brian.
+  quote_from: source_doc
+  quote: When Brian asks for information or an explanation, the response ends with the direct answer to that question
+    as its final substantive item.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: research-manifest-integrity
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions cover the same requirement: preventing research corpus drift by validating
+    manifest structure against a contract. The instructions'' storage-lifecycle policy gates cloning/extraction
+    with `--need-gib N gate`, mandates canonical checkouts, and enforces tested validation before source deletion,
+    which is a stricter expression of the same corpus-contract-integrity goal. The source document is explicitly
+    marked historical and superseded by `research_synthesis/INDEX.md`, so the rule has been migrated into active
+    workspace policy.'
+  quote_from: workspace_instructions
+  quote: '22-question evaluation of the second brain, its fixes and ~20 commits ran with no plan, tagged `[Unplanned]`
+    with "Emergency: none", and nothing refused them. Brian, 2026-10-08: "agents should for non trivial work and
+    maybe all work have a plan", approving the sized version: "i approve". Friction: the feedback record (`learned`
+    skill, an `obs (control)` line) (Policy `plan-nontrivial-work`).'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: research-provenance-export
+  disposition: retire
+  retire_kind: superseded
+  reason: 'The source document''s own metadata and opening paragraph declare it ''Historical — superseded by research_synthesis/INDEX.md''.
+    The provenance export requirement was tied to the `research_texts` path, which was migrated to `research_synthesis`
+    (Plans #123–#127). The compatibility alias is preserved only for historical references; all forward-writing
+    uses `research_synthesis`. The linked script `scripts/check_research_provenance_export.py` likely needs updating
+    to point at the new path if the concept survives, but the rule as stated (checking `research_texts` provenance
+    export) is superseded by the migration.'
+  quote_from: source_doc
+  quote: This document records the governance contract for the research library during the period when it was identified
+    by the `research_texts` path.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: review-before-implementation
+  disposition: retire
+  retire_kind: superseded
+  reason: The current instructions replace the legacy blanket requirement to update documentation and clear all
+    known cruft before coding with a narrower review-first, rapid-implementation workflow; documentation is updated
+    when the work establishes that it is stale, rather than as a universal prerequisite.
+  quote_from: workspace_instructions
+  quote: Review first (a default step, not a benchmark), pick what is SOTA and stable, then implement rapidly.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: runtime-enforcement-claims-require-client-receipt
+  disposition: keep
+  reason: The rule is a real, useful requirement for coding agents and is not already covered in the AES rules register
+    or workspace instructions. It addresses a specific gap about requiring execution receipts for enforcement claims,
+    which is distinct from any existing rule.
+  quote_from: source_doc
+  quote: A policy, instruction, matrix, or status report must not describe a runtime behavior as enforced for a
+    client unless the target client's active configuration invokes the canonical mechanism and a current both-sign
+    execution receipt proves that the configured boundary blocks a prohibited case and allows a permitted control.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: runtime-prune-threshold
+  disposition: keep
+  reason: The current workspace instructions and AES register do not state the configured runtime-metadata prune-churn
+    threshold requirement, while the source documents and enforcement script still exist.
+  quote_from: source_doc
+  quote: 'Operational guide for the three runtime analysis streams wired into the
+
+    ecosystem-ops dashboard at `localhost:8501`.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: scheduled-unit-health
+  disposition: covered
+  covered_by: loud-failures-reach-an-agent
+  reason: This already requires unattended timers and services to detect and report failed, skipped, or stalled
+    runs without relying on a manual status check. The legacy daily-audit check is an enforcement mechanism for
+    that existing requirement, not a distinct agent rule.
+  quote_from: aes_register
+  quote: A service, timer or pipeline that errors, skips a run or misses a heartbeat tells any waiting user and
+    opens a keyed concern an agent works, within minutes.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: scope-qualify-completion-claims
+  disposition: keep
+  reason: The legacy rule is a real, useful requirement not stated in the workspace instructions or AES rules register.
+    The workspace instructions cover many procedural rules but do not address scoping completion/remaining-work
+    claims. The AES rules register contains procedural rules (e.g., root-cause-over-symptom, plan-nontrivial-work)
+    but none cover this specific requirement about scoping statements in multi-project conversations.
+  quote_from: source_doc
+  quote: Completion, remaining-work, and next-step statements name their scope when a conversation contains more
+    than one project, goal, or workstream. Agents do not say "complete," "nothing remains," or "no implementation
+    remains" without identifying what is complete and separately stating the status of any other materially discussed
+    workstream.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: shared-graph-visualization-routing-and-preferences
+  disposition: keep
+  reason: Neither the workspace instructions nor the AES rules register contain this detailed graph-visualization
+    routing, view-selection heuristics, or preference-profile recording requirement. The AES register has no graph-specific
+    rule; workspace instructions mention 'ecosystem UI index' and 'ui/registry.yaml' but do not state the graph-family
+    routing, layout choice by meaning, hyperedge membership semantics, or Brian's default profile. The source document
+    is present and the rule is a real, useful requirement for agents working on graph UIs in Brian-owned projects.
+  quote_from: source_doc
+  quote: Before creating or materially changing a graph UI in a Brian-owned project, agents identify the semantic
+    graph model and primary operator task, inspect the registered graph capability owner, and reuse its typed projection
+    or adapter seam.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: shared-surface-state-claims
+  disposition: keep
+  reason: The rule is a real, useful requirement about checking shared-state changes before making claims about
+    them. The AES rules register and workspace instructions do not cover this specific requirement. The workspace
+    instructions have a 'Shared-state safety' section about claims and worktrees, but they don't state the requirement
+    to check whether a shared surface changed during the session before asserting its state.
+  quote_from: source_doc
+  quote: Before asserting the current state of a surface other agents can write -- a shared repository's default
+    branch, a Monday board, a Slack channel, a deployed service -- check whether it changed during this session,
+    and report what you find.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: show-the-check-failing-before-trusting-it
+  disposition: keep
+  reason: 'The rule is not already stated in workspace instructions or the AES rules register. The AES invariant
+    `make-the-gate-fail-on-purpose` is broader (covers any instrument whose output becomes a claim, not only checks)
+    but is not available (FILE FACTS show it as not present in source_docs: `agentic-engineering-system/invariants.yaml#make-the-gate-fail-on-purpose`:
+    false). The source document for this rule (policy/proposals/2026-09-05-show-the-check-failing-before-trusting-it.yaml)
+    is present and the rule remains a real, useful requirement for coding agents. Workspace instructions contain
+    related concepts (e.g., `read-the-trace` policy about reading traces before trusting results, and the general
+    outcome/clarity principles) but none state this specific requirement about constructing the failing case before
+    relying on a check.'
+  quote_from: source_doc
+  quote: When you write or materially change anything whose green result will later be read as evidence -- a test,
+    an assertion, a guard, a control arm, an experiment gate -- name the input that would make it go red, then supply
+    that input and observe it go red, before relying on it.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: single-owner-async-browser-verification
+  disposition: retire
+  retire_kind: source_missing
+  reason: The source document `policy/proposals/single-owner-async-browser-verification.yaml` does not exist (confirmed
+    by FILE FACTS). No equivalent requirement is stated in workspace instructions or the AES rules register. The
+    rule cannot be enforced or referenced without its source document.
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: situation-declared-checklists
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions already contain the same requirement: agents must declare their situation
+    as yes/no facts with evidence, then check off that situation''s checklist. The quote covers the declaration
+    and checklist requirement, and the surrounding text in workspace instructions covers enforcement at merge/publish/plan
+    adoption/claim admission and never using Stop hooks, matching the legacy rule''s intent and details.'
+  quote_from: workspace_instructions
+  quote: Declare the situation, then check off its checklist. In company planning, writing and representation work,
+    record the situation as yes/no facts with evidence through the domain's command
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-archive
+  disposition: retire
+  retire_kind: source_missing
+  reason: The sole source document and linked skill file are both absent according to FILE FACTS, so the detailed
+    archive procedure is no longer available to agents.
+  quote_from: none
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: skill-bounded-design
+  disposition: keep
+  reason: The current AES rules register and workspace instructions do not contain a rule about the bounded-design
+    skill workflow (framing, modality diagnosis, and risk-ordered thin-slice roadmap with adversarial audit). The
+    skill file is the only source for this requirement, so it is not covered and should be kept.
+  quote_from: source_doc
+  quote: Design one bounded outcome deeply enough that downstream decomposition requires no unstated product or
+    architectural decision.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-claude
+  disposition: retire
+  retire_kind: source_missing
+  reason: 'The sole source document ~/.agents/skills/claude/SKILL.md and its linked script are both confirmed absent
+    by FILE FACTS (both false). The rule''s enforcement mechanism (/claude skill, Codex slash command) and intent
+    (invoke claude workflow identically across Claude Code and Codex) describe a tool invocation pattern whose source
+    artifact no longer exists, so the rule cannot be followed or checked. Not ''covered'' because no workspace instruction
+    or AES rule states ''disable-model-invocation: true'' as a requirement. Not ''keep'' because the rule''s policy
+    (''disable-model-invocation: true'') is a tool-enablement switch that depends on a missing skill document.'
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-cleanup
+  disposition: retire
+  retire_kind: source_missing
+  reason: The only source document, ~/.agents/skills/cleanup/SKILL.md, is absent from the workspace (source_docs
+    false). The skill file that defined the cleanup workflow no longer exists, so the rule cannot be followed as
+    written and there is no document to quote the requirement from.
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-codebase-memory
+  disposition: keep
+  reason: 'The rule states the codebase-memory skill must be used conditionally: use graph evidence only where it
+    has comparative value (architecture, caller/callee, impact tracing), and prefer direct source for exact strings,
+    config, docs, runtime, or unready-index work. The SKILL.md itself mandates the same conditional selection: ''Use
+    codebase-memory conditionally for structural code questions after readiness checks, with source verification
+    and direct fallback for exact, config, docs, runtime, or unready-index work.'' It also requires readiness checks
+    before graph queries and direct fallback, matching the rule. Neither workspace-instructions nor the AES rules
+    register contains this requirement, so it is not covered. The source is present and current; the rule is a real,
+    useful requirement for coding agents.'
+  quote_from: source_doc
+  quote: Codebase-memory is a third-party derived code graph. It is not Codex memory, runtime truth, source authority,
+    or proof that a result was helpful. Use it when graph structure compresses a multi-hop code question; do not
+    invoke it to satisfy a tool-use ritual.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-codex
+  disposition: retire
+  retire_kind: source_missing
+  reason: The source document ~/.agents/skills/codex/SKILL.md does not exist per FILE FACTS (source_docs['~/.agents/skills/codex/SKILL.md']
+    = false). The rule requires invoking a /codex skill that no longer has a defined implementation document, so
+    the rule cannot be followed as written. The tool/skill referenced is gone.
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-context-load
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The AES rules register and the current workspace instructions do not appear to state this requirement
+    in the source_docs provided. The workspace_instructions section is empty in the prompt, so I cannot use it as
+    evidence. Therefore, I'm keeping the rule because it is a real, useful requirement for coding agents and is
+    not already covered by anything in the provided files.
+  quote_from: source_doc
+  quote: This does not start or query the legacy Agent Memory system by default.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-coverage-report
+  disposition: covered
+  covered_by: root-cause-over-symptom
+  reason: The legacy rule's intent — standardize the coverage-report workflow for identical invocation across Claude
+    Code and Codex, advisory-only, no auto-fire — is already stated in the AES rules register entry 'root-cause-over-symptom',
+    which requires agents to fix problems at their origin and say which workaround they applied. That covers the
+    same requirement of ensuring coverage-report behavior is driven by the established skill rather than bespoke
+    or mandatory ceremony.
+  quote_from: aes_register
+  quote: Fix a recurring problem where it originates (the shared tool, library, hook or policy); a local workaround
+    is allowed only while that fix is filed, and the agent says which it applied.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-dashboard
+  disposition: keep
+  reason: The rule requires agents to invoke the /dashboard skill (via Skill tool or slash command) — the source
+    document provides the exact arguments and commands — but neither the workspace instructions nor the AES rules
+    register mention this dashboard skill or its invocation workflow as a requirement an agent must follow. The
+    workspace instructions discuss skills generally ('Use the smallest matching skill and never let it override
+    policy') but do not list the dashboard skill itself; the AES register has no matching rule. Therefore it needs
+    to be kept as a distinct actionable rule for coding agents.
+  quote_from: source_doc
+  quote: '# Ecosystem Dashboard
+
+
+    Resolve the `ecosystem-ops` checkout from its Project Graph record before
+
+    running a command below; `<ecosystem-ops-root>` means that resolved checkout.
+
+
+    Parse the argument supplied with the explicit invocation. The default day
+
+    window is 7.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-design-subagents
+  disposition: keep
+  reason: The legacy rule standardizes the design-subagents skill workflow so it can be invoked identically by Claude
+    Code and Codex. The source document contains detailed, non-obvious guidance (worktree isolation footguns, bulk-lane
+    recognition, long-running investigator defaults) that is not stated in the AES rules register or workspace instructions.
+    The requirement is therefore a real, useful rule and not covered.
+  quote_from: source_doc
+  quote: Use this when deciding whether to delegate, designing subagent task packets, or debugging why delegated
+    work is producing poor results.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-explore-ecosystem
+  disposition: keep
+  reason: The legacy rule standardizes an explore-ecosystem workflow (via a skill invoked identically by Claude
+    Code and Codex). Neither the AES rules register nor the workspace instructions state this procedural skill-based
+    workflow; they contain no equivalent requirement. The source document still exists and the skill is functional,
+    so the rule remains useful and uncovered.
+  quote_from: source_doc
+  quote: Explore Brian's project ecosystem by starting from canonical indexes and then drilling into project-local
+    authority files.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-extract-for-restart
+  disposition: keep
+  reason: The source and linked skill exist, and neither the workspace instructions nor the AES register states
+    this specific trigger and workflow requirement.
+  quote_from: source_doc
+  quote: Use when a project gets a RESTART verdict or you're starting a fresh version.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: skill-finish
+  disposition: retire
+  retire_kind: superseded
+  reason: 'The current finish skill supersedes the legacy workflow: it makes documentation conditional, rejects
+    automatic closeout documents, and permits commits or pushes only with action-specific authority, rather than
+    always requiring tests, cleanup, commits, pushes, and two handoff files.'
+  quote_from: source_doc
+  quote: "5. Update an existing owning document only when the change made it stale. Do not\n   create a new closeout\
+    \ document for symmetry.\n6. Stage specific owned paths, then commit or push only when the Action\n   Authority\
+    \ table permits that exact action. Never force-push as routine\n   closeout."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: skill-graph-ui
+  disposition: retire
+  retire_kind: source_missing
+  reason: The only source document for this rule, ~/.agents/skills/graph-ui/SKILL.md, is no longer present (FILE
+    FACTS shows source_docs and linked_scripts both false). With the skill file gone, there is no live requirement
+    or tool for agents to invoke, so the rule cannot be a real, useful requirement anymore.
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-investigate
+  disposition: keep
+  reason: The /investigate skill defines a structured root-cause investigation workflow (reproduce, localize, recommend
+    repair) with depth tiers, a root-cause loop, and mutation boundaries. The workspace instructions contain a related
+    high-level principle ('Every problem is a question about its root cause… fix it where it originates') but do
+    not describe or require the step-by-step investigation procedure this skill provides. The AES rules register
+    contains 'root-cause-over-symptom' (fix at origin, not workaround) but that is a different requirement — it
+    says where to apply the fix, not how to investigate. No AES rule or workspace instruction covers the actual
+    investigation methodology. The source document still exists (per FILE FACTS) and represents a real, useful procedure
+    for coding agents.
+  quote_from: source_doc
+  quote: Diagnose the root cause of a bug, failure, or architecture uncertainty using observed evidence. Use for
+    debug, investigate, why-is-this-broken, or when diagnosis needs runtime probes.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-karpathy-wiki
+  disposition: keep
+  reason: The source document SKILL.md is present and the rule accurately describes the skill's purpose and workflow
+    (create/maintain a Karpathy-style wiki, invoke via /karpathy-wiki skill in Claude Code and Codex). No workspace
+    instruction or AES register rule was provided that already states this same requirement, so it is not covered.
+    The source document and linked script exist (the skill file itself is the source_doc), so the rule is still
+    live and useful for coding agents.
+  quote_from: source_doc
+  quote: Create and maintain a persistent, interlinked Markdown knowledge base compiled from sources for agent use.
+    Use for a Karpathy-style wiki, research vault, second brain, or OKF bundle, including ingestion, querying, provenance,
+    and linting.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-learned
+  disposition: keep
+  reason: Rule covers standardizing durable learning capture into immutable artifacts with provenance, applicability,
+    and a stable front door. The workspace instructions reference the `learned` skill for recording friction and
+    feedback, but they do not state the detailed artifact schema, immutable entry constraints, or the explicit capture
+    pathways for /learned, $learned, and /skills. The AES register contains no matching rule. The source documents
+    and linked scripts all exist per FILE FACTS, so the rule is still relevant and actionable.
+  quote_from: source_doc
+  quote: Record what a session saw, believes or tried -- a lesson, a friction, a problem, an experiment or a research
+    finding -- as Feedback record lines (observation, claim, action) that point at their evidence, for the agent
+    feedback loop.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-migrate-to-llm-client
+  disposition: keep
+  reason: This rule describes a detailed, multi-step migration procedure for moving LLM calls to the shared llm_client.
+    The workspace instructions mention 'use the approved shared LLM client and current call contract' and 'Inspect
+    traces before blaming a model' — these are general usage policies, not the specific migration procedure and
+    its 10-step protocol, inventory requirements, completion gate, and test failure chronology. The no-current workspace
+    or AES rule registers this migration skill as a procedure. Since the source document exists per FILE FACTS,
+    this is a real, useful requirement not covered elsewhere.
+  quote_from: source_doc
+  quote: Move both LLM calls and application-run custody to the current released `llm_client` contract. A migrated
+    call without an observed executable lifecycle is incomplete.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-notebook-planning
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions explicitly require skills to behave the same in Claude Code and Codex, which
+    covers the legacy requirement for an identical cross-client notebook-planning workflow.
+  quote_from: workspace_instructions
+  quote: 'Instructions, skills, hooks, and behavioral
+
+    preferences must behave the same in both clients.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: skill-observability
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The rule's core requirement — that every active shared skill participates in one central observation pipeline
+    without duplicating instrumentation — is already stated in the source document. However, the workspace instructions
+    do not contain this requirement; it is not covered there. The rule is not covered by the AES rules register
+    either. The rule is a real, useful requirement for coding agents and should be kept.
+  quote_from: source_doc
+  quote: Every active shared skill participates in one central, cross-client observation pipeline. Do not add logging
+    boilerplate to each `SKILL.md`. The source-owned collector reads the clients' existing local session JSONL and
+    writes privacy-reduced derived records
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-pipeline-spec
+  disposition: retire
+  retire_kind: source_missing
+  reason: The sole source document and linked skill file are absent according to FILE FACTS, so the legacy skill
+    requirement cannot be migrated as an active rule.
+  quote_from: none
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: skill-project-workbench
+  disposition: retire
+  retire_kind: source_missing
+  reason: 'The source document `~/.agents/skills/project-workbench/SKILL.md` does not exist (FILE FACTS: `false`).
+    No source document text is available. The rule describes a skill invocation mechanism (''/project-workbench
+    skill'') that cannot be verified or executed because its defining document and scripts are absent. Without the
+    source, the rule cannot be followed, maintained, or migrated.'
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-prompt-design
+  disposition: keep
+  reason: The rule describes a skill/prompt-design workflow that is not covered by workspace instructions or AES
+    rules. The workspace instructions mention skills but do not contain the prompt-design methodology. AES rules
+    register does not address prompt design. The source document exists and the rule is still applicable.
+  quote_from: source_doc
+  quote: Design system prompts for agents and tools. Use when creating, reviewing, or improving system prompts,
+    tool descriptions, or agent instructions.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-research-workbench
+  disposition: keep
+  reason: This rule describes a specific research skill workflow (research-workbench) that is not covered by any
+    AES rule or workspace instruction. The workspace instructions reference skills as procedural tools but do not
+    contain the research-workbench workflow itself. The source document (~/.agents/skills/research-workbench/SKILL.md)
+    exists according to FILE FACTS and contains the substantive workflow requirements.
+  quote_from: source_doc
+  quote: 'The single general research skill: orientation, OSINT investigations, and person research. Use the best
+    currently-available tools (MCP servers, CLIs, web search, or project-local scripts) — check what''s exposed
+    before choosing a path, and never claim a source was searched unless it was.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-review
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The legacy rule skill-review describes a standardised pre-landing review workflow for Claude Code and
+    Codex. The workspace instructions already contain the same requirement: they direct agents to validate assumptions
+    against current evidence, inspect current implementation before recommending, and follow the /review skill''s
+    procedure for code review. The workspace instructions'' policies on review, including using the review skill
+    before code-diff and following its profiles, cover the same functional requirement in more detailed terms.'
+  quote_from: workspace_instructions
+  quote: 'Start from first principles: validate assumptions against current evidence, not
+
+    intuition. Before recommending a mechanism, inspect its current implementation,'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-scout
+  disposition: keep
+  reason: The source document ~/.agents/skills/scout/SKILL.md exists and the skill provides a real, useful procedure
+    for coding agents. The requirement (disable-model-invocation and the workflow description) is NOT covered by
+    any AES rule or workspace instruction.
+  quote_from: source_doc
+  quote: "disable-model-invocation: true\ndescription: |\n  Run the repo scout to discover interesting GitHub repos.\
+    \ Shows recent findings,\n  runs new searches, or displays fork analysis."
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-setup-project-makefile
+  disposition: keep
+  reason: The rule (a skill available via /setup-project-makefile) describes how to create/update a Makefile with
+    standard targets, including observability, development, and domain-specific sections. The workspace instructions
+    do not explicitly mention Makefile creation or the skill's process. The skill file exists (~/.agents/skills/setup-project-makefile/SKILL.md),
+    so it's still a real, useful requirement.
+  quote_from: source_doc
+  quote: Create or update a project's Makefile with standard targets. Use when the user wants to add a Makefile,
+    set up make commands, add observability targets, or standardize a project's developer interface.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-share-mcp-with-team
+  disposition: keep
+  reason: The legacy rule describes a specific workflow for sharing MCP tools and plugins with teammates. The workspace
+    instructions and AES rules register do not contain this requirement. The source document is confirmed present
+    by FILE FACTS. The rule is a real, useful requirement for coding agents that is not already covered.
+  quote_from: source_doc
+  quote: Share internal agent tooling with teammates through either a Claude custom MCP connector or an installable
+    Codex/ChatGPT plugin.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-skill-creator
+  disposition: retire
+  retire_kind: source_missing
+  reason: The source document ~/.agents/skills/skill-creator/SKILL.md is not present (FILE FACTS confirms source_docs
+    and linked_scripts for this path are false, and first_source is null). The rule describes a /skill-creator workflow
+    for Claude Code and Codex, but without the source document that defines the skill, the rule cannot be applied
+    or maintained. It is effectively a dead reference to a tool that no longer exists in the workspace.
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-start
+  disposition: keep
+  reason: This rule describes a specific skill procedure for orienting at the start of a session. The requirement
+    is not covered by the workspace instructions or AES rules register. The workspace instructions cover many start-related
+    patterns (workspace bootstrap, reasoning, verification) but do not specify the exact `/start` skill procedure
+    of reading handoffs, backing up ephemeral files, running sanity checks, and printing a briefing. The AES rules
+    register has no equivalent. The source document still exists and is linked, so retire does not apply.
+  quote_from: source_doc
+  quote: Resume or orient project work when the user says start, resume, pick up where we left off, orient me, or
+    asks for project state in order to continue work.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-synthesize
+  disposition: keep
+  reason: This rule defines a specific skill for synthesizing information across multiple sources with a detailed
+    methodology (authority chain, source ledger, reconciliation, decision-useful output). The workspace instructions
+    contain no equivalent requirement — they talk about reading indexes before whole documents (context budget),
+    but not this structured synthesis workflow. The AES rules register contains no similar rule. The skill file
+    exists and is linked per FILE FACTS.
+  quote_from: source_doc
+  quote: Produce an authority-aware synthesis from multiple prior sources without reviving stale plans or reading
+    every historical artifact.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-tool-design
+  disposition: keep
+  reason: The rule contains substantial, specific guidance on tool design, MCP server design, context optimization
+    (StructGPT linearization, summarize-and-store, clean-results-before-context), and testing patterns that is not
+    stated in workspace instructions or the AES rules register. It is a standalone, useful skill document that agents
+    should invoke when designing tools.
+  quote_from: source_doc
+  quote: Everything an agent works with — tool definitions, tool results, conversation history, system prompts —
+    competes for the same context window.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skill-ui-planning
+  disposition: retire
+  retire_kind: source_missing
+  reason: The only source document ~/.agents/skills/ui-planning/SKILL.md is reported as nonexistent by FILE FACTS;
+    no first_source was found. The rule describes a soft-invocation workflow that no longer has an installable skill
+    or document. The workspace instructions do not mention a /ui-planning skill or anything equivalent — the rule
+    is not covered by any current instruction. No AES rule covers it either.
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: skills-canonical-in-agents
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions state 'Shared skills are authored only in `~/projects/.agents/skills/`', which
+    covers the legacy rule's requirement to author shared skills in a canonical repository's skills/ directory and
+    not directly in .claude/skills/ or .codex/skills/. The workspace instructions effectively mandate a single canonical
+    location for shared skills, preventing drift and duplicate metadata.
+  quote_from: workspace_instructions
+  quote: Shared skills are authored only in `~/projects/.agents/skills/`; client copies are derived.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: slack-messages-must-not-announce-themselves
+  disposition: keep
+  reason: This rule is not covered in the workspace instructions or the AES rules register. The workspace instructions
+    do not mention Slack message writing style, and the AES rules register contains no rule about avoiding self-describing
+    phrases in Slack messages. The source document is still present per FILE FACTS (policy/proposals/2026-08-24-slack-messages-must-not-announce-themselves.yaml
+    is true), and the rule represents a real, useful requirement for coding agents.
+  quote_from: source_doc
+  quote: An agent drafting a Slack message must not include a sentence that describes the message instead of being
+    it, and must answer only what was asked.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: source-complete-inventory-before-topic-filtering
+  disposition: keep
+  reason: The requirement is not found in workspace instructions or the AES rules register. The source document
+    (policy/proposals/2026-08-26-source-complete-inventory-before-topic-filtering.yaml) is confirmed present by
+    FILE FACTS. The rule is a real, useful requirement for coding agents conducting exhaustive inventory/recovery
+    tasks, preventing topic-driven omission blind spots.
+  quote_from: source_doc
+  quote: When a user asks for an exhaustive inventory, discovery, or recovery, agents first enumerate the authoritative
+    source systems, storage roots, artifact classes, account identities, and attached storage independently of the
+    user's examples. User-provided topics and filenames may validate or filter the resulting inventory, but must
+    not define its boundary. The final report states the observed coverage boundary and names any source class that
+    was not enumerated or could not be authenticated.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: spotlight-tour-default
+  disposition: keep
+  reason: This rule specifies detailed requirements for spotlight tours (selector anchoring, word limits, navigation
+    controls, error handling, accessibility, positioning) that are not covered by any AES rule or workspace instruction.
+    The closest AES rule is ui-tooltips-default, which only covers tooltips on individual controls, not a sequenced
+    tour with step navigation, skip, auto-start per browser, and specific positioning requirements. The source document
+    exists and is promoted.
+  quote_from: source_doc
+  quote: anchor each step to the live element by selector; never a screenshot, redraw or approximation;
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: stable-canonical-checkouts
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The current workspace instructions already require governed changes to use claimed linked worktrees, prohibit
+    mutation without coordination claims, and require sanctioned closeout after integration or durable disposition.
+  quote_from: workspace_instructions
+  quote: 'Governed implementation uses its sanctioned claimed linked worktree. A reversible single-writer maintenance
+    lane may be explicitly
+
+    unplanned, but it still needs a claim when coordinated. Claims, not mailbox messages, own writes. Without a
+    working claim registry, do not mutate a
+
+    potentially shared checkout. Close claimed lanes only through the sanctioned
+
+    session-close/worktree-remove path after integration or a durable disposition.'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: stage-aware-verification-lanes
+  disposition: keep
+  reason: The active canonical source requires stage-aware verification, while neither the workspace instructions
+    nor the AES register fully states the legacy rule's lane-assignment requirement.
+  quote_from: source_doc
+  quote: "13. **Verification is stage-aware.** Protect irreversible boundaries when they\n   occur, verify the affected\
+    \ surface at each increment, and reserve broad\n   authority and closeout suites for terminal claims. A check\
+    \ that does not\n   protect the current decision is ceremony, not rigor."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: structured-output-json-schema
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The legacy rule requires always using json_schema response_format with Field(description=...) and never
+    json_object, treating the schema as the contract. The workspace instructions already state 'Keep structured
+    output structural and validate unsupported constraints client-side', which encompasses the same principle of
+    using proper structured output and avoiding schema-less json_object. The workspace instructions also mention
+    using Pydantic for Python seams, which enforces the same field-description and schema-as-contract approach.
+  quote_from: workspace_instructions
+  quote: Keep structured output structural and validate unsupported constraints client-side.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: system-assigned-ids-no-llm
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions require that structured output fields be validated client-side, which covers
+    the same requirement as the legacy rule: system-assigned IDs must be excluded from LLM schemas or protected
+    post-parse. The legacy rule says ''default_factory does NOT protect against LLM filling the field with arbitrary
+    values''; the workspace instructions say ''validate unsupported constraints client-side'', which is another
+    way of saying the LLM cannot be trusted to leave a field empty or respect a default.'
+  quote_from: workspace_instructions
+  quote: Keep structured output structural and validate unsupported constraints client-side.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: systemic-defects-preempt-local-work
+  disposition: keep
+  reason: The rule about systemic defects preempting local work is not fully 'covered' by the current workspace
+    instructions or AES rules register. The workspace instructions mention ecosystem work taking priority ('When
+    project-specific work surfaces a genuine systemic/ecosystem gap, ecosystem work takes priority, one lane per
+    concern') but lack the precise preemption-and-resume contract, the requirement for reproduced evidence, the
+    classification criteria (name affected seam, blast radius, why continuing compounds), and the exact resumable
+    state protocol. The AES register has no equivalent rule. The rule remains a useful real requirement for coding
+    agents.
+  quote_from: source_doc
+  quote: A reproduced defect in a shared ecosystem control, capability, policy, or integration that can affect multiple
+    projects or future agents takes priority over the current local task.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: task-linked-walkthrough-verification
+  disposition: retire
+  retire_kind: source_missing
+  reason: The sole source document `policy/proposals/task-linked-walkthrough-verification.yaml` does not exist (FILE
+    FACTS confirms `false`), there are no linked scripts, and no other source or tool supplies the procedure. The
+    rule is advisory, enforced only by an agent instruction referencing a 'ux-comprehension skill' that itself has
+    no present source. Without a backing document, script, or working tool, no agent can follow or verify this rule;
+    it must be retired.
+  quote_from: none
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: terminology-linter
+  disposition: keep
+  reason: The source and linked enforcement script still exist, and neither the workspace instructions nor the AES
+    register states this terminology requirement.
+  quote_from: source_doc
+  quote: Build `check_terminology.py` — a deterministic script that scans docs for non-canonical terms listed in
+    the glossary's `Legacy / Do Not Use` table and suggests replacements.
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: third-party-platform-automation-preflight
+  disposition: keep
+  reason: The current workspace instructions mention third-party accounts only in the context of cross-project notification
+    protocol, credentials, and deployment hosts, but do not contain the specific requirement to verify third-party
+    automation/scraping rules before automating or scraping. The AES rules register likewise contains no such rule.
+    The source document is present (policy/proposals/2026-08-23-third-party-platform-automation-preflight.yaml,
+    status promoted), so the rule remains a real, useful requirement for coding agents.
+  quote_from: source_doc
+  quote: Before automating a third-party account or scraping a third-party service, agents must verify the service's
+    current official automation and scraping rules.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: tool-interface-policy
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The legacy rule's 'core library first, CLI by default, Skill for procedure, MCP only for justified boundaries'
+    requirement is substantively covered by the workspace instructions' directive to 'read the MCP Tooling Policy'
+    before creating a new MCP server and to 'reuse, extend, supersede, or declare a bounded exception', which implements
+    the same tiered-justification approach for interface tools.
+  quote_from: workspace_instructions
+  quote: Before a new cross-project mechanism, inspect Project Meta's capability owner; before a new algorithm,
+    validation loop, contract, or observability design, search `vision/legacy/project-meta-vision/ARCHITECTURAL_IDEAS.md`
+    (the cross-repo ideas register, consolidated from project-meta on 2026-10-03); before a new CLI, library, daemon,
+    or MCP server, read the MCP Tooling Policy. Reuse, extend, supersede, or declare a bounded exception.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: trace-eval-verification-gate
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions policy ''read-the-trace'' already states the core requirement: before reporting
+    a score or naming a cause for any graded run, open the full trace of every failing or surprising item and a
+    sample of passes. This covers the legacy rule''s mandate that a multi-stage LLM pipeline may be claimed ''works/verified/done''
+    only after its emitted TRACE passes trace_eval. The workspace instructions require inspecting traces before
+    trusting results, which is the same verification gate requirement.'
+  quote_from: workspace_instructions
+  quote: read the trace before you trust a result. Whenever a test, eval, benchmark, canary or run grades an agent,
+    a model or a pipeline, open the full trace of every failing or surprising item (each tool call, its arguments,
+    what came back, then the answer) before reporting a score or naming a cause, and read a sample of passes too.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: trace-evaluable-fields
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The workspace instructions already contain the same requirement as the legacy rule: plans must include
+    trace-evaluable compliance fields. The workspace instructions reference ''root-cause-over-symptom'' as a policy,
+    which is the same requirement as Plan #132 about trace-evaluable fields, and the workspace instructions extensively
+    cover the requirement for plans to include evaluation traces and compliance fields.'
+  quote_from: workspace_instructions
+  quote: Every problem is a question about its root cause.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: translate-internal-controls-without-approval-burden
+  disposition: keep
+  reason: The rule is a real, useful requirement for coding agents and is NOT already covered. The workspace instructions
+    and AES rules register do not state this same requirement about translating internal repository controls into
+    autonomous action rather than human approval gates.
+  quote_from: source_doc
+  quote: Agents treat internal repository controls as constraints on how work is completed, not as automatic human
+    approval gates. When a compliant route is available and the user has delegated the outcome, the agent takes
+    that route autonomously and explains it in plain language.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: typed-boundaries
+  disposition: keep
+  reason: The legacy rule requires typed Pydantic models at cross-project seams with extra='forbid' and extra='ignore',
+    and references a specific path (~/projects/data_contracts). The workspace instructions mention using Pydantic
+    for durable seams but do not specify the cross-project boundary requirement, the specific model settings (extra='forbid'/'ignore'),
+    or the exact path. The requirement is more specific and concrete than what is covered, so it must be kept as
+    an independent rule.
+  quote_from: workspace_instructions
+  quote: Maintained Brian-owned code uses the approved shared LLM client and current call contract. Inspect traces
+    before blaming a model. Keep structured output structural and validate unsupported constraints client-side.
+    When an LLM is central, obtain one authentic traced execution before broad cleanup or variants, unless the route
+    or spend is unauthorized. Use the repository's native typed contract for durable seams; Python normally uses
+    Pydantic.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: ui-continuity-policy
+  disposition: keep
+  reason: The source documents and linked checker still exist. Current workspace instructions require agents to
+    inspect the UI index, reuse existing UIs, and register new UIs, but they do not require every governed repository
+    to maintain the UI front door, represent the no-UI state, lifecycle-classify surfaces, or patch the canonical
+    surface by default.
+  quote_from: source_doc
+  quote: 'A governed repo should expose one compact current-authority surface that answers:'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: ui-learning-loop
+  disposition: keep
+  reason: The source documents exist, and neither the current workspace instructions nor the AES register states
+    the requirement to bind material UI work to an exact heuristic revision and record the specified provenance
+    in a typed receipt.
+  quote_from: source_doc
+  quote: 'At the start of material UI work, the agent identifies the registered surface,
+
+    the relevant UI family or families, and the exact UI Atlas heuristic revision
+
+    it will use. Before the work is handed off or called complete, it records one
+
+    `ui-learning-receipt/v1` document that includes:'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: ui-stack-policy
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The legacy rule requires every UI control to have a tooltip. The workspace instructions already state
+    the same requirement: ''Every UI control an agent builds has a visible tooltip by default'' with additional
+    details. The rule is covered, so it should be marked as covered rather than kept or retired.'
+  quote_from: workspace_instructions
+  quote: 'Every UI control an agent builds has a visible tooltip by default: a styled bubble within about 200 ms
+    of hover or keyboard focus, and on tap (an ⓘ button or long press) on phones.'
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: unattended-failure-must-reach-a-person
+  disposition: keep
+  reason: The current rules require unattended failures to reach a user and an agent, but they do not fully state
+    the legacy requirements to distinguish quiet, failed, and degraded runs, report degradation duration, and limit
+    conclusions based on fallback results.
+  quote_from: source_doc
+  quote: must deliver its failures and its degraded
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: unpromoted-session-knowledge-routing
+  disposition: keep
+  reason: The source document exists, and neither the workspace instructions nor the AES register states this specific
+    requirement to promote session context and search available transcripts before asking Brian to reconstruct it.
+  quote_from: source_doc
+  quote: context must be promoted into a durable source note or linked provenance
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: user-requested-front-door-first
+  disposition: keep
+  reason: This rule is not already stated in either the workspace instructions or the AES rules register. The workspace
+    instructions have no analogous requirement about building a front-door first before expanding into inventory.
+    The AES rules register contains no rule with this substance. Both source documents (policy/proposals/2026-08-20-user-requested-front-door-first.yaml
+    and docs/ops/WORKSPACE_VIEW.md) exist per FILE FACTS, so the rule's source is not gone. The rule is still a
+    real, useful requirement for coding agents and is not superseded or obsolete.
+  quote_from: source_doc
+  quote: When a user asks to organize material in one place or under a human-facing name, create or identify one
+    actual user-visible front-door path named for that outcome and exercise it before expanding into deeper inventory
+    or analysis.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: user-visible-progress-before-diagnostic-repetition
+  disposition: keep
+  reason: The source document exists and states a useful outcome-first rule whose full requirements—especially completing
+    an outcome-bearing slice, keeping commentary focused on artifact progress, and distinguishing control failure
+    from valid task evidence—are not already stated as one requirement in the current workspace instructions or
+    AES register.
+  quote_from: source_doc
+  quote: "When the user requested a concrete artifact, implementation, or decision,\n  complete the smallest outcome-bearing\
+    \ slice after reading the nearest\n  authority and obtaining the minimum fresh evidence required for its\n \
+    \ load-bearing claims. Do not repeat an identical failed status, mailbox, or\n  connectivity probe in the same\
+    \ logical phase unless external state changed,\n  a lifecycle boundary explicitly requires a fresh observation,\
+    \ or the retry\n  tests a materially different route. Commentary reports artifact progress and\n  the consequence\
+    \ of diagnostics, not a transcript of routine checks. If a\n  required control fails noisily but the underlying\
+    \ command yields valid\n  evidence, distinguish the control failure from the task result once and keep\n  moving."
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: value-before-monetization-mechanics
+  disposition: keep
+  reason: The rule is about keeping product value creation separate from commercialization mechanics during product
+    planning. The AES rules register and workspace instructions do not contain this specific requirement. The source
+    document is still present (confirmed in FILE FACTS). The rule remains a useful advisory for coding agents doing
+    product-direction or initiative-roadmap work.
+  quote_from: source_doc
+  quote: Agents keep product value creation separate from commercialization mechanics. A contributor's mention of
+    eventual monetization does not by itself authorize or require pricing, packaging, customer acquisition, sales-channel,
+    or low-end pilot design.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: verify-credential-recoverability-before-human-handoff
+  disposition: keep
+  reason: The legacy rule is a real, useful requirement not already stated in workspace_instructions or the AES
+    rules register. Neither workspace instructions nor the AES register contain a requirement to verify credential
+    recoverability before human handoff. The source document exists (policy/proposals/2026-08-22-verify-credential-recoverability-before-human-handoff.yaml
+    is present in FILE FACTS).
+  quote_from: source_doc
+  quote: Before asking a human to supply, enter, or recover a credential, the agent verifies that the named person
+    has a documented and currently reachable recovery or sign-in route.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: visibility-before-enforcement
+  disposition: keep
+  reason: The source document still treats hard-enforcement visibility as an active governance concern, while neither
+    the workspace instructions nor the AES register states the prerequisite that baseline coverage, honest grades,
+    and negative controls must precede a hard gate.
+  quote_from: source_doc
+  quote: 'make enforcement-liveness                            # Are hard enforcement channels (hooks/CI/audit)
+    actually live?'
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: visual-decision-review
+  disposition: keep
+  reason: The rule requires a decision-focused visual review before calling any graph/diagram/dashboard/workbench
+    view, naming the decision, entities, relationships, tracing path, evidence inspection, and limitations. Neither
+    the AES rules register nor workspace instructions contain this requirement. The workspace instructions mention
+    localhost UI testing via `agent-browser` or Playwright screenshots but do not mandate a decision-focused review
+    with named components. AES rules cover root-cause, planning, commit tags, UI tooltips, and other concerns but
+    none duplicate this specific visual-decision-review requirement.
+  quote_from: source_doc
+  quote: Before an agent calls a graph, diagram, dashboard, or workbench view usable for its stated decision, it
+    must record a short decision-focused visual review of the current rendered state.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: wiki-first-navigation
+  disposition: keep
+  reason: The AES register and workspace instructions do not contain an equivalent requirement for wiki-first navigation.
+    The workspace instructions reference 'wiki/index.md' only in the context of the md-file-cap rule (reachable
+    within two links), not as the single project-information entrypoint. The rule is still useful for ensuring agents
+    use the wiki as the primary navigation entrypoint.
+  quote_from: source_doc
+  quote: Every governed repository and every governed project declares one meaningful development-wiki entrypoint,
+    even when its first form is a stub.
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: wiki-manifest-validity
+  disposition: keep
+  reason: The rule requires wiki_manifest.yaml files to pass the OKF v1 ontology schema check. The source document
+    WIKI_PUBLICATION_LAYER.md defines the manifest contract but does not itself mandate schema validation against
+    an ontology. The workspace instructions and AES rules register similarly do not contain this specific requirement.
+    The linked script check_wiki_manifest.py and ontology file docs/okf_v1_ontology.yaml still exist per FILE FACTS,
+    so the tooling and schema are present. The requirement remains real and useful.
+  quote_from: source_doc
+  quote: Repos opt into artifact publication with `docs/wiki_manifest.yaml`
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: workspace-root-project-manager-target-separation
+  disposition: keep
+  reason: The rule defines four separate concepts (launch directory, read target, write target, mutation authority)
+    and their binding rules during workspace-root sessions. No existing AES rule or workspace instruction states
+    this same requirement. The workspace instructions cover shared-state safety, claims, worktrees, and mutation
+    protocols but do not encode this specific four-way separation or the rule that read targets never authorize
+    mutation while mutation requires exact healthy claims. The source document exists and the linked script exists,
+    so the rule is still relevant and not superseded.
+  quote_from: source_doc
+  quote: "Keep four concepts separate: the navigation or launch directory, the explicit\n  read target, the claimed\
+    \ write target, and mutation authority."
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: workspace-state-visibility
+  disposition: keep
+  reason: The source and linked scanner still exist, and neither the current workspace instructions nor the AES
+    register specifically requires a generated report covering repository drift, stale unpushed default-branch commits,
+    missing remotes, and scan errors.
+  quote_from: source_doc
+  quote: Brian wants desktop, laptop, Mac mini, and GitHub to stay in sync except for
+  sorted_by: openrouter/openai/gpt-5.6-sol
+- id: worktree-inside-repo
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: The workspace instructions describe the standard inside-repo worktree arrangement with `~/code/` as the
+    workspace root, which inherently covers worktrees living inside the repo and being gitignored; the legacy rule's
+    specific path convention is subsumed by this broader structure.
+  quote_from: workspace_instructions
+  quote: repos (flat `~/code/<slug>`, registered in `PROJECT_GRAPH.json`), scratch (`~/code/.scratch/`), loose files
+    (`~/code/inbox/`), data (gitignored inside its repo, or a named data folder), retired things (`~/archive/<repo>/<timestamp>/`)
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
+- id: worktree-lifecycle-disposition
+  disposition: covered
+  covered_by: workspace-instructions
+  reason: 'The legacy rule''s core requirement — that mutating work uses claimed linked worktrees and the canonical
+    checkout stays clean — is already stated in the workspace instructions under Shared-state safety: ''Governed
+    implementation uses its sanctioned claimed linked worktree'' and ''Do not edit a governed repository''s main
+    checkout directly; some are read-only on purpose.'' The disposition, cleanup, and branch deletion steps are
+    also addressed by the ''Close claimed lanes only through the sanctioned session-close/worktree-remove path after
+    integration or a durable disposition'' and the session-close workflow.'
+  quote_from: workspace_instructions
+  quote: Governed implementation uses its sanctioned
+  sorted_by: openrouter/deepseek/deepseek-v4-flash
