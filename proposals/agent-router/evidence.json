@@ -1,0 +1,198 @@
+{
+  "schema_version": "agent-router-acceptance-index.v1",
+  "extension_owner": "AES",
+  "artifact_state": "pre_execution",
+  "plan_ref": "proposals/agent-router/PLAN.md",
+  "plan_sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7",
+  "records": [
+    {
+      "record_id": "agent-router-canary",
+      "kind": "canary",
+      "state": "planned",
+      "requirements": [
+        {
+          "id": "AR-OUTCOME",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-PARITY",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-FALLBACK",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-ACCOUNTING",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-PROFILES",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-INVENTORY",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-CONTRACT",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-RECURRENCE",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        }
+      ]
+    },
+    {
+      "record_id": "agent-router-promotion",
+      "kind": "promotion",
+      "state": "planned",
+      "requirements": [
+        {
+          "id": "AR-OUTCOME",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-PARITY",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-FALLBACK",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-ACCOUNTING",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-PROFILES",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-INVENTORY",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-CONTRACT",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-RECURRENCE",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        }
+      ]
+    },
+    {
+      "record_id": "agent-router-completion",
+      "kind": "completion",
+      "state": "planned",
+      "requirements": [
+        {
+          "id": "AR-OUTCOME",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-PARITY",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-FALLBACK",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-ACCOUNTING",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-PROFILES",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-INVENTORY",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-CONTRACT",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        },
+        {
+          "id": "AR-RECURRENCE",
+          "status": "planned",
+          "reason": "Execution evidence not yet produced; original criterion remains required",
+          "full_trace_refs": [],
+          "check_refs": []
+        }
+      ]
+    }
+  ]
+}
