@@ -1,11 +1,29 @@
 {
-  "state": "completed",
-  "pid": 3373160,
-  "command": [
-    "python",
-    "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution/proposals/agent-router/run-local-check.py"
-  ],
+  "state": "passed",
+  "pid": 17753,
+  "worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-feedback-publish",
+  "revision": "163c20993c190ce5e6e683ad6cf8db8b077152dc",
   "log_path": "/home/brian/projects/data/agentic-engineering-system-canonical/agent-router-local-check-2026-10-09.log",
-  "launch_utc": "2026-10-09T12:34:28.898258+00:00",
-  "exit_status": 0
+  "started_at": "2026-10-09T15:09:13.135921+00:00",
+  "parent_api_calls": 0,
+  "inventory_published": false,
+  "exit_status": 0,
+  "passed": 370,
+  "failed": 0,
+  "errored": 0,
+  "skipped": 1,
+  "elapsed_seconds": 340.115,
+  "receipt_path": "proposals/agent-router/local-check.json",
+  "privacy_prose_review": {
+    "finding": "none",
+    "files": [
+      "README.md",
+      "pr-description.txt",
+      "evidence.json",
+      "claude-feedback-capture.json",
+      "pr-description.txt.writing.json",
+      "README.md.writing.json"
+    ],
+    "inventory_included": false
+  }
 }

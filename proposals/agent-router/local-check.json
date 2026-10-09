@@ -5,8 +5,8 @@
     "check",
     "PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python"
   ],
-  "revision": "8e451dbe709e23af207197c6f6d58359eec18e8a",
+  "revision": "163c20993c190ce5e6e683ad6cf8db8b077152dc",
   "exit_status": 0,
-  "elapsed_seconds": 1230.702,
+  "elapsed_seconds": 340.115,
   "log_path": "/home/brian/projects/data/agentic-engineering-system-canonical/agent-router-local-check-2026-10-09.log"
 }
