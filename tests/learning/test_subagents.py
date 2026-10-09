@@ -12,6 +12,7 @@ import subagents as S
 import transcripts as T
 import feedback_log as FL
 import problems as P
+import effects as EF
 
 
 def write(path, *rows):
@@ -61,6 +62,51 @@ def test_check_failure_overrides_parent_pass_and_captures_command_errors(tmp_pat
     v = S.verify(r, [[sys.executable, "-c", "raise SystemExit(4)"], ["/nonexistent/checker"]], "pass")
     assert [c.exit_code for c in v.checks] == [4, 127]
     assert S.report(r, v)["subagent"]["outcome"] == "verification_failed"
+
+
+@pytest.mark.parametrize("verdict", ["pass", "fail", "inconclusive"])
+def test_late_parent_check_does_not_turn_old_child_result_into_recurrence(tmp_path, verdict):
+    r = run(tmp_path)
+    v = S.verify(r, [[sys.executable, "-c", "pass"]], verdict)
+    v = v.model_copy(update={"ts": "2027-01-01T00:00:00Z"})
+    rep = S.report(r, v)
+    member = rep["records"][0] | {"resolved_links": rep["records"][0]["links"]}
+    measured = EF.measure([member], {"enforced_at": "2026-10-09T00:00:00Z",
+                                     "revision": "fixed-revision", "verification": "checked"})
+    assert measured["sightings_before"] == 1
+    assert measured["matched_after"] == []
+    assert rep["provenance"]["ts"] == r["result_ts"]
+
+
+def test_later_checker_failure_is_its_own_post_enforcement_event(tmp_path):
+    r = run(tmp_path)
+    v = S.verify(r, [[sys.executable, "-c", "raise SystemExit(4)"]], "pass")
+    v = v.model_copy(update={"ts": "2027-01-01T00:00:00Z"})
+    rep = S.report(r, v)
+    member = rep["records"][0] | {"resolved_links": rep["records"][0]["links"]}
+    measured = EF.measure([member], {"enforced_at": "2026-10-09T00:00:00Z",
+                                     "revision": "fixed-revision", "verification": "checked"})
+    assert rep["subagent"]["outcome"] == "verification_failed"
+    assert [m["id"] for m in measured["matched_after"]] == [member["id"]]
+    assert rep["provenance"]["ts"] == v.ts
+
+
+def test_unknown_native_result_time_is_not_invented_from_assignment_or_check(tmp_path):
+    r = run(tmp_path)
+    write(tmp_path / "rollout-child.jsonl",
+          {"type": "session_meta", "payload": {"id": "child", "source": {"subagent": {"thread_spawn": {
+              "parent_thread_id": "parent", "agent_path": "/root/one"}}}}},
+          {"type": "response_item", "payload": {"type": "message", "role": "assistant",
+              "phase": "final_answer", "content": "actual result without a timestamp"}})
+    S.enrich(r, S.codex_index(tmp_path))
+    v = S.verify(r, [[sys.executable, "-c", "pass"]], "pass")
+    rep = S.report(r, v)
+    member = rep["records"][0] | {"resolved_links": rep["records"][0]["links"]}
+    measured = EF.measure([member], {"enforced_at": "2026-10-09T00:00:00Z",
+                                     "revision": "fixed-revision", "verification": "checked"})
+    assert measured["unknown_timestamp_records"] == 1
+    assert measured["matched_after"] == []
+    assert rep["provenance"]["ts"] == ""
 
 
 @pytest.mark.parametrize("field,value", [("result_sha256", "0" * 64), ("child_ref", "other"),
@@ -126,11 +172,15 @@ def test_parent_marker_is_bound_and_replayed(tmp_path):
     assert S.report(runs[0], receipts[0])["subagent"]["outcome"] == "verified_inconclusive"
 
 
-def test_receipt_in_real_code_tool_output_envelope_is_captured(tmp_path):
+@pytest.mark.parametrize("settled_envelope", [False, True])
+def test_receipt_in_real_code_tool_output_envelope_is_captured(tmp_path, settled_envelope):
     path = native(tmp_path, "completed")
     r = S.calls(path, "codex")[0][0]
     v = S.verify(r, [[sys.executable, "-c", "pass"]])
-    output = [{"type": "input_text", "text": "Script completed"}, {"type": "input_text", "text": json.dumps({"output": S.MARKER + v.model_dump_json() + " -->"})}]
+    result = {"output": S.MARKER + v.model_dump_json() + " -->"}
+    if settled_envelope:
+        result = {"i": 1, "status": "fulfilled", "value": result}
+    output = [{"type": "input_text", "text": "Script completed"}, {"type": "input_text", "text": json.dumps(result)}]
     with path.open("a") as f:
         f.write(json.dumps(codex_record("custom_tool_call_output", call_id="wrapper", output=output)) + "\n")
     assert S.calls(path, "codex")[1] == [v]

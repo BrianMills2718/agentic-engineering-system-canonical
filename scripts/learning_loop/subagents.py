@@ -59,6 +59,7 @@ class Outcome(BaseModel):
     task_name: str
     packet_sha256: str
     result_sha256: str | None
+    occurred_at: str
     outcome: Literal["assigned", "dispatch_unresolved", "interruption_requested", "completed_unverified",
                      "failed", "cancelled", "verified_pass", "verified_fail", "verified_inconclusive", "verification_failed"]
     runtime: dict
@@ -110,7 +111,7 @@ def messages_in(value):
         for item in value:
             yield from messages_in(item)
     elif isinstance(value, dict):
-        for key in ("text", "output", "content"):
+        for key in ("text", "output", "content", "value"):
             if key in value:
                 yield from messages_in(value[key])
 
@@ -256,7 +257,7 @@ def enrich(run: dict, index: dict):
             if (p.get("role") == "assistant" and p.get("phase") == "final_answer"
                     and run["terminal"] not in ("failed", "cancelled")):
                 run.update(terminal="completed", result=text_content(p.get("content")),
-                           result_ts=str(d.get("timestamp") or run["ts"]))
+                           result_ts=str(d.get("timestamp") or ""))
         if d.get("type") == "event_msg" and p.get("type") == "token_count":
             run["runtime"]["usage"] = p.get("info")
 
@@ -272,8 +273,12 @@ def report(run: dict, verification: Verification | None = None) -> dict:
         state = "verified_" + verification.verdict if all(c.exit_code == 0 for c in verification.checks) else "verification_failed"
     elif state == "completed":
         state = "completed_unverified"
+    # A later check describes the original child event. Only a checker failure
+    # is a new event at check time; unknown native event times remain unknown.
+    occurred_at = verification.ts if valid and state == "verification_failed" else run["result_ts"]
     metadata = {k: v for k, v in run.items() if k != "result"}
     metadata.update(contract="subagent-outcome.v1", outcome=state, result_sha256=result_hash,
+                    occurred_at=occurred_at,
                     result_task_id=obj(run["result"]).get("task_id"),
                     child_reported_status=obj(run["result"]).get("status"),
                     verification=verification.model_dump() if valid else None,
@@ -281,10 +286,10 @@ def report(run: dict, verification: Verification | None = None) -> dict:
     metadata = Outcome.model_validate(metadata).model_dump()
     # Stable event IDs make whole-parent rereads and resumed collection idempotent.
     rid = "rep-subagent-" + digest(json.dumps([run["parent_session_id"], run["call_id"], state,
-                                              result_hash, metadata["verification"]], sort_keys=True))[:16]
+                                              result_hash, occurred_at, metadata["verification"]], sort_keys=True))[:16]
     sentence = f"Subagent {run['role']} task {run['task_name']} outcome {state}; root cause and preventive target require trace analysis."
     prov = R.Provenance(client=run["client"], session_id=run["parent_session_id"],
-                        turn_offset=run["offset"], ts=verification.ts if valid else run["result_ts"],
+                        turn_offset=run["offset"], ts=occurred_at,
                         cwd=run["cwd"], line=sentence)
     links = [R.Link(kind="path", ref=run["parent_trace"])]
     if run.get("child_trace"):

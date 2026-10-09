@@ -130,6 +130,9 @@ to `inconclusive`. Checks bind parent, call, child and result digest. The helper
 prints a structural receipt the collector can reread from the parent transcript.
 Receipts must come from parent tool output; child returns and assistant prose
 cannot supply checks for themselves or an earlier assignment.
+Checked child outcomes keep the native result's occurrence time, so a delayed
+check cannot turn an old incident into a post-enforcement recurrence. Unknown
+result times remain unknown. A checker failure is its own event at check time.
 Immediate filing requires marked obs/claim/action lines. Unmarked notes retain
 the emitted receipt but defer filing to the collector's existing free-text splitter.
 Child roles keep their own result contract and need no coordinator closeout.

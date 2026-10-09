@@ -77,6 +77,9 @@ states. See [the plan](../proposals/aes-subagent-feedback/PLAN.md) and
 The live Codex canary preserved an honest inconclusive instruction-scope stop;
 this is capture evidence, not proof of successful parser diagnosis or improved
 model selection. Claude parity remains native-trace replay, not a new live run.
+The corrected [parent check](https://github.com/BrianMills2718/agent-feedback-log/issues/263)
+matches native replay and all five records in the weekly reader. Delayed checks
+preserve native occurrence time; checker failures remain separate events.
 
 **Feedback loop (2026-10-08):** the nightly collector reads changed Claude and
 Codex transcripts, files Feedback reports to the private agent-feedback-log,
