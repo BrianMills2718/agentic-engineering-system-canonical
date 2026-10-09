@@ -2,7 +2,7 @@
   "record_type": "harness-workflow-parity-research-refresh.v1",
   "checked_at": "2026-10-09T14:24:25.084209+00:00",
   "owning_plan": "../../README.md",
-  "artifact": "workflow-and-parity-research.md",
+  "artifact": "../../subagent-research.md",
   "scope": "Current Workflow comparison, compact Codex candidates and structural plus semantic parity; no new model execution or global changes",
   "sources": [
     {
@@ -125,12 +125,11 @@
     "Private approval and billing/account records excluded from public artifacts"
   ],
   "publication_verification": {
-    "local_links_checked": 19,
-    "two_link_navigation": "wiki/index.md -> docs/architecture/README.md -> workflow-and-parity-research.md",
-    "earlier_reference_links_latest_refresh": true,
+    "local_links_checked": 16,
+    "two_link_navigation": "wiki/index.md -> docs/architecture/README.md -> subagent-research.md",
     "result_schema": "Draft202012Validator development-investigation-result.v1.schema.json",
     "result_schema_errors": 0,
-    "writing_records": "Both research writing_record.py check calls exit0",
+    "writing_records": "Consolidated subagent-research.md writing_record.py check exit0; original representation/writing records remain active; duplicate appendix records removed",
     "fresh_publisher_goal": "goal:harness-context",
     "executed_object_comparison": [
       {
@@ -207,6 +206,8 @@
       "files": 56,
       "byte_hashes_reread_verified": 56,
       "content_not_published": true
-    }
+    },
+    "current_research_consolidation": "Workflow/compact-route/parity refresh integrated into existing research document; duplicate reader Markdown and duplicate authoring/disposition records removed from current tree, preserved in Git history",
+    "baseline_document_policy": "Whole repository check remains over its140-page exception and has older unreachable documents; this patch adds no net Markdown and gives current research a two-link entrypoint"
   }
 }
