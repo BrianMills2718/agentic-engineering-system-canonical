@@ -11,7 +11,7 @@
     "covered": 27,
     "retire_candidates": 7
   },
-  "followup_merge_state": "prepared; focused and authentic checks pass; full merge gate pending",
+  "followup_merge_state": "public candidate; integration blocked on full local test-fixture storage admission",
   "current_public_cost_total_removed": true,
   "full_private_cost_accounting_retained": true,
   "model_calls": 0,
@@ -53,5 +53,28 @@
       "exact_six_file_allowlist": true,
       "no_active_execution_cursor_file_in_delivery_tree": true
     }
+  },
+  "local_merge_gate": {
+    "source_revision": "8f38b2d082d0cb1ec08175e883d6f00d6cc31f40",
+    "command": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+    "outcome": "blocked",
+    "interrupted_exit_status": 143,
+    "counts": "unavailable for interrupted broad run; no full-suite pass claimed",
+    "reproduction": {
+      "command": "AES venv python -m pytest tests/ -x --tb=short -q",
+      "passed": 0,
+      "failed": 0,
+      "errored": 1,
+      "skipped": 0,
+      "exit_status": 1,
+      "failure": "tests/greenfield/test_adopt.py:88 fixture git clone receives storage-policy exit75"
+    },
+    "storage_gate": {
+      "free_gib": 8.34,
+      "reserve_gib": 15,
+      "requested_gib": 2,
+      "exit_status": 75
+    },
+    "concern": "https://github.com/BrianMills2718/project-meta/issues/2506"
   }
 }
