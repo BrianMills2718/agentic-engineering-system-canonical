@@ -3,13 +3,13 @@
   "record_type": "method_adoption_decision",
   "decision": "adopted",
   "plan_ref": "proposals/aes-feedback-prevention/PLAN.md",
-  "plan_sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814",
+  "plan_sha256": "2993405f5d20196a925b6650ecd598a1f1a864bab13b245c4d2539cca8d38ea8",
   "receipt_ref": "proposals/aes-feedback-prevention/PLAN.receipt.json",
-  "receipt_sha256": "001c37fd8ca897d8a8e09ac90898336b16e45134e79400a6a678cb790eb3d17e",
+  "receipt_sha256": "4bb65ebeab7c00e97707c226c7630951519bffc369d722c266019155c3d393dd",
   "receipt_result": "pass",
   "reason_codes": [],
   "summary": [
     "pass: 22 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
   ],
-  "decided_at": "2026-10-09T04:54:14Z"
+  "decided_at": "2026-10-09T05:29:35Z"
 }
