@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import sys
 import tomllib
+import subprocess
 
 import jsonschema
 
@@ -214,8 +215,10 @@ def verify_child_callbacks(record, parent_id, turn_id, checks):
             'qualification': 'Secondary callbacks correlated to the child turn; no per-command identity or denial proof.'}
 
 
-def verify_compact_codex(record, packet, schema, checks, baseline):
-    require(record['record_type'] == 'compact-native-codex-evidence.v1'
+def verify_compact_codex(record, packet, schema, checks, baseline, authority=None):
+    expected_type = ('required-authority-native-codex-evidence.v1' if authority is not None
+                     else 'compact-native-codex-evidence.v1')
+    require(record['record_type'] == expected_type
             and record['task_sha256'] == digest(packet), 'compact Codex: same frozen task', checks)
     require(set(record['traces']) == {'parent', 'child'}, 'compact Codex: both complete traces', checks)
     native = {k: trace(v, checks) for k, v in record['traces'].items()}
@@ -250,22 +253,40 @@ def verify_compact_codex(record, packet, schema, checks, baseline):
                for b in r['payload'].get('content', []) if b.get('type') == 'encrypted_content']
     require(spawns[0]['message'] in inbound,
             'compact Codex: encrypted native delegation continuity (not plaintext proof)', checks)
-    role = tomllib.loads((Path.home() / '.codex/agents/development-investigator.toml').read_text())[
-        'developer_instructions'].strip()
+    role_path = (HERE / 'authority-context/development-investigator.codex.toml' if authority is not None
+                 else Path.home() / '.codex/agents/development-investigator.toml')
+    role = tomllib.loads(role_path.read_text())['developer_instructions']
+    if authority is None:
+        role = role.strip()
     require(record['role_body_sha256'] == digest(role.encode()), 'compact Codex: pinned role body', checks)
     developers = [collector.text_content(r['payload'].get('content', [])).strip() for r in child
                   if r.get('type') == 'response_item' and r['payload'].get('type') == 'message'
                   and r['payload'].get('role') == 'developer']
-    require(any(t == role or t.startswith(role + '\n') for t in developers),
+    require(any(t == role.strip() or t.startswith(role.rstrip() + '\n') for t in developers),
             'compact Codex: actual developer role prefix with coalesced guidance', checks)
+    if authority is not None:
+        verify_required_authority(authority, packet, role, parent, checks)
     for kind, rows in native.items():
         observed = events(rows, 'codex')
         require(bool(observed['calls']) and set(observed['calls']) == set(observed['outputs']),
                 f'compact Codex {kind}: complete attributed calls and outputs', checks)
+        if authority is not None:
+            require(observed == record['tool_events'][kind],
+                    f'authority Codex {kind}: exact reviewed call and return membership', checks)
     raw = codex_final(child)
-    require(raw == record['raw_final'] == codex_final(parent)
+    require(raw == record['raw_final']
             and digest(raw.encode()) == record['final_sha256'],
-            'compact Codex: exact raw JSON result and parent forwarding', checks)
+            'compact Codex: exact raw child result', checks)
+    parent_raw = codex_final(parent)
+    forwarded = raw == parent_raw
+    if authority is None:
+        require(forwarded, 'compact Codex: exact raw JSON result and parent forwarding', checks)
+    else:
+        require(parent_raw == record['parent_raw_final']
+                and digest(parent_raw.encode()) == record['parent_final_sha256'],
+                'authority Codex: original parent final bound separately', checks)
+        require(record['parent_forwarding_verdict'] == ('pass' if forwarded else 'fail'),
+                'authority Codex: forwarding verdict cannot hide changed answer', checks)
     result = json.loads(raw)
     jsonschema.validate(result, schema)
     require(result['task_id'] == packet['task_id'], 'compact Codex: result schema and task identity', checks)
@@ -281,31 +302,129 @@ def verify_compact_codex(record, packet, schema, checks, baseline):
             'compact Codex: recorded read-only, restricted network and no escalation', checks)
     require({p['turn_id'] for p in policies} == {record['child_turn_id']},
             'compact Codex: observed child turn identity', checks)
-    callbacks = verify_child_callbacks(record['child_callbacks'], pm['id'], record['child_turn_id'], checks)
+    callbacks = (verify_child_callbacks(record['child_callbacks'], pm['id'], record['child_turn_id'], checks)
+                 if authority is None else {'verdict': 'not_assessed',
+                                           'qualification': 'No hook execution certification in this record.'})
     old_id, old_usage, old_model = baseline
     model = policies[0]['model']
     parent_models = {r['payload']['model'] for r in parent if r.get('type') == 'turn_context'}
-    require(parent_models == {model} == {old_model}, 'compact Codex: same-model comparison', checks)
+    require(parent_models == {model}, 'compact Codex: parent and child observed model match', checks)
+    same_model = model == old_model
+    if authority is None:
+        require(same_model, 'compact Codex: same-model comparison', checks)
     old_input = old_usage['first']['input_tokens']
     new_input = derived['child']['first']['input_tokens']
     parent_input = derived['parent']['first']['input_tokens']
-    comparison = {'baseline_kind': 'same_model_same_frozen_task_historical_child',
+    comparison = {'baseline_kind': ('same_model_same_frozen_task_historical_child' if same_model else
+                                    'different_model_historical_child_not_controlled'),
                   'baseline_child_id': old_id, 'baseline_first_input_tokens': old_input,
                   'compact_child_first_input_tokens': new_input,
                   'compact_parent_first_input_tokens': parent_input,
-                  'reduction_percent': (old_input-new_input)/old_input*100,
+                  'reduction_percent': (old_input-new_input)/old_input*100 if same_model else None,
                   'not_a_child_vs_immediate_parent_reduction': new_input >= parent_input}
+    if authority is not None:
+        comparison.update(baseline_model=old_model, observed_model=model)
     require(comparison == record['measured_comparison'], 'compact Codex: comparison derived from native traces', checks)
+    authority_reads = (verify_authority_reads(child, record['canonical_authority_read_calls'], packet, checks)
+                       if authority is not None else {'verdict': 'not_assessed'})
+    if authority is not None:
+        require(authority_reads == record['canonical_authority_read_coverage'],
+                'authority: read coverage cannot hide truncated lines', checks)
+        launch = source_record(record['launch_source'], checks)
+        terminal = source_record(record['terminal_source'], checks)
+        require(launch['event'] == 'authority_native_launch'
+                and terminal['event'] == 'authority_native_terminal'
+                and launch['unit'] == terminal['unit']
+                and launch['paid_api_route'] is False
+                and launch['task_sha256'] == digest((HERE / 'input/task.json').read_bytes())
+                and packet_in_text(launch['prompt'], packet)
+                and launch['task_role_sha256'] == record['role_body_sha256']
+                and launch['source_revision'] == record['projection_checkpoint'],
+                'authority: native launch binds route, frozen task and projection', checks)
+        require(terminal['exit_status'] == 0 and terminal['sources_unchanged'] is True
+                and terminal['parent_thread_id'] == pm['id']
+                and terminal['final_sha256'] == record['parent_final_sha256'],
+                'authority: native terminal outcome binds original parent result', checks)
     return {'record_type': record['record_type'], 'task_sha256': digest(packet),
             'parent_id': pm['id'], 'child_id': cm['id'], 'final_sha256': record['final_sha256'],
             'derived_usage': derived, 'semantic_summary': semantics, 'child_callbacks': callbacks,
+            'parent_forwarding_verdict': 'pass' if forwarded else 'fail',
+            'required_policy_delivery': 'pass' if authority is not None else 'not_assessed',
+            'canonical_authority_read_coverage': authority_reads,
             'measured_comparison': comparison, 'effective_permission_profiles': [p['permission_profile'] for p in policies],
             'runtime_parity_certified': False,
             'limits': ['Encrypted delegation continuity does not expose plaintext child input.',
                        'Filesystem scope includes root reads; five-file allowlist is voluntary.',
                        'No actual child write/network denial or isolation from a writable parent was tested.',
                        'Turn-correlated coordination callbacks do not certify all-hook or cross-client parity.',
-                       'Source review remains qualified where required authority lies outside the frozen packet.']}
+                       ('Required policy arrived inline, but source correctness and result forwarding are separate checks.'
+                        if authority is not None else
+                        'Source review remains qualified where required authority lies outside the frozen packet.')]}
+
+
+def verify_authority_reads(rows, calls, packet, checks):
+    """Check exact numbered source-line membership, without inferring prose meaning."""
+    require(set(calls) == set(packet['canonical_authority_paths']),
+            'authority: both required read sources identified', checks)
+    inputs = {r['payload']['call_id']: r['payload'] for r in rows
+              if r.get('type') == 'response_item' and r['payload'].get('type') == 'custom_tool_call'}
+    outputs = {r['payload']['call_id']: r['payload']['output'] for r in rows
+               if r.get('type') == 'response_item' and r['payload'].get('type') == 'custom_tool_call_output'}
+    coverage = {}
+    for path, call in calls.items():
+        require(path in inputs[call]['input'] and call in outputs,
+                'authority: attributed source read ' + path, checks)
+        text = collector.text_content(outputs[call])
+        lines = (ROOT / path).read_text().splitlines()
+        missing = [n for n, line in enumerate(lines, 1) if f'{n:6}\t{line}' not in text]
+        coverage[path] = {'source_lines': len(lines), 'missing_exact_lines': missing}
+    return {'verdict': 'inconclusive' if any(v['missing_exact_lines'] for v in coverage.values()) else 'pass',
+            'sources': coverage,
+            'qualification': 'Exact numbered-line return membership establishes availability, not model comprehension.'}
+
+
+def verify_required_authority(manifest, packet, role, parent, checks):
+    """Bind the native prompt to frozen authority, rather than a worker's echo."""
+    require(manifest['record_type'] == 'native-task-required-authority-context.v1'
+            and manifest['canonical_task_sha256'] == digest(packet)
+            and manifest['task_sha256'] == digest((HERE / 'input/task.json').read_bytes())
+            and manifest['task_packet_changed'] is False,
+            'authority: unchanged frozen task', checks)
+    source = manifest['source']
+    require(source['repository'] == 'BrianMills2718/project-meta'
+            and source['revision'] == packet['repository_revision']
+            and source['path'] == 'docs/ops/POLICY_SYSTEM.md',
+            'authority: required source identity', checks)
+    policy = subprocess.check_output(['git', '-C', str(Path.home() / 'code/project-meta'),
+                                      'show', source['revision'] + ':' + source['path']])
+    require(digest(policy) == source['sha256'] and len(policy) == source['bytes'],
+            'authority: exact source revision bytes', checks)
+    for name, artifact in manifest['artifacts'].items():
+        raw = (HERE / 'authority-context' / name).read_bytes()
+        require(digest(raw) == artifact['sha256'] and len(raw) == artifact['bytes'],
+                'authority: pinned native projection ' + name, checks)
+    claude = read(HERE / 'authority-context/claude-agents.json')['development-investigator']['prompt']
+    delimiter = 'BEGIN REQUIRED POLICY_SYSTEM.md\n'
+    end = 'END REQUIRED POLICY_SYSTEM.md\n'
+    for client, body in [('codex', role), ('claude', claude)]:
+        require(digest(body.encode()) == manifest['task_role_bodies'][client],
+                'authority: task role body ' + client, checks)
+        require(body.count(delimiter) == 1 and body.count(end.strip()) == 1
+                and body.split(delimiter, 1)[1].removesuffix(end).removesuffix(end.strip()).encode() == policy,
+                'authority: full embedded source ' + client, checks)
+    canonical = tomllib.loads((Path.home() / '.codex/agents/development-investigator.toml').read_text())[
+        'developer_instructions'].strip()
+    require(digest(canonical.encode()) == manifest['canonical_role_bodies']['codex']
+            and role.startswith(canonical + '\n'), 'authority: canonical role preserved', checks)
+    compiled = (Path.home() / 'code/agent-skills/distribution/agents/claude/development-investigator.md')
+    canonical_claude = compiled.read_text().split('---', 2)[2].strip()
+    require(digest(canonical_claude.encode()) == manifest['canonical_role_bodies']['claude']
+            and claude.startswith(canonical_claude + '\n'),
+            'authority: canonical Claude role preserved in prepared projection', checks)
+    developers = [collector.text_content(r['payload'].get('content', [])) for r in parent
+                  if r.get('type') == 'response_item' and r['payload'].get('role') == 'developer']
+    require(any(delimiter + policy.decode() + end.strip() in t for t in developers),
+            'authority: exact full policy delivered to native parent developer context', checks)
 
 
 def source_record(ref, checks):
@@ -455,6 +574,9 @@ def verify():
     compact = verify_compact_codex(read(HERE / 'compact-codex-proof.json'), packet, schema, checks,
                                   (cm['id'], derived['codex']['child'], policies[0]['model']))
     refusal = verify_claude_refusal(read(HERE / 'claude-native-refusal.json'), packet, checks)
+    authority = verify_compact_codex(read(HERE / 'authority-context-proof.json'), packet, schema, checks,
+                                    (cm['id'], derived['codex']['child'], policies[0]['model']),
+                                    read(HERE / 'authority-context/manifest.json'))
     return {'checks_passed': len(checks), 'checks_failed': 0, 'checks_errored': 0, 'checks_skipped': 0,
             'exit_status': 0, 'checks': checks, 'parity_traces_available': [f'{c}_{k}' for c in native for k in native[c]],
             'missing_required_trace': None, 'derived_usage': derived, 'semantic_review': semantics,
@@ -475,8 +597,10 @@ def verify():
                     'required_document': 'project-meta/docs/ops/POLICY_SYSTEM.md',
                     'in_frozen_packet': any(p.endswith('/project-meta/docs/ops/POLICY_SYSTEM.md')
                                             for p in packet['allowed_read_paths']),
-                    'qualification': 'Required policy-system orientation remains unproved; task-result success cannot certify session-goal completion.'}},
-            'additional_evidence': {'compact_codex': compact, 'claude_native_refusal': refusal},
+                    'client_delivery': {'codex': authority['required_policy_delivery'], 'claude': 'not_run'},
+                    'qualification': 'Required policy delivered in the new Codex route; refreshed Claude delivery and goal completion remain unproved.'}},
+            'additional_evidence': {'compact_codex': compact, 'claude_native_refusal': refusal,
+                                    'authority_codex': authority},
             'limits': ['Integrity success is not behavior parity.', 'Semantic judgments are bound parent review, not automatic prose inference.',
                        'Five-file reads were voluntary; neither native read boundary enforces that allowlist.',
                        'Independent sandbox probe does not prove actual child denial or isolation from writable parent.',
@@ -490,7 +614,8 @@ def main():
     args = parser.parse_args()
     try:
         receipt = verify()
-    except (AssertionError, ValueError, KeyError, IndexError, TypeError, OSError, jsonschema.ValidationError) as exc:
+    except (AssertionError, ValueError, KeyError, IndexError, TypeError, OSError,
+            subprocess.CalledProcessError, jsonschema.ValidationError) as exc:
         print(json.dumps({'checks_failed': 1, 'exit_status': 1, 'error': str(exc)}))
         return 1
     if args.require_parity and not receipt['cross_client_goal_complete']:

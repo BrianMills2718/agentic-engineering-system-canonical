@@ -33,6 +33,9 @@ class EvidenceTests(unittest.TestCase):
         self.assertFalse(added['compact_codex']['runtime_parity_certified'])
         self.assertEqual(added['compact_codex']['child_callbacks']['completed'], 32)
         self.assertFalse(added['claude_native_refusal']['native_pass'])
+        self.assertEqual(added['authority_codex']['required_policy_delivery'], 'pass')
+        self.assertEqual(added['authority_codex']['parent_forwarding_verdict'], 'fail')
+        self.assertEqual(added['authority_codex']['canonical_authority_read_coverage']['verdict'], 'inconclusive')
 
     def test_require_parity_still_fails_with_additional_evidence(self):
         with patch.object(V.sys, 'argv', ['verify_evidence.py', '--require-parity']), \
@@ -231,6 +234,105 @@ class EvidenceTests(unittest.TestCase):
         return V.verify_claude_refusal(
             record if record is not None else V.read(V.HERE / 'claude-native-refusal.json'),
             V.read(V.HERE / 'input/task.json'), [])
+
+    def authority(self, record=None, manifest=None):
+        audit = self.audit
+        child = V.trace(audit['codex']['traces']['child'], [])
+        model = next(r['payload']['model'] for r in child if r['type'] == 'turn_context')
+        return V.verify_compact_codex(
+            record or V.read(V.HERE / 'authority-context-proof.json'), V.read(V.HERE / 'input/task.json'),
+            V.read(V.Path.home() / 'code/agent-skills/contracts/specialists/development-investigation-result.v1.schema.json'),
+            [], (child[0]['payload']['id'], audit['derived_usage']['codex']['child'], model),
+            manifest or V.read(V.HERE / 'authority-context/manifest.json'))
+
+    def test_authority_run_retains_real_parent_corruption(self):
+        result = self.authority()
+        self.assertEqual(result['semantic_summary']['counts']['supported'], 23)
+        self.assertEqual(result['parent_forwarding_verdict'], 'fail')
+        self.assertEqual(result['required_policy_delivery'], 'pass')
+        self.assertFalse(result['runtime_parity_certified'])
+
+    def test_authority_parent_failure_cannot_be_relabelled_pass(self):
+        record = V.read(V.HERE / 'authority-context-proof.json')
+        record['parent_forwarding_verdict'] = 'pass'
+        with self.assertRaisesRegex(AssertionError, 'cannot hide changed answer'):
+            self.authority(record)
+
+    def test_authority_correct_child_cannot_replace_original_parent(self):
+        record = V.read(V.HERE / 'authority-context-proof.json')
+        record['parent_raw_final'] = record['raw_final']
+        record['parent_final_sha256'] = record['final_sha256']
+        with self.assertRaisesRegex(AssertionError, 'parent final bound separately'):
+            self.authority(record)
+
+    def test_authority_review_cannot_be_reused_for_parent_answer(self):
+        record = V.read(V.HERE / 'authority-context-proof.json')
+        with self.assertRaisesRegex(AssertionError, r'review binds evidence\[4\]'):
+            V.review_result(json.loads(record['parent_raw_final']), record['semantic_review'], V.ROOT, [])
+
+    def test_authority_different_model_counts_are_not_savings_proof(self):
+        result = self.authority()
+        self.assertIsNone(result['measured_comparison']['reduction_percent'])
+        record = V.read(V.HERE / 'authority-context-proof.json')
+        record['measured_comparison']['reduction_percent'] = 37.645
+        with self.assertRaisesRegex(AssertionError, 'comparison derived'):
+            self.authority(record)
+
+    def test_authority_incomplete_read_cannot_be_relabelled_complete(self):
+        record = V.read(V.HERE / 'authority-context-proof.json')
+        record['canonical_authority_read_coverage']['verdict'] = 'pass'
+        with self.assertRaisesRegex(AssertionError, 'cannot hide truncated lines'):
+            self.authority(record)
+
+    def test_authority_reviewed_custom_tool_output_cannot_be_omitted(self):
+        record = V.read(V.HERE / 'authority-context-proof.json')
+        record['tool_events']['child']['outputs'].pop(next(iter(record['tool_events']['child']['outputs'])))
+        with self.assertRaisesRegex(AssertionError, 'reviewed call and return membership'):
+            self.authority(record)
+
+    def test_authority_source_revision_and_prepared_body_are_bound(self):
+        manifest = V.read(V.HERE / 'authority-context/manifest.json')
+        manifest['source']['revision'] = '0000000000000000000000000000000000000000'
+        with self.assertRaisesRegex(AssertionError, 'required source identity'):
+            self.authority(manifest=manifest)
+
+    def test_authority_document_bytes_cannot_be_changed(self):
+        manifest = V.read(V.HERE / 'authority-context/manifest.json')
+        manifest['source']['sha256'] = '0' * 64
+        with self.assertRaisesRegex(AssertionError, 'exact source revision bytes'):
+            self.authority(manifest=manifest)
+
+    def test_authority_echo_cannot_replace_child_developer_delivery(self):
+        record = V.read(V.HERE / 'authority-context-proof.json')
+        original = V.trace
+        def altered(ref, checks):
+            rows = original(ref, checks)
+            if ref == record['traces']['child']:
+                rows = copy.deepcopy(rows)
+                for row in rows:
+                    p = row.get('payload', {})
+                    if p.get('role') == 'developer':
+                        p['role'] = 'assistant'
+            return rows
+        with patch.object(V, 'trace', side_effect=altered):
+            with self.assertRaisesRegex(AssertionError, 'actual developer role prefix'):
+                self.authority(record)
+
+    def test_authority_parent_echo_cannot_replace_developer_delivery(self):
+        record = V.read(V.HERE / 'authority-context-proof.json')
+        original = V.trace
+        def altered(ref, checks):
+            rows = original(ref, checks)
+            if ref == record['traces']['parent']:
+                rows = copy.deepcopy(rows)
+                for row in rows:
+                    p = row.get('payload', {})
+                    if p.get('role') == 'developer':
+                        p['role'] = 'assistant'
+            return rows
+        with patch.object(V, 'trace', side_effect=altered):
+            with self.assertRaisesRegex(AssertionError, 'native parent developer context'):
+                self.authority(record)
 
     def test_compact_coalesced_developer_prefix_is_actual_delivery(self):
         record = V.read(V.HERE / 'compact-codex-proof.json')
