@@ -1,12 +1,12 @@
 {
   "active_slice": {
     "description": "Connect current reports to existing taxonomy review and prove one transport-scoped instruction repair",
-    "next_action": "Extend the existing taxonomy reader, then run exact disposition and native/remote-required case checks",
+    "next_action": "Finish adopted shared test-gate repairs, integrate both feedback repairs and verify the deployed default reader",
     "requires_external_action": false,
     "requires_spend": true,
     "slice_id": "feedback-intake-and-transport-prevention",
-    "status": "executing",
-    "target_revision": "52f24d83acecc2c30d727f6beac22333e6be6ef2"
+    "status": "verifying",
+    "target_revision": "a365a234dcfd42d7894c5d4987e9bb5618768cbb"
   },
   "authority": {
     "external_action_authorized": true,
@@ -29,7 +29,7 @@
     "verifier_outcome": null
   },
   "cursor_id": "aes-feedback-prevention",
-  "cursor_revision": 1,
+  "cursor_revision": 2,
   "failure_state": {
     "boundary": null,
     "last_failure_ref": null,
@@ -37,7 +37,43 @@
   },
   "goal_ref": "proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md",
   "lifecycle_state": "active",
-  "observations": [],
+  "observations": [
+    {
+      "boundary": "transport-readiness",
+      "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:57",
+      "kind": "authentic_result",
+      "observation_id": "FP-native-remote-cases",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "taxonomy-default-intake",
+      "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:58",
+      "kind": "authentic_result",
+      "observation_id": "FP-current-intake",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "AES-make-check",
+      "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:61",
+      "kind": "authentic_result",
+      "observation_id": "FP-aes-local-gate",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "agent-skills-make-test",
+      "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:59",
+      "kind": "verification_failure",
+      "observation_id": "FP-skills-baseline",
+      "outcome": "fail"
+    },
+    {
+      "boundary": "AS459-authorized-gate-prerequisite",
+      "evidence_ref": "a365a234dcfd42d7894c5d4987e9bb5618768cbb:proposals/aes-feedback-prevention/PLAN.receipt.json",
+      "kind": "supporting_work",
+      "observation_id": "FP-gate-repair-adoption",
+      "outcome": "pass"
+    }
+  ],
   "plan_revision": "52f24d83acecc2c30d727f6beac22333e6be6ef2",
   "ready_alternatives": [],
   "record_type": "plan_execution_cursor",
