@@ -376,6 +376,35 @@
       "elapsed_seconds": 5.58,
       "trace": "/home/brian/projects/data/logs/harness-research-verification-2026-10-09.log",
       "scope": "Corrected actual clean-install case; full corrected merge check pending."
+    },
+    {
+      "check": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python (normal environment, no PYTHONPATH override)",
+      "tested_revision": "f034d0fa3adcf8f6aa1e13c661a8c4bb26eb7681",
+      "exit_status": 0,
+      "passed": 340,
+      "failed": 0,
+      "skipped": 1,
+      "mypy_source_files": 22,
+      "mypy_issues": 0,
+      "elapsed_seconds": 407.55,
+      "trace": "/home/brian/projects/data/logs/harness-research-verification-2026-10-09.log",
+      "output": "Checking generated AGENTS.md synchronization...\nAGENTS.md is in sync: /home/brian/code/agentic-engineering-system-canonical/worktrees/harness-delegation-research/AGENTS.md\n\nRunning tests...\n........................................................................ [ 21%]\n........................................................................ [ 42%]\n........................................................................ [ 63%]\n........................................................................ [ 84%]\n...........................s.........................                    [100%]\n340 passed, 1 skipped in 404.16s (0:06:44)\n\nRunning mypy...\nSuccess: no issues found in 22 source files\n\nAll checks passed!\nHARNESS RESEARCH CORRECTED MAKE CHECK END exit=0 elapsed_seconds=407.55",
+      "executed_subject_objects": {
+        "src": "1fd964a5182be47a08558bc128b8eee5af6e083d",
+        "tests": "7f52f20a380af34c85f306c3debb6cbd27bc2c12",
+        "Makefile": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+        "pyproject.toml": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+        "AGENTS.md": "f6969c120fa9642aa71428052d18ac6830712a4a",
+        "CLAUDE.md": "834daa49a832b42c79b4e368f8cbd68c428477f0"
+      },
+      "reuse_scope": "Subsequent source-history merge and evidence-only commit retain identical executed source/tests/check configuration and instruction objects; no code/test changes."
+    },
+    {
+      "check": "Preserve original child navigation history via normal merge",
+      "exit_status": 0,
+      "source_commit": "0e95ad70b302a3f97275384b2b66ff07ab71b2a9",
+      "content_changes": 0,
+      "reason": "Make the returned worker commit recoverable in main history as well as retaining its already-integrated patch."
     }
   ],
   "representation": {
