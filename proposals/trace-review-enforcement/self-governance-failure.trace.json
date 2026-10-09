@@ -1,0 +1,1421 @@
+{
+  "run_id": "aes-trace-review-self-governance-failure",
+  "events": [
+    {
+      "input": {
+        "command": [
+          "/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+          "-m",
+          "pytest",
+          "tests/greenfield/test_self_governance.py::test_every_greenfield_evidence_requirement_has_a_route",
+          "-rF"
+        ],
+        "target": {
+          "schema_version": "aes.v0_2.target.probe0",
+          "target_id": "agentic-engineering-system-canonical-target",
+          "outcomes": [
+            {
+              "id": "OUT-GF-001",
+              "actor_or_consumer": "software_engineer_or_engineering_agent",
+              "statement": "A colleague can start a genuinely new software project under AES governance, move from accepted intent through planned realization and implementation to evidence-backed current/gap state, and do so without access to private historical repositories or undocumented AES lineage knowledge.",
+              "non_goals": [
+                "retrofit_arbitrary_existing_repository",
+                "universal_language_support",
+                "universal_framework_abstraction",
+                "organization_portfolio_orchestration"
+              ]
+            },
+            {
+              "id": "OUT-AP-001",
+              "actor_or_consumer": "brian_and_his_engineering_agents",
+              "statement": "Real implementation work in an AES-governed repository lands only under a plan that Company Planning adopted; trivial work still lands, decided by measured facts about the change, not by the tag an agent types.\n",
+              "non_goals": [
+                "judging_commit_prose_with_regex",
+                "a_stop_hook",
+                "migrating_other_repositories_in_this_change"
+              ]
+            }
+          ],
+          "normative_items": [
+            {
+              "id": "GF-REQ-001",
+              "kind": "constraint",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "The supported AES distribution and its required dependencies must be obtainable and documented without access to Brian's private historical repositories.\n"
+            },
+            {
+              "id": "GF-REQ-002",
+              "kind": "behavior",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "Before governed implementation begins, AES must represent accepted normative obligations, success/disproof semantics, and what evidence is capable of establishing each exercised criterion.\n"
+            },
+            {
+              "id": "GF-REQ-003",
+              "kind": "invariant",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "Every durable governed repository artifact must be justified by an accepted exact planned path or a bounded accepted artifact-generation rule.\n"
+            },
+            {
+              "id": "GF-REQ-004",
+              "kind": "behavior",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "AES planning must derive accepted capability requirements, realization boundaries, durable repository topology, selected load-bearing symbol commitments where needed, and criterion-linked verification topology before governed execution of those commitments.\n"
+            },
+            {
+              "id": "GF-REQ-005",
+              "kind": "behavior",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "The working context for a governed subject must contain the full applicable normative, success and disproof meaning with provenance rather than requiring the acting agent to dereference identifiers before understanding its obligations.\n"
+            },
+            {
+              "id": "GF-REQ-006",
+              "kind": "behavior",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "AES must produce revision-bound structured characterization of the realized repository sufficient to compare accepted artifact and selected symbol/signature/type commitments with realized state.\n"
+            },
+            {
+              "id": "GF-REQ-007",
+              "kind": "invariant",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "Observation result, evidence freshness, evidence adequacy, qualified current, gap, and plan completion must remain semantically distinct.\n"
+            },
+            {
+              "id": "GF-REQ-008",
+              "kind": "behavior",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "AES must derive qualified current state and gap state from accepted target plus revision-bound realized observations and evidence assessments, preserving missing, stale, error, contradictory and insufficient-evidence conditions rather than rendering them green.\n"
+            },
+            {
+              "id": "GF-REQ-009",
+              "kind": "constraint",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "Greenfield-MVP acceptance must be established on a genuinely fresh consumer project governed by AES from inception; success on AES canonical's existing repository alone is insufficient.\n"
+            },
+            {
+              "id": "NI-AES-HIST",
+              "kind": "constraint",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "v0.1 code is retained, not deleted. Phase 7a dispositioned it: the eight empty v0.1 component placeholders were moved with history to archive/v0.1-placeholders/ (historical); repository_context/ (the installed console script aes-repo-context, tested by tests/repository_context/) and the package __init__.py are retained, each a planned artifact of this target so the no-orphan rule holds. They carry no v0.2 obligation; changing them is v0.1 maintenance, not v0.2 work.\n"
+            },
+            {
+              "id": "AP-REQ-001",
+              "kind": "constraint",
+              "outcome_refs": [
+                "OUT-AP-001"
+              ],
+              "statement": "Every commit message's first line carries one of [Plan #N], [Goal <id>], [Trivial], [Unplanned] or [Shaping <id>] (git's own merge, fixup and squash messages excepted), and the rule checks the tag against facts: an adopted receipt for the named plan, the staged diff's measured size and paths, an Emergency trailer, or the plan's proposals folder.\n"
+            },
+            {
+              "id": "AP-REQ-002",
+              "kind": "constraint",
+              "outcome_refs": [
+                "OUT-AP-001"
+              ],
+              "statement": "In a repository that requires adopted plans, a target change is accepted only for a proposal whose adopted_plan_ref names a Company Planning plan adopted for its current bytes; a proposal that names a plan is checked the same way in any repository.\n"
+            },
+            {
+              "id": "TR-REQ-001",
+              "kind": "constraint",
+              "outcome_refs": [
+                "OUT-AP-001"
+              ],
+              "statement": "Every proposal declares whether its work runs a model, agent or pipeline (trace_review); a proposal declaring traced work adds or changes a success criterion with an evidence requirement of kind trace_review; an observation assessing a trace_review requirement carries a TraceReview record whose reviewer is not the author, and may SUPPORT only when every trace step was read and no checked decision was wrong.\n Supporting standing additionally requires a fresh invocation of the configured Company Planning source-bound review provider against retained trace bytes, exact criterion/revision linkage and reviewer identity. Missing provider, partial coverage, altered bytes or fabricated citations leave standing insufficient; review completeness never changes a failed run verdict."
+            },
+            {
+              "id": "ADOPT-REQ-001",
+              "kind": "behavior",
+              "outcome_refs": [
+                "OUT-GF-001"
+              ],
+              "statement": "aes adopt writes .aes/legacy_baseline.json listing every tracked file under the governed roots at a named revision with its blob hash (minus files the target already plans), initializing the project first when it has no .aes/. Baseline files the target does not plan are legacy, not orphans, in topology, characterize and reconcile; a file in neither is still an orphan. A commit that modifies a legacy file is an unplanned legacy edit under the commit rule's mode (observe logs it, enforce refuses it), except Git's own messages and [Unplanned] emergencies. aes plan accept removes baseline entries the target now plans or Git no longer tracks. aes status shows the legacy share and how many legacy files changed since adoption.\n"
+            }
+          ],
+          "success_criteria": [
+            {
+              "id": "SC-GF-001",
+              "statement": "A fresh user with no access to Brian's other private repositories can install/configure the supported AES distribution and initialize a new governed project using only distributed material and declared dependencies.\n",
+              "target_refs": [
+                "OUT-GF-001",
+                "GF-REQ-001"
+              ],
+              "disproof": "Successful initialization requires copying undeclared files, private-repo access, or undocumented historical knowledge.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-SC-GF-001-01",
+                  "kind": "runtime_observation",
+                  "requirement": "A clean-user run from the supported distribution and documented dependencies reaches initialized governed-project state without private repository access.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-GF-002",
+              "statement": "Before governed implementation, every exercised normative item is linked to explicit success/disproof semantics and each exercised criterion states what evidence can establish it.\n",
+              "target_refs": [
+                "GF-REQ-002"
+              ],
+              "disproof": "An implemented obligation exists only in conversation, code, or an unowned checklist, or a criterion has no evidence requirement.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-SC-GF-002-01",
+                  "kind": "deterministic_test",
+                  "requirement": "Validate the accepted target model for resolvable normative-to-criterion and criterion-to-evidence-requirement links.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-GF-003",
+              "statement": "The accepted realization topology accounts for every durable governed artifact by exact path or bounded accepted generation rule and gives every artifact a semantic purpose.\n",
+              "target_refs": [
+                "GF-REQ-003",
+                "GF-REQ-004"
+              ],
+              "disproof": "A durable governed artifact can exist without an accepted exact path, applicable bounded generation rule, or semantic justification.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-SC-GF-003-01",
+                  "kind": "deterministic_test",
+                  "requirement": "A repository-topology check rejects an intentionally introduced orphan durable artifact.\n"
+                },
+                {
+                  "id": "ER-SC-GF-003-02",
+                  "kind": "deterministic_test",
+                  "requirement": "The same check accepts the unchanged planned topology and correctly handles at least one bounded generation rule if the authentic consumer naturally requires such a rule.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-GF-004",
+              "statement": "Before governed execution, each exercised evidence requirement is mapped to a concrete verification subject or an explicit external/human observation boundary.\n",
+              "target_refs": [
+                "GF-REQ-004"
+              ],
+              "disproof": "Implementation starts while an exercised criterion has no concrete route to obtaining its required evidence.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-SC-GF-004-01",
+                  "kind": "deterministic_test",
+                  "requirement": "Validate criterion evidence requirements against the accepted verification topology.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-GF-005",
+              "statement": "A fresh implementing agent receives the complete applicable normative, success and disproof text with provenance in the bounded working context for the selected subject.\n",
+              "target_refs": [
+                "GF-REQ-005"
+              ],
+              "disproof": "The context exposes only identifiers/links, omits a load-bearing obligation, or requires broad repository archaeology before the agent can understand what must be preserved.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-SC-GF-005-01",
+                  "kind": "deterministic_test",
+                  "requirement": "Generated/projected context contains exact applicable semantic text and provenance for the selected governed subject.\n"
+                },
+                {
+                  "id": "ER-SC-GF-005-02",
+                  "kind": "runtime_observation",
+                  "requirement": "A fresh-agent comparison on one real change, scored against a pre-registered sheet, is run and retained at exact revisions with its verdict either way; two such runs (probe 0 on whygame5 at ~300 lines, phase 6 on AES itself at ~4,000 governed lines) are the minimum.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-GF-006",
+              "statement": "At an exact revision AES characterizes the realized repository and mechanically detects missing/undeclared durable artifacts plus selected symbol/signature/type drift when such commitments exist.\n",
+              "target_refs": [
+                "GF-REQ-006"
+              ],
+              "disproof": "Target-realized comparison requires manual reconstruction of repository contents or silently accepts an intentional drift.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-SC-GF-006-01",
+                  "kind": "deterministic_test",
+                  "requirement": "Deliberately mutate one planned artifact or selected symbol commitment and observe a target-realized mismatch.\n"
+                },
+                {
+                  "id": "ER-SC-GF-006-02",
+                  "kind": "deterministic_test",
+                  "requirement": "Characterization binds every asserted realized fact to exact repository revision and producer identity.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-GF-007",
+              "statement": "A pass-like observation with insufficient required evidence does not render the associated criterion satisfied or its gap closed.\n",
+              "target_refs": [
+                "GF-REQ-007",
+                "GF-REQ-008"
+              ],
+              "disproof": "Any passing test automatically produces criterion satisfaction regardless of the criterion's evidence requirements.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-SC-GF-007-01",
+                  "kind": "deterministic_test",
+                  "requirement": "Construct a criterion requiring multiple evidence inputs, provide only one passing observation, and verify adequacy remains INSUFFICIENT and standing is not promoted to supported closure.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-GF-008",
+              "statement": "Material change to an evidence dependency invalidates or stales affected evidence/current state until applicable evidence is re-established.\n",
+              "target_refs": [
+                "GF-REQ-007",
+                "GF-REQ-008"
+              ],
+              "disproof": "A materially changed subject can retain green current/gap state solely because older evidence once passed.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-SC-GF-008-01",
+                  "kind": "deterministic_test",
+                  "requirement": "Change one material dependency after successful verification and verify affected evidence/current becomes stale or otherwise non-current before re-verification.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-GF-009",
+              "statement": "One complete Greenfield-MVP lifecycle is exercised on a genuinely new consumer project under AES governance from inception.\n",
+              "target_refs": [
+                "GF-REQ-009",
+                "OUT-GF-001"
+              ],
+              "disproof": "Acceptance relies only on AES canonical's existing repository, schemas, fixtures, prose review, or a pre-existing project requiring retrofit.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-SC-GF-009-01",
+                  "kind": "runtime_observation",
+                  "requirement": "Retain the fresh project's initialization, target, plan, realization, observations/evidence, current/gap and fresh-agent context evaluation at exact revisions.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-AP-001",
+              "statement": "With the commit-message hook installed, a staged change adding a Dockerfile committed as \"[Unplanned] ...\" with no Emergency trailer is judged refuse and names the running-thing file; the same change under a [Goal <id>] whose plan is adopted is judged accept; a one-line README change under [Trivial] is judged accept; in observe mode every verdict is logged and none blocks.\n",
+              "target_refs": [
+                "OUT-AP-001",
+                "AP-REQ-001"
+              ],
+              "disproof": "The rule accepts or refuses on the tag text alone; or a running-thing file passes as [Trivial]; or a [Goal] or [Plan] commit is accepted with no adopted receipt, or with a receipt for older plan bytes; or observe mode blocks a commit.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-AP-001-01",
+                  "kind": "deterministic_test",
+                  "requirement": "Tests build real Git repositories, install the hooks with `aes hooks install`, stage real changes and run real commits, asserting each tag's verdict and reason, observe versus enforce exit status, the log line, and replay counts.\n"
+                },
+                {
+                  "id": "ER-AP-001-02",
+                  "kind": "runtime_observation",
+                  "requirement": "In AES canonical with the hook installed, the three canonical-example commits are judged as stated (output and exit codes quoted), and `aes commit replay` over the last 300 commits of AES canonical and of personal-vps lists personal-vps #87's commit as refuse, with counts.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-AP-002",
+              "statement": "With require_adopted_plan true, `aes plan validate` and `aes plan accept` refuse a proposal with no adopted_plan_ref, one naming a missing plan, and one whose plan changed after adoption, each with the reason; the same proposal naming a freshly adopted plan is accepted. With the setting absent, a proposal without adopted_plan_ref is accepted as before.\n",
+              "target_refs": [
+                "OUT-AP-001",
+                "AP-REQ-002"
+              ],
+              "disproof": "accept succeeds without an adopted receipt where one is required, or with a receipt for older plan bytes; or the default (setting absent) refuses a proposal that does not name a plan.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-AP-002-01",
+                  "kind": "deterministic_test",
+                  "requirement": "Tests run `aes plan validate` and `aes plan accept` in real Git repositories for each case above, asserting exit status, the reason text and whether the target and plan file were written.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-TR-001",
+              "statement": "aes plan validate refuses a proposal with no trace_review declaration and one declaring traced work without a trace_review requirement, and accepts the declared and routed case; observation loading refuses a trace_review assessment with no record, SUPPORTS with unread steps or a wrong checked decision, and a review by the run's author.\n",
+              "target_refs": [
+                "TR-REQ-001"
+              ],
+              "disproof": "A proposal without the declaration validates; traced work validates without a trace_review requirement; or a trace_review observation SUPPORTS with unread steps, a wrong decision, no record, or the author as reviewer.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-TR-001-01",
+                  "kind": "deterministic_test",
+                  "requirement": "tests/greenfield/test_trace_review.py builds real proposals against the frozen whygame5 target and real observation files, asserting each refusal's message and each acceptance.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-ADOPT-001",
+              "statement": "Adopting a real repository lists exactly its tracked governed files with their blobs and status reads 100% legacy; the adoption commit passes the installed hooks; an unplanned legacy edit is logged in observe and refused in enforce; planning that file removes exactly that path from the baseline and its edit is then accepted; a new unplanned file is still an orphan.\n",
+              "target_refs": [
+                "ADOPT-REQ-001"
+              ],
+              "disproof": "The baseline misses or adds a tracked governed file or binds a wrong blob; the adoption commit is refused as orphans; an unplanned legacy edit lands under enforce; aes plan accept removes any path other than the newly planned ones; or a new unplanned file passes the pre-commit hook.\n",
+              "evidence_requirements": [
+                {
+                  "id": "ER-ADOPT-001-01",
+                  "kind": "deterministic_test",
+                  "requirement": "tests/greenfield/test_adopt.py clones this repository, adopts it with src/ and tests/ as roots, and drives the real CLI and installed hooks through each case, asserting baseline membership by set equality and the exact path removed.\n"
+                }
+              ]
+            },
+            {
+              "id": "SC-TR-SOURCE-001",
+              "statement": "Native evidence standing refuses unsupported trace-review claims and admits only source-bound complete reviews of passing runs; complete reviews of failed runs retain their failed verdict.",
+              "target_refs": [
+                "TR-REQ-001"
+              ],
+              "disproof": "A missing provider or review, partial inventory, changed source, false citation, wrong criterion/revision/reviewer binding, or reviewed failure yields supporting standing.",
+              "evidence_requirements": [
+                {
+                  "id": "ER-TR-SOURCE-001",
+                  "kind": "deterministic_test",
+                  "requirement": "Native standing and the real Company Planning validator reject each counterexample and preserve the authentic privacy run failure."
+                },
+                {
+                  "id": "ER-TR-SOURCE-002",
+                  "kind": "trace_review",
+                  "requirement": "An independent reviewer inspects the retained native boundary probe inputs and outputs, including refusals and the reviewed failed privacy run."
+                }
+              ]
+            }
+          ],
+          "components": [
+            {
+              "id": "RU-AES-RECORDS",
+              "responsibility": "Own typed AES record models, strict YAML loading/writing, stable semantic reference resolution and structural/semantic validation of canonical project records.\n",
+              "target_refs": [
+                "GF-REQ-002",
+                "SC-GF-002"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-RECORDS",
+                "ART-TEST-RECORDS"
+              ]
+            },
+            {
+              "id": "RU-AES-PROJECT",
+              "responsibility": "Initialize and open the minimal .aes project control surface under the accepted initialization contract without creating placeholder artifacts.\n",
+              "target_refs": [
+                "GF-REQ-001",
+                "SC-GF-001"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-PROJECT",
+                "ART-TEST-PROJECT"
+              ]
+            },
+            {
+              "id": "RU-AES-PLANNING",
+              "responsibility": "Represent, validate and project the AES planning contract: target-realization deltas, accepted transition plans, uncertainty/probe semantics, criterion-linked verification topology, and the trace-review declaration every proposal makes.\n",
+              "target_refs": [
+                "GF-REQ-004",
+                "SC-GF-004",
+                "TR-REQ-001",
+                "SC-TR-001"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-PLANNING",
+                "ART-PLANNING-PROTOCOL",
+                "ART-TEST-PLANNING",
+                "ART-TEST-TRACE-REVIEW"
+              ]
+            },
+            {
+              "id": "RU-AES-TOPOLOGY",
+              "responsibility": "Compare accepted durable topology and bounded generation rules with the Git-realized repository and emit actionable conformance findings.\n",
+              "target_refs": [
+                "GF-REQ-003",
+                "SC-GF-003"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-TOPOLOGY",
+                "ART-TEST-TOPOLOGY",
+                "ART-TEST-SELF-GOVERNANCE"
+              ]
+            },
+            {
+              "id": "RU-AES-CHARACTERIZE",
+              "responsibility": "Produce revision-bound realized-repository characterization for the first Python/Git ecosystem without importing target project code or inventing target mappings.\n",
+              "target_refs": [
+                "GF-REQ-006",
+                "SC-GF-006"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-CHARACTERIZE",
+                "ART-SRC-CHARACTERIZE-PYTHON",
+                "ART-TEST-CHARACTERIZE"
+              ]
+            },
+            {
+              "id": "RU-AES-EVIDENCE",
+              "responsibility": "Represent observations and compute evidence freshness, adequacy and standing independently from pass-like provider results.\n",
+              "target_refs": [
+                "GF-REQ-007",
+                "GF-REQ-008",
+                "SC-GF-007",
+                "SC-GF-008",
+                "TR-REQ-001",
+                "SC-TR-SOURCE-001"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-EVIDENCE",
+                "ART-TEST-EVIDENCE",
+                "ART-TEST-EVIDENCE-CONTROLS",
+                "ART-SRC-TRACE-PROVIDER",
+                "ART-TEST-TRACE-PROVIDER"
+              ]
+            },
+            {
+              "id": "RU-AES-RECONCILE",
+              "responsibility": "Derive qualified current state and target/current gaps from accepted target, realized characterization and evidence assessments.\n",
+              "target_refs": [
+                "GF-REQ-008",
+                "SC-GF-007",
+                "SC-GF-008"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-RECONCILE",
+                "ART-TEST-RECONCILE"
+              ]
+            },
+            {
+              "id": "RU-AES-CONTEXT",
+              "responsibility": "Compile the smallest complete subject-specific working context from typed target refs, realized state, current/gaps, plan and verification semantics.\n",
+              "target_refs": [
+                "GF-REQ-005",
+                "SC-GF-005"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-CONTEXT",
+                "ART-TEST-CONTEXT"
+              ]
+            },
+            {
+              "id": "RU-AES-CLI",
+              "responsibility": "Expose one coherent user/agent command surface that composes the capability units without owning their semantics.\n",
+              "target_refs": [
+                "OUT-GF-001",
+                "GF-REQ-009",
+                "SC-GF-009"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-CLI"
+              ]
+            },
+            {
+              "id": "RU-AES-DISTRIBUTION",
+              "responsibility": "Own the installable Python distribution boundary, declared dependencies, console entrypoints, packaged planning resource, Greenfield getting-started material and clean-install verification.\n",
+              "target_refs": [
+                "OUT-GF-001",
+                "GF-REQ-001",
+                "GF-REQ-009",
+                "SC-GF-001",
+                "SC-GF-009"
+              ],
+              "planned_artifact_refs": [
+                "ART-PACKAGING-PYPROJECT",
+                "ART-DOC-GREENFIELD-GETTING-STARTED",
+                "ART-SRC-HOOKS",
+                "ART-TEST-DISTRIBUTION"
+              ]
+            },
+            {
+              "id": "RU-AES-COMMIT-RULE",
+              "responsibility": "Judge a commit message's tag against facts about the staged change and the plan it names, log every verdict, replay the same judgement over past commits, and resolve whether a named plan is adopted for its current bytes (used by the commit rule and by plan acceptance).\n",
+              "target_refs": [
+                "AP-REQ-001",
+                "SC-AP-001",
+                "AP-REQ-002",
+                "SC-AP-002"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-COMMIT-RULE",
+                "ART-TEST-COMMIT-RULE",
+                "ART-TEST-PLAN-RECEIPT"
+              ]
+            },
+            {
+              "id": "RU-AES-ADOPT",
+              "responsibility": "Bring an existing repository under AES without planning its old files: the legacy baseline, its effect on topology and the commit rule, its pruning on plan acceptance, and the legacy share in status.\n",
+              "target_refs": [
+                "ADOPT-REQ-001",
+                "SC-ADOPT-001"
+              ],
+              "planned_artifact_refs": [
+                "ART-SRC-ADOPT",
+                "ART-TEST-ADOPT"
+              ]
+            }
+          ],
+          "planned_artifacts": [
+            {
+              "id": "ART-SRC-RECORDS",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/records.py"
+              },
+              "kind": "source",
+              "purpose": "typed record models, strict YAML I/O primitives and semantic ref validation\n",
+              "semantic_justification_refs": [
+                "GF-REQ-002"
+              ],
+              "exports": [
+                "load_target",
+                "load_project",
+                "parse_target",
+                "validate_target_refs"
+              ]
+            },
+            {
+              "id": "ART-TEST-RECORDS",
+              "locator": {
+                "exact_path": "tests/greenfield/test_records.py"
+              },
+              "kind": "test",
+              "purpose": "structural, duplicate-key, typed-ref and semantic-invariant verification\n",
+              "semantic_justification_refs": [
+                "SC-GF-002"
+              ]
+            },
+            {
+              "id": "ART-SRC-PROJECT",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/project.py"
+              },
+              "kind": "source",
+              "purpose": "initialization contract, project discovery and canonical AES control-surface paths\n",
+              "semantic_justification_refs": [
+                "GF-REQ-001"
+              ],
+              "exports": [
+                "initialize_project",
+                "find_project_root"
+              ]
+            },
+            {
+              "id": "ART-TEST-PROJECT",
+              "locator": {
+                "exact_path": "tests/greenfield/test_project.py"
+              },
+              "kind": "test",
+              "purpose": "prove minimal initialization and reject unauthorized bootstrap artifacts/private prerequisites\n",
+              "semantic_justification_refs": [
+                "SC-GF-001"
+              ]
+            },
+            {
+              "id": "ART-SRC-PLANNING",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/planning.py"
+              },
+              "kind": "source",
+              "purpose": "planning contract models, target-delta validation and transition-plan validation, including the adopted-plan requirement (adopted_plan_ref, .aes/planning.yaml)\n",
+              "semantic_justification_refs": [
+                "GF-REQ-004",
+                "AP-REQ-002"
+              ],
+              "exports": [
+                "prepare",
+                "validate_proposal",
+                "accept_proposal",
+                "route_violations",
+                "unrouted_requirements",
+                "load_proposal"
+              ]
+            },
+            {
+              "id": "ART-PLANNING-PROTOCOL",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/planning_protocol.md"
+              },
+              "kind": "source",
+              "purpose": "Distributed provider-neutral AES planning instructions used by a human or agent planning provider; contains the actual v0.2 planning contract without depending on Company Planning.\n",
+              "semantic_justification_refs": [
+                "GF-REQ-004"
+              ]
+            },
+            {
+              "id": "ART-TEST-PLANNING",
+              "locator": {
+                "exact_path": "tests/greenfield/test_planning.py"
+              },
+              "kind": "test",
+              "purpose": "validate design-delta/acceptance/execution ordering and incomplete-plan rejection\n",
+              "semantic_justification_refs": [
+                "SC-GF-004"
+              ]
+            },
+            {
+              "id": "ART-SRC-TOPOLOGY",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/topology.py"
+              },
+              "kind": "source",
+              "purpose": "Git-backed durable artifact inventory and target-realized topology comparison\n",
+              "semantic_justification_refs": [
+                "GF-REQ-003"
+              ],
+              "exports": [
+                "check_topology",
+                "compare_topology"
+              ]
+            },
+            {
+              "id": "ART-TEST-TOPOLOGY",
+              "locator": {
+                "exact_path": "tests/greenfield/test_topology.py"
+              },
+              "kind": "test",
+              "purpose": "positive and negative controls for exact paths, orphan files and bounded generation rules\n",
+              "semantic_justification_refs": [
+                "SC-GF-003"
+              ]
+            },
+            {
+              "id": "ART-SRC-CHARACTERIZE",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/characterize.py"
+              },
+              "kind": "source",
+              "purpose": "provider-neutral realized-repository characterization contract and aggregation\n",
+              "semantic_justification_refs": [
+                "GF-REQ-006"
+              ],
+              "exports": [
+                "characterize",
+                "drift",
+                "check",
+                "running_version"
+              ]
+            },
+            {
+              "id": "ART-SRC-CHARACTERIZE-PYTHON",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/characterize_python.py"
+              },
+              "kind": "source",
+              "purpose": "Python AST characterization provider for symbols, signatures/types, docstrings and static imports\n",
+              "semantic_justification_refs": [
+                "GF-REQ-006"
+              ],
+              "exports": [
+                "analyze",
+                "import_closure",
+                "parse_export"
+              ]
+            },
+            {
+              "id": "ART-TEST-CHARACTERIZE",
+              "locator": {
+                "exact_path": "tests/greenfield/test_characterize.py"
+              },
+              "kind": "test",
+              "purpose": "revision binding, Python AST extraction, uncertainty and deliberate selected-symbol drift verification\n",
+              "semantic_justification_refs": [
+                "SC-GF-006"
+              ]
+            },
+            {
+              "id": "ART-SRC-EVIDENCE",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/evidence.py"
+              },
+              "kind": "source",
+              "purpose": "observation receipts and criterion evidence-assessment engine\n",
+              "semantic_justification_refs": [
+                "GF-REQ-007",
+                "GF-REQ-008"
+              ],
+              "exports": [
+                "assess",
+                "record",
+                "freshness",
+                "load_observations"
+              ]
+            },
+            {
+              "id": "ART-TEST-EVIDENCE",
+              "locator": {
+                "exact_path": "tests/greenfield/test_evidence.py"
+              },
+              "kind": "test",
+              "purpose": "prove pass-like observation is distinct from adequacy and exercise stale/insufficient states\n",
+              "semantic_justification_refs": [
+                "SC-GF-007",
+                "SC-GF-008"
+              ]
+            },
+            {
+              "id": "ART-TEST-EVIDENCE-CONTROLS",
+              "locator": {
+                "exact_path": "tests/greenfield/test_evidence_controls.py"
+              },
+              "kind": "test",
+              "purpose": "target-entry dependencies stale only on a referenced entry's change; negative controls are fresh against their base and must refute a missed mutation\n",
+              "semantic_justification_refs": [
+                "SC-GF-008"
+              ]
+            },
+            {
+              "id": "ART-SRC-RECONCILE",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/reconcile.py"
+              },
+              "kind": "source",
+              "purpose": "deterministic current and gap materialization\n",
+              "semantic_justification_refs": [
+                "GF-REQ-008"
+              ],
+              "exports": [
+                "reconcile",
+                "render_status"
+              ]
+            },
+            {
+              "id": "ART-TEST-RECONCILE",
+              "locator": {
+                "exact_path": "tests/greenfield/test_reconcile.py"
+              },
+              "kind": "test",
+              "purpose": "exercise unrealized, implemented-unverified, supported, contradicted and stale reconciliation\n",
+              "semantic_justification_refs": [
+                "SC-GF-007",
+                "SC-GF-008"
+              ]
+            },
+            {
+              "id": "ART-SRC-CONTEXT",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/context.py"
+              },
+              "kind": "source",
+              "purpose": "typed-ref-driven bounded working-context compiler with full semantic text/provenance\n",
+              "semantic_justification_refs": [
+                "GF-REQ-005"
+              ],
+              "exports": [
+                "project_context",
+                "compile_context"
+              ]
+            },
+            {
+              "id": "ART-TEST-CONTEXT",
+              "locator": {
+                "exact_path": "tests/greenfield/test_context.py"
+              },
+              "kind": "test",
+              "purpose": "prove full applicable text, provenance, boundedness and explicit unresolved context\n",
+              "semantic_justification_refs": [
+                "SC-GF-005"
+              ]
+            },
+            {
+              "id": "ART-SRC-CLI",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/cli.py"
+              },
+              "kind": "source",
+              "purpose": "compose AES commands over the capability modules\n",
+              "semantic_justification_refs": [
+                "OUT-GF-001"
+              ],
+              "exports": [
+                "main"
+              ]
+            },
+            {
+              "id": "ART-PACKAGING-PYPROJECT",
+              "locator": {
+                "exact_path": "pyproject.toml"
+              },
+              "kind": "configuration",
+              "purpose": "Declare the installable AES distribution, supported Python range, dependencies, aes console entrypoint and packaging of the planning protocol. During pre-cutover coexistence it must not accidentally break retained v0.1 entrypoints/dependencies.\n",
+              "semantic_justification_refs": [
+                "OUT-GF-001",
+                "SC-GF-001"
+              ]
+            },
+            {
+              "id": "ART-DOC-GREENFIELD-GETTING-STARTED",
+              "locator": {
+                "exact_path": "docs/greenfield/GETTING_STARTED.md"
+              },
+              "kind": "configuration",
+              "purpose": "Colleague-facing installation and first Greenfield lifecycle instructions that require no knowledge of private historical repositories.\n",
+              "semantic_justification_refs": [
+                "OUT-GF-001",
+                "SC-GF-001"
+              ]
+            },
+            {
+              "id": "ART-SRC-HOOKS",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/hooks.py"
+              },
+              "kind": "source",
+              "purpose": "Generate and install the consumer's pre-commit gate (target validate + topology check) and commit-msg gate (aes commit check) with a worktree-safe interpreter lookup, refusing to overwrite a hook AES did not write.\n",
+              "semantic_justification_refs": [
+                "GF-REQ-001",
+                "AP-REQ-001"
+              ],
+              "exports": [
+                "install_hooks",
+                "render_hook",
+                "render_commit_msg_hook"
+              ]
+            },
+            {
+              "id": "ART-TEST-DISTRIBUTION",
+              "locator": {
+                "exact_path": "tests/greenfield/test_distribution.py"
+              },
+              "kind": "test",
+              "purpose": "Build/install the distribution in isolation, verify the aes entrypoint and packaged planning resource, and detect accidental dependency on a source checkout or private repository.\n",
+              "semantic_justification_refs": [
+                "SC-GF-001",
+                "SC-GF-009"
+              ]
+            },
+            {
+              "id": "ART-TEST-SELF-GOVERNANCE",
+              "locator": {
+                "exact_path": "tests/greenfield/test_self_governance.py"
+              },
+              "kind": "test",
+              "purpose": "AES canonical's own target loads strictly, its governed roots hold no orphan at HEAD, every SC-GF evidence requirement has a route, and aes status exits 0 on this repository\n",
+              "semantic_justification_refs": [
+                "SC-GF-003",
+                "SC-GF-004"
+              ]
+            },
+            {
+              "id": "ART-FIXTURE-WG5-PROJECT",
+              "locator": {
+                "exact_path": "tests/greenfield/fixtures/whygame5-54043e2/.aes/project.yaml"
+              },
+              "kind": "test",
+              "purpose": "frozen whygame5 project record at 54043e2, the first consumer's real shape, loaded by the greenfield tests\n",
+              "semantic_justification_refs": [
+                "SC-GF-002",
+                "SC-GF-004"
+              ]
+            },
+            {
+              "id": "ART-FIXTURE-WG5-TARGET",
+              "locator": {
+                "exact_path": "tests/greenfield/fixtures/whygame5-54043e2/.aes/target.yaml"
+              },
+              "kind": "test",
+              "purpose": "frozen whygame5 target at 54043e2, the first consumer's real target, loaded by the greenfield tests\n",
+              "semantic_justification_refs": [
+                "SC-GF-002",
+                "SC-GF-004"
+              ]
+            },
+            {
+              "id": "ART-FIXTURE-WG5-README",
+              "locator": {
+                "exact_path": "tests/greenfield/fixtures/whygame5-54043e2/README"
+              },
+              "kind": "test",
+              "purpose": "provenance of the frozen whygame5 fixture (source repository and revision)\n",
+              "semantic_justification_refs": [
+                "SC-GF-002",
+                "SC-GF-004"
+              ]
+            },
+            {
+              "id": "ART-FIXTURE-WG5-PROPOSAL",
+              "locator": {
+                "exact_path": "tests/greenfield/fixtures/whygame5-proposal-runner.yaml"
+              },
+              "kind": "test",
+              "purpose": "the real PLAN-WG5-RUNNER proposal, validated against the frozen whygame5 target by test_planning.py\n",
+              "semantic_justification_refs": [
+                "SC-GF-002",
+                "SC-GF-004"
+              ]
+            },
+            {
+              "id": "ART-V01---INIT---PY",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/__init__.py"
+              },
+              "kind": "source",
+              "purpose": "package marker shared by v0.1 and v0.2 modules; v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)\n",
+              "semantic_justification_refs": [
+                "NI-AES-HIST"
+              ]
+            },
+            {
+              "id": "ART-V01-REPOSITORY-CONTEXT---INIT---PY",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/repository_context/__init__.py"
+              },
+              "kind": "source",
+              "purpose": "v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)\n",
+              "semantic_justification_refs": [
+                "NI-AES-HIST"
+              ]
+            },
+            {
+              "id": "ART-V01-REPOSITORY-CONTEXT-CLI-PY",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/repository_context/cli.py"
+              },
+              "kind": "source",
+              "purpose": "v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)\n",
+              "semantic_justification_refs": [
+                "NI-AES-HIST"
+              ]
+            },
+            {
+              "id": "ART-V01-REPOSITORY-CONTEXT-COMPONENT-CONTEXT-GENERATED-YAML",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/repository_context/component.context.generated.yaml"
+              },
+              "kind": "configuration",
+              "purpose": "v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)\n",
+              "semantic_justification_refs": [
+                "NI-AES-HIST"
+              ]
+            },
+            {
+              "id": "ART-V01-REPOSITORY-CONTEXT-GIT-SOURCE-PY",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/repository_context/git_source.py"
+              },
+              "kind": "source",
+              "purpose": "v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)\n",
+              "semantic_justification_refs": [
+                "NI-AES-HIST"
+              ]
+            },
+            {
+              "id": "ART-V01-REPOSITORY-CONTEXT-LEGACY-PY",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/repository_context/legacy.py"
+              },
+              "kind": "source",
+              "purpose": "v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)\n",
+              "semantic_justification_refs": [
+                "NI-AES-HIST"
+              ]
+            },
+            {
+              "id": "ART-V01-REPOSITORY-CONTEXT-MANIFEST-PY",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/repository_context/manifest.py"
+              },
+              "kind": "source",
+              "purpose": "v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)\n",
+              "semantic_justification_refs": [
+                "NI-AES-HIST"
+              ]
+            },
+            {
+              "id": "ART-V01-REPOSITORY-CONTEXT-MODELS-PY",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/repository_context/models.py"
+              },
+              "kind": "source",
+              "purpose": "v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)\n",
+              "semantic_justification_refs": [
+                "NI-AES-HIST"
+              ]
+            },
+            {
+              "id": "ART-V01-REPOSITORY-CONTEXT-RENDER-HTML-PY",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/repository_context/render_html.py"
+              },
+              "kind": "source",
+              "purpose": "v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)\n",
+              "semantic_justification_refs": [
+                "NI-AES-HIST"
+              ]
+            },
+            {
+              "id": "ART-V01-REPOSITORY-CONTEXT-RESOLVER-PY",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/repository_context/resolver.py"
+              },
+              "kind": "source",
+              "purpose": "v0.1 provider retained: installed console script aes-repo-context and tests/repository_context; disposition retained (see NI-AES-HIST)\n",
+              "semantic_justification_refs": [
+                "NI-AES-HIST"
+              ]
+            },
+            {
+              "id": "ART-SRC-COMMIT-RULE",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/commit_rule.py"
+              },
+              "kind": "source",
+              "purpose": "Commit-tag rule: parse the tag, measure the staged or historical diff, resolve plan receipts, produce a verdict with reasons, log it, and replay a revision range; plan_adoption resolves one named plan's adoption for plan acceptance too.\n",
+              "semantic_justification_refs": [
+                "AP-REQ-001",
+                "AP-REQ-002"
+              ],
+              "exports": [
+                "check_message",
+                "judge",
+                "replay",
+                "load_rule_config",
+                "plan_adoption"
+              ]
+            },
+            {
+              "id": "ART-TEST-COMMIT-RULE",
+              "locator": {
+                "exact_path": "tests/greenfield/test_commit_rule.py"
+              },
+              "kind": "test",
+              "purpose": "Real-repository tests of every tag's verdict, observe and enforce exit status, the installed commit-msg hook and replay counts.\n",
+              "semantic_justification_refs": [
+                "SC-AP-001"
+              ]
+            },
+            {
+              "id": "ART-TEST-PLAN-RECEIPT",
+              "locator": {
+                "exact_path": "tests/greenfield/test_plan_receipt.py"
+              },
+              "kind": "test",
+              "purpose": "Real-repository tests that plan validate and accept require a fresh adopted receipt when the repository asks for it, and behave as before when it does not.\n",
+              "semantic_justification_refs": [
+                "SC-AP-002"
+              ]
+            },
+            {
+              "id": "ART-TEST-TRACE-REVIEW",
+              "locator": {
+                "exact_path": "tests/greenfield/test_trace_review.py"
+              },
+              "kind": "test",
+              "purpose": "prove plans require trace reviews and trace-review observations are checked",
+              "semantic_justification_refs": [
+                "SC-TR-001"
+              ]
+            },
+            {
+              "id": "ART-SRC-ADOPT",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/adopt.py"
+              },
+              "kind": "source",
+              "purpose": "Legacy baseline for adopting an existing repository: write it at a named revision, load it, derive the legacy set, prune planned or untracked entries, and report the legacy share.\n",
+              "semantic_justification_refs": [
+                "ADOPT-REQ-001"
+              ],
+              "exports": [
+                "adopt",
+                "load_baseline",
+                "legacy_paths",
+                "prune_baseline",
+                "legacy_state"
+              ]
+            },
+            {
+              "id": "ART-TEST-ADOPT",
+              "locator": {
+                "exact_path": "tests/greenfield/test_adopt.py"
+              },
+              "kind": "test",
+              "purpose": "prove adoption of a real repository, unplanned legacy edits by mode, and baseline pruning",
+              "semantic_justification_refs": [
+                "SC-ADOPT-001"
+              ]
+            },
+            {
+              "id": "ART-SRC-TRACE-PROVIDER",
+              "locator": {
+                "exact_path": "src/agentic_engineering_system/trace_review.py"
+              },
+              "kind": "source",
+              "purpose": "Thin configurable invocation and native binding adapter for the existing Company Planning trace validator",
+              "semantic_justification_refs": [
+                "TR-REQ-001",
+                "SC-TR-SOURCE-001"
+              ]
+            },
+            {
+              "id": "ART-TEST-TRACE-PROVIDER",
+              "locator": {
+                "exact_path": "tests/greenfield/test_source_bound_trace_review.py"
+              },
+              "kind": "test",
+              "purpose": "Source-bound standing counterexamples and reviewed failure preservation",
+              "semantic_justification_refs": [
+                "SC-TR-SOURCE-001"
+              ]
+            }
+          ],
+          "verification_subjects": [
+            {
+              "id": "VS-GF-RECORDS",
+              "criterion_refs": [
+                "SC-GF-002"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-002-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_records.py",
+              "purpose": "validate target structure, refs and criterion evidence declarations\n"
+            },
+            {
+              "id": "VS-GF-INIT-UNIT",
+              "criterion_refs": [
+                "SC-GF-001"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-001-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_project.py",
+              "purpose": "support the cold-user criterion by proving initialization contract behavior locally; recorded INCONCLUSIVE because a local test is not the clean-user run the requirement names\n"
+            },
+            {
+              "id": "VS-GF-DISTRIBUTION-INSTALL",
+              "criterion_refs": [
+                "SC-GF-001"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-001-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_distribution.py",
+              "purpose": "support fresh-user proof with isolated build/install/CLI and hook checks; recorded INCONCLUSIVE because a local test is not the clean-user run the requirement names\n"
+            },
+            {
+              "id": "VS-GF-TOPOLOGY",
+              "criterion_refs": [
+                "SC-GF-003"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-003-01",
+                "ER-SC-GF-003-02"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_topology.py",
+              "purpose": "prove an intentionally introduced orphan is rejected and the unchanged planned topology is accepted\n"
+            },
+            {
+              "id": "VS-GF-PLANNING",
+              "criterion_refs": [
+                "SC-GF-004"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-004-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_planning.py",
+              "purpose": "validate criterion evidence requirements against accepted verification topology\n"
+            },
+            {
+              "id": "VS-GF-CONTEXT-STRUCTURAL",
+              "criterion_refs": [
+                "SC-GF-005"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-005-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_context.py",
+              "purpose": "prove exact applicable semantic text and provenance are projected for the governed subject\n"
+            },
+            {
+              "id": "VS-GF-CHARACTERIZE",
+              "criterion_refs": [
+                "SC-GF-006"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-006-01",
+                "ER-SC-GF-006-02"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_characterize.py",
+              "purpose": "deliberately mutate a planned artifact or selected symbol and detect drift; bind realized facts to exact revision and producer identity\n"
+            },
+            {
+              "id": "VS-GF-EVIDENCE",
+              "criterion_refs": [
+                "SC-GF-007",
+                "SC-GF-008"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-007-01",
+                "ER-SC-GF-008-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_evidence.py",
+              "purpose": "prove a pass-like partial observation remains insufficient and a material dependency change stales evidence\n"
+            },
+            {
+              "id": "VS-GF-EVIDENCE-CONTROLS",
+              "criterion_refs": [
+                "SC-GF-007",
+                "SC-GF-008"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-007-01",
+                "ER-SC-GF-008-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_evidence_controls.py",
+              "purpose": "prove a referenced target entry's change stales evidence and a negative control that missed its mutation refutes rather than supports\n"
+            },
+            {
+              "id": "VS-GF-RECONCILE",
+              "criterion_refs": [
+                "SC-GF-007",
+                "SC-GF-008"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-007-01",
+                "ER-SC-GF-008-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_reconcile.py",
+              "purpose": "prove current/gap preserves insufficient and stale states\n"
+            },
+            {
+              "id": "VS-GF-SELF-GOVERNANCE",
+              "criterion_refs": [
+                "SC-GF-003",
+                "SC-GF-004"
+              ],
+              "evidence_requirement_refs": [
+                "ER-SC-GF-003-02",
+                "ER-SC-GF-004-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_self_governance.py",
+              "purpose": "on AES canonical itself: the unchanged planned topology is accepted at HEAD and every evidence requirement of the live target has a route\n"
+            },
+            {
+              "id": "VS-AP-COMMIT-RULE",
+              "criterion_refs": [
+                "SC-AP-001"
+              ],
+              "evidence_requirement_refs": [
+                "ER-AP-001-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_commit_rule.py",
+              "purpose": "prove each tag's verdict on real staged commits through the installed hook\n"
+            },
+            {
+              "id": "VS-AP-PLAN-RECEIPT",
+              "criterion_refs": [
+                "SC-AP-002"
+              ],
+              "evidence_requirement_refs": [
+                "ER-AP-002-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_plan_receipt.py",
+              "purpose": "prove accept refuses without, and accepts with, a fresh adopted receipt\n"
+            },
+            {
+              "id": "VS-TRACE-REVIEW",
+              "criterion_refs": [
+                "SC-TR-001"
+              ],
+              "evidence_requirement_refs": [
+                "ER-TR-001-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_trace_review.py",
+              "purpose": "prove plans require trace reviews and trace-review observations are checked"
+            },
+            {
+              "id": "VS-ADOPT",
+              "criterion_refs": [
+                "SC-ADOPT-001"
+              ],
+              "evidence_requirement_refs": [
+                "ER-ADOPT-001-01"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_adopt.py",
+              "purpose": "prove adoption of a real repository, unplanned legacy edits by mode, and baseline pruning"
+            },
+            {
+              "id": "VS-TR-SOURCE",
+              "criterion_refs": [
+                "SC-TR-SOURCE-001"
+              ],
+              "evidence_requirement_refs": [
+                "ER-TR-SOURCE-001"
+              ],
+              "proof_kind": "deterministic_test",
+              "proof_role": "direct",
+              "locator": "tests/greenfield/test_source_bound_trace_review.py",
+              "purpose": "Validate refusal counterexamples and source-bound native standing"
+            }
+          ],
+          "external_boundaries": [
+            {
+              "evidence_requirement_ref": "ER-SC-GF-001-01",
+              "boundary": "A fresh agent or person with only docs/greenfield/GETTING_STARTED.md and a pin id installs AES from the distribution and reaches an initialized, validated project; the orchestrating session records the run as an observation. A no-private-access run additionally needs a machine without the maintainer's GitHub credentials, because this repository is private.\n"
+            },
+            {
+              "evidence_requirement_ref": "ER-SC-GF-005-02",
+              "boundary": "The orchestrator runs each fresh-agent comparison on one real change (arm A gets `aes context <subject>`, arm B the repository only, each in a separate session with no access to the planning conversation or proposals/), scores it on a sheet written before either arm's output is seen, retains the sheet, both arms' commits and the verdict at exact revisions, and records one observation assessing the retained runs against this requirement.\n"
+            },
+            {
+              "evidence_requirement_ref": "ER-SC-GF-009-01",
+              "boundary": "The orchestrator retains whygame5's lifecycle at exact revisions (init commit, target history, accepted plans, realization commits, observations, aes status output, fresh-agent context evaluation) and records one observation listing them; no test in this repository can establish it.\n"
+            },
+            {
+              "evidence_requirement_ref": "ER-AP-001-02",
+              "boundary": "The orchestrating session installs the hook in AES canonical, makes the three canonical-example commits in a scratch branch, quotes each verdict and exit code, runs `aes commit replay` over the last 300 commits of AES canonical and personal-vps, and records one observation with the output.\n"
+            },
+            {
+              "evidence_requirement_ref": "ER-TR-SOURCE-002",
+              "boundary": "Independent review of retained native acceptance probe execution trace, validated by Company Planning provider"
+            }
+          ]
+        },
+        "test_source": "\"\"\"AES canonical governs itself (roadmap phase 6b, `SC-GF-003`, `SC-GF-004`).\n\nUnlike every other file in this directory, these tests read the live\nrepository they are part of, not a fixture or a temporary clone: the subject\nis AES's own `.aes/` target at the checked-out revision. That is intended. The\nrepository governing itself is the claim, so the check has to run against it.\n\nER-SC-GF-003-02: the unchanged planned topology is accepted at HEAD (every\ngoverned file, the retained v0.1 files included, is a planned artifact).\nER-SC-GF-004-01: every evidence requirement in the live target has a route.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport subprocess\nfrom pathlib import Path\n\nfrom ruamel.yaml import YAML\n\nfrom agentic_engineering_system.cli import main\nfrom agentic_engineering_system.planning import route_violations\nfrom agentic_engineering_system.records import load_project, load_target\nfrom agentic_engineering_system.topology import compare_topology, normalized_roots\n\nREPO = Path(__file__).resolve().parents[2]\n# The accepted copy (Decision 0010), not the proposal lineage file it was copied from.\nSEMANTIC_INSTANCE = REPO / \"docs\" / \"architecture\" / \"greenfield-v0.2\" / \"12-greenfield-mvp-semantic-instance.yaml\"\nV01_RETAINED = (\"repository_context\",)  # real v0.1 code: console script aes-repo-context\nV01_ARCHIVED = (  # empty placeholders, moved to archive/v0.1-placeholders/ in phase 7a\n    \"capability_sourcing\", \"evidence_assessment\", \"execution\", \"gap_reconciliation\", \"learning\",\n    \"normative_context\", \"planning\", \"policy_control\",\n)\n\n\ndef _target():\n    project = load_project(REPO / \".aes\" / \"project.yaml\")\n    return project, load_target(REPO / project.materialization.target_path)\n\n\ndef _words(text: str) -> str:\n    return \" \".join(str(text).split())\n\n\ndef test_own_target_loads_strictly_with_the_greenfield_criteria_verbatim():\n    _, target = _target()\n    source = YAML(typ=\"safe\").load(SEMANTIC_INSTANCE.read_text(encoding=\"utf-8\"))\n    want = {c[\"id\"]: c for c in source[\"success_criteria\"]}\n    # the greenfield criteria, verbatim; later outcomes (SC-AP-*, PLAN-AES-COMMIT-RULE) add their own\n    got = {c.id: c for c in target.success_criteria if c.id.startswith(\"SC-GF-\")}\n    assert sorted(got) == sorted(want) == [f\"SC-GF-00{i}\" for i in range(1, 10)]\n    for sc_id, c in want.items():\n        assert _words(got[sc_id].statement) == _words(c[\"statement\"]), sc_id\n        assert _words(got[sc_id].disproof) == _words(c[\"disproof\"]), sc_id\n        assert got[sc_id].target_refs == c[\"target_refs\"], sc_id\n        assert [(e.id, _words(e.requirement)) for e in got[sc_id].evidence_requirements] == [\n            (e[\"id\"], _words(e[\"requirement\"])) for e in c[\"evidence_requirements\"]\n        ], sc_id\n    items = {n.id: n for n in target.normative_items}\n    for n in source[\"normative_items\"]:\n        assert _words(items[n[\"id\"]].statement) == _words(n[\"statement\"]), n[\"id\"]\n\n\ndef test_topology_at_head_has_no_orphan_and_plans_the_v01_files_as_history():\n    project, target = _target()\n    governed = normalized_roots(project.governed_roots)\n    listed = subprocess.run(\n        [\"git\", \"ls-tree\", \"-r\", \"--name-only\", \"-z\", \"HEAD\", \"--\", *governed],\n        cwd=REPO, capture_output=True, text=True, check=True,\n    ).stdout\n    files = tuple(p for p in listed.split(\"\\0\") if p)\n    report = compare_topology(governed, files, target)\n    assert report.orphans == ()\n    by_path = {a.locator.exact_path: a for a in target.planned_artifacts}\n    v01 = [p for p in files if p.split(\"/\")[2] in V01_RETAINED]\n    assert v01 and \"src/agentic_engineering_system/repository_context/cli.py\" in v01\n    for path in [*v01, \"src/agentic_engineering_system/__init__.py\"]:\n        assert by_path[path].semantic_justification_refs == [\"NI-AES-HIST\"], path\n    # the archived placeholders left the governed root and the target, and kept their history\n    gone = tuple(f\"src/agentic_engineering_system/{pkg}/\" for pkg in V01_ARCHIVED)\n    assert not [p for p in [*files, *by_path] if p.startswith(gone)]\n    archived = subprocess.run(\n        [\"git\", \"ls-tree\", \"-r\", \"--name-only\", \"HEAD\", \"--\", \"archive/v0.1-placeholders/\"],\n        cwd=REPO, capture_output=True, text=True, check=True,\n    ).stdout.split()\n    assert sorted(archived) == sorted(\n        [f\"archive/v0.1-placeholders/{pkg}/component.placeholder.yaml\" for pkg in V01_ARCHIVED]\n        + [\"archive/v0.1-placeholders/README.md\"]\n    )\n    assert \"tests/greenfield/test_self_governance.py\" in by_path\n\n\ndef test_every_greenfield_evidence_requirement_has_a_route():\n    _, target = _target()\n    assert route_violations(target) == []\n    external = {b.evidence_requirement_ref for b in target.external_boundaries}\n    assert {e for e in external if e.startswith(\"ER-SC-GF-\")} == {\"ER-SC-GF-001-01\", \"ER-SC-GF-005-02\", \"ER-SC-GF-009-01\"}\n    assert external - {\"ER-SC-GF-001-01\", \"ER-SC-GF-005-02\", \"ER-SC-GF-009-01\"} == {\"ER-AP-001-02\"}\n\n\ndef test_aes_status_on_this_repository_exits_zero(capsys):\n    assert main([\"status\", \"--root\", str(REPO)]) == 0\n    out = capsys.readouterr().out\n    assert \"agentic-engineering-system-canonical-target\" in out\n    assert \"0 orphan(s)\" in out\n"
+      },
+      "output": {
+        "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.11.16, pytest-9.1.1, pluggy-1.6.0\nrootdir: /home/brian/code/agentic-engineering-system-canonical/worktrees/trace-review-acceptance\nconfigfile: pyproject.toml\ncollected 1 item\n\ntests/greenfield/test_self_governance.py F                               [100%]\n\n=================================== FAILURES ===================================\n____________ test_every_greenfield_evidence_requirement_has_a_route ____________\n\n    def test_every_greenfield_evidence_requirement_has_a_route():\n        _, target = _target()\n        assert route_violations(target) == []\n        external = {b.evidence_requirement_ref for b in target.external_boundaries}\n        assert {e for e in external if e.startswith(\"ER-SC-GF-\")} == {\"ER-SC-GF-001-01\", \"ER-SC-GF-005-02\", \"ER-SC-GF-009-01\"}\n>       assert external - {\"ER-SC-GF-001-01\", \"ER-SC-GF-005-02\", \"ER-SC-GF-009-01\"} == {\"ER-AP-001-02\"}\nE       AssertionError: assert {'ER-AP-001-0...R-SOURCE-002'} == {'ER-AP-001-02'}\nE         \nE         Extra items in the left set:\nE         'ER-TR-SOURCE-002'\nE         Use -v to get more diff\n\ntests/greenfield/test_self_governance.py:97: AssertionError\n=========================== short test summary info ============================\nFAILED tests/greenfield/test_self_governance.py::test_every_greenfield_evidence_requirement_has_a_route\n============================== 1 failed in 0.39s ===============================\n",
+        "stderr": "",
+        "exit_status": 1
+      }
+    }
+  ],
+  "outcome": "fail"
+}

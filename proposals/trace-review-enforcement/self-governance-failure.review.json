@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "record_type": "trace_review",
+  "review_id": "aes-self-governance-failure-diagnosis",
+  "reviewer": "codex:/root/trace_provider_reuse",
+  "goal_ref": "goal:trace-review-enforcement",
+  "criterion_ids": [
+    "native-boundary"
+  ],
+  "evidence_revision": "cdc3a75f7fb0158c1a5472eba3d714fd87b4f2fe",
+  "run_id": "aes-trace-review-self-governance-failure",
+  "run_outcome": "fail",
+  "source": {
+    "path": "proposals/trace-review-enforcement/self-governance-failure.trace.json",
+    "sha256": "7916e810589878e186a3f2d98dc3bfc694d1bd0042a32ef866c665cc0660805f",
+    "format": "execution_trace"
+  },
+  "reviewed_entries": [
+    {
+      "pointer": "/events/0",
+      "sha256": "b9e0b758b3457764e94fa300bdee01fa0bc84b213fe68bdbe93beb8f6a48df53",
+      "observation": "Real route validation passed, then obsolete expected external membership excluded the newly accepted independent trace-review route."
+    },
+    {
+      "pointer": "/outcome",
+      "sha256": "34e382cfb94027bb2ebfad2bcd3affd03b843b3d285b73bc2760d19b65abd85f",
+      "observation": "Original failed run remains failed. Repair updates explicit expected membership without weakening route validity or equality."
+    }
+  ],
+  "findings": [
+    {
+      "classification": "expectation_wrong",
+      "description": "The accepted target includes ER-TR-SOURCE-002; the legacy test expectation lists only ER-AP-001-02 outside the greenfield set.",
+      "citations": [
+        {
+          "pointer": "/events/0/output/stdout",
+          "quote": "Extra items in the left set:"
+        },
+        {
+          "pointer": "/events/0/input/target/external_boundaries/4/evidence_requirement_ref",
+          "quote": "ER-TR-SOURCE-002"
+        }
+      ]
+    }
+  ]
+}
