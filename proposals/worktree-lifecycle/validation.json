@@ -1,0 +1,13 @@
+{
+  "verdict_cache": "PLAN.verdicts.json",
+  "database": "~/projects/data/llm_observability.db",
+  "reviewed": "All unresolved calls plus actor-result pass; full prompt evidence and model answer inspected, no tools inside these classifier calls.",
+  "finding": "The remaining coordinator refusal is missing formal work-unit evidence in unrelated existing writer claims. No work-unit IDs were fabricated; plan remains proposed, unadopted.",
+  "plan_sha256": "522fe2870c67e96db61c7f6ddd17a330623a780bf18b1895af18636672a5018d",
+  "check_exit_status": 1,
+  "checklist_items": 16,
+  "remaining_gaps": [
+    "OV-COORD-OWNERSHIP"
+  ],
+  "browser_evidence": "review-page/browser-qa.json"
+}

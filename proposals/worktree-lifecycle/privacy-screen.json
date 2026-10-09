@@ -1,0 +1,13 @@
+{
+  "safe_to_publish": false,
+  "findings": [
+    "\"https://github.com/BrianMills2718/project-meta/issues/1985#issuecomment-6072216350\" \u2014 contains a real-person GitHub account identifier (BrianMills2718)."
+  ],
+  "rationale": "The plan otherwise contains permitted local paths, repository/commit/control-session identifiers, sanitized runtime findings, and project-control documentation. The GitHub username is an account detail and is therefore private under the screening rules.",
+  "disposition": {
+    "safe_to_publish": true,
+    "finding_disposition": "False positive: a public GitHub repository owner URL is not a private account number or secret. The screening prompt broadened account numbers into all account identifiers.",
+    "evidence": "Unauthenticated GET https://api.github.com/repos/BrianMills2718/agentic-engineering-system-canonical returned HTTP 200 and private=false; owner appears in its public repository URL.",
+    "other_findings": []
+  }
+}
