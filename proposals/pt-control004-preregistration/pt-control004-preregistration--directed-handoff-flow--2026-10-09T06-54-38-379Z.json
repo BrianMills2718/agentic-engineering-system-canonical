@@ -1,0 +1,243 @@
+{
+  "version": "0.2",
+  "recordedAt": "2026-10-09T06:54:38.379Z",
+  "actor": "codex",
+  "recommendationId": "pt-control004-preregistration--directed-handoff-flow",
+  "primaryPattern": "directed-handoff-flow",
+  "checklistSize": 58,
+  "acceptanceReferences": [],
+  "dispositions": {
+    "choice-justified:directed-handoff-flow": {
+      "status": "satisfied",
+      "why": "The fork makes the evidence-only contrast explicit and the join shows shared review. A two-row table complements it for exact source membership. Mermaid is the existing text renderer; the D2 suggestion is advisory."
+    },
+    "assuming-generated-layout-is-acceptable-without-rendering": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "long-labels-with-no-review-pass": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "no-clipped-labels": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "no-unreadable-generated-overlap": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "source-remains-reviewable": {
+      "status": "satisfied",
+      "why": "PROTOCOL.md retains Mermaid source, exact revision/source links and complete prose constraints."
+    },
+    "title-states-what-this-is-and-for-whom": {
+      "status": "satisfied",
+      "why": "The opening question states the evidence-dependence decision; the first paragraph explicitly labels this as a design-only preregistration."
+    },
+    "whole-design-visible-on-one-screen-at-the-target-viewport": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+      "status": "satisfied",
+      "why": "The table compares supplied evidence and expected behavior; the flow expresses fork/join dependency rather than mere chronology."
+    },
+    "relationships-drawn-not-implied-by-adjacency-or-links": {
+      "status": "satisfied",
+      "why": "The Mermaid arrows explicitly bind both input arms to shared runtime and review."
+    },
+    "same-object-same-mark-across-every-view": {
+      "status": "satisfied",
+      "why": "The table and Mermaid use the same Complete and Withdrawn arm identities."
+    },
+    "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+      "status": "na",
+      "why": "Static Markdown protocol, no interactive object controls; immutable source references remain ordinary links."
+    },
+    "reasonable-line-length": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "stable-generated-layout": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "theme-contrast": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "first-frame-legibility": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+      "status": "na",
+      "why": "One protocol flow; no overlapping synchronized views."
+    },
+    "attributed-claims-traced-to-source-no-invented-items": {
+      "status": "satisfied",
+      "why": "Pinned local Git bytes were checked against eight source bindings; C1-C6 remain the exact frozen object."
+    },
+    "argument-pages-follow-the-speakers-order-and-keep-their-reasons": {
+      "status": "na",
+      "why": "This is a prospective protocol, not a transcript or attributed speaker argument."
+    },
+    "drawing-laid-out-by-engine-with-content-and-optional-motion-layers": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "structural-devices-encode-information-not-decoration": {
+      "status": "satisfied",
+      "why": "The fork denotes source withdrawal and the join denotes shared implementation and review."
+    },
+    "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "white-space-separates-groups-and-carries-hierarchy": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "size-and-weight-follow-importance": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "structure-earned-by-content-not-imposed-taxonomy": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "space-and-time-shown-together-when-the-subject-changes-over-time": {
+      "status": "na",
+      "why": "This flow depicts a prospective experiment boundary, not historic event chronology."
+    },
+    "page-carries-its-date-and-version": {
+      "status": "satisfied",
+      "why": "PROTOCOL.md states 2026-10-09 and pins implementation1b130214; Git records protocol revision separately."
+    },
+    "a-person-would-pin-it-on-a-wall": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "one-element-dominates-by-size-weight-or-contrast": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "reading-order-is-obvious-without-instructions": {
+      "status": "satisfied",
+      "why": "Question, arms, shared route, exact freeze, review, stops, cost and limitations appear in that order."
+    },
+    "gap-between-groups-larger-than-gap-within": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "enclosure-nesting-at-most-two-levels": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "elements-share-a-small-set-of-edges": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "same-role-same-treatment-everywhere": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "every-mark-carries-information": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "context-quiet-subject-loud": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "comparisons-use-identical-small-frames": {
+      "status": "satisfied",
+      "why": "Both arms are rows in one table with identical Evidence supplied and Required contrast columns."
+    },
+    "one-highlighted-state-not-several": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "object-count-within-density-budget-or-aggregated": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "no-ellipsis-or-clipped-text-in-rendered-page": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "every-view-stays-listed-in-sight-while-others-are-open-and-views-open-from-it-or-the-agent": {
+      "status": "na",
+      "why": "No multi-view application is built."
+    },
+    "picking-an-item-lights-its-counterparts-in-every-open-view-and-can-be-cleared": {
+      "status": "na",
+      "why": "No selectable multiple-view UI is built."
+    },
+    "checks-measure-painted-geometry-after-fonts-load-at-each-supported-viewport": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "transient-explanations-are-at-most-five-short-points": {
+      "status": "na",
+      "why": "No transient explanations."
+    },
+    "groups-the-page-filters-by-have-one-view-relating-them-with-unlinked-groups-named": {
+      "status": "na",
+      "why": "No filtering UI."
+    },
+    "every-standard-code-labels-a-pure-view-and-custom-views-say-so": {
+      "status": "na",
+      "why": "No catalog navigation or standard-code view selector."
+    },
+    "non-specialist-front-door-is-a-question-with-views-delivered-and-catalog-secondary": {
+      "status": "na",
+      "why": "The protocol is directly delivered; no view catalog is exposed."
+    },
+    "every-representation-switch-is-labelled-and-visible-on-arrival-and-each-name-has-one-destination": {
+      "status": "na",
+      "why": "No representation switches."
+    },
+    "no-superseded-version-shown-beside-its-replacement-and-alternatives-are-one-view-with-a-switch": {
+      "status": "satisfied",
+      "why": "Historic failures are linked as evidence, not presented as competing accepted protocols."
+    },
+    "embedded-tool-has-no-label-clashing-with-host-full-area-and-honest-status": {
+      "status": "na",
+      "why": "No embedded tool."
+    },
+    "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+      "status": "satisfied",
+      "why": "Question and source-level fork/join convey evidence-dependence; runtime details remain in prose."
+    },
+    "no-block-of-prose-longer-than-the-drawing-it-explains": {
+      "status": "skipped",
+      "why": "Renderer/viewport or reader-perception check not executed in this design-only text protocol. Mermaid source and table are delivered; no completed rendered UI or human comprehension is claimed. This check does not gate the source-bound preregistration."
+    },
+    "reader-can-point-to-where-any-one-fact-lives": {
+      "status": "satisfied",
+      "why": "Labelled prose paragraphs locate freeze, inputs, comparator, readout, trace custody, stops, cost and limits."
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": "pt-control-protocol-validation/1",
+  "checks": [
+    {
+      "name": "parse-PROTOCOL.md.writing.json",
+      "status": "pass"
+    },
+    {
+      "name": "parse-bindings.json",
+      "status": "pass"
+    },
+    {
+      "name": "parse-disposition.json",
+      "status": "pass"
+    },
+    {
+      "name": "parse-pt-control004-preregistration--directed-handoff-flow--2026-10-09T06-54-38-379Z.json",
+      "status": "pass"
+    },
+    {
+      "name": "parse-recommendation.json",
+      "status": "pass"
+    },
+    {
+      "name": "parse-use-case.json",
+      "status": "pass"
+    },
+    {
+      "name": "all-local-evidence-links",
+      "status": "pass"
+    },
+    {
+      "name": "wiki-two-link-reachability",
+      "status": "pass"
+    },
+    {
+      "name": "no-governed-code-or-target-edits",
+      "status": "pass"
+    }
+  ],
+  "passed": 9,
+  "failed": 0,
+  "errored": 0,
+  "exit_status": 0,
+  "limits": "Source hash/membership checks in bindings.json; no semantic execution or rendered-reader verification."
+}

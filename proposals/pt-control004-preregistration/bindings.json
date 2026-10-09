@@ -1,0 +1,132 @@
+{
+  "schema_version": "pt-control-preregistration-bindings/1",
+  "status": "design_only_not_execution_authority",
+  "implementation_revision": "1b130214a084b4d18cd9ccc60adbfe0dc477f7e0",
+  "llm_client_revision": "b88800c59ede535f8ddf45eccad398db8267e082",
+  "research_question": "Why did Morton Thiokol reverse its recommendation against launching STS-51L under the forecast cold conditions and recommend proceeding with the 28 January 1986 launch?",
+  "source_bindings": [
+    {
+      "path": "docs/GOAL.md",
+      "revision": "1b130214a084b4d18cd9ccc60adbfe0dc477f7e0",
+      "sha256": "3eb40cf33ff08ac52062206514eb61652fbcb3a56faea75a3a27bcfb2f1fbc14",
+      "bytes": 12537,
+      "working_bytes_match_revision": true
+    },
+    {
+      "path": "docs/CURRENT_STATUS.md",
+      "revision": "1b130214a084b4d18cd9ccc60adbfe0dc477f7e0",
+      "sha256": "68350d919077148076bc73a792c99dda1e62fbac4dfbd37b363bfafe8dd97255",
+      "bytes": 21932,
+      "working_bytes_match_revision": true
+    },
+    {
+      "path": "docs/evaluations/control003_challenger_20261008.json",
+      "revision": "1b130214a084b4d18cd9ccc60adbfe0dc477f7e0",
+      "sha256": "84cfcd66844016ea8aac1f5c60dd94a4a3f95d972f6fe7846391539b4fa75e77",
+      "bytes": 13837,
+      "working_bytes_match_revision": true
+    },
+    {
+      "path": "docs/evaluations/control003_challenger_corrective_20261008.json",
+      "revision": "1b130214a084b4d18cd9ccc60adbfe0dc477f7e0",
+      "sha256": "e36614630d72c4d03fa470cc317b8f4948b02480364c65ad1735bf02fac4587c",
+      "bytes": 5537,
+      "working_bytes_match_revision": true
+    },
+    {
+      "path": "docs/evaluations/control003_challenger_result_20261008.json",
+      "revision": "1b130214a084b4d18cd9ccc60adbfe0dc477f7e0",
+      "sha256": "465442510eaf9123ad811ff9b59b87e37d5015775ea78cbec97a10748b92132a",
+      "bytes": 144424,
+      "working_bytes_match_revision": true
+    },
+    {
+      "path": "input_text/control003_challenger/complete_paragraphs.txt",
+      "revision": "1b130214a084b4d18cd9ccc60adbfe0dc477f7e0",
+      "sha256": "7cb89cb71b5b73dcd566b0af58c216398fb6ee8ef2b16a86d809e3b4b3a525f8",
+      "bytes": 26309,
+      "working_bytes_match_revision": true
+    },
+    {
+      "path": "input_text/control003_challenger/source_packet_complete.json",
+      "revision": "1b130214a084b4d18cd9ccc60adbfe0dc477f7e0",
+      "sha256": "8d47ce7eec90dd4c2d05a71e83f9bf4566cac7d59c31a1fd0bc2502a9bf4cbd7",
+      "bytes": 8499,
+      "working_bytes_match_revision": true
+    },
+    {
+      "path": "input_text/control003_challenger/source_packet_withheld.json",
+      "revision": "1b130214a084b4d18cd9ccc60adbfe0dc477f7e0",
+      "sha256": "2395bd4fd830966f1d16a88897f18c788bf0aed11c59a2ba11bf9366abad3fbf",
+      "bytes": 4265,
+      "working_bytes_match_revision": true
+    }
+  ],
+  "withdrawn": {
+    "recipe": "raw complete_paragraphs.txt prefix before first exact [Source source_c]\\n header, retaining preceding separator",
+    "bytes": 13414,
+    "sha256": "edfd80c5f484400f5484b305cc2c2abea76baf3d8ac595ad64a971b9324d48f0",
+    "source_ids": [
+      "source_a",
+      "source_b"
+    ],
+    "materialized": false
+  },
+  "criteria": {
+    "source_path": "docs/evaluations/control003_challenger_20261008.json",
+    "json_pointer": "/pass_fail_criteria",
+    "serialization": "sort_keys=True,separators=(comma,colon),ensure_ascii=False; UTF-8",
+    "sha256": "967780ace2e099614ab3030698234ab03d5ac7855e5a715a670acfe40054562d",
+    "unchanged": true
+  },
+  "common_configuration": {
+    "entrypoint": "make run",
+    "implementation_revision": "1b130214a084b4d18cd9ccc60adbfe0dc477f7e0",
+    "execution_revision": "Capture exact committed preregistration revision in each native run and detached wrapper receipt.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "max_budget_usd_per_original": 0.65,
+    "mechanism_audit_route": "bounded (normal default)",
+    "terminal_repair_attempts": 1,
+    "inference_design": "exploratory_full_corpus (normal default); no theory/hypotheses/priors/comparison key provided",
+    "llm_client_revision": "b88800c59ede535f8ddf45eccad398db8267e082",
+    "vary_only": "Source withdrawal; identical question, model, prompts, routing, budget and runtime for both conditions."
+  },
+  "trace_review": {
+    "runs_traced_work": false,
+    "reason": "Design only; no model calls, agent control or pipeline execution."
+  },
+  "execution_approval": {
+    "granted": false,
+    "proposed_total_ceiling_usd": 1.3,
+    "per_arm_ceiling_usd": 0.65,
+    "new_pair_only": true
+  },
+  "recorded_checks": {
+    "source_bytes_at_revision": "8 of 8 exact matches",
+    "complete_source_membership": [
+      "source_a",
+      "source_b",
+      "source_c",
+      "source_d",
+      "source_e"
+    ],
+    "withdrawn_source_membership": [
+      "source_a",
+      "source_b"
+    ],
+    "question": "exact frozen string occurs in protocol",
+    "source_packet_hashes": "both match protocol",
+    "criterion_object": "exact frozen object hash matches",
+    "withdrawn_hash": "matched prefix hash verified",
+    "models_called": 0,
+    "control_executions": 0,
+    "spend_usd": 0,
+    "exit_status": 0
+  },
+  "unexecuted_checks": [
+    "Future effective model routes, prompts, schemas and environment capture",
+    "Native normal-entrypoint control and trace completeness",
+    "Semantic C1-C6 judgments"
+  ]
+}

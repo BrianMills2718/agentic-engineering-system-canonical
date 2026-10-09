@@ -1,0 +1,76 @@
+{
+ "situation": {
+  "schema": "writing-situation/v2",
+  "medium": "document",
+  "route": "argument",
+  "rationale": "This prospective protocol explains the source contrast, shared implementation, constraints and permitted inference. It is not an execution request.",
+  "facts": {
+   "asks_for_approval_or_resources": {
+    "value": false,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   },
+   "central_claim_needs_argument": {
+    "value": true,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   },
+   "is_chat_message": {
+    "value": false,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   },
+   "is_dloa": {
+    "value": false,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   },
+   "is_email": {
+    "value": false,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   },
+   "is_job_application": {
+    "value": false,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   },
+   "is_message_to_brian": {
+    "value": false,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   },
+   "reader_decides_from_this": {
+    "value": false,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   },
+   "reader_performs_task": {
+    "value": false,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   },
+   "reports_transferable_failure": {
+    "value": false,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   },
+   "subject_is_built_artifact": {
+    "value": false,
+    "evidence": "proposals/pt-control004-preregistration/PROTOCOL.md"
+   }
+  }
+ },
+ "items": {
+  "arg-order": {
+   "status": "pass",
+   "quote": "The decision is bounded v1 research-demo readiness.",
+   "note": "Structure and arms precede shared configuration, review, stops and inference limits."
+  },
+  "arg-one-step": {
+   "status": "pass",
+   "quote": "**Trace custody.**",
+   "note": "Each named protocol paragraph addresses one execution or review obligation."
+  },
+  "arg-concrete": {
+   "status": "pass",
+   "quote": "| Complete | Frozen sources A–E, with the already repaired paragraph preparation |",
+   "note": "The causal contrast uses the concrete launch recommendation; later constraints refer back to it."
+  },
+  "rep-considered": {
+   "status": "pass",
+   "quote": "flowchart LR",
+   "note": "The router recommends a directed handoff flow; the paired table makes source membership and expected weakening directly comparable. Render status will be recorded in the adjacent disposition."
+  }
+ }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "pt-control004-preregistration",
+  "concern": "Does the causal claim depend on the decisive evidence?",
+  "stakeholder": "Brian, judging a proposed fresh control design",
+  "intent": [
+    "compare",
+    "understand",
+    "trace"
+  ],
+  "informationStructure": [
+    "table",
+    "process"
+  ],
+  "tasks": [
+    "compare",
+    "trace",
+    "inspect"
+  ],
+  "entities": [
+    "complete arm",
+    "withdrawn arm",
+    "frozen sources",
+    "one repaired implementation",
+    "full traces",
+    "C1-C6"
+  ],
+  "relationships": [
+    "source selection varies; implementation and preparation are held fixed",
+    "both arms feed the same frozen review"
+  ],
+  "focus": "Matched evidence contrast and explicit execution boundary",
+  "explanatoryFocus": [
+    "comparison",
+    "provenance",
+    "flow"
+  ],
+  "surfaceContext": {
+    "medium": "technical-document",
+    "repeatedCollection": false,
+    "sharedInteractionGrammar": false
+  },
+  "scale": {
+    "items": 6,
+    "density": "low"
+  },
+  "interaction": {
+    "mode": "read-only",
+    "dynamics": "static"
+  }
+}
