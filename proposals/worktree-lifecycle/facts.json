@@ -1,0 +1,25 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "proposals/worktree-lifecycle/PLAN.md",
+  "plan_sha256": "522fe2870c67e96db61c7f6ddd17a330623a780bf18b1895af18636672a5018d",
+  "path_decision_ref": "proposals/worktree-lifecycle/path-decision.json",
+  "path_decision_sha256": "6d5d288b36301e94c40ccfb5b09c6f74a8d793d58950e4cee0070422841d960a",
+  "facts": {
+    "shared_mechanism": true,
+    "empirical_comparison_proposed": false,
+    "llm_central": false,
+    "irreversible_or_spend_action": false,
+    "crosses_system_boundary": true,
+    "deploys": true
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary",
+    "crosses_system_boundary": "derived_current_boundary",
+    "deploys": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-09T03:05:50Z"
+}

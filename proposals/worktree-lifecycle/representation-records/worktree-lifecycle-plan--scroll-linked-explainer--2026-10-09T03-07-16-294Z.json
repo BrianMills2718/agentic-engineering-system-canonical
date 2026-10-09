@@ -1,0 +1,275 @@
+{
+  "version": "0.2",
+  "recordedAt": "2026-10-09T03:07:16.294Z",
+  "actor": "codex",
+  "recommendationId": "worktree-lifecycle-plan--scroll-linked-explainer",
+  "primaryPattern": "scroll-linked-explainer",
+  "checklistSize": 66,
+  "acceptanceReferences": [],
+  "dispositions": {
+    "choice-justified:scroll-linked-explainer": {
+      "status": "satisfied",
+      "why": "Reuse the recommended generated D2 flow with details on demand and a short phase strip. This bounded five-state lifecycle fits one page without scroll-linked animation; browser-native SVG links retain source reviewability and avoid a new app."
+    },
+    "assuming-generated-layout-is-acceptable-without-rendering": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "long-labels-with-no-review-pass": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "no-clipped-labels": {
+      "status": "satisfied",
+      "why": "Browser QA waits for fonts, measures painted SVG text and document width, and author inspected both screenshots: no horizontal overflow, label clipping or overlap. Desktop minimum diagram text 14.2px; mobile minimum 12.7px for edge captions."
+    },
+    "no-unreadable-generated-overlap": {
+      "status": "satisfied",
+      "why": "Browser QA waits for fonts, measures painted SVG text and document width, and author inspected both screenshots: no horizontal overflow, label clipping or overlap. Desktop minimum diagram text 14.2px; mobile minimum 12.7px for edge captions."
+    },
+    "source-remains-reviewable": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "title-states-what-this-is-and-for-whom": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "whole-design-visible-on-one-screen-at-the-target-viewport": {
+      "status": "satisfied",
+      "why": "At the declared 1440x1000 viewport the primary lifecycle, inspector and all four implementation steps are visible together. Phone uses a vertical reflow and scroll."
+    },
+    "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+      "status": "skipped",
+      "why": "No independent cold-reader or human taste review was performed; Brian has not reviewed this draft."
+    },
+    "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "relationships-drawn-not-implied-by-adjacency-or-links": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "same-object-same-mark-across-every-view": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "reasonable-line-length": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "stable-generated-layout": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "theme-contrast": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "first-frame-legibility": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+      "status": "satisfied",
+      "why": "Browser QA waits for fonts, measures painted SVG text and document width, and author inspected both screenshots: no horizontal overflow, label clipping or overlap. Desktop minimum diagram text 14.2px; mobile minimum 12.7px for edge captions."
+    },
+    "attributed-claims-traced-to-source-no-invented-items": {
+      "status": "satisfied",
+      "why": "All dated counts link to concern #1985 investigation; page explicitly says counts are not a live deletion list and implementation has not started."
+    },
+    "argument-pages-follow-the-speakers-order-and-keep-their-reasons": {
+      "status": "na",
+      "why": "This is a single proposed lifecycle with one inspector and a phase selector. It contains no chat, agent panel, catalogue filter, argument transcript, comparison grid or multi-view selection contract."
+    },
+    "drawing-laid-out-by-engine-with-content-and-optional-motion-layers": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "structural-devices-encode-information-not-decoration": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "white-space-separates-groups-and-carries-hierarchy": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "size-and-weight-follow-importance": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "structure-earned-by-content-not-imposed-taxonomy": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "space-and-time-shown-together-when-the-subject-changes-over-time": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "page-carries-its-date-and-version": {
+      "status": "satisfied",
+      "why": "The page labels proposed status, October 8, 2026 and worktree-lifecycle; the existing Hive viewer supplies the serving commit."
+    },
+    "a-person-would-pin-it-on-a-wall": {
+      "status": "skipped",
+      "why": "No independent cold-reader or human taste review was performed; Brian has not reviewed this draft."
+    },
+    "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "every-drawing-fits-its-frame-on-load-and-zooms-and-pans-within-it": {
+      "status": "skipped",
+      "why": "Both generated diagrams fit their responsive frames without overflow; zoom/pan is omitted for this five-node flow."
+    },
+    "diagram-text-is-dom-or-svg-and-no-label-overlaps-a-box-or-another-label": {
+      "status": "satisfied",
+      "why": "Browser QA waits for fonts, measures painted SVG text and document width, and author inspected both screenshots: no horizontal overflow, label clipping or overlap. Desktop minimum diagram text 14.2px; mobile minimum 12.7px for edge captions."
+    },
+    "one-element-dominates-by-size-weight-or-contrast": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "reading-order-is-obvious-without-instructions": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "gap-between-groups-larger-than-gap-within": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "enclosure-nesting-at-most-two-levels": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "elements-share-a-small-set-of-edges": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "same-role-same-treatment-everywhere": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "every-mark-carries-information": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "context-quiet-subject-loud": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "comparisons-use-identical-small-frames": {
+      "status": "na",
+      "why": "This is a single proposed lifecycle with one inspector and a phase selector. It contains no chat, agent panel, catalogue filter, argument transcript, comparison grid or multi-view selection contract."
+    },
+    "one-highlighted-state-not-several": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "object-count-within-density-budget-or-aggregated": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "every-named-element-opens-its-subject-on-click-or-tap": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "no-ellipsis-or-clipped-text-in-rendered-page": {
+      "status": "satisfied",
+      "why": "Browser QA waits for fonts, measures painted SVG text and document width, and author inspected both screenshots: no horizontal overflow, label clipping or overlap. Desktop minimum diagram text 14.2px; mobile minimum 12.7px for edge captions."
+    },
+    "hovering-or-focusing-every-control-in-a-real-browser-shows-a-styled-tooltip-within-200ms-and-tap-works-on-phones": {
+      "status": "satisfied",
+      "why": "Browser QA hovered and focused all 12 visible controls at each viewport and checked styled tooltip visibility after 100ms; mobile tap passed."
+    },
+    "every-view-stays-listed-in-sight-while-others-are-open-and-views-open-from-it-or-the-agent": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "chat-suggestions-are-chips-below-the-input-and-ask-in-one-click": {
+      "status": "na",
+      "why": "This is a single proposed lifecycle with one inspector and a phase selector. It contains no chat, agent panel, catalogue filter, argument transcript, comparison grid or multi-view selection contract."
+    },
+    "picking-an-item-lights-its-counterparts-in-every-open-view-and-can-be-cleared": {
+      "status": "na",
+      "why": "This is a single proposed lifecycle with one inspector and a phase selector. It contains no chat, agent panel, catalogue filter, argument transcript, comparison grid or multi-view selection contract."
+    },
+    "agent-adds-to-the-readers-choices-unless-asked-to-replace-verified-with-live-asks": {
+      "status": "na",
+      "why": "This is a single proposed lifecycle with one inspector and a phase selector. It contains no chat, agent panel, catalogue filter, argument transcript, comparison grid or multi-view selection contract."
+    },
+    "checks-measure-painted-geometry-after-fonts-load-at-each-supported-viewport": {
+      "status": "satisfied",
+      "why": "Browser QA waits for fonts, measures painted SVG text and document width, and author inspected both screenshots: no horizontal overflow, label clipping or overlap. Desktop minimum diagram text 14.2px; mobile minimum 12.7px for edge captions."
+    },
+    "transient-explanations-are-at-most-five-short-points": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "every-navigation-item-has-content-and-stays-or-shows-its-way-back": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "groups-the-page-filters-by-have-one-view-relating-them-with-unlinked-groups-named": {
+      "status": "na",
+      "why": "This is a single proposed lifecycle with one inspector and a phase selector. It contains no chat, agent panel, catalogue filter, argument transcript, comparison grid or multi-view selection contract."
+    },
+    "every-standard-code-labels-a-pure-view-and-custom-views-say-so": {
+      "status": "na",
+      "why": "This is a single proposed lifecycle with one inspector and a phase selector. It contains no chat, agent panel, catalogue filter, argument transcript, comparison grid or multi-view selection contract."
+    },
+    "non-specialist-front-door-is-a-question-with-views-delivered-and-catalog-secondary": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "every-representation-switch-is-labelled-and-visible-on-arrival-and-each-name-has-one-destination": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "no-superseded-version-shown-beside-its-replacement-and-alternatives-are-one-view-with-a-switch": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "embedded-tool-has-no-label-clashing-with-host-full-area-and-honest-status": {
+      "status": "na",
+      "why": "This is a single proposed lifecycle with one inspector and a phase selector. It contains no chat, agent panel, catalogue filter, argument transcript, comparison grid or multi-view selection contract."
+    },
+    "chat-led-page-has-conversation-plus-view-panel-and-a-non-empty-first-screen": {
+      "status": "na",
+      "why": "This is a single proposed lifecycle with one inspector and a phase selector. It contains no chat, agent panel, catalogue filter, argument transcript, comparison grid or multi-view selection contract."
+    },
+    "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "no-block-of-prose-longer-than-the-drawing-it-explains": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    },
+    "reader-can-point-to-where-any-one-fact-lives": {
+      "status": "satisfied",
+      "why": "Author inspected desktop.png and mobile.png: the generated flow branches on preservation evidence, keeps the return-to-work loop visible, and uses one inspector with short explanations. Browser evidence: review-page/browser-qa.json."
+    }
+  }
+}

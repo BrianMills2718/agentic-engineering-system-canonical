@@ -1,0 +1,311 @@
+{
+  "schema_version": "checklist-evidence-bundle.v1",
+  "record_type": "checklist_evidence_bundle",
+  "bundle_id": "BUNDLE-PLAN",
+  "coverage": "partial",
+  "definition": {
+    "schema_version": "checklist-definition.v1",
+    "record_type": "checklist_definition",
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:57a52ce0e64792dc904bbd46662a3cdf0eaeee6c556550aa35288fdb96044907",
+    "title": "bounded-design method conformance for PLAN",
+    "purpose": "Route-bound evidence that the selected Company Planning method was applied before adoption.",
+    "subject_ref": {
+      "kind": "planning_review",
+      "id": "PLAN",
+      "revision": "sha256:522fe2870c67e96db61c7f6ddd17a330623a780bf18b1895af18636672a5018d"
+    },
+    "items": [
+      {
+        "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+        "statement": "The plan names the actor it serves, the desired result, and one stable, concrete, user-visible example of that result.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/docs/designs/enforcement/PLANNING_METHOD_CONFORMANCE_RECEIPT.md",
+          "revision": "627d0084212a9b25a6700dabb22ee14f0fbeef5b",
+          "pointer": "#core-and-conditional-requirements"
+        }
+      },
+      {
+        "item_id": "CORE-ROUTE",
+        "statement": "The selected Company Planning route equals the deterministic path classification of the recorded structural facts.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "path_decision_record"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
+          "revision": "19de3b5ca3fb17c7e3efc321add4833dec890c91",
+          "pointer": "#choose-the-route-before-adding-structure"
+        }
+      },
+      {
+        "item_id": "CORE-SUCCESS-DISPROOF",
+        "statement": "The plan defines the evidence that would show success and a concrete condition that would disprove the approach.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
+          "revision": "19de3b5ca3fb17c7e3efc321add4833dec890c91",
+          "pointer": "#4-derive-the-design"
+        }
+      },
+      {
+        "item_id": "CORE-TRACE-REVIEW",
+        "statement": "Every success or acceptance criterion in the plan is judged from the full trace of a run, not only its final outcome: it names the run whose full trace is examined (for example the session, its tool and LLM calls, commits, check output, or messages), where that trace lives, and what must be seen in that trace beyond the final outcome. A criterion that names only an outcome, such as tests passing, a PR merged, a test fixture reproducing the journey, or a status reading succeeded, fails this item. A criterion for which no run exists, such as a pure document edit, passes only when the plan states that exemption and its reason explicitly.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
+          "revision": "19de3b5ca3fb17c7e3efc321add4833dec890c91",
+          "pointer": "#4-derive-the-design"
+        }
+      },
+      {
+        "item_id": "CORE-SYSTEM-MODEL",
+        "statement": "The plan links the project's system model (a path such as docs/model/ODD.md) or carries the one-line exemption `System model: exempt -- <reason>`, which fits only a project with no stored state and no user-facing view. Unless exempt, the plan names each system-model element (entity, process, record or event, or view) that the work adds, changes, or relies on, and its trace review names, for each such element, what the examined run must show of it (for example an event of that record type with its id, or the view displaying that entity). A plan with neither a model link nor the exemption line fails this item, as does one that lists model elements without saying what the examined run must show of each, or one that names no element without stating that the work touches none and why.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_document"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
+          "revision": "19de3b5ca3fb17c7e3efc321add4833dec890c91",
+          "pointer": "#system-model-default"
+        }
+      },
+      {
+        "item_id": "CORE-AUTHORITY-NONGOALS",
+        "statement": "The plan states who holds authority over the work and what it explicitly will not do (non-goals).",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/docs/designs/enforcement/PLANNING_METHOD_CONFORMANCE_RECEIPT.md",
+          "revision": "627d0084212a9b25a6700dabb22ee14f0fbeef5b",
+          "pointer": "#core-and-conditional-requirements"
+        }
+      },
+      {
+        "item_id": "CORE-IRREVERSIBLE-SPEND",
+        "statement": "For each irreversible action or spend the plan proposes, it names the boundary, who must authorize it, and how it is contained.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "conditional",
+          "condition": "fact:irreversible_or_spend_action"
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/docs/designs/enforcement/PLANNING_METHOD_CONFORMANCE_RECEIPT.md",
+          "revision": "627d0084212a9b25a6700dabb22ee14f0fbeef5b",
+          "pointer": "#core-and-conditional-requirements"
+        }
+      },
+      {
+        "item_id": "CORE-UNCERTAINTIES",
+        "statement": "The plan lists its material uncertainties, and each one has an owner or the evidence that would resolve it.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/docs/designs/enforcement/PLANNING_METHOD_CONFORMANCE_RECEIPT.md",
+          "revision": "627d0084212a9b25a6700dabb22ee14f0fbeef5b",
+          "pointer": "#core-and-conditional-requirements"
+        }
+      },
+      {
+        "item_id": "CORE-ACTIVATION-FACTS",
+        "statement": "No activation fact that the plan triggers is declared false. Declaring a fact true when the plan does not strictly need it is acceptable, because it only adds checks; judge only facts declared false. empirical_comparison_proposed is triggered when the plan proposes an A/B test, benchmark, bake-off, or other experiment comparing alternative designs, models, or candidates to choose among them; checking the built result against an expected outcome (an acceptance test, fixture replay, or regression check) is verification and does not trigger it. shared_mechanism is triggered by a new shared mechanism, contract, or algorithm; llm_central by behavior that centrally depends on LLM calls; irreversible_or_spend_action by a proposed irreversible action or spend.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_document",
+          "activation_facts_record"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/docs/designs/enforcement/PLANNING_METHOD_CONFORMANCE_RECEIPT.md",
+          "revision": "627d0084212a9b25a6700dabb22ee14f0fbeef5b",
+          "pointer": "#core-and-conditional-requirements"
+        }
+      },
+      {
+        "item_id": "OV-PRIOR-ART-DISPOSITION",
+        "statement": "Existing ownership, internal lineage, and relevant external prior art were searched, and each candidate found is dispositioned as reuse, extend, compose, supersede, or bounded exception.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
+          "revision": "19de3b5ca3fb17c7e3efc321add4833dec890c91",
+          "pointer": "#3-establish-current-truth"
+        }
+      },
+      {
+        "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+        "statement": "The plan names one concrete structural check or consumer-path observation that would detect a silent parallel implementation of the same concern.",
+        "effect": "advisory",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/skills/bounded-design/SKILL.md",
+          "revision": "19de3b5ca3fb17c7e3efc321add4833dec890c91",
+          "pointer": "#3-establish-current-truth"
+        }
+      },
+      {
+        "item_id": "OV-COORD-OWNERSHIP",
+        "statement": "The plan names exact ownership, dependencies, conflict surfaces, the integration owner, and the work-unit evidence for each concurrent writer.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/docs/designs/enforcement/PLANNING_METHOD_CONFORMANCE_RECEIPT.md",
+          "revision": "627d0084212a9b25a6700dabb22ee14f0fbeef5b",
+          "pointer": "#core-and-conditional-requirements"
+        }
+      },
+      {
+        "item_id": "OV-BOUNDARY-DISPOSITION",
+        "statement": "For the migration, external action, sensitive data, deployment, or publication the plan involves, it names the owning authority, the rollback or containment, and an explicit disposition of the boundary.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/docs/designs/enforcement/PLANNING_METHOD_CONFORMANCE_RECEIPT.md",
+          "revision": "627d0084212a9b25a6700dabb22ee14f0fbeef5b",
+          "pointer": "#core-and-conditional-requirements"
+        }
+      },
+      {
+        "item_id": "OV-CONTRACTS-SCHEMAS",
+        "statement": "For each system boundary the plan crosses, it names every schema or contract the crossing uses or changes, with its owner and its file or URL, and says whether this plan changes it.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/docs/designs/enforcement/PLANNING_METHOD_CONFORMANCE_RECEIPT.md",
+          "revision": "627d0084212a9b25a6700dabb22ee14f0fbeef5b",
+          "pointer": "#core-and-conditional-requirements"
+        }
+      },
+      {
+        "item_id": "OV-CONTRACTS-DEPENDENCIES",
+        "statement": "The plan names the dependencies on each side of every boundary it crosses (what produces and what consumes each schema or contract) and the order in which the changes land so no consumer breaks in between.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/docs/designs/enforcement/PLANNING_METHOD_CONFORMANCE_RECEIPT.md",
+          "revision": "627d0084212a9b25a6700dabb22ee14f0fbeef5b",
+          "pointer": "#core-and-conditional-requirements"
+        }
+      },
+      {
+        "item_id": "OV-DEPLOY-PLAN",
+        "statement": "For each deployment the plan makes, it names the target, the command or script that deploys, the live check that proves the new version is serving, and the rollback.",
+        "effect": "blocking",
+        "applicability": {
+          "mode": "required",
+          "condition": null
+        },
+        "evidence_required": [
+          "plan_section"
+        ],
+        "source_ref": {
+          "repository": "BrianMills2718/company-planning",
+          "path": "plugins/company-planning/docs/designs/enforcement/PLANNING_METHOD_CONFORMANCE_RECEIPT.md",
+          "revision": "627d0084212a9b25a6700dabb22ee14f0fbeef5b",
+          "pointer": "#core-and-conditional-requirements"
+        }
+      }
+    ]
+  },
+  "observations": []
+}

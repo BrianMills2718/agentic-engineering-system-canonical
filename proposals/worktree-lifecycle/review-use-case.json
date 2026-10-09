@@ -1,0 +1,16 @@
+{
+  "id": "worktree-lifecycle-plan",
+  "concern": "How will worktrees stop accumulating without losing unfinished work or interrupting services?",
+  "stakeholder": "Brian, workspace owner",
+  "intent": ["understand", "inspect", "trace"],
+  "informationStructure": ["process", "sequence", "state-machine"],
+  "tasks": ["trace", "inspect", "compare"],
+  "entities": ["create", "work", "verify", "close", "preserve", "explain"],
+  "relationships": ["precedes", "requires", "preserves"],
+  "focus": "A worktree either closes with proof or remains with a named reason and next action.",
+  "explanatoryFocus": ["flow", "state", "provenance"],
+  "surfaceContext": {"medium": "technical-document", "repeatedCollection": false, "neighboringRepresentations": "homogeneous", "sharedInteractionGrammar": true},
+  "scale": {"items": 6, "density": "low"},
+  "interaction": {"mode": "read-only", "dynamics": "interactive"},
+  "audience": {"expertise": "mixed", "frequency": "one-off", "domainFamiliarity": "novice", "notationFamiliarity": "novice"}
+}

@@ -1,0 +1,28 @@
+direction: down
+vars: { d2-config: { theme-id: 0 } }
+create: "Create\nCorrect folder" {
+  link: "#create"
+  style.fill: "#dcecff"
+}
+work: "Work\nLive owner" {
+  link: "#work"
+  style.fill: "#eef2f5"
+}
+verify: "Safe to\nclose?" {
+  shape: diamond
+  link: "#verify"
+  style.fill: "#fff0c8"
+}
+close: "Close\nFolder + claim" {
+  link: "#close"
+  style.fill: "#d8f0e4"
+}
+retain: "Retain\nReason + resume" {
+  link: "#retain"
+  style.fill: "#fff0c8"
+}
+create -> work: "admitted"
+work -> verify: "finished"
+verify -> close: "verified"
+verify -> retain: "active or uncertain"
+retain -> work: "resume"

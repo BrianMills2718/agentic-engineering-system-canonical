@@ -1,0 +1,236 @@
+{
+  "09bed0c181a9bcd432eda6753a23c2f7d063f8b2c0b8c2cc8c7133039a2920bf": {
+    "item_id": "OV-DEPLOY-PLAN",
+    "materiality": "material",
+    "missing": "For PM, the deployment command is only described as a \u201cchecked local merge/push,\u201d not identified as a specific command or script, and the cited report-only verification and dry-run do not explicitly prove that the new version is serving. For EP, the live check refers generally to \u201cpublic Make commands\u201d and a canary but does not explicitly identify a command or state that it proves the new version is serving.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names targets and rollback procedures, and it identifies several relevant scripts, but it does not explicitly provide every required deployment command and serving-proof live check for each deployment.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/OV-DEPLOY-PLAN",
+    "verdict": "unresolved"
+  },
+  "1117d27d9a7724011e24edea2cb0737af42cb9b4e23bd50d3747c794d06b829e": {
+    "item_id": "OV-CONTRACTS-DEPENDENCIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies producers and consumers for each listed boundary, including Git, EP, PM, Make, sweep, health, concerns, and installed runtime dependencies. It also specifies compatible landing order\u2014such as reader/consumer updates before producer or semantic changes, EP support before PM switching, and verification before eligibility expands\u2014so intermediate consumers do not break.",
+    "trace_id": "company-planning/method-conformance/PLAN/7286af35e5a3/OV-CONTRACTS-DEPENDENCIES",
+    "verdict": "pass"
+  },
+  "21119f04aa2f099e1440718a41874ec8e59e08823f83e536987d0f5bd670071a": {
+    "item_id": "OV-CONTRACTS-DEPENDENCIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies producers and consumers for each listed boundary, including Git registrations, creator arguments/results, claims, close requests/results, sweep outcomes, and installed runtime metadata. It also specifies compatible landing order\u2014such as updating readers before producers or switches, adding EP support before PM changes, and verifying the loaded runtime before expansion\u2014so consumers do not break between changes.",
+    "trace_id": "company-planning/method-conformance/PLAN/502c2c3ce80a/OV-CONTRACTS-DEPENDENCIES",
+    "verdict": "pass"
+  },
+  "257cc80c957ada3ff74003a6b863fbe877713f5e192d0ba21aad943dd6247a6b": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly specifies a structural check: trace public creation/close Make targets and the timer to their loaded owner modules, and inspect registered scheduled units and consumer entrypoints for competing mutation paths. It also defines failure indicators\u2014a separate remover or claim store\u2014and requires the canary and scheduled dry run to use EP\u2019s closeout owner.",
+    "trace_id": "company-planning/method-conformance/PLAN/502c2c3ce80a/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "2619b331ebbffcefb3022c4b448d7243d94d8363857554a1ebad4709eb62d479": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies authority: Brian requested the plan; workspace rules and Project Meta's policy govern placement and preservation; EP and PM own specified responsibilities; and AES stores the proposal while runtime ownership remains with EP/PM. It also explicitly lists the plan's non-goals.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "42464322cc882b0b7907a919a9d624ee6a070a4dc1d51132ea487f70d1c1e524": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares `shared_mechanism=true`, matching its proposed shared lifecycle contracts and installed scheduled consumers. It appropriately declares `empirical_comparison_proposed=false` because the checks are regression/acceptance verification rather than comparisons among alternatives, `llm_central=false` because runtime behavior uses deterministic Git/claim contracts, and `irreversible_or_spend_action=false` because irreversible deletion and new paid resources are excluded.",
+    "trace_id": "company-planning/method-conformance/PLAN/7286af35e5a3/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "54ba9fcd93bb14204d5da9b933aa38af2100c84d4d73f18db20a71b762b14a4c": {
+    "item_id": "OV-CONTRACTS-SCHEMAS",
+    "materiality": "material",
+    "missing": "An explicit change-status for every individual contract at the Source to installed runtime boundary, especially the installed revision metadata and runtime invocation contract; the evidence gives rollout and verification steps but does not clearly say whether those contracts are changed or unchanged.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names boundaries, contracts, owners, and locations, and gives change statements for most rows. However, for the source-to-runtime boundary it describes tests, installation, and verification without explicitly stating whether each named installed-runtime contract is changed.",
+    "trace_id": "company-planning/method-conformance/PLAN/502c2c3ce80a/OV-CONTRACTS-SCHEMAS",
+    "verdict": "unresolved"
+  },
+  "57a3080b1d908455613124369ecbd21add5ab84d9aa111d6ec0d2f17d176896f": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "material",
+    "missing": "Explicit work-unit evidence for each concurrent writer. The records for `capability-catalogue` and `rules-sort` show `evidence_ref UNPLANNED` and `no formal work_unit_id`, so they do not substantively provide the required work-unit evidence.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the integration owner, writer ownership areas, dependencies, and non-overlap/conflict boundaries. However, for each observed concurrent writer, it identifies only native claim records while simultaneously showing that no formal work unit or planned evidence reference exists.",
+    "trace_id": "company-planning/method-conformance/PLAN/7286af35e5a3/OV-COORD-OWNERSHIP",
+    "verdict": "unresolved"
+  },
+  "6dd770b07d8e65fcc4ce74373851f2a1354fcdffd8f28003260387b1284b9b92": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "material",
+    "missing": "The ACA `reuse_candidates.yml` and `capability_registry.yml` candidate is not dispositioned as reuse, extend, compose, supersede, or bounded exception; \u201cNo catalogue entry fits\u201d is outside the required disposition set.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies and dispositions external Git prior art and multiple internal ownership/lineage candidates. However, the ACA catalogue candidate is found and described but lacks one of the required dispositions, so the complete prior-art disposition requirement is not met.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "unresolved"
+  },
+  "706a6f3e441c52ec210bdd0641082eac472ddb30d6e985c98b99e0c4b23a2805": {
+    "item_id": "OV-BOUNDARY-DISPOSITION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names PM as the discovery authority and EP as owning managed lifecycle mutations, specifies rollback/containment through reverting the owning source commit, restoring the installed revision, preserving recovery refs, and retaining the running-service worktree, and explicitly states the boundary disposition: preserve and incrementally repair, reject new arbitrary production paths, and keep raw private material protected.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/OV-BOUNDARY-DISPOSITION",
+    "verdict": "pass"
+  },
+  "8e5d94cbdd4340218a79611f45ab7b12ca7b1c0f402d91a544f77a949b1a20f2": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies ownership and internal lineage through EP/PM components, plans, concerns, architectural ideas, and capability registries, and states how each candidate is dispositioned. The dispositions cover reuse, extend, compose, supersede implicitly through replacement/avoidance language, and bounded exception; no candidate is left without a stated disposition.",
+    "trace_id": "company-planning/method-conformance/PLAN/502c2c3ce80a/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "pass"
+  },
+  "95baf0af610224911b1dd8e3bf47120b9e24c0d125d787e501450877a4db94a9": {
+    "item_id": "OV-CONTRACTS-DEPENDENCIES",
+    "materiality": "material",
+    "missing": "The evidence does not explicitly identify what produces and what consumes each contract on both sides of every boundary. It names some owners and artifacts, but leaves producer/consumer roles implicit\u2014for example, the Git-to-EP/PM and PM-to-EP claims rows do not state which component emits each schema or which component consumes it. The change order is also incomplete for several boundaries, particularly Git-to-EP/PM and Make-to-EP creation, where no explicit sequence of producer and consumer changes is given.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The table provides boundary names and some compatibility sequencing, such as adding EP readers before switching PM and adapting health readers before new errors fail overall. However, the requirement requires explicit producer/consumer dependencies and landing order for every boundary, and those details are not substantively stated for all rows.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/OV-CONTRACTS-DEPENDENCIES",
+    "verdict": "unresolved"
+  },
+  "ad74a6c60901bc8e45130a135f813bf895fc6fe340e7aff8ce54547070f52abf": {
+    "item_id": "CORE-IRREVERSIBLE-SPEND",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that no irreversible action or new spend is proposed. The later irreversible case is expressly conditional and excluded from the current plan, so the requirement is satisfied for the actions and spend actually proposed.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "pass"
+  },
+  "b2b3b66b9e91fa0f55aba270223661c5e6b73858a0bbf30f93c537745c9ab04d": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares `shared_mechanism=true`, matching its stated shared lifecycle contracts and installed consumers. It explicitly excludes comparative experiments, centrally LLM-dependent behavior, and irreversible or spend actions, while describing regression/acceptance checks as non-comparative verification and stating that irreversible deletion and new paid resources are excluded.",
+    "trace_id": "company-planning/method-conformance/PLAN/502c2c3ce80a/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "bc21b0036f244af7fe29eb02779e0947ce89aa61f2fb9b576de3a1e93a4c113f": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "Each R1\u2013R6 criterion names a specific run and states evidence beyond the outcome, such as paths, registrations, preservation decisions, state transitions, exits, and membership changes. The evidence also specifies that full traces are stored in each owner\u2019s existing run-artifact store and linked from the plan and concern #1985, and explicitly exempts documentation-only edits with a stated reason and alternative evidence.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  },
+  "bc8f00abafe47c96a94914a93f5462dbffe014f2d5338cc55256a41143844d5c": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the actor served (\u201cBrian\u201d), the desired result (\u201cfinish a task without leaving an unexplained extra copy of its repository\u201d), and a stable, concrete, user-visible example: a task creates `attention-manager/worktrees/<branch>` and `make session-close` removes its folder and ownership claim after verification.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "c14fbab0d201e5047d07d16677814c9df5dccbaaad1de54eece986d8b2e3cdd4": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares `shared_mechanism=true`, matching its proposed changes to shared lifecycle contracts and mechanisms. It explicitly distinguishes regression and acceptance checks from comparative experiments (`empirical_comparison_proposed=false`), states that runtime behavior is deterministic rather than centrally LLM-dependent (`llm_central=false`), and excludes irreversible actions and new paid resources (`irreversible_or_spend_action=false`).",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "c2cd28322b76c0a430c7a8f1d0b69049fcb8cb9eaaf97707b0219eefe47ed9cc": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly lists six material uncertainties in the Questions column. Each has an identified owner or concrete resolving evidence, such as Git identity and graph checks, native discovery and reachability, integration proof, process and configuration inspection, module-path tracing, or review of prior plans and claims.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  },
+  "cf89566eef3bc29414a26a122319fe9153eb6c04ba83e8d8d4468bc79b0bdd19": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "material",
+    "missing": "The integration owner is not named by identity; the evidence only says \"One integration owner.\" It also does not provide work-unit evidence for each concurrent writer, because it states that no concurrent child writers are assigned and only gives a general admission rule for future work units.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The table explicitly lists unit ownership and dependencies, and identifies owned files and coordination points. However, the requirement asks for an exact integration owner and work-unit evidence for each concurrent writer, neither of which is substantively provided in the quoted evidence.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/OV-COORD-OWNERSHIP",
+    "verdict": "unresolved"
+  },
+  "da580d036a797cf4e55a58c222fb6e4224f286e0810bc42fcf1d8763d5ab0a6a": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "material",
+    "missing": "The evidence does not provide the actual native work-unit records or explicitly state each concurrent writer\u2019s dependencies and integration evidence. It identifies their owned paths and says their records are evidence, but merely references those records rather than supplying the required per-writer evidence.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly names an integration owner and lists paths for `capability-catalogue` and `rules-sort`, with a stated non-overlap conflict surface. However, the quoted text does not substantively provide the per-writer dependency and work-unit evidence required by the requirement.",
+    "trace_id": "company-planning/method-conformance/PLAN/502c2c3ce80a/OV-COORD-OWNERSHIP",
+    "verdict": "unresolved"
+  },
+  "ea6e4889346a851a736e1ed1c6b6c30fbb9d0024b72672f2a6923ecc9e8d45c5": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines success through exact membership and behavior requirements, named regression runs, and retained execution evidence. It also gives concrete disproof conditions, including unexplained nonstandard paths, omitted registrations, unrecoverable work, service interruption, false claim closure, and unhandled child errors with overall success.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "eb25b46499a6b7467872800c29cf3711a6f701156e301d8f171f2feab8ddf45d": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence specifies a concrete check: trace public creation/close Make targets and the timer to their loaded owner modules, then inspect scheduled units and consumer entrypoints for competing mutation paths. It also defines the failure signal\u2014a separate remover or claim store\u2014which would detect a parallel implementation of the same concern.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "f67d37ff842a574f042c5aef8addb49dd2f748fca84c47170e3d3ff2e0fe7acd": {
+    "item_id": "OV-DEPLOY-PLAN",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names both deployment targets (EP and PM), the deployment commands/scripts, live checks proving the pushed revision is executing or being served, and rollbacks. EP specifies installer commands, consumer live checks, and reinstalling the previous verified revision; PM specifies `git push origin main`, the service invocation, revision/invocation verification, and source-commit or unit-state rollback.",
+    "trace_id": "company-planning/method-conformance/PLAN/502c2c3ce80a/OV-DEPLOY-PLAN",
+    "verdict": "pass"
+  },
+  "f6dabb1af807c167532f6754fb12b3b3ddf6678278038e7d9b7929b2ef0e6415": {
+    "item_id": "OV-CONTRACTS-SCHEMAS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence enumerates each crossed boundary and identifies the relevant contracts, owners, and file or URL locations, including Git\u2019s porcelain format URL and the EP/PM scripts and systemd unit. It also explicitly states change status for each contract, such as unchanged formats, additive fields, compatible result support, or the executed source revision changing.",
+    "trace_id": "company-planning/method-conformance/PLAN/7286af35e5a3/OV-CONTRACTS-SCHEMAS",
+    "verdict": "pass"
+  },
+  "f9ec0a768fa6450aaf1e7decdee94cea6cfb2130c4b673bd607ff986a58e14e4": {
+    "item_id": "OV-CONTRACTS-SCHEMAS",
+    "materiality": "material",
+    "missing": "Explicit owner and file or URL are missing for several contracts, including the Git `worktree list`/refs contract, the Make-to-EP creation contract, and the PM result/output/exit contract. The evidence also does not unambiguously identify every contract\u2019s owner and file/URL for the sweep-to-health boundary and the source-to-installed-runtime boundary.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The table names boundaries and describes several contract changes, but the requirement requires an owner and file or URL for every schema or contract. Entries such as \u201cGit `worktree list --porcelain -z`\u201d and \u201cEP creator and creation result\u201d do not provide the required file or URL, and some ownership is only implied.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/OV-CONTRACTS-SCHEMAS",
+    "verdict": "unresolved"
+  },
+  "feac5af1056b08934a21c7e853b1f46a3cfc8608cf5b908e48a66341ccf0799c": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence links the system model at `SYSTEM_MODEL.md` and identifies the relevant model elements for each trace review. It explicitly states what each examined run must show, including Repository, Worktree, Claim, Create admission, Discover, Inventory view membership, RuntimeDependency, Preflight, DispositionReceipt, Close/reconcile, SweepResult, and Report.",
+    "trace_id": "company-planning/method-conformance/PLAN/5ac5700f0eb5/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  }
+}
