@@ -200,6 +200,8 @@ def test_private_prose_cannot_escape_through_public_projection(tmp_path: Path) -
     assert public["rules"][0]["id"] == rule["id"]
     assert public["rules"][0]["quote_sha256"] == hashlib.sha256(secret.encode()).hexdigest()
     assert public["private_dispositions_sha256"] == hashlib.sha256(private).hexdigest()
+    assert "known_cost_usd" not in public["historical_accounting"]
+    assert yaml.safe_load(private)["historical_accounting"]["known_cost_usd"] == 0.01
     assert secret in private.decode()
     assert (m.OUT / "legacy-register.private.yaml").stat().st_mode & 0o777 == 0o600
     assert m.apply(cache, check_only=True) == 0

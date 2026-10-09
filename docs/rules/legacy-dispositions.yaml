@@ -4,11 +4,10 @@ about: Inventory proposals only. Complete source text, quotes and applicability 
   No mandatory rule is removed or activated.
 source: project-meta/policy/registry.yaml
 cache_sha256: 428411c912659e64a21c06038d64364913e901bdaa49bb51677202b27ae06266
-private_dispositions_sha256: f7370218b1633d77c7835ef1e1dfa53ff02bcad01b38cab66c568e7bccf18175
-private_register_sha256: 10d09d4a3c9e95929d4fdd8cb491ce54086ca3c849c298cac0d95b370b7c58d7
+private_dispositions_sha256: 38eb4602faa1aaedb1ce16acdf39eba981587696c9aac0e7558e6bafd9a8e492
+private_register_sha256: 1a028aac10256b58e15e98753ddee50250019e2197218bc2973e0e5059e1638e
 historical_accounting:
   attempts: 448
-  known_cost_usd: 6.278699276119999
   unknown_cost_attempts: 27
   complete_cost: false
 rules:
@@ -16,7 +15,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: b4955072f7e53415aec2fb4a444d02b18ef19e0340485bb63495465795df2f65
+  input_sha256: 7d973ee8bad57c774ba0d59b3948bdcb1d9b43e78f9d0d3ea6cec031b1bdad56
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -28,7 +27,7 @@ rules:
   disposition: keep
   kept_as: advertised-capability-certification
   quote_from: source_doc
-  input_sha256: 1d7fd42aa003c2a673b98bd2e635bc6f8e7b8fb0d2b90768ce20b1a8c9ee10d9
+  input_sha256: 6225ee5fd44023d185e54fbe8b7988a71c4303e766fe0daf5454cdc23e57d9a6
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -40,7 +39,7 @@ rules:
   disposition: keep
   kept_as: agent-drivable-everything
   quote_from: legacy_registry
-  input_sha256: 7d0ee87806d152c0da1dcc13b8ac8113907314abb1876e84d82ec09392218278
+  input_sha256: c8e693e1f315fb927a679af0babdc0b8e70a890c08d67fe6247866a4a49bd504
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -52,7 +51,7 @@ rules:
   disposition: keep
   kept_as: agent-first-human-review-escalation
   quote_from: legacy_registry
-  input_sha256: 319d787ec637fe631e93549bc847fd382abbe2aa3f741ad042714d756485b549
+  input_sha256: f8ef2fc32e4dd3691f5d5159b2d83e30bb01771dbf725bed3b2ee889957bfa2c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -64,7 +63,7 @@ rules:
   disposition: keep
   kept_as: agent-memory-source-of-truth
   quote_from: legacy_registry
-  input_sha256: f069567898675aaed7e56f52bc2c8ef4eb4b20dfc066654b0435396ff001b706
+  input_sha256: 627b4d294b2dc459e0aab58a720afb1ce09c8fadd2885bbed5398114328f8584
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -76,7 +75,7 @@ rules:
   disposition: keep
   kept_as: agent-owned-internal-coordination
   quote_from: source_doc
-  input_sha256: a15866eb6aa8767df443780deef8b07f906da8160c8bc72c735d6a7a71969738
+  input_sha256: 0fe1e4d1b26a2479f6ead8091cf804d8edef56cc272f18dec96519e66874bdc1
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -88,7 +87,7 @@ rules:
   disposition: keep
   kept_as: archive-physical-scan-surface-closeout
   quote_from: legacy_registry
-  input_sha256: e78abdc7ba3f85ff9b3bf55098658a679637a1a8c83985f46d587ca25f20a4ca
+  input_sha256: 0796beaa69ffd0cb71fe5ae0a0b7762bb59feaf83301bd3816891742fc116a6b
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -100,7 +99,7 @@ rules:
   disposition: keep
   kept_as: archive-to-home-archive
   quote_from: legacy_registry
-  input_sha256: 8d2c13555bc00eea20474f91a4d6a9acfa24b7fb13554338a982454bd899bbd8
+  input_sha256: 7e20f5694ea308e5038ebbe3f71dd6ed265cbab134436ea3cb256332f972241d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -112,7 +111,7 @@ rules:
   disposition: keep
   kept_as: authority-surface-concern-uniqueness
   quote_from: source_doc
-  input_sha256: 090516c3ddda349d0424aa13cf4b7e61061ed736b8a4086ae123b288fe070c69
+  input_sha256: 073d4f2a10368997443bc9b7ad96c4fee5645e32f9c9b07c25c851ad26b2f272
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -124,7 +123,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 66f386fc7c37f2b141510d33ed84d7a788d8012b5cda98bae5f9dd9c39880d52
+  input_sha256: 6a89daac0f4fddf1fe2ac469a8ddd352f9c71299744cc3f756e523545d892d49
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -136,7 +135,7 @@ rules:
   disposition: keep
   kept_as: bounded-experiment-lane-continuity
   quote_from: source_doc
-  input_sha256: 1031dfab2a4f2fc8862b2d3e09e4ebd1f8535553e14973d01df8e1e9917ea4da
+  input_sha256: 656da4e01ea706b8cd55c37073638dabb185cfd2b7e0a82dc0a116c6499125cd
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -148,7 +147,7 @@ rules:
   disposition: keep
   kept_as: browser-entrypoint-execution-required
   quote_from: legacy_registry
-  input_sha256: cc82e86ea1811843b1417b6d79a72bbbf3ff5b4dcc68cb2d27a8ac0c7541d9f9
+  input_sha256: bb6939d2f0c30b82cb85a862af22e5808cd5437651badfad9c42b608185c5822
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -160,7 +159,7 @@ rules:
   disposition: keep
   kept_as: canonical-surface-lineage
   quote_from: legacy_registry
-  input_sha256: 6c8b29e55d22ffafa996f87bf07baeb70587791ae3c4e6d9d93d5c7e5db08fa6
+  input_sha256: 18046c984af2aff18b459856aab8ef0aabd602529f6e5d567559d78f11b98eda
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -172,7 +171,7 @@ rules:
   disposition: keep
   kept_as: capability-catalog-integrity
   quote_from: source_doc
-  input_sha256: 356ed088e2dd1e96bdd390f09fb67120ea96201f94622ff0323812ff0dd30bdb
+  input_sha256: 14d5b97073b5f557c24a8c5988f97b338c24521b3b58221bbfe472b07b0094f9
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -184,7 +183,7 @@ rules:
   disposition: keep
   kept_as: catalog-health
   quote_from: source_doc
-  input_sha256: 54dd9e2e974e646fa05574fcaaefb15bb82913c8bd415f3023ffcaaf08e77c46
+  input_sha256: 9608ce71a62c4f4ab9a3a37cca5909d37b6be49d40b4c6bae1dfc03c56a9f08d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -196,7 +195,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 6721e42a11e89c657cfefe62c1c201867b522eb243e6431144c0a352bb1ca6b5
+  input_sha256: 35983979c3b3fcfb8fbefee0a1e39f84aa2783df3788f102968144a9b4ead91f
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -208,7 +207,7 @@ rules:
   disposition: keep
   kept_as: cc-hook-postuse-plan-auto-complete
   quote_from: legacy_registry
-  input_sha256: 93a9aa9b9e8067d230e94d2acf14205dc08a61542fa7d7684c8b46b03de5e46d
+  input_sha256: e855d23969cc96bd2846ba14178b10f777fe3b6fe70ad22bb16b4ff258007abd
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -220,7 +219,7 @@ rules:
   disposition: keep
   kept_as: cc-hook-pretooluse-skill-fork-write-gate
   quote_from: legacy_registry
-  input_sha256: 15c41b52e80ef104a96b9a2e628c3424c6e4c19ee2345ad09019c41628d65ddd
+  input_sha256: 9845e35748cec15480e12569b09b046ba4168fdbed6bc604289e14bc6a179e91
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -232,7 +231,7 @@ rules:
   disposition: keep
   kept_as: cc-hook-preuse-destructive-command-block
   quote_from: source_doc
-  input_sha256: c2917dbb4d088114c21be738bd407d7b3e9f3f27c8b3fcf9a1b930c1904c0f1d
+  input_sha256: 59b636be8212f41c785ff71f880a1aa9bd40b577e18d089925dfa87238e5d2de
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -244,7 +243,7 @@ rules:
   disposition: keep
   kept_as: cc-hook-sessionstart-audit-hook-surface
   quote_from: legacy_registry
-  input_sha256: 5e117bd8991e5705d9fbc8804fcb693884381db6e24752eb76a7cc64ef024b96
+  input_sha256: d2682c76b12abd7645d3792dc0c39d83dca87ea536704d566db1c13543b33954
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -256,7 +255,7 @@ rules:
   disposition: keep
   kept_as: cc-hook-sessionstart-manage-client-config
   quote_from: legacy_registry
-  input_sha256: efaebf7fe2704bc13b8157096a17f8de3f80bd80f775acce570cc6453ff69d2d
+  input_sha256: 30e9a93bb8151cd76d2f7e10b1f5291e0ade34ebc853a8017c4dd69a9ca1a086
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -268,7 +267,7 @@ rules:
   disposition: keep
   kept_as: cc-hook-sessionstart-session-brief
   quote_from: source_doc
-  input_sha256: 1beaf6dbe172dc11d015df76ece4e934d810866cf66da4992a902e4e147a6152
+  input_sha256: d3bf91bdf22367a8791af018071667f1da3845c74d0a95411de6460731f33adb
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -280,7 +279,7 @@ rules:
   disposition: keep
   kept_as: cc-hook-sessionstart-sync-skills
   quote_from: legacy_registry
-  input_sha256: f4b0001684145ab1532e8e9f0da14a328d34607159fa03423812747e97b73c47
+  input_sha256: 7ca9da6b288b5c0b805d3875b779899356a395445c7957e12ff9b847603970ac
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -292,7 +291,7 @@ rules:
   disposition: keep
   kept_as: cc-hook-stop-second-brain-work-context
   quote_from: legacy_registry
-  input_sha256: 3af60d0683bad61c4f92aa4ebe82414971ec68dbf0258a4dd75562d534079485
+  input_sha256: 0c41edba241e4bab67051c157d0930f2468aa89a06b3be86ff74ffc1bd56e6f2
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -304,7 +303,7 @@ rules:
   disposition: keep
   kept_as: cc-hook-stop-session-handoff
   quote_from: legacy_registry
-  input_sha256: 9f2e2c2c4dd936150ecce3c820bdb8947a74c3f776ee97bad2506e6e8b478bf4
+  input_sha256: 2cb4a1f064a9a059c65ab362df92f815af8fb1925b4ad38cfd31524c4665b93c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -316,7 +315,7 @@ rules:
   disposition: keep
   kept_as: cc-hook-userpromptsubmit-assignment-manager
   quote_from: legacy_registry
-  input_sha256: 764ed1b7c8e197b2e611a50e93450e1cfb3066a4b719235c2d6bb0c16c4be022
+  input_sha256: e3f65b25f156fe01096c14e4433bebfe8b2be4371c33d2ddf08dc52656547e2c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -328,7 +327,7 @@ rules:
   disposition: keep
   kept_as: check-claims-before-overlap
   quote_from: legacy_registry
-  input_sha256: 3149aca557efcd0709a31dfae4391a67d77975941d887b49a6e15788c434d9c0
+  input_sha256: f35d1f5f9e367b84c57d619740b574f4fc325c98fb6c6e795bc72f3182486d48
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -340,7 +339,7 @@ rules:
   disposition: keep
   kept_as: circuit-breaker
   quote_from: source_doc
-  input_sha256: 2e398778877d8c32a22a43d43e54cb634e644f7ef823d70f4f7f89e97076f3e4
+  input_sha256: fa91409543da47dab6d846a7e1d759cf66b67ec8a63d52ac01bf84a620758f14
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -352,7 +351,7 @@ rules:
   disposition: keep
   kept_as: claim-end-requires-liveness-check
   quote_from: source_doc
-  input_sha256: f62a70425c2ea0bc9ff04655ddbad4f29e657d01f37e23a80ef0f07edc989db2
+  input_sha256: f9706c073b06e5d34b1292b4605f81f0d1562de99551f3e034e0456d2b07f1a8
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -364,7 +363,7 @@ rules:
   disposition: keep
   kept_as: claim-prune-scope-and-custody
   quote_from: source_doc
-  input_sha256: e02e2f959b684873ebadedbef8ab8039813ce807a75024fae8d958b0b8454bff
+  input_sha256: cab644f10cc7bb85aa3c87db1bf8aef2bb63b8d63f3ed485f9d0cb6e2e5bed5e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -376,7 +375,7 @@ rules:
   disposition: keep
   kept_as: claude-codex-parity
   quote_from: legacy_registry
-  input_sha256: 7f033b315ddd8ee52ab80d4a911ff6add9619a5519af298969e4ce241ec0a337
+  input_sha256: 335f06507b43da916c3838a1e28c068fe7b417a61a0ebe36d348115192bd0f35
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -388,7 +387,7 @@ rules:
   disposition: keep
   kept_as: clean-clone-portability-gate
   quote_from: legacy_registry
-  input_sha256: f51bacd64000d5187da60520796467cfff3da3c15f9e1caa153220343c40bced
+  input_sha256: 23b0a1e2057c721aca42cbfd0bb420feb6bcb55ada178e83b078b9ef6b47297d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -400,7 +399,7 @@ rules:
   disposition: keep
   kept_as: codebase-memory-routing-observability
   quote_from: source_doc
-  input_sha256: 6b9c6cfb70fe98646d43e28d74132f2be61cc70918f7bed198474ce227351f25
+  input_sha256: d45bcd43db510995af8d0717c83952b41f90e2cbc3753d05e5b0590b3671c1d1
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -412,7 +411,7 @@ rules:
   disposition: covered
   covered_by: commit-tags
   quote_from: aes_register
-  input_sha256: 3a814a024c22f56e1df720175f17a0fea3712b1956782225c276d11ac275c644
+  input_sha256: 22bda653f646afd6f5486369688474fb6e18c95d3696fafeea83b01c56824356
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -424,7 +423,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 29ea2dc1884f2bd1332736511ba01fd2b58a71fefa0774c4f3999c3e42c60195
+  input_sha256: daeabf7b030abf049cf433c3cefef3df6b007179ec8dec1aceeed28b2fcbd45f
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -436,7 +435,7 @@ rules:
   disposition: keep
   kept_as: concerns-to-issues-immediately
   quote_from: legacy_registry
-  input_sha256: dffa2d532a517a930c0cbea48aaa1300a3aa8113843fb0cc72a1166a43bb7e11
+  input_sha256: b9a68aa75feac95174a7a80b5ae80bd90421db86f38fdd30a3f937ad0f81e442
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -448,7 +447,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 430c0d7bcbc8392283abeb80c7eafd49dd16730aa4730d2ee3accfa831fdeb3c
+  input_sha256: 90398a8df69bbe556639bbe2c3657db7acca025b24e4e60280bb6a4c0ee17cf1
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -460,7 +459,7 @@ rules:
   disposition: keep
   kept_as: continue-after-gate-approval
   quote_from: source_doc
-  input_sha256: af7af05a29415fb275e15a64324accdf96eff25a60ad4d523a541a80ad524990
+  input_sha256: 54c92db76296eaec946251caf05a5f9878c3791567b1147f325fbd3e8c9de53a
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -472,7 +471,7 @@ rules:
   disposition: keep
   kept_as: converge-critique-loops
   quote_from: legacy_registry
-  input_sha256: 1c71f8025baaf69b962eafc3461359a305f76d735b47ab6cbb69c7e544045902
+  input_sha256: d2ebb122efa68901c1deb65963379e65930bbbcd9af7f7035977c23c14d7a378
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -484,7 +483,7 @@ rules:
   disposition: keep
   kept_as: conversation-bound-lane-adoption
   quote_from: source_doc
-  input_sha256: 8b1fa550000f2ea9319283d0ec5436952e4485228d1980993dba61c10b55a3da
+  input_sha256: da293cccc1e8c26318f37a6407ca3a878b27194c1f36ee63597684c3e30ebbf2
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -496,7 +495,7 @@ rules:
   disposition: keep
   kept_as: coordinator-only-root-delegation
   quote_from: source_doc
-  input_sha256: ad0c62770927387d4992f80c9ce5807907f0d6877de7a3b06b36a5980b904ae6
+  input_sha256: 49f614e4fc37584a76a297a8f7d4a66284d53762c7598238257a1cc1c30cec3e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -508,7 +507,7 @@ rules:
   disposition: keep
   kept_as: cross-agent-citation-standard
   quote_from: source_doc
-  input_sha256: ff0bca47ce5c06691b76f9f7ea2bf5a99ba551b654ffac4348f10917ba82318f
+  input_sha256: fd658727f730eb77e9f1e02396c790dba3fbfeb38c6e15e1f58180344472d573
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -520,7 +519,7 @@ rules:
   disposition: keep
   kept_as: cross-client-git-update-boundary
   quote_from: source_doc
-  input_sha256: 4249ef966bc66856a485f8f4ff3a86666f671789b7ee3b6761d27994830263a5
+  input_sha256: 779f0245f4ddbbdf46f1c2678c47506aba662a75b09078ef0752b6b6d7489955
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -532,7 +531,7 @@ rules:
   disposition: keep
   kept_as: cross-contract-reachability-review
   quote_from: legacy_registry
-  input_sha256: 8a276220f0bdd07332a710e932d3c808fecaae0a8446be687c909f3fbcc24df9
+  input_sha256: 62f444147bdb6ab18c780b8f70a7491c6715577a4e3c3242b0c70d609d21fead
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -544,7 +543,7 @@ rules:
   disposition: keep
   kept_as: cross-project-runtime-seam-integrity
   quote_from: source_doc
-  input_sha256: b3f883d007313b89721784ab39cc4b6498cc6676c517fb41f1dec02f4c39b230
+  input_sha256: 6e640d593fa551ddd56e536ac9a6a71a9da6c5ce4bf9a567e4843e9694753869
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -556,7 +555,7 @@ rules:
   disposition: keep
   kept_as: decision-asks-carry-recommendation-and-confidence
   quote_from: source_doc
-  input_sha256: 338a942063b8c70c91c292c6498e48335cf320c3d2edcc6881d4c469e1650edd
+  input_sha256: 3430e90fee8c6efb1c5dbb3c6e3dff4e131853b7dd263f24f3f9224705d5b828
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -568,7 +567,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 8ad5df221627db5e1131401ba0db6b65179320cc4812577f72c10a70dd1797c5
+  input_sha256: 2b8585eb694ee76417eb90de4e02f9acbdbac5dbb752644a638fe025edbd725d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -580,7 +579,7 @@ rules:
   disposition: keep
   kept_as: declare-data-model-for-non-obvious-systems
   quote_from: legacy_registry
-  input_sha256: adebe7bef5f1ae02825f93ffa7c1d03bf039028f12b0b1401bd18250b9342300
+  input_sha256: 10ec244e48a3e9a345f5b18c72f6ad0fb69c2918c7283ef7c827b9e8262d6bbd
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -592,7 +591,7 @@ rules:
   disposition: keep
   kept_as: default-branch-standard
   quote_from: legacy_registry
-  input_sha256: d6bd248e24214d22597b72bdb881961b3ee4aed7ce39d7334e67bf4b0c1ed227
+  input_sha256: c7d49307c2eb518bebc1d5a99765fcf83753347b68d9749d18553f8194e7b264
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -604,7 +603,7 @@ rules:
   disposition: keep
   kept_as: deferred-plan-artefact-carries-its-status
   quote_from: legacy_registry
-  input_sha256: f8046f0c6aca7c0b538a461d568dcdab6049bb9b2637749c0a79a1426295a121
+  input_sha256: 6e3aa481d3c300b2446c01f5e8b42ee3e40cbab4c8e9de7064934ce9fae27586
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -616,7 +615,7 @@ rules:
   disposition: keep
   kept_as: deployment-hosting-decision
   quote_from: source_doc
-  input_sha256: 34dada22af2555814120a21cc180e899da9a6f677db45f10afd2bcbee43f1b4b
+  input_sha256: 7cf77fc8d2ce23650915bdf7e2ba72bbd0f90ea39c6903d90d3ed036e1382d1c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -628,7 +627,7 @@ rules:
   disposition: keep
   kept_as: derived-project-workspace-views
   quote_from: source_doc
-  input_sha256: 8cbd53e6b5921fc2aa27ccceaecd2155ec838b0d684df09a57a9112584b8f498
+  input_sha256: 9dccac992b0d98501c4ec915fb9f7befdd1b4364b9f2ef74e5242568b1547ef2
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -640,7 +639,7 @@ rules:
   disposition: keep
   kept_as: derived-propagation-verification-closure
   quote_from: source_doc
-  input_sha256: bf5895af11bac589ae2a9b706468d162df467e85ae47d57aad07071373aa1414
+  input_sha256: 60f460f5f5f26f3bbba20a25ccbb0235b2fce2a65b1b2dcfa5bbe2ddcc2800dd
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -652,7 +651,7 @@ rules:
   disposition: keep
   kept_as: design-derive-order
   quote_from: source_doc
-  input_sha256: 559b8e760a01f3bcb3768c0ab959398101a486811c90681243e3939137588230
+  input_sha256: ac3d8910e6bb6edb6258aa3a0a6eda979147d09439c89102c3e96edd6fba59b2
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -664,7 +663,7 @@ rules:
   disposition: keep
   kept_as: doc-code-coupling
   quote_from: source_doc
-  input_sha256: c5ee13d2ca8bab0f9494f529f38dc9eb7c813827c3787fee497f81aa1784a373
+  input_sha256: d6210bf18d8447dc49d52d29da644dc0c818b51fe94cfcd3118685073db99d28
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -676,7 +675,7 @@ rules:
   disposition: keep
   kept_as: documentation-governance-structure
   quote_from: source_doc
-  input_sha256: 70df526fc2822bd1f14e19b6d507ef4dc0ce38f382efde537e29cbf1b91b6d32
+  input_sha256: b079991cd799029e2423a5a2e9c95b114b6f338a67d36384c3f570e5d422541a
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -688,7 +687,7 @@ rules:
   disposition: keep
   kept_as: durable-must-not-point-at-disposable
   quote_from: source_doc
-  input_sha256: 5487fc01024d8be40d266221d35eaed5e118ac62518c53978ae37b90324f6d72
+  input_sha256: 6c15f4c8f10298ce7815b81781571d8045e8242f934e0af61f6059c54c069ff0
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -700,7 +699,7 @@ rules:
   disposition: keep
   kept_as: enforcement-leaves-its-remedy-reachable
   quote_from: source_doc
-  input_sha256: 9da54b7c590e8eb1a286ecd565f69d913b2922d055d55d1562c07c4ee4603202
+  input_sha256: d0be360d0f7e532551a4c396aeab456697e08e81f0f9ba44f934ee3c6f392a68
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -712,7 +711,7 @@ rules:
   disposition: keep
   kept_as: enforcement-liveness
   quote_from: source_doc
-  input_sha256: 8feb28abbfd2e8095c8a1664d729ff8bf9c044c828a41ef7bc51c5d679d2b7ae
+  input_sha256: a0b6db574abe517047b61d555ba8a7bd8dfccd0c14cb9624439c98a48fdee11c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -724,7 +723,7 @@ rules:
   disposition: keep
   kept_as: eval-signal-integrity
   quote_from: legacy_registry
-  input_sha256: 74ad859c9bbad8a8ea92af99688bcee8c6b1592960f28d2f06d0ac0302efdd64
+  input_sha256: 19e28db7407b80d2c83b096d13c468b1de2540aafa23daff0bcf7523632af04a
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -736,7 +735,7 @@ rules:
   disposition: keep
   kept_as: event-taxonomy-parity
   quote_from: source_doc
-  input_sha256: d79f60299cc1c3969d93fb79408ef23965ba6e2e9ae1b35cddd073900897d150
+  input_sha256: f91b61ab1e242383c3969c9e8f8effda49e202d00574da6c6e04a88653767381
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -748,7 +747,7 @@ rules:
   disposition: keep
   kept_as: evidence-grading
   quote_from: legacy_registry
-  input_sha256: 69114a70e9452401f5598654ef189cf56c6660b3c475d450c67ac64e23e3be81
+  input_sha256: 829a650861fa3d99764d4ddfb92a6485702333210fb62dc88e7cc99344fd6489
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -760,7 +759,7 @@ rules:
   disposition: keep
   kept_as: experiment-declares-mechanism-and-kill-condition
   quote_from: source_doc
-  input_sha256: c977277532a93850b8701f075db750ef37ace3595f8980a7cb7e4cf1b4145820
+  input_sha256: 2791a6b228ffd1c3ecda0a509e6c4e22c2c5affa81085728f0b6763fb5c7e449
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -772,7 +771,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 1d7f88a53bb1a0370f88b8f0dcc1bc66969ff187739f746526b7789f8898f309
+  input_sha256: 3f9cadbabb7010161d20fbd3b4cd677b212ab50d6357c14fd94d265163d22add
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -784,7 +783,7 @@ rules:
   disposition: keep
   kept_as: explicit-organization-metadata
   quote_from: source_doc
-  input_sha256: 07a5741cb84ca43327637690d3ff2565c7316c6278cafc87089b08ca3cc0a533
+  input_sha256: fc7627c12504d47a4a2abfe58681830c54067ef38abeedf73acb27ab7b903e09
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -796,7 +795,7 @@ rules:
   disposition: keep
   kept_as: fail-loud
   quote_from: legacy_registry
-  input_sha256: e10963c95a1340fbcb0972f3cd46e06e1889580336c2ebdb59141bca30890dc3
+  input_sha256: bcc4a18aef42e2eb7c857f999050a63b27acdb42a374da3b587cedf76e9a85e3
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -808,7 +807,7 @@ rules:
   disposition: keep
   kept_as: filesystem-metadata-closure
   quote_from: legacy_registry
-  input_sha256: 69ee852bcffacdbeee69e740f99d11d238f52d98ae12020b729adcc866ae0362
+  input_sha256: 5cecb2596ef76f499ad725a8b0bd359de300367865c72ca137f8791b0f7457b4
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -820,7 +819,7 @@ rules:
   disposition: keep
   kept_as: finder-external-route-lineage-check
   quote_from: source_doc
-  input_sha256: 82a7cf04b40022aeaeabdba534e28c309a43c5431e0e1d53318a1ff709e16fac
+  input_sha256: 375d183a37c69761b89f975863277a702d12ae7a01361714eb8858502e92060a
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -832,7 +831,7 @@ rules:
   disposition: keep
   kept_as: first-principles-before-comparative-evaluation
   quote_from: legacy_registry
-  input_sha256: b0f3c2ecb90ec25c8b224a808d0d88a72b168b3841213a9f6bd11735edd59917
+  input_sha256: e3d122452d8346f982b50293f378c10cfe905325dea41430e49c3d77dc1bca2e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -844,7 +843,7 @@ rules:
   disposition: keep
   kept_as: fleet-ahead-of-origin
   quote_from: source_doc
-  input_sha256: 096c8cbeb0fdbbd63ae3860541727d7a33834a91f4791d33c60e2e303bb05d2e
+  input_sha256: 3cf28843eb6fdccd579cbdd5903a15d57fb546788028752a23c49885f31a7b4e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -856,7 +855,7 @@ rules:
   disposition: keep
   kept_as: foundation-schema-refs
   quote_from: legacy_registry
-  input_sha256: 11f5690d35aebc9083eb9fb9f02f630eacd972fee45643df7fcaba95dac0292b
+  input_sha256: ca57b4138840bceded9fec77d289fd799b0b216cc8bbd407ba378f20ec8d48e1
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -868,7 +867,7 @@ rules:
   disposition: keep
   kept_as: four-bucket-destination
   quote_from: legacy_registry
-  input_sha256: e4d8beb1daff57a1de8d0d1b5040f39503b647204d53797b4b4bd9284a4aab9c
+  input_sha256: 6bf969f560782fc26cf010e8f3334e099617dab8c7a0144eb4e3b9facbae7c5e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -880,7 +879,7 @@ rules:
   disposition: keep
   kept_as: generated-wiki-not-hand-edited
   quote_from: legacy_registry
-  input_sha256: 9f5011e5c0ebff4fb80b5fbb5bb82180f695887191d2a81fb641dd5094054283
+  input_sha256: cc04d2467f6233ec56e326a05ceae59b07f1be0cf5a0d6df374cd45aab85d2f8
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -892,7 +891,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 2b7ac3050fab369eb830a3e2a1e5b8fb6be26336e3d5006ebb344e47cf934ed4
+  input_sha256: e7930b437de58871e4954b68f49daf172ce2c24ab43e87693100fcfdd4b530b1
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -904,7 +903,7 @@ rules:
   disposition: keep
   kept_as: goal-condition-agent-demonstrable
   quote_from: source_doc
-  input_sha256: cfec23b7678d889b55ba124f53bd48e991513be0cb68b83795bb874f1411f88c
+  input_sha256: 0d476ab5c122d8c55752abd8cf5e90e8b8a968b1c983f611b39ba927ce6aa5ee
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -916,7 +915,7 @@ rules:
   disposition: keep
   kept_as: governed-artifact-creation
   quote_from: source_doc
-  input_sha256: b3fe0cb63fbd91ac4006752d87b299da950da2dcf2df1db893bd81b32cdf6830
+  input_sha256: 09071dd101a77b048f395a92e597e995cb2ed31da4584a5c32c9fee28af880fc
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -928,7 +927,7 @@ rules:
   disposition: keep
   kept_as: governed-bootstrap-fresh-repo-journey
   quote_from: source_doc
-  input_sha256: d9858a23ede3f8df5433800b73585acf58123bd85e81caa963878b092c6d30a5
+  input_sha256: 9b2c3e12c13036d00d7b17ac3528e95d2714351f1a7b82e9b2461238c6c965ae
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -940,7 +939,7 @@ rules:
   disposition: keep
   kept_as: governed-repository-concern-layout
   quote_from: legacy_registry
-  input_sha256: 33c31841b470850bb00ee677e1b3a3b4652844f7174e8f6d2a83ead167f69efe
+  input_sha256: 1d7456d17929fa3a28487bf34e73ae6028aa4821cbb558ee5d914027ef351247
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -952,7 +951,7 @@ rules:
   disposition: keep
   kept_as: grader-positive-control-and-failure-samples
   quote_from: source_doc
-  input_sha256: fd668693bfd7c947d22fc47c14925ee09b85e2d3383cd384982540530d1d15ff
+  input_sha256: 2a93b085dec4d5f4ec77781d76e565b850ad6b85f8485fd2bc10aa16a4f1c78c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -964,7 +963,7 @@ rules:
   disposition: keep
   kept_as: grep-old-paths-after-migration
   quote_from: source_doc
-  input_sha256: 5a69a79b6d4d60753c41521b09572814699a5c5a76a01d56ad348e99377206ba
+  input_sha256: a563f8dc23342b6902148a719e7b9d6b9c0a72232435e6ebf973a8f6fd85ed3b
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -976,7 +975,7 @@ rules:
   disposition: keep
   kept_as: hollow-build-detection
   quote_from: source_doc
-  input_sha256: 3d1b18b48c7a10178090927888b4949a29cf5b706397724828191ddeeaf9d4ae
+  input_sha256: 80afbd497b294542facfb845b6f1b3c7f3bb42e670a475fe679d385f4e3c3b25
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -988,7 +987,7 @@ rules:
   disposition: keep
   kept_as: human-decision-gets-its-own-turn
   quote_from: source_doc
-  input_sha256: 6bd7dcd2f0b67218bb3e74294d69f161905dcfea5110406c2294988408c6c547
+  input_sha256: 8d492a104c8877dc191adc9082ca433ae7dd3d1c424d8e9db2a2cc6fdfcc37c4
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -1000,7 +999,7 @@ rules:
   disposition: keep
   kept_as: human-review-handoff-purpose-and-actions
   quote_from: source_doc
-  input_sha256: 816e6fa5220a2ace5a0c1f67234f1c304667929d3bea10b62a2f7a558483a51e
+  input_sha256: a7b1857d461dedfb7f965de6478c5d6f0ebd4316fab8a78e5a7c5754b543c63e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1012,7 +1011,7 @@ rules:
   disposition: keep
   kept_as: immutable-versioned-data-custody
   quote_from: source_doc
-  input_sha256: 682640aadcf17bc215d8e88ed51da0105fb55634a8e42e9e1262c8101bfcf335
+  input_sha256: c99cbd17196400b6ce6c690e8133ccbb3926fed8adfb6aad6902bac00171d7b2
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1024,7 +1023,7 @@ rules:
   disposition: keep
   kept_as: inbox-staleness
   quote_from: legacy_registry
-  input_sha256: 7f5c5caa0752028d52ba0d298a8d9eb0234d25a995f48b9ac8b43bd80628d7aa
+  input_sha256: b5c9ffabc217e391ec40967e1229d4ad9d729bae75debd9f022a45fc4a6b3360
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1036,7 +1035,7 @@ rules:
   disposition: keep
   kept_as: input-surface-failure-triad
   quote_from: source_doc
-  input_sha256: 5ce7ed957c4f9cec78cab923ae6786e3cd803e5b7c48869526a35c29689022d9
+  input_sha256: 62494bd0a5e646da51f8cb78dede84d5e9b475de2a425688f86f1ab61acd1eb6
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1048,7 +1047,7 @@ rules:
   disposition: keep
   kept_as: instruction-payload-size
   quote_from: source_doc
-  input_sha256: b4b7e461baa922e3e131baaee9aa4464060a0a2300b57660a2f0f3709d81d568
+  input_sha256: 9e31065bd9eeda21f68597ad4a3061efa30afe1e8f7e5801f10c80a48a1b32b2
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1060,7 +1059,7 @@ rules:
   disposition: keep
   kept_as: instruction-surface-sync
   quote_from: source_doc
-  input_sha256: aeeb2cead20b53dc95b70733a26817e935bb263e54d4e44775d29b8b7b99fb4f
+  input_sha256: 86966cbbf5f5ef798354199ce718a55281fb25f0e976c52e9ccc51429fd54df7
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1072,7 +1071,7 @@ rules:
   disposition: keep
   kept_as: knowledge-surface-needs-a-trigger
   quote_from: source_doc
-  input_sha256: 504ab1259c254dc340ce4bc263e4a3312a5ec96e8da2141112fb6343a3e0f893
+  input_sha256: 7bad898abb4034dff85636bd700b3ed41dc65e24da7634887e073b281407c045
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -1084,7 +1083,7 @@ rules:
   disposition: keep
   kept_as: libraries-vs-handrolling
   quote_from: legacy_registry
-  input_sha256: 8f033daebc58fa39288a907386ce8ca075019219799d45601e48a56767218eba
+  input_sha256: 7b04736b9e285a17fe2b55ac9827252c2798250731ffc366db33eb6ba460e39d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1096,7 +1095,7 @@ rules:
   disposition: keep
   kept_as: live-status-evidence
   quote_from: legacy_registry
-  input_sha256: 10b40e61b9d7bc024dab6639689b2613b9c228fe1187b5a41414b7fb7674acbe
+  input_sha256: 80d7a3e855cdafd161813d9cfeb74feb66de11ded6bf1c394c7ea0af918e380d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1108,7 +1107,7 @@ rules:
   disposition: keep
   kept_as: llm-client-required
   quote_from: legacy_registry
-  input_sha256: 40a4390e13829d1c881bc6b64594fecbb9c54e6fb691ed460fb349787898d015
+  input_sha256: c29c283c42b08d61a21378008d1c4ca99e4ac01fb731d0029e18680c6fe043cf
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1120,7 +1119,7 @@ rules:
   disposition: keep
   kept_as: llm-cost-observe-only-default
   quote_from: source_doc
-  input_sha256: 93a2d718f1998039c2c57abba299323b6215a350bba0b4568608999fe17602cf
+  input_sha256: 49674a7d66a2dcdb9dd0124bb74f2263c1db597148285068f7b8d83a8d706cff
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1132,7 +1131,7 @@ rules:
   disposition: keep
   kept_as: local-mediawiki-preview
   quote_from: source_doc
-  input_sha256: 5be978a722e178d4120d21b1694db16ae90b48acdf7875bd541b7c96d65510c5
+  input_sha256: 63cc4934bc6d0e2dc7f2639912d5cf2f40346159b59f4a54235506388f650837
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1144,7 +1143,7 @@ rules:
   disposition: covered
   covered_by: loud-failures-reach-an-agent
   quote_from: aes_register
-  input_sha256: 8773e10c352c712e31a4b01b661cb19e94c71853d9d9654989d6ccfb779d5c81
+  input_sha256: f80666b79ca2f67776243e0dfd6b936f6ef74e75bc3b04d3ee8b52f5c8167b69
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1156,7 +1155,7 @@ rules:
   disposition: keep
   kept_as: makefile-as-project-interface
   quote_from: source_doc
-  input_sha256: 12fa69ea0f781ac713a0603d8da5b468ebd7552a1a5dda7b2984d4a598e0b52f
+  input_sha256: 898ccd1255c02ee50f236dbed53ca1b39c0b6cbb33238efdffc4e4d2c4739cab
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1168,7 +1167,7 @@ rules:
   disposition: keep
   kept_as: markdown-link-integrity
   quote_from: legacy_registry
-  input_sha256: 886a0eea5d6e3923cb8a54a6f4a6df93edca7443f81c97f6e563dd20d6c2d93c
+  input_sha256: b9846bb3efee16c59b9ae4e84754900e7b64879b09ef465bb90ef0dff18552d8
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1180,7 +1179,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 7852e4d2ab544a75b1ef21d7445d35da16ce35754786f880b86145a24ac0ed91
+  input_sha256: 352d7a2c14e767da3e32ab7a6a958c8582c2783dc455fe7e7375f134726d7636
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -1192,7 +1191,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 37aef0a2f4a45b3ac54b5906b9c20c39f791c75bbd1af8b38faa020a57945028
+  input_sha256: 0fb25acc1289f182d7271352afba49fec290f9c7ab88cefc5d2828d15b516030
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1204,7 +1203,7 @@ rules:
   disposition: keep
   kept_as: mcp-config-review
   quote_from: legacy_registry
-  input_sha256: 31530003e5f35a9d8bb811eb5cf13446582c09432942b11e6c3d11c0446d39dc
+  input_sha256: 305d5ac2bd613211089f1e3432685bc6b498abedfcef29ad48b9ec7a93e253b7
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1216,7 +1215,7 @@ rules:
   disposition: keep
   kept_as: mcp-on-demand-default
   quote_from: source_doc
-  input_sha256: 03f0731873f2b74a6b2f843e9bfa9022239d07b99d19a4ae7652e7fb8e0b8c43
+  input_sha256: 1773dcad1bda0ae8f71dc74ec9ce409fae0ca9997672a7a5096f219f7388d860
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1228,7 +1227,7 @@ rules:
   disposition: keep
   kept_as: memory-codex-parity-disposition
   quote_from: legacy_registry
-  input_sha256: d648e7e72bfd1ddf877b39858c257ca8ed73b818ce03d4b9a6fe09aafc0327fd
+  input_sha256: 372e75487355c8c5e32bfdb71839389656cd8748f64ab6d8b8be3d78eb2016d2
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1240,7 +1239,7 @@ rules:
   disposition: keep
   kept_as: model-blocked-skill-do-not-nag
   quote_from: source_doc
-  input_sha256: 8c8714f21a7f434be9272faff9ab9954df8ef27b96f9f92c9cf23850b4118f26
+  input_sha256: 3c00ff51e5f99b4bacd0c2fef5864358bb57e558ddaaebe2e8f60ff044010afe
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -1252,7 +1251,7 @@ rules:
   disposition: keep
   kept_as: nearest-instruction-read-before-mutation
   quote_from: legacy_registry
-  input_sha256: e6d75bc1e88e2a20ebd057541225bf3366ff46f7db22921eb58db48adc45bb34
+  input_sha256: 8be061d6e478aac26700370ae709429803a691312a797e0b7c3b8e95454d8627
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1264,7 +1263,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 3d81b97f70a9a5b58be7220f87c03369771b084da9d5ebd562ad14ceab3e88bb
+  input_sha256: 847f17f6b722e35e5c38819e0089affe21d2008f358566af2989f5e3893f9b56
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -1276,7 +1275,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: b0b37d6036e17b9f2d957d7ff6a42125953bd865975178fd75b97269dc2b146c
+  input_sha256: 4242f673afcdf3cd016f2d4b8c453976d5623ae44a899195ebc1f3652b7a6f9b
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -1288,7 +1287,7 @@ rules:
   disposition: keep
   kept_as: no-physical-move-without-packet
   quote_from: legacy_registry
-  input_sha256: fb3cc7998ce7f0ad3b9e0f32b8cf9c6c6521d0f199242d4656647515be9125d6
+  input_sha256: b2e8a9e916ce949405a4fe48c0a021cc83da1feedbdce16d1246cef50ddaa403
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1300,7 +1299,7 @@ rules:
   disposition: keep
   kept_as: no-prose-string-matching
   quote_from: source_doc
-  input_sha256: 26765bf6aad6ee19c7bd9fbf36019059dfdda04726724c681058cffb364d1683
+  input_sha256: a1250d31a160b870d18a422f80d406ab3ac1f5747239cd996a9223c5402722c6
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1312,7 +1311,7 @@ rules:
   disposition: keep
   kept_as: operational-telemetry-provenance
   quote_from: source_doc
-  input_sha256: 4a06b4cd0e9386c9fdb072d6330fc17589f33c6429cee4f2e06806ee9a2c720e
+  input_sha256: b06c01dfa5e6865a8d6173b2e13e6abf62c5f7cbe5cf8f35df210281b908a104
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -1324,7 +1323,7 @@ rules:
   disposition: keep
   kept_as: outcome-continuation-lease-hard-gate
   quote_from: source_doc
-  input_sha256: b3c5d75c970459c44dbbcbef6b291297f01de67dc8b64ae97b18daa66b62e57f
+  input_sha256: fc5baf1f65cac999772f3ef0cffaf53547f5f9948ca25e5cd4601d7675c427ae
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -1336,7 +1335,7 @@ rules:
   disposition: keep
   kept_as: outcome-first-critical-path
   quote_from: source_doc
-  input_sha256: 36542de26325c363d118e992eac5b2f866a2f9fba172ded89d0a37ffaaf6afbb
+  input_sha256: 69bca3008c3693d6804d0a764e0fc9b87f288723823b52207b7a189c8855722c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1348,7 +1347,7 @@ rules:
   disposition: keep
   kept_as: output-format-after-work
   quote_from: legacy_registry
-  input_sha256: 65cfb6fd79b5e87a6ddd37a359564ed3f69359558ad5d2a06ab8b658ebfb7168
+  input_sha256: 5b6cf03dea1b4c78b3cf45ceeb12a23383a03410aebe3c9cea8f8f0d60fc93be
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1360,7 +1359,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 43df76229220493f5c52dd150204de32d35c1f73599e81024d9b65d4b034e7c4
+  input_sha256: 5f83ed8514e435229ddadc0b95f3f0aaed288a303bdbea00d584d1b25f151308
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1372,7 +1371,7 @@ rules:
   disposition: keep
   kept_as: owner-first-agentic-system-dogfooding
   quote_from: source_doc
-  input_sha256: d0fd76be74c06f65be0efe86ba8c5a381bd1ee34c1135e76a87bda47b99aa19a
+  input_sha256: f6b268471ed93ce77e305131a5fa6cd2661f32f3d90b9fe3f7bc730b9aa401ab
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1384,7 +1383,7 @@ rules:
   disposition: keep
   kept_as: ownership-is-not-a-mutation-gate
   quote_from: legacy_registry
-  input_sha256: f0b952ffd112d27ebc806d5339cd3954cc2f56432b1ba21af7b738f8f390a190
+  input_sha256: e37229eaa12973d587f74150444efcaa01a12de0a092cf6de39b2b95e1b85568
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1396,7 +1395,7 @@ rules:
   disposition: keep
   kept_as: parallel-fallback-cannot-replace-primary
   quote_from: source_doc
-  input_sha256: 00f7b41c90686ae462d44f5b639972035ac6487f08974f3e68fee400767521e2
+  input_sha256: 92749f918951e7d59b4814c1640cbd2250ebbac919c49b303d1a21b83b9584ec
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1408,7 +1407,7 @@ rules:
   disposition: keep
   kept_as: per-project-venv
   quote_from: legacy_registry
-  input_sha256: b5c01681b6568359869b2f7f7cda01a2ca38f91265f4afe6d3c6d06ce63b2802
+  input_sha256: a526b336315abe9c6585fb438f6f21ceb9832cf176e211517bd29ab8abc97529
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1420,7 +1419,7 @@ rules:
   disposition: keep
   kept_as: periodic-skill-feedback-review
   quote_from: legacy_registry
-  input_sha256: 2e16b3630f735fca1f1320747e7657faf89e19ed9c43f449e93808e51ab080a8
+  input_sha256: 4967d93b55c30be1b228aafe7d720238c8a019524d03c8cabee682d9d9366ad1
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1432,7 +1431,7 @@ rules:
   disposition: keep
   kept_as: persist-durable-findings
   quote_from: source_doc
-  input_sha256: a5dda08a2d8ddb4876ce24dc2812e02a0b1368f0e097d8c5f54a1c538b729950
+  input_sha256: 482c1102d17831feef0989c88c69364457ab8cae7a8f4c883fbe6905627aca1d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1444,7 +1443,7 @@ rules:
   disposition: keep
   kept_as: plain-language-status-reports
   quote_from: source_doc
-  input_sha256: b050db6d9641d687b222b0b1812881e0cbb3c9a98180bdf42ca81e740b42ee30
+  input_sha256: 8062e8fc3b17860a65ccf9b0bc45ca6841d4db55f8a3357bb18e39e33ae87057
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1456,7 +1455,7 @@ rules:
   disposition: keep
   kept_as: plan-completion-issues-scan
   quote_from: source_doc
-  input_sha256: cef61120a18c99b78098d63a964e76fbf1ecc27b45b9d8e9f094b9e99966bc9e
+  input_sha256: c1a04446322ab8bf69482e104d5a63a24582255cda3668bbef23c265b9fb5d9d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1468,7 +1467,7 @@ rules:
   disposition: keep
   kept_as: pm-active-work-registry
   quote_from: source_doc
-  input_sha256: c0a5d1824a6ffb526a98b20f2fc754de6c2444977480bfee07b2a1bf8a9333b5
+  input_sha256: 3536bf6d9c9797b2bbb09dbaa2b4b6e2effe9d0e605ba4e7e826ca7672a3c623
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1480,7 +1479,7 @@ rules:
   disposition: keep
   kept_as: pm-adr-0005-compression-hierarchy
   quote_from: legacy_registry
-  input_sha256: b1efd489f9194696f5b03c6981763a1e43f041cf25a9538f5c5e3f161a0563e2
+  input_sha256: 0ea01af7bfca2b3d2286648eac18c909fa51f79a77e4a56835227617d0fddad5
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1492,7 +1491,7 @@ rules:
   disposition: keep
   kept_as: pm-autonomous-execution-keep-moving
   quote_from: source_doc
-  input_sha256: d1e2ddd9988aa6502ae827682621ef4c8e948222f056ab6398609b7c08d00a2a
+  input_sha256: 220e4ddf211404e71ab2d57a9b4cb045fcb596e9f0a0594870753f157f03a578
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1504,7 +1503,7 @@ rules:
   disposition: keep
   kept_as: pm-autonomous-workspace-default
   quote_from: legacy_registry
-  input_sha256: 0481c6ce61e134b0dec03642939db332d80b092cc60bb645f90c903eb46e029c
+  input_sha256: 9e782f7fe37be478278aa13a0084671fedc4e905b31097e0dc86182332696fed
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1516,7 +1515,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 610da9ddedeed8f09cfd50f3a9d815c6d513a5b8e0cc4d43ac6c420f382e54a2
+  input_sha256: fbfebd53064291ed057f3a8c3f9bb6e909e7eadc63d9ebaf95a888fb57b4d84c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1528,7 +1527,7 @@ rules:
   disposition: keep
   kept_as: pm-capability-ownership-registry
   quote_from: source_doc
-  input_sha256: 7c4c3058cf449e7331bb319726f09f5074ae055f3b8152f5fb8d3c204f4802b7
+  input_sha256: fbde74bedf88159190d4e61a57d08ca1bf7abdacd68927e394c47c19aaba995c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1540,7 +1539,7 @@ rules:
   disposition: keep
   kept_as: pm-commit-every-verified-slice
   quote_from: legacy_registry
-  input_sha256: de0c4acacc9009c99e3a898afb8a4c06283dd18b96a6aaa65be1cbced2f8852f
+  input_sha256: 9d37f2f12a0c22f55b4e8dc4b1f9b55aa90b2d931930b8059276331345132581
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1552,7 +1551,7 @@ rules:
   disposition: keep
   kept_as: pm-completed-sprint-not-stop
   quote_from: source_doc
-  input_sha256: e66bdaf5d126cf590c0a2d4da5116e3ab655cff3baabb9c960f8897e471c9081
+  input_sha256: 0668f2794d68a50622af07faec111cbcb397e5ad7f63f8f151023d89eb8abda0
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1564,7 +1563,7 @@ rules:
   disposition: keep
   kept_as: pm-continuous-execution-sprint-contract
   quote_from: legacy_registry
-  input_sha256: 27b72ca7cfbb9941659e2d55eadc6fb507121bcd2cc0ab79650bbc7c52f2ff96
+  input_sha256: a4625e80e89e8d5d9563c7d66385a8f3a191d5054094900b4bfb9425bcf828c4
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1576,7 +1575,7 @@ rules:
   disposition: keep
   kept_as: pm-doc-role-headers
   quote_from: source_doc
-  input_sha256: 847808cd8e3803f4edbdd32fd9f8f282101582be5b4b43dbc0d1506205231c41
+  input_sha256: f090c47ba88a034cf95b8c002508b2284e97985267028fb36e55b80c2f3f8bb6
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1588,7 +1587,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 1be19ba37c0297e75ce877c668c0c28d32ab7ec922af5d7d33eda8cb3cf1b86d
+  input_sha256: 05b041a0596000ec00033a23aa69809b02c939081bba53e923b7d1f4e6ea98b9
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -1600,7 +1599,7 @@ rules:
   disposition: keep
   kept_as: pm-governed-repo-safety-entrypoints
   quote_from: source_doc
-  input_sha256: e23e813fe1b88d5d9340cf356c21ec1316e2bdf18b50314dbc8913f278db840d
+  input_sha256: 2547710717012325d7b8451bffe437fa478b0eadb669bf3cf8a4806e3be0c90d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1612,7 +1611,7 @@ rules:
   disposition: keep
   kept_as: pm-hot-path-rename-compatibility
   quote_from: source_doc
-  input_sha256: 208dd5f507b878b5fdfbec7b06b7f20eb8aa0c105265286df1e2a607d4d1b0e6
+  input_sha256: 79f1fb85756c2a09280417f100a5dc70e0d3e6654718cd95edacff2e2d848612
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1624,7 +1623,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 013324c225b59cf89fa9535a08781fcdafd9d5ff2592d66c0f8a04bfa7e5033a
+  input_sha256: dc2a306e88086581613764358ce5076df823ece594b61b77eaff5a394b10573a
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1636,7 +1635,7 @@ rules:
   disposition: keep
   kept_as: pm-no-slice-redefines-architecture
   quote_from: source_doc
-  input_sha256: 663efa97da3b356d710107941a91230b003d8e18933c62829031bc5512a15a13
+  input_sha256: 888fdf7e27c95540ca8abd6bdfc5ab3da9bc0505641f539fec9bfae3f46a08e7
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1648,7 +1647,7 @@ rules:
   disposition: keep
   kept_as: pm-persistent-todo-tracker
   quote_from: source_doc
-  input_sha256: 3684e1b86b59d53da4d61aad38eeeb2b066dd60efd6db75c04acf06f8061bd5c
+  input_sha256: 7730248df9309842e4256217308979b7d236140ea3deb1eb73a61653907aed24
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1660,7 +1659,7 @@ rules:
   disposition: keep
   kept_as: pm-plan-two-views
   quote_from: source_doc
-  input_sha256: 3541ac7872a2dde4b1eb45b0259484b9083cef2452d255cf8283d693d25ab295
+  input_sha256: 08cdbb59f19dadf3dcf70520e1ee056145e04b3bb15f5ef1396ecb19e52a4575
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1672,7 +1671,7 @@ rules:
   disposition: keep
   kept_as: pm-portable-first-tooling
   quote_from: legacy_registry
-  input_sha256: e8a6fa7ff1a0ff3182d0c960f2a3535d81cdae8db18828a39a7c710b3d136456
+  input_sha256: b858e7a801ed5780a7fc9725e91f4ba754e8acb8a3bd9d38dab9b6d5612cf8db
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1684,7 +1683,7 @@ rules:
   disposition: keep
   kept_as: pm-research-synthesis-cutover
   quote_from: source_doc
-  input_sha256: d383de37420e94fc312809570e8f05234965625628dc585b05a2172e5e282f1c
+  input_sha256: c2af149a560e438a84a58edb4a77ab1f8a3c089b550a3c4dbfd4d94e93e38d70
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1696,7 +1695,7 @@ rules:
   disposition: keep
   kept_as: pm-rollback-points-not-stop
   quote_from: source_doc
-  input_sha256: 225634cbf820ea52f6d70d599bfa27dc2d5e540db6b96c4a170dd2d9364b63c5
+  input_sha256: b39ae0fa4fdd1c5cc6af33af3be0d4b5431188129eaa08c52f90690bef824311
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -1708,7 +1707,7 @@ rules:
   disposition: keep
   kept_as: pm-runtime-metadata-ephemeral
   quote_from: source_doc
-  input_sha256: 97813e857e97c3d42c4b21e62549a4b0cb2d3d3a3d76d01778f0f58d51356b03
+  input_sha256: 045cab59d932cae2f7c28ac8b0be11f1a0c1741d872670f5bde614e055e686ad
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1720,7 +1719,7 @@ rules:
   disposition: keep
   kept_as: pm-small-slices-preserve-separation
   quote_from: source_doc
-  input_sha256: 2ec3a56a2f69d469eaf8bea41e119a333a61931fa4b159c947d89392d60e0139
+  input_sha256: d9b70559fbbd3c770ee57e115c3210ea9b824742d112d686749dfe57f13da24e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1732,7 +1731,7 @@ rules:
   disposition: keep
   kept_as: pm-vision-doc-earns-place
   quote_from: source_doc
-  input_sha256: 79e86f2cd50c112b0286f8edc4271c0267b0dc45caaa1ade5dfde7c56c2a97ec
+  input_sha256: 410f01b9ac96fd067aae933564a38a7841bfb5ff271ebfd6387c958a7f6391cf
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1744,7 +1743,7 @@ rules:
   disposition: keep
   kept_as: policy-enforcement-map
   quote_from: source_doc
-  input_sha256: 07d392f5f5344224c3dab2e542686dd7b6fe76c08cb28a5bd1d9ad884184ba14
+  input_sha256: aa26552d839a21765997fe861f6236c4edfca576ff552975996f7e1b0605fee7
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1756,7 +1755,7 @@ rules:
   disposition: keep
   kept_as: policy-lifecycle-first-pass-feedback
   quote_from: legacy_registry
-  input_sha256: f704f39d332719b4043a08887ed773302b5b992839724e267acc67398c636d59
+  input_sha256: 4e89466e079cd175c188c5f9f888d39b998ad9ba2af7d057f5c20ed618fccaf9
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1768,7 +1767,7 @@ rules:
   disposition: keep
   kept_as: policy-promotion-from-memory
   quote_from: source_doc
-  input_sha256: b415ce86a28b29888c5b6a3904827d904abfa6aea8085e63d10d090687944656
+  input_sha256: d5f546cc1b19eeb1cfb0088a1c79f6cc9e963f2838b1892f3ad4b3f8ebd66b38
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1780,7 +1779,7 @@ rules:
   disposition: keep
   kept_as: policy-proposal-lifecycle
   quote_from: source_doc
-  input_sha256: 34a31e400c741922c10e3ba79a85ba71061a14182c916d42c764c7c686efa52d
+  input_sha256: b78254becb1c17ce8d88929a24ef245c1f80ff78914e34065e88c2cae02cae03
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1792,7 +1791,7 @@ rules:
   disposition: keep
   kept_as: policy-registry-staleness
   quote_from: source_doc
-  input_sha256: ea14375eb24ed072ebe11639ac7cca9e3cc18f7c8025f754d538fe411b320faa
+  input_sha256: 34263a88340755b30641b22f0f46a51ddba02fc8250e0576385d451e3d1dad0a
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1804,7 +1803,7 @@ rules:
   disposition: keep
   kept_as: policy-session-bound-lane-lifecycle
   quote_from: source_doc
-  input_sha256: aca58b429ee97b9850b613ae97523cee8426583f5c9a1f7b2f8937a5b4816032
+  input_sha256: 038ef4311a0760b16bb3a03e1c7f2f0b161043364fe94470242c891e41b66035
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1816,7 +1815,7 @@ rules:
   disposition: keep
   kept_as: policy-validation-coverage
   quote_from: source_doc
-  input_sha256: 378c077233be5b47463f30eb1163d8248e2dc1fd187e352adffb50eaf111ac1a
+  input_sha256: a47148f63f9e1714a86aebffbccf3246d54dbc4f527a35768978b3742904192c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1828,7 +1827,7 @@ rules:
   disposition: keep
   kept_as: policy-violation-detection
   quote_from: source_doc
-  input_sha256: b17d6f35d0ff63eceba5c389e7dbfda4cd27e1940a6344b8d468f84c4d440d88
+  input_sha256: 9e461d1a4828fee9695aeb9cde24256bfd8859f0be3a20cf4d1bb16994e74f0e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1840,7 +1839,7 @@ rules:
   disposition: keep
   kept_as: portfolio-narratives-generated
   quote_from: legacy_registry
-  input_sha256: af9b8838600fb25ce0abd5b031efdb5e6170364cee18c1d2c9d0c56d203cfc3a
+  input_sha256: 3a7bed25bfdddd1517dd2dbcbf5678115dab01928397c3add0fbe673975c615b
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1852,7 +1851,7 @@ rules:
   disposition: keep
   kept_as: post-commit-doc-coupling-ack-cleanup
   quote_from: source_doc
-  input_sha256: 5cab182b9a736d442a50cc371929178df1cff9bada7be2e613039ff1fd104177
+  input_sha256: 51a30f8d8b7094301db3d4546524ce866ac0d7929a275d7e160f621f93016511
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1864,7 +1863,7 @@ rules:
   disposition: keep
   kept_as: post-commit-unpushed-reminder
   quote_from: source_doc
-  input_sha256: 75673746c109b3219be0d2990af2275a0cd18afa087047f921785ca2a0ce1ef9
+  input_sha256: d6c98f30db6ad2f0389506edda08a720a358da12d6b6c2914182e183fa77d709
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1876,7 +1875,7 @@ rules:
   disposition: keep
   kept_as: pre-archive-deduplication
   quote_from: source_doc
-  input_sha256: 61444ba9c585622fa9d9fc2e02988ec26f6dc6b73bc6b4c7c451e6f7cacad872
+  input_sha256: a7fe624d8294ad5056c5f99089abfc90e09ea8593c8d44e2da7d1263b1f77878
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1888,7 +1887,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: fc937814f02a7daf171d8a9cb69cbe0b1ed657ec291de19da07d98b19d3a1936
+  input_sha256: 906ccf7b67dee99bbe9230f48be5f242906d828f4dc1bb7c27a5adef034179bf
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1900,7 +1899,7 @@ rules:
   disposition: keep
   kept_as: pre-commit-branch-divergence
   quote_from: legacy_registry
-  input_sha256: bd423b12488e3bcdbd60368630f932c7e155084ecf428a87219fcd064cb513b1
+  input_sha256: 28aea7bc5eee67a58926a8e8682cd519d8fd299dde3a1fa63016f67a3f657d13
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -1912,7 +1911,7 @@ rules:
   disposition: keep
   kept_as: pre-commit-capability-registration-gaps
   quote_from: source_doc
-  input_sha256: 34ca051fcec2ef2ff7c6b2ff3bd96ac77b4086d2e62753921e64427d80435b47
+  input_sha256: 34d86a9af7597d245805ec376c581cf84eed3f9e955d7557274eb48b4d6468e8
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1924,7 +1923,7 @@ rules:
   disposition: keep
   kept_as: pre-commit-dead-code-check
   quote_from: source_doc
-  input_sha256: 9c0194ddd7e7c55b7752164d7a918c8fa093dbacc5144dc412f9a4a6a8583108
+  input_sha256: 3848963e7fe668ece06775b5116884644a6072eec4c52137da9bfaf6647c14b6
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1936,7 +1935,7 @@ rules:
   disposition: keep
   kept_as: pre-commit-doc-coupling
   quote_from: source_doc
-  input_sha256: a02d9b96d53ee76e47b82db65082f4915259541fda1193c5ee02f18ccec56ff8
+  input_sha256: b3d234138b8249e63409237699dc7c8600c7d76cb3d8b6966acd5f78d1ef8d49
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1948,7 +1947,7 @@ rules:
   disposition: keep
   kept_as: pre-commit-mypy-staged-src
   quote_from: source_doc
-  input_sha256: 472e2a18c8bdde4c74ceb2abb9358f52453d51e9bec48b41cd31f168799dfc9b
+  input_sha256: bf34794f2e404ee37bd843d3b8126dd18c3d7bd86463742c970acb307f51eeab
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1960,7 +1959,7 @@ rules:
   disposition: keep
   kept_as: pre-commit-no-exec-compile-in-meta
   quote_from: source_doc
-  input_sha256: 17239873a0a7df5087f57f779a1a8ab409c45f935b2c88330cd79a9c96bed1d0
+  input_sha256: 6ac1d128008cbc64b1868d94860ad57c8b3704fb2f0657e227ce9cf60b66f7f1
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1972,7 +1971,7 @@ rules:
   disposition: keep
   kept_as: pre-commit-plan-index-regen
   quote_from: source_doc
-  input_sha256: 57e309ef6049f2614bac990f31b3b150f3acec850dd9805493d6bb8741329b64
+  input_sha256: dbe93755559fd54e99f0aa2df6b95c56ac372e972406a5c0e9e2307454324ed6
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1984,7 +1983,7 @@ rules:
   disposition: keep
   kept_as: pre-commit-plan-status-consistency
   quote_from: source_doc
-  input_sha256: 991a848928f48e8e319e134af2b7b017aa8d448935dbfaf192d847075d8e018e
+  input_sha256: 420f1b007eab2bc7c7d7ded516394141eaa5ffb3c59225fc52cec81ebebe747f
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -1996,7 +1995,7 @@ rules:
   disposition: keep
   kept_as: pre-commit-plan-validation
   quote_from: legacy_registry
-  input_sha256: b8fdae76a9e7f9eb242e54662bc92725d0c32799303c51d0e0783587f3192f58
+  input_sha256: c797cf444f7098abc3c3883587372ac08db11e21639c86ccd737eced03308a43
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2008,7 +2007,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: dab420431ecac9c75025ca75911166bd866e91f38ba2dfe4fdc09ef771f796a6
+  input_sha256: 80e365b4676b1859012d9470bf2bb87b3b0116e92a8cc1f8918e2867aff88990
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2020,7 +2019,7 @@ rules:
   disposition: keep
   kept_as: preflight-before-declaring-access-unavailable
   quote_from: legacy_registry
-  input_sha256: 60101ac1ed58f64f9fc804f55642ec0da2d2fd1df7454d4d4df595bcd53037d1
+  input_sha256: ce6e7788f7f107221605abe96bab5de94b6d2aba01ef430fa3400f816f0b45e9
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2032,7 +2031,7 @@ rules:
   disposition: keep
   kept_as: product-front-door-outcome-gate
   quote_from: source_doc
-  input_sha256: 6244135a4cde7fb4eef25bb6a2e80e0ade00e9c73bc1429c746a3d7f0a094806
+  input_sha256: 70fe6075c0f485080eaf9668387da55d67aae9b59a1e74f95064f35cd07e412a
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2044,7 +2043,7 @@ rules:
   disposition: keep
   kept_as: project-dossier-spine
   quote_from: source_doc
-  input_sha256: 79bf129aaa6efd2b423e22d86a314f0a5e0858116673f269381f2449f603d1b5
+  input_sha256: ad7d9cb2edd3ca210d8ce35a457816136dc8d66282831d7565a78dc928c77f1e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2056,7 +2055,7 @@ rules:
   disposition: keep
   kept_as: project-graph-source-of-truth
   quote_from: source_doc
-  input_sha256: 29d835e2cda100d3c851c788027d488fb31b17fbdbc106b47af7f0ea3d14612d
+  input_sha256: e57e70cffa14d48c5db9668bd451acdf7c9cda43b47482a8f9c9b289e315425d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2068,7 +2067,7 @@ rules:
   disposition: keep
   kept_as: project-membership-and-okf-composition
   quote_from: source_doc
-  input_sha256: 477b21fac3ee859db0a503f9123d00989caa63c72cc2926e9f05c6dfcea6fa8c
+  input_sha256: b4abb2f38412b26a82a4518748ae98df99dd520123c8896416231550c056d33c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2080,7 +2079,7 @@ rules:
   disposition: keep
   kept_as: project-workbench-evidence-ladder
   quote_from: source_doc
-  input_sha256: ea56cac1d490cfa1bbf702aad66f9c35e2592d729fd7e43e7eee2663f00935b1
+  input_sha256: f0f39226cfbe46d1621c264c9c6bf6952881e0edeba55c18998ea6e82ec4663b
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2092,7 +2091,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 0f2c91f2a7a8c5ec5cc73c4c1d58b57e8ac948055f50c89ffdaf45a1234eaffd
+  input_sha256: 081cd9b657c868819fd72431cba00814501fc92d8ee17f4c0b3f6d9b7b69094c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2104,7 +2103,7 @@ rules:
   disposition: keep
   kept_as: read-before-synthesizing
   quote_from: legacy_registry
-  input_sha256: 46ae13bf5fbd8dc13a20bcccfa995ec2643eeb3549949429daf367fc1fd8a146
+  input_sha256: 271f10fd9a79dff9b16fe25cd1056ff8c7036e6ede0ac67c4d0e2a9c85ea94ee
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2116,7 +2115,7 @@ rules:
   disposition: keep
   kept_as: read-only-command-side-effect-controls
   quote_from: legacy_registry
-  input_sha256: d910c4fed87fc8b7c37170049a276793fa6d37f361c0eb20534f84f3d87e92da
+  input_sha256: 5635c9b8b90d2d676f670b1bff83b327aab592347c1ae3fdd44a0ab38daec0a6
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2128,7 +2127,7 @@ rules:
   disposition: keep
   kept_as: real-tests-not-mocks
   quote_from: legacy_registry
-  input_sha256: ecdf87b3f7a2f9ea944c57c9b0c72a0706e26c74c381d490054b3c35314d0dc5
+  input_sha256: 742f3fcb3e1d970ec253969472ffc19666fcf3402b070d5a875fc96435a53861
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2140,7 +2139,7 @@ rules:
   disposition: keep
   kept_as: recoverable-git-publication-authority
   quote_from: legacy_registry
-  input_sha256: 945d662d5ff044534f7f5eef70757f8c51fb768458c02b6d27354d338d83c7cc
+  input_sha256: eaad98140169bd1d7262aaefa744e4a8e59d7b02ee0fc9020c0eb3ad7348cfd4
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2152,7 +2151,7 @@ rules:
   disposition: keep
   kept_as: recurring-friction-capture-and-promotion
   quote_from: legacy_registry
-  input_sha256: 386af877e79fe16317defa84ea95a70343ab2013b2675243ec7894be5c194f4f
+  input_sha256: a5d0b6033e4b0a0db889d7130cf3faf9d0eed4946889e43364460689a4ea89ad
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2164,7 +2163,7 @@ rules:
   disposition: keep
   kept_as: repo-artifacts-source-of-truth
   quote_from: source_doc
-  input_sha256: 90683ae8d3fde6eb8a15d9b299df0091d6ac96de4fa0b455b21a1f5508fa9d83
+  input_sha256: 2aa0d8ab93ccd7e3c57ff049488600a072cde22bcb20396f77a0e7fc784f974f
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2176,7 +2175,7 @@ rules:
   disposition: keep
   kept_as: repo-doc-authority-shape
   quote_from: source_doc
-  input_sha256: 81271d6bc25577dc78e93973d024d2ddc4ab171a98f5295ed714fba39a22be86
+  input_sha256: ebef16e54a6bed4e3a163ac603bdba82ac667a2b4e470e6405f7f2845bf4927c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2188,7 +2187,7 @@ rules:
   disposition: keep
   kept_as: repository-boundary-containment
   quote_from: source_doc
-  input_sha256: b9d235a44ade04546b3216f2cd7f8198f1f6e7bc1af0dc92f53071bac92de5da
+  input_sha256: 4c7cc11cef7d1cb8567b494ec40248d4b999e4deff75767680e36681d81d85eb
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2200,7 +2199,7 @@ rules:
   disposition: keep
   kept_as: reproduced-control-failure-closure-gate
   quote_from: legacy_registry
-  input_sha256: 8d2674e236e4889ed9621acc29207d4ab3c8448eee7ef7ef1d36e27f3beca81a
+  input_sha256: 6bd243e44c59e905cc4c67b3b936c9b425e99fea6a61b651bcefc26e16dc7328
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2212,7 +2211,7 @@ rules:
   disposition: keep
   kept_as: requested-information-last
   quote_from: source_doc
-  input_sha256: 6b20f408fa2155263123468e3f0d676123c38c72ae1f434bc4624423a042793d
+  input_sha256: a0d2581acd08029eaf8c01b595d8141140d199f45f811bf0a7159d838e713e69
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2224,7 +2223,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 1a2f98fb8b4fc9f4c427e222c717d960f960b87896777e58fe81670eadc74c5c
+  input_sha256: 9d70daeb2f3c1e4d438d884b61dc4f9330f54ec3c3426ef8ef30b4afbea80e58
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2236,7 +2235,7 @@ rules:
   disposition: keep
   kept_as: research-provenance-export
   quote_from: legacy_registry
-  input_sha256: e57d594cb2c41750613c5e6fe2df4dd84f37c6f45fee35f1a4beab4527aa4ce4
+  input_sha256: 1bc56a06e0c518a1a39d8b9b40ccd1288ab692f47b5097f43cb39d02857dc155
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2248,7 +2247,7 @@ rules:
   disposition: keep
   kept_as: review-before-implementation
   quote_from: legacy_registry
-  input_sha256: 749a83c223fa4e42d64259f9f32fe008d9781734962ce9939b48256ac93164f4
+  input_sha256: cc5c49d9ad376cbd1d8429b326c68ea7427d92f6857b4868665305498c256cea
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2260,7 +2259,7 @@ rules:
   disposition: keep
   kept_as: runtime-enforcement-claims-require-client-receipt
   quote_from: source_doc
-  input_sha256: b26039e8a4b0b313434c04a4a2fc286d9a71eff5f0d733f13ceff8f0c795d6b6
+  input_sha256: 8e7e0e09bb347d3138aaf5b41972866423468711711f9b31a2babc31593adaa6
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2272,7 +2271,7 @@ rules:
   disposition: keep
   kept_as: runtime-prune-threshold
   quote_from: source_doc
-  input_sha256: 8cf4bd92217c036048f17446e7c1dc9afb265ea16d15e242d246bf295bd4d942
+  input_sha256: 259d1111c5ac394112c0ca570c907b2d1aa08486b4262aa46504503605c9dd0e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2284,7 +2283,7 @@ rules:
   disposition: covered
   covered_by: loud-failures-reach-an-agent
   quote_from: aes_register
-  input_sha256: 3dd71ea65d9b3f2ae4b5a8f7f6782b3af2284893ac1a9ed5eeb676443bd9a8a2
+  input_sha256: c961a4bf829381a1755964717c9989ba5d57ec1a3d17cb00bdea768dc591a446
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2296,7 +2295,7 @@ rules:
   disposition: keep
   kept_as: scope-qualify-completion-claims
   quote_from: source_doc
-  input_sha256: af327c66114e8294908d380ab8bd22c8d90c5ddada3971e3207196fa558525d2
+  input_sha256: 290346380622b0065d54ee42a2eaacdb811e4d8507653b950be9e017ec8a4564
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2308,7 +2307,7 @@ rules:
   disposition: keep
   kept_as: shared-graph-visualization-routing-and-preferences
   quote_from: source_doc
-  input_sha256: 2c9e785aa77d695cd23b7a17a0fb29c5dacaac43dbc96037d2fd80ca213ec6a9
+  input_sha256: 070dbe1978bc88eb39c86a823954b18d0656f32539b916a2faede043d15d4aa7
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2320,7 +2319,7 @@ rules:
   disposition: keep
   kept_as: shared-surface-state-claims
   quote_from: source_doc
-  input_sha256: e0d900e866b11b85be6a170541bff49902d8d27130d40ff4377545c276a64ab7
+  input_sha256: 910cd17c1af4932cd62f997635998db9d4dcf4c6eb1240e4f248b77cf1ad5637
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2332,7 +2331,7 @@ rules:
   disposition: keep
   kept_as: show-the-check-failing-before-trusting-it
   quote_from: source_doc
-  input_sha256: aa1f4f84d3d91807d4635a97f6f1a877a80f5d1f0091a3b7e8217ba8ab77f77b
+  input_sha256: f6f016ce34115df66d720c9a2e09facfd7b2b3c3045c9302420c8ce86295527c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2344,7 +2343,7 @@ rules:
   disposition: retire
   retire_kind: source_missing
   quote_from: none
-  input_sha256: cf757861e2107d49846cc9b6cb11453cf39c3bec0ef50f380b25b30fa34949a9
+  input_sha256: bf0e4f0d20138a315188a714373857718fa684ad68d0d214e1169e4d44d3b96c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2356,7 +2355,7 @@ rules:
   disposition: keep
   kept_as: legacy-situation-declared-checklists
   quote_from: legacy_registry
-  input_sha256: f899ea80b185d49131375a23d8da4981e297f500d2ec568fb710c205e63e3470
+  input_sha256: e71e18f780b88ecd81de565e158c9676b008a922a1bb3d5836c74a4d13652b1a
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2368,7 +2367,7 @@ rules:
   disposition: retire
   retire_kind: source_missing
   quote_from: none
-  input_sha256: 5a17f5f727850d84e561017f4a696a9452f5fd49c55771226cb63020697f2ff1
+  input_sha256: 347cc02a6456f930d2b5f28718cb6472834e963afd430aa6c62f75dfb681853c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2380,7 +2379,7 @@ rules:
   disposition: keep
   kept_as: skill-bounded-design
   quote_from: source_doc
-  input_sha256: e8b3262d7d7e26da3c39d681ea3670c74de34fae0459e2550d7531b8551f251e
+  input_sha256: af4c05a975adad167fe4afc2ab8b70895fc22de5353b45822c1d92950c80e382
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2392,7 +2391,7 @@ rules:
   disposition: keep
   kept_as: skill-claude
   quote_from: legacy_registry
-  input_sha256: a8a3a479497f72a6ffd699b877a49f3dd4bba3340075cb48cc2caaf8f4ecd4ad
+  input_sha256: c66cac238a7728fd0042715c2a39e67bbd58639569ecc8a281106c78bd24c981
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2404,7 +2403,7 @@ rules:
   disposition: keep
   kept_as: skill-cleanup
   quote_from: legacy_registry
-  input_sha256: 1136b905fd11cdd6d23e8953e85bd25f1edfeee05a2072357314b578b6bf0849
+  input_sha256: ac6d240b18ba92f4f0bf5be2276d172e7d8230ccaaf5b246bd66634fab24c795
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2416,7 +2415,7 @@ rules:
   disposition: keep
   kept_as: skill-codebase-memory
   quote_from: legacy_registry
-  input_sha256: 9888a1eb65835cd674794abf9dcf7c0d2f53e32e90da6825c6958c37864306a0
+  input_sha256: f62411002c8c3748af5f5b1dc3b9641df7899f9727b3fddfe429f61cd6d27d24
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2428,7 +2427,7 @@ rules:
   disposition: retire
   retire_kind: source_missing
   quote_from: none
-  input_sha256: ad38da8bc01b30a562a5c2912d6a19bb8a473e0a6b635706e657d1accb246f07
+  input_sha256: 01fd4d7ce47a4617ce8e0994c4336df80d052434198b21079a41e805026f3088
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2440,7 +2439,7 @@ rules:
   disposition: keep
   kept_as: skill-context-load
   quote_from: legacy_registry
-  input_sha256: 218c675b9d9819aaa193f535f1e7ae34057779f289ccd7376f6c278c9678114a
+  input_sha256: 00c04d2aec4b76796b78ff573500d433f44761cc834de7261135b5645dbc8f96
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2452,7 +2451,7 @@ rules:
   disposition: covered
   covered_by: root-cause-over-symptom
   quote_from: aes_register
-  input_sha256: 673041ccb414ed980c840d60c8e84305a4437e38c65d216e2f94fe5e28832574
+  input_sha256: 8ab5d9643ea17bfa48c578301838aa4ca23fe0291c8581326161870c254934f0
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2464,7 +2463,7 @@ rules:
   disposition: keep
   kept_as: skill-dashboard
   quote_from: source_doc
-  input_sha256: 982fa392de4d20de46a8a64278bdac1564f9d7a0d30c86f5275d61fcb143622d
+  input_sha256: f57610008e94ad7ae94a140f552c15951eda8e7605f35b546c2445dd9d734371
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2476,7 +2475,7 @@ rules:
   disposition: keep
   kept_as: skill-design-subagents
   quote_from: legacy_registry
-  input_sha256: 147d81be2930b4cd190e7fae8d9654c7dd06e11bcb40b4ce4558ad656f80c099
+  input_sha256: 26033e1baa583b51788089f2b9512c11532169b30637a7d2171b00885ef27510
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2488,7 +2487,7 @@ rules:
   disposition: keep
   kept_as: skill-explore-ecosystem
   quote_from: source_doc
-  input_sha256: 133abcd3a8d9c2c4292482d633b17777365b7da2be162229ac37ab4d35ed5d1d
+  input_sha256: be595c08a8de36aebe37284f3f59067fa902eb0a7fd0a8cef5d0b4d093c20fd9
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2500,7 +2499,7 @@ rules:
   disposition: keep
   kept_as: skill-extract-for-restart
   quote_from: source_doc
-  input_sha256: d95437783e3ae6cd0fd0c87878b8b70a4f0af81ed48343f72ba2103df9e7999d
+  input_sha256: dfe3c39ea2aeb4475e56f2d1241b71d32d751407d6edcde1703f07a4e081fdb0
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2512,7 +2511,7 @@ rules:
   disposition: keep
   kept_as: skill-finish
   quote_from: legacy_registry
-  input_sha256: cfbc911ad107cd734f49e08f366e3a6b1d70b69dbccf96395042e8848f96f458
+  input_sha256: 72835944e30f4099b01bc9e58b599e7ea993c4d99e14685efd00508fff14676e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2524,7 +2523,7 @@ rules:
   disposition: retire
   retire_kind: source_missing
   quote_from: none
-  input_sha256: 99526e40dd322ef227b743f718b862596d08537378036e8442192a9ac9f3c3ca
+  input_sha256: 81026024061524abc83e9295d05920cfb8cb386db4f80849a35f9a630d281eb8
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2536,7 +2535,7 @@ rules:
   disposition: keep
   kept_as: skill-investigate
   quote_from: source_doc
-  input_sha256: 6f5424cbdbdbbe787194a57094516a953c6712422a19854456486344619e2c7f
+  input_sha256: 8c1880965c8b745f45ac62ccb37a0a066feadfdcacfc0c95743bc76da13401ec
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2548,7 +2547,7 @@ rules:
   disposition: keep
   kept_as: skill-karpathy-wiki
   quote_from: source_doc
-  input_sha256: efcbd3471d96db074372294fd0733864fce99a87fd4f7dc5c8a6a7f75983cb6c
+  input_sha256: ffad152836287c19986e85fe577e11b2dd6a56ffed889f0f86c9642a6edc263f
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2560,7 +2559,7 @@ rules:
   disposition: keep
   kept_as: skill-learned
   quote_from: legacy_registry
-  input_sha256: 683a869fc24b9113196b2bfdb07b08f581bc5b4ac1959682646ad73e8685cd00
+  input_sha256: e1221d8472e63686a5f05503dce80442ba7446e91cdf1dd60d769e51703c76cd
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2572,7 +2571,7 @@ rules:
   disposition: keep
   kept_as: skill-migrate-to-llm-client
   quote_from: source_doc
-  input_sha256: 8ad52aed441673f848c4f5751800b41c4d47b77787274cb3b7f0863793ac2ad0
+  input_sha256: a706f3df0ee7024bab1b44cb3ccbd7d5c273e8bffeae9e686e4999f96b5bc925
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2584,7 +2583,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 750edf3932a100c9632b266380cc9dbc5b1bb1b7ff0d88e2c78e27e4864eda0d
+  input_sha256: 5fbe716e4b4ef84ca7499dd06564bc84aeb47e105012992f304ae231e1094ea4
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2596,7 +2595,7 @@ rules:
   disposition: keep
   kept_as: skill-observability
   quote_from: legacy_registry
-  input_sha256: 9a06e1488668c92f237a10dee9f7d8c2d2cd19c1c7c6c785b2695b3d0ed216c7
+  input_sha256: d133d0e465766dabc57874d8c6c30ff983ff67af9d6d989d2ab3f47c628f76fd
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2608,7 +2607,7 @@ rules:
   disposition: retire
   retire_kind: source_missing
   quote_from: none
-  input_sha256: ce2e8a58867bdcf6639ef082939ec1da6a6fd7beafb2a4faa3efed9671b0c629
+  input_sha256: 6a3931f8c1dca0f5964703f94824eaa4cb2fd93bf4b3ed9ae410de070bf2d6cc
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2620,7 +2619,7 @@ rules:
   disposition: keep
   kept_as: skill-project-workbench
   quote_from: legacy_registry
-  input_sha256: 7ce060c042d216c2da883630ef0c310ab4adaebf755420e293affabbe7b3b25c
+  input_sha256: 7773dd4c7f50b4f18ec3b76bdb8721ff9468f89df3a397182006cc7001650859
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2632,7 +2631,7 @@ rules:
   disposition: keep
   kept_as: skill-prompt-design
   quote_from: source_doc
-  input_sha256: 807a930ace999a0188103cecfa076b1bbec53872ffdd8838416aec9f7c16e151
+  input_sha256: a715df30cfb8bbf217a719afb23c60265fcd9449dedaeb2875287bc94bdfc4c7
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2644,7 +2643,7 @@ rules:
   disposition: keep
   kept_as: skill-research-workbench
   quote_from: source_doc
-  input_sha256: 713e2ff1974379b14ce72fbf66ad89bcf9e7c953a15939c8817e854816c3c136
+  input_sha256: 525f756d511b747f618bca13f27b8cd2fe4c7e28c6572fcc02e60c1ceed43379
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2656,7 +2655,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: b976e37e79c8df75b6e502155521109d4af759250baeef7fea7e1bae47d3e2b1
+  input_sha256: 19ba24d2610958a58575695881da7031e8c4d82da89bf87fecbc91e99de178fa
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2668,7 +2667,7 @@ rules:
   disposition: keep
   kept_as: skill-scout
   quote_from: source_doc
-  input_sha256: 391c37de4cbb40c1f0badd6ad3f3e969e314eb1ca3f7e2159d9431096789e55c
+  input_sha256: 3b9205717e0e57fe2d5c450d92df498c250fc10610208a91d807c7ec26910622
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2680,7 +2679,7 @@ rules:
   disposition: keep
   kept_as: skill-setup-project-makefile
   quote_from: source_doc
-  input_sha256: 1f821d0be18ef0d1ac0a62e86d68de1d639f4c4803a9dadec84db173c7132f5e
+  input_sha256: 12575ea2fffc025c37f49a49c3d488b364898aec8e03bab261ee68ef77982983
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2692,7 +2691,7 @@ rules:
   disposition: keep
   kept_as: skill-share-mcp-with-team
   quote_from: source_doc
-  input_sha256: 1d6f50b247770fd99dc9b37f0e46902f9288397344fff35c35834cdbcdbab041
+  input_sha256: 4385e9b76987ac3ff577eceea6d5bd5288b9335bce8e5b1b145af090f0723f59
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2704,7 +2703,7 @@ rules:
   disposition: keep
   kept_as: skill-skill-creator
   quote_from: legacy_registry
-  input_sha256: 3ff9599a604a025fe09f35857ad434739287dbf265cfd03ac9db5004fa375084
+  input_sha256: 64026e0e4cf59d1943fcb6fc4a7f88d6c81cd0777afbf920371da7ef1f4d95f0
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2716,7 +2715,7 @@ rules:
   disposition: keep
   kept_as: skill-start
   quote_from: legacy_registry
-  input_sha256: a60051a11bca34c6239d3eee30838d88bb0d8d8ee59d2f8047249498b03f9051
+  input_sha256: a2553d64db04782a58cb39936b59d0710b3b2f05169da4be6f08042684e316a7
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2728,7 +2727,7 @@ rules:
   disposition: keep
   kept_as: skill-synthesize
   quote_from: source_doc
-  input_sha256: 6aaa190e4fb7531a1dacfbf4466426d8084805eba2769d0942a3e987055d115a
+  input_sha256: a894204933a959c0ef788b20ab48482d3dcb31fa7dc9d4a803a256d361068946
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2740,7 +2739,7 @@ rules:
   disposition: keep
   kept_as: skill-tool-design
   quote_from: source_doc
-  input_sha256: cb19c1b1420a40f6a4218c3143f3bc14bc9ef77ea41286f97f2372e44c684fc0
+  input_sha256: 8d262a967f01504ca3b7c61d113f651f7749876a95542e91f8f7ef7ebf391917
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2752,7 +2751,7 @@ rules:
   disposition: retire
   retire_kind: source_missing
   quote_from: none
-  input_sha256: bb547f3772189e54d6c8c7f60151fd81917a3d5434888e018d9c8712effbe277
+  input_sha256: c9efccdb248ee955689661542b72575dd61c07926703a28da251f112856d306d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -2764,7 +2763,7 @@ rules:
   disposition: keep
   kept_as: skills-canonical-in-agents
   quote_from: legacy_registry
-  input_sha256: 3b1500b45c892e35eaf51d1a694004ac42daed90c29873ac2785c895cb9ed3ed
+  input_sha256: 1d6c9aff5e890f6f75dc0efbce4382b31578fbacaad06b6e4ff88d5d8fbf025e
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2776,7 +2775,7 @@ rules:
   disposition: keep
   kept_as: slack-messages-must-not-announce-themselves
   quote_from: source_doc
-  input_sha256: 62f15e36636d9737ba88b631197f38d39a77a035897c588d0f9ecf5442049193
+  input_sha256: eb74037f0b482239aa7dcb202361fb3fb8d5f1f3539b50ffbd88bb5a6ed0a340
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2788,7 +2787,7 @@ rules:
   disposition: keep
   kept_as: source-complete-inventory-before-topic-filtering
   quote_from: source_doc
-  input_sha256: 39ea1f5b2ea821150d83b2a1f30f362402a14cd563e30ccfa36f6456c8ad9d71
+  input_sha256: 0581fcceab6bb99ce4f32bb72b91c4d0b8093ba16afff1ea5e3dabc27a58dcce
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2800,7 +2799,7 @@ rules:
   disposition: keep
   kept_as: spotlight-tour-default
   quote_from: source_doc
-  input_sha256: 7e1f8b2ebe1237b81507a7711732eaa1c483e579a6a52cafe42643132098c098
+  input_sha256: a4dd81ea30870e9a2ab16f0229e1ab3f1a4afd8542458ed38df8ecba02d8cc44
   validation: current-source-inventory/v1
   activation: none
   applies_kind: roles
@@ -2812,7 +2811,7 @@ rules:
   disposition: covered
   covered_by: workspace-instructions
   quote_from: workspace_instructions
-  input_sha256: 6e6e490987c45c7c9c374607e7645f652da6d6382e3bda399ad9008ec8016cc6
+  input_sha256: 0b6b893b6e81b27e9befebab86e7293f1c3f910771b583d8b4bd3f463b184471
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2824,7 +2823,7 @@ rules:
   disposition: keep
   kept_as: stage-aware-verification-lanes
   quote_from: legacy_registry
-  input_sha256: edabc0f50021dbb0012110a3de8083938404c7ce9219ec2f60894178cedd61f5
+  input_sha256: 2d8f81746200251b27a4e555e675e4d938ec35a9959ca0a885d3aa6fbb109039
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2836,7 +2835,7 @@ rules:
   disposition: keep
   kept_as: structured-output-json-schema
   quote_from: legacy_registry
-  input_sha256: 095a672a132e10d8f4485e5b5bfb6169d4aa8b32db5c36a00fc770d083375612
+  input_sha256: b69d7a945863076f5c12267841101a9f012ed4bb4a7d43d268baa9efada22ce5
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2848,7 +2847,7 @@ rules:
   disposition: keep
   kept_as: system-assigned-ids-no-llm
   quote_from: legacy_registry
-  input_sha256: 54895f763ee2a0392c3c933afa4b53ebe6be2f67761bd0665056d3ff875dcc1c
+  input_sha256: db8453c1d9b621e7b92926bec550b249d539bdec221d1def012e5450a7cc9df5
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2860,7 +2859,7 @@ rules:
   disposition: keep
   kept_as: systemic-defects-preempt-local-work
   quote_from: source_doc
-  input_sha256: a2668aed7f6572fb57a7767719b5c93e9dae57dcbb6af88f920aa61aa3dbcb94
+  input_sha256: a21fb42bf9aaef6ad943b2b6ebbd231356e12fd144428ff980d64b39c73180b7
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2872,7 +2871,7 @@ rules:
   disposition: retire
   retire_kind: source_missing
   quote_from: none
-  input_sha256: 24b2e9e3283c7fefd490697577f7ad2a78d932303553cf72b68025d1cc620246
+  input_sha256: e413d22166796ce33f4546dcc1c3473f87969360f5043de2eca08ae1f0f3aac2
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2884,7 +2883,7 @@ rules:
   disposition: keep
   kept_as: terminology-linter
   quote_from: source_doc
-  input_sha256: 3d12f493426e1cffb64e602a17e4c1d7980fecce9704c029f6787389161ca472
+  input_sha256: 101c8b9f85e0219c9d530013136bc984cd18601811d8cde7b1ea27e60aae155b
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2896,7 +2895,7 @@ rules:
   disposition: keep
   kept_as: third-party-platform-automation-preflight
   quote_from: source_doc
-  input_sha256: 81975b2f8f4d56763ad1d042307f25f09b12bccacdd7b5ebf5d26f8f8f802853
+  input_sha256: 8042a980f7fe9cf9b482dfc9eadda9adb5c89bdc45eb9e721eb68728ab1a40a7
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2908,7 +2907,7 @@ rules:
   disposition: keep
   kept_as: tool-interface-policy
   quote_from: legacy_registry
-  input_sha256: d1c48a7b37e6619970c8ed41801e4205cf7620ee2427a2b80a7d0bd08a8ec6ac
+  input_sha256: 65a32376401b4983085507577f5b63db85b8e71a75f537e0d5aa758f946e8333
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2920,7 +2919,7 @@ rules:
   disposition: keep
   kept_as: trace-eval-verification-gate
   quote_from: legacy_registry
-  input_sha256: e701cf6f4aff3657ebf68cf8ac0b527e35db9562c0b2c4fcda3de2a7f15aa3fc
+  input_sha256: 188c2c6519fa280ea4c3cf2f80426a6794e2e9a639a82bad4822133748225f85
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2932,7 +2931,7 @@ rules:
   disposition: keep
   kept_as: trace-evaluable-fields
   quote_from: legacy_registry
-  input_sha256: 3bd8c733e1389a54767c3295fd50e29b120b21218df55b7d755cc7913b51a982
+  input_sha256: 0681277fd29761da8eb9a8a18f9ee284247cbda9b0b139012e4d825d7bcfe604
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2944,7 +2943,7 @@ rules:
   disposition: keep
   kept_as: translate-internal-controls-without-approval-burden
   quote_from: legacy_registry
-  input_sha256: dc61e8fc165f4eb4f18f10940e70be3538d5a36de30a68f2b9effa4b7365abe4
+  input_sha256: 7238d3f8f0613c82e660b29583092ac707ba4aa6910ff6bc3a7f6e34f4172624
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2956,7 +2955,7 @@ rules:
   disposition: keep
   kept_as: typed-boundaries
   quote_from: legacy_registry
-  input_sha256: 301875f3e0fca3a0fe9f9621ad62f52a28fa2d2be37fdc2ba3b7f14365117f6f
+  input_sha256: 0dad2507977b98b692ca647a0b2ab12aa6253846f5d60979edb2dd974d471d7d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2968,7 +2967,7 @@ rules:
   disposition: keep
   kept_as: ui-continuity-policy
   quote_from: source_doc
-  input_sha256: 7d83820868b320d92e22b8d1d67df9aa5566475dfb658377154ef350036da140
+  input_sha256: 7e498372478ed49e7ef81a70839e28137255b43f8c58073f8ea1b375b033f9fd
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -2980,7 +2979,7 @@ rules:
   disposition: keep
   kept_as: ui-learning-loop
   quote_from: source_doc
-  input_sha256: 74a82b147642a0e3622f5cdc9d9aa8e64d32e76050cf6bd5a5a92198c5d551bd
+  input_sha256: bc080985faafa74c528e8dd2ffd0139a74c1d7ff73a07b6effd728cc22a86304
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -2992,7 +2991,7 @@ rules:
   disposition: keep
   kept_as: ui-stack-policy
   quote_from: legacy_registry
-  input_sha256: 0a5bd68287689ddf2fa25ffdfae4215a287cf33948655a36f84bd5f6dcbfeab7
+  input_sha256: 8e333999b588e0eecd0b5004e168264d8ed0a8ee423ccf065f4a1a34ce17d936
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -3004,7 +3003,7 @@ rules:
   disposition: keep
   kept_as: unattended-failure-must-reach-a-person
   quote_from: source_doc
-  input_sha256: 8bed438b23410bcd3709fab7a4cf440d80c661951cf37be7e31520cb8ec43792
+  input_sha256: 2a030f4bc944dad329246dd9ee8de1c3032f522cfe8b0f105b97243ab3eddfe9
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -3016,7 +3015,7 @@ rules:
   disposition: keep
   kept_as: unpromoted-session-knowledge-routing
   quote_from: source_doc
-  input_sha256: be569cab2fe2ccd9f6cab1b3dde76abb43bc76902e8cfc583a106d49ab250c55
+  input_sha256: 2ea115ac5827677a230f87f50c1a3c66085678a420af70dab7055944378866df
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -3028,7 +3027,7 @@ rules:
   disposition: keep
   kept_as: user-requested-front-door-first
   quote_from: source_doc
-  input_sha256: df84e78f86a891cd17eda48616a2d8cd0e10f72c76adb58b617a77cc1c6019bb
+  input_sha256: 79193d2ad43a7c6b94089d407285bc4f7b0ad07f69ae9290bf61169c92318afc
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -3040,7 +3039,7 @@ rules:
   disposition: keep
   kept_as: user-visible-progress-before-diagnostic-repetition
   quote_from: source_doc
-  input_sha256: a41728b381f678fff1d934e8433c3bed9e943ff7c9b78a1ddd8a2208007a3bcc
+  input_sha256: 91666342eb3491c277df827455fb2128e7ce1a9c32755db5bcb97637bd918ae4
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -3052,7 +3051,7 @@ rules:
   disposition: keep
   kept_as: value-before-monetization-mechanics
   quote_from: source_doc
-  input_sha256: d4fd6e07677cab836dc820b9fed446a95c459c34a87f7f5ba61569007f3f605a
+  input_sha256: 0d8c34254f8ed89da02e30b250f582b9d70fd1953dfeb6aa2b08fa782930bd88
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -3064,7 +3063,7 @@ rules:
   disposition: keep
   kept_as: verify-credential-recoverability-before-human-handoff
   quote_from: source_doc
-  input_sha256: ce914562375ba8016bd56b3c2a02d6fe5253a68c995c5c8bf94a7927946a8754
+  input_sha256: 33ff19f3abc2ce1794dd1157031be448938cf40df5233f5886db55feebfa9e70
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -3076,7 +3075,7 @@ rules:
   disposition: keep
   kept_as: visibility-before-enforcement
   quote_from: source_doc
-  input_sha256: 07cc336289f176cde34e4b07ec5ac3deac7a758cca043782b0876b9c2a9fdc7b
+  input_sha256: bc5fd1db2e4de819039777533500a7d84c35dbebeb829bcd6aba6cb2834669c1
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -3088,7 +3087,7 @@ rules:
   disposition: keep
   kept_as: visual-decision-review
   quote_from: source_doc
-  input_sha256: ece04e1132f23b100d49d1e2048a74b39132f8610cbdd88266b3014f925a9eaa
+  input_sha256: 983f45c3e68bf58345f9ad49bdfa7467d3794145373dbad7c6bf44a43fc2820c
   validation: current-source-inventory/v1
   activation: none
   applies_kind: actions
@@ -3100,7 +3099,7 @@ rules:
   disposition: keep
   kept_as: wiki-first-navigation
   quote_from: legacy_registry
-  input_sha256: dfed604d547985139c07f141edad6228f3162b5b0be674908ae214aea97d41e8
+  input_sha256: c6a7c31951372f14f212e2a4e131e9b7be0da9f450729a1e720db9841add8598
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -3112,7 +3111,7 @@ rules:
   disposition: keep
   kept_as: wiki-manifest-validity
   quote_from: legacy_registry
-  input_sha256: cb35c7cef85452077138f1c9740fd151e83da65fcfdbaaeaf30a5b882bb3b620
+  input_sha256: b75da1c5c441d11ef18c5558e81fe5501e2d1dbc23d142dd6a553d50e574cd2a
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -3124,7 +3123,7 @@ rules:
   disposition: keep
   kept_as: workspace-root-project-manager-target-separation
   quote_from: source_doc
-  input_sha256: 9ae79522d5121030a306c9dd51c7795cb483d9161394f90b4e6a7530a6b4121f
+  input_sha256: 3b8af9ce8853ef23bb6b87d0191c5b44cdfa5ad418a513f7e8201b9e5a6f43ce
   validation: current-source-inventory/v1
   activation: none
   applies_kind: always
@@ -3136,7 +3135,7 @@ rules:
   disposition: keep
   kept_as: workspace-state-visibility
   quote_from: source_doc
-  input_sha256: b66cf3116c48b1cbf3bda651ed936c737e5d4108bbcfaa0cecce714d529ee0da
+  input_sha256: d0d2f3086bdb7d8d90ce748b72cf85065d8684acdd07ca67a7134dd7269b2648
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -3148,7 +3147,7 @@ rules:
   disposition: keep
   kept_as: worktree-inside-repo
   quote_from: legacy_registry
-  input_sha256: f5f805b7022b0ef094000d8d0d1c4687386033eefb2395d0b23e37b27574dd21
+  input_sha256: 7fe18f977f7b8d2a7eb323f5b104157f049ced99cc8c08695e122f47f81ef943
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
@@ -3160,7 +3159,7 @@ rules:
   disposition: keep
   kept_as: worktree-lifecycle-disposition
   quote_from: legacy_registry
-  input_sha256: 7d9fb92dc6009df2d94a68f656274237405787ac43c836aa603bf8c4bc994232
+  input_sha256: bb4e514a12060ca554524dfda66fde69273ac90f23ff379c2001d7ed75d0d33d
   validation: current-source-inventory/v1
   activation: none
   applies_kind: intent
