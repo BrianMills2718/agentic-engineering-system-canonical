@@ -1,4 +1,13 @@
 {
+  "066aff972fcf94986586a0dc7c1b362a9ca646eefb67b22fcad7fd6fd78c5fb8": {
+    "item_id": "OV-CONTRACTS-SCHEMAS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies the crossed contracts and schemas, their owners, and file paths or URLs, including feedback-report.v1, taxonomy projections and evidence, specialist results, planning receipts, path decisions, execution cursors, and GitHub branch-protection APIs. It also states whether each is unchanged or changed, including the specific additive projection/hash changes and the unchanged producer schemas.",
+    "trace_id": "company-planning/method-conformance/PLAN/739322b23452/OV-CONTRACTS-SCHEMAS",
+    "verdict": "pass"
+  },
   "0c4211417c1c1cbccc67c23142406635ed29ec21f7160546a4ff0dec9c14aa41": {
     "item_id": "OV-PRIOR-ART-DISPOSITION",
     "materiality": "non_material",
@@ -42,6 +51,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence names OpenRouter/shared-client as the provider route and Brian as the authorization/spend authority. It also states an authentic-run promotion condition: the actual default consumer must read the authentic source sentence, with a source-grounded, validator-accepted disposition before promotion.",
     "trace_id": "company-planning/method-conformance/PLAN/720f1c74bf92/OV-LLM-AUTHORITY-PROMOTION",
+    "verdict": "pass"
+  },
+  "18160756d26e45ad059f4cae89742208e0e54c9b057476b497820a6271793b77": {
+    "item_id": "OV-CONTRACTS-DEPENDENCIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies producers and consumers for the listed schemas and contracts, including feedback records, taxonomy evidence, specialist results, adoption receipts, planning decisions, and execution cursors. It also specifies the landing order\u2014AES plan and transport repair, then the backward-compatible agent-skills reader and disposition, with the private runtime refreshed last\u2014and explains why existing consumers do not break.",
+    "trace_id": "company-planning/method-conformance/PLAN/739322b23452/OV-CONTRACTS-DEPENDENCIES",
     "verdict": "pass"
   },
   "18ccc4c72f1ec6d9a6bd6550ee88b8781b04cc6c3bafbdd313e94bfaf4aefad6": {
@@ -107,6 +125,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/9bff42d9cc07/CORE-TRACE-REVIEW",
     "verdict": "pass"
   },
+  "3008df838bfad1a0c399ee7836654ae68abc10d6b2d1922b1e8f0ea7108653a1": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "All triggered activation facts evidenced by the plan are declared true: shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, aes_governed_target, crosses_system_boundary, and deploys. The declared false empirical_comparison_proposed is not triggered because the native and remote cases are acceptance/regression checks against expected behavior, not an experiment comparing alternatives to choose among them.",
+    "trace_id": "company-planning/method-conformance/PLAN/fd111e9a160c/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
   "3437a2cc471605ff398f0f587b56bfc692ebc48d936f55f9af12888c26af36b0": {
     "item_id": "CORE-ACTIVATION-FACTS",
     "materiality": "material",
@@ -115,6 +142,33 @@
     "rationale": "The explicitly triggered facts are correctly declared true or, for empirical_comparison_proposed, false with evidence that the plan uses acceptance/regression cases rather than comparing alternatives. However, the plan\u2019s cross-repository work triggers a system-boundary crossing, while DECLARED ACTIVATION FACTS lists crosses_system_boundary as false.",
     "trace_id": "company-planning/method-conformance/PLAN/eb8041f3db1c/CORE-ACTIVATION-FACTS",
     "verdict": "unresolved"
+  },
+  "36faf303583b43e37a30b1e8acd48651fd72febdfc3d627f7d2bff43f5fddcb9": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, and aes_governed_target true, matching the new shared intake seam, LLM-dependent checks, approved spend, external DevelopmentInvestigationResultV1 schema, and governed AES target. It explicitly states that the native/remote cases are acceptance and regression checks rather than a comparison of designs or models, so empirical_comparison_proposed=false is not a triggered false fact.",
+    "trace_id": "company-planning/method-conformance/PLAN/739322b23452/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "37d3e1024b1ac858145b195f595335582a55c48812ffcbb82d74a76dc979bb08": {
+    "item_id": "OV-DEPLOY-PLAN",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the deployment targets, including the branch-protection rule and the private checkout, and specifies the deployment operations (`gh api graphql`, `git fetch origin`, and `git checkout --detach <verified merged commit>`). It also defines live checks for the protection state and deployed checkout, plus rollback procedures for both changes.",
+    "trace_id": "company-planning/method-conformance/PLAN/fd111e9a160c/OV-DEPLOY-PLAN",
+    "verdict": "pass"
+  },
+  "3c24652d076a2ad56d877b3cf2b38fea03f8c81e3b1e5e51607568f11a10aecf": {
+    "item_id": "OV-DEPLOY-PLAN",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence identifies both deployment targets: the branch-protection rule and the private checkout used by taxonomy-feedback.service. It explicitly provides deployment commands, live checks demonstrating the updated protection or deployed checkout behavior, and rollbacks for each.",
+    "trace_id": "company-planning/method-conformance/PLAN/53f31761edf2/OV-DEPLOY-PLAN",
+    "verdict": "pass"
   },
   "41801085e22601ea9beace47cc33760fc240f4a91a103c768ae172f0ff20888c": {
     "item_id": "OV-CONTRACTS-DEPENDENCIES",
@@ -222,6 +276,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "Every triggered activation fact is not declared false: the plan declares shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, and aes_governed_target true. It explicitly declares empirical_comparison_proposed false, but the evidence describes acceptance/regression cases rather than an experiment comparing alternatives, so that fact is not triggered; the optional boundary and deployment facts are also declared false without evidence of such activity.",
     "trace_id": "company-planning/method-conformance/PLAN/28f3890c7ab7/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "60734ac8e2e4bd1b0d363b3e99e99b8bd1945f77e94a480c22a74ba7eedde8cd": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides a requirements list (R1\u2013R5), and each requirement explicitly names one or more checks and a status of passing. It also states that no requirement is deferred and addresses the presented schema claim by including External DevelopmentInvestigationResultV1 validation in R3 while clarifying that the taxonomy Entry projection is not labelled as a feedback-report.v1 object.",
+    "trace_id": "company-planning/method-conformance/PLAN/fd111e9a160c/CORE-REQUIREMENTS-TRACED",
     "verdict": "pass"
   },
   "610da4fa95415688468f2078241572412ef373416089b1b6a53e17c6a4f8b33f": {
@@ -332,6 +395,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/eb8041f3db1c/CORE-UNCERTAINTIES",
     "verdict": "pass"
   },
+  "8cd45999f2936923092f2110327d7c30262e2d9fb4b904b37d38c41ab27cc163": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence links SYSTEM_MODEL.md, identifies the documentation discovery path and repository scope, names the affected model elements, and specifies what the examined run must show for each. It also identifies applicable views, explains that no product UI is added, gives concrete freshness/drift checks, and states how the model, view status, links, receipts, reviewed state, and execution evidence will be reconciled in the same change.",
+    "trace_id": "company-planning/method-conformance/PLAN/739322b23452/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
   "8f446d9942cdb151920651ce91ef1ab09d0742dd42f3d9b32ab4f687bd749829": {
     "item_id": "CORE-CAPABILITY-REUSE",
     "materiality": "material",
@@ -411,6 +483,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence links SYSTEM_MODEL.md, identifies the model scope and each affected element with specific observations required in the examined run. It also provides the documentation discovery path, applicable views and omission rationale, concrete freshness/drift checks, and same-change reconciliation steps.",
     "trace_id": "company-planning/method-conformance/PLAN/6a2ce5430153/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "c9043db0fe3d67df8bbc8d3166a6584214f62ca0bf1e960f9fc24b6fd7e72a2b": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares every triggered activation fact as true: it adds a shared taxonomy intake seam, centrally relies on LLM calls, incurs approved usage, claims conformance to DevelopmentInvestigationResultV1, crosses repositories, deploys a runtime refresh, and targets an AES-governed repository. It explicitly states that no A/B test, benchmark, bake-off, or alternative-design comparison is proposed, so empirical_comparison_proposed is correctly false.",
+    "trace_id": "company-planning/method-conformance/PLAN/53f31761edf2/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   },
   "c9222066b389ce386fc9766843a05bfa1a14ffaaba4744294e2fe361d6944d26": {

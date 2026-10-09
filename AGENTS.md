@@ -124,6 +124,8 @@ read `CLAUDE.md` directly.
 
 ## References
 
+- Worktree lifecycle: [plan](proposals/worktree-lifecycle/PLAN.md), [model](proposals/worktree-lifecycle/SYSTEM_MODEL.md), [validation](proposals/worktree-lifecycle/VALIDATION.md), and [goal](proposals/worktree-lifecycle/worktree-lifecycle.goal.md). These are proposal/navigation references; the owning lane retains execution custody.
+
 - Feedback intake and transport prevention: [plan](proposals/aes-feedback-prevention/PLAN.md), [system flow](proposals/aes-feedback-prevention/SYSTEM_MODEL.md), and [goal](proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md). These are a bounded repair record, not additional repository authority.
 - `wiki/index.md` — progressive-disclosure navigation only; follow links to native authority.
 - `docs/decisions/0010-greenfield-v0.2-accepted.md` — AES v0.2 greenfield MVP accepted as realized: evidence, standing decisions with wrong-when conditions, non-claims, v0.1 disposition.
