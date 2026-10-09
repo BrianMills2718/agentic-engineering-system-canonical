@@ -25,7 +25,19 @@ and automatic delivery checks followed by semantic trace review. Saved native
 Claude evidence proves the compiled role and exact read-only tool catalogue were
 delivered; complete behavior/permission parity is not certified. The PR497 source
 foundation merged; it does not prove router activation. The collector at that
-revision misses this child's result binding; the coordinator owns its repair.
+revision missed this child's result binding; PR499 repaired it at `74977b4e`,
+and a fresh saved-trace replay found the original child and final result.
+The [paired evidence checker](../proposals/harness-context/native-parity/verify_evidence.py)
+now binds all four native traces, derives context/permission observations, and
+checks exhaustive source review. Fourteen negative-control tests pass. The strict
+parity mode refuses certification: Claude's answer retains source errors and the
+tested Codex child retains excess bootstrap context. Original answers remain intact;
+full child enforcement/hook parity and compact Codex0.162 execution remain unproved.
+The agent-router inventory merged in PR500 at `c08837fe`: 263 source identities,
+229 keep, 27 covered and 7 retirement candidates. Its 33 published baseline rules
+retain their policy/enforcement; added applicability tags are inventory metadata,
+not activation or a global instruction change. Detailed private evidence remains
+with its owning lane.
 The [skip-only recorder repair](../proposals/evidence-recorder-counts/README.md) is
 reproduced but unimplemented: required adoption demands future execution proof ([#282](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282)); do not report #257 fixed.
 

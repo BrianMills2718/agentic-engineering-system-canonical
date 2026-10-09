@@ -1,21 +1,127 @@
 {
-  "command": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
-  "exit_status": 0,
-  "elapsed_seconds": 2449.86,
-  "finished_at_utc": "2026-10-09T10:06:06.981827+00:00",
-  "log": "/home/brian/.codex/log/harness-fresh-parity-local-check-20261009.log",
-  "passed": 342,
-  "failed": 0,
-  "errored": 0,
-  "skipped": 1,
-  "mypy_source_files": 22,
-  "mypy_issues": 0,
-  "executed_objects": {
-    "src": "8b4f5d5620a478affc315767da7e1ff795c6483e",
-    "tests": "fdbc314421da4ac01dea0832637b29f33a4e34a9",
-    "Makefile": "2e8501ab48366904cb811c25bd8300df2f70fd06",
-    "pyproject.toml": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
-    "AGENTS.md": "4f5e1ed522ab302074d1f31f7e18334b38469815",
-    "CLAUDE.md": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808"
-  }
+  "state": "passed_with_exact_source_gate_reuse",
+  "executed_source_objects": [
+    {
+      "path": "src",
+      "tested": "8b4f5d5620a478affc315767da7e1ff795c6483e",
+      "candidate": "8b4f5d5620a478affc315767da7e1ff795c6483e",
+      "matches": true
+    },
+    {
+      "path": "tests",
+      "tested": "903ed8ff3dccfa2e053189401dbf7e71d4abbddc",
+      "candidate": "903ed8ff3dccfa2e053189401dbf7e71d4abbddc",
+      "matches": true
+    },
+    {
+      "path": "scripts",
+      "tested": "6c487eb3ba01c6ab23c3914f5465e86a64da8a7a",
+      "candidate": "6c487eb3ba01c6ab23c3914f5465e86a64da8a7a",
+      "matches": true
+    },
+    {
+      "path": "contracts",
+      "tested": "9fc7d7d454cbefa602a20f268837290c86d8443e",
+      "candidate": "9fc7d7d454cbefa602a20f268837290c86d8443e",
+      "matches": true
+    },
+    {
+      "path": "enforced_planning",
+      "tested": "63c423d3c5e634accfdeae2b5ed76af715ee6326",
+      "candidate": "63c423d3c5e634accfdeae2b5ed76af715ee6326",
+      "matches": true
+    },
+    {
+      "path": "Makefile",
+      "tested": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+      "candidate": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+      "matches": true
+    },
+    {
+      "path": "pyproject.toml",
+      "tested": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+      "candidate": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+      "matches": true
+    },
+    {
+      "path": "AGENTS.md",
+      "tested": "4f5e1ed522ab302074d1f31f7e18334b38469815",
+      "candidate": "4f5e1ed522ab302074d1f31f7e18334b38469815",
+      "matches": true
+    },
+    {
+      "path": "CLAUDE.md",
+      "tested": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808",
+      "candidate": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808",
+      "matches": true
+    }
+  ],
+  "reused_full_gate": {
+    "state": "passed",
+    "command": [
+      "make",
+      "check",
+      "PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python"
+    ],
+    "revision": "8aa680e3747cc104e747a39926ed605fddd941dd",
+    "exit_status": 0,
+    "elapsed_seconds": 771.504,
+    "log_path": "/home/brian/projects/data/agentic-engineering-system-canonical/agent-router-local-check-2026-10-09.log",
+    "passed": 386,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 1,
+    "mypy_source_files": 22
+  },
+  "full_gate_log_sha256": "320e702dbb7ac666e4cd4588f0b4860569a398b132bb4c41287790c6cae1a2f7",
+  "focused_tests": {
+    "command": "/home/brian/.local/bin/python -B proposals/harness-context/native-parity/test_verify_evidence.py",
+    "passed": 14,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0,
+    "exit_status": 0
+  },
+  "trace_integrity": {
+    "command": "verify_evidence.py",
+    "passed": 369,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0,
+    "exit_status": 0
+  },
+  "strict_behavior_check": {
+    "command": "verify_evidence.py --require-parity",
+    "exit_status": 1,
+    "expected_failure": true,
+    "reason": "Behavior parity is not established; original Claude source errors and excess Codex context preserved."
+  },
+  "independent_review": {
+    "source_sha256": "68a267a77244626e8de3f84d0da28f32abcbfe714fd04e2b61feb3b1c46fad0c",
+    "tests_passed": 14,
+    "result": "no remaining material blocker for evidence verifier",
+    "post_review_changes": [
+      "Terminal assistant identity check strengthened;14tests rerun,369integrity checks pass,strict CLI returns expected exit1."
+    ]
+  },
+  "collector_replay": {
+    "source_revision": "74977b4e8d54d2b629de65732af0772985651048",
+    "passed": 4,
+    "failed": 0,
+    "exit_status": 0,
+    "child_id": "aff90f2e49dbf83f8",
+    "result_characters": 6416
+  },
+  "duplicate_gate": {
+    "unit": "harness-parity-proof-check-20261009",
+    "disposition": "Task-owned duplicate stopped after newer gate and exact source equality were verified; not counted as a passing gate.",
+    "observed_status": "MainPID=0\nExecMainStatus=15\nActiveState=failed\nSubState=failed",
+    "log_path": "/home/brian/projects/data/agentic-engineering-system-canonical/harness-parity-proof-check-2026-10-09.log"
+  },
+  "limits": [
+    "Local source gate covers its exact subject; changed proposal verifier additionally covered by14focused tests.",
+    "No new model calls or provider billing are part of this evidence repair.",
+    "Behavior parity remains failed/inconclusive; integrity success does not complete the broader harness goal."
+  ],
+  "candidate_verifier_sha256": "533d11466396117bcc850b423bba797c3bcceeb5d044ad16d5b21c6d1c696ed6"
 }

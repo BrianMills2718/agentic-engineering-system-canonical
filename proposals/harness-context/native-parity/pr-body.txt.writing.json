@@ -1,0 +1,86 @@
+{
+ "situation": {
+  "schema": "writing-situation/v2",
+  "medium": "document",
+  "route": "tool",
+  "rationale": "Describe the concrete input, observed output and checks of this reversible evidence tool",
+  "facts": {
+   "asks_for_approval_or_resources": {
+    "value": false,
+    "evidence": "Authorized_reversible_harness_work"
+   },
+   "central_claim_needs_argument": {
+    "value": false,
+    "evidence": "Concrete_source_verified_patch"
+   },
+   "is_chat_message": {
+    "value": false,
+    "evidence": "GitHub_PR_description"
+   },
+   "is_dloa": {
+    "value": false,
+    "evidence": "No_daily_log"
+   },
+   "is_email": {
+    "value": false,
+    "evidence": "No_email"
+   },
+   "is_job_application": {
+    "value": false,
+    "evidence": "Harness_checker"
+   },
+   "is_message_to_brian": {
+    "value": false,
+    "evidence": "Repository_PR_metadata"
+   },
+   "reader_decides_from_this": {
+    "value": false,
+    "evidence": "Technical_review_uses_diff_and_checks"
+   },
+   "reader_performs_task": {
+    "value": false,
+    "evidence": "Description_includes_optional_replay_command"
+   },
+   "reports_transferable_failure": {
+    "value": false,
+    "evidence": "Describes_verified_tool_repair"
+   },
+   "subject_is_built_artifact": {
+    "value": true,
+    "evidence": "Saved_trace_evidence_checker"
+   }
+  }
+ },
+ "items": {
+  "a-real-output": {
+   "status": "pass",
+   "quote": "Saved Claude and Codex traces",
+   "note": "Four native inputs produce a saved integrity receipt and strict behavior failure; paired review preserves actual outputs."
+  },
+  "a-distinguishing": {
+   "status": "pass",
+   "quote": "verifies actual instruction delivery",
+   "note": "Actual trace delivery covers inherited context and unsupported conclusions that file matching cannot establish."
+  },
+  "a-absences": {
+   "status": "pass",
+   "quote": "This replays existing evidence to avoid another model run.",
+   "note": "Saved evidence replay is intentionally bounded; broad runtime parity remains unproved."
+  },
+  "a-run-it": {
+   "status": "pass",
+   "quote": "Run: /home/brian/.local/bin/python",
+   "note": "Command tested through native process; strict refusal exit1 is expected."
+  },
+  "a-use-else": {
+   "status": "pass",
+   "quote": "Use fresh native execution when the client, role or required capability changes.",
+   "note": "Changed runtime inputs require authentic execution and a new bound review."
+  },
+  "rep-considered": {
+   "status": "pass",
+   "quote": "The research document includes Claude Workflows",
+   "note": "Short PR description uses prose and the tested command; the existing research diagram carries the workflow comparison, so no extra figure is useful here."
+  }
+ }
+}
