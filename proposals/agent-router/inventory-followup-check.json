@@ -1,6 +1,6 @@
 {
   "schema_version": "agent-router.inventory-followup.v1",
-  "recorded_at": "2026-10-09T17:11:25.892456+00:00",
+  "recorded_at": "2026-10-09T20:19:31.576728+00:00",
   "merged_collector_pr": 499,
   "merged_inventory_pr": 500,
   "runtime_revision": "c08837fe52d9220c3562ca29573ff58304592ba3",
@@ -11,11 +11,11 @@
     "covered": 27,
     "retire_candidates": 7
   },
-  "followup_merge_state": "public candidate; integration blocked on full local test-fixture storage admission",
+  "followup_merge_state": "Full local check passed; integration and deployed reader check pending",
   "current_public_cost_total_removed": true,
   "full_private_cost_accounting_retained": true,
   "model_calls": 0,
-  "storage_gate_exit": 75,
+  "storage_gate_exit": 0,
   "native_storage_maintenance_exit": 0,
   "private_branch_publication": "Publish only this six-file projection branch. Full private execution history is retained separately and excluded from public ancestry.",
   "old_public_source_ref": "rules-sort unchanged after automatic Careful rejection of force-with-lease history rewrite",
@@ -55,6 +55,21 @@
     }
   },
   "local_merge_gate": {
+    "source_revision": "f3a52e77c8a48455a8d794c962db8392d5153c3c",
+    "command": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+    "outcome": "passed",
+    "passed": 386,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 1,
+    "mypy_source_files": 22,
+    "exit_status": 0,
+    "elapsed_seconds": 540.641,
+    "finished_at": "2026-10-09T20:14:07.452266+00:00",
+    "log": "/home/brian/projects/data/agentic-engineering-system-canonical/agent-router-local-check-2026-10-09.log",
+    "storage_gate_exit": 0
+  },
+  "prior_blocked_merge_gate": {
     "source_revision": "8f38b2d082d0cb1ec08175e883d6f00d6cc31f40",
     "command": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
     "outcome": "blocked",
@@ -76,5 +91,22 @@
       "exit_status": 75
     },
     "concern": "https://github.com/BrianMills2718/project-meta/issues/2506"
+  },
+  "public_delivery": {
+    "pull_request": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/503",
+    "checked_revision": "f3a52e77c8a48455a8d794c962db8392d5153c3c",
+    "state": "Full local check passed; pending integration"
+  },
+  "current_source_recheck": {
+    "exact_ids": 263,
+    "disposition_counts": {
+      "keep": 229,
+      "covered": 27,
+      "retire": 7
+    },
+    "failed": 0,
+    "exit_status": 0,
+    "command": "PROJECT_META=<existing canonical checkout> AES venv python scripts/rules/sort_legacy.py --check",
+    "new_model_calls": 0
   }
 }
