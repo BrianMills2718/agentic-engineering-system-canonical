@@ -117,7 +117,7 @@ def messages_in(value):
 
 def calls(path: Path, client: str):
     """Pair calls/results over the whole changed parent, not the collector's new tail."""
-    pending, found, receipts = {}, [], []
+    pending, found, receipts, child_calls = {}, [], [], set()
     session, cwd = path.stem[-36:], ""
     for at, d in rows(path):
         p = obj(d.get("payload"))
@@ -132,21 +132,21 @@ def calls(path: Path, client: str):
                 candidates.append((p.get("call_id"), p.get("name", "").split(".")[-1], obj(p.get("arguments"))))
             elif p.get("type") == "function_call_output":
                 outputs.append((p.get("call_id"), obj(p.get("output"))))
-                messages.append(str(p.get("output", "")))
+                if p.get("call_id") not in child_calls:
+                    messages.append(str(p.get("output", "")))
             elif p.get("type") == "custom_tool_call_output":
                 messages.extend(messages_in(p.get("output")))
-            elif p.get("type") == "message" and p.get("role") == "assistant":
-                messages.append(text_content(p.get("content")))
         elif client == "claude" and not d.get("isSidechain"):
             for b in d.get("message", {}).get("content", []) if isinstance(d.get("message", {}).get("content"), list) else []:
                 if b.get("type") == "tool_use":
                     candidates.append((b.get("id"), b.get("name"), obj(b.get("input"))))
                 elif b.get("type") == "tool_result":
                     outputs.append((b.get("tool_use_id"), obj(d.get("toolUseResult"))))
-                    messages.append(text_content(b.get("content")))
-                elif b.get("type") == "text" and d.get("type") == "assistant":
-                    messages.append(b.get("text", ""))
+                    if b.get("tool_use_id") not in child_calls:
+                        messages.append(text_content(b.get("content")))
         for call_id, name, args in candidates:
+            if name in ("spawn_agent", "followup_task", "Agent", "Task", "TaskOutput"):
+                child_calls.add(call_id)
             if name in ("spawn_agent", "followup_task", "Agent", "Task") and call_id:
                 target = args.get("target")
                 previous = next((r for r in reversed(found) if r["child_ref"] == target or
