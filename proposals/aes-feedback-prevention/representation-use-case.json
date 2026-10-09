@@ -1,0 +1,50 @@
+{
+  "id": "feedback-prevention-case",
+  "concern": "How does this feedback become a shared repair and a check that prevents a repeat?",
+  "stakeholder": "Brian",
+  "intent": [
+    "understand",
+    "trace"
+  ],
+  "informationStructure": [
+    "process",
+    "network"
+  ],
+  "tasks": [
+    "trace",
+    "inspect"
+  ],
+  "entities": [
+    "Actual feedback record",
+    "Existing failure-pattern review",
+    "Reviewed disposition",
+    "Shared instruction repair",
+    "Native local case",
+    "Remote-required case",
+    "Parent prevention check"
+  ],
+  "relationships": [
+    "read by",
+    "generalized by",
+    "repaired at",
+    "permits native work",
+    "requires remote preflight",
+    "verified by"
+  ],
+  "scale": {
+    "items": 7,
+    "density": "low"
+  },
+  "interaction": {
+    "mode": "read-only",
+    "dynamics": "static"
+  },
+  "audience": {
+    "expertise": "novice"
+  },
+  "explanatoryFocus": [
+    "flow",
+    "mechanism",
+    "uncertainty"
+  ]
+}

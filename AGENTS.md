@@ -115,7 +115,7 @@ read `CLAUDE.md` directly.
 - A block must provide a runnable recovery path or an explicit human escalation boundary.
 - Plan completion never closes a gap by itself; fresh observation and re-characterization determine closure.
 - Verification is provider-independent under Decision 0008: local/external execution is first-class, hosted CI is optional infrastructure, evidence reuse is claim-specific over the transitive executed subject, and fresh exact-revision runs should use the incumbent Enforced Planning verification-batch mechanism. (For the v0.2 governed roots, fresh runs are `aes evidence record`; Decision 0010.)
-- Prefer ChatGPT Work for substantial machine-dependent AES execution when available; normal Chat remains suitable for GitHub/research work but is not assumed to retain custom Remote MCP exposure across long conversations. In either surface, run the Execution readiness preflight below before any machine-dependent plan or promise. Missing Remote MCP tools are a session/tool-exposure failure, not evidence that the machine or WSL is offline.
+- Select the execution transport before applying its readiness checks. Native Codex/Claude sessions and their subagents use the local filesystem/process tools already exposed under their task permissions; they do not require Remote MCP discovery or a device ping for local work. Work that requires Remote MCP follows the Execution readiness preflight below, including tool exposure, device readiness and ping. Missing Remote MCP tools block that remote route; they do not establish that the machine or WSL is offline or block an authorized native local route. Prefer ChatGPT Work for substantial Remote MCP execution when available because connector exposure can vary across conversations.
 - Proposed changes to the adopted methodology go through `proposals/` and then the owning methodology repository; this consumer does not silently redefine the standard.
 
 ## Machine-Readable Governance
@@ -124,6 +124,7 @@ read `CLAUDE.md` directly.
 
 ## References
 
+- Feedback intake and transport prevention: [plan](proposals/aes-feedback-prevention/PLAN.md), [system flow](proposals/aes-feedback-prevention/SYSTEM_MODEL.md), and [goal](proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md). These are a bounded repair record, not additional repository authority.
 - `wiki/index.md` — progressive-disclosure navigation only; follow links to native authority.
 - `docs/decisions/0010-greenfield-v0.2-accepted.md` — AES v0.2 greenfield MVP accepted as realized: evidence, standing decisions with wrong-when conditions, non-claims, v0.1 disposition.
 - `docs/architecture/greenfield-v0.2/` — accepted v0.2 architecture; `.aes/target.yaml` is the live authority for this repository.

@@ -1,0 +1,398 @@
+{
+  "choice-justified:directed-handoff-flow": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "guessing-text-widths": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "one-fixed-label-coordinate-per-mark": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "shrinking-required-text-to-fix-collisions": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "desktop-layout-scaled-blindly-to-mobile": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "mixing-source-derived-phrases-with-interpretive-glosses": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "putting-full-semantic-prose-inside-visual-marks": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "using-an-expert-explorer-as-the-default-onboarding-surface": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "calling-progressive-disclosure-a-lesson-without-an-instructional-sequence": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "lesson-deck-with-static-diagrams": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "interaction-bolted-on-after-the-explanation": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "replacing-the-primary-visual-object-at-every-step": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "free-form-practice-controls-that-permit-semantically-impossible-moves": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "revealing-the-destination-before-the-learner-predicts-it": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "correctness-only-feedback-with-no-semantic-explanation": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "calling-guided-task-completion-evidence-of-independent-understanding": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "assessment-that-repeats-the-exact-guided-example": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "assessment-choices-that-signal-the-answer-before-commitment": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "no-critical-text-text-overlap": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "no-critical-text-node-overlap": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "no-clipped-required-labels": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "no-required-controls-offscreen": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "minimum-readable-font-size": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "title-states-what-this-is-and-for-whom": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "whole-design-visible-on-one-screen-at-the-target-viewport": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "relationships-drawn-not-implied-by-adjacency-or-links": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "same-object-same-mark-across-every-view": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "edge-label-clearance": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "arrowhead-clearance": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "balanced-whitespace": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "focal-hierarchy": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "stable-layout-across-steps": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "first-frame-legibility": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "narrative-visual-synchronization": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "persistent-object-continuity": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "manipulation-consequence-legibility": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "attributed-claims-traced-to-source-no-invented-items": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "argument-pages-follow-the-speakers-order-and-keep-their-reasons": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "drawing-laid-out-by-engine-with-content-and-optional-motion-layers": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "structural-devices-encode-information-not-decoration": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "white-space-separates-groups-and-carries-hierarchy": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "size-and-weight-follow-importance": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "structure-earned-by-content-not-imposed-taxonomy": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "space-and-time-shown-together-when-the-subject-changes-over-time": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "page-carries-its-date-and-version": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "a-person-would-pin-it-on-a-wall": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "every-drawing-fits-its-frame-on-load-and-zooms-and-pans-within-it": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "diagram-text-is-dom-or-svg-and-no-label-overlaps-a-box-or-another-label": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "one-element-dominates-by-size-weight-or-contrast": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "reading-order-is-obvious-without-instructions": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "gap-between-groups-larger-than-gap-within": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "enclosure-nesting-at-most-two-levels": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "elements-share-a-small-set-of-edges": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "same-role-same-treatment-everywhere": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "every-mark-carries-information": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "context-quiet-subject-loud": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "one-highlighted-state-not-several": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "object-count-within-density-budget-or-aggregated": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "no-ellipsis-or-clipped-text-in-rendered-page": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "every-view-stays-listed-in-sight-while-others-are-open-and-views-open-from-it-or-the-agent": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "picking-an-item-lights-its-counterparts-in-every-open-view-and-can-be-cleared": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "checks-measure-painted-geometry-after-fonts-load-at-each-supported-viewport": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "transient-explanations-are-at-most-five-short-points": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "groups-the-page-filters-by-have-one-view-relating-them-with-unlinked-groups-named": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "every-standard-code-labels-a-pure-view-and-custom-views-say-so": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "non-specialist-front-door-is-a-question-with-views-delivered-and-catalog-secondary": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "every-representation-switch-is-labelled-and-visible-on-arrival-and-each-name-has-one-destination": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "no-superseded-version-shown-beside-its-replacement-and-alternatives-are-one-view-with-a-switch": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "embedded-tool-has-no-label-clashing-with-host-full-area-and-honest-status": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "first-run-does-not-require-expert-exploration": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "terms-are-defined-before-first-use": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "one-new-semantic-distinction-per-instructional-step": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "likely-wrong-readings-are-explicitly-disambiguated": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "novice-can-read-a-simple-example-before-seeing-the-full-model": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "expert-reference-mode-is-separate-from-guided-onboarding": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "observed-user-confusions-become-regression-cases": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "narrative-and-visual-state-remain-synchronized": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "persistent-visual-object-retains-identity-across-steps": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "direct-manipulation-produces-an-explanatory-consequence": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "abstraction-levels-remain-linked-to-the-same-semantic-object": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "if-constructive-practice-is-present-actions-come-from-semantic-model": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "if-prediction-is-used-state-does-not-change-before-commit": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "if-constructive-practice-is-present-feedback-explains-the-governing-rule": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "if-transfer-assessment-is-present-guidance-does-not-give-away-the-answer": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "if-transfer-assessment-is-present-at-least-one-task-uses-an-unseen-state-route-or-example": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "if-transfer-assessment-is-present-feedback-occurs-after-commitment": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "if-scaffolding-fade-is-present-core-accessibility-controls-remain-available": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "no-block-of-prose-longer-than-the-drawing-it-explains": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  },
+  "reader-can-point-to-where-any-one-fact-lives": {
+    "status": "skipped",
+    "why": "The model is a source-linked static Mermaid planning flow. No interactive UI, animation, cold-reader or mobile usability proof is claimed; behavioral case verification lives in the parent receipts."
+  }
+}

@@ -93,21 +93,23 @@ python scripts/audit_governed_repo.py \
 - A block must provide a runnable recovery path or an explicit human escalation boundary.
 - Plan completion never closes a gap by itself; fresh observation and re-characterization determine closure.
 - Verification is provider-independent under Decision 0008: local/external execution is first-class, hosted CI is optional infrastructure, evidence reuse is claim-specific over the transitive executed subject, and fresh exact-revision runs should use the incumbent Enforced Planning verification-batch mechanism. (For the v0.2 governed roots, fresh runs are `aes evidence record`; Decision 0010.)
-- Prefer ChatGPT Work for substantial machine-dependent AES execution when available; normal Chat remains suitable for GitHub/research work but is not assumed to retain custom Remote MCP exposure across long conversations. In either surface, run the Execution readiness preflight below before any machine-dependent plan or promise. Missing Remote MCP tools are a session/tool-exposure failure, not evidence that the machine or WSL is offline.
+- Select the execution transport before applying its readiness checks. Native Codex/Claude sessions and their subagents use the local filesystem/process tools already exposed under their task permissions; they do not require Remote MCP discovery or a device ping for local work. Work that requires Remote MCP follows the Execution readiness preflight below, including tool exposure, device readiness and ping. Missing Remote MCP tools block that remote route; they do not establish that the machine or WSL is offline or block an authorized native local route. Prefer ChatGPT Work for substantial Remote MCP execution when available because connector exposure can vary across conversations.
 - Proposed changes to the adopted methodology go through `proposals/` and then the owning methodology repository; this consumer does not silently redefine the standard.
 
 ## Execution readiness preflight
 
 Machine-dependent work must fail fast at the execution boundary instead of discovering tool unavailability after planning or repository changes.
 
-Before promising or beginning work that requires Brian's machine:
+Native local execution: use the current session's exposed filesystem/process tools within repository authority and the task's permissions. This applies to parent sessions and subagents. If the required local tool is absent, report that local capability limitation; do not substitute a Remote MCP prerequisite for it.
+
+Remote MCP execution: before promising or beginning work that requires that transport:
 
 0. Prefer a ChatGPT Work task/session for substantial machine execution when available. This is an operational preference based on observed connector persistence behavior, not an assertion that normal Chat can never execute Remote MCP.
 1. Confirm the Remote MCP toolset itself is exposed in the current conversation. The minimum expected tools are `devices_list`, `devices_ping`, and `process_start`.
 2. If `devices_list` is unavailable as a tool, classify the state as **SESSION_TOOL_NOT_EXPOSED**. Do not diagnose the machine, WSL, or repository; those layers have not been reached. Continue only with work that is genuinely GitHub-only. For required machine work, prefer a fresh Work task/session; if Work is unavailable, use a fresh normal chat as the fallback rather than repeatedly reconnecting an otherwise healthy connector.
 3. If the tool exists, call `devices_list`; confirm the intended device (normally `WINDOWS-STQ88HK`) is present and `execution_ready`.
-4. Call `devices_ping` before any filesystem/process operation.
-5. Only after the ping succeeds may the agent inspect local repository state or launch the guarded WSL path.
+4. Call `devices_ping` before any filesystem/process operation through Remote MCP.
+5. Only after the ping succeeds may the agent inspect repository state or launch the guarded WSL path through Remote MCP.
 
 Use this failure taxonomy:
 
@@ -122,7 +124,7 @@ Use this failure taxonomy:
 
 A session-level missing tool is not evidence that the device is offline. A device-level failure is not evidence that WSL is broken. Preserve these boundaries in handoffs and evidence.
 
-For fresh sessions expected to use Brian's machine, the first machine-related action should be the preflight above before committing to a machine-dependent execution plan.
+For fresh sessions expected to use Remote MCP, the first remote machine action should be the preflight above before committing to a remote execution plan.
 
 ## Repository shape
 
@@ -130,6 +132,7 @@ The roots declared in `.agentic/repo.yaml` are a pilot contract. If the contract
 
 ## References
 
+- Feedback intake and transport prevention: [plan](proposals/aes-feedback-prevention/PLAN.md), [system flow](proposals/aes-feedback-prevention/SYSTEM_MODEL.md), and [goal](proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md). These are a bounded repair record, not additional repository authority.
 - `wiki/index.md` — progressive-disclosure navigation only; follow links to native authority.
 - `docs/decisions/0010-greenfield-v0.2-accepted.md` — AES v0.2 greenfield MVP accepted as realized: evidence, standing decisions with wrong-when conditions, non-claims, v0.1 disposition.
 - `docs/architecture/greenfield-v0.2/` — accepted v0.2 architecture; `.aes/target.yaml` is the live authority for this repository.
