@@ -1,5 +1,5 @@
 {
-  "checks_passed": 368,
+  "checks_passed": 369,
   "checks_failed": 0,
   "checks_errored": 0,
   "checks_skipped": 0,
@@ -368,6 +368,7 @@
     "Claude observed prompt hash",
     "Claude native dispatch and child identity",
     "Claude actual native dispatch carries identical frozen task",
+    "Claude actual terminal assistant result",
     "Claude original raw final hash",
     "Claude only JSON framing removed; no answer correction",
     "Claude observed read paths within frozen packet",

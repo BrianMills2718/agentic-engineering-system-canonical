@@ -202,6 +202,7 @@ def verify():
     require([p['permission_profile'] for p in policies] == audit['codex']['permission_profiles'],
             'Codex actual permission scope (includes root reads)', checks)
     final = [r['payload'] for r in cx['child'] if r.get('type') == 'response_item'
+             and r['payload'].get('type') == 'message' and r['payload'].get('role') == 'assistant'
              and r['payload'].get('phase') == 'final_answer'][-1]
     require(json.loads(collector.text_content(final['content'])) == results['codex'], 'Codex original final matches', checks)
     d = read(HERE / 'claude-paid/workflow-and-parity-evidence.json')['native_claude_delivery']
@@ -220,7 +221,10 @@ def verify():
     require(bool(agent_inputs) and all(a['subagent_type'] == 'development-investigator' and
             json.JSONDecoder().raw_decode(a['prompt'][a['prompt'].index('{'):])[0] == packet for a in agent_inputs),
             'Claude actual native dispatch carries identical frozen task', checks)
-    raw = collector.text_content(cl['child'][d['final_child_line']-1]['message']['content'])
+    final_row = cl['child'][d['final_child_line']-1]
+    require(final_row['type'] == 'assistant' and final_row['message']['stop_reason'] == 'end_turn',
+            'Claude actual terminal assistant result', checks)
+    raw = collector.text_content(final_row['message']['content'])
     require(digest(raw.encode()) == d['result_sha256'], 'Claude original raw final hash', checks)
     require(json.loads(raw.removeprefix('```json\n').removesuffix('\n```')) == results['claude'],
             'Claude only JSON framing removed; no answer correction', checks)

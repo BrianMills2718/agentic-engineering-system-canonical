@@ -84,7 +84,7 @@
   },
   "trace_integrity": {
     "command": "verify_evidence.py",
-    "passed": 368,
+    "passed": 369,
     "failed": 0,
     "errored": 0,
     "skipped": 0,
@@ -99,7 +99,10 @@
   "independent_review": {
     "source_sha256": "68a267a77244626e8de3f84d0da28f32abcbfe714fd04e2b61feb3b1c46fad0c",
     "tests_passed": 14,
-    "result": "no remaining material blocker for evidence verifier"
+    "result": "no remaining material blocker for evidence verifier",
+    "post_review_changes": [
+      "Terminal assistant identity check strengthened;14tests rerun,369integrity checks pass,strict CLI returns expected exit1."
+    ]
   },
   "collector_replay": {
     "source_revision": "74977b4e8d54d2b629de65732af0772985651048",
@@ -119,5 +122,6 @@
     "Local source gate covers its exact subject; changed proposal verifier additionally covered by14focused tests.",
     "No new model calls or provider billing are part of this evidence repair.",
     "Behavior parity remains failed/inconclusive; integrity success does not complete the broader harness goal."
-  ]
+  ],
+  "candidate_verifier_sha256": "533d11466396117bcc850b423bba797c3bcceeb5d044ad16d5b21c6d1c696ed6"
 }
