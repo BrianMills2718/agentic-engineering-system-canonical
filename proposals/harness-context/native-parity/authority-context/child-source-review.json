@@ -1,0 +1,431 @@
+{
+  "record_type": "native-child-source-review",
+  "task_sha256": "ae362f8191402c660380ef2f1a52bece277a7a9b327d1aadb610a22b709c0725",
+  "result_sha256": "24279e4cb71c2e7853b38cf1d08978cc36cd6deb90b78c459e22785861c4cbd3",
+  "trace": {
+    "path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T17-58-20-01a122ac-9346-7d60-982a-1680440ef453.jsonl",
+    "sha256": "cf7880b584c0c9e9fe9e804aeeda48722bf233748545440f1dc219e915facb86",
+    "records": 68,
+    "final_line": 65,
+    "raw_final_sha256": "996d182a8cca07f95c2bba77d717b9ba898ff7a5dfa43007e4a5a4be523e2203"
+  },
+  "scope": "Source semantics of the exact original child final; not parent forwarding, complete authority consumption, effective permission denial, hook parity or full-goal certification.",
+  "verdict": "pass",
+  "items": [
+    {
+      "field": "root_cause",
+      "value_sha256": "1400fd0241b6c21f5fe1ced52bd4879906de5cdf0a1ebe7fec3b198a19c1c9b5",
+      "verdict": "supported",
+      "rationale": "The default/forwarding, classifier and missing-metadata branches support the explicitly conditional source explanation. Fresh-claim schema v6 and program/write ownership are independently confirmed by the reviewer; the child did not read those latter definitions. Historical runtime reproduction is expressly disclaimed.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 312,
+          "end_line": 312,
+          "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 330,
+          "end_line": 332,
+          "quote": "\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 192,
+          "end_line": 193,
+          "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 2617,
+          "end_line": 2619,
+          "quote": "        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 2765,
+          "end_line": 2769,
+          "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 3051,
+          "end_line": 3056,
+          "quote": "    Sanctioned worktree lanes use ``program`` claims as their root while still\n    carrying exact write paths. Those paths are ownership, just as they are for\n    a narrow ``write`` claim.\n    \"\"\"\n\n    return claim.claim_type in {\"program\", \"write\"} and bool(claim.write_paths)"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 4034,
+          "end_line": 4039,
+          "quote": "        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)"
+        }
+      ]
+    },
+    {
+      "field": "recommended_parent_action",
+      "value_sha256": "e70168d17e2f8d4de1f25ce32928c7a61a4af791d751db3e51aaee3f031d9a02",
+      "verdict": "supported",
+      "rationale": "The proposed report accurately separates the default scope and admission metadata from the documented command and comments. In this fresh-claim task, metadata requirements are supported; no historical execution is claimed.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 307,
+          "end_line": 312,
+          "quote": "# Bootstrap claim scope for an unplanned maintenance lane. Defaults to the repo\n# root because the lane may not know its targets yet, but an explicit\n# SESSION_WRITE_PATHS must win: silently discarding it made every maintenance\n# lane conflict with every other active lane by construction, and the operator\n# saw a CONFLICT naming the other lanes rather than their own claim.\nMAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 320,
+          "end_line": 322,
+          "quote": "\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+          "start_line": 98,
+          "end_line": 99,
+          "quote": "# Bounded, reversible maintenance not owned by a numbered plan\nmake maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 2765,
+          "end_line": 2769,
+          "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 4034,
+          "end_line": 4039,
+          "quote": "        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)"
+        }
+      ]
+    },
+    {
+      "field": "mutation_declaration",
+      "value_sha256": "ca4326a9f3351ae5168615dfd6290a60f9135687005f444c685f1e0af82da752",
+      "verdict": "supported",
+      "rationale": "Child trace has exactly seven matched custom_tool_call/custom_tool_call_output pairs (13/16, 20/23, 27/30, 34/39, 43/46, 50/53, 57/60). Every command is a read of allowed source; no writes, network use, memory mutation or child dispatch appears in the complete child trace.",
+      "sources": []
+    },
+    {
+      "field": "evidence[0]",
+      "value_sha256": "c07a2432ab1a2e55e3da98c159c966efba7d7d33be95856985e3306a371865f5",
+      "verdict": "supported",
+      "rationale": "Exact Make expansion substitutes a dot when SESSION_WRITE_PATHS is blank.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 312,
+          "end_line": 312,
+          "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+        }
+      ]
+    },
+    {
+      "field": "evidence[1]",
+      "value_sha256": "cf2afb155156250a5c83201225d53e328708a749afb18cc3320233f17f914b72",
+      "verdict": "supported",
+      "rationale": "The submake forwards the resolved maintenance scope.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 332,
+          "end_line": 332,
+          "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+        }
+      ]
+    },
+    {
+      "field": "evidence[2]",
+      "value_sha256": "ff4da4e1e4c6a742554e957f8d7922fbf8a7fb4b86a5b7304129775532e0339d",
+      "verdict": "supported",
+      "rationale": "The mode argument is conditional on SESSION_BROAD_SCOPE_MODE.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 192,
+          "end_line": 192,
+          "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\"
+        }
+      ]
+    },
+    {
+      "field": "evidence[3]",
+      "value_sha256": "65d2b1b49711023ecbcfae3c146737785a2b7ed55160e7d15f9bc174897627a8",
+      "verdict": "supported",
+      "rationale": "The reason argument is conditional on SESSION_BROAD_SCOPE_REASON.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 193,
+          "end_line": 193,
+          "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\"
+        }
+      ]
+    },
+    {
+      "field": "evidence[4]",
+      "value_sha256": "3926eafe00885b55be1a6a2a59b1f21fb7a4b24d3df8754c10618ab5446cb421",
+      "verdict": "supported",
+      "rationale": "The original child path is a member of the frozen packet, and the dot branch returns repository_root. The separate parent final altered this path.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 2617,
+          "end_line": 2619,
+          "quote": "        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue"
+        }
+      ]
+    },
+    {
+      "field": "evidence[5]",
+      "value_sha256": "be53498711faa7ade9c11c8bd41b80a3ee0a75096afb2dd9257bf8c2796c97ce",
+      "verdict": "supported",
+      "rationale": "The cited branch adds the mode-required issue for a broad path unless mode belongs to the declared bootstrap/bounded set. Earlier ownership/schema guards limit applicability; the claim is interpreted in this new-maintenance-claim task.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 85,
+          "end_line": 85,
+          "quote": "BROAD_SCOPE_MODES = {\"bootstrap\", \"bounded\"}"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 2765,
+          "end_line": 2767,
+          "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 2676,
+          "end_line": 2691,
+          "quote": "def _broad_scope_contract_issues(claim: ClaimRecord) -> list[str]:\n    \"\"\"Return deterministic schema-v6 broad-scope contract violations.\"\"\"\n\n    if not _has_write_ownership(claim):\n        return []\n    mode = claim.broad_scope_mode.strip() if isinstance(claim.broad_scope_mode, str) else None\n    reason = claim.broad_scope_reason.strip() if isinstance(claim.broad_scope_reason, str) else None\n    issues: list[str] = []\n    if claim.schema_version < 6:\n        possible_broad = any(\n            _normalize_repo_path(path) == \".\" or \"/\" not in _normalize_repo_path(path)\n            for path in claim.write_paths\n        )\n        if possible_broad:\n            issues.append(\"legacy_broad_scope_unclassified\")\n        return issues"
+        }
+      ]
+    },
+    {
+      "field": "evidence[6]",
+      "value_sha256": "7d9cff40dbdd19abcaa21e23141a01d85c37e66f7644a14f5e6922d4fdc5a963",
+      "verdict": "supported",
+      "rationale": "The cited broad-path branch adds the reason-required issue for an absent reason, under the same ownership/schema guards.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 2765,
+          "end_line": 2769,
+          "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 2676,
+          "end_line": 2691,
+          "quote": "def _broad_scope_contract_issues(claim: ClaimRecord) -> list[str]:\n    \"\"\"Return deterministic schema-v6 broad-scope contract violations.\"\"\"\n\n    if not _has_write_ownership(claim):\n        return []\n    mode = claim.broad_scope_mode.strip() if isinstance(claim.broad_scope_mode, str) else None\n    reason = claim.broad_scope_reason.strip() if isinstance(claim.broad_scope_reason, str) else None\n    issues: list[str] = []\n    if claim.schema_version < 6:\n        possible_broad = any(\n            _normalize_repo_path(path) == \".\" or \"/\" not in _normalize_repo_path(path)\n            for path in claim.write_paths\n        )\n        if possible_broad:\n            issues.append(\"legacy_broad_scope_unclassified\")\n        return issues"
+        }
+      ]
+    },
+    {
+      "field": "evidence[7]",
+      "value_sha256": "21a1bd67b011622ac140504b72b977c1011dc5ebc889cfe2b6f4098cb8341175",
+      "verdict": "supported",
+      "rationale": "The adjacent source comment explicitly names the override variable.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 307,
+          "end_line": 312,
+          "quote": "# Bootstrap claim scope for an unplanned maintenance lane. Defaults to the repo\n# root because the lane may not know its targets yet, but an explicit\n# SESSION_WRITE_PATHS must win: silently discarding it made every maintenance\n# lane conflict with every other active lane by construction, and the operator\n# saw a CONFLICT naming the other lanes rather than their own claim.\nMAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+        }
+      ]
+    },
+    {
+      "field": "evidence[8]",
+      "value_sha256": "0c57ad6e82266ada354b3f55a7ea31b8022b0a75a9aaddeec8c5c88eb1479d3b",
+      "verdict": "supported",
+      "rationale": "The complete documented command includes descriptive metadata and omits SESSION_WRITE_PATHS.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+          "start_line": 98,
+          "end_line": 99,
+          "quote": "# Bounded, reversible maintenance not owned by a numbered plan\nmake maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+        }
+      ]
+    },
+    {
+      "field": "evidence[9]",
+      "value_sha256": "1a52e2d8010cbf5e50aaed04313bce1658fdedcdb414c6307cc35a963f3b3510",
+      "verdict": "supported",
+      "rationale": "The full inline usage describes BRANCH and descriptive metadata but omits scope recovery.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 320,
+          "end_line": 322,
+          "quote": "\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\"
+        }
+      ]
+    },
+    {
+      "field": "causal_chain[0]",
+      "value_sha256": "a9c3d104161ff97b3aab067f6e83c13906710a462bcd1bccd5eb677c67f32ccb",
+      "verdict": "supported",
+      "rationale": "The quoted documented invocation contains BRANCH and neither scope nor broad-scope metadata variables.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+          "start_line": 98,
+          "end_line": 99,
+          "quote": "# Bounded, reversible maintenance not owned by a numbered plan\nmake maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+        }
+      ]
+    },
+    {
+      "field": "causal_chain[1]",
+      "value_sha256": "eab4cfccaeb6ae5f191747c45c9fae4150113ec762f9fde28d3727b9723290f3",
+      "verdict": "supported",
+      "rationale": "The default expansion and forwarded submake assignment support the step.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 312,
+          "end_line": 312,
+          "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 332,
+          "end_line": 332,
+          "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+        }
+      ]
+    },
+    {
+      "field": "causal_chain[2]",
+      "value_sha256": "ae7daf7622ca814103bf0b6851f79a113c236dcfbb76fe909dedc155b5fc441b",
+      "verdict": "supported",
+      "rationale": "The exact classifier dot branch supports repository-root broad scope.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 2617,
+          "end_line": 2619,
+          "quote": "        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue"
+        }
+      ]
+    },
+    {
+      "field": "causal_chain[3]",
+      "value_sha256": "8852bf646e5b90c1600ebec2ff5478d6df1cbfdec3cde62f794be8df44d5cd52",
+      "verdict": "supported",
+      "rationale": "The result says can emit, retaining the conditional nature of the broad-path branch; this is correct for the new schema-v6 write-owning claim, independently confirmed by the reviewer.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 2765,
+          "end_line": 2769,
+          "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 3051,
+          "end_line": 3056,
+          "quote": "    Sanctioned worktree lanes use ``program`` claims as their root while still\n    carrying exact write paths. Those paths are ownership, just as they are for\n    a narrow ``write`` claim.\n    \"\"\"\n\n    return claim.claim_type in {\"program\", \"write\"} and bool(claim.write_paths)"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 4034,
+          "end_line": 4039,
+          "quote": "        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)"
+        }
+      ]
+    },
+    {
+      "field": "causal_chain[4]",
+      "value_sha256": "b413a936769fd7eb79ddf5363a0eb4e046785c02f16121e88ef25e72cea9ee25",
+      "verdict": "supported",
+      "rationale": "The comment supplies the variable name, while the complete documented command and complete usage text omit the recovery instruction. The claim is bounded to those surfaces.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 307,
+          "end_line": 312,
+          "quote": "# Bootstrap claim scope for an unplanned maintenance lane. Defaults to the repo\n# root because the lane may not know its targets yet, but an explicit\n# SESSION_WRITE_PATHS must win: silently discarding it made every maintenance\n# lane conflict with every other active lane by construction, and the operator\n# saw a CONFLICT naming the other lanes rather than their own claim.\nMAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+          "start_line": 98,
+          "end_line": 99,
+          "quote": "# Bounded, reversible maintenance not owned by a numbered plan\nmake maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 320,
+          "end_line": 322,
+          "quote": "\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\"
+        }
+      ]
+    },
+    {
+      "field": "alternatives_ruled_out[0]",
+      "value_sha256": "c2776d3ac7d6042313ea46f4189050c922bcbb64cbe197c9359a86de618f909a",
+      "verdict": "supported",
+      "rationale": "The fallback resolves an unset scope to a dot rather than an empty write-path list.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 312,
+          "end_line": 312,
+          "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+        }
+      ]
+    },
+    {
+      "field": "alternatives_ruled_out[1]",
+      "value_sha256": "548b136b9df9212094c404f3b792b9bb40841d3773812cc15dda03e5c4d0bf68",
+      "verdict": "supported",
+      "rationale": "The facade imports the package implementation and delegates evaluation to it.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+          "start_line": 30,
+          "end_line": 33,
+          "quote": "    sys.path.insert(0, str(repo_root))\n\nfrom enforced_planning import coordination_claims as _impl  # noqa: E402\n"
+        },
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+          "start_line": 124,
+          "end_line": 127,
+          "quote": "def evaluate_claim(candidate: ClaimRecord, *, active_claims: list[ClaimRecord] | None = None) -> ClaimCheckResult:\n    \"\"\"Delegate candidate evaluation while honoring script-level CLAIMS_DIR overrides.\"\"\"\n    _sync_runtime_config()\n    return _impl.evaluate_claim(candidate, active_claims=active_claims)"
+        }
+      ]
+    },
+    {
+      "field": "limitations[0]",
+      "value_sha256": "fb454d8a61cdd0b7b71aee7fbfdcdef055be06f4cf19f9bc46c9b7c5efbd6a32",
+      "verdict": "supported",
+      "rationale": "Frozen TaskV1 reproduction_evidence supplies a historical report and forbids mutation; the full child trace contains only read commands. No current admission execution was observed.",
+      "sources": []
+    },
+    {
+      "field": "limitations[1]",
+      "value_sha256": "45e59e787bff5cc6f5bfadb9d7c32790053e48a860b1b9f44288dd78b259b964",
+      "verdict": "supported",
+      "rationale": "The causal account is source-bound and expressly declines to prove identical historical environment, Make variables or claim state. The child trace contains no admission runtime reproduction.",
+      "sources": []
+    },
+    {
+      "field": "limitations[2]",
+      "value_sha256": "e1f9fc574a0c50c0a4d4bb643eb52d890e8029915af9571b5820154ea81c113f",
+      "verdict": "supported",
+      "rationale": "The allowed five-file packet includes no other operator guide; the comment is present, so the bounded uncertainty about outside guides is accurate.",
+      "sources": [
+        {
+          "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+          "start_line": 307,
+          "end_line": 312,
+          "quote": "# Bootstrap claim scope for an unplanned maintenance lane. Defaults to the repo\n# root because the lane may not know its targets yet, but an explicit\n# SESSION_WRITE_PATHS must win: silently discarding it made every maintenance\n# lane conflict with every other active lane by construction, and the operator\n# saw a CONFLICT naming the other lanes rather than their own claim.\nMAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+        }
+      ]
+    }
+  ]
+}

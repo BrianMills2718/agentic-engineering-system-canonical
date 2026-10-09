@@ -1,5 +1,5 @@
 {
-  "checks_passed": 614,
+  "checks_passed": 795,
   "checks_failed": 0,
   "checks_errored": 0,
   "checks_skipped": 0,
@@ -390,6 +390,7 @@
     "compact Codex: actual developer role prefix with coalesced guidance",
     "compact Codex parent: complete attributed calls and outputs",
     "compact Codex child: complete attributed calls and outputs",
+    "compact Codex: exact raw child result",
     "compact Codex: exact raw JSON result and parent forwarding",
     "compact Codex: result schema and task identity",
     "semantic review covers every result field exactly once",
@@ -600,6 +601,7 @@
     "compact callbacks: native secondary callback outcomes",
     "compact callbacks: recorded PreToolUse and PostToolUse membership",
     "compact callbacks: receipt identity limitation retained",
+    "compact Codex: parent and child observed model match",
     "compact Codex: same-model comparison",
     "compact Codex: comparison derived from native traces",
     "refusal: same frozen task",
@@ -618,7 +620,186 @@
     "refusal: result binds exact native error message",
     "refusal: no native tool dispatch or spawned child",
     "refusal: actual launch frozen packet",
-    "refusal: native parent received launch prompt"
+    "refusal: native parent received launch prompt",
+    "compact Codex: same frozen task",
+    "compact Codex: both complete traces",
+    "rollout-2026-10-09T17-58-03-01a122ac-5d10-7782-89d6-bc36b1196004.jsonl: full trace digest",
+    "rollout-2026-10-09T17-58-03-01a122ac-5d10-7782-89d6-bc36b1196004.jsonl: complete well-formed records",
+    "rollout-2026-10-09T17-58-03-01a122ac-5d10-7782-89d6-bc36b1196004.jsonl: recorded trace length",
+    "rollout-2026-10-09T17-58-20-01a122ac-9346-7d60-982a-1680440ef453.jsonl: full trace digest",
+    "rollout-2026-10-09T17-58-20-01a122ac-9346-7d60-982a-1680440ef453.jsonl: complete well-formed records",
+    "rollout-2026-10-09T17-58-20-01a122ac-9346-7d60-982a-1680440ef453.jsonl: recorded trace length",
+    "compact Codex: native session metadata",
+    "compact Codex: native source lineage",
+    "compact Codex: native fresh-history dispatch",
+    "compact Codex: actual spawn result identifies child path",
+    "compact Codex: actual parent received frozen packet",
+    "compact Codex: encrypted native delegation continuity (not plaintext proof)",
+    "compact Codex: pinned role body",
+    "compact Codex: actual developer role prefix with coalesced guidance",
+    "authority: unchanged frozen task",
+    "authority: required source identity",
+    "authority: exact source revision bytes",
+    "authority: pinned native projection development-investigator.codex.toml",
+    "authority: pinned native projection claude-agents.json",
+    "authority: task role body codex",
+    "authority: full embedded source codex",
+    "authority: task role body claude",
+    "authority: full embedded source claude",
+    "authority: canonical role preserved",
+    "authority: canonical Claude role preserved in prepared projection",
+    "authority: exact full policy delivered to native parent developer context",
+    "compact Codex parent: complete attributed calls and outputs",
+    "authority Codex parent: exact reviewed call and return membership",
+    "compact Codex child: complete attributed calls and outputs",
+    "authority Codex child: exact reviewed call and return membership",
+    "compact Codex: exact raw child result",
+    "authority Codex: original parent final bound separately",
+    "authority Codex: forwarding verdict cannot hide changed answer",
+    "compact Codex: result schema and task identity",
+    "semantic review covers every result field exactly once",
+    "review binds root_cause",
+    "review disposition for root_cause",
+    "review source is in frozen packet for root_cause",
+    "exact source excerpt for root_cause",
+    "review source is in frozen packet for root_cause",
+    "exact source excerpt for root_cause",
+    "review source is in frozen packet for root_cause",
+    "exact source excerpt for root_cause",
+    "review source is in frozen packet for root_cause",
+    "exact source excerpt for root_cause",
+    "review source is in frozen packet for root_cause",
+    "exact source excerpt for root_cause",
+    "review source is in frozen packet for root_cause",
+    "exact source excerpt for root_cause",
+    "review source is in frozen packet for root_cause",
+    "exact source excerpt for root_cause",
+    "review binds recommended_parent_action",
+    "review disposition for recommended_parent_action",
+    "review source is in frozen packet for recommended_parent_action",
+    "exact source excerpt for recommended_parent_action",
+    "review source is in frozen packet for recommended_parent_action",
+    "exact source excerpt for recommended_parent_action",
+    "review source is in frozen packet for recommended_parent_action",
+    "exact source excerpt for recommended_parent_action",
+    "review source is in frozen packet for recommended_parent_action",
+    "exact source excerpt for recommended_parent_action",
+    "review source is in frozen packet for recommended_parent_action",
+    "exact source excerpt for recommended_parent_action",
+    "review binds mutation_declaration",
+    "review disposition for mutation_declaration",
+    "review binds evidence[0]",
+    "review disposition for evidence[0]",
+    "review source is in frozen packet for evidence[0]",
+    "exact source excerpt for evidence[0]",
+    "review binds evidence[1]",
+    "review disposition for evidence[1]",
+    "review source is in frozen packet for evidence[1]",
+    "exact source excerpt for evidence[1]",
+    "review binds evidence[2]",
+    "review disposition for evidence[2]",
+    "review source is in frozen packet for evidence[2]",
+    "exact source excerpt for evidence[2]",
+    "review binds evidence[3]",
+    "review disposition for evidence[3]",
+    "review source is in frozen packet for evidence[3]",
+    "exact source excerpt for evidence[3]",
+    "review binds evidence[4]",
+    "review disposition for evidence[4]",
+    "review source is in frozen packet for evidence[4]",
+    "exact source excerpt for evidence[4]",
+    "review binds evidence[5]",
+    "review disposition for evidence[5]",
+    "review source is in frozen packet for evidence[5]",
+    "exact source excerpt for evidence[5]",
+    "review source is in frozen packet for evidence[5]",
+    "exact source excerpt for evidence[5]",
+    "review source is in frozen packet for evidence[5]",
+    "exact source excerpt for evidence[5]",
+    "review binds evidence[6]",
+    "review disposition for evidence[6]",
+    "review source is in frozen packet for evidence[6]",
+    "exact source excerpt for evidence[6]",
+    "review source is in frozen packet for evidence[6]",
+    "exact source excerpt for evidence[6]",
+    "review binds evidence[7]",
+    "review disposition for evidence[7]",
+    "review source is in frozen packet for evidence[7]",
+    "exact source excerpt for evidence[7]",
+    "review binds evidence[8]",
+    "review disposition for evidence[8]",
+    "review source is in frozen packet for evidence[8]",
+    "exact source excerpt for evidence[8]",
+    "review binds evidence[9]",
+    "review disposition for evidence[9]",
+    "review source is in frozen packet for evidence[9]",
+    "exact source excerpt for evidence[9]",
+    "review binds causal_chain[0]",
+    "review disposition for causal_chain[0]",
+    "review source is in frozen packet for causal_chain[0]",
+    "exact source excerpt for causal_chain[0]",
+    "review binds causal_chain[1]",
+    "review disposition for causal_chain[1]",
+    "review source is in frozen packet for causal_chain[1]",
+    "exact source excerpt for causal_chain[1]",
+    "review source is in frozen packet for causal_chain[1]",
+    "exact source excerpt for causal_chain[1]",
+    "review binds causal_chain[2]",
+    "review disposition for causal_chain[2]",
+    "review source is in frozen packet for causal_chain[2]",
+    "exact source excerpt for causal_chain[2]",
+    "review binds causal_chain[3]",
+    "review disposition for causal_chain[3]",
+    "review source is in frozen packet for causal_chain[3]",
+    "exact source excerpt for causal_chain[3]",
+    "review source is in frozen packet for causal_chain[3]",
+    "exact source excerpt for causal_chain[3]",
+    "review source is in frozen packet for causal_chain[3]",
+    "exact source excerpt for causal_chain[3]",
+    "review binds causal_chain[4]",
+    "review disposition for causal_chain[4]",
+    "review source is in frozen packet for causal_chain[4]",
+    "exact source excerpt for causal_chain[4]",
+    "review source is in frozen packet for causal_chain[4]",
+    "exact source excerpt for causal_chain[4]",
+    "review source is in frozen packet for causal_chain[4]",
+    "exact source excerpt for causal_chain[4]",
+    "review binds alternatives_ruled_out[0]",
+    "review disposition for alternatives_ruled_out[0]",
+    "review source is in frozen packet for alternatives_ruled_out[0]",
+    "exact source excerpt for alternatives_ruled_out[0]",
+    "review binds alternatives_ruled_out[1]",
+    "review disposition for alternatives_ruled_out[1]",
+    "review source is in frozen packet for alternatives_ruled_out[1]",
+    "exact source excerpt for alternatives_ruled_out[1]",
+    "review source is in frozen packet for alternatives_ruled_out[1]",
+    "exact source excerpt for alternatives_ruled_out[1]",
+    "review binds limitations[0]",
+    "review disposition for limitations[0]",
+    "review binds limitations[1]",
+    "review disposition for limitations[1]",
+    "review binds limitations[2]",
+    "review disposition for limitations[2]",
+    "review source is in frozen packet for limitations[2]",
+    "exact source excerpt for limitations[2]",
+    "review summary cannot hide qualified or incorrect fields",
+    "compact Codex: derived exhaustive semantic summary",
+    "compact Codex: actual native token usage",
+    "compact Codex: actual complete effective permission contexts",
+    "compact Codex: recorded read-only, restricted network and no escalation",
+    "compact Codex: observed child turn identity",
+    "compact Codex: parent and child observed model match",
+    "compact Codex: comparison derived from native traces",
+    "authority: both required read sources identified",
+    "authority: attributed source read proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+    "authority: attributed source read proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+    "authority: read coverage cannot hide truncated lines",
+    "refusal: source line exists",
+    "refusal: exact raw and canonical operational source digests",
+    "refusal: source line exists",
+    "refusal: exact raw and canonical operational source digests",
+    "authority: native launch binds route, frozen task and projection",
+    "authority: native terminal outcome binds original parent result"
   ],
   "parity_traces_available": [
     "codex_parent",
@@ -932,7 +1113,11 @@
       },
       "required_document": "project-meta/docs/ops/POLICY_SYSTEM.md",
       "in_frozen_packet": false,
-      "qualification": "Required policy-system orientation remains unproved; task-result success cannot certify session-goal completion."
+      "client_delivery": {
+        "codex": "pass",
+        "claude": "not_run"
+      },
+      "qualification": "Required policy delivered in the new Codex route; refreshed Claude delivery and goal completion remain unproved."
     }
   },
   "additional_evidence": {
@@ -997,6 +1182,11 @@
         "per_tool_identity_proven": false,
         "qualification": "Secondary callbacks correlated to the child turn; no per-command identity or denial proof."
       },
+      "parent_forwarding_verdict": "pass",
+      "required_policy_delivery": "not_assessed",
+      "canonical_authority_read_coverage": {
+        "verdict": "not_assessed"
+      },
       "measured_comparison": {
         "baseline_kind": "same_model_same_frozen_task_historical_child",
         "baseline_child_id": "01a11fdd-afc4-73c3-926b-ad39bba75696",
@@ -1045,6 +1235,127 @@
       "raw_result_is_error": true,
       "raw_result_subtype": "success",
       "qualification": "Pre-dispatch native refusal; no child delivery, behavior or permission proof."
+    },
+    "authority_codex": {
+      "record_type": "required-authority-native-codex-evidence.v1",
+      "task_sha256": "ae362f8191402c660380ef2f1a52bece277a7a9b327d1aadb610a22b709c0725",
+      "parent_id": "01a122ac-5d10-7782-89d6-bc36b1196004",
+      "child_id": "01a122ac-9346-7d60-982a-1680440ef453",
+      "final_sha256": "996d182a8cca07f95c2bba77d717b9ba898ff7a5dfa43007e4a5a4be523e2203",
+      "derived_usage": {
+        "parent": {
+          "first": {
+            "input_tokens": 22519,
+            "cached_input_tokens": 4864,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1539,
+            "reasoning_output_tokens": 264,
+            "total_tokens": 24058
+          },
+          "total": {
+            "input_tokens": 71808,
+            "cached_input_tokens": 50432,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2625,
+            "reasoning_output_tokens": 298,
+            "total_tokens": 74433
+          }
+        },
+        "child": {
+          "first": {
+            "input_tokens": 23539,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 105,
+            "reasoning_output_tokens": 54,
+            "total_tokens": 23644
+          },
+          "total": {
+            "input_tokens": 300720,
+            "cached_input_tokens": 248064,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 3187,
+            "reasoning_output_tokens": 1471,
+            "total_tokens": 303907
+          }
+        }
+      },
+      "semantic_summary": {
+        "verdict": "pass",
+        "counts": {
+          "supported": 23,
+          "qualified": 0,
+          "incorrect": 0,
+          "inconclusive": 0
+        },
+        "items": 23
+      },
+      "child_callbacks": {
+        "verdict": "not_assessed",
+        "qualification": "No hook execution certification in this record."
+      },
+      "parent_forwarding_verdict": "fail",
+      "required_policy_delivery": "pass",
+      "canonical_authority_read_coverage": {
+        "verdict": "inconclusive",
+        "sources": {
+          "proposals/harness-context/native-parity/input/project-meta/AGENTS.md": {
+            "source_lines": 210,
+            "missing_exact_lines": [
+              134,
+              135,
+              136,
+              137,
+              138,
+              139
+            ]
+          },
+          "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md": {
+            "source_lines": 275,
+            "missing_exact_lines": []
+          }
+        },
+        "qualification": "Exact numbered-line return membership establishes availability, not model comprehension."
+      },
+      "measured_comparison": {
+        "baseline_kind": "different_model_historical_child_not_controlled",
+        "baseline_child_id": "01a11fdd-afc4-73c3-926b-ad39bba75696",
+        "baseline_first_input_tokens": 37750,
+        "compact_child_first_input_tokens": 23539,
+        "compact_parent_first_input_tokens": 22519,
+        "reduction_percent": null,
+        "not_a_child_vs_immediate_parent_reduction": true,
+        "baseline_model": "gpt-6.1-sol",
+        "observed_model": "gpt-6-luna"
+      },
+      "effective_permission_profiles": [
+        {
+          "type": "managed",
+          "file_system": {
+            "type": "restricted",
+            "entries": [
+              {
+                "path": {
+                  "type": "special",
+                  "value": {
+                    "kind": "root"
+                  }
+                },
+                "access": "read"
+              }
+            ]
+          },
+          "network": "restricted"
+        }
+      ],
+      "runtime_parity_certified": false,
+      "limits": [
+        "Encrypted delegation continuity does not expose plaintext child input.",
+        "Filesystem scope includes root reads; five-file allowlist is voluntary.",
+        "No actual child write/network denial or isolation from a writable parent was tested.",
+        "Turn-correlated coordination callbacks do not certify all-hook or cross-client parity.",
+        "Required policy arrived inline, but source correctness and result forwarding are separate checks."
+      ]
     }
   },
   "limits": [
