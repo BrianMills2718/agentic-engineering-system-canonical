@@ -66,13 +66,14 @@ directories are `src/` and `tests/`; pass `--governed-root DIR` (repeatable)
 to choose others. From now on every `aes` command finds the project from any
 subdirectory or linked worktree; `--root DIR` overrides that.
 
-Install the pre-commit hook, which refuses a commit when the target does not
-validate or when a file under a governed directory is not planned:
+Commit the initial project metadata and outcome. Install the hooks after
+accepting the first plan in step 3, so the hook installation can name that plan:
 
 ```bash
-aes hooks install
-git add .gitignore pyproject.toml .aes .githooks
-git commit -q -m "Initialize AES"
+git add .gitignore pyproject.toml
+git commit -q -m "[Trivial] Initialize project metadata"
+git add .aes
+git commit -q -m "[Trivial] Declare initial AES outcome"
 ```
 
 ## 3. Plan the work: propose, validate, accept
@@ -197,8 +198,9 @@ Accept it, then commit the target and the plan together:
 ```bash
 aes plan accept plan-greeter.yaml
 rm plan-greeter.yaml
-git add .aes
-git commit -q -m "Plan PLAN-001-GREET"
+aes hooks install
+git add .aes .githooks
+git commit -q -m "[Goal PLAN-001-GREET] Plan greeting and install hooks"
 ```
 
 ```text
@@ -268,7 +270,7 @@ def test_refuses_an_empty_name() -> None:
         greet("")
 PY
 git add src tests
-git commit -q -m "Greet by name"
+git commit -q -m "[Goal PLAN-001-GREET] Greet by name"
 ```
 
 The hook ran `aes target validate` and `aes topology check` on that commit. A
@@ -281,7 +283,7 @@ stopped it, with the file named in the error.
 aes evidence record VS-GREET --depends-on src/greeter/__init__.py
 aes evidence status
 git add .aes/observations
-git commit -q -m "Record VS-GREET"
+git commit -q -m "[Goal PLAN-001-GREET] Record VS-GREET"
 ```
 
 `aes evidence record` runs the subject's test at the current commit (for

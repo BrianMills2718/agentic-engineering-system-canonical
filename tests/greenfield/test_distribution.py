@@ -19,6 +19,8 @@ AES_SKIP_CLEAN_INSTALL=1 is set; nothing else skips it.
 from __future__ import annotations
 
 import os
+import hashlib
+import json
 import re
 import shutil
 import subprocess
@@ -73,9 +75,21 @@ def _consumer(root: Path) -> Path:
     shutil.copyfile(WHYGAME5_AES / "project.yaml", root / ".aes" / "project.yaml")
     shutil.copyfile(WHYGAME5_AES / "target.yaml", root / ".aes" / "target.yaml")
     _touch(root, *REALIZED)
+    # As in test_commit_rule, synthetic adoption metadata isolates distribution
+    # and topology from the separate plan-adoption rule without disabling hooks.
+    plan_dir = root / "proposals" / "distribution-fixture"
+    plan_dir.mkdir(parents=True)
+    plan = plan_dir / "README.md"
+    receipt = plan_dir / "receipt.json"
+    plan.write_text("---\nplan_id: distribution-fixture\nmethod_conformance_receipt: proposals/distribution-fixture/receipt.json\n---\n# Distribution fixture\n")
+    receipt.write_text(json.dumps({"verdict": "pass"}) + "\n")
+    (plan_dir / "receipt.adoption-decision.json").write_text(json.dumps({
+        "decision": "adopted", "plan_ref": "proposals/distribution-fixture/README.md",
+        "plan_sha256": hashlib.sha256(plan.read_bytes()).hexdigest(),
+        "receipt_sha256": hashlib.sha256(receipt.read_bytes()).hexdigest()}) + "\n")
     assert _git(root, "init", "-q").returncode == 0
     _git(root, "add", ".")
-    done = _git(root, "commit", "-q", "-m", "fixture")
+    done = _git(root, "commit", "-q", "-m", "[Goal distribution-fixture] fixture")
     assert done.returncode == 0, done.stderr
     return root
 
@@ -92,14 +106,14 @@ def _assert_hook_gates_orphan(root: Path, env: dict[str, str] | None) -> None:
     """The installed hook refuses a staged orphan, then admits it once planned."""
     _touch(root, ORPHAN)
     _git(root, "add", ORPHAN)
-    blocked = _git(root, "commit", "-m", "add stray", env=env)
+    blocked = _git(root, "commit", "-m", "[Goal distribution-fixture] add stray", env=env)
     assert blocked.returncode != 0
     assert f"orphan: {ORPHAN}" in blocked.stderr
     assert _git(root, "rev-list", "--count", "HEAD").stdout == "2\n"  # fixture + hook commit only
 
     _plan_orphan(root)
     _git(root, "add", ".aes/target.yaml")
-    allowed = _git(root, "commit", "-m", "plan and add stray", env=env)
+    allowed = _git(root, "commit", "-m", "[Goal distribution-fixture] plan and add stray", env=env)
     assert allowed.returncode == 0, allowed.stderr
     assert "OK topology" in allowed.stderr  # git sends hook stdout to stderr
     assert ORPHAN in _git(root, "show", "--name-only", "--format=", "HEAD").stdout.split()
@@ -119,7 +133,7 @@ def test_hook_blocks_orphan_commit_and_admits_planned_one(consumer: Path) -> Non
     assert _git(consumer, "config", "--local", "--get", "core.hooksPath").stdout.strip() == ".githooks"
     _git(consumer, "add", ".githooks/pre-commit")
     env = {**os.environ, "PYTHONPATH": str(SRC)}
-    assert _git(consumer, "commit", "-q", "-m", "install hook", env=env).returncode == 0
+    assert _git(consumer, "commit", "-q", "-m", "[Goal distribution-fixture] install hook", env=env).returncode == 0
     _assert_hook_gates_orphan(consumer, env)
 
 
@@ -140,13 +154,13 @@ def test_hook_refuses_a_criterion_with_no_route_and_admits_it_once_routed(consum
     assert main(["hooks", "install", "--root", str(consumer)]) == 0
     _git(consumer, "add", ".githooks/pre-commit")
     env = {**os.environ, "PYTHONPATH": str(SRC)}
-    assert _git(consumer, "commit", "-q", "-m", "install hook", env=env).returncode == 0
+    assert _git(consumer, "commit", "-q", "-m", "[Goal distribution-fixture] install hook", env=env).returncode == 0
 
     target = consumer / ".aes" / "target.yaml"
     text = target.read_text(encoding="utf-8")
     target.write_text(text.replace("components:\n", UNROUTED_CRITERION + "components:\n", 1), encoding="utf-8")
     _git(consumer, "add", ".aes/target.yaml")
-    blocked = _git(consumer, "commit", "-m", "add unrouted criterion", env=env)
+    blocked = _git(consumer, "commit", "-m", "[Goal distribution-fixture] add unrouted criterion", env=env)
     assert blocked.returncode != 0
     assert "1 evidence requirement(s) with no route" in blocked.stderr
     assert "'ER-WG5-900-01' (criterion 'SC-WG5-900') has no route" in blocked.stderr
@@ -158,7 +172,7 @@ def test_hook_refuses_a_criterion_with_no_route_and_admits_it_once_routed(consum
     )
     target.write_text(routed, encoding="utf-8")
     _git(consumer, "add", ".aes/target.yaml")
-    allowed = _git(consumer, "commit", "-m", "add routed criterion", env=env)
+    allowed = _git(consumer, "commit", "-m", "[Goal distribution-fixture] add routed criterion", env=env)
     assert allowed.returncode == 0, allowed.stderr
 
 
@@ -172,7 +186,7 @@ def test_linked_worktree_falls_back_to_main_checkout_venv(consumer: Path) -> Non
     shim.chmod(0o755)
     (consumer / ".gitignore").write_text(".venv/\n", encoding="utf-8")
     _git(consumer, "add", ".githooks/pre-commit", ".gitignore")
-    assert _git(consumer, "commit", "-q", "-m", "install hook").returncode == 0
+    assert _git(consumer, "commit", "-q", "-m", "[Goal distribution-fixture] install hook").returncode == 0
 
     linked = consumer.parent / "linked"
     assert _git(consumer, "worktree", "add", "-q", "-b", "lane", str(linked)).returncode == 0
@@ -197,7 +211,7 @@ def test_install_leaves_the_tracked_hook_clean_on_another_machine(consumer: Path
     hook, _ = install_hooks(consumer, interpreter=sys.executable)
     _git(consumer, "add", ".githooks")  # pre-commit and commit-msg
     env = {**os.environ, "PYTHONPATH": str(SRC)}
-    assert _git(consumer, "commit", "-q", "-m", "install hook", env=env).returncode == 0
+    assert _git(consumer, "commit", "-q", "-m", "[Goal distribution-fixture] install hook", env=env).returncode == 0
     assert _git(consumer, "status", "--short").stdout == ""
 
     # a second machine installs over the same clone: no tracked change at all
@@ -222,7 +236,7 @@ def test_hook_runs_without_the_installer_config(consumer: Path) -> None:
     shim.chmod(0o755)
     (consumer / ".gitignore").write_text(".venv/\n", encoding="utf-8")
     _git(consumer, "add", ".githooks/pre-commit", ".gitignore")
-    assert _git(consumer, "commit", "-q", "-m", "install hook").returncode == 0
+    assert _git(consumer, "commit", "-q", "-m", "[Goal distribution-fixture] install hook").returncode == 0
     _assert_hook_gates_orphan(consumer, None)
 
 
@@ -325,7 +339,7 @@ def test_clean_install_in_pin_form_reports_commit_version_and_ships_the_hook(tmp
     assert str(venv) not in (consumer / ".githooks" / "pre-commit").read_text(encoding="utf-8")
     _git(consumer, "add", ".githooks/pre-commit")
     env = {k: v for k, v in os.environ.items() if k != "PYTHONPATH"}
-    assert _git(consumer, "commit", "-q", "-m", "install hook", env=env).returncode == 0
+    assert _git(consumer, "commit", "-q", "-m", "[Goal distribution-fixture] install hook", env=env).returncode == 0
     _assert_hook_gates_orphan(consumer, env)
 
 
@@ -350,7 +364,11 @@ def test_getting_started_guide_runs_end_to_end_as_written(tmp_path: Path) -> Non
     gitconfig = tmp_path / "gitconfig"
     gitconfig.write_text("[user]\n\tname = Guide Reader\n\temail = reader@example.invalid\n", encoding="utf-8")
     env = {k: v for k, v in os.environ.items() if k not in ("PYTHONPATH", "VIRTUAL_ENV")}
-    env.update(GIT_CONFIG_GLOBAL=str(gitconfig), GIT_CONFIG_NOSYSTEM="1")
+    # Like Git configuration above, a colleague's clean machine has none of
+    # Brian's machine-wide AES policy or external plan roots. Local installed
+    # hooks still run; topology rejection is exercised by the other tests.
+    env.update(GIT_CONFIG_GLOBAL=str(gitconfig), GIT_CONFIG_NOSYSTEM="1",
+               AES_COMMIT_RULE_MACHINE_CONFIG=str(tmp_path / "no-machine-policy.yaml"))
     ran = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script], cwd=tmp_path, env=env,
                          capture_output=True, text=True, timeout=900)
     assert ran.returncode == 0, f"guide failed (exit {ran.returncode}):\n{ran.stdout[-3000:]}\n{ran.stderr[-3000:]}"

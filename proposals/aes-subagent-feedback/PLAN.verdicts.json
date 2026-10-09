@@ -1,0 +1,236 @@
+{
+  "02d990733d0435fc3e258bcf8857ddb18bada848c90a963da626c4cd95c9a1b6": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names a concrete consumer-path check: the canary report is filed through `feedback_log.file_report` and its exact record IDs appear in `problems.load_records` from the same JSONL reports. It also specifies structural checks for no alternate directory/database/selector and a `git diff` limited to declared paths, which would detect a silent parallel implementation.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "050fae336e8f5a895107142cd25c0f3f26182c55f8330bcd175138ff0fe89bbc": {
+    "item_id": "OV-LLM-CALL-BOUNDARY",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly describes the call graph, including the native parent/child call, collector adapter, existing weekly graph, and semantic-check calls. It specifies structured boundaries such as DevelopmentInvestigationResultV1 JSON, deterministic JSON/tool structure with hashes, existing Pydantic contracts, and typed SemanticJudgment, and explains tracing through transcripts, call/result traces, hashes, and recorded task/trace IDs.",
+    "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/OV-LLM-CALL-BOUNDARY",
+    "verdict": "pass"
+  },
+  "0c7b2fe848a20d98f0bbb3f51254e57798a86922f894b5583921133ce21dd89d": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines success through concrete checks, including captured canary completion, exact returned bytes, record membership, metadata consistency, regression behavior, stable report IDs, and passing `make check`. It also gives concrete disproof conditions: an unchecked completion becoming `verified_pass`, a different child borrowing a check, or the weekly reader dropping the canary record.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "2e89cc15d1d35f2c13043139dc74d1eb5cdc354ab96c25d70f8c02ad0fe4b2e6": {
+    "item_id": "CORE-IRREVERSIBLE-SPEND",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence identifies Brian as the authority and states his approval covers one native bounded canary and routine planning conformance. It specifies containment and boundaries through one leaf assignment, read-only permitted paths, 12-turn instructions, no model override, per-check and total spend limits, and stopping on quota or billing errors.",
+    "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "pass"
+  },
+  "33c2931d6af127244585cb030433b525fef2943ecbe48a3a9a85d7f11a3b9084": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies ownership for the root session and concurrent lanes, states dependencies and non-overlap, lists concrete conflict surfaces, names the root session as the integrator, and identifies official claim records/native replies in private repair-verification.jsonl as work-unit evidence for the concurrent writers.",
+    "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/OV-COORD-OWNERSHIP",
+    "verdict": "pass"
+  },
+  "4208b045e47706da570e3cf43365a9b25d8d3b8d597935faf33587c579ae91a1": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "material",
+    "missing": "The plan declares irreversible_or_spend_action=false, but it proposes an approved native Codex canary and planning conformance calls through an OpenRouter route with a per-call budget; these are proposed spend actions under the stated trigger definition.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The other declarations are supported: the reusable adapter triggers shared_mechanism, native/semantic model calls trigger llm_central, and the plan explicitly limits empirical comparison to acceptance and regression checks. However, the quoted evidence still describes proposed model-call spend while declaring the spend fact false.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-ACTIVATION-FACTS",
+    "verdict": "unresolved"
+  },
+  "44705a515a9ff4f13934f7f29c2bc6bdfc9e09d916717a991f461ac069c75974": {
+    "item_id": "CORE-IRREVERSIBLE-SPEND",
+    "materiality": "material",
+    "missing": "The proposed approved bounded canary and use of the approved llm_client route do not name who must authorize them. The evidence gestures at containment through \u201cone approved bounded canary\u201d and a \u201cper-call budget,\u201d but does not clearly specify the containment controls for each action or spend.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence identifies a bounded canary and budgeted route, but \u201capproved\u201d does not identify the authorizer. Because the requirement requires a named authorizer and containment for every irreversible action or spend, the evidence is incomplete.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "unresolved"
+  },
+  "4ce83f6dec50ecb17a2820bf049de428f683c25244f4142666ffb2c05bddc112": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares shared_mechanism, llm_central, and irreversible_or_spend_action true. It declares empirical_comparison_proposed false, while explicitly limiting the work to acceptance/regression checks and stating that no model comparison or benchmark is proposed; no triggered activation fact is declared false.",
+    "trace_id": "company-planning/method-conformance/PLAN/e2104c37c60d/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "549412f95dd590f81bb50f76f9724fd374da5d45d3250ddd2c1ef97b23595847": {
+    "item_id": "OV-LLM-AUTHORITY-PROMOTION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the spend authority as Brian, identifies the configured native Codex and approved OpenRouter routes as provider authority, and states promotion conditions including one actual installed-role invocation, full child trace inspection, parent checks on the exact result, and private issue readback through the normal report path.",
+    "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/OV-LLM-AUTHORITY-PROMOTION",
+    "verdict": "pass"
+  },
+  "6c0808f5d9b60710a2720a8e5c0dba5736f61c15c04231682401050e59dd7073": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares shared_mechanism, llm_central, and irreversible_or_spend_action true, matching the proposed adapter, LLM-dependent behavior, and canary/spend. It declares empirical_comparison_proposed false while explicitly limiting activity to acceptance/regression checks and stating that no model comparison or benchmark is proposed, which does not trigger that fact.",
+    "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "712bd5d27036f16cb722532c81914212bde4293adeaa318da4832098cc8114dc": {
+    "item_id": "OV-LLM-CALL-BOUNDARY",
+    "materiality": "material",
+    "missing": "An explicit structured result boundary for every model call is missing, particularly for the existing weekly Jev/strong-model graph and the native parent call; the evidence only names DevelopmentInvestigationResultV1 for the child, deterministic JSON/tool structure for the collector, and SemanticJudgment for Company Planning checks.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence describes parts of the call graph and gives tracing mechanisms (transcripts, hashes, and task/trace IDs). However, it does not explicitly define the structured result returned by each call, while stating that the existing weekly graph remains unchanged.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/OV-LLM-CALL-BOUNDARY",
+    "verdict": "unresolved"
+  },
+  "71e55973ed623164757128f03e9a5737ba2f9ab05ae28dd38ced50a7a464135a": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "material",
+    "missing": "The evidence does not state, for each named element, the specific representation the examined run must show. In particular, it does not specify what the run must show for the parent verification receipt, existing feedback report/record, daily JSONL, state.sqlite, private issue view, weekly problem reader, or the reused licence/enforcement/recurrence elements.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The model link and a list of elements are present, and the canary trace gives some shared evidence requirements. However, saying it must show identity \u201cacross each element\u201d and that reused elements are tested by regression tests does not explicitly define the required observed evidence for every element.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-SYSTEM-MODEL",
+    "verdict": "unresolved"
+  },
+  "72d8fcd4225817ccce24b1c7bd3680638d38897f90cf70a634bd8a5f6e76e824": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the served actors (\u201cBrian and parent coding agents\u201d), the desired result (\u201creusable roles improved from actual outcomes\u201d), and a concrete user-visible example: the private feedback log receiving a record with parent/child identities, assignment context, and actual check results.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "8254bd4e9b0b1a88eb73bef2405cc1c04e6d00fb40e671b2d3f72796fd0a14b5": {
+    "item_id": "OV-LLM-AUTHORITY-PROMOTION",
+    "materiality": "material",
+    "missing": "An explicit spend authority\u2014who authorizes or controls spend for the model calls\u2014is not named.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the provider routes (\u201cnative Codex\u201d and \u201cOpenRouter\u201d) and gives an authentic-run promotion condition (\u201cone actual installed-role invocation\u201d with trace and result checks). However, \u201capproved shared llm_client\u201d and \u201cno ... new benchmark spend\u201d do not explicitly identify the spend authority.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/OV-LLM-AUTHORITY-PROMOTION",
+    "verdict": "unresolved"
+  },
+  "82e5144d7165ba4c616bea7a536c1fa6f467a3e5215ea37c8e01750e555be2a7": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that existing ownership, internal lineage, and relevant external prior art were searched, naming the bounded searches and W3C PROV source. It dispositiones the identified candidates using reuse, extend, and compose, plus explicitly avoids or does not adopt alternatives; no candidate found is left without a stated disposition.",
+    "trace_id": "company-planning/method-conformance/PLAN/e2104c37c60d/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "pass"
+  },
+  "92d2e485ae90eead8103a9000dd7c44747a8c54a01007b8632dbde80c1354fea": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies file-level ownership for the root session, system-one-router, agent-router-plan, and rules-sort, and marks the native canary read-only. It states dependencies and lack of overlap, enumerates conflict surfaces, identifies the root as integrator, and specifies official claim records/native replies in private repair-verification.jsonl as work-unit evidence.",
+    "trace_id": "company-planning/method-conformance/PLAN/9ab3e733d23a/OV-COORD-OWNERSHIP",
+    "verdict": "pass"
+  },
+  "9bf21b83da51e88351a3b88d4b3849f3e549e9ce33e730d1667cc8cf32d6b268": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares shared_mechanism, llm_central, and irreversible_or_spend_action true, matching the described reusable adapter, native/semantic LLM calls, and model usage. It declares empirical_comparison_proposed false while explicitly limiting the work to acceptance/regression checks with no model comparison or benchmark, so no triggered activation fact is declared false.",
+    "trace_id": "company-planning/method-conformance/PLAN/9ab3e733d23a/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "bb1a168b839d41a24dd956aacf994e715a38373cece8dfb359cc723876b2c8ee": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names a concrete consumer-path observation: the generated canary report is filed by `feedback_log.file_report` and its exact record IDs appear in `problems.load_records` from the same reports file. It also specifies structural checks for no alternate directory, database, selector, or undeclared paths.",
+    "trace_id": "company-planning/method-conformance/PLAN/e2104c37c60d/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "bfae7d065ffd70cde2a6cc883c4b4a30322931645d233911ecd4949c857db854": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the run (`subagent-feedback-canary-v1` in parent Codex session `01a11cac-2557-7dc0-8edd-8487ed5968d1`), identifies where the full trace and related artifacts live (`~/.codex/sessions` and specified reports/logs), and requires review of inputs, reads, citations, model details, command I/O, assertions, and outputs beyond final success. It also explicitly exempts document edits from a behavioral run and states that structural links and source facts are checked.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  },
+  "c1bb8b5c7f87b87c9e1a243937cac08c43244d26a2fbdb4376f506c6f3918e03": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence identifies the uncertainties as native format variation, context/model attribution, terminal/verification correlation, and future selection use. Each has an explicit owner and/or resolving evidence or condition, such as observed event shapes, runtime values, and exact assignment/result digests.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  },
+  "c6f761a727386d8a8f377588a9e0df1fa198ade6851f9320550bc1dd32feb618": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies authority: Brian approved the work, and the root Codex session owns implementation/integration. It also explicitly lists non-goals, including not changing model selection, agent-router adoption, child permissions, global hooks, readonly child JSON contracts, taxonomy intake, or the claim registry.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "c9c9e42ae2ee0e40159ca20095ec26173d591dc8cbe167574e8afa352e43e52a": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides a system-model link and explicitly lists the assignment, terminal event/trace, verification receipt, feedback records and storage, issue view, and weekly reader. It also specifies what the examined canary trace must show for each element, including IDs, digests, metadata, exit status, database read-back, and weekly record membership.",
+    "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "d00baa2cfa38133bea3e7afc9b88b045a07721dcfade69013b0f07eddeed53f4": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "material",
+    "missing": "An explicit disposition for the internal register entry (ARCHITECTURAL_IDEAS.md) and any candidates found through the stated ownership/lineage searches is missing; the evidence says they were searched but does not classify them as reuse, extend, compose, supersede, or bounded exception.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "Several items are explicitly dispositioned\u2014for example, AES files and the feedback consumer are to be extended, schemas and tool traces reused, and W3C PROV composed. However, stating that the internal register was searched does not itself provide one of the required dispositions for that candidate.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "unresolved"
+  },
+  "df0cdbd15612d9993e17135d54ccb220c9ce401f14cb84d2b21d677d5839fc1a": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names a concrete consumer-path check: the generated canary report is filed through `feedback_log.file_report`, and its exact record IDs appear in `problems.load_records` over the same JSONL reports. It also specifies structural checks for no alternate directory/database/selector and confirms the git diff is limited to declared AES paths.",
+    "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  },
+  "f38d7a08556a990de53b0c3ff6872ec48b790738afe89d888ee38dd7a32e05a8": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "material",
+    "missing": "Explicit dependencies and work-unit evidence for each concurrent writer, especially AES agent-router-plan and rules-sort; their assignments are described only as \u201crouter adoption/rules sorting.\u201d The evidence also does not clearly identify all conflict surfaces for every writer.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies Root as integrating and lists claimed files for Root, while llm_client owns selector/store source and tests. However, the AES writers lack exact work-unit boundaries and dependency statements, so the requirement is not fully satisfied.",
+    "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/OV-COORD-OWNERSHIP",
+    "verdict": "unresolved"
+  },
+  "fe0330c10e907df746415ffca58e89d6815b57be589b6485352fa0e34f00d90f": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "material",
+    "missing": "Explicit evidence that existing ownership and relevant external prior art were searched; the evidence identifies ownership and cites W3C PROV, but does not clearly state that those areas were searched as part of the bounded search.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly dispositions the listed internal candidates and the W3C PROV material as reuse, extend, compose, or avoid/ no parallel implementation. However, it does not substantively document searches for existing ownership and relevant external prior art, as required.",
+    "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "unresolved"
+  }
+}

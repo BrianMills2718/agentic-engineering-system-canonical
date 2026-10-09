@@ -1,0 +1,514 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-PLAN-00979b080c2f",
+  "plan": {
+    "plan_ref": "proposals/aes-subagent-feedback/PLAN.md",
+    "plan_sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+  },
+  "path_decision": {
+    "ref": "proposals/aes-subagent-feedback/planning-path-decision.json",
+    "sha256": "5f02adddade14d76e3f854235368030b3767c5b049904bd6da5c7e39c6c975f5",
+    "selected_path": "coordinated",
+    "classified_path": "coordinated",
+    "errors": []
+  },
+  "route": "coordinated",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@5",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "048ec380dcfa7f8fb6d5d90269b7cd9cf264502d569fb75e3b31abd38c480d22"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "b2aaf9581e24108cf0bc7642bbc381cfb1868cb40491982fe6963ab5c126184e"
+  },
+  "activation": {
+    "facts_ref": "proposals/aes-subagent-feedback/facts.json",
+    "facts_sha256": "771e9451cf3996ca0a958964b66a8bfc855c44ca0250315544f3fe443acc4368",
+    "facts": {
+      "shared_mechanism": true,
+      "llm_central": true,
+      "empirical_comparison_proposed": false,
+      "irreversible_or_spend_action": true,
+      "multiple_writers": true,
+      "consequential_boundary": false,
+      "inline_prototype": false
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": true,
+        "reason": "shared_mechanism=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": true,
+        "reason": "llm_central=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": true,
+        "reason": "multiple_writers=true (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": false,
+        "reason": "inline_prototype=false (derived:classified_path==prototype)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:7cbc505b8a602df4f1cad82ad46b74ddc17ed5e72bc0e6b33862b12b16f4a38a",
+    "definition_sha256": "f4229e1c76be2600a07b1d8fae255a34fe09db07ee46e0b3cf0c125be95bd43f",
+    "bundle_ref": "proposals/aes-subagent-feedback/bundle.json",
+    "bundle_sha256": "6db79de915ad0707d8b72cf9f8edae2464850f30e19e0b504ebc3606c5d59ab5",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#actor-and-result",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the served actors (“Brian and parent coding agents”), the desired result (“reusable roles improved from actual outcomes”), and a concrete user-visible example: the private feedback log receiving a record with parent/child identities, assignment context, and actual check results.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/planning-path-decision.json",
+          "sha256": "5f02adddade14d76e3f854235368030b3767c5b049904bd6da5c7e39c6c975f5"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#success-and-disproof",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines success through concrete checks, including captured canary completion, exact returned bytes, record membership, metadata consistency, regression behavior, stable report IDs, and passing `make check`. It also gives concrete disproof conditions: an unchecked completion becoming `verified_pass`, a different child borrowing a check, or the weekly reader dropping the canary record.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#success-and-disproof",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the run (`subagent-feedback-canary-v1` in parent Codex session `01a11cac-2557-7dc0-8edd-8487ed5968d1`), identifies where the full trace and related artifacts live (`~/.codex/sessions` and specified reports/logs), and requires review of inputs, reads, citations, model details, command I/O, assertions, and outputs beyond final success. It also explicitly exempts document edits from a behavioral run and states that structural links and source facts are checked.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SYSTEM-MODEL",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#system-model",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/CORE-SYSTEM-MODEL",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence provides a system-model link and explicitly lists the assignment, terminal event/trace, verification receipt, feedback records and storage, issue view, and weekly reader. It also specifies what the examined canary trace must show for each element, including IDs, digests, metadata, exit status, database read-back, and weekly record membership.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#authority-and-non-goals",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies authority: Brian approved the work, and the root Codex session owns implementation/integration. It also explicitly lists non-goals, including not changing model selection, agent-router adoption, child permissions, global hooks, readonly child JSON contracts, taxonomy intake, or the claim registry.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": true,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#irreversible-actions-and-spend",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/CORE-IRREVERSIBLE-SPEND",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence identifies Brian as the authority and states his approval covers one native bounded canary and routine planning conformance. It specifies containment and boundaries through one leaf assignment, read-only permitted paths, 12-turn instructions, no model override, per-check and total spend limits, and stopping on quota or billing errors.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#uncertainties",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/5c59f3f36f3a/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence identifies the uncertainties as native format variation, context/model attribution, terminal/verification correlation, and future selection use. Each has an explicit owner and/or resolving evidence or condition, such as observed event shapes, runtime values, and exact assignment/result digests.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#activation-facts",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/9ab3e733d23a/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan declares shared_mechanism, llm_central, and irreversible_or_spend_action true, matching the described reusable adapter, native/semantic LLM calls, and model usage. It declares empirical_comparison_proposed false while explicitly limiting the work to acceptance/regression checks with no model comparison or benchmark, so no triggered activation fact is declared false.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#prior-art-and-ownership",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/e2104c37c60d/OV-PRIOR-ART-DISPOSITION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that existing ownership, internal lineage, and relevant external prior art were searched, naming the bounded searches and W3C PROV source. It dispositiones the identified candidates using reuse, extend, and compose, plus explicitly avoids or does not adopt alternatives; no candidate found is left without a stated disposition.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "effect": "advisory",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#prior-art-and-ownership",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/e2104c37c60d/OV-PRIOR-ART-PARALLEL-CHECK",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names a concrete consumer-path observation: the generated canary report is filed by `feedback_log.file_report` and its exact record IDs appear in `problems.load_records` from the same reports file. It also specifies structural checks for no alternate directory, database, selector, or undeclared paths.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-LLM-CALL-BOUNDARY",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#llm-call-boundary",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/OV-LLM-CALL-BOUNDARY",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly describes the call graph, including the native parent/child call, collector adapter, existing weekly graph, and semantic-check calls. It specifies structured boundaries such as DevelopmentInvestigationResultV1 JSON, deterministic JSON/tool structure with hashes, existing Pydantic contracts, and typed SemanticJudgment, and explains tracing through transcripts, call/result traces, hashes, and recorded task/trace IDs.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-LLM-AUTHORITY-PROMOTION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#llm-call-boundary",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/a58b6a918e1c/OV-LLM-AUTHORITY-PROMOTION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the spend authority as Brian, identifies the configured native Codex and approved OpenRouter routes as provider authority, and states promotion conditions including one actual installed-role invocation, full child trace inspection, parent checks on the exact result, and private issue readback through the normal report path.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-COORD-OWNERSHIP",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-subagent-feedback/PLAN.md#coordination",
+          "sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/9ab3e733d23a/OV-COORD-OWNERSHIP",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies file-level ownership for the root session, system-one-router, agent-router-plan, and rules-sort, and marks the native canary read-only. It states dependencies and lack of overlap, enumerates conflict surfaces, identifies the root as integrator, and specifies official claim records/native replies in private repair-verification.jsonl as work-unit evidence.",
+        "reused": true
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 14,
+    "unresolved": 0,
+    "not_applicable": 0,
+    "unavailable": 0,
+    "missing": 0
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-PLAN-00979b080c2f",
+    "snapshot_ref": "SNAPSHOT-PLAN",
+    "snapshot_revision": "sha256:6db79de915ad0707d8b72cf9f8edae2464850f30e19e0b504ebc3606c5d59ab5",
+    "packet_ref": "proposals/aes-subagent-feedback/PLAN.md",
+    "packet_revision": "sha256:00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [],
+    "route": "coordinated",
+    "adoption_readiness": "ready_for_contributor",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "pass",
+  "reason_codes": [],
+  "actionable_summary": [
+    "pass: 14 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "codex",
+    "session": "01a11cac-2557-7dc0-8edd-8487ed5968d1"
+  },
+  "started_at": "2026-10-09T00:50:05Z",
+  "completed_at": "2026-10-09T00:50:05Z",
+  "duration_ms": 194
+}

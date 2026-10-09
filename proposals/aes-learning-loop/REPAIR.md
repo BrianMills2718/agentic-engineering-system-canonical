@@ -28,3 +28,10 @@ to their shared improvement targets. A local repair alone is insufficient: the a
 tests the generalized cause, applies prevention at its source, records enforcement
 proof and checks recurrence. Separate skill feedback and the legacy taxonomy gap
 remain explicit; the tooltip example illustrates a possible cause, not a diagnosis.
+
+Native subagent assignments and parent-checked returns now use the same report
+path; see [the bounded integration](../aes-subagent-feedback/PLAN.md) and
+[operator commands](../../scripts/learning_loop/systemd/README.md#native-subagent-feedback).
+A completed child, an inconclusive investigation, and a failed parent checker
+remain distinct observations. These feed generalized cause analysis and
+enforced prevention; they do not automatically change a role or select a model.
