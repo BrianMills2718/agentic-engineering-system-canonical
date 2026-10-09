@@ -1,0 +1,89 @@
+{
+  "schema_version": "development-investigation-result/v1",
+  "task_id": "maintenance-discovery-frozen-20261009",
+  "specialist_id": "development-investigator",
+  "status": "supported",
+  "root_cause": "The maintenance-worktree command forwards a broad default write scope ('.') without the required broad-scope metadata. The frozen Makefile defaults SESSION_WRITE_PATHS to '.' when not provided, but does not pass SESSION_BROAD_SCOPE_MODE or SESSION_BROAD_SCOPE_REASON to the worktree target. The admission contract in coordination_claims.py detects '.' as broad and rejects claims without broad-scope metadata.",
+  "evidence": [
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "locator": "L312",
+      "fact": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS defaults to '.' when SESSION_WRITE_PATHS is empty"
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "locator": "L332",
+      "fact": "maintenance-worktree passes SESSION_WRITE_PATHS with the default '.' to worktree target"
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "locator": "L333",
+      "fact": "maintenance-worktree calls worktree with WORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "locator": "L309",
+      "fact": "Frozen command documents that explicit SESSION_WRITE_PATHS must win to override defaults and prevent conflicts"
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L85",
+      "fact": "BROAD_SCOPE_MODES = {'bootstrap', 'bounded'} defines the only two valid broad-scope mode values"
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L2686",
+      "fact": "Path '.' is classified as broad via _normalize_repo_path(path) == '.'"
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L2766",
+      "fact": "Admission check: if broad_paths and mode not in BROAD_SCOPE_MODES, append 'broad_scope_mode_required'"
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L2768",
+      "fact": "Admission check: if broad_paths and not reason, append 'broad_scope_reason_required'"
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L2151",
+      "fact": "Enforcement: if claim.is_live() and schema_version >= 6 and broad_issues, raise ValueError"
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+      "locator": "L204",
+      "fact": "A new broad write claim must declare 'bootstrap' or 'bounded' intent plus non-empty reason"
+    }
+  ],
+  "causal_chain": [
+    "maintenance-worktree target defined at L325 to accept only BRANCH (all other args have defaults)",
+    "MAINTENANCE_BOOTSTRAP_WRITE_PATHS at L312 defaults to '.' when SESSION_WRITE_PATHS is not set",
+    "maintenance-worktree forwards SESSION_WRITE_PATHS='.' at L332 but does not forward SESSION_BROAD_SCOPE_MODE or SESSION_BROAD_SCOPE_REASON",
+    "worktree target invokes check_coordination_claims.py --claim at L174 to create the claim",
+    "check_coordination_claims.py delegates to _broad_scope_contract_issues in coordination_claims.py",
+    "_broad_scope_contract_issues detects '.' as broad per L2686 and checks if broad_scope_mode in BROAD_SCOPE_MODES per L2766",
+    "Since SESSION_BROAD_SCOPE_MODE was not passed by maintenance-worktree and has no inherited value, the condition fails at L2766",
+    "'broad_scope_mode_required' is appended to issues list at L2766",
+    "evaluate_claim raises ValueError at L2151 because claim.is_live() and schema_version >= 6 and broad_issues exist",
+    "worktree creation fails with admission refusal before worktree directory is created"
+  ],
+  "alternatives_ruled_out": [
+    "The failure is not due to overlapping write-paths conflict between claims\u2014the admission check at L2151 blocks the claim before conflict-checking occurs",
+    "The failure is not due to missing write_paths entirely\u2014SESSION_WRITE_PATHS is provided (as '.'), the issue is that '.' is broad without required metadata",
+    "The failure is not a schema-version mismatch for legacy claims\u2014schema_version auto-upgrades to 6 when SESSION_WRITE_PATHS is provided per frozen source"
+  ],
+  "limitations": [
+    "The frozen source does not document whether SESSION_BROAD_SCOPE_MODE or SESSION_BROAD_SCOPE_REASON can be inherited from parent session environment or set by intermediate shell context. The Makefile uses ?= conditionals which allow environment inheritance, so an inherited value could satisfy the admission check, but the maintenance-worktree command as documented does not explicitly document this escape path.",
+    "The frozen source shows only pre-repair state; current live implementation has been repaired and is not visible here",
+    "Investigation is restricted to frozen source at revision 3b7444abf52f296da383b888c6e911970127c322 only; cannot verify runtime execution or exact error message formatting",
+    "The Makefile comment at L309 documents SESSION_WRITE_PATHS as the recovery mechanism but does not explicitly mention SESSION_BROAD_SCOPE_MODE + SESSION_BROAD_SCOPE_REASON as an alternative fix"
+  ],
+  "recommended_parent_action": "The root cause is that maintenance-worktree forwards a broad default write scope ('.') without the required broad-scope metadata. The frozen command supports two recovery paths: (1) caller provides SESSION_WRITE_PATHS with narrow paths to override the default '.' at L312, or (2) caller provides SESSION_BROAD_SCOPE_MODE='bootstrap' or 'bounded' plus SESSION_BROAD_SCOPE_REASON to satisfy the admission contract at L2766-2768. The frozen Makefile documents the first recovery at L309 but does not document the second.",
+  "mutation_declaration": {
+    "files_changed": false,
+    "network_used": false,
+    "memory_changed": false,
+    "children_spawned": false
+  }
+}
