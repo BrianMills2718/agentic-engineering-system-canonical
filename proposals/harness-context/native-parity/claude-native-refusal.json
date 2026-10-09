@@ -1,0 +1,28 @@
+{
+  "record_type": "native-claude-pre-dispatch-refusal.v1",
+  "session_id": "535cd132-c05a-4df2-85ce-57565d68d3aa",
+  "task_sha256": "ae362f8191402c660380ef2f1a52bece277a7a9b327d1aadb610a22b709c0725",
+  "parent_trace": {
+    "path": "/home/brian/.claude/projects/-home-brian--hive-brain-aes/535cd132-c05a-4df2-85ce-57565d68d3aa.jsonl",
+    "sha256": "f7ad036981a1e72630aa403582894b20ebdb322505494ae8c856313556d8b978",
+    "records": 19
+  },
+  "native_exit_status": 1,
+  "native_pass": false,
+  "native_children": 0,
+  "raw_result_is_error": true,
+  "raw_result_subtype": "success",
+  "outcome_source": {
+    "path": "/home/brian/.codex/log/harness-compact-native-2026-10-09.jsonl",
+    "line": 57,
+    "record_sha256": "2e4078ab84ad1a8563dd35bc24fbe00cee32cd7d5de9b2a6c42f1542b97dd03b",
+    "raw_line_sha256": "305ff273538a6b843b7adbaa3166f7cddac61a916808099121eb988d8d0835d6"
+  },
+  "terminal_source": {
+    "path": "/home/brian/.codex/log/harness-compact-native-2026-10-09.jsonl",
+    "line": 58,
+    "record_sha256": "d953998ece627a008a688d5c32d4ccd4437f3277bd4d51aef02fc7900fb68260",
+    "raw_line_sha256": "291b980a32c362bc1caae562aec23154b91c9519c8f0e5a6215159c524b40061"
+  },
+  "qualification": "A native client refusal before dispatch produced no child evidence. Startup hooks ran, but this is not a successful investigation or a child delivery test. Authentication alone does not prove execution availability. Private account information and usage schedule remain in the owning native trace."
+}

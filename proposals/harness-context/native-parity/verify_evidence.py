@@ -68,6 +68,8 @@ def trace(ref, checks):
     require(digest(raw) == ref['sha256'], f'{path.name}: full trace digest', checks)
     rows = [v for _, v in collector.rows(path)]
     require(len(rows) == len(raw.splitlines()), f'{path.name}: complete well-formed records', checks)
+    if 'records' in ref:
+        require(len(rows) == ref['records'], f'{path.name}: recorded trace length', checks)
     return rows
 
 
@@ -143,6 +145,197 @@ def behavior(semantics, derived, claude_raw):
               for v in ('pass', 'fail', 'inconclusive')}
     verdict = 'fail' if counts['fail'] else 'inconclusive' if counts['inconclusive'] else 'pass'
     return {'verdict': verdict, 'counts': counts, 'checks': checks, 'complete': verdict == 'pass'}
+
+
+def packet_in_text(text, packet):
+    """Recognize the structural task packet, not the surrounding prose meaning."""
+    try:
+        return json.JSONDecoder().raw_decode(text[text.index('{'):])[0] == packet
+    except (ValueError, TypeError):
+        return False
+
+
+def codex_final(rows):
+    finals = [collector.text_content(r['payload']['content']) for r in rows
+              if r.get('type') == 'response_item' and r['payload'].get('type') == 'message'
+              and r['payload'].get('role') == 'assistant'
+              and r['payload'].get('phase') == 'final_answer']
+    require(len(finals) == 1, 'compact Codex: exactly one terminal final', [])
+    return finals[0]
+
+
+def verify_child_callbacks(record, parent_id, turn_id, checks):
+    """Replay exact turn-correlated membership; receipts do not identify each tool."""
+    namespace = digest(parent_id.encode())
+    require(record['root_namespace_sha256'] == namespace,
+            'compact callbacks: intentional root-session namespace', checks)
+    require(record['per_tool_identity_proven'] is False,
+            'compact callbacks: per-tool identity remains unproved', checks)
+    rows = [json.loads(line) for line in Path(record['journal_path']).read_text().splitlines()]
+    relevant = [(n, r) for n, r in enumerate(rows, 1)
+                if r.get('session_id_sha256') == namespace and r.get('hook_run_id') == turn_id]
+    completed = [{'line': n, 'receipt': r} for n, r in relevant if r.get('phase') == 'completed']
+    require(completed == record['completed_members'], 'compact callbacks: exact journal membership', checks)
+    starts = [r for _, r in relevant if r.get('phase') == 'started']
+    ends = [m['receipt'] for m in completed]
+    require(len(starts) == len(ends) == 32 and len({r['receipt_id'] for r in ends}) == 32
+            and {r['receipt_id'] for r in starts} == {r['receipt_id'] for r in ends},
+            'compact callbacks: every unique invocation started and completed', checks)
+    require(all(r['reason_code'] == 'secondary_execution_callback' and r['decision'] == 'allow'
+                and r['exit_status'] == 0 and r['hook_name'] == 'coordination-lifecycle' for r in ends),
+            'compact callbacks: native secondary callback outcomes', checks)
+    require(sorted(r['event_name'] for r in ends) == ['PostToolUse'] * 16 + ['PreToolUse'] * 16,
+            'compact callbacks: recorded PreToolUse and PostToolUse membership', checks)
+    require(all('agent_id' not in r and 'tool_use_id' not in r for r in ends),
+            'compact callbacks: receipt identity limitation retained', checks)
+    return {'completed': len(ends), 'root_namespace_sha256': namespace,
+            'child_turn_id': turn_id, 'per_tool_identity_proven': False,
+            'qualification': 'Secondary callbacks correlated to the child turn; no per-command identity or denial proof.'}
+
+
+def verify_compact_codex(record, packet, schema, checks, baseline):
+    require(record['record_type'] == 'compact-native-codex-evidence.v1'
+            and record['task_sha256'] == digest(packet), 'compact Codex: same frozen task', checks)
+    require(set(record['traces']) == {'parent', 'child'}, 'compact Codex: both complete traces', checks)
+    native = {k: trace(v, checks) for k, v in record['traces'].items()}
+    parent, child = native['parent'], native['child']
+    require(parent[0]['type'] == child[0]['type'] == 'session_meta',
+            'compact Codex: native session metadata', checks)
+    pm, cm = parent[0]['payload'], child[0]['payload']
+    source = cm['source']['subagent']['thread_spawn']
+    require(cm['parent_thread_id'] == source['parent_thread_id'] == pm['id']
+            and cm['agent_role'] == source['agent_role'] == 'development-investigator'
+            and cm['agent_path'] == source['agent_path'], 'compact Codex: native source lineage', checks)
+    spawns = [json.loads(r['payload']['arguments']) for r in parent if r.get('type') == 'response_item'
+              and r['payload'].get('name') == 'spawn_agent']
+    require(len(spawns) == 1 and spawns[0]['fork_turns'] == 'none'
+            and spawns[0]['agent_type'] == 'development-investigator',
+            'compact Codex: native fresh-history dispatch', checks)
+    spawn_ids = {r['payload']['call_id'] for r in parent if r.get('type') == 'response_item'
+                 and r['payload'].get('name') == 'spawn_agent'}
+    spawn_outputs = [json.loads(r['payload']['output']) for r in parent if r.get('type') == 'response_item'
+                     and r['payload'].get('type') == 'function_call_output'
+                     and r['payload'].get('call_id') in spawn_ids]
+    require(len(spawn_outputs) == 1 and spawn_outputs[0]['task_name'] == cm['agent_path'],
+            'compact Codex: actual spawn result identifies child path', checks)
+    user_texts = [collector.text_content(r['payload'].get('content', [])) for r in parent
+                  if r.get('type') == 'response_item' and r['payload'].get('role') == 'user']
+    require(any(packet_in_text(t, packet) for t in user_texts),
+            'compact Codex: actual parent received frozen packet', checks)
+    inbound = [b['encrypted_content'] for r in child if r.get('type') == 'response_item'
+               and r['payload'].get('type') == 'agent_message'
+               and r['payload'].get('author') == pm.get('agent_path', '/root')
+               and r['payload'].get('recipient') == cm['agent_path']
+               for b in r['payload'].get('content', []) if b.get('type') == 'encrypted_content']
+    require(spawns[0]['message'] in inbound,
+            'compact Codex: encrypted native delegation continuity (not plaintext proof)', checks)
+    role = tomllib.loads((Path.home() / '.codex/agents/development-investigator.toml').read_text())[
+        'developer_instructions'].strip()
+    require(record['role_body_sha256'] == digest(role.encode()), 'compact Codex: pinned role body', checks)
+    developers = [collector.text_content(r['payload'].get('content', [])).strip() for r in child
+                  if r.get('type') == 'response_item' and r['payload'].get('type') == 'message'
+                  and r['payload'].get('role') == 'developer']
+    require(any(t == role or t.startswith(role + '\n') for t in developers),
+            'compact Codex: actual developer role prefix with coalesced guidance', checks)
+    for kind, rows in native.items():
+        observed = events(rows, 'codex')
+        require(bool(observed['calls']) and set(observed['calls']) == set(observed['outputs']),
+                f'compact Codex {kind}: complete attributed calls and outputs', checks)
+    raw = codex_final(child)
+    require(raw == record['raw_final'] == codex_final(parent)
+            and digest(raw.encode()) == record['final_sha256'],
+            'compact Codex: exact raw JSON result and parent forwarding', checks)
+    result = json.loads(raw)
+    jsonschema.validate(result, schema)
+    require(result['task_id'] == packet['task_id'], 'compact Codex: result schema and task identity', checks)
+    semantics = review_result(result, record['semantic_review'], ROOT, checks)
+    require(semantics == record['semantic_summary'], 'compact Codex: derived exhaustive semantic summary', checks)
+    derived = {k: usage(rows, 'codex') for k, rows in native.items()}
+    require(derived == record['derived_usage'], 'compact Codex: actual native token usage', checks)
+    policies = [r['payload'] for r in child if r.get('type') == 'turn_context']
+    require(policies == record['effective_permissions'] and bool(policies),
+            'compact Codex: actual complete effective permission contexts', checks)
+    require(all(p['sandbox_policy'] == {'type': 'read-only'} and p['approval_policy'] == 'never'
+                and p['permission_profile']['network'] == 'restricted' for p in policies),
+            'compact Codex: recorded read-only, restricted network and no escalation', checks)
+    require({p['turn_id'] for p in policies} == {record['child_turn_id']},
+            'compact Codex: observed child turn identity', checks)
+    callbacks = verify_child_callbacks(record['child_callbacks'], pm['id'], record['child_turn_id'], checks)
+    old_id, old_usage, old_model = baseline
+    model = policies[0]['model']
+    parent_models = {r['payload']['model'] for r in parent if r.get('type') == 'turn_context'}
+    require(parent_models == {model} == {old_model}, 'compact Codex: same-model comparison', checks)
+    old_input = old_usage['first']['input_tokens']
+    new_input = derived['child']['first']['input_tokens']
+    parent_input = derived['parent']['first']['input_tokens']
+    comparison = {'baseline_kind': 'same_model_same_frozen_task_historical_child',
+                  'baseline_child_id': old_id, 'baseline_first_input_tokens': old_input,
+                  'compact_child_first_input_tokens': new_input,
+                  'compact_parent_first_input_tokens': parent_input,
+                  'reduction_percent': (old_input-new_input)/old_input*100,
+                  'not_a_child_vs_immediate_parent_reduction': new_input >= parent_input}
+    require(comparison == record['measured_comparison'], 'compact Codex: comparison derived from native traces', checks)
+    return {'record_type': record['record_type'], 'task_sha256': digest(packet),
+            'parent_id': pm['id'], 'child_id': cm['id'], 'final_sha256': record['final_sha256'],
+            'derived_usage': derived, 'semantic_summary': semantics, 'child_callbacks': callbacks,
+            'measured_comparison': comparison, 'effective_permission_profiles': [p['permission_profile'] for p in policies],
+            'runtime_parity_certified': False,
+            'limits': ['Encrypted delegation continuity does not expose plaintext child input.',
+                       'Filesystem scope includes root reads; five-file allowlist is voluntary.',
+                       'No actual child write/network denial or isolation from a writable parent was tested.',
+                       'Turn-correlated coordination callbacks do not certify all-hook or cross-client parity.',
+                       'Source review remains qualified where required authority lies outside the frozen packet.']}
+
+
+def source_record(ref, checks):
+    lines = Path(ref['path']).read_bytes().splitlines(keepends=True)
+    require(0 < ref['line'] <= len(lines), 'refusal: source line exists', checks)
+    raw = lines[ref['line']-1]
+    row = json.loads(raw)
+    require(digest(raw) == ref['raw_line_sha256'] and digest(row) == ref['record_sha256'],
+            'refusal: exact raw and canonical operational source digests', checks)
+    return row
+
+
+def verify_claude_refusal(record, packet, checks):
+    require(record['record_type'] == 'native-claude-pre-dispatch-refusal.v1'
+            and record['task_sha256'] == digest(packet), 'refusal: same frozen task', checks)
+    rows = trace(record['parent_trace'], checks)
+    sid = record['session_id']
+    require(bool(rows) and all(r.get('sessionId') == sid for r in rows),
+            'refusal: native parent session identity', checks)
+    outcome = source_record(record['outcome_source'], checks)
+    terminal = source_record(record['terminal_source'], checks)
+    require(outcome['event'] == 'claude_native_subscription_stream'
+            and terminal['event'] == 'claude_native_subscription_terminal'
+            and outcome['session_id'] == terminal['session_id'] == sid,
+            'refusal: matching native operational result and process outcome', checks)
+    raw = outcome['row']
+    require(raw['type'] == 'result' and raw['session_id'] == sid and raw['is_error'] is True
+            and raw['terminal_reason'] == 'api_error' and raw['subtype'] == 'success'
+            and terminal['exit_status'] == 1 and terminal['is_error'] is True,
+            'refusal: actual error flags override success subtype', checks)
+    require(record['native_exit_status'] == terminal['exit_status']
+            and record['native_pass'] is False and record['raw_result_is_error'] is raw['is_error']
+            and record['raw_result_subtype'] == raw['subtype'], 'refusal: public disposition binds native outcome', checks)
+    native_errors = [r for r in rows if r.get('type') == 'assistant' and r.get('isApiErrorMessage') is True]
+    require(bool(native_errors) and all(r.get('apiError') for r in native_errors),
+            'refusal: native parent contains actual API error record', checks)
+    require(any(raw['api_error'] == r['apiError'] and raw['result'] == collector.text_content(
+        r['message']['content']) for r in native_errors), 'refusal: result binds exact native error message', checks)
+    require(not events(rows, 'claude')['calls'] and raw['subagent_stats']['spawned'] == record['native_children'] == 0,
+            'refusal: no native tool dispatch or spawned child', checks)
+    log_rows = [json.loads(line) for line in Path(record['outcome_source']['path']).read_text().splitlines()]
+    launches = [r for r in log_rows if r.get('event') == 'claude_native_subscription_launch'
+                and r.get('session_id') == sid]
+    require(len(launches) == 1 and launches[0]['task_sha256'] == digest(packet)
+            and packet_in_text(launches[0]['prompt'], packet), 'refusal: actual launch frozen packet', checks)
+    user_texts = [collector.text_content(r['message']['content']) for r in rows if r.get('type') == 'user']
+    require(launches[0]['prompt'] in user_texts, 'refusal: native parent received launch prompt', checks)
+    return {'record_type': record['record_type'], 'session_id': sid, 'task_sha256': digest(packet),
+            'native_exit_status': terminal['exit_status'], 'native_pass': False, 'native_children': 0,
+            'raw_result_is_error': raw['is_error'], 'raw_result_subtype': raw['subtype'],
+            'qualification': 'Pre-dispatch native refusal; no child delivery, behavior or permission proof.'}
 
 
 def verify():
@@ -237,16 +430,20 @@ def verify():
     require(probe['exit_code'] == 0 and probe['expected_denials_verified'] and not probe['sentinel_exists_after'],
             'independent sandbox denial retained, not child denial', checks)
     judgments = behavior(semantics, derived, raw)
+    compact = verify_compact_codex(read(HERE / 'compact-codex-proof.json'), packet, schema, checks,
+                                  (cm['id'], derived['codex']['child'], policies[0]['model']))
+    refusal = verify_claude_refusal(read(HERE / 'claude-native-refusal.json'), packet, checks)
     return {'checks_passed': len(checks), 'checks_failed': 0, 'checks_errored': 0, 'checks_skipped': 0,
             'exit_status': 0, 'checks': checks, 'parity_traces_available': [f'{c}_{k}' for c in native for k in native[c]],
             'missing_required_trace': None, 'derived_usage': derived, 'semantic_review': semantics,
             'behavior_findings': audit['behavior_findings'], 'behavior_checks': judgments['checks'],
             'behavior_counts': judgments['counts'], 'behavior_verdict': judgments['verdict'],
             'cross_client_goal_complete': judgments['complete'],
+            'additional_evidence': {'compact_codex': compact, 'claude_native_refusal': refusal},
             'limits': ['Integrity success is not behavior parity.', 'Semantic judgments are bound parent review, not automatic prose inference.',
                        'Five-file reads were voluntary; neither native read boundary enforces that allowlist.',
                        'Independent sandbox probe does not prove actual child denial or isolation from writable parent.',
-                       'Hooks and compact Codex0.162 entrypoint were not exercised.']}
+                       'Original paired run did not exercise hooks or a compact Codex0.162 entrypoint; additional evidence remains qualified.']}
 
 
 def main():
@@ -255,7 +452,7 @@ def main():
     args = parser.parse_args()
     try:
         receipt = verify()
-    except (AssertionError, ValueError, KeyError, OSError, jsonschema.ValidationError) as exc:
+    except (AssertionError, ValueError, KeyError, IndexError, TypeError, OSError, jsonschema.ValidationError) as exc:
         print(json.dumps({'checks_failed': 1, 'exit_status': 1, 'error': str(exc)}))
         return 1
     if args.require_parity and not receipt['cross_client_goal_complete']:

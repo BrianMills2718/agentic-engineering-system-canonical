@@ -167,3 +167,5 @@ AES capability sourcing now treats **apparent novelty as unresolved search debt*
 This policy is encoded in `docs/architecture/SYSTEM_BOUNDARY.md` under AES-CAP-002 and surfaced in `docs/plans/TEMPLATE.md` as an apparent-novelty check plus residual-invention declaration.
 
 **Worktree lifecycle navigation (2026-10-09):** the adopted [plan](../proposals/worktree-lifecycle/PLAN.md) is merged in AES #481; its owner retains execution custody. The [proposal index](../proposals/README.md) and canonical instruction references link the four reader documents directly.
+
+**Harness detour, 2026-10-09:** The [harness research](../proposals/harness-context/subagent-research.md) records a real compact Codex coordinator/child run with about 48% less startup input than the same-model predecessor. Exact native traces, full source review and child-turn hook receipts are retained; full client parity is still unverified. A subsequent native Claude attempt failed before dispatch and is preserved as refusal evidence. This does not change the AES product frontier or authorize vision work.
