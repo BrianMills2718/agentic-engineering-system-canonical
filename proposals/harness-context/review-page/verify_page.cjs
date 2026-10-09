@@ -46,7 +46,7 @@ const {pathToFileURL} = require('node:url');
         throw Error('Role selection failed');
     }
     await page.locator('[data-mode="current"]').click();
-    if (!/720lines/.test(await page.locator('#detail-loads').innerText())) throw Error('Current view failed');
+    if (!/785lines/.test(await page.locator('#detail-loads').innerText())) throw Error('Current view failed');
     await page.locator('[data-mode="proposed"]').click();
     await page.locator('#zoom-in').click();
     await page.locator('#fit').click();

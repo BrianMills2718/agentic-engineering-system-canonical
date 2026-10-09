@@ -1,0 +1,24 @@
+{
+  "gitleaks": {
+    "command": "gitleaks dir proposals/harness-context/native-parity --redact --no-banner",
+    "exit_status": 0,
+    "scanned_bytes": 407077,
+    "findings": 0
+  },
+  "bounded_contact_credential_pattern_hits": [],
+  "raw_native_traces_in_commit": false,
+  "source_provenance": "Only frozen public repository source plus compact technical run metadata; native full instruction/session streams remain in native stores.",
+  "limits": "Pattern scan is not a universal privacy classifier; existing source authority prose reviewed against private-data categories.",
+  "prose_boundary_review": {
+    "reviewer": "primary Codex agent, native thread 01a1198b-539e-7d32-8dc4-7fe62cc903d9",
+    "method": "Bounded LLM read of the newly written review captions, source-linked investigation result, compact trace/refusal records and issue comment against workspace private-data categories. No separate API call or model override.",
+    "outcome": "no private material identified",
+    "checked_boundaries": [
+      "No credentials, account identity fields or raw native message/instruction streams copied into the commit.",
+      "Frozen source comes from existing public Git revisions, not private memory, Second Brain or messages.",
+      "Run identifiers, paths, source revisions, tool settings and token counts are technical provenance.",
+      "No contact, health, salary, job-search, customer or internal company records are included."
+    ],
+    "scope": "New prose and compact native evidence; unchanged public source blobs are verified by Git provenance and hashes."
+  }
+}

@@ -1,0 +1,74 @@
+This is the explicitly authorized native investigator canary under adopted harness-context. Perform no repository edits, claims, network lookups, messages, additional payments, or additional delegation beyond the one specified leaf. Use the installed development-investigator specialist, not a generic worker or standalone process. Start exactly one fresh child without copying parent conversation history. Supply the following task packet verbatim. The packet identifies canonical authority files; the child must read them before implementation sources. Wait for the child to finish. Do not solve the source question yourself before delegating. Do not fabricate tool calls or report configuration equality as runtime evidence. In your final response report the actual child identity, requested role, actual fresh-context argument, native completion status, and the child JSON verbatim. If the tool cannot launch this installed role or enforce fresh history, report that concrete limitation instead of using another route.
+
+TASK PACKET:
+{
+  "task_id": "maintenance-discovery-frozen-20261009",
+  "repository_revision": "3b7444abf52f296da383b888c6e911970127c322",
+  "allowed_read_paths": [
+    "proposals/harness-context/native-parity/input/project-meta/Makefile",
+    "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+    "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+    "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+    "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py"
+  ],
+  "canonical_authority_paths": [
+    "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+    "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md"
+  ],
+  "observed_failure": "Historical reported refusal: make maintenance-worktree BRANCH=<name> without write-path arguments reaches broad_scope_mode_required without naming MAINTENANCE_BOOTSTRAP_WRITE_PATHS. The current live implementation has since been repaired. Investigate the frozen pre-repair source, not current live behavior.",
+  "reproduction_evidence": {
+    "kind": "historical_user_report_and_frozen_source",
+    "historical_report_date": "2026-10-07",
+    "command": "make maintenance-worktree BRANCH=harness-diagnostic-probe",
+    "observed_refusal": "broad_scope_mode_required",
+    "limit": "No current mutating admission reproduction is authorized. Establish source causality and distinguish it from runtime reproduction."
+  },
+  "explicit_questions": [
+    "What default write scope does the frozen documented maintenance command forward?",
+    "Which admission condition can reject that scope, and what metadata or scope change does it require?",
+    "Does the frozen command explain the narrow recovery variable? Give exact source citations and state evidence limits."
+  ],
+  "source_manifest": [
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "repository": "project-meta",
+      "revision": "3b7444abf52f296da383b888c6e911970127c322",
+      "source_path": "Makefile",
+      "sha256": "d3872a14d03796df2f92389b3dcce8b4f43d1f6625b532679f142820949c3a9d",
+      "bytes": 61306
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+      "repository": "project-meta",
+      "revision": "3b7444abf52f296da383b888c6e911970127c322",
+      "source_path": "AGENTS.md",
+      "sha256": "fe3eed6f83ba6c2be7534acd1701ab5818e551ecbfab1743ebb04a0ef07aa3d7",
+      "bytes": 20630
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+      "repository": "project-meta",
+      "revision": "3b7444abf52f296da383b888c6e911970127c322",
+      "source_path": "scripts/meta/check_coordination_claims.py",
+      "sha256": "cfa25fdbde80254a26c2c82d2a8c64c2b27b636c913ae8a09bdc75ba5daddd1f",
+      "bytes": 9455
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+      "repository": "enforced-planning",
+      "revision": "ac9454fc10bfe044b4382c11bdbe0e6c98a61ae0",
+      "source_path": "AGENTS.md",
+      "sha256": "0695535d84b20df7d7604ed965c138ae771560d58c0ffc9c6637eca48120a817",
+      "bytes": 14599
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "repository": "enforced-planning",
+      "revision": "ac9454fc10bfe044b4382c11bdbe0e6c98a61ae0",
+      "source_path": "enforced_planning/coordination_claims.py",
+      "sha256": "cfde8901b6b2ceed1dc276c08534a49830119acd23ead00574bea65710771fe8",
+      "bytes": 262672
+    }
+  ],
+  "constraints": "Read canonical authority paths first; read only allowed files; no changes, shell writes, network, messages, claims, or additional agents. Return DevelopmentInvestigationResultV1 JSON only."
+}

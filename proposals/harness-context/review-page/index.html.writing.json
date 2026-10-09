@@ -3,7 +3,7 @@
   "schema": "writing-situation/v2",
   "medium": "web_page",
   "route": "finding",
-  "rationale": "The findings explain repeated harness failure mechanisms; the diagram locates the proposed fixes.",
+  "rationale": "Refresh the existing source-bound review: actual investigator delivery, context and permissions remain separate from unavailable Claude execution.",
   "facts": {
    "asks_for_approval_or_resources": {
     "value": false,

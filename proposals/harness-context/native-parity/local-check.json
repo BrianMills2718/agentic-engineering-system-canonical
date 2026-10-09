@@ -1,0 +1,21 @@
+{
+  "command": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+  "exit_status": 0,
+  "elapsed_seconds": 2449.86,
+  "finished_at_utc": "2026-10-09T10:06:06.981827+00:00",
+  "log": "/home/brian/.codex/log/harness-fresh-parity-local-check-20261009.log",
+  "passed": 342,
+  "failed": 0,
+  "errored": 0,
+  "skipped": 1,
+  "mypy_source_files": 22,
+  "mypy_issues": 0,
+  "executed_objects": {
+    "src": "8b4f5d5620a478affc315767da7e1ff795c6483e",
+    "tests": "fdbc314421da4ac01dea0832637b29f33a4e34a9",
+    "Makefile": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+    "pyproject.toml": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+    "AGENTS.md": "4f5e1ed522ab302074d1f31f7e18334b38469815",
+    "CLAUDE.md": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808"
+  }
+}

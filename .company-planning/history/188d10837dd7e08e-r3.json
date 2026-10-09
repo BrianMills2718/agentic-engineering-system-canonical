@@ -1,0 +1,65 @@
+{
+  "active_slice": {
+    "description": "Same frozen maintenance investigation through native parent and child in Claude and Codex; included subscription calls only, no additional purchases",
+    "next_action": "Resume the identical Claude packet after the subscription reset, or after Brian explicitly authorizes the alternate native API route requested in thread 01a11cac-2557-7dc0-8edd-8487ed5968d1",
+    "requires_external_action": false,
+    "requires_spend": false,
+    "slice_id": "native-investigator-parity",
+    "status": "blocked",
+    "target_revision": "f974ff7dae6fd7b7588bb02965618640010ab476"
+  },
+  "authority": {
+    "external_action_authorized": false,
+    "human_decision": "The other harness thread has requested a choice between waiting for the Claude subscription reset and authorizing up to $1 on an existing OpenRouter native Claude route. No answer is recorded; this lane will not spend on that route without it.",
+    "human_decision_required": true,
+    "implementation_authorized": true,
+    "spend_cap_usd": 0,
+    "spend_used_usd": 0
+  },
+  "circuit_breakers": {
+    "context_integrity_valid": true,
+    "max_same_boundary_failures": 3,
+    "runtime_integrity_valid": true
+  },
+  "completion": {
+    "evidence_revision": null,
+    "receipt_ref": null,
+    "remaining_ready_work": 1,
+    "requested": false,
+    "verifier_outcome": null
+  },
+  "cursor_id": "harness-fresh-parity-20261009",
+  "cursor_revision": 3,
+  "failure_state": {
+    "boundary": "native_claude_subscription",
+    "last_failure_ref": "proposals/harness-context/native-parity/claude-refusal.json",
+    "same_boundary_failures": 1
+  },
+  "goal_ref": "proposals/harness-context/harness-context.goal.md",
+  "lifecycle_state": "human_required",
+  "observations": [
+    {
+      "boundary": "native_codex_investigator",
+      "evidence_ref": "proposals/harness-context/native-parity/codex-trace-summary.json",
+      "kind": "authentic_result",
+      "observation_id": "codex-native-result",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "native_claude_subscription",
+      "evidence_ref": "proposals/harness-context/native-parity/claude-refusal.json",
+      "kind": "blocker",
+      "observation_id": "claude-quota-refusal",
+      "outcome": "inconclusive"
+    }
+  ],
+  "plan_revision": "f974ff7dae6fd7b7588bb02965618640010ab476",
+  "ready_alternatives": [],
+  "record_type": "plan_execution_cursor",
+  "schema_version": "1.0",
+  "target": {
+    "branch": "harness-fresh-parity",
+    "repository": "agentic-engineering-system-canonical",
+    "worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity"
+  }
+}

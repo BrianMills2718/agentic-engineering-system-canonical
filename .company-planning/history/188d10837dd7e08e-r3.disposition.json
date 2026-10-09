@@ -1,0 +1,15 @@
+{
+  "archived_cursor_path": ".company-planning/history/188d10837dd7e08e-r3.json",
+  "archived_cursor_sha256": "c50a0064fa296d099dbc6b98171b293d36275971721aa0214fc7bb7c25152fa6",
+  "cursor_id": "harness-fresh-parity-20261009",
+  "cursor_revision": 3,
+  "cursor_sha256": "c50a0064fa296d099dbc6b98171b293d36275971721aa0214fc7bb7c25152fa6",
+  "disposition": "retired",
+  "management_worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity",
+  "operation": "retire",
+  "operator_session_id": "codex:01a1198b-539e-7d32-8dc4-7fe62cc903d9",
+  "reason": "Native Claude subscription quota is unavailable; alternate-route funding choice is pending in the coordinating thread. Preserve the incomplete native evidence and release shared lifecycle write paths; no cross-client or goal completion is claimed.",
+  "record_type": "plan_execution_disposition_receipt",
+  "schema_version": "1.0",
+  "successor_ref": null
+}

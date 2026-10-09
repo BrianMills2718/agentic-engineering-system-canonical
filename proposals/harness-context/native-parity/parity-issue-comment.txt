@@ -1,0 +1,9 @@
+Fresh native execution evidence (2026-10-09): the Codex 0.162.0 parent explicitly launched the installed development-investigator with fork_turns=none. Separate native child metadata links the parent and role; the complete installed developer_instructions text appears in actual child input. The child returned a schema-valid supported diagnosis with 16 independently checked source citations; all five frozen source hashes remained unchanged.
+
+The fresh child still received a 79,409-byte project-instruction user message including Workspace Bootstrap, despite the role layer declaring project_doc_max_bytes=0. First model input was 37,750 tokens (parent 36,702). This verifies fresh history and required-role delivery, not reduced startup context. The child inherited the read-only parent policy; a separate native sandbox probe denied a synthetic write (EROFS) and socket creation (EPERM). The file allowlist remains voluntary, and read-only isolation under a write-capable parent is unproven.
+
+Claude Code 2.1.295 discovered the installed role but returned usage_limit_reached before any model call or child: zero tokens, zero children. No Claude-child or cross-client completion is claimed.
+
+Recoverable evidence: https://github.com/BrianMills2718/agentic-engineering-system-canonical/tree/72c9354a5d8723cfb74368fbc18af1d56792a0d5/proposals/harness-context/native-parity
+
+Keep this concern open: generated-file parity passes while current native-child context behavior still needs an adapter or runtime-bound disposition.

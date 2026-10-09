@@ -1,0 +1,18 @@
+{
+  "observation": "Slow local gate remains running; read-only native Git wrapper timing sampled once per route",
+  "git_version_wrapper_seconds": 1.399,
+  "git_version_real_seconds": 0.028,
+  "commands": [
+    "git --version",
+    "/usr/bin/git --version"
+  ],
+  "exit_statuses": [
+    0,
+    0
+  ],
+  "source": "personal-file-infra/scripts/storage-policy.py:127-142",
+  "classification": "Both version invocations are non-bulk according to source; no storage admission bypass or test override applied.",
+  "inference_limit": "Timing difference is observed, not proof that wrapper startup explains the full gate slowdown; host load also exceeded CPU count.",
+  "repair_applied": false,
+  "observed": "Completed full gate in2449.86seconds, with342passed and1skipped; previous distinct-source gate407.55seconds. No root-cause claim from that comparison."
+}

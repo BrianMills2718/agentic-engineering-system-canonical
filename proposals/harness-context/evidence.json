@@ -178,5 +178,200 @@
     "task_helper_processes": "no matching processes",
     "claude_installed_type": "canonical symlink",
     "codex_installed_type": "managed regular file; body matches canonical; O_NOFOLLOW passes"
+  },
+  "fresh_native_parity_2026_10_09": {
+    "record_type": "native_parent_child_parity_observation/v1",
+    "task_packet": "native-parity/input/task.json",
+    "packet_sha256": "ca1ca293dfa02f4e62964b1ba4195d170a4e9e830397490c4ca5895471dc7d6c",
+    "codex": {
+      "parent": {
+        "trace_path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-52-31-01a11fdd-2db6-7da3-bf22-4698c6b6f0d5.jsonl",
+        "trace_sha256": "e812c0148d2190b1998a0d795ae1152c5bfe1edf1071ed571b6dec46d34bd528",
+        "first_model_usage": {
+          "input_tokens": 36702,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1289,
+          "reasoning_output_tokens": 0,
+          "total_tokens": 37991
+        },
+        "total_model_usage": {
+          "input_tokens": 350437,
+          "cached_input_tokens": 306048,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4656,
+          "reasoning_output_tokens": 758,
+          "total_tokens": 355093
+        },
+        "runtime_context": [
+          {
+            "cwd": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity",
+            "model": "gpt-6.1-sol",
+            "approval_policy": "never",
+            "sandbox_policy": {
+              "type": "read-only"
+            }
+          }
+        ],
+        "tool_calls": 8,
+        "tool_results": 8,
+        "canonical_role_instruction_delivered": false,
+        "role_instruction_sha256": "8325b1fd922fe2e76f5e9f63518f0373d7e8c84b4f65f7eb238a9dde0ef2c0f4",
+        "workspace_bootstrap_loaded": true,
+        "instruction_user_message_bytes": [
+          79409
+        ]
+      },
+      "child": {
+        "trace_path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-53-04-01a11fdd-afc4-73c3-926b-ad39bba75696.jsonl",
+        "trace_sha256": "ea94965ef23305916211fcdb087bbfb381b84183fa4fa1adfa36b9caf83a4f7a",
+        "first_model_usage": {
+          "input_tokens": 37750,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 622,
+          "reasoning_output_tokens": 292,
+          "total_tokens": 38372
+        },
+        "total_model_usage": {
+          "input_tokens": 571272,
+          "cached_input_tokens": 495360,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 6367,
+          "reasoning_output_tokens": 1910,
+          "total_tokens": 577639
+        },
+        "runtime_context": [
+          {
+            "cwd": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity",
+            "model": "gpt-6.1-sol",
+            "approval_policy": "never",
+            "sandbox_policy": {
+              "type": "read-only"
+            }
+          }
+        ],
+        "tool_calls": 9,
+        "tool_results": 9,
+        "canonical_role_instruction_delivered": true,
+        "role_instruction_sha256": "8325b1fd922fe2e76f5e9f63518f0373d7e8c84b4f65f7eb238a9dde0ef2c0f4",
+        "workspace_bootstrap_loaded": true,
+        "instruction_user_message_bytes": [
+          79409
+        ]
+      }
+    },
+    "claude": {
+      "client_version": "2.1.295",
+      "parent_session_id": "210cb4b8-2b7d-481e-a620-70995c83d58e",
+      "trace_path": "/home/brian/.codex/log/harness-fresh-parity-20261009-claude.jsonl",
+      "trace_sha256": "7e39fbc77fb86548dbd4d2cc44b1cf6084d80a0951e14b931d506d9703569f3f",
+      "configured_model": "claude-opus-5-5",
+      "effective_parent_permission_mode": "plan",
+      "effective_parent_tools": [
+        "Task",
+        "Glob",
+        "Grep",
+        "Read"
+      ],
+      "investigator_discovered": true,
+      "rate_limit_info": {
+        "status": "rejected",
+        "resetsAt": 1791738000,
+        "rateLimitType": "seven_day",
+        "overageStatus": "rejected",
+        "overageDisabledReason": "org_level_disabled",
+        "isUsingOverage": false,
+        "unifiedWindows": {
+          "five_hour": {
+            "utilization": 0,
+            "resetsAt": 1791553800
+          },
+          "seven_day": {
+            "utilization": 1,
+            "resetsAt": 1791738000
+          }
+        }
+      },
+      "terminal_reason": "api_error",
+      "api_error_status": 429,
+      "api_error": "usage_limit_reached",
+      "usage": {
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        },
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "fallback_credit": null
+      },
+      "total_cost_usd": 0,
+      "child_count": 0,
+      "child_trace": null,
+      "outcome": "unavailable_before_model_call",
+      "limit": "No Claude child execution, instruction delivery, child input measurement or permission enforcement was observed."
+    },
+    "permission_probe": "native-parity/permission-probe.json",
+    "verification": "native-parity/verification.json",
+    "observed_outcome": "partial: Codex instructions delivered, source diagnosis supported, fresh history still loads full workspace instructions; Claude unavailable before model call",
+    "cross_client_complete": false,
+    "rollout_activated": false,
+    "trace_review": {
+      "child_calls": 9,
+      "child_shell_results": 25,
+      "shell_results_exit_0": 25,
+      "source_citations_checked": 16,
+      "source_files_hash_checked": 5,
+      "parent_review": "Native spawn parameters and identity link checked; canonical role instructions matched actual child developer input; all child read commands inspected, result schema validated and causal citations checked against frozen source. Native sandbox probe is independent of child calls.",
+      "paths_are_enforced": false
+    },
+    "limits": [
+      "No Claude child trace exists for this attempt; prior Claude execution is predecessor evidence only.",
+      "No controlled context-reduction or billing comparison is claimed.",
+      "Observed read-only child inherits read-only parent; this does not certify read-only isolation beneath a write-capable parent.",
+      "The detached launcher did not retain native CLI exit codes; native terminal events establish completion/refusal. Local checks report actual exit codes."
+    ],
+    "local_gate": {
+      "command": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+      "exit_status": 0,
+      "elapsed_seconds": 2449.86,
+      "finished_at_utc": "2026-10-09T10:06:06.981827+00:00",
+      "log": "/home/brian/.codex/log/harness-fresh-parity-local-check-20261009.log",
+      "passed": 342,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 1,
+      "mypy_source_files": 22,
+      "mypy_issues": 0,
+      "executed_objects": {
+        "src": "8b4f5d5620a478affc315767da7e1ff795c6483e",
+        "tests": "fdbc314421da4ac01dea0832637b29f33a4e34a9",
+        "Makefile": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+        "pyproject.toml": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+        "AGENTS.md": "4f5e1ed522ab302074d1f31f7e18334b38469815",
+        "CLAUDE.md": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808"
+      }
+    },
+    "cursor_disposition": {
+      "status": "retired with human-required incomplete state",
+      "receipt": "native-parity/cursor-retirement.json",
+      "commit": "f8fd3b20cea857b1add89b87605746623ca7c7f7",
+      "shared_lifecycle_paths_released": true,
+      "native_claim_narrow_receipt": "ef01655c-7cc3-42d5-8449-e402b0183592"
+    },
+    "owning_concern": "https://github.com/BrianMills2718/agent-skills/issues/302#issuecomment-6078588749"
   }
 }

@@ -1,0 +1,9 @@
+{
+  "operation": "manage_plan_execution.py retire",
+  "exit_status": 2,
+  "error": "CP-LOOP-RETIRE-TARGET-ACTIVE: active cursor target worktree still exists",
+  "cursor_sha256_after": "6d57fb4bf06191f3876a4de3343958557a5ce107684294d09a9901f79494ad40",
+  "cursor_unchanged": true,
+  "disposition": "not retired, not archived, goal incomplete",
+  "next_action": "Resolve claimed lifecycle-path coexistence through native claim APIs; retain exact active cursor."
+}

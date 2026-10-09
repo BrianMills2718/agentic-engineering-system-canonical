@@ -1,0 +1,119 @@
+{
+  "schema_version": "development-investigation-result/v1",
+  "task_id": "maintenance-discovery-frozen-20261009",
+  "specialist_id": "development-investigator",
+  "status": "supported",
+  "root_cause": "The frozen maintenance entrypoint advertises branch-only invocation but defaults its write scope to repository root ('.') without supplying broad-scope mode or reason. New schema-v6 claim admission classifies that scope as broad and rejects missing metadata with broad_scope_mode_required and broad_scope_reason_required. The resulting diagnostic reports those codes without explaining the maintenance-specific narrow-scope override, MAINTENANCE_BOOTSTRAP_WRITE_PATHS.",
+  "evidence": [
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+      "locator": "L99",
+      "fact": "The documented maintenance command supplies branch, task, agent, goal and phase, but no write paths or broad-scope metadata."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "locator": "L290",
+      "fact": "The frozen comment explicitly claims that make maintenance-worktree BRANCH=<name> is sufficient."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "locator": "L312",
+      "fact": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS evaluates to a nonempty SESSION_WRITE_PATHS override, otherwise '.'. A direct command-line override of MAINTENANCE_BOOTSTRAP_WRITE_PATHS can also supply the desired scope."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "locator": "L332",
+      "fact": "The maintenance recipe forwards MAINTENANCE_BOOTSTRAP_WRITE_PATHS into the nested worktree target as SESSION_WRITE_PATHS."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "locator": "L192",
+      "fact": "The claim command forwards --broad-scope-mode only when SESSION_BROAD_SCOPE_MODE is supplied; the following line conditionally forwards SESSION_BROAD_SCOPE_REASON. The maintenance defaults supply neither."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "locator": "L194",
+      "fact": "The worktree claim command converts each SESSION_WRITE_PATHS item into a --write-path argument, making the default scope --write-path '.'."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "locator": "L320",
+      "fact": "The maintenance usage diagnostic names a branch-only command. Its following two lines describe task, goal, phase and agent defaults; the complete maintenance recipe contains no recovery guidance naming MAINTENANCE_BOOTSTRAP_WRITE_PATHS."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+      "locator": "L250",
+      "fact": "The installed compatibility facade delegates CLI execution to enforced_planning.coordination_claims.main."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L4034",
+      "fact": "create_claim explicitly constructs new candidates with schema_version=6 and then calls validate_claim_for_creation at line 4039."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L2618",
+      "fact": "classify_broad_write_paths classifies '.' as repository_root. Nested paths are documented as narrow; existing top-level directories are also classified as broad."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L85",
+      "fact": "The accepted broad-scope modes are bootstrap and bounded."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L2767",
+      "fact": "For a broad path, missing or invalid mode produces broad_scope_mode_required; line 2769 adds broad_scope_reason_required when the reason is empty."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L2152",
+      "fact": "For live schema-v6 claims, admission raises ValueError containing the semicolon-joined broad-scope violations."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L5839",
+      "fact": "The claim CLI prints that ValueError unchanged and returns exit status 1. It does not add maintenance recovery guidance."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "locator": "L3056",
+      "fact": "Both program and write claims carrying write paths count as write ownership; the maintenance default claim_type=program does not exempt it from broad-scope validation."
+    },
+    {
+      "path": "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+      "locator": "L204",
+      "fact": "The frozen authority requires a new broad write claim to declare bootstrap or bounded intent and a nonempty reason. Bootstrap authority must subsequently be narrowed before ordinary repository writes."
+    }
+  ],
+  "causal_chain": [
+    "Observed evidence is the supplied historical report of broad_scope_mode_required; no admission command was executed during this investigation.",
+    "Source inference: without write-path overrides, the frozen maintenance target forwards SESSION_WRITE_PATHS='.', and worktree forwards --write-path '.' to claim admission.",
+    "Source inference: without broad-scope variables, the claim receives no mode or reason; new-claim creation nevertheless selects schema version 6.",
+    "The provider classifies '.' as broad repository-root ownership and its live schema-v6 validator rejects the missing mode and reason.",
+    "The CLI prints the violation codes directly, so the failure does not reveal MAINTENANCE_BOOTSTRAP_WRITE_PATHS.",
+    "The source-supported narrow recovery is to supply exact intended file paths through MAINTENANCE_BOOTSTRAP_WRITE_PATHS or SESSION_WRITE_PATHS. Alternatively, an intentionally broad claim requires SESSION_BROAD_SCOPE_MODE=bootstrap or bounded plus a nonempty SESSION_BROAD_SCOPE_REASON; bootstrap also requires matching target/worktree identity, which the candidate builder derives from the supplied worktree path."
+  ],
+  "alternatives_ruled_out": [
+    "The default is not an empty write scope: the maintenance Make expression explicitly supplies '.'.",
+    "A program claim is not exempt from broad-scope validation: program claims with write paths count as ownership.",
+    "An overlapping peer claim is not required to produce this error: candidate validation occurs before registry locking and conflict processing.",
+    "The light execution profile and UNPLANNED plan marker do not themselves provide the required broad-scope mode or reason.",
+    "The narrow recovery variable is not explained in the frozen maintenance command's usage output or in the supplied Project Meta AGENTS.md command example."
+  ],
+  "limitations": [
+    "All five allowed files matched their supplied SHA-256 hashes and byte counts. Project Meta is bound to revision 3b7444abf52f296da383b888c6e911970127c322; the provider files are separately bound to ac9454fc10bfe044b4382c11bdbe0e6c98a61ae0.",
+    "This supports source causality, not historical runtime reproduction. The historical environment, inherited variables, prerequisite results and complete refusal transcript were not supplied. With both metadata fields absent, the inspected validator predicts both mode and reason codes.",
+    "The facade's dynamic import identifies the provider module but does not prove which provider revision was installed during the historical execution. This analysis uses the explicitly supplied frozen provider.",
+    "The reported current repair was not inspected or verified; no conclusion about current live behavior is made.",
+    "Project Meta AGENTS.md lines 38\u201345 require an additional policy-system orientation document for broader cross-project policy explanation. That document and referenced operator guides are outside allowed_read_paths and were not opened. This result is limited to the specified command-to-validator source seam.",
+    "No reads were denied and no required reading tool was unavailable. The task path restriction was followed voluntarily; the read-only sandbox alone does not establish enforcement of that path allowlist."
+  ],
+  "recommended_parent_action": "Use the frozen findings to explain the historical failure and missing recovery guidance. For a known maintenance surface, the evidenced scope override is MAINTENANCE_BOOTSTRAP_WRITE_PATHS=\"<exact file paths>\" or SESSION_WRITE_PATHS=\"<exact file paths>\". Keep any verification of the reported live repair separate and explicitly authorized; do not treat this investigation as a runtime acceptance test or weaken the provider's broad-scope contract.",
+  "mutation_declaration": {
+    "files_changed": false,
+    "network_used": false,
+    "memory_changed": false,
+    "children_spawned": false
+  }
+}
