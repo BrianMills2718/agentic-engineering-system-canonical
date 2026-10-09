@@ -15,7 +15,11 @@
         38,
         43
       ]
-    }
+    },
+    "embedded_in": [
+      "development-investigator.codex.toml:developer_instructions",
+      "claude-agents.json:development-investigator.prompt"
+    ]
   },
   "renderer": {
     "path": "agent-skills/scripts/render_specialist_agents.py",
@@ -36,10 +40,6 @@
     "claude": "420c4d658b83a0e440ee60f71fdc14ad888c48fe07f7e19f0df77594275a0ecb"
   },
   "artifacts": {
-    "POLICY_SYSTEM.md": {
-      "sha256": "fec24a1458d0cabe4261e252eb52aa38aea7ee5752ed0ac93c76ef0ea495c6d8",
-      "bytes": 21492
-    },
     "development-investigator.codex.toml": {
       "sha256": "9045578003612736ca7eab78f1506df2a80cb0156dd2e1bf8caf3d80e6311d1d",
       "bytes": 26720
