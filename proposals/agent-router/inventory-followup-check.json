@@ -1,17 +1,17 @@
 {
   "schema_version": "agent-router.inventory-followup.v1",
-  "recorded_at": "2026-10-09T20:19:31.576728+00:00",
+  "recorded_at": "2026-10-09T20:27:44.559784+00:00",
   "merged_collector_pr": 499,
   "merged_inventory_pr": 500,
-  "runtime_revision": "c08837fe52d9220c3562ca29573ff58304592ba3",
-  "current_runtime_inventory_check_exit": 1,
-  "current_runtime_inventory_failure": "published manifest differs from current source-bound expected output; private records and public baseline match expected exact bytes",
+  "runtime_revision": "d414b7a63fe8f6629ade22635d47cc7f01514a93",
+  "current_runtime_inventory_check_exit": 0,
+  "current_runtime_inventory_failure": null,
   "disposition_counts": {
     "keep": 229,
     "covered": 27,
     "retire_candidates": 7
   },
-  "followup_merge_state": "Full local check passed; integration and deployed reader check pending",
+  "followup_merge_state": "PR503 merged; installed current-source inventory reader passed",
   "current_public_cost_total_removed": true,
   "full_private_cost_accounting_retained": true,
   "model_calls": 0,
@@ -95,7 +95,8 @@
   "public_delivery": {
     "pull_request": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/503",
     "checked_revision": "f3a52e77c8a48455a8d794c962db8392d5153c3c",
-    "state": "Full local check passed; pending integration"
+    "state": "merged",
+    "merge_revision": "d414b7a63fe8f6629ade22635d47cc7f01514a93"
   },
   "current_source_recheck": {
     "exact_ids": 263,
@@ -108,5 +109,142 @@
     "exit_status": 0,
     "command": "PROJECT_META=<existing canonical checkout> AES venv python scripts/rules/sort_legacy.py --check",
     "new_model_calls": 0
+  },
+  "prior_runtime_inventory_failure": {
+    "revision": "c08837fe52d9220c3562ca29573ff58304592ba3",
+    "exit_status": 1,
+    "failure": "published manifest differs from current source-bound expected output; private records and public baseline match expected exact bytes"
+  },
+  "installed_reader": {
+    "runtime_root": "/home/brian/.hive-brain/aes",
+    "runtime_revision": "d414b7a63fe8f6629ade22635d47cc7f01514a93",
+    "observed_at": "2026-10-09T20:27:44.559784+00:00",
+    "command": "PROJECT_META=<existing canonical checkout> AES venv python scripts/rules/sort_legacy.py --check",
+    "exact_ids": 263,
+    "failed": 0,
+    "exit_status": 0,
+    "model_calls": 0,
+    "activation": "none",
+    "refresh_unit": "hive-controls.service",
+    "refresh_unit_result": "success",
+    "refresh_control_diagnostic_exit": 1,
+    "qualification": "The reader passes; the control diagnostic exit does not establish all ecosystem controls are healthy."
+  },
+  "saved_trace_review": {
+    "mode": "read-only; historical request/response evidence, not a model-quality grade",
+    "database": "/home/brian/projects/data/llm_observability.db",
+    "reviewed_bindings": [
+      {
+        "call_id": 9196190,
+        "trace_id": "agent-router/legacy-sort/real-tests-not-mocks/0",
+        "request_sha256": "eb5014c4c2853e0482054860688c1fc7fb29318070f55b7845c200905bbe3fc6",
+        "response_sha256": "7cb7d21ddab92b2f93bc655adf498521324bf501c2a3d4caf0057b2ef22be387"
+      },
+      {
+        "call_id": 9196193,
+        "trace_id": "agent-router/legacy-sort/mcp-on-demand-default/0",
+        "request_sha256": "130f8cb6676bc43eb9f77a819956b522d744c9787211fd377a522decc0b5c061",
+        "response_sha256": "9bcd720e8797cb88ca14b7166c3385143a0202d9eeb911b75eea0f0dd1ec3cc1"
+      },
+      {
+        "call_id": 9196197,
+        "trace_id": "agent-router/legacy-sort/mcp-on-demand-default/1",
+        "request_sha256": "fe45eae647375c723b4bff64bf2358660c25d07ec3eb93dd09270387e7703ff8",
+        "response_sha256": "e98575c1948d38365e04cad3f5ab0fb4e15ff33416efcd833b6d4a447c5d1ccf"
+      },
+      {
+        "call_id": 9196204,
+        "trace_id": "agent-router/legacy-sort/real-tests-not-mocks/1",
+        "request_sha256": "7504d3f0243f321e40a43cbe2ebfb09fabad0ccdb43a42b5b684adf7d10a00a6",
+        "response_sha256": "c53a69f5e2dc5bcd7f882b86a24ee573c010ef342d405ec3c10cb3666990b725"
+      },
+      {
+        "call_id": 9196205,
+        "trace_id": "agent-router/legacy-sort/pm-runtime-metadata-ephemeral/0",
+        "request_sha256": "f214d15d1b5941f23130c130812b112177ced8ef8c5432716259f7a0f135b8c9",
+        "response_sha256": "e10a1d965bcda328fd4e79c4a82449f56492d652316a11505febc1a5bd8ccc6d"
+      },
+      {
+        "call_id": 9196206,
+        "trace_id": "agent-router/legacy-sort/pm-research-synthesis-cutover/0",
+        "request_sha256": "780979c594fbc6cbd868c385b14c5ff28dcd759243b4803d618e02d6446f9b53",
+        "response_sha256": "9777e4a8104735b473c83fbb58a1b315967d1c2daa94dd629d71945d61db6d79"
+      },
+      {
+        "call_id": 9196210,
+        "trace_id": "agent-router/legacy-sort/pm-research-synthesis-cutover/1",
+        "request_sha256": "78c069a8337da94e3138189be3ea01856feeed6816bb548043dcd1ca14b8759b",
+        "response_sha256": "fea4d61cd7f5ebf09a2ceec07409b02c279925ea07cf2f5a66ea06c96f7f964e"
+      },
+      {
+        "call_id": 9196211,
+        "trace_id": "agent-router/legacy-sort/pm-runtime-metadata-ephemeral/1",
+        "request_sha256": "b298047eae7aaff2c4fba2fa9b3c4e046eda1c665483f427a15def8a0b1e6a34",
+        "response_sha256": "924ba8a90be7d112453f01af5d59cc0b4468f7f7481626cab0988f7e18bd14e9"
+      },
+      {
+        "call_id": 9196198,
+        "trace_id": "agent-router/legacy-sort/cc-hook-stop-second-brain-work-context/1",
+        "request_sha256": "853535edba2aae5b60bb2304dd68db92090419ffda2c5b3667067fc0eb5ae572",
+        "response_sha256": "c86300dc2781def307dcac15a86ff12978ee446f53dfd1afa6fb66331d889719"
+      },
+      {
+        "call_id": 9194892,
+        "trace_id": "agent-router/legacy-sort/recoverable-git-publication-authority/1",
+        "request_sha256": "29b5fec235982ec3cf0069295b80eb5d651c5734293a2bdc640075995eed7cad",
+        "response_sha256": "b622cf0028dede2fbfb9cc5d143b378d7d1d623d67a9a8a8b6fea03a88b5e15d"
+      },
+      {
+        "call_id": 9194867,
+        "trace_id": "agent-router/legacy-sort/situation-declared-checklists/0",
+        "request_sha256": "f93c76a4f5a32b9d182a05f291821aa34f740acba339843068396752739a9f4a",
+        "response_sha256": "9f46944592b41b3e63d4a5ab4aeea1aaa9e420d18b58799a476bd01c1ce18b4d"
+      },
+      {
+        "call_id": 9194869,
+        "trace_id": "agent-router/legacy-sort/deployment-hosting-decision/0",
+        "request_sha256": "4ed1483b1f3f41a1d77600b7a0af5da11d08de0c94455f02d3e54a602c575597",
+        "response_sha256": "60c90c2bdf396457715d3fd2531841a7bfd7c230b836c6f866b97fc25c396dcd"
+      },
+      {
+        "call_id": 9194921,
+        "trace_id": "agent-router/legacy-sort/default-branch-standard/1",
+        "request_sha256": "67cad747b235fb03cd8f16202674362dbf3867e0b2033b1253524769404deccf",
+        "response_sha256": "1cfcf2715717ff82770a34f7caa72702b03c6af8320b16423130680510ed9d63"
+      }
+    ],
+    "latest_unresolved_ids": [
+      "mcp-on-demand-default",
+      "pm-research-synthesis-cutover",
+      "pm-runtime-metadata-ephemeral",
+      "real-tests-not-mocks"
+    ],
+    "historical_pass_samples": [
+      "situation-declared-checklists",
+      "deployment-hosting-decision",
+      "default-branch-standard"
+    ],
+    "reviewed_surprises": [
+      "cc-hook-stop-second-brain-work-context",
+      "recoverable-git-publication-authority",
+      "default-branch-standard"
+    ],
+    "finding": "All four latest unresolved requests delivered the same first-6000-character source excerpt. Their quoted source-document passages were absent from that excerpt; several answers attributed wording from another input location to that source. A matching quote alone does not establish a retirement inference.",
+    "historical_checker_replay": "inconclusive: complete source bundle used by the old checker is not bound to these attempts",
+    "current_prevention": "Current exporter reads all declared sources, binds inputs, checks named evidence and conservatively retains uncertain policies. No mandatory retirement or activation.",
+    "new_model_calls": 0
+  },
+  "dashboard_linkage": {
+    "target": "https://dashboard.brianmills.dev/",
+    "backing_repository": "ecosystem-ops",
+    "authenticated_http_status": 200,
+    "checked_reader_status": {
+      "overview": 200,
+      "inbox": 200,
+      "policy_trends": 200
+    },
+    "overview_snapshot_stale": false,
+    "integration_status": "Direct connection from the new collector records to these readers is not verified; existing recommendation producer has no collector signal adapter. Dedicated feedback view remains recommended work.",
+    "implementation_changed": false
   }
 }
