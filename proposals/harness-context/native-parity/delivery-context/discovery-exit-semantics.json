@@ -1,0 +1,22 @@
+{
+  "record_type": "installed-discovery-exit-semantics.v1",
+  "version": "ripgrep 15.2.0 (rev e89fff89ac)",
+  "no_match": {
+    "command": [
+      "rg",
+      "--no-config",
+      "--fixed-strings",
+      "UNIQUE_HARNESS_NO_MATCH_CONTROL_947251",
+      "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py"
+    ],
+    "exit_code": 1,
+    "stdout_empty": true,
+    "stderr_empty": true
+  },
+  "invalid_expression": {
+    "exit_code": 2,
+    "diagnostic_present": true
+  },
+  "primary_source": "https://github.com/BurntSushi/ripgrep/blob/14.1.1/crates/core/main.rs#L88",
+  "conclusion": "Preserve standalone empty rg exit1 as no_matches; a source error exit2 is a distinct rejected outcome."
+}

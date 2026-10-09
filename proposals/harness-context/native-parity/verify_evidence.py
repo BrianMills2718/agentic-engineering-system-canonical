@@ -2,12 +2,15 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import json
 from pathlib import Path
 import sys
 import tomllib
 import subprocess
+import re
+import shlex
 
 import jsonschema
 
@@ -170,11 +173,17 @@ def native_task_result(semantics, raw_results):
 
 
 def packet_in_text(text, packet):
-    """Recognize the structural task packet, not the surrounding prose meaning."""
-    try:
-        return json.JSONDecoder().raw_decode(text[text.index('{'):])[0] == packet
-    except (ValueError, TypeError):
+    """Recognize one complete exact task object amid other JSON values."""
+    if not isinstance(text, str):
         return False
+    decoder, matches = json.JSONDecoder(), 0
+    for start in re.finditer(r'\{', text):
+        try:
+            value, _ = decoder.raw_decode(text, start.start())
+        except ValueError:
+            continue
+        matches += value == packet
+    return matches == 1
 
 
 def codex_final(rows):
@@ -215,9 +224,12 @@ def verify_child_callbacks(record, parent_id, turn_id, checks):
             'qualification': 'Secondary callbacks correlated to the child turn; no per-command identity or denial proof.'}
 
 
-def verify_compact_codex(record, packet, schema, checks, baseline, authority=None):
-    expected_type = ('required-authority-native-codex-evidence.v1' if authority is not None
+def verify_compact_codex(record, packet, schema, checks, baseline, authority=None, *,
+                         context_dir='authority-context', delivery=False):
+    expected_type = ('lossless-native-child-result-evidence.v1' if delivery else
+                     'required-authority-native-codex-evidence.v1' if authority is not None
                      else 'compact-native-codex-evidence.v1')
+    require(not delivery or authority is not None, 'delivery: required authority manifest', checks)
     require(record['record_type'] == expected_type
             and record['task_sha256'] == digest(packet), 'compact Codex: same frozen task', checks)
     require(set(record['traces']) == {'parent', 'child'}, 'compact Codex: both complete traces', checks)
@@ -253,7 +265,7 @@ def verify_compact_codex(record, packet, schema, checks, baseline, authority=Non
                for b in r['payload'].get('content', []) if b.get('type') == 'encrypted_content']
     require(spawns[0]['message'] in inbound,
             'compact Codex: encrypted native delegation continuity (not plaintext proof)', checks)
-    role_path = (HERE / 'authority-context/development-investigator.codex.toml' if authority is not None
+    role_path = (HERE / context_dir / 'development-investigator.codex.toml' if authority is not None
                  else Path.home() / '.codex/agents/development-investigator.toml')
     role = tomllib.loads(role_path.read_text())['developer_instructions']
     if authority is None:
@@ -265,7 +277,7 @@ def verify_compact_codex(record, packet, schema, checks, baseline, authority=Non
     require(any(t == role.strip() or t.startswith(role.rstrip() + '\n') for t in developers),
             'compact Codex: actual developer role prefix with coalesced guidance', checks)
     if authority is not None:
-        verify_required_authority(authority, packet, role, parent, checks)
+        verify_required_authority(authority, packet, role, parent, checks, context_dir=context_dir)
     for kind, rows in native.items():
         observed = events(rows, 'codex')
         require(bool(observed['calls']) and set(observed['calls']) == set(observed['outputs']),
@@ -285,8 +297,16 @@ def verify_compact_codex(record, packet, schema, checks, baseline, authority=Non
         require(parent_raw == record['parent_raw_final']
                 and digest(parent_raw.encode()) == record['parent_final_sha256'],
                 'authority Codex: original parent final bound separately', checks)
-        require(record['parent_forwarding_verdict'] == ('pass' if forwarded else 'fail'),
+        require(record['parent_forwarding_verdict'] == ('not_requested' if delivery else
+                                                     'pass' if forwarded else 'fail'),
                 'authority Codex: forwarding verdict cannot hide changed answer', checks)
+    delivered = None
+    if delivery:
+        verify_routing_receipt(parent_raw, record['routing_receipt'], cm['agent_path'], checks)
+        delivered = derive_native_delivery(record['traces']['parent'], record['traces']['child'], checks)
+        require(delivered == record['native_delivery'] and delivered['collector_result'] == raw
+                and delivered['result_sha256'] == record['final_sha256'],
+                'delivery: collector returned exact native child final bytes to checker', checks)
     result = json.loads(raw)
     jsonschema.validate(result, schema)
     require(result['task_id'] == packet['task_id'], 'compact Codex: result schema and task identity', checks)
@@ -325,15 +345,21 @@ def verify_compact_codex(record, packet, schema, checks, baseline, authority=Non
     if authority is not None:
         comparison.update(baseline_model=old_model, observed_model=model)
     require(comparison == record['measured_comparison'], 'compact Codex: comparison derived from native traces', checks)
-    authority_reads = (verify_authority_reads(child, record['canonical_authority_read_calls'], packet, checks)
+    authority_reads = (verify_authority_reads(child, record['canonical_authority_read_calls'], packet, checks,
+                                            strict=delivery)
                        if authority is not None else {'verdict': 'not_assessed'})
+    if delivery:
+        require(derive_source_call_outcomes(child, checks) == record['source_call_outcomes'],
+                'delivery: source-bound command outcomes match exactly', checks)
+        require(authority_reads['verdict'] == 'pass', 'delivery: all required authority lines available', checks)
     if authority is not None:
         require(authority_reads == record['canonical_authority_read_coverage'],
                 'authority: read coverage cannot hide truncated lines', checks)
         launch = source_record(record['launch_source'], checks)
         terminal = source_record(record['terminal_source'], checks)
-        require(launch['event'] == 'authority_native_launch'
-                and terminal['event'] == 'authority_native_terminal'
+        prefix = 'delivery' if delivery else 'authority'
+        require(launch['event'] == prefix + '_native_launch'
+                and terminal['event'] == prefix + '_native_terminal'
                 and launch['unit'] == terminal['unit']
                 and launch['paid_api_route'] is False
                 and launch['task_sha256'] == digest((HERE / 'input/task.json').read_bytes())
@@ -348,7 +374,11 @@ def verify_compact_codex(record, packet, schema, checks, baseline, authority=Non
     return {'record_type': record['record_type'], 'task_sha256': digest(packet),
             'parent_id': pm['id'], 'child_id': cm['id'], 'final_sha256': record['final_sha256'],
             'derived_usage': derived, 'semantic_summary': semantics, 'child_callbacks': callbacks,
-            'parent_forwarding_verdict': 'pass' if forwarded else 'fail',
+            'parent_forwarding_verdict': 'not_requested' if delivery else 'pass' if forwarded else 'fail',
+            **({'native_delivery': {'verdict': 'pass', **{k: v for k, v in delivered.items()
+                                                        if k != 'collector_result'}},
+                'routing_receipt': record['routing_receipt'],
+                'source_call_outcomes': record['source_call_outcomes']} if delivery else {}),
             'required_policy_delivery': 'pass' if authority is not None else 'not_assessed',
             'canonical_authority_read_coverage': authority_reads,
             'measured_comparison': comparison, 'effective_permission_profiles': [p['permission_profile'] for p in policies],
@@ -362,28 +392,194 @@ def verify_compact_codex(record, packet, schema, checks, baseline, authority=Non
                         'Source review remains qualified where required authority lies outside the frozen packet.')]}
 
 
-def verify_authority_reads(rows, calls, packet, checks):
+def output_parts(value):
+    """Unwrap native text/JSON envelopes and retain literal shell outcome records."""
+    texts, outcomes = [], []
+
+    def visit(item):
+        if isinstance(item, dict):
+            if 'exit_code' in item and 'session_id' in item:
+                outcomes.append({k: item[k] for k in ('exit_code', 'session_id')})
+            for key in ('text', 'output', 'content', 'value'):
+                if key in item:
+                    visit(item[key])
+        elif isinstance(item, list):
+            for child in item:
+                visit(child)
+        elif isinstance(item, str):
+            try:
+                parsed = json.loads(item)
+            except ValueError:
+                parsed = None
+            if isinstance(parsed, (dict, list)):
+                visit(parsed)
+                return
+            wrappers, spans = [], []
+            # Metadata follows the source output under the native tool's text prefix.
+            for match in re.finditer(r'(?m)^\s*(?=[{\[])', item):
+                try:
+                    parsed, length = json.JSONDecoder().raw_decode(item[match.end():])
+                except ValueError:
+                    continue
+                if isinstance(parsed, dict) and ('exit_code' in parsed and 'session_id' in parsed or
+                        any(k in parsed for k in ('text', 'output', 'content', 'value'))) or isinstance(parsed, list):
+                    if not any(a <= match.end() < b for a, b in spans):
+                        wrappers.append(parsed)
+                        spans.append((match.end(), match.end() + length))
+            for start, end in reversed(spans):
+                item = item[:start] + item[end:]
+            texts.append(item)
+            for parsed in wrappers:
+                visit(parsed)
+
+    visit(value)
+    return '\n'.join(texts), outcomes
+
+
+def shell_command(payload):
+    value = payload.get('input', payload.get('arguments'))
+    if isinstance(value, str):
+        string = r'("(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\')'
+        literal = string + r'|(?:true|false|null|-?\d+(?:\.\d+)?)'
+        field = r'[A-Za-z_$][\w$]*\s*:\s*(?:' + literal + r')'
+        wrapper = re.fullmatch(
+            r'\s*(?:// @exec:[^\n]*\n)?const\s+(?P<var>[A-Za-z_$][\w$]*)\s*=\s*await\s+'
+            r'tools\.exec_command\s*\(\s*\{\s*(?P<fields>' + field +
+            r'(?:\s*,\s*' + field + r')*)\s*,?\s*\}\s*\)\s*;\s*'
+            r'text\s*\(\s*(?P=var)\.output\s*\)\s*;\s*'
+            r'text\s*\(\s*\{\s*exit_code\s*:\s*(?P=var)\.exit_code\s*,\s*'
+            r'session_id\s*:\s*(?P=var)\.session_id\s*\?\?\s*null\s*\}\s*\)\s*;?\s*',
+            value, flags=re.DOTALL)
+        require(wrapper is not None, 'delivery: literal source-shell command with native outcome emission', [])
+        fields = re.findall(r'([A-Za-z_$][\w$]*)\s*:\s*(' + literal + r')', wrapper['fields'])
+        options = {field[0]: field[1] for field in fields}
+        require(len(options) == len(fields) and 'cmd' in options
+                and re.fullmatch(string, options['cmd']) is not None,
+                'delivery: one literal source-shell command per call', [])
+        return ast.literal_eval(options['cmd'])
+    require(isinstance(value, dict) and isinstance(value.get('cmd'), str),
+            'delivery: literal source-shell command', [])
+    require(payload.get('type') == 'function_call' and payload.get('name', '').endswith('exec_command'),
+            'delivery: native command result attribution', [])
+    return value['cmd']
+
+
+def derive_source_call_outcomes(rows, checks):
+    """Bind each source command to one terminal outcome; retain empty rg no-match."""
+    call_rows = [r['payload'] for r in rows if r.get('type') == 'response_item'
+                 and r['payload'].get('type') in ('custom_tool_call', 'function_call')]
+    output_rows = [r['payload'] for r in rows if r.get('type') == 'response_item'
+                   and r['payload'].get('type') in ('custom_tool_call_output', 'function_call_output')]
+    calls = {r['call_id']: r for r in call_rows}
+    outputs = {r['call_id']: r['output'] for r in output_rows}
+    require(len(calls) == len(call_rows) and len(outputs) == len(output_rows),
+            'delivery: unique source-call and return identities', checks)
+    require(bool(calls) and set(calls) == set(outputs), 'delivery: complete source-call membership', checks)
+    result = {}
+    for call, payload in calls.items():
+        command = shell_command(payload)
+        _, outcomes = output_parts(outputs[call])
+        require(len(outcomes) == 1, 'delivery: exactly one shell outcome for ' + call, checks)
+        outcome = outcomes[0]
+        require(type(outcome['exit_code']) is int and outcome['session_id'] is None,
+                'delivery: terminal shell outcome for ' + call, checks)
+        source_text, _ = output_parts(outputs[call])
+        source_text = re.sub(r'\AScript completed\nWall time [^\n]+\nOutput:\n', '', source_text, count=1)
+        lexer = shlex.shlex(command, posix=True, punctuation_chars=True)
+        lexer.whitespace_split, lexer.commenters = True, ''
+        tokens = list(lexer)
+        compound = any(token and all(c in '();<>|&' for c in token) for token in tokens)
+        no_matches = (outcome['exit_code'] == 1 and bool(tokens) and tokens[0] == 'rg'
+                      and not compound and not re.search(r'[\n`]|\$\(', command) and not source_text.strip())
+        require(outcome['exit_code'] == 0 or no_matches,
+                'delivery: successful shell outcome or empty standalone rg no-match for ' + call, checks)
+        result[call] = {'command': command, **outcome,
+                        'outcome': 'no_matches' if no_matches else 'success',
+                        'output_truncated': bool(re.search(r'Warning: truncated output|\d+ tokens truncated', source_text))}
+    return result
+
+
+def derive_native_delivery(parent_ref, child_ref, checks):
+    """Use the incumbent collector with only the exact parent/child local index."""
+    parent, child = trace(parent_ref, checks), trace(child_ref, checks)
+    pm, cm = parent[0]['payload'], child[0]['payload']
+    require(pm['id'] != cm['id'], 'delivery: distinct native parent and child identities', checks)
+    runs, _ = collector.calls(Path(parent_ref['path']), 'codex')
+    require(len(runs) == 1, 'delivery: exactly one unambiguous native dispatch', checks)
+    run = runs[0]
+    require(run['parent_session_id'] == pm['id'] and run['child_ref'] == cm['agent_path'],
+            'delivery: collector native dispatch lineage', checks)
+    index = {pm['id']: (Path(parent_ref['path']), pm), cm['id']: (Path(child_ref['path']), cm)}
+    collector.enrich(run, index)
+    finals = [r['payload']['content'] for r in child if r.get('type') == 'response_item'
+              and r['payload'].get('type') == 'message' and r['payload'].get('role') == 'assistant'
+              and r['payload'].get('phase') == 'final_answer']
+    require(len(finals) == 1 and len(finals[0]) == 1
+            and finals[0][0].get('type') in ('text', 'output_text', 'input_text')
+            and isinstance(finals[0][0].get('text'), str),
+            'delivery: one unambiguous native final text block', checks)
+    raw = finals[0][0]['text']
+    require(run.get('child_session_id') == cm['id'] and run['child_trace'] == child_ref['path']
+            and run['terminal'] == 'completed' and run['result'] == raw,
+            'delivery: unambiguous completed native child result', checks)
+    return {k: run[k] for k in ('parent_session_id', 'call_id', 'child_ref', 'child_session_id',
+                               'child_trace', 'terminal')} | {
+        'collector_result': run['result'], 'result_sha256': digest(raw.encode()),
+        'consumer': 'native-parity-evidence-checker'}
+
+
+def verify_routing_receipt(raw, receipt, child_ref, checks):
+    expected = {'schema_version': 'native-child-routing-receipt/v1', 'child_ref': child_ref,
+                'delivery': 'native_collector', 'consumer': 'native-parity-evidence-checker'}
+    require(json.loads(raw) == receipt == expected, 'delivery: exact native parent routing receipt', checks)
+
+
+def verify_authority_reads(rows, calls, packet, checks, *, strict=False):
     """Check exact numbered source-line membership, without inferring prose meaning."""
     require(set(calls) == set(packet['canonical_authority_paths']),
             'authority: both required read sources identified', checks)
     inputs = {r['payload']['call_id']: r['payload'] for r in rows
-              if r.get('type') == 'response_item' and r['payload'].get('type') == 'custom_tool_call'}
+              if r.get('type') == 'response_item'
+              and r['payload'].get('type') in ('custom_tool_call', 'function_call')}
     outputs = {r['payload']['call_id']: r['payload']['output'] for r in rows
-               if r.get('type') == 'response_item' and r['payload'].get('type') == 'custom_tool_call_output'}
+               if r.get('type') == 'response_item'
+               and r['payload'].get('type') in ('custom_tool_call_output', 'function_call_output')}
     coverage = {}
-    for path, call in calls.items():
-        require(path in inputs[call]['input'] and call in outputs,
-                'authority: attributed source read ' + path, checks)
-        text = collector.text_content(outputs[call])
+    outcomes = derive_source_call_outcomes(rows, checks) if strict else None
+    for path, requested in calls.items():
+        selected = requested if strict else [requested]
+        require(isinstance(selected, list) and bool(selected) and len(set(selected)) == len(selected),
+                'authority: unambiguous source-read calls ' + path, checks)
+        texts, truncated = [], []
+        for call in selected:
+            require(call in inputs and call in outputs,
+                    'authority: attributed source read ' + path, checks)
+            command = shell_command(inputs[call]) if strict else inputs[call]['input']
+            require(path in command, 'authority: exact source-read command ' + path, checks)
+            if strict:
+                require(outcomes[call]['exit_code'] == 0,
+                        'authority: required source read has successful terminal outcome ' + path, checks)
+                args = shlex.split(command)
+                require(args[:3] == ['nl', '-ba', path] and (len(args) == 3 or
+                        len(args) == 7 and args[3:6] == ['|', 'sed', '-n'] and
+                        re.fullmatch(r'\d+(?:,\d+)?p(?:;\d+(?:,\d+)?p)*', args[6]) is not None),
+                        'authority: exact source-read command ' + path, checks)
+            text = output_parts(outputs[call])[0] if strict else collector.text_content(outputs[call])
+            texts.append(text)
+            if re.search(r'Warning: truncated output|\d+ tokens truncated', text):
+                truncated.append(call)
+        text = '\n'.join(texts)
         lines = (ROOT / path).read_text().splitlines()
         missing = [n for n, line in enumerate(lines, 1) if f'{n:6}\t{line}' not in text]
         coverage[path] = {'source_lines': len(lines), 'missing_exact_lines': missing}
+        if strict:
+            coverage[path]['truncated_call_ids'] = truncated
     return {'verdict': 'inconclusive' if any(v['missing_exact_lines'] for v in coverage.values()) else 'pass',
             'sources': coverage,
             'qualification': 'Exact numbered-line return membership establishes availability, not model comprehension.'}
 
 
-def verify_required_authority(manifest, packet, role, parent, checks):
+def verify_required_authority(manifest, packet, role, parent, checks, *, context_dir='authority-context'):
     """Bind the native prompt to frozen authority, rather than a worker's echo."""
     require(manifest['record_type'] == 'native-task-required-authority-context.v1'
             and manifest['canonical_task_sha256'] == digest(packet)
@@ -400,10 +596,10 @@ def verify_required_authority(manifest, packet, role, parent, checks):
     require(digest(policy) == source['sha256'] and len(policy) == source['bytes'],
             'authority: exact source revision bytes', checks)
     for name, artifact in manifest['artifacts'].items():
-        raw = (HERE / 'authority-context' / name).read_bytes()
+        raw = (HERE / context_dir / name).read_bytes()
         require(digest(raw) == artifact['sha256'] and len(raw) == artifact['bytes'],
                 'authority: pinned native projection ' + name, checks)
-    claude = read(HERE / 'authority-context/claude-agents.json')['development-investigator']['prompt']
+    claude = read(HERE / context_dir / 'claude-agents.json')['development-investigator']['prompt']
     delimiter = 'BEGIN REQUIRED POLICY_SYSTEM.md\n'
     end = 'END REQUIRED POLICY_SYSTEM.md\n'
     for client, body in [('codex', role), ('claude', claude)]:
@@ -478,7 +674,7 @@ def verify_claude_refusal(record, packet, checks):
             'qualification': 'Pre-dispatch native refusal; no child delivery, behavior or permission proof.'}
 
 
-def verify():
+def verify(delivery_proof=None):
     checks = []
     packet, audit = read(HERE / 'input/task.json'), read(HERE / 'paired-trace-review.json')
     require(audit['task_sha256'] == digest(packet), 'review binds frozen task', checks)
@@ -577,6 +773,13 @@ def verify():
     authority = verify_compact_codex(read(HERE / 'authority-context-proof.json'), packet, schema, checks,
                                     (cm['id'], derived['codex']['child'], policies[0]['model']),
                                     read(HERE / 'authority-context/manifest.json'))
+    delivery_path = Path(delivery_proof) if delivery_proof is not None else HERE / 'delivery-context-proof.json'
+    delivery = None
+    if delivery_proof is not None or delivery_path.exists():
+        delivery = verify_compact_codex(read(delivery_path), packet, schema, checks,
+                                       (cm['id'], derived['codex']['child'], policies[0]['model']),
+                                       read(HERE / 'delivery-context/manifest.json'),
+                                       context_dir='delivery-context', delivery=True)
     return {'checks_passed': len(checks), 'checks_failed': 0, 'checks_errored': 0, 'checks_skipped': 0,
             'exit_status': 0, 'checks': checks, 'parity_traces_available': [f'{c}_{k}' for c in native for k in native[c]],
             'missing_required_trace': None, 'derived_usage': derived, 'semantic_review': semantics,
@@ -600,7 +803,8 @@ def verify():
                     'client_delivery': {'codex': authority['required_policy_delivery'], 'claude': 'not_run'},
                     'qualification': 'Required policy delivered in the new Codex route; refreshed Claude delivery and goal completion remain unproved.'}},
             'additional_evidence': {'compact_codex': compact, 'claude_native_refusal': refusal,
-                                    'authority_codex': authority},
+                                    'authority_codex': authority,
+                                    **({'lossless_codex': delivery} if delivery is not None else {})},
             'limits': ['Integrity success is not behavior parity.', 'Semantic judgments are bound parent review, not automatic prose inference.',
                        'Five-file reads were voluntary; neither native read boundary enforces that allowlist.',
                        'Independent sandbox probe does not prove actual child denial or isolation from writable parent.',
@@ -611,9 +815,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--require-parity', action='store_true',
                         help='Require broader runtime certification; this does not grade only the native task.')
+    parser.add_argument('--delivery-proof', type=Path,
+                        help='Replay a lossless native delivery proof; default loads delivery-context-proof.json if present.')
     args = parser.parse_args()
     try:
-        receipt = verify()
+        receipt = verify(args.delivery_proof)
     except (AssertionError, ValueError, KeyError, IndexError, TypeError, OSError,
             subprocess.CalledProcessError, jsonschema.ValidationError) as exc:
         print(json.dumps({'checks_failed': 1, 'exit_status': 1, 'error': str(exc)}))

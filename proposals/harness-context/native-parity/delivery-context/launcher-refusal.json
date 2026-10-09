@@ -1,0 +1,20 @@
+{
+  "record_type": "native-delivery-launch-refusal.v1",
+  "trace": {
+    "path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T18-47-30-01a122d9-a38c-7072-899d-9a70aa76b56a.jsonl",
+    "sha256": "43e6fe6b7f61685cba6b763be3faf7ef967e49aa59a33a41fe38365753201129",
+    "records": 25
+  },
+  "parent_session_id": "01a122d9-a38c-7072-899d-9a70aa76b56a",
+  "pretooluse_refusal": {
+    "line": 17,
+    "call_id": "call_1ae2e11450a14dca8b971e7598474541",
+    "output": "Tool call blocked by PreToolUse hook: BLOCKED by safety_net_cwd_fallback: could not run CC Safety Net: [Errno 2] No such file or directory: 'node'. Tool: collaborationspawn_agent"
+  },
+  "raw_final": "Native delegation was unavailable: the spawn call was blocked because the CC Safety Net could not find `node`. No child was started.",
+  "exit_status": 0,
+  "child_created": false,
+  "classification": "launcher environment omitted provisioned Node path; hook correctly refused unavailable safety check",
+  "paid_api_route": false,
+  "followup": "Retry after native node discovery succeeds, retaining normal hook configuration."
+}

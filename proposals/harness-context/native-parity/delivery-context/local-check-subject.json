@@ -1,0 +1,86 @@
+{
+  "record_type": "local-check-executed-subject-reuse.v1",
+  "source_revision": "4ca19849f731347bda911652a75e76d3b8215eba",
+  "current_revision": "662b7f15200f27db36fa4b4d525dbb641314c349",
+  "subjects": {
+    "src": {
+      "gate_object": "8d1bcc95e29d2159c85d74a0a4f849e6371518e2",
+      "current_object": "8d1bcc95e29d2159c85d74a0a4f849e6371518e2"
+    },
+    "tests": {
+      "gate_object": "be818cababc3a758a6120b2e9222c70421a28eb8",
+      "current_object": "be818cababc3a758a6120b2e9222c70421a28eb8"
+    },
+    "scripts": {
+      "gate_object": "3df8dbed26f8a4faa67d5f6769db2ab383cd26e5",
+      "current_object": "3df8dbed26f8a4faa67d5f6769db2ab383cd26e5"
+    },
+    "contracts": {
+      "gate_object": "9fc7d7d454cbefa602a20f268837290c86d8443e",
+      "current_object": "9fc7d7d454cbefa602a20f268837290c86d8443e"
+    },
+    "enforced_planning": {
+      "gate_object": "63c423d3c5e634accfdeae2b5ed76af715ee6326",
+      "current_object": "63c423d3c5e634accfdeae2b5ed76af715ee6326"
+    },
+    "Makefile": {
+      "gate_object": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+      "current_object": "2e8501ab48366904cb811c25bd8300df2f70fd06"
+    },
+    "pyproject.toml": {
+      "gate_object": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+      "current_object": "e59ab948791f58b9dd5f094c9ef503759c7a8691"
+    },
+    "AGENTS.md": {
+      "gate_object": "4f5e1ed522ab302074d1f31f7e18334b38469815",
+      "current_object": "4f5e1ed522ab302074d1f31f7e18334b38469815"
+    },
+    "CLAUDE.md": {
+      "gate_object": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808",
+      "current_object": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808"
+    }
+  },
+  "source_log": "proposals/trace-review-enforcement/final-gate.log",
+  "source_log_sha256": "40adffdbfc662f852dd5f29b5f72501702d29034ec07f1ff5871406ec1feb06f",
+  "observed_outcome": {
+    "passed": 410,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 1,
+    "exit_status": 0
+  },
+  "limits": [
+    "Reuse applies to the identical recorded repository-check subject; new native-parity checker changes require their own focused execution."
+  ],
+  "focused_subject": {
+    "proposals/harness-context/native-parity/verify_evidence.py": "e1d0c487d2e3d48d518dde167ffba737c7f756b2a2cdfc3e44895e3ef9ff7e60",
+    "proposals/harness-context/native-parity/test_verify_evidence.py": "1af07b0a76498b0d0d3e565ba875d91721238a60f659a96f4bca2a340589960e",
+    "proposals/harness-context/native-parity/delivery-context-proof.json": "38a9ae5d774c196e1e472a26dd8a33bddb28f7cf6e2bda7ce6c08a3a7af3f6d8",
+    "proposals/harness-context/native-parity/delivery-context/semantic-review.json": "a3c6ee4de0106b9b2eb0e582a82fa6842ded545bc091c5e39269a1195cf8158e"
+  },
+  "focused_verification": {
+    "interpreter": "/usr/bin/python3 Python 3.12.3",
+    "tests": {
+      "command": "python3 -B unittest.TextTestRunner for test_verify_evidence.EvidenceTests",
+      "passed": 73,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 0,
+      "exit_status": 0
+    },
+    "replay": {
+      "command": "python3 -B proposals/harness-context/native-parity/verify_evidence.py",
+      "passed": 1068,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 0,
+      "exit_status": 0
+    },
+    "strict_certification": {
+      "command": "python3 -B proposals/harness-context/native-parity/verify_evidence.py --require-parity",
+      "exit_status": 1,
+      "expected_refusal": true,
+      "qualification": "Broader cross-client certification remains unproved; this expected refusal does not relabel historical failures as passes."
+    }
+  }
+}
