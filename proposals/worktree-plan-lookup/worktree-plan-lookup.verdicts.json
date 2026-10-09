@@ -1,0 +1,416 @@
+{
+  "05c3e5bf6bec541d06129076dcc295af3bdd6c09f77fe311dde39c6167c68e44": {
+    "item_id": "OV-CONTRACTS-SCHEMAS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence identifies the Git, Company Planning, AES, and UV contracts crossed, gives each owner and a file or URL, and explicitly states that each is unchanged. It also identifies producers and consumers across the boundaries and specifies the landing order.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/OV-CONTRACTS-SCHEMAS",
+    "verdict": "pass"
+  },
+  "0bbff8182cd04b74ffbcdc74f56d10aceed559a83673aea9a688c7c6ebd95233": {
+    "item_id": "OV-CONTRACTS-DEPENDENCIES",
+    "materiality": "material",
+    "missing": "The evidence does not explicitly identify what produces AES\u2019s verdict interface or the UV tool-installation contract, nor does it explicitly identify the adapter as the consumer of Git\u2019s hook-environment and object/index-selection contracts. It also does not explicitly state the producer and consumer on each side for every named contract.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that Git produces repository objects and local-index views and AES consumes them, and that Company Planning produces adoption receipts consumed by AES. However, other named boundaries are only described by ownership or by a consuming hook, so the required producer/consumer mapping for every contract is incomplete.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/OV-CONTRACTS-DEPENDENCIES",
+    "verdict": "unresolved"
+  },
+  "101f51919f3f6dc99d8cba02b9e73be82e9d032819faf8205036d2abd2db17e0": {
+    "item_id": "OV-CONTRACTS-DEPENDENCIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies the producers and consumers for each named contract: Git to AES, Company Planning to AES, AES to the hooks, and UV to the installed tool and its consumers. It also specifies the landing order\u2014from adoption and source correction through merge, installation, refresh, authentic hook checks, and resuming the blocked commit\u2014and states that no consumer schema changes or hook overrides occur between steps.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/15b47c7b30e4/OV-CONTRACTS-DEPENDENCIES",
+    "verdict": "pass"
+  },
+  "1e981105467af94d4080cee781b6c8399d5022b7011ef5567bd54ef70434be7d": {
+    "item_id": "OV-CONTRACTS-SCHEMAS",
+    "materiality": "material",
+    "missing": "The Project Meta/Agent Skills hook contract that consumes AES's public commit verdict is not named with its owner and file or URL, nor is its change status stated explicitly. The Git repository-object/local-index contracts and UV tool-installation contract also lack a specific file or URL identifying those contracts.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies several owners, contract names, and locations, and marks them unchanged. However, it only says that ordinary consumer hooks consume the verdict and describes Git/UV behavior without identifying every corresponding contract and its file or URL.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/15b47c7b30e4/OV-CONTRACTS-SCHEMAS",
+    "verdict": "unresolved"
+  },
+  "237c468a2b32bdef5a564f0903c930d7996785259f9751db8318c174b1a219b1": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "material",
+    "missing": "The evidence does not explicitly establish that the listed uncertainty is material.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The table explicitly lists one uncertainty and provides resolving evidence for it. However, it does not state or substantiate that this uncertainty is material, as required.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/CORE-UNCERTAINTIES",
+    "verdict": "unresolved"
+  },
+  "23fde03ef71f68d1e317efe0d034e905e5945905d426ed0279523a1bbb579e14": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares `empirical_comparison_proposed=false`, while explicitly stating that regression and acceptance checks are verification rather than comparison of candidate designs. It declares `llm_central=false` and describes no LLM-dependent behavior, and declares `irreversible_or_spend_action=false` while stating that no irreversible action or new spend is proposed and that the tool change is reversible.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "2ee48b6eeb7f76f718840dd00fb2f89f47015f595edbad0a270a28be63bee995": {
+    "item_id": "OV-DEPLOY-PLAN",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the deployment target, provides the exact `uv tool install --force ...` deployment command, specifies live checks including module provenance and actual hook traces, and gives a rollback command pinned to the recorded prior revision followed by re-running the hooks.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/15b47c7b30e4/OV-DEPLOY-PLAN",
+    "verdict": "pass"
+  },
+  "30a3ece96fafa71505816e7818404d313f00212ff2965f67bfb3a9b9700160c7": {
+    "item_id": "CORE-CAPABILITY-REUSE",
+    "materiality": "material",
+    "missing": "The reason does not explicitly state what needed capability the catalogue fails to provide; it only describes correcting the AES Git adapter and says there is no new shared capability.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence uses the required \u201cNo catalogue entry fits, because\u201d wording and identifies the catalogue files, but it does not substantively connect the stated work to a capability absent from the catalogue. Therefore it does not establish why no catalogue entry provides what the work needs.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/CORE-CAPABILITY-REUSE",
+    "verdict": "unresolved"
+  },
+  "30cc357a659aceeb5068da40c3d64d2fa402104d7643a9b9e4908ca43bae8607": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the actor as Brian, states the desired result, and gives a concrete, user-visible stable example involving a Project Meta hook, exact plan and receipt lookup, and staged changes from the Project Meta index.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "332eb6df45963b6702d738964e6809078f611f4fc08ce8313ae6809fcccb423c": {
+    "item_id": "OV-AES-TARGET-TRACE",
+    "materiality": "material",
+    "missing": "An explicit statement that the repository is governed by the AES target at `.aes/target.yaml` is absent. The evidence also does not explicitly identify whether `AP-REQ-001` and `AP-REQ-002` are normative items, though it does provide mappings and verification subjects.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence maps R1\u2013R5 to named AP requirements or a success criterion and supplies verification subjects, and it states that the target delta is none while naming existing rules. However, it only has an \u201cAES target\u201d heading and never explicitly states governance by `.aes/target.yaml`, as required.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/OV-AES-TARGET-TRACE",
+    "verdict": "unresolved"
+  },
+  "33f95ab1141196ae1eb04ca4af0e2030d7de82ad831859c079d4b5ec1063866c": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the judged run (\u201cthe success check above\u201d), identifies its location (`proposals/worktree-plan-lookup/worktree-plan-lookup.check.txt`), and specifies trace content beyond the final result: commands, files, checks/tests and results, skip status, exit status, and System model lines. It also explicitly states that success and disproof are judged from that complete trace.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  },
+  "3dadf70dd4815a1fceff6c2575fa3f0e8f7d89036f95915d56500d0132721c00": {
+    "item_id": "CORE-IRREVERSIBLE-SPEND",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that no irreversible action or new spend is proposed. It also identifies containment for the reversible work (retaining the prior revision, using durable remote refs, and prohibiting deletion or private publication) and confirms existing checks remain within standing tool authority.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "pass"
+  },
+  "583ddc766c729a193e516270e2b31baa7c23e8eb860b1c9f5364204e623c51d6": {
+    "item_id": "OV-STANDARD-CONFORMANCE-RULES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names Git\u2019s `githooks` guidance with its URL, states that it has no machine-readable schema, and specifies the written rule to encode. It also gives the Company Planning schema paths and explicitly identifies the required decision and receipt rules that artifacts must satisfy.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/OV-STANDARD-CONFORMANCE-RULES",
+    "verdict": "pass"
+  },
+  "584eadf3622ea4618a14af50fbc6f2dc1c43964fb345f6a92dd4c778f11ab2d4": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines behavioral success checks for repository identity, staged content, subprocess isolation, and hook admission behavior. It also gives concrete disproof conditions, including wrong-object reads, lost staged receipts, acceptance of unknown plans, and retained repository-local variables, while expressly rejecting counts and cache hashes as substitutes.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "5e9cc73bbdafbc05d9e76b9c8ab0e1dd0d2a26ba0caf0612497ac04b080b30bf": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies ownership and internal lineage, cites searches of the catalogue and relevant Git guidance, and dispositions the identified artifacts as reuse or extension. It also states that no applicable capability was found and rejects the need for another implementation.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "pass"
+  },
+  "5f2caa44130fb78cacab603dda05d29a1cb18421d70176af2a0eef7302bd6568": {
+    "item_id": "OV-CONTRACTS-SCHEMAS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence identifies the Git hook/object-index contract with Git as owner and a URL, the Company Planning schemas with their owner and schema paths, AES interfaces and `.aes/target.yaml` with AES as owner, and the UV installation contract with its owner and repository URL. Each is explicitly marked unchanged, and the evidence also states the relevant producers, consumers, and sequencing across the boundaries.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/OV-CONTRACTS-SCHEMAS",
+    "verdict": "pass"
+  },
+  "65fcaa66966c30717e0741c0a193b68dd6ef8c68a2095a7d8893d49582f693bd": {
+    "item_id": "OV-CONTRACTS-DEPENDENCIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies producers and consumers for the Git/AES, Company Planning/AES, AES/hook, and UV/tool boundaries. It also specifies the landing sequence\u2014from adopting and correcting the source through merging, installing the exact package, refreshing, and running authentic hook checks\u2014and states that no consumer schema changes or hook overrides occur between steps.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/3b24b67f2e5e/OV-CONTRACTS-DEPENDENCIES",
+    "verdict": "pass"
+  },
+  "66f4f01a966d8625c6f2eac30f734791f53c81f7c8f8160584cc54c797229672": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan correctly declares `shared_mechanism=true` for the changed shared lookup algorithm, `claims_external_standard=true` for Git\u2019s foreign-repository hook rule, and `aes_governed_target=true` for `.aes/target.yaml`. It also correctly declares `empirical_comparison_proposed=false`, `llm_central=false`, and `irreversible_or_spend_action=false`; the cited checks are verification rather than alternative-design comparison, runtime behavior has no LLM dependency, and the proposed tool update and integration are described as reversible with no new spend.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/15b47c7b30e4/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "6700a2b495aea5eb033a6fdfe91c302e94a2bf8d2f910e08de7258830d05157b": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares `shared_mechanism=true`, `claims_external_standard=true`, and `aes_governed_target=true`, matching the triggered facts for the changed shared lookup algorithm, claimed Git rule conformance, and governed target. The facts declared false\u2014`empirical_comparison_proposed`, `llm_central`, and `irreversible_or_spend_action`\u2014are not triggered by the described regression checks, non-LLM behavior, or explicitly reversible changes with no new spend.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/3b24b67f2e5e/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "682bcd514032acb6568f69c15bb50661745ce7bcf4851e0e3ed0515b66e99ec7": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides a requirements list R1\u2013R5, including the requested behaviors and the claimed Git-standard conformance and schema/admission properties. Every requirement names one or more checks and gives an explicit status, including failures and planned/not-yet-run checks; no requirement is marked deferred, so no deferred carry-forward is required.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
+  "6dea59e5273a1706b3c5e43bd0c143d9da3dc2cf235e928daf60edf6effa9a5d": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the runs for each criterion, states where their traces live (`/home/brian/projects/data/logs/worktree-lifecycle-verification.log` and the Agent Skills observer\u2019s complete native-hook trace), and specifies what must be inspected beyond outcomes, including commands, identities, variables, indexes, receipts, arguments, hook behavior, and failures. It also requires reading failed or surprising traces and a passing sample before reporting results.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  },
+  "6e910b348b44acaa5c765b75298c596711aec19593c72acccaae9df96f9e7a66": {
+    "item_id": "OV-STANDARD-CONFORMANCE-GATE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the command `uv run pytest tests/greenfield/test_commit_rule.py -v` and places it in the repository\u2019s local merge gate, with `make check` at merge. It explicitly defines disproof through a conforming artifact violating a discovered Git rule and labels the caching helper as an `AES implementation extension` in both its source docstring and the plan.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/OV-STANDARD-CONFORMANCE-GATE",
+    "verdict": "pass"
+  },
+  "6fabf399eeef7f485122c78e2479b157a8ecefd59fe3710190725b9d83ff0b0e": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies authority: Brian authorizes the blocking root correction, with AES owning commit-rule source, Enforced Planning owning claims, Company Planning owning adoption, and Project Meta and Agent Skills as consumers. It also explicitly lists non-goals, including not modifying native handoff tools, weakening adoption or hooks, rewriting schemas, editing other writers\u2019 checkouts, or cleaning legacy worktrees.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/2b481c6309be/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "840570ccea37b25a05af86acde87e7608464188c9e7dbeaca46de6e8cb6d2368": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies Brian as the authority requesting the change and states the non-goals: work outside the listed files, irreversible actions, and spending.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "862c4f0e9cd45874ea458af61634ae1d1e03781bcabc7a410c4a44438de26a36": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "material",
+    "missing": "The trace review does not state what the examined run must show for each named process and each source-linked view. It specifies evidence for the repository entities, records, subprocess environment, caller index, and resulting verdict, but does not explicitly tie observed run evidence to `foreign lookup/background refresh`, `local staged admission`, or each of `_default_ref`, `build_plan_index`, `_indexed_adoption`, `_plan_text`, `staged_adoption`, and `_refresh_index_in_background`.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides the model link, documentation entry points, repository scope, named elements, freshness checks, omission explanation, and same-change reconciliation. However, the requirement requires per-element trace evidence, and the quoted trace description does not identify what the run must show for every named process and view.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-SYSTEM-MODEL",
+    "verdict": "unresolved"
+  },
+  "88bc94236c88491b85386f79ef6484b16ba88e0d4800853c0255fa728d684b7e": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan correctly declares `shared_mechanism=true`, `claims_external_standard=true`, and `aes_governed_target=true`, all of which are triggered by the quoted evidence. It also correctly declares the non-triggered facts `empirical_comparison_proposed=false`, `llm_central=false`, and `irreversible_or_spend_action=false`; no triggered activation fact is declared false.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "89e2695dcd886f25f80bf7cc2887e6f213314ad53f6a1ec1e851b6252c723f7a": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides the model link, repository documentation entry path, shared-model scope, and explicitly names the relied-on entity, records, processes, and source-linked view. It states what the saved check must show for those elements, identifies omitted views with reasons, defines concrete freshness/drift checks, and requires reconciliation of the model mapping, view coverage, and saved verification output in the same commit.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "8f07164550880f9e417400cc1ec4d3652f758b40033a13e8d92172fbb93409ee": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies authority: Brian authorizes the blocking root correction, while AES owns commit-rule source, Enforced Planning owns claims, Company Planning owns adoption, and other groups are consumers. It also explicitly lists non-goals, including not modifying handoff tools, weakening adoption or hooks, rewriting schemas, editing other writers\u2019 checkouts, or cleaning legacy worktrees.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "9f695dd1750f78d3b2c02104a2a4104e2e25daed72f49f6be247f4b8929c19d4": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly lists three blocking uncertainties and assigns an owner to each. It also identifies resolution evidence or methods for every uncertainty, including documented Git discovery and regression tests, named regressions and subprocess review, and installed-module provenance with authentic hook traces.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  },
+  "aade0f154356f1d139e8cd74a3bc1fd985ece09707a859db701b235a0241efe6": {
+    "item_id": "OV-CONTRACTS-DEPENDENCIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies the producers and consumers for the Git, Company Planning, AES, and UV contracts, including AES adapters/verifiers and the downstream hooks. It also gives an explicit landing order from adoption and source correction through merge, exact-package installation, refresh, hook checks, and resuming the blocked commit, while stating that no consumer schema changes or hook overrides occur between steps.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/OV-CONTRACTS-DEPENDENCIES",
+    "verdict": "pass"
+  },
+  "b889ee7e525d7c754fc39d72987071f3afe1f1b645cab9708b8dab7a6cd345c0": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "material",
+    "missing": "claims_external_standard is triggered but declared false. The plan explicitly requires conformity to \u201cAES AP-REQ-001 and SC-AP-001\u201d and refers to an \u201cadopted AES plan,\u201d presenting the work as conforming to an external standard or contract.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan\u2019s Activation facts says \u201cno claim to follow an external standard,\u201d but its requirements explicitly state \u201cConform to AES AP-REQ-001 and SC-AP-001.\u201d Therefore, at least one triggered activation fact is declared false.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/CORE-ACTIVATION-FACTS",
+    "verdict": "unresolved"
+  },
+  "c02822b997696a7e56c34e4d52b40f1cec8b717bdc22af62242ad65acb2a6a03": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly identifies direct success checks: focused source tests prove the default-ref, membership, adoption, and staged-index identities, and the installed hook accepts the authentic recovery commit. It also gives concrete disproof conditions: using the hook repository for a cross-repository read or refresh, or changing local alternate-index inspection.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "c4981a111ed3e220e820f91af35eccc81f0eb563967f1488646667079441d44c": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence links the shared system boundary, identifies the repository scope and documentation entry points, and names the relevant entities, records, processes, and source-linked view. It specifies what regression and installed traces must show for those elements, explains the omitted graphical view, gives concrete freshness/drift checks, and states how model, view coverage, and run evidence are reconciled in the same change.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "c9a30fc3b3905da1d585d4ed0407eef2e09d875b07aaa4f6f9d527fbaf07fac0": {
+    "item_id": "OV-PROTO-VERTICAL-RESET",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the vertical result, the reset boundary as reverting the commit, and the non-goal as anything outside the two files. It adds only implementation/check/commit steps and no coordinated-work ceremony.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/OV-PROTO-VERTICAL-RESET",
+    "verdict": "pass"
+  },
+  "cb44ac842df4fff215af7ed1e097091d3a27361727aabcc33af016162d055791": {
+    "item_id": "OV-CONTRACTS-SCHEMAS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence identifies the crossed contracts and schemas, their owners, and a file path or URL for each, including Git, Company Planning, AES, hook, and UV contracts. It explicitly states that each is unchanged, or that no package metadata or hook configuration changes occur, satisfying the requirement to say whether this plan changes them.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/3b24b67f2e5e/OV-CONTRACTS-SCHEMAS",
+    "verdict": "pass"
+  },
+  "cf6a0dab9d794fc4fddc1db669137b840a76d73e2397d29937ed8b1d9d82822b": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the served actor (\u201cBrian and his engineering agents\u201d), states the desired result (\u201cordinary planned commits to work\u201d), and gives a stable, concrete, user-visible example: Project Meta\u2019s cursor-retirement commit in which the hook reads AES\u2019s receipt rather than searching under inherited `GIT_DIR`.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "d86319a1533bfe2fb6837ff31cbf7e44647def7674536c2b2b82f58f1e97a7dd": {
+    "item_id": "OV-AES-TARGET-TRACE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies `.aes/target.yaml` as governing the repository and maps R1\u2013R4 to AP-REQ-001 and SC-AP-001, with a verification subject for each. It declares no AES target delta, states that target artifacts, topology, and running artifacts remain unchanged, names the existing target items and criteria served, and correctly explains that no `aes plan validate` proposal is required.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/OV-AES-TARGET-TRACE",
+    "verdict": "pass"
+  },
+  "d8f072bd14826152949a3802d543bc309e2bdfe405800e4dff38643b80e8c818": {
+    "item_id": "OV-AES-TARGET-TRACE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states the repository is governed by `.aes/target.yaml`, declares \u201cTarget delta: none,\u201d and names the existing target items and success criterion served. It maps R1\u2013R5 to AP-REQ-001/AP-REQ-002 or SC-AP-001, with a verification subject for each; no `aes plan validate` result is required because no target change is declared.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/OV-AES-TARGET-TRACE",
+    "verdict": "pass"
+  },
+  "dc63533025c36e5a49bb31e60d9046645146e6f2c61114bf6faec18ad1677293": {
+    "item_id": "CORE-CAPABILITY-REUSE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence states, \u201cNo catalogue entry fits,\u201d identifies both catalogue files, and explains that neither provides repository-local Git environment isolation for AES's federated adopted-plan admission. It also explicitly states that no new cross-project capability is created.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-CAPABILITY-REUSE",
+    "verdict": "pass"
+  },
+  "dded581a54ef6cf6e8457357936fe1eaf7214c601559d07455c4802bb941542e": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "material",
+    "missing": "The requirements do not explicitly state the required combined status \u201cplanned and not yet run.\u201d R4 says only \u201cplanned,\u201d and R1\u2013R3 and R5 say \u201cplanned after repair/installation\u201d without explicitly stating that the checks have not yet run in that planned state.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides a requirements list and names checks for R1\u2013R5, and it includes the named standard and installed-hook claims. However, the required status for planned checks is not fully explicit, particularly for R4, so the evidence does not establish compliance with the status requirement.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-REQUIREMENTS-TRACED",
+    "verdict": "unresolved"
+  },
+  "df9480d5413c8578b31d5a430d976da8c954789748442578cbdd45f95056b439": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares `shared_mechanism`, `claims_external_standard`, and `aes_governed_target` true, matching the changed shared lookup mechanism, claimed Git rule conformance, and stated `.aes/target.yaml`. It correctly declares comparison, LLM dependence, and irreversible/spend action false because the plan describes regression/acceptance verification without candidate comparison, no LLM calls, and only reversible changes with no new spend.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/2b481c6309be/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "e1bb29b0abfca77eddc0d0e1e78c561b6eb861942de937c6d6c97998af2e8bbc": {
+    "item_id": "OV-STANDARD-CONFORMANCE-GATE",
+    "materiality": "material",
+    "missing": "Explicit evidence that every addition beyond Git's standard is labelled as an extension in the artifact itself as well as in the plan. The evidence only states that the cached discovery helper is an implementation extension, without showing artifact labelling.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the conformance command, its merge-gate placement, and a disproof condition. However, it does not explicitly establish the required extension labelling in both the artifact and the plan.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/OV-STANDARD-CONFORMANCE-GATE",
+    "verdict": "unresolved"
+  },
+  "eab805bf47131c86a527cbe97907ca21c75c703b5b710f597602ce7929f70a85": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The Requirements table lists R1\u2013R4, including the requested behavior and the claimed AES AP-REQ-001/SC-AP-001 conformance. Every requirement names a check and has the explicit status \u201cplanned, not yet run\u201d; no requirement is deferred.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/f6cfb39df5ef/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
+  "eb23b5bbdf894b44f13c3871df55843b729a24654262428fbdd3a8768058fe3e": {
+    "item_id": "OV-STANDARD-CONFORMANCE-RULES",
+    "materiality": "material",
+    "missing": "The evidence does not identify where the Company Planning receipt schema's machine-readable rules live, nor which of those rules the artifacts must satisfy (or, if none exist, which written rules the check will encode).",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The Git contract is explicitly named, linked, described as lacking a machine-readable schema, and its encoded rules are stated. However, the evidence also refers to Company Planning receipt schema conformance without supplying the required schema location and applicable rule set.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/OV-STANDARD-CONFORMANCE-RULES",
+    "verdict": "unresolved"
+  },
+  "f2748ca23cf5c50546e9a38014a8f9e69f70c48da1b067145afbf37448d7f0e9": {
+    "item_id": "OV-DEPLOY-PLAN",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the deployment target, provides the exact `uv tool install --force --from ...@<exact-merged-SHA>` command, specifies live checks using module/source provenance and actual hook traces, and gives rollback via the same command pinned to the recorded prior revision followed by rerunning the hooks.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/OV-DEPLOY-PLAN",
+    "verdict": "pass"
+  },
+  "f4bf597be2d6e7208fd5b421370d6b6d133fb8907cc8703aea578eafec2de75e": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names concrete checks: inspect native claims and the installed module path, and compare all changes to `commit_rule.py` against the single claimed lane. It also specifies that a second source writer or installed package with a different lookup would reveal a conflicting parallel implementation.",
+    "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "pass"
+  }
+}

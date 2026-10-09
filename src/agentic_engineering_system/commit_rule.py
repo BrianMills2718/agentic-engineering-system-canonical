@@ -69,6 +69,7 @@ import re
 import subprocess
 import sys
 from dataclasses import asdict, dataclass, field
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import quote, unquote
 
@@ -162,6 +163,22 @@ def _git(root: Path, *args: str) -> str:
     if done.returncode != 0:
         raise RuntimeError(f"git {' '.join(args)} failed in {root}: {done.stderr.strip()}")
     return done.stdout
+
+
+@lru_cache(maxsize=1)
+def _git_local_env_vars() -> tuple[str, ...]:
+    """AES implementation extension: cache Git's documented hook-local names."""
+    done = subprocess.run(["git", "rev-parse", "--local-env-vars"],
+                          capture_output=True, text=True, check=True)
+    return tuple(done.stdout.splitlines())
+
+
+def _foreign_git_env() -> dict[str, str]:
+    """Clear repository-local hook context for foreign Git calls, preserving auth."""
+    env = dict(os.environ)
+    for name in _git_local_env_vars():
+        env.pop(name, None)
+    return env
 
 
 def machine_config_path() -> Path:
@@ -474,7 +491,7 @@ def plan_index_path() -> Path:
 def _default_ref(repo: Path) -> tuple[str, str] | None:
     for ref in DEFAULT_REFS:
         done = subprocess.run(["git", "-C", str(repo), "rev-parse", "-q", "--verify", f"{ref}^{{commit}}"],
-                              capture_output=True, text=True, check=False)
+                              capture_output=True, text=True, env=_foreign_git_env(), check=False)
         if done.returncode == 0 and done.stdout.strip():
             return ref, done.stdout.strip()
     return None
@@ -489,7 +506,8 @@ def fetch_all(workspace: Path, timeout: int = 60) -> list[str]:
     origin/HEAD until a fetch). Never prompts for credentials. Returns one line per failure."""
     from concurrent.futures import ThreadPoolExecutor
     repos = [r for r in sorted(workspace.iterdir()) if (r / ".git").exists()] if workspace.is_dir() else []
-    env = {**os.environ, "GIT_TERMINAL_PROMPT": "0", "GIT_SSH_COMMAND": "ssh -o BatchMode=yes"}
+    env = {**_foreign_git_env(), "GIT_TERMINAL_PROMPT": "0"}
+    env.setdefault("GIT_SSH_COMMAND", "ssh -o BatchMode=yes")
 
     def one(repo: Path) -> str | None:
         try:
@@ -528,7 +546,8 @@ def build_plan_index(workspace: Path, path: Path | None = None) -> dict:
             repos[key] = old[key]
             continue
         grep = subprocess.run(["git", "-C", str(repo), "grep", "-E", r"^(plan_)?id:", sha, "--",
-                               "proposals/*/*.md", "docs/plans/*.md"], capture_output=True, text=True, check=False)
+                               "proposals/*/*.md", "docs/plans/*.md"], capture_output=True, text=True,
+                              env=_foreign_git_env(), check=False)
         if grep.returncode > 1:
             # exit 1 is "no match"; 2+ is an error. Leave the repository out so the next build retries
             # it, instead of caching "no plans" under this commit until its main moves.
@@ -575,7 +594,7 @@ def _refresh_index_in_background(workspace: Path) -> None:
     try:
         subprocess.Popen([sys.executable, "-m", "agentic_engineering_system.cli", "commit", "index", "--fetch",
                           "--workspace", str(workspace)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                         start_new_session=True)
+                         start_new_session=True, env=_foreign_git_env())
     except OSError:
         pass
 
@@ -597,7 +616,8 @@ def indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, st
             sha = entry["sha"]
 
             def read(r: str, _repo: str = repo, _sha: str = sha) -> bytes | None:
-                done = subprocess.run(["git", "-C", _repo, "show", f"{_sha}:{r}"], capture_output=True, check=False)
+                done = subprocess.run(["git", "-C", _repo, "show", f"{_sha}:{r}"], capture_output=True,
+                                      env=_foreign_git_env(), check=False)
                 return done.stdout if done.returncode == 0 else None
             ok, why, meta = _adoption(read, rel, f"{Path(repo).name} {entry['ref']}:{rel}")
             verdicts.append((ok, why, meta))
@@ -710,7 +730,7 @@ def _plan_text(config: RuleConfig, plan_id: str) -> tuple[Path, str, str] | None
         for repo, entry in index.get("repos", {}).items():
             for rel in entry.get("plans", {}).get(plan_id, []):
                 done = subprocess.run(["git", "-C", repo, "show", f"{entry['sha']}:{rel}"],
-                                      capture_output=True, text=True, check=False)
+                                      capture_output=True, text=True, env=_foreign_git_env(), check=False)
                 if done.returncode == 0:
                     return Path(repo), rel, done.stdout
     return None
