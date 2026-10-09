@@ -343,6 +343,35 @@
       "No controlled context-reduction or billing comparison is claimed.",
       "Observed read-only child inherits read-only parent; this does not certify read-only isolation beneath a write-capable parent.",
       "The detached launcher did not retain native CLI exit codes; native terminal events establish completion/refusal. Local checks report actual exit codes."
-    ]
+    ],
+    "local_gate": {
+      "command": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+      "exit_status": 0,
+      "elapsed_seconds": 2449.86,
+      "finished_at_utc": "2026-10-09T10:06:06.981827+00:00",
+      "log": "/home/brian/.codex/log/harness-fresh-parity-local-check-20261009.log",
+      "passed": 342,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 1,
+      "mypy_source_files": 22,
+      "mypy_issues": 0,
+      "executed_objects": {
+        "src": "8b4f5d5620a478affc315767da7e1ff795c6483e",
+        "tests": "fdbc314421da4ac01dea0832637b29f33a4e34a9",
+        "Makefile": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+        "pyproject.toml": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+        "AGENTS.md": "4f5e1ed522ab302074d1f31f7e18334b38469815",
+        "CLAUDE.md": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808"
+      }
+    },
+    "cursor_disposition": {
+      "status": "retired with human-required incomplete state",
+      "receipt": "native-parity/cursor-retirement.json",
+      "commit": "f8fd3b20cea857b1add89b87605746623ca7c7f7",
+      "shared_lifecycle_paths_released": true,
+      "native_claim_narrow_receipt": "ef01655c-7cc3-42d5-8449-e402b0183592"
+    },
+    "owning_concern": "https://github.com/BrianMills2718/agent-skills/issues/302#issuecomment-6078588749"
   }
 }
