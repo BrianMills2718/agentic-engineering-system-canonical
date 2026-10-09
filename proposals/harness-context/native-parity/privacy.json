@@ -1,0 +1,12 @@
+{
+  "gitleaks": {
+    "command": "gitleaks dir proposals/harness-context/native-parity --redact --no-banner",
+    "exit_status": 0,
+    "scanned_bytes": 407077,
+    "findings": 0
+  },
+  "bounded_contact_credential_pattern_hits": [],
+  "raw_native_traces_in_commit": false,
+  "source_provenance": "Only frozen public repository source plus compact technical run metadata; native full instruction/session streams remain in native stores.",
+  "limits": "Pattern scan is not a universal privacy classifier; existing source authority prose reviewed against private-data categories."
+}

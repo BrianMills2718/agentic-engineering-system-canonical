@@ -1,0 +1,78 @@
+{
+  "parent": {
+    "trace_path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-52-31-01a11fdd-2db6-7da3-bf22-4698c6b6f0d5.jsonl",
+    "trace_sha256": "e812c0148d2190b1998a0d795ae1152c5bfe1edf1071ed571b6dec46d34bd528",
+    "first_model_usage": {
+      "input_tokens": 36702,
+      "cached_input_tokens": 0,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 1289,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 37991
+    },
+    "total_model_usage": {
+      "input_tokens": 350437,
+      "cached_input_tokens": 306048,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 4656,
+      "reasoning_output_tokens": 758,
+      "total_tokens": 355093
+    },
+    "runtime_context": [
+      {
+        "cwd": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity",
+        "model": "gpt-6.1-sol",
+        "approval_policy": "never",
+        "sandbox_policy": {
+          "type": "read-only"
+        }
+      }
+    ],
+    "tool_calls": 8,
+    "tool_results": 8,
+    "canonical_role_instruction_delivered": false,
+    "role_instruction_sha256": "8325b1fd922fe2e76f5e9f63518f0373d7e8c84b4f65f7eb238a9dde0ef2c0f4",
+    "workspace_bootstrap_loaded": true,
+    "instruction_user_message_bytes": [
+      79409
+    ]
+  },
+  "child": {
+    "trace_path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-53-04-01a11fdd-afc4-73c3-926b-ad39bba75696.jsonl",
+    "trace_sha256": "ea94965ef23305916211fcdb087bbfb381b84183fa4fa1adfa36b9caf83a4f7a",
+    "first_model_usage": {
+      "input_tokens": 37750,
+      "cached_input_tokens": 0,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 622,
+      "reasoning_output_tokens": 292,
+      "total_tokens": 38372
+    },
+    "total_model_usage": {
+      "input_tokens": 571272,
+      "cached_input_tokens": 495360,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 6367,
+      "reasoning_output_tokens": 1910,
+      "total_tokens": 577639
+    },
+    "runtime_context": [
+      {
+        "cwd": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity",
+        "model": "gpt-6.1-sol",
+        "approval_policy": "never",
+        "sandbox_policy": {
+          "type": "read-only"
+        }
+      }
+    ],
+    "tool_calls": 9,
+    "tool_results": 9,
+    "canonical_role_instruction_delivered": true,
+    "role_instruction_sha256": "8325b1fd922fe2e76f5e9f63518f0373d7e8c84b4f65f7eb238a9dde0ef2c0f4",
+    "workspace_bootstrap_loaded": true,
+    "instruction_user_message_bytes": [
+      79409
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "record_type": "plan_execution_cursor",
+  "cursor_id": "harness-fresh-parity-20261009",
+  "cursor_revision": 1,
+  "goal_ref": "proposals/harness-context/harness-context.goal.md",
+  "plan_revision": "f974ff7dae6fd7b7588bb02965618640010ab476",
+  "target": {
+    "repository": "agentic-engineering-system-canonical",
+    "branch": "harness-fresh-parity",
+    "worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity"
+  },
+  "lifecycle_state": "active",
+  "active_slice": {
+    "slice_id": "native-investigator-parity",
+    "description": "Same frozen maintenance investigation through native parent and child in Claude and Codex; included subscription calls only, no additional purchases",
+    "status": "ready",
+    "target_revision": "f974ff7dae6fd7b7588bb02965618640010ab476",
+    "next_action": "Freeze the source packet and run each native parent with one installed read-only child",
+    "requires_spend": false,
+    "requires_external_action": false
+  },
+  "observations": [],
+  "failure_state": {
+    "boundary": null,
+    "same_boundary_failures": 0,
+    "last_failure_ref": null
+  },
+  "ready_alternatives": [],
+  "authority": {
+    "implementation_authorized": true,
+    "external_action_authorized": false,
+    "human_decision_required": false,
+    "human_decision": null,
+    "spend_cap_usd": 0,
+    "spend_used_usd": 0
+  },
+  "circuit_breakers": {
+    "max_same_boundary_failures": 3,
+    "runtime_integrity_valid": true,
+    "context_integrity_valid": true
+  },
+  "completion": {
+    "requested": false,
+    "verifier_outcome": null,
+    "receipt_ref": null,
+    "evidence_revision": null,
+    "remaining_ready_work": 1
+  }
+}

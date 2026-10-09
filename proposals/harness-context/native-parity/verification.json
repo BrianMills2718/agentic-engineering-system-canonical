@@ -1,0 +1,33 @@
+{
+  "checks_passed": 15,
+  "checks_failed": 0,
+  "exit_status": 0,
+  "checks": [
+    "native child result satisfies canonical schema",
+    "child investigated the supplied task",
+    "child returned source-supported diagnosis",
+    "all five frozen sources remain unchanged",
+    "all sixteen citations resolve within supplied sources",
+    "parent trace matches recorded digest",
+    "parent actual turn has read-only policy and no escalation",
+    "child trace matches recorded digest",
+    "child actual turn has read-only policy and no escalation",
+    "installed canonical specialist instructions appear in actual child input",
+    "native parent-child identity and role match",
+    "native parent explicitly launched one fresh-history child",
+    "recorded context failure and first-input measurement match trace",
+    "independent native sandbox denied synthetic write and socket",
+    "Claude quota refusal cannot be counted as an executed child"
+  ],
+  "parity_traces_available": [
+    "codex_parent",
+    "codex_child",
+    "claude_parent_refusal"
+  ],
+  "missing_required_trace": "claude_child",
+  "cross_client_goal_complete": false,
+  "limits": [
+    "These checks validate recorded evidence, not cross-client completion.",
+    "Sandbox negative probe is independent of the child; no path-allowlist enforcement is claimed."
+  ]
+}

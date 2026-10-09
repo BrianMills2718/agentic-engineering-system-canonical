@@ -1,0 +1,41 @@
+{
+  "probe_kind": "native_sandbox_read_only_profile_independent_of_child_tool_call",
+  "command": [
+    "codex",
+    "sandbox",
+    "-P",
+    ":read-only",
+    "-C",
+    "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity",
+    "python3",
+    "-c",
+    "import pathlib,socket; print(\"read_ok\", pathlib.Path('/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity/proposals/harness-context/native-parity/input/task.json').is_file());\ntry:\n pathlib.Path('/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity/proposals/harness-context/native-parity/permission-probe-sentinel.txt').write_text(\"permission probe synthetic sentinel\")\n print(\"WRITE_UNEXPECTEDLY_ALLOWED\")\nexcept OSError as e: print(\"write_denied\",type(e).__name__,e.errno)\ntry:\n s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.close();print(\"socket_creation_allowed\")\nexcept OSError as e: print(\"socket_denied\",type(e).__name__,e.errno)"
+  ],
+  "exit_code": 0,
+  "stdout": "read_ok True\nwrite_denied OSError 30\nsocket_denied PermissionError 1\n",
+  "stderr": "",
+  "sentinel_exists_after": false,
+  "expected_denials_verified": true,
+  "earlier_unexecuted_probe": {
+    "probe_kind": "native_sandbox_same_read_only_policy_independent_of_child_tool_call",
+    "command": [
+      "codex",
+      "sandbox",
+      "-c",
+      "sandbox_mode=\"read-only\"",
+      "-C",
+      "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity",
+      "python3",
+      "-c",
+      "import pathlib,json,socket; p=pathlib.Path('/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity/proposals/harness-context/native-parity/input/task.json'); print(\"read_ok\", p.is_file());\ntry:\n pathlib.Path('/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity/proposals/harness-context/native-parity/permission-probe-sentinel.txt').write_text(\"permission probe synthetic sentinel\")\n print(\"WRITE_UNEXPECTEDLY_ALLOWED\")\nexcept OSError as e: print(\"write_denied\",type(e).__name__,e.errno)\ntry:\n s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.close();print(\"socket_creation_allowed\")\nexcept OSError as e: print(\"socket_denied\",type(e).__name__,e.errno)"
+    ],
+    "exit_code": 2,
+    "stdout": "",
+    "stderr": "error: the following required arguments were not provided:\n  --permission-profile <NAME>\n\nUsage: codex sandbox --permission-profile <NAME> --config <key=value> --cd <DIR> <COMMAND>...\n\nFor more information, try '--help'.\n",
+    "sentinel_exists_after": false,
+    "limit": "Tests native CLI sandbox enforcement with the child trace policy type; not an attempted child write and not enforcement of allowed_read_paths."
+  },
+  "limit": "Tests native CLI read-only sandbox enforcement independently. Child trace establishes its effective read-only policy; no attempted child write, no proof of its path allowlist or per-role permission isolation from a write-capable parent.",
+  "write_denial_errno": 30,
+  "socket_denial_errno": 1
+}
