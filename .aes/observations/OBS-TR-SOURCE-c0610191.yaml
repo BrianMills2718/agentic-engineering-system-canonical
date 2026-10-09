@@ -1,0 +1,103 @@
+schema_version: aes.v0_2.observation.probe0
+observation_id: OBS-TR-SOURCE-c0610191
+subject_refs:
+- VS-TR-SOURCE
+subject_revision: c061019128d6fae2f1ecdd112d33db500362b1b8
+dependency_paths:
+- src/agentic_engineering_system/__init__.py
+- src/agentic_engineering_system/adopt.py
+- src/agentic_engineering_system/characterize.py
+- src/agentic_engineering_system/characterize_python.py
+- src/agentic_engineering_system/cli.py
+- src/agentic_engineering_system/commit_rule.py
+- src/agentic_engineering_system/context.py
+- src/agentic_engineering_system/evidence.py
+- src/agentic_engineering_system/hooks.py
+- src/agentic_engineering_system/planning.py
+- src/agentic_engineering_system/project.py
+- src/agentic_engineering_system/reconcile.py
+- src/agentic_engineering_system/records.py
+- src/agentic_engineering_system/topology.py
+- src/agentic_engineering_system/trace_review.py
+- tests/greenfield/test_planning.py
+- tests/greenfield/test_source_bound_trace_review.py
+- tests/greenfield/test_trace_review.py
+dependency_basis:
+  locator: tests/greenfield/test_source_bound_trace_review.py
+  discovered:
+  - src/agentic_engineering_system/__init__.py
+  - src/agentic_engineering_system/adopt.py
+  - src/agentic_engineering_system/characterize.py
+  - src/agentic_engineering_system/characterize_python.py
+  - src/agentic_engineering_system/cli.py
+  - src/agentic_engineering_system/commit_rule.py
+  - src/agentic_engineering_system/context.py
+  - src/agentic_engineering_system/evidence.py
+  - src/agentic_engineering_system/hooks.py
+  - src/agentic_engineering_system/planning.py
+  - src/agentic_engineering_system/project.py
+  - src/agentic_engineering_system/reconcile.py
+  - src/agentic_engineering_system/records.py
+  - src/agentic_engineering_system/topology.py
+  - src/agentic_engineering_system/trace_review.py
+  - tests/greenfield/test_planning.py
+  - tests/greenfield/test_trace_review.py
+  declared:
+  - src/agentic_engineering_system/evidence.py
+  - src/agentic_engineering_system/trace_review.py
+dependency_target_refs:
+- VS-TR-SOURCE
+- ER-TR-SOURCE-001
+- ART-SRC-ADOPT
+- ART-SRC-CHARACTERIZE
+- ART-SRC-CHARACTERIZE-PYTHON
+- ART-SRC-CLI
+- ART-SRC-COMMIT-RULE
+- ART-SRC-CONTEXT
+- ART-SRC-EVIDENCE
+- ART-SRC-HOOKS
+- ART-SRC-PLANNING
+- ART-SRC-PROJECT
+- ART-SRC-RECONCILE
+- ART-SRC-RECORDS
+- ART-SRC-TOPOLOGY
+- ART-SRC-TRACE-PROVIDER
+- ART-TEST-PLANNING
+- ART-TEST-TRACE-PROVIDER
+- ART-TEST-TRACE-REVIEW
+- ART-V01---INIT---PY
+observer: &id001
+  identity: aes evidence record
+  version: '0.1.dev535+g618a6e475 (running: c061019)'
+method: /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m pytest 
+  tests/greenfield/test_source_bound_trace_review.py -rA
+execution_state: COMPLETED
+result:
+  exit_code: 0
+  output_tail: "PASSED tests/greenfield/test_source_bound_trace_review.py::test_real_provider_rejects_counterexamples[citation]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_real_provider_rejects_counterexamples[criterion]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_real_provider_rejects_counterexamples[revision]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_real_provider_rejects_counterexamples[reviewer]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_real_provider_rejects_counterexamples[run]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_real_provider_rejects_counterexamples[retention]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_real_provider_rejects_counterexamples[steps]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_real_provider_rejects_counterexamples[extra_source]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_real_provider_rejects_counterexamples[duplicate]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_invalid_provider_response_is_visible_unavailable[[]]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_invalid_provider_response_is_visible_unavailable[null]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_invalid_provider_response_is_visible_unavailable[broken]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_source_changed_during_provider_call_is_not_accepted\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_authentic_reviewed_failure_stays_failed\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_native_standing_requires_source_bound_passing_review[pass-SUPPORTED]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_native_standing_requires_source_bound_passing_review[missing-NO_CURRENT_SUPPORT]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_native_standing_requires_source_bound_passing_review[partial-NO_CURRENT_SUPPORT]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_native_standing_requires_source_bound_passing_review[failed-NO_CURRENT_SUPPORT]\n\
+    PASSED tests/greenfield/test_source_bound_trace_review.py::test_native_standing_requires_source_bound_passing_review[refuted-REFUTED]\n\
+    ============================== 24 passed in 5.19s =============================="
+produced_at: '2026-10-09T22:07:24+00:00'
+assessments:
+- evidence_requirement_ref: ER-TR-SOURCE-001
+  assessment: SUPPORTS
+  basis: 'VS-TR-SOURCE (Validate refusal counterexamples and source-bound native standing) passed: exit
+    0'
+  assessor: *id001

@@ -1,0 +1,73 @@
+{
+  "schema_version": "aes.v0_2.observation.probe0",
+  "observation_id": "OBS-TR-SOURCE-INDEPENDENT-REVIEW",
+  "subject_refs": [
+    "SC-TR-SOURCE-001"
+  ],
+  "subject_revision": "c061019128d6fae2f1ecdd112d33db500362b1b8",
+  "dependency_paths": [
+    "src/agentic_engineering_system/trace_review.py",
+    "src/agentic_engineering_system/evidence.py",
+    "tests/greenfield/test_source_bound_trace_review.py"
+  ],
+  "dependency_target_refs": [
+    "SC-TR-SOURCE-001",
+    "TR-REQ-001"
+  ],
+  "observer": {
+    "identity": "codex:/root/trace_provider_reuse"
+  },
+  "method": "Independent full review of all retained native provider and standing probe inputs/outputs, including wrong-boundary historical negatives and original failed privacy source; source-bound CP validator verifies exact inventory and hashes.",
+  "execution_state": "COMPLETED",
+  "result": {
+    "trace_reviews": [
+      "proposals/trace-review-enforcement/boundary-probes.review.json"
+    ],
+    "run_id": "aes-source-bound-native-probes"
+  },
+  "retained_artifact_refs": [
+    "proposals/trace-review-enforcement/boundary-probes.review.json",
+    "proposals/trace-review-enforcement/boundary-probes.trace.json"
+  ],
+  "produced_at": "2026-10-09T22:08:12.787100+00:00",
+  "assessments": [
+    {
+      "evidence_requirement_ref": "ER-TR-SOURCE-002",
+      "assessment": "SUPPORTS",
+      "basis": "Every final event reviewed independently; negative controls refuse missing/altered evidence and retain failed verdicts. Scope is native AES standing, not ecosystem rollout.",
+      "assessor": {
+        "identity": "codex:/root/trace_provider_reuse"
+      }
+    }
+  ],
+  "trace_review": {
+    "trace_refs": [
+      "proposals/trace-review-enforcement/boundary-probes.trace.json"
+    ],
+    "author": "codex:01a11e81-72c9-7d20-b7e3-1738f0e9f68e",
+    "reviewer": "codex:/root/trace_provider_reuse",
+    "steps_total": 52,
+    "steps_read": 52,
+    "models_and_settings": "Native Python provider invokes Company Planning TraceReviewV1; no new LLM calls in boundary probes. Retained original LLM failure is nested unchanged.",
+    "context_per_step": "Full retained provider command, source and review or native observation; actual response and standing.",
+    "outputs_and_reasons": "Each refusal retains the precise failed validation or native binding reason.",
+    "decisions_checked": [
+      {
+        "decision": "Source-bound review required for native supporting standing",
+        "source": "proposals/trace-review-enforcement/boundary-probes.trace.json#/events/49",
+        "verdict": "correct",
+        "note": "Complete review retains failed run and denies support."
+      },
+      {
+        "decision": "Citation integrity is checked at intended boundary",
+        "source": "proposals/trace-review-enforcement/boundary-probes.trace.json#/events/10",
+        "verdict": "correct",
+        "note": "Schema-valid fabricated quote is refused."
+      }
+    ],
+    "findings": [
+      "Authentic wrong answer remains evidence_unused and failed; completed review does not promote it.",
+      "Initial schema-only negatives were corrected; initial evidence retained."
+    ]
+  }
+}

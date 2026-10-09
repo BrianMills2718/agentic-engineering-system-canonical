@@ -1,0 +1,28 @@
+{
+  "trace_id": "goal/trace-review-enforcement/aes-publication-check",
+  "result": {
+    "contains_private_data": true,
+    "findings": [
+      {
+        "source": "wiki/index.md",
+        "quote": "Terms: [`docs/terms/ecosystem-terms.md`](../docs/terms/ecosystem-terms.md), Brian's reasoning and decision vocabulary (first entries; drafts marked).",
+        "category": "Brian's private wiki/second-brain record"
+      },
+      {
+        "source": "wiki/index.md",
+        "quote": "Machine execution has an explicit preflight so a missing chat tool is not misdiagnosed as a machine, network, or WSL failure.",
+        "category": "Brian's private wiki/operational notes"
+      },
+      {
+        "source": "ui/registry.yaml",
+        "quote": "The Mini & Pets gallery was removed 2026-10-08 at Brian's request because it carried no information about his work.",
+        "category": "Nonpublic product decision and internal review note"
+      },
+      {
+        "source": "ui/review_log.jsonl",
+        "quote": "Serve scheduled worktree audit with source age, expose native active task titles separately from process liveness, and show missing trace-review coverage explicitly. Preserve run navigation, Paperclip and existing overview feeds.",
+        "category": "Nonpublic internal product/review record"
+      }
+    ]
+  }
+}
