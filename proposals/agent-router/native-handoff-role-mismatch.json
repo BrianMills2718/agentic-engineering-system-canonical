@@ -19,8 +19,8 @@
     "llm_call_id": null,
     "actual_choice": {
       "subagent": "development-investigator",
-      "model": null,
-      "effort": null,
+      "model": "gpt-6.1-sol",
+      "effort": "xhigh",
       "native_dispatch_ref": "/home/brian/.codex/sessions/2026/10/08/rollout-2026-10-08T14-00-06-01a11cac-2557-7dc0-8edd-8487ed5968d1.jsonl:11885",
       "choice_source": "incumbent"
     },
