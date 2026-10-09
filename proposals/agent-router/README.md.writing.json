@@ -1,0 +1,86 @@
+{
+ "situation": {
+  "schema": "writing-situation/v2",
+  "medium": "document",
+  "route": "tool",
+  "rationale": "A maintained system reference pairs current evidence and limits with the existing approved architecture diagram; prose serves status and links, while the existing diagram serves relationships.",
+  "facts": {
+   "asks_for_approval_or_resources": {
+    "value": false,
+    "evidence": "No new grant requested; implementation already authorized and costs bounded"
+   },
+   "central_claim_needs_argument": {
+    "value": false,
+    "evidence": "Provides recorded state and validation evidence rather than an argumentative claim"
+   },
+   "is_chat_message": {
+    "value": false,
+    "evidence": "Not a chat message"
+   },
+   "is_dloa": {
+    "value": false,
+    "evidence": "Not a daily log"
+   },
+   "is_email": {
+    "value": false,
+    "evidence": "Not an email"
+   },
+   "is_job_application": {
+    "value": false,
+    "evidence": "Not job-search material"
+   },
+   "is_message_to_brian": {
+    "value": false,
+    "evidence": "A GitHub PR description, not a session reply"
+   },
+   "reader_decides_from_this": {
+    "value": false,
+    "evidence": "Merge judgment depends on source diff and native checks, not mainly this description"
+   },
+   "reader_performs_task": {
+    "value": false,
+    "evidence": "Describes a completed planning checkpoint; not step-by-step task instructions"
+   },
+   "reports_transferable_failure": {
+    "value": false,
+    "evidence": "Reports this exact stale adoption repair rather than a general failure analysis"
+   },
+   "subject_is_built_artifact": {
+    "value": true,
+    "evidence": "Source-linked description of the proposed router and its actual implemented core/collector; runtime acceptance clearly pending"
+   }
+  }
+ },
+ "items": {
+  "a-real-output": {
+   "status": "pass",
+   "quote": "its structurally checked, inconclusive record reaches the weekly feedback reader",
+   "note": "Actual native input/child result and exact consumer membership are linked in claude-feedback-capture.json."
+  },
+  "a-distinguishing": {
+   "status": "pass",
+   "quote": "the native child finished, while the old collector failed to join and read it",
+   "note": "Names the concrete repaired boundary early; distinguishes completion from the independent parent verdict."
+  },
+  "a-absences": {
+   "status": "pass",
+   "quote": "mandatory rules are neither retired nor activated by the inventory",
+   "note": "Inventory proposals do not grant enforcement or rule retirement."
+  },
+  "a-run-it": {
+   "status": "pass",
+   "quote": "python -m pytest tests/learning/test_subagents.py -v",
+   "note": "The35 collector tests passed; actual full gate is independently logged."
+  },
+  "a-use-else": {
+   "status": "pass",
+   "quote": "Continue using required baseline instructions and existing native handoffs until the runtime gates pass",
+   "note": "The current runtime routes remain required until the four-cell and profile gates have evidence."
+  },
+  "rep-considered": {
+   "status": "pass",
+   "quote": "The diagram is a proposed steady state",
+   "note": "Preserved existing user-reviewed Mermaid relationships; current state and limits are concise prose with source links, rather than fabricated live routing in that diagram."
+  }
+ }
+}

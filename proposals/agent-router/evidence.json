@@ -227,6 +227,18 @@
         "/home/brian/.codex/sessions/2026/10/08/rollout-2026-10-08T19-15-34-01a11dcc-f50a-72f3-9a03-94cdb11ffe8f.jsonl"
       ],
       "limits": "Real handoff returned inconclusive without reading files; existing feedback collector retains failed checker and corrected inconclusive verdict. Does not establish code review, router outcome or completed observation period."
+    },
+    {
+      "id": "interrupted-claude-native-feedback-capture",
+      "state": "partial",
+      "requirements": [
+        "AR-ACCOUNTING"
+      ],
+      "checks": [
+        "tests/learning/test_subagents.py",
+        "claude-feedback-capture.json"
+      ],
+      "limits": "Exact native packet/identity joins the completed child to its interrupted dispatch; structural parent checks produce verified_inconclusive and the existing weekly reader contains the exact record. This does not grade the investigation conclusion, establish router delivery/fallback or complete either observation period."
     }
   ]
 }

@@ -1,0 +1,127 @@
+{
+  "active_slice": {
+    "slice_id": "inventory-publication-boundary",
+    "description": "Preserve the private-source inventory and establish its safe public projection without paid retries",
+    "status": "ready",
+    "target_revision": "b4badaee2800a7b2eeec7b4b8cd26ee43b6b46ba",
+    "next_action": "Inspect existing publication controls, preserve full private source evidence, and repair the inventory export boundary; required baseline remains intact",
+    "requires_spend": false,
+    "requires_external_action": false
+  },
+  "authority": {
+    "external_action_authorized": true,
+    "human_decision": null,
+    "human_decision_required": false,
+    "implementation_authorized": true,
+    "spend_cap_usd": 0,
+    "spend_used_usd": 0
+  },
+  "circuit_breakers": {
+    "context_integrity_valid": true,
+    "max_same_boundary_failures": 3,
+    "runtime_integrity_valid": true
+  },
+  "completion": {
+    "evidence_revision": null,
+    "receipt_ref": null,
+    "remaining_ready_work": 1,
+    "requested": false,
+    "verifier_outcome": null
+  },
+  "cursor_id": "agent-router-completion-20261009",
+  "cursor_revision": 5,
+  "failure_state": {
+    "boundary": null,
+    "last_failure_ref": null,
+    "same_boundary_failures": 0
+  },
+  "goal_ref": "proposals/agent-router/agent-router.goal.md",
+  "lifecycle_state": "active",
+  "observations": [
+    {
+      "boundary": "exact-plan adoption",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/492",
+      "kind": "authentic_result",
+      "observation_id": "adoption-merged",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "profile/accounting core",
+      "evidence_ref": "proposals/agent-router/verification.log@8e451dbe709e23af207197c6f6d58359eec18e8a",
+      "kind": "supporting_work",
+      "observation_id": "profile-core-focused-check",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "historical ledger consumer, not live router acceptance",
+      "evidence_ref": "proposals/agent-router/native-handoff-replay.json@8e451dbe709e23af207197c6f6d58359eec18e8a",
+      "kind": "authentic_result",
+      "observation_id": "authentic-native-handoff-replay",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Separate retained harness lane only; cumulative $1 maximum, no inventory/router renewal",
+      "evidence_ref": "root-user-reply:request_user_input_async/call_bf2371928b14471da9ed2c69640ab400/0",
+      "kind": "supporting_work",
+      "observation_id": "claude-live-check-grant",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "profile/accounting core integration; full router acceptance remains pending",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/497",
+      "kind": "authentic_result",
+      "observation_id": "profile-core-merged",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "native Claude result capture plus real feedback reader; maintenance diagnosis and router injection are not graded",
+      "evidence_ref": "proposals/agent-router/claude-feedback-capture.json@4bca22872051fc438f71e0bfea926085a0ef5c87",
+      "kind": "authentic_result",
+      "observation_id": "claude-feedback-reader-repaired",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Old $5 sorting allowance exhausted; cache metadata is not provider reconciliation; no paid sorting/adoption charged to it",
+      "evidence_ref": "/home/brian/projects/data/agent-router/legacy-sort.log:283",
+      "kind": "supporting_work",
+      "observation_id": "legacy-sort-spend-frozen",
+      "outcome": "pass"
+    },
+    {
+      "observation_id": "claude-feedback-repair-merged",
+      "kind": "authentic_result",
+      "outcome": "pass",
+      "boundary": "Claude feedback collector integration only, not whole router acceptance",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/499"
+    },
+    {
+      "observation_id": "deployed-collector-real-reader",
+      "kind": "authentic_result",
+      "outcome": "pass",
+      "boundary": "Deployed source recovers actual child result and exact new weekly-reader membership; diagnosis remains inconclusive",
+      "evidence_ref": "proposals/agent-router/deployed-collector-check.json"
+    },
+    {
+      "observation_id": "inventory-private-source-hold",
+      "kind": "supporting_work",
+      "outcome": "inconclusive",
+      "boundary": "Source-linked inventory preserved but excluded from public merge; private-source projection/public-history disposition unresolved",
+      "evidence_ref": "https://github.com/BrianMills2718/project-meta/issues/2503"
+    }
+  ],
+  "plan_revision": "5d126be54972ae9e3ea4847ddf507447f54b13d3",
+  "ready_alternatives": [
+    {
+      "slice_id": "native-router-runtime",
+      "description": "Runtime dispatch, live profile differences and complete four-cell fallback remain unfinished; shared selector custody must be resolved before adopting it",
+      "ready": false
+    }
+  ],
+  "record_type": "plan_execution_cursor",
+  "schema_version": "1.0",
+  "target": {
+    "branch": "agent-router-execution",
+    "repository": "/home/brian/code/agentic-engineering-system-canonical",
+    "worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution"
+  }
+}
