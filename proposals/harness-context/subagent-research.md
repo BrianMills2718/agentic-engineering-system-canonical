@@ -6,6 +6,8 @@ For example, ask an agent to explain why `make maintenance-worktree` refused a c
 
 **Checked 2026-10-09.** Local version commands returned Claude Code **2.1.295** and Codex CLI **0.162.0**. This is a refresh of the adopted [harness plan](README.md), prompted by Brian's request to establish the different native mechanisms before redesigning the harness. It changes no client configuration. Official documentation is living material; installed source is pinned separately. [Evidence and limitations](subagent-research.evidence.json).
 
+The [follow-up refresh](native-parity/claude-paid/workflow-and-parity-research.md) adds Claude's dynamic Workflows, compact Codex candidates, native delivery checks and selected semantic findings from the later Claude execution. The execution limitation at the end of this earlier reference describes its original research run.
+
 ## The choices are independent
 
 | Choice | Concrete question |

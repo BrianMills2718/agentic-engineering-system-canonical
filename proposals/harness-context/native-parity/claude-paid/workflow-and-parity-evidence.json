@@ -123,5 +123,90 @@
     "Structural membership is not complete permission or behavior certification",
     "Selected semantic contradictions are not exhaustive paired acceptance",
     "Private approval and billing/account records excluded from public artifacts"
-  ]
+  ],
+  "publication_verification": {
+    "local_links_checked": 19,
+    "two_link_navigation": "wiki/index.md -> docs/architecture/README.md -> workflow-and-parity-research.md",
+    "earlier_reference_links_latest_refresh": true,
+    "result_schema": "Draft202012Validator development-investigation-result.v1.schema.json",
+    "result_schema_errors": 0,
+    "writing_records": "Both research writing_record.py check calls exit0",
+    "fresh_publisher_goal": "goal:harness-context",
+    "executed_object_comparison": [
+      {
+        "path": "src",
+        "expected": "8b4f5d5620a478affc315767da7e1ff795c6483e",
+        "actual": "8b4f5d5620a478affc315767da7e1ff795c6483e",
+        "matches": true
+      },
+      {
+        "path": "tests",
+        "expected": "25af6b682d40021fb3f42f4f4f31467dd36031d2",
+        "actual": "25af6b682d40021fb3f42f4f4f31467dd36031d2",
+        "matches": true
+      },
+      {
+        "path": "scripts",
+        "expected": "446d72c8f9408ccad5d2dd2ff3ab04f2ea3201fd",
+        "actual": "446d72c8f9408ccad5d2dd2ff3ab04f2ea3201fd",
+        "matches": true
+      },
+      {
+        "path": "contracts",
+        "expected": "9fc7d7d454cbefa602a20f268837290c86d8443e",
+        "actual": "9fc7d7d454cbefa602a20f268837290c86d8443e",
+        "matches": true
+      },
+      {
+        "path": "enforced_planning",
+        "expected": "63c423d3c5e634accfdeae2b5ed76af715ee6326",
+        "actual": "63c423d3c5e634accfdeae2b5ed76af715ee6326",
+        "matches": true
+      },
+      {
+        "path": "Makefile",
+        "expected": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+        "actual": "2e8501ab48366904cb811c25bd8300df2f70fd06",
+        "matches": true
+      },
+      {
+        "path": "pyproject.toml",
+        "expected": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+        "actual": "e59ab948791f58b9dd5f094c9ef503759c7a8691",
+        "matches": true
+      },
+      {
+        "path": "AGENTS.md",
+        "expected": "4f5e1ed522ab302074d1f31f7e18334b38469815",
+        "actual": "4f5e1ed522ab302074d1f31f7e18334b38469815",
+        "matches": true
+      },
+      {
+        "path": "CLAUDE.md",
+        "expected": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808",
+        "actual": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808",
+        "matches": true
+      }
+    ],
+    "reused_full_gate": {
+      "command": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+      "tested_revision": "8e451dbe709e23af207197c6f6d58359eec18e8a",
+      "passed": 362,
+      "skipped": 1,
+      "failed": 0,
+      "errored": 0,
+      "exit_status": 0,
+      "mypy_source_files": 22,
+      "elapsed_seconds": 1230.702
+    },
+    "reuse_qualification": "Documentation-only patch; nine exact executed subject objects match. Full suite not rerun. Prior log lines12,15,17,18 directly checked.",
+    "private_local_record_preservation": {
+      "archive_ref": "/home/brian/.codex/log/harness-claude-live-private-2026-10-09.jsonl",
+      "offset_bytes": 0,
+      "record_sha256": "b648d7eb13ad557807406b120dc5341134d0e72c6dc9c6f642eeb83d541d21f0",
+      "files": 56,
+      "byte_hashes_reread_verified": 56,
+      "content_not_published": true
+    }
+  }
 }

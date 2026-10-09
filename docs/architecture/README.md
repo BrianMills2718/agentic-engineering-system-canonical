@@ -14,7 +14,7 @@ Read in this order (v0.1):
 6. [`aes-company-planning-profile.bootstrap.yaml`](aes-company-planning-profile.bootstrap.yaml) — AES-local profile over Company Planning, including reproducible bootstrap validation commands.
 7. [`schemas/architecture-realization.bootstrap.schema.json`](schemas/architecture-realization.bootstrap.schema.json) — minimal machine-readable architecture-realization contract.
 
-Current research: [Claude Code/Codex delegation](../../proposals/harness-context/subagent-research.md) — current delegation research and proposed behavior parity, not adopted architecture.
+Current research: [Workflows, compact Codex sessions and automatic parity checks](../../proposals/harness-context/native-parity/claude-paid/workflow-and-parity-research.md) — current refresh; [earlier delegation reference](../../proposals/harness-context/subagent-research.md) — full mechanism inventory. Research supports decisions; it is not adopted architecture.
 
 ## Authority and generated material
 
