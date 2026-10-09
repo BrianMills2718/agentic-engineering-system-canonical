@@ -1,12 +1,12 @@
 {
   "active_slice": {
     "description": "Capture native lifecycle and parent-verified outcomes through existing feedback report path",
-    "next_action": "Inspect final full local gate, then complete and archive through the pinned native runtime; initial immutable anchor retained and current committed subject recorded here.",
+    "next_action": "Run one full local make check on the frozen corrected source; then native complete/archive, integrate, refresh private collector and close the claimed lane.",
     "requires_external_action": false,
     "requires_spend": false,
     "slice_id": "native-subagent-outcomes",
     "status": "verifying",
-    "target_revision": "73881117e0ac0de060be3927828a7dc70d751b67"
+    "target_revision": "9a53004787d7bf0fc315ee271d1acfc409098fff"
   },
   "authority": {
     "external_action_authorized": true,
@@ -29,7 +29,7 @@
     "verifier_outcome": null
   },
   "cursor_id": "aes-subagent-feedback",
-  "cursor_revision": 2,
+  "cursor_revision": 3,
   "failure_state": {
     "boundary": null,
     "last_failure_ref": null,
@@ -58,6 +58,20 @@
       "kind": "verification_failure",
       "observation_id": "baseline-gate-repaired",
       "outcome": "fail"
+    },
+    {
+      "boundary": "Exact native replay, issue metadata and all five weekly input records agree; inconclusive child retained.",
+      "evidence_ref": "https://github.com/BrianMills2718/agent-feedback-log/issues/263",
+      "kind": "authentic_result",
+      "observation_id": "corrected-native-capture",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Old child outcomes retain native event time; checker failures use check time; unknown times stay unknown; native settled tool envelope supported. Learning suite: 77 passed, exit 0.",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/commit/9a53004787d7bf0fc315ee271d1acfc409098fff",
+      "kind": "supporting_work",
+      "observation_id": "occurrence-time-regression",
+      "outcome": "pass"
     }
   ],
   "plan_revision": "9005982d31468d02b55c70980cc0752a737115a9",
