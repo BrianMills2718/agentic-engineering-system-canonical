@@ -18,7 +18,7 @@
   "profiles": [
     {
       "profile_id": "brian",
-      "profile_digest": "fd0f6bc464ed9dbb372b48a189eb68cca90715b8bd76fc32f4d1b8ad8c4ce7f7",
+      "profile_digest": "07645029d63be4bcb14742a5713b1da5e604bf82ee100281282cc57ab8b1cd05",
       "client": "codex",
       "client_version": "0.162.0",
       "capability_evidence_ref": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-52-31-01a11fdd-2db6-7da3-bf22-4698c6b6f0d5.jsonl:13",
@@ -30,11 +30,8 @@
         "cross-owner-policy-override-protocol",
         "integrate-before-build",
         "jev-m1-merge-reads-exit-code",
-        "loop-378",
-        "loop-379",
         "loop-384",
         "loop-385",
-        "loop-386",
         "loop-387",
         "loop-388",
         "loop-389",
@@ -67,11 +64,8 @@
         "cross-owner-policy-override-protocol",
         "integrate-before-build",
         "jev-m1-merge-reads-exit-code",
-        "loop-378",
-        "loop-379",
         "loop-384",
         "loop-385",
-        "loop-386",
         "loop-387",
         "loop-388",
         "loop-389",
@@ -112,7 +106,7 @@
     },
     {
       "profile_id": "colleague",
-      "profile_digest": "b826331c5ed9e851b9fc3bd11604be571eafb89473c9b7c6c9d34be6f1cd3769",
+      "profile_digest": "488222690e8fb5d91e499792096571e0bb598a2ecbcfb9d86bcf0866e82544d6",
       "client": "codex",
       "client_version": "0.162.0",
       "capability_evidence_ref": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-52-31-01a11fdd-2db6-7da3-bf22-4698c6b6f0d5.jsonl:13",
@@ -124,11 +118,8 @@
         "cross-owner-policy-override-protocol",
         "integrate-before-build",
         "jev-m1-merge-reads-exit-code",
-        "loop-378",
-        "loop-379",
         "loop-384",
         "loop-385",
-        "loop-386",
         "loop-387",
         "loop-388",
         "loop-389",
@@ -161,11 +152,8 @@
         "cross-owner-policy-override-protocol",
         "integrate-before-build",
         "jev-m1-merge-reads-exit-code",
-        "loop-378",
-        "loop-379",
         "loop-384",
         "loop-385",
-        "loop-386",
         "loop-387",
         "loop-388",
         "loop-389",
@@ -204,5 +192,31 @@
       "workspace_root": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution",
       "log_root": "/home/brian/projects/data/agent-router"
     }
-  ]
+  ],
+  "rule_authority": {
+    "withdrawn_ids_excluded": [
+      "loop-378",
+      "loop-379",
+      "loop-386"
+    ],
+    "licensed_ids_retained_as_configuration_candidates": [
+      "loop-384",
+      "loop-385",
+      "loop-388",
+      "loop-390",
+      "loop-391",
+      "loop-392",
+      "loop-405",
+      "loop-406",
+      "loop-407",
+      "loop-408",
+      "loop-411",
+      "loop-412",
+      "loop-413",
+      "loop-414",
+      "loop-415"
+    ],
+    "adoption_inferred_from_register_status": false,
+    "note": "Licensed entries retain their source status; candidate profile requirements do not establish policy adoption. The trusted caller owns its mandatory floor. No dispatch, activation, retirement or instruction change is authorized by this artifact."
+  }
 }
