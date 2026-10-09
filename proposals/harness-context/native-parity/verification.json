@@ -842,6 +842,99 @@
   },
   "behavior_verdict": "fail",
   "cross_client_goal_complete": false,
+  "broader_runtime_certification": {
+    "verdict": "fail",
+    "counts": {
+      "pass": 5,
+      "fail": 3,
+      "inconclusive": 6
+    },
+    "checks": [
+      {
+        "requirement": "Required native role delivered",
+        "claude": "pass",
+        "codex": "pass"
+      },
+      {
+        "requirement": "Every source claim supported",
+        "codex": "pass",
+        "claude": "fail"
+      },
+      {
+        "requirement": "Literal JSON-only output",
+        "codex": "pass",
+        "claude": "fail"
+      },
+      {
+        "requirement": "Initial input smaller than parent in tested route",
+        "codex": "fail",
+        "claude": "pass"
+      },
+      {
+        "requirement": "Actual child denial / writable-parent isolation",
+        "claude": "inconclusive",
+        "codex": "inconclusive"
+      },
+      {
+        "requirement": "Native five-file read enforcement",
+        "claude": "inconclusive",
+        "codex": "inconclusive"
+      },
+      {
+        "requirement": "Required hook execution parity",
+        "claude": "inconclusive",
+        "codex": "inconclusive"
+      }
+    ],
+    "complete": false
+  },
+  "native_task_result": {
+    "scope": "native_task_result_only",
+    "verdict": "fail",
+    "counts": {
+      "pass": 2,
+      "fail": 2,
+      "inconclusive": 0
+    },
+    "checks": [
+      {
+        "requirement": "Every source claim supported",
+        "claude": "fail",
+        "codex": "pass"
+      },
+      {
+        "requirement": "Literal JSON-only output",
+        "claude": "fail",
+        "codex": "pass"
+      }
+    ]
+  },
+  "completion_scope": {
+    "plan_authority": {
+      "path": "proposals/harness-context/README.md",
+      "start_line": 7,
+      "end_line": 13
+    },
+    "legacy_fields": "behavior_* and cross_client_goal_complete report broader runtime certification.",
+    "strict_flag": "--require-parity requires broader runtime certification, not task-result success.",
+    "checked_prerequisites": [
+      "Native role/task delivery",
+      "Trace and result binding",
+      "Measured usage",
+      "Observed tool catalogue"
+    ],
+    "session_goal_completion": "not_assessed",
+    "required_authority_gap": {
+      "source": {
+        "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+        "start_line": 38,
+        "end_line": 43
+      },
+      "required_document": "project-meta/docs/ops/POLICY_SYSTEM.md",
+      "in_frozen_packet": false,
+      "qualification": "Required policy-system orientation remains unproved; task-result success cannot certify session-goal completion."
+    }
+  },
   "additional_evidence": {
     "compact_codex": {
       "record_type": "compact-native-codex-evidence.v1",

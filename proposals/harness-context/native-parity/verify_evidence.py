@@ -120,7 +120,7 @@ def usage(rows, client):
 
 
 def behavior(semantics, derived, claude_raw):
-    """Derive current verdicts; unavailable execution evidence never becomes pass."""
+    """Legacy broader runtime certification, not the native task or session goal."""
     cx = derived['codex']
     cl = derived['claude']
     try:
@@ -145,6 +145,27 @@ def behavior(semantics, derived, claude_raw):
               for v in ('pass', 'fail', 'inconclusive')}
     verdict = 'fail' if counts['fail'] else 'inconclusive' if counts['inconclusive'] else 'pass'
     return {'verdict': verdict, 'counts': counts, 'checks': checks, 'complete': verdict == 'pass'}
+
+
+def native_task_result(semantics, raw_results):
+    """Grade source correctness and literal JSON after trace/schema prerequisites."""
+    clients = ('claude', 'codex')
+    require(set(semantics) == set(raw_results) == set(clients), 'task result requires both clients', [])
+    checks = [{'requirement': 'Every source claim supported', **{
+        c: ('fail' if semantics[c]['counts']['incorrect'] else
+            'pass' if semantics[c]['verdict'] == 'pass' else 'inconclusive') for c in clients}}]
+    literal = {'requirement': 'Literal JSON-only output'}
+    for client in clients:
+        try:
+            json.loads(raw_results[client])
+            literal[client] = 'pass'
+        except (ValueError, TypeError):
+            literal[client] = 'fail'
+    checks.append(literal)
+    counts = {v: sum(c[k] == v for c in checks for k in clients)
+              for v in ('pass', 'fail', 'inconclusive')}
+    verdict = 'fail' if counts['fail'] else 'inconclusive' if counts['inconclusive'] else 'pass'
+    return {'scope': 'native_task_result_only', 'verdict': verdict, 'counts': counts, 'checks': checks}
 
 
 def packet_in_text(text, packet):
@@ -430,6 +451,7 @@ def verify():
     require(probe['exit_code'] == 0 and probe['expected_denials_verified'] and not probe['sentinel_exists_after'],
             'independent sandbox denial retained, not child denial', checks)
     judgments = behavior(semantics, derived, raw)
+    task_result = native_task_result(semantics, {'claude': raw, 'codex': codex_final(cx['child'])})
     compact = verify_compact_codex(read(HERE / 'compact-codex-proof.json'), packet, schema, checks,
                                   (cm['id'], derived['codex']['child'], policies[0]['model']))
     refusal = verify_claude_refusal(read(HERE / 'claude-native-refusal.json'), packet, checks)
@@ -439,6 +461,21 @@ def verify():
             'behavior_findings': audit['behavior_findings'], 'behavior_checks': judgments['checks'],
             'behavior_counts': judgments['counts'], 'behavior_verdict': judgments['verdict'],
             'cross_client_goal_complete': judgments['complete'],
+            'broader_runtime_certification': judgments, 'native_task_result': task_result,
+            'completion_scope': {
+                'plan_authority': {'path': 'proposals/harness-context/README.md', 'start_line': 7, 'end_line': 13},
+                'legacy_fields': 'behavior_* and cross_client_goal_complete report broader runtime certification.',
+                'strict_flag': '--require-parity requires broader runtime certification, not task-result success.',
+                'checked_prerequisites': ['Native role/task delivery', 'Trace and result binding',
+                                          'Measured usage', 'Observed tool catalogue'],
+                'session_goal_completion': 'not_assessed',
+                'required_authority_gap': {
+                    'source': {'path': 'proposals/harness-context/native-parity/input/project-meta/AGENTS.md',
+                               'start_line': 38, 'end_line': 43},
+                    'required_document': 'project-meta/docs/ops/POLICY_SYSTEM.md',
+                    'in_frozen_packet': any(p.endswith('/project-meta/docs/ops/POLICY_SYSTEM.md')
+                                            for p in packet['allowed_read_paths']),
+                    'qualification': 'Required policy-system orientation remains unproved; task-result success cannot certify session-goal completion.'}},
             'additional_evidence': {'compact_codex': compact, 'claude_native_refusal': refusal},
             'limits': ['Integrity success is not behavior parity.', 'Semantic judgments are bound parent review, not automatic prose inference.',
                        'Five-file reads were voluntary; neither native read boundary enforces that allowlist.',
@@ -448,7 +485,8 @@ def verify():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--require-parity', action='store_true')
+    parser.add_argument('--require-parity', action='store_true',
+                        help='Require broader runtime certification; this does not grade only the native task.')
     args = parser.parse_args()
     try:
         receipt = verify()
@@ -459,7 +497,8 @@ def main():
         receipt['exit_status'] = 1
     (HERE / 'verification.json').write_text(json.dumps(receipt, indent=2)+'\n')
     print(json.dumps({k: receipt[k] for k in ('checks_passed', 'checks_failed', 'checks_errored',
-          'checks_skipped', 'exit_status', 'parity_traces_available', 'behavior_verdict', 'cross_client_goal_complete')}))
+          'checks_skipped', 'exit_status', 'parity_traces_available', 'behavior_verdict', 'cross_client_goal_complete',
+          'native_task_result')}))
     return receipt['exit_status']
 
 
