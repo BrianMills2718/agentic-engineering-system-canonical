@@ -1,12 +1,12 @@
 {
   "active_slice": {
     "description": "Validate portable profiles and complete handoff membership; inventory owner works independently",
-    "next_action": "Build adopted profile/accounting types; validate authentic native record and focused failure cases",
+    "next_action": "Inspect detached local merge gate; retain code checkpoint, then integrate without active cursor",
     "requires_external_action": false,
     "requires_spend": false,
     "slice_id": "profile-accounting-core",
-    "status": "executing",
-    "target_revision": "bcbbbbb3ffabf52597d94acec0e165efa6b9b790"
+    "status": "verifying",
+    "target_revision": "8e451dbe709e23af207197c6f6d58359eec18e8a"
   },
   "authority": {
     "external_action_authorized": true,
@@ -29,7 +29,7 @@
     "verifier_outcome": null
   },
   "cursor_id": "agent-router-completion-20261009",
-  "cursor_revision": 2,
+  "cursor_revision": 3,
   "failure_state": {
     "boundary": null,
     "last_failure_ref": null,
@@ -39,19 +39,40 @@
   "lifecycle_state": "active",
   "observations": [
     {
-      "observation_id": "adoption-merged",
-      "kind": "authentic_result",
       "boundary": "exact-plan adoption",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/492",
+      "kind": "authentic_result",
+      "observation_id": "adoption-merged",
+      "outcome": "pass"
+    },
+    {
+      "observation_id": "profile-core-focused-check",
+      "kind": "supporting_work",
+      "boundary": "profile/accounting core",
       "outcome": "pass",
-      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/492"
+      "evidence_ref": "proposals/agent-router/verification.log@8e451dbe709e23af207197c6f6d58359eec18e8a"
+    },
+    {
+      "observation_id": "authentic-native-handoff-replay",
+      "kind": "authentic_result",
+      "boundary": "historical ledger consumer, not live router acceptance",
+      "outcome": "pass",
+      "evidence_ref": "proposals/agent-router/native-handoff-replay.json@8e451dbe709e23af207197c6f6d58359eec18e8a"
+    },
+    {
+      "observation_id": "claude-live-check-grant",
+      "kind": "supporting_work",
+      "boundary": "Separate retained harness lane only; cumulative $1 maximum, no inventory/router renewal",
+      "outcome": "pass",
+      "evidence_ref": "root-user-reply:request_user_input_async/call_bf2371928b14471da9ed2c69640ab400/0"
     }
   ],
   "plan_revision": "5d126be54972ae9e3ea4847ddf507447f54b13d3",
   "ready_alternatives": [
     {
-      "slice_id": "inventory-integration",
       "description": "Read retained owner source/register/page checkpoint when reported",
-      "ready": false
+      "ready": false,
+      "slice_id": "inventory-integration"
     }
   ],
   "record_type": "plan_execution_cursor",

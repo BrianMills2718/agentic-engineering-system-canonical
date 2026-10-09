@@ -1,0 +1,75 @@
+{
+  "state": "fresh_native_handoff_failure",
+  "record": {
+    "schema_version": "agent-router-handoff.v1",
+    "extension_owner": "AES",
+    "handoff_id": "root-feedback-canary-core-review-20261009",
+    "input_digest": null,
+    "profile_digest": null,
+    "capability_digest": null,
+    "register_revision": null,
+    "specialist_revision": null,
+    "parent_session_id": "01a11cac-2557-7dc0-8edd-8487ed5968d1",
+    "child_session_id": "01a11dcc-f50a-72f3-9a03-94cdb11ffe8f",
+    "full_trace_ref": "/home/brian/.codex/sessions/2026/10/08/rollout-2026-10-08T14-00-06-01a11cac-2557-7dc0-8edd-8487ed5968d1.jsonl; /home/brian/.codex/sessions/2026/10/08/rollout-2026-10-08T19-15-34-01a11dcc-f50a-72f3-9a03-94cdb11ffe8f.jsonl",
+    "proposal_status": "unsupported",
+    "failure_reason": "Incumbent manual assignment reused a development-investigator for a correctness review; role declined without inspecting files. No router proposal or effective profile dispatched.",
+    "proposal": null,
+    "llm_attempted": false,
+    "llm_call_id": null,
+    "actual_choice": {
+      "subagent": "development-investigator",
+      "model": null,
+      "effort": null,
+      "native_dispatch_ref": "/home/brian/.codex/sessions/2026/10/08/rollout-2026-10-08T14-00-06-01a11cac-2557-7dc0-8edd-8487ed5968d1.jsonl:11885",
+      "choice_source": "incumbent"
+    },
+    "actual_cost_usd": null,
+    "latency_ms": null,
+    "outcome": {
+      "status": "inconclusive",
+      "check_id": "role-compatible-review-required",
+      "check_output_ref": "proposals/agent-router/native-feedback-parent-check.txt"
+    },
+    "replayed": false
+  },
+  "accounting": {
+    "eligible_ids": [
+      "root-feedback-canary-core-review-20261009"
+    ],
+    "eligible_total": 1,
+    "accounting_complete": true,
+    "missing_ids": [],
+    "duplicate_ids": [],
+    "unexpected_ids": [],
+    "proposal_status_counts": {
+      "valid": 0,
+      "invalid": 0,
+      "capped": 0,
+      "call_failed": 0,
+      "input_unavailable": 0,
+      "unsupported": 1
+    },
+    "missing_outcome_ids": [],
+    "outcome_status_counts": {
+      "inconclusive": 1
+    },
+    "unknown_cost_ids": [
+      "root-feedback-canary-core-review-20261009"
+    ],
+    "missing_latency_ids": [
+      "root-feedback-canary-core-review-20261009"
+    ],
+    "known_cost_usd": 0,
+    "replayed_ids": []
+  },
+  "classification": "Needed review evidence never returned by any tool; child declined the mismatched role without reading files.",
+  "limits": "One real handoff remains accounted for; this neither starts nor completes the two-week observation, and no core correctness verification occurred.",
+  "existing_feedback_consumer": {
+    "outcome": "verified_inconclusive",
+    "checks_passed": 3,
+    "checker_exit_status": 0,
+    "prior_checker_failure_preserved": true,
+    "outbound_filing": false
+  }
+}
