@@ -63,6 +63,7 @@ from pydantic import BaseModel
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import transcripts as T  # noqa: E402
 import feedback_log as FL  # noqa: E402
+import subagents as SA  # noqa: E402
 
 HOME = Path.home()
 OUT = Path(os.environ.get("FEEDBACK_OUT", HOME / "projects/data/feedback-collector"))
@@ -492,7 +493,7 @@ def main() -> int:
 
     # R. reports: closeout Feedback fields -> records -> the private log
     filed_reports = {r[0] for r in db.execute("SELECT id FROM reports WHERE issue LIKE 'http%'")}
-    reps = [r for r in step("reports", lambda: [r for t in trs for r in FL.reports(t, counts)])
+    reps = [r for r in step("reports", lambda: [r for t in trs for r in FL.reports(t, counts)] + SA.reports(trs, counts))
             if r["id"] not in filed_reports]
     counts["reports_new"] = len(reps)
 

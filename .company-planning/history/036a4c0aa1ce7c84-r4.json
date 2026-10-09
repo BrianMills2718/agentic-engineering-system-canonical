@@ -1,0 +1,93 @@
+{
+  "active_slice": {
+    "description": "Capture native lifecycle and parent-verified outcomes through existing feedback report path",
+    "next_action": null,
+    "requires_external_action": false,
+    "requires_spend": false,
+    "slice_id": "native-subagent-outcomes",
+    "status": "accepted",
+    "target_revision": "6657410ec6084f843929f761c04ff5c59ab3f1fa"
+  },
+  "authority": {
+    "external_action_authorized": true,
+    "human_decision": null,
+    "human_decision_required": false,
+    "implementation_authorized": true,
+    "spend_cap_usd": 1,
+    "spend_used_usd": 0
+  },
+  "circuit_breakers": {
+    "context_integrity_valid": true,
+    "max_same_boundary_failures": 3,
+    "runtime_integrity_valid": true
+  },
+  "completion": {
+    "evidence_revision": "6657410ec6084f843929f761c04ff5c59ab3f1fa",
+    "receipt_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:50",
+    "remaining_ready_work": 0,
+    "requested": true,
+    "verifier_outcome": "pass"
+  },
+  "cursor_id": "aes-subagent-feedback",
+  "cursor_revision": 4,
+  "failure_state": {
+    "boundary": null,
+    "last_failure_ref": null,
+    "same_boundary_failures": 0
+  },
+  "goal_ref": "proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md",
+  "lifecycle_state": "active",
+  "observations": [
+    {
+      "boundary": "Capture and parent checks preserve an inconclusive child return; this is not a child-quality pass",
+      "evidence_ref": "https://github.com/BrianMills2718/agent-feedback-log/issues/262",
+      "kind": "authentic_result",
+      "observation_id": "native-capture",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Learning 70 passed and distribution 15 passed",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/commit/e5180b3dc4b7fdd3ecb8e09c3820445b585ae85f",
+      "kind": "supporting_work",
+      "observation_id": "focused-checks",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Prior full gate rejected seven untagged distribution fixture and guide commits; prerequisite repaired and affected checks pass",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/460",
+      "kind": "verification_failure",
+      "observation_id": "baseline-gate-repaired",
+      "outcome": "fail"
+    },
+    {
+      "boundary": "Exact native replay, issue metadata and all five weekly input records agree; inconclusive child retained.",
+      "evidence_ref": "https://github.com/BrianMills2718/agent-feedback-log/issues/263",
+      "kind": "authentic_result",
+      "observation_id": "corrected-native-capture",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Old child outcomes retain native event time; checker failures use check time; unknown times stay unknown; native settled tool envelope supported. Learning suite: 77 passed, exit 0.",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/commit/9a53004787d7bf0fc315ee271d1acfc409098fff",
+      "kind": "supporting_work",
+      "observation_id": "occurrence-time-regression",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Full make check on clean frozen 6657410: 340 passed, 1 unrelated opt-in pinned-checkout test skipped; mypy no issues in 22 files; generated governance sync passes; exit 0.",
+      "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:50",
+      "kind": "supporting_work",
+      "observation_id": "final-local-gate",
+      "outcome": "pass"
+    }
+  ],
+  "plan_revision": "9005982d31468d02b55c70980cc0752a737115a9",
+  "ready_alternatives": [],
+  "record_type": "plan_execution_cursor",
+  "schema_version": "1.0",
+  "target": {
+    "branch": "subagent-feedback",
+    "repository": "BrianMills2718/agentic-engineering-system-canonical",
+    "worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/subagent-feedback"
+  }
+}

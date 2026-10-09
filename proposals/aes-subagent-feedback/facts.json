@@ -1,0 +1,21 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "proposals/aes-subagent-feedback/PLAN.md",
+  "plan_sha256": "00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7",
+  "path_decision_ref": "proposals/aes-subagent-feedback/planning-path-decision.json",
+  "path_decision_sha256": "5f02adddade14d76e3f854235368030b3767c5b049904bd6da5c7e39c6c975f5",
+  "facts": {
+    "shared_mechanism": true,
+    "llm_central": true,
+    "empirical_comparison_proposed": false,
+    "irreversible_or_spend_action": true
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-09T00:49:52Z"
+}

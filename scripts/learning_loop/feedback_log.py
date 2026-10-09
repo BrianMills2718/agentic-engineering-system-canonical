@@ -200,9 +200,11 @@ def issue_body(rep: dict) -> str:
              "action": f" ({r.get('intent') or '?'}, {r.get('status') or '?'})"}[r["kind"]]
         refs = " ".join(f"[{lk['ref']}]" for lk in r["links"] + r.get("result", [])) or "**unprovenanced**"
         lines.append(f"- {r['kind']}{q}: {r['text']} {refs}  `{r['id']}` ({r['parsed_by']})")
+    payload = {"contract": R.CONTRACT, "report_id": rep["id"], "records": rep["records"]}
+    if "subagent" in rep:
+        payload["subagent"] = rep["subagent"]
     lines += ["", "<details><summary>Field as written</summary>", "", "```text", rep["value"][:6000], "```",
-              "</details>", "", "```json", json.dumps({"contract": R.CONTRACT, "report_id": rep["id"],
-                                                     "records": rep["records"]}, ensure_ascii=False, indent=1)[:50000],
+              "</details>", "", "```json", json.dumps(payload, ensure_ascii=False, indent=1),
               "```"]
     return "\n".join(lines)
 

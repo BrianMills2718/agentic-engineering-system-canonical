@@ -101,3 +101,45 @@ This measures reported recurrences; zero reports alone does not prove success.
 cp scripts/learning_loop/systemd/feedback-effects.{service,timer} ~/.config/systemd/user/
 systemctl --user daemon-reload && systemctl --user enable --now feedback-effects.timer
 ```
+
+## Native subagent feedback
+
+The collector also reads parent native tool events for Codex spawn/followup and
+Claude Agent/Task calls. It joins observable child results, preserving unverified
+completion, failure, cancellation and missing dispatch results. A request to
+interrupt is not evidence of cancellation. Codex child metadata supplies actual
+model/effort and delivered instruction hashes when present; unknown values stay
+unknown. This adds reports to the same daily JSONL, state.sqlite and private log.
+
+The parent can execute checks on an exact observed return and file immediately:
+
+```bash
+python scripts/learning_loop/subagents.py \
+  --parent-transcript /path/to/native-parent.jsonl --client codex \
+  --call-id CALL_ID --verdict inconclusive \
+  --check-argv '["python", "path/to/check_return.py"]' \
+  --feedback '- obs (control): parent-checked observation [path/to/evidence.jsonl]' \
+  --file
+```
+
+Each check receives the exact child return on stdin; its argv, output and exit
+are retained. Choose an interpreter with the check's dependencies. A failed
+checker produces `verification_failed`, not a judgment of child quality. Zero
+exit alone does not establish task success: the parent's disposition defaults
+to `inconclusive`. Checks bind parent, call, child and result digest. The helper
+prints a structural receipt the collector can reread from the parent transcript.
+Receipts must come from parent tool output; child returns and assistant prose
+cannot supply checks for themselves or an earlier assignment.
+Checked child outcomes keep the native result's occurrence time, so a delayed
+check cannot turn an old incident into a post-enforcement recurrence. Unknown
+result times remain unknown. A checker failure is its own event at check time.
+Immediate filing requires marked obs/claim/action lines. Unmarked notes retain
+the emitted receipt but defer filing to the collector's existing free-text splitter.
+Child roles keep their own result contract and need no coordinator closeout.
+
+The [implementation plan and system model](../../../proposals/aes-subagent-feedback/PLAN.md)
+define the boundary. This captures evidence; it does not itself alter roles,
+router choices or model policy. Weekly generalization and explicit enforced
+prevention remain the existing loop's job. Native Codex was exercised live;
+Claude capture was checked against an existing native trace and fixtures, not
+a new live Claude invocation.
