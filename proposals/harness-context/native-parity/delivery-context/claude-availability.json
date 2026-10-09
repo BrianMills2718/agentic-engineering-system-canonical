@@ -1,0 +1,25 @@
+{
+  "record_type": "native-claude-availability-observation.v1",
+  "observed_at": "2026-10-09T22:43:19.313586Z",
+  "http_status": 200,
+  "route": "GET /api/oauth/usage used by installed native /usage command",
+  "weekly_subscription_blocked": true,
+  "five_hour_subscription_blocked": false,
+  "usage_credits_enabled": false,
+  "weekly_reset_at": "2026-10-11T16:59:59.977286Z",
+  "model_request_made": false,
+  "settings_changed": false,
+  "credential_refreshed": false,
+  "source": {
+    "native_trace": "/home/brian/.codex/sessions/2026/10/07/rollout-2026-10-07T23-26-42-01a1198c-87df-7311-a1f8-c06e18aff25c.jsonl",
+    "call_id": "call_aa80af8d683040af8ec98c333389bfec",
+    "request_line": 4672,
+    "request_sha256": "5df53f27c1c85709383aed36281401c05ae5a178b6832b2831a172a034d58450",
+    "return_line": 4675,
+    "return_sha256": "be6a7c4f1764123782d8bd61cffb72fb4d372aa5cea957b246325e89821b09f1",
+    "installed_binary": "/home/brian/.local/share/claude/versions/2.1.295",
+    "binary_sha256": "4503bfe11a6c7fcc1e0b39b5e0d347c04248f750b03b0977b3ad6b531fe6f358"
+  },
+  "official_documentation": "https://code.claude.com/docs/en/costs#using-the-usage-command",
+  "interpretation": "Do not repeat native Claude model calls while this quota refusal is unchanged; no paid fallback is authorized by this record."
+}

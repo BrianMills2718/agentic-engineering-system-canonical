@@ -334,6 +334,264 @@ class EvidenceTests(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError, 'native parent developer context'):
                 self.authority(record)
 
+    def source_delivery_rows(self):
+        packet = V.read(V.HERE / 'input/task.json')
+        rows, calls = [], {}
+        for i, path in enumerate(packet['canonical_authority_paths']):
+            call = f'source-call-{i}'
+            calls[path] = [call]
+            command = 'nl -ba ' + path
+            source = '\n'.join(f'{n:6}\t{line}' for n, line in enumerate(
+                (V.ROOT / path).read_text().splitlines(), 1))
+            rows.extend([
+                {'type': 'response_item', 'payload': {'type': 'custom_tool_call', 'call_id': call,
+                    'name': 'exec', 'input': 'const r = await tools.exec_command({cmd: ' + json.dumps(command) +
+                    '}); text(r.output); text({exit_code:r.exit_code,session_id:r.session_id??null});'}},
+                {'type': 'response_item', 'payload': {'type': 'custom_tool_call_output', 'call_id': call,
+                    'output': [{'type': 'text', 'text': 'Script completed\nOutput:\n' + source + '\n' +
+                               json.dumps({'exit_code': 0, 'session_id': None})}]}}])
+        return packet, rows, calls
+
+    def test_delivery_source_metadata_is_unwrapped_and_source_bound(self):
+        packet, rows, calls = self.source_delivery_rows()
+        # Native envelopes can serialize nested text JSON under the completion prefix.
+        rows[1]['payload']['output'] = [{'type': 'text', 'text': json.dumps({
+            'content': rows[1]['payload']['output']})}]
+        result = V.derive_source_call_outcomes(rows, [])
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result['source-call-0'], {'command': 'nl -ba ' + packet['canonical_authority_paths'][0],
+                                                 'exit_code': 0, 'session_id': None, 'outcome': 'success',
+                                                 'output_truncated': False})
+        self.assertEqual(V.verify_authority_reads(rows, calls, packet, [], strict=True)['verdict'], 'pass')
+
+    def test_delivery_missing_nonzero_ongoing_or_ambiguous_shell_outcome_is_rejected(self):
+        for mutation in ('missing', 'nonzero', 'ongoing', 'boolean', 'duplicate'):
+            _, rows, _ = self.source_delivery_rows()
+            text = rows[1]['payload']['output'][0]['text']
+            marker = json.dumps({'exit_code': 0, 'session_id': None})
+            replacement = {'missing': '', 'nonzero': json.dumps({'exit_code': 1, 'session_id': None}),
+                           'ongoing': json.dumps({'exit_code': None, 'session_id': 42}),
+                           'boolean': json.dumps({'exit_code': False, 'session_id': None}),
+                           'duplicate': marker + '\n' + marker}[mutation]
+            rows[1]['payload']['output'][0]['text'] = text.replace(marker, replacement)
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(AssertionError, 'shell outcome'):
+                V.derive_source_call_outcomes(rows, [])
+
+    def test_delivery_source_outcome_cannot_come_from_another_call(self):
+        _, rows, _ = self.source_delivery_rows()
+        rows[1]['payload']['call_id'] = 'unrelated-call'
+        with self.assertRaisesRegex(AssertionError, 'complete source-call membership'):
+            V.derive_source_call_outcomes(rows, [])
+
+    def test_delivery_duplicate_call_or_return_identity_is_ambiguous(self):
+        for index in (0, 1):
+            _, rows, _ = self.source_delivery_rows()
+            rows.append(copy.deepcopy(rows[index]))
+            with self.subTest(index=index), self.assertRaisesRegex(AssertionError, 'unique source-call and return'):
+                V.derive_source_call_outcomes(rows, [])
+
+    def test_delivery_empty_standalone_rg_no_matches_retains_exit_one(self):
+        packet, rows, calls = self.source_delivery_rows()
+        path = packet['canonical_authority_paths'][0]
+        command = "rg -n 'absent|also_absent' " + path
+        rows[0]['payload']['input'] = rows[0]['payload']['input'].replace('nl -ba ' + path, command)
+        rows[1]['payload']['output'] = [
+            {'type': 'input_text', 'text': 'Script completed\nWall time 1.0 seconds\nOutput:\n'},
+            {'type': 'input_text', 'text': ''},
+            {'type': 'input_text', 'text': json.dumps({'exit_code': 1, 'session_id': None})}]
+        result = V.derive_source_call_outcomes(rows, [])
+        self.assertEqual(result['source-call-0'], {'command': command, 'exit_code': 1,
+                                                 'session_id': None, 'outcome': 'no_matches',
+                                                 'output_truncated': False})
+        with self.assertRaisesRegex(AssertionError, 'required source read has successful terminal outcome'):
+            V.verify_authority_reads(rows, calls, packet, [], strict=True)
+
+    def test_delivery_rg_errors_output_or_compound_search_cannot_be_no_matches(self):
+        for command, code, output in [("rg 'absent' file", 2, ''),
+                                      ("rg 'absent' file", 1, 'rg: file: Permission denied'),
+                                      ("rg 'absent' file", 1, 'a returned source line'),
+                                      ("rg 'absent' file | cat", 1, ''),
+                                      ("rg 'absent' file; true", 1, ''),
+                                      ("rg 'absent' file && true", 1, ''),
+                                      ("rg 'absent' $(other)", 1, ''),
+                                      ("cat file", 1, '')]:
+            _, rows, _ = self.source_delivery_rows()
+            rows[0]['payload']['input'] = ('const r = await tools.exec_command({cmd: ' + json.dumps(command) +
+                '});text(r.output);text({exit_code:r.exit_code,session_id:r.session_id??null});')
+            rows[1]['payload']['output'] = [
+                {'type': 'input_text', 'text': 'Script completed\nWall time 1.0 seconds\nOutput:\n'},
+                {'type': 'input_text', 'text': output},
+                {'type': 'input_text', 'text': json.dumps({'exit_code': code, 'session_id': None})}]
+            with self.subTest(command=command, code=code, output=output), \
+                    self.assertRaisesRegex(AssertionError, 'successful shell outcome or empty standalone rg'):
+                V.derive_source_call_outcomes(rows, [])
+
+    def test_delivery_constant_metadata_echo_cannot_replace_native_outcome(self):
+        for echo in ('text({exit_code:0,session_id:null});',
+                     'text({exit_code:other.exit_code,session_id:other.session_id??null});'):
+            _, rows, _ = self.source_delivery_rows()
+            rows[0]['payload']['input'] = rows[0]['payload']['input'].replace(
+                'text({exit_code:r.exit_code,session_id:r.session_id??null});', echo)
+            with self.subTest(echo=echo), self.assertRaisesRegex(AssertionError, 'native outcome emission'):
+                V.derive_source_call_outcomes(rows, [])
+
+    def test_delivery_wrapper_cannot_rewrite_native_outcome_or_execute_options(self):
+        for config in ('{cmd:"nl -ba file"});r.exit_code=0;const ignored=({}',
+                       '{cmd:"nl -ba file",max_output_tokens:(hidden=0)}',
+                       '{cmd:"nl -ba file",cmd:"other"}'):
+            code = ('const r = await tools.exec_command(' + config +
+                    ');text(r.output);text({exit_code:r.exit_code,session_id:r.session_id??null});')
+            with self.subTest(config=config), self.assertRaisesRegex(AssertionError, 'literal source-shell command'):
+                V.shell_command({'type':'custom_tool_call', 'input':code})
+        command = 'rg "{literal}" file'
+        code = ('const r = await tools.exec_command({cmd:' + json.dumps(command) +
+                ',max_output_tokens:1000});text(r.output);text({exit_code:r.exit_code,session_id:r.session_id??null});')
+        self.assertEqual(V.shell_command({'type':'custom_tool_call', 'input':code}), command)
+
+    def test_delivery_source_command_must_be_literal_and_attributed(self):
+        packet, rows, calls = self.source_delivery_rows()
+        rows[0]['payload']['input'] = 'const r = await tools.exec_command({cmd: hidden});'
+        with self.assertRaisesRegex(AssertionError, 'literal source-shell command'):
+            V.derive_source_call_outcomes(rows, [])
+        rows[0]['payload']['input'] = 'const r = await tools.exec_command({cmd: "nl -ba " + hidden});'
+        with self.assertRaisesRegex(AssertionError, 'literal source-shell command'):
+            V.derive_source_call_outcomes(rows, [])
+        rows[0]['payload']['input'] = ('const r = await tools.exec_command({cmd: "nl -ba unrelated.md"});'
+                                       'text(r.output); text({exit_code:r.exit_code,session_id:r.session_id??null});')
+        with self.assertRaisesRegex(AssertionError, 'exact source-read command'):
+            V.verify_authority_reads(rows, calls, packet, [], strict=True)
+
+    def test_delivery_missing_authority_line_is_not_complete(self):
+        packet, rows, calls = self.source_delivery_rows()
+        path = packet['canonical_authority_paths'][0]
+        line = (V.ROOT / path).read_text().splitlines()[134]
+        rows[1]['payload']['output'][0]['text'] = rows[1]['payload']['output'][0]['text'].replace(
+            f'{135:6}\t{line}', '')
+        coverage = V.verify_authority_reads(rows, calls, packet, [], strict=True)
+        self.assertEqual(coverage['verdict'], 'inconclusive')
+        self.assertEqual(coverage['sources'][path]['missing_exact_lines'], [135])
+
+    def test_delivery_authority_path_substring_or_nonread_command_is_rejected(self):
+        for suffix, prefix in (('.other', 'nl -ba '), ('', 'printf '), ('; true', 'nl -ba ')):
+            packet, rows, calls = self.source_delivery_rows()
+            path = packet['canonical_authority_paths'][0]
+            rows[0]['payload']['input'] = rows[0]['payload']['input'].replace(
+                'nl -ba ' + path, prefix + path + suffix)
+            with self.subTest(suffix=suffix, prefix=prefix), self.assertRaisesRegex(AssertionError, 'exact source-read command'):
+                V.verify_authority_reads(rows, calls, packet, [], strict=True)
+
+    def test_delivery_truncated_authority_can_recover_only_with_exact_missing_lines(self):
+        packet, rows, calls = self.source_delivery_rows()
+        path = packet['canonical_authority_paths'][0]
+        source = (V.ROOT / path).read_text().splitlines()
+        first = rows[1]['payload']['output'][0]
+        removed = '\n'.join(f'{n:6}\t{source[n-1]}' for n in range(130, 141))
+        first['text'] = first['text'].replace(removed, 'Warning: truncated output (11 tokens truncated)')
+        self.assertEqual(V.verify_authority_reads(rows, calls, packet, [], strict=True)['verdict'], 'inconclusive')
+        recovery = copy.deepcopy(rows[:2])
+        for row in recovery:
+            row['payload']['call_id'] = 'recovery-call'
+        recovery[0]['payload']['input'] = 'const r = await tools.exec_command({cmd: ' + json.dumps(
+            'nl -ba ' + path + " | sed -n '130,140p'") + (
+                '});text(r.output);text({exit_code:r.exit_code,session_id:r.session_id??null});')
+        recovery[1]['payload']['output'] = [{'type': 'text', 'text': removed + '\n' +
+                                          json.dumps({'exit_code': 0, 'session_id': None})}]
+        rows.extend(recovery)
+        calls[path].append('recovery-call')
+        coverage = V.verify_authority_reads(rows, calls, packet, [], strict=True)
+        self.assertEqual(coverage['verdict'], 'pass')
+        self.assertEqual(coverage['sources'][path]['truncated_call_ids'], ['source-call-0'])
+        outcomes = V.derive_source_call_outcomes(rows, [])
+        self.assertEqual(len(outcomes), 3)
+        self.assertTrue(outcomes['source-call-0']['output_truncated'])
+        self.assertFalse(outcomes['recovery-call']['output_truncated'])
+
+    def test_delivery_collector_uses_only_exact_parent_child_index_and_native_bytes(self):
+        proof = V.read(V.HERE / 'authority-context-proof.json')
+        original = V.collector.enrich
+        seen = []
+        def inspect_index(run, index):
+            seen.append(set(index))
+            return original(run, index)
+        with patch.object(V.collector, 'enrich', side_effect=inspect_index):
+            result = V.derive_native_delivery(proof['traces']['parent'], proof['traces']['child'], [])
+        self.assertEqual(result['collector_result'], proof['raw_final'])
+        self.assertEqual(result['result_sha256'], proof['final_sha256'])
+        self.assertEqual(result['consumer'], 'native-parity-evidence-checker')
+        self.assertEqual(seen, [{result['parent_session_id'], result['child_session_id']}])
+
+    def test_delivery_corrupted_collector_result_is_rejected(self):
+        proof = V.read(V.HERE / 'authority-context-proof.json')
+        original = V.collector.enrich
+        def corrupt(run, index):
+            original(run, index)
+            run['result'] += '\n'
+        with patch.object(V.collector, 'enrich', side_effect=corrupt), \
+                self.assertRaisesRegex(AssertionError, 'completed native child result'):
+            V.derive_native_delivery(proof['traces']['parent'], proof['traces']['child'], [])
+
+    def test_delivery_multiple_native_final_blocks_cannot_share_a_lossy_normalization(self):
+        proof = V.read(V.HERE / 'authority-context-proof.json')
+        ref = proof['traces']['child']
+        child = copy.deepcopy(V.trace(ref, []))
+        final = next(r['payload'] for r in child if r.get('type') == 'response_item'
+                     and r['payload'].get('phase') == 'final_answer')
+        raw = final['content'][0]['text']
+        final['content'] = [{'type': 'output_text', 'text': raw[:1]},
+                            {'type': 'output_text', 'text': raw[1:]}]
+        original_trace, original_rows = V.trace, V.collector.rows
+        def changed_trace(candidate, checks):
+            return child if candidate == ref else original_trace(candidate, checks)
+        def changed_rows(path):
+            return enumerate(child) if str(path) == ref['path'] else original_rows(path)
+        with patch.object(V, 'trace', side_effect=changed_trace), \
+                patch.object(V.collector, 'rows', side_effect=changed_rows), \
+                self.assertRaisesRegex(AssertionError, 'one unambiguous native final text block'):
+            V.derive_native_delivery(proof['traces']['parent'], ref, [])
+
+    def test_delivery_ambiguous_dispatch_or_lineage_mismatch_is_rejected(self):
+        proof = V.read(V.HERE / 'authority-context-proof.json')
+        original = V.collector.calls
+        for mutation in ('duplicate', 'parent', 'child'):
+            def alter(path, client):
+                runs, receipts = original(path, client)
+                if mutation == 'duplicate':
+                    runs.append(copy.deepcopy(runs[0]))
+                else:
+                    runs[0]['parent_session_id' if mutation == 'parent' else 'child_ref'] = 'wrong-native-identity'
+                return runs, receipts
+            with self.subTest(mutation=mutation), patch.object(V.collector, 'calls', side_effect=alter), \
+                    self.assertRaisesRegex(AssertionError, 'unambiguous native dispatch|native dispatch lineage'):
+                V.derive_native_delivery(proof['traces']['parent'], proof['traces']['child'], [])
+
+    def test_delivery_native_parent_routing_receipt_cannot_be_rewritten(self):
+        child = '/root/maintenance_discovery'
+        receipt = {'schema_version': 'native-child-routing-receipt/v1', 'child_ref': child,
+                   'delivery': 'native_collector', 'consumer': 'native-parity-evidence-checker'}
+        raw = json.dumps(receipt)
+        V.verify_routing_receipt(raw, receipt, child, [])
+        for field in ('child_ref', 'delivery', 'consumer'):
+            changed = {**receipt, field: 'rewritten'}
+            with self.subTest(field=field), self.assertRaisesRegex(AssertionError, 'native parent routing receipt'):
+                V.verify_routing_receipt(raw, changed, child, [])
+            with self.subTest(native_field=field), self.assertRaisesRegex(AssertionError, 'native parent routing receipt'):
+                V.verify_routing_receipt(json.dumps(changed), changed, child, [])
+
+    def test_delivery_receipt_before_frozen_task_is_structural_packet_delivery(self):
+        packet = V.read(V.HERE / 'input/task.json')
+        receipt = {'schema_version': 'native-child-routing-receipt/v1',
+                   'child_ref': '/root/maintenance_discovery', 'delivery': 'native_collector',
+                   'consumer': 'native-parity-evidence-checker'}
+        prompt = 'Return this receipt: ' + json.dumps(receipt) + '\nUnchanged TaskV1:\n' + json.dumps(packet)
+        self.assertTrue(V.packet_in_text(prompt, packet))
+        self.assertFalse(V.packet_in_text(json.dumps(receipt), packet))
+        changed = {**packet, 'task_id': 'a-different-task'}
+        self.assertFalse(V.packet_in_text(json.dumps(receipt) + '\n' + json.dumps(changed), packet))
+
+    def test_delivery_duplicate_frozen_task_is_not_unambiguous_delivery(self):
+        packet = V.read(V.HERE / 'input/task.json')
+        self.assertFalse(V.packet_in_text(json.dumps(packet) + '\n' + json.dumps(packet), packet))
+
     def test_compact_coalesced_developer_prefix_is_actual_delivery(self):
         record = V.read(V.HERE / 'compact-codex-proof.json')
         rows = V.trace(record['traces']['child'], [])

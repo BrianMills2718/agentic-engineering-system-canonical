@@ -1,0 +1,1046 @@
+{
+  "record_type": "lossless-native-child-result-evidence.v1",
+  "task_sha256": "ae362f8191402c660380ef2f1a52bece277a7a9b327d1aadb610a22b709c0725",
+  "projection_checkpoint": "662b7f15200f27db36fa4b4d525dbb641314c349",
+  "traces": {
+    "parent": {
+      "path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T18-49-58-01a122db-d4f2-7581-81b5-33423a4c0061.jsonl",
+      "sha256": "244e8981fe3caf28eafc27cee4b910728aadee285b6f832d7a29e0060f0f11f0",
+      "records": 35
+    },
+    "child": {
+      "path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T18-51-39-01a122dd-6f4f-76a1-9919-aa01f356a622.jsonl",
+      "sha256": "87343001ea938ba09a3a03828149d6c19fe28859fc38da4c1bfb3c0a263f5cd2",
+      "records": 109
+    }
+  },
+  "role_body_sha256": "b22af82a57810f3fbee1d633889a1419ce9f1c6a33f27e0bb63fad26a551c110",
+  "raw_final": "{\"schema_version\":\"development-investigation-result/v1\",\"task_id\":\"maintenance-discovery-frozen-20261009\",\"specialist_id\":\"development-investigator\",\"status\":\"supported\",\"root_cause\":\"The frozen maintenance command defaults its write path to `.` and forwards it to the worktree claim, but does not set broad-scope mode or reason by default. The admission code classifies `.` as a repository-root broad path and rejects a new schema-v6 claim without an allowed broad-scope mode; it also requires a reason. This supports the reported `broad_scope_mode_required` refusal at the source level.\",\"evidence\":[{\"path\":\"proposals/harness-context/native-parity/input/project-meta/Makefile\",\"locator\":\"L312\",\"fact\":\"`MAINTENANCE_BOOTSTRAP_WRITE_PATHS` resolves to caller-supplied `SESSION_WRITE_PATHS`, or `.` when none is supplied.\"},{\"path\":\"proposals/harness-context/native-parity/input/project-meta/Makefile\",\"locator\":\"L325\",\"fact\":\"The maintenance target recursively invokes `make worktree`.\"},{\"path\":\"proposals/harness-context/native-parity/input/project-meta/Makefile\",\"locator\":\"L332\",\"fact\":\"The recursive worktree invocation forwards the resolved maintenance write paths as `SESSION_WRITE_PATHS`.\"},{\"path\":\"proposals/harness-context/native-parity/input/project-meta/Makefile\",\"locator\":\"L192\",\"fact\":\"The worktree claim passes `--broad-scope-mode` only when `SESSION_BROAD_SCOPE_MODE` is set; the adjacent line does the same for `SESSION_BROAD_SCOPE_REASON`.\"},{\"path\":\"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\"locator\":\"L2617\",\"fact\":\"The classifier explicitly classifies `.` as `repository_root`, a broad path.\"},{\"path\":\"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\"locator\":\"L2765\",\"fact\":\"A broad path with no allowed broad-scope mode produces `broad_scope_mode_required`; a missing reason produces `broad_scope_reason_required`.\"},{\"path\":\"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\"locator\":\"L2150\",\"fact\":\"For a live schema-v6 claim, claim creation raises an error containing the broad-scope contract issues.\"},{\"path\":\"proposals/harness-context/native-parity/input/project-meta/Makefile\",\"locator\":\"L307\",\"fact\":\"The Makefile comments say the default root claim is a bootstrap claim and that the lane must narrow authority before scoped implementation; they identify `SESSION_WRITE_PATHS` as an override.\"},{\"path\":\"proposals/harness-context/native-parity/input/project-meta/AGENTS.md\",\"locator\":\"L99\",\"fact\":\"The documented maintenance command example does not show a write-path override or broad-scope metadata.\"}],\"causal_chain\":[\"With no write-path argument, the maintenance Make target resolves the claim scope to `.` and forwards it to `make worktree`.\",\"The claim command conditionally supplies broad-scope mode and reason, but the documented invocation does not set those variables.\",\"The admission classifier treats `.` as repository-root broad scope, which requires an allowed mode and a non-empty reason.\",\"For a bootstrap-mode claim, the same contract additionally requires a target worktree path matching the physical worktree; narrowing the write paths to non-broad paths avoids the broad-path metadata requirement.\"],\"alternatives_ruled_out\":[\"The frozen Makefile does not leave the write scope empty when the documented command omits write-path arguments; it supplies `.`.\",\"The cited admission refusal is distinct from a runtime reproduction: it follows from the frozen source conditions, not a fresh command execution.\"],\"limitations\":[\"No mutating admission command was run, as the task packet prohibits a current reproduction.\",\"The evidence is limited to the supplied frozen files and historical report; it does not independently verify the historical runtime state, exact claim payload, or that no external Make variable was set.\",\"The Makefile comments explain that `SESSION_WRITE_PATHS` overrides the root default, but the documented command example and target usage text do not surface that variable or explain the broad-scope admission metadata.\"],\"recommended_parent_action\":\"Report this as a source-supported explanation of the historical refusal, while preserving the distinction from runtime reproduction. If describing recovery, note that `SESSION_WRITE_PATHS` can narrow the default scope; retaining broad scope requires valid broad-scope metadata, and bootstrap mode also requires the matching target-worktree metadata.\",\"mutation_declaration\":{\"files_changed\":false,\"network_used\":false,\"memory_changed\":false,\"children_spawned\":false}}",
+  "final_sha256": "c02d3a4f444d7604eed8b2802c5b733301e90f44f69e03b803d43d7ebde01a5c",
+  "parent_raw_final": "{\"schema_version\":\"native-child-routing-receipt/v1\",\"child_ref\":\"/root/maintenance_discovery\",\"delivery\":\"native_collector\",\"consumer\":\"native-parity-evidence-checker\"}",
+  "parent_final_sha256": "58c1e1907f24992a7ba524cbdf5bb13aad9dcacc9b45261cb6f4ad86bb5e0c3a",
+  "parent_forwarding_verdict": "not_requested",
+  "semantic_review": {
+    "record_type": "native-child-source-review",
+    "task_sha256": "ae362f8191402c660380ef2f1a52bece277a7a9b327d1aadb610a22b709c0725",
+    "task_raw_sha256": "ca1ca293dfa02f4e62964b1ba4195d170a4e9e830397490c4ca5895471dc7d6c",
+    "result_sha256": "e0f973e036723863e38c7fee7e5c377d106dd40777053f18876f29ad5d1daaee",
+    "raw_result_sha256": "c02d3a4f444d7604eed8b2802c5b733301e90f44f69e03b803d43d7ebde01a5c",
+    "trace": {
+      "path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T18-51-39-01a122dd-6f4f-76a1-9919-aa01f356a622.jsonl",
+      "sha256": "87343001ea938ba09a3a03828149d6c19fe28859fc38da4c1bfb3c0a263f5cd2",
+      "records": 109,
+      "final_line": 106,
+      "raw_final_sha256": "c02d3a4f444d7604eed8b2802c5b733301e90f44f69e03b803d43d7ebde01a5c"
+    },
+    "scope": "Every semantic result field returned by verify_evidence.fields, plus complete observed native tool call/return membership. Source-supported explanation only; no current admission reproduction, stronger runtime parity, hidden side effects or goal-completion claim. Prior authority-context proof supplied formatting only. Producer reasoning was not used.",
+    "verdict": "pass",
+    "items": [
+      {
+        "field": "root_cause",
+        "value_sha256": "94e28e9844f5c6852f92f492f3df582a53709d6ba12678fafc8558b321a1201a",
+        "verdict": "supported",
+        "rationale": "The frozen Makefile supplies and forwards root scope and only conditionally forwards mode/reason. The classifier and live-v6 validator implement the stated conditional refusal. The historical invocation and environment remain unverified, as the result explicitly acknowledges.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 312,
+            "end_line": 312,
+            "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 192,
+            "end_line": 194,
+            "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 325,
+            "end_line": 333,
+            "quote": "\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2617,
+            "end_line": 2619,
+            "quote": "        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2765,
+            "end_line": 2769,
+            "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2150,
+            "end_line": 2152,
+            "quote": "    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))"
+          }
+        ]
+      },
+      {
+        "field": "recommended_parent_action",
+        "value_sha256": "9fa7e07517711f656831f37cb7a79b8ea283c74a7a6326875b2133e802c2f373",
+        "verdict": "supported",
+        "rationale": "The recommendation preserves source-versus-runtime limits. SESSION_WRITE_PATHS selects the narrow alternative; broad ownership requires an allowed mode and nonempty reason, with bootstrap target identity checked separately. Non-broad ownership must also shed broad metadata; the result does not instruct retaining such metadata after narrowing.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 309,
+            "end_line": 312,
+            "quote": "# SESSION_WRITE_PATHS must win: silently discarding it made every maintenance\n# lane conflict with every other active lane by construction, and the operator\n# saw a CONFLICT naming the other lanes rather than their own claim.\nMAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2765,
+            "end_line": 2778,
+            "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")\n    elif broad_paths is not None and (mode is not None or reason is not None):\n        issues.append(\"broad scope metadata is forbidden when no broad path remains\")\n    if mode == \"bootstrap\":\n        if not claim.target_worktree_path:\n            issues.append(\"bootstrap_target_worktree_path_required\")\n        elif claim.worktree_path != claim.target_worktree_path:\n            issues.append(\"bootstrap_physical_worktree_identity_mismatch\")\n    elif mode == \"bounded\" and claim.target_worktree_path not in {None, claim.worktree_path}:\n        issues.append(\"bounded_target_worktree_mismatch\")"
+          }
+        ]
+      },
+      {
+        "field": "mutation_declaration",
+        "value_sha256": "ca4326a9f3351ae5168615dfd6290a60f9135687005f444c685f1e0af82da752",
+        "verdict": "supported",
+        "rationale": "Every one of the twelve recorded child commands is a source read/search using nl, sed, rg or head. No child action requests a write, network, memory update or delegation. This supports the declaration about recorded child actions, not an unobserved filesystem-wide audit or permission-isolation certification.",
+        "sources": [],
+        "trace_evidence_lines": [
+          13,
+          93
+        ]
+      },
+      {
+        "field": "evidence[0]",
+        "value_sha256": "16371863073c66db9d46cc25ed3f3ec406b14002efb5bc30d2d738278cb41ce5",
+        "verdict": "supported",
+        "rationale": "The expression uses stripped SESSION_WRITE_PATHS when present and otherwise a literal root dot.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 312,
+            "end_line": 312,
+            "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+          }
+        ]
+      },
+      {
+        "field": "evidence[1]",
+        "value_sha256": "7a6b044c80d3382f17adfbd51d1520f1d02100e22776ad6b3fc03319f4740a2c",
+        "verdict": "supported",
+        "rationale": "The maintenance recipe invokes the worktree target via recursive MAKE.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 325,
+            "end_line": 325,
+            "quote": "\t@$(MAKE) worktree \\"
+          }
+        ]
+      },
+      {
+        "field": "evidence[2]",
+        "value_sha256": "c11a8dcb9e07ad24fc8109d1b5f41441c5aba024e4ac9990eb2ada8f104d5f73",
+        "verdict": "supported",
+        "rationale": "The recursive invocation passes the maintenance expression as SESSION_WRITE_PATHS.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 332,
+            "end_line": 332,
+            "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+          }
+        ]
+      },
+      {
+        "field": "evidence[3]",
+        "value_sha256": "f84df874593da6b25896a94d547078d29be3929035ced4e0578ae8a9c43b0ac3",
+        "verdict": "supported",
+        "rationale": "The cited mode flag is conditional; the immediately adjacent reason flag uses the same form.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 192,
+            "end_line": 193,
+            "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\"
+          }
+        ]
+      },
+      {
+        "field": "evidence[4]",
+        "value_sha256": "59b2bc0ec6dd45ceb6d233377799f89a10e5a8d697566de684d17aa7a97801b1",
+        "verdict": "supported",
+        "rationale": "The quoted classifier branch maps dot to repository_root.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2617,
+            "end_line": 2619,
+            "quote": "        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue"
+          }
+        ]
+      },
+      {
+        "field": "evidence[5]",
+        "value_sha256": "3142193ce3917d3ab83e3d6556381e6b984ef348308206393c1420d02dc6b3fa",
+        "verdict": "supported",
+        "rationale": "The if-broad-paths branch appends both named issues when the allowed mode/reason are absent. Allowed modes are bootstrap and bounded.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 85,
+            "end_line": 85,
+            "quote": "BROAD_SCOPE_MODES = {\"bootstrap\", \"bounded\"}"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2765,
+            "end_line": 2769,
+            "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+          }
+        ]
+      },
+      {
+        "field": "evidence[6]",
+        "value_sha256": "0517c47bc38c46cf9c98e56542f26ebd188275ac5d757d2b16491a7a7518b98c",
+        "verdict": "supported",
+        "rationale": "The validator computes broad issues and raises their joined text only for live schema-v6-or-newer claims, exactly the stated condition.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2150,
+            "end_line": 2152,
+            "quote": "    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))"
+          }
+        ]
+      },
+      {
+        "field": "evidence[7]",
+        "value_sha256": "7363d89162247ba3d9526e58c38f7126058feeabf2bb93572f835e4cfa857e28",
+        "verdict": "supported",
+        "rationale": "L307 is an anchor inside a continuous Makefile comment block, not a claim that every statement occurs on that one line. Bootstrap is stated at L302/L307, narrowing-before-implementation at L306, SESSION_WRITE_PATHS precedence at L309 and the root default expression at L312. All three substantive claims are supported by the block.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 302,
+            "end_line": 312,
+            "quote": "# This is the one deliberately broad bootstrap claim.  A maintenance lane has\n# no declared implementation surface yet, so requiring a caller-supplied path\n# makes the sanctioned entrypoint impossible to use.  The surrounding command\n# still binds it to one repository, branch, worktree, and native session; the\n# lane must narrow its authority before it begins scoped implementation work.\n# Bootstrap claim scope for an unplanned maintenance lane. Defaults to the repo\n# root because the lane may not know its targets yet, but an explicit\n# SESSION_WRITE_PATHS must win: silently discarding it made every maintenance\n# lane conflict with every other active lane by construction, and the operator\n# saw a CONFLICT naming the other lanes rather than their own claim.\nMAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+          }
+        ]
+      },
+      {
+        "field": "evidence[8]",
+        "value_sha256": "a6c080678252f185f5f45ad240f8b8211eef5f7c9c4976f2b4a5f12a843fee0d",
+        "verdict": "supported",
+        "rationale": "The exact documented command supplies branch/task/agent/goal/phase but neither a write-path argument nor broad-scope metadata. This says nothing about inherited external variables.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+            "start_line": 98,
+            "end_line": 99,
+            "quote": "# Bounded, reversible maintenance not owned by a numbered plan\nmake maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[0]",
+        "value_sha256": "186bdf712928598d602bb412c1f1e08ff81f33a883cd4bb020f85ce3118cd7ab",
+        "verdict": "supported",
+        "rationale": "The default and recursive forwarding directly establish this source-level step.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 312,
+            "end_line": 312,
+            "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 325,
+            "end_line": 333,
+            "quote": "\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[1]",
+        "value_sha256": "83edfd0139c15b897e5bf8ae18bc953e6456b29a33e4b1fd2d98cdedac70ca85",
+        "verdict": "supported",
+        "rationale": "The documented command does not supply mode/reason; the recipe forwards those flags conditionally. Inherited variables remain outside the historical evidence, as limitations[1] says.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+            "start_line": 98,
+            "end_line": 99,
+            "quote": "# Bounded, reversible maintenance not owned by a numbered plan\nmake maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 192,
+            "end_line": 194,
+            "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\"
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[2]",
+        "value_sha256": "6e2e926c2ead987bcc60851954020cf8d60de8a625bda728ac98ca023286e0b7",
+        "verdict": "supported",
+        "rationale": "Root-dot classification and the broad-path guard require the allowed mode and nonempty reason. The enclosing contract first requires write ownership and handles legacy claims separately; the root-cause text explicitly scopes its admission claim to v6.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2617,
+            "end_line": 2619,
+            "quote": "        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2676,
+            "end_line": 2691,
+            "quote": "def _broad_scope_contract_issues(claim: ClaimRecord) -> list[str]:\n    \"\"\"Return deterministic schema-v6 broad-scope contract violations.\"\"\"\n\n    if not _has_write_ownership(claim):\n        return []\n    mode = claim.broad_scope_mode.strip() if isinstance(claim.broad_scope_mode, str) else None\n    reason = claim.broad_scope_reason.strip() if isinstance(claim.broad_scope_reason, str) else None\n    issues: list[str] = []\n    if claim.schema_version < 6:\n        possible_broad = any(\n            _normalize_repo_path(path) == \".\" or \"/\" not in _normalize_repo_path(path)\n            for path in claim.write_paths\n        )\n        if possible_broad:\n            issues.append(\"legacy_broad_scope_unclassified\")\n        return issues"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2765,
+            "end_line": 2769,
+            "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[3]",
+        "value_sha256": "af7ac1585cf41392170bce311a044891c57079cc9287c682d23edfa836d2c316",
+        "verdict": "supported",
+        "rationale": "Bootstrap mode requires a target path and exact agreement with worktree_path. Truly non-broad paths avoid the broad-path mode/reason requirements; the adjacent forbidden-metadata branch prevents treating this as permission to retain stale broad metadata. This is not a guarantee that every scope path or every other admission requirement will pass.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2587,
+            "end_line": 2591,
+            "quote": "    \"\"\"Classify root/top-level directory reservations without guessing.\n\n    Nested paths are narrow for this contract. A missing top-level component is\n    ambiguous because filesystem evidence cannot distinguish an intended file\n    from a directory reservation. Symlinks must remain within the declared root."
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2765,
+            "end_line": 2778,
+            "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")\n    elif broad_paths is not None and (mode is not None or reason is not None):\n        issues.append(\"broad scope metadata is forbidden when no broad path remains\")\n    if mode == \"bootstrap\":\n        if not claim.target_worktree_path:\n            issues.append(\"bootstrap_target_worktree_path_required\")\n        elif claim.worktree_path != claim.target_worktree_path:\n            issues.append(\"bootstrap_physical_worktree_identity_mismatch\")\n    elif mode == \"bounded\" and claim.target_worktree_path not in {None, claim.worktree_path}:\n        issues.append(\"bounded_target_worktree_mismatch\")"
+          }
+        ]
+      },
+      {
+        "field": "alternatives_ruled_out[0]",
+        "value_sha256": "0a046a46a7e1aef6807575aaf998deeacb7b6c9899cf04ccd2e3fa9e52ddb45d",
+        "verdict": "supported",
+        "rationale": "The no-override branch is a dot rather than an empty scope, and the recursive target forwards it.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 312,
+            "end_line": 312,
+            "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 332,
+            "end_line": 332,
+            "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+          }
+        ]
+      },
+      {
+        "field": "alternatives_ruled_out[1]",
+        "value_sha256": "e0a7582c54b3b5a69f30fb24bb17f19c9f68a6dc83e5f9e722525bca07aed66d",
+        "verdict": "supported",
+        "rationale": "The explanation is drawn from returned frozen source; all twelve native tools only read/search files. No admission command or current worktree mutation appears in the recorded child trace.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2150,
+            "end_line": 2152,
+            "quote": "    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2765,
+            "end_line": 2778,
+            "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")\n    elif broad_paths is not None and (mode is not None or reason is not None):\n        issues.append(\"broad scope metadata is forbidden when no broad path remains\")\n    if mode == \"bootstrap\":\n        if not claim.target_worktree_path:\n            issues.append(\"bootstrap_target_worktree_path_required\")\n        elif claim.worktree_path != claim.target_worktree_path:\n            issues.append(\"bootstrap_physical_worktree_identity_mismatch\")\n    elif mode == \"bounded\" and claim.target_worktree_path not in {None, claim.worktree_path}:\n        issues.append(\"bounded_target_worktree_mismatch\")"
+          }
+        ],
+        "trace_evidence_lines": [
+          13,
+          93
+        ]
+      },
+      {
+        "field": "limitations[0]",
+        "value_sha256": "4099a519f7fe488bb49f8b9a7f7160a68b4dd044f31573cd7dcfd843aee906dd",
+        "verdict": "supported",
+        "rationale": "The actual twelve tool inputs contain no mutating admission command. This is an honest limit, not a claim to have reproduced the historical failure.",
+        "sources": [],
+        "trace_evidence_lines": [
+          13,
+          93
+        ]
+      },
+      {
+        "field": "limitations[1]",
+        "value_sha256": "e6e14d68b9398412eb8338a7ef440b165e4ec2f3c83880df3a0352c70f249ce1",
+        "verdict": "supported",
+        "rationale": "The recorded reads retrieve the five supplied frozen files, not historical claim records or the historical Make environment. Conditional flags cannot prove absence of external values. The result appropriately keeps those unknown.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 192,
+            "end_line": 194,
+            "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\"
+          }
+        ],
+        "trace_evidence_lines": [
+          13,
+          93
+        ]
+      },
+      {
+        "field": "limitations[2]",
+        "value_sha256": "dde17dad307cdfae04c2fcf7e1f6362929028df63ea71849278ba141d004b402",
+        "verdict": "supported",
+        "rationale": "The comment names SESSION_WRITE_PATHS, while the documented invocation and BRANCH usage text omit scope and broad-mode/reason guidance. This is the bounded discoverability claim, not an assertion that the variable is absent from the whole Makefile.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 307,
+            "end_line": 312,
+            "quote": "# Bootstrap claim scope for an unplanned maintenance lane. Defaults to the repo\n# root because the lane may not know its targets yet, but an explicit\n# SESSION_WRITE_PATHS must win: silently discarding it made every maintenance\n# lane conflict with every other active lane by construction, and the operator\n# saw a CONFLICT naming the other lanes rather than their own claim.\nMAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 319,
+            "end_line": 323,
+            "quote": "\t@if [ -z \"$(strip $(BRANCH))\" ]; then \\\n\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\\n\t\texit 2; \\"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+            "start_line": 98,
+            "end_line": 99,
+            "quote": "# Bounded, reversible maintenance not owned by a numbered plan\nmake maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "verdict": "pass",
+      "counts": {
+        "supported": 21,
+        "qualified": 0,
+        "incorrect": 0,
+        "inconclusive": 0
+      },
+      "items": 21
+    },
+    "trace_review": {
+      "verdict": "pass_with_notes",
+      "independence": "Independent reading of the new result and frozen sources. Earlier semantic judgments were not read or reused. Parent focus prompts did not substitute for source verification.",
+      "all_actual_calls_and_returns_reviewed": true,
+      "calls": 12,
+      "returns": 12,
+      "exit_zero": 11,
+      "exit_one_no_matches": 1,
+      "other_nonzero": 0,
+      "truncated_returns": 1,
+      "call_return_membership": [
+        {
+          "call_id": "call_fd7ed65696044c18bb4b0c8c26977a3e",
+          "call_line": 13,
+          "return_line": 16,
+          "name": "exec",
+          "input_sha256": "e594e7761afd3c911553f4d31e896040b71909fcc5170ee72545599ac278e59c",
+          "output_sha256": "ffc87de6c4f7fc1b75e5e5c55c2e159cb63d4ef8ec19af48a161e200127e25d0",
+          "exit_code": 0,
+          "output_truncated": false,
+          "review_disposition": "Read/search returned successfully"
+        },
+        {
+          "call_id": "call_b35b8da1623443f68a0679a6d63eb18e",
+          "call_line": 20,
+          "return_line": 23,
+          "name": "exec",
+          "input_sha256": "5b1ccba54a9cdd5cebe1d5b24228dcdebdb2c135db2bb05a999e1a5a80c4ccc7",
+          "output_sha256": "627765e6a0c7a35839767e73e2ac7f48a533d97c8682dfef5d6289b1613f7dbd",
+          "exit_code": 0,
+          "output_truncated": false,
+          "review_disposition": "Read/search returned successfully"
+        },
+        {
+          "call_id": "call_b60f4b65daba4da5bd4273d646cbc99e",
+          "call_line": 27,
+          "return_line": 30,
+          "name": "exec",
+          "input_sha256": "50ea637c33eae5fe175ad350c64b3ea26dad3e9ba53904adc8933fa9b6010d5c",
+          "output_sha256": "c4eabe510802e14118ffc7b4dd0ab1b88b5846235ba3b5f34191e913b13014f0",
+          "exit_code": 0,
+          "output_truncated": false,
+          "review_disposition": "Read/search returned successfully"
+        },
+        {
+          "call_id": "call_b72ac98793d548f680a115719b0839fb",
+          "call_line": 34,
+          "return_line": 37,
+          "name": "exec",
+          "input_sha256": "e461a6e5c42eb99aa4ea6c93e019ad66452721502b396da78b66fd82dafa0a68",
+          "output_sha256": "78b716cfc4750b086b88c01b7b35939ee28bfd9f40ec3fbd30514d042bd14b86",
+          "exit_code": 0,
+          "output_truncated": false,
+          "review_disposition": "Read/search returned successfully"
+        },
+        {
+          "call_id": "call_e7afc96bb9c24a49bb04bae2c97f3941",
+          "call_line": 41,
+          "return_line": 44,
+          "name": "exec",
+          "input_sha256": "b107458111c807ce4ef0053c740e4518511badbf0ebbab45802f484abe5dd2ab",
+          "output_sha256": "96de1192d1c6b6295e9951d5333eb567d8460324040cdc54615c9030719c4ae5",
+          "exit_code": 1,
+          "output_truncated": false,
+          "review_disposition": "Standalone rg no matches; later full facade read returned successfully"
+        },
+        {
+          "call_id": "call_2eabb8b6cee34117ae3410b33651afdc",
+          "call_line": 48,
+          "return_line": 51,
+          "name": "exec",
+          "input_sha256": "68519ec033daaae1d5f6b472d2d1951bb31e8d388c7f84461a1e1016d682478b",
+          "output_sha256": "e5e0867ccdb18570cbf4f6b68be59c475ab90d51d6abf30717f045f082a73e20",
+          "exit_code": 0,
+          "output_truncated": false,
+          "review_disposition": "Read/search returned successfully"
+        },
+        {
+          "call_id": "call_a977e18a1746414a88fd0d6a7d1c7487",
+          "call_line": 55,
+          "return_line": 58,
+          "name": "exec",
+          "input_sha256": "c9f9d03178f7913eea2e49bb9d5e5f9c674953b829e4debeb2c6435956abdf86",
+          "output_sha256": "000111b30bbf51515a6d80e7ed3cb7994d2a1368564e721bb099bb31dcaadefd",
+          "exit_code": 0,
+          "output_truncated": true,
+          "review_disposition": "Read/search returned successfully; critical truncated-search lines reread in bounded calls"
+        },
+        {
+          "call_id": "call_be1842cc6fe7438aa76d386210b85715",
+          "call_line": 62,
+          "return_line": 65,
+          "name": "exec",
+          "input_sha256": "5052c65116cccdc0993a4c9586a945cdbcf0a518d5b7c609a31bb583e2358de6",
+          "output_sha256": "c84850e4c577e64fd5604aae6b8f0509e1b0daae9e9f2c03108af989f7919315",
+          "exit_code": 0,
+          "output_truncated": false,
+          "review_disposition": "Read/search returned successfully"
+        },
+        {
+          "call_id": "call_fa925cfa51394f74be4bc2211191b390",
+          "call_line": 69,
+          "return_line": 72,
+          "name": "exec",
+          "input_sha256": "53fa076d77c2f68bc7bf62610d05cd13ab366b4c9cc7d015b79f46d273d25232",
+          "output_sha256": "4af5f93deb894e6b6e0dddce6ef8cdff220169190269e8de199adcbc300e40f9",
+          "exit_code": 0,
+          "output_truncated": false,
+          "review_disposition": "Read/search returned successfully"
+        },
+        {
+          "call_id": "call_63e8e7933b434856948360d13e59cebf",
+          "call_line": 76,
+          "return_line": 79,
+          "name": "exec",
+          "input_sha256": "fd94d5fdeb183b10612ae7c18b7eaa6525e9a16ead243f6e39bf08be7b2d1705",
+          "output_sha256": "bf3fa1a430b3b32325dc9cf84f1184b50d2103ad1330229c1ba49655cdab8c13",
+          "exit_code": 0,
+          "output_truncated": false,
+          "review_disposition": "Read/search returned successfully"
+        },
+        {
+          "call_id": "call_15f6d898a25742429c2769ba08378087",
+          "call_line": 83,
+          "return_line": 86,
+          "name": "exec",
+          "input_sha256": "ed1035fe9be58685599bd766ae122de125ec21407960ae6a69731db327cd2b4e",
+          "output_sha256": "6a2429ef14c3dbc322e6051038d337fb70beb5eef86c5759fbef88acfaabb5f4",
+          "exit_code": 0,
+          "output_truncated": false,
+          "review_disposition": "Read/search returned successfully"
+        },
+        {
+          "call_id": "call_e3983e32ef3841deb4d75ecbe0a08b33",
+          "call_line": 90,
+          "return_line": 93,
+          "name": "exec",
+          "input_sha256": "4042291c5379b093afc2513bca30e5b633f2a80a401e73fc9eb26a8b0a27c77d",
+          "output_sha256": "8bcd62c8c7bf6dd4148559ff2eeb42a25c86824fbf3523d4c97d7327b82283be",
+          "exit_code": 0,
+          "output_truncated": false,
+          "review_disposition": "Read/search returned successfully"
+        }
+      ],
+      "findings": [
+        {
+          "kind": "observed",
+          "disposition": "note",
+          "call_line": 41,
+          "return_line": 44,
+          "fact": "The standalone facade rg search returned no text and exit1; the next call at48/return51 read the same facade successfully. This is not an unread canonical authority or an admission reproduction."
+        },
+        {
+          "kind": "observed",
+          "disposition": "note",
+          "call_line": 55,
+          "return_line": 58,
+          "fact": "The broad package search is explicitly truncated. Subsequent bounded returns72 and86 include the root classifier, schema-v6 gate, mode/reason checks, and bootstrap target identity checks used in the answer."
+        },
+        {
+          "kind": "observed",
+          "disposition": "note",
+          "field": "evidence[7]",
+          "fact": "Exact sentence positions inside the cited comment block are L306 for narrowing, L309 for override precedence and L312 for the expression; L307 alone is not all three statements."
+        }
+      ],
+      "additional_reviewer_source_check": {
+        "purpose": "Verify actual create_claim v6 selection without mistaking build_candidate_claim default version inference for new-live-claim behavior",
+        "source": {
+          "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+          "start_line": 4029,
+          "end_line": 4039,
+          "quote": "        broad_scope_mode=broad_scope_mode,\n        broad_scope_reason=broad_scope_reason,\n        target_worktree_path=target_worktree_path,\n        contact_ref=contact_ref,\n        new_files=new_files,\n        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)"
+        },
+        "qualification": "This exact selection excerpt was read independently by reviewer; it is not represented as a line returned to the child."
+      }
+    },
+    "review_charter": {
+      "target": "Fresh development-investigator result at native child final line106",
+      "stage": "PoC",
+      "next_decision": "Whether exact native child delivery has a source-correct literal JSON task result",
+      "non_goals": [
+        "No rewriting the raw result",
+        "No current mutating reproduction",
+        "No broader permission/hook certification"
+      ],
+      "stopping_rule": "Stop after complete field coverage, exact source verification and all native call/return review"
+    }
+  },
+  "semantic_summary": {
+    "verdict": "pass",
+    "counts": {
+      "supported": 21,
+      "qualified": 0,
+      "incorrect": 0,
+      "inconclusive": 0
+    },
+    "items": 21
+  },
+  "derived_usage": {
+    "parent": {
+      "first": {
+        "input_tokens": 22494,
+        "cached_input_tokens": 4864,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1425,
+        "reasoning_output_tokens": 181,
+        "total_tokens": 23919
+      },
+      "total": {
+        "input_tokens": 71854,
+        "cached_input_tokens": 33024,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1524,
+        "reasoning_output_tokens": 211,
+        "total_tokens": 73378
+      }
+    },
+    "child": {
+      "first": {
+        "input_tokens": 23323,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 168,
+        "reasoning_output_tokens": 97,
+        "total_tokens": 23491
+      },
+      "total": {
+        "input_tokens": 534271,
+        "cached_input_tokens": 471040,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 4822,
+        "reasoning_output_tokens": 2735,
+        "total_tokens": 539093
+      }
+    }
+  },
+  "effective_permissions": [
+    {
+      "turn_id": "01a122dd-7086-75c0-92df-e00a45833dae",
+      "root_turn_id": "01a122dc-2209-7691-8e4e-a3adba81db40",
+      "disabled_plugin_ids": [],
+      "cwd": "/home/brian/.hive-brain/aes",
+      "approval_policy": "never",
+      "approvals_reviewer": "user",
+      "sandbox_policy": {
+        "type": "read-only"
+      },
+      "permission_profile": {
+        "type": "managed",
+        "file_system": {
+          "type": "restricted",
+          "entries": [
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "root"
+                }
+              },
+              "access": "read"
+            }
+          ]
+        },
+        "network": "restricted"
+      },
+      "model": "gpt-6-luna",
+      "comp_hash": "3000",
+      "collaboration_mode": {
+        "mode": "default",
+        "settings": {
+          "model": "gpt-6-luna",
+          "reasoning_effort": "high",
+          "developer_instructions": null
+        }
+      },
+      "multi_agent_version": "v2",
+      "realtime_active": false,
+      "effort": "high",
+      "summary": "none"
+    }
+  ],
+  "child_turn_id": "01a122dd-7086-75c0-92df-e00a45833dae",
+  "tool_events": {
+    "parent": {
+      "calls": {
+        "call_9d476dc1e1ee4fd6a7b1efbd12e1a0f9": {
+          "line": 13,
+          "name": "spawn_agent",
+          "input_sha256": "36139324005b59175ad441d3e9c7c83a164fa27cc3ec6c9d9849e0c4bfcceaa9"
+        },
+        "call_f21cfc2387864fce9effa3248528aa17": {
+          "line": 21,
+          "name": "wait_agent",
+          "input_sha256": "242a16c5546f01e66f49d48225b7b8f0b9579d54b61362976b81b7817cc591e1"
+        }
+      },
+      "outputs": {
+        "call_9d476dc1e1ee4fd6a7b1efbd12e1a0f9": {
+          "line": 16,
+          "output_sha256": "f5e9c1f72721ef326642aa77c50026f0e3d70b00d8d4e8163756d961f919944d"
+        },
+        "call_f21cfc2387864fce9effa3248528aa17": {
+          "line": 25,
+          "output_sha256": "8f3d720ece6aae70da3d5dd333b54cc50a4094ff29b6d2ecb75d57f2758cd774"
+        }
+      }
+    },
+    "child": {
+      "calls": {
+        "call_fd7ed65696044c18bb4b0c8c26977a3e": {
+          "line": 13,
+          "name": "exec",
+          "input_sha256": "e594e7761afd3c911553f4d31e896040b71909fcc5170ee72545599ac278e59c"
+        },
+        "call_b35b8da1623443f68a0679a6d63eb18e": {
+          "line": 20,
+          "name": "exec",
+          "input_sha256": "5b1ccba54a9cdd5cebe1d5b24228dcdebdb2c135db2bb05a999e1a5a80c4ccc7"
+        },
+        "call_b60f4b65daba4da5bd4273d646cbc99e": {
+          "line": 27,
+          "name": "exec",
+          "input_sha256": "50ea637c33eae5fe175ad350c64b3ea26dad3e9ba53904adc8933fa9b6010d5c"
+        },
+        "call_b72ac98793d548f680a115719b0839fb": {
+          "line": 34,
+          "name": "exec",
+          "input_sha256": "e461a6e5c42eb99aa4ea6c93e019ad66452721502b396da78b66fd82dafa0a68"
+        },
+        "call_e7afc96bb9c24a49bb04bae2c97f3941": {
+          "line": 41,
+          "name": "exec",
+          "input_sha256": "b107458111c807ce4ef0053c740e4518511badbf0ebbab45802f484abe5dd2ab"
+        },
+        "call_2eabb8b6cee34117ae3410b33651afdc": {
+          "line": 48,
+          "name": "exec",
+          "input_sha256": "68519ec033daaae1d5f6b472d2d1951bb31e8d388c7f84461a1e1016d682478b"
+        },
+        "call_a977e18a1746414a88fd0d6a7d1c7487": {
+          "line": 55,
+          "name": "exec",
+          "input_sha256": "c9f9d03178f7913eea2e49bb9d5e5f9c674953b829e4debeb2c6435956abdf86"
+        },
+        "call_be1842cc6fe7438aa76d386210b85715": {
+          "line": 62,
+          "name": "exec",
+          "input_sha256": "5052c65116cccdc0993a4c9586a945cdbcf0a518d5b7c609a31bb583e2358de6"
+        },
+        "call_fa925cfa51394f74be4bc2211191b390": {
+          "line": 69,
+          "name": "exec",
+          "input_sha256": "53fa076d77c2f68bc7bf62610d05cd13ab366b4c9cc7d015b79f46d273d25232"
+        },
+        "call_63e8e7933b434856948360d13e59cebf": {
+          "line": 76,
+          "name": "exec",
+          "input_sha256": "fd94d5fdeb183b10612ae7c18b7eaa6525e9a16ead243f6e39bf08be7b2d1705"
+        },
+        "call_15f6d898a25742429c2769ba08378087": {
+          "line": 83,
+          "name": "exec",
+          "input_sha256": "ed1035fe9be58685599bd766ae122de125ec21407960ae6a69731db327cd2b4e"
+        },
+        "call_e3983e32ef3841deb4d75ecbe0a08b33": {
+          "line": 90,
+          "name": "exec",
+          "input_sha256": "4042291c5379b093afc2513bca30e5b633f2a80a401e73fc9eb26a8b0a27c77d"
+        }
+      },
+      "outputs": {
+        "call_fd7ed65696044c18bb4b0c8c26977a3e": {
+          "line": 16,
+          "output_sha256": "ffc87de6c4f7fc1b75e5e5c55c2e159cb63d4ef8ec19af48a161e200127e25d0"
+        },
+        "call_b35b8da1623443f68a0679a6d63eb18e": {
+          "line": 23,
+          "output_sha256": "627765e6a0c7a35839767e73e2ac7f48a533d97c8682dfef5d6289b1613f7dbd"
+        },
+        "call_b60f4b65daba4da5bd4273d646cbc99e": {
+          "line": 30,
+          "output_sha256": "c4eabe510802e14118ffc7b4dd0ab1b88b5846235ba3b5f34191e913b13014f0"
+        },
+        "call_b72ac98793d548f680a115719b0839fb": {
+          "line": 37,
+          "output_sha256": "78b716cfc4750b086b88c01b7b35939ee28bfd9f40ec3fbd30514d042bd14b86"
+        },
+        "call_e7afc96bb9c24a49bb04bae2c97f3941": {
+          "line": 44,
+          "output_sha256": "96de1192d1c6b6295e9951d5333eb567d8460324040cdc54615c9030719c4ae5"
+        },
+        "call_2eabb8b6cee34117ae3410b33651afdc": {
+          "line": 51,
+          "output_sha256": "e5e0867ccdb18570cbf4f6b68be59c475ab90d51d6abf30717f045f082a73e20"
+        },
+        "call_a977e18a1746414a88fd0d6a7d1c7487": {
+          "line": 58,
+          "output_sha256": "000111b30bbf51515a6d80e7ed3cb7994d2a1368564e721bb099bb31dcaadefd"
+        },
+        "call_be1842cc6fe7438aa76d386210b85715": {
+          "line": 65,
+          "output_sha256": "c84850e4c577e64fd5604aae6b8f0509e1b0daae9e9f2c03108af989f7919315"
+        },
+        "call_fa925cfa51394f74be4bc2211191b390": {
+          "line": 72,
+          "output_sha256": "4af5f93deb894e6b6e0dddce6ef8cdff220169190269e8de199adcbc300e40f9"
+        },
+        "call_63e8e7933b434856948360d13e59cebf": {
+          "line": 79,
+          "output_sha256": "bf3fa1a430b3b32325dc9cf84f1184b50d2103ad1330229c1ba49655cdab8c13"
+        },
+        "call_15f6d898a25742429c2769ba08378087": {
+          "line": 86,
+          "output_sha256": "6a2429ef14c3dbc322e6051038d337fb70beb5eef86c5759fbef88acfaabb5f4"
+        },
+        "call_e3983e32ef3841deb4d75ecbe0a08b33": {
+          "line": 93,
+          "output_sha256": "8bcd62c8c7bf6dd4148559ff2eeb42a25c86824fbf3523d4c97d7327b82283be"
+        }
+      }
+    }
+  },
+  "canonical_authority_read_calls": {
+    "proposals/harness-context/native-parity/input/project-meta/AGENTS.md": [
+      "call_fd7ed65696044c18bb4b0c8c26977a3e"
+    ],
+    "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md": [
+      "call_b35b8da1623443f68a0679a6d63eb18e"
+    ]
+  },
+  "canonical_authority_read_coverage": {
+    "verdict": "pass",
+    "sources": {
+      "proposals/harness-context/native-parity/input/project-meta/AGENTS.md": {
+        "source_lines": 210,
+        "missing_exact_lines": [],
+        "truncated_call_ids": []
+      },
+      "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md": {
+        "source_lines": 275,
+        "missing_exact_lines": [],
+        "truncated_call_ids": []
+      }
+    },
+    "qualification": "Exact numbered-line return membership establishes availability, not model comprehension."
+  },
+  "measured_comparison": {
+    "baseline_kind": "different_model_historical_child_not_controlled",
+    "baseline_child_id": "01a11fdd-afc4-73c3-926b-ad39bba75696",
+    "baseline_first_input_tokens": 37750,
+    "compact_child_first_input_tokens": 23323,
+    "compact_parent_first_input_tokens": 22494,
+    "reduction_percent": null,
+    "not_a_child_vs_immediate_parent_reduction": true,
+    "baseline_model": "gpt-6.1-sol",
+    "observed_model": "gpt-6-luna"
+  },
+  "trace_review_findings": [
+    {
+      "classification": "expected_search_no_matches",
+      "call_id": "call_e7afc96bb9c24a49bb04bae2c97f3941",
+      "call_line": 41,
+      "return_line": 44,
+      "exit_code": 1,
+      "followup_call_line": 48,
+      "followup_return_line": 51,
+      "disposition": "Preserved as an empty standalone discovery search; full facade read followed with exit0."
+    },
+    {
+      "classification": "implementation_search_truncated",
+      "call_line": 55,
+      "return_line": 58,
+      "followup_return_lines": [
+        72,
+        86
+      ],
+      "disposition": "Retained as truncated; exact causal portions arrived in later bounded reads. See full semantic review trace_audit."
+    }
+  ],
+  "runtime_parity_certified": false,
+  "limits": [
+    "This consumer retrieves exact native child bytes through the incumbent collector; the model parent is not asked to reconstruct or forward the investigation JSON.",
+    "Required-authority read coverage proves source availability, not comprehension.",
+    "The original changed parent answer and incomplete source read remain preserved in authority-context-proof.json.",
+    "The recorded read-only/network permission profile is observed; exact five-file enforcement, writable-parent isolation and all-hook parity remain uncertified.",
+    "Both prepared role projections contain required policy; refreshed Claude delivery is not run because the native weekly subscription window is blocked.",
+    "Startup count uses a different model from the historical original; no controlled savings percentage is asserted."
+  ],
+  "launch_source": {
+    "path": "/home/brian/.codex/log/harness-compact-native-2026-10-09.jsonl",
+    "line": 93,
+    "raw_line_sha256": "3cd006e7e5117b72a40d5b510296f409c3bda46a566ce2bdada7d1f4f866b762",
+    "record_sha256": "6cbbacf5038929fd4df9674395a2fdd4b1631686be5c9cd1b57c0b5be51da551"
+  },
+  "terminal_source": {
+    "path": "/home/brian/.codex/log/harness-compact-native-2026-10-09.jsonl",
+    "line": 103,
+    "raw_line_sha256": "9b41002aa50de4da5e146e81fea7345ab5c48fd18c21ebe93faf59197144a8c8",
+    "record_sha256": "f7b17fd30e5d22c738d20e4eb83da72ba158af1c56bef92d9013915062f4e851"
+  },
+  "routing_receipt": {
+    "schema_version": "native-child-routing-receipt/v1",
+    "child_ref": "/root/maintenance_discovery",
+    "delivery": "native_collector",
+    "consumer": "native-parity-evidence-checker"
+  },
+  "native_delivery": {
+    "parent_session_id": "01a122db-d4f2-7581-81b5-33423a4c0061",
+    "call_id": "call_9d476dc1e1ee4fd6a7b1efbd12e1a0f9",
+    "child_ref": "/root/maintenance_discovery",
+    "child_session_id": "01a122dd-6f4f-76a1-9919-aa01f356a622",
+    "child_trace": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T18-51-39-01a122dd-6f4f-76a1-9919-aa01f356a622.jsonl",
+    "terminal": "completed",
+    "collector_result": "{\"schema_version\":\"development-investigation-result/v1\",\"task_id\":\"maintenance-discovery-frozen-20261009\",\"specialist_id\":\"development-investigator\",\"status\":\"supported\",\"root_cause\":\"The frozen maintenance command defaults its write path to `.` and forwards it to the worktree claim, but does not set broad-scope mode or reason by default. The admission code classifies `.` as a repository-root broad path and rejects a new schema-v6 claim without an allowed broad-scope mode; it also requires a reason. This supports the reported `broad_scope_mode_required` refusal at the source level.\",\"evidence\":[{\"path\":\"proposals/harness-context/native-parity/input/project-meta/Makefile\",\"locator\":\"L312\",\"fact\":\"`MAINTENANCE_BOOTSTRAP_WRITE_PATHS` resolves to caller-supplied `SESSION_WRITE_PATHS`, or `.` when none is supplied.\"},{\"path\":\"proposals/harness-context/native-parity/input/project-meta/Makefile\",\"locator\":\"L325\",\"fact\":\"The maintenance target recursively invokes `make worktree`.\"},{\"path\":\"proposals/harness-context/native-parity/input/project-meta/Makefile\",\"locator\":\"L332\",\"fact\":\"The recursive worktree invocation forwards the resolved maintenance write paths as `SESSION_WRITE_PATHS`.\"},{\"path\":\"proposals/harness-context/native-parity/input/project-meta/Makefile\",\"locator\":\"L192\",\"fact\":\"The worktree claim passes `--broad-scope-mode` only when `SESSION_BROAD_SCOPE_MODE` is set; the adjacent line does the same for `SESSION_BROAD_SCOPE_REASON`.\"},{\"path\":\"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\"locator\":\"L2617\",\"fact\":\"The classifier explicitly classifies `.` as `repository_root`, a broad path.\"},{\"path\":\"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\"locator\":\"L2765\",\"fact\":\"A broad path with no allowed broad-scope mode produces `broad_scope_mode_required`; a missing reason produces `broad_scope_reason_required`.\"},{\"path\":\"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\"locator\":\"L2150\",\"fact\":\"For a live schema-v6 claim, claim creation raises an error containing the broad-scope contract issues.\"},{\"path\":\"proposals/harness-context/native-parity/input/project-meta/Makefile\",\"locator\":\"L307\",\"fact\":\"The Makefile comments say the default root claim is a bootstrap claim and that the lane must narrow authority before scoped implementation; they identify `SESSION_WRITE_PATHS` as an override.\"},{\"path\":\"proposals/harness-context/native-parity/input/project-meta/AGENTS.md\",\"locator\":\"L99\",\"fact\":\"The documented maintenance command example does not show a write-path override or broad-scope metadata.\"}],\"causal_chain\":[\"With no write-path argument, the maintenance Make target resolves the claim scope to `.` and forwards it to `make worktree`.\",\"The claim command conditionally supplies broad-scope mode and reason, but the documented invocation does not set those variables.\",\"The admission classifier treats `.` as repository-root broad scope, which requires an allowed mode and a non-empty reason.\",\"For a bootstrap-mode claim, the same contract additionally requires a target worktree path matching the physical worktree; narrowing the write paths to non-broad paths avoids the broad-path metadata requirement.\"],\"alternatives_ruled_out\":[\"The frozen Makefile does not leave the write scope empty when the documented command omits write-path arguments; it supplies `.`.\",\"The cited admission refusal is distinct from a runtime reproduction: it follows from the frozen source conditions, not a fresh command execution.\"],\"limitations\":[\"No mutating admission command was run, as the task packet prohibits a current reproduction.\",\"The evidence is limited to the supplied frozen files and historical report; it does not independently verify the historical runtime state, exact claim payload, or that no external Make variable was set.\",\"The Makefile comments explain that `SESSION_WRITE_PATHS` overrides the root default, but the documented command example and target usage text do not surface that variable or explain the broad-scope admission metadata.\"],\"recommended_parent_action\":\"Report this as a source-supported explanation of the historical refusal, while preserving the distinction from runtime reproduction. If describing recovery, note that `SESSION_WRITE_PATHS` can narrow the default scope; retaining broad scope requires valid broad-scope metadata, and bootstrap mode also requires the matching target-worktree metadata.\",\"mutation_declaration\":{\"files_changed\":false,\"network_used\":false,\"memory_changed\":false,\"children_spawned\":false}}",
+    "result_sha256": "c02d3a4f444d7604eed8b2802c5b733301e90f44f69e03b803d43d7ebde01a5c",
+    "consumer": "native-parity-evidence-checker"
+  },
+  "source_call_outcomes": {
+    "call_fd7ed65696044c18bb4b0c8c26977a3e": {
+      "command": "nl -ba proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": false
+    },
+    "call_b35b8da1623443f68a0679a6d63eb18e": {
+      "command": "nl -ba proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": false
+    },
+    "call_b60f4b65daba4da5bd4273d646cbc99e": {
+      "command": "rg -n -C 4 'maintenance-worktree|MAINTENANCE_BOOTSTRAP_WRITE_PATHS|broad_scope_mode_required' proposals/harness-context/native-parity/input/project-meta/Makefile",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": false
+    },
+    "call_b72ac98793d548f680a115719b0839fb": {
+      "command": "nl -ba proposals/harness-context/native-parity/input/project-meta/Makefile | sed -n '280,335p'",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": false
+    },
+    "call_e7afc96bb9c24a49bb04bae2c97f3941": {
+      "command": "rg -n -C 4 'broad_scope_mode_required|write_paths|bootstrap|scope_mode' proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+      "exit_code": 1,
+      "session_id": null,
+      "outcome": "no_matches",
+      "output_truncated": false
+    },
+    "call_2eabb8b6cee34117ae3410b33651afdc": {
+      "command": "nl -ba proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": false
+    },
+    "call_a977e18a1746414a88fd0d6a7d1c7487": {
+      "command": "rg -n -C 5 'broad_scope_mode_required|MAINTENANCE_BOOTSTRAP_WRITE_PATHS|maintenance.*write|write_paths' proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": true
+    },
+    "call_be1842cc6fe7438aa76d386210b85715": {
+      "command": "rg -n 'BROAD_SCOPE_MODES|BROAD_SCOPE|def _broad_scope_contract_issues|broad_scope_reason_required|bootstrap.*broad_scope|broad_scope_mode' proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py | head -n 90",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": false
+    },
+    "call_fa925cfa51394f74be4bc2211191b390": {
+      "command": "nl -ba proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py | sed -n '2581,2628p;2676,2785p'",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": false
+    },
+    "call_63e8e7933b434856948360d13e59cebf": {
+      "command": "rg -n -C 3 'BROAD_SCOPE|broad-scope|SESSION_WRITE_PATHS|SESSION_CLAIM_TYPE|ALLOW_UNPLANNED' proposals/harness-context/native-parity/input/project-meta/Makefile | head -n 130",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": false
+    },
+    "call_15f6d898a25742429c2769ba08378087": {
+      "command": "nl -ba proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py | sed -n '74,90p;1298,1325p;2120,2155p'",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": false
+    },
+    "call_e3983e32ef3841deb4d75ecbe0a08b33": {
+      "command": "nl -ba proposals/harness-context/native-parity/input/project-meta/Makefile | sed -n '72,100p;160,200p;238,265p'",
+      "exit_code": 0,
+      "session_id": null,
+      "outcome": "success",
+      "output_truncated": false
+    }
+  }
+}
