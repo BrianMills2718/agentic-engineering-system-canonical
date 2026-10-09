@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-654aacd1db0b",
+  "receipt_id": "RECEIPT-PLAN-cec9c9d22db1",
   "plan": {
     "plan_ref": "proposals/aes-feedback-prevention/PLAN.md",
-    "plan_sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+    "plan_sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
   },
   "path_decision": {
     "ref": "proposals/aes-feedback-prevention/planning-path-decision.json",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/aes-feedback-prevention/facts.json",
-    "facts_sha256": "cf50cab2a311e2e1e603fa9eb2be6ccfb5819f4e78b01457263d9c65e58ba3cd",
+    "facts_sha256": "0f88a03419d3e28b82bc39194065b1775cb65101fa269fb8d47774fbd28c9fb2",
     "facts": {
       "shared_mechanism": true,
       "llm_central": true,
@@ -118,10 +118,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:c0f60c0174b4cf99db220e5fb7d656f686e6ccd9747fd991537bb130c1547344",
-    "definition_sha256": "1e26b4a69a2c2c9a0c7fc1c93a8f5daacb4217e7648af251c498c17db5e05d1b",
+    "revision": "sha256:1338e7157f2ffcdc35d68c991641a89f741ced5c51a897d8a88138940814dd26",
+    "definition_sha256": "cbccf14ebfe3bef10c182aea6e75a71d331bf0fa32ec8c09dc4b3685d5ef3fac",
     "bundle_ref": "proposals/aes-feedback-prevention/bundle.json",
-    "bundle_sha256": "a531311c825783009bfd22c889e8553744f5324cdb926b99b90534da978e08b1",
+    "bundle_sha256": "d5e00d501827debd454d9675d5cee471a6f85a3162b66cf1ef7e19598b77d1d1",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -139,7 +139,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#actor-and-result",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -185,7 +185,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#requirements",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -212,7 +212,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#success-and-disproof",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -239,7 +239,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#success-and-disproof",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -266,7 +266,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#system-model",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -293,7 +293,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#capability-reuse",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -320,7 +320,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#authority-and-non-goals",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -347,7 +347,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -374,7 +374,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#uncertainties",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -401,16 +401,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#activation-facts",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/41a03f195e6c/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/b87cd8eabad2/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "All triggered activation facts are not declared false. The plan explicitly declares shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, aes_governed_target, crosses_system_boundary, and deploys as true; it correctly declares empirical_comparison_proposed false because the native/remote cases are acceptance and regression checks rather than a comparison used to choose among alternatives.",
+        "rationale": "The plan explicitly declares every triggered activation fact as true, including shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, aes_governed_target, crosses_system_boundary, and deploys. It correctly declares empirical_comparison_proposed false, while the quoted acceptance and regression cases do not propose comparing alternative designs, models, or candidates.",
         "reused": true
       },
       "suggested_action": null
@@ -428,7 +428,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#prior-art-and-ownership",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -455,7 +455,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#prior-art-and-ownership",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -482,7 +482,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#llm-call-boundary",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -509,7 +509,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#llm-call-boundary",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -536,16 +536,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#coordination",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/720f1c74bf92/OV-COORD-OWNERSHIP",
+        "trace_id": "company-planning/method-conformance/PLAN/b87cd8eabad2/OV-COORD-OWNERSHIP",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies the root writer and its owned paths, states there is no dependency on another writer, and describes conflict boundaries through non-overlapping claims and read-only roles. It names the root as integrator and identifies official bootstrap receipts and claims as ownership evidence for the work units.",
+        "rationale": "The evidence explicitly identifies owners and exact owned paths for the concurrent harness writer and root’s work units, gives dependencies and conflict/non-overlap surfaces, names root and the harness agent as integration owners, and provides work-unit evidence including commits, blobs, test results, PR, and support claims.",
         "reused": true
       },
       "suggested_action": null
@@ -563,7 +563,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#contracts-and-dependencies",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -590,7 +590,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#contracts-and-dependencies",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -617,7 +617,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#deployment",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -644,7 +644,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#standard-conformance",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -671,7 +671,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#standard-conformance",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -698,7 +698,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-feedback-prevention/PLAN.md#aes-target",
-          "sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b"
+          "sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814"
         }
       ],
       "semantic": {
@@ -729,11 +729,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-654aacd1db0b",
+    "report_id": "REPORT-PLAN-cec9c9d22db1",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:a531311c825783009bfd22c889e8553744f5324cdb926b99b90534da978e08b1",
+    "snapshot_revision": "sha256:d5e00d501827debd454d9675d5cee471a6f85a3162b66cf1ef7e19598b77d1d1",
     "packet_ref": "proposals/aes-feedback-prevention/PLAN.md",
-    "packet_revision": "sha256:654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b",
+    "packet_revision": "sha256:cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -756,7 +756,7 @@
     "client": "codex",
     "session": "01a11cac-2557-7dc0-8edd-8487ed5968d1"
   },
-  "started_at": "2026-10-09T04:20:14Z",
-  "completed_at": "2026-10-09T04:20:15Z",
-  "duration_ms": 1338
+  "started_at": "2026-10-09T04:54:14Z",
+  "completed_at": "2026-10-09T04:54:14Z",
+  "duration_ms": 206
 }

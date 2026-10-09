@@ -2,7 +2,7 @@
   "schema_version": "method-activation-facts.v1",
   "record_type": "method_activation_facts",
   "plan_ref": "proposals/aes-feedback-prevention/PLAN.md",
-  "plan_sha256": "654aacd1db0b402310fcbbec137cf74581b8ce5d919f323dbf51055ac493044b",
+  "plan_sha256": "cec9c9d22db1d91661ec11f11d22a947d53e78fa38cc320536c43491e3940814",
   "path_decision_ref": "proposals/aes-feedback-prevention/planning-path-decision.json",
   "path_decision_sha256": "276c02db496db9440190612e0248381ae387e9ddbce4bd976212f42217e9b3fc",
   "facts": {
@@ -25,5 +25,5 @@
     "crosses_system_boundary": "derived_current_boundary",
     "deploys": "derived_current_boundary"
   },
-  "recorded_at": "2026-10-09T04:18:18Z"
+  "recorded_at": "2026-10-09T04:54:00Z"
 }

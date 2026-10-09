@@ -26,6 +26,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/720f1c74bf92/CORE-AUTHORITY-NONGOALS",
     "verdict": "pass"
   },
+  "1332a931f51b2ab91e82c32f2569f2ca4d50eefad96851875d248921ffa48203": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares every triggered activation fact as true, including shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, aes_governed_target, crosses_system_boundary, and deploys. It correctly declares empirical_comparison_proposed false, while the quoted acceptance and regression cases do not propose comparing alternative designs, models, or candidates.",
+    "trace_id": "company-planning/method-conformance/PLAN/b87cd8eabad2/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
   "17b7e93bfe347719ddc3e78d05fef79f864da7cce2801ac46500319d16c35149": {
     "item_id": "OV-LLM-AUTHORITY-PROMOTION",
     "materiality": "non_material",
@@ -69,6 +78,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence explicitly bounds the proposed work to routine checks, one taxonomy decision, two native role cases, at most 12 turns per native assignment, and a maximum $2 budget. It identifies Brian\u2019s standing configured-model authority and the scoped approval as authorization, and contains the work through read-only constraints, no model override, approved routing, quota/billing stop conditions, and prohibition of retries or broader evaluation.",
     "trace_id": "company-planning/method-conformance/PLAN/720f1c74bf92/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "pass"
+  },
+  "20495d4daf931d413f0bccb79ef600978158c9853760171a457c70767faa8a1b": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "All triggered activation facts are declared true: shared_mechanism, llm_central, irreversible_or_spend_action, claims_external_standard, and aes_governed_target. empirical_comparison_proposed is correctly declared false because the plan describes acceptance and regression checks rather than comparing alternatives to choose among them.",
+    "trace_id": "company-planning/method-conformance/PLAN/d49ef72e2fae/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   },
   "2177706f239ec158a0d604fcde20fe1722f4ab41a050226f79d0a62a7a43da19": {
@@ -296,6 +314,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/6a2ce5430153/OV-STANDARD-CONFORMANCE-GATE",
     "verdict": "unresolved"
   },
+  "89c7afc4681a3e11b09ff0b2598e8504083afa1aa1fbbae183c77bf86bd62ffa": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies owners and exact owned paths for the concurrent harness writer and root\u2019s work units, gives dependencies and conflict/non-overlap surfaces, names root and the harness agent as integration owners, and provides work-unit evidence including commits, blobs, test results, PR, and support claims.",
+    "trace_id": "company-planning/method-conformance/PLAN/b87cd8eabad2/OV-COORD-OWNERSHIP",
+    "verdict": "pass"
+  },
   "8bb369dab9650d24308830b996dc6cc4ac0390353ba35474afed70733bbe0340": {
     "item_id": "CORE-UNCERTAINTIES",
     "materiality": "non_material",
@@ -421,5 +448,14 @@
     "rationale": "The evidence explicitly defines success through direct checks of the claimed behavior, including reading the actual failure sentence and links, exact-source dispositions, native and remote-required behavior, and rejection of the old inconclusive result. It also gives concrete disproof conditions, including missing records, count-only acceptance, duplicate or mutated IDs, status-only inference, prerequisite violations, and schema violations.",
     "trace_id": "company-planning/method-conformance/PLAN/6a2ce5430153/CORE-SUCCESS-DISPROOF",
     "verdict": "pass"
+  },
+  "f181599b277feeff8923c39d5eba4feecb2c3ddbe147cb256ca06d3ef5adeb59": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "material",
+    "missing": "Explicit work-unit evidence for each concurrent writer is missing, and the conflict surfaces are not individually named beyond a general statement that certain claims do not overlap the listed paths.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence identifies the root owner, owned paths, a dependency, and says root integrates the work. However, it does not provide work-unit evidence for each concurrent writer or explicitly enumerate the conflict surfaces required by the requirement.",
+    "trace_id": "company-planning/method-conformance/PLAN/d49ef72e2fae/OV-COORD-OWNERSHIP",
+    "verdict": "unresolved"
   }
 }

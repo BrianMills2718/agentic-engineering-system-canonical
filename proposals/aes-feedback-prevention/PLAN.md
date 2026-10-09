@@ -60,6 +60,58 @@ conflict_surfaces:
     repository: "BrianMills2718/agent-skills"
     target: "README.md"
     access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "tests/test_archive_artifacts.py"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "tests/test_check_destructive.py"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "tests/test_install.py"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "tests/test_skill_portfolio_contracts.py"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "tests/test_sync_skills.py"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "tests/test_work_market_skills.py"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "skills/brian-positions/evals/trigger_cases.json"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "skills/diagram-design/evals/trigger_cases.json"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "skills/impeccable/evals/trigger_cases.json"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "skills/representation-router/evals/trigger_cases.json"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "skills/resume-writing/evals/trigger_cases.json"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "skills/review-skill-feedback/evals/trigger_cases.json"
+    access: write
+  - kind: repository_path
+    repository: "BrianMills2718/agent-skills"
+    target: "skills/visual-explainer/evals/trigger_cases.json"
+    access: write
 method_conformance_receipt: proposals/aes-feedback-prevention/PLAN.receipt.json
 goal:
   outcome: "New feedback reaches existing failure-pattern review and one real native-agent failure reaches checked prevention"
@@ -162,7 +214,11 @@ Brian authorizes the configured native route and approved OpenRouter/shared-clie
 
 > **OV-COORD-OWNERSHIP** (blocking): The plan names exact ownership, dependencies, conflict surfaces, the integration owner, and the work-unit evidence for each concurrent writer.
 
-One root writer, session codex:01a11cac-2557-7dc0-8edd-8487ed5968d1, owns AES worktrees/feedback-prevention (this proposal, CLAUDE.md/AGENTS.md, needed instruction projection/verification files and .project-brain/now.md) and agent-skills worktrees/feedback-taxonomy-intake (scripts/taxonomy_feedback_pass.py, tests/test_taxonomy_feedback_pass.py, taxonomy_feedback_state.json and README.md). Official sanctioned bootstrap receipts and claims list are ownership evidence. Existing capability-catalogue, rules-sort/agent-router, worktree-lifecycle and harness-mailbox-repair claims do not overlap these paths and are preserved. Native role cases are read-only with no write claim; reuse the existing canary agent if available. No delegated implementation or dependency on another writer; no work graph is needed for one writer's sequential linked lanes. Root integrates reader first, then its source-linked AES case evidence/instruction repair, with merge commits preserving the recorded subjects.
+Work-unit evidence and conflict surfaces: FP-AES is root's sequential instruction/case unit, branch feedback-prevention, evidenced by retained repair commit d5163ee53ac30e2ba43ce61d38bf071626b4f249, full local gate commit 236ba7aa167b0277a2006591fbf1b8667bdac67b, and private repair-verification.jsonl:57. Its exact write surfaces are the AES repository_path rows in front matter. FP-INTAKE is the same root's sequential reader/gate unit, branch feedback-taxonomy-intake, evidenced by pushed a6b41b461c0ff4e4888f765bb076af8e01bb0aa8 and repair-verification.jsonl:58-59; its exact write surfaces are the Agent Skills repository_path rows in front matter. These are bounded work units described here, not WorkUnitGraphV1 records or delegated tasks. The admission receipts are the official coordination claims for scopes feedback-prevention and feedback-taxonomy-intake, checked through project-meta/scripts/meta/check_coordination_claims.py, not mailbox messages.
+
+The only concurrent writer this repair consumes is codex:01a1198b-539e-7d32-8dc4-7fe62cc903d9. Its independently adopted harness-mailbox-repair support unit exclusively owns tests/test_manage_client_config.py in worktrees/harness-mailbox-repair under scope harness-mailbox-support. Work-unit evidence: exact ready blob c0e67a2:tests/test_manage_client_config.py, owner-reported 21/21 tests, PR agent-skills #461, and the official live support claim. Its parent exclusively owns contracts/client-config/hook-manifest.v1.json and proposals/harness-mailbox-repair under scope harness-mailbox-repair. Root writes none of those paths while they are claimed; this gate repair does not adopt or revise that independent work. The dependency is integration/readback of the test-only fix after sanctioned release or merge, and the manifest's integrated behavior is checked separately. AES capability-catalogue owns wiki/index.md; root used already-owned CLAUDE.md links instead. Other AES rules-sort/worktree-lifecycle claims are unrelated writers with no assigned work under this plan, not additional implementation dependencies. Native feedback_canary only reads the packet's allowed paths and owns no writes. Root is the integration owner of FP-AES and FP-INTAKE; the harness agent remains integration owner of its mailbox unit.
+
+One root writer, session codex:01a11cac-2557-7dc0-8edd-8487ed5968d1, owns AES worktrees/feedback-prevention (this proposal, CLAUDE.md/AGENTS.md, needed instruction projection/verification files and .project-brain/now.md) and agent-skills worktrees/feedback-taxonomy-intake (scripts/taxonomy_feedback_pass.py, tests/test_taxonomy_feedback_pass.py, taxonomy_feedback_state.json and README.md). Official sanctioned bootstrap receipts and claims list are ownership evidence. Existing capability-catalogue, rules-sort/agent-router, worktree-lifecycle and harness-mailbox-repair claims do not overlap these paths and are preserved. Native role cases are read-only with no write claim; reuse the existing canary agent if available. No delegated implementation; root sequentially owns the exact gate-repair test/fixture paths listed in front matter after a claim refresh. The independently owned tests/test_manage_client_config.py correction is a narrow dependency: preserve its claim until the owner confirms sanctioned release or merges it, then integrate its exact test-only bytes. No work graph is needed for root's sequential linked lanes. Root integrates reader first, then its source-linked AES case evidence/instruction repair, with merge commits preserving the recorded subjects.
 
 ## Standard conformance
 
@@ -185,6 +241,14 @@ The governing target is `.aes/target.yaml`. Explicit verification-subject mappin
 No .aes target delta: no files under target-governed src/agentic_engineering_system or tests/greenfield and no target component/service/container is added or changed. The instruction-scope correction is repository operational authority, not a new target implementation root. R1/R2 serve RU-AES-PLANNING, TR-REQ-001/SC-TR-001 through source-linked default intake and disposition verification; R3/R4 serve the same trace-review requirement through real role instruction/result traces and generated-authority sync; R5 serves RU-AES-COMMIT-RULE, SC-AP-001/SC-AP-002 with adopted-plan commit and completion binding. Existing verification subjects VS-TRACE-REVIEW and VS-AP-PLAN-RECEIPT remain in the required AES make check; focused reader and native case checks are this plan's additional operational subjects. No target proposal or aes plan validate is needed because the target is unchanged.
 
 ## Execution observations within the adopted scope
+
+Brian selected “Repair the shared test gate (Recommended)” on 2026-10-09 after the focused feedback checks passed and the full Agent Skills suite failed. This bounded prerequisite is AS #459, independently reproduced by the harness-mailbox agent. Extend R5 with VS-FP-GATE-REPAIR: change only test fixtures and their expectations, then run every changed test module and the full Agent Skills make test/check gates. The observed 465-test baseline has six failures and 73 errors, with complete stdout in the private repair-verification.jsonl:59. AES make check passed 340 tests, one skip and mypy at revision 236ba7aa; no AES executable code changes are planned for this prerequisite.
+
+Repair the root fixture mismatch: synthetic Git histories must use truthful allowed commit tags while retaining the installed commit hooks; neither disable hooks nor weaken commit enforcement. Installer/client-config tests must distinguish recorded disabled hooks from active declarations, preserving Brian's disabling decision. Feedback logger tests must isolate the client-home input actually consumed by main, rather than patch a derived LOG_DIR that main replaces. Hosted-CI tests must verify the manual-only workflow and local pre-commit contract rather than restore automatic runs. Restore named target and adjacent trigger fixtures for the seven automatic skills missing them, without changing their instructions or claiming a model routing score. Historical Work Market tests must run the archived planning scripts with their own archived authority, rather than launch the current external package through a forwarding wrapper. These are deterministic repository checks; there is no new evaluation, benchmark, model choice or shared planning-policy change.
+
+Ownership remains the existing root's claimed Agent Skills lane for the exact added test/fixture paths in front matter. tests/test_manage_client_config.py remains under the independent harness-mailbox-support claim; do not write or claim it until its owner confirms sanctioned release. The owner's ready test-only blob c0e67a2 is supporting evidence, not permission to import the manifest or whole commit. Integrate that independent fix only after release or its ordinary merge; then rerun its tests against the integrated manifest. Root remains integration owner of this repair. Shared hooks, client-config code/manifests, Company Planning source and live settings are outside this increment.
+
+Gate-repair success is that destructive-command history tests exercise actual commits and still reject data loss, disabled hooks remain absent from installed configuration, feedback written through the selected client is read from that isolated client home, workflow triggers remain manual-only, all automatic skills have explicit target/adjacent cases, and archived planning checks validate only their archived inputs. Disproof is a green suite obtained by skipping failing tests, suppressing hooks, restoring disabled controls, or grading a different planning version. The full gate run's argv, revision, stdout, per-step duration and exit status are retained in repair-verification.jsonl; read all failing assertions and a sample of passes. Model/view freshness: SYSTEM_MODEL.md needs only the gate evidence added after verification; its feedback entities and transport flow are unchanged by these fixture repairs. Update the plan's completion evidence and PR bodies with actual counts, never presumed success.
 
 The authentic intake exposed four retained taxonomy_changed dispositions bound to the same historical taxonomy digest. That digest is verified at agent-skills revision f1afe816bd43cda14e1a082449c9a5c7e47b3cf4; history validation now accepts retained decisions only when their bytes remain in Git, while a new observed change still requires the current digest. No historical disposition is rewritten. Default input emitted the exact original record, including occurrence time and trace links; one traced semantic review covered all 22 current families and selected N. The first remote expectation assumed missing tools; actual metadata showed them advertised. Its verifier failed, and a fresh no-network remote case was declared before execution and stopped at the required readiness/ping boundary. These corrections change neither the target scope nor licensing and recurrence thresholds.
 
