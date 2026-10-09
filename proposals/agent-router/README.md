@@ -1,6 +1,6 @@
 # Agent router: a fast model chooses the agent, its rules, its model and its effort
 
-Status: adopted 2026-10-08 as a Company Planning plan: [PLAN.md](PLAN.md) (20 of 20 checklist items evidenced; [receipt](receipt.json), [goal](agent-router.goal.md)). This page is the design; the plan holds the slices, spend bounds, trace criteria and ownership.
+Status: revised proposal, 2026-10-09. [PLAN.md](PLAN.md) contains Brian's five approved corrections; [revision goal](revision.goal.md), [route](revision-path-decision.json) and [verification](verification.log) cover the document-only update. The [2026-10-08 receipt](receipt.json) and [generated goal](agent-router.goal.md) describe the earlier plan digest, not adoption of this revision. No runtime was activated, no rule removed and no new model spend authorized; fresh semantic adoption precedes changed implementation.
 
 ## What Brian asked for
 
@@ -29,7 +29,7 @@ Afterwards the outcome (did the check pass, was it reverted, did the same mistak
 
 ## Four layers of rules
 
-A model that picks rules can miss one, so it is the last layer, not the only one.
+A model that picks rules can miss one, so it is the last layer, not the only one. The diagram is a proposed steady state after the canary, delivery and fallback gates pass; it is not evidence that those gates have run.
 
 ```mermaid
 flowchart TD
@@ -54,7 +54,7 @@ flowchart TD
 | Action | a hook before a tool call | at the moment of the action | merge rules before `gh pr merge` |
 | Intent | the fast router model | on each new job | "lead with a concrete example" when Brian says he does not understand |
 
-Subagents start without the parent's conversation, so a rule the parent was given does not reach them unless the role, the handoff or a hook carries it. The action layer is the only one that reaches every agent regardless of who it is or what it was told.
+Subagents start without the parent's conversation, so a rule the parent was given does not reach them unless the role, the handoff or a hook carries it. Delivery must be observed separately in Claude parent, Claude child, Codex parent and Codex child transcripts. Unsupported action hooks require a verified role/handoff route and retained baseline context; no layer is presumed to reach every client.
 
 ## What already exists (reuse, do not rebuild)
 
@@ -64,7 +64,7 @@ Subagents start without the parent's conversation, so a rule the parent was give
 | Specialist subagents that load only their role's rules | AES [harness-context](../harness-context/README.md) | shaping; one investigator canary | the role layer; the router chooses among these specialists |
 | The rules, with how each is enforced | AES [rules register](../../docs/rules/register.yaml) and [page](../../docs/rules/RULES.md) | merged 2026-10-08 (#457) | the source the router and hooks read; each rule gains a "when it applies" field |
 | A hook that enforces one rule at the moment of action | agent-skills Jev gate rule M1 (#453) | enforced | the pattern for the action layer |
-| Native dispatch with model and effort | Claude Code's Agent tool takes `subagent_type`, `model` and `effort`; Codex has equivalent native agents | available | the router's output fills these fields; no new runtime |
+| Native dispatch with model and effort | Claude Code's Agent tool takes `subagent_type`, `model` and `effort`; Codex support is resolved from its native capability list | available | the router's output fills these fields; no new runtime |
 | Deterministic-first routing | ideas register: onto-canon sense router resolves 78% of cases by rule, calls a model for the rest | pattern | the router tries fixed rules first and calls a model only for the remainder |
 
 Not documented anywhere before this page as one idea: the router choosing all four (subagent, rules, model, effort) for coding agents.
@@ -73,8 +73,8 @@ Not documented anywhere before this page as one idea: the router choosing all fo
 
 1. **Rule tags and legacy sort** (approved by Brian 2026-10-08). Sort project-meta's 263 legacy rules into already covered, keep or retire; give every kept rule a `applies_when` field: `always`, `roles: [...]`, `actions: [tool-call patterns]` or `intent: <description>`.
 2. **Action hook.** One hook, before each tool call, injects the rules whose `actions` pattern matches. First check that it also fires inside subagents in Claude Code and Codex; if it does not, that gap is the first finding. Start with merge, commit, UI file edits and Python environment setup.
-3. **Router in observe mode.** When an agent hands out work, the fast model proposes subagent, extra rules, model and effort, and the proposal is logged beside what the agent actually chose. Nothing is enforced yet. This measures how often the router would have chosen differently and costs one small model call per handoff.
-4. **Router chooses.** Once its proposals look sound in the log, the handoff uses them, and the outcome is sent to Plan #379's feedback store so later choices learn from it.
+3. **Router in observe mode.** When an agent hands out work, the fast model proposes subagent, extra rules, model and effort, and the proposal is logged beside what the agent actually chose. Nothing is enforced yet. This measures disagreement and reliability. Every eligible handoff stays in the denominator, including invalid, capped, failed, unsupported and missing-input proposals; outcome completeness is reported separately.
+4. **Bounded canary, then a routing proposal.** Shadow agreement selects cases; it cannot prove an unexecuted outcome. A separately authorized, small reversible canary executes incumbent and candidate choices against frozen independent task checks. Only supported fields can then be proposed for an authorized rollout, with fallback and joined outcome feedback.
 
 ## How we will know it works
 
@@ -86,3 +86,9 @@ Not documented anywhere before this page as one idea: the router choosing all fo
 
 - **The safety core is never left to the router.** Wrong when: an always-loaded rule is shown to cost more context than the misses it prevents, measured over a month of traces.
 - **Model and effort reuse llm_client Plan #379, not a second selector.** Wrong when: #379's selector cannot take a coding-agent job as a consumer without changing its contract; then this plan proposes the change there rather than forking.
+
+## Required rules and colleague configuration
+
+Before shrinking instructions, map every required rule to its delivery, deterministic gate and fallback for all four client/agent cells. Retain baseline context wherever coverage is unproven. The router cannot waive required rules or bypass existing gates.
+
+Portable profiles configure policy sets, required controls, specialist lists, native model/effort mappings, budgets, mode/off switch and workspace/log roots without code forks or personal path assumptions. Record the effective profile and native capability snapshot with each handoff. Configuration narrows authority; it does not grant new spend.
