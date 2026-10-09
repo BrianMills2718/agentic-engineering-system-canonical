@@ -1,12 +1,12 @@
 {
   "active_slice": {
-    "description": "Integrate retained-owner source-supported inventory; no new sort calls",
-    "next_action": "Read owner checkpoint and real register/page evidence; merge planning and inventory without dropping pending delivery gates",
-    "requires_external_action": true,
+    "description": "Validate portable profiles and complete handoff membership; inventory owner works independently",
+    "next_action": "Build adopted profile/accounting types; validate authentic native record and focused failure cases",
+    "requires_external_action": false,
     "requires_spend": false,
-    "slice_id": "inventory-integration",
+    "slice_id": "profile-accounting-core",
     "status": "executing",
-    "target_revision": "5d126be54972ae9e3ea4847ddf507447f54b13d3"
+    "target_revision": "bcbbbbb3ffabf52597d94acec0e165efa6b9b790"
   },
   "authority": {
     "external_action_authorized": true,
@@ -29,7 +29,7 @@
     "verifier_outcome": null
   },
   "cursor_id": "agent-router-completion-20261009",
-  "cursor_revision": 1,
+  "cursor_revision": 2,
   "failure_state": {
     "boundary": null,
     "last_failure_ref": null,
@@ -37,9 +37,23 @@
   },
   "goal_ref": "proposals/agent-router/agent-router.goal.md",
   "lifecycle_state": "active",
-  "observations": [],
+  "observations": [
+    {
+      "boundary": "exact-plan adoption",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/492",
+      "kind": "authentic_result",
+      "observation_id": "adoption-merged",
+      "outcome": "pass"
+    }
+  ],
   "plan_revision": "5d126be54972ae9e3ea4847ddf507447f54b13d3",
-  "ready_alternatives": [],
+  "ready_alternatives": [
+    {
+      "description": "Read retained owner source/register/page checkpoint when reported",
+      "ready": false,
+      "slice_id": "inventory-integration"
+    }
+  ],
   "record_type": "plan_execution_cursor",
   "schema_version": "1.0",
   "target": {
