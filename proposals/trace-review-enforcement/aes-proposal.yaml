@@ -1,0 +1,102 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-AES-SOURCE-BOUND-TRACE-REVIEW
+title: Resolve native trace-review standing against retained source evidence
+rationale: Extend the existing AES TraceReview and evidence standing, reusing Company
+  Planning TraceReviewV1 rather than duplicating its validator. The adopted cross-repository
+  plan remains owned by Company Planning; its exact consumer packet is preserved here
+  with source revision. No native observation schema change or parallel trace store.
+closes_gaps:
+- insufficient:SC-TR-001
+adopted_plan_ref: proposals/trace-review-enforcement/plan.md
+trace_review:
+  runs_traced_work: true
+target_delta:
+  add:
+    success_criteria:
+    - id: SC-TR-SOURCE-001
+      statement: Native evidence standing refuses unsupported trace-review claims
+        and admits only source-bound complete reviews of passing runs; complete reviews
+        of failed runs retain their failed verdict.
+      target_refs:
+      - TR-REQ-001
+      disproof: A missing provider or review, partial inventory, changed source, false
+        citation, wrong criterion/revision/reviewer binding, or reviewed failure yields
+        supporting standing.
+      evidence_requirements:
+      - id: ER-TR-SOURCE-001
+        kind: deterministic_test
+        requirement: Native standing and the real Company Planning validator reject
+          each counterexample and preserve the authentic privacy run failure.
+      - id: ER-TR-SOURCE-002
+        kind: trace_review
+        requirement: An independent reviewer inspects the retained native boundary
+          probe inputs and outputs, including refusals and the reviewed failed privacy
+          run.
+    planned_artifacts:
+    - id: ART-SRC-TRACE-PROVIDER
+      locator:
+        exact_path: src/agentic_engineering_system/trace_review.py
+      kind: source
+      purpose: Thin configurable invocation and native binding adapter for the existing
+        Company Planning trace validator
+      semantic_justification_refs:
+      - TR-REQ-001
+      - SC-TR-SOURCE-001
+    - id: ART-TEST-TRACE-PROVIDER
+      locator:
+        exact_path: tests/greenfield/test_source_bound_trace_review.py
+      kind: test
+      purpose: Source-bound standing counterexamples and reviewed failure preservation
+      semantic_justification_refs:
+      - SC-TR-SOURCE-001
+    verification_subjects:
+    - id: VS-TR-SOURCE
+      criterion_refs:
+      - SC-TR-SOURCE-001
+      evidence_requirement_refs:
+      - ER-TR-SOURCE-001
+      proof_kind: deterministic_test
+      proof_role: direct
+      locator: tests/greenfield/test_source_bound_trace_review.py
+      purpose: Validate refusal counterexamples and source-bound native standing
+    external_boundaries:
+    - evidence_requirement_ref: ER-TR-SOURCE-002
+      boundary: Independent review of retained native acceptance probe execution trace,
+        validated by Company Planning provider
+  change:
+    normative_items:
+    - id: TR-REQ-001
+      kind: constraint
+      outcome_refs:
+      - OUT-AP-001
+      statement: "Every proposal declares whether its work runs a model, agent or\
+        \ pipeline (trace_review); a proposal declaring traced work adds or changes\
+        \ a success criterion with an evidence requirement of kind trace_review; an\
+        \ observation assessing a trace_review requirement carries a TraceReview record\
+        \ whose reviewer is not the author, and may SUPPORT only when every trace\
+        \ step was read and no checked decision was wrong.\n Supporting standing additionally\
+        \ requires a fresh invocation of the configured Company Planning source-bound\
+        \ review provider against retained trace bytes, exact criterion/revision linkage\
+        \ and reviewer identity. Missing provider, partial coverage, altered bytes\
+        \ or fabricated citations leave standing insufficient; review completeness\
+        \ never changes a failed run verdict."
+    components:
+    - id: RU-AES-EVIDENCE
+      responsibility: 'Represent observations and compute evidence freshness, adequacy
+        and standing independently from pass-like provider results.
+
+        '
+      target_refs:
+      - GF-REQ-007
+      - GF-REQ-008
+      - SC-GF-007
+      - SC-GF-008
+      - TR-REQ-001
+      - SC-TR-SOURCE-001
+      planned_artifact_refs:
+      - ART-SRC-EVIDENCE
+      - ART-TEST-EVIDENCE
+      - ART-TEST-EVIDENCE-CONTROLS
+      - ART-SRC-TRACE-PROVIDER
+      - ART-TEST-TRACE-PROVIDER
+outside_governed_roots: []
