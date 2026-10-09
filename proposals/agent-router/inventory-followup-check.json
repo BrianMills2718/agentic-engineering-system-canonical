@@ -1,0 +1,57 @@
+{
+  "schema_version": "agent-router.inventory-followup.v1",
+  "recorded_at": "2026-10-09T17:11:25.892456+00:00",
+  "merged_collector_pr": 499,
+  "merged_inventory_pr": 500,
+  "runtime_revision": "c08837fe52d9220c3562ca29573ff58304592ba3",
+  "current_runtime_inventory_check_exit": 1,
+  "current_runtime_inventory_failure": "published manifest differs from current source-bound expected output; private records and public baseline match expected exact bytes",
+  "disposition_counts": {
+    "keep": 229,
+    "covered": 27,
+    "retire_candidates": 7
+  },
+  "followup_merge_state": "prepared; focused and authentic checks pass; full merge gate pending",
+  "current_public_cost_total_removed": true,
+  "full_private_cost_accounting_retained": true,
+  "model_calls": 0,
+  "storage_gate_exit": 75,
+  "native_storage_maintenance_exit": 0,
+  "private_branch_publication": "Publish only this six-file projection branch. Full private execution history is retained separately and excluded from public ancestry.",
+  "old_public_source_ref": "rules-sort unchanged after automatic Careful rejection of force-with-lease history rewrite",
+  "tracking_issue": "https://github.com/BrianMills2718/project-meta/issues/2503",
+  "private_snapshot_sha256": {
+    "legacy-dispositions.private.yaml": "38eb4602faa1aaedb1ce16acdf39eba981587696c9aac0e7558e6bafd9a8e492",
+    "legacy-register.private.yaml": "1a028aac10256b58e15e98753ddee50250019e2197218bc2973e0e5059e1638e"
+  },
+  "focused_check": {
+    "passed": 13,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0,
+    "exit_status": 0,
+    "command": "AES .venv python -m pytest tests/test_sort_legacy.py -q --tb=short"
+  },
+  "authentic_followup_check": {
+    "passed": 4,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0,
+    "exit_status": 0,
+    "scope": "Current-source inventory on public delivery tree; exact public/private membership, private hashes, cost-only-private boundary, and no activation"
+  },
+  "publisher": {
+    "strategy": "reuse exact existing claimed worktree and branch identity; private execution history retained on separate local branch and verified private remote ref",
+    "base_revision": "a00df2c7a5d5562f7987eb97419439e8843ba250",
+    "private_execution_checkpoint": "1480f7bb6c21bc039f25ef97219c747d6b207f2a",
+    "public_remote_branch": "agent-router-projection-followup",
+    "new_worktrees": 0,
+    "new_environments": 0,
+    "public_boundary_checks": {
+      "private_execution_checkpoint_not_in_ancestry": true,
+      "no_private_recovery_files": true,
+      "exact_six_file_allowlist": true,
+      "no_active_execution_cursor_file_in_delivery_tree": true
+    }
+  }
+}

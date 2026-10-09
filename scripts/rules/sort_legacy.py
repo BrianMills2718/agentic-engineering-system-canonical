@@ -419,7 +419,10 @@ def apply(cache_path: Path, *, check_only: bool = False) -> int:
         "cache_sha256": document["cache_sha256"],
         "private_dispositions_sha256": hashlib.sha256(disposition_text.encode()).hexdigest(),
         "private_register_sha256": hashlib.sha256(register_text.encode()).hexdigest(),
-        "historical_accounting": document["historical_accounting"],
+        "historical_accounting": {
+            key: document["historical_accounting"][key]
+            for key in ("attempts", "unknown_cost_attempts", "complete_cost")
+        },
         "rules": public_rows,
     }
     public_text = serialize(public_document)
