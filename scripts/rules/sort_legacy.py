@@ -7,20 +7,25 @@ For each rule in project-meta policy/registry.yaml, one model call (through llm_
 - keep:    still true and useful; it moves into the AES register with a plain one-sentence rule;
 - retire:  its documents or tools are gone, it was superseded, or it no longer applies.
 
-Every answer must quote the text that justifies it. The quote is then checked, by plain substring
-match, against the file it claims to come from; a failed check gets one retry on a stronger model,
-and a second failure is recorded as `unresolved` (the rule stays legacy). Answers are cached by
-rule id in OUT/legacy-sort.jsonl, so a rerun only calls the model for rules not yet sorted.
+Every answer must quote its named source. Historical answers and attempts stay in
+OUT/legacy-sort.jsonl. Offline --apply/--check read all current sources, bind their
+inputs, reject stale evidence, and retain canonical policy text conservatively.
+An inventory proposal never activates or removes a mandatory legacy rule.
 
 Run detached; prints one line per rule with its timing and a summary with counts and exit status:
 
-    ~/code/llm_client/.venv/bin/python scripts/rules/sort_legacy.py [--limit N] [--workers 8]
+    python scripts/rules/sort_legacy.py --apply  # no model calls
+    python scripts/rules/sort_legacy.py --check  # no calls or writes
+
+Model-sorting mode (--sort) needs separate sort-call authority. The default is
+the offline check, so an inspection cannot accidentally launch paid calls.
 
 Plan: proposals/agent-router/PLAN.md (slice 1).
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -41,7 +46,7 @@ INSTRUCTIONS = Path(os.environ.get("WORKSPACE_INSTRUCTIONS", Path.home() / "code
 OUT = Path(os.environ.get("AGENT_ROUTER_OUT", Path.home() / "projects" / "data" / "agent-router"))
 FIRST = os.environ.get("SORT_MODEL", "openrouter/deepseek/deepseek-v4-flash")
 SECOND = os.environ.get("SORT_RETRY_MODEL", "openrouter/openai/gpt-5.6-sol")
-SOURCE_CHARS = 6000
+VALIDATION_VERSION = "current-source-inventory/v1"
 
 
 class Disposition(BaseModel):
@@ -49,7 +54,8 @@ class Disposition(BaseModel):
     covered_by: str | None = None
     retire_kind: Literal["source_missing", "tool_missing", "superseded", "obsolete"] | None = None
     quote: str
-    quote_from: Literal["source_doc", "workspace_instructions", "aes_register", "none"]
+    quote_from: Literal["source_doc", "workspace_instructions", "aes_register", "legacy_registry", "none"]
+    quote_source: str | None = None
     reason: str
     rule: str
     applies_kind: Literal["always", "roles", "actions", "intent"]
@@ -57,7 +63,7 @@ class Disposition(BaseModel):
 
 
 def _norm(text: str) -> str:
-    return re.sub(r"\s+", " ", text).strip().lower()
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def _resolve(rel: str) -> Path:
@@ -85,12 +91,20 @@ def facts(rule: dict) -> dict:
 
 def check(answer: Disposition, rule: dict, f: dict, sources: dict[str, str]) -> str | None:
     """Return why the answer fails its evidence check, or None when it passes."""
+    if not answer.applies_value.strip():
+        return "applicability needs a nonempty value"
+    if answer.disposition == "keep" and not answer.rule.strip():
+        return "keep needs a nonempty rule"
+    if answer.disposition != "retire" and answer.retire_kind:
+        return "retire_kind is only valid for retirement candidates"
     if answer.disposition == "covered" and not answer.covered_by:
         return "covered needs covered_by"
     if answer.disposition == "covered" and answer.covered_by not in sources["aes_ids"] | {"workspace-instructions"}:
         return f"covered_by {answer.covered_by!r} is neither an AES register id nor workspace-instructions"
     if answer.disposition == "retire" and not answer.retire_kind:
         return "retire needs retire_kind"
+    if answer.retire_kind == "source_missing" and not f["source_docs"]:
+        return "retire_kind source_missing, but no source documents were declared"
     if answer.retire_kind == "source_missing" and any(f["source_docs"].values()):
         return "retire_kind source_missing, but a source document exists"
     if answer.retire_kind == "tool_missing" and (not f["linked_scripts"] or all(f["linked_scripts"].values())):
@@ -99,13 +113,53 @@ def check(answer: Disposition, rule: dict, f: dict, sources: dict[str, str]) -> 
         return None  # settled by the file facts, no quote needed
     if answer.quote_from == "none" or not answer.quote.strip():
         return "a quote is required for this disposition"
+    if answer.disposition == "covered":
+        expected = "workspace_instructions" if answer.covered_by == "workspace-instructions" else "aes_register"
+        if answer.quote_from != expected:
+            return "covered quote must come from the named coverage target"
     haystack = {"source_doc": sources["source_doc"], "workspace_instructions": sources["instructions"],
-                "aes_register": sources["register"]}[answer.quote_from]
+                "aes_register": sources["register"], "legacy_registry": sources.get("legacy_policy", "")}[answer.quote_from]
+    if answer.quote_from == "aes_register":
+        haystack = sources.get("aes_targets", {}).get(answer.covered_by, "")
+    if answer.quote_from == "source_doc" and sources.get("source_docs"):
+        docs = sources["source_docs"]
+        if answer.quote_source:
+            haystack = docs.get(answer.quote_source, "")
+        else:
+            haystack = next((text for text in docs.values() if _norm(answer.quote) in _norm(text)), "")
+    if answer.quote_from == "legacy_registry" and answer.quote != rule.get("policy"):
+        return "registry evidence must quote this policy's complete canonical text"
     if len(_norm(answer.quote)) < 20:
         return "quote shorter than 20 characters"
     if _norm(answer.quote) not in _norm(haystack):
-        return f"quote not found verbatim in {answer.quote_from}"
+        return f"quote not found verbatim (whitespace normalized) in {answer.quote_from}"
     return None
+
+
+def source_context(rule: dict, base: list[dict], instructions: str) -> tuple[dict, dict]:
+    """Read all declared documents; a navigation page cannot mask a later source."""
+    f = facts(rule)
+    docs = {path: _resolve(path).read_text(encoding="utf-8", errors="replace")
+            for path, exists in f["source_docs"].items() if exists}
+    targets = {r["id"]: r["rule"] for r in base}
+    return f, {"source_doc": next(iter(docs.values()), ""), "source_docs": docs,
+               "instructions": instructions, "legacy_policy": rule["policy"],
+               "register": "\n".join(f"{rid}: {text}" for rid, text in targets.items()),
+               "aes_targets": targets, "aes_ids": set(targets)}
+
+
+def input_digest(rule: dict, f: dict, sources: dict) -> str:
+    """Bind caller-owned workflow inputs, independently of model call receipts."""
+    packet = {"validation_version": VALIDATION_VERSION, "legacy_record": rule, "facts": f,
+              "documents": sources["source_docs"], "instructions": sources["instructions"],
+              "resolved_documents": {path: str(_resolve(path).resolve()) for path in f["source_docs"]},
+              "resolved_tools": {path: str(_resolve(path.split()[0]).resolve()) for path in f["linked_scripts"]},
+              "pre_migration_targets": sources["aes_targets"],
+              "classifier": {"schema": Disposition.model_json_schema(), "models": [FIRST, SECOND],
+                             "efforts": [os.environ.get("SORT_EFFORT", "none"), os.environ.get("SORT_RETRY_EFFORT", "medium")]}}
+    source_text = "\n\n".join(f"SOURCE {path}:\n{value}" for path, value in sources["source_docs"].items())
+    packet["prompt_sha256"] = hashlib.sha256(prompt(rule, f, source_text, sources["register"], sources["instructions"]).encode()).hexdigest()
+    return hashlib.sha256(json.dumps(packet, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
 
 def prompt(rule: dict, f: dict, source_text: str, register_summary: str, instructions: str) -> str:
@@ -135,7 +189,7 @@ FILE FACTS (checked by code, true): {json.dumps(f)}
 
 LEGACY RULE:
 {yaml.safe_dump(fields, sort_keys=False, allow_unicode=True)}
-SOURCE DOCUMENT ({f['first_source'] or 'none present'}), first {SOURCE_CHARS} characters:
+ALL CURRENT DECLARED SOURCE DOCUMENTS (labelled by path; set quote_source to the quoted path):
 <<<
 {source_text}
 >>>
@@ -152,13 +206,14 @@ CURRENT WORKSPACE INSTRUCTIONS:
 """
 
 
-def sort_one(rule: dict, register_summary: str, instructions: str, aes_ids: set[str]) -> dict:
+def sort_one(rule: dict, register_summary: str, instructions: str, aes_ids: set[str], aes_targets: dict | None = None) -> dict:
     from llm_client import call_llm_structured
 
-    f = facts(rule)
-    full_source = _resolve(f["first_source"]).read_text(encoding="utf-8", errors="replace") if f["first_source"] else ""
-    sources = {"source_doc": full_source, "instructions": instructions, "register": register_summary, "aes_ids": aes_ids}
-    text = prompt(rule, f, full_source[:SOURCE_CHARS], register_summary, instructions)
+    base = [{"id": rid, "rule": value} for rid, value in (aes_targets or {}).items()]
+    f, sources = source_context(rule, base, instructions)
+    full_sources = "\n\n".join(f"SOURCE {path}:\n{value}" for path, value in sources["source_docs"].items())
+    text = prompt(rule, f, full_sources, sources["register"], instructions)
+    digest = input_digest(rule, f, sources)
     attempts = []
     for model, effort in ((FIRST, os.environ.get("SORT_EFFORT", "none")), (SECOND, os.environ.get("SORT_RETRY_EFFORT", "medium"))):
         messages = [{"role": "user", "content": text}]
@@ -179,12 +234,12 @@ def sort_one(rule: dict, register_summary: str, instructions: str, aes_ids: set[
         attempts.append({"model": model, "answer": answer.model_dump(), "failed": failed,
                          "cost": getattr(meta, "cost", None), "seconds": round(time.monotonic() - t0, 1)})
         if failed is None:
-            return {"id": rule["id"], "status": "sorted", "facts": f, **answer.model_dump(), "attempts": attempts}
-    return {"id": rule["id"], "status": "unresolved", "facts": f, "attempts": attempts}
+            return {"id": rule["id"], "status": "sorted", "facts": f, "input_sha256": digest, **answer.model_dump(), "attempts": attempts}
+    return {"id": rule["id"], "status": "unresolved", "facts": f, "input_sha256": digest, "attempts": attempts}
 
 
 DISPOSITIONS = ROOT / "docs" / "rules" / "legacy-dispositions.yaml"
-# Answers rejected on human-or-agent review of the sort's output, with the reviewer's reason; such a rule stays legacy.
+# Semantic rejection stays recorded even when inventory conservatively retains the policy.
 REVIEW_OVERRIDES = {
     "cc-hook-stop-second-brain-work-context": (
         "Retire reasoning rejected on review (2026-10-08): the quoted parity rule says hooks must behave the same in "
@@ -192,55 +247,161 @@ REVIEW_OVERRIDES = {
 }
 
 
-def apply(cache_path: Path) -> int:
-    """Write every legacy rule's disposition and move the kept ones into the AES register."""
-    latest: dict[str, dict] = {}
-    for line in cache_path.read_text(encoding="utf-8").splitlines():
+SOURCE_REVIEWS = {
+    "mcp-on-demand-default": ("docs/ops/MCP_TOOLING_POLICY.md",
+        "A capability that is not needed in most sessions must not start one dedicated\nprocess per agent at session startup.",
+        "actions", "registering or configuring agent tools, MCP helpers and local services"),
+    "pm-runtime-metadata-ephemeral": ("AGENTS.md",
+        "volatile fields (`generated_at_utc`, repo `git_head`, repo `is_dirty`) live in "
+        "`generated/runtime/ecosystem_runtime_metadata.json` and are never committed",
+        "actions", "generating or committing project-meta runtime metadata"),
+    "pm-research-synthesis-cutover": ("AGENTS.md",
+        "Forward-writing canonical docs must not contain `research_texts`; compatibility aliases and historical artifacts may.",
+        "actions", "writing project-meta canonical documentation"),
+    "derived-project-workspace-views": ("policy/proposals/2026-08-22-derived-project-workspace-views.yaml",
+        "When operator workspace views are created, they derive from canonical project\n"
+        "membership and repository checkout metadata.", "actions", "generating or updating operator project workspace views"),
+}
+
+
+def retain(rule: dict, row: dict, reason: str) -> Disposition:
+    """Conservative fallback preserves authority, not a model's abbreviated rewrite.
+
+    The registry itself is an authority route in project-meta's POLICY_SYSTEM.md.
+    Missing/changed documentation is not permission to remove its current policy.
+    Applicability remains an inventory proposal; this function activates no rule.
+    """
+    kind = row.get("applies_kind", "intent")
+    value = row.get("applies_value", "")
+    if kind not in {"always", "roles", "actions", "intent"} or not isinstance(value, str) or not value.strip():
+        kind, value = "intent", rule.get("scope") or f"legacy policy {rule['id']}: retain existing applicability"
+    return Disposition(disposition="keep", quote=rule["policy"], quote_from="legacy_registry",
+                       quote_source=f"project-meta/policy/registry.yaml#policies/{rule['id']}/policy",
+                       rule=rule["policy"], reason=reason, applies_kind=kind, applies_value=value)
+
+
+def reviewed_answer(rule: dict, row: dict, f: dict, sources: dict) -> tuple[Disposition, str | None]:
+    """Recheck historical proposals against current inputs; never call a model."""
+    rid = rule["id"]
+    if rid in SOURCE_REVIEWS:
+        path, quote, kind, value = SOURCE_REVIEWS[rid]
+        answer = retain(rule, row, "Offline source review: use the full current declared source; retain the complete canonical policy.")
+        answer = answer.model_copy(update={"quote": quote, "quote_from": "source_doc", "quote_source": path,
+                                           "applies_kind": kind, "applies_value": value})
+        error = check(answer, rule, f, sources)
+        if error:
+            raise ValueError(f"{rid}: reviewed source changed: {error}")
+        return answer, "historical unresolved or stale proposal replaced by current-source retention"
+    if rid in REVIEW_OVERRIDES or rid == "real-tests-not-mocks":
+        reason = REVIEW_OVERRIDES.get(rid, "Declared AGENTS anchor no longer contains the requirement; the current canonical registry still does. Retain it without inventing an AGENTS quotation.")
+        return retain(rule, row, reason), reason
+    error = None
+    if row.get("status") != "sorted":
+        error = "historical classifier did not produce an accepted answer"
+    elif row.get("facts") != f:
+        error = "declared source/tool facts changed since the historical call"
+    elif row.get("input_sha256") and row["input_sha256"] != input_digest(rule, f, sources):
+        error = "cached workflow input digest differs from current inputs"
+    else:
+        try:
+            answer = Disposition.model_validate(row)
+            error = check(answer, rule, f, sources)
+            if not error and answer.disposition == "retire" and answer.retire_kind in {"obsolete", "superseded"}:
+                error = "semantic retirement has no adopted retirement decision; conservatively retain the current policy"
+        except ValueError as exc:
+            error = f"invalid cached disposition/tag: {exc}"
+    if error:
+        return retain(rule, row, f"Offline conservative retention: {error}. Routing review remains separate."), error
+    if answer.disposition == "keep":
+        answer = answer.model_copy(update={"rule": rule["policy"]})
+    if answer.quote_from == "source_doc" and not answer.quote_source:
+        answer = answer.model_copy(update={"quote_source": next(path for path, text in sources["source_docs"].items()
+                                                               if _norm(answer.quote) in _norm(text))})
+    return answer, None
+
+
+def apply(cache_path: Path, *, check_only: bool = False) -> int:
+    """Materialize or check an input-bound inventory; preserve raw attempts unchanged."""
+    raw = cache_path.read_bytes()
+    latest, cache_lines, historical = {}, {}, []
+    for line_no, line in enumerate(raw.decode().splitlines(), 1):
+        if not line.strip():
+            continue
         row = json.loads(line)
-        latest[row["id"]] = row  # a later row for the same id (a rerun) replaces the earlier one
-    legacy = {r["id"]: r for r in yaml.safe_load(LEGACY.read_text(encoding="utf-8"))["policies"]}
-    missing = sorted(set(legacy) - set(latest))
-    register = yaml.safe_load(REGISTER.read_text(encoding="utf-8"))
-    register["rules"] = [r for r in register["rules"] if r.get("origin") != "legacy-migrated"]
+        latest[row["id"]], cache_lines[row["id"]] = row, line_no
+        historical.extend(row.get("attempts", []))
+    policies = yaml.safe_load(LEGACY.read_text(encoding="utf-8"))["policies"]
+    legacy = {r["id"]: r for r in policies}
+    if len(legacy) != len(policies) or set(legacy) != set(latest):
+        print(f"RESULT membership failed: duplicate_source_ids={len(policies)-len(legacy)}; "
+              f"missing={sorted(set(legacy)-set(latest))}; extra={sorted(set(latest)-set(legacy))}; exit_status=1")
+        return 1
+    original_register = REGISTER.read_bytes()
+    register = yaml.safe_load(original_register)
+    base = [r for r in register["rules"] if r.get("origin") != "legacy-migrated"]
+    if len({r["id"] for r in base}) != len(base):
+        raise ValueError("ambiguous pre-migration coverage target ids")
+    register["rules"] = list(base)
+    instructions = INSTRUCTIONS.read_text(encoding="utf-8")
     rows = []
     for rid in sorted(legacy):
-        row = latest.get(rid, {"status": "unsorted"})
-        disp = row.get("disposition") if row.get("status") == "sorted" else row.get("status", "unsorted")
-        if rid in REVIEW_OVERRIDES:
-            disp = "unresolved"
-        entry = {"id": rid, "disposition": disp}
-        if rid in REVIEW_OVERRIDES:
-            entry["review"] = REVIEW_OVERRIDES[rid]
-        if row.get("status") == "sorted" and rid not in REVIEW_OVERRIDES:
-            entry.update({k: row.get(k) for k in ("covered_by", "retire_kind", "reason", "quote_from", "quote") if row.get(k)})
-            entry["sorted_by"] = row["attempts"][-1]["model"]
-        rows.append(entry)
-        if disp == "keep":
-            old = legacy[rid]
+        rule, cached = legacy[rid], latest[rid]
+        f, sources = source_context(rule, base, instructions)
+        answer, rejected = reviewed_answer(rule, cached, f, sources)
+        error = check(answer, rule, f, sources)
+        if error:
+            raise ValueError(f"{rid}: final inventory evidence failed: {error}")
+        entry = {"id": rid, **answer.model_dump(exclude_none=True),
+                 "input_sha256": input_digest(rule, f, sources), "source_facts": f,
+                 "historical_cache": {"line": cache_lines[rid], "disposition": cached.get("disposition", cached["status"]),
+                                      "input_bound": bool(cached.get("input_sha256"))},
+                 "validation": VALIDATION_VERSION, "activation": "none"}
+        if rejected:
+            entry["historical_rejection"] = rejected
+        if answer.disposition == "keep":
+            kept_id = rid if rid not in sources["aes_ids"] else f"legacy-{rid}"
+            entry["kept_as"] = kept_id
             register["rules"].append({
-                "id": rid, "rule": row["rule"], "origin": "legacy-migrated",
-                "source": f"project-meta policy/registry.yaml ({', '.join(map(str, old.get('source_docs') or []))})",
-                "enforcement_status": old.get("enforcement_status"),
-                "enforcement_mechanism": old.get("enforcement_mechanism"),
-                "evidence": {"quote": row["quote"], "quote_from": row["quote_from"]},
-                "applies_when": {"kind": row["applies_kind"], "value": row["applies_value"], "proposed_by": row["attempts"][-1]["model"]},
+                "id": kept_id, "rule": rule["policy"], "origin": "legacy-migrated",
+                "source": f"project-meta/policy/registry.yaml#policies/{rid}",
+                "enforcement_status": rule.get("enforcement_status", "unstated"),
+                "enforcement_mechanism": rule.get("enforcement_mechanism", "unstated"),
+                "evidence": {k: entry[k] for k in ("quote", "quote_from", "quote_source", "input_sha256") if k in entry},
+                "applies_when": {"kind": answer.applies_kind, "value": answer.applies_value,
+                                 "proposed_by": VALIDATION_VERSION},
                 "migrated_from": f"project-meta:{rid}",
-                "feedback_path": "feedback record: an `obs (control)` line naming the rule id",
-            })
-    DISPOSITIONS.write_text(yaml.safe_dump({
-        "schema_version": "aes-legacy-dispositions/v1",
-        "about": ("Every rule in project-meta policy/registry.yaml with its disposition from the agent-router slice 1 sort "
-                  "(scripts/rules/sort_legacy.py): covered (already stated elsewhere), keep (moved into register.yaml), "
-                  "retire, or unresolved (its evidence check failed twice; it stays legacy). Each quote was checked "
-                  "verbatim against the file named in quote_from."),
-        "rules": rows}, sort_keys=False, allow_unicode=True, width=110), encoding="utf-8")
-    REGISTER.write_text(yaml.safe_dump(register, sort_keys=False, allow_unicode=True, width=110), encoding="utf-8")
-    counts: dict[str, int] = {}
-    for r in rows:
-        counts[r["disposition"]] = counts.get(r["disposition"], 0) + 1
-    print(f"RESULT applied {len(rows)} legacy rules: {json.dumps(counts, sort_keys=True)}; "
-          f"not yet sorted {len(missing)}; exit {1 if missing else 0}")
-    return 1 if missing else 0
+                "feedback_path": "feedback record: an `obs (control)` line naming the rule id"})
+        rows.append(entry)
+    ids = [r["id"] for r in register["rules"]]
+    if len(ids) != len(set(ids)):
+        raise ValueError("inventory would duplicate an AES rule id")
+    # Recheck every source before writing, including files changed during this run.
+    for entry in rows:
+        f, sources = source_context(legacy[entry["id"]], base, INSTRUCTIONS.read_text(encoding="utf-8"))
+        if entry["input_sha256"] != input_digest(legacy[entry["id"]], f, sources):
+            raise ValueError(f"{entry['id']}: source changed during inventory build; rerun offline")
+    if REGISTER.read_bytes() != original_register or cache_path.read_bytes() != raw:
+        raise ValueError("register/cache changed during inventory build; rerun offline")
+    document = {"schema_version": "aes-legacy-dispositions/v1", "validation_version": VALIDATION_VERSION,
+                "about": "Current-source inventory proposals only. Quotes match named current sources with whitespace normalization. Kept policies preserve complete canonical text. Retire is a candidate, never rule removal. Mandatory legacy baseline remains unchanged; applicability and semantic coverage need routing review.",
+                "cache_sha256": hashlib.sha256(raw).hexdigest(),
+                "historical_accounting": {"attempts": len(historical),
+                    "known_cost_usd": sum(a["cost"] for a in historical if isinstance(a.get("cost"), (int, float))),
+                    "unknown_cost_attempts": sum(not isinstance(a.get("cost"), (int, float)) for a in historical),
+                    "complete_cost": all(isinstance(a.get("cost"), (int, float)) for a in historical)},
+                "rules": rows}
+    serialize = lambda value: yaml.safe_dump(value, sort_keys=False, allow_unicode=True, width=110)
+    disposition_text, register_text = serialize(document), serialize(register)
+    if check_only:
+        ok = DISPOSITIONS.exists() and DISPOSITIONS.read_text() == disposition_text and REGISTER.read_text() == register_text
+    else:
+        DISPOSITIONS.write_text(disposition_text, encoding="utf-8")
+        REGISTER.write_text(register_text, encoding="utf-8")
+        ok = True
+    counts = {kind: sum(r["disposition"] == kind for r in rows) for kind in ("keep", "covered", "retire")}
+    print(f"RESULT inventory {'check' if check_only else 'apply'}: exact_ids={len(rows)}; {json.dumps(counts, sort_keys=True)}; "
+          f"failed={0 if ok else 1}; unknown_cost_attempts={document['historical_accounting']['unknown_cost_attempts']}; exit_status={0 if ok else 1}")
+    return 0 if ok else 1
 
 
 def main() -> int:
@@ -249,9 +410,13 @@ def main() -> int:
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--only", nargs="*", help="sort just these rule ids (ignores the cache for them)")
     parser.add_argument("--apply", action="store_true", help="write dispositions and move kept rules into the register")
+    parser.add_argument("--check", action="store_true", help="revalidate cached inventory against current inputs, without calls or writes")
+    parser.add_argument("--sort", action="store_true", help="explicit model-sorting mode; requires separate sort-call authority")
     args = parser.parse_args()
-    if args.apply:
-        return apply(OUT / "legacy-sort.jsonl")
+    if sum((args.apply, args.check, args.sort)) > 1:
+        parser.error("choose one of --apply, --check or --sort")
+    if not args.sort:
+        return apply(OUT / "legacy-sort.jsonl", check_only=not args.apply)
 
     OUT.mkdir(parents=True, exist_ok=True)
     cache_path = OUT / "legacy-sort.jsonl"
@@ -262,10 +427,15 @@ def main() -> int:
             done[row["id"]] = row
     legacy = yaml.safe_load(LEGACY.read_text(encoding="utf-8"))["policies"]
     register = yaml.safe_load(REGISTER.read_text(encoding="utf-8"))
-    register_summary = "\n".join(f"{r['id']}: {r['rule']}" for r in register["rules"])
-    aes_ids = {r["id"] for r in register["rules"]}
+    base = [r for r in register["rules"] if r.get("origin") != "legacy-migrated"]
+    aes_targets = {r["id"]: r["rule"] for r in base}
+    register_summary = "\n".join(f"{rid}: {text}" for rid, text in aes_targets.items())
+    aes_ids = set(aes_targets)
     instructions = INSTRUCTIONS.read_text(encoding="utf-8")
-    todo = [r for r in legacy if (args.only and r["id"] in args.only) or (not args.only and r["id"] not in done)]
+    def fresh(rule: dict) -> bool:
+        f, sources = source_context(rule, base, instructions)
+        return done.get(rule["id"], {}).get("input_sha256") == input_digest(rule, f, sources)
+    todo = [r for r in legacy if (args.only and r["id"] in args.only) or (not args.only and not fresh(r))]
     if args.limit:
         todo = todo[: args.limit]
     print(f"legacy rules {len(legacy)}; cached {len(done)}; to sort now {len(todo)}; models {FIRST} then {SECOND}", flush=True)
@@ -273,7 +443,7 @@ def main() -> int:
     t_start = time.monotonic()
     results = []
     with ThreadPoolExecutor(max_workers=args.workers) as pool, cache_path.open("a", encoding="utf-8") as out:
-        futures = {pool.submit(sort_one, r, register_summary, instructions, aes_ids): r["id"] for r in todo}
+        futures = {pool.submit(sort_one, r, register_summary, instructions, aes_ids, aes_targets): r["id"] for r in todo}
         for fut in as_completed(futures):
             rid = futures[fut]
             try:
@@ -292,9 +462,10 @@ def main() -> int:
         key = row.get("disposition") or row["status"]
         counts[key] = counts.get(key, 0) + 1
     cost = sum((a.get("cost") or 0) for row in results for a in row.get("attempts", []))
+    unknown = sum(a.get("cost") is None for row in results for a in row.get("attempts", []))
     unresolved = counts.get("unresolved", 0)
-    print(f"RESULT sorted {len(results)} this run: {json.dumps(counts, sort_keys=True)}; cost ${cost:.3f}; "
-          f"{time.monotonic() - t_start:.0f}s; exit {1 if unresolved else 0}", flush=True)
+    print(f"RESULT sorted {len(results)} this run: {json.dumps(counts, sort_keys=True)}; known cost ${cost:.3f}; "
+          f"unknown cost attempts {unknown}; {time.monotonic() - t_start:.0f}s; exit_status {1 if unresolved else 0}", flush=True)
     return 1 if unresolved else 0
 
 

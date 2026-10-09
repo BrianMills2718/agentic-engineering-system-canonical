@@ -45,8 +45,10 @@ ORIGIN_INTROS = {
         "check that refuses the violation."
     ),
     "legacy-migrated": (
-        "Rules from project-meta's legacy register that the agent-router sort kept: still true, useful, and not already "
-        "stated above. Their enforcement status is as project-meta recorded it."
+        "Canonical policies retained from project-meta's current legacy register, including conservative retention "
+        "when historical model evidence failed. Complete policy text is preserved. Applicability is an inventory "
+        "proposal; instruction delivery and semantic coverage are reviewed separately. Enforcement status is as "
+        "project-meta recorded it."
     ),
 }
 
@@ -123,6 +125,12 @@ def render(register: dict[str, Any], legacy: dict[str, Any] | None, legacy_path:
             for r in rs:
                 lines.append(f"| **{_cell(r['id'])}**: {_cell(r['rule'])} | {_cell(r['enforcement_status'])} | "
                              f"{_applies(r)} | {_cell(r['enforcement_mechanism'])} | {_evidence(r)} |")
+        elif origin == "legacy-migrated":
+            lines += ["| Rule | Status | When it applies | How it is enforced | Quoted source |", "| --- | --- | --- | --- | --- |"]
+            for r in rs:
+                source = (r.get("evidence") or {}).get("quote_source") or r.get("source", "unstated")
+                lines.append(f"| **{_cell(r['id'])}**: {_cell(r['rule'])} | {_cell(r['enforcement_status'])} | "
+                             f"{_applies(r)} | {_cell(r['enforcement_mechanism'], 260)} | {_cell(source)} |")
         else:
             lines += ["| Rule | Status | When it applies | How it is enforced |", "| --- | --- | --- | --- |"]
             for r in rs:
@@ -143,9 +151,10 @@ def render(register: dict[str, Any], legacy: dict[str, Any] | None, legacy_path:
             by = {d["id"]: d for d in dispositions.get("rules", [])}
             counts = Counter(by.get(p["id"], {}).get("disposition", "unsorted") for p in legacy_rules)
             lines += [
-                ("Each one was sorted once (agent-router plan, slice 1; every quote checked word for word against the file "
-                 "it names): " + ", ".join(f"**{counts[k]} {k}**" for k in DISPOSITION_ORDER if counts.get(k)) + ". "
-                 "Kept rules appear in the section above; full record in [legacy-dispositions.yaml](legacy-dispositions.yaml)."),
+                ("Current inventory dispositions: " + ", ".join(f"**{counts[k]} {k}**" for k in DISPOSITION_ORDER if counts.get(k)) + ". "
+                 "Kept rules appear above; named-source checks and input digests are in "
+                 "[legacy-dispositions.yaml](legacy-dispositions.yaml). Retirement is a candidate only: no mandatory "
+                 "legacy rule is removed or activated here. Coverage and applicability still need runtime review."),
                 "",
             ]
             for disp in [k for k in DISPOSITION_ORDER if k != "keep" and counts.get(k)]:
@@ -156,7 +165,7 @@ def render(register: dict[str, Any], legacy: dict[str, Any] | None, legacy_path:
                 for p in ps:
                     d = by.get(p["id"], {})
                     outcome = {"covered": f"covered by {d.get('covered_by')}: {d.get('reason', '')}",
-                               "retire": f"{d.get('retire_kind')}: {d.get('reason', '')}"}.get(disp, "evidence check failed twice; stays legacy")
+                               "retire": f"candidate only, {d.get('retire_kind')}: {d.get('reason', '')}"}.get(disp, "unresolved; stays legacy")
                     lines.append(f"| **{_cell(p['id'])}**: {_cell(p.get('policy'), 200)} | {_cell(outcome, 260)} |")
                 lines += ["", "</details>", ""]
         else:
@@ -201,7 +210,7 @@ def main() -> int:
         print(f"rules page {'up to date' if ok else 'OUT OF DATE'}: {args.output} (exit {0 if ok else 1})")
         return 0 if ok else 1
     args.output.write_text(page, encoding="utf-8")
-    print(f"wrote {args.output} ({page.count(chr(10))} lines)")
+    print(f"RESULT wrote {args.output} ({page.count(chr(10))} lines); failed=0; exit_status=0")
     return 0
 
 
