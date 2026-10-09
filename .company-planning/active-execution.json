@@ -1,12 +1,12 @@
 {
   "active_slice": {
-    "description": "Recover authentic Claude child outcome in existing feedback consumer; integrate preserved inventory without paid calls",
-    "next_action": "Admit separate integration publisher after native donor disposition; run combined local gate and merge verified repairs",
+    "description": "Preserve the private-source inventory and establish its safe public projection without paid retries",
+    "next_action": "Inspect existing publication controls, preserve full private source evidence, and repair the inventory export boundary; required baseline remains intact",
     "requires_external_action": false,
     "requires_spend": false,
-    "slice_id": "native-feedback-capture",
-    "status": "verifying",
-    "target_revision": "4bca22872051fc438f71e0bfea926085a0ef5c87"
+    "slice_id": "inventory-publication-boundary",
+    "status": "ready",
+    "target_revision": "b4badaee2800a7b2eeec7b4b8cd26ee43b6b46ba"
   },
   "authority": {
     "external_action_authorized": true,
@@ -24,12 +24,12 @@
   "completion": {
     "evidence_revision": null,
     "receipt_ref": null,
-    "remaining_ready_work": 2,
+    "remaining_ready_work": 1,
     "requested": false,
     "verifier_outcome": null
   },
   "cursor_id": "agent-router-completion-20261009",
-  "cursor_revision": 4,
+  "cursor_revision": 5,
   "failure_state": {
     "boundary": null,
     "last_failure_ref": null,
@@ -86,14 +86,35 @@
       "kind": "supporting_work",
       "observation_id": "legacy-sort-spend-frozen",
       "outcome": "pass"
+    },
+    {
+      "boundary": "Claude feedback collector integration only, not whole router acceptance",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/499",
+      "kind": "authentic_result",
+      "observation_id": "claude-feedback-repair-merged",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Deployed source recovers actual child result and exact new weekly-reader membership; diagnosis remains inconclusive",
+      "evidence_ref": "proposals/agent-router/deployed-collector-check.json",
+      "kind": "authentic_result",
+      "observation_id": "deployed-collector-real-reader",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Source-linked inventory preserved but excluded from public merge; private-source projection/public-history disposition unresolved",
+      "evidence_ref": "https://github.com/BrianMills2718/project-meta/issues/2503",
+      "kind": "supporting_work",
+      "observation_id": "inventory-private-source-hold",
+      "outcome": "inconclusive"
     }
   ],
   "plan_revision": "5d126be54972ae9e3ea4847ddf507447f54b13d3",
   "ready_alternatives": [
     {
-      "description": "Source-supported offline inventory checkpoint82c8b87e preserved; native publisher custody pending",
+      "description": "Runtime dispatch, live profile differences and complete four-cell fallback remain unfinished; shared selector custody must be resolved before adopting it",
       "ready": false,
-      "slice_id": "inventory-integration"
+      "slice_id": "native-router-runtime"
     }
   ],
   "record_type": "plan_execution_cursor",
