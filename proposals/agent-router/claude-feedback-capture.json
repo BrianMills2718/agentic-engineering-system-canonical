@@ -1,0 +1,66 @@
+{
+  "schema_version": "agent-router.feedback-capture.v1",
+  "before_revision": "6329a23671629acc659f89dadb96c00da8b822d9",
+  "repair_source_sha256": "7dd23db97bac10a8e0323820f77b47f6f98021ebcf7968adec83d56f025abf4b",
+  "native_parent_trace": "/home/brian/.claude/projects/-home-brian-code-agentic-engineering-system-canonical-worktrees-harness-claude-live/8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7.jsonl",
+  "native_parent_trace_sha256": "d728896dff591a20bc5323333451c6d19549d0b1730b6e1c26df7b2734b7fbab",
+  "native_child_trace": "/home/brian/.claude/projects/-home-brian-code-agentic-engineering-system-canonical-worktrees-harness-claude-live/8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7/subagents/agent-aff90f2e49dbf83f8.jsonl",
+  "native_child_trace_sha256": "68498b59a73eb9e8117d5506fb9f35c66489908088ede71624592d06313904de",
+  "original_call_id": "toolu_bdrk_01MFmY73yqvFQ6tG5XVW2VwE",
+  "before": {
+    "child_ref": "unknown",
+    "outcome": "dispatch_unresolved",
+    "result_sha256": null,
+    "result_chars": 0
+  },
+  "after": {
+    "child_ref": "aff90f2e49dbf83f8",
+    "outcome": "completed_unverified",
+    "result_sha256": "28ff45de4c8b7adc1c0e98eadd440f4668ae7d22af9456adc348cb0044eaad0a",
+    "result_chars": 6416
+  },
+  "parent_verification": {
+    "contract": "subagent-verification.v1",
+    "parent_session_id": "8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7",
+    "call_id": "toolu_bdrk_01MFmY73yqvFQ6tG5XVW2VwE",
+    "child_ref": "aff90f2e49dbf83f8",
+    "result_sha256": "28ff45de4c8b7adc1c0e98eadd440f4668ae7d22af9456adc348cb0044eaad0a",
+    "ts": "2026-10-09T14:24:36.272049+00:00",
+    "verdict": "inconclusive",
+    "feedback": "obs (control): Shared collector recovers the interrupted Claude handoff from exact native packet/identity and its final child result [/home/brian/.claude/projects/-home-brian-code-agentic-engineering-system-canonical-worktrees-harness-claude-live/8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7.jsonl:24] expected: Returned child results remain observable and require independent parent checks.",
+    "checks": [
+      {
+        "argv": [
+          "/home/brian/code/llm_client/.venv/bin/python",
+          "-c",
+          "import hashlib,json,sys,jsonschema\nfrom pathlib import Path\nraw=sys.stdin.read()\nassert hashlib.sha256(raw.encode()).hexdigest() == sys.argv[2]\nassert raw.startswith('```json\\n') and raw.endswith('\\n```')\npayload=json.loads(raw[8:-4])\njsonschema.Draft202012Validator(json.loads(Path(sys.argv[1]).read_text())).validate(payload)\nassert payload['task_id']=='maintenance-discovery-frozen-20261009'\nprint('RESULT exact-result/schema/task checks: passed=3 failed=0 errored=0 skipped=0 exit_status=0; source diagnosis is not graded')\n",
+          "/home/brian/code/agent-skills/contracts/specialists/development-investigation-result.v1.schema.json",
+          "28ff45de4c8b7adc1c0e98eadd440f4668ae7d22af9456adc348cb0044eaad0a"
+        ],
+        "exit_code": 0,
+        "stdout": "RESULT exact-result/schema/task checks: passed=3 failed=0 errored=0 skipped=0 exit_status=0; source diagnosis is not graded\n",
+        "stderr": ""
+      }
+    ]
+  },
+  "collector_report": {
+    "report_id": "rep-subagent-951adeba2c2f8951",
+    "outcome": "verified_inconclusive",
+    "filing": "not_filed"
+  },
+  "collector_record_id": "rec-subagent-951adeba2c2f8951",
+  "collector_daily_log": "/home/brian/projects/data/feedback-collector/reports-2026-10-09.jsonl",
+  "collector_daily_log_line": 776,
+  "actual_weekly_reader_membership": true,
+  "new_paid_calls": 0,
+  "limitations": [
+    "Structural checks and collector capture do not grade the maintenance diagnosis or prove router injection/fallback"
+  ],
+  "result": {
+    "passed": 8,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0,
+    "exit_status": 0
+  }
+}

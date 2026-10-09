@@ -116,6 +116,23 @@ def messages_in(value):
                 yield from messages_in(value[key])
 
 
+def claude_children(parent: Path, session: str):
+    """Index native child identities and exact initial packets, without reading prose meaning."""
+    children = {}
+    for path in (parent.parent / session / "subagents").glob("agent-*.jsonl"):
+        for _, row in rows(path):
+            if row.get("type") != "user":
+                continue
+            child = row.get("agentId")
+            content = obj(row.get("message")).get("content")
+            if (row.get("isSidechain") is True and row.get("sessionId") == session
+                    and isinstance(child, str) and child and path.stem == "agent-" + child
+                    and isinstance(content, str) and content):
+                children[child] = (path, digest(content))
+            break
+    return children
+
+
 def calls(path: Path, client: str):
     """Pair calls/results over the whole changed parent, not the collector's new tail."""
     pending, found, receipts, child_calls = {}, [], [], set()
@@ -146,7 +163,7 @@ def calls(path: Path, client: str):
                     if b.get("tool_use_id") not in child_calls:
                         messages.append(text_content(b.get("content")))
         for call_id, name, args in candidates:
-            if name in ("spawn_agent", "followup_task", "Agent", "Task", "TaskOutput"):
+            if name in ("spawn_agent", "followup_task", "Agent", "Task", "TaskOutput", "SendMessage"):
                 child_calls.add(call_id)
             if name in ("spawn_agent", "followup_task", "Agent", "Task") and call_id:
                 target = args.get("target")
@@ -161,6 +178,9 @@ def calls(path: Path, client: str):
                        "requested_model": args.get("model"), "requested_effort": args.get("reasoning_effort"),
                        "child_ref": previous.get("child_ref", target or "unknown"), "terminal": "assigned", "result": "", "result_ts": ts,
                        "runtime": {}, "child_trace": None, "limitations": []}
+                if client == "claude":
+                    prompt = args.get("prompt")
+                    run["native_task_prompt_sha256"] = digest(prompt) if isinstance(prompt, str) and prompt else None
                 pending[call_id] = run
                 found.append(run)
             elif name in ("interrupt_agent", "close_agent"):
@@ -205,6 +225,27 @@ def calls(path: Path, client: str):
                             receipts.append(v)
                     except ValueError:
                         pass
+    if client == "claude":
+        children = claude_children(path, session)
+        for run in found:
+            prompt_hash = run.get("native_task_prompt_sha256")
+            if run["child_ref"] in children:
+                matches = [(run["child_ref"], children[run["child_ref"]])]
+                identity_source = "native parent receipt"
+            elif (run["child_ref"] == "unknown" and prompt_hash
+                  and sum(r.get("native_task_prompt_sha256") == prompt_hash for r in found) == 1):
+                matches = [(child, data) for child, data in children.items() if data[1] == prompt_hash]
+                identity_source = "native identity and exact initial packet"
+            else:
+                matches = []
+            if len(matches) == 1:
+                child, (child_path, _) = matches[0]
+                run.update(child_ref=child, child_session_id=child, child_trace=str(child_path))
+                run["runtime"]["child_identity_source"] = identity_source
+                if run["terminal"] == "dispatch_unresolved":
+                    run["terminal"] = "assigned"
+            else:
+                run["limitations"].append("Claude child trace unavailable or ambiguous; no child result attributed")
     for i, run in enumerate(found):
         run["result_before"] = next((r["ts"] for r in found[i + 1:]
                                      if r["child_ref"] == run["child_ref"]), None)
@@ -225,6 +266,29 @@ def codex_index(root: Path):
 
 
 def enrich(run: dict, index: dict):
+    if run["client"] == "claude":
+        if not run.get("child_trace"):
+            return
+        for _, d in rows(Path(run["child_trace"])):
+            ts = str(d.get("timestamp") or "")
+            if (d.get("sessionId") != run["parent_session_id"] or d.get("agentId") != run["child_ref"]
+                    or d.get("isSidechain") is not True
+                    or (ts and (ts < run["ts"] or (run.get("result_before") and ts >= run["result_before"])))):
+                continue
+            message = obj(d.get("message"))
+            if d.get("type") != "assistant" or d.get("isApiErrorMessage"):
+                continue
+            if message.get("model") and message["model"] != "<synthetic>":
+                run["runtime"]["model"] = message["model"]
+            if d.get("perTurnEffort") is not None:
+                run["runtime"]["effort"] = d["perTurnEffort"]
+            if message.get("usage"):
+                run["runtime"]["usage"] = message["usage"]
+            content = text_content(message.get("content"))
+            if (message.get("stop_reason") == "end_turn" and content
+                    and run["terminal"] not in ("failed", "cancelled")):
+                run.update(terminal="completed", result=content, result_ts=ts)
+        return
     if run["client"] != "codex":
         return
     matches = []
