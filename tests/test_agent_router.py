@@ -1,10 +1,12 @@
 """Profiles cannot widen authority; failed proposals cannot leave the denominator."""
 import importlib.util
+import json
 from pathlib import Path
 import sys
 
 import pytest
 from pydantic import ValidationError
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("agent_router", ROOT / "scripts/rules/agent_router.py")
@@ -45,6 +47,67 @@ def test_profiles_narrow_caps_and_resolve_portable_roots(tmp_path):
     assert other.profile_digest != first.profile_digest
     assert first.mode == "manual"
     assert other.allowed_rule_ids == ["floor"]
+
+
+def example_profile_inputs(name, tmp_path):
+    """Use the shipped examples and register rather than a two-rule fixture."""
+    folder = ROOT / "proposals/agent-router/profiles"
+    selected = router.AgentRouterProfileV1.model_validate_json((folder / f"{name}.json").read_text())
+    rows = yaml.safe_load((ROOT / "docs/rules/register.yaml").read_text())["rules"]
+    withdrawn = {row["id"] for row in rows if row["enforcement_status"] == "withdrawn"}
+    eligible = {row["id"] for row in rows} - withdrawn
+    snapshot = json.loads((folder / "effective-profiles.json").read_text())["capability_snapshot"]
+    inputs = dict(
+        registry_ids=eligible, mandatory_rule_ids={"root-cause-over-symptom"},
+        authority_limits=router.BudgetLimits(daily_cap_usd=0, total_cap_usd=0),
+        authorized_provider_routes={"native/codex-subscription"},
+        environment={"WORKSPACE_ROOT": str(tmp_path), "AGENT_ROUTER_OUT": str(tmp_path / "logs")},
+    )
+    return selected, router.NativeCapabilities.model_validate(snapshot), inputs, withdrawn
+
+
+@pytest.mark.parametrize("name", ["brian", "colleague"])
+def test_shipped_profiles_resolve_against_the_nonwithdrawn_register(name, tmp_path):
+    selected, capabilities, inputs, withdrawn = example_profile_inputs(name, tmp_path)
+    assert withdrawn == {"loop-378", "loop-379", "loop-386"}
+    assert not withdrawn.intersection(selected.allowed_rule_ids)
+    assert not withdrawn.intersection(selected.required_rule_ids)
+    resolved = router.resolve_profile(selected, capabilities, **inputs)
+    assert set(resolved.allowed_rule_ids) == inputs["registry_ids"]
+    assert set(resolved.required_rule_ids) == inputs["registry_ids"]
+    assert resolved.budgets.model_dump() == {"daily_cap_usd": 0.0, "total_cap_usd": 0.0}
+
+
+@pytest.mark.parametrize("name", ["brian", "colleague"])
+@pytest.mark.parametrize("mutation", ["restore_withdrawn", "waive_caller_floor"])
+def test_shipped_profiles_cannot_restore_withdrawn_rules_or_waive_authority(name, mutation, tmp_path):
+    selected, capabilities, inputs, _ = example_profile_inputs(name, tmp_path)
+    values = selected.model_dump()
+    if mutation == "restore_withdrawn":
+        values["allowed_rule_ids"].append("loop-378")
+        values["required_rule_ids"].append("loop-378")
+        expected = "unknown rule IDs"
+    else:
+        values["allowed_rule_ids"].remove("root-cause-over-symptom")
+        values["required_rule_ids"].remove("root-cause-over-symptom")
+        expected = "removes a required rule"
+    with pytest.raises(ValueError, match=expected):
+        router.resolve_profile(router.AgentRouterProfileV1.model_validate(values), capabilities, **inputs)
+
+
+@pytest.mark.parametrize("name", ["brian", "colleague"])
+def test_saved_effective_profiles_match_their_actual_configuration(name, tmp_path):
+    selected, capabilities, inputs, _ = example_profile_inputs(name, tmp_path)
+    snapshot = json.loads((ROOT / "proposals/agent-router/profiles/effective-profiles.json").read_text())
+    saved = router.EffectiveProfile.model_validate(next(row for row in snapshot["profiles"] if row["profile_id"] == name))
+    assert saved.profile_digest == router.digest(selected)
+    assert saved.capability_digest == router.digest(capabilities)
+    assert saved.allowed_rule_ids == sorted(selected.allowed_rule_ids)
+    assert saved.required_rule_ids == sorted(selected.required_rule_ids)
+    assert set(saved.required_rule_ids) == inputs["registry_ids"]
+    assert saved.budgets.model_dump() == {"daily_cap_usd": 0.0, "total_cap_usd": 0.0}
+    assert snapshot["no_profile_native_dispatch_yet"] is True
+    assert snapshot["rule_authority"]["adoption_inferred_from_register_status"] is False
 
 
 @pytest.mark.parametrize("changes,message", [
