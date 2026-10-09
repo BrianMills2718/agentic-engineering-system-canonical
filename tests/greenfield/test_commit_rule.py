@@ -376,6 +376,74 @@ def test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_els
     assert "adopted on the default branch (owner origin/main:proposals/onmain/README.md)" in done.stderr
 
 
+def test_foreign_plan_reads_preserve_repository_identity_under_hook_environment(
+        repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """AES #483: Git's hook environment used PM objects for every foreign repo."""
+    from agentic_engineering_system import commit_rule as cr
+
+    owner = tmp_path / "owner"
+    owner.mkdir()
+    assert _git(owner, "init", "-q", "-b", "main").returncode == 0
+    _adopted_plan(owner, "foreign")
+    _git(owner, "add", ".")
+    assert _git(owner, "commit", "-q", "-m", "adopt foreign").returncode == 0
+    owner_sha = _git(owner, "rev-parse", "HEAD").stdout.strip()
+    _git(owner, "update-ref", "refs/remotes/origin/main", owner_sha)
+    _git(owner, "checkout", "-q", "--orphan", "other")
+    _git(owner, "rm", "-rq", "--cached", ".")
+    shutil.rmtree(owner / "proposals")
+
+    index = tmp_path / "plan-index.json"
+    monkeypatch.setenv("AES_PLAN_INDEX", str(index))
+    monkeypatch.setenv("AES_PLAN_INDEX_REFRESH", "0")
+    alternate = tmp_path / "consumer-alternate-index"
+    shutil.copyfile(repo / ".git/index", alternate)
+    _write(repo, "alternate-only.txt", "local staged evidence\n")
+    hook_env = {**ENV, "GIT_DIR": str(repo / ".git"), "GIT_WORK_TREE": str(repo), "GIT_INDEX_FILE": str(alternate)}
+    staged = subprocess.run(["git", "add", "alternate-only.txt"], cwd=repo, env=hook_env, capture_output=True, text=True)
+    assert staged.returncode == 0, staged.stderr
+    for name in ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"):
+        monkeypatch.setenv(name, hook_env[name])
+
+    built = cr.build_plan_index(tmp_path, index)
+    assert built["repos"][str(owner.resolve())]["sha"] == owner_sha
+    assert built["repos"][str(owner.resolve())]["plans"] == {"foreign": ["proposals/foreign/README.md"]}
+    verdicts, stale = cr.indexed_adoption(tmp_path, "foreign")
+    assert any(ok for ok, why, meta in verdicts), verdicts
+    assert stale is False
+    text = cr._plan_text(RuleConfig(plan_roots=(), plan_workspace=tmp_path), "foreign")
+    assert text is not None and text[0] == owner
+    assert "plan_id: foreign" in text[2]
+    assert cr._git(repo, "show", ":alternate-only.txt") == "local staged evidence\n"
+    assert _git(repo, "show", ":alternate-only.txt").returncode != 0
+    _adopted_plan(repo, "local-alternate")
+    staged = subprocess.run(["git", "add", "proposals/local-alternate"], cwd=repo,
+                            env=hook_env, capture_output=True, text=True)
+    assert staged.returncode == 0, staged.stderr
+    local = cr.staged_adoption(repo, None, "local-alternate")
+    assert local is not None and local[0] is True, local
+    assert _git(repo, "show", ":proposals/local-alternate/README.md").returncode != 0
+
+
+def test_background_plan_refresh_clears_only_git_local_environment(
+        repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    from agentic_engineering_system import commit_rule as cr
+
+    monkeypatch.setenv("AES_PLAN_INDEX", str(tmp_path / "index.json"))
+    monkeypatch.delenv("AES_PLAN_INDEX_REFRESH", raising=False)
+    monkeypatch.setenv("GIT_DIR", str(repo / ".git"))
+    monkeypatch.setenv("GIT_INDEX_FILE", str(repo / ".git/index"))
+    monkeypatch.setenv("GIT_SSH_COMMAND", "ssh -o BatchMode=yes")
+    local_names = cr._git_local_env_vars()
+    calls = []
+    monkeypatch.setattr(cr.subprocess, "Popen", lambda args, **kwargs: calls.append((args, kwargs)))
+    cr._refresh_index_in_background(tmp_path)
+    env = calls[0][1]["env"]
+    assert set(local_names).isdisjoint(env)
+    assert env["GIT_SSH_COMMAND"] == "ssh -o BatchMode=yes"
+    assert env["PATH"] == os.environ["PATH"]
+
+
 def test_conflict_surface_matching_and_repository_names(tmp_path: Path) -> None:
     """#218: the scope vocabulary is Company Planning's conflictSurface; only write/exclusive
     repository_path surfaces naming this repository grant edits."""
@@ -671,7 +739,8 @@ def test_a_skeleton_plan_named_by_id_is_found(repo: Path) -> None:
     assert "plan built adopted" in done.stderr
 
 
-def test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild(tmp_path: Path) -> None:
+def test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild(
+        tmp_path: Path, repo: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     from agentic_engineering_system import commit_rule as cr
     remote, ws = tmp_path / "remote.git", tmp_path / "ws"
     assert subprocess.run(["git", "init", "-q", "--bare", "-b", "main", str(remote)]).returncode == 0
@@ -692,6 +761,11 @@ def test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild(tmp_pat
     index = tmp_path / "index.json"
     before = cr.build_plan_index(ws, index)
     assert not any("merged" in e["plans"] for e in before["repos"].values())  # the clone has not fetched
+    consumer_sha = _git(repo, "rev-parse", "HEAD").stdout.strip()
+    monkeypatch.setenv("GIT_DIR", str(repo / ".git"))
+    monkeypatch.setenv("GIT_WORK_TREE", str(repo))
+    monkeypatch.setenv("GIT_INDEX_FILE", str(repo / ".git/index"))
     assert cr.fetch_all(ws) == []
     after = cr.build_plan_index(ws, index)
     assert any("merged" in e["plans"] for e in after["repos"].values())
+    assert _git(repo, "rev-parse", "HEAD").stdout.strip() == consumer_sha

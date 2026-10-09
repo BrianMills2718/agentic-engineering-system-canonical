@@ -1,0 +1,681 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-worktree-plan-lookup-d0a6d7112756",
+  "plan": {
+    "plan_ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md",
+    "plan_sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+  },
+  "path_decision": {
+    "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.path-decision.json",
+    "sha256": "b3102d5a6c1f986b575d8b8f6eaebc106f17643a4e5ce5b232fd40dc6e9196df",
+    "selected_path": "repair",
+    "classified_path": "repair",
+    "errors": []
+  },
+  "route": "repair",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@10",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "59ff156cb32f603b0e462160aa6e962b3b8dead04c32609d176a6e5085e47f8a"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "e08f1a326de035b56e4e20bd6224439145f2373926a66672502c4b78a524105d"
+  },
+  "activation": {
+    "facts_ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.facts.json",
+    "facts_sha256": "c0792961d83bf64864f2563cfccb5efc9d9561727dd95a265857de4466eebee3",
+    "facts": {
+      "shared_mechanism": true,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "claims_external_standard": true,
+      "crosses_system_boundary": true,
+      "deploys": true,
+      "aes_governed_target": true,
+      "multiple_writers": false,
+      "consequential_boundary": false,
+      "inline_prototype": false
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "claims_external_standard": "declared:derived_current_boundary",
+      "crosses_system_boundary": "declared:derived_current_boundary",
+      "deploys": "declared:derived_current_boundary",
+      "aes_governed_target": "declared:derived_current_boundary",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": true,
+        "reason": "shared_mechanism=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": false,
+        "reason": "multiple_writers=false (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": false,
+        "reason": "inline_prototype=false (derived:classified_path==prototype)"
+      },
+      {
+        "overlay_id": "OV-SYSTEM-BOUNDARY",
+        "activation_fact": "crosses_system_boundary",
+        "active": true,
+        "reason": "crosses_system_boundary=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-DEPLOYMENT",
+        "activation_fact": "deploys",
+        "active": true,
+        "reason": "deploys=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-STANDARD-CONFORMANCE",
+        "activation_fact": "claims_external_standard",
+        "active": true,
+        "reason": "claims_external_standard=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-AES",
+        "activation_fact": "aes_governed_target",
+        "active": true,
+        "reason": "aes_governed_target=true (declared:derived_current_boundary)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:cf3cb0b334c4b6aa380fc73f90a068ea7cc307b2551ade22916e545437c37171",
+    "definition_sha256": "5d3efc88342bd994214d75d56dd6fa76b1c2809d3801c501119f252017e5616d",
+    "bundle_ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.bundle.json",
+    "bundle_sha256": "76e16c2fc4a3a7d5d4aaed406f6c5315048446de62efe8642697b41c1c01704f",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#actor-and-result",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the served actor (“Brian and his engineering agents”), states the desired result (“ordinary planned commits to work”), and gives a stable, concrete, user-visible example: Project Meta’s cursor-retirement commit in which the hook reads AES’s receipt rather than searching under inherited `GIT_DIR`.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.path-decision.json",
+          "sha256": "b3102d5a6c1f986b575d8b8f6eaebc106f17643a4e5ce5b232fd40dc6e9196df"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-REQUIREMENTS-TRACED",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#requirements",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/CORE-REQUIREMENTS-TRACED",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence provides a requirements list R1–R5, including the requested behaviors and the claimed Git-standard conformance and schema/admission properties. Every requirement names one or more checks and gives an explicit status, including failures and planned/not-yet-run checks; no requirement is marked deferred, so no deferred carry-forward is required.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#success-and-disproof",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines behavioral success checks for repository identity, staged content, subprocess isolation, and hook admission behavior. It also gives concrete disproof conditions, including wrong-object reads, lost staged receipts, acceptance of unknown plans, and retained repository-local variables, while expressly rejecting counts and cache hashes as substitutes.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#success-and-disproof",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the runs for each criterion, states where their traces live (`/home/brian/projects/data/logs/worktree-lifecycle-verification.log` and the Agent Skills observer’s complete native-hook trace), and specifies what must be inspected beyond outcomes, including commands, identities, variables, indexes, receipts, arguments, hook behavior, and failures. It also requires reading failed or surprising traces and a passing sample before reporting results.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SYSTEM-MODEL",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#system-model",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/CORE-SYSTEM-MODEL",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence links the shared system boundary, identifies the repository scope and documentation entry points, and names the relevant entities, records, processes, and source-linked view. It specifies what regression and installed traces must show for those elements, explains the omitted graphical view, gives concrete freshness/drift checks, and states how model, view coverage, and run evidence are reconciled in the same change.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-CAPABILITY-REUSE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#capability-reuse",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-CAPABILITY-REUSE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence states, “No catalogue entry fits,” identifies both catalogue files, and explains that neither provides repository-local Git environment isolation for AES's federated adopted-plan admission. It also explicitly states that no new cross-project capability is created.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#authority-and-non-goals",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/2b481c6309be/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies authority: Brian authorizes the blocking root correction, with AES owning commit-rule source, Enforced Planning owning claims, Company Planning owning adoption, and Project Meta and Agent Skills as consumers. It also explicitly lists non-goals, including not modifying native handoff tools, weakening adoption or hooks, rewriting schemas, editing other writers’ checkouts, or cleaning legacy worktrees.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#irreversible-actions-and-spend",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-IRREVERSIBLE-SPEND",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that no irreversible action or new spend is proposed. It also identifies containment for the reversible work (retaining the prior revision, using durable remote refs, and prohibiting deletion or private publication) and confirms existing checks remain within standing tool authority.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#uncertainties",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly lists three blocking uncertainties and assigns an owner to each. It also identifies resolution evidence or methods for every uncertainty, including documented Git discovery and regression tests, named regressions and subprocess review, and installed-module provenance with authentic hook traces.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#activation-facts",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/3b24b67f2e5e/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan declares `shared_mechanism=true`, `claims_external_standard=true`, and `aes_governed_target=true`, matching the triggered facts for the changed shared lookup algorithm, claimed Git rule conformance, and governed target. The facts declared false—`empirical_comparison_proposed`, `llm_central`, and `irreversible_or_spend_action`—are not triggered by the described regression checks, non-LLM behavior, or explicitly reversible changes with no new spend.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#prior-art-and-ownership",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/OV-PRIOR-ART-DISPOSITION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies ownership and internal lineage, cites searches of the catalogue and relevant Git guidance, and dispositions the identified artifacts as reuse or extension. It also states that no applicable capability was found and rejects the need for another implementation.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "effect": "advisory",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#prior-art-and-ownership",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/680d026c0193/OV-PRIOR-ART-PARALLEL-CHECK",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names concrete checks: inspect native claims and the installed module path, and compare all changes to `commit_rule.py` against the single claimed lane. It also specifies that a second source writer or installed package with a different lookup would reveal a conflicting parallel implementation.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-CONTRACTS-SCHEMAS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#contracts-and-dependencies",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/3b24b67f2e5e/OV-CONTRACTS-SCHEMAS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence identifies the crossed contracts and schemas, their owners, and a file path or URL for each, including Git, Company Planning, AES, hook, and UV contracts. It explicitly states that each is unchanged, or that no package metadata or hook configuration changes occur, satisfying the requirement to say whether this plan changes them.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-CONTRACTS-DEPENDENCIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#contracts-and-dependencies",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/3b24b67f2e5e/OV-CONTRACTS-DEPENDENCIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies producers and consumers for the Git/AES, Company Planning/AES, AES/hook, and UV/tool boundaries. It also specifies the landing sequence—from adopting and correcting the source through merging, installing the exact package, refreshing, and running authentic hook checks—and states that no consumer schema changes or hook overrides occur between steps.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-DEPLOY-PLAN",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#deployment",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/15b47c7b30e4/OV-DEPLOY-PLAN",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the deployment target, provides the exact `uv tool install --force ...` deployment command, specifies live checks including module provenance and actual hook traces, and gives a rollback command pinned to the recorded prior revision followed by re-running the hooks.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-STANDARD-CONFORMANCE-RULES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#standard-conformance",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/OV-STANDARD-CONFORMANCE-RULES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names Git’s `githooks` guidance with its URL, states that it has no machine-readable schema, and specifies the written rule to encode. It also gives the Company Planning schema paths and explicitly identifies the required decision and receipt rules that artifacts must satisfy.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-STANDARD-CONFORMANCE-GATE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#standard-conformance",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/OV-STANDARD-CONFORMANCE-GATE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the command `uv run pytest tests/greenfield/test_commit_rule.py -v` and places it in the repository’s local merge gate, with `make check` at merge. It explicitly defines disproof through a conforming artifact violating a discovered Git rule and labels the caching helper as an `AES implementation extension` in both its source docstring and the plan.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-AES-TARGET-TRACE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md#aes-target",
+          "sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/worktree-plan-lookup/9e5a0691ec89/OV-AES-TARGET-TRACE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states the repository is governed by `.aes/target.yaml`, declares “Target delta: none,” and names the existing target items and success criterion served. It maps R1–R5 to AP-REQ-001/AP-REQ-002 or SC-AP-001, with a verification subject for each; no `aes plan validate` result is required because no target change is declared.",
+        "reused": true
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 19,
+    "unresolved": 0,
+    "not_applicable": 0,
+    "unavailable": 0,
+    "missing": 0
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-worktree-plan-lookup-d0a6d7112756",
+    "snapshot_ref": "SNAPSHOT-worktree-plan-lookup",
+    "snapshot_revision": "sha256:76e16c2fc4a3a7d5d4aaed406f6c5315048446de62efe8642697b41c1c01704f",
+    "packet_ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md",
+    "packet_revision": "sha256:d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [],
+    "route": "repair",
+    "adoption_readiness": "ready_for_contributor",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "pass",
+  "reason_codes": [],
+  "actionable_summary": [
+    "pass: 19 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "codex",
+    "session": "01a11e1e-21f8-7f22-a467-a25b56fffe8c"
+  },
+  "started_at": "2026-10-09T06:58:53Z",
+  "completed_at": "2026-10-09T06:58:53Z",
+  "duration_ms": 136
+}

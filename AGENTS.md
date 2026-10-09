@@ -124,6 +124,7 @@ read `CLAUDE.md` directly.
 
 ## References
 
+- Worktree plan lookup repair: [adopted design](proposals/worktree-plan-lookup/worktree-plan-lookup.md) and [goal](proposals/worktree-plan-lookup/worktree-plan-lookup.goal.md), correcting inherited Git hook context for foreign plans while preserving the caller's staged index.
 - Worktree lifecycle: [plan](proposals/worktree-lifecycle/PLAN.md), [model](proposals/worktree-lifecycle/SYSTEM_MODEL.md), [validation](proposals/worktree-lifecycle/VALIDATION.md), and [goal](proposals/worktree-lifecycle/worktree-lifecycle.goal.md). These are proposal/navigation references; the owning lane retains execution custody.
 
 - Feedback intake and transport prevention: [plan](proposals/aes-feedback-prevention/PLAN.md), [system flow](proposals/aes-feedback-prevention/SYSTEM_MODEL.md), and [goal](proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md). These are a bounded repair record, not additional repository authority.

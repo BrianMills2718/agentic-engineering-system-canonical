@@ -1,0 +1,29 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.md",
+  "plan_sha256": "d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4",
+  "path_decision_ref": "proposals/worktree-plan-lookup/worktree-plan-lookup.path-decision.json",
+  "path_decision_sha256": "b3102d5a6c1f986b575d8b8f6eaebc106f17643a4e5ce5b232fd40dc6e9196df",
+  "facts": {
+    "shared_mechanism": true,
+    "empirical_comparison_proposed": false,
+    "llm_central": false,
+    "irreversible_or_spend_action": false,
+    "claims_external_standard": true,
+    "crosses_system_boundary": true,
+    "deploys": true,
+    "aes_governed_target": true
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary",
+    "claims_external_standard": "derived_current_boundary",
+    "crosses_system_boundary": "derived_current_boundary",
+    "deploys": "derived_current_boundary",
+    "aes_governed_target": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-09T06:58:38Z"
+}
