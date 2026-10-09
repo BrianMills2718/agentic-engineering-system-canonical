@@ -1,0 +1,61 @@
+{
+  "record_type": "native-task-required-authority-context.v1",
+  "task_sha256": "ca1ca293dfa02f4e62964b1ba4195d170a4e9e830397490c4ca5895471dc7d6c",
+  "canonical_task_sha256": "ae362f8191402c660380ef2f1a52bece277a7a9b327d1aadb610a22b709c0725",
+  "task_packet_changed": false,
+  "source": {
+    "repository": "BrianMills2718/project-meta",
+    "revision": "3b7444abf52f296da383b888c6e911970127c322",
+    "path": "docs/ops/POLICY_SYSTEM.md",
+    "sha256": "fec24a1458d0cabe4261e252eb52aa38aea7ee5752ed0ac93c76ef0ea495c6d8",
+    "bytes": 21492,
+    "required_by": {
+      "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+      "lines": [
+        38,
+        43
+      ]
+    }
+  },
+  "renderer": {
+    "path": "agent-skills/scripts/render_specialist_agents.py",
+    "sha256": "b9742b1ba3403f5a91dc692959a7f1d5ae0acdeb3ee3a8a8ad3fa9a7a1d2181f",
+    "callables": [
+      "load_contract",
+      "render_all",
+      "validate_native_outputs"
+    ],
+    "contract_sha256": "2e73498f27329b6569839ede88466e6bed356633fc4ea0f09cfba02db7ee6771"
+  },
+  "canonical_role_bodies": {
+    "codex": "29ddc35c31d7ff2259a1f55b8eb7c4b8703d02e91657d872c89360a3cef3d753",
+    "claude": "12655eb98a6da3ae5f701b800c7ad9ab9c1fc83f39f466fe5b97c0d7c3d6e9df"
+  },
+  "task_role_bodies": {
+    "codex": "505410b6bfa72f10d2810097fd8a4433b5357b2b73ede623506055f70af77902",
+    "claude": "420c4d658b83a0e440ee60f71fdc14ad888c48fe07f7e19f0df77594275a0ecb"
+  },
+  "artifacts": {
+    "POLICY_SYSTEM.md": {
+      "sha256": "fec24a1458d0cabe4261e252eb52aa38aea7ee5752ed0ac93c76ef0ea495c6d8",
+      "bytes": 21492
+    },
+    "development-investigator.codex.toml": {
+      "sha256": "9045578003612736ca7eab78f1506df2a80cb0156dd2e1bf8caf3d80e6311d1d",
+      "bytes": 26720
+    },
+    "claude-agents.json": {
+      "sha256": "90550ccdf86408d7a2d495522924d60e5c6b735d210ca962409e7f0410f7a337",
+      "bytes": 26825
+    }
+  },
+  "runtime_status": {
+    "codex": "prepared_not_run",
+    "claude": "prepared_not_run"
+  },
+  "limits": [
+    "Role-file generation does not prove native delivery.",
+    "Parent native read-only/network controls remain required; role config does not apply every serialized setting.",
+    "No tool-read path was added to the frozen TaskV1."
+  ]
+}
