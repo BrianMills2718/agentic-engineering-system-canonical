@@ -1,0 +1,19 @@
+{
+  "source_commit": "1606f714d5dde5a08c69d1d13a7ef79b276c4b18",
+  "reason": "Hive publishes review-page assets but not sibling Markdown. Immutable GitHub source links replace relative links.",
+  "checks": [
+    {
+      "artifact": "PLAN.md",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/1606f714d5dde5a08c69d1d13a7ef79b276c4b18/proposals/worktree-lifecycle/PLAN.md",
+      "http_status": 200
+    },
+    {
+      "artifact": "SYSTEM_MODEL.md",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/1606f714d5dde5a08c69d1d13a7ef79b276c4b18/proposals/worktree-lifecycle/SYSTEM_MODEL.md",
+      "http_status": 200
+    }
+  ],
+  "passed": 2,
+  "failed": 0,
+  "exit_status": 0
+}

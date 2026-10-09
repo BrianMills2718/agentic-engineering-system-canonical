@@ -1,0 +1,76 @@
+{
+ "situation": {
+  "schema": "writing-situation/v2",
+  "medium": "document",
+  "route": "proposal",
+  "rationale": "Authorized repair design submitted for native Company Planning adoption, with a reused visual lifecycle review.",
+  "facts": {
+   "asks_for_approval_or_resources": {
+    "value": true,
+    "evidence": "proposes-bounded-implementation-scope"
+   },
+   "central_claim_needs_argument": {
+    "value": false,
+    "evidence": "repair-design"
+   },
+   "is_chat_message": {
+    "value": false,
+    "evidence": "markdown-plan"
+   },
+   "is_dloa": {
+    "value": false,
+    "evidence": "worktree-control"
+   },
+   "is_email": {
+    "value": false,
+    "evidence": "markdown-plan"
+   },
+   "is_job_application": {
+    "value": false,
+    "evidence": "worktree-control"
+   },
+   "is_message_to_brian": {
+    "value": false,
+    "evidence": "durable-design-plan"
+   },
+   "reader_decides_from_this": {
+    "value": true,
+    "evidence": "Brian-requested-plan"
+   },
+   "reader_performs_task": {
+    "value": false,
+    "evidence": "proposal-rather-than-runbook"
+   },
+   "reports_transferable_failure": {
+    "value": true,
+    "evidence": "shared-worktree-control"
+   },
+   "subject_is_built_artifact": {
+    "value": false,
+    "evidence": "implementation-not-started"
+   }
+  }
+ },
+ "items": {
+  "p-ask-first": {
+   "status": "pass",
+   "quote": "Authorized scope: repair the existing creation and closeout tools, prove their behavior on a real lane, then resolve existing worktrees individually.",
+   "note": "Scope already authorized through /goal; this record checks the plan as native-adoption input, not an additional human permission request."
+  },
+  "p-problem-evidence": {
+   "status": "pass",
+   "quote": "found 60 existing linked worktrees and five missing registered paths.",
+   "note": "Dated baseline is explicitly refreshed before cleanup."
+  },
+  "p-cost-risk": {
+   "status": "pass",
+   "quote": "The main risk is incorrect removal; conservative retention and object-level recovery checks contain it.",
+   "note": "Irreversible loss and new spend excluded."
+  },
+  "rep-considered": {
+   "status": "pass",
+   "quote": "The visual review page explains the proposed mechanism; it is not a live inventory or evidence of implemented fixes.",
+   "note": "Existing recommendation/disposition and rendered browser traces preserved; no visual layout changed."
+  }
+ }
+}

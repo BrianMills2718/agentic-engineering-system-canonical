@@ -1,0 +1,15 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "proposals/worktree-lifecycle/PLAN.md",
+  "plan_sha256": "02cf7f114beb6e342da0498e467144b4bdab702238a13f2aeb11cc0fbb5e8a48",
+  "receipt_ref": "proposals/worktree-lifecycle/PLAN.receipt.json",
+  "receipt_sha256": "3bac6bf345575423dee635f30e3cd6a89ad632d078ebc6c6b2687c2f5423aa71",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 20 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "decided_at": "2026-10-09T05:11:40Z"
+}
