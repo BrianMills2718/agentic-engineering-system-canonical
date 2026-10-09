@@ -1,12 +1,12 @@
 {
   "active_slice": {
     "description": "Capture native lifecycle and parent-verified outcomes through existing feedback report path",
-    "next_action": "Implement collector adapter and execute one bounded native canary",
+    "next_action": "Inspect final full local gate, then complete and archive through the pinned native runtime; initial immutable anchor retained and current committed subject recorded here.",
     "requires_external_action": false,
     "requires_spend": false,
     "slice_id": "native-subagent-outcomes",
-    "status": "executing",
-    "target_revision": "9005982d31468d02b55c70980cc0752a737115a9"
+    "status": "verifying",
+    "target_revision": "73881117e0ac0de060be3927828a7dc70d751b67"
   },
   "authority": {
     "external_action_authorized": true,
@@ -29,7 +29,7 @@
     "verifier_outcome": null
   },
   "cursor_id": "aes-subagent-feedback",
-  "cursor_revision": 1,
+  "cursor_revision": 2,
   "failure_state": {
     "boundary": null,
     "last_failure_ref": null,
@@ -37,7 +37,29 @@
   },
   "goal_ref": "proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md",
   "lifecycle_state": "active",
-  "observations": [],
+  "observations": [
+    {
+      "boundary": "Capture and parent checks preserve an inconclusive child return; this is not a child-quality pass",
+      "evidence_ref": "https://github.com/BrianMills2718/agent-feedback-log/issues/262",
+      "kind": "authentic_result",
+      "observation_id": "native-capture",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Learning 70 passed and distribution 15 passed",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/commit/e5180b3dc4b7fdd3ecb8e09c3820445b585ae85f",
+      "kind": "supporting_work",
+      "observation_id": "focused-checks",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Prior full gate rejected seven untagged distribution fixture and guide commits; prerequisite repaired and affected checks pass",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/460",
+      "kind": "verification_failure",
+      "observation_id": "baseline-gate-repaired",
+      "outcome": "fail"
+    }
+  ],
   "plan_revision": "9005982d31468d02b55c70980cc0752a737115a9",
   "ready_alternatives": [],
   "record_type": "plan_execution_cursor",
