@@ -24,6 +24,11 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(receipt['checks_failed'], 0)
         self.assertEqual(receipt['behavior_verdict'], 'fail')
         self.assertFalse(receipt['cross_client_goal_complete'])
+        self.assertEqual(receipt['broader_runtime_certification']['checks'], receipt['behavior_checks'])
+        self.assertEqual(receipt['native_task_result']['verdict'], 'fail')
+        self.assertNotIn('complete', receipt['native_task_result'])
+        self.assertEqual(receipt['completion_scope']['session_goal_completion'], 'not_assessed')
+        self.assertFalse(receipt['completion_scope']['required_authority_gap']['in_frozen_packet'])
         added = receipt['additional_evidence']
         self.assertFalse(added['compact_codex']['runtime_parity_certified'])
         self.assertEqual(added['compact_codex']['child_callbacks']['completed'], 32)
@@ -164,6 +169,42 @@ class EvidenceTests(unittest.TestCase):
         verdict = V.behavior(semantics, usage, '{}')
         self.assertEqual(verdict['verdict'], 'inconclusive')
         self.assertFalse(verdict['complete'])
+
+    def test_ideal_task_outputs_can_pass_without_broader_runtime_certification(self):
+        semantics = {c: {'counts': {'incorrect': 0}, 'verdict': 'pass'} for c in ('claude', 'codex')}
+        task = V.native_task_result(semantics, {'claude': '{}', 'codex': '{}'})
+        self.assertEqual(task['verdict'], 'pass')
+        self.assertNotIn('complete', task)
+        for smaller in (True, False):
+            usage = copy.deepcopy(self.audit['derived_usage'])
+            usage['codex']['child']['first']['input_tokens'] = (
+                1 if smaller else usage['codex']['parent']['first']['input_tokens'] + 1)
+            runtime = V.behavior(semantics, usage, '{}')
+            self.assertEqual(runtime['verdict'], 'inconclusive' if smaller else 'fail')
+            self.assertFalse(runtime['complete'])
+
+    def test_native_task_source_errors_fail_even_with_claimed_pass_summary(self):
+        for client in ('claude', 'codex'):
+            semantics = {c: {'counts': {'incorrect': 0}, 'verdict': 'pass'} for c in ('claude', 'codex')}
+            semantics[client]['counts']['incorrect'] = 1
+            with self.subTest(client=client):
+                self.assertEqual(V.native_task_result(semantics, {'claude': '{}', 'codex': '{}'})['verdict'], 'fail')
+
+    def test_native_task_json_fences_fail_in_either_client(self):
+        semantics = {c: {'counts': {'incorrect': 0}, 'verdict': 'pass'} for c in ('claude', 'codex')}
+        for client in ('claude', 'codex'):
+            raw = {'claude': '{}', 'codex': '{}'}
+            raw[client] = '```json\n{}\n```'
+            with self.subTest(client=client):
+                self.assertEqual(V.native_task_result(semantics, raw)['verdict'], 'fail')
+
+    def test_native_task_qualified_sources_do_not_become_pass(self):
+        semantics = {c: {'counts': {'incorrect': 0}, 'verdict': 'inconclusive'} for c in ('claude', 'codex')}
+        self.assertEqual(V.native_task_result(semantics, {'claude': '{}', 'codex': '{}'})['verdict'], 'inconclusive')
+
+    def test_native_task_cannot_omit_one_client(self):
+        with self.assertRaisesRegex(AssertionError, 'requires both clients'):
+            V.native_task_result({'codex': {'counts': {'incorrect': 0}, 'verdict': 'pass'}}, {'codex': '{}'})
 
     def compact(self, record=None):
         record = record if record is not None else V.read(V.HERE / 'compact-codex-proof.json')
