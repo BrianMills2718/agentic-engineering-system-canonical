@@ -1,7 +1,7 @@
 {
   "schema_version": "agent-router-acceptance-index.v1",
   "extension_owner": "AES",
-  "artifact_state": "pre_execution",
+  "artifact_state": "partial_execution",
   "plan_ref": "proposals/agent-router/PLAN.md",
   "plan_sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7",
   "records": [
@@ -193,6 +193,23 @@
           "check_refs": []
         }
       ]
+    }
+  ],
+  "supporting_evidence": [
+    {
+      "id": "profile-accounting-core",
+      "state": "partial",
+      "requirements": [
+        "AR-ACCOUNTING",
+        "AR-PROFILES",
+        "AR-CONTRACT"
+      ],
+      "checks": [
+        "tests/test_agent_router.py",
+        "native-handoff-replay.json",
+        "profiles/effective-profiles.json"
+      ],
+      "limits": "20 focused unit tests and one labelled authentic historical replay; no fresh router dispatch, live profile behavior, four-cell delivery or observation period complete."
     }
   ]
 }

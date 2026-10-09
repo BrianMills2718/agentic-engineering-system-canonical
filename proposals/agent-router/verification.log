@@ -241,3 +241,12 @@ RUN_END check exit 0 seconds 9.203
 }
 
 RUN_END adopt exit 0 seconds 1.244
+{"action": "start", "commit_sha": "bcbbbbb3ffabf52597d94acec0e165efa6b9b790", "cursor_id": "agent-router-completion-20261009", "cursor_path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution/.company-planning/active-execution.json", "cursor_revision": 1, "cursor_sha256": "65671b2b5d95cd45c0f29a73acf9f7ac7db6c8b4c7d2ce6f803f26d7f128bf76", "record_type": "plan_execution_cursor_mutation_receipt", "schema_version": 1}
+
+CURSOR_START_EXIT 0
+{"event": "agent-router-writing-disposition", "artifact": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution/proposals/agent-router/pr-description.txt", "declare_exit": 0, "check_exit": 1, "disposition": "no situation fits; policy permits logging friction instead of forcing a fit", "record": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution/proposals/agent-router/pr-description.txt.writing.json", "source_policy": "AGENTS.md situation-declared-checklists", "catalog": "representation-router/catalog/writing-forms.json"}
+{"action": "replace", "commit_sha": "f6b20eab0fd1626835cc5af866e4c7e2bf17451f", "cursor_id": "agent-router-completion-20261009", "cursor_path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution/.company-planning/active-execution.json", "cursor_revision": 2, "cursor_sha256": "eee8e785040de8d0565b13bb5418963d6b2cc2da55f65c42ce617546bf960803", "record_type": "plan_execution_cursor_mutation_receipt", "schema_version": 1}
+
+CURSOR_REPLACE_EXIT 0
+
+2026-10-09 profile/accounting core: pytest tests/test_agent_router.py -v -> 20 passed, 0 failed/errored/skipped, exit 0. Generated AES-owned profile/handoff JSON schemas. Two profile configurations resolve against the observed Codex 0.162.0 agent_type capability; caller authority caps API spend to zero, baseline unchanged. Configuration-only, no native profile dispatch claim. Authentic historical parent/child trace SHA256s matched committed harness evidence; dispatch at parent line13 role development-investigator/forknone. Replay ledger preserves unsupported pre-router status, real IDs, unknown cost/latency and explicit replay flag; exact eligibility joins complete. Not live observation or four-cell acceptance.
