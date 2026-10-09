@@ -1,0 +1,85 @@
+{
+  "schema_version": "agent-router-inventory-check/v1",
+  "observed_at": "2026-10-09T16:08:52.251251+00:00",
+  "result": "pass",
+  "executed_subject": "8aa680e3747cc104e747a39926ed605fddd941dd",
+  "source_ids": 263,
+  "dispositions": {
+    "keep": 229,
+    "covered": 27,
+    "retire": 7
+  },
+  "published_baseline_rules": 33,
+  "published_baseline_change": "Applicability tags only; existing policy and enforcement fields unchanged; three withdrawn rules retain none tags",
+  "cache_sha256": "428411c912659e64a21c06038d64364913e901bdaa49bb51677202b27ae06266",
+  "cache_rows": 296,
+  "known_reported_cost_usd": "6.278699276120",
+  "cost_basis": "Output-cache metadata, not provider billing reconciliation or complete attempt attribution",
+  "unknown_cost_attempts": 27,
+  "new_model_calls": 0,
+  "private_recovery": {
+    "repository": "BrianMills2718/project-meta",
+    "branch": "recovery/agent-router-inventory-20261009",
+    "verified_remote_tip": "e8a21bb36b8fedbb943a2663d7fade9c039145de",
+    "evidence_commit": "6bb9e84f416e83f45a0e479f550f7709c623b016"
+  },
+  "original_sorter_recovery": {
+    "branch": "recovery/rules-sort-20261009",
+    "verified_remote_tip": "82c8b87e7c3841d58a7108b0a67b3884d28565f0"
+  },
+  "checks": [
+    {
+      "name": "exact source, public, private and cache ID membership",
+      "status": "pass"
+    },
+    {
+      "name": "immutable cache identity",
+      "status": "pass"
+    },
+    {
+      "name": "private evidence content hashes",
+      "status": "pass"
+    },
+    {
+      "name": "kept policy exact membership, complete current policy and nonempty applicability",
+      "status": "pass"
+    },
+    {
+      "name": "no activation or mandatory retirement",
+      "status": "pass"
+    },
+    {
+      "name": "published baseline exact membership and existing policy/enforcement fields unchanged",
+      "status": "pass"
+    },
+    {
+      "name": "all active published applicability tags valid; withdrawn rows remain excluded",
+      "status": "pass"
+    },
+    {
+      "name": "authentic private page contains every source policy ID",
+      "status": "pass"
+    },
+    {
+      "name": "private evidence exact bytes recoverable from committed remote recovery ancestor",
+      "status": "pass"
+    },
+    {
+      "name": "private outputs owner-only",
+      "status": "pass"
+    },
+    {
+      "name": "public rows expose only allowlisted structure and hashes",
+      "status": "pass"
+    }
+  ],
+  "limits": [
+    "Inventory proposals only; mandatory instruction baseline unchanged",
+    "Semantic routing coverage and live delivery remain unverified",
+    "Earlier public source refs require separate history disposition; no history deleted"
+  ],
+  "corrections": [
+    "Initial byte-equality assertion was too broad: approved applicability tags are added to existing rules; exact policy/enforcement membership is unchanged.",
+    "Three already-withdrawn published rules correctly have none applicability and are excluded from active-tag validation."
+  ]
+}

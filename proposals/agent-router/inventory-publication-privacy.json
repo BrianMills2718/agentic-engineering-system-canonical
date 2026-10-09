@@ -1,0 +1,44 @@
+{
+  "schema_version": "agent-router-publication-privacy/v1",
+  "result": "pass",
+  "reviewer": "native publication_privacy (gpt-6-luna)",
+  "coverage": "Every one of 263 manifest rows, all 33 published register rows, all changed source/page/test prose; final code-only delta reviewed separately",
+  "source_ids_sha256": "f658b3764343cc6220a1d5cf919a854e15029b9075b4839f69268aba6d669032",
+  "published_ids_sha256": "0fb266eda0be14a1c14187ab23e5c28d6a761abc15d8128c3d0eee87180d7787",
+  "files": {
+    "scripts/rules/sort_legacy.py": "f272824c9654786a9f2ab5b0ddc828fe8a2fb9c7df96991b44a56c910cb03791",
+    "scripts/rules/build_rules_page.py": "d8c308b43af7921a8c9945bf2d55636941069c575ad4f9b8625bad8be00e7111",
+    "docs/rules/register.yaml": "2934af061da4cbcd231722e30e65e2de7a5b9836a4eacd9e796214fe83e7d7a0",
+    "docs/rules/RULES.md": "ba85247241d3a2fc5f54d5514b77f8e89f0fe7c2b302484faf615142f963a8ad",
+    "docs/rules/legacy-dispositions.yaml": "87772c9de94d851cf1cc65d9edefdaa4d9c8a40873971792d225b1352d4c5248",
+    "tests/test_rules_page.py": "82ea8fdf547d650a78ca6e7ef93ac3855bfe72ae1648d61ca52d431b3c2d413a",
+    "tests/test_sort_legacy.py": "ab785e1a8aa5cde11ef455e7b16564157c922c09e4447202cb914cbc4bdcec88"
+  },
+  "private_data_findings": [],
+  "scope_limit": "Current safe files only; no clearance of older private-source history. Those commits are absent from this publisher branch.",
+  "supplemental_review": {
+    "result": "pass",
+    "coverage": [
+      "README.md",
+      "evidence.json",
+      "inventory-check.json",
+      "inventory-publication-privacy.json",
+      "deployed-collector-check.json",
+      "pr-description.txt",
+      "inventory-check-process.json"
+    ],
+    "findings": [],
+    "limits": "Final numerical run-state update records only observed checks; current safe source files cleared; private history not cleared."
+  },
+  "secret_scan": {
+    "commits": 1,
+    "bytes": 240944,
+    "findings": 0,
+    "exit_status": 0
+  },
+  "contact_and_key_pattern_scan": {
+    "files": 14,
+    "findings": 0,
+    "exit_status": 0
+  }
+}
