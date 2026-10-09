@@ -215,3 +215,15 @@ def test_private_output_inside_public_checkout_fails_before_writes(tmp_path: Pat
         m.apply(cache)
     assert m.REGISTER.read_bytes() == original
     assert not m.DISPOSITIONS.exists()
+
+
+def test_private_output_cannot_enter_another_git_checkout(tmp_path: Path) -> None:
+    import pytest
+    m, _, _, cache, _ = _inventory(tmp_path)
+    other = tmp_path / "other-checkout"
+    (other / ".git").mkdir(parents=True)
+    (other / ".git" / "HEAD").write_text("ref: refs/heads/main\n")
+    m.OUT = other / "private"
+    with pytest.raises(ValueError, match="all Git checkouts"):
+        m.apply(cache)
+    assert not m.OUT.exists()

@@ -328,7 +328,8 @@ def apply(cache_path: Path, *, check_only: bool = False) -> int:
     private_dispositions = OUT / "legacy-dispositions.private.yaml"
     for path in (private_register, private_dispositions):
         resolved = path.resolve()
-        if resolved.is_relative_to(ROOT.resolve()) or any((p / ".git").exists() for p in resolved.parents):
+        if resolved.is_relative_to(ROOT.resolve()) or any(
+                (p / ".git").is_file() or (p / ".git" / "HEAD").is_file() for p in resolved.parents):
             raise ValueError("private inventory output must be outside the public repository and all Git checkouts")
     raw = cache_path.read_bytes()
     latest, cache_lines, historical = {}, {}, []

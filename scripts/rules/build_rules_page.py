@@ -230,7 +230,8 @@ def main() -> int:
     parser.add_argument("--check", action="store_true", help="exit 1 if the page differs from a fresh build")
     args = parser.parse_args()
     resolved = args.output.resolve()
-    if args.private and (resolved.is_relative_to(ROOT.resolve()) or any((p / ".git").exists() for p in resolved.parents)):
+    if args.private and (resolved.is_relative_to(ROOT.resolve()) or any(
+            (p / ".git").is_file() or (p / ".git" / "HEAD").is_file() for p in resolved.parents)):
         parser.error("private page output must be outside the public repository and all Git checkouts")
     page = build(args.register, args.legacy, args.dispositions, private=args.private)
     if args.check:
