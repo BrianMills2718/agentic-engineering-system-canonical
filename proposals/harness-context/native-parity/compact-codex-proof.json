@@ -1,0 +1,1575 @@
+{
+  "task_sha256": "ae362f8191402c660380ef2f1a52bece277a7a9b327d1aadb610a22b709c0725",
+  "traces": {
+    "parent": {
+      "path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T13-33-00-01a121b9-b244-77c3-9657-b3528c9adbb1.jsonl",
+      "sha256": "ef435da933b9cdf7b82aca61840f02c1fb10eba1cfa3c958bae03e34043e390d"
+    },
+    "child": {
+      "path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T13-33-29-01a121ba-23e3-7883-a8a9-df0b41a15b1a.jsonl",
+      "sha256": "2fc3e5504db90a37968f1a24fa17f31d514a6786a8cd778e99202753329a195c"
+    }
+  },
+  "raw_final": "{\n  \"schema_version\": \"development-investigation-result/v1\",\n  \"task_id\": \"maintenance-discovery-frozen-20261009\",\n  \"specialist_id\": \"development-investigator\",\n  \"status\": \"supported\",\n  \"root_cause\": \"The frozen maintenance entrypoint advertises BRANCH-only sufficiency but defaults its write scope to the repository root (.), without supplying the broad-scope metadata required by schema-v6 claim creation. The admission validator therefore can emit broad_scope_mode_required and broad_scope_reason_required. The command's usage text and documented example omit the available narrow-scope recovery variable.\",\n  \"evidence\": [\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/project-meta/AGENTS.md\",\n      \"locator\": \"L99\",\n      \"fact\": \"The documented maintenance-worktree example supplies branch and descriptive metadata but no write paths or broad-scope metadata.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/project-meta/Makefile\",\n      \"locator\": \"L290\",\n      \"fact\": \"The comment explicitly claims defaults make make maintenance-worktree BRANCH=<name> sufficient.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/project-meta/Makefile\",\n      \"locator\": \"L312\",\n      \"fact\": \"MAINTENANCE_BOOTSTRAP_WRITE_PATHS expands to nonempty SESSION_WRITE_PATHS when supplied, otherwise to '.'. A command-line override of MAINTENANCE_BOOTSTRAP_WRITE_PATHS also provides an explicit scope.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/project-meta/Makefile\",\n      \"locator\": \"L332\",\n      \"fact\": \"maintenance-worktree forwards MAINTENANCE_BOOTSTRAP_WRITE_PATHS as SESSION_WRITE_PATHS to the recursive worktree invocation.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/project-meta/Makefile\",\n      \"locator\": \"L320\",\n      \"fact\": \"Usage output shows only BRANCH; the following two lines describe descriptive metadata defaults and do not name MAINTENANCE_BOOTSTRAP_WRITE_PATHS or SESSION_WRITE_PATHS.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/project-meta/Makefile\",\n      \"locator\": \"L192\",\n      \"fact\": \"Claim creation includes --broad-scope-mode only when SESSION_BROAD_SCOPE_MODE is supplied; the next line similarly conditionally forwards SESSION_BROAD_SCOPE_REASON, and L194 forwards SESSION_WRITE_PATHS as --write-path arguments.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py\",\n      \"locator\": \"L250\",\n      \"fact\": \"The installed compatibility facade delegates CLI execution to enforced_planning.coordination_claims.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\n      \"locator\": \"L3056\",\n      \"fact\": \"Program claims with declared write paths count as write ownership, so the default program claim type does not exempt this scope.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\n      \"locator\": \"L2618\",\n      \"fact\": \"The classifier marks '.' as repository_root broad scope; L2589 explains nested paths are narrow for this contract.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\n      \"locator\": \"L85\",\n      \"fact\": \"Permitted broad-scope modes are bootstrap and bounded.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\n      \"locator\": \"L2767\",\n      \"fact\": \"A classified broad scope lacking a permitted mode produces broad_scope_mode_required; L2769 produces broad_scope_reason_required when the stripped reason is empty.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\n      \"locator\": \"L2773\",\n      \"fact\": \"Bootstrap mode additionally requires target_worktree_path and matching physical worktree identity. Candidate construction at L3583 defaults that target to the supplied worktree path.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\n      \"locator\": \"L4034\",\n      \"fact\": \"New claim creation explicitly constructs schema version 6 and calls validate_claim_for_creation at L4039.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\n      \"locator\": \"L2151\",\n      \"fact\": \"A live schema-v6 claim with broad-contract issues raises ValueError containing those issue identifiers.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py\",\n      \"locator\": \"L5835\",\n      \"fact\": \"The claim CLI catches ValueError, prints its message, and returns exit status 1.\"\n    },\n    {\n      \"path\": \"proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md\",\n      \"locator\": \"L204\",\n      \"fact\": \"Authored authority requires a new broad write claim to declare bootstrap or bounded intent and a nonempty reason, with bootstrap authority narrowed before ordinary repository writes.\"\n    }\n  ],\n  \"causal_chain\": [\n    \"With no write-path override, SESSION_WRITE_PATHS is empty and MAINTENANCE_BOOTSTRAP_WRITE_PATHS becomes '.'.\",\n    \"maintenance-worktree forwards that scope to worktree, which submits --write-path '.' for a new program claim.\",\n    \"The claim creation implementation explicitly uses schema version 6; program claims carrying write paths own those paths.\",\n    \"The classifier identifies '.' as broad repository-root scope. Absent explicit broad-scope mode and reason, validation raises broad_scope_mode_required and broad_scope_reason_required.\",\n    \"The claim CLI prints the validation message and fails before the later worktree creation step.\",\n    \"A concrete narrow scope supplied through MAINTENANCE_BOOTSTRAP_WRITE_PATHS or SESSION_WRITE_PATHS removes this broad-scope requirement when the paths classify as narrow. Retaining broad scope instead requires SESSION_BROAD_SCOPE_MODE=bootstrap|bounded and a nonempty SESSION_BROAD_SCOPE_REASON, plus the applicable worktree identity contract.\",\n    \"The frozen usage output and documented example do not explain that recovery, although the variable and scope override behavior exist in source.\"\n  ],\n  \"alternatives_ruled_out\": [\n    \"The refusal does not require an overlapping second writer: new-candidate broad-scope validation occurs before registry conflict handling.\",\n    \"The default program claim type does not bypass write-scope validation because declared write paths confer write ownership.\",\n    \"ALLOW_UNPLANNED=1 and the light execution profile do not supply the missing broad-scope mode or reason.\",\n    \"The frozen implementation does not discard a nonempty SESSION_WRITE_PATHS override; the variable definition explicitly preserves it.\"\n  ],\n  \"limitations\": [\n    \"This establishes frozen-source causality consistent with the historical report, not a runtime reproduction. No maintenance command, admission mutation, claim operation, or current live implementation was executed.\",\n    \"All five allowed files matched their supplied SHA-256 manifests. The Enforced Planning source identity is the separately supplied ac9454fc10bfe044b4382c11bdbe0e6c98a61ae0 revision, rather than the Project Meta revision.\",\n    \"The historical report supplies no captured full stderr, environment, installed-package identity, or complete runtime trace. Earlier readiness or native-session checks could independently prevent a particular invocation from reaching this validator.\",\n    \"Authority boundary conflict: Project Meta AGENTS.md L40 requires docs/ops/POLICY_SYSTEM.md for policy-system explanation, but that document is outside allowed_read_paths. It was not read; the conclusion is limited to the supplied command and validator sources.\",\n    \"No reads were denied and no required tool was unavailable. Read-only sandboxing does not establish enforced isolation to the task's exact allowlist; that narrower boundary was followed procedurally.\",\n    \"Narrowing avoids this particular broad-scope refusal but does not prove complete admission success. Existing top-level directories remain broad, and nonexistent top-level paths can be ambiguous.\"\n  ],\n  \"recommended_parent_action\": \"Verify these citations against the supplied manifests and report the historical defect as a mismatch between the advertised BRANCH-only command, its root-scope default, and schema-v6 admission requirements. Explain the narrow recovery variable with a concrete authorized nested-path example, while stating that neither historical runtime admission nor the repaired live journey was reproduced. Resolve the unavailable policy-authority reference before making a broader policy conclusion.\",\n  \"mutation_declaration\": {\n    \"files_changed\": false,\n    \"network_used\": false,\n    \"memory_changed\": false,\n    \"children_spawned\": false\n  }\n}",
+  "final_sha256": "14beb269a776c1aaa6a96b99244caea4c43861d401961e4d1952c74772684df8",
+  "semantic_review": {
+    "verdict": "pass",
+    "items": [
+      {
+        "field": "root_cause",
+        "value_sha256": "0bb10e24be66ef9d9f7c935add039f019f2b8bee7b50b040de5680f25dbd51e7",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 312,
+            "end_line": 314,
+            "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)\n\nmaintenance-worktree:  ## Claimed light maintenance worktree; needs BRANCH (other maintenance metadata has safe defaults)"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 325,
+            "end_line": 333,
+            "quote": "\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 179,
+            "end_line": 195,
+            "quote": "\t\t--claim-type \"$(SESSION_CLAIM_TYPE)\" \\\n\t\t--repo-root \"$(WORKTREE_REPO_ROOT)\" \\\n\t\t--branch \"$(BRANCH)\" \\\n\t\t--worktree-path \"$(WORKTREE_DIR)/$(BRANCH)\" \\\n\t\t--start-point \"$(WORKTREE_START_REVISION)\" \\\n\t\t$(if $(PLAN_REPO_ROOT),--plan-repo-root \"$(PLAN_REPO_ROOT)\",) \\\n\t\t$(if $(PLAN_START_POINT),--plan-start-point \"$(PLAN_START_POINT)\",) \\\n\t\t--require-new \\\n\t\t$(if $(PLAN_RESUME),--resume,) \\\n\t\t--session-name \"$(SESSION_GOAL)\" \\\n\t\t--broader-goal \"$(SESSION_GOAL)\" \\\n\t\t$(if $(SESSION_PARENT_SCOPE),--parent-scope \"$(SESSION_PARENT_SCOPE)\",) \\\n\t\t$(if $(filter 1 true yes,$(SESSION_ALLOW_PARALLEL)),--allow-parallel,) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\\n\t\t$(foreach path,$(SESSION_READ_PATHS),--read-path \"$(path)\") \\"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2617,
+            "end_line": 2619,
+            "quote": "        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2751,
+            "end_line": 2770,
+            "quote": "            claim.repo_root,\n            claim.write_paths,\n            verified_new_files=verified_new_files,\n        )\n    except ValueError as exc:\n        # A live claim's repo_root/worktree commonly stops existing on disk\n        # long before its claim file is cleaned up (see missing_worktree_on_disk\n        # in claim_lifecycle_issues). classify_broad_write_paths cannot resolve\n        # broad-vs-narrow from filesystem evidence that is no longer there, and\n        # every caller of this function -- including read-only --list/--check\n        # rendering across the whole registry -- must survive one such claim\n        # rather than crash on it.\n        issues.append(str(exc).split(\":\", 1)[0])\n        broad_paths = None\n    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")\n    elif broad_paths is not None and (mode is not None or reason is not None):"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 4030,
+            "end_line": 4041,
+            "quote": "        broad_scope_reason=broad_scope_reason,\n        target_worktree_path=target_worktree_path,\n        contact_ref=contact_ref,\n        new_files=new_files,\n        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)\n\n    with claim_registry_lock():"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2150,
+            "end_line": 2153,
+            "quote": "    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))\n"
+          }
+        ]
+      },
+      {
+        "field": "recommended_parent_action",
+        "value_sha256": "85febfd2d0104329c2340f0d78a2defc6b9a5b6516a40b8150d890f7214e9b3f",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 312,
+            "end_line": 314,
+            "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)\n\nmaintenance-worktree:  ## Claimed light maintenance worktree; needs BRANCH (other maintenance metadata has safe defaults)"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 325,
+            "end_line": 333,
+            "quote": "\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 179,
+            "end_line": 195,
+            "quote": "\t\t--claim-type \"$(SESSION_CLAIM_TYPE)\" \\\n\t\t--repo-root \"$(WORKTREE_REPO_ROOT)\" \\\n\t\t--branch \"$(BRANCH)\" \\\n\t\t--worktree-path \"$(WORKTREE_DIR)/$(BRANCH)\" \\\n\t\t--start-point \"$(WORKTREE_START_REVISION)\" \\\n\t\t$(if $(PLAN_REPO_ROOT),--plan-repo-root \"$(PLAN_REPO_ROOT)\",) \\\n\t\t$(if $(PLAN_START_POINT),--plan-start-point \"$(PLAN_START_POINT)\",) \\\n\t\t--require-new \\\n\t\t$(if $(PLAN_RESUME),--resume,) \\\n\t\t--session-name \"$(SESSION_GOAL)\" \\\n\t\t--broader-goal \"$(SESSION_GOAL)\" \\\n\t\t$(if $(SESSION_PARENT_SCOPE),--parent-scope \"$(SESSION_PARENT_SCOPE)\",) \\\n\t\t$(if $(filter 1 true yes,$(SESSION_ALLOW_PARALLEL)),--allow-parallel,) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\\n\t\t$(foreach path,$(SESSION_READ_PATHS),--read-path \"$(path)\") \\"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2617,
+            "end_line": 2619,
+            "quote": "        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2751,
+            "end_line": 2770,
+            "quote": "            claim.repo_root,\n            claim.write_paths,\n            verified_new_files=verified_new_files,\n        )\n    except ValueError as exc:\n        # A live claim's repo_root/worktree commonly stops existing on disk\n        # long before its claim file is cleaned up (see missing_worktree_on_disk\n        # in claim_lifecycle_issues). classify_broad_write_paths cannot resolve\n        # broad-vs-narrow from filesystem evidence that is no longer there, and\n        # every caller of this function -- including read-only --list/--check\n        # rendering across the whole registry -- must survive one such claim\n        # rather than crash on it.\n        issues.append(str(exc).split(\":\", 1)[0])\n        broad_paths = None\n    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")\n    elif broad_paths is not None and (mode is not None or reason is not None):"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 4030,
+            "end_line": 4041,
+            "quote": "        broad_scope_reason=broad_scope_reason,\n        target_worktree_path=target_worktree_path,\n        contact_ref=contact_ref,\n        new_files=new_files,\n        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)\n\n    with claim_registry_lock():"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2150,
+            "end_line": 2153,
+            "quote": "    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))\n"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+            "start_line": 38,
+            "end_line": 44,
+            "quote": "**Policy-system orientation.** Before auditing, explaining, or changing the\ncross-project policy system, read\n[`docs/ops/POLICY_SYSTEM.md`](docs/ops/POLICY_SYSTEM.md). It is the single\nProject Meta front door for policy authority, agent context, hooks and checks,\ncoordination claims and worktrees, cross-agent communication, learning and\nfeedback stores, concern resolution, and autonomous execution. Follow its\nlinks to the owning implementation instead of searching sibling repositories"
+          }
+        ]
+      },
+      {
+        "field": "mutation_declaration",
+        "value_sha256": "ca4326a9f3351ae5168615dfd6290a60f9135687005f444c685f1e0af82da752",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": []
+      },
+      {
+        "field": "evidence[0]",
+        "value_sha256": "a1519903b8da10b4dab462713bbc78aae2ad52b0243eae77093aba73ce699989",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+            "start_line": 98,
+            "end_line": 101,
+            "quote": "# Bounded, reversible maintenance not owned by a numbered plan\nmake maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\"\n\n# Session-start context injection"
+          }
+        ]
+      },
+      {
+        "field": "evidence[1]",
+        "value_sha256": "2d011a5793444e69524213136eeceba4f3f1ceaed66f9fdd5c3d18b92a2fcded",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 289,
+            "end_line": 293,
+            "quote": "\n# Defaults that make `make maintenance-worktree BRANCH=<name>` sufficient.\n# The escape hatch this competes with (ALLOW_CANONICAL_CHECKOUT_COMMIT=1) is one\n# variable with zero blanks to fill. Requiring five blanks here is why one\n# session on 2026-08-23 took the hatch six times across two repositories rather"
+          }
+        ]
+      },
+      {
+        "field": "evidence[2]",
+        "value_sha256": "f8fd3f7dfaa0eb9bab335a69e8a0ba5576880441e40b526e1c1836223a451625",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 312,
+            "end_line": 314,
+            "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)\n\nmaintenance-worktree:  ## Claimed light maintenance worktree; needs BRANCH (other maintenance metadata has safe defaults)"
+          }
+        ]
+      },
+      {
+        "field": "evidence[3]",
+        "value_sha256": "32f00b4126b952cc89af73b19a0d5ecc28c21590c4d080630e5de99cbb82be21",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 325,
+            "end_line": 333,
+            "quote": "\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+          }
+        ]
+      },
+      {
+        "field": "evidence[4]",
+        "value_sha256": "2807b5852deda162ae7155a6d2a10443a797491de2eab11082b0e6c74e70d928",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 319,
+            "end_line": 322,
+            "quote": "\t@if [ -z \"$(strip $(BRANCH))\" ]; then \\\n\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\"
+          }
+        ]
+      },
+      {
+        "field": "evidence[5]",
+        "value_sha256": "2be7fdc5515c08dfa60f8157c2a7e30009f1e3827e7c41b5a9327fb6d706cc6a",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 179,
+            "end_line": 195,
+            "quote": "\t\t--claim-type \"$(SESSION_CLAIM_TYPE)\" \\\n\t\t--repo-root \"$(WORKTREE_REPO_ROOT)\" \\\n\t\t--branch \"$(BRANCH)\" \\\n\t\t--worktree-path \"$(WORKTREE_DIR)/$(BRANCH)\" \\\n\t\t--start-point \"$(WORKTREE_START_REVISION)\" \\\n\t\t$(if $(PLAN_REPO_ROOT),--plan-repo-root \"$(PLAN_REPO_ROOT)\",) \\\n\t\t$(if $(PLAN_START_POINT),--plan-start-point \"$(PLAN_START_POINT)\",) \\\n\t\t--require-new \\\n\t\t$(if $(PLAN_RESUME),--resume,) \\\n\t\t--session-name \"$(SESSION_GOAL)\" \\\n\t\t--broader-goal \"$(SESSION_GOAL)\" \\\n\t\t$(if $(SESSION_PARENT_SCOPE),--parent-scope \"$(SESSION_PARENT_SCOPE)\",) \\\n\t\t$(if $(filter 1 true yes,$(SESSION_ALLOW_PARALLEL)),--allow-parallel,) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\\n\t\t$(foreach path,$(SESSION_READ_PATHS),--read-path \"$(path)\") \\"
+          }
+        ]
+      },
+      {
+        "field": "evidence[6]",
+        "value_sha256": "d9125a6a341e8a46d963171b825e04128d373da62e8222a79a7ea302d01724c1",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+            "start_line": 1,
+            "end_line": 20,
+            "quote": "#!/usr/bin/env python3\n\"\"\"Compatibility facade for package-backed coordination claims.\"\"\"\n\nfrom __future__ import annotations\n\nimport argparse\nimport subprocess\nimport sys\nfrom pathlib import Path\nfrom typing import Any\n\n\ndef _find_repo_root() -> Path:\n    \"\"\"Resolve the nearest ancestor that contains the installed support package.\"\"\"\n    current = Path(__file__).resolve()\n    for parent in current.parents:\n        if (parent / \"enforced_planning\").is_dir():\n            return parent\n    import importlib.util\n    if importlib.util.find_spec(\"enforced_planning\") is not None:"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+            "start_line": 244,
+            "end_line": 250,
+            "quote": "\ndef main(argv: list[str] | None = None) -> int:\n    \"\"\"Run the package-backed coordination-claims CLI.\"\"\"\n    _sync_runtime_config()\n    resolved_argv = list(sys.argv[1:] if argv is None else argv)\n    _validate_claim_repo_root(resolved_argv)\n    return _impl.main(resolved_argv)"
+          }
+        ]
+      },
+      {
+        "field": "evidence[7]",
+        "value_sha256": "665571dbefd6e2f3868a9a04e0a76629f3c2441e523385c2fff5854ccd747b1e",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 3051,
+            "end_line": 3060,
+            "quote": "    Sanctioned worktree lanes use ``program`` claims as their root while still\n    carrying exact write paths. Those paths are ownership, just as they are for\n    a narrow ``write`` claim.\n    \"\"\"\n\n    return claim.claim_type in {\"program\", \"write\"} and bool(claim.write_paths)\n\n\ndef _parse_iso_datetime(value: Any) -> datetime | None:\n    \"\"\"Parse an ISO timestamp from claim data if present.\"\"\""
+          }
+        ]
+      },
+      {
+        "field": "evidence[8]",
+        "value_sha256": "be4bbd3bde99987fa96b31e9c8e81cc3212ac122c528dd66c81a4cd928ec9d91",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2585,
+            "end_line": 2592,
+            "quote": "    verified_new_files: set[str] | None = None,\n) -> dict[str, str]:\n    \"\"\"Classify root/top-level directory reservations without guessing.\n\n    Nested paths are narrow for this contract. A missing top-level component is\n    ambiguous because filesystem evidence cannot distinguish an intended file\n    from a directory reservation. Symlinks must remain within the declared root.\n    \"\"\""
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2617,
+            "end_line": 2619,
+            "quote": "        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue"
+          }
+        ]
+      },
+      {
+        "field": "evidence[9]",
+        "value_sha256": "ae2faaa8e0e857fa0f0e09e8001c47bf29493ad871bac359fce4b3286fefe506",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 84,
+            "end_line": 85,
+            "quote": "CURRENT_CLAIM_SCHEMA_VERSION = 6\nBROAD_SCOPE_MODES = {\"bootstrap\", \"bounded\"}"
+          }
+        ]
+      },
+      {
+        "field": "evidence[10]",
+        "value_sha256": "a924f3450840286c3d9b3e031241df33649c985349e99902814f7f43632839cc",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2761,
+            "end_line": 2770,
+            "quote": "        # rendering across the whole registry -- must survive one such claim\n        # rather than crash on it.\n        issues.append(str(exc).split(\":\", 1)[0])\n        broad_paths = None\n    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")\n    elif broad_paths is not None and (mode is not None or reason is not None):"
+          }
+        ]
+      },
+      {
+        "field": "evidence[11]",
+        "value_sha256": "16ae2da90cb35a6f03b1b49ef25a78fb6a2478c6012c553cc25e6a5a9dfca13a",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2772,
+            "end_line": 2784,
+            "quote": "    if mode == \"bootstrap\":\n        if not claim.target_worktree_path:\n            issues.append(\"bootstrap_target_worktree_path_required\")\n        elif claim.worktree_path != claim.target_worktree_path:\n            issues.append(\"bootstrap_physical_worktree_identity_mismatch\")\n    elif mode == \"bounded\" and claim.target_worktree_path not in {None, claim.worktree_path}:\n        issues.append(\"bounded_target_worktree_mismatch\")\n    return issues\n\n\ndef _projects_overlap(left: ClaimRecord, right: ClaimRecord) -> bool:\n    \"\"\"Return whether two claims touch at least one common project.\"\"\"\n    return bool(set(left.projects) & set(right.projects))"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 3580,
+            "end_line": 3586,
+            "quote": "    effective_target_worktree = target_worktree_path\n    effective_worktree = worktree_path\n    if normalized_mode == \"bootstrap\":\n        effective_target_worktree = target_worktree_path or worktree_path\n        effective_worktree = effective_target_worktree\n    return ClaimRecord(\n        agent=agent,"
+          }
+        ]
+      },
+      {
+        "field": "evidence[12]",
+        "value_sha256": "854a77dfd4505f22eb1ba3b84cb9c1f807e2b01f31be151a19ecab71627ac4bf",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 4016,
+            "end_line": 4041,
+            "quote": "        notes=notes,\n        work_unit_id=work_unit_id,\n        work_graph_path=_normalize_repo_path(work_graph_path) if work_graph_path else None,\n        work_graph_sha256=work_graph_sha256,\n        approval_revisions=approval_revisions,\n        parallel_root_authorized=allow_parallel,\n        claimed_at=now.isoformat(),\n        expires_at=(now + timedelta(hours=ttl_hours)).isoformat(),\n        updated_at=now.isoformat(),\n        start_revision=start_revision,\n        plan_repo_root=retained_plan_repo_root,\n        plan_revision=plan_revision,\n        plan_sha256=plan_sha256,\n        broad_scope_mode=broad_scope_mode,\n        broad_scope_reason=broad_scope_reason,\n        target_worktree_path=target_worktree_path,\n        contact_ref=contact_ref,\n        new_files=new_files,\n        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)\n\n    with claim_registry_lock():"
+          }
+        ]
+      },
+      {
+        "field": "evidence[13]",
+        "value_sha256": "45671575d43993fab120c2bcdea9a1c95e85f03bb2150079936c1227cf6e94a6",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2120,
+            "end_line": 2128,
+            "quote": "def validate_claim_for_creation(claim: ClaimRecord) -> None:\n    \"\"\"Reject new claims that omit required ownership metadata for live coordination.\"\"\"\n    issues = [issue for issue in claim_health_issues(claim) if issue in CREATION_BLOCKING_HEALTH_ISSUES]\n    if claim.is_live() and issues:\n        flag_map = {\n            \"missing_project\": \"--project\",\n            \"missing_write_paths\": \"--write-path\",\n            \"missing_branch\": \"--branch\",\n            \"missing_worktree_path\": \"--worktree-path\","
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2150,
+            "end_line": 2153,
+            "quote": "    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))\n"
+          }
+        ]
+      },
+      {
+        "field": "evidence[14]",
+        "value_sha256": "94d0fbfeaa5cc1ff17d6eb6480825262bf0dfde31e663503b89cd4ec88ae3bc9",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 5832,
+            "end_line": 5844,
+            "quote": "            )\n        except MutationAuditError as exc:\n            return _render_mutation_audit_failure(exc, as_json=args.json)\n        except ValueError as exc:\n            if args.json:\n                print(json.dumps({\"ok\": False, \"message\": str(exc)}, indent=2))\n            else:\n                print(str(exc))\n            return 1\n        if args.json:\n            print(json.dumps({\"ok\": ok, \"message\": msg}, indent=2))\n        else:\n            print(msg)"
+          }
+        ]
+      },
+      {
+        "field": "evidence[15]",
+        "value_sha256": "3f7b584ee99db10cec3ca44108190a56583c22949a0a4e77bba6ff60191833dc",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+            "start_line": 202,
+            "end_line": 208,
+            "quote": "   `parent_scope`; intentional additional roots require explicit parallel\n   authorization.\n   A new broad write claim must declare `bootstrap` or `bounded` intent plus a\n   non-empty reason. Use `session-narrow` to reduce it; bootstrap claims cannot\n   authorize ordinary repository writes until that owner/session-bound narrow\n   succeeds.\n9. A new plan-bound lane resolves the canonical default-integration tip once"
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[0]",
+        "value_sha256": "6a0933f8b913f1ab4c2ff22c46efdbd89864c78b977129d1954c170e48531de9",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 90,
+            "end_line": 101,
+            "quote": "PLAN_REPO_ROOT ?=\nPLAN_START_POINT ?=\nPLAN_READINESS_COMMAND ?=\nSESSION_CLAIM_TYPE ?= program\nSESSION_PARENT_SCOPE ?=\nSESSION_WRITE_PATHS ?=\nSESSION_READ_PATHS ?=\nSESSION_WORK_GRAPH ?=\nSESSION_WORK_UNIT_ID ?=\nWORKTREE_DISPOSITION ?= merged\nWORKTREE_DISPOSITION_REASON ?=\nWORKTREE_RECOVERY_REF ?="
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 312,
+            "end_line": 314,
+            "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)\n\nmaintenance-worktree:  ## Claimed light maintenance worktree; needs BRANCH (other maintenance metadata has safe defaults)"
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[1]",
+        "value_sha256": "a8d2e592079c1858523038fb1b43cff85290f68997159d90d91dd680ef29c12d",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 163,
+            "end_line": 195,
+            "quote": "\t\t$(if $(PLAN_START_POINT),--plan-start-point \"$(PLAN_START_POINT)\",) \\\n\t\t$(if $(PLAN_READINESS_COMMAND),--query-command \"$(PLAN_READINESS_COMMAND)\",) \\\n\t\t--repository \"$(WORKTREE_PROJECT)\" \\\n\t\t--lane-id \"$(BRANCH)\" \\\n\t\t$(if $(SESSION_PARENT_SCOPE),--parent-lane-id \"$(SESSION_PARENT_SCOPE)\",) \\\n\t\t--branch \"$(BRANCH)\" \\\n\t\t--worktree-path \"$(WORKTREE_DIR)/$(BRANCH)\" \\\n\t\t--agent \"$(WORKTREE_AGENT)\" \\\n\t\t--scope \"$(BRANCH)\" \\\n\t\t$(if $(ALLOW_UNPLANNED),--allow-unplanned,) \\\n\t\t$(if $(PLAN_RESUME),--resume,)\n\t@$(PYTHON) \"$(WORKTREE_CLAIMS_SCRIPT)\" --claim \\\n\t\t--agent \"$(WORKTREE_AGENT)\" \\\n\t\t--project \"$(WORKTREE_PROJECT)\" \\\n\t\t--scope \"$(BRANCH)\" \\\n\t\t--intent \"$(TASK)\" \\\n\t\t--claim-type \"$(SESSION_CLAIM_TYPE)\" \\\n\t\t--repo-root \"$(WORKTREE_REPO_ROOT)\" \\\n\t\t--branch \"$(BRANCH)\" \\\n\t\t--worktree-path \"$(WORKTREE_DIR)/$(BRANCH)\" \\\n\t\t--start-point \"$(WORKTREE_START_REVISION)\" \\\n\t\t$(if $(PLAN_REPO_ROOT),--plan-repo-root \"$(PLAN_REPO_ROOT)\",) \\\n\t\t$(if $(PLAN_START_POINT),--plan-start-point \"$(PLAN_START_POINT)\",) \\\n\t\t--require-new \\\n\t\t$(if $(PLAN_RESUME),--resume,) \\\n\t\t--session-name \"$(SESSION_GOAL)\" \\\n\t\t--broader-goal \"$(SESSION_GOAL)\" \\\n\t\t$(if $(SESSION_PARENT_SCOPE),--parent-scope \"$(SESSION_PARENT_SCOPE)\",) \\\n\t\t$(if $(filter 1 true yes,$(SESSION_ALLOW_PARALLEL)),--allow-parallel,) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\\n\t\t$(foreach path,$(SESSION_READ_PATHS),--read-path \"$(path)\") \\"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 325,
+            "end_line": 333,
+            "quote": "\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[2]",
+        "value_sha256": "fee4b263fc219a19c610062b2c6a176885ce8b8123705f256bb2c153f6454f2e",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 4030,
+            "end_line": 4041,
+            "quote": "        broad_scope_reason=broad_scope_reason,\n        target_worktree_path=target_worktree_path,\n        contact_ref=contact_ref,\n        new_files=new_files,\n        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)\n\n    with claim_registry_lock():"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 3051,
+            "end_line": 3060,
+            "quote": "    Sanctioned worktree lanes use ``program`` claims as their root while still\n    carrying exact write paths. Those paths are ownership, just as they are for\n    a narrow ``write`` claim.\n    \"\"\"\n\n    return claim.claim_type in {\"program\", \"write\"} and bool(claim.write_paths)\n\n\ndef _parse_iso_datetime(value: Any) -> datetime | None:\n    \"\"\"Parse an ISO timestamp from claim data if present.\"\"\""
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[3]",
+        "value_sha256": "6c77c643ffffa3e94997d9598ce4a4d4efde8e4bb27116b3198b2efd151d3b19",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2617,
+            "end_line": 2619,
+            "quote": "        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2761,
+            "end_line": 2770,
+            "quote": "        # rendering across the whole registry -- must survive one such claim\n        # rather than crash on it.\n        issues.append(str(exc).split(\":\", 1)[0])\n        broad_paths = None\n    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")\n    elif broad_paths is not None and (mode is not None or reason is not None):"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2150,
+            "end_line": 2153,
+            "quote": "    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))\n"
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[4]",
+        "value_sha256": "2a675778af369539db24f3d1cfc8e217d76e8305a64f84d21d959e39668a75f6",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 163,
+            "end_line": 218,
+            "quote": "\t\t$(if $(PLAN_START_POINT),--plan-start-point \"$(PLAN_START_POINT)\",) \\\n\t\t$(if $(PLAN_READINESS_COMMAND),--query-command \"$(PLAN_READINESS_COMMAND)\",) \\\n\t\t--repository \"$(WORKTREE_PROJECT)\" \\\n\t\t--lane-id \"$(BRANCH)\" \\\n\t\t$(if $(SESSION_PARENT_SCOPE),--parent-lane-id \"$(SESSION_PARENT_SCOPE)\",) \\\n\t\t--branch \"$(BRANCH)\" \\\n\t\t--worktree-path \"$(WORKTREE_DIR)/$(BRANCH)\" \\\n\t\t--agent \"$(WORKTREE_AGENT)\" \\\n\t\t--scope \"$(BRANCH)\" \\\n\t\t$(if $(ALLOW_UNPLANNED),--allow-unplanned,) \\\n\t\t$(if $(PLAN_RESUME),--resume,)\n\t@$(PYTHON) \"$(WORKTREE_CLAIMS_SCRIPT)\" --claim \\\n\t\t--agent \"$(WORKTREE_AGENT)\" \\\n\t\t--project \"$(WORKTREE_PROJECT)\" \\\n\t\t--scope \"$(BRANCH)\" \\\n\t\t--intent \"$(TASK)\" \\\n\t\t--claim-type \"$(SESSION_CLAIM_TYPE)\" \\\n\t\t--repo-root \"$(WORKTREE_REPO_ROOT)\" \\\n\t\t--branch \"$(BRANCH)\" \\\n\t\t--worktree-path \"$(WORKTREE_DIR)/$(BRANCH)\" \\\n\t\t--start-point \"$(WORKTREE_START_REVISION)\" \\\n\t\t$(if $(PLAN_REPO_ROOT),--plan-repo-root \"$(PLAN_REPO_ROOT)\",) \\\n\t\t$(if $(PLAN_START_POINT),--plan-start-point \"$(PLAN_START_POINT)\",) \\\n\t\t--require-new \\\n\t\t$(if $(PLAN_RESUME),--resume,) \\\n\t\t--session-name \"$(SESSION_GOAL)\" \\\n\t\t--broader-goal \"$(SESSION_GOAL)\" \\\n\t\t$(if $(SESSION_PARENT_SCOPE),--parent-scope \"$(SESSION_PARENT_SCOPE)\",) \\\n\t\t$(if $(filter 1 true yes,$(SESSION_ALLOW_PARALLEL)),--allow-parallel,) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\\n\t\t$(foreach path,$(SESSION_READ_PATHS),--read-path \"$(path)\") \\\n\t\t$(if $(SESSION_WORK_GRAPH),--work-graph \"$(SESSION_WORK_GRAPH)\",) \\\n\t\t$(if $(SESSION_WORK_UNIT_ID),--work-unit-id \"$(SESSION_WORK_UNIT_ID)\",) \\\n\t\t$(if $(PLAN),--plan \"$(PLAN_PROJECT)#$(PLAN)\",$(if $(ALLOW_UNPLANNED),--plan UNPLANNED,))\n\t@mkdir -p \"$(WORKTREE_DIR)\"\n\t@creation_receipt=$$(mktemp \"$(WORKTREE_DIR)/.worktree-create.XXXXXX.json\"); \\\n\ttrap 'rm -f \"$$creation_receipt\"' EXIT HUP INT TERM; \\\n\tif ! $(PYTHON) \"$(WORKTREE_CREATE_SCRIPT)\" \\\n\t\t--repo-root \"$(WORKTREE_REPO_ROOT)\" \\\n\t\t--path \"$(WORKTREE_DIR)/$(BRANCH)\" \\\n\t\t--branch \"$(BRANCH)\" \\\n\t\t--start-point \"$(WORKTREE_START_REVISION)\" \\\n\t\t--require-write-claim \\\n\t\t--claim-agent \"$(WORKTREE_AGENT)\" \\\n\t\t--claim-project \"$(WORKTREE_PROJECT)\" \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--claim-write-path \"$(path)\") \\\n\t\t$(if $(PLAN),--claim-start-revision \"$(WORKTREE_START_REVISION)\",) \\\n\t\t--json > \"$$creation_receipt\"; then \\\n\t\tif ! $(PYTHON) -c 'import json, sys; payload=json.load(open(sys.argv[1], encoding=\"utf-8\")); print(\"Worktree creation failed: \" + payload[\"message\"], file=sys.stderr)' \"$$creation_receipt\"; then \\\n\t\t\techo \"Worktree creation failed and its receipt was unreadable.\" >&2; \\\n\t\tfi; \\\n\t\tif ! created_branch=$$($(PYTHON) -c 'import json, sys; print(1 if json.load(open(sys.argv[1], encoding=\"utf-8\"))[\"created_branch\"] else 0)' \"$$creation_receipt\"); then \\\n\t\t\techo \"Worktree creation failed without a readable ownership receipt; claim retained.\"; \\\n\t\t\texit 1; \\"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 5832,
+            "end_line": 5844,
+            "quote": "            )\n        except MutationAuditError as exc:\n            return _render_mutation_audit_failure(exc, as_json=args.json)\n        except ValueError as exc:\n            if args.json:\n                print(json.dumps({\"ok\": False, \"message\": str(exc)}, indent=2))\n            else:\n                print(str(exc))\n            return 1\n        if args.json:\n            print(json.dumps({\"ok\": ok, \"message\": msg}, indent=2))\n        else:\n            print(msg)"
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[5]",
+        "value_sha256": "93e71098e752420077c70b6a399b606c131abbdba2b149e59dca9a2daf65eb12",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 312,
+            "end_line": 314,
+            "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)\n\nmaintenance-worktree:  ## Claimed light maintenance worktree; needs BRANCH (other maintenance metadata has safe defaults)"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 325,
+            "end_line": 333,
+            "quote": "\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2585,
+            "end_line": 2636,
+            "quote": "    verified_new_files: set[str] | None = None,\n) -> dict[str, str]:\n    \"\"\"Classify root/top-level directory reservations without guessing.\n\n    Nested paths are narrow for this contract. A missing top-level component is\n    ambiguous because filesystem evidence cannot distinguish an intended file\n    from a directory reservation. Symlinks must remain within the declared root.\n    \"\"\"\n\n    normalized = list(dict.fromkeys(_normalize_repo_path(path) for path in write_paths))\n    verified_files = verified_new_files or set()\n    if any(Path(path).is_absolute() or path == \"..\" or path.startswith(\"../\") for path in normalized):\n        raise ValueError(\"write paths must remain repository-relative and cannot traverse outside repo_root\")\n    if not repo_root:\n        raise ValueError(\"repo_root is required to classify broad write paths\")\n    root = Path(repo_root).expanduser()\n    if not root.is_absolute():\n        raise ValueError(\"repo_root must be absolute to classify broad write paths\")\n    resolved_root = root.resolve(strict=False)\n    for path in normalized:\n        if path == \".\":\n            continue\n        resolved = (resolved_root / path).resolve(strict=False)\n        try:\n            resolved.relative_to(resolved_root)\n        except ValueError as exc:\n            raise ValueError(f\"write path {path!r} escapes repo_root through symlink resolution\") from exc\n    candidates = [path for path in normalized if path == \".\" or \"/\" not in path]\n    if not candidates:\n        return {}\n    broad: dict[str, str] = {}\n    for path in candidates:\n        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue\n        candidate = resolved_root / path\n        resolved = candidate.resolve(strict=False)\n        try:\n            resolved.relative_to(resolved_root)\n        except ValueError as exc:\n            raise ValueError(f\"broad path {path!r} escapes repo_root through symlink resolution\") from exc\n        # A broken symlink is still an existing directory entry. It can be\n        # reserved exactly for repair after the resolved target passed the\n        # repository-containment check above.\n        if not candidate.exists() and path in verified_files:\n            continue\n        if not candidate.exists() and not candidate.is_symlink():\n            raise ValueError(f\"broad_scope_ambiguous: top-level path {path!r} does not exist\")\n        if candidate.is_dir():\n            broad[path] = \"existing_top_level_directory\"\n    return broad\n"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2761,
+            "end_line": 2784,
+            "quote": "        # rendering across the whole registry -- must survive one such claim\n        # rather than crash on it.\n        issues.append(str(exc).split(\":\", 1)[0])\n        broad_paths = None\n    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")\n    elif broad_paths is not None and (mode is not None or reason is not None):\n        issues.append(\"broad scope metadata is forbidden when no broad path remains\")\n    if mode == \"bootstrap\":\n        if not claim.target_worktree_path:\n            issues.append(\"bootstrap_target_worktree_path_required\")\n        elif claim.worktree_path != claim.target_worktree_path:\n            issues.append(\"bootstrap_physical_worktree_identity_mismatch\")\n    elif mode == \"bounded\" and claim.target_worktree_path not in {None, claim.worktree_path}:\n        issues.append(\"bounded_target_worktree_mismatch\")\n    return issues\n\n\ndef _projects_overlap(left: ClaimRecord, right: ClaimRecord) -> bool:\n    \"\"\"Return whether two claims touch at least one common project.\"\"\"\n    return bool(set(left.projects) & set(right.projects))"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+            "start_line": 202,
+            "end_line": 208,
+            "quote": "   `parent_scope`; intentional additional roots require explicit parallel\n   authorization.\n   A new broad write claim must declare `bootstrap` or `bounded` intent plus a\n   non-empty reason. Use `session-narrow` to reduce it; bootstrap claims cannot\n   authorize ordinary repository writes until that owner/session-bound narrow\n   succeeds.\n9. A new plan-bound lane resolves the canonical default-integration tip once"
+          }
+        ]
+      },
+      {
+        "field": "causal_chain[6]",
+        "value_sha256": "1daf57dacd7e2a32f9a1165514cc7609241981e230c0dfe613844f11f69f907e",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 319,
+            "end_line": 322,
+            "quote": "\t@if [ -z \"$(strip $(BRANCH))\" ]; then \\\n\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+            "start_line": 98,
+            "end_line": 101,
+            "quote": "# Bounded, reversible maintenance not owned by a numbered plan\nmake maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\"\n\n# Session-start context injection"
+          }
+        ]
+      },
+      {
+        "field": "alternatives_ruled_out[0]",
+        "value_sha256": "a7d809130ac8689c44048b3aec8f33ae6a0738ef3307da742d24b6e2f727c44d",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 4030,
+            "end_line": 4041,
+            "quote": "        broad_scope_reason=broad_scope_reason,\n        target_worktree_path=target_worktree_path,\n        contact_ref=contact_ref,\n        new_files=new_files,\n        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)\n\n    with claim_registry_lock():"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 4063,
+            "end_line": 4088,
+            "quote": "                owner = existing.session_id or \"<missing-session-id>\"\n                raise ValueError(\n                    f\"Existing live claim slot {project}:{scope} is owned by runtime session {owner}; \"\n                    \"use sanctioned handoff/session-end plus session-resume, or close the lane, \"\n                    \"instead of overwriting it.\"\n                )\n        active_claims = check_claims(project)\n        validate_no_preserved_lane_conflict(\n            candidate,\n            claims=list_claims(include_inactive=True),\n        )\n        validate_claim_hierarchy_for_creation(candidate, active_claims=active_claims)\n        validate_session_root_for_creation(candidate, active_claims=check_claims())\n        check_result = evaluate_claim(candidate, active_claims=active_claims)\n        if check_result.hard_conflicts:\n            formatted = \"; \".join(\n                f\"{item.other_agent} ({item.other_scope}: {', '.join(item.overlapping_write_paths)}\"\n                f\"; owner {describe_session_activity(item.other_session_last_active_at)}\"\n                f\"{f'; contact {item.other_contact_ref}' if item.other_contact_ref else ''})\"\n                for item in check_result.hard_conflicts\n            )\n            return False, (\n                f\"CONFLICT: active write claim overlap in '{project}' — {formatted}. \"\n                f\"Check which side is YOURS before attributing cause: the path \"\n                f\"prefixed 'yours=' is the one this lane declared, not the other \"\n                f\"agent's. Narrowing your own write path is often the fix, and an \""
+          }
+        ]
+      },
+      {
+        "field": "alternatives_ruled_out[1]",
+        "value_sha256": "3e435ca9a569784fcbd18c47e4c1b5a831aaec897664f0c05ecf9e3a9829d048",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 3051,
+            "end_line": 3060,
+            "quote": "    Sanctioned worktree lanes use ``program`` claims as their root while still\n    carrying exact write paths. Those paths are ownership, just as they are for\n    a narrow ``write`` claim.\n    \"\"\"\n\n    return claim.claim_type in {\"program\", \"write\"} and bool(claim.write_paths)\n\n\ndef _parse_iso_datetime(value: Any) -> datetime | None:\n    \"\"\"Parse an ISO timestamp from claim data if present.\"\"\""
+          }
+        ]
+      },
+      {
+        "field": "alternatives_ruled_out[2]",
+        "value_sha256": "6bc6d84ba900fbec962a385ac264c951048a2c158ce48b9c0c444a6a42802ac0",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 325,
+            "end_line": 333,
+            "quote": "\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+          },
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 179,
+            "end_line": 195,
+            "quote": "\t\t--claim-type \"$(SESSION_CLAIM_TYPE)\" \\\n\t\t--repo-root \"$(WORKTREE_REPO_ROOT)\" \\\n\t\t--branch \"$(BRANCH)\" \\\n\t\t--worktree-path \"$(WORKTREE_DIR)/$(BRANCH)\" \\\n\t\t--start-point \"$(WORKTREE_START_REVISION)\" \\\n\t\t$(if $(PLAN_REPO_ROOT),--plan-repo-root \"$(PLAN_REPO_ROOT)\",) \\\n\t\t$(if $(PLAN_START_POINT),--plan-start-point \"$(PLAN_START_POINT)\",) \\\n\t\t--require-new \\\n\t\t$(if $(PLAN_RESUME),--resume,) \\\n\t\t--session-name \"$(SESSION_GOAL)\" \\\n\t\t--broader-goal \"$(SESSION_GOAL)\" \\\n\t\t$(if $(SESSION_PARENT_SCOPE),--parent-scope \"$(SESSION_PARENT_SCOPE)\",) \\\n\t\t$(if $(filter 1 true yes,$(SESSION_ALLOW_PARALLEL)),--allow-parallel,) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\\n\t\t$(foreach path,$(SESSION_READ_PATHS),--read-path \"$(path)\") \\"
+          }
+        ]
+      },
+      {
+        "field": "alternatives_ruled_out[3]",
+        "value_sha256": "539ceddbb5c6f5a74d49b1e261004e2037f506c51468a9e29ff60bd2eece1a3a",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+            "start_line": 312,
+            "end_line": 314,
+            "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)\n\nmaintenance-worktree:  ## Claimed light maintenance worktree; needs BRANCH (other maintenance metadata has safe defaults)"
+          }
+        ]
+      },
+      {
+        "field": "limitations[0]",
+        "value_sha256": "de6796fb5d924be20de524baad50aadcf3e067cc6f01b927e15117f5d5e48f68",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": []
+      },
+      {
+        "field": "limitations[1]",
+        "value_sha256": "3fff04ff27a3578bffe76ef1a9fbb91c9bcad59770afc285d2df0103475bb8fc",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": []
+      },
+      {
+        "field": "limitations[2]",
+        "value_sha256": "49ef88e2f6208f93ca3bb2419953f6d44c76e46ed800741e22aabd9e78e7dcd5",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": []
+      },
+      {
+        "field": "limitations[3]",
+        "value_sha256": "124a42a7466c6b11aade3988dc2cc28c234a90279ace81e472a2f14b4fcccd0e",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+            "start_line": 38,
+            "end_line": 44,
+            "quote": "**Policy-system orientation.** Before auditing, explaining, or changing the\ncross-project policy system, read\n[`docs/ops/POLICY_SYSTEM.md`](docs/ops/POLICY_SYSTEM.md). It is the single\nProject Meta front door for policy authority, agent context, hooks and checks,\ncoordination claims and worktrees, cross-agent communication, learning and\nfeedback stores, concern resolution, and autonomous execution. Follow its\nlinks to the owning implementation instead of searching sibling repositories"
+          }
+        ]
+      },
+      {
+        "field": "limitations[4]",
+        "value_sha256": "e03fdcf46980fc62015765159ec0ff3a503eb0e03bbfd95edfddb44dcdb60305",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": []
+      },
+      {
+        "field": "limitations[5]",
+        "value_sha256": "ffb755f26b7b6e81b72ef7b6e1fc8473f166b96499d1db53ed9ed6fdc43d2982",
+        "verdict": "supported",
+        "rationale": "Parent read the complete final and source seam; independent source reviewer found no material factual defect. The conclusion remains conditional on frozen source, with missing POLICY_SYSTEM authority and voluntary path scope explicitly retained. Trace-only observations bind to this exact child trace; they do not certify hidden host activity or denied-operation enforcement.",
+        "sources": [
+          {
+            "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+            "start_line": 2585,
+            "end_line": 2636,
+            "quote": "    verified_new_files: set[str] | None = None,\n) -> dict[str, str]:\n    \"\"\"Classify root/top-level directory reservations without guessing.\n\n    Nested paths are narrow for this contract. A missing top-level component is\n    ambiguous because filesystem evidence cannot distinguish an intended file\n    from a directory reservation. Symlinks must remain within the declared root.\n    \"\"\"\n\n    normalized = list(dict.fromkeys(_normalize_repo_path(path) for path in write_paths))\n    verified_files = verified_new_files or set()\n    if any(Path(path).is_absolute() or path == \"..\" or path.startswith(\"../\") for path in normalized):\n        raise ValueError(\"write paths must remain repository-relative and cannot traverse outside repo_root\")\n    if not repo_root:\n        raise ValueError(\"repo_root is required to classify broad write paths\")\n    root = Path(repo_root).expanduser()\n    if not root.is_absolute():\n        raise ValueError(\"repo_root must be absolute to classify broad write paths\")\n    resolved_root = root.resolve(strict=False)\n    for path in normalized:\n        if path == \".\":\n            continue\n        resolved = (resolved_root / path).resolve(strict=False)\n        try:\n            resolved.relative_to(resolved_root)\n        except ValueError as exc:\n            raise ValueError(f\"write path {path!r} escapes repo_root through symlink resolution\") from exc\n    candidates = [path for path in normalized if path == \".\" or \"/\" not in path]\n    if not candidates:\n        return {}\n    broad: dict[str, str] = {}\n    for path in candidates:\n        if path == \".\":\n            broad[path] = \"repository_root\"\n            continue\n        candidate = resolved_root / path\n        resolved = candidate.resolve(strict=False)\n        try:\n            resolved.relative_to(resolved_root)\n        except ValueError as exc:\n            raise ValueError(f\"broad path {path!r} escapes repo_root through symlink resolution\") from exc\n        # A broken symlink is still an existing directory entry. It can be\n        # reserved exactly for repair after the resolved target passed the\n        # repository-containment check above.\n        if not candidate.exists() and path in verified_files:\n            continue\n        if not candidate.exists() and not candidate.is_symlink():\n            raise ValueError(f\"broad_scope_ambiguous: top-level path {path!r} does not exist\")\n        if candidate.is_dir():\n            broad[path] = \"existing_top_level_directory\"\n    return broad\n"
+          }
+        ]
+      }
+    ]
+  },
+  "semantic_summary": {
+    "verdict": "pass",
+    "counts": {
+      "supported": 36,
+      "qualified": 0,
+      "incorrect": 0,
+      "inconclusive": 0
+    },
+    "items": 36
+  },
+  "derived_usage": {
+    "parent": {
+      "first": {
+        "input_tokens": 18614,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1267,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 19881
+      },
+      "total": {
+        "input_tokens": 80489,
+        "cached_input_tokens": 57856,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3300,
+        "reasoning_output_tokens": 9,
+        "total_tokens": 83789
+      }
+    },
+    "child": {
+      "first": {
+        "input_tokens": 19635,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 74,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 19709
+      },
+      "total": {
+        "input_tokens": 256427,
+        "cached_input_tokens": 206464,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3115,
+        "reasoning_output_tokens": 75,
+        "total_tokens": 259542
+      }
+    }
+  },
+  "effective_permissions": [
+    {
+      "turn_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+      "root_turn_id": "01a121b9-b2ed-7190-98c7-63ac8fa48491",
+      "disabled_plugin_ids": [],
+      "cwd": "/home/brian/.hive-brain/aes",
+      "approval_policy": "never",
+      "approvals_reviewer": "user",
+      "sandbox_policy": {
+        "type": "read-only"
+      },
+      "permission_profile": {
+        "type": "managed",
+        "file_system": {
+          "type": "restricted",
+          "entries": [
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "root"
+                }
+              },
+              "access": "read"
+            }
+          ]
+        },
+        "network": "restricted"
+      },
+      "model": "gpt-6.1-sol",
+      "comp_hash": "3000",
+      "collaboration_mode": {
+        "mode": "default",
+        "settings": {
+          "model": "gpt-6.1-sol",
+          "reasoning_effort": "medium",
+          "developer_instructions": null
+        }
+      },
+      "multi_agent_version": "v2",
+      "realtime_active": false,
+      "effort": "medium",
+      "summary": "none"
+    }
+  ],
+  "child_turn_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+  "child_callbacks": {
+    "journal_path": "/home/brian/.claude/coordination/hook-invocations-v1/receipts-2026-10-09-10.jsonl",
+    "completed_members": [
+      {
+        "line": 14,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 85.593,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "d31c93874686e60a62c005e907b8c0ea482c26595581838ee604eb018cfbfb5a",
+          "observed_at": "2026-10-09T17:33:34.718329+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "02cc475170324791a707bbd1d8f88dfd",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 16,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 78.276,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "206c903ace7d2caa51c19c06246be9523219347bc738b5dbcacec917c876de8f",
+          "observed_at": "2026-10-09T17:33:35.281163+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "fbbff9984b9b4a6ebffcdb68a56123aa",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 18,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 79.908,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "026ab5641db16ac6f4201516980d9af0b73134736ae5988a3d53c2c9bdc7de8f",
+          "observed_at": "2026-10-09T17:33:35.671555+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "89d70ff3ba014dfb9a07b342f0bd458d",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 20,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 76.296,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "fdc97a118d404c9cf2b1f7aca4dae4c6c19786874b25b1bd16ed605f805f5047",
+          "observed_at": "2026-10-09T17:33:36.154206+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "c94adc1a723248e889c6343cc273312e",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 24,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 97.572,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "0867a75f24cc1bc4a525fb07beb17722ae14557cbd595068a36f41c4718ced66",
+          "observed_at": "2026-10-09T17:33:43.715813+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "214a9e5b1a3841b1a46acf428ccd1c67",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 25,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 98.211,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "3850a023dc103f625adc35a705bf32fb772770faa14d5a1206b4677ba0d54a76",
+          "observed_at": "2026-10-09T17:33:43.722064+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "214c478e33464244ab048a636813d28c",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 26,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 99.676,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "8d4bd24a4d9b9838554d537920215673cddf18e5aebfe86a3fca0ed2d88302c8",
+          "observed_at": "2026-10-09T17:33:43.738854+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "1bfb6fcb6a47403087f2950f337625ca",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 30,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 87.586,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "5f16aef47ac8e8e4a7954641bf5acd04ff809f2e6d00667d14975613a65a10a6",
+          "observed_at": "2026-10-09T17:33:44.426869+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "0c55dc76e546422590ec8b3b787fcb50",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 31,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 87.449,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "4cc264a8fd5dceed204ef75c7d98d25839a0cc75a97107733efa8106b1030dd3",
+          "observed_at": "2026-10-09T17:33:44.437513+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "7d77349b45f94c69baf2fe5d5fbeb6b3",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 32,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 87.161,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "9fab349a890f5c1d46cc1a9524a98f9da6495e4c690d0416d6d5e45fbe5e0728",
+          "observed_at": "2026-10-09T17:33:44.481065+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "83b5913b31ca48bc8297203026a3eb9e",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 37,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 98.36,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "bbf933023c53f8a342fed15083f463b7712d75af773ddb978ee6dc7ca97c66c5",
+          "observed_at": "2026-10-09T17:33:50.311479+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "5c75d7c863b04c46b175d24f1a83436f",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 38,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 96.864,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "5ddd4d0aa55301a0fdbad57bcd7fc7d87c359fd831b5a484bced311d9faae709",
+          "observed_at": "2026-10-09T17:33:50.314725+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "f923f1bc4df8499fb920811e3da03806",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 39,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 97.555,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "1139d0857aa4e4140873695cfb2645a49e28f4860349bb4a92f25d5644d56205",
+          "observed_at": "2026-10-09T17:33:50.317381+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "52152e449ec34f159f8adcbba6ad9316",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 40,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 103.579,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "de5d78c7bb526513339c1aa9791ca1a3f19d044748d2b42c32885124589d9ae7",
+          "observed_at": "2026-10-09T17:33:50.345928+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "b7bd0406f72845ceb6672e83fd5bbe2a",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 45,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 105.931,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "be93bf533384700a4fe62f339fe966c789d7b7992bfb35a8ebab73b06d5f5213",
+          "observed_at": "2026-10-09T17:33:51.048011+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "01c3787477ac41fe9fd915939c3cb8f4",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 46,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 100.743,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "64922715a788e2e73e49b545e40fa0f9bec9a9e402ee381b28b20da00a40872f",
+          "observed_at": "2026-10-09T17:33:51.053763+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "97754f103fc44850add5958f4362af60",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 47,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 102.296,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "18ff54a180493a3f4c16071a35c348a38e359040749f0e65156ad686539e2212",
+          "observed_at": "2026-10-09T17:33:51.086282+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "59253914d5dd44398c3992ac3d9d53be",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 48,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 97.7,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "090f0701981e8e85cae92417f0f13f4e6001443e303497b88cf982faeca1d37f",
+          "observed_at": "2026-10-09T17:33:51.134857+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "4d58679da68a4757955770d09437ad5b",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 53,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 104.92,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "97d35ae96422f7ecd98b64a971ddc7fdeaf3c37abac84be83819f54c52740156",
+          "observed_at": "2026-10-09T17:33:57.900511+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "e6589f9bb4744c1090d10831e805e694",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 54,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 102.781,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "21037f9cfc2f6ede85f84cc4538f08e32221e20023921efd3f6299958a3b93d8",
+          "observed_at": "2026-10-09T17:33:57.908852+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "467f3682a59844219ab04ae8d2cfe7f2",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 55,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 101.65,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "633bc48c29b0425e7cc42b107fd1382a4d81960775a7945bc3f2eccb90f57951",
+          "observed_at": "2026-10-09T17:33:57.909601+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "81e5a31cdd164b958dcb80ee477826dd",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 56,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 110.545,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "73a6f9c873fb51be9f5cbe082c0128a0ecefeca46b6addfd9eaf7c4dcd6a6244",
+          "observed_at": "2026-10-09T17:33:57.922152+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "13ea370fc7db40c481d12aef99584660",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 61,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 91.024,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "2e8be39bca548752be6085b06a273448ed3d937384a86cd29978474533f7fcfc",
+          "observed_at": "2026-10-09T17:34:01.476064+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "4e80193e9c71445a9ad67b379e32ad6a",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 62,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 96.613,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "2deaea9cfc03f868ae4d78e223d6f0ce8e2443c3349d3edf8b9d93c31375062d",
+          "observed_at": "2026-10-09T17:34:01.481891+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "524aac87248d4315b0098097374a65a6",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 63,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 93.262,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "346c92f11d82434c9f5ba02c2fb616ad08d555ac186216f01a2b02013d1be0aa",
+          "observed_at": "2026-10-09T17:34:01.548167+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "2b7be9c0276545e3aab37a33864edb96",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 64,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 92.311,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "8ff30d9824336ebd3fc48802c901468167ce427c16803265cfb479fa77f0af43",
+          "observed_at": "2026-10-09T17:34:01.561704+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "bcfb54e805ec4c32ae7d2c9dcf5aa8c2",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 67,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 77.901,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "b1c04acf8c7a27c67da7e21ff69af8d3ad38f36bc5342ed514602f6852478ec5",
+          "observed_at": "2026-10-09T17:34:06.661917+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "abdc82368b8a4a12887e71b179bb03f3",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 68,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 75.67,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "9d137b6ab0976d6e69561e5f1bf2fae246881666965e075dc86e3526d9be2cec",
+          "observed_at": "2026-10-09T17:34:06.666789+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "dcb07ac26a2e4ab6b9020fdb17a82ad1",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 70,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 78.442,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "7320bf9a11f5c42ae6e077b2b5a2469c3a8a4afd2cff23701bd923473dc42cd5",
+          "observed_at": "2026-10-09T17:34:07.335850+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "8478bf98a89846c7afe1bfe73ebb317d",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 72,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 75.457,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "105bf389336da16a9a772928cd81d31f7349e3726338dd64e1f22640583ae2ed",
+          "observed_at": "2026-10-09T17:34:07.448358+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "7c8ccd55aa5040a7b5bbcd4274c36fd8",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 74,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 68.396,
+          "event_name": "PreToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "245d0832bcb5fc7e4ab3a4ffcf07dae31230adc7b53c8b61c13c7c3809834d7a",
+          "observed_at": "2026-10-09T17:34:12.747035+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "8bef3032cce145c9b3a6c504f53c6bae",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      },
+      {
+        "line": 76,
+        "receipt": {
+          "decision": "allow",
+          "elapsed_ms": 62.459,
+          "event_name": "PostToolUse",
+          "exit_status": 0,
+          "hook_name": "coordination-lifecycle",
+          "hook_run_id": "01a121ba-246e-75f1-a2d4-51c7e93e7d34",
+          "hook_sha256": "d315d85cd30035c697f8863d82353fc6dff4c057e1c81a8d41a9ec115810e88a",
+          "hook_version": "2",
+          "input_sha256": "4f0d0c0ecc7d45dd04cd130cf24167bfaeae53eda212f0ea8e5c07a9c86e1edf",
+          "observed_at": "2026-10-09T17:34:13.464235+00:00",
+          "phase": "completed",
+          "reason_code": "secondary_execution_callback",
+          "receipt_id": "3e4fb6235c834d7ea0c579cf81ec7a91",
+          "record_type": "hook_invocation_receipt",
+          "report_sha256": null,
+          "schema_version": 1,
+          "session_id_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7"
+        }
+      }
+    ],
+    "root_namespace_sha256": "10b0981ef0a9b5e9074a2807714b9d356f7105e1be0bd613d088e694bfb916e7",
+    "per_tool_identity_proven": false
+  },
+  "limits": [
+    "Six deployed-repository hooks were enabled but untrusted; no trust was bypassed.",
+    "Required POLICY_SYSTEM orientation was outside the frozen packet; broader authority coverage remains qualified.",
+    "No actual denied-write or denied-network probe occurred. The five-file allowlist is procedural.",
+    "Encrypted task transport continuity is inspectable; its child plaintext is not.",
+    "Receipt membership establishes child-turn callbacks, not individual tool identity or every policy enforcement behavior.",
+    "This matched startup comparison is not a whole-job speed or cost estimate; the compact child is slightly larger than its own compact parent."
+  ],
+  "record_type": "compact-native-codex-evidence.v1",
+  "role_body_sha256": "29ddc35c31d7ff2259a1f55b8eb7c4b8703d02e91657d872c89360a3cef3d753",
+  "measured_comparison": {
+    "baseline_kind": "same_model_same_frozen_task_historical_child",
+    "baseline_child_id": "01a11fdd-afc4-73c3-926b-ad39bba75696",
+    "baseline_first_input_tokens": 37750,
+    "compact_child_first_input_tokens": 19635,
+    "compact_parent_first_input_tokens": 18614,
+    "reduction_percent": 47.98675496688742,
+    "not_a_child_vs_immediate_parent_reduction": true
+  },
+  "publication_writing_record": {
+    "artifact": "proposals/harness-context/subagent-research.md",
+    "artifact_sha256": "199efb20b19a4c86a2d456c256b38749cbe68565c559a119176a3d1b6df9ca50",
+    "record": {
+      "situation": {
+        "schema": "writing-situation/v2",
+        "medium": "document",
+        "route": "finding",
+        "rationale": "Maintain the existing source-linked feature comparison and diagram; the update reports the concrete context/delivery pattern and its limits, not a new page or an approval request.",
+        "facts": {
+          "asks_for_approval_or_resources": {
+            "value": false,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          },
+          "central_claim_needs_argument": {
+            "value": true,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          },
+          "is_chat_message": {
+            "value": false,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          },
+          "is_dloa": {
+            "value": false,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          },
+          "is_email": {
+            "value": false,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          },
+          "is_job_application": {
+            "value": false,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          },
+          "is_message_to_brian": {
+            "value": false,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          },
+          "reader_decides_from_this": {
+            "value": false,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          },
+          "reader_performs_task": {
+            "value": false,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          },
+          "reports_transferable_failure": {
+            "value": true,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          },
+          "subject_is_built_artifact": {
+            "value": false,
+            "evidence": "User requested current Claude/Codex research and synchronization evidence; this artifact is the existing research document, with no human action requested."
+          }
+        }
+      },
+      "items": {
+        "c-symptom-mechanism": {
+          "status": "pass",
+          "quote": "matching prose does not prove equivalent capabilities.",
+          "note": "Existing comparison tables and routing diagram retained; current measurements and limits are source-bound."
+        },
+        "c-conditions-early": {
+          "status": "pass",
+          "quote": "With `project_doc_max_bytes=0`, repository discovery stops; host/global instructions still load.",
+          "note": "Existing comparison tables and routing diagram retained; current measurements and limits are source-bound."
+        },
+        "c-cost": {
+          "status": "pass",
+          "quote": "about **48% less**",
+          "note": "Existing comparison tables and routing diagram retained; current measurements and limits are source-bound."
+        },
+        "rep-considered": {
+          "status": "pass",
+          "quote": "Shared source and rendered files",
+          "note": "Existing comparison tables and routing diagram retained; current measurements and limits are source-bound."
+        }
+      }
+    },
+    "actual_check_exit_status": 0,
+    "scope": "Current-source factual update; existing tables/diagram and original disposition retained."
+  }
+}
