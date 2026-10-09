@@ -1,0 +1,55 @@
+{
+ "situation": {
+  "schema": "writing-situation/v2",
+  "medium": "document",
+  "route": null,
+  "rationale": "No writing-catalog situation fits this source-linked implementation handoff; Company Planning owns the adopted plan. Record the no-fit as friction instead of forcing an approval or article route.",
+  "facts": {
+   "asks_for_approval_or_resources": {
+    "value": false,
+    "evidence": "No new grant requested; implementation already authorized and costs bounded"
+   },
+   "central_claim_needs_argument": {
+    "value": false,
+    "evidence": "Provides recorded state and validation evidence rather than an argumentative claim"
+   },
+   "is_chat_message": {
+    "value": false,
+    "evidence": "Not a chat message"
+   },
+   "is_dloa": {
+    "value": false,
+    "evidence": "Not a daily log"
+   },
+   "is_email": {
+    "value": false,
+    "evidence": "Not an email"
+   },
+   "is_job_application": {
+    "value": false,
+    "evidence": "Not job-search material"
+   },
+   "is_message_to_brian": {
+    "value": false,
+    "evidence": "A GitHub PR description, not a session reply"
+   },
+   "reader_decides_from_this": {
+    "value": false,
+    "evidence": "Merge judgment depends on source diff and native checks, not mainly this description"
+   },
+   "reader_performs_task": {
+    "value": false,
+    "evidence": "Describes a completed planning checkpoint; not step-by-step task instructions"
+   },
+   "reports_transferable_failure": {
+    "value": false,
+    "evidence": "Reports this exact stale adoption repair rather than a general failure analysis"
+   },
+   "subject_is_built_artifact": {
+    "value": false,
+    "evidence": "An adoption/validation handoff, not a built tool, demo or system explanation"
+   }
+  }
+ },
+ "items": {}
+}
