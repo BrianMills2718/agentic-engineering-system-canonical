@@ -1,11 +1,13 @@
-Profiles now narrow the caller's authorized rules, native capabilities, provider routes and budgets. Configuration cannot authorize a missing role or remove a required rule. The ledger joins an explicit eligible handoff list to terminal records, so a missing record remains visible instead of disappearing from the denominator.
+When a Claude Agent call is interrupted, its child can finish later while the feedback collector still records an unresolved dispatch. The collector now joins a uniquely matching native child packet to that original handoff and reads its final answer. Ambiguous matches stay unresolved, and a returned answer still needs the parent's independent verdict.
 
-A manual code-review handoff to development-investigator returned no source evidence. Selected accounting fields from that real handoff (full artifact: proposals/agent-router/native-handoff-role-mismatch.json):
+A real interrupted Claude handoff now reaches the existing weekly feedback reader as verified_inconclusive; its parent check validated structure without grading the investigation's conclusion. Exact trace hashes and reader membership are recorded in proposals/agent-router/claude-feedback-capture.json. Selected output:
 
 ```json
-{"eligible_total":1,"proposal_status_counts":{"unsupported":1},"outcome_status_counts":{"inconclusive":1}}
+{"child_ref":"aff90f2e49dbf83f8","terminal_status":"verified_inconclusive","record_id":"rec-subagent-951adeba2c2f8951"}
 ```
 
-Run the focused checks with the repository interpreter: `python -m pytest tests/test_agent_router.py -v`. The full local gate passed: 362 tests, one skipped, type checks clean, exit 0; executable subjects match the integration branch.
+The preserved offline rule inventory covers every one of the 263 source IDs: 228 keep, 28 covered and seven proposed retirements. The mandatory baseline remains intact. Validated applies_when tags and source-linked dispositions are proposals, so this change activates or retires no instructions. Default sorting checks the existing cache offline; paid sorting requires explicit --sort and separately available spending authority.
 
-This core validates configuration and accounts for recorded evidence. Use existing native handoffs and required instructions for execution: router dispatch, profile behavior, four-cell delivery/fallback and observation periods still need their own evidence. It starts no daemon and activates no automatic routing.
+Run `python -m pytest tests/learning/test_subagents.py tests/test_sort_legacy.py tests/test_rules_page.py -v`, `python scripts/rules/sort_legacy.py --check` and `python scripts/rules/build_rules_page.py --check` with the repository interpreter. Focused tests passed 49; the full local gate passed 381, with one skipped, type checks clean and exit 0 (subject 6a0136c; proposals/agent-router/local-check.json).
+
+Use existing native handoffs and required instructions for execution until router dispatch, profile behavior, four-cell delivery/fallback and observation periods have authentic evidence. This change repairs collection and checks proposed inventory; it starts no automatic router and makes no model calls.

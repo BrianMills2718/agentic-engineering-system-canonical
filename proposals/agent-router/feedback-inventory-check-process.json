@@ -1,0 +1,16 @@
+{
+  "state": "passed",
+  "pid": 4125525,
+  "worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-feedback-inventory",
+  "revision": "6a0136c24b0a7484049f7893b48205685395001e",
+  "log_path": "/home/brian/projects/data/agentic-engineering-system-canonical/agent-router-local-check-2026-10-09.log",
+  "exit_status": 0,
+  "passed": 381,
+  "failed": 0,
+  "errored": 0,
+  "skipped": 1,
+  "elapsed_seconds": 360.284,
+  "receipt_path": "proposals/agent-router/local-check.json",
+  "expected_quiet_until": null,
+  "parent_api_calls": 0
+}

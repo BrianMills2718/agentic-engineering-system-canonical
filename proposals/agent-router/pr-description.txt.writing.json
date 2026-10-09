@@ -3,7 +3,7 @@
   "schema": "writing-situation/v2",
   "medium": "document",
   "route": "tool",
-  "rationale": "A PR describes the implemented library and real output; source diff and local gates govern integration, while runtime criteria stay pending.",
+  "rationale": "The PR describes concrete implemented behavior, authentic output and pending runtime acceptance; concise prose plus exact JSON best supports review.",
   "facts": {
    "asks_for_approval_or_resources": {
     "value": false,
@@ -39,48 +39,48 @@
    },
    "reader_performs_task": {
     "value": false,
-    "evidence": "Describes a completed planning checkpoint; not step-by-step task instructions"
+    "evidence": "A PR explains implemented behavior and validation; it is not a how-to document"
    },
    "reports_transferable_failure": {
     "value": false,
-    "evidence": "Reports this exact stale adoption repair rather than a general failure analysis"
+    "evidence": "The subject is this implemented reader and inventory; transferable failure analysis is not the document purpose"
    },
    "subject_is_built_artifact": {
     "value": true,
-    "evidence": "Describes the implemented profile/accounting library and its tested consumers"
+    "evidence": "Implemented native feedback reader and offline inventory checks, with actual consumer evidence"
    }
   }
  },
  "items": {
   "a-real-output": {
    "status": "pass",
-   "quote": "A manual code-review handoff to development-investigator returned no source evidence.",
-   "note": "Input is the actual review assignment; selected output is linked to native-handoff-role-mismatch.json and original native trace."
+   "quote": "A real interrupted Claude handoff now reaches the existing weekly feedback reader as verified_inconclusive",
+   "note": "Exact native input/output identity and reader record membership are in claude-feedback-capture.json."
   },
   "a-distinguishing": {
    "status": "pass",
-   "quote": "The ledger joins an explicit eligible handoff list to terminal records",
-   "note": "Explicit expected membership exposes missing records; meaningful dropped/duplicate tests establish that difference."
+   "quote": "The collector now joins a uniquely matching native child packet to that original handoff",
+   "note": "The previous reader omitted interrupted Claude children. Ambiguity and duplicate packet tests prevent attribution by a loose match."
   },
   "a-absences": {
    "status": "pass",
-   "quote": "It starts no daemon and activates no automatic routing.",
-   "note": "Keeps execution/capture and rollout outside this verified core, pending actual native gates."
+   "quote": "this change activates or retires no instructions",
+   "note": "Inventory tags and dispositions remain proposals under the adopted plan."
   },
   "a-run-it": {
    "status": "pass",
-   "quote": "python -m pytest tests/test_agent_router.py -v",
-   "note": "Actual focused command ran20pass exit0; full local gate362pass1skip exit0."
+   "quote": "python scripts/rules/sort_legacy.py --check",
+   "note": "These offline commands and49 focused tests ran with exit0; full gate381pass1skip exit0."
   },
   "a-use-else": {
    "status": "pass",
    "quote": "Use existing native handoffs and required instructions for execution",
-   "note": "Existing execution is required until separate router dispatch/fallback evidence exists."
+   "note": "Full routing and fallback acceptance is still pending."
   },
   "rep-considered": {
    "status": "pass",
-   "quote": "Selected accounting fields from that real handoff",
-   "note": "Prose states behavior and scope; literal JSON shows a three-field output. A figure/table adds no useful comparison for this one-record PR. Existing system diagram remains in proposal README."
+   "quote": "Selected output:",
+   "note": "Short prose states behavior and limits; literal JSON preserves one authentic output. A figure or comparison table would add no useful information to this PR description."
   }
  }
 }
