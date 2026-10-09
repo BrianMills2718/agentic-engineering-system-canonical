@@ -1,0 +1,106 @@
+{
+  "active_slice": {
+    "description": "Recover authentic Claude child outcome in existing feedback consumer; integrate preserved inventory without paid calls",
+    "next_action": "Admit separate integration publisher after native donor disposition; run combined local gate and merge verified repairs",
+    "requires_external_action": false,
+    "requires_spend": false,
+    "slice_id": "native-feedback-capture",
+    "status": "verifying",
+    "target_revision": "4bca22872051fc438f71e0bfea926085a0ef5c87"
+  },
+  "authority": {
+    "external_action_authorized": true,
+    "human_decision": null,
+    "human_decision_required": false,
+    "implementation_authorized": true,
+    "spend_cap_usd": 0,
+    "spend_used_usd": 0
+  },
+  "circuit_breakers": {
+    "context_integrity_valid": true,
+    "max_same_boundary_failures": 3,
+    "runtime_integrity_valid": true
+  },
+  "completion": {
+    "evidence_revision": null,
+    "receipt_ref": null,
+    "remaining_ready_work": 2,
+    "requested": false,
+    "verifier_outcome": null
+  },
+  "cursor_id": "agent-router-completion-20261009",
+  "cursor_revision": 4,
+  "failure_state": {
+    "boundary": null,
+    "last_failure_ref": null,
+    "same_boundary_failures": 0
+  },
+  "goal_ref": "proposals/agent-router/agent-router.goal.md",
+  "lifecycle_state": "active",
+  "observations": [
+    {
+      "boundary": "exact-plan adoption",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/492",
+      "kind": "authentic_result",
+      "observation_id": "adoption-merged",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "profile/accounting core",
+      "evidence_ref": "proposals/agent-router/verification.log@8e451dbe709e23af207197c6f6d58359eec18e8a",
+      "kind": "supporting_work",
+      "observation_id": "profile-core-focused-check",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "historical ledger consumer, not live router acceptance",
+      "evidence_ref": "proposals/agent-router/native-handoff-replay.json@8e451dbe709e23af207197c6f6d58359eec18e8a",
+      "kind": "authentic_result",
+      "observation_id": "authentic-native-handoff-replay",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Separate retained harness lane only; cumulative $1 maximum, no inventory/router renewal",
+      "evidence_ref": "root-user-reply:request_user_input_async/call_bf2371928b14471da9ed2c69640ab400/0",
+      "kind": "supporting_work",
+      "observation_id": "claude-live-check-grant",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "profile/accounting core integration; full router acceptance remains pending",
+      "evidence_ref": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/497",
+      "kind": "authentic_result",
+      "observation_id": "profile-core-merged",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "native Claude result capture plus real feedback reader; maintenance diagnosis and router injection are not graded",
+      "evidence_ref": "proposals/agent-router/claude-feedback-capture.json@4bca22872051fc438f71e0bfea926085a0ef5c87",
+      "kind": "authentic_result",
+      "observation_id": "claude-feedback-reader-repaired",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "Old $5 sorting allowance exhausted; cache metadata is not provider reconciliation; no paid sorting/adoption charged to it",
+      "evidence_ref": "/home/brian/projects/data/agent-router/legacy-sort.log:283",
+      "kind": "supporting_work",
+      "observation_id": "legacy-sort-spend-frozen",
+      "outcome": "pass"
+    }
+  ],
+  "plan_revision": "5d126be54972ae9e3ea4847ddf507447f54b13d3",
+  "ready_alternatives": [
+    {
+      "description": "Source-supported offline inventory checkpoint82c8b87e preserved; native publisher custody pending",
+      "ready": false,
+      "slice_id": "inventory-integration"
+    }
+  ],
+  "record_type": "plan_execution_cursor",
+  "schema_version": "1.0",
+  "target": {
+    "branch": "agent-router-execution",
+    "repository": "/home/brian/code/agentic-engineering-system-canonical",
+    "worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution"
+  }
+}
