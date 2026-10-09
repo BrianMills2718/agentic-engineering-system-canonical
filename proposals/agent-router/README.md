@@ -2,6 +2,8 @@
 
 Status: fresh Company Planning adoption, 2026-10-09; runtime acceptance remains pending. Brian activated "finish all remaning work". [PLAN.md](PLAN.md), its [adoption decision](receipt.adoption-decision.json), [receipt](receipt.json) and [generated goal](agent-router.goal.md) govern completion. All eight criteria remain planned in the [acceptance records](evidence.json); adoption proves the plan's conformance, not working routing. The [revision goal](revision.goal.md), [route](revision-path-decision.json) and [verification](verification.log) retain the earlier document-only evidence. The immediate slice reuses the saved 263-rule inventory under retained custody, without new sort calls or mandatory-rule retirement/activation. Native delivery is separately owned by the harness session; its Claude run is quota-unavailable and its Codex run does not establish disabled-delivery fallback.
 
+The executable checkpoint now provides [portable profile validation](../../scripts/rules/agent_router.py), [profile and handoff schemas](../../contracts/agent-router/profile.v1.schema.json), 20 focused checks, and an [authentic historical ledger consumer](native-handoff-replay.json). A [fresh unsuccessful handoff](native-handoff-role-mismatch.json) also reached the existing feedback collector, including its failed checker and corrected inconclusive result. Native router dispatch, four-cell ordinary/fallback delivery, independently checked routing outcomes and the observation periods remain pending. Brian separately approved up to $1 total for live Claude parent/child checks; that funding does not renew the legacy sort or activate automatic routing.
+
 ## What Brian asked for
 
 Brian, 2026-10-08:

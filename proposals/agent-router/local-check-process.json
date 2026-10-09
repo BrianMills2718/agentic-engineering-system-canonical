@@ -1,0 +1,11 @@
+{
+  "state": "completed",
+  "pid": 3373160,
+  "command": [
+    "python",
+    "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution/proposals/agent-router/run-local-check.py"
+  ],
+  "log_path": "/home/brian/projects/data/agentic-engineering-system-canonical/agent-router-local-check-2026-10-09.log",
+  "launch_utc": "2026-10-09T12:34:28.898258+00:00",
+  "exit_status": 0
+}

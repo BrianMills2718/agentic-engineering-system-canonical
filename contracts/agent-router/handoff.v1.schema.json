@@ -1,0 +1,356 @@
+{
+  "$defs": {
+    "ActualChoice": {
+      "additionalProperties": false,
+      "properties": {
+        "subagent": {
+          "title": "Subagent",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "effort": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effort"
+        },
+        "native_dispatch_ref": {
+          "title": "Native Dispatch Ref",
+          "type": "string"
+        },
+        "choice_source": {
+          "enum": [
+            "incumbent",
+            "proposed",
+            "fallback"
+          ],
+          "title": "Choice Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "subagent",
+        "native_dispatch_ref",
+        "choice_source"
+      ],
+      "title": "ActualChoice",
+      "type": "object"
+    },
+    "IndependentOutcome": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "inconclusive"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "check_id": {
+          "title": "Check Id",
+          "type": "string"
+        },
+        "check_output_ref": {
+          "title": "Check Output Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "check_id",
+        "check_output_ref"
+      ],
+      "title": "IndependentOutcome",
+      "type": "object"
+    },
+    "RouterProposal": {
+      "additionalProperties": false,
+      "properties": {
+        "subagent": {
+          "title": "Subagent",
+          "type": "string"
+        },
+        "rule_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rule Ids",
+          "type": "array"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "effort": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effort"
+        },
+        "confidence": {
+          "title": "Confidence",
+          "type": "number"
+        }
+      },
+      "required": [
+        "subagent",
+        "rule_ids",
+        "confidence"
+      ],
+      "title": "RouterProposal",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "agent-router-handoff.v1",
+      "default": "agent-router-handoff.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "extension_owner": {
+      "const": "AES",
+      "default": "AES",
+      "title": "Extension Owner",
+      "type": "string"
+    },
+    "handoff_id": {
+      "title": "Handoff Id",
+      "type": "string"
+    },
+    "input_digest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Input Digest"
+    },
+    "profile_digest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Profile Digest"
+    },
+    "capability_digest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Capability Digest"
+    },
+    "register_revision": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Register Revision"
+    },
+    "specialist_revision": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Specialist Revision"
+    },
+    "parent_session_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Parent Session Id"
+    },
+    "child_session_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Child Session Id"
+    },
+    "full_trace_ref": {
+      "title": "Full Trace Ref",
+      "type": "string"
+    },
+    "proposal_status": {
+      "enum": [
+        "valid",
+        "invalid",
+        "capped",
+        "call_failed",
+        "input_unavailable",
+        "unsupported"
+      ],
+      "title": "Proposal Status",
+      "type": "string"
+    },
+    "failure_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Failure Reason"
+    },
+    "proposal": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RouterProposal"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "llm_attempted": {
+      "default": false,
+      "title": "Llm Attempted",
+      "type": "boolean"
+    },
+    "llm_call_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Llm Call Id"
+    },
+    "actual_choice": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ActualChoice"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "actual_cost_usd": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Actual Cost Usd"
+    },
+    "latency_ms": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Latency Ms"
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/IndependentOutcome"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "replayed": {
+      "default": false,
+      "title": "Replayed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "handoff_id",
+    "input_digest",
+    "profile_digest",
+    "parent_session_id",
+    "full_trace_ref",
+    "proposal_status"
+  ],
+  "title": "HandoffRecordV1",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-extension-owner": "AES"
+}

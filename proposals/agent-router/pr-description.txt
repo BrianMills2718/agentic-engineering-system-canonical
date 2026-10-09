@@ -1,0 +1,11 @@
+Profiles now narrow the caller's authorized rules, native capabilities, provider routes and budgets. Configuration cannot authorize a missing role or remove a required rule. The ledger joins an explicit eligible handoff list to terminal records, so a missing record remains visible instead of disappearing from the denominator.
+
+A manual code-review handoff to development-investigator returned no source evidence. Selected accounting fields from that real handoff (full artifact: proposals/agent-router/native-handoff-role-mismatch.json):
+
+```json
+{"eligible_total":1,"proposal_status_counts":{"unsupported":1},"outcome_status_counts":{"inconclusive":1}}
+```
+
+Run the focused checks with the repository interpreter: `python -m pytest tests/test_agent_router.py -v`. The full local gate passed: 362 tests, one skipped, type checks clean, exit 0; executable subjects match the integration branch.
+
+This core validates configuration and accounts for recorded evidence. Use existing native handoffs and required instructions for execution: router dispatch, profile behavior, four-cell delivery/fallback and observation periods still need their own evidence. It starts no daemon and activates no automatic routing.

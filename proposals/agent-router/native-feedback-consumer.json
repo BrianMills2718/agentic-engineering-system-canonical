@@ -1,0 +1,57 @@
+{
+  "consumer": "existing learning_loop.subagents",
+  "run": {
+    "call_id": "call_106c154cf60742a4888adc746ce26e0f",
+    "parent_session_id": "01a11cac-2557-7dc0-8edd-8487ed5968d1",
+    "client": "codex",
+    "parent_trace": "/home/brian/.codex/sessions/2026/10/08/rollout-2026-10-08T14-00-06-01a11cac-2557-7dc0-8edd-8487ed5968d1.jsonl",
+    "cwd": "/home/brian/code",
+    "ts": "2026-10-09T12:36:37.770Z",
+    "offset": 41767553,
+    "role": "development-investigator",
+    "task_name": "feedback_canary",
+    "requested_context_mode": "unspecified",
+    "packet_sha256": "0a6b9913c9d922dba0fdd44b234009ed009a8bc87cab87b357f84741a2dac649",
+    "requested_model": null,
+    "requested_effort": null,
+    "child_ref": "/root/feedback_canary",
+    "terminal": "completed",
+    "result_ts": "2026-10-09T12:37:20.248Z",
+    "runtime": {
+      "role": "development-investigator",
+      "role_definition_revision": null,
+      "instruction_digests": [
+        "bdd10b8b4e8ef9427430a19122d2db9d68854d9fc7595952ec379c9d0b297bbc"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "xhigh",
+      "usage": {
+        "total_token_usage": {
+          "input_tokens": 792733,
+          "cached_input_tokens": 663424,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 8246,
+          "reasoning_output_tokens": 3966,
+          "total_tokens": 800979
+        },
+        "last_token_usage": {
+          "input_tokens": 73276,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 681,
+          "reasoning_output_tokens": 466,
+          "total_tokens": 73957
+        },
+        "model_context_window": 258400
+      }
+    },
+    "child_trace": "/home/brian/.codex/sessions/2026/10/08/rollout-2026-10-08T19-15-34-01a11dcc-f50a-72f3-9a03-94cdb11ffe8f.jsonl",
+    "limitations": [
+      "role definition revision not observed; delivered instruction digests identify snapshots only"
+    ],
+    "result_before": null,
+    "child_session_id": "01a11dcc-f50a-72f3-9a03-94cdb11ffe8f"
+  },
+  "result_available": true,
+  "result_sha256": "87dbe2d4f04236ba5f7c2bf62afcdbaf249887d15abfff5d59487db672021b89"
+}

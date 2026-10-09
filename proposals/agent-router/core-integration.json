@@ -1,0 +1,78 @@
+{
+  "state": "core_slice_integration_only",
+  "canonical_goal_complete": false,
+  "source_checkpoints": [
+    "8e451dbe709e23af207197c6f6d58359eec18e8a",
+    "8f2fcfc"
+  ],
+  "gate": {
+    "command": "make check PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python",
+    "tested_revision": "8e451dbe709e23af207197c6f6d58359eec18e8a",
+    "passed": 362,
+    "skipped": 1,
+    "failed": 0,
+    "errored": 0,
+    "exit_status": 0,
+    "mypy_source_files": 22,
+    "elapsed_seconds": 1230.702
+  },
+  "executed_subjects": [
+    {
+      "path": "src",
+      "object": "8b4f5d5620a478affc315767da7e1ff795c6483e"
+    },
+    {
+      "path": "tests",
+      "object": "25af6b682d40021fb3f42f4f4f31467dd36031d2"
+    },
+    {
+      "path": "scripts",
+      "object": "446d72c8f9408ccad5d2dd2ff3ab04f2ea3201fd"
+    },
+    {
+      "path": "contracts",
+      "object": "9fc7d7d454cbefa602a20f268837290c86d8443e"
+    },
+    {
+      "path": "enforced_planning",
+      "object": "63c423d3c5e634accfdeae2b5ed76af715ee6326"
+    },
+    {
+      "path": "Makefile",
+      "object": "2e8501ab48366904cb811c25bd8300df2f70fd06"
+    },
+    {
+      "path": "pyproject.toml",
+      "object": "e59ab948791f58b9dd5f094c9ef503759c7a8691"
+    },
+    {
+      "path": "AGENTS.md",
+      "object": "4f5e1ed522ab302074d1f31f7e18334b38469815"
+    },
+    {
+      "path": "CLAUDE.md",
+      "object": "9f3a0d74d61e3a314c32b88db20812cc9f3e2808"
+    }
+  ],
+  "integration_cursor_boundary": {
+    "valid": true,
+    "active_file_absent": true,
+    "native_command": "company-planning scripts/check_execution_cursor_boundary.py --repo-root <integration-lane>",
+    "exit_status": 0
+  },
+  "claim_route": {
+    "source_lane_narrowed_natively_to": [
+      ".company-planning/active-execution.json",
+      ".company-planning/history"
+    ],
+    "integration_lane": "agent-router-core",
+    "native_bootstrap_exit_status": 0,
+    "parallel_roots_disjoint": true,
+    "active_original_cursor_retained": true
+  },
+  "limits": [
+    "Core is a library/configuration and accounting extension; actual router dispatch and four-cell fallback remain pending.",
+    "Historical replay is excluded from live observation.",
+    "Fresh role-mismatch handoff has inconclusive outcome, not a passing code review."
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": "agent-router-acceptance-index.v1",
   "extension_owner": "AES",
-  "artifact_state": "pre_execution",
+  "artifact_state": "partial_execution",
   "plan_ref": "proposals/agent-router/PLAN.md",
   "plan_sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7",
   "records": [
@@ -193,6 +193,40 @@
           "check_refs": []
         }
       ]
+    }
+  ],
+  "supporting_evidence": [
+    {
+      "id": "profile-accounting-core",
+      "state": "partial",
+      "requirements": [
+        "AR-ACCOUNTING",
+        "AR-PROFILES",
+        "AR-CONTRACT"
+      ],
+      "checks": [
+        "tests/test_agent_router.py",
+        "native-handoff-replay.json",
+        "profiles/effective-profiles.json"
+      ],
+      "limits": "20 focused unit tests and one labelled authentic historical replay; no fresh router dispatch, live profile behavior, four-cell delivery or observation period complete."
+    },
+    {
+      "id": "fresh-native-role-mismatch-feedback",
+      "state": "partial",
+      "requirements": [
+        "AR-ACCOUNTING"
+      ],
+      "checks": [
+        "native-handoff-role-mismatch.json",
+        "native-feedback-consumer.json",
+        "native-feedback-parent-check.txt"
+      ],
+      "full_trace_refs": [
+        "/home/brian/.codex/sessions/2026/10/08/rollout-2026-10-08T14-00-06-01a11cac-2557-7dc0-8edd-8487ed5968d1.jsonl",
+        "/home/brian/.codex/sessions/2026/10/08/rollout-2026-10-08T19-15-34-01a11dcc-f50a-72f3-9a03-94cdb11ffe8f.jsonl"
+      ],
+      "limits": "Real handoff returned inconclusive without reading files; existing feedback collector retains failed checker and corrected inconclusive verdict. Does not establish code review, router outcome or completed observation period."
     }
   ]
 }

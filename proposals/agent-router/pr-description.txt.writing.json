@@ -1,0 +1,86 @@
+{
+ "situation": {
+  "schema": "writing-situation/v2",
+  "medium": "document",
+  "route": "tool",
+  "rationale": "A PR describes the implemented library and real output; source diff and local gates govern integration, while runtime criteria stay pending.",
+  "facts": {
+   "asks_for_approval_or_resources": {
+    "value": false,
+    "evidence": "No new grant requested; implementation already authorized and costs bounded"
+   },
+   "central_claim_needs_argument": {
+    "value": false,
+    "evidence": "Provides recorded state and validation evidence rather than an argumentative claim"
+   },
+   "is_chat_message": {
+    "value": false,
+    "evidence": "Not a chat message"
+   },
+   "is_dloa": {
+    "value": false,
+    "evidence": "Not a daily log"
+   },
+   "is_email": {
+    "value": false,
+    "evidence": "Not an email"
+   },
+   "is_job_application": {
+    "value": false,
+    "evidence": "Not job-search material"
+   },
+   "is_message_to_brian": {
+    "value": false,
+    "evidence": "A GitHub PR description, not a session reply"
+   },
+   "reader_decides_from_this": {
+    "value": false,
+    "evidence": "Merge judgment depends on source diff and native checks, not mainly this description"
+   },
+   "reader_performs_task": {
+    "value": false,
+    "evidence": "Describes a completed planning checkpoint; not step-by-step task instructions"
+   },
+   "reports_transferable_failure": {
+    "value": false,
+    "evidence": "Reports this exact stale adoption repair rather than a general failure analysis"
+   },
+   "subject_is_built_artifact": {
+    "value": true,
+    "evidence": "Describes the implemented profile/accounting library and its tested consumers"
+   }
+  }
+ },
+ "items": {
+  "a-real-output": {
+   "status": "pass",
+   "quote": "A manual code-review handoff to development-investigator returned no source evidence.",
+   "note": "Input is the actual review assignment; selected output is linked to native-handoff-role-mismatch.json and original native trace."
+  },
+  "a-distinguishing": {
+   "status": "pass",
+   "quote": "The ledger joins an explicit eligible handoff list to terminal records",
+   "note": "Explicit expected membership exposes missing records; meaningful dropped/duplicate tests establish that difference."
+  },
+  "a-absences": {
+   "status": "pass",
+   "quote": "It starts no daemon and activates no automatic routing.",
+   "note": "Keeps execution/capture and rollout outside this verified core, pending actual native gates."
+  },
+  "a-run-it": {
+   "status": "pass",
+   "quote": "python -m pytest tests/test_agent_router.py -v",
+   "note": "Actual focused command ran20pass exit0; full local gate362pass1skip exit0."
+  },
+  "a-use-else": {
+   "status": "pass",
+   "quote": "Use existing native handoffs and required instructions for execution",
+   "note": "Existing execution is required until separate router dispatch/fallback evidence exists."
+  },
+  "rep-considered": {
+   "status": "pass",
+   "quote": "Selected accounting fields from that real handoff",
+   "note": "Prose states behavior and scope; literal JSON shows a three-field output. A figure/table adds no useful comparison for this one-record PR. Existing system diagram remains in proposal README."
+  }
+ }
+}

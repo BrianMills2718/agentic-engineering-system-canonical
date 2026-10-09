@@ -1,0 +1,112 @@
+{
+  "state": "authentic_historical_replay",
+  "counts_toward_live_observation": false,
+  "source_revision": "5594217dd7ed207bb9e0990d4919a55446207791",
+  "source_checks": {
+    "checks_passed": 15,
+    "checks_failed": 0,
+    "exit_status": 0,
+    "checks": [
+      "native child result satisfies canonical schema",
+      "child investigated the supplied task",
+      "child returned source-supported diagnosis",
+      "all five frozen sources remain unchanged",
+      "all sixteen citations resolve within supplied sources",
+      "parent trace matches recorded digest",
+      "parent actual turn has read-only policy and no escalation",
+      "child trace matches recorded digest",
+      "child actual turn has read-only policy and no escalation",
+      "installed canonical specialist instructions appear in actual child input",
+      "native parent-child identity and role match",
+      "native parent explicitly launched one fresh-history child",
+      "recorded context failure and first-input measurement match trace",
+      "independent native sandbox denied synthetic write and socket",
+      "Claude quota refusal cannot be counted as an executed child"
+    ],
+    "parity_traces_available": [
+      "codex_parent",
+      "codex_child",
+      "claude_parent_refusal"
+    ],
+    "missing_required_trace": "claude_child",
+    "cross_client_goal_complete": false,
+    "limits": [
+      "These checks validate recorded evidence, not cross-client completion.",
+      "Sandbox negative probe is independent of the child; no path-allowlist enforcement is claimed."
+    ]
+  },
+  "trace_hashes": {
+    "parent": "e812c0148d2190b1998a0d795ae1152c5bfe1edf1071ed571b6dec46d34bd528",
+    "child": "ea94965ef23305916211fcdb087bbfb381b84183fa4fa1adfa36b9caf83a4f7a"
+  },
+  "record": {
+    "schema_version": "agent-router-handoff.v1",
+    "extension_owner": "AES",
+    "handoff_id": "native-codex-01a11fdd-afc4-73c3-926b-ad39bba75696",
+    "input_digest": "ca1ca293dfa02f4e62964b1ba4195d170a4e9e830397490c4ca5895471dc7d6c",
+    "profile_digest": null,
+    "capability_digest": "77bd97a70a27682bcbfb22142c5b7ba4bfe4749c9ae58aac98c39af23ce325ac",
+    "register_revision": null,
+    "specialist_revision": null,
+    "parent_session_id": "01a11fdd-2db6-7da3-bf22-4698c6b6f0d5",
+    "child_session_id": "01a11fdd-afc4-73c3-926b-ad39bba75696",
+    "full_trace_ref": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-52-31-01a11fdd-2db6-7da3-bf22-4698c6b6f0d5.jsonl; /home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-53-04-01a11fdd-afc4-73c3-926b-ad39bba75696.jsonl",
+    "proposal_status": "unsupported",
+    "failure_reason": "Historical native handoff predates the router; no router proposal or effective router profile was executed.",
+    "proposal": null,
+    "llm_attempted": false,
+    "llm_call_id": null,
+    "actual_choice": {
+      "subagent": "development-investigator",
+      "model": "gpt-6.1-sol",
+      "effort": "xhigh",
+      "native_dispatch_ref": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-52-31-01a11fdd-2db6-7da3-bf22-4698c6b6f0d5.jsonl:13",
+      "choice_source": "incumbent"
+    },
+    "actual_cost_usd": null,
+    "latency_ms": null,
+    "outcome": {
+      "status": "pass",
+      "check_id": "historical-native-harness-recorded-evidence",
+      "check_output_ref": "proposals/harness-context/native-parity/verification.json@5594217dd7ed207bb9e0990d4919a55446207791"
+    },
+    "replayed": true
+  },
+  "accounting": {
+    "eligible_ids": [
+      "native-codex-01a11fdd-afc4-73c3-926b-ad39bba75696"
+    ],
+    "eligible_total": 1,
+    "accounting_complete": true,
+    "missing_ids": [],
+    "duplicate_ids": [],
+    "unexpected_ids": [],
+    "proposal_status_counts": {
+      "valid": 0,
+      "invalid": 0,
+      "capped": 0,
+      "call_failed": 0,
+      "input_unavailable": 0,
+      "unsupported": 1
+    },
+    "missing_outcome_ids": [],
+    "outcome_status_counts": {
+      "pass": 1
+    },
+    "unknown_cost_ids": [
+      "native-codex-01a11fdd-afc4-73c3-926b-ad39bba75696"
+    ],
+    "missing_latency_ids": [
+      "native-codex-01a11fdd-afc4-73c3-926b-ad39bba75696"
+    ],
+    "known_cost_usd": 0,
+    "replayed_ids": [
+      "native-codex-01a11fdd-afc4-73c3-926b-ad39bba75696"
+    ]
+  },
+  "limits": [
+    "This proves accounting consumes an authentic recorded handoff, not fresh router dispatch, ordinary/fallback delivery or a profile behavior difference.",
+    "Historical outcome is the recorded harness check, not a candidate-router outcome.",
+    "Native execution cost and latency are unavailable and retained as unknown."
+  ]
+}

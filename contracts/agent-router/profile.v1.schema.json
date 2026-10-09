@@ -1,0 +1,112 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "daily_cap_usd": {
+      "title": "Daily Cap Usd",
+      "type": "number"
+    },
+    "total_cap_usd": {
+      "title": "Total Cap Usd",
+      "type": "number"
+    },
+    "schema_version": {
+      "const": "agent-router-profile.v1",
+      "default": "agent-router-profile.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "extension_owner": {
+      "const": "AES",
+      "default": "AES",
+      "title": "Extension Owner",
+      "type": "string"
+    },
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "mode": {
+      "default": "manual",
+      "enum": [
+        "off",
+        "manual",
+        "observe"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "allowed_rule_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Rule Ids",
+      "type": "array"
+    },
+    "required_rule_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Rule Ids",
+      "type": "array"
+    },
+    "specialist_aliases": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Specialist Aliases",
+      "type": "object"
+    },
+    "allowed_models": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Models",
+      "type": "array"
+    },
+    "allowed_efforts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Efforts",
+      "type": "array"
+    },
+    "native_field_maps": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "title": "Native Field Maps",
+      "type": "object"
+    },
+    "provider_route": {
+      "title": "Provider Route",
+      "type": "string"
+    },
+    "workspace_env": {
+      "default": "WORKSPACE_ROOT",
+      "title": "Workspace Env",
+      "type": "string"
+    },
+    "log_root_env": {
+      "default": "AGENT_ROUTER_OUT",
+      "title": "Log Root Env",
+      "type": "string"
+    }
+  },
+  "required": [
+    "daily_cap_usd",
+    "total_cap_usd",
+    "profile_id",
+    "allowed_rule_ids",
+    "required_rule_ids",
+    "specialist_aliases",
+    "native_field_maps",
+    "provider_route"
+  ],
+  "title": "AgentRouterProfileV1",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-extension-owner": "AES"
+}
