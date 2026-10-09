@@ -1,14 +1,14 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-db9870d9ab0d",
+  "receipt_id": "RECEIPT-PLAN-2c5c15085ffc",
   "plan": {
     "plan_ref": "proposals/agent-router/PLAN.md",
-    "plan_sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+    "plan_sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
   },
   "path_decision": {
     "ref": "proposals/agent-router/planning-path-decision.json",
-    "sha256": "bfff0e31a371c6993701a46b274a6b075dd99d7ee9e69e0aa4d3811ffb336d17",
+    "sha256": "c693d4479b3f656188d2a40263fd80e0dbb6b2109fee175f58e3827ff28fb527",
     "selected_path": "coordinated",
     "classified_path": "coordinated",
     "errors": []
@@ -16,24 +16,26 @@
   "route": "coordinated",
   "profile": {
     "profile_id": "bounded-design",
-    "revision": "bounded-design@6",
+    "revision": "bounded-design@10",
     "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
-    "sha256": "0b8b1ff4860f7caf400897ba1a7ddae85a227b15ce17c8a2f7412d6d2dc825e5"
+    "sha256": "59ff156cb32f603b0e462160aa6e962b3b8dead04c32609d176a6e5085e47f8a"
   },
   "compiler": {
     "path": "scripts/method_conformance/compiler.py",
-    "sha256": "97e8810884e9875e02d9729fc9b18010173f4daf881423ec2da8a1baa186b502"
+    "sha256": "e08f1a326de035b56e4e20bd6224439145f2373926a66672502c4b78a524105d"
   },
   "activation": {
     "facts_ref": "proposals/agent-router/facts.json",
-    "facts_sha256": "4ddac42aaf45f5df10a6039c6c2fbf454a847dfa1785a5f638437e2cc0e4eaf6",
+    "facts_sha256": "e381523ff1541471670bd285ccaefa8894612b4fec80448d1339a9ed343b12ef",
     "facts": {
       "shared_mechanism": true,
       "empirical_comparison_proposed": true,
       "llm_central": true,
       "irreversible_or_spend_action": true,
+      "claims_external_standard": true,
       "crosses_system_boundary": true,
       "deploys": false,
+      "aes_governed_target": true,
       "multiple_writers": true,
       "consequential_boundary": false,
       "inline_prototype": false
@@ -43,8 +45,10 @@
       "empirical_comparison_proposed": "declared:derived_current_boundary",
       "llm_central": "declared:derived_current_boundary",
       "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "claims_external_standard": "declared:derived_current_boundary",
       "crosses_system_boundary": "derived:path_decision.shared_contract_mutation",
       "deploys": "default:not_declared",
+      "aes_governed_target": "derived:repository has .aes/target.yaml",
       "multiple_writers": "derived:path_decision.concurrent_writers",
       "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
       "inline_prototype": "derived:classified_path==prototype"
@@ -97,15 +101,27 @@
         "activation_fact": "deploys",
         "active": false,
         "reason": "deploys=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-STANDARD-CONFORMANCE",
+        "activation_fact": "claims_external_standard",
+        "active": true,
+        "reason": "claims_external_standard=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-AES",
+        "activation_fact": "aes_governed_target",
+        "active": true,
+        "reason": "aes_governed_target=true (derived:repository has .aes/target.yaml)"
       }
     ]
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:b09e0fa475076a732e3f734398f1f6e4c5217a3f016cc74ef530dcb17fd5a6d0",
-    "definition_sha256": "3cf5b1015109c812348c924e5ace018acfb34a22d75b90c430815ab3192aaa02",
+    "revision": "sha256:c793e874807fe2c316082c5f2ebf93ff568e45233eeaa197f101b8efc2cf221f",
+    "definition_sha256": "3e4dc2d6063fd9d4699ba320df3bebfc92acfe396f1d666bb85fd3e82b8d5bc4",
     "bundle_ref": "proposals/agent-router/bundle.json",
-    "bundle_sha256": "988ca35791563e08d99006eb12a258aab2d268c154a7542e8347e092795f90f9",
+    "bundle_sha256": "2e4762acacf481cd6c51c7caed737550fab354f335471de62c538217d19c4a01",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -123,7 +139,7 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#actor-and-result",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
@@ -150,10 +166,37 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/planning-path-decision.json",
-          "sha256": "bfff0e31a371c6993701a46b274a6b075dd99d7ee9e69e0aa4d3811ffb336d17"
+          "sha256": "c693d4479b3f656188d2a40263fd80e0dbb6b2109fee175f58e3827ff28fb527"
         }
       ],
       "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-REQUIREMENTS-TRACED",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/agent-router/PLAN.md#requirements",
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/918d216c4a6a/CORE-REQUIREMENTS-TRACED",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence provides a requirements list with eight explicitly identified requirements, and each names an execution check with status “planned, not run.” It also states that all eight are carried into canary, promotion, and completion records, with pending criteria retained; AR-CONTRACT explicitly covers the externally owned contracts and labels AES additions as extensions.",
+        "reused": true
+      },
       "suggested_action": null
     },
     {
@@ -169,17 +212,17 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#success-and-disproof",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/8ae8d1e7ddd3/CORE-SUCCESS-DISPROOF",
+        "trace_id": "company-planning/method-conformance/PLAN/d2bd8d1766d8/CORE-SUCCESS-DISPROOF",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly defines success through four concrete evidence criteria, including the sorted register, real transcript hook injection, two weeks of router logs, and a month of recurrence counts. It also gives concrete disproof conditions: failure to reach subagents without a native route, or router proposals judged worse than agent choices in most sampled cases.",
-        "reused": false
+        "rationale": "The evidence explicitly defines direct success checks, including source-supported rule membership, actual context delivery and check results across all client/agent cells, independent job checks, canary outcomes against the incumbent, effective profile behavior, and recurrence inspection. It also gives concrete disproof conditions, including absent required context, bypassed deterministic gates, unsupported cells, missing eligible outcomes, and failure of proposed automatic fields against predeclared canary criteria.",
+        "reused": true
       },
       "suggested_action": null
     },
@@ -196,17 +239,17 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#success-and-disproof",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/8ae8d1e7ddd3/CORE-TRACE-REVIEW",
+        "trace_id": "company-planning/method-conformance/PLAN/d2bd8d1766d8/CORE-TRACE-REVIEW",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the run, trace location, and beyond-outcome observations for each success criterion: the sorting job and call logs, real Claude sessions and subagent transcripts, two weeks of handoff logs joined to transcripts and outcomes, and the 30-day feedback traces. It also states that criteria are judged from full run traces and specifies what must be examined, including injection context, dispatched values, disagreements, failures, and whether injected rules were present before recurrence.",
-        "reused": false
+        "rationale": "The evidence maps each success criterion to a named run trace: Slice 1, Slice 2’s four journeys, Slice 3, Slice 3b, Slice 4, and profile checks. It identifies durable trace locations and requires inspection beyond final outcomes, including inputs, context delivery, calls, dispatch, checks, failures, disagreements, fallbacks, and recurrence attribution.",
+        "reused": true
       },
       "suggested_action": null
     },
@@ -223,16 +266,43 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#system-model",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/3835e0fccce8/CORE-SYSTEM-MODEL",
+        "trace_id": "company-planning/method-conformance/PLAN/29211d411977/CORE-SYSTEM-MODEL",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence links the system model to the diagram and layer table in `README.md`. It explicitly names each added, changed, or relied-on element and states what the examined run must show for each, including identifiers, records, proposals, choices, and joined outcomes.",
+        "rationale": "The evidence links the proposal model and documentation entry point, identifies the repository’s scope in the shared model, and names each added, changed, or relied-on element with explicit examined-run observations. It also identifies applicable views and justified omissions, specifies freshness/drift checks, and requires reconciliation of the plan, model views, generated documentation, coverage view, and evidence index in the same change.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-CAPABILITY-REUSE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/agent-router/PLAN.md#capability-reuse",
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/922b76c1c00c/CORE-CAPABILITY-REUSE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states, “No catalogue entry fits,” and gives the specific reason: the work needs source-supported rule applicability, native parent/child context delivery, and complete handoff/outcome accounting, which the listed entries do not provide. It also names each new capability and its first consumer, including the AES register, agent-skills client hooks/handoffs, and slice 3’s observe-mode router.",
         "reused": true
       },
       "suggested_action": null
@@ -250,16 +320,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#authority-and-non-goals",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/ec7211bdb8ad/CORE-AUTHORITY-NONGOALS",
+        "trace_id": "company-planning/method-conformance/PLAN/922b76c1c00c/CORE-AUTHORITY-NONGOALS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies authority: Brian requested the work, this session owns the AES rules register, router log, and one agent-skills hook, while named components own model/effort selection and specialist definitions. It also explicitly lists non-goals, including no second model selector, no specified file edits, deferred instruction-file changes and router enforcement, no deletion of the legacy register, and no outbound messages.",
+        "rationale": "The evidence explicitly identifies Brian as the authority, describes the scope and limits of that authority, and names the implementation surfaces and ownership boundaries. It also explicitly lists multiple non-goals, including no second model selector, no edits to specified files, no automatic routing based solely on the log, no deletion of the legacy register, and no outbound messages.",
         "reused": true
       },
       "suggested_action": null
@@ -277,17 +347,17 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/8ae8d1e7ddd3/CORE-IRREVERSIBLE-SPEND",
+        "trace_id": "company-planning/method-conformance/PLAN/d2bd8d1766d8/CORE-IRREVERSIBLE-SPEND",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence identifies all proposed spends as model calls, states their boundaries or caps, names Brian as the authorizer (including when a new authorization is required), and describes containment through caching, router caps, logging, and fallback behavior. It explicitly states that there are no irreversible actions beyond the proposed spend.",
-        "reused": false
+        "rationale": "The evidence explicitly states that there are no irreversible actions, and that legacy rules are copied rather than deleted, the hook has an off switch, and every change is a revertible commit. For each proposed spend, it names boundaries, authorizers, and containment mechanisms, including caps, required approvals, router stopping behavior, caching, and terminal status when authorization or allowance is absent.",
+        "reused": true
       },
       "suggested_action": null
     },
@@ -304,16 +374,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#uncertainties",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/3835e0fccce8/CORE-UNCERTAINTIES",
+        "trace_id": "company-planning/method-conformance/PLAN/d2bd8d1766d8/CORE-UNCERTAINTIES",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly lists seven material uncertainties in the table. Each has either a named owner and/or specified resolving evidence, such as transcripts, contracts, outputs, recurrence counts, call records, or trace reviews.",
+        "rationale": "The evidence explicitly lists the plan’s uncertainties in the table and provides an owner plus resolving evidence for each one. The statement that these are execution uncertainties, together with the blocking CORE-UNCERTAINTIES designation, supports that the listed uncertainties are material.",
         "reused": true
       },
       "suggested_action": null
@@ -331,17 +401,17 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#activation-facts",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/8ae8d1e7ddd3/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/ee9c6c3a6118/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan explicitly declares all four activation facts true, including `empirical_comparison_proposed`, `shared_mechanism`, `llm_central`, and `irreversible_or_spend_action`. The evidence also substantively describes the corresponding triggers, and no triggered fact is declared false.",
-        "reused": false
+        "rationale": "The plan explicitly declares all triggered activation facts as true: `shared_mechanism`, `empirical_comparison_proposed`, `llm_central`, `irreversible_or_spend_action`, `claims_external_standard`, and `aes_governed_target`. The quoted plan also substantively supports each trigger, including the incumbent/candidate canary comparison, model-call dependence, model spend, external Claude/Codex contracts, and the `.aes/target.yaml` target.",
+        "reused": true
       },
       "suggested_action": null
     },
@@ -358,16 +428,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#prior-art-and-ownership",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/ec7211bdb8ad/OV-PRIOR-ART-DISPOSITION",
+        "trace_id": "company-planning/method-conformance/PLAN/d2bd8d1766d8/OV-PRIOR-ART-DISPOSITION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly states that ownership, internal lineage, and relevant external prior art were searched, listing the searched sources. Every candidate in the table has an explicit disposition using one of the required categories: reuse, extend, compose, supersede, or bounded exception.",
+        "rationale": "The evidence explicitly states that AES proposals and rules, llm_client plans, project-meta lineage, agent-skills hooks, Claude Code native features, and relevant external routers were searched. Every listed candidate has an explicit disposition of reuse, extend, compose, supersede, or bounded exception.",
         "reused": true
       },
       "suggested_action": null
@@ -385,16 +455,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#prior-art-and-ownership",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/ec7211bdb8ad/OV-PRIOR-ART-PARALLEL-CHECK",
+        "trace_id": "company-planning/method-conformance/PLAN/d2bd8d1766d8/OV-PRIOR-ART-PARALLEL-CHECK",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence names a concrete structural check: `git grep -n \"model_selection\\|choose_model\\|effort\" -- 'scripts/rules' 'hooks'` across AES and agent-skills. It explicitly states that selector code found outside `llm_client` indicates a parallel model selector and fails review.",
+        "rationale": "The evidence names a concrete structural check: `git grep -n \"model_selection\\|choose_model\\|effort\" -- 'scripts/rules' 'hooks'` across AES and agent-skills, followed by inspection to reject any second independent selection algorithm. This directly detects a silent parallel implementation of the same concern.",
         "reused": true
       },
       "suggested_action": null
@@ -412,16 +482,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#evaluation-design",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/3835e0fccce8/OV-EVAL-DECISION",
+        "trace_id": "company-planning/method-conformance/PLAN/d2bd8d1766d8/OV-EVAL-DECISION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence names the specific decision—whether to build slice 4 and which fields to route—and explicitly states the action for each result: build matching or better fields, retain agent control for worse fields, or keep the router as a log if it is worse across the board.",
+        "rationale": "The evidence names the specific decision: whether the paired comparison supports proposing the `derived-project-workspace-views` source-investigation specialist field. It specifies actions for outcomes, including keeping the field manual/observe-only after failure, permitting a separate limited reversible-rollout proposal after acceptable checked outcomes, and treating missing or non-comparable results as inconclusive and stopping.",
         "reused": true
       },
       "suggested_action": null
@@ -439,16 +509,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#evaluation-design",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/3835e0fccce8/OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
+        "trace_id": "company-planning/method-conformance/PLAN/d2bd8d1766d8/OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies the uncertainty: whether a small model can choose as well as the working agent for Brian’s real jobs, including specialist selection. It explains that first principles cannot resolve this because the answer depends on unobserved job, handoff, and specialist distributions, and that existing prior art covers benchmark model choice rather than this workspace’s specialist-choice problem.",
+        "rationale": "The evidence explicitly identifies the irreducible uncertainty: whether the proposed specialist is effective on the workspace’s actual jobs, including whether the proposed field preserves task requirements. It explains that first principles and shadow traces cannot settle this, and that existing evidence, vendor documentation, prior routers, the cached result, and prior canaries do not resolve the two choices’ task outcomes.",
         "reused": true
       },
       "suggested_action": null
@@ -466,16 +536,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#evaluation-design",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/3835e0fccce8/OV-EVAL-PARITY",
+        "trace_id": "company-planning/method-conformance/PLAN/d2bd8d1766d8/OV-EVAL-PARITY",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly states the minimum capability both sides must meet: each must produce a complete, valid choice, including an existing specialist, valid rule IDs, an allowed model, and an accepted effort level. It also states that cases where either side falls short are excluded from the comparison.",
+        "rationale": "The evidence explicitly defines “Minimum comparison parity” as requiring the same task input, available evidence, selected policy profile, specialist/register snapshots, and native capability list for the candidates. It also requires non-comparable cases to remain visible and keeps fixed rules and mandatory gates in force for both candidates.",
         "reused": true
       },
       "suggested_action": null
@@ -493,16 +563,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#evaluation-design",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/3835e0fccce8/OV-EVAL-COST",
+        "trace_id": "company-planning/method-conformance/PLAN/d2bd8d1766d8/OV-EVAL-COST",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence states that the comparison costs about $0.001 per handoff with no extra agent work, while choosing now could impose failed jobs or oversized models across many jobs. It also explicitly notes that although reverting later is cheap, the failed jobs are not.",
+        "rationale": "The evidence explicitly explains that the paired comparison is cheaper than a blind reversible rollout followed by correction: it uses two read-only leaf executions and existing source checks while avoiding cross-project adapter activation and mandatory-context reduction. It also states that the trace/check output directly decides whether to propose the field rather than running a broad benchmark.",
         "reused": true
       },
       "suggested_action": null
@@ -520,16 +590,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#llm-call-boundary",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/ec7211bdb8ad/OV-LLM-CALL-BOUNDARY",
+        "trace_id": "company-planning/method-conformance/PLAN/922b76c1c00c/OV-LLM-CALL-BOUNDARY",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence describes the Sort and Router call graph, including inputs, outputs, and the additional disputed-item call. It specifies typed Pydantic result models and tracing through dated JSONL records containing prompt, response, model, and cost, with the router call ID stored beside each proposal.",
+        "rationale": "The evidence explicitly describes the call graph for Sort and Router, including inputs and typed structured outputs (`LegacyDisposition` and `RouterProposal`). It also explains tracing through `calls_<date>.jsonl` with prompt, response, model, cost, and the router’s `llm_client` call ID.",
         "reused": true
       },
       "suggested_action": null
@@ -547,16 +617,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#llm-call-boundary",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/ec7211bdb8ad/OV-LLM-AUTHORITY-PROMOTION",
+        "trace_id": "company-planning/method-conformance/PLAN/922b76c1c00c/OV-LLM-AUTHORITY-PROMOTION",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the provider as Brian’s OpenRouter route through llm_client and the spend authority as Brian’s “yes” on 2026-10-08. It also states an authentic-run promotion condition: the router may choose only after a full two-week log of real handoffs has been reviewed, every disagreement classified, and the readout recorded.",
+        "rationale": "The evidence explicitly names the provider as Brian's OpenRouter route through llm_client and the spend authority as Brian's \"yes\" dated 2026-10-08. It also states authentic-run promotion conditions, including that the slice-3b candidate must execute and pass independent task checks before promotion.",
         "reused": true
       },
       "suggested_action": null
@@ -574,16 +644,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#coordination",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/ec7211bdb8ad/OV-COORD-OWNERSHIP",
+        "trace_id": "company-planning/method-conformance/PLAN/918d216c4a6a/OV-COORD-OWNERSHIP",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies each writer’s owned files or areas, dependencies, and conflict surfaces, and provides work-unit evidence for every row. It also explicitly names “this session” as the integration owner and states that lanes do not edit one another’s files.",
+        "rationale": "The evidence explicitly names each writer/owned work unit, exact conflict surfaces, dependencies, and returned work-unit evidence in the coordination table. It also explicitly identifies the completion coordinator as owning integration of completed slices.",
         "reused": true
       },
       "suggested_action": null
@@ -601,16 +671,16 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#contracts-and-dependencies",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/3835e0fccce8/OV-CONTRACTS-SCHEMAS",
+        "trace_id": "company-planning/method-conformance/PLAN/918d216c4a6a/OV-CONTRACTS-SCHEMAS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence lists each crossed boundary with its schema or contract, owner, file or URL, and an explicit change status in the contracts table. It covers register, client/hook, hook/log, router/model, router/selector, and router/log boundaries.",
+        "rationale": "The contracts table explicitly lists each boundary, its schema or contract, owner, file or URL, and whether this plan changes it. It also identifies disabled or future crossings and states that no native/schema change occurs where applicable.",
         "reused": true
       },
       "suggested_action": null
@@ -628,23 +698,104 @@
       "evidence": [
         {
           "ref": "proposals/agent-router/PLAN.md#contracts-and-dependencies",
-          "sha256": "db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085"
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/3835e0fccce8/OV-CONTRACTS-DEPENDENCIES",
+        "trace_id": "company-planning/method-conformance/PLAN/918d216c4a6a/OV-CONTRACTS-DEPENDENCIES",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly lists each boundary’s producer and consumer, including which system produces and consumes each schema or contract. It also gives a numbered landing order, including compatibility measures such as adding `applies_when` as optional and delaying selector use until Plan #379 exposes the interface.",
+        "rationale": "The evidence explicitly lists each boundary’s producer and consumer, including the schemas or contracts involved, in the two boundary tables. It also provides a numbered, boundary-compatible landing order covering compatibility, consumer-before-producer sequencing, disabled crossings, and proof before enablement so consumers do not break between changes.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-STANDARD-CONFORMANCE-RULES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/agent-router/PLAN.md#standard-conformance",
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/918d216c4a6a/OV-STANDARD-CONFORMANCE-RULES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the Claude native hook and Codex TOML contracts with URLs, identifies the specialist role and result-schema paths, and specifies the native and schema rules artifacts must satisfy. It also explicitly states that the vendor pages have no standalone machine-readable schema and identifies the written subset that will be encoded and tested.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-STANDARD-CONFORMANCE-GATE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/agent-router/PLAN.md#standard-conformance",
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/918d216c4a6a/OV-STANDARD-CONFORMANCE-GATE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the contract check (`pytest tests/test_agent_router.py`), identifies it as the explicit merge-gate step followed by `make check`, and states that no adapter merges without both passing. It explicitly defines disproof as a conforming-labelled artifact violating a named rule and labels all additions beyond native contracts as extensions in both the plan and generated artifacts.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-AES-TARGET-TRACE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/agent-router/PLAN.md#aes-target",
+          "sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/918d216c4a6a/OV-AES-TARGET-TRACE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that `.aes/target.yaml` is unchanged and maps each listed plan requirement to existing normative items, success criteria, and verification subjects. It also names the existing target items and criteria served and explains that any future target delta must undergo `aes plan prepare/validate/accept`, so no proposal validation result is required for this no-change case.",
         "reused": true
       },
       "suggested_action": null
     }
   ],
   "item_counts": {
-    "pass": 20,
+    "pass": 25,
     "unresolved": 0,
     "not_applicable": 0,
     "unavailable": 0,
@@ -659,11 +810,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-db9870d9ab0d",
+    "report_id": "REPORT-PLAN-2c5c15085ffc",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:988ca35791563e08d99006eb12a258aab2d268c154a7542e8347e092795f90f9",
+    "snapshot_revision": "sha256:2e4762acacf481cd6c51c7caed737550fab354f335471de62c538217d19c4a01",
     "packet_ref": "proposals/agent-router/PLAN.md",
-    "packet_revision": "sha256:db9870d9ab0d21ba43d18fdaadbd368d060fcdace609e255be4ba2c1a53a2085",
+    "packet_revision": "sha256:2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -677,16 +828,16 @@
   "result": "pass",
   "reason_codes": [],
   "actionable_summary": [
-    "pass: 20 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+    "pass: 25 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
   ],
   "limitations": [
     "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
   ],
   "caller": {
-    "client": "claude-code",
-    "session": "3b596c23-2476-404a-85f2-42e19a6afad4"
+    "client": "codex",
+    "session": "codex:01a11cac-2557-7dc0-8edd-8487ed5968d1"
   },
-  "started_at": "2026-10-08T23:00:28Z",
-  "completed_at": "2026-10-08T23:00:43Z",
-  "duration_ms": 12089
+  "started_at": "2026-10-09T10:19:14Z",
+  "completed_at": "2026-10-09T10:19:14Z",
+  "duration_ms": 305
 }

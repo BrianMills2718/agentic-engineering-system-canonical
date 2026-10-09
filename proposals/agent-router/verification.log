@@ -133,3 +133,111 @@ PRESERVED_PREDECESSOR_SHA256 {
   "tests/test_rules_page.py": "ccc2a6722b20b2440db0f1e3bb8e21bbd3f1f8760a54ecdf9d9128df82090c43"
 }
 FINAL_CHECK_SUMMARY: five document requirements met by source review; goal authority errors=[]; revision route prototype/pass; native facts/compiler bind exact final bytes and compile 23 applicable items; links/historical bytes/predecessor bytes checked (39 structural assertions in earlier snapshot, unchanged relevant paths); git diff --check exit0. Paid semantic adoption, runtime injection, canary and rollout are pending/outside this task. No LLM calls or new spend.
+{"event": "RUN_START", "task": "agent-router-current-plan-adoption", "step": "check", "at": 1791538055.8357725, "command": ["/home/brian/code/llm_client/.venv/bin/python", "/home/brian/.codex/plugins/cache/inside-success/company-planning/0.2.0+codex.20261009031708/scripts/method_conformance/cli.py", "check", "--plan", "proposals/agent-router/PLAN.md", "--repo-root", "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution", "--path-decision", "proposals/agent-router/planning-path-decision.json", "--facts", "proposals/agent-router/facts.json", "--bundle", "proposals/agent-router/bundle.json", "--client", "codex", "--session", "codex:01a11cac-2557-7dc0-8edd-8487ed5968d1"]}
+LLM_CLIENT_TIMEOUT_POLICY=ban (first observed in call_llm_structured)
+  - CORE-REQUIREMENTS-TRACED: evidence_pointer_unresolved -> proposals/agent-router/PLAN.md#requirements: Markdown heading anchor '#requirements' does not exist
+  - CORE-TRACE-REVIEW: semantic_unresolved -> Add to the plan: The evidence does not state where the full traces for Slice 2, Slice 3, Slice 3b, or the Profile checks live. It names artifacts and retention requirements—such as transcripts, handoff joins, executions, and checks—but does not identify their storage location for those runs.
+  - CORE-SYSTEM-MODEL: semantic_unresolved -> Add to the plan: Explicit source links for each applicable view are absent. The evidence names the layered flow, client/agent delivery matrix, and per-rule coverage inventory, but does not identify where those views are sourced or linked from.
+  - CORE-IRREVERSIBLE-SPEND: semantic_unresolved -> Add to the plan: For Slice 3b, the plan does not currently name the small job-set boundary, the specific spending/dispatch authority, or the containment mechanism; it only says these must be named before execution and that separate authorization may be needed.
+  - CORE-UNCERTAINTIES: semantic_unresolved -> Add to the plan: An owner or resolving evidence for native delivery support for each client/agent cell, the selector's actual accepted interface, canary outcomes, and the effective profile schema at the owning configuration seam.
+  - CORE-ACTIVATION-FACTS: semantic_unresolved -> Add to the plan: The declaration that claims_external_standard is false conflicts with the plan's explicit use of externally owned Claude Code hook contracts and documentation: it names Anthropic's Claude Code hooks URL and describes crossing the client-to-hook boundary using the client's native hook input/context-output contract.
+  - OV-EVAL-IRREDUCIBLE-UNCERTAINTY: semantic_unresolved -> Add to the plan: An explicit explanation of why existing evidence or prior art cannot resolve the uncertainty; the evidence only states that first principles and shadow traces cannot settle specialist effectiveness, without addressing prior art or otherwise fully characterizing the limits of existing evidence.
+  - OV-EVAL-COST: semantic_unresolved -> Add to the plan: An explicit explanation that running the comparison costs less than making a reversible choice now and correcting it later.
+  - OV-COORD-OWNERSHIP: semantic_unresolved -> Add to the plan: Explicit dependencies among the concurrent writers/work units and explicit work-unit evidence for each concurrent writer are missing. The evidence names lanes and says each lane will push an evidence event, but does not identify the evidence for each specific writer or the dependencies between them.
+  - OV-CONTRACTS-SCHEMAS: semantic_unresolved -> Add to the plan: The Profile → adapters/router boundary does not name an exact schema or contract: it says only “existing harness-context configuration seam; exact schema chosen there before implementation.” The Client → hook boundary also gives alternatives (“native hook input/context output or verified handoff-context route”) rather than naming the specific contract used for each crossing.
+  - OV-CONTRACTS-DEPENDENCIES: semantic_unresolved -> Add to the plan: The Profile → adapters/router boundary is listed with a schema/contract but has no corresponding producer and consumer entries. The landing order is also phase-level and does not specify when each boundary’s producer and consumer changes land to prevent an intermediate consumer break.
+GAPS: 23 items, 1 verdicts reused from the cache; nothing was written
+{"event": "RUN_END", "task": "agent-router-current-plan-adoption", "step": "check", "seconds": 60.1, "exit_code": 1, "passed": 0, "failed": 1}
+{"event": "agent-router-adoption-trace-review-20261009", "at": "2026-10-09T10:01:09.478700+00:00", "check_plan_sha_prefix": "922b76c1c00c", "full_trace_db": "/home/brian/projects/data/llm_observability.db", "failure_trace_ids": [9313683, 9313685, 9313687, 9313691, 9313692, 9313693, 9313695, 9313699, 9313701, 9313703], "passing_sample_ids": [9313684, 9313702], "review": "Read actual messages, typed responses and snapshot equality; missing explicit plan locations/contracts/authority and wrong requirements anchor, not evidence-retrieval failures. One fix batch preserves pending runtime obligations."}
+RUN_START check 2026-10-09T10:01:09.558932+00:00
+LLM_CLIENT_TIMEOUT_POLICY=ban (first observed in call_llm_structured)
+  - CORE-REQUIREMENTS-TRACED: semantic_unresolved -> Add to the plan: Evidence that the deferred/planned requirements are actually carried onto every named canary, promotion, and completion record; the statement that they “must travel” is only a future instruction.
+  - CORE-SYSTEM-MODEL: semantic_unresolved -> Add to the plan: Concrete model freshness or drift checks are not named. The evidence only says to reconcile views, capability snapshots, and trace requirements when a layer or contract changes, without specifying an executable or reviewable freshness/drift check.
+  - OV-COORD-OWNERSHIP: semantic_unresolved -> Add to the plan: Exact ownership and work-unit evidence for the AES rules/logs lane; an exact owner identity and explicit work-unit evidence are also missing for the coordinator's later agent-skills adapter lane.
+  - OV-CONTRACTS-SCHEMAS: semantic_unresolved -> Add to the plan: The `Client → hook/handoff` boundary appears in the boundary/dependency table but has no corresponding schema-or-contract entry specifying the contract(s) used or changed, the owner, the file or URL, and whether this plan changes them.
+  - OV-STANDARD-CONFORMANCE-RULES: semantic_unresolved -> Add to the plan: The location of the existing agent-skills role/result JSON schemas is not given as a file path or URL, and the specific rules those schemas impose on the artifacts are not identified or stated as rules the check will encode.
+  - OV-STANDARD-CONFORMANCE-GATE: semantic_unresolved -> Add to the plan: The evidence does not explicitly state that every addition beyond the standard—including extra roles, types, or fields—is labelled as an extension in the plan itself. It only says that the listed AES-only fields are labelled extensions in their schemas and records.
+GAPS: 25 items, 6 verdicts reused from the cache; nothing was written
+RUN_END check seconds 41.567 exit 1 passed 0 failed 1
+{"event": "agent-router-second-check-trace-review", "failure_db_ids": [9314030, 9314032, 9314040, 9314041, 9314042, 9314043], "passing_sample_db_id": 9314044, "classification": "Evidence returned; explicit linkage/record membership and source-local contract details missing. Preserve pending execution, add concrete acceptance skeleton without claiming results.", "fix": "Exact six findings; no outcome criterion relaxed", "acceptance_records": 3, "requirement_ids": ["AR-OUTCOME", "AR-PARITY", "AR-FALLBACK", "AR-ACCOUNTING", "AR-PROFILES", "AR-INVENTORY", "AR-CONTRACT", "AR-RECURRENCE"]}
+RUN_START check 2026-10-09T10:06:47.243183+00:00
+LLM_CLIENT_TIMEOUT_POLICY=ban (first observed in call_llm_structured)
+call_llm_structured attempt 1/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 1.5s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 1/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 1.3s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 1/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 1.1s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 1/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 1.3s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 1/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 0.9s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 1/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 1.2s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 2/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 2.6s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 2/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 2.2s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 2/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 1.8s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 2/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 2.5s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 2/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 1.4s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+call_llm_structured attempt 2/3 failed for model=openrouter/openai/gpt-5.6-luna task=company_planning.method_conformance.semantic_item_review (retrying in 2.8s, source=none): APIError: litellm.APIError: APIError: OpenrouterException - [Errno -3] Temporary failure in name resolution
+  - CORE-SYSTEM-MODEL: semantic_unresolved -> Add to the plan: The evidence does not explicitly identify the shared model's scope for this repository. It also names additional elements—effective profile, required-rule coverage, handoff terminal status, and canary outcome—without explicitly specifying, for each, what the examined run must show; the statement that their “named profile, fallback, accounting and canary runs above” must show joined records refers to runs that are not actually described.
+GAPS: 25 items, 15 verdicts reused from the cache; nothing was written
+RUN_END check seconds 143.005 exit 1 passed 0 failed 1
+{"event": "agent-router-third-check-trace-review", "model_failure_db_id": 9314059, "trace": "company-planning/method-conformance/PLAN/918d216c4a6a/CORE-SYSTEM-MODEL", "finding": "Checker excerpt excludes named runs outside section. Add explicit AES scope and per-element run observations here. No criterion weakened.", "dns_failure": "OpenRouter temporary name resolution failed multiple calls; no retry until cheap DNS probe passed", "dns_probe": "getaddrinfo openrouter.ai: 4 addresses, exit0,1.066s"}
+RUN_START check 2026-10-09T10:14:39.568938+00:00
+LLM_CLIENT_TIMEOUT_POLICY=ban (first observed in call_llm_structured)
+  - pass: 25 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)
+READY: 25 items, 22 verdicts reused from the cache; nothing was written
+RUN_END check seconds 32.617 exit 0 passed 1 failed 0
+RUN_START adopt 2026-10-09T10:15:15.785691+00:00
+{
+  "decision": {
+    "schema_version": "method-adoption-decision.v1",
+    "record_type": "method_adoption_decision",
+    "decision": "adopted",
+    "plan_ref": "proposals/agent-router/PLAN.md",
+    "plan_sha256": "806281453d618413ed7b35c429e352f5cceeb9f706672695568d266b1c25ad9b",
+    "receipt_ref": "proposals/agent-router/receipt.json",
+    "receipt_sha256": "c7b97165b8c42e3379e97c7d4249c7c90f781eeb8a33978c294e31de63ca88d9",
+    "receipt_result": "pass",
+    "reason_codes": [],
+    "summary": [
+      "pass: 25 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+    ],
+    "decided_at": "2026-10-09T10:15:18Z"
+  },
+  "receipt_path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution/proposals/agent-router/receipt.json",
+  "goal_path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution/proposals/agent-router/agent-router.goal.md",
+  "goal_problems": []
+}
+RUN_END adopt seconds 3.013 exit 0 passed 1 failed 0
+activation facts written: proposals/agent-router/facts.json sha256:e381523ff1541471670bd285ccaefa8894612b4fec80448d1339a9ed343b12ef
+
+RUN_END declare-facts exit 0 seconds 0.274
+compiled 25 items into proposals/agent-router/bundle.json (sha256:2e79b15b34cf53e8fa3eca061b1b79c0aaf42a6a915364543c002c16f614f9d0): CORE-ACTOR-RESULT-EXAMPLE, CORE-ROUTE, CORE-REQUIREMENTS-TRACED, CORE-SUCCESS-DISPROOF, CORE-TRACE-REVIEW, CORE-SYSTEM-MODEL, CORE-CAPABILITY-REUSE, CORE-AUTHORITY-NONGOALS, CORE-IRREVERSIBLE-SPEND, CORE-UNCERTAINTIES, CORE-ACTIVATION-FACTS, OV-PRIOR-ART-DISPOSITION, OV-PRIOR-ART-PARALLEL-CHECK, OV-EVAL-DECISION, OV-EVAL-IRREDUCIBLE-UNCERTAINTY, OV-EVAL-PARITY, OV-EVAL-COST, OV-LLM-CALL-BOUNDARY, OV-LLM-AUTHORITY-PROMOTION, OV-COORD-OWNERSHIP, OV-CONTRACTS-SCHEMAS, OV-CONTRACTS-DEPENDENCIES, OV-STANDARD-CONFORMANCE-RULES, OV-STANDARD-CONFORMANCE-GATE, OV-AES-TARGET-TRACE
+
+RUN_END compile exit 0 seconds 0.441
+recorded 25 observations in proposals/agent-router/bundle.json: CORE-ACTOR-RESULT-EXAMPLE, CORE-ROUTE, CORE-REQUIREMENTS-TRACED, CORE-SUCCESS-DISPROOF, CORE-TRACE-REVIEW, CORE-SYSTEM-MODEL, CORE-CAPABILITY-REUSE, CORE-AUTHORITY-NONGOALS, CORE-IRREVERSIBLE-SPEND, CORE-UNCERTAINTIES, CORE-ACTIVATION-FACTS, OV-PRIOR-ART-DISPOSITION, OV-PRIOR-ART-PARALLEL-CHECK, OV-EVAL-DECISION, OV-EVAL-IRREDUCIBLE-UNCERTAINTY, OV-EVAL-PARITY, OV-EVAL-COST, OV-LLM-CALL-BOUNDARY, OV-LLM-AUTHORITY-PROMOTION, OV-COORD-OWNERSHIP, OV-CONTRACTS-SCHEMAS, OV-CONTRACTS-DEPENDENCIES, OV-STANDARD-CONFORMANCE-RULES, OV-STANDARD-CONFORMANCE-GATE, OV-AES-TARGET-TRACE
+
+RUN_END observe exit 0 seconds 0.363
+  - pass: 25 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)
+READY: 25 items, 23 verdicts reused from the cache; nothing was written
+LLM_CLIENT_TIMEOUT_POLICY=ban (first observed in call_llm_structured)
+
+RUN_END check exit 0 seconds 9.203
+{
+  "decision": {
+    "schema_version": "method-adoption-decision.v1",
+    "record_type": "method_adoption_decision",
+    "decision": "adopted",
+    "plan_ref": "proposals/agent-router/PLAN.md",
+    "plan_sha256": "2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7",
+    "receipt_ref": "proposals/agent-router/receipt.json",
+    "receipt_sha256": "94713fec38ba681365400610faaaf2c5f4953d87650514bd512197c2d9cd1a3f",
+    "receipt_result": "pass",
+    "reason_codes": [],
+    "summary": [
+      "pass: 25 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+    ],
+    "decided_at": "2026-10-09T10:19:14Z"
+  },
+  "receipt_path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution/proposals/agent-router/receipt.json",
+  "goal_path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution/proposals/agent-router/agent-router.goal.md",
+  "goal_problems": []
+}
+
+RUN_END adopt exit 0 seconds 1.244

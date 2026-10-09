@@ -1,6 +1,6 @@
 # Agent router: a fast model chooses the agent, its rules, its model and its effort
 
-Status: revised proposal, 2026-10-09. [PLAN.md](PLAN.md) contains Brian's five approved corrections; [revision goal](revision.goal.md), [route](revision-path-decision.json) and [verification](verification.log) cover the document-only update. The [2026-10-08 receipt](receipt.json) and [generated goal](agent-router.goal.md) describe the earlier plan digest, not adoption of this revision. No runtime was activated, no rule removed and no new model spend authorized; fresh semantic adoption precedes changed implementation.
+Status: fresh Company Planning adoption, 2026-10-09; runtime acceptance remains pending. Brian activated "finish all remaning work". [PLAN.md](PLAN.md), its [adoption decision](receipt.adoption-decision.json), [receipt](receipt.json) and [generated goal](agent-router.goal.md) govern completion. All eight criteria remain planned in the [acceptance records](evidence.json); adoption proves the plan's conformance, not working routing. The [revision goal](revision.goal.md), [route](revision-path-decision.json) and [verification](verification.log) retain the earlier document-only evidence. The immediate slice reuses the saved 263-rule inventory under retained custody, without new sort calls or mandatory-rule retirement/activation. Native delivery is separately owned by the harness session; its Claude run is quota-unavailable and its Codex run does not establish disabled-delivery fallback.
 
 ## What Brian asked for
 
