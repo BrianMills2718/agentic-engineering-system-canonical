@@ -1,12 +1,12 @@
 {
   "active_slice": {
     "description": "Connect current reports to existing taxonomy review and prove one transport-scoped instruction repair",
-    "next_action": "Finish adopted shared test-gate repairs, integrate both feedback repairs and verify the deployed default reader",
+    "next_action": null,
     "requires_external_action": false,
     "requires_spend": true,
     "slice_id": "feedback-intake-and-transport-prevention",
-    "status": "verifying",
-    "target_revision": "a365a234dcfd42d7894c5d4987e9bb5618768cbb"
+    "status": "accepted",
+    "target_revision": "1df782e25ad91d07fc1837d8a8362313652b55c2"
   },
   "authority": {
     "external_action_authorized": true,
@@ -14,7 +14,7 @@
     "human_decision_required": false,
     "implementation_authorized": true,
     "spend_cap_usd": 2,
-    "spend_used_usd": 0
+    "spend_used_usd": 0.0027258
   },
   "circuit_breakers": {
     "context_integrity_valid": true,
@@ -22,21 +22,21 @@
     "runtime_integrity_valid": true
   },
   "completion": {
-    "evidence_revision": null,
-    "receipt_ref": null,
-    "remaining_ready_work": 1,
-    "requested": false,
-    "verifier_outcome": null
+    "evidence_revision": "1df782e25ad91d07fc1837d8a8362313652b55c2",
+    "receipt_ref": "1df782e25ad91d07fc1837d8a8362313652b55c2:proposals/aes-feedback-prevention/completion-evidence.json",
+    "remaining_ready_work": 0,
+    "requested": true,
+    "verifier_outcome": "pass"
   },
   "cursor_id": "aes-feedback-prevention",
-  "cursor_revision": 2,
+  "cursor_revision": 3,
   "failure_state": {
     "boundary": null,
     "last_failure_ref": null,
     "same_boundary_failures": 0
   },
   "goal_ref": "proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md",
-  "lifecycle_state": "active",
+  "lifecycle_state": "complete",
   "observations": [
     {
       "boundary": "transport-readiness",
@@ -71,6 +71,20 @@
       "evidence_ref": "a365a234dcfd42d7894c5d4987e9bb5618768cbb:proposals/aes-feedback-prevention/PLAN.receipt.json",
       "kind": "supporting_work",
       "observation_id": "FP-gate-repair-adoption",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "agent-skills-final-gates",
+      "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:74-75",
+      "kind": "authentic_result",
+      "observation_id": "FP-skills-gate-repaired",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "deployed-default-taxonomy-reader",
+      "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:77",
+      "kind": "authentic_result",
+      "observation_id": "FP-installed-consumer",
       "outcome": "pass"
     }
   ],

@@ -1,0 +1,88 @@
+{
+  "record_type": "feedback_prevention_completion_evidence",
+  "schema_version": "1.0",
+  "generated_at": "2026-10-09T05:44:23.899056+00:00",
+  "scope": "Current-report default intake plus one transport-scoped prevention case and required landing repairs",
+  "requirements": {
+    "R1": "passing",
+    "R2": "passing",
+    "R3": "passing",
+    "R4": "passing",
+    "R5": "passing"
+  },
+  "deferrals": [],
+  "entry_id": "rec-subagent-0b777d08d09c4e97",
+  "report_id": "rep-subagent-0b777d08d09c4e97",
+  "semantic_review": {
+    "family": "N",
+    "family_members_examined": 22,
+    "independent_failure_count": 1,
+    "trace_id": "aes-feedback-prevention/disposition/rec-subagent-0b777d08d09c4e97",
+    "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:58"
+  },
+  "case_evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:57",
+  "gates": [
+    {
+      "repo": "AES",
+      "revision": "236ba7aa167b0277a2006591fbf1b8667bdac67b",
+      "command": "make check",
+      "passed": 340,
+      "failed": 0,
+      "skipped": 1,
+      "exit_code": 0,
+      "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:61"
+    },
+    {
+      "repo": "agent-skills",
+      "revision": "80e08cb7b8131321fab7cee9ef0e3371859c28a7",
+      "command": "make test",
+      "passed": 466,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:75"
+    },
+    {
+      "repo": "agent-skills",
+      "revision": "80e08cb7b8131321fab7cee9ef0e3371859c28a7",
+      "command": "make check",
+      "active_skills": 60,
+      "shared_resources": 1,
+      "surfaces": 2,
+      "exit_code": 0,
+      "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:74"
+    }
+  ],
+  "integration": {
+    "aes_pr": 479,
+    "aes_merge": "ba8e49744e428974b1a1b5f9b8a1b83fa9b6b19d",
+    "skills_pr": 460,
+    "skills_merge": "d709bcf527dd861734dafa888460795ed0b66217",
+    "tested_skills_revision_is_merge_parent": true,
+    "protection_only_delta": "required_linear_history.enabled true -> false",
+    "all_other_protection_fields_equal": true,
+    "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:76"
+  },
+  "installed_consumer": {
+    "revision": "d709bcf527dd861734dafa888460795ed0b66217",
+    "working_tree": "clean",
+    "service_before_refresh": "inactive",
+    "default_source_route": true,
+    "exact_record_content_and_provenance_preserved": true,
+    "checks_passed": 7,
+    "failed": 0,
+    "disposition_verifier_exit": 0,
+    "evidence_ref": "/home/brian/projects/data/feedback-collector/repair-verification.jsonl:77"
+  },
+  "limits": [
+    "One generalized prevention case, not universal prevention",
+    "Remote negative case used no-network task permissions, not live connectivity",
+    "Claude parity is source/generated delivery and trace replay, not a fresh live child"
+  ],
+  "shared_tool_followups": [
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/480",
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/477",
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/475"
+  ]
+}
