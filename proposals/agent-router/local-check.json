@@ -5,8 +5,13 @@
     "check",
     "PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python"
   ],
-  "revision": "163c20993c190ce5e6e683ad6cf8db8b077152dc",
+  "revision": "8aa680e3747cc104e747a39926ed605fddd941dd",
   "exit_status": 0,
-  "elapsed_seconds": 340.115,
-  "log_path": "/home/brian/projects/data/agentic-engineering-system-canonical/agent-router-local-check-2026-10-09.log"
+  "elapsed_seconds": 771.504,
+  "log_path": "/home/brian/projects/data/agentic-engineering-system-canonical/agent-router-local-check-2026-10-09.log",
+  "passed": 386,
+  "failed": 0,
+  "errored": 0,
+  "skipped": 1,
+  "mypy_source_files": 22
 }

@@ -1,11 +1,7 @@
-When a Claude Agent call is interrupted, its child can finish later while the feedback collector still records an unresolved dispatch. The collector now joins a uniquely matching native child packet to the original handoff and reads its final answer. Ambiguous matches stay unresolved, and a returned answer still requires the parent's independent verdict.
+A cached legacy-rule inventory previously copied complete private source policies into public rule files. The offline exporter now retains the full register, named quotations and applicability privately, and publishes only structural dispositions and evidence hashes. The default rules-page builder rejects full private inventories; explicit private rendering requires an output outside Git checkouts.
 
-A real interrupted Claude handoff reaches the existing weekly feedback reader as verified_inconclusive. The parent check validated structure without grading the investigation conclusion. Exact trace hashes and reader membership are in proposals/agent-router/claude-feedback-capture.json. Selected output:
+The immutable 296-row cache covers all 263 current source IDs: 229 keep, 27 covered and 7 retirement candidates. Eleven authentic consumer checks verify exact membership, complete kept policy text, applicability, private recovery, public projection and both page consumers. The 33 existing published rule texts and enforcement fields are preserved; applicability tags are inventory proposals. No mandatory rule is activated or retired, and routing delivery still requires native acceptance evidence.
 
-```json
-{"child_ref":"aff90f2e49dbf83f8","terminal_status":"verified_inconclusive","record_id":"rec-subagent-951adeba2c2f8951"}
-```
+Run the configured offline inventory with `PROJECT_META=<private-project-meta-checkout> python scripts/rules/sort_legacy.py --check`; verify the public page with `python scripts/rules/build_rules_page.py --check`. Full source evidence is available from the privately preserved inventory for private consumers; the public manifest deliberately excludes that prose.
 
-Run `python -m pytest tests/learning/test_subagents.py -v` with the repository interpreter. The exact full local merge gate passed 370 tests, with zero failures/errors, one skipped, type checks clean and exit 0 (subject 163c209; proposals/agent-router/local-check.json).
-
-Use existing native handoffs and required baseline instructions for execution until router delivery, profiles and fallback have authentic evidence. The proposal status is corrected; the separate inventory is held from publication for its private-source boundary repair. This change neither activates automatic routing nor grades the returned diagnosis, and makes no model calls.
+Validation: 19 focused tests passed; 11 authentic consumer checks passed; full local merge check: 386 passed, 1 skipped, 0 failed/errored; mypy clean in 22 source files; exit 0 on 8aa680e (771.504 seconds). No new model calls or paid retries. The separate older public-history disposition remains tracked in Project Meta #2503; all source history was preserved privately before this main-based publication branch was created.

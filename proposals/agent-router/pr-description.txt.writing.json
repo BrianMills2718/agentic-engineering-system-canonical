@@ -3,84 +3,84 @@
   "schema": "writing-situation/v2",
   "medium": "document",
   "route": "tool",
-  "rationale": "Concise prose explains the repaired native collector boundary; exact JSON and evidence links make the actual result reviewable.",
+  "rationale": "Technical PR description: real input/output and local verification; compact prose and linked evidence answer review.",
   "facts": {
    "asks_for_approval_or_resources": {
     "value": false,
-    "evidence": "No new grant requested; implementation already authorized and costs bounded"
+    "evidence": "PR draft and source-bound inventory-check.json"
    },
    "central_claim_needs_argument": {
     "value": false,
-    "evidence": "Provides recorded state and validation evidence rather than an argumentative claim"
+    "evidence": "PR draft and source-bound inventory-check.json"
    },
    "is_chat_message": {
     "value": false,
-    "evidence": "Not a chat message"
+    "evidence": "PR draft and source-bound inventory-check.json"
    },
    "is_dloa": {
     "value": false,
-    "evidence": "Not a daily log"
+    "evidence": "PR draft and source-bound inventory-check.json"
    },
    "is_email": {
     "value": false,
-    "evidence": "Not an email"
+    "evidence": "PR draft and source-bound inventory-check.json"
    },
    "is_job_application": {
     "value": false,
-    "evidence": "Not job-search material"
+    "evidence": "PR draft and source-bound inventory-check.json"
    },
    "is_message_to_brian": {
     "value": false,
-    "evidence": "A GitHub PR description, not a session reply"
+    "evidence": "PR draft and source-bound inventory-check.json"
    },
    "reader_decides_from_this": {
     "value": false,
-    "evidence": "Merge judgment depends on source diff and native checks, not mainly this description"
+    "evidence": "PR draft and source-bound inventory-check.json"
    },
    "reader_performs_task": {
     "value": false,
-    "evidence": "A completed-change PR description, not a how-to"
+    "evidence": "PR draft and source-bound inventory-check.json"
    },
    "reports_transferable_failure": {
     "value": false,
-    "evidence": "The subject is this implemented reader repair, not a general failure report"
+    "evidence": "PR draft and source-bound inventory-check.json"
    },
    "subject_is_built_artifact": {
     "value": true,
-    "evidence": "Implemented native feedback reader with authentic input/result and existing reader membership"
+    "evidence": "PR draft and source-bound inventory-check.json"
    }
   }
  },
  "items": {
   "a-real-output": {
    "status": "pass",
-   "quote": "A real interrupted Claude handoff reaches the existing weekly feedback reader as verified_inconclusive.",
-   "note": "Exact native trace/consumer proof linked."
+   "quote": "The immutable 296-row cache covers all 263 current source IDs: 229 keep, 27 covered and 7 retirement candidates.",
+   "note": ""
   },
   "a-distinguishing": {
    "status": "pass",
-   "quote": "The collector now joins a uniquely matching native child packet to the original handoff",
-   "note": "Ambiguous joins stay unresolved; final child output is distinct from parent verdict."
+   "quote": "The offline exporter now retains the full register, named quotations and applicability privately, and publishes only structural dispositions and evidence hashes.",
+   "note": ""
   },
   "a-absences": {
    "status": "pass",
-   "quote": "This change neither activates automatic routing nor grades the returned diagnosis",
-   "note": "Pending runtime/diagnosis acceptance is explicit."
+   "quote": "No mandatory rule is activated or retired, and routing delivery still requires native acceptance evidence.",
+   "note": ""
   },
   "a-run-it": {
    "status": "pass",
-   "quote": "python -m pytest tests/learning/test_subagents.py -v",
-   "note": "35 focused collector tests passed; full-gate receipt is tied to exact source."
+   "quote": "verify the public page with `python scripts/rules/build_rules_page.py --check`.",
+   "note": ""
   },
   "a-use-else": {
    "status": "pass",
-   "quote": "Use existing native handoffs and required baseline instructions for execution",
-   "note": "Existing execution routes remain required until authentic router gates pass."
+   "quote": "Full source evidence is available from the privately preserved inventory for private consumers; the public manifest deliberately excludes that prose.",
+   "note": ""
   },
   "rep-considered": {
-   "status": "pass",
-   "quote": "Selected output:",
-   "note": "Literal JSON preserves one actual output; concise prose states trigger, resulting behavior, checks and limits. A figure/table adds no useful comparison."
+   "status": "not_applicable",
+   "quote": "",
+   "note": "Three disposition counts fit in one sentence; artifact links carry exact membership. No visual is needed to assess this bounded repair."
   }
  }
 }
