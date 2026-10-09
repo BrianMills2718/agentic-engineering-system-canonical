@@ -1,11 +1,11 @@
 {
   "active_slice": {
     "description": "Same frozen maintenance investigation through native parent and child in Claude and Codex; included subscription calls only, no additional purchases",
-    "next_action": "Freeze the source packet and run each native parent with one installed read-only child",
+    "next_action": "Run local evidence and page checks; retain the unavailable Claude route until quota reset or explicit alternate-route authorization",
     "requires_external_action": false,
     "requires_spend": false,
     "slice_id": "native-investigator-parity",
-    "status": "ready",
+    "status": "verifying",
     "target_revision": "f974ff7dae6fd7b7588bb02965618640010ab476"
   },
   "authority": {
@@ -29,15 +29,30 @@
     "verifier_outcome": null
   },
   "cursor_id": "harness-fresh-parity-20261009",
-  "cursor_revision": 1,
+  "cursor_revision": 2,
   "failure_state": {
-    "boundary": null,
-    "last_failure_ref": null,
-    "same_boundary_failures": 0
+    "boundary": "native_claude_subscription",
+    "last_failure_ref": "proposals/harness-context/native-parity/claude-refusal.json",
+    "same_boundary_failures": 1
   },
   "goal_ref": "proposals/harness-context/harness-context.goal.md",
   "lifecycle_state": "active",
-  "observations": [],
+  "observations": [
+    {
+      "boundary": "native_codex_investigator",
+      "evidence_ref": "proposals/harness-context/native-parity/codex-trace-summary.json",
+      "kind": "authentic_result",
+      "observation_id": "codex-native-result",
+      "outcome": "pass"
+    },
+    {
+      "boundary": "native_claude_subscription",
+      "evidence_ref": "proposals/harness-context/native-parity/claude-refusal.json",
+      "kind": "blocker",
+      "observation_id": "claude-quota-refusal",
+      "outcome": "inconclusive"
+    }
+  ],
   "plan_revision": "f974ff7dae6fd7b7588bb02965618640010ab476",
   "ready_alternatives": [],
   "record_type": "plan_execution_cursor",
