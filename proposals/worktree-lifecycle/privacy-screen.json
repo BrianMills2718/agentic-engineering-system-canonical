@@ -1,0 +1,12 @@
+{
+  "safe_to_publish": true,
+  "findings": [],
+  "rationale": "No secrets or disallowed private data are exposed. The documents contain permitted public repository URLs, local paths, repository and commit identifiers, machine control-session IDs, and references to protected sources without disclosing their contents.",
+  "source_sha256": {
+    "proposals/worktree-lifecycle/PLAN.md": "02cf7f114beb6e342da0498e467144b4bdab702238a13f2aeb11cc0fbb5e8a48",
+    "proposals/worktree-lifecycle/SYSTEM_MODEL.md": "4fe8fb8f91b0f7ca6732e0fb5cd658e24e2c8e73ef7b5a3b63a7b03816cfb4c6",
+    "proposals/worktree-lifecycle/VALIDATION.md": "768772b2616e3aedd2ec8c11f47566c6a9a87cbd44f96bf6b231b37c8d362fac",
+    "proposals/worktree-lifecycle/worktree-lifecycle.goal.md": "c61e155817a56062a5744215a9e43d5508c6b586e456b5f941ee51bb7bb6faae"
+  },
+  "trace_id": "worktree-lifecycle/publication-privacy/02cf7f114beb"
+}
