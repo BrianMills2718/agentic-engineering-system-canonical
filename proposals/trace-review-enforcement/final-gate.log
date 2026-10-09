@@ -1,0 +1,50 @@
+BEGIN check
+Checking generated AGENTS.md synchronization...
+AGENTS.md is in sync: /home/brian/code/agentic-engineering-system-canonical/worktrees/trace-review-acceptance/AGENTS.md
+
+Running tests...
+........................................................................ [ 17%]
+........................................................................ [ 35%]
+........................................................................ [ 52%]
+........................................................................ [ 70%]
+.............................................................s.......... [ 87%]
+...................................................                      [100%]
+410 passed, 1 skipped in 496.87s (0:08:16)
+
+Running mypy...
+Success: no issues found in 23 source files
+
+All checks passed!
+{"step": "check", "command": ["make", "check", "PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python"], "seconds": 498.72, "exit_status": 0}
+BEGIN native
+PYTHONPATH=src /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli target validate
+OK /home/brian/code/agentic-engineering-system-canonical/worktrees/trace-review-acceptance/.aes/target.yaml
+  target_id=agentic-engineering-system-canonical-target schema_version=aes.v0_2.target.probe0
+  outcomes=2 normative_items=14 success_criteria=14 evidence_requirements=19
+  components=12 planned_artifacts=47 verification_subjects=16
+  governed_roots=['src/agentic_engineering_system/', 'tests/greenfield/']
+  every evidence requirement has a route (verification subject or external boundary)
+PYTHONPATH=src /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli topology check
+OK topology: 45 governed file(s) under ['src/agentic_engineering_system/', 'tests/greenfield/'], 0 orphan(s), 0 planned but not yet realized
+PYTHONPATH=src /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli status
+OK status: agentic-engineering-system-canonical-target at 4ca19849f731347bda911652a75e76d3b8215eba
+  artifacts: 47 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 3 supported, 11 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 5 current, 66 stale, 1 unknown, 0 unreachable; 34 superseded
+  plans: 8 accepted, 1 unreachable
+  first open gap per component:
+    RU-AES-RECORDS: no open gap
+    RU-AES-PROJECT: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-PLANNING: insufficient SC-GF-003 - ER-SC-GF-003-01 NO_CURRENT_SUPPORT; ER-SC-GF-003-02 NO_CURRENT_SUPPORT (+2 more)
+    RU-AES-TOPOLOGY: insufficient SC-GF-003 - ER-SC-GF-003-01 NO_CURRENT_SUPPORT; ER-SC-GF-003-02 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-CHARACTERIZE: insufficient SC-GF-006 - ER-SC-GF-006-01 NO_CURRENT_SUPPORT; ER-SC-GF-006-02 NO_CURRENT_SUPPORT
+    RU-AES-EVIDENCE: insufficient SC-GF-007 - ER-SC-GF-007-01 NO_CURRENT_SUPPORT (+2 more)
+    RU-AES-RECONCILE: insufficient SC-GF-007 - ER-SC-GF-007-01 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-CONTEXT: insufficient SC-GF-005 - ER-SC-GF-005-01 NO_CURRENT_SUPPORT
+    RU-AES-CLI: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-DISTRIBUTION: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-COMMIT-RULE: insufficient SC-AP-001 - ER-AP-001-01 NO_CURRENT_SUPPORT; ER-AP-001-02 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-ADOPT: insufficient SC-ADOPT-001 - ER-ADOPT-001-01 NO_CURRENT_SUPPORT
+  warning: plan PLAN-AES-SELF-GOVERN accepted_at_revision 80e6da33 is not reachable from HEAD (squash-merged or deleted branch?); the target already carries its delta, so this does not fail
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+{"step": "native", "command": ["make", "aes", "AES_PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python"], "seconds": 26.4, "exit_status": 0}

@@ -1,0 +1,281 @@
+{
+  "schema_version": "1.0",
+  "record_type": "trace_review",
+  "review_id": "aes-native-boundary-independent-review",
+  "reviewer": "codex:/root/trace_provider_reuse",
+  "goal_ref": "goal:trace-review-enforcement",
+  "criterion_ids": [
+    "SC-TR-SOURCE-001"
+  ],
+  "evidence_revision": "c061019128d6fae2f1ecdd112d33db500362b1b8",
+  "run_id": "aes-source-bound-native-probes",
+  "run_outcome": "pass",
+  "source": {
+    "path": "proposals/trace-review-enforcement/boundary-probes.trace.json",
+    "sha256": "076e60037b6aeaa7548367b6c57f96746b909954f64e63e6acf2ad5f2cab4214",
+    "format": "execution_trace"
+  },
+  "reviewed_entries": [
+    {
+      "pointer": "/events/0",
+      "sha256": "044fced5857fc6444526ebc30964538dd281050cd9032ea53bb6dc2cc847cde9",
+      "observation": "retained source-bound trace_reviews are missing"
+    },
+    {
+      "pointer": "/events/1",
+      "sha256": "facd8eaa06724bad4c99fb0ed80227c4dde8d65000797e43b3c0a4065cd93fbe",
+      "observation": "source-bound review unavailable: trace review provider command must be a nonempty argv array"
+    },
+    {
+      "pointer": "/events/2",
+      "sha256": "0f0fd9a2c07ebaa535aac21cbecc2f6b5131631b0b2d3f20cb672253b88b2505",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"pass\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/3",
+      "sha256": "4524f02f59e4d8e6a333972b53145b8c4108e6e096bf8d32c9a0f18ddb5b2439",
+      "observation": "source-bound full review complete; run=pass"
+    },
+    {
+      "pointer": "/events/4",
+      "sha256": "80cf1e044f1014a0bf714aeaa89238d508568edb0750648e1f0817698951ee86",
+      "observation": "{\"valid\": false, \"review_status\": \"incomplete\", \"run_outcome\": \"pass\", \"errors\": [\"retained trace bytes changed after review\", \"reviewed value changed at /events/0\"], \"passed\": 0, \"failed\": 1, \"errored\": 0, \"skipped\": 0, \"exit_status\": 1}\n"
+    },
+    {
+      "pointer": "/events/5",
+      "sha256": "46b27d5962517d8f46e9c2f821cb8e31f273df5c8c276d791c8ea74305e00469",
+      "observation": "provider refused full review: [\"retained trace bytes changed after review\", \"reviewed value changed at /events/0\"]"
+    },
+    {
+      "pointer": "/events/6",
+      "sha256": "c248460d32410b3ea47c6a8545c61a24f7e7a34e8adf7faa25f8619a1ee4598d",
+      "observation": "provider refused full review: [\"retained trace bytes changed after review\", \"reviewed value changed at /events/0\"]"
+    },
+    {
+      "pointer": "/events/7",
+      "sha256": "75ebb459539d9c4847273c444eca5f8cf1c68bcb4f78865f7f3e806c80dd213f",
+      "observation": "{\"valid\": false, \"review_status\": \"incomplete\", \"run_outcome\": \"pass\", \"errors\": [\"full trace coverage mismatch: missing=['/outcome'] extra=[]\"], \"passed\": 0, \"failed\": 1, \"errored\": 0, \"skipped\": 0, \"exit_status\": 1}\n"
+    },
+    {
+      "pointer": "/events/8",
+      "sha256": "c8e871558a41d4052d2ef76a26de789e5df5c4cc879a66643387a0ef51849149",
+      "observation": "provider refused full review: [\"full trace coverage mismatch: missing=['/outcome'] extra=[]\"]"
+    },
+    {
+      "pointer": "/events/9",
+      "sha256": "6d1d9326c39d0e44ee7dfb92c8abe52ef16b665bce4c232cb6098a04b308cd0a",
+      "observation": "provider refused full review: [\"full trace coverage mismatch: missing=['/outcome'] extra=[]\"]"
+    },
+    {
+      "pointer": "/events/10",
+      "sha256": "9c3f5f30c06c10e2ed7fb333d476f87be6be0212b0b0cbf00c7470ae448ff8f6",
+      "observation": "{\"valid\": false, \"review_status\": \"incomplete\", \"run_outcome\": \"pass\", \"errors\": [\"unsupported finding citation at /outcome\"], \"passed\": 0, \"failed\": 1, \"errored\": 0, \"skipped\": 0, \"exit_status\": 1}\n"
+    },
+    {
+      "pointer": "/events/11",
+      "sha256": "6d74d17fdceaf761270ce8f08b62bcce909d117ae000acf19fd2d80e0f532640",
+      "observation": "provider refused full review: [\"unsupported finding citation at /outcome\"]"
+    },
+    {
+      "pointer": "/events/12",
+      "sha256": "bc2a472546ebf91c76836a29e7064a7bb7a8c3f521e3dd30bbc67bc6de43d6a2",
+      "observation": "provider refused full review: [\"unsupported finding citation at /outcome\"]"
+    },
+    {
+      "pointer": "/events/13",
+      "sha256": "216a8f5fe73cd39590fa11b38cd39111747e19abca43caa5a65c338e51992a89",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"pass\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/14",
+      "sha256": "fbfb120ecf5bbb6ac848bd838922774ab17f90b88c2c852da7816e3c612c9ff5",
+      "observation": "source-bound review unavailable: review does not cover the native criterion"
+    },
+    {
+      "pointer": "/events/15",
+      "sha256": "8888ce5363699c4963cb7f99a37e450083578a148b5a9ebccdea8f2c8731a94a",
+      "observation": "source-bound review unavailable: review does not cover the native criterion"
+    },
+    {
+      "pointer": "/events/16",
+      "sha256": "e91ff80af203b304d1b4cab5cfd238523d3a32e37d18cd1a276c3f202876ad45",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"pass\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/17",
+      "sha256": "f7ffb9b069181c9e07546e688585c27c2488cb98845e1dad7fb516362fcf7a6f",
+      "observation": "source-bound review unavailable: review revision differs from the native observed revision"
+    },
+    {
+      "pointer": "/events/18",
+      "sha256": "7696a01fd941a3575041d7ca1c34e10f8ac32f29428b582d14e2f3b845fe4c97",
+      "observation": "source-bound review unavailable: review revision differs from the native observed revision"
+    },
+    {
+      "pointer": "/events/19",
+      "sha256": "89ffa486e42c7fdefc8813585ed531d4085591fb4024fa1983805d94f36f1262",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"pass\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/20",
+      "sha256": "f397259a5e5f432c24ab99e5a633f9995de2f5d96ba38dcf211686c0384a6135",
+      "observation": "source-bound review unavailable: reviewer identity differs from the native review"
+    },
+    {
+      "pointer": "/events/21",
+      "sha256": "f139ccd98736d8a2bc2ca4dd698527cd7e0b6725317c85c05938c2e10b34dfa3",
+      "observation": "source-bound review unavailable: reviewer identity differs from the native review"
+    },
+    {
+      "pointer": "/events/22",
+      "sha256": "79495d63a100ce21f29642a195b96e9d238d497c46cbbff57df0be9ec1f9ecbb",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"pass\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/23",
+      "sha256": "1c4ffa29fb5d706bd43e36aeb211f4d482bc702a85753e615bb182d8f86e17b7",
+      "observation": "source-bound review unavailable: review run differs from the native retained run"
+    },
+    {
+      "pointer": "/events/24",
+      "sha256": "c12f2ab513969b0bee4107c5c73b4798c72f9f1166ad622fd6a2e64427fd9148",
+      "observation": "source-bound review unavailable: review run differs from the native retained run"
+    },
+    {
+      "pointer": "/events/25",
+      "sha256": "e2817daaf432b98b40b6f3353abab059c56aed959877e82d5a372302f23b926d",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"pass\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/26",
+      "sha256": "a746e5ba4a8381ca58762462f7390c91556762d9884d62d12465992e9051e25f",
+      "observation": "source-bound review unavailable: review source is not the native retained trace"
+    },
+    {
+      "pointer": "/events/27",
+      "sha256": "8d7637c2ca6a19a9ba4db2dc139b512bf0a5215b4f8f16a106f30fabbe1ddd2e",
+      "observation": "source-bound review unavailable: review source is not the native retained trace"
+    },
+    {
+      "pointer": "/events/28",
+      "sha256": "7a650e6f9992e6065cbe47eaf5ed17d4d5c9f2eab39c7066c6c017eb5c1901c7",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"pass\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/29",
+      "sha256": "abe4509edf077dc76d14bff351407e729ff8b8737987775bf1467c59af5b9c8c",
+      "observation": "source-bound review unavailable: native step membership differs from the validated full inventory"
+    },
+    {
+      "pointer": "/events/30",
+      "sha256": "da04363cd8e0be412977983a1c6c1faeaa17abfebd704e9f37649f2a7cab42c6",
+      "observation": "source-bound review unavailable: native step membership differs from the validated full inventory"
+    },
+    {
+      "pointer": "/events/31",
+      "sha256": "6031b6841131853182395e1a340c5b35d9679a842958df3691b18c7763539293",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"pass\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/32",
+      "sha256": "e958ce1d867f7d2af5e438c279b071ddd0b741192567de05d3751586ee4dc94b",
+      "observation": "source-bound review unavailable: native trace source membership differs from the reviewed sources"
+    },
+    {
+      "pointer": "/events/33",
+      "sha256": "b30cf5dfefe2612a65964fdbab1248db9ffd8fba8b5e4f1c5d815f0c211f0eae",
+      "observation": "source-bound review unavailable: native trace source membership differs from the reviewed sources"
+    },
+    {
+      "pointer": "/events/34",
+      "sha256": "2479a979be33b1330b26576e23c6c15f517c84492e64df6d000def0449174e92",
+      "observation": "source-bound review unavailable: duplicate native review references"
+    },
+    {
+      "pointer": "/events/35",
+      "sha256": "f769aa1be18a8b574991ef26b07191edbb9f6c1ee9d5e10a59a4603aa4e178ad",
+      "observation": "source-bound review unavailable: duplicate native review references"
+    },
+    {
+      "pointer": "/events/36",
+      "sha256": "5a0215df58ea83319cf73ff92847fac89cf88b8beb0a101b528615439eb8e1bf",
+      "observation": "source-bound review unavailable: provider response must be a JSON object"
+    },
+    {
+      "pointer": "/events/37",
+      "sha256": "5a0215df58ea83319cf73ff92847fac89cf88b8beb0a101b528615439eb8e1bf",
+      "observation": "source-bound review unavailable: provider response must be a JSON object"
+    },
+    {
+      "pointer": "/events/38",
+      "sha256": "21bc3ce7a257aa5287f9d1a36c50f3eeec93ec7fc71b1c708f99186627c15c9c",
+      "observation": "source-bound review unavailable: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "pointer": "/events/39",
+      "sha256": "1954feab19cacbd0a8c9e11edd3470d4c449ab49a385c856eac468edcc6fc131",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"pass\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/40",
+      "sha256": "58502995cfc1a98a9d4b7534b9ad54b91adc248cccbb69023e43a7e352d258b4",
+      "observation": "source-bound review unavailable: retained source or assessment changed during provider validation"
+    },
+    {
+      "pointer": "/events/41",
+      "sha256": "f5f3761ede6572c5c358501f3e335a4fd7abc1c6dcac34041b29da114f3d6db9",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"fail\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/42",
+      "sha256": "218be58871fe847cd4821221d61d19d7dcfd631d670c061c96389c33576e407d",
+      "observation": "source-bound full review complete; run=fail"
+    },
+    {
+      "pointer": "/events/43",
+      "sha256": "5f6d43b9902bbbbfcbb154e383ea90ff2c7680b75289823f4ced5ac659018af0",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"pass\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/44",
+      "sha256": "9bb9a5cefc5fbb077881f80fd9089c7420b6c6f0bbbf034dce2f8bfd48054eb7",
+      "observation": "supported by OBS-TRACE-1"
+    },
+    {
+      "pointer": "/events/45",
+      "sha256": "39bbecebb4e32e1e490016cd89788919eded693eeb89a9bef955bd52de9dfd27",
+      "observation": "OBS-TRACE-1 SUPPORTS (CURRENT); OBS-TRACE-1: retained source-bound trace_reviews are missing"
+    },
+    {
+      "pointer": "/events/46",
+      "sha256": "b8d8cfdb1fdc3c1d8147847c37e62b5836fa0c2194e2d31c23d65173cd0eb6df",
+      "observation": "{\"valid\": false, \"review_status\": \"incomplete\", \"run_outcome\": \"pass\", \"errors\": [\"full trace coverage mismatch: missing=['/outcome'] extra=[]\"], \"passed\": 0, \"failed\": 1, \"errored\": 0, \"skipped\": 0, \"exit_status\": 1}\n"
+    },
+    {
+      "pointer": "/events/47",
+      "sha256": "1fcfaa7dd25bb180ed7ae195e73e1a5481df3b1add33680429814fb8dfc81a93",
+      "observation": "OBS-TRACE-1 SUPPORTS (CURRENT); OBS-TRACE-1: provider refused full review: [\"full trace coverage mismatch: missing=['/outcome'] extra=[]\"]"
+    },
+    {
+      "pointer": "/events/48",
+      "sha256": "75e86303b3f0bc3d48e83c7c36c8827dc3fd12cdfbdd7527852dce1f09c96819",
+      "observation": "{\"valid\": true, \"review_status\": \"complete\", \"run_outcome\": \"fail\", \"errors\": [], \"passed\": 1, \"failed\": 0, \"errored\": 0, \"skipped\": 0, \"exit_status\": 0}\n"
+    },
+    {
+      "pointer": "/events/49",
+      "sha256": "cbf4f684fda6c55d5aa0fd0ebe548806c957921416bdbbc53b3c02f97012bf15",
+      "observation": "OBS-TRACE-1 SUPPORTS (CURRENT); OBS-TRACE-1: source-bound full review complete; run=fail"
+    },
+    {
+      "pointer": "/events/50",
+      "sha256": "aee0611de265417b779285ee7b394c3eca307f8fd932bd1b8f01455ede3ad938",
+      "observation": "refuted by OBS-TRACE-1"
+    },
+    {
+      "pointer": "/outcome",
+      "sha256": "fedce8e8af485c2586f54c43a9b656dc70b41eb9be8c64b69c98391847dd4baf",
+      "observation": "Passing negative-control sequence; retained authentic privacy run stays failed. Review is acceptance-scoped, not ecosystem deployment proof."
+    }
+  ],
+  "findings": []
+}

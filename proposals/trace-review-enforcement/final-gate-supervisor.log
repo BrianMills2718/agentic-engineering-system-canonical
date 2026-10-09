@@ -1,0 +1,5 @@
+BEGIN check
+{"step": "check", "command": ["make", "check", "PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python"], "seconds": 498.72, "exit_status": 0}
+BEGIN native
+{"step": "native", "command": ["make", "aes", "AES_PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python"], "seconds": 26.4, "exit_status": 0}
+{"revision": "4ca19849f731347bda911652a75e76d3b8215eba", "steps": [{"step": "check", "command": ["make", "check", "PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python"], "seconds": 498.72, "exit_status": 0}, {"step": "native", "command": ["make", "aes", "AES_PYTHON=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python"], "seconds": 26.4, "exit_status": 0}], "exit_status": 0}

@@ -94,7 +94,9 @@ def test_every_greenfield_evidence_requirement_has_a_route():
     assert route_violations(target) == []
     external = {b.evidence_requirement_ref for b in target.external_boundaries}
     assert {e for e in external if e.startswith("ER-SC-GF-")} == {"ER-SC-GF-001-01", "ER-SC-GF-005-02", "ER-SC-GF-009-01"}
-    assert external - {"ER-SC-GF-001-01", "ER-SC-GF-005-02", "ER-SC-GF-009-01"} == {"ER-AP-001-02"}
+    assert external - {"ER-SC-GF-001-01", "ER-SC-GF-005-02", "ER-SC-GF-009-01"} == {
+        "ER-AP-001-02", "ER-TR-SOURCE-002",
+    }
 
 
 def test_aes_status_on_this_repository_exits_zero(capsys):

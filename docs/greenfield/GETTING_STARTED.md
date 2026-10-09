@@ -114,6 +114,28 @@ model, agent or pipeline (`trace_review`). Here nothing does, so it says why; wo
 must add a `trace_review` evidence requirement, so its result is judged by reading the full
 run, not only its final output.
 
+Trace-review standing also resolves retained evidence. Configure the existing Company
+Planning `scripts/validate_trace_review.py` provider with an argv array in the machine-owned
+`~/.config/aes/trace-review.json` (`{"command": ["<provider-python>", "<installed-validator>"]}`),
+or `AES_TRACE_REVIEW_COMMAND` containing that JSON array. AES appends the review reference
+and `--repo-root`; it never runs a shell or trusts a saved passing receipt. Use the provider's
+existing interpreter with its declared dependencies. Missing configuration leaves a
+trace-review requirement unsupported and reports why.
+
+An external native observation keeps its existing `TraceReview` fields and adds
+`result.trace_reviews` (repository-relative review references) and `result.run_id`.
+List the reviews and source in `retained_artifact_refs`, and the source path in
+`trace_review.trace_refs`. The validated review must name the native criterion,
+observed revision and reviewer, and its full entry inventory must match the native
+step count. A complete review of a failed run remains failed and cannot support
+passing standing; a refuting observation remains refuting. Historical observations
+remain readable without silently becoming proof of source-bound coverage.
+
+This is the acceptance-evidence boundary. Company Planning's installed execution
+control separately requires preserved full-trace diagnosis before selecting a repair;
+AES status does not itself intercept arbitrary debugging commands. See the
+[adopted cross-project plan](../../proposals/trace-review-enforcement/plan.md).
+
 ```bash
 cat > plan-greeter.yaml <<'YAML'
 schema_version: aes.v0_2.proposal.probe0

@@ -1,0 +1,42 @@
+{
+  "model_verdict": "contains_private_data=true (retained unchanged)",
+  "trace_ref": "proposals/trace-review-enforcement/publication-check.trace.json",
+  "trace_sha256": "88ab0c9923b595f4f561ee00b3b1d2cd152ee51dcb4f13719e9bf834debac354",
+  "classification": "evidence_unused",
+  "publication_disposition": "No actual private data identified in the source-linked findings. All four refer to AES architecture/operational documentation, product decisions or Brian quoted product feedback; these are explicitly allowed by the governing publication rule. Repo wiki is not the personal-wiki private vault.",
+  "findings_disposition": [
+    {
+      "quote": "Terms: [`docs/terms/ecosystem-terms.md`](../docs/terms/ecosystem-terms.md), Brian's reasoning and decision vocabulary (first entries; drafts marked).",
+      "reported_category": "Brian's private wiki/second-brain record",
+      "actual_payload_sources": [
+        "wiki/index.md"
+      ],
+      "disposition": "Allowed architecture, plan or quoted product feedback, not actual personal records or secrets."
+    },
+    {
+      "quote": "Machine execution has an explicit preflight so a missing chat tool is not misdiagnosed as a machine, network, or WSL failure.",
+      "reported_category": "Brian's private wiki/operational notes",
+      "actual_payload_sources": [
+        "wiki/index.md"
+      ],
+      "disposition": "Allowed architecture, plan or quoted product feedback, not actual personal records or secrets."
+    },
+    {
+      "quote": "The Mini & Pets gallery was removed 2026-10-08 at Brian's request because it carried no information about his work.",
+      "reported_category": "Nonpublic product decision and internal review note",
+      "actual_payload_sources": [
+        "proposals/trace-review-enforcement/authentic-source.json"
+      ],
+      "disposition": "Allowed architecture, plan or quoted product feedback, not actual personal records or secrets."
+    },
+    {
+      "quote": "Serve scheduled worktree audit with source age, expose native active task titles separately from process liveness, and show missing trace-review coverage explicitly. Preserve run navigation, Paperclip and existing overview feeds.",
+      "reported_category": "Nonpublic internal product/review record",
+      "actual_payload_sources": [
+        "proposals/trace-review-enforcement/authentic-source.json"
+      ],
+      "disposition": "Allowed architecture, plan or quoted product feedback, not actual personal records or secrets."
+    }
+  ],
+  "source_review": "Full retained two-message call, exact supplied allowed categories, four source-contained output quotations, no executed tools, no error. Failed model judgment preserved; source-based policy disposition is separate."
+}
