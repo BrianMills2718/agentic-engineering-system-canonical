@@ -1,0 +1,61 @@
+{
+  "schema_version": "agent-router.deployed-collector-check.v1",
+  "deployed_revision": "74977b4e8d54d2b629de65732af0772985651048",
+  "deployed_source_sha256": "7dd23db97bac10a8e0323820f77b47f6f98021ebcf7968adec83d56f025abf4b",
+  "native_update_unit": "hive-controls.service",
+  "unit_result": "success",
+  "unit_exec_main_status": 1,
+  "unit_status_scope": "Update succeeded; controls findings are not graded by this proof",
+  "daily_log": "/home/brian/projects/data/feedback-collector/reports-2026-10-09.jsonl",
+  "daily_log_line": 777,
+  "report_id": "rep-subagent-4431e76075f10e77",
+  "record_id": "rec-subagent-4431e76075f10e77",
+  "outcome": "verified_inconclusive",
+  "native_parent_session": "8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7",
+  "native_child_ref": "aff90f2e49dbf83f8",
+  "result_sha256": "28ff45de4c8b7adc1c0e98eadd440f4668ae7d22af9456adc348cb0044eaad0a",
+  "parent_verification": {
+    "contract": "subagent-verification.v1",
+    "parent_session_id": "8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7",
+    "call_id": "toolu_bdrk_01MFmY73yqvFQ6tG5XVW2VwE",
+    "child_ref": "aff90f2e49dbf83f8",
+    "result_sha256": "28ff45de4c8b7adc1c0e98eadd440f4668ae7d22af9456adc348cb0044eaad0a",
+    "ts": "2026-10-09T15:24:13.624232+00:00",
+    "verdict": "inconclusive",
+    "feedback": "obs (control): Shared collector recovers the interrupted Claude handoff from exact native packet/identity and its final child result [/home/brian/.claude/projects/-home-brian-code-agentic-engineering-system-canonical-worktrees-harness-claude-live/8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7.jsonl:24] expected: Returned child results remain observable and require independent parent checks.",
+    "checks": [
+      {
+        "argv": [
+          "/home/brian/code/llm_client/.venv/bin/python",
+          "-c",
+          "import hashlib,json,sys,jsonschema\nfrom pathlib import Path\nraw=sys.stdin.read()\nassert hashlib.sha256(raw.encode()).hexdigest() == sys.argv[2]\nassert raw.startswith('```json\\n') and raw.endswith('\\n```')\npayload=json.loads(raw[8:-4])\njsonschema.Draft202012Validator(json.loads(Path(sys.argv[1]).read_text())).validate(payload)\nassert payload['task_id']=='maintenance-discovery-frozen-20261009'\nprint('RESULT exact-result/schema/task checks: passed=3 failed=0 errored=0 skipped=0 exit_status=0; source diagnosis is not graded')\n",
+          "/home/brian/code/agent-skills/contracts/specialists/development-investigation-result.v1.schema.json",
+          "28ff45de4c8b7adc1c0e98eadd440f4668ae7d22af9456adc348cb0044eaad0a"
+        ],
+        "exit_code": 0,
+        "stdout": "RESULT exact-result/schema/task checks: passed=3 failed=0 errored=0 skipped=0 exit_status=0; source diagnosis is not graded\n",
+        "stderr": ""
+      }
+    ]
+  },
+  "actual_weekly_reader_membership": true,
+  "checks": {
+    "source_matches_merged_repair": true,
+    "runtime_cli_exit": 0,
+    "fresh_report_exact_identity": true,
+    "weekly_reader_contains_exact_new_record": true
+  },
+  "initial_check_correction": "First smoke assertion incorrectly expected the earlier report ID. Reading the complete recorded receipt showed that the ID includes the new parent-verification timestamp. Verified membership of the actual emitted record instead; collector CLI itself exited0.",
+  "parent_model_calls": 0,
+  "outbound_filing": false,
+  "result": {
+    "passed": 4,
+    "failed": 0,
+    "errored": 0,
+    "skipped": 0,
+    "exit_status": 0
+  },
+  "limits": [
+    "Structural parent check remains inconclusive about the diagnosis; does not establish router delivery/profile/fallback or an observation period."
+  ]
+}

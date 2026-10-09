@@ -20,6 +20,9 @@ rules:
   enforcement_status: advisory
   enforcement_mechanism: Instruction only; nothing checks it.
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: intent
+    value: diagnosing a failure or about to add a retry, delay or manual workaround
 - id: integrate-before-build
   rule: Adopt what already exists, else combine or fork off-the-shelf systems; build only what a landscape review
     shows nothing covers, naming why.
@@ -28,6 +31,9 @@ rules:
   enforcement_status: advisory
   enforcement_mechanism: Instruction only; nothing checks it.
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: intent
+    value: about to design or build a new tool, mechanism, layout or format
 - id: plan-nontrivial-work
   rule: Non-trivial work runs under an adopted Company Planning plan sized to it; trivial changes (at most 3 files
     and 60 lines, touching nothing that runs) need none.
@@ -37,6 +43,9 @@ rules:
   enforcement_mechanism: 'The AES commit rule refuses a non-trivial commit without a [Goal <plan_id>] or [Plan #N]
     tag (`aes commit check`, installed on every hook path).'
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: actions
+    value: git commit of non-trivial work; starting work that spans repositories, spends money or has other writers
 - id: commit-tags
   rule: 'Every commit''s first line starts with one tag: [Plan #N], [Goal <plan_id>], [Trivial], [Auto], [Unplanned]
     with an Emergency line, or [Shaping <plan_id>].'
@@ -46,6 +55,9 @@ rules:
   enforcement_mechanism: The AES commit rule (`aes commit check`) refuses a commit without a valid tag and names
     the fix.
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: actions
+    value: git commit
 - id: observable-fast-work
   rule: Long jobs run detached with per-step timing; an outside call that fails the same way twice is treated as
     down; only changed inputs are rebuilt.
@@ -54,6 +66,9 @@ rules:
   enforcement_status: advisory
   enforcement_mechanism: Instruction only; nothing checks it.
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: intent
+    value: starting a job expected to take more than about two minutes, or retrying a failed outside call
 - id: md-file-cap
   rule: A repository Brian owns keeps at most 100 tracked Markdown files (unless a reasoned exception file says
     otherwise) and every reader document is reachable from wiki/index.md within two links.
@@ -63,6 +78,9 @@ rules:
   enforcement_mechanism: project-meta scripts/md_file_cap.py checks both rules and keeps one concern open while
     a repository breaks either. On 2026-10-08 no timer for it was found on the laptop.
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: actions
+    value: adding or moving Markdown files in a repository Brian owns
 - id: loud-failures-reach-an-agent
   rule: A service, timer or pipeline that errors, skips a run or misses a heartbeat tells any waiting user and opens
     a keyed concern an agent works, within minutes.
@@ -72,6 +90,9 @@ rules:
   enforcement_mechanism: Instruction only; each service implements it itself (for example, ui-index and control-publish
     open a keyed concern on failure).
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: intent
+    value: building or changing a service, timer, bot or pipeline
 - id: read-the-trace
   rule: Before reporting a score or naming a cause for any graded run, open the full trace of every failing or surprising
     item and a sample of passes.
@@ -80,6 +101,9 @@ rules:
   enforcement_status: advisory
   enforcement_mechanism: Instruction only; nothing checks it.
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: intent
+    value: reporting a score, test or eval result, or naming a cause for a graded run
 - id: situation-declared-checklists
   rule: Planning, writing and representation work declare their situation as yes/no facts through the domain's command,
     then check off that situation's checklist with evidence.
@@ -90,6 +114,9 @@ rules:
     Planning checks it at plan adoption (quick-adopt / adopt); Representation Router dispositions are recorded but
     not counted.
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: actions
+    value: company planning, writing (email, Slack, reports, articles) or representation work
 - id: ui-tooltips-default
   rule: Every UI control an agent builds shows a styled tooltip within about 200 ms of hover or focus, and on tap
     on phones; verified in a real browser.
@@ -98,6 +125,9 @@ rules:
   enforcement_status: advisory
   enforcement_mechanism: Instruction only; verification is the building agent's own browser test.
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: actions
+    value: editing UI files (HTML, JSX/TSX, CSS, templates)
 - id: recommendations-not-question-lists
   rule: Settle what checking can settle, then give Brian approvable recommendations with safe defaults, never a
     list of open questions.
@@ -106,6 +136,9 @@ rules:
   enforcement_status: advisory
   enforcement_mechanism: Instruction only; nothing checks it.
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: intent
+    value: about to ask Brian questions or hand him open items
 - id: cross-owner-policy-override-protocol
   rule: 'Acting outside another project''s policy domain follows the cross-project notification protocol: find participants,
     draft, send only after exact-content approval, log the result.'
@@ -114,6 +147,9 @@ rules:
   enforcement_status: advisory
   enforcement_mechanism: Instruction only (procedure in WORKING_RULES.md).
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
+  applies_when:
+    kind: intent
+    value: an action that overrides or acts outside another project's policy
 - id: jev-m1-merge-reads-exit-code
   rule: Do not run `gh pr merge` after a check whose commands were joined with `;`; the check's exit code must be
     read before merging.
@@ -128,6 +164,9 @@ rules:
     - loop-389
   effect: the effects step counts recurrences for 30 days from 2026-10-08
   feedback_path: agent-feedback-log (Feedback field lines)
+  applies_when:
+    kind: actions
+    value: gh pr merge
 - id: loop-378
   rule: Require that every replay or backtest document declares its population boundary as a structured field, and
     that every documented tool-invocation route embeds explicit environment pre-checks so an agent cannot reach
@@ -144,6 +183,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: none
+    value: withdrawn
 - id: loop-379
   rule: Before quoting any rate or metric from a document, verify that the source population was computed over the
     same regime as the current question; before declaring a capability unavailable, confirm that all documented
@@ -160,6 +202,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: none
+    value: withdrawn
 - id: loop-384
   rule: Require that any probe failure be marked cause-unresolved in the progress record unless a second, materially
     different verification path has been tried and its result recorded alongside the first.
@@ -175,6 +220,9 @@ rules:
   handed_at: '2026-10-08'
   effect: watched for recurrence by the nightly effects step
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: intent
+    value: recording a probe or check failure and its cause in a progress record
 - id: loop-385
   rule: Add a gate check that rejects any finding recorded as an established failure condition when only one probe
     path contributed to it and no corroborating route is cited.
@@ -190,6 +238,9 @@ rules:
   handed_at: '2026-10-08'
   effect: watched for recurrence by the nightly effects step
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: intent
+    value: recording a finding as an established failure condition
 - id: loop-386
   rule: Never truncate or pipe away the output of a failing check; preserve the full diagnostic output so causality
     can be investigated after the fact.
@@ -206,6 +257,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: none
+    value: withdrawn
 - id: loop-387
   rule: Gate every merge on the suite's exit code by using `&&` instead of `;` (or a separate step that reads the
     result) so a failing suite structurally blocks the downstream merge command.
@@ -222,6 +276,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: actions
+    value: gh pr merge
 - id: loop-388
   rule: Run the full test suite after committing rather than before, so history-reading checks operate on the committed
     state they are designed to inspect.
@@ -237,6 +294,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: actions
+    value: running the full test suite before git commit
 - id: loop-389
   rule: Add a pre-merge hook or required status check that explicitly reads the suite's exit code and blocks merge
     when it is non-zero, as a second line of defence independent of how the agent composed its shell invocation.
@@ -253,6 +313,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: actions
+    value: gh pr merge
 - id: loop-390
   rule: Include the branch or lane name in tracker path derivation so closed and new lanes under the same session
     and goal are always distinct keys.
@@ -268,6 +331,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of the coordination claim and session tools (enforced-planning)
 - id: loop-391
   rule: Scope the one-root-lane limit to session-plus-repository rather than session alone, or accept an explicit
     cross-project parent scope, so a task spanning two repositories can hold both root lanes open simultaneously.
@@ -283,6 +349,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of the coordination claim and session tools (enforced-planning)
 - id: loop-392
   rule: Emit the exact continuation command or workaround label in every lane-claim refusal so agents follow a known
     recovery path instead of discovering it empirically.
@@ -298,6 +367,9 @@ rules:
   handed_at: '2026-10-08'
   effect: watched for recurrence by the nightly effects step
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of the coordination claim and session tools (enforced-planning)
 - id: loop-405
   rule: Make the writing router and its check accept an explicit no-fit disposition that allows a supplied contract
     or existing authority to govern when truthful classification matches no catalog route.
@@ -313,6 +385,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of representation-router's writing router
 - id: loop-406
   rule: Define one canonical claim contract and require every documented creation path to produce all state and
     inputs required by every downstream enforcement check.
@@ -328,6 +403,9 @@ rules:
   handed_at: '2026-10-08'
   effect: watched for recurrence by the nightly effects step
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of the coordination claim and session tools (enforced-planning)
 - id: loop-407
   rule: Add conformance checks that run each documented claim path through downstream enforcement and require every
     refusal to identify the triggering input and sanctioned resolution.
@@ -343,6 +421,9 @@ rules:
   handed_at: '2026-10-08'
   effect: watched for recurrence by the nightly effects step
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of the coordination claim and session tools (enforced-planning)
 - id: loop-408
   rule: Make every write, commit, or push workflow fail closed by checking each preparatory command, explicitly
     verifying the intended working directory, and requiring clean-worktree admission before publication rather than
@@ -359,6 +440,9 @@ rules:
   handed_at: '2026-10-08'
   effect: watched for recurrence by the nightly effects step
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: actions
+    value: git commit, git push
 - id: loop-411
   rule: Storage admission must distinguish entries that vanish during concurrent transient-cache mutation from genuine
     measurement failures while preserving host-reserve and cache-admission checks.
@@ -374,6 +458,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of personal-file-infra storage-policy
 - id: loop-412
   rule: Storage-policy tests must include concurrent transient-cache mutation during measurement to detect regressions
     in vanished-entry handling.
@@ -389,6 +476,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of personal-file-infra storage-policy
 - id: loop-413
   rule: Make registry-backed lifecycle operations return a structured busy result with the actual writer and provide
     a bounded observable release-and-retry path while preserving the no-state-change guarantee and never forcing
@@ -405,6 +495,9 @@ rules:
   handed_at: '2026-10-08'
   effect: not yet watched
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of the coordination claim and session tools (enforced-planning)
 - id: loop-414
   rule: Make the authoritative planning-tag contract the single source of truth for every shared and repository-local
     commit validator, including required tag classes and the actual identifier formats used by planning records.
@@ -420,6 +513,9 @@ rules:
   handed_at: '2026-10-08'
   effect: watched for recurrence by the nightly effects step
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of the AES commit rule and repository commit validators
 - id: loop-415
   rule: Run compatibility tests through the complete chained validation path using valid tags derived from authoritative
     planning records so any consumer that rejects them is detected before enforcement.
@@ -435,3 +531,12 @@ rules:
   handed_at: '2026-10-08'
   effect: watched for recurrence by the nightly effects step
   feedback_path: agent-feedback-log (Feedback field lines; the nightly collector files them)
+  applies_when:
+    kind: roles
+    value: maintainer of the AES commit rule and repository commit validators
+applies_when_kinds:
+  always: loaded in every session (safety core)
+  actions: injected by a hook before a matching tool action
+  roles: carried by the named specialist agents
+  intent: picked by the fast router model when the job matches
+  none: not injected (withdrawn)
