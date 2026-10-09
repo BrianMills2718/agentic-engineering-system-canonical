@@ -1,0 +1,1594 @@
+{
+  "record_type": "paired-native-trace-parent-review.v1",
+  "task_sha256": "ae362f8191402c660380ef2f1a52bece277a7a9b327d1aadb610a22b709c0725",
+  "review_method": "Complete native tool calls/results inspected by parent and independent read-only reviewers; explicit source-bound judgments, no paid grading run.",
+  "codex": {
+    "traces": {
+      "parent": {
+        "path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-52-31-01a11fdd-2db6-7da3-bf22-4698c6b6f0d5.jsonl",
+        "sha256": "e812c0148d2190b1998a0d795ae1152c5bfe1edf1071ed571b6dec46d34bd528"
+      },
+      "child": {
+        "path": "/home/brian/.codex/sessions/2026/10/09/rollout-2026-10-09T04-53-04-01a11fdd-afc4-73c3-926b-ad39bba75696.jsonl",
+        "sha256": "ea94965ef23305916211fcdb087bbfb381b84183fa4fa1adfa36b9caf83a4f7a"
+      }
+    },
+    "semantic_review": {
+      "verdict": "pass",
+      "items": [
+        {
+          "field": "root_cause",
+          "value_sha256": "29cbbe7b43c67f2d57f4d33948faf8d5e9e2ef78179fda99725c730fd9339c87",
+          "verdict": "supported",
+          "rationale": "Conditional default-scope to validator seam is supported; historical environment and installed-provider identity are explicitly limited.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 332,
+              "end_line": 332,
+              "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2617,
+              "end_line": 2618,
+              "quote": "        if path == \".\":\n            broad[path] = \"repository_root\""
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2765,
+              "end_line": 2769,
+              "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[0]",
+          "value_sha256": "4a802eb0cf9c1f4fa13c055f84f1293cdb280537daa2c96ca576d295a7ddd685",
+          "verdict": "supported",
+          "rationale": "Agent-facing command omits write paths and broad metadata.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+              "start_line": 99,
+              "end_line": 99,
+              "quote": "make maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[1]",
+          "value_sha256": "2328f282c476cac5ecf1e2197b20f6c3a69b0931d53efa48dbf747bee9b1c4a2",
+          "verdict": "supported",
+          "rationale": "Frozen source comment advertises branch-only usage.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 290,
+              "end_line": 290,
+              "quote": "# Defaults that make `make maintenance-worktree BRANCH=<name>` sufficient."
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[2]",
+          "value_sha256": "6d7d61fc29c3ad485f87d679072508554188c7ac7dc94891b257dd5954c08195",
+          "verdict": "supported",
+          "rationale": "GNU Make expression selects caller scope or repository-root fallback; command-line overrides can replace this variable.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[3]",
+          "value_sha256": "ffe27ee4409bdff67e0f08e5cfa690d16c73e1bd8967cb4d29de73d0320ed63a",
+          "verdict": "supported",
+          "rationale": "Recursive recipe explicitly passes resolved maintenance scope as SESSION_WRITE_PATHS.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 332,
+              "end_line": 332,
+              "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[4]",
+          "value_sha256": "c1c17a1ab7449b6394b663269e5a2cb9b38e7fea6be58ad701e9d37c460c86a0",
+          "verdict": "supported",
+          "rationale": "Claim command adds broad mode/reason only for supplied values; no maintenance defaults supply them.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 192,
+              "end_line": 193,
+              "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[5]",
+          "value_sha256": "e73b2bc8c715061def0f2a8a24fd568930357022c3c17f00ef9b5f54461e0c27",
+          "verdict": "supported",
+          "rationale": "Foreach adds each selected path to admission arguments.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 194,
+              "end_line": 194,
+              "quote": "\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[6]",
+          "value_sha256": "3fd6c7bec1fa33bcb2a04b6826037c291f47cefafa3eb88536c9755b77230a04",
+          "verdict": "supported",
+          "rationale": "Usage output and full recipe do not offer the narrow recovery variable.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 319,
+              "end_line": 333,
+              "quote": "\t@if [ -z \"$(strip $(BRANCH))\" ]; then \\\n\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\\n\t\texit 2; \\\n\tfi\n\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[7]",
+          "value_sha256": "abaf76a354d743fc3d4c76c5f0633b6bcf7e7ad2f11358d0c479d9cd2bb919e3",
+          "verdict": "supported",
+          "rationale": "Facade main delegates to the imported provider main.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+              "start_line": 250,
+              "end_line": 250,
+              "quote": "    return _impl.main(resolved_argv)"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[8]",
+          "value_sha256": "8685413d253a93ecebc64b298ffe3c8bba0a7ba1f1354d8969ddf2c9b837b451",
+          "verdict": "supported",
+          "rationale": "New claim creation explicitly sets schema6 before admission validation.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 4034,
+              "end_line": 4039,
+              "quote": "        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[9]",
+          "value_sha256": "a5ce689c27150b16d2ecc4c6c5196168d4f5b4c10149fd01567655cd6857b098",
+          "verdict": "supported",
+          "rationale": "Active classifier assigns repository_root for the literal dot.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2617,
+              "end_line": 2618,
+              "quote": "        if path == \".\":\n            broad[path] = \"repository_root\""
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[10]",
+          "value_sha256": "4fe95c8d733a0507917102e0b9b009ad5f02debd06470caf1c59bc3ab3861258",
+          "verdict": "supported",
+          "rationale": "Mode constant permits bootstrap and bounded.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 85,
+              "end_line": 85,
+              "quote": "BROAD_SCOPE_MODES = {\"bootstrap\", \"bounded\"}"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[11]",
+          "value_sha256": "209648bb62e994288b061dacb2381e78f96b745999fe52d5a94f11c35d2e97c0",
+          "verdict": "supported",
+          "rationale": "Actual appended mode and reason codes appear at2767 and2769.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2765,
+              "end_line": 2769,
+              "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[12]",
+          "value_sha256": "aa3c833c37cf6fdf5eb39081f5320c8966a0eb79082f3626d424eac48c253997",
+          "verdict": "supported",
+          "rationale": "Live schema6 candidate validation raises semicolon-joined issues.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2149,
+              "end_line": 2152,
+              "quote": "        )\n    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[13]",
+          "value_sha256": "16146ab8b9ef7a986f4b7b6f84392302e6e0cf64299e6e2e4d2da0bb787e9bb5",
+          "verdict": "supported",
+          "rationale": "Claim CLI catches ValueError, prints it and returns1.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 5837,
+              "end_line": 5840,
+              "quote": "                print(json.dumps({\"ok\": False, \"message\": str(exc)}, indent=2))\n            else:\n                print(str(exc))\n            return 1"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[14]",
+          "value_sha256": "86000e62350c86363ac270f933f2642b6805dd06842df193efda257c06ae015c",
+          "verdict": "supported",
+          "rationale": "Program/write ownership counts supplied write paths.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 3055,
+              "end_line": 3059,
+              "quote": "\n    return claim.claim_type in {\"program\", \"write\"} and bool(claim.write_paths)\n\n\ndef _parse_iso_datetime(value: Any) -> datetime | None:"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[15]",
+          "value_sha256": "f11afe4e33b2a4fc4a1b3bc45c2c27edf51d570b66bc9fd77009b515d62becf3",
+          "verdict": "supported",
+          "rationale": "Authority requires mode/reason and narrowing before bootstrap mutation.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+              "start_line": 204,
+              "end_line": 207,
+              "quote": "   A new broad write claim must declare `bootstrap` or `bounded` intent plus a\n   non-empty reason. Use `session-narrow` to reduce it; bootstrap claims cannot\n   authorize ordinary repository writes until that owner/session-bound narrow\n   succeeds."
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "causal_chain[0]",
+          "value_sha256": "5cde1da997802f9efda3b1b49bae94988853dabe999276e8fd990f7cb0620b7d",
+          "verdict": "supported",
+          "rationale": "Report is packet-provided historical evidence, explicitly not a reproduced run.",
+          "sources": [],
+          "evidence_delivery": "packet_only"
+        },
+        {
+          "field": "causal_chain[1]",
+          "value_sha256": "853977c5f16a06e5e9cb18d144cac8024df17c0a0af8c813170429d48d280458",
+          "verdict": "supported",
+          "rationale": "Default scope and forwarding are directly shown.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 332,
+              "end_line": 332,
+              "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 194,
+              "end_line": 194,
+              "quote": "\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "causal_chain[2]",
+          "value_sha256": "ba637284759d220b7d5a76396956b107a7cc154d38f20f52270dc607d0b7e9c0",
+          "verdict": "supported",
+          "rationale": "Claim options are conditional; new creation selects schema6. Statement is conditional on absent caller metadata.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 192,
+              "end_line": 193,
+              "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 4034,
+              "end_line": 4039,
+              "quote": "        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "causal_chain[3]",
+          "value_sha256": "303604500920431163279afbd2cfba714a7069afffb471548bf0c7a235f90934",
+          "verdict": "supported",
+          "rationale": "Active root classifier feeds broad contract check and live candidate validation.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2617,
+              "end_line": 2618,
+              "quote": "        if path == \".\":\n            broad[path] = \"repository_root\""
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2749,
+              "end_line": 2754,
+              "quote": "    try:\n        broad_paths = classify_broad_write_paths(\n            claim.repo_root,\n            claim.write_paths,\n            verified_new_files=verified_new_files,\n        )"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2149,
+              "end_line": 2152,
+              "quote": "        )\n    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "causal_chain[4]",
+          "value_sha256": "538301c936a84c4a1a0543dc0f3a7c7f37c60911283da81d08bd451041ba6fb9",
+          "verdict": "supported",
+          "rationale": "CLI exception handler adds no maintenance recovery guidance.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 5837,
+              "end_line": 5840,
+              "quote": "                print(json.dumps({\"ok\": False, \"message\": str(exc)}, indent=2))\n            else:\n                print(str(exc))\n            return 1"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "causal_chain[5]",
+          "value_sha256": "ff525a559180a38c508b3e8150da6896c760ddc11bccf335767f156b1aa2af2f",
+          "verdict": "supported",
+          "rationale": "Exact-file overrides are valid scope routes; broad metadata is a separate route, and builder binds target identity. Whole admission success is not claimed.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 332,
+              "end_line": 332,
+              "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 3582,
+              "end_line": 3584,
+              "quote": "    if normalized_mode == \"bootstrap\":\n        effective_target_worktree = target_worktree_path or worktree_path\n        effective_worktree = effective_target_worktree"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+              "start_line": 204,
+              "end_line": 207,
+              "quote": "   A new broad write claim must declare `bootstrap` or `bounded` intent plus a\n   non-empty reason. Use `session-narrow` to reduce it; bootstrap claims cannot\n   authorize ordinary repository writes until that owner/session-bound narrow\n   succeeds."
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "alternatives_ruled_out[0]",
+          "value_sha256": "20c9568f9ca302224d1f49fd3989f0b385521547a8c92e19d86f6ab48b5915fe",
+          "verdict": "supported",
+          "rationale": "Default cannot be empty absent override: fallback is dot.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "alternatives_ruled_out[1]",
+          "value_sha256": "18b2f01e82ed2db85a80a4fcd7768cc92dd81e6086a994c37866a56ca59fb668",
+          "verdict": "supported",
+          "rationale": "Program ownership with paths is checked.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 3055,
+              "end_line": 3059,
+              "quote": "\n    return claim.claim_type in {\"program\", \"write\"} and bool(claim.write_paths)\n\n\ndef _parse_iso_datetime(value: Any) -> datetime | None:"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "alternatives_ruled_out[2]",
+          "value_sha256": "cb15cfeacbec8ba61d50bc2b0f9fc4d55038992643f801978cb079287b5843ac",
+          "verdict": "supported",
+          "rationale": "This candidate validation precedes registry conflict processing; does not rule out later conflicts.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 4034,
+              "end_line": 4042,
+              "quote": "        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)\n\n    with claim_registry_lock():\n        registry_digest_before = _registry_digest(CLAIMS_DIR)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 4074,
+              "end_line": 4077,
+              "quote": "        validate_claim_hierarchy_for_creation(candidate, active_claims=active_claims)\n        validate_session_root_for_creation(candidate, active_claims=check_claims())\n        check_result = evaluate_claim(candidate, active_claims=active_claims)\n        if check_result.hard_conflicts:"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "alternatives_ruled_out[3]",
+          "value_sha256": "5ba72d3716ab04192e424b755f7e10e58a145f5aeda6aeecee6d9dc2a092610c",
+          "verdict": "supported",
+          "rationale": "Light profile and UNPLANNED markers do not supply broad metadata.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 333,
+              "end_line": 333,
+              "quote": "\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 192,
+              "end_line": 194,
+              "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "alternatives_ruled_out[4]",
+          "value_sha256": "de87e4293d4c6950185c6ae9136daccd51ad93100633f9c17130b0c6535bdb59",
+          "verdict": "supported",
+          "rationale": "Named recovery is absent from the agent example and usage recipe.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+              "start_line": 99,
+              "end_line": 99,
+              "quote": "make maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 319,
+              "end_line": 333,
+              "quote": "\t@if [ -z \"$(strip $(BRANCH))\" ]; then \\\n\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\\n\t\texit 2; \\\n\tfi\n\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "limitations[0]",
+          "value_sha256": "2805f35ce1831dd7f40a6ed0746829985b88447e30836a646759eb3fd68e8f33",
+          "verdict": "supported",
+          "rationale": "Manifest separately pins Project Meta and provider revisions; verifier hashes all five blobs.",
+          "sources": [],
+          "evidence_delivery": "packet_only"
+        },
+        {
+          "field": "limitations[1]",
+          "value_sha256": "34b49660a9378eb560dc67426f36f4cd1a603ddba7445ad539011ecac0cb42ee",
+          "verdict": "supported",
+          "rationale": "Historical environment/prerequisites were not supplied; statement properly limits runtime causality.",
+          "sources": [],
+          "evidence_delivery": "evidence_absent"
+        },
+        {
+          "field": "limitations[2]",
+          "value_sha256": "9ae907984ddcebe82b21d489bb3329f16a7360f158372a8d85b32037028a89b5",
+          "verdict": "supported",
+          "rationale": "Import path does not prove historical installed revision; limitation is correct.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+              "start_line": 29,
+              "end_line": 33,
+              "quote": "if str(repo_root) not in sys.path:\n    sys.path.insert(0, str(repo_root))\n\nfrom enforced_planning import coordination_claims as _impl  # noqa: E402\n"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "limitations[3]",
+          "value_sha256": "e188a22538ef33943094036d518609c8fa86fd9127611486622e06ce9e9795c8",
+          "verdict": "supported",
+          "rationale": "Live repair is packet-provided, not independently inspected.",
+          "sources": [],
+          "evidence_delivery": "packet_only"
+        },
+        {
+          "field": "limitations[4]",
+          "value_sha256": "d838ee38e98ac875c9d821d4f4c620ef98f4744bbc2d449720c97f8ab2eae8ba",
+          "verdict": "supported",
+          "rationale": "Additional authority document is referenced but outside allowed files; no broader conclusion follows.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+              "start_line": 38,
+              "end_line": 45,
+              "quote": "**Policy-system orientation.** Before auditing, explaining, or changing the\ncross-project policy system, read\n[`docs/ops/POLICY_SYSTEM.md`](docs/ops/POLICY_SYSTEM.md). It is the single\nProject Meta front door for policy authority, agent context, hooks and checks,\ncoordination claims and worktrees, cross-agent communication, learning and\nfeedback stores, concern resolution, and autonomous execution. Follow its\nlinks to the owning implementation instead of searching sibling repositories\nblindly or treating an installed home-directory copy as authority."
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "limitations[5]",
+          "value_sha256": "00cc42f5772884a80eafb5bab0b7f0f7b8b192846606ce61fe821b27565541ff",
+          "verdict": "supported",
+          "rationale": "No denied reads occurred. Broad read-only sandbox does not enforce five-file membership.",
+          "sources": [],
+          "evidence_delivery": "native_trace"
+        },
+        {
+          "field": "recommended_parent_action",
+          "value_sha256": "4d94d96e5540016b3d9f6c7d8ef528d096ce51db51ca883af43c1b40add487ee",
+          "verdict": "supported",
+          "rationale": "Recovery names both supported narrow variables and preserves separate live verification and broad contract.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 332,
+              "end_line": 332,
+              "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+              "start_line": 204,
+              "end_line": 207,
+              "quote": "   A new broad write claim must declare `bootstrap` or `bounded` intent plus a\n   non-empty reason. Use `session-narrow` to reduce it; bootstrap claims cannot\n   authorize ordinary repository writes until that owner/session-bound narrow\n   succeeds."
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "mutation_declaration",
+          "value_sha256": "ca4326a9f3351ae5168615dfd6290a60f9135687005f444c685f1e0af82da752",
+          "verdict": "supported",
+          "rationale": "All nine native exec calls and25 command processes were reviewed; observed calls contain only reads/hash computations. This is observed behavior, not a universal side-effect guarantee.",
+          "sources": [],
+          "evidence_delivery": "native_trace"
+        }
+      ]
+    },
+    "tool_events": {
+      "calls": {
+        "call_eb2fe33f166e43b0b9d94459bb8cbd5f": {
+          "line": 13,
+          "name": "exec",
+          "input_sha256": "e21752e84ec12597b9552b06f73c038956c6618d41d7be9c046a50ce26d7ca9d"
+        },
+        "call_61660f590585480bac8a57ec90d7be7c": {
+          "line": 21,
+          "name": "exec",
+          "input_sha256": "63441adeea0d08ba10afb7b1c6231dcc1d571018e4cc18696e4d922514187343"
+        },
+        "call_ecd880d8cd6242ad96adf4e2a9bb02c8": {
+          "line": 26,
+          "name": "exec",
+          "input_sha256": "74ad6b9081be528e631ecdb968479ebdc49876be2083b64a57a8aaa0eed02ac3"
+        },
+        "call_9369195346dd4727bdc221134626b790": {
+          "line": 33,
+          "name": "exec",
+          "input_sha256": "1b1a8f7c9ecd76475f8ee38633f5780d4e42595227ebcb414467c757357bccc6"
+        },
+        "call_519b396e83994595a8b2fc3cf984d083": {
+          "line": 45,
+          "name": "exec",
+          "input_sha256": "82d8aaa2fa44ef9b93ac8d3c6bef09930f3ff154f5fb694a83932d07ca01f074"
+        },
+        "call_cad7d1c4fd4547b1b96e66611f20a6c8": {
+          "line": 55,
+          "name": "exec",
+          "input_sha256": "26bc1a0d49bde6dd1385a3edd2ab88b71c1086e3b090fb32cbfadb97bcd9a43c"
+        },
+        "call_f760ed15b8574d26b3777f0aebda2837": {
+          "line": 66,
+          "name": "exec",
+          "input_sha256": "2a5c9a5d49a74b0ca32c56f618198f88a50fd4d0686c932c8f7e15156c003256"
+        },
+        "call_c7060d1b516e4ccd960c9e4e8c6b6181": {
+          "line": 75,
+          "name": "exec",
+          "input_sha256": "5ef468af9872827da0f20c9999e426dc96958344b9f96c96fb4d0e7d2c0000e0"
+        },
+        "call_d8f553e5289447edbda15b0caa88a72a": {
+          "line": 81,
+          "name": "exec",
+          "input_sha256": "498673b75dfcac3adbb5479effa6aa8c2105f32af44cca69134fd66d7b566a9a"
+        }
+      },
+      "outputs": {
+        "call_eb2fe33f166e43b0b9d94459bb8cbd5f": {
+          "line": 17,
+          "output_sha256": "a22c1286a884288ac678266568af9d382e1d572c1c3bd1f9ea376d98f3833720"
+        },
+        "call_61660f590585480bac8a57ec90d7be7c": {
+          "line": 24,
+          "output_sha256": "bd62865ff0e0ab31455769c160de9b1c9a5759987d0803b62956f80c7514c96b"
+        },
+        "call_ecd880d8cd6242ad96adf4e2a9bb02c8": {
+          "line": 29,
+          "output_sha256": "8441c448f6191987aa22c6b6522c70486ba5a73cbfb42f753f822f1c4445b32c"
+        },
+        "call_9369195346dd4727bdc221134626b790": {
+          "line": 41,
+          "output_sha256": "9eca03b7725aa7f486cd5ad6cc5a108a22ce0a77454e84f5bc79ae4b72e556a8"
+        },
+        "call_519b396e83994595a8b2fc3cf984d083": {
+          "line": 51,
+          "output_sha256": "42a5ac3b92c7bf7513e694e62d29989fa2614c8854307bb4a416740691b78feb"
+        },
+        "call_cad7d1c4fd4547b1b96e66611f20a6c8": {
+          "line": 62,
+          "output_sha256": "c145dbc9e53fc3ef9a8ba389d50954a1a96d5383187577742f36bdbb6cc262d9"
+        },
+        "call_f760ed15b8574d26b3777f0aebda2837": {
+          "line": 71,
+          "output_sha256": "e81e17e69d585200a131901b0d6ffb5a627a8fe4bc8ee689595de4c676256a4b"
+        },
+        "call_c7060d1b516e4ccd960c9e4e8c6b6181": {
+          "line": 79,
+          "output_sha256": "ded33b8b07c35d3c229846276cf610de9cc51bec24cdf9a3205be835187dfcb7"
+        },
+        "call_d8f553e5289447edbda15b0caa88a72a": {
+          "line": 84,
+          "output_sha256": "08ced220ebaea6910041d7bf08595cc721ae2cc8b35468b98876d8db4f837fb6"
+        }
+      }
+    },
+    "permission_profiles": [
+      {
+        "type": "managed",
+        "file_system": {
+          "type": "restricted",
+          "entries": [
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "root"
+                }
+              },
+              "access": "read"
+            }
+          ]
+        },
+        "network": "restricted"
+      }
+    ]
+  },
+  "claude": {
+    "traces": {
+      "parent": {
+        "path": "/home/brian/.claude/projects/-home-brian-code-agentic-engineering-system-canonical-worktrees-harness-claude-live/8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7.jsonl",
+        "sha256": "d728896dff591a20bc5323333451c6d19549d0b1730b6e1c26df7b2734b7fbab"
+      },
+      "child": {
+        "path": "/home/brian/.claude/projects/-home-brian-code-agentic-engineering-system-canonical-worktrees-harness-claude-live/8bf7c1b5-db4e-43d0-afa4-5c21a0bf87b7/subagents/agent-aff90f2e49dbf83f8.jsonl",
+        "sha256": "68498b59a73eb9e8117d5506fb9f35c66489908088ede71624592d06313904de"
+      }
+    },
+    "semantic_review": {
+      "verdict": "inconclusive",
+      "items": [
+        {
+          "field": "root_cause",
+          "value_sha256": "2fbc600fabe3a76d1ff2756a8175c219febae259e05af9ed4728d628bff8d094",
+          "verdict": "qualified",
+          "rationale": "Core scope/metadata seam is supported only when caller metadata is absent. Wrapper omission alone cannot exclude GNU Make/environment inheritance.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 332,
+              "end_line": 332,
+              "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 192,
+              "end_line": 193,
+              "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2765,
+              "end_line": 2769,
+              "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")\n        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+            }
+          ],
+          "evidence_delivery": "returned_but_unused"
+        },
+        {
+          "field": "evidence[0]",
+          "value_sha256": "d1931d1fb0f85ec518cc72ce9b7e28857a91cdd7c084e6e398bd1135be1ea97c",
+          "verdict": "supported",
+          "rationale": "Default expression selects dot when scope is empty.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[1]",
+          "value_sha256": "4d00534278c391379105963e50c77c35c0d608a03a0f041a732a24f01ad96838",
+          "verdict": "supported",
+          "rationale": "Recursive recipe forwards default scope.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 332,
+              "end_line": 332,
+              "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[2]",
+          "value_sha256": "b41613c9376151c533460f54596827439c852dfa16c2cf6cd8105636bd8dfad0",
+          "verdict": "supported",
+          "rationale": "Light profile and unplanned option match source.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 333,
+              "end_line": 333,
+              "quote": "\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[3]",
+          "value_sha256": "7db55479424bb7fbb8b8f68f2c45d678a6b9c1b3e061174503eb98d4de54f02e",
+          "verdict": "supported",
+          "rationale": "Comment says explicit SESSION_WRITE_PATHS must win. It is an internal source comment, not operator diagnostic.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 309,
+              "end_line": 311,
+              "quote": "# SESSION_WRITE_PATHS must win: silently discarding it made every maintenance\n# lane conflict with every other active lane by construction, and the operator\n# saw a CONFLICT naming the other lanes rather than their own claim."
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[4]",
+          "value_sha256": "899cc329453054076a0e6a80b80e167a8734f0e539aa1d038a4cf3b097a70418",
+          "verdict": "supported",
+          "rationale": "Mode constant matches.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 85,
+              "end_line": 85,
+              "quote": "BROAD_SCOPE_MODES = {\"bootstrap\", \"bounded\"}"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[5]",
+          "value_sha256": "6936ad3e5a6e3afa6dcdc2b5eb2fabfc5995169e3eaa6e0f3830d839a0b3a59c",
+          "verdict": "incorrect",
+          "rationale": "Cited2686 is inside the legacy schema<6 branch. Schema6 uses classifier2617\u20132618 via2750.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2682,
+              "end_line": 2687,
+              "quote": "    reason = claim.broad_scope_reason.strip() if isinstance(claim.broad_scope_reason, str) else None\n    issues: list[str] = []\n    if claim.schema_version < 6:\n        possible_broad = any(\n            _normalize_repo_path(path) == \".\" or \"/\" not in _normalize_repo_path(path)\n            for path in claim.write_paths"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2617,
+              "end_line": 2618,
+              "quote": "        if path == \".\":\n            broad[path] = \"repository_root\""
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2749,
+              "end_line": 2754,
+              "quote": "    try:\n        broad_paths = classify_broad_write_paths(\n            claim.repo_root,\n            claim.write_paths,\n            verified_new_files=verified_new_files,\n        )"
+            }
+          ],
+          "evidence_delivery": "evidence_absent"
+        },
+        {
+          "field": "evidence[6]",
+          "value_sha256": "879181e611329bd10649298a8ae373fec25822bca641120eb17d366a943588bd",
+          "verdict": "qualified",
+          "rationale": "Condition at2766 is correct; append occurs at2767.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2765,
+              "end_line": 2767,
+              "quote": "    if broad_paths:\n        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[7]",
+          "value_sha256": "92a68876f917ef47fad938dbb66cad5acb86fe741182eff6f54dd383d8243b56",
+          "verdict": "qualified",
+          "rationale": "Condition at2768 is correct; append occurs at2769.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2768,
+              "end_line": 2769,
+              "quote": "        if not reason:\n            issues.append(\"broad_scope_reason_required\")"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[8]",
+          "value_sha256": "e4e093cae5112f116cdcd1302dd48e266104dff9cd82a59602241e1cdb20bca5",
+          "verdict": "qualified",
+          "rationale": "Condition at2151 is correct; raise occurs at2152.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2149,
+              "end_line": 2152,
+              "quote": "        )\n    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "evidence[9]",
+          "value_sha256": "d4db0c71d64c06b3966869dea58c8a29d1457f52bc3187f7b5bd91ff2051cb81",
+          "verdict": "supported",
+          "rationale": "Mode instruction204 plus reason205 support combined statement.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+              "start_line": 204,
+              "end_line": 205,
+              "quote": "   A new broad write claim must declare `bootstrap` or `bounded` intent plus a\n   non-empty reason. Use `session-narrow` to reduce it; bootstrap claims cannot"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "causal_chain[0]",
+          "value_sha256": "b9008406dad6d31a0817daafbd429b7397516b5bd40b75fcafeb07eef6cc520f",
+          "verdict": "incorrect",
+          "rationale": "Target is defined at314;325 starts recursive make invocation. Branch-only requirement itself is supported.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 314,
+              "end_line": 314,
+              "quote": "maintenance-worktree:  ## Claimed light maintenance worktree; needs BRANCH (other maintenance metadata has safe defaults)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 319,
+              "end_line": 325,
+              "quote": "\t@if [ -z \"$(strip $(BRANCH))\" ]; then \\\n\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\\n\t\texit 2; \\\n\tfi\n\t@$(MAKE) worktree \\"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "causal_chain[1]",
+          "value_sha256": "0d599632a89c8993ae1c84304dcf7cf6678c5521fd602d3d95ad3448ef7ce1a1",
+          "verdict": "supported",
+          "rationale": "Default expression matches.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "causal_chain[2]",
+          "value_sha256": "ceaf0ff73639f0854a86d6070b3843c7318f79bcbf251be0eebb0fa71280b31c",
+          "verdict": "qualified",
+          "rationale": "No explicit wrapper forwarding is shown, but caller variables can still propagate.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 325,
+              "end_line": 333,
+              "quote": "\t@$(MAKE) worktree \\\n\t\tBRANCH=\"$(BRANCH)\" TASK=\"$(MAINTENANCE_TASK)\" WORKTREE_AGENT=\"$(MAINTENANCE_AGENT)\" \\\n\t\tSESSION_GOAL=\"$(MAINTENANCE_SESSION_GOAL)\" SESSION_PHASE=\"$(MAINTENANCE_SESSION_PHASE)\" \\\n\t\tSESSION_NEXT=\"$(SESSION_NEXT)\" SESSION_DEPENDS=\"$(SESSION_DEPENDS)\" \\\n\t\tSESSION_STOP_CONDITIONS=\"$(SESSION_STOP_CONDITIONS)\" SESSION_NOTE=\"$(SESSION_NOTE)\" \\\n\t\tSESSION_CLAIM_TYPE=\"$(SESSION_CLAIM_TYPE)\" SESSION_PARENT_SCOPE=\"$(SESSION_PARENT_SCOPE)\" \\\n\t\tSESSION_ALLOW_PARALLEL=\"$(SESSION_ALLOW_PARALLEL)\" \\\n\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\\n\t\tWORKTREE_EXECUTION_PROFILE=light ALLOW_UNPLANNED=1"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 192,
+              "end_line": 193,
+              "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\"
+            }
+          ],
+          "evidence_delivery": "returned_but_unused"
+        },
+        {
+          "field": "causal_chain[3]",
+          "value_sha256": "09d38c83a7c77738e9559ce7ff76e0216219d4a9b87a488b655da6f4daed596e",
+          "verdict": "supported",
+          "rationale": "Claim shell command starts at174, with options192\u2013194.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 174,
+              "end_line": 174,
+              "quote": "\t@$(PYTHON) \"$(WORKTREE_CLAIMS_SCRIPT)\" --claim \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 192,
+              "end_line": 194,
+              "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\\n\t\t$(foreach path,$(SESSION_WRITE_PATHS),--write-path \"$(path)\") \\"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "causal_chain[4]",
+          "value_sha256": "8e4488a640c4e3a30020ac508cae956c20e4b9cfc16bb4c8c5cf5c2abaa0a590",
+          "verdict": "qualified",
+          "rationale": "Delegation is indirect: facade imports provider and calls main; provider creates and validates candidate before helper.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+              "start_line": 29,
+              "end_line": 33,
+              "quote": "if str(repo_root) not in sys.path:\n    sys.path.insert(0, str(repo_root))\n\nfrom enforced_planning import coordination_claims as _impl  # noqa: E402\n"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py",
+              "start_line": 250,
+              "end_line": 250,
+              "quote": "    return _impl.main(resolved_argv)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 4034,
+              "end_line": 4039,
+              "quote": "        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)"
+            }
+          ],
+          "evidence_delivery": "evidence_absent"
+        },
+        {
+          "field": "causal_chain[5]",
+          "value_sha256": "553cb92b95b4a8fa630c66d872a8c0bd1ad65a3477d1da075d0b08af2f12b981",
+          "verdict": "incorrect",
+          "rationale": "2686 is the legacy branch. Active classifier is2617\u20132618 via2750.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2682,
+              "end_line": 2687,
+              "quote": "    reason = claim.broad_scope_reason.strip() if isinstance(claim.broad_scope_reason, str) else None\n    issues: list[str] = []\n    if claim.schema_version < 6:\n        possible_broad = any(\n            _normalize_repo_path(path) == \".\" or \"/\" not in _normalize_repo_path(path)\n            for path in claim.write_paths"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2617,
+              "end_line": 2618,
+              "quote": "        if path == \".\":\n            broad[path] = \"repository_root\""
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2749,
+              "end_line": 2754,
+              "quote": "    try:\n        broad_paths = classify_broad_write_paths(\n            claim.repo_root,\n            claim.write_paths,\n            verified_new_files=verified_new_files,\n        )"
+            }
+          ],
+          "evidence_delivery": "evidence_absent"
+        },
+        {
+          "field": "causal_chain[6]",
+          "value_sha256": "67b78981aba784868957598c7eb5190985505430fffc6c28f4d0bc5f8d49481a",
+          "verdict": "inconclusive",
+          "rationale": "No evidence establishes absent inherited metadata; returned optional argument paths and final limitation contradict this unconditional assumption.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 192,
+              "end_line": 193,
+              "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\"
+            }
+          ],
+          "evidence_delivery": "returned_but_unused"
+        },
+        {
+          "field": "causal_chain[7]",
+          "value_sha256": "3e9a181177d75253c3fd3dde0b5050af2460c1b0d789b255b6cb10f31cfb9714",
+          "verdict": "qualified",
+          "rationale": "Actual append is2767, not2766.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2766,
+              "end_line": 2767,
+              "quote": "        if mode not in BROAD_SCOPE_MODES:\n            issues.append(\"broad_scope_mode_required\")"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "causal_chain[8]",
+          "value_sha256": "871a907ab1852d343363941fee38dc49f47cbe8fd74cd56fb7499868af48ba15",
+          "verdict": "incorrect",
+          "rationale": "The raising function is validate_claim_for_creation at2120, raise2152. evaluate_claim starts3398 and evaluates overlaps.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2120,
+              "end_line": 2124,
+              "quote": "def validate_claim_for_creation(claim: ClaimRecord) -> None:\n    \"\"\"Reject new claims that omit required ownership metadata for live coordination.\"\"\"\n    issues = [issue for issue in claim_health_issues(claim) if issue in CREATION_BLOCKING_HEALTH_ISSUES]\n    if claim.is_live() and issues:\n        flag_map = {"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 2149,
+              "end_line": 2152,
+              "quote": "        )\n    broad_issues = _broad_scope_contract_issues(claim)\n    if claim.is_live() and claim.schema_version >= 6 and broad_issues:\n        raise ValueError(\"; \".join(broad_issues))"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 3398,
+              "end_line": 3401,
+              "quote": "def evaluate_claim(candidate: ClaimRecord, *, active_claims: list[ClaimRecord] | None = None) -> ClaimCheckResult:\n    \"\"\"Classify candidate claim interactions against active live claims.\"\"\"\n    claims = active_claims if active_claims is not None else check_claims()\n    interactions: list[ClaimInteraction] = []"
+            }
+          ],
+          "evidence_delivery": "evidence_absent"
+        },
+        {
+          "field": "causal_chain[9]",
+          "value_sha256": "3d0fd2edacd81cd1ea95a58e6bf04a6e4ea57ea33c2658263c4cea03d0964941",
+          "verdict": "supported",
+          "rationale": "Make source control flow performs claim admission174 before worktree creation199\u2013202. Historical execution was not replayed.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 174,
+              "end_line": 174,
+              "quote": "\t@$(PYTHON) \"$(WORKTREE_CLAIMS_SCRIPT)\" --claim \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 199,
+              "end_line": 202,
+              "quote": "\t@mkdir -p \"$(WORKTREE_DIR)\"\n\t@creation_receipt=$$(mktemp \"$(WORKTREE_DIR)/.worktree-create.XXXXXX.json\"); \\\n\ttrap 'rm -f \"$$creation_receipt\"' EXIT HUP INT TERM; \\\n\tif ! $(PYTHON) \"$(WORKTREE_CREATE_SCRIPT)\" \\"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "alternatives_ruled_out[0]",
+          "value_sha256": "1b0d5c136672d7f870d73333343498e5fa4288effe66ab6dbbb781ddc31ef639",
+          "verdict": "qualified",
+          "rationale": "Valid for this specific refusal: candidate validation4039 precedes conflict evaluation4076. These call sites did not return to the child; later conflicts remain possible.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 4034,
+              "end_line": 4042,
+              "quote": "        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)\n\n    with claim_registry_lock():\n        registry_digest_before = _registry_digest(CLAIMS_DIR)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 4074,
+              "end_line": 4077,
+              "quote": "        validate_claim_hierarchy_for_creation(candidate, active_claims=active_claims)\n        validate_session_root_for_creation(candidate, active_claims=check_claims())\n        check_result = evaluate_claim(candidate, active_claims=active_claims)\n        if check_result.hard_conflicts:"
+            }
+          ],
+          "evidence_delivery": "evidence_absent"
+        },
+        {
+          "field": "alternatives_ruled_out[1]",
+          "value_sha256": "6c5544421f1c61f186623dff03912eac55da2e1a3772fdd57c779c27128211b6",
+          "verdict": "supported",
+          "rationale": "Dot is a supplied scope, not missing paths.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 332,
+              "end_line": 332,
+              "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+            }
+          ],
+          "evidence_delivery": "returned_and_used"
+        },
+        {
+          "field": "alternatives_ruled_out[2]",
+          "value_sha256": "e68537533ba9e68b9908d86d684c50285f3bd2ea35950374f674ceecae1d0982",
+          "verdict": "incorrect",
+          "rationale": "Schema6 is explicitly selected at4034; it is not caused by SESSION_WRITE_PATHS. That creation site never returned.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 4034,
+              "end_line": 4039,
+              "quote": "        schema_version=6,\n        method_receipt_ref=method_receipt_ref,\n        method_receipt_sha256=method_receipt_sha256,\n        **_progress_event_payload(initial_progress),\n    )\n    validate_claim_for_creation(candidate)"
+            }
+          ],
+          "evidence_delivery": "evidence_absent"
+        },
+        {
+          "field": "limitations[0]",
+          "value_sha256": "203cd40118e16c78480d23d5a1e039a448de612e217f3b4d991f35e214bfe8f9",
+          "verdict": "qualified",
+          "rationale": "Unknown environment is correct. Broad variables have no ?= declaration here; their conditional CLI forwarding is at192\u2013193.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 192,
+              "end_line": 193,
+              "quote": "\t\t$(if $(SESSION_BROAD_SCOPE_MODE),--broad-scope-mode \"$(SESSION_BROAD_SCOPE_MODE)\",) \\\n\t\t$(if $(SESSION_BROAD_SCOPE_REASON),--broad-scope-reason \"$(SESSION_BROAD_SCOPE_REASON)\",) \\"
+            }
+          ],
+          "evidence_delivery": "returned_but_unused"
+        },
+        {
+          "field": "limitations[1]",
+          "value_sha256": "52d63ae8f7721dafef9b815466e82f18725267572830512f9d8bf33d1eb77bb1",
+          "verdict": "supported",
+          "rationale": "Current repair statement is packet-provided and properly excludes inspecting it.",
+          "sources": [],
+          "evidence_delivery": "packet_only"
+        },
+        {
+          "field": "limitations[2]",
+          "value_sha256": "2ce6a98fec74f011b550316e3f64d41221715e768d008942bfc55e17a0328146",
+          "verdict": "incorrect",
+          "rationale": "Provider files use separate revisionac9454fc10bfe044b4382c11bdbe0e6c98a61ae0, not Project Meta revision alone. Runtime non-reproduction remains true.",
+          "sources": [],
+          "evidence_delivery": "packet_only"
+        },
+        {
+          "field": "limitations[3]",
+          "value_sha256": "13b991298ae4e332630b076228e695f2791ecf699521e43d63a15122f9e34e67",
+          "verdict": "qualified",
+          "rationale": "Internal comment supports scope override, but does not establish discoverability from AGENTS99 or usage319\u2013323.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 309,
+              "end_line": 311,
+              "quote": "# SESSION_WRITE_PATHS must win: silently discarding it made every maintenance\n# lane conflict with every other active lane by construction, and the operator\n# saw a CONFLICT naming the other lanes rather than their own claim."
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+              "start_line": 99,
+              "end_line": 99,
+              "quote": "make maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 319,
+              "end_line": 323,
+              "quote": "\t@if [ -z \"$(strip $(BRANCH))\" ]; then \\\n\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\\n\t\texit 2; \\"
+            }
+          ],
+          "evidence_delivery": "returned_but_unused"
+        },
+        {
+          "field": "recommended_parent_action",
+          "value_sha256": "f9dd72e65565055144b0d2a5f1be6caf0a32b4c865877512d21023f74534daaf",
+          "verdict": "qualified",
+          "rationale": "Narrow SESSION_WRITE_PATHS is supported, but requested MAINTENANCE_BOOTSTRAP_WRITE_PATHS recovery/discoverability is omitted. Mode+reason addresses this check, not whole admission success; bootstrap must narrow before writes.",
+          "sources": [
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 312,
+              "end_line": 312,
+              "quote": "MAINTENANCE_BOOTSTRAP_WRITE_PATHS = $(if $(strip $(SESSION_WRITE_PATHS)),$(SESSION_WRITE_PATHS),.)"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 332,
+              "end_line": 332,
+              "quote": "\t\tSESSION_WRITE_PATHS=\"$(MAINTENANCE_BOOTSTRAP_WRITE_PATHS)\" SESSION_READ_PATHS=\"$(SESSION_READ_PATHS)\" \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/AGENTS.md",
+              "start_line": 99,
+              "end_line": 99,
+              "quote": "make maintenance-worktree BRANCH=maintenance-issue TASK=\"repair one verified issue\" WORKTREE_AGENT=codex SESSION_GOAL=\"keep Project Meta entrypoints truthful\" SESSION_PHASE=\"repair and verify\""
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/project-meta/Makefile",
+              "start_line": 319,
+              "end_line": 323,
+              "quote": "\t@if [ -z \"$(strip $(BRANCH))\" ]; then \\\n\t\techo \"BRANCH is required. Usage: make maintenance-worktree BRANCH=fix-hook-guard\"; \\\n\t\techo \"Everything else has a default: TASK, SESSION_GOAL, and SESSION_PHASE come\"; \\\n\t\techo \"from the branch name, and the agent from the runtime. Override any of them.\"; \\\n\t\texit 2; \\"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py",
+              "start_line": 3582,
+              "end_line": 3584,
+              "quote": "    if normalized_mode == \"bootstrap\":\n        effective_target_worktree = target_worktree_path or worktree_path\n        effective_worktree = effective_target_worktree"
+            },
+            {
+              "path": "proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md",
+              "start_line": 204,
+              "end_line": 207,
+              "quote": "   A new broad write claim must declare `bootstrap` or `bounded` intent plus a\n   non-empty reason. Use `session-narrow` to reduce it; bootstrap claims cannot\n   authorize ordinary repository writes until that owner/session-bound narrow\n   succeeds."
+            }
+          ],
+          "evidence_delivery": "returned_but_unused"
+        },
+        {
+          "field": "mutation_declaration",
+          "value_sha256": "ca4326a9f3351ae5168615dfd6290a60f9135687005f444c685f1e0af82da752",
+          "verdict": "supported",
+          "rationale": "Observed13 calls (9Read,4Grep) stay within frozen files;12 results returned and one Read was interrupted. No write/network/memory/child tool call appears.",
+          "sources": [],
+          "evidence_delivery": "native_trace"
+        }
+      ]
+    },
+    "tool_events": {
+      "calls": {
+        "toolu_bdrk_01Sonm5art1rYSDJRvp1EmTu": {
+          "line": 9,
+          "name": "Read",
+          "input_sha256": "b00e1d4ec2f66646e38f77e9d976ae435d349c7ef120d188cfb608bea29109b2",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/project-meta/AGENTS.md"
+        },
+        "toolu_bdrk_015yEJNGUKBqwhrMPCyj648s": {
+          "line": 10,
+          "name": "Read",
+          "input_sha256": "c7c4429398677f8b31ba6a2f9343d16732e953552018a7f0d79a645c0342e29a",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md"
+        },
+        "toolu_bdrk_015vc6MZC4Y7ZMns2dNStfW5": {
+          "line": 19,
+          "name": "Read",
+          "input_sha256": "d42b45d11b7669ef9de151283d571dfbb8b112aa4a7cdebc126e24f4b3f70070",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/project-meta/Makefile"
+        },
+        "toolu_bdrk_01YaQC8zVkYvW6cEdDva2vJY": {
+          "line": 25,
+          "name": "Read",
+          "input_sha256": "e7be42e2b768fad4dd4c349d36dd27a6976bb3eafbbd99f7075d5c1e2fae050d",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py"
+        },
+        "toolu_bdrk_0134Hz7XCN2nWGccm7FbCDvP": {
+          "line": 31,
+          "name": "Read",
+          "input_sha256": "20e02117595dfc1ff3162f3f391a81767da6001d665dfd106b136ae3646a8129",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py"
+        },
+        "toolu_bdrk_016YEwE51vKgz374cYbUVPuo": {
+          "line": 37,
+          "name": "Grep",
+          "input_sha256": "0ff56cc5d9caf19de9d99f67880b8bc8addc3d749d359bb0fbebc2c0679e3c50",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py"
+        },
+        "toolu_bdrk_01NZjuToyDGvcmfGgmBY3sft": {
+          "line": 43,
+          "name": "Grep",
+          "input_sha256": "4b528defc1ea40fd448961dd03538207b65a22005e0681d2b5dd647dc6f28b86",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/project-meta/Makefile"
+        },
+        "toolu_bdrk_01Eh17hCMpXuKdw4BZ2PeP6f": {
+          "line": 49,
+          "name": "Grep",
+          "input_sha256": "fc97d34379e8496828cdccf6011393a492cef3525855fe7e23bdd107539870f7",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py"
+        },
+        "toolu_bdrk_01M6BZtRRSte8jUbGzdSiCTq": {
+          "line": 55,
+          "name": "Read",
+          "input_sha256": "d659e077b984fb2759f686c199cdea1b614b121c5253490e9164172c41a5c7ae",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py"
+        },
+        "toolu_bdrk_015J6JyhWNQkUGW9FEXhkxkZ": {
+          "line": 61,
+          "name": "Read",
+          "input_sha256": "75065dffc964bafff118ada6ad4f7a710af07cb0aefb68292dc85d85596776ad",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py"
+        },
+        "toolu_bdrk_01LfvAvm4xLpD7CwsHu4nCfm": {
+          "line": 71,
+          "name": "Grep",
+          "input_sha256": "4e061b9993253018cd75e990b19e4e29d58aa8fe5132ab1b169842418ac682db",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md"
+        },
+        "toolu_bdrk_01Y4S2exA6cRvT68QdLsHQLw": {
+          "line": 76,
+          "name": "Read",
+          "input_sha256": "d18720adebb7405893361c04f01faf87ffcdca01032e3feb466e8eac293a176c",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/project-meta/Makefile"
+        },
+        "toolu_bdrk_01NT1Lsbi8PHyC386F6gY2qV": {
+          "line": 82,
+          "name": "Read",
+          "input_sha256": "848252a41204eb25b5a1cdf69737b3422041dfa7bb8f421b096ae6c85ed8dfcd",
+          "path": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-claude-live/proposals/harness-context/native-parity/input/project-meta/Makefile"
+        }
+      },
+      "outputs": {
+        "toolu_bdrk_01Sonm5art1rYSDJRvp1EmTu": {
+          "line": 11,
+          "output_sha256": "b244045882c6720a920d678c634a6e38591b431498892592b36f874b8ab71549"
+        },
+        "toolu_bdrk_015yEJNGUKBqwhrMPCyj648s": {
+          "line": 12,
+          "output_sha256": "6d7406aaf4f5bc3167f8cf2093055f24cacfc4e346facec51f440ff847eb6c3b"
+        },
+        "toolu_bdrk_015vc6MZC4Y7ZMns2dNStfW5": {
+          "line": 20,
+          "output_sha256": "2e59978c18316e554a40f4acdb3c0b0cc899c8ae716acd00d21c1b0b76d143a3"
+        },
+        "toolu_bdrk_01YaQC8zVkYvW6cEdDva2vJY": {
+          "line": 26,
+          "output_sha256": "d298d03dd897a061cffc9e33395ff8381629ba9ed9c71ad2bc14364806882bcc"
+        },
+        "toolu_bdrk_0134Hz7XCN2nWGccm7FbCDvP": {
+          "line": 32,
+          "output_sha256": "58966e8e5d398ddda238c497a87935d2cd5cf094bcc4a11aa5db96139faba908"
+        },
+        "toolu_bdrk_016YEwE51vKgz374cYbUVPuo": {
+          "line": 38,
+          "output_sha256": "42c5f41d572531e2407947b575b808875f52cfeaaad25b2156263221d891ac2f"
+        },
+        "toolu_bdrk_01NZjuToyDGvcmfGgmBY3sft": {
+          "line": 44,
+          "output_sha256": "51fcce643b9878617d3d90d956217c0979da49af02eecf964374132a4fa4c0db"
+        },
+        "toolu_bdrk_01Eh17hCMpXuKdw4BZ2PeP6f": {
+          "line": 50,
+          "output_sha256": "ac5395b0e7b994bd32ed0c6cb2f96a06426e646e81fc5c5beb3c702bc4d591d4"
+        },
+        "toolu_bdrk_015J6JyhWNQkUGW9FEXhkxkZ": {
+          "line": 62,
+          "output_sha256": "f34e004a98fc98cf0cc7cc4600ad435d7754cc901738c4c0a7f3f2525ec0b36f"
+        },
+        "toolu_bdrk_01LfvAvm4xLpD7CwsHu4nCfm": {
+          "line": 72,
+          "output_sha256": "fc793d3eb7ed5207f456afa7e956cb1d9cf9d38187e9176b592ebba57f7b53e1"
+        },
+        "toolu_bdrk_01Y4S2exA6cRvT68QdLsHQLw": {
+          "line": 77,
+          "output_sha256": "671a5883ec24c3a849b39f55289702bdec2533dffaeff4bf7a4cba70feb591e1"
+        },
+        "toolu_bdrk_01NT1Lsbi8PHyC386F6gY2qV": {
+          "line": 83,
+          "output_sha256": "24598b3a1deb52a9ddd286dfadef0d9a0f3a1c6cb126e6d0e6e8ec55b641a0e0"
+        }
+      }
+    }
+  },
+  "behavior_findings": [
+    {
+      "requirement": "Exact required role delivered",
+      "claude": "pass",
+      "codex": "pass"
+    },
+    {
+      "requirement": "Authorities read first and observed reads limited to packet",
+      "claude": "pass",
+      "codex": "pass",
+      "limit": "Observed compliance; no native five-file enforcement"
+    },
+    {
+      "requirement": "Literal JSON-only result",
+      "claude": "fail",
+      "codex": "pass",
+      "limit": "Claude emitted a Markdown fence; only framing stripped for schema check"
+    },
+    {
+      "requirement": "Source-correct cause and recovery-discovery answer",
+      "claude": "inconclusive",
+      "codex": "pass",
+      "limit": "Raw Claude errors preserved with exhaustive source corrections"
+    },
+    {
+      "requirement": "Measured initial context shrank in tested child route",
+      "claude": "pass",
+      "codex": "fail",
+      "limit": "Claude36067to6172; Codex36702to37750. Different model tokenizers; not a whole-job cost comparison."
+    },
+    {
+      "requirement": "Actual read-only boundary",
+      "claude": "read-only tool catalog",
+      "codex": "managed read-only, root reads, restricted network",
+      "limit": "No actual child denial or writable-parent isolation tested"
+    },
+    {
+      "requirement": "Required hook execution parity",
+      "claude": "unverified",
+      "codex": "unverified",
+      "limit": "No hook event in this task certifies the full hook contract"
+    }
+  ],
+  "derived_usage": {
+    "codex": {
+      "parent": {
+        "first": {
+          "input_tokens": 36702,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1289,
+          "reasoning_output_tokens": 0,
+          "total_tokens": 37991
+        },
+        "total": {
+          "input_tokens": 350437,
+          "cached_input_tokens": 306048,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4656,
+          "reasoning_output_tokens": 758,
+          "total_tokens": 355093
+        }
+      },
+      "child": {
+        "first": {
+          "input_tokens": 37750,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 622,
+          "reasoning_output_tokens": 292,
+          "total_tokens": 38372
+        },
+        "total": {
+          "input_tokens": 571272,
+          "cached_input_tokens": 495360,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 6367,
+          "reasoning_output_tokens": 1910,
+          "total_tokens": 577639
+        }
+      }
+    },
+    "claude": {
+      "parent": {
+        "first": {
+          "input_tokens": 9,
+          "cache_creation_input_tokens": 36058,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 1879,
+          "output_tokens_details": {
+            "thinking_tokens": 307
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 36058
+          },
+          "inference_geo": "",
+          "iterations": [],
+          "speed": "standard",
+          "fallback_credit": null
+        },
+        "first_input_including_cache": 36067,
+        "generations": 8,
+        "total": {
+          "input_tokens": 77,
+          "cache_creation_input_tokens": 190653,
+          "cache_read_input_tokens": 140509,
+          "output_tokens": 4643
+        }
+      },
+      "child": {
+        "first": {
+          "input_tokens": 10,
+          "cache_creation_input_tokens": 6162,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 483,
+          "output_tokens_details": {
+            "thinking_tokens": 261
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 6162
+          },
+          "inference_geo": "",
+          "iterations": [],
+          "speed": "standard",
+          "fallback_credit": null
+        },
+        "first_input_including_cache": 6172,
+        "generations": 14,
+        "total": {
+          "input_tokens": 120,
+          "cache_creation_input_tokens": 242179,
+          "cache_read_input_tokens": 396264,
+          "output_tokens": 9622
+        }
+      }
+    }
+  }
+}
