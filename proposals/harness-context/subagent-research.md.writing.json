@@ -1,0 +1,76 @@
+{
+ "situation": {
+  "schema": "writing-situation/v2",
+  "medium": "document",
+  "route": "decision_brief",
+  "rationale": "Current official-source comparison informs the choice of native execution routes and shared behavior checks.",
+  "facts": {
+   "asks_for_approval_or_resources": {
+    "value": false,
+    "evidence": "No_approval_or_spend_request"
+   },
+   "central_claim_needs_argument": {
+    "value": false,
+    "evidence": "Reference_comparison"
+   },
+   "is_chat_message": {
+    "value": false,
+    "evidence": "Markdown_document"
+   },
+   "is_dloa": {
+    "value": false,
+    "evidence": "No_daily_log"
+   },
+   "is_email": {
+    "value": false,
+    "evidence": "No_email"
+   },
+   "is_job_application": {
+    "value": false,
+    "evidence": "Harness_research"
+   },
+   "is_message_to_brian": {
+    "value": false,
+    "evidence": "Standalone_research_document"
+   },
+   "reader_decides_from_this": {
+    "value": true,
+    "evidence": "Brian_wants_mechanism_and_parity_design"
+   },
+   "reader_performs_task": {
+    "value": false,
+    "evidence": "Compares_mechanisms"
+   },
+   "reports_transferable_failure": {
+    "value": false,
+    "evidence": "Research_includes_limits_but_is_not_failure_report"
+   },
+   "subject_is_built_artifact": {
+    "value": false,
+    "evidence": "No_new_runtime_built"
+   }
+  }
+ },
+ "items": {
+  "b-recommendation-first": {
+   "status": "pass",
+   "quote": "Use native workers with an explicit history policy",
+   "note": ""
+  },
+  "b-alternatives": {
+   "status": "pass",
+   "quote": "byte-only synchronization is cheap but misses runtime overrides",
+   "note": ""
+  },
+  "b-confidence-impact": {
+   "status": "pass",
+   "quote": "The impact of a false parity claim is high",
+   "note": ""
+  },
+  "rep-considered": {
+   "status": "pass",
+   "quote": "The choices are independent",
+   "note": ""
+  }
+ }
+}
