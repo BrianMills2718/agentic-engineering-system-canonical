@@ -1,0 +1,50 @@
+{
+  "active_slice": {
+    "description": "Same frozen maintenance investigation through native parent and child in Claude and Codex; included subscription calls only, no additional purchases",
+    "next_action": "Freeze the source packet and run each native parent with one installed read-only child",
+    "requires_external_action": false,
+    "requires_spend": false,
+    "slice_id": "native-investigator-parity",
+    "status": "ready",
+    "target_revision": "f974ff7dae6fd7b7588bb02965618640010ab476"
+  },
+  "authority": {
+    "external_action_authorized": false,
+    "human_decision": null,
+    "human_decision_required": false,
+    "implementation_authorized": true,
+    "spend_cap_usd": 0,
+    "spend_used_usd": 0
+  },
+  "circuit_breakers": {
+    "context_integrity_valid": true,
+    "max_same_boundary_failures": 3,
+    "runtime_integrity_valid": true
+  },
+  "completion": {
+    "evidence_revision": null,
+    "receipt_ref": null,
+    "remaining_ready_work": 1,
+    "requested": false,
+    "verifier_outcome": null
+  },
+  "cursor_id": "harness-fresh-parity-20261009",
+  "cursor_revision": 1,
+  "failure_state": {
+    "boundary": null,
+    "last_failure_ref": null,
+    "same_boundary_failures": 0
+  },
+  "goal_ref": "proposals/harness-context/harness-context.goal.md",
+  "lifecycle_state": "active",
+  "observations": [],
+  "plan_revision": "f974ff7dae6fd7b7588bb02965618640010ab476",
+  "ready_alternatives": [],
+  "record_type": "plan_execution_cursor",
+  "schema_version": "1.0",
+  "target": {
+    "branch": "harness-fresh-parity",
+    "repository": "agentic-engineering-system-canonical",
+    "worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/harness-fresh-parity"
+  }
+}
