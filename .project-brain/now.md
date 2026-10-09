@@ -15,8 +15,10 @@ inventories instruction/skill/hook/policy delivery across both clients. Its
 the findings and measured native context boundaries. Vision work remains with
 its existing session; this detour makes no vision changes. Detailed private
 source judgments are retained in Project Meta, with public references in the inventory.
-The installed specialist completed native tasks in both clients. Codex children still inherit
-the bootstrap; the fresh-session route is the measured smaller-context boundary.
+The installed specialist completed native tasks in both clients. In those recorded
+Codex child invocations, the bootstrap was inherited; the separate fresh-session
+route was the measured smaller-context boundary. This describes those invocations,
+not every native child configuration.
 The [skip-only recorder repair](../proposals/evidence-recorder-counts/README.md) is
 reproduced but unimplemented: required adoption demands future execution proof ([#282](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282)); do not report #257 fixed.
 
