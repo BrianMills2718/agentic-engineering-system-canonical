@@ -203,6 +203,11 @@ git add .aes .githooks
 git commit -q -m "[Goal PLAN-001-GREET] Plan greeting and install hooks"
 ```
 
+The standalone installation observes commit-plan adoption by default. Native
+`aes plan accept` updates the AES target; it does not create a Company Planning
+adoption receipt. A workspace enforcing that separate rule also needs an
+adopted Company Planning goal before its implementation commits.
+
 ```text
 accepted at 9b3c5898ab7ddbe9298db48751b47a8915bec2c0
   added normative_items NI-001
@@ -440,3 +445,11 @@ Planning with a receipt, as for any plan.
 | `aes evidence status` | standing of every success criterion |
 | `aes status` | one screen: counts and the first open gap per component |
 | `aes reconcile [--json]` | full current state and every open gap |
+
+## Maintenance evidence
+
+The native feedback repair also repaired this guide's bootstrap commits and
+its clean-install test's machine-policy isolation. Its source-bound records are
+the [implementation plan](../../proposals/aes-subagent-feedback/PLAN.md),
+[system model](../../proposals/aes-subagent-feedback/SYSTEM_MODEL.md), and
+[execution goal](../../proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md).
