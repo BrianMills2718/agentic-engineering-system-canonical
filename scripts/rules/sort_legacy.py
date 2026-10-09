@@ -4,13 +4,15 @@
 For each rule in project-meta policy/registry.yaml, one model call (through llm_client) decides:
 
 - covered: an AES register rule or the workspace instruction file already says it;
-- keep:    still true and useful; it moves into the AES register with a plain one-sentence rule;
+- keep:    still true and useful; its complete policy stays in the private inventory register;
 - retire:  its documents or tools are gone, it was superseded, or it no longer applies.
 
 Every answer must quote its named source. Historical answers and attempts stay in
 OUT/legacy-sort.jsonl. Offline --apply/--check read all current sources, bind their
 inputs, reject stale evidence, and retain canonical policy text conservatively.
 An inventory proposal never activates or removes a mandatory legacy rule.
+Full source text stays outside the public checkout. Public dispositions contain
+identifiers, validated outcomes and evidence hashes, never imported source prose.
 
 Run detached; prints one line per rule with its timing and a summary with counts and exit status:
 
@@ -322,6 +324,12 @@ def reviewed_answer(rule: dict, row: dict, f: dict, sources: dict) -> tuple[Disp
 
 def apply(cache_path: Path, *, check_only: bool = False) -> int:
     """Materialize or check an input-bound inventory; preserve raw attempts unchanged."""
+    private_register = OUT / "legacy-register.private.yaml"
+    private_dispositions = OUT / "legacy-dispositions.private.yaml"
+    for path in (private_register, private_dispositions):
+        resolved = path.resolve()
+        if resolved.is_relative_to(ROOT.resolve()) or any((p / ".git").exists() for p in resolved.parents):
+            raise ValueError("private inventory output must be outside the public repository and all Git checkouts")
     raw = cache_path.read_bytes()
     latest, cache_lines, historical = {}, {}, []
     for line_no, line in enumerate(raw.decode().splitlines(), 1):
@@ -392,11 +400,45 @@ def apply(cache_path: Path, *, check_only: bool = False) -> int:
                 "rules": rows}
     serialize = lambda value: yaml.safe_dump(value, sort_keys=False, allow_unicode=True, width=110)
     disposition_text, register_text = serialize(document), serialize(register)
+    # Allowlist structural fields. Do not guess which source prose is private.
+    # The complete source-linked record remains available to private consumers.
+    public_rows = []
+    for entry in rows:
+        public = {key: entry[key] for key in
+                  ("id", "disposition", "covered_by", "retire_kind", "kept_as", "quote_from",
+                   "input_sha256", "validation", "activation", "applies_kind") if key in entry}
+        for key in ("quote", "reason", "rule", "applies_value"):
+            public[key + "_sha256"] = hashlib.sha256(entry.get(key, "").encode()).hexdigest()
+        public_rows.append(public)
+    public_document = {
+        "schema_version": "aes-legacy-dispositions-public/v1",
+        "validation_version": VALIDATION_VERSION,
+        "about": "Inventory proposals only. Complete source text, quotes and applicability values remain in the private inventory. No mandatory rule is removed or activated.",
+        "source": "project-meta/policy/registry.yaml",
+        "cache_sha256": document["cache_sha256"],
+        "private_dispositions_sha256": hashlib.sha256(disposition_text.encode()).hexdigest(),
+        "private_register_sha256": hashlib.sha256(register_text.encode()).hexdigest(),
+        "historical_accounting": document["historical_accounting"],
+        "rules": public_rows,
+    }
+    public_text = serialize(public_document)
+    # Keep the published baseline unchanged; migration is an inventory proposal.
+    public_register = {**register, "rules": base}
+    baseline_text = serialize(public_register)
     if check_only:
-        ok = DISPOSITIONS.exists() and DISPOSITIONS.read_text() == disposition_text and REGISTER.read_text() == register_text
+        expected = {DISPOSITIONS: public_text, REGISTER: baseline_text,
+                    private_dispositions: disposition_text, private_register: register_text}
+        ok = all(path.exists() and path.read_text() == text for path, text in expected.items())
     else:
-        DISPOSITIONS.write_text(disposition_text, encoding="utf-8")
-        REGISTER.write_text(register_text, encoding="utf-8")
+        OUT.mkdir(parents=True, exist_ok=True)
+        for path, text in ((private_dispositions, disposition_text), (private_register, register_text)):
+            # Restrict permissions before writing private source text.
+            fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+            os.fchmod(fd, 0o600)
+            with os.fdopen(fd, "w", encoding="utf-8") as stream:
+                stream.write(text)
+        DISPOSITIONS.write_text(public_text, encoding="utf-8")
+        REGISTER.write_text(baseline_text, encoding="utf-8")
         ok = True
     counts = {kind: sum(r["disposition"] == kind for r in rows) for kind in ("keep", "covered", "retire")}
     print(f"RESULT inventory {'check' if check_only else 'apply'}: exact_ids={len(rows)}; {json.dumps(counts, sort_keys=True)}; "
@@ -409,7 +451,7 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=0, help="sort at most N not-yet-sorted rules (0 = all)")
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--only", nargs="*", help="sort just these rule ids (ignores the cache for them)")
-    parser.add_argument("--apply", action="store_true", help="write dispositions and move kept rules into the register")
+    parser.add_argument("--apply", action="store_true", help="write private full inventory and public hash-only dispositions; preserve published baseline")
     parser.add_argument("--check", action="store_true", help="revalidate cached inventory against current inputs, without calls or writes")
     parser.add_argument("--sort", action="store_true", help="explicit model-sorting mode; requires separate sort-call authority")
     args = parser.parse_args()

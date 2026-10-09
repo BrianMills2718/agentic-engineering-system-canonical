@@ -94,6 +94,7 @@ def _inventory(tmp_path: Path):
     m.LEGACY = m.PROJECT_META / "registry.yaml"
     m.REGISTER = tmp_path / "register.yaml"
     m.DISPOSITIONS = tmp_path / "dispositions.yaml"
+    m.OUT = tmp_path / "private"
     m.INSTRUCTIONS = tmp_path / "instructions.md"
     m.INSTRUCTIONS.write_text("Never publish credentials or private records.")
     doc = m.PROJECT_META / "source.md"
@@ -117,8 +118,10 @@ def test_apply_preserves_complete_policy_and_check_rejects_changed_inputs(tmp_pa
     m, rule, _, cache, doc = _inventory(tmp_path)
     raw = cache.read_bytes()
     assert m.apply(cache) == 0
-    kept = yaml.safe_load(m.REGISTER.read_text())["rules"][0]
+    kept = yaml.safe_load((m.OUT / "legacy-register.private.yaml").read_text())["rules"][0]
     assert kept["rule"] == rule["policy"]  # the second clause must survive migration
+    assert yaml.safe_load(m.REGISTER.read_text())["rules"] == []
+    assert rule["policy"] not in m.DISPOSITIONS.read_text()
     assert m.apply(cache, check_only=True) == 0
     doc.write_text(doc.read_text() + "\nAn additional current source clause.")
     assert m.apply(cache, check_only=True) == 1
@@ -142,7 +145,7 @@ def test_existing_tool_invalidates_missing_tool_retirement_and_preserves_unknown
     row["attempts"] = [{"model": "historical", "failed": "network failure"}]
     cache.write_text(json.dumps(row) + "\n")
     assert m.apply(cache) == 0
-    output = yaml.safe_load(m.DISPOSITIONS.read_text())
+    output = yaml.safe_load((m.OUT / "legacy-dispositions.private.yaml").read_text())
     assert output["rules"][0]["disposition"] == "keep"
     assert output["rules"][0]["quote"] == rule["policy"]
     assert output["historical_accounting"] == {"attempts": 1, "known_cost_usd": 0,
@@ -174,5 +177,41 @@ def test_duplicate_source_ids_and_blank_model_tags_cannot_hide(tmp_path: Path) -
     row["applies_value"] = ""
     cache.write_text(json.dumps(row) + "\n")
     assert m.apply(cache) == 0
-    tag = yaml.safe_load(m.REGISTER.read_text())["rules"][0]["applies_when"]
+    tag = yaml.safe_load((m.OUT / "legacy-register.private.yaml").read_text())["rules"][0]["applies_when"]
     assert tag["kind"] == "intent" and tag["value"] == rule["scope"]
+
+
+def test_private_prose_cannot_escape_through_public_projection(tmp_path: Path) -> None:
+    import hashlib
+    m, rule, row, cache, doc = _inventory(tmp_path)
+    secret = "Synthetic private customer Bluebird has an unreleased deployment."
+    rule["policy"] = secret
+    rule["enforcement_mechanism"] = secret
+    doc.write_text(secret)
+    m.LEGACY.write_text(yaml.safe_dump({"policies": [rule]}))
+    row.update(quote=secret, reason=secret, rule=secret, applies_value=secret)
+    row["facts"], _ = m.source_context(rule, [], m.INSTRUCTIONS.read_text())
+    cache.write_text(json.dumps(row) + "\n")
+    raw = cache.read_bytes()
+    assert m.apply(cache) == 0
+    public = yaml.safe_load(m.DISPOSITIONS.read_text())
+    private = (m.OUT / "legacy-dispositions.private.yaml").read_bytes()
+    assert secret not in m.DISPOSITIONS.read_text() + m.REGISTER.read_text()
+    assert public["rules"][0]["id"] == rule["id"]
+    assert public["rules"][0]["quote_sha256"] == hashlib.sha256(secret.encode()).hexdigest()
+    assert public["private_dispositions_sha256"] == hashlib.sha256(private).hexdigest()
+    assert secret in private.decode()
+    assert (m.OUT / "legacy-register.private.yaml").stat().st_mode & 0o777 == 0o600
+    assert m.apply(cache, check_only=True) == 0
+    assert cache.read_bytes() == raw
+
+
+def test_private_output_inside_public_checkout_fails_before_writes(tmp_path: Path) -> None:
+    import pytest
+    m, _, _, cache, _ = _inventory(tmp_path)
+    m.OUT = m.ROOT / "docs"
+    original = m.REGISTER.read_bytes()
+    with pytest.raises(ValueError, match="outside the public repository"):
+        m.apply(cache)
+    assert m.REGISTER.read_bytes() == original
+    assert not m.DISPOSITIONS.exists()
