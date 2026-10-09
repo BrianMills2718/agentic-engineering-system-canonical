@@ -1,0 +1,5 @@
+LLM_CLIENT_TIMEOUT_POLICY=ban (first observed in call_llm_structured)
+(check observed 16 missing items from their skeleton sections: CORE-ACTOR-RESULT-EXAMPLE, CORE-ROUTE, CORE-SUCCESS-DISPROOF, CORE-TRACE-REVIEW, CORE-SYSTEM-MODEL, CORE-AUTHORITY-NONGOALS, CORE-IRREVERSIBLE-SPEND, CORE-UNCERTAINTIES, CORE-ACTIVATION-FACTS, OV-PRIOR-ART-DISPOSITION, OV-PRIOR-ART-PARALLEL-CHECK, OV-COORD-OWNERSHIP, OV-BOUNDARY-DISPOSITION, OV-CONTRACTS-SCHEMAS, OV-CONTRACTS-DEPENDENCIES, OV-DEPLOY-PLAN)
+  - OV-COORD-OWNERSHIP: semantic_unresolved -> Add to the plan: Explicit work-unit evidence for each concurrent writer. The records for `capability-catalogue` and `rules-sort` show `evidence_ref UNPLANNED` and `no formal work_unit_id`, so they do not substantively provide the required work-unit evidence.
+GAPS: 16 items, 11 verdicts reused from the cache; nothing was written
+elapsed_seconds=13.15 exit_status=1

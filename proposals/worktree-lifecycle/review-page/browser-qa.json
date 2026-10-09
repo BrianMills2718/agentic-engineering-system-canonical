@@ -1,0 +1,105 @@
+{
+  "passed": 2,
+  "failed": 0,
+  "exit_status": 0,
+  "rows": [
+    {
+      "label": "desktop",
+      "hovered": 12,
+      "focused": 12,
+      "tap": "not applicable",
+      "diagramSelections": 5,
+      "phaseSelections": 4,
+      "pageErrors": [],
+      "geometry": {
+        "overflow": false,
+        "svg": [
+          {
+            "width": 1206,
+            "viewBox": "0 0 1358 299",
+            "textMin": 14.209030100334449
+          },
+          {
+            "width": 1205.991455078125,
+            "viewBox": "-26 -43 1358 299",
+            "textMin": 14.209030100334449
+          },
+          {
+            "width": 26.839263916015625,
+            "viewBox": "0 0 32 32",
+            "textMin": null
+          },
+          {
+            "width": 26.83929443359375,
+            "viewBox": "0 0 32 32",
+            "textMin": null
+          },
+          {
+            "width": 26.83929443359375,
+            "viewBox": "0 0 32 32",
+            "textMin": null
+          },
+          {
+            "width": 26.8392333984375,
+            "viewBox": "0 0 32 32",
+            "textMin": null
+          },
+          {
+            "width": 26.8392333984375,
+            "viewBox": "0 0 32 32",
+            "textMin": null
+          }
+        ]
+      }
+    },
+    {
+      "label": "mobile",
+      "hovered": 12,
+      "focused": 12,
+      "tap": "passed",
+      "diagramSelections": 5,
+      "phaseSelections": 4,
+      "pageErrors": [],
+      "geometry": {
+        "overflow": false,
+        "svg": [
+          {
+            "width": 340,
+            "viewBox": "0 0 428 782",
+            "textMin": 12.710038363171355
+          },
+          {
+            "width": 339.9935302734375,
+            "viewBox": "-16 -33 428 782",
+            "textMin": 12.710038363171355
+          },
+          {
+            "width": 24.007827758789062,
+            "viewBox": "0 0 32 32",
+            "textMin": null
+          },
+          {
+            "width": 24.007827758789062,
+            "viewBox": "0 0 32 32",
+            "textMin": null
+          },
+          {
+            "width": 24.007827758789062,
+            "viewBox": "0 0 32 32",
+            "textMin": null
+          },
+          {
+            "width": 24.007843017578125,
+            "viewBox": "0 0 32 32",
+            "textMin": null
+          },
+          {
+            "width": 24.007843017578125,
+            "viewBox": "0 0 32 32",
+            "textMin": null
+          }
+        ]
+      }
+    }
+  ]
+}
