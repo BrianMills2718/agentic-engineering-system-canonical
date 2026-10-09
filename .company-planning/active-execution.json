@@ -1,0 +1,50 @@
+{
+  "active_slice": {
+    "description": "Integrate retained-owner source-supported inventory; no new sort calls",
+    "next_action": "Read owner checkpoint and real register/page evidence; merge planning and inventory without dropping pending delivery gates",
+    "requires_external_action": true,
+    "requires_spend": false,
+    "slice_id": "inventory-integration",
+    "status": "executing",
+    "target_revision": "5d126be54972ae9e3ea4847ddf507447f54b13d3"
+  },
+  "authority": {
+    "external_action_authorized": true,
+    "human_decision": null,
+    "human_decision_required": false,
+    "implementation_authorized": true,
+    "spend_cap_usd": 0,
+    "spend_used_usd": 0
+  },
+  "circuit_breakers": {
+    "context_integrity_valid": true,
+    "max_same_boundary_failures": 3,
+    "runtime_integrity_valid": true
+  },
+  "completion": {
+    "evidence_revision": null,
+    "receipt_ref": null,
+    "remaining_ready_work": 1,
+    "requested": false,
+    "verifier_outcome": null
+  },
+  "cursor_id": "agent-router-completion-20261009",
+  "cursor_revision": 1,
+  "failure_state": {
+    "boundary": null,
+    "last_failure_ref": null,
+    "same_boundary_failures": 0
+  },
+  "goal_ref": "proposals/agent-router/agent-router.goal.md",
+  "lifecycle_state": "active",
+  "observations": [],
+  "plan_revision": "5d126be54972ae9e3ea4847ddf507447f54b13d3",
+  "ready_alternatives": [],
+  "record_type": "plan_execution_cursor",
+  "schema_version": "1.0",
+  "target": {
+    "branch": "agent-router-execution",
+    "repository": "/home/brian/code/agentic-engineering-system-canonical",
+    "worktree": "/home/brian/code/agentic-engineering-system-canonical/worktrees/agent-router-execution"
+  }
+}
