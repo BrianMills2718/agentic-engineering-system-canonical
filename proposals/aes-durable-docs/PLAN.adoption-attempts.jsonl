@@ -1,0 +1,1 @@
+{"attempted_at": "2026-10-10T22:59:06Z", "decision": "adopted", "not_passed_items": [], "plan_ref": "proposals/aes-durable-docs/PLAN.md", "plan_sha256": "f64b0c64085f327c989f1010e3ade18f54ae38effec1f0399671fad1e6d7b586", "reason_codes": [], "receipt_result": "pass", "record_type": "method_adoption_attempt", "route": "coordinated", "route_fit": null}

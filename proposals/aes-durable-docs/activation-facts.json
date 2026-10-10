@@ -1,0 +1,25 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "proposals/aes-durable-docs/PLAN.md",
+  "plan_sha256": "f64b0c64085f327c989f1010e3ade18f54ae38effec1f0399671fad1e6d7b586",
+  "path_decision_ref": "proposals/aes-durable-docs/PLANNING_PATH.json",
+  "path_decision_sha256": "b4b10c7618e8b239d0a46245d6b91ad32d2246303ccc74a44bf01eb34cc71a53",
+  "facts": {
+    "shared_mechanism": true,
+    "empirical_comparison_proposed": false,
+    "llm_central": false,
+    "irreversible_or_spend_action": true,
+    "claims_external_standard": true,
+    "aes_governed_target": true
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary",
+    "claims_external_standard": "derived_current_boundary",
+    "aes_governed_target": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-10T22:58:52Z"
+}
