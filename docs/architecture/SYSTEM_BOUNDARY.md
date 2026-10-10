@@ -92,6 +92,9 @@ When implementation subjects exist, agents working at those subjects receive gen
 ## AES-CTX-003 — Planning and review use tractable source-bound working surfaces
 Human- and agent-facing planning/review experiences should project the smallest concern-specific set of work, architecture, assurance, current/gap, evidence, and decision context that makes the present engineering question tractable. These representations remain bound to exact source authorities and revisions, preserve unavailable/partial/stale/error states, and keep read-only or surface-local interaction distinct from authoritative effects. Representation Router is a donor/provider candidate for this concern, not an authority transfer or mandatory AES subsystem.
 
+## AES-CTX-004 — Truth lives where it is edited
+An agent keeps a fact current only if the fact is in front of it when it edits the thing the fact describes. A fact about one artifact (what a document or module is for, its contract, its status) is therefore authored inside that artifact, for example as a `description` front-matter line or a module docstring; wiki pages, indexes and catalogs that show it are generated from that copy and never hand-maintained. A rule that governs many artifacts is authored once and generated into each implementing site (AES-CTX-002). A hand-written summary kept away from the artifact it summarizes is a defect, because the agent editing the artifact cannot see it. Decision 0013 records the reason and its wrong-when condition.
+
 ## AES-EVID-001 — Append-only observations, current projections
 Observations and evidence are retained as immutable/append-only history where practical. Current-state and gap views are materialized from the latest valid revision-bound evidence rather than storing history in current docstrings/wiki prose.
 

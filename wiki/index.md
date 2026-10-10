@@ -11,6 +11,7 @@ AES v0.2, the greenfield MVP, is accepted as realized by
 this repository's `src/agentic_engineering_system/` and `tests/greenfield/`
 through its own `.aes/` target.
 
+- Truth lives where it is edited: a document's or module's own summary is written inside it and wiki pages are generated from it ([AES-CTX-004](../docs/architecture/SYSTEM_BOUNDARY.md), [Decision 0013](../docs/decisions/0013-truth-lives-where-it-is-edited.md)).
 - Terms: [`docs/terms/ecosystem-terms.md`](../docs/terms/ecosystem-terms.md), Brian's reasoning and decision vocabulary (first entries; drafts marked).
 - Use it: [`docs/greenfield/GETTING_STARTED.md`](../docs/greenfield/GETTING_STARTED.md).
 - Current state: run `aes status` (or `make aes`); the live authority is `.aes/target.yaml`.
