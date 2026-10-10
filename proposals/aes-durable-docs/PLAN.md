@@ -20,6 +20,8 @@ goal:
 
 **Authority:** Brian, 2026-10-10, approving option (a), "I write the proposal in AES canonical and wire it into company planning's plan-finish step": "i approve a. i want plannign to be as rigorous as possible (within reason)". Earlier the same day: "i thin kthis '- Company planning: it centres on roadmaps and leaves the other document types optional.' shouldnt be the case."
 
+**Last outcome-bearing update:** 2026-10-10, M0 adopted, M1 schema and M2 checker built with 25 passing seeded-defect tests. Next: M3, Company Planning wiring, after messaging the Codex company-planning lane.
+
 **Why now.** A survey of 36 repositories active in the last two weeks (2026-10-10, `git ls-files` by path) found about 3,300 plan files and about 600 decision records, but requirements documents in 2 repositories, a system model (`docs/model/ODD.md`) in 8 and `.aes/target.yaml` in 4. Plans record each change and are never folded back into anything a reader can trust as current. Company Planning makes a PRD optional (`landscape-review/SKILL.md:74`), never asks for decision records, and has no completion step for quick-adopted plans.
 
 ## Actor and result
@@ -300,9 +302,9 @@ The other requirements serve no AES target normative item or success criterion, 
 
 | Milestone | Output | Promotion trigger |
 |---|---|---|
-| M0 Shape and adopt | this plan, adopted; review page with the durable-set diagram | adoption receipt |
-| M1 Contract | `durable_documents` schema; both pilots' blocks validate | schema test passes |
-| M2 Checker | `durable_docs_check.py` with seeded-defect evidence for every finding type | all seeded runs show their finding |
+| M0 Shape and adopt | done 2026-10-10: this plan, adopted (`PLAN.receipt.json`); review page with the durable-set diagram | adoption receipt |
+| M1 Contract | schema done 2026-10-10 (`durable_documents.schema.json`, kept in this folder until M4 moves it to `docs/architecture/`, because claims can only start at main's tip and this lane's claim covers this folder); pilots' blocks validate at M4 | schema test passes |
+| M2 Checker | done 2026-10-10: `durable_docs_check.py`, 25 seeded-defect tests pass, every finding type shown (`evidence/m2-seeded-defects.txt`, one file for all seeded runs) | all seeded runs show their finding |
 | M3 Company Planning wiring | gate item, `quick-adopt` flag, completion call, PMI entry, model update | both negative controls recorded |
 | M4 Pilots | company-planning and AES canonical documents filled and clean | checker clean plus cold reader |
 | M5 Rollout | one PR per active governed repository; daily check reports | disproof sample read two weeks after M4 |
