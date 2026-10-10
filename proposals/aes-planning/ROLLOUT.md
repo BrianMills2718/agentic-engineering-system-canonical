@@ -220,3 +220,38 @@ origin URL) by BrianMills2718: an untagged commit, `[Unplanned]` with "Emergency
 no plan, and a new unlinked document were each refused (no commit made); the same document with its wiki
 link was accepted. To step back: set `mode: observe` (everything logs only) or `plan_adoption` /
 `doc_reach` to `observe` for one check.
+
+## Placeholder Emergency lines are refused, and an AES project with no commit-msg hook is unwired (2026-10-10)
+
+Brian asked why eight `[Unplanned]` commits of ordinary documentation work reached main (vision 0df694a,
+11f77bc, ef56e03, 607ddae; observation-to-action-metamodel d27d160, 54492b2, 4f62c97, 4f7f998). Each says
+"Emergency: not an emergency. ... no fitting commit label (AES issue 190)". All eight are GitHub
+squash-merges (committer GitHub), so no hook ran on the commit on main; what ran on the branch commits:
+
+- **vision:** the rule ran on every branch commit and accepted it (`<git-common-dir>/aes/commit-rule-2026-10-08.jsonl`,
+  "emergency recorded (Emergency: line present)"), in observe mode, since all four were made before the 18:10 EDT
+  switch to enforce. Enforce would have accepted them too: the "Emergency: none" refusal matched only `none`,
+  `n/a` and `na`. The nightly misuse review judged all four ordinary work (p 1.0; report-only).
+- **observation-to-action-metamodel:** the rule never ran. The repository has `.aes/project.yaml` and
+  `core.hooksPath=.githooks`, which `install_everywhere.py` took for "AES-generated hooks, already run the rule",
+  but its `.githooks` holds only the `pre-commit` written by an `aes hooks install` from before the commit rule.
+  `check` reported it wired, so the daily coverage concern never opened, and with no log the misuse review never
+  saw its commits. whygame5 and the AES canonical main checkout were in the same state.
+
+Changes: the placeholder list is now `none`, `n/a`, `na`, `nil`, `null`, `no`, `nothing`, `tbd`, `todo`, dashes,
+`not applicable`, `no emergency`, `not an emergency`, `non-emergency` and `not urgent`, each standing alone as
+before; an empty `Emergency:` line no longer borrows the next line as its reason (`\s*` crossed the line break).
+Replay over every `[Unplanned]` commit in `~/code` since 2026-10-07: 268 commits, 59 refused, every one opening
+"none;" or "not an emergency."; one that declares no emergency in prose ("none in the urgent sense; ...") is still
+accepted, because whether a stated reason is a real emergency is prose meaning and stays with the nightly
+light-model review. The installer now counts a repository as AES-native only when its `commit-msg` hook is
+AES-generated and calls `aes commit check`; otherwise it wraps the repository like any local one, and the
+wrapper hands over to a checkout's own AES `commit-msg` instead of running the rule twice. Tests:
+`tests/greenfield/test_commit_rule.py` commits the eight real messages and one real emergency (second-brain-mega
+48c5eb9) through the installed hook; `tests/rollout/test_install_everywhere.py` builds the metamodel-shaped
+repository and commits through the wrapper. Plan: [`commit-rule-emergency-gaps`](../../docs/plans/commit-rule-emergency-gaps.md).
+
+Not covered by this change: a squash-merge on GitHub runs no local hook, so a branch commit made where no hook ran
+(another machine, a cloud session, the GitHub web editor) still lands unjudged; a merge-time check belongs in the
+`gh pr merge` guard every Claude Code and Codex session runs (jev-gate merge guard, agent-skills
+`contracts/client-config/jev/merge_guard.py`).

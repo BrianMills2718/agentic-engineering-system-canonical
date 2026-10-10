@@ -1,0 +1,155 @@
+{
+  "10ecab085df68fad03e6557a5cf19e7962ca6f41bc4e36603a00937c7b717fab": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names the run (\u201cthe success check above\u201d), identifies where its complete trace is stored (`docs/plans/commit-rule-emergency-gaps.check.txt`), and specifies what must appear beyond the final outcome: the exact command and status, files and commit, named checks and results with none skipped, and output for each System model element. It also states that both success and disproof are judged from that trace and explicitly notes that no model, agent, or LLM pipeline runs under the plan.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  },
+  "192b321f6a5206a7f89040c56884d811bc0f01b07ceba38aff1b8ee85d16ac4a": {
+    "item_id": "OV-PROTO-VERTICAL-RESET",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states the vertical\u2019s delivered behavior and completion checks, defines the reset as `git revert` of the commit, and names the non-goal as anything outside the listed files. It adds no coordinated-work ceremony; \u201cmake the change, run the success check, commit\u201d is execution detail rather than coordination ceremony.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/OV-PROTO-VERTICAL-RESET",
+    "verdict": "pass"
+  },
+  "2c687d0cef46f70fc181e447d6fb5a1b3382614c3b3f3980eba61dd3cd7f3653": {
+    "item_id": "CORE-TRACE-DEBUGGING",
+    "materiality": "material",
+    "missing": "The evidence does not explicitly establish that this procedure is distinct from anticipated failure modes, and it says to preserve the failed check rather than explicitly preserving the failed run itself.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The quoted section explicitly covers trace-id retention, full-run review, divergence citation, evidence classification, unresolved-cause handling, targeted retracing, review completeness, and separation of review from the run outcome. However, the required distinction from anticipated failure modes and explicit preservation of the failed run are not substantively stated.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/CORE-TRACE-DEBUGGING",
+    "verdict": "unresolved"
+  },
+  "2e7b23a9145d147fd4c79aea1940d1558e6f964722850aabf010d904a8d00845": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the actor as Brian, states the desired result, and provides a stable, concrete user-visible example: the vision commit is refused while the second-brain-mega commit is accepted.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "3b6671a7720e36eb71486ac524ae95c9ea2a9e63c682a63a6d389c420de49f7c": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "material",
+    "missing": "The plan does not explicitly identify the applicable source-linked views or explain any material view omissions. It also does not state how model coverage, view coverage, and verification evidence will be reconciled in the same change; saying the model is unchanged and that no view needs updating is not a concrete reconciliation procedure.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence does provide a model link, entry point, model elements, per-element trace expectations, and freshness checks such as `aes target validate` and `aes topology check`. However, the requirement separately requires applicable source-linked views, material-omission explanations, and same-change reconciliation obligations, which are not substantively stated.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/CORE-SYSTEM-MODEL",
+    "verdict": "unresolved"
+  },
+  "3e297387a2179a01bab8900a703503d56c8a3c2daaa99568abade366ac8afe87": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly lists an uncertainty and provides resolving evidence: two grep checks and a git-status check to establish the affected files. No owner is needed because resolving evidence is provided.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  },
+  "627fe10bb4d72c385d08bcf730e55b37bafff7efa096c53dfeea05f95349001c": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan provides an explicit Requirements table listing R1\u2013R5, and each requirement names a check and has a status (all are explicitly \u201cplanned, not yet run\u201d). The plan\u2019s stated delivered-work claims, including the commit-rule behavior, installer behavior, test-backed properties, and scope restriction, are represented in those requirements; no deferred requirement lacks a carry-forward reason.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/2a31041e7f45/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
+  "6e8503fb6724f6c81f7f672bcc29be29dd7edfb4af6021fd8a93c7eaaa70c818": {
+    "item_id": "CORE-CAPABILITY-REUSE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence checks both catalogue files and explicitly states, \u201cNo catalogue entry fits,\u201d explaining that neither lists a commit-message policy check while the work needs to repair the AES commit rule and installer.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/CORE-CAPABILITY-REUSE",
+    "verdict": "pass"
+  },
+  "840570ccea37b25a05af86acde87e7608464188c9e7dbeaca46de6e8cb6d2368": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies authority: Brian requested the change in his own repository, with one agent executing it. It also explicitly states non-goals: work outside the listed files, irreversible actions, and spending.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "9e69f9c64642d24d0110d3425dc6ebc831d96db43f119679e81c235c97da4064": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan links `.aes/target.yaml`, identifies the repository scope, names the relied-on model elements and the `none` case, and specifies what the saved check output must show for each. It also cites the model entry path, identifies applicable views and omissions, defines freshness checks (`aes target validate` and `aes topology check`), and specifies same-change reconciliation through evidence recording and `aes status`.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/2a31041e7f45/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "be228b84b9140fdcefd80493f0ead96310bbc8904ef62536567f769c70af738c": {
+    "item_id": "CORE-TRACE-DEBUGGING",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines a separate procedure for failed or surprising runs and covers every required element: preserving the failed run and trace identifier, reading all specified artifacts before choosing a fix, citing and classifying the divergence, restricting unresolved diagnoses from authorizing causal repairs, linking a targeted repair to a new traced verification run, retaining the original failure, and separating review completeness from the run verdict.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/2a31041e7f45/CORE-TRACE-DEBUGGING",
+    "verdict": "pass"
+  },
+  "d2d1d8dc1e26c7f8525243e14901321d167a8d61b942894e1271a0a93a6798b5": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The success evidence directly checks the claimed behaviors: rejection and acceptance outcomes, commit creation, local/unwired reporting, installation effects, and exactly-once rule execution. The disproof section gives concrete contrary conditions for each behavior, including accepted placeholders, refused emergency commit, false wiring, and duplicate execution.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/2a31041e7f45/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "d9019daf2bb76ea5b429a129556198165db140b09cd9c6c57359e5f85bee0e0c": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly describes a bounded repair to the existing commit rule and installer, with no new shared mechanism, comparison experiment, centrally dependent LLM behavior, irreversible action, spend, or external-standard claim. The stated verification is acceptance/regression checking rather than comparison among alternatives; the AES target is correctly declared true because `.aes/target.yaml` is present.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "db088a539d8f7490426a3fc1765989e408ec4a1ce23bb5e98fc3356ded3bb3de": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly states there is no shared mechanism, comparison, LLM-centered behavior, irreversible action, or spend, and the evidence describes tests as verification rather than experiments comparing alternatives. It also states there is no claim to follow an external standard; the AES target is correctly declared true because `.aes/target.yaml` is present.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/2a31041e7f45/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "dc070cd0de9e6d1bca91642614f7391e55185cdf75252cfba0f45ed5eb90e6ca": {
+    "item_id": "OV-AES-TARGET-TRACE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that the repository is governed by `.aes/target.yaml`, that the target is unchanged with no target delta or new running things, and that every requirement serves AP-REQ-001 and SC-AP-001. It provides verification subjects for R1\u2013R3, R4, and R5, and names the existing target items and success criterion; because no target is changed, the absence of an `aes plan validate` result does not leave a required delta-validation element missing.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/OV-AES-TARGET-TRACE",
+    "verdict": "pass"
+  },
+  "e4d7980fa378805c611e8239d565c432ea60ca6ca6667db63a21e376894e4797": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan provides an explicit Requirements table listing R1\u2013R5, and every requirement names a check and status. Each status is explicitly \u201cplanned, not yet run,\u201d which is an allowed status, and no requirement is deferred. The plan also identifies its delivered-work claims, including the commit-rule behavior and installer behavior, as R1\u2013R4.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/eefa1252e0b2/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
+  "e5bd9352b4ab13ccbc3af961876902e4c5a700f625197c09907fdf0e7581fb7f": {
+    "item_id": "OV-AES-TARGET-TRACE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies `.aes/target.yaml` as the governing target, declares \u201cTarget unchanged (no target delta, no new running things),\u201d and maps R1\u2013R3 to AP-REQ-001/SC-AP-001 with VS-AP-COMMIT-RULE, R4 to the external installer verification subject, and R5 to the git-diff verification step. It names the existing normative item and success criterion and appropriately states that `aes plan validate` was not run because no target proposal changes it.",
+    "trace_id": "company-planning/method-conformance/commit-rule-emergency-gaps/2a31041e7f45/OV-AES-TARGET-TRACE",
+    "verdict": "pass"
+  }
+}

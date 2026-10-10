@@ -1,0 +1,21 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "docs/plans/commit-rule-emergency-gaps.md",
+  "plan_sha256": "41b695fb65cab142700ba613180299759d77bd4249f45710ab9246f8324f2629",
+  "path_decision_ref": "docs/plans/commit-rule-emergency-gaps.path-decision.json",
+  "path_decision_sha256": "6763e2dff3f59e246a6071dbfe6b700acc33a6996600307c67b4c7970e6e341b",
+  "facts": {
+    "shared_mechanism": false,
+    "empirical_comparison_proposed": false,
+    "llm_central": false,
+    "irreversible_or_spend_action": false
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-10T22:39:00Z"
+}
