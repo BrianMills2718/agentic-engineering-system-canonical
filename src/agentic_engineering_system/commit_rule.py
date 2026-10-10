@@ -87,14 +87,23 @@ TAG_RE = re.compile(
     r"|(?P<unplanned>Unplanned)|(?P<auto>Auto)|Shaping (?P<shaping>[A-Za-z0-9][A-Za-z0-9._-]*))\]"
 )
 GIT_OWN_PREFIXES = ("Merge ", "fixup! ", "squash! ", "amend! ")
-EMERGENCY_RE = re.compile(r"^Emergency:\s*\S", re.MULTILINE)
+# [ \t]*, not \s*: with MULTILINE, \s* crosses the line break, so an empty "Emergency:" line followed by any
+# later line (a trailer, a blank line and a signature) counted as a stated reason.
+EMERGENCY_RE = re.compile(r"^Emergency:[ \t]*\S", re.MULTILINE)
 EMERGENCY_LINE_RE = re.compile(r"^Emergency:.*$", re.MULTILINE)
-# An Emergency: line that declares there is none ("Emergency: none; ...", "Emergency: n/a").
-# A declared placeholder value, checked like a field value; judging whether a stated reason is a
-# real emergency is the nightly light-model review's job (misuse_review.py), not this hook's.
-# "none" or "n/a" must stand alone (end of line or ; . , : ( or a dash next), so a real reason that
-# starts with the word ("Emergency: none of the backups ran") is still accepted.
-NO_EMERGENCY_RE = re.compile(r"^Emergency:\s*(?:none|n/a|na)\s*(?:$|[;.,:(\u2014-])", re.MULTILINE | re.IGNORECASE)
+# An Emergency: line whose value is a placeholder or declares there is none ("Emergency: none; ...",
+# "Emergency: n/a", "Emergency: not an emergency. Routine work ..."). This is a closed list of field
+# placeholders, checked like a form value; judging whether a stated reason is a real emergency is prose
+# meaning and stays the nightly light-model review's job (misuse_review.py via llm_client), not this hook's.
+# The placeholder must stand alone (end of line or ; . , : ( or a dash next), so a real reason that starts
+# with the word ("Emergency: none of the backups ran", "Emergency: no deploy has succeeded since 06:00")
+# is still accepted. Replay of the list: ROLLOUT.md, "Placeholder Emergency lines are refused (2026-10-10)".
+NO_EMERGENCY_PLACEHOLDERS = (
+    "none", "n/a", "na", "nil", "null", "no", "nothing", "tbd", "todo", "-+", "\u2014", "not applicable",
+    "no emergency", "not an emergency", "non-emergency", "not urgent",
+)
+NO_EMERGENCY_RE = re.compile(r"^Emergency:[ \t]*(?:" + "|".join(NO_EMERGENCY_PLACEHOLDERS) + r")[ \t]*(?:$|[;.,:(\u2014-])",
+                             re.MULTILINE | re.IGNORECASE)
 AUTO_JOB_RE = re.compile(r"^Auto-job:\s*(\S.*)$", re.MULTILINE)
 # Provenance, not a verdict input (Brian, 2026-10-07: "it depends on what i asked ... maybe a secondary
 # tag"): who asked for the change, in their words, e.g. Asked: Brian 2026-10-07 "make it public".
@@ -947,7 +956,7 @@ def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str
         if NO_EMERGENCY_RE.search(message) and not any(
                 not NO_EMERGENCY_RE.match(line) for line in EMERGENCY_LINE_RE.findall(message)):
             return verdict("refuse", "Unplanned", "[Unplanned] is for emergencies, and the Emergency: line says there "
-                           "is none; plan it in about 10 s with Company Planning's `quick-adopt` and tag [Goal <id>], "
+                           "is none (or is a placeholder); plan it in about 10 s with Company Planning's `quick-adopt` and tag [Goal <id>], "
                            "or use [Trivial] for at most 3 files and 60 lines that touch nothing that runs")
         if EMERGENCY_RE.search(message):
             return verdict("accept", "Unplanned", "emergency recorded (Emergency: line present); logged for review")

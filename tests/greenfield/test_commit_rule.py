@@ -212,6 +212,74 @@ def test_unplanned_whose_emergency_line_says_none_is_refused(repo: Path) -> None
     assert done.returncode == 0 and "emergency recorded" in done.stderr
 
 
+# Real commit messages that reached main tagged [Unplanned] for ordinary documentation work, copied verbatim
+# from `git show -s --format=%B <sha>` (2026-10-10 audit; ROLLOUT.md "Placeholder Emergency lines are refused").
+# vision 0df694a, 11f77bc, ef56e03, 607ddae; observation-to-action-metamodel d27d160, 54492b2, 4f62c97, 4f7f998.
+_TRAILER = "\n\nCo-authored-by: Claude Opus 5.5 <noreply@anthropic.com>"
+REAL_PLACEHOLDER_EMERGENCIES = {
+    "vision 0df694a": "[Unplanned] Federation map: who owns each part of the agent, checked by the gate (#111)\n\n"
+        "Emergency: not an emergency. Routine vision work has no fitting commit label (AES issue 190). "
+        "PATH-vision-federation-map-2026-10-08.\n\n\n\n\nClaude-Session: "
+        "https://claude.ai/code/session_01KPeBhZhkmToaDeoobYTVo4" + _TRAILER,
+    "vision 11f77bc": "[Unplanned] Lineage pages for five relevant parts; parts index lists a part's own page first (#110)\n\n"
+        "Emergency: not an emergency. Routine vision work has no fitting commit label (AES issue 190). Roadmap row 4, "
+        "PATH-o2a-capture-relevant-parts-2026-10-08.\n\n\n\n\nClaude-Session: "
+        "https://claude.ai/code/session_01KPeBhZhkmToaDeoobYTVo4" + _TRAILER,
+    "vision ef56e03": "[Unplanned] The relevant parts, read for what each provides (#106)\n\n"
+        "Emergency: not an emergency. Vision has no AES plans and no other commit label fits (AES issue 190). "
+        "Within PATH-vision-entry-point-2026-10-08.\n\n\nClaude-Session: "
+        "https://claude.ai/code/session_01KPeBhZhkmToaDeoobYTVo4" + _TRAILER,
+    "vision 607ddae": "[Unplanned] Vision becomes the entry point to every part; generated parts index checked by the gate (#104)\n\n"
+        "Emergency: not an emergency. Vision has no AES plans and no other commit label fits a routine change (see AES "
+        "issue 190). Company-planning record: .company-planning/PATH-vision-entry-point-2026-10-08.json (durable_solo)."
+        "\n\n\nClaude-Session: https://claude.ai/code/session_01KPeBhZhkmToaDeoobYTVo4" + _TRAILER,
+    "metamodel d27d160": "[Unplanned] Roadmap rows 7a/7b and goal: system models for the four core owners first (#134)\n\n"
+        "Emergency: not an emergency. Planning documents outside formal/ have no fitting label (AES issue 190)." + _TRAILER,
+    "metamodel 54492b2": "[Unplanned] Roadmap row 7 and goal: system models for the 11 owners, composed through the "
+        "federation map (#132)\n\n"
+        "Emergency: not an emergency. Planning documents outside formal/ have no fitting label (AES issue 190)." + _TRAILER,
+    "metamodel 4f62c97": "[Unplanned] Roadmap row 5a done (14 of 14 decompositions integrated); goal for row 5, the "
+        "crosswalk (#128)\n\n"
+        "Emergency: not an emergency. Planning documents outside formal/ have no fitting label (AES issue 190)." + _TRAILER,
+    "metamodel 4f7f998": "[Unplanned] Roadmap row 5a (finish the 14 decompositions) and its goal (#127)\n\n"
+        "Emergency: not an emergency. Planning documents outside formal/ have no fitting label (AES issue 190)." + _TRAILER,
+}
+# A real emergency, verbatim from second-brain-mega 48c5eb9 (a refresh failing every run).
+REAL_EMERGENCY = ("[Unplanned] Repoint reader routes moved by the brians-2nd-brain-integration-work AES layout migration (#55)\n\n"
+    "Emergency: server finder refresh has failed every run since 2026-10-08T10:17Z because catalog/systems.yaml routes "
+    "to seven files that moved from plan/ and roadmap/ into docs/plans/ and docs/architecture/ (upstream PRs "
+    "#932-#935). Every route now resolves at each repository's current main.\n\n"
+    "Verified: every repos/<name>/<path> route in catalog/systems.yaml checked with git cat-file against origin/main "
+    "of its submodule; 0 missing.\n\n\nClaude-Session: https://claude.ai/code/session_013Av3aoaEm5wQ7XqYhWhMkT" + _TRAILER)
+
+
+def test_real_placeholder_emergency_messages_are_refused_and_a_real_emergency_is_accepted(repo: Path) -> None:
+    _stage_worker_tools(repo)
+    before = _commits(repo)
+    for where, message in REAL_PLACEHOLDER_EMERGENCIES.items():
+        done = _git(repo, "commit", "-m", message)
+        assert done.returncode == 1 and "says there is none (or is a placeholder)" in done.stderr, where
+        assert "quick-adopt" in done.stderr, where
+    assert _commits(repo) == before
+    done = _git(repo, "commit", "-m", REAL_EMERGENCY)
+    assert done.returncode == 0 and "emergency recorded" in done.stderr, done.stderr
+    assert _commits(repo) == before + 1
+
+
+def test_placeholder_and_empty_emergency_values_are_refused(repo: Path) -> None:
+    _stage_worker_tools(repo)
+    for value in ("-", "--", "\u2014", "TBD", "todo.", "nothing", "no", "nil", "null", "No emergency",
+                  "not applicable", "Non-emergency; docs only", "not urgent (routine)"):
+        done = _git(repo, "commit", "-m", f"[Unplanned] add worker tools\n\nEmergency: {value}")
+        assert done.returncode == 1 and "is a placeholder" in done.stderr, value
+    # An empty Emergency: line is not a reason, even when a trailer follows it (\s* used to cross the line break).
+    done = _git(repo, "commit", "-m", "[Unplanned] add worker tools\n\nEmergency:\nCo-authored-by: probe <p@example.invalid>")
+    assert done.returncode == 1 and "add an 'Emergency: <reason>' line" in done.stderr, done.stderr
+    # Reasons that merely start with a placeholder word are reasons.
+    done = _git(repo, "commit", "-m", "[Unplanned] add worker tools\n\nEmergency: no deploy has succeeded since 06:00")
+    assert done.returncode == 0 and "emergency recorded" in done.stderr, done.stderr
+
+
 def test_observe_mode_logs_and_never_blocks(repo: Path) -> None:
     _set_mode(repo, "observe")
     _stage_worker_tools(repo)

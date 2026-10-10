@@ -1,0 +1,15 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "docs/plans/commit-rule-emergency-gaps.md",
+  "plan_sha256": "41b695fb65cab142700ba613180299759d77bd4249f45710ab9246f8324f2629",
+  "receipt_ref": "docs/plans/commit-rule-emergency-gaps.receipt.json",
+  "receipt_sha256": "b5de79c6e0d7627f5a4710f15bfebb34a53fa990c63124c9516cfe5295541e05",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 13 items evidenced, 1 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "decided_at": "2026-10-10T22:39:07Z"
+}
