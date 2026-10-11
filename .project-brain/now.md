@@ -1,4 +1,7 @@
-# Now (2026-10-04, hive-brain session)
+# Now (2026-10-11, aes-durable-docs session; earlier sections dated)
+
+**Durable documents (2026-10-11):** every governed repository now keeps a fixed durable document set (goal, requirements, system model with a rule trace, decision records), rolled out to 22 of 22 repositories ([rollout record](../proposals/aes-durable-docs/evidence/m5-rollout.md)). The disproof sample fired: 9 of 10 recent plans declared nothing. The cause is that the rule was not in effect for 8 of them, because of a stale Claude Code plugin copy (fixed; auto-refresh is project-meta #2537) or because the plan was adopted before rollout. Next: re-sample once 10 plans carry `OV-DURABLE-DOCS-DECLARED` in their receipts ([sample](../proposals/aes-durable-docs/evidence/m5-disproof-sample.md), [plan](../proposals/aes-durable-docs/PLAN.md)).
+
 
 **Feedback system diagram (2026-10-08):** [the source-bound map](../proposals/aes-learning-loop/feedback-system.svg) now distinguishes six feedback types and six agent-selected improvement targets, with generalized causes, enforced prevention and recurrence at the center. Skill-use feedback remains a separate input path. The default taxonomy reader is merged (Agent Skills #460) and the installed private runtime at d709bcf preserved the original record and passed its disposition verifier; it accepts current feedback alongside retained legacy entries; see the [bounded prevention model](../proposals/aes-feedback-prevention/SYSTEM_MODEL.md) for the source-bound case and verification limits.
 
