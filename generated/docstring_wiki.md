@@ -9,8 +9,8 @@ artifacts. Open the cited source for full context and current truth.
 
 ## Coverage
 
-- Tracked artifacts: 987
-- Artifacts with source summaries: 389
+- Tracked artifacts: 991
+- Artifacts with source summaries: 392
 - Coverage findings: 1023
 - Finding types: python-docstring-missing=1023
 
@@ -3588,7 +3588,7 @@ The legacy sort's evidence check rejects answers its quote or the file facts do 
 
 _Coverage findings: python-docstring-missing._
 
-## Documentation (220)
+## Documentation (223)
 
 ### `.agentic/events/README.md`
 
@@ -3641,6 +3641,10 @@ Scripts behind the feedback collector's filing gates (AES #181, #216, #220). Eac
 ### `deployment/README.md`
 
 Status: unused Role: deployment/release/target-environment concern Authority: deployment config/procedure within scope Lifecycle: versioned config plus retained deployment evidence
+
+### `docs/architecture/GOAL.md`
+
+What the Agentic Engineering System is for, the bet behind it, what would disprove it, and the repository it replaces
 
 ### `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`
 
@@ -3781,6 +3785,14 @@ The audit instrument for `review` and `audit`. Twenty-two families, each with a 
 ### `docs/greenfield/GETTING_STARTED.md`
 
 AES keeps a project's accepted target in `.aes/target.yaml`: what the project is for (outcomes), the rules it must obey (normative items), how you would know it works (success criteria and their evidence requirements), which files are supposed to exist (planned artifacts) and which checks prove the criteria (verification subjects). The `aes` command checks that the target is consistent, that every file under the governed directories is planned, and which criteria current evidence supports.
+
+### `docs/model/ODD.md`
+
+AES canonical's system model in prose -- the commit, plan, target, evidence and reconcile loop -- with its checked trace file
+
+### `docs/model/trace.yaml`
+
+_No source-local artifact summary._
 
 ### `docs/plans/001_D1_contract_surface_topology_freeze.md`
 
@@ -4488,7 +4500,7 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-## Generated (6)
+## Generated (7)
 
 ### `generated/README.md`
 
@@ -4505,6 +4517,10 @@ _No source-local artifact summary._
 ### `generated/bootstrap-normative/view-bundle.md`
 
 > Generated projection. Not normative authority.
+
+### `generated/docstring_wiki.md`
+
+_Generated wiki projection; self-content intentionally omitted._
 
 ### `generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/context.json`
 
