@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QC Goal vs Code</title>
+<style>
+/* Layout: one column; two diagrams stacked, each in its own scroll box */
+:root{--bg:#f6f8fb;--fg:#1b2430;--muted:#5b6675;--line:#d5dce6;--panel:#fff;--blue:#1f5fbf;--orange:#c76a12;--orange-soft:#fbeedd;--blue-soft:#e3edfb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11161d;--fg:#e6ebf2;--muted:#9aa6b6;--line:#2a3340;--panel:#18202a;--blue:#7fb0ff;--orange:#f0a25a;--orange-soft:#3a2a18;--blue-soft:#1b2c45;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#11161d;--fg:#e6ebf2;--muted:#9aa6b6;--line:#2a3340;--panel:#18202a;--blue:#7fb0ff;--orange:#f0a25a;--orange-soft:#3a2a18;--blue-soft:#1b2c45;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,sans-serif;margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:28px 56px;display:grid;gap:28px}
+h1{margin:0;font-size:1.7rem}h2{margin:0 0 8px;font-size:1.2rem}
+p{margin:0 0 8px;max-width:70ch}.muted{color:var(--muted)}
+.diagram{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--blue-soft)}
+.clash{background:var(--orange-soft);font-weight:600}
+code{font-size:.88em}
+.key{display:flex;flex-wrap:wrap;gap:14px;font-size:.88rem;color:var(--muted)}
+</style>
+<div class="wrap">
+<header>
+  <h1>qualitative_coding: goal vs code</h1>
+  <p class="muted">The finish line in <code>docs/CURRENT_STATE_AND_ROADMAP.md</code> drawn as a data diagram, beside what <code>qc_clean/schemas/domain.py</code> actually defines. Read-only study, 2026-10-10. Findings filed as BrianMills2718/qc issue #130.</p>
+</header>
+
+<section>
+  <h2>1. The goal, as the prose describes it</h2>
+  <p>Crow's-foot notation: <b>||</b> exactly one, <b>|o</b> zero or one, <b>|{</b> one or more, <b>o{</b> zero or more. Where the prose doesn't decide, the line label starts with "?" and the most literal reading is drawn.</p>
+  <div class="diagram">
+<pre class="mermaid">
+erDiagram
+  INTERVIEW ||--|{ QUOTE : contains
+  QUOTE }o--|| SPEAKER : "? said by (must it be known?)"
+  CODE ||--|| INCLUSION_RULE : "states one yes/no rule"
+  QUOTE ||--o{ JUDGEMENT : "? judged how many times"
+  JUDGEMENT }o--|| CODE : "against"
+  JUDGEMENT {
+    bool meets_rule "prose: each quote records this"
+    string made_by "? model, researcher, or both"
+  }
+  PROPOSITION ||--o{ QUOTE : "contrary evidence, or 'searched, none found'"
+  REPORT ||--|{ QUOTE : cites
+</pre>
+  </div>
+</section>
+
+<section>
+  <h2>2. What the code actually has</h2>
+  <p>Drawn from the Pydantic models. Field names are real; line numbers are approximate.</p>
+  <div class="diagram">
+<pre class="mermaid">
+erDiagram
+  CODE ||--o{ CODE_APPLICATION : "accepted uses"
+  CODE |o--o{ REJECTED_CODE_APPLICATION : "code_id optional"
+  SEGMENT ||--o| DECISION : "None = not examined"
+  CODE {
+    string inclusion_question "form 1 of the rule"
+    list inclusion_criteria "form 2 of the rule"
+  }
+  CODE_APPLICATION {
+    string code_id
+    string quote_text
+    string speaker "OPTIONAL"
+    string applied_by "LLM, HUMAN or SYSTEM"
+  }
+  REJECTED_CODE_APPLICATION {
+    string reason "e.g. fails_inclusion_question"
+    string speaker "OPTIONAL"
+  }
+  HUMAN_CODING_DECISION {
+    string actor "separate record, not linked"
+  }
+  SEGMENT {
+    string speaker "empty string allowed"
+  }
+</pre>
+  </div>
+</section>
+
+<section>
+  <h2>3. Where they disagree</h2>
+  <table>
+    <tr><th>Question the diagram forced</th><th>Prose</th><th>Code</th></tr>
+    <tr><td>Does each quote record "meets the rule"?</td><td>Yes: "each record whether they meet"</td><td class="clash">No field. Accepted and rejected live in two tables; some segments are "not examined".</td></tr>
+    <tr><td>Must the speaker be known?</td><td>"who said them"</td><td class="clash">Optional in 3 models, required in 1, "speaker unknown" shown in the UI.</td></tr>
+    <tr><td>Who judged?</td><td>Not said</td><td>Model judgement and human decision are separate, unlinked records; "both" can't be expressed.</td></tr>
+    <tr><td>Which yes/no rule?</td><td>One rule</td><td>Two forms: a single question and a criteria list.</td></tr>
+    <tr><td>Codes per quote?</td><td>Not said</td><td>Many allowed; never decided on purpose.</td></tr>
+  </table>
+  <div class="key" style="margin-top:8px"><span>Shaded rows: the code already contradicts the prose or itself.</span></div>
+</section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"default"});</script>
+</body></html>
