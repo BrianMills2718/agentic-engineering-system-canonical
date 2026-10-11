@@ -8,6 +8,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   },
+  "0264a8534c43da7d110ffc3ea27f290dfbc1b8576471c17e643a4ff8e97c9e2b": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "All triggered facts are either declared true or are not triggered by the quoted plan. The plan explicitly proposes a shared document contract/check, model-call spending, arc42 conformance, and work in an AES-governed target, while it explicitly characterizes the checker as deterministic and does not propose an experiment comparing alternatives or an irreversible action.",
+    "trace_id": "company-planning/method-conformance/PLAN/76ada5cf1243/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
   "033b0be97709a17d85d12e5fa2911cfe495d32e8313214d88911bf12cdfbd0b9": {
     "item_id": "CORE-SUCCESS-DISPROOF",
     "materiality": "non_material",
@@ -98,6 +107,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/OV-PRIOR-ART-DISPOSITION",
     "verdict": "pass"
   },
+  "2b25d674ca3ff26a8c73f735952889cf16a1b6e6c5516fbc1f5d165e3d6ce924": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides a requirements list covering explicit asks and claimed properties, including schema conformance (R1), arc42 presentation (R11), and other user-relevant claims. Every listed requirement names a check and status; R6 is explicitly deferred with a reason and is stated to be carried onto every named completion record.",
+    "trace_id": "company-planning/method-conformance/PLAN/366c7ee1fb7b/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
   "30709fc0aa9ad234b671ef6d059942419bc577730fedfc541f2af2edc62fde33": {
     "item_id": "CORE-TRACE-REVIEW",
     "materiality": "material",
@@ -170,6 +188,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/OV-COORD-OWNERSHIP",
     "verdict": "pass"
   },
+  "5fdf81b5b908b6ca95b25e972d4252cd7b82be8d4013e74fcdf7abc2b2e7e52e": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares `empirical_comparison_proposed=false`, but explicitly states that no comparison of alternatives is run and that StrictDoc is only a fallback, not a bake-off. It declares `llm_central=false` while explicitly characterizing the check as deterministic and the cold reader as verification rather than the mechanism; the plan does declare `shared_mechanism`, spend, external-standard, and AES-target facts true.",
+    "trace_id": "company-planning/method-conformance/PLAN/366c7ee1fb7b/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
   "62d2da813d81e68c26b942a2388114caeae2a3bea1cbaac6ce15c2af57474b13": {
     "item_id": "CORE-REQUIREMENTS-TRACED",
     "materiality": "material",
@@ -213,6 +240,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence explicitly states that each criterion is judged from the full output of a named run saved under `evidence/`, and identifies the relevant run artifacts, commands, transcripts, revisions, findings, tool calls, and outputs. It also specifies what must be seen beyond final outcomes, including refusal messages, finding details, opened files and tool-call paths, and supporting diff lines; the M0 pure-document-edit exemption and its reason are stated explicitly.",
     "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  },
+  "900887a1d4d1151e27cdb0394af99bf1d324646c46fb23f00f33c04e54c0ba17": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the served actors as agents starting or finishing work in a governed repository. It states the desired result and gives a stable, concrete, user-visible example: opening `wiki/index.md` to reach `RULE-ADOPT-GATE`, its owner, test, and decision record.",
+    "trace_id": "company-planning/method-conformance/PLAN/76ada5cf1243/CORE-ACTOR-RESULT-EXAMPLE",
     "verdict": "pass"
   },
   "9032558e5f75169cf98ca8467afbc37642c07a06ec48c69eb068ee5994345672": {
@@ -412,6 +448,15 @@
     "rationale": "The evidence explicitly lists all six crossed system boundaries and enumerates their schemas/contracts in tables with owners, file paths or URLs, and a \u201cChanged here\u201d determination for each. It also identifies contracts such as the repository layout, adoption gate, checker CLI, git plumbing, daily report, LLM client, execution cursor, system model, AES target, and TraceReviewV1.",
     "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/OV-CONTRACTS-SCHEMAS",
     "verdict": "pass"
+  },
+  "f02ca7c0e0c1145d9c3346961264ed3a8b4309623d8778143a4ed989afd2fd30": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "material",
+    "missing": "Evidence that deferred requirement R6 is carried onto every release or completion record named by the plan.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The table lists requirements, checks, and statuses, and gives R6 a stated deferral reason. However, it does not show that the deferred requirement is carried onto the plan's named completion or release records, as required for deferred requirements.",
+    "trace_id": "company-planning/method-conformance/PLAN/76ada5cf1243/CORE-REQUIREMENTS-TRACED",
+    "verdict": "unresolved"
   },
   "f502585eebcd35ed3eba01affc855febc06f2f6f92bb219f96af798c216af1e8": {
     "item_id": "CORE-ACTOR-RESULT-EXAMPLE",

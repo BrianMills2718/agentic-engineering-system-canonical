@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-22c692129dd2",
+  "receipt_id": "RECEIPT-PLAN-0972633a86da",
   "plan": {
     "plan_ref": "proposals/aes-durable-docs/PLAN.md",
-    "plan_sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+    "plan_sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
   },
   "path_decision": {
     "ref": "proposals/aes-durable-docs/PLANNING_PATH.json",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/aes-durable-docs/activation-facts.json",
-    "facts_sha256": "8acec807946adf0853706a39e31320314f2d4b65ee1314357f19d70310059ccb",
+    "facts_sha256": "17be06c75bfbfb3e95a55f40dd14d950a0facdbd858638fc3d051061bb8ee428",
     "facts": {
       "shared_mechanism": true,
       "empirical_comparison_proposed": false,
@@ -118,10 +118,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:7406f898335b54bb68f6d6ab8f4d61d64ed40a0889834a3233d1ebb76daad181",
-    "definition_sha256": "f883d9bb8cd6c5d9f42a62d2d7edd1cdfe6da4f2da274f95827ff5530e6b5954",
+    "revision": "sha256:6a5884cc4595c2347208df9f5f97ee5bef488c76b7a19156bafd80c4227ac7a0",
+    "definition_sha256": "83bebb12f9c6284478a1bed959d06c2bc06c8cf5c17bc0fe91074ed868110ac1",
     "bundle_ref": "proposals/aes-durable-docs/checklist.bundle.json",
-    "bundle_sha256": "984ad407f2e076aa2f35423a390c91b227b5ef3361549581857e6b7dddaaaa65",
+    "bundle_sha256": "6967ed5e545e1d601a833b0a2283bdec3bbbb1991a023fc24fc845cb29a21367",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -139,16 +139,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#actor-and-result",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/5e69beaf71da/CORE-ACTOR-RESULT-EXAMPLE",
+        "trace_id": "company-planning/method-conformance/PLAN/76ada5cf1243/CORE-ACTOR-RESULT-EXAMPLE",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the served actor as an agent or Brian starting or finishing work in a governed repository. It states the desired result and gives a stable, concrete, user-visible before/after example involving `wiki/index.md`, `RULE-ADOPT-GATE`, its owner, test, and decision record.",
+        "rationale": "The evidence explicitly names the served actors as agents starting or finishing work in a governed repository. It states the desired result and gives a stable, concrete, user-visible example: opening `wiki/index.md` to reach `RULE-ADOPT-GATE`, its owner, test, and decision record.",
         "reused": true
       },
       "suggested_action": null
@@ -185,16 +185,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#requirements",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/14a91b60072c/CORE-REQUIREMENTS-TRACED",
+        "trace_id": "company-planning/method-conformance/PLAN/366c7ee1fb7b/CORE-REQUIREMENTS-TRACED",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence provides a requirements list covering the requested and implied claims, and each requirement names a verifying check and status. The deferred glossary requirement includes a stated reason and a planned milestone, while the arc42 claim is explicitly captured in R11.",
+        "rationale": "The evidence provides a requirements list covering explicit asks and claimed properties, including schema conformance (R1), arc42 presentation (R11), and other user-relevant claims. Every listed requirement names a check and status; R6 is explicitly deferred with a reason and is stated to be carried onto every named completion record.",
         "reused": false
       },
       "suggested_action": null
@@ -212,7 +212,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#success-and-disproof",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -239,7 +239,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#success-and-disproof",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -266,7 +266,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#when-a-run-fails-or-surprises-us",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -293,7 +293,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#system-model",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -320,7 +320,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#capability-reuse",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -347,7 +347,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#authority-and-non-goals",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -374,7 +374,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -401,7 +401,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#uncertainties",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -428,16 +428,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#activation-facts",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/14a91b60072c/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/366c7ee1fb7b/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan declares `empirical_comparison_proposed=false`, but explicitly says no comparison of alternatives is run and that StrictDoc is only a fallback trigger, not a bake-off. It declares `llm_central=false` while describing the core check as deterministic, and all other triggered facts—shared mechanism, spend, external standard, and AES governance—are declared true.",
+        "rationale": "The plan declares `empirical_comparison_proposed=false`, but explicitly states that no comparison of alternatives is run and that StrictDoc is only a fallback, not a bake-off. It declares `llm_central=false` while explicitly characterizing the check as deterministic and the cold reader as verification rather than the mechanism; the plan does declare `shared_mechanism`, spend, external-standard, and AES-target facts true.",
         "reused": false
       },
       "suggested_action": null
@@ -455,7 +455,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#prior-art-and-ownership",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -482,7 +482,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#prior-art-and-ownership",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -509,7 +509,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#coordination",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -536,7 +536,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#contracts-and-dependencies",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -563,7 +563,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#contracts-and-dependencies",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -590,7 +590,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#standard-conformance",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -617,7 +617,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#standard-conformance",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -644,7 +644,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#aes-target",
-          "sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe"
+          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
         }
       ],
       "semantic": {
@@ -675,11 +675,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-22c692129dd2",
+    "report_id": "REPORT-PLAN-0972633a86da",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:984ad407f2e076aa2f35423a390c91b227b5ef3361549581857e6b7dddaaaa65",
+    "snapshot_revision": "sha256:6967ed5e545e1d601a833b0a2283bdec3bbbb1991a023fc24fc845cb29a21367",
     "packet_ref": "proposals/aes-durable-docs/PLAN.md",
-    "packet_revision": "sha256:22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe",
+    "packet_revision": "sha256:0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -702,7 +702,7 @@
     "client": "claude-code",
     "session": "0031e708-eb6b-409b-8823-6d04cc3aa693"
   },
-  "started_at": "2026-10-11T00:01:59Z",
-  "completed_at": "2026-10-11T00:02:12Z",
-  "duration_ms": 10823
+  "started_at": "2026-10-11T00:08:28Z",
+  "completed_at": "2026-10-11T00:08:50Z",
+  "duration_ms": 19538
 }
