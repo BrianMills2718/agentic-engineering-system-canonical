@@ -143,3 +143,31 @@ router choices or model policy. Weekly generalization and explicit enforced
 prevention remain the existing loop's job. Native Codex was exercised live;
 Claude capture was checked against an existing native trace and fixtures, not
 a new live Claude invocation.
+
+## Weekly fix owner (Brian approved 2026-10-11)
+
+The weekly loop opens one "Feedback loop: adopt ..." concern per licensed fix, and until
+2026-10-11 nobody worked them: 19 open, 1 enforced. `feedback-fix-owner.timer` runs
+`fix_owner.py` on Sundays at 09:00, after `feedback-problems`. It hands up to 3 open
+concerns (oldest first, skipping any it tried in the last 6 days) to one headless Claude
+Code session. The session handles fixes to agent instructions and checks (AGENTS.md,
+skills, hooks, the Jev gate, company-planning checks) first. For each item it records
+exactly one disposition as a `<!-- fix-owner-disposition {...} -->` comment:
+`implemented` or `already_enforced` (closed as completed, with the enforcement receipt
+that `feedback-effects` counts), `declined` (closed as not planned, with a reason), or
+`deferred` (left open, naming the blocker). The script then reads every handed issue back
+from GitHub and treats an item as handled only when its state, close reason, marker and
+receipt agree. It never trusts the agent's own summary. Any item without that agreement,
+or a crash, exits non-zero and opens a keyed agent concern.
+
+The full session trace is written to `fix-owner-<date>.jsonl`, and one line per run to
+`fix-owner-runs.jsonl`, both in `$FEEDBACK_OUT`. Read the trace before trusting a run. This
+is wrong if, after four runs, a weekly spot check finds a merged change that did not do
+what its item asked, or a `declined` reason that does not hold up; then stop the timer and
+go back to hand adoption.
+
+```bash
+cp scripts/learning_loop/systemd/feedback-fix-owner.{service,timer} ~/.config/systemd/user/
+systemctl --user daemon-reload && systemctl --user enable --now feedback-fix-owner.timer
+python3 scripts/learning_loop/fix_owner.py --dry-run   # what the next run would hand over
+```
