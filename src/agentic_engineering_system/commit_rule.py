@@ -284,8 +284,10 @@ def load_rule_config(root: Path) -> RuleConfig:
 
 def skipped_by(root: Path, config: RuleConfig) -> Path | None:
     """The machine-wide skip root `root` lies under, if any."""
-    root = root.resolve()
-    return next((s for s in config.skip_roots if root == s or s in root.parents), None)
+    root, home = root.resolve(), Path.home().resolve()
+    # a root at or above the home folder would switch the rule off for every repository; ignore it
+    safe = [s for s in config.skip_roots if s != home and s not in home.parents]
+    return next((s for s in safe if root == s or s in root.parents), None)
 
 
 def _parse_changes(numstat: str, name_status: str) -> list[FileChange]:

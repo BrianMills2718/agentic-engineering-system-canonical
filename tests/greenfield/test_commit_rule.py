@@ -409,6 +409,20 @@ def test_machine_skip_roots_exempt_throwaway_repositories_and_nothing_else(tmp_p
     assert load_rule_config(real / "project").skip_roots == (throwaway.resolve(),)
 
 
+def test_skip_root_at_or_above_home_is_ignored(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A too-broad skip root ('/', '~') must not switch the rule off for every repository (issue #488)."""
+    from agentic_engineering_system.commit_rule import RuleConfig, skipped_by
+
+    home = tmp_path / "home"
+    repo = home / "code" / "repo"
+    repo.mkdir(parents=True)
+    monkeypatch.setenv("HOME", str(home))
+    assert skipped_by(repo, RuleConfig(skip_roots=(Path("/"), home.resolve()))) is None
+    throwaway = (tmp_path / "throwaway").resolve()
+    (throwaway / "r").mkdir(parents=True)
+    assert skipped_by(throwaway / "r", RuleConfig(skip_roots=(Path("/"), throwaway))) == throwaway
+
+
 def test_auto_tag_names_its_job_and_touches_no_running_thing() -> None:
     """[Auto] is for scheduled jobs: it must name the job and may not change anything that runs."""
     config = RuleConfig(plan_roots=())
