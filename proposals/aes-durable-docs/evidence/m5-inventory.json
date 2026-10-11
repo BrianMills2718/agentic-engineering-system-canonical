@@ -1,0 +1,1632 @@
+[
+  {
+    "id": "agent-skills",
+    "path": "/home/brian/projects/.agents",
+    "default_ref": "origin/main",
+    "head_sha": "bce214a82a10f4846e98e9fbe24cda6f5eb1880c",
+    "kind": "mixed",
+    "one_line_purpose": "Canonical source for Brian's shared Claude Code and Codex skills, plus smaller packages derived from them (README: 'canonical source for Brian's shared Claude Code and Codex skills and for smaller packages derived from them').",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "docs/plans/claudeskills-wiki.goal.md",
+      "docs/plans/subagents-omit-agents-md.goal.md",
+      "proposals/harness-mailbox-repair/harness-mailbox-repair.goal.md",
+      ".company-planning/visual-review-handoffs/visual-review-handoffs.goal.md",
+      ".company-planning/visual-review-handoffs/visual-review-handoffs-v2.goal.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "",
+    "decision_count": 0,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [],
+    "components": [
+      {
+        "path": "skills/",
+        "role": "Canonical active skill source: 574 tracked files, including 60 top-level SKILL.md skill directories; the authority that client surfaces are derived from."
+      },
+      {
+        "path": "hooks/",
+        "role": "Hook scripts (43 tracked files) wired live into Claude Code and Codex sessions; claim-gated and treated as hot."
+      },
+      {
+        "path": "scripts/",
+        "role": "Maintenance and validation tooling (69 files), including meta, planning, skill-review, observability and taxonomy scripts."
+      },
+      {
+        "path": "distribution/",
+        "role": "Packaging for the core-light colleague package and agent distribution (18 files)."
+      },
+      {
+        "path": "contracts/",
+        "role": "Client-config and fixture contracts, specialist contracts and the roadmap-goal-handoff schema (37 files)."
+      },
+      {
+        "path": "evals/",
+        "role": "Skill-discovery, planning-routing and planning-composition evaluation cases (16 files)."
+      },
+      {
+        "path": ".company-planning/",
+        "role": "Company-planning goal, adoption and path-decision records (27 files)."
+      },
+      {
+        "path": "wiki/",
+        "role": "Governed wiki routing stub (index.md, README.md, _catalog, _sources) generated under project-meta Plan 268; states it does not enrich purpose."
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "make test (prerequisites validate-skills and validate-repository-contract; recipe runs python3 -m unittest discover -s tests -p 'test_*.py'); make check runs sync_skills.py drift report only",
+    "catalog_generator": "",
+    "governed_make_targets": true,
+    "md_count": 519,
+    "active_claims": [
+      "agent-skills:codex/continuation-installer-v1 [write] (expires 2026-10-11T06:01:53Z; write_paths: install.sh, tests/test_install.py, hooks/claude-home/continue-on-confident-next.py)",
+      "agent-skills:codex/continuation-pages-policy [write] (expires 2026-10-11T06:01:53Z; write_paths: scripts/pages_deploy.py)",
+      "agent-skills:codex/continuation-judge-wiring [write] (expires 2026-10-11T06:01:53Z; write_paths: contracts/client-config/hook-manifest.v1.json, tests/test_create_worktree.py, tests/test_hot_hooks_write_gate.py, tests/test_load_instruction_context.py, tests/test_prepare_archive_manifest.py, tests/test_safe_worktree_remove.py, tests/test_session_target.py, tests/test_ui_learning_gate.py, tests/test_pages_deploy.py)",
+      "agent-skills:codex/continuation-judge-v1 [program] (expires 2026-10-11T06:01:53Z; write_paths: hooks/continuation_judge.py, hooks/continue_on_confident_next.py, tests/test_continuation_judge.py, tests/test_continue_on_confident_next.py, README.md, docs/plans/continuation-judge, docs/plans/continuation-judge.md)",
+      "agent-skills:codex/continuation-fixture-policy-v1 [write] (expires 2026-10-11T06:01:53Z; write_paths: tests/conftest.py)",
+      "agent-skills:codex/continuation-native-config [write] (expires 2026-10-11T06:01:53Z; write_paths: scripts/manage_client_config.py, tests/test_manage_client_config.py)"
+    ],
+    "blockers": [
+      "hooks/ is live-wired into every concurrent Claude Code and Codex session; AGENTS.md requires a coordination claim before editing hooks/, scripts/manage_client_config.py or sync_skills.py, and hooks/pre-commit enforces it.",
+      "Six active codex claims (continuation-judge work) cover overlapping write paths including hooks/continue_on_confident_next.py, scripts/pages_deploy.py, scripts/manage_client_config.py and tests/conftest.py; they expire 2026-10-11T06:01Z.",
+      "md_count 519 tracked .md files is far above the 100-file cap for Brian-owned repos; no .md-file-cap.yaml exists at the root, so any doc addition would worsen the breach (most .md sits under archive/ and skill-archive/ and skills/).",
+      "wiki/index.md is a generated routing stub that explicitly declares no plan index and no architecture-decision index; adding docs without a wiki/index.md link would break the reachability rule.",
+      "No ADR/decision directory exists; the 8 *.adoption-decision.json and *.path-decision.json files are company-planning records, not ADRs, and none carry a Governs: line.",
+      "Working tree was clean at inventory time (git status --short empty); inventory used origin/main only and made no writes or claims."
+    ]
+  },
+  {
+    "id": "personal-file-infra",
+    "path": "/home/brian/code/personal-file-infra",
+    "default_ref": "origin/main",
+    "head_sha": "262874a",
+    "kind": "config-or-infra",
+    "one_line_purpose": "Governed operating record for organizing, protecting and restoring Brian's personal data across devices and cloud services (per the wiki routing stub; GOAL.md describes a personal-data mission across laptop, desktop, Mac mini and cloud accounts).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "GOAL.md",
+      "PLAN.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "",
+    "decision_count": 0,
+    "decisions_have_governs": false,
+    "plans_dir": "proposals",
+    "existing_model_files": [],
+    "components": [
+      {
+        "path": "scripts",
+        "role": "Disk/storage policy and maintenance tooling: storage-policy.py, offload_cold.py, okf_archive.py, run-artifacts, rclone backup wrappers, prune and compaction scripts (45 tracked files)"
+      },
+      {
+        "path": "systemd",
+        "role": "Systemd units and timers for backups, disk maintenance, storage monitor, hook-receipt archive and run-artifacts packing"
+      },
+      {
+        "path": "git-hooks",
+        "role": "Shared git hook scripts (pre-commit, pre-push, post-commit, prepare-commit-msg) and a chain helper"
+      },
+      {
+        "path": "docs",
+        "role": "Disk-space page (docs/DISK_SPACE.md) and related docs"
+      },
+      {
+        "path": "catalog",
+        "role": "Catalog data tree (not inspected in depth)"
+      },
+      {
+        "path": "archive-manifests",
+        "role": "Archive manifest files (not inspected in depth)"
+      },
+      {
+        "path": "proposals",
+        "role": "Plan folders, e.g. proposals/uv-space-recovery-20261008 with receipts and verification logs"
+      },
+      {
+        "path": "reports",
+        "role": "Reports tree (not inspected in depth)"
+      }
+    ],
+    "test_dirs": [
+      "scripts (test_*.py files: test_archive_hook_receipts.py, test_backup_local_data_direct_cloud.py, test_bundle_unpushed_git_work.py, test_offload_cold.py, test_okf_archive.py, test_prune_idle_worktrees.py, test_run_artifacts.py, test_storage_policy.py)"
+    ],
+    "local_check_command": "",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 9,
+    "active_claims": [],
+    "blockers": [
+      "No Makefile, pyproject.toml, package.json or AGENTS.md on origin/main, so no local check command is declared",
+      "No decisions directory and no Governs-line records; the wiki stub reports no operating-rules, roadmap, plan-index or decision index",
+      "Working tree at /home/brian/code/personal-file-infra was not inspected; this inventory reads origin/main only",
+      "Repo carries disk-space and storage-policy authority (docs/DISK_SPACE.md, scripts/storage-policy.py); edits to scheduled jobs and systemd units affect live machine behavior"
+    ]
+  },
+  {
+    "id": "personal-vps",
+    "path": "/home/brian/code/personal-vps",
+    "default_ref": "origin/main",
+    "head_sha": "b4007e2",
+    "kind": "config-or-infra",
+    "one_line_purpose": "Infrastructure as code for Brian's personal netcup VPS: host bootstrap, firewall, Cloudflare tunnel edge, and per-app docker compose deployments (README.md).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "proposals/hive-brain-v1/ROADMAP.md",
+      "proposals/hive-hardening/hive-hardening.goal.md",
+      "docs/plans/scorecard-progress-20261009.goal.md",
+      "docs/plans/plan-folder-index.goal.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "",
+    "decision_count": 0,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [],
+    "components": [
+      {
+        "path": "apps",
+        "role": "One docker compose project per personal service (brent, crest, glance, hive-dashboard, na-brain, paperclip, telegram-relay, world-builder, waltzman and others)"
+      },
+      {
+        "path": "host",
+        "role": "Idempotent host baseline: bootstrap.sh, nftables.conf, backup and restore-check scripts, concern-alert hook"
+      },
+      {
+        "path": "hive",
+        "role": "Hive brain controls, dashboard, decisions and inventory Python modules plus systemd units"
+      },
+      {
+        "path": "scripts",
+        "role": "Cloudflare and tunnel helpers (route.py, cf.py, create_tunnel.py, access.py, one_password.py)"
+      },
+      {
+        "path": "proposals",
+        "role": "Plan folders for hive-brain-v1 and hive-hardening, with goal and evidence files"
+      },
+      {
+        "path": "docs",
+        "role": "Plan folders under docs/plans (scorecard and plan-folder-index) and docs"
+      },
+      {
+        "path": "tests",
+        "role": "Offline deploy/publish script checks run by tests/run.sh with fake ssh, git and docker"
+      },
+      {
+        "path": "wiki",
+        "role": "Wiki index routing to the deployment overview and plan pages"
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "bash tests/run.sh (per README: offline checks of deploy/publish scripts; must be run before changing those scripts; prints SKIP for missing tools). No Makefile, pyproject or package.json present.",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 38,
+    "active_claims": [],
+    "blockers": [
+      "Live VPS: changes to apps, host firewall, tunnel ingress and DNS affect public services; README says reboots are manual",
+      "Rules say personal projects only; no Inside Success or ISTV workloads may be added",
+      "No AGENTS.md or CLAUDE.md on origin/main, so no governing instruction file is declared",
+      "No decisions directory; ROADMAP.md and PROGRESS_LOG.md are the only decision-carrying surfaces"
+    ]
+  },
+  {
+    "id": "world-substrate",
+    "path": "/home/brian/code/world-substrate",
+    "default_ref": "origin/main",
+    "head_sha": "179e519",
+    "kind": "software-system",
+    "one_line_purpose": "Persistent, observable world engine in which installed mechanics, not model prose, determine canonical consequences; the governed-rules layer for generatively authored simulated worlds (README.md, roadmap/README.md).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "roadmap/README.md",
+      "docs/wiki/README.md",
+      "docs/decisions/006-governed-rules-layer-scope.md",
+      "docs/plans/any-scenario-poc.goal.md"
+    ],
+    "requirements_candidates": [
+      "docs/contracts/core-v0.md",
+      "docs/contracts/transition-envelope-v0.md",
+      "docs/contracts/world-authoring-bundle-v0.md"
+    ],
+    "decisions_dir": "docs/decisions",
+    "decision_count": 7,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "docs/model/ODD.md",
+      "docs/model/world_substrate_model.toml",
+      "docs/model/VIEW_COVERAGE.md"
+    ],
+    "components": [
+      {
+        "path": "src/world_substrate",
+        "role": "Python engine package: mechanisms and the transition/commit core"
+      },
+      {
+        "path": "scripts",
+        "role": "Run, render, authoring, replay, deploy and check tooling, including check_project.py and world_builder_service.py"
+      },
+      {
+        "path": "ui",
+        "role": "UI surface with ui/registry.yaml registering the UIs"
+      },
+      {
+        "path": "tests",
+        "role": "Test suite (about 75 test_*.py files) plus fixtures for castaway, cvs and living_scene"
+      },
+      {
+        "path": "deploy",
+        "role": "Deployment files, including a cloudflare world-builder package and a vps Dockerfile"
+      },
+      {
+        "path": "prototypes",
+        "role": "Standalone prototype HTML (living-world-overlay-v0.html)"
+      },
+      {
+        "path": "reference_worlds",
+        "role": "Reference world definitions (cvs_sustainment and others) with a README and AGENTS.md"
+      },
+      {
+        "path": "spikes",
+        "role": "Exploratory spike scripts and evidence (any-scenario-2026-10)"
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "python scripts/check_project.py (validates navigation, authority surfaces, links, contract status, retained evidence and the neutral test suite; per README). Also see tests/AGENTS.md.",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 103,
+    "active_claims": [],
+    "blockers": [
+      "Tracked .md count is 103, above the 100 cap in the workspace md-file-cap policy; a .md-file-cap.yaml was not found on origin/main, so this repo is over the cap",
+      "Decision records (docs/decisions/001-007) carry no Governs: line",
+      "Active authority is split across roadmap/README.md, docs/decisions and docs/wiki/README.md; a change to one must keep the others consistent",
+      "Repo has a root AGENTS.md and subtree AGENTS.md files (docs/, roadmap/, reference_worlds/, tests/) that scope edits",
+      "Deployed public surfaces (World Builder on personal-vps, brianmills.dev) depend on this repo; deploy scripts exist under scripts/deploy_world_builder.sh"
+    ]
+  },
+  {
+    "id": "weekly-plans",
+    "path": "/home/brian/code/weekly-plans",
+    "default_ref": "origin/main",
+    "head_sha": "7b8e606",
+    "kind": "content-or-notes",
+    "one_line_purpose": "Brian's single weekly-planning repository, with personal and Inside Success work kept in separate authority scopes (README).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": false,
+    "goal_candidates": [
+      "inside-success/GOAL-2026-10-02-disconnect-from-inside-success.md",
+      "inside-success/GOAL-readback-by-identity.md",
+      "inside-success/GOAL-self-serve-usage.md",
+      "inside-success/GOAL-transcript-quality-and-research-engine.md",
+      "inside-success/GOAL_USAGE_MEASUREMENT.md",
+      "inside-success/ROADMAP.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "",
+    "decision_count": 0,
+    "decisions_have_governs": false,
+    "plans_dir": "",
+    "existing_model_files": [
+      "inside-success/company-drive-export/SD-AI-Ecosystem-Current-Structural-Alignment.json"
+    ],
+    "components": [
+      {
+        "path": "scripts",
+        "role": "Weekly supervisor and ChatGPT dispatch client, DLOA draft/check scripts, priority guard, review sweep, strategic map, visual planning projection, with their test_*.py files"
+      },
+      {
+        "path": "inside-success",
+        "role": "Inside Success weekly plan (THIS_WEEK.md), weeks/ decisions, goal and roadmap docs, and large company exports (meetings, Notion, Monday, Drive) and work-results/work-units"
+      },
+      {
+        "path": "personal",
+        "role": "Personal weekly plan (THIS_WEEK.md), attention and planning-model files"
+      },
+      {
+        "path": "planning-model",
+        "role": "Planning model directory (top-level)"
+      },
+      {
+        "path": "logs",
+        "role": "Run and log output directory"
+      },
+      {
+        "path": ".company-planning",
+        "role": "Company Planning control directory"
+      },
+      {
+        "path": "WEEKLY_SUPERVISOR_TASKS.json",
+        "role": "Supervisor task definition file"
+      },
+      {
+        "path": "README.md",
+        "role": "Repository entry point with the JOB vs PERSONAL plan split"
+      }
+    ],
+    "test_dirs": [
+      "scripts"
+    ],
+    "local_check_command": "",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 339,
+    "active_claims": [],
+    "blockers": [
+      "339 tracked .md files, above the 100-file cap, and no .md-file-cap.yaml at the root.",
+      "551 tracked files sit under inside-success/company-meetings-export and inside-success/company-notion-export (Inside Success internal material, private under the public-unless-private-data rule); new docs beside them risk mixing private material into the tree.",
+      "No Makefile, pyproject.toml, package.json or pytest.ini at the root; no documented local check command was found.",
+      "Personal and Inside Success plans in the same repo; the job-search and IS material is private."
+    ]
+  },
+  {
+    "id": "qualitative_coding",
+    "path": "/home/brian/code/qualitative_coding",
+    "default_ref": "origin/main",
+    "head_sha": "d09bf0e3",
+    "kind": "software-system",
+    "one_line_purpose": "Super Qualitative Analysis (SQA): an LLM-powered qualitative and mixed-methods research workbench for coding, comparison, memoing, contradiction search, theory appraisal and reporting, keeping source evidence behind each conclusion (README).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "docs/VISION_AND_ARCHITECTURE.md",
+      "proposals/qc-promotion-recovery/goal-validation.json",
+      "proposals/qc-gt-review-candidate/roadmap-writing.json",
+      "proposals/qc-promotion-recovery/roadmap-writing.json"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "docs/adr",
+    "decision_count": 4,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "docs/VISION_AND_ARCHITECTURE.md"
+    ],
+    "components": [
+      {
+        "path": "qc_clean",
+        "role": "Main Python library: core pipeline, plugins, prompts, schemas and config"
+      },
+      {
+        "path": "qc_cli.py",
+        "role": "Command-line entry point (with start_server.py and simple_cli_web.py for the web server)"
+      },
+      {
+        "path": "qc_mcp_server.py",
+        "role": "MCP server exposing the workbench to agents"
+      },
+      {
+        "path": "templates",
+        "role": "Web UI templates"
+      },
+      {
+        "path": "scripts",
+        "role": "Run, report, export and evaluation tooling, including scripts/meta/docstring_wiki.py"
+      },
+      {
+        "path": "enforced_planning",
+        "role": "Planning-enforcement tooling, including docstring_wiki.py"
+      },
+      {
+        "path": "deploy",
+        "role": "Deployment configuration (VPS, requirements.lock)"
+      },
+      {
+        "path": "tests",
+        "role": "Pytest suite (deterministic tests; live_llm marked tests excluded from make check)"
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "make check (Makefile target: pytest tests/ -m \"not live_llm\" -x -q, then make lint (ruff check .), then make docs-check (scripts/check_markdown_links.py, check_doc_coupling.py --validate-config, check_default_path_surface_contracts.py --validate-config)). Note the pytest line uses -q.",
+    "catalog_generator": "",
+    "governed_make_targets": true,
+    "md_count": 86,
+    "active_claims": [],
+    "blockers": [
+      "Governed repository: AGENTS.md says do not edit the main checkout directly; work goes through make worktree or make maintenance-worktree with a claim.",
+      "Many nested AGENTS.md files (about 10 listed under qc_clean/, config/, docs/plans/) and a large raw/ and proposals/ tree; new docs must respect the existing instruction surfaces.",
+      "No .md-file-cap.yaml; 86 tracked .md files is under the 100 cap.",
+      "No catalog generator target was confirmed in the Makefile; scripts/meta/docstring_wiki.py exists but its check target was not located."
+    ]
+  },
+  {
+    "id": "parallax-research-workbench",
+    "path": "/home/brian/code/research-workspace/parallax-research-workbench",
+    "default_ref": "origin/main",
+    "head_sha": "7dac11e1",
+    "kind": "software-system",
+    "one_line_purpose": "Brian's private, standalone Inside Success application derived from Parallax; the active product is the Inside Success dashboard and Second Brain at /company-brain. It is independent of the real signalsinteldev/parallax repo (README).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [],
+    "requirements_candidates": [],
+    "decisions_dir": "docs/adr",
+    "decision_count": 13,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "docs/architecture/postgres-domain-runtime.md",
+      "docs/search-pipeline-architecture.md",
+      "docs/cameron-reassembly/SYSTEM_MAP.md"
+    ],
+    "components": [
+      {
+        "path": "backend",
+        "role": "Backend services (Node/Python packages, including company-brain-semantic and social-provider-mcp); has package.json"
+      },
+      {
+        "path": "frontend",
+        "role": "Web frontend; has package.json"
+      },
+      {
+        "path": "extension",
+        "role": "Browser extension; has package.json; tests in extension/test"
+      },
+      {
+        "path": "desktop",
+        "role": "Desktop app; has package.json"
+      },
+      {
+        "path": "ocr-local",
+        "role": "Local OCR service; tests in ocr-local/tests"
+      },
+      {
+        "path": "db",
+        "role": "Database schema and migrations"
+      },
+      {
+        "path": "deploy",
+        "role": "Deployment configuration and scripts"
+      },
+      {
+        "path": "ops",
+        "role": "Operations units (systemd services and timers for AFU extraction and monitors)"
+      }
+    ],
+    "test_dirs": [
+      "ocr-local/tests",
+      "extension/test"
+    ],
+    "local_check_command": "",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 226,
+    "active_claims": [],
+    "blockers": [
+      "226 tracked .md files, above the 100-file cap, with no .md-file-cap.yaml; 209 of them are under docs/.",
+      "No root Makefile or pyproject.toml; package.json files exist in backend, frontend, extension and desktop but their scripts were not inspected, so no local check command is confirmed.",
+      "Hosted CI workflow exists at .github/workflows/collector-safety.yml but is manual-only (workflow_dispatch); two workflows sit in .github/workflows-disabled/.",
+      "Private Inside Success company-brain material; the README forbids using or modifying the real signalsinteldev/parallax deployment."
+    ]
+  },
+  {
+    "id": "epistemic-warrant",
+    "path": "/home/brian/code/epistemic-warrant",
+    "default_ref": "origin/main",
+    "head_sha": "214675e",
+    "kind": "software-system",
+    "one_line_purpose": "A formal meta-model of when a claim has earned the right to be relied on, with small executable reference implementations (per README.md).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "README.md",
+      "docs/formal-epistemic-reasoning-metamodel.md",
+      "docs/roadmap.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "docs/decisions",
+    "decision_count": 14,
+    "decisions_have_governs": false,
+    "plans_dir": "",
+    "existing_model_files": [
+      "docs/model/ODD.md",
+      "docs/model/VIEW_COVERAGE.md",
+      "docs/model/model.json",
+      "docs/model/catalog-info.yaml"
+    ],
+    "components": [
+      {
+        "path": "src/epistemic_warrant/support.py",
+        "role": "Positive support algebra as antichains of minimal assumption environments (ATMS-style)"
+      },
+      {
+        "path": "src/epistemic_warrant/aba.py",
+        "role": "Small Assumption-Based Argumentation core over minimal support provenance"
+      },
+      {
+        "path": "src/epistemic_warrant/defeat.py",
+        "role": "Minimal defeasible-argumentation layer (grounded acceptability over support)"
+      },
+      {
+        "path": "src/epistemic_warrant/warrant.py",
+        "role": "Executable warrant/license boundaries for typed warrant regimes"
+      },
+      {
+        "path": "src/epistemic_warrant/proof.py",
+        "role": "Checked strict-Horn proof fragment for deductive warrant"
+      },
+      {
+        "path": "src/epistemic_warrant/statistical.py",
+        "role": "Finite-class uniform-convergence certificates (Hoeffding plus union bound)"
+      },
+      {
+        "path": "src/epistemic_warrant/reliability.py",
+        "role": "Measurement and testimony reliability certificates"
+      },
+      {
+        "path": "src/epistemic_warrant/strategy.py",
+        "role": "Paired bounded-performance certificates for strategy selection"
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "pytest (no Makefile and no check target; pyproject.toml sets testpaths=tests, pythonpath=src)",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 60,
+    "active_claims": [],
+    "blockers": [
+      "No Makefile, so no make check or governed worktree/session targets; the only CI is .github/workflows/truck-logistics-authentic.yml (hosted CI, which the workspace policy says not to rely on).",
+      "docs/decisions holds ADRs 007-020 only; ADRs 001-006 stayed with inquiry-graph, so numbering is not contiguous from 001 here.",
+      "docs/model/ODD.md is kept true by tests/test_system_model.py, so model-doc edits must keep that test passing."
+    ]
+  },
+  {
+    "id": "process_tracing",
+    "path": "/home/brian/projects/process_tracing",
+    "default_ref": "origin/main",
+    "head_sha": "99e2458",
+    "kind": "software-system",
+    "one_line_purpose": "AI-assisted research system for rigorous, auditable process tracing: turns a bounded source corpus into causal questions, rival explanations, source-grounded evidence tests and inspectable research artifacts (per README.md).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "docs/GOAL.md",
+      "docs/PROJECT_THEORY_AND_GOALS.md",
+      "docs/ARCHITECTURE.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "docs/adr",
+    "decision_count": 1,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [],
+    "components": [
+      {
+        "path": "pt",
+        "role": "Core Python package for the process-tracing pipeline (subpackages include fixtures, multi, prompts, public_examples, templates)"
+      },
+      {
+        "path": "scripts",
+        "role": "Operational scripts and validators (e.g. check_real_compliance.py, check_markdown_links.py, meta/check_agents_sync.py, run by make check)"
+      },
+      {
+        "path": "ui",
+        "role": "Workbench and report surface (per README)"
+      },
+      {
+        "path": "contracts",
+        "role": "Contract definitions (directory present; contents not inspected)"
+      },
+      {
+        "path": "config",
+        "role": "Configuration files (directory present; contents not inspected)"
+      },
+      {
+        "path": "deploy",
+        "role": "Deployment files (directory present; contents not inspected)"
+      },
+      {
+        "path": "evidence",
+        "role": "Evidence directory, 34 tracked .md files (contents not inspected)"
+      },
+      {
+        "path": "models",
+        "role": "Models directory (contents not inspected)"
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "make check (pytest tests, mypy pt, scripts/check_real_compliance.py, scripts/check_markdown_links.py, scripts/meta/check_agents_sync.py --check, llm_client model_policy_audit --strict)",
+    "catalog_generator": "",
+    "governed_make_targets": true,
+    "md_count": 201,
+    "active_claims": [],
+    "blockers": [
+      "201 tracked .md files, above the 100-file cap, and no .md-file-cap.yaml exists at the root of origin/main.",
+      "make check runs scripts/meta/check_agents_sync.py, so any AGENTS.md change must stay in sync with its sources.",
+      "docs/ holds 125 tracked .md files and docs/plans holds 52; the docs/AGENTS.md and docs/plans/AGENTS.md routing files govern placement.",
+      "docs/START_HERE.md says a fresh agent must read it before changing code or interpreting old plan files."
+    ]
+  },
+  {
+    "id": "observation-to-action-metamodel",
+    "path": "/home/brian/code/observation-to-action-metamodel",
+    "default_ref": "origin/main",
+    "head_sha": "389f5fd",
+    "kind": "mixed",
+    "one_line_purpose": "A tested Observation-to-Action research artifact and its history; current development is redirected to AI-automated policy analysis from authorized evidence to inspectable outputs (per README.md and CURRENT_DIRECTION.md).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "CURRENT_DIRECTION.md",
+      "GOAL_ONE_AIM_LIST.md",
+      "README.md"
+    ],
+    "requirements_candidates": [
+      "04-SPEC.md"
+    ],
+    "decisions_dir": "08-decisions",
+    "decision_count": 38,
+    "decisions_have_governs": false,
+    "plans_dir": ".aes/plans",
+    "existing_model_files": [
+      "formal/SPEC.md",
+      "03-VOCABULARY.jsonld"
+    ],
+    "components": [
+      {
+        "path": "formal",
+        "role": "Python formal model of the agent (belief, licence, decision), with its own pyproject and 13 test files"
+      },
+      {
+        "path": "formal-core",
+        "role": "Imported evidence_to_action_formal_core package (11 .py files)"
+      },
+      {
+        "path": "cases",
+        "role": "Case packages (24 .py files) for the O->A artifact"
+      },
+      {
+        "path": "explorer",
+        "role": "O->A metamodel explorer surface (registered in ui/registry.yaml)"
+      },
+      {
+        "path": "probes",
+        "role": "Probe scripts for feedback, self-amendment and reflective behaviour"
+      },
+      {
+        "path": "ui",
+        "role": "UI registry (ui/registry.yaml, schema ui-registry/v1)"
+      },
+      {
+        "path": "08-decisions",
+        "role": "Numbered decision records (38), some marked superseded"
+      },
+      {
+        "path": "lineage",
+        "role": "Historical evidence, not current authority (24 .md files)"
+      }
+    ],
+    "test_dirs": [
+      "tests",
+      "formal/tests"
+    ],
+    "local_check_command": "uv sync --project formal && formal/.venv/bin/python -m pytest (from repo root, per AGENTS.md; no Makefile)",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 196,
+    "active_claims": [],
+    "blockers": [
+      "196 tracked .md files, above the 100-file cap; I did not check for a .md-file-cap.yaml.",
+      "AGENTS.md says lineage/, conversations/, downloads/ and external-audit/ are historical evidence and not current authority, so new docs must not be placed or read as current there.",
+      "Authority is split: CURRENT_DIRECTION.md governs current work, while the numbered O->A files and RECOMMENDATIONS.md are preserved artifacts, not the current queue."
+    ]
+  },
+  {
+    "id": "agent-ecology3",
+    "path": "/home/brian/code/agent_ecology3",
+    "default_ref": "origin/main",
+    "head_sha": "5a15312009877f2fcebb4619c447dcc1ed4f4834",
+    "kind": "software-system",
+    "one_line_purpose": "A local workbench for running small economies of LLM agents under scarce resources (scrip and a model budget) and inspecting what they did, with runs reopened read-only in a browser dashboard (README).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "docs/MVP_ROADMAP.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "docs/adr",
+    "decision_count": 1,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "docs/model/ODD.md",
+      "docs/model/ae3_model.yaml",
+      "docs/model/VIEW_COVERAGE.md"
+    ],
+    "components": [
+      {
+        "path": "src/agent_ecology3/world",
+        "role": "simulation world/state package (by directory name; not read)"
+      },
+      {
+        "path": "src/agent_ecology3/simulation",
+        "role": "simulation run loop package (by directory name; not read)"
+      },
+      {
+        "path": "src/agent_ecology3/dashboard",
+        "role": "browser dashboard for reopening completed runs (by directory name; not read)"
+      },
+      {
+        "path": "src/agent_ecology3/analysis",
+        "role": "run analysis package (by directory name; not read)"
+      },
+      {
+        "path": "src/agent_ecology3/viz",
+        "role": "visualization package (by directory name; not read)"
+      },
+      {
+        "path": "src/agent_ecology3/mcp",
+        "role": "MCP server package (by directory name; not read)"
+      },
+      {
+        "path": "src/agent_ecology3/cli.py",
+        "role": "command-line entry point (run.py also exists at root)"
+      },
+      {
+        "path": "src/agent_ecology3/config.py",
+        "role": "configuration module"
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "make check (runs uv run pytest tests/ --tb=short, then uv run mypy src/)",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 72,
+    "active_claims": [],
+    "blockers": [
+      "72 tracked .md files against the 100-file cap; adding docs needs pruning or a .md-file-cap.yaml",
+      "Active experiment (docs/plans/25_scale_shakeout.md) with long-lived agents; docs/MVP_ROADMAP.md is the stated authority for status and next work",
+      "No .agentic/repo.yaml and no AGENTS.md at root; nearest instructions are subtree AGENTS.md files (docs/adr, docs/plans, scripts, tests, ui)"
+    ]
+  },
+  {
+    "id": "dodaf",
+    "path": "/home/brian/projects/dodaf",
+    "default_ref": "origin/main",
+    "head_sha": "7bb65a637df3684671305a1628c5a2ab2009388a",
+    "kind": "software-system",
+    "one_line_purpose": "A human-AI analytical environment for complex defense architecture and evidence problems, built on a DoDAF/DM2 semantic spine (README).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "docs/ROADMAP.md"
+    ],
+    "requirements_candidates": [
+      "docs/plans/dodaf-aes-requirements.md",
+      "docs/plans/dodaf-aes-requirements.goal.md"
+    ],
+    "decisions_dir": "docs/adr",
+    "decision_count": 4,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "semantic_authority/model.py",
+      "docs/mockups/tomodachi-dm2-modeling.json",
+      "docs/mockups/dm2-hypergraph/dm2-metamodel-v2.json"
+    ],
+    "components": [
+      {
+        "path": "semantic_authority",
+        "role": "governed-assertion protocol, semantic namespace policy and canonical DoDAF projection registry (per README and wiki)"
+      },
+      {
+        "path": "thin",
+        "role": "maintained governed proving runtime: authenticates publications, serves bounded analytical questions, reopens evidence (per README)"
+      },
+      {
+        "path": "ui",
+        "role": "UI code, including ui/next-chat (per ls-tree paths)"
+      },
+      {
+        "path": "docs/mockups",
+        "role": "synthetic product-design fixtures and static HTML mockups, including the DM2 hypergraph viewer"
+      },
+      {
+        "path": "scripts",
+        "role": "checks and generators, including scripts/dm2_conformance and scripts/build_dm2_metamodel_hubs.py"
+      },
+      {
+        "path": "deploy",
+        "role": "Cloudflare deployment preparation (deploy/cloudflare)"
+      },
+      {
+        "path": "config",
+        "role": "machine gate files, including config/product-freeze-gate.v1.json"
+      },
+      {
+        "path": "wiki",
+        "role": "single project-information entrypoint (wiki/index.md)"
+      }
+    ],
+    "test_dirs": [
+      "thin",
+      "scripts"
+    ],
+    "local_check_command": "make check (lint, typecheck, test, aes-gate per Makefile)",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 45,
+    "active_claims": [],
+    "blockers": [
+      "Project is parked (docs/ROADMAP.md, wiki/index.md): the only active plan is docs/current/PLAN.md, and config/product-freeze-gate.v1.json is fail-closed; new docs must not contradict that gate",
+      "AES-governed (.aes/project.yaml, governed_roots scripts/dm2_conformance/); changes there go through the AES route",
+      "Makefile has no maintenance-worktree or session-close targets"
+    ]
+  },
+  {
+    "id": "representation-router",
+    "path": "/home/brian/code/representation-router",
+    "default_ref": "origin/main",
+    "head_sha": "2f7f542988dd1bcffc77b2edeff42d947617d7de",
+    "kind": "software-system",
+    "one_line_purpose": "Agent-facing representation design and policy layer that turns an authoritative semantic or workflow model plus a human question into an effective visual or interactive working representation (README).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "proposals/hypergraph-views/hypergraph-views.goal.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "",
+    "decision_count": 0,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "representation-router-self-map-v0/model.json"
+    ],
+    "components": [
+      {
+        "path": "src",
+        "role": "router core (router.mjs, render-plan.mjs, surface-spec.mjs), implementation adapters and review-workbench modules"
+      },
+      {
+        "path": "graph-viewer",
+        "role": "shared typed-graph/v1 graph viewer used by other projects (per TAKEOVER.md)"
+      },
+      {
+        "path": "catalog",
+        "role": "catalogs such as catalog/writing-forms.json (per TAKEOVER.md)"
+      },
+      {
+        "path": "schemas",
+        "role": "JSON schemas, e.g. architecture-view-candidate.v0.schema.json"
+      },
+      {
+        "path": "review-workbench",
+        "role": "review workbench UI (versioned sibling dirs review-workbench-v11 to v14 also exist)"
+      },
+      {
+        "path": "weekly-review",
+        "role": "weekly-review Vite UI"
+      },
+      {
+        "path": "public",
+        "role": "public copy and its test server (published by scripts/public-export/publish.py per wiki)"
+      },
+      {
+        "path": "scripts",
+        "role": "build, serve and render-QA scripts"
+      }
+    ],
+    "test_dirs": [
+      "test",
+      "public/test"
+    ],
+    "local_check_command": "npm test (node --test \"test/**/*.test.mjs\"; no Makefile, no root AGENTS.md)",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 60,
+    "active_claims": [],
+    "blockers": [
+      "No Makefile, no root AGENTS.md and no .agentic/repo.yaml; governed targets absent",
+      "A public copy is published via scripts/public-export/publish.py (per wiki/index.md), so docs added here can reach a public surface",
+      "Repo has no decision-record directory; design rationale lives in docs/design-model.md and TAKEOVER.md"
+    ]
+  },
+  {
+    "id": "Digimon_for_KG_application",
+    "path": "/home/brian/projects/Digimon_for_KG_application",
+    "default_ref": "origin/main",
+    "head_sha": "e93259d7",
+    "kind": "software-system",
+    "one_line_purpose": "DIGIMON: a composable operator GraphRAG runtime that builds multiple co-referenced knowledge representations (graph, relational, wiki, vector, lexical) and exposes typed retrieval and analysis capabilities to an agent (README.md).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "docs/GRAPH_VISION_TARGET.md",
+      "docs/ADAPTIVE_KNOWLEDGE_SYSTEM_VISION.md",
+      "docs/REPRESENTATION_AND_RETRIEVAL_ARCHITECTURE.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "docs/adr",
+    "decision_count": 23,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "docs/REPRESENTATION_AND_RETRIEVAL_ARCHITECTURE.md",
+      "wiki/architecture.md",
+      "wiki/current-state.md",
+      "wiki/architecture-gap.md",
+      "wiki/capabilities.md",
+      "wiki/thesis.md",
+      "wiki/index.md"
+    ],
+    "components": [
+      {
+        "path": "Core",
+        "role": "Production implementation: typed operator contracts, composition logic, graph/runtime surfaces, MCP tools, schema definitions (AGENTS.md)."
+      },
+      {
+        "path": "digimon",
+        "role": "Python package with composition (124 files), representation, analysis and records modules."
+      },
+      {
+        "path": "scripts",
+        "role": "Development and CI utility scripts, each supporting --help."
+      },
+      {
+        "path": "eval",
+        "role": "Benchmark runners, evaluators and benchmark policy surfaces (eval/AGENTS.md)."
+      },
+      {
+        "path": "Data",
+        "role": "Datasets and benchmark corpora used by DIGIMON (Data/AGENTS.md)."
+      },
+      {
+        "path": "investigations",
+        "role": "Investigation records and analysis artifacts (74 tracked files)."
+      },
+      {
+        "path": "workbench",
+        "role": "Workbench UI code (32 tracked files)."
+      },
+      {
+        "path": "graph_viz",
+        "role": "Graph visualization frontend (frontend README present)."
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "make ci-check (AGENTS.md: portable CI-equivalent checks); make test runs the full pytest suite",
+    "catalog_generator": "",
+    "governed_make_targets": true,
+    "md_count": 544,
+    "active_claims": [],
+    "blockers": [
+      "544 tracked .md files, over the 100-file cap for Brian-owned repos, and no .md-file-cap.yaml exists at the root.",
+      "docs/ holds 517 tracked files; adding docs needs consolidation or pruning first.",
+      "AGENTS.md says Plan #216 is the active plan (docs/plans/ROADMAP.md) and that wiki/ is current-state truth, so new docs must be reconciled with those authorities.",
+      "Claim check reports no active claims; a worktree claim is still required before editing a shared checkout."
+    ]
+  },
+  {
+    "id": "fol-operational-metamodel",
+    "path": "/home/brian/code/fol-operational-metamodel-real",
+    "default_ref": "origin/main",
+    "head_sha": "8e94a75",
+    "kind": "software-system",
+    "one_line_purpose": "A generated graph projection over existing standards and MMT formalizations of first-order logic: imports OMG Common Logic/DOL and MMT/LATIN2 sources into graph IR and draws them in a browser viewer (README.md).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "docs/goals/fol-class-diagram.md",
+      "docs/plans/fol-class-diagram.goal.md",
+      "docs/plans/fol-meaning-layer.goal.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "",
+    "decision_count": 0,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "spec/fol.json",
+      "spec/cl-meaning.json",
+      "schema/fol.tql",
+      "generated/pinned-fol-ir.json",
+      "generated/odm-cl-metamodel-ir.json",
+      "generated/dol-oms-metamodel-ir.json",
+      "docs/standards-metamodel.md",
+      "DESIGN.md"
+    ],
+    "components": [
+      {
+        "path": "scripts",
+        "role": "Importers and generators: import_mmt.py, import_standards.py, cl_class_diagram.py, cl_meaning.py, mmt_brf_to_flams_rdf.py."
+      },
+      {
+        "path": "visualizer",
+        "role": "Browser viewers: class-diagram.html (primary) and the older graph explorer, with vendored graph-viewer.js."
+      },
+      {
+        "path": "generated",
+        "role": "Generated graph IR and checks (MMT, ODM CL, DOL OMS metamodel IR)."
+      },
+      {
+        "path": "spec",
+        "role": "Specification JSON for FOL and CL meaning."
+      },
+      {
+        "path": "upstream",
+        "role": "Upstream source inventories, audits and a FLAMS RDF patch/prototype."
+      },
+      {
+        "path": "schema",
+        "role": "Schema file fol.tql."
+      },
+      {
+        "path": "tests",
+        "role": "Python unittest suite plus fixtures; tests/e2e holds a Playwright browser check."
+      },
+      {
+        "path": "docs",
+        "role": "Standards-derived metamodel notes, goal and plan records, where-we-are page."
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "python3 -m unittest discover -s tests -v (README.md); npm run e2e runs the Playwright browser check (package.json)",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 15,
+    "active_claims": [],
+    "blockers": [
+      "No Makefile and no AGENTS.md at the root, so maintenance-worktree and session-close governed routes are absent.",
+      "Project has no decision records directory.",
+      "Claim check reports no active claims; a claim or worktree is still needed before editing a shared checkout."
+    ]
+  },
+  {
+    "id": "onto_canon6",
+    "path": "/home/brian/projects/onto-canon6",
+    "default_ref": "origin/main",
+    "head_sha": "c42521d1",
+    "kind": "software-system",
+    "one_line_purpose": "OntoCanon: a domain-free governed semantic compiler that turns source-backed meaning into ontology-bound candidate assertions, governs them through review, promotes accepted ones into durable semantic state, and exports governed artifacts (README.md).",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "docs/ARCHITECTURE.md",
+      "docs/ROADMAP.md",
+      "docs/CURRENT_STATE.md"
+    ],
+    "requirements_candidates": [
+      "docs/CONVERGENCE_ACCEPTANCE.md"
+    ],
+    "decisions_dir": "docs/adr",
+    "decision_count": 43,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "docs/ARCHITECTURE.md",
+      "docs/CURRENT_STATE.md",
+      "docs/documentation_inventory.yaml",
+      "docs/wiki_manifest.yaml",
+      "wiki/index.md"
+    ],
+    "components": [
+      {
+        "path": "src/onto_canon6",
+        "role": "Python library: kernel owners for assertions, authoring, governance, identity, exports, ontology, source handling, corpus stages and the CLI/MCP entrypoints."
+      },
+      {
+        "path": "tests",
+        "role": "Test suite (450 tracked files)."
+      },
+      {
+        "path": "scripts",
+        "role": "Governance checks, generators and meta tooling (96 tracked files)."
+      },
+      {
+        "path": "usecases",
+        "role": "Use-case consumers and their test suites (249 tracked files); kept outside the core library per ADR 0031."
+      },
+      {
+        "path": "ontology_packs",
+        "role": "Versioned ontology packs (185 tracked files)."
+      },
+      {
+        "path": "frontend",
+        "role": "React workbench frontend (46 tracked files)."
+      },
+      {
+        "path": "apps",
+        "role": "Application entry points including workbench (17 tracked files)."
+      },
+      {
+        "path": "docs",
+        "role": "Architecture, current state, roadmap, ADRs (docs/adr, 43 records) and plans (docs/plans, 11 plan markdown files)."
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "make check (blocking gate per CLAUDE.md; make test runs the full suite; make check-advisory is report-only)",
+    "catalog_generator": "",
+    "governed_make_targets": true,
+    "md_count": 183,
+    "active_claims": [],
+    "blockers": [
+      "183 tracked .md files, over the 100-file cap for Brian-owned repos, and no .md-file-cap.yaml exists at the root.",
+      "wiki/index.md is self-marked STALE (last refreshed 2026-07-06, before the 2026-07-08 pivot); its content must not be trusted as current.",
+      "The 43 ADRs carry no Governs: lines, so the decision records cannot be linked to the code they govern.",
+      "Claim check reports no active claims; a worktree claim is still required before editing a shared checkout."
+    ]
+  },
+  {
+    "id": "brent-chatgpt",
+    "path": "/home/brian/code/brent-chatgpt",
+    "default_ref": "origin/main",
+    "head_sha": "09f4b95",
+    "kind": "software-system",
+    "one_line_purpose": "Password-protected lead tool for a law-firm client (redacted for this public record): finds early public projects that will need private land and produces owner lists, a map and a mail-merge export.",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": false,
+    "goal_candidates": [
+      "roadmap/GOAL.md",
+      "project-model/arc42/docs/01-goals.md"
+    ],
+    "requirements_candidates": [
+      "docs/design/final-format-prototype/Requirements.dc.html"
+    ],
+    "decisions_dir": "",
+    "decision_count": 0,
+    "decisions_have_governs": false,
+    "plans_dir": "roadmap",
+    "existing_model_files": [
+      "project-model/arc42/docs/05-parts.md",
+      "project-model/arc42/docs/09-decisions.md",
+      "project-model/brent.facts.yaml",
+      "project-model/FINDINGS.md"
+    ],
+    "components": [
+      {
+        "path": "api/",
+        "role": "API service (main.py)."
+      },
+      {
+        "path": "web/",
+        "role": "Web app (app.py) serving the lead tool."
+      },
+      {
+        "path": "backend/",
+        "role": "Parcel matching logic (parcel_matcher.py) and batch export scripts."
+      },
+      {
+        "path": "ingestion/",
+        "role": "Ingests FDOT GDB project data (fdot_gdb_parser.py, main.py)."
+      },
+      {
+        "path": "scrapers/",
+        "role": "County scrapers (base.py, duval_county.py) for owner and parcel records."
+      },
+      {
+        "path": "lib/",
+        "role": "Shared helpers: alert subscriptions, county appraiser links."
+      },
+      {
+        "path": "llm/",
+        "role": "LLM client and provider wrapper (client.py, llm_provider.py, prompts.py)."
+      },
+      {
+        "path": "workbench/",
+        "role": "React/TypeScript frontend (workbench/frontend)."
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "No make check, pyproject or root package.json. README documents a partial run: .venv/bin/python -m pytest -o addopts='' tests/test_leads.py tests/test_owner_export.py tests/test_owner_recheck.py tests/test_corridor_candidates.py",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 174,
+    "active_claims": [],
+    "blockers": [
+      "174 tracked .md files, above the 100-file cap for Brian-owned repos, and no .md-file-cap.yaml exists to justify it.",
+      "No wiki/index.md; the navigation entry point is README.md (its 'Start here' table) plus roadmap/README.md.",
+      "No documented full check command; the only test run is a partial pytest subset in README.md.",
+      "Live site is behind a shared login and serves a real law-firm client workflow; docs and code changes touching it need care about private owner data."
+    ]
+  },
+  {
+    "id": "portfolio",
+    "path": "/home/brian/code/portfolio",
+    "default_ref": "origin/main",
+    "head_sha": "7313377",
+    "kind": "mixed",
+    "one_line_purpose": "Canonical source for the public portfolio website at brianmills.dev/portfolio, built as static HTML/CSS/JS plus Cloudflare deploy tooling; follows decision 0016 (two hiring pillars: agentic engineering and analytical systems) and reads wiki/index.md first.",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "VISION.md",
+      "docs/goals/2026-10-03-application-pipeline.md",
+      "docs/goals/2026-10-04-portfolio-page-rework.md",
+      "docs/goals/2026-10-06-review-fixes-and-feedback-loop.md",
+      "proposals/upwork-automation/upwork-automation.goal.md"
+    ],
+    "requirements_candidates": [
+      "docs/UNCLEARED_NATSEC_AI_WATCH_AUTOMATION_SPEC.md",
+      "docs/portfolio-collection-spec.json"
+    ],
+    "decisions_dir": "wiki/decisions",
+    "decision_count": 23,
+    "decisions_have_governs": false,
+    "plans_dir": "wiki/plans",
+    "existing_model_files": [],
+    "components": [
+      {
+        "path": "src/",
+        "role": "Site source: vendored representation-router schemas (src/vendor) and live pages (src/live)."
+      },
+      {
+        "path": "ui/",
+        "role": "Page modules for agents, trust, collective, why and meaning sections."
+      },
+      {
+        "path": "machines/",
+        "role": "Interactive system cards and scripts (AES, hive, economy, facts, KGAS and others)."
+      },
+      {
+        "path": "deploy/",
+        "role": "Cloudflare build preparation (deploy/cloudflare) and release reviews (deploy/reviews)."
+      },
+      {
+        "path": "apply_queue/",
+        "role": "Application queue app, design and systemd units."
+      },
+      {
+        "path": "tools/",
+        "role": "Check scripts (check_all.sh, check_wiki.py, check_deployment_review.py) and generators such as build_resume.py."
+      },
+      {
+        "path": "wiki/",
+        "role": "Strategy and governance: decisions, plans, current state and proofs."
+      },
+      {
+        "path": "artifacts/",
+        "role": "Generated resume and application artifacts and their check reports."
+      }
+    ],
+    "test_dirs": [],
+    "local_check_command": "bash tools/check_all.sh (AGENTS.md: run before merging; prints RESULT: PASS or FAIL)",
+    "catalog_generator": "python3 tools/check_wiki.py (wiki check; run after documentation changes)",
+    "governed_make_targets": false,
+    "md_count": 274,
+    "active_claims": [],
+    "blockers": [
+      "274 tracked .md files, above the 100-file cap for Brian-owned repos, and no .md-file-cap.yaml exists.",
+      "GitHub checks have not run since 2026-09-15 (billing block); tools/check_all.sh is the merge gate.",
+      "Every deployment needs an annotated review under deploy/reviews/ and an update to deploy/CURRENT_REVIEW before publication (wiki/deployment-checklist.md).",
+      "Public site: any added page must hold no private data (job-search details, personal contact data)."
+    ]
+  },
+  {
+    "id": "vision",
+    "path": "/home/brian/code/vision",
+    "default_ref": "origin/main",
+    "head_sha": "dee5c2d",
+    "kind": "content-or-notes",
+    "one_line_purpose": "Brian's north star for automating knowledge work: the register of what he believes and the evidence for it, plus a ledger of end-to-end pressure tests; the entry point is wiki/index.md.",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "GOAL.md",
+      "notes/2026-09-08-owner-program-thesis-clarification.md",
+      "wiki/synthesis/automation-of-knowledge-work-program-thesis.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "wiki/synthesis",
+    "decision_count": 1,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "wiki/reference/agent-model-spec-2026-10-06.html",
+      "wiki/reference/federation-map.yaml",
+      "wiki/reference/parts-index.md",
+      "wiki/reference/piece-statements-2026-10-04.md",
+      "wiki/synthesis/hypotheses-and-evidence-register.md",
+      "wiki/synthesis/formal-model-catch-up.md",
+      "wiki/_schema.md"
+    ],
+    "components": [
+      {
+        "path": "raw/",
+        "role": "Append-only captured source documents (about 3,449 tracked files) that wiki pages cite by id."
+      },
+      {
+        "path": "wiki/",
+        "role": "Derived synthesis: 166 tracked .md pages (index, synthesis, lineages, reference, concepts)."
+      },
+      {
+        "path": "legacy/",
+        "role": "Documents consolidated from other repositories verbatim, with history (133 files)."
+      },
+      {
+        "path": "notes/",
+        "role": "Brian's owner statements (7 files) that are the only basis for changing the north star."
+      },
+      {
+        "path": "tools/",
+        "role": "Gate and generator scripts: check.sh, check_lineage_quotes.py, build_parts_index.py, build_federation_map.py, and others."
+      },
+      {
+        "path": "docs/plans/",
+        "role": "Planning records for the formal-model catch-up plan (plan, decisions, receipts, bundle)."
+      },
+      {
+        "path": "outputs/",
+        "role": "Generated analysis outputs (thesis-uncertainty-2026-10-05)."
+      },
+      {
+        "path": ".wiki/",
+        "role": "Rebuildable llm-wiki tool state (events, index, manifests); not authored."
+      }
+    ],
+    "test_dirs": [],
+    "local_check_command": "tools/check.sh (merge gate: wiki lint, lineage quotations, parts index, federation map, goal authority; prints RESULT: PASS or FAIL)",
+    "catalog_generator": "python3 ~/projects/wiki_methodology/foundation/llm-wiki/skills/wiki-configure/scripts/wiki.py rebuild (regenerates wiki/_catalog.md, _sources.md, _backlinks.json); tools/build_parts_index.py --check also runs inside tools/check.sh",
+    "governed_make_targets": false,
+    "md_count": 2445,
+    "active_claims": [],
+    "blockers": [
+      ".md-file-cap.yaml sets a limit of 2900 and md_count is 2445 (about 85% of the cap); raw/sources alone holds about 2,160 captured sources the cap excludes by design.",
+      "raw/ is append-only and wiki/_catalog.md and other generated files must not be hand-edited.",
+      "Any new wiki page needs a new owner statement, a register evidence change or a completed pressure-test case (wiki/AGENTS.md rules); new pages without captured sources are marked confidence unknown.",
+      "Lineage quotes must pass tools/check_lineage_quotes.py and tools/check.sh must end RESULT: PASS before merging a change.",
+      "Active goal in GOAL.md (milestone 4) governs current work; its state must be updated when an increment lands."
+    ]
+  },
+  {
+    "id": "project-meta",
+    "path": "/home/brian/code/project-meta",
+    "default_ref": "origin/main",
+    "head_sha": "531a77d7510f22dfb0ce52c73704aaf07bbdf0e6",
+    "kind": "mixed",
+    "one_line_purpose": "Governance hub for Brian's project ecosystem: project identity and lifecycle, shared policy, authority routing, durable decisions, and generated governance views.",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": true,
+    "goal_candidates": [
+      "vision/01_NORTH_STAR.md",
+      "vision/04_ROADMAP.md",
+      "vision/05_STATUS.md",
+      "generated/agent_docs/subtrees/plan/goals.md"
+    ],
+    "requirements_candidates": [],
+    "decisions_dir": "docs/ops",
+    "decision_count": 35,
+    "decisions_have_governs": false,
+    "plans_dir": "docs/plans",
+    "existing_model_files": [
+      "docs/ops/ADR-2026-07-16-engineering-control-plane-system-model.md",
+      "docs/designs/ARCHITECTURE_REGISTER_AND_DERIVED_DOCUMENTATION_2026-08-22.md",
+      "docs/ops/CAPABILITY_REGISTRY_ARCHITECTURE_V0.md"
+    ],
+    "components": [
+      {
+        "path": "scripts/meta",
+        "role": "Governance checks and tooling, including check_coordination_claims.py and md_file_cap.py (84 tracked files)."
+      },
+      {
+        "path": "policy/proposals",
+        "role": "Policy proposals and registry records (145 tracked files)."
+      },
+      {
+        "path": "docs",
+        "role": "Operating docs, ADRs (docs/ops), designs, handoffs and 284 plan files under docs/plans."
+      },
+      {
+        "path": "enforced_planning",
+        "role": "Planning enforcement records and rules (43 tracked files)."
+      },
+      {
+        "path": "generated/agent_docs",
+        "role": "Generated agent-facing instruction and context subtrees (24 tracked files)."
+      },
+      {
+        "path": "ui",
+        "role": "UI registry (registry.yaml) and UI guidance for the ecosystem UI index."
+      },
+      {
+        "path": "hooks",
+        "role": "Git and agent hook scripts (5 tracked files)."
+      },
+      {
+        "path": "schemas",
+        "role": "JSON/YAML schemas for governance records (23 tracked files)."
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "make check (Makefile:548: pytest tests/ -q --tb=short, then make check-generated)",
+    "catalog_generator": "make check-generated (Makefile:655) and the generated wiki catalog at .wiki/generated/_catalog.md",
+    "governed_make_targets": true,
+    "md_count": 1032,
+    "active_claims": [
+      "[claude-code] project-meta:durable-docs-daily [program] - Unplanned maintenance: durable docs daily; expires 2026-10-12T02:03:09Z; write_paths: scripts/md_file_cap.py, scripts/workspace_map_alert.py, tests/test_md_file_cap.py"
+    ],
+    "blockers": [
+      "1032 git-tracked .md files, far over the 100 cap in workspace AGENTS.md; no .md-file-cap.yaml exists at the root, so any new doc adds to an already-breaking repo.",
+      "Active claim durable-docs-daily (expires 2026-10-12) holds scripts/md_file_cap.py and tests/test_md_file_cap.py; avoid overlapping writes there.",
+      "Uses 35 ADRs under docs/ops with no Governs: header; the 4 files that mention 'governs' use it in prose only.",
+      "Decision and plan records are dense (docs/plans has 284 files), so adding docs needs a link from wiki/index.md to stay reachable."
+    ]
+  },
+  {
+    "id": "inquiry-graph",
+    "path": "/home/brian/code/inquiry-graph",
+    "default_ref": "origin/main",
+    "head_sha": "984f854b0bc7d667c37d555baf45fe0ad88089b8",
+    "kind": "software-system",
+    "one_line_purpose": "A source-grounded map of how an inquiry develops: it turns normalized conversations or ChatGPT exports into a typed graph of content, questions, relations, inquiry moves and stance/status histories, with source anchors.",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": false,
+    "goal_candidates": [
+      "docs/roadmap.md",
+      "docs/goals/cross-chat-position-memory.md",
+      "docs/goals/positions-as-shared-memory.md",
+      "docs/goals/cross-conversation-linker.md",
+      "docs/goals/cross-conversation-positions.md"
+    ],
+    "requirements_candidates": [
+      "docs/requirements.md"
+    ],
+    "decisions_dir": "docs/decisions",
+    "decision_count": 6,
+    "decisions_have_governs": false,
+    "plans_dir": "",
+    "existing_model_files": [],
+    "components": [
+      {
+        "path": "src/inquiry_graph",
+        "role": "Python package: model, validate, extract, linker, render, views, cli, bridge and live_extract modules."
+      },
+      {
+        "path": "tools",
+        "role": "About 48 scripts for building artifacts, sites, digests, and brian_positions/ask_positions queries."
+      },
+      {
+        "path": "ui/inquiry_graph_view",
+        "role": "Static inquiry graph viewer (app.js, build.py, index.src.html, package.json) registered in ui/registry.yaml."
+      },
+      {
+        "path": "evaluation",
+        "role": "Evaluation profiles and cross-conversation scale/usefulness pilot data (40 files)."
+      },
+      {
+        "path": "schemas",
+        "role": "JSON schemas for the graph format (3 files)."
+      },
+      {
+        "path": "examples",
+        "role": "Seed graph, the operational-games and semantic-modeling example conversations, and the decision-ledger backfill."
+      },
+      {
+        "path": "tests",
+        "role": "pytest suite (24 files, testpaths=tests in pyproject.toml)."
+      },
+      {
+        "path": "docs",
+        "role": "Requirements, ADRs 001-006, roadmap, status, evaluation plan, goals and handoffs (64 files)."
+      }
+    ],
+    "test_dirs": [
+      "tests"
+    ],
+    "local_check_command": "python -m pytest -ra (per README; pyproject [tool.pytest.ini_options] testpaths=tests). No Makefile exists.",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 73,
+    "active_claims": [],
+    "blockers": [
+      "No wiki/index.md exists; the Brian-owned docs rule requires every reader-facing document to be reachable from wiki/index.md, so a new doc needs that index created first.",
+      "No root AGENTS.md and no .agentic/repo.yaml.",
+      ".github/workflows/ci.yml runs hosted GitHub Actions on push and PR; the workspace policy says local checks are the merge gate, so this conflicts with policy.",
+      "md_count 73 is under the 100 cap, so there is room for new docs."
+    ]
+  },
+  {
+    "id": "chatgpt-bug-audit",
+    "path": "/home/brian/code/chatgpt-bug-audit",
+    "default_ref": "origin/main",
+    "head_sha": "f345ce37c2c0adb4bb8dd8822bc8f763e5080578",
+    "kind": "mixed",
+    "one_line_purpose": "Runs a loop where ChatGPT reviews the most-changed source files of each repo for correctness bugs, a Claude Code fix agent checks and fixes each real finding test-first, and the repo is sent back until ChatGPT reports no high-confidence bugs.",
+    "has_agentic_repo_yaml": false,
+    "agentic_repo_yaml_keys": [],
+    "has_wiki_index": false,
+    "goal_candidates": [],
+    "requirements_candidates": [],
+    "decisions_dir": "",
+    "decision_count": 0,
+    "decisions_have_governs": false,
+    "plans_dir": "",
+    "existing_model_files": [],
+    "components": [
+      {
+        "path": "ask.py",
+        "role": "Sends a prompt to ChatGPT through the chatgpt-bridge and returns the reply."
+      },
+      {
+        "path": "coverage.py",
+        "role": "Computes per-repo reviewed-file and line coverage for COVERAGE.md."
+      },
+      {
+        "path": "sendverify.sh",
+        "role": "Sends queued prompts one at a time and records each outcome in results.log."
+      },
+      {
+        "path": "verify.py",
+        "role": "Older read-back check that confirms a reply belongs to the sent prompt (retained for manual investigation)."
+      },
+      {
+        "path": "prompts",
+        "role": "Generated per-repo audit prompts (605 tracked files)."
+      },
+      {
+        "path": "replies_archive",
+        "role": "Archived ChatGPT replies (495 tracked files)."
+      },
+      {
+        "path": "notes",
+        "role": "Briefs and handoff notes (116 tracked files)."
+      },
+      {
+        "path": "LEDGER.md",
+        "role": "State of record for each repo's audit verdict and next step."
+      }
+    ],
+    "test_dirs": [],
+    "local_check_command": "",
+    "catalog_generator": "",
+    "governed_make_targets": false,
+    "md_count": 7,
+    "active_claims": [],
+    "blockers": [
+      "Operational state is tracked in git: 1275 files, including about 1100 small prompt and reply files in prompts/ and replies_archive/ (against the no-thousands-of-small-files policy).",
+      "No tests, no Makefile, no AGENTS.md, no wiki/index.md; preflight.sh is a state check, not a test suite.",
+      "LEDGER.md is the state of record that the loop depends on; edits there could break resumption.",
+      "Tracked __pycache__ and account.txt are present; account.txt was not read."
+    ]
+  }
+]
