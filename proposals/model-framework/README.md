@@ -163,7 +163,7 @@ Checked against company-planning origin/main cdcf6c7 and AES origin/main.
 Conclusion: the rules mostly exist. What is missing is checking their substance, plus the
 link from model element to test to computed status.
 
-## 9. Policy pilot plan (proposed 2026-10-10, not adopted)
+## 9. Policy pilot plan (adopted 2026-10-10 as company-planning `docs/plans/policy-enforcement-pilot.md`, PR #120)
 
 Order matters: the checks run in **warn mode** through the stress test, and refuse only
 afterwards. Plan #55 rolled a rule out to every project from one pilot, and that is how
@@ -172,7 +172,7 @@ ODD spread.
 | Step | What | Agent time | Brian |
 |---|---|---|---|
 | 0 | Record the priority and the enforcement map (sections 1, 8) and file #119 | done | none |
-| 1 | Landscape check of traceability tools. Incumbent first: extend `relationships.yaml` + `check_doc_coupling.py` (already in 37 repos) with model-element-to-test edges. Then compare sphinx-needs, StrictDoc, OpenFastTrace, Doorstop, pytest markers + JUnit XML, and AES `verification_subjects`. Decides how "element ID → test → status" is recorded | about 1 h | none |
+| 1 | (done 2026-10-10, result below) Landscape check of traceability tools. Incumbent first: extend `relationships.yaml` + `check_doc_coupling.py` (already in 37 repos) with model-element-to-test edges. Then compare sphinx-needs, StrictDoc, OpenFastTrace, Doorstop, pytest markers + JUnit XML, and AES `verification_subjects`. Decides how "element ID → test → status" is recorded | about 1 h | none |
 | 2 | Write the three rules as one amendment to decision 0002 and the system-model reference. Plan: element IDs, decided/guessed marks, unknowns table. Build: each element covered by at least one named test, status computed from the last run. Review: a generated status page linked from each review point | 1-2 h | look at one diagram of the rules, about 15 min |
 | 3 | Build the checks in warn mode: plan-adoption check (fixes #119), status computation, review-page generator | 4-6 h | none |
 | 4 | Stress test on qualitative_coding slice 1: intent models, tagged tests, a run, a status page | 4-6 h | open the status page, about 20 min |
@@ -190,6 +190,40 @@ Wrong when:
   projects.
 
 This needs a full company-planning plan, since it spans several repositories, before step 1.
+
+### Step 1 result (2026-10-10): reuse AES v0.2 evidence
+
+Judged on the plan's three tests: does it link a model element to a test (not file to file), does
+it compute status from a real run, and does it work across repos.
+
+| Candidate | Element → test | Status from a run | Across repos | Disposition |
+|---|---|---|---|---|
+| AES v0.2 evidence: `verification_subjects`, `aes evidence record`, `aes evidence status`, `evidence.assess()` | yes: criterion ID → verification subject (one test file). IDs are free text, so the model's own `QC-QUOTE-MEETS-RULE` can be the criterion ID | yes: runs pytest at a commit and records SUPPORTS or REFUTES; a criterion stands SUPPORTED, INSUFFICIENT or REFUTED, and a run goes STALE when a file it depended on changes | yes: `aes init` with per-repo `governed_roots`, so qualitative_coding can govern only its model and model-test folders | **reuse** |
+| agent_ecology2 doc graph: `relationships.yaml` + `check_doc_coupling.py` | no: file glob ↔ file glob | no: `verify_sync` only waives the co-change warning when a command exits 0, and never runs when code and doc both changed | copied, not installed: 13 versions of the checker, 8 shapes of the yaml (project-meta #2523) | **keep as is** for co-change warnings; not the status mechanism |
+| project-meta context-engineering design (`required_reading` / `navigation` blocks) | n/a | n/a | n/a | **compose**: untouched, since the pilot does not edit `relationships.yaml` |
+| sphinx-needs 8.5 + sphinx-test-reports 2.0 | yes: JUnit `<property>` → need links | yes: each JUnit testcase becomes a need with a result | yes | **bounded exception**: requirements must be needs (MyST directives or imported JSON), a second ID registry beside AES's; revisit if rendered traceability documents are wanted |
+| pytest-requirements 0.3.1 / pytest `record_property` | yes: marker → JUnit property | yes, as JUnit XML | n/a | **not needed**: the AES locator already carries the link; JUnit alone has no commit binding or staleness |
+| StrictDoc 0.30.2 | yes | experimental JUnit import | yes | **reject**: Markdown input and JUnit import are both labelled experimental; strict field format |
+| OpenFastTrace 4.10 | yes, source tags | **no**: coverage only, no test results | yes | **reject**: no run status; needs Java 17 |
+| Doorstop 3.2 | weak (`references:` paths) | **no** | yes | **reject**: no test status; one file per item |
+
+What this changes in the plan:
+- Step 3 builds no new status computation and no new status schema. What remains is a warn-mode check that
+  every element ID in a model file is an AES criterion with a verification subject, the plan-adoption
+  fix for #119, and a status page drawn from `evidence.assess()`.
+- qualitative_coding becomes an AES-governed target (narrow governed roots), so the plan's
+  `aes_governed_target` fact turns true and the plan is re-adopted before step 3, as its contracts
+  section requires.
+- Cost to watch: AES's own status today shows 1 of 9 criteria supported and 32 of 64 observations stale.
+  Re-recording is the upkeep. The plan's wrong-when ("keeping the models true costs more than the
+  defects they catch") will be measured on exactly this.
+
+Sources: AES `docs/greenfield/GETTING_STARTED.md` sections 5–6; `src/agentic_engineering_system/evidence.py`
+(`assess`, `_discover_dependencies`); `ecosystem-ops/scripts/check_doc_coupling.py` `check_couplings`;
+sphinx-test-reports `docs/cli.rst` and `docs/pytest.rst`; StrictDoc user guide ("Markdown support
+(experimental)", "JUnit XML"); OpenFastTrace `doc/user_guide/reference/input_format_support.md`;
+Doorstop `docs/reference/item.md`; pytest-requirements quickstart (CTAO GitLab pages).
+
 
 ## 10. Open decisions
 
