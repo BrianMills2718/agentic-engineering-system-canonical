@@ -9,7 +9,7 @@ artifacts. Open the cited source for full context and current truth.
 
 ## Coverage
 
-- Tracked artifacts: 998
+- Tracked artifacts: 1000
 - Artifacts with source summaries: 394
 - Coverage findings: 1023
 - Finding types: python-docstring-missing=1023
@@ -4576,7 +4576,7 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-## Other (517)
+## Other (519)
 
 ### `.aes/commit_rule.yaml`
 
@@ -5391,6 +5391,14 @@ _No source-local artifact summary._
 _No source-local artifact summary._
 
 ### `proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader.jsonl`
+
+_No source-local artifact summary._
+
+### `proposals/aes-durable-docs/evidence/m4-r13-r14-seeded-run.txt`
+
+_No source-local artifact summary._
+
+### `proposals/aes-durable-docs/evidence/m4-r13-r14-tests.txt`
 
 _No source-local artifact summary._
 
