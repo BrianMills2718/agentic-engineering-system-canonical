@@ -3,13 +3,13 @@
   "record_type": "method_adoption_decision",
   "decision": "adopted",
   "plan_ref": "proposals/aes-durable-docs/PLAN.md",
-  "plan_sha256": "f64b0c64085f327c989f1010e3ade18f54ae38effec1f0399671fad1e6d7b586",
+  "plan_sha256": "22c692129dd26aa39cc483ebff05b46e15c70b68f8859c27c30366093878f2fe",
   "receipt_ref": "proposals/aes-durable-docs/PLAN.receipt.json",
-  "receipt_sha256": "a10621c344d15bbdf893da330cf4abb9240bebe6e70a63ee2942caac3800c31d",
+  "receipt_sha256": "1929001bdb17839b3554c352ccb302832b762357a6e41271df2b48f7e75bfa67",
   "receipt_result": "pass",
   "reason_codes": [],
   "summary": [
     "pass: 20 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
   ],
-  "decided_at": "2026-10-10T22:59:06Z"
+  "decided_at": "2026-10-11T00:02:13Z"
 }

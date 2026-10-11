@@ -20,7 +20,7 @@ goal:
 
 **Authority:** Brian, 2026-10-10, approving option (a), "I write the proposal in AES canonical and wire it into company planning's plan-finish step": "i approve a. i want plannign to be as rigorous as possible (within reason)". Earlier the same day: "i thin kthis '- Company planning: it centres on roadmaps and leaves the other document types optional.' shouldnt be the case."
 
-**Last outcome-bearing update:** 2026-10-10, M0 adopted, M1 schema and M2 checker built with 25 passing seeded-defect tests. Next: M3, Company Planning wiring, after messaging the Codex company-planning lane.
+**Last outcome-bearing update:** 2026-10-10, M3 merged: company-planning PR #109 (merge `7c79e5c`, Plan #61) ships the check and schema in the plugin (`plugins/company-planning/scripts/durable_docs_check.py`, `plugins/company-planning/contracts/durable-documents/durable_documents.v0_1.schema.json`), the adoption-gate overlay `OV-DURABLE-DOCS-DECLARED` (bounded-design@12), quick-adopt `--durable-doc`, the completion step and PMI-018; full suite 927 passed. The checker, schema and tests that were in this folder moved there (this folder keeps only the design and its M2 evidence). Next: M4, the two pilots declare the block and fill their durable documents.
 
 **Why now.** A survey of 36 repositories active in the last two weeks (2026-10-10, `git ls-files` by path) found about 3,300 plan files and about 600 decision records, but requirements documents in 2 repositories, a system model (`docs/model/ODD.md`) in 8 and `.aes/target.yaml` in 4. Plans record each change and are never folded back into anything a reader can trust as current. Company Planning makes a PRD optional (`landscape-review/SKILL.md:74`), never asks for decision records, and has no completion step for quick-adopted plans.
 
@@ -54,10 +54,10 @@ Status for all: planned, not yet run, unless stated.
 
 | ID | Requirement (asked for, or implied by the work's claims) | Check that verifies it | Status |
 |---|---|---|---|
-| R1 | `.agentic/repo.yaml` gains a `durable_documents` block naming each role's path or `not_applicable: <reason>` | `durable_docs_check.py` validates the block against `durable_documents.schema.json` | planned |
+| R1 | `.agentic/repo.yaml` gains a `durable_documents` block naming each role's path or `not_applicable: <reason>` | `durable_docs_check.py` validates the block against company-planning `plugins/company-planning/contracts/durable-documents/durable_documents.v0_1.schema.json` | planned |
 | R2 | The goal document holds north star, thesis, thesis disproof and non-goals | checker: each field present and non-placeholder | planned |
 | R3 | Every requirement has an ID, a success criterion and a disproof condition | checker; for AES repos `aes plan validate` already enforces this | planned |
-| R4 | Every system-model rule has an ID, exactly one owner path that exists, at least one check path that exists, and every process names the rules it enforces | checker trace pass over the model's machine-readable twin | planned |
+| R4 | Every system-model rule has an ID, exactly one owner path that exists, at least one check path that exists, and every process names the rules it enforces | checker trace pass over the trace file (`docs/model/trace.yaml`) | planned, not yet run on a real repository (M4 pilots); the check itself passes its seeded-defect tests |
 | R5 | Every decision record names the rule or component IDs it governs, and each ID resolves | checker | planned |
 | R6 | Glossary generated from the model | generator diff | deferred: derived convenience; no reader question in the canonical example needs it; picked up at M5 if cold readers stumble on vocabulary |
 | R7 | Every adopted plan (full and quick) carries a Durable documents section or line naming role#ID entries or `none -- <reason>` | new Company Planning checklist item `CORE-DURABLE-DOCS` in the adoption gate; `quick-adopt --durable-doc` flag | planned |
@@ -65,7 +65,8 @@ Status for all: planned, not yet run, unless stated.
 | R9 | A durable document is reported stale when files its rules name as owners changed after the document's last commit | checker staleness pass (git log per path) | planned |
 | R10 | The daily documentation check reports durable-set findings per repository and keeps one concern open while any governed repository fails | project-meta `scripts/md_file_cap.py` extension | planned (M5) |
 | R11 | The rule is presented as following arc42 headings; the documents use arc42 section names for goal, context, runtime (data flow), decisions and glossary | checker heading check on GOAL.md and REQUIREMENTS.md | planned |
-| R12 | A feedback path exists: PMI entry with a wrong-when condition in `docs/PLANNING_METHOD_FEEDBACK.md` | file review in the M3 pull request | planned |
+| R12 | A feedback path exists: PMI entry with a wrong-when condition in `docs/PLANNING_METHOD_FEEDBACK.md` | file review in the M3 pull request | passing: PMI-018 in company-planning PR #109 |
+| R13 | (added 2026-10-10, AES-CTX-004 "Truth lives where it is edited", Decision 0013, landing from branch `edit-site-authority`) Every reader document in the durable set carries a non-placeholder `description` front-matter line, and the repository's wiki catalog is generated from those lines, never hand-maintained; `durable_docs_check.py` reports a missing or placeholder description; the goal document's thesis cites AES-CTX-004 | three checks added to the plugin's `durable_docs_check.py` at M4, each with a seeded-defect test: `DOC-NO-DESCRIPTION` (a durable reader document lacks a non-placeholder `description`), `CATALOG-STALE` (the wiki catalog differs from a fresh generation from those descriptions, the generator's `--check` mode, as `make docstring-wiki` does for code), and `GOAL-NO-CTX-004` (the goal document's thesis does not cite AES-CTX-004) | planned (M4) |
 
 ## Success and disproof
 
@@ -113,7 +114,7 @@ Elements this work adds, changes or relies on, and what the examined run must sh
 
 Source-linked views (from Company Planning `distribution/references/architecture-views.md`), each generated from or linked to its source:
 
-- Data and state: the durable-set diagram on `proposals/aes-durable-docs/review-page/index.html`; its source is the durable-set table in this plan and, from M1, `docs/architecture/durable_documents.schema.json`.
+- Data and state: the durable-set diagram on `proposals/aes-durable-docs/review-page/index.html`; its source is the durable-set table in this plan and, from M1, company-planning `plugins/company-planning/contracts/durable-documents/durable_documents.v0_1.schema.json`.
 - Interactions and transitions: adopt -> work -> complete, sourced from `skills/execute-plan-loop/SKILL.md` steps 1-4 and `scripts/method_conformance/gate.py` (adoption) and `quick.py` (quick plans); drawn on the same review page.
 - Requirement-to-verification: the Requirements table above (requirement -> check -> status), source-linked to each check's file.
 - Deployment: omitted, nothing is deployed.
@@ -198,7 +199,7 @@ Declared: `shared_mechanism=true` (a new document contract and check shared by e
 |---|---|---|---|---|
 | M0 shaping | claude-code, claim `shaping/aes-durable-docs` (AES canonical, write path `proposals/aes-durable-docs`) | this folder | none | adoption receipt |
 | M1 contract | same | `.agentic/repo.yaml` schema in AES canonical (`docs/architecture/`), this folder | M0 | schema plus validation of both pilots' blocks |
-| M2 checker | same | `proposals/aes-durable-docs/durable_docs_check.py` and tests | M1 | seeded-defect runs |
+| M2 checker | same | built here, moved at M3 to company-planning `plugins/company-planning/scripts/durable_docs_check.py` with its tests | M1 | seeded-defect runs |
 | M3 Company Planning wiring | same, new claim in company-planning | `skills/bounded-design`, `skills/execute-plan-loop/SKILL.md` step 4, `scripts/method_conformance/` (checklist item, `quick-adopt` flag), `distribution/references/`, `docs/PLANNING_METHOD_FEEDBACK.md`, its model and VIEW_COVERAGE | M2; reconciliation with the Codex lane | negative controls |
 | M4 pilots | same | company-planning and AES canonical durable documents | M3 | checker clean, cold reader |
 | M5 rollout | same, one PR per repository, Haiku for per-repository inventory | each repository; project-meta `md_file_cap.py` | M4 | daily check |
@@ -230,9 +231,9 @@ Before M3 the integration owner sends the Codex company-planning lane (ListAgent
 
 | Boundary | Contract | Owner | File or URL | Changed here |
 |---|---|---|---|---|
-| B1 | Repository layout (`.agentic/repo.yaml`, schema 0.1-pilot) | AES canonical | `.agentic/repo.yaml`; new `docs/architecture/durable_documents.schema.json` | yes: adds `durable_documents` |
+| B1 | Repository layout (`.agentic/repo.yaml`, schema 0.1-pilot) | AES canonical | `.agentic/repo.yaml`; schema company-planning `plugins/company-planning/contracts/durable-documents/durable_documents.v0_1.schema.json` | yes: adds `durable_documents` |
 | B2 | Plan checklist profile (`bounded-design@5`) and adoption gate | Company Planning | `plugins/company-planning/contracts/method-conformance/profiles/bounded-design.v1.json`; gate `plugins/company-planning/scripts/method_conformance/gate.py` | yes: adds `CORE-DURABLE-DOCS` (profile version bump) |
-| B3 | Durable-docs check CLI (arguments, exit codes 0 clean, 1 findings, 2 invalid input; one finding per line naming role, ID, file) | this plan | `proposals/aes-durable-docs/durable_docs_check.py` (M2) | yes: new |
+| B3 | Durable-docs check CLI (arguments, exit codes 0 clean, 1 findings, 2 invalid input; one finding per line naming role, ID, file) | Company Planning (since M3) | company-planning `plugins/company-planning/scripts/durable_docs_check.py` | yes: new |
 | B4 | git plumbing (`git log`, `git diff --name-only <range>`, `git ls-files`) | git | https://git-scm.com/docs | no |
 | B5 | daily check report format | project-meta | `scripts/md_file_cap.py` | yes at M5: adds durable-set findings |
 | B6 | shared LLM client call contract (`call_llm_structured`) | llm_client | `BrianMills2718/llm_client`, file `llm_client/core/client.py` (https://github.com/BrianMills2718/llm_client/blob/main/llm_client/core/client.py) | no |
@@ -303,8 +304,8 @@ The other requirements serve no AES target normative item or success criterion, 
 | Milestone | Output | Promotion trigger |
 |---|---|---|
 | M0 Shape and adopt | done 2026-10-10: this plan, adopted (`PLAN.receipt.json`); review page with the durable-set diagram | adoption receipt |
-| M1 Contract | schema done 2026-10-10 (`durable_documents.schema.json`, kept in this folder until M4 moves it to `docs/architecture/`, because claims can only start at main's tip and this lane's claim covers this folder); pilots' blocks validate at M4 | schema test passes |
+| M1 Contract | schema done 2026-10-10; it now lives in the Company Planning plugin (`contracts/durable-documents/durable_documents.v0_1.schema.json`) so every installed consumer validates against the same copy; AES canonical's `.agentic/repo.yaml` contract points to it at M4 | schema test passes |
 | M2 Checker | done 2026-10-10: `durable_docs_check.py`, 25 seeded-defect tests pass, every finding type shown (`evidence/m2-seeded-defects.txt`, one file for all seeded runs) | all seeded runs show their finding |
-| M3 Company Planning wiring | gate item, `quick-adopt` flag, completion call, PMI entry, model update | both negative controls recorded |
+| M3 Company Planning wiring | done 2026-10-10: company-planning PR #109 (Plan #61); controls in `plugins/company-planning/docs/evidence/method-conformance/canonical-probe/durable-{no-block,undeclared,unchanged}.txt` there | both negative controls recorded |
 | M4 Pilots | company-planning and AES canonical documents filled and clean | checker clean plus cold reader |
 | M5 Rollout | one PR per active governed repository; daily check reports | disproof sample read two weeks after M4 |

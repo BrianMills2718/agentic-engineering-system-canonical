@@ -1,4 +1,13 @@
 {
+  "024114a9936371ad30ab0ace5baefe955d811f0a3fc8627469a7a1f4ac67e988": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly supports each declared activation fact: it proposes a shared durable-document contract and checker, uses model calls involving spend, claims use of the external arc42 template, and identifies AES canonical as governed by `.aes/target.yaml`. It also explicitly states there is no alternative-design comparison, that the mechanism is deterministic rather than centrally LLM-dependent, that no irreversible action or deployment is proposed, and it documents the shared-contract system boundary.",
+    "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
   "033b0be97709a17d85d12e5fa2911cfe495d32e8313214d88911bf12cdfbd0b9": {
     "item_id": "CORE-SUCCESS-DISPROOF",
     "materiality": "non_material",
@@ -17,6 +26,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/CORE-UNCERTAINTIES",
     "verdict": "pass"
   },
+  "1302cb2f4bb47ed1017d393135f52bdb7c3dbc5a20f8c4bbd6e5e70f6b4e2395": {
+    "item_id": "OV-CONTRACTS-DEPENDENCIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies the producer and consumer for each listed contract, including schemas, tooling, plan text, reports, and the LLM client. It also provides a sequenced landing order from M1 through M5 and explains why consumers do not break during the profile transition or repository rollout.",
+    "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/OV-CONTRACTS-DEPENDENCIES",
+    "verdict": "pass"
+  },
   "15fd5939bb9e86384533bcbcc30e664958d7038b4142e4f640629a2b0ecbde35": {
     "item_id": "OV-PRIOR-ART-DISPOSITION",
     "materiality": "material",
@@ -25,6 +43,15 @@
     "rationale": "The table explicitly dispositions each listed candidate using reuse, extend, compose, supersede, or bounded exception, and includes internal and external sources. However, it does not state that ownership, internal lineage, and relevant external prior art were actually searched; it only lists candidates and their locations.",
     "trace_id": "company-planning/method-conformance/PLAN/28701088f65a/OV-PRIOR-ART-DISPOSITION",
     "verdict": "unresolved"
+  },
+  "187b924ac82a9c9e95abe7cd87d8c642dd6c28fe5161ec89b6bce0951a28c46b": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares true each triggered fact: shared_mechanism, irreversible_or_spend_action, claims_external_standard, and aes_governed_target. It declares empirical_comparison_proposed=false while explicitly stating that no comparison experiment is run, and llm_central=false while identifying the core check as deterministic; neither is shown to be triggered under the stated definitions.",
+    "trace_id": "company-planning/method-conformance/PLAN/66c487e1c44c/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
   },
   "1d89409793a1785e1f67247d5baf45cd065805474bbf10d0c94228e1fa20b5c7": {
     "item_id": "OV-CONTRACTS-SCHEMAS",
@@ -89,6 +116,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/28701088f65a/CORE-IRREVERSIBLE-SPEND",
     "verdict": "unresolved"
   },
+  "47eb162fea38a9039b087bd56d4878a98a179724e5fcad9e6edb5e8ec41c4beb": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides a requirements list covering the requested and implied claims, and each requirement names a verifying check and status. The deferred glossary requirement includes a stated reason and a planned milestone, while the arc42 claim is explicitly captured in R11.",
+    "trace_id": "company-planning/method-conformance/PLAN/14a91b60072c/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
   "4bb1843c08cade58959f278026b064f021b1768cb6ae7bef5528c73c1256eb04": {
     "item_id": "OV-CONTRACTS-SCHEMAS",
     "materiality": "non_material",
@@ -125,6 +161,24 @@
     "trace_id": "company-planning/method-conformance/PLAN/28701088f65a/OV-CONTRACTS-SCHEMAS",
     "verdict": "unresolved"
   },
+  "5b5aa04ed2546eb47e5bd87df5a6217a5a001dc8cfb598d173028645c22443ee": {
+    "item_id": "OV-COORD-OWNERSHIP",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies each concurrent writer, its owner/claim, write paths, conflict surface, dependency/order, and work-unit evidence. It also names the integration owner as the plan owner and states the merge responsibility.",
+    "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/OV-COORD-OWNERSHIP",
+    "verdict": "pass"
+  },
+  "62d2da813d81e68c26b942a2388114caeae2a3bea1cbaac6ce15c2af57474b13": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "material",
+    "missing": "R13's check only verifies missing or placeholder descriptions. It does not name checks for the wiki catalog being generated from those descriptions rather than hand-maintained, or for the goal document's thesis citing AES-CTX-004.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The requirements table explicitly includes these R13 claims, but its verification entry is only a `DOC-NO-DESCRIPTION` check with seeded-defect tests. Because every requirement must name a check that verifies it, the listed check does not cover all elements of R13.",
+    "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/CORE-REQUIREMENTS-TRACED",
+    "verdict": "unresolved"
+  },
   "685977fba31826abd6da1b3801485fcdfa96ac0ef7f54470f820073cc245c37b": {
     "item_id": "CORE-SYSTEM-MODEL",
     "materiality": "non_material",
@@ -132,6 +186,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence links the system model and repository documentation entry point, identifies the repository scope, and enumerates each added, changed, or relied-on element with an explicit requirement for what the examined run must show. It also names source-linked views, explains the deployment omission, specifies freshness and drift checks, and states same-change reconciliation with saved verification output.",
     "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "79eb5f6a24c1b43fe5cc68ddad7cd712f04b4a783fba57cb99752c6783ddd7cf": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares `empirical_comparison_proposed=false`, but explicitly says no comparison of alternatives is run and that StrictDoc is only a fallback trigger, not a bake-off. It declares `llm_central=false` while describing the core check as deterministic, and all other triggered facts\u2014shared mechanism, spend, external standard, and AES governance\u2014are declared true.",
+    "trace_id": "company-planning/method-conformance/PLAN/14a91b60072c/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   },
   "80d03377afa69223cc731b99b02fb411d40d87104a44e02ca705307bd0e3b765": {
@@ -215,6 +278,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   },
+  "a60b6a097e3c127a6e06ee67e26db308ec290d8cddf48c76fc4b875a5e441d35": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "material",
+    "missing": "R4 does not state a complete status for the requirement: it says \u201cpassing on seeded tests; pilots at M4\u201d but does not specify whether the full requirement is passing, planned and not yet run, or otherwise statused pending the pilots.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The table provides a requirements list and names a check for each requirement, with explicit statuses for most rows. However, R4 combines a partial passing result with future pilots without giving an unambiguous status for the requirement as a whole.",
+    "trace_id": "company-planning/method-conformance/PLAN/66c487e1c44c/CORE-REQUIREMENTS-TRACED",
+    "verdict": "unresolved"
+  },
   "ada5cca055cb506a0bc6510c1d8f5ead69cb2e626944138437758e50c2ac6f10": {
     "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
     "materiality": "non_material",
@@ -258,6 +330,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence defines direct success checks: refusal controls test dependency enforcement, cold readers answer the canonical question using opened files, and checker runs test specified finding types. It also defines concrete disproof conditions\u2014five or more of 10 plans declaring `none` or mechanical diffs, or a cold-reader failure on a checker-clean pilot\u2014and specifies the resulting action.",
     "trace_id": "company-planning/method-conformance/PLAN/28701088f65a/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "bca81e7a73bf65e417826e34c36c9f3910e9cfb5de2abf076c2d7a471fb8ec5a": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence links the system model, identifies the repository entry point and scope, names each affected element, and specifies what the examined run must show for each. It also identifies source-linked views, explains the deployment omission, names freshness and drift checks, and states same-change reconciliation through the M3 pull request and saved verification output.",
+    "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/CORE-SYSTEM-MODEL",
     "verdict": "pass"
   },
   "c60e59bfcdb550a4dfcf840f381a916d42ecc160beef76758bb6d8d0c4013811": {
@@ -322,6 +403,15 @@
     "rationale": "The evidence explicitly lists the crossed boundaries, contracts, owners, change status, and locations for the other entries. For B6, however, \u201cllm_client package\u201d is neither a file nor a URL, so the required location is absent.",
     "trace_id": "company-planning/method-conformance/PLAN/5e69beaf71da/OV-CONTRACTS-SCHEMAS",
     "verdict": "unresolved"
+  },
+  "ea711d17e8eaf99dad58637ba4e5cb8c727a293f81a4e32a268e964f0f02c6f1": {
+    "item_id": "OV-CONTRACTS-SCHEMAS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly lists all six crossed system boundaries and enumerates their schemas/contracts in tables with owners, file paths or URLs, and a \u201cChanged here\u201d determination for each. It also identifies contracts such as the repository layout, adoption gate, checker CLI, git plumbing, daily report, LLM client, execution cursor, system model, AES target, and TraceReviewV1.",
+    "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/OV-CONTRACTS-SCHEMAS",
+    "verdict": "pass"
   },
   "f502585eebcd35ed3eba01affc855febc06f2f6f92bb219f96af798c216af1e8": {
     "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
