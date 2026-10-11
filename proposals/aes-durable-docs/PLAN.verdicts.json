@@ -71,6 +71,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/40b7779104c1/OV-CONTRACTS-SCHEMAS",
     "verdict": "pass"
   },
+  "1f703a600eee5961cabb84c9c30ad37aa8a59b1a088c0fbbdd622d402fbe92a7": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares all applicable activation facts true: shared_mechanism, irreversible_or_spend_action, claims_external_standard, and aes_governed_target. It substantively supports the false declarations for empirical_comparison_proposed (no alternative-comparison experiment; verification is distinguished from comparison) and llm_central (the durable-docs check is deterministic and the LLM cold reader is only verification).",
+    "trace_id": "company-planning/method-conformance/PLAN/ee49fbbc03d7/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
   "2132a78fc739b9c8d3118e66fbf391675ee63baa0d769e9722f721574c113ed5": {
     "item_id": "CORE-TRACE-DEBUGGING",
     "materiality": "non_material",
@@ -125,6 +134,24 @@
     "trace_id": "company-planning/method-conformance/PLAN/28701088f65a/CORE-TRACE-REVIEW",
     "verdict": "unresolved"
   },
+  "33d821e0332c4ba8b5fb483383b4f01bdd82c4501e9ae4910d4391d4cec88738": {
+    "item_id": "OV-DURABLE-DOCS-DECLARED",
+    "materiality": "material",
+    "missing": "The evidence does not explicitly show that `goal`, `system_model`, and `decisions` are roles declared in the repository\u2019s `.agentic/repo.yaml` `durable_documents` block.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly names the durable-document roles and identifies the system-model documents, and it requires a completion check with `--plan`, `--range`, and exit 0. However, it only states the roles in the plan and provides no quoted evidence of the repository declaration required by `.agentic/repo.yaml`.",
+    "trace_id": "company-planning/method-conformance/PLAN/acf684d6bc30/OV-DURABLE-DOCS-DECLARED",
+    "verdict": "unresolved"
+  },
+  "3b27d97b1d59e440499ea3c4769a0ea057fcae62ec950cf4873529f9f126aefe": {
+    "item_id": "OV-DURABLE-DOCS-DECLARED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides a `Durable documents:` line naming `goal`, two system-model rule IDs, and `decisions`, and explicitly states all are declared in the repository\u2019s `durable_documents` block. It also requires `durable_docs_check.py --repo . --plan proposals/aes-durable-docs/PLAN.md --range 23e413a2c..HEAD` to exit 0 at completion.",
+    "trace_id": "company-planning/method-conformance/PLAN/0e711d3380a4/OV-DURABLE-DOCS-DECLARED",
+    "verdict": "pass"
+  },
   "3c60dbaf97269d705270c621717aa0d056494bb2580c39196f70908db7b2e4e8": {
     "item_id": "CORE-IRREVERSIBLE-SPEND",
     "materiality": "material",
@@ -132,6 +159,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence identifies git revert as containment for repository changes and limits model use to cold-reader runs and the semantic verifier. However, it does not explicitly provide an authorizer for either category, and the stated model-use limits do not fully establish containment.",
     "trace_id": "company-planning/method-conformance/PLAN/28701088f65a/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "unresolved"
+  },
+  "472aaafd0816df23bfc161e9d131b2f5c307babda6748c4568004e08fb4693c6": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "material",
+    "missing": "Evidence does not establish that the adoption gate\u2019s semantic verifier is non-central to the plan\u2019s behavior. The plan explicitly uses LLM calls for that verifier, while the justification for `llm_central=false` addresses only the deterministic checker and cold-reader activity.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares `llm_central=false`, but also states that model spend includes \u201cthe adoption gate\u2019s semantic verifier\u201d and that the verifier uses the shared LLM client. The evidence does not explicitly show that this LLM-dependent verifier is auxiliary rather than behavior on which the plan centrally depends.",
+    "trace_id": "company-planning/method-conformance/PLAN/0286bcef4f9b/CORE-ACTIVATION-FACTS",
     "verdict": "unresolved"
   },
   "47eb162fea38a9039b087bd56d4878a98a179724e5fcad9e6edb5e8ec41c4beb": {
@@ -215,6 +251,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/CORE-SYSTEM-MODEL",
     "verdict": "pass"
   },
+  "7904ecea08d5989cb33fc6113061009bcfb0682b41ba7a5654541fe6e72e64eb": {
+    "item_id": "OV-DURABLE-DOCS-DECLARED",
+    "materiality": "material",
+    "missing": "The `Durable documents:` line names `system_model` but does not include the required system-model rule or element ID, such as `system_model#RULE-...`.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly declares and names `goal`, `system_model`, and `decisions`, and includes a completion check with the plan and adoption range that must exit 0. However, the system-model role lacks the required rule or element ID on the `Durable documents:` line.",
+    "trace_id": "company-planning/method-conformance/PLAN/0286bcef4f9b/OV-DURABLE-DOCS-DECLARED",
+    "verdict": "unresolved"
+  },
   "79eb5f6a24c1b43fe5cc68ddad7cd712f04b4a783fba57cb99752c6783ddd7cf": {
     "item_id": "CORE-ACTIVATION-FACTS",
     "materiality": "non_material",
@@ -224,6 +269,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/14a91b60072c/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   },
+  "7c49dcc445f2a8c4e48e93238ed6e76c346c49e0639d30c596de51f3e8298cec": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides a requirements table covering asked-for and claimed properties, with an ID, verifying check, and explicit status for each requirement. R6 includes a stated deferral reason and explicitly identifies the completion records carrying the deferral; the named schema and arc42 claims are also represented as R1 and R11.",
+    "trace_id": "company-planning/method-conformance/PLAN/ee49fbbc03d7/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
   "80d03377afa69223cc731b99b02fb411d40d87104a44e02ca705307bd0e3b765": {
     "item_id": "OV-CONTRACTS-DEPENDENCIES",
     "materiality": "non_material",
@@ -231,6 +285,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence explicitly identifies producers and consumers for each listed contract and boundary, including schemas, checks, gates, and reports. It also provides a sequenced landing order from M1 through M5 and explains why the profile change does not break in-flight plans.",
     "trace_id": "company-planning/method-conformance/PLAN/40b7779104c1/OV-CONTRACTS-DEPENDENCIES",
+    "verdict": "pass"
+  },
+  "81b46ec07f32751b54d15e7593f0ac48bd3cc7c71ef6cb8b96cbf75b43ca5136": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares `empirical_comparison_proposed=false` while stating that no comparison of alternatives is run, and the StrictDoc fallback is conditional rather than a bake-off. It declares `shared_mechanism=true`, `irreversible_or_spend_action=true`, `claims_external_standard=true`, and `aes_governed_target=true`; its `llm_central=false` declaration is supported by the stated deterministic checker and the description of LLM use as verification rather than the central mechanism.",
+    "trace_id": "company-planning/method-conformance/PLAN/0e711d3380a4/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   },
   "8d3e7342868ae074e75958b29a74051fd247eb9a9ee184950ce17acb72ba20e8": {
@@ -267,6 +330,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence explicitly lists the crossed boundaries and, for each contract, identifies both its producer and consumer. It also provides a landing sequence from M1 through M5, including compatibility handling for existing plans and staged activation so consumers do not break between changes.",
     "trace_id": "company-planning/method-conformance/PLAN/5e69beaf71da/OV-CONTRACTS-DEPENDENCIES",
+    "verdict": "pass"
+  },
+  "a0315b395a443432810be696e1fafbec4a7c5e6e75566d357c16abe11340090b": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares `shared_mechanism=true`, `irreversible_or_spend_action=true`, `claims_external_standard=true` for arc42, and `aes_governed_target=true`, matching the triggered facts. It declares `empirical_comparison_proposed=false` while describing no experiment comparing alternatives, and `llm_central=false` while stating the check is deterministic and LLM use is limited to cold-reader verification.",
+    "trace_id": "company-planning/method-conformance/PLAN/acf684d6bc30/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   },
   "a0b953909d309f185f43f67adc56158f314d850790289007b38669543a9794c0": {

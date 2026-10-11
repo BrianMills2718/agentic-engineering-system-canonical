@@ -1,0 +1,6 @@
+$ python3 plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42
+revision: fc3d5b7133ddd8b14e8f995db7291383edf3a9ea (origin/main after PR #113)
+date: 2026-10-11T01:01:14Z
+durable-docs: mode=repo repo=/tmp/claude-1000/-home-brian-code/0031e708-eb6b-409b-8823-6d04cc3aa693/scratchpad/cp-main-wt findings=0 (none), exit 0
+exit=0
+Deferred: R6 generated glossary -- no reader question needs it yet
