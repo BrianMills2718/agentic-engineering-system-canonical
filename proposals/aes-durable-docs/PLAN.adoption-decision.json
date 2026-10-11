@@ -1,15 +1,38 @@
 {
   "schema_version": "method-adoption-decision.v1",
   "record_type": "method_adoption_decision",
-  "decision": "adopted",
+  "decision": "refused",
   "plan_ref": "proposals/aes-durable-docs/PLAN.md",
-  "plan_sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e",
+  "plan_sha256": "d216ddeb9da3255e83534d40b746b98d222cde754cb95e0124d884467b7b70c3",
   "receipt_ref": "proposals/aes-durable-docs/PLAN.receipt.json",
-  "receipt_sha256": "8de276445e80b19f8cec7e0e8156d018808ee9e5298bbd9098d5519b4623c0ad",
-  "receipt_result": "pass",
-  "reason_codes": [],
-  "summary": [
-    "pass: 21 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  "receipt_sha256": "fe2a368ef86103f9ea87a53a1f202c5a1c039a84ddff40911f0a510d35a58d98",
+  "receipt_result": "fail",
+  "reason_codes": [
+    "definition_stale",
+    "missing_observation"
   ],
-  "decided_at": "2026-10-11T01:27:36Z"
+  "summary": [
+    "definition_stale: the observation bundle was compiled for different route, facts, plan, profile, or compiler revisions; re-run `compile` and re-record observations",
+    "CORE-ACTOR-RESULT-EXAMPLE: missing_observation -> Record an observation for CORE-ACTOR-RESULT-EXAMPLE with evidence.",
+    "CORE-ROUTE: missing_observation -> Record an observation for CORE-ROUTE with evidence.",
+    "CORE-REQUIREMENTS-TRACED: missing_observation -> Record an observation for CORE-REQUIREMENTS-TRACED with evidence.",
+    "CORE-SUCCESS-DISPROOF: missing_observation -> Record an observation for CORE-SUCCESS-DISPROOF with evidence.",
+    "CORE-TRACE-REVIEW: missing_observation -> Record an observation for CORE-TRACE-REVIEW with evidence.",
+    "CORE-TRACE-DEBUGGING: missing_observation -> Record an observation for CORE-TRACE-DEBUGGING with evidence.",
+    "CORE-SYSTEM-MODEL: missing_observation -> Record an observation for CORE-SYSTEM-MODEL with evidence.",
+    "CORE-CAPABILITY-REUSE: missing_observation -> Record an observation for CORE-CAPABILITY-REUSE with evidence.",
+    "CORE-AUTHORITY-NONGOALS: missing_observation -> Record an observation for CORE-AUTHORITY-NONGOALS with evidence.",
+    "CORE-IRREVERSIBLE-SPEND: missing_observation -> Record an observation for CORE-IRREVERSIBLE-SPEND with evidence.",
+    "CORE-UNCERTAINTIES: missing_observation -> Record an observation for CORE-UNCERTAINTIES with evidence.",
+    "CORE-ACTIVATION-FACTS: missing_observation -> Record an observation for CORE-ACTIVATION-FACTS with evidence.",
+    "OV-PRIOR-ART-DISPOSITION: missing_observation -> Record an observation for OV-PRIOR-ART-DISPOSITION with evidence.",
+    "OV-COORD-OWNERSHIP: missing_observation -> Record an observation for OV-COORD-OWNERSHIP with evidence.",
+    "OV-CONTRACTS-SCHEMAS: missing_observation -> Record an observation for OV-CONTRACTS-SCHEMAS with evidence.",
+    "OV-CONTRACTS-DEPENDENCIES: missing_observation -> Record an observation for OV-CONTRACTS-DEPENDENCIES with evidence.",
+    "OV-STANDARD-CONFORMANCE-RULES: missing_observation -> Record an observation for OV-STANDARD-CONFORMANCE-RULES with evidence.",
+    "OV-STANDARD-CONFORMANCE-GATE: missing_observation -> Record an observation for OV-STANDARD-CONFORMANCE-GATE with evidence.",
+    "OV-AES-TARGET-TRACE: missing_observation -> Record an observation for OV-AES-TARGET-TRACE with evidence.",
+    "OV-DURABLE-DOCS-DECLARED: missing_observation -> Record an observation for OV-DURABLE-DOCS-DECLARED with evidence."
+  ],
+  "decided_at": "2026-10-11T17:42:33Z"
 }

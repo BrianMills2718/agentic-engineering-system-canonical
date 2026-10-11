@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-76365003ff6e",
+  "receipt_id": "RECEIPT-PLAN-d216ddeb9da3",
   "plan": {
     "plan_ref": "proposals/aes-durable-docs/PLAN.md",
-    "plan_sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
+    "plan_sha256": "d216ddeb9da3255e83534d40b746b98d222cde754cb95e0124d884467b7b70c3"
   },
   "path_decision": {
     "ref": "proposals/aes-durable-docs/PLANNING_PATH.json",
@@ -16,9 +16,9 @@
   "route": "coordinated",
   "profile": {
     "profile_id": "bounded-design",
-    "revision": "bounded-design@12",
+    "revision": "bounded-design@13",
     "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
-    "sha256": "65fc2d700a14fc3cd8efdca98eb1533ddc91108409663c4a728de6ca7ebbe992"
+    "sha256": "b62a29405f2c6a0ef730a8d4f78b8eb4bdccca5a29cc1c711a5a96902a121291"
   },
   "compiler": {
     "path": "scripts/method_conformance/compiler.py",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/aes-durable-docs/activation-facts.json",
-    "facts_sha256": "f3749a0c2cc205ed8b458fe40abd931e769d936f842dda069abe3a74f1067462",
+    "facts_sha256": "5266ba0c7b33aa76218d32ad7f4030d1c21cbe6dbd0b17c8153fefde48464699",
     "facts": {
       "shared_mechanism": true,
       "empirical_comparison_proposed": false,
@@ -126,12 +126,12 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:95038b4e5aab5a7f45fd5584a075175f1137c1a38a8f173ea79d94d5d13fd74d",
-    "definition_sha256": "1e5b613a4be9c2b4a65c4c70e4c75ee6a12c5ff855a0a068d4f859adab57b312",
+    "revision": "sha256:80bca7ad4b4ee006fb91518585eca06388a527b41515125455f14aeae99db5a0",
+    "definition_sha256": "071b962e6f00476a6311cc0c663231ed1761a00a476c3de5adeb1aea3f58ee0c",
     "bundle_ref": "proposals/aes-durable-docs/checklist.bundle.json",
     "bundle_sha256": "c02dcbc38f046e5ec2b20eacbfe556c8971444bfb6d4b3748022708da3a5fe89",
     "coverage": "complete",
-    "definition_matches_recompilation": true
+    "definition_matches_recompilation": false
   },
   "items": [
     {
@@ -141,25 +141,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#actor-and-result",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/76ada5cf1243/CORE-ACTOR-RESULT-EXAMPLE",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly names the served actors as agents starting or finishing work in a governed repository. It states the desired result and gives a stable, concrete, user-visible example: opening `wiki/index.md` to reach `RULE-ADOPT-GATE`, its owner, test, and decision record.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-ACTOR-RESULT-EXAMPLE with evidence."
     },
     {
       "item_id": "CORE-ROUTE",
@@ -168,17 +157,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "structural",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLANNING_PATH.json",
-          "sha256": "b4b10c7618e8b239d0a46245d6b91ad32d2246303ccc74a44bf01eb34cc71a53"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
+      "evidence": [],
       "semantic": null,
-      "suggested_action": null
+      "suggested_action": "Record an observation for CORE-ROUTE with evidence."
     },
     {
       "item_id": "CORE-REQUIREMENTS-TRACED",
@@ -187,25 +173,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#requirements",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/ee49fbbc03d7/CORE-REQUIREMENTS-TRACED",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence provides a requirements table covering asked-for and claimed properties, with an ID, verifying check, and explicit status for each requirement. R6 includes a stated deferral reason and explicitly identifies the completion records carrying the deferral; the named schema and arc42 claims are also represented as R1 and R11.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-REQUIREMENTS-TRACED with evidence."
     },
     {
       "item_id": "CORE-SUCCESS-DISPROOF",
@@ -214,25 +189,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#success-and-disproof",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/CORE-SUCCESS-DISPROOF",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly defines direct success checks: negative controls test refusal for missing or unrelated updates, cold readers must answer the canonical question with cited and opened files, and the checker must report zero findings while detecting seeded defects. It also gives concrete disproof conditions—five or more of the ten sampled plans declare `none` or have only mechanical diffs, or a cold reader fails on a checker-clean pilot—and specifies the resulting revision or withdrawal.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-SUCCESS-DISPROOF with evidence."
     },
     {
       "item_id": "CORE-TRACE-REVIEW",
@@ -241,25 +205,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#success-and-disproof",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/CORE-TRACE-REVIEW",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly states that each criterion is judged from the full output of a named run saved under `evidence/`, and identifies the relevant run artifacts, commands, transcripts, revisions, findings, tool calls, and outputs. It also specifies what must be seen beyond final outcomes, including refusal messages, finding details, opened files and tool-call paths, and supporting diff lines; the M0 pure-document-edit exemption and its reason are stated explicitly.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-TRACE-REVIEW with evidence."
     },
     {
       "item_id": "CORE-TRACE-DEBUGGING",
@@ -268,25 +221,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#when-a-run-fails-or-surprises-us",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/28701088f65a/CORE-TRACE-DEBUGGING",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence provides a separate failure/surprise procedure distinct from anticipated failures. It explicitly requires preserving the failed run and trace ID, reading all specified artifacts and stages before fixing, citing the divergence, classifying the diagnosis across the required categories, limiting unresolved cases to investigation, linking a targeted repair to a new saved traced run while retaining the original, and separating review completeness from the run verdict.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-TRACE-DEBUGGING with evidence."
     },
     {
       "item_id": "CORE-SYSTEM-MODEL",
@@ -295,25 +237,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#system-model",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/CORE-SYSTEM-MODEL",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence links the system model, identifies the repository entry point and scope, names each affected element, and specifies what the examined run must show for each. It also identifies source-linked views, explains the deployment omission, names freshness and drift checks, and states same-change reconciliation through the M3 pull request and saved verification output.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-SYSTEM-MODEL with evidence."
     },
     {
       "item_id": "CORE-CAPABILITY-REUSE",
@@ -322,25 +253,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#capability-reuse",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/28701088f65a/CORE-CAPABILITY-REUSE",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly states, “No catalogue entry fits,” and explains that the catalogue lacks documentation, traceability, or planning entries while the work needs a document-set contract and plan-to-document trace check. It also names the new capability, `durable_docs_check.py`, and its first consumer, Company Planning’s completion step in `execute-plan-loop`.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-CAPABILITY-REUSE with evidence."
     },
     {
       "item_id": "CORE-AUTHORITY-NONGOALS",
@@ -349,25 +269,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#authority-and-non-goals",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/5e69beaf71da/CORE-AUTHORITY-NONGOALS",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly identifies authority over the work: Brian holds authority over the rule, Company Planning owns planning obligations, repositories own their documents, and AES canonical owns the `.agentic/repo.yaml` layout contract. It also explicitly lists multiple non-goals, including no bulk rewriting of plans, no company-wide ontology, no replacement of existing formats, and no hosted CI.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-AUTHORITY-NONGOALS with evidence."
     },
     {
       "item_id": "CORE-IRREVERSIBLE-SPEND",
@@ -376,25 +285,14 @@
       "condition_fact": "irreversible_or_spend_action",
       "condition_value": true,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/CORE-IRREVERSIBLE-SPEND",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly identifies model spend and Git changes, and for each names the boundary, authorizer, and containment. The model-spend row specifies the OpenRouter route, Brian’s authorization, session and logging limits; the Git row specifies repository main branches, Brian’s merge rule, pull-request/check requirements, and reversion controls.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-IRREVERSIBLE-SPEND with evidence."
     },
     {
       "item_id": "CORE-UNCERTAINTIES",
@@ -403,25 +301,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#uncertainties",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/CORE-UNCERTAINTIES",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly lists five material uncertainties and states they are complete. Each uncertainty has an owner and named resolving evidence, including specific milestones, tests, or reader checks.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-UNCERTAINTIES with evidence."
     },
     {
       "item_id": "CORE-ACTIVATION-FACTS",
@@ -430,25 +317,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#activation-facts",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/0e711d3380a4/CORE-ACTIVATION-FACTS",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The plan explicitly declares `empirical_comparison_proposed=false` while stating that no comparison of alternatives is run, and the StrictDoc fallback is conditional rather than a bake-off. It declares `shared_mechanism=true`, `irreversible_or_spend_action=true`, `claims_external_standard=true`, and `aes_governed_target=true`; its `llm_central=false` declaration is supported by the stated deterministic checker and the description of LLM use as verification rather than the central mechanism.",
-        "reused": false
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for CORE-ACTIVATION-FACTS with evidence."
     },
     {
       "item_id": "OV-PRIOR-ART-DISPOSITION",
@@ -457,25 +333,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#prior-art-and-ownership",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/OV-PRIOR-ART-DISPOSITION",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly identifies searches of existing ownership, internal lineage, and external prior art. It then provides a disposition and reason for each listed candidate using reuse, extend, compose, supersede, or bounded exception.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for OV-PRIOR-ART-DISPOSITION with evidence."
     },
     {
       "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
@@ -484,25 +349,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#prior-art-and-ownership",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/fd6f139db16e/OV-PRIOR-ART-PARALLEL-CHECK",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence names a concrete structural check: fail when a repository declares a durable role but a second file of the same role exists outside the declared path, with examples including `REQUIREMENTS.md` beside `.aes/target.yaml` and a second `ODD.md`. It also specifies a consumer-path observation—the daily M5 check reports repositories whose requirements live in more than one declared place.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for OV-PRIOR-ART-PARALLEL-CHECK with evidence."
     },
     {
       "item_id": "OV-COORD-OWNERSHIP",
@@ -511,25 +365,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#coordination",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/OV-COORD-OWNERSHIP",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly identifies each concurrent writer, its owner/claim, write paths, conflict surface, dependency/order, and work-unit evidence. It also names the integration owner as the plan owner and states the merge responsibility.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for OV-COORD-OWNERSHIP with evidence."
     },
     {
       "item_id": "OV-CONTRACTS-SCHEMAS",
@@ -538,25 +381,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#contracts-and-dependencies",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/OV-CONTRACTS-SCHEMAS",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly lists all six crossed system boundaries and enumerates their schemas/contracts in tables with owners, file paths or URLs, and a “Changed here” determination for each. It also identifies contracts such as the repository layout, adoption gate, checker CLI, git plumbing, daily report, LLM client, execution cursor, system model, AES target, and TraceReviewV1.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for OV-CONTRACTS-SCHEMAS with evidence."
     },
     {
       "item_id": "OV-CONTRACTS-DEPENDENCIES",
@@ -565,25 +397,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#contracts-and-dependencies",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/d7c693cb160a/OV-CONTRACTS-DEPENDENCIES",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly identifies the producer and consumer for each listed contract, including schemas, tooling, plan text, reports, and the LLM client. It also provides a sequenced landing order from M1 through M5 and explains why consumers do not break during the profile transition or repository rollout.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for OV-CONTRACTS-DEPENDENCIES with evidence."
     },
     {
       "item_id": "OV-STANDARD-CONFORMANCE-RULES",
@@ -592,25 +413,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#standard-conformance",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/5e69beaf71da/OV-STANDARD-CONFORMANCE-RULES",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence names arc42, identifies its source as arc42.org template version 8, explicitly states that it publishes no machine-readable rules, and enumerates the written rules encoded by the check. It also identifies the artifacts and documents subject to those rules, including `GOAL.md`, context/runtime/decision documents, the generated glossary, and every durable document.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for OV-STANDARD-CONFORMANCE-RULES with evidence."
     },
     {
       "item_id": "OV-STANDARD-CONFORMANCE-GATE",
@@ -619,25 +429,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#standard-conformance",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/5e69beaf71da/OV-STANDARD-CONFORMANCE-GATE",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence names the check command (`durable_docs_check.py --arc42`), the merge-gate step (`make check` in each pilot repository), and a recurring daily run at M5. It explicitly defines disproof as an artifact labelled as using arc42 section names violating one of four rules, and labels AES additions as extensions both in documents and in the plan.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for OV-STANDARD-CONFORMANCE-GATE with evidence."
     },
     {
       "item_id": "OV-AES-TARGET-TRACE",
@@ -646,25 +445,14 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#aes-target",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/5e69beaf71da/OV-AES-TARGET-TRACE",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence explicitly identifies `.aes/target.yaml` as canonical, declares that the plan changes none of it, and maps the target-serving requirements to normative items, success criteria, and verification subjects. It also explicitly accounts for all other requirements as serving no AES target item or criterion and correctly explains that no `aes plan validate` result applies because there is no target delta.",
-        "reused": true
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for OV-AES-TARGET-TRACE with evidence."
     },
     {
       "item_id": "OV-DURABLE-DOCS-DECLARED",
@@ -673,33 +461,23 @@
       "condition_fact": null,
       "condition_value": null,
       "verifier_kind": "semantic",
-      "disposition": "pass",
-      "verifier_result": "pass",
-      "reason_codes": [],
-      "evidence": [
-        {
-          "ref": "proposals/aes-durable-docs/PLAN.md#durable-documents",
-          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
-        }
+      "disposition": "missing",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "missing_observation"
       ],
-      "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/0e711d3380a4/OV-DURABLE-DOCS-DECLARED",
-        "model": "openrouter/openai/gpt-5.6-luna",
-        "verdict": "pass",
-        "materiality": "non_material",
-        "missing": null,
-        "rationale": "The evidence provides a `Durable documents:` line naming `goal`, two system-model rule IDs, and `decisions`, and explicitly states all are declared in the repository’s `durable_documents` block. It also requires `durable_docs_check.py --repo . --plan proposals/aes-durable-docs/PLAN.md --range 23e413a2c..HEAD` to exit 0 at completion.",
-        "reused": false
-      },
-      "suggested_action": null
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": "Record an observation for OV-DURABLE-DOCS-DECLARED with evidence."
     }
   ],
   "item_counts": {
-    "pass": 21,
+    "pass": 0,
     "unresolved": 0,
     "not_applicable": 0,
     "unavailable": 0,
-    "missing": 0
+    "missing": 21,
+    "warn": 0
   },
   "semantic_verifier": {
     "kind": "llm_client",
@@ -710,25 +488,322 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-76365003ff6e",
+    "report_id": "REPORT-PLAN-d216ddeb9da3",
     "snapshot_ref": "SNAPSHOT-PLAN",
     "snapshot_revision": "sha256:c02dcbc38f046e5ec2b20eacbfe556c8971444bfb6d4b3748022708da3a5fe89",
     "packet_ref": "proposals/aes-durable-docs/PLAN.md",
-    "packet_revision": "sha256:76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e",
-    "structural_status": "pass",
+    "packet_revision": "sha256:d216ddeb9da3255e83534d40b746b98d222cde754cb95e0124d884467b7b70c3",
+    "structural_status": "fail",
     "semantic_review_status": "complete",
-    "diagnostics": [],
+    "diagnostics": [
+      {
+        "diagnostic_id": "DIAG-PLAN-0",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-ACTOR-RESULT-EXAMPLE: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-ACTOR-RESULT-EXAMPLE with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-1",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-ROUTE: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-ROUTE with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-2",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-REQUIREMENTS-TRACED: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-REQUIREMENTS-TRACED with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-3",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-SUCCESS-DISPROOF: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-SUCCESS-DISPROOF with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-4",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-TRACE-REVIEW: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-TRACE-REVIEW with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-5",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-TRACE-DEBUGGING: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-TRACE-DEBUGGING with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-6",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-SYSTEM-MODEL: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-SYSTEM-MODEL with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-7",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-CAPABILITY-REUSE: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-CAPABILITY-REUSE with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-8",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-AUTHORITY-NONGOALS: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-AUTHORITY-NONGOALS with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-9",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-IRREVERSIBLE-SPEND: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-IRREVERSIBLE-SPEND with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-10",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-UNCERTAINTIES: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-UNCERTAINTIES with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-11",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "CORE-ACTIVATION-FACTS: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for CORE-ACTIVATION-FACTS with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-12",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "OV-PRIOR-ART-DISPOSITION: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for OV-PRIOR-ART-DISPOSITION with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-13",
+        "class": "deterministic",
+        "severity": "warning",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "OV-PRIOR-ART-PARALLEL-CHECK: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "non_material",
+        "suggested_action": "Record an observation for OV-PRIOR-ART-PARALLEL-CHECK with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-14",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "OV-COORD-OWNERSHIP: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for OV-COORD-OWNERSHIP with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-15",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "OV-CONTRACTS-SCHEMAS: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for OV-CONTRACTS-SCHEMAS with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-16",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "OV-CONTRACTS-DEPENDENCIES: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for OV-CONTRACTS-DEPENDENCIES with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-17",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "OV-STANDARD-CONFORMANCE-RULES: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for OV-STANDARD-CONFORMANCE-RULES with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-18",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "OV-STANDARD-CONFORMANCE-GATE: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for OV-STANDARD-CONFORMANCE-GATE with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-19",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "OV-AES-TARGET-TRACE: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for OV-AES-TARGET-TRACE with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-20",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-MISSING-OBSERVATION",
+        "message": "OV-DURABLE-DOCS-DECLARED: missing_observation",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": "Record an observation for OV-DURABLE-DOCS-DECLARED with evidence.",
+        "disposition": "unresolved",
+        "trace_id": null
+      },
+      {
+        "diagnostic_id": "DIAG-PLAN-definition_stale",
+        "class": "deterministic",
+        "severity": "error",
+        "rule_id": "PL-MCR-DEFINITION-STALE",
+        "message": "definition_stale",
+        "source_locator": "proposals/aes-durable-docs/PLAN.md",
+        "materiality": "material",
+        "suggested_action": null,
+        "disposition": "unresolved",
+        "trace_id": null
+      }
+    ],
     "route": "coordinated",
-    "adoption_readiness": "ready_for_contributor",
+    "adoption_readiness": "structurally_blocked",
     "limitations": [
       "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
     ]
   },
-  "advisory_deviations": [],
-  "result": "pass",
-  "reason_codes": [],
+  "advisory_deviations": [
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "reason_codes": [
+        "missing_observation"
+      ],
+      "feedback_id": "FEEDBACK-MCR-0d2fb88c8a4736a9",
+      "feedback_status": "recorded"
+    }
+  ],
+  "result": "fail",
+  "reason_codes": [
+    "definition_stale",
+    "missing_observation"
+  ],
   "actionable_summary": [
-    "pass: 21 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+    "definition_stale: the observation bundle was compiled for different route, facts, plan, profile, or compiler revisions; re-run `compile` and re-record observations",
+    "CORE-ACTOR-RESULT-EXAMPLE: missing_observation -> Record an observation for CORE-ACTOR-RESULT-EXAMPLE with evidence.",
+    "CORE-ROUTE: missing_observation -> Record an observation for CORE-ROUTE with evidence.",
+    "CORE-REQUIREMENTS-TRACED: missing_observation -> Record an observation for CORE-REQUIREMENTS-TRACED with evidence.",
+    "CORE-SUCCESS-DISPROOF: missing_observation -> Record an observation for CORE-SUCCESS-DISPROOF with evidence.",
+    "CORE-TRACE-REVIEW: missing_observation -> Record an observation for CORE-TRACE-REVIEW with evidence.",
+    "CORE-TRACE-DEBUGGING: missing_observation -> Record an observation for CORE-TRACE-DEBUGGING with evidence.",
+    "CORE-SYSTEM-MODEL: missing_observation -> Record an observation for CORE-SYSTEM-MODEL with evidence.",
+    "CORE-CAPABILITY-REUSE: missing_observation -> Record an observation for CORE-CAPABILITY-REUSE with evidence.",
+    "CORE-AUTHORITY-NONGOALS: missing_observation -> Record an observation for CORE-AUTHORITY-NONGOALS with evidence.",
+    "CORE-IRREVERSIBLE-SPEND: missing_observation -> Record an observation for CORE-IRREVERSIBLE-SPEND with evidence.",
+    "CORE-UNCERTAINTIES: missing_observation -> Record an observation for CORE-UNCERTAINTIES with evidence.",
+    "CORE-ACTIVATION-FACTS: missing_observation -> Record an observation for CORE-ACTIVATION-FACTS with evidence.",
+    "OV-PRIOR-ART-DISPOSITION: missing_observation -> Record an observation for OV-PRIOR-ART-DISPOSITION with evidence.",
+    "OV-COORD-OWNERSHIP: missing_observation -> Record an observation for OV-COORD-OWNERSHIP with evidence.",
+    "OV-CONTRACTS-SCHEMAS: missing_observation -> Record an observation for OV-CONTRACTS-SCHEMAS with evidence.",
+    "OV-CONTRACTS-DEPENDENCIES: missing_observation -> Record an observation for OV-CONTRACTS-DEPENDENCIES with evidence.",
+    "OV-STANDARD-CONFORMANCE-RULES: missing_observation -> Record an observation for OV-STANDARD-CONFORMANCE-RULES with evidence.",
+    "OV-STANDARD-CONFORMANCE-GATE: missing_observation -> Record an observation for OV-STANDARD-CONFORMANCE-GATE with evidence.",
+    "OV-AES-TARGET-TRACE: missing_observation -> Record an observation for OV-AES-TARGET-TRACE with evidence.",
+    "OV-DURABLE-DOCS-DECLARED: missing_observation -> Record an observation for OV-DURABLE-DOCS-DECLARED with evidence."
   ],
   "limitations": [
     "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
@@ -737,7 +812,7 @@
     "client": "claude-code",
     "session": "0031e708-eb6b-409b-8823-6d04cc3aa693"
   },
-  "started_at": "2026-10-11T01:27:29Z",
-  "completed_at": "2026-10-11T01:27:36Z",
-  "duration_ms": 7669
+  "started_at": "2026-10-11T17:42:32Z",
+  "completed_at": "2026-10-11T17:42:32Z",
+  "duration_ms": 259
 }
