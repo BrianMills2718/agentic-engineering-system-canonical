@@ -1,0 +1,110 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feedback loop assessment</title>
+<style>:root{--bg:#fff;--fg:#111827;--muted:#4b5563;--line:#6b7280;--panel:#f3f4f6;--blue:#1d4ed8;--bluefill:#dbeafe;--orange:#b45309;--orangefill:#fff7ed;--grey:#6b7280;--greyfill:#f3f4f6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#8b95a5;--panel:#1a2030;--blue:#7fb2ff;--bluefill:#1e3a5f;--orange:#f5a524;--orangefill:#3a2a10;--grey:#9ca3af;--greyfill:#232a38}}
+:root[data-theme="dark"]{--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#8b95a5;--panel:#1a2030;--blue:#7fb2ff;--bluefill:#1e3a5f;--orange:#f5a524;--orangefill:#3a2a10;--grey:#9ca3af;--greyfill:#232a38}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 40px}h1{font-size:1.4rem;margin:0 0 6px}h2{font-size:1.1rem;margin:28px 0 8px}
+p.q{font-size:1.05rem;margin:0 0 14px;border-left:4px solid var(--blue);padding:4px 0 4px 12px}.muted{color:var(--muted);font-size:.9rem}
+.diagram{overflow-x:auto}svg{width:100%;height:auto;display:block}@media (max-width:700px){.diagram svg{min-width:820px}}
+svg text{fill:var(--fg);font-family:inherit;pointer-events:none}.stage{cursor:pointer}.stage rect{stroke-width:2}.stage:focus{outline:none}.stage:focus rect,.stage:hover rect{stroke-width:4}
+.ok rect{fill:var(--bluefill);stroke:var(--blue)}.weak rect{fill:var(--orangefill);stroke:var(--orange);stroke-dasharray:6 4}.off rect{fill:var(--greyfill);stroke:var(--grey);stroke-dasharray:2 4}
+.t{font-size:14px;font-weight:700}.s{font-size:12px;fill:var(--muted)}.arrow{stroke:var(--line);stroke-width:2;fill:none;marker-end:url(#a)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem;margin:8px 0}.legend span{display:inline-flex;align-items:center;gap:6px}.sw{width:22px;height:14px;border:2px solid;display:inline-block}
+#detail{background:var(--panel);border-radius:8px;padding:14px 16px;margin-top:10px;min-height:120px}#detail h3{margin:0 0 6px;font-size:1rem}#detail ul{margin:6px 0 0 18px;padding:0}
+table{border-collapse:collapse;width:100%;font-size:.92rem}td,th{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}th{font-weight:600}
+code{font-size:.85em;background:var(--panel);padding:1px 4px;border-radius:3px;word-break:break-all}
+details{background:var(--panel);border-radius:8px;padding:8px 12px;margin:8px 0}summary{cursor:pointer;font-weight:600}
+.tip{position:fixed;z-index:10;max-width:280px;background:var(--fg);color:var(--bg);font-size:.82rem;padding:6px 9px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity .12s}.tip.on{opacity:1}
+.info{border:1px solid var(--line);background:none;color:var(--fg);border-radius:50%;width:22px;height:22px;font-size:12px;cursor:pointer;margin-left:6px}
+</style></head><body><main>
+<h1>Is the agent feedback loop actually learning?</h1>
+<p class="q">Short answer: it collects a lot and sorts it, but it has never checked whether a single fix worked, and noise is drowning the real problems. Snapshot of 2026-10-10, from the live run logs.</p>
+
+<h2>Where does each step of the loop stand?</h2>
+<p class="muted">Click (or tap) a box to see the evidence. Blue solid = works. Orange dashed = runs but has a real defect. Grey dotted = has not run or measures nothing.</p>
+<div class="legend"><span><i class="sw" style="background:var(--bluefill);border-color:var(--blue)"></i>works</span><span><i class="sw" style="background:var(--orangefill);border-color:var(--orange);border-style:dashed"></i>runs, defective</span><span><i class="sw" style="background:var(--greyfill);border-color:var(--grey);border-style:dotted"></i>not running / measures nothing</span></div>
+<div class="diagram"><svg viewBox="0 0 1000 300" role="group" aria-label="Feedback loop stages">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--line)"/></marker></defs>
+<path class="arrow" d="M170 70H205"/><path class="arrow" d="M375 70H410"/><path class="arrow" d="M580 70H615"/><path class="arrow" d="M785 70H820"/>
+<path class="arrow" d="M900 105V170"/><path class="arrow" d="M820 210H785"/><path class="arrow" d="M615 210H580"/><path class="arrow" d="M410 210H375"/>
+<path class="arrow" d="M290 245V280H90V108"/>
+<text x="110" y="295" class="s">a recurrence should reopen the problem</text>
+<g class="stage ok" tabindex="0" data-k="report" data-tip="Agents write Feedback lines at the end of each turn."><rect x="10" y="35" width="160" height="70" rx="8"/><text x="22" y="62" class="t">1 Report</text><text x="22" y="84" class="s">agents' Feedback lines</text></g>
+<g class="stage weak" tabindex="0" data-k="extract" data-tip="Nightly collector turns transcripts into records."><rect x="210" y="35" width="165" height="70" rx="8"/><text x="222" y="62" class="t">2 Extract</text><text x="222" y="84" class="s">nightly, 03:30</text></g>
+<g class="stage weak" tabindex="0" data-k="group" data-tip="Records grouped into problems and ranked."><rect x="415" y="35" width="165" height="70" rx="8"/><text x="427" y="62" class="t">3 Group + rank</text><text x="427" y="84" class="s">nightly, 07:30</text></g>
+<g class="stage off" tabindex="0" data-k="analyse" data-tip="Stronger model drafts the cause and a general fix."><rect x="620" y="35" width="165" height="70" rx="8"/><text x="632" y="62" class="t">4 Analyse</text><text x="632" y="84" class="s">weekly, Sundays</text></g>
+<g class="stage weak" tabindex="0" data-k="licence" data-tip="Two independent sightings make a fix 'licensed' and hand it to agents."><rect x="825" y="35" width="165" height="70" rx="8"/><text x="837" y="62" class="t">5 Licence</text><text x="837" y="84" class="s">hand fix to agents</text></g>
+<g class="stage weak" tabindex="0" data-k="enforce" data-tip="An agent builds the check or rule."><rect x="825" y="175" width="165" height="70" rx="8"/><text x="837" y="202" class="t">6 Enforce</text><text x="837" y="224" class="s">agent builds check</text></g>
+<g class="stage off" tabindex="0" data-k="effect" data-tip="Count whether the failure stops after the fix. The step the whole design rests on."><rect x="620" y="175" width="165" height="70" rx="8"/><text x="632" y="202" class="t">7 Did it work?</text><text x="632" y="224" class="s">effect count</text></g>
+<g class="stage weak" tabindex="0" data-k="view" data-tip="Ranked page of problems for Brian, plus phone notifications."><rect x="415" y="175" width="165" height="70" rx="8"/><text x="427" y="202" class="t">8 Brian's view</text><text x="427" y="224" class="s">VIEW.md + pushes</text></g>
+<g class="stage weak" tabindex="0" data-k="channels" data-tip="Other places feedback still lands, outside this loop."><rect x="210" y="175" width="165" height="70" rx="8"/><text x="222" y="202" class="t">Side channels</text><text x="222" y="224" class="s">3 other intakes</text></g>
+</svg></div>
+<div id="detail" aria-live="polite"><h3>Pick a step</h3><p class="muted">Start with step 7: it is the one that decides whether this is a learning loop or a filing cabinet.</p></div>
+
+<h2>What is wrong, worst first?</h2>
+<table><tr><th>#</th><th>Problem</th><th>Why it matters</th></tr>
+<tr><td>1</td><td><b>Step 7 has never measured anything.</b> It only counts a fix as "enforced" if someone posts a hidden <code>&lt;!-- feedback-enforcement {...} --&gt;</code> comment on the closed issue. No skill, instruction or script tells anyone to write it. The 3 closed fix issues (#386, #387, #389) have none. Every night logs <code>enforcement_unverified=8</code>; no <code>effects-*.jsonl</code> file has ever been written.</td><td>Without it the loop cannot tell a fix that worked from one that didn't, which was the whole point (your 2026-10-05 thesis: "a lesson counts only once a check enforces it"). The plan's status table calls this step "armed"; it is not.</td></tr>
+<tr><td>2</td><td><b>Noise outnumbers signal.</b> Of 1,149 records in tonight's batch, 437 are a machine-written line "subagent ... completed_unverified" and 103 are "human corrections" that are really every message you typed ("do that for me", "what is the difference between openhands and hermes"). About 1 in 4 of those is real friction.</td><td>Grouping fragments: 31 problems on 10-08, 61, 279, then 541 tonight. Licensed fixes fell from 9 to 3 as real sightings got diluted. Your own questions now rank near the top of the view as "problems".</td></tr>
+<tr><td>3</td><td><b>Backlog grows every night.</b> Last run: 887 new reports, 80 filed, 876 deferred by the filing cap; 15 extraction failures (one transcript, a Pydantic validation error, repeated).</td><td>At this rate the private log never catches up, and the failures only reach a log line, which breaks your "fail loudly to an agent" rule.</td></tr>
+<tr><td>4</td><td><b>Four intakes, not one.</b> Besides the private log (423 issues, all still open): agents filed 53 new <code>kind:friction</code> issues in AES canonical since 10-08, when the skill said to stop (71 open); per-skill feedback files (2,843 lines); and keyed concerns.</td><td>The loop groups only what reaches it. Repeat sightings split across channels never add up to the two needed for a licence.</td></tr>
+<tr><td>5</td><td><b>"Has a link" is a weak proxy for evidence.</b> Many links are a whole session transcript path (tens of MB) rather than a line.</td><td>The licence rule trusts "resolvable link" as evidence; a transcript path always resolves, so it passes without pointing at anything.</td></tr>
+<tr><td>6</td><td><b>Nobody reads the view.</b> <code>VIEW.md</code> sits in a private repo. Your own rules say you don't open dashboards, and on 10-08 one run sent 9 phone pushes at once.</td><td>The "observe, don't approve" role you asked for has no surface that reaches you in a usable dose.</td></tr>
+</table>
+
+<h2>What is working?</h2>
+<ul>
+<li>Agents really do write the lines: 448 Feedback reports in tonight's batch, most with markers that code parses, so no model guesses at them.</li>
+<li>All three timers run on schedule and log timing, counts and cost (about $0.07 to $0.10 a night).</li>
+<li>The relation judge was measured before it was trusted (Jev 24/30 vs a stronger model 27/30), with a stated condition that would prove the choice wrong. That part is good practice.</li>
+<li>One real rule shipped from it: the gate that blocks merging after a failing check (agent-skills #453).</li>
+</ul>
+
+<h2>Questions worth asking of it</h2>
+<details><summary>What decision does a Feedback line change?</summary><p>The design optimises capture: every turn must write one, and "None" is discouraged. But the scarce step is turning a recurring problem into a check that works. Since 10-08 that has happened about once. More lines do not speed that up; they slow grouping down.</p></details>
+<details><summary>Are two sightings really independent?</summary><p>"Independent" means different session or day. But every agent reads the same AGENTS.md and skills, so one bad instruction produces many sightings of one cause. That is the signal you want for "this instruction is wrong", but it is not two independent confirmations of a proposed fix.</p></details>
+<details><summary>Should transcript mining and the Feedback field overlap?</summary><p>The collector already mines transcripts for your messages and subagent outcomes. If code can see it, the agent doesn't need to restate it. The field could hold only what the transcript cannot show: the agent's own belief about a cause, and what it tried.</p></details>
+<details><summary>Why build "did it work?" from scratch?</summary><p>Error trackers solved this exact shape years ago. Sentry groups events by fingerprint, an issue is marked "resolved in" a release or commit, and if the same fingerprint appears after that, it is flagged a regression and reopened. GitHub already records which pull request closed an issue, which gives the revision and date without any hidden comment.</p></details>
+
+<h2>What I'd do, in order</h2>
+<table><tr><th>#</th><th>Change</th><th>Size</th><th>How we'd know it worked</th></tr>
+<tr><td>1</td><td>Make step 7 read the receipt that already exists: the closing pull request or commit of the fix issue (GitHub's closed-by link), falling back to having <code>concern_issue.py close</code> write the receipt itself. Correct the plan's "armed" status.</td><td>small</td><td>Next night logs <code>rules_enforced &ge; 3</code> and writes the first <code>effects-*.jsonl</code>.</td></tr>
+<tr><td>2</td><td>Filter before grouping: subagent "completed_unverified" lines become one nightly count, not records; your messages count only when a light model labels them a correction or friction, with what was wrong.</td><td>small</td><td>Problem count drops back toward tens; top 10 of the view contains no plain requests.</td></tr>
+<tr><td>3</td><td>Fix the repeating extraction error and send collector errors to a keyed concern; raise or drain the filing cap.</td><td>small</td><td>errors=0 and deferred falls night over night.</td></tr>
+<tr><td>4</td><td>One intake: find what still files <code>kind:friction</code> to AES canonical and route it through <code>feedback_log.py</code>; import those 71 open issues once.</td><td>small</td><td>No new <code>kind:friction</code> issues in AES after the change.</td></tr>
+<tr><td>5</td><td>Replace the dashboard with one weekly Telegram line: the top 3 real problems, what was enforced, what came back.</td><td>small</td><td>You get one message a week and can tell from it alone whether the loop is helping.</td></tr>
+<tr><td>6</td><td>Lower the per-turn tax: allow "Feedback: None" for routine turns; require links to a line, not a whole transcript.</td><td>policy</td><td>Fewer lines, a higher share that group into recurring problems.</td></tr>
+</table>
+<p class="muted">Items 1 to 4 are reversible code changes in AES canonical; I can do them under the existing aes-learning-loop plan. Item 6 changes a rule every agent follows, so it rides on the same loop's feedback path.</p>
+
+<h2>Evidence</h2>
+<p class="muted">All local to Brian's machine unless a URL. Run logs: <code>~/projects/data/feedback-collector/runs.jsonl</code> (last line, 2026-10-10 07:32 UTC) and <code>problems-runs.jsonl</code> (last three lines). Step 7 code: AES canonical <code>scripts/learning_loop/problems.py:288-310</code> and <code>:576-627</code>, <code>effects.py:9-36</code>. Plan status claim: <code>proposals/aes-learning-loop/PLAN.md</code>, Thin slices row S5. Records sampled: <code>reports-2026-10-10.jsonl</code>. Fix issues: BrianMills2718/agentic-engineering-system-canonical #384 to #392.</p>
+</main>
+<div class="tip" id="tip" role="tooltip"></div>
+<script>
+const D={
+report:["1 Report — works",["448 Feedback reports in tonight's batch; 474 observations parsed by fixed markers, no model needed.","About 1 in 8 Feedback records has no link at all (marked unprovenanced, never counts as support).","Cost: every agent turn writes this field; 'None' is discouraged by the closeout rules."]],
+extract:["2 Extract — runs, defective",["Last run: 887 new reports, 80 filed, 876 deferred by the filing cap.","15 errors, all one transcript failing Pydantic validation, repeated; they reach only the run log.","Adds 437 machine-written 'subagent completed_unverified' lines and 103 of your messages as 'human corrections'."]],
+group:["3 Group + rank — runs, defective",["Problems: 31 (10-08), 61, 279, 541 (10-10). Recurring: 12 to 139.","Ranked view's top 20 includes your plain questions as problem titles.","Relation judge was measured first (Jev 24/30), which is good."]],
+analyse:["4 Analyse — not yet run unattended",["Weekly job; first scheduled run is Sunday 2026-10-11 05:00.","137 problems carry 'analysis deferred: spend cap'.","OpenRouter credit ran out on 10-08 (project-meta #2452); manual runs used a shell-only route."]],
+licence:["5 Licence — runs, defective",["9 fix issues opened 10-08 (#384-#392): 3 closed, 6 still open after 2 days.","Active licences fell 8 → 4 → 3 as noise diluted real sightings.","'Two independent sightings' can be one shared instruction seen twice."]],
+enforce:["6 Enforce — one real rule",["Merge-after-failing-check gate (agent-skills #453) blocks gh pr merge after an ungated check, in both clients.","Replay over 59,123 logged commands found 64 hits before it shipped."]],
+effect:["7 Did it work? — measures nothing",["Needs a hidden '<!-- feedback-enforcement {...} -->' comment on the closed issue; nothing tells anyone to write it.","0 of 3 closed fix issues have it; every night logs enforcement_unverified=8; no effects file exists.","Fix: read GitHub's closed-by pull request instead (it has the commit and date), the way error trackers mark 'resolved in' and flag regressions."]],
+view:["8 Brian's view — exists, unread",["VIEW.md in the private agent-feedback-log repo, rebuilt nightly.","No push reached you as a usable weekly summary; one run sent 9 pushes at once.","Top rows are noise until step 2 filters."]],
+channels:["Side channels — split intake",["53 new kind:friction issues in AES canonical since 10-08 (71 open), despite the skill moving to the private log.","Per-skill feedback files: 2,843 lines.","Keyed concerns via concern_issue.py. None of these feed the grouping."]]};
+const det=document.getElementById('detail'),tip=document.getElementById('tip');
+function show(k){const [h,l]=D[k];det.innerHTML='<h3></h3><ul></ul>';det.querySelector('h3').textContent=h;const u=det.querySelector('ul');l.forEach(x=>{const li=document.createElement('li');li.textContent=x;u.appendChild(li)})}
+function tipOn(el,x,y){tip.textContent=el.dataset.tip;tip.style.left=Math.min(x+12,innerWidth-290)+'px';tip.style.top=(y+14)+'px';tip.classList.add('on')}
+document.querySelectorAll('.stage').forEach(g=>{
+ g.addEventListener('click',()=>show(g.dataset.k));
+ g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(g.dataset.k)}});
+ g.addEventListener('mouseenter',e=>tipOn(g,e.clientX,e.clientY));
+ g.addEventListener('mousemove',e=>tipOn(g,e.clientX,e.clientY));
+ g.addEventListener('mouseleave',()=>tip.classList.remove('on'));
+ g.addEventListener('focus',()=>{const r=g.getBoundingClientRect();tipOn(g,r.left,r.bottom)});
+ g.addEventListener('blur',()=>tip.classList.remove('on'));
+ let t;g.addEventListener('touchstart',()=>{t=setTimeout(()=>{const r=g.getBoundingClientRect();tipOn(g,r.left,r.bottom)},450)},{passive:true});
+ g.addEventListener('touchend',()=>{clearTimeout(t);setTimeout(()=>tip.classList.remove('on'),1500)});
+});
+document.querySelectorAll('details summary').forEach(s=>{s.addEventListener('mouseenter',e=>{tip.textContent='Click to open this question';tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY+14)+'px';tip.classList.add('on')});s.addEventListener('mouseleave',()=>tip.classList.remove('on'))});
+</script></body></html>
