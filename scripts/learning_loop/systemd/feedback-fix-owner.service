@@ -1,0 +1,16 @@
+[Unit]
+Description=Weekly owner of licensed feedback fixes: implement each one or close it with a reason, then check GitHub
+After=feedback-problems.service
+Documentation=https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/scripts/learning_loop/systemd/README.md
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/.hive-brain/aes
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes fetch --quiet --depth 1 origin main
+ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes reset --quiet --hard FETCH_HEAD
+Environment=FEEDBACK_OUT=%h/projects/data/feedback-collector
+Environment=PROJECT_META=%h/.hive-brain/project-meta
+# Login shell: claude and gh live on the user's PATH, not systemd's.
+ExecStart=/bin/bash -lc 'python3 %h/.hive-brain/aes/scripts/learning_loop/fix_owner.py --max-items 3'
+TimeoutStartSec=4h
+Nice=10

@@ -1,0 +1,10 @@
+[Unit]
+Description=Weekly feedback fix owner (Sundays 09:00, after feedback-problems)
+
+[Timer]
+OnCalendar=Sun *-*-* 09:00
+Persistent=true
+RandomizedDelaySec=15m
+
+[Install]
+WantedBy=timers.target
