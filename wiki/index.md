@@ -105,6 +105,7 @@ Declared in [`.agentic/repo.yaml`](../.agentic/repo.yaml) (`durable_documents`) 
 - [Decision records](../docs/decisions/) — each names what it governs on a `Governs:` line.
 - [Generated catalog](../generated/docstring_wiki.md) — every document and module with its description (`make docstring-wiki-check`).
 - Cold-reader checks of these documents: a fresh agent answered the canonical question from this page ([AES canonical review](../proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md), [company-planning review](../proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader-review.md)).
+- Rollout of the durable document set to every active repository, with one PR each and the daily-check result: [M5 rollout record](../proposals/aes-durable-docs/evidence/m5-rollout.md).
 
 ## Read in this order
 
