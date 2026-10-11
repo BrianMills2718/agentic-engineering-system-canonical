@@ -112,7 +112,7 @@ Prior art:
 | View coverage matrix | `docs/model/VIEW_COVERAGE.md` in 8 of those repos | Tracks "shown in a diagram", not "built and verified" |
 | Source-linked review page | AES `proposals/system-model-review/` | One flow only |
 | Trace review | AES `proposals/trace-review*` | Runs per plan, not per model element |
-| LinkML project model, view catalogue, generated views | ai-astronauts `brian/project-model/` | Not yet checked whether its generators run (agent check in progress, 2026-10-10) |
+| LinkML project model, view catalogue, generated views | ai-astronauts `brian/project-model/` | Runs (agent check 2026-10-10, scratch copy): model checker 0 errors, 15 views selected, 3 shown / 12 gaps, tests 34/34 and 18/18 pass, regenerated outputs match committed ones. Friction: needs `COMPANY_PLANNING_ROOT`; tests run only as scripts, not under pytest. The closest existing seed for the megamodel index |
 
 ## 7. Verified facts and corrections (2026-10-10)
 
