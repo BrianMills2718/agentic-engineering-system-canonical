@@ -81,13 +81,31 @@ button.f:hover .tip,button.f:focus-visible .tip,button.f.tap .tip{opacity:1}
 <li data-k="stall"><span class="tag t-rep">reported</span><b>Older side branches untouched since 10-06/10-08</b><span class="why"><code>shaping/ecosystem-policy-model</code>, <code>shaping/ecosystem-evidence-trace</code>, <code>codex/system-model-review-page</code>.</span></li>
 </ol>
 
-<h2>3. What happens next</h2>
+<h2>3. The words, defined once</h2>
+<p>Hand-written for now; the plan's generated glossary (R6) replaces it later.</p>
+<table>
+<tr><th>Word</th><th>Means here</th><th>Example</th></tr>
+<tr><td>Model</td><td>A description that leaves things out on purpose so one question is easy to answer.</td><td>A subway map: it drops distances so "which line do I take?" is easy.</td></tr>
+<tr><td>Instance</td><td>One filled-in case of a model.</td><td>A blank job-application form is the model; your filled-in copy is an instance.</td></tr>
+<tr><td>Metamodel</td><td>A model whose instances are models: the rules for what a model may contain.</td><td>UML's rulebook says a class diagram has boxes (classes) and lines (associations); each class diagram is an instance of it.</td></tr>
+<tr><td>System model</td><td>One repo's blueprint: its things, its steps, its rules, and which code writes which records. File: <code>docs/model/ARCHITECTURE.md</code>.</td><td>"Rule: a commit needs a plan tag. Done by <code>commit_rule.py</code>. Proved by <code>test_commit_rule.py</code>."</td></tr>
+<tr><td>Trace file</td><td>The machine-checked list behind the system model: rule → file that does it → test → decision. File: <code>docs/model/trace.yaml</code>.</td><td>The checker fails if the named test file was deleted.</td></tr>
+<tr><td>Intent model</td><td>The model of one slice, each piece marked "decided" or "guessed", with status computed from recorded test runs.</td><td>qualitative_coding <code>docs/model/slice1/intent.md</code>.</td></tr>
+<tr><td>Framework (megamodel)</td><td>The rule for which kinds of model a repo gets and how each is checked against the code.</td><td>Every repo gets a domain model and a data-flow model; each has an intended version and a generated one, compared by a test.</td></tr>
+<tr><td>arc42</td><td>A standard outline for architecture documents (goals, context, runtime, decisions, glossary ...). Our system model uses its section names.</td><td>Section 1 "Introduction and Goals".</td></tr>
+<tr><td>C4</td><td>A standard set of diagrams by zoom level: system, containers, components, code.</td><td>Zoom from "AES talks to GitHub" down to the classes in one module.</td></tr>
+<tr><td>ODD</td><td>Overview, Design concepts, Details: an outline made for describing simulations. Replaced by arc42 + C4 for software on 10-10.</td><td>Still the right outline for an agent-based simulation.</td></tr>
+<tr><td>Zachman</td><td>A grid for sorting architecture descriptions: six questions (what, how, where, who, when, why) by six viewpoints. It sorts models; it does not say how to check them.</td><td>Our system model fills roughly the what, how and why cells at the builder's row.</td></tr>
+<tr><td>DoDAF</td><td>The US defense architecture framework: a fixed set of required views plus a metamodel linking them.</td><td>Used in the dodaf repo.</td></tr>
+</table>
+
+<h2>4. What happens next</h2>
 <table>
 <tr><th>Step</th><th>Who</th><th>Why</th></tr>
 <tr><td>This page, linked from the AES wiki; AES durable-docs plan now says arc42 + C4</td><td><span class="tag t-now">done in this change</span></td><td>Gives every session one place that lists the split, and removes the main contradiction from AES.</td></tr>
 <tr><td>Merge the model-framework README into AES main with a corrected status header</td><td><span class="tag t-lane">pilot session</span></td><td>Your framework asks become visible. Its owner is live and holds the claim, so it is handed over, not taken.</td></tr>
 <tr><td>Rename company-planning <code>docs/model/ODD.md</code> to <code>ARCHITECTURE.md</code>; join qc's trace file to its intent model</td><td><span class="tag t-lane">pilot session</span></td><td>Same owner; both files are in its active work.</td></tr>
-<tr><td>Short glossary page (system model, intent model, framework, metamodel, ODD, arc42, C4, model vs instance)</td><td><span class="tag t-now">next, this lane</span></td><td>Your repeated term questions are the reader need the deferred glossary was waiting for.</td></tr>
+<tr><td>Short glossary (section 3 above)</td><td><span class="tag t-now">done in this change</span></td><td>Your repeated term questions are the reader need the deferred glossary was waiting for.</td></tr>
 <tr><td>Close the daily-check blind spot; fix the gate refusals (#99, #107)</td><td><span class="tag t-lane">concern queue</span></td><td>Owned by project-meta and company-planning respectively.</td></tr>
 <tr><td>Framework choice: keep arc42 + C4 per repo, treat the catalogue of model kinds as the framework layer above it, add a note on where Zachman (a classification grid) and DoDAF fit</td><td><span class="tag t-you">default unless you object</span></td><td>Answers "framework, not one model" without reopening PR #116.</td></tr>
 <tr><td>Delete stale side branches</td><td><span class="tag t-you">ask first</span></td><td>Only after checking their content is on main and keeping an archive copy; deletion cannot be undone.</td></tr>
