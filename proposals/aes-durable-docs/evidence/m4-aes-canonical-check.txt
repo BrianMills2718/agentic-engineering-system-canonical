@@ -1,0 +1,6 @@
+$ python3 <company-planning fc3d5b7>/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42
+revision: 3e1eff07856 (origin/main after PR #519), fresh detached worktree
+date: 2026-10-11T01:23:18Z
+durable-docs: mode=repo repo=/home/brian/code/.scratch/aes-main-check2 findings=0 (none), exit 0
+exit=0
+Deferred: R6 generated glossary -- no reader question needs it yet

@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-0972633a86da",
+  "receipt_id": "RECEIPT-PLAN-76365003ff6e",
   "plan": {
     "plan_ref": "proposals/aes-durable-docs/PLAN.md",
-    "plan_sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+    "plan_sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
   },
   "path_decision": {
     "ref": "proposals/aes-durable-docs/PLANNING_PATH.json",
@@ -16,17 +16,17 @@
   "route": "coordinated",
   "profile": {
     "profile_id": "bounded-design",
-    "revision": "bounded-design@11",
+    "revision": "bounded-design@12",
     "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
-    "sha256": "0261c51b94b32a629bf6255b3c032c18cdbef4e8df6d5bed9db1f72d267c89cb"
+    "sha256": "65fc2d700a14fc3cd8efdca98eb1533ddc91108409663c4a728de6ca7ebbe992"
   },
   "compiler": {
     "path": "scripts/method_conformance/compiler.py",
-    "sha256": "e08f1a326de035b56e4e20bd6224439145f2373926a66672502c4b78a524105d"
+    "sha256": "9ca8d6e47f651430c21ff382a3d7c1f99e25c61f7ea85d0919ec09d71918d4f9"
   },
   "activation": {
     "facts_ref": "proposals/aes-durable-docs/activation-facts.json",
-    "facts_sha256": "17be06c75bfbfb3e95a55f40dd14d950a0facdbd858638fc3d051061bb8ee428",
+    "facts_sha256": "f3749a0c2cc205ed8b458fe40abd931e769d936f842dda069abe3a74f1067462",
     "facts": {
       "shared_mechanism": true,
       "empirical_comparison_proposed": false,
@@ -36,6 +36,7 @@
       "aes_governed_target": true,
       "crosses_system_boundary": true,
       "deploys": false,
+      "durable_documents_declared": true,
       "multiple_writers": true,
       "consequential_boundary": false,
       "inline_prototype": false
@@ -49,6 +50,7 @@
       "aes_governed_target": "declared:derived_current_boundary",
       "crosses_system_boundary": "derived:path_decision.shared_contract_mutation",
       "deploys": "default:not_declared",
+      "durable_documents_declared": "derived:.agentic/repo.yaml has durable_documents",
       "multiple_writers": "derived:path_decision.concurrent_writers",
       "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
       "inline_prototype": "derived:classified_path==prototype"
@@ -113,15 +115,21 @@
         "activation_fact": "aes_governed_target",
         "active": true,
         "reason": "aes_governed_target=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-DURABLE-DOCS",
+        "activation_fact": "durable_documents_declared",
+        "active": true,
+        "reason": "durable_documents_declared=true (derived:.agentic/repo.yaml has durable_documents)"
       }
     ]
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:6a5884cc4595c2347208df9f5f97ee5bef488c76b7a19156bafd80c4227ac7a0",
-    "definition_sha256": "83bebb12f9c6284478a1bed959d06c2bc06c8cf5c17bc0fe91074ed868110ac1",
+    "revision": "sha256:95038b4e5aab5a7f45fd5584a075175f1137c1a38a8f173ea79d94d5d13fd74d",
+    "definition_sha256": "1e5b613a4be9c2b4a65c4c70e4c75ee6a12c5ff855a0a068d4f859adab57b312",
     "bundle_ref": "proposals/aes-durable-docs/checklist.bundle.json",
-    "bundle_sha256": "6967ed5e545e1d601a833b0a2283bdec3bbbb1991a023fc24fc845cb29a21367",
+    "bundle_sha256": "c02dcbc38f046e5ec2b20eacbfe556c8971444bfb6d4b3748022708da3a5fe89",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -139,7 +147,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#actor-and-result",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -185,17 +193,17 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#requirements",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/366c7ee1fb7b/CORE-REQUIREMENTS-TRACED",
+        "trace_id": "company-planning/method-conformance/PLAN/ee49fbbc03d7/CORE-REQUIREMENTS-TRACED",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence provides a requirements list covering explicit asks and claimed properties, including schema conformance (R1), arc42 presentation (R11), and other user-relevant claims. Every listed requirement names a check and status; R6 is explicitly deferred with a reason and is stated to be carried onto every named completion record.",
-        "reused": false
+        "rationale": "The evidence provides a requirements table covering asked-for and claimed properties, with an ID, verifying check, and explicit status for each requirement. R6 includes a stated deferral reason and explicitly identifies the completion records carrying the deferral; the named schema and arc42 claims are also represented as R1 and R11.",
+        "reused": true
       },
       "suggested_action": null
     },
@@ -212,7 +220,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#success-and-disproof",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -239,7 +247,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#success-and-disproof",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -266,7 +274,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#when-a-run-fails-or-surprises-us",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -293,7 +301,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#system-model",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -320,7 +328,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#capability-reuse",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -347,7 +355,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#authority-and-non-goals",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -374,7 +382,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -401,7 +409,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#uncertainties",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -428,16 +436,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#activation-facts",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/366c7ee1fb7b/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/0e711d3380a4/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan declares `empirical_comparison_proposed=false`, but explicitly states that no comparison of alternatives is run and that StrictDoc is only a fallback, not a bake-off. It declares `llm_central=false` while explicitly characterizing the check as deterministic and the cold reader as verification rather than the mechanism; the plan does declare `shared_mechanism`, spend, external-standard, and AES-target facts true.",
+        "rationale": "The plan explicitly declares `empirical_comparison_proposed=false` while stating that no comparison of alternatives is run, and the StrictDoc fallback is conditional rather than a bake-off. It declares `shared_mechanism=true`, `irreversible_or_spend_action=true`, `claims_external_standard=true`, and `aes_governed_target=true`; its `llm_central=false` declaration is supported by the stated deterministic checker and the description of LLM use as verification rather than the central mechanism.",
         "reused": false
       },
       "suggested_action": null
@@ -455,7 +463,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#prior-art-and-ownership",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -482,7 +490,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#prior-art-and-ownership",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -509,7 +517,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#coordination",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -536,7 +544,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#contracts-and-dependencies",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -563,7 +571,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#contracts-and-dependencies",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -590,7 +598,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#standard-conformance",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -617,7 +625,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#standard-conformance",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -644,7 +652,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-durable-docs/PLAN.md#aes-target",
-          "sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60"
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
         }
       ],
       "semantic": {
@@ -657,10 +665,37 @@
         "reused": true
       },
       "suggested_action": null
+    },
+    {
+      "item_id": "OV-DURABLE-DOCS-DECLARED",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "proposals/aes-durable-docs/PLAN.md#durable-documents",
+          "sha256": "76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/PLAN/0e711d3380a4/OV-DURABLE-DOCS-DECLARED",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence provides a `Durable documents:` line naming `goal`, two system-model rule IDs, and `decisions`, and explicitly states all are declared in the repository’s `durable_documents` block. It also requires `durable_docs_check.py --repo . --plan proposals/aes-durable-docs/PLAN.md --range 23e413a2c..HEAD` to exit 0 at completion.",
+        "reused": false
+      },
+      "suggested_action": null
     }
   ],
   "item_counts": {
-    "pass": 20,
+    "pass": 21,
     "unresolved": 0,
     "not_applicable": 0,
     "unavailable": 0,
@@ -675,11 +710,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-0972633a86da",
+    "report_id": "REPORT-PLAN-76365003ff6e",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:6967ed5e545e1d601a833b0a2283bdec3bbbb1991a023fc24fc845cb29a21367",
+    "snapshot_revision": "sha256:c02dcbc38f046e5ec2b20eacbfe556c8971444bfb6d4b3748022708da3a5fe89",
     "packet_ref": "proposals/aes-durable-docs/PLAN.md",
-    "packet_revision": "sha256:0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60",
+    "packet_revision": "sha256:76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -693,7 +728,7 @@
   "result": "pass",
   "reason_codes": [],
   "actionable_summary": [
-    "pass: 20 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+    "pass: 21 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
   ],
   "limitations": [
     "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
@@ -702,7 +737,7 @@
     "client": "claude-code",
     "session": "0031e708-eb6b-409b-8823-6d04cc3aa693"
   },
-  "started_at": "2026-10-11T00:08:28Z",
-  "completed_at": "2026-10-11T00:08:50Z",
-  "duration_ms": 19538
+  "started_at": "2026-10-11T01:27:29Z",
+  "completed_at": "2026-10-11T01:27:36Z",
+  "duration_ms": 7669
 }

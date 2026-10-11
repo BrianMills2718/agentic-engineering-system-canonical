@@ -1,7 +1,8 @@
+LLM_CLIENT_TIMEOUT_POLICY=ban (first observed in call_llm_structured)
 ADOPTED proposals/aes-durable-docs/PLAN.md (pass; route coordinated)
-  - pass: 20 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)
-  receipt: proposals/aes-durable-docs/PLAN.receipt.json sha256:a10621c344d15bbdf893da330cf4abb9240bebe6e70a63ee2942caac3800c31d
-  decision: /home/brian/code/agentic-engineering-system-canonical/worktrees/shaping/aes-durable-docs/proposals/aes-durable-docs/PLAN.adoption-decision.json
-  goal: /home/brian/code/agentic-engineering-system-canonical/worktrees/shaping/aes-durable-docs/proposals/aes-durable-docs/aes-durable-docs.goal.md
-  attempts: /home/brian/code/agentic-engineering-system-canonical/worktrees/shaping/aes-durable-docs/proposals/aes-durable-docs/PLAN.adoption-attempts.jsonl (one line per adoption attempt)
-  Route fit: does route coordinated fit this work? Answer with --route-fit fits|does-not-fit --route-fit-reason '<why>' [--better-route <route>] (unanswered: the attempts line records route_fit null)
+  - pass: 21 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)
+  receipt: proposals/aes-durable-docs/PLAN.receipt.json sha256:8de276445e80b19f8cec7e0e8156d018808ee9e5298bbd9098d5519b4623c0ad
+  decision: /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-durable-docs-m4/proposals/aes-durable-docs/PLAN.adoption-decision.json
+  goal: /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-durable-docs-m4/proposals/aes-durable-docs/aes-durable-docs.goal.md
+  attempts: /home/brian/code/agentic-engineering-system-canonical/worktrees/aes-durable-docs-m4/proposals/aes-durable-docs/PLAN.adoption-attempts.jsonl (one line per adoption attempt)
+  route fit: fits (coordinated route still fits: two repositories and a shared checker); skill-feedback outbox: recorded
