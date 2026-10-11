@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Policy Pilot Plan</title>
+<style>
+/* Layout: enforcement grid (plan/build/review x rules), step timeline, detail panel */
+:root{--bg:#f6f8fb;--fg:#1b2430;--muted:#5b6675;--line:#c9d2de;--panel:#fff;--blue:#1f5fbf;--blue-soft:#e3edfb;--orange:#c76a12;--orange-soft:#fbeedd;--grey:#8a94a3;--tip:#1b2430;--tipfg:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11161d;--fg:#e6ebf2;--muted:#9aa6b6;--line:#34404f;--panel:#18202a;--blue:#7fb0ff;--blue-soft:#1b2c45;--orange:#f0a25a;--orange-soft:#3a2a18;--grey:#7c8796;--tip:#e6ebf2;--tipfg:#11161d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#11161d;--fg:#e6ebf2;--muted:#9aa6b6;--line:#34404f;--panel:#18202a;--blue:#7fb0ff;--blue-soft:#1b2c45;--orange:#f0a25a;--orange-soft:#3a2a18;--grey:#7c8796;--tip:#e6ebf2;--tipfg:#11161d;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,sans-serif;margin:0}
+.wrap{max-width:960px;margin:0 auto;padding:28px 16px 56px;display:grid;gap:22px}
+h1{margin:0;font-size:1.6rem}h2{margin:0 0 6px;font-size:1.2rem}h3{margin:14px 0 4px;font-size:.95rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+p{margin:0 0 8px;max-width:72ch}.muted{color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+svg{width:100%;height:auto;display:block}
+.stop{cursor:pointer;outline:none}
+.stop circle{stroke-width:3}
+.stop text{fill:var(--fg);font-size:13px}
+.stop .num{font-weight:700;font-size:14px}
+.stop.sel circle{stroke-width:6}
+.stop:focus-visible circle{stroke-dasharray:4 3}
+.st-done circle{fill:var(--blue-soft);stroke:var(--blue)}
+.st-open circle{fill:var(--orange-soft);stroke:var(--orange);stroke-dasharray:6 4}
+.st-ctx circle{fill:var(--panel);stroke:var(--grey)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.9rem;margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:50%;border:3px solid;display:inline-block}
+.nav{display:flex;gap:8px;margin-top:10px}
+button{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer}
+button:hover,button:focus-visible{border-color:var(--blue)}
+.quote{border-left:4px solid var(--blue);padding:4px 10px;margin:4px 0;font-style:italic}
+.push{border-left:4px dashed var(--orange);padding:4px 10px;margin:4px 0}
+.badge{display:inline-block;font-size:.8rem;padding:1px 8px;border-radius:10px;border:1px solid}
+.b-done{color:var(--blue);border-color:var(--blue)}.b-open{color:var(--orange);border-color:var(--orange);border-style:dashed}.b-ctx{color:var(--grey);border-color:var(--grey)}
+ul{margin:4px 0 8px;padding-left:20px}li{margin:2px 0}
+a{color:var(--blue)}
+#tip{position:fixed;z-index:9;pointer-events:none;background:var(--tip);color:var(--tipfg);font-size:.85rem;padding:6px 9px;border-radius:6px;max-width:280px;opacity:0;transition:opacity .12s}
+#tip.on{opacity:1}
+.info{border:none;background:none;padding:0 4px;color:var(--blue);font-size:1rem}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:640px){.grid{grid-template-columns:1fr}.bar{width:100%!important;flex:1 1 100%}}
+.col h3{margin-top:0}
+.rule{display:block;width:100%;text-align:left;margin:6px 0;padding:8px 10px;border-width:2px}
+.r-on{border-color:var(--blue);background:var(--blue-soft)}
+.r-fake{border-color:var(--orange);border-style:dashed;background:var(--orange-soft)}
+.r-prose{border-color:var(--grey)}
+.rule.sel{outline:3px solid var(--fg);outline-offset:1px}
+.steps{display:grid;gap:6px}
+.step{display:grid;grid-template-columns:2.2em 1fr;align-items:center;gap:8px;text-align:left;padding:6px 8px}
+.bar{min-height:22px;min-width:0;border-radius:5px;background:var(--blue-soft);border:2px solid var(--blue);display:flex;align-items:center;padding:0 8px;font-size:.85rem;overflow-wrap:break-word}
+.step>span{min-width:0;flex-wrap:wrap}
+.wrap>*{min-width:0}
+.bar.done{background:var(--panel);border-color:var(--grey);color:var(--muted)}
+.step.sel{outline:3px solid var(--fg)}
+.you{font-size:.8rem;color:var(--orange);font-weight:600;margin-left:6px}
+</style></head><body><div class="wrap">
+<header><h1>Planning, build and review rules: what's enforced and the plan</h1>
+<p class="muted">Your priority (2026-10-10): get the planning, implementation and review rules worked out and enforced. qualitative_coding is the stress test, not the goal. Click any box for the detail.</p></header>
+<section class="card"><h2>Which rules are enforced today</h2>
+<p class="muted">Checked 2026-10-10 against the company-planning and AES code on main.</p>
+<div class="grid" id="grid"></div>
+<div class="legend"><span><i class="sw" style="border-color:var(--blue);background:var(--blue-soft)"></i>Enforced by a check</span><span><i class="sw" style="border-color:var(--orange);border-style:dashed"></i>Looks enforced, but the "pass" is written, not checked</span><span><i class="sw" style="border-color:var(--grey)"></i>Written rule only, nothing checks it</span></div>
+</section>
+<section class="card"><h2>The plan: about 2 working days of agent time, about 35 minutes of yours</h2>
+<div class="steps" id="steps"></div>
+<p class="muted" style="margin-top:8px">Bar length = estimated agent hours. <span class="you">● you</span> marks where you look at something.</p>
+</section>
+<section class="card" id="detail" aria-live="polite"></section>
+<p class="muted">Design record: <a href="https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/shaping/model-framework/proposals/model-framework/README.md#8-which-rules-are-enforced-today-checked-2026-10-10" data-tip="Sections 8 and 9 of the living design doc on GitHub hold the same content as text">README sections 8-9</a> · <a href="conversation-outline.html" data-tip="Clickable map of the whole conversation so far">Conversation outline</a> · <a href="https://github.com/BrianMills2718/company-planning/issues/119" data-tip="Issue filed today: quick plan adoption writes every checklist item as pass without checking it">company-planning #119</a></p>
+</div><div id="tip" role="tooltip"></div>
+<script>
+const R={plan:[
+ {t:"A plan links a system model",k:"fake",tip:"Rule from decision 0002. Full adoption checks it. Quick adoption only checks the file exists, then writes pass.",d:["<b>Rule:</b> every plan links the project's system model (company-planning decision 0002, checklist item CORE-SYSTEM-MODEL).","<b>Checked:</b> full plan adoption refuses a plan with no model link.","<b>Not checked:</b> quick adoption, used for every Small plan, checks the model file exists and then records the item as \"pass\" with no other check (quick.py lines 439-452). Filed as company-planning #119."]},
+ {t:"The model is precise",k:"prose",tip:"Element IDs, decided-or-guessed marks, and how each unknown gets settled. Agreed in conversation; not written into any rule yet.",d:["<b>Rule (agreed today, not yet written):</b> decide what can be decided; for each real unknown write the question, the experiment, its budget, the deciding criterion and the default; mark each item decided or guessed.","<b>Checked:</b> nothing. This is plan step 2."]},
+ {t:"Plan with pictures",k:"prose",tip:"Workspace rule: you review plans as diagrams. No checklist item checks it.",d:["<b>Rule:</b> workspace AGENTS.md, \"Plan with pictures, review on a working UI\".","<b>Checked:</b> no checklist item found in company-planning."]}],
+build:[
+ {t:"Work lands under a plan",k:"on",tip:"The commit hook in every repo refuses non-trivial commits without a plan tag.",d:["<b>Rule:</b> every non-trivial commit carries a plan tag.","<b>Checked:</b> the AES commit rule, installed as a git hook in every repo. It refused and warned on commits during this session."]},
+ {t:"Model and code agree (drift test)",k:"prose",tip:"Decision 0002 asks for a two-way drift test, but the validator only checks the model file exists.",d:["<b>Rule:</b> decision 0002 requires a two-way drift test per model.","<b>Checked:</b> no. The validator checks the file exists (quick.py lines 274-276). Nothing links a model element to a test.","This gap is why qualitative_coding drifted from its goal on 2 choices (qc #130) with nothing flagging it."]},
+ {t:"Status computed from checks",k:"on",tip:"Exists in AES canonical only: verification subjects plus recorded observations. Other repos have nothing like it.",d:["<b>Rule:</b> status is computed from check results, never claimed.","<b>Checked:</b> in AES canonical only, through .aes/target.yaml verification subjects and recorded observations (aes evidence record).","<b>Gap:</b> no other repo has it, and it isn't per model element."]}],
+review:[
+ {t:"Read the full trace",k:"fake",tip:"The plan must contain the section; quick adoption writes pass without checking. Nothing checks a trace was read.",d:["<b>Rule:</b> workspace policy read-the-trace; checklist item CORE-TRACE-REVIEW.","<b>Checked:</b> the plan template has the section; quick adoption records pass automatically (#119). Nothing checks that a trace was actually read."]},
+ {t:"Review on a working UI",k:"prose",tip:"Workspace rule: every review point hands you something you can click. Nothing checks it.",d:["<b>Rule:</b> workspace AGENTS.md, \"Plan with pictures, review on a working UI\".","<b>Checked:</b> no."]},
+ {t:"Status per model element",k:"prose",tip:"The review screen that colours each model element by its check result. Doesn't exist yet; plan step 3.",d:["<b>Rule (agreed in this conversation):</b> review shows each model element with its computed status and a link to the trace.","<b>Checked:</b> doesn't exist yet. Plan steps 3 and 4."]}]};
+const S=[
+ {n:0,h:0.3,t:"Record priority and enforcement map",done:1,tip:"Done this turn: README sections 1, 8, 9 and issue #119.",d:["Done: your priority recorded in the design record, the enforcement map above written as section 8, the plan as section 9, and the quick-adoption defect filed as company-planning #119."]},
+ {n:1,h:1,t:"Pick a traceability tool",tip:"Survey the off-the-shelf tools that link a requirement ID to the tests that check it. About 1 hour.",d:["Question: how is 'model element ID → test → status' recorded? Off-the-shelf first.","Candidates: sphinx-needs, StrictDoc, OpenFastTrace, Doorstop, plain pytest markers plus JUnit XML results, and AES's own verification subjects.","Decided by: works in any Python repo, reads normal test results, no server. Default if unclear: pytest markers plus JUnit XML."]},
+ {n:2,h:1.5,t:"Write the three rules",you:"15 min",tip:"One amendment to decision 0002: plan, build and review rules. You look at one diagram of them.",d:["<b>Plan:</b> the model has element IDs; each item is marked decided or guessed; unknowns have a resolution plan with a deciding criterion.","<b>Build:</b> each element is covered by at least one named test; status is computed from the last run.","<b>Review:</b> each review point links a generated status page.","<b>You:</b> one diagram of the rules, about 15 minutes."]},
+ {n:3,h:5,t:"Build the checks (warn only)",tip:"Plan-adoption check (fixes #119), status computation, review-page generator. Warn, don't refuse yet.",d:["Plan-adoption check that reads the model, replacing the written passes (#119).","Status computation from test results.","Review-page generator.","All in <b>warn</b> mode: they report, they don't block. Plan #55 rolled ODD out to every project from one pilot; this avoids repeating that."]},
+ {n:4,h:5,t:"Stress test on qualitative_coding",you:"20 min",tip:"Model slice 1, tag its tests, run, generate the status page. Must catch the 2 known disagreements unaided.",d:["Write slice 1's intent models (data, data flow, a quote's states, run trace), tag tests with element IDs, run, generate the status page.","<b>Passes if</b> the checks flag the 2 goal-vs-code disagreements already known from qc #130 without being told, and the first model costs at most 3 agent hours.","<b>Wrong if</b> either disagreement is missed.","<b>You:</b> open the status page, about 20 minutes."]},
+ {n:5,h:1,t:"Switch on refusal",tip:"Turn warn into refuse in company-planning; apply to the next project touched.",d:["Turn warn into refuse in company-planning's plan adoption, then apply it to the next project touched.","Wrong if keeping models true costs more than the defects they catch across the next two projects."]}];
+const grid=document.getElementById("grid"),steps=document.getElementById("steps"),det=document.getElementById("detail");
+const names={plan:"Plan",build:"Build",review:"Review"},kn={on:"enforced",fake:"written pass, not checked",prose:"not checked"};
+let sel=null;
+function show(el,title,badge,lines){document.querySelectorAll(".sel").forEach(x=>x.classList.remove("sel"));el.classList.add("sel");det.innerHTML=`<h2>${title} <span class="badge ${badge[0]}">${badge[1]}</span></h2><ul>${lines.map(l=>`<li>${l}</li>`).join("")}</ul>`}
+for(const ph in R){const c=document.createElement("div");c.className="col";c.innerHTML=`<h3>${names[ph]}</h3>`;
+ R[ph].forEach(r=>{const b=document.createElement("button");b.className="rule r-"+r.k;b.textContent=r.t;b.dataset.tip=r.tip;b.onclick=()=>show(b,names[ph]+": "+r.t,[r.k=="on"?"b-done":r.k=="fake"?"b-open":"b-ctx",kn[r.k]],r.d);c.appendChild(b)});grid.appendChild(c)}
+S.forEach(s=>{const b=document.createElement("button");b.className="step";b.dataset.tip=s.tip;
+ b.innerHTML=`<b>${s.n}</b><span style="display:flex;align-items:center;min-width:0"><span class="bar ${s.done?"done":""}" style="width:${Math.max(18,s.h/5*70)}%">${s.t}</span><span style="font-size:.8rem;margin-left:6px" class="muted">${s.done?"done":s.h+" h"}</span>${s.you?`<span class="you">● you ${s.you}</span>`:""}</span>`;
+ b.onclick=()=>show(b,"Step "+s.n+": "+s.t,s.done?["b-ctx","done"]:["b-open","planned"],s.d);steps.appendChild(b)});
+document.querySelector(".rule").click();
+/* styled tooltips on hover, keyboard focus and tap */
+const tip=document.getElementById("tip");let tt;
+function on(el,x,y){const t=el.dataset.tip;if(!t)return;tip.textContent=t;tip.classList.add("on");const r=tip.getBoundingClientRect();tip.style.left=Math.max(8,Math.min(innerWidth-r.width-8,x+12))+"px";tip.style.top=Math.max(8,y-r.height-12)+"px"}
+function off(){tip.classList.remove("on")}
+document.addEventListener("mouseover",e=>{const el=e.target.closest("[data-tip]");if(el){clearTimeout(tt);tt=setTimeout(()=>on(el,e.clientX,e.clientY),80)}else{clearTimeout(tt);off()}});
+document.addEventListener("focusin",e=>{const el=e.target.closest("[data-tip]");if(el){const r=el.getBoundingClientRect();on(el,r.left,r.top)}});
+document.addEventListener("focusout",off);
+document.addEventListener("touchstart",e=>{const el=e.target.closest("[data-tip]");if(el){const t=e.touches[0];on(el,t.clientX,t.clientY);clearTimeout(tt);tt=setTimeout(off,2500)}},{passive:true});
+</script></body></html>

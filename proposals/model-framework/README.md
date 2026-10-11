@@ -7,7 +7,7 @@ Started: 2026-10-10, from a session that began as a review of `fol-operational-m
 
 **Resume here.** This file holds the decisions, disagreements, verified facts and open
 questions so they survive context compaction. Update it whenever any of them change.
-The section "Open decisions" says what is waiting.
+Section 9 is the proposed plan; section 10 says what is waiting.
 
 ## 1. What Brian is after
 
@@ -20,6 +20,10 @@ The section "Open decisions" says what is waiting.
   converge."
 - It needs **an architecture framework, not one model**: several kinds of model, each in an
   established notation, tied together.
+- **Priority (Brian, 2026-10-10):** "i am mroe interested in cgeting the plannign and
+  implementation and review policeis figured otu and enforced than improving qualitative
+  coding although i udnerstand if the qc thing is a sress test". The product is the
+  plan/build/review policy and its enforcement. qualitative_coding is the stress test.
 
 ## 2. Agreed principles
 
@@ -140,7 +144,52 @@ Prior art:
   - linguistic vs ontological instantiation, likely Atkinson & Kühne 2003 rather than
     Kühne 2006.
 
-## 8. Open decisions
+## 8. Which rules are enforced today (checked 2026-10-10)
+
+Checked against company-planning origin/main cdcf6c7 and AES origin/main.
+
+| Phase | Rule | Enforced by | Gap |
+|---|---|---|---|
+| Plan | A plan links a system model (decision 0002, `CORE-SYSTEM-MODEL`) | Full adoption: refused with no model link. Quick-adopt: model file must exist, then the item is written as "pass" without a check (company-planning #119) | Nothing checks that the model is precise: no element IDs, no decided/guessed marks, no unknowns with decision criteria (section 4) |
+| Plan | Plan with pictures (workspace AGENTS.md) | Prose only; no checklist item found | No check |
+| Build | Work lands under a plan | AES commit rule (hook, every repo) | None for this purpose |
+| Build | Two-way drift test per model (decision 0002) | Not checked; the validator checks only that the file exists | No link from a model element to the test that checks it |
+| Build | Status computed from checks | AES v0.2 `verification_subjects` + `observations`, in AES canonical only | Other repos have no equivalent |
+| Review | Read the full trace (`CORE-TRACE-REVIEW`) | The plan must have the section; quick-adopt writes "pass" (#119) | No per-element status |
+| Review | Review on a working UI (workspace AGENTS.md) | Prose only | No check |
+
+Conclusion: the rules mostly exist. What is missing is checking their substance, plus the
+link from model element to test to computed status.
+
+## 9. Policy pilot plan (proposed 2026-10-10, not adopted)
+
+Order matters: the checks run in **warn mode** through the stress test, and refuse only
+afterwards. Plan #55 rolled a rule out to every project from one pilot, and that is how
+ODD spread.
+
+| Step | What | Agent time | Brian |
+|---|---|---|---|
+| 0 | Record the priority and the enforcement map (sections 1, 8) and file #119 | done | none |
+| 1 | Landscape check of traceability tools (sphinx-needs, StrictDoc, OpenFastTrace, Doorstop, pytest markers + JUnit XML, AES `verification_subjects`). Decides how "element ID → test → status" is recorded | about 1 h | none |
+| 2 | Write the three rules as one amendment to decision 0002 and the system-model reference. Plan: element IDs, decided/guessed marks, unknowns table. Build: each element covered by at least one named test, status computed from the last run. Review: a generated status page linked from each review point | 1-2 h | look at one diagram of the rules, about 15 min |
+| 3 | Build the checks in warn mode: plan-adoption check (fixes #119), status computation, review-page generator | 4-6 h | none |
+| 4 | Stress test on qualitative_coding slice 1: intent models, tagged tests, a run, a status page | 4-6 h | open the status page, about 20 min |
+| 5 | Turn warn into refuse in company-planning; apply to the next project touched | about 1 h | none |
+
+Total: about 11-16 agent hours, roughly two working days, and about 35 minutes of Brian's time.
+
+Stress-test pass criteria:
+- the checks flag qc #130's two known goal-vs-code disagreements without being told about them;
+- the first model costs at most 3 agent hours (decision 0002's own wrong-when).
+
+Wrong when:
+- the checks miss either known disagreement;
+- or keeping the models true costs more than the defects they catch over the next two
+  projects.
+
+This needs a full company-planning plan, since it spans several repositories, before step 1.
+
+## 10. Open decisions
 
 1. **Which outline the model files use. Decided 2026-10-10 by Brian ("a"): arc42 sections
    with C4 diagrams.** Provenance of the old outline: ODD is real (Grimm et al. 2006), but it
@@ -158,14 +207,16 @@ Prior art:
      count, and move when each project next changes its model.
    - Wrong when: an arc42-shaped first model cannot hold something an ODD-style one held
      without adding a section, or two projects in a row report the outline itself as friction.
-2. **Pilot.** qualitative_coding slice 1, with four kinds (domain, data flow, a quote's
-   states, trace), two or three correspondence tests (one model ↔ trace), and a status
-   overlay. A full plan is needed before building.
+2. **Pilot.** Reframed 2026-10-10: the policy and its enforcement are the product, and
+   qualitative_coding slice 1 is the stress test (see section 9). It uses four kinds
+   (domain, data flow, a quote's states, trace) and two or three correspondence tests.
+   A full plan is needed before step 1.
 
-## 9. Related records
+## 11. Related records
 
 - qc issue #130: the qualitative_coding goal and its schema disagreements.
 - AES #517: the main checkout is not refreshed (found during this thread).
+- company-planning #119: quick-adopt writes every checklist item as "pass" without checking it.
 - `fol-operational-metamodel`: the Common Logic class diagram and meaning layer (done).
 - Goal-vs-code page for qualitative_coding: [review-page/qc-goal-vs-code.html](review-page/qc-goal-vs-code.html), served at https://hive.brianmills.dev/plans/shaping-model-framework/proposals/model-framework/review-page/qc-goal-vs-code.html
   (two ER diagrams and the disagreement table; first worked example of an intent model
