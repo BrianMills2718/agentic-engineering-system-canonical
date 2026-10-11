@@ -1,0 +1,6 @@
+# R13/R14 seeded run on AES canonical main d2aa77ddb, checker from company-planning main fc3d5b7; seeded: Lineage section removed from GOAL.md, description line removed from decision 0001
+FINDING GOAL-NO-LINEAGE role=goal id=Lineage file=docs/architecture/GOAL.md: no Lineage field: name the repository this one replaces and why it was restarted, or 'none -- original'
+FINDING DOC-NO-DESCRIPTION role=decisions id=- file=docs/decisions/0001-canonical-convergence-boundary.md: no non-placeholder 'description' front-matter line (at least four words)
+FINDING CATALOG-STALE role=catalog id=- file=make docstring-wiki-check: catalog check exited 2: docstring wiki stale or hand-edited: /home/brian/code/.scratch/aes-r13-seed/generated/docstring_wiki.md | make: *** [Makefile:632: docstring-wiki-check] Error 1
+durable-docs: mode=repo repo=/home/brian/code/.scratch/aes-r13-seed findings=3 (CATALOG-STALE=1, DOC-NO-DESCRIPTION=1, GOAL-NO-LINEAGE=1), exit 1
+exit=1
