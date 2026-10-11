@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Modeling work review</title>
+<meta name="description" content="What two days of modeling commits (2026-10-10 to 10-11) across about 20 repositories built, and what was lost or split between agent sessions.">
+<style>
+:root{--bg:#ffffff;--fg:#111827;--muted:#4b5563;--line:#8b95a3;--panel:#f3f4f6;--blue:#1d4ed8;--bluefill:#dbeafe;--orange:#b45309;--orangefill:#fff4e5;--grey:#6b7280;--tipbg:#111827;--tipfg:#f9fafb}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#6b7280;--panel:#1a2030;--blue:#7fb2ff;--bluefill:#1e3a5f;--orange:#f5a524;--orangefill:#2a1f0e;--grey:#a3adba;--tipbg:#f3f4f6;--tipfg:#111827}}
+:root[data-theme="dark"]{--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#6b7280;--panel:#1a2030;--blue:#7fb2ff;--bluefill:#1e3a5f;--orange:#f5a524;--orangefill:#2a1f0e;--grey:#a3adba;--tipbg:#f3f4f6;--tipfg:#111827}
+*{box-sizing:border-box}html,body{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.4rem;margin:0 0 8px}h2{font-size:1.12rem;margin:28px 0 6px}
+p.lead{border-left:4px solid var(--blue);padding:4px 0 4px 12px;margin:0 0 8px}
+p.meta{font-size:.88rem;color:var(--muted);margin:0 0 16px}
+code{font-size:.88em;background:var(--panel);padding:0 3px;border-radius:3px;overflow-wrap:anywhere}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:10px 0}
+.card{border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg)}
+.card.key{border:3px solid var(--blue);background:var(--bluefill)}
+.card.off{border-style:dashed}
+.card h3{font-size:1rem;margin:0 0 4px}.card p{margin:0;font-size:.93rem}
+.tag{display:inline-block;font-size:.78rem;font-weight:700;border-radius:10px;padding:0 8px;margin-right:4px;border:1.5px solid}
+.t-ver{color:var(--blue);border-color:var(--blue)}
+.t-rep{color:var(--grey);border-color:var(--grey);border-style:dashed}
+.t-now{color:var(--blue);border-color:var(--blue);background:var(--bluefill)}
+.t-lane{color:var(--orange);border-color:var(--orange);background:var(--orangefill)}
+.t-you{color:var(--fg);border-color:var(--fg)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 10px}
+button.f{font:inherit;font-size:.9rem;border:1.5px solid var(--line);background:var(--bg);color:var(--fg);border-radius:16px;padding:3px 12px;cursor:pointer;position:relative}
+button.f[aria-pressed="true"]{border-color:var(--blue);background:var(--bluefill);font-weight:700}
+ol.items{padding-left:0;list-style:none;margin:0}
+ol.items li{border-top:1px solid var(--line);padding:8px 0}
+ol.items li b{display:block}
+ol.items li span.why{color:var(--muted);font-size:.92rem}
+table{border-collapse:collapse;width:100%;font-size:.92rem;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--panel)}
+.tip{position:absolute;left:0;top:calc(100% + 6px);z-index:5;background:var(--tipbg);color:var(--tipfg);font-size:.82rem;font-weight:400;line-height:1.35;padding:6px 9px;border-radius:6px;width:max-content;max-width:260px;opacity:0;pointer-events:none;transition:opacity .12s;text-align:left}
+button.f:hover .tip,button.f:focus-visible .tip,button.f.tap .tip{opacity:1}
+</style></head>
+<body><main>
+<h1>Modeling work, 2026-10-10 to 10-11: what was built and what got lost</h1>
+<p class="lead"><b>Short answer:</b> yes, things were lost. Four agent sessions built three different things that all use the word "model", mostly without reading each other. The biggest loss: your ask for <b>"an architecture framework rather than one model"</b> is written down only on a side branch that was never merged, so no other agent can see it.</p>
+<p class="meta">Built 2026-10-11 from readers over every commit in about 20 repositories in that window, plus your own words in the session transcripts. Items tagged <span class="tag t-ver">checked</span> were re-checked against the repositories by hand; <span class="tag t-rep">reported</span> items come from the readers and were not re-checked one by one.</p>
+
+<h2>Which models and diagrams does a repo need?</h2>
+<p>The written rule (company-planning <code>references/system-model.md</code> and decision 0002, amended 2026-10-10 and 10-11) has <b>two layers</b>: a model every repo keeps, sized by situation, and extra drawings a plan adds only when its change raises a specific question.</p>
+<p><b>Layer 1: the standing model.</b> Ask these in order and stop at the first yes.</p>
+<table>
+<tr><th>Situation</th><th>Example</th><th>What it must have</th></tr>
+<tr><td>1. Nothing stored and nothing anyone looks at</td><td>a one-shot script that prints nothing kept</td><td>One line: <code>System model: exempt -- &lt;reason&gt;</code>. The only exemption.</td></tr>
+<tr><td>2. Part of a bigger system that already has a model</td><td>a plugin inside a shared platform</td><td>A link to the shared model that names this repo's boundary, owner and covered parts. No copy.</td></tr>
+<tr><td>3. An agent-based simulation</td><td>agent_ecology3</td><td>ODD outline (the standard for simulations) instead of arc42.</td></tr>
+<tr><td>4. Small or prototype</td><td>a personal tool, a PoC</td><td>One page: purpose, 3–5 "if it works you will see…" patterns, a short list of things stored, the steps that change them (with the file that does each), and the screens or outputs. <b>No diagram required.</b></td></tr>
+<tr><td>5. Larger or shared</td><td>qualitative_coding, company-planning</td><td>All six arc42 sections with <b>two C4 diagrams</b> (system context: what is inside vs outside; containers: the main parts and what each stores; add a component diagram when one part is big), plus the machine-readable <code>trace.yaml</code>.</td></tr>
+</table>
+<p><b>Every model, every situation (added 2026-10-11, still being piloted):</b> each part gets an ID and a "decided" or "guessed" mark, the model ends with a table of open questions, each part's status comes from a recorded test run, and each review links a generated status page. Today these refuse plans only in qualitative_coding and only warn elsewhere.</p>
+<p><b>Layer 2: drawings a plan adds, only when its change raises the question.</b> No diagram quota; a plan that changes none of these says so.</p>
+<table>
+<tr><th>If the change touches…</th><th>Add</th></tr>
+<tr><td>who uses it and what sits outside</td><td>C4 context diagram</td></tr>
+<tr><td>who owns which data or decision</td><td>component diagram or ownership table</td></tr>
+<tr><td>what the domain words mean and how they relate</td><td>glossary, plus an entity diagram when "how many" matters</td></tr>
+<tr><td>what crosses between parts</td><td>data-flow diagram or contract table</td></tr>
+<tr><td>the order things happen and fail</td><td>sequence or activity diagram</td></tr>
+<tr><td>which states are allowed</td><td>state-machine diagram</td></tr>
+<tr><td>where it runs</td><td>deployment diagram, only when placement changes the decision</td></tr>
+<tr><td>what proves a requirement</td><td>trace table: requirement → code → test → result</td></tr>
+</table>
+<p><b>Where the rule and the checker disagree</b> <span class="tag t-ver">checked</span></p>
+<ol class="items">
+<li><b>"Small" vs "larger" has no test.</b><span class="why">The rule names the two sizes but no line between them, so each agent picks. The checker cannot tell which size a repo is.</span></li>
+<li><b>The checker demands <code>trace.yaml</code> from every repo; the rule asks for it only from larger ones.</b><span class="why"><code>durable_docs_check.py</code> accepts either "not applicable" or a full model with <code>trace.yaml</code>; a small repo's one-page model with no trace file fails.</span></li>
+<li><b>No diagram is checked anywhere.</b><span class="why">The checker never looks for a C4 diagram; the arc42 option checks only the goal headings. A larger repo with no diagrams passes.</span></li>
+<li><b>Layer 2 is unenforced.</b><span class="why">Nothing checks that a plan picked the drawings its change needed. The "framework of drawings" design (B below) was meant to fill this and is unmerged.</span></li>
+</ol>
+
+<h2>1. Three things called "model"</h2>
+<p>Think of a house. A <b>system model</b> is the blueprint of one house. A <b>framework</b> is the rule for which drawings every house gets (floor plan, wiring, plumbing) and how each drawing is checked against the real building. A <b>research metamodel</b> is a theory of what any building is made of. All three were worked on, by different sessions.</p>
+<div class="three">
+<div class="card key"><h3>A. One blueprint per repo (finished, everywhere)</h3><p>Every governed repo now has a goal, requirements, a <b>system model</b> (prose plus <code>docs/model/trace.yaml</code>: rule → file that does it → test → decision) and decision records. Rolled out to 22 repos and checked daily.</p></div>
+<div class="card"><h3>B. The framework of drawings (half-built, hidden)</h3><p>A catalogue of model kinds (domain, data flow, state machine, schema, run trace), each with a hand-written "intended" side and a generated "actual" side, compared by tests. The rules part landed in company-planning; the design write-up sits only on the unmerged AES branch <code>shaping/model-framework</code>.</p></div>
+<div class="card off"><h3>C. Research metamodels (separate subject)</h3><p>observation-to-action (what any analysis is made of) and fol-operational-metamodel (logic structure from standards). Not related to A or B, but they share the word "metamodel".</p></div>
+</div>
+
+<h2>2. What got lost or split</h2>
+<div class="filters" role="group" aria-label="Filter">
+<button class="f" aria-pressed="true" data-k="all">All<span class="tip">Show every item.</span></button>
+<button class="f" aria-pressed="false" data-k="said">Your words not captured<span class="tip">Things you said in a session that no merged commit records.</span></button>
+<button class="f" aria-pressed="false" data-k="twice">Built twice<span class="tip">The same idea built separately by two sessions.</span></button>
+<button class="f" aria-pressed="false" data-k="clash">Contradictions<span class="tip">Two places that say opposite things.</span></button>
+<button class="f" aria-pressed="false" data-k="stall">Stalled<span class="tip">Work started, then left unmerged or unstarted.</span></button>
+</div>
+<ol class="items" id="items">
+<li data-k="said"><span class="tag t-ver">checked</span><b>"An architecture framework rather than one model"</b><span class="why">You said it 10-11 01:02. Captured only in the README on the unmerged <code>shaping/model-framework</code> branch. Zachman and DoDAF were never compared on record.</span></li>
+<li data-k="said"><span class="tag t-ver">checked</span><b>"A model of different model types" (is that what UML is?)</b><span class="why">10-11 00:39. The catalogue of model kinds exists only in that same unmerged README.</span></li>
+<li data-k="said"><span class="tag t-rep">reported</span><b>Formal definitions: model, metamodel, instance, syntax, semantics</b><span class="why">10-10 23:39, plus "is metamodel really the right term?" at 23:25. No commit defines them; the glossary is deferred everywhere.</span></li>
+<li data-k="said"><span class="tag t-rep">reported</span><b>Automatic comparison of intended diagrams with generated ones (you called it "huge")</b><span class="why">Only a proposal and one static qc page exist. What landed checks model elements against tests, not diagrams against code.</span></li>
+<li data-k="said"><span class="tag t-rep">reported</span><b>Full traces of real inputs through the whole data flow at review time</b><span class="why">10-11 00:59. Not built.</span></li>
+<li data-k="said"><span class="tag t-rep">reported</span><b>The plans site serves only review pages, not design documents ("a bad design")</b><span class="why">10-11 01:28. Not addressed.</span></li>
+<li data-k="said"><span class="tag t-rep">reported</span><b>"Apply the FOL pattern to observation-to-action next"</b><span class="why">Written in the fol wiki; no observation-to-action commit picks it up. Different sessions did the two repos.</span></li>
+<li data-k="twice"><span class="tag t-ver">checked</span><b>Two ways to trace a model element to its test, side by side in qualitative_coding</b><span class="why"><code>docs/model/trace.yaml</code> (checks files and tests exist) and <code>docs/model/slice1/intent.md</code> (status computed from recorded test runs). Neither refers to the other.</span></li>
+<li data-k="twice"><span class="tag t-rep">reported</span><b>Two requirement lists per repo</b><span class="why"><code>REQUIREMENTS.md</code> beside <code>.aes/target.yaml</code> in qc, observation-to-action, dodaf and Digimon.</span></li>
+<li data-k="twice"><span class="tag t-rep">reported</span><b>Older machine-readable models the new trace file ignores</b><span class="why">epistemic-warrant <code>model.json</code>, Digimon <code>model.yaml</code>, agent_ecology3 <code>ae3_model.yaml</code>, each with its own drift test.</span></li>
+<li data-k="twice"><span class="tag t-rep">reported</span><b>The StrictDoc/Doorstop evaluation was done twice</b><span class="why">Once by the durable-docs plan, once by the model-framework work. Both rejected them.</span></li>
+<li data-k="twice"><span class="tag t-rep">reported</span><b>A document catalog was built, then declared not to exist</b><span class="why">enforced-planning built <code>docstring_wiki --links</code>; hours later agent-skills and project-meta marked the catalog "no command exists".</span></li>
+<li data-k="clash"><span class="tag t-ver">checked</span><b>ODD outline vs arc42 + C4</b><span class="why">company-planning PR #116 (your call on 10-10) switched the system model to arc42 sections with C4 diagrams at <code>docs/model/ARCHITECTURE.md</code>. The AES durable-docs plan still said "ODD shape" and called replacing ODD a non-goal. <b>Fixed in this change.</b> company-planning's own model file is still named <code>ODD.md</code>.</span></li>
+<li data-k="clash"><span class="tag t-ver">checked</span><b>The model-framework README is out of date about its own pilot</b><span class="why">It says pilot steps 2-5 have not started; company-planning main has them, including refuse mode in qc.</span></li>
+<li data-k="clash"><span class="tag t-rep">reported</span><b>Files live in different places per repo</b><span class="why">Goal in five locations, decisions in <code>docs/adr/</code> or <code>docs/decisions/</code>, plans in three.</span></li>
+<li data-k="clash"><span class="tag t-rep">reported</span><b>Small contradictions</b><span class="why">agent-skills <code>rulesync-hooks.md</code> says "no system model exists" two hours after one merged; RULE-REVIEW-STATUS-PAGE has no trace entry; the daily check counts "undeclared" as fine, so enforced-planning's model can drift silently.</span></li>
+<li data-k="stall"><span class="tag t-ver">checked</span><b><code>shaping/model-framework</code>: 10 commits, unmerged, not linked from main</b><span class="why">Its owner session (the policy-enforcement pilot) is still live and holds the claim on it.</span></li>
+<li data-k="stall"><span class="tag t-rep">reported</span><b>observation-to-action PLAN-017 (rule checks through SHACL, shared viewer): adopted, nothing run</b><span class="why">Rival world models and warrant are vocabulary only.</span></li>
+<li data-k="stall"><span class="tag t-rep">reported</span><b>Planning-gate refusals forced unplanned commits</b><span class="why">The vision catch-up plan was refused 7 times and never adopted; observation-to-action view commits landed unplanned after 11 refusals (company-planning #99, #107).</span></li>
+<li data-k="stall"><span class="tag t-rep">reported</span><b>Older side branches untouched since 10-06/10-08</b><span class="why"><code>shaping/ecosystem-policy-model</code>, <code>shaping/ecosystem-evidence-trace</code>, <code>codex/system-model-review-page</code>.</span></li>
+</ol>
+
+<h2>3. The words, defined once</h2>
+<p>Hand-written for now; the plan's generated glossary (R6) replaces it later.</p>
+<table>
+<tr><th>Word</th><th>Means here</th><th>Example</th></tr>
+<tr><td>Model</td><td>A description that leaves things out on purpose so one question is easy to answer.</td><td>A subway map: it drops distances so "which line do I take?" is easy.</td></tr>
+<tr><td>Instance</td><td>One filled-in case of a model.</td><td>A blank job-application form is the model; your filled-in copy is an instance.</td></tr>
+<tr><td>Metamodel</td><td>A model whose instances are models: the rules for what a model may contain.</td><td>UML's rulebook says a class diagram has boxes (classes) and lines (associations); each class diagram is an instance of it.</td></tr>
+<tr><td>System model</td><td>One repo's blueprint: its things, its steps, its rules, and which code writes which records. File: <code>docs/model/ARCHITECTURE.md</code>.</td><td>"Rule: a commit needs a plan tag. Done by <code>commit_rule.py</code>. Proved by <code>test_commit_rule.py</code>."</td></tr>
+<tr><td>Trace file</td><td>The machine-checked list behind the system model: rule → file that does it → test → decision. File: <code>docs/model/trace.yaml</code>.</td><td>The checker fails if the named test file was deleted.</td></tr>
+<tr><td>Intent model</td><td>The model of one slice, each piece marked "decided" or "guessed", with status computed from recorded test runs.</td><td>qualitative_coding <code>docs/model/slice1/intent.md</code>.</td></tr>
+<tr><td>Framework (megamodel)</td><td>The rule for which kinds of model a repo gets and how each is checked against the code.</td><td>Every repo gets a domain model and a data-flow model; each has an intended version and a generated one, compared by a test.</td></tr>
+<tr><td>arc42</td><td>A standard outline for architecture documents (goals, context, runtime, decisions, glossary ...). Our system model uses its section names.</td><td>Section 1 "Introduction and Goals".</td></tr>
+<tr><td>C4</td><td>A standard set of diagrams by zoom level: system, containers, components, code.</td><td>Zoom from "AES talks to GitHub" down to the classes in one module.</td></tr>
+<tr><td>ODD</td><td>Overview, Design concepts, Details: an outline made for describing simulations. Replaced by arc42 + C4 for software on 10-10.</td><td>Still the right outline for an agent-based simulation.</td></tr>
+<tr><td>Zachman</td><td>A grid for sorting architecture descriptions: six questions (what, how, where, who, when, why) by six viewpoints. It sorts models; it does not say how to check them.</td><td>Our system model fills roughly the what, how and why cells at the builder's row.</td></tr>
+<tr><td>DoDAF</td><td>The US defense architecture framework: a fixed set of required views plus a metamodel linking them.</td><td>Used in the dodaf repo.</td></tr>
+</table>
+
+<h2>4. What happens next</h2>
+<table>
+<tr><th>Step</th><th>Who</th><th>Why</th></tr>
+<tr><td>This page, linked from the AES wiki; AES durable-docs plan now says arc42 + C4</td><td><span class="tag t-now">done in this change</span></td><td>Gives every session one place that lists the split, and removes the main contradiction from AES.</td></tr>
+<tr><td>Merge the model-framework README into AES main with a corrected status header</td><td><span class="tag t-lane">pilot session</span></td><td>Your framework asks become visible. Its owner is live and holds the claim, so it is handed over, not taken.</td></tr>
+<tr><td>Rename company-planning <code>docs/model/ODD.md</code> to <code>ARCHITECTURE.md</code>; join qc's trace file to its intent model</td><td><span class="tag t-lane">pilot session</span></td><td>Same owner; both files are in its active work.</td></tr>
+<tr><td>Short glossary (section 3 above)</td><td><span class="tag t-now">done in this change</span></td><td>Your repeated term questions are the reader need the deferred glossary was waiting for.</td></tr>
+<tr><td>Close the daily-check blind spot; fix the gate refusals (#99, #107)</td><td><span class="tag t-lane">concern queue</span></td><td>Owned by project-meta and company-planning respectively.</td></tr>
+<tr><td>Framework choice: keep arc42 + C4 per repo, treat the catalogue of model kinds as the framework layer above it, add a note on where Zachman (a classification grid) and DoDAF fit</td><td><span class="tag t-you">default unless you object</span></td><td>Answers "framework, not one model" without reopening PR #116.</td></tr>
+<tr><td>Delete stale side branches</td><td><span class="tag t-you">ask first</span></td><td>Only after checking their content is on main and keeping an archive copy; deletion cannot be undone.</td></tr>
+</table>
+</main>
+<script>
+const bs=[...document.querySelectorAll('button.f')],li=[...document.querySelectorAll('#items li')];
+bs.forEach(b=>b.addEventListener('click',()=>{bs.forEach(x=>x.setAttribute('aria-pressed',x===b));const k=b.dataset.k;li.forEach(l=>l.hidden=!(k==='all'||l.dataset.k===k));b.classList.add('tap');setTimeout(()=>b.classList.remove('tap'),1600)}));
+</script>
+</body></html>

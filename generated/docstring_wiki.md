@@ -9,12 +9,12 @@ artifacts. Open the cited source for full context and current truth.
 
 ## Coverage
 
-- Tracked artifacts: 1000
-- Artifacts with source summaries: 394
-- Coverage findings: 1023
-- Finding types: python-docstring-missing=1023
+- Tracked artifacts: 1022
+- Artifacts with source summaries: 399
+- Coverage findings: 1027
+- Finding types: python-docstring-missing=1027
 
-## Source (184)
+## Source (186)
 
 ### `datasets/learning-loop/experiments/2026-10-02-question-design/hier.py`
 
@@ -1478,6 +1478,18 @@ reach.py REPO_PATH [REF] [--list] : can a reader reach every reader document fro
 
 _Coverage findings: python-docstring-missing._
 
+### `proposals/aes-durable-docs/evidence/m5-sample-tools/gen.py`
+
+Write the per-plan sections of m5-disproof-sample.md from git, for the first 10 candidates.
+
+_Coverage findings: python-docstring-missing._
+
+### `proposals/aes-durable-docs/evidence/m5-sample-tools/select.py`
+
+_No source-local artifact summary._
+
+_Coverage findings: python-docstring-missing._
+
 ### `proposals/aes-durable-docs/review-page/build_page.py`
 
 Build index.html (the visual review page) from ../PLAN.md.
@@ -2935,32 +2947,33 @@ _Coverage findings: python-docstring-missing._
 
 **Symbols**
 
-- `_git_local_env_vars` · `_git_local_env_vars() -> tuple[str, ...]` · line 178: AES implementation extension: cache Git's documented hook-local names.
-- `_foreign_git_env` · `_foreign_git_env() -> dict[str, str]` · line 185: Clear repository-local hook context for foreign Git calls, preserving auth.
-- `repository_names` · `repository_names(root: Path) -> tuple[str, ...]` · line 197: What a conflict surface's `repository` may say to mean this repository, lower-cased: origin's `owner/repo` and `repo`, and the main checkout's folder name (a linked worktree's own folder name is not the repository's).
-- `unit_scripts` · `unit_scripts(root: Path) -> frozenset[str]` · line 215: Tracked files that a systemd unit tracked in this repository runs: every token of an Exec* line that ends with a tracked file's path (units name scripts by absolute or %h paths).
-- `_front_matter_plan_id` · `_front_matter_plan_id(meta: object) -> str | None` · line 317: A plan's id: `plan_id:`, or `id:` as Company Planning's `skeleton` writes it for a design plan (artifact_type: design_plan); found 2026-10-08 when a skeleton-built plan's own [Goal <id>] commit was reported as "no plan found".
-- `_adoption` · `_adoption(read, plan_rel: str, where: str) -> tuple[bool, str, dict]` · line 342: The adoption check over any byte source: `read(path relative to the plan root)` returns the file's bytes or None. `where` names the plan in messages. The third value is the plan's front matter (empty when the plan is missing).
-- `plan_adoption` · `plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]` · line 376: Whether `plan` declares a Company Planning receipt whose adoption decision is `adopted` for the current bytes of both the plan and the receipt; the reason either way.
-- `in_surface` · `in_surface(path: str, target: str) -> bool` · line 409: Whether `path` lies in a repository_path surface `target`: the same file, anything under that directory, or a glob match (`*` and `?` stay within one directory, `**` crosses them).
-- `write_scope` · `write_scope(meta: dict, names: tuple[str, ...]) -> list[str]` · line 419: The plan's `conflict_surfaces` targets this repository may write: Company Planning's work-unit `conflictSurface` shape, `kind: repository_path`, `access: write | exclusive`, and a `repository` that names this repository. Other entries (read access, other kinds, other repositories, malformed ones) grant nothing.
-- `adopted_write_scopes` · `adopted_write_scopes(plan_roots: tuple[Path, ...], names: tuple[str, ...]) -> list[str]` · line 436: Write surfaces for this repository of every adopted plan under `plan_roots` (`docs/plans/*.md`, `proposals/*/*.md`). Only plans whose front matter mentions `conflict_surfaces` are parsed and checked.
-- `workspace_plan_roots` · `workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] = ()) -> list[Path]` · line 466: Repositories directly under `workspace` holding a plan whose front matter names `plan_id`.
-- `fetch_all` · `fetch_all(workspace: Path, timeout: int = 60) -> list[str]` · line 512: `git fetch origin` in every repository directly under `workspace`, 16 at a time, so the plan index reads each default branch as GitHub has it (a plan merged there is not in a clone's origin/HEAD until a fetch). Never prompts for credentials. Returns one line per failure.
-- `build_plan_index` · `build_plan_index(workspace: Path, path: Path | None = None) -> dict` · line 532: Which plan ids each repository directly under `workspace` holds on its default branch (read through git, not its working tree, which may sit on another branch). Incremental: a repository whose default-branch commit is unchanged keeps its previous entry, so only moved repositories are re-read (a full rebuild over ~/code takes about 20 s, a refresh a few).
-- `_refresh_index_in_background` · `_refresh_index_in_background(workspace: Path) -> None` · line 585: Start an index rebuild that outlives this commit; the next commit reads its result. AES_PLAN_INDEX_REFRESH=0 turns this off (tests build the index explicitly).
-- `indexed_adoption` · `indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, str, dict]], bool]` · line 611: Judge `plan_id` from each repository's default branch as recorded in the plan index. Returns the per-candidate verdicts and whether the index was missing or stale (and so a background refresh was started).
-- `receipt_status` · `receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None, plan_workspace: Path | None = None) -> tuple[bool, str]` · line 641: Whether the named plan has a current adopted Company Planning receipt, and why not.
-- `staged_adoption` · `staged_adoption(root: Path, number: str | None, plan_id: str | None) -> tuple[bool, str, dict] | None` · line 651: The named plan as staged in the commit being made, judged from the index (with the working tree as fallback for files the commit does not touch): a plan adopted and committed together with its first work exists nowhere else yet. None when the commit stages no such plan.
-- `adopted_plan` · `adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None, plan_workspace: Path | None = None, index_root: Path | None = None) -> tuple[bool, str, dict]` · line 681: `receipt_status`, plus the adopted plan's front matter (empty unless adopted).
-- `_plan_text` · `_plan_text(config: RuleConfig, plan_id: str) -> tuple[Path, str, str] | None` · line 725: (repository, plan path relative to it, text) of the named plan: the plan roots and the workspace checkouts first, then each repository's default branch from the plan index.
-- `quick_plan_notes` · `quick_plan_notes(plan_id: str, changes: list[FileChange], config: RuleConfig) -> list[str]` · line 748: For a plan made by Company Planning's quick-adopt (front matter `planning_path: requested`): whether the commit's changes stay inside the plan's file list (its Vertical and reset section, plus the plan's own folder and AES evidence records) and whether the plan's saved check output (`<plan folder>/<id>.check.txt`) is present. Notes only: they never change the verdict.
-- `unreached_new_docs` · `unreached_new_docs(root: Path, added: list[str]) -> list[str]` · line 789: The added reader documents that wiki/index.md does not reach within two links in the staged tree (the index), by the daily check's rules: instruction files, hidden folders, test fixtures, templates, generated output and `.md-file-cap.yaml` `unlinked_ok` paths are exempt.
-- `judge` · `judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig, legacy: frozenset[str] = frozenset()) -> Verdict` · line 856: The tag's verdict (with the legacy-edit check), plus notes for a quick-adopt plan.
-- `_judge_with_legacy` · `_judge_with_legacy(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig, legacy: frozenset[str] = frozenset()) -> Verdict` · line 887: The tag's verdict, then the adopted repository's legacy-edit check (`adopt`). An `Asked:` line is recorded on the verdict either way and never changes it: being asked does not make large work trivial.
-- `_legacy` · `_legacy(root: Path, *, released: bool = True) -> frozenset[str]` · line 988: Legacy baseline paths the target does not plan, minus (with `released`) those an adopted plan's scope released (`adopt.unplanned_legacy`); empty outside an adopted AES project. The pre-commit hook has already refused a target that does not load, so a load error here is raised.
-- `check_message` · `check_message(root: Path, message_file: Path) -> tuple[int, str]` · line 1010: Judge the commit being made; return (exit status, report). Observe mode never refuses.
-- `replay` · `replay(root: Path, revisions: str = 'HEAD', max_count: int = 300) -> tuple[list[tuple[str, str, Verdict]], dict[str, int]]` · line 1032: Judge past commits (non-merge, first-parent order) with today's rule and today's receipts. Legacy is today's baseline without the scope release: a file the replayed commits themselves changed is still judged against the plan each commit names.
+- `_git_local_env_vars` · `_git_local_env_vars() -> tuple[str, ...]` · line 185: AES implementation extension: cache Git's documented hook-local names.
+- `_foreign_git_env` · `_foreign_git_env() -> dict[str, str]` · line 192: Clear repository-local hook context for foreign Git calls, preserving auth.
+- `repository_names` · `repository_names(root: Path) -> tuple[str, ...]` · line 204: What a conflict surface's `repository` may say to mean this repository, lower-cased: origin's `owner/repo` and `repo`, and the main checkout's folder name (a linked worktree's own folder name is not the repository's).
+- `unit_scripts` · `unit_scripts(root: Path) -> frozenset[str]` · line 222: Tracked files that a systemd unit tracked in this repository runs: every token of an Exec* line that ends with a tracked file's path (units name scripts by absolute or %h paths).
+- `skipped_by` · `skipped_by(root: Path, config: RuleConfig) -> Path | None` · line 285: The machine-wide skip root `root` lies under, if any.
+- `_front_matter_plan_id` · `_front_matter_plan_id(meta: object) -> str | None` · line 336: A plan's id: `plan_id:`, or `id:` as Company Planning's `skeleton` writes it for a design plan (artifact_type: design_plan); found 2026-10-08 when a skeleton-built plan's own [Goal <id>] commit was reported as "no plan found".
+- `_adoption` · `_adoption(read, plan_rel: str, where: str) -> tuple[bool, str, dict]` · line 361: The adoption check over any byte source: `read(path relative to the plan root)` returns the file's bytes or None. `where` names the plan in messages. The third value is the plan's front matter (empty when the plan is missing).
+- `plan_adoption` · `plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]` · line 395: Whether `plan` declares a Company Planning receipt whose adoption decision is `adopted` for the current bytes of both the plan and the receipt; the reason either way.
+- `in_surface` · `in_surface(path: str, target: str) -> bool` · line 428: Whether `path` lies in a repository_path surface `target`: the same file, anything under that directory, or a glob match (`*` and `?` stay within one directory, `**` crosses them).
+- `write_scope` · `write_scope(meta: dict, names: tuple[str, ...]) -> list[str]` · line 438: The plan's `conflict_surfaces` targets this repository may write: Company Planning's work-unit `conflictSurface` shape, `kind: repository_path`, `access: write | exclusive`, and a `repository` that names this repository. Other entries (read access, other kinds, other repositories, malformed ones) grant nothing.
+- `adopted_write_scopes` · `adopted_write_scopes(plan_roots: tuple[Path, ...], names: tuple[str, ...]) -> list[str]` · line 455: Write surfaces for this repository of every adopted plan under `plan_roots` (`docs/plans/*.md`, `proposals/*/*.md`). Only plans whose front matter mentions `conflict_surfaces` are parsed and checked.
+- `workspace_plan_roots` · `workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] = ()) -> list[Path]` · line 485: Repositories directly under `workspace` holding a plan whose front matter names `plan_id`.
+- `fetch_all` · `fetch_all(workspace: Path, timeout: int = 60) -> list[str]` · line 531: `git fetch origin` in every repository directly under `workspace`, 16 at a time, so the plan index reads each default branch as GitHub has it (a plan merged there is not in a clone's origin/HEAD until a fetch). Never prompts for credentials. Returns one line per failure.
+- `build_plan_index` · `build_plan_index(workspace: Path, path: Path | None = None) -> dict` · line 551: Which plan ids each repository directly under `workspace` holds on its default branch (read through git, not its working tree, which may sit on another branch). Incremental: a repository whose default-branch commit is unchanged keeps its previous entry, so only moved repositories are re-read (a full rebuild over ~/code takes about 20 s, a refresh a few).
+- `_refresh_index_in_background` · `_refresh_index_in_background(workspace: Path) -> None` · line 604: Start an index rebuild that outlives this commit; the next commit reads its result. AES_PLAN_INDEX_REFRESH=0 turns this off (tests build the index explicitly).
+- `indexed_adoption` · `indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, str, dict]], bool]` · line 630: Judge `plan_id` from each repository's default branch as recorded in the plan index. Returns the per-candidate verdicts and whether the index was missing or stale (and so a background refresh was started).
+- `receipt_status` · `receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None, plan_workspace: Path | None = None) -> tuple[bool, str]` · line 660: Whether the named plan has a current adopted Company Planning receipt, and why not.
+- `staged_adoption` · `staged_adoption(root: Path, number: str | None, plan_id: str | None) -> tuple[bool, str, dict] | None` · line 670: The named plan as staged in the commit being made, judged from the index (with the working tree as fallback for files the commit does not touch): a plan adopted and committed together with its first work exists nowhere else yet. None when the commit stages no such plan.
+- `adopted_plan` · `adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None, plan_workspace: Path | None = None, index_root: Path | None = None) -> tuple[bool, str, dict]` · line 700: `receipt_status`, plus the adopted plan's front matter (empty unless adopted).
+- `_plan_text` · `_plan_text(config: RuleConfig, plan_id: str) -> tuple[Path, str, str] | None` · line 744: (repository, plan path relative to it, text) of the named plan: the plan roots and the workspace checkouts first, then each repository's default branch from the plan index.
+- `quick_plan_notes` · `quick_plan_notes(plan_id: str, changes: list[FileChange], config: RuleConfig) -> list[str]` · line 767: For a plan made by Company Planning's quick-adopt (front matter `planning_path: requested`): whether the commit's changes stay inside the plan's file list (its Vertical and reset section, plus the plan's own folder and AES evidence records) and whether the plan's saved check output (`<plan folder>/<id>.check.txt`) is present. Notes only: they never change the verdict.
+- `unreached_new_docs` · `unreached_new_docs(root: Path, added: list[str]) -> list[str]` · line 808: The added reader documents that wiki/index.md does not reach within two links in the staged tree (the index), by the daily check's rules: instruction files, hidden folders, test fixtures, templates, generated output and `.md-file-cap.yaml` `unlinked_ok` paths are exempt.
+- `judge` · `judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig, legacy: frozenset[str] = frozenset()) -> Verdict` · line 875: The tag's verdict (with the legacy-edit check), plus notes for a quick-adopt plan.
+- `_judge_with_legacy` · `_judge_with_legacy(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig, legacy: frozenset[str] = frozenset()) -> Verdict` · line 906: The tag's verdict, then the adopted repository's legacy-edit check (`adopt`). An `Asked:` line is recorded on the verdict either way and never changes it: being asked does not make large work trivial.
+- `_legacy` · `_legacy(root: Path, *, released: bool = True) -> frozenset[str]` · line 1007: Legacy baseline paths the target does not plan, minus (with `released`) those an adopted plan's scope released (`adopt.unplanned_legacy`); empty outside an adopted AES project. The pre-commit hook has already refused a target that does not load, so a load error here is raised.
+- `check_message` · `check_message(root: Path, message_file: Path) -> tuple[int, str]` · line 1029: Judge the commit being made; return (exit status, report). Observe mode never refuses.
+- `replay` · `replay(root: Path, revisions: str = 'HEAD', max_count: int = 300) -> tuple[list[tuple[str, str, Verdict]], dict[str, int]]` · line 1057: Judge past commits (non-merge, first-parent order) with today's rule and today's receipts. Legacy is today's baseline without the scope release: a file the replayed commits themselves changed is still judged against the plan each commit names.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3272,19 +3285,21 @@ SC-AP-001: the commit-tag rule, through the installed commit-msg hook on real co
 - `test_an_older_aes_without_the_rule_warns_and_does_not_block` · `test_an_older_aes_without_the_rule_warns_and_does_not_block(repo: Path, tmp_path: Path) -> None` · line 318: A main checkout on an older branch must not stop every commit in every worktree.
 - `test_in_aes_itself_the_hooks_run_the_working_copy_code` · `test_in_aes_itself_the_hooks_run_the_working_copy_code() -> None` · line 335: Both hooks put `<root>/src` first when the repository is AES, so a worktree is checked by its own code, not by the branch the shared venv's editable install points at.
 - `test_machine_config_reaches_repositories_without_their_own` · `test_machine_config_reaches_repositories_without_their_own(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 348: A plain repository takes the machine-wide mode; a per-repository entry overrides it; a repo file wins.
-- `test_auto_tag_names_its_job_and_touches_no_running_thing` · `test_auto_tag_names_its_job_and_touches_no_running_thing() -> None` · line 367: [Auto] is for scheduled jobs: it must name the job and may not change anything that runs.
-- `test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans` · `test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans(repo: Path) -> None` · line 378: Staged enforcement: tags and trivial size are refused; a plan that is not adopted is only logged.
-- `test_goal_plan_owned_by_another_repository_resolves_through_the_workspace` · `test_goal_plan_owned_by_another_repository_resolves_through_the_workspace(repo: Path, tmp_path: Path) -> None` · line 391: Federated plans: the plan and its receipt live in the repository that owns them; a commit in another repository under the same workspace that names it is judged against it.
-- `test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere` · `test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere(repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 412: The owner repository's checkout sits on a branch without the plan; its main has it. The working-tree scan cannot see it; the plan index, read from main through git, can.
-- `test_foreign_plan_reads_preserve_repository_identity_under_hook_environment` · `test_foreign_plan_reads_preserve_repository_identity_under_hook_environment(repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 447: AES #483: Git's hook environment used PM objects for every foreign repo.
-- `test_conflict_surface_matching_and_repository_names` · `test_conflict_surface_matching_and_repository_names(tmp_path: Path) -> None` · line 515: #218: the scope vocabulary is Company Planning's conflictSurface; only write/exclusive repository_path surfaces naming this repository grant edits.
-- `test_asked_line_is_recorded_and_never_changes_the_verdict` · `test_asked_line_is_recorded_and_never_changes_the_verdict() -> None` · line 545: Asked: says who wanted the change, in their words; size and effect still decide the tag.
-- `test_plan_index_does_not_cache_a_failed_search_as_no_plans` · `test_plan_index_does_not_cache_a_failed_search_as_no_plans(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 558: git grep exits 1 for 'no match' and 2+ for an error; an error must not be recorded as 'this repository holds no plans', or the plan stays invisible until the repository's main moves.
-- `_last_log` · `_last_log(root: Path) -> dict` · line 597: The rule's own record of the commit just attempted (the hook writes one JSON line per verdict).
-- `_quick_plan` · `_quick_plan(root: Path, plan_id: str, files: list[str]) -> None` · line 603: A plan shaped like Company Planning's quick-adopt output, with an adoption decision bound to its bytes.
-- `test_quick_plan_commit_is_logged_for_its_check_output_and_file_list` · `test_quick_plan_commit_is_logged_for_its_check_output_and_file_list(repo: Path) -> None` · line 617: Plan commit-rule-followups: for a quick-adopt plan, the rule logs whether the commit adds the saved check output and stays inside the plan's file list. The notes never change the verdict.
-- `test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs` · `test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs(repo: Path) -> None` · line 664: conftest.py changes every test run; a script named in a tracked unit's ExecStart runs on a schedule.
-- `test_plan_names_with_capital_letters_are_read_as_plan_tags` · `test_plan_names_with_capital_letters_are_read_as_plan_tags(repo: Path) -> None` · line 687: #193: '[Goal PATH-brent-v1-2026-10-02]' was logged as 'no tag'. A plan id may contain capitals.
+- `test_machine_skip_roots_exempt_throwaway_repositories_and_nothing_else` · `test_machine_skip_roots_exempt_throwaway_repositories_and_nothing_else(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 367: Issue #488: a repository under a machine-wide skip root commits untagged with a logged skip; one outside it is still refused; a repository's own file can neither name nor inherit a skip.
+- `test_skip_root_at_or_above_home_is_ignored` · `test_skip_root_at_or_above_home_is_ignored(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 412: A too-broad skip root ('/', '~') must not switch the rule off for every repository (issue #488).
+- `test_auto_tag_names_its_job_and_touches_no_running_thing` · `test_auto_tag_names_its_job_and_touches_no_running_thing() -> None` · line 426: [Auto] is for scheduled jobs: it must name the job and may not change anything that runs.
+- `test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans` · `test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans(repo: Path) -> None` · line 437: Staged enforcement: tags and trivial size are refused; a plan that is not adopted is only logged.
+- `test_goal_plan_owned_by_another_repository_resolves_through_the_workspace` · `test_goal_plan_owned_by_another_repository_resolves_through_the_workspace(repo: Path, tmp_path: Path) -> None` · line 450: Federated plans: the plan and its receipt live in the repository that owns them; a commit in another repository under the same workspace that names it is judged against it.
+- `test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere` · `test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere(repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 471: The owner repository's checkout sits on a branch without the plan; its main has it. The working-tree scan cannot see it; the plan index, read from main through git, can.
+- `test_foreign_plan_reads_preserve_repository_identity_under_hook_environment` · `test_foreign_plan_reads_preserve_repository_identity_under_hook_environment(repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 506: AES #483: Git's hook environment used PM objects for every foreign repo.
+- `test_conflict_surface_matching_and_repository_names` · `test_conflict_surface_matching_and_repository_names(tmp_path: Path) -> None` · line 574: #218: the scope vocabulary is Company Planning's conflictSurface; only write/exclusive repository_path surfaces naming this repository grant edits.
+- `test_asked_line_is_recorded_and_never_changes_the_verdict` · `test_asked_line_is_recorded_and_never_changes_the_verdict() -> None` · line 604: Asked: says who wanted the change, in their words; size and effect still decide the tag.
+- `test_plan_index_does_not_cache_a_failed_search_as_no_plans` · `test_plan_index_does_not_cache_a_failed_search_as_no_plans(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 617: git grep exits 1 for 'no match' and 2+ for an error; an error must not be recorded as 'this repository holds no plans', or the plan stays invisible until the repository's main moves.
+- `_last_log` · `_last_log(root: Path) -> dict` · line 656: The rule's own record of the commit just attempted (the hook writes one JSON line per verdict).
+- `_quick_plan` · `_quick_plan(root: Path, plan_id: str, files: list[str]) -> None` · line 662: A plan shaped like Company Planning's quick-adopt output, with an adoption decision bound to its bytes.
+- `test_quick_plan_commit_is_logged_for_its_check_output_and_file_list` · `test_quick_plan_commit_is_logged_for_its_check_output_and_file_list(repo: Path) -> None` · line 676: Plan commit-rule-followups: for a quick-adopt plan, the rule logs whether the commit adds the saved check output and stays inside the plan's file list. The notes never change the verdict.
+- `test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs` · `test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs(repo: Path) -> None` · line 723: conftest.py changes every test run; a script named in a tracked unit's ExecStart runs on a schedule.
+- `test_plan_names_with_capital_letters_are_read_as_plan_tags` · `test_plan_names_with_capital_letters_are_read_as_plan_tags(repo: Path) -> None` · line 746: #193: '[Goal PATH-brent-v1-2026-10-02]' was logged as 'no tag'. A plan id may contain capitals.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3588,7 +3603,7 @@ The legacy sort's evidence check rejects answers its quote or the file facts do 
 
 _Coverage findings: python-docstring-missing._
 
-## Documentation (225)
+## Documentation (237)
 
 ### `.agentic/events/README.md`
 
@@ -3894,6 +3909,46 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
+### `docs/plans/commit-rule-skip-roots.adoption-attempts.jsonl`
+
+_No source-local artifact summary._
+
+### `docs/plans/commit-rule-skip-roots.adoption-decision.json`
+
+_No source-local artifact summary._
+
+### `docs/plans/commit-rule-skip-roots.bundle.json`
+
+_No source-local artifact summary._
+
+### `docs/plans/commit-rule-skip-roots.check.txt`
+
+_No source-local artifact summary._
+
+### `docs/plans/commit-rule-skip-roots.facts.json`
+
+_No source-local artifact summary._
+
+### `docs/plans/commit-rule-skip-roots.goal.md`
+
+Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/commit-rule-skip-roots.md` (plan sha256 b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+
+### `docs/plans/commit-rule-skip-roots.md`
+
+Preserve the failed check and its execution trace id. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. Investigate an unresolved cause before authorizing a causal repair. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
+
+### `docs/plans/commit-rule-skip-roots.path-decision.json`
+
+_No source-local artifact summary._
+
+### `docs/plans/commit-rule-skip-roots.receipt.json`
+
+_No source-local artifact summary._
+
+### `docs/plans/commit-rule-skip-roots.verdicts.json`
+
+_No source-local artifact summary._
+
 ### `docs/plans/rules-register.adoption-attempts.jsonl`
 
 _No source-local artifact summary._
@@ -4061,6 +4116,14 @@ Review of the fresh Haiku reader's trace answering the canonical question in AES
 ### `proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader-review.md`
 
 Review of the fresh Haiku reader's trace answering the canonical question in company-planning (Plan
+
+### `proposals/aes-durable-docs/evidence/m5-disproof-sample.md`
+
+M5 disproof sample for aes-durable-docs, run 2026-10-11 under the amended timing and population; the disproof condition fires (9 of 10 none or mechanical), because the rule was not in effect for 8 of the 10 plans (stale installed plugin or repository not yet declared)
+
+### `proposals/aes-durable-docs/evidence/m5-rollout.md`
+
+Inventory: `m5-inventory.json` (22 active governed repositories, built by Haiku readers on 2026-10-11). Each repository got one PR that adds its durable document set (system model at `docs/model/ARCHITECTURE.md`, per company-planning#116), checked with `durable_docs_check.py --arc42` and the repository's own local check before merge. "Daily check" is `project-meta/scripts/md_file_cap.py --repo <path> --ref origin/main`, run after merge; `durable=ok(0)` means zero durable-set findings on main.
 
 ### `proposals/aes-feedback-prevention/PLAN.md`
 
@@ -4576,7 +4639,7 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-## Other (519)
+## Other (527)
 
 ### `.aes/commit_rule.yaml`
 
@@ -5402,6 +5465,26 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
+### `proposals/aes-durable-docs/evidence/m5-aes-canonical-cold-reader.jsonl`
+
+_No source-local artifact summary._
+
+### `proposals/aes-durable-docs/evidence/m5-company-planning-cold-reader-question.txt`
+
+_No source-local artifact summary._
+
+### `proposals/aes-durable-docs/evidence/m5-company-planning-cold-reader.jsonl`
+
+_No source-local artifact summary._
+
+### `proposals/aes-durable-docs/evidence/m5-inventory.json`
+
+_No source-local artifact summary._
+
+### `proposals/aes-durable-docs/evidence/m5-sample-tools/run-reader.sh`
+
+_No source-local artifact summary._
+
 ### `proposals/aes-durable-docs/review-page/aes-durable-docs-plan-1440.png`
 
 _No source-local artifact summary._
@@ -5423,6 +5506,10 @@ _No source-local artifact summary._
 _No source-local artifact summary._
 
 ### `proposals/aes-durable-docs/review-page/index.html`
+
+_No source-local artifact summary._
+
+### `proposals/aes-durable-docs/review-page/modeling-review.html`
 
 _No source-local artifact summary._
 
@@ -5498,7 +5585,15 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
+### `proposals/aes-learning-loop/review-page/feedback-models.html`
+
+_No source-local artifact summary._
+
 ### `proposals/aes-learning-loop/review-page/index.html`
+
+_No source-local artifact summary._
+
+### `proposals/aes-learning-loop/review-page/whole-picture.html`
 
 _No source-local artifact summary._
 
