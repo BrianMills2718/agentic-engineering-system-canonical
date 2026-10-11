@@ -1,4 +1,5 @@
 ---
+description: Capability reuse is enforced at plan adoption against one shared catalogue
 doc_role: active_authority
 authority: canonical_if_merged
 status: accepted
@@ -8,6 +9,8 @@ reversible: true
 ---
 
 # Decision 0012 - Capability reuse is enforced at plan adoption against one catalogue
+
+Governs: docs/architecture/SYSTEM_BOUNDARY.md#aes-cap-002--external-first-provider-sourcing
 
 ## Context
 

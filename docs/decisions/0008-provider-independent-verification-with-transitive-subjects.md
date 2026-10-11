@@ -1,4 +1,5 @@
 ---
+description: Verification is provider-independent and evidence is reused only while its executed subjects are unchanged
 doc_role: active_authority
 authority: canonical_if_merged
 status: accepted
@@ -10,6 +11,8 @@ supersedes:
 ---
 
 # Decision 0008 — Verification is provider-independent and evidence reuse follows the executed subject closure
+
+Governs: RULE-DEPENDENCY-CHANGE-STALES
 
 ## Context
 

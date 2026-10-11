@@ -1,4 +1,5 @@
 ---
+description: Freeze the minimal architecture-realization contract on JSON Schema 2020-12
 doc_role: active_authority
 authority: canonical_if_merged
 status: accepted
@@ -10,6 +11,8 @@ resolves:
 ---
 
 # Decision 0006 — Freeze the minimal AES architecture-realization contract on JSON Schema 2020-12
+
+Governs: docs/architecture/schemas/architecture-realization.bootstrap.schema.json
 
 ## Context
 

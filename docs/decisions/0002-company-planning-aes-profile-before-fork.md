@@ -1,4 +1,5 @@
 ---
+description: Use a Company Planning profile inside AES before changing or forking Company Planning
 doc_role: active_authority
 authority: canonical_if_merged
 status: accepted
@@ -10,6 +11,8 @@ resolves:
 ---
 
 # Decision 0002 — Use an AES Company Planning profile before modifying or forking Company Planning
+
+Governs: docs/architecture/aes-company-planning-profile.bootstrap.yaml
 
 ## Context
 

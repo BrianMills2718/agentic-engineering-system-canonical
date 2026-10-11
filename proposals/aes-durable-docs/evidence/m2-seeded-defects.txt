@@ -1,0 +1,46 @@
+$ cd proposals/aes-durable-docs && python3 -m pytest test_durable_docs_check.py -p no:cacheprovider -o addopts='' -rA
+revision: 23e413a2c1c78c5280a97c9f7666fbcbc9f78058 (+ uncommitted M1/M2 files)
+date: 2026-10-10T23:03:44Z
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/brian/code/agentic-engineering-system-canonical/worktrees/shaping/aes-durable-docs
+configfile: pyproject.toml
+plugins: anyio-4.14.2, asyncio-1.4.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 25 items
+
+test_durable_docs_check.py .........................                     [100%]
+
+==================================== PASSES ====================================
+_____________________ test_missing_block_is_invalid_input ______________________
+----------------------------- Captured stdout call -----------------------------
+INVALID: .agentic/repo.yaml has no durable_documents block
+durable-docs: mode=repo repo=/tmp/pytest-of-brian/pytest-234/test_missing_block_is_invalid_0 invalid input, exit 2
+=========================== short test summary info ============================
+PASSED test_durable_docs_check.py::test_clean_repository_has_no_findings
+PASSED test_durable_docs_check.py::test_invalid_block_is_reported
+PASSED test_durable_docs_check.py::test_missing_block_is_invalid_input
+PASSED test_durable_docs_check.py::test_goal_placeholder_thesis
+PASSED test_durable_docs_check.py::test_requirement_without_disproof
+PASSED test_durable_docs_check.py::test_owner_path_missing
+PASSED test_durable_docs_check.py::test_two_owners_refused
+PASSED test_durable_docs_check.py::test_check_path_missing
+PASSED test_durable_docs_check.py::test_rule_without_check
+PASSED test_durable_docs_check.py::test_process_enforcing_unknown_rule
+PASSED test_durable_docs_check.py::test_unresolvable_decision_link
+PASSED test_durable_docs_check.py::test_decision_without_governs
+PASSED test_durable_docs_check.py::test_stale_rule_after_owner_change
+PASSED test_durable_docs_check.py::test_reviewed_at_clears_staleness
+PASSED test_durable_docs_check.py::test_parallel_requirements_document
+PASSED test_durable_docs_check.py::test_arc42_missing_heading
+PASSED test_durable_docs_check.py::test_arc42_wrong_number
+PASSED test_durable_docs_check.py::test_arc42_unlabelled_extension
+PASSED test_durable_docs_check.py::test_plan_without_declaration_refused
+PASSED test_durable_docs_check.py::test_plan_declared_document_unchanged_refused
+PASSED test_durable_docs_check.py::test_plan_declared_document_changed_passes
+PASSED test_durable_docs_check.py::test_plan_unknown_id_refused
+PASSED test_durable_docs_check.py::test_plan_none_needs_reason
+PASSED test_durable_docs_check.py::test_plan_none_with_reason_passes
+PASSED test_durable_docs_check.py::test_cli_exit_codes_and_summary
+============================= 25 passed in 15.13s ==============================
+exit=0

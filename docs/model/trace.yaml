@@ -1,0 +1,95 @@
+# Checked trace for AES canonical's system model (prose: ODD.md beside this file).
+# Each rule names one owner file that enforces it, the tests that prove it can fail,
+# and the decision records that say why. The rule text itself lives in the owner's
+# docstring and in .aes/target.yaml; the statements below are one-line pointers.
+# Checked by company-planning plugins/company-planning/scripts/durable_docs_check.py.
+reviewed_at: 2026-10-11
+scope: >-
+  The v0.2 governance loop (Decision 0010): commit tags, plan acceptance, characterization,
+  evidence standing and reconciliation. The v0.1 line (Plan 002), the repository-context
+  package and the Company Planning profile files are not modelled here (gap G1 in ODD.md).
+entities:
+  - {id: ENT-COMMIT, what: a git commit and the tag on its first line}
+  - {id: ENT-PLAN, what: a Company Planning plan with its adoption decision and receipt}
+  - {id: ENT-TARGET, what: ".aes/target.yaml: outcomes, normative items, success criteria, planned artifacts, verification subjects"}
+  - {id: ENT-PROPOSAL, what: a target delta plus the gap ids it claims to close}
+  - {id: ENT-OBSERVATION, what: an append-only evidence record bound to a revision and its dependency paths}
+  - {id: ENT-CHARACTERIZATION, what: what HEAD contains under the governed roots, file blobs and Python symbols}
+processes:
+  - id: PROC-COMMIT-CHECK
+    what: "the commit-msg hook runs `aes commit check` on every commit"
+    enforces: [RULE-COMMIT-TAG, RULE-PLAN-ADOPTED-FOR-COMMIT]
+  - id: PROC-PLAN-ACCEPT
+    what: "`aes plan validate` / `aes plan accept` apply a proposal to the target"
+    enforces: [RULE-PLAN-RECEIPT-FOR-ACCEPT, RULE-TRACE-REVIEW-DECLARED]
+  - id: PROC-RECONCILE
+    what: "`aes status` / `aes reconcile` compose characterization, drift and evidence into current state and gaps"
+    enforces: [RULE-DRIFT-DETECTED, RULE-INSUFFICIENT-NOT-GREEN, RULE-DEPENDENCY-CHANGE-STALES]
+rules:
+  - id: RULE-COMMIT-TAG
+    statement: >-
+      Every commit's first line carries one tag ([Plan #N], [Goal id], [Trivial], [Unplanned], [Shaping id], [Auto]);
+      [Trivial] is decided by measured size and paths, not by the tag (RU-AES-COMMIT-RULE, AP-REQ-001, SC-AP-001).
+    owner: src/agentic_engineering_system/commit_rule.py
+    checks:
+      - tests/greenfield/test_commit_rule.py::test_unplanned_running_thing_without_emergency_is_refused_naming_the_files
+      - tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted
+      - tests/greenfield/test_commit_rule.py::test_emergency_and_shaping
+    decisions: []
+  - id: RULE-PLAN-ADOPTED-FOR-COMMIT
+    statement: >-
+      A [Plan #N] / [Goal id] commit is accepted only when the named plan's adoption decision says adopted and its
+      plan and receipt hashes match the current bytes (RU-AES-COMMIT-RULE, OUT-AP-001).
+    owner: src/agentic_engineering_system/commit_rule.py
+    checks:
+      - tests/greenfield/test_commit_rule.py::test_same_change_under_an_adopted_plan_is_accepted
+      - tests/greenfield/test_commit_rule.py::test_plan_changed_after_adoption_is_refused
+      - tests/greenfield/test_commit_rule.py::test_plan_without_receipt_and_unknown_plan_are_refused
+    decisions: []
+  - id: RULE-PLAN-RECEIPT-FOR-ACCEPT
+    statement: >-
+      With require_adopted_plan true in .aes/planning.yaml, `aes plan validate` and `aes plan accept` refuse a
+      proposal whose adopted_plan_ref is missing, unknown or changed since adoption (RU-AES-PLANNING, AP-REQ-002, SC-AP-002).
+    owner: src/agentic_engineering_system/planning.py
+    checks:
+      - tests/greenfield/test_plan_receipt.py::test_required_and_missing_is_refused
+      - tests/greenfield/test_plan_receipt.py::test_required_and_plan_changed_after_adoption_is_refused
+      - tests/greenfield/test_plan_receipt.py::test_required_and_freshly_adopted_is_accepted
+    decisions: []
+  - id: RULE-TRACE-REVIEW-DECLARED
+    statement: >-
+      A proposal declares whether its work runs; work that runs needs a routed trace-review requirement
+      (TR-REQ-001, SC-TR-001).
+    owner: src/agentic_engineering_system/planning.py
+    checks:
+      - tests/greenfield/test_trace_review.py::test_a_proposal_must_declare_whether_its_work_runs
+      - tests/greenfield/test_trace_review.py::test_work_that_runs_needs_a_trace_review_requirement
+    decisions: []
+  - id: RULE-DRIFT-DETECTED
+    statement: >-
+      A renamed committed symbol or changed signature in a planned artifact is drift at the characterized revision;
+      formatting alone is not (RU-AES-CHARACTERIZE, SC-GF-006).
+    owner: src/agentic_engineering_system/characterize.py
+    checks:
+      - tests/greenfield/test_characterize.py::test_renamed_committed_symbol_is_drift
+      - tests/greenfield/test_characterize.py::test_changed_signature_is_drift_and_formatting_is_not
+    decisions: [docs/decisions/0010-greenfield-v0.2-accepted.md]
+  - id: RULE-INSUFFICIENT-NOT-GREEN
+    statement: >-
+      A pass-like observation that covers only part of a criterion's evidence requirements leaves the criterion
+      INSUFFICIENT, never SUPPORTED (RU-AES-EVIDENCE, SC-GF-007, AES-POL-002).
+    owner: src/agentic_engineering_system/evidence.py
+    checks:
+      - tests/greenfield/test_evidence.py::test_no_observations_leaves_every_criterion_insufficient
+      - tests/greenfield/test_evidence.py::test_one_passing_input_of_three_stays_insufficient
+    decisions: []
+  - id: RULE-DEPENDENCY-CHANGE-STALES
+    statement: >-
+      When a path or target entry an observation depends on changes after the observed commit, the observation is
+      stale and the criterion's gap reopens until fresh evidence exists (RU-AES-EVIDENCE, RU-AES-RECONCILE, SC-GF-008;
+      Decision 0008 section 3: evidence is reused only while its executed subject is unchanged).
+    owner: src/agentic_engineering_system/evidence.py
+    checks:
+      - tests/greenfield/test_evidence.py::test_changed_dependency_stales_support
+      - tests/greenfield/test_reconcile.py::test_dependency_change_reopens_a_supported_criterions_gap
+    decisions: [docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md]

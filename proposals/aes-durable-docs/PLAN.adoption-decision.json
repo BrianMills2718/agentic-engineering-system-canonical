@@ -1,0 +1,15 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "proposals/aes-durable-docs/PLAN.md",
+  "plan_sha256": "0972633a86dab9027110f5e08691a1ccb3b0a287071e27e90a1d42caf682ba60",
+  "receipt_ref": "proposals/aes-durable-docs/PLAN.receipt.json",
+  "receipt_sha256": "bf1da436ef921eef892a28146e0f856d4be25a2edfa6eb74eb7beb344b57b70c",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 20 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "decided_at": "2026-10-11T00:08:50Z"
+}

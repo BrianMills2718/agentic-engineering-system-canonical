@@ -1,4 +1,5 @@
 ---
+description: Normative context lives beside each component and symbols inherit their component's scope
 doc_role: active_authority
 authority: canonical_if_merged
 status: accepted
@@ -14,6 +15,8 @@ resolves:
 ---
 
 # Decision 0003 — Component-local normative context with inherited symbol scope
+
+Governs: docs/architecture/normative-component-alignment.bootstrap.yaml
 
 ## Context
 

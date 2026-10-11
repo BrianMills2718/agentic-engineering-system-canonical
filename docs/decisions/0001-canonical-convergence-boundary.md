@@ -1,4 +1,5 @@
 ---
+description: Why AES was restarted as a clean canonical repository and what it converges from
 doc_role: active_authority
 authority: canonical
 status: accepted
@@ -7,6 +8,8 @@ date: 2026-09-16
 ---
 
 # Decision 0001 — Canonical AES convergence boundary
+
+Governs: docs/architecture/SYSTEM_BOUNDARY.md, .agentic/repo.yaml
 
 ## Context
 
