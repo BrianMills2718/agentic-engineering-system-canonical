@@ -154,6 +154,6 @@ Prior art:
 - qc issue #130: the qualitative_coding goal and its schema disagreements.
 - AES #517: the main checkout is not refreshed (found during this thread).
 - `fol-operational-metamodel`: the Common Logic class diagram and meaning layer (done).
-- Goal-vs-code page for qualitative_coding: [qc-goal-vs-code.html](qc-goal-vs-code.html)
+- Goal-vs-code page for qualitative_coding: [review-page/qc-goal-vs-code.html](review-page/qc-goal-vs-code.html), served at https://hive.brianmills.dev/plans/shaping-model-framework/proposals/model-framework/review-page/qc-goal-vs-code.html
   (two ER diagrams and the disagreement table; first worked example of an intent model
   compared with a generated one).
