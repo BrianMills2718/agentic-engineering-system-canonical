@@ -6,7 +6,7 @@ description: M5 disproof sample for aes-durable-docs, run 2026-10-11 under the a
 
 **Session transcript id:** `0031e708-eb6b-409b-8823-6d04cc3aa693` (one Claude Code session, Opus, 2026-10-11).
 **Rule applied:** the disproof condition in `../PLAN.md` (Trace review), unchanged, with the timing and population amendment merged in AES PR #534 (merge `f66873ef8`) before any sample diff was read.
-**Selection script:** each of the 22 repositories in `m5-inventory.json` (paths checked against their `origin` remotes: all 22 resolve to the rolled-out repositories) plus company-planning and AES canonical; every `*.receipt.json` on `origin/main` with `completed_at` at or after 2026-10-10T23:54:42Z; excluded plans removed; plans with no commit tagged with their id dropped; ordered by the commit time of the last tagged commit on `origin/main`, newest first. 14 plans qualified, so the sample is the first 10 and the threshold stays 5.
+**Selection script** (`m5-sample-tools/select.py <inventory>`, then `gen.py` for the per-plan sections; reuse both for the re-sample with its population filter): each of the 22 repositories in `m5-inventory.json` (paths checked against their `origin` remotes: all 22 resolve to the rolled-out repositories) plus company-planning and AES canonical; every `*.receipt.json` on `origin/main` with `completed_at` at or after 2026-10-10T23:54:42Z; excluded plans removed; plans with no commit tagged with their id dropped; ordered by the commit time of the last tagged commit on `origin/main`, newest first. 14 plans qualified, so the sample is the first 10 and the threshold stays 5.
 
 ## Verdict: the disproof condition fires
 
