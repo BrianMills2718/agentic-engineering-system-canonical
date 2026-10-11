@@ -142,9 +142,20 @@ Prior art:
 
 ## 8. Open decisions
 
-1. **Extend the ODD convention into this framework, or start fresh?** Recommendation:
-   extend, because the files already exist in 10 repos. Normalizing their formats becomes
-   part of the work.
+1. **Which outline the model files use.** Revised 2026-10-10 after Brian questioned ODD.
+   Provenance: ODD is real (Grimm et al. 2006), but it is a template for agent-based
+   *simulations*. It entered the ecosystem through the agent_ecology3 pilot, where it fits.
+   An agent then applied it to every software project in company-planning Plan #55
+   (commit 2715422, 2026-10-08, co-authored by Claude) and kept only the name.
+   Recommendation now: adopt **arc42**, the established software-architecture outline, with
+   **C4** diagrams, and move existing ODD content into it:
+   - Purpose → 1 Goals;
+   - Boundary → 3 Context;
+   - Entities → 5 Building blocks / 8 Concepts;
+   - Processes → 6 Runtime;
+   - Events and records → 8;
+   - Expected patterns → 10 Quality.
+   Keep ODD only for real simulations (agent_ecology3).
 2. **Pilot.** qualitative_coding slice 1, with four kinds (domain, data flow, a quote's
    states, trace), two or three correspondence tests (one model ↔ trace), and a status
    overlay. A full plan is needed before building.
