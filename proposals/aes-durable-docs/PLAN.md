@@ -44,7 +44,7 @@ Section names follow arc42, the standard architecture-documentation template, so
 |---|---|---|---|
 | Goal and thesis | north star (the outcome steered toward); thesis (the bet on why this approach gets there); what would disprove the thesis; non-goals; lineage (the repository it replaces and why it was restarted, or none) | `docs/architecture/GOAL.md` (AES repositories: it links `.aes/target.yaml` `outcomes` as the north star) | target.yaml `outcomes` (AES); roadmap north star (initiative-roadmap) |
 | Requirements | each requirement has an ID, a success criterion and a disproof condition | `.aes/target.yaml` where present, else `docs/architecture/REQUIREMENTS.md` | target.yaml `normative_items` and `success_criteria` |
-| System model | ODD shape: entities (domain model), processes with their rules, records with writers (data flow), views; every entity, rule and process has an ID; each rule names exactly one owner (file or component), at least one check, and the decision record that explains it where one exists | `docs/model/ODD.md` (+ machine-readable twin) | Company Planning system model (PMI-017, `distribution/references/system-model.md`) and its traceability view (`architecture-views.md:40`) |
+| System model | arc42 sections with C4 diagrams (amended 2026-10-11 to follow company-planning PR #116; older repositories keep `docs/model/ODD.md` until next touched): entities (domain model), processes with their rules, records with writers (data flow), views; every entity, rule and process has an ID; each rule names exactly one owner (file or component), at least one check, and the decision record that explains it where one exists | `docs/model/ARCHITECTURE.md` (+ machine-readable twin `docs/model/trace.yaml`; legacy `docs/model/ODD.md` accepted) | Company Planning system model (PMI-017, `distribution/references/system-model.md`) and its traceability view (`architecture-views.md:40`) |
 | Schema and contracts | not a separate document: the model's rules and records point at the code-level schema and contract files by path | inside the system model | drift test of PMI-017 |
 | Decisions | one record per accepted decision, each naming the rule or component IDs it governs and a wrong-when condition | `docs/decisions/` | `.agentic/repo.yaml` `decision_roots` |
 | Glossary | generated from the model's entity and rule names; never hand-maintained | generated | none (deferred, see R6) |
@@ -144,7 +144,7 @@ No catalogue entry fits, because the capability catalogue (`agentic-capability-a
 
 - Rewriting or summarising existing plans into the durable documents in bulk; pilots fill their documents from current code and decisions, and old plans stay as history.
 - A company-wide ontology or shared glossary (PMI-017: "Never one company-wide ontology").
-- Replacing `.aes/target.yaml`, ADR practice or the ODD model with a new format.
+- Replacing `.aes/target.yaml` or ADR practice with a new format. (The ODD outline was replaced by arc42 + C4 in company-planning PR #116; this plan follows it.)
 - Adopting StrictDoc, Doorstop or sphinx-needs (see Prior art).
 - Hosted CI; checks run locally.
 - Repositories other people or organisations own.
@@ -196,7 +196,7 @@ Declared: `shared_mechanism=true` (a new document contract and check shared by e
 | Rules authored once, generated into docstrings (ideas register) | ideas register entry, line 127 | bounded exception (later) | attractive for R4 but needs a generator per language; revisit after M4 if owners drift from the model |
 | Span-precise staleness propagation (ideas register) | ideas register entry, line 1374 | bounded exception (later) | file-level staleness is enough for R9 at pilot scale; adopt if file-level reports more than 20% false stale findings on a pilot |
 | arc42 | arc42.org | reuse (section names) | the standard architecture template; goals, context, runtime view, decisions, glossary map directly |
-| C4 model | c4model.com | bounded exception | diagrams by zoom level; views stay chosen by question under `architecture-views.md`, not by C4 level |
+| C4 model | c4model.com | reuse (diagrams; amended 2026-10-11 per company-planning PR #116) | diagrams by zoom level inside the arc42 system model; views are still chosen by the question they answer |
 | StrictDoc, Doorstop, sphinx-needs | strictdoc.readthedocs.io; Doorstop on PyPI; sphinx-needs | bounded exception (not adopted now) | each is a requirements store with its own format, which would be a second authority beside target.yaml; StrictDoc's source traceability is still labelled experimental in its own guide; adopt StrictDoc if the M2 trigger fires |
 | SysML requirement relations (satisfy, verify, refine) | OMG SysML | reuse (vocabulary only) | link names for R4 and R5 |
 
