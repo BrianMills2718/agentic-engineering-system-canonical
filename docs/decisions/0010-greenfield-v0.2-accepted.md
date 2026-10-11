@@ -1,4 +1,5 @@
 ---
+description: The AES v0.2 greenfield MVP was accepted as realized and replaces the v0.1 line as current
 doc_role: active_authority
 authority: canonical_if_merged
 status: accepted
@@ -12,6 +13,8 @@ partially_supersedes:
 ---
 
 # Decision 0010 - AES v0.2 greenfield MVP accepted as realized
+
+Governs: RULE-DRIFT-DETECTED, RULE-INSUFFICIENT-NOT-GREEN, .aes/target.yaml
 
 ## Context and scope
 

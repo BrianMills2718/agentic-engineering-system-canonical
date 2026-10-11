@@ -1,4 +1,5 @@
 ---
+description: An AES component is a governance scope and only consequential seams are typed early
 doc_role: active_authority
 authority: canonical_if_merged
 status: accepted
@@ -11,6 +12,8 @@ resolves:
 ---
 
 # Decision 0005 — AES Component is a governance scope; type only consequential seams early
+
+Governs: docs/architecture/architecture-realization.bootstrap.yaml
 
 ## Context
 

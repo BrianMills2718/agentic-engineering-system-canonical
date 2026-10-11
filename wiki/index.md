@@ -94,6 +94,16 @@ ACA's existing capabilities/evidence remain with their owners; no parallel ACA
 platform or benchmark programme is required. Plan 001 is now closed by separate
 exact verification, utility, characterization, and gap-reconciliation evidence.
 
+## Durable documents
+
+Declared in [`.agentic/repo.yaml`](../.agentic/repo.yaml) (`durable_documents`) and checked by Company Planning's `durable_docs_check.py --arc42`:
+
+- [Goal and thesis](../docs/architecture/GOAL.md) — what AES is for, the bet behind it, what would disprove it, and the repository it replaces.
+- Requirements — outcomes, criteria and disproofs in [`.aes/target.yaml`](../.aes/target.yaml).
+- [System model](../docs/model/ODD.md) and its checked [trace](../docs/model/trace.yaml) — each rule with one owner file, the tests that prove it, and the decision records behind it.
+- [Decision records](../docs/decisions/) — each names what it governs on a `Governs:` line.
+- [Generated catalog](../generated/docstring_wiki.md) — every document and module with its description (`make docstring-wiki-check`).
+
 ## Read in this order
 
 1. [`../docs/plans/002_offline_policy_decision_replay.md`](../docs/plans/002_offline_policy_decision_replay.md) — active planned vertical, P0 blockers, offline replay boundary, provider decision, and stop rules.

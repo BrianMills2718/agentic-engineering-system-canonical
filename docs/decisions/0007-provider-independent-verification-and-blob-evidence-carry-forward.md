@@ -1,4 +1,5 @@
 ---
+description: Superseded first version of provider-independent verification with blob-level evidence carry-forward
 doc_role: active_authority
 authority: canonical_if_merged
 status: superseded
@@ -9,6 +10,9 @@ reversible: true
 ---
 
 # Decision 0007 — Verification is provider-independent; carry execution evidence only across identical relevant blobs
+
+Governs: RULE-DEPENDENCY-CHANGE-STALES
+(Superseded by Decision 0008, which now governs that rule.)
 
 > Superseded by Decision 0008 after review found that file-by-file identity omitted transitive executable dependencies and environment identity.
 

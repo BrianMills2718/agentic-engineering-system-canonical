@@ -1,4 +1,5 @@
 ---
+description: Normative records are compact structured data with generated conventional views
 doc_role: active_authority
 authority: canonical_if_merged
 status: accepted
@@ -12,6 +13,8 @@ resolves:
 ---
 
 # Decision 0004 — Compact structured normative records with generated conventional views
+
+Governs: docs/architecture/normative-record-model.bootstrap.yaml
 
 ## Context
 

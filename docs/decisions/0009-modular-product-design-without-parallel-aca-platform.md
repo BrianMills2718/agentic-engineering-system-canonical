@@ -1,4 +1,5 @@
 ---
+description: Apply modular product design through AES instead of building a parallel platform
 doc_role: active_authority
 authority: canonical_if_merged
 status: accepted
@@ -8,6 +9,8 @@ reversible: true
 ---
 
 # Decision 0009 - Apply modular product design through AES
+
+Governs: docs/architecture/SYSTEM_BOUNDARY.md#aes-cap-003--established-modular-design-not-a-parallel-platform
 
 ## Context and scope
 

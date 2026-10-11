@@ -1,15 +1,18 @@
 ---
+description: This repository is the Agentic Engineering System and the Inside Success repository is archived
 doc_role: active_authority
 authority: canonical_if_merged
 status: accepted
-accepted_by: Brian Mills (2026-09-26, in conversation: "ok i agree with that ... archive the non canonical version")
+accepted_by: 'Brian Mills (2026-09-26, in conversation: "ok i agree with that ... archive the non canonical version")'
 date: 2026-09-26
 reversible: true
 amends:
-  - docs/decisions/0001-canonical-convergence-boundary.md (item 3: the Inside Success repository moves from live capability source to archived capability source)
+  - "docs/decisions/0001-canonical-convergence-boundary.md (item 3: the Inside Success repository moves from live capability source to archived capability source)"
 ---
 
 # Decision 0011 - This repository is the Agentic Engineering System; `Inside-Success/agentic-engineering-system` is archived
+
+Governs: .agentic/repo.yaml, docs/architecture/GOAL.md
 
 ## Context
 
