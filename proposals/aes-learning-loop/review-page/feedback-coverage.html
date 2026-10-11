@@ -1,0 +1,59 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feedback coverage audit</title>
+<style>:root{--bg:#fff;--fg:#111827;--muted:#4b5563;--line:#9ca3af;--panel:#f3f4f6;--blue:#1d4ed8;--bluefill:#dbeafe;--orange:#b45309;--orangefill:#fff7ed;--grey:#6b7280;--greyfill:#f3f4f6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#566070;--panel:#1a2030;--blue:#7fb2ff;--bluefill:#1e3a5f;--orange:#f5a524;--orangefill:#3a2a10;--grey:#9aa3b2;--greyfill:#202634}}
+:root[data-theme="dark"]{--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#566070;--panel:#1a2030;--blue:#7fb2ff;--bluefill:#1e3a5f;--orange:#f5a524;--orangefill:#3a2a10;--grey:#9aa3b2;--greyfill:#202634}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:1150px;margin:0 auto;padding:20px 16px 48px}h1{font-size:1.4rem;margin:0 0 6px}h2{font-size:1.15rem;margin:30px 0 6px}
+.q{font-size:1.05rem;margin:0 0 14px;border-left:4px solid var(--blue);padding:4px 0 4px 12px}.sub{color:var(--muted);font-size:14px;margin:4px 0 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:10px 0}.k{background:var(--panel);border-radius:10px;padding:10px 12px}.k b{display:block;font-size:1.6rem}.k span{font-size:13px;color:var(--muted)}
+.legend span{display:inline-block;margin:0 16px 6px 0;font-size:14px}.sw{display:inline-block;width:18px;height:12px;vertical-align:middle;margin-right:6px;border:2px solid}
+.wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px;min-width:860px}td,th{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}th{background:var(--panel)}
+td.ok{background:var(--bluefill)}td.part{background:var(--orangefill);border-style:dashed}td.none{background:var(--greyfill);border-style:dotted;color:var(--muted)}
+td b.v{display:block;font-size:12px;letter-spacing:.03em}
+ul li{margin:4px 0}code{font-size:13px}a{color:var(--blue)}</style></head><body><main>
+<h1>Feedback coverage: every part of the agent setup, and what feedback reaches it</h1>
+<p class="q">An audit of the whole setup, not a list of guesses. The parts were found from the setup's own inventories (policy registry, component inventory, hook and plugin configs, 58 scheduled jobs), and the feedback routes from every program that records something about agent behaviour. Result: <b>16 routes record feedback; none of them changes a rule file by itself.</b> Every change still needs an agent to make it, and almost all happen because you asked in a chat.</p>
+<p class="sub">Checked 11 October 2026. Companion pages: <a href="whole-picture.html">the whole picture</a> (counts) and <a href="feedback-models.html">domain and data-flow models</a>.</p>
+<div class="kpis">
+<div class="k"><b>22</b><span>kinds of thing that shape what agents do</span></div>
+<div class="k"><b>16</b><span>routes that record feedback about agents</span></div>
+<div class="k"><b>0</b><span>routes that apply a change on their own (one writes drafts)</span></div>
+<div class="k"><b>1</b><span>rule ever produced by the feedback loop (hook rule M1, installed by hand)</span></div>
+<div class="k"><b>135 of 263</b><span>policies with no enforcement at all: prose only</span></div>
+</div>
+
+<h2>The matrix</h2>
+<p class="sub">One row per part of the setup. "Recorded" = some program captures feedback about it. "Applied" = something turns that feedback into a change. "Should feedback reach it?" is the audit's judgement: anything that agents read, or that blocks or permits what they do, should have both a recording route and an owner who applies changes.</p>
+<div class="legend"><span><i class="sw" style="background:var(--bluefill);border-color:var(--blue)"></i>working</span><span><i class="sw" style="background:var(--orangefill);border-color:var(--orange);border-style:dashed"></i>partial, manual or broken (dashed)</span><span><i class="sw" style="background:var(--greyfill);border-color:var(--grey);border-style:dotted"></i>no route (dotted)</span></div>
+<div class="wrap"><table>
+<tr><th style="width:19%">Part of the setup (how many)</th><th style="width:27%">Feedback recorded about it</th><th style="width:27%">Who applies changes</th><th>Should feedback reach it?</th></tr>
+<tr><td><b>Workspace instructions</b><br>AGENTS.md, WORKING_RULES.md, AUTHORITIES.md</td><td class="part"><b class="v">INDIRECT</b>Feedback lines and concerns mention it; no route targets it</td><td class="part"><b class="v">AGENT, BY HAND</b>38 edits since 1 Oct, from your chat requests</td><td>Yes: the main rule surface for both clients. Missing: an owner who turns repeated feedback into an edit.</td></tr>
+<tr><td><b>Repository instructions</b><br>139 AGENTS.md, 48 CLAUDE.md</td><td class="none"><b class="v">NONE</b>No route reads or targets them</td><td class="part"><b class="v">AGENT, BY HAND</b>each repo, ad hoc</td><td>Yes, per repository.</td></tr>
+<tr><td><b>Claude memory</b><br>32 files</td><td class="part"><b class="v">YOUR CORRECTIONS</b>an agent writes a file when you correct it</td><td class="part"><b class="v">AGENT, BY HAND · DAMAGED</b>the index lists 62 files; 30 do not exist (being traced)</td><td>Only for your personal preferences; Codex has no equivalent, so behaviour rules belong in shared instructions.</td></tr>
+<tr><td><b>Skills</b><br>61 shared, ~28 in plugins</td><td class="ok"><b class="v">YES</b>a line per skill use; agent ratings; weekly skill-review reads them</td><td class="part"><b class="v">DRAFTS ONLY</b>skill-review writes up to 3 rewrite drafts a week and never installs them; otherwise by hand</td><td>Yes. Missing: someone who reviews and lands the drafts.</td></tr>
+<tr><td><b>Hooks</b><br>16 Claude and 9 Codex handlers, 23 shared hook scripts, plugin hooks</td><td class="part"><b class="v">VIA THE LOOP</b>a licensed fix can propose a hook rule</td><td class="part"><b class="v">AGENT, BY HAND</b>1 so far (rule M1)</td><td>Yes.</td></tr>
+<tr><td><b>Model-judged tool gate (Jev)</b><br>4 deny rules, 2 ask rules, 2 guards</td><td class="part"><b class="v">CAPTURED, UNREAD</b>every gate decision logged: 124 MB, in watch-only mode, no reader</td><td class="none"><b class="v">NONE</b></td><td>Yes: its own log shows where it blocks wrongly or misses.</td></tr>
+<tr><td><b>Commit rule</b><br>commit tag check on every commit</td><td class="ok"><b class="v">YES</b>daily accept/refuse report; daily model review of misused tags</td><td class="part"><b class="v">CONCERN ONLY</b>opens an issue; nobody tunes the rule from the report</td><td>Yes.</td></tr>
+<tr><td><b>Company-planning checklists and gate</b></td><td class="part"><b class="v">YES</b>route-fit answers (hourly reader); a hand-kept method feedback page</td><td class="part"><b class="v">CONCERN / BY HAND</b></td><td>Yes: every plan passes through it.</td></tr>
+<tr><td><b>Policy registry</b><br>263 policies</td><td class="part"><b class="v">TWO PARALLEL ROUTES</b>old friction clusters (daily) and the new feedback loop both open concerns; decision "wrong-when" checks (daily)</td><td class="part"><b class="v">CONCERN ONLY</b></td><td>Yes. Two routes for one signal will duplicate work; one should be retired.</td></tr>
+<tr><td><b>Failure-mode list</b><br>22 kinds, about 6 copies</td><td class="part"><b class="v">BROKEN</b>weekly check fails since 11 Oct on one bad record (#2538)</td><td class="part"><b class="v">REPORT ONLY</b></td><td>Yes: review, audit and the loop's tagging all depend on it.</td></tr>
+<tr><td><b>Representation-router rules</b><br>63 page-design rules</td><td class="part"><b class="v">YOUR CRITIQUES</b>no tracked critique log</td><td class="part"><b class="v">AGENT, BY HAND</b>last 8 Oct</td><td>Yes.</td></tr>
+<tr><td><b>Subagent definitions</b><br>9 shared, 4 in a plugin</td><td class="part"><b class="v">CAPTURED</b>each subagent's ending is recorded (426 last night)</td><td class="none"><b class="v">NONE</b></td><td>Yes: those records say which subagent fails how.</td></tr>
+<tr><td><b>Safety Net</b> (destructive-command blocker)</td><td class="none"><b class="v">NONE</b>blocks show up only in agents' own feedback</td><td class="none"><b class="v">NONE</b></td><td>Yes: wrong blocks cost time (seen in feedback, e.g. issue #424).</td></tr>
+<tr><td><b>MCP servers, model routing, permissions</b></td><td class="none"><b class="v">NONE</b></td><td class="none"><b class="v">NONE</b></td><td>Low priority; change rarely.</td></tr>
+<tr><td><b>Scheduled jobs</b><br>58 timers</td><td class="part"><b class="v">FAILURES ONLY, SOMETIMES</b>some open concerns on failure; 3 failing on their last run (aes-audit, aes-gate-watch, ecosystem-ops-daily); taxonomy-feedback failed with no alert</td><td class="part"><b class="v">CONCERN / NONE</b></td><td>Yes: every failure should reach an agent (your loud-failures rule).</td></tr>
+</table></div>
+
+<h2>What the audit concludes</h2>
+<ul>
+<li><b>Recording is broad; applying is missing.</b> 16 routes capture feedback, but every one ends at a file, a report or an issue. The one exception writes skill drafts that nobody installs.</li>
+<li><b>The missing piece is an owner per surface.</b> Each row needs someone (an agent on a schedule) who reads that surface's feedback, makes or rejects the change, and records the result so the effect can be counted.</li>
+<li><b>Two big stores are never read:</b> the tool-gate decision log (124 MB) and the commit-rule daily report.</li>
+<li><b>Two systems do the same job:</b> the old project-meta friction clusters and the new feedback loop both turn friction into concerns.</li>
+<li><b>Prose carries half the rules:</b> 135 of 263 policies have no check behind them, so feedback that a policy is ignored has nowhere to go but more prose.</li>
+</ul>
+
+<h2>How this was checked</h2>
+<p class="sub">Parts of the setup: enforcement channels and layers counted in <code>project-meta/policy/registry.yaml</code>; component types in agent-skills <code>distribution/component-classification-report.md</code>; <code>.rulesync/</code>; client hook files and plugin lists (keys and counts only); <code>systemctl --user list-timers</code> with each unit's command. Feedback routes: each program's source and its last run (<code>journalctl --user</code>, file dates, git logs); the 24 "Feedback loop: adopt" issues. Re-checked by hand: memory index (62 links, 30 missing), tool-gate log size (124,219,368 bytes), aes-gate-watch failure (12:11 today). One finding was retracted: Codex does not cut off AGENTS.md (its limit is 131,072 bytes; the file is 48,015).</p>
+</main></body></html>
