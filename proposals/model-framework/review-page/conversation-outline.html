@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Conversation Outline</title>
+<style>
+/* Layout: title, clickable route map (10 stops), detail panel for the selected stop, open-items list */
+:root{--bg:#f6f8fb;--fg:#1b2430;--muted:#5b6675;--line:#c9d2de;--panel:#fff;--blue:#1f5fbf;--blue-soft:#e3edfb;--orange:#c76a12;--orange-soft:#fbeedd;--grey:#8a94a3;--tip:#1b2430;--tipfg:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11161d;--fg:#e6ebf2;--muted:#9aa6b6;--line:#34404f;--panel:#18202a;--blue:#7fb0ff;--blue-soft:#1b2c45;--orange:#f0a25a;--orange-soft:#3a2a18;--grey:#7c8796;--tip:#e6ebf2;--tipfg:#11161d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#11161d;--fg:#e6ebf2;--muted:#9aa6b6;--line:#34404f;--panel:#18202a;--blue:#7fb0ff;--blue-soft:#1b2c45;--orange:#f0a25a;--orange-soft:#3a2a18;--grey:#7c8796;--tip:#e6ebf2;--tipfg:#11161d;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,sans-serif;margin:0}
+.wrap{max-width:960px;margin:0 auto;padding:28px 16px 56px;display:grid;gap:22px}
+h1{margin:0;font-size:1.6rem}h2{margin:0 0 6px;font-size:1.2rem}h3{margin:14px 0 4px;font-size:.95rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+p{margin:0 0 8px;max-width:72ch}.muted{color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+svg{width:100%;height:auto;display:block}
+.stop{cursor:pointer;outline:none}
+.stop circle{stroke-width:3}
+.stop text{fill:var(--fg);font-size:13px}
+.stop .num{font-weight:700;font-size:14px}
+.stop.sel circle{stroke-width:6}
+.stop:focus-visible circle{stroke-dasharray:4 3}
+.st-done circle{fill:var(--blue-soft);stroke:var(--blue)}
+.st-open circle{fill:var(--orange-soft);stroke:var(--orange);stroke-dasharray:6 4}
+.st-ctx circle{fill:var(--panel);stroke:var(--grey)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.9rem;margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:50%;border:3px solid;display:inline-block}
+.nav{display:flex;gap:8px;margin-top:10px}
+button{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer}
+button:hover,button:focus-visible{border-color:var(--blue)}
+.quote{border-left:4px solid var(--blue);padding:4px 10px;margin:4px 0;font-style:italic}
+.push{border-left:4px dashed var(--orange);padding:4px 10px;margin:4px 0}
+.badge{display:inline-block;font-size:.8rem;padding:1px 8px;border-radius:10px;border:1px solid}
+.b-done{color:var(--blue);border-color:var(--blue)}.b-open{color:var(--orange);border-color:var(--orange);border-style:dashed}.b-ctx{color:var(--grey);border-color:var(--grey)}
+ul{margin:4px 0 8px;padding-left:20px}li{margin:2px 0}
+a{color:var(--blue)}
+#tip{position:fixed;z-index:9;pointer-events:none;background:var(--tip);color:var(--tipfg);font-size:.85rem;padding:6px 9px;border-radius:6px;max-width:280px;opacity:0;transition:opacity .12s}
+#tip.on{opacity:1}
+.info{border:none;background:none;padding:0 4px;color:var(--blue);font-size:1rem}
+</style></head><body>
+<div class="wrap">
+<header>
+  <h1>What we discussed, 2026-10-09 to 10-10</h1>
+  <p class="muted">A single conversation that started as "assess the FOL metamodel repo" and became the design of a framework of checked models for steering agent-built systems. Click a stop to see what you said, where we landed and what's still open.</p>
+</header>
+
+<section class="card" aria-label="Route map">
+  <h2>The route the conversation took</h2>
+  <svg id="map" viewBox="0 0 920 410" role="group" aria-label="Eleven stops, in order"></svg>
+  <div class="legend">
+    <span><i class="sw" style="border-color:var(--blue);background:var(--blue-soft)"></i>Settled or shipped</span>
+    <span><i class="sw" style="border-color:var(--orange);border-style:dashed;background:var(--orange-soft)"></i>Still open</span>
+    <span><i class="sw" style="border-color:var(--grey)"></i>Background, no decision needed</span>
+  </div>
+  <div class="nav">
+    <button id="prev" data-tip="Go to the previous stop (← key)">← Previous</button>
+    <button id="next" data-tip="Go to the next stop (→ key)">Next →</button>
+  </div>
+</section>
+
+<section class="card" id="detail" aria-live="polite"></section>
+
+<section class="card">
+  <h2>What's still open, in order</h2>
+  <ul>
+    <li><b>qualitative_coding pilot plan</b> (stop 11, next): four model kinds for slice 1 (data, data flow, a quote's states, run trace), two or three tests tying model to trace, and a review screen colouring each element by its check status.</li>
+    <li><b>Move the 10 old <code>ODD.md</code> files</b> to <code>ARCHITECTURE.md</code>, each when its repo next changes its model.</li>
+    <li><b>Plans-site publisher</b>: it silently drops Markdown docs outside <code>review-page/</code>. I offered a fix, but it isn't built.</li>
+    <li><b>Small defects filed, not blocking</b>: company-planning #117 (quick-adopt forces one checklist answer; stale ODD help text), AES #517 (main checkouts falling behind), qualitative_coding #130 (code vs goal on 2 choices), ai-astronauts tests not runnable under pytest.</li>
+  </ul>
+  <p class="muted">Full design record: <a href="https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/shaping/model-framework/proposals/model-framework/README.md" data-tip="The living design doc on GitHub: principles, disagreements, planning depth, framework shape, open decisions">model-framework README</a> · <a href="qc-goal-vs-code.html" data-tip="The qualitative_coding goal drawn as a diagram next to what the code actually has">QC goal vs code diagram</a></p>
+</section>
+</div>
+<div id="tip" role="tooltip"></div>
+<script>
+const S=[
+{t:"Assess the FOL repo",s:"done",short:"What is fol-operational-metamodel, and what should happen to it?",
+ said:["investigate … assess question critique advise","what is a patched server and upstream contribution? … would like to see some visual representation"],
+ landed:["The repo imports published formal descriptions of first-order logic (OMG Common Logic, MMT, DOL) and draws them. A two-day detour into FLAMS (a patched copy of someone else's server) was parked.","Phase 0 (tidy-up), Phase 1 (clickable Common Logic class diagram, 29 parts) and Phase 2 (a Meaning box for each connective) all shipped and merged, with tests passing."],
+ push:[],links:[["fol-operational-metamodel repo","https://github.com/BrianMills2718/fol-operational-metamodel"]]},
+{t:"Why do 'and' and 'or' look identical?",s:"done",short:"Conjunction and disjunction carry the same information in the diagram.",
+ said:["conjunction and disjunction both have the same information. there is no information that allows you to distinguish them","i feel like there should just be some design that we can pick"],
+ landed:["Correct, not a bug: the standard's diagram covers grammar (allowed shapes), not truth rules. What separates them is <b>when they're true</b>.","Two switches and one bulb: there are exactly 16 possible wirings, so every two-part connective is one of them. That part is forced by counting; the 'is a kind of' tree is a design choice.","We picked ISO Common Logic's design and added its truth rules: each box now shows when it's true, a truth table, the quoted rule and how it rebuilds from three core pieces (not, and, for every)."],
+ push:["I first leaned toward your 'properties table' framing too readily. You said not to agree just because you said it, so I gave the straight version: the truth rule is the forced part, and the tree is not."],links:[]},
+{t:"Model, metamodel, instance",s:"done",short:"Is 'metamodel' the right word? Isn't the blank form a model and the filled form an instance?",
+ said:["is metamodel really the right term for what we are building?","isnt the blank form a model and the filled in form an instance of the model? dont just agree to agree"],
+ landed:["Your framing is right as far as it goes: template to instance. What makes something 'meta' is a <b>third level</b>: the world, a sentence describing the world (a model), and the box describing all sentences (a metamodel).","'Operational' doesn't fit; the Meaning box is semantics, not metamodel.","Formal footing: syntax, semantic domain and semantic mapping (Harel & Rumpe), plus two different senses of 'instance of' (linguistic vs ontological). These are still marked draft until checked against the primary texts."],
+ push:["An example teaches but doesn't define. You asked for both, and the rule since then is <b>both, every time</b>."],links:[]},
+{t:"What are we actually trying to do?",s:"done",short:"The real goal behind the FOL work.",
+ said:["ok so what are we even trying to do?","i was trying to learn a bunch of stuff … moving to visual models, metamodels, diagrams, ontologies and operational semantics as better ways of understanding, alongside text"],
+ landed:["Goal: <b>understand and steer agent-built systems through formal, checked visual models</b>, alongside text.","Key principle you agreed with 100%: a hand- or AI-drawn diagram of code looks convincing and drifts within a week. <b>What exists is generated from code; what is intended is drawn by hand; a program compares them.</b>"],
+ push:["The 'semantic spectrum' (word list → glossary → taxonomy → thesaurus → schema → ontology → logic) is too narrow, as you said. The framework also covers data-flow, behaviour, operational and UML-style models."],links:[]},
+{t:"Why the spiral repos spiral",s:"done",short:"qualitative_coding, Digimon, onto-canon and ac17 never converge.",
+ said:["i think the spirals are both but also i think a goal in prose is underspecified often, and that a diagram can help formalize it","pretty much everything should have a formal diagram"],
+ landed:["Both causes: a missing purpose and finish line, and prose goals that leave choices open.","Test on qualitative_coding: drawing its one-paragraph finish line with 'how many' on every arrow exposed <b>5 choices the prose never made</b>, and the code had already gone a different way on 2 of them (qc #130).","Condition: the diagram must use a notation whose arrows have defined meanings (UML, ER, SysML v2/KerML, LinkML), or it's just prose drawn as boxes.","A 'Lineage' rule (why did this repo restart?) went into the AES durable-docs plan."],
+ push:[],links:[["QC goal vs code diagram","qc-goal-vs-code.html"],["qualitative_coding #130","https://github.com/BrianMills2718/qualitative_coding/issues/130"]]},
+{t:"Off the shelf, and a model of model types",s:"done",short:"Surely something beats factgraph? Is UML a model of model types?",
+ said:["i would be shocked if there is not something better off the shelf than my factgraph version … makes me want a model of different model types. is that what uml is?"],
+ landed:["You were right. Maintained tools cover nearly everything: <b>LinkML</b> (write the intended data model, generate schemas), <b>Atlas</b> (real database vs intended schema), <b>Great Expectations</b> (data checks), <b>erdantic</b> (diagram drawn from code), <b>import-linter</b> (module boundaries), <b>PM4Py</b> (real runs vs intended process), <b>TLA+</b> (behaviour). factgraph's only unique job is a live test of whether the database enforces each rule.","UML is one family of model types. The 'model of models' is an architecture framework (ISO 42010) plus a megamodel index linking models: representationOf, conformsTo, refines, generatedFrom, checkedAgainst.","Two separate axes: level (conceptual, logical, physical) and aspect (structure, behaviour, interaction)."],
+ push:["I recommended factgraph first, and that was wrong."],links:[]},
+{t:"The model's job in plan, build and review",s:"done",short:"What the diagrams are for, phase by phase.",
+ said:["it is two fold … in planning, to confirm the agent will build what I want; in implementation, enforced by tests and success criteria; then review"],
+ landed:["<b>Plan</b>: you confirm the diagram before code. <b>Build</b>: each element gets a test or success check. <b>Review</b>: a working UI showing each element's status, computed from checks and never claimed.","Work comes in thin vertical slices, and each fixture keeps its full trace (the whole data flow, not just the output).","You already built a seed of this in AI Astronauts (a LinkML project model, a view catalogue, generated views). Four pieces exist across repos but don't connect yet."],
+ push:[],links:[]},
+{t:"A framework, not one model",s:"done",short:"I drifted to 'pick one model format'.",
+ said:["i thought we had discussed an architecture framework rather than one model?","how did it get behind like this? … reread the transcript because this is a nuanced conversation"],
+ landed:["Corrected: a <b>catalogue of model kinds</b>, each in its own established notation with a generated 'actual' side; <b>correspondence rules written as tests</b> (e.g. 'Judgement' must match the CodeApplication table, the judge step and a real trace); and an <b>index of models</b>.","Only shared element IDs and the index need one common form.","Separate finding: AES canonical's main folder falls behind GitHub because nothing pulls it after merges. Filed as AES #517 and recorded as feedback."],
+ push:[],links:[["AES #517","https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/517"]]},
+{t:"How much to plan up front",s:"done",short:"I said 'precise only to the next slice'; you disagreed.",
+ said:["upfront planning is almost always worth it, so the agent can run unattended; for real unknowns, plan how to resolve them and the decision criteria"],
+ landed:["My rule is withdrawn. New rule: <b>decide everything decidable now; for each real unknown write the question, experiment, budget, deciding criterion and default; mark each item decided or guessed.</b>","Prior art: set-based concurrent engineering and the 'last responsible moment'. Deciding <i>how</i> to decide is cheap, so it belongs up front."],
+ push:["Still standing: a plan alone doesn't keep a day-long run on track, checks do. A precise guess is worse than a vague one. The plan is bounded by what you can actually review in diagrams. Every unknown needs a stop rule."],links:[]},
+{t:"ODD → arc42 + C4",s:"done",short:"Was 'ODD' made up? What outline should every repo's model use?",
+ said:["what does ODD stand for? is this something i/with my agent made up?","a"],
+ landed:["ODD (Overview, Design concepts, Details; Grimm et al. 2006) is real, but it's for agent-based <i>simulations</i>. An earlier agent's plan applied it to all software and kept only the name.","You chose <b>a</b>: arc42 sections (Goals, Context, Building blocks, Runtime, Cross-cutting, Quality) with C4 diagrams (context, container, component). ODD stays only for real simulations.","<b>Merged today</b> as company-planning PR #116, with a check that every cited arc42 section and C4 level matches the official sites. Full test suite: 937 passed."],
+ push:[],links:[["company-planning PR #116","https://github.com/BrianMills2718/company-planning/pull/116"]]},
+{t:"Next: the qualitative_coding pilot",s:"open",short:"The first real test of the framework on one slice of one spiral repo.",
+ said:["(no new ask yet; this is where the design goes next)"],
+ landed:["Planned, not started. Slice 1 of qualitative_coding gets four model kinds: data, data flow, the states a quote passes through, and a run trace.","Two or three tests tie the model to a real trace, and a review screen colours each element by its computed check status.","It needs a full plan, written under the new planning-depth rule (stop 9), before anything is built."],
+ push:["Risk to watch: if the four models cost more to keep true than they catch, the framework is too heavy and gets cut back."],links:[["Design record, section 8","https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/shaping/model-framework/proposals/model-framework/README.md#8-open-decisions"]]}
+];
+const narrow=innerWidth<600;
+function wrapN(t,n){const w=t.split(" "),L=[""];for(const x of w){if((L[L.length-1]+" "+x).trim().length>n)L.push(x);else L[L.length-1]=(L[L.length-1]+" "+x).trim()}return L}
+const pos=narrow?S.map((_,i)=>[30,30+i*62]):[[80,80],[260,80],[440,80],[620,80],[800,80],[800,220],[620,220],[440,220],[260,220],[80,220],[80,330]];
+const NS="http://www.w3.org/2000/svg",map=document.getElementById("map");map.setAttribute("viewBox",narrow?"0 0 340 "+(S.length*62+10):"0 0 920 410");
+let path="M"+pos.map(p=>p.join(",")).join(" L");
+const pl=document.createElementNS(NS,"path");pl.setAttribute("d",path);pl.setAttribute("fill","none");pl.setAttribute("stroke","var(--line)");pl.setAttribute("stroke-width","4");map.appendChild(pl);
+function wrap(s){const w=s.split(" "),out=[""];for(const x of w){if((out[out.length-1]+" "+x).trim().length>20)out.push(x);else out[out.length-1]=(out[out.length-1]+" "+x).trim()}return out}
+const nodes=S.map((d,i)=>{const g=document.createElementNS(NS,"g");g.setAttribute("class","stop st-"+(d.s==="open"?"open":d.s==="ctx"?"ctx":"done"));g.setAttribute("tabindex","0");g.setAttribute("role","button");g.setAttribute("aria-label",(i+1)+". "+d.t);g.dataset.tip=(i+1)+". "+d.short;
+ const [x,y]=pos[i];g.innerHTML=narrow?`<rect x="0" y="${y-28}" width="340" height="56" fill="none" style="pointer-events:all"></rect><circle cx="${x}" cy="${y}" r="20"></circle><text class="num" x="${x}" y="${y+5}" text-anchor="middle">${i+1}</text>`+wrapN(d.t,30).map((l,k,A)=>`<text x="${x+34}" y="${y+5+(k-(A.length-1)/2)*17}" style="font-size:15px">${l}</text>`).join("")
+ :`<rect x="${x-85}" y="${y-28}" width="170" height="104" fill="none" style="pointer-events:all"></rect><circle cx="${x}" cy="${y}" r="22"></circle><text class="num" x="${x}" y="${y+5}" text-anchor="middle">${i+1}</text>`+wrap(d.t).map((l,k)=>`<text x="${x}" y="${y+42+k*16}" text-anchor="middle">${l}</text>`).join("");
+ g.addEventListener("click",()=>show(i));g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();show(i)}});map.appendChild(g);return g});
+let cur=0;const badge={done:'<span class="badge b-done">settled</span>',open:'<span class="badge b-open">open</span>',ctx:'<span class="badge b-ctx">background</span>'};
+function show(i){cur=(i+S.length)%S.length;const d=S[cur];nodes.forEach((n,k)=>n.classList.toggle("sel",k===cur));
+ document.getElementById("detail").innerHTML=`<h2>${cur+1}. ${d.t} ${badge[d.s]}</h2><p class="muted">${d.short}</p>
+ <h3>What you said</h3>${d.said.map(q=>`<div class="quote">“${q}”</div>`).join("")}
+ <h3>Where it landed</h3><ul>${d.landed.map(x=>`<li>${x}</li>`).join("")}</ul>
+ ${d.push.length?`<h3>Pushback and corrections</h3>${d.push.map(x=>`<div class="push">${x}</div>`).join("")}`:""}
+ ${d.links.length?`<h3>Records</h3><ul>${d.links.map(([t,u])=>`<li><a href="${u}" data-tip="Open: ${t}">${t}</a></li>`).join("")}</ul>`:""}`;
+ try{localStorage.setItem("outline-stop",cur)}catch(e){}}
+document.getElementById("prev").onclick=()=>show(cur-1);document.getElementById("next").onclick=()=>show(cur+1);
+document.addEventListener("keydown",e=>{if(e.target.closest&&e.target.closest("input,textarea"))return;if(e.key==="ArrowRight")show(cur+1);if(e.key==="ArrowLeft")show(cur-1)});
+let start=0;try{start=+localStorage.getItem("outline-stop")||0}catch(e){}show(start);
+/* styled tooltips on hover, keyboard focus and tap */
+const tip=document.getElementById("tip");let tt;
+function on(el,x,y){const t=el.dataset.tip;if(!t)return;tip.textContent=t;tip.classList.add("on");const r=tip.getBoundingClientRect();tip.style.left=Math.max(8,Math.min(innerWidth-r.width-8,x+12))+"px";tip.style.top=Math.max(8,y-r.height-12)+"px"}
+function off(){tip.classList.remove("on")}
+document.addEventListener("mouseover",e=>{const el=e.target.closest("[data-tip]");if(el){clearTimeout(tt);tt=setTimeout(()=>on(el,e.clientX,e.clientY),80)}else{clearTimeout(tt);off()}});
+document.addEventListener("focusin",e=>{const el=e.target.closest("[data-tip]");if(el){const r=el.getBoundingClientRect();on(el,r.left,r.top)}});
+document.addEventListener("focusout",off);
+document.addEventListener("touchstart",e=>{const el=e.target.closest("[data-tip]");if(el){const t=e.touches[0];on(el,t.clientX,t.clientY);clearTimeout(tt);tt=setTimeout(off,2500)}},{passive:true});
+</script>
+</body></html>
