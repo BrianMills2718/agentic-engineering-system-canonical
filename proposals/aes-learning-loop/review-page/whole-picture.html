@@ -27,6 +27,7 @@ svg{width:100%;height:auto;display:block}.diagram{overflow-x:auto}@media (max-wi
 <h1>Agent feedback: where it goes, how it gets there, where it stalls</h1>
 <p class="q">Agents write feedback lines at the end of each task. A nightly job copies them into one private GitHub repository. A weekly job groups repeats into problems. The last steps, turning a problem into an enforced fix and checking it worked, have not happened yet: <b>0 fixes enforced so far</b>.</p>
 <p class="sub">Numbers as of Sunday 11 October 2026, from the jobs' own run logs (sources at the bottom). Counts only; no feedback text is on this page. Tap or hover any box for details.</p>
+<p class="sub">Formal versions: <a href="feedback-models.html">domain model and data-flow model</a>.</p>
 <h2>What counts as one report</h2>
 <div class="ex"><p><b>A Feedback section.</b> Every agent reply that finishes a piece of work ends with a "Feedback:" field, one line per thing the agent noticed, each with a link to evidence. One reply = one report, filed as one issue. Example line: <i>obs (control): a weekly job failed with exit 2 and raised no alert [project-meta#2538]</i>.</p>
 <p><b>A chat message from you.</b> A small model reads your messages in each session and keeps the ones it judges to be a correction or direction, word for word. Each kept message = one report.</p>

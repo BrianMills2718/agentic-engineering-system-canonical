@@ -1,0 +1,121 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feedback system models</title>
+<style>:root{--bg:#fff;--fg:#111827;--muted:#4b5563;--line:#6b7280;--panel:#f3f4f6;--blue:#1d4ed8;--orange:#b45309}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#8b95a5;--panel:#1a2030;--blue:#7fb2ff;--orange:#f5a524}}
+:root[data-theme="dark"]{--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#8b95a5;--panel:#1a2030;--blue:#7fb2ff;--orange:#f5a524}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 48px}h1{font-size:1.4rem;margin:0 0 6px}h2{font-size:1.15rem;margin:30px 0 6px}
+.q{font-size:1.05rem;margin:0 0 14px;border-left:4px solid var(--blue);padding:4px 0 4px 12px}.sub{color:var(--muted);font-size:14px;margin:4px 0 10px}
+.how{background:var(--panel);border-radius:10px;padding:10px 14px;font-size:14px;margin:8px 0}
+.diagram{overflow-x:auto;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px}.diagram .mermaid{margin:0 auto;width:max-content}
+td code{overflow-wrap:anywhere}table{table-layout:fixed;border-collapse:collapse;width:100%;font-size:14px}td,th{border-top:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}th{background:var(--panel)}
+ol li{margin:4px 0}code{font-size:13px}a{color:var(--blue)}</style></head><body><main>
+<h1>Feedback system: what exists (domain model) and what moves where (data flow)</h1>
+<p class="q">Two pictures of the same system. The <b>domain model</b> names each kind of thing and how they relate: a report holds records, records group into problems. The <b>data-flow model</b> shows which program moves what into which store, and when. Both are drawn from the code as of 11 October 2026; every box has a source in the table at the bottom.</p>
+<p class="sub">Companion page with live counts: <a href="whole-picture.html">the whole picture</a>. Plan: <a href="index.html">feedback loop plan</a>.</p>
+
+<h2>1. Domain model: the kinds of thing</h2>
+<div class="how"><b>How to read it.</b> Each box is a kind of thing. An arrow's label says how two things relate, read in the arrow's direction ("a Report <i>holds</i> 1 or more Records"). Orange dashed boxes exist in the design but have no instances yet. Grey dotted boxes sit outside the loop.</div>
+<div class="diagram"><pre class="mermaid">
+flowchart TB
+  subgraph SRC["Where reports come from"]
+    direction LR
+    Conv["Conversation<br/><small>one Claude or Codex session file</small>"]
+    Reply["Agent reply"]
+    Msg["Your message"]
+    Sub["Subagent finish"]
+    Conv -->|contains many| Reply
+    Conv -->|contains many| Msg
+    Conv -->|contains many| Sub
+  end
+  Rep["Report<br/><small>one Feedback section, kept message, or subagent line</small>"]
+  Reply -->|"may end with 1"| Rep
+  Msg -->|"if judged a correction"| Rep
+  Sub -->|becomes 1| Rep
+  Iss["Log issue<br/><small>in agent-feedback-log</small>"]
+  Rep -->|filed as 1| Iss
+  subgraph RECS["Record: one sentence, one of three kinds"]
+    direction LR
+    Obs["Observation<br/><small>what was seen, what was expected</small>"]
+    Clm["Claim<br/><small>what is believed: seen / inferred / guessed</small>"]
+    Act["Action<br/><small>Investigate, Repair, Prevent...</small>"]
+    Clm -->|rests on| Obs
+  end
+  Rep -->|holds 1 or more| RECS
+  Lnk["Evidence link<br/><small>file:line, commit, issue, URL</small>"]
+  FK["Failure kind<br/><small>one of 22, A to V</small>"]
+  RECS -->|points to 0 or more| Lnk
+  RECS -->|"tagged with the closest kinds"| FK
+  Prob["Problem<br/><small>records describing the same failure</small>"]
+  RECS -->|grouped into| Prob
+  An["Analysis<br/><small>cause chain + proposed fix</small>"]
+  Prob -->|"if seen twice independently"| An
+  Lic["Licence<br/><small>is the evidence enough?</small>"]
+  An -->|proposes a fix with| Lic
+  Fix["Enforced fix<br/><small>rule or check, with receipt</small>"]
+  Lic -->|"if active, may become"| Fix
+  Eff["Effect count<br/><small>did the failure stop?</small>"]
+  Fix -->|measured by| Eff
+  subgraph OUT["Outside the loop: not linked to anything above"]
+    direction LR
+    SR["Skill rating<br/><small>local file per skill</small>"]
+    Con["Concern issue<br/><small>task in a repository</small>"]
+  end
+  classDef planned fill:#fff7ed,stroke:#b45309,stroke-dasharray:6 4,color:#111827
+  classDef outside fill:#f3f4f6,stroke:#6b7280,stroke-dasharray:2 3,color:#111827
+  class Fix,Eff planned
+  class SR,Con outside
+</pre></div>
+<h2>2. Data-flow model: what moves where</h2>
+<div class="how"><b>How to read it.</b> Rectangles are people or agents outside the system. Rounded boxes are programs that run, with when they run. Cylinders are stores where data sits. Arrows carry data, labelled with what moves. Orange dashed: not built or broken. Grey dotted: outside the loop.</div>
+<div class="diagram"><pre class="mermaid">
+flowchart TB
+  You["You"] -->|chat messages| S1
+  Agents["Agents: Claude Code, Codex"] -->|"replies, each ending with a Feedback section"| S1
+  Agents -->|ratings after using a skill| S6[("Skill rating files<br/><small>outside the loop</small>")]
+  S1[("Session files")] -->|"new text since last night"| P1(["1. Collector<br/><small>every night, 3:30 am</small>"])
+  P1 -->|"reports split into records"| S2[("Daily report files<br/><small>reports-DATE.jsonl</small>")]
+  P1 -->|"one issue per report, at most 80 a night"| S3[("Feedback log<br/><small>private GitHub issues</small>")]
+  S2 -->|"last 14 days of records"| P2(["2. Grouper + analyser<br/><small>every Sunday, 5 am</small>"])
+  S5[("Failure-mode list<br/><small>22 kinds</small>")] -->|kinds for tagging| P2
+  P2 -->|"problems; 3 analyses a week"| S4[("Problems + ranked list<br/><small>VIEW.md</small>")]
+  P2 -->|"one issue per repeating problem"| S3
+  S4 --> P3(["3. Licence check<br/><small>inside the Sunday run</small>"])
+  P3 -->|"7 active licences"| P4(["4. Enforce fix<br/><small>NOT BUILT</small>"])
+  P4 -.->|would record a receipt| P5(["5. Effect counter<br/><small>daily; nothing to count</small>"])
+  S2 -->|records| P6(["Failure-kind check<br/><small>Sundays; BROKEN since 11 Oct</small>"])
+  P6 -.->|would propose new kinds| S5
+  S5 -->|the 22 questions| P7(["Review and audit skills<br/><small>when an agent runs them</small>"])
+  P7 -.->|"findings come back as Feedback lines"| Agents
+  S7[("Learnings record<br/><small>old; nothing new since 7 Oct</small>")]
+  classDef broken fill:#fff7ed,stroke:#b45309,stroke-dasharray:6 4,color:#111827
+  classDef outside fill:#f3f4f6,stroke:#6b7280,stroke-dasharray:2 3,color:#111827
+  class P4,P5,P6 broken
+  class S6,S7 outside
+</pre></div>
+<h2>3. One real report, followed through both</h2>
+<ol>
+<li><b>Agent reply.</b> On 11 October, in this conversation, Claude ended a reply with a Feedback section. One line said a gate's block message still sends agents to the old place for friction reports, linking <code>agent-skills/contracts/client-config/jev/worktree_guard.py</code>.</li>
+<li><b>Session file.</b> The reply was saved in Claude's session file for this conversation (store: Session files).</li>
+<li><b>Collector, 3:30 am.</b> Read the new text, found the Feedback section, parsed the line by its <code>obs (control):</code> marker into one Observation record with one Evidence link, and wrote it to <code>reports-2026-10-11.jsonl</code>.</li>
+<li><b>Feedback log.</b> The report was filed as issue <b>#494</b> in agent-feedback-log.</li>
+<li><b>Sunday grouping.</b> Next Sunday the record is tagged with the closest failure kinds (or "not a failure") and is paired with similar records. If another conversation saw the same thing, they join one Problem.</li>
+<li><b>Where it would stop today.</b> If that Problem repeats, it waits in the analysis queue (3 a week, 169 waiting). Even with an active licence, no program yet turns it into an enforced fix.</li></ol>
+
+<h2>Sources for every box</h2>
+<table><tr><th>Box</th><th>Defined in (AES canonical unless noted)</th></tr>
+<tr><td>Report, Record, Observation, Claim, Action, Evidence link</td><td><code>scripts/learning_loop/records.py:34-68</code> (contract feedback-report.v1)</td></tr>
+<tr><td>Your message → Report; subagent finish → Report</td><td><code>scripts/learning_loop/collect_feedback.py</code> step 3; report field "Human correction" / "Subagent outcome" in <code>reports-2026-10-11.jsonl</code></td></tr>
+<tr><td>Collector, 80-a-night limit</td><td><code>collect_feedback.py:448,521</code>; unit <code>feedback-collector.timer</code></td></tr>
+<tr><td>Failure kind (22)</td><td><code>docs/failure-modes.md</code>, read by <code>scripts/learning_loop/label_items.py:47</code>; same list as agent-skills <code>skills/review/references/failure-modes.md</code></td></tr>
+<tr><td>Problem, repeating, Analysis, 3 a week</td><td><code>scripts/learning_loop/problems.py:2-18,179</code>; unit <code>feedback-problems.timer</code> (<code>--max-analyse 3</code>)</td></tr>
+<tr><td>Licence</td><td><code>scripts/learning_loop/licences.py:4-12,57</code></td></tr>
+<tr><td>Enforced fix, effect count</td><td><code>scripts/learning_loop/effects.py</code> (receipt marker); unit <code>feedback-effects.timer</code></td></tr>
+<tr><td>Failure-kind check</td><td>agent-skills <code>scripts/taxonomy_feedback_pass.py</code>; unit <code>taxonomy-feedback.timer</code>; failure filed as project-meta #2538</td></tr>
+<tr><td>Skill rating</td><td><code>~/.claude/skill-feedback/log.py</code>; company-planning plugin hook <code>hooks/skill_feedback_log.py</code></td></tr>
+<tr><td>Learnings record</td><td>project-meta <code>learnings/entries/</code> (2,717 entries, last 7 Oct)</td></tr></table>
+<p class="sub">Notation: flowcharts in Mermaid. Drawn by hand from the code, not generated from it, so they can drift. A program that redraws them from the code would remove that risk; the model-framework proposal covers that.</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>const dark=matchMedia('(prefers-color-scheme: dark)').matches;mermaid.initialize({startOnLoad:true,theme:dark?'dark':'default',flowchart:{htmlLabels:true,curve:'basis',useMaxWidth:false},themeVariables:{fontSize:'16px'},securityLevel:'strict'});</script>
+</body></html>
