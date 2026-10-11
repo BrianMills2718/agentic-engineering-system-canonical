@@ -1,0 +1,89 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent feedback: whole picture</title>
+<style>:root{--bg:#fff;--fg:#111827;--muted:#4b5563;--line:#6b7280;--panel:#f3f4f6;--blue:#1d4ed8;--bluefill:#dbeafe;--orange:#b45309;--orangefill:#fff7ed;--grey:#6b7280;--greyfill:#f3f4f6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#8b95a5;--panel:#1a2030;--blue:#7fb2ff;--bluefill:#1e3a5f;--orange:#f5a524;--orangefill:#3a2a10;--grey:#9aa3b2;--greyfill:#202634}}
+:root[data-theme="dark"]{--bg:#0f1420;--fg:#e5e7eb;--muted:#a3adba;--line:#8b95a5;--panel:#1a2030;--blue:#7fb2ff;--bluefill:#1e3a5f;--orange:#f5a524;--orangefill:#3a2a10;--grey:#9aa3b2;--greyfill:#202634}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 48px}h1{font-size:1.4rem;margin:0 0 6px}h2{font-size:1.1rem;margin:28px 0 8px}
+.q{font-size:1.05rem;margin:0 0 14px;border-left:4px solid var(--blue);padding:4px 0 4px 12px}.sub{color:var(--muted);font-size:14px;margin:0 0 14px}
+.legend span{display:inline-block;margin:0 18px 6px 0;font-size:14px}.sw{display:inline-block;width:18px;height:12px;vertical-align:middle;margin-right:6px;border:2px solid}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;align-items:stretch}
+.lane{margin:8px 0 2px;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+button.st{position:relative;text-align:left;font:inherit;color:inherit;border:2px solid var(--blue);background:var(--bluefill);border-radius:10px;padding:10px 12px;cursor:pointer;min-height:118px}
+button.st.stall{border-color:var(--orange);background:var(--orangefill);border-style:dashed}button.st.out{border-color:var(--grey);background:var(--greyfill);border-style:dotted}
+button.st[aria-pressed="true"]{outline:3px solid var(--fg);outline-offset:2px}
+.st b{display:block;font-size:15px}.st .n{display:block;font-size:1.5rem;font-weight:800;margin:4px 0 0}.st .w{display:block;font-size:13px;color:var(--muted)}
+.st .tag{position:absolute;top:8px;right:10px;font-size:11px;font-weight:700}
+.tip{position:absolute;left:8px;right:8px;bottom:calc(100% + 6px);background:var(--fg);color:var(--bg);font-size:13px;padding:6px 8px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .12s;z-index:5}
+button.st:hover .tip,button.st:focus-visible .tip{opacity:1}
+.arrow{text-align:center;color:var(--line);font-size:20px;margin:2px 0}
+#detail{background:var(--panel);border-radius:10px;padding:14px 16px;margin-top:14px;min-height:90px}#detail h3{margin:0 0 6px;font-size:1.05rem}#detail p{margin:6px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}td,th{border-top:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}th{background:var(--panel)}
+code{font-size:13px}a{color:var(--blue)}</style></head><body><main>
+<h1>Agent feedback: where it goes, how it gets there, where it stalls</h1>
+<p class="q">Agents write feedback lines at the end of each task. A nightly job copies them into one private GitHub repository. A weekly job groups repeats into problems. The last steps, turning a problem into an enforced fix and checking it worked, have not happened yet: <b>0 fixes enforced so far</b>.</p>
+<p class="sub">Numbers as of Sunday 11 October 2026, from the jobs' own run logs (sources at the bottom). Counts only; no feedback text is on this page. Tap or hover any box for details.</p>
+<div class="legend"><span><i class="sw" style="background:var(--bluefill);border-color:var(--blue)"></i>working</span><span><i class="sw" style="background:var(--orangefill);border-color:var(--orange);border-style:dashed"></i>stalled or broken (dashed)</span><span><i class="sw" style="background:var(--greyfill);border-color:var(--grey);border-style:dotted"></i>outside the loop (dotted)</span></div>
+
+<div class="lane">1 · Where feedback starts</div>
+<div class="flow">
+<button class="st" data-k="closeout"><span class="tip">The "Feedback" field at the end of every Claude and Codex task.</span><b>End-of-task Feedback lines</b><span class="n">51</span><span class="w">sessions changed last night (37 Claude, 14 Codex)</span></button>
+<button class="st" data-k="you"><span class="tip">Your corrections and directions in chat, picked out by a small model.</span><b>Your corrections in chat</b><span class="n">211</span><span class="w">reports from your messages last night</span></button>
+<button class="st out" data-k="skills"><span class="tag">OUTSIDE</span><span class="tip">Per-skill ratings saved to local files. The nightly job never reads them.</span><b>Skill ratings</b><span class="n">3,483</span><span class="w">lines in local files (2,923 Claude, 560 Codex)</span></button>
+<button class="st out" data-k="concerns"><span class="tag">SEPARATE</span><span class="tip">Problems that need fixing become GitHub issues in the repository they belong to. These are tasks, not feedback.</span><b>Concern issues</b><span class="n">per repo</span><span class="w">tasks for agents, e.g. project-meta #2536</span></button>
+</div>
+<div class="arrow">↓</div>
+<div class="lane">2 · How it gets there (every night, 3:30 am)</div>
+<div class="flow">
+<button class="st" data-k="collect"><span class="tip">Reads only the new part of each session file, splits it into one-sentence records, files one issue per report.</span><b>Nightly collector</b><span class="n">770</span><span class="w">new reports found last night</span></button>
+<button class="st stall" data-k="cap"><span class="tag">STALLED</span><span class="tip">At most 80 issues are filed per night; the rest wait for the next night.</span><b>Filing limit</b><span class="n">80 / night</span><span class="w">882 reports waiting last night</span></button>
+<button class="st" data-k="log"><span class="tip">Private GitHub repository BrianMills2718/agent-feedback-log: one issue per report.</span><b>The feedback log</b><span class="n">506</span><span class="w">issues (494 reports, 12 problems)</span></button>
+</div>
+<div class="arrow">↓</div>
+<div class="lane">3 · What comes out (every Sunday, 5 am)</div>
+<div class="flow">
+<button class="st" data-k="group"><span class="tip">A model judges which records describe the same problem and joins them.</span><b>Group into problems</b><span class="n">675</span><span class="w">problems from 3,017 records</span></button>
+<button class="st stall" data-k="recurring"><span class="tag">STALLED</span><span class="tip">174 problems were seen at least twice independently. Only 3 a week get a cause analysis.</span><b>Repeating problems</b><span class="n">174</span><span class="w">169 still waiting for analysis</span></button>
+<button class="st stall" data-k="noise"><span class="tag">NOISY</span><span class="tip">Ordinary questions you asked in chat are being counted as problems.</span><b>Ranked list</b><span class="n">VIEW.md</span><span class="w">your plain questions rank as problems</span></button>
+<button class="st" data-k="licence"><span class="tip">A fix is "licensed" when two independent observations support it.</span><b>Fixes with enough evidence</b><span class="n">7</span><span class="w">active (3 conditional, 2 not established)</span></button>
+</div>
+<div class="arrow">↓</div>
+<div class="lane">4 · Did anything change?</div>
+<div class="flow">
+<button class="st stall" data-k="enforce"><span class="tag">NOT YET</span><span class="tip">No problem issue carries an enforcement receipt: no fix has been adopted and enforced through the loop.</span><b>Fixes enforced</b><span class="n">0</span><span class="w">12 problems marked "enforcement unverified"</span></button>
+<button class="st stall" data-k="effects"><span class="tag">NOTHING TO COUNT</span><span class="tip">Runs daily to count whether a failure stopped after its fix. With 0 fixes enforced, it has nothing to measure.</span><b>Did the failure stop?</b><span class="n">—</span><span class="w">daily check, 7:30 am</span></button>
+<button class="st stall" data-k="taxonomy"><span class="tag">BROKEN</span><span class="tip">Weekly check that the list of failure kinds still covers new feedback. Failed today; no alert was raised.</span><b>Failure-kind list check</b><span class="n">failed</span><span class="w">Sunday 11 Oct, exit 2</span></button>
+</div>
+
+<div id="detail" aria-live="polite"><h3>Pick a box</h3><p>Each box explains what that step does, where its numbers come from, and what to do about it.</p></div>
+
+<h2>Should the smaller places join the main log?</h2>
+<table><tr><th>Place</th><th>Recommendation</th><th>Why</th></tr>
+<tr><td>Skill ratings (local files)</td><td><b>Yes, bring them in</b></td><td>3,483 lines that nothing reads except a skill an agent must run by hand. They are feedback about the same agents, so they belong in the same log and grouping. The nightly job can read them the same way it reads session files.</td></tr>
+<tr><td>Concern issues (per repo)</td><td><b>No, keep them separate, but link them</b></td><td>They are tasks someone must do, not observations. When a repeating problem gets a fix, its concern should be linked from the problem issue.</td></tr>
+<tr><td>Failure-kind list check</td><td><b>Fix it, then fold it into the weekly job</b></td><td>It reads the same records as the weekly grouping and broke on a duplicate record today. One job reading one source cannot disagree with itself.</td></tr></table>
+
+<h2>Sources</h2>
+<p class="sub">Nightly: <code>~/projects/data/feedback-collector/runs.jsonl</code> (run 20261011T073155Z). Weekly: <code>problems-runs.jsonl</code> (run 2026-10-11T11:34). Log: <code>gh issue list --repo BrianMills2718/agent-feedback-log</code>. Skill ratings: <code>~/.claude/skill-feedback/</code>, <code>~/.codex/skill-feedback/</code>. Failure-kind check: <code>journalctl --user -u taxonomy-feedback</code>. Code: <code>scripts/learning_loop/</code> in this repository. Plan: <a href="index.html">the feedback loop plan</a>.</p>
+</main>
+<script>
+const D={
+closeout:["End-of-task Feedback lines","Every agent ends a task with a Feedback field: one line per thing it saw, believed or tried, each with a link to evidence. Claude and Codex both do this. Last night the collector found 51 changed session files (37 Claude, 14 Codex)."],
+you:["Your corrections in chat","In interactive sessions a small model picks out your corrections, directions and frustrations, keeping only quotes it finds word for word. Last night: 211 reports came from your messages."],
+skills:["Skill ratings: outside the loop","After using a skill, an agent may append a rating line to a local file per skill: 75 Claude skills (2,923 lines) and 44 Codex skills (560 lines). The nightly collector never reads these files. Only the review-skill-feedback skill reads them, when an agent runs it by hand. Recommendation: bring them into the nightly job."],
+concerns:["Concern issues: separate on purpose","When an agent finds something broken that needs fixing, it opens a keyed GitHub issue in the owning repository (for example project-meta #2536 today). These are work items with an owner, not observations, so they stay separate. They should be linked from the matching problem in the feedback log."],
+collect:["Nightly collector (3:30 am)","Reads only the new bytes of each Claude and Codex session file, parses the Feedback fields with code, splits free text into one-sentence records with a small model, and files one issue per report in the private log. Last night: 770 new reports, 0 errors, about 19 minutes."],
+cap:["Filing limit: the backlog","The collector files at most 80 report issues a night (setting --max-reports 80). Reports over the limit are re-read and retried the next night. Last night 882 were waiting, far more than one night can clear, so the log runs days behind."],
+log:["The feedback log","A private GitHub repository, BrianMills2718/agent-feedback-log. One issue per agent report (494 so far), plus 12 issues for repeating problems. Address: github.com/BrianMills2718/agent-feedback-log/issues"],
+group:["Group into problems (Sundays)","A model pairs each record with its most similar record from another report and judges whether they describe the same problem. Joined records form a problem. This week: 3,017 records became 675 problems."],
+recurring:["Repeating problems: the analysis queue","A problem counts as repeating when two independent sightings support it (different sessions or days, with a working evidence link). 174 qualify. The weekly job writes a cause analysis for only 3 a week (setting --max-analyse 3), so 169 are waiting. At this rate the queue takes over a year."],
+noise:["Ranked list: noisy","The weekly job also writes VIEW.md in the feedback repository: every problem ranked by impact, then uncertainty. Several top-20 entries are just questions you asked in chat (for example asking what a term means), counted as problems. The step that picks out your corrections lets plain questions through."],
+licence:["Fixes with enough evidence","A proposed fix is licensed when the evidence rule finds at least two independent observations supporting it. 7 are active, 3 conditional, 2 not established. Licensed means allowed to be adopted, not adopted."],
+enforce:["Fixes enforced: zero","The plan says agents adopt a licensed fix as a plan, enforce it at a commit, merge or audit point, and record a receipt on the problem issue. No problem issue has a receipt yet, and 12 are marked enforcement unverified. This is the step where the loop currently stops."],
+effects:["Did the failure stop?","A daily job is meant to count each failure before and after its fix and revoke fixes that do not work. It runs (7:30 am, 0 errors), but with no enforced fix it has nothing to measure."],
+taxonomy:["Failure-kind list check: broken","A weekly job asks whether new feedback fits the list of failure kinds agents use in reviews. It failed this morning (exit 2): two records share an ID but differ in content. Its last good report is from 4 October. The failure reached only a log, with no alert."]};
+const detail=document.getElementById('detail');
+document.querySelectorAll('button.st').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('button.st').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');
+ const [h,p]=D[b.dataset.k];detail.innerHTML='<h3></h3><p></p>';detail.querySelector('h3').textContent=h;detail.querySelector('p').textContent=p;}));
+</script></body></html>
