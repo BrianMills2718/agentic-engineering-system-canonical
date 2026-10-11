@@ -1,0 +1,21 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "docs/plans/commit-rule-skip-roots.md",
+  "plan_sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6",
+  "path_decision_ref": "docs/plans/commit-rule-skip-roots.path-decision.json",
+  "path_decision_sha256": "07ff80c5786f201fb24fc9a3e2db1edb89eb839e65b97edfbf590b9de761f10e",
+  "facts": {
+    "shared_mechanism": false,
+    "empirical_comparison_proposed": false,
+    "llm_central": false,
+    "irreversible_or_spend_action": false
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-11T01:57:30Z"
+}

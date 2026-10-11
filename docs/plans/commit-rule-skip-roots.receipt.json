@@ -1,0 +1,546 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-commit-rule-skip-roots-b5292dab8cfd",
+  "plan": {
+    "plan_ref": "docs/plans/commit-rule-skip-roots.md",
+    "plan_sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+  },
+  "path_decision": {
+    "ref": "docs/plans/commit-rule-skip-roots.path-decision.json",
+    "sha256": "07ff80c5786f201fb24fc9a3e2db1edb89eb839e65b97edfbf590b9de761f10e",
+    "selected_path": "prototype",
+    "classified_path": "prototype",
+    "errors": []
+  },
+  "route": "inline_prototype",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@11",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "0261c51b94b32a629bf6255b3c032c18cdbef4e8df6d5bed9db1f72d267c89cb"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "e08f1a326de035b56e4e20bd6224439145f2373926a66672502c4b78a524105d"
+  },
+  "activation": {
+    "facts_ref": "docs/plans/commit-rule-skip-roots.facts.json",
+    "facts_sha256": "3c908deca16f68c6203275dea2597905c6fbc439eeefadc0d410114d70f18508",
+    "facts": {
+      "shared_mechanism": false,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "crosses_system_boundary": false,
+      "deploys": false,
+      "claims_external_standard": false,
+      "aes_governed_target": true,
+      "multiple_writers": false,
+      "consequential_boundary": false,
+      "inline_prototype": true
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "crosses_system_boundary": "default:not_declared",
+      "deploys": "default:not_declared",
+      "claims_external_standard": "default:not_declared",
+      "aes_governed_target": "derived:repository has .aes/target.yaml",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": false,
+        "reason": "shared_mechanism=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": false,
+        "reason": "multiple_writers=false (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": true,
+        "reason": "inline_prototype=true (derived:classified_path==prototype)"
+      },
+      {
+        "overlay_id": "OV-SYSTEM-BOUNDARY",
+        "activation_fact": "crosses_system_boundary",
+        "active": false,
+        "reason": "crosses_system_boundary=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-DEPLOYMENT",
+        "activation_fact": "deploys",
+        "active": false,
+        "reason": "deploys=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-STANDARD-CONFORMANCE",
+        "activation_fact": "claims_external_standard",
+        "active": false,
+        "reason": "claims_external_standard=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-AES",
+        "activation_fact": "aes_governed_target",
+        "active": true,
+        "reason": "aes_governed_target=true (derived:repository has .aes/target.yaml)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:d82a0d5974435d029491ebe2601bebe9da22230e7ad91f5b9cb5226a5cec2d0c",
+    "definition_sha256": "b026caed253140a4f1c2ecdaf8d28ba6e10323d1fe50df44662dac30adb3fb07",
+    "bundle_ref": "docs/plans/commit-rule-skip-roots.bundle.json",
+    "bundle_sha256": "7da042a8a012a62c73396a7e6b6dca4ce211247ad4d812f10004af12b22e34e1",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#actor-and-result",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/0edf2263025b/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the actor as Brian, states the desired repository commit behavior, and gives a stable, concrete user-visible example contrasting a successful logged skip under `/tmp` with refusal under `~/code`.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.path-decision.json",
+          "sha256": "07ff80c5786f201fb24fc9a3e2db1edb89eb839e65b97edfbf590b9de761f10e"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-REQUIREMENTS-TRACED",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#requirements",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/6271cabf0ebe/CORE-REQUIREMENTS-TRACED",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence provides a requirements table with R1, identifies its verification as the “success check under Success and disproof” with a saved output path, and states its status as “planned, not yet run.” It also explicitly states that the change has no additional implied claims or named-standard/schema/contract requirements.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#success-and-disproof",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/0edf2263025b/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence defines success through a specifically named test for skipping only exempt throwaway repositories, the remaining commit-rule tests, and an enforced-planning test, with trace requirements that directly check the listed behavior and outputs. It also gives concrete disproof conditions: an untagged commit being accepted as skip or a repository-owned skip_roots entry taking effect.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#success-and-disproof",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/0edf2263025b/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names the judged run (“the success check above, run once on the commit”), identifies its location (the committed check output file), and specifies what the trace must show beyond the final result, including the exact command, exit status, each check/test and result, non-skipping, and model-element output. It also explicitly states that both success and disproof are judged from that file and explains that no model, agent, or LLM pipeline run exists.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-DEBUGGING",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#when-a-run-fails-or-surprises-us",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/6271cabf0ebe/CORE-TRACE-DEBUGGING",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence provides a separate procedure for unexpected failures, distinct from anticipated failure modes, and explicitly requires preserving the failed run and trace ID, reading all named artifacts, citing and classifying the divergence, investigating unresolved causes before causal repair, and linking the repair to a new traced verification run while retaining the original. It also explicitly distinguishes complete review from the run outcome.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SYSTEM-MODEL",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#system-model",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/16c9569925fe/CORE-SYSTEM-MODEL",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence identifies the model entry point (`src/agentic_engineering_system/commit_rule.py`), names the changed stored state, configuration, and view, and states what the tests must show for each. It also provides concrete drift checks, explains that no other views require updates, and specifies same-commit reconciliation of the docstring, tests, and code.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-CAPABILITY-REUSE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#capability-reuse",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/6271cabf0ebe/CORE-CAPABILITY-REUSE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states, “No catalogue entry fits,” and explains that the catalogue does not list the AES commit rule, which is the capability this change needs. It also states that the change adds no new capability, so no first consumer is required.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#authority-and-non-goals",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/0edf2263025b/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies Brian as the requester with authority in his own repository and states the work's non-goals: nothing outside the listed files, no irreversible actions, and no spending.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#irreversible-actions-and-spend",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/16c9569925fe/CORE-IRREVERSIBLE-SPEND",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that there are no irreversible actions or spend: the code/test change is in a revertible commit, the configuration edit can be undone by deleting the line, and there is no spend or external publication. Therefore, no irreversible action requires a boundary, authorizer, or containment description.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#uncertainties",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/0edf2263025b/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly lists an uncertainty about whether additional files are needed and provides resolving evidence: `git diff --stat origin/main` showing the affected files. The requirement allows either an owner or evidence that would resolve each uncertainty.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#activation-facts",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/16c9569925fe/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly states that there is no new shared mechanism, no comparison, no centrally dependent LLM behavior, no irreversible action or spend, and no claim to follow an external standard. It declares `aes_governed_target` true, so no triggered activation fact is declared false.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PROTO-VERTICAL-RESET",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#vertical-and-reset",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/6271cabf0ebe/OV-PROTO-VERTICAL-RESET",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states the vertical’s files, delivered behavior, and completion checks; defines the reset as `git revert` of the commit; and identifies the non-goal as anything outside those files. It also explicitly says no coordinated-work ceremony is added.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-AES-TARGET-TRACE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-rule-skip-roots.md#aes-target",
+          "sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-rule-skip-roots/6271cabf0ebe/OV-AES-TARGET-TRACE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence states that `.aes/target.yaml` is unchanged and explicitly says there is no target delta, so no `aes plan validate` result is needed. It maps R1 to normative item AP-REQ-001 and success criterion SC-AP-001, and provides a verification subject for each.",
+        "reused": true
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 14,
+    "unresolved": 0,
+    "not_applicable": 0,
+    "unavailable": 0,
+    "missing": 0
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-commit-rule-skip-roots-b5292dab8cfd",
+    "snapshot_ref": "SNAPSHOT-commit-rule-skip-roots",
+    "snapshot_revision": "sha256:7da042a8a012a62c73396a7e6b6dca4ce211247ad4d812f10004af12b22e34e1",
+    "packet_ref": "docs/plans/commit-rule-skip-roots.md",
+    "packet_revision": "sha256:b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [],
+    "route": "inline_prototype",
+    "adoption_readiness": "ready_for_contributor",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "pass",
+  "reason_codes": [],
+  "actionable_summary": [
+    "pass: 14 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "claude-code",
+    "session": "d0b956fa-10a5-45fc-8185-72585351ab8c"
+  },
+  "started_at": "2026-10-11T01:57:31Z",
+  "completed_at": "2026-10-11T01:57:40Z",
+  "duration_ms": 9053
+}
