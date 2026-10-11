@@ -116,6 +116,8 @@ Prior art:
 | View coverage matrix | `docs/model/VIEW_COVERAGE.md` in 8 of those repos | Tracks "shown in a diagram", not "built and verified" |
 | Source-linked review page | AES `proposals/system-model-review/` | One flow only |
 | Trace review | AES `proposals/trace-review*` | Runs per plan, not per model element |
+| Doc graph: `scripts/relationships.yaml` (ADR `governs` code, code `documented_by` doc, code `affects` doc) plus `check_doc_coupling.py --staged` in pre-commit, which refuses a commit that changes code without its coupled doc | agent_ecology2 (ADR 0005, Plans #284/#286/#287, Feb 2026); `relationships.yaml` is in 47 repos and `check_doc_coupling.py` in 37 | Brian's own incumbent traceability mechanism. Links are file-to-file, not model element to test. The check is co-change ("was the doc touched?"), a proxy that says nothing about whether the doc is still right |
+| Context compression page (META-ADR-0005) | agent_ecology2 `docs/visualizations/context_compression.html`, 2026-02-09 | Same problem stated in February: docs are lossy compressions of code at zoom levels; each layer must compress something unique, be consumed, and have a freshness check (principle 6). It labels each edge Enforced / Consumed / Declared, the same split as section 8. Its own "missing" list: ontology vs code drift, domain model vs code drift, glossary staleness, which is this framework's target |
 | LinkML project model, view catalogue, generated views | ai-astronauts `brian/project-model/` | Runs (agent check 2026-10-10, scratch copy): model checker 0 errors, 15 views selected, 3 shown / 12 gaps, tests 34/34 and 18/18 pass, regenerated outputs match committed ones. Friction: needs `COMPANY_PLANNING_ROOT`; tests run only as scripts, not under pytest. The closest existing seed for the megamodel index |
 
 ## 7. Verified facts and corrections (2026-10-10)
@@ -170,7 +172,7 @@ ODD spread.
 | Step | What | Agent time | Brian |
 |---|---|---|---|
 | 0 | Record the priority and the enforcement map (sections 1, 8) and file #119 | done | none |
-| 1 | Landscape check of traceability tools (sphinx-needs, StrictDoc, OpenFastTrace, Doorstop, pytest markers + JUnit XML, AES `verification_subjects`). Decides how "element ID → test → status" is recorded | about 1 h | none |
+| 1 | Landscape check of traceability tools. Incumbent first: extend `relationships.yaml` + `check_doc_coupling.py` (already in 37 repos) with model-element-to-test edges. Then compare sphinx-needs, StrictDoc, OpenFastTrace, Doorstop, pytest markers + JUnit XML, and AES `verification_subjects`. Decides how "element ID → test → status" is recorded | about 1 h | none |
 | 2 | Write the three rules as one amendment to decision 0002 and the system-model reference. Plan: element IDs, decided/guessed marks, unknowns table. Build: each element covered by at least one named test, status computed from the last run. Review: a generated status page linked from each review point | 1-2 h | look at one diagram of the rules, about 15 min |
 | 3 | Build the checks in warn mode: plan-adoption check (fixes #119), status computation, review-page generator | 4-6 h | none |
 | 4 | Stress test on qualitative_coding slice 1: intent models, tagged tests, a run, a status page | 4-6 h | open the status page, about 20 min |
