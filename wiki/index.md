@@ -103,6 +103,7 @@ Declared in [`.agentic/repo.yaml`](../.agentic/repo.yaml) (`durable_documents`) 
 - [System model](../docs/model/ODD.md) and its checked [trace](../docs/model/trace.yaml) — each rule with one owner file, the tests that prove it, and the decision records behind it.
 - [Decision records](../docs/decisions/) — each names what it governs on a `Governs:` line.
 - [Generated catalog](../generated/docstring_wiki.md) — every document and module with its description (`make docstring-wiki-check`).
+- Cold-reader checks of these documents: a fresh agent answered the canonical question from this page ([AES canonical review](../proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md), [company-planning review](../proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader-review.md)).
 
 ## Read in this order
 
