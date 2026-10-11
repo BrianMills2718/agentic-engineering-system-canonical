@@ -364,6 +364,51 @@ def test_machine_config_reaches_repositories_without_their_own(tmp_path: Path, m
     assert load_rule_config(plain).mode == "observe" and load_rule_config(plain).source == "default"
 
 
+def test_machine_skip_roots_exempt_throwaway_repositories_and_nothing_else(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Issue #488: a repository under a machine-wide skip root commits untagged with a logged skip;
+    one outside it is still refused; a repository's own file can neither name nor inherit a skip."""
+    throwaway, real = tmp_path / "tmp", tmp_path / "code"
+    machine = tmp_path / "machine.yaml"
+    machine.write_text(f"mode: enforce\nskip_roots: [$AES_TEST_SKIP_ROOT, $AES_TEST_UNSET_VAR]\n", encoding="utf-8")
+    monkeypatch.setenv("AES_COMMIT_RULE_MACHINE_CONFIG", str(machine))
+    monkeypatch.setenv("AES_TEST_SKIP_ROOT", str(throwaway))
+    monkeypatch.delenv("AES_TEST_UNSET_VAR", raising=False)
+    env = {**ENV, "AES_COMMIT_RULE_MACHINE_CONFIG": str(machine), "AES_TEST_SKIP_ROOT": str(throwaway)}
+    env.pop("AES_TEST_UNSET_VAR", None)
+
+    def commit(root: Path, message: str) -> subprocess.CompletedProcess[str]:
+        _write(root, "a.txt", message + "\n")
+        subprocess.run(["git", "init", "-q"], cwd=root, check=True, env=env)
+        # the machine-wide hook a plain repository gets: `aes commit check` on the message
+        hook = root / ".git" / "hooks" / "commit-msg"
+        hook.write_text(f'#!/bin/sh\nexec "{sys.executable}" -m agentic_engineering_system.cli commit check '
+                        f'--root "$(git rev-parse --show-toplevel)" "$1"\n', encoding="utf-8")
+        hook.chmod(0o755)
+        subprocess.run(["git", "add", "."], cwd=root, check=True, env=env)
+        return subprocess.run(["git", "-c", f"core.hooksPath={hook.parent}", "-c", "user.name=probe",
+                               "-c", "user.email=probe@example.invalid", "commit", "-m", message],
+                              cwd=root, capture_output=True, text=True, check=False, env=env)
+
+    skipped = commit(throwaway / "fixture-repo", "fixture")
+    assert skipped.returncode == 0, skipped.stderr
+    assert "aes commit rule: skip" in skipped.stderr and str(throwaway.resolve()) in skipped.stderr
+    log = next((throwaway / "fixture-repo" / ".git" / "aes").glob("commit-rule-*.jsonl"))
+    entry = json.loads(log.read_text(encoding="utf-8").splitlines()[-1])
+    assert (entry["verdict"], entry["subject"], entry["skip_root"]) == ("skip", "fixture", str(throwaway.resolve()))
+
+    refused = commit(real / "project", "fixture")
+    assert refused.returncode != 0 and "refuse" in refused.stderr
+
+    own = throwaway / "own-rule"
+    _write(own, ".aes/commit_rule.yaml", f"mode: enforce\nskip_roots: [{tmp_path}]\n")
+    judged = commit(own, "fixture")
+    assert judged.returncode != 0 and "refuse" in judged.stderr
+
+    from agentic_engineering_system.commit_rule import load_rule_config
+    assert load_rule_config(own).skip_roots == ()
+    assert load_rule_config(real / "project").skip_roots == (throwaway.resolve(),)
+
+
 def test_auto_tag_names_its_job_and_touches_no_running_thing() -> None:
     """[Auto] is for scheduled jobs: it must name the job and may not change anything that runs."""
     config = RuleConfig(plan_roots=())

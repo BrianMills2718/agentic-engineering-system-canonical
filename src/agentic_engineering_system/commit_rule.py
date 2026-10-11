@@ -53,7 +53,11 @@ nothing, the default; ``enforce``: refuse), the trivial limits and extra
 (``$AES_COMMIT_RULE_MACHINE_CONFIG``, default ``~/.config/aes/commit_rule.yaml``),
 whose top-level keys are the defaults and whose ``repos: {<directory name>: {...}}``
 entries override them for one repository; that is how the rule reaches
-repositories that are not AES projects yet. Every verdict appends one JSON line to
+repositories that are not AES projects yet. Its ``skip_roots`` list (folders; ``~`` and
+environment variables expand) names where throwaway repositories live, such as the temp folder
+that test suites build fixture repositories in: a repository under one of them that has no file
+of its own gets a logged ``skip`` and no check (issue #488). Only the machine-wide file can name
+skip roots, so the exception lives in one place. Every verdict appends one JSON line to
 ``<git-common-dir>/aes/commit-rule-<UTC date>.jsonl``.
 """
 
@@ -151,6 +155,9 @@ class RuleConfig:
     repository_names: tuple[str, ...] = ()
     # files a systemd unit tracked in this repository runs (ExecStart*), so [Trivial] may not touch them
     running_extra: frozenset[str] = frozenset()
+    # Machine-wide only: folders whose repositories (without a file of their own) are throwaway,
+    # so the rule logs a skip instead of judging them (issue #488).
+    skip_roots: tuple[Path, ...] = ()
 
 
 @dataclass
@@ -238,13 +245,15 @@ def load_rule_config(root: Path) -> RuleConfig:
     path = root / CONFIG_PATH
     if path.is_file():
         data = _YAML.load(path.read_text(encoding="utf-8")) or {}
+        data.pop("skip_roots", None)  # a repository cannot exempt itself; only the machine-wide file can
     else:
         path = machine_config_path()
         if not path.is_file():
             return RuleConfig(plan_roots=(root,), repository_names=repository_names(root), running_extra=unit_scripts(root))
         machine = _YAML.load(path.read_text(encoding="utf-8")) or {}
         override = (machine.get("repos") or {}).get(root.name) or {}
-        data = {**{k: v for k, v in machine.items() if k != "repos"}, **override}
+        data = {**{k: v for k, v in machine.items() if k not in ("repos", "skip_roots")}, **override}
+        data["skip_roots"] = machine.get("skip_roots") or []
     mode = data.get("mode", "observe")
     if mode not in ("observe", "enforce"):
         raise ValueError(f"{path}: mode must be observe or enforce, not {mode!r}")
@@ -268,7 +277,15 @@ def load_rule_config(root: Path) -> RuleConfig:
         repository_names=repository_names(root),
         doc_reach=doc_reach,
         doc_reach_owners=tuple(str(o).lower() for o in data.get("doc_reach_owners", RuleConfig.doc_reach_owners)),
+        skip_roots=tuple(Path(os.path.expandvars(str(p))).expanduser().resolve() for p in data.get("skip_roots", [])
+                         if "$" not in os.path.expandvars(str(p))),
     )
+
+
+def skipped_by(root: Path, config: RuleConfig) -> Path | None:
+    """The machine-wide skip root `root` lies under, if any."""
+    root = root.resolve()
+    return next((s for s in config.skip_roots if root == s or s in root.parents), None)
 
 
 def _parse_changes(numstat: str, name_status: str) -> list[FileChange]:
@@ -1012,6 +1029,12 @@ def check_message(root: Path, message_file: Path) -> tuple[int, str]:
     root = root.resolve()
     config = dataclasses.replace(load_rule_config(root), index_root=root)
     message = "\n".join(l for l in message_file.read_text(encoding="utf-8").splitlines() if not l.startswith("#"))
+    skip = skipped_by(root, config)
+    if skip is not None:
+        subject = message.strip().splitlines()[0] if message.strip() else ""
+        log = _log(root, {"mode": config.mode, "config": config.source, "subject": subject,
+                          "verdict": "skip", "skip_root": str(skip)})
+        return 0, f"aes commit rule: skip — {root} is under skip root {skip} in {config.source} (logged to {log})"
     verdict = judge(message, staged_changes(root), _governed_roots(root), config, _legacy(root))
     log = _log(root, {"mode": config.mode, "config": config.source, "subject": message.strip().splitlines()[0] if message.strip() else "",
                       **asdict(verdict)})

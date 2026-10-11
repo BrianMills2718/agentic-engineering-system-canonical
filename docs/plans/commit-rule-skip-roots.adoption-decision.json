@@ -1,0 +1,15 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "docs/plans/commit-rule-skip-roots.md",
+  "plan_sha256": "b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6",
+  "receipt_ref": "docs/plans/commit-rule-skip-roots.receipt.json",
+  "receipt_sha256": "458b1a5464e4fdd70700db01a23c3f661848991051a0200a5eb38fe5d8dadbce",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 14 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+  ],
+  "decided_at": "2026-10-11T01:57:40Z"
+}
