@@ -1,0 +1,11 @@
+# R13/R14 tests on company-planning main fc3d5b7
+tests/test_durable_docs_check.py::test_doc_without_description PASSED    [ 12%]
+tests/test_durable_docs_check.py::test_catalog_check_failure_reported PASSED [ 25%]
+tests/test_durable_docs_check.py::test_catalog_not_applicable_accepted PASSED [ 37%]
+tests/test_durable_docs_check.py::test_goal_thesis_without_ctx004 PASSED [ 50%]
+tests/test_durable_docs_check.py::test_goal_without_lineage PASSED       [ 62%]
+tests/test_durable_docs_check.py::test_decision_link_with_anchor PASSED  [ 75%]
+tests/test_durable_docs_check.py::test_check_names_a_missing_test_function PASSED [ 87%]
+tests/test_durable_docs_check.py::test_repository_passes_its_own_durable_check PASSED [100%]
+======================= 8 passed, 26 deselected in 3.89s =======================
+exit=0
