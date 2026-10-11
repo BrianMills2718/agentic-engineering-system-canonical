@@ -1,0 +1,432 @@
+{
+ "stage": "built and rendered at 1440 and 390 px, light and dark; tooltips browser-tested",
+ "choice-justified:scroll-linked-explainer": {
+  "status": "skipped",
+  "why": "Not chosen (router primary rejected). Router's top pick. Brian reviews plans as a page of diagrams he can scan and point at; a scroll-linked explainer hides the parts behind steps. Built a composite of five small views instead, each with the form its job needs: a node-link map for the durable set (relations between roles), a hub-and-spoke for the traceability chain, a directed flow with refusal loops for the lifecycle, identical small frames for plan sizing, a sequence for milestones (router alternative directed-handoff-flow), plus a callout box for disproof."
+ },
+ "guessing-text-widths": {
+  "status": "skipped",
+  "why": "Partly: build estimates widths by character count; the browser test then measures painted text and found 0 spills, so estimates are verified, not trusted."
+ },
+ "one-fixed-label-coordinate-per-mark": {
+  "status": "satisfied",
+  "why": "Label positions computed per edge from geometry."
+ },
+ "shrinking-required-text-to-fix-collisions": {
+  "status": "satisfied",
+  "why": "Collisions fixed by moving columns, not shrinking text."
+ },
+ "desktop-layout-scaled-blindly-to-mobile": {
+  "status": "satisfied",
+  "why": "Phone gets its own vertical layouts."
+ },
+ "mixing-source-derived-phrases-with-interpretive-glosses": {
+  "status": "satisfied",
+  "why": "Plain-word glosses are marked 'Plain words:' in tooltips, followed by the plan's own text."
+ },
+ "putting-full-semantic-prose-inside-visual-marks": {
+  "status": "satisfied",
+  "why": "Boxes carry short labels; full plan text is in tooltips."
+ },
+ "using-an-expert-explorer-as-the-default-onboarding-surface": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "calling-progressive-disclosure-a-lesson-without-an-instructional-sequence": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "lesson-deck-with-static-diagrams": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "interaction-bolted-on-after-the-explanation": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "replacing-the-primary-visual-object-at-every-step": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "free-form-practice-controls-that-permit-semantically-impossible-moves": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "revealing-the-destination-before-the-learner-predicts-it": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "correctness-only-feedback-with-no-semantic-explanation": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "calling-guided-task-completion-evidence-of-independent-understanding": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "assessment-that-repeats-the-exact-guided-example": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "assessment-choices-that-signal-the-answer-before-commitment": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "no-critical-text-text-overlap": {
+  "status": "satisfied",
+  "why": "Screenshots at 1440 and 390 inspected; edge labels have a background halo; 'explain rules' collision with the Glossary box found and fixed by widening the column gap."
+ },
+ "no-critical-text-node-overlap": {
+  "status": "satisfied",
+  "why": "tooltip_test.cjs measures every text line in every diagram box after load: 0 spilling at both widths, both themes. Negative control (seeded long rule name) was reported as a spill."
+ },
+ "no-clipped-required-labels": {
+  "status": "satisfied",
+  "why": "build_page.py refuses to build if any box's text needs more height than the box; long identifiers are broken at underscores; test shows 0 spills."
+ },
+ "no-required-controls-offscreen": {
+  "status": "satisfied",
+  "why": "Tooltip is position:fixed and clamped to the viewport; no horizontal scroll at 390 (test)."
+ },
+ "minimum-readable-font-size": {
+  "status": "satisfied",
+  "why": "Smallest SVG text 11.5px at 1440 (viewBox 1260 renders ~1:1 at 1300 max width); phone uses separate 360-wide SVGs so text stays ~12px."
+ },
+ "title-states-what-this-is-and-for-whom": {
+  "status": "satisfied",
+  "why": "Title states the plan's claim; the next line names Brian's decision and where to reply."
+ },
+ "whole-design-visible-on-one-screen-at-the-target-viewport": {
+  "status": "skipped",
+  "why": "Not met: five views stack to about 2400px at 1440. Each view fits one screen on its own. Accepted because the brief asked for five separate diagrams; wrong if Brian loses the thread between sections."
+ },
+ "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+  "status": "skipped",
+  "why": "No cold reader was run for this page; only the author looked at the screenshots."
+ },
+ "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+  "status": "satisfied",
+  "why": "Map for the durable set, spokes for the trace, flow for the lifecycle, side-by-side frames for sizing, sequence for milestones."
+ },
+ "relationships-drawn-not-implied-by-adjacency-or-links": {
+  "status": "satisfied",
+  "why": "Every relation is an arrow with a verb label (serves, owned by, points at code files, updates, refused: ...)."
+ },
+ "same-object-same-mark-across-every-view": {
+  "status": "satisfied",
+  "why": "Requirement, rule, check and plan use the same box style wherever they appear; 'new check' is always the heavy dashed outline; refusals always orange dashed arrows."
+ },
+ "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+  "status": "satisfied",
+  "why": "Every box, sizing frame and disproof item opens a styled tooltip on hover, focus or tap with the full plan text. tooltip_test.cjs run 2026-10-10: 34 tooltip elements at 1440 and 390, light and dark, 136 element checks, 0 failures"
+ },
+ "edge-label-clearance": {
+  "status": "satisfied",
+  "why": "Labels carry a background halo and sit off the arrow midpoint; checked in screenshots."
+ },
+ "arrowhead-clearance": {
+  "status": "satisfied",
+  "why": "Arrows end on box edges; checked in screenshots."
+ },
+ "balanced-whitespace": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: balanced whitespace."
+ },
+ "focal-hierarchy": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: focal hierarchy."
+ },
+ "stable-layout-across-steps": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "first-frame-legibility": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: first frame legibility."
+ },
+ "narrative-visual-synchronization": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "persistent-object-continuity": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "manipulation-consequence-legibility": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: one primary drawing with callouts not parallel columns of text."
+ },
+ "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: overlapping views merged into one view with forms not thinned."
+ },
+ "attributed-claims-traced-to-source-no-invented-items": {
+  "status": "satisfied",
+  "why": "Durable set, milestones, adoption date and disproof come from PLAN.md and PLAN.adoption-decision.json at build time; fixed summaries are guarded by required phrases. The library example is labelled made-up (supplied in the brief); the plan's real example RULE-ADOPT-GATE is in the rule's tooltip."
+ },
+ "argument-pages-follow-the-speakers-order-and-keep-their-reasons": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: argument pages follow the speakers order and keep their reasons."
+ },
+ "drawing-laid-out-by-engine-with-content-and-optional-motion-layers": {
+  "status": "skipped",
+  "why": "Hand-placed coordinates in build_page.py (same as the aes-planning page), not a layout engine; acceptable at under 10 boxes per view."
+ },
+ "structural-devices-encode-information-not-decoration": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: structural devices encode information not decoration."
+ },
+ "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+  "status": "satisfied",
+  "why": "System font, white/dark background, no caps labels; one middle dot used in two badges ('planned · M3', 'generated · deferred')."
+ },
+ "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: each concept drawn in a shape that mirrors its behaviour."
+ },
+ "white-space-separates-groups-and-carries-hierarchy": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: white space separates groups and carries hierarchy."
+ },
+ "size-and-weight-follow-importance": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: size and weight follow importance."
+ },
+ "structure-earned-by-content-not-imposed-taxonomy": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: structure earned by content not imposed taxonomy."
+ },
+ "space-and-time-shown-together-when-the-subject-changes-over-time": {
+  "status": "na",
+  "why": "Only milestones change over time and they have no spatial component."
+ },
+ "page-carries-its-date-and-version": {
+  "status": "satisfied",
+  "why": "Adoption date and the PLAN.md sha256 prefix in the status line."
+ },
+ "a-person-would-pin-it-on-a-wall": {
+  "status": "skipped",
+  "why": "Not judged by anyone but the author."
+ },
+ "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: each element encodes its answer visually text only where no visual form fits."
+ },
+ "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: each drawing shows relations a list cannot linear sequences are lists."
+ },
+ "every-drawing-fits-its-frame-on-load-and-zooms-and-pans-within-it": {
+  "status": "na",
+  "why": "Single static page with no view switcher, filters, embedded tool or zoom; every drawing fits its frame width on load."
+ },
+ "diagram-text-is-dom-or-svg-and-no-label-overlaps-a-box-or-another-label": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: diagram text is dom or svg and no label overlaps a box or another label."
+ },
+ "one-element-dominates-by-size-weight-or-contrast": {
+  "status": "satisfied",
+  "why": "Within each view the central object is heavier: System model and RULE-LOAN-OVERDUE are blue-filled heavy boxes; the two new checks are the heaviest outlines in the flow."
+ },
+ "reading-order-is-obvious-without-instructions": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: reading order is obvious without instructions."
+ },
+ "gap-between-groups-larger-than-gap-within": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: gap between groups larger than gap within."
+ },
+ "enclosure-nesting-at-most-two-levels": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: enclosure nesting at most two levels."
+ },
+ "elements-share-a-small-set-of-edges": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: elements share a small set of edges."
+ },
+ "same-role-same-treatment-everywhere": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: same role same treatment everywhere."
+ },
+ "every-mark-carries-information": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: every mark carries information."
+ },
+ "context-quiet-subject-loud": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: context quiet subject loud."
+ },
+ "comparisons-use-identical-small-frames": {
+  "status": "satisfied",
+  "why": "Trivial / Small / Full plan sizing shown in three identical frames."
+ },
+ "every-encoding-explained-on-the-same-screen": {
+  "status": "satisfied",
+  "why": "Legend under the title: done, partly done, planned, new refusing check, refusal arrow, central rule, generated/deferred."
+ },
+ "one-highlighted-state-not-several": {
+  "status": "satisfied",
+  "why": "One blue emphasis per view (central rule/model); hover/focus highlight is a single 'on' state."
+ },
+ "object-count-within-density-budget-or-aggregated": {
+  "status": "satisfied",
+  "why": "Largest view has 9 boxes; 34 objects total across five views, within the 40 budget."
+ },
+ "no-ellipsis-or-clipped-text-in-rendered-page": {
+  "status": "satisfied",
+  "why": "No truncation in build; test shows 0 spills."
+ },
+ "phone-and-laptop-each-have-a-layout-that-uses-their-width": {
+  "status": "satisfied",
+  "why": "Below 760px each diagram swaps to a vertical 360-wide SVG built from the same data; 390px screenshot checked, no horizontal scroll."
+ },
+ "every-view-stays-listed-in-sight-while-others-are-open-and-views-open-from-it-or-the-agent": {
+  "status": "na",
+  "why": "Single static page with no view switcher, filters, embedded tool or zoom; every drawing fits its frame width on load."
+ },
+ "sources-listed-beside-views-and-picking-one-highlights-what-rests-on-it": {
+  "status": "na",
+  "why": "Single static page with no view switcher, filters, embedded tool or zoom; every drawing fits its frame width on load."
+ },
+ "picking-an-item-lights-its-counterparts-in-every-open-view-and-can-be-cleared": {
+  "status": "na",
+  "why": "Single static page with no view switcher, filters, embedded tool or zoom; every drawing fits its frame width on load."
+ },
+ "checks-measure-painted-geometry-after-fonts-load-at-each-supported-viewport": {
+  "status": "satisfied",
+  "why": "tooltip_test.cjs measures getBoundingClientRect of rendered text at 1440 and 390, light and dark."
+ },
+ "transient-explanations-are-at-most-five-short-points": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: transient explanations are at most five short points."
+ },
+ "groups-the-page-filters-by-have-one-view-relating-them-with-unlinked-groups-named": {
+  "status": "na",
+  "why": "Single static page with no view switcher, filters, embedded tool or zoom; every drawing fits its frame width on load."
+ },
+ "every-standard-code-labels-a-pure-view-and-custom-views-say-so": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: every standard code labels a pure view and custom views say so."
+ },
+ "non-specialist-front-door-is-a-question-with-views-delivered-and-catalog-secondary": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: non specialist front door is a question with views delivered and catalog secondary."
+ },
+ "every-representation-switch-is-labelled-and-visible-on-arrival-and-each-name-has-one-destination": {
+  "status": "na",
+  "why": "Single static page with no view switcher, filters, embedded tool or zoom; every drawing fits its frame width on load."
+ },
+ "no-superseded-version-shown-beside-its-replacement-and-alternatives-are-one-view-with-a-switch": {
+  "status": "satisfied",
+  "why": "Only the current plan is shown."
+ },
+ "embedded-tool-has-no-label-clashing-with-host-full-area-and-honest-status": {
+  "status": "na",
+  "why": "Single static page with no view switcher, filters, embedded tool or zoom; every drawing fits its frame width on load."
+ },
+ "first-run-does-not-require-expert-exploration": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: first run does not require expert exploration."
+ },
+ "terms-are-defined-before-first-use": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: terms are defined before first use."
+ },
+ "one-new-semantic-distinction-per-instructional-step": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "likely-wrong-readings-are-explicitly-disambiguated": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: likely wrong readings are explicitly disambiguated."
+ },
+ "novice-can-read-a-simple-example-before-seeing-the-full-model": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: novice can read a simple example before seeing the full model."
+ },
+ "expert-reference-mode-is-separate-from-guided-onboarding": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "observed-user-confusions-become-regression-cases": {
+  "status": "skipped",
+  "why": "No user confusions observed yet; Brian has not reviewed the page."
+ },
+ "narrative-and-visual-state-remain-synchronized": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "persistent-visual-object-retains-identity-across-steps": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "direct-manipulation-produces-an-explanatory-consequence": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "abstraction-levels-remain-linked-to-the-same-semantic-object": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: abstraction levels remain linked to the same semantic object."
+ },
+ "if-constructive-practice-is-present-actions-come-from-semantic-model": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "if-prediction-is-used-state-does-not-change-before-commit": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "if-constructive-practice-is-present-feedback-explains-the-governing-rule": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "if-transfer-assessment-is-present-guidance-does-not-give-away-the-answer": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "if-transfer-assessment-is-present-at-least-one-task-uses-an-unseen-state-route-or-example": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "if-transfer-assessment-is-present-feedback-occurs-after-commitment": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "if-scaffolding-fade-is-present-core-accessibility-controls-remain-available": {
+  "status": "na",
+  "why": "Static review page with no step sequence, lesson, practice or assessment; tooltips only add detail."
+ },
+ "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: headline and picture alone convey the point since that is all most people read."
+ },
+ "no-block-of-prose-longer-than-the-drawing-it-explains": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: no block of prose longer than the drawing it explains."
+ },
+ "reader-can-point-to-where-any-one-fact-lives": {
+  "status": "satisfied",
+  "why": "Checked against the 1440 and 390 screenshots: reader can point to where any one fact lives."
+ },
+ "accessibility": "Status by outline and words, never colour alone: done = blue fill, partly done = solid blue outline, planned = dashed, new refusing check = heavy dashed, refusal = orange dashed arrow with the word 'refused', deferred = grey dotted. No red/green.",
+ "wrong-if": [
+  "Brian cannot name the seven document roles or where each lives from section 1",
+  "Brian asks what a Small plan must write",
+  "Brian loses the thread between the five stacked sections (then one combined drawing was needed)"
+ ],
+ "router-gaps": [
+  "primary scored scroll-linked-explainer for a one-off static plan review; the disposition schema has no 'failed' status, so unmet checks are recorded as skipped with 'Not met'"
+ ],
+ "choice-justified:composite-of-five-views": {
+  "status": "satisfied",
+  "why": "Each of Brian's five questions (which documents, how one rule traces, what refuses a plan and how much each size writes, where milestones stand, what disproves it) gets the view whose form fits it; directed-handoff-flow (router alternative) used for lifecycle and milestones."
+ },
+ "rejected:project-schedule": {
+  "status": "rejected",
+  "why": "Milestones have no dates beyond done-dates; a schedule would imply timing the plan does not state."
+ }
+}
