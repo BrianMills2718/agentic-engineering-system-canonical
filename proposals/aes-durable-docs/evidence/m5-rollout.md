@@ -45,7 +45,7 @@ Each repository got one PR that adds its durable document set (system model at `
 | weekly-plans | #212 | fe3d0d758 | rebase | durable=ok(0), md=344 (over cap) | no local gate; its pytest (2 failures) and drift checks fail identically on unmodified main; new documents hold structure only, no private content |
 | chatgpt-bug-audit | #2 | b7736999c | merge | durable=ok(0), md=12 | loop state untouched; trace covers 3 of 6 requirements, the other 3 declared as having no check |
 | agent-skills | #474 | 95823d4e7 | merge | durable=ok(0), md=534 (over cap) | `make session-close` clean; requirements inside GOAL.md; reachable via roadmap/README.md |
-| project-meta | #2526 | pending | | | waiting on the full `make check` (about 100 minutes); goal in ARCHITECTURE.md because `vision/` is frozen there; decisions at new `docs/decisions/` |
+| project-meta | #2526 | 15cfecacd | merge | durable=ok(0), md=1038 (over cap) | goal in ARCHITECTURE.md because `vision/` is frozen there; decisions at new `docs/decisions/`; full suite 11 failed / 3050 passed, every failure also fails on unmodified main `d0bf845` (24 failed in the same three files), `project-graph-check` fails on main too (project-meta #2528) |
 
 ## Daily check (R10)
 
