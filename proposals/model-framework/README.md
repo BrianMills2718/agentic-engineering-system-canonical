@@ -108,7 +108,7 @@ Prior art:
 
 | Piece | Where | Gap |
 |---|---|---|
-| ODD-style system models | `docs/model/ODD.md` in 10 repos | Formats differ (see section 7); the validator only checks the file exists; everything is Markdown tables; no generated side |
+| System models (outline now arc42 + C4; section 8) | `docs/model/ODD.md` in 10 repos, to move to `docs/model/ARCHITECTURE.md` when next touched | Formats differ (see section 7); the validator only checks the file exists; everything is Markdown tables; no generated side |
 | View coverage matrix | `docs/model/VIEW_COVERAGE.md` in 8 of those repos | Tracks "shown in a diagram", not "built and verified" |
 | Source-linked review page | AES `proposals/system-model-review/` | One flow only |
 | Trace review | AES `proposals/trace-review*` | Runs per plan, not per model element |
@@ -142,20 +142,22 @@ Prior art:
 
 ## 8. Open decisions
 
-1. **Which outline the model files use.** Revised 2026-10-10 after Brian questioned ODD.
-   Provenance: ODD is real (Grimm et al. 2006), but it is a template for agent-based
-   *simulations*. It entered the ecosystem through the agent_ecology3 pilot, where it fits.
-   An agent then applied it to every software project in company-planning Plan #55
-   (commit 2715422, 2026-10-08, co-authored by Claude) and kept only the name.
-   Recommendation now: adopt **arc42**, the established software-architecture outline, with
-   **C4** diagrams, and move existing ODD content into it:
-   - Purpose → 1 Goals;
-   - Boundary → 3 Context;
-   - Entities → 5 Building blocks / 8 Concepts;
-   - Processes → 6 Runtime;
-   - Events and records → 8;
-   - Expected patterns → 10 Quality.
-   Keep ODD only for real simulations (agent_ecology3).
+1. **Which outline the model files use. Decided 2026-10-10 by Brian ("a"): arc42 sections
+   with C4 diagrams.** Provenance of the old outline: ODD is real (Grimm et al. 2006), but it
+   is a template for agent-based *simulations*. It entered through the agent_ecology3 pilot,
+   where it fits. Company-planning Plan #55 (commit 2715422, 2026-10-08, co-authored by
+   Claude) then applied it to every software project, keeping only the name.
+   - Landed at the source: company-planning PR
+     [#116](https://github.com/BrianMills2718/company-planning/pull/116) (the system-model
+     reference and decision 0002), with a check that each cited arc42 section and C4 level
+     matches docs.arc42.org and c4model.com.
+   - Mapping: Purpose → §1 Goals; Boundary → §3 Context and scope; Entities and state →
+     §5 Building blocks; Processes, rules, events and records → §6 Runtime; Views → §8
+     Cross-cutting concepts; Expected patterns → §10 Quality.
+   - ODD stays only for real simulations (agent_ecology3). Existing `ODD.md` files still
+     count, and move when each project next changes its model.
+   - Wrong when: an arc42-shaped first model cannot hold something an ODD-style one held
+     without adding a section, or two projects in a row report the outline itself as friction.
 2. **Pilot.** qualitative_coding slice 1, with four kinds (domain, data flow, a quote's
    states, trace), two or three correspondence tests (one model ↔ trace), and a status
    overlay. A full plan is needed before building.
