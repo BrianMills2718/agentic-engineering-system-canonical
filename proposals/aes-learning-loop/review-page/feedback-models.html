@@ -15,7 +15,7 @@ ol li{margin:4px 0}code{font-size:13px}a{color:var(--blue)}</style></head><body>
 <p class="sub">Companion page with live counts: <a href="whole-picture.html">the whole picture</a>. Plan: <a href="index.html">feedback loop plan</a>.</p>
 
 <h2>1. Domain model: the kinds of thing</h2>
-<div class="how"><b>How to read it.</b> Each box is a kind of thing. An arrow's label says how two things relate, read in the arrow's direction ("a Report <i>holds</i> 1 or more Records"). Orange dashed boxes exist in the design but have no instances yet. Grey dotted boxes sit outside the loop.</div>
+<div class="how"><b>How to read it.</b> Each box is a kind of thing. An arrow's label says how two things relate, read in the arrow's direction ("a Report <i>holds</i> 1 or more Records"). Orange dashed boxes are barely used: 1 enforced fix so far, and the effect count cannot see it. Grey dotted boxes sit outside the loop.</div>
 <div class="diagram"><pre class="mermaid">
 flowchart TB
   subgraph SRC["Where reports come from"]
@@ -81,7 +81,7 @@ flowchart TB
   P2 -->|"problems; 3 analyses a week"| S4[("Problems + ranked list<br/><small>VIEW.md</small>")]
   P2 -->|"one issue per repeating problem"| S3
   S4 --> P3(["3. Licence check<br/><small>inside the Sunday run</small>"])
-  P3 -->|"7 active licences"| P4(["4. Enforce fix<br/><small>NOT BUILT</small>"])
+  P3 -->|"fix handed over as an AES issue"| P4(["4. Agents adopt the fix<br/><small>by hand; 1 of 24 done</small>"])
   P4 -.->|would record a receipt| P5(["5. Effect counter<br/><small>daily; nothing to count</small>"])
   S2 -->|records| P6(["Failure-kind check<br/><small>Sundays; BROKEN since 11 Oct</small>"])
   P6 -.->|would propose new kinds| S5
@@ -100,7 +100,7 @@ flowchart TB
 <li><b>Collector, 3:30 am.</b> Read the new text, found the Feedback section, parsed the line by its <code>obs (control):</code> marker into one Observation record with one Evidence link, and wrote it to <code>reports-2026-10-11.jsonl</code>.</li>
 <li><b>Feedback log.</b> The report was filed as issue <b>#494</b> in agent-feedback-log.</li>
 <li><b>Sunday grouping.</b> Next Sunday the record is tagged with the closest failure kinds (or "not a failure") and is paired with similar records. If another conversation saw the same thing, they join one Problem.</li>
-<li><b>Where it would stop today.</b> If that Problem repeats, it waits in the analysis queue (3 a week, 169 waiting). Even with an active licence, no program yet turns it into an enforced fix.</li></ol>
+<li><b>Where it would stop today.</b> If that Problem repeats, it waits in the analysis queue (3 a week, 169 waiting). If it gets an active licence, the fix is handed to agents as an AES issue; 19 such issues are waiting and 1 has been done (hook rule M1).</li></ol>
 
 <h2>Sources for every box</h2>
 <table><tr><th>Box</th><th>Defined in (AES canonical unless noted)</th></tr>
