@@ -66,6 +66,10 @@ exactly one disposition and carry it out:
    (access, another writer's active claim, a decision only Brian can make). Comment the
    disposition marker naming the exact blocker; leave it open.
 
+If plan adoption refuses with stale_source_revision, that is a known install defect
+(company-planning#136): commit under the plan you wrote (the commit rule is in observe mode) and
+say so in the item comment rather than deferring the item for it.
+
 Stop after these {n} items. Do not start other work. Never force-push, delete branches or
 history, publish, deploy, send anything outward, or spend money beyond this session.
 Finish with one line, exactly: FIX_OWNER_SUMMARY {{"<issue number>":"<disposition>", ...}}
