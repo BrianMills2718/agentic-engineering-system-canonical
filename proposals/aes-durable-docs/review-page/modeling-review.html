@@ -42,6 +42,38 @@ button.f:hover .tip,button.f:focus-visible .tip,button.f.tap .tip{opacity:1}
 <p class="lead"><b>Short answer:</b> yes, things were lost. Four agent sessions built three different things that all use the word "model", mostly without reading each other. The biggest loss: your ask for <b>"an architecture framework rather than one model"</b> is written down only on a side branch that was never merged, so no other agent can see it.</p>
 <p class="meta">Built 2026-10-11 from readers over every commit in about 20 repositories in that window, plus your own words in the session transcripts. Items tagged <span class="tag t-ver">checked</span> were re-checked against the repositories by hand; <span class="tag t-rep">reported</span> items come from the readers and were not re-checked one by one.</p>
 
+<h2>Which models and diagrams does a repo need?</h2>
+<p>The written rule (company-planning <code>references/system-model.md</code> and decision 0002, amended 2026-10-10 and 10-11) has <b>two layers</b>: a model every repo keeps, sized by situation, and extra drawings a plan adds only when its change raises a specific question.</p>
+<p><b>Layer 1: the standing model.</b> Ask these in order and stop at the first yes.</p>
+<table>
+<tr><th>Situation</th><th>Example</th><th>What it must have</th></tr>
+<tr><td>1. Nothing stored and nothing anyone looks at</td><td>a one-shot script that prints nothing kept</td><td>One line: <code>System model: exempt -- &lt;reason&gt;</code>. The only exemption.</td></tr>
+<tr><td>2. Part of a bigger system that already has a model</td><td>a plugin inside a shared platform</td><td>A link to the shared model that names this repo's boundary, owner and covered parts. No copy.</td></tr>
+<tr><td>3. An agent-based simulation</td><td>agent_ecology3</td><td>ODD outline (the standard for simulations) instead of arc42.</td></tr>
+<tr><td>4. Small or prototype</td><td>a personal tool, a PoC</td><td>One page: purpose, 3–5 "if it works you will see…" patterns, a short list of things stored, the steps that change them (with the file that does each), and the screens or outputs. <b>No diagram required.</b></td></tr>
+<tr><td>5. Larger or shared</td><td>qualitative_coding, company-planning</td><td>All six arc42 sections with <b>two C4 diagrams</b> (system context: what is inside vs outside; containers: the main parts and what each stores; add a component diagram when one part is big), plus the machine-readable <code>trace.yaml</code>.</td></tr>
+</table>
+<p><b>Every model, every situation (added 2026-10-11, still being piloted):</b> each part gets an ID and a "decided" or "guessed" mark, the model ends with a table of open questions, each part's status comes from a recorded test run, and each review links a generated status page. Today these refuse plans only in qualitative_coding and only warn elsewhere.</p>
+<p><b>Layer 2: drawings a plan adds, only when its change raises the question.</b> No diagram quota; a plan that changes none of these says so.</p>
+<table>
+<tr><th>If the change touches…</th><th>Add</th></tr>
+<tr><td>who uses it and what sits outside</td><td>C4 context diagram</td></tr>
+<tr><td>who owns which data or decision</td><td>component diagram or ownership table</td></tr>
+<tr><td>what the domain words mean and how they relate</td><td>glossary, plus an entity diagram when "how many" matters</td></tr>
+<tr><td>what crosses between parts</td><td>data-flow diagram or contract table</td></tr>
+<tr><td>the order things happen and fail</td><td>sequence or activity diagram</td></tr>
+<tr><td>which states are allowed</td><td>state-machine diagram</td></tr>
+<tr><td>where it runs</td><td>deployment diagram, only when placement changes the decision</td></tr>
+<tr><td>what proves a requirement</td><td>trace table: requirement → code → test → result</td></tr>
+</table>
+<p><b>Where the rule and the checker disagree</b> <span class="tag t-ver">checked</span></p>
+<ol class="items">
+<li><b>"Small" vs "larger" has no test.</b><span class="why">The rule names the two sizes but no line between them, so each agent picks. The checker cannot tell which size a repo is.</span></li>
+<li><b>The checker demands <code>trace.yaml</code> from every repo; the rule asks for it only from larger ones.</b><span class="why"><code>durable_docs_check.py</code> accepts either "not applicable" or a full model with <code>trace.yaml</code>; a small repo's one-page model with no trace file fails.</span></li>
+<li><b>No diagram is checked anywhere.</b><span class="why">The checker never looks for a C4 diagram; the arc42 option checks only the goal headings. A larger repo with no diagrams passes.</span></li>
+<li><b>Layer 2 is unenforced.</b><span class="why">Nothing checks that a plan picked the drawings its change needed. The "framework of drawings" design (B below) was meant to fill this and is unmerged.</span></li>
+</ol>
+
 <h2>1. Three things called "model"</h2>
 <p>Think of a house. A <b>system model</b> is the blueprint of one house. A <b>framework</b> is the rule for which drawings every house gets (floor plan, wiring, plumbing) and how each drawing is checked against the real building. A <b>research metamodel</b> is a theory of what any building is made of. All three were worked on, by different sessions.</p>
 <div class="three">
