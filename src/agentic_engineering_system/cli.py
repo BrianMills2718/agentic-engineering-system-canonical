@@ -169,8 +169,11 @@ def _build_parser() -> argparse.ArgumentParser:
     commit = sub.add_parser("commit", help="the commit-tag rule (AP-REQ-001): real work lands only under an adopted plan")
     commit_sub = commit.add_subparsers(dest="commit_command", required=True)
     cchk = commit_sub.add_parser("check", help="judge the commit being made (run by the commit-msg hook)")
-    cchk.add_argument("message_file", type=Path, help="the commit message file git passes to commit-msg")
+    cchk.add_argument("message_file", type=Path, nargs="?", help="the commit message file git passes to commit-msg")
     cchk.add_argument("--root", type=Path, default=None, help=ROOT_HELP)
+    cchk.add_argument("-m", "--message", default=None, help="judge this draft message instead of a file")
+    cchk.add_argument("--preflight", action="store_true",
+                      help="before committing: judge the staged change, log nothing, exit 1 on any refusal")
     crep = commit_sub.add_parser("replay", help="judge past commits with today's rule and receipts")
     crep.add_argument("revisions", nargs="?", default="HEAD", help="revision or range (default HEAD)")
     crep.add_argument("-n", "--max-count", type=int, default=300, help="commits to judge (default 300)")
@@ -364,7 +367,11 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print(note, file=sys.stderr)
             return 0
         if args.command == "commit" and args.commit_command == "check":
-            rule_status, rule_report = check_message(args.root or Path.cwd(), args.message_file)
+            if (args.message_file is None) == (args.message is None):
+                print("aes commit check: give a message file or -m MESSAGE (not both)", file=sys.stderr)
+                return 2
+            rule_status, rule_report = check_message(args.root or Path.cwd(), args.message_file,
+                                                     message_text=args.message, preflight=args.preflight)
             print(rule_report, file=sys.stderr)
             return rule_status
         if args.command == "commit" and args.commit_command == "replay":

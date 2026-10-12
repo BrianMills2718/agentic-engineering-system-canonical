@@ -991,10 +991,50 @@ def _judge_tag(message: str, changes: list[FileChange], governed_roots: list[str
             return verdict("refuse", "Auto", f"[Auto] may not touch running-thing file(s) {', '.join(running)}; plan it ([Plan #N] or [Goal <id>])")
         return verdict("accept", "Auto", f"scheduled job {job.group(1).strip()}: {files} file(s), {lines} line(s)")
     plan_id = match["shaping"]
-    outside = sorted(c.path for c in changes if not c.path.startswith(f"proposals/{plan_id}/"))
+    outside = [c for c in changes if not c.path.startswith(f"proposals/{plan_id}/")]
     if outside:
-        return verdict("refuse", f"Shaping {plan_id}", f"[Shaping {plan_id}] may touch only proposals/{plan_id}/; also touches {', '.join(outside)}")
+        problems = (shaping_navigation_problems(config.index_root, plan_id, outside)
+                    if config.index_root is not None else [c.path for c in outside])
+        if problems:
+            return verdict("refuse", f"Shaping {plan_id}",
+                           f"[Shaping {plan_id}] may touch only proposals/{plan_id}/, plus added Markdown lines that "
+                           f"link into it (and headings in a new {WIKI_ENTRY}); also touches {', '.join(problems)}")
+        return verdict("accept", f"Shaping {plan_id}", f"drafting plan {plan_id} inside proposals/{plan_id}/, with "
+                       f"navigation lines into it in {', '.join(sorted(c.path for c in outside))}")
     return verdict("accept", f"Shaping {plan_id}", f"drafting plan {plan_id} inside proposals/{plan_id}/")
+
+
+def shaping_navigation_problems(root: Path, plan_id: str, outside: list[FileChange]) -> list[str]:
+    """The staged changes outside proposals/<id>/ that are not navigation into it (#476, #531).
+
+    A [Shaping] commit may also add lines to existing Markdown pages, or create the first wiki/index.md,
+    when every added non-blank line links into proposals/<id>/ (a new wiki/index.md may also carry
+    headings) and nothing is deleted, so one commit lands a proposal together with the links the
+    new-document check requires. Each problem is the path plus why."""
+    folder = f"proposals/{plan_id}/"
+    problems = []
+    for change in sorted(outside, key=lambda c: c.path):
+        new_index = change.status == "A" and change.path == WIKI_ENTRY
+        if not change.path.lower().endswith(".md") or change.status not in ("M", "A") or (
+                change.status == "A" and not new_index):
+            problems.append(f"{change.path} (not an edit to an existing Markdown page or a new {WIKI_ENTRY})")
+            continue
+        if change.deleted:
+            problems.append(f"{change.path} (deletes lines)")
+            continue
+        diff = _git(root, "diff", "--cached", "-U0", "--no-color", "--", change.path)
+        for line in diff.splitlines():
+            if not line.startswith("+") or line.startswith("+++"):
+                continue
+            text = line[1:].strip()
+            if not text or (new_index and text.startswith("#")):
+                continue
+            targets = [os.path.normpath(os.path.join(os.path.dirname(change.path), unquote(t.split("#")[0])))
+                       for t in _MD_LINK.findall(text) if "://" not in t and not t.startswith(("#", "mailto:"))]
+            if not targets or any(not (t + "/").startswith(folder) for t in targets):
+                problems.append(f"{change.path} (line not a link into {folder}: {text[:80]})")
+                break
+    return problems
 
 
 def _governed_roots(root: Path) -> list[str]:
@@ -1037,11 +1077,25 @@ def message_tag(message_file: Path) -> str | None:
     return match.group(0)[1:-1] if match else None
 
 
-def check_message(root: Path, message_file: Path) -> tuple[int, str]:
-    """Judge the commit being made; return (exit status, report). Observe mode never refuses."""
+def check_message(root: Path, message_file: Path | None, *, message_text: str | None = None,
+                  preflight: bool = False) -> tuple[int, str]:
+    """Judge the commit being made; return (exit status, report). Observe mode never refuses.
+
+    `preflight` (#532) judges the staged change against a draft message before any commit is
+    attempted: it writes no log line (the log records real commits) and exits 1 on any refusal,
+    whatever the mode, so a producer or agent learns of size, navigation, scope and tag problems first."""
     root = root.resolve()
     config = dataclasses.replace(load_rule_config(root), index_root=root)
-    message = "\n".join(l for l in message_file.read_text(encoding="utf-8").splitlines() if not l.startswith("#"))
+    if message_text is None and message_file is None:
+        raise ValueError("check_message needs a message file or message text")
+    raw = message_text if message_text is not None else message_file.read_text(encoding="utf-8")  # type: ignore[union-attr]
+    message = "\n".join(l for l in raw.splitlines() if not l.startswith("#"))
+    if preflight:
+        verdict = judge(message, staged_changes(root), _governed_roots(root), config, _legacy(root))
+        notes = "".join(f"; {n}" for n in verdict.notes)
+        return ((1 if verdict.verdict == "refuse" else 0),
+                f"aes commit rule preflight: {verdict.verdict} [{verdict.tag}] — {'; '.join(verdict.reasons)}{notes} "
+                f"(mode {config.mode}; not logged, nothing committed)")
     skip = skipped_by(root, config)
     if skip is not None:
         subject = message.strip().splitlines()[0] if message.strip() else ""

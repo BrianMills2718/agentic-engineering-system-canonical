@@ -1,0 +1,651 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-shaping-nav-preflight-fec0dc40c1a1",
+  "plan": {
+    "plan_ref": "docs/plans/shaping-nav-preflight.md",
+    "plan_sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+  },
+  "path_decision": {
+    "ref": "docs/plans/shaping-nav-preflight.path-decision.json",
+    "sha256": "ca55c3495787e8b1ca1ceda0ed4a4fbfd4bf9158f2b2b03f37ba9f570e8279f7",
+    "selected_path": "prototype",
+    "classified_path": "prototype",
+    "errors": []
+  },
+  "route": "inline_prototype",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@13",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "b62a29405f2c6a0ef730a8d4f78b8eb4bdccca5a29cc1c711a5a96902a121291"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "9ca8d6e47f651430c21ff382a3d7c1f99e25c61f7ea85d0919ec09d71918d4f9"
+  },
+  "activation": {
+    "facts_ref": "docs/plans/shaping-nav-preflight.facts.json",
+    "facts_sha256": "60a46854acb036fce80c0aba931d538da0f31331ebd61496a74fa3028ba4c14e",
+    "facts": {
+      "shared_mechanism": true,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "crosses_system_boundary": false,
+      "deploys": false,
+      "claims_external_standard": false,
+      "aes_governed_target": true,
+      "durable_documents_declared": true,
+      "multiple_writers": false,
+      "consequential_boundary": false,
+      "inline_prototype": true
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "crosses_system_boundary": "default:not_declared",
+      "deploys": "default:not_declared",
+      "claims_external_standard": "default:not_declared",
+      "aes_governed_target": "derived:repository has .aes/target.yaml",
+      "durable_documents_declared": "derived:.agentic/repo.yaml has durable_documents",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": true,
+        "reason": "shared_mechanism=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": false,
+        "reason": "multiple_writers=false (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": true,
+        "reason": "inline_prototype=true (derived:classified_path==prototype)"
+      },
+      {
+        "overlay_id": "OV-SYSTEM-BOUNDARY",
+        "activation_fact": "crosses_system_boundary",
+        "active": false,
+        "reason": "crosses_system_boundary=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-DEPLOYMENT",
+        "activation_fact": "deploys",
+        "active": false,
+        "reason": "deploys=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-STANDARD-CONFORMANCE",
+        "activation_fact": "claims_external_standard",
+        "active": false,
+        "reason": "claims_external_standard=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-AES",
+        "activation_fact": "aes_governed_target",
+        "active": true,
+        "reason": "aes_governed_target=true (derived:repository has .aes/target.yaml)"
+      },
+      {
+        "overlay_id": "OV-DURABLE-DOCS",
+        "activation_fact": "durable_documents_declared",
+        "active": true,
+        "reason": "durable_documents_declared=true (derived:.agentic/repo.yaml has durable_documents)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:1e0b95449e7e3260b1ab271273616364f6d1c101bddd5eb4b03361caa88b317c",
+    "definition_sha256": "360bc4b2ac7bd3333e0086680680e9b132eb6bd32deed46b11f13d2c8e16ef38",
+    "bundle_ref": "docs/plans/shaping-nav-preflight.bundle.json",
+    "bundle_sha256": "a89509b1f2a4a9fd46898831fa35ad23d8604772113dded757fb999d21f4d150",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#actor-and-result",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/d77476130e24/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the actor (Brian), states the desired result, and gives a stable, concrete user-visible example with specific files, commit message, and before/after behavior.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.path-decision.json",
+          "sha256": "ca55c3495787e8b1ca1ceda0ed4a4fbfd4bf9158f2b2b03f37ba9f570e8279f7"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-REQUIREMENTS-TRACED",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/7953e2ff255d/CORE-REQUIREMENTS-TRACED",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The Requirements table explicitly lists R1–R5, and each requirement names a check and status (“planned, not yet run”). The plan’s stated work claims—including the [Shaping] commit behavior, preflight behavior, machine-wide hook mechanism, logging behavior, and model freshness—are represented by R1–R5.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#success-and-disproof",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence specifies direct success checks using real commits and the installed hook: acceptance of valid proposal/navigation changes, rejection of out-of-scope or invalid changes, first-index bootstrap, and preflight behavior. It also gives concrete disproof conditions—refusing a valid proposal-plus-link commit or accepting an out-of-scope edit—and identifies the test output and hook stderr as the evidence.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#success-and-disproof",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names both runs—the parent commit disproof run and the change commit success run—and states that their complete output is saved in `docs/plans/shaping-nav-preflight.check.txt`. It also specifies required trace contents beyond outcomes, including the exact command and exit status, files and reset state, each named check/test with results and no skips, matching status, and hook stderr for disproof.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-DEBUGGING",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#when-a-run-fails-or-surprises-us",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-TRACE-DEBUGGING",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines a separate procedure for failed or surprising runs, preserves the failed check and trace ID, requires reading complete inputs, prompts, tool arguments/results, intermediate stages, and final output, and requires citing and classifying the divergence. It also prohibits causal repairs for unresolved diagnoses, binds targeted repairs to new traced verification runs while retaining the original, and distinguishes complete review from run outcome.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SYSTEM-MODEL",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "warn",
+      "verifier_result": "pass",
+      "reason_codes": [
+        "MODEL-NO-ELEMENT-IDS",
+        "MODEL-NO-UNKNOWNS"
+      ],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#system-model",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/a29f2acb089c/CORE-SYSTEM-MODEL",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence links the repository-scoped model, identifies its documentation entry point, names ENT-COMMIT and PROC-COMMIT-CHECK, and specifies what the saved check output must show for each. It also identifies the applicable source-linked view, explains why no other view applies, provides a concrete freshness check, and states same-commit reconciliation for the model, view coverage, and evidence.",
+        "reused": true
+      },
+      "suggested_action": "MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`)"
+    },
+    {
+      "item_id": "CORE-CAPABILITY-REUSE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#capability-reuse",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-CAPABILITY-REUSE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly states, “No catalogue entry fits, because this changes AES's own commit rule,” and explains that the work needs edits to the repository’s own files, which no catalogue entry provides.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#authority-and-non-goals",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies authority: Brian requested the change in his own repository, with one agent making it. It also explicitly states non-goals: work outside the listed files, irreversible actions, and spending.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "not_applicable",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#uncertainties",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies the complete set as one material uncertainty: whether the change needs files beyond the listed scope. It also provides resolving evidence—a grep against a specified revision identifying the relevant implementation, CLI, and test locations—so the uncertainty has resolution evidence.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#activation-facts",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/7953e2ff255d/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan declares `empirical_comparison_proposed` false, but proposes no A/B test, benchmark, bake-off, or experiment comparing alternatives; its success checks verify one implementation. It declares `shared_mechanism` and `aes_governed_target` true, while the other declared false facts are not triggered: there is no central LLM dependency, irreversible or spend action, or claim of conformity to an external standard.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#prior-art-and-ownership",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/a29f2acb089c/OV-PRIOR-ART-DISPOSITION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly reports searches of internal lineage and ownership, including the canonical owner and active-claim check, and identifies external prior art. Each listed candidate is assigned one of the required dispositions—reuse, extend, supersede, or bounded exception—with a stated rationale.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "effect": "advisory",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "unresolved",
+      "verifier_result": "fail",
+      "reason_codes": [
+        "semantic_unresolved"
+      ],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#prior-art-and-ownership",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/a29f2acb089c/OV-PRIOR-ART-PARALLEL-CHECK",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "unresolved",
+        "materiality": "material",
+        "missing": "A concrete structural check or consumer-path observation that would detect a silent parallel implementation of the same concern.",
+        "rationale": "The evidence documents prior-art searches and identifies the AES commit rule as the authority, but it does not name a check or observation that would detect an unannounced second implementation. The cited `git log` and `grep` searches establish lineage or absence of an idea, not detection of a parallel consumer or implementation.",
+        "reused": true
+      },
+      "suggested_action": "Add to the plan: A concrete structural check or consumer-path observation that would detect a silent parallel implementation of the same concern."
+    },
+    {
+      "item_id": "OV-PROTO-VERTICAL-RESET",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#vertical-and-reset",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/OV-PROTO-VERTICAL-RESET",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the minimal vertical result, identifies the reset boundary as `git revert` of the commit, and lists the non-goal as anything outside the three specified files. It also explicitly states that no coordinated-work ceremony is added, including no work-unit graph, review or release contract, or claims beyond repository rules.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-AES-TARGET-TRACE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#aes-target",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/7953e2ff255d/OV-AES-TARGET-TRACE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that the repository is governed by `.aes/target.yaml` and maps R1–R5 to AP-REQ-001 and SC-AP-001, with a verification subject for each requirement. It also declares that the target delta is none, identifies the existing normative item and success criterion served, and appropriately explains that `aes plan validate` is not run because no proposal is written.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-DURABLE-DOCS-DECLARED",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/shaping-nav-preflight.md#durable-documents",
+          "sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/OV-DURABLE-DOCS-DECLARED",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence declares the repository’s durable-document roles and provides a `Durable documents: none` line with a reason stating there are no durable-document changes. It also requires running `durable_docs_check.py --plan ... --range ...` at completion and requires exit 0.",
+        "reused": true
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 14,
+    "unresolved": 1,
+    "not_applicable": 1,
+    "unavailable": 0,
+    "missing": 0,
+    "warn": 1
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-shaping-nav-preflight-fec0dc40c1a1",
+    "snapshot_ref": "SNAPSHOT-shaping-nav-preflight",
+    "snapshot_revision": "sha256:a89509b1f2a4a9fd46898831fa35ad23d8604772113dded757fb999d21f4d150",
+    "packet_ref": "docs/plans/shaping-nav-preflight.md",
+    "packet_revision": "sha256:fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [
+      {
+        "diagnostic_id": "DIAG-shaping-nav-preflight-13",
+        "class": "semantic",
+        "severity": "warning",
+        "rule_id": "PL-MCR-SEMANTIC-UNRESOLVED",
+        "message": "OV-PRIOR-ART-PARALLEL-CHECK: A concrete structural check or consumer-path observation that would detect a silent parallel implementation of the same concern.",
+        "source_locator": "docs/plans/shaping-nav-preflight.md",
+        "materiality": "material",
+        "suggested_action": "Add to the plan: A concrete structural check or consumer-path observation that would detect a silent parallel implementation of the same concern.",
+        "disposition": "unresolved",
+        "trace_id": "company-planning/method-conformance/shaping-nav-preflight/a29f2acb089c/OV-PRIOR-ART-PARALLEL-CHECK"
+      }
+    ],
+    "route": "inline_prototype",
+    "adoption_readiness": "contributor_disposition_needed",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "reason_codes": [
+        "semantic_unresolved"
+      ],
+      "feedback_id": "FEEDBACK-MCR-4593f1f1116c06e0",
+      "feedback_status": "recorded"
+    }
+  ],
+  "result": "pass",
+  "reason_codes": [],
+  "actionable_summary": [
+    "pass: 14 items evidenced, 1 confirmed not applicable, 1 advisory deviation(s)",
+    "warn CORE-SYSTEM-MODEL: MODEL-NO-ELEMENT-IDS, MODEL-NO-UNKNOWNS -> MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`)"
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "claude-code",
+    "session": "61b14032-0616-47f3-9785-3c3b9448aed1"
+  },
+  "started_at": "2026-10-12T06:39:27Z",
+  "completed_at": "2026-10-12T06:39:41Z",
+  "duration_ms": 13640
+}
