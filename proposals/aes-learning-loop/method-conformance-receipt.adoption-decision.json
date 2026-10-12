@@ -3,14 +3,14 @@
   "record_type": "method_adoption_decision",
   "decision": "adopted",
   "plan_ref": "proposals/aes-learning-loop/PLAN.md",
-  "plan_sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735",
+  "plan_sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
   "receipt_ref": "proposals/aes-learning-loop/method-conformance-receipt.json",
-  "receipt_sha256": "78585c04bb36c0c7c16b6d53d019f71d1375faa64da7b0401a1e4b3c01a04c14",
+  "receipt_sha256": "8b70aff45db0388f8fcc98517400a148d0c711637b7335bf48930ebd8ab82bd2",
   "receipt_result": "pass",
   "reason_codes": [],
   "summary": [
     "pass: 25 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)",
     "warn CORE-SYSTEM-MODEL: MODEL-NO-ELEMENT-IDS, MODEL-NO-UNKNOWNS -> MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`)"
   ],
-  "decided_at": "2026-10-12T16:54:14Z"
+  "decided_at": "2026-10-12T19:51:02Z"
 }
