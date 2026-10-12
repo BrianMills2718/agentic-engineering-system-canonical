@@ -65,3 +65,18 @@ def test_only_recent_deferrals_wait_and_crashed_attempts_retry(monkeypatch):
             {"number": 3, "title": "c", "createdAt": "2026-10-03T00:00:00Z", "comments": []}]
     monkeypatch.setattr(FO, "gh_json", lambda *a: rows)
     assert [r["number"] for r in FO.candidates(None, now)] == [1, 3, 4]
+
+
+def test_claims_the_agent_session_left_open_are_named(monkeypatch):
+    listing = {"claims": [
+        {"project": "enforced-planning", "scope": "claim-refusal-resolution", "session_id": "claude-code:abc-123"},
+        {"project": "other", "scope": "someone-else", "session_id": "claude-code:zzz"},
+        {"project": "legacy", "scope": "no-session", "session_id": None},
+    ]}
+
+    class Done:
+        stdout = json.dumps(listing)
+
+    monkeypatch.setattr(FO.subprocess, "run", lambda *a, **k: Done())
+    assert FO.left_claims("abc-123") == ["enforced-planning:claim-refusal-resolution"]
+    assert FO.left_claims(None) == []
