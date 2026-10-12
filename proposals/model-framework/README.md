@@ -108,34 +108,36 @@ Prior art:
    - Aspect: structure, behaviour, interaction.
    - Each model is also tagged intent or generated.
 
-### 5a. Off-the-shelf review (2026-10-12): what to adopt instead of building
+### 5a. Off-the-shelf review (2026-10-12, corrected the same day): adopt, don't build
 
-Yardstick: agents write the models, so a candidate counts only if a program can check it. That means a text
-format with a validator, a way to produce the "actual" side from code or a database, and an intended-versus-actual
-comparison. Human authoring effort is not the yardstick. Releases and licences were checked on 2026-10-12.
+The first pass said that three needs had no tool. Brian doubted it, and a second, targeted search showed that
+all three are largely covered. Releases and licences were checked on PyPI or GitHub on 2026-10-12.
 
-- **Adopt:**
-  - **pytestarch** (Python, Apache-2.0, 5.0.0, released 2026-10-11) turns a PlantUML component diagram into
-    import rules, and a missing edge becomes "must not import". This is the only intended-versus-actual
-    comparison that ships today.
-  - **dependency-cruiser** (v18.6.0) does the same for TypeScript.
-- **Adopt:** **LinkML** (1.12.0) holds the intended data model. **schema-automator** (0.5.7, BSD)
-  `import-sql` extracts the actual model from a live database.
-- **Adopt:** **Structurizr DSL** (Apache-2.0, v2026.09.19) or **LikeC4** (MIT, v1.59.4) for the context and
-  container views. Both have a `validate` command. Their extractors from code do not cover Python or TypeScript.
-- **Borrow only:** Capella/Arcadia's level catalogue (operational, system, logical, physical) as a reference.
-  The tool is systems-engineering-shaped, and py-capellambse has no extractor from code.
-- **Reject for now:**
-  - SysML v2: the validator a check would run, Syside, is proprietary on PyPI.
-  - UAF/DoDAF: only commercial tools.
-  - ArchiMate/Archi: no model checker.
-  - Eclipse Capra: no push since 2024-02.
-- **Left to build (DISPUTED 2026-10-12, under re-review; do not build from this list):** it contradicts the 2026-10-11 finding that PM4Py conformance checking covers process against run logs, and LinkML DDL plus Atlas may already give the schema diff. no maintained tool covers these.
-  - The correspondence registry across views: one element ID traced through C4, LinkML, PlantUML and
-    sequence views.
-  - A LinkML intended-versus-extracted schema diff.
-  - A comparison of behaviour and sequence models against run traces.
-  - A thin catalogue spec.
+Yardstick: agents write the models, so a candidate counts only if a program can check it. It needs a text format
+with a validator, the "actual" side produced from code, a database or runs, and an automatic comparison of the two.
+
+| Need | Adopt | Comparison it gives |
+|---|---|---|
+| Code structure | **pytestarch** (PlantUML diagram turned into import rules), **import-linter** or **tach** (Python); **dependency-cruiser** (TypeScript) | Intended module edges compared with the real imports; fails CI |
+| Data model | **LinkML** (intended) generating DDL with `gen-sqltables`, compared by **Atlas** `schema diff` with the live database; **schema-automator** `import-sql` for the reverse direction | Intended tables compared with the real ones |
+| Behaviour and process | **PM4Py** alignments (AGPL; internal checks only) over OpenTelemetry spans converted to an event log; **TLA+ trace validation** for ordering and concurrency; **RTAMT** for timing rules | Per run: steps that happened but the model doesn't allow, and steps the model expected that were skipped |
+| Interfaces | **Specmatic** (OpenAPI); **Pact** | Mismatches per operation and per field |
+| Context and container views | **Structurizr DSL** or **LikeC4** (`validate`) | Valid syntax only; neither is compared against code |
+| Model catalogue, one ID across views, links | **sphinx-needs** 8.5.0: one need type per view, plus link types `refines`, `generated_from`, `conforms_to`; schema rules (`minContains`) fail the build when a concept is missing from a view; **sphinx-codelinks** and **sphinx-test-reports** for code and test results. Alternatives: OpenFastTrace (GPL) and LOBSTER (AGPL). | Missing or broken trace across views |
+
+Rejected:
+- SysML v2: its validator, Syside, is proprietary.
+- UAF/DoDAF: only commercial tools.
+- ArchiMate: no model checker.
+- Capra and MarQ: dead.
+- Tracetest: unmaintained since 2025.
+- Capella: borrow its level catalogue only.
+
+Left to build. This is glue code, not a new tool:
+- Small readers that turn LikeC4/Structurizr JSON, LinkML and PlantUML into sphinx-needs `needimport` JSON.
+- One custom check that two views agree on the *value* of the same element. For example, LinkML and C4 must agree
+  on a field of "Judgement". sphinx-needs schemas can't compare values between needs, so this would be a
+  sphinx-needs plugin, or Epsilon ECL/EVL if an EMF dependency is acceptable.
 
 ## 6. Existing pieces to build on
 
