@@ -64,13 +64,13 @@ Non-goals:
 
 No irreversible action: new records are appended, nothing is deleted. Spend: model calls through the
 shared client only. Jev classification is about $0.0001 per question; the light extraction model
-about $0.14 for three days of transcripts (measured 2026-10-06); recurring-problem analysis is
-capped per week (see the external-call budget).
+about $0.14 for three days of transcripts (measured 2026-10-06); recurring-problem analysis about
+$0.017 per problem (measured 2026-10-11), every recurring problem, no weekly cap (Brian, 2026-10-12).
 
 | Spend | Boundary | Who authorizes | Containment |
 | --- | --- | --- | --- |
 | Nightly Jev and extraction calls | stop and report if one night exceeds $1 | Brian's configured OpenRouter route and the shared client's budgets (standing) | the run fails loudly, files a concern, and sorts nothing more that night |
-| Weekly problem analysis | at most 3 analyses a week, 40 records each | same | extra problems wait for the next week |
+| Weekly problem analysis | every recurring problem, 40 records each, per-call budget $0.25 (about $3 for the 176-problem backlog, then only changed problems) | same | each analysis is saved as it finishes; a failed call is reported and retried next run |
 | The S2 measurement | under $1 once | same | one run; its labels are kept as a fixture |
 
 ## Current truth and reuse
@@ -569,7 +569,7 @@ completion it runs `durable_docs_check.py --repo . --plan proposals/aes-learning
 ## External-call budget
 
 - Calls: Jev, about 4 fixed-choice questions per record; light extraction model only where markers are
-  missing; stronger model, at most 3 problem analyses per week.
+  missing; stronger model, one analysis per recurring problem whose records changed.
 - Context bound: one problem's records, capped at 40 records per analysis.
 - Cost and latency: measured in S1 and S3 canaries; stop and report if a nightly run exceeds $1.
 - Completion evidence: the S1 and S3 traces above.

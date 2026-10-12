@@ -368,7 +368,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--days", type=int, default=14)
     ap.add_argument("--file", action="store_true", help="create or update problem issues in the private log")
-    ap.add_argument("--max-analyse", type=int, default=3, help="stronger-model analyses per run (PLAN.md spend cap)")
+    ap.add_argument("--max-analyse", type=int, default=0, help="stronger-model analyses per run; 0 = every recurring problem")
     ap.add_argument("--effects-only", action="store_true", help="nightly observation: reuse analyses, create no proposals")
     a = ap.parse_args()
     timing, counts, errors = {}, collections.Counter(), []
@@ -458,8 +458,8 @@ def main() -> int:
             if row and row[1] and (row[0] == members_key or a.effects_only):
                 p["analysis"] = json.loads(row[1])
                 continue
-            if a.effects_only or done >= a.max_analyse:
-                p["analysis_deferred"] = "spend cap"
+            if a.effects_only or (a.max_analyse and done >= a.max_analyse):
+                p["analysis_deferred"] = "effects only" if a.effects_only else "max-analyse"
                 counts["analyse_deferred"] += 1
                 continue
             ev = read_evidence(p["members"], db)
@@ -470,7 +470,11 @@ def main() -> int:
             if err:
                 errors.append(err)
                 continue
-            p["analysis"] = res
+            p["analysis"], p["analysed_now"] = res, True
+            # save now, so a run stopped part-way through a long backlog keeps what it paid for
+            db.execute("INSERT INTO problem VALUES (?,?,?,?) ON CONFLICT(id) DO UPDATE SET members=excluded.members,"
+                       " analysis=excluded.analysis", (p["id"], "", members_key, json.dumps(res)))
+            db.commit()
     step("analyse", analyse_all)
 
     index = {r["id"]: n for n, r in enumerate(recs)}
@@ -513,7 +517,7 @@ def main() -> int:
                         title = f"Problem ({p['sightings']} sightings): {p['analysis']['cause_chain'][-1]['text'] if p['analysis']['cause_chain'] else p['members'][0]['text']}"[:200]
                         issue = gh_issue(["issue", "create", "--repo", LOG_REPO, "--title", title, "--label", "problem"], issue_body(p))
                         counts["issues_created"] += 1
-                    elif row[1] != members_key:
+                    elif row[1] != members_key or p.get("analysed_now"):
                         gh_issue(["issue", "comment", issue, "--repo", LOG_REPO], "Updated:\n\n" + issue_body(p))
                         counts["issues_updated"] += 1
                 except Exception as exc:

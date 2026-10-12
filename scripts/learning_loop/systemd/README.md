@@ -6,7 +6,7 @@ Four timers run the agent feedback loop. Start page for the whole loop:
 | Job | When | What it runs | What it writes | If it fails |
 |---|---|---|---|---|
 | Collector (`feedback-collector`) | daily 03:30 | `collect_feedback.py --file --max-file 10` | `items-<date>.jsonl`, `reports-<date>.jsonl`, `runs.jsonl`, `state.sqlite`; one issue per report in the private log | unit fails, keyed agent concern |
-| Weekly analysis (`feedback-problems`) | Sunday 05:00 | `problems.py --file --days 14 --max-analyse 3` | `problems-<date>.jsonl`, `problems-runs.jsonl`, `problems.sqlite`; "Feedback loop: adopt" concerns | unit fails, keyed agent concern |
+| Weekly analysis (`feedback-problems`) | Sunday 05:00 | `problems.py --file --days 14` | `problems-<date>.jsonl`, `problems-runs.jsonl`, `problems.sqlite`; "Feedback loop: adopt" concerns | unit fails, keyed agent concern |
 | Effect counter and rule check (`feedback-effects`) | daily 07:30 | `problems.py --file --days 14 --effects-only`, then `policies.py` | `effects-<date>.jsonl`, `policies-runs.jsonl` | unit fails, keyed agent concern; a rule-check failure does not fail the unit but alerts on its own |
 | Fix owner (`feedback-fix-owner`) | daily 09:00 | `fix_owner.py --max-items 3` | `fix-owner-<date>.jsonl` (full session trace), `fix-owner-runs.jsonl` | unit fails, keyed agent concern |
 
@@ -98,8 +98,11 @@ Groups the last 14 days of reports into problems and decides which fixes are lic
    independent observations among its own `rests_on` records are linked, with references resolved
    before counting. An issue's identity includes its repository; unresolved references stay in the
    report but cannot license a rule.
-3. Up to 3 recurring problems a run get one stronger-model analysis that reads the linked issues.
-   The rest wait (this is the analysis cap).
+3. Every recurring problem gets one stronger-model analysis that reads the linked issues (about
+   30 s and $0.017 each, measured 2026-10-11). An analysis is reused while the problem's records are
+   unchanged and saved as soon as it finishes, so a stopped run loses nothing. `--max-analyse N`
+   limits a manual run; the timer sets no limit (Brian, 2026-10-12: "i dont get why we would want a
+   cap?"). The unit allows 6 hours.
 4. The Observation-to-Action evaluator derives licences. Each active licence opens one keyed
    "Feedback loop: adopt ..." concern in AES canonical; high-impact ones are also pushed to Brian
    as information, not a decision.

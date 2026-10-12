@@ -102,7 +102,7 @@ flowchart TB
   P1 -->|"one issue per report, at most 80 a night"| S3[("Feedback log<br/><small>private GitHub issues</small>")]
   S2 -->|"last 14 days of records"| P2(["2. Grouper + analyser<br/><small>every Sunday, 5 am</small>"])
   S5[("Failure-mode list<br/><small>22 kinds</small>")] -->|kinds for tagging| P2
-  P2 -->|"problems; 3 analyses a week"| S4[("Problems + ranked list<br/><small>VIEW.md</small>")]
+  P2 -->|"problems; every repeating one analysed"| S4[("Problems + ranked list<br/><small>VIEW.md</small>")]
   P2 -->|"one issue per repeating problem"| S3
   S4 --> P3(["3. Licence check<br/><small>inside the Sunday run</small>"])
   P3 -->|"fix handed over as an AES adopt issue"| P4(["4. Fix owner<br/><small>daily, 9 am; up to 3 issues a run; 24 of 24 closed</small>"])
@@ -125,7 +125,7 @@ flowchart TB
 <li><b>Collector, 3:30 am.</b> Read the new text, found the Feedback section, parsed the line by its <code>obs (control):</code> marker into one Observation record with one Evidence link, and wrote it to <code>reports-2026-10-11.jsonl</code>.</li>
 <li><b>Feedback log.</b> The report was filed as issue <b>#494</b> in agent-feedback-log.</li>
 <li><b>Sunday grouping.</b> Next Sunday the record is tagged with the closest failure kinds (or "not a failure") and is paired with similar records. If another conversation saw the same thing, they join one Problem.</li>
-<li><b>Where it would go today.</b> If that Problem repeats, it waits in the analysis queue (3 a week, 176 waiting on 12 October). Once analysed with an active licence, an adopt issue opens; the daily fix owner implements it or closes it with a reason, and leaves a receipt the effect counter reads the next morning.</li></ol>
+<li><b>Where it would go today.</b> If that Problem repeats, it gets a cause analysis at the next weekly run (no cap since 12 October). Once analysed with an active licence, an adopt issue opens; the daily fix owner implements it or closes it with a reason, and leaves a receipt the effect counter reads the next morning.</li></ol>
 
 <h2>Sources for every box</h2>
 <table><tr><th>Box</th><th>Defined in (AES canonical unless noted)</th></tr>
@@ -133,7 +133,7 @@ flowchart TB
 <tr><td>Your message → Report; subagent finish → Report</td><td><code>scripts/learning_loop/collect_feedback.py</code> step 3; report field "Human correction" / "Subagent outcome" in <code>reports-2026-10-11.jsonl</code></td></tr>
 <tr><td>Collector, 80-a-night limit</td><td><code>collect_feedback.py:448,521</code>; unit <code>feedback-collector.timer</code></td></tr>
 <tr><td>Failure kind (22)</td><td><code>docs/failure-modes.md</code>, read by <code>scripts/learning_loop/label_items.py:47</code>; same list as agent-skills <code>skills/review/references/failure-modes.md</code></td></tr>
-<tr><td>Problem, repeating, Analysis, 3 a week</td><td><code>scripts/learning_loop/problems.py:2-18,179</code>; unit <code>feedback-problems.timer</code> (<code>--max-analyse 3</code>)</td></tr>
+<tr><td>Problem, repeating, Analysis</td><td><code>scripts/learning_loop/problems.py:2-18,179</code>; unit <code>feedback-problems.timer</code> (no <code>--max-analyse</code> limit)</td></tr>
 <tr><td>Licence</td><td><code>scripts/learning_loop/licences.py:4-12,57</code></td></tr>
 <tr><td>Fix-owner run, adopt issue, disposition</td><td><code>scripts/learning_loop/fix_owner.py:38-88,123-146</code>; unit <code>feedback-fix-owner.timer</code> (<code>--max-items 3</code>)</td></tr>
 <tr><td>Workspace rule, source entry, register entry</td><td><code>scripts/learning_loop/policies.py</code> (run log <code>policies-runs.jsonl</code>); runs after <code>feedback-effects.service</code></td></tr>
