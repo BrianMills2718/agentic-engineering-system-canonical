@@ -1086,7 +1086,9 @@ def check_message(root: Path, message_file: Path | None, *, message_text: str | 
     whatever the mode, so a producer or agent learns of size, navigation, scope and tag problems first."""
     root = root.resolve()
     config = dataclasses.replace(load_rule_config(root), index_root=root)
-    raw = message_text if message_text is not None else message_file.read_text(encoding="utf-8")
+    if message_text is None and message_file is None:
+        raise ValueError("check_message needs a message file or message text")
+    raw = message_text if message_text is not None else message_file.read_text(encoding="utf-8")  # type: ignore[union-attr]
     message = "\n".join(l for l in raw.splitlines() if not l.startswith("#"))
     if preflight:
         verdict = judge(message, staged_changes(root), _governed_roots(root), config, _legacy(root))
