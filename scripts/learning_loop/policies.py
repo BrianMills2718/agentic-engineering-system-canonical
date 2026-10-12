@@ -5,8 +5,9 @@ observable enforceable and connected to a feebdack loop". The workspace AGENTS.m
 Policy `<id>`. For each id this reads, without changing anything:
 
   documented  WORKING_RULES.md, "Sources for AGENTS.md rules", has an entry naming the id
-  registered  project-meta policy/registry.yaml has `- id: <id>`, whose enforcement_status,
+  registered  AES docs/rules/register.yaml has `- id: <id>`, whose enforcement_status,
               enforcement_mechanism and feedback_path say how it is enforced and where friction goes
+              (that register is current; project-meta policy/registry.yaml is legacy, per its own header)
   observed    nightly feedback reports (reports-*.jsonl) from the last --days that name the id
 
 Output: one JSON line per run in $FEEDBACK_OUT/policies-runs.jsonl and a table on stdout.
@@ -31,6 +32,7 @@ OUT = Path(os.environ.get("FEEDBACK_OUT", HOME / "projects/data/feedback-collect
 AGENTS_MD = Path(os.environ.get("WORKSPACE_AGENTS_MD", HOME / "projects/.claude/AGENTS.md"))
 WORKING_RULES = Path(os.environ.get("WORKING_RULES_MD", HOME / "projects/.claude/WORKING_RULES.md"))
 PROJECT_META = Path(os.environ.get("PROJECT_META", HOME / ".hive-brain/project-meta"))
+RULES_REGISTER = Path(os.environ.get("RULES_REGISTER", Path(__file__).resolve().parents[2] / "docs/rules/register.yaml"))
 POLICY_ID = re.compile(r"Polic(?:y|ies) `([a-z0-9]+(?:-[a-z0-9]+)+)`")
 
 
@@ -77,7 +79,7 @@ def check(days: int, today: dt.date | None = None) -> dict:
     today = today or dt.date.today()
     ids = named_policies(AGENTS_MD.read_text())
     rules = WORKING_RULES.read_text()
-    registry = registry_entries((PROJECT_META / "policy/registry.yaml").read_text())
+    registry = registry_entries(RULES_REGISTER.read_text())
     seen = observed(OUT, ids, today - dt.timedelta(days=days))
     rows = []
     for pid in ids:
@@ -93,7 +95,7 @@ def alert(gaps: list[str]) -> None:
     subprocess.run([sys.executable, str(PROJECT_META / "scripts/notify_operator.py"), "--key", "workspace-policy-unregistered",
                     "--severity", "agent", "--source", "feedback-policies",
                     "--title", f"{len(gaps)} workspace rules are not registered or documented",
-                    "--body", "Rules named as Policy `<id>` in the workspace AGENTS.md with no project-meta registry "
+                    "--body", "Rules named as Policy `<id>` in the workspace AGENTS.md with no AES docs/rules/register.yaml "
                               "entry (enforcement, observation, feedback path) or no WORKING_RULES source entry: "
                               f"{', '.join(gaps)}. Add each entry; rerun "
                               "`python scripts/learning_loop/policies.py` (AES) until it exits 0."],

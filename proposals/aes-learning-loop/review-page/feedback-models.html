@@ -12,7 +12,7 @@ td code{overflow-wrap:anywhere}table{table-layout:fixed;border-collapse:collapse
 ol li{margin:4px 0}code{font-size:13px}a{color:var(--blue)}</style></head><body><main>
 <h1>Feedback system: what exists (domain model) and what moves where (data flow)</h1>
 <p class="q">Two pictures of the same system. The <b>domain model</b> names each kind of thing and how they relate: a report holds records, records group into problems. The <b>data-flow model</b> shows which program moves what into which store, and when. Both are drawn from the code as of 12 October 2026; every box has a source in the table at the bottom.</p>
-<p class="sub">Companion page with live counts: <a href="whole-picture.html">the whole picture</a>. Plan: <a href="index.html">feedback loop plan</a>.</p>
+<p class="sub"><a href="guide.html">Start here: the feedback loop guide</a>. Companion page with live counts: <a href="whole-picture.html">the whole picture</a>. Plan: <a href="index.html">feedback loop plan</a>.</p>
 
 <h2>1. Domain model: the kinds of thing</h2>
 <div class="how"><b>How to read it.</b> Each box is a kind of thing. An arrow's label says how two things relate, read in the arrow's direction ("a Report <i>holds</i> 1 or more Records"). Blue boxes are new since 11 October: the daily fix owner and the receipts it leaves. Grey dotted boxes sit outside the loop. How rules and your requirements attach is in the second picture below.</div>
@@ -76,22 +76,22 @@ flowchart TB
   class Adopt,Run,Disp,Rcpt new
   class SR,Con outside
 </pre></div>
-<p class="sub">Live numbers on 12 October: 24 adopt issues, all closed; 10 enforced fixes now carry a receipt and are counted daily (example: problem prob-2bed343a37, seen 11 times before its fix landed in AES #552, 0 times since); the fix-owner's 12 October run found nothing left to do. Workspace rules: 11 named, 10 documented, 2 registered, 7 named in at least one report in the last 30 days.</p>
+<p class="sub">Live numbers on 12 October: 24 adopt issues, all closed; 10 enforced fixes now carry a receipt and are counted daily (example: problem prob-2bed343a37, seen 11 times before its fix landed in AES #552, 0 times since); the fix-owner's 12 October run found nothing left to do. Workspace rules: 12 named, 11 documented, 9 in the rules register, 8 named in at least one report in the last 30 days.</p>
 <h3>1b. Rules and your requirements: what the loop is checked against</h3>
-<div class="how"><b>How to read it.</b> Same notation. Orange dashed boxes exist but are thin: only 2 of 11 workspace rules are registered with how they are enforced, and your requirements are checked by a script run by hand, not by a timer.</div>
+<div class="how"><b>How to read it.</b> Same notation. Orange dashed boxes exist but are thin: 3 of 12 workspace rules are not yet in the rules register (converge-critique-loops, durable-documents, fail-closed-shell-writes), and your requirements are checked by a script run by hand, not by a timer.</div>
 <div class="diagram"><pre class="mermaid">
 flowchart LR
   Rep["Report"] -->|"may name"| Pol["Workspace rule<br/><small>a Policy id in AGENTS.md</small>"]
   Fix["Enforced fix"] -.->|"may add or tighten"| Pol
   Pol -->|"documented in"| Why["Source entry<br/><small>your words, WORKING_RULES.md</small>"]
-  Pol -->|"registered with enforcement + feedback path"| Reg["Registry entry<br/><small>project-meta policy/registry.yaml</small>"]
+  Pol -->|"registered with enforcement + feedback path"| Reg["Register entry<br/><small>AES docs/rules/register.yaml</small>"]
   Req["Your requirement<br/><small>a quoted sentence of yours, with date</small>"] -->|"judged by 1"| Chk["Check<br/><small>a command or run log</small>"]
   Chk -->|"reads"| Logs["Run logs<br/><small>collector, fix owner, rule check</small>"]
   classDef thin fill:#fff7ed,stroke:#b45309,stroke-dasharray:6 4,color:#111827
   class Reg,Chk thin
 </pre></div>
 <h2>2. Data-flow model: what moves where</h2>
-<div class="how"><b>How to read it.</b> Rectangles are people or agents outside the system. Rounded boxes are programs that run, with when they run. Cylinders are stores where data sits. Arrows carry data, labelled with what moves. Orange dashed: runs but reports a gap (9 of 11 workspace rules are not registered). Grey dotted: outside the loop.</div>
+<div class="how"><b>How to read it.</b> Rectangles are people or agents outside the system. Rounded boxes are programs that run, with when they run. Cylinders are stores where data sits. Arrows carry data, labelled with what moves. Orange dashed: runs but reports a gap (3 of 12 workspace rules are not in the rules register). Grey dotted: outside the loop.</div>
 <div class="diagram"><pre class="mermaid">
 flowchart TB
   You["You"] -->|chat messages| S1
@@ -136,7 +136,7 @@ flowchart TB
 <tr><td>Problem, repeating, Analysis, 3 a week</td><td><code>scripts/learning_loop/problems.py:2-18,179</code>; unit <code>feedback-problems.timer</code> (<code>--max-analyse 3</code>)</td></tr>
 <tr><td>Licence</td><td><code>scripts/learning_loop/licences.py:4-12,57</code></td></tr>
 <tr><td>Fix-owner run, adopt issue, disposition</td><td><code>scripts/learning_loop/fix_owner.py:38-88,123-146</code>; unit <code>feedback-fix-owner.timer</code> (<code>--max-items 3</code>)</td></tr>
-<tr><td>Workspace rule, source entry, registry entry</td><td><code>scripts/learning_loop/policies.py</code> (run log <code>policies-runs.jsonl</code>); runs after <code>feedback-effects.service</code></td></tr>
+<tr><td>Workspace rule, source entry, register entry</td><td><code>scripts/learning_loop/policies.py</code> (run log <code>policies-runs.jsonl</code>); runs after <code>feedback-effects.service</code></td></tr>
 <tr><td>Your requirement, check</td><td><code>proposals/aes-learning-loop/review-page/build_requirements.py</code> → <a href="requirements.html">requirements page</a></td></tr>
 <tr><td>Split once, then reused</td><td><code>scripts/learning_loop/collect_feedback.py</code> <code>earlier_splits</code> (AES #560)</td></tr>
 <tr><td>Enforced fix, receipt, effect count</td><td><code>scripts/learning_loop/effects.py</code> (receipt marker); unit <code>feedback-effects.timer</code></td></tr>

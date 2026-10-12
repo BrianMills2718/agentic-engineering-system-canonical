@@ -12,17 +12,16 @@ def test_unregistered_and_undocumented_rules_are_gaps(tmp_path, monkeypatch, cap
     rules = tmp_path / "WORKING_RULES.md"
     rules.write_text("Policy `root-cause` explained before the section.\n## Sources for AGENTS.md rules\n"
                      "- read-the-trace: Brian said so\n- md-file-cap: Brian said so\n")
-    pm = tmp_path / "pm"
-    (pm / "policy").mkdir(parents=True)
-    (pm / "policy/registry.yaml").write_text("- id: read-the-trace\n  enforcement_status: enforced\n"
-                                             "  feedback_path: policy_friction.md\n- id: other\n  policy: x\n")
+    register = tmp_path / "register.yaml"
+    register.write_text("schema_version: aes-rules-register/v1\nrules:\n""- id: read-the-trace\n  enforcement_status: enforced\n"
+                                             "  feedback_path: policy_friction.md\n- id: other\n  rule: x\n")
     out = tmp_path / "out"
     out.mkdir()
     (out / "reports-2026-10-11.jsonl").write_text(json.dumps({"value": "obs (control) read-the-trace misfired"}) + "\n")
     (out / "reports-2026-08-01.jsonl").write_text(json.dumps({"value": "read-the-trace old"}) + "\n")
     monkeypatch.setattr(P, "AGENTS_MD", agents)
     monkeypatch.setattr(P, "WORKING_RULES", rules)
-    monkeypatch.setattr(P, "PROJECT_META", pm)
+    monkeypatch.setattr(P, "RULES_REGISTER", register)
     monkeypatch.setattr(P, "OUT", out)
     import datetime as dt
     result = P.check(30, today=dt.date(2026, 10, 12))
@@ -34,3 +33,8 @@ def test_unregistered_and_undocumented_rules_are_gaps(tmp_path, monkeypatch, cap
     assert rows["root-cause"]["documented"] is False
     assert rows["md-file-cap"]["registered"] is False
     assert sorted(result["gaps"]) == ["md-file-cap", "root-cause"]
+
+
+def test_default_register_is_the_aes_one():
+    assert P.RULES_REGISTER.parts[-3:] == ("docs", "rules", "register.yaml")
+    assert "read-the-trace" in P.registry_entries(P.RULES_REGISTER.read_text())
