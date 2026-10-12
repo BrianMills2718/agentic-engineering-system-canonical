@@ -8,7 +8,7 @@ Four timers run the agent feedback loop. Start page for the whole loop:
 | Collector (`feedback-collector`) | daily 03:30 | `collect_feedback.py --file --max-file 10` | `items-<date>.jsonl`, `reports-<date>.jsonl`, `runs.jsonl`, `state.sqlite`; one issue per report in the private log | unit fails, keyed agent concern |
 | Weekly analysis (`feedback-problems`) | Sunday 05:00 | `problems.py --file --days 14` | `problems-<date>.jsonl`, `problems-runs.jsonl`, `problems.sqlite`; "Feedback loop: adopt" concerns | unit fails, keyed agent concern |
 | Effect counter and rule check (`feedback-effects`) | daily 07:30 | `problems.py --file --days 14 --effects-only`, then `policies.py` | `effects-<date>.jsonl`, `policies-runs.jsonl` | unit fails, keyed agent concern; a rule-check failure does not fail the unit but alerts on its own |
-| Fix owner (`feedback-fix-owner`) | daily 09:00 | `fix_owner.py --max-items 3` | `fix-owner-<date>.jsonl` (full session trace), `fix-owner-runs.jsonl` | unit fails, keyed agent concern |
+| Fix owner (`feedback-fix-owner`) | daily 09:00 | `fix_owner.py --max-items 10` | `fix-owner-<date>.jsonl` (full session trace), `fix-owner-runs.jsonl` | unit fails, keyed agent concern |
 
 All four run from `~/.hive-brain/aes`, a clone of AES `main` that each run refreshes first
 (`~/.hive-brain/project-meta` likewise for project-meta tools), with `llm_client` from
@@ -136,7 +136,7 @@ many reports named it in 30 days. A rule missing either entry opens the keyed co
 
 ## Fix owner
 
-Hands up to 3 open "Feedback loop: adopt" concerns (oldest first, skipping any deferred in the last
+Hands up to 10 open "Feedback loop: adopt" concerns (oldest first, skipping any deferred in the last
 6 days; an attempt that crashed or left no decision is retried next run) to one headless Claude Code
 session. Fixes to agent instructions and checks (AGENTS.md, skills, hooks, the Jev gate,
 company-planning checks) go first. For each item the session records exactly one
@@ -158,7 +158,8 @@ The session starts through a login shell (`bash -lc`), so `claude`, `gh` and `no
 login PATH; the Safety Net hook runs on node and blocks every tool without it (`~/.profile` adds
 nvm's newest node).
 
-History: until 2026-10-11 nobody worked the adopt concerns (19 open, 1 enforced). Brian approved a
+Raised from 3 to 10 a day on 2026-10-12, when the uncapped weekly analysis opened 152 fix concerns at
+once (3 a day would take about 50 days; the session runs on the Claude subscription). History: until 2026-10-11 nobody worked the adopt concerns (19 open, 1 enforced). Brian approved a
 weekly owner on 2026-10-11 and then asked for daily ("i dont want to wait a week"). By 2026-10-12
 all 24 adopt concerns were closed and 10 fixes had receipts. **Wrong if**, after four runs, a spot
 check finds a merged change that did not do what its item asked, or a `declined` reason that does
