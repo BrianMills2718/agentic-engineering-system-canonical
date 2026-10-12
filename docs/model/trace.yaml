@@ -3,7 +3,7 @@
 # and the decision records that say why. The rule text itself lives in the owner's
 # docstring and in .aes/target.yaml; the statements below are one-line pointers.
 # Checked by company-planning plugins/company-planning/scripts/durable_docs_check.py.
-reviewed_at: 2026-10-11
+reviewed_at: 2026-10-12
 scope: >-
   The v0.2 governance loop (Decision 0010): commit tags, plan acceptance, characterization,
   evidence standing and reconciliation. The v0.1 line (Plan 002), the repository-context
@@ -18,7 +18,7 @@ entities:
 processes:
   - id: PROC-COMMIT-CHECK
     what: "the commit-msg hook runs `aes commit check` on every commit"
-    enforces: [RULE-COMMIT-TAG, RULE-PLAN-ADOPTED-FOR-COMMIT]
+    enforces: [RULE-COMMIT-TAG, RULE-PLAN-ADOPTED-FOR-COMMIT, RULE-DURABLE-DOCS-FOR-COMMIT]
   - id: PROC-PLAN-ACCEPT
     what: "`aes plan validate` / `aes plan accept` apply a proposal to the target"
     enforces: [RULE-PLAN-RECEIPT-FOR-ACCEPT, RULE-TRACE-REVIEW-DECLARED]
@@ -45,6 +45,17 @@ rules:
       - tests/greenfield/test_commit_rule.py::test_same_change_under_an_adopted_plan_is_accepted
       - tests/greenfield/test_commit_rule.py::test_plan_changed_after_adoption_is_refused
       - tests/greenfield/test_commit_rule.py::test_plan_without_receipt_and_unknown_plan_are_refused
+    decisions: []
+  - id: RULE-DURABLE-DOCS-FOR-COMMIT
+    statement: >-
+      A [Goal id] commit under a quick plan carrying Company Planning's durable-documents completion command runs
+      that check on the staged change; under durable: enforce it is refused when the plan's Durable documents line
+      fails to name a rule whose owner file the change touches, or is otherwise invalid (an unchanged declared
+      document is only a note). Brian, 2026-10-12, "i approve".
+    owner: src/agentic_engineering_system/commit_rule.py
+    checks:
+      - tests/greenfield/test_commit_rule.py::test_durable_docs_check_refuses_unnamed_owner_and_accepts_named
+      - tests/greenfield/test_commit_rule.py::test_durable_docs_check_observe_and_skips
     decisions: []
   - id: RULE-PLAN-RECEIPT-FOR-ACCEPT
     statement: >-

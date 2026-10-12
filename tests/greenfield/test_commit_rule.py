@@ -720,6 +720,146 @@ def test_a_full_plan_gets_no_quick_plan_notes(repo: Path) -> None:
     assert _last_log(repo)["notes"] == []
 
 
+def _real_durable_check() -> Path | None:
+    """Company Planning's durable_docs_check.py: $AES_DURABLE_DOCS_CHECK, or a company-planning checkout
+    beside one of this checkout's parent folders."""
+    if os.environ.get("AES_DURABLE_DOCS_CHECK"):
+        return Path(os.environ["AES_DURABLE_DOCS_CHECK"])
+    rel = Path("company-planning/plugins/company-planning/scripts/durable_docs_check.py")
+    return next((d / rel for d in REPO.parents if (d / rel).is_file()), None)
+
+
+def _durable_repo(repo: Path, script: Path, durable_line: str, mode: str = "enforce") -> None:
+    """A repository declaring durable_documents whose trace names src/whygame5/graph.py as RULE-A's owner,
+    and an adopted quick plan carrying quick-adopt's durable-documents completion command."""
+    _write(repo, ".agentic/repo.yaml", "durable_documents:\n  schema_version: \"0.1\"\n"
+           "  system_model: {prose: docs/model/ODD.md, trace: docs/model/trace.yaml}\n")
+    _write(repo, "docs/model/ODD.md", "# Model\n\nRULE-A: graph edges are acyclic.\n")
+    _write(repo, "docs/model/trace.yaml", "rules:\n  - id: RULE-A\n    statement: graph edges are acyclic\n"
+           "    owner: src/whygame5/graph.py\n    checks: [tests/test_replay.py]\n")
+    _write(repo, ".aes/commit_rule.yaml", f"mode: {mode}\ndoc_reach: observe\ndurable_check: {script}\n")
+    _git(repo, "add", ".agentic", "docs", ".aes")
+    assert _git(repo, "commit", "-q", "-m", "[Unplanned] declare durable documents\n\nEmergency: fixture").returncode == 0
+    base = _git(repo, "rev-parse", "HEAD").stdout.strip()
+    _quick_plan(repo, "edit-graph", ["src/whygame5/graph.py", "docs/model/trace.yaml"])
+    plan = repo / "proposals/edit-graph/edit-graph.md"
+    plan.write_text(plan.read_text(encoding="utf-8") + f"\n## Durable documents\n\n{durable_line}\n\n"
+                    f'At completion, `python3 "$SESSION_PLUGIN_ROOT/scripts/durable_docs_check.py" --repo . '
+                    f"--plan proposals/edit-graph/edit-graph.md --range {base}..HEAD` must exit 0.\n", encoding="utf-8")
+    digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()  # noqa: E731
+    _write(repo, "proposals/edit-graph/edit-graph.adoption-decision.json", json.dumps({
+        "decision": "adopted", "plan_sha256": digest(plan),
+        "receipt_sha256": digest(repo / "proposals/edit-graph/edit-graph.receipt.json")}) + "\n")
+    _git(repo, "add", "proposals/edit-graph")
+    adopted = _git(repo, "commit", "-q", "-m", "[Shaping edit-graph] adopt the plan\n\nEmergency: fixture")
+    assert adopted.returncode == 0, adopted.stderr
+
+
+def test_durable_docs_check_refuses_unnamed_owner_and_accepts_named(repo: Path) -> None:
+    """A [Goal] commit that edits a durable rule's owner file under a quick plan whose Durable documents
+    line does not name the rule is refused (check durable-docs, PLAN-OWNER-UNNAMED); naming the rule and
+    updating the trace in the same plan lets the same edit land. Runs Company Planning's real check."""
+    script = _real_durable_check()
+    if script is None:
+        pytest.skip("Company Planning's durable_docs_check.py not found; set AES_DURABLE_DOCS_CHECK")
+    _durable_repo(repo, script, "Durable documents: none -- tidy wording only here")
+    _brian_owned(repo)  # so the new-document check applies
+    _write(repo, "src/whygame5/graph.py", "# graph, edges now checked\n")
+    _write(repo, "docs/edges.md", "# Edges\n\nAn unlinked page: the observe-only new-document check would refuse it.\n")
+    _git(repo, "add", "src/whygame5/graph.py", "docs/edges.md")
+    before = _commits(repo)
+    done = _git(repo, "commit", "-q", "-m", "[Goal edit-graph] check edges")
+    assert done.returncode == 1, done.stderr
+    assert "PLAN-OWNER-UNNAMED" in done.stderr and "RULE-A" in done.stderr
+    entry = _last_log(repo)
+    assert entry["verdict"] == "refuse" and entry["check"] == "durable-docs"  # not hidden behind doc-reach
+    assert "not reached from wiki/index.md" in done.stderr
+    assert _commits(repo) == before
+
+    # the plan names the rule (re-adopted), and the trace changes with the code: accepted
+    _git(repo, "reset", "-q", "HEAD", "src/whygame5/graph.py", "docs/edges.md")
+    (repo / "docs/edges.md").unlink()
+    plan = repo / "proposals/edit-graph/edit-graph.md"
+    plan.write_text(plan.read_text(encoding="utf-8").replace(
+        "Durable documents: none -- tidy wording only here", "Durable documents: system_model#RULE-A"), encoding="utf-8")
+    digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()  # noqa: E731
+    _write(repo, "proposals/edit-graph/edit-graph.adoption-decision.json", json.dumps({
+        "decision": "adopted", "plan_sha256": digest(plan),
+        "receipt_sha256": digest(repo / "proposals/edit-graph/edit-graph.receipt.json")}) + "\n")
+    _git(repo, "add", "proposals/edit-graph")
+    assert _git(repo, "commit", "-q", "-m", "[Shaping edit-graph] name RULE-A\n\nEmergency: fixture").returncode == 0
+    _write(repo, "docs/model/trace.yaml", "rules:\n  - id: RULE-A\n    statement: graph edges are acyclic, checked\n"
+           "    owner: src/whygame5/graph.py\n    checks: [tests/test_replay.py]\n")
+    _git(repo, "add", "src/whygame5/graph.py", "docs/model/trace.yaml")
+    done = _git(repo, "commit", "-q", "-m", "[Goal edit-graph] check edges")
+    assert done.returncode == 0, done.stderr
+    entry = _last_log(repo)
+    assert entry["verdict"] == "accept" and entry["check"] == "plan-adoption"
+    assert any("durable-docs: mode=plan" in n and "exit 0" in n for n in entry["notes"]), entry["notes"]
+
+
+def _fake_durable_check(tmp_path: Path, findings: str) -> Path:
+    """A stand-in check script printing fixed findings (exit 1 when there are any), the real script's format."""
+    script = tmp_path / "fake_durable_docs_check.py"
+    lines = [f for f in findings.splitlines() if f]
+    script.write_text("import sys\n" + "".join(f"print({f!r})\n" for f in lines)
+                      + f"print('durable-docs: mode=plan repo=x findings={len(lines)} (fake), exit {1 if lines else 0}')\n"
+                      + f"sys.exit({1 if lines else 0})\n", encoding="utf-8")
+    return script
+
+
+def test_durable_docs_check_observe_and_skips(repo: Path, tmp_path: Path) -> None:
+    """durable: observe only logs a refusal; an unchanged declared document is a note, not a refusal; a missing
+    check script leaves a note and never refuses; a quick plan without the completion command gets no check."""
+    unnamed = "FINDING PLAN-OWNER-UNNAMED role=system_model id=RULE-A file=src/whygame5/graph.py: name it"
+    script = _fake_durable_check(tmp_path, unnamed)
+    _durable_repo(repo, script, "Durable documents: none -- tidy wording only here")
+    _write(repo, ".aes/commit_rule.yaml", f"mode: enforce\ndurable: observe\ndurable_check: {script}\n")
+    _git(repo, "add", ".aes/commit_rule.yaml")
+    assert _git(repo, "commit", "-q", "-m", "[Unplanned] observe\n\nEmergency: fixture").returncode == 0
+    _write(repo, "src/whygame5/graph.py", "# graph, edges now checked\n")
+    _git(repo, "add", "src/whygame5/graph.py")
+    done = _git(repo, "commit", "-q", "-m", "[Goal edit-graph] check edges")
+    assert done.returncode == 0, done.stderr
+    assert "would refuse (durable-docs check is observe-only)" in done.stderr
+    assert _last_log(repo)["check"] == "durable-docs"
+
+    # an unchanged declared document only: a note, accepted under enforce
+    unchanged = "FINDING PLAN-UNCHANGED role=system_model id=RULE-A file=docs/model/ODD.md: declared document not changed"
+    script = _fake_durable_check(tmp_path, unchanged)
+    _write(repo, ".aes/commit_rule.yaml", f"mode: enforce\ndurable_check: {script}\n")
+    _write(repo, "src/whygame5/graph.py", "# graph, edges checked twice\n")
+    _git(repo, "add", ".aes/commit_rule.yaml", "src/whygame5/graph.py")
+    done = _git(repo, "commit", "-q", "-m", "[Goal edit-graph] check edges again")
+    assert done.returncode == 0, done.stderr
+    entry = _last_log(repo)
+    assert entry["verdict"] == "accept" and any("PLAN-UNCHANGED" in n for n in entry["notes"])
+
+    # the check script is missing: a note, never a refusal
+    _write(repo, ".aes/commit_rule.yaml", f"mode: enforce\ndurable_check: {tmp_path / 'absent.py'}\n")
+    _write(repo, "src/whygame5/graph.py", "# graph, third pass\n")
+    _git(repo, "add", ".aes/commit_rule.yaml", "src/whygame5/graph.py")
+    env = {**ENV, "AES_DURABLE_DOCS_CHECK": "", "SESSION_PLUGIN_ROOT": ""}
+    done = subprocess.run(["git", "-c", "user.name=probe", "-c", "user.email=probe@example.invalid", "commit", "-q",
+                           "-m", "[Goal edit-graph] third pass"], cwd=repo, capture_output=True, text=True, env=env)
+    assert done.returncode == 0, done.stderr
+    assert any("durable_docs_check.py not found" in n for n in _last_log(repo)["notes"])
+
+    # a quick plan without the completion command (an older plan): no durable check at all
+    script = _fake_durable_check(tmp_path, unnamed)
+    _write(repo, ".aes/commit_rule.yaml", f"mode: enforce\ndurable_check: {script}\n")
+    _git(repo, "add", ".aes/commit_rule.yaml")
+    assert _git(repo, "commit", "-q", "-m", "[Unplanned] config\n\nEmergency: fixture").returncode == 0
+    _quick_plan(repo, "fix-label", ["README.md"])
+    _git(repo, "add", "proposals/fix-label")
+    assert _git(repo, "commit", "-q", "-m", "[Shaping fix-label] adopt the plan").returncode == 0
+    _write(repo, "README.md", "# Consumer\n\nA line with a typo fixed.\n")
+    _git(repo, "add", "README.md")
+    done = _git(repo, "commit", "-q", "-m", "[Goal fix-label] fix the typo")
+    assert done.returncode == 0, done.stderr
+    assert not any("durable-docs" in n for n in _last_log(repo)["notes"])
+
+
 def test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs(repo: Path) -> None:
     """conftest.py changes every test run; a script named in a tracked unit's ExecStart runs on a schedule."""
     _write(repo, "integration/conftest.py", "import os\n")

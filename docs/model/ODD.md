@@ -48,7 +48,7 @@ An agent changes `src/agentic_engineering_system/evidence.py` under an adopted p
 
 | ID | Trigger | Rules it enforces |
 |---|---|---|
-| PROC-COMMIT-CHECK | every commit (commit-msg hook) | RULE-COMMIT-TAG, RULE-PLAN-ADOPTED-FOR-COMMIT |
+| PROC-COMMIT-CHECK | every commit (commit-msg hook) | RULE-COMMIT-TAG, RULE-PLAN-ADOPTED-FOR-COMMIT, RULE-DURABLE-DOCS-FOR-COMMIT (quick plans that carry the durable-documents completion command) |
 | PROC-PLAN-ACCEPT | `aes plan validate` / `accept` | RULE-PLAN-RECEIPT-FOR-ACCEPT, RULE-TRACE-REVIEW-DECLARED |
 | PROC-RECONCILE | `aes status` / `aes reconcile` | RULE-DRIFT-DETECTED, RULE-INSUFFICIENT-NOT-GREEN, RULE-DEPENDENCY-CHANGE-STALES |
 
