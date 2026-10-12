@@ -148,8 +148,8 @@ a new live Claude invocation.
 
 The weekly loop opens one "Feedback loop: adopt ..." concern per licensed fix, and until
 2026-10-11 nobody worked them: 19 open, 1 enforced. `feedback-fix-owner.timer` runs
-`fix_owner.py` on Sundays at 09:00, after `feedback-problems`. It hands up to 3 open
-concerns (oldest first, skipping any it tried in the last 6 days) to one headless Claude
+`fix_owner.py` daily at 09:00 (Brian, 2026-10-11: "i dont want to wait a week"). It hands up to 3 open
+concerns (oldest first, skipping any deferred in the last 6 days; an attempt that crashed or left no decision is retried next run) to one headless Claude
 Code session. The session handles fixes to agent instructions and checks (AGENTS.md,
 skills, hooks, the Jev gate, company-planning checks) first. For each item it records
 exactly one disposition as a `<!-- fix-owner-disposition {...} -->` comment:

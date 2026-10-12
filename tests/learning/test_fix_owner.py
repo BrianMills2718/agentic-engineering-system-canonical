@@ -54,12 +54,14 @@ def test_deferred_stays_open_and_closing_silently_is_invalid(monkeypatch):
     assert not FO.check(1)["valid"]
 
 
-def test_recently_attempted_items_wait_a_week(monkeypatch):
+def test_only_recent_deferrals_wait_and_crashed_attempts_retry(monkeypatch):
     now = dt.datetime(2026, 10, 18, tzinfo=dt.timezone.utc)
     rows = [{"number": 2, "title": "b", "createdAt": "2026-10-02T00:00:00Z",
-             "comments": [comment(f'{FO.ATTEMPT}{{}} -->', "2026-10-15T00:00:00Z")]},
+             "comments": [disp("deferred", "blocked on claim x") | {"createdAt": "2026-10-15T00:00:00Z"}]},
             {"number": 1, "title": "a", "createdAt": "2026-10-01T00:00:00Z",
-             "comments": [comment(f'{FO.ATTEMPT}{{}} -->', "2026-10-11T00:00:00Z")]},
+             "comments": [comment(f'{FO.ATTEMPT}{{}} -->', "2026-10-17T00:00:00Z")]},  # attempt, no decision
+            {"number": 4, "title": "d", "createdAt": "2026-10-04T00:00:00Z",
+             "comments": [disp("deferred", "old") | {"createdAt": "2026-10-05T00:00:00Z"}]},
             {"number": 3, "title": "c", "createdAt": "2026-10-03T00:00:00Z", "comments": []}]
     monkeypatch.setattr(FO, "gh_json", lambda *a: rows)
-    assert [r["number"] for r in FO.candidates(None, now)] == [1, 3]
+    assert [r["number"] for r in FO.candidates(None, now)] == [1, 3, 4]
