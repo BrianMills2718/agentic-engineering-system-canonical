@@ -130,7 +130,7 @@ comparison. Human authoring effort is not the yardstick. Releases and licences w
   - UAF/DoDAF: only commercial tools.
   - ArchiMate/Archi: no model checker.
   - Eclipse Capra: no push since 2024-02.
-- **Left to build:** no maintained tool covers these.
+- **Left to build (DISPUTED 2026-10-12, under re-review; do not build from this list):** it contradicts the 2026-10-11 finding that PM4Py conformance checking covers process against run logs, and LinkML DDL plus Atlas may already give the schema diff. no maintained tool covers these.
   - The correspondence registry across views: one element ID traced through C4, LinkML, PlantUML and
     sequence views.
   - A LinkML intended-versus-extracted schema diff.
