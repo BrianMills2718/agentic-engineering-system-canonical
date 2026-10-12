@@ -77,6 +77,12 @@ A blocked command runs none of its parts, including file writes earlier in it. A
 read it back (`gh issue view N --json comments`) and confirm both markers are present before you
 close the issue; this script checks the same thing afterwards and fails the run on any mismatch.
 
+This is a headless run: it ends when you stop replying with nothing still running. A check
+longer than ten minutes runs detached (`systemd-run --user --unit=<name> ...`, output to a file);
+wait for it with a background command that has no timeout (`while systemctl --user is-active -q
+<name>; do sleep 60; done`), and do not finish while any lane you opened is still open: close
+it through its session-close route, or record why in a deferred disposition.
+
 Stop after these {n} items. Do not start other work. Never force-push, delete branches or
 history, publish, deploy, send anything outward, or spend money beyond this session.
 Finish with one line, exactly: FIX_OWNER_SUMMARY {{"<issue number>":"<disposition>", ...}}
