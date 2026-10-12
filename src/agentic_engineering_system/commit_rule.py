@@ -57,7 +57,24 @@ repositories that are not AES projects yet. Its ``skip_roots`` list (folders; ``
 environment variables expand) names where throwaway repositories live, such as the temp folder
 that test suites build fixture repositories in: a repository under one of them that has no file
 of its own gets a logged ``skip`` and no check (issue #488). Only the machine-wide file can name
-skip roots, so the exception lives in one place. Every verdict appends one JSON line to
+skip roots, so the exception lives in one place.
+
+A ``[Goal <id>]`` commit under a quick plan (front matter ``planning_path: requested``) in this
+repository whose plan text carries Company Planning's durable-documents completion command
+(``durable_docs_check.py --repo . --plan <plan> --range <base>..HEAD``, written by quick-adopt in a
+repository whose ``.agentic/repo.yaml`` declares ``durable_documents``) runs that check on the
+commit being made (``--staged``). A finding about the plan's declaration (a durable rule whose
+owner file the change touches but the plan's ``Durable documents:`` line does not name, an
+unknown role or id, a role declared not applicable, a ``none`` without a reason) refuses the
+commit (check ``durable-docs``; ``durable: observe`` only logs it, default: the same as
+``mode``). A declared document not changed yet is only a note: a plan can take several commits.
+The check script is ``$AES_DURABLE_DOCS_CHECK``, the config's ``durable_check``, the session's
+``$SESSION_PLUGIN_ROOT/scripts/durable_docs_check.py``, or
+``company-planning/plugins/company-planning/scripts/durable_docs_check.py`` under ``plan_workspace``
+or under any parent folder of the repository (a repository's own config replaces the machine one); when
+none exists, or it fails to run, the commit gets a note and is never refused for it.
+
+Every verdict appends one JSON line to
 ``<git-common-dir>/aes/commit-rule-<UTC date>.jsonl``.
 """
 
@@ -158,6 +175,10 @@ class RuleConfig:
     # Machine-wide only: folders whose repositories (without a file of their own) are throwaway,
     # so the rule logs a skip instead of judging them (issue #488).
     skip_roots: tuple[Path, ...] = ()
+    # Durable-documents check for quick plans (durable: observe or enforce; default: the same as mode),
+    # and an explicit path to Company Planning's durable_docs_check.py.
+    durable: str = "observe"
+    durable_check: Path | None = None
 
 
 @dataclass
@@ -263,6 +284,9 @@ def load_rule_config(root: Path) -> RuleConfig:
     doc_reach = data.get("doc_reach", mode)
     if doc_reach not in ("observe", "enforce"):
         raise ValueError(f"{path}: doc_reach must be observe or enforce, not {doc_reach!r}")
+    durable = data.get("durable", mode)
+    if durable not in ("observe", "enforce"):
+        raise ValueError(f"{path}: durable must be observe or enforce, not {durable!r}")
     extra = tuple((root / p).resolve() if not Path(p).is_absolute() else Path(p)
                   for p in data.get("plan_roots", []))
     return RuleConfig(
@@ -279,6 +303,8 @@ def load_rule_config(root: Path) -> RuleConfig:
         doc_reach_owners=tuple(str(o).lower() for o in data.get("doc_reach_owners", RuleConfig.doc_reach_owners)),
         skip_roots=tuple(Path(os.path.expandvars(str(p))).expanduser().resolve() for p in data.get("skip_roots", [])
                          if "$" not in os.path.expandvars(str(p))),
+        durable=durable,
+        durable_check=Path(str(data["durable_check"])).expanduser() if data.get("durable_check") else None,
     )
 
 
@@ -792,6 +818,59 @@ def quick_plan_notes(plan_id: str, changes: list[FileChange], config: RuleConfig
     return notes
 
 
+# Durable-documents completion check (Company Planning Plan #61), run for quick plans that carry its command.
+DURABLE_COMMAND_RE = re.compile(r"durable_docs_check\.py[\"']?\s+--repo\s+\S+\s+--plan\s+(\S+)\s+--range\s+([0-9a-f]{7,40})\.\.HEAD")
+DURABLE_FINDING_RE = re.compile(r"^FINDING (\S+) .*$", re.MULTILINE)
+# Findings about what the plan declares; PLAN-UNCHANGED (a declared document not edited yet) is only a note.
+DURABLE_REFUSING = ("PLAN-OWNER-UNNAMED", "PLAN-NO-DECLARATION", "PLAN-NONE-NO-REASON", "PLAN-UNKNOWN-ROLE",
+                    "PLAN-UNKNOWN-ID", "PLAN-ROLE-NA")
+
+
+def durable_check_script(config: RuleConfig) -> Path | None:
+    candidates = [os.environ.get("AES_DURABLE_DOCS_CHECK"), config.durable_check]
+    if os.environ.get("SESSION_PLUGIN_ROOT"):
+        candidates.append(Path(os.environ["SESSION_PLUGIN_ROOT"]) / "scripts" / "durable_docs_check.py")
+    rel = Path("company-planning/plugins/company-planning/scripts/durable_docs_check.py")
+    if config.plan_workspace is not None:
+        candidates.append(config.plan_workspace / rel)
+    if config.index_root is not None:  # a repository config replaces the machine one, so also look beside the repo
+        candidates += [d / rel for d in config.index_root.resolve().parents]
+    return next((Path(c) for c in candidates if c and Path(c).is_file()), None)
+
+
+def durable_plan_findings(plan_id: str, config: RuleConfig) -> tuple[list[str], list[str]]:
+    """(refusing findings, notes) from the durable-documents check for the named quick plan, run on the
+    commit being made. Empty when the plan is not a quick plan in this repository or carries no command."""
+    if config.index_root is None:
+        return [], []
+    found = _plan_text(config, plan_id)
+    if found is None:
+        return [], []
+    repo, rel, text = found
+    match = FRONT_MATTER_RE.match(text)
+    meta = (_YAML.load(match.group(1)) or {}) if match else {}
+    command = DURABLE_COMMAND_RE.search(text)
+    if meta.get("planning_path") != "requested" or command is None:
+        return [], []
+    if repo.resolve() != config.index_root.resolve():
+        return [], [f"durable-docs: plan {plan_id} lives in {repo}, not this repository; not checked here"]
+    script = durable_check_script(config)
+    if script is None:
+        return [], [f"durable-docs: check skipped for {plan_id}: durable_docs_check.py not found "
+                    "(set AES_DURABLE_DOCS_CHECK or durable_check)"]
+    done = subprocess.run(["python3", str(script), "--repo", str(config.index_root), "--plan", rel,
+                           "--range", f"{command.group(2)}..HEAD", "--staged"],
+                          capture_output=True, text=True, check=False, timeout=120)
+    out = done.stdout.strip()
+    summary = out.splitlines()[-1] if out else (done.stderr.strip().splitlines() or ["no output"])[-1]
+    if done.returncode not in (0, 1):
+        return [], [f"durable-docs: check skipped for {plan_id}: exit {done.returncode}: {summary[:300]}"]
+    findings = [m.group(0) for m in DURABLE_FINDING_RE.finditer(out)]
+    refusing = [f for f in findings if f.split()[1] in DURABLE_REFUSING]
+    notes = [f"durable-docs: {f[:300]}" for f in findings if f not in refusing]
+    return refusing, notes + [summary[:300]]
+
+
 # New-document reachability. The rules are project-meta scripts/md_file_cap.py `reachability()`
 # (the daily check, policy md-file-cap), applied to the staged tree and to added files only.
 WIKI_ENTRY = "wiki/index.md"
@@ -895,11 +974,23 @@ def judge(message: str, changes: list[FileChange], governed_roots: list[str], co
             else:
                 v.reasons.append(why)
     goal = TAG_RE.match(message.lstrip().splitlines()[0] if message.strip() else "")
-    if goal and goal["goal"] and v.verdict == "accept":
+    # a new-document refusal still gets the plan checks: it is often observe-only, and must not hide them
+    if goal and goal["goal"] and (v.verdict == "accept" or v.check == "doc-reach"):
         try:
-            v.notes = quick_plan_notes(goal["goal"], changes, config)
+            v.notes += quick_plan_notes(goal["goal"], changes, config)
         except (OSError, ValueError, RuntimeError) as err:  # a note must never break a commit
-            v.notes = [f"quick plan check skipped: {type(err).__name__}: {err}"]
+            v.notes.append(f"quick plan check skipped: {type(err).__name__}: {err}")
+        try:
+            refusing, notes = durable_plan_findings(goal["goal"], config)
+        except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as err:  # must never break a commit
+            refusing, notes = [], [f"durable-docs: check skipped: {type(err).__name__}: {err}"]
+        v.notes += notes
+        if refusing:
+            why = ("durable documents: " + "; ".join(refusing)
+                   + "; fix the plan's Durable documents line (name each rule whose owner file the change touches) "
+                     "and update the trace, then re-adopt the plan")
+            v = Verdict("refuse", v.tag, [why, *v.reasons], v.files, v.lines, v.running_things,
+                        check="durable-docs", scope=v.scope, asked=v.asked, notes=v.notes)
     return v
 
 
@@ -1109,12 +1200,14 @@ def check_message(root: Path, message_file: Path | None, *, message_text: str | 
             else "would refuse (observe mode)" if config.mode != "enforce"
             else "would refuse (plan adoption is observe-only)" if verdict.check == "plan-adoption" and config.plan_adoption == "observe"
             else "would refuse (new-document check is observe-only)" if verdict.check == "doc-reach" and config.doc_reach == "observe"
+            else "would refuse (durable-docs check is observe-only)" if verdict.check == "durable-docs" and config.durable == "observe"
             else "refuse")
     asked = f"; asked: {verdict.asked}" if verdict.asked else ""
     notes = "".join(f"; {n}" for n in verdict.notes)
     report = f"aes commit rule: {word} [{verdict.tag}] — {'; '.join(verdict.reasons)}{asked}{notes} (logged to {log})"
     soft = ((verdict.check == "plan-adoption" and config.plan_adoption == "observe")
-            or (verdict.check == "doc-reach" and config.doc_reach == "observe"))
+            or (verdict.check == "doc-reach" and config.doc_reach == "observe")
+            or (verdict.check == "durable-docs" and config.durable == "observe"))
     blocked = config.mode == "enforce" and verdict.verdict == "refuse" and not soft
     return (1 if blocked else 0), report
 

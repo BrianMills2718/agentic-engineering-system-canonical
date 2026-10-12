@@ -1,0 +1,50 @@
+# durable-check-commit-rule: check output
+
+AES_DURABLE_DOCS_CHECK=company-planning/plugins/company-planning/scripts/durable_docs_check.py for every run below (the real check).
+
+## Disproof run: parent commit f0076040e (commit_rule.py before the change) with the new tests
+$ (in an export of the parent) PYTHONPATH=src python -m pytest tests/greenfield/test_commit_rule.py -k durable_docs -v
+tests/greenfield/test_commit_rule.py::test_durable_docs_check_refuses_unnamed_owner_and_accepts_named FAILED [ 50%]
+tests/greenfield/test_commit_rule.py::test_durable_docs_check_observe_and_skips FAILED [100%]
+E       AssertionError: OK topology: 6 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 5 planned but not yet realized
+E       assert 0 == 1
+E       assert 'would refuse (durable-docs check is observe-only)' in "OK topology: 6 governed file(s) under ['src/', 'tests/'], 0 orphan(s), 5 planned but not yet realized\n  unrealized: ART-WG5-CLI -> src/whygame5/cli.py\n  unrealized: ART-WG5-PROMPTS -> src/whygame5/prompts.py\n  unrealized: ART-WG5-REPORT -> src/whygame5/report.py\n  unrealized: ART-WG5-RUNNER -> src/whygame5/runner.py\n  unre
+FAILED tests/greenfield/test_commit_rule.py::test_durable_docs_check_refuses_unnamed_owner_and_accepts_named
+FAILED tests/greenfield/test_commit_rule.py::test_durable_docs_check_observe_and_skips
+====================== 2 failed, 55 deselected in 14.11s =======================
+exit 1
+
+## Success run: change commit 813ca2ef1
+$ PYTHONPATH=src python -m pytest tests/greenfield/test_commit_rule.py -k durable_docs -v
+tests/greenfield/test_commit_rule.py::test_durable_docs_check_refuses_unnamed_owner_and_accepts_named PASSED [ 50%]
+tests/greenfield/test_commit_rule.py::test_durable_docs_check_observe_and_skips PASSED [100%]
+====================== 2 passed, 55 deselected in 26.88s =======================
+exit 0
+
+## All commit-rule tests at 813ca2ef1
+$ PYTHONPATH=src python -m pytest tests/greenfield/test_commit_rule.py
+======================== 57 passed in 252.61s (0:04:12) ========================
+exit 0
+
+## Model drift check at 813ca2ef1
+$ python3 durable_docs_check.py --repo .
+durable-docs: mode=repo repo=/home/brian/code/agentic-engineering-system-canonical/worktrees/durable-check-commit-rule findings=0 (none), exit 0
+exit 0
+
+## Plan completion command at 813ca2ef1
+$ python3 durable_docs_check.py --repo . --plan docs/plans/durable-check-commit-rule.md --range f0076040e67914cef0d96d144ed23f4ba7370686..HEAD
+durable-docs: mode=plan repo=/home/brian/code/agentic-engineering-system-canonical/worktrees/durable-check-commit-rule findings=0 (none), exit 0
+exit 0
+
+## Dogfood: AES's own commit-msg hook on 813ca2ef1 (the verdict log line's durable notes)
+plan-adoption accept
+quick plan durable-check-commit-rule: saved check output docs/plans/durable-check-commit-rule.check.txt present
+quick plan durable-check-commit-rule: every changed file is in the plan's list
+durable-docs: mode=plan repo=/home/brian/code/agentic-engineering-system-canonical/worktrees/durable-check-commit-rule findings=0 (none), exit 0
+
+## Merge gate: make aes-check on the committed change (d6fb17790)
+Result: 2 failed, 271 passed, 20 skipped; make exit 2.
+Both failures are tests/greenfield/test_distribution.py (clean install, getting-started guide), refused by the
+uv storage wrapper: 'Storage budget: {"kind": "cache", "used_gib": 8.24, "limit_gib": 10, "requested_gib": 2}'
+(exit 75). They install packages and do not touch commit_rule.py; filed as AES #561. Every commit-rule test
+(57) passed in the same run.

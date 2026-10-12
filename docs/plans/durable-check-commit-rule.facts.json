@@ -1,0 +1,21 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "docs/plans/durable-check-commit-rule.md",
+  "plan_sha256": "69e294bad1b9718cc259f937544176e1643dab781f142476a10e959feb3337c5",
+  "path_decision_ref": "docs/plans/durable-check-commit-rule.path-decision.json",
+  "path_decision_sha256": "a935f3c8aa8bf01aaade38b181eba7b5231347acb3861df69669a6df4786a027",
+  "facts": {
+    "shared_mechanism": false,
+    "empirical_comparison_proposed": false,
+    "llm_central": false,
+    "irreversible_or_spend_action": false
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-12T15:20:06Z"
+}
