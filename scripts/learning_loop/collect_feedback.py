@@ -438,6 +438,23 @@ def file_item(it: dict) -> str:
 
 
 # ---------- run ----------
+def earlier_splits(ids: set[str], out: Path = OUT) -> dict[str, list[dict]]:
+    """Records an earlier run already split each of `ids` into, from the first clean split in the
+    daily report logs. A report the filing cap deferred is re-read next run; splitting it again with
+    the light model can parse it differently and give one record id two payloads (project-meta #2538)."""
+    found: dict[str, list[dict]] = {}
+    for path in sorted(out.glob("reports-*.jsonl")):
+        with path.open() as fh:
+            for line in fh:
+                try:
+                    r = json.loads(line)
+                except ValueError:
+                    continue
+                if r.get("id") in ids and r["id"] not in found and r.get("filing") != "split_failed" and r.get("records"):
+                    found[r["id"]] = r["records"]
+    return found
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--since-days", type=float, default=1.0, help="first-seen files: only records this recent")
@@ -496,8 +513,13 @@ def main() -> int:
     reps = [r for r in step("reports", lambda: [r for t in trs for r in FL.reports(t, counts)] + SA.reports(trs, counts))
             if r["id"] not in filed_reports]
     counts["reports_new"] = len(reps)
+    earlier = step("earlier_splits", lambda: earlier_splits({r["id"] for r in reps}))
 
     def split_one(r):
+        if r["id"] in earlier:  # deferred last time: keep the records it was split into then
+            r["records"] = earlier[r["id"]]
+            counts["split_reused"] += 1
+            return
         errs = FL.split_rest(r, counts)
         counts["split_done"] += 1
         if counts["split_done"] % 25 == 0:
