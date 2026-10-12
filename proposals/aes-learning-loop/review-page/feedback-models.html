@@ -11,11 +11,11 @@ main{max-width:1100px;margin:0 auto;padding:20px 16px 48px}h1{font-size:1.4rem;m
 td code{overflow-wrap:anywhere}table{table-layout:fixed;border-collapse:collapse;width:100%;font-size:14px}td,th{border-top:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}th{background:var(--panel)}
 ol li{margin:4px 0}code{font-size:13px}a{color:var(--blue)}</style></head><body><main>
 <h1>Feedback system: what exists (domain model) and what moves where (data flow)</h1>
-<p class="q">Two pictures of the same system. The <b>domain model</b> names each kind of thing and how they relate: a report holds records, records group into problems. The <b>data-flow model</b> shows which program moves what into which store, and when. Both are drawn from the code as of 11 October 2026; every box has a source in the table at the bottom.</p>
+<p class="q">Two pictures of the same system. The <b>domain model</b> names each kind of thing and how they relate: a report holds records, records group into problems. The <b>data-flow model</b> shows which program moves what into which store, and when. Both are drawn from the code as of 12 October 2026; every box has a source in the table at the bottom.</p>
 <p class="sub">Companion page with live counts: <a href="whole-picture.html">the whole picture</a>. Plan: <a href="index.html">feedback loop plan</a>.</p>
 
 <h2>1. Domain model: the kinds of thing</h2>
-<div class="how"><b>How to read it.</b> Each box is a kind of thing. An arrow's label says how two things relate, read in the arrow's direction ("a Report <i>holds</i> 1 or more Records"). Orange dashed boxes are barely used: 1 enforced fix so far, and the effect count cannot see it. Grey dotted boxes sit outside the loop.</div>
+<div class="how"><b>How to read it.</b> Each box is a kind of thing. An arrow's label says how two things relate, read in the arrow's direction ("a Report <i>holds</i> 1 or more Records"). Blue boxes are new since 11 October: the daily fix owner and the receipts it leaves. Grey dotted boxes sit outside the loop. How rules and your requirements attach is in the second picture below.</div>
 <div class="diagram"><pre class="mermaid">
 flowchart TB
   subgraph SRC["Where reports come from"]
@@ -41,7 +41,7 @@ flowchart TB
     Act["Action<br/><small>Investigate, Repair, Prevent...</small>"]
     Clm -->|rests on| Obs
   end
-  Rep -->|holds 1 or more| RECS
+  Rep -->|"holds 1 or more (split once, then reused)"| RECS
   Lnk["Evidence link<br/><small>file:line, commit, issue, URL</small>"]
   FK["Failure kind<br/><small>one of 22, A to V</small>"]
   RECS -->|points to 0 or more| Lnk
@@ -49,25 +49,49 @@ flowchart TB
   Prob["Problem<br/><small>records describing the same failure</small>"]
   RECS -->|grouped into| Prob
   An["Analysis<br/><small>cause chain + proposed fix</small>"]
-  Prob -->|"if seen twice independently"| An
+  Prob -->|"if seen twice independently (3 analysed a week)"| An
   Lic["Licence<br/><small>is the evidence enough?</small>"]
   An -->|proposes a fix with| Lic
-  Fix["Enforced fix<br/><small>rule or check, with receipt</small>"]
-  Lic -->|"if active, may become"| Fix
-  Eff["Effect count<br/><small>did the failure stop?</small>"]
-  Fix -->|measured by| Eff
+  Adopt["Adopt issue<br/><small>'Feedback loop: adopt ...' in AES</small>"]
+  Lic -->|"if active, opens 1"| Adopt
+  Run["Fix-owner run<br/><small>one headless agent session, daily</small>"]
+  Run -->|"takes up to 3"| Adopt
+  Disp["Disposition<br/><small>implemented / already enforced / not worth it / deferred</small>"]
+  Adopt -->|"gets exactly 1"| Disp
+  Rcpt["Enforcement receipt<br/><small>revision + proof it runs</small>"]
+  Disp -->|"if implemented or already enforced, carries 1"| Rcpt
+  Fix["Enforced fix<br/><small>a rule, hook or check that now runs</small>"]
+  Rcpt -->|records when it became| Fix
+  Eff["Effect count<br/><small>sightings before vs after the receipt</small>"]
+  Rcpt -->|"is the start line for"| Eff
+  Eff -->|"a recurrence revokes"| Lic
   subgraph OUT["Outside the loop: not linked to anything above"]
     direction LR
     SR["Skill rating<br/><small>local file per skill</small>"]
-    Con["Concern issue<br/><small>task in a repository</small>"]
+    Con["Other concern issues<br/><small>tasks in other repositories</small>"]
   end
-  classDef planned fill:#fff7ed,stroke:#b45309,stroke-dasharray:6 4,color:#111827
+  classDef new fill:#dbeafe,stroke:#1d4ed8,color:#111827
+  classDef thin fill:#fff7ed,stroke:#b45309,stroke-dasharray:6 4,color:#111827
   classDef outside fill:#f3f4f6,stroke:#6b7280,stroke-dasharray:2 3,color:#111827
-  class Fix,Eff planned
+  class Adopt,Run,Disp,Rcpt new
   class SR,Con outside
 </pre></div>
+<p class="sub">Live numbers on 12 October: 24 adopt issues, all closed; 10 enforced fixes now carry a receipt and are counted daily (example: problem prob-2bed343a37, seen 11 times before its fix landed in AES #552, 0 times since); the fix-owner's 12 October run found nothing left to do. Workspace rules: 11 named, 10 documented, 2 registered, 7 named in at least one report in the last 30 days.</p>
+<h3>1b. Rules and your requirements: what the loop is checked against</h3>
+<div class="how"><b>How to read it.</b> Same notation. Orange dashed boxes exist but are thin: only 2 of 11 workspace rules are registered with how they are enforced, and your requirements are checked by a script run by hand, not by a timer.</div>
+<div class="diagram"><pre class="mermaid">
+flowchart LR
+  Rep["Report"] -->|"may name"| Pol["Workspace rule<br/><small>a Policy id in AGENTS.md</small>"]
+  Fix["Enforced fix"] -.->|"may add or tighten"| Pol
+  Pol -->|"documented in"| Why["Source entry<br/><small>your words, WORKING_RULES.md</small>"]
+  Pol -->|"registered with enforcement + feedback path"| Reg["Registry entry<br/><small>project-meta policy/registry.yaml</small>"]
+  Req["Your requirement<br/><small>a quoted sentence of yours, with date</small>"] -->|"judged by 1"| Chk["Check<br/><small>a command or run log</small>"]
+  Chk -->|"reads"| Logs["Run logs<br/><small>collector, fix owner, rule check</small>"]
+  classDef thin fill:#fff7ed,stroke:#b45309,stroke-dasharray:6 4,color:#111827
+  class Reg,Chk thin
+</pre></div>
 <h2>2. Data-flow model: what moves where</h2>
-<div class="how"><b>How to read it.</b> Rectangles are people or agents outside the system. Rounded boxes are programs that run, with when they run. Cylinders are stores where data sits. Arrows carry data, labelled with what moves. Orange dashed: not built or broken. Grey dotted: outside the loop.</div>
+<div class="how"><b>How to read it.</b> Rectangles are people or agents outside the system. Rounded boxes are programs that run, with when they run. Cylinders are stores where data sits. Arrows carry data, labelled with what moves. Orange dashed: runs but reports a gap (9 of 11 workspace rules are not registered). Grey dotted: outside the loop.</div>
 <div class="diagram"><pre class="mermaid">
 flowchart TB
   You["You"] -->|chat messages| S1
@@ -81,16 +105,17 @@ flowchart TB
   P2 -->|"problems; 3 analyses a week"| S4[("Problems + ranked list<br/><small>VIEW.md</small>")]
   P2 -->|"one issue per repeating problem"| S3
   S4 --> P3(["3. Licence check<br/><small>inside the Sunday run</small>"])
-  P3 -->|"fix handed over as an AES issue"| P4(["4. Agents adopt the fix<br/><small>by hand; 1 of 24 done</small>"])
-  P4 -.->|would record a receipt| P5(["5. Effect counter<br/><small>daily; nothing to count</small>"])
-  S2 -->|records| P6(["Failure-kind check<br/><small>Sundays; BROKEN since 11 Oct</small>"])
-  P6 -.->|would propose new kinds| S5
+  P3 -->|"fix handed over as an AES adopt issue"| P4(["4. Fix owner<br/><small>daily, 9 am; up to 3 issues a run; 24 of 24 closed</small>"])
+  P4 -->|"receipt + disposition on each issue"| P5(["5. Effect counter<br/><small>daily, 7:30 am; 10 fixes counted</small>"])
+  P5 -->|then| P8(["Rule check<br/><small>after the effect counter: documented? registered? reported?</small>"])
+  S2 -->|records| P6(["Failure-kind check<br/><small>Sundays, 5:30 am; running again since 12 Oct</small>"])
+  P6 -->|proposes new kinds| S5
   S5 -->|the 22 questions| P7(["Review and audit skills<br/><small>when an agent runs them</small>"])
   P7 -.->|"findings come back as Feedback lines"| Agents
   S7[("Learnings record<br/><small>old; nothing new since 7 Oct</small>")]
   classDef broken fill:#fff7ed,stroke:#b45309,stroke-dasharray:6 4,color:#111827
   classDef outside fill:#f3f4f6,stroke:#6b7280,stroke-dasharray:2 3,color:#111827
-  class P4,P5,P6 broken
+  class P8 broken
   class S6,S7 outside
 </pre></div>
 <h2>3. One real report, followed through both</h2>
@@ -100,7 +125,7 @@ flowchart TB
 <li><b>Collector, 3:30 am.</b> Read the new text, found the Feedback section, parsed the line by its <code>obs (control):</code> marker into one Observation record with one Evidence link, and wrote it to <code>reports-2026-10-11.jsonl</code>.</li>
 <li><b>Feedback log.</b> The report was filed as issue <b>#494</b> in agent-feedback-log.</li>
 <li><b>Sunday grouping.</b> Next Sunday the record is tagged with the closest failure kinds (or "not a failure") and is paired with similar records. If another conversation saw the same thing, they join one Problem.</li>
-<li><b>Where it would stop today.</b> If that Problem repeats, it waits in the analysis queue (3 a week, 169 waiting). If it gets an active licence, the fix is handed to agents as an AES issue; 19 such issues are waiting and 1 has been done (hook rule M1).</li></ol>
+<li><b>Where it would go today.</b> If that Problem repeats, it waits in the analysis queue (3 a week, 176 waiting on 12 October). Once analysed with an active licence, an adopt issue opens; the daily fix owner implements it or closes it with a reason, and leaves a receipt the effect counter reads the next morning.</li></ol>
 
 <h2>Sources for every box</h2>
 <table><tr><th>Box</th><th>Defined in (AES canonical unless noted)</th></tr>
@@ -110,8 +135,12 @@ flowchart TB
 <tr><td>Failure kind (22)</td><td><code>docs/failure-modes.md</code>, read by <code>scripts/learning_loop/label_items.py:47</code>; same list as agent-skills <code>skills/review/references/failure-modes.md</code></td></tr>
 <tr><td>Problem, repeating, Analysis, 3 a week</td><td><code>scripts/learning_loop/problems.py:2-18,179</code>; unit <code>feedback-problems.timer</code> (<code>--max-analyse 3</code>)</td></tr>
 <tr><td>Licence</td><td><code>scripts/learning_loop/licences.py:4-12,57</code></td></tr>
-<tr><td>Enforced fix, effect count</td><td><code>scripts/learning_loop/effects.py</code> (receipt marker); unit <code>feedback-effects.timer</code></td></tr>
-<tr><td>Failure-kind check</td><td>agent-skills <code>scripts/taxonomy_feedback_pass.py</code>; unit <code>taxonomy-feedback.timer</code>; failure filed as project-meta #2538</td></tr>
+<tr><td>Fix-owner run, adopt issue, disposition</td><td><code>scripts/learning_loop/fix_owner.py:38-88,123-146</code>; unit <code>feedback-fix-owner.timer</code> (<code>--max-items 3</code>)</td></tr>
+<tr><td>Workspace rule, source entry, registry entry</td><td><code>scripts/learning_loop/policies.py</code> (run log <code>policies-runs.jsonl</code>); runs after <code>feedback-effects.service</code></td></tr>
+<tr><td>Your requirement, check</td><td><code>proposals/aes-learning-loop/review-page/build_requirements.py</code> → <a href="requirements.html">requirements page</a></td></tr>
+<tr><td>Split once, then reused</td><td><code>scripts/learning_loop/collect_feedback.py</code> <code>earlier_splits</code> (AES #560)</td></tr>
+<tr><td>Enforced fix, receipt, effect count</td><td><code>scripts/learning_loop/effects.py</code> (receipt marker); unit <code>feedback-effects.timer</code></td></tr>
+<tr><td>Failure-kind check</td><td>agent-skills <code>scripts/taxonomy_feedback_pass.py</code>; unit <code>taxonomy-feedback.timer</code>; failed 11 Oct, fixed in agent-skills #498; alerting gap still open as project-meta #2538</td></tr>
 <tr><td>Skill rating</td><td><code>~/.claude/skill-feedback/log.py</code>; company-planning plugin hook <code>hooks/skill_feedback_log.py</code></td></tr>
 <tr><td>Learnings record</td><td>project-meta <code>learnings/entries/</code> (2,717 entries, last 7 Oct)</td></tr></table>
 <p class="sub">Notation: flowcharts in Mermaid. Drawn by hand from the code, not generated from it, so they can drift. A program that redraws them from the code would remove that risk; the model-framework proposal covers that.</p>
