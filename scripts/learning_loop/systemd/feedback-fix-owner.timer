@@ -1,8 +1,8 @@
 [Unit]
-Description=Weekly feedback fix owner (Sundays 09:00, after feedback-problems)
+Description=Daily feedback fix owner (09:00)
 
 [Timer]
-OnCalendar=Sun *-*-* 09:00
+OnCalendar=*-*-* 09:00
 Persistent=true
 RandomizedDelaySec=15m
 

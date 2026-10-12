@@ -110,8 +110,11 @@ def candidates(only: int | None, now: dt.datetime) -> list[dict]:
                    "--limit", "100", "--json", "number,title,createdAt,comments")
     fresh = []
     for r in sorted(rows, key=lambda r: r["createdAt"]):
-        tried = [EF.timestamp(c["createdAt"]) for c in r["comments"] if ATTEMPT in c.get("body", "")]
-        if any(t and now - t < RETRY_AFTER for t in tried):
+        # Only a recent `deferred` decision waits; an attempt that left no decision (a crash,
+        # blocked tools) is retried on the next run.
+        deferred = [EF.timestamp(c["createdAt"]) for c in r["comments"]
+                    if (marker(c.get("body", ""), DISPOSITION) or {}).get("disposition") == "deferred"]
+        if any(t and now - t < RETRY_AFTER for t in deferred):
             continue
         fresh.append(r)
     return fresh
