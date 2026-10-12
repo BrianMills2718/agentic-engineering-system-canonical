@@ -1,0 +1,16 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "docs/plans/shaping-nav-preflight.md",
+  "plan_sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa",
+  "receipt_ref": "docs/plans/shaping-nav-preflight.receipt.json",
+  "receipt_sha256": "7cf5989180fdb1509eff03fd9eaa36ef09aa5f9ef29675a5092f26eda74dedef",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 14 items evidenced, 1 confirmed not applicable, 1 advisory deviation(s)",
+    "warn CORE-SYSTEM-MODEL: MODEL-NO-ELEMENT-IDS, MODEL-NO-UNKNOWNS -> MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`)"
+  ],
+  "decided_at": "2026-10-12T06:39:41Z"
+}

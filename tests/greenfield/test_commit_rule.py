@@ -917,3 +917,70 @@ def test_commit_tag_prints_the_rule_grammar_tag(tmp_path: Path, first_line: str,
     entry_tag = judge(message.read_text(encoding="utf-8").split("\n", 1)[1], [], [],
                       RuleConfig(mode="observe")).tag
     assert (entry_tag != "none") == (tag is not None), entry_tag  # same split as the rule itself
+
+
+def test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal(repo: Path) -> None:
+    """#476/#531: a new proposal and the wiki link that makes it reachable land in one [Shaping] commit;
+    anything else outside proposals/<id>/ is still refused."""
+    _brian_owned(repo)
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [Readme](../README.md)\n")
+    _git(repo, "add", "wiki/index.md")
+    assert _git(repo, "commit", "-m", "[Trivial] add the wiki entry page").returncode == 0
+    _write(repo, "proposals/demo-nav/plan.md", "# Demo plan\n")
+    _git(repo, "add", "proposals/demo-nav/plan.md")
+    done = _git(repo, "commit", "-m", "[Shaping demo-nav] draft")
+    assert done.returncode == 1 and "proposals/demo-nav/plan.md" in done.stderr  # unreached: doc-reach refuses
+    # a deleted line, a non-link line, or a link to another proposal outside the folder is refused
+    for readme in ("# Consumer\n\n- [demo plan](proposals/demo-nav/plan.md)\n",
+                   "# Consumer\n\nA line with a tpyo.\nMore prose.\n- [demo plan](proposals/demo-nav/plan.md)\n",
+                   "# Consumer\n\nA line with a tpyo.\n- [demo plan](proposals/demo-nav/plan.md)\n- [other](proposals/other/x.md)\n"):
+        _write(repo, "README.md", readme)
+        _git(repo, "add", "README.md")
+        done = _git(repo, "commit", "-m", "[Shaping demo-nav] draft")
+        assert done.returncode == 1, (readme, done.stderr)
+        assert "may touch only proposals/demo-nav/" in done.stderr, done.stderr
+    _write(repo, "README.md", "# Consumer\n\nA line with a tpyo.\n- [demo plan](proposals/demo-nav/plan.md)\n")
+    _git(repo, "add", "README.md")
+    done = _git(repo, "commit", "-m", "[Shaping demo-nav] draft")
+    assert done.returncode == 0, done.stderr
+    assert _last_log(repo)["verdict"] == "accept"
+
+
+def test_a_shaping_commit_may_create_the_first_wiki_index(repo: Path) -> None:
+    """#531: in a repository with no wiki/index.md, the first index can land with the first proposal."""
+    _brian_owned(repo)
+    _write(repo, "proposals/first/plan.md", "# First plan\n")
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [first plan](../proposals/first/plan.md)\n")
+    _git(repo, "add", "proposals/first/plan.md", "wiki/index.md")
+    done = _git(repo, "commit", "-m", "[Shaping first] draft")
+    assert done.returncode == 0, done.stderr
+    # a new page other than the index is not navigation
+    _write(repo, "proposals/second/plan.md", "# Second plan\n")
+    _write(repo, "docs/second.md", "# Second\n\n- [second plan](../proposals/second/plan.md)\n")
+    _git(repo, "add", "proposals/second/plan.md", "docs/second.md")
+    done = _git(repo, "commit", "-m", "[Shaping second] draft")
+    assert done.returncode == 1 and "docs/second.md" in done.stderr, done.stderr
+
+
+def test_preflight_reports_the_hooks_verdict_without_logging(repo: Path) -> None:
+    """#532: `aes commit check --preflight -m` judges the staged change before a commit is attempted,
+    exits 1 on a refusal in any mode, and writes nothing to the commit-rule log."""
+    _brian_owned(repo)
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [Readme](../README.md)\n")
+    _git(repo, "add", "wiki/index.md")
+    assert _git(repo, "commit", "-m", "[Trivial] add the wiki entry page").returncode == 0
+    logs = sorted((repo / ".git" / "aes").glob("commit-rule-*.jsonl"))
+    before = sum(len(p.read_text(encoding="utf-8").splitlines()) for p in logs)
+    _write(repo, "proposals/pre/plan.md", "# Pre plan\n")
+    _git(repo, "add", "proposals/pre/plan.md")
+    cmd = [sys.executable, "-m", "agentic_engineering_system.cli", "commit", "check", "--preflight",
+           "--root", str(repo), "-m", "[Shaping pre] draft"]
+    done = subprocess.run(cmd, cwd=repo, capture_output=True, text=True, env=ENV)
+    assert done.returncode == 1 and "preflight" in done.stderr and "proposals/pre/plan.md" in done.stderr, done.stderr
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [Readme](../README.md)\n- [pre plan](../proposals/pre/plan.md)\n")
+    _git(repo, "add", "wiki/index.md")
+    done = subprocess.run(cmd, cwd=repo, capture_output=True, text=True, env=ENV)
+    assert done.returncode == 0 and "accept [Shaping pre]" in done.stderr, done.stderr
+    logs = sorted((repo / ".git" / "aes").glob("commit-rule-*.jsonl"))
+    assert sum(len(p.read_text(encoding="utf-8").splitlines()) for p in logs) == before
+    assert _git(repo, "commit", "-m", "[Shaping pre] draft").returncode == 0  # the hook agrees

@@ -1,0 +1,245 @@
+{
+  "06eff9e1b01cfa76e42695bad5ae516a07b3a0c0d48b09c85a6c2ce4e28e48f1": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides a requirements table with five explicit requirements, each naming a check and giving the status \u201cplanned, not yet run.\u201d The stated delivered-work claims\u2014navigation scope, preflight behavior, unchanged hook mechanism, logging behavior, and model freshness\u2014are represented in R1\u2013R5; no omitted named standard, schema, or contract claim is evident beyond plan metadata or governance context.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/a29f2acb089c/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
+  "0d10e2c6b6b55e659f75fae4fdea236e9761218820e8e0ef7fbf119c042d16f4": {
+    "item_id": "OV-DURABLE-DOCS-DECLARED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence declares the repository\u2019s durable-document roles and provides a `Durable documents: none` line with a reason stating there are no durable-document changes. It also requires running `durable_docs_check.py --plan ... --range ...` at completion and requires exit 0.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/OV-DURABLE-DOCS-DECLARED",
+    "verdict": "pass"
+  },
+  "0e51f852a84dc14f008e8e49c87e93356d6589fd4702f581d31ff1acebe768b1": {
+    "item_id": "OV-AES-TARGET-TRACE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that the repository is governed by `.aes/target.yaml` and maps R1\u2013R5 to AP-REQ-001 and SC-AP-001, with a verification subject for each requirement. It also declares that the target delta is none, identifies the existing normative item and success criterion served, and appropriately explains that `aes plan validate` is not run because no proposal is written.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/7953e2ff255d/OV-AES-TARGET-TRACE",
+    "verdict": "pass"
+  },
+  "137e38b68b0b823c905bfca2ddf5edbfdf35aa19350b67e62e35e023ec0ffa27": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares `empirical_comparison_proposed` false, but proposes no A/B test, benchmark, bake-off, or experiment comparing alternatives; its success checks verify one implementation. It declares `shared_mechanism` and `aes_governed_target` true, while the other declared false facts are not triggered: there is no central LLM dependency, irreversible or spend action, or claim of conformity to an external standard.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/7953e2ff255d/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "1d92764e1cc44704f94f118d85b4f09086945d9a16a0c784577b7220ce83acf0": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence links the repository-scoped model, identifies its documentation entry point, names ENT-COMMIT and PROC-COMMIT-CHECK, and specifies what the saved check output must show for each. It also identifies the applicable source-linked view, explains why no other view applies, provides a concrete freshness check, and states same-commit reconciliation for the model, view coverage, and evidence.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/a29f2acb089c/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
+  "2caf79d0a4b90b9aabf761f732664cb5239706445dab409342f801915cf672ff": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "material",
+    "missing": "shared_mechanism must not be declared false. The plan explicitly changes the commit rule that runs in every repository's commit-msg hook machine-wide and adds a preflight mechanism, which is a new shared mechanism.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence states `shared_mechanism: false`, but R3 describes a commit rule operating machine-wide across repositories and an added `--preflight` mechanism. The other declared false facts are substantively supported: no A/B or alternative comparison, no LLM calls, no irreversible action or spend, and no external standard claim.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/d77476130e24/CORE-ACTIVATION-FACTS",
+    "verdict": "unresolved"
+  },
+  "3870a5b758f86f94384e1ce908ef5845245e7ab0c3480aab7de8fe9c4df6cf17": {
+    "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+    "materiality": "material",
+    "missing": "A concrete structural check or consumer-path observation that would detect a silent parallel implementation of the same concern.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence documents prior-art searches and identifies the AES commit rule as the authority, but it does not name a check or observation that would detect an unannounced second implementation. The cited `git log` and `grep` searches establish lineage or absence of an idea, not detection of a parallel consumer or implementation.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/a29f2acb089c/OV-PRIOR-ART-PARALLEL-CHECK",
+    "verdict": "unresolved"
+  },
+  "43455a192c33b36f75d299232de3e0b3358323e93787866f9992740d0a4caa1d": {
+    "item_id": "OV-PROTO-VERTICAL-RESET",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the minimal vertical result, identifies the reset boundary as `git revert` of the commit, and lists the non-goal as anything outside the three specified files. It also explicitly states that no coordinated-work ceremony is added, including no work-unit graph, review or release contract, or claims beyond repository rules.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/OV-PROTO-VERTICAL-RESET",
+    "verdict": "pass"
+  },
+  "4c68621eb84f9fe78c6e955940eba2ee8584710dbb68b375649d94cde2da4013": {
+    "item_id": "CORE-TRACE-REVIEW",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence names both runs\u2014the parent commit disproof run and the change commit success run\u2014and states that their complete output is saved in `docs/plans/shaping-nav-preflight.check.txt`. It also specifies required trace contents beyond outcomes, including the exact command and exit status, files and reset state, each named check/test with results and no skips, matching status, and hook stderr for disproof.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-TRACE-REVIEW",
+    "verdict": "pass"
+  },
+  "53b404a6696363c43f5b42c4b4dbc4be4c4c2568fd9fff3df405c06c9a343ef0": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies the complete set as one material uncertainty: whether the change needs files beyond the listed scope. It also provides resolving evidence\u2014a grep against a specified revision identifying the relevant implementation, CLI, and test locations\u2014so the uncertainty has resolution evidence.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  },
+  "840570ccea37b25a05af86acde87e7608464188c9e7dbeaca46de6e8cb6d2368": {
+    "item_id": "CORE-AUTHORITY-NONGOALS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies authority: Brian requested the change in his own repository, with one agent making it. It also explicitly states non-goals: work outside the listed files, irreversible actions, and spending.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-AUTHORITY-NONGOALS",
+    "verdict": "pass"
+  },
+  "885538f45532b742b3acad7442d260458755357893d1e0b3fd669ace98f07679": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "material",
+    "missing": "A concrete model freshness or drift check is missing. The plan explicitly states, \u201cthe model names no drift test, so none runs,\u201d and treats the success check as the only freshness evidence; a success check does not substantively verify model freshness or drift.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides the model link, repository scope and entry point, names ENT-COMMIT and PROC-COMMIT-CHECK, specifies what the trace must show for each, identifies a view, explains omitted views, and states reconciliation steps. However, the requirement separately requires concrete model freshness or drift checks, which the plan does not provide.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/d77476130e24/CORE-SYSTEM-MODEL",
+    "verdict": "unresolved"
+  },
+  "8b9acbc4d69033aeb32c987d98ba6555ec2680f6f73f072a8985559be83aaef2": {
+    "item_id": "OV-AES-TARGET-TRACE",
+    "materiality": "material",
+    "missing": "R4 is mapped only to normative item AP-REQ-001 and has no target success criterion (SC-...), despite the requirement requiring each requirement to map to both normative items and success criteria. The evidence also does not clearly declare that the entire plan changes none of the target; \u201cTarget delta: none\u201d appears only under R5.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "R1\u2013R3 and R5 include explicit normative-item and success-criterion mappings with verification subjects, but R4 lists only \u201cAP-REQ-001.\u201d The evidence therefore does not substantively satisfy the required complete traceability and target-delta declaration.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/a29f2acb089c/OV-AES-TARGET-TRACE",
+    "verdict": "unresolved"
+  },
+  "8bfeaeb94ad431d69b56e3cc52e050a9f988c2cb6ddf33f8c1bb8444db244fe9": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The Requirements table explicitly lists R1\u2013R5, and each requirement names a check and status (\u201cplanned, not yet run\u201d). The plan\u2019s stated work claims\u2014including the [Shaping] commit behavior, preflight behavior, machine-wide hook mechanism, logging behavior, and model freshness\u2014are represented by R1\u2013R5.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/7953e2ff255d/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
+  "8c0319e399cb1d741bffe190b61ac4214d70a0a6710ca6a769ff510819c0f7fb": {
+    "item_id": "OV-PRIOR-ART-DISPOSITION",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly reports searches of internal lineage and ownership, including the canonical owner and active-claim check, and identifies external prior art. Each listed candidate is assigned one of the required dispositions\u2014reuse, extend, supersede, or bounded exception\u2014with a stated rationale.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/a29f2acb089c/OV-PRIOR-ART-DISPOSITION",
+    "verdict": "pass"
+  },
+  "955c612a4614fae00fae0b827a87cde37cd0116700fc498b59f390c733280e6c": {
+    "item_id": "OV-AES-TARGET-TRACE",
+    "materiality": "material",
+    "missing": "An explicit mapping for each requirement (R1, R2, and R3) to the target's normative item(s) and success criterion(s), with a verification subject for each requirement. The evidence gives only a combined statement that \u201cR1 onward\u201d map to AP-REQ-001 and SC-AP-001 with the single subject `tests/greenfield/test_commit_rule.py`.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly states that the repository is governed by `.aes/target.yaml` and declares \u201cno target delta,\u201d naming AP-REQ-001 and SC-AP-001 and a verification subject. However, it does not separately map every requirement to those target items and criteria as required.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/OV-AES-TARGET-TRACE",
+    "verdict": "unresolved"
+  },
+  "99fbe86be320e62aa73c62d7b39b3a3f0f74e6d1d7b8987689837f251cd4f40b": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "material",
+    "missing": "Concrete model freshness or drift checks. The plan explicitly states that the model names no drift test and that the success check is the only freshness evidence, but it does not define a concrete check that verifies model freshness or detects drift.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence provides the model path, repository documentation entry point and scope, named model elements with required trace evidence, applicable-view/omission language, and same-change reconciliation. However, the requirement expressly requires concrete model freshness or drift checks, which the plan does not provide.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-SYSTEM-MODEL",
+    "verdict": "unresolved"
+  },
+  "a087c4405dc5758f85a76d92208453a01847261ad7c9157dfd834dd54a9467ac": {
+    "item_id": "OV-AES-TARGET-TRACE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that the repository is governed by `.aes/target.yaml`, maps R1\u2013R5 to target normative items and success criteria with named verification subjects, and declares \u201cTarget delta: none.\u201d It also names the existing target items served by each requirement, so no `aes plan validate` result is required.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/d77476130e24/OV-AES-TARGET-TRACE",
+    "verdict": "pass"
+  },
+  "abd3ce1a139b6a132ffc34c1c701c33a577dff71b4bc7adbdcd7c0247a0330fc": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the actor (Brian), states the desired result, and gives a stable, concrete user-visible example with specific files, commit message, and before/after behavior.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/d77476130e24/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "b40dd0e3afe8ef09ceaeb4c4ce87cd3959c73b18a34cd56e7dad15b678237c01": {
+    "item_id": "CORE-TRACE-DEBUGGING",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly defines a separate procedure for failed or surprising runs, preserves the failed check and trace ID, requires reading complete inputs, prompts, tool arguments/results, intermediate stages, and final output, and requires citing and classifying the divergence. It also prohibits causal repairs for unresolved diagnoses, binds targeted repairs to new traced verification runs while retaining the original, and distinguishes complete review from run outcome.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-TRACE-DEBUGGING",
+    "verdict": "pass"
+  },
+  "cf30fb84bb175ef2029e2d0b5f9c2985da5386e937bdd5a30de86c23d78dd354": {
+    "item_id": "CORE-CAPABILITY-REUSE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly states, \u201cNo catalogue entry fits, because this changes AES's own commit rule,\u201d and explains that the work needs edits to the repository\u2019s own files, which no catalogue entry provides.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-CAPABILITY-REUSE",
+    "verdict": "pass"
+  },
+  "d62f1e246deede42c281966eb67bf26c836312e8ccc76b7fec3863c540bb42d5": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "material",
+    "missing": "The plan declares shared_mechanism false, but it proposes adding the preflight operation and changing the shared commit-rule mechanism used by commit hooks and the CLI.",
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly says the change modifies the commit-tag rule and adds `aes commit check --preflight`, with tests for the hook and CLI behavior. That is a new or changed shared mechanism, so the false declaration is not supported.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-ACTIVATION-FACTS",
+    "verdict": "unresolved"
+  },
+  "de8a00f95412dd3c5480e88b5b12fb17b06270a5514591b036aacd26680a0b76": {
+    "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the actor as Brian, states the desired result, and gives a stable, concrete, user-visible example involving specific files, commands, commit messages, and acceptance/refusal outcomes.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "e24c64f9f75bf3f78cb5abc159797e0ee0d256036fcd7a5f366ee85bececc931": {
+    "item_id": "CORE-SUCCESS-DISPROOF",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence specifies direct success checks using real commits and the installed hook: acceptance of valid proposal/navigation changes, rejection of out-of-scope or invalid changes, first-index bootstrap, and preflight behavior. It also gives concrete disproof conditions\u2014refusing a valid proposal-plus-link commit or accepting an out-of-scope edit\u2014and identifies the test output and hook stderr as the evidence.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "f3180019804876b319bda81b82a7f410003293666578941de472c7de4b1f7084": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares `shared_mechanism` and `aes_governed_target` true. The facts declared false are not triggered: it proposes verification tests rather than an empirical comparison, makes no central LLM call, proposes no irreversible action or spend, and does not claim conformity to an external standard, schema, or contract.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/a29f2acb089c/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
+  "f61fb5df159b6dc75e3b8d3308c066f6e1a79dab90e71eed1e4f38123f27f546": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The Requirements table lists R1\u2013R3, and each requirement explicitly names a check and status: R1 cites the success check and is planned/not yet run; R2 cites refusal tests (2); and R3 cites test (4). The plan also explicitly includes the work\u2019s stated commit-rule and preflight claims in R1\u2013R3, with no omitted named standard, schema, or contract claim requiring an additional requirement.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/fc10f3697c6b/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
+  "feec130bcbd3f65b8d2009471c4a3531d202263498550121cc7197d7d030a5fb": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The Requirements table explicitly lists R1\u2013R5, including the requested behavior and the requirements implied by the plan\u2019s own claims. Every requirement names a check and has the explicit status \u201cplanned, not yet run\u201d; no requirement is deferred, so no deferral reason or release-record carry-forward is required.",
+    "trace_id": "company-planning/method-conformance/shaping-nav-preflight/d77476130e24/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  }
+}

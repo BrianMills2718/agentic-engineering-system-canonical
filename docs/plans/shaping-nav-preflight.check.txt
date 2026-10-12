@@ -1,0 +1,31 @@
+## BEFORE: parent commit 6faebd3a257ac3ac8f8383233ea1045923be7b7b (new tests added, rule unchanged)
+$ PYTHONPATH=src .venv/bin/python -m pytest tests/greenfield/test_commit_rule.py -k "shaping_commit_may or preflight"
+    assert (2 == 1)
+     +  where 2 = CompletedProcess(args=['/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python', '-m', 'agentic_engine...ooks,characterize,reconcile,status,plan,commit}\n           ...\naes: error: unrecognized arguments: --preflight -m\n').returncode
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-764/test_preflight_reports_the_hoo0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-764/test_preflight_reports_the_hoo0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+/home/brian/code/agentic-engineering-system-canonical/worktrees/shaping-nav-preflight/tests/greenfield/test_commit_rule.py:979: AssertionError: usage: aes [-h] [--version]
+=========================== short test summary info ============================
+FAILED tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal
+FAILED tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_create_the_first_wiki_index
+FAILED tests/greenfield/test_commit_rule.py::test_preflight_reports_the_hooks_verdict_without_logging
+====================== 3 failed, 52 deselected in 52.29s =======================
+exit: 1
+
+## AFTER: working tree with the change on parent 6faebd3a257ac3ac8f8383233ea1045923be7b7b
+$ PYTHONPATH=src .venv/bin/python -m pytest tests/greenfield/test_commit_rule.py -k "shaping_commit_may or preflight" -rA
+PASSED tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal
+PASSED tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_create_the_first_wiki_index
+PASSED tests/greenfield/test_commit_rule.py::test_preflight_reports_the_hooks_verdict_without_logging
+================= 3 passed, 52 deselected in 76.73s (0:01:16) ==================
+exit: 0
+
+## Model freshness (R4)
+$ grep -n "ENT-COMMIT\|PROC-COMMIT-CHECK" docs/model/ODD.md docs/model/trace.yaml
+docs/model/trace.yaml:12:  - {id: ENT-COMMIT, what: a git commit and the tag on its first line}
+docs/model/trace.yaml:19:  - id: PROC-COMMIT-CHECK
+docs/model/ODD.md:40:| ENT-COMMIT | a commit and its first-line tag | git; verdicts in `<git-common-dir>/aes/commit-rule-<date>.jsonl` |
+docs/model/ODD.md:51:| PROC-COMMIT-CHECK | every commit (commit-msg hook) | RULE-COMMIT-TAG, RULE-PLAN-ADOPTED-FOR-COMMIT |
+Reading: ENT-COMMIT is still 'a commit and its first-line tag'; PROC-COMMIT-CHECK is still the commit-msg hook check (the preflight runs the same judge on demand), so no model edit is needed.

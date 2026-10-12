@@ -1,0 +1,21 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "docs/plans/shaping-nav-preflight.md",
+  "plan_sha256": "fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa",
+  "path_decision_ref": "docs/plans/shaping-nav-preflight.path-decision.json",
+  "path_decision_sha256": "ca55c3495787e8b1ca1ceda0ed4a4fbfd4bf9158f2b2b03f37ba9f570e8279f7",
+  "facts": {
+    "shared_mechanism": true,
+    "empirical_comparison_proposed": false,
+    "llm_central": false,
+    "irreversible_or_spend_action": false
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-12T06:39:14Z"
+}
