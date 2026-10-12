@@ -160,6 +160,10 @@ from GitHub and treats an item as handled only when its state, close reason, mar
 receipt agree. It never trusts the agent's own summary. Any item without that agreement,
 or a crash, exits non-zero and opens a keyed agent concern.
 
+The service starts the session through a login shell (`bash -lc`), so `claude`, `gh` and `node` must
+be on the login PATH; the Safety Net hook runs on node and blocks every tool when node is missing
+(first run, 2026-10-11: nvm loaded node only in `.bashrc`; `~/.profile` now adds nvm's newest node).
+
 The full session trace is written to `fix-owner-<date>.jsonl`, and one line per run to
 `fix-owner-runs.jsonl`, both in `$FEEDBACK_OUT`. Read the trace before trusting a run. This
 is wrong if, after four runs, a weekly spot check finds a merged change that did not do
