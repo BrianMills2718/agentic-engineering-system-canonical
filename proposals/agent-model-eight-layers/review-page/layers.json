@@ -1,0 +1,135 @@
+{
+  "revisions": {
+    "epistemic-warrant": "9ca2c95e5d8091ccc51562ba50b3e2b225385e26",
+    "observation-to-action-metamodel": "b58b6e1b70ecb7e1106cb9c854364ac56eeed818"
+  },
+  "spec_sections": ["§0", "§1", "§2", "§3", "§4", "§5", "§6", "§7", "§8", "§9", "§10", "§11", "§12"],
+  "layers": [
+    {
+      "id": "representation",
+      "name": "Formal representation",
+      "plain": "How claims, world models and data are written down so a machine can check them.",
+      "model": [
+        {"sec": "§0", "text": "Notation: latent quantities Θ, world model M = (G, p), evidence, named assumptions"},
+        {"sec": "§10", "text": "Correspondence to the Alloy-checked formal core"},
+        {"sec": "§11", "text": "Data as sets of addressable facts that methods transform"}
+      ],
+      "worked": [
+        {"ref": "Metamodel §6", "path": "docs/formal-epistemic-reasoning-metamodel.md", "text": "The formal representation layer, kept apart from the other seven", "status": "unused", "note": "Not cited. The agent model has its own formal core, which fits this layer but was never checked against it."},
+        {"ref": "Metareasoning §2–3", "path": "docs/metareasoning-strategy-reflection.md", "text": "Use MMT-style formal artifacts; a rough draft candidate is a different thing from a formal artifact", "status": "unused", "note": "Not cited. Section 12's rival world models start as drafts, so this distinction applies there."},
+        {"ref": "Decision 018", "path": "docs/decisions/018-certified-guarantee-transport.md", "text": "A guarantee carries across a change of representation only through a certified preservation relation; otherwise re-warrant", "status": "unused", "note": "Section 11 receipts say a fact was preserved or approximated, but never whether its warrant survives the step. Decision 018 is the rule for that."}
+      ]
+    },
+    {
+      "id": "generation",
+      "name": "Candidate generation",
+      "plain": "Where candidate explanations, hypotheses and world models come from, before anyone judges them.",
+      "model": [
+        {"sec": "§12", "text": "One sentence: candidates may come from any generator, and the generator confers no warrant (planned, no code)"},
+        {"sec": "§9", "text": "Candidate methods come from the workbench's router"}
+      ],
+      "worked": [
+        {"ref": "Candidate-generation interface", "path": "docs/candidate-generation-interface.md", "text": "Draft state, construction operators, strategy, formal elaboration, evaluation and feedback, warrant kept separate; a worked trace from the founding dialogue (§10)", "status": "partly", "note": "Section 12 cites only §1 and §7. Operators, strategy, evaluation feedback, the general loop and Frames (§15) are not used."},
+        {"ref": "Decision 015", "path": "docs/decisions/015-candidate-generative-system-transformations.md", "text": "Candidate generation is a typed generative system; exploring inside it is different from changing the system itself", "status": "unused", "note": "Not used. Adding a new kind of world model (a new causal-discovery method, say) is a change to the system, not a step inside it."},
+        {"ref": "Decision 016", "path": "docs/decisions/016-candidate-framework-mapping-survives.md", "text": "The interface survives mapping onto CEGIS, meta-interpretive learning, anti-unification, HR and conceptual blending", "status": "unused", "note": "Not used. It is evidence that the interface can host the generators section 12 names."},
+        {"ref": "Decision 017", "path": "docs/decisions/017-cross-framework-generator-orchestration.md", "text": "Combine generators with a blackboard, an explicit controller, a generator portfolio and reflection; invent no new glue calculus", "status": "unused", "note": "Not used. Section 12 lists several generators (causal discovery, an analyst, an LLM) with no way to combine them. Decision 017 is that way."},
+        {"ref": "Landscape, framework mappings, cross-framework glue", "path": "docs/candidate-generation-cross-framework-glue.md", "text": "Prior-art reviews behind 015–017 (adapters, provenance across generators, portfolio growth)", "status": "unused", "note": "Not cited."}
+      ]
+    },
+    {
+      "id": "support",
+      "name": "Support",
+      "plain": "What backs a claim and how strongly: which evidence and assumptions it rests on.",
+      "model": [
+        {"sec": "§1", "text": "Belief as a posterior; a claim's credence"},
+        {"sec": "§11", "text": "Lineage through receipts: which input facts a result came from, and what an audit reaches"}
+      ],
+      "worked": [
+        {"ref": "support.py", "path": "src/epistemic_warrant/support.py", "text": "ATMS-style support labels: the sets of assumptions a claim rests on, with rules for alternative and joint support", "status": "unused", "note": "Not used. Section 11's 'reach' answers the same question (which conclusions depend on this input) with a separate mechanism."},
+        {"ref": "Metamodel §7–9", "path": "docs/formal-epistemic-reasoning-metamodel.md", "text": "Persistent support and temporary contexts, the positive support algebra, graded support", "status": "unused", "note": "Not cited."},
+        {"ref": "Support algebra §7–12", "path": "docs/epistemic-actions-support-algebra.md", "text": "Record where support came from before grading it; provenance semirings; why adding up numeric support naively is unsafe", "status": "unused", "note": "Not cited. Provenance semirings are the established prior art for section 11's lineage."},
+        {"ref": "Decision 010", "path": "docs/decisions/010-graded-support-reports-not-acceptance.md", "text": "A numeric support score warrants reporting a grade, not accepting the claim; acting needs its own warrant rule", "status": "tension", "note": "The agent model's own 'stakes bar' rule accepts a claim whenever its probability clears a bar. Decision 010 says a probability alone does not warrant accepting. Someone has to decide which one holds."}
+      ]
+    },
+    {
+      "id": "defeat",
+      "name": "Argument / defeat",
+      "plain": "What attacks a claim, and whether the claim survives the attack.",
+      "model": [
+        {"sec": "§2", "text": "An audit withdraws licences by removing an assumption (for example, 'the source is reliable')"},
+        {"sec": "§11", "text": "R-619 challenge closure: what a challenge reaches"},
+        {"sec": "§1", "text": "A belief state lists rival claims with their credences"}
+      ],
+      "worked": [
+        {"ref": "derive_license assumption withdrawal", "path": "src/epistemic_warrant/warrant.py", "text": "Licences that needed a withdrawn assumption are withdrawn by name", "status": "used", "note": "Used through licence.py (decision 036)."},
+        {"ref": "aba.py, defeat.py", "path": "src/epistemic_warrant/aba.py", "text": "Assumption-based argumentation: assumptions with contraries, attacks, and whether an argument survives explicit defeat", "status": "unused", "note": "Not used. Rival claims in section 1 are never set against each other as attacks; they only carry credences."},
+        {"ref": "Decisions 007, 008, 019", "path": "docs/decisions/019-semantic-correctness-preference-target-binding.md", "text": "How arguments are identified; preferences between them; refuse to decide when preference meaning is incomplete", "status": "unused", "note": "Not cited."}
+      ]
+    },
+    {
+      "id": "warrant",
+      "name": "Warrant",
+      "plain": "Whether the backing is good enough, judged under a named standard.",
+      "model": [
+        {"sec": "§2", "text": "Who judges each condition: computed, AI or human"},
+        {"sec": "§2", "text": "Four rules of its own in licence.py: stakes bar, deterministic check, source label, conjunction"},
+        {"sec": "§12", "text": "A model revision names its warrant (planned)"}
+      ],
+      "worked": [
+        {"ref": "WarrantJudgment and regime assessment", "path": "src/epistemic_warrant/warrant.py", "text": "Every judgment names its standard, assumptions and certificate", "status": "used", "note": "Used: licence.py builds WarrantJudgments."},
+        {"ref": "Decision 014", "path": "docs/decisions/014-strategy-performance-warrant.md", "text": "Pick a strategy only when the lower confidence bound on its paired advantage is above zero", "status": "used", "note": "Used for the act-on-network policy."},
+        {"ref": "Decision 011", "path": "docs/decisions/011-strict-horn-deductive-warrant.md", "text": "Deductive warrant is a checked derivation from explicit premises; the premises are not thereby accepted", "status": "rebuilt", "note": "Rebuilt locally as 'o2a.deterministic-check/1'."},
+        {"ref": "Decision 012", "path": "docs/decisions/012-measurement-testimony-warrant.md", "text": "Measurement and testimony warrant recording a result relative to a model, not accepting the proposition", "status": "rebuilt", "note": "Rebuilt locally as 'o2a.source-label/1'. The 'stakes bar' rule also turns a model-relative posterior into acceptance; 012 says the posterior regime 'does not warrant accepting the claim'."},
+        {"ref": "Decision 013", "path": "docs/decisions/013-finite-class-statistical-warrant.md", "text": "Statistical warrant from finite-class uniform-convergence bounds under explicit sampling assumptions", "status": "unused", "note": "Not used."},
+        {"ref": "Decision 009; warrant of warrant", "path": "docs/warrant-license-interface.md", "text": "Grounded dialectical warrant; what warrants a warrant rule itself (§13)", "status": "unused", "note": "Not cited."}
+      ]
+    },
+    {
+      "id": "licence",
+      "name": "Licence",
+      "plain": "What the agent may do with a claim in a given use: state it, build on it, act on it.",
+      "model": [
+        {"sec": "§2", "text": "Condition statuses and standing; the acceptance policies 'describe-findings' and 'act-on-network'; accepting is not acting"}
+      ],
+      "worked": [
+        {"ref": "derive_license", "path": "src/epistemic_warrant/warrant.py", "text": "A licence is derived only when the warrant fits the action and its assumptions hold", "status": "used", "note": "Used: decision 036 hands licence to epistemic-warrant, pinned at b891812e."},
+        {"ref": "Decision 020", "path": "docs/decisions/020-context-relative-acceptance.md", "text": "Acceptance is a context-relative action governed by an explicit policy over typed warrant obligations", "status": "used", "note": "Used in effect: the two acceptance policies name a context and the warrant rules they accept."},
+        {"ref": "Support algebra §15", "path": "docs/epistemic-actions-support-algebra.md", "text": "Combining licences is different from choosing an action", "status": "partly", "note": "Matches 'accepting is not acting'; not cited."}
+      ]
+    },
+    {
+      "id": "update",
+      "name": "Epistemic action / update",
+      "plain": "How the agent's state of belief changes, including adding or dropping whole hypotheses.",
+      "model": [
+        {"sec": "§1", "text": "Bayesian update on a new observation; which claims an observation reaches"},
+        {"sec": "§5", "text": "Predictions recorded and scored when outcomes arrive"},
+        {"sec": "§8", "text": "Record of past cases"},
+        {"sec": "§12", "text": "A falsified world model is removed or down-weighted (planned)"}
+      ],
+      "worked": [
+        {"ref": "Transition calculus §5", "path": "docs/epistemic-transition-calculus.md", "text": "Changing the hypothesis universe: adding or removing hypotheses is a different kind of change from updating credences over a fixed set", "status": "unused", "note": "Not cited. This is exactly what section 12 does when it adds or removes world models."},
+        {"ref": "Transition calculus §6–7", "path": "docs/epistemic-transition-calculus.md", "text": "Reading out a result is not necessarily a change of state; candidate generation, warrant and update stay separate", "status": "unused", "note": "Not cited."},
+        {"ref": "Support algebra §3–6", "path": "docs/epistemic-actions-support-algebra.md", "text": "An epistemic action is a partial transducer with preconditions and an effect footprint; no fixed taxonomy of actions", "status": "unused", "note": "Not cited."}
+      ]
+    },
+    {
+      "id": "control",
+      "name": "Strategy / control",
+      "plain": "How the agent decides what to think about, what to run and when to stop.",
+      "model": [
+        {"sec": "§3", "text": "Decision by expected utility"},
+        {"sec": "§4", "text": "When to think harder: value of a deliberation against its cost"},
+        {"sec": "§6", "text": "Oversight policy and gates anywhere"},
+        {"sec": "§7", "text": "Attention: priority by expected value of information"},
+        {"sec": "§9", "text": "Method advice ordered by track record"}
+      ],
+      "worked": [
+        {"ref": "strategy.py with decision 014", "path": "src/epistemic_warrant/strategy.py", "text": "Paired performance certificates for choosing a strategy", "status": "used", "note": "Used for act-on-network. Section 9 orders methods by mean usefulness instead, without the lower-bound rule. That is a smaller gap."},
+        {"ref": "Metareasoning §4–12", "path": "docs/metareasoning-strategy-reflection.md", "text": "Operators, strategies, strategy episodes; checks of a factorization (complete, minimal, independent, compositional, unique); under-, over- and misfactored diagnostics; strategy versus metastrategy; reflection; monitoring and control", "status": "unused", "note": "Not cited. Sections 4 and 7 are monitoring and control in this sense."},
+        {"ref": "Decision 017 controller and portfolio", "path": "docs/decisions/017-cross-framework-generator-orchestration.md", "text": "An explicit controller over a portfolio of knowledge sources", "status": "unused", "note": "Not used."},
+        {"ref": "CommonKADS / UPML check", "path": "docs/canonical-factorization-commonkads-upml.md", "text": "Prior-art check of the eight-layer factorization itself", "status": "unused", "note": "Not cited."}
+      ]
+    }
+  ]
+}

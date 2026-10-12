@@ -1,0 +1,219 @@
+{
+ "stage": "built and rendered at 1440 and 390 px; 68 controls hover-tested for tooltips (0 missing); no horizontal scroll at either width",
+ "choice-justified:adjacency-matrix": {
+  "status": "satisfied",
+  "why": "Router primary, built as a traceability table: layers by rows, agent-model sections and worked-out items as columns. Rows hold 3-6 items each, so a dense matrix grid would be mostly empty; the table keeps each cell's items legible."
+ },
+ "title-states-what-this-is-and-for-whom": {
+  "status": "satisfied",
+  "why": "Headline states the finding; lede says what each column is."
+ },
+ "whole-design-visible-on-one-screen-at-the-target-viewport": {
+  "status": "skipped",
+  "why": "At 1440 the table is about 1.5 screens tall; eight layers with their items do not fit one screen without clipping text. Summary counts and per-row bars sit above the fold."
+ },
+ "cold-reader-gets-the-mechanism-in-sixty-seconds": {
+  "status": "satisfied",
+  "why": "Headline plus summary counts plus per-row bars carry the point."
+ },
+ "form-matches-job-lists-scan-tables-compare-flows-transition-maps-connect": {
+  "status": "satisfied",
+  "why": "Job is compare layers against two sources; a table compares."
+ },
+ "relationships-drawn-not-implied-by-adjacency-or-links": {
+  "status": "satisfied",
+  "why": "Each item's relation to the agent model is drawn as a status mark with words, not implied by placement."
+ },
+ "same-object-same-mark-across-every-view": {
+  "status": "satisfied",
+  "why": "One mark per status, used in summary, chips, bars and legend."
+ },
+ "every-object-reveals-more-on-click-nothing-is-a-dead-end": {
+  "status": "satisfied",
+  "why": "Every chip opens a detail panel with the note and a pinned GitHub link; sections show their text on hover."
+ },
+ "one-primary-drawing-with-callouts-not-parallel-columns-of-text": {
+  "status": "skipped",
+  "why": "The middle column is text: agent-model section summaries have no visual form beyond the row they sit in."
+ },
+ "overlapping-views-merged-into-one-view-with-forms-not-thinned": {
+  "status": "satisfied",
+  "why": "One view."
+ },
+ "attributed-claims-traced-to-source-no-invented-items": {
+  "status": "satisfied",
+  "why": "Every worked-out item links to its file at a pinned revision; decisions 010 and 012 wording checked against source."
+ },
+ "argument-pages-follow-the-speakers-order-and-keep-their-reasons": {
+  "status": "na",
+  "why": "Not an argument page."
+ },
+ "drawing-laid-out-by-engine-with-content-and-optional-motion-layers": {
+  "status": "na",
+  "why": "Table layout by the browser; no node-link drawing."
+ },
+ "structural-devices-encode-information-not-decoration": {
+  "status": "satisfied",
+  "why": "Bars encode status mix per layer; borders encode status."
+ },
+ "no-generated-defaults-cream-serif-card-kit-caps-labels-middle-dots": {
+  "status": "satisfied",
+  "why": "Removed all-caps headers and middle-dot separators; system sans; no card kit."
+ },
+ "each-concept-drawn-in-a-shape-that-mirrors-its-behaviour": {
+  "status": "satisfied",
+  "why": "Used = filled, partly = half, not used = dashed outline (absent), conflict = orange square with warning."
+ },
+ "white-space-separates-groups-and-carries-hierarchy": {
+  "status": "satisfied",
+  "why": "Rows separated by rules and padding."
+ },
+ "size-and-weight-follow-importance": {
+  "status": "satisfied",
+  "why": "Headline and summary counts largest."
+ },
+ "structure-earned-by-content-not-imposed-taxonomy": {
+  "status": "satisfied",
+  "why": "The eight layers are epistemic-warrant's own factorization, not invented here."
+ },
+ "space-and-time-shown-together-when-the-subject-changes-over-time": {
+  "status": "na",
+  "why": "Snapshot at two pinned revisions."
+ },
+ "page-carries-its-date-and-version": {
+  "status": "satisfied",
+  "why": "Status line names both revisions and the date."
+ },
+ "a-person-would-pin-it-on-a-wall": {
+  "status": "satisfied",
+  "why": "One-page gap map."
+ },
+ "each-element-encodes-its-answer-visually-text-only-where-no-visual-form-fits": {
+  "status": "satisfied",
+  "why": "Status carried by mark, colour and border; text names it too for colourblind reading."
+ },
+ "each-drawing-shows-relations-a-list-cannot-linear-sequences-are-lists": {
+  "status": "satisfied",
+  "why": "Matrix relates layer, model section and worked item."
+ },
+ "every-drawing-fits-its-frame-on-load-and-zooms-and-pans-within-it": {
+  "status": "na",
+  "why": "No zoomable drawing."
+ },
+ "diagram-text-is-dom-or-svg-and-no-label-overlaps-a-box-or-another-label": {
+  "status": "satisfied",
+  "why": "All DOM text; screenshots show no overlaps."
+ },
+ "one-element-dominates-by-size-weight-or-contrast": {
+  "status": "satisfied",
+  "why": "Summary counts row."
+ },
+ "reading-order-is-obvious-without-instructions": {
+  "status": "satisfied",
+  "why": "Headline, counts, table, ask."
+ },
+ "gap-between-groups-larger-than-gap-within": {
+  "status": "satisfied",
+  "why": "Row padding exceeds chip gap."
+ },
+ "enclosure-nesting-at-most-two-levels": {
+  "status": "satisfied",
+  "why": "Table, chip."
+ },
+ "elements-share-a-small-set-of-edges": {
+  "status": "satisfied",
+  "why": "Three column edges."
+ },
+ "same-role-same-treatment-everywhere": {
+  "status": "satisfied",
+  "why": "Chips identical per status."
+ },
+ "every-mark-carries-information": {
+  "status": "satisfied",
+  "why": "No decorative marks."
+ },
+ "context-quiet-subject-loud": {
+  "status": "satisfied",
+  "why": "Not-used items are quiet dashed outlines but counted loudly in the summary; conflicts are loud orange."
+ },
+ "comparisons-use-identical-small-frames": {
+  "status": "satisfied",
+  "why": "Each layer row uses the same three-column frame."
+ },
+ "every-encoding-explained-on-the-same-screen": {
+  "status": "satisfied",
+  "why": "Legend sits above the table."
+ },
+ "one-highlighted-state-not-several": {
+  "status": "satisfied",
+  "why": "One chip selected and one filter active at a time."
+ },
+ "object-count-within-density-budget-or-aggregated": {
+  "status": "satisfied",
+  "why": "31 items in 8 rows, aggregated in summary and bars."
+ },
+ "no-ellipsis-or-clipped-text-in-rendered-page": {
+  "status": "satisfied",
+  "why": "No ellipsis in CSS; chips wrap; detail panel can overlap rows while open and closes with the x."
+ },
+ "phone-and-laptop-each-have-a-layout-that-uses-their-width": {
+  "status": "satisfied",
+  "why": "Rows become cards below 700px; checked at 390 with no horizontal scroll."
+ },
+ "every-view-stays-listed-in-sight-while-others-are-open-and-views-open-from-it-or-the-agent": {
+  "status": "na",
+  "why": "Single view."
+ },
+ "sources-listed-beside-views-and-picking-one-highlights-what-rests-on-it": {
+  "status": "satisfied",
+  "why": "Sources in status line; each chip links its source."
+ },
+ "picking-an-item-lights-its-counterparts-in-every-open-view-and-can-be-cleared": {
+  "status": "satisfied",
+  "why": "Clicking a status count highlights every item with that status; clicking again clears."
+ },
+ "checks-measure-painted-geometry-after-fonts-load-at-each-supported-viewport": {
+  "status": "satisfied",
+  "why": "Playwright measured scrollWidth at 1440 and 390 after load."
+ },
+ "transient-explanations-are-at-most-five-short-points": {
+  "status": "satisfied",
+  "why": "Tooltips are one line."
+ },
+ "groups-the-page-filters-by-have-one-view-relating-them-with-unlinked-groups-named": {
+  "status": "satisfied",
+  "why": "Status groups related in the summary row."
+ },
+ "every-standard-code-labels-a-pure-view-and-custom-views-say-so": {
+  "status": "na",
+  "why": "No standard view codes shown."
+ },
+ "non-specialist-front-door-is-a-question-with-views-delivered-and-catalog-secondary": {
+  "status": "satisfied",
+  "why": "Ends with the one question asked of the reader."
+ },
+ "every-representation-switch-is-labelled-and-visible-on-arrival-and-each-name-has-one-destination": {
+  "status": "na",
+  "why": "No representation switch."
+ },
+ "no-superseded-version-shown-beside-its-replacement-and-alternatives-are-one-view-with-a-switch": {
+  "status": "satisfied",
+  "why": "One version."
+ },
+ "embedded-tool-has-no-label-clashing-with-host-full-area-and-honest-status": {
+  "status": "na",
+  "why": "Not embedded."
+ },
+ "headline-and-picture-alone-convey-the-point-since-that-is-all-most-people-read": {
+  "status": "satisfied",
+  "why": "Headline plus 20-of-31 count."
+ },
+ "no-block-of-prose-longer-than-the-drawing-it-explains": {
+  "status": "satisfied",
+  "why": "Lede is three lines."
+ },
+ "reader-can-point-to-where-any-one-fact-lives": {
+  "status": "satisfied",
+  "why": "Each item has its file link at a pinned revision."
+ }
+}
