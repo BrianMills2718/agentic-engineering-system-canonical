@@ -41,3 +41,10 @@ plan-adoption accept
 quick plan durable-check-commit-rule: saved check output docs/plans/durable-check-commit-rule.check.txt present
 quick plan durable-check-commit-rule: every changed file is in the plan's list
 durable-docs: mode=plan repo=/home/brian/code/agentic-engineering-system-canonical/worktrees/durable-check-commit-rule findings=0 (none), exit 0
+
+## Merge gate: make aes-check on the committed change (d6fb17790)
+Result: 2 failed, 271 passed, 20 skipped; make exit 2.
+Both failures are tests/greenfield/test_distribution.py (clean install, getting-started guide), refused by the
+uv storage wrapper: 'Storage budget: {"kind": "cache", "used_gib": 8.24, "limit_gib": 10, "requested_gib": 2}'
+(exit 75). They install packages and do not touch commit_rule.py; filed as AES #561. Every commit-rule test
+(57) passed in the same run.
