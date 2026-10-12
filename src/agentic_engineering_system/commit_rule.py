@@ -70,7 +70,8 @@ commit (check ``durable-docs``; ``durable: observe`` only logs it, default: the 
 ``mode``). A declared document not changed yet is only a note: a plan can take several commits.
 The check script is ``$AES_DURABLE_DOCS_CHECK``, the config's ``durable_check``, the session's
 ``$SESSION_PLUGIN_ROOT/scripts/durable_docs_check.py``, or
-``<plan_workspace>/company-planning/plugins/company-planning/scripts/durable_docs_check.py``; when
+``company-planning/plugins/company-planning/scripts/durable_docs_check.py`` under ``plan_workspace``
+or under any parent folder of the repository (a repository's own config replaces the machine one); when
 none exists, or it fails to run, the commit gets a note and is never refused for it.
 
 Every verdict appends one JSON line to
@@ -829,9 +830,11 @@ def durable_check_script(config: RuleConfig) -> Path | None:
     candidates = [os.environ.get("AES_DURABLE_DOCS_CHECK"), config.durable_check]
     if os.environ.get("SESSION_PLUGIN_ROOT"):
         candidates.append(Path(os.environ["SESSION_PLUGIN_ROOT"]) / "scripts" / "durable_docs_check.py")
+    rel = Path("company-planning/plugins/company-planning/scripts/durable_docs_check.py")
     if config.plan_workspace is not None:
-        candidates.append(config.plan_workspace / "company-planning" / "plugins" / "company-planning" / "scripts"
-                          / "durable_docs_check.py")
+        candidates.append(config.plan_workspace / rel)
+    if config.index_root is not None:  # a repository config replaces the machine one, so also look beside the repo
+        candidates += [d / rel for d in config.index_root.resolve().parents]
     return next((Path(c) for c in candidates if c and Path(c).is_file()), None)
 
 
