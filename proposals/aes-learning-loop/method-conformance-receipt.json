@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-27f4ed61ea57",
+  "receipt_id": "RECEIPT-PLAN-c70b91d36508",
   "plan": {
     "plan_ref": "proposals/aes-learning-loop/PLAN.md",
-    "plan_sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+    "plan_sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
   },
   "path_decision": {
     "ref": "proposals/aes-learning-loop/planning-path-decision.json",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/aes-learning-loop/activation-facts.json",
-    "facts_sha256": "df176f1366995a0fdc0d9c961cbd80b695c7cbba1a3e46a10aae0634ed389cba",
+    "facts_sha256": "87a370f6d7248ddd48c7a050cf9a5cef88d402095652a8d2d55d95973cbb7cdc",
     "facts": {
       "shared_mechanism": true,
       "empirical_comparison_proposed": true,
@@ -126,10 +126,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-    "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+    "revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+    "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
     "bundle_ref": "proposals/aes-learning-loop/checklist-bundle.json",
-    "bundle_sha256": "59f42a3447813afead9107e23a7348c43cca46ce8d400c4586ff6dab14f28e83",
+    "bundle_sha256": "d4c3833cd872beda64789692d29cb1780589e177d61997b0f78921b9b7d7e60b",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -147,7 +147,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#who-it-serves-the-result-one-example",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -193,7 +193,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#requirements-traced-to-checks-re-adoption-2026-10-12",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -220,7 +220,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#success-and-what-would-disprove-it",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -247,7 +247,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#success-and-what-would-disprove-it",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -274,7 +274,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#when-a-run-fails-or-surprises-us",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -304,7 +304,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#system-model",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -331,7 +331,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#capability-reuse",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -358,7 +358,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#authority-and-non-goals",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -385,16 +385,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/685769f69da5/CORE-IRREVERSIBLE-SPEND",
+        "trace_id": "company-planning/method-conformance/PLAN/2e2696cf2306/CORE-IRREVERSIBLE-SPEND",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly states that no irreversible action is proposed and lists each spend category with a boundary, authorizer, and containment. The table gives limits or scope (such as \"$1\" per night, \"$0.25\" per call, and \"under $1 once\"), identifies Brian's configured route/shared-client budgets as the standing authorization, and describes operational containment for each.",
+        "rationale": "The evidence states that no irreversible actions are proposed and tabulates each proposed spend with a boundary, an authorization mechanism, and containment. The later rows’ “same” authorization explicitly refers to the named shared-client/OpenRouter budget authorization in the first row.",
         "reused": false
       },
       "suggested_action": null
@@ -412,7 +412,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#uncertainties",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -439,16 +439,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#activation-facts",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/685769f69da5/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/2e2696cf2306/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan explicitly declares all triggered activation facts as true: shared mechanism, empirical comparison, central LLM dependence, spend, and AES governance. It declares `claims_external_standard` false while explicitly stating that the work does not claim conformance to PROV, nanopublications, SRE, or other external schemas; no triggered fact is declared false.",
+        "rationale": "The plan explicitly declares each triggered fact consistently with the evidence: it proposes the S2 empirical comparison, introduces shared contracts/mechanisms, centrally uses LLM calls, incurs model spend, is governed by `.aes/target.yaml`, and explicitly states it makes no external-standard conformance claim. No triggered activation fact is declared false.",
         "reused": false
       },
       "suggested_action": null
@@ -466,7 +466,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#current-truth-and-reuse",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -493,7 +493,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#detecting-a-silent-parallel-implementation",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -520,7 +520,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -547,7 +547,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -574,7 +574,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -601,7 +601,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -628,7 +628,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#model-calls",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -655,7 +655,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#model-calls",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -682,7 +682,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#ownership-and-coordination",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -709,7 +709,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#boundaries",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -736,7 +736,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#contracts-and-dependencies",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -763,7 +763,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#contracts-and-dependencies",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -790,7 +790,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#aes-target",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -817,7 +817,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#aes-target",
-          "sha256": "27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+          "sha256": "c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
         }
       ],
       "semantic": {
@@ -849,11 +849,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-27f4ed61ea57",
+    "report_id": "REPORT-PLAN-c70b91d36508",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:59f42a3447813afead9107e23a7348c43cca46ce8d400c4586ff6dab14f28e83",
+    "snapshot_revision": "sha256:d4c3833cd872beda64789692d29cb1780589e177d61997b0f78921b9b7d7e60b",
     "packet_ref": "proposals/aes-learning-loop/PLAN.md",
-    "packet_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+    "packet_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -877,7 +877,7 @@
     "client": "claude-code",
     "session": "1c1c9d60-8e85-4004-bf7f-ae1a792ae04b"
   },
-  "started_at": "2026-10-12T19:50:43Z",
-  "completed_at": "2026-10-12T19:51:02Z",
-  "duration_ms": 19153
+  "started_at": "2026-10-12T20:41:05Z",
+  "completed_at": "2026-10-12T20:41:17Z",
+  "duration_ms": 12100
 }
