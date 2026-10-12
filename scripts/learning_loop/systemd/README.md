@@ -1,180 +1,160 @@
-# Feedback collector on Brian's PC (systemd user units)
+# Feedback loop jobs on Brian's PC (systemd user units)
 
-`feedback-collector.timer` runs `feedback-collector.service` nightly at 03:30.
-The service runs `scripts/learning_loop/collect_feedback.py --file` from the
-same refreshed clone of AES `main` as `hive-controls` (`~/.hive-brain/aes`),
-with `llm_client` from `~/code/llm_client` through uv's shared cache. Output:
-`~/projects/data/feedback-collector/` (`items-<date>.jsonl`, `runs.jsonl`,
-`state.sqlite`). Never commit anything from that folder: it holds private
-transcript quotes.
+Four timers run the agent feedback loop. Start page for the whole loop:
+[guide.html](../../../proposals/aes-learning-loop/review-page/guide.html).
 
-Install, or reinstall after changing these files:
+| Job | When | What it runs | What it writes | If it fails |
+|---|---|---|---|---|
+| Collector (`feedback-collector`) | daily 03:30 | `collect_feedback.py --file --max-file 10` | `items-<date>.jsonl`, `reports-<date>.jsonl`, `runs.jsonl`, `state.sqlite`; one issue per report in the private log | unit fails, keyed agent concern |
+| Weekly analysis (`feedback-problems`) | Sunday 05:00 | `problems.py --file --days 14 --max-analyse 3` | `problems-<date>.jsonl`, `problems-runs.jsonl`, `problems.sqlite`; "Feedback loop: adopt" concerns | unit fails, keyed agent concern |
+| Effect counter and rule check (`feedback-effects`) | daily 07:30 | `problems.py --file --days 14 --effects-only`, then `policies.py` | `effects-<date>.jsonl`, `policies-runs.jsonl` | unit fails, keyed agent concern; a rule-check failure does not fail the unit but alerts on its own |
+| Fix owner (`feedback-fix-owner`) | daily 09:00 | `fix_owner.py --max-items 3` | `fix-owner-<date>.jsonl` (full session trace), `fix-owner-runs.jsonl` | unit fails, keyed agent concern |
 
-```bash
-cp scripts/learning_loop/systemd/feedback-collector.{service,timer} ~/.config/systemd/user/
-systemctl --user daemon-reload && systemctl --user enable --now feedback-collector.timer
-systemctl --user start feedback-collector.service   # one run now; then: journalctl --user -u feedback-collector -n 40
-```
+All four run from `~/.hive-brain/aes`, a clone of AES `main` that each run refreshes first
+(`~/.hive-brain/project-meta` likewise for project-meta tools), with `llm_client` from
+`~/code/llm_client` through uv's shared cache. Every output goes to `$FEEDBACK_OUT` =
+`~/projects/data/feedback-collector/`. Never commit anything from that folder: it holds private
+transcript quotes. Alerts go through `project-meta/scripts/notify_operator.py`.
 
-Exit 1 (some LLM, Jev or filing calls failed) and 2 (crash) fail the unit and
-open a keyed agent concern through `project-meta/scripts/notify_operator.py`.
+The weekly taxonomy refresh that also reads this feedback is agent-skills' `taxonomy-feedback`
+timer (Sunday 05:30), not one of these units.
 
-## Filing gate (2026-10-07)
-
-The timer files at most 10 entries a night, and only lines an agent wrote under its own closeout
-**Learnings** heading. Hand check of the first night's 33 filed entries: those lines were 8/8 reusable;
-items the light LLM extracted from session narration were 7/25, and Jev's yes/no "reusable?" answer did
-not separate them (best 64%), so it is recorded on each item as `reusable_p` but does not gate. A line
-whose text was already filed is skipped (`duplicate_of_filed`). Hand check of 10 entries filed through
-this gate on 2026-10-07: 8/10 reusable and correctly typed; the 2 failures were exact repeats, which the
-duplicate skip now removes. Everything else stays in the daily log. Wrong if the next 10-entry spot check
-falls below 8/10; then turn filing off again (drop `--file`).
-
-## project-meta tools copy (2026-10-07)
-
-The collector runs `log_learning.py` from `~/.hive-brain/project-meta`, which the service refreshes to
-origin/main before each run, and writes entries to `~/code/project-meta/learnings/entries` through
-`--store-path`. The canonical checkout is read-only while any lane claims it, and canonical-sync refreshes it only about every 17 minutes, so right after a merge it can lack a fix the collector needs. Set up once:
-`git clone --depth 1 git@github-personal:BrianMills2718/project-meta.git ~/.hive-brain/project-meta`.
-
-## Reworded repeats (2026-10-07)
-
-Exact-text dedup let 2 of 10 filed entries through as reworded repeats (independent Gemini grade).
-Before filing, the light extraction model now checks the line against lessons filed in the last 14
-days (`repeats_filed`); a repeat is logged as `repeats_filed`, and if the check itself fails the item
-waits as `deferred_repeat_check` for the next run rather than being filed unchecked. On the graded set
-the prompt caught both repeats and flagged none of the 8 distinct entries (9/9).
-
-## Feedback reports and the weekly loop (plan aes-learning-loop, 2026-10-08)
-
-The nightly collector also turns each closeout **Feedback** field (and the older **Learnings**
-heading) into one `feedback-report.v1` report, files it as one issue in the private log
-`BrianMills2718/agent-feedback-log` (`--max-reports`, default 80), and writes `reports-<date>.jsonl`.
-Filing into the legacy project-meta register is off unless `--legacy-register` is passed.
-
-`feedback-problems.timer` runs `problems.py --file` on Sundays at 05:00: Jev failure families, Jev
-relations between similar records (a `challenges` answer is confirmed by the stronger model), problems
-grouped from `supports`/`same_problem` relations, recurring = two independent linked observations,
-one stronger-model analysis per recurring problem (at most 3 a run) that reads the linked issues,
-licences derived by the Observation-to-Action evaluator, active licences opened as keyed concerns in
-AES canonical for agents to adopt, high-impact ones also pushed to Brian (`attention`, no decision),
-and effects: a verified recurrence after the rule's recorded enforcement revokes its licence. Brian's view:
-`VIEW.md` in the private log, ranked by impact then uncertainty. Output: `problems-<date>.jsonl`,
-`problems-runs.jsonl`, `effects-<date>.jsonl`, `problems.sqlite` (cache).
+## Install, check, rerun
 
 ```bash
-cp scripts/learning_loop/systemd/feedback-problems.{service,timer} ~/.config/systemd/user/
-systemctl --user daemon-reload && systemctl --user enable --now feedback-problems.timer
+# install or reinstall all four after changing these files
+cp scripts/learning_loop/systemd/feedback-*.{service,timer} ~/.config/systemd/user/
+systemctl --user daemon-reload
+for t in collector problems effects fix-owner; do systemctl --user enable --now feedback-$t.timer; done
+# one-time setup of the project-meta tools copy
+git clone --depth 1 git@github-personal:BrianMills2718/project-meta.git ~/.hive-brain/project-meta
+
+systemctl --user list-timers 'feedback-*'           # next and last run of each
+systemctl --user start feedback-collector.service    # run one job now
+journalctl --user -u feedback-collector -n 40        # what it printed
+python3 scripts/learning_loop/fix_owner.py --dry-run # what the next fix-owner run would hand over
 ```
 
-## Evidence and nightly effects (approved feedback repair, 2026-10-08)
+## Collector
 
-Each fix needs two independent observations among its own `rests_on` records,
-with references resolved before counting. An issue's identity includes its
-repository. Unresolved references remain in the report but cannot license a rule.
+Reads every Claude Code and Codex session transcript from the last day and turns each closeout
+**Feedback** field (and the older **Learnings** heading) into one `feedback-report.v1` report. It
+files each report as one issue in the private log `BrianMills2718/agent-feedback-log`
+(`--max-reports`, default 80). Filing into the legacy project-meta register is off unless
+`--legacy-register` is passed. Exit 1 means some LLM, Jev or filing calls failed; exit 2 means a
+crash. Both fail the unit.
 
-Human corrections and standing directions already found by transcript extraction
-also become reports, preserving the literal quote and transcript byte offset.
-The last 14 days of item logs are backfilled automatically and deduplicated by
-report id. Recover just this backlog with
-`collect_feedback.py --file --corrections-only`; it makes no new model calls.
-The private log needs the label `source:human`.
+- **Human corrections.** Corrections and standing directions Brian gave in a transcript also
+  become reports, keeping the literal quote and its byte offset. The last 14 days of item logs are
+  backfilled automatically and deduplicated by report id. To recover only that backlog without new
+  model calls, run `collect_feedback.py --file --corrections-only`. The private log needs the label
+  `source:human`.
+- **Subagent results.** The collector reads parent tool events for Codex spawn/followup and Claude
+  Agent/Task calls and joins each child's observable result: completion, failure, cancellation or
+  a missing result, all unverified. A request to interrupt is not evidence of cancellation. Codex
+  child metadata supplies the actual model, effort and instruction hashes when present; unknown
+  values stay unknown. A parent can check one exact child return and file it at once:
 
-`feedback-effects.timer` runs at 07:30 daily, after the collection and weekly
-analysis windows. `problems.py --file --effects-only` reuses analyses and does
-not draft or hand off proposals. After it, `policies.py` checks every rule the workspace AGENTS.md names as
-Policy `<id>`: a source entry in WORKING_RULES.md, a project-meta registry entry (enforcement and
-feedback path), and how many nightly reports named it in 30 days. A rule missing either entry opens
-the keyed concern `workspace-policy-unregistered` (log: `policies-runs.jsonl`). Watches survive report-window expiry and group
-identifier changes; revocations persist and reopen the concern only once.
+  ```bash
+  python scripts/learning_loop/subagents.py \
+    --parent-transcript /path/to/native-parent.jsonl --client codex \
+    --call-id CALL_ID --verdict inconclusive \
+    --check-argv '["python", "path/to/check_return.py"]' \
+    --feedback '- obs (control): parent-checked observation [path/to/evidence.jsonl]' \
+    --file
+  ```
 
-Closing a concern is not enforcement evidence. Before closing it, the adopting
-agent adds a comment with the actual time, exact source revision and verification:
+  The check receives the child return on stdin; its argv, output and exit code are kept. A failed
+  checker produces `verification_failed`, not a judgment of the child. A zero exit alone does not
+  establish success, so the default disposition is `inconclusive`. Receipts must come from parent
+  tool output; child returns and assistant prose cannot supply checks for themselves. Checked
+  outcomes keep the original result's time, so a late check cannot turn an old incident into a
+  post-enforcement recurrence. Immediate filing needs marked obs/claim/action lines; unmarked notes
+  wait for the collector. Boundary: [subagent feedback plan](../../../proposals/aes-subagent-feedback/PLAN.md).
+  This captures evidence only; it does not change roles, router choices or model policy. Native
+  Codex was exercised live; Claude capture was checked against an existing trace and fixtures.
+- **Learning register filing (project-meta entries).** At most 10 entries a night, and only lines
+  an agent wrote under its own closeout **Learnings** heading. Lines whose exact text was already
+  filed are skipped (`duplicate_of_filed`). Before filing, the light model checks the line against
+  lessons filed in the last 14 days (`repeats_filed`); if that check fails the item waits as
+  `deferred_repeat_check` instead of being filed unchecked. Entries are written through
+  `~/.hive-brain/project-meta`'s `log_learning.py` into `~/code/project-meta/learnings/entries`
+  (`--store-path`), because the canonical checkout can be read-only or minutes behind a merge.
+
+Why the filing gate looks like this (hand checks, 2026-10-07): closeout Learnings lines were 8/8
+reusable, lines extracted from narration 7/25; Jev's yes/no "reusable?" answer did not separate
+them (best 64%), so it is stored as `reusable_p` but does not gate. Ten entries filed through the
+gate were 8/10 reusable; the 2 misses were exact repeats, now skipped, and the reworded-repeat check
+caught both repeats and flagged none of the 8 distinct entries. **Wrong if** the next 10-entry spot
+check falls below 8/10; then drop `--file`.
+
+## Weekly analysis
+
+Groups the last 14 days of reports into problems and decides which fixes are licensed:
+
+1. Jev labels failure families and relations between similar records; a `challenges` answer is
+   confirmed by the stronger model.
+2. Records linked by `supports` or `same_problem` form a problem. A problem recurs when two
+   independent observations among its own `rests_on` records are linked, with references resolved
+   before counting. An issue's identity includes its repository; unresolved references stay in the
+   report but cannot license a rule.
+3. Up to 3 recurring problems a run get one stronger-model analysis that reads the linked issues.
+   The rest wait (this is the analysis cap).
+4. The Observation-to-Action evaluator derives licences. Each active licence opens one keyed
+   "Feedback loop: adopt ..." concern in AES canonical; high-impact ones are also pushed to Brian
+   as information, not a decision.
+
+Brian's ranked view is `VIEW.md` in the private log (impact, then uncertainty).
+
+## Effect counter and rule check
+
+`problems.py --effects-only` reuses the week's analyses and drafts nothing. For every enforced fix
+it compares the problem's reports before and after the enforcement receipt; a verified recurrence
+after enforcement revokes the licence, persists, and reopens the concern once. Watches survive
+report-window expiry and group-id changes.
+
+A fix counts as enforced only with a receipt comment on its issue, written by whoever closes it:
 
 ```text
 <!-- feedback-enforcement {"enforced_at":"2026-10-08T16:00:00Z","revision":"<exact revision>","verification":"<proof link>"} -->
 ```
 
-Events are compared as timezone-aware timestamps. An incident at or before
-enforcement, a later restatement of its evidence, and a record with an unknown
-timestamp cannot revoke the rule. No receipt means enforcement is unverified.
-This measures reported recurrences; zero reports alone does not prove success.
+Closing a concern is not enforcement evidence; no receipt means unverified. Times are compared
+timezone-aware. An incident at or before enforcement, a later restatement of its evidence, or a
+record with an unknown time cannot revoke. This counts reported recurrences; zero reports alone
+does not prove a fix worked.
 
-```bash
-cp scripts/learning_loop/systemd/feedback-effects.{service,timer} ~/.config/systemd/user/
-systemctl --user daemon-reload && systemctl --user enable --now feedback-effects.timer
-```
+Then `policies.py` checks every rule the workspace AGENTS.md names as Policy `<id>`: a source
+entry in WORKING_RULES.md, an entry in the AES rules register (`docs/rules/register.yaml`), and how
+many reports named it in 30 days. A rule missing either entry opens the keyed concern
+`workspace-policy-unregistered`.
 
-## Native subagent feedback
+## Fix owner
 
-The collector also reads parent native tool events for Codex spawn/followup and
-Claude Agent/Task calls. It joins observable child results, preserving unverified
-completion, failure, cancellation and missing dispatch results. A request to
-interrupt is not evidence of cancellation. Codex child metadata supplies actual
-model/effort and delivered instruction hashes when present; unknown values stay
-unknown. This adds reports to the same daily JSONL, state.sqlite and private log.
+Hands up to 3 open "Feedback loop: adopt" concerns (oldest first, skipping any deferred in the last
+6 days; an attempt that crashed or left no decision is retried next run) to one headless Claude Code
+session. Fixes to agent instructions and checks (AGENTS.md, skills, hooks, the Jev gate,
+company-planning checks) go first. For each item the session records exactly one
+`<!-- fix-owner-disposition {...} -->` comment:
 
-The parent can execute checks on an exact observed return and file immediately:
+| Disposition | Issue state | Also needs |
+|---|---|---|
+| `implemented` | closed, completed | enforcement receipt |
+| `already_enforced` | closed, completed | enforcement receipt |
+| `declined` | closed, not planned | a reason |
+| `deferred` | open | the blocker |
 
-```bash
-python scripts/learning_loop/subagents.py \
-  --parent-transcript /path/to/native-parent.jsonl --client codex \
-  --call-id CALL_ID --verdict inconclusive \
-  --check-argv '["python", "path/to/check_return.py"]' \
-  --feedback '- obs (control): parent-checked observation [path/to/evidence.jsonl]' \
-  --file
-```
+The script then reads every handed issue back from GitHub and counts an item as handled only when
+its state, close reason, marker and receipt agree; it never trusts the session's own summary. Any
+disagreement, or a crash, exits non-zero. Read the trace in `fix-owner-<date>.jsonl` before trusting
+a run.
 
-Each check receives the exact child return on stdin; its argv, output and exit
-are retained. Choose an interpreter with the check's dependencies. A failed
-checker produces `verification_failed`, not a judgment of child quality. Zero
-exit alone does not establish task success: the parent's disposition defaults
-to `inconclusive`. Checks bind parent, call, child and result digest. The helper
-prints a structural receipt the collector can reread from the parent transcript.
-Receipts must come from parent tool output; child returns and assistant prose
-cannot supply checks for themselves or an earlier assignment.
-Checked child outcomes keep the native result's occurrence time, so a delayed
-check cannot turn an old incident into a post-enforcement recurrence. Unknown
-result times remain unknown. A checker failure is its own event at check time.
-Immediate filing requires marked obs/claim/action lines. Unmarked notes retain
-the emitted receipt but defer filing to the collector's existing free-text splitter.
-Child roles keep their own result contract and need no coordinator closeout.
+The session starts through a login shell (`bash -lc`), so `claude`, `gh` and `node` must be on the
+login PATH; the Safety Net hook runs on node and blocks every tool without it (`~/.profile` adds
+nvm's newest node).
 
-The [implementation plan and system model](../../../proposals/aes-subagent-feedback/PLAN.md)
-define the boundary. This captures evidence; it does not itself alter roles,
-router choices or model policy. Weekly generalization and explicit enforced
-prevention remain the existing loop's job. Native Codex was exercised live;
-Claude capture was checked against an existing native trace and fixtures, not
-a new live Claude invocation.
-
-## Weekly fix owner (Brian approved 2026-10-11)
-
-The weekly loop opens one "Feedback loop: adopt ..." concern per licensed fix, and until
-2026-10-11 nobody worked them: 19 open, 1 enforced. `feedback-fix-owner.timer` runs
-`fix_owner.py` daily at 09:00 (Brian, 2026-10-11: "i dont want to wait a week"). It hands up to 3 open
-concerns (oldest first, skipping any deferred in the last 6 days; an attempt that crashed or left no decision is retried next run) to one headless Claude
-Code session. The session handles fixes to agent instructions and checks (AGENTS.md,
-skills, hooks, the Jev gate, company-planning checks) first. For each item it records
-exactly one disposition as a `<!-- fix-owner-disposition {...} -->` comment:
-`implemented` or `already_enforced` (closed as completed, with the enforcement receipt
-that `feedback-effects` counts), `declined` (closed as not planned, with a reason), or
-`deferred` (left open, naming the blocker). The script then reads every handed issue back
-from GitHub and treats an item as handled only when its state, close reason, marker and
-receipt agree. It never trusts the agent's own summary. Any item without that agreement,
-or a crash, exits non-zero and opens a keyed agent concern.
-
-The service starts the session through a login shell (`bash -lc`), so `claude`, `gh` and `node` must
-be on the login PATH; the Safety Net hook runs on node and blocks every tool when node is missing
-(first run, 2026-10-11: nvm loaded node only in `.bashrc`; `~/.profile` now adds nvm's newest node).
-
-The full session trace is written to `fix-owner-<date>.jsonl`, and one line per run to
-`fix-owner-runs.jsonl`, both in `$FEEDBACK_OUT`. Read the trace before trusting a run. This
-is wrong if, after four runs, a weekly spot check finds a merged change that did not do
-what its item asked, or a `declined` reason that does not hold up; then stop the timer and
-go back to hand adoption.
-
-```bash
-cp scripts/learning_loop/systemd/feedback-fix-owner.{service,timer} ~/.config/systemd/user/
-systemctl --user daemon-reload && systemctl --user enable --now feedback-fix-owner.timer
-python3 scripts/learning_loop/fix_owner.py --dry-run   # what the next run would hand over
-```
+History: until 2026-10-11 nobody worked the adopt concerns (19 open, 1 enforced). Brian approved a
+weekly owner on 2026-10-11 and then asked for daily ("i dont want to wait a week"). By 2026-10-12
+all 24 adopt concerns were closed and 10 fixes had receipts. **Wrong if**, after four runs, a spot
+check finds a merged change that did not do what its item asked, or a `declined` reason that does
+not hold up; then stop the timer and go back to hand adoption.

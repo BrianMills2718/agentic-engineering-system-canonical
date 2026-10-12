@@ -1,10 +1,21 @@
 # AES learning loop: from lessons to enforced, observed rules
 
-Status: **design proposal, non-normative.** Drafted by Claude Code for Brian on
-2026-10-02 using Company Planning `bounded-design` (Standard depth, path
-`durable_solo`, overlays: LLM calls and governed rules). Nothing here is accepted
-architecture until Brian dispositions it and the rule-bearing parts enter AES
-through `aes plan prepare / validate / accept`.
+Status: **historical, the original design (2 to 7 October 2026).** Kept as the record of why the
+loop was built this way. It no longer describes what runs: since then the loop gained feedback
+reports in a private issue log, a weekly analysis that licenses fixes, enforcement receipts and an
+effect counter, a daily fix owner, and a rule check. For the system as it runs today, read in this
+order:
+
+1. [Start page](review-page/guide.html): what runs and when, which page answers which question,
+   what is still open.
+2. [Jobs guide](../../scripts/learning_loop/systemd/README.md): each timer's command, outputs,
+   failure behavior, and how to rerun it.
+3. [PLAN.md](PLAN.md): the adopted plan and its system model; [REPAIR.md](REPAIR.md): the approved
+   repair of 8 October.
+
+The original status line read: design proposal, non-normative, drafted by Claude Code for Brian on
+2026-10-02 using Company Planning `bounded-design`; nothing here was accepted architecture until
+Brian dispositioned it.
 
 ## Why this exists
 

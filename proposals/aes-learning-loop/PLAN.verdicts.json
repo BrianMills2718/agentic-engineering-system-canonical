@@ -134,6 +134,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/bbe8be177a7f/CORE-TRACE-REVIEW",
     "verdict": "pass"
   },
+  "48194bdf263aa6681ccfae937900542b51f5950c57bbd5848d98b47464ade58e": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "Every triggered fact is declared true: the plan explicitly identifies a shared skill/contract, an S2 comparison of Jev against alternatives, central LLM calls, model spend, and an AES-governed target. It explicitly states that the work claims no conformance to W3C PROV, nanopublications, or Google SRE, so `claims_external_standard: false` is supported.",
+    "trace_id": "company-planning/method-conformance/PLAN/1f373bb2e057/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
   "4a2edb2cf558efa7e2d93032c03b6bbd2270b43102fcc4243f00ff3bfd1dedab": {
     "item_id": "OV-LLM-AUTHORITY-PROMOTION",
     "materiality": "non_material",
@@ -215,6 +224,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/00bc4698f539/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   },
+  "92a8eeb2de5bc03baee0a7f0c4f35b17f5ce56b3ac7a3c3a62a0c3ca7e00817f": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence links `docs/model/ODD.md`, identifies the repository entry point and scope, names the two relied-on elements, and states what the examined run must show for each. It also identifies source-linked views, explains the intentional omission, provides freshness checks, and specifies same-change reconciliation for the model, views, and verification evidence.",
+    "trace_id": "company-planning/method-conformance/PLAN/1f373bb2e057/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
   "9b5ccd8c2d6588b2b091dba9c792f3fc147ddb3dbf81afc0da9d20b6e15abed1": {
     "item_id": "OV-AES-TARGET-TRACE",
     "materiality": "non_material",
@@ -240,6 +258,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence explicitly names ownership for each listed writer, identifies conflict surfaces and dependencies, designates this lane as the integration owner, and provides concrete work-unit evidence for each writer (pull requests, commits, decision-process pull requests, or run-summary comments).",
     "trace_id": "company-planning/method-conformance/PLAN/bbe8be177a7f/OV-COORD-OWNERSHIP",
+    "verdict": "pass"
+  },
+  "b0be5fae80deb1a1447b97d32a731cba0d14821f3b70a95b0e2bfa7be119ca2b": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence links `docs/model/ODD.md`, identifies the repository entry point (`wiki/index.md`), scope, and the two relied-on elements, with explicit examined-run evidence required for each. It also provides source-linked views, explains the omitted ODD view, names concrete freshness checks, and specifies same-change reconciliation for the model, views, and verification evidence.",
+    "trace_id": "company-planning/method-conformance/PLAN/2e0662feabb7/CORE-SYSTEM-MODEL",
     "verdict": "pass"
   },
   "b9cf8dfabb3efe6976dbbcba189403450350e79d49e072f0d86f8934d961351e": {
@@ -339,6 +366,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence identifies each proposed spend, its boundary, authorizer, and containment. The table explicitly covers nightly Jev/extraction calls, weekly problem analysis, and the one-time S2 measurement, while stating that no irreversible action is proposed.",
     "trace_id": "company-planning/method-conformance/PLAN/bbe8be177a7f/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "pass"
+  },
+  "f91dcdfec0b96bfb391431b2411fe82a8eec8da317bd35f45f0b40a759310595": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan declares all triggered activation facts as true: it explicitly proposes an empirical comparison, introduces shared mechanisms, centrally uses LLM calls, includes model spend, and is governed by an AES target. Although it reuses ideas from W3C PROV and other external sources, it explicitly states that the work claims no conformance to those standards, so `claims_external_standard: false` is not contradicted.",
+    "trace_id": "company-planning/method-conformance/PLAN/2e0662feabb7/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   }
 }

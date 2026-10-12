@@ -1,10 +1,10 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-PLAN-fb97ae939d64",
+  "receipt_id": "RECEIPT-PLAN-fe41abba9624",
   "plan": {
     "plan_ref": "proposals/aes-learning-loop/PLAN.md",
-    "plan_sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+    "plan_sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
   },
   "path_decision": {
     "ref": "proposals/aes-learning-loop/planning-path-decision.json",
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "proposals/aes-learning-loop/activation-facts.json",
-    "facts_sha256": "c782201246e7b990e7ee055c4934d0ba54cac19ccf76b9a1880553d862f272de",
+    "facts_sha256": "36b80288845600afe4502d2503206ef8d9bbb3b9761423e770c3f2ca53c29ca7",
     "facts": {
       "shared_mechanism": true,
       "empirical_comparison_proposed": true,
@@ -126,10 +126,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:5e5d04a2c198200f8800010919c8e508ad9eea89ac2cd388d81bef9ef53d8e5a",
-    "definition_sha256": "d520f12ebae9a0d97956212057ad57bcabe5735e6ef92d3b1a479822b8ccfb0c",
+    "revision": "sha256:2199a085a19ec08b282fb5feb97f224d7c28eb7e8c43bdf9f4edc94873dfb9bb",
+    "definition_sha256": "b5da42123b0b153ed5a926f63cb7ebb3691e3b4b0bb0923219fa9b8e067c7387",
     "bundle_ref": "proposals/aes-learning-loop/checklist-bundle.json",
-    "bundle_sha256": "f227b64079e5edd42931741f98d9f6b294eb1d90ae8409b62c63c57906ec733a",
+    "bundle_sha256": "2f03591f06031195f0c1e69301005bfddde559cb5d3954da47c63817e6239101",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -147,7 +147,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#who-it-serves-the-result-one-example",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -193,7 +193,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#requirements-traced-to-checks-re-adoption-2026-10-12",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -220,7 +220,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#success-and-what-would-disprove-it",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -247,7 +247,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#success-and-what-would-disprove-it",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -274,7 +274,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#when-a-run-fails-or-surprises-us",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -299,25 +299,24 @@
       "verifier_result": "pass",
       "reason_codes": [
         "MODEL-NO-ELEMENT-IDS",
-        "MODEL-NO-UNKNOWNS",
-        "PLAN-VIEW-NOT-FOUND"
+        "MODEL-NO-UNKNOWNS"
       ],
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#system-model",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/0d00b1ccc7f8/CORE-SYSTEM-MODEL",
+        "trace_id": "company-planning/method-conformance/PLAN/1f373bb2e057/CORE-SYSTEM-MODEL",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence links `docs/model/ODD.md`, identifies `wiki/index.md` as the documentation entry point, and explicitly scopes the repository’s model. It names the two relied-on elements and specifies what the examined run must show for each, while also documenting applicable source-linked views, purposeful omissions, concrete freshness checks, and same-change reconciliation for the model, views, and verification evidence.",
+        "rationale": "The evidence links `docs/model/ODD.md`, identifies the repository entry point and scope, names the two relied-on elements, and states what the examined run must show for each. It also identifies source-linked views, explains the intentional omission, provides freshness checks, and specifies same-change reconciliation for the model, views, and verification evidence.",
         "reused": false
       },
-      "suggested_action": "MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`); PLAN-VIEW-NOT-FOUND: the views statement links files that do not exist (mark a file this change creates `(adds)`, one in another repository `(external)`): review-page/requirements.html, review-page/index.html"
+      "suggested_action": "MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`)"
     },
     {
       "item_id": "CORE-CAPABILITY-REUSE",
@@ -332,7 +331,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#capability-reuse",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -359,7 +358,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#authority-and-non-goals",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -386,7 +385,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#irreversible-actions-and-spend",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -413,7 +412,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#uncertainties",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -440,16 +439,16 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#activation-facts",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/PLAN/0d00b1ccc7f8/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/PLAN/1f373bb2e057/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan declares all triggered facts as true: shared_mechanism, empirical_comparison_proposed, llm_central, irreversible_or_spend_action, and aes_governed_target. Although it references W3C PROV, nanopublications, and Google SRE, it explicitly states that the work claims no conformance to those external standards, so declaring claims_external_standard false is supported.",
+        "rationale": "Every triggered fact is declared true: the plan explicitly identifies a shared skill/contract, an S2 comparison of Jev against alternatives, central LLM calls, model spend, and an AES-governed target. It explicitly states that the work claims no conformance to W3C PROV, nanopublications, or Google SRE, so `claims_external_standard: false` is supported.",
         "reused": false
       },
       "suggested_action": null
@@ -467,7 +466,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#current-truth-and-reuse",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -494,7 +493,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#detecting-a-silent-parallel-implementation",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -521,7 +520,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -548,7 +547,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -575,7 +574,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -602,7 +601,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -629,7 +628,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#model-calls",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -656,7 +655,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#model-calls",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -683,7 +682,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#ownership-and-coordination",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -710,7 +709,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#boundaries",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -737,7 +736,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#contracts-and-dependencies",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -747,7 +746,7 @@
         "materiality": "non_material",
         "missing": null,
         "rationale": "The evidence provides an exhaustive boundary list and names the contracts for each crossing in the table, with owners and file paths. Every listed contract explicitly states whether it changes here, including the taxonomy identity, re-emitted records, concern key, and unchanged schemas or markers.",
-        "reused": false
+        "reused": true
       },
       "suggested_action": null
     },
@@ -764,7 +763,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#contracts-and-dependencies",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -774,7 +773,7 @@
         "materiality": "non_material",
         "missing": null,
         "rationale": "The evidence explicitly identifies producers and consumers for each listed schema or contract, states that the boundary table is exhaustive, and gives landing status/order. It specifically orders the taxonomy consumer change before the collector change and explains why existing consumers do not break during the transition.",
-        "reused": false
+        "reused": true
       },
       "suggested_action": null
     },
@@ -791,7 +790,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#aes-target",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -818,7 +817,7 @@
       "evidence": [
         {
           "ref": "proposals/aes-learning-loop/PLAN.md#aes-target",
-          "sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503"
+          "sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735"
         }
       ],
       "semantic": {
@@ -850,11 +849,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-PLAN-fb97ae939d64",
+    "report_id": "REPORT-PLAN-fe41abba9624",
     "snapshot_ref": "SNAPSHOT-PLAN",
-    "snapshot_revision": "sha256:f227b64079e5edd42931741f98d9f6b294eb1d90ae8409b62c63c57906ec733a",
+    "snapshot_revision": "sha256:2f03591f06031195f0c1e69301005bfddde559cb5d3954da47c63817e6239101",
     "packet_ref": "proposals/aes-learning-loop/PLAN.md",
-    "packet_revision": "sha256:fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503",
+    "packet_revision": "sha256:fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -869,7 +868,7 @@
   "reason_codes": [],
   "actionable_summary": [
     "pass: 25 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)",
-    "warn CORE-SYSTEM-MODEL: MODEL-NO-ELEMENT-IDS, MODEL-NO-UNKNOWNS, PLAN-VIEW-NOT-FOUND -> MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`); PLAN-VIEW-NOT-FOUND: the views statement links files that do not exist (mark a file this change creates `(adds)`, one in another repository `(external)`): review-page/requirements.html, review-page/index.html"
+    "warn CORE-SYSTEM-MODEL: MODEL-NO-ELEMENT-IDS, MODEL-NO-UNKNOWNS -> MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`)"
   ],
   "limitations": [
     "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
@@ -878,7 +877,7 @@
     "client": "claude-code",
     "session": "1c1c9d60-8e85-4004-bf7f-ae1a792ae04b"
   },
-  "started_at": "2026-10-12T14:46:20Z",
-  "completed_at": "2026-10-12T14:46:33Z",
-  "duration_ms": 13034
+  "started_at": "2026-10-12T16:53:57Z",
+  "completed_at": "2026-10-12T16:54:14Z",
+  "duration_ms": 17250
 }

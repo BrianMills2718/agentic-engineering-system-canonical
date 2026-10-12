@@ -2,7 +2,7 @@
   "schema_version": "method-activation-facts.v1",
   "record_type": "method_activation_facts",
   "plan_ref": "proposals/aes-learning-loop/PLAN.md",
-  "plan_sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503",
+  "plan_sha256": "fe41abba96247ab0db4ce454c7faa6b82801257be0ee18bcdd4a0e58746ed735",
   "path_decision_ref": "proposals/aes-learning-loop/planning-path-decision.json",
   "path_decision_sha256": "e73a5b8104824061dbf01b93e50abb2c5dbc6c85d9497597631cd8bf8483d6f3",
   "facts": {
@@ -21,5 +21,5 @@
     "claims_external_standard": "derived_current_boundary",
     "aes_governed_target": "derived_current_boundary"
   },
-  "recorded_at": "2026-10-12T14:46:05Z"
+  "recorded_at": "2026-10-12T16:53:27Z"
 }
