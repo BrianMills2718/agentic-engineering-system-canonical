@@ -269,6 +269,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/2e0662feabb7/CORE-SYSTEM-MODEL",
     "verdict": "pass"
   },
+  "b74bf941b8a21d1709684fd2da094c138e039be4fb2f5afd64c3b551701c9d37": {
+    "item_id": "CORE-IRREVERSIBLE-SPEND",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states that no irreversible action is proposed and lists each spend category with a boundary, authorizer, and containment. The table gives limits or scope (such as \"$1\" per night, \"$0.25\" per call, and \"under $1 once\"), identifies Brian's configured route/shared-client budgets as the standing authorization, and describes operational containment for each.",
+    "trace_id": "company-planning/method-conformance/PLAN/685769f69da5/CORE-IRREVERSIBLE-SPEND",
+    "verdict": "pass"
+  },
   "b9cf8dfabb3efe6976dbbcba189403450350e79d49e072f0d86f8934d961351e": {
     "item_id": "OV-BOUNDARY-DISPOSITION",
     "materiality": "non_material",
@@ -340,6 +349,15 @@
     "rationale": "The table lists boundaries, contracts, and owners, but does not explicitly label what produces and consumes each contract on every boundary. The prose covers only the collector-to-taxonomy dependency and its two-step order, leaving the other crossings and their sequencing unspecified.",
     "trace_id": "company-planning/method-conformance/PLAN/00bc4698f539/OV-CONTRACTS-DEPENDENCIES",
     "verdict": "unresolved"
+  },
+  "e70e5fd3f025297ad6c3e56226fac58127e1c28fe98fe8db472b5564df719908": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares all triggered activation facts as true: shared mechanism, empirical comparison, central LLM dependence, spend, and AES governance. It declares `claims_external_standard` false while explicitly stating that the work does not claim conformance to PROV, nanopublications, SRE, or other external schemas; no triggered fact is declared false.",
+    "trace_id": "company-planning/method-conformance/PLAN/685769f69da5/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
   },
   "ebed1d926310983b2b4b57b6a298dcf95d4b3e3665210c48bf6859a29c18da02": {
     "item_id": "CORE-TRACE-DEBUGGING",
