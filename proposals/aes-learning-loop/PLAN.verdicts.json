@@ -242,6 +242,15 @@
     "trace_id": "company-planning/method-conformance/PLAN/cc33befbc430/OV-AES-TARGET-TRACE",
     "verdict": "pass"
   },
+  "a248a6919274e487a8f5dc159102f988e013541db5603817ae82fd499608f376": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly declares each triggered fact consistently with the evidence: it proposes the S2 empirical comparison, introduces shared contracts/mechanisms, centrally uses LLM calls, incurs model spend, is governed by `.aes/target.yaml`, and explicitly states it makes no external-standard conformance claim. No triggered activation fact is declared false.",
+    "trace_id": "company-planning/method-conformance/PLAN/2e2696cf2306/CORE-ACTIVATION-FACTS",
+    "verdict": "pass"
+  },
   "a93dba3fdb0be7dc85550131f560d5097ba345e880ec04bfead7c9d619bc843f": {
     "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
     "materiality": "non_material",
@@ -249,6 +258,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence explicitly names the served actors, states the desired result, and gives a stable, concrete, user-visible example: the canonical stranded-lanes failure of 2026-10-07 traced through its full lifecycle.",
     "trace_id": "company-planning/method-conformance/PLAN/bbe8be177a7f/CORE-ACTOR-RESULT-EXAMPLE",
+    "verdict": "pass"
+  },
+  "ab3cf8eac2dfae7481cd05c8066491b47aa862abde806d9029d457806033340e": {
+    "item_id": "CORE-IRREVERSIBLE-SPEND",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence states that no irreversible actions are proposed and tabulates each proposed spend with a boundary, an authorization mechanism, and containment. The later rows\u2019 \u201csame\u201d authorization explicitly refers to the named shared-client/OpenRouter budget authorization in the first row.",
+    "trace_id": "company-planning/method-conformance/PLAN/2e2696cf2306/CORE-IRREVERSIBLE-SPEND",
     "verdict": "pass"
   },
   "aba3e8c66cafb7adf48090e8fb57de305b2f05a57b41a6981273fb7f9dd3f175": {

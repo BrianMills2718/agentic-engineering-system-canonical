@@ -99,7 +99,9 @@ Groups the last 14 days of reports into problems and decides which fixes are lic
    before counting. An issue's identity includes its repository; unresolved references stay in the
    report but cannot license a rule.
 3. Every recurring problem gets one stronger-model analysis that reads the linked issues (about
-   30 s and $0.017 each, measured 2026-10-11). An analysis is reused while the problem's records are
+   90 s each on the Claude subscription, `claude-code/sonnet`, no per-call charge; the unit sets
+   `FEEDBACK_STRONG_MODEL` and starts through a login shell so `claude` is on PATH. Without that
+   variable the default is OpenRouter `gpt-5.6-sol`, about 30 s and $0.017 each). An analysis is reused while the problem's records are
    unchanged and saved as soon as it finishes, so a stopped run loses nothing. `--max-analyse N`
    limits a manual run; the timer sets no limit (Brian, 2026-10-12: "i dont get why we would want a
    cap?"). The unit allows 6 hours.

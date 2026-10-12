@@ -65,7 +65,9 @@ Non-goals:
 No irreversible action: new records are appended, nothing is deleted. Spend: model calls through the
 shared client only. Jev classification is about $0.0001 per question; the light extraction model
 about $0.14 for three days of transcripts (measured 2026-10-06); recurring-problem analysis about
-$0.017 per problem (measured 2026-10-11), every recurring problem, no weekly cap (Brian, 2026-10-12).
+$0.017 per problem on OpenRouter (measured 2026-10-11); the weekly unit runs it on the Claude
+subscription instead (`claude-code/sonnet`, no per-call charge, about 90 s each; Brian, 2026-10-12: "cant
+we use the subscription for this?"). Every recurring problem, no weekly cap (Brian, 2026-10-12).
 
 | Spend | Boundary | Who authorizes | Containment |
 | --- | --- | --- | --- |

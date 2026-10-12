@@ -7,13 +7,13 @@
     "schema_version": "checklist-definition.v1",
     "record_type": "checklist_definition",
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
+    "revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
     "title": "bounded-design method conformance for PLAN",
     "purpose": "Route-bound evidence that the selected Company Planning method was applied before adoption.",
     "subject_ref": {
       "kind": "planning_review",
       "id": "PLAN",
-      "revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486"
+      "revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387"
     },
     "items": [
       {
@@ -493,8 +493,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ACTOR-RESULT-EXAMPLE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
       "evidence_types": [
         "plan_section"
@@ -507,9 +507,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#who-it-serves-the-result-one-example",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:16Z",
+        "observed_at": "2026-10-12T20:40:52Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -519,8 +519,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ROUTE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-ROUTE",
       "evidence_types": [
         "path_decision_record"
@@ -533,9 +533,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/planning-path-decision.json#/selected_path",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:17Z",
+        "observed_at": "2026-10-12T20:40:53Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -545,8 +545,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-REQUIREMENTS-TRACED",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-REQUIREMENTS-TRACED",
       "evidence_types": [
         "plan_document"
@@ -559,9 +559,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#requirements-traced-to-checks-re-adoption-2026-10-12",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:37Z",
+        "observed_at": "2026-10-12T20:41:02Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -571,8 +571,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-SUCCESS-DISPROOF",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-SUCCESS-DISPROOF",
       "evidence_types": [
         "plan_section"
@@ -585,9 +585,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#success-and-what-would-disprove-it",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:19Z",
+        "observed_at": "2026-10-12T20:40:53Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -597,8 +597,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-TRACE-REVIEW",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-TRACE-REVIEW",
       "evidence_types": [
         "plan_section"
@@ -611,9 +611,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#success-and-what-would-disprove-it",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:20Z",
+        "observed_at": "2026-10-12T20:40:54Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -623,8 +623,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-TRACE-DEBUGGING",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-TRACE-DEBUGGING",
       "evidence_types": [
         "plan_section"
@@ -637,9 +637,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#when-a-run-fails-or-surprises-us",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:38Z",
+        "observed_at": "2026-10-12T20:41:03Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -649,8 +649,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-SYSTEM-MODEL",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-SYSTEM-MODEL",
       "evidence_types": [
         "plan_document"
@@ -663,9 +663,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#system-model",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:39Z",
+        "observed_at": "2026-10-12T20:41:03Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -675,8 +675,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-CAPABILITY-REUSE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-CAPABILITY-REUSE",
       "evidence_types": [
         "plan_document"
@@ -689,9 +689,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#capability-reuse",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:39Z",
+        "observed_at": "2026-10-12T20:41:03Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -701,8 +701,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-AUTHORITY-NONGOALS",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-AUTHORITY-NONGOALS",
       "evidence_types": [
         "plan_section"
@@ -715,9 +715,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#authority-and-non-goals",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:23Z",
+        "observed_at": "2026-10-12T20:40:55Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -727,8 +727,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-IRREVERSIBLE-SPEND",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-IRREVERSIBLE-SPEND",
       "evidence_types": [
         "plan_section"
@@ -741,9 +741,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#irreversible-actions-and-spend",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:24Z",
+        "observed_at": "2026-10-12T20:40:56Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -753,8 +753,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-UNCERTAINTIES",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-UNCERTAINTIES",
       "evidence_types": [
         "plan_section"
@@ -767,9 +767,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#uncertainties",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:25Z",
+        "observed_at": "2026-10-12T20:40:56Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -779,8 +779,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ACTIVATION-FACTS",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "CORE-ACTIVATION-FACTS",
       "evidence_types": [
         "plan_document",
@@ -794,9 +794,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#activation-facts",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:26Z",
+        "observed_at": "2026-10-12T20:40:56Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -806,8 +806,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-PRIOR-ART-DISPOSITION",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-PRIOR-ART-DISPOSITION",
       "evidence_types": [
         "plan_section"
@@ -820,9 +820,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#current-truth-and-reuse",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:27Z",
+        "observed_at": "2026-10-12T20:40:57Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -832,8 +832,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-PRIOR-ART-PARALLEL-CHECK",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
       "evidence_types": [
         "plan_section"
@@ -846,9 +846,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#detecting-a-silent-parallel-implementation",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:27Z",
+        "observed_at": "2026-10-12T20:40:57Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -858,8 +858,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-EVAL-DECISION",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-EVAL-DECISION",
       "evidence_types": [
         "plan_section"
@@ -872,9 +872,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:28Z",
+        "observed_at": "2026-10-12T20:40:58Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -884,8 +884,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-EVAL-IRREDUCIBLE-UNCERTAINTY",
       "evidence_types": [
         "plan_section"
@@ -898,9 +898,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:29Z",
+        "observed_at": "2026-10-12T20:40:58Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -910,8 +910,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-EVAL-PARITY",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-EVAL-PARITY",
       "evidence_types": [
         "plan_section"
@@ -924,9 +924,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:29Z",
+        "observed_at": "2026-10-12T20:40:59Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -936,8 +936,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-EVAL-COST",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-EVAL-COST",
       "evidence_types": [
         "plan_section"
@@ -950,9 +950,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#the-s2-measurement-the-one-comparison-this-plan-proposes",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:30Z",
+        "observed_at": "2026-10-12T20:40:59Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -962,8 +962,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-LLM-CALL-BOUNDARY",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-LLM-CALL-BOUNDARY",
       "evidence_types": [
         "plan_section"
@@ -976,9 +976,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#model-calls",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:31Z",
+        "observed_at": "2026-10-12T20:40:59Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -988,8 +988,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-LLM-AUTHORITY-PROMOTION",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-LLM-AUTHORITY-PROMOTION",
       "evidence_types": [
         "plan_section"
@@ -1002,9 +1002,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#model-calls",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:31Z",
+        "observed_at": "2026-10-12T20:41:00Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -1014,8 +1014,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-COORD-OWNERSHIP",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-COORD-OWNERSHIP",
       "evidence_types": [
         "plan_section"
@@ -1028,9 +1028,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#ownership-and-coordination",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:32Z",
+        "observed_at": "2026-10-12T20:41:00Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -1040,8 +1040,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-BOUNDARY-DISPOSITION",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-BOUNDARY-DISPOSITION",
       "evidence_types": [
         "plan_section"
@@ -1054,9 +1054,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#boundaries",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:33Z",
+        "observed_at": "2026-10-12T20:41:00Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -1066,8 +1066,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-CONTRACTS-SCHEMAS",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-CONTRACTS-SCHEMAS",
       "evidence_types": [
         "plan_section"
@@ -1080,9 +1080,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#contracts-and-dependencies",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:40Z",
+        "observed_at": "2026-10-12T20:41:04Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -1092,8 +1092,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-CONTRACTS-DEPENDENCIES",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-CONTRACTS-DEPENDENCIES",
       "evidence_types": [
         "plan_section"
@@ -1106,9 +1106,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#contracts-and-dependencies",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:41Z",
+        "observed_at": "2026-10-12T20:41:04Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -1118,8 +1118,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-AES-TARGET-TRACE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-AES-TARGET-TRACE",
       "evidence_types": [
         "plan_document"
@@ -1132,9 +1132,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#aes-target",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:42Z",
+        "observed_at": "2026-10-12T20:41:04Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null
@@ -1144,8 +1144,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-DURABLE-DOCS-DECLARED",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:72616e91bd8e16c3bb318bb33ac87366000cc01479871dc936d650b28faadc13",
-      "definition_sha256": "fd1f2eb9b9eb9a8fb1641ea8e1cdda97d71462109e696d40dbd95150ed7b0c45",
+      "checklist_revision": "sha256:1d5355ed20cf82b4a1f08c754f6a72cbedce62eb52c5b4e8ae06d985023f1a18",
+      "definition_sha256": "598c67de3bac6fb86c5bedd20ea9fcd9eac0daa6424ad677e6cf419f46ede858",
       "item_id": "OV-DURABLE-DOCS-DECLARED",
       "evidence_types": [
         "plan_document"
@@ -1158,9 +1158,9 @@
         "status": "pass",
         "evidence_ref": "proposals/aes-learning-loop/PLAN.md#aes-target",
         "scope": "plan:proposals/aes-learning-loop/PLAN.md",
-        "observed_at": "2026-10-12T19:50:42Z",
+        "observed_at": "2026-10-12T20:41:05Z",
         "producer": "agent",
-        "source_revision": "sha256:27f4ed61ea57ee57bc8a9d8b98dd7363ee9f70d5fc77f40b4b39986fc8677486",
+        "source_revision": "sha256:c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387",
         "limitations": []
       },
       "annotation": null

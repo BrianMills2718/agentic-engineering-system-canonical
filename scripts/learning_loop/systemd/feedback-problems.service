@@ -14,6 +14,9 @@ Environment=FEEDBACK_OUT=%h/projects/data/feedback-collector
 Environment=PROJECT_META=%h/.hive-brain/project-meta
 # The licence evaluator is read from the metamodel checkout (evaluate.derive_licence_status, R-401).
 Environment=O2A_METAMODEL=%h/code/observation-to-action-metamodel
-ExecStart=%h/.local/bin/uv run --quiet --no-project --with-editable %h/code/llm_client python %h/.hive-brain/aes/scripts/learning_loop/problems.py --file --days 14
+# Analysis runs on the Claude subscription (claude-code/sonnet, $0 per call) through a login shell so
+# `claude` and node are on PATH; claude-agent-sdk is the llm_client extra that route needs.
+Environment=FEEDBACK_STRONG_MODEL=claude-code/sonnet
+ExecStart=/bin/bash -lc '%h/.local/bin/uv run --quiet --no-project --with-editable %h/code/llm_client --with claude-agent-sdk python %h/.hive-brain/aes/scripts/learning_loop/problems.py --file --days 14'
 TimeoutStartSec=6h
 Nice=10
