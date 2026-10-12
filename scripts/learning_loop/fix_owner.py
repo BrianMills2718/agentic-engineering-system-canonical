@@ -70,6 +70,12 @@ If plan adoption refuses with stale_source_revision, that is a known install def
 (company-planning#136): commit under the plan you wrote (the commit rule is in observe mode) and
 say so in the item comment rather than deferring the item for it.
 
+Posting comments: end every comment body with a line `Trace-Review: none (<why no graded run>)`
+(or the path of a committed trace review); the publishing hook blocks `gh issue comment` without it.
+A blocked command runs none of its parts, including file writes earlier in it. After each comment,
+read it back (`gh issue view N --json comments`) and confirm both markers are present before you
+close the issue; this script checks the same thing afterwards and fails the run on any mismatch.
+
 Stop after these {n} items. Do not start other work. Never force-push, delete branches or
 history, publish, deploy, send anything outward, or spend money beyond this session.
 Finish with one line, exactly: FIX_OWNER_SUMMARY {{"<issue number>":"<disposition>", ...}}
