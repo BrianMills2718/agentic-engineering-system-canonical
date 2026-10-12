@@ -3,13 +3,14 @@
   "record_type": "method_adoption_decision",
   "decision": "adopted",
   "plan_ref": "proposals/aes-learning-loop/PLAN.md",
-  "plan_sha256": "e2bfc3e06ab64a10e2a4280f8bec5a69998c48f2affcd4abf52244dc11b42b74",
+  "plan_sha256": "fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503",
   "receipt_ref": "proposals/aes-learning-loop/method-conformance-receipt.json",
-  "receipt_sha256": "fb54d934cb1dff9b31cca1f33622488b410db7ed4d4cecdf4e54bd083ff7fab7",
+  "receipt_sha256": "4a76806030ac046b99a38d48eb0dc4b80cd07a833d78d47b300a446e63a26d72",
   "receipt_result": "pass",
   "reason_codes": [],
   "summary": [
-    "pass: 18 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)"
+    "pass: 25 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)",
+    "warn CORE-SYSTEM-MODEL: MODEL-NO-ELEMENT-IDS, MODEL-NO-UNKNOWNS, PLAN-VIEW-NOT-FOUND -> MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`); PLAN-VIEW-NOT-FOUND: the views statement links files that do not exist (mark a file this change creates `(adds)`, one in another repository `(external)`): review-page/requirements.html, review-page/index.html"
   ],
-  "decided_at": "2026-10-08T16:26:56Z"
+  "decided_at": "2026-10-12T14:46:33Z"
 }
