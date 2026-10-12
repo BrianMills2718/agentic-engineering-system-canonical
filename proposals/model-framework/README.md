@@ -108,6 +108,35 @@ Prior art:
    - Aspect: structure, behaviour, interaction.
    - Each model is also tagged intent or generated.
 
+### 5a. Off-the-shelf review (2026-10-12): what to adopt instead of building
+
+Yardstick: agents write the models, so a candidate counts only if a program can check it. That means a text
+format with a validator, a way to produce the "actual" side from code or a database, and an intended-versus-actual
+comparison. Human authoring effort is not the yardstick. Releases and licences were checked on 2026-10-12.
+
+- **Adopt:**
+  - **pytestarch** (Python, Apache-2.0, 5.0.0, released 2026-10-11) turns a PlantUML component diagram into
+    import rules, and a missing edge becomes "must not import". This is the only intended-versus-actual
+    comparison that ships today.
+  - **dependency-cruiser** (v18.6.0) does the same for TypeScript.
+- **Adopt:** **LinkML** (1.12.0) holds the intended data model. **schema-automator** (0.5.7, BSD)
+  `import-sql` extracts the actual model from a live database.
+- **Adopt:** **Structurizr DSL** (Apache-2.0, v2026.09.19) or **LikeC4** (MIT, v1.59.4) for the context and
+  container views. Both have a `validate` command. Their extractors from code do not cover Python or TypeScript.
+- **Borrow only:** Capella/Arcadia's level catalogue (operational, system, logical, physical) as a reference.
+  The tool is systems-engineering-shaped, and py-capellambse has no extractor from code.
+- **Reject for now:**
+  - SysML v2: the validator a check would run, Syside, is proprietary on PyPI.
+  - UAF/DoDAF: only commercial tools.
+  - ArchiMate/Archi: no model checker.
+  - Eclipse Capra: no push since 2024-02.
+- **Left to build:** no maintained tool covers these.
+  - The correspondence registry across views: one element ID traced through C4, LinkML, PlantUML and
+    sequence views.
+  - A LinkML intended-versus-extracted schema diff.
+  - A comparison of behaviour and sequence models against run traces.
+  - A thin catalogue spec.
+
 ## 6. Existing pieces to build on
 
 | Piece | Where | Gap |
