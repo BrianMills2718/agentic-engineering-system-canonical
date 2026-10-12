@@ -1,0 +1,640 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-commit-tag-contract-a708a625716b",
+  "plan": {
+    "plan_ref": "docs/plans/commit-tag-contract.md",
+    "plan_sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+  },
+  "path_decision": {
+    "ref": "docs/plans/commit-tag-contract.path-decision.json",
+    "sha256": "ea1590c21c3059744dc3a91c03fc7f9bfa2d989b8b47add745f54cc8ba28136a",
+    "selected_path": "prototype",
+    "classified_path": "prototype",
+    "errors": []
+  },
+  "route": "inline_prototype",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@13",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "b62a29405f2c6a0ef730a8d4f78b8eb4bdccca5a29cc1c711a5a96902a121291"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "9ca8d6e47f651430c21ff382a3d7c1f99e25c61f7ea85d0919ec09d71918d4f9"
+  },
+  "activation": {
+    "facts_ref": "docs/plans/commit-tag-contract.facts.json",
+    "facts_sha256": "186cc0d33173525e22233cb7154269fa3e08bdb6711b4e415ca68a254ba8d66b",
+    "facts": {
+      "shared_mechanism": true,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "crosses_system_boundary": false,
+      "deploys": false,
+      "claims_external_standard": false,
+      "aes_governed_target": true,
+      "durable_documents_declared": true,
+      "multiple_writers": false,
+      "consequential_boundary": false,
+      "inline_prototype": true
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "crosses_system_boundary": "default:not_declared",
+      "deploys": "default:not_declared",
+      "claims_external_standard": "default:not_declared",
+      "aes_governed_target": "derived:repository has .aes/target.yaml",
+      "durable_documents_declared": "derived:.agentic/repo.yaml has durable_documents",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": true,
+        "reason": "shared_mechanism=true (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": false,
+        "reason": "multiple_writers=false (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": true,
+        "reason": "inline_prototype=true (derived:classified_path==prototype)"
+      },
+      {
+        "overlay_id": "OV-SYSTEM-BOUNDARY",
+        "activation_fact": "crosses_system_boundary",
+        "active": false,
+        "reason": "crosses_system_boundary=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-DEPLOYMENT",
+        "activation_fact": "deploys",
+        "active": false,
+        "reason": "deploys=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-STANDARD-CONFORMANCE",
+        "activation_fact": "claims_external_standard",
+        "active": false,
+        "reason": "claims_external_standard=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-AES",
+        "activation_fact": "aes_governed_target",
+        "active": true,
+        "reason": "aes_governed_target=true (derived:repository has .aes/target.yaml)"
+      },
+      {
+        "overlay_id": "OV-DURABLE-DOCS",
+        "activation_fact": "durable_documents_declared",
+        "active": true,
+        "reason": "durable_documents_declared=true (derived:.agentic/repo.yaml has durable_documents)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:3f8aa92185e329ca7bcf7c41f02f52749fd0fbd368e138b073d7d2c83aae0eca",
+    "definition_sha256": "17f69f0ecdc206a4afc51a0c53f7a8edf5bbc91ffe45818f35c3c4b684f72398",
+    "bundle_ref": "docs/plans/commit-tag-contract.bundle.json",
+    "bundle_sha256": "ba8b0cccd8b9968065f18a321b1f0185bde07025db0d0bfd2e0b8646418b2c58",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#actor-and-result",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/dfe9a1089424/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the actor (Brian), states the desired result (the commit is accepted by the copied prefix-only hook when its tag matches the AES grammar), and gives a stable, concrete user-visible example with specific accepted and rejected commit messages.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.path-decision.json",
+          "sha256": "ea1590c21c3059744dc3a91c03fc7f9bfa2d989b8b47add745f54cc8ba28136a"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-REQUIREMENTS-TRACED",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#requirements",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/cb9818e565dd/CORE-REQUIREMENTS-TRACED",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence provides a requirements list covering the requested work and explicitly states that R2 onward capture the change’s own claims. Each requirement names a check and has a status of “planned, not yet run”; no requirement is deferred, so no deferral reason or release-record carry-forward is required.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#success-and-disproof",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/3a9e2628d80e/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines success through direct behavioral checks: valid AES Goal messages are accepted, while bogus or untagged messages are rejected, including an end-to-end real-repository hook test. It also gives concrete disproof conditions involving an uppercase Goal being refused or a non-AES prefix being accepted, with specified hook output and JSONL evidence.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#success-and-disproof",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/3a9e2628d80e/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The success criteria are explicitly judged from two named runs—the parent-commit disproof run and the change-commit success run. The evidence identifies where their complete outputs are stored, including exact commands, exit statuses, named checks and results, skipped-check status, and System model output beyond the final result.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-DEBUGGING",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#when-a-run-fails-or-surprises-us",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/dfe9a1089424/CORE-TRACE-DEBUGGING",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence defines a separate procedure for failed or surprising runs and explicitly requires preserving the failed check and trace ID, reviewing all specified artifacts, citing and classifying the divergence, and treating unresolved diagnoses as investigation-only. It also links targeted repairs to new traced verification runs while retaining the original failure and distinguishes complete review from a passing run.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SYSTEM-MODEL",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "warn",
+      "verifier_result": "pass",
+      "reason_codes": [
+        "MODEL-NO-ELEMENT-IDS",
+        "MODEL-NO-UNKNOWNS"
+      ],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#system-model",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/cb9818e565dd/CORE-SYSTEM-MODEL",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence provides the repository-scoped model path and documentation entry point, names ENT-COMMIT and PROC-COMMIT-CHECK, and specifies what the saved check output must show for each. It also identifies applicable view coverage, explains why no other view applies, gives concrete freshness/drift checks, and states how the model, view coverage, and saved verification output are reconciled in the same commit.",
+        "reused": true
+      },
+      "suggested_action": "MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`)"
+    },
+    {
+      "item_id": "CORE-CAPABILITY-REUSE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#capability-reuse",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/dfe9a1089424/CORE-CAPABILITY-REUSE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states, “No catalogue entry fits,” and explains that the work needs edits to AES’s own files, while the catalogue contains cross-project capabilities and none provides repository-source editing.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#authority-and-non-goals",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/dfe9a1089424/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies Brian as the requester with authority over the change and states the non-goals: work outside the listed files, irreversible actions, and spending.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#irreversible-actions-and-spend",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/dfe3b91f4b7e/CORE-IRREVERSIBLE-SPEND",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that there are no irreversible actions or spend, no money is spent, and nothing is sent outward. It also describes the reversible containment for changes and generated wrappers, so there is no proposed irreversible action requiring a separate boundary or authorization.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#uncertainties",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/dfe9a1089424/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies the material uncertainty—whether files beyond the listed set are needed—and provides resolving evidence: a grep of origin/main locating TAG_RE, the wrapper template, and the commit CLI. The uncertainty therefore has evidence that would resolve it.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#activation-facts",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/f712fe8eb748/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly declares `shared_mechanism` and `aes_governed_target` true. It declares the other potentially triggered facts false, but the evidence describes no proposed alternative-comparison experiment, LLM-central behavior, irreversible action or spend, or claim of conformity to an external standard.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-DISPOSITION",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#prior-art-and-ownership",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/f712fe8eb748/OV-PRIOR-ART-DISPOSITION",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly documents searches of ownership, internal lineage, and external prior art. It lists each identified candidate with a disposition of reuse, extend, supersede, or bounded exception, including the rationale for each disposition.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PRIOR-ART-PARALLEL-CHECK",
+      "effect": "advisory",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#prior-art-and-ownership",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/f712fe8eb748/OV-PRIOR-ART-PARALLEL-CHECK",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence names concrete checks: a grep for commit-prefix/tag/valid_prefixes patterns and hashing every `~/code/*/hooks/commit-msg`. It also reports the detected parallel implementation—a hand-copied lowercase-only Goal regex in project-meta that diverged from `commit_rule.TAG_RE`.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PROTO-VERTICAL-RESET",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#vertical-and-reset",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/dfe9a1089424/OV-PROTO-VERTICAL-RESET",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the minimal vertical result, defines the reset boundary as `git revert` of the commit, and lists the non-goals (“anything outside these files” plus no coordinated-work ceremony and related claims).",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-AES-TARGET-TRACE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#aes-target",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/61f4aa5d4bc3/OV-AES-TARGET-TRACE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that the repository is governed by `.aes/target.yaml`, maps R1–R3 to AP-REQ-001 and SC-AP-001, and gives verification subjects for each. It declares “Target delta: none,” explains that `aes plan validate` is not run because no proposal is written, and names the existing target items and success criterion served.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-DURABLE-DOCS-DECLARED",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/commit-tag-contract.md#durable-documents",
+          "sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/commit-tag-contract/dfe9a1089424/OV-DURABLE-DOCS-DECLARED",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence declares the repository’s durable-document roles and includes `Durable documents: none` with the reason that there are no durable-document changes because the model’s `ENT-COMMIT` row already names the first-line tag. Its completion evidence requires `durable_docs_check.py --plan ... --range ...` to exit 0.",
+        "reused": true
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 16,
+    "unresolved": 0,
+    "not_applicable": 0,
+    "unavailable": 0,
+    "missing": 0,
+    "warn": 1
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-commit-tag-contract-a708a625716b",
+    "snapshot_ref": "SNAPSHOT-commit-tag-contract",
+    "snapshot_revision": "sha256:ba8b0cccd8b9968065f18a321b1f0185bde07025db0d0bfd2e0b8646418b2c58",
+    "packet_ref": "docs/plans/commit-tag-contract.md",
+    "packet_revision": "sha256:a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [],
+    "route": "inline_prototype",
+    "adoption_readiness": "ready_for_contributor",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "pass",
+  "reason_codes": [],
+  "actionable_summary": [
+    "pass: 16 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)",
+    "warn CORE-SYSTEM-MODEL: MODEL-NO-ELEMENT-IDS, MODEL-NO-UNKNOWNS -> MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`)"
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "claude-code",
+    "session": "5e8d58ab-cbeb-43cc-96c3-76063de808ff"
+  },
+  "started_at": "2026-10-12T05:15:44Z",
+  "completed_at": "2026-10-12T05:15:44Z",
+  "duration_ms": 412
+}

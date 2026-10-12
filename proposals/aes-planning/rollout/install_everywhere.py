@@ -40,6 +40,8 @@ MACHINE_CONFIG = HOME / ".config" / "aes" / "commit_rule.yaml"
 SNIPPET = GLOBAL_HOOKS / "_aes_commit_rule.sh"
 CALL_LINE = '. "$(dirname "$0")/_aes_commit_rule.sh" && aes_commit_rule "$1" || exit $?'
 AES_MARK = "managed by aes hooks install"
+# first docstring line of project-meta's hooks/commit-msg template, which checks only the prefix list
+PREFIX_ONLY_MARK = "validates commit prefixes against meta-process.yaml"
 HOOK_NAMES = (
     "applypatch-msg", "pre-applypatch", "post-applypatch", "pre-commit", "pre-merge-commit",
     "prepare-commit-msg", "commit-msg", "post-commit", "pre-rebase", "post-checkout", "post-merge",
@@ -75,6 +77,13 @@ if [ -x "$orig" ] && grep -q "{mark}" "$orig" && grep -q "aes commit check" "$or
 fi
 . "{snippet}" && aes_commit_rule "$1" || exit $?
 [ -x "$orig" ] || exit 0
+# A copied prefix-only hook (project-meta's template) keeps its own regex list, which lagged the rule's
+# grammar (#297, #414). When `aes commit tag` recognises the tag the rule above has already judged it;
+# anything else, or a missing/older aes, still goes to the repository's own hook.
+if grep -q "{prefix_mark}" "$orig"; then
+  aes_bin=$(command -v aes 2>/dev/null) || aes_bin="$HOME/.local/bin/aes"
+  if [ -x "$aes_bin" ] && "$aes_bin" commit tag "$1" >/dev/null 2>&1; then exit 0; fi
+fi
 exec "$orig" "$@"
 """
 
@@ -188,7 +197,7 @@ def install_local(repo: Path) -> str:
     if wrappers.exists():
         shutil.rmtree(wrappers)
     for name in sorted(names):
-        text = (LOCAL_COMMIT_MSG.format(snippet=SNIPPET, orig=orig_ref, mark=AES_MARK) if name == "commit-msg"
+        text = (LOCAL_COMMIT_MSG.format(snippet=SNIPPET, orig=orig_ref, mark=AES_MARK, prefix_mark=PREFIX_ONLY_MARK) if name == "commit-msg"
                 else LOCAL_PASS.format(name=name, orig=orig_ref))
         _write_exec(wrappers / name, text)
     git(repo, "config", "--local", "core.hooksPath", str(wrappers), check=True)

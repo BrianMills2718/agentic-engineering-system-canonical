@@ -1,0 +1,16 @@
+{
+  "schema_version": "method-adoption-decision.v1",
+  "record_type": "method_adoption_decision",
+  "decision": "adopted",
+  "plan_ref": "docs/plans/commit-tag-contract.md",
+  "plan_sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb",
+  "receipt_ref": "docs/plans/commit-tag-contract.receipt.json",
+  "receipt_sha256": "e8d8cb21624c049a6435c22586b5eb6a272d6ef2eead39369b21596f4594ff61",
+  "receipt_result": "pass",
+  "reason_codes": [],
+  "summary": [
+    "pass: 16 items evidenced, 0 confirmed not applicable, 0 advisory deviation(s)",
+    "warn CORE-SYSTEM-MODEL: MODEL-NO-ELEMENT-IDS, MODEL-NO-UNKNOWNS -> MODEL-NO-ELEMENT-IDS: docs/model/ODD.md has no element lines; write each as `- ID (decided|guessed): what it is`; MODEL-NO-UNKNOWNS: docs/model/ODD.md has no unknowns table (header `| Unknown | What would decide it |`)"
+  ],
+  "decided_at": "2026-10-12T05:15:44Z"
+}

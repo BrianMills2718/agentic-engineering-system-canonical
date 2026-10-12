@@ -40,7 +40,7 @@ from .characterize import CharacterizeError
 from .characterize import check as characterize_check
 from .characterize import render_report as render_characterization
 from .characterize import running_version
-from .commit_rule import check_message, replay
+from .commit_rule import check_message, message_tag, replay
 from .evidence import EvidenceError, assess, branch_note, record
 from .evidence import render_report as render_evidence
 from .context import ContextError, project_context, render_json, render_markdown
@@ -177,6 +177,9 @@ def _build_parser() -> argparse.ArgumentParser:
     crep.add_argument("--root", type=Path, default=None,
                       help="repository root (default: top of the current Git work tree)")
     crep.add_argument("--json", action="store_true", help="one JSON object per commit, then the counts")
+    ctag = commit_sub.add_parser("tag", help="print the first line's tag and exit 0 if the commit-rule grammar "
+                                 "recognises it, else exit 1 (for chained repository hooks)")
+    ctag.add_argument("message_file", type=Path, help="the commit message file git passes to commit-msg")
     cidx = commit_sub.add_parser("index", help="record which plans each repository holds on its default branch "
                                  "(read through git), for [Goal <id>] lookups when a checkout is on another branch")
     cidx.add_argument("--workspace", type=Path, default=Path.home() / "code",
@@ -289,6 +292,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             for err in index.get("errors", []):
                 print(f"  not indexed (retried next build): {err}", file=sys.stderr)
             return 1 if index.get("errors") else 0
+        # needs no AES project: chained hooks in any repository ask it for the first line's tag
+        if args.command == "commit" and args.commit_command == "tag":
+            tag = message_tag(args.message_file)
+            if tag is None:
+                print("no commit-rule tag on the first line", file=sys.stderr)
+                return 1
+            print(tag)
+            return 0
         if args.root is None:
             args.root = find_project_root(Path.cwd())
         if args.command == "target" and args.target_command == "validate":
