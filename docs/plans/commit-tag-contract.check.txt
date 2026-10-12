@@ -1,0 +1,280 @@
+=== parent 056c1447501290d31146b947d567a7c0d2ae118a (code before the change, tests from the change) ===
+$ python -m pytest tests/greenfield/test_commit_rule.py tests/rollout/test_install_everywhere.py -p no:cacheprovider -rA
+============================= test session starts ==============================
+platform linux -- Python 3.11.16, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/brian/code/.scratch/tagcheck-parent-2569311
+configfile: pyproject.toml
+collected 52 items / 1 error
+
+==================================== ERRORS ====================================
+__________ ERROR collecting tests/rollout/test_install_everywhere.py ___________
+tests/rollout/test_install_everywhere.py:112: in <module>
+    """Commit-msg hook that {inst.PREFIX_ONLY_MARK}."""
+                             ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'install_everywhere' has no attribute 'PREFIX_ONLY_MARK'
+=========================== short test summary info ============================
+ERROR tests/rollout/test_install_everywhere.py - AttributeError: module 'inst...
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 3.36s ===============================
+exit=2
+
+=== change 2a029abd78da886e81853d600f1507db2533036d ===
+$ python -m pytest tests/greenfield/test_commit_rule.py tests/rollout/test_install_everywhere.py -p no:cacheprovider -rA
+============================= test session starts ==============================
+platform linux -- Python 3.11.16, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/brian/code/agentic-engineering-system-canonical/worktrees/commit-tag-contract
+configfile: pyproject.toml
+collected 56 items
+
+tests/greenfield/test_commit_rule.py ................................... [ 62%]
+.................                                                        [ 92%]
+tests/rollout/test_install_everywhere.py ....                            [100%]
+
+==================================== PASSES ====================================
+__ test_unplanned_running_thing_without_emergency_is_refused_naming_the_files __
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_unplanned_running_thing_w0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_unplanned_running_thing_w0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+______________ test_same_change_under_an_adopted_plan_is_accepted ______________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_same_change_under_an_adop0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_same_change_under_an_adop0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_____________________ test_one_line_readme_fix_is_trivial ______________________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_one_line_readme_fix_is_tr0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_one_line_readme_fix_is_tr0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_________________ test_plan_changed_after_adoption_is_refused __________________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_plan_changed_after_adopti0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_plan_changed_after_adopti0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+____________ test_plan_without_receipt_and_unknown_plan_are_refused ____________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_plan_without_receipt_and_0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_plan_without_receipt_and_0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_ test_trivial_is_measured_not_trusted[files0-touches running-thing file(s): hooks/pre-push] _
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_trivial_is_measured_not_t0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_trivial_is_measured_not_t0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+___ test_trivial_is_measured_not_trusted[files1-4 files (trivial allows 3)] ____
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_trivial_is_measured_not_t1/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_trivial_is_measured_not_t1/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_ test_trivial_is_measured_not_trusted[files2-61 changed lines (trivial allows 60)] _
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_trivial_is_measured_not_t2/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_trivial_is_measured_not_t2/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_ test_trivial_is_measured_not_trusted[files3-adds file(s) under a governed root: src/whygame5/new.py] _
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_trivial_is_measured_not_t3/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_trivial_is_measured_not_t3/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+__________________________ test_emergency_and_shaping __________________________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_emergency_and_shaping0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_emergency_and_shaping0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_______ test_plan_adopted_in_the_commit_being_made_is_found_in_the_index _______
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_plan_adopted_in_the_commi0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_plan_adopted_in_the_commi0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_________ test_numbered_plan_adopted_in_the_commit_being_made_is_found _________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_numbered_plan_adopted_in_0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_numbered_plan_adopted_in_0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_________________ test_plan_refusal_names_the_way_to_adopt_one _________________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_plan_refusal_names_the_wa0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_plan_refusal_names_the_wa0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+___________ test_unplanned_whose_emergency_line_says_none_is_refused ___________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_unplanned_whose_emergency0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_unplanned_whose_emergency0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_ test_real_placeholder_emergency_messages_are_refused_and_a_real_emergency_is_accepted _
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_real_placeholder_emergenc0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_real_placeholder_emergenc0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+___________ test_placeholder_and_empty_emergency_values_are_refused ____________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_placeholder_and_empty_eme0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_placeholder_and_empty_eme0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+___________________ test_observe_mode_logs_and_never_blocks ____________________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_observe_mode_logs_and_nev0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_observe_mode_logs_and_nev0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+____________________ test_replay_judges_history_with_counts ____________________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_replay_judges_history_wit0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_replay_judges_history_wit0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_________ test_an_older_aes_without_the_rule_warns_and_does_not_block __________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_an_older_aes_without_the_0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_an_older_aes_without_the_0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_ test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans _
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_enforce_with_plan_adoptio0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_enforce_with_plan_adoptio0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+__ test_goal_plan_owned_by_another_repository_resolves_through_the_workspace ___
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_goal_plan_owned_by_anothe0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_goal_plan_owned_by_anothe0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_ test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere _
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_goal_plan_on_another_repo0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_goal_plan_on_another_repo0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_ test_foreign_plan_reads_preserve_repository_identity_under_hook_environment __
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_foreign_plan_reads_preser0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_foreign_plan_reads_preser0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+________ test_background_plan_refresh_clears_only_git_local_environment ________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_background_plan_refresh_c0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_background_plan_refresh_c0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_____ test_quick_plan_commit_is_logged_for_its_check_output_and_file_list ______
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_quick_plan_commit_is_logg0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_quick_plan_commit_is_logg0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_____ test_quick_plan_commit_without_its_check_output_is_logged_as_missing _____
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_quick_plan_commit_without0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_quick_plan_commit_without0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+__________________ test_a_full_plan_gets_no_quick_plan_notes ___________________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_a_full_plan_gets_no_quick0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_a_full_plan_gets_no_quick0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+____ test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs _____
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_trivial_may_not_touch_tes0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_trivial_may_not_touch_tes0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+__________ test_plan_names_with_capital_letters_are_read_as_plan_tags __________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_plan_names_with_capital_l0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_plan_names_with_capital_l0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+__ test_new_document_the_wiki_does_not_reach_is_refused_with_the_line_to_add ___
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_new_document_the_wiki_doe0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_new_document_the_wiki_doe0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+__________ test_new_document_two_links_deep_is_accepted_three_is_not ___________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_new_document_two_links_de0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_new_document_two_links_de0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_______ test_no_wiki_asks_for_one_and_a_new_wiki_linking_it_is_accepted ________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_no_wiki_asks_for_one_and_0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_no_wiki_asks_for_one_and_0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_ test_existing_documents_exempt_files_auto_jobs_and_other_owners_are_not_refused _
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_existing_documents_exempt0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_existing_documents_exempt0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+__________ test_the_suggested_line_works_for_a_file_name_with_a_hash ___________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_the_suggested_line_works_0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_the_suggested_line_works_0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+__________________ test_a_skeleton_plan_named_by_id_is_found ___________________
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_a_skeleton_plan_named_by_0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_a_skeleton_plan_named_by_0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+_____ test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild _____
+---------------------------- Captured stdout setup -----------------------------
+wrote /tmp/pytest-of-brian/pytest-755/test_a_plan_merged_on_the_remo0/consumer/.githooks/pre-commit and /tmp/pytest-of-brian/pytest-755/test_a_plan_merged_on_the_remo0/consumer/.githooks/commit-msg
+  core.hooksPath=.githooks; pre-commit runs aes target validate + aes topology check; commit-msg runs aes commit check
+  aes.installer=/home/brian/code/agentic-engineering-system-canonical/.venv/bin/python in .git/config, so the tracked hook stays unchanged
+=========================== short test summary info ============================
+PASSED tests/greenfield/test_commit_rule.py::test_unplanned_running_thing_without_emergency_is_refused_naming_the_files
+PASSED tests/greenfield/test_commit_rule.py::test_same_change_under_an_adopted_plan_is_accepted
+PASSED tests/greenfield/test_commit_rule.py::test_one_line_readme_fix_is_trivial
+PASSED tests/greenfield/test_commit_rule.py::test_plan_changed_after_adoption_is_refused
+PASSED tests/greenfield/test_commit_rule.py::test_plan_without_receipt_and_unknown_plan_are_refused
+PASSED tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files0-touches running-thing file(s): hooks/pre-push]
+PASSED tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files1-4 files (trivial allows 3)]
+PASSED tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files2-61 changed lines (trivial allows 60)]
+PASSED tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files3-adds file(s) under a governed root: src/whygame5/new.py]
+PASSED tests/greenfield/test_commit_rule.py::test_emergency_and_shaping
+PASSED tests/greenfield/test_commit_rule.py::test_plan_adopted_in_the_commit_being_made_is_found_in_the_index
+PASSED tests/greenfield/test_commit_rule.py::test_numbered_plan_adopted_in_the_commit_being_made_is_found
+PASSED tests/greenfield/test_commit_rule.py::test_plan_refusal_names_the_way_to_adopt_one
+PASSED tests/greenfield/test_commit_rule.py::test_unplanned_whose_emergency_line_says_none_is_refused
+PASSED tests/greenfield/test_commit_rule.py::test_real_placeholder_emergency_messages_are_refused_and_a_real_emergency_is_accepted
+PASSED tests/greenfield/test_commit_rule.py::test_placeholder_and_empty_emergency_values_are_refused
+PASSED tests/greenfield/test_commit_rule.py::test_observe_mode_logs_and_never_blocks
+PASSED tests/greenfield/test_commit_rule.py::test_no_tag_is_refused_and_git_messages_pass
+PASSED tests/greenfield/test_commit_rule.py::test_replay_judges_history_with_counts
+PASSED tests/greenfield/test_commit_rule.py::test_an_older_aes_without_the_rule_warns_and_does_not_block
+PASSED tests/greenfield/test_commit_rule.py::test_in_aes_itself_the_hooks_run_the_working_copy_code
+PASSED tests/greenfield/test_commit_rule.py::test_machine_config_reaches_repositories_without_their_own
+PASSED tests/greenfield/test_commit_rule.py::test_machine_skip_roots_exempt_throwaway_repositories_and_nothing_else
+PASSED tests/greenfield/test_commit_rule.py::test_skip_root_at_or_above_home_is_ignored
+PASSED tests/greenfield/test_commit_rule.py::test_auto_tag_names_its_job_and_touches_no_running_thing
+PASSED tests/greenfield/test_commit_rule.py::test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans
+PASSED tests/greenfield/test_commit_rule.py::test_goal_plan_owned_by_another_repository_resolves_through_the_workspace
+PASSED tests/greenfield/test_commit_rule.py::test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere
+PASSED tests/greenfield/test_commit_rule.py::test_foreign_plan_reads_preserve_repository_identity_under_hook_environment
+PASSED tests/greenfield/test_commit_rule.py::test_background_plan_refresh_clears_only_git_local_environment
+PASSED tests/greenfield/test_commit_rule.py::test_conflict_surface_matching_and_repository_names
+PASSED tests/greenfield/test_commit_rule.py::test_asked_line_is_recorded_and_never_changes_the_verdict
+PASSED tests/greenfield/test_commit_rule.py::test_plan_index_does_not_cache_a_failed_search_as_no_plans
+PASSED tests/greenfield/test_commit_rule.py::test_only_one_background_index_refresh_runs_at_a_time
+PASSED tests/greenfield/test_commit_rule.py::test_quick_plan_commit_is_logged_for_its_check_output_and_file_list
+PASSED tests/greenfield/test_commit_rule.py::test_quick_plan_commit_without_its_check_output_is_logged_as_missing
+PASSED tests/greenfield/test_commit_rule.py::test_a_full_plan_gets_no_quick_plan_notes
+PASSED tests/greenfield/test_commit_rule.py::test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs
+PASSED tests/greenfield/test_commit_rule.py::test_plan_names_with_capital_letters_are_read_as_plan_tags
+PASSED tests/greenfield/test_commit_rule.py::test_new_document_the_wiki_does_not_reach_is_refused_with_the_line_to_add
+PASSED tests/greenfield/test_commit_rule.py::test_new_document_two_links_deep_is_accepted_three_is_not
+PASSED tests/greenfield/test_commit_rule.py::test_no_wiki_asks_for_one_and_a_new_wiki_linking_it_is_accepted
+PASSED tests/greenfield/test_commit_rule.py::test_existing_documents_exempt_files_auto_jobs_and_other_owners_are_not_refused
+PASSED tests/greenfield/test_commit_rule.py::test_the_suggested_line_works_for_a_file_name_with_a_hash
+PASSED tests/greenfield/test_commit_rule.py::test_a_skeleton_plan_named_by_id_is_found
+PASSED tests/greenfield/test_commit_rule.py::test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Goal Upper-Case-1] capitals in a plan id-Goal Upper-Case-1]
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Plan #3] numbered plan-Plan #3]
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Trivial] typo-Trivial]
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Shaping some-plan] draft-Shaping some-plan]
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Bogus] not a commit-rule tag-None]
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[no tag at all-None]
+PASSED tests/rollout/test_install_everywhere.py::test_aes_project_with_only_pre_commit_is_reported_unwired_then_wrapped
+PASSED tests/rollout/test_install_everywhere.py::test_aes_project_whose_commit_msg_runs_the_rule_is_native_and_not_judged_twice
+PASSED tests/rollout/test_install_everywhere.py::test_tag_the_rule_recognises_passes_a_lagging_prefix_only_hook
+PASSED tests/rollout/test_install_everywhere.py::test_without_aes_the_prefix_only_hook_still_decides
+======================== 56 passed in 736.64s (0:12:16) ========================
+exit=0
+
+=== model freshness (R3) at 2a029abd78da886e81853d600f1507db2533036d ===
+$ grep -n "ENT-COMMIT\|PROC-COMMIT-CHECK" docs/model/ODD.md docs/model/trace.yaml
+docs/model/ODD.md:40:| ENT-COMMIT | a commit and its first-line tag | git; verdicts in `<git-common-dir>/aes/commit-rule-<date>.jsonl` |
+docs/model/ODD.md:51:| PROC-COMMIT-CHECK | every commit (commit-msg hook) | RULE-COMMIT-TAG, RULE-PLAN-ADOPTED-FOR-COMMIT |
+docs/model/trace.yaml:12:  - {id: ENT-COMMIT, what: a git commit and the tag on its first line}
+docs/model/trace.yaml:19:  - id: PROC-COMMIT-CHECK
+exit=0
