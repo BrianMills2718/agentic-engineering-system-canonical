@@ -176,7 +176,7 @@ ODD spread.
 | 2 | Write the three rules as one amendment to decision 0002 and the system-model reference. Plan: element IDs, decided/guessed marks, unknowns table. Build: each element covered by at least one named test, status computed from the last run. Review: a generated status page linked from each review point | 1-2 h | look at one diagram of the rules, about 15 min |
 | 3 | Build the checks in warn mode: plan-adoption check (fixes #119), status computation, review-page generator | 4-6 h | none |
 | 4 | Stress test on qualitative_coding slice 1: intent models, tagged tests, a run, a status page | 4-6 h | open the status page, about 20 min |
-| 5 | Turn warn into refuse in company-planning; apply to the next project touched | about 1 h | none |
+| 5 | (in progress 2026-10-12) Turn warn into refuse in company-planning; apply to the next project touched. Refusing now: qualitative_coding, company-planning (PR #144), agent-skills (model PR agent-skills #490, refuse-list PR pending). Each repo first gets element lines in its declared model; next candidates llm_client, enforced-planning, project-meta, personal-wiki | about 1 h per repo | none |
 
 Total: about 11-16 agent hours, roughly two working days, and about 35 minutes of Brian's time.
 
