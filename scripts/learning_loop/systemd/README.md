@@ -82,7 +82,10 @@ The private log needs the label `source:human`.
 
 `feedback-effects.timer` runs at 07:30 daily, after the collection and weekly
 analysis windows. `problems.py --file --effects-only` reuses analyses and does
-not draft or hand off proposals. Watches survive report-window expiry and group
+not draft or hand off proposals. After it, `policies.py` checks every rule the workspace AGENTS.md names as
+Policy `<id>`: a source entry in WORKING_RULES.md, a project-meta registry entry (enforcement and
+feedback path), and how many nightly reports named it in 30 days. A rule missing either entry opens
+the keyed concern `workspace-policy-unregistered` (log: `policies-runs.jsonl`). Watches survive report-window expiry and group
 identifier changes; revocations persist and reopen the concern only once.
 
 Closing a concern is not enforcement evidence. Before closing it, the adopting

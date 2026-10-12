@@ -8,5 +8,7 @@ WorkingDirectory=%h/.hive-brain/aes
 Environment=FEEDBACK_OUT=%h/projects/data/feedback-collector
 Environment=PROJECT_META=%h/.hive-brain/project-meta
 ExecStart=%h/.local/bin/uv run --quiet --no-project --with-editable %h/code/llm_client python %h/.hive-brain/aes/scripts/learning_loop/problems.py --file --days 14 --effects-only
+# Rule register check (PLAN.md S8): a failure alerts an agent itself, so it never fails the effects run.
+ExecStartPost=-/usr/bin/python3 %h/.hive-brain/aes/scripts/learning_loop/policies.py
 TimeoutStartSec=2h
 Nice=10
