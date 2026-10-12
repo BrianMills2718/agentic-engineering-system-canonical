@@ -103,6 +103,9 @@ supersede or bounded exception:
 | epistemic-warrant: no single combined score | reuse |
 | nanopublication envelope and W3C PROV | compose (envelope fields inside the record model) |
 | Google SRE action intents | reuse |
+
+"Adopt" and "compose" above mean the design reuses the idea. The work claims no conformance to
+PROV, nanopublications or SRE: the records are this plan's own `feedback-report.v1`.
 | ITIL incident versus problem; NASA ASRS narrative then coding | compose (reports first, problems grouped later) |
 | collector, labeller, failure-mode list | extend |
 | `kind:lesson/friction/problem` scheme | supersede |
@@ -202,6 +205,8 @@ comments, labels for kind, family and licence status. The public AES record keep
 | Q9 | Every enforced rule has an observed effect count, and a recurring failure revokes it | governing_authority: vision milestone 7; DESIGN.md R5 |
 | Q10 | Agents adopt and retire rules by their best judgment; Brian is not an approver | explicit_user 2026-10-07 |
 | Q12 | Brian observes a view ranked by impact and uncertainty and is notified of high-impact changes | explicit_user 2026-10-07 |
+| Q13 | Every rule the workspace AGENTS.md names is documented, registered with its enforcement, and on a feedback path | explicit_user 2026-10-12 |
+| Q14 | The review pages show the loop's live state as the run logs record it | derived: the pages' own claim to show current counts |
 | Q11 | The log is private | derived_current_boundary: workspace no-private-information rule; Brian indifferent |
 
 ## Material failure modes and controls
@@ -262,6 +267,7 @@ Sequencing: starts now. An earlier line here sequenced it after vision milestone
 | S7 | live (AES #548; timer daily 09:00 since AES fix-owner-drain) | first runs 2026-10-11 (`fix-owner-runs.jsonl`, trace `fix-owner-2026-10-11.jsonl`): run 1 handled nothing because node was missing under systemd and the Safety Net hook blocked every tool (fixed in `~/.profile`); the check caught the agent's unbacked "deferred" summary and opened project-meta #2541. Run 2 (#390-#392, 31 min): #392 implemented (enforced-planning #655) with a valid receipt; #390/#391 judged already enforced, but a hook-blocked command left their comments empty, which the check caught; re-verified by hand (14 tests passed) and re-posted. Prompt now requires the hook's line and a read-back |
 | S5 | built | needs 30 days of nightly runs after the first enforced rule |
 | Routes | OpenRouter credit exhausted 2026-10-08 (project-meta #2452) | Jev's endpoint still answers; the stronger judge and the analysis run on `FEEDBACK_STRONG_MODEL=claude-code/sonnet` from an interactive shell only (under systemd it returns no JSON); the unattended weekly run needs credit. Notifications: run d sent 9 attention pushes at once; one digest per run would be quieter (open) |
+| Open requirements (2026-10-12) | Q9 planned, Q12 deferred, Q13 failing | see Requirements traced to checks; the requirements page lists the same rows |
 
 Known limitation: a bare `#N` is qualified with the repository of the session's working folder; when the
 agent meant another repository the link is wrong but still marked as a link. Agents writing the new line
@@ -398,6 +404,163 @@ code path that wrote them; any record from an unknown path is flagged in the sum
 (S2 measures Jev against hand labels and a fallback); `llm_central: true` (Jev and the analysis model);
 `irreversible_or_spend_action: true` (model spend; bounded and authorized in Irreversible actions
 and spend; no irreversible action: records are append-only).
+`claims_external_standard: false`: the records borrow field ideas from W3C PROV and nanopublications
+and the intent names from Google SRE postmortems (Current truth and reuse), but no record, page or
+output is presented as a PROV or nanopublication document or as conforming to any outside schema.
+`aes_governed_target: true` (this repository has `.aes/target.yaml`; see AES target below).
+
+## Requirements traced to checks (re-adoption 2026-10-12)
+
+What was asked for is the Requirements table above (Q1-Q12, Q13). What the delivered work claims to
+its users adds Q14: the review pages present themselves as showing the loop's current state. The work
+claims no outside standard (Activation facts). Each requirement, its check and its status, where the
+status is one of passing, failing, planned and not yet run, or deferred with its reason:
+
+| # | Requires | Check | Status |
+| --- | --- | --- | --- |
+| Q1 | every claim carries basis, confidence and evidence word | `tests/learning/test_feedback_records.py` | passing |
+| Q2 | provenance is links; a line without one is `unprovenanced` | `test_feedback_records.py::test_line_without_link_is_unprovenanced` | passing |
+| Q3 | lessons, experiments and research are records too | `test_feedback_records.py` | passing |
+| Q4 | reports are extracted automatically from the Feedback field | `test_feedback_transcripts.py`, `test_subagents.py`; nightly `feedback-collector` run (`runs.jsonl`) | passing |
+| Q5 | fixed-choice sorting by Jev | `test_relation_check.py`; S2 labelling run | passing |
+| Q6 | causes and fixes worked out on grouped problems | `test_problems.py`; weekly `feedback-problems` run | passing |
+| Q7 | failure families feed the audit skill, fixes go to company planning | `docs/failure-modes.md` input section; `test_problems.py` | passing |
+| Q8 | a claim drives a rule only through a derived licence | `test_licences.py` | passing |
+| Q9 | every enforced rule has an observed effect count | `test_feedback_evidence_effects.py`; nightly `feedback-effects` run | planned and not yet run: the 30-day count after the first enforced rule (2026-10-08) completes 2026-11-07 |
+| Q10 | agents adopt or close fixes, Brian is not an approver | `test_fix_owner.py`; daily `feedback-fix-owner` run, trace `fix-owner-<date>.jsonl`, `fix-owner-runs.jsonl` | passing |
+| Q11 | the log is private | log repository is private; publish-checker before a page leaves it | passing |
+| Q12 | Brian sees a ranked view and is notified of high-impact changes | `review-page/requirements.html` browser check | deferred: the page exists, but nothing yet notifies Brian of a high-impact change because the notification rule for ranked changes is not built; carried onto the Status table and the requirements page |
+| Q13 | every named workspace rule is documented, registered and on a feedback path | `tests/learning/test_policies.py`; `policies.py` after each `feedback-effects` run (`policies-runs.jsonl`) | failing: the live run reports 9 rules unregistered; keyed concern `workspace-policy-unregistered` |
+| Q14 | review pages show the live state the run logs record | each page is regenerated from the run logs by its build script in the PR that changes it; browser check of tooltips, filters and phone width | passing |
+
+Deferred and failing rows are carried onto the Status table below, which is this plan's completion
+record, and onto the requirements page (`review-page/requirements.html`).
+
+## When a run fails or surprises us
+
+Separate from the failure modes above, which are anticipated. When a collector, problems, effects,
+fix-owner or policies run fails or does something unexpected:
+
+1. Keep the failed run: its line in the run log (`runs.jsonl`, `fix-owner-runs.jsonl`,
+   `policies-runs.jsonl`) and its trace id (the llm_client call log for that date, or the fix owner's
+   stream-json trace and `session_id`). Never delete or overwrite them.
+2. Read the whole trace before choosing a fix: the inputs (report lines, issue bodies), every prompt,
+   each tool call's arguments and result, the intermediate records, and the final output.
+3. Name the divergence: the exact line where the run did something other than expected.
+4. Classify it: the needed evidence never came back; it came back and went unused or was contradicted;
+   the expectation itself was wrong; or unresolved.
+5. Only a resolved classification licenses a causal repair. An unresolved one licenses more
+   investigation, not a fix.
+6. Repair with a test that reproduces the failure first, then a new traced run that shows it fixed;
+   the original failed run stays linked from the fix's commit or PR.
+
+Whether the trace was read completely is recorded separately from the run's pass or fail. Example
+from this plan: the 2026-10-12 taxonomy failure. Trace `taxonomy-check.log`. The divergence: record
+rec-5d106827762f had two different payloads. The cause was evidence that came back and was
+contradicted, because a deferred report was re-split. The fix is a reproducing test plus a pass run
+on the real log.
+
+## System model
+
+System model: `docs/model/ODD.md` (checked trace `docs/model/trace.yaml`), reachable from
+`wiki/index.md`. It models the AES governance loop under the governed roots. This plan relies on two
+of its elements and adds none:
+
+- ENT-PLAN: this plan, its receipt and adoption decision. The examined run must show the adoption
+  decision `adopted` for the current plan bytes (the `cli.py adopt` output and
+  `method-conformance-receipt.adoption-decision.json`).
+- PROC-COMMIT-CHECK: every commit of this plan carries `[Goal aes-learning-loop]`. The examined run
+  must show the commit-rule log line (`<git-common-dir>/aes/commit-rule-<date>.jsonl`) accepting each
+  commit against this plan, and the fix owner's trace must show the commit rule accepting the commits
+  it makes in other repositories.
+
+The learning loop's own records (report, observation, claim, problem, licence, receipt) are not in
+ODD.md. They live in `scripts/learning_loop/`, outside the governed roots, and are modelled in this
+folder's DESIGN.md ("Record model", "Flow") and `feedback-system.svg`. So ODD.md needs no update.
+
+Scope: `docs/model/ODD.md` is this repository's own model, not a shared one; this plan's scope inside
+it is ENT-PLAN and PROC-COMMIT-CHECK only.
+
+Applicable views, each linked to the source it is drawn from:
+
+| View | Source it is built from |
+| --- | --- |
+| `feedback-system.svg` (the flow) | DESIGN.md "Record model" and "Flow"; the scripts named in each box (`collect_feedback.py`, `problems.py`, `licences.py`, `effects.py`, `fix_owner.py`, `policies.py`) |
+| `review-page/requirements.html` | generated by `build_requirements.py` from Brian's quoted requirements (source and date in each row) and the run logs `runs.jsonl`, `fix-owner-runs.jsonl`, `policies-runs.jsonl` |
+| `review-page/index.html`, `whole-picture.html` | the same run logs and the GitHub issues labelled `source:feedback-loop` |
+
+Omitted on purpose: no ODD.md view of the learning loop, because ODD.md covers only the governed
+roots.
+
+Reconciliation in each change: (a) model: ODD.md and trace.yaml need no update in this plan's PRs
+because no PR here adds or changes an entity, process or rule they model. Every file this plan changes
+is outside the governed roots, which are all that ODD.md models. (b) views: a PR that changes a record
+kind or a stage of the flow updates DESIGN.md and `feedback-system.svg` in the same PR. (c)
+verification evidence: the same PR names the run whose trace verifies the change (Success and what
+would disprove it), and its PR body carries the `Trace-Review:` line.
+
+Freshness: `make docstring-wiki-check` and `scripts/hive/brain_fresh.py` cover the repository. This
+folder's pages are rebuilt from the live run logs, and the requirements page is regenerated from its
+build script before each change. Any change to the learning loop's record kinds updates DESIGN.md
+and the SVG in the same PR.
+
+## Capability reuse
+
+No catalogue entry fits, because the catalogue (`agentic-capability-architecture-canonical`
+`reuse_candidates.yml`: approval_action_workflow, twitterapi_io_search_candidates_wrapper,
+documents_to_text; `capability_registry.yml`: core, approvals, notifications) holds Frappe apps and
+document or search wrappers. This plan needs report extraction from agent transcripts, licence
+derivation and effect counting, and no entry provides those. Its notifications go through project-meta
+`notify_operator.py`, which is not a catalogue entry.
+
+## Contracts and dependencies
+
+| Schema or contract | Owner, file | Producer | Consumer | Changed here? | Lands |
+| --- | --- | --- | --- | --- | --- |
+| Feedback field grammar | workspace `~/projects/.claude/AGENTS.md`; agent-skills `skills/learned/SKILL.md` | agents' closeouts | `collect_feedback.py` | no | unchanged |
+| `feedback-report.v1` records | AES `scripts/learning_loop/records.py` | `collect_feedback.py` | `problems.py`, `licences.py`, agent-skills `taxonomy_feedback_pass.py` | no (shape unchanged) | unchanged |
+| taxonomy entry identity | agent-skills `scripts/taxonomy_feedback_pass.py` | `taxonomy_feedback_pass.py` | the taxonomy register and `taxonomy-feedback` job | yes: identity is contract, kind, text and source | 1st: consumer tolerates re-parsed records |
+| re-emitted report records | AES `collect_feedback.py` `split_one` | `collect_feedback.py` | the same consumers | yes (planned): reuse earlier records for a re-emitted report | 2nd, after the taxonomy fix is live |
+| `<!-- feedback-enforcement -->`, `<!-- fix-owner-disposition -->` markers | AES `effects.py`, `fix_owner.py` | the fix-owner agent's issue comments | `effects.py`, `fix_owner.check` | no | unchanged |
+| keyed concern (`--key`, `--severity agent`) | project-meta `scripts/notify_operator.py` | `policies.py`, `fix_owner.py` | the concern queue's owning agent | no; new key `workspace-policy-unregistered` | with `policies.py` (#557) |
+| `policy/registry.yaml` entries | project-meta | project-meta policy owners | `policies.py` (read only) | no | independent |
+| "Sources for AGENTS.md rules" | workspace `WORKING_RULES.md` | rule authors | `policies.py` (read only) | no | independent |
+
+Boundaries this plan crosses, and the table is exhaustive for them: agent closeouts to the collector;
+collector to its consumers (problems, licences, taxonomy); the fix owner and effects to GitHub issues;
+the loop to the concern queue; `policies.py` to project-meta and to the workspace rules. Owner files:
+project-meta is `~/.hive-brain/project-meta` (GitHub `BrianMills2718/project-meta`), so the registry is
+`policy/registry.yaml` there and `notify_operator.py` is `scripts/notify_operator.py` there.
+
+Order: the taxonomy consumer change lands before the collector change, so the nightly taxonomy job reads
+both the records already on disk and the ones the collector writes later; until the collector change
+lands, the consumer keeps one entry per re-parsed report. `policies.py` only reads, so no consumer can
+break when it lands. Registering the missing policies in project-meta only shrinks what it reports.
+
+## AES target
+
+This repository is governed by `.aes/target.yaml`. This plan changes none of the target: its code lives
+in `scripts/learning_loop/` and `tests/learning/`, outside the governed roots
+(`src/agentic_engineering_system/`, `tests/greenfield/`), so no target delta exists and no
+`aes plan validate` run applies. Its requirements serve existing target items as follows. The
+behaviour of each requirement is verified by the named check in the table above, because the target
+has no criterion for the learning loop's behaviour.
+
+| Requirements | Target item | Success criterion | Verification subject |
+| --- | --- | --- | --- |
+| Q1-Q14 (each lands as commits tagged `[Goal aes-learning-loop]` under this adopted plan) | AP-REQ-001 (OUT-AP-001) | SC-AP-001 | ER-AP-001-01 (deterministic test of the commit rule); ER-AP-001-02 (runtime observation: the commit-rule log line accepting each commit of this plan) |
+| Q4, Q5, Q6, Q10, Q13 (work that runs a model, agent or pipeline is judged from its read trace) | TR-REQ-001 (OUT-AP-001) | SC-TR-001 | ER-TR-001-01 (deterministic test); this plan's trace reviews under Success and what would disprove it |
+
+The agent-skills change (taxonomy identity) is in a repository with no AES target; its requirement is
+verified by that repository's own check, `tests/test_taxonomy_feedback_pass.py`.
+
+The adopting repository declares durable documents in `.agentic/repo.yaml` (`durable_documents`:
+goal, requirements, system_model, decisions, plans, glossary, catalog).
+
+Durable documents: none -- this plan changes no goal, requirement in `.aes/target.yaml`, system-model
+rule, decision or `docs/plans/` entry; its design and status live in this proposal folder. At
+completion it runs `durable_docs_check.py --repo . --plan proposals/aes-learning-loop/PLAN.md --range
+<adoption revision>..HEAD`, which must exit 0.
 
 ## External-call budget
 
