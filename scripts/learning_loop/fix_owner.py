@@ -33,6 +33,7 @@ import effects as EF  # noqa: E402
 RULE_REPO = "BrianMills2718/agentic-engineering-system-canonical"
 OUT = Path(os.environ.get("FEEDBACK_OUT", Path.home() / "projects/data/feedback-collector"))
 PROJECT_META = Path(os.environ.get("PROJECT_META", Path.home() / ".hive-brain/project-meta"))
+CLAIMS_TOOL = Path(os.environ.get("CLAIMS_TOOL", Path.home() / "code/enforced-planning/scripts/check_coordination_claims.py"))
 ATTEMPT = "<!-- fix-owner-attempt "
 DISPOSITION = "<!-- fix-owner-disposition "
 RETRY_AFTER = dt.timedelta(days=6)
@@ -75,6 +76,12 @@ Posting comments: end every comment body with a line `Trace-Review: none (<why n
 A blocked command runs none of its parts, including file writes earlier in it. After each comment,
 read it back (`gh issue view N --json comments`) and confirm both markers are present before you
 close the issue; this script checks the same thing afterwards and fails the run on any mismatch.
+
+This is a headless run: it ends when you stop replying with nothing still running. A check
+longer than ten minutes runs detached (`systemd-run --user --unit=<name> ...`, output to a file);
+wait for it with a background command that has no timeout (`while systemctl --user is-active -q
+<name>; do sleep 60; done`), and do not finish while any lane you opened is still open: close
+it through its session-close route, or record why in a deferred disposition.
 
 Stop after these {n} items. Do not start other work. Never force-push, delete branches or
 history, publish, deploy, send anything outward, or spend money beyond this session.
@@ -167,22 +174,45 @@ def run(a: argparse.Namespace) -> int:
            "--permission-mode", "bypassPermissions", "--max-budget-usd", str(a.max_budget_usd)]
     t0 = time.monotonic()
     OUT.mkdir(parents=True, exist_ok=True)
+    # `claude -p` kills background commands 10 minutes after its last reply; a repository's
+    # full check can take ~50, and run 1 (2026-10-12) lost one that way, leaving an unmerged
+    # change and a live claim. The service's TimeoutStartSec still bounds the whole run.
+    env = {**os.environ, "CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS": "0"}
     with trace.open("a") as fh:
-        p = subprocess.run(cmd, cwd=Path.home() / "code", stdout=fh, stderr=subprocess.STDOUT, text=True)
+        p = subprocess.run(cmd, cwd=Path.home() / "code", stdout=fh, stderr=subprocess.STDOUT, text=True, env=env)
     record["agent_exit"], record["agent_seconds"] = p.returncode, round(time.monotonic() - t0)
     record["agent_summary"], record["session_id"] = _summary(trace)
     record["checks"] = [check(r["number"]) for r in picked]
+    record["left_claims"] = left_claims(record["session_id"])
     bad = [c["issue"] for c in record["checks"] if not c["valid"]]
-    record["exit"] = 1 if bad or p.returncode else 0
+    record["exit"] = 1 if bad or p.returncode or record["left_claims"] else 0
     _log(record)
     for c in record["checks"]:
         print(f"  #{c['issue']} disposition={c['disposition']} state={c['state']}/{c['state_reason'] or '-'} "
               f"receipt={'yes' if c['receipt'] else 'no'} valid={c['valid']}")
+    for scope in record["left_claims"]:
+        print(f"  LEFT OPEN claim {scope} (the agent's session ended without closing its lane)")
     print(f"RESULT fix-owner picked={len(picked)} valid={len(picked) - len(bad)} invalid={len(bad)} "
-          f"agent_exit={p.returncode} seconds={record['agent_seconds']} exit={record['exit']}")
+          f"left_claims={len(record['left_claims'])} agent_exit={p.returncode} "
+          f"seconds={record['agent_seconds']} exit={record['exit']}")
     if record["exit"] and not a.no_alert:
-        alert(record["exit"], f"Items without a valid disposition: {bad}; agent exit {p.returncode}. Trace: {trace}")
+        alert(record["exit"], f"Items without a valid disposition: {bad}; lanes left open: {record['left_claims']}; "
+                              f"agent exit {p.returncode}. Trace: {trace}")
     return record["exit"]
+
+
+def left_claims(session_id: str | None) -> list[str]:
+    """Claims the agent's own session still holds: a lane it opened and never closed."""
+    if not session_id:
+        return []
+    p = subprocess.run([sys.executable, str(CLAIMS_TOOL), "--list", "--json"], capture_output=True, text=True,
+                       timeout=120, cwd=Path.home() / "code")
+    try:
+        claims = json.loads(p.stdout)["claims"]
+    except (ValueError, KeyError) as exc:
+        return [f"unknown (claim list unreadable: {exc!r})"]
+    return [f"{c.get('project')}:{c.get('scope')}" for c in claims
+            if (c.get("session_id") or "").endswith(session_id)]
 
 
 def _summary(trace: Path) -> tuple[dict | None, str | None]:
