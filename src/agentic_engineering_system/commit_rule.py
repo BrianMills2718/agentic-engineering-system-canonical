@@ -1026,6 +1026,17 @@ def _log(root: Path, entry: dict) -> Path:
     return path
 
 
+def message_tag(message_file: Path) -> str | None:
+    """The tag on the message's first line under TAG_RE, the one grammar for commit tags (#414), or None.
+
+    Chained repository hooks ask this (`aes commit tag`) instead of keeping their own copy of the
+    grammar, which drifted: project-meta's prefix list held a lowercase-only Goal pattern (#297)."""
+    lines = [l for l in message_file.read_text(encoding="utf-8").splitlines() if not l.startswith("#")]
+    first = next((l.strip() for l in lines if l.strip()), "")
+    match = TAG_RE.match(first)
+    return match.group(0)[1:-1] if match else None
+
+
 def check_message(root: Path, message_file: Path) -> tuple[int, str]:
     """Judge the commit being made; return (exit status, report). Observe mode never refuses."""
     root = root.resolve()

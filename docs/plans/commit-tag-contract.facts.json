@@ -1,0 +1,21 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "docs/plans/commit-tag-contract.md",
+  "plan_sha256": "a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb",
+  "path_decision_ref": "docs/plans/commit-tag-contract.path-decision.json",
+  "path_decision_sha256": "ea1590c21c3059744dc3a91c03fc7f9bfa2d989b8b47add745f54cc8ba28136a",
+  "facts": {
+    "shared_mechanism": true,
+    "empirical_comparison_proposed": false,
+    "llm_central": false,
+    "irreversible_or_spend_action": false
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-12T05:15:10Z"
+}

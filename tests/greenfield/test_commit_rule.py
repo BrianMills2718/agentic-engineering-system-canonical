@@ -896,3 +896,24 @@ def test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild(
     after = cr.build_plan_index(ws, index)
     assert any("merged" in e["plans"] for e in after["repos"].values())
     assert _git(repo, "rev-parse", "HEAD").stdout.strip() == consumer_sha
+
+
+@pytest.mark.parametrize(("first_line", "tag"), [
+    ("[Goal Upper-Case-1] capitals in a plan id", "Goal Upper-Case-1"),
+    ("[Plan #3] numbered plan", "Plan #3"),
+    ("[Trivial] typo", "Trivial"),
+    ("[Shaping some-plan] draft", "Shaping some-plan"),
+    ("[Bogus] not a commit-rule tag", None),
+    ("no tag at all", None),
+])
+def test_commit_tag_prints_the_rule_grammar_tag(tmp_path: Path, first_line: str, tag: str | None,
+                                                capsys: pytest.CaptureFixture[str]) -> None:
+    """#414: chained repository hooks ask `aes commit tag` instead of keeping their own grammar copy."""
+    message = tmp_path / "COMMIT_EDITMSG"
+    message.write_text(f"# git comment line\n{first_line}\n\nbody\n", encoding="utf-8")
+    status = main(["commit", "tag", str(message)])
+    out = capsys.readouterr().out.strip()
+    assert (status, out or None) == ((0, tag) if tag else (1, None))
+    entry_tag = judge(message.read_text(encoding="utf-8").split("\n", 1)[1], [], [],
+                      RuleConfig(mode="observe")).tag
+    assert (entry_tag != "none") == (tag is not None), entry_tag  # same split as the rule itself

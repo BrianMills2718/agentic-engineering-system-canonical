@@ -11,7 +11,9 @@ that records each run (the rule itself is tested in tests/greenfield/test_commit
 from __future__ import annotations
 
 import importlib.util
+import os
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -102,3 +104,66 @@ def test_aes_project_whose_commit_msg_runs_the_rule_is_native_and_not_judged_twi
     done = _git(repo, "commit", "-m", "[Trivial] add a")
     assert done.returncode == 0, done.stderr
     assert _ran(home) == ["own-pre-commit", "own-aes-commit-msg"]
+
+
+# project-meta's hooks/commit-msg template, reduced to its logic: a regex list with a lowercase-only Goal
+# pattern (the divergence in #297/#414). Its docstring carries the marker the wrapper looks for.
+PREFIX_ONLY_HOOK = f'''#!/usr/bin/env python3
+"""Commit-msg hook that {inst.PREFIX_ONLY_MARK}."""
+import re, sys
+first = open(sys.argv[1], encoding="utf-8").read().splitlines()[0]
+prefixes = [r"\\[Goal [a-z0-9][a-z0-9._:-]*\\]", r"\\[Plan #\\d+\\]", r"\\[Trivial\\]", r"\\[Docs\\]"]
+if any(re.match(p, first) for p in prefixes):
+    sys.exit(0)
+print("ERROR: Commit message must start with a valid prefix.", file=sys.stderr)
+sys.exit(1)
+'''
+
+
+def _prefix_only_repo(home: Path) -> Path:
+    repo = home / "pm"
+    repo.mkdir()
+    _git(repo, "init", "-q", "-b", "main")
+    _exec(repo / "hooks" / "commit-msg", PREFIX_ONLY_HOOK)
+    _git(repo, "config", "core.hooksPath", "hooks")
+    inst.install_local(repo)
+    return repo
+
+
+def _real_aes(home: Path) -> Path:
+    """An `aes` on PATH that is this checkout's CLI, so the wrapper asks the real commit-rule grammar."""
+    src = Path(__file__).resolve().parents[2] / "src"
+    bin_dir = home / "bin"
+    _exec(bin_dir / "aes", f'#!/bin/sh\nPYTHONPATH="{src}" exec "{sys.executable}" -m agentic_engineering_system.cli "$@"\n')
+    return bin_dir
+
+
+def _commit(repo: Path, message: str, env: dict[str, str]) -> subprocess.CompletedProcess[str]:
+    (repo / "f.txt").write_text(message, encoding="utf-8")
+    _git(repo, "add", "f.txt")
+    return subprocess.run(["git", "-c", "user.name=probe", "-c", "user.email=probe@example.invalid",
+                           "commit", "-q", "-m", message], cwd=repo, capture_output=True, text=True, env=env)
+
+
+def test_tag_the_rule_recognises_passes_a_lagging_prefix_only_hook(home: Path) -> None:
+    """#414: a valid [Goal <Upper-case id>] was refused by the chained copy of project-meta's prefix list."""
+    repo = _prefix_only_repo(home)
+    env = {**os.environ, "PATH": f"{_real_aes(home)}:{os.environ['PATH']}", "HOME": str(home)}
+    done = _commit(repo, "[Goal PATH-Upper-1] work under a capitalised plan id", env)
+    assert done.returncode == 0, done.stderr
+    assert "valid prefix" not in done.stderr
+    bogus = _commit(repo, "[Bogus] not a tag anywhere", env)
+    assert bogus.returncode == 1 and "must start with a valid prefix" in bogus.stderr
+    legacy = _commit(repo, "[Docs] a tag only this repository's list knows", env)
+    assert legacy.returncode == 0, legacy.stderr
+
+
+def test_without_aes_the_prefix_only_hook_still_decides(home: Path) -> None:
+    """A missing aes must not open the gate: the repository's own list is then the only judge."""
+    repo = _prefix_only_repo(home)
+    path = ":".join(p for p in os.environ["PATH"].split(":") if not (Path(p) / "aes").exists())
+    env = {**os.environ, "PATH": path, "HOME": str(home)}
+    refused = _commit(repo, "[Goal PATH-Upper-1] capitalised id, no aes to ask", env)
+    assert refused.returncode == 1 and "must start with a valid prefix" in refused.stderr
+    done = _commit(repo, "[Goal lower-1] lowercase id the list accepts", env)
+    assert done.returncode == 0, done.stderr
