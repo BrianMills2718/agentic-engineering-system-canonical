@@ -46,12 +46,13 @@ code{font-size:13px}</style></head><body><main>
 <div class="card"><b>Action</b>Investigate (experiments, research), Mitigate, Repair, Detect or Prevent, with its result linked.</div></div>
 <h2>Build order</h2>
 <table><tr><th>Slice</th><th>Delivers</th><th>State</th></tr>
-<tr><td>S1</td><td>New Feedback format for all agents; collector writes linked records to a private log</td><td>ready to specify</td></tr>
-<tr><td>S2</td><td>Measure whether Jev judges "supports / challenges / same problem" well enough (8 of 10)</td><td>needs a measurement</td></tr>
-<tr><td>S3</td><td>Weekly grouping and cause analysis of recurring problems</td><td>after S2</td></tr>
-<tr><td>S4</td><td>Licences derived by the Observation-to-Action evaluator; agents adopt rules; your ranked view and notifications</td><td>after S3</td></tr>
-<tr><td>S5</td><td>Count whether each enforced rule stopped its failure</td><td>after S4</td></tr>
-<tr><td>S6</td><td>Re-label the 68 existing feedback issues</td><td>deferred</td></tr></table>
+<tr><td>S1</td><td>New Feedback format for all agents; collector writes linked records to a private log</td><td>live: nightly since 8 Oct</td></tr>
+<tr><td>S2</td><td>Measure whether Jev judges "supports / challenges / same problem" well enough (8 of 10)</td><td>done</td></tr>
+<tr><td>S3</td><td>Weekly grouping and cause analysis of recurring problems</td><td>shown on real data 8 Oct</td></tr>
+<tr><td>S4</td><td>Licences derived by the Observation-to-Action evaluator; agents adopt rules; your ranked view and notifications</td><td>shown on real data 8 Oct; 25 fixes proposed so far</td></tr>
+<tr><td>S5</td><td>Count whether each enforced rule stopped its failure</td><td>built; counting 10 fixes; a verdict needs about 30 days</td></tr>
+<tr><td>S6</td><td>Re-label the 68 existing feedback issues</td><td>deferred</td></tr>
+<tr><td>S7</td><td>Daily fix agent: takes up to 3 open fixes a day, lands each one or closes it with a reason, and records a receipt</td><td>live since 11 Oct; backlog cleared 12 Oct (20 enforced, 0 waiting)</td></tr></table>
 <h2>What you see</h2><p>A page ranked by <b>impact</b> (how many sessions and repositories a problem hits, how often, what it cost) and then <b>uncertainty</b> (how thin the evidence is, whether a rule's effect is measured yet). High impact with high uncertainty is at the top. You are notified when a high-impact rule is adopted or a rule is revoked, plus a weekly one-line digest. Nothing asks you to approve.</p>
-<p class="s" style="font-size:13px;color:var(--muted)">Plan: <code>proposals/aes-learning-loop/PLAN.md</code>. Building starts now. Adopted by the planning agent (you asked not to approve goals).</p>
+<p class="s" style="font-size:13px;color:var(--muted)">States as of 12 October 2026; current numbers: <a href="whole-picture.html">whole picture</a>. Plan: <code>proposals/aes-learning-loop/PLAN.md</code>. Building starts now. Adopted by the planning agent (you asked not to approve goals).</p>
 </main></body></html>
