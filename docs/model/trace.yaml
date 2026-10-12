@@ -3,7 +3,7 @@
 # and the decision records that say why. The rule text itself lives in the owner's
 # docstring and in .aes/target.yaml; the statements below are one-line pointers.
 # Checked by company-planning plugins/company-planning/scripts/durable_docs_check.py.
-reviewed_at: 2026-10-12
+reviewed_at: 2026-10-12  # re-read after the parent-folder lookup change
 scope: >-
   The v0.2 governance loop (Decision 0010): commit tags, plan acceptance, characterization,
   evidence standing and reconciliation. The v0.1 line (Plan 002), the repository-context

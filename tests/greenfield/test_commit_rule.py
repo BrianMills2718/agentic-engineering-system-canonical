@@ -808,9 +808,10 @@ def _fake_durable_check(tmp_path: Path, findings: str) -> Path:
     return script
 
 
-def test_durable_docs_check_observe_and_skips(repo: Path, tmp_path: Path) -> None:
+def test_durable_docs_check_observe_and_skips(repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """durable: observe only logs a refusal; an unchanged declared document is a note, not a refusal; a missing
     check script leaves a note and never refuses; a quick plan without the completion command gets no check."""
+    monkeypatch.setitem(ENV, "AES_DURABLE_DOCS_CHECK", "")  # the variable outranks durable_check; use the stubs
     unnamed = "FINDING PLAN-OWNER-UNNAMED role=system_model id=RULE-A file=src/whygame5/graph.py: name it"
     script = _fake_durable_check(tmp_path, unnamed)
     _durable_repo(repo, script, "Durable documents: none -- tidy wording only here")
