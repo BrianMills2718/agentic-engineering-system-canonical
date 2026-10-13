@@ -78,7 +78,13 @@ while q:
     for target in LINK.findall(blobs.read(cur)):
         if "://" in target or target.startswith(("#", "mailto:")):
             continue
-        path = os.path.normpath(os.path.join(os.path.dirname(cur), unquote(target.split("#")[0])))
+        target = unquote(target.split("#")[0])
+        if target.startswith("/"):  # root-relative: repo root first, then wiki/ (same as md_file_cap)
+            path = os.path.normpath(target.lstrip("/"))
+            if path not in md:
+                path = os.path.normpath(os.path.join("wiki", path))
+        else:
+            path = os.path.normpath(os.path.join(os.path.dirname(cur), target))
         if path in md and path not in dist:
             dist[path] = dist[cur] + 1
             q.append(path)
