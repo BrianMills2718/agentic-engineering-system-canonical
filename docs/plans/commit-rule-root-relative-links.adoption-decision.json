@@ -3,14 +3,14 @@
   "record_type": "method_adoption_decision",
   "decision": "adopted",
   "plan_ref": "docs/plans/commit-rule-root-relative-links.md",
-  "plan_sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+  "plan_sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
   "receipt_ref": "docs/plans/commit-rule-root-relative-links.receipt.json",
-  "receipt_sha256": "852544ffd9313ee67cf337d6e84250e90ea853082b11e7af7a05b22e08d3afd5",
+  "receipt_sha256": "92cfd038dfbc12e9876e8fcf81a16bd8dd10f84a28d0f33f67bdc841f19eb341",
   "receipt_result": "pass",
   "reason_codes": [],
   "summary": [
     "pass: 13 items evidenced, 1 confirmed not applicable, 0 advisory deviation(s)",
     "warn CORE-SYSTEM-MODEL: MODEL-NO-ELEMENT-IDS, MODEL-NO-UNKNOWNS -> MODEL-NO-ELEMENT-IDS: docs/model/trace.yaml has no element lines; write each as `- ID (decided|guessed): what it is` (this repository declares its system model as docs/model/ODD.md in .agentic/repo.yaml; link that instead); MODEL-NO-UNKNOWNS: docs/model/trace.yaml has no unknowns table (header `| Unknown | What would decide it |`)"
   ],
-  "decided_at": "2026-10-13T17:54:53Z"
+  "decided_at": "2026-10-13T18:01:33Z"
 }

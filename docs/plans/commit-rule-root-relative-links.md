@@ -10,6 +10,8 @@ conflict_surfaces:
   - {kind: repository_path, repository: "BrianMills2718/agentic-engineering-system-canonical", target: "src/agentic_engineering_system/commit_rule.py", access: write}
   - {kind: repository_path, repository: "BrianMills2718/agentic-engineering-system-canonical", target: "tests/greenfield/test_commit_rule.py", access: write}
   - {kind: repository_path, repository: "BrianMills2718/agentic-engineering-system-canonical", target: "generated/docstring_wiki.md", access: write}
+  - {kind: repository_path, repository: "BrianMills2718/agentic-engineering-system-canonical", target: "docs/model/trace.yaml", access: write}
+  - {kind: repository_path, repository: "BrianMills2718/agentic-engineering-system-canonical", target: "wiki/index.md", access: write}
 trace_review_criteria:
   - criterion_id: outcome
     expected_outcome: pass
@@ -17,8 +19,8 @@ goal:
   outcome: "aes commit check resolves a Markdown link starting with / against the repository root, then wiki/, so new pages a wiki links root-relatively count as reached"
   canonical_example: "personal-wiki worktrees/v1-calls has 25 new pages that wiki/index.md links as /people/..., /places/...; aes commit check currently refuses them and accepts them after the fix."
   forbidden_substitutes: "claiming success from a check's last line or exit status alone; a change outside the listed files; a commit without the saved check output"
-  boundaries: "only these files: src/agentic_engineering_system/commit_rule.py, tests/greenfield/test_commit_rule.py, generated/docstring_wiki.md; no irreversible action and no spend; Brian's request as quoted is the scope"
-  done_when: "tests/greenfield/test_commit_rule.py::test_root_relative_links_resolve_against_the_repo_root_then_the_wiki_folder asserts a commit adding wiki/people/a.md (linked /people/a.md) and docs/b.md (linked /docs/b.md) is accepted while an unlinked page is still refused; ::test_a_shaping_commit_may_link_its_proposal_root_relatively asserts a [Shaping] commit whose wiki line links /proposals/<id>/plan.md is accepted as navigation; both fail before the fix and pass after; the rest of test_commit_rule.py passes. The check's full output on the parent commit and on the change commit is committed as docs/plans/commit-rule-root-relative-links.check.txt, and the commit is tagged [Goal commit-rule-root-relative-links] with an Asked: line quoting the request. python3 \"$SESSION_PLUGIN_ROOT/scripts/durable_docs_check.py\" --repo . --plan docs/plans/commit-rule-root-relative-links.md --range 8ce5a66c7dfe73ee1053dc918ef4e45c22db4c01..HEAD exits 0 and its output is in the same file."
+  boundaries: "only these files: src/agentic_engineering_system/commit_rule.py, tests/greenfield/test_commit_rule.py, generated/docstring_wiki.md, docs/model/trace.yaml, wiki/index.md; no irreversible action and no spend; Brian's request as quoted is the scope"
+  done_when: "tests/greenfield/test_commit_rule.py::test_root_relative_links_resolve_against_the_repo_root_then_the_wiki_folder asserts a commit adding wiki/people/a.md (linked /people/a.md) and docs/b.md (linked /docs/b.md) is accepted while an unlinked page is still refused; ::test_a_shaping_commit_may_link_its_proposal_root_relatively asserts a [Shaping] commit whose wiki line links /proposals/<id>/plan.md is accepted as navigation; both fail before the fix and pass after; the rest of test_commit_rule.py passes. The check's full output on the parent commit and on the change commit is committed as docs/plans/commit-rule-root-relative-links.check.txt, and the commit is tagged [Goal commit-rule-root-relative-links] with an Asked: line quoting the request. python3 \"$SESSION_PLUGIN_ROOT/scripts/durable_docs_check.py\" --repo . --plan docs/plans/commit-rule-root-relative-links.md --range fecf733682da79461ec31f28d18420f089552a85..HEAD exits 0 and its output is in the same file."
   do_not_gate_on: "Brian's review of the plan page; work outside the listed files"
 ---
 
@@ -74,9 +76,9 @@ This repository is governed by an AES target (`.aes/target.yaml`). How R1 onward
 
 This repository declares durable documents (`durable_documents` in `.agentic/repo.yaml`); its declared roles are `goal`, `requirements`, `system_model`, `decisions`, `plans`, `catalog`. Each role named below is one of them (checked by quick-adopt).
 
-Durable documents: none -- the goal (docs/architecture/GOAL.md), requirements (.aes/target.yaml), system model (ODD.md, trace.yaml) and decisions describe what the commit rule enforces, not how a link path string is resolved; this fix makes the code match the rule they already state (a new page linked from wiki/index.md counts as reached), so none of them becomes wrong or incomplete
+Durable documents: system_model#RULE-COMMIT-TAG, system_model#RULE-PLAN-ADOPTED-FOR-COMMIT, system_model#RULE-DURABLE-DOCS-FOR-COMMIT
 
-At completion, `python3 "$SESSION_PLUGIN_ROOT/scripts/durable_docs_check.py" --repo . --plan docs/plans/commit-rule-root-relative-links.md --range 8ce5a66c7dfe73ee1053dc918ef4e45c22db4c01..HEAD` must exit 0; its full output is appended to `docs/plans/commit-rule-root-relative-links.check.txt` (the durable-documents check, Plan #61; `durable_docs_check.py` ships in the Company Planning plugin).
+At completion, `python3 "$SESSION_PLUGIN_ROOT/scripts/durable_docs_check.py" --repo . --plan docs/plans/commit-rule-root-relative-links.md --range fecf733682da79461ec31f28d18420f089552a85..HEAD` must exit 0; its full output is appended to `docs/plans/commit-rule-root-relative-links.check.txt` (the durable-documents check, Plan #61; `durable_docs_check.py` ships in the Company Planning plugin).
 
 ## Success and disproof
 
@@ -101,7 +103,7 @@ At completion, `python3 "$SESSION_PLUGIN_ROOT/scripts/durable_docs_check.py" --r
 Checked against the capability catalogue in agentic-capability-architecture-canonical (`reuse_candidates.yml` and `capability_registry.yml`):
 
 - No catalogue entry fits, because this is a bug fix inside the existing commit rule, adding no capability
-- What the work needs that no entry provides: edits to this repository's own files (`src/agentic_engineering_system/commit_rule.py`, `tests/greenfield/test_commit_rule.py`, `generated/docstring_wiki.md`); catalogue entries are cross-project capabilities, and none edits a repository's own source.
+- What the work needs that no entry provides: edits to this repository's own files (`src/agentic_engineering_system/commit_rule.py`, `tests/greenfield/test_commit_rule.py`, `generated/docstring_wiki.md`, `docs/model/trace.yaml`, `wiki/index.md`); catalogue entries are cross-project capabilities, and none edits a repository's own source.
 
 ## Uncertainties
 
@@ -110,7 +112,7 @@ make the change exceed this plan's scope.
 
 | Material uncertainty | Owner or resolving evidence |
 | --- | --- |
-| Whether the change needs files beyond the list below; if so it is out of scope for this plan | Resolved before editing: git diff --stat in the worktree: commit_rule.py and test_commit_rule.py (plus regenerated generated/docstring_wiki.md if its check requires) |
+| Whether the change needs files beyond the list below; if so it is out of scope for this plan | Resolved before editing: git diff --stat 8ce5a66c7 in the worktree: commit_rule.py, test_commit_rule.py, generated/docstring_wiki.md, wiki/index.md (one navigation line for the plan), docs/model/trace.yaml (reviewed_at re-read date); reach.py is committed separately under [Shaping aes-brownfield-docs] |
 
 ## Vertical and reset
 
@@ -119,6 +121,8 @@ One vertical over these files (and the saved check output, `docs/plans/commit-ru
 - `src/agentic_engineering_system/commit_rule.py`
 - `tests/greenfield/test_commit_rule.py`
 - `generated/docstring_wiki.md`
+- `docs/model/trace.yaml`
+- `wiki/index.md`
 
 The vertical delivers: aes commit check resolves a Markdown link starting with / against the repository root, then wiki/, so new pages a wiki links root-relatively count as reached. It is done when this holds: tests/greenfield/test_commit_rule.py::test_root_relative_links_resolve_against_the_repo_root_then_the_wiki_folder asserts a commit adding wiki/people/a.md (linked /people/a.md) and docs/b.md (linked /docs/b.md) is accepted while an unlinked page is still refused; ::test_a_shaping_commit_may_link_its_proposal_root_relatively asserts a [Shaping] commit whose wiki line links /proposals/<id>/plan.md is accepted as navigation; both fail before the fix and pass after; the rest of test_commit_rule.py passes.
 

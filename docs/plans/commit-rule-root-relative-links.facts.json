@@ -2,9 +2,9 @@
   "schema_version": "method-activation-facts.v1",
   "record_type": "method_activation_facts",
   "plan_ref": "docs/plans/commit-rule-root-relative-links.md",
-  "plan_sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+  "plan_sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
   "path_decision_ref": "docs/plans/commit-rule-root-relative-links.path-decision.json",
-  "path_decision_sha256": "3639058a1f8157dd9dd3f60be75239efc433cbdf65aef097de313c2729faf5ab",
+  "path_decision_sha256": "0b24ef0b396f84d3f622636d0b751cc193c1f6c39853cf8596f1392873eb67aa",
   "facts": {
     "shared_mechanism": false,
     "empirical_comparison_proposed": false,
@@ -17,5 +17,5 @@
     "llm_central": "derived_current_boundary",
     "irreversible_or_spend_action": "derived_current_boundary"
   },
-  "recorded_at": "2026-10-13T17:54:41Z"
+  "recorded_at": "2026-10-13T18:01:21Z"
 }

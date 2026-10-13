@@ -62,6 +62,15 @@
     "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/5892797900b8/OV-PROTO-VERTICAL-RESET",
     "verdict": "pass"
   },
+  "1c9374e5a3e8be7f6082ec332e67b82ec086690b993a6eaa27fe5a592c5433af": {
+    "item_id": "CORE-REQUIREMENTS-TRACED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan explicitly lists requirement R1, identifies its check as the success check with output saved to `docs/plans/commit-rule-root-relative-links.check.txt`, and gives its status as \u201cplanned, not yet run.\u201d It also explicitly states that the change makes no additional claims implying requirements beyond R1.",
+    "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/CORE-REQUIREMENTS-TRACED",
+    "verdict": "pass"
+  },
   "1f7579e3d093dacdca28b0cd0e897efe677923e0155456adeb90ee52f53ec33f": {
     "item_id": "OV-PROTO-VERTICAL-RESET",
     "materiality": "non_material",
@@ -179,6 +188,15 @@
     "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/5892797900b8/OV-AES-TARGET-TRACE",
     "verdict": "pass"
   },
+  "4fc818806f6722179b044ec943eeed3fb7a9af71beb76f6c09e0ea94b5579850": {
+    "item_id": "CORE-UNCERTAINTIES",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly identifies the complete set of material uncertainties as one uncertainty: whether the change needs files beyond the listed files. It also provides resolving evidence\u2014a pre-edit git diff/stat check\u2014and states the resulting file set, including the separately committed reach.py.",
+    "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  },
   "549d6d1b908261158abcaf2ed520b66ac0cb752106978589ab334d7b2240d732": {
     "item_id": "CORE-TRACE-REVIEW",
     "materiality": "non_material",
@@ -213,6 +231,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence defines a separate procedure for any failed or surprising run, preserves the complete failed run and trace ID, requires reviewing inputs, prompts, tool arguments/results, intermediate stages, and final output, and requires citing and classifying the divergence. It also links a targeted repair to a new traced verification run while retaining the original, prohibits causal repair for unresolved diagnoses, and distinguishes complete review from the run verdict.",
     "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/cc2408a1725a/CORE-TRACE-DEBUGGING",
+    "verdict": "pass"
+  },
+  "72b60a2f6e03edb6115cf326fb822b4415475a089d44724cc38816c9ac830b8d": {
+    "item_id": "OV-DURABLE-DOCS-DECLARED",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence declares the repository\u2019s durable-document roles and names three declared system_model roles with element IDs. It also requires running `durable_docs_check.py` for the plan and adoption revision range at completion, with exit status 0.",
+    "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/OV-DURABLE-DOCS-DECLARED",
     "verdict": "pass"
   },
   "72c1ce1fdd6f495002b2b4f7d33ef73734dbad7a71ef23a8cfbc66080c5c564d": {
@@ -278,6 +305,24 @@
     "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/5892797900b8/CORE-UNCERTAINTIES",
     "verdict": "pass"
   },
+  "96714b1ea98c047fc005f2f1ffa4f5c987898ab4f36e381ba0df2efe6e5237e5": {
+    "item_id": "CORE-CAPABILITY-REUSE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly states, \u201cNo catalogue entry fits,\u201d gives the reason that the work is a bug fix adding no capability, and identifies the repository-specific edits that no catalogue entry provides.",
+    "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/CORE-CAPABILITY-REUSE",
+    "verdict": "pass"
+  },
+  "9d6e57d8ee287350db1d8fecb6d8e05d1ad064cde028302592b75455d0e4ca03": {
+    "item_id": "CORE-SYSTEM-MODEL",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The plan links `docs/model/trace.yaml`, identifies the repository scope and documentation entry point, and names `PROC-COMMIT-CHECK` as the relied-on model element while stating that no other elements apply. Its trace review specifies that the saved Run 1 output must show the passing test, accepted root-relative links, and refusal of the unlinked page; it also explicitly covers the applicable view, concrete freshness tests, omissions, and same-commit reconciliation.",
+    "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/CORE-SYSTEM-MODEL",
+    "verdict": "pass"
+  },
   "a4193c0bf1dfcd8ed0bac23a8a857a7cbf7121c6695e7bbf50407ebac698db56": {
     "item_id": "CORE-SYSTEM-MODEL",
     "materiality": "material",
@@ -341,6 +386,15 @@
     "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/38f0a941fca4/CORE-TRACE-REVIEW",
     "verdict": "pass"
   },
+  "c0cbfecbca8df23a0a53153e478ec40a10226119ed6e27d8ebc109f86d522cf9": {
+    "item_id": "OV-PROTO-VERTICAL-RESET",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence explicitly names the vertical result, including the root-relative Markdown resolution behavior and its acceptance tests, and defines the reset as `git revert` of the commit. It also states the non-goal of anything outside the listed files and explicitly excludes coordinated-work ceremony such as work-unit graphs and review or release contracts.",
+    "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/OV-PROTO-VERTICAL-RESET",
+    "verdict": "pass"
+  },
   "c1339312045a2b63aac3db0735f03b7b6f334b04f38c9c70ea505c0eae91a023": {
     "item_id": "OV-DURABLE-DOCS-DECLARED",
     "materiality": "material",
@@ -357,6 +411,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence explicitly identifies the complete set of material uncertainties and lists the sole uncertainty. It also provides resolving evidence\u2014`git diff --stat` checked before editing\u2014and states the owner/resolution condition for files beyond the listed scope.",
     "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/cc2408a1725a/CORE-UNCERTAINTIES",
+    "verdict": "pass"
+  },
+  "c4a22c5b92ee1a68489b383bd0efa964d1244bf45333554793e7056b142b8d6a": {
+    "item_id": "CORE-ACTIVATION-FACTS",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "Every activation fact declared false is explicitly supported: the plan states it adds no shared contract, algorithm, or mechanism; compares no alternatives; makes no LLM call; performs no irreversible action or spend; and claims no external standard, schema, or contract. The optional AES-governed-target fact is correctly declared true because the plan explicitly states the repository has `.aes/target.yaml`.",
+    "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/CORE-ACTIVATION-FACTS",
     "verdict": "pass"
   },
   "c594c0f20a8a5dd14f780502ec13b67716e1677c6dbb7a4769344e3cc51ee946": {
@@ -429,6 +492,15 @@
     "model": "openrouter/openai/gpt-5.6-luna",
     "rationale": "The evidence names direct behavioral tests for accepted root-relative links and refusal of unlinked pages, with before/after runs and explicit expected outcomes; the finding count is supplementary rather than the sole success measure. It also provides concrete disproof conditions: a new test failure, regression of an existing test, or aes refusing the specified staged commit.",
     "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/cc2408a1725a/CORE-SUCCESS-DISPROOF",
+    "verdict": "pass"
+  },
+  "e288f791cd95e6ba5bab8f4d6f97f9fbaa0dc75670abc520ed22b13b30a46b62": {
+    "item_id": "OV-AES-TARGET-TRACE",
+    "materiality": "non_material",
+    "missing": null,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "rationale": "The evidence states that the repository is governed by `.aes/target.yaml` and explicitly maps R1 to normative item `AP-REQ-001`, success criterion `SC-AP-001`, and verification subjects in `tests/greenfield/test_commit_rule.py`. It declares no target delta, identifies the unchanged target, and explicitly says no `aes plan validate` result is needed in that case.",
+    "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/OV-AES-TARGET-TRACE",
     "verdict": "pass"
   },
   "e9636a759e481141a0b573b690ff780fec5bfc9cfcb22849a70d03f9736376b8": {

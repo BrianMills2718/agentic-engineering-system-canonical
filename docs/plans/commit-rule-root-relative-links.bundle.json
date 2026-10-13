@@ -7,13 +7,13 @@
     "schema_version": "checklist-definition.v1",
     "record_type": "checklist_definition",
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
+    "revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
     "title": "bounded-design method conformance for commit-rule-root-relative-links",
     "purpose": "Route-bound evidence that the selected Company Planning method was applied before adoption.",
     "subject_ref": {
       "kind": "planning_review",
       "id": "commit-rule-root-relative-links",
-      "revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+      "revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
     },
     "items": [
       {
@@ -295,8 +295,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ACTOR-RESULT-EXAMPLE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
       "evidence_types": [
         "plan_section"
@@ -309,9 +309,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#actor-and-result",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:41Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -321,8 +321,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ROUTE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-ROUTE",
       "evidence_types": [
         "path_decision_record"
@@ -335,9 +335,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.path-decision.json",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:41Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -347,8 +347,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-REQUIREMENTS-TRACED",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-REQUIREMENTS-TRACED",
       "evidence_types": [
         "plan_document"
@@ -361,9 +361,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:41Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -373,8 +373,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-SUCCESS-DISPROOF",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-SUCCESS-DISPROOF",
       "evidence_types": [
         "plan_section"
@@ -387,9 +387,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#success-and-disproof",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:41Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -399,8 +399,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-TRACE-REVIEW",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-TRACE-REVIEW",
       "evidence_types": [
         "plan_section"
@@ -413,9 +413,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#success-and-disproof",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:41Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -425,8 +425,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-TRACE-DEBUGGING",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-TRACE-DEBUGGING",
       "evidence_types": [
         "plan_section"
@@ -439,9 +439,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#when-a-run-fails-or-surprises-us",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:41Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -451,8 +451,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-SYSTEM-MODEL",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-SYSTEM-MODEL",
       "evidence_types": [
         "plan_document"
@@ -465,9 +465,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:41Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -477,8 +477,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-CAPABILITY-REUSE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-CAPABILITY-REUSE",
       "evidence_types": [
         "plan_document"
@@ -491,9 +491,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#capability-reuse",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:42Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -503,8 +503,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-AUTHORITY-NONGOALS",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-AUTHORITY-NONGOALS",
       "evidence_types": [
         "plan_section"
@@ -517,9 +517,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#authority-and-non-goals",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:42Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -529,8 +529,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-IRREVERSIBLE-SPEND",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-IRREVERSIBLE-SPEND",
       "evidence_types": [
         "plan_section"
@@ -543,9 +543,9 @@
         "status": "not_applicable",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#authority-and-non-goals",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:42Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": [],
         "not_applicable_reason": "irreversible_or_spend_action=false"
       },
@@ -556,8 +556,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-UNCERTAINTIES",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-UNCERTAINTIES",
       "evidence_types": [
         "plan_section"
@@ -570,9 +570,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#uncertainties",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:42Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -582,8 +582,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-CORE-ACTIVATION-FACTS",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "CORE-ACTIVATION-FACTS",
       "evidence_types": [
         "plan_document",
@@ -597,9 +597,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#activation-facts",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:42Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -609,8 +609,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-PROTO-VERTICAL-RESET",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "OV-PROTO-VERTICAL-RESET",
       "evidence_types": [
         "plan_section"
@@ -623,9 +623,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#vertical-and-reset",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:42Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -635,8 +635,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-AES-TARGET-TRACE",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "OV-AES-TARGET-TRACE",
       "evidence_types": [
         "plan_document"
@@ -649,9 +649,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:42Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null
@@ -661,8 +661,8 @@
       "record_type": "checklist_item_observation",
       "observation_id": "OBS-OV-DURABLE-DOCS-DECLARED",
       "checklist_id": "method-conformance.bounded-design",
-      "checklist_revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-      "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+      "checklist_revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+      "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
       "item_id": "OV-DURABLE-DOCS-DECLARED",
       "evidence_types": [
         "plan_document"
@@ -675,9 +675,9 @@
         "status": "pass",
         "evidence_ref": "docs/plans/commit-rule-root-relative-links.md#durable-documents",
         "scope": "plan:docs/plans/commit-rule-root-relative-links.md",
-        "observed_at": "2026-10-13T17:54:42Z",
+        "observed_at": "2026-10-13T18:01:21Z",
         "producer": "quick-adopt",
-        "source_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+        "source_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
         "limitations": []
       },
       "annotation": null

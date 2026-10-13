@@ -1,14 +1,14 @@
 {
   "schema_version": "planning-method-conformance-receipt.v1",
   "record_type": "planning_method_conformance_receipt",
-  "receipt_id": "RECEIPT-commit-rule-root-relative-links-d61e8a611e29",
+  "receipt_id": "RECEIPT-commit-rule-root-relative-links-9e900e9effb2",
   "plan": {
     "plan_ref": "docs/plans/commit-rule-root-relative-links.md",
-    "plan_sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+    "plan_sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
   },
   "path_decision": {
     "ref": "docs/plans/commit-rule-root-relative-links.path-decision.json",
-    "sha256": "3639058a1f8157dd9dd3f60be75239efc433cbdf65aef097de313c2729faf5ab",
+    "sha256": "0b24ef0b396f84d3f622636d0b751cc193c1f6c39853cf8596f1392873eb67aa",
     "selected_path": "prototype",
     "classified_path": "prototype",
     "errors": []
@@ -26,7 +26,7 @@
   },
   "activation": {
     "facts_ref": "docs/plans/commit-rule-root-relative-links.facts.json",
-    "facts_sha256": "f929435f9b7fd5f4eb87d090ab3bd3ecaeac322f6fbdcc347b449628250acb60",
+    "facts_sha256": "dfe1d044388645f2cdeec9d0a0b97d0114cb3b0c8bc505d0915bce41398da50a",
     "facts": {
       "shared_mechanism": false,
       "empirical_comparison_proposed": false,
@@ -126,10 +126,10 @@
   },
   "checklist": {
     "checklist_id": "method-conformance.bounded-design",
-    "revision": "sha256:5c091f16733482e54df6e73f14cb7b00d81c611332cd07f3d7de3413b4c3cbfe",
-    "definition_sha256": "d0bacc3691e994baac101f8e3efee7b2f56aea828b7c93b571fa43f88ff708d5",
+    "revision": "sha256:5b3817331174af8636004de82b8e222cf8f2ec98c087d75fa30728fd3a7f3a3b",
+    "definition_sha256": "64efa8549cb89195700316f831e1d9f5a0d6c7bde1b06d408af852e93c563aae",
     "bundle_ref": "docs/plans/commit-rule-root-relative-links.bundle.json",
-    "bundle_sha256": "a9e141fe40fd0e1b26d30bac746bc3fa5afc0c1b6d8b48de51b9927cd963d97f",
+    "bundle_sha256": "e13e765e7e342026646372db9debe8c5d814e9affd9adabf6abda53ae9488acf",
     "coverage": "complete",
     "definition_matches_recompilation": true
   },
@@ -147,7 +147,7 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md#actor-and-result",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
@@ -157,7 +157,7 @@
         "materiality": "non_material",
         "missing": null,
         "rationale": "The evidence explicitly names Brian as the actor, states the desired result for resolving root-relative Markdown links, and gives a stable, concrete user-visible example: 25 new pages linked from wiki/index.md that are currently refused and accepted after the fix.",
-        "reused": false
+        "reused": true
       },
       "suggested_action": null
     },
@@ -174,7 +174,7 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.path-decision.json",
-          "sha256": "3639058a1f8157dd9dd3f60be75239efc433cbdf65aef097de313c2729faf5ab"
+          "sha256": "0b24ef0b396f84d3f622636d0b751cc193c1f6c39853cf8596f1392873eb67aa"
         }
       ],
       "semantic": null,
@@ -193,16 +193,16 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/5892797900b8/CORE-REQUIREMENTS-TRACED",
+        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/CORE-REQUIREMENTS-TRACED",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The Requirements table explicitly lists R1, including what was asked for, its verification check, and status “planned, not yet run.” The plan also explicitly states that the change implies no requirements beyond R1 and presents no claim of following a named external standard, schema, or contract.",
+        "rationale": "The plan explicitly lists requirement R1, identifies its check as the success check with output saved to `docs/plans/commit-rule-root-relative-links.check.txt`, and gives its status as “planned, not yet run.” It also explicitly states that the change makes no additional claims implying requirements beyond R1.",
         "reused": false
       },
       "suggested_action": null
@@ -220,7 +220,7 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md#success-and-disproof",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
@@ -230,7 +230,7 @@
         "materiality": "non_material",
         "missing": null,
         "rationale": "The plan explicitly defines success through tests that accept correctly rooted links, reject an unlinked page, and verify the shaping-commit case, with before/after runs and named outputs. It also gives concrete disproof conditions: test failures or a preflight run still listing root-relative pages as unreachable; these directly test the claimed link-resolution behavior rather than relying on counts, snapshots, or pipeline agreement.",
-        "reused": false
+        "reused": true
       },
       "suggested_action": null
     },
@@ -247,7 +247,7 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md#success-and-disproof",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
@@ -257,7 +257,7 @@
         "materiality": "non_material",
         "missing": null,
         "rationale": "The evidence names the success and disproof runs, identifies their stored location, and specifies what the traces must show beyond final outcomes, including commands, exit status, individual test results, captured stderr/log entries, and model-element output. It also explicitly states that no model, agent, or LLM pipeline runs under the plan and defines the full output required for each disproof run.",
-        "reused": false
+        "reused": true
       },
       "suggested_action": null
     },
@@ -274,7 +274,7 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md#when-a-run-fails-or-surprises-us",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
@@ -304,16 +304,16 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/5892797900b8/CORE-SYSTEM-MODEL",
+        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/CORE-SYSTEM-MODEL",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan links `docs/model/trace.yaml`, identifies the repository scope and documentation entry point, and names PROC-COMMIT-CHECK as the sole relied-on model element. It explicitly states what the saved run must show for that element, identifies the applicable requirement-to-verification view and omission rationale, provides concrete drift tests, and specifies same-commit reconciliation of the model, view coverage, and evidence.",
+        "rationale": "The plan links `docs/model/trace.yaml`, identifies the repository scope and documentation entry point, and names `PROC-COMMIT-CHECK` as the relied-on model element while stating that no other elements apply. Its trace review specifies that the saved Run 1 output must show the passing test, accepted root-relative links, and refusal of the unlinked page; it also explicitly covers the applicable view, concrete freshness tests, omissions, and same-commit reconciliation.",
         "reused": false
       },
       "suggested_action": "MODEL-NO-ELEMENT-IDS: docs/model/trace.yaml has no element lines; write each as `- ID (decided|guessed): what it is` (this repository declares its system model as docs/model/ODD.md in .agentic/repo.yaml; link that instead); MODEL-NO-UNKNOWNS: docs/model/trace.yaml has no unknowns table (header `| Unknown | What would decide it |`)"
@@ -331,16 +331,16 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md#capability-reuse",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/5892797900b8/CORE-CAPABILITY-REUSE",
+        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/CORE-CAPABILITY-REUSE",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly states, “No catalogue entry fits,” and gives a reason: the work needs edits to the repository’s own files, which no cross-project catalogue entry provides. It therefore satisfies the no-entry-fits option.",
+        "rationale": "The evidence explicitly states, “No catalogue entry fits,” gives the reason that the work is a bug fix adding no capability, and identifies the repository-specific edits that no catalogue entry provides.",
         "reused": false
       },
       "suggested_action": null
@@ -358,7 +358,7 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md#authority-and-non-goals",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
@@ -399,16 +399,16 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md#uncertainties",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/5892797900b8/CORE-UNCERTAINTIES",
+        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/CORE-UNCERTAINTIES",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly identifies the complete set of material uncertainties and lists the sole uncertainty: whether files beyond the stated list are needed. It also provides resolving evidence and timing—`git diff --stat` checked before editing—along with the expected file list.",
+        "rationale": "The evidence explicitly identifies the complete set of material uncertainties as one uncertainty: whether the change needs files beyond the listed files. It also provides resolving evidence—a pre-edit git diff/stat check—and states the resulting file set, including the separately committed reach.py.",
         "reused": false
       },
       "suggested_action": null
@@ -426,16 +426,16 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md#activation-facts",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/5892797900b8/CORE-ACTIVATION-FACTS",
+        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/CORE-ACTIVATION-FACTS",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The plan explicitly declares `shared_mechanism`, `empirical_comparison_proposed`, `llm_central`, `irreversible_or_spend_action`, and `claims_external_standard` false, while the evidence supports that it adds no shared mechanism, comparison, LLM dependency, irreversible action/spend, or external-standard claim. It explicitly declares `aes_governed_target` true and identifies `.aes/target.yaml`.",
+        "rationale": "Every activation fact declared false is explicitly supported: the plan states it adds no shared contract, algorithm, or mechanism; compares no alternatives; makes no LLM call; performs no irreversible action or spend; and claims no external standard, schema, or contract. The optional AES-governed-target fact is correctly declared true because the plan explicitly states the repository has `.aes/target.yaml`.",
         "reused": false
       },
       "suggested_action": null
@@ -453,16 +453,16 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md#vertical-and-reset",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/5892797900b8/OV-PROTO-VERTICAL-RESET",
+        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/OV-PROTO-VERTICAL-RESET",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence explicitly names the minimal vertical result (root-relative Markdown links resolving via the repository root and wiki/), the reset boundary (`git revert` of the commit), and the non-goals (anything outside the listed files, plus no coordinated-work ceremony or related contracts).",
+        "rationale": "The evidence explicitly names the vertical result, including the root-relative Markdown resolution behavior and its acceptance tests, and defines the reset as `git revert` of the commit. It also states the non-goal of anything outside the listed files and explicitly excludes coordinated-work ceremony such as work-unit graphs and review or release contracts.",
         "reused": false
       },
       "suggested_action": null
@@ -480,16 +480,16 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/5892797900b8/OV-AES-TARGET-TRACE",
+        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/OV-AES-TARGET-TRACE",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence states that the repository is governed by `.aes/target.yaml`, maps R1 to normative item `AP-REQ-001` and success criterion `SC-AP-001`, and names the two new tests as the verification subject. It explicitly declares no target delta because `.aes/target.yaml` is unchanged and identifies the existing target items served; therefore no `aes plan validate` result is required.",
+        "rationale": "The evidence states that the repository is governed by `.aes/target.yaml` and explicitly maps R1 to normative item `AP-REQ-001`, success criterion `SC-AP-001`, and verification subjects in `tests/greenfield/test_commit_rule.py`. It declares no target delta, identifies the unchanged target, and explicitly says no `aes plan validate` result is needed in that case.",
         "reused": false
       },
       "suggested_action": null
@@ -507,17 +507,17 @@
       "evidence": [
         {
           "ref": "docs/plans/commit-rule-root-relative-links.md#durable-documents",
-          "sha256": "d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6"
+          "sha256": "9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7"
         }
       ],
       "semantic": {
-        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/8c220be55084/OV-DURABLE-DOCS-DECLARED",
+        "trace_id": "company-planning/method-conformance/commit-rule-root-relative-links/17567e7e0f76/OV-DURABLE-DOCS-DECLARED",
         "model": "openrouter/openai/gpt-5.6-luna",
         "verdict": "pass",
         "materiality": "non_material",
         "missing": null,
-        "rationale": "The evidence declares the repository’s durable-document roles and provides a `Durable documents: none -- ...` line with a specific explanation that the fix aligns code with existing rules without making any durable document wrong or incomplete. It also requires `durable_docs_check.py --plan ... --range ...` to exit 0 at completion.",
-        "reused": true
+        "rationale": "The evidence declares the repository’s durable-document roles and names three declared system_model roles with element IDs. It also requires running `durable_docs_check.py` for the plan and adoption revision range at completion, with exit status 0.",
+        "reused": false
       },
       "suggested_action": null
     }
@@ -539,11 +539,11 @@
   "conformance_report": {
     "schema_version": "1.0",
     "record_type": "planning_conformance_report",
-    "report_id": "REPORT-commit-rule-root-relative-links-d61e8a611e29",
+    "report_id": "REPORT-commit-rule-root-relative-links-9e900e9effb2",
     "snapshot_ref": "SNAPSHOT-commit-rule-root-relative-links",
-    "snapshot_revision": "sha256:a9e141fe40fd0e1b26d30bac746bc3fa5afc0c1b6d8b48de51b9927cd963d97f",
+    "snapshot_revision": "sha256:e13e765e7e342026646372db9debe8c5d814e9affd9adabf6abda53ae9488acf",
     "packet_ref": "docs/plans/commit-rule-root-relative-links.md",
-    "packet_revision": "sha256:d61e8a611e29f96df01399082b299beb78b5a3444cb3f562faeb397c3672b4c6",
+    "packet_revision": "sha256:9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7",
     "structural_status": "pass",
     "semantic_review_status": "complete",
     "diagnostics": [],
@@ -567,7 +567,7 @@
     "client": "quick-adopt",
     "session": "091319fc-e080-4678-9fe5-0febaa532410"
   },
-  "started_at": "2026-10-13T17:54:42Z",
-  "completed_at": "2026-10-13T17:54:53Z",
-  "duration_ms": 11476
+  "started_at": "2026-10-13T18:01:21Z",
+  "completed_at": "2026-10-13T18:01:33Z",
+  "duration_ms": 12032
 }
