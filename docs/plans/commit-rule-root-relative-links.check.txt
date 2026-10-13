@@ -1,0 +1,74 @@
+== Run 1: pytest tests/greenfield/test_commit_rule.py at 8ce5a66c7+working changes, 2026-10-13T13:55:13-04:00
+PASSED tests/greenfield/test_commit_rule.py::test_unplanned_running_thing_without_emergency_is_refused_naming_the_files
+PASSED tests/greenfield/test_commit_rule.py::test_same_change_under_an_adopted_plan_is_accepted
+PASSED tests/greenfield/test_commit_rule.py::test_one_line_readme_fix_is_trivial
+PASSED tests/greenfield/test_commit_rule.py::test_plan_changed_after_adoption_is_refused
+PASSED tests/greenfield/test_commit_rule.py::test_plan_without_receipt_and_unknown_plan_are_refused
+PASSED tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files0-touches running-thing file(s): hooks/pre-push]
+PASSED tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files1-4 files (trivial allows 3)]
+PASSED tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files2-61 changed lines (trivial allows 60)]
+PASSED tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files3-adds file(s) under a governed root: src/whygame5/new.py]
+PASSED tests/greenfield/test_commit_rule.py::test_emergency_and_shaping
+PASSED tests/greenfield/test_commit_rule.py::test_plan_adopted_in_the_commit_being_made_is_found_in_the_index
+PASSED tests/greenfield/test_commit_rule.py::test_numbered_plan_adopted_in_the_commit_being_made_is_found
+PASSED tests/greenfield/test_commit_rule.py::test_plan_refusal_names_the_way_to_adopt_one
+PASSED tests/greenfield/test_commit_rule.py::test_unplanned_whose_emergency_line_says_none_is_refused
+PASSED tests/greenfield/test_commit_rule.py::test_real_placeholder_emergency_messages_are_refused_and_a_real_emergency_is_accepted
+PASSED tests/greenfield/test_commit_rule.py::test_placeholder_and_empty_emergency_values_are_refused
+PASSED tests/greenfield/test_commit_rule.py::test_observe_mode_logs_and_never_blocks
+PASSED tests/greenfield/test_commit_rule.py::test_no_tag_is_refused_and_git_messages_pass
+PASSED tests/greenfield/test_commit_rule.py::test_replay_judges_history_with_counts
+PASSED tests/greenfield/test_commit_rule.py::test_an_older_aes_without_the_rule_warns_and_does_not_block
+PASSED tests/greenfield/test_commit_rule.py::test_in_aes_itself_the_hooks_run_the_working_copy_code
+PASSED tests/greenfield/test_commit_rule.py::test_machine_config_reaches_repositories_without_their_own
+PASSED tests/greenfield/test_commit_rule.py::test_machine_skip_roots_exempt_throwaway_repositories_and_nothing_else
+PASSED tests/greenfield/test_commit_rule.py::test_skip_root_at_or_above_home_is_ignored
+PASSED tests/greenfield/test_commit_rule.py::test_auto_tag_names_its_job_and_touches_no_running_thing
+PASSED tests/greenfield/test_commit_rule.py::test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans
+PASSED tests/greenfield/test_commit_rule.py::test_goal_plan_owned_by_another_repository_resolves_through_the_workspace
+PASSED tests/greenfield/test_commit_rule.py::test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere
+PASSED tests/greenfield/test_commit_rule.py::test_foreign_plan_reads_preserve_repository_identity_under_hook_environment
+PASSED tests/greenfield/test_commit_rule.py::test_background_plan_refresh_clears_only_git_local_environment
+PASSED tests/greenfield/test_commit_rule.py::test_conflict_surface_matching_and_repository_names
+PASSED tests/greenfield/test_commit_rule.py::test_asked_line_is_recorded_and_never_changes_the_verdict
+PASSED tests/greenfield/test_commit_rule.py::test_plan_index_does_not_cache_a_failed_search_as_no_plans
+PASSED tests/greenfield/test_commit_rule.py::test_only_one_background_index_refresh_runs_at_a_time
+PASSED tests/greenfield/test_commit_rule.py::test_quick_plan_commit_is_logged_for_its_check_output_and_file_list
+PASSED tests/greenfield/test_commit_rule.py::test_quick_plan_commit_without_its_check_output_is_logged_as_missing
+PASSED tests/greenfield/test_commit_rule.py::test_a_full_plan_gets_no_quick_plan_notes
+PASSED tests/greenfield/test_commit_rule.py::test_durable_docs_check_refuses_unnamed_owner_and_accepts_named
+PASSED tests/greenfield/test_commit_rule.py::test_durable_docs_check_observe_and_skips
+PASSED tests/greenfield/test_commit_rule.py::test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs
+PASSED tests/greenfield/test_commit_rule.py::test_plan_names_with_capital_letters_are_read_as_plan_tags
+PASSED tests/greenfield/test_commit_rule.py::test_new_document_the_wiki_does_not_reach_is_refused_with_the_line_to_add
+PASSED tests/greenfield/test_commit_rule.py::test_root_relative_links_resolve_against_the_repo_root_then_the_wiki_folder
+PASSED tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_link_its_proposal_root_relatively
+PASSED tests/greenfield/test_commit_rule.py::test_new_document_two_links_deep_is_accepted_three_is_not
+PASSED tests/greenfield/test_commit_rule.py::test_no_wiki_asks_for_one_and_a_new_wiki_linking_it_is_accepted
+PASSED tests/greenfield/test_commit_rule.py::test_existing_documents_exempt_files_auto_jobs_and_other_owners_are_not_refused
+PASSED tests/greenfield/test_commit_rule.py::test_the_suggested_line_works_for_a_file_name_with_a_hash
+PASSED tests/greenfield/test_commit_rule.py::test_a_skeleton_plan_named_by_id_is_found
+PASSED tests/greenfield/test_commit_rule.py::test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Goal Upper-Case-1] capitals in a plan id-Goal Upper-Case-1]
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Plan #3] numbered plan-Plan #3]
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Trivial] typo-Trivial]
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Shaping some-plan] draft-Shaping some-plan]
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Bogus] not a commit-rule tag-None]
+PASSED tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[no tag at all-None]
+PASSED tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal
+PASSED tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_create_the_first_wiki_index
+PASSED tests/greenfield/test_commit_rule.py::test_preflight_reports_the_hooks_verdict_without_logging
+======================== 59 passed in 244.90s (0:04:04) ========================
+exit status: 0 (59 passed, 0 failed, 0 errors, 0 skipped)
+
+== Run 2 (disproof side): installed aes (/home/brian/.local/bin/aes, before reinstall), cd ~/code/personal-wiki/worktrees/v1-calls; aes commit check --root . --preflight -m "[Goal personal-wiki-v1-calls] preflight probe"  (2026-10-13T14:03:01-04:00)
+aes commit rule preflight: refuse [Goal personal-wiki-v1-calls] — new document(s) not reached from wiki/index.md within 2 links: wiki/events/cayman-islands-trips.md, wiki/events/move-to-miami-beach-2025.md, wiki/events/move-to-san-francisco-2024.md, wiki/organizations/college-friend-group.md, wiki/people/aleksandr-hartunian.md, wiki/people/brett.md, wiki/people/chris-ammerman.md, wiki/people/chris-coffman.md, wiki/people/chris-pagano.md, wiki/people/derek-w.md, wiki/people/ed-leech.md, wiki/people/giselle.md, wiki/people/grant-dow.md, wiki/people/jerry-dow.md, wiki/people/john-alexander.md, wiki/people/jojo.md, wiki/people/patrick-d.md, wiki/people/robert-kiviat.md, wiki/places/miami-beach-florida.md, wiki/places/san-francisco-california.md, wiki/projects/ai-consulting-outreach-2026-09.md, wiki/projects/grandmother-biography.md, wiki/projects/roast-photo-app.md, wiki/projects/twitter-network-tools.md, wiki/stories/book-summarization-resolving-who-is-who.md; add a line for each to wiki/index.md (or to a page it links): - [cayman-islands-trips](../wiki/events/cayman-islands-trips.md); - [move-to-miami-beach-2025](../wiki/events/move-to-miami-beach-2025.md); - [move-to-san-francisco-2024](../wiki/events/move-to-san-francisco-2024.md); - [college-friend-group](../wiki/organizations/college-friend-group.md); - [aleksandr-hartunian](../wiki/people/aleksandr-hartunian.md); - [brett](../wiki/people/brett.md); - [chris-ammerman](../wiki/people/chris-ammerman.md); - [chris-coffman](../wiki/people/chris-coffman.md); - [chris-pagano](../wiki/people/chris-pagano.md); - [derek-w](../wiki/people/derek-w.md); - [ed-leech](../wiki/people/ed-leech.md); - [giselle](../wiki/people/giselle.md); - [grant-dow](../wiki/people/grant-dow.md); - [jerry-dow](../wiki/people/jerry-dow.md); - [john-alexander](../wiki/people/john-alexander.md); - [jojo](../wiki/people/jojo.md); - [patrick-d](../wiki/people/patrick-d.md); - [robert-kiviat](../wiki/people/robert-kiviat.md); - [miami-beach-florida](../wiki/places/miami-beach-florida.md); - [san-francisco-california](../wiki/places/san-francisco-california.md); - [ai-consulting-outreach-2026-09](../wiki/projects/ai-consulting-outreach-2026-09.md); - [grandmother-biography](../wiki/projects/grandmother-biography.md); - [roast-photo-app](../wiki/projects/roast-photo-app.md); - [twitter-network-tools](../wiki/projects/twitter-network-tools.md); - [book-summarization-resolving-who-is-who](../wiki/stories/book-summarization-resolving-who-is-who.md); or list a folder readers never open under unlinked_ok in .md-file-cap.yaml with a reason (mode enforce; not logged, nothing committed)
+exit status: 1
+
+== Run 2 (success side): this branch's code at fc8c16bfa, same command and staged change
+aes commit rule preflight: accept [Goal personal-wiki-v1-calls] — plan personal-wiki-v1-calls adopted (docs/plans/personal-wiki-v1-calls.md (in the commit being made)) (mode enforce; not logged, nothing committed)
+exit status: 0
+
+== Durable documents: python3 durable_docs_check.py --repo . --plan docs/plans/commit-rule-root-relative-links.check.txt --range 8ce5a66c7..HEAD
+durable-docs: mode=plan repo=/home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-root-relative-links findings=0 (none), exit 0
+exit status: 0

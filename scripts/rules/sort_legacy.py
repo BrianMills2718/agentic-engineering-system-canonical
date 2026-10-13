@@ -47,7 +47,7 @@ LEGACY = PROJECT_META / "policy" / "registry.yaml"
 INSTRUCTIONS = Path(os.environ.get("WORKSPACE_INSTRUCTIONS", Path.home() / "code" / "AGENTS.md"))
 OUT = Path(os.environ.get("AGENT_ROUTER_OUT", Path.home() / "projects" / "data" / "agent-router"))
 FIRST = os.environ.get("SORT_MODEL", "openrouter/deepseek/deepseek-v4-flash")
-SECOND = os.environ.get("SORT_RETRY_MODEL", "openrouter/openai/gpt-5.6-sol")
+SECOND = os.environ.get("SORT_RETRY_MODEL", "openrouter/openai/gpt-6-luna")
 VALIDATION_VERSION = "current-source-inventory/v1"
 
 

@@ -988,6 +988,39 @@ def test_new_document_the_wiki_does_not_reach_is_refused_with_the_line_to_add(re
     assert done.returncode == 0, done.stderr
 
 
+def test_root_relative_links_resolve_against_the_repo_root_then_the_wiki_folder(repo: Path) -> None:
+    """2026-10-13: a link starting with "/" was joined onto the linking page's folder, giving
+    "/people/a.md", never a tracked path, so personal-wiki (links root-relative from wiki/) had 25 new
+    pages refused that wiki/index.md links directly. "/x" now resolves at the repo root, else under wiki/."""
+    _brian_owned(repo)
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [Readme](/README.md)\n")
+    _git(repo, "add", "wiki/index.md")
+    assert _git(repo, "commit", "-m", "[Trivial] add the wiki entry page").returncode == 0
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [a](/people/a.md)\n- [b](/docs/b.md)\n- [gone](/nope.md)\n")
+    _write(repo, "wiki/people/a.md", "# A\n")  # resolves under wiki/
+    _write(repo, "docs/b.md", "# B\n")  # resolves at the repository root
+    _git(repo, "add", "wiki", "docs/b.md")
+    done = _git(repo, "commit", "-m", "[Trivial] two root-relative pages")
+    assert done.returncode == 0, done.stderr
+    _write(repo, "nope2.md", "# Not linked; /nope.md does not reach it\n")
+    _git(repo, "add", "nope2.md")
+    done = _git(repo, "commit", "-m", "[Trivial] an unlinked page")
+    assert done.returncode == 1 and "nope2.md" in done.stderr, done.stderr
+
+
+def test_a_shaping_commit_may_link_its_proposal_root_relatively(repo: Path) -> None:
+    """2026-10-13: a root-relative navigation link into proposals/<id>/ counts as navigation."""
+    _brian_owned(repo)
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [Readme](../README.md)\n")
+    _git(repo, "add", "wiki/index.md")
+    assert _git(repo, "commit", "-m", "[Trivial] add the wiki entry page").returncode == 0
+    _write(repo, "proposals/rootnav/plan.md", "# Plan\n")
+    _write(repo, "wiki/index.md", "# Wiki\n\n- [Readme](../README.md)\n- [plan](/proposals/rootnav/plan.md)\n")
+    _git(repo, "add", "proposals/rootnav/plan.md", "wiki/index.md")
+    done = _git(repo, "commit", "-m", "[Shaping rootnav] draft")
+    assert done.returncode == 0, done.stderr
+
+
 def test_new_document_two_links_deep_is_accepted_three_is_not(repo: Path) -> None:
     _brian_owned(repo)
     _write(repo, "wiki/index.md", "# Wiki\n\n- [Docs](../docs/README.md)\n")
