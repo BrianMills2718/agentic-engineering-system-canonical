@@ -9,10 +9,10 @@ artifacts. Open the cited source for full context and current truth.
 
 ## Coverage
 
-- Tracked artifacts: 1062
-- Artifacts with source summaries: 409
-- Coverage findings: 1052
-- Finding types: python-docstring-missing=1052
+- Tracked artifacts: 1079
+- Artifacts with source summaries: 413
+- Coverage findings: 1055
+- Finding types: python-docstring-missing=1055
 
 ## Source (189)
 
@@ -2051,7 +2051,8 @@ Nightly feedback collector: transcripts -> one daily feedback log -> the learnin
 - `filed_texts` · `filed_texts(days: int = 14, limit: int = 60) -> list[str]` · line 348: Quotes filed in the last `days` daily logs, newest last, for the reworded-repeat check.
 - `repeats_filed` · `repeats_filed(quote: str, recent: list[str]) -> bool` · line 375: Light-model check: does this line state the same lesson as one filed recently, even reworded?
 - `_repeat_or_defer` · `_repeat_or_defer(it: dict, recent: list[str]) -> str | None` · line 400: 'repeats_filed' for a reworded repeat, 'deferred_repeat_check' if the check failed (retried next run), else None.
-- `file_pending` · `file_pending(path: Path, cap: int, min_reusable: float = 0.6) -> tuple[int, list[str]]` · line 696: File items a dry run judged eligible; the day file stays append-only (update lines carry `filing_update`).
+- `earlier_splits` · `earlier_splits(ids: set[str], out: Path = OUT) -> dict[str, list[dict]]` · line 441: Records an earlier run already split each of `ids` into, from the first clean split in the daily report logs. A report the filing cap deferred is re-read next run; splitting it again with the light model can parse it differently and give one record id two payloads (project-meta #2538).
+- `file_pending` · `file_pending(path: Path, cap: int, min_reusable: float = 0.6) -> tuple[int, list[str]]` · line 718: File items a dry run judged eligible; the day file stays append-only (update lines carry `filing_update`).
 
 _Coverage findings: python-docstring-missing._
 
@@ -2121,7 +2122,7 @@ Is each workspace rule documented, enforced, observed and on a feedback path? (p
 
 **Symbols**
 
-- `registry_entries` · `registry_entries(registry: str) -> dict[str, dict]` · line 46: Top-level `- id:` blocks of registry.yaml, with the scalar fields this check reads.
+- `registry_entries` · `registry_entries(registry: str) -> dict[str, dict]` · line 48: Top-level `- id:` blocks of registry.yaml, with the scalar fields this check reads.
 
 _Coverage findings: python-docstring-missing._
 
@@ -2972,36 +2973,37 @@ _Coverage findings: python-docstring-missing._
 
 **Symbols**
 
-- `_git_local_env_vars` · `_git_local_env_vars() -> tuple[str, ...]` · line 206: AES implementation extension: cache Git's documented hook-local names.
-- `_foreign_git_env` · `_foreign_git_env() -> dict[str, str]` · line 213: Clear repository-local hook context for foreign Git calls, preserving auth.
-- `repository_names` · `repository_names(root: Path) -> tuple[str, ...]` · line 225: What a conflict surface's `repository` may say to mean this repository, lower-cased: origin's `owner/repo` and `repo`, and the main checkout's folder name (a linked worktree's own folder name is not the repository's).
-- `unit_scripts` · `unit_scripts(root: Path) -> frozenset[str]` · line 243: Tracked files that a systemd unit tracked in this repository runs: every token of an Exec* line that ends with a tracked file's path (units name scripts by absolute or %h paths).
-- `skipped_by` · `skipped_by(root: Path, config: RuleConfig) -> Path | None` · line 311: The machine-wide skip root `root` lies under, if any.
-- `_front_matter_plan_id` · `_front_matter_plan_id(meta: object) -> str | None` · line 362: A plan's id: `plan_id:`, or `id:` as Company Planning's `skeleton` writes it for a design plan (artifact_type: design_plan); found 2026-10-08 when a skeleton-built plan's own [Goal <id>] commit was reported as "no plan found".
-- `_adoption` · `_adoption(read, plan_rel: str, where: str) -> tuple[bool, str, dict]` · line 387: The adoption check over any byte source: `read(path relative to the plan root)` returns the file's bytes or None. `where` names the plan in messages. The third value is the plan's front matter (empty when the plan is missing).
-- `plan_adoption` · `plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]` · line 421: Whether `plan` declares a Company Planning receipt whose adoption decision is `adopted` for the current bytes of both the plan and the receipt; the reason either way.
-- `in_surface` · `in_surface(path: str, target: str) -> bool` · line 454: Whether `path` lies in a repository_path surface `target`: the same file, anything under that directory, or a glob match (`*` and `?` stay within one directory, `**` crosses them).
-- `write_scope` · `write_scope(meta: dict, names: tuple[str, ...]) -> list[str]` · line 464: The plan's `conflict_surfaces` targets this repository may write: Company Planning's work-unit `conflictSurface` shape, `kind: repository_path`, `access: write | exclusive`, and a `repository` that names this repository. Other entries (read access, other kinds, other repositories, malformed ones) grant nothing.
-- `adopted_write_scopes` · `adopted_write_scopes(plan_roots: tuple[Path, ...], names: tuple[str, ...]) -> list[str]` · line 481: Write surfaces for this repository of every adopted plan under `plan_roots` (`docs/plans/*.md`, `proposals/*/*.md`). Only plans whose front matter mentions `conflict_surfaces` are parsed and checked.
-- `workspace_plan_roots` · `workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] = ()) -> list[Path]` · line 511: Repositories directly under `workspace` holding a plan whose front matter names `plan_id`.
-- `fetch_all` · `fetch_all(workspace: Path, timeout: int = 60) -> list[str]` · line 557: `git fetch origin` in every repository directly under `workspace`, 16 at a time, so the plan index reads each default branch as GitHub has it (a plan merged there is not in a clone's origin/HEAD until a fetch). Never prompts for credentials. Returns one line per failure.
-- `build_plan_index` · `build_plan_index(workspace: Path, path: Path | None = None) -> dict` · line 577: Which plan ids each repository directly under `workspace` holds on its default branch (read through git, not its working tree, which may sit on another branch). Incremental: a repository whose default-branch commit is unchanged keeps its previous entry, so only moved repositories are re-read (a full rebuild over ~/code takes about 20 s, a refresh a few).
-- `_refresh_index_in_background` · `_refresh_index_in_background(workspace: Path) -> None` · line 630: Start an index rebuild that outlives this commit; the next commit reads its result. AES_PLAN_INDEX_REFRESH=0 turns this off (tests build the index explicitly).
-- `indexed_adoption` · `indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, str, dict]], bool]` · line 656: Judge `plan_id` from each repository's default branch as recorded in the plan index. Returns the per-candidate verdicts and whether the index was missing or stale (and so a background refresh was started).
-- `receipt_status` · `receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None, plan_workspace: Path | None = None) -> tuple[bool, str]` · line 686: Whether the named plan has a current adopted Company Planning receipt, and why not.
-- `staged_adoption` · `staged_adoption(root: Path, number: str | None, plan_id: str | None) -> tuple[bool, str, dict] | None` · line 696: The named plan as staged in the commit being made, judged from the index (with the working tree as fallback for files the commit does not touch): a plan adopted and committed together with its first work exists nowhere else yet. None when the commit stages no such plan.
-- `adopted_plan` · `adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None, plan_workspace: Path | None = None, index_root: Path | None = None) -> tuple[bool, str, dict]` · line 726: `receipt_status`, plus the adopted plan's front matter (empty unless adopted).
-- `_plan_text` · `_plan_text(config: RuleConfig, plan_id: str) -> tuple[Path, str, str] | None` · line 770: (repository, plan path relative to it, text) of the named plan: the plan roots and the workspace checkouts first, then each repository's default branch from the plan index.
-- `quick_plan_notes` · `quick_plan_notes(plan_id: str, changes: list[FileChange], config: RuleConfig) -> list[str]` · line 793: For a plan made by Company Planning's quick-adopt (front matter `planning_path: requested`): whether the commit's changes stay inside the plan's file list (its Vertical and reset section, plus the plan's own folder and AES evidence records) and whether the plan's saved check output (`<plan folder>/<id>.check.txt`) is present. Notes only: they never change the verdict.
-- `durable_plan_findings` · `durable_plan_findings(plan_id: str, config: RuleConfig) -> tuple[list[str], list[str]]` · line 841: (refusing findings, notes) from the durable-documents check for the named quick plan, run on the commit being made. Empty when the plan is not a quick plan in this repository or carries no command.
-- `unreached_new_docs` · `unreached_new_docs(root: Path, added: list[str]) -> list[str]` · line 887: The added reader documents that wiki/index.md does not reach within two links in the staged tree (the index), by the daily check's rules: instruction files, hidden folders, test fixtures, templates, generated output and `.md-file-cap.yaml` `unlinked_ok` paths are exempt.
-- `judge` · `judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig, legacy: frozenset[str] = frozenset()) -> Verdict` · line 954: The tag's verdict (with the legacy-edit check), plus notes for a quick-adopt plan.
-- `_judge_with_legacy` · `_judge_with_legacy(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig, legacy: frozenset[str] = frozenset()) -> Verdict` · line 997: The tag's verdict, then the adopted repository's legacy-edit check (`adopt`). An `Asked:` line is recorded on the verdict either way and never changes it: being asked does not make large work trivial.
-- `shaping_navigation_problems` · `shaping_navigation_problems(root: Path, plan_id: str, outside: list[FileChange]) -> list[str]` · line 1098: The staged changes outside proposals/<id>/ that are not navigation into it (#476, #531).
-- `_legacy` · `_legacy(root: Path, *, released: bool = True) -> frozenset[str]` · line 1138: Legacy baseline paths the target does not plan, minus (with `released`) those an adopted plan's scope released (`adopt.unplanned_legacy`); empty outside an adopted AES project. The pre-commit hook has already refused a target that does not load, so a load error here is raised.
-- `message_tag` · `message_tag(message_file: Path) -> str | None` · line 1160: The tag on the message's first line under TAG_RE, the one grammar for commit tags (#414), or None.
-- `check_message` · `check_message(root: Path, message_file: Path | None, *, message_text: str | None = None, preflight: bool = False) -> tuple[int, str]` · line 1171: Judge the commit being made; return (exit status, report). Observe mode never refuses.
-- `replay` · `replay(root: Path, revisions: str = 'HEAD', max_count: int = 300) -> tuple[list[tuple[str, str, Verdict]], dict[str, int]]` · line 1215: Judge past commits (non-merge, first-parent order) with today's rule and today's receipts. Legacy is today's baseline without the scope release: a file the replayed commits themselves changed is still judged against the plan each commit names.
+- `_git_local_env_vars` · `_git_local_env_vars() -> tuple[str, ...]` · line 207: AES implementation extension: cache Git's documented hook-local names.
+- `_foreign_git_env` · `_foreign_git_env() -> dict[str, str]` · line 214: Clear repository-local hook context for foreign Git calls, preserving auth.
+- `repository_names` · `repository_names(root: Path) -> tuple[str, ...]` · line 226: What a conflict surface's `repository` may say to mean this repository, lower-cased: origin's `owner/repo` and `repo`, and the main checkout's folder name (a linked worktree's own folder name is not the repository's).
+- `unit_scripts` · `unit_scripts(root: Path) -> frozenset[str]` · line 244: Tracked files that a systemd unit tracked in this repository runs: every token of an Exec* line that ends with a tracked file's path (units name scripts by absolute or %h paths).
+- `skipped_by` · `skipped_by(root: Path, config: RuleConfig) -> Path | None` · line 312: The machine-wide skip root `root` lies under, if any.
+- `_front_matter_plan_id` · `_front_matter_plan_id(meta: object) -> str | None` · line 363: A plan's id: `plan_id:`, or `id:` as Company Planning's `skeleton` writes it for a design plan (artifact_type: design_plan); found 2026-10-08 when a skeleton-built plan's own [Goal <id>] commit was reported as "no plan found".
+- `_adoption` · `_adoption(read, plan_rel: str, where: str) -> tuple[bool, str, dict]` · line 388: The adoption check over any byte source: `read(path relative to the plan root)` returns the file's bytes or None. `where` names the plan in messages. The third value is the plan's front matter (empty when the plan is missing).
+- `plan_adoption` · `plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]` · line 422: Whether `plan` declares a Company Planning receipt whose adoption decision is `adopted` for the current bytes of both the plan and the receipt; the reason either way.
+- `in_surface` · `in_surface(path: str, target: str) -> bool` · line 455: Whether `path` lies in a repository_path surface `target`: the same file, anything under that directory, or a glob match (`*` and `?` stay within one directory, `**` crosses them).
+- `write_scope` · `write_scope(meta: dict, names: tuple[str, ...]) -> list[str]` · line 465: The plan's `conflict_surfaces` targets this repository may write: Company Planning's work-unit `conflictSurface` shape, `kind: repository_path`, `access: write | exclusive`, and a `repository` that names this repository. Other entries (read access, other kinds, other repositories, malformed ones) grant nothing.
+- `adopted_write_scopes` · `adopted_write_scopes(plan_roots: tuple[Path, ...], names: tuple[str, ...]) -> list[str]` · line 482: Write surfaces for this repository of every adopted plan under `plan_roots` (`docs/plans/*.md`, `proposals/*/*.md`). Only plans whose front matter mentions `conflict_surfaces` are parsed and checked.
+- `workspace_plan_roots` · `workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] = ()) -> list[Path]` · line 512: Repositories directly under `workspace` holding a plan whose front matter names `plan_id`.
+- `fetch_all` · `fetch_all(workspace: Path, timeout: int = 60) -> list[str]` · line 558: `git fetch origin` in every repository directly under `workspace`, 16 at a time, so the plan index reads each default branch as GitHub has it (a plan merged there is not in a clone's origin/HEAD until a fetch). Never prompts for credentials. Returns one line per failure.
+- `build_plan_index` · `build_plan_index(workspace: Path, path: Path | None = None) -> dict` · line 578: Which plan ids each repository directly under `workspace` holds on its default branch (read through git, not its working tree, which may sit on another branch). Incremental: a repository whose default-branch commit is unchanged keeps its previous entry, so only moved repositories are re-read (a full rebuild over ~/code takes about 20 s, a refresh a few).
+- `_refresh_index_in_background` · `_refresh_index_in_background(workspace: Path) -> None` · line 631: Start an index rebuild that outlives this commit; the next commit reads its result. AES_PLAN_INDEX_REFRESH=0 turns this off (tests build the index explicitly).
+- `indexed_adoption` · `indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, str, dict]], bool]` · line 657: Judge `plan_id` from each repository's default branch as recorded in the plan index. Returns the per-candidate verdicts and whether the index was missing or stale (and so a background refresh was started).
+- `receipt_status` · `receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None, plan_workspace: Path | None = None) -> tuple[bool, str]` · line 687: Whether the named plan has a current adopted Company Planning receipt, and why not.
+- `staged_adoption` · `staged_adoption(root: Path, number: str | None, plan_id: str | None) -> tuple[bool, str, dict] | None` · line 697: The named plan as staged in the commit being made, judged from the index (with the working tree as fallback for files the commit does not touch): a plan adopted and committed together with its first work exists nowhere else yet. None when the commit stages no such plan.
+- `adopted_plan` · `adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None, plan_workspace: Path | None = None, index_root: Path | None = None) -> tuple[bool, str, dict]` · line 727: `receipt_status`, plus the adopted plan's front matter (empty unless adopted).
+- `_plan_text` · `_plan_text(config: RuleConfig, plan_id: str) -> tuple[Path, str, str] | None` · line 771: (repository, plan path relative to it, text) of the named plan: the plan roots and the workspace checkouts first, then each repository's default branch from the plan index.
+- `quick_plan_notes` · `quick_plan_notes(plan_id: str, changes: list[FileChange], config: RuleConfig) -> list[str]` · line 794: For a plan made by Company Planning's quick-adopt (front matter `planning_path: requested`): whether the commit's changes stay inside the plan's file list (its Vertical and reset section, plus the plan's own folder and AES evidence records) and whether the plan's saved check output (`<plan folder>/<id>.check.txt`) is present. Notes only: they never change the verdict.
+- `durable_plan_findings` · `durable_plan_findings(plan_id: str, config: RuleConfig) -> tuple[list[str], list[str]]` · line 842: (refusing findings, notes) from the durable-documents check for the named quick plan, run on the commit being made. Empty when the plan is not a quick plan in this repository or carries no command.
+- `unreached_new_docs` · `unreached_new_docs(root: Path, added: list[str]) -> list[str]` · line 888: The added reader documents that wiki/index.md does not reach within two links in the staged tree (the index), by the daily check's rules: instruction files, hidden folders, test fixtures, templates, generated output and `.md-file-cap.yaml` `unlinked_ok` paths are exempt.
+- `_link_path` · `_link_path(cur: str, target: str, exists: Callable[[str], bool]) -> str` · line 941: The repository path a Markdown link in page `cur` points at. A target starting with "/" is root-relative: the repository root when `exists` says that path is there, else the wiki folder (personal-wiki links "/people/a.md" from wiki/). Same rule as project-meta md_file_cap.
+- `judge` · `judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig, legacy: frozenset[str] = frozenset()) -> Verdict` · line 966: The tag's verdict (with the legacy-edit check), plus notes for a quick-adopt plan.
+- `_judge_with_legacy` · `_judge_with_legacy(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig, legacy: frozenset[str] = frozenset()) -> Verdict` · line 1009: The tag's verdict, then the adopted repository's legacy-edit check (`adopt`). An `Asked:` line is recorded on the verdict either way and never changes it: being asked does not make large work trivial.
+- `shaping_navigation_problems` · `shaping_navigation_problems(root: Path, plan_id: str, outside: list[FileChange]) -> list[str]` · line 1110: The staged changes outside proposals/<id>/ that are not navigation into it (#476, #531).
+- `_legacy` · `_legacy(root: Path, *, released: bool = True) -> frozenset[str]` · line 1150: Legacy baseline paths the target does not plan, minus (with `released`) those an adopted plan's scope released (`adopt.unplanned_legacy`); empty outside an adopted AES project. The pre-commit hook has already refused a target that does not load, so a load error here is raised.
+- `message_tag` · `message_tag(message_file: Path) -> str | None` · line 1172: The tag on the message's first line under TAG_RE, the one grammar for commit tags (#414), or None.
+- `check_message` · `check_message(root: Path, message_file: Path | None, *, message_text: str | None = None, preflight: bool = False) -> tuple[int, str]` · line 1183: Judge the commit being made; return (exit status, report). Observe mode never refuses.
+- `replay` · `replay(root: Path, revisions: str = 'HEAD', max_count: int = 300) -> tuple[list[tuple[str, str, Verdict]], dict[str, int]]` · line 1227: Judge past commits (non-merge, first-parent order) with today's rule and today's receipts. Legacy is today's baseline without the scope release: a file the replayed commits themselves changed is still judged against the plan each commit names.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3205,7 +3207,7 @@ Thin AES binding to Company Planning's source-bound review provider.
 
 _Coverage findings: python-docstring-missing._
 
-## Test (54)
+## Test (55)
 
 ### `enforced_planning/test_relationships.py`
 
@@ -3333,10 +3335,12 @@ SC-AP-001: the commit-tag rule, through the installed commit-msg hook on real co
 - `test_durable_docs_check_observe_and_skips` · `test_durable_docs_check_observe_and_skips(repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 811: durable: observe only logs a refusal; an unchanged declared document is a note, not a refusal; a missing check script leaves a note and never refuses; a quick plan without the completion command gets no check.
 - `test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs` · `test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs(repo: Path) -> None` · line 864: conftest.py changes every test run; a script named in a tracked unit's ExecStart runs on a schedule.
 - `test_plan_names_with_capital_letters_are_read_as_plan_tags` · `test_plan_names_with_capital_letters_are_read_as_plan_tags(repo: Path) -> None` · line 887: #193: '[Goal PATH-brent-v1-2026-10-02]' was logged as 'no tag'. A plan id may contain capitals.
-- `test_commit_tag_prints_the_rule_grammar_tag` · `test_commit_tag_prints_the_rule_grammar_tag(tmp_path: Path, first_line: str, tag: str | None, capsys: pytest.CaptureFixture[str]) -> None` · line 1050: #414: chained repository hooks ask `aes commit tag` instead of keeping their own grammar copy.
-- `test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal` · `test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal(repo: Path) -> None` · line 1063: #476/#531: a new proposal and the wiki link that makes it reachable land in one [Shaping] commit; anything else outside proposals/<id>/ is still refused.
-- `test_a_shaping_commit_may_create_the_first_wiki_index` · `test_a_shaping_commit_may_create_the_first_wiki_index(repo: Path) -> None` · line 1090: #531: in a repository with no wiki/index.md, the first index can land with the first proposal.
-- `test_preflight_reports_the_hooks_verdict_without_logging` · `test_preflight_reports_the_hooks_verdict_without_logging(repo: Path) -> None` · line 1106: #532: `aes commit check --preflight -m` judges the staged change before a commit is attempted, exits 1 on a refusal in any mode, and writes nothing to the commit-rule log.
+- `test_root_relative_links_resolve_against_the_repo_root_then_the_wiki_folder` · `test_root_relative_links_resolve_against_the_repo_root_then_the_wiki_folder(repo: Path) -> None` · line 926: 2026-10-13: a link starting with "/" was joined onto the linking page's folder, giving "/people/a.md", never a tracked path, so personal-wiki (links root-relative from wiki/) had 25 new pages refused that wiki/index.md links directly. "/x" now resolves at the repo root, else under wiki/.
+- `test_a_shaping_commit_may_link_its_proposal_root_relatively` · `test_a_shaping_commit_may_link_its_proposal_root_relatively(repo: Path) -> None` · line 946: 2026-10-13: a root-relative navigation link into proposals/<id>/ counts as navigation.
+- `test_commit_tag_prints_the_rule_grammar_tag` · `test_commit_tag_prints_the_rule_grammar_tag(tmp_path: Path, first_line: str, tag: str | None, capsys: pytest.CaptureFixture[str]) -> None` · line 1083: #414: chained repository hooks ask `aes commit tag` instead of keeping their own grammar copy.
+- `test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal` · `test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal(repo: Path) -> None` · line 1096: #476/#531: a new proposal and the wiki link that makes it reachable land in one [Shaping] commit; anything else outside proposals/<id>/ is still refused.
+- `test_a_shaping_commit_may_create_the_first_wiki_index` · `test_a_shaping_commit_may_create_the_first_wiki_index(repo: Path) -> None` · line 1123: #531: in a repository with no wiki/index.md, the first index can land with the first proposal.
+- `test_preflight_reports_the_hooks_verdict_without_logging` · `test_preflight_reports_the_hooks_verdict_without_logging(repo: Path) -> None` · line 1139: #532: `aes commit check --preflight -m` judges the staged change before a commit is attempted, exits 1 on a refusal in any mode, and writes nothing to the commit-rule log.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3475,6 +3479,16 @@ Plans require trace reviews (Brian, 2026-10-07).
 
 - `_with_trace_review_er` · `_with_trace_review_er(data: dict[str, Any]) -> dict[str, Any]` · line 32: The runner proposal declaring a real run and carrying a routed trace_review requirement.
 - `_target_with_trace_review_er` · `_target_with_trace_review_er(tmp_path: Path)` · line 104: The frozen whygame5 target with its first evidence requirement turned into a trace review.
+
+_Coverage findings: python-docstring-missing._
+
+### `tests/learning/test_feedback_collector_reuse.py`
+
+_No source-local artifact summary._
+
+**Symbols**
+
+- `test_a_deferred_report_reuses_its_last_clean_split` · `test_a_deferred_report_reuses_its_last_clean_split(tmp_path)` · line 13: A report the filing cap deferred keeps the records it was first split into: re-splitting with the light model can parse it differently, giving one record id two payloads (project-meta #2538).
 
 _Coverage findings: python-docstring-missing._
 
@@ -3655,7 +3669,7 @@ The legacy sort's evidence check rejects answers its quote or the file facts do 
 
 _Coverage findings: python-docstring-missing._
 
-## Documentation (266)
+## Documentation (271)
 
 ### `.agentic/events/README.md`
 
@@ -4053,6 +4067,10 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
+### `docs/plans/durable-check-commit-rule.check.txt`
+
+_No source-local artifact summary._
+
 ### `docs/plans/durable-check-commit-rule.facts.json`
 
 _No source-local artifact summary._
@@ -4307,7 +4325,7 @@ Generated by company-planning `adopt` from the `goal:` front matter of `proposal
 
 ### `proposals/aes-learning-loop/DESIGN.md`
 
-Status: **design proposal, non-normative.** Drafted by Claude Code for Brian on 2026-10-02 using Company Planning `bounded-design` (Standard depth, path `durable_solo`, overlays: LLM calls and governed rules). Nothing here is accepted architecture until Brian dispositions it and the rule-bearing parts enter AES through `aes plan prepare / validate / accept`.
+Status: **historical, the original design (2 to 7 October 2026).** Kept as the record of why the loop was built this way. It no longer describes what runs: since then the loop gained feedback reports in a private issue log, a weekly analysis that licenses fixes, enforcement receipts and an effect counter, a daily fix owner, and a rule check. For the system as it runs today, read in this order:
 
 ### `proposals/aes-learning-loop/PLAN.md`
 
@@ -4319,7 +4337,7 @@ Brian approved this bounded repair on 2026-10-08 after the independent review. I
 
 ### `proposals/aes-learning-loop/aes-learning-loop.goal.md`
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-learning-loop/PLAN.md` (plan sha256 fb97ae939d642c0c93002af456e3d7b63008752b33da503e159f349b10152503, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-learning-loop/PLAN.md` (plan sha256 c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
 ### `proposals/aes-plan-scope/README.md`
 
@@ -4436,6 +4454,22 @@ Generated by company-planning `adopt` from the `goal:` front matter of `proposal
 ### `proposals/agent-router/revision.goal.md`
 
 Brian explicitly set this goal in native session `01a11cae-eadf-7192-9a72-ca2283a3ebc0` on 2026-10-08 local time. The existing [PLAN](PLAN.md) is the design being revised; [verification](verification.log) records this revision's checks. The older generated `agent-router.goal.md` is retained historical adoption evidence and is not this task's launcher.
+
+### `proposals/code2-ecosystem/PLAN.md`
+
+Brian approved this on 2026-10-13 ("yes lets make the move") after asking for a fresh start: "start a like code2 dir that has aes canoncial and maybe like a few relevant repos and star over there", with enforcement that "should live in the ecosystem not in the repo" and one source of truth. Project-meta is his legacy system; AES canonical replaces it.
+
+### `proposals/code2-ecosystem/code2-ecosystem.goal.md`
+
+Generated by company-planning `adopt` from the `goal:` front matter of `proposals/code2-ecosystem/PLAN.md` (plan sha256 cb486612c978bd9195879b4d17ae6b8445e44a22161561fb2e9c233f44c7fb46, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+
+### `proposals/code2-ecosystem/hookspath-review.md`
+
+Git runs hooks from exactly one folder. Most repositories under `~/code` use the shared folder `~/.config/git/hooks`. The 34 below override it with a local `core.hooksPath`, so the shared hooks do not run there unless something forwards to them. This page lists each one, why it overrides the shared folder, and what phase 2 should do with it.
+
+### `proposals/code2-ecosystem/workspace/AGENTS.md`
+
+`~/code2` is the fresh workspace that repositories join by moving in. This file is linked as `~/code2/AGENTS.md`; its source of truth is `proposals/code2-ecosystem/workspace/AGENTS.md` in agentic-engineering-system-canonical (AES canonical). Change it there, through a commit, never by editing the link target in place.
 
 ### `proposals/commit-rule-followups/commit-rule-followups.goal.md`
 
@@ -4711,7 +4745,7 @@ The hive (Paperclip agents, dashboard, controls, readout) moved to [BrianMills27
 
 ### `scripts/learning_loop/systemd/README.md`
 
-`feedback-collector.timer` runs `feedback-collector.service` nightly at 03:30. The service runs `scripts/learning_loop/collect_feedback.py --file` from the same refreshed clone of AES `main` as `hive-controls` (`~/.hive-brain/aes`), with `llm_client` from `~/code/llm_client` through uv's shared cache. Output: `~/projects/data/feedback-collector/` (`items-<date>.jsonl`, `runs.jsonl`, `state.sqlite`). Never commit anything from that folder: it holds private transcript quotes.
+Four timers run the agent feedback loop. Start page for the whole loop: [guide.html](../../../proposals/aes-learning-loop/review-page/guide.html).
 
 ### `src/agentic_engineering_system/planning_protocol.md`
 
@@ -4807,7 +4841,7 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-## Other (533)
+## Other (544)
 
 ### `.aes/commit_rule.yaml`
 
@@ -5769,6 +5803,10 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
+### `proposals/aes-learning-loop/review-page/guide.html`
+
+_No source-local artifact summary._
+
 ### `proposals/aes-learning-loop/review-page/index.html`
 
 _No source-local artifact summary._
@@ -6158,6 +6196,46 @@ _No source-local artifact summary._
 _No source-local artifact summary._
 
 ### `proposals/agent-router/verification.log`
+
+_No source-local artifact summary._
+
+### `proposals/code2-ecosystem/PLAN.adoption-attempts.jsonl`
+
+_No source-local artifact summary._
+
+### `proposals/code2-ecosystem/PLAN.adoption-decision.json`
+
+_No source-local artifact summary._
+
+### `proposals/code2-ecosystem/PLAN.receipt.json`
+
+_No source-local artifact summary._
+
+### `proposals/code2-ecosystem/PLAN.verdicts.json`
+
+_No source-local artifact summary._
+
+### `proposals/code2-ecosystem/bundle.json`
+
+_No source-local artifact summary._
+
+### `proposals/code2-ecosystem/check.txt`
+
+_No source-local artifact summary._
+
+### `proposals/code2-ecosystem/facts.json`
+
+_No source-local artifact summary._
+
+### `proposals/code2-ecosystem/path-decision.json`
+
+_No source-local artifact summary._
+
+### `proposals/code2-ecosystem/phase2-aes-proposal.yaml`
+
+_No source-local artifact summary._
+
+### `proposals/code2-ecosystem/phase2-aes-validate.txt`
 
 _No source-local artifact summary._
 
