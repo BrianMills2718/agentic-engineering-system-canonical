@@ -3,7 +3,7 @@
 # and the decision records that say why. The rule text itself lives in the owner's
 # docstring and in .aes/target.yaml; the statements below are one-line pointers.
 # Checked by company-planning plugins/company-planning/scripts/durable_docs_check.py.
-reviewed_at: 2026-10-12  # re-read after the parent-folder lookup change
+reviewed_at: 2026-10-13  # re-read after the parent-folder lookup change
 scope: >-
   The v0.2 governance loop (Decision 0010): commit tags, plan acceptance, characterization,
   evidence standing and reconciliation. The v0.1 line (Plan 002), the repository-context
@@ -39,11 +39,17 @@ rules:
   - id: RULE-PLAN-ADOPTED-FOR-COMMIT
     statement: >-
       A [Plan #N] / [Goal id] commit is accepted only when the named plan's adoption decision says adopted and its
-      plan and receipt hashes match the current bytes (RU-AES-COMMIT-RULE, OUT-AP-001).
+      plan and receipt hashes match the current bytes, or the plan's adopted version (found by hash in its git
+      history) differs only in progress fields (status, owner, notes), which adds an advisory
+      (RU-AES-COMMIT-RULE, OUT-AP-001; AES #673).
     owner: src/agentic_engineering_system/commit_rule.py
     checks:
       - tests/greenfield/test_commit_rule.py::test_same_change_under_an_adopted_plan_is_accepted
       - tests/greenfield/test_commit_rule.py::test_plan_changed_after_adoption_is_refused
+      - tests/greenfield/test_commit_rule.py::test_plan_status_line_change_after_adoption_is_accepted_with_advisory
+      - tests/greenfield/test_commit_rule.py::test_plan_owner_rename_after_adoption_is_accepted
+      - tests/greenfield/test_commit_rule.py::test_plan_scope_change_after_adoption_is_still_refused
+      - tests/greenfield/test_commit_rule.py::test_plan_progress_change_without_adopted_history_is_refused
       - tests/greenfield/test_commit_rule.py::test_plan_without_receipt_and_unknown_plan_are_refused
     decisions: []
   - id: RULE-DURABLE-DOCS-FOR-COMMIT

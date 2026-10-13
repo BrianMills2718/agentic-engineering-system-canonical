@@ -8,7 +8,13 @@ text alone. The first line of every commit message carries one tag:
   Markdown plan whose front matter says ``plan_id: <id>``, in this repository or a
   configured plan root) declares ``method_conformance_receipt``; the adoption
   decision beside that receipt says ``adopted`` and its ``plan_sha256`` and
-  ``receipt_sha256`` match the current bytes of the plan and the receipt.
+  ``receipt_sha256`` match the current bytes of the plan and the receipt. A plan whose bytes
+  changed since adoption still counts as adopted when the adopted version (the blob in the plan
+  file's last 200 commits, or the index, whose sha256 is ``plan_sha256``) differs from today's only
+  in progress fields the plan procedure itself edits (front-matter ``status``/``owner``/``updated``,
+  ``Status:``/``Owner:`` lines, sections headed Status, Progress, Notes, Log, Execution log and the
+  like); the verdict then carries the advisory "plan progress fields changed since adoption;
+  identity unchanged" (AES #673). When that version is not found the change is refused as before.
 - ``[Trivial]``: the change touches at most ``trivial_max_files`` files and
   ``trivial_max_lines`` added+deleted lines, adds no file under a governed root,
   and touches no running-thing file (Dockerfile, compose file, systemd unit,
@@ -138,6 +144,21 @@ RUNNING_THING_NAMES = (
 )
 RUNNING_THING_DIRS = (".githooks/", "hooks/", ".github/workflows/", ".claude/", ".codex/")
 FRONT_MATTER_RE = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
+# Progress fields the plan procedure edits after adoption (status after each milestone, owner, notes),
+# excluded from a plan's identity (AES #673). Headings are the progress sections real plans use
+# (docs/plans/*.md, proposals/*/PLAN.md: "Status (2026-10-08)", "Evidence And Current State",
+# "Exact Next Action", "Execution observations ...", "Verified integration outcome ...").
+PROGRESS_FRONT_MATTER_KEYS = frozenset({"status", "owner", "owners", "updated", "last_updated", "updated_at"})
+# The whole heading must be the name, optionally followed by a date, a parenthesis or a dash clause
+# ("Status (2026-10-08)", "Verified integration outcome — 2026-10-09"), so "Log format" stays identity.
+PROGRESS_HEADING_RE = re.compile(
+    r"(?:(?:status|progress|progress log|notes|log|execution log|evidence and current state|current state|"
+    r"exact next action|next action|verified integration outcome)(?:\s*(?:\(.*\)|[-\u2013\u2014:].*|\d{4}-\d\d-\d\d.*))?"
+    r"|execution observations\b.*)", re.IGNORECASE)
+PROGRESS_LINE_RE = re.compile(r"\s*(?:[-*]\s+)?\**(?:status|owner|updated|last updated)\**\s*:", re.IGNORECASE)
+HEADING_RE = re.compile(r"(#{1,6})\s+(.*?)\s*#*\s*$")
+PROGRESS_ADVISORY = "plan progress fields changed since adoption; identity unchanged"
+PLAN_HISTORY_DEPTH = 200
 
 
 @dataclass(frozen=True)
@@ -384,21 +405,108 @@ def _plan_candidates(plan_root: Path, number: str | None, plan_id: str | None) -
     return found
 
 
-def _adoption(read, plan_rel: str, where: str) -> tuple[bool, str, dict]:
+def plan_identity(text: bytes) -> str:
+    """A plan's text without its progress fields: front-matter `status`/`owner`/`updated` keys,
+    `Status:`/`Owner:` lines, progress sections (`PROGRESS_HEADING_RE`, up to the next heading of
+    the same or a higher level) and blank lines. Two versions with the same identity are the same
+    adopted plan (AES #673)."""
+    lines = text.decode("utf-8", errors="replace").replace("\r\n", "\n").split("\n")
+    out: list[str] = []
+    start = 0
+    if lines and lines[0] == "---":
+        end = next((j for j in range(1, len(lines)) if lines[j] == "---"), None)
+        if end is not None:
+            skip = False
+            for line in lines[1:end]:
+                if line and not line[0].isspace() and not line.startswith(("- ", "#")):
+                    skip = line.split(":", 1)[0].strip() in PROGRESS_FRONT_MATTER_KEYS
+                if not skip:
+                    out.append(line)
+            out.append("---")
+            start = end + 1
+    skip_level: int | None = None
+    fenced = False
+    for line in lines[start:]:
+        if line.lstrip().startswith(("```", "~~~")):
+            fenced = not fenced
+        heading = None if fenced else HEADING_RE.fullmatch(line)
+        if heading:
+            level = len(heading.group(1))
+            if skip_level is not None and level <= skip_level:
+                skip_level = None
+            if skip_level is None and PROGRESS_HEADING_RE.fullmatch(heading.group(2)):
+                skip_level = level
+        if skip_level is not None or (not fenced and PROGRESS_LINE_RE.match(line)):
+            continue
+        out.append(line)
+    return "\n".join(line.rstrip() for line in out if line.strip())
+
+
+def git_plan_history(repo: Path, rel: str, rev: str = "HEAD", index: bool = True):
+    """A lookup `want_sha256 -> bytes | None` over the versions of `rel` (relative to `repo`) in
+    its last `PLAN_HISTORY_DEPTH` commits up to `rev`, plus the index when `index`; None whenever
+    Git fails or no version has that sha256."""
+    def find(want: str) -> bytes | None:
+        env = _foreign_git_env()
+        base = ["git", "-C", str(repo)]
+        log = subprocess.run([*base, "log", "-n", str(PLAN_HISTORY_DEPTH), "--format=", "--raw", "--no-abbrev",
+                              "--no-renames", rev, "--", rel], capture_output=True, text=True, env=env, check=False)
+        if log.returncode != 0:
+            return None
+        blobs: list[str] = []
+        for line in log.stdout.splitlines():
+            parts = line.split()
+            if line.startswith(":") and len(parts) >= 4:
+                blobs += [parts[3], parts[2]]
+        if index:
+            staged = subprocess.run([*base, "ls-files", "-s", "--", rel], capture_output=True, text=True, env=env,
+                                    check=False)
+            blobs += [line.split()[1] for line in staged.stdout.splitlines() if len(line.split()) >= 2]
+        blobs = [b for b in dict.fromkeys(blobs) if b.strip("0")]
+        if not blobs:
+            return None
+        batch = subprocess.run([*base, "cat-file", "--batch"], input=("\n".join(blobs) + "\n").encode(),
+                               capture_output=True, env=env, check=False)
+        if batch.returncode != 0:
+            return None
+        data, at = batch.stdout, 0
+        while at < len(data):
+            eol = data.index(b"\n", at)
+            header = data[at:eol].split()
+            at = eol + 1
+            if len(header) != 3:  # "<blob> missing"
+                continue
+            size = int(header[2])
+            content = data[at:at + size]
+            at += size + 1
+            if hashlib.sha256(content).hexdigest() == want:
+                return content
+        return None
+    return find
+
+
+def split_advisory(why: str) -> tuple[str, str]:
+    """An adoption reason and its trailing progress advisory ("; ..." or "")."""
+    tail = f"; {PROGRESS_ADVISORY}"
+    return (why.removesuffix(tail), tail) if why.endswith(tail) else (why, "")
+
+
+def _adoption(read, plan_rel: str, where: str, history=None) -> tuple[bool, str, dict]:
     """The adoption check over any byte source: `read(path relative to the plan root)` returns the
     file's bytes or None. `where` names the plan in messages. The third value is the plan's front
-    matter (empty when the plan is missing)."""
+    matter (empty when the plan is missing). `history(want_sha256)` returns an earlier version of
+    the plan with that sha256, or None (`git_plan_history`)."""
     text = read(plan_rel)
     if text is None:
         return False, f"{where}: plan file not found", {}
     match = FRONT_MATTER_RE.match(text.decode("utf-8", errors="replace"))
     meta = (_YAML.load(match.group(1)) or {}) if match else {}
     meta = meta if isinstance(meta, dict) else {}
-    ok, why = _adoption_of(read, text, meta, where)
+    ok, why = _adoption_of(read, text, meta, where, history)
     return ok, why, meta
 
 
-def _adoption_of(read, text: bytes, meta: dict, where: str) -> tuple[bool, str]:
+def _adoption_of(read, text: bytes, meta: dict, where: str, history=None) -> tuple[bool, str]:
     receipt_ref = meta.get("method_conformance_receipt")
     if not receipt_ref:
         return False, f"{where}: no method_conformance_receipt in front matter (not adopted through Company Planning)"
@@ -411,11 +519,15 @@ def _adoption_of(read, text: bytes, meta: dict, where: str) -> tuple[bool, str]:
     record = json.loads(decision.decode("utf-8"))
     if record.get("decision") != "adopted":
         return False, f"{where}: adoption decision is {record.get('decision')!r}, not adopted"
+    advisory = ""
     if record.get("plan_sha256") != hashlib.sha256(text).hexdigest():
-        return False, f"{where}: plan changed since adoption; re-adopt it"
+        adopted = history(str(record.get("plan_sha256"))) if history is not None else None
+        if adopted is None or plan_identity(adopted) != plan_identity(text):
+            return False, f"{where}: plan changed since adoption; re-adopt it"
+        advisory = f"; {PROGRESS_ADVISORY}"
     if record.get("receipt_sha256") != hashlib.sha256(receipt).hexdigest():
         return False, f"{where}: receipt changed since adoption"
-    return True, f"{where} adopted"
+    return True, f"{where} adopted{advisory}"
 
 
 def plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]:
@@ -426,8 +538,9 @@ def plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]:
     def read(r: str) -> bytes | None:
         f = plan if r == rel else plan_root / r
         return f.read_bytes() if f.is_file() else None
-    ok, why, _meta = _adoption(read, rel, str(plan))
-    return ok, (f"{rel} adopted" if ok else why)
+    history = git_plan_history(plan_root, rel) if plan.is_relative_to(plan_root) else git_plan_history(plan.parent, plan.name)
+    ok, why, _meta = _adoption(read, rel, str(plan), history)
+    return ok, (f"{rel} adopted{split_advisory(why)[1]}" if ok else why)
 
 
 def _glob_re(pattern: str) -> re.Pattern[str]:
@@ -502,7 +615,8 @@ def adopted_write_scopes(plan_roots: tuple[Path, ...], names: tuple[str, ...]) -
             def read(r: str, _root: Path = plan_root) -> bytes | None:
                 f = _root / r
                 return f.read_bytes() if f.is_file() else None
-            ok, _why = _adoption_of(read, text, meta, str(plan))
+            rel = str(plan.relative_to(plan_root))
+            ok, _why = _adoption_of(read, text, meta, str(plan), git_plan_history(plan_root, rel))
             if ok:
                 out += write_scope(meta, names)
     return out
@@ -673,7 +787,8 @@ def indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, st
                 done = subprocess.run(["git", "-C", _repo, "show", f"{_sha}:{r}"], capture_output=True,
                                       env=_foreign_git_env(), check=False)
                 return done.stdout if done.returncode == 0 else None
-            ok, why, meta = _adoption(read, rel, f"{Path(repo).name} {entry['ref']}:{rel}")
+            ok, why, meta = _adoption(read, rel, f"{Path(repo).name} {entry['ref']}:{rel}",
+                                      git_plan_history(Path(repo), rel, sha, index=False))
             verdicts.append((ok, why, meta))
     # A plan the index does not hold may have been merged on GitHub since the last fetch: refresh
     # (with fetch) on a miss too, at most once every PLAN_INDEX_MISS_SECONDS.
@@ -718,7 +833,7 @@ def staged_adoption(root: Path, number: str | None, plan_id: str | None) -> tupl
             match = FRONT_MATTER_RE.match((read(rel) or b"").decode("utf-8", errors="replace"))
             if not (match and _front_matter_plan_id(_YAML.load(match.group(1))) == plan_id):
                 continue
-        ok, why, meta = _adoption(read, rel, f"{rel} (in the commit being made)")
+        ok, why, meta = _adoption(read, rel, f"{rel} (in the commit being made)", git_plan_history(root, rel))
         return ok, why, meta
     return None
 
@@ -730,7 +845,8 @@ def adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str 
     if index_root is not None:
         found = staged_adoption(index_root, number, plan_id)
         if found is not None and found[0]:
-            return True, f"plan {label} adopted ({found[1].removesuffix(' adopted')})", found[2]
+            base, advisory = split_advisory(found[1])
+            return True, f"plan {label} adopted ({base.removesuffix(' adopted')}){advisory}", found[2]
     plans = [(r, p) for r in plan_roots for p in _plan_candidates(r, number, plan_id)]
     searched = [str(r) for r in plan_roots]
     if not plans and plan_id is not None and plan_workspace is not None:
@@ -746,9 +862,10 @@ def adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str 
         def read(r: str, _plan: Path = plan, _rel: str = rel, _root: Path = plan_root) -> bytes | None:
             f = _plan if r == _rel else _root / r
             return f.read_bytes() if f.is_file() else None
-        ok, why, meta = _adoption(read, rel, str(plan))
+        history = git_plan_history(plan_root, rel) if plan.is_relative_to(plan_root) else None
+        ok, why, meta = _adoption(read, rel, str(plan), history)
         if ok:
-            return True, f"plan {label} adopted ({plan.relative_to(plan_root)})", meta
+            return True, f"plan {label} adopted ({plan.relative_to(plan_root)}){split_advisory(why)[1]}", meta
         reasons.append(why)
     if plan_id is not None and plan_workspace is not None:
         # A checkout may sit on another branch or behind main: judge each repository's default
@@ -756,7 +873,8 @@ def adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str 
         verdicts, stale = indexed_adoption(plan_workspace, plan_id)
         for ok, why, meta in verdicts:
             if ok:
-                return True, f"plan {label} adopted on the default branch ({why.removesuffix(' adopted')})", meta
+                base, advisory = split_advisory(why)
+                return True, f"plan {label} adopted on the default branch ({base.removesuffix(' adopted')}){advisory}", meta
             reasons.append(why)
         if stale:
             reasons.append("plan index missing, older than an hour, or without this plan; a refresh that fetches every "
