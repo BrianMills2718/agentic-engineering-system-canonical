@@ -1,0 +1,146 @@
+# Success check: python -m pytest -v tests/greenfield/test_commit_rule.py
+
+## Parent commit 573c7496d
+============================= test session starts ==============================
+platform linux -- Python 3.11.16, pytest-9.1.1, pluggy-1.6.0 -- /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python
+rootdir: /home/brian/code/agentic-engineering-system-canonical
+configfile: pyproject.toml
+collecting ... collected 57 items
+
+tests/greenfield/test_commit_rule.py::test_unplanned_running_thing_without_emergency_is_refused_naming_the_files PASSED [  1%]
+tests/greenfield/test_commit_rule.py::test_same_change_under_an_adopted_plan_is_accepted PASSED [  3%]
+tests/greenfield/test_commit_rule.py::test_one_line_readme_fix_is_trivial PASSED [  5%]
+tests/greenfield/test_commit_rule.py::test_plan_changed_after_adoption_is_refused PASSED [  7%]
+tests/greenfield/test_commit_rule.py::test_plan_without_receipt_and_unknown_plan_are_refused PASSED [  8%]
+tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files0-touches running-thing file(s): hooks/pre-push] PASSED [ 10%]
+tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files1-4 files (trivial allows 3)] PASSED [ 12%]
+tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files2-61 changed lines (trivial allows 60)] PASSED [ 14%]
+tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files3-adds file(s) under a governed root: src/whygame5/new.py] PASSED [ 15%]
+tests/greenfield/test_commit_rule.py::test_emergency_and_shaping PASSED  [ 17%]
+tests/greenfield/test_commit_rule.py::test_plan_adopted_in_the_commit_being_made_is_found_in_the_index PASSED [ 19%]
+tests/greenfield/test_commit_rule.py::test_numbered_plan_adopted_in_the_commit_being_made_is_found PASSED [ 21%]
+tests/greenfield/test_commit_rule.py::test_plan_refusal_names_the_way_to_adopt_one PASSED [ 22%]
+tests/greenfield/test_commit_rule.py::test_unplanned_whose_emergency_line_says_none_is_refused PASSED [ 24%]
+tests/greenfield/test_commit_rule.py::test_real_placeholder_emergency_messages_are_refused_and_a_real_emergency_is_accepted PASSED [ 26%]
+tests/greenfield/test_commit_rule.py::test_placeholder_and_empty_emergency_values_are_refused PASSED [ 28%]
+tests/greenfield/test_commit_rule.py::test_observe_mode_logs_and_never_blocks PASSED [ 29%]
+tests/greenfield/test_commit_rule.py::test_no_tag_is_refused_and_git_messages_pass PASSED [ 31%]
+tests/greenfield/test_commit_rule.py::test_replay_judges_history_with_counts PASSED [ 33%]
+tests/greenfield/test_commit_rule.py::test_an_older_aes_without_the_rule_warns_and_does_not_block PASSED [ 35%]
+tests/greenfield/test_commit_rule.py::test_in_aes_itself_the_hooks_run_the_working_copy_code PASSED [ 36%]
+tests/greenfield/test_commit_rule.py::test_machine_config_reaches_repositories_without_their_own PASSED [ 38%]
+tests/greenfield/test_commit_rule.py::test_machine_skip_roots_exempt_throwaway_repositories_and_nothing_else PASSED [ 40%]
+tests/greenfield/test_commit_rule.py::test_skip_root_at_or_above_home_is_ignored PASSED [ 42%]
+tests/greenfield/test_commit_rule.py::test_auto_tag_names_its_job_and_touches_no_running_thing PASSED [ 43%]
+tests/greenfield/test_commit_rule.py::test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans PASSED [ 45%]
+tests/greenfield/test_commit_rule.py::test_goal_plan_owned_by_another_repository_resolves_through_the_workspace PASSED [ 47%]
+tests/greenfield/test_commit_rule.py::test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere PASSED [ 49%]
+tests/greenfield/test_commit_rule.py::test_foreign_plan_reads_preserve_repository_identity_under_hook_environment PASSED [ 50%]
+tests/greenfield/test_commit_rule.py::test_background_plan_refresh_clears_only_git_local_environment PASSED [ 52%]
+tests/greenfield/test_commit_rule.py::test_conflict_surface_matching_and_repository_names PASSED [ 54%]
+tests/greenfield/test_commit_rule.py::test_asked_line_is_recorded_and_never_changes_the_verdict PASSED [ 56%]
+tests/greenfield/test_commit_rule.py::test_plan_index_does_not_cache_a_failed_search_as_no_plans PASSED [ 57%]
+tests/greenfield/test_commit_rule.py::test_only_one_background_index_refresh_runs_at_a_time PASSED [ 59%]
+tests/greenfield/test_commit_rule.py::test_quick_plan_commit_is_logged_for_its_check_output_and_file_list PASSED [ 61%]
+tests/greenfield/test_commit_rule.py::test_quick_plan_commit_without_its_check_output_is_logged_as_missing PASSED [ 63%]
+tests/greenfield/test_commit_rule.py::test_a_full_plan_gets_no_quick_plan_notes PASSED [ 64%]
+tests/greenfield/test_commit_rule.py::test_durable_docs_check_refuses_unnamed_owner_and_accepts_named PASSED [ 66%]
+tests/greenfield/test_commit_rule.py::test_durable_docs_check_observe_and_skips PASSED [ 68%]
+tests/greenfield/test_commit_rule.py::test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs PASSED [ 70%]
+tests/greenfield/test_commit_rule.py::test_plan_names_with_capital_letters_are_read_as_plan_tags PASSED [ 71%]
+tests/greenfield/test_commit_rule.py::test_new_document_the_wiki_does_not_reach_is_refused_with_the_line_to_add PASSED [ 73%]
+tests/greenfield/test_commit_rule.py::test_new_document_two_links_deep_is_accepted_three_is_not PASSED [ 75%]
+tests/greenfield/test_commit_rule.py::test_no_wiki_asks_for_one_and_a_new_wiki_linking_it_is_accepted PASSED [ 77%]
+tests/greenfield/test_commit_rule.py::test_existing_documents_exempt_files_auto_jobs_and_other_owners_are_not_refused PASSED [ 78%]
+tests/greenfield/test_commit_rule.py::test_the_suggested_line_works_for_a_file_name_with_a_hash PASSED [ 80%]
+tests/greenfield/test_commit_rule.py::test_a_skeleton_plan_named_by_id_is_found PASSED [ 82%]
+tests/greenfield/test_commit_rule.py::test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild PASSED [ 84%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Goal Upper-Case-1] capitals in a plan id-Goal Upper-Case-1] PASSED [ 85%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Plan #3] numbered plan-Plan #3] PASSED [ 87%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Trivial] typo-Trivial] PASSED [ 89%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Shaping some-plan] draft-Shaping some-plan] PASSED [ 91%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Bogus] not a commit-rule tag-None] PASSED [ 92%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[no tag at all-None] PASSED [ 94%]
+tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal PASSED [ 96%]
+tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_create_the_first_wiki_index PASSED [ 98%]
+tests/greenfield/test_commit_rule.py::test_preflight_reports_the_hooks_verdict_without_logging PASSED [100%]
+
+======================== 57 passed in 360.21s (0:06:00) ========================
+exit status: 0
+
+## Change (working tree on 573c7496d plus this change)
+============================= test session starts ==============================
+platform linux -- Python 3.11.16, pytest-9.1.1, pluggy-1.6.0 -- /home/brian/code/agentic-engineering-system-canonical/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-progress-fields
+configfile: pyproject.toml
+collecting ... collected 61 items
+
+tests/greenfield/test_commit_rule.py::test_unplanned_running_thing_without_emergency_is_refused_naming_the_files PASSED [  1%]
+tests/greenfield/test_commit_rule.py::test_same_change_under_an_adopted_plan_is_accepted PASSED [  3%]
+tests/greenfield/test_commit_rule.py::test_one_line_readme_fix_is_trivial PASSED [  4%]
+tests/greenfield/test_commit_rule.py::test_plan_changed_after_adoption_is_refused PASSED [  6%]
+tests/greenfield/test_commit_rule.py::test_plan_status_line_change_after_adoption_is_accepted_with_advisory PASSED [  8%]
+tests/greenfield/test_commit_rule.py::test_plan_owner_rename_after_adoption_is_accepted PASSED [  9%]
+tests/greenfield/test_commit_rule.py::test_plan_scope_change_after_adoption_is_still_refused PASSED [ 11%]
+tests/greenfield/test_commit_rule.py::test_plan_progress_change_without_adopted_history_is_refused PASSED [ 13%]
+tests/greenfield/test_commit_rule.py::test_plan_without_receipt_and_unknown_plan_are_refused PASSED [ 14%]
+tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files0-touches running-thing file(s): hooks/pre-push] PASSED [ 16%]
+tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files1-4 files (trivial allows 3)] PASSED [ 18%]
+tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files2-61 changed lines (trivial allows 60)] PASSED [ 19%]
+tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted[files3-adds file(s) under a governed root: src/whygame5/new.py] PASSED [ 21%]
+tests/greenfield/test_commit_rule.py::test_emergency_and_shaping PASSED  [ 22%]
+tests/greenfield/test_commit_rule.py::test_plan_adopted_in_the_commit_being_made_is_found_in_the_index PASSED [ 24%]
+tests/greenfield/test_commit_rule.py::test_numbered_plan_adopted_in_the_commit_being_made_is_found PASSED [ 26%]
+tests/greenfield/test_commit_rule.py::test_plan_refusal_names_the_way_to_adopt_one PASSED [ 27%]
+tests/greenfield/test_commit_rule.py::test_unplanned_whose_emergency_line_says_none_is_refused PASSED [ 29%]
+tests/greenfield/test_commit_rule.py::test_real_placeholder_emergency_messages_are_refused_and_a_real_emergency_is_accepted PASSED [ 31%]
+tests/greenfield/test_commit_rule.py::test_placeholder_and_empty_emergency_values_are_refused PASSED [ 32%]
+tests/greenfield/test_commit_rule.py::test_observe_mode_logs_and_never_blocks PASSED [ 34%]
+tests/greenfield/test_commit_rule.py::test_no_tag_is_refused_and_git_messages_pass PASSED [ 36%]
+tests/greenfield/test_commit_rule.py::test_replay_judges_history_with_counts PASSED [ 37%]
+tests/greenfield/test_commit_rule.py::test_an_older_aes_without_the_rule_warns_and_does_not_block PASSED [ 39%]
+tests/greenfield/test_commit_rule.py::test_in_aes_itself_the_hooks_run_the_working_copy_code PASSED [ 40%]
+tests/greenfield/test_commit_rule.py::test_machine_config_reaches_repositories_without_their_own PASSED [ 42%]
+tests/greenfield/test_commit_rule.py::test_machine_skip_roots_exempt_throwaway_repositories_and_nothing_else PASSED [ 44%]
+tests/greenfield/test_commit_rule.py::test_skip_root_at_or_above_home_is_ignored PASSED [ 45%]
+tests/greenfield/test_commit_rule.py::test_auto_tag_names_its_job_and_touches_no_running_thing PASSED [ 47%]
+tests/greenfield/test_commit_rule.py::test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans PASSED [ 49%]
+tests/greenfield/test_commit_rule.py::test_goal_plan_owned_by_another_repository_resolves_through_the_workspace PASSED [ 50%]
+tests/greenfield/test_commit_rule.py::test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere PASSED [ 52%]
+tests/greenfield/test_commit_rule.py::test_foreign_plan_reads_preserve_repository_identity_under_hook_environment PASSED [ 54%]
+tests/greenfield/test_commit_rule.py::test_background_plan_refresh_clears_only_git_local_environment PASSED [ 55%]
+tests/greenfield/test_commit_rule.py::test_conflict_surface_matching_and_repository_names PASSED [ 57%]
+tests/greenfield/test_commit_rule.py::test_asked_line_is_recorded_and_never_changes_the_verdict PASSED [ 59%]
+tests/greenfield/test_commit_rule.py::test_plan_index_does_not_cache_a_failed_search_as_no_plans PASSED [ 60%]
+tests/greenfield/test_commit_rule.py::test_only_one_background_index_refresh_runs_at_a_time PASSED [ 62%]
+tests/greenfield/test_commit_rule.py::test_quick_plan_commit_is_logged_for_its_check_output_and_file_list PASSED [ 63%]
+tests/greenfield/test_commit_rule.py::test_quick_plan_commit_without_its_check_output_is_logged_as_missing PASSED [ 65%]
+tests/greenfield/test_commit_rule.py::test_a_full_plan_gets_no_quick_plan_notes PASSED [ 67%]
+tests/greenfield/test_commit_rule.py::test_durable_docs_check_refuses_unnamed_owner_and_accepts_named PASSED [ 68%]
+tests/greenfield/test_commit_rule.py::test_durable_docs_check_observe_and_skips PASSED [ 70%]
+tests/greenfield/test_commit_rule.py::test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs PASSED [ 72%]
+tests/greenfield/test_commit_rule.py::test_plan_names_with_capital_letters_are_read_as_plan_tags PASSED [ 73%]
+tests/greenfield/test_commit_rule.py::test_new_document_the_wiki_does_not_reach_is_refused_with_the_line_to_add PASSED [ 75%]
+tests/greenfield/test_commit_rule.py::test_new_document_two_links_deep_is_accepted_three_is_not PASSED [ 77%]
+tests/greenfield/test_commit_rule.py::test_no_wiki_asks_for_one_and_a_new_wiki_linking_it_is_accepted PASSED [ 78%]
+tests/greenfield/test_commit_rule.py::test_existing_documents_exempt_files_auto_jobs_and_other_owners_are_not_refused PASSED [ 80%]
+tests/greenfield/test_commit_rule.py::test_the_suggested_line_works_for_a_file_name_with_a_hash PASSED [ 81%]
+tests/greenfield/test_commit_rule.py::test_a_skeleton_plan_named_by_id_is_found PASSED [ 83%]
+tests/greenfield/test_commit_rule.py::test_a_plan_merged_on_the_remote_is_indexed_after_a_fetching_rebuild PASSED [ 85%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Goal Upper-Case-1] capitals in a plan id-Goal Upper-Case-1] PASSED [ 86%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Plan #3] numbered plan-Plan #3] PASSED [ 88%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Trivial] typo-Trivial] PASSED [ 90%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Shaping some-plan] draft-Shaping some-plan] PASSED [ 91%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[[Bogus] not a commit-rule tag-None] PASSED [ 93%]
+tests/greenfield/test_commit_rule.py::test_commit_tag_prints_the_rule_grammar_tag[no tag at all-None] PASSED [ 95%]
+tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal PASSED [ 96%]
+tests/greenfield/test_commit_rule.py::test_a_shaping_commit_may_create_the_first_wiki_index PASSED [ 98%]
+tests/greenfield/test_commit_rule.py::test_preflight_reports_the_hooks_verdict_without_logging PASSED [100%]
+
+======================== 61 passed in 353.46s (0:05:53) ========================
+exit status: 0
+
+## python3 durable_docs_check.py --repo .
+durable-docs: mode=repo repo=/home/brian/code/agentic-engineering-system-canonical/worktrees/commit-rule-progress-fields findings=0 (none), exit 0
+exit status: 0

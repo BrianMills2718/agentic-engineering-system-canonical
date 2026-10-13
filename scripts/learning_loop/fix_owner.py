@@ -77,6 +77,12 @@ A blocked command runs none of its parts, including file writes earlier in it. A
 read it back (`gh issue view N --json comments`) and confirm both markers are present before you
 close the issue; this script checks the same thing afterwards and fails the run on any mismatch.
 
+Work the items one at a time. Carry each implemented change all the way to merged with its
+lane closed before you start the next item, so you never hold two open lanes. Do the work
+yourself: do not start parallel builder subagents (run 2026-10-13 spent about $12 of its $20
+cap on four of them and left three lanes open mid-check). If a change cannot reach merge in
+this run, do not start it; defer it and name the blocker.
+
 This is a headless run: it ends when you stop replying with nothing still running. A check
 longer than ten minutes runs detached (`systemd-run --user --unit=<name> ...`, output to a file);
 wait for it with a background command that has no timeout (`while systemctl --user is-active -q

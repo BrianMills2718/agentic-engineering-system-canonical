@@ -45,11 +45,12 @@ def _set_mode(root: Path, mode: str) -> None:
     _write(root, ".aes/commit_rule.yaml", f"mode: {mode}\n")
 
 
-def _adopted_plan(root: Path, plan_id: str = "demo") -> Path:
+def _adopted_plan(root: Path, plan_id: str = "demo", front_matter: str = "", body: str = "") -> Path:
     """A plan with a Company Planning-shaped adoption decision bound to its bytes."""
     plan = root / "proposals" / plan_id / "README.md"
     _write(root, f"proposals/{plan_id}/README.md",
-           f"---\nplan_id: {plan_id}\nmethod_conformance_receipt: proposals/{plan_id}/receipt.json\n---\n\n# Demo plan\n")
+           f"---\nplan_id: {plan_id}\n{front_matter}method_conformance_receipt: proposals/{plan_id}/receipt.json\n"
+           f"---\n\n# Demo plan\n{body}")
     _write(root, f"proposals/{plan_id}/receipt.json", json.dumps({"verdict": "pass"}) + "\n")
     digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()  # noqa: E731
     _write(root, f"proposals/{plan_id}/receipt.adoption-decision.json", json.dumps({
@@ -120,6 +121,70 @@ def test_plan_changed_after_adoption_is_refused(repo: Path) -> None:
     _stage_worker_tools(repo)
     _git(repo, "add", str(plan))
     done = _git(repo, "commit", "-m", "[Goal demo] U2: worker tools")
+    assert done.returncode == 1
+    assert "plan changed since adoption; re-adopt it" in done.stderr
+
+
+PROGRESS_PLAN = ("status: proposed\nowner: alice\n",
+                 "\nStatus: draft\n\n## Steps\n\n1. Add the worker tools.\n\n## Status\n\nNothing run yet.\n")
+
+
+def _committed_progress_plan(repo: Path, plan_id: str) -> Path:
+    """An adopted plan with progress fields, committed so its adopted bytes are in history."""
+    plan = _adopted_plan(repo, plan_id, *PROGRESS_PLAN)
+    _git(repo, "add", ".")
+    assert _git(repo, "commit", "-m", f"[Unplanned] adopt {plan_id}\n\nEmergency: fixture").returncode == 0
+    return plan
+
+
+def _edit(plan: Path, *pairs: tuple[str, str]) -> None:
+    text = plan.read_text(encoding="utf-8")
+    for old, new in pairs:
+        assert old in text
+        text = text.replace(old, new)
+    plan.write_text(text, encoding="utf-8")
+
+
+def test_plan_status_line_change_after_adoption_is_accepted_with_advisory(repo: Path) -> None:
+    plan = _committed_progress_plan(repo, "progress")
+    _edit(plan, ("status: proposed", "status: in_progress"), ("Status: draft", "Status: M1 done"),
+          ("Nothing run yet.\n", "M1 done 2026-10-13: worker tools added.\n\nM2 next.\n"))
+    _stage_worker_tools(repo)
+    _git(repo, "add", str(plan))
+    done = _git(repo, "commit", "-m", "[Goal progress] U2: worker tools")
+    assert done.returncode == 0, done.stderr
+    assert "accept [Goal progress]" in done.stderr
+    assert "plan progress fields changed since adoption; identity unchanged" in done.stderr
+
+
+def test_plan_owner_rename_after_adoption_is_accepted(repo: Path) -> None:
+    plan = _committed_progress_plan(repo, "owned")
+    _edit(plan, ("owner: alice", "owner: bob"))
+    _git(repo, "add", str(plan))
+    assert _git(repo, "commit", "-m", "[Unplanned] hand the plan over\n\nEmergency: fixture").returncode == 0
+    _stage_worker_tools(repo)
+    done = _git(repo, "commit", "-m", "[Goal owned] U2: worker tools")
+    assert done.returncode == 0, done.stderr
+    assert "accept [Goal owned]" in done.stderr and "identity unchanged" in done.stderr
+
+
+def test_plan_scope_change_after_adoption_is_still_refused(repo: Path) -> None:
+    plan = _committed_progress_plan(repo, "rescoped")
+    _edit(plan, ("status: proposed", "status: in_progress"),
+          ("1. Add the worker tools.\n", "1. Add the worker tools.\n2. Also rewrite the deploy script.\n"))
+    _stage_worker_tools(repo)
+    _git(repo, "add", str(plan))
+    done = _git(repo, "commit", "-m", "[Goal rescoped] U2: worker tools")
+    assert done.returncode == 1
+    assert "plan changed since adoption; re-adopt it" in done.stderr and "identity unchanged" not in done.stderr
+
+
+def test_plan_progress_change_without_adopted_history_is_refused(repo: Path) -> None:
+    plan = _adopted_plan(repo, "fresh", *PROGRESS_PLAN)  # adopted bytes never committed or staged
+    _edit(plan, ("status: proposed", "status: in_progress"))
+    _stage_worker_tools(repo)
+    _git(repo, "add", ".")
+    done = _git(repo, "commit", "-m", "[Goal fresh] U2: worker tools")
     assert done.returncode == 1
     assert "plan changed since adoption; re-adopt it" in done.stderr
 
