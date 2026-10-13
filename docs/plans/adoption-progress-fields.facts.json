@@ -1,0 +1,21 @@
+{
+  "schema_version": "method-activation-facts.v1",
+  "record_type": "method_activation_facts",
+  "plan_ref": "docs/plans/adoption-progress-fields.md",
+  "plan_sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab",
+  "path_decision_ref": "docs/plans/adoption-progress-fields.path-decision.json",
+  "path_decision_sha256": "a74264915258c43d91bb29896d6c625a21d8577cc2ffdfe34063d01ff70ca4d7",
+  "facts": {
+    "shared_mechanism": false,
+    "empirical_comparison_proposed": false,
+    "llm_central": false,
+    "irreversible_or_spend_action": false
+  },
+  "fact_sources": {
+    "shared_mechanism": "derived_current_boundary",
+    "empirical_comparison_proposed": "derived_current_boundary",
+    "llm_central": "derived_current_boundary",
+    "irreversible_or_spend_action": "derived_current_boundary"
+  },
+  "recorded_at": "2026-10-13T15:42:25Z"
+}

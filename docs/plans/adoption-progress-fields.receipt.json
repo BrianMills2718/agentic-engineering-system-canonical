@@ -1,0 +1,573 @@
+{
+  "schema_version": "planning-method-conformance-receipt.v1",
+  "record_type": "planning_method_conformance_receipt",
+  "receipt_id": "RECEIPT-adoption-progress-fields-789a049bca54",
+  "plan": {
+    "plan_ref": "docs/plans/adoption-progress-fields.md",
+    "plan_sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+  },
+  "path_decision": {
+    "ref": "docs/plans/adoption-progress-fields.path-decision.json",
+    "sha256": "a74264915258c43d91bb29896d6c625a21d8577cc2ffdfe34063d01ff70ca4d7",
+    "selected_path": "prototype",
+    "classified_path": "prototype",
+    "errors": []
+  },
+  "route": "inline_prototype",
+  "profile": {
+    "profile_id": "bounded-design",
+    "revision": "bounded-design@13",
+    "path": "contracts/method-conformance/profiles/bounded-design.v1.json",
+    "sha256": "b62a29405f2c6a0ef730a8d4f78b8eb4bdccca5a29cc1c711a5a96902a121291"
+  },
+  "compiler": {
+    "path": "scripts/method_conformance/compiler.py",
+    "sha256": "9ca8d6e47f651430c21ff382a3d7c1f99e25c61f7ea85d0919ec09d71918d4f9"
+  },
+  "activation": {
+    "facts_ref": "docs/plans/adoption-progress-fields.facts.json",
+    "facts_sha256": "0139e2ed5039bbf892a345eb9b4b31bddf6ba65eb6f6abc62522ed90638e10c3",
+    "facts": {
+      "shared_mechanism": false,
+      "empirical_comparison_proposed": false,
+      "llm_central": false,
+      "irreversible_or_spend_action": false,
+      "crosses_system_boundary": false,
+      "deploys": false,
+      "claims_external_standard": false,
+      "aes_governed_target": true,
+      "durable_documents_declared": true,
+      "multiple_writers": false,
+      "consequential_boundary": false,
+      "inline_prototype": true
+    },
+    "fact_origins": {
+      "shared_mechanism": "declared:derived_current_boundary",
+      "empirical_comparison_proposed": "declared:derived_current_boundary",
+      "llm_central": "declared:derived_current_boundary",
+      "irreversible_or_spend_action": "declared:derived_current_boundary",
+      "crosses_system_boundary": "default:not_declared",
+      "deploys": "default:not_declared",
+      "claims_external_standard": "default:not_declared",
+      "aes_governed_target": "derived:repository has .aes/target.yaml",
+      "durable_documents_declared": "derived:.agentic/repo.yaml has durable_documents",
+      "multiple_writers": "derived:path_decision.concurrent_writers",
+      "consequential_boundary": "derived:path_decision.persistent_migration|consequential_external_mutation",
+      "inline_prototype": "derived:classified_path==prototype"
+    },
+    "overlays": [
+      {
+        "overlay_id": "OV-PRIOR-ART",
+        "activation_fact": "shared_mechanism",
+        "active": false,
+        "reason": "shared_mechanism=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-EMPIRICAL-COMPARISON",
+        "activation_fact": "empirical_comparison_proposed",
+        "active": false,
+        "reason": "empirical_comparison_proposed=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-LLM-CENTRAL",
+        "activation_fact": "llm_central",
+        "active": false,
+        "reason": "llm_central=false (declared:derived_current_boundary)"
+      },
+      {
+        "overlay_id": "OV-MULTIPLE-WRITERS",
+        "activation_fact": "multiple_writers",
+        "active": false,
+        "reason": "multiple_writers=false (derived:path_decision.concurrent_writers)"
+      },
+      {
+        "overlay_id": "OV-CONSEQUENTIAL-BOUNDARY",
+        "activation_fact": "consequential_boundary",
+        "active": false,
+        "reason": "consequential_boundary=false (derived:path_decision.persistent_migration|consequential_external_mutation)"
+      },
+      {
+        "overlay_id": "OV-INLINE-PROTOTYPE",
+        "activation_fact": "inline_prototype",
+        "active": true,
+        "reason": "inline_prototype=true (derived:classified_path==prototype)"
+      },
+      {
+        "overlay_id": "OV-SYSTEM-BOUNDARY",
+        "activation_fact": "crosses_system_boundary",
+        "active": false,
+        "reason": "crosses_system_boundary=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-DEPLOYMENT",
+        "activation_fact": "deploys",
+        "active": false,
+        "reason": "deploys=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-STANDARD-CONFORMANCE",
+        "activation_fact": "claims_external_standard",
+        "active": false,
+        "reason": "claims_external_standard=false (default:not_declared)"
+      },
+      {
+        "overlay_id": "OV-AES",
+        "activation_fact": "aes_governed_target",
+        "active": true,
+        "reason": "aes_governed_target=true (derived:repository has .aes/target.yaml)"
+      },
+      {
+        "overlay_id": "OV-DURABLE-DOCS",
+        "activation_fact": "durable_documents_declared",
+        "active": true,
+        "reason": "durable_documents_declared=true (derived:.agentic/repo.yaml has durable_documents)"
+      }
+    ]
+  },
+  "checklist": {
+    "checklist_id": "method-conformance.bounded-design",
+    "revision": "sha256:4d7db187fe4260f817a8dd41a987fdf1ce49953da3baba23930dfac9d3af75d9",
+    "definition_sha256": "4819394882eebd6a02a5a556eec8b3c8ff1c72d65d84f4f1c77cbf51014bcf5d",
+    "bundle_ref": "docs/plans/adoption-progress-fields.bundle.json",
+    "bundle_sha256": "0a06b721fe3e958887d615cf85482ca3be854c6d5e6194553475acd99f88edc8",
+    "coverage": "complete",
+    "definition_matches_recompilation": true
+  },
+  "items": [
+    {
+      "item_id": "CORE-ACTOR-RESULT-EXAMPLE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md#actor-and-result",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/28b895063313/CORE-ACTOR-RESULT-EXAMPLE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the actor as Brian, states the desired acceptance/refusal behavior and messages, and gives a stable, concrete user-visible example involving a committed status change being accepted and a body change being refused.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ROUTE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "structural",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.path-decision.json",
+          "sha256": "a74264915258c43d91bb29896d6c625a21d8577cc2ffdfe34063d01ff70ca4d7"
+        }
+      ],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-REQUIREMENTS-TRACED",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/bbabe9242116/CORE-REQUIREMENTS-TRACED",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan has an explicit Requirements table containing R1, which states the delivered behavior and names its verification check. R1’s status is explicitly given as “planned, not yet run,” an allowed status, and the plan states that the change makes no claims beyond R1.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SUCCESS-DISPROOF",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md#success-and-disproof",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/bbabe9242116/CORE-SUCCESS-DISPROOF",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan specifies success evidence through named tests that directly check acceptance or refusal for status, owner, scope, and progress changes, with complete output, exit status, and run conditions. It also gives concrete disproof conditions: accepting a post-adoption goal/scope/steps change or refusing a status-only edit, and requires a before/after run to demonstrate that the check can detect the defect.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-REVIEW",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md#success-and-disproof",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/bbabe9242116/CORE-TRACE-REVIEW",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly names the two runs (the parent commit before the change and the change commit), identifies the full trace as the check’s complete output, and locates it at `docs/plans/adoption-progress-fields.check.txt`. It also specifies beyond-outcome evidence: the exact command and exit status, files and reset state used, every named test and result with none skipped, model-element output, and separate commit headings for both runs.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-TRACE-DEBUGGING",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md#when-a-run-fails-or-surprises-us",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/28b895063313/CORE-TRACE-DEBUGGING",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly defines a separate procedure for any failed or surprising run, distinct from anticipated failure, and requires retaining the failed run and trace ID. It requires reading the complete inputs, prompts, tool arguments/results, intermediate stages, final output, and check outputs before fixing; citing and classifying divergence; linking targeted repairs to new traced verification runs while retaining the original; restricting unresolved diagnoses to investigation; and separating review completeness from the run verdict.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-SYSTEM-MODEL",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "warn",
+      "verifier_result": "pass",
+      "reason_codes": [
+        "MODEL-NO-ELEMENT-IDS",
+        "MODEL-NO-UNKNOWNS"
+      ],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/bbabe9242116/CORE-SYSTEM-MODEL",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly links `docs/model/trace.yaml`, identifies the repository scope and documentation entry point `wiki/index.md`, and names the model element `RULE-PLAN-ADOPTED-FOR-COMMIT` with concrete evidence the examined run must show. It also specifies the applicable source-linked view, explains why no other view applies, names concrete freshness/drift tests, and states that the model, view coverage, and saved verification output will be reconciled in the same commit.",
+        "reused": false
+      },
+      "suggested_action": "MODEL-NO-ELEMENT-IDS: docs/model/trace.yaml has no element lines; write each as `- ID (decided|guessed): what it is` (this repository declares its system model as docs/model/ODD.md in .agentic/repo.yaml; link that instead); MODEL-NO-UNKNOWNS: docs/model/trace.yaml has no unknowns table (header `| Unknown | What would decide it |`)"
+    },
+    {
+      "item_id": "CORE-CAPABILITY-REUSE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md#capability-reuse",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/28b895063313/CORE-CAPABILITY-REUSE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies both catalogue files, states “No catalogue entry fits” with a reason, and explains that the work needs repository-specific file edits that no catalogue entry provides. It also states that the change adds no capability, so no new capability or first consumer needs to be named.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-AUTHORITY-NONGOALS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md#authority-and-non-goals",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/28b895063313/CORE-AUTHORITY-NONGOALS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies authority: Brian requested the change in his own repository and one agent makes it. It also explicitly states non-goals: work outside the listed files, irreversible actions, and spending.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-IRREVERSIBLE-SPEND",
+      "effect": "blocking",
+      "applicability_mode": "conditional",
+      "condition_fact": "irreversible_or_spend_action",
+      "condition_value": false,
+      "verifier_kind": "semantic",
+      "disposition": "not_applicable",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [],
+      "semantic": null,
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-UNCERTAINTIES",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md#uncertainties",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/28b895063313/CORE-UNCERTAINTIES",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly identifies the material uncertainty—whether files beyond the listed scope are needed—and provides both an owner/resolution condition and concrete resolving evidence: a grep command, the identified callers and test location, and a trace-rule reference.",
+        "reused": true
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "CORE-ACTIVATION-FACTS",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md#activation-facts",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/bbabe9242116/CORE-ACTIVATION-FACTS",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The plan explicitly declares the relevant facts false and provides substantive support: no alternatives are compared, no model call is made, no irreversible action or spend is proposed, and no external standard, schema, or contract is claimed. The change narrows an existing repository commit rule rather than introducing a new shared mechanism; the AES-governed target is correctly declared true.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-PROTO-VERTICAL-RESET",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md#vertical-and-reset",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/bbabe9242116/OV-PROTO-VERTICAL-RESET",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states the vertical’s accepted/refused outcomes, the four-file scope, and the saved success check. It names the reset as `git revert` of the commit, identifies work outside the files and coordinated-work ceremony as not pursued, and explicitly says no such ceremony is added.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-AES-TARGET-TRACE",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/bbabe9242116/OV-AES-TARGET-TRACE",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence explicitly states that the repository is governed by `.aes/target.yaml`, maps R1 to target items AP-REQ-001 and SC-AP-001, and names `tests/greenfield/test_commit_rule.py`'s four new tests as the verification subject. It also explicitly declares no target delta and identifies the existing target items served, so no `aes plan validate` result is required.",
+        "reused": false
+      },
+      "suggested_action": null
+    },
+    {
+      "item_id": "OV-DURABLE-DOCS-DECLARED",
+      "effect": "blocking",
+      "applicability_mode": "required",
+      "condition_fact": null,
+      "condition_value": null,
+      "verifier_kind": "semantic",
+      "disposition": "pass",
+      "verifier_result": "pass",
+      "reason_codes": [],
+      "evidence": [
+        {
+          "ref": "docs/plans/adoption-progress-fields.md#durable-documents",
+          "sha256": "789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab"
+        }
+      ],
+      "semantic": {
+        "trace_id": "company-planning/method-conformance/adoption-progress-fields/28b895063313/OV-DURABLE-DOCS-DECLARED",
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "verdict": "pass",
+        "materiality": "non_material",
+        "missing": null,
+        "rationale": "The evidence declares the repository’s durable-document roles and names `system_model#RULE-PLAN-ADOPTED-FOR-COMMIT`, which is one of them. It also requires `durable_docs_check.py --plan ... --range 573c7496ddc86bc9d79d8a2681f32bd33765f422..HEAD` to exit 0 at completion.",
+        "reused": true
+      },
+      "suggested_action": null
+    }
+  ],
+  "item_counts": {
+    "pass": 13,
+    "unresolved": 0,
+    "not_applicable": 1,
+    "unavailable": 0,
+    "missing": 0,
+    "warn": 1
+  },
+  "semantic_verifier": {
+    "kind": "llm_client",
+    "available": true,
+    "model": "openrouter/openai/gpt-5.6-luna",
+    "task": "company_planning.method_conformance.semantic_item_review"
+  },
+  "conformance_report": {
+    "schema_version": "1.0",
+    "record_type": "planning_conformance_report",
+    "report_id": "REPORT-adoption-progress-fields-789a049bca54",
+    "snapshot_ref": "SNAPSHOT-adoption-progress-fields",
+    "snapshot_revision": "sha256:0a06b721fe3e958887d615cf85482ca3be854c6d5e6194553475acd99f88edc8",
+    "packet_ref": "docs/plans/adoption-progress-fields.md",
+    "packet_revision": "sha256:789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab",
+    "structural_status": "pass",
+    "semantic_review_status": "complete",
+    "diagnostics": [],
+    "route": "inline_prototype",
+    "adoption_readiness": "ready_for_contributor",
+    "limitations": [
+      "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+    ]
+  },
+  "advisory_deviations": [],
+  "result": "pass",
+  "reason_codes": [],
+  "actionable_summary": [
+    "pass: 13 items evidenced, 1 confirmed not applicable, 0 advisory deviation(s)",
+    "warn CORE-SYSTEM-MODEL: MODEL-NO-ELEMENT-IDS, MODEL-NO-UNKNOWNS -> MODEL-NO-ELEMENT-IDS: docs/model/trace.yaml has no element lines; write each as `- ID (decided|guessed): what it is` (this repository declares its system model as docs/model/ODD.md in .agentic/repo.yaml; link that instead); MODEL-NO-UNKNOWNS: docs/model/trace.yaml has no unknowns table (header `| Unknown | What would decide it |`)"
+  ],
+  "limitations": [
+    "Semantic verdicts judge only the cited plan excerpt against the item statement; they do not judge product strategy."
+  ],
+  "caller": {
+    "client": "quick-adopt",
+    "session": "adbc2e8b-e4d6-47ec-9c09-b381fe8a144d"
+  },
+  "started_at": "2026-10-13T15:42:26Z",
+  "completed_at": "2026-10-13T15:42:37Z",
+  "duration_ms": 10911
+}
