@@ -92,6 +92,7 @@ import sys
 from dataclasses import asdict, dataclass, field
 from functools import lru_cache
 from pathlib import Path
+from typing import Callable
 from urllib.parse import quote, unquote
 
 from ruamel.yaml import YAML
@@ -930,11 +931,22 @@ def unreached_new_docs(root: Path, added: list[str]) -> list[str]:
         for target in _MD_LINK.findall(show(cur)):
             if "://" in target or target.startswith(("#", "mailto:")):
                 continue
-            rel = os.path.normpath(os.path.join(os.path.dirname(cur), unquote(target.split("#")[0])))
+            rel = _link_path(cur, target, md.__contains__)
             if rel in md and rel not in dist:
                 dist[rel] = dist[cur] + 1
                 queue.append(rel)
     return [c for c in candidates if c not in dist]
+
+
+def _link_path(cur: str, target: str, exists: Callable[[str], bool]) -> str:
+    """The repository path a Markdown link in page `cur` points at. A target starting with "/" is
+    root-relative: the repository root when `exists` says that path is there, else the wiki folder
+    (personal-wiki links "/people/a.md" from wiki/). Same rule as project-meta md_file_cap."""
+    target = unquote(target.split("#")[0])  # links to names with spaces are %20-encoded
+    if target.startswith("/"):
+        rel = os.path.normpath(target.lstrip("/"))
+        return rel if exists(rel) else os.path.normpath(os.path.join(os.path.dirname(WIKI_ENTRY), rel))
+    return os.path.normpath(os.path.join(os.path.dirname(cur), target))
 
 
 def doc_reach_refusal(unreached: list[str], has_wiki: bool) -> str:
@@ -1120,7 +1132,7 @@ def shaping_navigation_problems(root: Path, plan_id: str, outside: list[FileChan
             text = line[1:].strip()
             if not text or (new_index and text.startswith("#")):
                 continue
-            targets = [os.path.normpath(os.path.join(os.path.dirname(change.path), unquote(t.split("#")[0])))
+            targets = [_link_path(change.path, t, lambda p: (p + "/").startswith(folder))
                        for t in _MD_LINK.findall(text) if "://" not in t and not t.startswith(("#", "mailto:"))]
             if not targets or any(not (t + "/").startswith(folder) for t in targets):
                 problems.append(f"{change.path} (line not a link into {folder}: {text[:80]})")
