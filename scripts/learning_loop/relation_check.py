@@ -29,7 +29,7 @@ DEFINITIONS = {
     "unrelated": "A and B are about different things",
 }
 JEV = "openrouter/typesafe/jev-1.13"
-STRONG = os.environ.get("FEEDBACK_STRONG_MODEL", "openrouter/openai/gpt-5.6-sol")  # any llm_client-allowlisted route
+STRONG = os.environ.get("FEEDBACK_STRONG_MODEL", "openrouter/openai/gpt-6-luna")  # any llm_client-allowlisted route
 WORD = re.compile(r"[a-z][a-z0-9_]{3,}")
 
 
