@@ -9,8 +9,10 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+import os
 from pathlib import Path
 import sys
+from urllib.parse import quote
 
 from enforced_planning.relationship_context import ArtifactRecord
 from enforced_planning.relationship_context import ArtifactClassification
@@ -48,10 +50,22 @@ def _inline_code(value: str) -> str:
     return f"{fence}{value}{fence}"
 
 
-def _artifact_lines(artifact: ArtifactRecord, *, self_path: str | None) -> list[str]:
+def _artifact_link(path: str, *, output_dir: str) -> str:
+    """Relative, percent-encoded link from the generated page to one tracked artifact.
+
+    A real link (not only a code span) lets readers open the source and lets
+    reachability checks count every tracked document as listed on this page.
+    """
+
+    relative = os.path.relpath(path, output_dir or ".").replace(os.sep, "/")
+    return quote(relative, safe="/-_.~")
+
+
+def _artifact_lines(artifact: ArtifactRecord, *, self_path: str | None, output_dir: str = ".") -> list[str]:
     """Render one tracked artifact and its documented Python symbols."""
 
-    lines = [f"### {_inline_code(artifact.path)}", ""]
+    link = _artifact_link(artifact.path, output_dir=output_dir)
+    lines = [f"### [{_inline_code(artifact.path)}]({link})", ""]
     if artifact.path == self_path:
         lines.extend(["_Generated wiki projection; self-content intentionally omitted._", ""])
         return lines
@@ -86,6 +100,7 @@ def render_docstring_wiki(repo_root: Path, *, output_path: Path = DEFAULT_OUTPUT
         self_path = resolved_output.resolve().relative_to(root).as_posix()
     except ValueError:
         self_path = None
+    output_dir = os.path.dirname(self_path) if self_path else "."
     classifications = Counter(artifact.classification for artifact in report.artifacts)
     diagnostic_codes = Counter(item.code for artifact in report.artifacts for item in artifact.diagnostics)
     lines = [
@@ -113,7 +128,7 @@ def render_docstring_wiki(repo_root: Path, *, output_path: Path = DEFAULT_OUTPUT
             continue
         lines.extend([f"## {classification.replace('_', ' ').title()} ({classifications[classification]})", ""])
         for artifact in artifacts:
-            lines.extend(_artifact_lines(artifact, self_path=self_path))
+            lines.extend(_artifact_lines(artifact, self_path=self_path, output_dir=output_dir))
     return "\n".join(lines).rstrip() + "\n"
 
 

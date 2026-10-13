@@ -9,76 +9,76 @@ artifacts. Open the cited source for full context and current truth.
 
 ## Coverage
 
-- Tracked artifacts: 1099
-- Artifacts with source summaries: 417
-- Coverage findings: 1059
-- Finding types: python-docstring-missing=1059
+- Tracked artifacts: 1102
+- Artifacts with source summaries: 420
+- Coverage findings: 1061
+- Finding types: python-docstring-missing=1061
 
 ## Source (189)
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/hier.py`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/hier.py`](../datasets/learning-loop/experiments/2026-10-02-question-design/hier.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/holdout.py`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/holdout.py`](../datasets/learning-loop/experiments/2026-10-02-question-design/holdout.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/ml.py`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/ml.py`](../datasets/learning-loop/experiments/2026-10-02-question-design/ml.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/sc.py`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/sc.py`](../datasets/learning-loop/experiments/2026-10-02-question-design/sc.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/v2.py`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/v2.py`](../datasets/learning-loop/experiments/2026-10-02-question-design/v2.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/v2lib.py`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/v2lib.py`](../datasets/learning-loop/experiments/2026-10-02-question-design/v2lib.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `datasets/learning-loop/experiments/2026-10-07-filing-gate/eval_reusable.py`
+### [`datasets/learning-loop/experiments/2026-10-07-filing-gate/eval_reusable.py`](../datasets/learning-loop/experiments/2026-10-07-filing-gate/eval_reusable.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `datasets/learning-loop/experiments/2026-10-07-filing-gate/independent_grade.py`
+### [`datasets/learning-loop/experiments/2026-10-07-filing-gate/independent_grade.py`](../datasets/learning-loop/experiments/2026-10-07-filing-gate/independent_grade.py)
 
 Independent grade of the 10 gated entries by a different model family (Gemini), blind to the filer's kind label and scores. Prints one line per entry and a summary.
 
 _Coverage findings: python-docstring-missing._
 
-### `datasets/learning-loop/experiments/2026-10-07-filing-gate/paraphrase_probe.py`
+### [`datasets/learning-loop/experiments/2026-10-07-filing-gate/paraphrase_probe.py`](../datasets/learning-loop/experiments/2026-10-07-filing-gate/paraphrase_probe.py)
 
 Does the collector's light model (deepseek-v4-flash) catch the two known reworded repeats, and pass the 8 distinct ones?
 
 _Coverage findings: python-docstring-missing._
 
-### `datasets/learning-loop/experiments/2026-10-07-filing-gate/retriage.py`
+### [`datasets/learning-loop/experiments/2026-10-07-filing-gate/retriage.py`](../datasets/learning-loop/experiments/2026-10-07-filing-gate/retriage.py)
 
 Score the 2026-10-06 backlog's pending closeout-Learnings items with the collector's own triage (kind + reusable question) and append updated item lines, so file-pending applies the same gate.
 
-### `enforced_planning/__init__.py`
+### [`enforced_planning/__init__.py`](../enforced_planning/__init__.py)
 
 Importable package surfaces for enforced-planning.
 
-### `enforced_planning/agents_rendering.py`
+### [`enforced_planning/agents_rendering.py`](../enforced_planning/agents_rendering.py)
 
 Importable AGENTS.md rendering helpers for governed repos.
 
@@ -97,7 +97,7 @@ Importable AGENTS.md rendering helpers for governed repos.
 - `extract_section` · `extract_section(markdown: str, heading: str) -> str` · line 208: Return the body for a named H2 section or supported heading alias.
 - `parse_args` · `parse_args(default_template: Path) -> argparse.Namespace` · line 232: Parse CLI arguments for the renderer.
 
-### `enforced_planning/artifact_creation.py`
+### [`enforced_planning/artifact_creation.py`](../enforced_planning/artifact_creation.py)
 
 Evaluate and observe governed creation of new tracked repository artifacts.
 
@@ -136,7 +136,7 @@ Evaluate and observe governed creation of new tracked repository artifacts.
 - `_read_jsonl` · `_read_jsonl(path: Path) -> list[dict[str, Any]]` · line 790: Read valid JSON objects from a local evidence stream and fail on corruption.
 - `build_report` · `build_report(*, receipt_path: Path = DEFAULT_RECEIPT_PATH, feedback_path: Path = DEFAULT_FEEDBACK_PATH, repo_root: Path | None = None) -> dict[str, Any]` · line 810: Build a step-down-friendly enforcement, latency, and feedback report.
 
-### `enforced_planning/blocker_policy.py`
+### [`enforced_planning/blocker_policy.py`](../enforced_planning/blocker_policy.py)
 
 Provider-free ready-queue evaluation and blocker disposition policy.
 
@@ -167,7 +167,7 @@ Provider-free ready-queue evaluation and blocker disposition policy.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/claim_bootstrap.py`
+### [`enforced_planning/claim_bootstrap.py`](../enforced_planning/claim_bootstrap.py)
 
 Narrow self-service lane controls for a natively identified agent session.
 
@@ -208,7 +208,7 @@ Narrow self-service lane controls for a natively identified agent session.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/claim_mutation_receipts.py`
+### [`enforced_planning/claim_mutation_receipts.py`](../enforced_planning/claim_mutation_receipts.py)
 
 Durable, typed evidence for sanctioned claim-registry mutations.
 
@@ -244,7 +244,7 @@ Durable, typed evidence for sanctioned claim-registry mutations.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/client_session_metadata.py`
+### [`enforced_planning/client_session_metadata.py`](../enforced_planning/client_session_metadata.py)
 
 Read-only client display metadata and truthful mailbox response projections.
 
@@ -260,7 +260,7 @@ Read-only client display metadata and truthful mailbox response projections.
 - `resolve_client_session_display` · `resolve_client_session_display(session_id: str, *, codex_session_index: Path = DEFAULT_CODEX_SESSION_INDEX, claude_session_registry: Path = DEFAULT_CLAUDE_SESSION_REGISTRY) -> ClientSessionDisplayV1` · line 171: Resolve optional human-facing metadata without changing canonical identity.
 - `build_coordination_response_readout` · `build_coordination_response_readout(status: coordination_messages.MessageStatusView, *, claims: list[coordination_claims.ClaimRecord], codex_session_index: Path = DEFAULT_CODEX_SESSION_INDEX, codex_config_path: Path | None = None, claude_config_path: Path | None = None) -> CoordinationResponseReadoutV2` · line 254: Join message lifecycle and display metadata without inferring completion.
 
-### `enforced_planning/concern_routing.py`
+### [`enforced_planning/concern_routing.py`](../enforced_planning/concern_routing.py)
 
 Review-claim creation and concern routing for coordination-aware review work.
 
@@ -277,7 +277,7 @@ Review-claim creation and concern routing for coordination-aware review work.
 - `_best_recipient` · `_best_recipient(project: str, target_branch: str, explicit_recipient: str | None) -> str` · line 147: Resolve exactly one canonical recipient session for an unpublished lane.
 - `route_concern` · `route_concern(*, repo_root: str | Path, agent: str, project: str, target_branch: str, subject: str, content: str, recipient: str | None = None, idempotency_key: str | None = None, dry_run: bool = False) -> dict[str, Any]` · line 169: Route a concern to a PR or persist it in the canonical mailbox.
 
-### `enforced_planning/concurrent_writers.py`
+### [`enforced_planning/concurrent_writers.py`](../enforced_planning/concurrent_writers.py)
 
 Report what landed on a shared ref while a lane was open.
 
@@ -290,7 +290,7 @@ Report what landed on a shared ref while a lane was open.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/context_packet.py`
+### [`enforced_planning/context_packet.py`](../enforced_planning/context_packet.py)
 
 Build bounded edit-context packets from source summaries and relationship edges.
 
@@ -330,7 +330,7 @@ Build bounded edit-context packets from source summaries and relationship edges.
 - `_load_relationships` · `_load_relationships(repo_root: Path, config_path: str | Path) -> dict[str, Any]` · line 896: Load one repository relationship graph without legacy module coupling.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 910: Run the portable context-packet CLI for one edit target.
 
-### `enforced_planning/coordination_claims.py`
+### [`enforced_planning/coordination_claims.py`](../enforced_planning/coordination_claims.py)
 
 Cross-brain coordination claims for multi-agent work.
 
@@ -483,7 +483,7 @@ Cross-brain coordination claims for multi-agent work.
 - `_render_completed_claim_archive_failure` · `_render_completed_claim_archive_failure(exc: CompletedClaimArchiveError, *, as_json: bool) -> int` · line 5546: Report an archive-before-prune failure that left claim YAML unchanged.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 5560: Run the CLI for cross-brain coordination claim management.
 
-### `enforced_planning/coordination_messages.py`
+### [`enforced_planning/coordination_messages.py`](../enforced_planning/coordination_messages.py)
 
 Durable cross-client coordination messages and append-only receipts.
 
@@ -581,7 +581,7 @@ Durable cross-client coordination messages and append-only receipts.
 - `build_parser` · `build_parser() -> argparse.ArgumentParser` · line 1825: Build the agent-drivable JSON request CLI.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 1842: Execute one typed mailbox operation and print a strict JSON result.
 
-### `enforced_planning/doc_authority.py`
+### [`enforced_planning/doc_authority.py`](../enforced_planning/doc_authority.py)
 
 Authority-drift reconciliation storage and validation.
 
@@ -640,20 +640,21 @@ Authority-drift reconciliation storage and validation.
 - `unresolved_owned_obligations` · `unresolved_owned_obligations(claim: coordination_claims.ClaimRecord) -> list[AuthorityObligation]` · line 1184: Return unresolved obligations against surfaces owned by one claim.
 - `assert_no_unresolved_owned_obligations` · `assert_no_unresolved_owned_obligations(claim: coordination_claims.ClaimRecord) -> None` · line 1198: Fail loud when one lane owns an authority surface with open debt.
 
-### `enforced_planning/docstring_wiki.py`
+### [`enforced_planning/docstring_wiki.py`](../enforced_planning/docstring_wiki.py)
 
 Render a deterministic whole-repository wiki from source-local summaries.
 
 **Symbols**
 
-- `_first_paragraph` · `_first_paragraph(text: str | None) -> str | None` · line 33: Compress one real docstring paragraph for the generated navigation view.
-- `_inline_code` · `_inline_code(value: str) -> str` · line 44: Render stable Markdown code even when a source name contains backticks.
-- `_artifact_lines` · `_artifact_lines(artifact: ArtifactRecord, *, self_path: str | None) -> list[str]` · line 51: Render one tracked artifact and its documented Python symbols.
-- `render_docstring_wiki` · `render_docstring_wiki(repo_root: Path, *, output_path: Path = DEFAULT_OUTPUT) -> str` · line 79: Render every tracked artifact into a deterministic Markdown projection.
-- `check_docstring_wiki` · `check_docstring_wiki(repo_root: Path, *, output_path: Path = DEFAULT_OUTPUT) -> tuple[bool, str]` · line 120: Compare generated output byte-for-byte without rewriting the worktree.
-- `main` · `main(argv: list[str] | None = None) -> int` · line 134: Generate, check, or print the deterministic docstring wiki.
+- `_first_paragraph` · `_first_paragraph(text: str | None) -> str | None` · line 35: Compress one real docstring paragraph for the generated navigation view.
+- `_inline_code` · `_inline_code(value: str) -> str` · line 46: Render stable Markdown code even when a source name contains backticks.
+- `_artifact_link` · `_artifact_link(path: str, *, output_dir: str) -> str` · line 53: Relative, percent-encoded link from the generated page to one tracked artifact.
+- `_artifact_lines` · `_artifact_lines(artifact: ArtifactRecord, *, self_path: str | None, output_dir: str = '.') -> list[str]` · line 64: Render one tracked artifact and its documented Python symbols.
+- `render_docstring_wiki` · `render_docstring_wiki(repo_root: Path, *, output_path: Path = DEFAULT_OUTPUT) -> str` · line 93: Render every tracked artifact into a deterministic Markdown projection.
+- `check_docstring_wiki` · `check_docstring_wiki(repo_root: Path, *, output_path: Path = DEFAULT_OUTPUT) -> tuple[bool, str]` · line 135: Compare generated output byte-for-byte without rewriting the worktree.
+- `main` · `main(argv: list[str] | None = None) -> int` · line 149: Generate, check, or print the deterministic docstring wiki.
 
-### `enforced_planning/effective_project_profile.py`
+### [`enforced_planning/effective_project_profile.py`](../enforced_planning/effective_project_profile.py)
 
 Resolve one portable, explainable governed-project profile.
 
@@ -664,7 +665,7 @@ Resolve one portable, explainable governed-project profile.
 - `resolve_effective_project_profile` · `resolve_effective_project_profile(payload: dict[str, Any] | None) -> EffectiveProjectProfileV1` · line 65: Resolve defaults and master override without mutating source configuration.
 - `load_effective_project_profile` · `load_effective_project_profile(repo_root: Path) -> EffectiveProjectProfileV1` · line 98: Load ``meta-process.yaml`` when present; absence uses default-on policy.
 
-### `enforced_planning/file_context.py`
+### [`enforced_planning/file_context.py`](../enforced_planning/file_context.py)
 
 Load and print context relationships for files from scripts/relationships.yaml.
 
@@ -683,7 +684,7 @@ Load and print context relationships for files from scripts/relationships.yaml.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/impact_obligations.py`
+### [`enforced_planning/impact_obligations.py`](../enforced_planning/impact_obligations.py)
 
 Derive auditable reconciliation obligations from changed relationship nodes.
 
@@ -705,7 +706,7 @@ Derive auditable reconciliation obligations from changed relationship nodes.
 - `_load_relationships` · `_load_relationships(repo_root: Path, config_path: str | Path) -> dict[str, Any]` · line 366: Load a relationship mapping for the impact-report CLI.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 380: Run report-only or strict reconciliation checks for a Git comparison.
 
-### `enforced_planning/integration_authority.py`
+### [`enforced_planning/integration_authority.py`](../enforced_planning/integration_authority.py)
 
 Canonical-claim authority for the hook-governed pull-request finish path.
 
@@ -720,7 +721,7 @@ Canonical-claim authority for the hook-governed pull-request finish path.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/mailbox_execution_identity.py`
+### [`enforced_planning/mailbox_execution_identity.py`](../enforced_planning/mailbox_execution_identity.py)
 
 Classify mailbox callbacks by proven native root/child identity.
 
@@ -729,7 +730,7 @@ Classify mailbox callbacks by proven native root/child identity.
 - `PrimaryExecutionDecisionV1` · `PrimaryExecutionDecisionV1` · line 19: Root/child classification consumed before any mailbox access.
 - `classify_hook_execution` · `classify_hook_execution(payload: dict[str, object], *, client: Literal['codex', 'claude-code']) -> PrimaryExecutionDecisionV1` · line 34: Classify one callback from stable native identity fields only.
 
-### `enforced_planning/notebook_registry_validation.py`
+### [`enforced_planning/notebook_registry_validation.py`](../enforced_planning/notebook_registry_validation.py)
 
 Validate notebook registries and registered journey notebooks.
 
@@ -756,7 +757,7 @@ Validate notebook registries and registered journey notebooks.
 - `print_human_readable` · `print_human_readable(result: NotebookRegistryValidationResult) -> None` · line 472: Print a concise human-readable validation summary.
 - `main` · `main(argv: Sequence[str] | None = None, *, repo_root: Path | None = None, workspace_root: Path | None = None) -> int` · line 492: Run notebook registry validation from the command line.
 
-### `enforced_planning/outcome_admission.py`
+### [`enforced_planning/outcome_admission.py`](../enforced_planning/outcome_admission.py)
 
 Production outcome-admission ordering for the first Enforced Planning consumer.
 
@@ -808,7 +809,7 @@ Production outcome-admission ordering for the first Enforced Planning consumer.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/outcome_completion.py`
+### [`enforced_planning/outcome_completion.py`](../enforced_planning/outcome_completion.py)
 
 Persist and enforce criterion-bound completion for one selected outcome.
 
@@ -824,7 +825,7 @@ Persist and enforce criterion-bound completion for one selected outcome.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/outcome_continuation.py`
+### [`enforced_planning/outcome_continuation.py`](../enforced_planning/outcome_continuation.py)
 
 Evaluate progress-bound coding-agent continuation without cost gating.
 
@@ -867,7 +868,7 @@ Evaluate progress-bound coding-agent continuation without cost gating.
 - `evaluate_scenario` · `evaluate_scenario(scenario: OutcomeContinuationScenarioV1) -> OutcomeContinuationResultV1` · line 1461: Apply an ordered scenario and return its final lease/admission result.
 - `load_scenario` · `load_scenario(path: str) -> OutcomeContinuationScenarioV1` · line 1492: Load one strict scenario JSON file.
 
-### `enforced_planning/outcome_portfolio.py`
+### [`enforced_planning/outcome_portfolio.py`](../enforced_planning/outcome_portfolio.py)
 
 Allocate graph-bound outcome slots before durable outcome selection.
 
@@ -895,7 +896,7 @@ Allocate graph-bound outcome slots before durable outcome selection.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/outcome_selection.py`
+### [`enforced_planning/outcome_selection.py`](../enforced_planning/outcome_selection.py)
 
 Bind one exact claimed session to one immutable outcome scenario.
 
@@ -937,7 +938,7 @@ Bind one exact claimed session to one immutable outcome scenario.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/plan_close.py`
+### [`enforced_planning/plan_close.py`](../enforced_planning/plan_close.py)
 
 Plan-owned lane inventory and fail-closed atomic closeout.
 
@@ -954,7 +955,7 @@ Plan-owned lane inventory and fail-closed atomic closeout.
 - `_contains_path` · `_contains_path(root: Path, candidate: Path) -> bool` · line 156: Return whether ``candidate`` is equal to or beneath ``root``.
 - `close_plan_lanes` · `close_plan_lanes(*, qualified_plan_id: str, submitted_revision: str, claims: list[coordination_claims.ClaimRecord] | None = None, preflight: Preflight = _default_preflight, closer: Closer = _default_closer, dry_run: bool = False, protected_path: Path | None = None) -> PlanCloseResultV1` · line 165: Preflight every live owned lane, then close all or mutate none.
 
-### `enforced_planning/plan_dependencies.py`
+### [`enforced_planning/plan_dependencies.py`](../enforced_planning/plan_dependencies.py)
 
 Plan dependency contract validator (project-meta Plan #289).
 
@@ -984,7 +985,7 @@ Plan dependency contract validator (project-meta Plan #289).
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/plan_readiness.py`
+### [`enforced_planning/plan_readiness.py`](../enforced_planning/plan_readiness.py)
 
 Portable, revision-bound plan start and explicit-resume decisions.
 
@@ -1000,7 +1001,7 @@ Portable, revision-bound plan start and explicit-resume decisions.
 - `_live_matching_claim_scopes` · `_live_matching_claim_scopes(*, repository: str, qualified_plan_id: str) -> list[str]` · line 109: Return live or preserved canonical claim scopes for one numbered plan.
 - `check_plan_start_readiness` · `check_plan_start_readiness(*, qualified_plan_id: str | None, execution_profile: ExecutionProfile, query_command: str | None, repository: str, lane_id: str, branch: str, worktree_path: str, claim_identity: str, session_identity: str, repo_root: Path | str | None = None, start_point: str = 'HEAD', plan_repo_root: Path | str | None = None, plan_start_point: str | None = None, parent_lane_id: str | None = None, allow_unplanned: bool = False, resume_requested: bool = False) -> PlanStartGateResultV2` · line 126: Validate static readiness and the non-owning precondition for a resume.
 
-### `enforced_planning/plan_validation.py`
+### [`enforced_planning/plan_validation.py`](../enforced_planning/plan_validation.py)
 
 Validate implementation plans against the documentation relationship graph.
 
@@ -1060,13 +1061,13 @@ Validate implementation plans against the documentation relationship graph.
 - `_run_soft_notebook_check` · `_run_soft_notebook_check(repo_root: Path) -> None` · line 1697: Run the non-blocking notebook registry validation for one repo.
 - `main` · `main(argv: Sequence[str] | None = None, *, repo_root: Path | None = None, plans_dir: Path | None = None) -> int` · line 1726: Run plan validation from the command line.
 
-### `enforced_planning/pr_review_signoff.py`
+### [`enforced_planning/pr_review_signoff.py`](../enforced_planning/pr_review_signoff.py)
 
 Exact-revision PR review orchestration and signoff receipts.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/prewrite_claim_fast.py`
+### [`enforced_planning/prewrite_claim_fast.py`](../enforced_planning/prewrite_claim_fast.py)
 
 Dependency-light pre-write decisions over a canonical claim projection.
 
@@ -1106,7 +1107,7 @@ Dependency-light pre-write decisions over a canonical claim projection.
 - `evaluate_prewrite_fast` · `evaluate_prewrite_fast(payload: dict[str, Any], *, client: str, mode: str, claims_dir: Path = DEFAULT_CLAIMS_DIR, projection_path: Path | None = None, receipt_path: Path = DEFAULT_RECEIPT_PATH, claim_bootstrap_classifier: BashBootstrapClassifier | None = None, projection_recovery_command: str | None = None) -> dict[str, Any]` · line 1791: Normalize and evaluate one native hook payload.
 - `native_mutation_worktree` · `native_mutation_worktree(payload: dict[str, Any], *, client: str) -> Path` · line 1819: Resolve the Git worktree named by one native mutation event.
 
-### `enforced_planning/prewrite_claim_projection.py`
+### [`enforced_planning/prewrite_claim_projection.py`](../enforced_planning/prewrite_claim_projection.py)
 
 Compile canonical YAML claims into a digest-bound pre-write projection.
 
@@ -1123,7 +1124,7 @@ Compile canonical YAML claims into a digest-bound pre-write projection.
 - `write_projection` · `write_projection(*, claims_dir: Path, projection_path: Path | None = None) -> PreWriteAuthorityProjectionV1` · line 224: Atomically replace one derived projection after full validation.
 - `projection_is_current` · `projection_is_current(*, claims_dir: Path, projection_path: Path | None = None) -> bool` · line 239: Return whether one readable validated projection matches YAML authority.
 
-### `enforced_planning/push_safety.py`
+### [`enforced_planning/push_safety.py`](../enforced_planning/push_safety.py)
 
 Pre-push coordination checks for governed worktree branches.
 
@@ -1150,7 +1151,7 @@ Pre-push coordination checks for governed worktree branches.
 - `_is_same_session_default_integration` · `_is_same_session_default_integration(repo_root: Path, *, canonical_repo_root: Path, resolved_branch: str, default_branch: str, changed_paths: list[str], claim: coordination_claims.ClaimRecord) -> bool` · line 262: Return whether HEAD safely contains one current-session source lane.
 - `evaluate_push_safety` · `evaluate_push_safety(repo_root: str | Path = '.', *, project: str | None = None, branch: str | None = None, include_active_decisions: bool = False, fail_on_active_decisions: bool = False) -> dict[str, Any]` · line 304: Evaluate whether the current branch is safe to push as-is.
 
-### `enforced_planning/relationship_context.py`
+### [`enforced_planning/relationship_context.py`](../enforced_planning/relationship_context.py)
 
 Compile source-local summaries for every Git-tracked repository artifact.
 
@@ -1179,7 +1180,7 @@ Compile source-local summaries for every Git-tracked repository artifact.
 - `inventory_repository` · `inventory_repository(repo_root: Path) -> InventoryReport` · line 531: Compile deterministic source-summary records for every tracked artifact.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 561: Run the read-only relationship-context inventory CLI.
 
-### `enforced_planning/repository_authority.py`
+### [`enforced_planning/repository_authority.py`](../enforced_planning/repository_authority.py)
 
 Generic, fail-closed repository mutation-authority provider boundary.
 
@@ -1194,7 +1195,7 @@ Generic, fail-closed repository mutation-authority provider boundary.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/repository_status.py`
+### [`enforced_planning/repository_status.py`](../enforced_planning/repository_status.py)
 
 Read-only Git freshness status for current project authority.
 
@@ -1212,7 +1213,7 @@ Read-only Git freshness status for current project authority.
 - `_drift_status` · `_drift_status(ahead_count: int, behind_count: int) -> str` · line 167: Classify one local ref's exact relation to a remote authority ref.
 - `inspect_repository` · `inspect_repository(repo_root: Path, *, fetch_remote: bool = True, fetch_timeout_seconds: float = DEFAULT_FETCH_TIMEOUT_SECONDS) -> RepositoryStatus` · line 179: Inspect canonical default-branch freshness without mutating local work.
 
-### `enforced_planning/session_continuity.py`
+### [`enforced_planning/session_continuity.py`](../enforced_planning/session_continuity.py)
 
 Classify session activity without turning silence into takeover authority.
 
@@ -1249,7 +1250,7 @@ Classify session activity without turning silence into takeover authority.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/session_contracts.py`
+### [`enforced_planning/session_contracts.py`](../enforced_planning/session_contracts.py)
 
 Session bootstrap contract and tracker helpers.
 
@@ -1281,7 +1282,7 @@ Session bootstrap contract and tracker helpers.
 - `mutate_session_tracker` · `mutate_session_tracker(path: Path, mutation: Callable[[dict[str, Any]], None], *, updated_at: str | None = None) -> dict[str, Any]` · line 674: Apply one locked tracker transformation and atomically persist it.
 - `update_session_tracker` · `update_session_tracker(path: Path, *, current_phase: str | None = None, intended_next_phases: list[str] | None = None, depends_on_repos: list[str] | None = None, requires_shared_infra_changes: bool | None = None, stop_conditions: list[str] | None = None, notes: str | None = None, updated_at: str | None = None) -> dict[str, Any]` · line 694: Update one existing tracker artifact in place and return the payload.
 
-### `enforced_planning/session_lifecycle.py`
+### [`enforced_planning/session_lifecycle.py`](../enforced_planning/session_lifecycle.py)
 
 Session lifecycle operations for sanctioned worktree flows.
 
@@ -1384,7 +1385,7 @@ Session lifecycle operations for sanctioned worktree flows.
 - `_validate_orphaned_tracker_archival` · `_validate_orphaned_tracker_archival(*, tracker_path: Path, expected_tracker_sha256: str | None, allow_unique_branch_commits: bool) -> dict[str, Any]` · line 6096: Fail closed before archiving one claim-less tracker with no worktree.
 - `archive_orphaned_session_tracker` · `archive_orphaned_session_tracker(*, tracker_path: str | Path, expected_tracker_sha256: str | None, note: str | None = None, allow_unique_branch_commits: bool = False, archive_root: str | Path | None = None) -> dict[str, Any]` · line 6300: Archive one claim-less session tracker whose worktree is already gone.
 
-### `enforced_planning/session_process_fencing.py`
+### [`enforced_planning/session_process_fencing.py`](../enforced_planning/session_process_fencing.py)
 
 Exact predecessor-process fencing for cross-session Codex custody transfer.
 
@@ -1397,7 +1398,7 @@ Exact predecessor-process fencing for cross-session Codex custody transfer.
 - `resolve_predecessor_process` · `resolve_predecessor_process(*, predecessor_session_id: str, worktree_path: str, trusted_codex_executable: Path, proc_root: Path = Path('/proc'), session_index: Path = DEFAULT_CODEX_SESSION_INDEX) -> PredecessorProcessIdentityV1` · line 253: Resolve exactly one direct Codex resume process for an offered owner.
 - `fence_predecessor_process` · `fence_predecessor_process(*, predecessor_session_id: str, successor_session_id: str, worktree_path: str, predecessor_pid: int, transfer_epoch_sha256: str, predecessor_process_start_ticks: int, proc_root: Path = Path('/proc'), session_index: Path = DEFAULT_CODEX_SESSION_INDEX, receipt_root: Path = DEFAULT_FENCE_RECEIPT_ROOT, trusted_codex_executable: Path | None = None, timeout_seconds: float = 5.0, open_pidfd: Callable[[int], int] = _open_pidfd, signal_pidfd: Callable[[int, int], None] = _signal_pidfd, pidfd_exited: Callable[[int, float], bool] = _pidfd_exited, close_pidfd: Callable[[int], None] = os.close) -> dict[str, object]` · line 303: Terminate one exact Codex predecessor and persist fail-closed evidence.
 
-### `enforced_planning/session_target.py`
+### [`enforced_planning/session_target.py`](../enforced_planning/session_target.py)
 
 Resolve a mutation target to one exact claimed worktree.
 
@@ -1410,7 +1411,7 @@ Resolve a mutation target to one exact claimed worktree.
 - `_validate_claimed_git_identity` · `_validate_claimed_git_identity(claim: dict[str, Any], *, worktree: Path) -> None` · line 110: Prove that a projected target is the claim's exact repository and branch.
 - `resolve_exact_session_target` · `resolve_exact_session_target(payload: dict[str, Any], *, client: str, claims_dir: Path, projection_path: Path | None = None, target_worktree: Path | None = None) -> SessionTarget` · line 165: Select one healthy projected claim for the identity and optional target.
 
-### `enforced_planning/surface_runtime.py`
+### [`enforced_planning/surface_runtime.py`](../enforced_planning/surface_runtime.py)
 
 Revision-bound runtime leases for governed human-facing surfaces.
 
@@ -1428,7 +1429,7 @@ Revision-bound runtime leases for governed human-facing surfaces.
 
 _Coverage findings: python-docstring-missing._
 
-### `enforced_planning/verification_batch.py`
+### [`enforced_planning/verification_batch.py`](../enforced_planning/verification_batch.py)
 
 Freeze terminal verification to immutable Git bytes until explicit invalidation.
 
@@ -1453,7 +1454,7 @@ Freeze terminal verification to immutable Git bytes until explicit invalidation.
 - `check_batch` · `check_batch(repo_root: Path, *, require_active: bool = False) -> VerificationBatch | None` · line 220: Fail if an active batch no longer names the current clean branch bytes.
 - `thaw_batch` · `thaw_batch(repo_root: Path, *, reason: str) -> VerificationBatch` · line 246: Invalidate a batch explicitly and retain a local audit record.
 
-### `enforced_planning/worktree_paths.py`
+### [`enforced_planning/worktree_paths.py`](../enforced_planning/worktree_paths.py)
 
 Importable workspace and canonical-repo path helpers.
 
@@ -1464,11 +1465,11 @@ Importable workspace and canonical-repo path helpers.
 - `resolve_canonical_repo_root` · `resolve_canonical_repo_root(repo_root: Path) -> Path` · line 67: Return the canonical repo root for a main checkout or linked worktree.
 - `resolve_canonical_target_path` · `resolve_canonical_target_path(*, target_path: Path, repo_root: Path) -> Path | None` · line 102: Map a missing worktree-local path to the canonical repo root when safe.
 
-### `proposals/aes-brownfield-docs/layout_check.py`
+### [`proposals/aes-brownfield-docs/layout_check.py`](../proposals/aes-brownfield-docs/layout_check.py)
 
 layout_check.py REPO [REF] : is the repository's documentation organized in its declared AES layout?
 
-### `proposals/aes-brownfield-docs/reach.py`
+### [`proposals/aes-brownfield-docs/reach.py`](../proposals/aes-brownfield-docs/reach.py)
 
 reach.py REPO_PATH [REF] [--list] : can a reader reach every reader document from wiki/index.md in two links?
 
@@ -1478,19 +1479,19 @@ reach.py REPO_PATH [REF] [--list] : can a reader reach every reader document fro
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/aes-durable-docs/evidence/m5-sample-tools/gen.py`
+### [`proposals/aes-durable-docs/evidence/m5-sample-tools/gen.py`](../proposals/aes-durable-docs/evidence/m5-sample-tools/gen.py)
 
 Write the per-plan sections of m5-disproof-sample.md from git, for the first 10 candidates.
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/aes-durable-docs/evidence/m5-sample-tools/select.py`
+### [`proposals/aes-durable-docs/evidence/m5-sample-tools/select.py`](../proposals/aes-durable-docs/evidence/m5-sample-tools/select.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/aes-durable-docs/review-page/build_page.py`
+### [`proposals/aes-durable-docs/review-page/build_page.py`](../proposals/aes-durable-docs/review-page/build_page.py)
 
 Build index.html (the visual review page) from ../PLAN.md.
 
@@ -1504,23 +1505,23 @@ Build index.html (the visual review page) from ../PLAN.md.
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/aes-feedback-prevention/verify_case.py`
+### [`proposals/aes-feedback-prevention/verify_case.py`](../proposals/aes-feedback-prevention/verify_case.py)
 
 Parent check for the bounded native/Remote MCP instruction regression.
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/aes-learning-loop/review-page/build_requirements.py`
+### [`proposals/aes-learning-loop/review-page/build_requirements.py`](../proposals/aes-learning-loop/review-page/build_requirements.py)
 
 Build review-page/requirements.html: each of Brian's feedback-system requirements vs the running system.
 
-### `proposals/aes-planning/review-page/build_page.py`
+### [`proposals/aes-planning/review-page/build_page.py`](../proposals/aes-planning/review-page/build_page.py)
 
 Build aes-planning-plan.html from the adopted plan ../README.md (kept in step by hand).
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/aes-planning/rollout/daily_report.py`
+### [`proposals/aes-planning/rollout/daily_report.py`](../proposals/aes-planning/rollout/daily_report.py)
 
 Daily report on the AES commit rule across every repository (plan aes-planning, P4/P6).
 
@@ -1531,7 +1532,7 @@ Daily report on the AES commit rule across every repository (plan aes-planning, 
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/aes-planning/rollout/install_everywhere.py`
+### [`proposals/aes-planning/rollout/install_everywhere.py`](../proposals/aes-planning/rollout/install_everywhere.py)
 
 Wire the AES commit rule (`aes commit check`) into every repository under a workspace.
 
@@ -1545,7 +1546,7 @@ Wire the AES commit rule (`aes commit check`) into every repository under a work
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/aes-planning/rollout/misuse_review.py`
+### [`proposals/aes-planning/rollout/misuse_review.py`](../proposals/aes-planning/rollout/misuse_review.py)
 
 Nightly review of commits that passed the AES commit rule on form alone (plan aes-planning).
 
@@ -1555,27 +1556,27 @@ Nightly review of commits that passed the AES commit rule on form alone (plan ae
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/aes-planning/rollout/replay_emergency.py`
+### [`proposals/aes-planning/rollout/replay_emergency.py`](../proposals/aes-planning/rollout/replay_emergency.py)
 
 Replay the "Emergency: none" refusal over every [Unplanned] commit in ~/code since 2026-10-07 (ROLLOUT.md, 2026-10-08).
 
-### `proposals/aes-subagent-feedback/verify_canary.py`
+### [`proposals/aes-subagent-feedback/verify_canary.py`](../proposals/aes-subagent-feedback/verify_canary.py)
 
 Check the actual native canary return against its frozen packet and result schema.
 
-### `proposals/agent-router/run-local-check.py`
+### [`proposals/agent-router/run-local-check.py`](../proposals/agent-router/run-local-check.py)
 
 Detached local merge gate; records exact revision, command, timing and exit.
 
-### `proposals/doc-reach-new-docs/replay.py`
+### [`proposals/doc-reach-new-docs/replay.py`](../proposals/doc-reach-new-docs/replay.py)
 
 Replay: commits since 2026-10-07 in Brian-owned repos that ADD .md files; are the added files reachable from wiki/index.md within 2 links at that commit (daily-check rules)?
 
-### `proposals/doc-reach-new-docs/replay_compare.py`
+### [`proposals/doc-reach-new-docs/replay_compare.py`](../proposals/doc-reach-new-docs/replay_compare.py)
 
 Replay for plan doc-reach-new-docs: for every commit since 2026-10-07 that added .md files in a Brian-owned repository under ~/code, compare the commit rule's new-document answer (run on that commit's tree loaded into a temporary index) with the daily check's (project-meta md_file_cap reachability at that commit). Prints one row per added file and the totals.
 
-### `proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py`
+### [`proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py`](../proposals/harness-context/native-parity/input/enforced-planning/enforced_planning/coordination_claims.py)
 
 Cross-brain coordination claims for multi-agent work.
 
@@ -1728,7 +1729,7 @@ Cross-brain coordination claims for multi-agent work.
 - `_render_completed_claim_archive_failure` · `_render_completed_claim_archive_failure(exc: CompletedClaimArchiveError, *, as_json: bool) -> int` · line 5546: Report an archive-before-prune failure that left claim YAML unchanged.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 5560: Run the CLI for cross-brain coordination claim management.
 
-### `proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py`
+### [`proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py`](../proposals/harness-context/native-parity/input/project-meta/scripts/meta/check_coordination_claims.py)
 
 Compatibility facade for package-backed coordination claims.
 
@@ -1763,7 +1764,7 @@ Compatibility facade for package-backed coordination claims.
 - `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 240: Expose CLI argument parsing through the legacy script surface.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 245: Run the package-backed coordination-claims CLI.
 
-### `proposals/harness-context/native-parity/verify_evidence.py`
+### [`proposals/harness-context/native-parity/verify_evidence.py`](../proposals/harness-context/native-parity/verify_evidence.py)
 
 Check saved paired traces without model calls; integrity is not behavior parity.
 
@@ -1782,33 +1783,33 @@ Check saved paired traces without model calls; integrity is not behavior parity.
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/harness-context/review-page/build_page.py`
+### [`proposals/harness-context/review-page/build_page.py`](../proposals/harness-context/review-page/build_page.py)
 
 Render the public-safe harness projection from the frozen findings.
 
-### `proposals/trace-review-enforcement/check_publication.py`
+### [`proposals/trace-review-enforcement/check_publication.py`](../proposals/trace-review-enforcement/check_publication.py)
 
 One light shared-client read of new publication material; retains the actual verdict.
 
 _Coverage findings: python-docstring-missing._
 
-### `proposals/trace-review-enforcement/run_final_gate.py`
+### [`proposals/trace-review-enforcement/run_final_gate.py`](../proposals/trace-review-enforcement/run_final_gate.py)
 
 Detached local merge gate with retained output, timings and explicit exits.
 
-### `research/investigations/render_normative_record_views.py`
+### [`research/investigations/render_normative_record_views.py`](../research/investigations/render_normative_record_views.py)
 
 Validate and render conventional views from one structured AES normative projection.
 
 _Coverage findings: python-docstring-missing._
 
-### `research/investigations/validate_aes_company_planning_profile.py`
+### [`research/investigations/validate_aes_company_planning_profile.py`](../research/investigations/validate_aes_company_planning_profile.py)
 
 Bounded structural/profile probe for AES-CP-PROFILE-001.
 
 _Coverage findings: python-docstring-missing._
 
-### `research/investigations/validate_architecture_blueprint.py`
+### [`research/investigations/validate_architecture_blueprint.py`](../research/investigations/validate_architecture_blueprint.py)
 
 Bounded structural probe for AES-BLUEPRINT-001, not a production AES schema.
 
@@ -1818,19 +1819,19 @@ Bounded structural probe for AES-BLUEPRINT-001, not a production AES schema.
 
 _Coverage findings: python-docstring-missing._
 
-### `research/investigations/validate_architecture_realization_schema.py`
+### [`research/investigations/validate_architecture_realization_schema.py`](../research/investigations/validate_architecture_realization_schema.py)
 
 Validate an AES architecture-realization YAML record with JSON Schema 2020-12.
 
 _Coverage findings: python-docstring-missing._
 
-### `research/investigations/validate_repository_context_source_context.py`
+### [`research/investigations/validate_repository_context_source_context.py`](../research/investigations/validate_repository_context_source_context.py)
 
 Bounded checker for the repository-context source-local normative-context pilot.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/artifact_creation.py`
+### [`scripts/artifact_creation.py`](../scripts/artifact_creation.py)
 
 Run native, staged, reporting, and feedback artifact-governance operations.
 
@@ -1841,7 +1842,7 @@ Run native, staged, reporting, and feedback artifact-governance operations.
 - `_render_decision` · `_render_decision(decision: dict[str, Any], *, as_json: bool) -> int` · line 89: Render one decision for a native or terminal caller.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 118: Dispatch artifact creation operations.
 
-### `scripts/audit_dead_code.py`
+### [`scripts/audit_dead_code.py`](../scripts/audit_dead_code.py)
 
 Generate or refresh the reviewed dead-code audit file for one repo.
 
@@ -1852,7 +1853,7 @@ Generate or refresh the reviewed dead-code audit file for one repo.
 - `build_audit_payload` · `build_audit_payload(repo_root: Path, output_file: str) -> dict[str, Any]` · line 89: Return the merged dead-code audit payload for one repo.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 118: Generate or refresh the current repo's dead-code audit file.
 
-### `scripts/check_dead_code.py`
+### [`scripts/check_dead_code.py`](../scripts/check_dead_code.py)
 
 Dead code sensor for enforced-planning framework.
 
@@ -1877,7 +1878,7 @@ Dead code sensor for enforced-planning framework.
 - `check_dead_code` · `check_dead_code(project_root: Path) -> Result` · line 554: Run dead code detection and apply reviewed-retention policy.
 - `main` · `main() -> None` · line 591: CLI entry point. Outputs JSON to stdout.
 
-### `scripts/check_doc_coupling.py`
+### [`scripts/check_doc_coupling.py`](../scripts/check_doc_coupling.py)
 
 Check that documentation is updated when coupled source files change.
 
@@ -1900,7 +1901,7 @@ Check that documentation is updated when coupled source files change.
 - `default_ack_file` · `default_ack_file() -> Path | None` · line 313: Return `<git toplevel>/.doc-coupling-acks` when it exists, else None.
 - `main` · `main() -> int` · line 335: CLI entry point. Parses args and checks that docs are updated when coupled source files change.
 
-### `scripts/check_markdown_links.py`
+### [`scripts/check_markdown_links.py`](../scripts/check_markdown_links.py)
 
 Check local markdown link integrity for governance docs.
 
@@ -1912,7 +1913,7 @@ Check local markdown link integrity for governance docs.
 - `check_markdown_links` · `check_markdown_links(targets: list[str], root: Path) -> list[LinkViolation]` · line 211: Validate all local markdown links and anchors across the given targets.
 - `main` · `main() -> int` · line 227: CLI entry point. Parses args and runs the markdown link integrity check.
 
-### `scripts/check_push_safety.py`
+### [`scripts/check_push_safety.py`](../scripts/check_push_safety.py)
 
 Validate whether the current branch is safe to push.
 
@@ -1922,7 +1923,7 @@ Validate whether the current branch is safe to push.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/check_reachability.py`
+### [`scripts/check_reachability.py`](../scripts/check_reachability.py)
 
 Module reachability sensor.
 
@@ -1934,11 +1935,11 @@ Module reachability sensor.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/check_required_reading.py`
+### [`scripts/check_required_reading.py`](../scripts/check_required_reading.py)
 
 Compatibility wrapper for required-read enforcement.
 
-### `scripts/coordination_hook.py`
+### [`scripts/coordination_hook.py`](../scripts/coordination_hook.py)
 
 Expose canonical mailbox requests through native Codex lifecycle hooks.
 
@@ -1982,7 +1983,7 @@ Expose canonical mailbox requests through native Codex lifecycle hooks.
 - `_is_completion_shaped_stop` · `_is_completion_shaped_stop(payload: dict[str, Any]) -> bool` · line 972: Classify an explicit completion protocol without interpreting free prose.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 1047: Refresh matching claim state and expose requests to the native session.
 
-### `scripts/coordination_inbox.py`
+### [`scripts/coordination_inbox.py`](../scripts/coordination_inbox.py)
 
 Poll the canonical coordination mailbox for one live agent session.
 
@@ -1992,7 +1993,7 @@ Poll the canonical coordination mailbox for one live agent session.
 - `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 43: Parse an agent-drivable inbox poll command.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 56: Poll, optionally append observation evidence, and render the notice.
 
-### `scripts/coordination_messages.py`
+### [`scripts/coordination_messages.py`](../scripts/coordination_messages.py)
 
 Run the package-backed cross-client coordination mailbox CLI.
 
@@ -2000,19 +2001,19 @@ Run the package-backed cross-client coordination mailbox CLI.
 
 - `_bootstrap_package` · `_bootstrap_package() -> None` · line 10: Load a local installed package or the target repo's upstream bootstrap.
 
-### `scripts/coordination_operator_status.py`
+### [`scripts/coordination_operator_status.py`](../scripts/coordination_operator_status.py)
 
 Show one message's human-identifiable recipient and truthful response state.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/hive/brain_fresh.py`
+### [`scripts/hive/brain_fresh.py`](../scripts/hive/brain_fresh.py)
 
 Is a project's brain older than the work done since? (hive brain v1, C-CONTEXT)
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/hook_receipts.py`
+### [`scripts/hook_receipts.py`](../scripts/hook_receipts.py)
 
 Private, content-free lifecycle receipts shared by portable agent hooks.
 
@@ -2038,7 +2039,7 @@ Private, content-free lifecycle receipts shared by portable agent hooks.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/collect_feedback.py`
+### [`scripts/learning_loop/collect_feedback.py`](../scripts/learning_loop/collect_feedback.py)
 
 Nightly feedback collector: transcripts -> one daily feedback log -> the learnings register.
 
@@ -2056,13 +2057,13 @@ Nightly feedback collector: transcripts -> one daily feedback log -> the learnin
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/effects.py`
+### [`scripts/learning_loop/effects.py`](../scripts/learning_loop/effects.py)
 
 Effect boundaries are explicit enforcement receipts, never issue-close dates.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/evidence.py`
+### [`scripts/learning_loop/evidence.py`](../scripts/learning_loop/evidence.py)
 
 Resolve feedback references and count independent, verified observations.
 
@@ -2072,7 +2073,7 @@ Resolve feedback references and count independent, verified observations.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/feedback_log.py`
+### [`scripts/learning_loop/feedback_log.py`](../scripts/learning_loop/feedback_log.py)
 
 Closeout Feedback fields -> feedback-report.v1 records -> the private feedback log.
 
@@ -2088,24 +2089,24 @@ Closeout Feedback fields -> feedback-report.v1 records -> the private feedback l
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/fix_owner.py`
+### [`scripts/learning_loop/fix_owner.py`](../scripts/learning_loop/fix_owner.py)
 
 Weekly owner for the fixes the feedback loop licenses (plan aes-learning-loop, S6).
 
 **Symbols**
 
-- `check` · `check(number: int) -> dict` · line 130: What GitHub shows for one handed item: the only evidence this script trusts.
-- `left_claims` · `left_claims(session_id: str | None) -> list[str]` · line 204: Claims the agent's own session still holds: a lane it opened and never closed.
+- `check` · `check(number: int) -> dict` · line 136: What GitHub shows for one handed item: the only evidence this script trusts.
+- `left_claims` · `left_claims(session_id: str | None) -> list[str]` · line 210: Claims the agent's own session still holds: a lane it opened and never closed.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/label_items.py`
+### [`scripts/learning_loop/label_items.py`](../scripts/learning_loop/label_items.py)
 
 Label lessons with Jev into failure-mode families (AES learning loop, slices 1-2).
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/licences.py`
+### [`scripts/learning_loop/licences.py`](../scripts/learning_loop/licences.py)
 
 S4: licences for proposed fixes, derived by the Observation-to-Action evaluator (PLAN.md, slice S4).
 
@@ -2116,7 +2117,7 @@ S4: licences for proposed fixes, derived by the Observation-to-Action evaluator 
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/policies.py`
+### [`scripts/learning_loop/policies.py`](../scripts/learning_loop/policies.py)
 
 Is each workspace rule documented, enforced, observed and on a feedback path? (plan aes-learning-loop, S8)
 
@@ -2126,7 +2127,7 @@ Is each workspace rule documented, enforced, observed and on a feedback path? (p
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/problems.py`
+### [`scripts/learning_loop/problems.py`](../scripts/learning_loop/problems.py)
 
 S3: group related feedback records into problems and analyse the recurring ones (PLAN.md, slice S3).
 
@@ -2141,7 +2142,7 @@ S3: group related feedback records into problems and analyse the recurring ones 
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/records.py`
+### [`scripts/learning_loop/records.py`](../scripts/learning_loop/records.py)
 
 Feedback records (contract feedback-report.v1): observations, claims and actions with links.
 
@@ -2156,13 +2157,13 @@ Feedback records (contract feedback-report.v1): observations, claims and actions
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/relation_check.py`
+### [`scripts/learning_loop/relation_check.py`](../scripts/learning_loop/relation_check.py)
 
 S2 measurement: does Jev judge how two feedback records relate well enough? (PLAN.md, "The S2 measurement").
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/subagents.py`
+### [`scripts/learning_loop/subagents.py`](../scripts/learning_loop/subagents.py)
 
 Native child lifecycle -> existing feedback reports; parent checks bind exact results.
 
@@ -2178,7 +2179,7 @@ Native child lifecycle -> existing feedback reports; parent checks bind exact re
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/learning_loop/transcripts.py`
+### [`scripts/learning_loop/transcripts.py`](../scripts/learning_loop/transcripts.py)
 
 Read Claude Code and Codex transcripts as plain turns, and split closeout fields.
 
@@ -2189,13 +2190,13 @@ Read Claude Code and Codex transcripts as plain turns, and split closeout fields
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/apply_blocker_disposition.py`
+### [`scripts/meta/apply_blocker_disposition.py`](../scripts/meta/apply_blocker_disposition.py)
 
 Revalidate and safely apply one accepted Plan 110 blocker disposition.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/audit_dead_code.py`
+### [`scripts/meta/audit_dead_code.py`](../scripts/meta/audit_dead_code.py)
 
 Generate or refresh the reviewed dead-code audit file for one repo.
 
@@ -2206,7 +2207,7 @@ Generate or refresh the reviewed dead-code audit file for one repo.
 - `build_audit_payload` · `build_audit_payload(repo_root: Path, output_file: str) -> dict[str, Any]` · line 89: Return the merged dead-code audit payload for one repo.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 118: Generate or refresh the current repo's dead-code audit file.
 
-### `scripts/meta/canonical_lock.py`
+### [`scripts/meta/canonical_lock.py`](../scripts/meta/canonical_lock.py)
 
 Make a canonical checkout physically read-only while a lane claim is live.
 
@@ -2248,7 +2249,7 @@ Make a canonical checkout physically read-only while a lane claim is live.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/check_agents_sync.py`
+### [`scripts/meta/check_agents_sync.py`](../scripts/meta/check_agents_sync.py)
 
 Check that generated AGENTS.md is in sync with canonical governance inputs.
 
@@ -2261,7 +2262,7 @@ Check that generated AGENTS.md is in sync with canonical governance inputs.
 - `parse_args` · `parse_args() -> argparse.Namespace` · line 75: Parse CLI arguments for the sync checker.
 - `main` · `main() -> int` · line 113: Compare current AGENTS.md to the deterministic rendered output.
 
-### `scripts/meta/check_coordination_claims.py`
+### [`scripts/meta/check_coordination_claims.py`](../scripts/meta/check_coordination_claims.py)
 
 Compatibility facade for package-backed coordination claims.
 
@@ -2296,7 +2297,7 @@ Compatibility facade for package-backed coordination claims.
 - `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 206: Expose CLI argument parsing through the legacy script surface.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 211: Run the package-backed coordination-claims CLI.
 
-### `scripts/meta/check_dead_code.py`
+### [`scripts/meta/check_dead_code.py`](../scripts/meta/check_dead_code.py)
 
 Dead code sensor for enforced-planning framework.
 
@@ -2321,7 +2322,7 @@ Dead code sensor for enforced-planning framework.
 - `check_dead_code` · `check_dead_code(project_root: Path) -> Result` · line 554: Run dead code detection and apply reviewed-retention policy.
 - `main` · `main() -> None` · line 591: CLI entry point. Outputs JSON to stdout.
 
-### `scripts/meta/check_doc_coupling.py`
+### [`scripts/meta/check_doc_coupling.py`](../scripts/meta/check_doc_coupling.py)
 
 Check that documentation is updated when coupled source files change.
 
@@ -2344,7 +2345,7 @@ Check that documentation is updated when coupled source files change.
 - `default_ack_file` · `default_ack_file() -> Path | None` · line 313: Return `<git toplevel>/.doc-coupling-acks` when it exists, else None.
 - `main` · `main() -> int` · line 335: CLI entry point. Parses args and checks that docs are updated when coupled source files change.
 
-### `scripts/meta/check_plan_readiness.py`
+### [`scripts/meta/check_plan_readiness.py`](../scripts/meta/check_plan_readiness.py)
 
 Gate plan-owned lane creation on canonical readiness and explicit resume.
 
@@ -2354,7 +2355,7 @@ Gate plan-owned lane creation on canonical readiness and explicit resume.
 - `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 31: Parse portable plan-start gate arguments.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 56: Run the gate and emit its strict result as JSON.
 
-### `scripts/meta/check_push_safety.py`
+### [`scripts/meta/check_push_safety.py`](../scripts/meta/check_push_safety.py)
 
 Validate whether the current branch is safe to push.
 
@@ -2364,45 +2365,45 @@ Validate whether the current branch is safe to push.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/claim_bootstrap.py`
+### [`scripts/meta/claim_bootstrap.py`](../scripts/meta/claim_bootstrap.py)
 
 Execute one strict, native-session self-claim bootstrap request.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/context_packet.py`
+### [`scripts/meta/context_packet.py`](../scripts/meta/context_packet.py)
 
 CLI wrapper for bounded relationship-aware edit context packets.
 
-### `scripts/meta/coordination_hook.py`
+### [`scripts/meta/coordination_hook.py`](../scripts/meta/coordination_hook.py)
 
 Run the native Codex mailbox hook from an installed governed repo.
 
-### `scripts/meta/coordination_inbox.py`
+### [`scripts/meta/coordination_inbox.py`](../scripts/meta/coordination_inbox.py)
 
 Poll the canonical coordination mailbox from an installed governed repo.
 
-### `scripts/meta/coordination_messages.py`
+### [`scripts/meta/coordination_messages.py`](../scripts/meta/coordination_messages.py)
 
 Run the canonical coordination mailbox CLI from an installed governed repo.
 
-### `scripts/meta/coordination_operator_status.py`
+### [`scripts/meta/coordination_operator_status.py`](../scripts/meta/coordination_operator_status.py)
 
 Show one message's human-identifiable recipient and truthful response state.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/docstring_wiki.py`
+### [`scripts/meta/docstring_wiki.py`](../scripts/meta/docstring_wiki.py)
 
 CLI wrapper for deterministic source-docstring wiki generation.
 
-### `scripts/meta/effective_project_profile.py`
+### [`scripts/meta/effective_project_profile.py`](../scripts/meta/effective_project_profile.py)
 
 Print the effective governed-project profile as JSON.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/file_context.py`
+### [`scripts/meta/file_context.py`](../scripts/meta/file_context.py)
 
 CLI wrapper for the importable file-context module.
 
@@ -2410,7 +2411,7 @@ CLI wrapper for the importable file-context module.
 
 - `_detect_repo_root` · `_detect_repo_root(script_path: Path) -> Path` · line 10: Resolve repo root for both canonical and installed script layouts.
 
-### `scripts/meta/hook_log.py`
+### [`scripts/meta/hook_log.py`](../scripts/meta/hook_log.py)
 
 Append structured JSONL entries for Claude hook activity.
 
@@ -2427,7 +2428,7 @@ Append structured JSONL entries for Claude hook activity.
 - `_build_read_entry` · `_build_read_entry(repo_root: Path, file_path: str, reads_file: Path, reason: str, experiment_id: str | None, variant_id: str | None, downstream_run_id: str | None) -> dict[str, Any]` · line 133: Build a read-tracking log entry after a read is appended.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 158: Dispatch hook-log subcommands for gate and read hooks.
 
-### `scripts/meta/hook_receipts.py`
+### [`scripts/meta/hook_receipts.py`](../scripts/meta/hook_receipts.py)
 
 Private, content-free lifecycle receipts shared by portable agent hooks.
 
@@ -2453,17 +2454,17 @@ Private, content-free lifecycle receipts shared by portable agent hooks.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/impact_obligations.py`
+### [`scripts/meta/impact_obligations.py`](../scripts/meta/impact_obligations.py)
 
 CLI wrapper for relationship reconciliation impact reports.
 
-### `scripts/meta/outcome_completion_hook.py`
+### [`scripts/meta/outcome_completion_hook.py`](../scripts/meta/outcome_completion_hook.py)
 
 Record canonical selected-outcome completion for a native Stop gate.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/plan_close.py`
+### [`scripts/meta/plan_close.py`](../scripts/meta/plan_close.py)
 
 Close every live lane owned by one qualified plan.
 
@@ -2473,7 +2474,7 @@ Close every live lane owned by one qualified plan.
 - `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 31: Parse plan-close arguments.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 42: Run atomic plan-owned lane closeout.
 
-### `scripts/meta/pr_auto.py`
+### [`scripts/meta/pr_auto.py`](../scripts/meta/pr_auto.py)
 
 Autonomous PR workflow with deterministic preflight checks.
 
@@ -2491,13 +2492,13 @@ Autonomous PR workflow with deterministic preflight checks.
 - `_prepare_branch_for_push` · `_prepare_branch_for_push(cwd: Path, *, branch: str, base: str) -> bool` · line 327: Publish an unpublished branch or validate a published fast-forward push.
 - `main` · `main() -> int` · line 430: Execute preflighted non-interactive PR flow.
 
-### `scripts/meta/pr_review_signoff_runtime.py`
+### [`scripts/meta/pr_review_signoff_runtime.py`](../scripts/meta/pr_review_signoff_runtime.py)
 
 Exact-revision PR review orchestration and signoff receipts.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/project_status.py`
+### [`scripts/meta/project_status.py`](../scripts/meta/project_status.py)
 
 Report current repository authority freshness and fail loud on stale main.
 
@@ -2507,11 +2508,11 @@ Report current repository authority freshness and fail loud on stale main.
 - `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 35: Parse repository status arguments.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 49: Render one exact freshness observation and return its gate status.
 
-### `scripts/meta/relationship_context.py`
+### [`scripts/meta/relationship_context.py`](../scripts/meta/relationship_context.py)
 
 CLI wrapper for the source-local relationship context inventory.
 
-### `scripts/meta/render_agents_md.py`
+### [`scripts/meta/render_agents_md.py`](../scripts/meta/render_agents_md.py)
 
 Render a generated AGENTS.md projection from canonical repo governance.
 
@@ -2524,7 +2525,7 @@ Render a generated AGENTS.md projection from canonical repo governance.
 - `parse_args` · `parse_args() -> argparse.Namespace` · line 78: Parse CLI arguments for the renderer.
 - `main` · `main() -> int` · line 83: Render ``AGENTS.md`` and write or print the result.
 
-### `scripts/meta/session_close.py`
+### [`scripts/meta/session_close.py`](../scripts/meta/session_close.py)
 
 Close one claimed lane: cleanup worktree/branch and release claim together.
 
@@ -2541,7 +2542,7 @@ Close one claimed lane: cleanup worktree/branch and release claim together.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/session_continuity.py`
+### [`scripts/meta/session_continuity.py`](../scripts/meta/session_continuity.py)
 
 Observe one claim owner and report resume-first continuity action.
 
@@ -2570,19 +2571,19 @@ Observe one claim owner and report resume-first continuity action.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/session_end.py`
+### [`scripts/meta/session_end.py`](../scripts/meta/session_end.py)
 
 Retire exact-session live claims when a tool runtime truly terminates.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/session_finish.py`
+### [`scripts/meta/session_finish.py`](../scripts/meta/session_finish.py)
 
 Finish one sanctioned session without worktree cleanup.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/session_heartbeat.py`
+### [`scripts/meta/session_heartbeat.py`](../scripts/meta/session_heartbeat.py)
 
 Refresh heartbeat state for one sanctioned session.
 
@@ -2592,7 +2593,7 @@ Refresh heartbeat state for one sanctioned session.
 - `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 40: Parse the session selector and optional phase refresh.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 63: Refresh the session heartbeat and expose its mailbox state.
 
-### `scripts/meta/session_narrow.py`
+### [`scripts/meta/session_narrow.py`](../scripts/meta/session_narrow.py)
 
 Narrow one live claim to strict descendant write paths.
 
@@ -2602,7 +2603,7 @@ Narrow one live claim to strict descendant write paths.
 - `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 41: Parse the exact owner/session-bound narrowing contract.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 54: Narrow the claim and render its committed projection/receipt evidence.
 
-### `scripts/meta/session_resume.py`
+### [`scripts/meta/session_resume.py`](../scripts/meta/session_resume.py)
 
 Resume one plan-bound sanctioned session with a fresh runtime attachment.
 
@@ -2612,7 +2613,7 @@ Resume one plan-bound sanctioned session with a fresh runtime attachment.
 - `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 45: Parse the bounded session-resume identity and phase contract.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 132: Resume the session and expose its current mailbox state.
 
-### `scripts/meta/session_start.py`
+### [`scripts/meta/session_start.py`](../scripts/meta/session_start.py)
 
 Start or refresh one sanctioned session contract.
 
@@ -2625,7 +2626,7 @@ Start or refresh one sanctioned session contract.
 - `_fail` · `_fail(message: str, *, code: str, as_json: bool) -> int` · line 195: Emit one loud, actionable failure without a bare traceback.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 205: Start the session and expose its initial mailbox state.
 
-### `scripts/meta/session_status.py`
+### [`scripts/meta/session_status.py`](../scripts/meta/session_status.py)
 
 Show live session summaries derived from claims plus trackers.
 
@@ -2635,13 +2636,13 @@ Show live session summaries derived from claims plus trackers.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/surface_runtime.py`
+### [`scripts/meta/surface_runtime.py`](../scripts/meta/surface_runtime.py)
 
 Operate revision-bound canonical and preview UI surface leases.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/sync_plan_status.py`
+### [`scripts/meta/sync_plan_status.py`](../scripts/meta/sync_plan_status.py)
 
 Sync and verify plan status across all locations.
 
@@ -2661,7 +2662,7 @@ Sync and verify plan status across all locations.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/validate_dead_code_audit.py`
+### [`scripts/meta/validate_dead_code_audit.py`](../scripts/meta/validate_dead_code_audit.py)
 
 Validate reviewed dead-code dispositions against fresh detector output.
 
@@ -2673,7 +2674,7 @@ Validate reviewed dead-code dispositions against fresh detector output.
 - `validate_dead_code_audit` · `validate_dead_code_audit(repo_root: Path, audit_file: str) -> dict[str, Any]` · line 68: Validate the repo's reviewed dead-code dispositions.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 186: Validate the current repo's dead-code review file.
 
-### `scripts/meta/validate_doc_authority.py`
+### [`scripts/meta/validate_doc_authority.py`](../scripts/meta/validate_doc_authority.py)
 
 Validate or manage documentation-authority reconciliation obligations.
 
@@ -2683,7 +2684,7 @@ Validate or manage documentation-authority reconciliation obligations.
 - `_print_json` · `_print_json(payload: object) -> None` · line 59: Emit stable JSON output.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 65: Run validation or mutate obligation state.
 
-### `scripts/meta/validate_plan.py`
+### [`scripts/meta/validate_plan.py`](../scripts/meta/validate_plan.py)
 
 CLI wrapper for the importable plan-validation module.
 
@@ -2694,7 +2695,7 @@ CLI wrapper for the importable plan-validation module.
 - `get_plan_file` · `get_plan_file(plan_number: int | None, plans_dir: Path, plan_file: str | None) -> Path` · line 79: Resolve one plan file using this repo's checkout root.
 - `main` · `main() -> int` · line 89: Run plan validation using this repo's local defaults.
 
-### `scripts/meta/validate_plan_dependencies.py`
+### [`scripts/meta/validate_plan_dependencies.py`](../scripts/meta/validate_plan_dependencies.py)
 
 Validate the Plan #289 plan dependency contract.
 
@@ -2706,7 +2707,7 @@ Validate the Plan #289 plan dependency contract.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/verification_batch.py`
+### [`scripts/meta/verification_batch.py`](../scripts/meta/verification_batch.py)
 
 Freeze, check, or explicitly invalidate an exact terminal verification batch.
 
@@ -2715,7 +2716,7 @@ Freeze, check, or explicitly invalidate an exact terminal verification batch.
 - `_parser` · `_parser() -> argparse.ArgumentParser` · line 29: Build the agent-drivable verification-batch command contract.
 - `main` · `main() -> int` · line 52: Execute one verification-batch transition with visible failure output.
 
-### `scripts/meta/worktree-coordination/create_publish_worktree.py`
+### [`scripts/meta/worktree-coordination/create_publish_worktree.py`](../scripts/meta/worktree-coordination/create_publish_worktree.py)
 
 Create a publish worktree only when the canonical main checkout is clean.
 
@@ -2725,13 +2726,13 @@ Create a publish worktree only when the canonical main checkout is clean.
 - `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 33: Parse CLI arguments for publish-worktree creation.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 57: CLI entry point for publish-worktree creation.
 
-### `scripts/meta/worktree-coordination/create_review_claim.py`
+### [`scripts/meta/worktree-coordination/create_review_claim.py`](../scripts/meta/worktree-coordination/create_review_claim.py)
 
 Create a coordination-visible review claim for another branch.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/worktree-coordination/create_worktree.py`
+### [`scripts/meta/worktree-coordination/create_worktree.py`](../scripts/meta/worktree-coordination/create_worktree.py)
 
 Create a git worktree and fail loud if the fresh checkout is unsafe.
 
@@ -2771,7 +2772,7 @@ Create a git worktree and fail loud if the fresh checkout is unsafe.
 - `_lock_canonical_checkout` · `_lock_canonical_checkout(repo_root: Path, *, as_json: bool) -> None` · line 995: Make the canonical checkout read-only now that a lane exists.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 1045: CLI entry point for safe worktree creation.
 
-### `scripts/meta/worktree-coordination/finish_pr.py`
+### [`scripts/meta/worktree-coordination/finish_pr.py`](../scripts/meta/worktree-coordination/finish_pr.py)
 
 Review and merge one exact PR head, then close its claimed lane.
 
@@ -2791,19 +2792,19 @@ Review and merge one exact PR head, then close its claimed lane.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/worktree-coordination/integration_authority.py`
+### [`scripts/meta/worktree-coordination/integration_authority.py`](../scripts/meta/worktree-coordination/integration_authority.py)
 
 Emit or validate one native-session, canonical-claim integration assertion.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/worktree-coordination/raise_concern.py`
+### [`scripts/meta/worktree-coordination/raise_concern.py`](../scripts/meta/worktree-coordination/raise_concern.py)
 
 Route a concern to PR review when published, otherwise to the local inbox.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/worktree-coordination/safe_worktree_remove.py`
+### [`scripts/meta/worktree-coordination/safe_worktree_remove.py`](../scripts/meta/worktree-coordination/safe_worktree_remove.py)
 
 Safely remove a git worktree, checking for uncommitted changes first.
 
@@ -2827,19 +2828,19 @@ Safely remove a git worktree, checking for uncommitted changes first.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/probe/render_review.py`
+### [`scripts/probe/render_review.py`](../scripts/probe/render_review.py)
 
 Probe 0 temporary review projection.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/refresh_prewrite_claim_projection.py`
+### [`scripts/refresh_prewrite_claim_projection.py`](../scripts/refresh_prewrite_claim_projection.py)
 
 Atomically refresh the derived pre-write authority projection.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/repo_stats_block.py`
+### [`scripts/repo_stats_block.py`](../scripts/repo_stats_block.py)
 
 Session-start repetition counters.
 
@@ -2850,7 +2851,7 @@ Session-start repetition counters.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/rules/agent_router.py`
+### [`scripts/rules/agent_router.py`](../scripts/rules/agent_router.py)
 
 AES profile and handoff accounting contracts consumed by native adapters.
 
@@ -2861,7 +2862,7 @@ AES profile and handoff accounting contracts consumed by native adapters.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/rules/build_rules_page.py`
+### [`scripts/rules/build_rules_page.py`](../scripts/rules/build_rules_page.py)
 
 Build docs/rules/RULES.md: every rule agents in Brian's workspace are expected to follow.
 
@@ -2871,7 +2872,7 @@ Build docs/rules/RULES.md: every rule agents in Brian's workspace are expected t
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/rules/sort_legacy.py`
+### [`scripts/rules/sort_legacy.py`](../scripts/rules/sort_legacy.py)
 
 Sort project-meta's legacy rules into covered / keep / retire, with checked quotes (agent-router slice 1).
 
@@ -2888,7 +2889,7 @@ Sort project-meta's legacy rules into covered / keep / retire, with checked quot
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/sync_plan_status.py`
+### [`scripts/sync_plan_status.py`](../scripts/sync_plan_status.py)
 
 Sync and verify plan status across all locations.
 
@@ -2908,11 +2909,11 @@ Sync and verify plan status across all locations.
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/__init__.py`
+### [`src/agentic_engineering_system/__init__.py`](../src/agentic_engineering_system/__init__.py)
 
 Canonical Agentic Engineering System package.
 
-### `src/agentic_engineering_system/adopt.py`
+### [`src/agentic_engineering_system/adopt.py`](../src/agentic_engineering_system/adopt.py)
 
 `aes adopt`: bring an existing repository under AES without planning its old files (`RU-AES-ADOPT`).
 
@@ -2929,7 +2930,7 @@ Canonical Agentic Engineering System package.
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/characterize.py`
+### [`src/agentic_engineering_system/characterize.py`](../src/agentic_engineering_system/characterize.py)
 
 Revision-bound characterization and target drift (`RU-AES-CHARACTERIZE`, `SC-GF-006`).
 
@@ -2943,7 +2944,7 @@ Revision-bound characterization and target drift (`RU-AES-CHARACTERIZE`, `SC-GF-
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/characterize_python.py`
+### [`src/agentic_engineering_system/characterize_python.py`](../src/agentic_engineering_system/characterize_python.py)
 
 Python AST characterization provider (`RU-AES-CHARACTERIZE`, `SC-GF-006`).
 
@@ -2957,7 +2958,7 @@ Python AST characterization provider (`RU-AES-CHARACTERIZE`, `SC-GF-006`).
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/cli.py`
+### [`src/agentic_engineering_system/cli.py`](../src/agentic_engineering_system/cli.py)
 
 `aes` console entrypoint (probe 0).
 
@@ -2967,7 +2968,7 @@ _Coverage findings: python-docstring-missing._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/commit_rule.py`
+### [`src/agentic_engineering_system/commit_rule.py`](../src/agentic_engineering_system/commit_rule.py)
 
 `aes commit check` / `aes commit replay`: the commit-tag rule (`RU-AES-COMMIT-RULE`, AP-REQ-001).
 
@@ -3010,7 +3011,7 @@ _Coverage findings: python-docstring-missing._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/context.py`
+### [`src/agentic_engineering_system/context.py`](../src/agentic_engineering_system/context.py)
 
 Bounded working-context compiler (probe 0): `aes context <subject>`.
 
@@ -3021,7 +3022,7 @@ Bounded working-context compiler (probe 0): `aes context <subject>`.
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/evidence.py`
+### [`src/agentic_engineering_system/evidence.py`](../src/agentic_engineering_system/evidence.py)
 
 Observations, freshness and criterion standing (`RU-AES-EVIDENCE`, `SC-GF-007`, `SC-GF-008`, decision D2).
 
@@ -3045,7 +3046,7 @@ Observations, freshness and criterion standing (`RU-AES-EVIDENCE`, `SC-GF-007`, 
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/hooks.py`
+### [`src/agentic_engineering_system/hooks.py`](../src/agentic_engineering_system/hooks.py)
 
 `aes hooks install`: ship the consumer's pre-commit gate (`RU-AES-DISTRIBUTION`).
 
@@ -3056,7 +3057,7 @@ _Coverage findings: python-docstring-missing._
 - `render_commit_msg_hook` · `render_commit_msg_hook() -> str` · line 125: The commit-msg hook body; machine-independent like the pre-commit hook.
 - `install_hooks` · `install_hooks(root: Path, interpreter: str | None = None) -> tuple[Path, str | None]` · line 146: Write `<root>/.githooks/pre-commit` and `commit-msg`, set `core.hooksPath` and `aes.installer`.
 
-### `src/agentic_engineering_system/planning.py`
+### [`src/agentic_engineering_system/planning.py`](../src/agentic_engineering_system/planning.py)
 
 `aes plan prepare / validate / accept` (`RU-AES-PLANNING`, `SC-GF-004`).
 
@@ -3085,7 +3086,7 @@ _Coverage findings: python-docstring-missing._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/project.py`
+### [`src/agentic_engineering_system/project.py`](../src/agentic_engineering_system/project.py)
 
 `aes init` and project discovery (`RU-AES-PROJECT`, `SC-GF-001`).
 
@@ -3097,7 +3098,7 @@ _Coverage findings: python-docstring-missing._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/reconcile.py`
+### [`src/agentic_engineering_system/reconcile.py`](../src/agentic_engineering_system/reconcile.py)
 
 Qualified current state and target/current gaps (`RU-AES-RECONCILE`, `SC-GF-007`, `SC-GF-008` at the gap level).
 
@@ -3111,7 +3112,7 @@ Qualified current state and target/current gaps (`RU-AES-RECONCILE`, `SC-GF-007`
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/records.py`
+### [`src/agentic_engineering_system/records.py`](../src/agentic_engineering_system/records.py)
 
 Strict typed records for `.aes/project.yaml` and `.aes/target.yaml` (probe 0).
 
@@ -3131,17 +3132,17 @@ Strict typed records for `.aes/project.yaml` and `.aes/target.yaml` (probe 0).
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/repository_context/__init__.py`
+### [`src/agentic_engineering_system/repository_context/__init__.py`](../src/agentic_engineering_system/repository_context/__init__.py)
 
 Repository context resolution for one exact repository revision.
 
-### `src/agentic_engineering_system/repository_context/cli.py`
+### [`src/agentic_engineering_system/repository_context/cli.py`](../src/agentic_engineering_system/repository_context/cli.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/repository_context/git_source.py`
+### [`src/agentic_engineering_system/repository_context/git_source.py`](../src/agentic_engineering_system/repository_context/git_source.py)
 
 _No source-local artifact summary._
 
@@ -3151,7 +3152,7 @@ _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/repository_context/legacy.py`
+### [`src/agentic_engineering_system/repository_context/legacy.py`](../src/agentic_engineering_system/repository_context/legacy.py)
 
 _No source-local artifact summary._
 
@@ -3161,7 +3162,7 @@ _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/repository_context/manifest.py`
+### [`src/agentic_engineering_system/repository_context/manifest.py`](../src/agentic_engineering_system/repository_context/manifest.py)
 
 _No source-local artifact summary._
 
@@ -3171,25 +3172,25 @@ _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/repository_context/models.py`
+### [`src/agentic_engineering_system/repository_context/models.py`](../src/agentic_engineering_system/repository_context/models.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/repository_context/render_html.py`
+### [`src/agentic_engineering_system/repository_context/render_html.py`](../src/agentic_engineering_system/repository_context/render_html.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/repository_context/resolver.py`
+### [`src/agentic_engineering_system/repository_context/resolver.py`](../src/agentic_engineering_system/repository_context/resolver.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/topology.py`
+### [`src/agentic_engineering_system/topology.py`](../src/agentic_engineering_system/topology.py)
 
 Governed-root topology check (`RU-AES-TOPOLOGY`, `SC-GF-003`).
 
@@ -3200,7 +3201,7 @@ Governed-root topology check (`RU-AES-TOPOLOGY`, `SC-GF-003`).
 
 _Coverage findings: python-docstring-missing._
 
-### `src/agentic_engineering_system/trace_review.py`
+### [`src/agentic_engineering_system/trace_review.py`](../src/agentic_engineering_system/trace_review.py)
 
 Thin AES binding to Company Planning's source-bound review provider.
 
@@ -3210,9 +3211,9 @@ Thin AES binding to Company Planning's source-bound review provider.
 
 _Coverage findings: python-docstring-missing._
 
-## Test (55)
+## Test (56)
 
-### `enforced_planning/test_relationships.py`
+### [`enforced_planning/test_relationships.py`](../enforced_planning/test_relationships.py)
 
 Audit requirement-linked test semantics without treating test count as quality.
 
@@ -3244,43 +3245,43 @@ Audit requirement-linked test semantics without treating test count as quality.
 - `audit_includes` · `audit_includes(data: dict[str, Any]) -> tuple[str, ...]` · line 570: Read the optional report-only audit scope from relationships config.
 - `main` · `main(argv: list[str] | None = None) -> int` · line 585: Run the report-only test relationship audit CLI.
 
-### `proposals/harness-context/native-parity/test_verify_evidence.py`
+### [`proposals/harness-context/native-parity/test_verify_evidence.py`](../proposals/harness-context/native-parity/test_verify_evidence.py)
 
 Negative controls for false certificates; all use saved evidence, no model calls.
 
 _Coverage findings: python-docstring-missing._
 
-### `scripts/meta/test_relationships.py`
+### [`scripts/meta/test_relationships.py`](../scripts/meta/test_relationships.py)
 
 CLI wrapper for report-only requirement-linked test auditing.
 
-### `tests/README.md`
+### [`tests/README.md`](../tests/README.md)
 
 Status: no implementation verification yet.
 
-### `tests/capability_sourcing/verification.placeholder.yaml`
+### [`tests/capability_sourcing/verification.placeholder.yaml`](../tests/capability_sourcing/verification.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `tests/conftest.py`
+### [`tests/conftest.py`](../tests/conftest.py)
 
 Every test runs as on a clean machine: no machine-wide Git config, so no machine-wide hooks.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/evidence_assessment/verification.placeholder.yaml`
+### [`tests/evidence_assessment/verification.placeholder.yaml`](../tests/evidence_assessment/verification.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `tests/execution/verification.placeholder.yaml`
+### [`tests/execution/verification.placeholder.yaml`](../tests/execution/verification.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `tests/gap_reconciliation/verification.placeholder.yaml`
+### [`tests/gap_reconciliation/verification.placeholder.yaml`](../tests/gap_reconciliation/verification.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `tests/greenfield/test_adopt.py`
+### [`tests/greenfield/test_adopt.py`](../tests/greenfield/test_adopt.py)
 
 SC-ADOPT-001: adopting an existing repository, through the real CLI and the installed hooks.
 
@@ -3297,7 +3298,7 @@ SC-ADOPT-001: adopting an existing repository, through the real CLI and the inst
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_characterize.py`
+### [`tests/greenfield/test_characterize.py`](../tests/greenfield/test_characterize.py)
 
 `aes characterize`: revision-bound facts, Python AST extraction, symbol drift (SC-GF-006) and dependency discovery for recorded evidence.
 
@@ -3308,7 +3309,7 @@ _Coverage findings: python-docstring-missing._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_commit_rule.py`
+### [`tests/greenfield/test_commit_rule.py`](../tests/greenfield/test_commit_rule.py)
 
 SC-AP-001: the commit-tag rule, through the installed commit-msg hook on real commits.
 
@@ -3348,7 +3349,7 @@ SC-AP-001: the commit-tag rule, through the installed commit-msg hook on real co
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_context.py`
+### [`tests/greenfield/test_context.py`](../tests/greenfield/test_context.py)
 
 Probe 0: `aes context <subject>` on the real whygame5 target.
 
@@ -3358,7 +3359,7 @@ Probe 0: `aes context <subject>` on the real whygame5 target.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_distribution.py`
+### [`tests/greenfield/test_distribution.py`](../tests/greenfield/test_distribution.py)
 
 Distribution and the packaged pre-commit hook (`RU-AES-DISTRIBUTION`).
 
@@ -3375,7 +3376,7 @@ Distribution and the packaged pre-commit hook (`RU-AES-DISTRIBUTION`).
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_evidence.py`
+### [`tests/greenfield/test_evidence.py`](../tests/greenfield/test_evidence.py)
 
 `aes evidence status` on the whygame5 target (SC-GF-007, SC-GF-008, D2).
 
@@ -3391,7 +3392,7 @@ _Coverage findings: python-docstring-missing._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_evidence_controls.py`
+### [`tests/greenfield/test_evidence_controls.py`](../tests/greenfield/test_evidence_controls.py)
 
 Entry-level target dependencies and negative-control observations (roadmap phase 6a).
 
@@ -3403,7 +3404,7 @@ Entry-level target dependencies and negative-control observations (roadmap phase
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_plan_receipt.py`
+### [`tests/greenfield/test_plan_receipt.py`](../tests/greenfield/test_plan_receipt.py)
 
 SC-AP-002: `aes plan validate/accept` require a fresh Company Planning adoption when asked.
 
@@ -3414,7 +3415,7 @@ SC-AP-002: `aes plan validate/accept` require a fresh Company Planning adoption 
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_planning.py`
+### [`tests/greenfield/test_planning.py`](../tests/greenfield/test_planning.py)
 
 `aes plan prepare / validate / accept` (RU-AES-PLANNING, SC-GF-004 ER-01).
 
@@ -3425,7 +3426,7 @@ _Coverage findings: python-docstring-missing._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_project.py`
+### [`tests/greenfield/test_project.py`](../tests/greenfield/test_project.py)
 
 `aes init` and project discovery (`RU-AES-PROJECT`, `SC-GF-001`).
 
@@ -3435,7 +3436,7 @@ _Coverage findings: python-docstring-missing._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_reconcile.py`
+### [`tests/greenfield/test_reconcile.py`](../tests/greenfield/test_reconcile.py)
 
 `aes reconcile` / `aes status`: qualified current state and derived gaps (RU-AES-RECONCILE; SC-GF-007 and SC-GF-008 at the gap level; SC-GF-004 "no route").
 
@@ -3447,25 +3448,25 @@ _Coverage findings: python-docstring-missing._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_records.py`
+### [`tests/greenfield/test_records.py`](../tests/greenfield/test_records.py)
 
 Probe 0: strict target/project loading against the real whygame5 records.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_self_governance.py`
+### [`tests/greenfield/test_self_governance.py`](../tests/greenfield/test_self_governance.py)
 
 AES canonical governs itself (roadmap phase 6b, `SC-GF-003`, `SC-GF-004`).
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_source_bound_trace_review.py`
+### [`tests/greenfield/test_source_bound_trace_review.py`](../tests/greenfield/test_source_bound_trace_review.py)
 
 Counterexamples cross the actual CP provider, not a fabricated passing receipt.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_topology.py`
+### [`tests/greenfield/test_topology.py`](../tests/greenfield/test_topology.py)
 
 `aes topology check` on the real whygame5 target (`SC-GF-003`).
 
@@ -3475,7 +3476,7 @@ _Coverage findings: python-docstring-missing._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/greenfield/test_trace_review.py`
+### [`tests/greenfield/test_trace_review.py`](../tests/greenfield/test_trace_review.py)
 
 Plans require trace reviews (Brian, 2026-10-07).
 
@@ -3486,7 +3487,7 @@ Plans require trace reviews (Brian, 2026-10-07).
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_feedback_collector_reuse.py`
+### [`tests/learning/test_feedback_collector_reuse.py`](../tests/learning/test_feedback_collector_reuse.py)
 
 _No source-local artifact summary._
 
@@ -3496,137 +3497,137 @@ _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_feedback_evidence_effects.py`
+### [`tests/learning/test_feedback_evidence_effects.py`](../tests/learning/test_feedback_evidence_effects.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_feedback_filing_gate.py`
+### [`tests/learning/test_feedback_filing_gate.py`](../tests/learning/test_feedback_filing_gate.py)
 
 Filing gate of the feedback collector: only closeout Learnings lines file, and a line already filed is not filed again (2026-10-07 spot check: 2 of 10 filed entries were exact repeats).
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_feedback_records.py`
+### [`tests/learning/test_feedback_records.py`](../tests/learning/test_feedback_records.py)
 
 feedback-report.v1 parsing: the plan's canonical example and its negative controls (proposals/aes-learning-loop/PLAN.md, "Fixtures").
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_feedback_transcripts.py`
+### [`tests/learning/test_feedback_transcripts.py`](../tests/learning/test_feedback_transcripts.py)
 
 Synthetic-transcript tests for scripts/learning_loop/transcripts.py (no real transcript text here).
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_fix_owner.py`
+### [`tests/learning/test_fix_owner.py`](../tests/learning/test_fix_owner.py)
 
 S6 weekly fix owner: an item counts as handled only from what GitHub shows, never the agent's summary.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_licences.py`
+### [`tests/learning/test_licences.py`](../tests/learning/test_licences.py)
 
 S4: licence status comes from the Observation-to-Action evaluator (R-401), on the plan's fixtures.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_policies.py`
+### [`tests/learning/test_policies.py`](../tests/learning/test_policies.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_problems.py`
+### [`tests/learning/test_problems.py`](../tests/learning/test_problems.py)
 
 S3 recurrence rule: independent observations with links; echoes of the same evidence count once.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_relation_check.py`
+### [`tests/learning/test_relation_check.py`](../tests/learning/test_relation_check.py)
 
 S2 scoring rules: acceptable answers fixed with the labels, and the parity rule.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/test_subagents.py`
+### [`tests/learning/test_subagents.py`](../tests/learning/test_subagents.py)
 
 Native lifecycle capture and counterexamples to child self-rating as evidence.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/learning/verification.placeholder.yaml`
+### [`tests/learning/verification.placeholder.yaml`](../tests/learning/verification.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `tests/normative_context/verification.placeholder.yaml`
+### [`tests/normative_context/verification.placeholder.yaml`](../tests/normative_context/verification.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `tests/planning/verification.placeholder.yaml`
+### [`tests/planning/verification.placeholder.yaml`](../tests/planning/verification.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `tests/policy_control/verification.placeholder.yaml`
+### [`tests/policy_control/verification.placeholder.yaml`](../tests/policy_control/verification.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `tests/repository_context/conftest.py`
-
-_No source-local artifact summary._
-
-_Coverage findings: python-docstring-missing._
-
-### `tests/repository_context/test_cli.py`
+### [`tests/repository_context/conftest.py`](../tests/repository_context/conftest.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/repository_context/test_data_contracts_pinned.py`
+### [`tests/repository_context/test_cli.py`](../tests/repository_context/test_cli.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/repository_context/test_legacy_adapter.py`
+### [`tests/repository_context/test_data_contracts_pinned.py`](../tests/repository_context/test_data_contracts_pinned.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/repository_context/test_manifest_adapter.py`
+### [`tests/repository_context/test_legacy_adapter.py`](../tests/repository_context/test_legacy_adapter.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/repository_context/test_models.py`
+### [`tests/repository_context/test_manifest_adapter.py`](../tests/repository_context/test_manifest_adapter.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/repository_context/test_render_html.py`
+### [`tests/repository_context/test_models.py`](../tests/repository_context/test_models.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/repository_context/test_resolver.py`
+### [`tests/repository_context/test_render_html.py`](../tests/repository_context/test_render_html.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/rollout/test_daily_report.py`
+### [`tests/repository_context/test_resolver.py`](../tests/repository_context/test_resolver.py)
+
+_No source-local artifact summary._
+
+_Coverage findings: python-docstring-missing._
+
+### [`tests/rollout/test_daily_report.py`](../tests/rollout/test_daily_report.py)
 
 The daily commit-rule report reads the rule's quick-plan notes (plan commit-rule-notes-report, AES #279).
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/rollout/test_install_everywhere.py`
+### [`tests/rollout/test_install_everywhere.py`](../tests/rollout/test_install_everywhere.py)
 
 The commit-rule installer reads a repository's commit-msg hook instead of trusting its config.
 
@@ -3639,31 +3640,37 @@ The commit-rule installer reads a repository's commit-msg hook instead of trusti
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/test_agent_router.py`
+### [`tests/test_agent_router.py`](../tests/test_agent_router.py)
 
 Profiles cannot widen authority; failed proposals cannot leave the denominator.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/test_agents_rendering.py`
+### [`tests/test_agents_rendering.py`](../tests/test_agents_rendering.py)
 
 _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/test_records_governed_roots.py`
+### [`tests/test_docstring_wiki_links.py`](../tests/test_docstring_wiki_links.py)
+
+The generated docstring wiki links every tracked artifact relative to its own location.
+
+_Coverage findings: python-docstring-missing._
+
+### [`tests/test_records_governed_roots.py`](../tests/test_records_governed_roots.py)
 
 A governed root written without a trailing slash must not capture sibling paths.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/test_rules_page.py`
+### [`tests/test_rules_page.py`](../tests/test_rules_page.py)
 
 The rules page lists every register rule and the legacy register, and survives table-breaking text.
 
 _Coverage findings: python-docstring-missing._
 
-### `tests/test_sort_legacy.py`
+### [`tests/test_sort_legacy.py`](../tests/test_sort_legacy.py)
 
 The legacy sort's evidence check rejects answers its quote or the file facts do not support.
 
@@ -3675,3430 +3682,3438 @@ _Coverage findings: python-docstring-missing._
 
 ## Documentation (291)
 
-### `.agentic/events/README.md`
+### [`.agentic/events/README.md`](../.agentic/events/README.md)
 
 Status: bootstrap.
 
-### `.project-brain/now.md`
+### [`.project-brain/now.md`](../.project-brain/now.md)
 
 canonical Enforced Planning's [successor-tracker repair](https://github.com/BrianMills2718/enforced-planning/commit/9baad04). It preserves a closed lane's tracker and allocates a bounded path for a distinct lane under the unchanged session goal; active and conflicting identities remain occupied or refused. Owner lifecycle regressions pass; installed native lifecycle evidence and closure are tracked in [#437](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/437).
 
-### `.project-brain/project.md`
+### [`.project-brain/project.md`](../.project-brain/project.md)
 
 Layout and status words: agent-skills `contracts/client-config/agents/project-brain.md`. Each claim is `working` (understood, not agreed), `approved` (current source of truth) or `needs_resolution`.
 
-### `.project-brain/state.md`
+### [`.project-brain/state.md`](../.project-brain/state.md)
 
 Detail and evidence: personal-vps `proposals/hive-brain-v1/ROADMAP.md` ("Where we are", "Capabilities") and personal-vps `proposals/hive-brain-v1/PROGRESS_LOG.md`. This page is the short version.
 
-### `.project-brain/truth.md`
+### [`.project-brain/truth.md`](../.project-brain/truth.md)
 
 Full table with reasons: personal-vps `proposals/hive-brain-v1/ROADMAP.md` "Decisions and assumptions" and `proposals/aes-learning-loop/DESIGN.md`. Rejected alternatives, which are the point of this page:
 
-### `AGENTS.md`
+### [`AGENTS.md`](../AGENTS.md)
 
 Start with `wiki/index.md`.
 
-### `CLAUDE.md`
+### [`CLAUDE.md`](../CLAUDE.md)
 
 Start with `wiki/index.md`.
 
-### `README.md`
+### [`README.md`](../README.md)
 
 **This repository is the Agentic Engineering System** ([Decision 0011](docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md), 2026-09-26). `Inside-Success/agentic-engineering-system` is archived; the ideas worth borrowing from it are in [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](research/synthesis/2026-09-26-inside-success-aes-harvest.md), each with the consumer trigger that would bring it in. Next frontier: whygame5 realizes its runner and records the first value measure (Decision 0011, item 5).
 
-### `datasets/README.md`
+### [`datasets/README.md`](../datasets/README.md)
 
 Status: unused Role: durable project-owned data assets Authority: dataset bytes/metadata at identified version Lifecycle: versioned/immutable per dataset contract
 
-### `datasets/learning-loop/README.md`
+### [`datasets/learning-loop/README.md`](../datasets/learning-loop/README.md)
 
 Design: `proposals/aes-learning-loop/DESIGN.md`.
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/README.md`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/README.md`](../datasets/learning-loop/experiments/2026-10-02-question-design/README.md)
 
 How should Jev (typesafe/jev-1.13) be asked to sort a learning into the failure families of `docs/failure-modes.md`? Lesson and discussion: issue #64.
 
-### `datasets/learning-loop/experiments/2026-10-07-filing-gate/README.md`
+### [`datasets/learning-loop/experiments/2026-10-07-filing-gate/README.md`](../datasets/learning-loop/experiments/2026-10-07-filing-gate/README.md)
 
 Scripts behind the feedback collector's filing gates (AES #181, #216, #220). Each reads learnings entries by id from project-meta (a private repository) at run time; the scripts themselves contain no transcript text, only entry ids and hand labels.
 
-### `deployment/README.md`
+### [`deployment/README.md`](../deployment/README.md)
 
 Status: unused Role: deployment/release/target-environment concern Authority: deployment config/procedure within scope Lifecycle: versioned config plus retained deployment evidence
 
-### `docs/architecture/GOAL.md`
+### [`docs/architecture/GOAL.md`](../docs/architecture/GOAL.md)
 
 What the Agentic Engineering System is for, the bet behind it, what would disprove it, and the repository it replaces
 
-### `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`
+### [`docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md)
 
 Status: accepted AES delivery constraint.
 
-### `docs/architecture/INITIAL_GAP_LEDGER.md`
+### [`docs/architecture/INITIAL_GAP_LEDGER.md`](../docs/architecture/INITIAL_GAP_LEDGER.md)
 
 Status: **recomputed for Plan 001 closure from verified AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1` and follow-up A1 utility evidence on 2026-09-22**.
 
-### `docs/architecture/README.md`
+### [`docs/architecture/README.md`](../docs/architecture/README.md)
 
 This directory contains AES-specific normative and delivery architecture for the canonical convergence project. Project-agnostic methodology remains owned by `BrianMills2718/wiki_methodology` at the revision declared in `.agentic/repo.yaml`; generic planning-method improvements should be proposed to Company Planning rather than silently duplicated here.
 
-### `docs/architecture/SYSTEM_BOUNDARY.md`
+### [`docs/architecture/SYSTEM_BOUNDARY.md`](../docs/architecture/SYSTEM_BOUNDARY.md)
 
 Status: accepted bootstrap target.
 
-### `docs/architecture/aes-company-planning-profile.bootstrap.yaml`
+### [`docs/architecture/aes-company-planning-profile.bootstrap.yaml`](../docs/architecture/aes-company-planning-profile.bootstrap.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/architecture-realization.bootstrap.yaml`
+### [`docs/architecture/architecture-realization.bootstrap.yaml`](../docs/architecture/architecture-realization.bootstrap.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/greenfield-v0.2/02-semantic-model.yaml`
+### [`docs/architecture/greenfield-v0.2/02-semantic-model.yaml`](../docs/architecture/greenfield-v0.2/02-semantic-model.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/greenfield-v0.2/03-lifecycle.yaml`
+### [`docs/architecture/greenfield-v0.2/03-lifecycle.yaml`](../docs/architecture/greenfield-v0.2/03-lifecycle.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/greenfield-v0.2/04-greenfield-mvp.yaml`
+### [`docs/architecture/greenfield-v0.2/04-greenfield-mvp.yaml`](../docs/architecture/greenfield-v0.2/04-greenfield-mvp.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/greenfield-v0.2/12-greenfield-mvp-semantic-instance.yaml`
+### [`docs/architecture/greenfield-v0.2/12-greenfield-mvp-semantic-instance.yaml`](../docs/architecture/greenfield-v0.2/12-greenfield-mvp-semantic-instance.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/greenfield-v0.2/13-greenfield-materialization.md`
+### [`docs/architecture/greenfield-v0.2/13-greenfield-materialization.md`](../docs/architecture/greenfield-v0.2/13-greenfield-materialization.md)
 
 Choose the smallest opinionated project storage convention that can materialize the clean semantic model for a fresh project without making storage layout part of the ontology.
 
-### `docs/architecture/greenfield-v0.2/14-initialization-contract.yaml`
+### [`docs/architecture/greenfield-v0.2/14-initialization-contract.yaml`](../docs/architecture/greenfield-v0.2/14-initialization-contract.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/greenfield-v0.2/15-planning-contract.yaml`
+### [`docs/architecture/greenfield-v0.2/15-planning-contract.yaml`](../docs/architecture/greenfield-v0.2/15-planning-contract.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/greenfield-v0.2/16-record-shapes.yaml`
+### [`docs/architecture/greenfield-v0.2/16-record-shapes.yaml`](../docs/architecture/greenfield-v0.2/16-record-shapes.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/greenfield-v0.2/20-realization-topology.yaml`
+### [`docs/architecture/greenfield-v0.2/20-realization-topology.yaml`](../docs/architecture/greenfield-v0.2/20-realization-topology.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/greenfield-v0.2/23-greenfield-cli-product-contract.md`
+### [`docs/architecture/greenfield-v0.2/23-greenfield-cli-product-contract.md`](../docs/architecture/greenfield-v0.2/23-greenfield-cli-product-contract.md)
 
 Status: **accepted** by [Decision 0010](../../decisions/0010-greenfield-v0.2-accepted.md) (2026-09-25). Plain copy of `proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md` (copied, not `git mv`'d, so the proposal lineage stays in place). For AES canonical, `.aes/target.yaml` is the live authority: where this file and the target disagree, this file is wrong. "Accepted amendments" at the end lists what changed from the candidate. File names that are not in this directory refer to `proposals/aes-v0.2-greenfield/`. Date: 2026-09-24
 
-### `docs/architecture/greenfield-v0.2/README.md`
+### [`docs/architecture/greenfield-v0.2/README.md`](../docs/architecture/greenfield-v0.2/README.md)
 
 Status: **accepted** by [Decision 0010](../../decisions/0010-greenfield-v0.2-accepted.md) (2026-09-25).
 
-### `docs/architecture/normative-component-alignment.bootstrap.yaml`
+### [`docs/architecture/normative-component-alignment.bootstrap.yaml`](../docs/architecture/normative-component-alignment.bootstrap.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/normative-record-model.bootstrap.yaml`
+### [`docs/architecture/normative-record-model.bootstrap.yaml`](../docs/architecture/normative-record-model.bootstrap.yaml)
 
 _No source-local artifact summary._
 
-### `docs/architecture/schemas/architecture-realization.bootstrap.schema.json`
+### [`docs/architecture/schemas/architecture-realization.bootstrap.schema.json`](../docs/architecture/schemas/architecture-realization.bootstrap.schema.json)
 
 _No source-local artifact summary._
 
-### `docs/decisions/0001-canonical-convergence-boundary.md`
+### [`docs/decisions/0001-canonical-convergence-boundary.md`](../docs/decisions/0001-canonical-convergence-boundary.md)
 
 Why AES was restarted as a clean canonical repository and what it converges from
 
-### `docs/decisions/0002-company-planning-aes-profile-before-fork.md`
+### [`docs/decisions/0002-company-planning-aes-profile-before-fork.md`](../docs/decisions/0002-company-planning-aes-profile-before-fork.md)
 
 Use a Company Planning profile inside AES before changing or forking Company Planning
 
-### `docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md`
+### [`docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md`](../docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md)
 
 Normative context lives beside each component and symbols inherit their component's scope
 
-### `docs/decisions/0004-compact-structured-normative-records-and-generated-views.md`
+### [`docs/decisions/0004-compact-structured-normative-records-and-generated-views.md`](../docs/decisions/0004-compact-structured-normative-records-and-generated-views.md)
 
 Normative records are compact structured data with generated conventional views
 
-### `docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md`
+### [`docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md`](../docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md)
 
 An AES component is a governance scope and only consequential seams are typed early
 
-### `docs/decisions/0006-minimal-architecture-realization-json-schema.md`
+### [`docs/decisions/0006-minimal-architecture-realization-json-schema.md`](../docs/decisions/0006-minimal-architecture-realization-json-schema.md)
 
 Freeze the minimal architecture-realization contract on JSON Schema 2020-12
 
-### `docs/decisions/0007-provider-independent-verification-and-blob-evidence-carry-forward.md`
+### [`docs/decisions/0007-provider-independent-verification-and-blob-evidence-carry-forward.md`](../docs/decisions/0007-provider-independent-verification-and-blob-evidence-carry-forward.md)
 
 Superseded first version of provider-independent verification with blob-level evidence carry-forward
 
-### `docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md`
+### [`docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md`](../docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md)
 
 Verification is provider-independent and evidence is reused only while its executed subjects are unchanged
 
-### `docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md`
+### [`docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md`](../docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md)
 
 Apply modular product design through AES instead of building a parallel platform
 
-### `docs/decisions/0010-greenfield-v0.2-accepted.md`
+### [`docs/decisions/0010-greenfield-v0.2-accepted.md`](../docs/decisions/0010-greenfield-v0.2-accepted.md)
 
 The AES v0.2 greenfield MVP was accepted as realized and replaces the v0.1 line as current
 
-### `docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md`
+### [`docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md`](../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md)
 
 This repository is the Agentic Engineering System and the Inside Success repository is archived
 
-### `docs/decisions/0012-capability-reuse-enforced-at-plan-adoption.md`
+### [`docs/decisions/0012-capability-reuse-enforced-at-plan-adoption.md`](../docs/decisions/0012-capability-reuse-enforced-at-plan-adoption.md)
 
 Capability reuse is enforced at plan adoption against one shared catalogue
 
-### `docs/decisions/0013-truth-lives-where-it-is-edited.md`
+### [`docs/decisions/0013-truth-lives-where-it-is-edited.md`](../docs/decisions/0013-truth-lives-where-it-is-edited.md)
 
 Truth lives where it is edited, so documents are generated or checked from their owning source
 
-### `docs/failure-modes.md`
+### [`docs/failure-modes.md`](../docs/failure-modes.md)
 
 The audit instrument for `review` and `audit`. Twenty-two families, each with a **detecting question** — ask it of the artifact, then ask it of your own findings.
 
-### `docs/greenfield/GETTING_STARTED.md`
+### [`docs/greenfield/GETTING_STARTED.md`](../docs/greenfield/GETTING_STARTED.md)
 
 AES keeps a project's accepted target in `.aes/target.yaml`: what the project is for (outcomes), the rules it must obey (normative items), how you would know it works (success criteria and their evidence requirements), which files are supposed to exist (planned artifacts) and which checks prove the criteria (verification subjects). The `aes` command checks that the target is consistent, that every file under the governed directories is planned, and which criteria current evidence supports.
 
-### `docs/model/ODD.md`
+### [`docs/model/ODD.md`](../docs/model/ODD.md)
 
 AES canonical's system model in prose -- the commit, plan, target, evidence and reconcile loop -- with its checked trace file
 
-### `docs/model/trace.yaml`
+### [`docs/model/trace.yaml`](../docs/model/trace.yaml)
 
 _No source-local artifact summary._
 
-### `docs/plans/001_D1_contract_surface_topology_freeze.md`
+### [`docs/plans/001_D1_contract_surface_topology_freeze.md`](../docs/plans/001_D1_contract_surface_topology_freeze.md)
 
 Close only the remaining design decisions that prevent Slice 1 from starting without hidden architectural choices:
 
-### `docs/plans/001_repository_context_resolution_vertical.md`
+### [`docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md)
 
 Status: **DELIVERED for bounded Slice 1 at verified AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`; final technical verification and follow-up A1 = `continue` recorded 2026-09-22** Origin gaps: GAP-AES-001, 002, 003, 004, 005, 006, 007, 009, 010, 011, 013, 014, 015, 017, 019, 020, 021, 022, 023, 024, 025, 026, 027 External consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` Execution profile: pilot
 
-### `docs/plans/002_offline_policy_decision_replay.md`
+### [`docs/plans/002_offline_policy_decision_replay.md`](../docs/plans/002_offline_policy_decision_replay.md)
 
 **Current:** Plan 001 proved one bounded AES lifecycle, including exact verification, direct human utility, and gap reconciliation. The fresh gap state still marks broader policy/evidence maturation as incomplete. AES already has deterministic completion/verification controls through Enforced Planning, but there is no accepted evidence that a contextual model improves judgment on real AES policy decisions, and no current live model-evaluator integration is authorized.
 
-### `docs/plans/1_repository_context_resolution_work_graph.json`
+### [`docs/plans/1_repository_context_resolution_work_graph.json`](../docs/plans/1_repository_context_resolution_work_graph.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/CLAUDE.md`
+### [`docs/plans/CLAUDE.md`](../docs/plans/CLAUDE.md)
 
 Track all implementation work here.
 
-### `docs/plans/README.md`
+### [`docs/plans/README.md`](../docs/plans/README.md)
 
 Status: Plan 001 / Repository Context is **DELIVERED** for its bounded Slice 1 claim. Plan 002 / Offline Policy-Decision Replay is now the active planned vertical; no live policy behavior has changed.
 
-### `docs/plans/TEMPLATE.md`
+### [`docs/plans/TEMPLATE.md`](../docs/plans/TEMPLATE.md)
 
 **Current:** What exists now
 
-### `docs/plans/adoption-progress-fields.adoption-attempts.jsonl`
+### [`docs/plans/adoption-progress-fields.adoption-attempts.jsonl`](../docs/plans/adoption-progress-fields.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `docs/plans/adoption-progress-fields.adoption-decision.json`
+### [`docs/plans/adoption-progress-fields.adoption-decision.json`](../docs/plans/adoption-progress-fields.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/adoption-progress-fields.bundle.json`
+### [`docs/plans/adoption-progress-fields.bundle.json`](../docs/plans/adoption-progress-fields.bundle.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/adoption-progress-fields.check.txt`
+### [`docs/plans/adoption-progress-fields.check.txt`](../docs/plans/adoption-progress-fields.check.txt)
 
 _No source-local artifact summary._
 
-### `docs/plans/adoption-progress-fields.facts.json`
+### [`docs/plans/adoption-progress-fields.facts.json`](../docs/plans/adoption-progress-fields.facts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/adoption-progress-fields.goal.md`
+### [`docs/plans/adoption-progress-fields.goal.md`](../docs/plans/adoption-progress-fields.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/adoption-progress-fields.md` (plan sha256 789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `docs/plans/adoption-progress-fields.md`
+### [`docs/plans/adoption-progress-fields.md`](../docs/plans/adoption-progress-fields.md)
 
 This procedure is separate from the anticipated failure named in the disproof under Success and disproof: it applies to any run that fails or surprises us. Preserve the failed run itself: keep its complete output (command, every line, exit status) and its execution trace id, never overwritten by a rerun. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis cannot authorize a causal repair; it permits only further investigation. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
 
-### `docs/plans/adoption-progress-fields.path-decision.json`
+### [`docs/plans/adoption-progress-fields.path-decision.json`](../docs/plans/adoption-progress-fields.path-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/adoption-progress-fields.receipt.json`
+### [`docs/plans/adoption-progress-fields.receipt.json`](../docs/plans/adoption-progress-fields.receipt.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/adoption-progress-fields.verdicts.json`
+### [`docs/plans/adoption-progress-fields.verdicts.json`](../docs/plans/adoption-progress-fields.verdicts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/capability-catalogue.adoption-attempts.jsonl`
+### [`docs/plans/capability-catalogue.adoption-attempts.jsonl`](../docs/plans/capability-catalogue.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `docs/plans/capability-catalogue.adoption-decision.json`
+### [`docs/plans/capability-catalogue.adoption-decision.json`](../docs/plans/capability-catalogue.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/capability-catalogue.bundle.json`
+### [`docs/plans/capability-catalogue.bundle.json`](../docs/plans/capability-catalogue.bundle.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/capability-catalogue.facts.json`
+### [`docs/plans/capability-catalogue.facts.json`](../docs/plans/capability-catalogue.facts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/capability-catalogue.goal.md`
+### [`docs/plans/capability-catalogue.goal.md`](../docs/plans/capability-catalogue.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/capability-catalogue.md` (plan sha256 5ee99c45221bcab843da60c44790b174b4bfad208745a5b1c88fda5eac1f39cb, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `docs/plans/capability-catalogue.md`
+### [`docs/plans/capability-catalogue.md`](../docs/plans/capability-catalogue.md)
 
 Each section below answers the checklist items quoted in it; the gate judges only that section's text.
 
-### `docs/plans/capability-catalogue.path-decision.json`
+### [`docs/plans/capability-catalogue.path-decision.json`](../docs/plans/capability-catalogue.path-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/capability-catalogue.receipt.json`
+### [`docs/plans/capability-catalogue.receipt.json`](../docs/plans/capability-catalogue.receipt.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/capability-catalogue.verdicts.json`
+### [`docs/plans/capability-catalogue.verdicts.json`](../docs/plans/capability-catalogue.verdicts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-emergency-gaps.adoption-attempts.jsonl`
+### [`docs/plans/commit-rule-emergency-gaps.adoption-attempts.jsonl`](../docs/plans/commit-rule-emergency-gaps.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-emergency-gaps.adoption-decision.json`
+### [`docs/plans/commit-rule-emergency-gaps.adoption-decision.json`](../docs/plans/commit-rule-emergency-gaps.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-emergency-gaps.bundle.json`
+### [`docs/plans/commit-rule-emergency-gaps.bundle.json`](../docs/plans/commit-rule-emergency-gaps.bundle.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-emergency-gaps.check.txt`
+### [`docs/plans/commit-rule-emergency-gaps.check.txt`](../docs/plans/commit-rule-emergency-gaps.check.txt)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-emergency-gaps.facts.json`
+### [`docs/plans/commit-rule-emergency-gaps.facts.json`](../docs/plans/commit-rule-emergency-gaps.facts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-emergency-gaps.md`
+### [`docs/plans/commit-rule-emergency-gaps.md`](../docs/plans/commit-rule-emergency-gaps.md)
 
 This procedure is separate from, and distinct from, the anticipated failure modes listed under Disproof: it covers any failing or surprising run, including ones nobody anticipated. Preserve the failed run itself (its full output saved next to the plan) and its trace id or command line. Before selecting a fix, read the complete inputs, prompts, each tool call's arguments and results, intermediate stages and final output, including the full check command and output and the changed files. Cite the observed divergence and classify it as evidence absent, evidence returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis permits further investigation but cannot authorize a causal repair. Link the targeted repair to a new traced verification run, and retain the original failed run. Review every failing or surprising item and a sample of passes. Review completeness is judged separately from the run verdict: a passing run does not show the review was complete. Criterion `outcome` covers the entire requested success check.
 
-### `docs/plans/commit-rule-emergency-gaps.path-decision.json`
+### [`docs/plans/commit-rule-emergency-gaps.path-decision.json`](../docs/plans/commit-rule-emergency-gaps.path-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-emergency-gaps.receipt.json`
+### [`docs/plans/commit-rule-emergency-gaps.receipt.json`](../docs/plans/commit-rule-emergency-gaps.receipt.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-emergency-gaps.verdicts.json`
+### [`docs/plans/commit-rule-emergency-gaps.verdicts.json`](../docs/plans/commit-rule-emergency-gaps.verdicts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-root-relative-links.adoption-attempts.jsonl`
+### [`docs/plans/commit-rule-root-relative-links.adoption-attempts.jsonl`](../docs/plans/commit-rule-root-relative-links.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-root-relative-links.adoption-decision.json`
+### [`docs/plans/commit-rule-root-relative-links.adoption-decision.json`](../docs/plans/commit-rule-root-relative-links.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-root-relative-links.bundle.json`
+### [`docs/plans/commit-rule-root-relative-links.bundle.json`](../docs/plans/commit-rule-root-relative-links.bundle.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-root-relative-links.check.txt`
+### [`docs/plans/commit-rule-root-relative-links.check.txt`](../docs/plans/commit-rule-root-relative-links.check.txt)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-root-relative-links.facts.json`
+### [`docs/plans/commit-rule-root-relative-links.facts.json`](../docs/plans/commit-rule-root-relative-links.facts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-root-relative-links.goal.md`
+### [`docs/plans/commit-rule-root-relative-links.goal.md`](../docs/plans/commit-rule-root-relative-links.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/commit-rule-root-relative-links.md` (plan sha256 9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `docs/plans/commit-rule-root-relative-links.md`
+### [`docs/plans/commit-rule-root-relative-links.md`](../docs/plans/commit-rule-root-relative-links.md)
 
 This procedure is separate from the anticipated failure named in the disproof under Success and disproof: it applies to any run that fails or surprises us. Preserve the failed run itself: keep its complete output (command, every line, exit status) and its execution trace id, never overwritten by a rerun. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis cannot authorize a causal repair; it permits only further investigation. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
 
-### `docs/plans/commit-rule-root-relative-links.path-decision.json`
+### [`docs/plans/commit-rule-root-relative-links.path-decision.json`](../docs/plans/commit-rule-root-relative-links.path-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-root-relative-links.receipt.json`
+### [`docs/plans/commit-rule-root-relative-links.receipt.json`](../docs/plans/commit-rule-root-relative-links.receipt.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-root-relative-links.verdicts.json`
+### [`docs/plans/commit-rule-root-relative-links.verdicts.json`](../docs/plans/commit-rule-root-relative-links.verdicts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-skip-roots.adoption-attempts.jsonl`
+### [`docs/plans/commit-rule-skip-roots.adoption-attempts.jsonl`](../docs/plans/commit-rule-skip-roots.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-skip-roots.adoption-decision.json`
+### [`docs/plans/commit-rule-skip-roots.adoption-decision.json`](../docs/plans/commit-rule-skip-roots.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-skip-roots.bundle.json`
+### [`docs/plans/commit-rule-skip-roots.bundle.json`](../docs/plans/commit-rule-skip-roots.bundle.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-skip-roots.check.txt`
+### [`docs/plans/commit-rule-skip-roots.check.txt`](../docs/plans/commit-rule-skip-roots.check.txt)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-skip-roots.facts.json`
+### [`docs/plans/commit-rule-skip-roots.facts.json`](../docs/plans/commit-rule-skip-roots.facts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-skip-roots.goal.md`
+### [`docs/plans/commit-rule-skip-roots.goal.md`](../docs/plans/commit-rule-skip-roots.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/commit-rule-skip-roots.md` (plan sha256 b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `docs/plans/commit-rule-skip-roots.md`
+### [`docs/plans/commit-rule-skip-roots.md`](../docs/plans/commit-rule-skip-roots.md)
 
 Preserve the failed check and its execution trace id. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. Investigate an unresolved cause before authorizing a causal repair. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
 
-### `docs/plans/commit-rule-skip-roots.path-decision.json`
+### [`docs/plans/commit-rule-skip-roots.path-decision.json`](../docs/plans/commit-rule-skip-roots.path-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-skip-roots.receipt.json`
+### [`docs/plans/commit-rule-skip-roots.receipt.json`](../docs/plans/commit-rule-skip-roots.receipt.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-rule-skip-roots.verdicts.json`
+### [`docs/plans/commit-rule-skip-roots.verdicts.json`](../docs/plans/commit-rule-skip-roots.verdicts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-tag-contract.adoption-attempts.jsonl`
+### [`docs/plans/commit-tag-contract.adoption-attempts.jsonl`](../docs/plans/commit-tag-contract.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-tag-contract.adoption-decision.json`
+### [`docs/plans/commit-tag-contract.adoption-decision.json`](../docs/plans/commit-tag-contract.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-tag-contract.bundle.json`
+### [`docs/plans/commit-tag-contract.bundle.json`](../docs/plans/commit-tag-contract.bundle.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-tag-contract.check.txt`
+### [`docs/plans/commit-tag-contract.check.txt`](../docs/plans/commit-tag-contract.check.txt)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-tag-contract.facts.json`
+### [`docs/plans/commit-tag-contract.facts.json`](../docs/plans/commit-tag-contract.facts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-tag-contract.goal.md`
+### [`docs/plans/commit-tag-contract.goal.md`](../docs/plans/commit-tag-contract.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/commit-tag-contract.md` (plan sha256 a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `docs/plans/commit-tag-contract.md`
+### [`docs/plans/commit-tag-contract.md`](../docs/plans/commit-tag-contract.md)
 
 This procedure is separate from the anticipated failure named in the disproof under Success and disproof: it applies to any run that fails or surprises us. Preserve the failed check and its execution trace id. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis cannot authorize a causal repair; it permits only further investigation. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
 
-### `docs/plans/commit-tag-contract.path-decision.json`
+### [`docs/plans/commit-tag-contract.path-decision.json`](../docs/plans/commit-tag-contract.path-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-tag-contract.receipt.json`
+### [`docs/plans/commit-tag-contract.receipt.json`](../docs/plans/commit-tag-contract.receipt.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/commit-tag-contract.verdicts.json`
+### [`docs/plans/commit-tag-contract.verdicts.json`](../docs/plans/commit-tag-contract.verdicts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/durable-check-commit-rule.adoption-attempts.jsonl`
+### [`docs/plans/durable-check-commit-rule.adoption-attempts.jsonl`](../docs/plans/durable-check-commit-rule.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `docs/plans/durable-check-commit-rule.adoption-decision.json`
+### [`docs/plans/durable-check-commit-rule.adoption-decision.json`](../docs/plans/durable-check-commit-rule.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/durable-check-commit-rule.bundle.json`
+### [`docs/plans/durable-check-commit-rule.bundle.json`](../docs/plans/durable-check-commit-rule.bundle.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/durable-check-commit-rule.check.txt`
+### [`docs/plans/durable-check-commit-rule.check.txt`](../docs/plans/durable-check-commit-rule.check.txt)
 
 _No source-local artifact summary._
 
-### `docs/plans/durable-check-commit-rule.facts.json`
+### [`docs/plans/durable-check-commit-rule.facts.json`](../docs/plans/durable-check-commit-rule.facts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/durable-check-commit-rule.goal.md`
+### [`docs/plans/durable-check-commit-rule.goal.md`](../docs/plans/durable-check-commit-rule.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/durable-check-commit-rule.md` (plan sha256 69e294bad1b9718cc259f937544176e1643dab781f142476a10e959feb3337c5, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `docs/plans/durable-check-commit-rule.md`
+### [`docs/plans/durable-check-commit-rule.md`](../docs/plans/durable-check-commit-rule.md)
 
 This procedure is separate from the anticipated failure named in the disproof under Success and disproof: it applies to any run that fails or surprises us. Preserve the failed check and its execution trace id. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis cannot authorize a causal repair; it permits only further investigation. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
 
-### `docs/plans/durable-check-commit-rule.path-decision.json`
+### [`docs/plans/durable-check-commit-rule.path-decision.json`](../docs/plans/durable-check-commit-rule.path-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/durable-check-commit-rule.receipt.json`
+### [`docs/plans/durable-check-commit-rule.receipt.json`](../docs/plans/durable-check-commit-rule.receipt.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/durable-check-commit-rule.verdicts.json`
+### [`docs/plans/durable-check-commit-rule.verdicts.json`](../docs/plans/durable-check-commit-rule.verdicts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/rules-register.adoption-attempts.jsonl`
+### [`docs/plans/rules-register.adoption-attempts.jsonl`](../docs/plans/rules-register.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `docs/plans/rules-register.adoption-decision.json`
+### [`docs/plans/rules-register.adoption-decision.json`](../docs/plans/rules-register.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/rules-register.bundle.json`
+### [`docs/plans/rules-register.bundle.json`](../docs/plans/rules-register.bundle.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/rules-register.facts.json`
+### [`docs/plans/rules-register.facts.json`](../docs/plans/rules-register.facts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/rules-register.goal.md`
+### [`docs/plans/rules-register.goal.md`](../docs/plans/rules-register.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/rules-register.md` (plan sha256 5ddc64fa7caa79880a30337611e86ea889ee56d19304000d6beed5d6f1bf2e39, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `docs/plans/rules-register.md`
+### [`docs/plans/rules-register.md`](../docs/plans/rules-register.md)
 
 - register rule entries (id, rule, origin, enforcement_status, enforcement_mechanism, evidence): every entry must appear on the built page with its status - RULES.md page: summary counts must equal the register's and project-meta's counts (12, 21, 263)
 
-### `docs/plans/rules-register.path-decision.json`
+### [`docs/plans/rules-register.path-decision.json`](../docs/plans/rules-register.path-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/rules-register.receipt.json`
+### [`docs/plans/rules-register.receipt.json`](../docs/plans/rules-register.receipt.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/rules-register.verdicts.json`
+### [`docs/plans/rules-register.verdicts.json`](../docs/plans/rules-register.verdicts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/shaping-nav-preflight.adoption-attempts.jsonl`
+### [`docs/plans/shaping-nav-preflight.adoption-attempts.jsonl`](../docs/plans/shaping-nav-preflight.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `docs/plans/shaping-nav-preflight.adoption-decision.json`
+### [`docs/plans/shaping-nav-preflight.adoption-decision.json`](../docs/plans/shaping-nav-preflight.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/shaping-nav-preflight.bundle.json`
+### [`docs/plans/shaping-nav-preflight.bundle.json`](../docs/plans/shaping-nav-preflight.bundle.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/shaping-nav-preflight.check.txt`
+### [`docs/plans/shaping-nav-preflight.check.txt`](../docs/plans/shaping-nav-preflight.check.txt)
 
 _No source-local artifact summary._
 
-### `docs/plans/shaping-nav-preflight.facts.json`
+### [`docs/plans/shaping-nav-preflight.facts.json`](../docs/plans/shaping-nav-preflight.facts.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/shaping-nav-preflight.goal.md`
+### [`docs/plans/shaping-nav-preflight.goal.md`](../docs/plans/shaping-nav-preflight.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/shaping-nav-preflight.md` (plan sha256 fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `docs/plans/shaping-nav-preflight.md`
+### [`docs/plans/shaping-nav-preflight.md`](../docs/plans/shaping-nav-preflight.md)
 
 This procedure is separate from the anticipated failure named in the disproof under Success and disproof: it applies to any run that fails or surprises us. Preserve the failed check and its execution trace id. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis cannot authorize a causal repair; it permits only further investigation. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
 
-### `docs/plans/shaping-nav-preflight.path-decision.json`
+### [`docs/plans/shaping-nav-preflight.path-decision.json`](../docs/plans/shaping-nav-preflight.path-decision.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/shaping-nav-preflight.receipt.json`
+### [`docs/plans/shaping-nav-preflight.receipt.json`](../docs/plans/shaping-nav-preflight.receipt.json)
 
 _No source-local artifact summary._
 
-### `docs/plans/shaping-nav-preflight.verdicts.json`
+### [`docs/plans/shaping-nav-preflight.verdicts.json`](../docs/plans/shaping-nav-preflight.verdicts.json)
 
 _No source-local artifact summary._
 
-### `docs/rules/RULES.md`
+### [`docs/rules/RULES.md`](../docs/rules/RULES.md)
 
 Published AES rules, their enforcement and evidence. Complete legacy source text stays in the private inventory; its proposed dispositions are summarized below. Generated by `scripts/rules/build_rules_page.py` from [the AES rules register](register.yaml); edit the inputs, not this page.
 
-### `docs/rules/legacy-dispositions.yaml`
+### [`docs/rules/legacy-dispositions.yaml`](../docs/rules/legacy-dispositions.yaml)
 
 _No source-local artifact summary._
 
-### `docs/rules/register.yaml`
+### [`docs/rules/register.yaml`](../docs/rules/register.yaml)
 
 _No source-local artifact summary._
 
-### `docs/terms/ecosystem-terms.md`
+### [`docs/terms/ecosystem-terms.md`](../docs/terms/ecosystem-terms.md)
 
 Status: first entries, 2026-10-05. A controlled vocabulary: one meaning per term, usable in any project. It is a terms list, not an architecture authority. Planning-runtime words (accepted, approved, claimed, ready, ...) live in `agent-skills/contracts/terminology.md`; do not duplicate them here.
 
-### `evals/README.md`
+### [`evals/README.md`](../evals/README.md)
 
 Status: active Role: behavioral/system evaluations distinct from deterministic tests Authority: evaluation definitions and scoped measurements Lifecycle: versioned definitions; retained observations where needed
 
-### `evals/plan-002/P0_RUNBOOK.md`
+### [`evals/plan-002/P0_RUNBOOK.md`](../evals/plan-002/P0_RUNBOOK.md)
 
 Status: executable handoff; **P0 is not yet closed** Plan authority: `docs/plans/002_offline_policy_decision_replay.md` Case inventory: `evals/plan-002/case_manifest.json` Execution tracker: Issue #20
 
-### `evals/plan-002/README.md`
+### [`evals/plan-002/README.md`](../evals/plan-002/README.md)
 
 Status: P0 source inventory in progress Authority: Plan 002 defines scope and stop rules; this directory holds bounded evaluation definitions and source-reference manifests. Execution handoff: [`P0_RUNBOOK.md`](P0_RUNBOOK.md) contains the exact machine/provider closure sequence.
 
-### `evidence/README.md`
+### [`evidence/README.md`](../evidence/README.md)
 
 Status: active Role: retained observations and run receipts Authority: authoritative for what was observed, not its interpretation Lifecycle: append-only/immutable where practical
 
-### `evidence/greenfield/clean-user-run-2-2026-09-25.md`
+### [`evidence/greenfield/clean-user-run-2-2026-09-25.md`](../evidence/greenfield/clean-user-run-2-2026-09-25.md)
 
 Repeat of `clean-user-run-2026-09-25.md` at AES `2d3486b` after phases 3–6. Observation of record: `.aes/observations/OBS-AES-CLEAN-USER-2d3486b.yaml` (supersedes `OBS-AES-CLEAN-USER-0503735`). Same runner setup and the same caveat: a fresh agent given only the page, on the maintainer's machine, since the repository is private by decision.
 
-### `evidence/greenfield/clean-user-run-2026-09-25.md`
+### [`evidence/greenfield/clean-user-run-2026-09-25.md`](../evidence/greenfield/clean-user-run-2026-09-25.md)
 
 Evidence for `ER-SC-GF-001-01` (external consumer observation), retained here until AES canonical has its own `.aes/observations/` (roadmap phase 6), when it is converted to an observation record at this exact revision. Converted in roadmap phase 6b: `.aes/observations/OBS-AES-CLEAN-USER-0503735.yaml` (this file stays as the report the record cites).
 
-### `evidence/greenfield/clean-user-run-3-2026-09-25.md`
+### [`evidence/greenfield/clean-user-run-3-2026-09-25.md`](../evidence/greenfield/clean-user-run-3-2026-09-25.md)
 
 At AES `3dd2b9a` (the phase-7b commit, run before merge and merged with a merge commit). Observation of record: `.aes/observations/OBS-AES-CLEAN-USER-3dd2b9a.yaml` (supersedes run 2). Same setup and caveat as runs 1 and 2.
 
-### `evidence/greenfield/clean-user-run-4-2026-10-04.md`
+### [`evidence/greenfield/clean-user-run-4-2026-10-04.md`](../evidence/greenfield/clean-user-run-4-2026-10-04.md)
 
 At AES `d89fe2e` (branch `bri36-getting-started-uv`, run before merge and merged with a merge commit), the commit that moved the page's install from `python3 -m venv` plus `pip` to `uv venv` plus `uv pip install`. Observation of record: `.aes/observations/OBS-AES-CLEAN-USER-d89fe2e.yaml` (supersedes runs 1-3).
 
-### `evidence/greenfield/context-ab-2026-09-25/preregistration.md`
+### [`evidence/greenfield/context-ab-2026-09-25/preregistration.md`](../evidence/greenfield/context-ab-2026-09-25/preregistration.md)
 
 Change under test: `aes status`/`aes reconcile` report ER-SC-GF-005-02 and ER-SC-GF-009-01 as "no route" although each has an `external_boundaries` entry in `.aes/target.yaml` and `aes target validate` accepts them. Fix: an evidence requirement with an external boundary is routed.
 
-### `evidence/greenfield/context-ab-2026-09-25/result.md`
+### [`evidence/greenfield/context-ab-2026-09-25/result.md`](../evidence/greenfield/context-ab-2026-09-25/result.md)
 
 Base: AES canonical `2509ea4` (the repository governing itself; ~4,000 lines of v0.2 source and tests under the governed roots plus 18 retained v0.1 files). Change: "an external boundary is a route" in `reconcile.py` — a real bug found by the phase-6b builder. Pre-registration: `preregistration.md` (written before either arm ran). Arms: two fresh Claude Opus 5.5 agent sessions in separate clones, no access to the orchestrator's conversation or the proposals directory. Arm A: change request + `aes context RU-AES-RECONCILE` packet (as a file) + repository. Arm B: change request + repository, README first.
 
-### `evidence/modular-design-integration-2026-09-22.md`
+### [`evidence/modular-design-integration-2026-09-22.md`](../evidence/modular-design-integration-2026-09-22.md)
 
 Recorded: 2026-09-22. Subject: documentation-only commit `d65df4a6df2015dc345f2cd04c0d6ce003df59c4`. Comparison baseline: `996530de0d034687b49a1acb89d3261681eb6274`. Scope: Decision 0009, AES-CAP-003/004/005, canonical agent instructions and their generated projection, existing Company Planning profile, and navigation.
 
-### `evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`
+### [`evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`](../evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md)
 
 Characterized AES revision: `320991b96a3e3aaa15aa8ba05817a7eee1c52603`
 
-### `evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/characterization.md`
+### [`evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/characterization.md`](../evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/characterization.md)
 
 Characterized AES revision: `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`
 
-### `evidence/plan-001/a1/53be16fa1159f31648773062531d751c85d7a011.md`
+### [`evidence/plan-001/a1/53be16fa1159f31648773062531d751c85d7a011.md`](../evidence/plan-001/a1/53be16fa1159f31648773062531d751c85d7a011.md)
 
 Reviewed AES revision: `53be16fa1159f31648773062531d751c85d7a011` Reviewed consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` Surface: `generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/index.html`
 
-### `evidence/plan-001/a1/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1.md`
+### [`evidence/plan-001/a1/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1.md`](../evidence/plan-001/a1/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1.md)
 
 Reviewed AES revision: `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1` Reviewed consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` Reviewed surface SHA-256: `dfabfa0749614a04ef2206eb503002085c5313d9fb46d52288e81c692bb0aed6`
 
-### `evidence/plan-001/pr5-integration-readiness-2026-09-18.md`
+### [`evidence/plan-001/pr5-integration-readiness-2026-09-18.md`](../evidence/plan-001/pr5-integration-readiness-2026-09-18.md)
 
 **Approved for integration into canonical `main` as implementation-partial.**
 
-### `experiments/README.md`
+### [`experiments/README.md`](../experiments/README.md)
 
 Status: unused Role: bounded experiments and prototypes Authority: experimental observations; non-normative Lifecycle: design -> run -> readout/disposition
 
-### `human-facing/README.md`
+### [`human-facing/README.md`](../human-facing/README.md)
 
 Status: unused Role: routing for human-facing interactive/non-interactive surfaces Authority: concern routing, not necessarily implementation source Lifecycle: versioned routing/current surfaces
 
-### `operations/README.md`
+### [`operations/README.md`](../operations/README.md)
 
 Status: unused Role: operating a realized system Authority: current operating procedure/configuration Lifecycle: current procedures plus append-only operational evidence
 
-### `proposals/README.md`
+### [`proposals/README.md`](../proposals/README.md)
 
 Status: active Role: non-binding proposed changes Authority: proposed only Lifecycle: retained through disposition
 
-### `proposals/aes-adopt-existing/README.md`
+### [`proposals/aes-adopt-existing/README.md`](../proposals/aes-adopt-existing/README.md)
 
 **Example.** DIGIMON (`~/code/Digimon_for_KG_application`) has about 1,800 tracked files and 220 numbered plans. Today `aes init` there followed by a commit is refused: every existing file is an orphan (issue #155 reproduced the same on tinydb's 20 files). After this plan, `aes adopt --governed-root Core/ ...` lists every tracked file under those roots in one JSON file, the adoption commit passes the hooks, and `aes status` reads `legacy: N of N governed files (100.0%)`. When an agent later edits `Core/x.py` under a plan that lists it, the baseline drops to N-1, and the dropped entry is exactly `Core/x.py`.
 
-### `proposals/aes-adopt-existing/aes-adopt-existing.goal.md`
+### [`proposals/aes-adopt-existing/aes-adopt-existing.goal.md`](../proposals/aes-adopt-existing/aes-adopt-existing.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-adopt-existing/README.md` (plan sha256 273d9e2044673d7aed4ba3b6b91ff3e0cca1c71ae08cef91469259c29f9c2411, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/aes-brownfield-docs/PLAN.md`
+### [`proposals/aes-brownfield-docs/PLAN.md`](../proposals/aes-brownfield-docs/PLAN.md)
 
 <a id="outcome"></a>
 
-### `proposals/aes-brownfield-docs/RETROFIT_NOTE.md`
+### [`proposals/aes-brownfield-docs/RETROFIT_NOTE.md`](../proposals/aes-brownfield-docs/RETROFIT_NOTE.md)
 
 Milestone M2 of [`PLAN.md`](PLAN.md). Records what bringing an existing repository's documentation into AES canonical's declared layout actually took, so the documentation-rule decision (M3) and any rollout (M4) start from evidence.
 
-### `proposals/aes-brownfield-docs/aes-brownfield-docs.goal.md`
+### [`proposals/aes-brownfield-docs/aes-brownfield-docs.goal.md`](../proposals/aes-brownfield-docs/aes-brownfield-docs.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-brownfield-docs/PLAN.md` (plan sha256 cd951538870e86e8514788b53ce37128c52568b1f2a8e6fa377ec899deaca9c5, route durable_solo). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/aes-durable-docs/PLAN.md`
+### [`proposals/aes-durable-docs/PLAN.md`](../proposals/aes-durable-docs/PLAN.md)
 
 **Why now.** A survey of 36 repositories active in the last two weeks (2026-10-10, `git ls-files` by path) found about 3,300 plan files and about 600 decision records, but requirements documents in 2 repositories, a system model (`docs/model/ODD.md`) in 8 and `.aes/target.yaml` in 4. Plans record each change and are never folded back into anything a reader can trust as current. Company Planning makes a PRD optional (`landscape-review/SKILL.md:74`), never asks for decision records, and has no completion step for quick-adopted plans.
 
-### `proposals/aes-durable-docs/aes-durable-docs.goal.md`
+### [`proposals/aes-durable-docs/aes-durable-docs.goal.md`](../proposals/aes-durable-docs/aes-durable-docs.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-durable-docs/PLAN.md` (plan sha256 76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md`
+### [`proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md`](../proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md)
 
 Review of the fresh Haiku reader's trace answering the canonical question in AES canonical (aes-durable-docs M4)
 
-### `proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader-review.md`
+### [`proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader-review.md`](../proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader-review.md)
 
 Review of the fresh Haiku reader's trace answering the canonical question in company-planning (Plan
 
-### `proposals/aes-durable-docs/evidence/m5-disproof-sample.md`
+### [`proposals/aes-durable-docs/evidence/m5-disproof-sample.md`](../proposals/aes-durable-docs/evidence/m5-disproof-sample.md)
 
 M5 disproof sample for aes-durable-docs, run 2026-10-11 under the amended timing and population; the disproof condition fires (9 of 10 none or mechanical), because the rule was not in effect for 8 of the 10 plans (stale installed plugin or repository not yet declared)
 
-### `proposals/aes-durable-docs/evidence/m5-rollout.md`
+### [`proposals/aes-durable-docs/evidence/m5-rollout.md`](../proposals/aes-durable-docs/evidence/m5-rollout.md)
 
 Inventory: `m5-inventory.json` (22 active governed repositories, built by Haiku readers on 2026-10-11). Each repository got one PR that adds its durable document set (system model at `docs/model/ARCHITECTURE.md`, per company-planning#116), checked with `durable_docs_check.py --arc42` and the repository's own local check before merge. "Daily check" is `project-meta/scripts/md_file_cap.py --repo <path> --ref origin/main`, run after merge; `durable=ok(0)` means zero durable-set findings on main.
 
-### `proposals/aes-feedback-prevention/PLAN.md`
+### [`proposals/aes-feedback-prevention/PLAN.md`](../proposals/aes-feedback-prevention/PLAN.md)
 
 Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted ` #` starts a YAML comment and cuts the value.
 
-### `proposals/aes-feedback-prevention/SYSTEM_MODEL.md`
+### [`proposals/aes-feedback-prevention/SYSTEM_MODEL.md`](../proposals/aes-feedback-prevention/SYSTEM_MODEL.md)
 
 Scope: AES owns report production, native parent checks and canonical instructions; agent-skills owns the taxonomy reader and dispositions. This extends the existing [subagent model](../aes-subagent-feedback/SYSTEM_MODEL.md), not its producer contract.
 
-### `proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md`
+### [`proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md`](../proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-feedback-prevention/PLAN.md` (plan sha256 664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/aes-learning-loop/DESIGN.md`
+### [`proposals/aes-learning-loop/DESIGN.md`](../proposals/aes-learning-loop/DESIGN.md)
 
 Status: **historical, the original design (2 to 7 October 2026).** Kept as the record of why the loop was built this way. It no longer describes what runs: since then the loop gained feedback reports in a private issue log, a weekly analysis that licenses fixes, enforcement receipts and an effect counter, a daily fix owner, and a rule check. For the system as it runs today, read in this order:
 
-### `proposals/aes-learning-loop/PLAN.md`
+### [`proposals/aes-learning-loop/PLAN.md`](../proposals/aes-learning-loop/PLAN.md)
 
 **Actors.** Every Claude and Codex agent working in Brian's repositories (they report), the nightly and weekly loop runs (they sort, analyse, and adopt or retire rules by their best judgment), and Brian (he observes a view ranked by impact and uncertainty and is notified of the items that matter; he is not an approver).
 
-### `proposals/aes-learning-loop/REPAIR.md`
+### [`proposals/aes-learning-loop/REPAIR.md`](../proposals/aes-learning-loop/REPAIR.md)
 
 Brian approved this bounded repair on 2026-10-08 after the independent review. It implements the existing adopted learning-loop plan's evidence and observed effect requirements; it does not adopt new agent-behavior rules.
 
-### `proposals/aes-learning-loop/aes-learning-loop.goal.md`
+### [`proposals/aes-learning-loop/aes-learning-loop.goal.md`](../proposals/aes-learning-loop/aes-learning-loop.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-learning-loop/PLAN.md` (plan sha256 c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/aes-plan-scope/README.md`
+### [`proposals/aes-plan-scope/README.md`](../proposals/aes-plan-scope/README.md)
 
 **Example.** DIGIMON's robot worker opened pull request 414 under adopted Plan 216: three commits, one of which edits an existing test file. Under enforce that commit is refused today (`aes commit replay`: 3 commits, 2 accepted, 1 refused), because a Company Planning plan declares no paths and only `aes plan accept` can clear a file from the baseline. After this plan, Plan 216 adds five `conflict_surfaces` lines, is re-adopted, and the same replay reads 3 accepted.
 
-### `proposals/aes-plan-scope/aes-plan-scope.goal.md`
+### [`proposals/aes-plan-scope/aes-plan-scope.goal.md`](../proposals/aes-plan-scope/aes-plan-scope.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-plan-scope/README.md` (plan sha256 1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/aes-planning/README.md`
+### [`proposals/aes-planning/README.md`](../proposals/aes-planning/README.md)
 
 - 2026-10-06: "we should enforce this ['I wrote a plan page, but I didn't plan it the way your system says to']". - 2026-10-06: "i guess we could have aes plans be one of the routes in company planning and then we can work towards getting everything in that format ... yeah we need to lock down unplanned. there are some trivial cases where that is correct but for real implementation work we should always have a plan." - 2026-10-06: "in general we want to be upfront planning what is optimal then using /goal ... company planning ... should generate the /goal text where it is known as part of the plans." - 2026-10-06: "once we get aes canonical working we refactor all my projects into aes and force all work going forward into aes compliance."
 
-### `proposals/aes-planning/ROLLOUT.md`
+### [`proposals/aes-planning/ROLLOUT.md`](../proposals/aes-planning/ROLLOUT.md)
 
 Work units P4 and P6 of `proposals/aes-planning/` (owner was `coordinator:code-71`; that session ended, and this rollout was taken over on 2026-10-07).
 
-### `proposals/aes-planning/aes-planning.goal.md`
+### [`proposals/aes-planning/aes-planning.goal.md`](../proposals/aes-planning/aes-planning.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-planning/README.md` (plan sha256 3f23048815244cf7b768c0f35f752f7cdd752ebcb2ff00b3324e77351255962e, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/aes-subagent-feedback/PLAN.md`
+### [`proposals/aes-subagent-feedback/PLAN.md`](../proposals/aes-subagent-feedback/PLAN.md)
 
 Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted ` #` starts a YAML comment and cuts the value.
 
-### `proposals/aes-subagent-feedback/SYSTEM_MODEL.md`
+### [`proposals/aes-subagent-feedback/SYSTEM_MODEL.md`](../proposals/aes-subagent-feedback/SYSTEM_MODEL.md)
 
 This extends the [existing loop](../aes-learning-loop/PLAN.md) without another store.
 
-### `proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md`
+### [`proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md`](../proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-subagent-feedback/PLAN.md` (plan sha256 00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/aes-v0.2-greenfield/01-design-thesis.md`
+### [`proposals/aes-v0.2-greenfield/01-design-thesis.md`](../proposals/aes-v0.2-greenfield/01-design-thesis.md)
 
 Status: **candidate design thesis / non-normative**
 
-### `proposals/aes-v0.2-greenfield/05-donor-reentry.md`
+### [`proposals/aes-v0.2-greenfield/05-donor-reentry.md`](../proposals/aes-v0.2-greenfield/05-donor-reentry.md)
 
 Prevent the clean-sheet architecture from silently becoming a repackaging of existing private systems.
 
-### `proposals/aes-v0.2-greenfield/06-open-questions.md`
+### [`proposals/aes-v0.2-greenfield/06-open-questions.md`](../proposals/aes-v0.2-greenfield/06-open-questions.md)
 
 Status: **active review queue / non-normative** Date: 2026-09-24
 
-### `proposals/aes-v0.2-greenfield/07-semantic-clean-sheet-review-pass-1.md`
+### [`proposals/aes-v0.2-greenfield/07-semantic-clean-sheet-review-pass-1.md`](../proposals/aes-v0.2-greenfield/07-semantic-clean-sheet-review-pass-1.md)
 
 Review role: **historical/supporting rationale**. Its accepted corrections are incorporated into `02-semantic-model.candidate.yaml` and `03-lifecycle.candidate.yaml`.
 
-### `proposals/aes-v0.2-greenfield/08-semantic-clean-sheet-review-pass-2.md`
+### [`proposals/aes-v0.2-greenfield/08-semantic-clean-sheet-review-pass-2.md`](../proposals/aes-v0.2-greenfield/08-semantic-clean-sheet-review-pass-2.md)
 
 Define the minimum semantic joins required by the Greenfield MVP without introducing a universal relationship registry.
 
-### `proposals/aes-v0.2-greenfield/09-semantic-clean-sheet-review-pass-3-topology.md`
+### [`proposals/aes-v0.2-greenfield/09-semantic-clean-sheet-review-pass-3-topology.md`](../proposals/aes-v0.2-greenfield/09-semantic-clean-sheet-review-pass-3-topology.md)
 
 Review role: **historical/supporting rationale**. Current topology semantics are incorporated into `02-semantic-model.candidate.yaml`, `13-greenfield-materialization.candidate.md`, and `20-realization-topology.candidate.yaml`.
 
-### `proposals/aes-v0.2-greenfield/10-greenfield-mvp-validation-profile.md`
+### [`proposals/aes-v0.2-greenfield/10-greenfield-mvp-validation-profile.md`](../proposals/aes-v0.2-greenfield/10-greenfield-mvp-validation-profile.md)
 
 Prevent the Greenfield MVP from being "validated" by a project so trivial that it does not exercise the architecture's load-bearing semantics.
 
-### `proposals/aes-v0.2-greenfield/11-semantic-clean-sheet-review-pass-4-target-analysis.md`
+### [`proposals/aes-v0.2-greenfield/11-semantic-clean-sheet-review-pass-4-target-analysis.md`](../proposals/aes-v0.2-greenfield/11-semantic-clean-sheet-review-pass-4-target-analysis.md)
 
 Review role: **historical/supporting rationale**. Current target/analysis/transition distinctions are incorporated into `02-semantic-model.candidate.yaml` and `03-lifecycle.candidate.yaml`.
 
-### `proposals/aes-v0.2-greenfield/13-greenfield-materialization.candidate.md`
+### [`proposals/aes-v0.2-greenfield/13-greenfield-materialization.candidate.md`](../proposals/aes-v0.2-greenfield/13-greenfield-materialization.candidate.md)
 
 Choose the smallest opinionated project storage convention that can materialize the clean semantic model for a fresh project without making storage layout part of the ontology.
 
-### `proposals/aes-v0.2-greenfield/18-provider-evaluation-round-1.md`
+### [`proposals/aes-v0.2-greenfield/18-provider-evaluation-round-1.md`](../proposals/aes-v0.2-greenfield/18-provider-evaluation-round-1.md)
 
 Review role: **supporting provider rationale**. Current candidate bindings are in `21-provider-bindings.candidate.yaml`.
 
-### `proposals/aes-v0.2-greenfield/19-provider-evaluation-round-2-generic-dependencies.md`
+### [`proposals/aes-v0.2-greenfield/19-provider-evaluation-round-2-generic-dependencies.md`](../proposals/aes-v0.2-greenfield/19-provider-evaluation-round-2-generic-dependencies.md)
 
 Review role: **supporting dependency rationale**. Current candidate bindings are in `21-provider-bindings.candidate.yaml`.
 
-### `proposals/aes-v0.2-greenfield/22-portable-provider-boundaries.md`
+### [`proposals/aes-v0.2-greenfield/22-portable-provider-boundaries.md`](../proposals/aes-v0.2-greenfield/22-portable-provider-boundaries.md)
 
 Resolve two Greenfield-MVP provider questions without binding AES to a private planning plugin, a particular LLM vendor, or a client-specific hook runtime.
 
-### `proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md`
+### [`proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md`](../proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md)
 
 Status: **candidate product surface / non-normative** Date: 2026-09-24
 
-### `proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md`
+### [`proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md`](../proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md)
 
 Status: **accepted pre-probe decisions / non-normative until v0.2 cutover** Date: 2026-09-25 Review basis: `REVIEW.md`, all primary candidate files, `docs/decisions/0001`–`0009` Reviewer: independent agent session (Claude Fable 5.1), first read not authored by the proposal's author session. Brian approved the consumer-selection rule (option A below) in conversation on 2026-09-25.
 
-### `proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md`
+### [`proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md`](../proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md)
 
 Status: accepted by Decision 0010 (`docs/decisions/0010-greenfield-v0.2-accepted.md`, 2026-09-25). The accepted architecture is `docs/architecture/greenfield-v0.2/`; this file is proposal lineage. One criterion, SC-GF-001, stands INSUFFICIENT at acceptance and is not downgraded: it waits on clean-user run 3 on current code (§0, Decision 0010).
 
-### `proposals/aes-v0.2-greenfield/README.md`
+### [`proposals/aes-v0.2-greenfield/README.md`](../proposals/aes-v0.2-greenfield/README.md)
 
 Define the next AES architecture generation from first principles while preserving the existing repository as empirical history.
 
-### `proposals/aes-v0.2-greenfield/REVIEW.md`
+### [`proposals/aes-v0.2-greenfield/REVIEW.md`](../proposals/aes-v0.2-greenfield/REVIEW.md)
 
 Status: **review snapshot / proposal / non-normative** Date: 2026-09-24 Branch: `architecture/v0.2-greenfield` Base lineage: `main@36c205d3363a7304c6043ca645acae5eea58e97c`
 
-### `proposals/agent-router/PLAN.md`
+### [`proposals/agent-router/PLAN.md`](../proposals/agent-router/PLAN.md)
 
 Design, diagram and the dashboard example: [README.md](README.md). Brian activated the goal "finish all remaning work" on 2026-10-09, authorizing completion of this remaining feedback/router work. The earlier [revision goal](revision.goal.md), [revision route](revision-path-decision.json) and [verification trace](verification.log) remain evidence of the document-only correction task. The 2026-10-08 receipt and generated goal do not adopt the changed plan. Re-adopt this exact plan before implementation; retain the original outcome and all observation, parity, fallback and promotion obligations below.
 
-### `proposals/agent-router/README.md`
+### [`proposals/agent-router/README.md`](../proposals/agent-router/README.md)
 
 Status: adopted 2026-10-09; collector repair merged in PR #499 and inventory repair in PR #500; privacy/source-binding follow-up merged in PR #503 and verified in the installed reader; profile/accounting core merged in [PR #497](https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/497), while runtime acceptance remains pending. [PLAN.md](PLAN.md), its [adoption decision](receipt.adoption-decision.json), [receipt](receipt.json) and [generated goal](agent-router.goal.md) govern completion. All eight complete criteria remain planned in the [acceptance records](evidence.json). The [revision goal](revision.goal.md), [route](revision-path-decision.json) and [verification](verification.log) retain the earlier document-only evidence. The [offline inventory check](inventory-check.json) binds all 263 current source IDs: 229 keep, 27 covered and 7 retirement candidates. Complete policies, named quotations and validated applicability remain privately recoverable; the [public manifest](../../docs/rules/legacy-dispositions.yaml) exposes structural outcomes and evidence hashes. No further paid sorting is authorized by the exhausted legacy allowance; mandatory instructions are neither retired nor activated by the inventory.
 
-### `proposals/agent-router/agent-router.goal.md`
+### [`proposals/agent-router/agent-router.goal.md`](../proposals/agent-router/agent-router.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/agent-router/PLAN.md` (plan sha256 2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/agent-router/revision.goal.md`
+### [`proposals/agent-router/revision.goal.md`](../proposals/agent-router/revision.goal.md)
 
 Brian explicitly set this goal in native session `01a11cae-eadf-7192-9a72-ca2283a3ebc0` on 2026-10-08 local time. The existing [PLAN](PLAN.md) is the design being revised; [verification](verification.log) records this revision's checks. The older generated `agent-router.goal.md` is retained historical adoption evidence and is not this task's launcher.
 
-### `proposals/code2-ecosystem/PLAN.md`
+### [`proposals/code2-ecosystem/PLAN.md`](../proposals/code2-ecosystem/PLAN.md)
 
 Brian approved this on 2026-10-13 ("yes lets make the move") after asking for a fresh start: "start a like code2 dir that has aes canoncial and maybe like a few relevant repos and star over there", with enforcement that "should live in the ecosystem not in the repo" and one source of truth. Project-meta is his legacy system; AES canonical replaces it.
 
-### `proposals/code2-ecosystem/code2-ecosystem.goal.md`
+### [`proposals/code2-ecosystem/code2-ecosystem.goal.md`](../proposals/code2-ecosystem/code2-ecosystem.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/code2-ecosystem/PLAN.md` (plan sha256 cb486612c978bd9195879b4d17ae6b8445e44a22161561fb2e9c233f44c7fb46, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/code2-ecosystem/hookspath-review.md`
+### [`proposals/code2-ecosystem/hookspath-review.md`](../proposals/code2-ecosystem/hookspath-review.md)
 
 Git runs hooks from exactly one folder. Most repositories under `~/code` use the shared folder `~/.config/git/hooks`. The 34 below override it with a local `core.hooksPath`, so the shared hooks do not run there unless something forwards to them. This page lists each one, why it overrides the shared folder, and what phase 2 should do with it.
 
-### `proposals/code2-ecosystem/workspace/AGENTS.md`
+### [`proposals/code2-ecosystem/workspace/AGENTS.md`](../proposals/code2-ecosystem/workspace/AGENTS.md)
 
 `~/code2` is the fresh workspace that repositories join by moving in. This file is linked as `~/code2/AGENTS.md`; its source of truth is `proposals/code2-ecosystem/workspace/AGENTS.md` in agentic-engineering-system-canonical (AES canonical). Change it there, through a commit, never by editing the link target in place.
 
-### `proposals/commit-rule-followups/commit-rule-followups.goal.md`
+### [`proposals/commit-rule-followups/commit-rule-followups.goal.md`](../proposals/commit-rule-followups/commit-rule-followups.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/commit-rule-followups/commit-rule-followups.md` (plan sha256 81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/commit-rule-followups/commit-rule-followups.md`
+### [`proposals/commit-rule-followups/commit-rule-followups.md`](../proposals/commit-rule-followups/commit-rule-followups.md)
 
 | Uncertainty | Owner or resolving evidence | | --- | --- | | Whether the change needs files beyond the list below; if so it is out of scope for this plan | Resolved before editing: grep -n RUNNING_THING src/agentic_engineering_system/commit_rule.py shows the running-thing list lives only there (lines 91-96); the misuse review reads the same log (proposals/aes-planning/rollout/misuse_review.py) |
 
-### `proposals/commit-rule-notes-report/commit-rule-notes-report.goal.md`
+### [`proposals/commit-rule-notes-report/commit-rule-notes-report.goal.md`](../proposals/commit-rule-notes-report/commit-rule-notes-report.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/commit-rule-notes-report/commit-rule-notes-report.md` (plan sha256 50d45de7933b0f6eb95b34c941c1caa13cb24a93e90ad23a8f2e4422549ce9b5, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/commit-rule-notes-report/commit-rule-notes-report.md`
+### [`proposals/commit-rule-notes-report/commit-rule-notes-report.md`](../proposals/commit-rule-notes-report/commit-rule-notes-report.md)
 
 | Uncertainty | Owner or resolving evidence | | --- | --- | | Whether the change needs files beyond the list below; if so it is out of scope for this plan | Resolved before editing: grep -n 'notes' proposals/aes-planning/rollout/daily_report.py finds no reader today; the per-day line is written in main() (the counts block near line 125) and concerns go through concern() at line 45. This is the only material uncertainty: the change is one function and its use in main(), plus a test, so no other unknown affects the outcome |
 
-### `proposals/commit-tag-case/commit-tag-case.goal.md`
+### [`proposals/commit-tag-case/commit-tag-case.goal.md`](../proposals/commit-tag-case/commit-tag-case.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/commit-tag-case/commit-tag-case.md` (plan sha256 35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/commit-tag-case/commit-tag-case.md`
+### [`proposals/commit-tag-case/commit-tag-case.md`](../proposals/commit-tag-case/commit-tag-case.md)
 
 | Uncertainty | Owner or resolving evidence | | --- | --- | | Whether the change needs files beyond the list below; if so it is out of scope for this plan | Resolved before editing: grep -n TAG_RE src/agentic_engineering_system/commit_rule.py: the pattern is defined once (line 81) and used only by the rule. This is the only material uncertainty: the change is one regular expression and its tests, so no other unknown affects the outcome |
 
-### `proposals/doc-reach-new-docs/PLAN.md`
+### [`proposals/doc-reach-new-docs/PLAN.md`](../proposals/doc-reach-new-docs/PLAN.md)
 
 > **CORE-ACTOR-RESULT-EXAMPLE** (blocking): The plan names the actor it serves, the desired result, and one stable, concrete, user-visible example of that result.
 
-### `proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md`
+### [`proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md`](../proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/doc-reach-new-docs/PLAN.md` (plan sha256 6ed76bdc52a47689c2fd6b5f35905958735197acd7c234d93145a363ede5e584, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/evidence-recorder-counts/README.md`
+### [`proposals/evidence-recorder-counts/README.md`](../proposals/evidence-recorder-counts/README.md)
 
 An agent using `aes evidence record` needs to know whether its tests actually ran. At source revision `431deeb6`, a real pytest file with one skipped assertion returned exit 0 and the default recorder saved SUPPORTS. The reproduction is in `reproduction.before.json`; source inspection alone was not used as runtime proof.
 
-### `proposals/harness-context/README.md`
+### [`proposals/harness-context/README.md`](../proposals/harness-context/README.md)
 
 Brian wants a harness that follows his rules without making every job carry every procedure. The coordinator keeps the outcome and routes bounded jobs; native specialists load the shared safety core, their role, the target repository authority, and only the procedure activated by that job.
 
-### `proposals/harness-context/harness-context.goal.md`
+### [`proposals/harness-context/harness-context.goal.md`](../proposals/harness-context/harness-context.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/harness-context/README.md` (plan sha256 adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md`
+### [`proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md`](../proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md)
 
 Status: active
 
-### `proposals/harness-context/native-parity/input/project-meta/AGENTS.md`
+### [`proposals/harness-context/native-parity/input/project-meta/AGENTS.md`](../proposals/harness-context/native-parity/input/project-meta/AGENTS.md)
 
 This repo is the **governance hub** for Brian's project ecosystem: vision docs, enforcement scripts, project index, and operational state.
 
-### `proposals/harness-context/subagent-research.md`
+### [`proposals/harness-context/subagent-research.md`](../proposals/harness-context/subagent-research.md)
 
 Use native workers with an explicit history policy, keep their shared behavior in one source, and verify the effective client settings before claiming parity.
 
-### `proposals/meeting-claims-true/PLAN.md`
+### [`proposals/meeting-claims-true/PLAN.md`](../proposals/meeting-claims-true/PLAN.md)
 
 In the 2026-10-08 "SD - AI Astronaut" meeting (zoom:b5b26a4b0e7daf1a) Brian described his project brains, Company Planning, plan-to-code alignment, feedback system, positions map and ChatGPT backup to Tyler, Dagim, Jawad and Syed. Five read-only checks the same day found most claims partly true and several false. Brian, 2026-10-08: "we need to make all the claims i made true and improve the quality."
 
-### `proposals/meeting-claims-true/meeting-claims-true.goal.md`
+### [`proposals/meeting-claims-true/meeting-claims-true.goal.md`](../proposals/meeting-claims-true/meeting-claims-true.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/meeting-claims-true/PLAN.md` (plan sha256 4556c915dc474f8bfdef57a0a7f342a1394d837c7719cc17f0faf06c88c2593d, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/second-brain-evaluation/PLAN.md`
+### [`proposals/second-brain-evaluation/PLAN.md`](../proposals/second-brain-evaluation/PLAN.md)
 
 <a id="outcome"></a>
 
-### `proposals/second-brain-evaluation/second-brain-evaluation.goal.md`
+### [`proposals/second-brain-evaluation/second-brain-evaluation.goal.md`](../proposals/second-brain-evaluation/second-brain-evaluation.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/second-brain-evaluation/PLAN.md` (plan sha256 f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/trace-review-enforcement/plan.md`
+### [`proposals/trace-review-enforcement/plan.md`](../proposals/trace-review-enforcement/plan.md)
 
 Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted ` #` starts a YAML comment and cuts the value.
 
-### `proposals/trace-review/README.md`
+### [`proposals/trace-review/README.md`](../proposals/trace-review/README.md)
 
 - 2026-10-07: "ok the first thing is that we need aes plans to require trace reviews as part of its planning." - 2026-10-06: "my general principle of maximum observability (although there should be filters/views) and always reviewing full e2e traces of stuff not just the final output."
 
-### `proposals/trace-review/trace-review.goal.md`
+### [`proposals/trace-review/trace-review.goal.md`](../proposals/trace-review/trace-review.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/trace-review/README.md` (plan sha256 e1db8ded71823d4cc57dccc6b1b2652b784a9c2ecca3d57a2f4bcd15bd4d51ae, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/worktree-lifecycle/PLAN.md`
+### [`proposals/worktree-lifecycle/PLAN.md`](../proposals/worktree-lifecycle/PLAN.md)
 
 Authorized scope: repair the existing creation and closeout tools, prove their behavior on a real lane, then resolve existing worktrees individually. Brian activated this mission through /goal on 2026-10-09. Implementation and cleanup wait for native plan adoption; neither has started. No new service, hosting, or paid infrastructure is proposed, and no delivery deadline is assumed.
 
-### `proposals/worktree-lifecycle/SYSTEM_MODEL.md`
+### [`proposals/worktree-lifecycle/SYSTEM_MODEL.md`](../proposals/worktree-lifecycle/SYSTEM_MODEL.md)
 
 Scope: the existing EP/PM worktree control, a partial shared model rather than the full architectures of either repository. Git, claims and closeout retain their existing owners.
 
-### `proposals/worktree-lifecycle/VALIDATION.md`
+### [`proposals/worktree-lifecycle/VALIDATION.md`](../proposals/worktree-lifecycle/VALIDATION.md)
 
 The repair plan is natively adopted for implementation: `PLAN.adoption-decision.json` records `adopted`, and `PLAN.receipt.json` records **20 passed items, zero not applicable, zero advisory deviations**, at the exact plan digest it binds. `cli.py check` exited 0 before `cli.py adopt` exited 0. The initial draft's 16-item ownership gap is historical, not current admission evidence. Independent writers remain protected; the actual implementation has one sequential writer and no child dispatch.
 
-### `proposals/worktree-lifecycle/worktree-lifecycle.goal.md`
+### [`proposals/worktree-lifecycle/worktree-lifecycle.goal.md`](../proposals/worktree-lifecycle/worktree-lifecycle.goal.md)
 
 Authored through the authoring-goals contract from Brian's active /goal and the adopted [plan](PLAN.md) (sha256 `02cf7f114beb6e342da0498e467144b4bdab702238a13f2aeb11cc0fbb5e8a48`). This file owns mission, loop boundaries and the exact launch condition. The native PM execution cursor will own current slice/progress; the plan owns design, ownership and acceptance. There is no independent progress diary.
 
-### `proposals/worktree-plan-lookup/worktree-plan-lookup.goal.md`
+### [`proposals/worktree-plan-lookup/worktree-plan-lookup.goal.md`](../proposals/worktree-plan-lookup/worktree-plan-lookup.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/worktree-plan-lookup/worktree-plan-lookup.md` (plan sha256 d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
 
-### `proposals/worktree-plan-lookup/worktree-plan-lookup.md`
+### [`proposals/worktree-plan-lookup/worktree-plan-lookup.md`](../proposals/worktree-plan-lookup/worktree-plan-lookup.md)
 
 Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted ` #` starts a YAML comment and cuts the value.
 
-### `research/README.md`
+### [`research/README.md`](../research/README.md)
 
 Status: active Role: research evidence, bounded investigations, and reusable synthesis Authority: analytical; non-normative Lifecycle: retained; sources immutable/append-only where practical
 
-### `research/investigations/2026-09-16-first-vertical-capability-discovery.md`
+### [`research/investigations/2026-09-16-first-vertical-capability-discovery.md`](../research/investigations/2026-09-16-first-vertical-capability-discovery.md)
 
 Date: 2026-09-16 Status: current investigation
 
-### `research/investigations/2026-09-16-repository-context-provider-landscape.md`
+### [`research/investigations/2026-09-16-repository-context-provider-landscape.md`](../research/investigations/2026-09-16-repository-context-provider-landscape.md)
 
 Date: 2026-09-16 Status: current sourcing investigation Capability requirement: `repository.context.resolve`
 
-### `research/investigations/2026-09-17-aca-tosca-capability-fit-test.md`
+### [`research/investigations/2026-09-17-aca-tosca-capability-fit-test.md`](../research/investigations/2026-09-17-aca-tosca-capability-fit-test.md)
 
 Test whether Agentic Capability Architecture (ACA) should remain the semantic authority for generic `Capability` / `Requirement` concepts, or whether established TOSCA 2.0 semantics should replace or constrain that vocabulary before AES canonical stubbing.
 
-### `research/investigations/2026-09-17-aes-evidence-prov-intoto-slsa-fit-test.md`
+### [`research/investigations/2026-09-17-aes-evidence-prov-intoto-slsa-fit-test.md`](../research/investigations/2026-09-17-aes-evidence-prov-intoto-slsa-fit-test.md)
 
 Determine which evidence/provenance concepts AES should reuse from standards rather than hand-model, while preserving the genuinely AES-specific semantics around evidence adequacy, freshness, characterization, and gap reconciliation.
 
-### `research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md`
+### [`research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md`](../research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md)
 
 AES needs a coherent vocabulary for repositories, software components, APIs, resources, systems, capabilities, requirements, relationships, planned implementation subjects, verification and traceability. Three external families overlap enough that choosing one blindly would be a mistake:
 
-### `research/investigations/2026-09-17-external-provider-deep-dive-round-2.md`
+### [`research/investigations/2026-09-17-external-provider-deep-dive-round-2.md`](../research/investigations/2026-09-17-external-provider-deep-dive-round-2.md)
 
 Deepen the first-pass sourcing audit before AES canonical stubbing. The question is not whether one outside project can replace AES. The question is which generic semantics already have an established authority so AES can remain a small residual integration/lifecycle layer.
 
-### `research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md`
+### [`research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md`](../research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md)
 
 Date: 2026-09-17 Status: **research / pre-stub sourcing gate** Purpose: prevent AES canonical from freezing bespoke internal vocabulary or runtime dependencies where mature standards or forkable OSS already cover the needed semantics.
 
-### `research/investigations/2026-09-17-opa-aes-policy-fit-test.md`
+### [`research/investigations/2026-09-17-opa-aes-policy-fit-test.md`](../research/investigations/2026-09-17-opa-aes-policy-fit-test.md)
 
 Determine whether AES or Enforced Planning should own a generic policy language/evaluator, or whether Open Policy Agent (OPA) should be the default external provider candidate for that layer.
 
-### `research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md`
+### [`research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md`](../research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md)
 
 Status: research probe; non-normative.
 
-### `research/investigations/2026-09-17-open-workflow-spec-vs-enforced-planning.md`
+### [`research/investigations/2026-09-17-open-workflow-spec-vs-enforced-planning.md`](../research/investigations/2026-09-17-open-workflow-spec-vs-enforced-planning.md)
 
 Status: research comparison for AES canonical bootstrap Date: 2026-09-17
 
-### `research/investigations/2026-09-17-ows-enforced-planning-work-graph-fit-test.md`
+### [`research/investigations/2026-09-17-ows-enforced-planning-work-graph-fit-test.md`](../research/investigations/2026-09-17-ows-enforced-planning-work-graph-fit-test.md)
 
 Move beyond a landscape comparison by testing a real Enforced Planning work graph against the Open Workflow Specification (OWS) semantic surface.
 
-### `research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md`
+### [`research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md`](../research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md)
 
 Status: research probe; non-normative.
 
-### `research/investigations/2026-09-17-scip-planned-subject-fit-test.md`
+### [`research/investigations/2026-09-17-scip-planned-subject-fit-test.md`](../research/investigations/2026-09-17-scip-planned-subject-fit-test.md)
 
 Determine whether AES should define its own universal code-symbol vocabulary for functions/classes/modules, or reuse SCIP for realized code identity while retaining only the planning semantics SCIP cannot represent.
 
-### `research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md`
+### [`research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md`](../research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md)
 
 Status: research probe; non-normative.
 
-### `research/investigations/README.md`
+### [`research/investigations/README.md`](../research/investigations/README.md)
 
 Bounded questions and findings go here. Each investigation should state its question, sources, findings, uncertainty, and disposition.
 
-### `research/sources/README.md`
+### [`research/sources/README.md`](../research/sources/README.md)
 
 Preserve exact references/captures used by investigations. Initial external sources include the standalone `wiki_methodology` architecture and incumbent AES/planning/ACA/Data Contracts repositories. Do not duplicate large upstream repositories here.
 
-### `research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md`
+### [`research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md`](../research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md)
 
 Status: research synthesis; non-normative donor analysis.
 
-### `research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md`
+### [`research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md`](../research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md)
 
 This crosswalk determines which conceptual families AES should reuse, adapt, reference, or own before the canonical repository skeleton is materialized.
 
-### `research/synthesis/2026-09-17-external-document-semantics-for-normative-model.md`
+### [`research/synthesis/2026-09-17-external-document-semantics-for-normative-model.md`](../research/synthesis/2026-09-17-external-document-semantics-for-normative-model.md)
 
 Use established requirements, architecture-description, and executable-specification semantics to sharpen the AES documentation model without importing a large document taxonomy or making external standards runtime dependencies.
 
-### `research/synthesis/2026-09-17-fresh-agent-handoff.md`
+### [`research/synthesis/2026-09-17-fresh-agent-handoff.md`](../research/synthesis/2026-09-17-fresh-agent-handoff.md)
 
 Date: 2026-09-17
 
-### `research/synthesis/2026-09-17-normative-component-alignment-dogfood-checkpoint.md`
+### [`research/synthesis/2026-09-17-normative-component-alignment-dogfood-checkpoint.md`](../research/synthesis/2026-09-17-normative-component-alignment-dogfood-checkpoint.md)
 
 Status: **provisional blueprint recorded; structural probe observed; architecture adoption and runtime behavior unverified**
 
-### `research/synthesis/2026-09-17-proposed-aes-canonical-skeleton-after-sourcing.md`
+### [`research/synthesis/2026-09-17-proposed-aes-canonical-skeleton-after-sourcing.md`](../research/synthesis/2026-09-17-proposed-aes-canonical-skeleton-after-sourcing.md)
 
 Status: **bootstrap topology draft — not yet an implementation freeze**
 
-### `research/synthesis/2026-09-17-source-local-context-dogfood-result.md`
+### [`research/synthesis/2026-09-17-source-local-context-dogfood-result.md`](../research/synthesis/2026-09-17-source-local-context-dogfood-result.md)
 
 Status: research synthesis; **BP-D1 pilot-supported, not accepted architecture**
 
-### `research/synthesis/2026-09-26-inside-success-aes-harvest.md`
+### [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](../research/synthesis/2026-09-26-inside-success-aes-harvest.md)
 
 Status: research synthesis, non-normative. Written 2026-09-26 for [Decision 0011](../../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md), which archives the predecessor repository. Nothing here is adopted by being listed. Each item enters v0.2 only through the donor re-entry rule (`proposals/aes-v0.2-greenfield/05-donor-reentry.md`) and `aes plan`, and only when its **trigger** is observed on a real consumer.
 
-### `research/synthesis/2026-09-28-legacy-idea-harvest/README.md`
+### [`research/synthesis/2026-09-28-legacy-idea-harvest/README.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/README.md)
 
 Status: research synthesis, non-normative. Written 2026-09-28 at Brian's request ("an in-depth investigation for ideas", not code reuse). This harvest adopts nothing. As with the [2026-09-26 Inside Success AES harvest](../2026-09-26-inside-success-aes-harvest.md), an idea enters v0.2 only through the donor re-entry rule (`proposals/aes-v0.2-greenfield/05-donor-reentry.md`) and `aes plan`, and only when its trigger shows up on a real consumer.
 
-### `research/synthesis/2026-09-28-legacy-idea-harvest/aes-archived.md`
+### [`research/synthesis/2026-09-28-legacy-idea-harvest/aes-archived.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/aes-archived.md)
 
 Read-only idea harvest, 2026-09-27. Nothing here is adopted by being listed; each item enters v0.2 only through the donor re-entry rule and `aes plan`, when its trigger shows up on a real consumer.
 
-### `research/synthesis/2026-09-28-legacy-idea-harvest/company-planning.md`
+### [`research/synthesis/2026-09-28-legacy-idea-harvest/company-planning.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/company-planning.md)
 
 Status: read-only idea harvest, non-normative. Nothing listed here is adopted by being listed; each item enters AES v0.2 only through the donor re-entry rule and `aes plan`, and only when its trigger is observed on a real consumer.
 
-### `research/synthesis/2026-09-28-legacy-idea-harvest/ecosystem-ops.md`
+### [`research/synthesis/2026-09-28-legacy-idea-harvest/ecosystem-ops.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/ecosystem-ops.md)
 
 Read-only idea harvest for AES v0.2, written 2026-09-28. Nothing here is adopted by being listed. Does not repeat `research/synthesis/2026-09-26-inside-success-aes-harvest.md`; where an item here is a stronger version of one of its items, that item's number is given as "cf. #N".
 
-### `research/synthesis/2026-09-28-legacy-idea-harvest/enforced-planning.md`
+### [`research/synthesis/2026-09-28-legacy-idea-harvest/enforced-planning.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/enforced-planning.md)
 
 Source: `BrianMills2718/enforced-planning`, local `/home/brian/code/enforced-planning` at `git rev-parse HEAD` = `9963dc41fcdaaa90f857d66a637fad745cda3b09` (1,329 commits, 2026-04 to 2026-09-26). Read-only sweep on 2026-09-27: plan index and status lines (146 files in `docs/plans/`), ADRs 0002/0004/0005, `ISSUES.md`, `docs/evidence/`, targeted code listing, and `git log` for reverts/removals/escape-hatch rates. Every path below was checked to exist at that revision. Paths are relative to the repo root.
 
-### `research/synthesis/2026-09-28-legacy-idea-harvest/hooks-instructions.md`
+### [`research/synthesis/2026-09-28-legacy-idea-harvest/hooks-instructions.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/hooks-instructions.md)
 
 Read-only idea harvest for AES v0.2 (`agentic-engineering-system-canonical` @ `0d51390`). Scope excludes what `research/synthesis/2026-09-26-inside-success-aes-harvest.md` already covers (items 9-12, 14; lessons B6, B9, B10). Where a source here is stronger or contradicts one of those items, the row says so.
 
-### `research/synthesis/2026-09-28-legacy-idea-harvest/project-meta.md`
+### [`research/synthesis/2026-09-28-legacy-idea-harvest/project-meta.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/project-meta.md)
 
 - Source repo: `BrianMills2718/project-meta`, revision `0dcc574ebfcc47fa9815aeaf7e5786b2884392a1` (7,226 commits), read 2026-09-27/28. - Method: indexes and headings first, then targeted sections; GitHub concern issues read with `gh` (read-only); git log checked for landed vs abandoned work. All paths are relative to the repo root and were checked to exist at this revision. `#NNNN` means a `BrianMills2718/project-meta` GitHub issue or PR. - Deduplication: checked against `research/synthesis/2026-09-26-inside-success-aes-harvest.md` (cited as "IS-AES #n" for ideas and "IS-AES B.n" for stall lessons). Nothing here repeats that harvest unless it is a stronger or different version, and those rows say so.
 
-### `research/synthesis/ac16-ac17-lessons-for-aes.md`
+### [`research/synthesis/ac16-ac17-lessons-for-aes.md`](../research/synthesis/ac16-ac17-lessons-for-aes.md)
 
 Status: research synthesis; non-normative suggestions only.
 
-### `research/synthesis/aes-evidence-characterization-and-context-suggestions.md`
+### [`research/synthesis/aes-evidence-characterization-and-context-suggestions.md`](../research/synthesis/aes-evidence-characterization-and-context-suggestions.md)
 
 Status: research synthesis; non-normative suggestions only.
 
-### `research/synthesis/code-map-v4-salvage-for-aes.md`
+### [`research/synthesis/code-map-v4-salvage-for-aes.md`](../research/synthesis/code-map-v4-salvage-for-aes.md)
 
 Status: research synthesis; non-normative candidate dispositions only.
 
-### `research/synthesis/fluid-governance-selective-salvage.md`
+### [`research/synthesis/fluid-governance-selective-salvage.md`](../research/synthesis/fluid-governance-selective-salvage.md)
 
 Status: research synthesis; candidate dispositions only. This document does not adopt an implementation, transfer authority, or change the canonical AES system boundary.
 
-### `research/synthesis/incumbent-capability-inventory.md`
+### [`research/synthesis/incumbent-capability-inventory.md`](../research/synthesis/incumbent-capability-inventory.md)
 
 Status: research synthesis; candidate dispositions only. This file does not transfer ownership or select a runtime dependency by itself.
 
-### `research/synthesis/observation-to-action-advice-for-aes.md`
+### [`research/synthesis/observation-to-action-advice-for-aes.md`](../research/synthesis/observation-to-action-advice-for-aes.md)
 
 Status: research synthesis / tentative advice
 
-### `research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md`
+### [`research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md`](../research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md)
 
 Status: research synthesis; non-normative candidate dispositions only.
 
-### `scripts/README.md`
+### [`scripts/README.md`](../scripts/README.md)
 
 Repo-local validation/generation/maintenance tooling belongs here once required by accepted plans. Product/runtime implementation should remain in declared implementation roots derived by planning.
 
-### `scripts/hive/README.md`
+### [`scripts/hive/README.md`](../scripts/hive/README.md)
 
 The hive (Paperclip agents, dashboard, controls, readout) moved to [BrianMills2718/personal-vps](https://github.com/BrianMills2718/personal-vps) on 2026-10-07: scripts in `hive/`, plans in `proposals/hive-brain-v1/` and `proposals/hive-hardening/`.
 
-### `scripts/learning_loop/systemd/README.md`
+### [`scripts/learning_loop/systemd/README.md`](../scripts/learning_loop/systemd/README.md)
 
 Four timers run the agent feedback loop. Start page for the whole loop: [guide.html](../../../proposals/aes-learning-loop/review-page/guide.html).
 
-### `src/agentic_engineering_system/planning_protocol.md`
+### [`src/agentic_engineering_system/planning_protocol.md`](../src/agentic_engineering_system/planning_protocol.md)
 
 For a human or agent changing an AES project's target (`ART-PLANNING-PROTOCOL`, `SC-GF-004`). The target is `.aes/target.yaml`; a change to it is written as a proposal, validated, accepted, and committed before any code it plans is written. Implementation follows the accepted target; it never edits the target on the side.
 
-### `wiki/index.md`
+### [`wiki/index.md`](../wiki/index.md)
 
 This is the progressive-disclosure front door for the canonical AES convergence project. It is a derived navigation surface, not a native authority. Follow links to the owning architecture, decision, plan, evidence, or code before making consequential claims.
 
 ## Fixture (4)
 
-### `tests/greenfield/fixtures/whygame5-54043e2/.aes/project.yaml`
+### [`tests/greenfield/fixtures/whygame5-54043e2/.aes/project.yaml`](../tests/greenfield/fixtures/whygame5-54043e2/.aes/project.yaml)
 
 _No source-local artifact summary._
 
-### `tests/greenfield/fixtures/whygame5-54043e2/.aes/target.yaml`
+### [`tests/greenfield/fixtures/whygame5-54043e2/.aes/target.yaml`](../tests/greenfield/fixtures/whygame5-54043e2/.aes/target.yaml)
 
 _No source-local artifact summary._
 
-### `tests/greenfield/fixtures/whygame5-54043e2/README`
+### [`tests/greenfield/fixtures/whygame5-54043e2/README`](../tests/greenfield/fixtures/whygame5-54043e2/README)
 
 _No source-local artifact summary._
 
-### `tests/greenfield/fixtures/whygame5-proposal-runner.yaml`
+### [`tests/greenfield/fixtures/whygame5-proposal-runner.yaml`](../tests/greenfield/fixtures/whygame5-proposal-runner.yaml)
 
 _No source-local artifact summary._
 
-## Generated (7)
+## Generated (9)
 
-### `generated/README.md`
+### [`generated/README.md`](README.md)
 
 Rebuildable derived output only. Nothing here is an independent authority. Safe deletion/rebuild is the default expectation once generators exist.
 
-### `generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml`
+### [`generated/bootstrap-normative/architecture-realization.minimal.pilot.yaml`](bootstrap-normative/architecture-realization.minimal.pilot.yaml)
 
 _No source-local artifact summary._
 
-### `generated/bootstrap-normative/system.pilot.yaml`
+### [`generated/bootstrap-normative/system.pilot.yaml`](bootstrap-normative/system.pilot.yaml)
 
 _No source-local artifact summary._
 
-### `generated/bootstrap-normative/view-bundle.md`
+### [`generated/bootstrap-normative/view-bundle.md`](bootstrap-normative/view-bundle.md)
 
 > Generated projection. Not normative authority.
 
-### `generated/docstring_wiki.md`
+### [`generated/docstring_wiki.md`](docstring_wiki.md)
 
 _Generated wiki projection; self-content intentionally omitted._
 
-### `generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/context.json`
+### [`generated/docstring_wiki.md`](docstring_wiki.md)
+
+_Generated wiki projection; self-content intentionally omitted._
+
+### [`generated/docstring_wiki.md`](docstring_wiki.md)
+
+_Generated wiki projection; self-content intentionally omitted._
+
+### [`generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/context.json`](repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/context.json)
 
 _No source-local artifact summary._
 
-### `generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/index.html`
+### [`generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/index.html`](repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/index.html)
 
 _No source-local artifact summary._
 
 ## Archive (9)
 
-### `archive/v0.1-placeholders/README.md`
+### [`archive/v0.1-placeholders/README.md`](../archive/v0.1-placeholders/README.md)
 
 Disposition: **historical**. These eight `component.placeholder.yaml` files are v0.1 planning placeholders. Each reserved a directory under `src/agentic_engineering_system/` for a v0.1 component that was never built; no directory ever held code (at archive time each held only this one file). They are retained for history, not deleted.
 
-### `archive/v0.1-placeholders/capability_sourcing/component.placeholder.yaml`
+### [`archive/v0.1-placeholders/capability_sourcing/component.placeholder.yaml`](../archive/v0.1-placeholders/capability_sourcing/component.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `archive/v0.1-placeholders/evidence_assessment/component.placeholder.yaml`
+### [`archive/v0.1-placeholders/evidence_assessment/component.placeholder.yaml`](../archive/v0.1-placeholders/evidence_assessment/component.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `archive/v0.1-placeholders/execution/component.placeholder.yaml`
+### [`archive/v0.1-placeholders/execution/component.placeholder.yaml`](../archive/v0.1-placeholders/execution/component.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `archive/v0.1-placeholders/gap_reconciliation/component.placeholder.yaml`
+### [`archive/v0.1-placeholders/gap_reconciliation/component.placeholder.yaml`](../archive/v0.1-placeholders/gap_reconciliation/component.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `archive/v0.1-placeholders/learning/component.placeholder.yaml`
+### [`archive/v0.1-placeholders/learning/component.placeholder.yaml`](../archive/v0.1-placeholders/learning/component.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `archive/v0.1-placeholders/normative_context/component.placeholder.yaml`
+### [`archive/v0.1-placeholders/normative_context/component.placeholder.yaml`](../archive/v0.1-placeholders/normative_context/component.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `archive/v0.1-placeholders/planning/component.placeholder.yaml`
+### [`archive/v0.1-placeholders/planning/component.placeholder.yaml`](../archive/v0.1-placeholders/planning/component.placeholder.yaml)
 
 _No source-local artifact summary._
 
-### `archive/v0.1-placeholders/policy_control/component.placeholder.yaml`
+### [`archive/v0.1-placeholders/policy_control/component.placeholder.yaml`](../archive/v0.1-placeholders/policy_control/component.placeholder.yaml)
 
 _No source-local artifact summary._
 
 ## Other (544)
 
-### `.aes/commit_rule.yaml`
+### [`.aes/commit_rule.yaml`](../.aes/commit_rule.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-ADOPT-03dba8f8.yaml`
+### [`.aes/observations/OBS-ADOPT-03dba8f8.yaml`](../.aes/observations/OBS-ADOPT-03dba8f8.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-ADOPT-e101ef70.yaml`
+### [`.aes/observations/OBS-ADOPT-e101ef70.yaml`](../.aes/observations/OBS-ADOPT-e101ef70.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AES-CLEAN-USER-0503735.yaml`
+### [`.aes/observations/OBS-AES-CLEAN-USER-0503735.yaml`](../.aes/observations/OBS-AES-CLEAN-USER-0503735.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AES-CLEAN-USER-2d3486b.yaml`
+### [`.aes/observations/OBS-AES-CLEAN-USER-2d3486b.yaml`](../.aes/observations/OBS-AES-CLEAN-USER-2d3486b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AES-CLEAN-USER-3dd2b9a.yaml`
+### [`.aes/observations/OBS-AES-CLEAN-USER-3dd2b9a.yaml`](../.aes/observations/OBS-AES-CLEAN-USER-3dd2b9a.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AES-CLEAN-USER-d89fe2e.yaml`
+### [`.aes/observations/OBS-AES-CLEAN-USER-d89fe2e.yaml`](../.aes/observations/OBS-AES-CLEAN-USER-d89fe2e.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AES-CONTEXT-AB-2509ea4.yaml`
+### [`.aes/observations/OBS-AES-CONTEXT-AB-2509ea4.yaml`](../.aes/observations/OBS-AES-CONTEXT-AB-2509ea4.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AES-CONTEXT-AB-RETAINED-377e9707.yaml`
+### [`.aes/observations/OBS-AES-CONTEXT-AB-RETAINED-377e9707.yaml`](../.aes/observations/OBS-AES-CONTEXT-AB-RETAINED-377e9707.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AES-PROBE0-CONTEXT-AB.yaml`
+### [`.aes/observations/OBS-AES-PROBE0-CONTEXT-AB.yaml`](../.aes/observations/OBS-AES-PROBE0-CONTEXT-AB.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AES-WG5-LIFECYCLE-38df3e5.yaml`
+### [`.aes/observations/OBS-AES-WG5-LIFECYCLE-38df3e5.yaml`](../.aes/observations/OBS-AES-WG5-LIFECYCLE-38df3e5.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AES-WG5-LIFECYCLE.yaml`
+### [`.aes/observations/OBS-AES-WG5-LIFECYCLE.yaml`](../.aes/observations/OBS-AES-WG5-LIFECYCLE.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-08f53436.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-08f53436.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-08f53436.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-247c56f7.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-247c56f7.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-247c56f7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-40c43386.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-40c43386.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-40c43386.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-42765501.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-42765501.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-4ee979fe.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-4ee979fe.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-4ee979fe.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-5978e55e.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-5978e55e.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-5978e55e.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-5ba9b30d.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-5ba9b30d.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-5ba9b30d.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-68450fe8.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-68450fe8.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-68450fe8.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-72925dc1.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-72925dc1.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-72925dc1.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-8ace3cd8.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-8ace3cd8.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-8ace3cd8.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-9fe9b32a.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-9fe9b32a.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-9fe9b32a.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-08f5343.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-08f5343.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-08f5343.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-4276550.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-4276550.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-4276550.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-72925dc.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-72925dc.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-72925dc.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-8ace3cd.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-8ace3cd.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-8ace3cd.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-b023fb0.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-b023fb0.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-b023fb0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-b91592b.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-b91592b.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-b91592b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-ca78424.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-ca78424.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-ca78424.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-b023fb02.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-b023fb02.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-b023fb02.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-b7a54252.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-b7a54252.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-b7a54252.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-bbde5185.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-bbde5185.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-bbde5185.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-COMMIT-RULE-c860a860.yaml`
+### [`.aes/observations/OBS-AP-COMMIT-RULE-c860a860.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-c860a860.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-PLAN-RECEIPT-42765501.yaml`
+### [`.aes/observations/OBS-AP-PLAN-RECEIPT-42765501.yaml`](../.aes/observations/OBS-AP-PLAN-RECEIPT-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-PLAN-RECEIPT-72925dc1.yaml`
+### [`.aes/observations/OBS-AP-PLAN-RECEIPT-72925dc1.yaml`](../.aes/observations/OBS-AP-PLAN-RECEIPT-72925dc1.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-AP-PLAN-RECEIPT-8ace3cd8.yaml`
+### [`.aes/observations/OBS-AP-PLAN-RECEIPT-8ace3cd8.yaml`](../.aes/observations/OBS-AP-PLAN-RECEIPT-8ace3cd8.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CHARACTERIZE-42765501.yaml`
+### [`.aes/observations/OBS-GF-CHARACTERIZE-42765501.yaml`](../.aes/observations/OBS-GF-CHARACTERIZE-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CHARACTERIZE-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-CHARACTERIZE-449cd54b.yaml`](../.aes/observations/OBS-GF-CHARACTERIZE-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CHARACTERIZE-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-CHARACTERIZE-61e1edbf.yaml`](../.aes/observations/OBS-GF-CHARACTERIZE-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CHARACTERIZE-62fe041b.yaml`
+### [`.aes/observations/OBS-GF-CHARACTERIZE-62fe041b.yaml`](../.aes/observations/OBS-GF-CHARACTERIZE-62fe041b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CHARACTERIZE-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-CHARACTERIZE-c5ea63d0.yaml`](../.aes/observations/OBS-GF-CHARACTERIZE-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CHARACTERIZE-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-CHARACTERIZE-cb226ba7.yaml`](../.aes/observations/OBS-GF-CHARACTERIZE-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-42765501.yaml`
+### [`.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-42765501.yaml`](../.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-449cd54b.yaml`](../.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-61e1edbf.yaml`](../.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-62fe041b.yaml`
+### [`.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-62fe041b.yaml`](../.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-62fe041b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-c5ea63d0.yaml`](../.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-cb226ba7.yaml`](../.aes/observations/OBS-GF-CONTEXT-STRUCTURAL-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-42765501.yaml`
+### [`.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-42765501.yaml`](../.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-449cd54b.yaml`](../.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-4546d179.yaml`
+### [`.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-4546d179.yaml`](../.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-4546d179.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-61e1edbf.yaml`](../.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-62fe041b.yaml`
+### [`.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-62fe041b.yaml`](../.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-62fe041b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-c5ea63d0.yaml`](../.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-cb226ba7.yaml`](../.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-d89fe2e3.yaml`
+### [`.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-d89fe2e3.yaml`](../.aes/observations/OBS-GF-DISTRIBUTION-INSTALL-d89fe2e3.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-42765501.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-42765501.yaml`](../.aes/observations/OBS-GF-EVIDENCE-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-449cd54b.yaml`](../.aes/observations/OBS-GF-EVIDENCE-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-61e1edbf.yaml`](../.aes/observations/OBS-GF-EVIDENCE-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-62fe041b.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-62fe041b.yaml`](../.aes/observations/OBS-GF-EVIDENCE-62fe041b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-CONTROLS-42765501.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-CONTROLS-42765501.yaml`](../.aes/observations/OBS-GF-EVIDENCE-CONTROLS-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-CONTROLS-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-CONTROLS-449cd54b.yaml`](../.aes/observations/OBS-GF-EVIDENCE-CONTROLS-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-CONTROLS-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-CONTROLS-61e1edbf.yaml`](../.aes/observations/OBS-GF-EVIDENCE-CONTROLS-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-CONTROLS-62fe041b.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-CONTROLS-62fe041b.yaml`](../.aes/observations/OBS-GF-EVIDENCE-CONTROLS-62fe041b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-CONTROLS-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-CONTROLS-c5ea63d0.yaml`](../.aes/observations/OBS-GF-EVIDENCE-CONTROLS-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-CONTROLS-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-CONTROLS-cb226ba7.yaml`](../.aes/observations/OBS-GF-EVIDENCE-CONTROLS-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-c5ea63d0.yaml`](../.aes/observations/OBS-GF-EVIDENCE-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-EVIDENCE-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-EVIDENCE-cb226ba7.yaml`](../.aes/observations/OBS-GF-EVIDENCE-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-INIT-UNIT-42765501.yaml`
+### [`.aes/observations/OBS-GF-INIT-UNIT-42765501.yaml`](../.aes/observations/OBS-GF-INIT-UNIT-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-INIT-UNIT-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-INIT-UNIT-449cd54b.yaml`](../.aes/observations/OBS-GF-INIT-UNIT-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-INIT-UNIT-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-INIT-UNIT-61e1edbf.yaml`](../.aes/observations/OBS-GF-INIT-UNIT-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-INIT-UNIT-62fe041b.yaml`
+### [`.aes/observations/OBS-GF-INIT-UNIT-62fe041b.yaml`](../.aes/observations/OBS-GF-INIT-UNIT-62fe041b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-INIT-UNIT-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-INIT-UNIT-c5ea63d0.yaml`](../.aes/observations/OBS-GF-INIT-UNIT-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-INIT-UNIT-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-INIT-UNIT-cb226ba7.yaml`](../.aes/observations/OBS-GF-INIT-UNIT-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-PLANNING-42765501.yaml`
+### [`.aes/observations/OBS-GF-PLANNING-42765501.yaml`](../.aes/observations/OBS-GF-PLANNING-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-PLANNING-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-PLANNING-449cd54b.yaml`](../.aes/observations/OBS-GF-PLANNING-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-PLANNING-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-PLANNING-61e1edbf.yaml`](../.aes/observations/OBS-GF-PLANNING-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-PLANNING-62fe041b.yaml`
+### [`.aes/observations/OBS-GF-PLANNING-62fe041b.yaml`](../.aes/observations/OBS-GF-PLANNING-62fe041b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-PLANNING-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-PLANNING-c5ea63d0.yaml`](../.aes/observations/OBS-GF-PLANNING-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-PLANNING-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-PLANNING-cb226ba7.yaml`](../.aes/observations/OBS-GF-PLANNING-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECONCILE-42765501.yaml`
+### [`.aes/observations/OBS-GF-RECONCILE-42765501.yaml`](../.aes/observations/OBS-GF-RECONCILE-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECONCILE-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-RECONCILE-449cd54b.yaml`](../.aes/observations/OBS-GF-RECONCILE-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECONCILE-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-RECONCILE-61e1edbf.yaml`](../.aes/observations/OBS-GF-RECONCILE-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECONCILE-62fe041b.yaml`
+### [`.aes/observations/OBS-GF-RECONCILE-62fe041b.yaml`](../.aes/observations/OBS-GF-RECONCILE-62fe041b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECONCILE-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-RECONCILE-c5ea63d0.yaml`](../.aes/observations/OBS-GF-RECONCILE-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECONCILE-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-RECONCILE-cb226ba7.yaml`](../.aes/observations/OBS-GF-RECONCILE-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECORDS-42765501.yaml`
+### [`.aes/observations/OBS-GF-RECORDS-42765501.yaml`](../.aes/observations/OBS-GF-RECORDS-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECORDS-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-RECORDS-449cd54b.yaml`](../.aes/observations/OBS-GF-RECORDS-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECORDS-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-RECORDS-61e1edbf.yaml`](../.aes/observations/OBS-GF-RECORDS-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECORDS-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-RECORDS-c5ea63d0.yaml`](../.aes/observations/OBS-GF-RECORDS-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-RECORDS-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-RECORDS-cb226ba7.yaml`](../.aes/observations/OBS-GF-RECORDS-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-SELF-GOVERNANCE-42765501.yaml`
+### [`.aes/observations/OBS-GF-SELF-GOVERNANCE-42765501.yaml`](../.aes/observations/OBS-GF-SELF-GOVERNANCE-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-SELF-GOVERNANCE-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-SELF-GOVERNANCE-449cd54b.yaml`](../.aes/observations/OBS-GF-SELF-GOVERNANCE-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-SELF-GOVERNANCE-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-SELF-GOVERNANCE-61e1edbf.yaml`](../.aes/observations/OBS-GF-SELF-GOVERNANCE-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-SELF-GOVERNANCE-62fe041b.yaml`
+### [`.aes/observations/OBS-GF-SELF-GOVERNANCE-62fe041b.yaml`](../.aes/observations/OBS-GF-SELF-GOVERNANCE-62fe041b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-SELF-GOVERNANCE-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-SELF-GOVERNANCE-c5ea63d0.yaml`](../.aes/observations/OBS-GF-SELF-GOVERNANCE-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-SELF-GOVERNANCE-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-SELF-GOVERNANCE-cb226ba7.yaml`](../.aes/observations/OBS-GF-SELF-GOVERNANCE-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-TOPOLOGY-42765501.yaml`
+### [`.aes/observations/OBS-GF-TOPOLOGY-42765501.yaml`](../.aes/observations/OBS-GF-TOPOLOGY-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-TOPOLOGY-449cd54b.yaml`
+### [`.aes/observations/OBS-GF-TOPOLOGY-449cd54b.yaml`](../.aes/observations/OBS-GF-TOPOLOGY-449cd54b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-TOPOLOGY-61e1edbf.yaml`
+### [`.aes/observations/OBS-GF-TOPOLOGY-61e1edbf.yaml`](../.aes/observations/OBS-GF-TOPOLOGY-61e1edbf.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-TOPOLOGY-62fe041b.yaml`
+### [`.aes/observations/OBS-GF-TOPOLOGY-62fe041b.yaml`](../.aes/observations/OBS-GF-TOPOLOGY-62fe041b.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-TOPOLOGY-c5ea63d0.yaml`
+### [`.aes/observations/OBS-GF-TOPOLOGY-c5ea63d0.yaml`](../.aes/observations/OBS-GF-TOPOLOGY-c5ea63d0.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-GF-TOPOLOGY-cb226ba7.yaml`
+### [`.aes/observations/OBS-GF-TOPOLOGY-cb226ba7.yaml`](../.aes/observations/OBS-GF-TOPOLOGY-cb226ba7.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-TR-SOURCE-INDEPENDENT-REVIEW.yaml`
+### [`.aes/observations/OBS-TR-SOURCE-INDEPENDENT-REVIEW.yaml`](../.aes/observations/OBS-TR-SOURCE-INDEPENDENT-REVIEW.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-TR-SOURCE-c0610191.yaml`
+### [`.aes/observations/OBS-TR-SOURCE-c0610191.yaml`](../.aes/observations/OBS-TR-SOURCE-c0610191.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-TRACE-REVIEW-42765501.yaml`
+### [`.aes/observations/OBS-TRACE-REVIEW-42765501.yaml`](../.aes/observations/OBS-TRACE-REVIEW-42765501.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/observations/OBS-TRACE-REVIEW-7a637486.yaml`
+### [`.aes/observations/OBS-TRACE-REVIEW-7a637486.yaml`](../.aes/observations/OBS-TRACE-REVIEW-7a637486.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/planning.yaml`
+### [`.aes/planning.yaml`](../.aes/planning.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/plans/PLAN-AES-ACCEPT-RECEIPT.yaml`
+### [`.aes/plans/PLAN-AES-ACCEPT-RECEIPT.yaml`](../.aes/plans/PLAN-AES-ACCEPT-RECEIPT.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/plans/PLAN-AES-ADOPT-EXISTING.yaml`
+### [`.aes/plans/PLAN-AES-ADOPT-EXISTING.yaml`](../.aes/plans/PLAN-AES-ADOPT-EXISTING.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/plans/PLAN-AES-ARCHIVE-V01-PLACEHOLDERS.yaml`
+### [`.aes/plans/PLAN-AES-ARCHIVE-V01-PLACEHOLDERS.yaml`](../.aes/plans/PLAN-AES-ARCHIVE-V01-PLACEHOLDERS.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/plans/PLAN-AES-COMMIT-RULE.yaml`
+### [`.aes/plans/PLAN-AES-COMMIT-RULE.yaml`](../.aes/plans/PLAN-AES-COMMIT-RULE.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/plans/PLAN-AES-RESCOPE-CONTEXT-AB.yaml`
+### [`.aes/plans/PLAN-AES-RESCOPE-CONTEXT-AB.yaml`](../.aes/plans/PLAN-AES-RESCOPE-CONTEXT-AB.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/plans/PLAN-AES-SELF-GOVERN.yaml`
+### [`.aes/plans/PLAN-AES-SELF-GOVERN.yaml`](../.aes/plans/PLAN-AES-SELF-GOVERN.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/plans/PLAN-AES-SOURCE-BOUND-TRACE-REVIEW.yaml`
+### [`.aes/plans/PLAN-AES-SOURCE-BOUND-TRACE-REVIEW.yaml`](../.aes/plans/PLAN-AES-SOURCE-BOUND-TRACE-REVIEW.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/plans/PLAN-AES-TRACE-REVIEW.yaml`
+### [`.aes/plans/PLAN-AES-TRACE-REVIEW.yaml`](../.aes/plans/PLAN-AES-TRACE-REVIEW.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/project.yaml`
+### [`.aes/project.yaml`](../.aes/project.yaml)
 
 _No source-local artifact summary._
 
-### `.aes/target.yaml`
+### [`.aes/target.yaml`](../.aes/target.yaml)
 
 _No source-local artifact summary._
 
-### `.agentic/relationships.yaml`
+### [`.agentic/relationships.yaml`](../.agentic/relationships.yaml)
 
 _No source-local artifact summary._
 
-### `.agentic/repo.yaml`
+### [`.agentic/repo.yaml`](../.agentic/repo.yaml)
 
 _No source-local artifact summary._
 
-### `.claude/hooks/check-hook-enabled.sh`
+### [`.claude/hooks/check-hook-enabled.sh`](../.claude/hooks/check-hook-enabled.sh)
 
 _No source-local artifact summary._
 
-### `.claude/hooks/gate-edit.sh`
+### [`.claude/hooks/gate-edit.sh`](../.claude/hooks/gate-edit.sh)
 
 _No source-local artifact summary._
 
-### `.claude/hooks/notify-coordination-messages.sh`
+### [`.claude/hooks/notify-coordination-messages.sh`](../.claude/hooks/notify-coordination-messages.sh)
 
 _No source-local artifact summary._
 
-### `.claude/hooks/reconcile-canonical-locks.sh`
+### [`.claude/hooks/reconcile-canonical-locks.sh`](../.claude/hooks/reconcile-canonical-locks.sh)
 
 _No source-local artifact summary._
 
-### `.claude/hooks/track-reads.sh`
+### [`.claude/hooks/track-reads.sh`](../.claude/hooks/track-reads.sh)
 
 _No source-local artifact summary._
 
-### `.claude/hooks/worktree-coordination/check-hook-enabled.sh`
+### [`.claude/hooks/worktree-coordination/check-hook-enabled.sh`](../.claude/hooks/worktree-coordination/check-hook-enabled.sh)
 
 _No source-local artifact summary._
 
-### `.claude/hooks/worktree-coordination/enforce-make-merge.sh`
+### [`.claude/hooks/worktree-coordination/enforce-make-merge.sh`](../.claude/hooks/worktree-coordination/enforce-make-merge.sh)
 
 _No source-local artifact summary._
 
-### `.claude/settings.json`
+### [`.claude/settings.json`](../.claude/settings.json)
 
 _No source-local artifact summary._
 
-### `.codex/hooks.json`
+### [`.codex/hooks.json`](../.codex/hooks.json)
 
 _No source-local artifact summary._
 
-### `.codex/hooks/enforce-make-merge.sh`
+### [`.codex/hooks/enforce-make-merge.sh`](../.codex/hooks/enforce-make-merge.sh)
 
 _No source-local artifact summary._
 
-### `.codex/hooks/notify-coordination-messages.sh`
+### [`.codex/hooks/notify-coordination-messages.sh`](../.codex/hooks/notify-coordination-messages.sh)
 
 _No source-local artifact summary._
 
-### `.company-planning/history/036a4c0aa1ce7c84-r4.json`
+### [`.company-planning/history/036a4c0aa1ce7c84-r4.json`](../.company-planning/history/036a4c0aa1ce7c84-r4.json)
 
 _No source-local artifact summary._
 
-### `.company-planning/history/12a72d10301d23eb-r3.json`
+### [`.company-planning/history/12a72d10301d23eb-r3.json`](../.company-planning/history/12a72d10301d23eb-r3.json)
 
 _No source-local artifact summary._
 
-### `.company-planning/history/188d10837dd7e08e-r3.disposition.json`
+### [`.company-planning/history/188d10837dd7e08e-r3.disposition.json`](../.company-planning/history/188d10837dd7e08e-r3.disposition.json)
 
 _No source-local artifact summary._
 
-### `.company-planning/history/188d10837dd7e08e-r3.json`
+### [`.company-planning/history/188d10837dd7e08e-r3.json`](../.company-planning/history/188d10837dd7e08e-r3.json)
 
 _No source-local artifact summary._
 
-### `.githooks/commit-msg`
+### [`.githooks/commit-msg`](../.githooks/commit-msg)
 
 _No source-local artifact summary._
 
-### `.githooks/pre-commit`
+### [`.githooks/pre-commit`](../.githooks/pre-commit)
 
 _No source-local artifact summary._
 
-### `.github/workflows/slice-1-tests.yml`
+### [`.github/workflows/slice-1-tests.yml`](../.github/workflows/slice-1-tests.yml)
 
 _No source-local artifact summary._
 
-### `.gitignore`
+### [`.gitignore`](../.gitignore)
 
 _No source-local artifact summary._
 
-### `.md-file-cap.yaml`
+### [`.md-file-cap.yaml`](../.md-file-cap.yaml)
 
 _No source-local artifact summary._
 
-### `Makefile`
+### [`Makefile`](../Makefile)
 
 _No source-local artifact summary._
 
-### `contracts/agent-router/handoff.v1.schema.json`
+### [`contracts/agent-router/handoff.v1.schema.json`](../contracts/agent-router/handoff.v1.schema.json)
 
 _No source-local artifact summary._
 
-### `contracts/agent-router/profile.v1.schema.json`
+### [`contracts/agent-router/profile.v1.schema.json`](../contracts/agent-router/profile.v1.schema.json)
 
 _No source-local artifact summary._
 
-### `contracts/learning-loop/feedback-report.v1.schema.json`
+### [`contracts/learning-loop/feedback-report.v1.schema.json`](../contracts/learning-loop/feedback-report.v1.schema.json)
 
 _No source-local artifact summary._
 
-### `contracts/pr-review-signoff.schema.json`
+### [`contracts/pr-review-signoff.schema.json`](../contracts/pr-review-signoff.schema.json)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/gt.tsv`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/gt.tsv`](../datasets/learning-loop/experiments/2026-10-02-question-design/gt.tsv)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/hier_holdout.json`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/hier_holdout.json`](../datasets/learning-loop/experiments/2026-10-02-question-design/hier_holdout.json)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/hier_tuned.json`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/hier_tuned.json`](../datasets/learning-loop/experiments/2026-10-02-question-design/hier_tuned.json)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/holdout_gt.tsv`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/holdout_gt.tsv`](../datasets/learning-loop/experiments/2026-10-02-question-design/holdout_gt.tsv)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/holdout_ids.json`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/holdout_ids.json`](../datasets/learning-loop/experiments/2026-10-02-question-design/holdout_ids.json)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/holdout_out.json`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/holdout_out.json`](../datasets/learning-loop/experiments/2026-10-02-question-design/holdout_out.json)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/ml_out.jsonl`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/ml_out.jsonl`](../datasets/learning-loop/experiments/2026-10-02-question-design/ml_out.jsonl)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/sc_out.jsonl`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/sc_out.jsonl`](../datasets/learning-loop/experiments/2026-10-02-question-design/sc_out.jsonl)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/synthetic.json`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/synthetic.json`](../datasets/learning-loop/experiments/2026-10-02-question-design/synthetic.json)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/experiments/2026-10-02-question-design/v2_out.json`
+### [`datasets/learning-loop/experiments/2026-10-02-question-design/v2_out.json`](../datasets/learning-loop/experiments/2026-10-02-question-design/v2_out.json)
 
 _No source-local artifact summary._
 
-### `datasets/learning-loop/legacy-learnings-labelled-v2.jsonl`
+### [`datasets/learning-loop/legacy-learnings-labelled-v2.jsonl`](../datasets/learning-loop/legacy-learnings-labelled-v2.jsonl)
 
 _No source-local artifact summary._
 
-### `enforced_planning/worktree_lifecycle.yaml`
+### [`enforced_planning/worktree_lifecycle.yaml`](../enforced_planning/worktree_lifecycle.yaml)
 
 _No source-local artifact summary._
 
-### `evals/plan-002/case_manifest.json`
+### [`evals/plan-002/case_manifest.json`](../evals/plan-002/case_manifest.json)
 
 _No source-local artifact summary._
 
-### `evidence/bootstrap-alignment/architecture-realization-schema-observation-001.json`
+### [`evidence/bootstrap-alignment/architecture-realization-schema-observation-001.json`](../evidence/bootstrap-alignment/architecture-realization-schema-observation-001.json)
 
 _No source-local artifact summary._
 
-### `evidence/bootstrap-alignment/blueprint-structural-observation-001.json`
+### [`evidence/bootstrap-alignment/blueprint-structural-observation-001.json`](../evidence/bootstrap-alignment/blueprint-structural-observation-001.json)
 
 _No source-local artifact summary._
 
-### `evidence/bootstrap-alignment/company-planning-profile-conformance-001.json`
+### [`evidence/bootstrap-alignment/company-planning-profile-conformance-001.json`](../evidence/bootstrap-alignment/company-planning-profile-conformance-001.json)
 
 _No source-local artifact summary._
 
-### `evidence/bootstrap-alignment/current-profile-path-coherence-001.json`
+### [`evidence/bootstrap-alignment/current-profile-path-coherence-001.json`](../evidence/bootstrap-alignment/current-profile-path-coherence-001.json)
 
 _No source-local artifact summary._
 
-### `evidence/bootstrap-alignment/normative-record-view-dogfood-001.json`
+### [`evidence/bootstrap-alignment/normative-record-view-dogfood-001.json`](../evidence/bootstrap-alignment/normative-record-view-dogfood-001.json)
 
 _No source-local artifact summary._
 
-### `evidence/bootstrap-alignment/repository-context-source-local-observation-001.json`
+### [`evidence/bootstrap-alignment/repository-context-source-local-observation-001.json`](../evidence/bootstrap-alignment/repository-context-source-local-observation-001.json)
 
 _No source-local artifact summary._
 
-### `evidence/bootstrap-alignment/reserved-component-tree-observation-001.json`
+### [`evidence/bootstrap-alignment/reserved-component-tree-observation-001.json`](../evidence/bootstrap-alignment/reserved-component-tree-observation-001.json)
 
 _No source-local artifact summary._
 
-### `evidence/greenfield/context-ab-2026-09-25/arm-a-fix.patch`
+### [`evidence/greenfield/context-ab-2026-09-25/arm-a-fix.patch`](../evidence/greenfield/context-ab-2026-09-25/arm-a-fix.patch)
 
 _No source-local artifact summary._
 
-### `evidence/greenfield/context-ab-2026-09-25/arm-b-fix.patch`
+### [`evidence/greenfield/context-ab-2026-09-25/arm-b-fix.patch`](../evidence/greenfield/context-ab-2026-09-25/arm-b-fix.patch)
 
 _No source-local artifact summary._
 
-### `evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/verification-summary.json`
+### [`evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/verification-summary.json`](../evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/verification-summary.json)
 
 _No source-local artifact summary._
 
-### `evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/verification-summary.json`
+### [`evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/verification-summary.json`](../evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/verification-summary.json)
 
 _No source-local artifact summary._
 
-### `evidence/plan-001/evidence-carry-forward-2026-09-18.json`
+### [`evidence/plan-001/evidence-carry-forward-2026-09-18.json`](../evidence/plan-001/evidence-carry-forward-2026-09-18.json)
 
 _No source-local artifact summary._
 
-### `evidence/plan-001/verification-boundary-correction-2026-09-18.json`
+### [`evidence/plan-001/verification-boundary-correction-2026-09-18.json`](../evidence/plan-001/verification-boundary-correction-2026-09-18.json)
 
 _No source-local artifact summary._
 
-### `evidence/provider-provenance/enforced-planning-install-2026-09-18.json`
+### [`evidence/provider-provenance/enforced-planning-install-2026-09-18.json`](../evidence/provider-provenance/enforced-planning-install-2026-09-18.json)
 
 _No source-local artifact summary._
 
-### `hooks/pre-push`
+### [`hooks/pre-push`](../hooks/pre-push)
 
 _No source-local artifact summary._
 
-### `meta-process.yaml`
+### [`meta-process.yaml`](../meta-process.yaml)
 
 _No source-local artifact summary._
 
-### `meta-process/templates/agents.md.template`
+### [`meta-process/templates/agents.md.template`](../meta-process/templates/agents.md.template)
 
 _No source-local artifact summary._
 
-### `proposals/aes-adopt-existing/activation-facts.json`
+### [`proposals/aes-adopt-existing/activation-facts.json`](../proposals/aes-adopt-existing/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-adopt-existing/checklist-bundle.json`
+### [`proposals/aes-adopt-existing/checklist-bundle.json`](../proposals/aes-adopt-existing/checklist-bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-adopt-existing/evidence/digimon-adopt-2026-10-07.txt`
+### [`proposals/aes-adopt-existing/evidence/digimon-adopt-2026-10-07.txt`](../proposals/aes-adopt-existing/evidence/digimon-adopt-2026-10-07.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-adopt-existing/evidence/gates-1539967.txt`
+### [`proposals/aes-adopt-existing/evidence/gates-1539967.txt`](../proposals/aes-adopt-existing/evidence/gates-1539967.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-adopt-existing/evidence/test-adopt-03dba8f.txt`
+### [`proposals/aes-adopt-existing/evidence/test-adopt-03dba8f.txt`](../proposals/aes-adopt-existing/evidence/test-adopt-03dba8f.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-adopt-existing/method-conformance-receipt.adoption-decision.json`
+### [`proposals/aes-adopt-existing/method-conformance-receipt.adoption-decision.json`](../proposals/aes-adopt-existing/method-conformance-receipt.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-adopt-existing/method-conformance-receipt.json`
+### [`proposals/aes-adopt-existing/method-conformance-receipt.json`](../proposals/aes-adopt-existing/method-conformance-receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-adopt-existing/planning-path-decision.json`
+### [`proposals/aes-adopt-existing/planning-path-decision.json`](../proposals/aes-adopt-existing/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-brownfield-docs/PLANNING_PATH.json`
+### [`proposals/aes-brownfield-docs/PLANNING_PATH.json`](../proposals/aes-brownfield-docs/PLANNING_PATH.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-brownfield-docs/activation-facts.json`
+### [`proposals/aes-brownfield-docs/activation-facts.json`](../proposals/aes-brownfield-docs/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-brownfield-docs/checklist.bundle.json`
+### [`proposals/aes-brownfield-docs/checklist.bundle.json`](../proposals/aes-brownfield-docs/checklist.bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-brownfield-docs/cold-reader-transcripts.json`
+### [`proposals/aes-brownfield-docs/cold-reader-transcripts.json`](../proposals/aes-brownfield-docs/cold-reader-transcripts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-brownfield-docs/conformance.adoption-decision.json`
+### [`proposals/aes-brownfield-docs/conformance.adoption-decision.json`](../proposals/aes-brownfield-docs/conformance.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-brownfield-docs/conformance.receipt.json`
+### [`proposals/aes-brownfield-docs/conformance.receipt.json`](../proposals/aes-brownfield-docs/conformance.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/PLAN.adoption-attempts.jsonl`
+### [`proposals/aes-durable-docs/PLAN.adoption-attempts.jsonl`](../proposals/aes-durable-docs/PLAN.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/PLAN.adoption-decision.json`
+### [`proposals/aes-durable-docs/PLAN.adoption-decision.json`](../proposals/aes-durable-docs/PLAN.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/PLAN.receipt.json`
+### [`proposals/aes-durable-docs/PLAN.receipt.json`](../proposals/aes-durable-docs/PLAN.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/PLAN.verdicts.json`
+### [`proposals/aes-durable-docs/PLAN.verdicts.json`](../proposals/aes-durable-docs/PLAN.verdicts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/PLANNING_PATH.json`
+### [`proposals/aes-durable-docs/PLANNING_PATH.json`](../proposals/aes-durable-docs/PLANNING_PATH.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/activation-facts.json`
+### [`proposals/aes-durable-docs/activation-facts.json`](../proposals/aes-durable-docs/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/adopt-output.txt`
+### [`proposals/aes-durable-docs/adopt-output.txt`](../proposals/aes-durable-docs/adopt-output.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/checklist.bundle.json`
+### [`proposals/aes-durable-docs/checklist.bundle.json`](../proposals/aes-durable-docs/checklist.bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m2-seeded-defects.txt`
+### [`proposals/aes-durable-docs/evidence/m2-seeded-defects.txt`](../proposals/aes-durable-docs/evidence/m2-seeded-defects.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m4-aes-canonical-check.txt`
+### [`proposals/aes-durable-docs/evidence/m4-aes-canonical-check.txt`](../proposals/aes-durable-docs/evidence/m4-aes-canonical-check.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-question.txt`
+### [`proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-question.txt`](../proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-question.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader.jsonl`
+### [`proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader.jsonl`](../proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m4-company-planning-check.txt`
+### [`proposals/aes-durable-docs/evidence/m4-company-planning-check.txt`](../proposals/aes-durable-docs/evidence/m4-company-planning-check.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader.jsonl`
+### [`proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader.jsonl`](../proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m4-r13-r14-seeded-run.txt`
+### [`proposals/aes-durable-docs/evidence/m4-r13-r14-seeded-run.txt`](../proposals/aes-durable-docs/evidence/m4-r13-r14-seeded-run.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m4-r13-r14-tests.txt`
+### [`proposals/aes-durable-docs/evidence/m4-r13-r14-tests.txt`](../proposals/aes-durable-docs/evidence/m4-r13-r14-tests.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m5-aes-canonical-cold-reader.jsonl`
+### [`proposals/aes-durable-docs/evidence/m5-aes-canonical-cold-reader.jsonl`](../proposals/aes-durable-docs/evidence/m5-aes-canonical-cold-reader.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m5-company-planning-cold-reader-question.txt`
+### [`proposals/aes-durable-docs/evidence/m5-company-planning-cold-reader-question.txt`](../proposals/aes-durable-docs/evidence/m5-company-planning-cold-reader-question.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m5-company-planning-cold-reader.jsonl`
+### [`proposals/aes-durable-docs/evidence/m5-company-planning-cold-reader.jsonl`](../proposals/aes-durable-docs/evidence/m5-company-planning-cold-reader.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m5-inventory.json`
+### [`proposals/aes-durable-docs/evidence/m5-inventory.json`](../proposals/aes-durable-docs/evidence/m5-inventory.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/evidence/m5-sample-tools/run-reader.sh`
+### [`proposals/aes-durable-docs/evidence/m5-sample-tools/run-reader.sh`](../proposals/aes-durable-docs/evidence/m5-sample-tools/run-reader.sh)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/review-page/aes-durable-docs-plan-1440.png`
+### [`proposals/aes-durable-docs/review-page/aes-durable-docs-plan-1440.png`](../proposals/aes-durable-docs/review-page/aes-durable-docs-plan-1440.png)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/review-page/aes-durable-docs-plan-390.png`
+### [`proposals/aes-durable-docs/review-page/aes-durable-docs-plan-390.png`](../proposals/aes-durable-docs/review-page/aes-durable-docs-plan-390.png)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/review-page/aes-durable-docs-plan.disposition.json`
+### [`proposals/aes-durable-docs/review-page/aes-durable-docs-plan.disposition.json`](../proposals/aes-durable-docs/review-page/aes-durable-docs-plan.disposition.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/review-page/aes-durable-docs-plan.recommendation.json`
+### [`proposals/aes-durable-docs/review-page/aes-durable-docs-plan.recommendation.json`](../proposals/aes-durable-docs/review-page/aes-durable-docs-plan.recommendation.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/review-page/aes-durable-docs-plan.usecase.json`
+### [`proposals/aes-durable-docs/review-page/aes-durable-docs-plan.usecase.json`](../proposals/aes-durable-docs/review-page/aes-durable-docs-plan.usecase.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/review-page/index.html`
+### [`proposals/aes-durable-docs/review-page/index.html`](../proposals/aes-durable-docs/review-page/index.html)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/review-page/modeling-review.html`
+### [`proposals/aes-durable-docs/review-page/modeling-review.html`](../proposals/aes-durable-docs/review-page/modeling-review.html)
 
 _No source-local artifact summary._
 
-### `proposals/aes-durable-docs/review-page/tooltip_test.cjs`
+### [`proposals/aes-durable-docs/review-page/tooltip_test.cjs`](../proposals/aes-durable-docs/review-page/tooltip_test.cjs)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/PLAN.adoption-attempts.jsonl`
+### [`proposals/aes-feedback-prevention/PLAN.adoption-attempts.jsonl`](../proposals/aes-feedback-prevention/PLAN.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/PLAN.adoption-decision.json`
+### [`proposals/aes-feedback-prevention/PLAN.adoption-decision.json`](../proposals/aes-feedback-prevention/PLAN.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/PLAN.receipt.json`
+### [`proposals/aes-feedback-prevention/PLAN.receipt.json`](../proposals/aes-feedback-prevention/PLAN.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/PLAN.verdicts.json`
+### [`proposals/aes-feedback-prevention/PLAN.verdicts.json`](../proposals/aes-feedback-prevention/PLAN.verdicts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/bundle.json`
+### [`proposals/aes-feedback-prevention/bundle.json`](../proposals/aes-feedback-prevention/bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/completion-evidence.json`
+### [`proposals/aes-feedback-prevention/completion-evidence.json`](../proposals/aes-feedback-prevention/completion-evidence.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/facts.json`
+### [`proposals/aes-feedback-prevention/facts.json`](../proposals/aes-feedback-prevention/facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/planning-path-decision.json`
+### [`proposals/aes-feedback-prevention/planning-path-decision.json`](../proposals/aes-feedback-prevention/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/representation-disposition.json`
+### [`proposals/aes-feedback-prevention/representation-disposition.json`](../proposals/aes-feedback-prevention/representation-disposition.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/representation-recommendation.json`
+### [`proposals/aes-feedback-prevention/representation-recommendation.json`](../proposals/aes-feedback-prevention/representation-recommendation.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-feedback-prevention/representation-use-case.json`
+### [`proposals/aes-feedback-prevention/representation-use-case.json`](../proposals/aes-feedback-prevention/representation-use-case.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/PLAN.verdicts.json`
+### [`proposals/aes-learning-loop/PLAN.verdicts.json`](../proposals/aes-learning-loop/PLAN.verdicts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/activation-facts.json`
+### [`proposals/aes-learning-loop/activation-facts.json`](../proposals/aes-learning-loop/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/checklist-bundle.json`
+### [`proposals/aes-learning-loop/checklist-bundle.json`](../proposals/aes-learning-loop/checklist-bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/feedback-system.svg`
+### [`proposals/aes-learning-loop/feedback-system.svg`](../proposals/aes-learning-loop/feedback-system.svg)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/method-conformance-receipt.adoption-attempts.jsonl`
+### [`proposals/aes-learning-loop/method-conformance-receipt.adoption-attempts.jsonl`](../proposals/aes-learning-loop/method-conformance-receipt.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/method-conformance-receipt.adoption-decision.json`
+### [`proposals/aes-learning-loop/method-conformance-receipt.adoption-decision.json`](../proposals/aes-learning-loop/method-conformance-receipt.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/method-conformance-receipt.json`
+### [`proposals/aes-learning-loop/method-conformance-receipt.json`](../proposals/aes-learning-loop/method-conformance-receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/planning-path-decision.json`
+### [`proposals/aes-learning-loop/planning-path-decision.json`](../proposals/aes-learning-loop/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/review-page/feedback-coverage.html`
+### [`proposals/aes-learning-loop/review-page/feedback-coverage.html`](../proposals/aes-learning-loop/review-page/feedback-coverage.html)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/review-page/feedback-models.html`
+### [`proposals/aes-learning-loop/review-page/feedback-models.html`](../proposals/aes-learning-loop/review-page/feedback-models.html)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/review-page/guide.html`
+### [`proposals/aes-learning-loop/review-page/guide.html`](../proposals/aes-learning-loop/review-page/guide.html)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/review-page/index.html`
+### [`proposals/aes-learning-loop/review-page/index.html`](../proposals/aes-learning-loop/review-page/index.html)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/review-page/requirements.html`
+### [`proposals/aes-learning-loop/review-page/requirements.html`](../proposals/aes-learning-loop/review-page/requirements.html)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/review-page/whole-picture.html`
+### [`proposals/aes-learning-loop/review-page/whole-picture.html`](../proposals/aes-learning-loop/review-page/whole-picture.html)
 
 _No source-local artifact summary._
 
-### `proposals/aes-learning-loop/s1-tracker.yaml`
+### [`proposals/aes-learning-loop/s1-tracker.yaml`](../proposals/aes-learning-loop/s1-tracker.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-plan-scope/activation-facts.json`
+### [`proposals/aes-plan-scope/activation-facts.json`](../proposals/aes-plan-scope/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-plan-scope/checklist-bundle.json`
+### [`proposals/aes-plan-scope/checklist-bundle.json`](../proposals/aes-plan-scope/checklist-bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-plan-scope/evidence/digimon-replay-2026-10-07.txt`
+### [`proposals/aes-plan-scope/evidence/digimon-replay-2026-10-07.txt`](../proposals/aes-plan-scope/evidence/digimon-replay-2026-10-07.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-plan-scope/evidence/gates-47d6e14.txt`
+### [`proposals/aes-plan-scope/evidence/gates-47d6e14.txt`](../proposals/aes-plan-scope/evidence/gates-47d6e14.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-plan-scope/evidence/gates-9c981a5.txt`
+### [`proposals/aes-plan-scope/evidence/gates-9c981a5.txt`](../proposals/aes-plan-scope/evidence/gates-9c981a5.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-plan-scope/evidence/test-plan-scope-c3866f2.txt`
+### [`proposals/aes-plan-scope/evidence/test-plan-scope-c3866f2.txt`](../proposals/aes-plan-scope/evidence/test-plan-scope-c3866f2.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-plan-scope/method-conformance-receipt.adoption-decision.json`
+### [`proposals/aes-plan-scope/method-conformance-receipt.adoption-decision.json`](../proposals/aes-plan-scope/method-conformance-receipt.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-plan-scope/method-conformance-receipt.json`
+### [`proposals/aes-plan-scope/method-conformance-receipt.json`](../proposals/aes-plan-scope/method-conformance-receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-plan-scope/planning-path-decision.json`
+### [`proposals/aes-plan-scope/planning-path-decision.json`](../proposals/aes-plan-scope/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/PLAN-AES-ACCEPT-RECEIPT.yaml`
+### [`proposals/aes-planning/PLAN-AES-ACCEPT-RECEIPT.yaml`](../proposals/aes-planning/PLAN-AES-ACCEPT-RECEIPT.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/PLAN-AES-COMMIT-RULE.yaml`
+### [`proposals/aes-planning/PLAN-AES-COMMIT-RULE.yaml`](../proposals/aes-planning/PLAN-AES-COMMIT-RULE.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/activation-facts.json`
+### [`proposals/aes-planning/activation-facts.json`](../proposals/aes-planning/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/checklist-bundle.json`
+### [`proposals/aes-planning/checklist-bundle.json`](../proposals/aes-planning/checklist-bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p3-live-validate-beedf30.txt`
+### [`proposals/aes-planning/evidence/p3-live-validate-beedf30.txt`](../proposals/aes-planning/evidence/p3-live-validate-beedf30.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-canonical-example-transcript-4276550.txt`
+### [`proposals/aes-planning/evidence/p4-canonical-example-transcript-4276550.txt`](../proposals/aes-planning/evidence/p4-canonical-example-transcript-4276550.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-canonical-example-transcript-72925dc.txt`
+### [`proposals/aes-planning/evidence/p4-canonical-example-transcript-72925dc.txt`](../proposals/aes-planning/evidence/p4-canonical-example-transcript-72925dc.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-canonical-example-transcript-8ace3cd.txt`
+### [`proposals/aes-planning/evidence/p4-canonical-example-transcript-8ace3cd.txt`](../proposals/aes-planning/evidence/p4-canonical-example-transcript-8ace3cd.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-canonical-example-transcript-b023fb0.txt`
+### [`proposals/aes-planning/evidence/p4-canonical-example-transcript-b023fb0.txt`](../proposals/aes-planning/evidence/p4-canonical-example-transcript-b023fb0.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-canonical-example-transcript-b91592b.txt`
+### [`proposals/aes-planning/evidence/p4-canonical-example-transcript-b91592b.txt`](../proposals/aes-planning/evidence/p4-canonical-example-transcript-b91592b.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-canonical-example-transcript-ca78424.txt`
+### [`proposals/aes-planning/evidence/p4-canonical-example-transcript-ca78424.txt`](../proposals/aes-planning/evidence/p4-canonical-example-transcript-ca78424.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-canonical-example-transcript.txt`
+### [`proposals/aes-planning/evidence/p4-canonical-example-transcript.txt`](../proposals/aes-planning/evidence/p4-canonical-example-transcript.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-replay-aes-canonical-300-4276550.txt`
+### [`proposals/aes-planning/evidence/p4-replay-aes-canonical-300-4276550.txt`](../proposals/aes-planning/evidence/p4-replay-aes-canonical-300-4276550.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-replay-aes-canonical-300-b91592b.txt`
+### [`proposals/aes-planning/evidence/p4-replay-aes-canonical-300-b91592b.txt`](../proposals/aes-planning/evidence/p4-replay-aes-canonical-300-b91592b.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-replay-aes-canonical-300-ca78424.txt`
+### [`proposals/aes-planning/evidence/p4-replay-aes-canonical-300-ca78424.txt`](../proposals/aes-planning/evidence/p4-replay-aes-canonical-300-ca78424.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-replay-aes-canonical-300.txt`
+### [`proposals/aes-planning/evidence/p4-replay-aes-canonical-300.txt`](../proposals/aes-planning/evidence/p4-replay-aes-canonical-300.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-replay-personal-vps-300-4276550.txt`
+### [`proposals/aes-planning/evidence/p4-replay-personal-vps-300-4276550.txt`](../proposals/aes-planning/evidence/p4-replay-personal-vps-300-4276550.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-replay-personal-vps-300-b91592b.txt`
+### [`proposals/aes-planning/evidence/p4-replay-personal-vps-300-b91592b.txt`](../proposals/aes-planning/evidence/p4-replay-personal-vps-300-b91592b.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-replay-personal-vps-300-ca78424.txt`
+### [`proposals/aes-planning/evidence/p4-replay-personal-vps-300-ca78424.txt`](../proposals/aes-planning/evidence/p4-replay-personal-vps-300-ca78424.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-replay-personal-vps-300.txt`
+### [`proposals/aes-planning/evidence/p4-replay-personal-vps-300.txt`](../proposals/aes-planning/evidence/p4-replay-personal-vps-300.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/p4-replay-trivial-share.txt`
+### [`proposals/aes-planning/evidence/p4-replay-trivial-share.txt`](../proposals/aes-planning/evidence/p4-replay-trivial-share.txt)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/evidence/run_p4_live.sh`
+### [`proposals/aes-planning/evidence/run_p4_live.sh`](../proposals/aes-planning/evidence/run_p4_live.sh)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/method-conformance-receipt.adoption-decision.json`
+### [`proposals/aes-planning/method-conformance-receipt.adoption-decision.json`](../proposals/aes-planning/method-conformance-receipt.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/method-conformance-receipt.json`
+### [`proposals/aes-planning/method-conformance-receipt.json`](../proposals/aes-planning/method-conformance-receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/planning-path-decision.json`
+### [`proposals/aes-planning/planning-path-decision.json`](../proposals/aes-planning/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/review-page/aes-planning-plan-1440.png`
+### [`proposals/aes-planning/review-page/aes-planning-plan-1440.png`](../proposals/aes-planning/review-page/aes-planning-plan-1440.png)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/review-page/aes-planning-plan.disposition.json`
+### [`proposals/aes-planning/review-page/aes-planning-plan.disposition.json`](../proposals/aes-planning/review-page/aes-planning-plan.disposition.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/review-page/aes-planning-plan.html`
+### [`proposals/aes-planning/review-page/aes-planning-plan.html`](../proposals/aes-planning/review-page/aes-planning-plan.html)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/review-page/aes-planning-plan.recommendation.json`
+### [`proposals/aes-planning/review-page/aes-planning-plan.recommendation.json`](../proposals/aes-planning/review-page/aes-planning-plan.recommendation.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/review-page/aes-planning-plan.usecase.json`
+### [`proposals/aes-planning/review-page/aes-planning-plan.usecase.json`](../proposals/aes-planning/review-page/aes-planning-plan.usecase.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/rollout/replay-2026-10-07.csv`
+### [`proposals/aes-planning/rollout/replay-2026-10-07.csv`](../proposals/aes-planning/rollout/replay-2026-10-07.csv)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/rollout/systemd/aes-commit-misuse-review.service`
+### [`proposals/aes-planning/rollout/systemd/aes-commit-misuse-review.service`](../proposals/aes-planning/rollout/systemd/aes-commit-misuse-review.service)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/rollout/systemd/aes-commit-misuse-review.timer`
+### [`proposals/aes-planning/rollout/systemd/aes-commit-misuse-review.timer`](../proposals/aes-planning/rollout/systemd/aes-commit-misuse-review.timer)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.service`
+### [`proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.service`](../proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.service)
 
 _No source-local artifact summary._
 
-### `proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.timer`
+### [`proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.timer`](../proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.timer)
 
 _No source-local artifact summary._
 
-### `proposals/aes-subagent-feedback/PLAN.adoption-decision.json`
+### [`proposals/aes-subagent-feedback/PLAN.adoption-decision.json`](../proposals/aes-subagent-feedback/PLAN.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-subagent-feedback/PLAN.receipt.json`
+### [`proposals/aes-subagent-feedback/PLAN.receipt.json`](../proposals/aes-subagent-feedback/PLAN.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-subagent-feedback/PLAN.verdicts.json`
+### [`proposals/aes-subagent-feedback/PLAN.verdicts.json`](../proposals/aes-subagent-feedback/PLAN.verdicts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-subagent-feedback/bundle.json`
+### [`proposals/aes-subagent-feedback/bundle.json`](../proposals/aes-subagent-feedback/bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-subagent-feedback/facts.json`
+### [`proposals/aes-subagent-feedback/facts.json`](../proposals/aes-subagent-feedback/facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-subagent-feedback/planning-path-decision.json`
+### [`proposals/aes-subagent-feedback/planning-path-decision.json`](../proposals/aes-subagent-feedback/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/02-semantic-model.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/02-semantic-model.candidate.yaml`](../proposals/aes-v0.2-greenfield/02-semantic-model.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/03-lifecycle.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/03-lifecycle.candidate.yaml`](../proposals/aes-v0.2-greenfield/03-lifecycle.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/04-greenfield-mvp.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/04-greenfield-mvp.candidate.yaml`](../proposals/aes-v0.2-greenfield/04-greenfield-mvp.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/12-greenfield-mvp-semantic-instance.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/12-greenfield-mvp-semantic-instance.candidate.yaml`](../proposals/aes-v0.2-greenfield/12-greenfield-mvp-semantic-instance.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/14-initialization-contract.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/14-initialization-contract.candidate.yaml`](../proposals/aes-v0.2-greenfield/14-initialization-contract.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/15-planning-contract.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/15-planning-contract.candidate.yaml`](../proposals/aes-v0.2-greenfield/15-planning-contract.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/16-record-shapes.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/16-record-shapes.candidate.yaml`](../proposals/aes-v0.2-greenfield/16-record-shapes.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/17-provider-evaluation-contract.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/17-provider-evaluation-contract.candidate.yaml`](../proposals/aes-v0.2-greenfield/17-provider-evaluation-contract.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/18-internal-provider-evaluation.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/18-internal-provider-evaluation.candidate.yaml`](../proposals/aes-v0.2-greenfield/18-internal-provider-evaluation.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/19-public-native-provider-evaluation.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/19-public-native-provider-evaluation.candidate.yaml`](../proposals/aes-v0.2-greenfield/19-public-native-provider-evaluation.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/20-realization-topology.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/20-realization-topology.candidate.yaml`](../proposals/aes-v0.2-greenfield/20-realization-topology.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/21-provider-bindings.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/21-provider-bindings.candidate.yaml`](../proposals/aes-v0.2-greenfield/21-provider-bindings.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/aes-v0.2-greenfield/review-manifest.candidate.yaml`
+### [`proposals/aes-v0.2-greenfield/review-manifest.candidate.yaml`](../proposals/aes-v0.2-greenfield/review-manifest.candidate.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/PLAN.verdicts.json`
+### [`proposals/agent-router/PLAN.verdicts.json`](../proposals/agent-router/PLAN.verdicts.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/README.md.writing.json`
+### [`proposals/agent-router/README.md.writing.json`](../proposals/agent-router/README.md.writing.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/bundle.json`
+### [`proposals/agent-router/bundle.json`](../proposals/agent-router/bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/claude-feedback-capture.json`
+### [`proposals/agent-router/claude-feedback-capture.json`](../proposals/agent-router/claude-feedback-capture.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/core-integration.json`
+### [`proposals/agent-router/core-integration.json`](../proposals/agent-router/core-integration.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/cursor-replace.json`
+### [`proposals/agent-router/cursor-replace.json`](../proposals/agent-router/cursor-replace.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/cursor-start.json`
+### [`proposals/agent-router/cursor-start.json`](../proposals/agent-router/cursor-start.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/deployed-collector-check.json`
+### [`proposals/agent-router/deployed-collector-check.json`](../proposals/agent-router/deployed-collector-check.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/evidence.json`
+### [`proposals/agent-router/evidence.json`](../proposals/agent-router/evidence.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/facts.json`
+### [`proposals/agent-router/facts.json`](../proposals/agent-router/facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/inventory-check-process.json`
+### [`proposals/agent-router/inventory-check-process.json`](../proposals/agent-router/inventory-check-process.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/inventory-check.json`
+### [`proposals/agent-router/inventory-check.json`](../proposals/agent-router/inventory-check.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/inventory-followup-check.json`
+### [`proposals/agent-router/inventory-followup-check.json`](../proposals/agent-router/inventory-followup-check.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/inventory-publication-privacy.json`
+### [`proposals/agent-router/inventory-publication-privacy.json`](../proposals/agent-router/inventory-publication-privacy.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/local-check-process.json`
+### [`proposals/agent-router/local-check-process.json`](../proposals/agent-router/local-check-process.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/local-check.json`
+### [`proposals/agent-router/local-check.json`](../proposals/agent-router/local-check.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/native-feedback-consumer.json`
+### [`proposals/agent-router/native-feedback-consumer.json`](../proposals/agent-router/native-feedback-consumer.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/native-feedback-parent-check.txt`
+### [`proposals/agent-router/native-feedback-parent-check.txt`](../proposals/agent-router/native-feedback-parent-check.txt)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/native-handoff-replay.json`
+### [`proposals/agent-router/native-handoff-replay.json`](../proposals/agent-router/native-handoff-replay.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/native-handoff-role-mismatch.json`
+### [`proposals/agent-router/native-handoff-role-mismatch.json`](../proposals/agent-router/native-handoff-role-mismatch.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/planning-path-decision.json`
+### [`proposals/agent-router/planning-path-decision.json`](../proposals/agent-router/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/pr-description.txt`
+### [`proposals/agent-router/pr-description.txt`](../proposals/agent-router/pr-description.txt)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/pr-description.txt.writing.json`
+### [`proposals/agent-router/pr-description.txt.writing.json`](../proposals/agent-router/pr-description.txt.writing.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/profiles/brian.json`
+### [`proposals/agent-router/profiles/brian.json`](../proposals/agent-router/profiles/brian.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/profiles/colleague.json`
+### [`proposals/agent-router/profiles/colleague.json`](../proposals/agent-router/profiles/colleague.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/profiles/effective-profiles.json`
+### [`proposals/agent-router/profiles/effective-profiles.json`](../proposals/agent-router/profiles/effective-profiles.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/receipt.adoption-attempts.jsonl`
+### [`proposals/agent-router/receipt.adoption-attempts.jsonl`](../proposals/agent-router/receipt.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/receipt.adoption-decision.json`
+### [`proposals/agent-router/receipt.adoption-decision.json`](../proposals/agent-router/receipt.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/receipt.json`
+### [`proposals/agent-router/receipt.json`](../proposals/agent-router/receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/revision-path-decision.json`
+### [`proposals/agent-router/revision-path-decision.json`](../proposals/agent-router/revision-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/agent-router/verification.log`
+### [`proposals/agent-router/verification.log`](../proposals/agent-router/verification.log)
 
 _No source-local artifact summary._
 
-### `proposals/code2-ecosystem/PLAN.adoption-attempts.jsonl`
+### [`proposals/code2-ecosystem/PLAN.adoption-attempts.jsonl`](../proposals/code2-ecosystem/PLAN.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/code2-ecosystem/PLAN.adoption-decision.json`
+### [`proposals/code2-ecosystem/PLAN.adoption-decision.json`](../proposals/code2-ecosystem/PLAN.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/code2-ecosystem/PLAN.receipt.json`
+### [`proposals/code2-ecosystem/PLAN.receipt.json`](../proposals/code2-ecosystem/PLAN.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/code2-ecosystem/PLAN.verdicts.json`
+### [`proposals/code2-ecosystem/PLAN.verdicts.json`](../proposals/code2-ecosystem/PLAN.verdicts.json)
 
 _No source-local artifact summary._
 
-### `proposals/code2-ecosystem/bundle.json`
+### [`proposals/code2-ecosystem/bundle.json`](../proposals/code2-ecosystem/bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/code2-ecosystem/check.txt`
+### [`proposals/code2-ecosystem/check.txt`](../proposals/code2-ecosystem/check.txt)
 
 _No source-local artifact summary._
 
-### `proposals/code2-ecosystem/facts.json`
+### [`proposals/code2-ecosystem/facts.json`](../proposals/code2-ecosystem/facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/code2-ecosystem/path-decision.json`
+### [`proposals/code2-ecosystem/path-decision.json`](../proposals/code2-ecosystem/path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/code2-ecosystem/phase2-aes-proposal.yaml`
+### [`proposals/code2-ecosystem/phase2-aes-proposal.yaml`](../proposals/code2-ecosystem/phase2-aes-proposal.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/code2-ecosystem/phase2-aes-validate.txt`
+### [`proposals/code2-ecosystem/phase2-aes-validate.txt`](../proposals/code2-ecosystem/phase2-aes-validate.txt)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-followups/commit-rule-followups.adoption-decision.json`
+### [`proposals/commit-rule-followups/commit-rule-followups.adoption-decision.json`](../proposals/commit-rule-followups/commit-rule-followups.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-followups/commit-rule-followups.bundle.json`
+### [`proposals/commit-rule-followups/commit-rule-followups.bundle.json`](../proposals/commit-rule-followups/commit-rule-followups.bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-followups/commit-rule-followups.check.txt`
+### [`proposals/commit-rule-followups/commit-rule-followups.check.txt`](../proposals/commit-rule-followups/commit-rule-followups.check.txt)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-followups/commit-rule-followups.facts.json`
+### [`proposals/commit-rule-followups/commit-rule-followups.facts.json`](../proposals/commit-rule-followups/commit-rule-followups.facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-followups/commit-rule-followups.path-decision.json`
+### [`proposals/commit-rule-followups/commit-rule-followups.path-decision.json`](../proposals/commit-rule-followups/commit-rule-followups.path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-followups/commit-rule-followups.receipt.json`
+### [`proposals/commit-rule-followups/commit-rule-followups.receipt.json`](../proposals/commit-rule-followups/commit-rule-followups.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-notes-report/commit-rule-notes-report.adoption-decision.json`
+### [`proposals/commit-rule-notes-report/commit-rule-notes-report.adoption-decision.json`](../proposals/commit-rule-notes-report/commit-rule-notes-report.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-notes-report/commit-rule-notes-report.bundle.json`
+### [`proposals/commit-rule-notes-report/commit-rule-notes-report.bundle.json`](../proposals/commit-rule-notes-report/commit-rule-notes-report.bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-notes-report/commit-rule-notes-report.check.txt`
+### [`proposals/commit-rule-notes-report/commit-rule-notes-report.check.txt`](../proposals/commit-rule-notes-report/commit-rule-notes-report.check.txt)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-notes-report/commit-rule-notes-report.facts.json`
+### [`proposals/commit-rule-notes-report/commit-rule-notes-report.facts.json`](../proposals/commit-rule-notes-report/commit-rule-notes-report.facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-notes-report/commit-rule-notes-report.path-decision.json`
+### [`proposals/commit-rule-notes-report/commit-rule-notes-report.path-decision.json`](../proposals/commit-rule-notes-report/commit-rule-notes-report.path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-rule-notes-report/commit-rule-notes-report.receipt.json`
+### [`proposals/commit-rule-notes-report/commit-rule-notes-report.receipt.json`](../proposals/commit-rule-notes-report/commit-rule-notes-report.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-tag-case/commit-tag-case.adoption-decision.json`
+### [`proposals/commit-tag-case/commit-tag-case.adoption-decision.json`](../proposals/commit-tag-case/commit-tag-case.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-tag-case/commit-tag-case.bundle.json`
+### [`proposals/commit-tag-case/commit-tag-case.bundle.json`](../proposals/commit-tag-case/commit-tag-case.bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-tag-case/commit-tag-case.check.txt`
+### [`proposals/commit-tag-case/commit-tag-case.check.txt`](../proposals/commit-tag-case/commit-tag-case.check.txt)
 
 _No source-local artifact summary._
 
-### `proposals/commit-tag-case/commit-tag-case.facts.json`
+### [`proposals/commit-tag-case/commit-tag-case.facts.json`](../proposals/commit-tag-case/commit-tag-case.facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-tag-case/commit-tag-case.path-decision.json`
+### [`proposals/commit-tag-case/commit-tag-case.path-decision.json`](../proposals/commit-tag-case/commit-tag-case.path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/commit-tag-case/commit-tag-case.receipt.json`
+### [`proposals/commit-tag-case/commit-tag-case.receipt.json`](../proposals/commit-tag-case/commit-tag-case.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/doc-reach-new-docs/PLAN.adoption-decision.json`
+### [`proposals/doc-reach-new-docs/PLAN.adoption-decision.json`](../proposals/doc-reach-new-docs/PLAN.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/doc-reach-new-docs/PLAN.receipt.json`
+### [`proposals/doc-reach-new-docs/PLAN.receipt.json`](../proposals/doc-reach-new-docs/PLAN.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/doc-reach-new-docs/PLAN.verdicts.json`
+### [`proposals/doc-reach-new-docs/PLAN.verdicts.json`](../proposals/doc-reach-new-docs/PLAN.verdicts.json)
 
 _No source-local artifact summary._
 
-### `proposals/doc-reach-new-docs/activation-facts.json`
+### [`proposals/doc-reach-new-docs/activation-facts.json`](../proposals/doc-reach-new-docs/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/doc-reach-new-docs/check.txt`
+### [`proposals/doc-reach-new-docs/check.txt`](../proposals/doc-reach-new-docs/check.txt)
 
 _No source-local artifact summary._
 
-### `proposals/doc-reach-new-docs/checklist.bundle.json`
+### [`proposals/doc-reach-new-docs/checklist.bundle.json`](../proposals/doc-reach-new-docs/checklist.bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/doc-reach-new-docs/planning-path-decision.json`
+### [`proposals/doc-reach-new-docs/planning-path-decision.json`](../proposals/doc-reach-new-docs/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/doc-reach-new-docs/replay-after.txt`
+### [`proposals/doc-reach-new-docs/replay-after.txt`](../proposals/doc-reach-new-docs/replay-after.txt)
 
 _No source-local artifact summary._
 
-### `proposals/doc-reach-new-docs/replay.txt`
+### [`proposals/doc-reach-new-docs/replay.txt`](../proposals/doc-reach-new-docs/replay.txt)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/admission-attempts.json`
+### [`proposals/evidence-recorder-counts/admission-attempts.json`](../proposals/evidence-recorder-counts/admission-attempts.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/junit.native-probes.json`
+### [`proposals/evidence-recorder-counts/junit.native-probes.json`](../proposals/evidence-recorder-counts/junit.native-probes.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/method-bundle.json`
+### [`proposals/evidence-recorder-counts/method-bundle.json`](../proposals/evidence-recorder-counts/method-bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/method-conformance-receipt.adoption-decision.json`
+### [`proposals/evidence-recorder-counts/method-conformance-receipt.adoption-decision.json`](../proposals/evidence-recorder-counts/method-conformance-receipt.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/method-conformance-receipt.json`
+### [`proposals/evidence-recorder-counts/method-conformance-receipt.json`](../proposals/evidence-recorder-counts/method-conformance-receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/method-facts.json`
+### [`proposals/evidence-recorder-counts/method-facts.json`](../proposals/evidence-recorder-counts/method-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/native-proposal.yaml`
+### [`proposals/evidence-recorder-counts/native-proposal.yaml`](../proposals/evidence-recorder-counts/native-proposal.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/planning-path-decision.json`
+### [`proposals/evidence-recorder-counts/planning-path-decision.json`](../proposals/evidence-recorder-counts/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/prepare.yaml`
+### [`proposals/evidence-recorder-counts/prepare.yaml`](../proposals/evidence-recorder-counts/prepare.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/privacy-checkpoint.initial-false-positive.json`
+### [`proposals/evidence-recorder-counts/privacy-checkpoint.initial-false-positive.json`](../proposals/evidence-recorder-counts/privacy-checkpoint.initial-false-positive.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/privacy-checkpoint.json`
+### [`proposals/evidence-recorder-counts/privacy-checkpoint.json`](../proposals/evidence-recorder-counts/privacy-checkpoint.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/publication-pattern-scan.json`
+### [`proposals/evidence-recorder-counts/publication-pattern-scan.json`](../proposals/evidence-recorder-counts/publication-pattern-scan.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/refused3-method-conformance-receipt.adoption-decision.json`
+### [`proposals/evidence-recorder-counts/refused3-method-conformance-receipt.adoption-decision.json`](../proposals/evidence-recorder-counts/refused3-method-conformance-receipt.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/refused3-method-conformance-receipt.json`
+### [`proposals/evidence-recorder-counts/refused3-method-conformance-receipt.json`](../proposals/evidence-recorder-counts/refused3-method-conformance-receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/reproduction.before.json`
+### [`proposals/evidence-recorder-counts/reproduction.before.json`](../proposals/evidence-recorder-counts/reproduction.before.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/reproduction.review.json`
+### [`proposals/evidence-recorder-counts/reproduction.review.json`](../proposals/evidence-recorder-counts/reproduction.review.json)
 
 _No source-local artifact summary._
 
-### `proposals/evidence-recorder-counts/reproduction.trace.json`
+### [`proposals/evidence-recorder-counts/reproduction.trace.json`](../proposals/evidence-recorder-counts/reproduction.trace.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/activation-facts.json`
+### [`proposals/harness-context/activation-facts.json`](../proposals/harness-context/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/additional-findings.json`
+### [`proposals/harness-context/additional-findings.json`](../proposals/harness-context/additional-findings.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/checklist-bundle.json`
+### [`proposals/harness-context/checklist-bundle.json`](../proposals/harness-context/checklist-bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/evidence.json`
+### [`proposals/harness-context/evidence.json`](../proposals/harness-context/evidence.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/feedback-records.json`
+### [`proposals/harness-context/feedback-records.json`](../proposals/harness-context/feedback-records.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/findings.json`
+### [`proposals/harness-context/findings.json`](../proposals/harness-context/findings.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/hooks-policy-inventory.json`
+### [`proposals/harness-context/hooks-policy-inventory.json`](../proposals/harness-context/hooks-policy-inventory.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/instructions-skills-inventory.json`
+### [`proposals/harness-context/instructions-skills-inventory.json`](../proposals/harness-context/instructions-skills-inventory.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/method-conformance-receipt.adoption-decision.json`
+### [`proposals/harness-context/method-conformance-receipt.adoption-decision.json`](../proposals/harness-context/method-conformance-receipt.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/method-conformance-receipt.json`
+### [`proposals/harness-context/method-conformance-receipt.json`](../proposals/harness-context/method-conformance-receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/authority-context-proof.json`
+### [`proposals/harness-context/native-parity/authority-context-proof.json`](../proposals/harness-context/native-parity/authority-context-proof.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/authority-context/child-source-review.json`
+### [`proposals/harness-context/native-parity/authority-context/child-source-review.json`](../proposals/harness-context/native-parity/authority-context/child-source-review.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/authority-context/claude-agents.json`
+### [`proposals/harness-context/native-parity/authority-context/claude-agents.json`](../proposals/harness-context/native-parity/authority-context/claude-agents.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/authority-context/development-investigator.codex.toml`
+### [`proposals/harness-context/native-parity/authority-context/development-investigator.codex.toml`](../proposals/harness-context/native-parity/authority-context/development-investigator.codex.toml)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/authority-context/manifest.json`
+### [`proposals/harness-context/native-parity/authority-context/manifest.json`](../proposals/harness-context/native-parity/authority-context/manifest.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/claude-native-refusal.json`
+### [`proposals/harness-context/native-parity/claude-native-refusal.json`](../proposals/harness-context/native-parity/claude-native-refusal.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/claude-paid/child-result.json`
+### [`proposals/harness-context/native-parity/claude-paid/child-result.json`](../proposals/harness-context/native-parity/claude-paid/child-result.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/claude-paid/workflow-and-parity-evidence.json`
+### [`proposals/harness-context/native-parity/claude-paid/workflow-and-parity-evidence.json`](../proposals/harness-context/native-parity/claude-paid/workflow-and-parity-evidence.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/claude-refusal.json`
+### [`proposals/harness-context/native-parity/claude-refusal.json`](../proposals/harness-context/native-parity/claude-refusal.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/codex-child-result.json`
+### [`proposals/harness-context/native-parity/codex-child-result.json`](../proposals/harness-context/native-parity/codex-child-result.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/codex-trace-summary.json`
+### [`proposals/harness-context/native-parity/codex-trace-summary.json`](../proposals/harness-context/native-parity/codex-trace-summary.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/compact-codex-proof.json`
+### [`proposals/harness-context/native-parity/compact-codex-proof.json`](../proposals/harness-context/native-parity/compact-codex-proof.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/cursor-handoff.json`
+### [`proposals/harness-context/native-parity/cursor-handoff.json`](../proposals/harness-context/native-parity/cursor-handoff.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/cursor-replace.json`
+### [`proposals/harness-context/native-parity/cursor-replace.json`](../proposals/harness-context/native-parity/cursor-replace.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/cursor-retirement-refusal.json`
+### [`proposals/harness-context/native-parity/cursor-retirement-refusal.json`](../proposals/harness-context/native-parity/cursor-retirement-refusal.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/cursor-retirement.json`
+### [`proposals/harness-context/native-parity/cursor-retirement.json`](../proposals/harness-context/native-parity/cursor-retirement.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/cursor-start.json`
+### [`proposals/harness-context/native-parity/cursor-start.json`](../proposals/harness-context/native-parity/cursor-start.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/delivery-context-proof.json`
+### [`proposals/harness-context/native-parity/delivery-context-proof.json`](../proposals/harness-context/native-parity/delivery-context-proof.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/delivery-context/claude-agents.json`
+### [`proposals/harness-context/native-parity/delivery-context/claude-agents.json`](../proposals/harness-context/native-parity/delivery-context/claude-agents.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/delivery-context/claude-availability.json`
+### [`proposals/harness-context/native-parity/delivery-context/claude-availability.json`](../proposals/harness-context/native-parity/delivery-context/claude-availability.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/delivery-context/development-investigator.codex.toml`
+### [`proposals/harness-context/native-parity/delivery-context/development-investigator.codex.toml`](../proposals/harness-context/native-parity/delivery-context/development-investigator.codex.toml)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/delivery-context/discovery-exit-semantics.json`
+### [`proposals/harness-context/native-parity/delivery-context/discovery-exit-semantics.json`](../proposals/harness-context/native-parity/delivery-context/discovery-exit-semantics.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/delivery-context/launcher-refusal.json`
+### [`proposals/harness-context/native-parity/delivery-context/launcher-refusal.json`](../proposals/harness-context/native-parity/delivery-context/launcher-refusal.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/delivery-context/local-check-subject.json`
+### [`proposals/harness-context/native-parity/delivery-context/local-check-subject.json`](../proposals/harness-context/native-parity/delivery-context/local-check-subject.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/delivery-context/manifest.json`
+### [`proposals/harness-context/native-parity/delivery-context/manifest.json`](../proposals/harness-context/native-parity/delivery-context/manifest.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/delivery-context/semantic-review.json`
+### [`proposals/harness-context/native-parity/delivery-context/semantic-review.json`](../proposals/harness-context/native-parity/delivery-context/semantic-review.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/input/project-meta/Makefile`
+### [`proposals/harness-context/native-parity/input/project-meta/Makefile`](../proposals/harness-context/native-parity/input/project-meta/Makefile)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/input/task.json`
+### [`proposals/harness-context/native-parity/input/task.json`](../proposals/harness-context/native-parity/input/task.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/launch.json`
+### [`proposals/harness-context/native-parity/launch.json`](../proposals/harness-context/native-parity/launch.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/local-check-process.json`
+### [`proposals/harness-context/native-parity/local-check-process.json`](../proposals/harness-context/native-parity/local-check-process.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/local-check.json`
+### [`proposals/harness-context/native-parity/local-check.json`](../proposals/harness-context/native-parity/local-check.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/local-gate-delay.json`
+### [`proposals/harness-context/native-parity/local-gate-delay.json`](../proposals/harness-context/native-parity/local-gate-delay.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/paired-trace-review.json`
+### [`proposals/harness-context/native-parity/paired-trace-review.json`](../proposals/harness-context/native-parity/paired-trace-review.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/parent-prompt.txt`
+### [`proposals/harness-context/native-parity/parent-prompt.txt`](../proposals/harness-context/native-parity/parent-prompt.txt)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/parity-issue-comment.txt`
+### [`proposals/harness-context/native-parity/parity-issue-comment.txt`](../proposals/harness-context/native-parity/parity-issue-comment.txt)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/permission-probe.json`
+### [`proposals/harness-context/native-parity/permission-probe.json`](../proposals/harness-context/native-parity/permission-probe.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/pr-body.txt`
+### [`proposals/harness-context/native-parity/pr-body.txt`](../proposals/harness-context/native-parity/pr-body.txt)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/pr-body.txt.writing.json`
+### [`proposals/harness-context/native-parity/pr-body.txt.writing.json`](../proposals/harness-context/native-parity/pr-body.txt.writing.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/privacy.json`
+### [`proposals/harness-context/native-parity/privacy.json`](../proposals/harness-context/native-parity/privacy.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/resume-goal.txt`
+### [`proposals/harness-context/native-parity/resume-goal.txt`](../proposals/harness-context/native-parity/resume-goal.txt)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/native-parity/verification.json`
+### [`proposals/harness-context/native-parity/verification.json`](../proposals/harness-context/native-parity/verification.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/planning-path-decision.json`
+### [`proposals/harness-context/planning-path-decision.json`](../proposals/harness-context/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/prior-art-ownership-evidence.json`
+### [`proposals/harness-context/prior-art-ownership-evidence.json`](../proposals/harness-context/prior-art-ownership-evidence.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/public-plan-check.json`
+### [`proposals/harness-context/public-plan-check.json`](../proposals/harness-context/public-plan-check.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/recommendations.json`
+### [`proposals/harness-context/recommendations.json`](../proposals/harness-context/recommendations.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/review-page/browser-verification.json`
+### [`proposals/harness-context/review-page/browser-verification.json`](../proposals/harness-context/review-page/browser-verification.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/review-page/disposition-receipt/harness-context--layered-architecture-view--2026-10-08T03-55-21-249Z.json`
+### [`proposals/harness-context/review-page/disposition-receipt/harness-context--layered-architecture-view--2026-10-08T03-55-21-249Z.json`](../proposals/harness-context/review-page/disposition-receipt/harness-context--layered-architecture-view--2026-10-08T03-55-21-249Z.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/review-page/disposition-receipt/harness-context--layered-architecture-view--2026-10-08T04-08-03-666Z.json`
+### [`proposals/harness-context/review-page/disposition-receipt/harness-context--layered-architecture-view--2026-10-08T04-08-03-666Z.json`](../proposals/harness-context/review-page/disposition-receipt/harness-context--layered-architecture-view--2026-10-08T04-08-03-666Z.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/review-page/disposition.json`
+### [`proposals/harness-context/review-page/disposition.json`](../proposals/harness-context/review-page/disposition.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/review-page/index.html`
+### [`proposals/harness-context/review-page/index.html`](../proposals/harness-context/review-page/index.html)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/review-page/index.html.writing.json`
+### [`proposals/harness-context/review-page/index.html.writing.json`](../proposals/harness-context/review-page/index.html.writing.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/review-page/verify_page.cjs`
+### [`proposals/harness-context/review-page/verify_page.cjs`](../proposals/harness-context/review-page/verify_page.cjs)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/review-recommendation.json`
+### [`proposals/harness-context/review-recommendation.json`](../proposals/harness-context/review-recommendation.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/review-use-case.json`
+### [`proposals/harness-context/review-use-case.json`](../proposals/harness-context/review-use-case.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/subagent-research.disposition.json`
+### [`proposals/harness-context/subagent-research.disposition.json`](../proposals/harness-context/subagent-research.disposition.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/subagent-research.evidence.json`
+### [`proposals/harness-context/subagent-research.evidence.json`](../proposals/harness-context/subagent-research.evidence.json)
 
 _No source-local artifact summary._
 
-### `proposals/harness-context/subagent-research.md.writing.json`
+### [`proposals/harness-context/subagent-research.md.writing.json`](../proposals/harness-context/subagent-research.md.writing.json)
 
 _No source-local artifact summary._
 
-### `proposals/meeting-claims-true/PLAN.adoption-decision.json`
+### [`proposals/meeting-claims-true/PLAN.adoption-decision.json`](../proposals/meeting-claims-true/PLAN.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/meeting-claims-true/PLAN.receipt.json`
+### [`proposals/meeting-claims-true/PLAN.receipt.json`](../proposals/meeting-claims-true/PLAN.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/meeting-claims-true/PLAN.verdicts.json`
+### [`proposals/meeting-claims-true/PLAN.verdicts.json`](../proposals/meeting-claims-true/PLAN.verdicts.json)
 
 _No source-local artifact summary._
 
-### `proposals/meeting-claims-true/PLANNING_PATH.json`
+### [`proposals/meeting-claims-true/PLANNING_PATH.json`](../proposals/meeting-claims-true/PLANNING_PATH.json)
 
 _No source-local artifact summary._
 
-### `proposals/meeting-claims-true/activation-facts.json`
+### [`proposals/meeting-claims-true/activation-facts.json`](../proposals/meeting-claims-true/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/meeting-claims-true/checklist.bundle.json`
+### [`proposals/meeting-claims-true/checklist.bundle.json`](../proposals/meeting-claims-true/checklist.bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/second-brain-evaluation/PLANNING_PATH.json`
+### [`proposals/second-brain-evaluation/PLANNING_PATH.json`](../proposals/second-brain-evaluation/PLANNING_PATH.json)
 
 _No source-local artifact summary._
 
-### `proposals/second-brain-evaluation/activation-facts.json`
+### [`proposals/second-brain-evaluation/activation-facts.json`](../proposals/second-brain-evaluation/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/second-brain-evaluation/checklist.bundle.json`
+### [`proposals/second-brain-evaluation/checklist.bundle.json`](../proposals/second-brain-evaluation/checklist.bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/second-brain-evaluation/conformance.adoption-decision.json`
+### [`proposals/second-brain-evaluation/conformance.adoption-decision.json`](../proposals/second-brain-evaluation/conformance.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/second-brain-evaluation/conformance.receipt.json`
+### [`proposals/second-brain-evaluation/conformance.receipt.json`](../proposals/second-brain-evaluation/conformance.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/system-model-review/review-page/index.html`
+### [`proposals/system-model-review/review-page/index.html`](../proposals/system-model-review/review-page/index.html)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/aes-proposal.yaml`
+### [`proposals/trace-review-enforcement/aes-proposal.yaml`](../proposals/trace-review-enforcement/aes-proposal.yaml)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/authentic-assessment.json`
+### [`proposals/trace-review-enforcement/authentic-assessment.json`](../proposals/trace-review-enforcement/authentic-assessment.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/authentic-source.json`
+### [`proposals/trace-review-enforcement/authentic-source.json`](../proposals/trace-review-enforcement/authentic-source.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/authentic.review.json`
+### [`proposals/trace-review-enforcement/authentic.review.json`](../proposals/trace-review-enforcement/authentic.review.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/authority-source.json`
+### [`proposals/trace-review-enforcement/authority-source.json`](../proposals/trace-review-enforcement/authority-source.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/boundary-probes.before-custody-fix.trace.json`
+### [`proposals/trace-review-enforcement/boundary-probes.before-custody-fix.trace.json`](../proposals/trace-review-enforcement/boundary-probes.before-custody-fix.trace.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/boundary-probes.before-membership-fix.trace.json`
+### [`proposals/trace-review-enforcement/boundary-probes.before-membership-fix.trace.json`](../proposals/trace-review-enforcement/boundary-probes.before-membership-fix.trace.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/boundary-probes.initial.trace.json`
+### [`proposals/trace-review-enforcement/boundary-probes.initial.trace.json`](../proposals/trace-review-enforcement/boundary-probes.initial.trace.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/boundary-probes.review.json`
+### [`proposals/trace-review-enforcement/boundary-probes.review.json`](../proposals/trace-review-enforcement/boundary-probes.review.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/boundary-probes.trace.json`
+### [`proposals/trace-review-enforcement/boundary-probes.trace.json`](../proposals/trace-review-enforcement/boundary-probes.trace.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/final-gate-supervisor.log`
+### [`proposals/trace-review-enforcement/final-gate-supervisor.log`](../proposals/trace-review-enforcement/final-gate-supervisor.log)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/final-gate.json`
+### [`proposals/trace-review-enforcement/final-gate.json`](../proposals/trace-review-enforcement/final-gate.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/final-gate.log`
+### [`proposals/trace-review-enforcement/final-gate.log`](../proposals/trace-review-enforcement/final-gate.log)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/plan.adoption-decision.json`
+### [`proposals/trace-review-enforcement/plan.adoption-decision.json`](../proposals/trace-review-enforcement/plan.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/plan.receipt.json`
+### [`proposals/trace-review-enforcement/plan.receipt.json`](../proposals/trace-review-enforcement/plan.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/publication-check.json`
+### [`proposals/trace-review-enforcement/publication-check.json`](../proposals/trace-review-enforcement/publication-check.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/publication-check.trace.json`
+### [`proposals/trace-review-enforcement/publication-check.trace.json`](../proposals/trace-review-enforcement/publication-check.trace.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/publication-disposition.json`
+### [`proposals/trace-review-enforcement/publication-disposition.json`](../proposals/trace-review-enforcement/publication-disposition.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/self-governance-failure.review.json`
+### [`proposals/trace-review-enforcement/self-governance-failure.review.json`](../proposals/trace-review-enforcement/self-governance-failure.review.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review-enforcement/self-governance-failure.trace.json`
+### [`proposals/trace-review-enforcement/self-governance-failure.trace.json`](../proposals/trace-review-enforcement/self-governance-failure.trace.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review/activation-facts.json`
+### [`proposals/trace-review/activation-facts.json`](../proposals/trace-review/activation-facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review/checklist-bundle.json`
+### [`proposals/trace-review/checklist-bundle.json`](../proposals/trace-review/checklist-bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review/method-conformance-receipt.adoption-decision.json`
+### [`proposals/trace-review/method-conformance-receipt.adoption-decision.json`](../proposals/trace-review/method-conformance-receipt.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review/method-conformance-receipt.json`
+### [`proposals/trace-review/method-conformance-receipt.json`](../proposals/trace-review/method-conformance-receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/trace-review/planning-path-decision.json`
+### [`proposals/trace-review/planning-path-decision.json`](../proposals/trace-review/planning-path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/PLAN.adoption-attempts.jsonl`
+### [`proposals/worktree-lifecycle/PLAN.adoption-attempts.jsonl`](../proposals/worktree-lifecycle/PLAN.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/PLAN.adoption-decision.json`
+### [`proposals/worktree-lifecycle/PLAN.adoption-decision.json`](../proposals/worktree-lifecycle/PLAN.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/PLAN.md.writing.json`
+### [`proposals/worktree-lifecycle/PLAN.md.writing.json`](../proposals/worktree-lifecycle/PLAN.md.writing.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/PLAN.receipt.json`
+### [`proposals/worktree-lifecycle/PLAN.receipt.json`](../proposals/worktree-lifecycle/PLAN.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/PLAN.verdicts.json`
+### [`proposals/worktree-lifecycle/PLAN.verdicts.json`](../proposals/worktree-lifecycle/PLAN.verdicts.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/bundle.json`
+### [`proposals/worktree-lifecycle/bundle.json`](../proposals/worktree-lifecycle/bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/conformance.exit`
+### [`proposals/worktree-lifecycle/conformance.exit`](../proposals/worktree-lifecycle/conformance.exit)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/conformance.log`
+### [`proposals/worktree-lifecycle/conformance.log`](../proposals/worktree-lifecycle/conformance.log)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/disposition.json`
+### [`proposals/worktree-lifecycle/disposition.json`](../proposals/worktree-lifecycle/disposition.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/facts.json`
+### [`proposals/worktree-lifecycle/facts.json`](../proposals/worktree-lifecycle/facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/path-decision.json`
+### [`proposals/worktree-lifecycle/path-decision.json`](../proposals/worktree-lifecycle/path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/privacy-screen.json`
+### [`proposals/worktree-lifecycle/privacy-screen.json`](../proposals/worktree-lifecycle/privacy-screen.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/recommendation.json`
+### [`proposals/worktree-lifecycle/recommendation.json`](../proposals/worktree-lifecycle/recommendation.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/representation-records/worktree-lifecycle-plan--scroll-linked-explainer--2026-10-09T03-07-16-294Z.json`
+### [`proposals/worktree-lifecycle/representation-records/worktree-lifecycle-plan--scroll-linked-explainer--2026-10-09T03-07-16-294Z.json`](../proposals/worktree-lifecycle/representation-records/worktree-lifecycle-plan--scroll-linked-explainer--2026-10-09T03-07-16-294Z.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/review-page/browser-qa.json`
+### [`proposals/worktree-lifecycle/review-page/browser-qa.json`](../proposals/worktree-lifecycle/review-page/browser-qa.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/review-page/desktop.png`
+### [`proposals/worktree-lifecycle/review-page/desktop.png`](../proposals/worktree-lifecycle/review-page/desktop.png)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/review-page/index.html`
+### [`proposals/worktree-lifecycle/review-page/index.html`](../proposals/worktree-lifecycle/review-page/index.html)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/review-page/lifecycle-mobile.d2`
+### [`proposals/worktree-lifecycle/review-page/lifecycle-mobile.d2`](../proposals/worktree-lifecycle/review-page/lifecycle-mobile.d2)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/review-page/lifecycle-mobile.svg`
+### [`proposals/worktree-lifecycle/review-page/lifecycle-mobile.svg`](../proposals/worktree-lifecycle/review-page/lifecycle-mobile.svg)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/review-page/lifecycle.d2`
+### [`proposals/worktree-lifecycle/review-page/lifecycle.d2`](../proposals/worktree-lifecycle/review-page/lifecycle.d2)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/review-page/lifecycle.svg`
+### [`proposals/worktree-lifecycle/review-page/lifecycle.svg`](../proposals/worktree-lifecycle/review-page/lifecycle.svg)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/review-page/link-qa.json`
+### [`proposals/worktree-lifecycle/review-page/link-qa.json`](../proposals/worktree-lifecycle/review-page/link-qa.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/review-page/mobile.png`
+### [`proposals/worktree-lifecycle/review-page/mobile.png`](../proposals/worktree-lifecycle/review-page/mobile.png)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/review-use-case.json`
+### [`proposals/worktree-lifecycle/review-use-case.json`](../proposals/worktree-lifecycle/review-use-case.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/secret-scan.json`
+### [`proposals/worktree-lifecycle/secret-scan.json`](../proposals/worktree-lifecycle/secret-scan.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-lifecycle/validation.json`
+### [`proposals/worktree-lifecycle/validation.json`](../proposals/worktree-lifecycle/validation.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-plan-lookup/worktree-plan-lookup.adoption-attempts.jsonl`
+### [`proposals/worktree-plan-lookup/worktree-plan-lookup.adoption-attempts.jsonl`](../proposals/worktree-plan-lookup/worktree-plan-lookup.adoption-attempts.jsonl)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-plan-lookup/worktree-plan-lookup.adoption-decision.json`
+### [`proposals/worktree-plan-lookup/worktree-plan-lookup.adoption-decision.json`](../proposals/worktree-plan-lookup/worktree-plan-lookup.adoption-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-plan-lookup/worktree-plan-lookup.bundle.json`
+### [`proposals/worktree-plan-lookup/worktree-plan-lookup.bundle.json`](../proposals/worktree-plan-lookup/worktree-plan-lookup.bundle.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-plan-lookup/worktree-plan-lookup.check.txt`
+### [`proposals/worktree-plan-lookup/worktree-plan-lookup.check.txt`](../proposals/worktree-plan-lookup/worktree-plan-lookup.check.txt)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-plan-lookup/worktree-plan-lookup.facts.json`
+### [`proposals/worktree-plan-lookup/worktree-plan-lookup.facts.json`](../proposals/worktree-plan-lookup/worktree-plan-lookup.facts.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-plan-lookup/worktree-plan-lookup.path-decision.json`
+### [`proposals/worktree-plan-lookup/worktree-plan-lookup.path-decision.json`](../proposals/worktree-plan-lookup/worktree-plan-lookup.path-decision.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-plan-lookup/worktree-plan-lookup.receipt.json`
+### [`proposals/worktree-plan-lookup/worktree-plan-lookup.receipt.json`](../proposals/worktree-plan-lookup/worktree-plan-lookup.receipt.json)
 
 _No source-local artifact summary._
 
-### `proposals/worktree-plan-lookup/worktree-plan-lookup.verdicts.json`
+### [`proposals/worktree-plan-lookup/worktree-plan-lookup.verdicts.json`](../proposals/worktree-plan-lookup/worktree-plan-lookup.verdicts.json)
 
 _No source-local artifact summary._
 
-### `pyproject.toml`
+### [`pyproject.toml`](../pyproject.toml)
 
 _No source-local artifact summary._
 
-### `scripts/learning_loop/question_set_v2.json`
+### [`scripts/learning_loop/question_set_v2.json`](../scripts/learning_loop/question_set_v2.json)
 
 _No source-local artifact summary._
 
-### `scripts/learning_loop/systemd/feedback-collector.service`
+### [`scripts/learning_loop/systemd/feedback-collector.service`](../scripts/learning_loop/systemd/feedback-collector.service)
 
 _No source-local artifact summary._
 
-### `scripts/learning_loop/systemd/feedback-collector.timer`
+### [`scripts/learning_loop/systemd/feedback-collector.timer`](../scripts/learning_loop/systemd/feedback-collector.timer)
 
 _No source-local artifact summary._
 
-### `scripts/learning_loop/systemd/feedback-effects.service`
+### [`scripts/learning_loop/systemd/feedback-effects.service`](../scripts/learning_loop/systemd/feedback-effects.service)
 
 _No source-local artifact summary._
 
-### `scripts/learning_loop/systemd/feedback-effects.timer`
+### [`scripts/learning_loop/systemd/feedback-effects.timer`](../scripts/learning_loop/systemd/feedback-effects.timer)
 
 _No source-local artifact summary._
 
-### `scripts/learning_loop/systemd/feedback-fix-owner.service`
+### [`scripts/learning_loop/systemd/feedback-fix-owner.service`](../scripts/learning_loop/systemd/feedback-fix-owner.service)
 
 _No source-local artifact summary._
 
-### `scripts/learning_loop/systemd/feedback-fix-owner.timer`
+### [`scripts/learning_loop/systemd/feedback-fix-owner.timer`](../scripts/learning_loop/systemd/feedback-fix-owner.timer)
 
 _No source-local artifact summary._
 
-### `scripts/learning_loop/systemd/feedback-problems.service`
+### [`scripts/learning_loop/systemd/feedback-problems.service`](../scripts/learning_loop/systemd/feedback-problems.service)
 
 _No source-local artifact summary._
 
-### `scripts/learning_loop/systemd/feedback-problems.timer`
+### [`scripts/learning_loop/systemd/feedback-problems.timer`](../scripts/learning_loop/systemd/feedback-problems.timer)
 
 _No source-local artifact summary._
 
-### `scripts/relationships.yaml`
+### [`scripts/relationships.yaml`](../scripts/relationships.yaml)
 
 _No source-local artifact summary._
 
-### `src/agentic_engineering_system/repository_context/component.context.generated.yaml`
+### [`src/agentic_engineering_system/repository_context/component.context.generated.yaml`](../src/agentic_engineering_system/repository_context/component.context.generated.yaml)
 
 _No source-local artifact summary._
 
-### `uv.lock`
+### [`uv.lock`](../uv.lock)
 
 _No source-local artifact summary._
