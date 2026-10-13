@@ -22,16 +22,16 @@ It is synthesis: no checker was run and no file changed.
   make the code pass" (`MEMORY_SHEET.md` prompt 10). The two-direction drift test it uses already
   exists in Company Planning (`distribution/references/system-model.md` item 2).
 
-## Brian's decisions on 2026-10-13 ("i approve")
+## Correction (Brian, 2026-10-13)
 
-1. Inside Success repositories use the interview-kit three files as the small-project form of
-   decision 0003, drafted by an agent from code and owner docs, nothing moved. This answers the
-   crosswalk's C16 for the content; C16's enforcement half (report_only, no plan gating) still
-   needs schema v0.2.
-2. The Project Brain walks the owner through open questions in the interview-kit order.
-3. Proposal to Company Planning filed: BrianMills2718/company-planning#167 (never weaken a model
-   to pass; negative tests for what the diagrams forbid; decided/guessed marking).
+The interview kit is a light version Brian built for a timed interview that forbids his full
+tooling. It is not the standard for Inside Success repositories. The standard there is Company
+Planning decision 0003 (`Inside-Success/company-planning`,
+`docs/decisions/0003-plans-keep-durable-documents-current.md`, the org copy teammates can open).
+The kit stays a source of ideas only: decided/guessed marking, the owner question order, and
+model protection (BrianMills2718/company-planning#167).
 
+Still standing from 2026-10-13: the Project Brain does a first pass from the owner's code and
+docs, then asks the owner one question at a time with a suggested answer; nothing is moved.
 Pilot: Mock Call Agent (owner Jawad), the PCH-1 pilot from the 2026-10-08 roadmap
-(`Inside-Success/2nd-brain-plan-repo` `integrated/ROADMAP.md`). Nothing reaches the owner before
-Brian has seen the first three questions.
+(`Inside-Success/2nd-brain-plan-repo` `integrated/ROADMAP.md`).
