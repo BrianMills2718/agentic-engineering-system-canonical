@@ -1,0 +1,203 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-AES-CODE2-ECOSYSTEM
+title: One central place switches rules on per repository; code2 workspace setup; wiki-format rule
+rationale: >
+  Company Planning plan proposals/code2-ecosystem/PLAN.md (Brian, 2026-10-13: enforcement "should live in
+  the ecosystem not in the repo. so we can turn on enforcement one repo at at ime from a centrla place";
+  one source of truth; start a fresh code2 workspace). Today the commit rule reads an untracked
+  ~/.config/aes/commit_rule.yaml and lets a repository's own .aes/commit_rule.yaml loosen it (AES canonical
+  itself sets mode observe). This adds an AES-owned registry of member repositories and one rule-settings
+  file kept in git in AES canonical, makes the commit rule read only that file and ignore (and report)
+  repository files, makes the shared hook do nothing for repositories outside the registry, adds `aes
+  workspace setup` to create a workspace folder with its instruction file, and adds a wiki_format rule that
+  checks member wikis against the selected llm-wiki tool (wiki_methodology foundation/llm-wiki).
+adopted_plan_ref: proposals/code2-ecosystem/PLAN.md
+trace_review:
+  runs_traced_work: false
+  reason: the rules and setup command are deterministic code with no model, agent or pipeline call; their evidence is real-repository tests and real commits
+closes_gaps: []
+target_delta:
+  add:
+    outcomes:
+      - id: OUT-ECO-001
+        actor_or_consumer: brian_and_his_engineering_agents
+        statement: >
+          Rules apply to a repository because one settings file in AES canonical says so; a repository joins
+          a workspace by moving in and being listed, leaves by being unlisted, and can neither loosen a rule
+          nor break when it stops being checked.
+        non_goals:
+          - per_repository_rule_files
+          - moving_repositories_in_this_change
+          - changing_the_llm_wiki_tool_format
+    normative_items:
+      - id: ECO-REQ-001
+        kind: constraint
+        outcome_refs:
+          - OUT-ECO-001
+        statement: >
+          The commit rule takes its mode and per-repository settings only from the central settings file in
+          AES canonical; a repository's own .aes/commit_rule.yaml changes no verdict and its presence is
+          reported in the verdict; a repository absent from the registry gets no AES verdict at all.
+      - id: ECO-REQ-002
+        kind: behavior
+        outcome_refs:
+          - OUT-ECO-001
+        statement: >
+          `aes workspace setup <dir>` creates the workspace folder, registers it in the registry and writes
+          the workspace instruction file from a template in AES canonical; running it again changes nothing.
+      - id: ECO-REQ-003
+        kind: constraint
+        outcome_refs:
+          - OUT-ECO-001
+        statement: >
+          For a registry member whose settings enable wiki_format, a commit is judged against the selected
+          llm-wiki tool's lint plus two AES extensions (one front page; a wiki/log.md line in any commit that
+          changes wiki pages); warn mode logs, enforce mode refuses.
+    success_criteria:
+      - id: SC-ECO-001
+        statement: >
+          With the shared hook installed, the same rule-breaking commit is refused in a registry member under
+          enforce, produces no verdict line in a non-member, and is still refused in a member that adds its
+          own .aes/commit_rule.yaml saying observe, with the verdict naming the ignored file.
+        target_refs:
+          - OUT-ECO-001
+          - ECO-REQ-001
+        disproof: >
+          A repository file changes a verdict; or a non-member gets a verdict or a failed commit; or the rule
+          reads settings from anywhere but the central file.
+        evidence_requirements:
+          - id: ER-ECO-001-01
+            kind: deterministic_test
+            requirement: >
+              Tests build real Git repositories with the hook installed and a temporary central settings file
+              and registry, run real commits, and assert verdicts, exit codes and log lines for member,
+              non-member and member-with-local-file.
+      - id: SC-ECO-002
+        statement: >
+          `aes workspace setup` on an empty temporary folder creates the folder, the registry entry and the
+          instruction file; a second run reports no change and leaves every byte the same.
+        target_refs:
+          - OUT-ECO-001
+          - ECO-REQ-002
+        disproof: >
+          The second run changes a file; or the instruction file is missing the safety rules from its template.
+        evidence_requirements:
+          - id: ER-ECO-002-01
+            kind: deterministic_test
+            requirement: >
+              Tests run the command twice in a temporary home and compare the files byte for byte.
+      - id: SC-ECO-003
+        statement: >
+          In a member with wiki_format on, a commit editing a wiki page without a wiki/log.md line is warned in
+          warn mode and refused in enforce mode; the same edit with a log line is accepted; a wiki failing the
+          tool's lint is refused in enforce mode with the lint finding quoted.
+        target_refs:
+          - OUT-ECO-001
+          - ECO-REQ-003
+        disproof: >
+          A wiki that fails the tool's lint is accepted under enforce; or the rule hand-checks format the tool
+          itself defines instead of calling its lint.
+        evidence_requirements:
+          - id: ER-ECO-003-01
+            kind: deterministic_test
+            requirement: >
+              Tests build a real repository with a wiki configured by the selected tool, run real commits
+              through the hook, and assert each verdict.
+    components:
+      - id: RU-AES-WORKSPACE
+        responsibility: >
+          Keep the registry and central settings, create a workspace, and answer whether a repository is a
+          member and which settings apply to it.
+        target_refs:
+          - ECO-REQ-001
+          - ECO-REQ-002
+          - SC-ECO-001
+          - SC-ECO-002
+        planned_artifact_refs:
+          - ART-SRC-WORKSPACE
+          - ART-TEST-WORKSPACE
+      - id: RU-AES-WIKI-FORMAT
+        responsibility: >
+          Judge a member's wiki and the commit's wiki changes against the selected llm-wiki tool and the two
+          AES extensions.
+        target_refs:
+          - ECO-REQ-003
+          - SC-ECO-003
+        planned_artifact_refs:
+          - ART-SRC-WIKI-FORMAT
+          - ART-TEST-WIKI-FORMAT
+    planned_artifacts:
+      - id: ART-SRC-WORKSPACE
+        locator:
+          exact_path: src/agentic_engineering_system/workspace.py
+        kind: source
+        purpose: >
+          Registry and central settings loading, membership lookup, and the workspace setup command.
+        semantic_justification_refs:
+          - ECO-REQ-001
+          - ECO-REQ-002
+        exports:
+          - load_registry
+          - load_settings
+          - member_for
+          - setup_workspace
+      - id: ART-TEST-WORKSPACE
+        locator:
+          exact_path: tests/greenfield/test_workspace_setup.py
+        kind: test
+        purpose: >
+          Real-repository tests of membership, central-only settings, ignored local files and idempotent setup.
+        semantic_justification_refs:
+          - SC-ECO-001
+          - SC-ECO-002
+      - id: ART-SRC-WIKI-FORMAT
+        locator:
+          exact_path: src/agentic_engineering_system/wiki_format.py
+        kind: source
+        purpose: >
+          wiki_format rule: run the selected llm-wiki tool's lint, check the managed files, one front page and
+          the log line, and return a verdict with reasons.
+        semantic_justification_refs:
+          - ECO-REQ-003
+        exports:
+          - judge_wiki
+      - id: ART-TEST-WIKI-FORMAT
+        locator:
+          exact_path: tests/greenfield/test_wiki_format.py
+        kind: test
+        purpose: >
+          Real-repository tests of the wiki_format verdicts in warn and enforce modes.
+        semantic_justification_refs:
+          - SC-ECO-003
+    verification_subjects:
+      - id: VS-ECO-CENTRAL-SETTINGS
+        criterion_refs:
+          - SC-ECO-001
+        evidence_requirement_refs:
+          - ER-ECO-001-01
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/greenfield/test_workspace_setup.py
+        purpose: >
+          prove member, non-member and ignored-local-file verdicts on real commits
+      - id: VS-WS-SETUP
+        criterion_refs:
+          - SC-ECO-002
+        evidence_requirement_refs:
+          - ER-ECO-002-01
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/greenfield/test_workspace_setup.py
+        purpose: >
+          prove idempotent workspace setup
+      - id: VS-WIKI-FORMAT
+        criterion_refs:
+          - SC-ECO-003
+        evidence_requirement_refs:
+          - ER-ECO-003-01
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/greenfield/test_wiki_format.py
+        purpose: >
+          prove wiki_format verdicts on real commits
+outside_governed_roots: []

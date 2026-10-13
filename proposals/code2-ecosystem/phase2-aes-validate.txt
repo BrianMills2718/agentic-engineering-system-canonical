@@ -1,0 +1,2 @@
+error: proposal PLAN-AES-CODE2-ECOSYSTEM: 1 violation(s):
+  - adopted_plan_ref proposals/code2-ecosystem/PLAN.md: /home/brian/code/agentic-engineering-system-canonical/worktrees/shaping/code2-ecosystem/proposals/code2-ecosystem/PLAN.md: receipt or adoption decision missing (proposals/code2-ecosystem/PLAN.receipt.json)
