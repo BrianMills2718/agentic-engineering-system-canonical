@@ -1,0 +1,480 @@
+{
+ "crosswalk": [
+  {
+   "concern": "goal/vision/thesis",
+   "external_standard": "arc42 section 1 Introduction and Goals (1.1 Requirements Overview, 1.2 Quality Goals, 1.3 Stakeholders); agentic kits use spec-kit constitution.md and Kiro steering/product.md. Unified Process Inception covers goals and scope.",
+   "company_planning": "durable `goal` role: North star, Thesis (cites AES-CTX-004), Thesis disproof, Non-goals, Lineage; with --arc42 the arc42 section 1 headings, extensions labelled '(AES extension)' (durable_docs_check.py:38 GOAL_FIELDS, check_goal ~l.152, check_arc42_goal ~l.180)",
+   "aes_canonical": "docs/architecture/GOAL.md has every field under arc42 headings (lines 7-66); rule in proposals/aes-durable-docs/PLAN.md R2/R11/R13/R14",
+   "inside_success": "No goal document. Team-Brains notebook 'project' role maps to README.md or AGENTS.md, default PROJECT.md (brain_triggers.yaml L57-175). Template PR #1 proposes PROJECT.md + DIRECTION.md. Mock-Call-Agent AGENTS.md '## The mission' L3-17 (no include there; a broken '@mission.md' include sits separately at L761, and no mission.md exists in the tree). PCH-1 direction is in 2nd-brain-plan-repo ROADMAP.md L466-533.",
+   "workspace_rules": "AGENTS.md Policy durable-documents (l.363-370); project-brain keeps .project-brain/project.md",
+   "recommended_canonical_home": "One file per repo, declared as durable_documents.goal in .agentic/repo.yaml and written as arc42 section 1 plus the AES extension fields. In IS repos the existing file (README.md / AGENTS.md mission section) is the goal and is also the brain's 'project' notebook role; nothing is moved, and no durable_documents block is added there until a report_only mode exists (see C16). .project-brain/project.md keeps only 'who decides' and links to the goal.",
+   "status": "aligned",
+   "checker": "durable_docs_check.py GOAL-FIELD/GOAL-NO-CTX-004/GOAL-NO-LINEAGE/ARC42-HEADING; check_notebook_paths.py for IS brain mapping"
+  },
+  {
+   "concern": "requirements (success, disproof)",
+   "external_standard": "EARS sentence patterns (Kiro requirements.md); spec-kit FR-### + SC-### success criteria; arc42 section 10 quality scenarios. None of them has a disproof field.",
+   "company_planning": "'## REQ-<id>' headings with Success:/Disproof: lines, or YAML success_criteria with disproof (check_requirements ~l.201). Each plan also has Requirements (CORE-REQUIREMENTS-TRACED) and Success and disproof (CORE-SUCCESS-DISPROOF).",
+   "aes_canonical": ".aes/target.yaml success_criteria with disproof fields (line 134), declared as durable_documents.requirements",
+   "inside_success": "PCH design R1-R8 + acceptance + 'wrong if' (PROJECT_CONTEXT_HUB_DESIGN.md L30/L70, ROADMAP L521). Mock-Call-Agent keeps success criteria in dated specs only (docs/superpowers/specs/2026-09-22-buyer-success-architecture.md). Template has one '## Success test'.",
+   "workspace_rules": "AGENTS.md durable-documents",
+   "recommended_canonical_home": "durable_documents.requirements. Each REQ-<id> keeps Success:/Disproof:. Behavioral requirements are written as EARS sentences (WHEN/WHILE/IF ... THE SYSTEM SHALL), which makes each one testable and maps to Gherkin or a test. The disproof line stays as the AES extension, since no standard covers it. IS repos: an existing spec's success-criteria section is recognised as their requirements; recommended only.",
+   "status": "aligned",
+   "checker": "durable_docs_check.py REQ-NONE/REQ-NO-SUCCESS/REQ-NO-CRITERIA/REQ-NO-DISPROOF/PARALLEL; `aes plan validate`"
+  },
+  {
+   "concern": "use cases / scenarios",
+   "external_standard": "Cockburn/Larman fully dressed use cases (UP Use-Case Model, Inception); user stories + Gherkin .feature (executable via pytest-bdd/behave); spec-kit 'User Scenarios & Testing' with P1/P2 independently testable stories",
+   "company_planning": "No document role. Each plan has 'Actor and result' (CORE-ACTOR-RESULT-EXAMPLE) and goal.canonical_example (first_try.py SECTION_TITLES).",
+   "aes_canonical": "absent. Only the plan canonical_example and a presence check on the GOAL.md ### Stakeholders heading (line 28).",
+   "inside_success": "absent. PCH-1 has an acceptance scenario (PROJECT_CONTEXT_HUB_DESIGN.md ## Acceptance) and Mock-Call-Agent has call-stage tables (AGENTS.md L67).",
+   "recommended_canonical_home": "New optional durable role `scenarios` (added by a decision record that amends 0003, see C21): a use-case file (Cockburn casual format, IDs UC-<id>, each with main success scenario + extensions + the REQ IDs it exercises) or a directory of Gherkin .feature files. A plan's canonical_example cites a UC ID once the role is declared. Normative scenarios name an executable check in trace.yaml. This is the UP Inception artifact, alongside goal and scope.",
+   "status": "gap",
+   "checker": "to build: durable_docs_check.py SCEN-NO-REQ / SCEN-UNKNOWN-REQ; pytest-bdd runs .feature files"
+  },
+  {
+   "concern": "domain model / glossary",
+   "external_standard": "arc42 section 12 Glossary; UP/Larman Domain Model (conceptual class diagram, Elaboration); DDD ubiquitous language; spec-kit data-model.md",
+   "company_planning": "optional `glossary` role, only {generated: path} or not_applicable; declared not_applicable here ('deferred (AES plan R6)'). Entities live in trace `entities`.",
+   "aes_canonical": "ENT-* in docs/model/trace.yaml and ODD.md ## Things. repo.yaml l.139 declares glossary not_applicable with reason 'terms are defined inline in SYSTEM_BOUNDARY.md and the target; no separate glossary yet'. docs/terms/ecosystem-terms.md (320 lines, linked from the wiki) describes itself as Brian's cross-project reasoning and decision vocabulary, 'a terms list, not an architecture authority', and points planning-runtime words to agent-skills/contracts/terminology.md (l.1-6).",
+   "inside_success": "absent. The closest is Mock-Call-Agent AGENTS.md 'every fact has exactly one owner' table (L45-66).",
+   "recommended_canonical_home": "durable_documents.glossary takes a plain path (hand-written allowed until the R6 generator exists) or {generated: path}. Each repo's glossary is repo-scoped arc42 section 12 content: it defines that repo's ENT terms and links the shared vocabularies (ecosystem-terms.md, agent-skills/contracts/terminology.md) rather than being one of them. Every trace ENT-<id> must appear in the declared repo glossary. The domain model is the system model's Building Block view (arc42 section 5) plus an optional Mermaid classDiagram, so there is no separate domain-model file.",
+   "status": "conflict",
+   "checker": "to build: GLOSSARY-ENT-MISSING (ENT ids vs the declared repo glossary only) in durable_docs_check.py"
+  },
+  {
+   "concern": "architecture / system model",
+   "external_standard": "arc42 (12 sections) + C4 (context/container/component) as diagrams-as-code (Mermaid, C4-PlantUML, Structurizr DSL); ISO/IEC/IEEE 42010 vocabulary (concern, viewpoint, view); Zachman only as a classification lens for what to describe",
+   "company_planning": "Decision 0002 (amended 2026-10-10) requires arc42+C4 and says 'Existing docs/model/ODD.md files still count until each project next changes its model' (l.30-31). The section list (1, 3, 5, 6, 8, 10) is in docs/plans/system-model-arc42.md R2 (l.58, l.124); the tiers (small / larger / tiny exemption) are in plugins/company-planning/distribution/references/system-model.md l.118-130. check_diagrams (durable_docs_check.py l.256) exempts any file whose name starts with ODD permanently, with no next-change trigger. Company Planning's own model is still docs/model/ODD.md.",
+   "aes_canonical": "system_model {prose: docs/model/ODD.md, trace: docs/model/trace.yaml}, with no diagrams (exempt). A second normative architecture home is docs/architecture/ (SYSTEM_BOUNDARY.md AES-* clauses, greenfield-v0.2/*.yaml), per wiki_methodology REPOSITORY_CONCERN_ROOTS.md (branch-only at 0cddc6b1, pending C11 merge). Existing adopter: agent-skills declares system_model {prose: docs/model/ARCHITECTURE.md}, six arc42 sections with C4Context/C4Container blocks.",
+   "inside_success": "Mock-Call-Agent AGENTS.md ## Architecture map L18, analysis.md and diagrams/ wall charts, none of it arc42/C4. CURRENT_ARCHITECTURE.md in 2nd-brain-plan-repo is the cross-repo boundary authority. PCH boundary is in PROJECT_CONTEXT_HUB_DESIGN.md L51.",
+   "workspace_rules": "AGENTS.md durable-documents; planning-review profile 'Maintained repository system models'",
+   "recommended_canonical_home": "One arc42 + C4 system model per repo at the declared system_model path, using agent-skills/docs/model/ARCHITECTURE.md as the template. Normative clauses (docs/architecture/ in AES repos) stay where they are; the model's sections 2 Constraints and 8 Crosscutting cite them by clause ID (clauses = what must hold, model = how the system satisfies it). The ODD allowance ends exactly as Decision 0002 says: when the prose or trace file is in a plan's changed set, or permanently for system_model.kind: simulation. IS repos keep their existing architecture docs unreformatted.",
+   "status": "conflict",
+   "checker": "durable_docs_check.py DIAGRAM-MISSING/PROSE-*/TRACE-*/STALE; Structurizr or Mermaid render; import-linter for layer conformance (normative structure)"
+  },
+  {
+   "concern": "behavior model (states, sequences)",
+   "external_standard": "arc42 section 6 Runtime View; UML sequence and state machine diagrams, Larman system sequence diagrams + operation contracts; model-based testing where the model is the oracle (Hypothesis RuleBasedStateMachine, GraphWalker)",
+   "company_planning": "Runtime section lists state-changing processes + enforced rule + writer file:line. architecture-views.md excludes a diagram quota (l.6) and does not require a deployment, sequence or state view when the change raises none of those questions (l.176-178). Only PROC-NO-RULES/PROC-UNKNOWN-RULE are checked.",
+   "aes_canonical": "absent. ODD.md ## Processes (line 47) and greenfield-v0.2/03-lifecycle.yaml state_classes; no diagrams.",
+   "inside_success": "No formal model. Template SOURCES.md source states, Mock-Call-Agent persona-engine 04-stage2-state-policy.md and proposal_state code enums.",
+   "recommended_canonical_home": "arc42 section 6 in the system model. The larger tier needs one sequence or state view (Mermaid) for each highest-risk process, as in UP Elaboration's thin slice. Any lifecycle the system enforces (e.g. plan adoption, brain proposal states, PCH capture) is declared `normative: true` in trace.yaml and backed by a Hypothesis RuleBasedStateMachine test that uses that state table as the oracle. The rendered diagram is generated from the same table. Everything else is `explanatory`.",
+   "status": "gap",
+   "checker": "to build: RUNTIME-VIEW-MISSING for larger tier; NORMATIVE-NO-MBT (normative state model lacks model-based check)"
+  },
+  {
+   "concern": "decision records",
+   "external_standard": "Nygard ADR (Title, Status, Context, Decision, Consequences); MADR 4.0.0 at docs/decisions/NNNN-title.md, whose 'Confirmation' section describes how compliance is checked (review or an ArchUnit-style test); arc42 section 9",
+   "company_planning": "docs/decisions/*.md with description + 'Governs:'; bold Decision/Why/Source of record/Wrong when paragraphs by convention only (check_decisions). 'Wrong when' is a reversal condition (e.g. 0003, PMI-018).",
+   "aes_canonical": "docs/decisions/0001-0013 with front matter, Context, Decision, Wrong when, Governs. ODD.md G2: four rules cite no decision.",
+   "inside_success": "Team-Brains DECISIONS.md Open/Settled/Ruled-out, agent-drafted and unreviewed (L1-16). ROADMAP tags human_set/agent_decided_reversible with 'Wrong if' (L521, L533). Template DECISIONS.md proposed. Mock-Call-Agent has none ('Hard-won invariants' stands in).",
+   "workspace_rules": "project-brain .project-brain/truth.md holds decisions and rejected alternatives; workspace ADR-YYYY-MM-DD-*.md under project-meta/docs/ops (legacy)",
+   "recommended_canonical_home": "Decision records in the declared decisions directory (docs/decisions/NNNN-title.md), MADR-compatible in naming and fields but not migrated to MADR headings. MADR Confirmation maps to the trace.yaml rule check that enforces the decision. 'Wrong when' (reversal trigger) and 'Governs:' stay as separate AES extension fields, checked for presence only. .project-brain/truth.md and Team-Brains DECISIONS.md become indexes: each Settled entry links to a record or is marked UNCONFIRMED; the ledger stays where teammates put it.",
+   "status": "conflict",
+   "checker": "durable_docs_check.py DECISION-NO-GOVERNS/DECISION-UNRESOLVED/RULE-DECISION-MISSING; to build: DECISION-NO-WRONG-WHEN"
+  },
+  {
+   "concern": "plans for changes",
+   "external_standard": "spec-kit specs/NNN/{spec,plan,tasks}.md, Kiro .kiro/specs/<f>/{requirements,design,tasks}.md, superpowers dated plans; the three-stage spec, plan, tasks pattern with stage-gate review. UP iterations are ordered by risk.",
+   "company_planning": "adopted plan from cli.py skeleton with core + overlay sections, receipt + adoption decision; 'Durable documents:' line (OV-DURABLE-DOCS-DECLARED); completion range check (decision 0003). Plans #61/#63 still status: proposed. cli.py has no status subcommand (lint, declare-facts, compile, observe, skeleton, check, adopt, quick-adopt).",
+   "aes_canonical": "authorities.plan_roots [docs/plans/] (repo.yaml l.19-20) and durable_documents.plans: docs/plans/ (l.138, a single-path role), but major plans live at proposals/<id>/PLAN.md; layout_check plan-outside matches only NNN_name.md; aes-durable-docs PLAN.md status: proposed although merged",
+   "inside_success": "Team-Brains docs/plans/pch1-send-to-project.md (company-planning style). Mock-Call-Agent docs/superpowers/{specs,plans} + gstack routing in CLAUDE.md. Company Planning offered only to the pilot owner (ROADMAP AA-8).",
+   "workspace_rules": "AGENTS.md plan-nontrivial-work",
+   "recommended_canonical_home": "Company Planning plans in Brian-owned repos. Add proposals/*/PLAN.md to authorities.plan_roots (the list) and widen layout_check; leave durable_documents.plans as the single path. Plan status is derived from the receipt/adoption decision plus the completion event by a new cli.py status subcommand (to build), not hand-edited front matter. In IS teammate repos their superpowers/gstack plan folders are recognised as-is and Company Planning is not imposed. A plan file maps to spec-kit spec.md+plan.md: the Actor/Requirements sections are the spec, the rest is the plan.",
+   "status": "conflict",
+   "checker": "method_conformance adopt/quick-adopt; durable_docs_check.py --plan --range; AES commit check; layout_check plan-outside (to widen); to build: cli.py status"
+  },
+  {
+   "concern": "current status / roadmap",
+   "external_standard": "No dominant standard. Partial substitutes: tasks.md checkboxes, TODOS.md, CHANGELOG.md (Keep a Changelog), Backstage spec.lifecycle. wiki_methodology: current truth is a revision-bound projection.",
+   "company_planning": "plugins/company-planning/docs/INITIATIVE_ROADMAP.md (front matter updated 2026-09-09, last edited 2026-10-06) and plugins/company-planning/docs/DOGFOOD_STATUS.md (last commit 2026-09-09); not durable roles, unchecked; RoadmapGoalHandoff JSON checked",
+   "aes_canonical": "`aes status` over .aes/target.yaml. planning.active_roadmap is a proposals/ file. repo.yaml keeps v0.1 plan keys (v0_1_active_frontier P0-provider-access) deliberately, 'retained for the v0.1 line (Plan 002), not the v0.2 frontier' under Decision 0010, but flat beside v0.2 keys so they read as current. .project-brain/state.md is dated 2026-10-04.",
+   "inside_success": "2nd-brain-plan-repo integrated/STATUS.md (canonical, observed_at 2026-10-07, no PCH entries) + ROADMAP.md. Team-Brains STATE.md (2026-10-09, unreviewed). Mock-Call-Agent analysis.md + 31 docs/dloa-*.md files.",
+   "workspace_rules": "maintain-knowledge 'Done When'; project-brain state.md",
+   "recommended_canonical_home": "New optional durable role `status` (via the 0003 amendment, C21): either a committed file with observed_at front matter, or a command-backed form modelled like catalog, {check: \"aes status --stale-check\"}, which is excluded from plan declaration (PLAN-ROLE-NA-style) because it has no file to change. A separate optional `roadmap` role takes one path. Each repo has exactly one of each. In IS repos these are the brain's existing 'state' notebook paths, recognised without a durable block.",
+   "status": "gap",
+   "checker": "to build: STATUS-STALE (observed_at older than N days or more than M commits on owners; for {check:} the command's own staleness exit), ROADMAP-STATUS-DRIFT warn"
+  },
+  {
+   "concern": "handoff / next step",
+   "external_standard": "No standard. Agentic kits use the next unchecked task in tasks.md.",
+   "company_planning": "durable-solo template 'Human Decisions' + 'Exact Next Action' (unchecked); next_skill YAML handoff checked by lifecycle gate",
+   "aes_canonical": ".project-brain/now.md read first; brain_fresh.py checks only whole-folder freshness and is not in make check",
+   "inside_success": "Team-Brains notebook 'now' role, mapped to PHASES.md / ROADMAP.md / analysis.md, default NOW.md (brain_triggers.py roles() L191-197). Template proposes HANDOFF.md.",
+   "workspace_rules": "AGENTS.md Persist and close; md_file_cap exempts .project-brain/ from reachability",
+   "recommended_canonical_home": "New optional durable role `now` (via the 0003 amendment) with a single path: .project-brain/now.md in Brian's repos, the brain's existing 'now' notebook path in IS repos. It has one exact next action plus stopping state, and wiki/index.md must link it even inside a hidden folder. Template HANDOFF.md is the same role, so the name NOW is kept.",
+   "status": "gap",
+   "checker": "brain_fresh.py extended to per-file freshness and run from make check; check_notebook_paths.py"
+  },
+  {
+   "concern": "open questions & owner clarification",
+   "external_standard": "spec-kit [NEEDS CLARIFICATION] markers + /speckit.clarify (about 5 targeted questions before planning); arc42 section 11 Risks and Technical Debt",
+   "company_planning": "plan 'Uncertainties' table (owner + resolving evidence); system-model unknowns table (Unknown | What would decide it), checked as warn by model_elements.py",
+   "aes_canonical": "absent. Scattered across project-brain needs_resolution tags, ODD.md ## Gaps, ecosystem-terms 'Open questions, with defaults' (line 302) and plan Uncertainties/Human Decisions.",
+   "inside_success": "Team-Brains DECISIONS.md ## Open + brain proposals (question/why/if_yes/if_no) via brain_proposals.yaml, validated by BrainRunOutcome (run BR-757843e2 failed validation). ROADMAP: 13 owner decisions unanswered. Template DIRECTION.md 'Live conflicts'.",
+   "workspace_rules": "recommendations-not-question-lists; project-brain needs_resolution",
+   "recommended_canonical_home": "GitHub issues in the owning repo (Brian approved 2026-10-12 that Project Brains walk owners through open questions as GitHub issues). Each issue uses one label (`open-question`) and the brain-proposal shape (question / why / recommendation+default / if_yes / if_no). Plan Uncertainties rows, model unknowns rows, DECISIONS.md ## Open and needs_resolution tags each carry the issue number as a pointer, and the issue holds the content. Closing an issue requires a decision record or an edit to the named doc.",
+   "status": "gap",
+   "checker": "to build: OPEN-NO-ISSUE (unknowns/Uncertainties row without #issue) warn; brain proposal schema already validates shape"
+  },
+  {
+   "concern": "trace: rule -> owning code -> test",
+   "external_standard": "ISO/IEC/IEEE 29148 traceability matrix (heavy); lightweight requirement tracers OpenFastTrace, Doorstop, Sphinx-Needs (IDs in markdown traced to code and tests, coverage report, run locally); ArchUnit / import-linter for structural rules; Pact for interface contracts; MADR Confirmation; mutation testing (mutmut, cosmic-ray) to prove a check fails when the rule is broken; model-based testing (model as oracle)",
+   "company_planning": "docs/model/trace.yaml: rule has one owner, at least one existing check, optional decisions/reviewed_at; STALE when owner changed; status computed via evidence.assess()",
+   "aes_canonical": "docs/model/trace.yaml rules (RULE-COMMIT-TAG etc.). Paths are checked to exist, but nothing checks that the test exercises the rule. The ID regex misses project-prefixed AES criterion IDs (QC-*).",
+   "inside_success": "No trace. Mock-Call-Agent invariants point at tests in prose (AGENTS.md L82-350). PCH acceptance item 5 is a test.",
+   "recommended_canonical_home": "Before building more, run a short landscape review of OpenFastTrace, Doorstop and Sphinx-Needs against trace.yaml, and of mutmut for proving normative checks can fail. Adopt what covers ID tracing and coverage; keep trace.yaml only for what they lack (one owner per rule, reviewed_at, Governs/decision links), naming that gap. Add `normative: true|false` per rule/view; a normative rule's check must fail when the rule is broken (shown by a re-runnable mutation run rather than a one-off seeded defect). Architecture rules use import-linter contracts. Widen ID_RE to accept AES success-criterion IDs.",
+   "status": "conflict",
+   "checker": "durable_docs_check.py RULE-*/STALE; to build: ID regex fix; NORMATIVE-WEAKENED in the AES commit rule; candidate: OpenFastTrace/Doorstop trace report, mutmut"
+  },
+  {
+   "concern": "enforcement / checkers",
+   "external_standard": "docs-as-code: checks run in the same local gate as code (Vale, markdownlint, mkdocs --strict); import-linter, Hypothesis, Pact; controls must prove they can fail (mutation testing)",
+   "company_planning": "adoption gate, Stop hook, durable_docs_check.py (FINDING lines, counts, exit 0/1/2), execute-plan-loop completion. A durable_documents block switches on adoption and completion gating by its presence alone (quick.py:421; decision 0003 'Repositories without the block are unaffected'); the v0.1 schema requires all seven roles and has no mode key. model_elements.py is warn-only except refuse_repos.yaml, which already lists company-planning (2026-10-11) and agent-skills (2026-10-12).",
+   "aes_canonical": "rules register (enforced/partially-enforced/checked/advisory/licensed/withdrawn). make check (Makefile l.543-553) has no standalone doc-checker step, but the AES commit rule RULE-DURABLE-DOCS-FOR-COMMIT (commit_rule.py, tests/greenfield/test_commit_rule.py::test_durable_docs_check_*) already runs Company Planning's durable_docs_check on staged changes and refuses under durable: enforce; that test skips when the CP checkout is missing, so the control can go dark. The daily check is project-meta md_file_cap.py, called legacy. layout_check.py/reach.py live under proposals/.",
+   "inside_success": "Team-Brains check_notebook_paths.py, BrainRunOutcome validation, source-scope binding. Mock-Call-Agent hosted CI (ci.yml). The template validates by a fresh-session orientation test (README l.82-100), allows mechanical checks for structure only, and avoids speculative automation (AGENTS.md l.106-112), so report-only structure checks are compatible. Nothing reports on IS repos today: md_file_cap.py:3-11 scopes to BrianMills2718 repos.",
+   "workspace_rules": "md_file_cap.py daily via workspace-map-check.service; no hosted CI; checks state counts + exit",
+   "recommended_canonical_home": "Each governed Brian repo's `make check` runs durable_docs_check.py --repo --arc42 plus layout_check and reach (promoted out of proposals/ into AES canonical scripts/); the commit-rule skip when the CP checkout is missing becomes a loud failure. The daily cross-repo sweep stays in project-meta until AES canonical ships an equivalent, and gains an opt-in IS list in its durable column that reports and never refuses; that is the named reporter for IS repos, recorded in the AES standard page. Schema v0.2 adds `enforcement: report_only`, honoured by quick.py/adopt and --plan completion. Three status vocabularies stay as separate axes documented once in AES. model_elements.py becomes refusing for further repos after a clean run.",
+   "status": "conflict",
+   "checker": "make check; AES commit rule (RULE-DURABLE-DOCS-FOR-COMMIT); md_file_cap.py daily"
+  },
+  {
+   "concern": "navigation / index / doc size",
+   "external_standard": "Diataxis (tutorial/how-to/reference/explanation); AGENTS.md open standard (closest file wins); Backstage TechDocs / mkdocs --strict for links; no size standard",
+   "company_planning": "wiki/index.md hand-maintained; catalog role not_applicable; 281 tracked .md, no .md-file-cap.yaml; check_parallel flags second GOAL/REQUIREMENTS/PRD/ODD (no stray copies exist in either pilot today)",
+   "aes_canonical": "wiki/index.md single entrypoint, declared derived but hand-written. AES-CTX-004 says the catalog is generated from description fields. layout_check, reach.py, CATALOG-STALE via make docstring-wiki-check.",
+   "inside_success": "Mock-Call-Agent wiki/index.md is a project-meta Plan #268 stub; 132 .md files (out of cap scope). Team-Brains file reads return content[:8000] with a truncated flag (origin/main knowledge/mcp_server/server.py l.5617-5655; brain_triggers.py RESULT_EXCERPT_DISPLAY_LIMIT l.57 is a display limit, not this cap); truncation seen in BR-e3c2fb50. Local Team-Brains checkout is behind origin (a42c498 vs b2a969d). Template INDEX.md proposed. 2nd-brain-plan-repo wiki/index.md routes to the canonical docs.",
+   "workspace_rules": "md-file-cap (100 or cap file; two-link reachability; Brian-owned only); maintain-knowledge",
+   "recommended_canonical_home": "wiki/index.md per repo, generated from durable_documents roles plus description front matter (AES-CTX-004), with the durable roles listed first, including now/status even under .project-brain/. Diataxis groups the rest. Brian repos follow md-file-cap; Company Planning adds a .md-file-cap.yaml with a reason or consolidates. The 8,000-character truncation is fixed at its root in Team-Brains (section-aware or chunked notebook reads); file owners are not asked to shorten their files, and any NOTEBOOK-TOO-LONG signal is a warning to the brain operator that reads the server.py constant.",
+   "status": "conflict",
+   "checker": "md_file_cap.py; reach.py; CATALOG-STALE; to build: chunked-read test in Team-Brains, NOTEBOOK-TOO-LONG operator warn"
+  },
+  {
+   "concern": "diagrams & human review",
+   "external_standard": "C4 diagrams-as-code (Structurizr DSL, Mermaid C4, C4-PlantUML) in the repo; stage-gate human approval in spec-kit/Kiro (spec before plan before tasks)",
+   "company_planning": "C4 context + container required for larger tier; review status page per RULE-REVIEW-STATUS-PAGE (checker in plan policy-enforcement-pilot, unverified); do_not_gate_on human reading",
+   "aes_canonical": "committed review pages (proposals/system-model-review/review-page/index.html) served from git; nothing checks their currency; cold-reader transcripts stand in for comprehension review",
+   "inside_success": "ROADMAP Mermaid delivery graph L539; AA-2 diagrams in weekly-plans; Mock-Call-Agent exported HTML/PDF charts; Team-Brains entries stay UNCONFIRMED until a person confirms",
+   "workspace_rules": "plan-with-pictures; representation-router; serve pages from git",
+   "recommended_canonical_home": "The human reviews a page rendered from the same trace.yaml / normative model that the tests read, served from git (hive.brianmills.dev/plans/). Mermaid/C4 diagrams are generated from the model, never hand-drawn copies. A review page records the model commit it was rendered from; it is stale when that commit is behind the model's last change.",
+   "status": "conflict",
+   "checker": "DIAGRAM-MISSING; to build: REVIEW-PAGE-STALE (rendered-from commit vs model last commit); router disposition record"
+  }
+ ],
+ "conflicts": [
+  {
+   "id": "C1",
+   "between": "Company Planning (ships durable_documents.v0_1.schema.json + durable_docs_check.py, '$id aes-durable-documents/0.1') vs AES canonical (proposals/aes-durable-docs/PLAN.md is the cited design) vs project-meta (daily md_file_cap.py)",
+   "what": "Ownership of the durable-documents standard is ambiguous: one repo holds the design, a second the schema and checker, a third the daily enforcement.",
+   "resolution": "AES canonical owns the standard text and schema version: promote proposals/aes-durable-docs to docs/architecture/ with the schema. Company Planning owns the checker implementation and pins the AES schema version. project-meta keeps the daily sweep until AES canonical has a replacement, then hands it over.",
+   "why": "Matches the 'AES canonical is the fresh start' direction and keeps the working checker where it already runs.",
+   "owner_repo": "BrianMills2718/agentic-engineering-system-canonical",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C2",
+   "between": "Decision 0002 amendment (ODD.md 'still count until each project next changes its model', l.30-31) vs check_diagrams (durable_docs_check.py l.256 exempts any ODD* file permanently)",
+   "what": "The decision ends the ODD allowance at each project's next model change, but the checker never ends it, so Company Planning and AES canonical can keep ODD.md indefinitely.",
+   "resolution": "Make the exemption end when the system-model prose or trace file is in the plan's changed set (check_plan already computes `changed`), or keep it permanently only for system_model.kind: simulation. Unchanged legacy ODD.md files keep counting, as the decision grants. Migrate both pilots' ODD.md to arc42+C4 using agent-skills/docs/model/ARCHITECTURE.md as the template.",
+   "why": "Implements the decision as written without breaking every legacy repo the day the checker ships; agent-skills already shows the target shape.",
+   "owner_repo": "BrianMills2718/company-planning (checker) + agentic-engineering-system-canonical (its model)",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C3",
+   "between": "AES canonical docs/architecture/ normative clauses (SYSTEM_BOUNDARY.md, greenfield-v0.2) vs docs/model/ durable system model",
+   "what": "Two architecture homes.",
+   "resolution": "Separate the jobs. docs/architecture/ holds normative clauses (what must hold); docs/model/ARCHITECTURE.md is the arc42 description and cites clause IDs in sections 2 and 8. Trace rules may name clause IDs in decisions/governs.",
+   "why": "Matches the wiki_methodology concern-roots rule (branch-only until C11 merges) without duplicating content.",
+   "owner_repo": "BrianMills2718/agentic-engineering-system-canonical",
+   "needs_brian": false,
+   "confidence": "medium"
+  },
+  {
+   "id": "C4",
+   "between": "durable_docs_check ID_RE/PROSE_ID_RE (RULE-/PROC-/ENT-/REC-/VIEW-/REQ-) vs RULE-MODEL-ELEMENT-IDS (AES success-criterion IDs like QC-QUOTE-MEETS-RULE)",
+   "what": "The two ID conventions do not overlap, so prose/trace parity misses AES IDs.",
+   "resolution": "Widen ID_RE to accept any declared ID prefix from .aes/target.yaml success_criteria, and add a failing-case test.",
+   "why": "Implementation-correctness fix; one convention passes both checks.",
+   "owner_repo": "BrianMills2718/company-planning",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C5",
+   "between": "AES repo.yaml glossary not_applicable ('terms are defined inline in SYSTEM_BOUNDARY.md and the target; no separate glossary yet') vs docs/terms/ecosystem-terms.md (cross-project vocabulary, 'not an architecture authority') vs PLAN.md R6 'generated, never hand-maintained'",
+   "what": "AES has no repo-scoped glossary, and the one terms file that exists is a cross-project vocabulary, not that repo's entity glossary.",
+   "resolution": "Schema accepts a plain path for glossary. AES writes a repo-scoped glossary (arc42 section 12) for its ENT terms that links ecosystem-terms.md and agent-skills/contracts/terminology.md, and declares it. GLOSSARY-ENT-MISSING checks only the declared repo glossary. R6 generation stays a later replacement.",
+   "why": "Keeps the shared vocabulary from being mixed with one repo's entity terms; declares what exists.",
+   "owner_repo": "BrianMills2718/company-planning (schema) + agentic-engineering-system-canonical (glossary)",
+   "needs_brian": false,
+   "confidence": "medium"
+  },
+  {
+   "id": "C6",
+   "between": ".project-brain/{project,state,now,truth}.md (project-brain subagent, .rulesync/subagents/project-brain.md l.31-55) vs durable_documents roles; md_file_cap exempts .project-brain/ from reachability; AES CLAUDE.md and brain_fresh.py point at a nonexistent agent-skills path",
+   "what": "Parallel document sets, now/state cannot be reached from wiki/index.md, and the pointer agents follow to the spec is wrong.",
+   "resolution": "The new optional roles status/now point at .project-brain/state.md and now.md. truth.md becomes an index that links decision records. project.md links the goal doc. The generated wiki/index.md links declared roles even under hidden folders. Edit .rulesync/subagents/project-brain.md (then regenerate client copies) and fix the stale 'contracts/client-config/agents/project-brain.md' pointer in AES CLAUDE.md and scripts/hive/brain_fresh.py.",
+   "why": "Keeps the files agents already read and removes the duplication.",
+   "owner_repo": "BrianMills2718/agent-skills (project-brain spec) + company-planning (schema roles) + agentic-engineering-system-canonical (pointer)",
+   "needs_brian": false,
+   "confidence": "medium"
+  },
+  {
+   "id": "C7",
+   "between": "project-brain working/approved/needs_resolution vs rules register enforced/.../withdrawn vs methodology PASS/FAIL/NONE/ERROR/STALE vs visual-planning-review proposed/current/partial",
+   "what": "Status vocabularies do not map.",
+   "resolution": "Define them in one AES docs/architecture page as orthogonal axes (claim decidedness, rule enforcement strength, check outcome, element lifecycle) with a mapping table, rather than merging them.",
+   "why": "They answer different questions; forcing one vocabulary would lose meaning.",
+   "owner_repo": "BrianMills2718/agentic-engineering-system-canonical",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C8",
+   "between": "AES authorities.plan_roots [docs/plans/] vs real plans at proposals/<id>/PLAN.md; layout_check plan-outside matches only NNN_name.md",
+   "what": "Real plans live outside the declared root, and the checker does not notice.",
+   "resolution": "Add proposals/*/PLAN.md to authorities.plan_roots (a list) and widen layout_check to match PLAN.md. Leave durable_documents.plans as its single path. No check_parallel change is needed (no stray GOAL/REQUIREMENTS/PRD/ODD exists in either pilot).",
+   "why": "Declare current practice instead of moving files, touching only the key that is a list.",
+   "owner_repo": "BrianMills2718/agentic-engineering-system-canonical",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C9",
+   "between": "Plan front matter status: proposed (company-planning plans #61/#63, aes-durable-docs PLAN.md) vs merged work",
+   "what": "Plan status is stale prose.",
+   "resolution": "Update the three now. Build a cli.py status subcommand (none exists today) that derives plan status from the receipt, adoption decision and completion event, with front matter optional or generated.",
+   "why": "Hand-written status keeps drifting.",
+   "owner_repo": "BrianMills2718/company-planning",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C10",
+   "between": "Decision 0002 'checked, not self-attested' vs model_elements.py warn-only outside refuse_repos.yaml; AES make check has no standalone doc-checker step",
+   "what": "Enforcement is uneven: company-planning and agent-skills already refuse, AES runs durable_docs_check only through its commit rule (and that test skips when the CP checkout is missing), other repos only warn.",
+   "resolution": "Add durable_docs_check/layout_check/reach to each governed repo's make check; make the commit-rule test fail loudly instead of skipping when the CP checkout is missing; add NORMATIVE-WEAKENED to commit_rule.py next to RULE-DURABLE-DOCS-FOR-COMMIT. Add further repos to refuse_repos.yaml after a clean run, as already done for company-planning and agent-skills.",
+   "why": "The local gate is the merge gate per workspace policy, and no control should go dark.",
+   "owner_repo": "BrianMills2718/agentic-engineering-system-canonical + company-planning",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C11",
+   "between": "wiki_methodology pin 0cddc6b1 (only on docs/agentic-coding-documentation-architecture) vs default branch master 2cfa303",
+   "what": "The declared methodology entrypoint (docs/architecture/README.md, REPOSITORY_CONCERN_ROOTS.md) does not exist on the default branch.",
+   "resolution": "Merge the branch into master after its local checks pass, then repin AES to the merge commit.",
+   "why": "A pin to a non-default branch is fragile and confuses readers.",
+   "owner_repo": "BrianMills2718/wiki_methodology",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C12",
+   "between": "Team-Brains runtime notebook PROJECT/DECISIONS/STATE/NOW (brain_triggers.py PROJECT_NOTEBOOK_FILES, D19) vs template PR #1 PROJECT/DIRECTION/DECISIONS/STATE/SOURCES/HANDOFF/INDEX",
+   "what": "Two notebook file sets for the same purpose.",
+   "resolution": "The runtime's four roles are canonical and match roles goal/decisions/status/now. Template HANDOFF maps to NOW. DIRECTION's open items become open-question GitHub issues. INDEX becomes the generated wiki/index.md. SOURCES becomes packet config. Post this mapping as a review comment on PR #1 and leave the merge or close decision to its author.",
+   "why": "The runtime has readers; the extra template lanes have none.",
+   "owner_repo": "Inside-Success/project-brain-template (comment) + Inside-Success/Team-Brains",
+   "needs_brian": false,
+   "confidence": "medium"
+  },
+  {
+   "id": "C13",
+   "between": "Team-Brains AGENTS.md 'reads DECISIONS.md and STATE.md every run' vs packet team-brains-delivery.v4.yaml",
+   "what": "Repo prose and packet config disagree about what the brain reads.",
+   "resolution": "Correct the AGENTS.md wording to say the reads come from the notebook mapping in brain_triggers.yaml, verified against origin/main (the local checkout is behind).",
+   "why": "Doc fix to match observed config.",
+   "owner_repo": "Inside-Success/Team-Brains",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C14",
+   "between": "PCH design ('contribute_work_context is not reused') vs ROADMAP AA-6 ('reuses contribute_work_context / remember_this'); STATUS.md (2026-10-07) has no PCH entries",
+   "what": "Planning docs disagree with each other and with the code.",
+   "resolution": "Read knowledge/mcp_server/project_context.py on Team-Brains origin/main, correct whichever doc is wrong, and add PCH-1 to STATUS.md with observed_at.",
+   "why": "Factual doc correction; the code settles it.",
+   "owner_repo": "Inside-Success 2nd-brain-plan-repo",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C15",
+   "between": "Mock-Call-Agent packet pin c0bec2a vs main a13f839; Team-Brains file reads truncated at 8,000 characters (server.py l.5617-5655)",
+   "what": "A stale pin plus truncated reads gave opposite conclusions in runs BR-757843e2 and BR-e3c2fb50.",
+   "resolution": "Root fix in Team-Brains: section-aware or chunked notebook reads instead of content[:8000]. Add a stale-pin check next to check_notebook_paths.py (warn when the pin is more than N commits behind the default branch) and repin the Mock Call Agent packet. Any length signal is an operator warning, never a requirement on file owners.",
+   "why": "Fixes the reader where the truncation originates rather than making teammates restructure their files.",
+   "owner_repo": "Inside-Success/Team-Brains",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C16",
+   "between": "Company Planning durable_documents (block presence alone turns on adoption and completion gating, quick.py:421 and decision 0003; v0.1 schema requires all seven roles, no mode key) vs Mock-Call-Agent gstack/superpowers conventions; Tyler: 'I just don't want them fleshing this out' (ROADMAP AA-8)",
+   "what": "Whether IS teammate repos are offered the durable set at all, and the fact that today any durable block in such a repo would gate their plans rather than only report.",
+   "resolution": "Default: no durable_documents block in any IS repo until schema v0.2 has `enforcement: report_only` honoured by quick.py/adopt/completion and decision 0003 says report_only blocks are reported, not gated. After that, offer a thin report_only repo.yaml that only maps existing files, no Company Planning and no reformatting, through a GitHub issue to the owner.",
+   "why": "Touches a teammate relationship and contract scope, which is a priority call; the technical precondition is settled either way.",
+   "owner_repo": "Inside-Success/Team-Brains (pilot) / Mock-Call-Agent",
+   "needs_brian": true,
+   "confidence": "medium"
+  },
+  {
+   "id": "C17",
+   "between": "Workspace md-file-cap / no-hosted-CI / merges-need-no-yes vs IS repos (Mock-Call-Agent ci.yml, 132 .md; Team-Brains AGENTS.md l.66-68: merge to protected main and production deploy require human approval)",
+   "what": "Brian's workspace rules read as universal, but IS repos follow their own.",
+   "resolution": "The nearest repo AGENTS.md governs. Brian's rules apply to BrianMills2718 repos only, which md_file_cap.py:3-11 already scopes. Write this scope into the AES standard page. Team-Brains changes go up as agent-branch PRs and merge after a human approval recorded on the PR (Brian as co-owner, or Dagim). Do not change teammate CI or merge rules.",
+   "why": "The authority order is already defined in workspace AGENTS.md.",
+   "owner_repo": "BrianMills2718/agentic-engineering-system-canonical (scope statement)",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C18",
+   "between": "Report-only status for IS repos vs md_file_cap.py:3-11 (the only daily sweep, scoped to BrianMills2718 repos)",
+   "what": "Nothing reports on IS repos, so 'report-only' has no reporter.",
+   "resolution": "Add an opt-in IS repo list to md_file_cap.py's durable column that reports findings and opens no refusals; record this reporter in the AES standard page and carry it over when AES canonical replaces the sweep.",
+   "why": "A control with no reporter is dark from day one.",
+   "owner_repo": "BrianMills2718/project-meta",
+   "needs_brian": false,
+   "confidence": "medium"
+  },
+  {
+   "id": "C19",
+   "between": "Company Planning 281 tracked .md vs md-file-cap 100",
+   "what": "The cap is exceeded with no cap file.",
+   "resolution": "Add .md-file-cap.yaml with a limit and reason (plugin distribution references are reader docs), or consolidate. Decide by the md_file_cap.py reachability output.",
+   "why": "Technical documentation hygiene.",
+   "owner_repo": "BrianMills2718/company-planning",
+   "needs_brian": false,
+   "confidence": "medium"
+  },
+  {
+   "id": "C20",
+   "between": "Mock-Call-Agent AGENTS.md l.761 '@mission.md' (no such file) and wiki/index.md stub calling AGENTS.md the 'Codex mirror'",
+   "what": "A broken include and a wrong description in a teammate repo.",
+   "resolution": "Open a GitHub issue to the owner (open-question flow) instead of editing their instructions.",
+   "why": "Teammate-owned instruction file; low impact.",
+   "owner_repo": "Inside-Success/Mock-Call-Agent",
+   "needs_brian": false,
+   "confidence": "high"
+  },
+  {
+   "id": "C21",
+   "between": "Decision 0003 and workspace AGENTS.md Policy durable-documents (l.363-370), both naming a fixed set (goal, requirements, system model, decisions) vs proposed new roles scenarios/status/now/roadmap and enforcement: report_only",
+   "what": "Enlarging the durable set without a decision record changes a durable rule silently.",
+   "resolution": "Write decision 0004 (or amend 0003) adding the optional roles and report_only mode, with Why, Source of record and a checkable Wrong when (e.g. no plan cites a new role within 60 days, or report_only repos show zero findings read). Update the AGENTS.md durable-documents bullet in the same change; the feedback record (`obs (control)` lines) is the correction path.",
+   "why": "Workspace policy requires a feedback path before a durable rule changes.",
+   "owner_repo": "BrianMills2718/company-planning (decision) + workspace AGENTS.md owner",
+   "needs_brian": false,
+   "confidence": "high"
+  }
+ ],
+ "changes": [
+  {
+   "owner_repo": "BrianMills2718/agentic-engineering-system-canonical",
+   "change": "Promote proposals/aes-durable-docs into a normative docs/architecture/DOCUMENTATION_STANDARD.md: the crosswalk (concern to standard to role), the normative vs explanatory model rule, 'agent must not weaken a normative model or its checks to pass', the scope statement (Brian-owned repos enforced; IS repos report_only, reported by the project-meta opt-in list), the status-axes table, MADR Confirmation = trace check with Wrong when kept separate, and the UP ordering. Fix that plan's status front matter.",
+   "size": "M"
+  },
+  {
+   "owner_repo": "BrianMills2718/company-planning",
+   "change": "Decision 0004 (or 0003 amendment): optional roles scenarios, status, now, roadmap and `enforcement: report_only`, with Why, Source of record and a Wrong when; update the workspace AGENTS.md durable-documents bullet in the same change (C21).",
+   "size": "S",
+   "depends_on": "AES DOCUMENTATION_STANDARD.md"
+  },
+  {
+   "owner_repo": "BrianMills2718/company-planning",
+   "change": "Landscape review (company-planning:landscape-review) of OpenFastTrace, Doorstop and Sphinx-Needs against trace.yaml, and mutmut for normative checks; record adopt/compose decisions and the gap trace.yaml still fills.",
+   "size": "S"
+  },
+  {
+   "owner_repo": "BrianMills2718/company-planning",
+   "change": "Schema v0.2: roles scenarios, status (file with observed_at, or {check: command} like catalog), now, roadmap (all optional); glossary accepts a plain path; system_model.kind (software|simulation); `enforcement: report_only` honoured by quick.py/adopt and --plan completion; trace rules/views accept normative: bool. Bump $id and pin to the AES standard version.",
+   "size": "M",
+   "depends_on": "decision 0004"
+  },
+  {
+   "owner_repo": "BrianMills2718/company-planning",
+   "change": "durable_docs_check.py: widen ID_RE to AES criterion IDs (C4); end the ODD* exemption when the prose or trace file is in the plan's changed set, permanent only for kind: simulation (C2); new codes DECISION-NO-WRONG-WHEN, GLOSSARY-ENT-MISSING (declared repo glossary only), SCEN-UNKNOWN-REQ, STATUS-STALE, RUNTIME-VIEW-MISSING (larger tier), NORMATIVE-NO-MBT, REVIEW-PAGE-STALE, OPEN-NO-ISSUE (warn). Each new code gets a failing-case test. Use landscape-review outcome before building trace-coverage pieces.",
+   "size": "L",
+   "depends_on": "schema v0.2 + landscape review"
+  },
+  {
+   "owner_repo": "BrianMills2718/company-planning",
+   "change": "Build cli.py status (derive plan status from receipt/adoption/completion). Fix plans #61/#63 status. Add .md-file-cap.yaml or consolidate. Migrate docs/model/ODD.md to arc42+C4 ARCHITECTURE.md using agent-skills/docs/model/ARCHITECTURE.md as template. Update plugins/company-planning/docs/INITIATIVE_ROADMAP.md (2026-09-09) and DOGFOOD_STATUS.md (2026-09-09) and declare them as roadmap/status roles.",
+   "size": "M",
+   "depends_on": "checker changes"
+  },
+  {
+   "owner_repo": "BrianMills2718/agentic-engineering-system-canonical",
+   "change": "Repo adoption: migrate ODD.md to docs/model/ARCHITECTURE.md (arc42+C4, Runtime view for the plan-adoption lifecycle as a normative state model backed by a Hypothesis test); write and declare a repo-scoped glossary linking ecosystem-terms.md and agent-skills/contracts/terminology.md; declare status {check: aes status ...} and now .project-brain/now.md; add proposals/*/PLAN.md to authorities.plan_roots; move the v0.1 plan keys under a v0_1: sub-block (not removed, per Decision 0010); refresh .project-brain/state.md; make proposals/aes-brownfield-docs/PLAN.md's outcome line name both pilots and confirm the tiny-exemption conditions behind 'System model: exempt'. Fix the stale project-brain pointer in CLAUDE.md and scripts/hive/brain_fresh.py.",
+   "size": "L",
+   "depends_on": "schema v0.2 + checker"
+  },
+  {
+   "owner_repo": "BrianMills2718/agentic-engineering-system-canonical",
+   "change": "Move layout_check.py and reach.py from proposals/ to scripts/ and widen layout_check to PLAN.md. Add durable_docs_check --repo --arc42, layout_check, reach and brain_fresh (per-file) to `make check`. Make test_durable_docs_check_* fail loudly instead of skipping when the CP checkout is missing. Add NORMATIVE-WEAKENED to commit_rule.py beside RULE-DURABLE-DOCS-FOR-COMMIT. Generate wiki/index.md from roles + descriptions.",
+   "size": "M",
+   "depends_on": "repo adoption"
+  },
+  {
+   "owner_repo": "BrianMills2718/wiki_methodology",
+   "change": "Merge docs/agentic-coding-documentation-architecture into master after local checks pass; AES repins to the merge commit.",
+   "size": "S"
+  },
+  {
+   "owner_repo": "BrianMills2718/agent-skills",
+   "change": "Edit .rulesync/subagents/project-brain.md: state.md/now.md are the declared status/now roles, truth.md links decision records, open questions are GitHub issues labelled open-question (brain-proposal shape). Align visual-planning-review and the router planning-review profile with 'review the page rendered from the model the tests use'. Regenerate client copies for Claude/Codex parity.",
+   "size": "M",
+   "depends_on": "AES DOCUMENTATION_STANDARD.md"
+  },
+  {
+   "owner_repo": "BrianMills2718/project-meta",
+   "change": "md_file_cap.py durable column: report the new role codes; add an opt-in Inside Success repo list that reports and never refuses (the named IS reporter, C18). Keep it as the daily sweep until AES canonical ships a replacement, and record that handover condition.",
+   "size": "S",
+   "depends_on": "checker changes"
+  },
+  {
+   "owner_repo": "Inside-Success/Team-Brains",
+   "change": "On an agent branch from origin/main: replace content[:8000] file reads in knowledge/mcp_server/server.py with section-aware or chunked reads (root fix for C15); add a stale-pin check beside check_notebook_paths.py; repin the Mock Call Agent packet; have brain_triggers read notebook role paths from a repo's .agentic/repo.yaml when present (fallback: existing yaml); fix the AGENTS.md read-list wording (C13). Open a PR; merge to main waits for a human approval recorded on the PR (Brian as co-owner, or Dagim), per AGENTS.md l.66-68.",
+   "size": "M"
+  },
+  {
+   "owner_repo": "Inside-Success/Team-Brains",
+   "change": "Project Brains raise open questions as GitHub issues in the owning repo (approved 2026-10-12), using the brain-proposal shape, and fix the BrainRunOutcome validation failure seen in run BR-757843e2. Same PR-and-approval route.",
+   "size": "M",
+   "depends_on": "chunked-read + stale-pin PR"
+  },
+  {
+   "owner_repo": "Inside-Success 2nd-brain-plan-repo",
+   "change": "Correct the PCH reuse statement against project_context.py on Team-Brains origin/main (C14), add PCH-1 to integrated/STATUS.md with observed_at, and link the AES documentation standard from START_HERE/wiki for IS context.",
+   "size": "S"
+  },
+  {
+   "owner_repo": "Inside-Success/project-brain-template",
+   "change": "Post a review comment on PR #1 mapping its lanes onto the runtime four roles (C12), noting its fresh-session validation is compatible with report-only structure checks. No edits to the author's branch.",
+   "size": "S",
+   "depends_on": "Team-Brains role mapping"
+  },
+  {
+   "owner_repo": "Inside-Success/Mock-Call-Agent",
+   "change": "Separately now: open an issue about the broken @mission.md include at AGENTS.md l.761 (C20). Only if Brian answers yes on C16 and schema v0.2 report_only has shipped: propose a thin report_only .agentic/repo.yaml mapping existing files (goal=AGENTS.md mission, system_model=AGENTS.md architecture map, plans=docs/superpowers/plans) via a GitHub issue to the owner.",
+   "size": "S",
+   "depends_on": "Brian decision C16 + schema v0.2 report_only"
+  }
+ ],
+ "owner_walkthrough_order": [
+  "Brian (Decision, C16): Should Inside Success teammate repos (Mock Call Agent first) be offered a thin, report-only file that maps their existing documents to the standard roles, with no Company Planning and no reformatting? Recommended yes, offered through a GitHub issue, and only after the report-only mode ships (today any such file would gate their plans). Default if unanswered: only Team-Brains and 2nd-brain-plan-repo are touched; teammate repos are left alone.",
+  "Brian (Priority): rollout order. Recommended: AES canonical and company-planning first (decision record, schema, checker, fix the pilots), then agent-skills and project-meta, then the Team-Brains reading fixes, then IS repos. Default: that order.",
+  "Brian or Dagim (Team-Brains PR approval): Team-Brains' own rule needs a person to approve merges to main; approve the chunked-read, stale-pin and notebook-mapping PR once it is up. Default: PR waits open.",
+  "Tyler / template PR #1 author (comment on Inside-Success/project-brain-template): accept the mapping of HANDOFF/DIRECTION/INDEX/SOURCES onto the runtime PROJECT/DECISIONS/STATE/NOW roles, or close the PR? Default: PR stays open, untouched.",
+  "Dagim (GitHub issue on Inside-Success/Team-Brains): confirm or correct the agent-drafted Settled entries in DECISIONS.md and STATE.md so they can drop UNCONFIRMED.",
+  "Mock Call Agent owner (GitHub issue on Inside-Success/Mock-Call-Agent): restore or remove the @mission.md include at AGENTS.md l.761, and say whether docs/superpowers specs/plans should be readable by the Project Brain.",
+  "2nd-brain-plan-repo owner (Dagim per STATUS.md handoff 2026-10-02): confirm the PCH-1 status entry and corrected reuse statement after the code check."
+ ],
+ "summary": "Revised reconciliation of the five inventories into one standard, corrected against citation and critic findings. Adopt arc42 + C4, MADR-compatible decision records, EARS, Gherkin/Cockburn scenarios, Diataxis and Hypothesis model-based tests; keep Company Planning's durable_documents set and trace.yaml as AES extensions only where nothing off the shelf covers it, after a short landscape review of OpenFastTrace, Doorstop, Sphinx-Needs and mutmut. Of 15 concerns, 8 are conflicts (glossary, system model, decisions, plans, trace, enforcement, navigation, diagrams), 5 gaps (scenarios, behavior model, status/roadmap, handoff, open questions) and 2 aligned (goal, requirements). Key corrections this pass: Decision 0002 already ends the ODD allowance at each repo's next model change, and the fix is to make the checker do that (not to drop the grandfather clause); agent-skills/docs/model/ARCHITECTURE.md is the existing arc42+C4 template, and company-planning and agent-skills already run in refuse mode; AES already runs durable_docs_check through its commit rule, but that test skips silently when the CP checkout is missing; MADR Confirmation maps to the trace check, and 'Wrong when' stays a separate reversal field; the glossary is repo-scoped and links the cross-project ecosystem-terms.md rather than being it; v0.1 repo.yaml keys are relabelled, not removed (Decision 0010); the project-brain spec lives at agent-skills .rulesync/subagents/project-brain.md; the CP roadmap/status files are under plugins/company-planning/docs and date from 2026-09-09; the 8,000-character truncation is fixed in Team-Brains server.py with chunked reads, not by making owners shorten files; the brownfield-plan 'contradiction' was dropped (two pilots). Key additions: a durable_documents block currently gates plans by its presence alone, so no IS repo gets one until schema v0.2 adds enforcement: report_only and a decision record (0004) plus the AGENTS.md durable-documents bullet allow the new roles; project-meta's daily sweep gains an opt-in IS list as the named reporter; status uses a {check: command} form like catalog; only authorities.plan_roots widens; cli.py status is to be built; Team-Brains changes go up as PRs that need a recorded human approval per its AGENTS.md. One product call stays with Brian (C16). Synthesis only: no checker was run and no file changed; I spot-checked quick.py:421, the v0.1 schema's required roles, decision 0003's 'unaffected' line, the cli.py subcommands, Team-Brains AGENTS.md l.68 and the REQ-* finding codes (REQ-NO-SUCCESS does exist, so that critic point was not applied). Everything else comes from the supplied verification findings."
+}
