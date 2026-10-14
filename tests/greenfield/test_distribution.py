@@ -75,8 +75,7 @@ def _consumer(root: Path) -> Path:
     shutil.copyfile(WHYGAME5_AES / "project.yaml", root / ".aes" / "project.yaml")
     shutil.copyfile(WHYGAME5_AES / "target.yaml", root / ".aes" / "target.yaml")
     _touch(root, *REALIZED)
-    # As in test_commit_rule, synthetic adoption metadata isolates distribution
-    # and topology from the separate plan-adoption rule without disabling hooks.
+    # Synthetic plan metadata; kept so the fixture resembles a planned repository.
     plan_dir = root / "proposals" / "distribution-fixture"
     plan_dir.mkdir(parents=True)
     plan = plan_dir / "README.md"
@@ -209,7 +208,7 @@ def test_install_leaves_the_tracked_hook_clean_on_another_machine(consumer: Path
     documented install dirties the worktree and one `git add -A` publishes a
     path that exists on nobody else's machine."""
     hook, _ = install_hooks(consumer, interpreter=sys.executable)
-    _git(consumer, "add", ".githooks")  # pre-commit and commit-msg
+    _git(consumer, "add", ".githooks")  # pre-commit
     env = {**os.environ, "PYTHONPATH": str(SRC)}
     assert _git(consumer, "commit", "-q", "-m", "[Goal distribution-fixture] install hook", env=env).returncode == 0
     assert _git(consumer, "status", "--short").stdout == ""

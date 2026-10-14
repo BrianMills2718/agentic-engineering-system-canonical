@@ -45,16 +45,13 @@ with its owning lane.
 The [skip-only recorder repair](../proposals/evidence-recorder-counts/README.md) is
 reproduced but unimplemented: required adoption demands future execution proof ([#282](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282)); do not report #257 fixed.
 
-**AES planning (2026-10-06):** real implementation work now needs an adopted
-plan. Plans go through Company Planning's adoption gate, which writes the plan's
-`/goal` text (company-planning #49). `aes plan accept` refuses a proposal
-without a fresh adoption receipt (`.aes/planning.yaml`, on here, AES #153), and
-every commit's tag is checked by `aes commit check` through `.githooks/commit-msg`
-(`.aes/commit_rule.yaml`, **observe** mode: logged to
-`.git/aes/commit-rule-<date>.jsonl`, nothing refused yet; AES #152). Use
-`[Goal <plan_id>]` or `[Plan #N]` for planned work, `[Trivial]` for at most 3
-files and 60 lines with no running-thing file, `[Shaping <plan_id>]` for edits
-inside `proposals/<plan_id>/`, `[Unplanned]` only with an `Emergency:` line.
+**Commit rule and plan adoption removed (2026-10-14):** Brian asked on 2026-10-13 to turn off
+the enforcement that made trivial agent tasks take an hour. `aes commit` (tags, plan adoption per
+commit), the commit-msg hook writer, the plan-receipt check on `aes plan accept`
+(`.aes/planning.yaml`), the rollout scripts and their timers are gone; the machine-wide git hook no
+longer calls AES. Commit messages need no tag. Behavior changes go through OpenSpec (see
+`~/code2/AGENTS.md`). `make check` runs in parallel (pytest-xdist) and skips three slow
+install/self-governance tests, which run under `make check-full`.
 
 **Trace reviews (2026-10-07, PLAN-AES-TRACE-REVIEW):** every proposal must
 declare `trace_review: {runs_traced_work: true}` or `{runs_traced_work: false,
@@ -68,31 +65,11 @@ now be adopted (company-planning #52, #53).
 **Existing repositories (2026-10-07, PLAN-AES-ADOPT-EXISTING, issues #180/#155):** `aes adopt`
 (instead of `aes init` where the governed roots already hold code) writes `.aes/legacy_baseline.json`:
 every tracked governed file at a named commit with its blob id. Those files are legacy, not orphans;
-a commit that edits one without a plan is refused under enforce and logged under observe (commit
-rule check `legacy-edit`); `aes plan accept` removes files the target now plans; `aes status` ends
+`aes plan accept` removes files the target now plans; `aes status` ends
 with the legacy share. Order: `aes adopt`, commit, `aes hooks install`. DIGIMON trial (not committed
 there): 1,071 files under 12 roots, 94 KB baseline, `aes status` 8.6 s at 100.0% legacy
 (`proposals/aes-adopt-existing/evidence/`). Next: adopt DIGIMON for real once a DIGIMON plan covers it.
-**Commit rule, 2026-10-08 (plan commit-rule-followups, #269):** `[Trivial]` may not touch `conftest.py` or any script a tracked systemd unit runs; for a `[Goal <id>]` whose plan came from Company Planning `quick-adopt` (`planning_path: requested`), the rule logs whether the saved check output (`<plan folder>/<id>.check.txt`) is present and which files fall outside the plan's list (notes, never a verdict). Commits may carry an `Asked: <who> <date> "<words>"` line (#231).
-
 **The hive moved to personal-vps (2026-10-07):** its scripts (`hive/`) and plans (`proposals/hive-brain-v1/`, `proposals/hive-hardening/`) now live in BrianMills2718/personal-vps (PRs #113, #114); the dashboard build, Glance and the PC controls timer run from there. `scripts/hive/brain_fresh.py` stays here because other repos call it by this path.
-
-**Federated plans and misuse review (2026-10-07):** a `[Goal <id>]` now resolves from a plan in any repository under `~/code` (`plan_workspace` in `~/.config/aes/commit_rule.yaml`), so plans can move to the repository that owns them. A nightly report-only light-model review (`aes-commit-misuse-review` timer) judges accepted `[Unplanned]`/`[Trivial]` commits and opens concern `aes-commit-tag-misuse`; details in `proposals/aes-planning/ROLLOUT.md`.
-Plans: `proposals/aes-planning/` and personal-vps `proposals/hive-hardening/` (both adopted).
-Rollout to every repository (2026-10-07, Brian "go" on observe everywhere now,
-enforce after two days where false refusals are at or under 1 in 5):
-`proposals/aes-planning/rollout/install_everywhere.py` wires the rule into all
-repositories under ~/code in observe mode (machine-wide mode in
-`~/.config/aes/commit_rule.yaml`); `check` reports any unwired repository. The
-replay of 21,948 recent commits in 185 repositories would refuse 99% (79% carry
-no tag at all), so no repository meets the enforce condition; see
-`proposals/aes-planning/ROLLOUT.md`. Installed 2026-10-07: 189 of 190 repositories wired
-(the exception, an AES-project worktree on an old branch, is AES #167); the user timer
-`aes-commit-rule-daily` checks coverage at 07:15 and opens the enforce-review concern once on
-2026-10-09. Next: read the observe logs on 2026-10-09;
-before enforce anywhere, give scheduled-job commits a recognised tag and get
-adopted plans for each active project's real work. P1 (AES overlay in the gate's
-profile) still waits on company-planning's plan-48 work.
 
 **Subagent feedback (2026-10-08):** native assignment/outcome capture and
 parent-executed checks extend the same private feedback reports, with exact

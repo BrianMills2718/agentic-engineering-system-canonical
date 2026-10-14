@@ -413,30 +413,10 @@ prints the same summary and writes nothing. In a repository that already has
 From then on:
 
 - A commit that leaves legacy files alone needs nothing extra.
-- A commit that edits a legacy file is an **unplanned legacy edit**. The
-  commit-msg hook logs it in `observe` mode and refuses it in `enforce` mode
-  (`mode:` in `.aes/commit_rule.yaml`). Plan the file first: a proposal that
-  adds a planned artifact with that exact path, accepted with `aes plan
-  accept`, also removes the file from the baseline. Commit the target, the plan
-  and the baseline together, then edit the file.
-- Work planned through Company Planning declares the files it will write in
-  the plan's front matter, with Company Planning's own work-unit field
-  `conflict_surfaces`, before the plan is adopted:
-
-  ```yaml
-  conflict_surfaces:
-    - {kind: repository_path, repository: owner/repo, target: tests/unit/test_x.py, access: write}
-    - {kind: repository_path, repository: owner/repo, target: src/records, access: write}
-  ```
-
-  A `[Plan #N]` or `[Goal <id>]` commit naming that adopted plan may then edit
-  legacy files inside its `write` or `exclusive` surfaces (a file, everything
-  under a directory, or a glob with `*`, `?`, `**`); `repository` is origin's
-  `owner/repo`, its `repo` part, or the checkout's folder name. Edits outside
-  the named plan's surfaces are still refused. Widening the list changes the
-  plan's bytes, so the plan must be re-adopted. Once such a file has changed
-  on `HEAD` it is released: `aes status` counts it as `released by an adopted
-  plan's conflict_surfaces`, and later commits edit it like any planned file.
+- Editing a legacy file is allowed. To bring it under the target, write a
+  proposal that adds a planned artifact with that exact path and accept it with
+  `aes plan accept`; that also removes the file from the baseline. Commit the
+  target, the plan and the baseline together.
 - Deleting a legacy file needs no plan; the next `aes plan accept` drops its
   entry. Nothing ever adds an entry to the baseline after adoption.
 - A new file under a governed directory is an orphan until a plan lists it,

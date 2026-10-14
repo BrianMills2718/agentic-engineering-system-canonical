@@ -30,7 +30,6 @@ record does, when the revision it recorded is not on the default branch.
 from __future__ import annotations
 
 import argparse
-import subprocess
 import sys
 from collections.abc import Sequence
 from pathlib import Path
