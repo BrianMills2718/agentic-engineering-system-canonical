@@ -11,7 +11,6 @@ This file is a generated Codex-oriented projection of repo governance.
 Edit the canonical sources instead of editing this file directly.
 
 Canonical governance sources:
-
 - `CLAUDE.md` — human-readable project rules, workflow, and references
 - `scripts/relationships.yaml` — machine-readable ADR, coupling, and required-reading graph
 
