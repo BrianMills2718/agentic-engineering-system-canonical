@@ -33,7 +33,6 @@ The desired result is consistent creation, complete discovery, and truthful clos
 
 All requirements R1–R6 in the this section are **planned and not yet run** against the repaired source or installed runtime. Each row names its acceptance run. These cover both Brian's explicit request and the delivered controls' claims: governed path placement, complete Git membership, preservation of data/history/ownership/runtime dependencies, native coherent closeout, visible partial failure, and authentic installed behavior. Every final release/completion record must carry any deferred requirement with its reason; a requirement is not satisfied by an older source test or a proxy.
 
-
 | Requirement | Failure to prevent | Control / owner | Named run and required evidence | Status |
 |---|---|---|---|---|
 | R1: governed creation conforms | Explicit paths bypass the correct default | EP validates canonical repo and resolved target before mutation | `placement-regressions`: branch-with-slashes standard path succeeds; sibling, traversal and symlink escapes leave neither folder nor claim; authorized fixture exception remains scoped | Planned, not yet run |
@@ -51,10 +50,7 @@ The [October 8 investigation](https://github.com/BrianMills2718/project-meta/iss
 
 Acceptance is by exact membership and behavior, not a target folder count:
 
-
-
 For full-trace acceptance, R1 is judged from `placement-regressions` (resolved targets, positive creation and rejected mutation state); R2 from `inventory-regressions` (exact registration identities and membership); R3 from `preservation-regressions` (bytes, history, owner and runtime dependency preflight); R4 from `closeout-regressions` (every mutation/retry state, recovery before removal and claim closure); R5 from `sweep-failure-regressions` (child error, preserved state, reported totals, concern and overall exit); R6 from `workspace-canary` (authentic public Make creation/work/remote readback/closure and exact installed revision); R7 from `claim-admission-and-local-gates` (adopted receipt, claim identity/paths, candidate diff and every local gate output/exit). All are planned runs. Read each named full trace, every failing or surprising case and a successful case before accepting its requirement; summary output alone is insufficient.
-
 
 Every run retains commands/arguments, resolved paths, timestamps, source revision, stdout/stderr and exit status, claim IDs before/after, object IDs and remote readback, disposition receipts and inventory membership. Store sanitized full traces in each owner's existing run-artifact store and link them from the implementation plan and concern #1985. Read every failing or surprising trace and a successful case; inspect preservation before removal and removal before claim closure. Never publish private contents to prove preservation.
 
@@ -65,7 +61,6 @@ Disproof: any unexplained new nonstandard path, omitted registration, unrecovera
 ## System model
 
 The scoped model source is [SYSTEM_MODEL.md](SYSTEM_MODEL.md). The following synchronized evidence excerpt supplies the native adoption verifier with its actual observations; it is derived from that source, not an independently edited model. Both change in the same owning commit.
-
 
 Scope: the existing EP/PM worktree control, a partial shared model rather than the full architectures of either repository. Git, claims and closeout retain their existing owners.
 

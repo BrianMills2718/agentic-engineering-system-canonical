@@ -137,4 +137,3 @@ Each fact, with its value and why:
 - `claims_external_standard`: false -- the work claims no external standard, schema or contract.
 - `aes_governed_target`: true -- derived, this repository has `.aes/target.yaml`; see AES target.
 - `durable_documents_declared`: true -- derived, `.agentic/repo.yaml` has `durable_documents`; see Durable documents.
-

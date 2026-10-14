@@ -298,7 +298,6 @@ approval. Ask when a real semantic/authority choice is required.
 
 This does **not** include implicit permission to merge PRs.
 
-
 ## Fresh-agent strategic re-review correction — 2026-09-18
 
 A fresh-agent review challenged this handoff against the live PRs and found two

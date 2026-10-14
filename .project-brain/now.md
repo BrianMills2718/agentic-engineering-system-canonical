@@ -2,7 +2,6 @@
 
 **Durable documents (2026-10-11):** every governed repository now keeps a fixed durable document set (goal, requirements, system model with a rule trace, decision records), rolled out to 22 of 22 repositories ([rollout record](../proposals/aes-durable-docs/evidence/m5-rollout.md)). The disproof sample fired: 9 of 10 recent plans declared nothing. The cause is that the rule was not in effect for 8 of them, because of a stale Claude Code plugin copy (fixed; auto-refresh is project-meta #2537) or because the plan was adopted before rollout. Next: re-sample once 10 plans carry `OV-DURABLE-DOCS-DECLARED` in their receipts ([sample](../proposals/aes-durable-docs/evidence/m5-disproof-sample.md), [plan](../proposals/aes-durable-docs/PLAN.md)).
 
-
 **Agent feedback loop (2026-10-12):** [start page](../proposals/aes-learning-loop/review-page/guide.html) lists what runs and when, the current [domain model](../proposals/aes-learning-loop/review-page/feedback-models.html), the [requirements check](../proposals/aes-learning-loop/review-page/requirements.html), every document and what is open. The daily fix owner has closed all 24 adopt issues; 10 fixes carry receipts the effect counter reads. The 2026-10-08 diagram `feedback-system.svg` is retired, kept for history.
 
 **Feedback repair tooling (2026-10-08):** the installed claim runtime consumes
@@ -99,7 +98,7 @@ profile) still waits on company-planning's plan-48 work.
 parent-executed checks extend the same private feedback reports, with exact
 parent/call/child/result attribution and separate inconclusive/checker-failure
 states. See [the plan](../proposals/aes-subagent-feedback/PLAN.md) and
-[commands](../scripts/learning_loop/systemd/README.md#native-subagent-feedback).
+[commands](../scripts/learning_loop/systemd/README.md).
 The original live Codex canary preserved an honest inconclusive instruction-scope stop.
 The [follow-on repair](../proposals/aes-feedback-prevention/PLAN.md) scopes Remote MCP
 preflight to that transport; native local inspection now completes with a source-supported
@@ -163,7 +162,6 @@ retest after each rewrite of the roadmap).
 the project stands, update `now.md` (and `state.md` if needed) in the same pull
 request. `python3 scripts/hive/brain_fresh.py .` exits 1 when this brain is
 older than the work since.
-
 
 ## Standing policy update — 2026-10-06
 

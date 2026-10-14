@@ -18,6 +18,14 @@ goal:
 
 # A fresh code2 ecosystem that AES canonical owns (phase 1)
 
+> **Redirect, 2026-10-13 (Brian).** "find off the shelf stuff instead of building my own system ...
+> every check should finish in seconds." code2 now runs on off-the-shelf tools, not AES's own
+> enforcement: lefthook with one shared config (`BrianMills2718/code2-workspace`,
+> `hooks/base.yml`), lychee for local links, markdownlint-cli2 for formatting, and a short
+> reachability script. Parallel agents use Claude Code's `claude -w` worktrees; tasks are GitHub
+> Issues. AES canonical joined code2 as an ordinary repository on 2026-10-13, alongside
+> wiki_methodology and epistemic-warrant. The phase 2 plan built on AES enforcement is superseded.
+
 Brian approved this on 2026-10-13 ("yes lets make the move") after asking for a fresh start:
 "start a like code2 dir that has aes canoncial and maybe like a few relevant repos and star over
 there", with enforcement that "should live in the ecosystem not in the repo" and one source of
@@ -152,6 +160,7 @@ belongs to the selected llm-wiki tool in wiki_methodology, used here unchanged. 
 in project-meta's Project Organization Policy still binds checkout moves until AES has its own.
 
 Non-goals:
+
 - Moving any repository other than the three named, or copying any repository.
 - Changing AES source under `src/agentic_engineering_system/` or `tests/greenfield/` (phase 2).
 - Changing the llm-wiki tool's format; gaps found go back to wiki_methodology as findings.
@@ -184,8 +193,8 @@ No step spends money.
 ## Activation facts
 
 Declared: shared_mechanism false (no new shared mechanism, contract or algorithm in this phase; the
-phase 2 plan declares it); empirical_comparison_proposed false (the wiki tool was chosen by Plan
-#250; runs here are acceptance checks); llm_central false (no step depends on model calls);
+phase 2 plan declares it); empirical_comparison_proposed false (the wiki tool was chosen by
+Plan #250; runs here are acceptance checks); llm_central false (no step depends on model calls);
 irreversible_or_spend_action false (every action is reversible and free); aes_governed_target true
 (AES canonical has `.aes/target.yaml`); claims_external_standard true (the converted wiki claims
 conformance to the llm-wiki tool's format, owned in wiki_methodology).
@@ -193,8 +202,8 @@ conformance to the llm-wiki tool's format, owned in wiki_methodology).
 ## Prior art and ownership
 
 Searched, 2026-10-13: existing owners (AES canonical `src/` and `proposals/`, project-meta's move
-procedure and registry); internal lineage (project-meta Plan #250 and its follow-on Plans #254,
-#268, #270, #284; the 2026-09-04 flatten); and external prior art (the llm-wiki candidates screened
+procedure and registry); internal lineage (project-meta Plan #250 and its follow-on Plans #254, #268, #270,
+and #284; the 2026-09-04 flatten); and external prior art (the llm-wiki candidates screened
 by Plan #250).
 
 - **Selected llm-wiki tool** (`wiki_methodology/foundation/llm-wiki/`): reuse unchanged.
@@ -250,6 +259,7 @@ crossing (1) that hold the path in a file.
 | Git transport to GitHub | git (`https://git-scm.com/docs/gitprotocol-v2`) and GitHub | each repository's `origin` remote | no | this session's pushes | GitHub, which receives branches and serves pull requests |
 
 Landing order so nothing breaks in between:
+
 1. RUN-CONVERT lands in epistemic-warrant at its current path.
 2. `~/code2/AGENTS.md` is written before any repository moves in (RUN-AGENTS).
 3. wiki_methodology moves; within the move, the back-symlink is created in the same command as the
@@ -296,6 +306,7 @@ Requirements served, each with its existing target item:
 
 The behaviour each requirement delivers is outside what the AES target describes, so it is verified
 by the named check in the Requirements table, not by an AES verification subject:
+
 - R1-R5 change only epistemic-warrant, which has no AES target: verified by its own `make check`
   (with the new `wiki-check` target) and `md_file_cap.py`.
 - R6 is a review file: verified by RUN-HOOKSPATH's per-repository `git config` output.

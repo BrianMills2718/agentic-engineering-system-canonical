@@ -1,0 +1,8 @@
+# Generated pages (AGENTS.md comes from CLAUDE.md), dated evidence and copied inputs stay as written.
+ignores:
+  - "generated/**"
+  - "evidence/**"
+  - "**/docstring_wiki.md"
+  - "worktrees/**"
+  - "AGENTS.md"
+  - "proposals/harness-context/native-parity/input/**"

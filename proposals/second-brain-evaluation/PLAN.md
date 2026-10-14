@@ -37,6 +37,7 @@ goal:
 **Canonical probe:** Starting state: integration main 30c286dc (harness and adapter, #940); live gold-set run 2026-10-08 at 57%. Action: the active slice. Inspectable result: G003 retrieves Tyler's message by meaning, and the trace shows it.
 
 <a id="success-disproof"></a>
+
 ### Success Evidence
 
 Each criterion names the run whose full trace is examined, where that trace lives, and what must be seen in it beyond the final outcome (Policy read-the-trace; Company Planning CORE-TRACE-REVIEW).
@@ -55,6 +56,7 @@ Each criterion names the run whose full trace is examined, where that trace live
 ## Architecture And Capability Invariants
 
 <a id="shared-mechanism"></a>
+
 - Measurements read existing records (hermes-host `state.db` sessions, the usage event ledger, brain run records); nothing records less than today.
 - The harness keeps exit codes 0 pass / 1 below threshold / 2 incomplete.
 - Every scored item carries its session ID so its trace can be read.
@@ -122,6 +124,7 @@ non_gating_utility_review:
 ## Boundaries
 
 <a id="boundaries"></a>
+
 | Boundary | Owning authority | Rollback or containment | Disposition |
 |---|---|---|---|
 | Deploys to the shared Inside Success server (159.195.19.181) | Brian (deploys his own work; Dagim also deploys) | `deploy-integration-runtime.sh` / `deploy-team-tools.sh` restore the prior pair on any failed check; redeploy the previous commit to roll back | proceed, announced to code-c1, under the shared lock |
@@ -179,11 +182,13 @@ Searched on 2026-10-08: existing owners (Team-Brains `evals/`, integration `plan
 shared_mechanism true (the harness and register are reused by other agents); empirical_comparison_proposed true (before/after #369); llm_central true (assistant answers, LLM judges); irreversible_or_spend_action true (judge spend, deploys).
 
 <a id="route"></a>
+
 ## Route
 
 coordinated (PLANNING_PATH.json): another session writes the same Team-Brains area and the server is shared.
 
 <a id="irreversible-actions-and-spend"></a>
+
 ## Irreversible Actions And Spend
 
 - **Spend:** judge calls about $0.05 per 22-question run (cap about $1 per run); assistant turns about 30 s each on the team's model budget. Boundary: only the runs this plan names. Authorized by Brian (agent spend for this work, 2026-10-07/08); any run beyond them, or above the cap, needs his approval first. Contained by the per-call `max_budget` in the harness.

@@ -239,7 +239,7 @@ Deliverable, per `RU-AES-RECONCILE`:
   SUPPORTED | INSUFFICIENT | REFUTED with the missing evidence requirements
   named; per component the set of open gaps;
 - gap records are derived, never stored as authority (recomputed from target
-  + repository + observations each time);
+  - repository + observations each time);
 - `aes reconcile` (full report) and `aes status` (one screen: counts plus the
   first open gap per component), both exit non-zero on any REFUTED criterion
   or orphan;

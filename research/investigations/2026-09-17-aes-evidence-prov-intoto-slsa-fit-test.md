@@ -8,10 +8,12 @@ Date: 2026-09-17
 Determine which evidence/provenance concepts AES should reuse from standards rather than hand-model, while preserving the genuinely AES-specific semantics around evidence adequacy, freshness, characterization, and gap reconciliation.
 
 AES source reviewed:
+
 - `research/synthesis/aes-evidence-characterization-and-context-suggestions.md`
 - accepted `SYSTEM_BOUNDARY.md` evidence/gap clauses
 
 External sources:
+
 - W3C PROV: https://www.w3.org/TR/prov-primer/ and https://www.w3.org/TR/prov-constraints/
 - in-toto: https://in-toto.io/docs/getting-started/ and https://in-toto.io/docs/specs/
 - SLSA 1.2: https://slsa.dev/spec/v1.2/

@@ -126,7 +126,7 @@ goal:
 
 Each section below answers the checklist items quoted in it; the gate judges only that
 section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote
-values in the front matter: an unquoted ` #` starts a YAML comment and cuts the value.
+values in the front matter: an unquoted `#` starts a YAML comment and cuts the value.
 
 ## Actor and result
 
@@ -192,8 +192,6 @@ crosses_system_boundary=true: AES feedback records are consumed by the separatel
 
 The complete bounded candidate list is: AES collector/daily reports — reuse; AES records.py and feedback_log — reuse; AES subagents native adapter/checker — reuse; agent-skills taxonomy Entry reader — extend; legacy Project Meta register reader — reuse; taxonomy disposition state and verifier — reuse; canonical CLAUDE/AGENTS renderer — reuse; W3C PROV attribution already used by the accepted subagent design — compose; catalogue approval_action_workflow, documents_to_text, twitterapi_io_search_candidates_wrapper, core, approvals, scheduling and notifications — bounded exception: excluded from this one repair, with the common reason that none provides feedback JSONL intake or transport-scoped repository authority. No other candidate was found in the bounded source/catalogue search, and none is superseded.
 
-
-
 > **OV-PRIOR-ART-DISPOSITION** (blocking): Existing ownership, internal lineage, and relevant external prior art were searched, and each candidate found is dispositioned as reuse, extend, compose, supersede, or bounded exception.
 
 > **OV-PRIOR-ART-PARALLEL-CHECK** (advisory): The plan names one concrete structural check or consumer-path observation that would detect a silent parallel implementation of the same concern.
@@ -236,8 +234,6 @@ Disproof for this gate: an artifact labelled as conforming to the external stand
 
 The governing target is `.aes/target.yaml`. Explicit verification-subject mapping: R1 → VS-FP-INTAKE (default taxonomy command and tests/test_taxonomy_feedback_pass.py); R2 → VS-FP-DISPOSITION (same command --verify-dispositions and traced semantic review); R3/R4 → VS-FP-TRANSPORT (python proposals/aes-feedback-prevention/verify_case.py --packet <packet> --result <result> --expect supported|inconclusive and full child traces) and VS-FP-PARITY (python3 scripts/meta/check_agents_sync.py --check); R5 → VS-FP-LOCAL-GATES (AES make check and agent-skills make test/check). All five operational subjects serve SC-TR-001/TR-REQ-001 and the original target VS-TRACE-REVIEW; R5 additionally serves SC-AP-001/SC-AP-002 through VS-AP-COMMIT-RULE and VS-AP-PLAN-RECEIPT. These are additional plan-local operational subjects, not a target delta.
 
-
-
 > **OV-AES-TARGET-TRACE** (blocking): The target repository is governed by an AES target (`.aes/target.yaml`). The plan maps each of its requirements to the target's normative items and success criteria, each with a verification subject. Where the work adds to or changes the target, the plan declares that target delta, including running things (files, services, containers, agent rules), and gives the passing result of `aes plan validate` for its proposal; where it changes none of the target, it says so and names the existing target items or success criteria its requirements serve.
 
 No .aes target delta: no files under target-governed src/agentic_engineering_system or tests/greenfield and no target component/service/container is added or changed. The instruction-scope correction is repository operational authority, not a new target implementation root. R1/R2 serve RU-AES-PLANNING, TR-REQ-001/SC-TR-001 through source-linked default intake and disposition verification; R3/R4 serve the same trace-review requirement through real role instruction/result traces and generated-authority sync; R5 serves RU-AES-COMMIT-RULE, SC-AP-001/SC-AP-002 with adopted-plan commit and completion binding. Existing verification subjects VS-TRACE-REVIEW and VS-AP-PLAN-RECEIPT remain in the required AES make check; focused reader and native case checks are this plan's additional operational subjects. No target proposal or aes plan validate is needed because the target is unchanged.
@@ -275,7 +271,6 @@ Record the complete branch-protection snapshot before and after in private repai
 > **OV-DEPLOY-PLAN** (blocking): For each deployment the plan makes, it names the target, the command or script that deploys, the live check that proves the new version is serving, and the rollback.
 
 Target: the existing private checkout ~/.local/share/ecosystem-runtime/taxonomy-feedback/agent-skills used by taxonomy-feedback.service. The service was checked inactive and its checkout clean at c5c8a988e024b7a378af46c0715bc41766964adc. After merge, recheck both conditions, git fetch origin, then git checkout --detach <verified merged commit>; do not force or discard any dirty work. The service already fetches/checks out origin/main before each scheduled run; service configuration is unchanged. Live check: run that deployed checkout's default emit-observation command with the exact originally failing record ID selected explicitly for bounded replay, inspect its original text/links/provenance in emitted evidence, read back its code/HEAD and verify the committed original case disposition. Use a separate bounded private smoke state so the production review batch is untouched. Rollback: revert the reader change through a normal recoverable source commit/merge and refresh this checkout to that verified revert; a temporary detached checkout of the retained pre-deploy revision can also establish the previous behavior, but is not a persistent rollback because the service follows origin/main.
-
 
 ## Verified integration outcome — 2026-10-09
 

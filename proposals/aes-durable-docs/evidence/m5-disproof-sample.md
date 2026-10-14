@@ -916,7 +916,7 @@ index 8633040..969cbf0 100644
  ## Thesis disproof (AES extension)
 ```
 
-Classification: **none** (no line). Adoption-gate leak: the repository declared durable documents at 05:32Z (`984b49a`), before adoption at 07:49Z. The plan's commit `ef73b9d` did make an undeclared real update to the goal document: `REQ-CLIENT-PARITY` moves its source of truth (`-Hook declarations in \`contracts/client-config/hook-manifest.v1.json\`` / `+Hook declarations in \`.rulesync/hooks.jsonc\``) and its disproof wording. Under the frozen rule a missing line counts as `none` regardless.
+Classification: **none** (no line). Adoption-gate leak: the repository declared durable documents at 05:32Z (`984b49a`), before adoption at 07:49Z. The plan's commit `ef73b9d` did make an undeclared real update to the goal document: `REQ-CLIENT-PARITY` moves its source of truth (`-Hook declarations in \`contracts/client-config/hook-manifest.v1.json\`` / `+Hook declarations in \`.rulesync/hooks.jsonc\``) and its disproof wording. Under the frozen rule a missing line counts as`none` regardless.
 
 ### 4. project-meta `register-interview-kit`
 

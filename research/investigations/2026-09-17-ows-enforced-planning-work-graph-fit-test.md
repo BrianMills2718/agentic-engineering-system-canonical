@@ -8,10 +8,12 @@ Date: 2026-09-17
 Move beyond a landscape comparison by testing a real Enforced Planning work graph against the Open Workflow Specification (OWS) semantic surface.
 
 Internal source inspected:
+
 - `BrianMills2718/enforced-planning@3fd1ff4465ed50613a8b9fcc86d7d0f282322d60`
 - `docs/plans/106_cross_client_mailbox_fleet_delivery_work_graph.json`
 
 External source inspected:
+
 - Open Workflow Specification schema `1.0.3`
 - https://github.com/open-workflow-specification/specification/blob/main/schema/workflow.yaml
 
@@ -142,9 +144,11 @@ This preserves the external standard where it is strongest without making OWS re
 Canonical AES should create a port/adapter boundary for a generic workflow projection, not its own universal workflow DSL.
 
 Candidate subject class:
+
 - `WorkflowProjectionProvider` or equivalent provider port (name not frozen).
 
 Do not freeze local generic models for:
+
 - task sequencing;
 - loops;
 - retry policy;

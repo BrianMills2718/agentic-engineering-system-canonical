@@ -882,7 +882,7 @@ records evidence about itself. Realized:
 - **Producer version from the running code** (`characterize.running_version`).
   Characterize, reconcile (which reuses characterize's producer), the
   `aes evidence record` observer/assessor and `aes --version` now report the
-  installed distribution version plus ` (running: <git describe --always
+  installed distribution version plus `(running: <git describe --always
   --dirty>)` when the executing module file is tracked by a Git checkout, the
   installed version alone otherwise (a venv's site-packages inside a consumer
   checkout is not tracked by it, so the consumer's commit is never reported as
@@ -930,7 +930,7 @@ is `aes evidence status`:
 (`cp -a`), `OBS-WG5-RECONCILE-73fc0ad7` was rewritten to
 `dependency_target_refs: [VS-WG5-AES-RECONCILE, ER-WG5-006-05]` (no paths),
 `OBS-WG5-CHARACTERIZE-4921a159` to `dependency_paths: [src/whygame5/ontology.py]`
-+ `dependency_target_refs: [VS-WG5-AES-CHARACTERIZE, ER-WG5-006-04,
+\- `dependency_target_refs: [VS-WG5-AES-CHARACTERIZE, ER-WG5-006-04,
 ART-WG5-ONTOLOGY]` (the ontology entry holds the `exports` commitment), and
 `OBS-WG5-DRIFT-b0c3e24f` to the same plus `control:` with `base_revision:
 4921a159b546dbc34bf179548224462dbe22b15a` (on `origin/aes-phase3-pin`, the

@@ -37,7 +37,7 @@ trace_review_criteria:
 
 Each section below answers the checklist items quoted in it; the gate judges only that
 section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote
-values in the front matter: an unquoted ` #` starts a YAML comment and cuts the value.
+values in the front matter: an unquoted `#` starts a YAML comment and cuts the value.
 
 ## Actor and result
 

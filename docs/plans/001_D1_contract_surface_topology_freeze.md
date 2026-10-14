@@ -285,7 +285,7 @@ Criterion mapping:
 | AC-008 | manifest/resolver/CLI test asserts blocked output includes concrete correction/retry path or authority-sensitive escalation |
 | AC-009 | post-implementation revision-bound characterization receipt under `evidence/plan-001/` plus explicit gap-ledger recomputation; no generalized characterization engine |
 | AC-010 | rendered HTML test proves required visible information/source reachability; direct stakeholder use at A1 remains required evidence beyond the automated check |
-| AC-011 | stakeholder observation receipt under `evidence/plan-001/a1/` records `continue | change | stop`, limitations, reviewed AES revision, and reviewed consumer revision |
+| AC-011 | stakeholder observation receipt under `evidence/plan-001/a1/` records `continue \| change \| stop`, limitations, reviewed AES revision, and reviewed consumer revision |
 
 Automated HTML assertions establish rendering/content properties only. They do not establish stakeholder utility.
 

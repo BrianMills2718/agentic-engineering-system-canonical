@@ -90,6 +90,7 @@ Slice 1 is a faithful small version of this experience, not the final AES UI.
 Hybrid.
 
 Deductive/plan-first:
+
 - strict typed artifact semantics;
 - exact-revision binding;
 - no-guessing / no-false-green rules;
@@ -97,6 +98,7 @@ Deductive/plan-first:
 - minimum actor-surface contract.
 
 Exploratory:
+
 - how much useful legacy context can be resolved from bounded explicit repository evidence;
 - whether the static HTML surface is sufficient for the orientation job at Attention Checkpoint A1.
 
@@ -249,7 +251,6 @@ D1 closes no originating gap. Its return path is Slice 1.
 
 Execution tracker: [Issue #17 — Plan 001 closure](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/17). The issue is a coordination surface for the already-frozen technical verification, follow-up utility observation, and final reconciliation gates; this plan remains the execution authority.
 
-
 - advances: person/agent can orient correctly in real external repository before editing;
 - vertical scope: pinned `data-contracts` revision -> bounded observations -> resolution -> typed artifact -> static source-bound HTML surface;
 - de-risks: utility without repo hardcoding/generalized indexing/representation framework;
@@ -337,24 +338,28 @@ evidence/plan-001/a1/<aes-revision>.md
 ## Policy triggers carried by the plan
 
 Before implementation:
+
 - verify ACA/provider landscape remains materially unchanged;
 - use the frozen consumer revision for the canonical external case;
 - use only the frozen Slice 1 topology/dependencies unless a stop/replan condition fires;
 - use only enough surface implementation to satisfy the accepted actor outcome.
 
 Before any new reusable helper or internal dependency is added:
+
 - record the required semantic boundary;
 - re-run proportionate external/provider sourcing;
 - treat internal repos as donors unless positively selected;
 - record residual semantics.
 
 Before adding non-user-facing work:
+
 - name the Slice 1 boundary it protects;
 - state the blocker;
 - use the smallest discriminating probe;
 - name the return path to Slice 1.
 
 Before completion:
+
 - execute pinned external canonical example through real entrypoint;
 - execute both negative controls;
 - retain revision-bound verification evidence;

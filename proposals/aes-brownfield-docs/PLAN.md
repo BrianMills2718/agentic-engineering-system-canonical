@@ -37,9 +37,11 @@ goal:
 **Canonical probe:** Starting state: integration repo main `7f91be42`, 2,086 tracked .md; decision records in `roadmap/decisions/` and as `plan/ADR-*.md`; design in `roadmap/architecture/`; plans in `plan/`; 666 generated pages in `plan/okf_exports/`; wiki reaches 264 documents. Action: the active slice. Inspectable result: the layout check finds every decision, design and plan document under its declared root and generated output in a generated area; `reach.py` finds no orphan; a fresh agent answers five questions from wiki links. Negative case: a decision record left in `plan/` fails the layout check.
 
 <a id="success-disproof"></a>
+
 ### Success Evidence
 
 **Success evidence** (each criterion names the run whose full trace is examined, where that trace lives, and what must be seen in it beyond the final outcome; Policy read-the-trace):
+
 1. *Migration map executed.* Run: each migration pull request's affected-test comparison, branch against main, one test file at a time. Trace: the per-file pytest logs and their sorted FAILED/ERROR lists (kept beside the pull request's checks summary). Must be seen: for every affected test file, the failing test IDs on the branch are a subset of those on main, and each test failure new to the branch was traced to its cause (for example a moved path or a byte-pinned file) and fixed or explained, not only "checks passed".
 2. *Layout and reachability.* Run: `layout_check.py` and `reach.py` with `--list` on main at a named commit, plus a negative-control commit (an ADR copied into `plan/`; a wiki link to a folder index removed). Trace: the per-file classification each prints (every unreachable file with its class, every layout finding), with the commit checked, recorded in the migration pull request's body and in [RETROFIT_NOTE.md](RETROFIT_NOTE.md) (measurements table and negative controls). Must be seen: every file outside two links is in an allowed class or an `unlinked_ok` entry with a reason, and each negative control produces the expected finding and exit 1, not only "0 findings".
 3. *Fresh reader.* Run: a Haiku agent given no file paths, limited to links. Trace: its transcript in `cold-reader-transcripts.json` (every file opened and which page linked to it). Must be seen: each answer reached within two links by links actually followed from pages already read, with the cited links checked at their source lines.
@@ -65,6 +67,7 @@ reader finds doc <- wiki/index.md links <- declared roots (.agentic/repo.yaml) <
 ```
 
 <a id="shared-mechanism"></a>
+
 | Capability | Canonical owner/seam | Typed dependencies | Evidence | State |
 |---|---|---|---|---|
 | Layout declaration | AES canonical `.agentic/repo.yaml` (schema 0.1-pilot) | none | AES canonical's own copy | reuse, unchanged |
@@ -154,7 +157,6 @@ M4 rollout, once free disk space is back above the storage reserve (personal-fil
 
 Searched: internal lineage in AES canonical (`git grep -i 'retrofit|brownfield|existing repositor'` over docs, proposals and research, which found Decision 0010, the v0.2 architecture and `proposals/aes-adopt-existing`), every `~/code` repository for an existing `.agentic/repo.yaml` (AES canonical, collective-competence, collective-competence-aeon-p0), project-meta's wiki policies, and external documentation-structure practice. Existing ownership searched in graph-retrieval itself: its documentation tooling (`scripts/check_markdown_links.py`, `scripts/meta/sync_plan_status.py`, `scripts/meta/validate_plan.py`, `scripts/validate_document_authority.py`, `scripts/relationships.yaml`, `docs/ACTIVE_DOCS.md`).
 
-
 | Existing capability | Owner / seam | Disposition | Why |
 |---|---|---|---|
 | Repository layout declaration | AES canonical `.agentic/repo.yaml` (pilot contract) | reuse | It already names the wiki entry and the decision, design and plan roots; this pilot adopts it unchanged in a second repository. |
@@ -176,11 +178,13 @@ Searched: internal lineage in AES canonical (`git grep -i 'retrofit|brownfield|e
 Declared in `activation-facts.json`: `shared_mechanism` true, because M3 extends the shared daily documentation check in project-meta (`scripts/md_file_cap.py`) and the workspace rule every agent follows. `empirical_comparison_proposed` false: no alternative designs are compared; the cold-reader run checks the built result against fixed questions. `llm_central` false: no model call is part of the change; the cold reader is an evaluation step, not a product component. `irreversible_or_spend_action` true: M5 spends model tokens on bounded read-only Haiku agent fan-outs (boundary, authorizer and containment in "Irreversible Actions And Spend"); nothing irreversible.
 
 <a id="route"></a>
+
 ## Route
 
 Company Planning path `durable_solo` (PLANNING_PATH.json), bounded-design depth Small: one repository, reversible, no shared contract changed, no data migration, no registry, no external publication. No work graph or packet: one writer, no machine consumer.
 
 <a id="irreversible-spend"></a>
+
 ## Irreversible Actions And Spend
 
 This plan proposes zero irreversible actions and zero spend.

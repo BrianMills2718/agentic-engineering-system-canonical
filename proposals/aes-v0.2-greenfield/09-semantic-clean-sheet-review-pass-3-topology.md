@@ -76,7 +76,7 @@ The invariant applies to durable repository state.
 
 Ephemeral/tool-cache examples normally excluded:
 
-- __pycache__;
+- **pycache**;
 - .pytest_cache;
 - temporary build directories;
 - editor scratch files;

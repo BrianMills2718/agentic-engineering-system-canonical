@@ -6,7 +6,7 @@ Track all implementation work here.
 
 | # | Name | Priority | Status | Blocks |
 |---|------|----------|--------|--------|
-| 1 | [Example Plan](01_example.md) | Medium | Planned | - |
+| 1 | Example Plan (`01_example.md`) | Medium | Planned | - |
 
 ## Status Key
 
@@ -27,6 +27,7 @@ Track all implementation work here.
 ## Trivial Changes
 
 Not everything needs a plan. Use `[Trivial]` for:
+
 - Less than 20 lines changed
 - No changes to `src/` (production code)
 - No new files created

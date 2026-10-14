@@ -11,7 +11,7 @@ trace_review_criteria:
     expected_outcome: pass
 goal:
   outcome: "A [Shaping <id>] commit that adds a new proposal document may also add link lines into proposals/<id>/ in existing Markdown pages or create the first wiki/index.md, so one commit lands the proposal and its navigation; and 'aes commit check --preflight -m <message>' reports the commit rule's verdict on the staged change without logging, before any commit is attempted"
-  canonical_example: "In a Brian-owned repo with wiki/index.md linking README.md, staging proposals/demo/plan.md plus one added README.md line '- [demo plan](../proposals/demo/plan.md)' and committing '[Shaping demo] draft' is refused today ('may touch only proposals/demo/'); after the change it is accepted, while the same commit that also rewrites another README.md line is still refused"
+  canonical_example: "In a Brian-owned repo with wiki/index.md linking README.md, staging proposals/demo/plan.md plus one added README.md line `- [demo plan](../proposals/demo/plan.md)` and committing '[Shaping demo] draft' is refused today ('may touch only proposals/demo/'); after the change it is accepted, while the same commit that also rewrites another README.md line is still refused"
   forbidden_substitutes: "claiming success from a check's last line or exit status alone; a change outside the listed files; a commit without the saved check output"
   boundaries: "only these files: src/agentic_engineering_system/commit_rule.py, src/agentic_engineering_system/cli.py, tests/greenfield/test_commit_rule.py; no irreversible action and no spend; Brian's request as quoted is the scope"
   done_when: "tests/greenfield/test_commit_rule.py, through real git commits and the installed commit-msg hook: (1) [Shaping demo] with the proposal plus an added navigation line in README.md is accepted (asserts the atomic route exists); (2) the same with a deleted or non-link line outside the folder, or a link to another proposal, is refused (asserts scope stays proposal-only); (3) a repo with no wiki/index.md accepts [Shaping demo] adding the proposal plus a new wiki/index.md of a heading and a link line (asserts the first-index bootstrap); (4) 'aes commit check --preflight -m \"[Shaping demo] x\"' on a staged unreached proposal exits 1 naming doc-reach and writes no commit-rule log line, and exits 0 once the link line is staged (asserts preflight equals the commit verdict without logging). The full test file passes. The check's full output on the parent commit and on the change commit is committed as docs/plans/shaping-nav-preflight.check.txt, and the commit is tagged [Goal shaping-nav-preflight] with an Asked: line quoting the request. python3 \"$SESSION_PLUGIN_ROOT/scripts/durable_docs_check.py\" --repo . --plan docs/plans/shaping-nav-preflight.md --range 6faebd3a257ac3ac8f8383233ea1045923be7b7b..HEAD exits 0 and its output is in the same file."
@@ -42,7 +42,7 @@ passing run. Criterion `outcome` covers the entire requested success check.
 
 **Desired result:** A [Shaping <id>] commit that adds a new proposal document may also add link lines into proposals/<id>/ in existing Markdown pages or create the first wiki/index.md, so one commit lands the proposal and its navigation; and 'aes commit check --preflight -m <message>' reports the commit rule's verdict on the staged change without logging, before any commit is attempted
 
-**Stable example:** In a Brian-owned repo with wiki/index.md linking README.md, staging proposals/demo/plan.md plus one added README.md line '- [demo plan](../proposals/demo/plan.md)' and committing '[Shaping demo] draft' is refused today ('may touch only proposals/demo/'); after the change it is accepted, while the same commit that also rewrites another README.md line is still refused
+**Stable example:** In a Brian-owned repo with wiki/index.md linking README.md, staging proposals/demo/plan.md plus one added README.md line `- [demo plan](../proposals/demo/plan.md)` and committing '[Shaping demo] draft' is refused today ('may touch only proposals/demo/'); after the change it is accepted, while the same commit that also rewrites another README.md line is still refused
 
 ## Authority and non-goals
 
@@ -156,4 +156,3 @@ Each fact, with its value and why:
 - `claims_external_standard`: false -- the work claims no external standard, schema or contract.
 - `aes_governed_target`: true -- derived, this repository has `.aes/target.yaml`; see AES target.
 - `durable_documents_declared`: true -- derived, `.agentic/repo.yaml` has `durable_documents`; see Durable documents.
-
