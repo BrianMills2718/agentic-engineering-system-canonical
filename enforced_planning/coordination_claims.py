@@ -1471,6 +1471,9 @@ def session_root_conflicts(
             and other.session_id == claim.session_id
             and not other.parent_scope
             and not _same_claim(other, claim)
+            # A lane in another project never shares files with this one
+            # (2026-10-13, Brian: cut the gates that slow agents).
+            and other.primary_project() == claim.primary_project()
         ),
         key=lambda item: (item.primary_project() or "", item.scope),
     )
