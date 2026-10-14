@@ -1921,15 +1921,22 @@ def _execute_maintenance_worktree(
                 f"close or transfer first: {labels}"
             )
     else:
+        # A root lane in another project never shares files with this lane, so it
+        # no longer blocks (2026-10-13, Brian: cut the gates that slow agents;
+        # canonical enforced-planning also allows disjoint lanes in one project).
         existing_roots = [
             claim
             for claim in coordination_claims.check_claims()
-            if claim.is_live() and claim.session_id == session_id and not claim.parent_scope
+            if claim.is_live()
+            and claim.session_id == session_id
+            and not claim.parent_scope
+            and claim.primary_project() == request.project
         ]
         if existing_roots:
             labels = ", ".join(sorted(f"{claim.primary_project()}:{claim.scope}" for claim in existing_roots))
             raise ClaimBootstrapError(
-                "worktree bootstrap requires the native session to own zero existing claim roots; "
+                "worktree bootstrap requires the native session to own zero existing claim roots "
+                "in this project; "
                 f"close or transfer first: {labels}"
             )
 
