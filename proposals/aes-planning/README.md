@@ -99,6 +99,7 @@ Nothing new is built where an existing piece covers it. The parallel-implementat
 **Success:** in AES canonical, after enforce mode, every commit in a week carries `[Plan #N]` / `[Goal …]` resolving to an adopted plan, `[Trivial]` passing the diff check, or a logged emergency; and the hive-hardening work runs from its generated `/goal` text.
 
 **Disproof:**
+
 - the observe week shows more than 1 in 5 would-refused commits that a reader judges genuinely trivial (the thresholds or the running-thing list are wrong); or
 - agents route around it: `[Trivial]` commits split one change into many small ones (two or more consecutive `[Trivial]` commits on the same files in a day counts as a split), or emergencies exceed one per repository per week; or
 - adopting a normal plan takes more than one working session of agent time on average across the first three plans (the gate costs more than it saves).

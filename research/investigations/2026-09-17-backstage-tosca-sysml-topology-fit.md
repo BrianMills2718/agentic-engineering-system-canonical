@@ -16,6 +16,7 @@ This record distinguishes their natural authority zones before AES canonical stu
 ## Backstage
 
 Sources:
+
 - https://backstage.io/docs/features/software-catalog/system-model/
 - https://backstage.io/docs/features/software-catalog/extending-the-model/
 
@@ -24,6 +25,7 @@ Sources:
 Operational software ecosystem catalog / discoverability.
 
 Core concepts:
+
 - Component;
 - API;
 - Resource;
@@ -45,6 +47,7 @@ Core concepts:
 ### Weak fit
 
 Backstage does not naturally model:
+
 - target/current/gap;
 - requirement satisfaction semantics;
 - capability-provider matching;
@@ -60,6 +63,7 @@ Backstage does not naturally model:
 ## TOSCA 2.0
 
 Source:
+
 - https://docs.oasis-open.org/tosca/TOSCA/v2.0/TOSCA-v2.0.html
 
 ### Natural center
@@ -67,6 +71,7 @@ Source:
 Typed service/application topology and orchestration.
 
 Core concepts:
+
 - Node Type / Node Template;
 - Capability Type / Capability Definition;
 - Requirement Definition / Requirement Assignment;
@@ -88,6 +93,7 @@ Core concepts:
 ### Weak fit
 
 TOSCA is deployment/service-topology oriented and does not naturally model:
+
 - evidence-backed maturity/promotion;
 - gap/slice lifecycle;
 - agent-facing semantic action identities;
@@ -102,6 +108,7 @@ TOSCA is deployment/service-topology oriented and does not naturally model:
 ## SysML v2 / KerML
 
 Sources:
+
 - https://www.omg.org/sysml/sysmlv2/
 - https://www.omg.org/spec/SysML/2.0/About-SysML
 
@@ -110,6 +117,7 @@ Sources:
 Formal systems modeling and traceability across structure, behavior, requirements, analysis and verification.
 
 Observed strengths:
+
 - formal semantic foundation through KerML;
 - explicit requirements modeling;
 - structure and behavior modeling;

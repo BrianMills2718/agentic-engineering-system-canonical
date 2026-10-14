@@ -12,6 +12,7 @@ Deepen the first-pass sourcing audit before AES canonical stubbing. The question
 Source: https://github.com/open-workflow-specification/specification
 
 Observed:
+
 - CNCF Sandbox project;
 - vendor-neutral workflow DSL ecosystem;
 - current checked schema version `1.0.3`;
@@ -21,6 +22,7 @@ Observed:
 - workflow semantics include tasks, branching, events, service calls, schedules, timeouts, retries/fault handling and loops.
 
 Disposition:
+
 - **reference/adapt** for generic workflow semantics;
 - **do not fork yet**;
 - **do not replace Enforced Planning wholesale**;
@@ -31,6 +33,7 @@ Disposition:
 Source: https://www.openpolicyagent.org/docs
 
 Observed:
+
 - graduated CNCF project;
 - general-purpose policy engine;
 - decouples policy decision-making from enforcement;
@@ -42,6 +45,7 @@ Fit to AES:
 OPA is a strong candidate for **generic decision-policy evaluation**. It should be preferred over inventing an AES policy language or policy evaluator.
 
 OPA does **not** define:
+
 - who owns policy authority in AES;
 - when an AES checkpoint should be invoked;
 - engineering-specific recovery after a blocked decision;
@@ -49,6 +53,7 @@ OPA does **not** define:
 - evidence sufficiency or stakeholder utility semantics.
 
 Disposition:
+
 - **provider candidate** for policy decision evaluation;
 - AES retains policy authority routing, checkpoint lifecycle and recovery semantics;
 - do not create a generic AES policy DSL unless OPA/Rego fit testing fails.
@@ -56,10 +61,12 @@ Disposition:
 ## 3. W3C PROV
 
 Sources:
+
 - https://www.w3.org/TR/prov-primer/
 - https://www.w3.org/TR/prov-constraints/
 
 Observed:
+
 - W3C Recommendation family;
 - generic provenance model built around Entity, Activity and Agent;
 - relations cover generation, use, derivation, attribution/responsibility and related provenance concepts;
@@ -70,6 +77,7 @@ Fit to AES:
 PROV is a strong authority for **generic provenance relationships**. AES should not invent competing universal terms for artifact/activity/agent provenance when a projection into PROV is adequate.
 
 PROV does **not** by itself establish:
+
 - that evidence is sufficient to close an AES gap;
 - verification polarity or failure-mode coverage;
 - stakeholder utility;
@@ -77,16 +85,19 @@ PROV does **not** by itself establish:
 - planning/execution lifecycle semantics.
 
 Disposition:
+
 - **external provenance projection/reference**;
 - AES retains evidence qualification, characterization and gap-reconciliation semantics.
 
 ## 4. in-toto
 
 Sources:
+
 - https://in-toto.io/docs/getting-started/
 - https://in-toto.io/docs/specs/
 
 Observed:
+
 - stable specification v1.0 plus stable Attestation Framework v1.0;
 - layouts specify expected supply-chain steps and authorized functionaries;
 - signed link metadata records commands/materials/products for executed steps;
@@ -96,6 +107,7 @@ Fit to AES:
 in-toto is a strong candidate for **signed execution attestations / software-process custody** where AES needs tamper-evident evidence of specific engineering steps.
 
 It does not replace:
+
 - arbitrary AES observations;
 - plan derivation;
 - human review outcomes;
@@ -103,6 +115,7 @@ It does not replace:
 - generic provenance interchange (PROV is broader).
 
 Disposition:
+
 - **provider candidate** for strong execution/attestation receipts;
 - prefer composing in-toto predicates/attestations over hand-rolling signed step receipts where its model fits.
 
@@ -111,6 +124,7 @@ Disposition:
 Source: https://slsa.dev/spec/v1.2/
 
 Observed:
+
 - approved specification, current version 1.2;
 - supply-chain security levels/tracks;
 - provenance formats for source/build artifacts;
@@ -121,6 +135,7 @@ Fit to AES:
 SLSA is narrower than general AES evidence but highly relevant for **build/source provenance and verification of produced software artifacts**.
 
 Disposition:
+
 - **reuse/reference** for build/source provenance;
 - do not recreate SLSA-like build provenance models inside AES.
 
@@ -129,6 +144,7 @@ Disposition:
 Source: https://github.com/scip-code/scip
 
 Observed:
+
 - language-agnostic code intelligence protocol;
 - Protobuf schema;
 - intended for definitions, references, implementations and other source navigation;
@@ -142,6 +158,7 @@ Important boundary:
 AES `planned implementation subject` is broader than an existing code symbol. A planned subject may not exist yet and may refer to a future module, adapter, model, CLI boundary or other realization target.
 
 Disposition:
+
 - **SCIP for realized code-symbol identity/navigation**;
 - **AES residual for planned implementation subjects and their lifecycle**;
 - add an optional mapping `planned_subject -> realized SCIP symbol(s)` after implementation.
@@ -149,10 +166,12 @@ Disposition:
 ## 7. Backstage Software Catalog
 
 Sources:
+
 - https://backstage.io/docs/features/software-catalog/system-model/
 - https://backstage.io/docs/features/software-catalog/extending-the-model/
 
 Observed:
+
 - mature catalog model centered on Component, API and Resource;
 - optional System and Domain abstractions;
 - ownership and organizational entities;
@@ -163,6 +182,7 @@ Fit to AES:
 Backstage is a strong candidate for **software ecosystem catalog/topology vocabulary** and ownership projections.
 
 It does not model:
+
 - target/current/gap;
 - implementation slices;
 - provider sourcing decisions;
@@ -170,6 +190,7 @@ It does not model:
 - engineering execution custody.
 
 Disposition:
+
 - **reference/adapt** for software catalog entities and relations;
 - do not create a competing universal AES software catalog model without a demonstrated gap.
 
@@ -178,6 +199,7 @@ Disposition:
 Source: https://docs.oasis-open.org/tosca/TOSCA/v2.0/TOSCA-v2.0.html
 
 Observed:
+
 - OASIS standard;
 - formal topology model;
 - reusable capability types with properties/attributes;
@@ -191,6 +213,7 @@ Caution:
 TOSCA is oriented toward service/application topology and deployment modeling. AES capability selection is agent-facing and provider/evidence-oriented. Direct adoption may be semantically awkward if we force planning or reusable software functionality into infrastructure/service-template assumptions.
 
 Disposition:
+
 - **semantic reference + projection experiment**;
 - do not adopt TOSCA wholesale yet;
 - before defining an AES/ACA `CapabilityDescriptor`, explicitly compare the required fields against TOSCA Capability/Requirement/Node/Relationship semantics.
@@ -198,10 +221,12 @@ Disposition:
 ## 9. SysML v2 / KerML
 
 Sources:
+
 - https://www.omg.org/sysml/sysmlv2/
 - https://www.omg.org/spec/SysML/2.0/About-SysML
 
 Observed:
+
 - OMG SysML v2 formally adopted in 2025;
 - KerML provides a formal semantic kernel;
 - SysML v2 addresses requirements, behavior, structure, analysis and verification with traceability;
@@ -215,6 +240,7 @@ Caution:
 It is much broader/heavier than AES needs for normal repository execution. Treating SysML v2 as the runtime data model could introduce substantial conceptual and tooling overhead.
 
 Disposition:
+
 - **reference, not dependency** at this stage;
 - use it to challenge AES-local concepts and relation names before inventing them;
 - only adopt API/model artifacts if a concrete interoperability use case emerges.
@@ -224,11 +250,13 @@ Disposition:
 Source: https://json-schema.org/specification
 
 Observed:
+
 - current published JSON Schema version remains Draft 2020-12;
 - standard core + validation vocabulary;
 - broad language/tool support.
 
 Disposition:
+
 - **default generic JSON-shape authority** where applicable;
 - Pydantic may remain a Python implementation/convenience layer, but AES should not define a competing schema language.
 
@@ -237,10 +265,12 @@ Disposition:
 Source: https://spec.openapis.org/oas/v3.2.0.html
 
 Observed:
+
 - OpenAPI 3.2.0 published September 19, 2025;
 - programming-language-agnostic interface description for HTTP APIs.
 
 Disposition:
+
 - **native authority for HTTP API descriptions**;
 - do not encode HTTP API semantics into bespoke AES contracts.
 
@@ -249,10 +279,12 @@ Disposition:
 Source: https://www.asyncapi.com/docs/reference/specification/v3.0.0
 
 Observed:
+
 - protocol-agnostic machine-readable description for message-driven APIs;
 - applies across Kafka, AMQP, MQTT, WebSockets, HTTP and others.
 
 Disposition:
+
 - **native authority for event/message API descriptions** where applicable.
 
 ## Cross-cutting architecture conclusion

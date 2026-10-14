@@ -6,7 +6,7 @@ status: proposed
 method_conformance_receipt: proposals/doc-reach-new-docs/PLAN.receipt.json
 goal:
   outcome: "In Brian's repositories, a commit that adds a document a reader is meant to open is refused unless wiki/index.md reaches it within two links, and the refusal names the exact link line to add; documents that already exist are left to the per-repository cleanup."
-  canonical_example: "An agent commits docs/notes/why-agents.md to graph-retrieval with no link to it; the commit is refused with: add '- [why-agents](../docs/notes/why-agents.md)' to wiki/index.md. With that line added in the same commit, it is accepted."
+  canonical_example: "An agent commits docs/notes/why-agents.md to graph-retrieval with no link to it; the commit is refused with: add `- [why-agents](../docs/notes/why-agents.md)` to wiki/index.md. With that line added in the same commit, it is accepted."
   forbidden_substitutes: "a check of all documents (old ones too); a daily report standing in for the commit-time check; a generated list of every file appended to the wiki; tests alone without the replay over real commits"
   boundaries: "AES canonical commit rule (src/agentic_engineering_system/commit_rule.py), its tests, this plan folder; repositories owned by BrianMills2718 or brianmills-spec only; [Auto] commits are logged, never refused; switch off with doc_reach: observe in ~/.config/aes/commit_rule.yaml"
   done_when: "the replay over every commit since 2026-10-07 that added .md files (proposals/doc-reach-new-docs/replay.py, output replay-after.txt) shows the commit rule's verdict matching the daily check's reachability for each added file, read commit by commit; a real commit in a scratch clone of a Brian-owned repository is refused for an unlinked new document and accepted once the printed line is added, with both commit-msg outputs saved in check.txt; make check passes"
@@ -38,13 +38,15 @@ goal:
 **Disproof:** the approach is wrong if, in the first enforced day's commit-rule logs, a refused commit's new document was in fact reachable (the rule and the daily check disagree), or if agents answer the refusal by appending unrelated catch-all link lists rather than the printed line (seen by reading the wiki diffs of the next commits in those repositories).
 
 **Trace review:**
+
 - *Replay run* (`proposals/doc-reach-new-docs/replay.py`, output `replay-after.txt` committed here): the full per-commit trace lists each added file with both answers; it is read row by row for disagreements, not only the totals.
 - *Scratch-commit run*: the two `git commit` outputs (refusal text, then acceptance) and the commit-rule log lines they write (`.git/aes/commit-rule-<date>.jsonl`, fields `verdict`, `check: doc-reach`, `reasons`) are saved in `check.txt`; the refusal must name the file and the exact link line.
 - *make check*: its full output is saved verbatim in `check.txt` (every lint, governance and test step, with the per-test lines of `tests/greenfield/test_commit_rule.py`); it is read for the new doc-reach tests by name passing, for no skipped commit-rule test, and for the final counts and exit status.
 
 ## System model
 
-> **CORE-SYSTEM-MODEL** (blocking): The plan links the project's system model (a path such as docs/model/ODD.md) or carries the one-line exemption `System model: `.aes/target.yaml` (AES canonical's model of its own system), element `RU-AES-COMMIT-RULE` ("judge a commit message's tag against facts about the staged change ... log every verdict"). Elements this work changes or relies on, and what the examined runs must show of each:
+> **CORE-SYSTEM-MODEL** (blocking): The plan links the project's system model (a path such as docs/model/ODD.md) or carries the one-line exemption `System model:`.aes/target.yaml` (AES canonical's model of its own system), element `RU-AES-COMMIT-RULE` ("judge a commit message's tag against facts about the staged change ... log every verdict"). Elements this work changes or relies on, and what the examined runs must show of each:
+
 - *Process* — the commit-msg check (`aes commit check`): the scratch-commit run must show it reading the staged tree (a new document not on any earlier commit is judged).
 - *Record* — the commit-rule log line (`.git/aes/commit-rule-<date>.jsonl`): the scratch-commit run must show a line with `check: doc-reach`, `verdict: refuse` and the new file named in `reasons`, then a later line with `verdict: accept`.
 - *View* — the refusal message printed to the committer: the scratch-commit run must show it naming the file and the exact link line to add.

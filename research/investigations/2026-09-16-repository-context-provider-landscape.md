@@ -30,6 +30,7 @@ The required behavior is narrower than general code intelligence and broader tha
 | GitHub CodeQL | source database plus query/analysis results | mature static-analysis substrate, primarily security/query oriented and too heavy for the first authority-routing slice | **do not select for Plan 001** |
 
 Sources consulted:
+
 - Sourcegraph precise code navigation / SCIP: https://sourcegraph.com/docs/code-navigation/precise-code-navigation
 - Tree-sitter: https://tree-sitter.github.io/tree-sitter/
 - Backstage Software Catalog: https://backstage.io/docs/features/software-catalog/

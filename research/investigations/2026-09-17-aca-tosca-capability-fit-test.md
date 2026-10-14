@@ -8,11 +8,13 @@ Date: 2026-09-17
 Test whether Agentic Capability Architecture (ACA) should remain the semantic authority for generic `Capability` / `Requirement` concepts, or whether established TOSCA 2.0 semantics should replace or constrain that vocabulary before AES canonical stubbing.
 
 Internal sources inspected:
+
 - `BrianMills2718/agentic-capability-architecture-canonical` README
 - `capability_registry.yml`
 - `capabilities/approvals/capability.yml`
 
 External source:
+
 - OASIS TOSCA 2.0: https://docs.oasis-open.org/tosca/TOSCA/v2.0/TOSCA-v2.0.html
 
 ## TOSCA semantics relevant to ACA
@@ -32,6 +34,7 @@ This is materially stronger than inventing an unconstrained generic `Capability`
 The ACA registry organizes reusable functional packages such as `core`, `approvals`, `notifications` and `scheduling`.
 
 Each registry entry can carry:
+
 - status and version;
 - package/runtime paths;
 - `provides` semantic identities such as `approval.resolve` and `availability.query`;
@@ -40,6 +43,7 @@ Each registry entry can carry:
 - notes/maturity context.
 
 Individual capability manifests add:
+
 - `public_interfaces`;
 - `semantic_exports` mapping semantic action IDs to concrete public interfaces;
 - configuration schema fragments;
@@ -153,9 +157,11 @@ This is intentionally a projection hypothesis, not a new canonical schema.
 ## Stubbing implication
 
 Safe to stub:
+
 - external-topology adapter/projection port;
 - semantic-action identity/binding residual if confirmed after broader standards search;
 - evidence/maturity/provider-fit layer.
 
 Unsafe to stub:
+
 - a universal AES-local `Capability`, `Requirement`, `Node`, or `Relationship` model that duplicates TOSCA semantics without an explicit incompatibility finding.

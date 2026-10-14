@@ -10,10 +10,12 @@ Can the CNCF Open Workflow Specification (OWS) replace, subsume, or materially r
 ## Sources reviewed
 
 External:
+
 - Open Workflow Specification repository and schema: https://github.com/open-workflow-specification/specification
 - OWS workflow schema 1.0.3: https://github.com/open-workflow-specification/specification/blob/main/schema/workflow.yaml
 
 Internal donor:
+
 - `BrianMills2718/enforced-planning` README and governed-repo contract.
 
 ## External maturity / shape

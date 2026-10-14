@@ -129,9 +129,11 @@ material change.
 The same real change is attempted under two conditions:
 
 A. **projected-context condition**
+
 - agent receives the bounded AES working context for the governed subject.
 
 B. **control condition**
+
 - agent receives the repository and ordinary entry documentation but not the
   AES subject projection.
 

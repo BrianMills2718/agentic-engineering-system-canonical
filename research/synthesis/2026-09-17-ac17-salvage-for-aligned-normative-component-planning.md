@@ -164,6 +164,7 @@ The implementation topology and normative topology are produced together.
 Do not adopt AC17 wholesale.
 
 Do not assume:
+
 - waterfall sequencing is universally right;
 - all requirements can be frozen before observation;
 - componentization itself improves outcomes;
@@ -178,6 +179,7 @@ The transferable mechanism is aligned executable planning plus adversarial valid
 **Salvage as a strong conceptual and empirical donor.**
 
 Most relevant mechanisms:
+
 - executable blueprint;
 - typed interfaces;
 - compact component ownership manifest;

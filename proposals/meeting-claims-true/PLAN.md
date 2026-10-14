@@ -144,7 +144,7 @@ Searched 2026-10-08 through five read-only checks, one per claim group, each tol
 | Tessl spec-linked generation, Kiro task status | external | **bounded exception**: not adopted; they generate code from specs and do not mark or check existing code |
 | ChatGPT bridge (chatgpt-conversation-manager) | internal | **reuse** (W5, reconnect only) |
 
-**Parallel check:** after M2, `git grep -n "tfidf\|embedding" ` in the Digimon governed search package must show one ranking entry point that both modes go through, so no second search path exists; and after M3, `brain_runs` must be the only page that shows a run's tool calls.
+**Parallel check:** after M2, `git grep -n "tfidf\|embedding"` in the Digimon governed search package must show one ranking entry point that both modes go through, so no second search path exists; and after M3, `brain_runs` must be the only page that shows a run's tool calls.
 
 ## LLM call boundary
 

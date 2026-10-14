@@ -120,6 +120,7 @@ Make the change, run the success check, commit. Reset: `git revert` of the commi
 ## Activation facts
 
 Shared mechanism: no new one. The change adds one setting to the existing commit rule. It does not create a mechanism of its own. Because that rule is a machine-wide hook, the setting still affects every repository. Brian chose to declare it only in the machine-wide file, so the exception lives in one place (issue #488). Feedback path:
+
 - every skip is logged as a `skip` verdict in the repository's `.git/aes/commit-rule-<date>.jsonl`;
 - issue BrianMills2718/agentic-engineering-system-canonical#488 stays the place to report a wrong skip.
 

@@ -1,0 +1,5 @@
+remotes:
+  - git_url: git@github-personal:BrianMills2718/code2-workspace.git
+    ref: main
+    configs:
+      - hooks/base.yml

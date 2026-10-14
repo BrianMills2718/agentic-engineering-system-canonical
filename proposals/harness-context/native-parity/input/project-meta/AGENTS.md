@@ -3,6 +3,7 @@
 This repo is the **governance hub** for Brian's project ecosystem: vision docs, enforcement scripts, project index, and operational state.
 
 Brian operator landing file:
+
 - `BRIAN_READ_THIS/README.md`
 
 **Project Meta and AES are two shots on one outcome.** Brian plans and reviews
@@ -167,6 +168,7 @@ use it for progressive project orientation, then follow links to native authorit
 ## Workflow
 
 ### Process Awareness
+
 - All significant work follows meta-process plans in `docs/plans/`
 - Use `[Trivial]` only when neither the fact a change happened nor its result
   needs durable documentation — not a line-count threshold (Plan #261); see
@@ -181,6 +183,7 @@ use it for progressive project orientation, then follow links to native authorit
 - The subtree instruction layer is delta-only; see `docs/ops/SUBTREE_INSTRUCTION_HIERARCHY.md`
 
 ### Autonomous Workspace Rule
+
 - Start new agentic work in a portable workspace first using the launcher:
   `bash scripts/bootstrap_portable_workspace.sh <project-id...>`.
 - Keep `--portable-first` enabled for any project expected to run outside its

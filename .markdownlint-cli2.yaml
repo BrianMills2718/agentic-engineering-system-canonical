@@ -1,0 +1,6 @@
+# Generated pages and dated evidence records stay as written.
+ignores:
+  - "generated/**"
+  - "evidence/**"
+  - "**/docstring_wiki.md"
+  - "worktrees/**"

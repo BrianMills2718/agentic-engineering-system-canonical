@@ -105,6 +105,7 @@ If no additional research beyond repo-local references was needed, write:
 
 > **REQUIRED for non-trivial work before requirements and architecture
 > stabilize.** Choose one disposition in the plan header:
+>
 > - `linked`: link a dated landscape artifact or external source here;
 > - `inline`: include explicit `Alternatives` and `Project implications` below;
 > - `exempt-trivial`: include an explicit `Reason` for a local, reversible change.
@@ -226,7 +227,7 @@ the concrete cases that explain it?
 
 | Area | State | Current contract | Trigger or stopping rule | Downstream update |
 |---|---|---|---|---|
-| [material area] | [fully_specifiable_now | conditional | exploration_required | enabling_work_blocked | human_decision_required | deliberately_deferred] | [what is known now] | [condition, probe, blocker, decision, or resume rule] | [authority or plan field updated when resolved] |
+| [material area] | [fully_specifiable_now \| conditional \| exploration_required \| enabling_work_blocked \| human_decision_required \| deliberately_deferred] | [what is known now] | [condition, probe, blocker, decision, or resume rule] | [authority or plan field updated when resolved] |
 
 ---
 
@@ -310,10 +311,12 @@ not valid thaw reasons.
 ## Acceptance Criteria
 
 > Feature-level criteria (what the plan accomplishes):
+
 - [ ] [Feature criterion 1]
 - [ ] [Feature criterion 2]
 
 > Process criteria (quality gates):
+
 - [ ] Any declared boundary gate passed immediately before its protected action
 - [ ] Increment gate passed for the affected surface
 - [ ] Terminal gate passed before closeout or a works/done claim

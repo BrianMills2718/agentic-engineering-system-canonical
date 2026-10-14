@@ -23,6 +23,7 @@ Execution tracker: [Issue #20 — Plan 002 offline completion/verification polic
 **Why:** This is the smallest useful test of contextual policy intelligence that preserves working deterministic controls and directly answers a product decision. It does not require a new policy engine, live hooks, or broad observability platform.
 
 Relevant fresh gaps:
+
 - `GAP-AES-007 / AES-PLAN-002`: prospective planning → execution custody remains broader than one delivered slice.
 - `GAP-AES-011 / AES-POL-001`: adaptive policy behavior beyond Repository Context remains incompletely evidenced.
 - `GAP-AES-012 / AES-POL-002`: broader pass/fail/stale/error control-state evidence remains incomplete.
@@ -81,6 +82,7 @@ None of those gaps alone authorizes this plan. The authorized human/product outc
 ## References Reviewed
 
 Repository-local:
+
 - `docs/architecture/SYSTEM_BOUNDARY.md` — AES-POL-001..004, AES-EVID-001, AES-LEARN-001, AES-PLAN-005..007.
 - `docs/architecture/INITIAL_GAP_LEDGER.md` — fresh post–Plan 001 gap state.
 - `docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md` — use established modules/providers and avoid speculative parallel infrastructure.
@@ -90,10 +92,12 @@ Repository-local:
 - PR #12 `Plan OpenRouter model-backed policy intelligence...` — earlier overlapping donor proposal; not current authority.
 
 Planning provider:
+
 - `BrianMills2718/company-planning` — canonical planning-method repository.
 - `docs/architecture/aes-company-planning-profile.bootstrap.yaml` — AES-local provider profile.
 
 Current external provider sources checked 2026-09-22:
+
 - OpenRouter developer platform — OpenAI-compatible API root `https://openrouter.ai/api/v1`, Bearer authentication, explicit model IDs, and chat completions.
 - OpenRouter structured-output documentation — JSON-schema response formatting is supported on compatible models/providers; this experiment requires a model route that honors the requested schema.
 - OpenRouter usage documentation — completion responses expose token/cost usage that can be retained as experiment evidence.
@@ -318,17 +322,20 @@ Gate-time budget: keep first V1 report to one authentic case; V2 case count stay
 Stopping rule: if no decision-useful disagreement or improvement appears, reject/defer OpenRouter model for this family rather than expanding scope.
 
 Boundary gate:
+
 - exact case/source refs;
 - event-time/future-information separation;
 - provider/model identity;
 - no live effect path.
 
 Increment gate:
+
 - focused policy-control tests;
 - provider adapter protocol/error tests;
 - report fixture review.
 
 Terminal gate:
+
 - frozen case manifest;
 - exact provider/model/question versions;
 - full relevant AES suite;
@@ -342,6 +349,7 @@ Hosted CI may assist but is not the authority; exact local/external execution an
 ## Acceptance Criteria
 
 Feature:
+
 - [ ] At least one authentic completion/verification event replays from exact source references.
 - [ ] Existing deterministic decision is reproduced or explicitly marked non-reconstructable; never approximated silently.
 - [ ] OpenRouter model result is typed, model/version-bound, source-linked, and records latency/usage/cost or explicit provider omission.
@@ -351,6 +359,7 @@ Feature:
 - [ ] Small frozen case-set readout supports one explicit `adopt-for-shadow | revise | reject` decision.
 
 Process:
+
 - [ ] P0 blockers are cleared before replay implementation expands.
 - [ ] No live policy behavior changes.
 - [ ] No raw client/secret archive is copied into Git.

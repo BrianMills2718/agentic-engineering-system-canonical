@@ -5,6 +5,7 @@ families of `docs/failure-modes.md`? Lesson and discussion: issue #64.
 
 **Ground truth.** These are my (Claude's) judgments of which families are
 acceptable for each item, not Brian's:
+
 - `gt.tsv` holds 30 items. Some v2 option wording was written after seeing
   misses on these, so they are partly tuned on.
 - `holdout_gt.tsv` holds 20 fresh items (`holdout_ids.json`, seed 20261003),
@@ -20,6 +21,7 @@ acceptable for each item, not Brian's:
 | Two-level hierarchy (5 groups, then family; TypeSafe hierarchical cookbook) | `hier.py`, `hier_*.json` | family 21/30 | group 12/20, family 7/20 (worse; groups overlap) |
 
 **Other findings:**
+
 - `other` works with v2 wording: synthetic secret leak → `other` (0.57).
   The licence violation went to U instead. The other two synthetic items got
   acceptable specific families.

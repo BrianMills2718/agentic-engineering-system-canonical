@@ -1,0 +1,2 @@
+# Copied inputs, generated pages and dated evidence keep the links they were written with.
+exclude_path = ["generated/", "evidence/", "proposals/harness-context/native-parity/input/", "worktrees/"]

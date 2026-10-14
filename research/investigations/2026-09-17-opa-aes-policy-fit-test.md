@@ -8,12 +8,14 @@ Date: 2026-09-17
 Determine whether AES or Enforced Planning should own a generic policy language/evaluator, or whether Open Policy Agent (OPA) should be the default external provider candidate for that layer.
 
 External sources:
+
 - https://www.openpolicyagent.org/docs
 - https://www.openpolicyagent.org/docs/policy-language
 - https://www.openpolicyagent.org/docs/management-introduction
 - https://www.openpolicyagent.org/docs/management-decision-logs
 
 Internal donor:
+
 - `BrianMills2718/enforced-planning@3fd1ff4465ed50613a8b9fcc86d7d0f282322d60`
 - effective-policy and claim-gate material in the repository
 
@@ -109,12 +111,14 @@ Do not automatically migrate every deterministic repository validator into Rego.
 ## Stubbing implication
 
 Safe to stub:
+
 - a policy-decision provider port / adapter interface;
 - AES control invocation/result normalization;
 - recovery/escalation semantics;
 - evidence binding to policy decision identity/revision.
 
 Do not stub:
+
 - a universal AES policy DSL;
 - a generic rule evaluator;
 - a parallel bundle/distribution system that duplicates OPA.

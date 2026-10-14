@@ -62,6 +62,7 @@ The current [acceptance records](evidence.json) carry all eight requirements int
 > **CORE-TRACE-REVIEW** (blocking): Judge each criterion from its named full run trace, not only its final outcome.
 
 **Success evidence:**
+
 1. Each legacy rule has a source-supported disposition; each kept rule has an applicability tag. Verify actual membership against the source inventory, not only the historical count of 263.
 2. Required-rule coverage and delivery pass all four client/agent cells below, including the off switch and failure fallback. A hook configuration or injection log alone is insufficient.
 3. Two weeks of observe mode account for every eligible real handoff and exposes failures, cost, latency and missing outcomes. Agreement is diagnostic evidence only.
@@ -72,6 +73,7 @@ The current [acceptance records](evidence.json) carry all eight requirements int
 **Disproof:** required context is absent before a protected action; a fallback bypasses its existing deterministic gate; one client/agent cell is silently treated as supported; eligible capped/invalid/failed calls disappear from reported reliability; or a proposed automatic field fails the canary's predeclared task criteria relative to the incumbent. Such a field stays manual/observe-only. Shadow agreement cannot override any of these failures.
 
 **Named run traces and what they must show:**
+
 - **Slice 1:** sort call traces in llm_client `calls_<date>.jsonl`, source lines, and the actual register entry for every retained or retired rule. Check the cited source and disposition, not the total count.
 - **Slice 2:** four authentic journeys: Claude parent, Claude child, Codex parent, Codex child. Retain native session/child IDs, client/version and capability snapshot, the actual context seen before the matching action, the tool/action and check result. Each cell must exercise the ordinary path and a disabled/unavailable injection path. Configuration, parent-only context and a log saying injection happened do not prove child delivery. An unsupported hook is recorded as unsupported; verify explicit role/handoff delivery in that client's child transcript instead and retain always-loaded rules until that route passes.
 - **Slice 3:** join every eligible handoff ID to its input/configuration snapshot, llm_client call (when attempted), typed proposal or terminal failure, actual dispatch and independent job-check result. Read all invalid/capped/failed/missing-outcome cases and all disagreements, plus a sample of agreements.
@@ -88,6 +90,7 @@ Observe/rollout events append to `AGENT_ROUTER_OUT/router-<date>.jsonl` and `inj
 > **CORE-SYSTEM-MODEL** (blocking): The plan links the project's system model (a path such as docs/model/ODD.md) or carries the one-line exemption `System model: exempt -- <reason>`, which fits only a project with no stored state and no user-facing view. Unless exempt, the plan names each system-model element (entity, process, record or event, or view) that the work adds, changes, or relies on, and its trace review names, for each such element, what the examined run must show of it (for example an event of that record type with its id, or the view displaying that entity). A plan with neither a model link nor the exemption line fails this item, as does one that lists model elements without saying what the examined run must show of each, or one that names no element without stating that the work touches none and why.
 
 Documentation entry point: [wiki/index.md](../../wiki/index.md) links [this proposal model](README.md). Source-linked views are the [layered flow and rule layers](README.md#four-layers-of-rules), the [client/agent delivery matrix](#required-rule-coverage-and-fallback), and the existing [rule register](../../docs/rules/register.yaml) and [generated rule page](../../docs/rules/RULES.md). The proposed per-rule coverage view is `proposals/agent-router/required-rule-coverage.json`, produced from that register and the actual native delivery traces; it does not yet exist. The diagram and layer table model this routing concern; deployment/domain-data views are omitted because this work changes neither. Reconcile these views, capability snapshots and trace requirements whenever a layer or contract changes. Elements and their required observations follow:
+
 - **Rule entry** (changed): `docs/rules/register.yaml` gains `applies_when` (`always` | `roles` | `actions` | `intent`) and, for migrated rules, `migrated_from`. Run must show: the sort's output row per legacy id, and the register entry with its tag.
 - **Injection event** (added): one line per hook firing in `~/projects/data/agent-router/inject-<date>.jsonl` (session id, agent id, tool, matched rule ids). Run must show: an event with the subagent's id, not only the parent's.
 - **Router proposal** (added): one line per handoff in `router-<date>.jsonl` (job text hash, proposed subagent, rules, model, effort, actual choice). Run must show: proposal and actual choice for the same handoff id.
@@ -98,6 +101,7 @@ Documentation entry point: [wiki/index.md](../../wiki/index.md) links [this prop
 Scope of this repository in the shared model: AES owns the rule register, disposition/coverage records, router/profile types and handoff accounting. Agent-skills owns native adapter registration and specialist definitions; llm_client owns model calls/selection. The diagram's cross-repository arrows describe these boundaries and do not imply AES owns the downstream runtime.
 
 Additional AES model elements and explicit examined runs:
+
 - **Effective profile:** the two-profile native dispatch run must show each resolved profile ID/digest, intersected caps/capabilities and actual role/field dispatch or fallback, joined to its handoff ID.
 - **Required-rule coverage:** the four-cell ordinary/fallback run must show each applicable required rule ID, scope, observed delivery route before the action, deterministic gate result and fallback; an absent cell stays pending.
 - **Handoff terminal status:** the observe-mode accounting run must show exactly one allowed terminal proposal status for each declared eligible ID, including failure reasons and missing-outcome indicators; inspect exact set membership and duplicates.
@@ -122,6 +126,7 @@ Concrete drift review `agent-router-model-source-review`: compare every README l
 **Current execution:** finish the remaining reversible work under Brian's 2026-10-09 goal, following fresh plan adoption. Historical execution caps below are not increased or reset by this goal. Required planning verification uses the approved shared LLM route; new sort calls and new native-client funding require an available allowance or a new explicit grant. The paid Claude route question is pending; its subscription rejected the fresh canary with `usage_limit_reached`, with reset October 11 at 13:00 America/New_York. Preserve the logged refusal, and do not infer Claude child delivery from Codex evidence.
 
 **Future execution spend:** model calls only, on the configured approved route through llm_client.
+
 - Slice 1: one small-model call per legacy rule (263), and a second pass on disputed items; bounded at $5, authorized by Brian's "yes" (2026-10-08); contained by running once and caching each answer by rule id.
 - Slice 3: one small-model call per handoff, about $0.001 each; authorized by Brian's "yes" (2026-10-08) up to $1 per day and $30 in total for the two-week log; any higher cap needs a new yes from Brian. Contained by the daily cap in the router, which stops proposing (and logs that it stopped) when reached.
 - Slice 3b: first job set is exactly one paired, read-only source-validation job, `derived-project-workspace-views`, whose cached `tool_missing` retirement conflicts with currently existing linked tools. Execute one incumbent/manual choice and one proposed specialist choice against the same frozen source packet, at most two leaf executions. Brian's 2026-10-09 completion goal authorizes reversible native dispatch under an available subscription; paid API execution remains disabled until a separate explicit grant names this job and its maximum cost. The proposed maximum is $1 total, not an available allowance and not renewed sort funding. Record the grant and remaining cap before dispatch; a missing grant, unavailable subscription or cap exhaustion yields a terminal status without an execution. No broader comparison is authorized by this first job set.
@@ -236,6 +241,7 @@ Minimum comparison parity requires the same task input, available evidence, sele
 > **OV-LLM-AUTHORITY-PROMOTION** (blocking): The plan names the provider and spend authority for model calls and one authentic-run condition that must hold before the behavior is promoted.
 
 Call graph:
+
 - **Sort (slice 1):** for each legacy rule, one call: input is the rule's text, its source-document lines and the current AES register; output is a typed `LegacyDisposition` (disposition: covered | keep | retire, covered_by id or null, reason, cited source lines, applies_when). Disputed items (cited lines not found) get one second call on a larger model.
 - **Router (slice 3):** at each handoff, one call: input is the handoff text, specialist list and register summaries; output is a typed `RouterProposal` (subagent, rule ids, model, effort, confidence). Rules matched by fixed patterns are added without a call.
 

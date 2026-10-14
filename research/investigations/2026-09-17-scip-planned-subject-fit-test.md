@@ -8,6 +8,7 @@ Date: 2026-09-17
 Determine whether AES should define its own universal code-symbol vocabulary for functions/classes/modules, or reuse SCIP for realized code identity while retaining only the planning semantics SCIP cannot represent.
 
 External sources:
+
 - https://github.com/scip-code/scip
 - https://github.com/scip-code/scip/blob/main/docs/scip.md
 
@@ -94,11 +95,13 @@ The mapping itself can become evidence-bearing and stale if the implementation c
 ## Stubbing disposition
 
 Safe to stub:
+
 - `PlannedImplementationSubject` or equivalent AES residual;
 - realization-reference abstraction supporting external identifiers;
 - mapping/characterization boundary from planned subject to realized symbols/files.
 
 Do not stub:
+
 - `CodeSymbol`;
 - universal `Function`, `Class`, `Method`, `Reference`, `Occurrence` models;
 - a language-neutral symbol grammar;
