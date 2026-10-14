@@ -3,76 +3,24 @@
 # and the decision records that say why. The rule text itself lives in the owner's
 # docstring and in .aes/target.yaml; the statements below are one-line pointers.
 # Checked by company-planning plugins/company-planning/scripts/durable_docs_check.py.
-reviewed_at: 2026-10-13  # re-read after the parent-folder lookup and root-relative link resolution changes
+reviewed_at: 2026-10-14  # commit rule and plan-adoption check removed (Brian, 2026-10-13)
 scope: >-
-  The v0.2 governance loop (Decision 0010): commit tags, plan acceptance, characterization,
+  The v0.2 governance loop (Decision 0010): plan acceptance, characterization,
   evidence standing and reconciliation. The v0.1 line (Plan 002), the repository-context
   package and the Company Planning profile files are not modelled here (gap G1 in ODD.md).
 entities:
-  - {id: ENT-COMMIT, what: a git commit and the tag on its first line}
-  - {id: ENT-PLAN, what: a Company Planning plan with its adoption decision and receipt}
   - {id: ENT-TARGET, what: ".aes/target.yaml: outcomes, normative items, success criteria, planned artifacts, verification subjects"}
   - {id: ENT-PROPOSAL, what: a target delta plus the gap ids it claims to close}
   - {id: ENT-OBSERVATION, what: an append-only evidence record bound to a revision and its dependency paths}
   - {id: ENT-CHARACTERIZATION, what: what HEAD contains under the governed roots, file blobs and Python symbols}
 processes:
-  - id: PROC-COMMIT-CHECK
-    what: "the commit-msg hook runs `aes commit check` on every commit"
-    enforces: [RULE-COMMIT-TAG, RULE-PLAN-ADOPTED-FOR-COMMIT, RULE-DURABLE-DOCS-FOR-COMMIT]
   - id: PROC-PLAN-ACCEPT
     what: "`aes plan validate` / `aes plan accept` apply a proposal to the target"
-    enforces: [RULE-PLAN-RECEIPT-FOR-ACCEPT, RULE-TRACE-REVIEW-DECLARED]
+    enforces: [RULE-TRACE-REVIEW-DECLARED]
   - id: PROC-RECONCILE
     what: "`aes status` / `aes reconcile` compose characterization, drift and evidence into current state and gaps"
     enforces: [RULE-DRIFT-DETECTED, RULE-INSUFFICIENT-NOT-GREEN, RULE-DEPENDENCY-CHANGE-STALES]
 rules:
-  - id: RULE-COMMIT-TAG
-    statement: >-
-      Every commit's first line carries one tag ([Plan #N], [Goal id], [Trivial], [Unplanned], [Shaping id], [Auto]);
-      [Trivial] is decided by measured size and paths, not by the tag (RU-AES-COMMIT-RULE, AP-REQ-001, SC-AP-001).
-    owner: src/agentic_engineering_system/commit_rule.py
-    checks:
-      - tests/greenfield/test_commit_rule.py::test_unplanned_running_thing_without_emergency_is_refused_naming_the_files
-      - tests/greenfield/test_commit_rule.py::test_trivial_is_measured_not_trusted
-      - tests/greenfield/test_commit_rule.py::test_emergency_and_shaping
-    decisions: []
-  - id: RULE-PLAN-ADOPTED-FOR-COMMIT
-    statement: >-
-      A [Plan #N] / [Goal id] commit is accepted only when the named plan's adoption decision says adopted and its
-      plan and receipt hashes match the current bytes, or the plan's adopted version (found by hash in its git
-      history) differs only in progress fields (status, owner, notes), which adds an advisory
-      (RU-AES-COMMIT-RULE, OUT-AP-001; AES #673).
-    owner: src/agentic_engineering_system/commit_rule.py
-    checks:
-      - tests/greenfield/test_commit_rule.py::test_same_change_under_an_adopted_plan_is_accepted
-      - tests/greenfield/test_commit_rule.py::test_plan_changed_after_adoption_is_refused
-      - tests/greenfield/test_commit_rule.py::test_plan_status_line_change_after_adoption_is_accepted_with_advisory
-      - tests/greenfield/test_commit_rule.py::test_plan_owner_rename_after_adoption_is_accepted
-      - tests/greenfield/test_commit_rule.py::test_plan_scope_change_after_adoption_is_still_refused
-      - tests/greenfield/test_commit_rule.py::test_plan_progress_change_without_adopted_history_is_refused
-      - tests/greenfield/test_commit_rule.py::test_plan_without_receipt_and_unknown_plan_are_refused
-    decisions: []
-  - id: RULE-DURABLE-DOCS-FOR-COMMIT
-    statement: >-
-      A [Goal id] commit under a quick plan carrying Company Planning's durable-documents completion command runs
-      that check on the staged change; under durable: enforce it is refused when the plan's Durable documents line
-      fails to name a rule whose owner file the change touches, or is otherwise invalid (an unchanged declared
-      document is only a note). Brian, 2026-10-12, "i approve".
-    owner: src/agentic_engineering_system/commit_rule.py
-    checks:
-      - tests/greenfield/test_commit_rule.py::test_durable_docs_check_refuses_unnamed_owner_and_accepts_named
-      - tests/greenfield/test_commit_rule.py::test_durable_docs_check_observe_and_skips
-    decisions: []
-  - id: RULE-PLAN-RECEIPT-FOR-ACCEPT
-    statement: >-
-      With require_adopted_plan true in .aes/planning.yaml, `aes plan validate` and `aes plan accept` refuse a
-      proposal whose adopted_plan_ref is missing, unknown or changed since adoption (RU-AES-PLANNING, AP-REQ-002, SC-AP-002).
-    owner: src/agentic_engineering_system/planning.py
-    checks:
-      - tests/greenfield/test_plan_receipt.py::test_required_and_missing_is_refused
-      - tests/greenfield/test_plan_receipt.py::test_required_and_plan_changed_after_adoption_is_refused
-      - tests/greenfield/test_plan_receipt.py::test_required_and_freshly_adopted_is_accepted
-    decisions: []
   - id: RULE-TRACE-REVIEW-DECLARED
     statement: >-
       A proposal declares whether its work runs; work that runs needs a routed trace-review requirement

@@ -12,6 +12,8 @@ ER-SC-GF-004-01: every evidence requirement in the live target has a route.
 
 from __future__ import annotations
 
+import pytest
+
 import subprocess
 from pathlib import Path
 
@@ -95,10 +97,11 @@ def test_every_greenfield_evidence_requirement_has_a_route():
     external = {b.evidence_requirement_ref for b in target.external_boundaries}
     assert {e for e in external if e.startswith("ER-SC-GF-")} == {"ER-SC-GF-001-01", "ER-SC-GF-005-02", "ER-SC-GF-009-01"}
     assert external - {"ER-SC-GF-001-01", "ER-SC-GF-005-02", "ER-SC-GF-009-01"} == {
-        "ER-AP-001-02", "ER-TR-SOURCE-002",
+        "ER-TR-SOURCE-002",
     }
 
 
+@pytest.mark.slow
 def test_aes_status_on_this_repository_exits_zero(capsys):
     assert main(["status", "--root", str(REPO)]) == 0
     out = capsys.readouterr().out

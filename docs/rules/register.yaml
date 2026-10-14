@@ -39,9 +39,8 @@ rules:
     and 60 lines, touching nothing that runs) need none.
   origin: workspace-instructions
   source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
-  enforcement_status: enforced
-  enforcement_mechanism: 'The AES commit rule refuses a non-trivial commit without a [Goal <plan_id>] or [Plan #N]
-    tag (`aes commit check`, installed on every hook path).'
+  enforcement_status: withdrawn
+  enforcement_mechanism: 'Withdrawn 2026-10-14: the AES commit rule was removed at Brian''s request (2026-10-13, "turn off all the enforcement")'
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
   applies_when:
     kind: actions
@@ -51,9 +50,8 @@ rules:
     with an Emergency line, or [Shaping <plan_id>].'
   origin: workspace-instructions
   source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
-  enforcement_status: enforced
-  enforcement_mechanism: The AES commit rule (`aes commit check`) refuses a commit without a valid tag and names
-    the fix.
+  enforcement_status: withdrawn
+  enforcement_mechanism: 'Withdrawn 2026-10-14: the AES commit rule was removed at Brian''s request (2026-10-13, "turn off all the enforcement")'
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
   applies_when:
     kind: actions
@@ -503,8 +501,8 @@ rules:
     commit validator, including required tag classes and the actual identifier formats used by planning records.
   intent: Prevent
   origin: feedback-loop
-  enforcement_status: licensed
-  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  enforcement_status: withdrawn
+  enforcement_mechanism: 'Withdrawn 2026-10-14: the AES commit rule was removed at Brian''s request (2026-10-13, "turn off all the enforcement")'
   evidence:
     sightings: 2
     problem: https://github.com/BrianMills2718/agent-feedback-log/issues/56
@@ -521,8 +519,8 @@ rules:
     planning records so any consumer that rejects them is detected before enforcement.
   intent: Detect
   origin: feedback-loop
-  enforcement_status: licensed
-  enforcement_mechanism: Handed to agents as an open concern; not yet adopted by any agent
+  enforcement_status: withdrawn
+  enforcement_mechanism: 'Withdrawn 2026-10-14: the AES commit rule was removed at Brian''s request (2026-10-13, "turn off all the enforcement")'
   evidence:
     sightings: 2
     problem: https://github.com/BrianMills2718/agent-feedback-log/issues/56
