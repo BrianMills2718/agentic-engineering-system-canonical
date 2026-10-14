@@ -529,7 +529,7 @@ surface-audit:  ## Compare registry, lease, process, and served identity (SURFAC
 # <<< META-PROCESS WORKTREE TARGETS <<<
 
 # --- During Implementation ---
-.PHONY: test test-quick check check-agents-sync
+.PHONY: test test-quick check check-full check-agents-sync
 
 # pytest and mypy run through $(PYTHON), which prefers .venv/bin/python, so a
 # clean clone that followed the README's install uses the venv's tools. A bare
@@ -545,12 +545,16 @@ check:  ## Run all checks (test, mypy, lint)
 	@$(PYTHON) $(SCRIPTS_META)/check_agents_sync.py --repo-root . --check
 	@echo ""
 	@echo "Running tests..."
-	@$(PYTHON) -m pytest tests/ -q --tb=short
+	@$(PYTHON) -m pytest tests/ -q --tb=short -n auto -m "not slow"
 	@echo ""
 	@echo "Running mypy..."
 	@$(PYTHON) -m mypy src/ --ignore-missing-imports
 	@echo ""
 	@echo "All checks passed!"
+
+check-full:  ## make check plus the slow end-to-end tests (installs, the whole-repository status run)
+	@$(MAKE) --no-print-directory check
+	@$(PYTHON) -m pytest tests/ -q --tb=short -n auto -m slow
 
 check-agents-sync:  ## Validate generated AGENTS.md matches canonical governance inputs
 	@$(PYTHON) $(SCRIPTS_META)/check_agents_sync.py --repo-root . --check

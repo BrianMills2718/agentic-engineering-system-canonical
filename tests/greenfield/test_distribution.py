@@ -310,6 +310,7 @@ def test_version_names_the_install_and_the_running_checkout(capsys: pytest.Captu
 
 @pytest.mark.skipif(os.environ.get("AES_SKIP_CLEAN_INSTALL") == "1", reason="AES_SKIP_CLEAN_INSTALL=1")
 @pytest.mark.skipif(shutil.which("uv") is None, reason="uv is not on PATH")
+@pytest.mark.slow
 def test_clean_install_in_pin_form_reports_commit_version_and_ships_the_hook(tmp_path: Path) -> None:
     head = _git(REPO, "rev-parse", "HEAD").stdout.strip()
     venv = tmp_path / "venv"
@@ -349,6 +350,7 @@ GUIDE_INSTALL = re.compile(r'"agentic-engineering-system @ git\+https://[^"@]+@<
 
 @pytest.mark.skipif(os.environ.get("AES_SKIP_CLEAN_INSTALL") == "1", reason="AES_SKIP_CLEAN_INSTALL=1")
 @pytest.mark.skipif(shutil.which("uv") is None, reason="uv is not on PATH")
+@pytest.mark.slow
 def test_getting_started_guide_runs_end_to_end_as_written(tmp_path: Path) -> None:
     """Every ```bash block of docs/greenfield/GETTING_STARTED.md, in order, in a fresh folder, must
     succeed and end with the guide's criterion supported. The only substitution is the install pin:

@@ -12,6 +12,8 @@ ER-SC-GF-004-01: every evidence requirement in the live target has a route.
 
 from __future__ import annotations
 
+import pytest
+
 import subprocess
 from pathlib import Path
 
@@ -99,6 +101,7 @@ def test_every_greenfield_evidence_requirement_has_a_route():
     }
 
 
+@pytest.mark.slow
 def test_aes_status_on_this_repository_exits_zero(capsys):
     assert main(["status", "--root", str(REPO)]) == 0
     out = capsys.readouterr().out
