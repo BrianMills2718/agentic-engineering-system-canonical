@@ -17,6 +17,7 @@ through its own `.aes/` target.
 - Current state: run `aes status` (or `make aes`); the live authority is `.aes/target.yaml`.
 - Source-bound trace review: [adopted cross-project plan](../proposals/trace-review-enforcement/plan.md); native provider configuration and retained observation linkage are in [Getting Started](../docs/greenfield/GETTING_STARTED.md).
 - Agent feedback loop: [start here](../proposals/aes-learning-loop/review-page/guide.html) (what runs and when, the model and requirement pages, every document and what is still open).
+- Vision coverage plan (2026-10-05, history; AES on hold since 2026-10-13): [`proposals/vision-coverage/README.md`](../proposals/vision-coverage/README.md).
 - Agent router design (2026-10-08, shaping): [`proposals/agent-router/README.md`](../proposals/agent-router/README.md), a fast model choosing each job's subagent, extra rules, model and effort.
 - Rules agents follow (2026-10-08): [`docs/rules/RULES.md`](../docs/rules/RULES.md), one page with every rule, how it is enforced and its evidence, built from [the rules register](../docs/rules/register.yaml) by `scripts/rules/build_rules_page.py`; [plan](../docs/plans/rules-register.md), [goal](../docs/plans/rules-register.goal.md).
 - Capability catalogue (2026-10-08, Decision 0012): every repository's capabilities and tools in one list, built by `scripts/catalogue/` from each repository's Backstage `catalog-info.yaml` plus the tools found in its own files; [plan](../docs/plans/capability-catalogue.md), [goal](../docs/plans/capability-catalogue.goal.md).
