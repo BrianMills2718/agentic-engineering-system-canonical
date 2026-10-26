@@ -1,6 +1,6 @@
 # Feedback loop jobs on Brian's PC (systemd user units)
 
-Four timers run the agent feedback loop. Start page for the whole loop:
+Five timers run the agent feedback loop. Start page for the whole loop:
 [guide.html](../../../proposals/aes-learning-loop/review-page/guide.html).
 
 | Job | When | What it runs | What it writes | If it fails |
@@ -9,23 +9,27 @@ Four timers run the agent feedback loop. Start page for the whole loop:
 | Weekly analysis (`feedback-problems`) | Sunday 05:00 | `problems.py --file --days 14` | `problems-<date>.jsonl`, `problems-runs.jsonl`, `problems.sqlite`; "Feedback loop: adopt" concerns | unit fails, keyed agent concern |
 | Effect counter and rule check (`feedback-effects`) | daily 07:30 | `problems.py --file --days 14 --effects-only`, then `policies.py` | `effects-<date>.jsonl`, `policies-runs.jsonl` | unit fails, keyed agent concern; a rule-check failure does not fail the unit but alerts on its own |
 | Fix owner (`feedback-fix-owner`) | daily 09:00 | `fix_owner.py --max-items 10` | `fix-owner-<date>.jsonl` (full session trace), `fix-owner-runs.jsonl` | unit fails, keyed agent concern |
+| Labels (`feedback-labels`) | daily 05:00 | `label_items.py issues --other-concern-repo BrianMills2718/agent-skills` | a `family:<letter>`, `fact` or `other` label and a comment on each open feedback issue; `labels-<date>.log` | unit fails, keyed agent concern; two or more open `other` items open the `taxonomy:unmatched-failures` concern in agent-skills, so an agent decides whether the failure-mode list needs a new family |
 
-All four run from `~/.hive-brain/aes`, a clone of AES `main` that each run refreshes first
+All five run from `~/.hive-brain/aes`, a clone of AES `main` that each run refreshes first
 (`~/.hive-brain/project-meta` likewise for project-meta tools), with `llm_client` from
 `~/code/llm_client` through uv's shared cache. Every output goes to `$FEEDBACK_OUT` =
 `~/projects/data/feedback-collector/`. Never commit anything from that folder: it holds private
 transcript quotes. Alerts go through `project-meta/scripts/notify_operator.py`.
 
-The weekly taxonomy refresh that also reads this feedback is agent-skills' `taxonomy-feedback`
-timer (Sunday 05:30), not one of these units.
+The labels job replaced agent-skills' weekly `taxonomy-feedback` report on 2026-10-26: that
+report re-listed every register entry each week for a repair worker retired on 2026-10-04, so
+nothing new reached the failure-mode list after 2026-10-13. Each job clears a git lock older
+than an hour in the shared clones and takes `flock` around fetch and reset, because a stale
+lock stopped the collector from 2026-10-17 to 2026-10-26.
 
 ## Install, check, rerun
 
 ```bash
-# install or reinstall all four after changing these files
+# install or reinstall all five after changing these files
 cp scripts/learning_loop/systemd/feedback-*.{service,timer} ~/.config/systemd/user/
 systemctl --user daemon-reload
-for t in collector problems effects fix-owner; do systemctl --user enable --now feedback-$t.timer; done
+for t in collector problems effects fix-owner labels; do systemctl --user enable --now feedback-$t.timer; done
 # one-time setup of the project-meta tools copy
 git clone --depth 1 git@github-personal:BrianMills2718/project-meta.git ~/.hive-brain/project-meta
 

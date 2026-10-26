@@ -6,8 +6,11 @@ Documentation=https://github.com/BrianMills2718/agentic-engineering-system-canon
 [Service]
 Type=oneshot
 WorkingDirectory=%h/.hive-brain/aes
-ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes fetch --quiet --depth 1 origin main
-ExecStartPre=/usr/bin/git -C %h/.hive-brain/aes reset --quiet --hard FETCH_HEAD
+# These clones are reset from main every run, so a git lock older than an hour is from a run
+# that died, never live work (a stale one stopped the collector for 9 days, 2026-10-17..26).
+ExecStartPre=/usr/bin/find %h/.hive-brain/aes/.git %h/.hive-brain/project-meta/.git -maxdepth 1 -name index.lock -mmin +60 -delete
+ExecStartPre=/usr/bin/flock %h/.hive-brain/aes/.git/runtime-update.lock /usr/bin/git -C %h/.hive-brain/aes fetch --quiet --depth 1 origin main
+ExecStartPre=/usr/bin/flock %h/.hive-brain/aes/.git/runtime-update.lock /usr/bin/git -C %h/.hive-brain/aes reset --quiet --hard FETCH_HEAD
 Environment=FEEDBACK_OUT=%h/projects/data/feedback-collector
 Environment=PROJECT_META=%h/.hive-brain/project-meta
 # Login shell: claude and gh live on the user's PATH, not systemd's.
