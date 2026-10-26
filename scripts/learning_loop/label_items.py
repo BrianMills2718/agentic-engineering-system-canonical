@@ -228,7 +228,10 @@ def cmd_issues(args) -> int:
     todo = [i for i in seen.values() if not any(n.startswith("family:") or n in ("fact", "other") for n in names(i))]
     counts = collections.Counter(already_labelled=len(seen) - len(todo))
     lines, cost = [], 0.0
-    for i in sorted(todo, key=lambda i: i["number"]):
+    # GitHub flags accounts past ~500 content writes an hour; each item is a label and a comment.
+    deferred = todo[args.max_items:] if args.max_items else []
+    counts["deferred_to_next_run"] = len(deferred)
+    for i in sorted(todo, key=lambda i: i["number"])[:args.max_items or None]:
         body = i.get("body") or ""
         m = re.search(r"^recommended_action:\s*(.+)$", body, re.M)
         state = {"learning": (i["title"] + "\n\n" + body)[:1800], "recommended_action": (m.group(1) if m else "")[:400]}
@@ -310,6 +313,7 @@ def main() -> int:
     c.add_argument("--repo", default=REPO)
     c.add_argument("--dry-run", action="store_true")
     c.add_argument("--summary-issue", type=int, default=0)
+    c.add_argument("--max-items", type=int, default=150, help="label at most this many per run (0 = all)")
     c.add_argument("--other-concern-repo", default="",
                    help="open a concern here when two or more `other` items are open (e.g. BrianMills2718/agent-skills)")
     args = ap.parse_args()

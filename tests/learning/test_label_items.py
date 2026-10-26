@@ -30,7 +30,7 @@ def run_issues(monkeypatch, pages, posts):
     monkeypatch.setattr(LI, "decide", lambda answers, qs: {
         "outcome": "filed", "families": ["A"], "confident": False, "p": 0.9, "confidence": 0.9,
         "choice": "A", "second": "B"})
-    args = SimpleNamespace(repo="o/r", dry_run=False, summary_issue=0, other_concern_repo="")
+    args = SimpleNamespace(repo="o/r", dry_run=False, summary_issue=0, other_concern_repo="", max_items=150)
     return LI.cmd_issues(args)
 
 
@@ -68,3 +68,17 @@ def test_two_unmatched_items_open_one_keyed_concern(monkeypatch):
     assert cmd[cmd.index("--key") + 1] == "taxonomy:unmatched-failures"
     assert cmd[cmd.index("--repo") + 1] == "o/skills"
     assert cmd[cmd.index("--occurrence") + 1] == "5,9"
+
+
+def test_a_run_labels_at_most_max_items(monkeypatch):
+    posts = []
+    monkeypatch.setattr(LI, "question_set", lambda: {"question": {}, "version": "v2"})
+    monkeypatch.setattr(LI, "api_key", lambda: "k")
+    monkeypatch.setattr(LI, "github_token", lambda: "t")
+    monkeypatch.setattr(LI, "gh", fake_gh([[issue(n, ["kind:claim"]) for n in range(1, 6)]], posts))
+    monkeypatch.setattr(LI, "ask", lambda state, q, key: ({"answers": [], "usage": {"cost": 0}}, None, 0.0))
+    monkeypatch.setattr(LI, "decide", lambda answers, qs: {
+        "outcome": "fact", "families": [], "confident": False, "p": 0.9, "confidence": 0.9,
+        "choice": "x", "second": "y"})
+    LI.cmd_issues(SimpleNamespace(repo="o/r", dry_run=False, summary_issue=0, other_concern_repo="", max_items=2))
+    assert sorted(p for p, b in posts if p.endswith("/labels")) == ["/repos/o/r/issues/1/labels", "/repos/o/r/issues/2/labels"]
