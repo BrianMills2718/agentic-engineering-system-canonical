@@ -44,13 +44,21 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-TAXONOMY = ROOT / "docs" / "failure-modes.md"
+# The audit and review skills read agent-skills' copy; label from the same file so the
+# two cannot drift (LEARNING_TAXONOMY overrides; docs/failure-modes.md is the fallback).
+_SHARED_TAXONOMY = Path.home() / "code2/agent-skills/skills/review/references/failure-modes.md"
+TAXONOMY = Path(os.environ.get("LEARNING_TAXONOMY") or
+                (_SHARED_TAXONOMY if _SHARED_TAXONOMY.is_file() else ROOT / "docs" / "failure-modes.md"))
 ENDPOINT = "https://openrouter.ai/api/v1/systemone"
 MODEL = "typesafe/jev-1.13"
 QUESTION_SET = Path(__file__).with_name("question_set_v2.json")
 LEGACY_GLOB = "~/code/project-meta/learnings/entries/*.json"
-REPO = "BrianMills2718/agentic-engineering-system-canonical"
-KINDS = ("kind:lesson", "kind:friction", "kind:problem")
+# Feedback reports are filed here since 2026-10-08 (learned skill); the kind:lesson/friction/problem
+# issues in agentic-engineering-system-canonical are the earlier store.
+REPO = "BrianMills2718/agent-feedback-log"
+KINDS = ("kind:observation", "kind:claim", "kind:action", "kind:lesson", "kind:friction", "kind:problem")
+CONCERN = Path(os.environ.get("PROJECT_META") or Path.home() / "code/project-meta") / "scripts/concern_issue.py"
+OTHER_THRESHOLD = 2  # failure-modes.md: a new family requires two independent instances
 
 
 def api_key() -> str:
@@ -205,10 +213,14 @@ def cmd_issues(args) -> int:
     qs, key, tok = question_set(), api_key(), github_token()
     try:
         seen = {}
-        for kind in KINDS:
-            for i in gh("GET", f"/repos/{args.repo}/issues?state=open&per_page=100&labels={kind}", tok):
-                if "pull_request" not in i:
+        # Every page: one page of 100 relabelled the same issues forever once they were labelled.
+        for page in range(1, 1000):
+            batch = gh("GET", f"/repos/{args.repo}/issues?state=open&per_page=100&page={page}", tok)
+            for i in batch:
+                if "pull_request" not in i and {l["name"] for l in i["labels"]} & set(KINDS):
                     seen[i["number"]] = i
+            if len(batch) < 100:
+                break
     except (urllib.error.URLError, TimeoutError, ValueError) as e:
         print(f"issues: could not list issues in {args.repo}: {e}", file=sys.stderr)
         return 2
@@ -247,9 +259,41 @@ def cmd_issues(args) -> int:
                f"{dict(counts)}, cost=${cost:.4f}, questions={qs['version']}")
     print(summary)
     print("\n".join(lines))
+    if args.other_concern_repo and not args.dry_run:
+        report_others(args.repo, args.other_concern_repo, tok)
     if args.summary_issue and not args.dry_run:
         gh("POST", f"/repos/{args.repo}/issues/{args.summary_issue}/comments", tok, {"body": summary + "\n\n" + "\n".join(lines)})
     return 1 if counts["error"] else 0
+
+
+def report_others(repo: str, concern_repo: str, tok: str) -> None:
+    """Hand open `other` items (failures no family fits) to an agent once two exist."""
+    import subprocess
+    others = []
+    for page in range(1, 100):
+        batch = gh("GET", f"/repos/{repo}/issues?state=open&labels=other&per_page=100&page={page}", tok)
+        others += [i for i in batch if "pull_request" not in i]
+        if len(batch) < 100:
+            break
+    if len(others) < OTHER_THRESHOLD:
+        print(f"other: {len(others)} open (below {OTHER_THRESHOLD}); no concern")
+        return
+    listing = "\n".join(f"- {repo}#{i['number']} {i['title'][:100]}" for i in others)
+    body = (f"{len(others)} open feedback items are failures that no family in "
+            "`skills/review/references/failure-modes.md` fits (label `other`). For each: does it fit an "
+            "existing family after all (relabel it), or do two independent items share a shape the list "
+            "lacks? Then add the family to failure-modes.md and to the labeller's question set "
+            "(agentic-engineering-system-canonical `scripts/learning_loop/question_set_v2.json`), and "
+            "label the items `family:<letter>`. This concern closes when no `other` item is open.\n\n" + listing)
+    done = subprocess.run([sys.executable, str(CONCERN), "open", "--repo", concern_repo,
+                           "--key", "taxonomy:unmatched-failures", "--source", "learning-loop",
+                           "--title", f"Failure-mode list: {len(others)} feedback items fit no family",
+                           "--body", body, "--occurrence", ",".join(str(i["number"]) for i in others),
+                           "--no-run-claim", "labels feedback issues; diagnoses no run"],
+                          capture_output=True, text=True)
+    print(f"other: {len(others)} open -> {done.stdout.strip() or done.stderr.strip()[-300:]}")
+    if done.returncode:
+        raise RuntimeError(f"concern_issue.py exited {done.returncode}")
 
 
 def main() -> int:
@@ -266,6 +310,8 @@ def main() -> int:
     c.add_argument("--repo", default=REPO)
     c.add_argument("--dry-run", action="store_true")
     c.add_argument("--summary-issue", type=int, default=0)
+    c.add_argument("--other-concern-repo", default="",
+                   help="open a concern here when two or more `other` items are open (e.g. BrianMills2718/agent-skills)")
     args = ap.parse_args()
     return {"legacy": cmd_legacy, "report": cmd_report, "issues": cmd_issues}[args.cmd](args)
 

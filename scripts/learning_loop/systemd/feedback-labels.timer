@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily feedback labels (after the 03:30 collector)
+
+[Timer]
+OnCalendar=*-*-* 05:00:00
+Persistent=true
+RandomizedDelaySec=10m
+
+[Install]
+WantedBy=timers.target
