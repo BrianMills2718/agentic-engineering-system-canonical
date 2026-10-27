@@ -1,0 +1,188 @@
+{
+ "schema_version": "1.0",
+ "record_type": "planning_package",
+ "repository": "BrianMills2718/agentic-engineering-system-canonical",
+ "subject_revision": "8b732aaca497a5e4b55bfa0dad0585d0663299f5",
+ "request": "Workflow task 2026-10-27 \"Make the repository ... Company Planning compliant. It has no planning package yet: build one.\" (Brian's standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\"). The package describes commit 8b732aa: origin/main at 30e9993 plus the commits that add docs/planning/, the review page and one wiki/index.md link; later commits on the branch change package files only.",
+ "parts": {
+  "checks": {
+   "status": "present",
+   "path": "docs/planning/checks.txt",
+   "results": [
+    {
+     "name": "durable documents (arc42)",
+     "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42",
+     "exit_status": 1,
+     "counts": {
+      "findings": 1,
+      "catalog_stale": 1
+     },
+     "tracked_by": "Q3"
+    },
+    {
+     "name": "project navigation",
+     "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py .",
+     "exit_status": 0,
+     "counts": {
+      "warnings": 2
+     },
+     "tracked_by": "Q8"
+    },
+    {
+     "name": "plan adoption recheck",
+     "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/method_conformance/cli.py lint --repo-root . --recheck",
+     "exit_status": 1,
+     "counts": {
+      "current": 0,
+      "stale": 23,
+      "finished": 0
+     },
+     "tracked_by": "Q4"
+    },
+    {
+     "name": "wiki rule (Markdown cap, reachability, layout, durable documents)",
+     "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
+     "exit_status": 1,
+     "counts": {
+      "markdown_files": 213,
+      "cap_limit": 140,
+      "over": 1,
+      "orphans": 0,
+      "layout_findings": 0,
+      "durable_findings": 1
+     },
+     "tracked_by": "Q7"
+    },
+    {
+     "name": "repository's own AES gate (target validate, topology check, status)",
+     "command": "make aes",
+     "exit_status": 0,
+     "counts": {
+      "criteria_supported": 2,
+      "criteria_insufficient": 10,
+      "criteria_refuted": 0,
+      "orphans": 0,
+      "drifted": 0,
+      "observations_current": 4,
+      "observations_stale": 50,
+      "plans_unreachable": 1
+     },
+     "tracked_by": "Q6"
+    },
+    {
+     "name": "code2 repository format",
+     "command": "python3 $HOME/code2/workspace/scripts/repo_format.py .",
+     "exit_status": 1,
+     "counts": {
+      "compliant": 0,
+      "repositories": 1,
+      "findings": 5
+     },
+     "tracked_by": "Q17"
+    },
+    {
+     "name": "typed-graph/v1 schema (domain graph and open-questions map)",
+     "command": "jsonschema against $HOME/code2/representation-router/schemas/typed-graph.schema.json (inline in checks.txt)",
+     "exit_status": 0,
+     "counts": {
+      "graphs_valid": 2,
+      "graphs_invalid": 0
+     }
+    }
+   ]
+  },
+  "open_questions": {
+   "status": "present",
+   "path": "docs/planning/open-questions.json"
+  },
+  "system_model": {
+   "status": "present",
+   "path": "docs/planning/SYSTEM_MODEL.md",
+   "executes_typed_rules": false,
+   "basis": "src/agentic_engineering_system/evidence.py:447"
+  },
+  "domain_model": {
+   "status": "present",
+   "path": "docs/planning/domain.graph.json",
+   "glossary": "docs/planning/DOMAIN.md",
+   "implemented": {
+    "target": "src/agentic_engineering_system/records.py:137",
+    "outcome": "src/agentic_engineering_system/records.py:65",
+    "normative-item": "src/agentic_engineering_system/records.py:73",
+    "success-criterion": "src/agentic_engineering_system/records.py:86",
+    "evidence-requirement": "src/agentic_engineering_system/records.py:80",
+    "component": "src/agentic_engineering_system/records.py:94",
+    "planned-artifact": "src/agentic_engineering_system/records.py:105",
+    "verification-subject": "src/agentic_engineering_system/records.py:116",
+    "external-boundary": "src/agentic_engineering_system/records.py:126",
+    "governed-root": "src/agentic_engineering_system/records.py:198",
+    "project-record": "src/agentic_engineering_system/records.py:194",
+    "proposal": "src/agentic_engineering_system/planning.py:168",
+    "target-delta": "src/agentic_engineering_system/planning.py:137",
+    "accepted-plan": "src/agentic_engineering_system/planning.py:197",
+    "trace-review-declaration": "src/agentic_engineering_system/planning.py:148",
+    "observation": "src/agentic_engineering_system/evidence.py:176",
+    "assessment": "src/agentic_engineering_system/evidence.py:96",
+    "negative-control": "src/agentic_engineering_system/evidence.py:112",
+    "freshness": "src/agentic_engineering_system/evidence.py:376",
+    "standing": "src/agentic_engineering_system/evidence.py:426",
+    "characterization": "src/agentic_engineering_system/characterize.py:59",
+    "drift": "src/agentic_engineering_system/characterize.py:204",
+    "orphan": "src/agentic_engineering_system/topology.py:73",
+    "gap": "src/agentic_engineering_system/reconcile.py:113",
+    "reconciliation": "src/agentic_engineering_system/reconcile.py:259",
+    "legacy-baseline": "src/agentic_engineering_system/adopt.py:48",
+    "working-context": "src/agentic_engineering_system/context.py:72",
+    "pre-commit-hook": "src/agentic_engineering_system/hooks.py:83",
+    "repository-context": "src/agentic_engineering_system/repository_context/models.py:87",
+    "project-brain": "scripts/hive/brain_fresh.py:35"
+   }
+  },
+  "diagrams": {
+   "status": "present",
+   "items": [
+    {
+     "path": "docs/planning/SYSTEM_MODEL.md",
+     "question": "What is inside AES and what talks to it, and which part of the repository writes which .aes/ store? (context and container views)"
+    },
+    {
+     "path": "docs/planning/domain.graph.json",
+     "question": "What ideas does AES work with (target records, plans, evidence, state), which exist in code and which only in documents or history, and how do they relate?"
+    },
+    {
+     "path": "docs/planning/open-questions.graph.json",
+     "question": "Which questions are still open, whose call is each, what does each block, and which concepts does it bear on?"
+    }
+   ]
+  },
+  "plan": {
+   "status": "present",
+   "path": "docs/planning/next.goal.md",
+   "relies_on": [
+    "target",
+    "outcome",
+    "accepted-plan",
+    "plan-receipt",
+    "observation",
+    "freshness",
+    "standing",
+    "success-criterion",
+    "verification-subject",
+    "pre-commit-hook",
+    "thesis",
+    "commit-rule"
+   ]
+  },
+  "review_page": {
+   "status": "present",
+   "path": "proposals/planning-package/review-page/index.html",
+   "url": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/index.html"
+  },
+  "cold_review": {
+   "status": "present",
+   "path": "docs/planning/cold-review.md",
+   "verdict": "pass",
+   "reviewed_revision": "8b732aaca497a5e4b55bfa0dad0585d0663299f5"
+  }
+ }
+}

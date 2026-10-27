@@ -1,0 +1,96 @@
+Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at commit 8b732aaca497a5e4b55bfa0dad0585d0663299f5 (origin/main 30e9993 plus this package's commits), run 2026-10-27 in the clean worktree planning-package-2026-10-27.
+Company Planning scripts from ~/code2/company-planning at origin/main 20a090b. Not run: aes commit replay (the commit rule was removed 2026-10-14; open question Q11).
+
+=== $ python3 $HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42
+=== exit status: 1
+FINDING CATALOG-STALE role=catalog id=- file=make docstring-wiki-check: catalog check exited 2: docstring wiki stale or hand-edited: /home/brian/code2/.worktrees/agentic-engineering-system-canonical-planning/generated/docstring_wiki.md | make: *** [Makefile:636: docstring-wiki-check] Error 1
+durable-docs: mode=repo repo=/home/brian/code2/.worktrees/agentic-engineering-system-canonical-planning findings=1 (CATALOG-STALE=1), exit 1
+
+=== $ python3 $HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py .
+=== exit status: 0
+WARNING NAV_ROOT_LINK_MISSING README.md: root README must link to roadmap/README.md
+WARNING NAV_DOCUMENT_MISSING roadmap/README.md: no roadmap front door: add roadmap/README.md, docs/ROADMAP.md or ROADMAP.md, or link a roadmap file from wiki/index.md
+DELEGATED wiki/index.md: workspace wiki rule; project-wiki/v1 schema not applied; reachability, cap and layout are checked by python3 ~/code/project-meta/scripts/md_file_cap.py --repo R
+REPORT ONLY: 2 finding(s); semantic truth and approval were not evaluated
+
+=== $ python3 $HOME/code2/company-planning/plugins/company-planning/scripts/method_conformance/cli.py lint --repo-root . --recheck
+=== exit status: 1
+Planning receipt recheck (read-only, offline): receipts adopted under an older profile revision
+STALE: docs/plans/adoption-progress-fields.md adopted under bounded-design@13, current bounded-design@18; re-run `check` on it
+STALE: docs/plans/capability-catalogue.md adopted under bounded-design@6, current bounded-design@18; re-run `check` on it
+STALE: docs/plans/commit-rule-emergency-gaps.md adopted under bounded-design@11, current bounded-design@18; re-run `check` on it
+STALE: docs/plans/commit-rule-root-relative-links.md adopted under bounded-design@13, current bounded-design@18; re-run `check` on it
+STALE: docs/plans/commit-rule-skip-roots.md adopted under bounded-design@11, current bounded-design@18; re-run `check` on it
+STALE: docs/plans/commit-tag-contract.md adopted under bounded-design@13, current bounded-design@18; re-run `check` on it
+STALE: docs/plans/durable-check-commit-rule.md adopted under bounded-design@13, current bounded-design@18; re-run `check` on it
+STALE: docs/plans/rules-register.md adopted under bounded-design@6, current bounded-design@18; re-run `check` on it
+STALE: docs/plans/shaping-nav-preflight.md adopted under bounded-design@13, current bounded-design@18; re-run `check` on it
+STALE: proposals/aes-brownfield-docs/PLAN.md adopted under bounded-design@4, current bounded-design@18; re-run `check` on it
+STALE: proposals/aes-durable-docs/PLAN.md adopted under bounded-design@12, current bounded-design@18; re-run `check` on it
+STALE: proposals/aes-feedback-prevention/PLAN.md adopted under bounded-design@10, current bounded-design@18; re-run `check` on it
+STALE: proposals/aes-subagent-feedback/PLAN.md adopted under bounded-design@5, current bounded-design@18; re-run `check` on it
+STALE: proposals/code2-ecosystem/PLAN.md adopted under bounded-design@13, current bounded-design@18; re-run `check` on it
+STALE: proposals/commit-rule-followups/commit-rule-followups.md adopted under bounded-design@4, current bounded-design@18; re-run `check` on it
+STALE: proposals/commit-rule-notes-report/commit-rule-notes-report.md adopted under bounded-design@4, current bounded-design@18; re-run `check` on it
+STALE: proposals/commit-tag-case/commit-tag-case.md adopted under bounded-design@4, current bounded-design@18; re-run `check` on it
+STALE: proposals/doc-reach-new-docs/PLAN.md adopted under bounded-design@5, current bounded-design@18; re-run `check` on it
+STALE: proposals/meeting-claims-true/PLAN.md adopted under bounded-design@5, current bounded-design@18; re-run `check` on it
+STALE: proposals/second-brain-evaluation/PLAN.md adopted under bounded-design@4, current bounded-design@18; re-run `check` on it
+STALE: proposals/trace-review-enforcement/plan.md adopted under bounded-design@10, current bounded-design@18; re-run `check` on it
+STALE: proposals/worktree-lifecycle/PLAN.md adopted under bounded-design@10, current bounded-design@18; re-run `check` on it
+STALE: proposals/worktree-plan-lookup/worktree-plan-lookup.md adopted under bounded-design@10, current bounded-design@18; re-run `check` on it
+NOT CHECKED: Compares profile revisions only; a stale receipt must be re-run through `check` to learn whether the plan still passes.
+NOT CHECKED: Finds receipts named *.receipt.json under the repository root, skipping .git, node_modules, worktrees and virtual environments.
+NOT CHECKED: Reports a plan whose front matter status is done, complete(d), superseded or retired as finished and leaves it out of the exit status; it does not check that the status is true.
+0 current, 23 stale or unreadable, 0 finished (not counted); exit 1
+
+=== $ python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD
+=== exit status: 1
+OVER    213  BrianMills2718/agentic-engineering-system-canonical  -- 213 > exception limit 140 (Accepted decision records here cite these research, proposal and evidence pages as their evidence (research/ and proposals/aes-v0.2-greenfield/ alone are cited from 38 other files), so pruning them would break those citations. New per-item records go in .aes/ YAML, not Markdown; side projects moved to their own repositories on 2026-10-07 (143 -> 130 files). Limit kept close to the count so growth still trips the check.)
+DURABLE     1  BrianMills2718/agentic-engineering-system-canonical  -- 1 durable-document findings (e.g. CATALOG-STALE role=catalog id=- file=make docstring-wiki-check: catalog check exited 2: docstring wiki stale or hand-edited: /tmp/durable-dcohxeev/generated/docstring_wiki.md | make: *** [Makefile:636: docstring-wiki-check] Error 1)
+REPO  BrianMills2718/agentic-engineering-system-canonical  md=213  cap=over  reach=ok(0)  layout=ok(0)  durable=findings(1)
+md-file-cap: 1 given repos checked, cap 100: ok=0 exception=0 over=1 not-checked=0; wiki reachability ok=1 orphans=0 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=0 findings=1 undeclared=0   exit 1
+
+=== $ make aes
+=== exit status: 0
+PYTHONPATH=src /home/brian/code2/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli target validate
+OK /home/brian/code2/.worktrees/agentic-engineering-system-canonical-planning/.aes/target.yaml
+  target_id=agentic-engineering-system-canonical-target schema_version=aes.v0_2.target.probe0
+  outcomes=2 normative_items=12 success_criteria=12 evidence_requirements=16
+  components=11 planned_artifacts=44 verification_subjects=14
+  governed_roots=['src/agentic_engineering_system/', 'tests/greenfield/']
+  every evidence requirement has a route (verification subject or external boundary)
+PYTHONPATH=src /home/brian/code2/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli topology check
+OK topology: 42 governed file(s) under ['src/agentic_engineering_system/', 'tests/greenfield/'], 0 orphan(s), 0 planned but not yet realized
+PYTHONPATH=src /home/brian/code2/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli status
+OK status: agentic-engineering-system-canonical-target at 8b732aaca497a5e4b55bfa0dad0585d0663299f5
+  artifacts: 44 realized, 0 unrealized, 0 drifted; 0 orphan(s)
+  criteria: 2 supported, 10 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
+  observations: 4 current, 50 stale, 1 unknown, 0 unreachable; 27 superseded
+  plans: 8 accepted, 1 unreachable
+  first open gap per component:
+    RU-AES-RECORDS: no open gap
+    RU-AES-PROJECT: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-PLANNING: insufficient SC-GF-003 - ER-SC-GF-003-01 NO_CURRENT_SUPPORT; ER-SC-GF-003-02 NO_CURRENT_SUPPORT (+3 more)
+    RU-AES-TOPOLOGY: insufficient SC-GF-003 - ER-SC-GF-003-01 NO_CURRENT_SUPPORT; ER-SC-GF-003-02 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-CHARACTERIZE: insufficient SC-GF-006 - ER-SC-GF-006-01 NO_CURRENT_SUPPORT; ER-SC-GF-006-02 NO_CURRENT_SUPPORT
+    RU-AES-EVIDENCE: insufficient SC-GF-007 - ER-SC-GF-007-01 NO_CURRENT_SUPPORT (+3 more)
+    RU-AES-RECONCILE: insufficient SC-GF-007 - ER-SC-GF-007-01 NO_CURRENT_SUPPORT (+1 more)
+    RU-AES-CONTEXT: insufficient SC-GF-005 - ER-SC-GF-005-01 NO_CURRENT_SUPPORT
+    RU-AES-CLI: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-DISTRIBUTION: insufficient SC-GF-001 - ER-SC-GF-001-01 NO_CURRENT_SUPPORT
+    RU-AES-ADOPT: insufficient SC-ADOPT-001 - ER-ADOPT-001-01 NO_CURRENT_SUPPORT
+  warning: plan PLAN-AES-SELF-GOVERN accepted_at_revision 80e6da33 is not reachable from HEAD (squash-merged or deleted branch?); the target already carries its delta, so this does not fail
+  INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+
+=== $ python3 $HOME/code2/workspace/scripts/repo_format.py .
+=== exit status: 1
+: missing docs/index.md, docs/architecture/arc42.md, docs/architecture/*.c4, openspec/specs/*/spec.md, Makefile (must mention code2check)
+RESULT repo-format compliant=0 of=1 exit=1
+
+=== $ jsonschema of docs/planning/domain.graph.json and open-questions.graph.json against $HOME/code2/representation-router/schemas/typed-graph.schema.json
+=== exit status: 0
+docs/planning/domain.graph.json valid
+docs/planning/open-questions.graph.json valid
+graphs_valid=2 graphs_invalid=0
+
