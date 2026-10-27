@@ -22,8 +22,8 @@ and to keep the `aes` CLI working for dodaf and whygame5 (Q12). No new product w
 
 Each line is checked by the command beside it; the package is rebuilt at the end.
 
-1. **Commit-rule outcome withdrawn (Q15).** OUT-AP-001, and TR-REQ-001 with it or re-pointed,
-   withdrawn through `aes plan prepare` / `validate` / `accept`, target and plan committed together;
+1. **Commit-rule outcome withdrawn (Q15).** OUT-AP-001 withdrawn and TR-REQ-001 re-pointed at OUT-GF-001,
+   through `aes plan prepare` / `validate` / `accept`, target and plan committed together;
    `aes target validate` exits 0.
 2. **Evidence re-recorded (Q6).** `aes evidence record <VS-ID>` run for each deterministic-test
    subject behind the nine criteria Decision 0010 accepted; `make aes` shows the supported count,
@@ -51,7 +51,7 @@ Each line is checked by the command beside it; the package is rebuilt at the end
    `code2check` Makefile target (make aes plus the link check); arc42, `.c4` and OpenSpec specs
    recorded as deferred while on hold; `repo_format.py .` names only the deferred items.
 9. **Decision 0011 item 4 closed or kept (Q2)** as Brian answers; by default it is left as written.
-10. **Package rebuilt** from the final revision; `validate_planning_package.py` exits 0.
+10. **Package and brain rebuilt** from the final revision: `.project-brain/now.md` updated, `python3 scripts/hive/brain_fresh.py .` and `validate_planning_package.py` exit 0.
 
 ## Out of scope
 
@@ -71,3 +71,5 @@ Every `aes evidence record` run writes its observation under `.aes/observations/
 command, revision and result; the agent reads each failing one in full, and a sample of passing
 ones, before reporting the count. Each check's command, exit status and counts go into
 `docs/planning/checks.txt` when the package is rebuilt.
+
+The package this goal comes from passed its cold review: [cold-review.md](cold-review.md).

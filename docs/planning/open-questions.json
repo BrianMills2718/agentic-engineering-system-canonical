@@ -166,7 +166,7 @@
    "short": "Target still holds the commit-rule outcome",
    "question": "OUT-AP-001 says real work in an AES-governed repository lands only under a plan Company Planning adopted. That was the commit rule's outcome, removed on 2026-10-14 at Brian's request, and TR-REQ-001 still serves it. Withdraw the outcome, or say what now enforces it?",
    "blocks": "whether the target contradicts the repository's own rules after the hygiene plan, and which criteria count toward Q6",
-   "resolves_with": "An argument settles it: Brian asked on 2026-10-13 to turn off this enforcement, and nothing enforces it now, so the outcome is withdrawn through `aes plan prepare` / `validate` / `accept` (TR-REQ-001 re-pointed at OUT-GF-001 or withdrawn with it), not by hand.",
+   "resolves_with": "An argument settles it: Brian asked on 2026-10-13 to turn off this enforcement, and nothing enforces it now, so the outcome is withdrawn through `aes plan prepare` / `validate` / `accept` (TR-REQ-001 re-pointed at OUT-GF-001, because SC-TR-001 and SC-TR-SOURCE-001 depend on it and trace review still serves a new project's evidence), not by hand.",
    "owner": "agent",
    "status": "open",
    "sources": [

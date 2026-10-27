@@ -179,7 +179,10 @@
    "url": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/index.html"
   },
   "cold_review": {
-   "status": "missing"
+   "status": "present",
+   "path": "docs/planning/cold-review.md",
+   "verdict": "pass",
+   "reviewed_revision": "8b732aaca497a5e4b55bfa0dad0585d0663299f5"
   }
  }
 }
