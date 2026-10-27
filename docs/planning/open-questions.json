@@ -1,0 +1,169 @@
+{
+ "schema_version": "1.0",
+ "record_type": "open_questions",
+ "questions": [
+  {
+   "id": "Q1",
+   "short": "Resume, hold or retire AES",
+   "question": "AES canonical has been on hold since 2026-10-18 after the ~/code2 move to off-the-shelf tools. Should it stay on hold (kept as a working library two repositories still call), resume as a product, or be retired and archived?",
+   "blocks": "whether any plan beyond keeping the repository's own checks honest is worth doing here, and whether dodaf and whygame5 should keep calling aes",
+   "resolves_with": "Brian's priority call; no check settles it. The facts that bear on it are recorded: the value tally came back at 1 catch and 6 hand checks (Decision 0011), and 2 of 12 criteria are supported today (make aes).",
+   "owner": "brian",
+   "status": "open",
+   "recommendation": "Keep it on hold. Run only the hygiene plan (docs/planning/next.goal.md) so the repository tells the truth about itself, and leave the aes CLI working for dodaf and whygame5.",
+   "default": "AES stays on hold; agents run the hygiene plan and nothing else here.",
+   "sources": [".project-brain/now.md:3", "docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:76", "/home/brian/code2/dodaf/Makefile:57", "/home/brian/code2/whygame5/Makefile:9"],
+   "touches": ["thesis", "value-tally", "north-star"]
+  },
+  {
+   "id": "Q2",
+   "short": "Inside Success rollout",
+   "question": "Decision 0011 paused the Inside Success team rollout until whygame5 produced a result under AES; that condition was met on 2026-09-26 and the call to resume was never made. Resume it, or close it?",
+   "blocks": "whether Decision 0011 item 4 stays open or is closed in a follow-up decision record",
+   "resolves_with": "Brian's business call; no check settles it.",
+   "owner": "brian",
+   "status": "open",
+   "recommendation": "Close it: AES is on hold, so there is no product to roll out. Record the closure as a short follow-up decision in the hygiene plan.",
+   "default": "The rollout stays paused and Decision 0011 item 4 stays as written.",
+   "sources": ["docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:59", "docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:80"],
+   "touches": ["value-tally"]
+  },
+  {
+   "id": "Q3",
+   "short": "Stale docstring wiki",
+   "question": "The durable-documents check fails with CATALOG-STALE because generated/docstring_wiki.md was not regenerated after later commits. Is regenerating it all that is needed?",
+   "blocks": "the durable-documents check and the wiki-compliance check's durable column passing",
+   "resolves_with": "An argument already settles the cause: regenerating in a scratch copy changes the counts from 1102 to 1098 tracked artifacts and 1061 to 1010 missing docstrings, so the file is simply behind the code. The fix is `make docstring-wiki` and a commit, then rerun the check; it is open only because this package touches docs/planning/ alone.",
+   "owner": "agent",
+   "status": "open",
+   "sources": ["Makefile:632", "docs/planning/checks.txt:1"],
+   "touches": ["project-brain"]
+  },
+  {
+   "id": "Q4",
+   "short": "23 plans adopted, none continuing",
+   "question": "23 plan receipts were adopted under older bounded-design revisions (4 to 13; current 18), and none of those plans carries a finished status, while the project brain says none of that work continues. Which are finished, which superseded by the 2026-10-13 redirect, and which (if any) still in progress?",
+   "blocks": "the plan-adoption recheck passing, and which plan this package may treat as current",
+   "resolves_with": "Reading each plan against what merged settles it (an argument per plan, no test): plans about the commit rule are superseded by its removal on 2026-10-14; the rest get done or superseded from their own records. Then set each plan's front-matter status.",
+   "owner": "agent",
+   "status": "open",
+   "sources": [".project-brain/now.md:3", "docs/planning/checks.txt:1"],
+   "touches": ["accepted-plan", "commit-rule"]
+  },
+  {
+   "id": "Q5",
+   "short": "Thesis still names the commit rule",
+   "question": "GOAL.md's thesis and disproof still cite the commit rule (\"a commit refused without an adopted plan\"; agents routing around it), which was removed on 2026-10-14. What do the thesis and disproof say without it?",
+   "blocks": "whether the goal document can be used to judge AES at all, and the wording of the hygiene plan's goal edit",
+   "resolves_with": "An argument settles it: the two remaining checked boundaries (fresh revision-bound evidence; truth where it is edited) carry the thesis, and the disproof's third clause is dropped or rewritten against the pre-commit orphan check. A doc edit, no test.",
+   "owner": "agent",
+   "status": "open",
+   "sources": ["docs/architecture/GOAL.md:45", "docs/architecture/GOAL.md:56", "docs/model/ODD.md:55"],
+   "touches": ["thesis", "commit-rule", "pre-commit-hook"]
+  },
+  {
+   "id": "Q6",
+   "short": "Evidence went stale: 2 of 12 supported",
+   "question": "Decision 0010 accepted v0.2 at 9 supported criteria; `make aes` at 30e9993 reports 2 supported, 10 insufficient, 50 stale observations and one unreachable accepted plan. Is the product still what Decision 0010 accepted, or did a change break it?",
+   "blocks": "whether `aes status` can be quoted as the product's state, and whether Decision 0010's acceptance still stands",
+   "resolves_with": "Running the existing verification subjects settles it, no new evaluation: `aes evidence record <VS-ID>` for each of the 14 subjects re-runs its named tests at HEAD. All passing means the evidence was only stale; any failure is a regression with a named test. The unreachable plan PLAN-AES-SELF-GOVERN gets superseded_by.",
+   "owner": "agent",
+   "status": "open",
+   "sources": ["docs/decisions/0010-greenfield-v0.2-accepted.md:63", "docs/planning/checks.txt:1"],
+   "touches": ["observation", "freshness", "standing", "success-criterion", "verification-subject", "accepted-plan"]
+  },
+  {
+   "id": "Q7",
+   "short": "210 Markdown files, cap 140",
+   "question": "The repository holds 210 tracked Markdown files against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason?",
+   "blocks": "the wiki-compliance check passing",
+   "resolves_with": "An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest.",
+   "owner": "agent",
+   "status": "open",
+   "sources": [".md-file-cap.yaml:1", ".md-file-cap.yaml:6", "docs/planning/checks.txt:1"],
+   "touches": ["commit-rule"]
+  },
+  {
+   "id": "Q8",
+   "short": "No roadmap front door",
+   "question": "The navigation check warns that no roadmap front door exists (no roadmap/README.md, docs/ROADMAP.md or ROADMAP.md, none linked from wiki/index.md), although .agentic/repo.yaml names one. Link it or add one?",
+   "blocks": "the navigation check's two warnings",
+   "resolves_with": "Prior art in the repository settles it: .agentic/repo.yaml already names active_roadmap proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md; link that file from wiki/index.md under a Roadmap line, noting the on-hold status.",
+   "owner": "agent",
+   "status": "open",
+   "sources": [".agentic/repo.yaml:34", "docs/planning/checks.txt:1"],
+   "touches": []
+  },
+  {
+   "id": "Q10",
+   "short": "Vendored claims machinery",
+   "question": "enforced_planning/ (44,556 lines of claims, sessions and worktree lanes) and the scripts/meta coordination scripts that import it are still in the repository, but ~/code2 replaced claims with claude -w worktrees. Keep, or retire them?",
+   "blocks": "how much of the repository the system model must describe, and the size of the hygiene plan",
+   "resolves_with": "Depends on Q1. If AES stays on hold, an argument settles it: leave them in place, unmodelled and labelled as retired by the ~/code2 redirect, because removing 44k lines of code another session may own is not hygiene. If AES resumes, a separate plan.",
+   "owner": "agent",
+   "status": "open",
+   "sources": ["/home/brian/code2/AGENTS.md:19", "scripts/meta/session_finish.py:18"],
+   "touches": []
+  },
+  {
+   "id": "Q9",
+   "short": "Does AES execute typed rules?",
+   "question": "Does AES evaluate typed rules (relations with named roles whose effects run), which would need a type-level metamodel mapped onto the shared kernel?",
+   "blocks": "whether the system model needs a metamodel",
+   "resolves_with": "Reading the code settles it.",
+   "owner": "agent",
+   "status": "resolved",
+   "evidence": "No. Its rules are fixed Python functions over typed records, for example assess (src/agentic_engineering_system/evidence.py:447) and reconcile (reconcile.py:259); no target record defines a rule whose effect AES evaluates.",
+   "sources": ["src/agentic_engineering_system/evidence.py:447", "src/agentic_engineering_system/reconcile.py:259"],
+   "touches": ["standing", "reconciliation"]
+  },
+  {
+   "id": "Q11",
+   "short": "AES commit replay check",
+   "question": "Does the `aes commit replay` check apply to this repository?",
+   "blocks": "which checks the package lists",
+   "resolves_with": "Reading the record settles it.",
+   "owner": "agent",
+   "status": "resolved",
+   "evidence": "No. The commit rule and `aes commit` were removed on 2026-10-14 (ODD.md line 55), and the planning-compliance skill retires AES commit rules in ~/code2 from 2026-10-13.",
+   "sources": ["docs/model/ODD.md:55", ".project-brain/now.md:3"],
+   "touches": ["commit-rule"]
+  },
+  {
+   "id": "Q12",
+   "short": "Who still depends on aes",
+   "question": "Ten repositories under ~/code2 carry an .aes/ folder. Which still run the aes CLI, so that a retirement would break them?",
+   "blocks": "the cost side of Q1",
+   "resolves_with": "Searching their Makefiles and hooks settles it.",
+   "owner": "agent",
+   "status": "resolved",
+   "evidence": "Two: dodaf (Makefile aes-gate, line 57, installs aes from this repository) and whygame5 (Makefile lines 6-10). The other eight carry .aes/ records but no hook or make target names aes (grep of .git/hooks/pre-commit, lefthook.yml and Makefile, 2026-10-27).",
+   "sources": ["/home/brian/code2/dodaf/Makefile:57", "/home/brian/code2/whygame5/Makefile:9"],
+   "touches": ["project-record"]
+  },
+  {
+   "id": "Q13",
+   "short": "Is the aes gate healthy",
+   "question": "Do the repository's own AES gates (target validate, topology check, status) still pass at HEAD?",
+   "blocks": "whether the plan must repair the CLI before anything else",
+   "resolves_with": "Running make aes settles it.",
+   "owner": "agent",
+   "status": "resolved",
+   "evidence": "Yes: make aes exits 0 at 30e9993: target valid (2 outcomes, 12 criteria, 44 planned artifacts, 14 verification subjects), 42 governed files and 0 orphans, 44 artifacts realized and 0 drifted. Its evidence counts are Q6.",
+   "sources": ["Makefile:571", "docs/planning/checks.txt:1"],
+   "touches": ["reconciliation", "orphan", "drift"]
+  },
+  {
+   "id": "Q14",
+   "short": "Leftover commit-rule config",
+   "question": ".aes/commit_rule.yaml still sets the commit rule to observe mode. Does anything read it?",
+   "blocks": "whether the hygiene plan deletes it",
+   "resolves_with": "Searching the code settles it.",
+   "owner": "agent",
+   "status": "resolved",
+   "evidence": "Nothing reads it: a search for commit_rule under src/ and scripts/ finds only a comment in topology.py line 18. The hygiene plan removes the file (it is in git history).",
+   "sources": [".aes/commit_rule.yaml:5", "src/agentic_engineering_system/topology.py:18"],
+   "touches": ["commit-rule"]
+  }
+ ]
+}

@@ -1,0 +1,523 @@
+{
+ "schema": "typed-graph/v1",
+ "kinds": {
+  "Target": {
+   "label": "Plan records (in code)",
+   "color": "#1f5f99",
+   "explain": "What .aes/target.yaml declares: outcomes, rules, criteria, components and the files planned for them."
+  },
+  "Change": {
+   "label": "Changing the plan (in code)",
+   "color": "#5f8fc2",
+   "explain": "How the target changes: a proposal with a delta, accepted into a plan record."
+  },
+  "Evidence": {
+   "label": "Evidence (in code)",
+   "color": "#3b78b8",
+   "explain": "Observations bound to a commit, their freshness, and the standing they give each criterion."
+  },
+  "State": {
+   "label": "Current state (in code)",
+   "color": "#2b4c6f",
+   "explain": "What HEAD contains, how it differs from the plan, and the gaps that remain."
+  },
+  "Context": {
+   "label": "Context and project records (in code)",
+   "color": "#7a8fa6",
+   "explain": "Project settings, the working-context packet, the v0.1 repository context, and the project brain."
+  },
+  "DocOnly": {
+   "label": "Only in documents",
+   "color": "#d9822b",
+   "explain": "Named in the goal, decisions or plans, with no code here that implements it.",
+   "dashed": true
+  },
+  "Retired": {
+   "label": "Retired (history)",
+   "color": "#9aa3ad",
+   "explain": "Removed on 2026-10-14; documents still describe it.",
+   "dashed": true
+  }
+ },
+ "layout": {
+  "direction": "RIGHT",
+  "algorithm": "layered"
+ },
+ "nodes": [
+  {
+   "id": "target",
+   "label": "Target",
+   "kind": "Target",
+   "explain": "The plan of record, .aes/target.yaml: outcomes, normative items, success criteria, components, planned artifacts and verification subjects. Defined in docs/model/ODD.md:33. Code: src/agentic_engineering_system/records.py:137."
+  },
+  {
+   "id": "outcome",
+   "label": "Outcome",
+   "kind": "Target",
+   "explain": "What an actor or consumer gets (OUT-GF-001, OUT-AP-001), with its non-goals. Defined in docs/architecture/GOAL.md:12. Code: src/agentic_engineering_system/records.py:65."
+  },
+  {
+   "id": "normative-item",
+   "label": "Normative item",
+   "kind": "Target",
+   "explain": "A constraint, behavior, invariant or quality the system must hold, tied to outcomes. Defined in docs/architecture/GOAL.md:11. Code: src/agentic_engineering_system/records.py:73."
+  },
+  {
+   "id": "success-criterion",
+   "label": "Success criterion",
+   "kind": "Target",
+   "explain": "A checkable statement with a disproof and one or more evidence requirements; its standing decides whether it is a gap. Defined in docs/architecture/GOAL.md:11. Code: src/agentic_engineering_system/records.py:86."
+  },
+  {
+   "id": "evidence-requirement",
+   "label": "Evidence requirement",
+   "kind": "Target",
+   "explain": "One kind of evidence a criterion needs (deterministic test, runtime observation, human review or trace review); assessed one at a time, never per criterion. Defined in src/agentic_engineering_system/evidence.py:5. Code: src/agentic_engineering_system/records.py:80."
+  },
+  {
+   "id": "component",
+   "label": "Component",
+   "kind": "Target",
+   "explain": "A responsibility (RU-AES-*) that owns planned artifacts; `aes status` reports the first open gap per component. Defined in docs/model/ODD.md:33. Code: src/agentic_engineering_system/records.py:94."
+  },
+  {
+   "id": "planned-artifact",
+   "label": "Planned artifact",
+   "kind": "Target",
+   "explain": "A file at an exact path that the target plans; every file under a governed root must be one. Defined in src/agentic_engineering_system/topology.py:3. Code: src/agentic_engineering_system/records.py:105."
+  },
+  {
+   "id": "verification-subject",
+   "label": "Verification subject",
+   "kind": "Target",
+   "explain": "The test or check (with its proof role, direct or negative control) that routes evidence to a criterion's requirements. Defined in docs/model/ODD.md:33. Code: src/agentic_engineering_system/records.py:116."
+  },
+  {
+   "id": "external-boundary",
+   "label": "External boundary",
+   "kind": "Target",
+   "explain": "An evidence requirement routed outside the repository (a human review, an outside system) instead of to a local test. Defined in docs/model/ODD.md:33. Code: src/agentic_engineering_system/records.py:126."
+  },
+  {
+   "id": "governed-root",
+   "label": "Governed root",
+   "kind": "Context",
+   "explain": "A folder AES governs (src/agentic_engineering_system/, tests/greenfield/); only files there must be planned. Defined in AGENTS.md:33. Code: src/agentic_engineering_system/records.py:198."
+  },
+  {
+   "id": "project-record",
+   "label": "Project record",
+   "kind": "Context",
+   "explain": ".aes/project.yaml: project id, governed roots and where target, plans and observations live. Defined in src/agentic_engineering_system/topology.py:3. Code: src/agentic_engineering_system/records.py:194."
+  },
+  {
+   "id": "proposal",
+   "label": "Proposal",
+   "kind": "Change",
+   "explain": "A target delta plus the gaps it claims to close, checked by `aes plan validate` before it is accepted. Defined in docs/model/ODD.md:34. Code: src/agentic_engineering_system/planning.py:168."
+  },
+  {
+   "id": "target-delta",
+   "label": "Target delta",
+   "kind": "Change",
+   "explain": "The entries a proposal adds, replaces or removes in the target. Defined in docs/model/ODD.md:34. Code: src/agentic_engineering_system/planning.py:137."
+  },
+  {
+   "id": "accepted-plan",
+   "label": "Accepted plan",
+   "kind": "Change",
+   "explain": "A proposal applied by `aes plan accept`, kept in .aes/plans/ with the revision it was accepted at. Defined in AGENTS.md:39. Code: src/agentic_engineering_system/planning.py:197."
+  },
+  {
+   "id": "trace-review-declaration",
+   "label": "Trace-review declaration",
+   "kind": "Change",
+   "explain": "A proposal's statement of whether its work runs; work that runs needs a trace-review requirement (RULE-TRACE-REVIEW-DECLARED). Defined in docs/model/ODD.md:27. Code: src/agentic_engineering_system/planning.py:148."
+  },
+  {
+   "id": "observation",
+   "label": "Observation",
+   "kind": "Evidence",
+   "explain": "An append-only evidence record in .aes/observations/, bound to the commit it observed and the paths and target entries it depends on. Defined in docs/model/ODD.md:35. Code: src/agentic_engineering_system/evidence.py:176."
+  },
+  {
+   "id": "assessment",
+   "label": "Assessment",
+   "kind": "Evidence",
+   "explain": "An observation's verdict on one evidence requirement: SUPPORTS, REFUTES or INCONCLUSIVE. Defined in src/agentic_engineering_system/evidence.py:5. Code: src/agentic_engineering_system/evidence.py:96."
+  },
+  {
+   "id": "negative-control",
+   "label": "Negative control",
+   "kind": "Evidence",
+   "explain": "A case a control should refuse, recorded with whether it was detected; controls must prove they can fail (AES-POL-004). Defined in docs/architecture/GOAL.md:23. Code: src/agentic_engineering_system/evidence.py:112."
+  },
+  {
+   "id": "freshness",
+   "label": "Freshness",
+   "kind": "Evidence",
+   "explain": "CURRENT, STALE, UNKNOWN or UNREACHABLE, computed from Git: an observation is stale once a path or entry it depends on changes after its commit. Defined in src/agentic_engineering_system/evidence.py:9. Code: src/agentic_engineering_system/evidence.py:376."
+  },
+  {
+   "id": "standing",
+   "label": "Criterion standing",
+   "kind": "Evidence",
+   "explain": "SUPPORTED, REFUTED or INSUFFICIENT for each criterion; only current assessments count, and ignorance never renders green. Defined in docs/architecture/GOAL.md:21. Code: src/agentic_engineering_system/evidence.py:426."
+  },
+  {
+   "id": "characterization",
+   "label": "Characterization",
+   "kind": "State",
+   "explain": "What HEAD contains under the governed roots: each file's blob and its Python symbols. Defined in docs/model/ODD.md:36. Code: src/agentic_engineering_system/characterize.py:59."
+  },
+  {
+   "id": "drift",
+   "label": "Drift",
+   "kind": "State",
+   "explain": "A planned artifact whose committed symbols or signatures no longer match the target (formatting alone is not drift). Defined in docs/model/ODD.md:18. Code: src/agentic_engineering_system/characterize.py:204."
+  },
+  {
+   "id": "orphan",
+   "label": "Orphan",
+   "kind": "State",
+   "explain": "A tracked file under a governed root that the target does not plan; `aes topology check` fails on it. Defined in src/agentic_engineering_system/topology.py:3. Code: src/agentic_engineering_system/topology.py:73."
+  },
+  {
+   "id": "gap",
+   "label": "Gap",
+   "kind": "State",
+   "explain": "An unmet criterion or requirement that stays open until fresh evidence supports it. Defined in docs/model/ODD.md:22. Code: src/agentic_engineering_system/reconcile.py:113."
+  },
+  {
+   "id": "reconciliation",
+   "label": "Reconciliation",
+   "kind": "State",
+   "explain": "`aes status` / `aes reconcile`: artifacts, criteria, observations and plans composed into current state and first gap per component. Defined in docs/model/ODD.md:43. Code: src/agentic_engineering_system/reconcile.py:259."
+  },
+  {
+   "id": "legacy-baseline",
+   "label": "Legacy baseline",
+   "kind": "State",
+   "explain": "`aes adopt`: today's governed files in an existing repository accepted as legacy, without claiming conformance. Defined in docs/architecture/GOAL.md:61. Code: src/agentic_engineering_system/adopt.py:48."
+  },
+  {
+   "id": "working-context",
+   "label": "Working context",
+   "kind": "Context",
+   "explain": "`aes context <subject>`: the smallest complete packet of full-text rules and criteria for one subject, with what was left out listed. Defined in src/agentic_engineering_system/context.py:1. Code: src/agentic_engineering_system/context.py:72."
+  },
+  {
+   "id": "pre-commit-hook",
+   "label": "Pre-commit hook",
+   "kind": "Context",
+   "explain": "The hook `aes hooks install` writes; it refuses a commit that leaves an orphan under a governed root. Defined in AGENTS.md:39. Code: src/agentic_engineering_system/hooks.py:83."
+  },
+  {
+   "id": "repository-context",
+   "label": "Repository context (v0.1)",
+   "kind": "Context",
+   "explain": "The v0.1 Plan 001 artifact: authority surfaces and concern roots resolved from a checkout, with unresolved surfaces kept visible. Defined in docs/plans/001_repository_context_resolution_vertical.md:1. Code: src/agentic_engineering_system/repository_context/models.py:87."
+  },
+  {
+   "id": "project-brain",
+   "label": "Project brain",
+   "kind": "Context",
+   "explain": "The .project-brain/ files (now, state, truth, project) an agent reads first; a script reports when they are older than the work since. Defined in CLAUDE.md:5. Code: scripts/hive/brain_fresh.py:35."
+  },
+  {
+   "id": "thesis",
+   "label": "Checked-boundary thesis",
+   "kind": "DocOnly",
+   "explain": "The bet that agent-built software stays true to intent when every claim is checked against something an agent cannot talk past; with its disproof, still unmeasured. Defined in docs/architecture/GOAL.md:42. No code.",
+   "dashed": true
+  },
+  {
+   "id": "north-star",
+   "label": "Colleague starts a new project",
+   "kind": "DocOnly",
+   "explain": "OUT-GF-001's north star: a colleague without private repositories takes a new project from intent to evidence-backed state. Defined in docs/architecture/GOAL.md:37. No code.",
+   "dashed": true
+  },
+  {
+   "id": "value-tally",
+   "label": "Value tally",
+   "kind": "DocOnly",
+   "explain": "Decision 0011's pre-registered measure: AES catches versus hand checks a person still needed (whygame5: 1 catch, 6 hand checks). Defined in docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:64. No code.",
+   "dashed": true
+  },
+  {
+   "id": "offline-policy-replay",
+   "label": "Offline policy-decision replay (v0.1)",
+   "kind": "DocOnly",
+   "explain": "Plan 002, the v0.1 frontier, stopped at its provider-access step; no code here implements it. Defined in docs/plans/002_offline_policy_decision_replay.md:3. No code.",
+   "dashed": true
+  },
+  {
+   "id": "commit-rule",
+   "label": "Commit rule",
+   "kind": "Retired",
+   "explain": "Commit tags and plan adoption per commit; removed on 2026-10-14 at Brian's request. .aes/commit_rule.yaml remains, read by no code. Defined in docs/model/ODD.md:55. No code.",
+   "dashed": true
+  }
+ ],
+ "edges": [
+  {
+   "id": "e0",
+   "source": "target",
+   "target": "outcome",
+   "label": "declares"
+  },
+  {
+   "id": "e1",
+   "source": "target",
+   "target": "normative-item",
+   "label": "declares"
+  },
+  {
+   "id": "e2",
+   "source": "target",
+   "target": "success-criterion",
+   "label": "declares"
+  },
+  {
+   "id": "e3",
+   "source": "target",
+   "target": "component",
+   "label": "declares"
+  },
+  {
+   "id": "e4",
+   "source": "target",
+   "target": "planned-artifact",
+   "label": "declares"
+  },
+  {
+   "id": "e5",
+   "source": "target",
+   "target": "verification-subject",
+   "label": "declares"
+  },
+  {
+   "id": "e6",
+   "source": "target",
+   "target": "external-boundary",
+   "label": "declares"
+  },
+  {
+   "id": "e7",
+   "source": "normative-item",
+   "target": "outcome",
+   "label": "serves"
+  },
+  {
+   "id": "e8",
+   "source": "success-criterion",
+   "target": "normative-item",
+   "label": "checks"
+  },
+  {
+   "id": "e9",
+   "source": "success-criterion",
+   "target": "evidence-requirement",
+   "label": "needs"
+  },
+  {
+   "id": "e10",
+   "source": "component",
+   "target": "planned-artifact",
+   "label": "owns"
+  },
+  {
+   "id": "e11",
+   "source": "verification-subject",
+   "target": "evidence-requirement",
+   "label": "routes evidence to"
+  },
+  {
+   "id": "e12",
+   "source": "external-boundary",
+   "target": "evidence-requirement",
+   "label": "routes evidence to"
+  },
+  {
+   "id": "e13",
+   "source": "project-record",
+   "target": "governed-root",
+   "label": "names"
+  },
+  {
+   "id": "e14",
+   "source": "project-record",
+   "target": "target",
+   "label": "locates"
+  },
+  {
+   "id": "e15",
+   "source": "planned-artifact",
+   "target": "governed-root",
+   "label": "lives under"
+  },
+  {
+   "id": "e16",
+   "source": "proposal",
+   "target": "target-delta",
+   "label": "carries"
+  },
+  {
+   "id": "e17",
+   "source": "proposal",
+   "target": "gap",
+   "label": "claims to close"
+  },
+  {
+   "id": "e18",
+   "source": "proposal",
+   "target": "trace-review-declaration",
+   "label": "carries"
+  },
+  {
+   "id": "e19",
+   "source": "accepted-plan",
+   "target": "proposal",
+   "label": "is an accepted"
+  },
+  {
+   "id": "e20",
+   "source": "target-delta",
+   "target": "target",
+   "label": "changes"
+  },
+  {
+   "id": "e21",
+   "source": "verification-subject",
+   "target": "observation",
+   "label": "produces"
+  },
+  {
+   "id": "e22",
+   "source": "observation",
+   "target": "assessment",
+   "label": "holds one per requirement"
+  },
+  {
+   "id": "e23",
+   "source": "assessment",
+   "target": "evidence-requirement",
+   "label": "judges"
+  },
+  {
+   "id": "e24",
+   "source": "observation",
+   "target": "freshness",
+   "label": "has"
+  },
+  {
+   "id": "e25",
+   "source": "observation",
+   "target": "negative-control",
+   "label": "may record"
+  },
+  {
+   "id": "e26",
+   "source": "standing",
+   "target": "success-criterion",
+   "label": "is the standing of"
+  },
+  {
+   "id": "e27",
+   "source": "assessment",
+   "target": "standing",
+   "label": "counts toward, when current"
+  },
+  {
+   "id": "e28",
+   "source": "characterization",
+   "target": "planned-artifact",
+   "label": "describes"
+  },
+  {
+   "id": "e29",
+   "source": "drift",
+   "target": "planned-artifact",
+   "label": "found in"
+  },
+  {
+   "id": "e30",
+   "source": "orphan",
+   "target": "governed-root",
+   "label": "found under"
+  },
+  {
+   "id": "e31",
+   "source": "reconciliation",
+   "target": "characterization",
+   "label": "reads"
+  },
+  {
+   "id": "e32",
+   "source": "reconciliation",
+   "target": "standing",
+   "label": "reads"
+  },
+  {
+   "id": "e33",
+   "source": "reconciliation",
+   "target": "gap",
+   "label": "reports"
+  },
+  {
+   "id": "e34",
+   "source": "reconciliation",
+   "target": "drift",
+   "label": "reports"
+  },
+  {
+   "id": "e35",
+   "source": "legacy-baseline",
+   "target": "governed-root",
+   "label": "accepts files under"
+  },
+  {
+   "id": "e36",
+   "source": "working-context",
+   "target": "component",
+   "label": "compiled for"
+  },
+  {
+   "id": "e37",
+   "source": "pre-commit-hook",
+   "target": "orphan",
+   "label": "refuses"
+  },
+  {
+   "id": "e38",
+   "source": "thesis",
+   "target": "standing",
+   "label": "rests on"
+  },
+  {
+   "id": "e39",
+   "source": "north-star",
+   "target": "outcome",
+   "label": "is the aim of"
+  },
+  {
+   "id": "e40",
+   "source": "value-tally",
+   "target": "thesis",
+   "label": "measures"
+  },
+  {
+   "id": "e41",
+   "source": "commit-rule",
+   "target": "accepted-plan",
+   "label": "required, per commit"
+  },
+  {
+   "id": "e42",
+   "source": "offline-policy-replay",
+   "target": "repository-context",
+   "label": "builds on"
+  }
+ ]
+}

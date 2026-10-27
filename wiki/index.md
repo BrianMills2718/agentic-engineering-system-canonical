@@ -15,6 +15,7 @@ through its own `.aes/` target.
 - Terms: [`docs/terms/ecosystem-terms.md`](../docs/terms/ecosystem-terms.md), Brian's reasoning and decision vocabulary (first entries; drafts marked).
 - Use it: [`docs/greenfield/GETTING_STARTED.md`](../docs/greenfield/GETTING_STARTED.md).
 - Current state: run `aes status` (or `make aes`); the live authority is `.aes/target.yaml`.
+- Planning package (Company Planning, 2026-10-27): [review page](../proposals/planning-package/review-page/index.html), [open questions](../docs/planning/open-questions.json), [system model](../docs/planning/SYSTEM_MODEL.md), [domain glossary](../docs/planning/DOMAIN.md), [next goal](../docs/planning/next.goal.md).
 - Source-bound trace review: [adopted cross-project plan](../proposals/trace-review-enforcement/plan.md); native provider configuration and retained observation linkage are in [Getting Started](../docs/greenfield/GETTING_STARTED.md).
 - Agent feedback loop: [start here](../proposals/aes-learning-loop/review-page/guide.html) (what runs and when, the model and requirement pages, every document and what is still open).
 - Vision coverage plan (2026-10-05, history; AES on hold since 2026-10-13): [`proposals/vision-coverage/README.md`](../proposals/vision-coverage/README.md).
