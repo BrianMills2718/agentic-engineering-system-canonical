@@ -3,8 +3,8 @@ window.PAGE_DATA = {
   "schema_version": "1.0",
   "record_type": "planning_package",
   "repository": "BrianMills2718/agentic-engineering-system-canonical",
-  "subject_revision": "c1b3ee65040d0082863b4d4ef36e5d65dcb373c6",
-  "request": "Workflow task 2026-10-27 \"Make the repository ... Company Planning compliant. It has no planning package yet: build one.\" (Brian's standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\"). The package describes commit c1b3ee6: origin/main at 30e9993 plus the commit that adds docs/planning/, the review page and one wiki/index.md link; later commits on the branch change package files only.",
+  "subject_revision": "8b732aaca497a5e4b55bfa0dad0585d0663299f5",
+  "request": "Workflow task 2026-10-27 \"Make the repository ... Company Planning compliant. It has no planning package yet: build one.\" (Brian's standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\"). The package describes commit 8b732aa: origin/main at 30e9993 plus the commits that add docs/planning/, the review page and one wiki/index.md link; later commits on the branch change package files only.",
   "parts": {
    "checks": {
     "status": "present",
@@ -69,6 +69,17 @@ window.PAGE_DATA = {
        "plans_unreachable": 1
       },
       "tracked_by": "Q6"
+     },
+     {
+      "name": "code2 repository format",
+      "command": "python3 $HOME/code2/workspace/scripts/repo_format.py .",
+      "exit_status": 1,
+      "counts": {
+       "compliant": 0,
+       "repositories": 1,
+       "findings": 5
+      },
+      "tracked_by": "Q17"
      },
      {
       "name": "typed-graph/v1 schema (domain graph and open-questions map)",
@@ -267,7 +278,7 @@ window.PAGE_DATA = {
   {
    "id": "Q6",
    "short": "Evidence went stale after the commit rule's removal",
-   "question": "Decision 0010 accepted v0.2 with its nine criteria supported; `make aes` at c1b3ee6 reports 2 of 12 supported and 50 of 82 observations stale. Three criteria were added after the acceptance (SC-TR-001, SC-ADOPT-001, SC-TR-SOURCE-001), and 15 observations depend on commit_rule.py, which a06e963 deleted (docs and target updated in bb6818a). Is the staleness only that, or did a change break one of the nine accepted criteria?",
+   "question": "Decision 0010 accepted v0.2 with its nine criteria supported; `make aes` at 8b732aa reports 2 of 12 supported and 50 of 82 observations stale. Three criteria were added after the acceptance (SC-TR-001, SC-ADOPT-001, SC-TR-SOURCE-001), and 15 observations depend on commit_rule.py, which a06e963 deleted (docs and target updated in bb6818a). Is the staleness only that, or did a change break one of the nine accepted criteria?",
    "blocks": "whether `aes status` can be quoted as the product's state, and whether Decision 0010's acceptance still stands",
    "resolves_with": "Running the existing verification subjects settles it, no new evaluation: `aes evidence record <VS-ID>` for each deterministic-test subject behind the nine Decision 0010 criteria re-runs its named tests at HEAD; all passing means the evidence was only stale, and any failure is a regression with a named test. The three later criteria are listed separately with the evidence kind each needs: SC-TR-SOURCE-001 needs a trace_review (ER-TR-SOURCE-002) and SC-GF-001 a runtime_observation (a clean-user run), which re-recording tests cannot give. The unreachable accepted plan PLAN-AES-SELF-GOVERN stays a warning by design (reconcile.py lines 18-20).",
    "owner": "agent",
@@ -291,7 +302,7 @@ window.PAGE_DATA = {
   {
    "id": "Q7",
    "short": "213 Markdown files, cap 140",
-   "question": "The repository holds 213 tracked Markdown files at c1b3ee6 (210 on main plus this package's three; its cold review adds a fourth) against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason?",
+   "question": "The repository holds 213 tracked Markdown files at 8b732aa (210 on main plus this package's three; its cold review adds a fourth) against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason?",
    "blocks": "the wiki-compliance check passing",
    "resolves_with": "An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
@@ -383,7 +394,7 @@ window.PAGE_DATA = {
    "sources": [
     "/home/brian/code2/AGENTS.md:49",
     "/home/brian/code2/workspace/scripts/repo_format.py:1",
-    "docs/planning/checks.txt:1"
+    "docs/planning/checks.txt:88"
    ],
    "touches": []
   },
@@ -450,7 +461,7 @@ window.PAGE_DATA = {
    "evidence": "Yes: make aes exits 0 at 30e9993: target valid (2 outcomes, 12 criteria, 44 planned artifacts, 14 verification subjects), 42 governed files and 0 orphans, 44 artifacts realized and 0 drifted. Its evidence counts are Q6.",
    "sources": [
     "Makefile:571",
-    "docs/planning/checks.txt:1"
+    "docs/planning/checks.txt:68"
    ],
    "touches": [
     "reconciliation",
@@ -1147,7 +1158,7 @@ window.PAGE_DATA = {
     "id": "Q6",
     "label": "Q6: Evidence went stale after the commit rule's removal",
     "kind": "AgentQuestion",
-    "explain": "Decision 0010 accepted v0.2 with its nine criteria supported; `make aes` at c1b3ee6 reports 2 of 12 supported and 50 of 82 observations stale. Three criteria were added after the acceptance (SC-TR-001, SC-ADOPT-001, SC-TR-SOURCE-001), and 15 observations depend on commit_rule.py, which a06e963 deleted (docs and target updated in bb6818a). Is the staleness only that, or did a change break one of the nine accepted criteria? Settled by: Running the existing verification subjects settles it, no new evaluation: `aes evidence record <VS-ID>` for each deterministic-test subject behind the nine Decision 0010 criteria re-runs its named tests at HEAD; all passing means the evidence was only stale, and any failure is a regression with a named test. The three later criteria are listed separately with the evidence kind each needs: SC-TR-SOURCE-001 needs a trace_review (ER-TR-SOURCE-002) and SC-GF-001 a runtime_observation (a clean-user run), which re-recording tests cannot give. The unreachable accepted plan PLAN-AES-SELF-GOVERN stays a warning by design (reconcile.py lines 18-20)."
+    "explain": "Decision 0010 accepted v0.2 with its nine criteria supported; `make aes` at 8b732aa reports 2 of 12 supported and 50 of 82 observations stale. Three criteria were added after the acceptance (SC-TR-001, SC-ADOPT-001, SC-TR-SOURCE-001), and 15 observations depend on commit_rule.py, which a06e963 deleted (docs and target updated in bb6818a). Is the staleness only that, or did a change break one of the nine accepted criteria? Settled by: Running the existing verification subjects settles it, no new evaluation: `aes evidence record <VS-ID>` for each deterministic-test subject behind the nine Decision 0010 criteria re-runs its named tests at HEAD; all passing means the evidence was only stale, and any failure is a regression with a named test. The three later criteria are listed separately with the evidence kind each needs: SC-TR-SOURCE-001 needs a trace_review (ER-TR-SOURCE-002) and SC-GF-001 a runtime_observation (a clean-user run), which re-recording tests cannot give. The unreachable accepted plan PLAN-AES-SELF-GOVERN stays a warning by design (reconcile.py lines 18-20)."
    },
    {
     "id": "Q6-blocks",
@@ -1201,7 +1212,7 @@ window.PAGE_DATA = {
     "id": "Q7",
     "label": "Q7: 213 Markdown files, cap 140",
     "kind": "AgentQuestion",
-    "explain": "The repository holds 213 tracked Markdown files at c1b3ee6 (210 on main plus this package's three; its cold review adds a fourth) against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason? Settled by: An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
+    "explain": "The repository holds 213 tracked Markdown files at 8b732aa (210 on main plus this package's three; its cold review adds a fourth) against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason? Settled by: An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
    },
    {
     "id": "Q7-blocks",
@@ -1536,6 +1547,6 @@ window.PAGE_DATA = {
   "Q16",
   "Q17"
  ],
- "built_from": "c1b3ee6",
- "checks_commit": "c1b3ee65040d0082863b4d4ef36e5d65dcb373c6"
+ "built_from": "8b732aa",
+ "checks_commit": "8b732aaca497a5e4b55bfa0dad0585d0663299f5"
 };

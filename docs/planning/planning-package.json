@@ -2,8 +2,8 @@
  "schema_version": "1.0",
  "record_type": "planning_package",
  "repository": "BrianMills2718/agentic-engineering-system-canonical",
- "subject_revision": "c1b3ee65040d0082863b4d4ef36e5d65dcb373c6",
- "request": "Workflow task 2026-10-27 \"Make the repository ... Company Planning compliant. It has no planning package yet: build one.\" (Brian's standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\"). The package describes commit c1b3ee6: origin/main at 30e9993 plus the commit that adds docs/planning/, the review page and one wiki/index.md link; later commits on the branch change package files only.",
+ "subject_revision": "8b732aaca497a5e4b55bfa0dad0585d0663299f5",
+ "request": "Workflow task 2026-10-27 \"Make the repository ... Company Planning compliant. It has no planning package yet: build one.\" (Brian's standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\"). The package describes commit 8b732aa: origin/main at 30e9993 plus the commits that add docs/planning/, the review page and one wiki/index.md link; later commits on the branch change package files only.",
  "parts": {
   "checks": {
    "status": "present",
@@ -68,6 +68,17 @@
       "plans_unreachable": 1
      },
      "tracked_by": "Q6"
+    },
+    {
+     "name": "code2 repository format",
+     "command": "python3 $HOME/code2/workspace/scripts/repo_format.py .",
+     "exit_status": 1,
+     "counts": {
+      "compliant": 0,
+      "repositories": 1,
+      "findings": 5
+     },
+     "tracked_by": "Q17"
     },
     {
      "name": "typed-graph/v1 schema (domain graph and open-questions map)",

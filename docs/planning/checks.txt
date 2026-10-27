@@ -1,4 +1,4 @@
-Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at commit c1b3ee65040d0082863b4d4ef36e5d65dcb373c6 (origin/main 30e9993 plus the package commit), run 2026-10-27 in the clean worktree planning-package-2026-10-27.
+Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at commit 8b732aaca497a5e4b55bfa0dad0585d0663299f5 (origin/main 30e9993 plus this package's commits), run 2026-10-27 in the clean worktree planning-package-2026-10-27.
 Company Planning scripts from ~/code2/company-planning at origin/main 20a090b. Not run: aes commit replay (the commit rule was removed 2026-10-14; open question Q11).
 
 === $ python3 $HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42
@@ -47,7 +47,7 @@ NOT CHECKED: Reports a plan whose front matter status is done, complete(d), supe
 === $ python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD
 === exit status: 1
 OVER    213  BrianMills2718/agentic-engineering-system-canonical  -- 213 > exception limit 140 (Accepted decision records here cite these research, proposal and evidence pages as their evidence (research/ and proposals/aes-v0.2-greenfield/ alone are cited from 38 other files), so pruning them would break those citations. New per-item records go in .aes/ YAML, not Markdown; side projects moved to their own repositories on 2026-10-07 (143 -> 130 files). Limit kept close to the count so growth still trips the check.)
-DURABLE     1  BrianMills2718/agentic-engineering-system-canonical  -- 1 durable-document findings (e.g. CATALOG-STALE role=catalog id=- file=make docstring-wiki-check: catalog check exited 2: docstring wiki stale or hand-edited: /tmp/durable-9n4tztkn/generated/docstring_wiki.md | make: *** [Makefile:636: docstring-wiki-check] Error 1)
+DURABLE     1  BrianMills2718/agentic-engineering-system-canonical  -- 1 durable-document findings (e.g. CATALOG-STALE role=catalog id=- file=make docstring-wiki-check: catalog check exited 2: docstring wiki stale or hand-edited: /tmp/durable-dcohxeev/generated/docstring_wiki.md | make: *** [Makefile:636: docstring-wiki-check] Error 1)
 REPO  BrianMills2718/agentic-engineering-system-canonical  md=213  cap=over  reach=ok(0)  layout=ok(0)  durable=findings(1)
 md-file-cap: 1 given repos checked, cap 100: ok=0 exception=0 over=1 not-checked=0; wiki reachability ok=1 orphans=0 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=0 findings=1 undeclared=0   exit 1
 
@@ -63,7 +63,7 @@ OK /home/brian/code2/.worktrees/agentic-engineering-system-canonical-planning/.a
 PYTHONPATH=src /home/brian/code2/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli topology check
 OK topology: 42 governed file(s) under ['src/agentic_engineering_system/', 'tests/greenfield/'], 0 orphan(s), 0 planned but not yet realized
 PYTHONPATH=src /home/brian/code2/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli status
-OK status: agentic-engineering-system-canonical-target at c1b3ee65040d0082863b4d4ef36e5d65dcb373c6
+OK status: agentic-engineering-system-canonical-target at 8b732aaca497a5e4b55bfa0dad0585d0663299f5
   artifacts: 44 realized, 0 unrealized, 0 drifted; 0 orphan(s)
   criteria: 2 supported, 10 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
   observations: 4 current, 50 stale, 1 unknown, 0 unreachable; 27 superseded
@@ -82,6 +82,11 @@ OK status: agentic-engineering-system-canonical-target at c1b3ee65040d0082863b4d
     RU-AES-ADOPT: insufficient SC-ADOPT-001 - ER-ADOPT-001-01 NO_CURRENT_SUPPORT
   warning: plan PLAN-AES-SELF-GOVERN accepted_at_revision 80e6da33 is not reachable from HEAD (squash-merged or deleted branch?); the target already carries its delta, so this does not fail
   INSUFFICIENT criteria are normal while work is in progress and do not fail this command; a REFUTED criterion, an orphan or drift does.
+
+=== $ python3 $HOME/code2/workspace/scripts/repo_format.py .
+=== exit status: 1
+: missing docs/index.md, docs/architecture/arc42.md, docs/architecture/*.c4, openspec/specs/*/spec.md, Makefile (must mention code2check)
+RESULT repo-format compliant=0 of=1 exit=1
 
 === $ jsonschema of docs/planning/domain.graph.json and open-questions.graph.json against $HOME/code2/representation-router/schemas/typed-graph.schema.json
 === exit status: 0
