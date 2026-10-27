@@ -149,15 +149,18 @@ window.PAGE_DATA = {
     "status": "present",
     "path": "docs/planning/next.goal.md",
     "relies_on": [
+     "target",
+     "outcome",
      "accepted-plan",
+     "plan-receipt",
      "observation",
      "freshness",
      "standing",
      "success-criterion",
      "verification-subject",
+     "pre-commit-hook",
      "thesis",
-     "commit-rule",
-     "project-brain"
+     "commit-rule"
     ]
    },
    "review_page": {
@@ -216,31 +219,29 @@ window.PAGE_DATA = {
    "short": "Stale docstring wiki",
    "question": "The durable-documents check fails with CATALOG-STALE because generated/docstring_wiki.md was not regenerated after later commits. Is regenerating it all that is needed?",
    "blocks": "the durable-documents check and the wiki-compliance check's durable column passing",
-   "resolves_with": "An argument already settles the cause: regenerating in a scratch copy changes the counts from 1102 to 1098 tracked artifacts and 1061 to 1010 missing docstrings, so the file is simply behind the code. The fix is `make docstring-wiki` and a commit, then rerun the check; it is open only because this package touches docs/planning/ alone.",
+   "resolves_with": "An argument already settles the cause: regenerating in a scratch copy changes the counts from 1102 to 1098 tracked artifacts and 1061 to 1010 missing docstrings, so the file is simply behind the code. The fix is `make docstring-wiki` and a commit, then rerun the check; it is open only because this package touches docs/planning/ alone. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",
    "sources": [
     "Makefile:632",
-    "docs/planning/checks.txt:1"
+    "docs/planning/checks.txt:6"
    ],
-   "touches": [
-    "project-brain"
-   ]
+   "touches": []
   },
   {
    "id": "Q4",
    "short": "23 plans adopted, none continuing",
-   "question": "23 plan receipts were adopted under older bounded-design revisions (4 to 13; current 18), and none of those plans carries a finished status, while the project brain says none of that work continues. Which are finished, which superseded by the 2026-10-13 redirect, and which (if any) still in progress?",
+   "question": "23 Company Planning adoption receipts (*.receipt.json, adopted under bounded-design revisions 4 to 13; current 18) belong to plans that carry no finished status, while the project brain says none of that work continues. Which plans are finished, which superseded by the 2026-10-13 redirect, and which (if any) still in progress? These are not AES accepted plans (.aes/plans/, 8 of them).",
    "blocks": "the plan-adoption recheck passing, and which plan this package may treat as current",
    "resolves_with": "Reading each plan against what merged settles it (an argument per plan, no test): plans about the commit rule are superseded by its removal on 2026-10-14; the rest get done or superseded from their own records. Then set each plan's front-matter status.",
    "owner": "agent",
    "status": "open",
    "sources": [
     ".project-brain/now.md:3",
-    "docs/planning/checks.txt:1"
+    "docs/planning/checks.txt:45"
    ],
    "touches": [
-    "accepted-plan",
+    "plan-receipt",
     "commit-rule"
    ]
   },
@@ -249,7 +250,7 @@ window.PAGE_DATA = {
    "short": "Thesis still names the commit rule",
    "question": "GOAL.md's thesis and disproof still cite the commit rule (\"a commit refused without an adopted plan\"; agents routing around it), which was removed on 2026-10-14. What do the thesis and disproof say without it?",
    "blocks": "whether the goal document can be used to judge AES at all, and the wording of the hygiene plan's goal edit",
-   "resolves_with": "An argument settles it: the two remaining checked boundaries (fresh revision-bound evidence; truth where it is edited) carry the thesis, and the disproof's third clause is dropped or rewritten against the pre-commit orphan check. A doc edit, no test.",
+   "resolves_with": "An argument settles it: the two remaining checked boundaries (fresh revision-bound evidence; truth where it is edited) carry the thesis. The disproof's third clause (agents routing around the commit rule) is dropped, or rewritten against `make aes` topology runs, not the pre-commit orphan hook, which does not run here (Q16). A doc edit, no test. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",
    "sources": [
@@ -265,15 +266,18 @@ window.PAGE_DATA = {
   },
   {
    "id": "Q6",
-   "short": "Evidence went stale: 2 of 12 supported",
-   "question": "Decision 0010 accepted v0.2 at 9 supported criteria; `make aes` at 30e9993 reports 2 supported, 10 insufficient, 50 stale observations and one unreachable accepted plan. Is the product still what Decision 0010 accepted, or did a change break it?",
+   "short": "Evidence went stale after the commit rule's removal",
+   "question": "Decision 0010 accepted v0.2 with its nine criteria supported; `make aes` at c1b3ee6 reports 2 of 12 supported and 50 of 82 observations stale. Three criteria were added after the acceptance (SC-TR-001, SC-ADOPT-001, SC-TR-SOURCE-001), and 15 observations depend on commit_rule.py, which a06e963 deleted (docs and target updated in bb6818a). Is the staleness only that, or did a change break one of the nine accepted criteria?",
    "blocks": "whether `aes status` can be quoted as the product's state, and whether Decision 0010's acceptance still stands",
-   "resolves_with": "Running the existing verification subjects settles it, no new evaluation: `aes evidence record <VS-ID>` for each of the 14 subjects re-runs its named tests at HEAD. All passing means the evidence was only stale; any failure is a regression with a named test. The unreachable plan PLAN-AES-SELF-GOVERN gets superseded_by.",
+   "resolves_with": "Running the existing verification subjects settles it, no new evaluation: `aes evidence record <VS-ID>` for each deterministic-test subject behind the nine Decision 0010 criteria re-runs its named tests at HEAD; all passing means the evidence was only stale, and any failure is a regression with a named test. The three later criteria are listed separately with the evidence kind each needs: SC-TR-SOURCE-001 needs a trace_review (ER-TR-SOURCE-002) and SC-GF-001 a runtime_observation (a clean-user run), which re-recording tests cannot give. The unreachable accepted plan PLAN-AES-SELF-GOVERN stays a warning by design (reconcile.py lines 18-20).",
    "owner": "agent",
    "status": "open",
    "sources": [
     "docs/decisions/0010-greenfield-v0.2-accepted.md:63",
-    "docs/planning/checks.txt:1"
+    ".aes/target.yaml:271",
+    ".aes/target.yaml:307",
+    "src/agentic_engineering_system/reconcile.py:18",
+    "docs/planning/checks.txt:68"
    ],
    "touches": [
     "observation",
@@ -289,13 +293,13 @@ window.PAGE_DATA = {
    "short": "213 Markdown files, cap 140",
    "question": "The repository holds 213 tracked Markdown files at c1b3ee6 (210 on main plus this package's three; its cold review adds a fourth) against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason?",
    "blocks": "the wiki-compliance check passing",
-   "resolves_with": "An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest.",
+   "resolves_with": "An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",
    "sources": [
     ".md-file-cap.yaml:1",
     ".md-file-cap.yaml:6",
-    "docs/planning/checks.txt:1"
+    "docs/planning/checks.txt:49"
    ],
    "touches": [
     "commit-rule"
@@ -306,12 +310,12 @@ window.PAGE_DATA = {
    "short": "No roadmap front door",
    "question": "The navigation check warns that no roadmap front door exists (no roadmap/README.md, docs/ROADMAP.md or ROADMAP.md, none linked from wiki/index.md), although .agentic/repo.yaml names one. Link it or add one?",
    "blocks": "the navigation check's two warnings",
-   "resolves_with": "Prior art in the repository settles it: .agentic/repo.yaml already names active_roadmap proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md; link that file from wiki/index.md under a Roadmap line, noting the on-hold status.",
+   "resolves_with": "Prior art in the repository settles it: .agentic/repo.yaml already names active_roadmap proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md; link that file from wiki/index.md under a Roadmap line, noting the on-hold status. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",
    "sources": [
     ".agentic/repo.yaml:34",
-    "docs/planning/checks.txt:1"
+    "docs/planning/checks.txt:11"
    ],
    "touches": []
   },
@@ -326,6 +330,60 @@ window.PAGE_DATA = {
    "sources": [
     "/home/brian/code2/AGENTS.md:19",
     "scripts/meta/session_finish.py:18"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q15",
+   "short": "Target still holds the commit-rule outcome",
+   "question": "OUT-AP-001 says real work in an AES-governed repository lands only under a plan Company Planning adopted. That was the commit rule's outcome, removed on 2026-10-14 at Brian's request, and TR-REQ-001 still serves it. Withdraw the outcome, or say what now enforces it?",
+   "blocks": "whether the target contradicts the repository's own rules after the hygiene plan, and which criteria count toward Q6",
+   "resolves_with": "An argument settles it: Brian asked on 2026-10-13 to turn off this enforcement, and nothing enforces it now, so the outcome is withdrawn through `aes plan prepare` / `validate` / `accept` (TR-REQ-001 re-pointed at OUT-GF-001 or withdrawn with it), not by hand.",
+   "owner": "agent",
+   "status": "open",
+   "sources": [
+    ".aes/target.yaml:12",
+    ".aes/target.yaml:100",
+    "docs/architecture/GOAL.md:13",
+    "docs/model/ODD.md:55"
+   ],
+   "touches": [
+    "outcome",
+    "target",
+    "commit-rule"
+   ]
+  },
+  {
+   "id": "Q16",
+   "short": "Orphan hook does not run here",
+   "question": "AGENTS.md says the pre-commit hook written by `aes hooks install` refuses a commit that leaves an unplanned file under a governed root, but this checkout's core.hooksPath runs lefthook with the shared code2-workspace config, which never calls aes, and repository hooks are off machine-wide since 2026-10-13. Reinstate the gate (an aes topology step in lefthook), or say in AGENTS.md that `make aes` is now the only check?",
+   "blocks": "what the rewritten thesis and disproof can rest on (Q5), and whether AGENTS.md lines 38-40 stay true",
+   "resolves_with": "An argument settles it while AES is on hold: every ~/code2 check should finish in seconds and `aes topology check` does, so add it to lefthook's pre-commit as a local step if Q1 resumes AES; while on hold, correct AGENTS.md (through CLAUDE.md, which generates it) to name `make aes` as the check.",
+   "owner": "agent",
+   "status": "open",
+   "sources": [
+    "AGENTS.md:38",
+    "lefthook.yml:1",
+    "/home/brian/.config/git/repo-hooks.off"
+   ],
+   "touches": [
+    "pre-commit-hook",
+    "orphan",
+    "thesis"
+   ]
+  },
+  {
+   "id": "Q17",
+   "short": "Not in the code2 repository format",
+   "question": "~/code2/AGENTS.md brings each repository into the code2 format when it is next changed; scripts/repo_format.py reports this one 0 of 1 compliant (missing docs/index.md, arc42, a .c4 model, OpenSpec specs, a code2check Makefile target). Does the hygiene plan adopt the format, or defer it?",
+   "blocks": "the hygiene plan's scope",
+   "resolves_with": "An argument settles it: the rule applies when the repository is next changed, and the hygiene plan changes it, so the plan adds the items that cost minutes (docs/index.md pointing at wiki/index.md, a code2check target running make aes and the link check) and records the rest (arc42, .c4, OpenSpec specs) as deferred while AES is on hold, each with that reason.",
+   "owner": "agent",
+   "status": "open",
+   "sources": [
+    "/home/brian/code2/AGENTS.md:49",
+    "/home/brian/code2/workspace/scripts/repo_format.py:1",
+    "docs/planning/checks.txt:1"
    ],
    "touches": []
   },
@@ -367,12 +425,12 @@ window.PAGE_DATA = {
   {
    "id": "Q12",
    "short": "Who still depends on aes",
-   "question": "Ten repositories under ~/code2 carry an .aes/ folder. Which still run the aes CLI, so that a retirement would break them?",
+   "question": "Nine other repositories (plus a dodaf worktree) under ~/code2 carry an .aes/ folder. Which still run the aes CLI, so that a retirement would break them?",
    "blocks": "the cost side of Q1",
    "resolves_with": "Searching their Makefiles and hooks settles it.",
    "owner": "agent",
    "status": "resolved",
-   "evidence": "Two: dodaf (Makefile aes-gate, line 57, installs aes from this repository) and whygame5 (Makefile lines 6-10). The other eight carry .aes/ records but no hook or make target names aes (grep of .git/hooks/pre-commit, lefthook.yml and Makefile, 2026-10-27).",
+   "evidence": "Two call aes from make: dodaf (Makefile aes-gate, line 57, installs aes from this repository) and whygame5 (Makefile lines 6-10). observation-to-action-metamodel tracks an aes pre-commit hook (.githooks/pre-commit line 2) that is dormant while repository hooks are off machine-wide (~/.config/git/repo-hooks.off, 2026-10-13). The rest carry .aes/ records only (grep of hooks, lefthook.yml and Makefile, 2026-10-27).",
    "sources": [
     "/home/brian/code2/dodaf/Makefile:57",
     "/home/brian/code2/whygame5/Makefile:9"
@@ -408,7 +466,7 @@ window.PAGE_DATA = {
    "resolves_with": "Searching the code settles it.",
    "owner": "agent",
    "status": "resolved",
-   "evidence": "Nothing reads it: a search for commit_rule under src/ and scripts/ finds only a comment in topology.py line 18. The hygiene plan removes the file (it is in git history).",
+   "evidence": "Nothing reads it: a search for commit_rule under src/ and scripts/ finds nothing (topology.py line 18 mentions \"the commit rule's concern\" in prose). The hygiene plan removes the file (it stays in git history).",
    "sources": [
     ".aes/commit_rule.yaml:5",
     "src/agentic_engineering_system/topology.py:18"
@@ -450,6 +508,12 @@ window.PAGE_DATA = {
     "label": "Only in documents",
     "color": "#d9822b",
     "explain": "Named in the goal, decisions or plans, with no code here that implements it.",
+    "dashed": true
+   },
+   "External": {
+    "label": "Written by another tool",
+    "color": "#b8860b",
+    "explain": "Records stored here that another tool (Company Planning) writes and reads; no AES code reads them.",
     "dashed": true
    },
    "Retired": {
@@ -630,7 +694,7 @@ window.PAGE_DATA = {
     "id": "pre-commit-hook",
     "label": "Pre-commit hook",
     "kind": "Context",
-    "explain": "The hook `aes hooks install` writes; it refuses a commit that leaves an orphan under a governed root. Defined in AGENTS.md:39. Code: src/agentic_engineering_system/hooks.py:83."
+    "explain": "The hook `aes hooks install` writes; it refuses a commit that leaves an orphan under a governed root. Not running in this checkout since 2026-10-13: core.hooksPath runs lefthook, which never calls aes (Q16). Defined in AGENTS.md:39. Code: src/agentic_engineering_system/hooks.py:83."
    },
    {
     "id": "repository-context",
@@ -670,6 +734,13 @@ window.PAGE_DATA = {
     "label": "Offline policy-decision replay (v0.1)",
     "kind": "DocOnly",
     "explain": "Plan 002, the v0.1 frontier, stopped at its provider-access step; no code here implements it. Defined in docs/plans/002_offline_policy_decision_replay.md:3. No code.",
+    "dashed": true
+   },
+   {
+    "id": "plan-receipt",
+    "label": "Plan adoption receipt",
+    "kind": "External",
+    "explain": "A Company Planning adoption record (*.receipt.json next to a plan in docs/plans/ or proposals/), naming the bounded-design profile revision the plan was adopted under; distinct from an AES accepted plan. Defined in docs/plans/adoption-progress-fields.receipt.json:1. No code.",
     "dashed": true
    },
    {
@@ -907,7 +978,7 @@ window.PAGE_DATA = {
     "id": "e37",
     "source": "pre-commit-hook",
     "target": "orphan",
-    "label": "refuses"
+    "label": "would refuse (dormant here)"
    },
    {
     "id": "e38",
@@ -930,7 +1001,7 @@ window.PAGE_DATA = {
    {
     "id": "e41",
     "source": "commit-rule",
-    "target": "accepted-plan",
+    "target": "plan-receipt",
     "label": "required, per commit"
    },
    {
@@ -1019,7 +1090,7 @@ window.PAGE_DATA = {
     "id": "Q3",
     "label": "Q3: Stale docstring wiki",
     "kind": "AgentQuestion",
-    "explain": "The durable-documents check fails with CATALOG-STALE because generated/docstring_wiki.md was not regenerated after later commits. Is regenerating it all that is needed? Settled by: An argument already settles the cause: regenerating in a scratch copy changes the counts from 1102 to 1098 tracked artifacts and 1061 to 1010 missing docstrings, so the file is simply behind the code. The fix is `make docstring-wiki` and a commit, then rerun the check; it is open only because this package touches docs/planning/ alone."
+    "explain": "The durable-documents check fails with CATALOG-STALE because generated/docstring_wiki.md was not regenerated after later commits. Is regenerating it all that is needed? Settled by: An argument already settles the cause: regenerating in a scratch copy changes the counts from 1102 to 1098 tracked artifacts and 1061 to 1010 missing docstrings, so the file is simply behind the code. The fix is `make docstring-wiki` and a commit, then rerun the check; it is open only because this package touches docs/planning/ alone. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
    },
    {
     "id": "Q3-blocks",
@@ -1028,17 +1099,10 @@ window.PAGE_DATA = {
     "explain": "the durable-documents check and the wiki-compliance check's durable column passing"
    },
    {
-    "id": "project-brain",
-    "label": "Project brain",
-    "kind": "Concept",
-    "dashed": false,
-    "explain": "The .project-brain/ files (now, state, truth, project) an agent reads first; a script reports when they are older than the work since. Defined in CLAUDE.md:5. Code: scripts/hive/brain_fresh.py:35."
-   },
-   {
     "id": "Q4",
     "label": "Q4: 23 plans adopted, none continuing",
     "kind": "AgentQuestion",
-    "explain": "23 plan receipts were adopted under older bounded-design revisions (4 to 13; current 18), and none of those plans carries a finished status, while the project brain says none of that work continues. Which are finished, which superseded by the 2026-10-13 redirect, and which (if any) still in progress? Settled by: Reading each plan against what merged settles it (an argument per plan, no test): plans about the commit rule are superseded by its removal on 2026-10-14; the rest get done or superseded from their own records. Then set each plan's front-matter status."
+    "explain": "23 Company Planning adoption receipts (*.receipt.json, adopted under bounded-design revisions 4 to 13; current 18) belong to plans that carry no finished status, while the project brain says none of that work continues. Which plans are finished, which superseded by the 2026-10-13 redirect, and which (if any) still in progress? These are not AES accepted plans (.aes/plans/, 8 of them). Settled by: Reading each plan against what merged settles it (an argument per plan, no test): plans about the commit rule are superseded by its removal on 2026-10-14; the rest get done or superseded from their own records. Then set each plan's front-matter status."
    },
    {
     "id": "Q4-blocks",
@@ -1047,11 +1111,11 @@ window.PAGE_DATA = {
     "explain": "the plan-adoption recheck passing, and which plan this package may treat as current"
    },
    {
-    "id": "accepted-plan",
-    "label": "Accepted plan",
+    "id": "plan-receipt",
+    "label": "Plan adoption receipt",
     "kind": "Concept",
-    "dashed": false,
-    "explain": "A proposal applied by `aes plan accept`, kept in .aes/plans/ with the revision it was accepted at. Defined in AGENTS.md:39. Code: src/agentic_engineering_system/planning.py:197."
+    "dashed": true,
+    "explain": "A Company Planning adoption record (*.receipt.json next to a plan in docs/plans/ or proposals/), naming the bounded-design profile revision the plan was adopted under; distinct from an AES accepted plan. Defined in docs/plans/adoption-progress-fields.receipt.json:1. No code."
    },
    {
     "id": "commit-rule",
@@ -1064,7 +1128,7 @@ window.PAGE_DATA = {
     "id": "Q5",
     "label": "Q5: Thesis still names the commit rule",
     "kind": "AgentQuestion",
-    "explain": "GOAL.md's thesis and disproof still cite the commit rule (\"a commit refused without an adopted plan\"; agents routing around it), which was removed on 2026-10-14. What do the thesis and disproof say without it? Settled by: An argument settles it: the two remaining checked boundaries (fresh revision-bound evidence; truth where it is edited) carry the thesis, and the disproof's third clause is dropped or rewritten against the pre-commit orphan check. A doc edit, no test."
+    "explain": "GOAL.md's thesis and disproof still cite the commit rule (\"a commit refused without an adopted plan\"; agents routing around it), which was removed on 2026-10-14. What do the thesis and disproof say without it? Settled by: An argument settles it: the two remaining checked boundaries (fresh revision-bound evidence; truth where it is edited) carry the thesis. The disproof's third clause (agents routing around the commit rule) is dropped, or rewritten against `make aes` topology runs, not the pre-commit orphan hook, which does not run here (Q16). A doc edit, no test. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
    },
    {
     "id": "Q5-blocks",
@@ -1077,13 +1141,13 @@ window.PAGE_DATA = {
     "label": "Pre-commit hook",
     "kind": "Concept",
     "dashed": false,
-    "explain": "The hook `aes hooks install` writes; it refuses a commit that leaves an orphan under a governed root. Defined in AGENTS.md:39. Code: src/agentic_engineering_system/hooks.py:83."
+    "explain": "The hook `aes hooks install` writes; it refuses a commit that leaves an orphan under a governed root. Not running in this checkout since 2026-10-13: core.hooksPath runs lefthook, which never calls aes (Q16). Defined in AGENTS.md:39. Code: src/agentic_engineering_system/hooks.py:83."
    },
    {
     "id": "Q6",
-    "label": "Q6: Evidence went stale: 2 of 12 supported",
+    "label": "Q6: Evidence went stale after the commit rule's removal",
     "kind": "AgentQuestion",
-    "explain": "Decision 0010 accepted v0.2 at 9 supported criteria; `make aes` at 30e9993 reports 2 supported, 10 insufficient, 50 stale observations and one unreachable accepted plan. Is the product still what Decision 0010 accepted, or did a change break it? Settled by: Running the existing verification subjects settles it, no new evaluation: `aes evidence record <VS-ID>` for each of the 14 subjects re-runs its named tests at HEAD. All passing means the evidence was only stale; any failure is a regression with a named test. The unreachable plan PLAN-AES-SELF-GOVERN gets superseded_by."
+    "explain": "Decision 0010 accepted v0.2 with its nine criteria supported; `make aes` at c1b3ee6 reports 2 of 12 supported and 50 of 82 observations stale. Three criteria were added after the acceptance (SC-TR-001, SC-ADOPT-001, SC-TR-SOURCE-001), and 15 observations depend on commit_rule.py, which a06e963 deleted (docs and target updated in bb6818a). Is the staleness only that, or did a change break one of the nine accepted criteria? Settled by: Running the existing verification subjects settles it, no new evaluation: `aes evidence record <VS-ID>` for each deterministic-test subject behind the nine Decision 0010 criteria re-runs its named tests at HEAD; all passing means the evidence was only stale, and any failure is a regression with a named test. The three later criteria are listed separately with the evidence kind each needs: SC-TR-SOURCE-001 needs a trace_review (ER-TR-SOURCE-002) and SC-GF-001 a runtime_observation (a clean-user run), which re-recording tests cannot give. The unreachable accepted plan PLAN-AES-SELF-GOVERN stays a warning by design (reconcile.py lines 18-20)."
    },
    {
     "id": "Q6-blocks",
@@ -1127,10 +1191,17 @@ window.PAGE_DATA = {
     "explain": "The test or check (with its proof role, direct or negative control) that routes evidence to a criterion's requirements. Defined in docs/model/ODD.md:33. Code: src/agentic_engineering_system/records.py:116."
    },
    {
+    "id": "accepted-plan",
+    "label": "Accepted plan",
+    "kind": "Concept",
+    "dashed": false,
+    "explain": "A proposal applied by `aes plan accept`, kept in .aes/plans/ with the revision it was accepted at. Defined in AGENTS.md:39. Code: src/agentic_engineering_system/planning.py:197."
+   },
+   {
     "id": "Q7",
     "label": "Q7: 213 Markdown files, cap 140",
     "kind": "AgentQuestion",
-    "explain": "The repository holds 213 tracked Markdown files at c1b3ee6 (210 on main plus this package's three; its cold review adds a fourth) against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason? Settled by: An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest."
+    "explain": "The repository holds 213 tracked Markdown files at c1b3ee6 (210 on main plus this package's three; its cold review adds a fourth) against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason? Settled by: An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
    },
    {
     "id": "Q7-blocks",
@@ -1142,7 +1213,7 @@ window.PAGE_DATA = {
     "id": "Q8",
     "label": "Q8: No roadmap front door",
     "kind": "AgentQuestion",
-    "explain": "The navigation check warns that no roadmap front door exists (no roadmap/README.md, docs/ROADMAP.md or ROADMAP.md, none linked from wiki/index.md), although .agentic/repo.yaml names one. Link it or add one? Settled by: Prior art in the repository settles it: .agentic/repo.yaml already names active_roadmap proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md; link that file from wiki/index.md under a Roadmap line, noting the on-hold status."
+    "explain": "The navigation check warns that no roadmap front door exists (no roadmap/README.md, docs/ROADMAP.md or ROADMAP.md, none linked from wiki/index.md), although .agentic/repo.yaml names one. Link it or add one? Settled by: Prior art in the repository settles it: .agentic/repo.yaml already names active_roadmap proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md; link that file from wiki/index.md under a Roadmap line, noting the on-hold status. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
    },
    {
     "id": "Q8-blocks",
@@ -1161,6 +1232,63 @@ window.PAGE_DATA = {
     "label": "how much of the repository the system model must describe, and the size of the hygiene …",
     "kind": "Decision",
     "explain": "how much of the repository the system model must describe, and the size of the hygiene plan"
+   },
+   {
+    "id": "Q15",
+    "label": "Q15: Target still holds the commit-rule outcome",
+    "kind": "AgentQuestion",
+    "explain": "OUT-AP-001 says real work in an AES-governed repository lands only under a plan Company Planning adopted. That was the commit rule's outcome, removed on 2026-10-14 at Brian's request, and TR-REQ-001 still serves it. Withdraw the outcome, or say what now enforces it? Settled by: An argument settles it: Brian asked on 2026-10-13 to turn off this enforcement, and nothing enforces it now, so the outcome is withdrawn through `aes plan prepare` / `validate` / `accept` (TR-REQ-001 re-pointed at OUT-GF-001 or withdrawn with it), not by hand."
+   },
+   {
+    "id": "Q15-blocks",
+    "label": "whether the target contradicts the repository's own rules after the hygiene plan, and …",
+    "kind": "Decision",
+    "explain": "whether the target contradicts the repository's own rules after the hygiene plan, and which criteria count toward Q6"
+   },
+   {
+    "id": "outcome",
+    "label": "Outcome",
+    "kind": "Concept",
+    "dashed": false,
+    "explain": "What an actor or consumer gets (OUT-GF-001, OUT-AP-001), with its non-goals. Defined in docs/architecture/GOAL.md:12. Code: src/agentic_engineering_system/records.py:65."
+   },
+   {
+    "id": "target",
+    "label": "Target",
+    "kind": "Concept",
+    "dashed": false,
+    "explain": "The plan of record, .aes/target.yaml: outcomes, normative items, success criteria, components, planned artifacts and verification subjects. Defined in docs/model/ODD.md:33. Code: src/agentic_engineering_system/records.py:137."
+   },
+   {
+    "id": "Q16",
+    "label": "Q16: Orphan hook does not run here",
+    "kind": "AgentQuestion",
+    "explain": "AGENTS.md says the pre-commit hook written by `aes hooks install` refuses a commit that leaves an unplanned file under a governed root, but this checkout's core.hooksPath runs lefthook with the shared code2-workspace config, which never calls aes, and repository hooks are off machine-wide since 2026-10-13. Reinstate the gate (an aes topology step in lefthook), or say in AGENTS.md that `make aes` is now the only check? Settled by: An argument settles it while AES is on hold: every ~/code2 check should finish in seconds and `aes topology check` does, so add it to lefthook's pre-commit as a local step if Q1 resumes AES; while on hold, correct AGENTS.md (through CLAUDE.md, which generates it) to name `make aes` as the check."
+   },
+   {
+    "id": "Q16-blocks",
+    "label": "what the rewritten thesis and disproof can rest on (Q5), and whether AGENTS.md lines …",
+    "kind": "Decision",
+    "explain": "what the rewritten thesis and disproof can rest on (Q5), and whether AGENTS.md lines 38-40 stay true"
+   },
+   {
+    "id": "orphan",
+    "label": "Orphan",
+    "kind": "Concept",
+    "dashed": false,
+    "explain": "A tracked file under a governed root that the target does not plan; `aes topology check` fails on it. Defined in src/agentic_engineering_system/topology.py:3. Code: src/agentic_engineering_system/topology.py:73."
+   },
+   {
+    "id": "Q17",
+    "label": "Q17: Not in the code2 repository format",
+    "kind": "AgentQuestion",
+    "explain": "~/code2/AGENTS.md brings each repository into the code2 format when it is next changed; scripts/repo_format.py reports this one 0 of 1 compliant (missing docs/index.md, arc42, a .c4 model, OpenSpec specs, a code2check Makefile target). Does the hygiene plan adopt the format, or defer it? Settled by: An argument settles it: the rule applies when the repository is next changed, and the hygiene plan changes it, so the plan adds the items that cost minutes (docs/index.md pointing at wiki/index.md, a code2check target running make aes and the link check) and records the rest (arc42, .c4, OpenSpec specs) as deferred while AES is on hold, each with that reason."
+   },
+   {
+    "id": "Q17-blocks",
+    "label": "the hygiene plan's scope",
+    "kind": "Decision",
+    "explain": "the hygiene plan's scope"
    }
   ],
   "edges": [
@@ -1207,21 +1335,15 @@ window.PAGE_DATA = {
     "label": "blocks"
    },
    {
-    "id": "Q3-project-brain",
-    "source": "Q3",
-    "target": "project-brain",
-    "label": "bears on"
-   },
-   {
     "id": "Q4-to-decision",
     "source": "Q4",
     "target": "Q4-blocks",
     "label": "blocks"
    },
    {
-    "id": "Q4-accepted-plan",
+    "id": "Q4-plan-receipt",
     "source": "Q4",
-    "target": "accepted-plan",
+    "target": "plan-receipt",
     "label": "bears on"
    },
    {
@@ -1319,19 +1441,75 @@ window.PAGE_DATA = {
     "source": "Q10",
     "target": "Q10-blocks",
     "label": "blocks"
+   },
+   {
+    "id": "Q15-to-decision",
+    "source": "Q15",
+    "target": "Q15-blocks",
+    "label": "blocks"
+   },
+   {
+    "id": "Q15-outcome",
+    "source": "Q15",
+    "target": "outcome",
+    "label": "bears on"
+   },
+   {
+    "id": "Q15-target",
+    "source": "Q15",
+    "target": "target",
+    "label": "bears on"
+   },
+   {
+    "id": "Q15-commit-rule",
+    "source": "Q15",
+    "target": "commit-rule",
+    "label": "bears on"
+   },
+   {
+    "id": "Q16-to-decision",
+    "source": "Q16",
+    "target": "Q16-blocks",
+    "label": "blocks"
+   },
+   {
+    "id": "Q16-pre-commit-hook",
+    "source": "Q16",
+    "target": "pre-commit-hook",
+    "label": "bears on"
+   },
+   {
+    "id": "Q16-orphan",
+    "source": "Q16",
+    "target": "orphan",
+    "label": "bears on"
+   },
+   {
+    "id": "Q16-thesis",
+    "source": "Q16",
+    "target": "thesis",
+    "label": "bears on"
+   },
+   {
+    "id": "Q17-to-decision",
+    "source": "Q17",
+    "target": "Q17-blocks",
+    "label": "blocks"
    }
   ]
  },
  "context_diagrams": [
   "flowchart LR\n  brian([Brian: planning authority])\n  agent([Coding agents: Claude Code, Codex])\n  aes[AES canonical<br/>the aes CLI and .aes records]\n  git[(Git: commits, blobs, history)]\n  consumers[Other repositories with .aes/<br/>dodaf and whygame5 run aes from make]\n  cp[Company Planning plugin<br/>design method, durable-docs check]\n  vps[personal-vps hive dashboard<br/>serves plan pages]\n  brian -->|decides scope, reads status and plan pages| aes\n  agent -->|aes plan / evidence record / status| aes\n  aes -->|reads commits and diffs for freshness and drift| git\n  consumers -->|install aes from this repository| aes\n  aes -->|v0.1 line names it as design provider| cp\n  vps -->|copies proposals/*/review-page/ every 15 minutes| aes\n",
-  "flowchart TB\n  subgraph v02[v0.2 product: governed roots]\n    cli[aes CLI<br/>src/agentic_engineering_system/cli.py]\n    plan[planning.py<br/>proposals and accepted plans]\n    ev[evidence.py<br/>observations, freshness, standing]\n    rec[reconcile.py + characterize.py + topology.py<br/>state, drift, orphans, gaps]\n    ctx[context.py<br/>working-context packets]\n    hk[hooks.py<br/>pre-commit hook]\n  end\n  v01[repository_context/<br/>v0.1 Plan 001 resolver]\n  ep[enforced_planning/<br/>vendored claims, sessions, worktrees<br/>44,556 lines; retired in ~/code2]\n  scr[scripts/<br/>meta, hive, rules, catalogue, learning_loop]\n  docs[docs/, proposals/, research/, wiki/<br/>213 Markdown files]\n  t[(.aes/target.yaml)]\n  o[(.aes/observations/)]\n  p[(.aes/plans/)]\n  g[(.githooks/pre-commit)]\n  cli --> plan --> t\n  plan --> p\n  cli --> ev --> o\n  cli --> rec\n  rec -->|reads| t\n  rec -->|reads| o\n  cli --> ctx\n  cli --> hk --> g\n  scr -->|generate pages| docs\n"
+  "flowchart TB\n  subgraph v02[v0.2 product: governed roots]\n    cli[aes CLI<br/>src/agentic_engineering_system/cli.py]\n    plan[planning.py<br/>proposals and accepted plans]\n    ev[evidence.py<br/>observations, freshness, standing]\n    rec[reconcile.py + characterize.py + topology.py<br/>state, drift, orphans, gaps]\n    ctx[context.py<br/>working-context packets]\n    hk[hooks.py<br/>pre-commit hook writer<br/>not installed here: lefthook runs instead]\n  end\n  v01[repository_context/<br/>v0.1 Plan 001 resolver]\n  ep[enforced_planning/<br/>vendored claims, sessions, worktrees<br/>44,556 lines; retired in ~/code2]\n  scr[scripts/<br/>meta, hive, rules, catalogue, learning_loop]\n  docs[docs/, proposals/, research/, wiki/<br/>213 Markdown files]\n  t[(.aes/target.yaml)]\n  o[(.aes/observations/)]\n  p[(.aes/plans/)]\n  g[(.githooks/pre-commit<br/>dormant)]\n  pj[(.aes/project.yaml)]\n  lb[(.aes/legacy_baseline.json)]\n  ad[adopt.py + project.py<br/>aes adopt, aes init]\n  cli --> plan --> t\n  plan --> p\n  cli --> ev --> o\n  cli --> rec\n  rec -->|reads| t\n  rec -->|reads| o\n  cli --> ctx\n  cli --> hk --> g\n  cli --> ad --> pj\n  ad --> lb\n  scr -->|generate pages| docs\n"
  ],
  "disagreements": [
   "**The thesis still names the commit rule.** [GOAL.md](../architecture/GOAL.md) lines 44-46 and 55-57 describe \"a commit refused without an adopted plan\" as a checked boundary and its bypass as the disproof; the commit rule was removed on 2026-10-14 ([ODD.md](../model/ODD.md) line 55). Open question Q5.",
-  "**Decision 0010 says accepted with 9 supported criteria; `aes status` now says 2 of 12.** The acceptance record ([0010](../decisions/0010-greenfield-v0.2-accepted.md) line 63) ended at 9 supported, 0 insufficient; at 30e9993, `make aes` reports 2 supported, 10 insufficient and 50 stale observations, because later commits changed the files that evidence depends on. Open question Q6.",
-  "**The plan-receipt files say 23 plans are adopted and in progress; the project brain says nothing is being continued.** [now.md](../../.project-brain/now.md) line 3 (on hold since 2026-10-18). Open question Q4."
+  "**Decision 0010 says accepted with its 9 criteria supported; `aes status` now says 2 of 12.** The two counts cover different sets: three criteria were added after the acceptance ([0010](../decisions/0010-greenfield-v0.2-accepted.md) line 63; `.aes/target.yaml` lines 271, 289, 307), and 15 of 82 observations depend on `commit_rule.py`, deleted in a06e963. Open question Q6.",
+  "**The target still holds the commit rule's outcome.** OUT-AP-001 (`.aes/target.yaml` line 12) says real work lands only under an adopted plan; the rule that enforced it was removed. Open question Q15.",
+  "**AGENTS.md says the pre-commit hook refuses unplanned files; the hook does not run in this checkout.** Open question Q16.",
+  "**The adoption receipts say 23 plans are adopted and in progress; the project brain says nothing is being continued.** [now.md](../../.project-brain/now.md) line 3 (on hold since 2026-10-18). Open question Q4."
  ],
- "next_plan": "\n# Goal: AES on hold, checks honest\n\nPlanning package: docs/planning/planning-package.json\n\nStatus: proposed 2026-10-27, waiting on Brian's call Q1 (default: this goal runs).\n\n## Why this goal\n\nAES canonical is on hold ([now.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/.project-brain/now.md) line 3), but its own checks\nnow say things that are false or stale: three checks fail, `aes status` reports 2 of 12\ncriteria supported where Decision 0010 recorded 9, and the goal document's thesis still\nrests on the commit rule that was removed on 2026-10-14. While it stays on hold (the\nrecommended answer to Q1), the useful work is to make every check and document here true,\nand to keep the `aes` CLI working for dodaf and whygame5 (Q12). No new product work.\n\n## Done when\n\nEach line is checked by the command beside it; the package is rebuilt at the end.\n\n1. **Evidence re-recorded (Q6).** `aes evidence record <VS-ID>` run for each of the 14\n   verification subjects at HEAD; `make aes` shows the supported count, and any criterion that\n   does not return to SUPPORTED names the failing test. PLAN-AES-SELF-GOVERN carries\n   `superseded_by` so it is no longer reported unreachable.\n2. **Plan statuses true (Q4).** Each of the 23 plans in the recheck list has a front-matter\n   status of `done` or `superseded` (with the merge or decision that settled it), or stays\n   adopted with a reason; `cli.py lint --repo-root . --recheck` exits 0 or lists only those kept.\n3. **Docstring wiki current (Q3).** `make docstring-wiki` committed; `durable_docs_check.py --repo .\n   --arc42` exits 0.\n4. **Markdown count inside the cap (Q7).** Superseded plan bundles nothing cites moved to\n   `~/archive/agentic-engineering-system-canonical/<timestamp>/` after a content comparison, with\n   restore commands; `.md-file-cap.yaml` limit and reason updated for the rest;\n   `md_file_cap.py --repo .` exits 0.\n5. **Goal without the commit rule (Q5, Q14).** GOAL.md's thesis and disproof rewritten on the two\n   boundaries that remain; `.aes/commit_rule.yaml` removed.\n6. **Roadmap linked (Q8).** wiki/index.md links the roadmap named in `.agentic/repo.yaml`, marked\n   on hold; `validate_project_navigation.py .` reports 0 warnings.\n7. **Decision 0011 item 4 closed or kept (Q2)** as Brian answers; by default it is left as written.\n8. **Package rebuilt** from the final revision; `validate_planning_package.py` exits 0.\n\n## Out of scope\n\n- New v0.2 components, the v0.1 Plan 002 line, and the vendored `enforced_planning/` package\n  (Q10: left in place while on hold).\n- Anything in the other repositories that carry `.aes/`.\n\n## Domain concepts this plan relies on\n\nAccepted plan, observation, freshness, criterion standing, success criterion, verification\nsubject, the checked-boundary thesis, the commit rule (retired) and the project brain, as defined in\n[DOMAIN.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/DOMAIN.md).\n\n## Trace and evidence\n\nEvery `aes evidence record` run writes its observation under `.aes/observations/` with the\ncommand, revision and result; the agent reads each failing one in full, and a sample of passing\nones, before reporting the count. Each check's command, exit status and counts go into\n`docs/planning/checks.txt` when the package is rebuilt.\n",
+ "next_plan": "\n# Goal: AES on hold, checks honest\n\nPlanning package: docs/planning/planning-package.json\n\nStatus: proposed 2026-10-27, waiting on Brian's call Q1 (default: this goal runs).\n\n## Why this goal\n\nAES canonical is on hold ([now.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/.project-brain/now.md) line 3), but its own checks\nnow say things that are false or stale: four checks fail, `aes status` reports 2 of 12\ncriteria supported where Decision 0010 accepted its 9, the target and the goal document still\nrest on the commit rule that was removed on 2026-10-14, and AGENTS.md describes a pre-commit\ngate that does not run here. While it stays on hold (the\nrecommended answer to Q1), the useful work is to make every check and document here true,\nand to keep the `aes` CLI working for dodaf and whygame5 (Q12). No new product work.\n\n## Done when\n\nEach line is checked by the command beside it; the package is rebuilt at the end.\n\n1. **Commit-rule outcome withdrawn (Q15).** OUT-AP-001, and TR-REQ-001 with it or re-pointed,\n   withdrawn through `aes plan prepare` / `validate` / `accept`, target and plan committed together;\n   `aes target validate` exits 0.\n2. **Evidence re-recorded (Q6).** `aes evidence record <VS-ID>` run for each deterministic-test\n   subject behind the nine criteria Decision 0010 accepted; `make aes` shows the supported count,\n   and any of the nine that does not return to SUPPORTED names its failing test. The criteria added\n   later are listed with the evidence kind each still needs (SC-TR-SOURCE-001: a trace review;\n   SC-GF-001: a clean-user runtime observation). The unreachable plan PLAN-AES-SELF-GOVERN stays a\n   warning by design (`reconcile.py` lines 18-20).\n3. **Plan statuses true (Q4).** Each of the 23 plans whose adoption receipt the recheck lists has a front-matter\n   status of `done` or `superseded` (with the merge or decision that settled it), or stays\n   adopted with a reason; `cli.py lint --repo-root . --recheck` exits 0 or lists only those kept.\n4. **Docstring wiki current (Q3).** `make docstring-wiki` committed; `durable_docs_check.py --repo .\n   --arc42` exits 0.\n5. **Markdown count inside the cap (Q7).** Superseded plan bundles nothing cites moved to\n   `~/archive/agentic-engineering-system-canonical/<timestamp>/` after a content comparison, with\n   restore commands; `.md-file-cap.yaml` limit and reason updated for the rest;\n   `md_file_cap.py --repo .` exits 0.\n6. **Goal and instructions without the commit rule (Q5, Q14, Q16).** GOAL.md's thesis and\n   disproof rewritten on the two boundaries that remain, the disproof resting on `make aes`\n   topology runs; CLAUDE.md (which generates AGENTS.md) names `make aes` as the orphan check while\n   the pre-commit hook is not installed; `.aes/commit_rule.yaml` removed;\n   `python scripts/meta/check_agents_sync.py --check` exits 0.\n7. **Roadmap linked (Q8).** wiki/index.md links the roadmap named in `.agentic/repo.yaml`, marked\n   on hold; `validate_project_navigation.py .` reports 0 warnings.\n8. **code2 format, cheap parts (Q17).** `docs/index.md` pointing at wiki/index.md and a\n   `code2check` Makefile target (make aes plus the link check); arc42, `.c4` and OpenSpec specs\n   recorded as deferred while on hold; `repo_format.py .` names only the deferred items.\n9. **Decision 0011 item 4 closed or kept (Q2)** as Brian answers; by default it is left as written.\n10. **Package rebuilt** from the final revision; `validate_planning_package.py` exits 0.\n\n## Out of scope\n\n- New v0.2 components, the v0.1 Plan 002 line, and the vendored `enforced_planning/` package\n  (Q10: left in place while on hold).\n- Anything in the other repositories that carry `.aes/`.\n\n## Domain concepts this plan relies on\n\nTarget, outcome, accepted plan, plan adoption receipt, observation, freshness, criterion standing,\nsuccess criterion, verification subject, pre-commit hook, the checked-boundary thesis and the\ncommit rule (retired), as defined in [DOMAIN.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/DOMAIN.md).\n\n## Trace and evidence\n\nEvery `aes evidence record` run writes its observation under `.aes/observations/` with the\ncommand, revision and result; the agent reads each failing one in full, and a sample of passing\nones, before reporting the count. Each check's command, exit status and counts go into\n`docs/planning/checks.txt` when the package is rebuilt.\n",
  "cold_review": "The cold review has not run yet.",
  "evidence_links": {
   "checks.txt (full output of every check)": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/checks.txt",
@@ -1353,7 +1531,10 @@ window.PAGE_DATA = {
   "Q8",
   "Q10",
   "Q12",
-  "Q14"
+  "Q14",
+  "Q15",
+  "Q16",
+  "Q17"
  ],
  "built_from": "c1b3ee6",
  "checks_commit": "c1b3ee65040d0082863b4d4ef36e5d65dcb373c6"

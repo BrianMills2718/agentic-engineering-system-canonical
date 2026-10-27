@@ -32,6 +32,12 @@
    "explain": "Named in the goal, decisions or plans, with no code here that implements it.",
    "dashed": true
   },
+  "External": {
+   "label": "Written by another tool",
+   "color": "#b8860b",
+   "explain": "Records stored here that another tool (Company Planning) writes and reads; no AES code reads them.",
+   "dashed": true
+  },
   "Retired": {
    "label": "Retired (history)",
    "color": "#9aa3ad",
@@ -210,7 +216,7 @@
    "id": "pre-commit-hook",
    "label": "Pre-commit hook",
    "kind": "Context",
-   "explain": "The hook `aes hooks install` writes; it refuses a commit that leaves an orphan under a governed root. Defined in AGENTS.md:39. Code: src/agentic_engineering_system/hooks.py:83."
+   "explain": "The hook `aes hooks install` writes; it refuses a commit that leaves an orphan under a governed root. Not running in this checkout since 2026-10-13: core.hooksPath runs lefthook, which never calls aes (Q16). Defined in AGENTS.md:39. Code: src/agentic_engineering_system/hooks.py:83."
   },
   {
    "id": "repository-context",
@@ -250,6 +256,13 @@
    "label": "Offline policy-decision replay (v0.1)",
    "kind": "DocOnly",
    "explain": "Plan 002, the v0.1 frontier, stopped at its provider-access step; no code here implements it. Defined in docs/plans/002_offline_policy_decision_replay.md:3. No code.",
+   "dashed": true
+  },
+  {
+   "id": "plan-receipt",
+   "label": "Plan adoption receipt",
+   "kind": "External",
+   "explain": "A Company Planning adoption record (*.receipt.json next to a plan in docs/plans/ or proposals/), naming the bounded-design profile revision the plan was adopted under; distinct from an AES accepted plan. Defined in docs/plans/adoption-progress-fields.receipt.json:1. No code.",
    "dashed": true
   },
   {
@@ -487,7 +500,7 @@
    "id": "e37",
    "source": "pre-commit-hook",
    "target": "orphan",
-   "label": "refuses"
+   "label": "would refuse (dormant here)"
   },
   {
    "id": "e38",
@@ -510,7 +523,7 @@
   {
    "id": "e41",
    "source": "commit-rule",
-   "target": "accepted-plan",
+   "target": "plan-receipt",
    "label": "required, per commit"
   },
   {

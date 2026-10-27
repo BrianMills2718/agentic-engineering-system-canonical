@@ -43,7 +43,7 @@ flowchart TB
     ev[evidence.py<br/>observations, freshness, standing]
     rec[reconcile.py + characterize.py + topology.py<br/>state, drift, orphans, gaps]
     ctx[context.py<br/>working-context packets]
-    hk[hooks.py<br/>pre-commit hook]
+    hk[hooks.py<br/>pre-commit hook writer<br/>not installed here: lefthook runs instead]
   end
   v01[repository_context/<br/>v0.1 Plan 001 resolver]
   ep[enforced_planning/<br/>vendored claims, sessions, worktrees<br/>44,556 lines; retired in ~/code2]
@@ -52,7 +52,10 @@ flowchart TB
   t[(.aes/target.yaml)]
   o[(.aes/observations/)]
   p[(.aes/plans/)]
-  g[(.githooks/pre-commit)]
+  g[(.githooks/pre-commit<br/>dormant)]
+  pj[(.aes/project.yaml)]
+  lb[(.aes/legacy_baseline.json)]
+  ad[adopt.py + project.py<br/>aes adopt, aes init]
   cli --> plan --> t
   plan --> p
   cli --> ev --> o
@@ -61,6 +64,8 @@ flowchart TB
   rec -->|reads| o
   cli --> ctx
   cli --> hk --> g
+  cli --> ad --> pj
+  ad --> lb
   scr -->|generate pages| docs
 ```
 
@@ -79,6 +84,7 @@ flowchart TB
 | `TopologyReport` | `topology.py:38` | computed by `aes topology check` | none |
 | `Baseline`, `LegacyState`, `AdoptResult` | `adopt.py:48`, `:67`, `:56` | `aes adopt` (`adopt.py:156`) | `.aes/legacy_baseline.json` |
 | `WorkingContext`, `Provenance` | `context.py:72`, `:63` | computed by `aes context <subject>` | none |
+| Helper and result types: `Locator` (`records.py:101`), `FamilyEntries`/`FamilyKeys`, `OutsideGovernedRoot` (`planning.py:107-143`), `CharacterizeReport` (`characterize.py:250`), `InitResult` (`project.py:66`) | as listed | computed or nested inside the records above | none |
 | `ReviewCheck` | `trace_review.py:18` | computed while assessing a trace-review requirement | none |
 | `RepositoryContextArtifact` and its observations (v0.1) | `repository_context/models.py:87` | `repository_context/cli.py` | a JSON context file and an HTML surface (`repository_context/render_html.py`) |
 

@@ -148,15 +148,18 @@
    "status": "present",
    "path": "docs/planning/next.goal.md",
    "relies_on": [
+    "target",
+    "outcome",
     "accepted-plan",
+    "plan-receipt",
     "observation",
     "freshness",
     "standing",
     "success-criterion",
     "verification-subject",
+    "pre-commit-hook",
     "thesis",
-    "commit-rule",
-    "project-brain"
+    "commit-rule"
    ]
   },
   "review_page": {
