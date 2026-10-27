@@ -48,7 +48,7 @@ flowchart TB
   v01[repository_context/<br/>v0.1 Plan 001 resolver]
   ep[enforced_planning/<br/>vendored claims, sessions, worktrees<br/>44,556 lines; retired in ~/code2]
   scr[scripts/<br/>meta, hive, rules, catalogue, learning_loop]
-  docs[docs/, proposals/, research/, wiki/<br/>210 Markdown files]
+  docs[docs/, proposals/, research/, wiki/<br/>213 Markdown files]
   t[(.aes/target.yaml)]
   o[(.aes/observations/)]
   p[(.aes/plans/)]

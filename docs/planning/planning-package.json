@@ -2,8 +2,8 @@
  "schema_version": "1.0",
  "record_type": "planning_package",
  "repository": "BrianMills2718/agentic-engineering-system-canonical",
- "subject_revision": "30e9993b534f61d81891bd5a4326ed5aae7add80",
- "request": "Workflow task 2026-10-27 \"Make the repository ... Company Planning compliant. It has no planning package yet: build one.\" (Brian's standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\"). The package describes origin/main at 30e9993 plus the pull request that adds docs/planning/ and the review page.",
+ "subject_revision": "c1b3ee65040d0082863b4d4ef36e5d65dcb373c6",
+ "request": "Workflow task 2026-10-27 \"Make the repository ... Company Planning compliant. It has no planning package yet: build one.\" (Brian's standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\"). The package describes commit c1b3ee6: origin/main at 30e9993 plus the commit that adds docs/planning/, the review page and one wiki/index.md link; later commits on the branch change package files only.",
  "parts": {
   "checks": {
    "status": "present",
@@ -41,10 +41,10 @@
     },
     {
      "name": "wiki rule (Markdown cap, reachability, layout, durable documents)",
-     "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo .",
+     "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
      "exit_status": 1,
      "counts": {
-      "markdown_files": 210,
+      "markdown_files": 213,
       "cap_limit": 140,
       "over": 1,
       "orphans": 0,

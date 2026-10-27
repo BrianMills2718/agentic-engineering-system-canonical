@@ -3,8 +3,8 @@ window.PAGE_DATA = {
   "schema_version": "1.0",
   "record_type": "planning_package",
   "repository": "BrianMills2718/agentic-engineering-system-canonical",
-  "subject_revision": "30e9993b534f61d81891bd5a4326ed5aae7add80",
-  "request": "Workflow task 2026-10-27 \"Make the repository ... Company Planning compliant. It has no planning package yet: build one.\" (Brian's standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\"). The package describes origin/main at 30e9993 plus the pull request that adds docs/planning/ and the review page.",
+  "subject_revision": "c1b3ee65040d0082863b4d4ef36e5d65dcb373c6",
+  "request": "Workflow task 2026-10-27 \"Make the repository ... Company Planning compliant. It has no planning package yet: build one.\" (Brian's standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\"). The package describes commit c1b3ee6: origin/main at 30e9993 plus the commit that adds docs/planning/, the review page and one wiki/index.md link; later commits on the branch change package files only.",
   "parts": {
    "checks": {
     "status": "present",
@@ -42,10 +42,10 @@ window.PAGE_DATA = {
      },
      {
       "name": "wiki rule (Markdown cap, reachability, layout, durable documents)",
-      "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo .",
+      "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
       "exit_status": 1,
       "counts": {
-       "markdown_files": 210,
+       "markdown_files": 213,
        "cap_limit": 140,
        "over": 1,
        "orphans": 0,
@@ -286,8 +286,8 @@ window.PAGE_DATA = {
   },
   {
    "id": "Q7",
-   "short": "210 Markdown files, cap 140",
-   "question": "The repository holds 210 tracked Markdown files against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason?",
+   "short": "213 Markdown files, cap 140",
+   "question": "The repository holds 213 tracked Markdown files at c1b3ee6 (210 on main plus this package's three; its cold review adds a fourth) against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason?",
    "blocks": "the wiki-compliance check passing",
    "resolves_with": "An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest.",
    "owner": "agent",
@@ -1007,7 +1007,7 @@ window.PAGE_DATA = {
     "id": "Q2",
     "label": "Q2: Inside Success rollout",
     "kind": "BrianQuestion",
-    "explain": "Decision 0011 paused the Inside Success team rollout until whygame5 produced a result under AES; that condition was met on 2026-09-26 and the call to resume was never made. Resume it, or close it? Recommendation: Close it: AES is on hold and the rollout's audience is a team Brian is leaving. Record the closure as a short follow-up decision in the hygiene plan. Default: The rollout stays paused and Decision 0011 item 4 stays as written."
+    "explain": "Decision 0011 paused the Inside Success team rollout until whygame5 produced a result under AES; that condition was met on 2026-09-26 and the call to resume was never made. Resume it, or close it? Recommendation: Close it: AES is on hold, so there is no product to roll out. Record the closure as a short follow-up decision in the hygiene plan. Default: The rollout stays paused and Decision 0011 item 4 stays as written."
    },
    {
     "id": "Q2-blocks",
@@ -1128,9 +1128,9 @@ window.PAGE_DATA = {
    },
    {
     "id": "Q7",
-    "label": "Q7: 210 Markdown files, cap 140",
+    "label": "Q7: 213 Markdown files, cap 140",
     "kind": "AgentQuestion",
-    "explain": "The repository holds 210 tracked Markdown files against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason? Settled by: An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest."
+    "explain": "The repository holds 213 tracked Markdown files at c1b3ee6 (210 on main plus this package's three; its cold review adds a fourth) against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason? Settled by: An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest."
    },
    {
     "id": "Q7-blocks",
@@ -1324,7 +1324,7 @@ window.PAGE_DATA = {
  },
  "context_diagrams": [
   "flowchart LR\n  brian([Brian: planning authority])\n  agent([Coding agents: Claude Code, Codex])\n  aes[AES canonical<br/>the aes CLI and .aes records]\n  git[(Git: commits, blobs, history)]\n  consumers[Other repositories with .aes/<br/>dodaf and whygame5 run aes from make]\n  cp[Company Planning plugin<br/>design method, durable-docs check]\n  vps[personal-vps hive dashboard<br/>serves plan pages]\n  brian -->|decides scope, reads status and plan pages| aes\n  agent -->|aes plan / evidence record / status| aes\n  aes -->|reads commits and diffs for freshness and drift| git\n  consumers -->|install aes from this repository| aes\n  aes -->|v0.1 line names it as design provider| cp\n  vps -->|copies proposals/*/review-page/ every 15 minutes| aes\n",
-  "flowchart TB\n  subgraph v02[v0.2 product: governed roots]\n    cli[aes CLI<br/>src/agentic_engineering_system/cli.py]\n    plan[planning.py<br/>proposals and accepted plans]\n    ev[evidence.py<br/>observations, freshness, standing]\n    rec[reconcile.py + characterize.py + topology.py<br/>state, drift, orphans, gaps]\n    ctx[context.py<br/>working-context packets]\n    hk[hooks.py<br/>pre-commit hook]\n  end\n  v01[repository_context/<br/>v0.1 Plan 001 resolver]\n  ep[enforced_planning/<br/>vendored claims, sessions, worktrees<br/>44,556 lines; retired in ~/code2]\n  scr[scripts/<br/>meta, hive, rules, catalogue, learning_loop]\n  docs[docs/, proposals/, research/, wiki/<br/>210 Markdown files]\n  t[(.aes/target.yaml)]\n  o[(.aes/observations/)]\n  p[(.aes/plans/)]\n  g[(.githooks/pre-commit)]\n  cli --> plan --> t\n  plan --> p\n  cli --> ev --> o\n  cli --> rec\n  rec -->|reads| t\n  rec -->|reads| o\n  cli --> ctx\n  cli --> hk --> g\n  scr -->|generate pages| docs\n"
+  "flowchart TB\n  subgraph v02[v0.2 product: governed roots]\n    cli[aes CLI<br/>src/agentic_engineering_system/cli.py]\n    plan[planning.py<br/>proposals and accepted plans]\n    ev[evidence.py<br/>observations, freshness, standing]\n    rec[reconcile.py + characterize.py + topology.py<br/>state, drift, orphans, gaps]\n    ctx[context.py<br/>working-context packets]\n    hk[hooks.py<br/>pre-commit hook]\n  end\n  v01[repository_context/<br/>v0.1 Plan 001 resolver]\n  ep[enforced_planning/<br/>vendored claims, sessions, worktrees<br/>44,556 lines; retired in ~/code2]\n  scr[scripts/<br/>meta, hive, rules, catalogue, learning_loop]\n  docs[docs/, proposals/, research/, wiki/<br/>213 Markdown files]\n  t[(.aes/target.yaml)]\n  o[(.aes/observations/)]\n  p[(.aes/plans/)]\n  g[(.githooks/pre-commit)]\n  cli --> plan --> t\n  plan --> p\n  cli --> ev --> o\n  cli --> rec\n  rec -->|reads| t\n  rec -->|reads| o\n  cli --> ctx\n  cli --> hk --> g\n  scr -->|generate pages| docs\n"
  ],
  "disagreements": [
   "**The thesis still names the commit rule.** [GOAL.md](../architecture/GOAL.md) lines 44-46 and 55-57 describe \"a commit refused without an adopted plan\" as a checked boundary and its bypass as the disproof; the commit rule was removed on 2026-10-14 ([ODD.md](../model/ODD.md) line 55). Open question Q5.",
@@ -1355,6 +1355,6 @@ window.PAGE_DATA = {
   "Q12",
   "Q14"
  ],
- "built_from": "30e9993",
- "checks_commit": "30e9993b534f61d81891bd5a4326ed5aae7add80"
+ "built_from": "c1b3ee6",
+ "checks_commit": "c1b3ee65040d0082863b4d4ef36e5d65dcb373c6"
 };
