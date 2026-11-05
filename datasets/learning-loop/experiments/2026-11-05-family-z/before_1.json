@@ -1,0 +1,686 @@
+[
+ {
+  "group": "holdout",
+  "key": "lrn-20260821T133422893529Z-a2c35fc613",
+  "acc": [
+   "A",
+   "not_a_failure"
+  ],
+  "outcome": "filed",
+  "choice": "A",
+  "p": 0.96,
+  "families": [
+   "A"
+  ],
+  "confidence": 0.96,
+  "confident": true,
+  "second": "C",
+  "near": [
+   "A"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 9.6936e-05
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260929T053919466897Z-a4f6ce2a2b",
+  "acc": [
+   "V",
+   "C"
+  ],
+  "outcome": "filed",
+  "choice": "V",
+  "p": 0.97,
+  "families": [
+   "V"
+  ],
+  "confidence": 0.97,
+  "confident": true,
+  "second": "A",
+  "near": [
+   "V"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 0.000100884
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260821T003719839141Z-59060d5efc",
+  "acc": [
+   "D",
+   "E",
+   "J"
+  ],
+  "outcome": "filed",
+  "choice": "E",
+  "p": 0.27,
+  "families": [
+   "E",
+   "B"
+  ],
+  "confidence": 0.24,
+  "confident": false,
+  "second": "B",
+  "near": [
+   "E",
+   "B"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 9.009e-05
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260905T173141084473Z-cc8a675f2c",
+  "acc": [
+   "U",
+   "V",
+   "A"
+  ],
+  "outcome": "filed",
+  "choice": "U",
+  "p": 0.48,
+  "families": [
+   "U",
+   "B"
+  ],
+  "confidence": 0.46,
+  "confident": false,
+  "second": "B",
+  "near": [
+   "U",
+   "B"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 9.933e-05
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260825T053558241821Z-07c2f13499",
+  "acc": [
+   "T",
+   "U",
+   "A"
+  ],
+  "outcome": "filed",
+  "choice": "B",
+  "p": 0.45,
+  "families": [
+   "B"
+  ],
+  "confidence": 0.43,
+  "confident": false,
+  "second": "A",
+  "near": [
+   "B"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 0.000102312
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260913T204250111021Z-14faa3d912",
+  "acc": [
+   "C",
+   "A"
+  ],
+  "outcome": "filed",
+  "choice": "A",
+  "p": 0.44,
+  "families": [
+   "A",
+   "C"
+  ],
+  "confidence": 0.42,
+  "confident": false,
+  "second": "C",
+  "near": [
+   "A",
+   "C"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 9.2442e-05
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260904T153137202559Z-66430cddd8",
+  "acc": [
+   "B"
+  ],
+  "outcome": "filed",
+  "choice": "J",
+  "p": 0.71,
+  "families": [
+   "J"
+  ],
+  "confidence": 0.7,
+  "confident": false,
+  "second": "B",
+  "near": [
+   "J"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 9.8448e-05
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260914T055441893221Z-ae1ae711e1",
+  "acc": [
+   "U",
+   "R"
+  ],
+  "outcome": "filed",
+  "choice": "U",
+  "p": 0.6,
+  "families": [
+   "U"
+  ],
+  "confidence": 0.58,
+  "confident": false,
+  "second": "L",
+  "near": [
+   "U"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 0.000102564
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260823T232007359540Z-594ce97b35",
+  "acc": [
+   "not_a_failure",
+   "J"
+  ],
+  "outcome": "filed",
+  "choice": "A",
+  "p": 0.35,
+  "families": [
+   "A"
+  ],
+  "confidence": 0.32,
+  "confident": false,
+  "second": "not_a_failure",
+  "near": [
+   "A"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 9.2484e-05
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20261002T181736536357Z-865c555289",
+  "acc": [
+   "D",
+   "not_a_failure",
+   "E"
+  ],
+  "outcome": "filed",
+  "choice": "D",
+  "p": 0.53,
+  "families": [
+   "D"
+  ],
+  "confidence": 0.51,
+  "confident": false,
+  "second": "E",
+  "near": [
+   "D"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 9.7818e-05
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260908T172730420187Z-d08bf0093e",
+  "acc": [
+   "B"
+  ],
+  "outcome": "filed",
+  "choice": "B",
+  "p": 0.36,
+  "families": [
+   "B"
+  ],
+  "confidence": 0.33,
+  "confident": false,
+  "second": "other",
+  "near": [
+   "B"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 0.000103068
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260914T032213140418Z-58f4d20d08",
+  "acc": [
+   "L",
+   "Y"
+  ],
+  "outcome": "filed",
+  "choice": "E",
+  "p": 0.46,
+  "families": [
+   "E"
+  ],
+  "confidence": 0.44,
+  "confident": false,
+  "second": "A",
+  "near": [
+   "E"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 0.000103908
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260904T175000975931Z-876188346b",
+  "acc": [
+   "U",
+   "B"
+  ],
+  "outcome": "filed",
+  "choice": "R",
+  "p": 0.52,
+  "families": [
+   "R"
+  ],
+  "confidence": 0.5,
+  "confident": false,
+  "second": "B",
+  "near": [
+   "R"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 0.000106218
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260822T080810410225Z-babe88a3f6",
+  "acc": [
+   "D"
+  ],
+  "outcome": "filed",
+  "choice": "D",
+  "p": 0.7,
+  "families": [
+   "D"
+  ],
+  "confidence": 0.69,
+  "confident": false,
+  "second": "C",
+  "near": [
+   "D"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 0.00010143
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260821T063749988238Z-e58ee6bd73",
+  "acc": [
+   "not_a_failure",
+   "other",
+   "B"
+  ],
+  "outcome": "filed",
+  "choice": "B",
+  "p": 0.24,
+  "families": [
+   "B",
+   "A",
+   "L",
+   "D"
+  ],
+  "confidence": 0.21,
+  "confident": false,
+  "second": "A",
+  "near": [
+   "B",
+   "A",
+   "L",
+   "D"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 9.0216e-05
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260912T211701509536Z-267de01fe2",
+  "acc": [
+   "other",
+   "D"
+  ],
+  "outcome": "filed",
+  "choice": "E",
+  "p": 0.39,
+  "families": [
+   "E",
+   "D"
+  ],
+  "confidence": 0.36,
+  "confident": false,
+  "second": "D",
+  "near": [
+   "E",
+   "D"
+  ],
+  "top_ok": false,
+  "near_ok": true,
+  "cost": 9.4752e-05
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260908T042806993734Z-aa03d8b6e9",
+  "acc": [
+   "N",
+   "V",
+   "F"
+  ],
+  "outcome": "filed",
+  "choice": "V",
+  "p": 0.92,
+  "families": [
+   "V"
+  ],
+  "confidence": 0.92,
+  "confident": true,
+  "second": "not_a_failure",
+  "near": [
+   "V"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 0.000103404
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260824T153006212724Z-6b84b09452",
+  "acc": [
+   "X",
+   "U"
+  ],
+  "outcome": "filed",
+  "choice": "U",
+  "p": 0.42,
+  "families": [
+   "U",
+   "Q"
+  ],
+  "confidence": 0.39,
+  "confident": false,
+  "second": "Q",
+  "near": [
+   "U",
+   "Q"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 0.000105378
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20260824T164328079988Z-db549010ab",
+  "acc": [
+   "R",
+   "C"
+  ],
+  "outcome": "filed",
+  "choice": "R",
+  "p": 0.56,
+  "families": [
+   "R"
+  ],
+  "confidence": 0.54,
+  "confident": false,
+  "second": "N",
+  "near": [
+   "R"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 0.000101178
+ },
+ {
+  "group": "holdout",
+  "key": "lrn-20261002T175255800310Z-1603df7dc3",
+  "acc": [
+   "not_a_failure",
+   "V"
+  ],
+  "outcome": "filed",
+  "choice": "T",
+  "p": 0.45,
+  "families": [
+   "T"
+  ],
+  "confidence": 0.43,
+  "confident": false,
+  "second": "V",
+  "near": [
+   "T"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 9.6012e-05
+ },
+ {
+  "group": "synthetic",
+  "key": "SYN1",
+  "acc": [
+   "other"
+  ],
+  "outcome": "other",
+  "choice": "other",
+  "p": 0.61,
+  "families": [],
+  "confidence": 0.59,
+  "confident": false,
+  "second": "E",
+  "near": [
+   "other"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 8.9334e-05
+ },
+ {
+  "group": "synthetic",
+  "key": "SYN2",
+  "acc": [
+   "other"
+  ],
+  "outcome": "filed",
+  "choice": "U",
+  "p": 0.47,
+  "families": [
+   "U"
+  ],
+  "confidence": 0.45,
+  "confident": false,
+  "second": "D",
+  "near": [
+   "U"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 8.9376e-05
+ },
+ {
+  "group": "synthetic",
+  "key": "SYN3",
+  "acc": [
+   "other",
+   "W"
+  ],
+  "outcome": "filed",
+  "choice": "W",
+  "p": 0.7,
+  "families": [
+   "W"
+  ],
+  "confidence": 0.69,
+  "confident": false,
+  "second": "other",
+  "near": [
+   "W"
+  ],
+  "top_ok": true,
+  "near_ok": true,
+  "cost": 8.8872e-05
+ },
+ {
+  "group": "synthetic",
+  "key": "SYN4",
+  "acc": [
+   "other",
+   "S",
+   "L"
+  ],
+  "outcome": "filed",
+  "choice": "B",
+  "p": 0.24,
+  "families": [
+   "B",
+   "S",
+   "L"
+  ],
+  "confidence": 0.21,
+  "confident": false,
+  "second": "other",
+  "near": [
+   "B",
+   "S",
+   "L"
+  ],
+  "top_ok": false,
+  "near_ok": true,
+  "cost": 8.8956e-05
+ },
+ {
+  "group": "feedback",
+  "key": "#475",
+  "acc": [],
+  "outcome": "other",
+  "choice": "other",
+  "p": 0.32,
+  "families": [],
+  "confidence": 0.29,
+  "confident": false,
+  "second": "B",
+  "near": [
+   "other"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 0.000113274
+ },
+ {
+  "group": "feedback",
+  "key": "#1068",
+  "acc": [],
+  "outcome": "other",
+  "choice": "other",
+  "p": 0.28,
+  "families": [],
+  "confidence": 0.25,
+  "confident": false,
+  "second": "B",
+  "near": [
+   "other"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 0.00011235
+ },
+ {
+  "group": "feedback",
+  "key": "#1686",
+  "acc": [],
+  "outcome": "filed",
+  "choice": "N",
+  "p": 0.43,
+  "families": [
+   "N"
+  ],
+  "confidence": 0.41,
+  "confident": false,
+  "second": "D",
+  "near": [
+   "N"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 0.00011466
+ },
+ {
+  "group": "feedback",
+  "key": "#1266",
+  "acc": [],
+  "outcome": "filed",
+  "choice": "E",
+  "p": 0.57,
+  "families": [
+   "E"
+  ],
+  "confidence": 0.55,
+  "confident": false,
+  "second": "R",
+  "near": [
+   "E"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 0.000112518
+ },
+ {
+  "group": "feedback",
+  "key": "#1419",
+  "acc": [],
+  "outcome": "other",
+  "choice": "other",
+  "p": 0.52,
+  "families": [],
+  "confidence": 0.5,
+  "confident": false,
+  "second": "S",
+  "near": [
+   "other"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 0.000115164
+ },
+ {
+  "group": "feedback",
+  "key": "#904",
+  "acc": [],
+  "outcome": "other",
+  "choice": "other",
+  "p": 0.27,
+  "families": [],
+  "confidence": 0.24,
+  "confident": false,
+  "second": "U",
+  "near": [
+   "other"
+  ],
+  "top_ok": false,
+  "near_ok": false,
+  "cost": 0.00011487
+ }
+]

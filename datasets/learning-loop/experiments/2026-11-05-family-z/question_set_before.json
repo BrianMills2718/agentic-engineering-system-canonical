@@ -1,0 +1,134 @@
+{
+ "version": "v2",
+ "source": "docs/failure-modes.md (family letters); wording per TypeSafe choice guidance (what / not_for per option); tested 2026-10-02, see datasets/learning-loop/experiments/2026-10-02-question-design/",
+ "near_top": 0.15,
+ "confident_at": 0.9,
+ "letters": {
+  "check_that_cannot_fail": "A",
+  "untested_reasoning": "B",
+  "parts_pass_whole_fails": "C",
+  "rule_that_does_not_act": "D",
+  "state_left_behind": "E",
+  "control_out_of_proportion": "F",
+  "deliverable_fails_reader": "G",
+  "conflicting_authorities": "J",
+  "ordering_breaks_guarantee": "K",
+  "wrong_target_selected": "L",
+  "zero_read_as_success": "M",
+  "sanctioned_route_impassable": "N",
+  "work_above_stopped_producer": "O",
+  "correlated_blind_spot": "Q",
+  "partial_list_treated_as_complete": "R",
+  "scope_or_authority_drift": "S",
+  "built_before_measured": "T",
+  "claim_disproved_by_available_check": "U",
+  "wrong_vantage_point": "V",
+  "unbounded_default": "W",
+  "one_bad_record_hides_batch": "X",
+  "one_object_two_identities": "Y"
+ },
+ "question": {
+  "kind": {
+   "type": "choice",
+   "instructions": "Which kind of failure does this learning record?",
+   "criteria": {
+    "check_that_cannot_fail": {
+     "what": "A check, test or verification that passes (or would pass) even when the claim is false: an existence check graded as verification, a swallowed error, a substitute object checked instead of the real one.",
+     "not_for": "A wrong claim that one available check would have disproved (claim_disproved_by_available_check); a check made from the wrong environment (wrong_vantage_point); several agents sharing one blind spot (correlated_blind_spot)."
+    },
+    "untested_reasoning": {
+     "what": "A method, frame or causal story adopted without testing it against an ordinary case that breaks it; a signal treated as evidence for something it does not measure.",
+     "not_for": "Use only when no more specific option fits. Not for broken checks, wrong targets, leftover state, or claims one available check would have disproved."
+    },
+    "parts_pass_whole_fails": {
+     "what": "Each part passed but nobody ran the whole thing end to end as its user would; completion declared over a subset; a hidden dependency on the local environment.",
+     "not_for": "A single check that could not fail (check_that_cannot_fail)."
+    },
+    "rule_that_does_not_act": {
+     "what": "A rule, instruction or record exists but nothing makes it fire or reads it: a prohibition only in prose, a record nobody reads back, an instruction never verified as read.",
+     "not_for": "A control that fires but costs too much (control_out_of_proportion); an official route that is itself broken (sanctioned_route_impassable)."
+    },
+    "state_left_behind": {
+     "what": "Something changed in one place while the same state stays true somewhere else: copies, mirrors or other repositories not updated; something retired but still present; shared state changed without telling its owner.",
+     "not_for": "Correct steps run in the wrong order (ordering_breaks_guarantee); an empty result read as success (zero_read_as_success)."
+    },
+    "control_out_of_proportion": {
+     "what": "A check or gate costs more than what it protects, blocks unrelated work, or makes the correct action expensive.",
+     "not_for": "A rule that never fires (rule_that_does_not_act)."
+    },
+    "deliverable_fails_reader": {
+     "what": "Nothing technical was wrong, but the report or message failed its reader: completion claimed without scope, internal jargon, unclear whether the reader must act.",
+     "not_for": "Technical failures of any kind."
+    },
+    "conflicting_authorities": {
+     "what": "Two rules or authorities are both in force and cannot both be satisfied, so the agent cannot comply either way.",
+     "not_for": "A single broken official route (sanctioned_route_impassable)."
+    },
+    "ordering_breaks_guarantee": {
+     "what": "Individually correct steps run in an order, or non-atomically, that voids the guarantee: state written before a check, two writes that can half-complete.",
+     "not_for": "An official governed route that is itself broken and cannot be used (sanctioned_route_impassable)."
+    },
+    "wrong_target_selected": {
+     "what": "Every component works but operates on the wrong object: a flag, filter, scope or matcher selects something other than what its name says.",
+     "not_for": "A correct observation made from the wrong environment or copy (wrong_vantage_point)."
+    },
+    "zero_read_as_success": {
+     "what": "An empty result, a zero, missing output or exit code 0 is read as success or as 'nothing there', when it actually hid a failure or lost the content.",
+     "not_for": "Stale copies elsewhere (state_left_behind)."
+    },
+    "sanctioned_route_impassable": {
+     "what": "The official governed path (a required command, gate or workflow) is itself broken, so the agent's only moves are to violate policy or stop.",
+     "not_for": "Steps run in the wrong order that still let work continue (ordering_breaks_guarantee)."
+    },
+    "work_above_stopped_producer": {
+     "what": "Correct work built on top of something upstream that has stopped, so it cannot move any real outcome.",
+     "not_for": "Work that is itself broken."
+    },
+    "correlated_blind_spot": {
+     "what": "Several agents or reviewers share the same supplied blind spot or premise, so their agreement makes a wrong answer look more convincing.",
+     "not_for": "A single check that could not fail (check_that_cannot_fail)."
+    },
+    "partial_list_treated_as_complete": {
+     "what": "A list or set that is only a minimum, or only partly gathered, is read or written as the complete set.",
+     "not_for": "Selecting the wrong single object (wrong_target_selected)."
+    },
+    "scope_or_authority_drift": {
+     "what": "An agent's scope or authority drifted: a recommendation treated as an order, someone else's claim treated as an assignment, the session objective replaced.",
+     "not_for": "Technical failures in tools."
+    },
+    "built_before_measured": {
+     "what": "Something was built or researched before checking the baseline or what already existed, including the owner's own earlier work.",
+     "not_for": "A wrong claim one check would have disproved (claim_disproved_by_available_check)."
+    },
+    "claim_disproved_by_available_check": {
+     "what": "A confident claim was stated or published when a single readily available check (reading the source, running the command, searching) would have refuted it.",
+     "not_for": "A check that ran but could not fail (check_that_cannot_fail); a check made from the wrong place (wrong_vantage_point)."
+    },
+    "wrong_vantage_point": {
+     "what": "A real observation made from somewhere the claim does not describe (a different identity, host, checkout, profile or stale copy) and then reported as generally true.",
+     "not_for": "Operating on the wrong object (wrong_target_selected)."
+    },
+    "unbounded_default": {
+     "what": "A request silently took a default (retry, timeout, model tier, waiting forever) whose cost is far larger than intended or unbounded.",
+     "not_for": "Plain tool facts with no cost consequence (not_a_failure)."
+    },
+    "one_bad_record_hides_batch": {
+     "what": "One bad record or one failure aborts or hides a whole batch of otherwise independent results.",
+     "not_for": "Zero read as success (zero_read_as_success)."
+    },
+    "one_object_two_identities": {
+     "what": "The same real object is represented by two ids or fields, so it is counted twice or treated as two things.",
+     "not_for": "Wrong object selected (wrong_target_selected)."
+    },
+    "other": {
+     "what": "A real reasoning or control failure that none of the other options describes.",
+     "not_for": "Plain facts about how a tool or product behaves (not_a_failure)."
+    },
+    "not_a_failure": {
+     "what": "A plain fact, behaviour or gotcha of a tool or product; nobody's reasoning or control went wrong.",
+     "not_for": "Cases where an agent or system made a mistake because of that behaviour."
+    }
+   }
+  }
+ }
+}

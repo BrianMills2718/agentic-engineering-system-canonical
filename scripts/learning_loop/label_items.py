@@ -5,7 +5,7 @@ Design: proposals/aes-learning-loop/DESIGN.md. The question set is frozen in
 question_set_v2.json; changing it means re-running the judged test sets in
 datasets/learning-loop/experiments/ before trusting it.
 
-One Jev choice per item: 22 families (each option says what it covers and what
+One Jev choice per item: 23 families (each option says what it covers and what
 it is not for, per TypeSafe's choice guidance), plus `other` and
 `not_a_failure`. Outcome: `fact` (not_a_failure), `other` (a failure no family
 fits), else `filed` with every family within `near_top` of the top
