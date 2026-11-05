@@ -1,0 +1,10 @@
+holdout: top 10/20, near-top 12/20
+synthetic: top 2/4, near-top 3/4
+feedback #475: Z p=1 near=['Z'] second=A
+feedback #1068: Z p=0.94 near=['Z'] second=not_a_failure
+feedback #1686: Z p=0.95 near=['Z'] second=N
+feedback #1266: Z p=0.99 near=['Z'] second=E
+feedback #1419: other p=0.35 near=['other'] second=S
+feedback #904: Z p=0.27 near=['Z', 'U'] second=other
+errors 0, cost $0.0032
+exit=0

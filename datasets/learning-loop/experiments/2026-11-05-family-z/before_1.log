@@ -1,0 +1,14 @@
+holdout: top 13/20, near-top 14/20
+synthetic: top 2/4, near-top 3/4
+feedback #475: other p=0.32 near=['other'] second=B
+feedback #1068: other p=0.28 near=['other'] second=B
+feedback #1686: N p=0.43 near=['N'] second=D
+feedback #1266: E p=0.57 near=['E'] second=R
+feedback #1419: other p=0.52 near=['other'] second=S
+feedback #904: other p=0.27 near=['other'] second=U
+errors 0, cost $0.0030
+
+real	0m11.553s
+user	0m0.928s
+sys	0m0.291s
+exit=0

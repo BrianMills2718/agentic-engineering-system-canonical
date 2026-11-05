@@ -1,6 +1,6 @@
 {
  "version": "v2",
- "source": "docs/failure-modes.md (family letters); wording per TypeSafe choice guidance (what / not_for per option); tested 2026-10-02, see datasets/learning-loop/experiments/2026-10-02-question-design/",
+ "source": "docs/failure-modes.md (family letters); wording per TypeSafe choice guidance (what / not_for per option); tested 2026-10-02, see datasets/learning-loop/experiments/2026-10-02-question-design/; Z added 2026-11-05 and re-tested, see datasets/learning-loop/experiments/2026-11-05-family-z/",
  "near_top": 0.15,
  "confident_at": 0.9,
  "letters": {
@@ -25,7 +25,8 @@
   "wrong_vantage_point": "V",
   "unbounded_default": "W",
   "one_bad_record_hides_batch": "X",
-  "one_object_two_identities": "Y"
+  "one_object_two_identities": "Y",
+  "fix_at_symptom_not_cause": "Z"
  },
  "question": {
   "kind": {
@@ -38,7 +39,7 @@
     },
     "untested_reasoning": {
      "what": "A method, frame or causal story adopted without testing it against an ordinary case that breaks it; a signal treated as evidence for something it does not measure.",
-     "not_for": "Use only when no more specific option fits. Not for broken checks, wrong targets, leftover state, or claims one available check would have disproved."
+     "not_for": "Use only when no more specific option fits. Not for broken checks, wrong targets, leftover state, claims one available check would have disproved, or a correct diagnosis whose fix was placed at the symptom instead of the cause (fix_at_symptom_not_cause)."
     },
     "parts_pass_whole_fails": {
      "what": "Each part passed but nobody ran the whole thing end to end as its user would; completion declared over a subset; a hidden dependency on the local environment.",
@@ -50,7 +51,7 @@
     },
     "state_left_behind": {
      "what": "Something changed in one place while the same state stays true somewhere else: copies, mirrors or other repositories not updated; something retired but still present; shared state changed without telling its owner.",
-     "not_for": "Correct steps run in the wrong order (ordering_breaks_guarantee); an empty result read as success (zero_read_as_success)."
+     "not_for": "Correct steps run in the wrong order (ordering_breaks_guarantee); an empty result read as success (zero_read_as_success); a defective upstream producer compensated inside one consumer (fix_at_symptom_not_cause)."
     },
     "control_out_of_proportion": {
      "what": "A check or gate costs more than what it protects, blocks unrelated work, or makes the correct action expensive.",
@@ -119,6 +120,10 @@
     "one_object_two_identities": {
      "what": "The same real object is represented by two ids or fields, so it is counted twice or treated as two things.",
      "not_for": "Wrong object selected (wrong_target_selected)."
+    },
+    "fix_at_symptom_not_cause": {
+     "what": "A defect made by one named upstream stage (a shared parser, a wrapper, a generator, the author of the output) was compensated downstream where it was noticed (inside one case, one more checker rule per mistake, a local workaround), while that stage was left unchanged and keeps making it.",
+     "not_for": "A fix that was wrong or too narrow for the case it targets, or covered one input shape but not the class (untested_reasoning, partial_list_treated_as_complete); a diagnosis that stopped at the first plausible cause (untested_reasoning); one change not carried to other copies of the same state (state_left_behind); a test that caught a fix's mistake (not_a_failure)."
     },
     "other": {
      "what": "A real reasoning or control failure that none of the other options describes.",

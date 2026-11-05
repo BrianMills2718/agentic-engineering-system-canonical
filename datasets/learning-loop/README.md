@@ -23,6 +23,8 @@ when the call failed.
   - 0 errors; cost $0.2496.
 - Quality:
   - 16/20 on items judged before the run (`experiments/2026-10-02-question-design/`).
+  - 2026-11-05: family Z added to the question set after a re-test of the same
+    held-out items ([experiments/2026-11-05-family-z/README.md](experiments/2026-11-05-family-z/README.md)).
   - Claude's own check of the report's seeded 10-item sample: 9 acceptable.
     The miss was lrn-20260904T150750724303Z-217b34b030 (usage table inflated by
     sweeps), labelled A where L fits better.
