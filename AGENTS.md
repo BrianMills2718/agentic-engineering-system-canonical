@@ -25,7 +25,22 @@ request; `python3 scripts/hive/brain_fresh.py .` exits 1 when the brain is stale
 
 This repository is a protocol-pilot consumer of the standalone architecture in `BrianMills2718/wiki_methodology` at revision `0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe`.
 
-### AES governs itself (v0.2, primary workflow)
+### On hold (since 2026-10-18)
+
+AES canonical is on hold (`.project-brain/now.md`). It no longer governs
+itself: its pre-commit refusal was removed on 2026-10-14 (#789), no AES plan check
+refuses a commit, and no `aes plan accept` step is required before a change.
+On 2026-10-13 Brian moved `~/code2` to off-the-shelf tools (OpenSpec for
+required behavior, lefthook, GitHub Issues). Its two lasting ideas, a planned
+file structure and evidence-computed status, are being carried into the AES
+structure section under OpenSpec and Lockstep (harness run decision 8,
+2026-11-07; code2-workspace `docs/planning/harness-rows/workflow.md`). Its
+open issues carry the `on-hold` label; they are parked, not closed.
+
+The v0.2 description below (`.aes/target.yaml`, `aes plan`, `aes evidence`)
+is kept as a record of how the system worked; do not follow it as a rule.
+
+<details><summary>Former v0.2 workflow (history)</summary>
 
 AES canonical is governed by its own AES v0.2 target in `.aes/`, accepted by
 `docs/decisions/0010-greenfield-v0.2-accepted.md` (accepted architecture:
@@ -52,6 +67,8 @@ and are retained under Decision 0010's v0.1 disposition.
   `aes status` is the one-screen view; `make aes` runs validate,
   topology and status with this checkout's code, `make aes-check` adds the
   greenfield and repository_context tests.
+
+</details>
 
 ## Commands
 
