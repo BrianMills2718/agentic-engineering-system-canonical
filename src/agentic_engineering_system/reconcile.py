@@ -256,13 +256,14 @@ def _ordered(gaps: list[Gap]) -> list[Gap]:
     return sorted(gaps, key=lambda g: _GAP_ORDER.index(g.kind))  # stable: target order within a kind
 
 
-def reconcile(root: Path) -> Reconciliation:
+def reconcile(root: Path, required_dependency_paths: dict[str, list[str]] | None = None) -> Reconciliation:
+    """Reconcile current state using the optional evidence declared-input policy."""
     root = Path(root).resolve()
     project = load_project(root / ".aes" / "project.yaml")
     target = load_target(root / project.materialization.target_path)
     c = characterize(root)
     found = drift(target, c, legacy_paths(root, target))
-    evidence = assess(root)
+    evidence = assess(root, required_dependency_paths=required_dependency_paths)
 
     artifacts = _artifact_states(root, target, tuple(c.governed_roots), found)
     criteria = _criterion_states(target, evidence)

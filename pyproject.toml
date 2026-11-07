@@ -39,4 +39,4 @@ where = ["src"]
 testpaths = ["tests"]
 # a linked worktree shares the main checkout's venv; import this tree's source
 pythonpath = ["src"]
-markers = ["slow: end-to-end test taking tens of seconds; skipped by make check, run by make check-full"]
+markers = ["req(capability_scenario): source requirement and scenario exercised", "slow: end-to-end test taking tens of seconds; skipped by make check, run by make check-full"]

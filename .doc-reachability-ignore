@@ -1,0 +1,5 @@
+
+# OpenSpec tool-generated instructions and archived change artifacts.
+.claude/*
+.agents/*
+openspec/changes/*

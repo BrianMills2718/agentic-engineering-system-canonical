@@ -404,3 +404,91 @@ def test_uncommitted_python_test_cannot_be_discovered(root: Path) -> None:
     _write(root, "tests/test_prompts.py", "def test_ok():\n    assert True\n")
     with pytest.raises(EvidenceError, match="not a governed Python file at HEAD"):
         record(root, "VS-WG5-PROMPTS", [], command=PASS)
+
+
+@pytest.mark.req("required-evidence-inputs/weak-history-cannot-mask-staleness")
+def test_required_subprocess_inputs_qualify_old_and_new_support(with_test: Path) -> None:
+    required = {"VS-WG5-PROMPTS": ["src/whygame5/"]}
+    weak = record(with_test, "VS-WG5-PROMPTS", [], command=[sys.executable, PROMPTS])
+    original = weak.path.read_bytes()
+    _write(with_test, PROMPTS, "PROMPT = 'changed'\n")
+    _git(with_test, "add", ".")
+    _git(with_test, "commit", "-q", "-m", "change subprocess input")
+    assert _sc(assess(with_test), "SC-WG5-001").requirements[0].status == "SUPPORTED"
+    qualified = assess(with_test, required_dependency_paths=required)
+    assert _sc(qualified, "SC-WG5-001").requirements[0].status == "NO_CURRENT_SUPPORT"
+    assert dict((oid, state) for oid, state, _ in qualified.observations)[weak.observation.observation_id] == "UNKNOWN"
+    strong = record(with_test, "VS-WG5-PROMPTS", ["src/whygame5"], command=[sys.executable, PROMPTS])
+    assert _sc(assess(with_test, required), "SC-WG5-001").requirements[0].status == "SUPPORTED"
+    _write(with_test, PROMPTS, "PROMPT = 'changed again'\n")
+    _git(with_test, "add", ".")
+    _git(with_test, "commit", "-q", "-m", "change subprocess input again")
+    qualified = assess(with_test, required)
+    assert _sc(qualified, "SC-WG5-001").requirements[0].status == "NO_CURRENT_SUPPORT"
+    assert dict((oid, state) for oid, state, _ in qualified.observations)[strong.observation.observation_id] == "STALE"
+    assert weak.path.read_bytes() == original
+    from agentic_engineering_system.reconcile import reconcile
+    reconciled = reconcile(with_test, required_dependency_paths=required)
+    assert next(c for c in reconciled.criteria if c.criterion_id == "SC-WG5-001").standing == "INSUFFICIENT"
+    assert {o.observation_id: o.freshness for o in reconciled.observations} == {
+        oid: state for oid, state, _ in qualified.observations}
+
+
+@pytest.mark.req("required-evidence-inputs/refutation-is-retained")
+def test_required_inputs_keep_qualified_refutation(with_test: Path) -> None:
+    weak = record(with_test, "VS-WG5-PROMPTS", [], command=PASS)
+    failed = record(with_test, "VS-WG5-PROMPTS", ["src/whygame5"], command=FAIL)
+    qualified = assess(with_test, {"VS-WG5-PROMPTS": ["./src/whygame5//prompts.py"]})
+    assert _sc(qualified, "SC-WG5-001").requirements[0].status == "REFUTED"
+    states = {oid: state for oid, state, _ in qualified.observations}
+    assert states[weak.observation.observation_id] == "UNKNOWN"
+    assert states[failed.observation.observation_id] == "CURRENT"
+    assert failed.observation.assessments[0].assessment == "REFUTES"
+
+
+@pytest.mark.parametrize("unsafe", ["../escape", "/tmp/input", "C:\\inputs", "src/../../escape", "src/*", ":(top)src", "src/\ninput"])
+@pytest.mark.req("required-evidence-inputs/unsafe-paths-fail")
+def test_required_inputs_reject_unsafe_paths(with_test: Path, unsafe: str) -> None:
+    with pytest.raises(EvidenceError):
+        assess(with_test, {"VS-WG5-PROMPTS": [unsafe]})
+
+
+def test_required_inputs_reject_symlink_escape(with_test: Path) -> None:
+    (with_test / "outside").symlink_to(with_test.parent, target_is_directory=True)
+    with pytest.raises(EvidenceError):
+        assess(with_test, {"VS-WG5-PROMPTS": ["outside/input.py"]})
+
+
+def test_required_directory_is_not_covered_by_one_child_file(with_test: Path) -> None:
+    record(with_test, "VS-WG5-PROMPTS", [PROMPTS], command=PASS)
+    assert _sc(assess(with_test, {"VS-WG5-PROMPTS": ["src/whygame5"]}),
+               "SC-WG5-001").requirements[0].status == "NO_CURRENT_SUPPORT"
+
+
+@pytest.mark.req("required-evidence-inputs/legacy-route-inference")
+def test_required_inputs_infer_legacy_route_and_preserve_dependency_fallback(root: Path) -> None:
+    required = {"VS-WG5-PROMPTS": [PROMPTS]}
+    _observe(root, "OBS-LEGACY-WEAK", "ER-WG5-001-01", "SUPPORTS", [RUN])
+    qualified = assess(root, required)
+    assert _sc(qualified, "SC-WG5-001").requirements[0].status == "NO_CURRENT_SUPPORT"
+    assert qualified.observations[0][1] == "UNKNOWN"
+    assert "VS-WG5-PROMPTS" in qualified.observations[0][2] and PROMPTS in qualified.observations[0][2]
+    _observe(root, "OBS-LEGACY-STRONG", "ER-WG5-001-01", "SUPPORTS", [PROMPTS])
+    assert _sc(assess(root, required), "SC-WG5-001").requirements[0].status == "SUPPORTED"
+
+
+def test_required_declared_inputs_cannot_be_replaced_by_import_discovery(with_test: Path) -> None:
+    _write(with_test, "src/whygame5/__init__.py", "")
+    _write(with_test, "tests/test_prompts.py", "from whygame5 import prompts\n\ndef test_ok():\n    assert prompts\n")
+    _git(with_test, "add", ".")
+    _git(with_test, "commit", "-q", "-m", "test imports prompts")
+    observation = record(with_test, "VS-WG5-PROMPTS", [], command=PASS).observation
+    assert PROMPTS in observation.dependency_basis.discovered
+    assert _sc(assess(with_test), "SC-WG5-001").requirements[0].status == "SUPPORTED"
+    assert _sc(assess(with_test, {"VS-WG5-PROMPTS": [PROMPTS]}),
+               "SC-WG5-001").requirements[0].status == "NO_CURRENT_SUPPORT"
+
+
+def test_required_inputs_reject_unknown_subject(root: Path) -> None:
+    with pytest.raises(EvidenceError, match="existing verification subject"):
+        assess(root, {"VS-NOT-PRESENT": [PROMPTS]})

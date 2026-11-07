@@ -15,6 +15,14 @@ the same at both, STALE when any path changed or any referenced entry changed
 or disappeared, and UNKNOWN when it names no commit or no dependency at all
 (external subjects, human review). Only CURRENT assessments count.
 
+Callers may pass `required_dependency_paths` to `assess` or `reconcile` to
+require declared input coverage per verification subject. Inadequately covered
+CURRENT observations become UNKNOWN without changing their stored records.
+The basis's declared paths supply coverage; legacy records lacking a basis use
+their dependency paths. Legacy criterion-subject records infer their routed
+verification subjects from assessed evidence requirements. Other Git/target
+freshness states and calls without the optional policy remain unchanged.
+
 Reachability comes first: an observation whose commit is not an ancestor of
 HEAD (`git merge-base --is-ancestor`) is UNREACHABLE, whatever its dependencies
 say. A squash-merged and deleted branch leaves its commits in the recording
@@ -58,7 +66,7 @@ import re
 import subprocess
 from dataclasses import dataclass
 from datetime import datetime
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Any, Literal
 
 from pydantic import Field, model_validator
@@ -444,7 +452,69 @@ class EvidenceReport:
                 + f"; {len(gone)} superseded")
 
 
-def assess(root: Path) -> EvidenceReport:
+def _dependency_path(root: Path, value: str) -> PurePosixPath:
+    """Normalize a literal repository path and reject traversal, patterns and outside symlinks."""
+    if (not isinstance(value, str) or not value.strip() or "\\" in value
+            or PurePosixPath(value).is_absolute() or PureWindowsPath(value).drive
+            or ".." in PurePosixPath(value).parts or any(c in value for c in "*?[]:\r\n\x00")):
+        raise EvidenceError(f"unsafe required dependency path: {value!r}; use a literal repository-relative path")
+    path = PurePosixPath(value)
+    try:
+        if not (root / path).resolve().is_relative_to(root):
+            raise EvidenceError(f"required dependency path leaves the repository: {value!r}")
+    except (OSError, RuntimeError, ValueError) as exc:
+        raise EvidenceError(f"invalid required dependency path {value!r}: {exc}") from exc
+    return path
+
+
+def _required_dependencies(
+    root: Path, target: TargetRecord, required: dict[str, list[str]] | None,
+) -> dict[str, tuple[PurePosixPath, ...]]:
+    if required is None:
+        return {}
+    subjects = {v.id for v in target.verification_subjects}
+    if not isinstance(required, dict) or set(required) - subjects:
+        raise EvidenceError("required_dependency_paths must map existing verification subject ids to repository paths")
+    normalized: dict[str, tuple[PurePosixPath, ...]] = {}
+    for subject, paths in required.items():
+        if not isinstance(paths, list):
+            raise EvidenceError(f"required_dependency_paths[{subject!r}] must be a list of repository paths")
+        if paths:
+            normalized[subject] = tuple(_dependency_path(root, p) for p in paths)
+    return normalized
+
+
+def _missing_required_dependencies(
+    root: Path, target: TargetRecord, obs: ObservationRecord,
+    required: dict[str, tuple[PurePosixPath, ...]],
+) -> list[str]:
+    subjects = {v.id: v for v in target.verification_subjects}
+    explicit = set(obs.subject_refs) & subjects.keys()
+    if explicit:
+        applicable = explicit & required.keys()
+    else:
+        # Legacy observations may name a criterion, rather than its verification subject.
+        # Infer the routed subject from assessed evidence requirements so they cannot mask
+        # the explicit input policy with older weak SUPPORTS observations.
+        assessed = {a.evidence_requirement_ref for a in obs.assessments}
+        applicable = {subject for subject in required
+                      if assessed & set(subjects[subject].evidence_requirement_refs)}
+    if not applicable:
+        return []
+    recorded = obs.dependency_basis.declared if obs.dependency_basis is not None else obs.dependency_paths
+    coverage = [_dependency_path(root, p) for p in recorded]
+    return [f"{subject}: {path}" for subject in sorted(applicable) for path in required[subject]
+            if not any(path == declared or path.is_relative_to(declared) for declared in coverage)]
+
+
+def assess(root: Path, required_dependency_paths: dict[str, list[str]] | None = None) -> EvidenceReport:
+    """Compute standing, optionally requiring recorded declared inputs per verification subject.
+
+    A CURRENT observation with inadequate declared coverage becomes UNKNOWN. Historical
+    observations are retained, and normal Git/target freshness remains unchanged. Legacy
+    records without dependency_basis use their dependency_paths as declared coverage.
+    """
+    # Implements: required-evidence-inputs/Required declared input coverage
     from .trace_review import check_source_review
     root = Path(root).resolve()
     project = load_project(root / ".aes" / "project.yaml")
@@ -452,7 +522,16 @@ def assess(root: Path) -> EvidenceReport:
     observations = load_observations(root, project.materialization.observations_root, target)
 
     target_path = project.materialization.target_path
+    required = _required_dependencies(root, target, required_dependency_paths)
     fresh = {o.observation_id: freshness(root, o, target_path) for o in observations}
+    if required:
+        for observation in observations:
+            if fresh[observation.observation_id][0] != "CURRENT":
+                continue
+            missing = _missing_required_dependencies(root, target, observation, required)
+            if missing:
+                fresh[observation.observation_id] = (
+                    "UNKNOWN", "required declared dependency coverage missing: " + "; ".join(missing))
     by_er: dict[str, list[tuple[ObservationRecord, ErAssessment]]] = {}
     for o in observations:
         for a in o.assessments:
