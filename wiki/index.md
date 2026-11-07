@@ -2,19 +2,28 @@
 
 This is the progressive-disclosure front door for the canonical AES convergence project. It is a derived navigation surface, not a native authority. Follow links to the owning architecture, decision, plan, evidence, or code before making consequential claims.
 
-## AES v0.2 (accepted) — start here
+## Current boundary: Lockstep and the retained AES engine
+
+Source: Brian, 2026-11-06: "lockstep is meant to be part of aes canonical"; on Project Brains, "the project brains are not even part of lockstep" ([Lockstep's source-backed goal](https://github.com/BrianMills2718/lockstep/blob/main/wiki/goal.md)). Brian's active 2026-11-07 Lockstep delivery goal authorizes the necessary AES/harness integration.
+
+**Lockstep is an AES component**, maintained in [BrianMills2718/lockstep](https://github.com/BrianMills2718/lockstep): it puts full normative context at an edit, projects changes in both directions, links planned structure, typed symbols and checks, and renders evidence-bound status. Coding agents and Project Brains are consumers, not internal parts. Company Planning and Representation Router own its review surfaces.
+
+The AES library pinned by Lockstep supplies rich structured records, characterization, plan transactions and evidence reconciliation. Code2check supplies the OpenSpec subset where that is the selected normative owner; its simpler model does not replace Lockstep's full graph or reverse-edit/history contract. The [Lockstep delivery plan](https://github.com/BrianMills2718/lockstep/blob/main/wiki/plans.md) owns current implementation and completion evidence.
+
+AES's former repository-wide self-governance remains on hold; its old commit refusal and mandatory plan-accept regime are retired. See [current state](../.project-brain/now.md) and [workspace-facing rules](../CLAUDE.md). The architecture below describes the retained engine, not an instruction to restart that regime.
+
+## AES v0.2 (accepted history)
 
 This repository is the Agentic Engineering System; `Inside-Success/agentic-engineering-system` is archived and its borrowable ideas are harvested with adoption triggers ([Decision 0011](../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md), [harvest](../research/synthesis/2026-09-26-inside-success-aes-harvest.md)).
 
 AES v0.2, the greenfield MVP, is accepted as realized by
-[Decision 0010](../docs/decisions/0010-greenfield-v0.2-accepted.md) and governs
-this repository's `src/agentic_engineering_system/` and `tests/greenfield/`
-through its own `.aes/` target.
+[Decision 0010](../docs/decisions/0010-greenfield-v0.2-accepted.md). It formerly governed
+this repository's source and tests through its own `.aes/` target; the current hold above supersedes that execution rule.
 
 - Truth lives where it is edited: a document's or module's own summary is written inside it and wiki pages are generated from it ([AES-CTX-004](../docs/architecture/SYSTEM_BOUNDARY.md), [Decision 0013](../docs/decisions/0013-truth-lives-where-it-is-edited.md)).
 - Terms: [`docs/terms/ecosystem-terms.md`](../docs/terms/ecosystem-terms.md), Brian's reasoning and decision vocabulary (first entries; drafts marked).
 - Use it: [`docs/greenfield/GETTING_STARTED.md`](../docs/greenfield/GETTING_STARTED.md).
-- Current state: run `aes status` (or `make aes`); the live authority is `.aes/target.yaml`.
+- Historical engine state: `aes status` (or `make aes`) reports the retained `.aes/target.yaml`; current lifecycle is in the hold notice above.
 - Planning package (Company Planning, 2026-10-27): [review page](../proposals/planning-package/review-page/index.html), [open questions](../docs/planning/open-questions.json), [system model](../docs/planning/SYSTEM_MODEL.md), [domain glossary](../docs/planning/DOMAIN.md), [next goal](../docs/planning/next.goal.md).
 - Source-bound trace review: [adopted cross-project plan](../proposals/trace-review-enforcement/plan.md); native provider configuration and retained observation linkage are in [Getting Started](../docs/greenfield/GETTING_STARTED.md).
 - Agent feedback loop: [start here](../proposals/aes-learning-loop/review-page/guide.html) (what runs and when, the model and requirement pages, every document and what is still open).
