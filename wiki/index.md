@@ -10,6 +10,8 @@ Source: Brian, 2026-11-06: "lockstep is meant to be part of aes canonical"; on P
 
 The AES library pinned by Lockstep supplies rich structured records, characterization, plan transactions and evidence reconciliation. Code2check supplies the OpenSpec subset where that is the selected normative owner; its simpler model does not replace Lockstep's full graph or reverse-edit/history contract. The [Lockstep delivery plan](https://github.com/BrianMills2718/lockstep/blob/main/wiki/plans.md) owns current implementation and completion evidence.
 
+The retained library also supports [optional required evidence inputs](../openspec/specs/required-evidence-inputs/spec.md), documented in [the current engine architecture](../docs/architecture/greenfield-v0.2/README.md); this lets Lockstep qualify historical observations against declared subprocess inputs without changing record formats.
+
 AES's former repository-wide self-governance remains on hold; its old commit refusal and mandatory plan-accept regime are retired. See [current state](../.project-brain/now.md) and [workspace-facing rules](../CLAUDE.md). The architecture below describes the retained engine, not an instruction to restart that regime.
 
 ## AES v0.2 (accepted history)

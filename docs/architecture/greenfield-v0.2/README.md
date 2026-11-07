@@ -14,6 +14,10 @@ reason and source.
 
 **Current boundary (2026-11-07).** AES's former self-governance is on hold; its mandatory commit refusal and plan-accept workflow are retired. [Lockstep is the active AES component](../../../wiki/index.md#current-boundary-lockstep-and-the-retained-aes-engine) carrying structured linkage and bidirectional projection, with coding agents and Project Brains as consumers. This architecture records the retained engine contract and historical governance, not a restart instruction.
 
+**Library input policy (2026-11-07).** The retained engine's `evidence.assess(root, required_dependency_paths=None)` and `reconcile.reconcile(root, required_dependency_paths=None)` accept a mapping `{verification_subject_id: [repository_relative_path, ...]}`. This is a consumer-owned declaration policy, not a new record shape or governance workflow. AES keeps freshness, route inference and standing computation in the existing engine. Ordinary calls remain unchanged.
+
+A current observation missing applicable required declared paths is reported UNKNOWN with those missing paths and cannot contribute to standing. Directory coverage includes descendants, using normalized literal repository paths; unsafe or outside paths fail. Modern observations use `dependency_basis.declared`, and older records without a basis use `dependency_paths`. A legacy observation naming a criterion instead of a verification subject is routed through its assessed evidence requirements. Stored records and actual assessments remain intact; a correctly qualified current refutation still wins. The existing `record(..., depends_on=[...])` API records those explicit inputs. See [the input-policy specification](../../../openspec/specs/required-evidence-inputs/spec.md) and `tests/greenfield/test_evidence.py`.
+
 **Historical engine authority.** [`.aes/target.yaml`](../../../.aes/target.yaml)
 records ids, criteria, evidence requirements, components,
 planned artifacts and verification subjects are what the target says. These
