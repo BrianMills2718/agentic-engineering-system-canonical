@@ -12,12 +12,14 @@ from what was proposed. Every amendment is listed at the end of its file
 (`accepted_amendments:` in YAML, "Accepted amendments" in Markdown), with its
 reason and source.
 
-**Authority.** For AES canonical, [`.aes/target.yaml`](../../../.aes/target.yaml)
-is the live authority: ids, criteria, evidence requirements, components,
+**Current boundary (2026-11-07).** AES's former self-governance is on hold; its mandatory commit refusal and plan-accept workflow are retired. [Lockstep is the active AES component](../../../wiki/index.md#current-boundary-lockstep-and-the-retained-aes-engine) carrying structured linkage and bidirectional projection, with coding agents and Project Brains as consumers. This architecture records the retained engine contract and historical governance, not a restart instruction.
+
+**Historical engine authority.** [`.aes/target.yaml`](../../../.aes/target.yaml)
+records ids, criteria, evidence requirements, components,
 planned artifacts and verification subjects are what the target says. These
 documents explain and constrain it; where one disagrees with the target or the
-code, the document is wrong and is corrected. The target itself changes only
-through `aes plan prepare / validate / accept`.
+code, the document is wrong and is corrected. Consumers using this engine change
+their target through `aes plan prepare / validate / accept`; this is not a universal requirement on current AES repository changes.
 
 File names mentioned inside these documents that are not in this directory
 (for example `18-provider-evaluation-round-1.md`) refer to the proposal
