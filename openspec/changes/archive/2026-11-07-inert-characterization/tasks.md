@@ -1,0 +1,4 @@
+- [x] Reproduce local fsmonitor execution in characterization and producer identity.
+- [x] Make both existing Git readers inert without changing public records or APIs.
+- [x] Verify structural facts and actual revision/dirty identity remain accurate.
+- [x] Archive the specification and record the narrow component repair.
