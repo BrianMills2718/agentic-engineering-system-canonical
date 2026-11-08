@@ -12,6 +12,8 @@ The AES library pinned by Lockstep supplies rich structured records, characteriz
 
 The retained library also supports [optional required evidence inputs](../openspec/specs/required-evidence-inputs/spec.md), documented in [the current engine architecture](../docs/architecture/greenfield-v0.2/README.md); this lets Lockstep qualify historical observations against declared subprocess inputs without changing record formats.
 
+Read-only characterization and producer identity use [inert Git inspection](../openspec/specs/inert-characterization/spec.md): repository hooks and fsmonitor commands are disabled for those reads. Structural facts, dirty state and revision identity remain computed from the same repository data.
+
 AES's former repository-wide self-governance remains on hold; its old commit refusal and mandatory plan-accept regime are retired. See [current state](../.project-brain/now.md) and [workspace-facing rules](../CLAUDE.md). The architecture below describes the retained engine, not an instruction to restart that regime.
 
 ## AES v0.2 (accepted history)

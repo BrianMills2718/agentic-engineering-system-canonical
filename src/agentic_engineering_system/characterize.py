@@ -1,5 +1,7 @@
 """Revision-bound characterization and target drift (`RU-AES-CHARACTERIZE`, `SC-GF-006`).
 
+Implements: inert-characterization/git-inspection-is-inert
+
 `characterize(root)` records what the repository contains at HEAD under the
 governed roots of `.aes/project.yaml`: every file with its blob hash and size,
 and for Python files the facts from `characterize_python` (AST only). Files
@@ -70,7 +72,8 @@ class Characterization(StrictModel):
 
 
 def _git(root: Path, *args: str, input: bytes | None = None) -> bytes:
-    proc = subprocess.run(["git", *args], cwd=root, input=input, capture_output=True, check=False)
+    proc = subprocess.run(["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", *args],
+                          cwd=root, input=input, capture_output=True, check=False)
     if proc.returncode != 0:
         raise CharacterizeError(f"git {' '.join(args)} failed: {proc.stderr.decode().strip()}")
     return proc.stdout
@@ -84,7 +87,8 @@ def _source_checkout_revision(module_file: Path) -> str | None:
     """
     def git(cwd: Path, *args: str) -> subprocess.CompletedProcess[str] | None:
         try:
-            return subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True, check=False)
+            return subprocess.run(["git", "-c", "core.hooksPath=/dev/null", "-c", "core.fsmonitor=false", *args],
+                                  cwd=cwd, capture_output=True, text=True, check=False)
         except FileNotFoundError:  # no git executable: the checkout cannot be described
             return None
 

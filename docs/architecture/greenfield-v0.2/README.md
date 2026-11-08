@@ -18,6 +18,8 @@ reason and source.
 
 A current observation missing applicable required declared paths is reported UNKNOWN with those missing paths and cannot contribute to standing. Directory coverage includes descendants, using normalized literal repository paths; unsafe or outside paths fail. Modern observations use `dependency_basis.declared`, and older records without a basis use `dependency_paths`. A legacy observation naming a criterion instead of a verification subject is routed through its assessed evidence requirements. Stored records and actual assessments remain intact; a correctly qualified current refutation still wins. The existing `record(..., depends_on=[...])` API records those explicit inputs. See [the input-policy specification](../../../openspec/specs/required-evidence-inputs/spec.md) and `tests/greenfield/test_evidence.py`.
 
+**Read-only Git inspection (2026-11-08).** Characterization and source-checkout producer identity disable repository hooks and fsmonitor commands on their existing Git readers. This prevents executable repository integrations from running during structural inspection while retaining actual HEAD, dirty-state and AST facts. The public APIs and stored record shapes are unchanged. See [the inert inspection specification](../../../openspec/specs/inert-characterization/spec.md).
+
 **Historical engine authority.** [`.aes/target.yaml`](../../../.aes/target.yaml)
 records ids, criteria, evidence requirements, components,
 planned artifacts and verification subjects are what the target says. These
