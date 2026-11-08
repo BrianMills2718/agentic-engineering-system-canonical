@@ -9,6 +9,7 @@ revision the test made.
 from __future__ import annotations
 
 import shutil
+import shlex
 import subprocess
 import sys
 from importlib.metadata import version
@@ -93,6 +94,25 @@ def _add_exports(root: Path, artifact_id: str, exports: list[str]) -> None:
     block, rest = tail.split("\n  - id: ", 1)
     items = ", ".join(f'"{e}"' for e in exports)
     path.write_text(f"{head}{anchor}{block}\n    exports: [{items}]\n  - id: {rest}", encoding="utf-8")
+
+
+@pytest.mark.parametrize("operation", [
+    pytest.param("characterize", marks=pytest.mark.req("inert-characterization/local-monitor-during-characterization")),
+    pytest.param("producer", marks=pytest.mark.req("inert-characterization/local-monitor-during-producer-identity")),
+])
+def test_readonly_inspection_does_not_run_repository_fsmonitor(root: Path, operation: str) -> None:
+    marker = root / "monitor-called"
+    monitor = root / "monitor-canary.sh"
+    monitor.write_text("#!/bin/sh\nprintf invoked > " + shlex.quote(str(marker)) + "\n")
+    monitor.chmod(0o700)
+    _git(root, "config", "core.fsmonitor", str(monitor))
+    assert not marker.exists()
+    if operation == "characterize":
+        result = characterize(root)
+        assert result.subject_revision == _git(root, "rev-parse", "HEAD")
+    else:
+        assert "running:" in running_version(root / "src/whygame5/prompts.py")
+    assert not marker.exists(), "Read-only inspection executed the repository fsmonitor command"
 
 
 # --------------------------------------------------------------------------- #
