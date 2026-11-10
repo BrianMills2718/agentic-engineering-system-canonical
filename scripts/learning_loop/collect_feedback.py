@@ -455,6 +455,66 @@ def earlier_splits(ids: set[str], out: Path = OUT) -> dict[str, list[dict]]:
     return found
 
 
+def quote_key(text: str) -> str:
+    return norm(text).casefold()
+
+
+def filed_human_quotes(out: Path = OUT) -> set[str]:
+    """Quotes of human-correction reports already filed as an issue, from the daily report logs."""
+    found: set[str] = set()
+    for path in sorted(out.glob("reports-*.jsonl")):
+        with path.open() as fh:
+            for line in fh:
+                try:
+                    r = json.loads(line)
+                except ValueError:
+                    continue
+                if r.get("field") == "Human correction" and str(r.get("filing", "")).startswith("http"):
+                    found.add(quote_key(r.get("value", "")))
+    return found
+
+
+def dedupe_human(reports: list[dict], filed: set[str]) -> tuple[list[dict], int]:
+    """One human-correction report per distinct quote. The same instruction text recurs across
+    thousands of sessions (2026-11-10: 9,813 pending human reports held 790 distinct quotes, one of
+    them 1,849 times), so filing per report id would flood the private log with copies and starve
+    every other report behind the filing cap. Keeps the first report of each quote not filed before;
+    returns the kept reports and how many were dropped as copies."""
+    seen, keep = set(filed), []
+    for r in reports:
+        k = quote_key(r["value"])
+        if k not in seen:
+            seen.add(k)
+            keep.append(r)
+    return keep, len(reports) - len(keep)
+
+
+class HourlyPacer:
+    """Holds issue filing to `per_hour` issues in any one window of an hour. GitHub allows at most
+    500 content-creating requests an hour (and 80 a minute) before its secondary rate limit refuses
+    them; one report is one `gh issue create`, measured at about 1.4 s each (2026-11-10 journal: 80
+    in 112 s, so 43 a minute). After `per_hour` filings it sleeps until the window's hour is up."""
+
+    def __init__(self, per_hour: int, clock=time.monotonic, sleep=time.sleep):
+        self.per_hour, self.clock, self.sleep = per_hour, clock, sleep
+        self.start: float | None = None
+        self.used = 0
+
+    def wait(self) -> float:
+        """Call before each filing; returns the seconds slept."""
+        now = self.clock()
+        if self.start is None or now - self.start >= 3600:
+            self.start, self.used = now, 0
+        slept = 0.0
+        if self.per_hour > 0 and self.used >= self.per_hour:
+            slept = self.start + 3600 - now
+            log(f"file_reports: {self.used} filed this hour; waiting {slept:.0f}s for GitHub's hourly limit")
+            self.sleep(slept)
+            self.start, self.used = self.clock(), 0
+        self.used += 1
+        return slept
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--since-days", type=float, default=1.0, help="first-seen files: only records this recent")
@@ -462,7 +522,12 @@ def main() -> int:
     ap.add_argument("--max-file", type=int, default=25, help="cap on register filings per run")
     ap.add_argument("--legacy-register", action="store_true",
                     help="with --file, also file items to the legacy project-meta register (off by default)")
-    ap.add_argument("--max-reports", type=int, default=80, help="cap on private-log report issues per run")
+    # 900 a night drains the 2026-11-10 backlog (about 1,630 distinct reports) in about 4 nights against
+    # about 450 new reports a day; at 450 an hour the run files for about 71 minutes, inside the unit's
+    # 2-hour timeout. Filing makes no model call, so the cap bounds GitHub load, not spend.
+    ap.add_argument("--max-reports", type=int, default=900, help="cap on private-log report issues per run")
+    ap.add_argument("--reports-per-hour", type=int, default=450,
+                    help="pace report filing under GitHub's 500 content-creating requests an hour (0 = no pacing)")
     ap.add_argument("--min-p", type=float, default=0.8, help="Jev probability needed to file")
     ap.add_argument("--min-reusable", type=float, default=0.6,
                     help="Jev probability the item is reusable beyond its own task, needed to file")
@@ -533,6 +598,7 @@ def main() -> int:
 
     def file_reports():
         n = 0
+        pacer = HourlyPacer(args.reports_per_hour)
         for r in reps:
             if r.get("filing") == "split_failed":
                 continue
@@ -545,6 +611,7 @@ def main() -> int:
                 failed_files.add(r["transcript"])
             else:
                 try:
+                    pacer.wait()
                     r["filing"] = FL.file_report(r)
                     n += 1
                     if n % 10 == 0:
@@ -611,6 +678,7 @@ def main() -> int:
             with path.open() as fh:
                 backlog.extend(json.loads(line) for line in fh)
     human = [r for r in FL.correction_reports(backlog + items) if r["id"] not in filed_reports]
+    human, counts["human_reports_duplicate_quote"] = dedupe_human(human, filed_human_quotes())
     reps.extend(human)
     counts["human_reports_new"] = len(human)
     step("file_reports", file_reports)
