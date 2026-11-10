@@ -1,17 +1,25 @@
 # Feedback loop jobs on Brian's PC (systemd user units)
 
-Five timers run the agent feedback loop. Start page for the whole loop:
+Two timers run the agent feedback loop today: the collector and the labels job. The other three
+units here (`feedback-problems`, `feedback-effects`, `feedback-fix-owner`) are installed in
+`~/.config/systemd/user` but their timers are **disabled and inactive** (`systemctl --user
+is-enabled`, checked 2026-11-10), and so is agent-skills' `taxonomy-feedback.timer`, which the
+labels job replaced on 2026-10-26. Their last outputs in `~/projects/data/feedback-collector/` are
+`problems-runs.jsonl` and `policies-runs.jsonl` (2026-10-12) and `fix-owner-runs.jsonl`
+(2026-10-13); the user journal (kept since 2026-11-09) has no entry for any of them. Git history
+does not record who turned them off or why; AES has been on hold since 2026-10-18 (`CLAUDE.md`).
+The sections below describe what each job does when it is on. Start page for the whole loop:
 [guide.html](../../../proposals/aes-learning-loop/review-page/guide.html).
 
 | Job | When | What it runs | What it writes | If it fails |
 |---|---|---|---|---|
-| Collector (`feedback-collector`) | daily 03:30 | `collect_feedback.py --file --max-file 10` | `items-<date>.jsonl`, `reports-<date>.jsonl`, `runs.jsonl`, `state.sqlite`; one issue per report in the private log | unit fails, keyed agent concern |
-| Weekly analysis (`feedback-problems`) | Sunday 05:00 | `problems.py --file --days 14` | `problems-<date>.jsonl`, `problems-runs.jsonl`, `problems.sqlite`; "Feedback loop: adopt" concerns | unit fails, keyed agent concern |
-| Effect counter and rule check (`feedback-effects`) | daily 07:30 | `problems.py --file --days 14 --effects-only`, then `policies.py` | `effects-<date>.jsonl`, `policies-runs.jsonl` | unit fails, keyed agent concern; a rule-check failure does not fail the unit but alerts on its own |
-| Fix owner (`feedback-fix-owner`) | daily 09:00 | `fix_owner.py --max-items 10` | `fix-owner-<date>.jsonl` (full session trace), `fix-owner-runs.jsonl` | unit fails, keyed agent concern |
-| Labels (`feedback-labels`) | daily 05:00 | `label_items.py issues --other-concern-repo BrianMills2718/agent-skills` (at most 150 issues a run) | a `family:<letter>`, `fact` or `other` label and a comment on each open feedback issue; `labels-<date>.log` | unit fails, keyed agent concern; two or more open `other` items open the `taxonomy:unmatched-failures` concern in agent-skills, so an agent decides whether the failure-mode list needs a new family |
+| Collector (`feedback-collector`), **on** | daily 03:30 | `collect_feedback.py --file --max-file 10` | `items-<date>.jsonl`, `reports-<date>.jsonl`, `runs.jsonl`, `state.sqlite`; one issue per report in the private log | unit fails, keyed agent concern |
+| Weekly analysis (`feedback-problems`), **off** since about 2026-10-12 | Sunday 05:00 when on | `problems.py --file --days 14` | `problems-<date>.jsonl`, `problems-runs.jsonl`, `problems.sqlite`; "Feedback loop: adopt" concerns | unit fails, keyed agent concern |
+| Effect counter and rule check (`feedback-effects`), **off** since about 2026-10-12 | daily 07:30 when on | `problems.py --file --days 14 --effects-only`, then `policies.py` | `effects-<date>.jsonl`, `policies-runs.jsonl` | unit fails, keyed agent concern; a rule-check failure does not fail the unit but alerts on its own |
+| Fix owner (`feedback-fix-owner`), **off** since about 2026-10-13 | daily 09:00 when on | `fix_owner.py --max-items 10` | `fix-owner-<date>.jsonl` (full session trace), `fix-owner-runs.jsonl` | unit fails, keyed agent concern |
+| Labels (`feedback-labels`), **on** | daily 05:00 | `label_items.py issues --other-concern-repo BrianMills2718/agent-skills` (at most 150 issues a run) | a `family:<letter>`, `fact` or `other` label and a comment on each open feedback issue; `labels-<date>.log` | unit fails, keyed agent concern; two or more open `other` items open the `taxonomy:unmatched-failures` concern in agent-skills, so an agent decides whether the failure-mode list needs a new family |
 
-All five run from `~/.hive-brain/aes`, a clone of AES `main` that each run refreshes first
+All five, when on, run from `~/.hive-brain/aes`, a clone of AES `main` that each run refreshes first
 (`~/.hive-brain/project-meta` likewise for project-meta tools), with `llm_client` from
 `~/code/llm_client` through uv's shared cache. Every output goes to `$FEEDBACK_OUT` =
 `~/projects/data/feedback-collector/`. Never commit anything from that folder: it holds private
@@ -26,10 +34,11 @@ lock stopped the collector from 2026-10-17 to 2026-10-26.
 ## Install, check, rerun
 
 ```bash
-# install or reinstall all five after changing these files
+# install or reinstall after changing these files; enable only the timers you mean to run
+# (today: collector and labels)
 cp scripts/learning_loop/systemd/feedback-*.{service,timer} ~/.config/systemd/user/
 systemctl --user daemon-reload
-for t in collector problems effects fix-owner labels; do systemctl --user enable --now feedback-$t.timer; done
+for t in collector labels; do systemctl --user enable --now feedback-$t.timer; done
 # one-time setup of the project-meta tools copy
 git clone --depth 1 git@github-personal:BrianMills2718/project-meta.git ~/.hive-brain/project-meta
 
@@ -44,13 +53,17 @@ python3 scripts/learning_loop/fix_owner.py --dry-run # what the next fix-owner r
 Reads every Claude Code and Codex session transcript from the last day and turns each closeout
 **Feedback** field (and the older **Learnings** heading) into one `feedback-report.v1` report. It
 files each report as one issue in the private log `BrianMills2718/agent-feedback-log`
-(`--max-reports`, default 80). Filing into the legacy project-meta register is off unless
+(`--max-reports`, default 900, paced at `--reports-per-hour` 450 to stay under GitHub's 500
+content-creating requests an hour; filing makes no model call). Raised from 80 on 2026-11-10, when
+80 a night left 10,652 reports deferred against about 450 new ones a day. Filing into the legacy project-meta register is off unless
 `--legacy-register` is passed. Exit 1 means some LLM, Jev or filing calls failed; exit 2 means a
 crash. Both fail the unit.
 
 - **Human corrections.** Corrections and standing directions Brian gave in a transcript also
   become reports, keeping the literal quote and its byte offset. The last 14 days of item logs are
-  backfilled automatically and deduplicated by report id. To recover only that backlog without new
+  backfilled automatically and deduplicated by report id, then by quote: one report per distinct
+quote, skipping quotes already filed (on 2026-11-10, 9,813 pending human reports held 789 distinct
+unfiled quotes; one instruction text recurred 1,849 times). To recover only that backlog without new
   model calls, run `collect_feedback.py --file --corrections-only`. The private log needs the label
   `source:human`.
 - **Subagent results.** The collector reads parent tool events for Codex spawn/followup and Claude
