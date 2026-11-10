@@ -134,7 +134,7 @@ is the recommendation.
 | Capability | Candidate | Disposition |
 |---|---|---|
 | Item storage, search and counts | GitHub Issues and labels | **reuse** |
-| Classification | Jev (TypeSafe) via OpenRouter `systemone` | **configure** (question set v2, written to TypeSafe's own choice guidance) |
+| Classification | Jev (TypeSafe) via OpenRouter Decisions, called through llm_client `call_decisions` (task `aes.feedback_labels`; was a direct `systemone` call until 2026-11-10) | **configure** (question set v2, written to TypeSafe's own choice guidance) |
 | Rule home and acceptance | AES `.aes/target.yaml` normative items and `aes plan` | **reuse** |
 | Action-rule enforcement and log | `jev-engineering` gate (pinned 82655a6) with Brian's `policy.local.json` | **configure** |
 | Scheduling | systemd timer on personal-vps (`learning-loop.timer`, personal-vps `apps/learning-loop/`), like the nightly backup | **reuse** (was: Paperclip routine; a fixed script needs no agent, and the timer keeps running when Paperclip agents are down, as on 2026-10-02) |

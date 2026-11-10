@@ -139,7 +139,6 @@ def test_nightly_effects_keep_watching_when_group_id_changes_and_revoke_once(tmp
     import licences as LC
     monkeypatch.setattr(PB, "OUT", tmp_path)
     monkeypatch.setattr(PB.LI, "question_set", lambda: {})
-    monkeypatch.setattr(PB.LI, "api_key", lambda: "unused")
     monkeypatch.setattr(PB, "family", lambda *a: {"families": ["N"], "cost": 0})
     monkeypatch.setattr(PB, "relate", lambda *a: {"relation": "same_problem"})
     monkeypatch.setattr(PB, "concern_enforcement", lambda key: RECEIPT)

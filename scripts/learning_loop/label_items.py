@@ -22,9 +22,11 @@ GitHub token: GH_TOKEN or GITHUB_TOKEN, else `gh auth token`. Exit status: 0 =
 every item labelled, 1 = some Jev or GitHub calls failed (those items stay
 unlabelled and are retried next run), 2 = could not list issues.
 
-Reads OPENROUTER_API_KEY from the environment, else by name from
-~/.secrets/api_keys.env. Resumes: entries already in --out are skipped. A failed
-call is written as an error record and counted, never guessed or retried twice.
+Jev is called through Brian's shared llm_client (`call_decisions`), which loads the
+OpenRouter key from ~/.secrets/api_keys.env and records every call in its ledger as task
+`aes.feedback_labels`, one trace per run (`TRACE_ID`). Resumes: entries already in --out
+are skipped. A failed call is written as an error record and counted, never guessed or
+retried twice.
 """
 from __future__ import annotations
 
@@ -41,6 +43,7 @@ from concurrent.futures import ThreadPoolExecutor
 import time
 import urllib.error
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -49,8 +52,12 @@ ROOT = Path(__file__).resolve().parents[2]
 _SHARED_TAXONOMY = Path.home() / "code2/agent-skills/skills/review/references/failure-modes.md"
 TAXONOMY = Path(os.environ.get("LEARNING_TAXONOMY") or
                 (_SHARED_TAXONOMY if _SHARED_TAXONOMY.is_file() else ROOT / "docs" / "failure-modes.md"))
-ENDPOINT = "https://openrouter.ai/api/v1/systemone"
 MODEL = "typesafe/jev-1.13"
+# llm_client tags (strict mode requires all three). One trace per process run; the budget caps the
+# whole run: all 2,573 legacy items cost $0.18 on 2026-10-02, a daily run of at most 150 far less.
+TASK = "aes.feedback_labels"
+TRACE_ID = f"{TASK}/{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{os.getpid()}"
+MAX_BUDGET = 1.0
 QUESTION_SET = Path(__file__).with_name("question_set_v2.json")
 LEGACY_GLOB = "~/code/project-meta/learnings/entries/*.json"
 # Feedback reports are filed here since 2026-10-08 (learned skill); the kind:lesson/friction/problem
@@ -59,15 +66,6 @@ REPO = "BrianMills2718/agent-feedback-log"
 KINDS = ("kind:observation", "kind:claim", "kind:action", "kind:lesson", "kind:friction", "kind:problem")
 CONCERN = Path(os.environ.get("PROJECT_META") or Path.home() / "code/project-meta") / "scripts/concern_issue.py"
 OTHER_THRESHOLD = 2  # failure-modes.md: a new family requires two independent instances
-
-
-def api_key() -> str:
-    if os.environ.get("OPENROUTER_API_KEY"):
-        return os.environ["OPENROUTER_API_KEY"]
-    for line in open(os.path.expanduser("~/.secrets/api_keys.env")):
-        if line.startswith("OPENROUTER_API_KEY="):
-            return line.split("=", 1)[1].strip().strip("\"'")
-    sys.exit("OPENROUTER_API_KEY not found")
 
 
 def families() -> dict[str, str]:
@@ -92,18 +90,22 @@ def entry_text(d: dict) -> str:
     return str(d.get("learning") or d.get("finding") or d.get("lesson") or "")
 
 
-def ask(state: str, q: dict, key: str) -> tuple[dict | None, str | None, float]:
-    body = json.dumps({"model": MODEL, "state": state, "questions": q}).encode()
-    req = urllib.request.Request(ENDPOINT, data=body, method="POST",
-                                 headers={"Authorization": "Bearer " + key, "Content-Type": "application/json"})
+def ask(state: dict, q: dict) -> tuple[dict | None, str | None, float]:
+    """One Jev call through llm_client; returns (provider response, error, seconds).
+
+    The response is OpenRouter's own JSON (`answers`, `usage.cost`), so `decide` and the cost
+    tallies read it unchanged. Any failure, including an llm_client budget refusal, comes back
+    as an error string: the caller records and counts it, and the run exits 1.
+    """
+    from llm_client import call_decisions  # imported here so `report` and the tests need no llm_client
+
     t0 = time.perf_counter()
     try:
-        r = json.loads(urllib.request.urlopen(req, timeout=60).read())
-        return r, None, time.perf_counter() - t0
-    except urllib.error.HTTPError as e:
-        return None, f"HTTP {e.code}: {e.read()[:200].decode(errors='replace')}", time.perf_counter() - t0
-    except (urllib.error.URLError, TimeoutError, ValueError) as e:
-        return None, f"{type(e).__name__}: {e}", time.perf_counter() - t0
+        result = call_decisions(MODEL, state=state, questions=q, task=TASK, trace_id=TRACE_ID,
+                                max_budget=MAX_BUDGET, timeout=60)
+        return result.raw_response, None, time.perf_counter() - t0
+    except Exception as e:  # recorded per item and counted in the exit status, never swallowed
+        return None, f"{type(e).__name__}: {str(e)[:300]}", time.perf_counter() - t0
 
 
 def decide(ans: dict, qs: dict) -> dict:
@@ -124,11 +126,11 @@ def decide(ans: dict, qs: dict) -> dict:
             "second": sorted(probs, key=lambda k: -probs[k])[1]}
 
 
-def label_one(f: str, qs: dict, key: str) -> dict:
+def label_one(f: str, qs: dict) -> dict:
     d = json.load(open(f))
     text = entry_text(d)
     state = {"learning": text[:1800], "recommended_action": str(d.get("recommended_action") or "")[:400]}
-    r, err, secs = ask(state, qs["question"], key)
+    r, err, secs = ask(state, qs["question"])
     rec = {"entry_id": d.get("entry_id") or Path(f).stem, "recorded_at": d.get("recorded_at"), "project": d.get("project"),
            "text": text[:600], "questions": qs["version"], "model": MODEL, "seconds": round(secs, 2)}
     if err:
@@ -141,7 +143,6 @@ def label_one(f: str, qs: dict, key: str) -> dict:
 
 def cmd_legacy(args) -> int:
     qs = question_set()
-    key = api_key()
     out = Path(args.out)
     done = set()
     if out.exists():
@@ -153,7 +154,7 @@ def cmd_legacy(args) -> int:
     counts = collections.Counter(skipped_done=len(files) - len(todo))
     cost = 0.0
     with out.open("a") as fh, ThreadPoolExecutor(max_workers=args.workers) as pool:
-        for rec in pool.map(lambda f: label_one(f, qs, key), todo):
+        for rec in pool.map(lambda f: label_one(f, qs), todo):
             counts["error" if "error" in rec else rec["outcome"]] += 1
             cost += rec.get("cost") or 0
             fh.write(json.dumps(rec) + "\n")
@@ -210,7 +211,7 @@ def gh(method: str, path: str, tok: str, body: dict | None = None):
 
 
 def cmd_issues(args) -> int:
-    qs, key, tok = question_set(), api_key(), github_token()
+    qs, tok = question_set(), github_token()
     try:
         seen = {}
         # Every page: one page of 100 relabelled the same issues forever once they were labelled.
@@ -235,7 +236,7 @@ def cmd_issues(args) -> int:
         body = i.get("body") or ""
         m = re.search(r"^recommended_action:\s*(.+)$", body, re.M)
         state = {"learning": (i["title"] + "\n\n" + body)[:1800], "recommended_action": (m.group(1) if m else "")[:400]}
-        r, err, secs = ask(state, qs["question"], key)
+        r, err, secs = ask(state, qs["question"])
         if err:
             counts["error"] += 1
             lines.append(f"- #{i['number']}: Jev failed ({err[:120]}); left unlabelled")

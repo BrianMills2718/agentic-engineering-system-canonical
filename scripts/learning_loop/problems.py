@@ -122,9 +122,9 @@ def pair_key(a: dict, b: dict) -> str:
 
 
 # ---------- 1. family ----------
-def family(rec: dict, qs: dict, key: str) -> dict:
+def family(rec: dict, qs: dict) -> dict:
     links = " ".join(lk["ref"] for lk in rec["links"])
-    r, err, _ = LI.ask({"learning": rec["text"][:1800], "recommended_action": links[:400]}, qs["question"], key)
+    r, err, _ = LI.ask({"learning": rec["text"][:1800], "recommended_action": links[:400]}, qs["question"])
     if err:
         return {"error": err}
     return LI.decide(r["answers"], qs) | {"cost": r.get("usage", {}).get("cost")}
@@ -393,7 +393,7 @@ def main() -> int:
     counts["records"] = len(recs)
     counts.update(step("resolve_evidence", lambda: resolve_records(recs, db)))
 
-    qs, key = LI.question_set(), LI.api_key()
+    qs = LI.question_set()
 
     def families_all():
         for r in recs:
@@ -403,7 +403,7 @@ def main() -> int:
             if row:
                 r["family"] = json.loads(row[0])
                 continue
-            ans = family(r, qs, key)
+            ans = family(r, qs)
             counts["family_calls"] += 1
             if "error" in ans:
                 errors.append(f"family {r['id']}: {ans['error']}")
