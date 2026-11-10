@@ -23,10 +23,9 @@ def fake_gh(pages, posts):
 
 def run_issues(monkeypatch, pages, posts):
     monkeypatch.setattr(LI, "question_set", lambda: {"question": {}, "version": "v2"})
-    monkeypatch.setattr(LI, "api_key", lambda: "k")
     monkeypatch.setattr(LI, "github_token", lambda: "t")
     monkeypatch.setattr(LI, "gh", fake_gh(pages, posts))
-    monkeypatch.setattr(LI, "ask", lambda state, q, key: ({"answers": [], "usage": {"cost": 0}}, None, 0.0))
+    monkeypatch.setattr(LI, "ask", lambda state, q: ({"answers": [], "usage": {"cost": 0}}, None, 0.0))
     monkeypatch.setattr(LI, "decide", lambda answers, qs: {
         "outcome": "filed", "families": ["A"], "confident": False, "p": 0.9, "confidence": 0.9,
         "choice": "A", "second": "B"})
@@ -73,12 +72,49 @@ def test_two_unmatched_items_open_one_keyed_concern(monkeypatch):
 def test_a_run_labels_at_most_max_items(monkeypatch):
     posts = []
     monkeypatch.setattr(LI, "question_set", lambda: {"question": {}, "version": "v2"})
-    monkeypatch.setattr(LI, "api_key", lambda: "k")
     monkeypatch.setattr(LI, "github_token", lambda: "t")
     monkeypatch.setattr(LI, "gh", fake_gh([[issue(n, ["kind:claim"]) for n in range(1, 6)]], posts))
-    monkeypatch.setattr(LI, "ask", lambda state, q, key: ({"answers": [], "usage": {"cost": 0}}, None, 0.0))
+    monkeypatch.setattr(LI, "ask", lambda state, q: ({"answers": [], "usage": {"cost": 0}}, None, 0.0))
     monkeypatch.setattr(LI, "decide", lambda answers, qs: {
         "outcome": "fact", "families": [], "confident": False, "p": 0.9, "confidence": 0.9,
         "choice": "x", "second": "y"})
     LI.cmd_issues(SimpleNamespace(repo="o/r", dry_run=False, summary_issue=0, other_concern_repo="", max_items=2))
     assert sorted(p for p, b in posts if p.endswith("/labels")) == ["/repos/o/r/issues/1/labels", "/repos/o/r/issues/2/labels"]
+
+
+def test_jev_call_goes_through_llm_client_with_its_tags(monkeypatch):
+    """The Jev call is llm_client's `call_decisions` (so it lands in the ledger), never a direct HTTP call."""
+    import types
+    import urllib.request
+    calls = []
+    raw = {"answers": {"kind": {"choice": "a", "probabilities": {"a": 0.8, "b": 0.2}, "confidence": 0.7}},
+           "usage": {"cost": 0.0001}}
+
+    def call_decisions(model, **kw):
+        calls.append((model, kw))
+        return SimpleNamespace(raw_response=raw)
+
+    fake = types.ModuleType("llm_client")
+    fake.call_decisions = call_decisions
+    monkeypatch.setitem(sys.modules, "llm_client", fake)
+    monkeypatch.setattr(urllib.request, "urlopen", lambda *a, **k: (_ for _ in ()).throw(AssertionError("direct HTTP")))
+    question = {"kind": {"type": "choice", "instructions": "which?", "criteria": {"a": "A", "b": "B"}}}
+    r, err, _ = LI.ask({"learning": "x", "recommended_action": ""}, question)
+    assert err is None and r is raw
+    ((model, kw),) = calls
+    assert model == LI.MODEL and kw["questions"] == question
+    assert kw["task"] == "aes.feedback_labels" and kw["trace_id"].startswith("aes.feedback_labels/")
+    assert kw["max_budget"] > 0
+
+
+def test_a_failed_llm_client_call_is_an_error_record(monkeypatch):
+    import types
+
+    def call_decisions(model, **kw):
+        raise RuntimeError("OpenRouter Decisions API HTTP 503: down")
+
+    fake = types.ModuleType("llm_client")
+    fake.call_decisions = call_decisions
+    monkeypatch.setitem(sys.modules, "llm_client", fake)
+    r, err, _ = LI.ask({"learning": "x"}, {})
+    assert r is None and err.startswith("RuntimeError: OpenRouter Decisions API HTTP 503")
