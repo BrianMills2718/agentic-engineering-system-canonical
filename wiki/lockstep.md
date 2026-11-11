@@ -1,7 +1,7 @@
 ---
 type: Topic
 title: Lockstep
-description: What Lockstep is, who uses it, and how it winds down into code2check
+description: What Lockstep is, who uses it, and its status: kept and actively developed as part of AES; its future is under question
 status: current
 last_checked: 2026-11-11
 ---
@@ -29,12 +29,12 @@ Repository: [BrianMills2718/lockstep](https://github.com/BrianMills2718/lockstep
 - For a code2 repository, `code2check project` already writes the requirement text into the docstring under its `Implements:` line and fails on a stale copy ([docs/decisions/0009-aes-and-lockstep-fate.md:33-35](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L33-L35)).
 - Only Lockstep's edit-time hook, change log and wiki have no counterpart ([docs/decisions/0009-aes-and-lockstep-fate.md:36-37](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L36-L37)).
 
-## Wind-down (decided)
+## Status (wind-down withdrawn 2026-11-11)
 
-- Keep Lockstep for lifelike and Team-Brains, start no new users, and retire its AES path only after both move off `.aes/target.yaml` ([docs/decisions/0009-aes-and-lockstep-fate.md:63-68](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L63-L68)).
-- Amendment 1 (2026-11-11, Brian: "i approve"): Lockstep winds down, and `code2check` gains its edit-time refusal so the move loses nothing ([docs/decisions/0009-aes-and-lockstep-fate.md:98-108](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L98-L108)).
+- Decision 0009 (2026-11-10) kept Lockstep for lifelike and Team-Brains with no new users, retiring its AES path after both move off `.aes/target.yaml`; that stage is under question, pending Brian ([docs/decisions/0009-aes-and-lockstep-fate.md:63-68](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L63-L68)).
+- Amendment 1 (2026-11-11) said Lockstep winds down; it is withdrawn. Brian, 2026-11-11: "ok i didnt mean to approve abandoingn lockstep. ti is actively being developed." Amendment 2 keeps Lockstep as part of AES ([docs/decisions/0009-aes-and-lockstep-fate.md](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md)).
 - The port must replace the 7 files that import the AES library, not only the `.aes/target.yaml` reader ([docs/decisions/0009-aes-and-lockstep-fate.md:108-111](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L108-L111)).
-- The work is tracked as code2-template#22 ([CLAUDE.md:20-22](../CLAUDE.md#L20-L22)).
+- code2-template#22 is closed as completed for the edit-guard work; its wind-down steps are withdrawn ([CLAUDE.md:18-22](../CLAUDE.md#L18-L22)).
 - Lockstep still imports this repository's library, and its linkage folds into `code2check` in stages ([.project-brain/now.md:9](../.project-brain/now.md#L9)).
 
 ## Changes made in this repository for Lockstep
