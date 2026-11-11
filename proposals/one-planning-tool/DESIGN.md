@@ -1,11 +1,13 @@
 # One planning-and-checking tool (design proposal)
 
-Status: proposed, not adopted. Owner: the Lockstep session. Date: 2026-11-11.
+Status: adopted 2026-11-11 (approved as written). Owner: the Lockstep session. Date: 2026-11-11.
 
 Source: Brian, 2026-11-11, on the Lockstep session's Decision 4 (code2-workspace decision 0009, amendment 3,
 part 2): "on dcision 4 it seems liek youa re poitn otu that htis should be combined into one single thing not a
 bunch of differnt things which i agree with. and it should preusmably be part of aes canonicale which is
-configurable and protable/sharebale". Issues: BrianMills2718/lockstep#111, BrianMills2718/code2-template#27.
+configurable and protable/sharebale". Approved: Brian, 2026-11-11 21:10 UTC, in Claude session
+483c48d8 (relayed by the code-59 session, which put it to him as "approve as written": format, name, home and
+slices): "i approve single tool desing re d4". Issues: BrianMills2718/lockstep#111, BrianMills2718/code2-template#27.
 
 ## In one paragraph
 
@@ -80,6 +82,6 @@ Only its plan and acceptance format check moves, so the format is defined in one
 - Whether Company Planning's adoption gate (`method_conformance adopt`) calls `lockstep plan check` or keeps its
   own copy for the Inside Success team. That is a question for slice 5.
 
-Inferred by agent (the format choice, the name, the slices), from Brian's direction above and the inventory of
+Drafted by agent (the format choice, the name, the slices) and approved by Brian as written (above), from Brian's direction above and the inventory of
 the three tools at lockstep 1476871, code2-template 03ce414, company-planning b8a53a0 and this repository
 3b1c153.
