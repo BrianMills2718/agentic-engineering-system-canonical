@@ -4,8 +4,7 @@ Published AES rules, their enforcement and evidence. Complete legacy source text
 
 | Section | Rules | How they are enforced |
 | --- | --- | --- |
-| [Rules in the workspace instructions](#rules-in-the-workspace-instructions) | 10 | 1 partially-enforced, 1 checked, 8 advisory |
-| [Rules from the feedback loop](#rules-from-the-feedback-loop) | 2 | 2 licensed |
+| [Rules in the workspace instructions](#rules-in-the-workspace-instructions) | 1 | 1 advisory |
 
 What the statuses mean: **enforced**: a hook, gate or check refuses the violation; **partially-enforced**: enforced on some paths only; **checked**: a check reports violations but does not refuse them; **advisory**: written instruction only; **licensed**: the feedback loop licensed it from evidence and handed it to agents; not yet adopted; **withdrawn**: licence withdrawn; kept for the record.
 
@@ -15,25 +14,7 @@ The named rules in the instruction file every Claude Code and Codex session load
 
 | Rule | Status | When it applies | How it is enforced |
 | --- | --- | --- | --- |
-| **situation-declared-checklists**: Planning, writing and representation work declare their situation as yes/no facts through the domain's command, then check off that situation's checklist with evidence. | partially-enforced | actions: company planning, writing (email, Slack, reports, articles) or representation work | Portfolio articles are gated at merge and deploy by tools/check_article_review.py; Company Planning checks it at plan adoption (quick-adopt / adopt); Representation Router dispositions are recorded but not counted. |
-| **md-file-cap**: A repository Brian owns keeps at most 100 tracked Markdown files (unless a reasoned exception file says otherwise) and every reader document is reachable from wiki/index.md within two links. | checked | actions: adding or moving Markdown files in a repository Brian owns | project-meta scripts/md_file_cap.py checks both rules and keeps one concern open while a repository breaks either. On 2026-10-08 no timer for it was found on the laptop. |
-| **cross-owner-policy-override-protocol**: Acting outside another project's policy domain follows the cross-project notification protocol: find participants, draft, send only after exact-content approval, log the result. | advisory | intent: an action that overrides or acts outside another project's policy | Instruction only (procedure in WORKING_RULES.md). |
-| **integrate-before-build**: Adopt what already exists, else combine or fork off-the-shelf systems; build only what a landscape review shows nothing covers, naming why. | advisory | intent: about to design or build a new tool, mechanism, layout or format | Instruction only; nothing checks it. |
-| **loud-failures-reach-an-agent**: A service, timer or pipeline that errors, skips a run or misses a heartbeat tells any waiting user and opens a keyed concern an agent works, within minutes. | advisory | intent: building or changing a service, timer, bot or pipeline | Instruction only; each service implements it itself (for example, ui-index and control-publish open a keyed concern on failure). |
-| **observable-fast-work**: Long jobs run detached with per-step timing; an outside call that fails the same way twice is treated as down; only changed inputs are rebuilt. | advisory | intent: starting a job expected to take more than about two minutes, or retrying a failed outside call | Instruction only; nothing checks it. |
-| **read-the-trace**: Before reporting a score or naming a cause for any graded run, open the full trace of every failing or surprising item and a sample of passes. | advisory | intent: reporting a score, test or eval result, or naming a cause for a graded run | Instruction only; nothing checks it. |
 | **recommendations-not-question-lists**: Settle what checking can settle, then give Brian approvable recommendations with safe defaults, never a list of open questions. | advisory | intent: about to ask Brian questions or hand him open items | Instruction only; nothing checks it. |
-| **root-cause-over-symptom**: Fix a recurring problem where it originates (the shared tool, library, hook or policy); a local workaround is allowed only while that fix is filed, and the agent says which it applied. | advisory | intent: diagnosing a failure or about to add a retry, delay or manual workaround | Instruction only; nothing checks it. |
-| **ui-tooltips-default**: Every UI control an agent builds shows a styled tooltip within about 200 ms of hover or focus, and on tap on phones; verified in a real browser. | advisory | actions: editing UI files (HTML, JSX/TSX, CSS, templates) | Instruction only; verification is the building agent's own browser test. |
-
-## Rules from the feedback loop
-
-Rules the feedback loop derived from recorded evidence. *Licensed* means the loop found enough independent sightings and handed the rule to agents to adopt; *enforced* means an agent adopted it as a check that refuses the violation.
-
-| Rule | Status | When it applies | How it is enforced | Evidence |
-| --- | --- | --- | --- | --- |
-| **loop-388**: Run the full test suite after committing rather than before, so history-reading checks operate on the committed state they are designed to inspect. | licensed | actions: running the full test suite before git commit | Handed to agents as an open concern; not yet adopted by any agent | [issue #388](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/388); [problem](https://github.com/BrianMills2718/agent-feedback-log/issues/48); 2 sightings |
-| **loop-408**: Make every write, commit, or push workflow fail closed by checking each preparatory command, explicitly verifying the intended working directory, and requiring clean-worktree admission before publication rather than relying on shell error modes or partial commits. | licensed | actions: git commit, git push | Handed to agents as an open concern; not yet adopted by any agent | [issue #408](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/408); [problem](https://github.com/BrianMills2718/agent-feedback-log/issues/52); 2 sightings |
 
 ## Legacy project-meta register
 
