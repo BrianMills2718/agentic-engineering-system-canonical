@@ -10,6 +10,7 @@ This root is predeclared so future agents do not invent an ad hoc competing home
 - `aes-v0.2-greenfield/` — the accepted v0.2 proposal lineage (history, not authority; Decision 0010).
 - `hive-brain-v1/` — the living plan for Brian's hive brain v1 (2026-10-02): goal, five done-conditions, capability state, active slice, next action. Start here to pick up the work.
 - `agent-router/` — design (2026-10-08, shaping) for a fast model that chooses each job's subagent, extra rules, model and effort, reusing llm_client Plan #379 and the harness-context specialists. Not adopted.
+- [`one-planning-tool/`](one-planning-tool/DESIGN.md) — design proposal (2026-11-11) to make Lockstep, code2check and Company Planning's plan format one tool in this repository. Not adopted.
 - `aes-learning-loop/` — design proposal (2026-10-02) for the lessons → failure modes → rules → enforcement → feedback loop. Not accepted.
 
 - [Feedback prevention case](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-feedback-prevention/PLAN.md) — adopted repair: current reports reach the existing taxonomy reviewer and a real native-agent failure reaches a checked instruction repair; [system model](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-feedback-prevention/SYSTEM_MODEL.md).
