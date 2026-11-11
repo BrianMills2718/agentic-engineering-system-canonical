@@ -34,6 +34,9 @@ where = ["src"]
 # No tags yet: every commit builds as 0.1.devN+g<sha>, so a git-pinned consumer
 # sees a new version on each pin bump and pip reinstalls. No fallback_version:
 # a build without Git metadata must fail, not ship a version that never moves.
+# Only version tags (v1.2.3) set the version; other tags, such as the docs-consolidation
+# before-tags, must not (2026-11-11: one broke `uv sync`).
+git_describe_command = "git describe --dirty --tags --long --match 'v[0-9]*'"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
