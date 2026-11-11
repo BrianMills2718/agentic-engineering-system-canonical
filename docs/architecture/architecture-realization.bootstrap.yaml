@@ -80,15 +80,15 @@ sources:
     role: candidate_dispositions_not_provider_selection
   opa_probe:
     snapshot: bootstrap
-    path: research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md
+    path: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md
     evidence_level: conceptual_mapping_not_executed_conformance
   tosca_probe:
     snapshot: bootstrap
-    path: research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md
+    path: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md
     evidence_level: illustrative_mapping_not_validated_TOSCA
   provenance_probe:
     snapshot: bootstrap
-    path: research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md
+    path: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md
     evidence_level: conceptual_mapping_not_created_or_verified_attestation
 
 outcome:

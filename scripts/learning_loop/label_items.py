@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Label lessons with Jev into failure-mode families (AES learning loop, slices 1-2).
 
-Design: proposals/aes-learning-loop/DESIGN.md. The question set is frozen in
+Design: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/DESIGN.md. The question set is frozen in
 question_set_v2.json; changing it means re-running the judged test sets in
 datasets/learning-loop/experiments/ before trusting it.
 

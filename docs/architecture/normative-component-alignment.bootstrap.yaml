@@ -272,13 +272,13 @@ aqrs:
     decision: docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md
 
 research_basis:
-  - research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md
+  - https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md
   - https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md
-  - research/synthesis/2026-09-17-proposed-aes-canonical-skeleton-after-sourcing.md
+  - https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-17-proposed-aes-canonical-skeleton-after-sourcing.md
   - https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
-  - research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md
-  - research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md
-  - research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md
+  - https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md
+  - https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md
+  - https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md
 
 next_dogfood_gate:
   name: accepted-profile architecture realization

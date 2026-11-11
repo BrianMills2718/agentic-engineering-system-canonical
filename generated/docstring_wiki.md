@@ -9,8 +9,8 @@ artifacts. Open the cited source for full context and current truth.
 
 ## Coverage
 
-- Tracked artifacts: 1164
-- Artifacts with source summaries: 447
+- Tracked artifacts: 1030
+- Artifacts with source summaries: 313
 - Coverage findings: 1049
 - Finding types: markdown-title-missing=23, python-docstring-missing=1026
 
@@ -3394,7 +3394,7 @@ _Coverage findings: python-docstring-missing._
 
 ### [`tests/learning/test_feedback_records.py`](../tests/learning/test_feedback_records.py)
 
-feedback-report.v1 parsing: the plan's canonical example and its negative controls (proposals/aes-learning-loop/PLAN.md, "Fixtures").
+feedback-report.v1 parsing: the plan's canonical example and its negative controls (https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md, "Fixtures").
 
 _Coverage findings: python-docstring-missing._
 
@@ -3583,7 +3583,7 @@ The legacy sort's evidence check rejects answers its quote or the file facts do 
 
 _Coverage findings: python-docstring-missing._
 
-## Documentation (326)
+## Documentation (192)
 
 ### [`.agentic/events/README.md`](../.agentic/events/README.md)
 
@@ -3711,7 +3711,7 @@ Detail and evidence: personal-vps `proposals/hive-brain-v1/ROADMAP.md` ("Where w
 
 ### [`.project-brain/truth.md`](../.project-brain/truth.md)
 
-Full table with reasons: personal-vps `proposals/hive-brain-v1/ROADMAP.md` "Decisions and assumptions" and `proposals/aes-learning-loop/DESIGN.md`. Rejected alternatives, which are the point of this page:
+Full table with reasons: personal-vps `proposals/hive-brain-v1/ROADMAP.md` "Decisions and assumptions" and [`proposals/aes-learning-loop/DESIGN.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/DESIGN.md). Rejected alternatives, which are the point of this page:
 
 ### [`AGENTS.md`](../AGENTS.md)
 
@@ -3731,7 +3731,7 @@ Status: unused Role: durable project-owned data assets Authority: dataset bytes/
 
 ### [`datasets/learning-loop/README.md`](../datasets/learning-loop/README.md)
 
-Design: `proposals/aes-learning-loop/DESIGN.md`.
+Design: [`proposals/aes-learning-loop/DESIGN.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/DESIGN.md).
 
 ### [`datasets/learning-loop/experiments/2026-10-02-question-design/README.md`](../datasets/learning-loop/experiments/2026-10-02-question-design/README.md)
 
@@ -3815,7 +3815,7 @@ _No source-local artifact summary._
 
 ### [`docs/architecture/greenfield-v0.2/23-greenfield-cli-product-contract.md`](../docs/architecture/greenfield-v0.2/23-greenfield-cli-product-contract.md)
 
-Status: **accepted** by [Decision 0010](../../decisions/0010-greenfield-v0.2-accepted.md) (2026-09-25). Plain copy of `proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md` (copied, not `git mv`'d, so the proposal lineage stays in place). For AES canonical, `.aes/target.yaml` is the live authority: where this file and the target disagree, this file is wrong. "Accepted amendments" at the end lists what changed from the candidate. File names that are not in this directory refer to `proposals/aes-v0.2-greenfield/`. Date: 2026-09-24
+Status: **accepted** by [Decision 0010](../../decisions/0010-greenfield-v0.2-accepted.md) (2026-09-25). Plain copy of [`proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md) (copied, not `git mv`'d, so the proposal lineage stays in place). For AES canonical, `.aes/target.yaml` is the live authority: where this file and the target disagree, this file is wrong. "Accepted amendments" at the end lists what changed from the candidate. File names that are not in this directory refer to `proposals/aes-v0.2-greenfield/`. Date: 2026-09-24
 
 ### [`docs/architecture/greenfield-v0.2/README.md`](../docs/architecture/greenfield-v0.2/README.md)
 
@@ -3971,10 +3971,6 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-### [`docs/plans/001_D1_contract_surface_topology_freeze.md`](../docs/plans/001_D1_contract_surface_topology_freeze.md)
-
-Close only the remaining design decisions that prevent Slice 1 from starting without hidden architectural choices:
-
 ### [`docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md)
 
 Status: **DELIVERED for bounded Slice 1 at verified AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`; final technical verification and follow-up A1 = `continue` recorded 2026-09-22** Origin gaps: GAP-AES-001, 002, 003, 004, 005, 006, 007, 009, 010, 011, 013, 014, 015, 017, 019, 020, 021, 022, 023, 024, 025, 026, 027 External consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` Execution profile: pilot
@@ -3990,14 +3986,6 @@ _No source-local artifact summary._
 ### [`docs/plans/CLAUDE.md`](../docs/plans/CLAUDE.md)
 
 Track all implementation work here.
-
-### [`docs/plans/README.md`](../docs/plans/README.md)
-
-Status: Plan 001 / Repository Context is **DELIVERED** for its bounded Slice 1 claim. Plan 002 / Offline Policy-Decision Replay is now the active planned vertical; no live policy behavior has changed.
-
-### [`docs/plans/TEMPLATE.md`](../docs/plans/TEMPLATE.md)
-
-**Current:** What exists now
 
 ### [`docs/plans/adoption-progress-fields.adoption-attempts.jsonl`](../docs/plans/adoption-progress-fields.adoption-attempts.jsonl)
 
@@ -4018,14 +4006,6 @@ _No source-local artifact summary._
 ### [`docs/plans/adoption-progress-fields.facts.json`](../docs/plans/adoption-progress-fields.facts.json)
 
 _No source-local artifact summary._
-
-### [`docs/plans/adoption-progress-fields.goal.md`](../docs/plans/adoption-progress-fields.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/adoption-progress-fields.md` (plan sha256 789a049bca54aec1f3c7a069fdb4430fe7866db213cdc74ef5d1c8c065ffcfab, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`docs/plans/adoption-progress-fields.md`](../docs/plans/adoption-progress-fields.md)
-
-This procedure is separate from the anticipated failure named in the disproof under Success and disproof: it applies to any run that fails or surprises us. Preserve the failed run itself: keep its complete output (command, every line, exit status) and its execution trace id, never overwritten by a rerun. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis cannot authorize a causal repair; it permits only further investigation. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
 
 ### [`docs/plans/adoption-progress-fields.path-decision.json`](../docs/plans/adoption-progress-fields.path-decision.json)
 
@@ -4054,14 +4034,6 @@ _No source-local artifact summary._
 ### [`docs/plans/capability-catalogue.facts.json`](../docs/plans/capability-catalogue.facts.json)
 
 _No source-local artifact summary._
-
-### [`docs/plans/capability-catalogue.goal.md`](../docs/plans/capability-catalogue.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/capability-catalogue.md` (plan sha256 5ee99c45221bcab843da60c44790b174b4bfad208745a5b1c88fda5eac1f39cb, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`docs/plans/capability-catalogue.md`](../docs/plans/capability-catalogue.md)
-
-Each section below answers the checklist items quoted in it; the gate judges only that section's text.
 
 ### [`docs/plans/capability-catalogue.path-decision.json`](../docs/plans/capability-catalogue.path-decision.json)
 
@@ -4095,10 +4067,6 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-### [`docs/plans/commit-rule-emergency-gaps.md`](../docs/plans/commit-rule-emergency-gaps.md)
-
-This procedure is separate from, and distinct from, the anticipated failure modes listed under Disproof: it covers any failing or surprising run, including ones nobody anticipated. Preserve the failed run itself (its full output saved next to the plan) and its trace id or command line. Before selecting a fix, read the complete inputs, prompts, each tool call's arguments and results, intermediate stages and final output, including the full check command and output and the changed files. Cite the observed divergence and classify it as evidence absent, evidence returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis permits further investigation but cannot authorize a causal repair. Link the targeted repair to a new traced verification run, and retain the original failed run. Review every failing or surprising item and a sample of passes. Review completeness is judged separately from the run verdict: a passing run does not show the review was complete. Criterion `outcome` covers the entire requested success check.
-
 ### [`docs/plans/commit-rule-emergency-gaps.path-decision.json`](../docs/plans/commit-rule-emergency-gaps.path-decision.json)
 
 _No source-local artifact summary._
@@ -4130,14 +4098,6 @@ _No source-local artifact summary._
 ### [`docs/plans/commit-rule-root-relative-links.facts.json`](../docs/plans/commit-rule-root-relative-links.facts.json)
 
 _No source-local artifact summary._
-
-### [`docs/plans/commit-rule-root-relative-links.goal.md`](../docs/plans/commit-rule-root-relative-links.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/commit-rule-root-relative-links.md` (plan sha256 9e900e9effb26ce852948c9a9de843b7e616a6bc85615d26413048c02d784cd7, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`docs/plans/commit-rule-root-relative-links.md`](../docs/plans/commit-rule-root-relative-links.md)
-
-This procedure is separate from the anticipated failure named in the disproof under Success and disproof: it applies to any run that fails or surprises us. Preserve the failed run itself: keep its complete output (command, every line, exit status) and its execution trace id, never overwritten by a rerun. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis cannot authorize a causal repair; it permits only further investigation. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
 
 ### [`docs/plans/commit-rule-root-relative-links.path-decision.json`](../docs/plans/commit-rule-root-relative-links.path-decision.json)
 
@@ -4171,14 +4131,6 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-### [`docs/plans/commit-rule-skip-roots.goal.md`](../docs/plans/commit-rule-skip-roots.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/commit-rule-skip-roots.md` (plan sha256 b5292dab8cfd186457eeaa785e5b04d0d55f2663206bdd29a53361b05cc115c6, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`docs/plans/commit-rule-skip-roots.md`](../docs/plans/commit-rule-skip-roots.md)
-
-Preserve the failed check and its execution trace id. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. Investigate an unresolved cause before authorizing a causal repair. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
-
 ### [`docs/plans/commit-rule-skip-roots.path-decision.json`](../docs/plans/commit-rule-skip-roots.path-decision.json)
 
 _No source-local artifact summary._
@@ -4210,14 +4162,6 @@ _No source-local artifact summary._
 ### [`docs/plans/commit-tag-contract.facts.json`](../docs/plans/commit-tag-contract.facts.json)
 
 _No source-local artifact summary._
-
-### [`docs/plans/commit-tag-contract.goal.md`](../docs/plans/commit-tag-contract.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/commit-tag-contract.md` (plan sha256 a708a625716b4b52229ff5ac12ec79e765bd9d24685670c754f32d4cd31713fb, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`docs/plans/commit-tag-contract.md`](../docs/plans/commit-tag-contract.md)
-
-This procedure is separate from the anticipated failure named in the disproof under Success and disproof: it applies to any run that fails or surprises us. Preserve the failed check and its execution trace id. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis cannot authorize a causal repair; it permits only further investigation. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
 
 ### [`docs/plans/commit-tag-contract.path-decision.json`](../docs/plans/commit-tag-contract.path-decision.json)
 
@@ -4251,14 +4195,6 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-### [`docs/plans/durable-check-commit-rule.goal.md`](../docs/plans/durable-check-commit-rule.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/durable-check-commit-rule.md` (plan sha256 69e294bad1b9718cc259f937544176e1643dab781f142476a10e959feb3337c5, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`docs/plans/durable-check-commit-rule.md`](../docs/plans/durable-check-commit-rule.md)
-
-This procedure is separate from the anticipated failure named in the disproof under Success and disproof: it applies to any run that fails or surprises us. Preserve the failed check and its execution trace id. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis cannot authorize a causal repair; it permits only further investigation. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
-
 ### [`docs/plans/durable-check-commit-rule.path-decision.json`](../docs/plans/durable-check-commit-rule.path-decision.json)
 
 _No source-local artifact summary._
@@ -4286,14 +4222,6 @@ _No source-local artifact summary._
 ### [`docs/plans/rules-register.facts.json`](../docs/plans/rules-register.facts.json)
 
 _No source-local artifact summary._
-
-### [`docs/plans/rules-register.goal.md`](../docs/plans/rules-register.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/rules-register.md` (plan sha256 5ddc64fa7caa79880a30337611e86ea889ee56d19304000d6beed5d6f1bf2e39, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`docs/plans/rules-register.md`](../docs/plans/rules-register.md)
-
-- register rule entries (id, rule, origin, enforcement_status, enforcement_mechanism, evidence): every entry must appear on the built page with its status - RULES.md page: summary counts must equal the register's and project-meta's counts (12, 21, 263)
 
 ### [`docs/plans/rules-register.path-decision.json`](../docs/plans/rules-register.path-decision.json)
 
@@ -4327,14 +4255,6 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-### [`docs/plans/shaping-nav-preflight.goal.md`](../docs/plans/shaping-nav-preflight.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `docs/plans/shaping-nav-preflight.md` (plan sha256 fec0dc40c1a1a10f829922ad1394930aacdabc85be356503c6235c9404eaa9fa, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`docs/plans/shaping-nav-preflight.md`](../docs/plans/shaping-nav-preflight.md)
-
-This procedure is separate from the anticipated failure named in the disproof under Success and disproof: it applies to any run that fails or surprises us. Preserve the failed check and its execution trace id. Before selecting a fix, read the complete inputs, prompts, tool arguments/results, intermediate stages and final output, including the full check command/output and the changed files. Cite the observed divergence and classify evidence absent, returned but unused or contradicted, invalid expectation, or unresolved. An unresolved diagnosis cannot authorize a causal repair; it permits only further investigation. Bind the targeted repair to a new traced verification run; retain the failed original. Review every failing or surprising item and a sample of passes. A complete review is distinct from a passing run. Criterion `outcome` covers the entire requested success check.
-
 ### [`docs/plans/shaping-nav-preflight.path-decision.json`](../docs/plans/shaping-nav-preflight.path-decision.json)
 
 _No source-local artifact summary._
@@ -4367,65 +4287,9 @@ Status: first entries, 2026-10-05. A controlled vocabulary: one meaning per term
 
 Status: active Role: behavioral/system evaluations distinct from deterministic tests Authority: evaluation definitions and scoped measurements Lifecycle: versioned definitions; retained observations where needed
 
-### [`evals/plan-002/P0_RUNBOOK.md`](../evals/plan-002/P0_RUNBOOK.md)
-
-Status: executable handoff; **P0 is not yet closed** Plan authority: `docs/plans/002_offline_policy_decision_replay.md` Case inventory: `evals/plan-002/case_manifest.json` Execution tracker: Issue #20
-
-### [`evals/plan-002/README.md`](../evals/plan-002/README.md)
-
-Status: P0 source inventory in progress Authority: Plan 002 defines scope and stop rules; this directory holds bounded evaluation definitions and source-reference manifests. Execution handoff: [`P0_RUNBOOK.md`](P0_RUNBOOK.md) contains the exact machine/provider closure sequence.
-
 ### [`evidence/README.md`](../evidence/README.md)
 
 Status: active Role: retained observations and run receipts Authority: authoritative for what was observed, not its interpretation Lifecycle: append-only/immutable where practical
-
-### [`evidence/greenfield/clean-user-run-2-2026-09-25.md`](../evidence/greenfield/clean-user-run-2-2026-09-25.md)
-
-Repeat of `clean-user-run-2026-09-25.md` at AES `2d3486b` after phases 3–6. Observation of record: `.aes/observations/OBS-AES-CLEAN-USER-2d3486b.yaml` (supersedes `OBS-AES-CLEAN-USER-0503735`). Same runner setup and the same caveat: a fresh agent given only the page, on the maintainer's machine, since the repository is private by decision.
-
-### [`evidence/greenfield/clean-user-run-2026-09-25.md`](../evidence/greenfield/clean-user-run-2026-09-25.md)
-
-Evidence for `ER-SC-GF-001-01` (external consumer observation), retained here until AES canonical has its own `.aes/observations/` (roadmap phase 6), when it is converted to an observation record at this exact revision. Converted in roadmap phase 6b: `.aes/observations/OBS-AES-CLEAN-USER-0503735.yaml` (this file stays as the report the record cites).
-
-### [`evidence/greenfield/clean-user-run-3-2026-09-25.md`](../evidence/greenfield/clean-user-run-3-2026-09-25.md)
-
-At AES `3dd2b9a` (the phase-7b commit, run before merge and merged with a merge commit). Observation of record: `.aes/observations/OBS-AES-CLEAN-USER-3dd2b9a.yaml` (supersedes run 2). Same setup and caveat as runs 1 and 2.
-
-### [`evidence/greenfield/clean-user-run-4-2026-10-04.md`](../evidence/greenfield/clean-user-run-4-2026-10-04.md)
-
-At AES `d89fe2e` (branch `bri36-getting-started-uv`, run before merge and merged with a merge commit), the commit that moved the page's install from `python3 -m venv` plus `pip` to `uv venv` plus `uv pip install`. Observation of record: `.aes/observations/OBS-AES-CLEAN-USER-d89fe2e.yaml` (supersedes runs 1-3).
-
-### [`evidence/greenfield/context-ab-2026-09-25/preregistration.md`](../evidence/greenfield/context-ab-2026-09-25/preregistration.md)
-
-Change under test: `aes status`/`aes reconcile` report ER-SC-GF-005-02 and ER-SC-GF-009-01 as "no route" although each has an `external_boundaries` entry in `.aes/target.yaml` and `aes target validate` accepts them. Fix: an evidence requirement with an external boundary is routed.
-
-### [`evidence/greenfield/context-ab-2026-09-25/result.md`](../evidence/greenfield/context-ab-2026-09-25/result.md)
-
-Base: AES canonical `2509ea4` (the repository governing itself; ~4,000 lines of v0.2 source and tests under the governed roots plus 18 retained v0.1 files). Change: "an external boundary is a route" in `reconcile.py` — a real bug found by the phase-6b builder. Pre-registration: `preregistration.md` (written before either arm ran). Arms: two fresh Claude Opus 5.5 agent sessions in separate clones, no access to the orchestrator's conversation or the proposals directory. Arm A: change request + `aes context RU-AES-RECONCILE` packet (as a file) + repository. Arm B: change request + repository, README first.
-
-### [`evidence/modular-design-integration-2026-09-22.md`](../evidence/modular-design-integration-2026-09-22.md)
-
-Recorded: 2026-09-22. Subject: documentation-only commit `d65df4a6df2015dc345f2cd04c0d6ce003df59c4`. Comparison baseline: `996530de0d034687b49a1acb89d3261681eb6274`. Scope: Decision 0009, AES-CAP-003/004/005, canonical agent instructions and their generated projection, existing Company Planning profile, and navigation.
-
-### [`evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`](../evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md)
-
-Characterized AES revision: `320991b96a3e3aaa15aa8ba05817a7eee1c52603`
-
-### [`evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/characterization.md`](../evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/characterization.md)
-
-Characterized AES revision: `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`
-
-### [`evidence/plan-001/a1/53be16fa1159f31648773062531d751c85d7a011.md`](../evidence/plan-001/a1/53be16fa1159f31648773062531d751c85d7a011.md)
-
-Reviewed AES revision: `53be16fa1159f31648773062531d751c85d7a011` Reviewed consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` Surface: `generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/index.html`
-
-### [`evidence/plan-001/a1/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1.md`](../evidence/plan-001/a1/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1.md)
-
-Reviewed AES revision: `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1` Reviewed consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` Reviewed surface SHA-256: `dfabfa0749614a04ef2206eb503002085c5313d9fb46d52288e81c692bb0aed6`
-
-### [`evidence/plan-001/pr5-integration-readiness-2026-09-18.md`](../evidence/plan-001/pr5-integration-readiness-2026-09-18.md)
-
-**Approved for integration into canonical `main` as implementation-partial.**
 
 ### [`experiments/README.md`](../experiments/README.md)
 
@@ -4451,253 +4315,17 @@ Status: unused Role: operating a realized system Authority: current operating pr
 
 Status: active Role: non-binding proposed changes Authority: proposed only Lifecycle: retained through disposition
 
-### [`proposals/aes-adopt-existing/README.md`](../proposals/aes-adopt-existing/README.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-adopt-existing/aes-adopt-existing.goal.md`](../proposals/aes-adopt-existing/aes-adopt-existing.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-brownfield-docs/PLAN.md`](../proposals/aes-brownfield-docs/PLAN.md)
-
-<a id="outcome"></a>
-
-### [`proposals/aes-brownfield-docs/RETROFIT_NOTE.md`](../proposals/aes-brownfield-docs/RETROFIT_NOTE.md)
-
-Milestone M2 of [`PLAN.md`](PLAN.md). Records what bringing an existing repository's documentation into AES canonical's declared layout actually took, so the documentation-rule decision (M3) and any rollout (M4) start from evidence.
-
-### [`proposals/aes-brownfield-docs/aes-brownfield-docs.goal.md`](../proposals/aes-brownfield-docs/aes-brownfield-docs.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
 ### [`proposals/aes-durable-docs/PLAN.md`](../proposals/aes-durable-docs/PLAN.md)
 
 **Why now.** A survey of 36 repositories active in the last two weeks (2026-10-10, `git ls-files` by path) found about 3,300 plan files and about 600 decision records, but requirements documents in 2 repositories, a system model (`docs/model/ODD.md`) in 8 and `.aes/target.yaml` in 4. Plans record each change and are never folded back into anything a reader can trust as current. Company Planning makes a PRD optional (`landscape-review/SKILL.md:74`), never asks for decision records, and has no completion step for quick-adopted plans.
-
-### [`proposals/aes-durable-docs/aes-durable-docs.goal.md`](../proposals/aes-durable-docs/aes-durable-docs.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md`](../proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md)
-
-Review of the fresh Haiku reader's trace answering the canonical question in AES canonical (aes-durable-docs M4)
-
-### [`proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader-review.md`](../proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader-review.md)
-
-Review of the fresh Haiku reader's trace answering the canonical question in company-planning (Plan
-
-### [`proposals/aes-durable-docs/evidence/m5-disproof-sample.md`](../proposals/aes-durable-docs/evidence/m5-disproof-sample.md)
-
-M5 disproof sample for aes-durable-docs, run 2026-10-11 under the amended timing and population; the disproof condition fires (9 of 10 none or mechanical), because the rule was not in effect for 8 of the 10 plans (stale installed plugin or repository not yet declared)
-
-### [`proposals/aes-durable-docs/evidence/m5-rollout.md`](../proposals/aes-durable-docs/evidence/m5-rollout.md)
-
-Inventory: `m5-inventory.json` (22 active governed repositories, built by Haiku readers on 2026-10-11). Each repository got one PR that adds its durable document set (system model at `docs/model/ARCHITECTURE.md`, per company-planning#116), checked with `durable_docs_check.py --arc42` and the repository's own local check before merge. "Daily check" is `project-meta/scripts/md_file_cap.py --repo <path> --ref origin/main`, run after merge; `durable=ok(0)` means zero durable-set findings on main.
-
-### [`proposals/aes-feedback-prevention/PLAN.md`](../proposals/aes-feedback-prevention/PLAN.md)
-
-Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted `#` starts a YAML comment and cuts the value.
-
-### [`proposals/aes-feedback-prevention/SYSTEM_MODEL.md`](../proposals/aes-feedback-prevention/SYSTEM_MODEL.md)
-
-Scope: AES owns report production, native parent checks and canonical instructions; agent-skills owns the taxonomy reader and dispositions. This extends the existing [subagent model](../aes-subagent-feedback/SYSTEM_MODEL.md), not its producer contract.
-
-### [`proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md`](../proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-learning-loop/DESIGN.md`](../proposals/aes-learning-loop/DESIGN.md)
-
-Status: **historical, the original design (2 to 7 October 2026).** Kept as the record of why the loop was built this way. It no longer describes what runs: since then the loop gained feedback reports in a private issue log, a weekly analysis that licenses fixes, enforcement receipts and an effect counter, a daily fix owner, and a rule check. For the system as it runs today, read in this order:
-
-### [`proposals/aes-learning-loop/PLAN.md`](../proposals/aes-learning-loop/PLAN.md)
-
-**Actors.** Every Claude and Codex agent working in Brian's repositories (they report), the nightly and weekly loop runs (they sort, analyse, and adopt or retire rules by their best judgment), and Brian (he observes a view ranked by impact and uncertainty and is notified of the items that matter; he is not an approver).
-
-### [`proposals/aes-learning-loop/REPAIR.md`](../proposals/aes-learning-loop/REPAIR.md)
-
-Brian approved this bounded repair on 2026-10-08 after the independent review. It implements the existing adopted learning-loop plan's evidence and observed effect requirements; it does not adopt new agent-behavior rules.
-
-### [`proposals/aes-learning-loop/aes-learning-loop.goal.md`](../proposals/aes-learning-loop/aes-learning-loop.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-plan-scope/README.md`](../proposals/aes-plan-scope/README.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-plan-scope/aes-plan-scope.goal.md`](../proposals/aes-plan-scope/aes-plan-scope.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-planning/README.md`](../proposals/aes-planning/README.md)
 
 - 2026-10-06: "we should enforce this ['I wrote a plan page, but I didn't plan it the way your system says to']". - 2026-10-06: "i guess we could have aes plans be one of the routes in company planning and then we can work towards getting everything in that format ... yeah we need to lock down unplanned. there are some trivial cases where that is correct but for real implementation work we should always have a plan." - 2026-10-06: "in general we want to be upfront planning what is optimal then using /goal ... company planning ... should generate the /goal text where it is known as part of the plans." - 2026-10-06: "once we get aes canonical working we refactor all my projects into aes and force all work going forward into aes compliance."
 
-### [`proposals/aes-planning/ROLLOUT.md`](../proposals/aes-planning/ROLLOUT.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-planning/aes-planning.goal.md`](../proposals/aes-planning/aes-planning.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-subagent-feedback/PLAN.md`](../proposals/aes-subagent-feedback/PLAN.md)
-
-Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted `#` starts a YAML comment and cuts the value.
-
-### [`proposals/aes-subagent-feedback/SYSTEM_MODEL.md`](../proposals/aes-subagent-feedback/SYSTEM_MODEL.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md`](../proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-v0.2-greenfield/01-design-thesis.md`](../proposals/aes-v0.2-greenfield/01-design-thesis.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-v0.2-greenfield/05-donor-reentry.md`](../proposals/aes-v0.2-greenfield/05-donor-reentry.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-v0.2-greenfield/06-open-questions.md`](../proposals/aes-v0.2-greenfield/06-open-questions.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-v0.2-greenfield/07-semantic-clean-sheet-review-pass-1.md`](../proposals/aes-v0.2-greenfield/07-semantic-clean-sheet-review-pass-1.md)
-
-Review role: **historical/supporting rationale**. Its accepted corrections are incorporated into `02-semantic-model.candidate.yaml` and `03-lifecycle.candidate.yaml`.
-
-### [`proposals/aes-v0.2-greenfield/08-semantic-clean-sheet-review-pass-2.md`](../proposals/aes-v0.2-greenfield/08-semantic-clean-sheet-review-pass-2.md)
-
-Define the minimum semantic joins required by the Greenfield MVP without introducing a universal relationship registry.
-
-### [`proposals/aes-v0.2-greenfield/09-semantic-clean-sheet-review-pass-3-topology.md`](../proposals/aes-v0.2-greenfield/09-semantic-clean-sheet-review-pass-3-topology.md)
-
-Review role: **historical/supporting rationale**. Current topology semantics are incorporated into `02-semantic-model.candidate.yaml`, `13-greenfield-materialization.candidate.md`, and `20-realization-topology.candidate.yaml`.
-
-### [`proposals/aes-v0.2-greenfield/10-greenfield-mvp-validation-profile.md`](../proposals/aes-v0.2-greenfield/10-greenfield-mvp-validation-profile.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-v0.2-greenfield/11-semantic-clean-sheet-review-pass-4-target-analysis.md`](../proposals/aes-v0.2-greenfield/11-semantic-clean-sheet-review-pass-4-target-analysis.md)
-
-Review role: **historical/supporting rationale**. Current target/analysis/transition distinctions are incorporated into `02-semantic-model.candidate.yaml` and `03-lifecycle.candidate.yaml`.
-
-### [`proposals/aes-v0.2-greenfield/13-greenfield-materialization.candidate.md`](../proposals/aes-v0.2-greenfield/13-greenfield-materialization.candidate.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-v0.2-greenfield/18-provider-evaluation-round-1.md`](../proposals/aes-v0.2-greenfield/18-provider-evaluation-round-1.md)
-
-Review role: **supporting provider rationale**. Current candidate bindings are in `21-provider-bindings.candidate.yaml`.
-
-### [`proposals/aes-v0.2-greenfield/19-provider-evaluation-round-2-generic-dependencies.md`](../proposals/aes-v0.2-greenfield/19-provider-evaluation-round-2-generic-dependencies.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-v0.2-greenfield/22-portable-provider-boundaries.md`](../proposals/aes-v0.2-greenfield/22-portable-provider-boundaries.md)
-
-Resolve two Greenfield-MVP provider questions without binding AES to a private planning plugin, a particular LLM vendor, or a client-specific hook runtime.
-
-### [`proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md`](../proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md`](../proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md)
-
-Status: **accepted pre-probe decisions / non-normative until v0.2 cutover** Date: 2026-09-25 Review basis: `REVIEW.md`, all primary candidate files, `docs/decisions/0001`–`0009` Reviewer: independent agent session (Claude Fable 5.1), first read not authored by the proposal's author session. Brian approved the consumer-selection rule (option A below) in conversation on 2026-09-25.
-
-### [`proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md`](../proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md)
-
-Status: accepted by Decision 0010 (`docs/decisions/0010-greenfield-v0.2-accepted.md`, 2026-09-25). The accepted architecture is `docs/architecture/greenfield-v0.2/`; this file is proposal lineage. One criterion, SC-GF-001, stands INSUFFICIENT at acceptance and is not downgraded: it waits on clean-user run 3 on current code (§0, Decision 0010).
-
-### [`proposals/aes-v0.2-greenfield/README.md`](../proposals/aes-v0.2-greenfield/README.md)
-
-Define the next AES architecture generation from first principles while preserving the existing repository as empirical history.
-
-### [`proposals/aes-v0.2-greenfield/REVIEW.md`](../proposals/aes-v0.2-greenfield/REVIEW.md)
-
-Status: **review snapshot / proposal / non-normative** Date: 2026-09-24 Branch: `architecture/v0.2-greenfield` Base lineage: `main@36c205d3363a7304c6043ca645acae5eea58e97c`
-
-### [`proposals/agent-router/PLAN.md`](../proposals/agent-router/PLAN.md)
-
-Design, diagram and the dashboard example: [README.md](README.md). Brian activated the goal "finish all remaning work" on 2026-10-09, authorizing completion of this remaining feedback/router work. The earlier [revision goal](revision.goal.md), [revision route](revision-path-decision.json) and [verification trace](verification.log) remain evidence of the document-only correction task. The 2026-10-08 receipt and generated goal do not adopt the changed plan. Re-adopt this exact plan before implementation; retain the original outcome and all observation, parity, fallback and promotion obligations below.
-
-### [`proposals/agent-router/README.md`](../proposals/agent-router/README.md)
-
-Status: adopted 2026-10-09; collector repair merged in PR #499 and inventory repair in PR #500; privacy/source-binding follow-up merged in PR #503 and verified in the installed reader; profile/accounting core merged in [PR #497](https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/497), while runtime acceptance remains pending. [PLAN.md](PLAN.md), its [adoption decision](receipt.adoption-decision.json), [receipt](receipt.json) and [generated goal](agent-router.goal.md) govern completion. All eight complete criteria remain planned in the [acceptance records](evidence.json). The [revision goal](revision.goal.md), [route](revision-path-decision.json) and [verification](verification.log) retain the earlier document-only evidence. The [offline inventory check](inventory-check.json) binds all 263 current source IDs: 229 keep, 27 covered and 7 retirement candidates. Complete policies, named quotations and validated applicability remain privately recoverable; the [public manifest](../../docs/rules/legacy-dispositions.yaml) exposes structural outcomes and evidence hashes. No further paid sorting is authorized by the exhausted legacy allowance; mandatory instructions are neither retired nor activated by the inventory.
-
-### [`proposals/agent-router/agent-router.goal.md`](../proposals/agent-router/agent-router.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/agent-router/PLAN.md` (plan sha256 2c5c15085ffc0d1c3090e800ef1ef3beae6f49f1ab7eebaff69a3c81e180c0f7, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`proposals/agent-router/revision.goal.md`](../proposals/agent-router/revision.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/code2-ecosystem/PLAN.md`](../proposals/code2-ecosystem/PLAN.md)
-
-> **Redirect, 2026-10-13 (Brian).** "find off the shelf stuff instead of building my own system ... > every check should finish in seconds." code2 now runs on off-the-shelf tools, not AES's own > enforcement: lefthook with one shared config (`BrianMills2718/code2-workspace`, > `hooks/base.yml`), lychee for local links, markdownlint-cli2 for formatting, and a short > reachability script. Parallel agents use Claude Code's `claude -w` worktrees; tasks are GitHub > Issues. AES canonical joined code2 as an ordinary repository on 2026-10-13, alongside > wiki_methodology and epistemic-warrant. The phase 2 plan built on AES enforcement is superseded.
-
-### [`proposals/code2-ecosystem/code2-ecosystem.goal.md`](../proposals/code2-ecosystem/code2-ecosystem.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/code2-ecosystem/hookspath-review.md`](../proposals/code2-ecosystem/hookspath-review.md)
-
-Git runs hooks from exactly one folder. Most repositories under `~/code` use the shared folder `~/.config/git/hooks`. The 34 below override it with a local `core.hooksPath`, so the shared hooks do not run there unless something forwards to them. This page lists each one, why it overrides the shared folder, and what phase 2 should do with it.
-
-### [`proposals/code2-ecosystem/workspace/AGENTS.md`](../proposals/code2-ecosystem/workspace/AGENTS.md)
-
-`~/code2` is the fresh workspace that repositories join by moving in. This file is linked as `~/code2/AGENTS.md`; its source of truth is `proposals/code2-ecosystem/workspace/AGENTS.md` in agentic-engineering-system-canonical (AES canonical). Change it there, through a commit, never by editing the link target in place.
-
-### [`proposals/commit-rule-followups/commit-rule-followups.goal.md`](../proposals/commit-rule-followups/commit-rule-followups.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/commit-rule-followups/commit-rule-followups.md`](../proposals/commit-rule-followups/commit-rule-followups.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/commit-rule-notes-report/commit-rule-notes-report.goal.md`](../proposals/commit-rule-notes-report/commit-rule-notes-report.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/commit-rule-notes-report/commit-rule-notes-report.md` (plan sha256 50d45de7933b0f6eb95b34c941c1caa13cb24a93e90ad23a8f2e4422549ce9b5, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`proposals/commit-rule-notes-report/commit-rule-notes-report.md`](../proposals/commit-rule-notes-report/commit-rule-notes-report.md)
-
-| Uncertainty | Owner or resolving evidence | | --- | --- | | Whether the change needs files beyond the list below; if so it is out of scope for this plan | Resolved before editing: grep -n 'notes' proposals/aes-planning/rollout/daily_report.py finds no reader today; the per-day line is written in main() (the counts block near line 125) and concerns go through concern() at line 45. This is the only material uncertainty: the change is one function and its use in main(), plus a test, so no other unknown affects the outcome |
-
-### [`proposals/commit-tag-case/commit-tag-case.goal.md`](../proposals/commit-tag-case/commit-tag-case.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/commit-tag-case/commit-tag-case.md`](../proposals/commit-tag-case/commit-tag-case.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/doc-reach-new-docs/PLAN.md`](../proposals/doc-reach-new-docs/PLAN.md)
-
-> **CORE-ACTOR-RESULT-EXAMPLE** (blocking): The plan names the actor it serves, the desired result, and one stable, concrete, user-visible example of that result.
-
-### [`proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md`](../proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/evidence-recorder-counts/README.md`](../proposals/evidence-recorder-counts/README.md)
-
-An agent using `aes evidence record` needs to know whether its tests actually ran. At source revision `431deeb6`, a real pytest file with one skipped assertion returned exit 0 and the default recorder saved SUPPORTS. The reproduction is in `reproduction.before.json`; source inspection alone was not used as runtime proof.
-
 ### [`proposals/harness-context/README.md`](../proposals/harness-context/README.md)
 
 Brian wants a harness that follows his rules without making every job carry every procedure. The coordinator keeps the outcome and routes bounded jobs; native specialists load the shared safety core, their role, the target repository authority, and only the procedure activated by that job.
-
-### [`proposals/harness-context/harness-context.goal.md`](../proposals/harness-context/harness-context.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md`](../proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md)
 
@@ -4707,173 +4335,9 @@ Status: active
 
 This repo is the **governance hub** for Brian's project ecosystem: vision docs, enforcement scripts, project index, and operational state.
 
-### [`proposals/harness-context/subagent-research.md`](../proposals/harness-context/subagent-research.md)
-
-Use native workers with an explicit history policy, keep their shared behavior in one source, and verify the effective client settings before claiming parity.
-
-### [`proposals/meeting-claims-true/PLAN.md`](../proposals/meeting-claims-true/PLAN.md)
-
-In the 2026-10-08 "SD - AI Astronaut" meeting (zoom:b5b26a4b0e7daf1a) Brian described his project brains, Company Planning, plan-to-code alignment, feedback system, positions map and ChatGPT backup to Tyler, Dagim, Jawad and Syed. Five read-only checks the same day found most claims partly true and several false. Brian, 2026-10-08: "we need to make all the claims i made true and improve the quality."
-
-### [`proposals/meeting-claims-true/meeting-claims-true.goal.md`](../proposals/meeting-claims-true/meeting-claims-true.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/second-brain-evaluation/PLAN.md`](../proposals/second-brain-evaluation/PLAN.md)
-
-<a id="outcome"></a>
-
-### [`proposals/second-brain-evaluation/second-brain-evaluation.goal.md`](../proposals/second-brain-evaluation/second-brain-evaluation.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/trace-review-enforcement/plan.md`](../proposals/trace-review-enforcement/plan.md)
-
-Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted `#` starts a YAML comment and cuts the value.
-
-### [`proposals/trace-review/README.md`](../proposals/trace-review/README.md)
-
-- 2026-10-07: "ok the first thing is that we need aes plans to require trace reviews as part of its planning." - 2026-10-06: "my general principle of maximum observability (although there should be filters/views) and always reviewing full e2e traces of stuff not just the final output."
-
-### [`proposals/trace-review/trace-review.goal.md`](../proposals/trace-review/trace-review.goal.md)
-
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/trace-review/README.md` (plan sha256 e1db8ded71823d4cc57dccc6b1b2652b784a9c2ecca3d57a2f4bcd15bd4d51ae, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
-
-### [`proposals/vision-coverage/README.md`](../proposals/vision-coverage/README.md)
-
-Brian's already-written vision material is covered: every document he authored about the program is found, captured in the Vision wiki as a source, and compiled into pages that quote him; and the positions and open questions in his conversations reach the hypotheses register with their conversation ids. Reason: on 2026-10-04 the three fullest statements of the vision turned out to sit in a Downloads folder and on Google Drive while agents reasoned from a thinner derivative (vision PR #40).
-
-### [`proposals/worktree-lifecycle/PLAN.md`](../proposals/worktree-lifecycle/PLAN.md)
-
-Authorized scope: repair the existing creation and closeout tools, prove their behavior on a real lane, then resolve existing worktrees individually. Brian activated this mission through /goal on 2026-10-09. Implementation and cleanup wait for native plan adoption; neither has started. No new service, hosting, or paid infrastructure is proposed, and no delivery deadline is assumed.
-
-### [`proposals/worktree-lifecycle/SYSTEM_MODEL.md`](../proposals/worktree-lifecycle/SYSTEM_MODEL.md)
-
-Scope: the existing EP/PM worktree control, a partial shared model rather than the full architectures of either repository. Git, claims and closeout retain their existing owners.
-
-### [`proposals/worktree-lifecycle/VALIDATION.md`](../proposals/worktree-lifecycle/VALIDATION.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/worktree-lifecycle/worktree-lifecycle.goal.md`](../proposals/worktree-lifecycle/worktree-lifecycle.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/worktree-plan-lookup/worktree-plan-lookup.goal.md`](../proposals/worktree-plan-lookup/worktree-plan-lookup.goal.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
-### [`proposals/worktree-plan-lookup/worktree-plan-lookup.md`](../proposals/worktree-plan-lookup/worktree-plan-lookup.md)
-
-This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
-
 ### [`research/README.md`](../research/README.md)
 
 Status: active Role: research evidence, bounded investigations, and reusable synthesis Authority: analytical; non-normative Lifecycle: retained; sources immutable/append-only where practical
-
-### [`research/investigations/2026-09-16-first-vertical-capability-discovery.md`](../research/investigations/2026-09-16-first-vertical-capability-discovery.md)
-
-Date: 2026-09-16 Status: current investigation
-
-### [`research/investigations/2026-09-16-repository-context-provider-landscape.md`](../research/investigations/2026-09-16-repository-context-provider-landscape.md)
-
-Date: 2026-09-16 Status: current sourcing investigation Capability requirement: `repository.context.resolve`
-
-### [`research/investigations/2026-09-17-aca-tosca-capability-fit-test.md`](../research/investigations/2026-09-17-aca-tosca-capability-fit-test.md)
-
-Test whether Agentic Capability Architecture (ACA) should remain the semantic authority for generic `Capability` / `Requirement` concepts, or whether established TOSCA 2.0 semantics should replace or constrain that vocabulary before AES canonical stubbing.
-
-### [`research/investigations/2026-09-17-aes-evidence-prov-intoto-slsa-fit-test.md`](../research/investigations/2026-09-17-aes-evidence-prov-intoto-slsa-fit-test.md)
-
-Determine which evidence/provenance concepts AES should reuse from standards rather than hand-model, while preserving the genuinely AES-specific semantics around evidence adequacy, freshness, characterization, and gap reconciliation.
-
-### [`research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md`](../research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md)
-
-AES needs a coherent vocabulary for repositories, software components, APIs, resources, systems, capabilities, requirements, relationships, planned implementation subjects, verification and traceability. Three external families overlap enough that choosing one blindly would be a mistake:
-
-### [`research/investigations/2026-09-17-external-provider-deep-dive-round-2.md`](../research/investigations/2026-09-17-external-provider-deep-dive-round-2.md)
-
-Deepen the first-pass sourcing audit before AES canonical stubbing. The question is not whether one outside project can replace AES. The question is which generic semantics already have an established authority so AES can remain a small residual integration/lifecycle layer.
-
-### [`research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md`](../research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md)
-
-Date: 2026-09-17 Status: **research / pre-stub sourcing gate** Purpose: prevent AES canonical from freezing bespoke internal vocabulary or runtime dependencies where mature standards or forkable OSS already cover the needed semantics.
-
-### [`research/investigations/2026-09-17-opa-aes-policy-fit-test.md`](../research/investigations/2026-09-17-opa-aes-policy-fit-test.md)
-
-Determine whether AES or Enforced Planning should own a generic policy language/evaluator, or whether Open Policy Agent (OPA) should be the default external provider candidate for that layer.
-
-### [`research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md`](../research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md)
-
-Status: research probe; non-normative.
-
-### [`research/investigations/2026-09-17-open-workflow-spec-vs-enforced-planning.md`](../research/investigations/2026-09-17-open-workflow-spec-vs-enforced-planning.md)
-
-Status: research comparison for AES canonical bootstrap Date: 2026-09-17
-
-### [`research/investigations/2026-09-17-ows-enforced-planning-work-graph-fit-test.md`](../research/investigations/2026-09-17-ows-enforced-planning-work-graph-fit-test.md)
-
-Move beyond a landscape comparison by testing a real Enforced Planning work graph against the Open Workflow Specification (OWS) semantic surface.
-
-### [`research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md`](../research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md)
-
-Status: research probe; non-normative.
-
-### [`research/investigations/2026-09-17-scip-planned-subject-fit-test.md`](../research/investigations/2026-09-17-scip-planned-subject-fit-test.md)
-
-Determine whether AES should define its own universal code-symbol vocabulary for functions/classes/modules, or reuse SCIP for realized code identity while retaining only the planning semantics SCIP cannot represent.
-
-### [`research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md`](../research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md)
-
-Status: research probe; non-normative.
-
-### [`research/investigations/README.md`](../research/investigations/README.md)
-
-Bounded questions and findings go here. Each investigation should state its question, sources, findings, uncertainty, and disposition.
-
-### [`research/sources/README.md`](../research/sources/README.md)
-
-Preserve exact references/captures used by investigations. Initial external sources include the standalone `wiki_methodology` architecture and incumbent AES/planning/ACA/Data Contracts repositories. Do not duplicate large upstream repositories here.
-
-### [`research/synthesis/2026-09-17-external-document-semantics-for-normative-model.md`](../research/synthesis/2026-09-17-external-document-semantics-for-normative-model.md)
-
-Use established requirements, architecture-description, and executable-specification semantics to sharpen the AES documentation model without importing a large document taxonomy or making external standards runtime dependencies.
-
-### [`research/synthesis/2026-09-17-fresh-agent-handoff.md`](../research/synthesis/2026-09-17-fresh-agent-handoff.md)
-
-Date: 2026-09-17
-
-### [`research/synthesis/2026-09-17-normative-component-alignment-dogfood-checkpoint.md`](../research/synthesis/2026-09-17-normative-component-alignment-dogfood-checkpoint.md)
-
-Status: **provisional blueprint recorded; structural probe observed; architecture adoption and runtime behavior unverified**
-
-### [`research/synthesis/2026-09-17-proposed-aes-canonical-skeleton-after-sourcing.md`](../research/synthesis/2026-09-17-proposed-aes-canonical-skeleton-after-sourcing.md)
-
-Status: **bootstrap topology draft — not yet an implementation freeze**
-
-### [`research/synthesis/2026-09-17-source-local-context-dogfood-result.md`](../research/synthesis/2026-09-17-source-local-context-dogfood-result.md)
-
-Status: research synthesis; **BP-D1 pilot-supported, not accepted architecture**
-
-### [`research/synthesis/2026-09-28-legacy-idea-harvest/aes-archived.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/aes-archived.md)
-
-Read-only idea harvest, 2026-09-27. Nothing here is adopted by being listed; each item enters v0.2 only through the donor re-entry rule and `aes plan`, when its trigger shows up on a real consumer.
-
-### [`research/synthesis/2026-09-28-legacy-idea-harvest/project-meta.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/project-meta.md)
-
-- Source repo: `BrianMills2718/project-meta`, revision `0dcc574ebfcc47fa9815aeaf7e5786b2884392a1` (7,226 commits), read 2026-09-27/28. - Method: indexes and headings first, then targeted sections; GitHub concern issues read with `gh` (read-only); git log checked for landed vs abandoned work. All paths are relative to the repo root and were checked to exist at this revision. `#NNNN` means a `BrianMills2718/project-meta` GitHub issue or PR. - Deduplication: checked against [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-26-inside-success-aes-harvest.md) (cited as "IS-AES #n" for ideas and "IS-AES B.n" for stall lessons). Nothing here repeats that harvest unless it is a stronger or different version, and those rows say so.
-
-### [`research/synthesis/incumbent-capability-inventory.md`](../research/synthesis/incumbent-capability-inventory.md)
-
-Status: research synthesis; candidate dispositions only. This file does not transfer ownership or select a runtime dependency by itself.
-
-### [`research/synthesis/observation-to-action-advice-for-aes.md`](../research/synthesis/observation-to-action-advice-for-aes.md)
-
-Status: research synthesis / tentative advice
-
-### [`research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md`](../research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md)
-
-Status: research synthesis; non-normative candidate dispositions only.
 
 ### [`scripts/README.md`](../scripts/README.md)
 
@@ -4893,7 +4357,7 @@ For a human or agent changing an AES project's target (`ART-PLANNING-PROTOCOL`, 
 
 ### [`wiki/documents.md`](../wiki/documents.md)
 
-Every other document in this repository, by folder, so each one is reachable from the [wiki index](index.md). The [wiki pages](index.md) are the current account; these documents are the sources they cite, kept as written. Plans, proposals and evidence record what was intended or observed on their own dates and may be out of date.
+Every other document in this repository, by folder, so each one is reachable from the [wiki index](index.md). The [wiki pages](index.md) are the current account; these documents are the sources they cite, kept as written. Plans, proposals and evidence record what was intended or observed on their own dates and may be out of date. On 2026-11-11, 146 older documents were removed from the current version after the facts only they held were folded into these pages (Brian, 2026-11-11, "i approve" to Decision 2a). Their text is at tag `docs-consolidation/2026-11-11-before`, and the [consolidation ledger](../docs/history/consolidation-2026-11-11/ledger.jsonl) lists each one with its restore command.
 
 ### [`wiki/feedback-loop.md`](../wiki/feedback-loop.md)
 

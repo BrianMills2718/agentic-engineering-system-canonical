@@ -1,6 +1,6 @@
 """Closeout Feedback fields -> feedback-report.v1 records -> the private feedback log.
 
-Plan: proposals/aes-learning-loop/PLAN.md, slice S1. One report per closeout Feedback field (the
+Plan: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md, slice S1. One report per closeout Feedback field (the
 pre-2026-10-07 "Learnings" heading counts too). Marked lines are parsed by records.py (code); the
 remaining free text is split by the light model, which writes only the one-sentence text and the
 qualifiers: every record's links come from code reading a verbatim excerpt, and an excerpt not found

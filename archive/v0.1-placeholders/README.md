@@ -21,7 +21,7 @@ Moved with `git mv` in AES v0.2 roadmap phase 7a (2026-09-25), so `git log
 --follow` on each file shows its full history. Their planned-artifact entries
 (`ART-V01-*-COMPONENT-PLACEHOLDER-YAML`) were removed from `.aes/target.yaml` by
 the accepted plan `.aes/plans/PLAN-AES-ARCHIVE-V01-PLACEHOLDERS.yaml`; see
-`proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md` section 20.
+[`proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md) section 20.
 
 Documents that still name the old paths (`docs/architecture/architecture-realization.bootstrap.yaml`,
 `generated/bootstrap-normative/`, `evidence/bootstrap-alignment/`) are v0.1

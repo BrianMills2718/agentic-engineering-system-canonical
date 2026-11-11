@@ -165,7 +165,7 @@ Planned implementation scope:
 - `generated/policy-replay/` — generated non-authoritative reports.
 - `evidence/plan-002/` — revision-bound provider-fit, verification and operator evidence.
 - `docs/plans/002_offline_policy_decision_replay.md` — keep execution status/evidence current.
-- `.agentic/repo.yaml`, `README.md`, `docs/plans/README.md`, `wiki/index.md` — active-plan/frontier projections only.
+- `.agentic/repo.yaml`, `README.md`, [`docs/plans/README.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/docs/plans/README.md), `wiki/index.md` — active-plan/frontier projections only.
 
 No raw archive/transcript store is added to Git.
 

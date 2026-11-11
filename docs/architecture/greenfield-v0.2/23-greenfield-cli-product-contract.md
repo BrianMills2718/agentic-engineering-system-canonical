@@ -1,6 +1,6 @@
 # AES v0.2 Greenfield CLI/product contract
 
-Status: **accepted** by [Decision 0010](../../decisions/0010-greenfield-v0.2-accepted.md) (2026-09-25). Plain copy of `proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md` (copied, not `git mv`'d, so the proposal lineage stays in place). For AES canonical, `.aes/target.yaml` is the live authority: where this file and the target disagree, this file is wrong. "Accepted amendments" at the end lists what changed from the candidate. File names that are not in this directory refer to `proposals/aes-v0.2-greenfield/`.
+Status: **accepted** by [Decision 0010](../../decisions/0010-greenfield-v0.2-accepted.md) (2026-09-25). Plain copy of [`proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md) (copied, not `git mv`'d, so the proposal lineage stays in place). For AES canonical, `.aes/target.yaml` is the live authority: where this file and the target disagree, this file is wrong. "Accepted amendments" at the end lists what changed from the candidate. File names that are not in this directory refer to `proposals/aes-v0.2-greenfield/`.
 Date: 2026-09-24
 
 ## Product principle

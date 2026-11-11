@@ -160,7 +160,7 @@ Rules:
 - no confidence scalar is conformance evidence;
 - directory names alone establish no semantic authority.
 
-Full D1 contract detail: [`001_D1_contract_surface_topology_freeze.md`](001_D1_contract_surface_topology_freeze.md).
+Full D1 contract detail: [`001_D1_contract_surface_topology_freeze.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/docs/plans/001_D1_contract_surface_topology_freeze.md).
 
 ## Frozen Slice 1 actor surface
 
@@ -234,7 +234,7 @@ When a pilot manifest exists, it is the authority for its declared repository co
 
 ### Dependency subplan D1 — CLOSED
 
-Executable record: [`001_D1_contract_surface_topology_freeze.md`](001_D1_contract_surface_topology_freeze.md).
+Executable record: [`001_D1_contract_surface_topology_freeze.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/docs/plans/001_D1_contract_surface_topology_freeze.md).
 
 D1 froze:
 
@@ -259,7 +259,7 @@ Execution tracker: [Issue #17 — Plan 001 closure](https://github.com/BrianMill
 - observed technical execution: the governed-repo audit passed, focused repository-context checks passed locally, the exact pinned external-consumer check passed, the real CLI resolved the pinned consumer, and deterministic revision-scoped JSON/HTML were retained;
 - observed utility: the first direct A1 at AES revision `53be16fa1159f31648773062531d751c85d7a011` returned `change` because the HTML required too much reconstruction; the retained A1 receipt remains utility evidence rather than a technical-conformance reversal;
 - bounded response: a projection-only correction was made afterward; per stakeholder instruction, further presentation iteration is handled separately through the Representation Router workstream rather than expanded here;
-- post-integration characterization: canonical `main@320991b96a3e3aaa15aa8ba05817a7eee1c52603` is characterized at `evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`;
+- post-integration characterization: canonical `main@320991b96a3e3aaa15aa8ba05817a7eee1c52603` is characterized at [`evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md);
 - gap state: `docs/architecture/INITIAL_GAP_LEDGER.md` has been conservatively recomputed from that characterization;
 - verification correction: Decision 0008 supersedes the blob-only carry-forward rule after review found that `cli.py` and the pinned-consumer test transitively execute the changed renderer. The earlier carry-forward receipt is historical and corrected by `evidence/plan-001/verification-boundary-correction-2026-09-18.json`;
 - pinned-test repair: stale assertions tied to the pre-A1 renderer wording were updated to the corrected semantic warnings;

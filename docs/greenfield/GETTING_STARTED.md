@@ -134,7 +134,7 @@ remain readable without silently becoming proof of source-bound coverage.
 This is the acceptance-evidence boundary. Company Planning's installed execution
 control separately requires preserved full-trace diagnosis before selecting a repair;
 AES status does not itself intercept arbitrary debugging commands. See the
-[adopted cross-project plan](../../proposals/trace-review-enforcement/plan.md).
+[adopted cross-project plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/trace-review-enforcement/plan.md).
 
 ```bash
 cat > plan-greeter.yaml <<'YAML'
@@ -452,6 +452,6 @@ Planning with a receipt, as for any plan.
 
 The native feedback repair also repaired this guide's bootstrap commits and
 its clean-install test's machine-policy isolation. Its source-bound records are
-the [implementation plan](../../proposals/aes-subagent-feedback/PLAN.md),
-[system model](../../proposals/aes-subagent-feedback/SYSTEM_MODEL.md), and
-[execution goal](../../proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md).
+the [implementation plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-subagent-feedback/PLAN.md),
+[system model](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-subagent-feedback/SYSTEM_MODEL.md), and
+[execution goal](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md).

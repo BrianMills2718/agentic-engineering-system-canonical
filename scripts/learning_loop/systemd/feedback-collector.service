@@ -1,6 +1,6 @@
 [Unit]
 Description=Nightly feedback collector: Claude Code and Codex transcripts -> daily feedback log -> learnings register
-Documentation=https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/proposals/aes-learning-loop/DESIGN.md
+Documentation=https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/DESIGN.md
 
 [Service]
 Type=oneshot

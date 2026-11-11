@@ -31,7 +31,7 @@ planning:
   # retained for the v0.1 line (Plan 002), not the v0.2 frontier.
   active_architecture_line: AES-v0.2
   active_acceptance_decision: docs/decisions/0010-greenfield-v0.2-accepted.md
-  active_roadmap: proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md
+  active_roadmap: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md
   active_target: .aes/target.yaml
   active_frontier: v0.2-accepted/decision-on-scope-after-first-value-measure (Decision 0011 item 5 done 2026-09-26; tally 1 catch, 6 hand checks)
   lineage_decision: docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md
@@ -45,7 +45,7 @@ planning:
   architecture_realization_profile: docs/architecture/aes-company-planning-profile.bootstrap.yaml
   architecture_realization_schema: docs/architecture/schemas/architecture-realization.bootstrap.schema.json
   d1_status: closed
-  d1_record: docs/plans/001_D1_contract_surface_topology_freeze.md
+  d1_record: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/docs/plans/001_D1_contract_surface_topology_freeze.md
   gap_ledger: docs/architecture/INITIAL_GAP_LEDGER.md
   delivery_architecture: docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md
   slice_rule: human_observable_verticals_distinct_from_gaps_and_work_graphs
@@ -59,7 +59,7 @@ capability_resolution:
   sourcing_policy: external_first_then_aca_then_internal_donors_then_residual
   first_required_action: repository.context.resolve
   first_required_action_status: compose_native_external_substrate_plus_residual_aes_semantics
-  first_provider_landscape: research/investigations/2026-09-16-repository-context-provider-landscape.md
+  first_provider_landscape: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-16-repository-context-provider-landscape.md
   selected_slice1_dependencies:
     - git-cli-local-checkout
     - pydantic==2.13.5

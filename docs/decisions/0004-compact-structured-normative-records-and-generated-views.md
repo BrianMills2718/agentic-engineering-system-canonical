@@ -142,7 +142,7 @@ The rule is one semantic authority, not "everything must be terse YAML."
 - generated/bootstrap-normative/system.pilot.yaml
 - generated/bootstrap-normative/view-bundle.md
 - docs/architecture/normative-record-model.bootstrap.yaml
-- research/synthesis/2026-09-17-external-document-semantics-for-normative-model.md
+- [research/synthesis/2026-09-17-external-document-semantics-for-normative-model.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-17-external-document-semantics-for-normative-model.md)
 
 ## Consequences
 

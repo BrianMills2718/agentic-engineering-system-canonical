@@ -17,7 +17,7 @@ relationships:
     target: repository.context.resolve
   - source: AES-CAP-002
     relation: provider_sourcing_evidenced_by
-    target: research/investigations/2026-09-16-repository-context-provider-landscape.md
+    target: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-16-repository-context-provider-landscape.md
   - source: repository.context.resolve
     relation: realization_disposition
     target: compose_native_external_substrate_plus_residual_aes_semantics
