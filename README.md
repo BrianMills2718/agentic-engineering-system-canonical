@@ -1,101 +1,28 @@
-# Agentic Engineering System — Canonical
+# Agentic Engineering System (AES), canonical
 
-**This repository is the Agentic Engineering System** ([Decision 0011](docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md), 2026-09-26). `Inside-Success/agentic-engineering-system` is archived; the ideas worth borrowing from it are in [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](research/synthesis/2026-09-26-inside-success-aes-harvest.md), each with the consumer trigger that would bring it in. Next frontier: whygame5 realizes its runner and records the first value measure (Decision 0011, item 5).
+AES is the name for the whole agent system: Lockstep, the feedback loop and the policy layer ([CLAUDE.md:14-16](CLAUDE.md#L14-L16)).
 
-## AES v0.2 (accepted, Decision 0010)
+- Lockstep, in its own repository, is kept only for lifelike and Team-Brains with no new users, and winds down into `code2check` ([CLAUDE.md:18-22](CLAUDE.md#L18-L22)).
+- The feedback loop runs nightly from `scripts/learning_loop` in this repository ([.project-brain/now.md:9](.project-brain/now.md#L9)).
+- The policy layer is the rules register here (`scripts/rules`, `docs/rules`) plus Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:9](.project-brain/now.md#L9)).
+- The `aes` command line and `.aes/target.yaml` retire one repository at a time (code2-workspace decision 0009) ([CLAUDE.md:17-20](CLAUDE.md#L17-L20)).
+- AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789) ([CLAUDE.md:22-23](CLAUDE.md#L22-L23)).
+- The v0.2 governance regime is kept as history only ([CLAUDE.md:31-32](CLAUDE.md#L31-L32)).
 
-AES v0.2 is a small command-line tool, `aes`, that governs a software project
-from its first commit: you write down the outcome and the success criteria in
-`.aes/target.yaml`, every file under the project's governed roots must be
-planned there (a pre-commit hook refuses anything else), evidence is recorded
-by running the tests (`aes evidence record`) and stays bound to the exact
-commit and files it exercised, and `aes status` shows on one screen which
-criteria are supported, which evidence went stale, and the first open gap per
-component. Target changes go through `aes plan prepare / validate / accept`.
+## Where to start
 
-- **Start here:** [`docs/greenfield/GETTING_STARTED.md`](docs/greenfield/GETTING_STARTED.md)
-  — install, `aes init`, and the lifecycle on a new project.
-- **Where things stand:** in a clone of this repository, install first —
-  `uv venv .venv && uv pip install -e ".[dev]"` (Python 3.11 or newer) — then
-  run `.venv/bin/aes status`, or `make aes`, which finds that `.venv` itself.
-  The `[dev]` extra adds pytest and mypy, which the `make` test and type
-  targets need; plain `-e .` installs the library only. `uv venv` leaves no
-  `pip` inside the venv and nothing here needs one; pass `--seed` if you want
-  it anyway.
-- **If you do not have `uv`:** `curl -LsSf https://astral.sh/uv/install.sh | sh`
-  ([other install methods](https://docs.astral.sh/uv/getting-started/installation/)),
-  then restart the shell or `source "$HOME/.local/bin/env"`. This repository
-  assumes `git`, `make` and `uv` on `PATH`; `uv` replaced `python3 -m venv` plus
-  `pip` here on 2026-10-04 and is the install path everywhere in these
-  repositories, for its shared cache across them.
-- **Running the gates:** `make aes` and `make aes-check` are the AES v0.2 gate
-  ([Decision 0010](docs/decisions/0010-greenfield-v0.2-accepted.md)); run those
-  after the install above. `make check` is Enforced Planning's separate v0.1
-  gate and is still **not** the AES gate, but it does now exit 0 from a clean
-  clone: its test and type steps run the `.venv` tools rather than a bare
-  `pytest`/`mypy` on `PATH`, and the pre-existing `mypy src/` errors in the
-  retained v0.1 `repository_context` renderer and in the v0.2 CLI were
-  annotated away in PR #112. Measured at `d89fe2e` from a fresh clone with the
-  `uv` install line above and only `git`, `make` and `uv` on `PATH`: `make
-  check` exit 0 (185 passed, 1 skipped; mypy clean on 20 files), `make aes`
-  exit 0, `make aes-check` exit 0 (179 passed, 1 skipped). That one skip is
-  `tests/repository_context/test_data_contracts_pinned.py`, which needs
-  `AES_DATA_CONTRACTS_CHECKOUT`. One test in that suite,
-  `test_clean_install_in_pin_form_...`, builds its own throwaway venv and
-  installs the pin into it; since 2026-10-04 it does that with `uv`, as the
-  documented install does, so it no longer needs an interpreter with
-  `ensurepip` — in that measurement it ran, and passed, on a `python3` that has
-  none. It skips where `uv` is not on `PATH`, and `AES_SKIP_CLEAN_INSTALL=1`
-  still skips it. The
-  earlier not-green state in
-  [`evidence/modular-design-integration-2026-09-22.md`](evidence/modular-design-integration-2026-09-22.md)
-  is history as of 2026-10-04, not current.
-- **What is accepted, on what evidence, and what is not claimed:**
-  [Decision 0010](docs/decisions/0010-greenfield-v0.2-accepted.md).
-- **Accepted architecture:** [`docs/architecture/greenfield-v0.2/`](docs/architecture/greenfield-v0.2/README.md).
-  The proposal lineage (`proposals/aes-v0.2-greenfield/`) is history, not authority.
+- [wiki/index.md](wiki/index.md) is the front door ([CLAUDE.md:3](CLAUDE.md#L3)).
+- [.project-brain/now.md](.project-brain/now.md) holds the current state; read it first ([CLAUDE.md:5-6](CLAUDE.md#L5-L6)).
 
-**AES v0.2 governs this repository (2026-09-25).** `.aes/target.yaml` holds the Greenfield MVP target (outcome `OUT-GF-001`, criteria `SC-GF-001`..`009`) over the governed roots `src/agentic_engineering_system/` and `tests/greenfield/`; `.aes/observations/` holds the evidence and `.aes/plans/` the accepted plans. Run `aes status` (or `make aes`) for the current standing and the first open gap per component; the v0.2 proposal lineage is `proposals/aes-v0.2-greenfield/` and the user-facing start is `docs/greenfield/GETTING_STARTED.md`. The v0.1 material below is retained under Decision 0010's v0.1 disposition.
+## Install and test
 
-## v0.1 (retained)
+- Python 3.11 or newer is required ([pyproject.toml:9](pyproject.toml#L9)).
+- Install with uv: `uv venv .venv && uv pip install -e ".[dev]"` ([.project-brain/now.md:121-123](.project-brain/now.md#L121-L123)).
+- `make check` runs the AGENTS.md sync check, pytest without slow tests, and mypy ([Makefile:543-553](Makefile#L543-L553)).
+- `make check-full` adds the slow end-to-end tests ([Makefile:555-557](Makefile#L555-L557)).
+- `make aes-check` runs the retained engine on this repository and its tests; it retires with `aes` ([Makefile:571-577](Makefile#L571-L577)).
 
-The material below describes the v0.1 line (the convergence architecture, Plan
-001's Repository Context provider `aes-repo-context`, and Plan 002). It is
-retained, not superseded wholesale; Decision 0010 states which parts v0.2
-supersedes for its governed roots.
+## Lineage
 
-This repository is the clean convergence and dogfood implementation of the Agentic Engineering System (AES) architecture.
-
-Its purpose is to integrate separately evolved planning, capability, execution-governance, context, policy, evidence, and learning systems into one coherent engineering lifecycle without duplicating their authorities:
-
-```text
-orient -> target -> current -> gap -> plan -> capability composition
-       -> governed execution -> evidence -> characterization -> gap reconciliation
-       -> learning / policy or capability improvement
-```
-
-### Status (v0.1)
-
-**Bootstrap architecture adopted; Plan 001 / Repository Context Slice 1 is delivered at verified AES revision `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1`.**
-
-The canonical architecture now includes the component-aligned planning/governance model, AES-local Company Planning profile, minimal architecture-realization schema, and reserved component/verification homes. Reserved homes remain topology only; they are not implementation or verification evidence.
-
-This branch contains the first Repository Context implementation: typed artifact models, exact Git/revision resolution, authoritative pilot-manifest handling, bounded legacy resolution, static HTML/JSON projection, CLI entrypoint, and focused tests.
-
-The first direct A1 returned `change`, causing a bounded projection correction rather than a broader UI/platform build. On 2026-09-22, AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1` then passed a fresh exact-revision technical batch against the pinned private `data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0` consumer: **15 repository-context tests passed**, the real CLI returned `RESOLVED`, and the verification-batch check remained valid on a clean repository. The exact corrected HTML then received stakeholder response **"proceed"**, recorded as A1 `continue`.
-
-The final revision-bound characterization and conservatively recomputed gap ledger are under `evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/` and `docs/architecture/INITIAL_GAP_LEDGER.md`. Plan 001 is therefore delivered for its bounded external Repository Context claim. This does not establish full AES maturity.
-
-**Current planned frontier:** [Plan 002 — Offline Policy-Decision Replay](docs/plans/002_offline_policy_decision_replay.md). It asks one bounded question: whether a contextual model evaluator adds enough value over the existing deterministic completion/verification control to merit later **shadow-only** use. Four authentic historical cases are frozen as the exploratory starting set. The remaining P0 gate is authenticated OpenRouter access, one explicit compatible model ID, and one structured-output protocol smoke; then V1 runs the first offline comparison. No live policy behavior, hook, warning, or enforcement change is authorized by the plan.
-
-Start at [`wiki/index.md`](wiki/index.md).
-
-### Adopted project-agnostic architecture
-
-This repo adopts the standalone architecture in `BrianMills2718/wiki_methodology` at revision `0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe`, starting at `docs/architecture/README.md` there.
-
-The local repo owns only AES-specific intent, decisions, plans, evidence, and implementation. It must not copy the project-agnostic methodology into a second mutable authority.
-
-### Lineage
-
-`Inside-Success/agentic-engineering-system` and the archived `BrianMills2718/aes` are incumbent/predecessor sources of mechanisms, decisions, evidence, and lessons. They are not implicitly copied here. Existing capability owners remain authoritative until an explicit evidence-backed disposition says otherwise.
+- This repository replaced `Inside-Success/agentic-engineering-system`, archived on 2026-09-26 ([docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:44-47](docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md#L44-L47)).
+- It adopts project-agnostic architecture from `BrianMills2718/wiki_methodology` at revision `0cddc6b1` ([CLAUDE.md:10](CLAUDE.md#L10)).
