@@ -56,7 +56,7 @@ This page is history. Nothing here is a current rule; current state is on [goal.
 ## Decision 0009 in code2-workspace (2026-11-10 and 2026-11-11)
 
 - Accepted 2026-11-10: retire `aes` and `.aes/target.yaml` per repository, keep the feedback loop, fold Lockstep into `code2check` in stages ([docs/decisions/0009-aes-and-lockstep-fate.md:57-68](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L57-L68)).
-- Amendment 1, 2026-11-11: Lockstep winds down and AES is the name for the whole system ([docs/decisions/0009-aes-and-lockstep-fate.md:98-113](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L98-L113)).
+- Amendment 1, 2026-11-11 (WITHDRAWN the same day by amendment 2; Lockstep is kept as part of AES): Lockstep winds down and AES is the name for the whole system ([docs/decisions/0009-aes-and-lockstep-fate.md:98-113](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L98-L113)).
 - It is a different decision from this repository's own [Decision 0009](../docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md), which is about modular product design ([docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md:11](../docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md#L11)).
 
 ## Proposals by name (plan records, kept in place)

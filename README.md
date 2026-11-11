@@ -2,7 +2,7 @@
 
 AES is the name for the whole agent system: Lockstep, the feedback loop and the policy layer ([CLAUDE.md:14-16](CLAUDE.md#L14-L16)).
 
-- Lockstep, in its own repository, is kept only for lifelike and Team-Brains with no new users, and winds down into `code2check` ([CLAUDE.md:18-22](CLAUDE.md#L18-L22)).
+- Lockstep, in its own repository, is kept and actively developed as part of AES (Brian, 2026-11-11: "ok i didnt mean to approve abandoingn lockstep. ti is actively being developed."). Its future beyond that is under question, pending Brian ([CLAUDE.md:18-22](CLAUDE.md#L18-L22)).
 - The feedback loop runs nightly from `scripts/learning_loop` in this repository ([.project-brain/now.md:9](.project-brain/now.md#L9)).
 - The policy layer is the rules register here (`scripts/rules`, `docs/rules`) plus Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:9](.project-brain/now.md#L9)).
 - The `aes` command line and `.aes/target.yaml` retire one repository at a time (code2-workspace decision 0009) ([CLAUDE.md:17-20](CLAUDE.md#L17-L20)).
