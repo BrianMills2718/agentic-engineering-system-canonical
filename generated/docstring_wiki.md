@@ -9,8 +9,8 @@ artifacts. Open the cited source for full context and current truth.
 
 ## Coverage
 
-- Tracked artifacts: 1030
-- Artifacts with source summaries: 313
+- Tracked artifacts: 1033
+- Artifacts with source summaries: 315
 - Coverage findings: 1049
 - Finding types: markdown-title-missing=23, python-docstring-missing=1026
 
@@ -3583,7 +3583,7 @@ The legacy sort's evidence check rejects answers its quote or the file facts do 
 
 _Coverage findings: python-docstring-missing._
 
-## Documentation (192)
+## Documentation (195)
 
 ### [`.agentic/events/README.md`](../.agentic/events/README.md)
 
@@ -3696,6 +3696,14 @@ _Coverage findings: markdown-title-missing._
 Update an OpenSpec change by revising its existing planning artifacts and keeping them coherent with one another. Use when the user wants to revise a change's plan, fold new decisions into it, or reconcile its artifacts after an edit. Also use when the user says "openspec update change" or "opsx update". If the user means the openspec update CLI command, which refreshes generated files, run that command instead. Never edits code.
 
 _Coverage findings: markdown-title-missing._
+
+### [`.project-brain/now.md`](../.project-brain/now.md)
+
+canonical Enforced Planning's [successor-tracker repair](https://github.com/BrianMills2718/enforced-planning/commit/9baad04). It preserves a closed lane's tracker and allocates a bounded path for a distinct lane under the unchanged session goal; active and conflicting identities remain occupied or refused. Owner lifecycle regressions pass; installed native lifecycle evidence and closure are tracked in [#437](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/437).
+
+### [`.project-brain/now.md`](../.project-brain/now.md)
+
+canonical Enforced Planning's [successor-tracker repair](https://github.com/BrianMills2718/enforced-planning/commit/9baad04). It preserves a closed lane's tracker and allocates a bounded path for a distinct lane under the unchanged session goal; active and conflicting identities remain occupied or refused. Owner lifecycle regressions pass; installed native lifecycle evidence and closure are tracked in [#437](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/437).
 
 ### [`.project-brain/now.md`](../.project-brain/now.md)
 
@@ -3892,6 +3900,10 @@ The audit instrument for `review` and `audit`. Twenty-two families, each with a 
 ### [`docs/greenfield/GETTING_STARTED.md`](../docs/greenfield/GETTING_STARTED.md)
 
 AES keeps a project's accepted target in `.aes/target.yaml`: what the project is for (outcomes), the rules it must obey (normative items), how you would know it works (success criteria and their evidence requirements), which files are supposed to exist (planned artifacts) and which checks prove the criteria (verification subjects). The `aes` command checks that the target is consistent, that every file under the governed directories is planned, and which criteria current evidence supports.
+
+### [`docs/history/consolidation-2026-11-11/fold-report.json`](../docs/history/consolidation-2026-11-11/fold-report.json)
+
+_No source-local artifact summary._
 
 ### [`docs/history/consolidation-2026-11-11/ledger.jsonl`](../docs/history/consolidation-2026-11-11/ledger.jsonl)
 
@@ -4377,7 +4389,7 @@ Front door for the Agentic Engineering System, what it is now and where to read 
 
 ### [`wiki/lockstep.md`](../wiki/lockstep.md)
 
-What Lockstep is, who uses it, and how it winds down into code2check
+type: Topic title: Lockstep description: What Lockstep is, who uses it, and its status: kept and actively developed as part of AES; its future is under question status: current last_checked: 2026-11-11
 
 ### [`wiki/open-questions.md`](../wiki/open-questions.md)
 

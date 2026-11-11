@@ -31,11 +31,7 @@ AES is the name for the whole system: Lockstep, the feedback loop and the
 policy layer (Brian, 2026-11-11: "to me aes is the whole sysem lockstep is one
 part"). Its current state is in `.project-brain/now.md`; the map is code2-workspace
 `docs/architecture/model.c4`; what retires and what stays is code2-workspace
-decision 0009 (Brian, 2026-11-10: feedback loop kept, the `aes` command line and
-`.aes/target.yaml` retire one repository at a time, Lockstep kept only for
-lifelike and Team-Brains with no new users). Lockstep winds down: its edit-time
-refusal moves into code2check (decision 0009 amendment 1; Brian, 2026-11-11:
-"i approve"; code2-template#22). AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789), no AES plan check
+decision 0009 (Brian, 2026-11-10: feedback loop kept, the `aes` command line and `.aes/target.yaml` retire one repository at a time). Lockstep is kept and actively developed as part of AES (Brian, 2026-11-11: "ok i didnt mean to approve abandoingn lockstep. ti is actively being developed."; decision 0009 amendment 2, which withdraws amendment 1's wind-down). Its future beyond that is under question, pending Brian. code2check's edit guard (code2-template #24 to #26) is a feature any repository may turn on. AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789), no AES plan check
 refuses a commit, and no `aes plan accept` step is required before a change.
 On 2026-10-13 Brian moved `~/code2` to off-the-shelf tools (OpenSpec for
 required behavior, lefthook, GitHub Issues). Its two lasting ideas, a planned

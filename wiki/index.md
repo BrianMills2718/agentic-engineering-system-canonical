@@ -13,7 +13,7 @@ This wiki is derived navigation, not an authority; follow links to the owning do
 ## What AES is now
 
 - AES is the name for the whole agent system, with three parts ([CLAUDE.md:14-16](../CLAUDE.md#L14-L16)).
-- Lockstep: its own repository, kept only for lifelike and Team-Brains, no new users, winding down into `code2check` ([CLAUDE.md:18-22](../CLAUDE.md#L18-L22)).
+- Lockstep: its own repository, kept and actively developed as part of AES; its future is under question, pending Brian ([CLAUDE.md:18-22](../CLAUDE.md#L18-L22)).
 - The feedback loop: `scripts/learning_loop`, run nightly by systemd timers ([.project-brain/now.md:9](../.project-brain/now.md#L9)).
 - The policy layer: the rules register in `docs/rules` and `scripts/rules`, with Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:9](../.project-brain/now.md#L9)).
 - The `aes` command line and `.aes/target.yaml` retire one repository at a time, and AES no longer governs itself ([CLAUDE.md:17-23](../CLAUDE.md#L17-L23)).
@@ -24,7 +24,7 @@ This wiki is derived navigation, not an authority; follow links to the owning do
 | Question | Page | Grounded in |
 | --- | --- | --- |
 | What is AES for, who uses it, what is out of scope? | [goal.md](goal.md) | [CLAUDE.md:14-23](../CLAUDE.md#L14-L23) |
-| What is Lockstep and how does it wind down? | [lockstep.md](lockstep.md) | [docs/architecture/SYSTEM_BOUNDARY.md:29](../docs/architecture/SYSTEM_BOUNDARY.md#L29) |
+| What is Lockstep and what is its status? | [lockstep.md](lockstep.md) | [docs/architecture/SYSTEM_BOUNDARY.md:29](../docs/architecture/SYSTEM_BOUNDARY.md#L29) |
 | How does the feedback loop work and what runs today? | [feedback-loop.md](feedback-loop.md) | [scripts/learning_loop/systemd/README.md:3-7](../scripts/learning_loop/systemd/README.md#L3-L7) |
 | Where are the rules and standing policies? | [policy-and-rules.md](policy-and-rules.md) | [docs/rules/RULES.md:3](../docs/rules/RULES.md#L3) |
 | What exists in the code and where is data stored? | [system-model.md](system-model.md) | [pyproject.toml:26-28](../pyproject.toml#L26-L28) |
