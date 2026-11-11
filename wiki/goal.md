@@ -28,12 +28,12 @@ last_checked: 2026-11-11
 - Agents make technical calls, verify them, and merge Brian's own pull requests themselves ([.project-brain/project.md:18-19](../.project-brain/project.md#L18-L19)).
 - Coding agents (Claude Code and Codex) plan, implement and verify work under AES ([docs/architecture/GOAL.md:31](../docs/architecture/GOAL.md#L31)).
 - Project Brains and coding agents are consumers of Lockstep and AES, not parts of them ([docs/architecture/SYSTEM_BOUNDARY.md:31](../docs/architecture/SYSTEM_BOUNDARY.md#L31)).
-- Brian observes the feedback loop's ranked view and is notified; he is not an approver of its rules ([proposals/aes-learning-loop/PLAN.md:47](../proposals/aes-learning-loop/PLAN.md#L47)).
+- Brian observes the feedback loop's ranked view and is notified; he is not an approver of its rules ([proposals/aes-learning-loop/PLAN.md:47](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L47)).
 
 ## Scope of each part
 
 - Lockstep puts full normative context at an edit, projects plan changes into code and back, links planned structure to typed symbols and checks, and renders evidence-bound status ([docs/architecture/SYSTEM_BOUNDARY.md:29](../docs/architecture/SYSTEM_BOUNDARY.md#L29)).
-- The feedback loop turns each lesson, friction, problem, experiment and research finding into a linked report, analyses problems that recur, turns licensed claims into enforced rules or checks, and observes whether the failure stops recurring ([proposals/aes-learning-loop/PLAN.md:9](../proposals/aes-learning-loop/PLAN.md#L9)).
+- The feedback loop turns each lesson, friction, problem, experiment and research finding into a linked report, analyses problems that recur, turns licensed claims into enforced rules or checks, and observes whether the failure stops recurring ([proposals/aes-learning-loop/PLAN.md:9](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L9)).
 - The policy layer publishes AES rules with their enforcement and evidence from one register ([docs/rules/RULES.md:3](../docs/rules/RULES.md#L3)).
 - The retained engine library in `src/agentic_engineering_system/` stays because Lockstep pins it ([docs/architecture/greenfield-v0.2/README.md:15](../docs/architecture/greenfield-v0.2/README.md#L15)).
 

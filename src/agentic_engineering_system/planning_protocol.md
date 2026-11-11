@@ -100,7 +100,7 @@ they are recorded again after the change.
 
 The proposal accepted for whygame5's runner (it validates against
 `tests/greenfield/fixtures/whygame5-54043e2`; the transcript is in
-`proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md` §15). The runner's
+[`proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md) §15). The runner's
 defining constraint NI-WG5-006 had no success criterion, so nothing could show
 a written runner obeys it; the plan adds the criterion, its route and the test
 artifact before the runner is written.

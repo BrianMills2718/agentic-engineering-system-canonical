@@ -22,7 +22,7 @@ Run detached; prints one line per rule with its timing and a summary with counts
 Model-sorting mode (--sort) needs separate sort-call authority. The default is
 the offline check, so an inspection cannot accidentally launch paid calls.
 
-Plan: proposals/agent-router/PLAN.md (slice 1).
+Plan: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/agent-router/PLAN.md (slice 1).
 """
 from __future__ import annotations
 

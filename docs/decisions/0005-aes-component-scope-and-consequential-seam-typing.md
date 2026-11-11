@@ -125,7 +125,7 @@ AES Component record.
 - docs/architecture/aes-company-planning-profile.bootstrap.yaml
 - evidence/bootstrap-alignment/company-planning-profile-conformance-001.json
 - [research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md)
-- research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md
+- [research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md)
 
 ## Consequences
 

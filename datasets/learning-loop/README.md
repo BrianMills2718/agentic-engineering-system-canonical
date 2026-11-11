@@ -1,6 +1,6 @@
 # Learning loop datasets
 
-Design: `proposals/aes-learning-loop/DESIGN.md`.
+Design: [`proposals/aes-learning-loop/DESIGN.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/DESIGN.md).
 
 ## legacy-learnings-labelled-v2.jsonl
 

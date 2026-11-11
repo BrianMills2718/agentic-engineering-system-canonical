@@ -6,7 +6,7 @@ This ledger compares the accepted clauses in `SYSTEM_BOUNDARY.md` with the
 current canonical realization. The revision-bound characterization supporting
 this recomputation is:
 
-`evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/characterization.md`
+[`evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/characterization.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/characterization.md)
 
 Verification review correction after GitHub Actions became administratively unavailable:
 

@@ -1,6 +1,6 @@
 """Feedback records (contract feedback-report.v1): observations, claims and actions with links.
 
-Plan: proposals/aes-learning-loop/PLAN.md ("Record model", "Report format"). An agent's closeout
+Plan: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md ("Record model", "Report format"). An agent's closeout
 Feedback field holds one record per line:
 
   - obs: <one sentence> [<link>] [<link>]  expected: <link or sentence>

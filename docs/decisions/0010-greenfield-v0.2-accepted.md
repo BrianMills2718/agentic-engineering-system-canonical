@@ -20,9 +20,9 @@ Governs: RULE-DRIFT-DETECTED, RULE-INSUFFICIENT-NOT-GREEN, .aes/target.yaml
 
 The v0.2 greenfield proposal (`proposals/aes-v0.2-greenfield/`, 2026-09-24)
 was built phase by phase under
-[`25-roadmap-to-mvp-acceptance.md`](../../proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md),
+[`25-roadmap-to-mvp-acceptance.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md),
 with each phase's realization, findings and wrong-when conditions recorded in
-[`24-pre-probe-decisions.md`](../../proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md)
+[`24-pre-probe-decisions.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md)
 sections 6-21. Two consumers were governed by it: `BrianMills2718/whygame5`,
 governed by AES from its first commit (the greenfield consumer), and AES
 canonical itself, governed by its own `.aes/` target since phase 6b (a

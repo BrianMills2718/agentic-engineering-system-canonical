@@ -54,7 +54,7 @@ Planning, is the work v0.2 already re-derived from a clean sheet.
 3. **Borrowable ideas are harvested, not ported.** The harvest is
    [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-26-inside-success-aes-harvest.md). Each item
    carries the consumer trigger under which it would enter v0.2 through the
-   donor re-entry rule (`proposals/aes-v0.2-greenfield/05-donor-reentry.md`)
+   donor re-entry rule (`https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/05-donor-reentry.md`)
    and `aes plan`. Nothing in the harvest is adopted by this decision.
 4. **The Inside Success team rollout is paused**, not re-targeted yet. What a
    teammate could install from the old repository was one control (the

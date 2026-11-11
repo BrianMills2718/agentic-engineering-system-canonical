@@ -87,7 +87,7 @@ unfiled quotes; one instruction text recurred 1,849 times). To recover only that
   tool output; child returns and assistant prose cannot supply checks for themselves. Checked
   outcomes keep the original result's time, so a late check cannot turn an old incident into a
   post-enforcement recurrence. Immediate filing needs marked obs/claim/action lines; unmarked notes
-  wait for the collector. Boundary: [subagent feedback plan](../../../proposals/aes-subagent-feedback/PLAN.md).
+  wait for the collector. Boundary: [subagent feedback plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-subagent-feedback/PLAN.md).
   This captures evidence only; it does not change roles, router choices or model policy. Native
   Codex was exercised live; Claude capture was checked against an existing trace and fixtures.
 - **Learning register filing (project-meta entries).** At most 10 entries a night, and only lines
