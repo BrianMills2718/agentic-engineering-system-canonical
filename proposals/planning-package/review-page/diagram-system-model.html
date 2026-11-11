@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is AES made of, which repository holds each part, and what talks to it? (context view)</title><style>
+body { font: 16px/1.5 system-ui, sans-serif; margin: 0 16px; color: #1b1f24; background: #fff; }
+main { max-width: 1140px; min-width: 0; margin: 0 auto; padding: 20px 0 64px; }
+h1 { font-size: 26px; margin: 8px 0; } h2 { font-size: 21px; margin-top: 40px; border-bottom: 2px solid #0b3d6b; padding-bottom: 6px; }
+h2 .n { color: #0b3d6b; margin-right: 6px; } h2 .sub { font-weight: 400; } h3 { font-size: 17px; margin-top: 24px; }
+.wide { overflow-x: auto; max-width: 100%; } .doc, pre { overflow-x: auto; max-width: 100%; } img, svg { max-width: 100%; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+th, td { border: 1px solid #c9ced4; padding: 6px 8px; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+th { background: #eef1f4; } code { font-size: 13px; word-break: break-all; }
+.doc td:first-child { white-space: normal; }
+.tag { display: inline-block; padding: 1px 8px; border-radius: 4px; font-weight: 600; font-size: 13px; max-width: 100%; }
+:not(.wide) > table { display: block; overflow-x: auto; max-width: 100%; }
+.ok { background: #d6e6f7; color: #0b3d6b; border: 1px solid #0b3d6b; }
+.open { background: #fde3c4; color: #7a3300; border: 1px dashed #7a3300; }
+.todo { background: #e4e7eb; color: #3d4450; border: 1px solid #3d4450; }
+.star { border: 2px solid #e8892b; border-radius: 8px; padding: 8px 16px; background: #fff6ec; margin: 16px 0; }
+.sum { border: 2px solid #0b3d6b; border-radius: 8px; padding: 8px 16px; background: #eef4fb; margin: 16px 0; }
+.sum h3 { margin: 10px 0 2px; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #0b3d6b; }
+.sum p { margin: 0 0 6px; }
+.status { font-size: 15px; margin: 10px 0; } .status b { font-size: 16px; }
+.frame { height: 520px; border: 1px solid #c9ced4; border-radius: 6px; margin: 8px 0 6px; overflow: hidden; }
+.mermaid { background: #fff; border: 1px solid #c9ced4; border-radius: 6px; padding: 10px; overflow-x: auto; }
+.mermaid svg { max-width: none !important; }
+.mermaid:focus-visible { outline: 2px solid #0b3d6b; outline-offset: 2px; }
+.doc { border: 1px solid #c9ced4; border-radius: 6px; padding: 2px 16px; margin: 8px 0 16px; }
+details { margin: 10px 0; border: 1px solid #c9ced4; border-radius: 6px; padding: 2px 12px; }
+details > summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
+nav.top { font-size: 14px; line-height: 1.9; padding: 8px 0; border-bottom: 1px solid #c9ced4; }
+.note { color: #3d4450; font-size: 14px; } .smallnote { margin-top: 0; color: #7a3300; }
+.missing { color: #7a3300; } .quote { border-left: 4px solid #0b3d6b; padding-left: 12px; color: #3d4450; }
+table.ladder td:first-child { font-weight: 700; text-align: center; width: 3em; }
+.adr { border-left: 4px solid #0b3d6b; padding: 2px 12px; margin: 14px 0; } .adr h3 { margin-top: 8px; }
+.adr .who { font-size: 14px; color: #3d4450; margin: 2px 0; }
+.matrix td, .matrix th { text-align: center; padding: 4px 5px; font-size: 12px; white-space: nowrap; overflow-wrap: normal; }
+.m-yes { background: #d6e6f7; color: #0b3d6b; font-weight: 600; } .m-part { background: #fde3c4; color: #7a3300; font-weight: 600; }
+.hub { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin: 18px 0; }
+.card { border: 1px solid #c9ced4; border-radius: 8px; padding: 10px 16px; }
+.card h2 { border: 0; margin: 4px 0 6px; font-size: 18px; }
+.card ul { padding-left: 18px; margin: 6px 0; } .card li { margin: 4px 0; }
+.full { position: fixed; inset: 0; } .full .bar { height: 44px; display: flex; align-items: center; gap: 14px; padding: 0 16px 0 150px; background: #0b3d6b; color: #fff; font-size: 15px; overflow: hidden; white-space: nowrap; }
+.full .bar a { color: #fff; } .full #graph { position: absolute; top: 44px; left: 0; right: 0; bottom: 0; }
+.fulldoc .bar { position: sticky; top: 0; z-index: 2; padding-left: 16px; }
+@media (max-width: 700px) { .full .bar { padding-left: 110px; font-size: 13px; } td { min-width: 6em; } }
+</style></head><body>
+<div class="fulldoc"><div class="bar full-bar" style="background:#0b3d6b;color:#fff;padding:10px 16px"><b>What is AES made of, which repository holds each part, and what talks to it? (context view)</b> <a style=color:#fff href="index.html">All views</a> <a style=color:#fff href="review.html">Review the plan</a></div><main><p class="note">Question it answers: What is AES made of, which repository holds each part, and what talks to it? (context view) · source <a href="https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/SYSTEM_MODEL.md"><code>docs/planning/SYSTEM_MODEL.md</code></a></p><div class="doc" id="diagram"></div></main></div>
+<script type="application/json" id="page-data">{"md": {"diagram": {"text": "\n# AES canonical: system model (planning view)\n\nAES is the whole agent system: Lockstep, the feedback loop and the policy layer (Brian, 2026-11-11: \"to me aes\nis the whole sysem lockstep is one part. aes include the whole feedback and policy system\"; `~/.claude/history.jsonl`,\nsession a769ac09). Its parts live in four repositories. This page shows where each part is, what talks to it, and\nwhich part of this repository does what. It extends the checked model of the v0.2 engine, [ODD.md](../model/ODD.md)\nand [trace.yaml](../model/trace.yaml). Every code unit is on the [system map](system-map.md). Read at origin/main\n`c44c408` (2026-11-11).\n\n## Context: AES's parts, where each lives, and what talks to them\n\nQuestion answered: what is AES made of, which repository holds each part, and what talks to it? This is also the\ncross-repository view: this repository, agentic-engineering-system-canonical, is one of four.\n\n```mermaid\nflowchart LR\n  brian([Brian: approves plans, gives corrections, sets rules])\n  agent([Coding agents: Claude Code, Codex])\n  subgraph aesrepo[agentic-engineering-system-canonical: this repository]\n    loop[Feedback loop<br/>scripts/learning_loop, nightly timers]\n    register[Rules register<br/>docs/rules, scripts/rules]\n    lib[Retained AES library<br/>src/agentic_engineering_system]\n    onetool[Lockstep, the one tool<br/>planned: slices 1 to 6]\n  end\n  subgraph lsrepo[lockstep repository]\n    pcw[Lockstep today: pcw<br/>plan, docstrings, edit hook]\n  end\n  subgraph tpl[code2-template]\n    c2c[code2check<br/>commit checks]\n  end\n  subgraph ws[code2-workspace]\n    rules[Agent rules<br/>agents/core.md, topic files, rule-sources.md]\n    map[Harness map<br/>docs/architecture/model.c4]\n  end\n  log[(agent-feedback-log<br/>private issues)]\n  users[lifelike, Team-Brains runner,<br/>code2 repositories]\n  brian -->|corrections in sessions| agent\n  agent -->|transcripts| loop\n  loop -->|one issue per report| log\n  brian -->|rules, approved in words| rules\n  register -.->|lists rules the loop licensed| rules\n  pcw -->|imports| lib\n  pcw -->|edit hook and pcw check| users\n  c2c -->|make check| users\n  onetool -.->|slice 1 moves| pcw\n  onetool -.->|slice 4 ports| c2c\n  onetool -.->|slice 6 installs in| users\n  map -->|draws| aesrepo\n```\n\nDotted arrows are planned (the one-tool build) or partial (the register lists one rule; open question Q20).\n\n## Containers: the parts of this repository\n\nQuestion answered: which part does what, and which stores does each write?\n\n```mermaid\nflowchart TB\n  subgraph v02[v0.2 product: governed roots]\n    cli[aes CLI<br/>src/agentic_engineering_system/cli.py]\n    plan[planning.py<br/>proposals and accepted plans]\n    ev[evidence.py<br/>observations, freshness, standing]\n    rec[reconcile.py + characterize.py + topology.py<br/>state, drift, orphans, gaps]\n    ctx[context.py<br/>working-context packets]\n    hk[hooks.py<br/>pre-commit hook writer<br/>not installed here: lefthook runs instead]\n  end\n  v01[repository_context/<br/>v0.1 Plan 001 resolver]\n  ep[enforced_planning/<br/>vendored claims, sessions, worktrees<br/>44,556 lines; retired in ~/code2]\n  ll[scripts/learning_loop/<br/>the feedback loop, nightly]\n  rr[scripts/rules/ + docs/rules/<br/>rules register]\n  scr[scripts/<br/>meta, hive: claims-era scripts and brain_fresh]\n  docs[docs/, proposals/, research/, wiki/<br/>107 Markdown files]\n  t[(.aes/target.yaml)]\n  o[(.aes/observations/)]\n  p[(.aes/plans/)]\n  g[(.githooks/pre-commit<br/>dormant)]\n  pj[(.aes/project.yaml)]\n  lb[(.aes/legacy_baseline.json)]\n  ad[adopt.py + project.py<br/>aes adopt, aes init]\n  cli --> plan --> t\n  plan --> p\n  cli --> ev --> o\n  cli --> rec\n  rec -->|reads| t\n  rec -->|reads| o\n  cli --> ctx\n  cli --> hk --> g\n  cli --> ad --> pj\n  ad --> lb\n  scr -->|generate pages| docs\n  rr -->|generates RULES.md| docs\n  ll -->|files issues in agent-feedback-log| out[(outside: agent-feedback-log)]\n```\n\n## Record types the v0.2 code defines, and what writes each\n\nThe retained library's records. The `aes` command line that writes them retires one repository at a time\n(code2-workspace decision 0009 (a)); Lockstep still imports the library.\n\n| Type | Defined at | Written by | Stored in |\n|---|---|---|---|\n| `TargetRecord` with `Outcome`, `NormativeItem`, `SuccessCriterion`, `EvidenceRequirement`, `Component`, `PlannedArtifact`, `VerificationSubject`, `ExternalBoundary` | `src/agentic_engineering_system/records.py:137` (members from line 65) | `aes init` (`project.py:166`), `aes plan accept` (`planning.py:646`) | `.aes/target.yaml` |\n| `ProjectRecord` with `AesInfo`, `Materialization`, `Ecosystem` | `records.py:194` | `aes init` (`project.py:159`) | `.aes/project.yaml` |\n| `Proposal`, `TargetDelta`, `TraceReviewDeclaration` | `planning.py:168`, `:137`, `:148` | the agent, by hand, before `aes plan validate` | a proposal file anywhere |\n| `AcceptedPlan` | `planning.py:197` | `aes plan accept` (`planning.py:643`) | `.aes/plans/<id>.yaml` |\n| `ObservationRecord` with `Observer`, `ErAssessment`, `DependencyBasis`, `NegativeControl`, `DecisionCheck`, `TraceReview` | `evidence.py:176` (members from line 91) | `aes evidence record` (`evidence.py:613`); external observations by hand in the same shape | `.aes/observations/` |\n| `EvidenceReport`, `CriterionStanding`, `ErStatus` | `evidence.py:419-433` | computed by `assess` (`evidence.py:447`), never stored | none |\n| `Characterization`, `CharacterizedFile`, `Producer`, `Drift` | `characterize.py:59`, `:52`, `:47`, `:204` | computed by `aes characterize` | none (`--out` writes a copy, `cli.py:286`) |\n| `Reconciliation` with `DriftFinding`, `ArtifactState`, `CriterionState`, `ObservationState`, `PlanState`, `Gap`, `ComponentState`, `MissingRequirement` | `reconcile.py:134` (members from line 69) | computed by `aes status` / `aes reconcile` (`reconcile.py:259`) | none |\n| `TopologyReport` | `topology.py:38` | computed by `aes topology check` | none |\n| `Baseline`, `LegacyState`, `AdoptResult` | `adopt.py:48`, `:67`, `:56` | `aes adopt` (`adopt.py:156`) | `.aes/legacy_baseline.json` |\n| `WorkingContext`, `Provenance` | `context.py:72`, `:63` | computed by `aes context <subject>` | none |\n| Helper and result types: `Locator` (`records.py:101`), `FamilyEntries`/`FamilyKeys`, `OutsideGovernedRoot` (`planning.py:107-143`), `CharacterizeReport` (`characterize.py:250`), `InitResult` (`project.py:66`) | as listed | computed or nested inside the records above | none |\n| `ReviewCheck` | `trace_review.py:18` | computed while assessing a trace-review requirement | none |\n| `RepositoryContextArtifact` and its observations (v0.1) | `repository_context/models.py:87` | `repository_context/cli.py` | a JSON context file and an HTML surface (`repository_context/render_html.py`) |\n\n## Does AES execute typed rules?\n\nNo. AES's rules (drift, staleness, insufficient-not-green, trace-review declared) are fixed Python\nfunctions such as `assess` (`src/agentic_engineering_system/evidence.py:447`) and `reconcile`\n(`reconcile.py:259`). The target holds typed records that reference each other, but no record\ndefines a rule whose effect AES evaluates, so there is no type-level metamodel to map onto the\nshared kernel. Open-questions entry Q9 records the reasoning.\n\n## Outside this model\n\n- `enforced_planning/` (vendored claims, sessions and worktree lanes) and the `scripts/meta/`\n  coordination scripts that import it. `~/code2` replaced claims with `claude -w` worktrees\n  (`~/code2/AGENTS.md`); they stay in place, unmodelled, and the one-tool plan does not use them (Q10).\n- The feedback loop's and the rules register's own records: `scripts/learning_loop/records.py` (feedback-report.v1)\n  and `docs/rules/register.yaml`; their pages and plans are in `proposals/aes-learning-loop/`. The system map names\n  each of their code units.\n- Lockstep's code: it is in the lockstep repository until slice 1 moves it here.\n- The Company Planning profile files under `docs/architecture/` (ODD.md gap G1).\n", "base": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/"}}, "graphs": {}, "full": false}</script>
+<script src="graph-viewer.js"></script><script src="marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+const D = JSON.parse(document.getElementById('page-data').textContent);
+function renderMd(id, item) {
+  const host = document.getElementById(id); if (!host || !window.marked) return;
+  host.innerHTML = marked.parse(item.text);
+  if (item.base) host.querySelectorAll('a[href]').forEach(a => {
+    const h = a.getAttribute('href');
+    if (!/^([a-z]+:|#|\/)/i.test(h)) a.href = new URL(h, item.base).href;
+  });
+  host.querySelectorAll('code.language-mermaid').forEach(c => {
+    const div = document.createElement('div'); div.className = 'mermaid'; div.textContent = c.textContent;
+    c.parentElement.replaceWith(div);
+  });
+}
+// Size a frame from its drawing so its words read at their real size when the width allows; when even
+// that leaves them small, say so under the drawing and point at its full page.
+function sized(el) {
+  return ({width, height}) => {
+    if (!width || !height) return;
+    const wz = Math.min(1, (el.clientWidth * 0.84) / width);
+    el.style.height = Math.round(Math.max(320, Math.min(window.innerHeight * 0.88, height * wz / 0.84))) + 'px';
+    const zoom = Math.min(1, (el.clientWidth * 0.84) / width, (el.clientHeight * 0.84) / height);
+    if (zoom < 0.7 && !el.nextElementSibling?.classList.contains('smallnote')) {
+      const note = document.createElement('p'); note.className = 'note smallnote';
+      const own = el.dataset.page ? ` or <a href="${el.dataset.page}">open it on its own page</a>` : '';
+      note.innerHTML = `Shown whole at ${Math.round(zoom * 100)}% of full size, so the words are small here. Press <b>Full page</b> (top-left of the drawing)${own} to read it.`;
+      el.after(note);
+    }
+  };
+}
+for (const [id, item] of Object.entries(D.md || {})) renderMd(id, item);
+for (const [id, g] of Object.entries(D.graphs || {})) {
+  const el = document.getElementById(id); if (!el || !window.GraphViewer) continue;
+  const v = GraphViewer.mount(el, {graph: g, onLayout: D.full ? undefined : sized(el)});
+  if (D.full && v && v.fullPage) setTimeout(() => v.fullPage(true), 300);
+}
+if (window.mermaid) {
+  mermaid.initialize({startOnLoad: false, theme: 'neutral', securityLevel: 'strict'});
+  const run = async () => {
+    await mermaid.run({querySelector: '.mermaid:not([data-processed])'});
+    document.querySelectorAll('.mermaid svg').forEach(svg => {
+      // Mermaid's responsive width shrinks labels with the whole drawing. Keep its
+      // native coordinate size instead, and let the existing container scroll.
+      const box = svg.viewBox.baseVal;
+      if (!box.width || !box.height) return;
+      svg.style.width = box.width + 'px';
+      svg.style.height = box.height + 'px';
+      const el = svg.parentElement;
+      el.tabIndex = 0;
+      el.setAttribute('role', 'region');
+      el.setAttribute('aria-label', 'Diagram. Scroll sideways to read the whole drawing.');
+      if (!el.dataset.scrollHelp) {
+        const note = document.createElement('p'); note.className = 'note';
+        note.textContent = 'Scroll sideways to read wide diagrams. With a keyboard, focus the drawing and use the arrow keys.';
+        el.before(note);
+        el.dataset.scrollHelp = 'true';
+      }
+    });
+  };
+  document.querySelectorAll('details').forEach(d => d.addEventListener('toggle', () => { if (d.open) run(); }));
+  run();
+} else {
+  document.querySelectorAll('.mermaid').forEach(el => { el.style.whiteSpace = 'pre'; el.style.fontFamily = 'monospace'; });
+}
+</script></body></html>

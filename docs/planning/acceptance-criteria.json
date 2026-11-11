@@ -1,0 +1,189 @@
+{
+ "schema_version": "1.0",
+ "record_type": "acceptance_criteria",
+ "outcome": "AES is the whole system (Lockstep, the feedback loop and the policy layer), and Lockstep becomes one configurable, portable, shareable planning-and-checking tool in AES canonical that writes each planned file's first docstring from the approved plan, while the feedback loop and policy layer keep working.",
+ "asked_by": [
+  {
+   "who": "Brian",
+   "date": "2026-11-11",
+   "words": "to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system which is more opinated and stack alsong side lockstep",
+   "source": "~/.claude/history.jsonl (session a769ac09, 08:14 UTC)"
+  },
+  {
+   "who": "Brian",
+   "date": "2026-11-11",
+   "words": "on dcision 4 it seems liek youa re poitn otu that htis should be combined into one single thing not a bunch of differnt things which i agree with. and it should preusmably be part of aes canonicale which is configurable and protable/sharebale",
+   "source": "~/.claude/history.jsonl (session a769ac09, 20:46 UTC)"
+  },
+  {
+   "who": "Brian",
+   "date": "2026-11-11",
+   "words": "ok and on this \"A person approves it, and only then does an agent lay out the files' it also writes the firs tdoc strings. which incldues the nroamtive sutff on what his sis uppoed to do and it success critieria test stuff.",
+   "source": "~/.claude/history.jsonl (session 483c48d8, 20:40 UTC)"
+  },
+  {
+   "who": "Brian",
+   "date": "2026-11-11",
+   "words": "i approve single tool desing re d4",
+   "source": "~/.claude/history.jsonl (session 483c48d8, 21:10 UTC)"
+  },
+  {
+   "who": "Brian",
+   "date": "2026-11-11",
+   "words": "lets keep workgin on the harness",
+   "source": "~/.claude/history.jsonl (session 483c48d8, 22:23 UTC)"
+  }
+ ],
+ "entries": [
+  {
+   "id": "A1",
+   "criterion": "Lockstep is one tool, shipped from AES canonical: in a new repository one command sets it up, with one config file, in place of pcw, code2check and Company Planning's plan check.",
+   "demonstration": [
+    "Open the Lockstep install walkthrough page (planned in slice 1, Q22)",
+    "Read the one command at the top and the list of files it wrote",
+    "Open the lockstep.yaml it wrote",
+    "Read the hook entries it added for Claude Code, Codex and lefthook"
+   ],
+   "expected": "One command, run in an empty repository, wrote lockstep.yaml and the three hook entries, installed from the agentic-engineering-system-canonical git address. No second tool (pcw, code2check) had to be installed.",
+   "failure_example": "The walkthrough needs a second step such as installing code2check or copying a file by hand, or the command installs from the lockstep repository instead of AES canonical.",
+   "representation": {
+    "view": "answer-receipt-card",
+    "router_record": "docs/planning/router/acceptance-views.json"
+   },
+   "entrypoint": "planned",
+   "status": "not built",
+   "status_note": "Slice 1 (move) and slice 6 (switch users) build it."
+  },
+  {
+   "id": "A2",
+   "criterion": "When an agent tries to write a file the plan does not name, Lockstep refuses it and shows the plan; when it only reads a planned file, it is allowed.",
+   "demonstration": [
+    "Open the guard replay page for lifelike (planned in slice 3)",
+    "Read the four rows: cat >, echo >, python -c, and a read-only cp",
+    "For each row, compare the column 'should' with the column 'did'",
+    "Open the refused row's message"
+   ],
+   "expected": "The three writes to an unplanned file show 'refused' in both columns, and the refusal message lists the planned files; the read-only cp shows 'allowed' in both.",
+   "failure_example": "Today's Lockstep gets two of these wrong (DESIGN.md line 31): a 'did' column that says 'allowed' for cat > src/extra.py, or 'refused' for cp src/a.py /tmp/x, is a fail.",
+   "representation": {
+    "view": "decision-table",
+    "router_record": "docs/planning/router/acceptance-views.json"
+   },
+   "entrypoint": "planned",
+   "status": "not built",
+   "status_note": "Slice 3 (guard) builds it; lifelike replays the four cases from lockstep#111."
+  },
+  {
+   "id": "A3",
+   "criterion": "A commit that breaks the plan's rules is refused at commit time: a new test that already passed before the change, an import the architecture diagram forbids, or a requirement with no Source line.",
+   "demonstration": [
+    "Open the commit-check replay page (planned in slice 4)",
+    "Read one row per test commit: what it does, which check should refuse it, and what happened",
+    "Open the row for the test-first case and read the refusal message"
+   ],
+   "expected": "Each of the three bad commits is refused by the named check (test-first, arch, sources) with a message naming the file or requirement; a clean commit in the same table is accepted.",
+   "failure_example": "The test-first row shows 'accepted' for a commit whose new test passes on the base revision, or the clean commit is refused.",
+   "representation": {
+    "view": "decision-table",
+    "router_record": "docs/planning/router/acceptance-views.json"
+   },
+   "entrypoint": "planned",
+   "status": "not built",
+   "status_note": "Slice 4 (commit checks) builds it."
+  },
+  {
+   "id": "A4",
+   "criterion": "After a person approves the plan, the agent lays out the files, and each file's first docstring holds the normative text of what it must do, its success criteria and its tests, word for word from the approved plan.",
+   "demonstration": [
+    "Open the layout page for a test repository (planned in slice 2)",
+    "Pick a planned file",
+    "Read the approved requirement and its scenarios on the left",
+    "Read the file's first docstring on the right"
+   ],
+   "expected": "The docstring carries the requirement text, the success criteria and the test names exactly as approved; the page also shows that no file was laid out before the approval.",
+   "failure_example": "A docstring that paraphrases the requirement, leaves out the success criteria or test names, or a file that exists before the plan's approval date.",
+   "representation": {
+    "view": "master-detail",
+    "router_record": "docs/planning/router/acceptance-views.json"
+   },
+   "entrypoint": "planned",
+   "status": "not built",
+   "status_note": "Slice 2 (plan format) builds it, using lockstep layout."
+  },
+  {
+   "id": "A5",
+   "criterion": "The tool is configurable and portable: any repository, personal or Inside Success, installs it the same way, each check can be switched to block, warn or off in lockstep.yaml, and nothing in it names my machine.",
+   "demonstration": [
+    "Open the portability page (planned in slice 6)",
+    "Read the count of machine paths found in an installed repository",
+    "Read the table of checks and the setting each has in lockstep.yaml",
+    "Read the row for one repository outside BrianMills2718"
+   ],
+   "expected": "The machine-path count is 0; every check has a block, warn or off setting; the owner and the human-source pattern come from lockstep.yaml, not from code.",
+   "failure_example": "A path such as /home/brian or ~/code2 in an installed file, an owner hard-coded as BrianMills2718, or a check that cannot be switched off.",
+   "representation": {
+    "view": "data-table",
+    "router_record": "docs/planning/router/acceptance-views.json"
+   },
+   "entrypoint": "planned",
+   "status": "not built",
+   "status_note": "Slice 6 (switch users) builds it; the Inside Success row waits on Q2."
+  },
+  {
+   "id": "A6",
+   "criterion": "A correction I gave an agent yesterday shows up today as a filed report in the feedback log, with my words.",
+   "demonstration": [
+    "Open the agent-feedback-log issues filtered to source:human, newest first",
+    "Read the date of the newest issue",
+    "Open an issue from yesterday or today",
+    "Read the quote and the session it came from"
+   ],
+   "expected": "The newest source:human issue is from the last night's run, and it quotes something you said in a session the day before.",
+   "failure_example": "This is the state on 2026-11-11: the newest source:human issue is from 2026-11-03, although that night's run extracted 867 human corrections (all deferred at the filing cap, Q18).",
+   "representation": {
+    "view": "data-table",
+    "router_record": "docs/planning/router/acceptance-views.json"
+   },
+   "entrypoint": "https://github.com/BrianMills2718/agent-feedback-log/issues?q=label%3Asource%3Ahuman+sort%3Acreated-desc",
+   "status": "built",
+   "status_note": "The page exists and the collector runs nightly; it would fail today (Q18)."
+  },
+  {
+   "id": "A7",
+   "criterion": "When I set a rule for agents, I can find it with my own words and the date, and see whether anything enforces it.",
+   "demonstration": [
+    "Open code2-workspace agents/core.md on GitHub",
+    "Pick a rule that ends with your name and a date",
+    "Open agents/rule-sources.md and find the same rule",
+    "Read your words, the date and the incident behind it"
+   ],
+   "expected": "Each rule in core.md names the date you said it, and rule-sources.md holds your words for it; the AES rules page says which list it covers.",
+   "failure_example": "A dated rule with no entry in rule-sources.md, or the AES rules page (docs/rules/RULES.md) claiming to list every rule agents follow while it lists one (today's state, Q20).",
+   "representation": {
+    "view": "master-detail",
+    "router_record": "docs/planning/router/acceptance-views.json"
+   },
+   "entrypoint": "https://github.com/BrianMills2718/code2-workspace/blob/main/agents/core.md",
+   "status": "built",
+   "status_note": "The rule files exist; the AES register page's claim is open (Q20)."
+  },
+  {
+   "id": "A8",
+   "criterion": "I can see on one page what AES is: its three parts, where each lives, what runs today, and how far the one-tool build has got.",
+   "demonstration": [
+    "Open the AES planning review page",
+    "Read the Architecture section's first view",
+    "Read the Plan and rollout section"
+   ],
+   "expected": "Lockstep, the feedback loop and the policy layer are each named with the repository that holds them and what runs today (two feedback jobs on, three off); the plan section lists the six slices with which have merged.",
+   "failure_example": "The page still says AES is on hold, calls Lockstep retiring, or leaves out the feedback loop or the policy layer.",
+   "representation": {
+    "view": "data-table",
+    "router_record": "docs/planning/router/acceptance-views.json"
+   },
+   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/index.html",
+   "status": "built",
+   "status_note": "Built by this package refresh; Brian has not judged it."
+  }
+ ]
+}

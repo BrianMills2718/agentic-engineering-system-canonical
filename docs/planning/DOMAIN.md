@@ -42,23 +42,46 @@ Concepts marked *documents only*, *written by another tool* or *retired* have no
 | Repository context (v0.1) (`repository-context`) | Context and project records (in code) | The v0.1 Plan 001 artifact: authority surfaces and concern roots resolved from a checkout, with unresolved surfaces kept visible. | `docs/plans/001_repository_context_resolution_vertical.md:1` | `src/agentic_engineering_system/repository_context/models.py:87` |
 | Project brain (`project-brain`) | Context and project records (in code) | The .project-brain/ files (now, state, truth, project) an agent reads first; a script reports when they are older than the work since. | `CLAUDE.md:5` | `scripts/hive/brain_fresh.py:35` |
 | Checked-boundary thesis (`thesis`) | Only in documents | The bet that agent-built software stays true to intent when every claim is checked against something an agent cannot talk past; with its disproof, still unmeasured. | `docs/architecture/GOAL.md:42` | none |
-| Colleague starts a new project (`north-star`) | Only in documents | OUT-GF-001's north star: a colleague without private repositories takes a new project from intent to evidence-backed state. | `docs/architecture/GOAL.md:37` | none |
+| Colleague starts a new project (`north_star`) | Only in documents | OUT-GF-001's north star: a colleague without private repositories takes a new project from intent to evidence-backed state. | `docs/architecture/GOAL.md:37` | none |
 | Value tally (`value-tally`) | Only in documents | Decision 0011's pre-registered measure: AES catches versus hand checks a person still needed (whygame5: 1 catch, 6 hand checks). | `docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:64` | none |
 | Offline policy-decision replay (v0.1) (`offline-policy-replay`) | Only in documents | Plan 002, the v0.1 frontier, stopped at its provider-access step; no code here implements it. | `docs/plans/002_offline_policy_decision_replay.md:3` | none |
 | Plan adoption receipt (`plan-receipt`) | Written by another tool | A Company Planning adoption record (*.receipt.json next to a plan in docs/plans/ or proposals/), naming the bounded-design profile revision the plan was adopted under; distinct from an AES accepted plan. | `docs/plans/adoption-progress-fields.receipt.json:1` | none |
 | Commit rule (`commit-rule`) | Retired (history) | Commit tags and plan adoption per commit; removed on 2026-10-14 at Brian's request. .aes/commit_rule.yaml remains, read by no code. | `docs/model/ODD.md:55` | none |
+| AES (the whole system) (`aes-system`) | AES as a whole (named in documents) | The whole agent system: Lockstep, the feedback loop and the policy layer; its parts live where they are. | `CLAUDE.md:14` | none |
+| Policy layer (`policy-layer`) | AES as a whole (named in documents) | Brian's rules for agents and the register of how each is enforced: the AES rules register here and the core rules and topic files in code2-workspace agents/. | `.project-brain/now.md:9` | none |
+| Feedback loop (`feedback-loop`) | Feedback loop (in code) | The nightly collector and labels jobs: read changed Claude and Codex transcripts, extract corrections, friction and learnings, file reports, label them. | `scripts/learning_loop/systemd/README.md:3` | `scripts/learning_loop/collect_feedback.py:518` |
+| Human correction (`human-correction`) | Feedback loop (in code) | Something Brian told an agent that says it was wrong or should work differently, extracted from a transcript with its quote. | `scripts/learning_loop/collect_feedback.py:81` | `scripts/learning_loop/collect_feedback.py:85` |
+| Feedback report (`feedback-report`) | Feedback loop (in code) | One issue in the private agent-feedback-log; a report from a human correction carries the label source:human. | `scripts/learning_loop/systemd/README.md:16` | `scripts/learning_loop/feedback_log.py:212` |
+| Rules register (`rules-register`) | Feedback loop (in code) | docs/rules/register.yaml and the page generated from it: each published rule, its status and how it is enforced. | `docs/rules/RULES.md:3` | `scripts/rules/build_rules_page.py:207` |
+| Agent rules (core and topic files) (`agent-rules`) | Lives in another repository today | The rules every Claude Code and Codex session loads, with Brian's words behind each in rule-sources.md; in code2-workspace agents/. | `.project-brain/now.md:9` | none |
+| Lockstep today (pcw) (`lockstep-today`) | Lives in another repository today | The Lockstep repository's package pcw: plans files, copies requirement text into docstrings, guards edits; used by lifelike and Team-Brains' runner; imports this repository's library. | `.project-brain/now.md:9` | none |
+| code2check (`code2check`) | Lives in another repository today | code2-template's commit checks (trace, arch, test-first, sources, docmeta) run in every code2 repository's make check. | `proposals/one-planning-tool/DESIGN.md:46` | none |
+| Lockstep, the one planning-and-checking tool (`one-tool`) | One-tool design (planned, not built here yet) | One installable package shipped from this repository, one config file, one plan format, one edit guard and one commit check; any repository installs it with one command. | `proposals/one-planning-tool/DESIGN.md:14` | none |
+| lockstep.yaml (`lockstep-config`) | One-tool design (planned, not built here yet) | The one config file: which checks block, warn or are off, governed and fixed paths, layout rows, the human-source pattern and the owner; names no machine path. | `proposals/one-planning-tool/DESIGN.md:55` | none |
+| Layout row (`layout-row`) | One-tool design (planned, not built here yet) | One planned file in lockstep.yaml: its path, purpose, the requirements it implements and the tests that prove it. | `proposals/one-planning-tool/DESIGN.md:25` | none |
+| OpenSpec requirement (`openspec-requirement`) | Written by another tool | A requirement with scenarios in openspec/specs/, written and archived with the openspec tool; the one tool's format for what the code must do. | `proposals/one-planning-tool/DESIGN.md:40` | none |
+| First docstring (`first-docstring`) | One-tool design (planned, not built here yet) | The docstring lockstep layout writes at the top of each planned file: the requirement text, its success criteria and test names. | `proposals/one-planning-tool/DESIGN.md:28` | none |
+| Edit guard (`edit-guard`) | One-tool design (planned, not built here yet) | The one edit-time hook: refuses a write to a file the plan does not name and shows the plan; allows reading a planned file. | `proposals/one-planning-tool/DESIGN.md:30` | none |
+| lockstep check (`commit-check`) | One-tool design (planned, not built here yet) | The named commit checks ported from code2check: trace, arch, test-first, sources, docmeta; each set to block, warn or off. | `proposals/one-planning-tool/DESIGN.md:72` | none |
+| lockstep plan check (`plan-check`) | One-tool design (planned, not built here yet) | The plan and acceptance format check ported from Company Planning's validator, so the format is defined in one place. | `proposals/one-planning-tool/DESIGN.md:74` | none |
+| Acceptance entry (`acceptance_entry`) | Written by another tool | One outcome Brian judges by hand: criterion, steps on a working page, what he should see, a known broken case (docs/planning/acceptance-criteria.json). | `proposals/one-planning-tool/DESIGN.md:42` | none |
+| Slice (`slice`) | One-tool design (planned, not built here yet) | One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. | `proposals/one-planning-tool/DESIGN.md:64` | none |
 
 ## Where the sources disagree
 
 - **The thesis still names the commit rule.** [GOAL.md](../architecture/GOAL.md) lines 44-46 and 55-57 describe
   "a commit refused without an adopted plan" as a checked boundary and its bypass as the disproof; the commit rule
   was removed on 2026-10-14 ([ODD.md](../model/ODD.md) line 55). Open question Q5.
-- **Decision 0010 says accepted with its 9 criteria supported; `aes status` now says 2 of 12.** The two counts cover
-  different sets: three criteria were added after the acceptance ([0010](../decisions/0010-greenfield-v0.2-accepted.md)
-  line 63; `.aes/target.yaml` lines 271, 289, 307), and 15 of 82 observations depend on `commit_rule.py`, deleted
-  in a06e963. Open question Q6.
+- **`aes status` reports 2 of 12 criteria supported; Decision 0010 accepted 9.** The `aes` command line and
+  `.aes/target.yaml` now retire one repository at a time (code2-workspace decision 0009 (a)), so this count
+  describes the retiring engine, not AES today. Open question Q6.
 - **The target still holds the commit rule's outcome.** OUT-AP-001 (`.aes/target.yaml` line 12) says real work
   lands only under an adopted plan; the rule that enforced it was removed. Open question Q15.
 - **AGENTS.md says the pre-commit hook refuses unplanned files; the hook does not run in this checkout.** Open question Q16.
-- **The adoption receipts say 23 plans are adopted and in progress; the project brain says nothing is being
-  continued.** [now.md](../../.project-brain/now.md) line 3 (on hold since 2026-10-18). Open question Q4.
+- **The adoption receipts say 23 plans are adopted and in progress; none of them is being continued.**
+  [now.md](../../.project-brain/now.md) line 9. Open question Q4.
+- **The feedback loop extracts Brian's corrections but files none of them.** The 2026-11-11 run extracted 867
+  human-correction reports and deferred every one at the 900-report cap, while filing 900 others; the newest
+  `source:human` report in agent-feedback-log is from 2026-11-03. Open question Q18.
+- **The AES rules register lists one rule; Brian's rules live in code2-workspace `agents/`.** The register
+  ([RULES.md](../rules/RULES.md) line 7) is not the policy layer's list of rules. Open question Q20.

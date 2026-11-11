@@ -1,0 +1,364 @@
+{
+ "schema_version": "1.0",
+ "record_type": "domain_spectrum_project_layer",
+ "classes": [
+  {
+   "id": "Target",
+   "label": "Plan records (in code)",
+   "definition": "What .aes/target.yaml declares: outcomes, rules, criteria, components and the files planned for them."
+  },
+  {
+   "id": "Change",
+   "label": "Changing the plan (in code)",
+   "definition": "How the target changes: a proposal with a delta, accepted into a plan record."
+  },
+  {
+   "id": "Evidence",
+   "label": "Evidence (in code)",
+   "definition": "Observations bound to a commit, their freshness, and the standing they give each criterion."
+  },
+  {
+   "id": "State",
+   "label": "Current state (in code)",
+   "definition": "What HEAD contains, how it differs from the plan, and the gaps that remain."
+  },
+  {
+   "id": "Context",
+   "label": "Context and project records (in code)",
+   "definition": "Project settings, the working-context packet, the v0.1 repository context, and the project brain."
+  },
+  {
+   "id": "DocOnly",
+   "label": "Only in documents",
+   "definition": "Named in the goal, decisions or plans, with no code here that implements it."
+  },
+  {
+   "id": "External",
+   "label": "Written by another tool",
+   "definition": "Records stored here that another tool (Company Planning) writes and reads; no AES code reads them."
+  },
+  {
+   "id": "Retired",
+   "label": "Retired (history)",
+   "definition": "Removed on 2026-10-14; documents still describe it."
+  },
+  {
+   "id": "System",
+   "label": "AES as a whole (named in documents)",
+   "definition": "AES and its three parts as Brian names them (2026-11-11); umbrella names with no single code location."
+  },
+  {
+   "id": "Feedback",
+   "label": "Feedback loop (in code)",
+   "definition": "The nightly loop in scripts/learning_loop that turns what happened in agent sessions into filed reports."
+  },
+  {
+   "id": "Planned",
+   "label": "One-tool design (planned, not built here yet)",
+   "definition": "Parts of the one planning-and-checking tool in proposals/one-planning-tool/DESIGN.md; built in six slices."
+  },
+  {
+   "id": "Elsewhere",
+   "label": "Lives in another repository today",
+   "definition": "Parts of AES whose code is in another repository today (lockstep, code2-template, code2-workspace)."
+  }
+ ],
+ "terms": [
+  {
+   "id": "target",
+   "kind": "Target",
+   "aliases": []
+  },
+  {
+   "id": "normative-item",
+   "kind": "Target",
+   "aliases": []
+  },
+  {
+   "id": "success-criterion",
+   "kind": "Target",
+   "aliases": []
+  },
+  {
+   "id": "evidence-requirement",
+   "kind": "Target",
+   "aliases": []
+  },
+  {
+   "id": "component",
+   "kind": "Target",
+   "aliases": []
+  },
+  {
+   "id": "planned-artifact",
+   "kind": "Target",
+   "aliases": []
+  },
+  {
+   "id": "verification-subject",
+   "kind": "Target",
+   "aliases": []
+  },
+  {
+   "id": "external-boundary",
+   "kind": "Target",
+   "aliases": []
+  },
+  {
+   "id": "governed-root",
+   "kind": "Context",
+   "aliases": []
+  },
+  {
+   "id": "project-record",
+   "kind": "Context",
+   "aliases": []
+  },
+  {
+   "id": "proposal",
+   "kind": "Change",
+   "aliases": []
+  },
+  {
+   "id": "target-delta",
+   "kind": "Change",
+   "aliases": []
+  },
+  {
+   "id": "accepted-plan",
+   "kind": "Change",
+   "aliases": []
+  },
+  {
+   "id": "trace-review-declaration",
+   "kind": "Change",
+   "aliases": []
+  },
+  {
+   "id": "observation",
+   "kind": "Evidence",
+   "aliases": []
+  },
+  {
+   "id": "assessment",
+   "kind": "Evidence",
+   "aliases": []
+  },
+  {
+   "id": "negative-control",
+   "kind": "Evidence",
+   "aliases": []
+  },
+  {
+   "id": "freshness",
+   "kind": "Evidence",
+   "aliases": []
+  },
+  {
+   "id": "standing",
+   "kind": "Evidence",
+   "aliases": []
+  },
+  {
+   "id": "characterization",
+   "kind": "State",
+   "aliases": []
+  },
+  {
+   "id": "drift",
+   "kind": "State",
+   "aliases": []
+  },
+  {
+   "id": "orphan",
+   "kind": "State",
+   "aliases": []
+  },
+  {
+   "id": "gap",
+   "kind": "State",
+   "aliases": []
+  },
+  {
+   "id": "reconciliation",
+   "kind": "State",
+   "aliases": []
+  },
+  {
+   "id": "legacy-baseline",
+   "kind": "State",
+   "aliases": []
+  },
+  {
+   "id": "working-context",
+   "kind": "Context",
+   "aliases": []
+  },
+  {
+   "id": "pre-commit-hook",
+   "kind": "Context",
+   "aliases": []
+  },
+  {
+   "id": "repository-context",
+   "kind": "Context",
+   "aliases": []
+  },
+  {
+   "id": "project-brain",
+   "kind": "Context",
+   "aliases": []
+  },
+  {
+   "id": "value-tally",
+   "kind": "DocOnly",
+   "aliases": []
+  },
+  {
+   "id": "offline-policy-replay",
+   "kind": "DocOnly",
+   "aliases": []
+  },
+  {
+   "id": "plan-receipt",
+   "kind": "External",
+   "aliases": []
+  },
+  {
+   "id": "commit-rule",
+   "kind": "Retired",
+   "aliases": []
+  },
+  {
+   "id": "aes-system",
+   "kind": "System",
+   "aliases": [
+    "AES"
+   ]
+  },
+  {
+   "id": "policy-layer",
+   "kind": "System",
+   "aliases": []
+  },
+  {
+   "id": "feedback-loop",
+   "kind": "Feedback",
+   "aliases": []
+  },
+  {
+   "id": "human-correction",
+   "kind": "Feedback",
+   "aliases": []
+  },
+  {
+   "id": "feedback-report",
+   "kind": "Feedback",
+   "aliases": []
+  },
+  {
+   "id": "rules-register",
+   "kind": "Feedback",
+   "aliases": []
+  },
+  {
+   "id": "agent-rules",
+   "kind": "Elsewhere",
+   "aliases": []
+  },
+  {
+   "id": "lockstep-today",
+   "kind": "Elsewhere",
+   "aliases": [
+    "pcw"
+   ]
+  },
+  {
+   "id": "code2check",
+   "kind": "Elsewhere",
+   "aliases": []
+  },
+  {
+   "id": "one-tool",
+   "kind": "Planned",
+   "aliases": [
+    "the one tool",
+    "planning-and-checking tool"
+   ]
+  },
+  {
+   "id": "lockstep-config",
+   "kind": "Planned",
+   "aliases": []
+  },
+  {
+   "id": "layout-row",
+   "kind": "Planned",
+   "aliases": []
+  },
+  {
+   "id": "openspec-requirement",
+   "kind": "External",
+   "aliases": []
+  },
+  {
+   "id": "first-docstring",
+   "kind": "Planned",
+   "aliases": []
+  },
+  {
+   "id": "edit-guard",
+   "kind": "Planned",
+   "aliases": []
+  },
+  {
+   "id": "commit-check",
+   "kind": "Planned",
+   "aliases": []
+  },
+  {
+   "id": "plan-check",
+   "kind": "Planned",
+   "aliases": []
+  },
+  {
+   "id": "slice",
+   "kind": "Planned",
+   "aliases": []
+  }
+ ],
+ "ambiguous": [
+  {
+   "word": "lockstep",
+   "means": [
+    "lockstep-today",
+    "one-tool"
+   ],
+   "note": "Lockstep names both today's pcw package in its own repository and the one tool it becomes in this repository (DESIGN.md line 17); say which."
+  },
+  {
+   "word": "check",
+   "means": [
+    "commit-check",
+    "plan-check"
+   ],
+   "note": "`lockstep check` runs the commit checks; `lockstep plan check` checks plans and acceptance files."
+  },
+  {
+   "word": "rules",
+   "means": [
+    "rules-register",
+    "agent-rules"
+   ],
+   "note": "The AES rules register lists rules the feedback loop licensed; Brian's agent rules are in code2-workspace agents/ (Q20)."
+  },
+  {
+   "word": "proposal",
+   "means": [
+    "plan",
+    "proposal"
+   ],
+   "note": "A Company Planning plan is sometimes called a proposal (proposals/ folders); an AES proposal is the record `aes plan validate` reads before acceptance."
+  }
+ ]
+}

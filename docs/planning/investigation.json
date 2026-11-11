@@ -1,0 +1,166 @@
+{
+ "schema_version": "1.0",
+ "record_type": "investigation",
+ "subject_revision": "c44c408fd34c4cdc0bd2a130e36bb40d28c52948",
+ "searched": [
+  {
+   "where": "docs",
+   "how": "read CLAUDE.md, .project-brain/now.md, wiki/index.md, proposals/one-planning-tool/DESIGN.md, code2-workspace docs/decisions/0009-aes-and-lockstep-fate.md (amendments 1 to 4) and docs/capabilities.md at origin/main, scripts/learning_loop/systemd/README.md, docs/rules/RULES.md",
+   "found": [
+    "CLAUDE.md:14",
+    "proposals/one-planning-tool/DESIGN.md:3",
+    "proposals/one-planning-tool/DESIGN.md:64",
+    ".project-brain/now.md:9",
+    "scripts/learning_loop/systemd/README.md:3",
+    "docs/rules/RULES.md:7",
+    "https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md"
+   ]
+  },
+  {
+   "where": "code",
+   "how": "module docstrings of src/agentic_engineering_system/*.py, scripts/learning_loop/*.py, scripts/rules/*.py, scripts/*.py; grep for the filing label and order in scripts/learning_loop; grep -l agentic_engineering_system and target.yaml in ~/code2/lockstep/src/pcw",
+   "found": [
+    "scripts/learning_loop/feedback_log.py:214",
+    "scripts/learning_loop/collect_feedback.py:798",
+    "scripts/rules/build_rules_page.py:207",
+    "/home/brian/code2/lockstep/src/pcw/behavior_check.py"
+   ]
+  },
+  {
+   "where": "run_records",
+   "how": "journalctl --user -u feedback-collector.service (RESULT lines 2026-11-10 and 2026-11-11); systemctl --user list-timers; read ~/projects/data/feedback-collector/reports-2026-11-11.jsonl in full, counted by field and filing; make aes; the planning checks (docs/planning/run_checks.sh)",
+   "found": [
+    "/home/brian/projects/data/feedback-collector/reports-2026-11-11.jsonl",
+    "docs/planning/checks.txt:72"
+   ]
+  },
+  {
+   "where": "issues",
+   "how": "gh issue list --repo BrianMills2718/agent-feedback-log --label source:human (newest), and the same since 2026-11-05 for source:human and source:closeout; gh label list",
+   "found": [
+    "https://github.com/BrianMills2718/agent-feedback-log/issues/1586"
+   ]
+  },
+  {
+   "where": "prior_art",
+   "how": "code2-workspace docs/capabilities.md rows for keeping code in line with its plan, agent rules and code documentation; the lockstep and code2-workspace planning packages as templates; Brian's words in ~/.claude/history.jsonl",
+   "found": [
+    "https://github.com/BrianMills2718/code2-workspace/blob/main/docs/capabilities.md",
+    "https://github.com/BrianMills2718/lockstep/blob/main/docs/planning/planning-package.json"
+   ]
+  }
+ ],
+ "findings": [
+  {
+   "id": "F1",
+   "claim": "AES is the whole system with three parts, and Lockstep is kept and actively developed as one of them.",
+   "evidence": [
+    "CLAUDE.md:14",
+    ".project-brain/now.md:9"
+   ],
+   "verdict": "holds"
+  },
+  {
+   "id": "F2",
+   "claim": "The one planning-and-checking tool design is adopted, with six slices, and the Lockstep session builds it.",
+   "evidence": [
+    "proposals/one-planning-tool/DESIGN.md:3",
+    "proposals/one-planning-tool/DESIGN.md:64"
+   ],
+   "verdict": "holds"
+  },
+  {
+   "id": "F3",
+   "claim": "The feedback loop runs nightly (collector and labels job).",
+   "evidence": [
+    "scripts/learning_loop/systemd/README.md:16",
+    "/home/brian/projects/data/feedback-collector/reports-2026-11-11.jsonl"
+   ],
+   "verdict": "holds",
+   "note": "2026-11-11 05:21 RESULT reports=2043 filed=900 items=163 errors=0 cost=$0.0526 exit=0; both timers are armed for 2026-11-12."
+  },
+  {
+   "id": "F4",
+   "claim": "The collector bridges Brian's human corrections into filed reports.",
+   "evidence": [
+    "scripts/learning_loop/feedback_log.py:214",
+    "/home/brian/projects/data/feedback-collector/reports-2026-11-11.jsonl",
+    "https://github.com/BrianMills2718/agent-feedback-log/issues/1586"
+   ],
+   "verdict": "fails",
+   "question_id": "Q18",
+   "note": "All 867 Human correction reports of 2026-11-11 have filing deferred_cap; the newest source:human issue is #1586, 2026-11-03."
+  },
+  {
+   "id": "F5",
+   "claim": "The AES rules page lists the rules agents in Brian's workspace follow.",
+   "evidence": [
+    "docs/rules/RULES.md:7"
+   ],
+   "verdict": "fails",
+   "question_id": "Q20",
+   "note": "It lists one rule; the core rules and topic files in code2-workspace agents/ hold the rest."
+  },
+  {
+   "id": "F6",
+   "claim": "`aes status` describes AES's current state.",
+   "evidence": [
+    "docs/planning/checks.txt:72"
+   ],
+   "verdict": "fails",
+   "question_id": "Q6",
+   "note": "2 of 12 criteria supported, 52 stale observations; it describes the retiring v0.2 engine only."
+  },
+  {
+   "id": "F7",
+   "claim": "Lockstep depends on this repository's library, so the library cannot be removed with the aes command line.",
+   "evidence": [
+    "/home/brian/code2/lockstep/src/pcw/behavior_check.py"
+   ],
+   "verdict": "holds",
+   "note": "7 files in lockstep src/pcw import agentic_engineering_system; three read target.yaml (behavior_check, __init__, plan_to_code)."
+  },
+  {
+   "id": "F8",
+   "claim": "The feedback loop's weekly analysis, effect counter and fix owner are part of the running loop.",
+   "evidence": [
+    "scripts/learning_loop/systemd/README.md:3"
+   ],
+   "verdict": "unknown",
+   "question_id": "Q21",
+   "note": "Their timers are disabled since about 2026-10-12 with no recorded reason."
+  },
+  {
+   "id": "F9",
+   "claim": "The previous plan's premise, AES on hold, still holds.",
+   "evidence": [
+    ".project-brain/now.md:9"
+   ],
+   "verdict": "fails",
+   "question_id": "Q1",
+   "note": "Settled by Brian on 2026-11-11; Q1 is resolved and the plan is replaced."
+  }
+ ],
+ "cost": {
+  "time": {
+   "value": "collector 2026-11-11: about 71 minutes of filing, 2 min 55 s CPU",
+   "source": "journalctl --user -u feedback-collector.service --since 2026-11-11 (Consumed line); filing pace from commit e42046428"
+  },
+  "calls": {
+   "value": 1443,
+   "source": "llm-cost cost --days 2 --group-by project,task, run 2026-11-11 about 22:40 UTC, project aes rows (feedback-collector.extract, .triage, .covered, .split, aes.feedback_labels)"
+  },
+  "input_tokens": {
+   "value": "1,929,400 input and output tokens together; the cost command does not split them",
+   "source": "llm-cost cost --days 2 --group-by project,task, run 2026-11-11 about 22:40 UTC, project aes rows (feedback-collector.extract, .triage, .covered, .split, aes.feedback_labels)"
+  },
+  "output_tokens": {
+   "value": "included in the input_tokens figure",
+   "source": "llm-cost cost --days 2 --group-by project,task, run 2026-11-11 about 22:40 UTC, project aes rows (feedback-collector.extract, .triage, .covered, .split, aes.feedback_labels)"
+  },
+  "money": {
+   "value": "USD 0.127 over two nights (about USD 0.06 a night)",
+   "source": "llm-cost cost --days 2 --group-by project,task, run 2026-11-11 about 22:40 UTC, project aes rows (feedback-collector.extract, .triage, .covered, .split, aes.feedback_labels)"
+  }
+ }
+}

@@ -13,7 +13,8 @@ This wiki is derived navigation, not an authority; follow links to the owning do
 ## What AES is now
 
 - AES is the name for the whole agent system, with three parts ([CLAUDE.md:14-16](../CLAUDE.md#L14-L16)).
-- Lockstep: its own repository, kept and actively developed as part of AES; its future is under question, pending Brian ([CLAUDE.md:18-22](../CLAUDE.md#L18-L22)).
+- Lockstep: its own repository today, kept and actively developed as part of AES; it becomes the one planning-and-checking tool shipped from this repository, design adopted 2026-11-11 ([DESIGN.md](../proposals/one-planning-tool/DESIGN.md)).
+- Plan: the one-tool build in six slices, with acceptance entries for each AES part ([docs/planning/next.goal.md](../docs/planning/next.goal.md); review page [index.html](../proposals/planning-package/review-page/index.html)).
 - The feedback loop: `scripts/learning_loop`, run nightly by systemd timers ([.project-brain/now.md:9](../.project-brain/now.md#L9)).
 - The policy layer: the rules register in `docs/rules` and `scripts/rules`, with Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:9](../.project-brain/now.md#L9)).
 - The `aes` command line and `.aes/target.yaml` retire one repository at a time, and AES no longer governs itself ([CLAUDE.md:17-23](../CLAUDE.md#L17-L23)).
@@ -101,7 +102,7 @@ This repository's decisions; code2-workspace decision 0009 (AES and Lockstep fat
 - [history.md](history.md): v0.1, v0.2 self-governance, the commit rule and its removal, the move to code2, the proposals by name.
 - [docs/greenfield/GETTING_STARTED.md](../docs/greenfield/GETTING_STARTED.md): the v0.2 `aes` walkthrough.
 - [docs/model/ODD.md](../docs/model/ODD.md): the v0.2 governance loop model.
-- [docs/planning/SYSTEM_MODEL.md](../docs/planning/SYSTEM_MODEL.md), [DOMAIN.md](../docs/planning/DOMAIN.md), [next.goal.md](../docs/planning/next.goal.md): the 2026-10-27 planning package.
+- [docs/planning/SYSTEM_MODEL.md](../docs/planning/SYSTEM_MODEL.md), [system-map.md](../docs/planning/system-map.md), [DOMAIN.md](../docs/planning/DOMAIN.md), [next.goal.md](../docs/planning/next.goal.md): the planning package, refreshed 2026-11-11.
 - [docs/plans/001_repository_context_resolution_vertical.md](../docs/plans/001_repository_context_resolution_vertical.md) and [docs/plans/002_offline_policy_decision_replay.md](../docs/plans/002_offline_policy_decision_replay.md): the v0.1 plans.
 - [proposals/aes-durable-docs/review-page/modeling-review.html](../proposals/aes-durable-docs/review-page/modeling-review.html): the 2026-10-11 modeling work review.
 - [proposals/planning-package/review-page/index.html](../proposals/planning-package/review-page/index.html): the planning package review page.

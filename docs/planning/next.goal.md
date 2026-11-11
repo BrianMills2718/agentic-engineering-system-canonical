@@ -1,75 +1,89 @@
 ---
-description: Next goal for AES canonical while it is on hold -- make the repository's own checks and documents tell the truth, without new product work
+description: Next plan for AES canonical -- build Lockstep, the one planning-and-checking tool, in six slices, with the feedback loop and policy layer kept running
 ---
 
-# Goal: AES on hold, checks honest
+# Plan: build the one planning-and-checking tool
 
 Planning package: docs/planning/planning-package.json
 
-Status: proposed 2026-10-27, waiting on Brian's call Q1 (default: this goal runs).
+Status: adopted 2026-11-11 as the design's build order (Brian approved the design as written: "i approve
+single tool desing re d4", 2026-11-11 21:10 UTC, `~/.claude/history.jsonl`, session 483c48d8). Builder: the
+Lockstep session, which owns `proposals/one-planning-tool/` and the Lockstep code. This file is the planning
+package's view of that build; the design is the authority ([DESIGN.md](../../proposals/one-planning-tool/DESIGN.md)).
 
-## Why this goal
+## Goal
 
-AES canonical is on hold ([now.md](../../.project-brain/now.md) line 3), but its own checks
-now say things that are false or stale: four checks fail, `aes status` reports 2 of 12
-criteria supported where Decision 0010 accepted its 9, the target and the goal document still
-rest on the commit rule that was removed on 2026-10-14, and AGENTS.md describes a pre-commit
-gate that does not run here. While it stays on hold (the
-recommended answer to Q1), the useful work is to make every check and document here true,
-and to keep the `aes` CLI working for dodaf and whygame5 (Q12). No new product work.
+For Brian and the coding agents that work in his repositories, change today's three overlapping tools
+(Lockstep's `pcw` for planning files and guarding edits, code2check for commit checks, Company Planning for
+plan packages), each with its own plan format, into one tool named Lockstep, shipped from this repository,
+with one config file and one plan format, that any repository installs with one command. (source:
+proposals/one-planning-tool/DESIGN.md:14-19)
+
+Brian's direction: "on dcision 4 it seems liek youa re poitn otu that htis should be combined into one single
+thing not a bunch of differnt things which i agree with. and it should preusmably be part of aes canonicale
+which is configurable and protable/sharebale" (source: proposals/one-planning-tool/DESIGN.md:5-8; Brian,
+2026-11-11 20:46 UTC, session a769ac09).
+
+AES stays the whole system while this is built: "to me aes is the whole sysem lockstep is one part. aes include
+the whole feedback and policy system" (source: .project-brain/now.md:9; Brian, 2026-11-11 08:14 UTC, session
+a769ac09). So the plan also keeps the feedback loop and the policy layer working and checks that they do
+(acceptance entries A6 to A8). Agent judgment, unconfirmed: that the feedback-loop and policy-layer checks
+belong in this plan rather than a separate one.
+
+## Slices (each merges when it works)
+
+The six slices are the design's ([DESIGN.md](../../proposals/one-planning-tool/DESIGN.md) lines 64-77). Each
+line below adds what this package checks it by; the acceptance entries are in
+[acceptance-criteria.json](acceptance-criteria.json).
+
+1. **Move.** `pcw` moves into this repository as package `lockstep`, with its tests; `pcw` and `pcw-hook` stay
+   as alias entry points so lifelike and Team-Brains' vendored runner keep working. Checked by: lifelike's edit
+   hook still refuses an unplanned write after it installs from here (A2's failure case), and acceptance A1's
+   one-command install. Settles Q22 (where Brian watches it work).
+2. **Plan format.** Lockstep reads requirements from OpenSpec and layout rows from `lockstep.yaml`;
+   `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it. Checked by: acceptance A4 (the
+   requirement text appears word for word in the first docstring of the file that implements it). Settles Q6
+   (whether this repository's own `.aes/` goes in this slice).
+3. **Guard.** Port code2check's shell-target parsing. Done when lifelike replays the four cases from
+   lockstep#111 (`cat >`, `echo >`, `python -c` refused; read-only `cp` allowed). Checked by: acceptance A2.
+4. **Commit checks.** Port code2check's `trace`, `arch`, `test-first`, `sources` and `docmeta` with their tests,
+   as `lockstep check <name>`. Checked by: acceptance A3.
+5. **Plan check.** Port the acceptance-criteria and plan-requirement checks from Company Planning's validator.
+   Settles Q19 (whether Company Planning's adoption gate calls it).
+6. **Switch users.** code2-template installs `lockstep` instead of `code2check` (11 repositories adopt it when
+   next changed); lifelike, plan-code-wiki and Team-Brains' runner move to the new package. Checked by:
+   acceptance A5 (installs anywhere, names no machine path). Asks Brian Q2 before any Inside Success repository.
+
+Kept running alongside, not built here: the feedback loop's two nightly jobs and the rules register.
+Fix first, before slice 1 is judged: corrections are extracted but not filed (Q18), so acceptance A6 fails
+today.
 
 ## Done when
 
-Each line is checked by the command beside it; the package is rebuilt at the end.
-
-1. **Commit-rule outcome withdrawn (Q15).** OUT-AP-001 withdrawn and TR-REQ-001 re-pointed at OUT-GF-001,
-   through `aes plan prepare` / `validate` / `accept`, target and plan committed together;
-   `aes target validate` exits 0.
-2. **Evidence re-recorded (Q6).** `aes evidence record <VS-ID>` run for each deterministic-test
-   subject behind the nine criteria Decision 0010 accepted; `make aes` shows the supported count,
-   and any of the nine that does not return to SUPPORTED names its failing test. The criteria added
-   later are listed with the evidence kind each still needs (SC-TR-SOURCE-001: a trace review;
-   SC-GF-001: a clean-user runtime observation). The unreachable plan PLAN-AES-SELF-GOVERN stays a
-   warning by design (`reconcile.py` lines 18-20).
-3. **Plan statuses true (Q4).** Each of the 23 plans whose adoption receipt the recheck lists has a front-matter
-   status of `done` or `superseded` (with the merge or decision that settled it), or stays
-   adopted with a reason; `cli.py lint --repo-root . --recheck` exits 0 or lists only those kept.
-4. **Docstring wiki current (Q3).** `make docstring-wiki` committed; `durable_docs_check.py --repo .
-   --arc42` exits 0.
-5. **Markdown count inside the cap (Q7).** Superseded plan bundles nothing cites moved to
-   `~/archive/agentic-engineering-system-canonical/<timestamp>/` after a content comparison, with
-   restore commands; `.md-file-cap.yaml` limit and reason updated for the rest;
-   `md_file_cap.py --repo .` exits 0.
-6. **Goal and instructions without the commit rule (Q5, Q14, Q16).** GOAL.md's thesis and
-   disproof rewritten on the two boundaries that remain, the disproof resting on `make aes`
-   topology runs; CLAUDE.md (which generates AGENTS.md) names `make aes` as the orphan check while
-   the pre-commit hook is not installed; `.aes/commit_rule.yaml` removed;
-   `python scripts/meta/check_agents_sync.py --check` exits 0.
-7. **Roadmap linked (Q8).** wiki/index.md links the roadmap named in `.agentic/repo.yaml`, marked
-   on hold; `validate_project_navigation.py .` reports 0 warnings.
-8. **code2 format, cheap parts (Q17).** `docs/index.md` pointing at wiki/index.md and a
-   `code2check` Makefile target (make aes plus the link check); arc42, `.c4` and OpenSpec specs
-   recorded as deferred while on hold; `repo_format.py .` names only the deferred items.
-9. **Decision 0011 item 4 closed or kept (Q2)** as Brian answers; by default it is left as written.
-10. **Package and brain rebuilt** from the final revision: `.project-brain/now.md` updated, `python3 scripts/hive/brain_fresh.py .` and `validate_planning_package.py` exit 0.
+- Each slice above has merged through `ship` in this repository, with its named acceptance entry `built` and
+  served from committed git.
+- Brian has judged A1 to A8 on their pages; a judged status records his own words.
+- `docs/planning/planning-package.json` validates (exit 0) and its cold review read the plan as built.
 
 ## Out of scope
 
-- New v0.2 components, the v0.1 Plan 002 line, and the vendored `enforced_planning/` package
-  (Q10: left in place while on hold).
-- Anything in the other repositories that carry `.aes/`.
+- `.aes/target.yaml` retirement in other repositories (decision 0009 (a): one repository at a time, when each
+  is next changed).
+- Company Planning's other skills (landscape review, roadmaps, the review page builder): they stay in the
+  Company Planning plugin (DESIGN.md line 50).
+- `enforced_planning/` and the claims-era `scripts/` (Q10), and new feedback-loop jobs (Q21 is Brian's call).
 
 ## Domain concepts this plan relies on
 
-Target, outcome, accepted plan, plan adoption receipt, observation, freshness, criterion standing,
-success criterion, verification subject, pre-commit hook, the checked-boundary thesis and the
-commit rule (retired), as defined in [DOMAIN.md](DOMAIN.md).
+AES as a whole, Lockstep today, the one tool, `lockstep.yaml`, layout row, OpenSpec requirement, first
+docstring, edit guard, `lockstep check`, `lockstep plan check`, acceptance entry, slice, code2check, the
+target (read until slice 2), the feedback loop, human correction, feedback report, policy layer, rules register
+and agent rules, as defined in [DOMAIN.md](DOMAIN.md).
 
-## Trace and evidence
+## Cost and trace
 
-Every `aes evidence record` run writes its observation under `.aes/observations/` with the
-command, revision and result; the agent reads each failing one in full, and a sample of passing
-ones, before reporting the count. Each check's command, exit status and counts go into
-`docs/planning/checks.txt` when the package is rebuilt.
-
-The package this goal comes from passed its cold review: [cold-review.md](cold-review.md).
+No step of this plan calls a model to produce its answer: the tool's checks are deterministic code, and the
+feedback loop's nightly calls are already running and measured: USD 0.127 over two nights for 1,443 calls (`llm-cost cost
+--days 2 --group-by project,task`, project aes, 2026-11-11; investigation.json). Each slice's tests and lifelike's hook replays record their
+inputs and results in `.lockstep/` (DESIGN.md line 48) and the pull request; the Lockstep session reads every
+failing run in full before marking a slice done.
