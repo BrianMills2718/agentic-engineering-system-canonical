@@ -9,10 +9,16 @@ request; `python3 scripts/hive/brain_fresh.py .` exits 1 when the brain is stale
 
 This repository is a protocol-pilot consumer of the standalone architecture in `BrianMills2718/wiki_methodology` at revision `0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe`.
 
-### On hold (since 2026-10-18)
+### Current state (2026-11-11)
 
-AES canonical is on hold (`.project-brain/now.md`). It no longer governs
-itself: its pre-commit refusal was removed on 2026-10-14 (#789), no AES plan check
+AES is the name for the whole system: Lockstep, the feedback loop and the
+policy layer (Brian, 2026-11-11: "to me aes is the whole sysem lockstep is one
+part"). Its current state is in `.project-brain/now.md`; the map is code2-workspace
+`docs/architecture/model.c4`; what retires and what stays is code2-workspace
+decision 0009 (Brian, 2026-11-10: feedback loop kept, the `aes` command line and
+`.aes/target.yaml` retire one repository at a time, Lockstep kept only for
+lifelike and Team-Brains with no new users). Lockstep's future is Brian's open
+call. AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789), no AES plan check
 refuses a commit, and no `aes plan accept` step is required before a change.
 On 2026-10-13 Brian moved `~/code2` to off-the-shelf tools (OpenSpec for
 required behavior, lefthook, GitHub Issues). Its two lasting ideas, a planned
