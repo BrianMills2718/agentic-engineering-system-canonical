@@ -73,7 +73,7 @@ flowchart TB
   ll[scripts/learning_loop/<br/>the feedback loop, nightly]
   rr[scripts/rules/ + docs/rules/<br/>rules register]
   scr[scripts/<br/>meta, hive: claims-era scripts and brain_fresh]
-  docs[docs/, proposals/, research/, wiki/<br/>107 Markdown files]
+  docs[docs/, proposals/, research/, wiki/<br/>108 Markdown files]
   t[(.aes/target.yaml)]
   o[(.aes/observations/)]
   p[(.aes/plans/)]

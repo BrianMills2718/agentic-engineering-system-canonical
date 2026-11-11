@@ -18,8 +18,9 @@
      "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42",
      "exit_status": 1,
      "counts": {
-      "findings": 1,
-      "catalog_stale": 1
+      "findings": 4,
+      "catalog_stale": 1,
+      "stale": 3
      },
      "tracked_by": "Q3"
     },
@@ -28,7 +29,7 @@
      "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py .",
      "exit_status": 0,
      "counts": {
-      "warnings": 2
+      "warnings": 10
      },
      "tracked_by": "Q8"
     },
@@ -48,17 +49,17 @@
      "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
      "exit_status": 1,
      "counts": {
-      "markdown_files": 213,
+      "markdown_files": 108,
       "cap_limit": 140,
-      "over": 1,
-      "orphans": 0,
+      "over": 0,
+      "orphans": 6,
       "layout_findings": 0,
-      "durable_findings": 1
+      "durable_findings": 4
      },
      "tracked_by": "Q7"
     },
     {
-     "name": "repository's own AES gate (target validate, topology check, status)",
+     "name": "repository's own AES gate (target validate, topology check, status), retiring",
      "command": "make aes",
      "exit_status": 0,
      "counts": {
@@ -67,8 +68,8 @@
       "criteria_refuted": 0,
       "orphans": 0,
       "drifted": 0,
-      "observations_current": 4,
-      "observations_stale": 50,
+      "observations_current": 2,
+      "observations_stale": 52,
       "plans_unreachable": 1
      },
      "tracked_by": "Q6"
@@ -80,20 +81,21 @@
      "counts": {
       "compliant": 0,
       "repositories": 1,
-      "findings": 5
+      "findings": 4
      },
      "tracked_by": "Q17"
     },
     {
      "name": "typed-graph/v1 schema (domain graph and open-questions map)",
-     "command": "jsonschema against $HOME/code2/representation-router/schemas/typed-graph.schema.json (inline in checks.txt)",
+     "command": "jsonschema against $HOME/code2/representation-router/schemas/typed-graph.schema.json (inline in docs/planning/run_checks.sh)",
      "exit_status": 0,
      "counts": {
       "graphs_valid": 2,
       "graphs_invalid": 0
      }
     }
-   ]
+   ],
+   "command": "bash docs/planning/run_checks.sh"
   },
   "open_questions": {
    "status": "present",
