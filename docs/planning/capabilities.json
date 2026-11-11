@@ -1,0 +1,89 @@
+{
+ "schema_version": "1.0",
+ "record_type": "capabilities",
+ "note": "What AES must do, by capability; inferred by agent from proposals/one-planning-tool/DESIGN.md and Brian's 2026-11-11 words in acceptance-criteria.json asked_by. Status comes from the acceptance entries named.",
+ "rows": [
+  {
+   "id": "C1",
+   "capability": "One tool: install with one command",
+   "you_get": "Lockstep set up in a new repository, replacing pcw, code2check and Company Planning's plan check",
+   "owner": "Lockstep session",
+   "where": "this repository, package lockstep (slice 1, 6)",
+   "acceptance": [
+    "A1"
+   ]
+  },
+  {
+   "id": "C2",
+   "capability": "Edit guard",
+   "you_get": "An agent's write to an unplanned file is refused and shown the plan; reads are allowed",
+   "owner": "Lockstep session",
+   "where": "lockstep hook (slice 3)",
+   "acceptance": [
+    "A2"
+   ]
+  },
+  {
+   "id": "C3",
+   "capability": "Commit checks",
+   "you_get": "Commits that break test-first, the architecture's import rules or Source lines are refused",
+   "owner": "Lockstep session",
+   "where": "lockstep check (slice 4)",
+   "acceptance": [
+    "A3"
+   ]
+  },
+  {
+   "id": "C4",
+   "capability": "Layout with first docstrings",
+   "you_get": "After approval, each planned file starts with its requirement, success criteria and tests",
+   "owner": "Lockstep session",
+   "where": "lockstep layout (slice 2)",
+   "acceptance": [
+    "A4"
+   ]
+  },
+  {
+   "id": "C5",
+   "capability": "Configurable, portable, shareable",
+   "you_get": "Any repository installs it the same way; checks switchable; no machine paths",
+   "owner": "Lockstep session",
+   "where": "lockstep.yaml (slice 6)",
+   "acceptance": [
+    "A5"
+   ]
+  },
+  {
+   "id": "C6",
+   "capability": "Feedback loop",
+   "you_get": "Your corrections become filed reports overnight",
+   "owner": "agent",
+   "where": "scripts/learning_loop, nightly timers",
+   "acceptance": [
+    "A6"
+   ],
+   "status_note": "Runs nightly but files no corrections today (Q18)"
+  },
+  {
+   "id": "C7",
+   "capability": "Policy layer",
+   "you_get": "Each rule you set, with your words, date and enforcement",
+   "owner": "agent",
+   "where": "code2-workspace agents/; docs/rules here",
+   "acceptance": [
+    "A7"
+   ],
+   "status_note": "The AES register page lists one rule (Q20)"
+  },
+  {
+   "id": "C8",
+   "capability": "AES on one page",
+   "you_get": "The three parts, where each lives, what runs, and the build's progress",
+   "owner": "agent",
+   "where": "proposals/planning-package/review-page/",
+   "acceptance": [
+    "A8"
+   ]
+  }
+ ]
+}

@@ -107,9 +107,9 @@ The retained library's records. The `aes` command line that writes them retires 
 | `ProjectRecord` with `AesInfo`, `Materialization`, `Ecosystem` | `records.py:194` | `aes init` (`project.py:159`) | `.aes/project.yaml` |
 | `Proposal`, `TargetDelta`, `TraceReviewDeclaration` | `planning.py:168`, `:137`, `:148` | the agent, by hand, before `aes plan validate` | a proposal file anywhere |
 | `AcceptedPlan` | `planning.py:197` | `aes plan accept` (`planning.py:643`) | `.aes/plans/<id>.yaml` |
-| `ObservationRecord` with `Observer`, `ErAssessment`, `DependencyBasis`, `NegativeControl`, `DecisionCheck`, `TraceReview` | `evidence.py:176` (members from line 91) | `aes evidence record` (`evidence.py:613`); external observations by hand in the same shape | `.aes/observations/` |
-| `EvidenceReport`, `CriterionStanding`, `ErStatus` | `evidence.py:419-433` | computed by `assess` (`evidence.py:447`), never stored | none |
-| `Characterization`, `CharacterizedFile`, `Producer`, `Drift` | `characterize.py:59`, `:52`, `:47`, `:204` | computed by `aes characterize` | none (`--out` writes a copy, `cli.py:286`) |
+| `ObservationRecord` with `Observer`, `ErAssessment`, `DependencyBasis`, `NegativeControl`, `DecisionCheck`, `TraceReview` | `evidence.py:184` (members from line 99) | `aes evidence record` (`evidence.py:613`); external observations by hand in the same shape | `.aes/observations/` |
+| `EvidenceReport`, `CriterionStanding`, `ErStatus` | `evidence.py:427-441` | computed by `assess` (`evidence.py:510`), never stored | none |
+| `Characterization`, `CharacterizedFile`, `Producer`, `Drift` | `characterize.py:61`, `:54`, `:49`, `:208` | computed by `aes characterize` | none (`--out` writes a copy, `cli.py:286`) |
 | `Reconciliation` with `DriftFinding`, `ArtifactState`, `CriterionState`, `ObservationState`, `PlanState`, `Gap`, `ComponentState`, `MissingRequirement` | `reconcile.py:134` (members from line 69) | computed by `aes status` / `aes reconcile` (`reconcile.py:259`) | none |
 | `TopologyReport` | `topology.py:38` | computed by `aes topology check` | none |
 | `Baseline`, `LegacyState`, `AdoptResult` | `adopt.py:48`, `:67`, `:56` | `aes adopt` (`adopt.py:156`) | `.aes/legacy_baseline.json` |
@@ -117,11 +117,17 @@ The retained library's records. The `aes` command line that writes them retires 
 | Helper and result types: `Locator` (`records.py:101`), `FamilyEntries`/`FamilyKeys`, `OutsideGovernedRoot` (`planning.py:107-143`), `CharacterizeReport` (`characterize.py:250`), `InitResult` (`project.py:66`) | as listed | computed or nested inside the records above | none |
 | `ReviewCheck` | `trace_review.py:18` | computed while assessing a trace-review requirement | none |
 | `RepositoryContextArtifact` and its observations (v0.1) | `repository_context/models.py:87` | `repository_context/cli.py` | a JSON context file and an HTML surface (`repository_context/render_html.py`) |
+| Feedback loop: `Record` with `Link`, `Provenance` (one observation, claim or action line) | `scripts/learning_loop/records.py:49`, `:34`, `:39` (contract at line 25) | `feedback_log.py:94` and `:172`, called by the nightly `collect_feedback.py` | `reports-<date>.jsonl` in `~/projects/data/feedback-collector/` (`collect_feedback.py:69`), filed as agent-feedback-log issues |
+| Feedback loop: `Turn`, `Transcript` | `scripts/learning_loop/transcripts.py:42`, `:51` | read from Claude Code and Codex session logs (`collect_feedback.py:127`) | none (read only) |
+| Feedback loop: subagent `Check`, `Verification`, `Outcome` | `scripts/learning_loop/subagents.py:30`, `:38`, `:51` | the nightly collector (`collect_feedback.py:66` imports it) | turned into `Record` lines in `reports-<date>.jsonl` |
+| Feedback loop: problem analysis `_Step`, `_Fix`, `_Analysis` | `scripts/learning_loop/problems.py:184`, `:191`, `:197` | `problems.py` (model answer schema, `problems.py:246`), reading `reports-*.jsonl` | `problems-<date>.jsonl`; with `--file`, one issue per recurring problem |
+| Policy layer: `AgentRouterProfileV1`, `RouterProposal`, `HandoffRecordV1` (all `Contract`) | `scripts/rules/agent_router.py:51`, `:147`, `:176` (`Contract` at line 25) | the agent router (`scripts/rules/agent_router.py`) | `~/projects/data/agent-router/` (`agent_router.py:48`); handoffs counted by `account_handoffs` (line 227) |
+| Policy layer: `Disposition` (keep, move or retire for one legacy rule) | `scripts/rules/sort_legacy.py:54` | `sort_legacy.py` (model answer, checked at line 94) | `legacy-sort.jsonl` and `legacy-dispositions.private.yaml` in the router's data folder (`sort_legacy.py:11`, `:328`) |
 
 ## Does AES execute typed rules?
 
 No. AES's rules (drift, staleness, insufficient-not-green, trace-review declared) are fixed Python
-functions such as `assess` (`src/agentic_engineering_system/evidence.py:447`) and `reconcile`
+functions such as `assess` (`src/agentic_engineering_system/evidence.py:510`) and `reconcile`
 (`reconcile.py:259`). The target holds typed records that reference each other, but no record
 defines a rule whose effect AES evaluates, so there is no type-level metamodel to map onto the
 shared kernel. Open-questions entry Q9 records the reasoning.
@@ -131,8 +137,7 @@ shared kernel. Open-questions entry Q9 records the reasoning.
 - `enforced_planning/` (vendored claims, sessions and worktree lanes) and the `scripts/meta/`
   coordination scripts that import it. `~/code2` replaced claims with `claude -w` worktrees
   (`~/code2/AGENTS.md`); they stay in place, unmodelled, and the one-tool plan does not use them (Q10).
-- The feedback loop's and the rules register's own records: `scripts/learning_loop/records.py` (feedback-report.v1)
-  and `docs/rules/register.yaml`; their pages and plans are in `proposals/aes-learning-loop/`. The system map names
-  each of their code units.
+- The rules register file `docs/rules/register.yaml` and the feedback loop's plans and pages in
+  `proposals/aes-learning-loop/`: their record types are in the table above; the system map names each code unit.
 - Lockstep's code: it is in the lockstep repository until slice 1 moves it here.
 - The Company Planning profile files under `docs/architecture/` (ODD.md gap G1).

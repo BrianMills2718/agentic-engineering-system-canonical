@@ -167,43 +167,43 @@
    "id": "observation",
    "label": "Observation",
    "kind": "Evidence",
-   "explain": "An append-only evidence record in .aes/observations/, bound to the commit it observed and the paths and target entries it depends on. Defined in docs/model/ODD.md:35. Code: src/agentic_engineering_system/evidence.py:176."
+   "explain": "An append-only evidence record in .aes/observations/, bound to the commit it observed and the paths and target entries it depends on. Defined in docs/model/ODD.md:35. Code: src/agentic_engineering_system/evidence.py:184."
   },
   {
    "id": "assessment",
    "label": "Assessment",
    "kind": "Evidence",
-   "explain": "An observation's verdict on one evidence requirement: SUPPORTS, REFUTES or INCONCLUSIVE. Defined in src/agentic_engineering_system/evidence.py:5. Code: src/agentic_engineering_system/evidence.py:96."
+   "explain": "An observation's verdict on one evidence requirement: SUPPORTS, REFUTES or INCONCLUSIVE. Defined in src/agentic_engineering_system/evidence.py:5. Code: src/agentic_engineering_system/evidence.py:104."
   },
   {
    "id": "negative-control",
    "label": "Negative control",
    "kind": "Evidence",
-   "explain": "A case a control should refuse, recorded with whether it was detected; controls must prove they can fail (AES-POL-004). Defined in docs/architecture/GOAL.md:23. Code: src/agentic_engineering_system/evidence.py:112."
+   "explain": "A case a control should refuse, recorded with whether it was detected; controls must prove they can fail (AES-POL-004). Defined in docs/architecture/GOAL.md:23. Code: src/agentic_engineering_system/evidence.py:120."
   },
   {
    "id": "freshness",
    "label": "Freshness",
    "kind": "Evidence",
-   "explain": "CURRENT, STALE, UNKNOWN or UNREACHABLE, computed from Git: an observation is stale once a path or entry it depends on changes after its commit. Defined in src/agentic_engineering_system/evidence.py:9. Code: src/agentic_engineering_system/evidence.py:376."
+   "explain": "CURRENT, STALE, UNKNOWN or UNREACHABLE, computed from Git: an observation is stale once a path or entry it depends on changes after its commit. Defined in src/agentic_engineering_system/evidence.py:9. Code: src/agentic_engineering_system/evidence.py:384."
   },
   {
    "id": "standing",
    "label": "Criterion standing",
    "kind": "Evidence",
-   "explain": "SUPPORTED, REFUTED or INSUFFICIENT for each criterion; only current assessments count, and ignorance never renders green. Defined in docs/architecture/GOAL.md:21. Code: src/agentic_engineering_system/evidence.py:426."
+   "explain": "SUPPORTED, REFUTED or INSUFFICIENT for each criterion; only current assessments count, and ignorance never renders green. Defined in docs/architecture/GOAL.md:21. Code: src/agentic_engineering_system/evidence.py:434."
   },
   {
    "id": "characterization",
    "label": "Characterization",
    "kind": "State",
-   "explain": "What HEAD contains under the governed roots: each file's blob and its Python symbols. Defined in docs/model/ODD.md:36. Code: src/agentic_engineering_system/characterize.py:59."
+   "explain": "What HEAD contains under the governed roots: each file's blob and its Python symbols. Defined in docs/model/ODD.md:36. Code: src/agentic_engineering_system/characterize.py:61."
   },
   {
    "id": "drift",
    "label": "Drift",
    "kind": "State",
-   "explain": "A planned artifact whose committed symbols or signatures no longer match the target (formatting alone is not drift). Defined in docs/model/ODD.md:18. Code: src/agentic_engineering_system/characterize.py:204."
+   "explain": "A planned artifact whose committed symbols or signatures no longer match the target (formatting alone is not drift). Defined in docs/model/ODD.md:18. Code: src/agentic_engineering_system/characterize.py:208."
   },
   {
    "id": "orphan",

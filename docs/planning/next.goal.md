@@ -55,8 +55,11 @@ line below adds what this package checks it by; the acceptance entries are in
    acceptance A5 (installs anywhere, names no machine path). Asks Brian Q2 before any Inside Success repository.
 
 Kept running alongside, not built here: the feedback loop's two nightly jobs and the rules register.
-Fix first, before slice 1 is judged: corrections are extracted but not filed (Q18), so acceptance A6 fails
-today.
+0. **File corrections (fix first).** The feedback loop extracts Brian's corrections but files none of them:
+   all 867 'Human correction' rows in `reports-2026-11-11.jsonl` were deferred at the filing cap (Q18). Owner:
+   an agent working in this repository's `scripts/learning_loop/`, not the Lockstep session (it does not touch
+   Lockstep code). Proof: after the next nightly run, a correction Brian gave the day before appears as a
+   `source:human` issue in agent-feedback-log. Checked by: acceptance A6 (fails today).
 
 ## Done when
 

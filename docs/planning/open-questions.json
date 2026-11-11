@@ -133,8 +133,8 @@
   {
    "id": "Q8",
    "short": "No roadmap front door",
-   "question": "The navigation check warns 10 times: 8 links in README.md point at CLAUDE.md and decision 0011 line anchors that GitHub's Markdown check does not treat as sections, and no roadmap front door exists although .agentic/repo.yaml names one. Fix the links and add a front door?",
-   "blocks": "the navigation check's 10 warnings",
+   "question": "The navigation check warns 14 times: 12 links point at CLAUDE.md and decision 0011 line anchors that GitHub's Markdown check does not treat as sections, and no roadmap front door exists although .agentic/repo.yaml names one. Fix the links and add a front door?",
+   "blocks": "the navigation check's 14 warnings",
    "resolves_with": "Prior art settles it: the one-tool plan (docs/planning/next.goal.md) is the current roadmap; link it from wiki/index.md under a Roadmap line, and replace the line-anchor links with plain file links. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",

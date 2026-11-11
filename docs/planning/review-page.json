@@ -27,6 +27,5 @@
  "architecture": "docs/planning/SYSTEM_MODEL.md",
  "domain": "docs/planning/DOMAIN.md",
  "domain_graph": "docs/planning/domain.graph.json",
- "question_map": "docs/planning/open-questions.graph.json",
- "repo_prefix": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/"
+ "question_map": "docs/planning/open-questions.graph.json"
 }

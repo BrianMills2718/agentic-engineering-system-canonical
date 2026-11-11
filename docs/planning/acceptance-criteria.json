@@ -40,11 +40,11 @@
    "criterion": "Lockstep is one tool, built to the single-tool design I approved and shipped from AES canonical: in a new repository one command sets it up, with one config file, in place of pcw, code2check and Company Planning's plan check.",
    "demonstration": [
     "Open the Lockstep install walkthrough page (planned in slice 1, Q22)",
-    "Read the one command at the top and the list of files it wrote",
-    "Open the lockstep.yaml it wrote",
-    "Read the hook entries it added for Claude Code, Codex and lefthook"
+    "Read the one command at the top (one line typed into a terminal in an empty repository) and the list of files it wrote",
+    "Open lockstep.yaml, the one settings file it wrote",
+    "Read the three hook entries it added: the small settings lines that make Claude Code, Codex and the commit checker (lefthook) call Lockstep automatically"
    ],
-   "expected": "One command, run in an empty repository, wrote lockstep.yaml and the three hook entries, installed from the agentic-engineering-system-canonical git address. No second tool (pcw, code2check) had to be installed.",
+   "expected": "In plain words: one typed command set everything up. It wrote lockstep.yaml and the three hook entries, installed from the agentic-engineering-system-canonical git address, and no second tool (pcw, code2check) had to be installed.",
    "failure_example": "The walkthrough needs a second step such as installing code2check or copying a file by hand, or the command installs from the lockstep repository instead of AES canonical.",
    "representation": {
     "view": "answer-receipt-card",
@@ -59,11 +59,11 @@
    "criterion": "When an agent tries to write a file the plan does not name, Lockstep refuses it and shows the plan; when it only reads a planned file, it is allowed.",
    "demonstration": [
     "Open the guard replay page for lifelike (planned in slice 3)",
-    "Read the four rows: cat >, echo >, python -c, and a read-only cp",
-    "For each row, compare the column 'should' with the column 'did'",
+    "Read the four rows. Each is an agent trying something: three ways of writing a new file that the plan does not list (cat >, echo >, python -c), and one that only copies a file for reading (read-only cp)",
+    "For each row, compare the column 'should' (what the plan says should happen) with the column 'did' (what the guard actually did)",
     "Open the refused row's message"
    ],
-   "expected": "The three writes to an unplanned file show 'refused' in both columns, and the refusal message lists the planned files; the read-only cp shows 'allowed' in both.",
+   "expected": "In plain words: an agent writing a file the plan does not list is refused; an agent only reading is allowed. The three writes show 'refused' in both columns and the refusal message lists the files the plan does allow; the read-only cp shows 'allowed' in both.",
    "failure_example": "Today's Lockstep gets two of these wrong (DESIGN.md line 31): a 'did' column that says 'allowed' for cat > src/extra.py, or 'refused' for cp src/a.py /tmp/x, is a fail.",
    "representation": {
     "view": "decision-table",
@@ -115,12 +115,12 @@
    "criterion": "The tool is configurable, portable and shareable: any repository, personal or Inside Success, installs it the same way; someone else can install it in their own repository from its public git address with only its README; a lockstep.yaml copied from one repository works in another; each check can be switched to block, warn or off; and nothing in it names my machine.",
    "demonstration": [
     "Open the portability page (planned in slice 6)",
-    "Read the count of machine paths found in an installed repository",
+    "Read the count of machine paths (folder names from Brian's own computer, such as /home/brian, written into the installed files) found in an installed repository",
     "Read the table of checks and the setting each has in lockstep.yaml",
     "Read the row for a repository outside BrianMills2718, installed by following the README only",
     "Read the row where one repository's lockstep.yaml was copied into another"
    ],
-   "expected": "The machine-path count is 0; every check has a block, warn or off setting; the owner and the human-source pattern come from lockstep.yaml, not from code; the outside repository installed from the README alone; the copied lockstep.yaml ran with only its owner line changed.",
+   "expected": "In plain words: the tool works on someone else's computer and repository without edits. The machine-path count is 0; every check has a block, warn or off setting; the owner and the human-source pattern come from lockstep.yaml, not from code; the outside repository installed from the README alone; the copied lockstep.yaml ran with only its owner line changed.",
    "failure_example": "A path such as /home/brian or ~/code2 in an installed file, an owner hard-coded as BrianMills2718, a check that cannot be switched off, or an install that needs access to one of Brian's private repositories.",
    "representation": {
     "view": "data-table",
