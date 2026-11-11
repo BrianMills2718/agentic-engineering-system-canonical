@@ -1,0 +1,77 @@
+{
+ "decisions": [
+  {
+   "id": "D1",
+   "title": "AES is the whole system, not only Lockstep",
+   "status": "accepted",
+   "date": "2026-11-11",
+   "context": "Agents had used \"AES\" for the retired v0.2 `aes` command line, and asked whether Lockstep should grow or wind down.\n\nBrian's words: \"to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system\". Where: his Claude Code prompt history (`~/.claude/history.jsonl`, session a769ac09), recorded in this repository's CLAUDE.md.",
+   "decision": "AES names the whole agent system: Lockstep, the feedback loop and the policy layer. The parts stay where they are; the map is code2-workspace `docs/architecture/model.c4`.",
+   "consequences": "This package plans all three parts: the one-tool build for Lockstep, and acceptance entries A6 to A8 for the feedback loop, the policy layer and the whole.",
+   "decided_by": "Brian",
+   "source": "CLAUDE.md:14"
+  },
+  {
+   "id": "D2",
+   "title": "Retire the aes command line one repository at a time; keep the feedback loop",
+   "status": "accepted",
+   "date": "2026-11-10",
+   "context": "The `aes` command line runs only from Makefile targets in six repositories; twelve hold `.aes/target.yaml`. The feedback loop runs nightly from this repository.\n\nBrian's words: \"i aprpove\". Where: [code2-workspace decision 0009](https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md), part (a).",
+   "decision": "Each repository drops `.aes/` and `make aes` when it is next changed; the collector, labels job and `feedback_log.py` stay.",
+   "consequences": "This repository's own `.aes/` goes in the one-tool build (open question Q6); `aes status` no longer describes AES.",
+   "decided_by": "Brian"
+  },
+  {
+   "id": "D3",
+   "title": "Lockstep is kept and actively developed",
+   "status": "accepted",
+   "date": "2026-11-11",
+   "context": "Amendment 1 of decision 0009 read an \"i approve\" as winding Lockstep down.\n\nBrian's words: \"ok i didnt mean to approve abandoingn lockstep. ti is actively being developed.\". Where: [code2-workspace decision 0009](https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md), amendment 2.",
+   "decision": "Amendment 1 is withdrawn; Lockstep is kept as a part of AES.",
+   "consequences": "The wind-down is recorded as a lifted stop in this plan.",
+   "decided_by": "Brian"
+  },
+  {
+   "id": "D4",
+   "title": "Lockstep plans and lays out files with their first docstrings; code2check gates commits, until the one tool lands",
+   "status": "accepted",
+   "date": "2026-11-11",
+   "context": "Lockstep and code2check both copied requirement text into docstrings and guarded edits.\n\nBrian's words: \"it also writes the firs tdoc strings ... i approve d3. and d2\". Where: [code2-workspace decision 0009](https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md), amendment 3 part 1.",
+   "decision": "A person approves the plan, then an agent lays out the files, writing each file's first docstring with the normative text, success criteria and tests. lifelike goes back to Lockstep's edit hook.",
+   "consequences": "Acceptance entry A4 checks the docstrings; A2's replay runs in lifelike.",
+   "decided_by": "Brian"
+  },
+  {
+   "id": "D5",
+   "title": "One planning-and-checking tool, part of AES canonical, configurable and portable",
+   "status": "accepted",
+   "date": "2026-11-11",
+   "context": "Lockstep, code2check and Company Planning's plan check did overlapping jobs with three plan formats.\n\nBrian's words: \"it should preusmably be part of aes canonicale which is configurable and protable/sharebale\". Where: [code2-workspace decision 0009](https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md), amendment 3 part 2.",
+   "decision": "They become one tool in this repository, configurable and portable/shareable.",
+   "consequences": "Acceptance entries A1 and A5.",
+   "decided_by": "Brian"
+  },
+  {
+   "id": "D6",
+   "title": "The one-tool design is adopted as written",
+   "status": "accepted",
+   "date": "2026-11-11",
+   "context": "The Lockstep session proposed the format, the name, the home and six slices.\n\nBrian's words: \"i approve single tool desing re d4\". Where: his Claude Code prompt history (`~/.claude/history.jsonl`, session 483c48d8, 21:10 UTC); AES pull request #824.",
+   "decision": "Build `proposals/one-planning-tool/DESIGN.md` in its six slices, each merged when it works.",
+   "consequences": "The slices are this package's plan (`docs/planning/next.goal.md`); the Lockstep session builds them.",
+   "decided_by": "Brian",
+   "source": "proposals/one-planning-tool/DESIGN.md"
+  },
+  {
+   "id": "D7",
+   "title": "This package's plan and acceptance entries",
+   "status": "working default",
+   "date": "2026-11-11",
+   "context": "The 2026-10-27 package planned hygiene while AES was on hold.",
+   "decision": "Replace it with the one-tool build; write one acceptance entry per AES part and per slice outcome; do not set full_method, because this is a refresh of an existing package rather than a new start (the route and path-decision record stay pending).",
+   "consequences": "Brian can veto any entry or ask for full_method.",
+   "decided_by": "inferred by agent",
+   "source": "docs/planning/planning-package.json"
+  }
+ ]
+}

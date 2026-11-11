@@ -1,0 +1,20 @@
+{
+ "schema_version": "1.0",
+ "record_type": "representation_disposition",
+ "made_by": "agent (inferred by agent, 2026-11-11), from the representation-router catalog at ~/code2/representation-router/catalog/representations.json",
+ "rules_applied": [
+  "A criterion that answers a question is shown as a table or prose, never a graph (Brian, 2026-10-27; package contract, Acceptance criteria).",
+  "Choose one view per question; do not pile views (router heuristic choose-views-dont-pile-them)."
+ ],
+ "not_put_to_brian": "No visual choice is open: every view below is a table or a side-by-side text view, so no sketch set was made. If Brian wants a different view for any entry, a sketch set is made then.",
+ "entries": {
+  "A1": {"view": "answer-receipt-card", "question": "Did one command set Lockstep up in a new repository?", "why": "One answer (yes or no) with its receipt: the command, the files it wrote, and the hook entries it added."},
+  "A2": {"view": "decision-table", "question": "Which writes does the guard refuse, and which reads does it allow?", "why": "Each case is a row: the command, what should happen, what happened. A mismatch shows as a row whose two columns differ."},
+  "A3": {"view": "decision-table", "question": "Which commits does lockstep check refuse, and why?", "why": "Each test commit is a row with the check that refused it and its message, so a commit that should be refused and was not stands out."},
+  "A4": {"view": "master-detail", "question": "Does the first docstring of each planned file carry the approved requirement word for word?", "why": "The approved requirement on one side and the file's docstring on the other, per file; a difference is visible by reading the two."},
+  "A5": {"view": "data-table", "question": "Does anything in an installed repository name Brian's machine, and can each check be switched off?", "why": "One row per config key and per path found, with a count of machine paths that must be 0."},
+  "A6": {"view": "data-table", "question": "Did yesterday's correction become a filed report?", "why": "GitHub's issue list, filtered and sorted by date, is already a table with the date and the quote in the title."},
+  "A7": {"view": "master-detail", "question": "Where is a rule I set, with my words and how it is enforced?", "why": "The rule in core.md on one side, its source entry with Brian's words on the other."},
+  "A8": {"view": "data-table", "question": "What is AES, where does each part live and what runs today?", "why": "Three rows (Lockstep, feedback loop, policy layer) with repository, what runs and its status; prose above it. Not a graph, because it answers a question."}
+ }
+}

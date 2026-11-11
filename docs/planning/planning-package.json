@@ -2,9 +2,13 @@
  "schema_version": "1.0",
  "record_type": "planning_package",
  "repository": "BrianMills2718/agentic-engineering-system-canonical",
- "subject_revision": "8b732aaca497a5e4b55bfa0dad0585d0663299f5",
- "request": "Workflow task 2026-10-27 \"Make the repository ... Company Planning compliant. It has no planning package yet: build one.\" (Brian's standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\"). The package describes commit 8b732aa: origin/main at 30e9993 plus the commits that add docs/planning/, the review page and one wiki/index.md link; later commits on the branch change package files only.",
+ "subject_revision": "c44c408fd34c4cdc0bd2a130e36bb40d28c52948",
+ "request": "Brian, 2026-11-11: \"lets keep workgin on the harness\" (session 483c48d8, 22:23 UTC); \"to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system\" (session a769ac09, 08:14 UTC); \"i approve single tool desing re d4\" (session 483c48d8, 21:10 UTC); all in ~/.claude/history.jsonl. Standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\". This refresh replaces the 2026-10-27 package (reviewed at 8b732aa, plan 'AES on hold, checks honest') with the one-tool build; ship had warned that its cold review was out of date.",
  "parts": {
+  "investigation": {
+   "status": "present",
+   "path": "docs/planning/investigation.json"
+  },
   "checks": {
    "status": "present",
    "path": "docs/planning/checks.txt",
@@ -14,8 +18,9 @@
      "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42",
      "exit_status": 1,
      "counts": {
-      "findings": 1,
-      "catalog_stale": 1
+      "findings": 4,
+      "catalog_stale": 1,
+      "stale": 3
      },
      "tracked_by": "Q3"
     },
@@ -24,7 +29,7 @@
      "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py .",
      "exit_status": 0,
      "counts": {
-      "warnings": 2
+      "warnings": 14
      },
      "tracked_by": "Q8"
     },
@@ -44,17 +49,17 @@
      "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
      "exit_status": 1,
      "counts": {
-      "markdown_files": 213,
+      "markdown_files": 108,
       "cap_limit": 140,
-      "over": 1,
-      "orphans": 0,
+      "over": 0,
+      "orphans": 6,
       "layout_findings": 0,
-      "durable_findings": 1
+      "durable_findings": 4
      },
      "tracked_by": "Q7"
     },
     {
-     "name": "repository's own AES gate (target validate, topology check, status)",
+     "name": "repository's own AES gate (target validate, topology check, status), retiring",
      "command": "make aes",
      "exit_status": 0,
      "counts": {
@@ -63,8 +68,8 @@
       "criteria_refuted": 0,
       "orphans": 0,
       "drifted": 0,
-      "observations_current": 4,
-      "observations_stale": 50,
+      "observations_current": 2,
+      "observations_stale": 52,
       "plans_unreachable": 1
      },
      "tracked_by": "Q6"
@@ -76,20 +81,21 @@
      "counts": {
       "compliant": 0,
       "repositories": 1,
-      "findings": 5
+      "findings": 4
      },
      "tracked_by": "Q17"
     },
     {
      "name": "typed-graph/v1 schema (domain graph and open-questions map)",
-     "command": "jsonschema against $HOME/code2/representation-router/schemas/typed-graph.schema.json (inline in checks.txt)",
+     "command": "jsonschema against $HOME/code2/representation-router/schemas/typed-graph.schema.json (inline in docs/planning/run_checks.sh)",
      "exit_status": 0,
      "counts": {
       "graphs_valid": 2,
       "graphs_invalid": 0
      }
     }
-   ]
+   ],
+   "command": "bash docs/planning/run_checks.sh"
   },
   "open_questions": {
    "status": "present",
@@ -99,7 +105,20 @@
    "status": "present",
    "path": "docs/planning/SYSTEM_MODEL.md",
    "executes_typed_rules": false,
-   "basis": "src/agentic_engineering_system/evidence.py:447"
+   "basis": "src/agentic_engineering_system/evidence.py:510",
+   "units": [
+    "src/agentic_engineering_system/*.py",
+    "src/agentic_engineering_system/planning_protocol.md",
+    "src/agentic_engineering_system/repository_context",
+    "scripts/learning_loop/*.py",
+    "scripts/learning_loop/question_set_v2.json",
+    "scripts/learning_loop/systemd",
+    "scripts/rules/*.py",
+    "scripts/hive/*.py",
+    "scripts/*.py",
+    "scripts/meta",
+    "enforced_planning"
+   ]
   },
   "domain_model": {
    "status": "present",
@@ -121,13 +140,13 @@
     "target-delta": "src/agentic_engineering_system/planning.py:137",
     "accepted-plan": "src/agentic_engineering_system/planning.py:197",
     "trace-review-declaration": "src/agentic_engineering_system/planning.py:148",
-    "observation": "src/agentic_engineering_system/evidence.py:176",
-    "assessment": "src/agentic_engineering_system/evidence.py:96",
-    "negative-control": "src/agentic_engineering_system/evidence.py:112",
-    "freshness": "src/agentic_engineering_system/evidence.py:376",
-    "standing": "src/agentic_engineering_system/evidence.py:426",
-    "characterization": "src/agentic_engineering_system/characterize.py:59",
-    "drift": "src/agentic_engineering_system/characterize.py:204",
+    "observation": "src/agentic_engineering_system/evidence.py:184",
+    "assessment": "src/agentic_engineering_system/evidence.py:104",
+    "negative-control": "src/agentic_engineering_system/evidence.py:120",
+    "freshness": "src/agentic_engineering_system/evidence.py:384",
+    "standing": "src/agentic_engineering_system/evidence.py:434",
+    "characterization": "src/agentic_engineering_system/characterize.py:61",
+    "drift": "src/agentic_engineering_system/characterize.py:208",
     "orphan": "src/agentic_engineering_system/topology.py:73",
     "gap": "src/agentic_engineering_system/reconcile.py:113",
     "reconciliation": "src/agentic_engineering_system/reconcile.py:259",
@@ -135,23 +154,41 @@
     "working-context": "src/agentic_engineering_system/context.py:72",
     "pre-commit-hook": "src/agentic_engineering_system/hooks.py:83",
     "repository-context": "src/agentic_engineering_system/repository_context/models.py:87",
-    "project-brain": "scripts/hive/brain_fresh.py:35"
-   }
+    "project-brain": "scripts/hive/brain_fresh.py:35",
+    "feedback-loop": "scripts/learning_loop/collect_feedback.py:518",
+    "human-correction": "scripts/learning_loop/collect_feedback.py:85",
+    "feedback-report": "scripts/learning_loop/feedback_log.py:212",
+    "rules-register": "scripts/rules/build_rules_page.py:207"
+   },
+   "spectrum": "docs/planning/domain.spectrum.json"
   },
   "diagrams": {
    "status": "present",
    "items": [
     {
      "path": "docs/planning/SYSTEM_MODEL.md",
-     "question": "What is inside AES and what talks to it, and which part of the repository writes which .aes/ store? (context and container views)"
+     "question": "What is AES made of, which repository holds each part, and what talks to it? (context view)",
+     "kind": "context"
+    },
+    {
+     "path": "docs/planning/SYSTEM_MODEL.md",
+     "question": "Where do AES's parts sit across the four repositories, and which arrows does the one-tool build add? (cross-repository view)",
+     "kind": "cross_repo"
+    },
+    {
+     "path": "docs/planning/system-map.md",
+     "question": "Which code units make up this repository, which AES part does each belong to, and what calls what?",
+     "kind": "system_map"
     },
     {
      "path": "docs/planning/domain.graph.json",
-     "question": "What ideas does AES work with (target records, plans, evidence, state), which exist in code and which only in documents or history, and how do they relate?"
+     "question": "What ideas does AES work with (the whole system and its parts, the one tool's plan format, the feedback loop's records, and the retiring v0.2 engine), which exist in code here and which only in documents or other repositories, and how do they relate?",
+     "kind": "domain"
     },
     {
      "path": "docs/planning/open-questions.graph.json",
-     "question": "Which questions are still open, whose call is each, what does each block, and which concepts does it bear on?"
+     "question": "Which questions are still open, whose call is each, what does each block, and which concepts does it bear on?",
+     "kind": "open_questions"
     }
    ]
   },
@@ -159,18 +196,74 @@
    "status": "present",
    "path": "docs/planning/next.goal.md",
    "relies_on": [
+    "aes-system",
+    "lockstep-today",
+    "one-tool",
+    "lockstep-config",
+    "layout-row",
+    "openspec-requirement",
+    "first-docstring",
+    "edit-guard",
+    "commit-check",
+    "plan-check",
+    "acceptance_entry",
+    "slice",
+    "code2check",
     "target",
-    "outcome",
-    "accepted-plan",
-    "plan-receipt",
-    "observation",
-    "freshness",
-    "standing",
-    "success-criterion",
-    "verification-subject",
-    "pre-commit-hook",
-    "thesis",
-    "commit-rule"
+    "feedback-loop",
+    "human-correction",
+    "feedback-report",
+    "policy-layer",
+    "rules-register",
+    "agent-rules"
+   ],
+   "cost_basis": {
+    "steps": [],
+    "no_ai_steps_reason": "The six slices build deterministic code (an installer, an edit hook, commit checks, a plan check); no step calls a model. The feedback loop's existing nightly model calls are kept as they run (measured in investigation.json cost), not added by this plan.",
+    "cheapest_design": "Port the existing tested code (pcw, code2check's guard and checks, Company Planning's validator checks) into one package rather than write new code; the design's slices do this."
+   },
+   "plain_baseline": {
+    "kind": "no_ai_answer_path",
+    "reason": "The tool's outputs (refusals, check results, laid-out files) are produced by code, not by a model answering from a source."
+   },
+   "stage_effects": [],
+   "stops": {
+    "searched": [
+     "~/.claude/history.jsonl 2026-10-12 to 2026-10-19 for 'an hour', 'overbuilt', 'start over', 'off the shelf', 'on hold', 'clean slate' with aes, enforce, code2 or plan",
+     "code2-workspace decision 0009 amendments 1 and 2",
+     "git log origin/main -- CLAUDE.md .project-brain/now.md (#789, #819, #820)"
+    ],
+    "found": [
+     {
+      "said_on": "2026-10-13",
+      "words": "can we just turn off all the neforcemnt that is causing this as we move to code2. then i am thinking that we want to just find off the shelf stuff instaed of building my own ssytem.",
+      "source": "~/.claude/history.jsonl (session dd47e29f, 23:39 UTC)",
+      "applies_to": "AES's universal commit enforcement (removed 2026-10-14, #789) and building a custom system where an off-the-shelf one exists",
+      "status": "holds",
+      "how_honoured": "The plan restarts no universal enforcement: each check is switchable in lockstep.yaml and runs in seconds; it merges three existing tools into one rather than adding a fourth, and keeps OpenSpec, an off-the-shelf format, for requirements."
+     },
+     {
+      "said_on": "2026-11-11",
+      "words": "i approve",
+      "source": "code2-workspace docs/decisions/0009-aes-and-lockstep-fate.md amendment 1 (read as 'wind down Lockstep')",
+      "applies_to": "Lockstep",
+      "status": "lifted",
+      "lifted_on": "2026-11-11",
+      "lifted_words": "ok i didnt mean to approve abandoingn lockstep. ti is actively being developed.",
+      "lifted_source": "~/.claude/history.jsonl (session 483c48d8, 20:17 UTC); decision 0009 amendment 2"
+     }
+    ],
+    "replaces": {
+     "path": "docs/planning/next.goal.md",
+     "comparison": "proposals/one-planning-tool/DESIGN.md"
+    }
+   }
+  },
+  "acceptance": {
+   "status": "present",
+   "path": "docs/planning/acceptance-criteria.json",
+   "paths": [
+    "docs/planning/router/acceptance-views.json"
    ]
   },
   "review_page": {
@@ -182,7 +275,59 @@
    "status": "present",
    "path": "docs/planning/cold-review.md",
    "verdict": "pass",
-   "reviewed_revision": "8b732aaca497a5e4b55bfa0dad0585d0663299f5"
+   "reviewed_revision": "09326db81cb6491389cfd360cd71cf27ca2e6b86"
   }
- }
+ },
+ "initiative": {
+  "id": "aes",
+  "role": "home"
+ },
+ "part_of": {
+  "system": "harness",
+  "map": "https://github.com/BrianMills2718/code2-workspace/blob/main/docs/architecture/model.c4"
+ },
+ "runs_in_production": true,
+ "spectrum_rungs": {
+  "name": "README.md:1",
+  "controlled_vocabulary": "docs/planning/domain.spectrum.json",
+  "glossary": "docs/planning/DOMAIN.md",
+  "thesaurus": "docs/planning/domain.spectrum.json",
+  "informal_taxonomy": "docs/planning/domain.spectrum.json",
+  "formal_taxonomy": "docs/planning/domain.graph.json",
+  "domain_model": "docs/planning/domain.graph.json",
+  "schema": [
+   "src/agentic_engineering_system/records.py:137",
+   "scripts/learning_loop/records.py:25"
+  ],
+  "rules": [
+   "src/agentic_engineering_system/evidence.py:510",
+   "docs/rules/register.yaml"
+  ],
+  "instances": [
+   ".aes/target.yaml",
+   "docs/rules/register.yaml"
+  ],
+  "architecture_views": [
+   "docs/planning/SYSTEM_MODEL.md",
+   "docs/planning/system-map.md"
+  ],
+  "behavior_models": [
+   "docs/model/ODD.md",
+   "scripts/learning_loop/systemd/README.md:14"
+  ],
+  "interface_contracts": [
+   "scripts/learning_loop/records.py:25",
+   "openspec/specs/required-evidence-inputs/spec.md"
+  ],
+  "executable_specifications": [
+   "tests/learning/test_feedback_records.py",
+   "tests/greenfield/test_adopt.py"
+  ]
+ },
+ "generated": [
+  "docs/planning/domain.implemented.json",
+  "docs/planning/domain.graph.json",
+  "docs/planning/DOMAIN.md",
+  "docs/planning/open-questions.graph.json"
+ ]
 }

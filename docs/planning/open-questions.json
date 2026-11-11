@@ -5,49 +5,50 @@
   {
    "id": "Q1",
    "short": "Resume, hold or retire AES",
-   "question": "AES canonical has been on hold since 2026-10-18 after the ~/code2 move to off-the-shelf tools. Should it stay on hold (kept as a working library two repositories still call), resume as a product, or be retired and archived?",
+   "question": "AES canonical was on hold from 2026-10-18 after the ~/code2 move to off-the-shelf tools. Should it stay on hold, resume, or be retired?",
    "blocks": "whether any plan beyond keeping the repository's own checks honest is worth doing here, and whether dodaf and whygame5 should keep calling aes",
    "resolves_with": "Brian's priority call; no check settles it. The facts that bear on it are recorded: the value tally came back at 1 catch and 6 hand checks (Decision 0011), and 2 of 12 criteria are supported today (make aes).",
    "owner": "brian",
-   "status": "open",
-   "recommendation": "Keep it on hold. Run only the hygiene plan (docs/planning/next.goal.md) so the repository tells the truth about itself, and leave the aes CLI working for dodaf and whygame5.",
-   "default": "AES stays on hold; agents run the hygiene plan and nothing else here.",
+   "status": "resolved",
    "sources": [
-    ".project-brain/now.md:3",
-    "docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:76",
-    "/home/brian/code2/dodaf/Makefile:57",
-    "/home/brian/code2/whygame5/Makefile:9"
+    "CLAUDE.md:14",
+    ".project-brain/now.md:9",
+    "proposals/one-planning-tool/DESIGN.md:5"
    ],
    "touches": [
     "thesis",
     "value-tally",
-    "north-star"
-   ]
+    "north_star"
+   ],
+   "evidence": "Brian answered on 2026-11-11, in his own words: \"to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system\" (CLAUDE.md:14, .project-brain/now.md:9); \"ok i didnt mean to approve abandoingn lockstep. ti is actively being developed.\" (code2-workspace decision 0009 amendment 2); \"i approve single tool desing re d4\" (proposals/one-planning-tool/DESIGN.md:5-11); and \"lets keep workgin on the harness\" (~/.claude/history.jsonl, session 483c48d8, 2026-11-11 22:23 UTC). AES is active as the whole system; its next build is the one planning-and-checking tool (docs/planning/next.goal.md). The `aes` command line and `.aes/target.yaml` still retire one repository at a time (decision 0009 (a))."
   },
   {
    "id": "Q2",
    "short": "Inside Success rollout",
-   "question": "Decision 0011 paused the Inside Success team rollout until whygame5 produced a result under AES; that condition was met on 2026-09-26 and the call to resume was never made. Resume it, or close it?",
-   "blocks": "whether Decision 0011 item 4 stays open or is closed in a follow-up decision record",
+   "question": "Decision 0011 paused the Inside Success team rollout until whygame5 produced a result under AES; that condition was met on 2026-09-26 and the call to resume was never made. The one-tool design now says any repository, personal or Inside Success, installs Lockstep with one command (slice 6). Close the old rollout item, or keep it open?",
+   "blocks": "whether decision 0011 item 4 stays open, and whether slice 6 of the one-tool plan includes Inside Success repositories",
    "resolves_with": "Brian's business call; no check settles it.",
    "owner": "brian",
    "status": "open",
-   "recommendation": "Close it: AES is on hold, so there is no product to roll out. Record the closure as a short follow-up decision in the hygiene plan.",
-   "default": "The rollout stays paused and Decision 0011 item 4 stays as written.",
+   "recommendation": "Close decision 0011 item 4: the rollout it paused was of the v0.2 `aes` command line, which now retires. Putting Lockstep into Inside Success repositories is slice 6 of the one-tool plan and would come to you then as its own decision.",
+   "default": "The rollout stays paused and decision 0011 item 4 stays as written; slice 6 asks again before any Inside Success repository installs Lockstep.",
    "sources": [
     "docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:59",
-    "docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:80"
+    "docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:80",
+    "proposals/one-planning-tool/DESIGN.md:19"
    ],
    "touches": [
-    "value-tally"
+    "value-tally",
+    "one-tool",
+    "slice"
    ]
   },
   {
    "id": "Q3",
-   "short": "Stale docstring wiki",
-   "question": "The durable-documents check fails with CATALOG-STALE because generated/docstring_wiki.md was not regenerated after later commits. Is regenerating it all that is needed?",
+   "short": "Durable documents stale",
+   "question": "The durable-documents check finds 4 problems: generated/docstring_wiki.md is behind the code (CATALOG-STALE), and three system-model rules (RULE-DRIFT-DETECTED, RULE-INSUFFICIENT-NOT-GREEN, RULE-DEPENDENCY-CHANGE-STALES) were not re-read after their owner files changed in bb6818a. Regenerate and re-read, or retire the docstring page?",
    "blocks": "the durable-documents check and the wiki-compliance check's durable column passing",
-   "resolves_with": "An argument already settles the cause: regenerating in a scratch copy changes the counts from 1102 to 1098 tracked artifacts and 1061 to 1010 missing docstrings, so the file is simply behind the code. The fix is `make docstring-wiki` and a commit, then rerun the check; it is open only because this package touches docs/planning/ alone. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
+   "resolves_with": "Prior art settles the docstring page: code2-workspace docs/capabilities.md lists Repo Docs as the code documentation tool and says AES's docstring page stopped on 2026-10-13, so the page and its `make docstring-wiki-check` are retired, not regenerated. The three rules are re-read against the current code and their reviewed_at set (an argument per rule). Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",
    "sources": [
@@ -59,14 +60,14 @@
   {
    "id": "Q4",
    "short": "23 plans adopted, none continuing",
-   "question": "23 Company Planning adoption receipts (*.receipt.json, adopted under bounded-design revisions 4 to 13; current 18) belong to plans that carry no finished status, while the project brain says none of that work continues. Which plans are finished, which superseded by the 2026-10-13 redirect, and which (if any) still in progress? These are not AES accepted plans (.aes/plans/, 8 of them).",
+   "question": "23 Company Planning adoption receipts (*.receipt.json, adopted under bounded-design revisions 4 to 13; current 20) belong to plans that carry no finished status, and none of that work is being continued. Which plans are finished, which superseded by the 2026-10-13 redirect, and which (if any) still in progress? These are not AES accepted plans (.aes/plans/, 8 of them).",
    "blocks": "the plan-adoption recheck passing, and which plan this package may treat as current",
    "resolves_with": "Reading each plan against what merged settles it (an argument per plan, no test): plans about the commit rule are superseded by its removal on 2026-10-14; the rest get done or superseded from their own records. Then set each plan's front-matter status.",
    "owner": "agent",
    "status": "open",
    "sources": [
-    ".project-brain/now.md:3",
-    "docs/planning/checks.txt:45"
+    ".project-brain/now.md:9",
+    "docs/planning/checks.txt:33"
    ],
    "touches": [
     "plan-receipt",
@@ -77,8 +78,8 @@
    "id": "Q5",
    "short": "Thesis still names the commit rule",
    "question": "GOAL.md's thesis and disproof still cite the commit rule (\"a commit refused without an adopted plan\"; agents routing around it), which was removed on 2026-10-14. What do the thesis and disproof say without it?",
-   "blocks": "whether the goal document can be used to judge AES at all, and the wording of the hygiene plan's goal edit",
-   "resolves_with": "An argument settles it: the two remaining checked boundaries (fresh revision-bound evidence; truth where it is edited) carry the thesis. The disproof's third clause (agents routing around the commit rule) is dropped, or rewritten against `make aes` topology runs, not the pre-commit orphan hook, which does not run here (Q16). A doc edit, no test. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
+   "blocks": "whether the goal document can be used to judge AES at all",
+   "resolves_with": "An argument settles it: the two remaining checked boundaries (fresh revision-bound evidence; truth where it is edited) carry the thesis. The disproof's third clause (agents routing around the commit rule) is dropped, or rewritten against `make aes` topology runs, not the pre-commit orphan hook, which does not run here (Q16). A doc edit, no test. Open as a work item only: the answer is known, and a check that still fails must point at an open question. Settled together with Q6: if this repository's own `.aes/` retires, this question closes with it.",
    "owner": "agent",
    "status": "open",
    "sources": [
@@ -94,40 +95,36 @@
   },
   {
    "id": "Q6",
-   "short": "Evidence went stale after the commit rule's removal",
-   "question": "Decision 0010 accepted v0.2 with its nine criteria supported; `make aes` at 8b732aa reports 2 of 12 supported and 50 of 82 observations stale. Three criteria were added after the acceptance (SC-TR-001, SC-ADOPT-001, SC-TR-SOURCE-001), and 15 observations depend on commit_rule.py, which a06e963 deleted (docs and target updated in bb6818a). Is the staleness only that, or did a change break one of the nine accepted criteria?",
-   "blocks": "whether `aes status` can be quoted as the product's state, and whether Decision 0010's acceptance still stands",
-   "resolves_with": "Running the existing verification subjects settles it, no new evaluation: `aes evidence record <VS-ID>` for each deterministic-test subject behind the nine Decision 0010 criteria re-runs its named tests at HEAD; all passing means the evidence was only stale, and any failure is a regression with a named test. The three later criteria are listed separately with the evidence kind each needs: SC-TR-SOURCE-001 needs a trace_review (ER-TR-SOURCE-002) and SC-GF-001 a runtime_observation (a clean-user run), which re-recording tests cannot give. The unreachable accepted plan PLAN-AES-SELF-GOVERN stays a warning by design (reconcile.py lines 18-20).",
+   "short": "When AES's own .aes/ retires",
+   "question": "Decision 0010 accepted v0.2 with nine criteria supported; `make aes` now reports 2 of 12 supported and 52 of 55 observations stale. Code2-workspace decision 0009 (a) retires the `aes` command line and `.aes/target.yaml` in each repository when it is next changed, and the one-tool design keeps `.aes/target.yaml` readable only until lifelike and Team-Brains move off it (slice 2). Should this repository's own `.aes/` folder and `make aes` target be removed in the one-tool build, and in which slice, rather than re-recording evidence for a retiring engine?",
+   "blocks": "whether `aes status` is quoted anywhere as AES's state, and whether Q5, Q15 and Q16 need edits or close with the folder",
+   "resolves_with": "An argument settles it: decision 0009 (a) says the folder goes when the repository is next changed, and the one-tool build changes it; Lockstep imports this repository's library (src/agentic_engineering_system), not its `.aes/` folder, so the folder and `make aes` can go in the slice that stops reading `.aes/target.yaml` (slice 2) without breaking Lockstep. Re-recording evidence for the retiring engine is not worth doing. The Lockstep session confirms the slice when it plans slice 2.",
    "owner": "agent",
    "status": "open",
    "sources": [
     "docs/decisions/0010-greenfield-v0.2-accepted.md:63",
-    ".aes/target.yaml:271",
-    ".aes/target.yaml:307",
-    "src/agentic_engineering_system/reconcile.py:18",
-    "docs/planning/checks.txt:68"
+    "proposals/one-planning-tool/DESIGN.md:68",
+    "docs/planning/checks.txt:72"
    ],
    "touches": [
     "observation",
-    "freshness",
     "standing",
-    "success-criterion",
-    "verification-subject",
-    "accepted-plan"
+    "target",
+    "slice",
+    "lockstep-today"
    ]
   },
   {
    "id": "Q7",
-   "short": "213 Markdown files, cap 140",
-   "question": "The repository holds 213 tracked Markdown files at 8b732aa (210 on main plus this package's three; its cold review adds a fourth) against its own 140-file exception (written 2026-10-07 at about 130, 146 a day later). Archive history out of the repository, or raise the limit with a new reason?",
+   "short": "Six documents too deep to reach",
+   "question": "After 134 old documents were archived (AES #821) the repository holds 108 Markdown files against its 140-file exception, so the cap passes; the wiki-compliance check still fails on 6 OpenSpec change files more than two links from wiki/index.md and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes, or ignore them?",
    "blocks": "the wiki-compliance check passing",
-   "resolves_with": "An argument settles it: the growth is proposals/ and docs/plans/ records of the commit-rule and enforcement work that the 2026-10-13 redirect ended, and the exception's own reason says limit growth should trip the check. Move the superseded plan bundles to ~/archive (after a content check, restore steps recorded) only where nothing cites them; raise the limit, with the count of cited files as its reason, for the rest. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
+   "resolves_with": "Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",
    "sources": [
-    ".md-file-cap.yaml:1",
-    ".md-file-cap.yaml:6",
-    "docs/planning/checks.txt:49"
+    "/home/brian/code2/AGENTS.md:27",
+    "docs/planning/checks.txt:64"
    ],
    "touches": [
     "commit-rule"
@@ -136,14 +133,14 @@
   {
    "id": "Q8",
    "short": "No roadmap front door",
-   "question": "The navigation check warns that no roadmap front door exists (no roadmap/README.md, docs/ROADMAP.md or ROADMAP.md, none linked from wiki/index.md), although .agentic/repo.yaml names one. Link it or add one?",
-   "blocks": "the navigation check's two warnings",
-   "resolves_with": "Prior art in the repository settles it: .agentic/repo.yaml already names active_roadmap proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md; link that file from wiki/index.md under a Roadmap line, noting the on-hold status. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
+   "question": "The navigation check warns 14 times: 12 links point at CLAUDE.md and decision 0011 line anchors that GitHub's Markdown check does not treat as sections, and no roadmap front door exists although .agentic/repo.yaml names one. Fix the links and add a front door?",
+   "blocks": "the navigation check's 14 warnings",
+   "resolves_with": "Prior art settles it: the one-tool plan (docs/planning/next.goal.md) is the current roadmap; link it from wiki/index.md under a Roadmap line, and replace the line-anchor links with plain file links. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",
    "sources": [
     ".agentic/repo.yaml:34",
-    "docs/planning/checks.txt:11"
+    "docs/planning/checks.txt:14"
    ],
    "touches": []
   },
@@ -152,7 +149,7 @@
    "short": "Vendored claims machinery",
    "question": "enforced_planning/ (44,556 lines of claims, sessions and worktree lanes) and the scripts/meta coordination scripts that import it are still in the repository, but ~/code2 replaced claims with claude -w worktrees. Keep, or retire them?",
    "blocks": "how much of the repository the system model must describe, and the size of the hygiene plan",
-   "resolves_with": "Depends on Q1. If AES stays on hold, an argument settles it: leave them in place, unmodelled and labelled as retired by the ~/code2 redirect, because removing 44k lines of code another session may own is not hygiene. If AES resumes, a separate plan.",
+   "resolves_with": "An argument settles it: the one-tool plan does not touch enforced_planning/ or scripts/meta/, so they stay in place, unmodelled and labelled retired by the ~/code2 redirect, until a plan needs that space; removing 44k lines nobody is working on is not part of this build. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",
    "sources": [
@@ -165,8 +162,8 @@
    "id": "Q15",
    "short": "Target still holds the commit-rule outcome",
    "question": "OUT-AP-001 says real work in an AES-governed repository lands only under a plan Company Planning adopted. That was the commit rule's outcome, removed on 2026-10-14 at Brian's request, and TR-REQ-001 still serves it. Withdraw the outcome, or say what now enforces it?",
-   "blocks": "whether the target contradicts the repository's own rules after the hygiene plan, and which criteria count toward Q6",
-   "resolves_with": "An argument settles it: Brian asked on 2026-10-13 to turn off this enforcement, and nothing enforces it now, so the outcome is withdrawn through `aes plan prepare` / `validate` / `accept` (TR-REQ-001 re-pointed at OUT-GF-001, because SC-TR-001 and SC-TR-SOURCE-001 depend on it and trace review still serves a new project's evidence), not by hand.",
+   "blocks": "whether the target contradicts the repository's own rules while it is still read",
+   "resolves_with": "An argument settles it: Brian asked on 2026-10-13 to turn off this enforcement, and nothing enforces it now, so the outcome is withdrawn through `aes plan prepare` / `validate` / `accept` (TR-REQ-001 re-pointed at OUT-GF-001, because SC-TR-001 and SC-TR-SOURCE-001 depend on it and trace review still serves a new project's evidence), not by hand. Settled together with Q6: if this repository's own `.aes/` retires, this question closes with it.",
    "owner": "agent",
    "status": "open",
    "sources": [
@@ -186,7 +183,7 @@
    "short": "Orphan hook does not run here",
    "question": "AGENTS.md says the pre-commit hook written by `aes hooks install` refuses a commit that leaves an unplanned file under a governed root, but this checkout's core.hooksPath runs lefthook with the shared code2-workspace config, which never calls aes, and repository hooks are off machine-wide since 2026-10-13. Reinstate the gate (an aes topology step in lefthook), or say in AGENTS.md that `make aes` is now the only check?",
    "blocks": "what the rewritten thesis and disproof can rest on (Q5), and whether AGENTS.md lines 38-40 stay true",
-   "resolves_with": "An argument settles it while AES is on hold: every ~/code2 check should finish in seconds and `aes topology check` does, so add it to lefthook's pre-commit as a local step if Q1 resumes AES; while on hold, correct AGENTS.md (through CLAUDE.md, which generates it) to name `make aes` as the check.",
+   "resolves_with": "An argument settles it while the `aes` command line retires: every ~/code2 check should finish in seconds and `aes topology check` does, so add it to lefthook's pre-commit as a local step if Q1 resumes AES; while on hold, correct AGENTS.md (through CLAUDE.md, which generates it) to name `make aes` as the check. Settled together with Q6: if this repository's own `.aes/` retires, this question closes with it.",
    "owner": "agent",
    "status": "open",
    "sources": [
@@ -203,17 +200,20 @@
   {
    "id": "Q17",
    "short": "Not in the code2 repository format",
-   "question": "~/code2/AGENTS.md brings each repository into the code2 format when it is next changed; scripts/repo_format.py reports this one 0 of 1 compliant (missing docs/index.md, arc42, a .c4 model, OpenSpec specs, a code2check Makefile target). Does the hygiene plan adopt the format, or defer it?",
-   "blocks": "the hygiene plan's scope",
-   "resolves_with": "An argument settles it: the rule applies when the repository is next changed, and the hygiene plan changes it, so the plan adds the items that cost minutes (docs/index.md pointing at wiki/index.md, a code2check target running make aes and the link check) and records the rest (arc42, .c4, OpenSpec specs) as deferred while AES is on hold, each with that reason.",
+   "question": "~/code2/AGENTS.md brings each repository into the code2 format when it is next changed; scripts/repo_format.py reports this one 0 of 1 compliant (missing docs/index.md, arc42, a .c4 model, a Makefile that mentions code2check). The one-tool build changes this repository, and its slice 6 replaces code2check with lockstep in the code2 template. Adopt the format now, or in slice 6?",
+   "blocks": "the code2 repository format check, and whether this repository's make check runs lockstep check after slice 4",
+   "resolves_with": "An argument settles it: the format's code2check target is the part slice 6 replaces, so adding it now would be redone; add docs/index.md now (pointing at wiki/index.md) and the rest in slice 6, when the template installs lockstep.",
    "owner": "agent",
    "status": "open",
    "sources": [
     "/home/brian/code2/AGENTS.md:49",
-    "/home/brian/code2/workspace/scripts/repo_format.py:1",
-    "docs/planning/checks.txt:88"
+    "proposals/one-planning-tool/DESIGN.md:75",
+    "docs/planning/checks.txt:104"
    ],
-   "touches": []
+   "touches": [
+    "slice",
+    "code2check"
+   ]
   },
   {
    "id": "Q9",
@@ -223,9 +223,9 @@
    "resolves_with": "Reading the code settles it.",
    "owner": "agent",
    "status": "resolved",
-   "evidence": "No. Its rules are fixed Python functions over typed records, for example assess (src/agentic_engineering_system/evidence.py:447) and reconcile (reconcile.py:259); no target record defines a rule whose effect AES evaluates.",
+   "evidence": "No. Its rules are fixed Python functions over typed records, for example assess (src/agentic_engineering_system/evidence.py:510) and reconcile (reconcile.py:259); no target record defines a rule whose effect AES evaluates.",
    "sources": [
-    "src/agentic_engineering_system/evidence.py:447",
+    "src/agentic_engineering_system/evidence.py:510",
     "src/agentic_engineering_system/reconcile.py:259"
    ],
    "touches": [
@@ -301,6 +301,95 @@
    ],
    "touches": [
     "commit-rule"
+   ]
+  },
+  {
+   "id": "Q18",
+   "short": "Corrections extracted but never filed",
+   "owner": "agent",
+   "status": "open",
+   "question": "The feedback loop's 2026-11-11 run extracted 867 new human-correction reports and deferred every one at the 900-report filing cap, while it filed 474 subagent-outcome and 426 closeout reports. The newest issue labelled source:human in agent-feedback-log is from 2026-11-03. Do corrections sort last for filing, so they never reach the cap?",
+   "blocks": "whether acceptance entry A6 (a correction you gave yesterday shows up as a filed report) can pass, and so whether the feedback loop works as Brian means it",
+   "resolves_with": "One counterexample settles it, no test: read the filing order in collect_feedback.py and the 2026-11-11 reports file (every Human correction row has filing deferred_cap). If corrections sort last, file them first (one report per distinct quote is already in place since #810), and the next night's run shows source:human issues.",
+   "sources": [
+    "scripts/learning_loop/feedback_log.py:214",
+    "scripts/learning_loop/systemd/README.md:16",
+    "scripts/learning_loop/collect_feedback.py:798"
+   ],
+   "touches": [
+    "feedback-loop",
+    "human-correction",
+    "feedback-report"
+   ]
+  },
+  {
+   "id": "Q19",
+   "short": "Who runs the plan check",
+   "owner": "agent",
+   "status": "open",
+   "question": "After slice 5, does Company Planning's adoption gate (method_conformance adopt) call `lockstep plan check`, or keep its own copy of the plan and acceptance checks for the Inside Success team?",
+   "blocks": "slice 5's done-when line, and whether the plan format is defined in one place",
+   "resolves_with": "An argument settles it when slice 5 is planned: the design's reason for the slice is one definition of the format, which a kept copy defeats; the open fact is whether Inside Success repositories can install lockstep (Q2). The design leaves it to slice 5.",
+   "sources": [
+    "proposals/one-planning-tool/DESIGN.md:82"
+   ],
+   "touches": [
+    "plan-check",
+    "acceptance_entry",
+    "one-tool"
+   ]
+  },
+  {
+   "id": "Q20",
+   "short": "Which list is the policy layer",
+   "owner": "agent",
+   "status": "open",
+   "question": "The AES rules register (docs/rules/register.yaml, page RULES.md) lists one rule, while Brian's rules for agents live in code2-workspace agents/ (core.md, topic files, rule-sources.md by Policy id). Which one is the policy layer's list of rules, and what happens to the other?",
+   "blocks": "acceptance entry A7 (where Brian sees a rule he set and how it is enforced) and what the policy layer's part of AES contains",
+   "resolves_with": "Prior art settles it: code2-workspace docs/capabilities.md (decision 0004, one capabilities list) names agents/core.md plus topic files as the tool for agent rules, so that is the list; the AES register page should say it covers only rules the feedback loop licensed, or point at agents/.",
+   "sources": [
+    "docs/rules/RULES.md:7",
+    ".project-brain/now.md:9"
+   ],
+   "touches": [
+    "policy-layer",
+    "rules-register",
+    "agent-rules"
+   ]
+  },
+  {
+   "id": "Q21",
+   "short": "Three feedback jobs switched off",
+   "owner": "brian",
+   "status": "open",
+   "question": "Three of the feedback loop's five jobs (weekly analysis, effect counter, fix owner) have been switched off since about 2026-10-12, with no recorded reason; only the collector and the labels job run. Turn them back on?",
+   "blocks": "whether the feedback loop goes past filing reports to proposing and checking fixes",
+   "resolves_with": "Brian's product call; no check settles it. The facts: the fix owner closed 24 adopt issues before it stopped (.project-brain/now.md), and corrections are not being filed at all today (Q18).",
+   "recommendation": "Keep them off until corrections are filed again (Q18); then turn the weekly analysis back on first, because it is the job that reads the filed reports.",
+   "default": "They stay off; the collector and labels job keep running nightly.",
+   "sources": [
+    "scripts/learning_loop/systemd/README.md:3"
+   ],
+   "touches": [
+    "feedback-loop",
+    "feedback-report"
+   ]
+  },
+  {
+   "id": "Q22",
+   "short": "Where Brian watches the one tool work",
+   "owner": "agent",
+   "status": "open",
+   "question": "Acceptance entries A1 to A5 need a page Brian opens to see Lockstep install, refuse a write and refuse a commit. Lockstep's repository already publishes walkthrough pages from recorded agent runs. Do those pages move here in slice 1, or stay in the Lockstep repository and link from here?",
+   "blocks": "the entrypoint of acceptance entries A1 to A5",
+   "resolves_with": "An argument settles it in slice 1: the design moves the package here, so the recorder and its pages move with it unless they are Lockstep-repository tooling; the Lockstep session decides while moving.",
+   "sources": [
+    "proposals/one-planning-tool/DESIGN.md:66"
+   ],
+   "touches": [
+    "one-tool",
+    "acceptance_entry",
+    "slice"
    ]
   }
  ]
