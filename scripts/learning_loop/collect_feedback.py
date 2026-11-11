@@ -459,6 +459,13 @@ def quote_key(text: str) -> str:
     return norm(text).casefold()
 
 
+def filing_order(reps: list[dict]) -> list[dict]:
+    """Brian's corrections file first, then every other report, each group in its found order.
+    Appended last, the 2026-11-11 run's 867 corrections sat behind 900 other reports and the
+    nightly --max-reports cap deferred every one (AES planning Q18)."""
+    return sorted(reps, key=lambda r: r.get("field") != "Human correction")
+
+
 def filed_human_quotes(out: Path = OUT) -> set[str]:
     """Quotes of human-correction reports already filed as an issue, from the daily report logs."""
     found: set[str] = set()
@@ -679,7 +686,7 @@ def main() -> int:
                 backlog.extend(json.loads(line) for line in fh)
     human = [r for r in FL.correction_reports(backlog + items) if r["id"] not in filed_reports]
     human, counts["human_reports_duplicate_quote"] = dedupe_human(human, filed_human_quotes())
-    reps.extend(human)
+    reps[:] = filing_order(reps + human)
     counts["human_reports_new"] = len(human)
     step("file_reports", file_reports)
 
