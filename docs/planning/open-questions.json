@@ -223,9 +223,9 @@
    "resolves_with": "Reading the code settles it.",
    "owner": "agent",
    "status": "resolved",
-   "evidence": "No. Its rules are fixed Python functions over typed records, for example assess (src/agentic_engineering_system/evidence.py:447) and reconcile (reconcile.py:259); no target record defines a rule whose effect AES evaluates.",
+   "evidence": "No. Its rules are fixed Python functions over typed records, for example assess (src/agentic_engineering_system/evidence.py:510) and reconcile (reconcile.py:259); no target record defines a rule whose effect AES evaluates.",
    "sources": [
-    "src/agentic_engineering_system/evidence.py:447",
+    "src/agentic_engineering_system/evidence.py:510",
     "src/agentic_engineering_system/reconcile.py:259"
    ],
    "touches": [

@@ -105,7 +105,7 @@
    "status": "present",
    "path": "docs/planning/SYSTEM_MODEL.md",
    "executes_typed_rules": false,
-   "basis": "src/agentic_engineering_system/evidence.py:447",
+   "basis": "src/agentic_engineering_system/evidence.py:510",
    "units": [
     "src/agentic_engineering_system/*.py",
     "src/agentic_engineering_system/planning_protocol.md",
@@ -140,13 +140,13 @@
     "target-delta": "src/agentic_engineering_system/planning.py:137",
     "accepted-plan": "src/agentic_engineering_system/planning.py:197",
     "trace-review-declaration": "src/agentic_engineering_system/planning.py:148",
-    "observation": "src/agentic_engineering_system/evidence.py:176",
-    "assessment": "src/agentic_engineering_system/evidence.py:96",
-    "negative-control": "src/agentic_engineering_system/evidence.py:112",
-    "freshness": "src/agentic_engineering_system/evidence.py:376",
-    "standing": "src/agentic_engineering_system/evidence.py:426",
-    "characterization": "src/agentic_engineering_system/characterize.py:59",
-    "drift": "src/agentic_engineering_system/characterize.py:204",
+    "observation": "src/agentic_engineering_system/evidence.py:184",
+    "assessment": "src/agentic_engineering_system/evidence.py:104",
+    "negative-control": "src/agentic_engineering_system/evidence.py:120",
+    "freshness": "src/agentic_engineering_system/evidence.py:384",
+    "standing": "src/agentic_engineering_system/evidence.py:434",
+    "characterization": "src/agentic_engineering_system/characterize.py:61",
+    "drift": "src/agentic_engineering_system/characterize.py:208",
     "orphan": "src/agentic_engineering_system/topology.py:73",
     "gap": "src/agentic_engineering_system/reconcile.py:113",
     "reconciliation": "src/agentic_engineering_system/reconcile.py:259",
@@ -275,7 +275,7 @@
    "status": "present",
    "path": "docs/planning/cold-review.md",
    "verdict": "pass",
-   "reviewed_revision": "8b732aaca497a5e4b55bfa0dad0585d0663299f5"
+   "reviewed_revision": "09326db81cb6491389cfd360cd71cf27ca2e6b86"
   }
  },
  "initiative": {
@@ -300,7 +300,7 @@
    "scripts/learning_loop/records.py:25"
   ],
   "rules": [
-   "src/agentic_engineering_system/evidence.py:447",
+   "src/agentic_engineering_system/evidence.py:510",
    "docs/rules/register.yaml"
   ],
   "instances": [

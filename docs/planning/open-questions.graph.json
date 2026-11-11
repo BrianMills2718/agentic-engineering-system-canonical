@@ -141,14 +141,14 @@
    "label": "Observation",
    "kind": "Concept",
    "dashed": false,
-   "explain": "An append-only evidence record in .aes/observations/, bound to the commit it observed and the paths and target entries it depends on. Defined in docs/model/ODD.md:35. Code: src/agentic_engineering_system/evidence.py:176."
+   "explain": "An append-only evidence record in .aes/observations/, bound to the commit it observed and the paths and target entries it depends on. Defined in docs/model/ODD.md:35. Code: src/agentic_engineering_system/evidence.py:184."
   },
   {
    "id": "standing",
    "label": "Criterion standing",
    "kind": "Concept",
    "dashed": false,
-   "explain": "SUPPORTED, REFUTED or INSUFFICIENT for each criterion; only current assessments count, and ignorance never renders green. Defined in docs/architecture/GOAL.md:21. Code: src/agentic_engineering_system/evidence.py:426."
+   "explain": "SUPPORTED, REFUTED or INSUFFICIENT for each criterion; only current assessments count, and ignorance never renders green. Defined in docs/architecture/GOAL.md:21. Code: src/agentic_engineering_system/evidence.py:434."
   },
   {
    "id": "target",
@@ -168,7 +168,7 @@
    "id": "Q7",
    "label": "Q7: Six documents too deep to reach",
    "kind": "AgentQuestion",
-   "explain": "After 134 old documents were archived (AES #821) the repository holds 107 Markdown files against its 140-file exception, so the cap passes; the wiki-compliance check still fails on 6 OpenSpec change files more than two links from wiki/index.md and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes, or ignore them? Settled by: Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
+   "explain": "After 134 old documents were archived (AES #821) the repository holds 108 Markdown files against its 140-file exception, so the cap passes; the wiki-compliance check still fails on 6 OpenSpec change files more than two links from wiki/index.md and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes, or ignore them? Settled by: Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
   },
   {
    "id": "Q7-blocks",
@@ -180,13 +180,13 @@
    "id": "Q8",
    "label": "Q8: No roadmap front door",
    "kind": "AgentQuestion",
-   "explain": "The navigation check warns 10 times: 8 links in README.md point at CLAUDE.md and decision 0011 line anchors that GitHub's Markdown check does not treat as sections, and no roadmap front door exists although .agentic/repo.yaml names one. Fix the links and add a front door? Settled by: Prior art settles it: the one-tool plan (docs/planning/next.goal.md) is the current roadmap; link it from wiki/index.md under a Roadmap line, and replace the line-anchor links with plain file links. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
+   "explain": "The navigation check warns 14 times: 12 links point at CLAUDE.md and decision 0011 line anchors that GitHub's Markdown check does not treat as sections, and no roadmap front door exists although .agentic/repo.yaml names one. Fix the links and add a front door? Settled by: Prior art settles it: the one-tool plan (docs/planning/next.goal.md) is the current roadmap; link it from wiki/index.md under a Roadmap line, and replace the line-anchor links with plain file links. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
   },
   {
    "id": "Q8-blocks",
-   "label": "the navigation check's 10 warnings",
+   "label": "the navigation check's 14 warnings",
    "kind": "Decision",
-   "explain": "the navigation check's 10 warnings"
+   "explain": "the navigation check's 14 warnings"
   },
   {
    "id": "Q10",
@@ -242,7 +242,7 @@
    "id": "Q17",
    "label": "Q17: Not in the code2 repository format",
    "kind": "AgentQuestion",
-   "explain": "~/code2/AGENTS.md brings each repository into the code2 format when it is next changed; scripts/repo_format.py reports this one 0 of 1 compliant (missing docs/index.md, arc42, a .c4 model, a code2check Makefile target). The one-tool build changes this repository, and its slice 6 replaces code2check with lockstep in the code2 template. Adopt the format now, or in slice 6? Settled by: An argument settles it: the format's code2check target is the part slice 6 replaces, so adding it now would be redone; add docs/index.md now (pointing at wiki/index.md) and the rest in slice 6, when the template installs lockstep."
+   "explain": "~/code2/AGENTS.md brings each repository into the code2 format when it is next changed; scripts/repo_format.py reports this one 0 of 1 compliant (missing docs/index.md, arc42, a .c4 model, a Makefile that mentions code2check). The one-tool build changes this repository, and its slice 6 replaces code2check with lockstep in the code2 template. Adopt the format now, or in slice 6? Settled by: An argument settles it: the format's code2check target is the part slice 6 replaces, so adding it now would be redone; add docs/index.md now (pointing at wiki/index.md) and the rest in slice 6, when the template installs lockstep."
   },
   {
    "id": "Q17-blocks",
