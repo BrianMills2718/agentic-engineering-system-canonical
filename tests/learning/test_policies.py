@@ -37,4 +37,4 @@ def test_unregistered_and_undocumented_rules_are_gaps(tmp_path, monkeypatch, cap
 
 def test_default_register_is_the_aes_one():
     assert P.RULES_REGISTER.parts[-3:] == ("docs", "rules", "register.yaml")
-    assert "read-the-trace" in P.registry_entries(P.RULES_REGISTER.read_text())
+    assert "recommendations-not-question-lists" in P.registry_entries(P.RULES_REGISTER.read_text())
