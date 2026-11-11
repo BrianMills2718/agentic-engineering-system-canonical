@@ -71,3 +71,13 @@ def test_default_cap_files_a_night_inside_the_unit_timeout():
     windows = -(-cap // per_hour)
     minutes = ((windows - 1) * 3600 + (cap - (windows - 1) * per_hour) * secs_each) / 60
     assert per_hour < 500 and minutes < 120
+
+
+def test_human_corrections_file_before_other_reports_under_the_cap():
+    """2026-11-11: 867 corrections were appended after 900 closeout and subagent reports, so the
+    900-a-night cap deferred every one, every night (AES planning Q18, acceptance A6)."""
+    other = [{"id": f"o{i}", "field": "Feedback"} for i in range(3)]
+    human = [_human("h1", "Use uv"), _human("h2", "Merge it")]
+    ordered = CF.filing_order(other + human)
+    assert [r["id"] for r in ordered] == ["h1", "h2", "o0", "o1", "o2"]
+    assert len(ordered[:2]) == 2 and all(r["field"] == "Human correction" for r in ordered[:2])
