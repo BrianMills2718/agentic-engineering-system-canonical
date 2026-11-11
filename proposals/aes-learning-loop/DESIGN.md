@@ -22,7 +22,7 @@ Brian dispositioned it.
 Brian's earlier systems recorded lessons well and almost never closed the loop.
 The legacy register held 2,572 learnings with 4 resolutions; 40 of 59 friction
 clusters were open; 133 of 166 concern issues were open; and no rule was ever
-retired. Source: `research/synthesis/2026-09-28-legacy-idea-harvest/README.md`
+retired. Source: [`research/synthesis/2026-09-28-legacy-idea-harvest/README.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-28-legacy-idea-harvest/README.md)
 (lesson 1, "Recording works; closing does not") and the 2026-10-01 counts in
 `personal-vps/apps/paperclip/docs/carry-over-from-earlier-agent-systems.md`.
 

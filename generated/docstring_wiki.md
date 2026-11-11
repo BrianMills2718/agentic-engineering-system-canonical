@@ -9,12 +9,12 @@ artifacts. Open the cited source for full context and current truth.
 
 ## Coverage
 
-- Tracked artifacts: 1102
-- Artifacts with source summaries: 420
-- Coverage findings: 1061
-- Finding types: python-docstring-missing=1061
+- Tracked artifacts: 1164
+- Artifacts with source summaries: 447
+- Coverage findings: 1049
+- Finding types: markdown-title-missing=23, python-docstring-missing=1026
 
-## Source (189)
+## Source (187)
 
 ### [`datasets/learning-loop/experiments/2026-10-02-question-design/hier.py`](../datasets/learning-loop/experiments/2026-10-02-question-design/hier.py)
 
@@ -73,6 +73,12 @@ _Coverage findings: python-docstring-missing._
 ### [`datasets/learning-loop/experiments/2026-10-07-filing-gate/retriage.py`](../datasets/learning-loop/experiments/2026-10-07-filing-gate/retriage.py)
 
 Score the 2026-10-06 backlog's pending closeout-Learnings items with the collector's own triage (kind + reusable question) and append updated item lines, so file-pending applies the same gate.
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/retest.py`](../datasets/learning-loop/experiments/2026-11-05-family-z/retest.py)
+
+Re-test a question set on the judged sets before trusting a change (label_items.py docstring).
+
+_Coverage findings: python-docstring-missing._
 
 ### [`enforced_planning/__init__.py`](../enforced_planning/__init__.py)
 
@@ -389,99 +395,99 @@ Cross-brain coordination claims for multi-agent work.
 - `coordination_health_issues` · `coordination_health_issues(claim: ClaimRecord, *, active_claims: list[ClaimRecord]) -> list[str]` · line 1427: Return local metadata plus cross-claim hierarchy health issues.
 - `validate_claim_hierarchy_for_creation` · `validate_claim_hierarchy_for_creation(candidate: ClaimRecord, *, active_claims: list[ClaimRecord]) -> None` · line 1437: Reject a new or refreshed session claim that would be hierarchically invalid.
 - `session_root_conflicts` · `session_root_conflicts(claim: ClaimRecord, *, active_claims: list[ClaimRecord]) -> list[ClaimRecord]` · line 1452: Return other unparented lanes owned by the exact runtime session.
-- `normalize_parent_scope` · `normalize_parent_scope(parent_scope: str | None, project: str | None) -> str | None` · line 1479: Store a parent scope as the bare scope its parent claim records.
-- `validate_session_root_for_creation` · `validate_session_root_for_creation(candidate: ClaimRecord, *, active_claims: list[ClaimRecord]) -> None` · line 1495: Reject accidental tangent roots while preserving explicit parallelism.
-- `validate_no_preserved_lane_conflict` · `validate_no_preserved_lane_conflict(candidate: ClaimRecord, *, claims: list[ClaimRecord]) -> None` · line 1513: Require explicit recovery before replacing preserved ended work.
-- `_heartbeat_stale_after` · `_heartbeat_stale_after() -> timedelta` · line 1548: Return the configured heartbeat freshness window.
-- `_progress_stale_after` · `_progress_stale_after() -> timedelta` · line 1562: Return the configured durable-progress lease and fail on invalid policy.
-- `_run_git` · `_run_git(repo_root: Path, args: list[str]) -> subprocess.CompletedProcess[str]` · line 1577: Run one git command for lifecycle diagnostics without throwing.
-- `_resolve_repo_root_from_worktree_path` · `_resolve_repo_root_from_worktree_path(worktree_path: str | None) -> Path | None` · line 1588: Resolve the canonical repo root from a claim worktree path when possible.
-- `_resolve_default_branch` · `_resolve_default_branch(repo_root: Path) -> str | None` · line 1607: Return the canonical default branch name for one repo when resolvable.
-- `_default_integration_ref` · `_default_integration_ref(repo_root: Path, default_branch: str) -> str` · line 1623: Prefer the canonical remote default ref when it exists.
-- `resolve_default_integration_revision` · `resolve_default_integration_revision(repo_root: Path | str) -> str` · line 1631: Resolve one full immutable commit for the canonical integration tip.
-- `validate_start_revision_targets` · `validate_start_revision_targets(*, repo_root: Path | str, start_revision: str, branch: str | None, worktree_path: str | None, require_branch: bool = False, require_worktree: bool = False) -> None` · line 1646: Require any existing execution identities to retain one start commit.
-- `_claimed_worktree_has_pending_changes` · `_claimed_worktree_has_pending_changes(worktree_path: Path | None) -> bool` · line 1704: Return whether pending tracked or untracked work is positively proven.
-- `claim_lifecycle_issues` · `claim_lifecycle_issues(claim: ClaimRecord) -> list[str]` · line 1720: Return mechanically provable stale-lifecycle issues for one live claim.
-- `_claim_branch_unmerged_progress` · `_claim_branch_unmerged_progress(claim: ClaimRecord) -> dict[str, Any] | None` · line 1770: Return git evidence that a claim's branch holds real unmerged commits.
-- `list_abandoned_claims` · `list_abandoned_claims(project: str | None = None, *, claims_dir: Path | None = None, min_ahead: int = 1) -> list[tuple[ClaimRecord, dict[str, Any]]]` · line 1821: Surface EXPIRED claims whose branch still holds real unmerged commits.
-- `claim_liveness_issues` · `claim_liveness_issues(claim: ClaimRecord, *, now: datetime | None = None) -> list[str]` · line 1873: Return stale-session issues derived from heartbeat freshness.
-- `_parse_aware_iso_datetime` · `_parse_aware_iso_datetime(value: Any) -> datetime | None` · line 1908: Parse a timezone-aware ISO timestamp without silently assuming UTC.
-- `build_progress_event` · `build_progress_event(*, progress_kind: str, evidence_ref: str, next_action: str, expected_quiet_until: str | datetime | None = None, quiet_reason: str | None = None, progress_at: datetime | None = None) -> ProgressEventV1` · line 1922: Validate one server-timestamped progress event before claim mutation.
-- `_progress_event_payload` · `_progress_event_payload(event: ProgressEventV1) -> dict[str, str | None]` · line 1947: Flatten a validated event into the additive claim storage contract.
-- `claim_progress_issues` · `claim_progress_issues(claim: ClaimRecord, *, now: datetime | None = None) -> list[str]` · line 1962: Return instrumentation defects or an expired durable-progress lease.
-- `claim_runtime_status` · `claim_runtime_status(claim: ClaimRecord, *, active_claims: list[ClaimRecord] | None = None, now: datetime | None = None) -> str` · line 2020: Classify one live claim across stale/stalled/weak/healthy states.
-- `peer_claims_by_goal` · `peer_claims_by_goal(claims: 'list[ClaimRecord]') -> 'dict[str, list[ClaimRecord]]'` · line 2049: Group live claims that declare a byte-identical ``broader_goal``.
-- `render_peer_claim_groups` · `render_peer_claim_groups(claims: 'list[ClaimRecord]') -> 'list[str]'` · line 2075: Render the shared-goal groups as display lines, or nothing when none.
-- `claim_enforcement_issues` · `claim_enforcement_issues(claim: ClaimRecord) -> list[dict[str, str]]` · line 2088: Return blocking operator findings that require an explicit disposition.
-- `validate_claim_for_creation` · `validate_claim_for_creation(claim: ClaimRecord) -> None` · line 2120: Reject new claims that omit required ownership metadata for live coordination.
-- `_plan_number` · `_plan_number(plan_ref: str | None) -> int | None` · line 2155: Extract a numbered-plan identity from canonical claim spellings.
-- `_resolve_commit` · `_resolve_commit(repo_root: Path, start_point: str, *, label: str) -> str` · line 2164: Resolve one commit-ish to a full immutable object ID.
-- `_numbered_plan_digest` · `_numbered_plan_digest(repo_root: Path, revision: str, plan_number: int) -> str` · line 2174: Bind exact plan bytes even when structural integrity enforcement is off.
-- `resolve_plan_authority_binding` · `resolve_plan_authority_binding(*, repo_root: str, plan_ref: str, start_point: str = 'HEAD', plan_repo_root: str | None = None, plan_start_point: str | None = None, target_repository_id: str | None = None) -> PlanAuthorityBinding` · line 2198: Resolve explicit plan authority separately from exact mutation-target custody.
-- `resolve_canonical_work_unit_binding` · `resolve_canonical_work_unit_binding(*, repo_root: str, plan_ref: str, work_graph_path: str, work_unit_id: str, start_point: str = 'HEAD', plan_repo_root: str | None = None, plan_start_point: str | None = None, target_repository_id: str | None = None, method_receipt_ref: str | None = None, method_receipt_sha256: str | None = None) -> CanonicalWorkUnitBinding` · line 2259: Validate an owning plan graph and its target revision independently.
-- `_parent_pid` · `_parent_pid(pid: int) -> int | None` · line 2413: Return a process's parent pid, or None when it cannot be read.
-- `session_id_from_process_tree` · `session_id_from_process_tree(registry_dir: Path | None = None) -> str | None` · line 2426: Recover the owning Claude Code session id by walking process ancestry.
-- `session_identity_aliases` · `session_identity_aliases(agent: str, resolved_session_id: str | None) -> tuple[str, ...]` · line 2455: Return every identity this process may legitimately claim ownership under.
-- `resolve_session_id` · `resolve_session_id(agent: str, explicit_session_id: str | None = None) -> str | None` · line 2477: Return an explicit or environment-derived session identifier.
-- `validate_native_session_binding` · `validate_native_session_binding(agent: str, session_id: str | None, *, require_native_marker: bool = False) -> None` · line 2508: Reject an explicit session identity that contradicts the native runtime.
-- `_safe_string_list` · `_safe_string_list(value: Any) -> list[str]` · line 2543: Normalize a scalar-or-list YAML value into a clean string list.
-- `_normalize_repo_path` · `_normalize_repo_path(path: str) -> str` · line 2564: Normalize a repo-relative path for parent/child overlap checks.
-- `bootstrap_authority_disabled_worktree_path` · `bootstrap_authority_disabled_worktree_path(target_worktree_path: str) -> str` · line 2572: Return a deterministic non-Git path that older readers cannot authorize.
-- `classify_broad_write_paths` · `classify_broad_write_paths(repo_root: str | None, write_paths: list[str], *, verified_new_files: set[str] | None = None) -> dict[str, str]` · line 2581: Classify root/top-level directory reservations without guessing.
-- `_regular_top_level_files_at_revision` · `_regular_top_level_files_at_revision(repo_root: str | None, revision: str | None, write_paths: list[str]) -> set[str]` · line 2638: Return exact top-level regular files recorded by one retained Git tree.
-- `_broad_scope_contract_issues` · `_broad_scope_contract_issues(claim: ClaimRecord) -> list[str]` · line 2676: Return deterministic schema-v6 broad-scope contract violations.
-- `_projects_overlap` · `_projects_overlap(left: ClaimRecord, right: ClaimRecord) -> bool` · line 2782: Return whether two claims touch at least one common project.
-- `_paths_overlap` · `_paths_overlap(left: str, right: str) -> bool` · line 2787: Return whether two normalized repo-relative paths overlap.
-- `session_transcript_path` · `session_transcript_path(session_id: str | None, *, codex_root: Path | None = None, claude_root: Path | None = None) -> Path | None` · line 2800: Locate the runtime transcript one session is actually writing to.
-- `session_last_active_at` · `session_last_active_at(session_id: str | None, *, codex_root: Path | None = None, claude_root: Path | None = None) -> datetime | None` · line 2833: Return when a session's own client last wrote, or None when unknowable.
-- `describe_session_activity` · `describe_session_activity(last_active_at: datetime | None, *, now: datetime | None = None) -> str` · line 2854: Render one claim owner's liveness for an operator reading a conflict.
-- `_is_append_only_path` · `_is_append_only_path(path: str) -> bool` · line 2874: Return whether a declared write path lands only in an append-only store.
-- `_compute_overlapping_write_paths` · `_compute_overlapping_write_paths(candidate: ClaimRecord, other: ClaimRecord) -> list[str]` · line 2886: Return normalized write-path overlaps between two claims.
-- `_overlap_relations` · `_overlap_relations(candidate: ClaimRecord, other: ClaimRecord) -> tuple[str, ...]` · line 2905: Classify every effective overlap from the candidate's perspective.
-- `_reservation_kind` · `_reservation_kind(other: ClaimRecord, relations: tuple[str, ...]) -> str | None` · line 2926: Explain a parent reservation without changing conflict severity.
-- `_current_diff_disjoint` · `_current_diff_disjoint(candidate: ClaimRecord, other: ClaimRecord) -> bool | None` · line 2938: Return advisory Git status disjointness, or unknown when unreadable.
-- `_interaction_explanation` · `_interaction_explanation(candidate: ClaimRecord, other: ClaimRecord) -> dict[str, Any]` · line 2967: Build shared explanatory fields for one overlap interaction.
-- `_git_worktree_boundary` · `_git_worktree_boundary(claim: ClaimRecord) -> tuple[Path, Path, Path, str] | None` · line 2982: Return verified repository, common-dir, worktree, and target kind.
-- `_has_isolated_worktree_boundary` · `_has_isolated_worktree_boundary(candidate: ClaimRecord, other: ClaimRecord) -> bool` · line 3029: Return whether Git isolates the two overlapping mutation surfaces.
-- `_has_write_ownership` · `_has_write_ownership(claim: ClaimRecord) -> bool` · line 3048: Return whether a claim owns its declared write paths.
-- `_parse_iso_datetime` · `_parse_iso_datetime(value: Any) -> datetime | None` · line 3059: Parse an ISO timestamp from claim data if present.
-- `_progress_text_with_presence` · `_progress_text_with_presence(data: dict[str, Any], key: str, *, null_is_invalid: bool = True) -> str | None` · line 3072: Preserve invalid explicit progress keys instead of erasing them as legacy absence.
-- `normalize_claim` · `normalize_claim(data: dict[str, Any], *, source_file: str | None = None) -> ClaimRecord | None` · line 3088: Normalize a raw YAML claim into the v2 in-memory representation.
-- `_load_claims` · `_load_claims(claims_dir: Path | None = None) -> list[ClaimRecord]` · line 3267: Load live claim files from the configured or explicitly supplied registry.
-- `unregistered_claim_files` · `unregistered_claim_files() -> list[str]` · line 3320: Return claim-dir files that coordination tooling cannot parse as claims.
-- `malformed_claim_files` · `malformed_claim_files(claims_dir: Path | None = None) -> list[dict[str, str]]` · line 3335: Return `.yaml` claim-dir files that exist but fail to parse as YAML.
-- `_claim_filename` · `_claim_filename(agent: str, project: str, scope: str) -> str` · line 3365: Generate a deterministic filename for a claim.
-- `check_claims` · `check_claims(project: str | None = None, *, claims_dir: Path | None = None) -> list[ClaimRecord]` · line 3374: Check active claims, optionally selecting a registry and project.
-- `list_claims` · `list_claims(project: str | None = None, *, claims_dir: Path | None = None, include_inactive: bool = False) -> list[ClaimRecord]` · line 3382: List claims with an explicit option to retain non-live audit records.
-- `evaluate_claim` · `evaluate_claim(candidate: ClaimRecord, *, active_claims: list[ClaimRecord] | None = None) -> ClaimCheckResult` · line 3398: Classify candidate claim interactions against active live claims.
-- `build_candidate_claim` · `build_candidate_claim(*, agent: str, project: str, scope: str, intent: str, plan_ref: str | None = None, claim_type: str | None = None, write_paths: list[str] | None = None, read_paths: list[str] | None = None, worktree_path: str | None = None, repo_root: str | None = None, branch: str | None = None, session_name: str | None = None, broader_goal: str | None = None, tracker_path: str | None = None, session_id: str | None = None, heartbeat_at: str | None = None, status: str = 'active', parent_scope: str | None = None, notes: str | None = None, claimed_at: str | None = None, expires_at: str | None = None, updated_at: str | None = None, start_revision: str | None = None, plan_repo_root: str | None = None, plan_revision: str | None = None, plan_sha256: str | None = None, work_unit_id: str | None = None, work_graph_path: str | None = None, work_graph_sha256: str | None = None, approval_revisions: tuple[str, ...] = (), parallel_root_authorized: bool = False, progress_at: str | None = None, progress_kind: str | None = None, evidence_ref: str | None = None, next_action: str | None = None, expected_quiet_until: str | None = None, quiet_reason: str | None = None, broad_scope_mode: str | None = None, broad_scope_reason: str | None = None, target_worktree_path: str | None = None, contact_ref: str | None = None, new_files: list[str] | tuple[str, ...] | None = None, schema_version: int | None = None, method_receipt_ref: str | None = None, method_receipt_sha256: str | None = None) -> ClaimRecord` · line 3521: Build a normalized candidate claim from CLI or test inputs.
-- `_refresh_exact_owner_claim` · `_refresh_exact_owner_claim(*, agent: str, project: str, scope: str, session_id: str | None, intent: str, plan_ref: str | None, claim_type: str | None, write_paths: list[str] | None, read_paths: list[str] | None, worktree_path: str | None, repo_root: str | None, branch: str | None, session_name: str | None, broader_goal: str | None, status: str, parent_scope: str | None, notes: str | None, allow_parallel: bool, broad_scope_mode: str | None, broad_scope_reason: str | None, target_worktree_path: str | None, ttl_hours: float) -> tuple[bool, str] | None` · line 3647: Expand an exact-owner live claim without reconstructing retained custody.
-- `_tracker_path_yaml_error` · `_tracker_path_yaml_error(tracker_path: str | None) -> str | None` · line 3748: Why this tracker path cannot serve as a session tracker, or None.
-- `_reject_unreadable_tracker_path` · `_reject_unreadable_tracker_path(tracker_path: str | None) -> None` · line 3790: Fail at claim time rather than stranding a lane at closeout.
-- `create_claim` · `create_claim(agent: str, project: str, scope: str, intent: str, plan_ref: str | None = None, ttl_hours: float = DEFAULT_TTL_HOURS, claim_type: str | None = None, write_paths: list[str] | None = None, read_paths: list[str] | None = None, worktree_path: str | None = None, repo_root: str | None = None, branch: str | None = None, session_name: str | None = None, broader_goal: str | None = None, tracker_path: str | None = None, session_id: str | None = None, status: str = 'active', parent_scope: str | None = None, notes: str | None = None, work_graph_path: str | None = None, work_unit_id: str | None = None, start_point: str = 'HEAD', plan_repo_root: str | None = None, plan_start_point: str | None = None, resume_requested: bool = False, require_new: bool = False, allow_parallel: bool = False, require_native_session_binding: bool = False, require_native_session_marker: bool = False, broad_scope_mode: str | None = None, broad_scope_reason: str | None = None, target_worktree_path: str | None = None, contact_ref: str | None = None, new_files: list[str] | None = None, verified_goal_default_revision: str | None = None, verified_maintenance_default_revision: str | None = None, method_receipt_ref: str | None = None, method_receipt_sha256: str | None = None) -> tuple[bool, str]` · line 3798: Create a new claim after checking for hard conflicts.
-- `_replacement_is_within_existing_authority` · `_replacement_is_within_existing_authority(replacement: str, existing: str) -> bool` · line 4130: Return whether one normalized replacement is equal to/below an old path.
-- `_validate_bootstrap_target_identity` · `_validate_bootstrap_target_identity(claim: ClaimRecord) -> None` · line 4138: Require the separated bootstrap target to be the claimed Git branch/repository.
-- `narrow_claim` · `narrow_claim(*, agent: str, project: str, scope: str, session_id: str | None, write_paths: list[str], claims_dir: Path | None = None, require_native_session_binding: bool = False, known_new_files: list[str] | None = None, start_revision: str | None = None) -> NarrowClaimResult` · line 4165: Commit one owner-only strict subset claim/projection transition.
-- `hydrate_missing_session_ids` · `hydrate_missing_session_ids(*, agent: str, project: str, session_id: str | None = None, scope: str | None = None, branch: str | None = None) -> tuple[int, list[str], str]` · line 4303: Fill in missing session IDs for matching live claims.
-- `_extended_lease_expiry` · `_extended_lease_expiry(current_expires_at: Any, renewed_at: str, ttl_hours: float) -> str` · line 4358: Return the later of a claim's current lease and one renewed at ``renewed_at``.
-- `heartbeat_claims` · `heartbeat_claims(*, agent: str, project: str, session_id: str | None = None, scope: str | None = None, branch: str | None = None, claims_dir: Path | None = None, require_exact_session: bool = False, ttl_hours: float = DEFAULT_TTL_HOURS) -> tuple[int, list[str], str, str]` · line 4378: Refresh heartbeat metadata and the lease for live claims owned by one session.
-- `record_progress_claims` · `record_progress_claims(*, agent: str, project: str, scope: str, progress_kind: str, evidence_ref: str, next_action: str, session_id: str | None = None, expected_quiet_until: str | datetime | None = None, quiet_reason: str | None = None, claims_dir: Path | None = None, require_native_session_binding: bool = False, now: datetime | None = None) -> tuple[ClaimRecord, ProgressEventV1]` · line 4480: Record durable advancement on exactly one live claim owned by this session.
-- `end_session_claims` · `end_session_claims(*, agent: str, session_id: str | None = None, reason: str = 'session ended', claims_dir: Path | None = None) -> tuple[int, list[str], str, str]` · line 4591: Retire exact-session live ownership without deleting recovery state.
-- `release_claim` · `release_claim(agent: str, project: str, scope: str, *, expected_session_id: str | None = None, expected_start_revision: str | None = None, allow_managed_lane_rollback: bool = False) -> tuple[bool, str]` · line 4651: Release an existing claim, optionally guarded by exact custody.
-- `release_claims_for_branch` · `release_claims_for_branch(branch: str) -> tuple[int, list[str]]` · line 4719: Release every live canonical claim attached to one branch.
-- `_archive_completed_claim_locked` · `_archive_completed_claim_locked(claim_file: Path, *, claims_dir: Path) -> tuple[ClaimRecord, claim_mutation_receipts.CompletedClaimArchiveReceiptV1]` · line 4745: Archive and remove one exact completed claim while the registry lock is held.
-- `complete_claims_for_plan` · `complete_claims_for_plan(*, project: str, plan_ref: str, note: str | None = None) -> tuple[int, list[str]]` · line 4810: Mark matching live claims completed and return the affected scopes.
-- `_matches_prune_selectors` · `_matches_prune_selectors(claim: ClaimRecord, *, agent: str | None, project: str | None, scope: str | None) -> bool` · line 4877: Return whether one normalized claim matches every supplied selector.
-- `prune_expired` · `prune_expired(*, agent: str | None = None, project: str | None = None, scope: str | None = None) -> tuple[int, list[str]]` · line 4893: Remove selected expired claims and return count plus exact scope labels.
-- `prune_stale` · `prune_stale(*, agent: str | None = None, project: str | None = None, scope: str | None = None) -> tuple[int, list[str]]` · line 4943: Remove selected stale live claims and return count plus scope labels.
-- `prune_completed` · `prune_completed(*, agent: str | None = None, project: str | None = None, scope: str | None = None) -> tuple[int, list[str]]` · line 4995: Remove claims already marked complete/completed.
-- `backfill_completed_claim_archive` · `backfill_completed_claim_archive(*, source_claim_snapshot: Path, expected_source_sha256: str, prune_event_id: str) -> tuple[claim_mutation_receipts.CompletedClaimArchiveReceiptV1, bool]` · line 5204: Archive one legacy completed claim using exact bytes and prune provenance.
-- `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 5266: Parse CLI arguments for coordination-claim management.
-- `_validate_explicit_prune_selectors` · `_validate_explicit_prune_selectors(args: argparse.Namespace) -> None` · line 5465: Reject empty prune selectors before the registry lock can be acquired.
-- `_render_check_output` · `_render_check_output(*, claims: list[ClaimRecord], project: str | None, candidate: ClaimRecord | None) -> dict[str, Any]` · line 5476: Build a structured report for list/check operations.
-- `_render_mutation_audit_failure` · `_render_mutation_audit_failure(exc: MutationAuditError, *, as_json: bool) -> int` · line 5536: Report an already-applied mutation whose receipt could not be persisted.
-- `_render_completed_claim_archive_failure` · `_render_completed_claim_archive_failure(exc: CompletedClaimArchiveError, *, as_json: bool) -> int` · line 5546: Report an archive-before-prune failure that left claim YAML unchanged.
-- `main` · `main(argv: list[str] | None = None) -> int` · line 5560: Run the CLI for cross-brain coordination claim management.
+- `normalize_parent_scope` · `normalize_parent_scope(parent_scope: str | None, project: str | None) -> str | None` · line 1482: Store a parent scope as the bare scope its parent claim records.
+- `validate_session_root_for_creation` · `validate_session_root_for_creation(candidate: ClaimRecord, *, active_claims: list[ClaimRecord]) -> None` · line 1498: Reject accidental tangent roots while preserving explicit parallelism.
+- `validate_no_preserved_lane_conflict` · `validate_no_preserved_lane_conflict(candidate: ClaimRecord, *, claims: list[ClaimRecord]) -> None` · line 1516: Require explicit recovery before replacing preserved ended work.
+- `_heartbeat_stale_after` · `_heartbeat_stale_after() -> timedelta` · line 1551: Return the configured heartbeat freshness window.
+- `_progress_stale_after` · `_progress_stale_after() -> timedelta` · line 1565: Return the configured durable-progress lease and fail on invalid policy.
+- `_run_git` · `_run_git(repo_root: Path, args: list[str]) -> subprocess.CompletedProcess[str]` · line 1580: Run one git command for lifecycle diagnostics without throwing.
+- `_resolve_repo_root_from_worktree_path` · `_resolve_repo_root_from_worktree_path(worktree_path: str | None) -> Path | None` · line 1591: Resolve the canonical repo root from a claim worktree path when possible.
+- `_resolve_default_branch` · `_resolve_default_branch(repo_root: Path) -> str | None` · line 1610: Return the canonical default branch name for one repo when resolvable.
+- `_default_integration_ref` · `_default_integration_ref(repo_root: Path, default_branch: str) -> str` · line 1626: Prefer the canonical remote default ref when it exists.
+- `resolve_default_integration_revision` · `resolve_default_integration_revision(repo_root: Path | str) -> str` · line 1634: Resolve one full immutable commit for the canonical integration tip.
+- `validate_start_revision_targets` · `validate_start_revision_targets(*, repo_root: Path | str, start_revision: str, branch: str | None, worktree_path: str | None, require_branch: bool = False, require_worktree: bool = False) -> None` · line 1649: Require any existing execution identities to retain one start commit.
+- `_claimed_worktree_has_pending_changes` · `_claimed_worktree_has_pending_changes(worktree_path: Path | None) -> bool` · line 1707: Return whether pending tracked or untracked work is positively proven.
+- `claim_lifecycle_issues` · `claim_lifecycle_issues(claim: ClaimRecord) -> list[str]` · line 1723: Return mechanically provable stale-lifecycle issues for one live claim.
+- `_claim_branch_unmerged_progress` · `_claim_branch_unmerged_progress(claim: ClaimRecord) -> dict[str, Any] | None` · line 1773: Return git evidence that a claim's branch holds real unmerged commits.
+- `list_abandoned_claims` · `list_abandoned_claims(project: str | None = None, *, claims_dir: Path | None = None, min_ahead: int = 1) -> list[tuple[ClaimRecord, dict[str, Any]]]` · line 1824: Surface EXPIRED claims whose branch still holds real unmerged commits.
+- `claim_liveness_issues` · `claim_liveness_issues(claim: ClaimRecord, *, now: datetime | None = None) -> list[str]` · line 1876: Return stale-session issues derived from heartbeat freshness.
+- `_parse_aware_iso_datetime` · `_parse_aware_iso_datetime(value: Any) -> datetime | None` · line 1911: Parse a timezone-aware ISO timestamp without silently assuming UTC.
+- `build_progress_event` · `build_progress_event(*, progress_kind: str, evidence_ref: str, next_action: str, expected_quiet_until: str | datetime | None = None, quiet_reason: str | None = None, progress_at: datetime | None = None) -> ProgressEventV1` · line 1925: Validate one server-timestamped progress event before claim mutation.
+- `_progress_event_payload` · `_progress_event_payload(event: ProgressEventV1) -> dict[str, str | None]` · line 1950: Flatten a validated event into the additive claim storage contract.
+- `claim_progress_issues` · `claim_progress_issues(claim: ClaimRecord, *, now: datetime | None = None) -> list[str]` · line 1965: Return instrumentation defects or an expired durable-progress lease.
+- `claim_runtime_status` · `claim_runtime_status(claim: ClaimRecord, *, active_claims: list[ClaimRecord] | None = None, now: datetime | None = None) -> str` · line 2023: Classify one live claim across stale/stalled/weak/healthy states.
+- `peer_claims_by_goal` · `peer_claims_by_goal(claims: 'list[ClaimRecord]') -> 'dict[str, list[ClaimRecord]]'` · line 2052: Group live claims that declare a byte-identical ``broader_goal``.
+- `render_peer_claim_groups` · `render_peer_claim_groups(claims: 'list[ClaimRecord]') -> 'list[str]'` · line 2078: Render the shared-goal groups as display lines, or nothing when none.
+- `claim_enforcement_issues` · `claim_enforcement_issues(claim: ClaimRecord) -> list[dict[str, str]]` · line 2091: Return blocking operator findings that require an explicit disposition.
+- `validate_claim_for_creation` · `validate_claim_for_creation(claim: ClaimRecord) -> None` · line 2123: Reject new claims that omit required ownership metadata for live coordination.
+- `_plan_number` · `_plan_number(plan_ref: str | None) -> int | None` · line 2158: Extract a numbered-plan identity from canonical claim spellings.
+- `_resolve_commit` · `_resolve_commit(repo_root: Path, start_point: str, *, label: str) -> str` · line 2167: Resolve one commit-ish to a full immutable object ID.
+- `_numbered_plan_digest` · `_numbered_plan_digest(repo_root: Path, revision: str, plan_number: int) -> str` · line 2177: Bind exact plan bytes even when structural integrity enforcement is off.
+- `resolve_plan_authority_binding` · `resolve_plan_authority_binding(*, repo_root: str, plan_ref: str, start_point: str = 'HEAD', plan_repo_root: str | None = None, plan_start_point: str | None = None, target_repository_id: str | None = None) -> PlanAuthorityBinding` · line 2201: Resolve explicit plan authority separately from exact mutation-target custody.
+- `resolve_canonical_work_unit_binding` · `resolve_canonical_work_unit_binding(*, repo_root: str, plan_ref: str, work_graph_path: str, work_unit_id: str, start_point: str = 'HEAD', plan_repo_root: str | None = None, plan_start_point: str | None = None, target_repository_id: str | None = None, method_receipt_ref: str | None = None, method_receipt_sha256: str | None = None) -> CanonicalWorkUnitBinding` · line 2262: Validate an owning plan graph and its target revision independently.
+- `_parent_pid` · `_parent_pid(pid: int) -> int | None` · line 2416: Return a process's parent pid, or None when it cannot be read.
+- `session_id_from_process_tree` · `session_id_from_process_tree(registry_dir: Path | None = None) -> str | None` · line 2429: Recover the owning Claude Code session id by walking process ancestry.
+- `session_identity_aliases` · `session_identity_aliases(agent: str, resolved_session_id: str | None) -> tuple[str, ...]` · line 2458: Return every identity this process may legitimately claim ownership under.
+- `resolve_session_id` · `resolve_session_id(agent: str, explicit_session_id: str | None = None) -> str | None` · line 2480: Return an explicit or environment-derived session identifier.
+- `validate_native_session_binding` · `validate_native_session_binding(agent: str, session_id: str | None, *, require_native_marker: bool = False) -> None` · line 2511: Reject an explicit session identity that contradicts the native runtime.
+- `_safe_string_list` · `_safe_string_list(value: Any) -> list[str]` · line 2546: Normalize a scalar-or-list YAML value into a clean string list.
+- `_normalize_repo_path` · `_normalize_repo_path(path: str) -> str` · line 2567: Normalize a repo-relative path for parent/child overlap checks.
+- `bootstrap_authority_disabled_worktree_path` · `bootstrap_authority_disabled_worktree_path(target_worktree_path: str) -> str` · line 2575: Return a deterministic non-Git path that older readers cannot authorize.
+- `classify_broad_write_paths` · `classify_broad_write_paths(repo_root: str | None, write_paths: list[str], *, verified_new_files: set[str] | None = None) -> dict[str, str]` · line 2584: Classify root/top-level directory reservations without guessing.
+- `_regular_top_level_files_at_revision` · `_regular_top_level_files_at_revision(repo_root: str | None, revision: str | None, write_paths: list[str]) -> set[str]` · line 2641: Return exact top-level regular files recorded by one retained Git tree.
+- `_broad_scope_contract_issues` · `_broad_scope_contract_issues(claim: ClaimRecord) -> list[str]` · line 2679: Return deterministic schema-v6 broad-scope contract violations.
+- `_projects_overlap` · `_projects_overlap(left: ClaimRecord, right: ClaimRecord) -> bool` · line 2785: Return whether two claims touch at least one common project.
+- `_paths_overlap` · `_paths_overlap(left: str, right: str) -> bool` · line 2790: Return whether two normalized repo-relative paths overlap.
+- `session_transcript_path` · `session_transcript_path(session_id: str | None, *, codex_root: Path | None = None, claude_root: Path | None = None) -> Path | None` · line 2803: Locate the runtime transcript one session is actually writing to.
+- `session_last_active_at` · `session_last_active_at(session_id: str | None, *, codex_root: Path | None = None, claude_root: Path | None = None) -> datetime | None` · line 2836: Return when a session's own client last wrote, or None when unknowable.
+- `describe_session_activity` · `describe_session_activity(last_active_at: datetime | None, *, now: datetime | None = None) -> str` · line 2857: Render one claim owner's liveness for an operator reading a conflict.
+- `_is_append_only_path` · `_is_append_only_path(path: str) -> bool` · line 2877: Return whether a declared write path lands only in an append-only store.
+- `_compute_overlapping_write_paths` · `_compute_overlapping_write_paths(candidate: ClaimRecord, other: ClaimRecord) -> list[str]` · line 2889: Return normalized write-path overlaps between two claims.
+- `_overlap_relations` · `_overlap_relations(candidate: ClaimRecord, other: ClaimRecord) -> tuple[str, ...]` · line 2908: Classify every effective overlap from the candidate's perspective.
+- `_reservation_kind` · `_reservation_kind(other: ClaimRecord, relations: tuple[str, ...]) -> str | None` · line 2929: Explain a parent reservation without changing conflict severity.
+- `_current_diff_disjoint` · `_current_diff_disjoint(candidate: ClaimRecord, other: ClaimRecord) -> bool | None` · line 2941: Return advisory Git status disjointness, or unknown when unreadable.
+- `_interaction_explanation` · `_interaction_explanation(candidate: ClaimRecord, other: ClaimRecord) -> dict[str, Any]` · line 2970: Build shared explanatory fields for one overlap interaction.
+- `_git_worktree_boundary` · `_git_worktree_boundary(claim: ClaimRecord) -> tuple[Path, Path, Path, str] | None` · line 2985: Return verified repository, common-dir, worktree, and target kind.
+- `_has_isolated_worktree_boundary` · `_has_isolated_worktree_boundary(candidate: ClaimRecord, other: ClaimRecord) -> bool` · line 3032: Return whether Git isolates the two overlapping mutation surfaces.
+- `_has_write_ownership` · `_has_write_ownership(claim: ClaimRecord) -> bool` · line 3051: Return whether a claim owns its declared write paths.
+- `_parse_iso_datetime` · `_parse_iso_datetime(value: Any) -> datetime | None` · line 3062: Parse an ISO timestamp from claim data if present.
+- `_progress_text_with_presence` · `_progress_text_with_presence(data: dict[str, Any], key: str, *, null_is_invalid: bool = True) -> str | None` · line 3075: Preserve invalid explicit progress keys instead of erasing them as legacy absence.
+- `normalize_claim` · `normalize_claim(data: dict[str, Any], *, source_file: str | None = None) -> ClaimRecord | None` · line 3091: Normalize a raw YAML claim into the v2 in-memory representation.
+- `_load_claims` · `_load_claims(claims_dir: Path | None = None) -> list[ClaimRecord]` · line 3270: Load live claim files from the configured or explicitly supplied registry.
+- `unregistered_claim_files` · `unregistered_claim_files() -> list[str]` · line 3323: Return claim-dir files that coordination tooling cannot parse as claims.
+- `malformed_claim_files` · `malformed_claim_files(claims_dir: Path | None = None) -> list[dict[str, str]]` · line 3338: Return `.yaml` claim-dir files that exist but fail to parse as YAML.
+- `_claim_filename` · `_claim_filename(agent: str, project: str, scope: str) -> str` · line 3368: Generate a deterministic filename for a claim.
+- `check_claims` · `check_claims(project: str | None = None, *, claims_dir: Path | None = None) -> list[ClaimRecord]` · line 3377: Check active claims, optionally selecting a registry and project.
+- `list_claims` · `list_claims(project: str | None = None, *, claims_dir: Path | None = None, include_inactive: bool = False) -> list[ClaimRecord]` · line 3385: List claims with an explicit option to retain non-live audit records.
+- `evaluate_claim` · `evaluate_claim(candidate: ClaimRecord, *, active_claims: list[ClaimRecord] | None = None) -> ClaimCheckResult` · line 3401: Classify candidate claim interactions against active live claims.
+- `build_candidate_claim` · `build_candidate_claim(*, agent: str, project: str, scope: str, intent: str, plan_ref: str | None = None, claim_type: str | None = None, write_paths: list[str] | None = None, read_paths: list[str] | None = None, worktree_path: str | None = None, repo_root: str | None = None, branch: str | None = None, session_name: str | None = None, broader_goal: str | None = None, tracker_path: str | None = None, session_id: str | None = None, heartbeat_at: str | None = None, status: str = 'active', parent_scope: str | None = None, notes: str | None = None, claimed_at: str | None = None, expires_at: str | None = None, updated_at: str | None = None, start_revision: str | None = None, plan_repo_root: str | None = None, plan_revision: str | None = None, plan_sha256: str | None = None, work_unit_id: str | None = None, work_graph_path: str | None = None, work_graph_sha256: str | None = None, approval_revisions: tuple[str, ...] = (), parallel_root_authorized: bool = False, progress_at: str | None = None, progress_kind: str | None = None, evidence_ref: str | None = None, next_action: str | None = None, expected_quiet_until: str | None = None, quiet_reason: str | None = None, broad_scope_mode: str | None = None, broad_scope_reason: str | None = None, target_worktree_path: str | None = None, contact_ref: str | None = None, new_files: list[str] | tuple[str, ...] | None = None, schema_version: int | None = None, method_receipt_ref: str | None = None, method_receipt_sha256: str | None = None) -> ClaimRecord` · line 3524: Build a normalized candidate claim from CLI or test inputs.
+- `_refresh_exact_owner_claim` · `_refresh_exact_owner_claim(*, agent: str, project: str, scope: str, session_id: str | None, intent: str, plan_ref: str | None, claim_type: str | None, write_paths: list[str] | None, read_paths: list[str] | None, worktree_path: str | None, repo_root: str | None, branch: str | None, session_name: str | None, broader_goal: str | None, status: str, parent_scope: str | None, notes: str | None, allow_parallel: bool, broad_scope_mode: str | None, broad_scope_reason: str | None, target_worktree_path: str | None, ttl_hours: float) -> tuple[bool, str] | None` · line 3650: Expand an exact-owner live claim without reconstructing retained custody.
+- `_tracker_path_yaml_error` · `_tracker_path_yaml_error(tracker_path: str | None) -> str | None` · line 3751: Why this tracker path cannot serve as a session tracker, or None.
+- `_reject_unreadable_tracker_path` · `_reject_unreadable_tracker_path(tracker_path: str | None) -> None` · line 3793: Fail at claim time rather than stranding a lane at closeout.
+- `create_claim` · `create_claim(agent: str, project: str, scope: str, intent: str, plan_ref: str | None = None, ttl_hours: float = DEFAULT_TTL_HOURS, claim_type: str | None = None, write_paths: list[str] | None = None, read_paths: list[str] | None = None, worktree_path: str | None = None, repo_root: str | None = None, branch: str | None = None, session_name: str | None = None, broader_goal: str | None = None, tracker_path: str | None = None, session_id: str | None = None, status: str = 'active', parent_scope: str | None = None, notes: str | None = None, work_graph_path: str | None = None, work_unit_id: str | None = None, start_point: str = 'HEAD', plan_repo_root: str | None = None, plan_start_point: str | None = None, resume_requested: bool = False, require_new: bool = False, allow_parallel: bool = False, require_native_session_binding: bool = False, require_native_session_marker: bool = False, broad_scope_mode: str | None = None, broad_scope_reason: str | None = None, target_worktree_path: str | None = None, contact_ref: str | None = None, new_files: list[str] | None = None, verified_goal_default_revision: str | None = None, verified_maintenance_default_revision: str | None = None, method_receipt_ref: str | None = None, method_receipt_sha256: str | None = None) -> tuple[bool, str]` · line 3801: Create a new claim after checking for hard conflicts.
+- `_replacement_is_within_existing_authority` · `_replacement_is_within_existing_authority(replacement: str, existing: str) -> bool` · line 4133: Return whether one normalized replacement is equal to/below an old path.
+- `_validate_bootstrap_target_identity` · `_validate_bootstrap_target_identity(claim: ClaimRecord) -> None` · line 4141: Require the separated bootstrap target to be the claimed Git branch/repository.
+- `narrow_claim` · `narrow_claim(*, agent: str, project: str, scope: str, session_id: str | None, write_paths: list[str], claims_dir: Path | None = None, require_native_session_binding: bool = False, known_new_files: list[str] | None = None, start_revision: str | None = None) -> NarrowClaimResult` · line 4168: Commit one owner-only strict subset claim/projection transition.
+- `hydrate_missing_session_ids` · `hydrate_missing_session_ids(*, agent: str, project: str, session_id: str | None = None, scope: str | None = None, branch: str | None = None) -> tuple[int, list[str], str]` · line 4306: Fill in missing session IDs for matching live claims.
+- `_extended_lease_expiry` · `_extended_lease_expiry(current_expires_at: Any, renewed_at: str, ttl_hours: float) -> str` · line 4361: Return the later of a claim's current lease and one renewed at ``renewed_at``.
+- `heartbeat_claims` · `heartbeat_claims(*, agent: str, project: str, session_id: str | None = None, scope: str | None = None, branch: str | None = None, claims_dir: Path | None = None, require_exact_session: bool = False, ttl_hours: float = DEFAULT_TTL_HOURS) -> tuple[int, list[str], str, str]` · line 4381: Refresh heartbeat metadata and the lease for live claims owned by one session.
+- `record_progress_claims` · `record_progress_claims(*, agent: str, project: str, scope: str, progress_kind: str, evidence_ref: str, next_action: str, session_id: str | None = None, expected_quiet_until: str | datetime | None = None, quiet_reason: str | None = None, claims_dir: Path | None = None, require_native_session_binding: bool = False, now: datetime | None = None) -> tuple[ClaimRecord, ProgressEventV1]` · line 4483: Record durable advancement on exactly one live claim owned by this session.
+- `end_session_claims` · `end_session_claims(*, agent: str, session_id: str | None = None, reason: str = 'session ended', claims_dir: Path | None = None) -> tuple[int, list[str], str, str]` · line 4594: Retire exact-session live ownership without deleting recovery state.
+- `release_claim` · `release_claim(agent: str, project: str, scope: str, *, expected_session_id: str | None = None, expected_start_revision: str | None = None, allow_managed_lane_rollback: bool = False) -> tuple[bool, str]` · line 4654: Release an existing claim, optionally guarded by exact custody.
+- `release_claims_for_branch` · `release_claims_for_branch(branch: str) -> tuple[int, list[str]]` · line 4722: Release every live canonical claim attached to one branch.
+- `_archive_completed_claim_locked` · `_archive_completed_claim_locked(claim_file: Path, *, claims_dir: Path) -> tuple[ClaimRecord, claim_mutation_receipts.CompletedClaimArchiveReceiptV1]` · line 4748: Archive and remove one exact completed claim while the registry lock is held.
+- `complete_claims_for_plan` · `complete_claims_for_plan(*, project: str, plan_ref: str, note: str | None = None) -> tuple[int, list[str]]` · line 4813: Mark matching live claims completed and return the affected scopes.
+- `_matches_prune_selectors` · `_matches_prune_selectors(claim: ClaimRecord, *, agent: str | None, project: str | None, scope: str | None) -> bool` · line 4880: Return whether one normalized claim matches every supplied selector.
+- `prune_expired` · `prune_expired(*, agent: str | None = None, project: str | None = None, scope: str | None = None) -> tuple[int, list[str]]` · line 4896: Remove selected expired claims and return count plus exact scope labels.
+- `prune_stale` · `prune_stale(*, agent: str | None = None, project: str | None = None, scope: str | None = None) -> tuple[int, list[str]]` · line 4946: Remove selected stale live claims and return count plus scope labels.
+- `prune_completed` · `prune_completed(*, agent: str | None = None, project: str | None = None, scope: str | None = None) -> tuple[int, list[str]]` · line 4998: Remove claims already marked complete/completed.
+- `backfill_completed_claim_archive` · `backfill_completed_claim_archive(*, source_claim_snapshot: Path, expected_source_sha256: str, prune_event_id: str) -> tuple[claim_mutation_receipts.CompletedClaimArchiveReceiptV1, bool]` · line 5207: Archive one legacy completed claim using exact bytes and prune provenance.
+- `parse_args` · `parse_args(argv: list[str] | None = None) -> argparse.Namespace` · line 5269: Parse CLI arguments for coordination-claim management.
+- `_validate_explicit_prune_selectors` · `_validate_explicit_prune_selectors(args: argparse.Namespace) -> None` · line 5468: Reject empty prune selectors before the registry lock can be acquired.
+- `_render_check_output` · `_render_check_output(*, claims: list[ClaimRecord], project: str | None, candidate: ClaimRecord | None) -> dict[str, Any]` · line 5479: Build a structured report for list/check operations.
+- `_render_mutation_audit_failure` · `_render_mutation_audit_failure(exc: MutationAuditError, *, as_json: bool) -> int` · line 5539: Report an already-applied mutation whose receipt could not be persisted.
+- `_render_completed_claim_archive_failure` · `_render_completed_claim_archive_failure(exc: CompletedClaimArchiveError, *, as_json: bool) -> int` · line 5549: Report an archive-before-prune failure that left claim YAML unchanged.
+- `main` · `main(argv: list[str] | None = None) -> int` · line 5563: Run the CLI for cross-brain coordination claim management.
 
 ### [`enforced_planning/coordination_messages.py`](../enforced_planning/coordination_messages.py)
 
@@ -1521,45 +1527,6 @@ Build aes-planning-plan.html from the adopted plan ../README.md (kept in step by
 
 _Coverage findings: python-docstring-missing._
 
-### [`proposals/aes-planning/rollout/daily_report.py`](../proposals/aes-planning/rollout/daily_report.py)
-
-Daily report on the AES commit rule across every repository (plan aes-planning, P4/P6).
-
-**Symbols**
-
-- `quick_plan_problems` · `quick_plan_problems(rows: list[tuple[str, dict]]) -> list[dict]` · line 79: [Goal] commits whose quick-plan notes (AES #269) say the saved check output is missing or that files fall outside the plan's list, one record per commit with the problem notes. Clean notes are not problems.
-- `refresh_runtime` · `refresh_runtime() -> str` · line 107: Keep the hook runtime and shared plan root at AES main: fetch, move the runtime worktree to origin/main, and reinstall the `aes` tool when main moved (plans adopted in AES resolve from every repository through this checkout).
-
-_Coverage findings: python-docstring-missing._
-
-### [`proposals/aes-planning/rollout/install_everywhere.py`](../proposals/aes-planning/rollout/install_everywhere.py)
-
-Wire the AES commit rule (`aes commit check`) into every repository under a workspace.
-
-**Symbols**
-
-- `aes_runtime` · `aes_runtime() -> str | None` · line 99: The `aes` the hooks will find: PATH first, then ~/.local/bin (where scheduled jobs look).
-- `repo_id` · `repo_id(repo: Path) -> str` · line 117: The underlying repository's name: linked worktrees share one config, so they share one wrapper folder.
-- `runs_rule` · `runs_rule(hook: Path) -> bool` · line 127: True when this commit-msg hook is AES-generated and calls ``aes commit check``.
-- `is_aes_native` · `is_aes_native(repo: Path) -> bool` · line 135: An AES project whose own hooks (``aes hooks install`` into .githooks) already run the rule.
-- `kind` · `kind(repo: Path) -> tuple[str, str]` · line 149: (kind, local hooksPath or '').
-
-_Coverage findings: python-docstring-missing._
-
-### [`proposals/aes-planning/rollout/misuse_review.py`](../proposals/aes-planning/rollout/misuse_review.py)
-
-Nightly review of commits that passed the AES commit rule on form alone (plan aes-planning).
-
-**Symbols**
-
-- `find_commit` · `find_commit(repo: Path, subject: str, day: dt.date) -> str | None` · line 75: The commit in `repo` made on `day` whose subject is `subject` (logs carry no SHA: the commit-msg hook runs before the commit exists).
-
-_Coverage findings: python-docstring-missing._
-
-### [`proposals/aes-planning/rollout/replay_emergency.py`](../proposals/aes-planning/rollout/replay_emergency.py)
-
-Replay the "Emergency: none" refusal over every [Unplanned] commit in ~/code since 2026-10-07 (ROLLOUT.md, 2026-10-08).
-
 ### [`proposals/aes-subagent-feedback/verify_canary.py`](../proposals/aes-subagent-feedback/verify_canary.py)
 
 Check the actual native canary return against its frozen packet and result schema.
@@ -1786,6 +1753,14 @@ _Coverage findings: python-docstring-missing._
 ### [`proposals/harness-context/review-page/build_page.py`](../proposals/harness-context/review-page/build_page.py)
 
 Render the public-safe harness projection from the frozen findings.
+
+### [`proposals/planning-package/review-page/data.js`](../proposals/planning-package/review-page/data.js)
+
+_No source-local artifact summary._
+
+### [`proposals/planning-package/review-page/graph-viewer.js`](../proposals/planning-package/review-page/graph-viewer.js)
+
+_No source-local artifact summary._
 
 ### [`proposals/trace-review-enforcement/check_publication.py`](../proposals/trace-review-enforcement/check_publication.py)
 
@@ -2053,7 +2028,11 @@ Nightly feedback collector: transcripts -> one daily feedback log -> the learnin
 - `repeats_filed` · `repeats_filed(quote: str, recent: list[str]) -> bool` · line 375: Light-model check: does this line state the same lesson as one filed recently, even reworded?
 - `_repeat_or_defer` · `_repeat_or_defer(it: dict, recent: list[str]) -> str | None` · line 400: 'repeats_filed' for a reworded repeat, 'deferred_repeat_check' if the check failed (retried next run), else None.
 - `earlier_splits` · `earlier_splits(ids: set[str], out: Path = OUT) -> dict[str, list[dict]]` · line 441: Records an earlier run already split each of `ids` into, from the first clean split in the daily report logs. A report the filing cap deferred is re-read next run; splitting it again with the light model can parse it differently and give one record id two payloads (project-meta #2538).
-- `file_pending` · `file_pending(path: Path, cap: int, min_reusable: float = 0.6) -> tuple[int, list[str]]` · line 718: File items a dry run judged eligible; the day file stays append-only (update lines carry `filing_update`).
+- `filed_human_quotes` · `filed_human_quotes(out: Path = OUT) -> set[str]` · line 462: Quotes of human-correction reports already filed as an issue, from the daily report logs.
+- `dedupe_human` · `dedupe_human(reports: list[dict], filed: set[str]) -> tuple[list[dict], int]` · line 477: One human-correction report per distinct quote. The same instruction text recurs across thousands of sessions (2026-11-10: 9,813 pending human reports held 790 distinct quotes, one of them 1,849 times), so filing per report id would flood the private log with copies and starve every other report behind the filing cap. Keeps the first report of each quote not filed before; returns the kept reports and how many were dropped as copies.
+- `HourlyPacer` · `HourlyPacer` · line 492: Holds issue filing to `per_hour` issues in any one window of an hour. GitHub allows at most 500 content-creating requests an hour (and 80 a minute) before its secondary rate limit refuses them; one report is one `gh issue create`, measured at about 1.4 s each (2026-11-10 journal: 80 in 112 s, so 43 a minute). After `per_hour` filings it sleeps until the window's hour is up.
+- `HourlyPacer.wait` · `wait(self) -> float` · line 503: Call before each filing; returns the seconds slept.
+- `file_pending` · `file_pending(path: Path, cap: int, min_reusable: float = 0.6) -> tuple[int, list[str]]` · line 786: File items a dry run judged eligible; the day file stays append-only (update lines carry `filing_update`).
 
 _Coverage findings: python-docstring-missing._
 
@@ -2103,6 +2082,11 @@ _Coverage findings: python-docstring-missing._
 ### [`scripts/learning_loop/label_items.py`](../scripts/learning_loop/label_items.py)
 
 Label lessons with Jev into failure-mode families (AES learning loop, slices 1-2).
+
+**Symbols**
+
+- `ask` · `ask(state: dict, q: dict) -> tuple[dict | None, str | None, float]` · line 93: One Jev call through llm_client; returns (provider response, error, seconds).
+- `report_others` · `report_others(repo: str, concern_repo: str, tok: str) -> None` · line 273: Hand open `other` items (failures no family fits) to an agent once two exist.
 
 _Coverage findings: python-docstring-missing._
 
@@ -2919,14 +2903,12 @@ Canonical Agentic Engineering System package.
 
 **Symbols**
 
-- `AdoptError` · `AdoptError` · line 53: Adoption refused, or the baseline file does not load.
-- `load_baseline` · `load_baseline(root: Path) -> Baseline | None` · line 135: The baseline, or None when the repository was never adopted. A malformed file is an error.
-- `adopt` · `adopt(root: Path, *, revision: str = 'HEAD', dry_run: bool = False, project_id: str | None = None, actor: str | None = None, outcome: str | None = None, governed_roots: Sequence[str] | None = None, language: str = 'python', now: datetime | None = None) -> AdoptResult` · line 175: Write the legacy baseline at `revision`; initialize the project first when it has no `.aes/`.
-- `legacy_paths` · `legacy_paths(root: Path, target: TargetRecord | None = None) -> frozenset[str]` · line 237: Baseline paths the target does not plan; empty for a repository never adopted.
-- `scope_released` · `scope_released(root: Path, baseline: Baseline | None = None) -> frozenset[str]` · line 249: Baseline files changed at HEAD that lie in a write surface of an adopted Company Planning plan in this repository's plan roots (`commit_rule.adopted_write_scopes`). HEAD, not the index: the commit being judged has not released the file it edits yet.
-- `unplanned_legacy` · `unplanned_legacy(root: Path) -> frozenset[str]` · line 271: `legacy_paths` minus `scope_released`: the files whose edit still needs a plan's scope.
-- `prune_baseline` · `prune_baseline(root: Path) -> tuple[str, ...]` · line 291: Drop entries the target now plans or Git no longer tracks; return them (sorted).
-- `tracked_under` · `tracked_under(root: Path, roots: Sequence[str]) -> int` · line 308: How many tracked files the governed roots already hold (aes init warns when non-zero).
+- `AdoptError` · `AdoptError` · line 43: Adoption refused, or the baseline file does not load.
+- `load_baseline` · `load_baseline(root: Path) -> Baseline | None` · line 124: The baseline, or None when the repository was never adopted. A malformed file is an error.
+- `adopt` · `adopt(root: Path, *, revision: str = 'HEAD', dry_run: bool = False, project_id: str | None = None, actor: str | None = None, outcome: str | None = None, governed_roots: Sequence[str] | None = None, language: str = 'python', now: datetime | None = None) -> AdoptResult` · line 164: Write the legacy baseline at `revision`; initialize the project first when it has no `.aes/`.
+- `legacy_paths` · `legacy_paths(root: Path, target: TargetRecord | None = None) -> frozenset[str]` · line 226: Baseline paths the target does not plan; empty for a repository never adopted.
+- `prune_baseline` · `prune_baseline(root: Path) -> tuple[str, ...]` · line 251: Drop entries the target now plans or Git no longer tracks; return them (sorted).
+- `tracked_under` · `tracked_under(root: Path, roots: Sequence[str]) -> int` · line 268: How many tracked files the governed roots already hold (aes init warns when non-zero).
 
 _Coverage findings: python-docstring-missing._
 
@@ -2936,11 +2918,11 @@ Revision-bound characterization and target drift (`RU-AES-CHARACTERIZE`, `SC-GF-
 
 **Symbols**
 
-- `CharacterizeError` · `CharacterizeError` · line 43: The repository could not be characterized.
-- `_source_checkout_revision` · `_source_checkout_revision(module_file: Path) -> str | None` · line 79: `git describe --always --dirty` of the checkout that tracks `module_file`, else None.
-- `running_version` · `running_version(module_file: Path | None = None) -> str` · line 107: The AES version of the code that is actually executing.
-- `_read_blobs` · `_read_blobs(root: Path, shas: list[str]) -> dict[str, bytes]` · line 137: Blob contents by sha, through one `git cat-file --batch` call.
-- `render_report` · `render_report(report: CharacterizeReport) -> str` · line 267: Text report; deterministic for one revision (no produced_at).
+- `CharacterizeError` · `CharacterizeError` · line 45: The repository could not be characterized.
+- `_source_checkout_revision` · `_source_checkout_revision(module_file: Path) -> str | None` · line 82: `git describe --always --dirty` of the checkout that tracks `module_file`, else None.
+- `running_version` · `running_version(module_file: Path | None = None) -> str` · line 111: The AES version of the code that is actually executing.
+- `_read_blobs` · `_read_blobs(root: Path, shas: list[str]) -> dict[str, bytes]` · line 141: Blob contents by sha, through one `git cat-file --batch` call.
+- `render_report` · `render_report(report: CharacterizeReport) -> str` · line 271: Text report; deterministic for one revision (no produced_at).
 
 _Coverage findings: python-docstring-missing._
 
@@ -2964,50 +2946,7 @@ _Coverage findings: python-docstring-missing._
 
 **Symbols**
 
-- `_VersionAction` · `_VersionAction` · line 69: Print the version of the running code: the installed distribution's version (Git-derived at build time), plus the running checkout's `git describe` when the code executes from a Git checkout (`characterize.running_version`).
-
-_Coverage findings: python-docstring-missing._
-
-### [`src/agentic_engineering_system/commit_rule.py`](../src/agentic_engineering_system/commit_rule.py)
-
-`aes commit check` / `aes commit replay`: the commit-tag rule (`RU-AES-COMMIT-RULE`, AP-REQ-001).
-
-**Symbols**
-
-- `_git_local_env_vars` · `_git_local_env_vars() -> tuple[str, ...]` · line 228: AES implementation extension: cache Git's documented hook-local names.
-- `_foreign_git_env` · `_foreign_git_env() -> dict[str, str]` · line 235: Clear repository-local hook context for foreign Git calls, preserving auth.
-- `repository_names` · `repository_names(root: Path) -> tuple[str, ...]` · line 247: What a conflict surface's `repository` may say to mean this repository, lower-cased: origin's `owner/repo` and `repo`, and the main checkout's folder name (a linked worktree's own folder name is not the repository's).
-- `unit_scripts` · `unit_scripts(root: Path) -> frozenset[str]` · line 265: Tracked files that a systemd unit tracked in this repository runs: every token of an Exec* line that ends with a tracked file's path (units name scripts by absolute or %h paths).
-- `skipped_by` · `skipped_by(root: Path, config: RuleConfig) -> Path | None` · line 333: The machine-wide skip root `root` lies under, if any.
-- `_front_matter_plan_id` · `_front_matter_plan_id(meta: object) -> str | None` · line 384: A plan's id: `plan_id:`, or `id:` as Company Planning's `skeleton` writes it for a design plan (artifact_type: design_plan); found 2026-10-08 when a skeleton-built plan's own [Goal <id>] commit was reported as "no plan found".
-- `plan_identity` · `plan_identity(text: bytes) -> str` · line 409: A plan's text without its progress fields: front-matter `status`/`owner`/`updated` keys, `Status:`/`Owner:` lines, progress sections (`PROGRESS_HEADING_RE`, up to the next heading of the same or a higher level) and blank lines. Two versions with the same identity are the same adopted plan (AES #673).
-- `git_plan_history` · `git_plan_history(repo: Path, rel: str, rev: str = 'HEAD', index: bool = True)` · line 446: A lookup `want_sha256 -> bytes | None` over the versions of `rel` (relative to `repo`) in its last `PLAN_HISTORY_DEPTH` commits up to `rev`, plus the index when `index`; None whenever Git fails or no version has that sha256.
-- `split_advisory` · `split_advisory(why: str) -> tuple[str, str]` · line 489: An adoption reason and its trailing progress advisory ("; ..." or "").
-- `_adoption` · `_adoption(read, plan_rel: str, where: str, history = None) -> tuple[bool, str, dict]` · line 495: The adoption check over any byte source: `read(path relative to the plan root)` returns the file's bytes or None. `where` names the plan in messages. The third value is the plan's front matter (empty when the plan is missing). `history(want_sha256)` returns an earlier version of the plan with that sha256, or None (`git_plan_history`).
-- `plan_adoption` · `plan_adoption(plan_root: Path, plan: Path) -> tuple[bool, str]` · line 534: Whether `plan` declares a Company Planning receipt whose adoption decision is `adopted` for the current bytes of both the plan and the receipt; the reason either way.
-- `in_surface` · `in_surface(path: str, target: str) -> bool` · line 568: Whether `path` lies in a repository_path surface `target`: the same file, anything under that directory, or a glob match (`*` and `?` stay within one directory, `**` crosses them).
-- `write_scope` · `write_scope(meta: dict, names: tuple[str, ...]) -> list[str]` · line 578: The plan's `conflict_surfaces` targets this repository may write: Company Planning's work-unit `conflictSurface` shape, `kind: repository_path`, `access: write | exclusive`, and a `repository` that names this repository. Other entries (read access, other kinds, other repositories, malformed ones) grant nothing.
-- `adopted_write_scopes` · `adopted_write_scopes(plan_roots: tuple[Path, ...], names: tuple[str, ...]) -> list[str]` · line 595: Write surfaces for this repository of every adopted plan under `plan_roots` (`docs/plans/*.md`, `proposals/*/*.md`). Only plans whose front matter mentions `conflict_surfaces` are parsed and checked.
-- `workspace_plan_roots` · `workspace_plan_roots(workspace: Path, plan_id: str, skip: tuple[Path, ...] = ()) -> list[Path]` · line 626: Repositories directly under `workspace` holding a plan whose front matter names `plan_id`.
-- `fetch_all` · `fetch_all(workspace: Path, timeout: int = 60) -> list[str]` · line 672: `git fetch origin` in every repository directly under `workspace`, 16 at a time, so the plan index reads each default branch as GitHub has it (a plan merged there is not in a clone's origin/HEAD until a fetch). Never prompts for credentials. Returns one line per failure.
-- `build_plan_index` · `build_plan_index(workspace: Path, path: Path | None = None) -> dict` · line 692: Which plan ids each repository directly under `workspace` holds on its default branch (read through git, not its working tree, which may sit on another branch). Incremental: a repository whose default-branch commit is unchanged keeps its previous entry, so only moved repositories are re-read (a full rebuild over ~/code takes about 20 s, a refresh a few).
-- `_refresh_index_in_background` · `_refresh_index_in_background(workspace: Path) -> None` · line 745: Start an index rebuild that outlives this commit; the next commit reads its result. AES_PLAN_INDEX_REFRESH=0 turns this off (tests build the index explicitly).
-- `indexed_adoption` · `indexed_adoption(workspace: Path, plan_id: str) -> tuple[list[tuple[bool, str, dict]], bool]` · line 771: Judge `plan_id` from each repository's default branch as recorded in the plan index. Returns the per-candidate verdicts and whether the index was missing or stale (and so a background refresh was started).
-- `receipt_status` · `receipt_status(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None, plan_workspace: Path | None = None) -> tuple[bool, str]` · line 802: Whether the named plan has a current adopted Company Planning receipt, and why not.
-- `staged_adoption` · `staged_adoption(root: Path, number: str | None, plan_id: str | None) -> tuple[bool, str, dict] | None` · line 812: The named plan as staged in the commit being made, judged from the index (with the working tree as fallback for files the commit does not touch): a plan adopted and committed together with its first work exists nowhere else yet. None when the commit stages no such plan.
-- `adopted_plan` · `adopted_plan(plan_roots: tuple[Path, ...], number: str | None, plan_id: str | None, plan_workspace: Path | None = None, index_root: Path | None = None) -> tuple[bool, str, dict]` · line 842: `receipt_status`, plus the adopted plan's front matter (empty unless adopted).
-- `_plan_text` · `_plan_text(config: RuleConfig, plan_id: str) -> tuple[Path, str, str] | None` · line 889: (repository, plan path relative to it, text) of the named plan: the plan roots and the workspace checkouts first, then each repository's default branch from the plan index.
-- `quick_plan_notes` · `quick_plan_notes(plan_id: str, changes: list[FileChange], config: RuleConfig) -> list[str]` · line 912: For a plan made by Company Planning's quick-adopt (front matter `planning_path: requested`): whether the commit's changes stay inside the plan's file list (its Vertical and reset section, plus the plan's own folder and AES evidence records) and whether the plan's saved check output (`<plan folder>/<id>.check.txt`) is present. Notes only: they never change the verdict.
-- `durable_plan_findings` · `durable_plan_findings(plan_id: str, config: RuleConfig) -> tuple[list[str], list[str]]` · line 960: (refusing findings, notes) from the durable-documents check for the named quick plan, run on the commit being made. Empty when the plan is not a quick plan in this repository or carries no command.
-- `unreached_new_docs` · `unreached_new_docs(root: Path, added: list[str]) -> list[str]` · line 1006: The added reader documents that wiki/index.md does not reach within two links in the staged tree (the index), by the daily check's rules: instruction files, hidden folders, test fixtures, templates, generated output and `.md-file-cap.yaml` `unlinked_ok` paths are exempt.
-- `_link_path` · `_link_path(cur: str, target: str, exists: Callable[[str], bool]) -> str` · line 1059: The repository path a Markdown link in page `cur` points at. A target starting with "/" is root-relative: the repository root when `exists` says that path is there, else the wiki folder (personal-wiki links "/people/a.md" from wiki/). Same rule as project-meta md_file_cap.
-- `judge` · `judge(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig, legacy: frozenset[str] = frozenset()) -> Verdict` · line 1084: The tag's verdict (with the legacy-edit check), plus notes for a quick-adopt plan.
-- `_judge_with_legacy` · `_judge_with_legacy(message: str, changes: list[FileChange], governed_roots: list[str], config: RuleConfig, legacy: frozenset[str] = frozenset()) -> Verdict` · line 1127: The tag's verdict, then the adopted repository's legacy-edit check (`adopt`). An `Asked:` line is recorded on the verdict either way and never changes it: being asked does not make large work trivial.
-- `shaping_navigation_problems` · `shaping_navigation_problems(root: Path, plan_id: str, outside: list[FileChange]) -> list[str]` · line 1228: The staged changes outside proposals/<id>/ that are not navigation into it (#476, #531).
-- `_legacy` · `_legacy(root: Path, *, released: bool = True) -> frozenset[str]` · line 1268: Legacy baseline paths the target does not plan, minus (with `released`) those an adopted plan's scope released (`adopt.unplanned_legacy`); empty outside an adopted AES project. The pre-commit hook has already refused a target that does not load, so a load error here is raised.
-- `message_tag` · `message_tag(message_file: Path) -> str | None` · line 1290: The tag on the message's first line under TAG_RE, the one grammar for commit tags (#414), or None.
-- `check_message` · `check_message(root: Path, message_file: Path | None, *, message_text: str | None = None, preflight: bool = False) -> tuple[int, str]` · line 1301: Judge the commit being made; return (exit status, report). Observe mode never refuses.
-- `replay` · `replay(root: Path, revisions: str = 'HEAD', max_count: int = 300) -> tuple[list[tuple[str, str, Verdict]], dict[str, int]]` · line 1345: Judge past commits (non-merge, first-parent order) with today's rule and today's receipts. Legacy is today's baseline without the scope release: a file the replayed commits themselves changed is still judged against the plan each commit names.
+- `_VersionAction` · `_VersionAction` · line 67: Print the version of the running code: the installed distribution's version (Git-derived at build time), plus the running checkout's `git describe` when the code executes from a Git checkout (`characterize.running_version`).
 
 _Coverage findings: python-docstring-missing._
 
@@ -3028,21 +2967,23 @@ Observations, freshness and criterion standing (`RU-AES-EVIDENCE`, `SC-GF-007`, 
 
 **Symbols**
 
-- `EvidenceError` · `EvidenceError` · line 87: Observations could not be loaded or checked against the target.
-- `DependencyBasis` · `DependencyBasis` · line 103: Where `dependency_paths` came from: the subject's own file, what AES discovered from its intra-repository imports, and what the recorder declared.
-- `NegativeControl` · `NegativeControl` · line 112: The observation is of a deliberately broken revision (a "break it on purpose" run).
-- `DecisionCheck` · `DecisionCheck` · line 136: One output of the run, followed back to the source it was made from.
-- `TraceReview` · `TraceReview` · line 145: What a `trace_review` observation must say: the run read end to end, not judged by its output.
-- `_trace_review_problems` · `_trace_review_problems(obs: ObservationRecord, ers: dict[str, Any]) -> list[str]` · line 252: A trace_review assessment needs a TraceReview record, and SUPPORTS needs the whole trace read with no decision found wrong.
-- `_target_entries_at` · `_target_entries_at(root: Path, revision: str, target_path: str) -> dict[str, str]` · line 313: Every id of the target at `revision` -> its entry, canonically serialized.
-- `_reachable` · `_reachable(root: Path, commit: str) -> bool` · line 337: Whether `commit` is an ancestor of HEAD. A commit this clone lacks is not; any other git failure is an error.
-- `_check_control` · `_check_control(root: Path, obs: ObservationRecord) -> str` · line 354: The revision a negative control's freshness is computed from, after checking its commits.
-- `freshness` · `freshness(root: Path, obs: ObservationRecord, target_path: str = '.aes/target.yaml') -> tuple[Freshness, str]` · line 376: CURRENT, STALE, UNKNOWN or UNREACHABLE, with the reason; see the module docstring.
-- `EvidenceReport.counts` · `counts(self) -> str` · line 438: `N current, N stale, N unknown, N unreachable; N superseded`: freshness over the observations that count, superseded ones apart.
-- `_discover_dependencies` · `_discover_dependencies(root: Path, locator: str) -> list[str]` · line 541: Governed files a Python test's imports reach at HEAD, the test excluded.
-- `branch_note` · `branch_note(root: Path, revision: str, consequence: str = 'this evidence stays valid') -> str | None` · line 574: A warning when `revision` is not yet on the default branch, a note when that cannot be checked, None when it is already there.
-- `_aes_version` · `_aes_version() -> str` · line 603: The running AES code's version (`characterize.running_version`); fails if undeterminable.
-- `record` · `record(root: Path, subject_id: str, depends_on: list[str], command: list[str] | None = None, downgrade_basis: str | None = None) -> Recorded` · line 613: Run one deterministic-test verification subject at HEAD and write its observation.
+- `EvidenceError` · `EvidenceError` · line 95: Observations could not be loaded or checked against the target.
+- `DependencyBasis` · `DependencyBasis` · line 111: Where `dependency_paths` came from: the subject's own file, what AES discovered from its intra-repository imports, and what the recorder declared.
+- `NegativeControl` · `NegativeControl` · line 120: The observation is of a deliberately broken revision (a "break it on purpose" run).
+- `DecisionCheck` · `DecisionCheck` · line 144: One output of the run, followed back to the source it was made from.
+- `TraceReview` · `TraceReview` · line 153: What a `trace_review` observation must say: the run read end to end, not judged by its output.
+- `_trace_review_problems` · `_trace_review_problems(obs: ObservationRecord, ers: dict[str, Any]) -> list[str]` · line 260: A trace_review assessment needs a TraceReview record, and SUPPORTS needs the whole trace read with no decision found wrong.
+- `_target_entries_at` · `_target_entries_at(root: Path, revision: str, target_path: str) -> dict[str, str]` · line 321: Every id of the target at `revision` -> its entry, canonically serialized.
+- `_reachable` · `_reachable(root: Path, commit: str) -> bool` · line 345: Whether `commit` is an ancestor of HEAD. A commit this clone lacks is not; any other git failure is an error.
+- `_check_control` · `_check_control(root: Path, obs: ObservationRecord) -> str` · line 362: The revision a negative control's freshness is computed from, after checking its commits.
+- `freshness` · `freshness(root: Path, obs: ObservationRecord, target_path: str = '.aes/target.yaml') -> tuple[Freshness, str]` · line 384: CURRENT, STALE, UNKNOWN or UNREACHABLE, with the reason; see the module docstring.
+- `EvidenceReport.counts` · `counts(self) -> str` · line 446: `N current, N stale, N unknown, N unreachable; N superseded`: freshness over the observations that count, superseded ones apart.
+- `_dependency_path` · `_dependency_path(root: Path, value: str) -> PurePosixPath` · line 455: Normalize a literal repository path and reject traversal, patterns and outside symlinks.
+- `assess` · `assess(root: Path, required_dependency_paths: dict[str, list[str]] | None = None) -> EvidenceReport` · line 510: Compute standing, optionally requiring recorded declared inputs per verification subject.
+- `_discover_dependencies` · `_discover_dependencies(root: Path, locator: str) -> list[str]` · line 620: Governed files a Python test's imports reach at HEAD, the test excluded.
+- `branch_note` · `branch_note(root: Path, revision: str, consequence: str = 'this evidence stays valid') -> str | None` · line 653: A warning when `revision` is not yet on the default branch, a note when that cannot be checked, None when it is already there.
+- `_aes_version` · `_aes_version() -> str` · line 682: The running AES code's version (`characterize.running_version`); fails if undeterminable.
+- `record` · `record(root: Path, subject_id: str, depends_on: list[str], command: list[str] | None = None, downgrade_basis: str | None = None) -> Recorded` · line 692: Run one deterministic-test verification subject at HEAD and write its observation.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3052,10 +2993,9 @@ _Coverage findings: python-docstring-missing._
 
 **Symbols**
 
-- `HookInstallError` · `HookInstallError` · line 116: The hook was not installed; the message says why and what to do.
-- `render_hook` · `render_hook() -> str` · line 120: The hook body: machine-independent, so the tracked file never churns.
-- `render_commit_msg_hook` · `render_commit_msg_hook() -> str` · line 125: The commit-msg hook body; machine-independent like the pre-commit hook.
-- `install_hooks` · `install_hooks(root: Path, interpreter: str | None = None) -> tuple[Path, str | None]` · line 146: Write `<root>/.githooks/pre-commit` and `commit-msg`, set `core.hooksPath` and `aes.installer`.
+- `HookInstallError` · `HookInstallError` · line 79: The hook was not installed; the message says why and what to do.
+- `render_hook` · `render_hook() -> str` · line 83: The hook body: machine-independent, so the tracked file never churns.
+- `install_hooks` · `install_hooks(root: Path, interpreter: str | None = None) -> tuple[Path, str | None]` · line 104: Write `<root>/.githooks/pre-commit`, set `core.hooksPath` and `aes.installer`.
 
 ### [`src/agentic_engineering_system/planning.py`](../src/agentic_engineering_system/planning.py)
 
@@ -3068,21 +3008,19 @@ _Coverage findings: python-docstring-missing._
 - `FamilyKeys` · `FamilyKeys` · line 121: `remove:` - the keys (`id`, or `evidence_requirement_ref`) of entries to delete.
 - `FamilyKeys.entries` · `entries(self) -> list[tuple[str, str]]` · line 132: (family, key) for every key, in family then file order.
 - `TraceReviewDeclaration` · `TraceReviewDeclaration` · line 148: Whether the planned work runs a model, agent or pipeline, which every proposal must say.
-- `AcceptedPlan` · `AcceptedPlan` · line 198: What `.aes/plans/<proposal_id>.yaml` holds: the proposal and where it was accepted.
-- `_target_path` · `_target_path(root: Path) -> tuple[Path, list[str], Path]` · line 227: (target file, governed roots, plans directory) from `.aes/project.yaml`.
-- `unrouted_requirements` · `unrouted_requirements(target: TargetRecord) -> list[str]` · line 234: Evidence requirements no verification subject names and no external boundary lists.
-- `route_violations` · `route_violations(target: TargetRecord) -> list[str]` · line 241: One line per unrouted evidence requirement (SC-GF-004); used by `aes plan validate` on the resulting target and by `aes target validate` (the pre-commit hook) on the current one.
-- `apply_delta` · `apply_delta(target: TargetRecord, delta: TargetDelta) -> tuple[TargetRecord, list[str]]` · line 252: Apply `delta` to a copy of `target`; return the result and every delta-level violation.
-- `references` · `references(target: TargetRecord) -> list[tuple[str, str]]` · line 305: (referenced key, location) for every reference the target holds, in file order.
-- `_removal_violations` · `_removal_violations(root: Path, current: TargetRecord, result: TargetRecord, delta: TargetDelta, governed: list[str]) -> tuple[list[str], set[str]]` · line 329: Dangling references to removed entries, and removed artifacts whose files are still indexed.
-- `prepare` · `prepare(root: Path) -> dict[str, Any]` · line 383: The input packet a proposal is written against. Deterministic for one revision and tree.
-- `require_adopted_plan` · `require_adopted_plan(root: Path) -> bool` · line 454: `.aes/planning.yaml` `require_adopted_plan` (default false, so a project without Company Planning still works; Brian's repositories turn it on one at a time).
-- `_adoption_violations` · `_adoption_violations(root: Path, proposal: Proposal) -> list[str]` · line 466: AP-REQ-002: a named plan must be adopted for its current bytes; required when configured.
-- `_trace_review_violations` · `_trace_review_violations(proposal: Proposal) -> list[str]` · line 479: Every proposal says whether its work runs a model, agent or pipeline; if it does, the delta carries a `trace_review` evidence requirement, so the run is judged by its trace, not its output.
-- `validate_proposal` · `validate_proposal(root: Path, proposal: Proposal) -> ValidatedProposal` · line 499: Every violation at once as PlanError, or the resulting target.
-- `_sequence_offset` · `_sequence_offset(text: str) -> int` · line 547: Indentation of the file's block-sequence dashes, so appended entries match.
-- `_trailing_slot` · `_trailing_slot(node: Any) -> tuple[dict, Any, int] | None` · line 562: Where ruamel keeps the comment (blank lines included) that follows `node`.
-- `_edit_target` · `_edit_target(target_text: str, proposal_doc: CommentedMap) -> tuple[str, list[str]]` · line 597: Apply the proposal's delta, as written, to the round-trip target document.
+- `AcceptedPlan` · `AcceptedPlan` · line 197: What `.aes/plans/<proposal_id>.yaml` holds: the proposal and where it was accepted.
+- `_target_path` · `_target_path(root: Path) -> tuple[Path, list[str], Path]` · line 226: (target file, governed roots, plans directory) from `.aes/project.yaml`.
+- `unrouted_requirements` · `unrouted_requirements(target: TargetRecord) -> list[str]` · line 233: Evidence requirements no verification subject names and no external boundary lists.
+- `route_violations` · `route_violations(target: TargetRecord) -> list[str]` · line 240: One line per unrouted evidence requirement (SC-GF-004); used by `aes plan validate` on the resulting target and by `aes target validate` (the pre-commit hook) on the current one.
+- `apply_delta` · `apply_delta(target: TargetRecord, delta: TargetDelta) -> tuple[TargetRecord, list[str]]` · line 251: Apply `delta` to a copy of `target`; return the result and every delta-level violation.
+- `references` · `references(target: TargetRecord) -> list[tuple[str, str]]` · line 304: (referenced key, location) for every reference the target holds, in file order.
+- `_removal_violations` · `_removal_violations(root: Path, current: TargetRecord, result: TargetRecord, delta: TargetDelta, governed: list[str]) -> tuple[list[str], set[str]]` · line 328: Dangling references to removed entries, and removed artifacts whose files are still indexed.
+- `prepare` · `prepare(root: Path) -> dict[str, Any]` · line 382: The input packet a proposal is written against. Deterministic for one revision and tree.
+- `_trace_review_violations` · `_trace_review_violations(proposal: Proposal) -> list[str]` · line 452: Every proposal says whether its work runs a model, agent or pipeline; if it does, the delta carries a `trace_review` evidence requirement, so the run is judged by its trace, not its output.
+- `validate_proposal` · `validate_proposal(root: Path, proposal: Proposal) -> ValidatedProposal` · line 472: Every violation at once as PlanError, or the resulting target.
+- `_sequence_offset` · `_sequence_offset(text: str) -> int` · line 519: Indentation of the file's block-sequence dashes, so appended entries match.
+- `_trailing_slot` · `_trailing_slot(node: Any) -> tuple[dict, Any, int] | None` · line 534: Where ruamel keeps the comment (blank lines included) that follows `node`.
+- `_edit_target` · `_edit_target(target_text: str, proposal_doc: CommentedMap) -> tuple[str, list[str]]` · line 569: Apply the proposal's delta, as written, to the round-trip target document.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3107,8 +3045,9 @@ Qualified current state and target/current gaps (`RU-AES-RECONCILE`, `SC-GF-007`
 - `MissingRequirement` · `MissingRequirement` · line 82: An evidence requirement without current support, and whether anything could supply it.
 - `Gap.id` · `id(self) -> str` · line 120: `<kind>:<ref>`, the handle a plan proposal names in `closes_gaps`.
 - `Reconciliation.open_gaps` · `open_gaps(self) -> list[Gap]` · line 161: Every open gap once, in report order (a criterion gap can appear under several components).
-- `render_status` · `render_status(r: Reconciliation) -> str` · line 357: One screen: revision, counts, the first open gap per component.
-- `render_report` · `render_report(r: Reconciliation) -> str` · line 372: Full report: every artifact, criterion, observation and gap.
+- `reconcile` · `reconcile(root: Path, required_dependency_paths: dict[str, list[str]] | None = None) -> Reconciliation` · line 259: Reconcile current state using the optional evidence declared-input policy.
+- `render_status` · `render_status(r: Reconciliation) -> str` · line 358: One screen: revision, counts, the first open gap per component.
+- `render_report` · `render_report(r: Reconciliation) -> str` · line 373: Full report: every artifact, criterion, observation and gap.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3287,14 +3226,9 @@ SC-ADOPT-001: adopting an existing repository, through the real CLI and the inst
 
 **Symbols**
 
-- `_adopted_plan` · `_adopted_plan(root: Path, plan_id: str = 'demo') -> None` · line 65: A Company Planning-shaped plan whose adoption decision is bound to its bytes.
-- `existing` · `existing(tmp_path: Path) -> Path` · line 85: A clone of this repository with no .aes/: an existing codebase AES has never seen.
-- `adopted` · `adopted(existing: Path) -> Path` · line 96: `existing` adopted, hooks installed after the adoption commit (the documented order).
-- `test_adoption_commit_passes_installed_hooks` · `test_adoption_commit_passes_installed_hooks(existing: Path) -> None` · line 141: Issue #155: with hooks installed before the first commit, the adoption commit is not refused.
-- `_numbered_plan` · `_numbered_plan(root: Path, number: int, surfaces: list[dict] | None, *, adopt_it: bool = True) -> Path` · line 263: `docs/plans/<N>_scoped.md`, Company Planning-shaped, with `conflict_surfaces` in its front matter (the work-unit schema 1.1 conflictSurface shape) and, when `adopt_it`, an adoption decision bound to its bytes.
-- `test_plan_scope_admits_a_legacy_edit_inside_it_and_releases_the_file` · `test_plan_scope_admits_a_legacy_edit_inside_it_and_releases_the_file(adopted: Path) -> None` · line 291: #218 test 1: under enforce, a [Plan #N] commit editing a legacy file inside its adopted plan's conflict_surfaces lands, and the file then leaves the unplanned-legacy set.
-- `test_plan_scope_refuses_a_legacy_edit_outside_it` · `test_plan_scope_refuses_a_legacy_edit_outside_it(adopted: Path) -> None` · line 327: #218 test 2: the same adopted plan editing a legacy file outside its scope is refused, naming only the file outside, and a mixed commit is refused as a whole.
-- `test_unadopted_or_widened_plan_scope_admits_nothing` · `test_unadopted_or_widened_plan_scope_admits_nothing(adopted: Path) -> None` · line 349: #218 test 3: a plan that is not adopted is refused even though its front matter names the file; a plan whose scope was widened after adoption is refused until re-adopted.
+- `existing` · `existing(tmp_path: Path) -> Path` · line 63: A clone of this repository with no .aes/: an existing codebase AES has never seen.
+- `adopted` · `adopted(existing: Path) -> Path` · line 74: `existing` adopted, hooks installed after the adoption commit (the documented order).
+- `test_adoption_commit_passes_installed_hooks` · `test_adoption_commit_passes_installed_hooks(existing: Path) -> None` · line 116: Issue #155: with hooks installed before the first commit, the adoption commit is not refused.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3304,48 +3238,8 @@ _Coverage findings: python-docstring-missing._
 
 **Symbols**
 
-- `_checkout_with_module` · `_checkout_with_module(tmp_path: Path) -> tuple[Path, Path]` · line 289: A main checkout tracking pkg/mod.py and a linked worktree one commit ahead: the layout in which an editable install reports the main checkout's version.
-- `test_running_version_is_the_install_alone_outside_a_tracking_checkout` · `test_running_version_is_the_install_alone_outside_a_tracking_checkout(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 321: A venv's site-packages inside a consumer checkout is not tracked by it: the consumer's commit must not be reported as the AES code's.
-
-_Coverage findings: python-docstring-missing._
-
-### [`tests/greenfield/test_commit_rule.py`](../tests/greenfield/test_commit_rule.py)
-
-SC-AP-001: the commit-tag rule, through the installed commit-msg hook on real commits.
-
-**Symbols**
-
-- `_adopted_plan` · `_adopted_plan(root: Path, plan_id: str = 'demo', front_matter: str = '', body: str = '') -> Path` · line 48: A plan with a Company Planning-shaped adoption decision bound to its bytes.
-- `_committed_progress_plan` · `_committed_progress_plan(repo: Path, plan_id: str) -> Path` · line 132: An adopted plan with progress fields, committed so its adopted bytes are in history.
-- `test_an_older_aes_without_the_rule_warns_and_does_not_block` · `test_an_older_aes_without_the_rule_warns_and_does_not_block(repo: Path, tmp_path: Path) -> None` · line 383: A main checkout on an older branch must not stop every commit in every worktree.
-- `test_in_aes_itself_the_hooks_run_the_working_copy_code` · `test_in_aes_itself_the_hooks_run_the_working_copy_code() -> None` · line 400: Both hooks put `<root>/src` first when the repository is AES, so a worktree is checked by its own code, not by the branch the shared venv's editable install points at.
-- `test_machine_config_reaches_repositories_without_their_own` · `test_machine_config_reaches_repositories_without_their_own(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 413: A plain repository takes the machine-wide mode; a per-repository entry overrides it; a repo file wins.
-- `test_machine_skip_roots_exempt_throwaway_repositories_and_nothing_else` · `test_machine_skip_roots_exempt_throwaway_repositories_and_nothing_else(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 432: Issue #488: a repository under a machine-wide skip root commits untagged with a logged skip; one outside it is still refused; a repository's own file can neither name nor inherit a skip.
-- `test_skip_root_at_or_above_home_is_ignored` · `test_skip_root_at_or_above_home_is_ignored(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 477: A too-broad skip root ('/', '~') must not switch the rule off for every repository (issue #488).
-- `test_auto_tag_names_its_job_and_touches_no_running_thing` · `test_auto_tag_names_its_job_and_touches_no_running_thing() -> None` · line 491: [Auto] is for scheduled jobs: it must name the job and may not change anything that runs.
-- `test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans` · `test_enforce_with_plan_adoption_observe_blocks_untagged_but_not_unadopted_plans(repo: Path) -> None` · line 502: Staged enforcement: tags and trivial size are refused; a plan that is not adopted is only logged.
-- `test_goal_plan_owned_by_another_repository_resolves_through_the_workspace` · `test_goal_plan_owned_by_another_repository_resolves_through_the_workspace(repo: Path, tmp_path: Path) -> None` · line 515: Federated plans: the plan and its receipt live in the repository that owns them; a commit in another repository under the same workspace that names it is judged against it.
-- `test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere` · `test_goal_plan_on_another_repositorys_main_resolves_when_its_checkout_is_elsewhere(repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 536: The owner repository's checkout sits on a branch without the plan; its main has it. The working-tree scan cannot see it; the plan index, read from main through git, can.
-- `test_foreign_plan_reads_preserve_repository_identity_under_hook_environment` · `test_foreign_plan_reads_preserve_repository_identity_under_hook_environment(repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 571: AES #483: Git's hook environment used PM objects for every foreign repo.
-- `test_conflict_surface_matching_and_repository_names` · `test_conflict_surface_matching_and_repository_names(tmp_path: Path) -> None` · line 639: #218: the scope vocabulary is Company Planning's conflictSurface; only write/exclusive repository_path surfaces naming this repository grant edits.
-- `test_asked_line_is_recorded_and_never_changes_the_verdict` · `test_asked_line_is_recorded_and_never_changes_the_verdict() -> None` · line 669: Asked: says who wanted the change, in their words; size and effect still decide the tag.
-- `test_plan_index_does_not_cache_a_failed_search_as_no_plans` · `test_plan_index_does_not_cache_a_failed_search_as_no_plans(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 682: git grep exits 1 for 'no match' and 2+ for an error; an error must not be recorded as 'this repository holds no plans', or the plan stays invisible until the repository's main moves.
-- `_last_log` · `_last_log(root: Path) -> dict` · line 721: The rule's own record of the commit just attempted (the hook writes one JSON line per verdict).
-- `_quick_plan` · `_quick_plan(root: Path, plan_id: str, files: list[str]) -> None` · line 727: A plan shaped like Company Planning's quick-adopt output, with an adoption decision bound to its bytes.
-- `test_quick_plan_commit_is_logged_for_its_check_output_and_file_list` · `test_quick_plan_commit_is_logged_for_its_check_output_and_file_list(repo: Path) -> None` · line 741: Plan commit-rule-followups: for a quick-adopt plan, the rule logs whether the commit adds the saved check output and stays inside the plan's file list. The notes never change the verdict.
-- `_real_durable_check` · `_real_durable_check() -> Path | None` · line 788: Company Planning's durable_docs_check.py: $AES_DURABLE_DOCS_CHECK, or a company-planning checkout beside one of this checkout's parent folders.
-- `_durable_repo` · `_durable_repo(repo: Path, script: Path, durable_line: str, mode: str = 'enforce') -> None` · line 797: A repository declaring durable_documents whose trace names src/whygame5/graph.py as RULE-A's owner, and an adopted quick plan carrying quick-adopt's durable-documents completion command.
-- `test_durable_docs_check_refuses_unnamed_owner_and_accepts_named` · `test_durable_docs_check_refuses_unnamed_owner_and_accepts_named(repo: Path) -> None` · line 823: A [Goal] commit that edits a durable rule's owner file under a quick plan whose Durable documents line does not name the rule is refused (check durable-docs, PLAN-OWNER-UNNAMED); naming the rule and updating the trace in the same plan lets the same edit land. Runs Company Planning's real check.
-- `_fake_durable_check` · `_fake_durable_check(tmp_path: Path, findings: str) -> Path` · line 866: A stand-in check script printing fixed findings (exit 1 when there are any), the real script's format.
-- `test_durable_docs_check_observe_and_skips` · `test_durable_docs_check_observe_and_skips(repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 876: durable: observe only logs a refusal; an unchanged declared document is a note, not a refusal; a missing check script leaves a note and never refuses; a quick plan without the completion command gets no check.
-- `test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs` · `test_trivial_may_not_touch_test_setup_or_a_script_a_systemd_unit_runs(repo: Path) -> None` · line 929: conftest.py changes every test run; a script named in a tracked unit's ExecStart runs on a schedule.
-- `test_plan_names_with_capital_letters_are_read_as_plan_tags` · `test_plan_names_with_capital_letters_are_read_as_plan_tags(repo: Path) -> None` · line 952: #193: '[Goal PATH-brent-v1-2026-10-02]' was logged as 'no tag'. A plan id may contain capitals.
-- `test_root_relative_links_resolve_against_the_repo_root_then_the_wiki_folder` · `test_root_relative_links_resolve_against_the_repo_root_then_the_wiki_folder(repo: Path) -> None` · line 991: 2026-10-13: a link starting with "/" was joined onto the linking page's folder, giving "/people/a.md", never a tracked path, so personal-wiki (links root-relative from wiki/) had 25 new pages refused that wiki/index.md links directly. "/x" now resolves at the repo root, else under wiki/.
-- `test_a_shaping_commit_may_link_its_proposal_root_relatively` · `test_a_shaping_commit_may_link_its_proposal_root_relatively(repo: Path) -> None` · line 1011: 2026-10-13: a root-relative navigation link into proposals/<id>/ counts as navigation.
-- `test_commit_tag_prints_the_rule_grammar_tag` · `test_commit_tag_prints_the_rule_grammar_tag(tmp_path: Path, first_line: str, tag: str | None, capsys: pytest.CaptureFixture[str]) -> None` · line 1148: #414: chained repository hooks ask `aes commit tag` instead of keeping their own grammar copy.
-- `test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal` · `test_a_shaping_commit_may_carry_link_lines_into_its_own_proposal(repo: Path) -> None` · line 1161: #476/#531: a new proposal and the wiki link that makes it reachable land in one [Shaping] commit; anything else outside proposals/<id>/ is still refused.
-- `test_a_shaping_commit_may_create_the_first_wiki_index` · `test_a_shaping_commit_may_create_the_first_wiki_index(repo: Path) -> None` · line 1188: #531: in a repository with no wiki/index.md, the first index can land with the first proposal.
-- `test_preflight_reports_the_hooks_verdict_without_logging` · `test_preflight_reports_the_hooks_verdict_without_logging(repo: Path) -> None` · line 1204: #532: `aes commit check --preflight -m` judges the staged change before a commit is attempted, exits 1 on a refusal in any mode, and writes nothing to the commit-rule log.
+- `_checkout_with_module` · `_checkout_with_module(tmp_path: Path) -> tuple[Path, Path]` · line 309: A main checkout tracking pkg/mod.py and a linked worktree one commit ahead: the layout in which an editable install reports the main checkout's version.
+- `test_running_version_is_the_install_alone_outside_a_tracking_checkout` · `test_running_version_is_the_install_alone_outside_a_tracking_checkout(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None` · line 341: A venv's site-packages inside a consumer checkout is not tracked by it: the consumer's commit must not be reported as the AES code's.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3366,13 +3260,13 @@ Distribution and the packaged pre-commit hook (`RU-AES-DISTRIBUTION`).
 **Symbols**
 
 - `_consumer` · `_consumer(root: Path) -> Path` · line 71: The frozen whygame5 records plus its realized governed files, committed.
-- `_assert_hook_gates_orphan` · `_assert_hook_gates_orphan(root: Path, env: dict[str, str] | None) -> None` · line 105: The installed hook refuses a staged orphan, then admits it once planned.
-- `test_hook_refuses_a_criterion_with_no_route_and_admits_it_once_routed` · `test_hook_refuses_a_criterion_with_no_route_and_admits_it_once_routed(consumer: Path) -> None` · line 151: Phase 5 exit gate (SC-GF-004 at commit time): the hook's `aes target validate` rejects a target in which an evidence requirement has no route.
-- `test_linked_worktree_falls_back_to_main_checkout_venv` · `test_linked_worktree_falls_back_to_main_checkout_venv(consumer: Path) -> None` · line 179: whygame5's kink: a linked worktree has no .venv; the hook must find the main one.
-- `test_install_leaves_the_tracked_hook_clean_on_another_machine` · `test_install_leaves_the_tracked_hook_clean_on_another_machine(consumer: Path) -> None` · line 206: BRI-31: `.githooks/pre-commit` is tracked and shared, so the installing checkout's absolute interpreter path must not land in it — otherwise the documented install dirties the worktree and one `git add -A` publishes a path that exists on nobody else's machine.
-- `test_hook_runs_without_the_installer_config` · `test_hook_runs_without_the_installer_config(consumer: Path) -> None` · line 227: A clone that never ran `aes hooks install` (or whose aes.installer is gone) falls through to the worktree venv instead of failing on an empty path.
-- `test_version_names_the_install_and_the_running_checkout` · `test_version_names_the_install_and_the_running_checkout(capsys: pytest.CaptureFixture[str]) -> None` · line 299: Run from this checkout's src/ (pytest pythonpath), the version is the installed distribution's plus this checkout's describe, not the install alone (§13 kink).
-- `test_getting_started_guide_runs_end_to_end_as_written` · `test_getting_started_guide_runs_end_to_end_as_written(tmp_path: Path) -> None` · line 352: Every ```bash block of docs/greenfield/GETTING_STARTED.md, in order, in a fresh folder, must succeed and end with the guide's criterion supported. The only substitution is the install pin: this checkout's HEAD instead of `<sha>` on GitHub. Machine-wide Git config and hooks are switched off, as a colleague's clean machine would have none. (2026-10-07: the guide's proposal stopped validating when plans began to require `trace_review`, and nothing ran the guide to notice.)
+- `_assert_hook_gates_orphan` · `_assert_hook_gates_orphan(root: Path, env: dict[str, str] | None) -> None` · line 104: The installed hook refuses a staged orphan, then admits it once planned.
+- `test_hook_refuses_a_criterion_with_no_route_and_admits_it_once_routed` · `test_hook_refuses_a_criterion_with_no_route_and_admits_it_once_routed(consumer: Path) -> None` · line 150: Phase 5 exit gate (SC-GF-004 at commit time): the hook's `aes target validate` rejects a target in which an evidence requirement has no route.
+- `test_linked_worktree_falls_back_to_main_checkout_venv` · `test_linked_worktree_falls_back_to_main_checkout_venv(consumer: Path) -> None` · line 178: whygame5's kink: a linked worktree has no .venv; the hook must find the main one.
+- `test_install_leaves_the_tracked_hook_clean_on_another_machine` · `test_install_leaves_the_tracked_hook_clean_on_another_machine(consumer: Path) -> None` · line 205: BRI-31: `.githooks/pre-commit` is tracked and shared, so the installing checkout's absolute interpreter path must not land in it — otherwise the documented install dirties the worktree and one `git add -A` publishes a path that exists on nobody else's machine.
+- `test_hook_runs_without_the_installer_config` · `test_hook_runs_without_the_installer_config(consumer: Path) -> None` · line 226: A clone that never ran `aes hooks install` (or whose aes.installer is gone) falls through to the worktree venv instead of failing on an empty path.
+- `test_version_names_the_install_and_the_running_checkout` · `test_version_names_the_install_and_the_running_checkout(capsys: pytest.CaptureFixture[str]) -> None` · line 298: Run from this checkout's src/ (pytest pythonpath), the version is the installed distribution's plus this checkout's describe, not the install alone (§13 kink).
+- `test_getting_started_guide_runs_end_to_end_as_written` · `test_getting_started_guide_runs_end_to_end_as_written(tmp_path: Path) -> None` · line 353: Every ```bash block of docs/greenfield/GETTING_STARTED.md, in order, in a fresh folder, must succeed and end with the guide's criterion supported. The only substitution is the install pin: this checkout's HEAD instead of `<sha>` on GitHub. Machine-wide Git config and hooks are switched off, as a colleague's clean machine would have none. (2026-10-07: the guide's proposal stopped validating when plans began to require `trace_review`, and nothing ran the guide to notice.)
 
 _Coverage findings: python-docstring-missing._
 
@@ -3401,17 +3295,6 @@ Entry-level target dependencies and negative-control observations (roadmap phase
 - `_mutated` · `_mutated(root: Path) -> tuple[str, str]` · line 186: A base commit on main and a scratch commit off it that breaks prompts.py, reachable only through a tag, as whygame5's drift observation is.
 - `test_mutated_revision_without_control_is_unreachable` · `test_mutated_revision_without_control_is_unreachable(root: Path) -> None` · line 207: Without `control`, the tag-only mutated commit is judged on its own: it is not an ancestor of HEAD, so it never counts (it used to be STALE by construction).
 - `test_reachability_applies_to_the_base_and_the_mutation_only_has_to_resolve` · `test_reachability_applies_to_the_base_and_the_mutation_only_has_to_resolve(root: Path) -> None` · line 274: The mutated commit is off-branch by design (a tag keeps it); the base is what must be reachable from HEAD. A base left on an unmerged side branch is UNREACHABLE.
-
-_Coverage findings: python-docstring-missing._
-
-### [`tests/greenfield/test_plan_receipt.py`](../tests/greenfield/test_plan_receipt.py)
-
-SC-AP-002: `aes plan validate/accept` require a fresh Company Planning adoption when asked.
-
-**Symbols**
-
-- `_adopt` · `_adopt(root: Path) -> None` · line 48: A plan and a Company Planning-shaped adoption decision bound to its current bytes.
-- `test_receipt_named_dot_receipt_json_finds_company_planning_decision` · `test_receipt_named_dot_receipt_json_finds_company_planning_decision(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None` · line 138: Company Planning names the decision for `x.receipt.json` `x.adoption-decision.json`.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3515,6 +3398,17 @@ feedback-report.v1 parsing: the plan's canonical example and its negative contro
 
 _Coverage findings: python-docstring-missing._
 
+### [`tests/learning/test_feedback_report_cap.py`](../tests/learning/test_feedback_report_cap.py)
+
+_No source-local artifact summary._
+
+**Symbols**
+
+- `test_human_corrections_file_once_per_distinct_quote` · `test_human_corrections_file_once_per_distinct_quote(tmp_path)` · line 13: The same instruction recurs across thousands of sessions; only one report per quote is filed, and a quote filed on an earlier night is not filed again.
+- `test_default_cap_files_a_night_inside_the_unit_timeout` · `test_default_cap_files_a_night_inside_the_unit_timeout()` · line 64: 900 reports at 450 an hour is two windows: about 71 minutes of filing at the measured 1.4 s an issue, inside the unit's 2-hour TimeoutStartSec, and never above GitHub's 500 an hour.
+
+_Coverage findings: python-docstring-missing._
+
 ### [`tests/learning/test_feedback_transcripts.py`](../tests/learning/test_feedback_transcripts.py)
 
 Synthetic-transcript tests for scripts/learning_loop/transcripts.py (no real transcript text here).
@@ -3524,6 +3418,16 @@ _Coverage findings: python-docstring-missing._
 ### [`tests/learning/test_fix_owner.py`](../tests/learning/test_fix_owner.py)
 
 S6 weekly fix owner: an item counts as handled only from what GitHub shows, never the agent's summary.
+
+_Coverage findings: python-docstring-missing._
+
+### [`tests/learning/test_label_items.py`](../tests/learning/test_label_items.py)
+
+Feedback labels: every page of the feedback log is read, and unmatched failures reach an agent.
+
+**Symbols**
+
+- `test_jev_call_goes_through_llm_client_with_its_tags` · `test_jev_call_goes_through_llm_client_with_its_tags(monkeypatch)` · line 85: The Jev call is llm_client's `call_decisions` (so it lands in the ledger), never a direct HTTP call.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3621,25 +3525,6 @@ _No source-local artifact summary._
 
 _Coverage findings: python-docstring-missing._
 
-### [`tests/rollout/test_daily_report.py`](../tests/rollout/test_daily_report.py)
-
-The daily commit-rule report reads the rule's quick-plan notes (plan commit-rule-notes-report, AES #279).
-
-_Coverage findings: python-docstring-missing._
-
-### [`tests/rollout/test_install_everywhere.py`](../tests/rollout/test_install_everywhere.py)
-
-The commit-rule installer reads a repository's commit-msg hook instead of trusting its config.
-
-**Symbols**
-
-- `home` · `home(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path` · line 45: Point the installer's machine paths into tmp, with a stand-in rule that logs and refuses on REFUSE.
-- `_real_aes` · `_real_aes(home: Path) -> Path` · line 133: An `aes` on PATH that is this checkout's CLI, so the wrapper asks the real commit-rule grammar.
-- `test_tag_the_rule_recognises_passes_a_lagging_prefix_only_hook` · `test_tag_the_rule_recognises_passes_a_lagging_prefix_only_hook(home: Path) -> None` · line 148: #414: a valid [Goal <Upper-case id>] was refused by the chained copy of project-meta's prefix list.
-- `test_without_aes_the_prefix_only_hook_still_decides` · `test_without_aes_the_prefix_only_hook_still_decides(home: Path) -> None` · line 161: A missing aes must not open the gate: the repository's own list is then the only judge.
-
-_Coverage findings: python-docstring-missing._
-
 ### [`tests/test_agent_router.py`](../tests/test_agent_router.py)
 
 Profiles cannot widen authority; failed proposals cannot leave the denominator.
@@ -3658,6 +3543,18 @@ The generated docstring wiki links every tracked artifact relative to its own lo
 
 _Coverage findings: python-docstring-missing._
 
+### [`tests/test_pre_push_hook_refspec.py`](../tests/test_pre_push_hook_refspec.py)
+
+The pre-push hook gates on the ref being written, not the local refspec side.
+
+**Symbols**
+
+- `_push_repo_template` · `_push_repo_template(tmp_path_factory: pytest.TempPathFactory) -> tuple[Path, str]` · line 53: Build the fixture repo once, and remember its HEAD sha.
+- `push_repo` · `push_repo(_push_repo_template: tuple[Path, str], tmp_path: Path) -> Path` · line 86: A private copy of the fixture repo, checked out on `feature-x`.
+- `head_sha` · `head_sha(_push_repo_template: tuple[Path, str]) -> str` · line 95: HEAD of the fixture repo; identical in every copy of it.
+
+_Coverage findings: python-docstring-missing._
+
 ### [`tests/test_records_governed_roots.py`](../tests/test_records_governed_roots.py)
 
 A governed root written without a trailing slash must not capture sibling paths.
@@ -3667,6 +3564,12 @@ _Coverage findings: python-docstring-missing._
 ### [`tests/test_rules_page.py`](../tests/test_rules_page.py)
 
 The rules page lists every register rule and the legacy register, and survives table-breaking text.
+
+_Coverage findings: python-docstring-missing._
+
+### [`tests/test_session_root_cross_project.py`](../tests/test_session_root_cross_project.py)
+
+A session's open lane in another project must not block a new lane here.
 
 _Coverage findings: python-docstring-missing._
 
@@ -3680,11 +3583,119 @@ The legacy sort's evidence check rejects answers its quote or the file facts do 
 
 _Coverage findings: python-docstring-missing._
 
-## Documentation (291)
+## Documentation (326)
 
 ### [`.agentic/events/README.md`](../.agentic/events/README.md)
 
 Status: bootstrap.
+
+### [`.agents/skills/openspec-apply-change/SKILL.md`](../.agents/skills/openspec-apply-change/SKILL.md)
+
+Implement tasks from an OpenSpec change. Use when the user wants to start implementing, continue implementation, or work through tasks. Also use when the user says "openspec apply", "opsx apply", or "openspec implement".
+
+_Coverage findings: markdown-title-missing._
+
+### [`.agents/skills/openspec-archive-change/SKILL.md`](../.agents/skills/openspec-archive-change/SKILL.md)
+
+Archive a completed OpenSpec change in the experimental workflow. Use when the user wants to finalize and archive a change after implementation is complete. Also use when the user says "openspec archive" or "opsx archive".
+
+_Coverage findings: markdown-title-missing._
+
+### [`.agents/skills/openspec-explore/SKILL.md`](../.agents/skills/openspec-explore/SKILL.md)
+
+Enter OpenSpec explore mode - a thinking partner for exploring ideas, investigating problems, and clarifying requirements in a project that uses OpenSpec. Use when the user wants to think through something before or during an OpenSpec change. Also use when the user says "openspec explore" or "opsx explore".
+
+_Coverage findings: markdown-title-missing._
+
+### [`.agents/skills/openspec-propose/SKILL.md`](../.agents/skills/openspec-propose/SKILL.md)
+
+Propose a new OpenSpec change with all artifacts generated in one step. Use when the user wants to quickly describe what they want to build and get a complete proposal with design, specs, and tasks ready for implementation. Also use when the user says "openspec propose" or "opsx propose".
+
+_Coverage findings: markdown-title-missing._
+
+### [`.agents/skills/openspec-sync-specs/SKILL.md`](../.agents/skills/openspec-sync-specs/SKILL.md)
+
+Sync delta specs from an OpenSpec change to main specs. Use when the user wants to update main specs with changes from a delta spec, without archiving the change. Also use when the user says "openspec sync" or "opsx sync".
+
+_Coverage findings: markdown-title-missing._
+
+### [`.agents/skills/openspec-update-change/SKILL.md`](../.agents/skills/openspec-update-change/SKILL.md)
+
+Update an OpenSpec change by revising its existing planning artifacts and keeping them coherent with one another. Use when the user wants to revise a change's plan, fold new decisions into it, or reconcile its artifacts after an edit. Also use when the user says "openspec update change" or "opsx update". If the user means the openspec update CLI command, which refreshes generated files, run that command instead. Never edits code.
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/commands/opsx/apply.md`](../.claude/commands/opsx/apply.md)
+
+Implement tasks from an OpenSpec change (Experimental)
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/commands/opsx/archive.md`](../.claude/commands/opsx/archive.md)
+
+Archive a completed change in the experimental workflow
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/commands/opsx/explore.md`](../.claude/commands/opsx/explore.md)
+
+Enter explore mode - think through ideas, investigate problems, clarify requirements
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/commands/opsx/propose.md`](../.claude/commands/opsx/propose.md)
+
+Propose a new change - create it and generate all artifacts in one step
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/commands/opsx/sync.md`](../.claude/commands/opsx/sync.md)
+
+Sync delta specs from a change to main specs
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/commands/opsx/update.md`](../.claude/commands/opsx/update.md)
+
+Update a change - revise existing planning artifacts and keep them coherent (Experimental)
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/skills/openspec-apply-change/SKILL.md`](../.claude/skills/openspec-apply-change/SKILL.md)
+
+Implement tasks from an OpenSpec change. Use when the user wants to start implementing, continue implementation, or work through tasks. Also use when the user says "openspec apply", "opsx apply", or "openspec implement".
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/skills/openspec-archive-change/SKILL.md`](../.claude/skills/openspec-archive-change/SKILL.md)
+
+Archive a completed OpenSpec change in the experimental workflow. Use when the user wants to finalize and archive a change after implementation is complete. Also use when the user says "openspec archive" or "opsx archive".
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/skills/openspec-explore/SKILL.md`](../.claude/skills/openspec-explore/SKILL.md)
+
+Enter OpenSpec explore mode - a thinking partner for exploring ideas, investigating problems, and clarifying requirements in a project that uses OpenSpec. Use when the user wants to think through something before or during an OpenSpec change. Also use when the user says "openspec explore" or "opsx explore".
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/skills/openspec-propose/SKILL.md`](../.claude/skills/openspec-propose/SKILL.md)
+
+Propose a new OpenSpec change with all artifacts generated in one step. Use when the user wants to quickly describe what they want to build and get a complete proposal with design, specs, and tasks ready for implementation. Also use when the user says "openspec propose" or "opsx propose".
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/skills/openspec-sync-specs/SKILL.md`](../.claude/skills/openspec-sync-specs/SKILL.md)
+
+Sync delta specs from an OpenSpec change to main specs. Use when the user wants to update main specs with changes from a delta spec, without archiving the change. Also use when the user says "openspec sync" or "opsx sync".
+
+_Coverage findings: markdown-title-missing._
+
+### [`.claude/skills/openspec-update-change/SKILL.md`](../.claude/skills/openspec-update-change/SKILL.md)
+
+Update an OpenSpec change by revising its existing planning artifacts and keeping them coherent with one another. Use when the user wants to revise a change's plan, fold new decisions into it, or reconcile its artifacts after an edit. Also use when the user says "openspec update change" or "opsx update". If the user means the openspec update CLI command, which refreshes generated files, run that command instead. Never edits code.
+
+_Coverage findings: markdown-title-missing._
 
 ### [`.project-brain/now.md`](../.project-brain/now.md)
 
@@ -3712,7 +3723,7 @@ Start with `wiki/index.md`.
 
 ### [`README.md`](../README.md)
 
-**This repository is the Agentic Engineering System** ([Decision 0011](docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md), 2026-09-26). `Inside-Success/agentic-engineering-system` is archived; the ideas worth borrowing from it are in [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](research/synthesis/2026-09-26-inside-success-aes-harvest.md), each with the consumer trigger that would bring it in. Next frontier: whygame5 realizes its runner and records the first value measure (Decision 0011, item 5).
+AES is the name for the whole agent system: Lockstep, the feedback loop and the policy layer ([CLAUDE.md:14-16](CLAUDE.md#L14-L16)).
 
 ### [`datasets/README.md`](../datasets/README.md)
 
@@ -3729,6 +3740,10 @@ How should Jev (typesafe/jev-1.13) be asked to sort a learning into the failure 
 ### [`datasets/learning-loop/experiments/2026-10-07-filing-gate/README.md`](../datasets/learning-loop/experiments/2026-10-07-filing-gate/README.md)
 
 Scripts behind the feedback collector's filing gates (AES #181, #216, #220). Each reads learnings entries by id from project-meta (a private repository) at run time; the scripts themselves contain no transcript text, only entry ids and hand labels.
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/README.md`](../datasets/learning-loop/experiments/2026-11-05-family-z/README.md)
+
+Adding family Z ("the fix landed where the symptom showed, not where the cause starts") changes the frozen question set, so `label_items.py` asks for the judged test sets to be re-run first. Concern: agent-skills issue #538.
 
 ### [`deployment/README.md`](../deployment/README.md)
 
@@ -3878,11 +3893,81 @@ The audit instrument for `review` and `audit`. Twenty-two families, each with a 
 
 AES keeps a project's accepted target in `.aes/target.yaml`: what the project is for (outcomes), the rules it must obey (normative items), how you would know it works (success criteria and their evidence requirements), which files are supposed to exist (planned artifacts) and which checks prove the criteria (verification subjects). The `aes` command checks that the target is consistent, that every file under the governed directories is planned, and which criteria current evidence supports.
 
+### [`docs/history/consolidation-2026-11-11/ledger.jsonl`](../docs/history/consolidation-2026-11-11/ledger.jsonl)
+
+_No source-local artifact summary._
+
 ### [`docs/model/ODD.md`](../docs/model/ODD.md)
 
-AES canonical's system model in prose -- the commit, plan, target, evidence and reconcile loop -- with its checked trace file
+AES canonical's system model in prose -- the plan, target, evidence and reconcile loop -- with its checked trace file
 
 ### [`docs/model/trace.yaml`](../docs/model/trace.yaml)
+
+_No source-local artifact summary._
+
+### [`docs/planning/DOMAIN.md`](../docs/planning/DOMAIN.md)
+
+AES canonical's domain glossary -- every concept, its definition, where it is defined and where the code implements it
+
+### [`docs/planning/SYSTEM_MODEL.md`](../docs/planning/SYSTEM_MODEL.md)
+
+AES canonical's system model for planning -- context and container views, every record type with what writes it, and what is outside the model
+
+### [`docs/planning/build_domain_model.py`](../docs/planning/build_domain_model.py)
+
+Write the AES canonical domain model: docs/planning/domain.graph.json and docs/planning/DOMAIN.md.
+
+_Coverage findings: python-docstring-missing._
+
+### [`docs/planning/build_open_questions_graph.py`](../docs/planning/build_open_questions_graph.py)
+
+Write open-questions.graph.json (typed-graph/v1) from open-questions.json.
+
+**Symbols**
+
+- `_short` · `_short(text: str, limit: int = 90) -> str` · line 21: Cut a long label at a word boundary and mark the cut with an ellipsis.
+
+_Coverage findings: python-docstring-missing._
+
+### [`docs/planning/build_review_page.py`](../docs/planning/build_review_page.py)
+
+Build the planning-package review page's data file from the package itself.
+
+**Symbols**
+
+- `_absolute_links` · `_absolute_links(markdown: str, base: str) -> str` · line 25: Strip YAML front matter and point relative Markdown link targets at GitHub.
+
+_Coverage findings: python-docstring-missing._
+
+### [`docs/planning/checks.txt`](../docs/planning/checks.txt)
+
+_No source-local artifact summary._
+
+### [`docs/planning/cold-review.md`](../docs/planning/cold-review.md)
+
+**Verdict: pass.** All six blocking findings in the content from my first review are fixed. The seventh is the missing cold review, which this verdict clears. Nothing new is blocking, but some notes remain.
+
+### [`docs/planning/domain.graph.json`](../docs/planning/domain.graph.json)
+
+_No source-local artifact summary._
+
+### [`docs/planning/domain.implemented.json`](../docs/planning/domain.implemented.json)
+
+_No source-local artifact summary._
+
+### [`docs/planning/next.goal.md`](../docs/planning/next.goal.md)
+
+Next goal for AES canonical while it is on hold -- make the repository's own checks and documents tell the truth, without new product work
+
+### [`docs/planning/open-questions.graph.json`](../docs/planning/open-questions.graph.json)
+
+_No source-local artifact summary._
+
+### [`docs/planning/open-questions.json`](../docs/planning/open-questions.json)
+
+_No source-local artifact summary._
+
+### [`docs/planning/planning-package.json`](../docs/planning/planning-package.json)
 
 _No source-local artifact summary._
 
@@ -4350,6 +4435,14 @@ Status: unused Role: bounded experiments and prototypes Authority: experimental 
 
 Status: unused Role: routing for human-facing interactive/non-interactive surfaces Authority: concern routing, not necessarily implementation source Lifecycle: versioned routing/current surfaces
 
+### [`openspec/specs/inert-characterization/spec.md`](../openspec/specs/inert-characterization/spec.md)
+
+Keep retained read-only structural inspection and producer identification independent of executable repository Git integrations.
+
+### [`openspec/specs/required-evidence-inputs/spec.md`](../openspec/specs/required-evidence-inputs/spec.md)
+
+Keep historical observations from claiming current support when a consumer explicitly requires subprocess inputs those observations did not declare.
+
 ### [`operations/README.md`](../operations/README.md)
 
 Status: unused Role: operating a realized system Authority: current operating procedure/configuration Lifecycle: current procedures plus append-only operational evidence
@@ -4360,11 +4453,11 @@ Status: active Role: non-binding proposed changes Authority: proposed only Lifec
 
 ### [`proposals/aes-adopt-existing/README.md`](../proposals/aes-adopt-existing/README.md)
 
-**Example.** DIGIMON (`~/code/Digimon_for_KG_application`) has about 1,800 tracked files and 220 numbered plans. Today `aes init` there followed by a commit is refused: every existing file is an orphan (issue #155 reproduced the same on tinydb's 20 files). After this plan, `aes adopt --governed-root Core/ ...` lists every tracked file under those roots in one JSON file, the adoption commit passes the hooks, and `aes status` reads `legacy: N of N governed files (100.0%)`. When an agent later edits `Core/x.py` under a plan that lists it, the baseline drops to N-1, and the dropped entry is exactly `Core/x.py`.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-adopt-existing/aes-adopt-existing.goal.md`](../proposals/aes-adopt-existing/aes-adopt-existing.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-adopt-existing/README.md` (plan sha256 273d9e2044673d7aed4ba3b6b91ff3e0cca1c71ae08cef91469259c29f9c2411, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-brownfield-docs/PLAN.md`](../proposals/aes-brownfield-docs/PLAN.md)
 
@@ -4376,7 +4469,7 @@ Milestone M2 of [`PLAN.md`](PLAN.md). Records what bringing an existing reposito
 
 ### [`proposals/aes-brownfield-docs/aes-brownfield-docs.goal.md`](../proposals/aes-brownfield-docs/aes-brownfield-docs.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-brownfield-docs/PLAN.md` (plan sha256 cd951538870e86e8514788b53ce37128c52568b1f2a8e6fa377ec899deaca9c5, route durable_solo). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-durable-docs/PLAN.md`](../proposals/aes-durable-docs/PLAN.md)
 
@@ -4384,7 +4477,7 @@ Generated by company-planning `adopt` from the `goal:` front matter of `proposal
 
 ### [`proposals/aes-durable-docs/aes-durable-docs.goal.md`](../proposals/aes-durable-docs/aes-durable-docs.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-durable-docs/PLAN.md` (plan sha256 76365003ff6ee2ed150e773dfc8e81ac658d125fdde87b69a885f8c9c7142d9e, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md`](../proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md)
 
@@ -4404,7 +4497,7 @@ Inventory: `m5-inventory.json` (22 active governed repositories, built by Haiku 
 
 ### [`proposals/aes-feedback-prevention/PLAN.md`](../proposals/aes-feedback-prevention/PLAN.md)
 
-Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted ` #` starts a YAML comment and cuts the value.
+Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted `#` starts a YAML comment and cuts the value.
 
 ### [`proposals/aes-feedback-prevention/SYSTEM_MODEL.md`](../proposals/aes-feedback-prevention/SYSTEM_MODEL.md)
 
@@ -4412,7 +4505,7 @@ Scope: AES owns report production, native parent checks and canonical instructio
 
 ### [`proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md`](../proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-feedback-prevention/PLAN.md` (plan sha256 664e310495ad628711ddc020bb36be45abcb9e9ed9be29bcdddf2d311ee01c97, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-learning-loop/DESIGN.md`](../proposals/aes-learning-loop/DESIGN.md)
 
@@ -4428,15 +4521,15 @@ Brian approved this bounded repair on 2026-10-08 after the independent review. I
 
 ### [`proposals/aes-learning-loop/aes-learning-loop.goal.md`](../proposals/aes-learning-loop/aes-learning-loop.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-learning-loop/PLAN.md` (plan sha256 c70b91d36508c444f4f64cf2bb2d70ef2e11c5572b48540a1b4b1ed57535a387, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-plan-scope/README.md`](../proposals/aes-plan-scope/README.md)
 
-**Example.** DIGIMON's robot worker opened pull request 414 under adopted Plan 216: three commits, one of which edits an existing test file. Under enforce that commit is refused today (`aes commit replay`: 3 commits, 2 accepted, 1 refused), because a Company Planning plan declares no paths and only `aes plan accept` can clear a file from the baseline. After this plan, Plan 216 adds five `conflict_surfaces` lines, is re-adopted, and the same replay reads 3 accepted.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-plan-scope/aes-plan-scope.goal.md`](../proposals/aes-plan-scope/aes-plan-scope.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-plan-scope/README.md` (plan sha256 1fcf700f1681ac40cdbc078f0c8bf680aa29a977738ba980247e480653d1a9fe, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-planning/README.md`](../proposals/aes-planning/README.md)
 
@@ -4444,35 +4537,35 @@ Generated by company-planning `adopt` from the `goal:` front matter of `proposal
 
 ### [`proposals/aes-planning/ROLLOUT.md`](../proposals/aes-planning/ROLLOUT.md)
 
-Work units P4 and P6 of `proposals/aes-planning/` (owner was `coordinator:code-71`; that session ended, and this rollout was taken over on 2026-10-07).
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-planning/aes-planning.goal.md`](../proposals/aes-planning/aes-planning.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-planning/README.md` (plan sha256 3f23048815244cf7b768c0f35f752f7cdd752ebcb2ff00b3324e77351255962e, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-subagent-feedback/PLAN.md`](../proposals/aes-subagent-feedback/PLAN.md)
 
-Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted ` #` starts a YAML comment and cuts the value.
+Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted `#` starts a YAML comment and cuts the value.
 
 ### [`proposals/aes-subagent-feedback/SYSTEM_MODEL.md`](../proposals/aes-subagent-feedback/SYSTEM_MODEL.md)
 
-This extends the [existing loop](../aes-learning-loop/PLAN.md) without another store.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md`](../proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/aes-subagent-feedback/PLAN.md` (plan sha256 00979b080c2f9fc96a078926a838eee827b96b48c223303a39dba0ab47b94fb7, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-v0.2-greenfield/01-design-thesis.md`](../proposals/aes-v0.2-greenfield/01-design-thesis.md)
 
-Status: **candidate design thesis / non-normative**
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-v0.2-greenfield/05-donor-reentry.md`](../proposals/aes-v0.2-greenfield/05-donor-reentry.md)
 
-Prevent the clean-sheet architecture from silently becoming a repackaging of existing private systems.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-v0.2-greenfield/06-open-questions.md`](../proposals/aes-v0.2-greenfield/06-open-questions.md)
 
-Status: **active review queue / non-normative** Date: 2026-09-24
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-v0.2-greenfield/07-semantic-clean-sheet-review-pass-1.md`](../proposals/aes-v0.2-greenfield/07-semantic-clean-sheet-review-pass-1.md)
 
@@ -4488,7 +4581,7 @@ Review role: **historical/supporting rationale**. Current topology semantics are
 
 ### [`proposals/aes-v0.2-greenfield/10-greenfield-mvp-validation-profile.md`](../proposals/aes-v0.2-greenfield/10-greenfield-mvp-validation-profile.md)
 
-Prevent the Greenfield MVP from being "validated" by a project so trivial that it does not exercise the architecture's load-bearing semantics.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-v0.2-greenfield/11-semantic-clean-sheet-review-pass-4-target-analysis.md`](../proposals/aes-v0.2-greenfield/11-semantic-clean-sheet-review-pass-4-target-analysis.md)
 
@@ -4496,7 +4589,7 @@ Review role: **historical/supporting rationale**. Current target/analysis/transi
 
 ### [`proposals/aes-v0.2-greenfield/13-greenfield-materialization.candidate.md`](../proposals/aes-v0.2-greenfield/13-greenfield-materialization.candidate.md)
 
-Choose the smallest opinionated project storage convention that can materialize the clean semantic model for a fresh project without making storage layout part of the ontology.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-v0.2-greenfield/18-provider-evaluation-round-1.md`](../proposals/aes-v0.2-greenfield/18-provider-evaluation-round-1.md)
 
@@ -4504,7 +4597,7 @@ Review role: **supporting provider rationale**. Current candidate bindings are i
 
 ### [`proposals/aes-v0.2-greenfield/19-provider-evaluation-round-2-generic-dependencies.md`](../proposals/aes-v0.2-greenfield/19-provider-evaluation-round-2-generic-dependencies.md)
 
-Review role: **supporting dependency rationale**. Current candidate bindings are in `21-provider-bindings.candidate.yaml`.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-v0.2-greenfield/22-portable-provider-boundaries.md`](../proposals/aes-v0.2-greenfield/22-portable-provider-boundaries.md)
 
@@ -4512,7 +4605,7 @@ Resolve two Greenfield-MVP provider questions without binding AES to a private p
 
 ### [`proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md`](../proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md)
 
-Status: **candidate product surface / non-normative** Date: 2026-09-24
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md`](../proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md)
 
@@ -4544,15 +4637,15 @@ Generated by company-planning `adopt` from the `goal:` front matter of `proposal
 
 ### [`proposals/agent-router/revision.goal.md`](../proposals/agent-router/revision.goal.md)
 
-Brian explicitly set this goal in native session `01a11cae-eadf-7192-9a72-ca2283a3ebc0` on 2026-10-08 local time. The existing [PLAN](PLAN.md) is the design being revised; [verification](verification.log) records this revision's checks. The older generated `agent-router.goal.md` is retained historical adoption evidence and is not this task's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/code2-ecosystem/PLAN.md`](../proposals/code2-ecosystem/PLAN.md)
 
-Brian approved this on 2026-10-13 ("yes lets make the move") after asking for a fresh start: "start a like code2 dir that has aes canoncial and maybe like a few relevant repos and star over there", with enforcement that "should live in the ecosystem not in the repo" and one source of truth. Project-meta is his legacy system; AES canonical replaces it.
+> **Redirect, 2026-10-13 (Brian).** "find off the shelf stuff instead of building my own system ... > every check should finish in seconds." code2 now runs on off-the-shelf tools, not AES's own > enforcement: lefthook with one shared config (`BrianMills2718/code2-workspace`, > `hooks/base.yml`), lychee for local links, markdownlint-cli2 for formatting, and a short > reachability script. Parallel agents use Claude Code's `claude -w` worktrees; tasks are GitHub > Issues. AES canonical joined code2 as an ordinary repository on 2026-10-13, alongside > wiki_methodology and epistemic-warrant. The phase 2 plan built on AES enforcement is superseded.
 
 ### [`proposals/code2-ecosystem/code2-ecosystem.goal.md`](../proposals/code2-ecosystem/code2-ecosystem.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/code2-ecosystem/PLAN.md` (plan sha256 cb486612c978bd9195879b4d17ae6b8445e44a22161561fb2e9c233f44c7fb46, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/code2-ecosystem/hookspath-review.md`](../proposals/code2-ecosystem/hookspath-review.md)
 
@@ -4564,11 +4657,11 @@ Git runs hooks from exactly one folder. Most repositories under `~/code` use the
 
 ### [`proposals/commit-rule-followups/commit-rule-followups.goal.md`](../proposals/commit-rule-followups/commit-rule-followups.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/commit-rule-followups/commit-rule-followups.md` (plan sha256 81a52810fadde51eff4e73a22e784caeb415a9ff05fd0b7d9452a3b6c548e60c, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/commit-rule-followups/commit-rule-followups.md`](../proposals/commit-rule-followups/commit-rule-followups.md)
 
-| Uncertainty | Owner or resolving evidence | | --- | --- | | Whether the change needs files beyond the list below; if so it is out of scope for this plan | Resolved before editing: grep -n RUNNING_THING src/agentic_engineering_system/commit_rule.py shows the running-thing list lives only there (lines 91-96); the misuse review reads the same log (proposals/aes-planning/rollout/misuse_review.py) |
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/commit-rule-notes-report/commit-rule-notes-report.goal.md`](../proposals/commit-rule-notes-report/commit-rule-notes-report.goal.md)
 
@@ -4580,11 +4673,11 @@ Generated by company-planning `adopt` from the `goal:` front matter of `proposal
 
 ### [`proposals/commit-tag-case/commit-tag-case.goal.md`](../proposals/commit-tag-case/commit-tag-case.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/commit-tag-case/commit-tag-case.md` (plan sha256 35f50bb7c0ef24e7a10ca61a983adbac11bf0179c5c624c2e528ecbe0a726265, route inline_prototype). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/commit-tag-case/commit-tag-case.md`](../proposals/commit-tag-case/commit-tag-case.md)
 
-| Uncertainty | Owner or resolving evidence | | --- | --- | | Whether the change needs files beyond the list below; if so it is out of scope for this plan | Resolved before editing: grep -n TAG_RE src/agentic_engineering_system/commit_rule.py: the pattern is defined once (line 81) and used only by the rule. This is the only material uncertainty: the change is one regular expression and its tests, so no other unknown affects the outcome |
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/doc-reach-new-docs/PLAN.md`](../proposals/doc-reach-new-docs/PLAN.md)
 
@@ -4592,7 +4685,7 @@ Generated by company-planning `adopt` from the `goal:` front matter of `proposal
 
 ### [`proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md`](../proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/doc-reach-new-docs/PLAN.md` (plan sha256 6ed76bdc52a47689c2fd6b5f35905958735197acd7c234d93145a363ede5e584, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/evidence-recorder-counts/README.md`](../proposals/evidence-recorder-counts/README.md)
 
@@ -4604,7 +4697,7 @@ Brian wants a harness that follows his rules without making every job carry ever
 
 ### [`proposals/harness-context/harness-context.goal.md`](../proposals/harness-context/harness-context.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/harness-context/README.md` (plan sha256 adb7a0d79f12cce9fa93a5f54d8aecd9bb99e4a160c6c52fe9c58ce2307f7da0, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md`](../proposals/harness-context/native-parity/input/enforced-planning/AGENTS.md)
 
@@ -4624,7 +4717,7 @@ In the 2026-10-08 "SD - AI Astronaut" meeting (zoom:b5b26a4b0e7daf1a) Brian desc
 
 ### [`proposals/meeting-claims-true/meeting-claims-true.goal.md`](../proposals/meeting-claims-true/meeting-claims-true.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/meeting-claims-true/PLAN.md` (plan sha256 4556c915dc474f8bfdef57a0a7f342a1394d837c7719cc17f0faf06c88c2593d, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/second-brain-evaluation/PLAN.md`](../proposals/second-brain-evaluation/PLAN.md)
 
@@ -4632,11 +4725,11 @@ Generated by company-planning `adopt` from the `goal:` front matter of `proposal
 
 ### [`proposals/second-brain-evaluation/second-brain-evaluation.goal.md`](../proposals/second-brain-evaluation/second-brain-evaluation.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/second-brain-evaluation/PLAN.md` (plan sha256 f69d9ad3309c6505c2bcb76556911ad5635393d72928e57bf94ba23d80ec7521, route coordinated). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/trace-review-enforcement/plan.md`](../proposals/trace-review-enforcement/plan.md)
 
-Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted ` #` starts a YAML comment and cuts the value.
+Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted `#` starts a YAML comment and cuts the value.
 
 ### [`proposals/trace-review/README.md`](../proposals/trace-review/README.md)
 
@@ -4645,6 +4738,10 @@ Each section below answers the checklist items quoted in it; the gate judges onl
 ### [`proposals/trace-review/trace-review.goal.md`](../proposals/trace-review/trace-review.goal.md)
 
 Generated by company-planning `adopt` from the `goal:` front matter of `proposals/trace-review/README.md` (plan sha256 e1db8ded71823d4cc57dccc6b1b2652b784a9c2ecca3d57a2f4bcd15bd4d51ae, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+
+### [`proposals/vision-coverage/README.md`](../proposals/vision-coverage/README.md)
+
+Brian's already-written vision material is covered: every document he authored about the program is found, captured in the Vision wiki as a source, and compiled into pages that quote him; and the positions and open questions in his conversations reach the hypotheses register with their conversation ids. Reason: on 2026-10-04 the three fullest statements of the vision turned out to sit in a Downloads folder and on Google Drive while agents reasoned from a thinner derivative (vision PR #40).
 
 ### [`proposals/worktree-lifecycle/PLAN.md`](../proposals/worktree-lifecycle/PLAN.md)
 
@@ -4656,19 +4753,19 @@ Scope: the existing EP/PM worktree control, a partial shared model rather than t
 
 ### [`proposals/worktree-lifecycle/VALIDATION.md`](../proposals/worktree-lifecycle/VALIDATION.md)
 
-The repair plan is natively adopted for implementation: `PLAN.adoption-decision.json` records `adopted`, and `PLAN.receipt.json` records **20 passed items, zero not applicable, zero advisory deviations**, at the exact plan digest it binds. `cli.py check` exited 0 before `cli.py adopt` exited 0. The initial draft's 16-item ownership gap is historical, not current admission evidence. Independent writers remain protected; the actual implementation has one sequential writer and no child dispatch.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/worktree-lifecycle/worktree-lifecycle.goal.md`](../proposals/worktree-lifecycle/worktree-lifecycle.goal.md)
 
-Authored through the authoring-goals contract from Brian's active /goal and the adopted [plan](PLAN.md) (sha256 `02cf7f114beb6e342da0498e467144b4bdab702238a13f2aeb11cc0fbb5e8a48`). This file owns mission, loop boundaries and the exact launch condition. The native PM execution cursor will own current slice/progress; the plan owns design, ownership and acceptance. There is no independent progress diary.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/worktree-plan-lookup/worktree-plan-lookup.goal.md`](../proposals/worktree-plan-lookup/worktree-plan-lookup.goal.md)
 
-Generated by company-planning `adopt` from the `goal:` front matter of `proposals/worktree-plan-lookup/worktree-plan-lookup.md` (plan sha256 d0a6d7112756be7456085059133f2c35e2518521e3649a3cc78792677b51efd4, route repair). Do not edit: change the plan and re-adopt it. The plan is the authority for design, work units and evidence; this file holds the goal loop's launcher.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`proposals/worktree-plan-lookup/worktree-plan-lookup.md`](../proposals/worktree-plan-lookup/worktree-plan-lookup.md)
 
-Each section below answers the checklist items quoted in it; the gate judges only that section's text. Replace every `TODO(answer ...)` line before running `cli.py check`. Quote values in the front matter: an unquoted ` #` starts a YAML comment and cuts the value.
+This document was consolidated into the [wiki](../../wiki/index.md) on 2026-11-11.
 
 ### [`research/README.md`](../research/README.md)
 
@@ -4738,14 +4835,6 @@ Bounded questions and findings go here. Each investigation should state its ques
 
 Preserve exact references/captures used by investigations. Initial external sources include the standalone `wiki_methodology` architecture and incumbent AES/planning/ACA/Data Contracts repositories. Do not duplicate large upstream repositories here.
 
-### [`research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md`](../research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md)
-
-Status: research synthesis; non-normative donor analysis.
-
-### [`research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md`](../research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md)
-
-This crosswalk determines which conceptual families AES should reuse, adapt, reference, or own before the canonical repository skeleton is materialized.
-
 ### [`research/synthesis/2026-09-17-external-document-semantics-for-normative-model.md`](../research/synthesis/2026-09-17-external-document-semantics-for-normative-model.md)
 
 Use established requirements, architecture-description, and executable-specification semantics to sharpen the AES documentation model without importing a large document taxonomy or making external standards runtime dependencies.
@@ -4766,53 +4855,13 @@ Status: **bootstrap topology draft — not yet an implementation freeze**
 
 Status: research synthesis; **BP-D1 pilot-supported, not accepted architecture**
 
-### [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](../research/synthesis/2026-09-26-inside-success-aes-harvest.md)
-
-Status: research synthesis, non-normative. Written 2026-09-26 for [Decision 0011](../../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md), which archives the predecessor repository. Nothing here is adopted by being listed. Each item enters v0.2 only through the donor re-entry rule (`proposals/aes-v0.2-greenfield/05-donor-reentry.md`) and `aes plan`, and only when its **trigger** is observed on a real consumer.
-
-### [`research/synthesis/2026-09-28-legacy-idea-harvest/README.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/README.md)
-
-Status: research synthesis, non-normative. Written 2026-09-28 at Brian's request ("an in-depth investigation for ideas", not code reuse). This harvest adopts nothing. As with the [2026-09-26 Inside Success AES harvest](../2026-09-26-inside-success-aes-harvest.md), an idea enters v0.2 only through the donor re-entry rule (`proposals/aes-v0.2-greenfield/05-donor-reentry.md`) and `aes plan`, and only when its trigger shows up on a real consumer.
-
 ### [`research/synthesis/2026-09-28-legacy-idea-harvest/aes-archived.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/aes-archived.md)
 
 Read-only idea harvest, 2026-09-27. Nothing here is adopted by being listed; each item enters v0.2 only through the donor re-entry rule and `aes plan`, when its trigger shows up on a real consumer.
 
-### [`research/synthesis/2026-09-28-legacy-idea-harvest/company-planning.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/company-planning.md)
-
-Status: read-only idea harvest, non-normative. Nothing listed here is adopted by being listed; each item enters AES v0.2 only through the donor re-entry rule and `aes plan`, and only when its trigger is observed on a real consumer.
-
-### [`research/synthesis/2026-09-28-legacy-idea-harvest/ecosystem-ops.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/ecosystem-ops.md)
-
-Read-only idea harvest for AES v0.2, written 2026-09-28. Nothing here is adopted by being listed. Does not repeat `research/synthesis/2026-09-26-inside-success-aes-harvest.md`; where an item here is a stronger version of one of its items, that item's number is given as "cf. #N".
-
-### [`research/synthesis/2026-09-28-legacy-idea-harvest/enforced-planning.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/enforced-planning.md)
-
-Source: `BrianMills2718/enforced-planning`, local `/home/brian/code/enforced-planning` at `git rev-parse HEAD` = `9963dc41fcdaaa90f857d66a637fad745cda3b09` (1,329 commits, 2026-04 to 2026-09-26). Read-only sweep on 2026-09-27: plan index and status lines (146 files in `docs/plans/`), ADRs 0002/0004/0005, `ISSUES.md`, `docs/evidence/`, targeted code listing, and `git log` for reverts/removals/escape-hatch rates. Every path below was checked to exist at that revision. Paths are relative to the repo root.
-
-### [`research/synthesis/2026-09-28-legacy-idea-harvest/hooks-instructions.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/hooks-instructions.md)
-
-Read-only idea harvest for AES v0.2 (`agentic-engineering-system-canonical` @ `0d51390`). Scope excludes what `research/synthesis/2026-09-26-inside-success-aes-harvest.md` already covers (items 9-12, 14; lessons B6, B9, B10). Where a source here is stronger or contradicts one of those items, the row says so.
-
 ### [`research/synthesis/2026-09-28-legacy-idea-harvest/project-meta.md`](../research/synthesis/2026-09-28-legacy-idea-harvest/project-meta.md)
 
-- Source repo: `BrianMills2718/project-meta`, revision `0dcc574ebfcc47fa9815aeaf7e5786b2884392a1` (7,226 commits), read 2026-09-27/28. - Method: indexes and headings first, then targeted sections; GitHub concern issues read with `gh` (read-only); git log checked for landed vs abandoned work. All paths are relative to the repo root and were checked to exist at this revision. `#NNNN` means a `BrianMills2718/project-meta` GitHub issue or PR. - Deduplication: checked against `research/synthesis/2026-09-26-inside-success-aes-harvest.md` (cited as "IS-AES #n" for ideas and "IS-AES B.n" for stall lessons). Nothing here repeats that harvest unless it is a stronger or different version, and those rows say so.
-
-### [`research/synthesis/ac16-ac17-lessons-for-aes.md`](../research/synthesis/ac16-ac17-lessons-for-aes.md)
-
-Status: research synthesis; non-normative suggestions only.
-
-### [`research/synthesis/aes-evidence-characterization-and-context-suggestions.md`](../research/synthesis/aes-evidence-characterization-and-context-suggestions.md)
-
-Status: research synthesis; non-normative suggestions only.
-
-### [`research/synthesis/code-map-v4-salvage-for-aes.md`](../research/synthesis/code-map-v4-salvage-for-aes.md)
-
-Status: research synthesis; non-normative candidate dispositions only.
-
-### [`research/synthesis/fluid-governance-selective-salvage.md`](../research/synthesis/fluid-governance-selective-salvage.md)
-
-Status: research synthesis; candidate dispositions only. This document does not adopt an implementation, transfer authority, or change the canonical AES system boundary.
+- Source repo: `BrianMills2718/project-meta`, revision `0dcc574ebfcc47fa9815aeaf7e5786b2884392a1` (7,226 commits), read 2026-09-27/28. - Method: indexes and headings first, then targeted sections; GitHub concern issues read with `gh` (read-only); git log checked for landed vs abandoned work. All paths are relative to the repo root and were checked to exist at this revision. `#NNNN` means a `BrianMills2718/project-meta` GitHub issue or PR. - Deduplication: checked against [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-26-inside-success-aes-harvest.md) (cited as "IS-AES #n" for ideas and "IS-AES B.n" for stall lessons). Nothing here repeats that harvest unless it is a stronger or different version, and those rows say so.
 
 ### [`research/synthesis/incumbent-capability-inventory.md`](../research/synthesis/incumbent-capability-inventory.md)
 
@@ -4836,15 +4885,59 @@ The hive (Paperclip agents, dashboard, controls, readout) moved to [BrianMills27
 
 ### [`scripts/learning_loop/systemd/README.md`](../scripts/learning_loop/systemd/README.md)
 
-Four timers run the agent feedback loop. Start page for the whole loop: [guide.html](../../../proposals/aes-learning-loop/review-page/guide.html).
+Two timers run the agent feedback loop today: the collector and the labels job. The other three units here (`feedback-problems`, `feedback-effects`, `feedback-fix-owner`) are installed in `~/.config/systemd/user` but their timers are **disabled and inactive** (`systemctl --user is-enabled`, checked 2026-11-10), and so is agent-skills' `taxonomy-feedback.timer`, which the labels job replaced on 2026-10-26. Their last outputs in `~/projects/data/feedback-collector/` are `problems-runs.jsonl` and `policies-runs.jsonl` (2026-10-12) and `fix-owner-runs.jsonl` (2026-10-13); the user journal (kept since 2026-11-09) has no entry for any of them. Git history does not record who turned them off or why; AES has been on hold since 2026-10-18 (`CLAUDE.md`). The sections below describe what each job does when it is on. Start page for the whole loop: [guide.html](../../../proposals/aes-learning-loop/review-page/guide.html).
 
 ### [`src/agentic_engineering_system/planning_protocol.md`](../src/agentic_engineering_system/planning_protocol.md)
 
 For a human or agent changing an AES project's target (`ART-PLANNING-PROTOCOL`, `SC-GF-004`). The target is `.aes/target.yaml`; a change to it is written as a proposal, validated, accepted, and committed before any code it plans is written. Implementation follows the accepted target; it never edits the target on the side.
 
+### [`wiki/documents.md`](../wiki/documents.md)
+
+Every other document in this repository, by folder, so each one is reachable from the [wiki index](index.md). The [wiki pages](index.md) are the current account; these documents are the sources they cite, kept as written. Plans, proposals and evidence record what was intended or observed on their own dates and may be out of date.
+
+### [`wiki/feedback-loop.md`](../wiki/feedback-loop.md)
+
+How agent feedback becomes reports, labels, licensed fixes and effect counts, and which jobs run today
+
+### [`wiki/goal.md`](../wiki/goal.md)
+
+Purpose, users, scope and non-goals of the Agentic Engineering System as of 2026-11-11
+
+### [`wiki/history.md`](../wiki/history.md)
+
+History only. The v0.1 line, v0.2 self-governance, the commit rule and its removal, and the proposals by name
+
 ### [`wiki/index.md`](../wiki/index.md)
 
-This is the progressive-disclosure front door for the canonical AES convergence project. It is a derived navigation surface, not a native authority. Follow links to the owning architecture, decision, plan, evidence, or code before making consequential claims.
+Front door for the Agentic Engineering System, what it is now and where to read next
+
+### [`wiki/lockstep.md`](../wiki/lockstep.md)
+
+What Lockstep is, who uses it, and how it winds down into code2check
+
+### [`wiki/open-questions.md`](../wiki/open-questions.md)
+
+Open questions, document disagreements, unchecked claims and tests to write
+
+### [`wiki/policy-and-rules.md`](../wiki/policy-and-rules.md)
+
+The rules register, where Brian's agent rules live, standing policies and related proposals
+
+### [`wiki/requirements.md`](../wiki/requirements.md)
+
+Current requirements with their source, covering test and result
+
+### [`wiki/research-and-lessons.md`](../wiki/research-and-lessons.md)
+
+One line per research synthesis, non-normative inputs that informed AES
+
+### [`wiki/run-and-deploy.md`](../wiki/run-and-deploy.md)
+
+Install, test, run the feedback jobs, and check them
+
+### [`wiki/system-model.md`](../wiki/system-model.md)
+
+What exists in this repository by path, its entry points, dependencies, storage and hooks
 
 ## Fixture (4)
 
@@ -4864,7 +4957,7 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-## Generated (9)
+## Generated (7)
 
 ### [`generated/README.md`](README.md)
 
@@ -4886,14 +4979,6 @@ _No source-local artifact summary._
 
 _Generated wiki projection; self-content intentionally omitted._
 
-### [`generated/docstring_wiki.md`](docstring_wiki.md)
-
-_Generated wiki projection; self-content intentionally omitted._
-
-### [`generated/docstring_wiki.md`](docstring_wiki.md)
-
-_Generated wiki projection; self-content intentionally omitted._
-
 ### [`generated/repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/context.json`](repository-context/BrianMills2718__data-contracts/90c38998e8141bd07e49a77a49ec417aa29beee0/context.json)
 
 _No source-local artifact summary._
@@ -4902,7 +4987,107 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-## Archive (9)
+## Archive (42)
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-08f53436.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-08f53436.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-247c56f7.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-247c56f7.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-40c43386.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-40c43386.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-42765501.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-42765501.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-4ee979fe.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-4ee979fe.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-5978e55e.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-5978e55e.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-5ba9b30d.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-5ba9b30d.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-68450fe8.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-68450fe8.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-72925dc1.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-72925dc1.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-8ace3cd8.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-8ace3cd8.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-9fe9b32a.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-9fe9b32a.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-08f5343.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-08f5343.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-4276550.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-4276550.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-72925dc.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-72925dc.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-8ace3cd.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-8ace3cd.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-b023fb0.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-b023fb0.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-b91592b.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-b91592b.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-ca78424.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-RUNTIME-ca78424.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-b023fb02.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-b023fb02.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-b7a54252.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-b7a54252.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-bbde5185.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-bbde5185.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-c860a860.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-COMMIT-RULE-c860a860.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-PLAN-RECEIPT-42765501.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-PLAN-RECEIPT-42765501.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-PLAN-RECEIPT-72925dc1.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-PLAN-RECEIPT-72925dc1.yaml)
+
+_No source-local artifact summary._
+
+### [`archive/aes-commit-rule-2026-10-14/observations/OBS-AP-PLAN-RECEIPT-8ace3cd8.yaml`](../archive/aes-commit-rule-2026-10-14/observations/OBS-AP-PLAN-RECEIPT-8ace3cd8.yaml)
+
+_No source-local artifact summary._
 
 ### [`archive/v0.1-placeholders/README.md`](../archive/v0.1-placeholders/README.md)
 
@@ -4940,7 +5125,49 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-## Other (544)
+### [`openspec/changes/archive/.gitkeep`](../openspec/changes/archive/.gitkeep)
+
+_No source-local artifact summary._
+
+### [`openspec/changes/archive/2026-11-07-inert-characterization/proposal.md`](../openspec/changes/archive/2026-11-07-inert-characterization/proposal.md)
+
+Source: inferred by agent from Brian's active Lockstep completion goal and a reproduced local fsmonitor counterexample, 2026-11-08.
+
+### [`openspec/changes/archive/2026-11-07-inert-characterization/specs/inert-characterization/spec.md`](../openspec/changes/archive/2026-11-07-inert-characterization/specs/inert-characterization/spec.md)
+
+Source: inferred by agent from Brian's active Lockstep goal requiring structural inspection without executing inspected code, and the reproduced local fsmonitor command, 2026-11-08.
+
+_Coverage findings: markdown-title-missing._
+
+### [`openspec/changes/archive/2026-11-07-inert-characterization/tasks.md`](../openspec/changes/archive/2026-11-07-inert-characterization/tasks.md)
+
+- [x] Reproduce local fsmonitor execution in characterization and producer identity. - [x] Make both existing Git readers inert without changing public records or APIs. - [x] Verify structural facts and actual revision/dirty identity remain accurate. - [x] Archive the specification and record the narrow component repair.
+
+_Coverage findings: markdown-title-missing._
+
+### [`openspec/changes/archive/2026-11-07-required-evidence-inputs/.openspec.yaml`](../openspec/changes/archive/2026-11-07-required-evidence-inputs/.openspec.yaml)
+
+_No source-local artifact summary._
+
+### [`openspec/changes/archive/2026-11-07-required-evidence-inputs/proposal.md`](../openspec/changes/archive/2026-11-07-required-evidence-inputs/proposal.md)
+
+Lockstep launches some verification inputs in subprocesses, outside AES import discovery. Existing observations can therefore remain current after those inputs change. Adding correct new records alone does not fix this: older weak SUPPORTS observations can still mask later staleness.
+
+_Coverage findings: markdown-title-missing._
+
+### [`openspec/changes/archive/2026-11-07-required-evidence-inputs/specs/required-evidence-inputs/spec.md`](../openspec/changes/archive/2026-11-07-required-evidence-inputs/specs/required-evidence-inputs/spec.md)
+
+The evidence and reconciliation library APIs SHALL accept an optional mapping from existing verification-subject ids to literal repository-relative required file or directory paths. Omitting the mapping SHALL preserve current behavior. When ordinary freshness is CURRENT but applicable required paths lack recorded declared coverage, the observation SHALL be UNKNOWN and SHALL NOT support or refute criterion standing. Its original record and assessments SHALL remain unchanged. Existing revision, target-entry, supersession and qualified-refutation rules SHALL remain authoritative.
+
+_Coverage findings: markdown-title-missing._
+
+### [`openspec/changes/archive/2026-11-07-required-evidence-inputs/tasks.md`](../openspec/changes/archive/2026-11-07-required-evidence-inputs/tasks.md)
+
+- [x] Reproduce weak historical support masking subprocess input changes. - [x] Cover declared-directory inputs, legacy route inference, honest refutation and unsafe paths.
+
+_Coverage findings: markdown-title-missing._
+
+## Other (542)
 
 ### [`.aes/commit_rule.yaml`](../.aes/commit_rule.yaml)
 
@@ -4987,106 +5214,6 @@ _No source-local artifact summary._
 _No source-local artifact summary._
 
 ### [`.aes/observations/OBS-AES-WG5-LIFECYCLE.yaml`](../.aes/observations/OBS-AES-WG5-LIFECYCLE.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-08f53436.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-08f53436.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-247c56f7.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-247c56f7.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-40c43386.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-40c43386.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-42765501.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-42765501.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-4ee979fe.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-4ee979fe.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-5978e55e.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-5978e55e.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-5ba9b30d.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-5ba9b30d.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-68450fe8.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-68450fe8.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-72925dc1.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-72925dc1.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-8ace3cd8.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-8ace3cd8.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-9fe9b32a.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-9fe9b32a.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-08f5343.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-08f5343.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-4276550.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-4276550.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-72925dc.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-72925dc.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-8ace3cd.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-8ace3cd.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-b023fb0.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-b023fb0.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-b91592b.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-b91592b.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-ca78424.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-RUNTIME-ca78424.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-b023fb02.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-b023fb02.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-b7a54252.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-b7a54252.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-bbde5185.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-bbde5185.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-COMMIT-RULE-c860a860.yaml`](../.aes/observations/OBS-AP-COMMIT-RULE-c860a860.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-PLAN-RECEIPT-42765501.yaml`](../.aes/observations/OBS-AP-PLAN-RECEIPT-42765501.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-PLAN-RECEIPT-72925dc1.yaml`](../.aes/observations/OBS-AP-PLAN-RECEIPT-72925dc1.yaml)
-
-_No source-local artifact summary._
-
-### [`.aes/observations/OBS-AP-PLAN-RECEIPT-8ace3cd8.yaml`](../.aes/observations/OBS-AP-PLAN-RECEIPT-8ace3cd8.yaml)
 
 _No source-local artifact summary._
 
@@ -5374,10 +5501,6 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-### [`.aes/planning.yaml`](../.aes/planning.yaml)
-
-_No source-local artifact summary._
-
 ### [`.aes/plans/PLAN-AES-ACCEPT-RECEIPT.yaml`](../.aes/plans/PLAN-AES-ACCEPT-RECEIPT.yaml)
 
 _No source-local artifact summary._
@@ -5423,6 +5546,10 @@ _No source-local artifact summary._
 _No source-local artifact summary._
 
 ### [`.agentic/repo.yaml`](../.agentic/repo.yaml)
+
+_No source-local artifact summary._
+
+### [`.agents/skills/.openspec-target`](../.agents/skills/.openspec-target)
 
 _No source-local artifact summary._
 
@@ -5486,7 +5613,7 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
-### [`.githooks/commit-msg`](../.githooks/commit-msg)
+### [`.doc-reachability-ignore`](../.doc-reachability-ignore)
 
 _No source-local artifact summary._
 
@@ -5499,6 +5626,10 @@ _No source-local artifact summary._
 _No source-local artifact summary._
 
 ### [`.gitignore`](../.gitignore)
+
+_No source-local artifact summary._
+
+### [`.markdownlint-cli2.yaml`](../.markdownlint-cli2.yaml)
 
 _No source-local artifact summary._
 
@@ -5563,6 +5694,66 @@ _No source-local artifact summary._
 _No source-local artifact summary._
 
 ### [`datasets/learning-loop/experiments/2026-10-02-question-design/v2_out.json`](../datasets/learning-loop/experiments/2026-10-02-question-design/v2_out.json)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/after_1.json`](../datasets/learning-loop/experiments/2026-11-05-family-z/after_1.json)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/after_1.log`](../datasets/learning-loop/experiments/2026-11-05-family-z/after_1.log)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/after_2.json`](../datasets/learning-loop/experiments/2026-11-05-family-z/after_2.json)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/after_2.log`](../datasets/learning-loop/experiments/2026-11-05-family-z/after_2.log)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/after_narrow_1.json`](../datasets/learning-loop/experiments/2026-11-05-family-z/after_narrow_1.json)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/after_narrow_1.log`](../datasets/learning-loop/experiments/2026-11-05-family-z/after_narrow_1.log)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/after_narrow_2.json`](../datasets/learning-loop/experiments/2026-11-05-family-z/after_narrow_2.json)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/after_narrow_2.log`](../datasets/learning-loop/experiments/2026-11-05-family-z/after_narrow_2.log)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/before_1.json`](../datasets/learning-loop/experiments/2026-11-05-family-z/before_1.json)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/before_1.log`](../datasets/learning-loop/experiments/2026-11-05-family-z/before_1.log)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/before_2.json`](../datasets/learning-loop/experiments/2026-11-05-family-z/before_2.json)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/before_2.log`](../datasets/learning-loop/experiments/2026-11-05-family-z/before_2.log)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/question_set_after.json`](../datasets/learning-loop/experiments/2026-11-05-family-z/question_set_after.json)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/question_set_after_narrow.json`](../datasets/learning-loop/experiments/2026-11-05-family-z/question_set_after_narrow.json)
+
+_No source-local artifact summary._
+
+### [`datasets/learning-loop/experiments/2026-11-05-family-z/question_set_before.json`](../datasets/learning-loop/experiments/2026-11-05-family-z/question_set_before.json)
 
 _No source-local artifact summary._
 
@@ -5638,11 +5829,27 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
+### [`lefthook.yml`](../lefthook.yml)
+
+_No source-local artifact summary._
+
+### [`lychee.toml`](../lychee.toml)
+
+_No source-local artifact summary._
+
 ### [`meta-process.yaml`](../meta-process.yaml)
 
 _No source-local artifact summary._
 
 ### [`meta-process/templates/agents.md.template`](../meta-process/templates/agents.md.template)
+
+_No source-local artifact summary._
+
+### [`openspec/config.yaml`](../openspec/config.yaml)
+
+_No source-local artifact summary._
+
+### [`openspec/specs/.gitkeep`](../openspec/specs/.gitkeep)
 
 _No source-local artifact summary._
 
@@ -6079,22 +6286,6 @@ _No source-local artifact summary._
 _No source-local artifact summary._
 
 ### [`proposals/aes-planning/rollout/replay-2026-10-07.csv`](../proposals/aes-planning/rollout/replay-2026-10-07.csv)
-
-_No source-local artifact summary._
-
-### [`proposals/aes-planning/rollout/systemd/aes-commit-misuse-review.service`](../proposals/aes-planning/rollout/systemd/aes-commit-misuse-review.service)
-
-_No source-local artifact summary._
-
-### [`proposals/aes-planning/rollout/systemd/aes-commit-misuse-review.timer`](../proposals/aes-planning/rollout/systemd/aes-commit-misuse-review.timer)
-
-_No source-local artifact summary._
-
-### [`proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.service`](../proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.service)
-
-_No source-local artifact summary._
-
-### [`proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.timer`](../proposals/aes-planning/rollout/systemd/aes-commit-rule-daily.timer)
 
 _No source-local artifact summary._
 
@@ -6806,6 +6997,10 @@ _No source-local artifact summary._
 
 _No source-local artifact summary._
 
+### [`proposals/planning-package/review-page/index.html`](../proposals/planning-package/review-page/index.html)
+
+_No source-local artifact summary._
+
 ### [`proposals/second-brain-evaluation/PLANNING_PATH.json`](../proposals/second-brain-evaluation/PLANNING_PATH.json)
 
 _No source-local artifact summary._
@@ -6927,6 +7122,22 @@ _No source-local artifact summary._
 _No source-local artifact summary._
 
 ### [`proposals/trace-review/planning-path-decision.json`](../proposals/trace-review/planning-path-decision.json)
+
+_No source-local artifact summary._
+
+### [`proposals/vision-coverage/review-page/vision-coverage-plan.disposition.json`](../proposals/vision-coverage/review-page/vision-coverage-plan.disposition.json)
+
+_No source-local artifact summary._
+
+### [`proposals/vision-coverage/review-page/vision-coverage-plan.html`](../proposals/vision-coverage/review-page/vision-coverage-plan.html)
+
+_No source-local artifact summary._
+
+### [`proposals/vision-coverage/review-page/vision-coverage-plan.recommendation.json`](../proposals/vision-coverage/review-page/vision-coverage-plan.recommendation.json)
+
+_No source-local artifact summary._
+
+### [`proposals/vision-coverage/review-page/vision-coverage-plan.usecase.json`](../proposals/vision-coverage/review-page/vision-coverage-plan.usecase.json)
 
 _No source-local artifact summary._
 
@@ -7095,6 +7306,14 @@ _No source-local artifact summary._
 _No source-local artifact summary._
 
 ### [`scripts/learning_loop/systemd/feedback-fix-owner.timer`](../scripts/learning_loop/systemd/feedback-fix-owner.timer)
+
+_No source-local artifact summary._
+
+### [`scripts/learning_loop/systemd/feedback-labels.service`](../scripts/learning_loop/systemd/feedback-labels.service)
+
+_No source-local artifact summary._
+
+### [`scripts/learning_loop/systemd/feedback-labels.timer`](../scripts/learning_loop/systemd/feedback-labels.timer)
 
 _No source-local artifact summary._
 

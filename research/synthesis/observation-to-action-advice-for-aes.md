@@ -24,9 +24,9 @@ Primary AES references:
 - `docs/architecture/INITIAL_GAP_LEDGER.md`
 - `docs/plans/001_repository_context_resolution_vertical.md`
 - `docs/plans/001_D1_contract_surface_topology_freeze.md`
-- `research/synthesis/aes-evidence-characterization-and-context-suggestions.md`
+- [`research/synthesis/aes-evidence-characterization-and-context-suggestions.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/aes-evidence-characterization-and-context-suggestions.md)
 - `research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md`
-- `research/synthesis/fluid-governance-selective-salvage.md`
+- [`research/synthesis/fluid-governance-selective-salvage.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/fluid-governance-selective-salvage.md)
 
 Primary O→A references:
 
@@ -65,7 +65,7 @@ The recommended first use is a **small Plan 001 evidence/standing trace**, not a
 
 Canonical AES already asks the question O→A is designed to answer.
 
-`research/synthesis/aes-evidence-characterization-and-context-suggestions.md` identifies a central unresolved design problem:
+[`research/synthesis/aes-evidence-characterization-and-context-suggestions.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/aes-evidence-characterization-and-context-suggestions.md) identifies a central unresolved design problem:
 
 ```text
 what has sufficient evidence to be believed?
@@ -664,9 +664,9 @@ The conclusions above are revision-bound. Re-check both repositories before any 
 - Initial gap ledger: `docs/architecture/INITIAL_GAP_LEDGER.md`
 - Plan 001: `docs/plans/001_repository_context_resolution_vertical.md`
 - D1 brief: `docs/plans/001_D1_contract_surface_topology_freeze.md`
-- Evidence/characterization synthesis: `research/synthesis/aes-evidence-characterization-and-context-suggestions.md`
+- Evidence/characterization synthesis: [`research/synthesis/aes-evidence-characterization-and-context-suggestions.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/aes-evidence-characterization-and-context-suggestions.md)
 - Representation/epistemic-surface synthesis: `research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md`
-- Fluid Governance salvage: `research/synthesis/fluid-governance-selective-salvage.md`
+- Fluid Governance salvage: [`research/synthesis/fluid-governance-selective-salvage.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/fluid-governance-selective-salvage.md)
 
 ### O→A reviewed source
 

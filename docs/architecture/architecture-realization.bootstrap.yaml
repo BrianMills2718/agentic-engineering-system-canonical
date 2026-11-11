@@ -72,11 +72,11 @@ sources:
     git_blob: 7f840bb4f6474be41f96213ff62b8949cc9b5dd1
   ac17:
     snapshot: bootstrap
-    path: research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
+    path: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
     role: donor_synthesis_not_adoption_or_replicated_experiment
   sourcing:
     snapshot: bootstrap
-    path: research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md
+    path: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-17-aes-semantic-ownership-crosswalk.md
     role: candidate_dispositions_not_provider_selection
   opa_probe:
     snapshot: bootstrap

@@ -7,7 +7,7 @@ Correction: this note addresses **what canonical AES may want to borrow from Rep
 Sources reviewed:
 
 - canonical AES `docs/architecture/SYSTEM_BOUNDARY.md` on `main`;
-- `research/synthesis/code-map-v4-salvage-for-aes.md` for the already-separated characterization/evidence seam;
+- [`research/synthesis/code-map-v4-salvage-for-aes.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/code-map-v4-salvage-for-aes.md) for the already-separated characterization/evidence seam;
 - `brianmills-spec/representation-router` PR #24 / `chore/consolidation-v0` at head `ab7be7cf12880ec67e88837008eadb9ae6753f58`, especially:
   - `docs/design-model.md`;
   - `docs/INTEGRATION_POSITION.md`;
