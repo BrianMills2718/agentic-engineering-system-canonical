@@ -33,8 +33,9 @@ part"). Its current state is in `.project-brain/now.md`; the map is code2-worksp
 `docs/architecture/model.c4`; what retires and what stays is code2-workspace
 decision 0009 (Brian, 2026-11-10: feedback loop kept, the `aes` command line and
 `.aes/target.yaml` retire one repository at a time, Lockstep kept only for
-lifelike and Team-Brains with no new users). Lockstep's future is Brian's open
-call. AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789), no AES plan check
+lifelike and Team-Brains with no new users). Lockstep winds down: its edit-time
+refusal moves into code2check (decision 0009 amendment 1; Brian, 2026-11-11:
+"i approve"; code2-template#22). AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789), no AES plan check
 refuses a commit, and no `aes plan accept` step is required before a change.
 On 2026-10-13 Brian moved `~/code2` to off-the-shelf tools (OpenSpec for
 required behavior, lefthook, GitHub Issues). Its two lasting ideas, a planned
