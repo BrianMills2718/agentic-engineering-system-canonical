@@ -125,7 +125,7 @@ Until a boundary is resolved, a directory contains only a structural placeholder
 - evidence/bootstrap-alignment/repository-context-source-local-observation-001.json
 - evidence/bootstrap-alignment/reserved-component-tree-observation-001.json
 - research/synthesis/2026-09-17-source-local-context-dogfood-result.md
-- research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md
+- [research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-17-ac17-salvage-for-aligned-normative-component-planning.md)
 
 ## Consequences
 

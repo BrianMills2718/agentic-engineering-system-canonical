@@ -2,7 +2,7 @@
 
 - Source repo: `BrianMills2718/project-meta`, revision `0dcc574ebfcc47fa9815aeaf7e5786b2884392a1` (7,226 commits), read 2026-09-27/28.
 - Method: indexes and headings first, then targeted sections; GitHub concern issues read with `gh` (read-only); git log checked for landed vs abandoned work. All paths are relative to the repo root and were checked to exist at this revision. `#NNNN` means a `BrianMills2718/project-meta` GitHub issue or PR.
-- Deduplication: checked against `research/synthesis/2026-09-26-inside-success-aes-harvest.md` (cited as "IS-AES #n" for ideas and "IS-AES B.n" for stall lessons). Nothing here repeats that harvest unless it is a stronger or different version, and those rows say so.
+- Deduplication: checked against [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-26-inside-success-aes-harvest.md) (cited as "IS-AES #n" for ideas and "IS-AES B.n" for stall lessons). Nothing here repeats that harvest unless it is a stronger or different version, and those rows say so.
 
 Status key: **observed** = ran on real use and left evidence (path or issue cited); **tested** = tests or fixtures only; **design** = written down, no behavioural evidence.
 

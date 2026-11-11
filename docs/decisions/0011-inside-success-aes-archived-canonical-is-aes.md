@@ -52,7 +52,7 @@ Planning, is the work v0.2 already re-derived from a clean sheet.
    PRs are closed with a pointer here; `plan-16-unified-aes-runtime` stays as a
    pushed branch. Plan 16 is not continued anywhere.
 3. **Borrowable ideas are harvested, not ported.** The harvest is
-   `research/synthesis/2026-09-26-inside-success-aes-harvest.md`. Each item
+   [`research/synthesis/2026-09-26-inside-success-aes-harvest.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-26-inside-success-aes-harvest.md). Each item
    carries the consumer trigger under which it would enter v0.2 through the
    donor re-entry rule (`proposals/aes-v0.2-greenfield/05-donor-reentry.md`)
    and `aes plan`. Nothing in the harvest is adopted by this decision.

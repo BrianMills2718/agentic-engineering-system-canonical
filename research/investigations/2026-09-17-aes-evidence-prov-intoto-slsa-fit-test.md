@@ -9,7 +9,7 @@ Determine which evidence/provenance concepts AES should reuse from standards rat
 
 AES source reviewed:
 
-- `research/synthesis/aes-evidence-characterization-and-context-suggestions.md`
+- [`research/synthesis/aes-evidence-characterization-and-context-suggestions.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/aes-evidence-characterization-and-context-suggestions.md)
 - accepted `SYSTEM_BOUNDARY.md` evidence/gap clauses
 
 External sources:
