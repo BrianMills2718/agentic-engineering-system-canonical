@@ -2,6 +2,18 @@
 
 Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
 
+Requirement text (generated):
+    lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml: `lockstep check
+        <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta`) SHALL read `checks:` in
+        `lockstep.yaml` at the repository root, where each check is `block` (the default when absent
+        or when there is no file), `warn` or `off`. A failing `block` check SHALL exit 1; a failing
+        `warn` check SHALL print a `warning:` line and exit 0; an `off` check SHALL not run, SHALL
+        print `skipped (off)` and exit 0. A value other than those three, or an unknown check name,
+        SHALL exit 2 naming it. The file's `sources.human_pattern` (default `brian`), `owner` (no
+        default) and `likec4` (default `1.60.0`) settings SHALL be read from the same file.
+        `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running
+        the whole-tree plan check.
+
 Names: `trace`, `arch [gen|check]`, `test-first [--base REV]`, `sources [--json]`, `docmeta`, `project [--check]`; each takes
 `--repo PATH` (default the current folder). The output is code2check's, ending in a `RESULT` line.
 Exit: the check's own status when its mode is `block` (the default); 0 with a `warning:` line when
@@ -45,13 +57,28 @@ def _arch(root: Path, args: argparse.Namespace, cfg: Config) -> int:
     stale = current != text
     if stale:
         print(f"{path.name} does not match the diagram; run: lockstep check arch gen")
-    print(f"RESULT arch-check stale={int(stale)} exit={int(stale)}")
-    return int(stale)
+        print(f"RESULT arch-check stale=1 exit=1")
+        return 1
+    try:
+        broken, report = arch.lint_imports(root)
+    except arch.ImportLinterMissing as err:
+        print(err)
+        print("RESULT arch-check stale=0 import_linter_missing=1 exit=1")
+        return 1
+    if broken:
+        print(report)
+    print(f"RESULT arch-check stale=0 broken_contracts={broken} exit={int(bool(broken))}")
+    return int(bool(broken))
 
 
 def _test_first(root: Path, args: argparse.Namespace, cfg: Config) -> int:
     """Print tests that passed on base and return the exit status."""
-    result = test_first.check(root, args.base)
+    try:
+        result = test_first.check(root, args.base)
+    except test_first.PytestUnavailable as err:
+        print(err)
+        print("RESULT test-first pytest_unavailable=1 exit=1")
+        return 1
     if result.skipped:
         print(f"RESULT test-first skipped=\"{result.skipped}\" exit=0")
         return 0

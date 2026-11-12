@@ -110,6 +110,24 @@ def unplanned_reason(root: Path, rel: str, base: str | None = None) -> str | Non
             "purpose and the plan items it serves (refs), first.")
 
 
+def allowed_listing(root: Path, rel: str, cap: int = 15) -> str:
+    """Plain text listing the files the plan does allow, for a refusal of `rel`; the same governed folder first.
+
+    Reads whichever plan is in use (`lockstep.yaml` `layout:` rows or the planned artifacts of
+    `.aes/target.yaml`). At most `cap` paths are shown, then "and N more". An empty string when the
+    plan names no file.
+    """
+    paths = sorted({(a.get("locator") or {}).get("exact_path") or "" for a in target(root).get("planned_artifacts") or []} - {""})
+    folder = rel.rsplit("/", 1)[0] + "/" if "/" in rel else ""
+    paths.sort(key=lambda p: (not p.startswith(folder), p))  # stable: same folder first, each group alphabetical
+    if not paths:
+        return ""
+    lines = ["The plan does allow these files:", *[f"  {p}" for p in paths[:cap]]]
+    if len(paths) > cap:
+        lines.append(f"  and {len(paths) - cap} more")
+    return "\n".join(lines)
+
+
 def _project_files(root: Path) -> list[str]:
     listed = subprocess.run(["git", "-C", str(root), "ls-files", "--cached", "--others", "--exclude-standard"],
                             capture_output=True, text=True, check=True).stdout.splitlines()

@@ -318,3 +318,28 @@ def test_a_decision_is_logged_under_dot_lockstep_and_old_logs_still_count(proj, 
     old.mkdir()
     (old / f"hook-{dt.date.today().isoformat()}.jsonl").write_text(json.dumps({"decision": "would_block"}) + "\n")
     assert would_block_counts(proj, days=14) == {dt.date.today().isoformat(): 2}
+
+
+@pytest.mark.req("lockstep-guard/a-refusal-lists-the-files-the-plan-allows")
+def test_a_refusal_lists_the_files_the_plan_does_allow(proj, monkeypatch):
+    monkeypatch.setenv("PCW_MODE", "block")
+    edit = hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")})
+    shell = hook(proj, "Bash", {"command": "echo x > src/greeter/extra.py"})
+    for out in (edit, shell):
+        assert out["permissionDecision"] == "deny"
+        assert "The plan does allow these files" in out["permissionDecisionReason"]
+        assert "src/greeter/__init__.py" in out["permissionDecisionReason"].split("The plan does allow")[1]
+
+
+@pytest.mark.req("lockstep-guard/a-refusal-lists-the-files-the-plan-allows")
+def test_the_list_is_capped_and_puts_the_same_folder_first(tmp_path, monkeypatch):
+    monkeypatch.setenv("PCW_MODE", "block")
+    rows = "".join(f"  - path: {p}\n    purpose: x\n" for p in
+                   [*(f"docs/a{i}.py" for i in range(20)), "src/pkg/near.py"])
+    (tmp_path / "lockstep.yaml").write_text(f"schema: lockstep.side.v1\ngoverned: [src/, docs/]\nlayout:\n{rows}")
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    out = hook(tmp_path, "Write", {"file_path": str(tmp_path / "src/pkg/extra.py")})
+    reason = out["permissionDecisionReason"]
+    listed = reason.split("The plan does allow these files")[1]
+    assert "src/pkg/near.py" in listed.splitlines()[1]  # first: it shares the refused file's folder
+    assert "and 6 more" in listed and listed.count("docs/a") == 14

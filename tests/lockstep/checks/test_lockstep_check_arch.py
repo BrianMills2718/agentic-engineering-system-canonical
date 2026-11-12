@@ -55,3 +55,50 @@ def test_invalid_diagram_stops_generation(tmp_path):
     )
     with pytest.raises(RuntimeError, match="Invalid"):
         export_model(tmp_path)
+
+
+# --- the code is checked against the committed contracts, not only the contracts against the diagram ---
+
+import lockstep.checks.arch as arch_mod
+from lockstep.checks.cli import run as run_check
+from lockstep_checks_support import write, repo  # noqa: F401  (fixture)
+
+CONTRACTS = render(contracts_from_model(MODEL), root="app")
+
+
+def _app(repo, detect_source):
+    write(repo, "src/app/__init__.py", "")
+    write(repo, "src/app/cli.py", "from app.detect import greet\n")
+    write(repo, "src/app/apply.py", "")
+    write(repo, "src/app/detect.py", detect_source)
+    write(repo, ".importlinter", CONTRACTS)
+    # the diagram check is not under test here: pretend the committed file is current
+    return repo
+
+
+@pytest.fixture
+def fresh(monkeypatch):
+    monkeypatch.setattr(arch_mod, "generate", lambda root, likec4=arch_mod.LIKEC4: CONTRACTS)
+
+
+@pytest.mark.req("lockstep-checks/arch-an-import-the-diagram-forbids-is-refused")
+def test_an_import_the_diagram_forbids_is_refused(repo, fresh, capsys):
+    _app(repo, "from app.cli import greet\n")
+    assert run_check(["arch", "check", "--repo", str(repo)]) == 1
+    out = capsys.readouterr().out
+    assert "app.detect" in out and "app.cli" in out and "BROKEN" in out
+
+
+@pytest.mark.req("lockstep-checks/arch-an-import-the-diagram-forbids-is-refused")
+def test_code_that_follows_the_diagram_is_accepted(repo, fresh, capsys):
+    _app(repo, "def greet():\n    return 'hello'\n")
+    assert run_check(["arch", "check", "--repo", str(repo)]) == 0
+    assert "exit=0" in capsys.readouterr().out
+
+
+@pytest.mark.req("lockstep-checks/arch-missing-import-linter-fails-loudly")
+def test_a_missing_import_linter_fails_loudly(repo, fresh, monkeypatch, capsys):
+    _app(repo, "def greet():\n    return 'hello'\n")
+    monkeypatch.setattr(arch_mod, "lint_imports_command", lambda: None)
+    assert run_check(["arch", "check", "--repo", str(repo)]) == 1
+    assert "import-linter is not installed" in capsys.readouterr().out

@@ -113,7 +113,7 @@ from lockstep.openspec_text import find_spec_root, requirement_packet
 from lockstep.shell_targets import shell_write_words, written_paths
 from lockstep.side_file import load_side_file
 from lockstep.stale_edit import projection_stale, stale_reason, stops_edits
-from lockstep.unplanned_files import unplanned_reason
+from lockstep.unplanned_files import allowed_listing, unplanned_reason
 
 # Prefixed to the refusal text when the hook only warns (behavior 5.1, decision D7).
 WARN_PREFIX = "Lockstep would block this edit (warn mode): "
@@ -199,6 +199,12 @@ def blocks(root: Path, rel: str) -> bool:
     except ValueError:
         return True
     return side is not None and any(fnmatch.fnmatchcase(rel, g) for g in side.fixed)
+
+
+def _with_allowed(root: Path, rel: str, reason: str) -> str:
+    """`reason` followed by the files the plan does allow, so the agent sees what it may write instead."""
+    listing = allowed_listing(root, rel)
+    return f"{reason}\n\n{listing}" if listing else reason
 
 
 def _refuse_or_warn(root: Path, rel_files: list[str], record: dict, reason: str, extra: str | None = None) -> dict:
@@ -295,8 +301,9 @@ def decide_shell(call: dict, command: str) -> dict | None:
     unplanned = [(rel, why) for rel in targets for why in [unplanned_reason(root, rel)] if why]
     if unplanned:
         rels = [rel for rel, _ in unplanned]
+        reason = f"This command writes {', '.join(rels)} from the shell. {unplanned[0][1]}"
         return _refuse_or_warn(root, rels, {"tool": call.get("tool_name"), "files": rels, "why": "shell_unplanned"},
-                               f"This command writes {', '.join(rels)} from the shell. {unplanned[0][1]}")
+                               _with_allowed(root, rels[0], reason))
     named = [(a["locator"]["exact_path"], a["id"]) for a in target(root).get("planned_artifacts") or []
              if a.get("locator", {}).get("exact_path")
              and (a["locator"]["exact_path"] in command or a["locator"]["exact_path"] in targets)]
@@ -361,7 +368,8 @@ def decide(call: dict) -> dict | None:
             return _refuse_or_warn(root, [rel], {"file": rel, "why": "plan_edit"}, hand)
         unplanned = unplanned_reason(root, rel)
         if unplanned:
-            return _refuse_or_warn(root, [rel], {"file": rel, "why": "unplanned"}, unplanned, spec_text or None)
+            return _refuse_or_warn(root, [rel], {"file": rel, "why": "unplanned"}, _with_allowed(root, rel, unplanned),
+                                   spec_text or None)
         art = artifact_for_path(root, rel)
         if art is None:
             if not spec_ids:

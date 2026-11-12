@@ -133,3 +133,29 @@ def test_archiving_a_change_makes_no_scenario_new(repo):
     result = check(repo, base="HEAD~1")
     assert result.ok
     assert result.checked == []
+
+
+@pytest.mark.req("lockstep-checks/test-first-pytest-that-cannot-run-fails-loudly")
+def test_pytest_that_cannot_run_fails_loudly(repo, monkeypatch):
+    make_base(repo)
+    write(repo, "openspec/specs/core/spec.md", NEW_SPEC)
+    write(repo, "tests/test_greet.py", GREET_TEST.format(expected="hello"))
+    commit_all(repo, "new scenario")
+    import lockstep.checks.test_first as tf
+    monkeypatch.setattr(tf.sys, "executable", "/nonexistent/python")
+    with pytest.raises(tf.PytestUnavailable, match="pytest could not run"):
+        check(repo, base="HEAD~1")
+
+
+@pytest.mark.req("lockstep-checks/test-first-pytest-that-cannot-run-fails-loudly")
+def test_the_cli_exits_non_zero_when_pytest_cannot_run(repo, monkeypatch, capsys):
+    make_base(repo)
+    write(repo, "openspec/specs/core/spec.md", NEW_SPEC)
+    write(repo, "tests/test_greet.py", GREET_TEST.format(expected="hello"))
+    commit_all(repo, "new scenario")
+    import lockstep.checks.test_first as tf
+    from lockstep.checks.cli import run as run_check
+    monkeypatch.setattr(tf.sys, "executable", "/nonexistent/python")
+    code = run_check(["test-first", "--base", "HEAD~1", "--repo", str(repo)])
+    out = capsys.readouterr().out
+    assert code == 1 and "pytest could not run" in out and "accepted" not in out

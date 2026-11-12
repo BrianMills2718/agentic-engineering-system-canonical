@@ -2,19 +2,24 @@
 
 Implements: lockstep-checks/test-first-new-scenario-tests-fail-before-the-change,
     lockstep-checks/test-first-a-missing-base-revision-is-reported-not-crashed,
-    lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted
+    lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted,
+    lockstep-checks/test-first-a-test-run-that-cannot-start-fails-the-check
 
 Requirement text (generated):
-    lockstep-checks/test-first-new-scenario-tests-fail-before-the-change: `lockstep check test-first --base <rev>` SHALL
-        run, against the base revision's source, every test marked for a scenario that the current
-        revision's specs or active changes define and the base revision's specs and active changes
-        do not, and exit 1 if any of them passes there.
-    lockstep-checks/test-first-a-missing-base-revision-is-reported-not-crashed: `lockstep check test-first --base <rev>`
-        SHALL, when `<rev>` does not name a commit, check nothing, report that the base was missing,
-        and exit 0.
-    lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted: The test-first check SHALL not
-        run a test marked `req(..., existing=True)`, and SHALL report how many such tests it
-        skipped.
+    lockstep-checks/test-first-new-scenario-tests-fail-before-the-change: `lockstep check test-first
+        --base <rev>` SHALL run, against the base revision's source, every test marked for a
+        scenario that the current revision's specs or active changes define and the base revision's
+        specs and active changes do not, and exit 1 if any of them passes there.
+    lockstep-checks/test-first-a-missing-base-revision-is-reported-not-crashed: `lockstep check
+        test-first --base <rev>` SHALL, when `<rev>` does not name a commit, check nothing, report
+        that the base was missing, and exit 0.
+    lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted: The test-first
+        check SHALL not run a test marked `req(..., existing=True)`, and SHALL report how many such
+        tests it skipped.
+    lockstep-checks/test-first-a-test-run-that-cannot-start-fails-the-check: `lockstep check
+        test-first` SHALL exit 1 with a message saying pytest could not run when running the new
+        tests on the base source produces no test report (pytest missing from Lockstep's
+        environment, or a usage error); it SHALL NOT report the tests as not passing before.
 """
 
 from dataclasses import dataclass, field
@@ -30,6 +35,10 @@ import xml.etree.ElementTree as ET
 
 from lockstep.checks.markers import req_markers, source_dirs, test_dirs
 from lockstep.checks.spec import read_plan
+
+
+class PytestUnavailable(RuntimeError):
+    """pytest could not run in Lockstep's environment, so nothing was judged; the check must fail, not accept."""
 
 
 @dataclass
@@ -102,16 +111,23 @@ def check(root: Path, base: str) -> Result:
         report = old / "report.xml"
         paths = [old / d.relative_to(root) for d in [*source_dirs(root), *test_dirs(root)]]
         env = {**os.environ, "PYTHONPATH": os.pathsep.join(str(p) for p in paths)}
-        subprocess.run(
-            [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", f"--junitxml={report}", *nodes],
-            cwd=old,
-            env=env,
-            capture_output=True,
-        )
-        if report.exists():
-            for case in ET.parse(report).iter("testcase"):
-                if len(case) == 0 or all(child.tag in ("system-out", "system-err") for child in case):
-                    path = case.get("file") or case.get("classname", "").replace(".", "/") + ".py"
-                    result.passed_before.append(f"{path}::{case.get('name')}")
+        try:
+            ran = subprocess.run(
+                [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", f"--junitxml={report}", *nodes],
+                cwd=old,
+                env=env,
+                capture_output=True,
+                text=True,
+            )
+        except OSError as err:
+            raise PytestUnavailable(f"pytest could not run: {sys.executable} cannot be started ({err})") from err
+        if not report.exists():  # no report means no test ran (pytest missing, or a usage error): never "all failed"
+            detail = (ran.stderr or ran.stdout).strip().splitlines()[-1:] or [f"exit {ran.returncode}"]
+            raise PytestUnavailable(f"pytest could not run with {sys.executable}: {detail[0]}. "
+                                    "Install pytest in Lockstep's environment.")
+        for case in ET.parse(report).iter("testcase"):
+            if len(case) == 0 or all(child.tag in ("system-out", "system-err") for child in case):
+                path = case.get("file") or case.get("classname", "").replace(".", "/") + ".py"
+                result.passed_before.append(f"{path}::{case.get('name')}")
         result.passed_before.sort()
         return result
