@@ -1,517 +1,517 @@
 {
- "schema_version": "1.0",
- "record_type": "acceptance_criteria",
- "outcome": "AES is the whole system (Lockstep, the feedback loop and the policy layer), and Lockstep is built, to the single-tool design Brian approved, into one configurable, portable and shareable planning-and-checking tool in AES canonical that, once a person approves the plan, lays out the files and writes each one's first docstring (what it must do, its success criteria and its tests), while the feedback loop and policy layer keep working.",
- "asked_by": [
-  {
-   "who": "Brian",
-   "date": "2026-11-11",
-   "words": "to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system which is more opinated and stack alsong side lockstep",
-   "source": "~/.claude/history.jsonl (session a769ac09, 08:14 UTC)"
-  },
-  {
-   "who": "Brian",
-   "date": "2026-11-11",
-   "words": "on dcision 4 it seems liek youa re poitn otu that htis should be combined into one single thing not a bunch of differnt things which i agree with. and it should preusmably be part of aes canonicale which is configurable and protable/sharebale",
-   "source": "~/.claude/history.jsonl (session a769ac09, 20:46 UTC)"
-  },
-  {
-   "who": "Brian",
-   "date": "2026-11-11",
-   "words": "ok and on this \"A person approves it, and only then does an agent lay out the files' it also writes the firs tdoc strings. which incldues the nroamtive sutff on what his sis uppoed to do and it success critieria test stuff.",
-   "source": "~/.claude/history.jsonl (session 483c48d8, 20:40 UTC)"
-  },
-  {
-   "who": "Brian",
-   "date": "2026-11-11",
-   "words": "i approve single tool desing re d4",
-   "source": "~/.claude/history.jsonl (session 483c48d8, 21:10 UTC)"
-  },
-  {
-   "who": "Brian",
-   "date": "2026-11-11",
-   "words": "lets keep workgin on the harness",
-   "source": "~/.claude/history.jsonl (session 483c48d8, 22:23 UTC)"
-  }
- ],
- "entries": [
-  {
-   "id": "A1",
-   "criterion": "Lockstep is one tool, built to the single-tool design I approved and shipped from AES canonical: in a new repository one command sets it up, with one config file, in place of pcw, code2check and Company Planning's plan check.",
-   "demonstration": [
-    "Open the Lockstep install walkthrough page (planned in slice 1, Q22)",
-    "Read the one command at the top (one line typed into a terminal in an empty repository) and the list of files it wrote",
-    "Open lockstep.yaml, the one settings file it wrote",
-    "Read the three hook entries it added: the small settings lines that make Claude Code, Codex and the commit checker (lefthook) call Lockstep automatically"
-   ],
-   "expected": "In plain words: one typed command set everything up. It wrote lockstep.yaml and the three hook entries, installed from the agentic-engineering-system-canonical git address, and no second tool (pcw, code2check) had to be installed.",
-   "failure_example": "The walkthrough needs a second step such as installing code2check or copying a file by hand, or the command installs from the lockstep repository instead of AES canonical.",
-   "representation": {
-    "view": "answer-receipt-card",
-    "router_record": "docs/planning/router/acceptance-views.json"
-   },
-   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a1",
-   "status": "built",
-   "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a1.json (scripts/acceptance/a1.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
-  },
-  {
-   "id": "A2",
-   "criterion": "When an agent tries to write a file the plan does not name, Lockstep refuses it and shows the plan; when it only reads a planned file, it is allowed.",
-   "demonstration": [
-    "Open the guard replay page for lifelike (planned in slice 3)",
-    "Read the four rows. Each is an agent trying something: three ways of writing a new file that the plan does not list (cat >, echo >, python -c), and one that only copies a file for reading (read-only cp)",
-    "For each row, compare the column 'should' (what the plan says should happen) with the column 'did' (what the guard actually did)",
-    "Open the refused row's message"
-   ],
-   "expected": "In plain words: an agent writing a file the plan does not list is refused; an agent only reading is allowed. The three writes show 'refused' in both columns and the refusal message lists the files the plan does allow; the read-only cp shows 'allowed' in both.",
-   "failure_example": "Today's Lockstep gets two of these wrong (DESIGN.md line 31): a 'did' column that says 'allowed' for cat > src/extra.py, or 'refused' for cp src/a.py /tmp/x, is a fail.",
-   "representation": {
-    "view": "decision-table",
-    "router_record": "docs/planning/router/acceptance-views.json"
-   },
-   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a2",
-   "status": "built",
-   "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a2.json (scripts/acceptance/a2.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
-  },
-  {
-   "id": "A3",
-   "criterion": "A commit that breaks the plan's rules is refused at commit time: a new test that already passed before the change, an import the architecture diagram forbids, or a requirement with no Source line.",
-   "demonstration": [
-    "Open the commit-check replay page (planned in slice 4)",
-    "Read one row per test commit: what it does, which check should refuse it, and what happened",
-    "Open the row for the test-first case and read the refusal message"
-   ],
-   "expected": "Each of the three bad commits is refused by the named check (test-first, arch, sources) with a message naming the file or requirement; a clean commit in the same table is accepted.",
-   "failure_example": "The test-first row shows 'accepted' for a commit whose new test passes on the base revision, or the clean commit is refused.",
-   "representation": {
-    "view": "decision-table",
-    "router_record": "docs/planning/router/acceptance-views.json"
-   },
-   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a3",
-   "status": "built",
-   "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a3.json (scripts/acceptance/a3.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
-  },
-  {
-   "id": "A4",
-   "criterion": "After a person approves the plan, the agent lays out the files, and each file's first docstring holds the normative text of what it must do, its success criteria and its tests, word for word from the approved plan.",
-   "demonstration": [
-    "Open the layout page for a test repository (planned in slice 2)",
-    "Pick a planned file",
-    "Read the approved requirement and its scenarios on the left",
-    "Read the file's first docstring on the right"
-   ],
-   "expected": "The docstring carries the requirement text, the success criteria and the test names exactly as approved; the page also shows that no file was laid out before the approval.",
-   "failure_example": "A docstring that paraphrases the requirement, leaves out the success criteria or test names, or a file that exists before the plan's approval date.",
-   "representation": {
-    "view": "master-detail",
-    "router_record": "docs/planning/router/acceptance-views.json"
-   },
-   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a4",
-   "status": "built",
-   "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a4.json (scripts/acceptance/a4.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
-  },
-  {
-   "id": "A5",
-   "criterion": "The tool is configurable, portable and shareable: any repository, personal or Inside Success, installs it the same way; someone else can install it in their own repository from its public git address with only its README; a lockstep.yaml copied from one repository works in another; each check can be switched to block, warn or off; and nothing in it names my machine.",
-   "demonstration": [
-    "Open the portability page (planned in slice 6)",
-    "Read the count of machine paths (folder names from Brian's own computer, such as /home/brian, written into the installed files) found in an installed repository",
-    "Read the table of checks and the setting each has in lockstep.yaml",
-    "Read the row for a repository outside BrianMills2718, installed by following the README only",
-    "Read the row where one repository's lockstep.yaml was copied into another"
-   ],
-   "expected": "In plain words: the tool works on someone else's computer and repository without edits. The machine-path count is 0; every check has a block, warn or off setting; the owner and the human-source pattern come from lockstep.yaml, not from code; the outside repository installed from the README alone; the copied lockstep.yaml ran with only its owner line changed.",
-   "failure_example": "A path such as /home/brian or ~/code2 in an installed file, an owner hard-coded as BrianMills2718, a check that cannot be switched off, or an install that needs access to one of Brian's private repositories.",
-   "representation": {
-    "view": "data-table",
-    "router_record": "docs/planning/router/acceptance-views.json"
-   },
-   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a5",
-   "status": "built",
-   "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a5.json (scripts/acceptance/a5.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
-  },
-  {
-   "id": "A6",
-   "criterion": "A correction I gave an agent yesterday shows up today as a filed report in the feedback log, with my words.",
-   "demonstration": [
-    "Open the agent-feedback-log issues filtered to source:human, newest first",
-    "Read the date of the newest issue",
-    "Open an issue from yesterday or today",
-    "Read the quote and the session it came from"
-   ],
-   "expected": "The newest source:human issue is from the last night's run, and it quotes something you said in a session the day before.",
-   "failure_example": "No recent correction appears in the filed source:human issues, or a new nightly run again defers every correction behind other report types. The 867-report backlog observed on 2026-11-11 is historical: commit ec3022d5a records 867/867 filed, 0 errors.",
-   "representation": {
-    "view": "data-table",
-    "router_record": "docs/planning/router/acceptance-views.json"
-   },
-   "entrypoint": "https://github.com/BrianMills2718/agent-feedback-log/issues?q=label%3Asource%3Ahuman+sort%3Acreated-desc",
-   "status": "built",
-   "status_note": "The page exists and the collector runs nightly. Q18 is resolved against the corrections-first repair and the 867/867 filing record in commit ec3022d5a; this reconciliation does not independently rerun the collector or judge today's issues."
-  },
-  {
-   "id": "A7",
-   "criterion": "When I set a rule for agents, I can find it with my own words and the date, and see whether anything enforces it.",
-   "demonstration": [
-    "Open code2-workspace agents/core.md on GitHub",
-    "Pick a rule that ends with your name and a date",
-    "Open agents/rule-sources.md and find the same rule",
-    "Read your words, the date and the incident behind it"
-   ],
-   "expected": "Each rule in core.md names the date you said it, and rule-sources.md holds your words for it; the AES rules page says which list it covers.",
-   "failure_example": "A dated rule with no entry in rule-sources.md, or the AES rules page (docs/rules/RULES.md) claiming to list every rule agents follow while it lists one (today's state, Q20).",
-   "representation": {
-    "view": "master-detail",
-    "router_record": "docs/planning/router/acceptance-views.json"
-   },
-   "entrypoint": "https://github.com/BrianMills2718/code2-workspace/blob/main/agents/core.md",
-   "status": "built",
-   "status_note": "The rule files exist; the AES register page's claim is open (Q20)."
-  },
-  {
-   "id": "A8",
-   "criterion": "I can see on one page what AES is: its three parts, where each lives, what runs today, and how far the one-tool build has got.",
-   "demonstration": [
-    "Open the AES planning review page",
-    "Read the Architecture section's first view",
-    "Read the Plan and rollout section"
-   ],
-   "expected": "Lockstep, the feedback loop and the policy layer are each named with the repository that holds them and what runs today (two feedback jobs on, three off); the plan section lists the six slices with which have merged.",
-   "failure_example": "The page still says AES is on hold, calls Lockstep retiring, or leaves out the feedback loop or the policy layer.",
-   "representation": {
-    "view": "data-table",
-    "router_record": "docs/planning/router/acceptance-views.json"
-   },
-   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/index.html",
-   "status": "built",
-   "status_note": "Built by this package refresh; Brian has not judged it."
-  },
-  {
-   "id": "A9",
-   "criterion": "A source-owned plan status, description, interface or evidence value updates its declared wiki copy after an edit, and a stale copy is refused when refresh is bypassed.",
-   "demonstration": [
-    "Open the linked source-fact acceptance table, then its Company Planning reader page.",
-    "For each of the four fact types, compare the source change, expected copied value and recorded result.",
-    "Read the installed hook replay and native-client dispatch rows separately.",
-    "Read the bypass row: a source-only change must fail the read-only project check without that check rewriting the page."
-   ],
-   "expected": "All four fact types copy the source value; the installed refresh command updates the declared block; a bypassed refresh is refused by the read-only merge check. Native dispatch is claimed only after a fresh Claude Code or Codex session records the callback.",
-   "failure_example": "Plan 61 says done while its declared wiki block says active and the project check still passes; or a successful command replay is presented as proof that a native client dispatched the hook.",
-   "representation": {
-    "view": "decision-table",
-    "router_record": "docs/planning/router/acceptance-views.json"
-   },
-   "entrypoint": "planned",
-   "status": "not built",
-   "status_note": "Provider implementation and focused tests are recorded; the paired Company Planning consumer demonstration, reader deployment and native dispatch remain pending. See docs/planning/source-facts-acceptance.md."
-  }
- ],
- "coverage": {
-  "model": "openrouter/anthropic/claude-sonnet-5.5",
-  "judged_at": "2026-11-12T12:49:22-0500",
-  "asked_by_sha256": "4c475d6604f6b578e572ccdf43df51f6d5d9c9c78272ec0134d08126e79ea11b",
-  "criteria_sha256": "0043551cda964065cba62d5d972278add4e3606ace1414ba9dd751bc018d77ef",
-  "cut_context_sha256": "15df2cb97b4d42a78df91890302c0bc6c8c5eb387a351f3c4b829d0aefcb41d7",
-  "outcome_sha256": "eb4654f063b156765216c93d31a502a480e772a64ae5a187f2da29a445565139",
-  "criteria_judged": {
-   "A1": "815ba4415d0dd27d6082095040f9ea6f14d8885a7c07e7b412698888e59d1bef",
-   "A2": "26296ab21f867cba39b044a5a67767c3a8c7175c0b162c588f604cf0334f181c",
-   "A3": "43255ae94f628efa4a5f2765b137ca9d1c340784877f79ba1d95e3a64dc8beae",
-   "A4": "484770c225fd37724fa215587eda7f6810348443e9f1d74cdb89448034df39ae",
-   "A5": "bd442e0045ccd6ddea1dfec00e90cd8f856737ee3f32317246044bfef309bd29",
-   "A6": "36190c857d0c8aa98864e62680c00a892f7d6ebe51bba5aaeaf1777b1044d705",
-   "A7": "6f7ac7c668c4fbfc28d7b355343af1702728bf9ad62beb4a5f9498aa712ae4e9",
-   "A8": "9cf1fa2fcf34e0ac5ed8c9bda939c9b5c63d9b1c544103088a05f25e3a670bcf"
-  },
-  "deferrals_judged": [],
-  "trace_id": "planning-compliance/goal-coverage/20261112T124908-29a4b191-run1",
-  "cost_usd": 0.083664,
-  "requirements": [
-   {
-    "id": "R1",
-    "requirement": "aes is the whole system",
-    "quote": "aes is the whole sysem",
-    "asked_by_index": 1,
-    "kind": "outcome"
-   },
-   {
-    "id": "R2",
-    "requirement": "lockstep is one part",
-    "quote": "lockstep is one part",
-    "asked_by_index": 1,
-    "kind": "outcome"
-   },
-   {
-    "id": "R3",
-    "requirement": "aes includes feedback and policy system",
-    "quote": "aes include the whole feedback and policy system",
-    "asked_by_index": 1,
-    "kind": "outcome"
-   },
-   {
-    "id": "R4",
-    "requirement": "combined into one single thing",
-    "quote": "htis should be combined into one single thing not a bunch of differnt things",
-    "asked_by_index": 2,
-    "kind": "outcome"
-   },
-   {
-    "id": "R5",
-    "requirement": "part of aes canonical",
-    "quote": "it should preusmably be part of aes canonicale",
-    "asked_by_index": 2,
-    "kind": "outcome"
-   },
-   {
-    "id": "R6",
-    "requirement": "configurable",
-    "quote": "which is configurable",
-    "asked_by_index": 2,
-    "kind": "outcome"
-   },
-   {
-    "id": "R7",
-    "requirement": "portable",
-    "quote": "protable",
-    "asked_by_index": 2,
-    "kind": "outcome"
-   },
-   {
-    "id": "R8",
-    "requirement": "shareable",
-    "quote": "sharebale",
-    "asked_by_index": 2,
-    "kind": "outcome"
-   },
-   {
-    "id": "R9",
-    "requirement": "person approves, then agent lays out files",
-    "quote": "A person approves it, and only then does an agent lay out the files",
-    "asked_by_index": 3,
-    "kind": "outcome"
-   },
-   {
-    "id": "R10",
-    "requirement": "writes first doc strings",
-    "quote": "it also writes the firs tdoc strings",
-    "asked_by_index": 3,
-    "kind": "outcome"
-   },
-   {
-    "id": "R11",
-    "requirement": "normative what it should do",
-    "quote": "the nroamtive sutff on what his sis uppoed to do",
-    "asked_by_index": 3,
-    "kind": "outcome"
-   },
-   {
-    "id": "R12",
-    "requirement": "success criteria test stuff",
-    "quote": "it success critieria test stuff",
-    "asked_by_index": 3,
-    "kind": "outcome"
-   },
-   {
-    "id": "R13",
-    "requirement": "approve single tool design",
-    "quote": "i approve single tool desing re d4",
-    "asked_by_index": 4,
-    "kind": "outcome"
-   },
-   {
-    "id": "R14",
-    "requirement": "keep working on harness",
-    "quote": "lets keep workgin on the harness",
-    "asked_by_index": 5,
-    "kind": "process"
-   }
+  "schema_version": "1.0",
+  "record_type": "acceptance_criteria",
+  "outcome": "AES is the whole system (Lockstep, the feedback loop and the policy layer), and Lockstep is built, to the single-tool design Brian approved, into one configurable, portable and shareable planning-and-checking tool in AES canonical that, once a person approves the plan, lays out the files and writes each one's first docstring (what it must do, its success criteria and its tests), while the feedback loop and policy layer keep working.",
+  "asked_by": [
+    {
+      "who": "Brian",
+      "date": "2026-11-11",
+      "words": "to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system which is more opinated and stack alsong side lockstep",
+      "source": "~/.claude/history.jsonl (session a769ac09, 08:14 UTC)"
+    },
+    {
+      "who": "Brian",
+      "date": "2026-11-11",
+      "words": "on dcision 4 it seems liek youa re poitn otu that htis should be combined into one single thing not a bunch of differnt things which i agree with. and it should preusmably be part of aes canonicale which is configurable and protable/sharebale",
+      "source": "~/.claude/history.jsonl (session a769ac09, 20:46 UTC)"
+    },
+    {
+      "who": "Brian",
+      "date": "2026-11-11",
+      "words": "ok and on this \"A person approves it, and only then does an agent lay out the files' it also writes the firs tdoc strings. which incldues the nroamtive sutff on what his sis uppoed to do and it success critieria test stuff.",
+      "source": "~/.claude/history.jsonl (session 483c48d8, 20:40 UTC)"
+    },
+    {
+      "who": "Brian",
+      "date": "2026-11-11",
+      "words": "i approve single tool desing re d4",
+      "source": "~/.claude/history.jsonl (session 483c48d8, 21:10 UTC)"
+    },
+    {
+      "who": "Brian",
+      "date": "2026-11-11",
+      "words": "lets keep workgin on the harness",
+      "source": "~/.claude/history.jsonl (session 483c48d8, 22:23 UTC)"
+    }
   ],
-  "mappings": [
-   {
-    "requirement_id": "R1",
-    "covered_by": [
-     "A8"
-    ],
-    "coverage_reason": "A8 fails unless the page shows AES as a whole with its three parts, where each lives and what runs.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line states AES is the whole system with Lockstep, feedback loop and policy layer."
-   },
-   {
-    "requirement_id": "R2",
-    "covered_by": [
-     "A8"
-    ],
-    "coverage_reason": "A8 requires Lockstep be named as one of three parts, so presenting it as the whole would fail.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line says Lockstep is built into one tool and is a part of AES."
-   },
-   {
-    "requirement_id": "R3",
-    "covered_by": [
-     "A6",
-     "A7",
-     "A8"
-    ],
-    "coverage_reason": "A8 names the feedback loop and policy layer as AES parts, while A6 and A7 check the feedback log and the policy rules work.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line says AES includes the feedback loop and policy layer and they keep working."
-   },
-   {
-    "requirement_id": "R4",
-    "covered_by": [
-     "A1"
-    ],
-    "coverage_reason": "A1 fails unless one command and one config file replace pcw, code2check and the plan check.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line says Lockstep is built into one tool following the single-tool design."
-   },
-   {
-    "requirement_id": "R5",
-    "covered_by": [
-     "A1"
-    ],
-    "coverage_reason": "A1 requires it to be shipped from and installed from AES canonical's git address.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line puts the tool in AES canonical."
-   },
-   {
-    "requirement_id": "R6",
-    "covered_by": [
-     "A5"
-    ],
-    "coverage_reason": "A5 requires every check to have a block, warn or off setting and the owner to come from lockstep.yaml.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line says the tool is configurable."
-   },
-   {
-    "requirement_id": "R7",
-    "covered_by": [
-     "A5"
-    ],
-    "coverage_reason": "A5 requires zero machine paths and the same install in any repository, and a copied config working elsewhere.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line says the tool is portable."
-   },
-   {
-    "requirement_id": "R8",
-    "covered_by": [
-     "A5"
-    ],
-    "coverage_reason": "A5 requires that someone else can install it from its public git address with only the README.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line says the tool is shareable."
-   },
-   {
-    "requirement_id": "R9",
-    "covered_by": [
-     "A4"
-    ],
-    "coverage_reason": "A4 requires that files are laid out only after approval and shows no file was laid out before it.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line says that once a person approves the plan, it lays out the files."
-   },
-   {
-    "requirement_id": "R10",
-    "covered_by": [
-     "A4"
-    ],
-    "coverage_reason": "A4 checks each file's first docstring is written with the plan content.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line says it writes each file's first docstring."
-   },
-   {
-    "requirement_id": "R11",
-    "covered_by": [
-     "A4"
-    ],
-    "coverage_reason": "A4 requires the docstring to hold the normative requirement text of what the file must do.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line includes what it must do in the docstring."
-   },
-   {
-    "requirement_id": "R12",
-    "covered_by": [
-     "A4"
-    ],
-    "coverage_reason": "A4 requires the docstring to hold the success criteria and test names exactly as approved.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line includes success criteria and tests in the docstring."
-   },
-   {
-    "requirement_id": "R13",
-    "covered_by": [
-     "A1"
-    ],
-    "coverage_reason": "A1 fails unless Lockstep is one tool built to the approved single-tool design.",
-    "extent": "full",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "The outcome line says it is built to the single-tool design Brian approved."
-   },
-   {
-    "requirement_id": "R14",
-    "covered_by": [],
-    "coverage_reason": "No criterion could demonstrate continuing work on the harness; it is a process statement and the harness is not mentioned in any criterion.",
-    "extent": "none",
-    "missing": "",
-    "deferral": 0,
-    "in_outcome": true,
-    "outcome_reason": "It is a process requirement, so the outcome line does not need to keep it."
-   }
+  "entries": [
+    {
+      "id": "A1",
+      "criterion": "Lockstep is one tool, built to the single-tool design I approved and shipped from AES canonical: in a new repository one command sets it up, with one config file, in place of pcw, code2check and Company Planning's plan check.",
+      "demonstration": [
+        "Open the Lockstep install walkthrough page (planned in slice 1, Q22)",
+        "Read the one command at the top (one line typed into a terminal in an empty repository) and the list of files it wrote",
+        "Open lockstep.yaml, the one settings file it wrote",
+        "Read the three hook entries it added: the small settings lines that make Claude Code, Codex and the commit checker (lefthook) call Lockstep automatically"
+      ],
+      "expected": "In plain words: one typed command set everything up. It wrote lockstep.yaml and the three hook entries, installed from the agentic-engineering-system-canonical git address, and no second tool (pcw, code2check) had to be installed.",
+      "failure_example": "The walkthrough needs a second step such as installing code2check or copying a file by hand, or the command installs from the lockstep repository instead of AES canonical.",
+      "representation": {
+        "view": "answer-receipt-card",
+        "router_record": "docs/planning/router/acceptance-views.json"
+      },
+      "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a1",
+      "status": "built",
+      "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a1.json (scripts/acceptance/a1.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
+    },
+    {
+      "id": "A2",
+      "criterion": "When an agent tries to write a file the plan does not name, Lockstep refuses it and shows the plan; when it only reads a planned file, it is allowed.",
+      "demonstration": [
+        "Open the guard replay page for lifelike (planned in slice 3)",
+        "Read the four rows. Each is an agent trying something: three ways of writing a new file that the plan does not list (cat >, echo >, python -c), and one that only copies a file for reading (read-only cp)",
+        "For each row, compare the column 'should' (what the plan says should happen) with the column 'did' (what the guard actually did)",
+        "Open the refused row's message"
+      ],
+      "expected": "In plain words: an agent writing a file the plan does not list is refused; an agent only reading is allowed. The three writes show 'refused' in both columns and the refusal message lists the files the plan does allow; the read-only cp shows 'allowed' in both.",
+      "failure_example": "Today's Lockstep gets two of these wrong (DESIGN.md line 31): a 'did' column that says 'allowed' for cat > src/extra.py, or 'refused' for cp src/a.py /tmp/x, is a fail.",
+      "representation": {
+        "view": "decision-table",
+        "router_record": "docs/planning/router/acceptance-views.json"
+      },
+      "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a2",
+      "status": "built",
+      "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a2.json (scripts/acceptance/a2.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
+    },
+    {
+      "id": "A3",
+      "criterion": "A commit that breaks the plan's rules is refused at commit time: a new test that already passed before the change, an import the architecture diagram forbids, or a requirement with no Source line.",
+      "demonstration": [
+        "Open the commit-check replay page (planned in slice 4)",
+        "Read one row per test commit: what it does, which check should refuse it, and what happened",
+        "Open the row for the test-first case and read the refusal message"
+      ],
+      "expected": "Each of the three bad commits is refused by the named check (test-first, arch, sources) with a message naming the file or requirement; a clean commit in the same table is accepted.",
+      "failure_example": "The test-first row shows 'accepted' for a commit whose new test passes on the base revision, or the clean commit is refused.",
+      "representation": {
+        "view": "decision-table",
+        "router_record": "docs/planning/router/acceptance-views.json"
+      },
+      "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a3",
+      "status": "built",
+      "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a3.json (scripts/acceptance/a3.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
+    },
+    {
+      "id": "A4",
+      "criterion": "After a person approves the plan, the agent lays out the files, and each file's first docstring holds the normative text of what it must do, its success criteria and its tests, word for word from the approved plan.",
+      "demonstration": [
+        "Open the layout page for a test repository (planned in slice 2)",
+        "Pick a planned file",
+        "Read the approved requirement and its scenarios on the left",
+        "Read the file's first docstring on the right"
+      ],
+      "expected": "The docstring carries the requirement text, the success criteria and the test names exactly as approved; the page also shows that no file was laid out before the approval.",
+      "failure_example": "A docstring that paraphrases the requirement, leaves out the success criteria or test names, or a file that exists before the plan's approval date.",
+      "representation": {
+        "view": "master-detail",
+        "router_record": "docs/planning/router/acceptance-views.json"
+      },
+      "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a4",
+      "status": "built",
+      "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a4.json (scripts/acceptance/a4.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
+    },
+    {
+      "id": "A5",
+      "criterion": "The tool is configurable, portable and shareable: any repository, personal or Inside Success, installs it the same way; someone else can install it in their own repository from its public git address with only its README; a lockstep.yaml copied from one repository works in another; each check can be switched to block, warn or off; and nothing in it names my machine.",
+      "demonstration": [
+        "Open the portability page (planned in slice 6)",
+        "Read the count of machine paths (folder names from Brian's own computer, such as /home/brian, written into the installed files) found in an installed repository",
+        "Read the table of checks and the setting each has in lockstep.yaml",
+        "Read the row for a repository outside BrianMills2718, installed by following the README only",
+        "Read the row where one repository's lockstep.yaml was copied into another"
+      ],
+      "expected": "In plain words: the tool works on someone else's computer and repository without edits. The machine-path count is 0; every check has a block, warn or off setting; the owner and the human-source pattern come from lockstep.yaml, not from code; the outside repository installed from the README alone; the copied lockstep.yaml ran with only its owner line changed.",
+      "failure_example": "A path such as /home/brian or ~/code2 in an installed file, an owner hard-coded as BrianMills2718, a check that cannot be switched off, or an install that needs access to one of Brian's private repositories.",
+      "representation": {
+        "view": "data-table",
+        "router_record": "docs/planning/router/acceptance-views.json"
+      },
+      "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a5",
+      "status": "built",
+      "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a5.json (scripts/acceptance/a5.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
+    },
+    {
+      "id": "A6",
+      "criterion": "A correction I gave an agent yesterday shows up today as a filed report in the feedback log, with my words.",
+      "demonstration": [
+        "Open the agent-feedback-log issues filtered to source:human, newest first",
+        "Read the date of the newest issue",
+        "Open an issue from yesterday or today",
+        "Read the quote and the session it came from"
+      ],
+      "expected": "The newest source:human issue is from the last night's run, and it quotes something you said in a session the day before.",
+      "failure_example": "No recent correction appears in the filed source:human issues, or a new nightly run again defers every correction behind other report types. The 867-report backlog observed on 2026-11-11 is historical: commit ec3022d5a records 867/867 filed, 0 errors.",
+      "representation": {
+        "view": "data-table",
+        "router_record": "docs/planning/router/acceptance-views.json"
+      },
+      "entrypoint": "https://github.com/BrianMills2718/agent-feedback-log/issues?q=label%3Asource%3Ahuman+sort%3Acreated-desc",
+      "status": "built",
+      "status_note": "The page exists and the collector runs nightly. Q18 is resolved against the corrections-first repair and the 867/867 filing record in commit ec3022d5a; this reconciliation does not independently rerun the collector or judge today's issues."
+    },
+    {
+      "id": "A7",
+      "criterion": "When I set a rule for agents, I can find it with my own words and the date, and see whether anything enforces it.",
+      "demonstration": [
+        "Open code2-workspace agents/core.md on GitHub",
+        "Pick a rule that ends with your name and a date",
+        "Open agents/rule-sources.md and find the same rule",
+        "Read your words, the date and the incident behind it"
+      ],
+      "expected": "Each rule in core.md names the date you said it, and rule-sources.md holds your words for it; the AES rules page says which list it covers.",
+      "failure_example": "A dated rule with no entry in rule-sources.md, or the AES rules page (docs/rules/RULES.md) claiming to list every rule agents follow while it lists one (today's state, Q20).",
+      "representation": {
+        "view": "master-detail",
+        "router_record": "docs/planning/router/acceptance-views.json"
+      },
+      "entrypoint": "https://github.com/BrianMills2718/code2-workspace/blob/main/agents/core.md",
+      "status": "built",
+      "status_note": "The rule files exist; the AES register page's claim is open (Q20)."
+    },
+    {
+      "id": "A8",
+      "criterion": "I can see on one page what AES is: its three parts, where each lives, what runs today, and how far the one-tool build has got.",
+      "demonstration": [
+        "Open the AES planning review page",
+        "Read the Architecture section's first view",
+        "Read the Plan and rollout section"
+      ],
+      "expected": "Lockstep, the feedback loop and the policy layer are each named with the repository that holds them and what runs today (two feedback jobs on, three off); the plan section lists the six slices with which have merged.",
+      "failure_example": "The page still says AES is on hold, calls Lockstep retiring, or leaves out the feedback loop or the policy layer.",
+      "representation": {
+        "view": "data-table",
+        "router_record": "docs/planning/router/acceptance-views.json"
+      },
+      "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/index.html",
+      "status": "built",
+      "status_note": "Built by this package refresh; Brian has not judged it."
+    },
+    {
+      "id": "A9",
+      "criterion": "A source-owned plan status, description, interface or evidence value updates its declared wiki copy after an edit, and a stale copy is refused when refresh is bypassed.",
+      "demonstration": [
+        "Open the linked source-fact acceptance table, then its Company Planning reader page.",
+        "For each of the four fact types, compare the source change, expected copied value and recorded result.",
+        "Read the installed hook replay and native-client dispatch rows separately.",
+        "Read the bypass row: a source-only change must fail the read-only project check without that check rewriting the page."
+      ],
+      "expected": "All four fact types copy the source value; the installed refresh command updates the declared block; a bypassed refresh is refused by the read-only merge check. Native dispatch is claimed only after a fresh Claude Code or Codex session records the callback.",
+      "failure_example": "Plan 61 says done while its declared wiki block says active and the project check still passes; or a successful command replay is presented as proof that a native client dispatched the hook.",
+      "representation": {
+        "view": "decision-table",
+        "router_record": "docs/planning/router/acceptance-views.json"
+      },
+      "entrypoint": "https://hive.brianmills.dev/docs/company-planning/reader/upkeep/",
+      "status": "built",
+      "status_note": "Provider merged in AES #844; paired reader delivered in Company Planning #301, with 11/11 command cases, 2/2 native fixtures, canonical Codex admission and exact served-revision evidence. Not yet judged by Brian."
+    }
   ],
-  "agreement": {
-   "runs": 3,
-   "rule": "a gap counts only when every run finds it; a split is unsure",
-   "agreed": true,
-   "trace_ids": [
-    "planning-compliance/goal-coverage/20261112T124908-29a4b191-run1",
-    "planning-compliance/goal-coverage/20261112T124908-29a4b191-run2",
-    "planning-compliance/goal-coverage/20261112T124908-29a4b191-run3"
-   ],
-   "costs_usd": [
-    0.027908,
-    0.027988,
-    0.027768
-   ]
-  },
-  "unsure": [],
-  "trace": "coverage-trace.json"
- }
+  "coverage": {
+    "model": "openrouter/anthropic/claude-sonnet-5.5",
+    "judged_at": "2026-11-12T12:49:22-0500",
+    "asked_by_sha256": "4c475d6604f6b578e572ccdf43df51f6d5d9c9c78272ec0134d08126e79ea11b",
+    "criteria_sha256": "0043551cda964065cba62d5d972278add4e3606ace1414ba9dd751bc018d77ef",
+    "cut_context_sha256": "15df2cb97b4d42a78df91890302c0bc6c8c5eb387a351f3c4b829d0aefcb41d7",
+    "outcome_sha256": "eb4654f063b156765216c93d31a502a480e772a64ae5a187f2da29a445565139",
+    "criteria_judged": {
+      "A1": "815ba4415d0dd27d6082095040f9ea6f14d8885a7c07e7b412698888e59d1bef",
+      "A2": "26296ab21f867cba39b044a5a67767c3a8c7175c0b162c588f604cf0334f181c",
+      "A3": "43255ae94f628efa4a5f2765b137ca9d1c340784877f79ba1d95e3a64dc8beae",
+      "A4": "484770c225fd37724fa215587eda7f6810348443e9f1d74cdb89448034df39ae",
+      "A5": "bd442e0045ccd6ddea1dfec00e90cd8f856737ee3f32317246044bfef309bd29",
+      "A6": "36190c857d0c8aa98864e62680c00a892f7d6ebe51bba5aaeaf1777b1044d705",
+      "A7": "6f7ac7c668c4fbfc28d7b355343af1702728bf9ad62beb4a5f9498aa712ae4e9",
+      "A8": "9cf1fa2fcf34e0ac5ed8c9bda939c9b5c63d9b1c544103088a05f25e3a670bcf"
+    },
+    "deferrals_judged": [],
+    "trace_id": "planning-compliance/goal-coverage/20261112T124908-29a4b191-run1",
+    "cost_usd": 0.083664,
+    "requirements": [
+      {
+        "id": "R1",
+        "requirement": "aes is the whole system",
+        "quote": "aes is the whole sysem",
+        "asked_by_index": 1,
+        "kind": "outcome"
+      },
+      {
+        "id": "R2",
+        "requirement": "lockstep is one part",
+        "quote": "lockstep is one part",
+        "asked_by_index": 1,
+        "kind": "outcome"
+      },
+      {
+        "id": "R3",
+        "requirement": "aes includes feedback and policy system",
+        "quote": "aes include the whole feedback and policy system",
+        "asked_by_index": 1,
+        "kind": "outcome"
+      },
+      {
+        "id": "R4",
+        "requirement": "combined into one single thing",
+        "quote": "htis should be combined into one single thing not a bunch of differnt things",
+        "asked_by_index": 2,
+        "kind": "outcome"
+      },
+      {
+        "id": "R5",
+        "requirement": "part of aes canonical",
+        "quote": "it should preusmably be part of aes canonicale",
+        "asked_by_index": 2,
+        "kind": "outcome"
+      },
+      {
+        "id": "R6",
+        "requirement": "configurable",
+        "quote": "which is configurable",
+        "asked_by_index": 2,
+        "kind": "outcome"
+      },
+      {
+        "id": "R7",
+        "requirement": "portable",
+        "quote": "protable",
+        "asked_by_index": 2,
+        "kind": "outcome"
+      },
+      {
+        "id": "R8",
+        "requirement": "shareable",
+        "quote": "sharebale",
+        "asked_by_index": 2,
+        "kind": "outcome"
+      },
+      {
+        "id": "R9",
+        "requirement": "person approves, then agent lays out files",
+        "quote": "A person approves it, and only then does an agent lay out the files",
+        "asked_by_index": 3,
+        "kind": "outcome"
+      },
+      {
+        "id": "R10",
+        "requirement": "writes first doc strings",
+        "quote": "it also writes the firs tdoc strings",
+        "asked_by_index": 3,
+        "kind": "outcome"
+      },
+      {
+        "id": "R11",
+        "requirement": "normative what it should do",
+        "quote": "the nroamtive sutff on what his sis uppoed to do",
+        "asked_by_index": 3,
+        "kind": "outcome"
+      },
+      {
+        "id": "R12",
+        "requirement": "success criteria test stuff",
+        "quote": "it success critieria test stuff",
+        "asked_by_index": 3,
+        "kind": "outcome"
+      },
+      {
+        "id": "R13",
+        "requirement": "approve single tool design",
+        "quote": "i approve single tool desing re d4",
+        "asked_by_index": 4,
+        "kind": "outcome"
+      },
+      {
+        "id": "R14",
+        "requirement": "keep working on harness",
+        "quote": "lets keep workgin on the harness",
+        "asked_by_index": 5,
+        "kind": "process"
+      }
+    ],
+    "mappings": [
+      {
+        "requirement_id": "R1",
+        "covered_by": [
+          "A8"
+        ],
+        "coverage_reason": "A8 fails unless the page shows AES as a whole with its three parts, where each lives and what runs.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line states AES is the whole system with Lockstep, feedback loop and policy layer."
+      },
+      {
+        "requirement_id": "R2",
+        "covered_by": [
+          "A8"
+        ],
+        "coverage_reason": "A8 requires Lockstep be named as one of three parts, so presenting it as the whole would fail.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line says Lockstep is built into one tool and is a part of AES."
+      },
+      {
+        "requirement_id": "R3",
+        "covered_by": [
+          "A6",
+          "A7",
+          "A8"
+        ],
+        "coverage_reason": "A8 names the feedback loop and policy layer as AES parts, while A6 and A7 check the feedback log and the policy rules work.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line says AES includes the feedback loop and policy layer and they keep working."
+      },
+      {
+        "requirement_id": "R4",
+        "covered_by": [
+          "A1"
+        ],
+        "coverage_reason": "A1 fails unless one command and one config file replace pcw, code2check and the plan check.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line says Lockstep is built into one tool following the single-tool design."
+      },
+      {
+        "requirement_id": "R5",
+        "covered_by": [
+          "A1"
+        ],
+        "coverage_reason": "A1 requires it to be shipped from and installed from AES canonical's git address.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line puts the tool in AES canonical."
+      },
+      {
+        "requirement_id": "R6",
+        "covered_by": [
+          "A5"
+        ],
+        "coverage_reason": "A5 requires every check to have a block, warn or off setting and the owner to come from lockstep.yaml.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line says the tool is configurable."
+      },
+      {
+        "requirement_id": "R7",
+        "covered_by": [
+          "A5"
+        ],
+        "coverage_reason": "A5 requires zero machine paths and the same install in any repository, and a copied config working elsewhere.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line says the tool is portable."
+      },
+      {
+        "requirement_id": "R8",
+        "covered_by": [
+          "A5"
+        ],
+        "coverage_reason": "A5 requires that someone else can install it from its public git address with only the README.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line says the tool is shareable."
+      },
+      {
+        "requirement_id": "R9",
+        "covered_by": [
+          "A4"
+        ],
+        "coverage_reason": "A4 requires that files are laid out only after approval and shows no file was laid out before it.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line says that once a person approves the plan, it lays out the files."
+      },
+      {
+        "requirement_id": "R10",
+        "covered_by": [
+          "A4"
+        ],
+        "coverage_reason": "A4 checks each file's first docstring is written with the plan content.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line says it writes each file's first docstring."
+      },
+      {
+        "requirement_id": "R11",
+        "covered_by": [
+          "A4"
+        ],
+        "coverage_reason": "A4 requires the docstring to hold the normative requirement text of what the file must do.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line includes what it must do in the docstring."
+      },
+      {
+        "requirement_id": "R12",
+        "covered_by": [
+          "A4"
+        ],
+        "coverage_reason": "A4 requires the docstring to hold the success criteria and test names exactly as approved.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line includes success criteria and tests in the docstring."
+      },
+      {
+        "requirement_id": "R13",
+        "covered_by": [
+          "A1"
+        ],
+        "coverage_reason": "A1 fails unless Lockstep is one tool built to the approved single-tool design.",
+        "extent": "full",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "The outcome line says it is built to the single-tool design Brian approved."
+      },
+      {
+        "requirement_id": "R14",
+        "covered_by": [],
+        "coverage_reason": "No criterion could demonstrate continuing work on the harness; it is a process statement and the harness is not mentioned in any criterion.",
+        "extent": "none",
+        "missing": "",
+        "deferral": 0,
+        "in_outcome": true,
+        "outcome_reason": "It is a process requirement, so the outcome line does not need to keep it."
+      }
+    ],
+    "agreement": {
+      "runs": 3,
+      "rule": "a gap counts only when every run finds it; a split is unsure",
+      "agreed": true,
+      "trace_ids": [
+        "planning-compliance/goal-coverage/20261112T124908-29a4b191-run1",
+        "planning-compliance/goal-coverage/20261112T124908-29a4b191-run2",
+        "planning-compliance/goal-coverage/20261112T124908-29a4b191-run3"
+      ],
+      "costs_usd": [
+        0.027908,
+        0.027988,
+        0.027768
+      ]
+    },
+    "unsure": [],
+    "trace": "coverage-trace.json"
+  }
 }
