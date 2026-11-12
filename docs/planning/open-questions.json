@@ -118,9 +118,9 @@
   },
   {
    "id": "Q7",
-   "short": "Six documents too deep to reach",
-   "question": "After 134 old documents were archived (AES #821) the repository holds 108 Markdown files against its 140-file exception, so the cap passes; the wiki-compliance check still fails on 6 OpenSpec change files more than two links from wiki/index.md and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes, or ignore them?",
-   "blocks": "the wiki-compliance check passing",
+   "short": "Documents too deep to reach",
+   "question": "The repository holds 135 Markdown files against its 140-file exception (108 before the Lockstep move added specs, openspec changes and wiki pages), so the cap still passes with 5 to spare; the wiki-compliance check fails on 24 documents (18 not linked from wiki/index.md, 6 more than two links deep, mostly archived OpenSpec changes under openspec/changes/archive/) and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes and the new Lockstep specs, ignore the archive, or raise the cap?",
+   "blocks": "the wiki-compliance check passing, and whether the next Lockstep change breaches the 140-file cap",
    "resolves_with": "Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",

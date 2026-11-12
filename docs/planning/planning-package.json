@@ -49,10 +49,10 @@
      "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
      "exit_status": 1,
      "counts": {
-      "markdown_files": 108,
+      "markdown_files": 135,
       "cap_limit": 140,
       "over": 0,
-      "orphans": 6,
+      "orphans": 24,
       "layout_findings": 0,
       "durable_findings": 4
      },
