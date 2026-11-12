@@ -1,0 +1,248 @@
+{
+ "entry": "A3",
+ "title": "The commit checks refuse a commit that breaks the plan's rules",
+ "verdict": "FAIL",
+ "run_at": "2026-11-12T17:37:03+00:00",
+ "lockstep_revision": "3e46a7675743d3cb97d2e7bb618828f2e284caa4",
+ "lockstep_bin": "/home/brian/code2/worktrees/acceptance-page/.venv/bin",
+ "rows": [
+  {
+   "id": "test-first",
+   "label": "A new test that already passed before the change",
+   "should": "refused by test-first, message names tests/test_greet.py::test_greets_politely",
+   "did": "refused by test-first, message names tests/test_greet.py::test_greets_politely",
+   "pass": true,
+   "step": "lockstep check test-first --base main",
+   "commit": "a1078d7",
+   "commit_message": "add a test for a new scenario; the code already does it",
+   "files_changed": [
+    "openspec/specs/core/spec.md",
+    "tests/test_greet.py"
+   ],
+   "check": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check test-first --base main",
+   "exit_code": 1,
+   "message": "passed-before tests/test_greet.py::test_greets_politely  (it does not prove the new behavior)\nRESULT test-first checked=1 existing=0 passed_before=1 exit=1"
+  },
+  {
+   "id": "arch",
+   "label": "An import the architecture diagram forbids",
+   "should": "refused by arch, message names app.detect",
+   "did": "accepted by arch",
+   "pass": false,
+   "step": "lockstep check arch check",
+   "commit": "954fa12",
+   "commit_message": "detect imports cli (the diagram has no arrow from detect to cli)",
+   "files_changed": [
+    "src/app/detect.py"
+   ],
+   "check": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check arch check",
+   "exit_code": 0,
+   "message": "RESULT arch-check stale=0 exit=0"
+  },
+  {
+   "id": "sources",
+   "label": "A requirement with no Source line",
+   "should": "refused by sources, message names core/say-goodbye",
+   "did": "refused by sources, message names core/say-goodbye",
+   "pass": true,
+   "step": "lockstep check sources",
+   "commit": "9f12552",
+   "commit_message": "add a requirement without a Source line",
+   "files_changed": [
+    "openspec/specs/core/spec.md"
+   ],
+   "check": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check sources",
+   "exit_code": 1,
+   "message": "no-source     core/say-goodbye  (openspec/specs/core/spec.md); add a line: Source: Brian, <date>: \"<quote>\" or Source: inferred by agent (<basis>)\nRESULT sources brian=0 inferred=1 other=0 missing=1 exit=1"
+  },
+  {
+   "id": "clean",
+   "label": "A clean commit: a real new test that fails on the base, an allowed import, a Source line",
+   "should": "accepted by all three checks",
+   "did": "accepted by all three checks",
+   "pass": true,
+   "step": "lockstep check test-first --base main + arch check + sources",
+   "commit": "3b72ea7",
+   "commit_message": "add goodbye, with its requirement, source and test",
+   "files_changed": [
+    "openspec/specs/core/spec.md",
+    "src/app/detect.py",
+    "tests/test_bye.py"
+   ],
+   "check": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check test-first --base main ; /home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check arch check ; /home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check sources",
+   "exit_code": [
+    0,
+    0,
+    0
+   ],
+   "message": "RESULT test-first checked=1 existing=0 passed_before=0 exit=0\nRESULT arch-check stale=0 exit=0\nRESULT sources brian=0 inferred=2 other=0 missing=0 exit=0"
+  }
+ ],
+ "pytest_in_lockstep_env": "pytest 9.1.1",
+ "base_arch_gen": {
+  "exit_code": 0
+ },
+ "base_commit": "39b8405f13f251cdc46a165d1daaf5c8453bc22c",
+ "files_at_base": [
+  ".gitignore",
+  ".importlinter",
+  "docs/architecture/model.c4",
+  "openspec/specs/core/spec.md",
+  "src/app/__init__.py",
+  "src/app/cli.py",
+  "src/app/detect.py",
+  "tests/test_core.py"
+ ],
+ "arch_import_linter_probe": {
+  "name": "probe: uvx --from import-linter lint-imports (not part of `lockstep check`)",
+  "command": "PYTHONPATH=src uvx --quiet --from import-linter lint-imports",
+  "cwd": "/tmp/a3-repo-x5cgf2y6/demo",
+  "stdin": null,
+  "exit_code": 1,
+  "stdout": {
+   "text": "\n\u2554\u2550\u2550\u2557\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u25b6\u2554\u2557 \u2554\u2557      \u2554\u2557\u25c0\u2500\u2500\u2500\u2510\n\u255a\u2563\u2560\u255d\u25c0\u2500\u2500\u2500\u2500\u2500\u2510  \u2554\u255d\u255a\u2557\u2551\u2551\u2500\u2500\u2500\u2500\u25b6\u2554\u255d\u255a\u2557   \u2502\n \u2551\u2551   \u2554\u2550\u2550\u2566\u2550\u2550\u2566\u2569\u2557\u2554\u255d\u2551\u2551  \u2554\u2566\u2550\u2569\u2557\u2554\u255d\u2554\u2550\u2566\u2550\u2550\u2557\n \u2551\u2551\u2554\u2550\u2550\u2563\u2554\u2557\u2551\u2554\u2557\u2551\u2554\u2563\u2551 \u2551\u2551 \u2554\u256c\u2563\u2554\u2557\u2551\u2551 \u2551\u2502\u2551\u2554\u2550\u255d\n\u2554\u2563\u2560\u2563\u2551\u2551\u2551\u255a\u255d\u2551\u255a\u255d\u2551\u2551\u2551\u255a\u2557\u2551\u255a\u2550\u255d\u2551\u2551\u2551\u2551\u2551\u255a\u2557\u2551\u2550\u2563\u2551\n\u255a\u2550\u2550\u2569\u2569\u2569\u2563\u2554\u2550\u2569\u2550\u2550\u2569\u255d\u255a\u2550\u255d\u255a\u2550\u2550\u2550\u2569\u2569\u255d\u255a\u2569\u2550\u2569\u2569\u2550\u2569\u255d\n  \u2514\u2500\u2500\u25b6\u2551\u2551                    \u25b2 \n      \u255a\u255d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\n\n---------\nContracts\n---------\n\nAnalyzed 3 files, 2 dependencies.\n---------------------------------\n\napp.detect imports only what the diagram allows BROKEN\n\nContracts: 0 kept, 1 broken.\n\n\n----------------\nBroken contracts\n----------------\n\napp.detect imports only what the diagram allows\n-----------------------------------------------\n\napp.detect is not allowed to import app.cli:\n\n-   app.detect -> app.cli (l.1)\n\n",
+   "lines_cut": 0
+  },
+  "stderr": {
+   "text": "",
+   "lines_cut": 0
+  }
+ },
+ "steps": [
+  {
+   "name": "pytest version in Lockstep's environment (test-first runs pytest)",
+   "command": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/python -m pytest --version",
+   "cwd": "/home/brian/code2/worktrees/acceptance-page",
+   "stdin": null,
+   "exit_code": 0,
+   "stdout": {
+    "text": "pytest 9.1.1",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "lockstep check arch gen",
+   "command": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check arch gen",
+   "cwd": "/tmp/a3-repo-x5cgf2y6/demo",
+   "stdin": null,
+   "exit_code": 0,
+   "stdout": {
+    "text": "RESULT arch-gen wrote=.importlinter exit=0",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "lockstep check test-first --base main",
+   "command": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check test-first --base main",
+   "cwd": "/tmp/a3-repo-x5cgf2y6/demo",
+   "stdin": null,
+   "exit_code": 1,
+   "stdout": {
+    "text": "passed-before tests/test_greet.py::test_greets_politely  (it does not prove the new behavior)\nRESULT test-first checked=1 existing=0 passed_before=1 exit=1",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "lockstep check arch check",
+   "command": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check arch check",
+   "cwd": "/tmp/a3-repo-x5cgf2y6/demo",
+   "stdin": null,
+   "exit_code": 0,
+   "stdout": {
+    "text": "RESULT arch-check stale=0 exit=0",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "probe: uvx --from import-linter lint-imports (not part of `lockstep check`)",
+   "command": "PYTHONPATH=src uvx --quiet --from import-linter lint-imports",
+   "cwd": "/tmp/a3-repo-x5cgf2y6/demo",
+   "stdin": null,
+   "exit_code": 1,
+   "stdout": {
+    "text": "\n\u2554\u2550\u2550\u2557\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u25b6\u2554\u2557 \u2554\u2557      \u2554\u2557\u25c0\u2500\u2500\u2500\u2510\n\u255a\u2563\u2560\u255d\u25c0\u2500\u2500\u2500\u2500\u2500\u2510  \u2554\u255d\u255a\u2557\u2551\u2551\u2500\u2500\u2500\u2500\u25b6\u2554\u255d\u255a\u2557   \u2502\n \u2551\u2551   \u2554\u2550\u2550\u2566\u2550\u2550\u2566\u2569\u2557\u2554\u255d\u2551\u2551  \u2554\u2566\u2550\u2569\u2557\u2554\u255d\u2554\u2550\u2566\u2550\u2550\u2557\n \u2551\u2551\u2554\u2550\u2550\u2563\u2554\u2557\u2551\u2554\u2557\u2551\u2554\u2563\u2551 \u2551\u2551 \u2554\u256c\u2563\u2554\u2557\u2551\u2551 \u2551\u2502\u2551\u2554\u2550\u255d\n\u2554\u2563\u2560\u2563\u2551\u2551\u2551\u255a\u255d\u2551\u255a\u255d\u2551\u2551\u2551\u255a\u2557\u2551\u255a\u2550\u255d\u2551\u2551\u2551\u2551\u2551\u255a\u2557\u2551\u2550\u2563\u2551\n\u255a\u2550\u2550\u2569\u2569\u2569\u2563\u2554\u2550\u2569\u2550\u2550\u2569\u255d\u255a\u2550\u255d\u255a\u2550\u2550\u2550\u2569\u2569\u255d\u255a\u2569\u2550\u2569\u2569\u2550\u2569\u255d\n  \u2514\u2500\u2500\u25b6\u2551\u2551                    \u25b2 \n      \u255a\u255d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\n\n---------\nContracts\n---------\n\nAnalyzed 3 files, 2 dependencies.\n---------------------------------\n\napp.detect imports only what the diagram allows BROKEN\n\nContracts: 0 kept, 1 broken.\n\n\n----------------\nBroken contracts\n----------------\n\napp.detect imports only what the diagram allows\n-----------------------------------------------\n\napp.detect is not allowed to import app.cli:\n\n-   app.detect -> app.cli (l.1)\n\n",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "lockstep check sources",
+   "command": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check sources",
+   "cwd": "/tmp/a3-repo-x5cgf2y6/demo",
+   "stdin": null,
+   "exit_code": 1,
+   "stdout": {
+    "text": "no-source     core/say-goodbye  (openspec/specs/core/spec.md); add a line: Source: Brian, <date>: \"<quote>\" or Source: inferred by agent (<basis>)\nRESULT sources brian=0 inferred=1 other=0 missing=1 exit=1",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "lockstep check test-first --base main",
+   "command": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check test-first --base main",
+   "cwd": "/tmp/a3-repo-x5cgf2y6/demo",
+   "stdin": null,
+   "exit_code": 0,
+   "stdout": {
+    "text": "RESULT test-first checked=1 existing=0 passed_before=0 exit=0",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "lockstep check arch check",
+   "command": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check arch check",
+   "cwd": "/tmp/a3-repo-x5cgf2y6/demo",
+   "stdin": null,
+   "exit_code": 0,
+   "stdout": {
+    "text": "RESULT arch-check stale=0 exit=0",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "lockstep check sources",
+   "command": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep check sources",
+   "cwd": "/tmp/a3-repo-x5cgf2y6/demo",
+   "stdin": null,
+   "exit_code": 0,
+   "stdout": {
+    "text": "RESULT sources brian=0 inferred=2 other=0 missing=0 exit=0",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  }
+ ]
+}
