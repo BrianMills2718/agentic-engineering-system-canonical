@@ -47,7 +47,7 @@ def main() -> int:
         t.row(cid, label, should, did, step["name"], {"command": command, "decision": decision or "(no output)",
                                                          "message": reason})
     # The criterion also says the refusal shows the plan: its message should name the files the plan does allow.
-    planned = sorted(set(re.findall(r"exact_path:\s*(\S+)", (work / ".aes/target.yaml").read_text())))
+    planned = sorted(set(re.findall(r"exact_path:\s*([^\s}]+)", (work / ".aes/target.yaml").read_text())))
     t.extra["planned_files_in_plan"] = planned
     refusal = next(r for r in t.rows if r["did"] == "refused")
     named = [p for p in planned if p in refusal["message"].replace(refusal["command"], "")]
