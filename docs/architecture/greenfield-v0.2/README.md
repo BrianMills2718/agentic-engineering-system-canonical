@@ -12,7 +12,7 @@ from what was proposed. Every amendment is listed at the end of its file
 (`accepted_amendments:` in YAML, "Accepted amendments" in Markdown), with its
 reason and source.
 
-**Current boundary (2026-11-07).** AES's former self-governance is on hold; its mandatory commit refusal and plan-accept workflow are retired. [Lockstep is the active AES component](../../../wiki/index.md#what-aes-is-now) carrying structured linkage and bidirectional projection, with coding agents and Project Brains as consumers. This architecture records the retained engine contract and historical governance, not a restart instruction.
+**Current boundary (2026-11-11).** AES is the whole agent system: Lockstep, the feedback loop and the policy layer (Brian, 2026-11-11: "to me aes is the whole sysem lockstep is one part"). AES no longer governs itself: its mandatory commit refusal and plan-accept workflow are retired. Lockstep, which carries structured linkage and docstring projection, becomes the one planning-and-checking tool shipped from this repository ([what AES is now](../../../wiki/index.md#what-aes-is-now); design adopted 2026-11-11, [DESIGN.md](../../../proposals/one-planning-tool/DESIGN.md)). This architecture records the retained engine contract and historical governance, not a restart instruction.
 
 **Library input policy (2026-11-07).** The retained engine's `evidence.assess(root, required_dependency_paths=None)` and `reconcile.reconcile(root, required_dependency_paths=None)` accept a mapping `{verification_subject_id: [repository_relative_path, ...]}`. This is a consumer-owned declaration policy, not a new record shape or governance workflow. AES keeps freshness, route inference and standing computation in the existing engine. Ordinary calls remain unchanged.
 
