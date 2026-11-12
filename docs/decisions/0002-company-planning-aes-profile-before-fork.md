@@ -12,7 +12,7 @@ resolves:
 
 # Decision 0002 — Use an AES Company Planning profile before modifying or forking Company Planning
 
-Governs: docs/architecture/aes-company-planning-profile.bootstrap.yaml
+Governs: docs/retired/2026-11-12.md
 
 ## Context
 

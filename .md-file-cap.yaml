@@ -2,5 +2,5 @@ limit: 120
 reason: >
   Accepted decision records and the wiki cite the remaining architecture, decision and planning pages
   as their evidence, so pruning them would break those citations. The 2026-11-12 cleanup retired the
-  research, evidence, datasets and old-proposal Markdown (143 -> 115 files, see docs/retired/2026-11-12.md).
+  research, evidence, datasets and old-proposal Markdown (143 -> 116 files, see docs/retired/2026-11-12.md).
   Limit kept close to the count so growth still trips the check.

@@ -13,7 +13,7 @@ resolves:
 
 # Decision 0005 — AES Component is a governance scope; type only consequential seams early
 
-Governs: docs/architecture/architecture-realization.bootstrap.yaml
+Governs: docs/retired/2026-11-12.md
 
 ## Context
 

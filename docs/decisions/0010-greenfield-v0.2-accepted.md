@@ -14,7 +14,7 @@ partially_supersedes:
 
 # Decision 0010 - AES v0.2 greenfield MVP accepted as realized
 
-Governs: RULE-DRIFT-DETECTED, RULE-INSUFFICIENT-NOT-GREEN, .aes/target.yaml
+Governs: RULE-DRIFT-DETECTED, RULE-INSUFFICIENT-NOT-GREEN, docs/architecture/greenfield-v0.2/README.md
 
 ## Context and scope
 

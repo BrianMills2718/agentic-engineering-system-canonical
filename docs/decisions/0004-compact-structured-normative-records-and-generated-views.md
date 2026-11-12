@@ -14,7 +14,7 @@ resolves:
 
 # Decision 0004 — Compact structured normative records with generated conventional views
 
-Governs: docs/architecture/normative-record-model.bootstrap.yaml
+Governs: docs/retired/2026-11-12.md
 
 ## Context
 
