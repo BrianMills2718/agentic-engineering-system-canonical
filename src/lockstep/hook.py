@@ -27,7 +27,7 @@ By default (decision D7, Brian 2026-11-07) it only warns: the edit goes through,
 the refusal text after WARN_PREFIX, and the log records `"decision": "would_block"`. It refuses
 for a file matching a glob in the side file's `fixed` list, or everywhere with PCW_MODE=block
 (`blocks`). `pcw-hook --would-block [--days 14]` prints the would-block count per day.
-Every call the hook sees is appended to `.pcw/hook-<date>.jsonl` in the project: each decision, a
+Every call the hook sees is appended to `.lockstep/hook-<date>.jsonl` in the project: each decision, a
 shell write the plan has no rule for, and a call it lets through with nothing to say (`"decision":
 "pass"`), with the first characters of a shell command (Q21). Shell parsing misses a write whose path is built at run
 time; `pcw check` before the commit stays the guarantee.
@@ -169,13 +169,17 @@ _LAST: dict = {}
 _PENDING: list = []
 
 
+LOG_DIR = ".lockstep"  # the guard's log folder (the design's name, Q23)
+OLD_LOG_DIR = ".pcw"  # where it logged before; `--would-block` still counts what is there
+
+
 def log(root: Path, record: dict) -> None:
     """Queue the decision; main() writes it with the exact message the agent receives."""
     _PENDING.append((root, record))
 
 
 def _write_log(root: Path, record: dict) -> None:
-    folder = root / ".pcw"
+    folder = root / LOG_DIR
     folder.mkdir(exist_ok=True)
     day = dt.date.today().isoformat()
     record = {"at": dt.datetime.now(dt.timezone.utc).isoformat(), "tool_use_id": _CALL_ID, **record}
@@ -419,7 +423,7 @@ def would_block_counts(root: Path, days: int = 14) -> dict[str, int]:
     """Per day (ISO date), how many hook decisions in the last `days` days were would_block; days with none are left out."""
     since = dt.date.today() - dt.timedelta(days=days - 1)
     counts: dict[str, int] = {}
-    for path in sorted((root / ".pcw").glob("hook-*.jsonl")):
+    for path in sorted(p for folder in (LOG_DIR, OLD_LOG_DIR) for p in (root / folder).glob("hook-*.jsonl")):
         day = path.stem.removeprefix("hook-")
         try:
             if dt.date.fromisoformat(day) < since:
@@ -447,7 +451,7 @@ def _print_counts(argv: list[str]) -> int:
     for back in range(args.days - 1, -1, -1):
         day = (today - dt.timedelta(days=back)).isoformat()
         print(f"{day} {counts.get(day, 0)}")
-    print(f"total {sum(counts.values())} would_block in {args.days} days ({root / '.pcw'})")
+    print(f"total {sum(counts.values())} would_block in {args.days} days ({root / LOG_DIR})")
     return 0
 
 

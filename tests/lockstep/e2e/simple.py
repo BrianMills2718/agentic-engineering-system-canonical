@@ -107,7 +107,7 @@ def run(proj: Path) -> None:
            "GIT_AUTHOR_NAME": "example", "GIT_AUTHOR_EMAIL": "example@example.invalid",
            "GIT_COMMITTER_NAME": "example", "GIT_COMMITTER_EMAIL": "example@example.invalid"}
     commit = "git add -A && git commit -q -m"
-    (proj / ".gitignore").write_text("__pycache__/\nsite/\n.pcw/\n")
+    (proj / ".gitignore").write_text("__pycache__/\nsite/\n.lockstep/\n")
     (proj / "pyproject.toml").write_text('[tool.pytest.ini_options]\npythonpath = ["src"]\n')
     shutil.copytree(EXAMPLE / "plans", proj / "plans")
     for rel in ["mkdocs.yml", "docs/gen_pages.py", "Makefile"]:

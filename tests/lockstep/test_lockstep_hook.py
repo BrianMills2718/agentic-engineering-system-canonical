@@ -110,7 +110,7 @@ def run_hook(proj, tool: str, tool_input: dict, monkeypatch, capsys) -> dict:
 
 
 def log_lines(proj) -> list[dict]:
-    path = proj / ".pcw" / f"hook-{dt.date.today().isoformat()}.jsonl"
+    path = proj / ".lockstep" / f"hook-{dt.date.today().isoformat()}.jsonl"
     return [json.loads(line) for line in path.read_text().splitlines()]
 
 
@@ -194,7 +194,7 @@ def test_shell_commands_that_write_no_governed_file_pass(proj, monkeypatch, caps
     for command in ["ls src/greeter > /tmp/x.txt 2>&1", "python -m pytest tests -q 2>&1 | tail -3",
                     "cat src/greeter/__init__.py | grep greet", "echo 'a > src/greeter/q.py'",
                     "git commit -m 'rm src/greeter/q.py'",
-                    "echo x > .pcw/scratch.txt"]:
+                    "echo x > .lockstep/scratch.txt"]:
         out = decide({"tool_name": "Bash", "tool_input": {"command": command}, "cwd": str(proj)})
         assert out is None or out["hookSpecificOutput"]["permissionDecision"] == "allow", command
     # a write outside every governed folder is let through, and logged
@@ -210,7 +210,7 @@ def test_would_block_counts_per_day(proj, monkeypatch, capsys):
     run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")}, monkeypatch, capsys)
     run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/more.py")}, monkeypatch, capsys)
     run_hook(proj, "Edit", {"file_path": str(proj / "src/greeter/__init__.py")}, monkeypatch, capsys)  # allowed, not counted
-    old = proj / ".pcw" / "hook-2000-01-01.jsonl"
+    old = proj / ".lockstep" / "hook-2000-01-01.jsonl"
     old.write_text(json.dumps({"decision": "would_block", "why": "unplanned"}) + "\n")
     today = dt.date.today().isoformat()
     assert would_block_counts(proj, days=14) == {today: 2}
@@ -307,4 +307,14 @@ def test_a_call_outside_any_project_is_not_logged(tmp_path, monkeypatch, capsys)
                                                               "cwd": str(tmp_path)})))
     monkeypatch.setattr(sys, "argv", ["pcw-hook"])
     assert main() == 0 and capsys.readouterr().out == ""
-    assert not (tmp_path / ".pcw").exists()
+    assert not (tmp_path / ".lockstep").exists()
+
+
+@pytest.mark.req("lockstep-init/a-decision-is-logged-under-lockstep")
+def test_a_decision_is_logged_under_dot_lockstep_and_old_logs_still_count(proj, monkeypatch, capsys):
+    run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")}, monkeypatch, capsys)
+    assert not (proj / ".pcw").exists()
+    old = proj / ".pcw"
+    old.mkdir()
+    (old / f"hook-{dt.date.today().isoformat()}.jsonl").write_text(json.dumps({"decision": "would_block"}) + "\n")
+    assert would_block_counts(proj, days=14) == {dt.date.today().isoformat(): 2}

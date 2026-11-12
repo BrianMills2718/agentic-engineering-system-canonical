@@ -24,7 +24,7 @@ BIN = Path(sys.executable).parent
 def lay(tmp_path) -> Path:
     proj = tmp_path / "greeter"
     shutil.copytree(LAYOUT, proj)
-    (proj / ".gitignore").write_text("__pycache__/\n.pcw/\n")
+    (proj / ".gitignore").write_text("__pycache__/\n.lockstep/\n")
     sh("git init -q -b main && git add -A && git commit -q -m plan", proj)
     return proj
 

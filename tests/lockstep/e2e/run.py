@@ -78,7 +78,7 @@ def run(proj: Path) -> None:
     commit = "git add -A && git commit -q -m"
 
     # ---- PLAN
-    (proj / ".gitignore").write_text(".venv/\n__pycache__/\nsite/\n.pcw/\n")
+    (proj / ".gitignore").write_text(".venv/\n__pycache__/\nsite/\n.lockstep/\n")
     (proj / "pyproject.toml").write_text('[tool.pytest.ini_options]\npythonpath = ["src"]\n')
     step("plan", "Say what outcome, and for whom",
          "One outcome, written once, in the plan file. `aes hooks install` adds the commit gate.",
@@ -186,7 +186,7 @@ def run(proj: Path) -> None:
 
     step("observe", "Every hook decision was logged",
          "One append-only file per day: what file, which plan item, allowed or refused, and why.",
-         [("cat .pcw/hook-*.jsonl", 0)], proj, env)
+         [("cat .lockstep/hook-*.jsonl", 0)], proj, env)
 
 
 def main() -> int:
