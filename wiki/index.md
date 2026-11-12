@@ -1,210 +1,155 @@
-# Agentic Engineering System — canonical development wiki
+# Agentic Engineering System (AES) wiki
 
-This is the progressive-disclosure front door for the canonical AES convergence project. It is a derived navigation surface, not a native authority. Follow links to the owning architecture, decision, plan, evidence, or code before making consequential claims.
+AES is the name for the whole agent system: Lockstep, the feedback loop and the policy layer (Brian, 2026-11-11). [CLAUDE.md:14-16](../CLAUDE.md#L14-L16) [.project-brain/now.md:9](../.project-brain/now.md#L9)
+Under code2-workspace decision 0009 the feedback loop keeps running, the `aes` command line and `.aes/target.yaml` retire one repository at a time, and Lockstep winds down into `code2check`. [docs/decisions/0009-aes-and-lockstep-fate.md:57-61](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L57-L61) [docs/decisions/0009-aes-and-lockstep-fate.md:105-108](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L105-L108)
+Most older material here (decisions 0001-0013, docs/architecture, docs/greenfield, most proposals, plans and research) describes the v0.1 line and the retired v0.2 self-governance regime: read it as history, not as rules. [CLAUDE.md:22-23](../CLAUDE.md#L22-L23) [CLAUDE.md:31-32](../CLAUDE.md#L31-L32)
 
-## Current boundary: Lockstep and the retained AES engine
+## What AES is now
 
-Source: Brian, 2026-11-06: "lockstep is meant to be part of aes canonical"; on Project Brains, "the project brains are not even part of lockstep" ([Lockstep's source-backed goal](https://github.com/BrianMills2718/lockstep/blob/main/wiki/goal.md)). Brian's active 2026-11-07 Lockstep delivery goal authorizes the necessary AES/harness integration.
+- [Goal](goal.md): what AES is, who uses it, scope, non-goals, where each part lives.
+- [Glossary](glossary.md): the names a reader meets.
+- [Open questions](open-questions.md): disagreements, unchecked claims, tests to write.
+- [.project-brain/now.md](../.project-brain/now.md): current state; read first.
+- [CLAUDE.md](../CLAUDE.md): instructions for agents in this repository; [AGENTS.md](../AGENTS.md) is its generated copy.
 
-**Lockstep is an AES component**, maintained in [BrianMills2718/lockstep](https://github.com/BrianMills2718/lockstep): it puts full normative context at an edit, projects changes in both directions, links planned structure, typed symbols and checks, and renders evidence-bound status. Coding agents and Project Brains are consumers, not internal parts. Company Planning and Representation Router own its review surfaces. The owning record of this boundary is [SYSTEM_BOUNDARY.md, AES-SYS-006](../docs/architecture/SYSTEM_BOUNDARY.md#aes-sys-006--parts-and-consumers).
+## The running parts
 
-The AES library pinned by Lockstep supplies rich structured records, characterization, plan transactions and evidence reconciliation. Code2check supplies the OpenSpec subset where that is the selected normative owner; its simpler model does not replace Lockstep's full graph or reverse-edit/history contract. The [Lockstep delivery plan](https://github.com/BrianMills2718/lockstep/blob/main/wiki/plans.md) owns current implementation and completion evidence.
+- [Feedback loop](feedback-loop.md): each job, when it runs, what it reads and writes.
+- [Policy and rules](policy-and-rules.md): the rules register, agent router and boundary clauses.
+- [Feedback jobs guide](../scripts/learning_loop/systemd/README.md): commands, outputs, failure behavior.
+- [Rules agents follow](../docs/rules/RULES.md): the generated rules page.
+- [Failure modes](../docs/failure-modes.md): the label taxonomy.
 
-The retained library also supports [optional required evidence inputs](../openspec/specs/required-evidence-inputs/spec.md), documented in [the current engine architecture](../docs/architecture/greenfield-v0.2/README.md); this lets Lockstep qualify historical observations against declared subprocess inputs without changing record formats.
+## How it is built and run
 
-Read-only characterization and producer identity use [inert Git inspection](../openspec/specs/inert-characterization/spec.md): repository hooks and fsmonitor commands are disabled for those reads. Structural facts, dirty state and revision identity remain computed from the same repository data.
+- [System model](system-model.md): packages, entry points, data flow, storage, dependencies.
+- [Run and deploy](run-and-deploy.md): install, test, timers, retiring commands.
+- [Requirements](requirements.md): every requirement with its test result.
+- [README.md](../README.md): repository front page (history in parts).
 
-AES's former repository-wide self-governance remains on hold; its old commit refusal and mandatory plan-accept regime are retired. See [current state](../.project-brain/now.md) and [workspace-facing rules](../CLAUDE.md). The architecture below describes the retained engine, not an instruction to restart that regime.
+## Decisions and history
 
-## AES v0.2 (accepted history)
+- [Rationale](rationale.md): every decision with its standing now.
+- [History](history.md): the eras from v0.1 to decision 0009.
+- [Decision records](../docs/decisions/0010-greenfield-v0.2-accepted.md): see the full list below.
 
-This repository is the Agentic Engineering System; `Inside-Success/agentic-engineering-system` is archived and its borrowable ideas are harvested with adoption triggers ([Decision 0011](../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md), [harvest](../research/synthesis/2026-09-26-inside-success-aes-harvest.md)).
+## Plans and proposals
 
-AES v0.2, the greenfield MVP, is accepted as realized by
-[Decision 0010](../docs/decisions/0010-greenfield-v0.2-accepted.md). It formerly governed
-this repository's source and tests through its own `.aes/` target; the current hold above supersedes that execution rule.
+- [Proposals and plans](proposals.md): every proposal folder and plan file.
+- [proposals/README.md](../proposals/README.md): the proposals folder guide.
+- [docs/plans/README.md](../docs/plans/README.md): the plans folder guide.
 
-- Truth lives where it is edited: a document's or module's own summary is written inside it and wiki pages are generated from it ([AES-CTX-004](../docs/architecture/SYSTEM_BOUNDARY.md), [Decision 0013](../docs/decisions/0013-truth-lives-where-it-is-edited.md)).
-- Terms: [`docs/terms/ecosystem-terms.md`](../docs/terms/ecosystem-terms.md), Brian's reasoning and decision vocabulary (first entries; drafts marked).
-- Use it: [`docs/greenfield/GETTING_STARTED.md`](../docs/greenfield/GETTING_STARTED.md).
-- Historical engine state: `aes status` (or `make aes`) reports the retained `.aes/target.yaml`; current lifecycle is in the hold notice above.
-- Planning package (Company Planning, 2026-10-27): [review page](../proposals/planning-package/review-page/index.html), [open questions](../docs/planning/open-questions.json), [system model](../docs/planning/SYSTEM_MODEL.md), [domain glossary](../docs/planning/DOMAIN.md), [next goal](../docs/planning/next.goal.md).
-- Source-bound trace review: [adopted cross-project plan](../proposals/trace-review-enforcement/plan.md); native provider configuration and retained observation linkage are in [Getting Started](../docs/greenfield/GETTING_STARTED.md).
-- Agent feedback loop: [start here](../proposals/aes-learning-loop/review-page/guide.html) (what runs and when, the model and requirement pages, every document and what is still open).
-- Vision coverage plan (2026-10-05, history; AES on hold since 2026-10-13): [`proposals/vision-coverage/README.md`](../proposals/vision-coverage/README.md).
-- Agent router design (2026-10-08, shaping): [`proposals/agent-router/README.md`](../proposals/agent-router/README.md), a fast model choosing each job's subagent, extra rules, model and effort.
-- Rules agents follow (2026-10-08): [`docs/rules/RULES.md`](../docs/rules/RULES.md), one page with every rule, how it is enforced and its evidence, built from [the rules register](../docs/rules/register.yaml) by `scripts/rules/build_rules_page.py`; [plan](../docs/plans/rules-register.md), [goal](../docs/plans/rules-register.goal.md).
-- Capability catalogue (2026-10-08, Decision 0012): every repository's capabilities and tools in one list, built by `scripts/catalogue/` from each repository's Backstage `catalog-info.yaml` plus the tools found in its own files; [plan](../docs/plans/capability-catalogue.md), [goal](../docs/plans/capability-catalogue.goal.md).
-- History (the commit rule was removed 2026-10-14): Commit-rule skip roots (2026-10-10, #488): one machine-wide `skip_roots` list in `~/.config/aes/commit_rule.yaml` exempts throwaway repositories (such as test fixtures under `/tmp`) from the commit rule; a repository cannot exempt itself, and every skip is logged; [plan](../docs/plans/commit-rule-skip-roots.md), [goal](../docs/plans/commit-rule-skip-roots.goal.md).
-- History (the commit rule was removed 2026-10-14): Commit tag contract (2026-10-12, #414): `aes commit tag` exposes the commit rule's tag grammar, and the generated commit-msg wrapper asks it before a copied project-meta prefix-only hook, so those hooks stop refusing valid `[Goal <id>]` tags; [plan](../docs/plans/commit-tag-contract.md), [goal](../docs/plans/commit-tag-contract.goal.md).
-- History (the commit rule was removed 2026-10-14): Shaping navigation and commit preflight (2026-10-12, #531/#532, #476): a `[Shaping <id>]` commit may also add link lines into its own proposal folder (or create the first `wiki/index.md`), so a proposal and its required navigation land in one commit; `aes commit check --preflight -m "<message>"` reports the commit rule's verdict on the staged change before committing, logging nothing; [plan](../docs/plans/shaping-nav-preflight.md), [goal](../docs/plans/shaping-nav-preflight.goal.md).
-- History (the commit rule was removed 2026-10-14): Root-relative wiki links (2026-10-13): the commit rule resolves a link starting with `/` against the repository root, then `wiki/`, so pages a wiki links as `/people/a.md` count as reached (same rule as project-meta `md_file_cap.py`); [plan](../docs/plans/commit-rule-root-relative-links.md), [goal](../docs/plans/commit-rule-root-relative-links.goal.md).
-- Harness audit and specialist routing: [plan and evidence](../proposals/harness-context/README.md), [interactive review](../proposals/harness-context/review-page/index.html).
-- History (the commit rule was removed 2026-10-14): Commit rule, new documents linked from the wiki (2026-10-08): [plan](../proposals/doc-reach-new-docs/PLAN.md), [goal](../proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md); rollout record: [`ROLLOUT.md`](../proposals/aes-planning/ROLLOUT.md).
-- Fresh `~/code2` workspace owned by AES, phase 1 (2026-10-13): [plan](../proposals/code2-ecosystem/PLAN.md), [goal](../proposals/code2-ecosystem/code2-ecosystem.goal.md), [workspace instructions](../proposals/code2-ecosystem/workspace/AGENTS.md) (linked as `~/code2/AGENTS.md`), [local hooks-path review](../proposals/code2-ecosystem/hookspath-review.md); moves AES canonical, wiki_methodology and epistemic-warrant in and converts epistemic-warrant's wiki to the selected llm-wiki tool. Phase 2 target change (draft): [`phase2-aes-proposal.yaml`](../proposals/code2-ecosystem/phase2-aes-proposal.yaml).
-- Accepted architecture: [`docs/architecture/greenfield-v0.2/`](../docs/architecture/greenfield-v0.2/README.md).
-- What is not claimed (value beyond mechanism, single machine, two consumers, private repository) and the one criterion not currently supported (SC-GF-001, waiting on clean-user run 3): Decision 0010.
-- History: [`proposals/aes-v0.2-greenfield/`](../proposals/aes-v0.2-greenfield/README.md) (lineage, not authority), especially `24-pre-probe-decisions.md` and `25-roadmap-to-mvp-acceptance.md`.
+## Research
 
-Everything below describes the v0.1 line, retained under Decision 0010's v0.1 disposition.
+- [Research findings](research.md): findings that still matter and the investigations.
+- [research/README.md](../research/README.md): the research folder guide.
 
-## Current orientation (v0.1)
+## Status documents (status as last written, not verified)
 
-**Target**
+#### docs/planning
+- [cold-review.md](../docs/planning/cold-review.md)
 
-One coherent human+agent engineering lifecycle:
+#### evidence
+- [README.md](../evidence/README.md)
+- [clean-user-run-2026-09-25.md](../evidence/greenfield/clean-user-run-2026-09-25.md)
+- [clean-user-run-2-2026-09-25.md](../evidence/greenfield/clean-user-run-2-2026-09-25.md)
+- [clean-user-run-3-2026-09-25.md](../evidence/greenfield/clean-user-run-3-2026-09-25.md)
+- [clean-user-run-4-2026-10-04.md](../evidence/greenfield/clean-user-run-4-2026-10-04.md)
+- [context-ab preregistration](../evidence/greenfield/context-ab-2026-09-25/preregistration.md)
+- [context-ab result](../evidence/greenfield/context-ab-2026-09-25/result.md)
+- [modular-design-integration-2026-09-22.md](../evidence/modular-design-integration-2026-09-22.md)
+- [plan-001 characterization 320991b](../evidence/plan-001/320991b96a3e3aaa15aa8ba05817a7eee1c52603/characterization.md)
+- [plan-001 characterization 96fcf5e](../evidence/plan-001/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1/characterization.md)
+- [plan-001 A1 53be16f](../evidence/plan-001/a1/53be16fa1159f31648773062531d751c85d7a011.md)
+- [plan-001 A1 96fcf5e](../evidence/plan-001/a1/96fcf5e89ba98ad9ff278ec536a98c308cda3fe1.md)
+- [pr5-integration-readiness-2026-09-18.md](../evidence/plan-001/pr5-integration-readiness-2026-09-18.md)
 
-```text
-orient -> target -> current -> gap -> plan -> capability composition
-       -> governed execution -> evidence -> characterization -> gap reconciliation
-       -> learning / policy or capability improvement
-```
+#### proposals
+- [aes-durable-docs m4 AES cold reader](../proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md)
+- [aes-durable-docs m4 company-planning cold reader](../proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader-review.md)
+- [aes-durable-docs m5 rollout](../proposals/aes-durable-docs/evidence/m5-rollout.md)
+- [aes-planning ROLLOUT.md](../proposals/aes-planning/ROLLOUT.md)
+- [v0.2 review pass 1](../proposals/aes-v0.2-greenfield/07-semantic-clean-sheet-review-pass-1.md)
+- [v0.2 review pass 2](../proposals/aes-v0.2-greenfield/08-semantic-clean-sheet-review-pass-2.md)
+- [v0.2 review pass 3](../proposals/aes-v0.2-greenfield/09-semantic-clean-sheet-review-pass-3-topology.md)
+- [v0.2 review pass 4](../proposals/aes-v0.2-greenfield/11-semantic-clean-sheet-review-pass-4-target-analysis.md)
+- [v0.2 roadmap 25](../proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md)
+- [v0.2 REVIEW.md](../proposals/aes-v0.2-greenfield/REVIEW.md)
+- [code2 hooks-path review](../proposals/code2-ecosystem/hookspath-review.md)
+- [commit-rule-notes-report goal](../proposals/commit-rule-notes-report/commit-rule-notes-report.goal.md)
+- [commit-rule-notes-report plan](../proposals/commit-rule-notes-report/commit-rule-notes-report.md)
+- [trace-review goal](../proposals/trace-review/trace-review.goal.md)
 
-The lifecycle preserves native authority, honest unknown/error states, direct stakeholder utility evidence, and fresh post-implementation characterization rather than equating plan completion with conformance.
+#### research/investigations
+- [README.md](../research/investigations/README.md)
+- [first vertical capability discovery](../research/investigations/2026-09-16-first-vertical-capability-discovery.md)
+- [repository context provider landscape](../research/investigations/2026-09-16-repository-context-provider-landscape.md)
+- [ACA/TOSCA capability fit](../research/investigations/2026-09-17-aca-tosca-capability-fit-test.md)
+- [PROV/in-toto/SLSA fit](../research/investigations/2026-09-17-aes-evidence-prov-intoto-slsa-fit-test.md)
+- [Backstage/TOSCA/SysML fit](../research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md)
+- [external provider deep dive round 2](../research/investigations/2026-09-17-external-provider-deep-dive-round-2.md)
+- [external sourcing audit](../research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md)
+- [OPA policy fit](../research/investigations/2026-09-17-opa-aes-policy-fit-test.md)
+- [OPA Enforced Planning probe](../research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md)
+- [Open Workflow Spec vs Enforced Planning](../research/investigations/2026-09-17-open-workflow-spec-vs-enforced-planning.md)
+- [OWS work-graph fit](../research/investigations/2026-09-17-ows-enforced-planning-work-graph-fit-test.md)
+- [PROV/in-toto projection probe](../research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md)
+- [SCIP planned-subject fit](../research/investigations/2026-09-17-scip-planned-subject-fit-test.md)
+- [TOSCA/ACA projection probe](../research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md)
 
-**Current**
+#### research/synthesis
+- [fresh-agent handoff 2026-09-17](../research/synthesis/2026-09-17-fresh-agent-handoff.md)
+- [normative-component alignment checkpoint](../research/synthesis/2026-09-17-normative-component-alignment-dogfood-checkpoint.md)
+- [source-local context dogfood result](../research/synthesis/2026-09-17-source-local-context-dogfood-result.md)
+- [evidence, characterization and context suggestions](../research/synthesis/aes-evidence-characterization-and-context-suggestions.md)
+- [incumbent capability inventory](../research/synthesis/incumbent-capability-inventory.md)
+- [representation review and epistemic surface suggestions](../research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md)
 
-The component-aligned bootstrap architecture is adopted. Plan 001 / Repository Context is **DELIVERED for its bounded external-consumer Slice 1 claim**. [Plan 002 — Offline Policy-Decision Replay](../docs/plans/002_offline_policy_decision_replay.md) is the active **planned** vertical; it has not changed live policy behavior.
+## Documents that stay as written
 
-- Decisions 0001–0009 define the convergence boundary, planning/profile strategy, provider-independent verification, and modular product-design posture.
-- Plan 001 closed with exact technical evidence and follow-up A1 `continue`; its final evidence remains under `evidence/plan-001/`.
-- Plan 002 retains Enforced Planning as the deterministic completion/verification authority and treats an explicit OpenRouter model only as a candidate typed evaluator behind a replaceable adapter.
-- The first Plan 002 decision is deliberately offline: compare one authentic event-time completion/verification decision against the incumbent control, produce a source-linked report, and decide whether OpenRouter model deserves a small shadow-only evaluation.
-- No live hooks, warnings, enforcement, context ranking, policy self-modification, or broad observability platform are authorized by Plan 002.
+#### Instruction and state files (named read-first by CLAUDE.md)
+- [README.md](../README.md): repository front page.
+- [.project-brain/now.md](../.project-brain/now.md), [project.md](../.project-brain/project.md), [state.md](../.project-brain/state.md), [truth.md](../.project-brain/truth.md): the project brain.
 
-**Gap**
+#### Architecture and decisions (named by CLAUDE.md or accepted records)
+- [SYSTEM_BOUNDARY.md](../docs/architecture/SYSTEM_BOUNDARY.md): boundary clauses, including AES-SYS-006.
+- [GOAL.md](../docs/architecture/GOAL.md): declared durable goal document.
+- [HUMAN_OBSERVABLE_DELIVERY.md](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md): delivery constraints named by CLAUDE.md.
+- [INITIAL_GAP_LEDGER.md](../docs/architecture/INITIAL_GAP_LEDGER.md): v0.1 gap record named by CLAUDE.md.
+- [docs/architecture/README.md](../docs/architecture/README.md): folder guide.
+- [greenfield-v0.2/README.md](../docs/architecture/greenfield-v0.2/README.md), [13 materialization](../docs/architecture/greenfield-v0.2/13-greenfield-materialization.md), [23 CLI contract](../docs/architecture/greenfield-v0.2/23-greenfield-cli-product-contract.md): accepted v0.2 architecture, kept as a record.
+- [0001](../docs/decisions/0001-canonical-convergence-boundary.md), [0002](../docs/decisions/0002-company-planning-aes-profile-before-fork.md), [0003](../docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md), [0004](../docs/decisions/0004-compact-structured-normative-records-and-generated-views.md), [0005](../docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md), [0006](../docs/decisions/0006-minimal-architecture-realization-json-schema.md), [0007](../docs/decisions/0007-provider-independent-verification-and-blob-evidence-carry-forward.md), [0008](../docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md), [0009](../docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md), [0010](../docs/decisions/0010-greenfield-v0.2-accepted.md), [0011](../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md), [0012](../docs/decisions/0012-capability-reuse-enforced-at-plan-adoption.md), [0013](../docs/decisions/0013-truth-lives-where-it-is-edited.md): decision records stay as written.
+- [docs/model/ODD.md](../docs/model/ODD.md): declared durable system model, read by the planning build script.
+- [docs/greenfield/GETTING_STARTED.md](../docs/greenfield/GETTING_STARTED.md): read by `tests/greenfield/test_distribution.py`.
 
-Plan 001 leaves broader AES policy/evidence maturation deliberately unresolved. The selected Plan 002 outcome addresses only one bounded uncertainty: **whether contextual typed judgment adds decision value over an existing exact control on authentic AES completion/verification cases**. Provider availability, authentic replay-case custody, actual AES latency/cost, and disagreement quality remain unobserved.
+#### Planning, specs, terms and generated pages
+- [docs/planning/DOMAIN.md](../docs/planning/DOMAIN.md), [SYSTEM_MODEL.md](../docs/planning/SYSTEM_MODEL.md), [next.goal.md](../docs/planning/next.goal.md): planning package, stays per the brief.
+- [openspec/specs/inert-characterization/spec.md](../openspec/specs/inert-characterization/spec.md), [openspec/specs/required-evidence-inputs/spec.md](../openspec/specs/required-evidence-inputs/spec.md): current required behavior.
+- [docs/terms/ecosystem-terms.md](../docs/terms/ecosystem-terms.md): Brian's term list.
+- [docs/rules/RULES.md](../docs/rules/RULES.md): generated by `scripts/rules/build_rules_page.py`.
+- [docs/failure-modes.md](../docs/failure-modes.md): label taxonomy read by `scripts/learning_loop`.
+- [planning_protocol.md](../src/agentic_engineering_system/planning_protocol.md): packaged with the library.
 
-**Next**
+#### Feedback-loop documents read by code
+- [proposals/aes-learning-loop/DESIGN.md](../proposals/aes-learning-loop/DESIGN.md), [PLAN.md](../proposals/aes-learning-loop/PLAN.md): named by the learning-loop scripts and services.
+- [scripts/learning_loop/systemd/README.md](../scripts/learning_loop/systemd/README.md): named by the units.
+- [proposals/agent-router/PLAN.md](../proposals/agent-router/PLAN.md): named by `scripts/rules/sort_legacy.py`.
+- [proposals/code2-ecosystem/workspace/AGENTS.md](../proposals/code2-ecosystem/workspace/AGENTS.md): source of `~/code2/AGENTS.md`.
 
-Execution coordination: [Issue #20](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/20). The Plan 002 document remains the authority for scope, stop rules, and acceptance.
+#### Lineage kept in place (Decision 0010)
+- [proposals/aes-v0.2-greenfield/](../proposals/aes-v0.2-greenfield/README.md): [01](../proposals/aes-v0.2-greenfield/01-design-thesis.md), [05](../proposals/aes-v0.2-greenfield/05-donor-reentry.md), [06](../proposals/aes-v0.2-greenfield/06-open-questions.md), [10](../proposals/aes-v0.2-greenfield/10-greenfield-mvp-validation-profile.md), [13](../proposals/aes-v0.2-greenfield/13-greenfield-materialization.candidate.md), [18](../proposals/aes-v0.2-greenfield/18-provider-evaluation-round-1.md), [19](../proposals/aes-v0.2-greenfield/19-provider-evaluation-round-2-generic-dependencies.md), [22](../proposals/aes-v0.2-greenfield/22-portable-provider-boundaries.md), [23](../proposals/aes-v0.2-greenfield/23-greenfield-cli-product-contract.md), [24](../proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md).
 
-```text
-4 authentic completion/verification cases frozen
-        +
-confirm authenticated OpenRouter access + one explicit compatible model
-        ↓
-protocol-only structured-output smoke
-        ↓
-freeze first V1 case + event-time context contract
-        ↓
-V1: replay one authentic case offline
-incumbent deterministic decision + OpenRouter model typed judgment
-        ↓
-render source-linked JSON/static HTML
-        ↓
-direct operator review: continue | change | stop
-        ↓
-V2: small frozen authentic case set
-        ↓
-provider disposition: adopt-for-shadow | revise | reject
-```
+#### Goal launchers (generated by Company Planning; edit the plan, not these)
+- [aes-adopt-existing](../proposals/aes-adopt-existing/aes-adopt-existing.goal.md), [aes-brownfield-docs](../proposals/aes-brownfield-docs/aes-brownfield-docs.goal.md), [aes-durable-docs](../proposals/aes-durable-docs/aes-durable-docs.goal.md), [aes-feedback-prevention](../proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md), [aes-learning-loop](../proposals/aes-learning-loop/aes-learning-loop.goal.md), [aes-plan-scope](../proposals/aes-plan-scope/aes-plan-scope.goal.md), [aes-planning](../proposals/aes-planning/aes-planning.goal.md), [aes-subagent-feedback](../proposals/aes-subagent-feedback/aes-subagent-feedback.goal.md), [agent-router](../proposals/agent-router/agent-router.goal.md), [agent-router revision](../proposals/agent-router/revision.goal.md), [code2-ecosystem](../proposals/code2-ecosystem/code2-ecosystem.goal.md), [commit-rule-followups](../proposals/commit-rule-followups/commit-rule-followups.goal.md), [commit-tag-case](../proposals/commit-tag-case/commit-tag-case.goal.md), [doc-reach-new-docs](../proposals/doc-reach-new-docs/doc-reach-new-docs.goal.md), [harness-context](../proposals/harness-context/harness-context.goal.md), [meeting-claims-true](../proposals/meeting-claims-true/meeting-claims-true.goal.md), [second-brain-evaluation](../proposals/second-brain-evaluation/second-brain-evaluation.goal.md), [worktree-lifecycle](../proposals/worktree-lifecycle/worktree-lifecycle.goal.md), [worktree-plan-lookup](../proposals/worktree-plan-lookup/worktree-plan-lookup.goal.md).
 
-P0's remaining real stop gate is OpenRouter model provider access. The four authentic cases are sufficient for this exploratory slice; they are not a generalization claim. If OpenRouter model access is unavailable, preserve that evidence and do not build a substitute policy platform. Historical ACA experiments and the broad OpenRouter model proposal PRs remain research donors, not fallback execution queues.
+#### Folder guides (each describes only its own folder)
+- [.agentic/events/README.md](../.agentic/events/README.md), [archive/v0.1-placeholders/README.md](../archive/v0.1-placeholders/README.md), [datasets/README.md](../datasets/README.md), [datasets/learning-loop/README.md](../datasets/learning-loop/README.md), [question-design experiment](../datasets/learning-loop/experiments/2026-10-02-question-design/README.md), [filing-gate experiment](../datasets/learning-loop/experiments/2026-10-07-filing-gate/README.md), [family-Z experiment](../datasets/learning-loop/experiments/2026-11-05-family-z/README.md), [deployment/README.md](../deployment/README.md), [evals/README.md](../evals/README.md), [evals/plan-002/README.md](../evals/plan-002/README.md), [experiments/README.md](../experiments/README.md), [human-facing/README.md](../human-facing/README.md), [operations/README.md](../operations/README.md), [proposals/README.md](../proposals/README.md), [research/README.md](../research/README.md), [research/sources/README.md](../research/sources/README.md), [legacy idea harvest README](../research/synthesis/2026-09-28-legacy-idea-harvest/README.md), [scripts/README.md](../scripts/README.md), [scripts/hive/README.md](../scripts/hive/README.md), [tests/README.md](../tests/README.md).
 
-## Modular product design in the engineering workflow
+## Not read in this consolidation
 
-[Decision 0009](../docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md)
-applies [AES-CAP-003 through AES-CAP-005](../docs/architecture/SYSTEM_BOUNDARY.md#aes-cap-003--established-modular-design-not-a-parallel-platform)
-through the existing Company Planning profile and Enforced Planning workflow.
-Adopt existing foundations, preserve cohesive reusable behavior, keep product
-policy and adapters local, and verify actual product behavior and compatibility.
-ACA's existing capabilities/evidence remain with their owners; no parallel ACA
-platform or benchmark programme is required. Plan 001 is now closed by separate
-exact verification, utility, characterization, and gap-reconciliation evidence.
-
-## Durable documents
-
-Declared in [`.agentic/repo.yaml`](../.agentic/repo.yaml) (`durable_documents`) and checked by Company Planning's `durable_docs_check.py --arc42`:
-
-- [Goal and thesis](../docs/architecture/GOAL.md) — what AES is for, the bet behind it, what would disprove it, and the repository it replaces.
-- Requirements — outcomes, criteria and disproofs in [`.aes/target.yaml`](../.aes/target.yaml).
-- [System model](../docs/model/ODD.md) and its checked [trace](../docs/model/trace.yaml) — each rule with one owner file, the tests that prove it, and the decision records behind it.
-- [Decision records](../docs/decisions/) — each names what it governs on a `Governs:` line.
-- [Generated catalog](../generated/docstring_wiki.md) — every document and module with its description (`make docstring-wiki-check`).
-- Cold-reader checks of these documents: a fresh agent answered the canonical question from this page ([AES canonical review](../proposals/aes-durable-docs/evidence/m4-aes-canonical-cold-reader-review.md), [company-planning review](../proposals/aes-durable-docs/evidence/m4-company-planning-cold-reader-review.md)).
-- Rollout of the durable document set to every active repository (22 of 22 merged, the last being project-meta PR #2526, merge `15cfecacd`), with one PR each and the daily-check result: [M5 rollout record](../proposals/aes-durable-docs/evidence/m5-rollout.md).
-- Modeling work review (2026-10-11): what two days of modeling sessions across about 20 repositories built, and what was lost or split between them (three different things called "model"; Brian's "architecture framework rather than one model" ask recorded only on an unmerged branch): [modeling review page](../proposals/aes-durable-docs/review-page/modeling-review.html).
-- Disproof sample of the rule (2026-10-11): it fired because 8 of 10 sampled plans were adopted without the rule in effect (a stale installed plugin, since fixed); a re-sample on gated plans is pending: [M5 disproof sample](../proposals/aes-durable-docs/evidence/m5-disproof-sample.md).
-
-## Read in this order
-
-1. [`../docs/plans/002_offline_policy_decision_replay.md`](../docs/plans/002_offline_policy_decision_replay.md) — active planned vertical, P0 blockers, offline replay boundary, provider decision, and stop rules.
-2. [`../docs/plans/001_repository_context_resolution_vertical.md`](../docs/plans/001_repository_context_resolution_vertical.md) — completed Plan 001 record and first-loop evidence.
-3. [`../docs/architecture/SYSTEM_BOUNDARY.md`](../docs/architecture/SYSTEM_BOUNDARY.md) — canonical AES target clauses and subsystem boundaries.
-4. [`../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md`](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — delivery, direct-use, uncertainty, feasibility, and attention-economics rules.
-5. [`../docs/architecture/README.md`](../docs/architecture/README.md) — architecture navigation, authority boundaries, and machine-readable bootstrap entrypoints.
-6. [`../docs/architecture/normative-component-alignment.bootstrap.yaml`](../docs/architecture/normative-component-alignment.bootstrap.yaml) — resolved bootstrap design record and next dogfood gate.
-7. [`../docs/architecture/aes-company-planning-profile.bootstrap.yaml`](../docs/architecture/aes-company-planning-profile.bootstrap.yaml) — AES-local planning profile and reproducible bootstrap checks.
-8. [`../docs/architecture/schemas/architecture-realization.bootstrap.schema.json`](../docs/architecture/schemas/architecture-realization.bootstrap.schema.json) — minimal architecture-realization contract.
-9. [`../docs/architecture/INITIAL_GAP_LEDGER.md`](../docs/architecture/INITIAL_GAP_LEDGER.md) — originating target/current variance; do not close rows merely because implementation work completed.
-10. [`../docs/decisions/`](../docs/decisions/) — accepted architecture/verification decisions, including Decision 0009's modular product-design integration. Decision 0007 is superseded by Decision 0008.
-
-## Slice 1 in one picture
-
-```text
-exact repository revision
-        ↓
-bounded source/declaration observations
-        ↓
-authority + navigation resolution
-        ↓
-RepositoryContextArtifact
-        ↓
-context.json + source-bound human presentation
-        ↓
-direct stakeholder use
-        ↓
-fresh characterization + gap recomputation
-```
-
-First external consumer: `BrianMills2718/data-contracts@90c38998e8141bd07e49a77a49ec417aa29beee0`. The consumer remains read-only.
-
-The surface must not invent a wiki, infer semantic authority from folder names, or collapse `NONE`, `ERROR`, or `UNRESOLVED` into success. Positive routing claims require evidence.
-
-## Authority rules that matter most
-
-- One mutable fact has one owning authority or is explicitly a derived projection.
-- Planning proposes and structures change; it does not manufacture current state or close gaps.
-- Existing providers remain authoritative until an evidence-backed disposition changes that.
-- External standards/OSS/providers are considered before bespoke local implementations when they plausibly fit.
-- Native typed contracts remain with their natural authorities.
-- Component-local context may repeat normative wording only as a generated, source-identified projection.
-- Structural validity is not provider conformance, runtime verification, stakeholder utility, or gap closure.
-- A completed plan is not evidence that the target is satisfied.
-
-## What remains intentionally separate
-
-- **Hosted regression CI** — optional/manual convenience only; funding or runner availability is not conformance evidence.
-- **Local/external execution** — first-class verification when fresh execution is required.
-- **Historical execution reuse** — claim-specific only when the complete transitive executed subject and relevant environment assumptions remain adequate under Decision 0008.
-- **Plan 001 pinned external acceptance** — complete at exact AES `96fcf5e89ba98ad9ff278ec536a98c308cda3fe1` against the pinned `data-contracts` consumer; historical evidence stays revision-bound.
-- **Plan 002 policy replay** — offline only until a separate future plan authorizes any live intervention.
-- **Stakeholder utility** — direct use and explicit dispositions remain separate from automated verification/provider output.
-- **Gap closure** — fresh characterization plus target/current recomputation; a provider comparison does not close a gap by itself.
-
-A green automated check cannot prove the surface is useful. A useful surface cannot excuse missing or failed technical evidence.
-
-## Machine execution readiness
-
-Machine execution has an explicit preflight so a missing chat tool is not misdiagnosed as a machine, network, or WSL failure.
-
-For substantial machine-dependent AES work, prefer a ChatGPT Work task/session when that surface is available. Normal Chat remains suitable for research and GitHub-only work, but AES does not assume that a long-lived normal conversation will retain a custom Remote MCP toolset indefinitely.
-
-In either surface, the agent must first verify that the current conversation exposes Remote MCP `devices_list`, `devices_ping`, and `process_start`. If `devices_list` itself is absent, stop machine-dependent work immediately and classify the state as `SESSION_TOOL_NOT_EXPOSED`; GitHub-only work may continue when appropriate. For required machine work, prefer a fresh Work task/session rather than repeatedly reconnecting an otherwise healthy connector; use a fresh normal chat as fallback when Work is unavailable.
-
-If the tools are exposed, the agent must confirm the intended device is `execution_ready` with `devices_list`, then `devices_ping`, before filesystem/process operations. Only after a successful ping should the guarded WSL path be attempted.
-
-Canonical details and the full failure taxonomy live in [`../CLAUDE.md`](../CLAUDE.md) under **Execution readiness preflight**.
-
-## Provider and donor posture
-
-- Company Planning — planning/design provider through the AES-local profile.
-- Enforced Planning — execution-governance incumbent/provider.
-- Agentic Capability Architecture — capability/provider-resolution incumbent.
-- Data Contracts — shared typed-boundary authority where provider-neutral semantics fit; not automatically an AES runtime dependency.
-- Representation Router — concern-specific working-surface provider/workstream for the follow-up presentation; no authority transfer implied.
-- Backstage, TOSCA, SysML v2/KerML, Open Workflow Specification, OPA/Rego, W3C PROV, in-toto/SLSA, SCIP, Code Map, predecessor AES repositories, and other donors remain concern-specific references/candidates unless positively selected by a real design.
-
-Nothing becomes a runtime dependency merely because it appears in research or can model part of AES.
+- [.claude/](../.claude/): Claude Code OpenSpec commands and skills.
+- [.agents/](../.agents/): Codex OpenSpec skills.
+- [generated/](../generated/README.md): generated pages; [docstring wiki](../generated/docstring_wiki.md), [bootstrap view bundle](../generated/bootstrap-normative/view-bundle.md).
+- [openspec/changes/archive/](../openspec/changes/archive/): archived OpenSpec changes, also linked from [Requirements](requirements.md).
+- [docs/plans/](../docs/plans/README.md): plan files, each linked from [Proposals and plans](proposals.md).
+- [proposals/harness-context/native-parity/input/](../proposals/harness-context/native-parity/input/task.json): frozen fixture inputs, linked from [Proposals and plans](proposals.md).
