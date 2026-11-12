@@ -2,8 +2,8 @@
  "entry": "A1",
  "title": "One command sets Lockstep up in a new repository",
  "verdict": "PASS",
- "run_at": "2026-11-12T17:47:13+00:00",
- "lockstep_revision": "282fe2af5047f8db03f2a18e94d101f7bfc0eed1",
+ "run_at": "2026-11-12T18:09:01+00:00",
+ "lockstep_revision": "9eb61ad5f6a22f32f4be680467f19c710b6b1f66",
  "lockstep_bin": "uvx, installed fresh from the source (no machine cache)",
  "rows": [
   {
@@ -69,11 +69,11 @@
  ],
  "install": {
   "readme_line": "uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-canonical lockstep init",
-  "command_run": "uvx --from /home/brian/code2/worktrees/lockstep-init lockstep init",
-  "source": "/home/brian/code2/worktrees/lockstep-init",
-  "unmerged_build": true,
+  "command_run": "uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-canonical lockstep init",
+  "source": "https://github.com/BrianMills2718/agentic-engineering-system-canonical",
+  "unmerged_build": false,
   "fresh_uv_cache": true,
-  "uv_cache_dir": "/tmp/a1-uvcache-0y27t45k",
+  "uv_cache_dir": "/tmp/a1-uvcache-t50j53g6",
   "repo_origin": "https://github.com/example-org/demo.git"
  },
  "files_written": {
@@ -97,8 +97,8 @@
  "steps": [
   {
    "name": "the README's one command",
-   "command": "uvx --from /home/brian/code2/worktrees/lockstep-init lockstep init",
-   "cwd": "/tmp/a1-wg2i5f0z/demo",
+   "command": "uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-canonical lockstep init",
+   "cwd": "/tmp/a1-qb0sg4_t/demo",
    "stdin": null,
    "exit_code": 0,
    "stdout": {
@@ -106,7 +106,7 @@
     "lines_cut": 0
    },
    "stderr": {
-    "text": "   Building agentic-engineering-system @ file:///home/brian/code2/worktrees/lockstep-init\nDownloading grimp (2.2MiB)\nDownloading pygments (1.2MiB)\nDownloading pydantic-core (2.0MiB)\n Downloaded pydantic-core\n Downloaded grimp\n Downloaded pygments\n      Built agentic-engineering-system @ file:///home/brian/code2/worktrees/lockstep-init\nInstalled 20 packages in 14ms",
+    "text": "   Building agentic-engineering-system @ git+https://github.com/BrianMills2718/agentic-engineering-system-canonical@9eb61ad5f6a22f32f4be680467f19c710b6b1f66\nDownloading pygments (1.2MiB)\nDownloading grimp (2.2MiB)\nDownloading pydantic-core (2.0MiB)\n Downloaded pydantic-core\n Downloaded grimp\n Downloaded pygments\n      Built agentic-engineering-system @ git+https://github.com/BrianMills2718/agentic-engineering-system-canonical@9eb61ad5f6a22f32f4be680467f19c710b6b1f66\nInstalled 20 packages in 11ms",
     "lines_cut": 0
    }
   }
