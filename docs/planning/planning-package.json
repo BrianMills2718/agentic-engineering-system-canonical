@@ -286,7 +286,7 @@
    "status": "present",
    "path": "docs/planning/cold-review.md",
    "verdict": "pass",
-   "reviewed_revision": "09326db81cb6491389cfd360cd71cf27ca2e6b86"
+   "reviewed_revision": "2224d54882df8bab522fc03fb8b27aed9ca674fd"
   }
  },
  "initiative": {
