@@ -1,4 +1,4 @@
-Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 1ad2bd3d4ef91bc99a9ee1e19d73ae5c1ab913c0, run 2026-11-12T05:16Z.
+Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 2224d54882df8bab522fc03fb8b27aed9ca674fd, run 2026-11-12T05:19Z.
 Company Planning scripts from ~/code2/company-planning at b8a53a0.
 Not run: aes commit replay (the commit rule was removed 2026-10-14; open question Q11).
 
@@ -80,7 +80,7 @@ OK ./.aes/target.yaml
 PYTHONPATH=src /home/brian/code2/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli topology check
 OK topology: 42 governed file(s) under ['src/agentic_engineering_system/', 'tests/greenfield/'], 0 orphan(s), 0 planned but not yet realized
 PYTHONPATH=src /home/brian/code2/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli status
-OK status: agentic-engineering-system-canonical-target at 1ad2bd3d4ef91bc99a9ee1e19d73ae5c1ab913c0
+OK status: agentic-engineering-system-canonical-target at 2224d54882df8bab522fc03fb8b27aed9ca674fd
   artifacts: 44 realized, 0 unrealized, 0 drifted; 0 orphan(s)
   criteria: 2 supported, 10 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
   observations: 2 current, 52 stale, 1 unknown, 0 unreachable; 27 superseded
