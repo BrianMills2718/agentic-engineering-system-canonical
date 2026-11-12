@@ -77,11 +77,12 @@ def _hook_entry(source: str, client: str) -> dict:
             "hooks": [{"type": "command", "command": f'cd "$CLAUDE_PROJECT_DIR" && {guard}', "timeout": 30}]}
 
 
-def _merge_hooks(path: Path, entry: dict) -> str:
+def _merge_hooks(path: Path, entry: dict, event: str = "PreToolUse") -> str:
     """Add `entry` to the file's PreToolUse hooks, keeping everything else. Returns `wrote` or `skipped`."""
     data = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
-    pre = data.setdefault("hooks", {}).setdefault("PreToolUse", [])
-    if any(name in h.get("command", "") for e in pre for h in e.get("hooks", []) for name in HOOK_NAMES):
+    pre = data.setdefault("hooks", {}).setdefault(event, [])
+    names = ("lockstep refresh",) if event == "PostToolUse" else HOOK_NAMES
+    if any(name in h.get("command", "") for e in pre for h in e.get("hooks", []) for name in names):
         return "skipped"
     pre.append(entry)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -89,12 +90,27 @@ def _merge_hooks(path: Path, entry: dict) -> str:
     return "wrote"
 
 
+def _refresh_entry(source: str, client: str) -> dict:
+    """Native PostToolUse hook: update declared source-owned fact projections only."""
+    command = f"uvx --from {source} lockstep refresh --client {client}"
+    if client == "claude":
+        command = f'cd "$CLAUDE_PROJECT_DIR" && {command}'
+    matcher = "apply_patch|Edit|Write|Bash|shell|exec_command" if client == "codex" else "Edit|Write|MultiEdit|NotebookEdit|Bash"
+    return {"matcher": matcher, "hooks": [{"type": "command", "command": command, "timeout": 30}]}
+
+
+def _install_hooks(path: Path, source: str, client: str) -> str:
+    before = _merge_hooks(path, _hook_entry(source, client))
+    after = _merge_hooks(path, _refresh_entry(source, client), "PostToolUse")
+    return "wrote" if "wrote" in (before, after) else "skipped"
+
+
 def _lefthook(path: Path, source: str) -> str:
     """Add a `lockstep` pre-commit command to lefthook.yml (created if absent). Returns `wrote` or `skipped`."""
     names = " ".join(name for name in CHECK_NAMES if name not in ("arch", "test-first", "project"))
     # `lockstep check` with no name diffs against HEAD, which a repository's first commit does not have yet.
     skip_first = '[ -z "$c" ] && ! git rev-parse -q --verify HEAD >/dev/null && continue'
-    run = f'for c in "" {names}; do {skip_first}; uvx --from {source} lockstep check $c || exit 1; done'
+    run = f'for c in "" {names}; do {skip_first}; uvx --from {source} lockstep check $c || exit 1; done && uvx --from {source} lockstep check project --check'
     yaml = YAML()
     yaml.preserve_quotes = True
     yaml.width = 4096
@@ -131,8 +147,8 @@ def init_repo(root: Path, owner: str | None = None, source: str = SOURCE,
     else:
         config.write_text(lockstep_yaml(owner, human_pattern), encoding="utf-8")
         results.append(("lockstep.yaml", "wrote"))
-    results.append((".claude/settings.json", _merge_hooks(root / ".claude/settings.json", _hook_entry(source, "claude"))))
-    results.append((".codex/hooks.json", _merge_hooks(root / ".codex/hooks.json", _hook_entry(source, "codex"))))
+    results.append((".claude/settings.json", _install_hooks(root / ".claude/settings.json", source, "claude")))
+    results.append((".codex/hooks.json", _install_hooks(root / ".codex/hooks.json", source, "codex")))
     results.append(("lefthook.yml", _lefthook(root / "lefthook.yml", source)))
     results.append((".gitignore", _gitignore(root / ".gitignore")))
     for rel, what in results:

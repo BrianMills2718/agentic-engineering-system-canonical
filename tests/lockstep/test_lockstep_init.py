@@ -76,7 +76,9 @@ def test_existing_settings_keep_their_other_keys(tmp_path):
     init_repo(root)
     init_repo(root)
     data = json.loads((root / ".claude/settings.json").read_text())
-    assert data["model"] == "opus" and data["hooks"]["PostToolUse"] == existing["hooks"]["PostToolUse"]
+    assert data["model"] == "opus"
+    assert data["hooks"]["PostToolUse"][0] == existing["hooks"]["PostToolUse"][0]
+    assert sum("lockstep refresh" in h["command"] for e in data["hooks"]["PostToolUse"] for h in e["hooks"]) == 1
     pre = data["hooks"]["PreToolUse"]
     assert pre[0] == existing["hooks"]["PreToolUse"][0]
     assert sum("lockstep-hook" in h["command"] for e in pre for h in e["hooks"]) == 1

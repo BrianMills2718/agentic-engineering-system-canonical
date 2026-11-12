@@ -21,6 +21,7 @@ from pathlib import Path
 import re
 import textwrap
 
+from lockstep.doc_projection import render, project_facts
 from lockstep.checks.markers import source_dirs
 from lockstep.checks.spec import read_plan
 from lockstep.checks.status import CLOSES, STATUS_PAGE, Report, markdown, plan_files, report
@@ -159,7 +160,10 @@ def project(root: Path, check: bool = False) -> list[str]:
     Returns:
         Paths relative to root of the files rewritten (or stale), source files first, then plans, then `docs/status.md`.
     """
+    fact_contents = render(root)  # Validate all declared sources/markers before any write.
     text = {**read_plan(root).text, **read_plan(root, changes=True).text}
+    if not text:
+        return project_facts(root, check=check, rendered=fact_contents)
     changed = []
     for path in sorted(p for d in source_dirs(root) for p in d.rglob("*.py")):
         new = _source_text(path, text)
@@ -182,4 +186,5 @@ def project(root: Path, check: bool = False) -> list[str]:
             changed.append(str(STATUS_PAGE))
             if not check:
                 page.write_text(new)
-    return changed
+    changed.extend(project_facts(root, check=check, rendered=fact_contents))
+    return list(dict.fromkeys(changed))

@@ -26,6 +26,8 @@ import json
 from pathlib import Path
 import sys
 
+import yaml
+
 from lockstep.checks import arch, docmeta, project, show, sources, status, test_first, trace
 from lockstep.checks.config import CHECK_NAMES, Config, ConfigError, load
 
@@ -253,7 +255,11 @@ def run(argv: list[str]) -> int:
         return 0
     runner = {"trace": _trace, "arch": _arch, "test-first": _test_first, "sources": _sources, "docmeta": _docmeta,
               "project": _project}
-    status = runner[args.name](root, args, cfg)
+    try:
+        status = runner[args.name](root, args, cfg)
+    except (ValueError, TypeError, OSError, SyntaxError, yaml.YAMLError) as err:
+        print(f"error: {err}", file=sys.stderr)
+        return 2
     if status and mode == "warn":
         print(f"warning: {args.name} failed (mode warn in lockstep.yaml); not blocking")
         return 0

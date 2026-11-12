@@ -1,5 +1,13 @@
 # Now (2026-11-12; earlier sections dated)
 
+**Source-local document upkeep:** the authorized Company Planning example adds
+declared fact blocks to the existing Lockstep projector, including native
+post-edit refresh and read-only stale checking. The contract and configuration
+are linked from `wiki/lockstep.md`. Focused tests and fresh installed command
+smokes cover lifecycle, descriptions, interfaces and JSON/YAML evidence;
+Company Planning consumer integration is owned by its paired worktree.
+This does not certify arbitrary narrative accuracy or all consumer rollout.
+
 **Handoff (2026-11-12, end of the Claude lockstep session; Brian is switching to Codex):**
 
 - Done today, all merged through `ship`: the AES cleanup #842 (884 files retired, record and restore command in [docs/retired/2026-11-12.md](../docs/retired/2026-11-12.md)); Lockstep users moved to this repository at `b0d4cbd17`: lifelike#7, and Team-Brains#1249, which the server session installed on the VPS. There, a job inside the plan went through and a job outside it was refused, with the list of allowed files; log `/srv/inside-success/logs/lockstep-retest-20261112.log`. The acceptance page (A1 to A5 pass) is `proposals/planning-package/review-page/lockstep-acceptance.html` on hive.brianmills.dev/plans.
