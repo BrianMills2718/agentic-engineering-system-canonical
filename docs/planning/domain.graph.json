@@ -4,7 +4,7 @@
   "Target": {
    "label": "Plan records (in code)",
    "color": "#1f5f99",
-   "explain": "What .aes/target.yaml declares: outcomes, rules, criteria, components and the files planned for them."
+   "explain": "What a repository's .aes/target.yaml declares: outcomes, rules, criteria, components and the files planned for them."
   },
   "Change": {
    "label": "Changing the plan (in code)",
@@ -24,7 +24,7 @@
   "Context": {
    "label": "Context and project records (in code)",
    "color": "#7a8fa6",
-   "explain": "Project settings, the working-context packet, the v0.1 repository context, and the project brain."
+   "explain": "Project settings, the working-context packet and the project brain."
   },
   "DocOnly": {
    "label": "Only in documents",
@@ -130,7 +130,7 @@
    "id": "governed-root",
    "label": "Governed root",
    "kind": "Context",
-   "explain": "A folder AES governs (src/agentic_engineering_system/, tests/greenfield/); only files there must be planned. Defined in AGENTS.md:33. Code: src/agentic_engineering_system/records.py:198."
+   "explain": "A folder AES governs (src/agentic_engineering_system/, tests/greenfield/); only files there must be planned. Defined in docs/architecture/greenfield-v0.2/README.md:15. Code: src/agentic_engineering_system/records.py:198."
   },
   {
    "id": "project-record",
@@ -154,7 +154,7 @@
    "id": "accepted-plan",
    "label": "Accepted plan",
    "kind": "Change",
-   "explain": "A proposal applied by `aes plan accept`, kept in .aes/plans/ with the revision it was accepted at. Defined in AGENTS.md:39. Code: src/agentic_engineering_system/planning.py:197."
+   "explain": "A proposal applied by `aes plan accept`, kept in .aes/plans/ with the revision it was accepted at. Defined in docs/model/ODD.md:34. Code: src/agentic_engineering_system/planning.py:197."
   },
   {
    "id": "trace-review-declaration",
@@ -238,13 +238,7 @@
    "id": "pre-commit-hook",
    "label": "Pre-commit hook",
    "kind": "Context",
-   "explain": "The hook `aes hooks install` writes; it refuses a commit that leaves an orphan under a governed root. Not running in this checkout since 2026-10-13: core.hooksPath runs lefthook, which never calls aes (Q16). Defined in AGENTS.md:39. Code: src/agentic_engineering_system/hooks.py:83."
-  },
-  {
-   "id": "repository-context",
-   "label": "Repository context (v0.1)",
-   "kind": "Context",
-   "explain": "The v0.1 Plan 001 artifact: authority surfaces and concern roots resolved from a checkout, with unresolved surfaces kept visible. Defined in docs/plans/001_repository_context_resolution_vertical.md:1. Code: src/agentic_engineering_system/repository_context/models.py:87."
+   "explain": "The hook `aes hooks install` writes; it refuses a commit that leaves an orphan under a governed root. It does not run in this repository: AES stopped governing itself and the hook files were retired on 2026-11-12 (Q16 resolved); it is still written into repositories that run `aes hooks install`. Defined in src/agentic_engineering_system/hooks.py:1. Code: src/agentic_engineering_system/hooks.py:83."
   },
   {
    "id": "project-brain",
@@ -274,24 +268,10 @@
    "dashed": true
   },
   {
-   "id": "offline-policy-replay",
-   "label": "Offline policy-decision replay (v0.1)",
-   "kind": "DocOnly",
-   "explain": "Plan 002, the v0.1 frontier, stopped at its provider-access step; no code here implements it. Defined in docs/plans/002_offline_policy_decision_replay.md:3. No code.",
-   "dashed": true
-  },
-  {
-   "id": "plan-receipt",
-   "label": "Plan adoption receipt",
-   "kind": "External",
-   "explain": "A Company Planning adoption record (*.receipt.json next to a plan in docs/plans/ or proposals/), naming the bounded-design profile revision the plan was adopted under; distinct from an AES accepted plan. Defined in docs/plans/adoption-progress-fields.receipt.json:1. No code.",
-   "dashed": true
-  },
-  {
    "id": "commit-rule",
    "label": "Commit rule",
    "kind": "Retired",
-   "explain": "Commit tags and plan adoption per commit; removed on 2026-10-14 at Brian's request. .aes/commit_rule.yaml remains, read by no code. Defined in docs/model/ODD.md:55. No code.",
+   "explain": "Commit tags and plan adoption per commit; removed on 2026-10-14 at Brian's request. Its config file `.aes/commit_rule.yaml` went with this repository's `.aes/` on 2026-11-12. Defined in docs/model/ODD.md:55. No code.",
    "dashed": true
   },
   {
@@ -305,7 +285,7 @@
    "id": "policy-layer",
    "label": "Policy layer",
    "kind": "System",
-   "explain": "Brian's rules for agents and the register of how each is enforced: the AES rules register here and the core rules and topic files in code2-workspace agents/. Defined in .project-brain/now.md:9. No code.",
+   "explain": "Brian's rules for agents and the register of how each is enforced: the AES rules register here and the core rules and topic files in code2-workspace agents/. Defined in .project-brain/now.md:15. No code.",
    "dashed": true
   },
   {
@@ -336,7 +316,7 @@
    "id": "agent-rules",
    "label": "Agent rules (core and topic files)",
    "kind": "Elsewhere",
-   "explain": "The rules every Claude Code and Codex session loads, with Brian's words behind each in rule-sources.md; in code2-workspace agents/. Defined in .project-brain/now.md:9. No code.",
+   "explain": "The rules every Claude Code and Codex session loads, with Brian's words behind each in rule-sources.md; in code2-workspace agents/. Defined in .project-brain/now.md:14. No code.",
    "dashed": true
   },
   {
@@ -665,156 +645,144 @@
   },
   {
    "id": "e41",
-   "source": "commit-rule",
-   "target": "plan-receipt",
-   "label": "required, per commit"
-  },
-  {
-   "id": "e42",
-   "source": "offline-policy-replay",
-   "target": "repository-context",
-   "label": "builds on"
-  },
-  {
-   "id": "e43",
    "source": "aes-system",
    "target": "one-tool",
    "label": "has part"
   },
   {
-   "id": "e44",
+   "id": "e42",
    "source": "aes-system",
    "target": "feedback-loop",
    "label": "has part"
   },
   {
-   "id": "e45",
+   "id": "e43",
    "source": "aes-system",
    "target": "policy-layer",
    "label": "has part"
   },
   {
-   "id": "e46",
+   "id": "e44",
    "source": "policy-layer",
    "target": "rules-register",
    "label": "includes"
   },
   {
-   "id": "e47",
+   "id": "e45",
    "source": "policy-layer",
    "target": "agent-rules",
    "label": "includes"
   },
   {
-   "id": "e48",
+   "id": "e46",
    "source": "feedback-loop",
    "target": "human-correction",
    "label": "extracts"
   },
   {
-   "id": "e49",
+   "id": "e47",
    "source": "human-correction",
    "target": "feedback-report",
    "label": "is filed as"
   },
   {
-   "id": "e50",
+   "id": "e48",
    "source": "feedback-report",
    "target": "agent-rules",
    "label": "proposes a change to"
   },
   {
-   "id": "e51",
+   "id": "e49",
    "source": "one-tool",
    "target": "target",
    "label": "still reads, until users move off it"
   },
   {
-   "id": "e52",
+   "id": "e50",
    "source": "one-tool",
    "target": "lockstep-today",
    "label": "keeps as an alias"
   },
   {
-   "id": "e53",
+   "id": "e51",
    "source": "one-tool",
    "target": "code2check",
    "label": "absorbs"
   },
   {
-   "id": "e54",
+   "id": "e52",
    "source": "one-tool",
    "target": "lockstep-config",
    "label": "reads"
   },
   {
-   "id": "e55",
+   "id": "e53",
    "source": "lockstep-config",
    "target": "layout-row",
    "label": "holds"
   },
   {
-   "id": "e56",
+   "id": "e54",
    "source": "layout-row",
    "target": "openspec-requirement",
    "label": "implements"
   },
   {
-   "id": "e57",
+   "id": "e55",
    "source": "one-tool",
    "target": "openspec-requirement",
    "label": "reads requirements from"
   },
   {
-   "id": "e58",
+   "id": "e56",
    "source": "one-tool",
    "target": "first-docstring",
    "label": "writes"
   },
   {
-   "id": "e59",
+   "id": "e57",
    "source": "first-docstring",
    "target": "openspec-requirement",
    "label": "copies the text of"
   },
   {
-   "id": "e60",
+   "id": "e58",
    "source": "one-tool",
    "target": "edit-guard",
    "label": "runs"
   },
   {
-   "id": "e61",
+   "id": "e59",
    "source": "one-tool",
    "target": "commit-check",
    "label": "runs"
   },
   {
-   "id": "e62",
+   "id": "e60",
    "source": "one-tool",
    "target": "plan-check",
    "label": "runs"
   },
   {
-   "id": "e63",
+   "id": "e61",
    "source": "plan-check",
    "target": "acceptance_entry",
    "label": "checks"
   },
   {
-   "id": "e64",
+   "id": "e62",
    "source": "edit-guard",
    "target": "layout-row",
    "label": "refuses writes outside"
   },
   {
-   "id": "e65",
+   "id": "e63",
    "source": "slice",
    "target": "one-tool",
    "label": "builds part of"
   },
   {
-   "id": "e66",
+   "id": "e64",
    "source": "layout-row",
    "target": "planned-artifact",
    "label": "replaces"

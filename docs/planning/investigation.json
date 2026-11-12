@@ -109,7 +109,7 @@
    ],
    "verdict": "fails",
    "question_id": "Q6",
-   "note": "2 of 12 criteria supported, 52 stale observations; it describes the retiring v0.2 engine only."
+   "note": "2 of 12 criteria supported, 52 stale observations; it describes the retiring v0.2 engine only. This repository's own .aes/ and make aes were retired on 2026-11-12 (Q6 resolved)."
   },
   {
    "id": "F7",

@@ -67,18 +67,17 @@ flowchart TB
     ctx[context.py<br/>working-context packets]
     hk[hooks.py<br/>pre-commit hook writer<br/>not installed here: lefthook runs instead]
   end
-  v01[repository_context/<br/>v0.1 Plan 001 resolver]
   ls[src/lockstep/<br/>Lockstep: layout, edit hook, checks, plan check, status<br/>src/pcw alias]
   lsy[(lockstep.yaml and openspec/specs/<br/>written in the repositories that install it)]
-  ep[enforced_planning/<br/>vendored claims, sessions, worktrees<br/>44,556 lines; retired in ~/code2]
+  ag[enforced_planning/agents_rendering.py + scripts/meta/<br/>AGENTS.md generator and sync check]
   ll[scripts/learning_loop/<br/>the feedback loop, nightly]
   rr[scripts/rules/ + docs/rules/<br/>rules register]
-  scr[scripts/<br/>meta, hive: claims-era scripts and brain_fresh]
-  docs[docs/, proposals/, research/, wiki/<br/>135 Markdown files]
-  t[(.aes/target.yaml)]
+  scr[scripts/hive/<br/>brain_fresh]
+  docs[docs/, proposals/, wiki/<br/>115 Markdown files]
+  t[(.aes/target.yaml<br/>in a repository that adopts aes)]
   o[(.aes/observations/)]
   p[(.aes/plans/)]
-  g[(.githooks/pre-commit<br/>dormant)]
+  g[(pre-commit hook<br/>not installed here)]
   pj[(.aes/project.yaml)]
   lb[(.aes/legacy_baseline.json)]
   ad[adopt.py + project.py<br/>aes adopt, aes init]
@@ -120,13 +119,11 @@ The retained library's records. The `aes` command line that writes them retires 
 | `WorkingContext`, `Provenance` | `context.py:72`, `:63` | computed by `aes context <subject>` | none |
 | Helper and result types: `Locator` (`records.py:101`), `FamilyEntries`/`FamilyKeys`, `OutsideGovernedRoot` (`planning.py:107-143`), `CharacterizeReport` (`characterize.py:250`), `InitResult` (`project.py:66`) | as listed | computed or nested inside the records above | none |
 | `ReviewCheck` | `trace_review.py:18` | computed while assessing a trace-review requirement | none |
-| `RepositoryContextArtifact` and its observations (v0.1) | `repository_context/models.py:87` | `repository_context/cli.py` | a JSON context file and an HTML surface (`repository_context/render_html.py`) |
 | Feedback loop: `Record` with `Link`, `Provenance` (one observation, claim or action line) | `scripts/learning_loop/records.py:49`, `:34`, `:39` (contract at line 25) | `feedback_log.py:94` and `:172`, called by the nightly `collect_feedback.py` | `reports-<date>.jsonl` in `~/projects/data/feedback-collector/` (`collect_feedback.py:69`), filed as agent-feedback-log issues |
 | Feedback loop: `Turn`, `Transcript` | `scripts/learning_loop/transcripts.py:42`, `:51` | read from Claude Code and Codex session logs (`collect_feedback.py:127`) | none (read only) |
 | Feedback loop: subagent `Check`, `Verification`, `Outcome` | `scripts/learning_loop/subagents.py:30`, `:38`, `:51` | the nightly collector (`collect_feedback.py:66` imports it) | turned into `Record` lines in `reports-<date>.jsonl` |
 | Feedback loop: problem analysis `_Step`, `_Fix`, `_Analysis` | `scripts/learning_loop/problems.py:184`, `:191`, `:197` | `problems.py` (model answer schema, `problems.py:246`), reading `reports-*.jsonl` | `problems-<date>.jsonl`; with `--file`, one issue per recurring problem |
-| Policy layer: `AgentRouterProfileV1`, `RouterProposal`, `HandoffRecordV1` (all `Contract`) | `scripts/rules/agent_router.py:51`, `:147`, `:176` (`Contract` at line 25) | the agent router (`scripts/rules/agent_router.py`) | `~/projects/data/agent-router/` (`agent_router.py:48`); handoffs counted by `account_handoffs` (line 227) |
-| Policy layer: `Disposition` (keep, move or retire for one legacy rule) | `scripts/rules/sort_legacy.py:54` | `sort_legacy.py` (model answer, checked at line 94) | `legacy-sort.jsonl` and `legacy-dispositions.private.yaml` in the router's data folder (`sort_legacy.py:11`, `:328`) |
+| Policy layer: `Disposition` (keep, move or retire for one legacy rule) | `scripts/rules/sort_legacy.py:54` | `sort_legacy.py` (model answer, checked at line 94) | `legacy-sort.jsonl` and `legacy-dispositions.private.yaml` in `~/projects/data/agent-router/` (`sort_legacy.py:11`, `:328`) |
 
 ## Lockstep's records
 
@@ -149,9 +146,9 @@ shared kernel. Open-questions entry Q9 records the reasoning.
 
 ## Outside this model
 
-- `enforced_planning/` (vendored claims, sessions and worktree lanes) and the `scripts/meta/`
-  coordination scripts that import it. `~/code2` replaced claims with `claude -w` worktrees
-  (`~/code2/AGENTS.md`); they stay in place, unmodelled, and the one-tool plan does not use them (Q10).
+- The claims, sessions and worktree machinery (`enforced_planning/`, `scripts/meta/`, the claims-era `scripts/*.py`) and
+  the v0.1 `repository_context` and the agent router: retired on 2026-11-12 ([record](../retired/2026-11-12.md)); `~/code2`
+  replaced claims with `claude -w` worktrees (`~/code2/AGENTS.md`) (Q10 resolved).
 - The rules register file `docs/rules/register.yaml` and the feedback loop's plans and pages in
   `proposals/aes-learning-loop/`: their record types are in the table above; the system map names each code unit.
 - Lockstep's walkthrough: now built as `proposals/planning-package/review-page/lockstep-acceptance.html` from recorded runs (`scripts/acceptance/`, `docs/planning/runs/lockstep-acceptance/`); A1 to A5 are built, not judged by Brian (Q22 resolved).

@@ -12,7 +12,8 @@ The requirements are the outcomes, normative items and success criteria (each wi
 disproof) in [`.aes/target.yaml`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.aes/target.yaml): outcome `OUT-GF-001` (a new
 project under AES governance, from intent to evidence-backed current/gap state) and
 outcome `OUT-AP-001` (real work lands only under an adopted Company Planning plan;
-trivial work is decided by measured facts). The rules that enforce them, with owners
+trivial work is decided by measured facts; withdrawn with the commit rule on 2026-10-14, and this
+repository's own `.aes/target.yaml` was retired on 2026-11-12, see the link above for the last copy). The rules that enforce them, with owners
 and tests, are in the system model ([ODD.md](../model/ODD.md),
 [trace.yaml](../model/trace.yaml)).
 
@@ -42,9 +43,8 @@ private historical repositories or undocumented AES lineage knowledge.
 ## Thesis (AES extension)
 
 Agent-built software stays true to its intent when every claim about it is checked
-against something an agent cannot talk its way past: a commit refused without an
-adopted plan, a criterion that stays a gap until fresh evidence bound to the exact
-revision supports it, and documents whose truth lives where it is edited, generated
+against something an agent cannot talk its way past: a criterion that stays a gap
+until fresh evidence bound to the exact revision supports it, and documents whose truth lives where it is edited, generated
 or checked from the owning source rather than copied (AES-CTX-004,
 [Decision 0013](../decisions/0013-truth-lives-where-it-is-edited.md)). Self-reported
 completion, prose status and hand-maintained copies drift; checked boundaries do not.
@@ -53,8 +53,9 @@ completion, prose status and hand-maintained copies drift; checked boundaries do
 
 Work landed under AES needs its claims corrected after the fact about as often as work
 landed without it; or `aes status` reports a criterion supported while a fresh run of
-its named checks fails at the same revision; or agents route around the commit rule
-(`[Unplanned]` commits, bypassed hooks) more often than they pass it.
+its named checks fails at the same revision. (The commit rule that once refused a
+commit without an adopted plan was removed on 2026-10-14, so agents routing around it
+is no longer part of the disproof.)
 
 ## Non-goals
 

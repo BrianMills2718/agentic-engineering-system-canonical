@@ -7,7 +7,7 @@ description: Every code unit in AES canonical on one map, grouped by the AES par
 Question answered: which code units make up this repository, which AES part does each belong to, and what calls what?
 
 Every unit the planning package lists in `system_model.units` is named here. Read at origin/main `0395758`
-(2026-11-12). The `lockstep` package moved in on 2026-11-11 and 2026-11-12 (PRs #831 to #837), so Lockstep is a group
+(2026-11-12), then reduced on 2026-11-12 by the cleanup that retired the claims-era scripts, `repository_context` and the agent router (docs/retired/2026-11-12.md). The `lockstep` package moved in on 2026-11-11 and 2026-11-12 (PRs #831 to #837), so Lockstep is a group
 on this map; `src/pcw/__init__.py:1` is its old-name alias.
 Back to the [system model](SYSTEM_MODEL.md).
 
@@ -32,7 +32,6 @@ flowchart LR
   end
   subgraph PL[Policy layer]
     build_rules_page[build_rules_page: writes docs/rules/RULES.md]
-    agent_router[agent_router: profile and handoff contracts]
     sort_legacy[sort_legacy: sort project-meta's legacy rules]
   end
   subgraph LIB[Retained AES library: Lockstep imports it; the aes command line retires]
@@ -50,7 +49,6 @@ flowchart LR
     project[project: aes init]
     hooks[hooks: pre-commit hook writer, not installed here]
     trace_review[trace_review: Company Planning review binding]
-    repository_context[repository_context: v0.1 Plan 001 resolver]
   end
   subgraph LS[Lockstep: package src/lockstep, the one planning-and-checking tool]
     ls_cli[check: the lockstep command, whole-tree plan check]
@@ -86,26 +84,11 @@ flowchart LR
     checks[checks: commit checks trace arch test_first sources docmeta, status, show, project, pytest plugin]
     pcw[pcw: alias of lockstep]
   end
-  subgraph OTHER[Project brain and retired coordination]
+  subgraph OTHER[Project brain and the AGENTS.md generator]
     brain_fresh[brain_fresh: is the project brain stale]
-    meta[meta: scripts/meta coordination and session scripts]
-    enforced_planning[enforced_planning: vendored claims machinery]
-    artifact_creation[artifact_creation]
-    audit_dead_code[audit_dead_code]
-    check_dead_code[check_dead_code]
-    check_doc_coupling[check_doc_coupling]
-    check_markdown_links[check_markdown_links]
-    check_push_safety[check_push_safety]
-    check_reachability[check_reachability]
-    check_required_reading[check_required_reading]
-    coordination_hook[coordination_hook]
-    coordination_inbox[coordination_inbox]
-    coordination_messages[coordination_messages]
-    coordination_operator_status[coordination_operator_status]
-    hook_receipts[hook_receipts]
-    refresh_prewrite_claim_projection[refresh_prewrite_claim_projection]
-    repo_stats_block[repo_stats_block]
-    sync_plan_status[sync_plan_status]
+    check_agents_sync[check_agents_sync: AGENTS.md matches CLAUDE.md]
+    render_agents_md[render_agents_md: writes AGENTS.md]
+    agents_rendering[agents_rendering: AGENTS.md generator]
   end
   systemd --> collect_feedback
   systemd --> label_items
@@ -180,8 +163,8 @@ flowchart LR
   change_list --> context
   symbol_gate --> characterize_python
   unplanned_symbols --> characterize_python
-  meta --> enforced_planning
-  coordination_hook --> enforced_planning
+  check_agents_sync --> agents_rendering
+  render_agents_md --> agents_rendering
 ```
 
 The Lockstep group's `check` is `src/lockstep/check.py` and `hook` is `src/lockstep/hook.py`; its `checks` directory
@@ -189,6 +172,5 @@ holds `trace`, `arch`, `test_first`, `sources`, `docmeta`, `status`, `show`, `pr
 The edges are the imports in `src/lockstep/*.py` (for example `src/lockstep/hook.py:107-116` imports `aes_bridge`, `change_log`,
 `cogtext`, `change_list`, `openspec_text`, `shell_targets`, `side_file`, `stale_edit` and `unplanned_files`; `src/lockstep/check.py:404-413`
 imports `scaffold`, `plan_check` and the `checks` directory on demand); only the main ones are drawn (`src/lockstep/hook.py:387` imports `plan_edit`, `src/lockstep/plan_edit.py:46` imports `change_list`). `records_fb` and `evidence_fb` are `scripts/learning_loop/records.py` and `evidence.py`, drawn apart from the
-library's `records` and `evidence`. The unlabelled units in the last group are the claims-era scripts at
-`scripts/*.py`; `~/code2` replaced claims with worktrees, and nothing in the one-tool plan uses them (open question Q10).
+library's `records` and `evidence`. The claims-era scripts (`scripts/*.py`, `scripts/meta/` except the AGENTS.md generator, `enforced_planning/` except `agents_rendering.py`) were retired on 2026-11-12 (open question Q10, resolved).
 Dotted arrows are jobs whose timers are off (open question Q21).

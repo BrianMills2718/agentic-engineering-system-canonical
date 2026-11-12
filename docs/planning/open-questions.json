@@ -65,15 +65,15 @@
    "blocks": "the plan-adoption recheck passing, and which plan this package may treat as current",
    "resolves_with": "Reading each plan against what merged settles it (an argument per plan, no test): plans about the commit rule are superseded by its removal on 2026-10-14; the rest get done or superseded from their own records. Then set each plan's front-matter status.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "sources": [
-    ".project-brain/now.md:9",
-    "docs/planning/checks.txt:33"
+    "docs/retired/2026-11-12.md:27",
+    ".project-brain/now.md:11"
    ],
    "touches": [
-    "plan-receipt",
     "commit-rule"
-   ]
+   ],
+   "evidence": "Resolved by the 2026-11-12 cleanup: docs/plans/ and the 24 old proposal folders that held the 23 adoption receipts were retired, so no *.receipt.json is tracked (git ls-files '*.receipt.json' returns 0) and the plan-adoption recheck was dropped from run_checks.sh. Their last commit is b0d4cbd174e7 (record: docs/retired/2026-11-12.md)."
   },
   {
    "id": "Q5",
@@ -82,7 +82,7 @@
    "blocks": "whether the goal document can be used to judge AES at all",
    "resolves_with": "An argument settles it: the two remaining checked boundaries (fresh revision-bound evidence; truth where it is edited) carry the thesis. The disproof's third clause (agents routing around the commit rule) is dropped, or rewritten against `make aes` topology runs, not the pre-commit orphan hook, which does not run here (Q16). A doc edit, no test. Open as a work item only: the answer is known, and a check that still fails must point at an open question. Settled together with Q6: if this repository's own `.aes/` retires, this question closes with it.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "sources": [
     "docs/architecture/GOAL.md:45",
     "docs/architecture/GOAL.md:56",
@@ -92,7 +92,8 @@
     "thesis",
     "commit-rule",
     "pre-commit-hook"
-   ]
+   ],
+   "evidence": "Resolved 2026-11-12: GOAL.md's thesis no longer names the commit rule and the disproof's third clause (agents routing around it) is dropped, with a note that the rule was removed on 2026-10-14 (docs/architecture/GOAL.md thesis and disproof sections)."
   },
   {
    "id": "Q6",
@@ -101,11 +102,11 @@
    "blocks": "whether `aes status` is quoted anywhere as AES's state, and whether Q5, Q15 and Q16 need edits or close with the folder",
    "resolves_with": "An argument settles it: decision 0009 (a) says the folder goes when the repository is next changed, and the one-tool build changes it; Lockstep imports this repository's library (src/agentic_engineering_system), not its `.aes/` folder, so the folder and `make aes` can go in the slice that stops reading `.aes/target.yaml` (slice 2) without breaking Lockstep. Re-recording evidence for the retiring engine is not worth doing. The Lockstep session confirms the slice when it plans slice 2.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "sources": [
+    "docs/retired/2026-11-12.md:17",
     "docs/decisions/0010-greenfield-v0.2-accepted.md:63",
     "proposals/one-planning-tool/DESIGN.md:68",
-    "docs/planning/checks.txt:72",
     "wiki/lockstep.md:30"
    ],
    "touches": [
@@ -114,7 +115,8 @@
     "target",
     "slice",
     "lockstep-today"
-   ]
+   ],
+   "evidence": "Resolved 2026-11-12: this repository's own .aes/ folder and the `make aes` and `make aes-check` targets were retired (55 observations and 8 accepted plans included); Lockstep imports the library, not the folder (F7), and make check, 672 tests, passes without it. `aes status` no longer describes AES. Other repositories keep their own .aes/ (5 call aes from Makefiles: dodaf, lifelike, lockstep, plan-code-wiki, whygame5)."
   },
   {
    "id": "Q7",
@@ -153,12 +155,13 @@
    "blocks": "how much of the repository the system model must describe, and the size of the hygiene plan",
    "resolves_with": "An argument settles it: the one-tool plan does not touch enforced_planning/ or scripts/meta/, so they stay in place, unmodelled and labelled retired by the ~/code2 redirect, until a plan needs that space; removing 44k lines nobody is working on is not part of this build. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "sources": [
     "/home/brian/code2/AGENTS.md:19",
-    "scripts/meta/session_finish.py:18"
+    "docs/retired/2026-11-12.md:29"
    ],
-   "touches": []
+   "touches": [],
+   "evidence": "Resolved 2026-11-12: enforced_planning/ (44 files, 44,286 lines, all but agents_rendering.py and __init__.py), scripts/meta/ (50 of 52 files) and the 16 claims-era scripts/*.py were retired with git rm. The AGENTS.md generator that make check needs stays (enforced_planning/agents_rendering.py, scripts/meta/check_agents_sync.py, render_agents_md.py). make check passes (672 passed, 19 skipped; mypy clean on 60 files)."
   },
   {
    "id": "Q15",
@@ -167,18 +170,18 @@
    "blocks": "whether the target contradicts the repository's own rules while it is still read",
    "resolves_with": "An argument settles it: Brian asked on 2026-10-13 to turn off this enforcement, and nothing enforces it now, so the outcome is withdrawn through `aes plan prepare` / `validate` / `accept` (TR-REQ-001 re-pointed at OUT-GF-001, because SC-TR-001 and SC-TR-SOURCE-001 depend on it and trace review still serves a new project's evidence), not by hand. Settled together with Q6: if this repository's own `.aes/` retires, this question closes with it.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "sources": [
-    ".aes/target.yaml:12",
-    ".aes/target.yaml:100",
     "docs/architecture/GOAL.md:13",
-    "docs/model/ODD.md:55"
+    "docs/model/ODD.md:55",
+    "docs/retired/2026-11-12.md:17"
    ],
    "touches": [
     "outcome",
     "target",
     "commit-rule"
-   ]
+   ],
+   "evidence": "Resolved 2026-11-12: the target that held OUT-AP-001 (.aes/target.yaml) was retired with this repository's .aes/; GOAL.md says the outcome was withdrawn with the commit rule on 2026-10-14. Other repositories' targets are their own."
   },
   {
    "id": "Q16",
@@ -187,17 +190,17 @@
    "blocks": "what the rewritten thesis and disproof can rest on (Q5), and whether AGENTS.md lines 38-40 stay true",
    "resolves_with": "An argument settles it while the `aes` command line retires: every ~/code2 check should finish in seconds and `aes topology check` does, so add it to lefthook's pre-commit as a local step if Q1 resumes AES; while on hold, correct AGENTS.md (through CLAUDE.md, which generates it) to name `make aes` as the check. Settled together with Q6: if this repository's own `.aes/` retires, this question closes with it.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "sources": [
-    "AGENTS.md:38",
-    "lefthook.yml:1",
-    "/home/brian/.config/git/repo-hooks.off"
+    "CLAUDE.md:24",
+    "lefthook.yml:1"
    ],
    "touches": [
     "pre-commit-hook",
     "orphan",
     "thesis"
-   ]
+   ],
+   "evidence": "Resolved 2026-11-12: AGENTS.md (generated from CLAUDE.md) no longer says the aes pre-commit hook refuses unplanned files; CLAUDE.md states that AES does not govern itself, and the .githooks/ and hooks/ files were retired."
   },
   {
    "id": "Q17",
@@ -277,9 +280,9 @@
    "resolves_with": "Running make aes settles it.",
    "owner": "agent",
    "status": "resolved",
-   "evidence": "Yes: make aes exits 0 at 30e9993: target valid (2 outcomes, 12 criteria, 44 planned artifacts, 14 verification subjects), 42 governed files and 0 orphans, 44 artifacts realized and 0 drifted. Its evidence counts are Q6.",
+   "evidence": "Yes: make aes exits 0 at 30e9993: target valid (2 outcomes, 12 criteria, 44 planned artifacts, 14 verification subjects), 42 governed files and 0 orphans, 44 artifacts realized and 0 drifted. Its evidence counts are Q6. (Retired 2026-11-12 with the make aes target; the evidence is as of 30e9993.)",
    "sources": [
-    "Makefile:571",
+    "docs/retired/2026-11-12.md:17",
     "docs/planning/checks.txt:68"
    ],
    "touches": [
@@ -296,9 +299,9 @@
    "resolves_with": "Searching the code settles it.",
    "owner": "agent",
    "status": "resolved",
-   "evidence": "Nothing reads it: a search for commit_rule under src/ and scripts/ finds nothing (topology.py line 18 mentions \"the commit rule's concern\" in prose). The hygiene plan removes the file (it stays in git history).",
+   "evidence": "Nothing reads it: a search for commit_rule under src/ and scripts/ finds nothing (topology.py line 18 mentions \"the commit rule's concern\" in prose). The hygiene plan removes the file (it stays in git history). The file went with this repository's .aes/ on 2026-11-12.",
    "sources": [
-    ".aes/commit_rule.yaml:5",
+    "docs/retired/2026-11-12.md:17",
     "src/agentic_engineering_system/topology.py:18"
    ],
    "touches": [
@@ -350,10 +353,10 @@
    "status": "open",
    "question": "The AES rules register (docs/rules/register.yaml, page RULES.md) lists one rule, while Brian's rules for agents live in code2-workspace agents/ (core.md, topic files, rule-sources.md by Policy id). Which one is the policy layer's list of rules, and what happens to the other?",
    "blocks": "acceptance entry A7 (where Brian sees a rule he set and how it is enforced) and what the policy layer's part of AES contains",
-   "resolves_with": "Prior art settles it: code2-workspace docs/capabilities.md (decision 0004, one capabilities list) names agents/core.md plus topic files as the tool for agent rules, so that is the list; the AES register page should say it covers only rules the feedback loop licensed, or point at agents/.",
+   "resolves_with": "Prior art settles it: code2-workspace docs/capabilities.md (decision 0004, one capabilities list) names agents/core.md plus topic files as the tool for agent rules, so that is the list; the AES register page should say it covers only rules the feedback loop licensed, or point at agents/. The agent router that an earlier plan modelled as part of the policy layer was retired on 2026-11-12 (no caller, its data folder never existed), so the policy layer is the register plus agents/, with no router.",
    "sources": [
     "docs/rules/RULES.md:7",
-    ".project-brain/now.md:9"
+    ".project-brain/now.md:15"
    ],
    "touches": [
     "policy-layer",
