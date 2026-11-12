@@ -43,6 +43,8 @@ last_checked: 2026-11-11
 
 ## Storage
 
+- Project brains live as Markdown in each repository's `.project-brain/` (agent-decided 2026-10-02 after a landscape review). Rejected: gbrain (adds a database, Bun and fast-moving releases), Hermes (an agent runtime whose per-profile memory is capped at 2,200 characters), mem0, Letta and Cognee (need a memory server both the VPS container and WSL can reach, and their memory cannot be diffed or reviewed), and Paperclip issue documents (reachable from local sessions only over ssh) ([.project-brain/truth.md:7-17](../.project-brain/truth.md#L7-L17)).
+
 - Feedback outputs: `FEEDBACK_OUT=~/projects/data/feedback-collector` ([scripts/learning_loop/systemd/feedback-collector.service:17](../scripts/learning_loop/systemd/feedback-collector.service#L17)).
 - The jobs run from `~/.hive-brain/aes`, a clone of AES main refreshed before every run ([scripts/learning_loop/systemd/feedback-collector.service:7-14](../scripts/learning_loop/systemd/feedback-collector.service#L7-L14)).
 - Feedback reports go to the private GitHub repository `agent-feedback-log` ([scripts/learning_loop/systemd/README.md:55-56](../scripts/learning_loop/systemd/README.md#L55-L56)).

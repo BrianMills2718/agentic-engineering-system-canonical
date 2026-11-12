@@ -32,6 +32,7 @@ This wiki is derived navigation, not an authority; follow links to the owning do
 | How do I install, test and run the jobs? | [run-and-deploy.md](run-and-deploy.md) | [Makefile:543-553](../Makefile#L543-L553) |
 | Which requirements have tests? | [requirements.md](requirements.md) | [openspec/specs/required-evidence-inputs/spec.md:13](../openspec/specs/required-evidence-inputs/spec.md#L13) |
 | What is unresolved or contradicts current state? | [open-questions.md](open-questions.md) | [docs/planning/DOMAIN.md:51-64](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/docs/planning/DOMAIN.md#L51-L64) |
+| What does a name or term mean? | [glossary.md](glossary.md) | [docs/planning/DOMAIN.md:7-10](../docs/planning/DOMAIN.md#L7-L10) |
 | What happened before (v0.1, v0.2, the commit rule)? | [history.md](history.md) | [CLAUDE.md:31-32](../CLAUDE.md#L31-L32) |
 | What did the research syntheses conclude? | [research-and-lessons.md](research-and-lessons.md) | [research/README.md:29](../research/README.md#L29) |
 
@@ -52,6 +53,14 @@ This repository's decisions; code2-workspace decision 0009 (AES and Lockstep fat
 - [0011](../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md): this repository is AES; the Inside Success repository is archived (2026-09-26).
 - [0012](../docs/decisions/0012-capability-reuse-enforced-at-plan-adoption.md): capability reuse checked against one catalogue (2026-10-08).
 - [0013](../docs/decisions/0013-truth-lives-where-it-is-edited.md): truth lives where it is edited (2026-10-10).
+
+Where each earlier decision stands now:
+
+- 0001 items 3 (incumbents as capability sources with retained ownership) and 6 (no local package until Company Planning derives topology) are superseded for the v0.2 governed roots by 0010 ([docs/decisions/0010-greenfield-v0.2-accepted.md:141-143](../docs/decisions/0010-greenfield-v0.2-accepted.md#L141-L143)). The rest of 0001 is the v0.1 line's history.
+- 0002 is superseded as the planning route for that scope ([docs/decisions/0010-greenfield-v0.2-accepted.md:144-145](../docs/decisions/0010-greenfield-v0.2-accepted.md#L144-L145)).
+- 0003 to 0006 and 0008 were carried forward into v0.2 under new names and are history with it; 0007 was already superseded by 0008 ([docs/decisions/0010-greenfield-v0.2-accepted.md:150-151](../docs/decisions/0010-greenfield-v0.2-accepted.md#L150-L151)).
+- 0009 (local): its modular-design guidance (AES-CAP-003 to 005) stands; its rows giving Company Planning and Enforced Planning ownership were superseded for v0.2 ([docs/decisions/0010-greenfield-v0.2-accepted.md:146-148](../docs/decisions/0010-greenfield-v0.2-accepted.md#L146-L148)).
+- 0011 is current on identity. Its condition for resuming the Inside Success rollout is met, but whether to resume is Brian's call and has not been made ([docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:79-81](../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md#L79-L81)).
 
 ### Status documents (status as last written, not verified)
 
@@ -76,6 +85,10 @@ This repository's decisions; code2-workspace decision 0009 (AES and Lockstep fat
 - [research/investigations/2026-09-17-open-workflow-spec-vs-enforced-planning.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-open-workflow-spec-vs-enforced-planning.md)
 - [research/investigations/2026-09-17-ows-enforced-planning-work-graph-fit-test.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-ows-enforced-planning-work-graph-fit-test.md)
 - [research/investigations/2026-09-17-scip-planned-subject-fit-test.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-scip-planned-subject-fit-test.md)
+- [research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md)
+- [research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md)
+- [research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md)
+- [research/investigations/README.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/README.md)
 - [research/synthesis/2026-09-17-fresh-agent-handoff.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-17-fresh-agent-handoff.md)
 - [research/synthesis/incumbent-capability-inventory.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/incumbent-capability-inventory.md)
 - [research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md)
