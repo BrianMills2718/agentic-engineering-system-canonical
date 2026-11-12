@@ -5,7 +5,11 @@ declared fact blocks to the existing Lockstep projector, including native
 post-edit refresh and read-only stale checking. The contract and configuration
 are linked from `wiki/lockstep.md`. Focused tests and fresh installed command
 smokes cover lifecycle, descriptions, interfaces and JSON/YAML evidence;
-Company Planning consumer integration is owned by its paired worktree.
+Company Planning PR #301 delivered the paired reader at
+https://hive.brianmills.dev/docs/company-planning/. Its retained observations cover
+11/11 command cases, 2/2 fresh native fixtures, and both canonical Codex hooks
+loaded, trusted and enabled. Three served reader pages were checked at merged SHA
+`a0ee3c335f25c344b01de9992c661f7dba4d23f6`, with private gate checks.
 This does not certify arbitrary narrative accuracy or all consumer rollout.
 
 **Handoff (2026-11-12, end of the Claude lockstep session; Brian is switching to Codex):**

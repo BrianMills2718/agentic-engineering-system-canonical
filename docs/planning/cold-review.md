@@ -19,3 +19,5 @@ Before recording this pin: full validator exited 1 solely for the old pin;
 without freshness it exited 0 with 10/10 parts, 11/12 substance (existing route
 WAIT), and 6/6 tier/map checks. A9 semantic coverage awaits normal nightly
 judgment. No remaining substantive blocking finding in this bounded review.
+
+Verdict: pass
