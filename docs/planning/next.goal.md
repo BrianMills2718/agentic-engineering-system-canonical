@@ -65,7 +65,7 @@ Slice 0, kept running alongside and not built by the Lockstep session: the feedb
 ## Done when
 
 - Each slice above has merged through `ship` in this repository (done), with its named acceptance entry `built` and
-  served from committed git (done: A1 to A5 are `built`, each with a recorded run that says PASS on 2026-11-12, page `lockstep-acceptance.html`; A6 to A8 are `not built`).
+  served from committed git (done: A1 to A5 are `built`, each with a recorded run that says PASS on 2026-11-12, page `lockstep-acceptance.html`; A6 to A8 are also `built` on their pages; A6 fails today, Q18, and A7 and A8 are open or not yet judged).
 - Brian has judged A1 to A8 on their pages; a judged status records his own words.
 - `docs/planning/planning-package.json` validates (exit 0) and its cold review read the plan as built.
 
