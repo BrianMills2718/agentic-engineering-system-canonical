@@ -1,11 +1,10 @@
-Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 675471e5b82fde5c01c1c1998d03032166d93bf8, run 2026-11-12T18:59Z.
+Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at a9fa3e80afa53608251b29d1ec9d2d3716fb0928, run 2026-11-12T18:59Z.
 Company Planning scripts from ~/code2/company-planning at b8a53a0.
 Not run: aes commit replay (the commit rule was removed 2026-10-14; open question Q11); make aes and the plan-adoption recheck (retired 2026-11-12 with this repository's .aes/ and docs/plans).
 
 === $ python3 $HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42
-=== exit status: 1
-FINDING REQ-NONE role=requirements id=- file=wiki/requirements.md: no '## REQ-<id>' headings
-durable-docs: mode=repo repo=. findings=1 (REQ-NONE=1), exit 1
+=== exit status: 0
+durable-docs: mode=repo repo=. findings=0 (none), exit 0
 
 === $ python3 $HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py .
 === exit status: 0
@@ -28,9 +27,8 @@ REPORT ONLY: 12 finding(s); semantic truth and approval were not evaluated
 === exit status: 1
 EXCEPTION    116/120  BrianMills2718/agentic-engineering-system-canonical  -- Accepted decision records and the wiki cite the remaining architecture, decision and planning pages as their evidence, so pruning them would break those citations. The 2026-11-12 cleanup retired the research, evidence, datasets and old-proposal Markdown (143 -> 116 files, see docs/retired/2026-11-12.md). Limit kept close to the count so growth still trips the check.
 UNREACHABLE    31  BrianMills2718/agentic-engineering-system-canonical  -- 31 reader docs not linked from wiki/index.md (e.g. openspec/changes/archive/2026-11-07-inert-characterization/proposal.md, openspec/changes/archive/2026-11-07-inert-characterization/specs/inert-characterization/spec.md, openspec/changes/archive/2026-11-07-inert-characterization/tasks.md)
-DURABLE     1  BrianMills2718/agentic-engineering-system-canonical  -- 1 durable-document findings (e.g. REQ-NONE role=requirements id=- file=wiki/requirements.md: no '## REQ-<id>' headings)
-REPO  BrianMills2718/agentic-engineering-system-canonical  md=116  cap=exception  reach=orphans(31)  layout=ok(0)  durable=findings(1)
-md-file-cap: 1 given repos checked, cap 100: ok=0 exception=1 over=0 not-checked=0; wiki reachability ok=0 orphans=1 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=0 findings=1 undeclared=0   exit 1
+REPO  BrianMills2718/agentic-engineering-system-canonical  md=116  cap=exception  reach=orphans(31)  layout=ok(0)  durable=ok(0)
+md-file-cap: 1 given repos checked, cap 100: ok=0 exception=1 over=0 not-checked=0; wiki reachability ok=0 orphans=1 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=1 findings=0 undeclared=0   exit 1
 
 === $ python3 $HOME/code2/workspace/scripts/repo_format.py .
 === exit status: 1

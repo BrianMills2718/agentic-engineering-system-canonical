@@ -61,47 +61,28 @@
    "explain": "One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. Defined in proposals/one-planning-tool/DESIGN.md:64. No code."
   },
   {
-   "id": "Q3",
-   "label": "Q3: Durable documents stale",
-   "kind": "AgentQuestion",
-   "explain": "The durable-documents check finds 4 problems: generated/docstring_wiki.md is behind the code (CATALOG-STALE), and three system-model rules (RULE-DRIFT-DETECTED, RULE-INSUFFICIENT-NOT-GREEN, RULE-DEPENDENCY-CHANGE-STALES) were not re-read after their owner files changed in bb6818a. Regenerate and re-read, or retire the docstring page? Settled by: Prior art settles the docstring page: code2-workspace docs/capabilities.md lists Repo Docs as the code documentation tool and says AES's docstring page stopped on 2026-10-13, so the page and its `make docstring-wiki-check` are retired, not regenerated. The three rules are re-read against the current code and their reviewed_at set (an argument per rule). Open as a work item only: the answer is known, and a check that still fails must point at an open question."
-  },
-  {
-   "id": "Q3-blocks",
-   "label": "the durable-documents check and the wiki-compliance check's durable column passing",
-   "kind": "Decision",
-   "explain": "the durable-documents check and the wiki-compliance check's durable column passing"
-  },
-  {
    "id": "Q7",
    "label": "Q7: Documents too deep to reach",
    "kind": "AgentQuestion",
-   "explain": "The repository holds 143 Markdown files against its 140-file exception (108 before the Lockstep move added specs, openspec changes and wiki pages), so the cap is now over by 3; the wiki-compliance check also fails on 31 documents (25 not linked from wiki/index.md, 6 more than two links deep, mostly archived OpenSpec changes under openspec/changes/archive/) and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes and the new Lockstep specs, ignore the archive, or raise the cap? Settled by: Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
+   "explain": "The repository held 143 Markdown files against its 140-file exception; after the 2026-11-12 cleanup it holds 116 against a limit lowered to 120, so the cap is met. The wiki-compliance check still fails on 31 documents not linked from wiki/index.md or more than two links deep, all archived OpenSpec changes under openspec/changes/archive/. Link the archived OpenSpec changes, or ignore the archive? Settled by: Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
   },
   {
    "id": "Q7-blocks",
-   "label": "the wiki-compliance check passing (the 140-file cap is already breached, 143)",
+   "label": "the wiki-compliance check passing (cap met at 116 of 120; 31 unreachable archived \u2026",
    "kind": "Decision",
-   "explain": "the wiki-compliance check passing (the 140-file cap is already breached, 143)"
-  },
-  {
-   "id": "commit-rule",
-   "label": "Commit rule",
-   "kind": "Concept",
-   "dashed": true,
-   "explain": "Commit tags and plan adoption per commit; removed on 2026-10-14 at Brian's request. Its config file `.aes/commit_rule.yaml` went with this repository's `.aes/` on 2026-11-12. Defined in docs/model/ODD.md:55. No code."
+   "explain": "the wiki-compliance check passing (cap met at 116 of 120; 31 unreachable archived OpenSpec changes remain)"
   },
   {
    "id": "Q8",
    "label": "Q8: No roadmap front door",
    "kind": "AgentQuestion",
-   "explain": "The navigation check warns 14 times: 12 links point at CLAUDE.md and decision 0011 line anchors that GitHub's Markdown check does not treat as sections, and no roadmap front door exists although .agentic/repo.yaml names one. Fix the links and add a front door? Settled by: Prior art settles it: the one-tool plan (docs/planning/next.goal.md) is the current roadmap; link it from wiki/index.md under a Roadmap line, and replace the line-anchor links with plain file links. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
+   "explain": "The navigation check warns 12 times: 10 links point at CLAUDE.md, .project-brain/now.md and decision 0011 line anchors that GitHub's Markdown check does not treat as sections, and no roadmap front door exists although .agentic/repo.yaml names one. Fix the links and add a front door? Settled by: Prior art settles it: the one-tool plan (docs/planning/next.goal.md) is the current roadmap; link it from wiki/index.md under a Roadmap line, and replace the line-anchor links with plain file links. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
   },
   {
    "id": "Q8-blocks",
-   "label": "the navigation check's 14 warnings",
+   "label": "the navigation check's 12 warnings",
    "kind": "Decision",
-   "explain": "the navigation check's 14 warnings"
+   "explain": "the navigation check's 12 warnings"
   },
   {
    "id": "Q17",
@@ -272,22 +253,10 @@
    "label": "bears on"
   },
   {
-   "id": "Q3-to-decision",
-   "source": "Q3",
-   "target": "Q3-blocks",
-   "label": "blocks"
-  },
-  {
    "id": "Q7-to-decision",
    "source": "Q7",
    "target": "Q7-blocks",
    "label": "blocks"
-  },
-  {
-   "id": "Q7-commit-rule",
-   "source": "Q7",
-   "target": "commit-rule",
-   "label": "bears on"
   },
   {
    "id": "Q8-to-decision",

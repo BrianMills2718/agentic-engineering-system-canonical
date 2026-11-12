@@ -16,20 +16,17 @@
     {
      "name": "durable documents (arc42)",
      "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42",
-     "exit_status": 1,
+     "exit_status": 0,
      "counts": {
-      "findings": 4,
-      "catalog_stale": 1,
-      "stale": 3
-     },
-     "tracked_by": "Q3"
+      "findings": 0
+     }
     },
     {
      "name": "project navigation",
      "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py .",
      "exit_status": 0,
      "counts": {
-      "warnings": 14
+      "warnings": 12
      },
      "tracked_by": "Q8"
     },
@@ -38,12 +35,12 @@
      "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
      "exit_status": 1,
      "counts": {
-      "markdown_files": 143,
-      "cap_limit": 140,
-      "over": 3,
+      "markdown_files": 116,
+      "cap_limit": 120,
+      "over": 0,
       "orphans": 31,
       "layout_findings": 0,
-      "durable_findings": 4
+      "durable_findings": 0
      },
      "tracked_by": "Q7"
     },
