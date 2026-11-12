@@ -31,7 +31,7 @@
    "how": "journalctl --user -u feedback-collector.service (RESULT lines 2026-11-10 and 2026-11-11); systemctl --user list-timers; read ~/projects/data/feedback-collector/reports-2026-11-11.jsonl in full, counted by field and filing; make aes; the planning checks (docs/planning/run_checks.sh)",
    "found": [
     "/home/brian/projects/data/feedback-collector/reports-2026-11-11.jsonl",
-    "docs/planning/checks.txt:72"
+    "docs/retired/2026-11-12.md:17"
    ]
   },
   {
@@ -105,7 +105,7 @@
    "id": "F6",
    "claim": "`aes status` describes AES's current state.",
    "evidence": [
-    "docs/planning/checks.txt:72"
+    "docs/retired/2026-11-12.md:17"
    ],
    "verdict": "fails",
    "question_id": "Q6",

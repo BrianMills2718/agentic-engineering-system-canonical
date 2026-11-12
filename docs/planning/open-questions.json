@@ -212,7 +212,7 @@
    "sources": [
     "/home/brian/code2/AGENTS.md:49",
     "proposals/one-planning-tool/DESIGN.md:75",
-    "docs/planning/checks.txt:104"
+    "docs/planning/checks.txt:35"
    ],
    "touches": [
     "slice",
@@ -281,8 +281,7 @@
    "status": "resolved",
    "evidence": "Yes: make aes exits 0 at 30e9993: target valid (2 outcomes, 12 criteria, 44 planned artifacts, 14 verification subjects), 42 governed files and 0 orphans, 44 artifacts realized and 0 drifted. Its evidence counts are Q6. (Retired 2026-11-12 with the make aes target; the evidence is as of 30e9993.)",
    "sources": [
-    "docs/retired/2026-11-12.md:17",
-    "docs/planning/checks.txt:68"
+    "docs/retired/2026-11-12.md:17"
    ],
    "touches": [
     "reconciliation",
