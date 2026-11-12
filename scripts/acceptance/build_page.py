@@ -43,7 +43,7 @@ h1{font-size:26px;margin:8px 0}
 h2{font-size:21px;margin:0 0 8px}
 h3{font-size:16px;margin:20px 0 6px}
 a{color:var(--blue)}
-code,pre{font:13px/1.45 ui-monospace,Menlo,Consolas,monospace}
+code,pre{font:13px/1.45 ui-monospace,Menlo,Consolas,monospace;overflow-wrap:anywhere}
 pre{background:var(--card);border:1px solid var(--line);padding:10px;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere;margin:6px 0}
 section.entry{border:1px solid var(--line);border-radius:10px;padding:16px;margin:24px 0;background:var(--bg)}
 .crit{border-left:4px solid var(--line);padding:2px 0 2px 12px;margin:8px 0 12px;font-size:17px}
@@ -123,7 +123,7 @@ def decision_table(rec: dict) -> str:
             detail += f'<div class="meta">Files in the commit: {e(", ".join(r["files_changed"]))}</div>'
         if msg.strip():
             detail += f'<details><summary>Open the message it gave</summary><pre>{e(msg)}</pre></details>'
-        else:
+        elif r.get("command"):
             detail += '<div class="meta">It gave no message (allowed silently).</div>'
         body.append(f'<tr class="{"" if r["pass"] else "r-fail"}"><td data-l="What was tried">{e(r["label"])}{detail}</td>'
                     f'<td data-l="Should">{e(r["should"])}</td><td data-l="Did">{e(r["did"])}</td>'
@@ -160,12 +160,48 @@ def master_detail(rec: dict) -> str:
 
 
 def receipt_card(rec: dict) -> str:
-    rows = "".join(f'<li>{pill(r["pass"])} {e(r["label"])}: should {e(r["should"])}; did {e(r["did"])}</li>' for r in rec["rows"])
-    return f'<div class="receipt"><ul>{rows}</ul></div>'
+    inst = rec.get("install")
+    if not inst:  # a record without the install fields falls back to the plain list
+        rows = "".join(f'<li>{pill(r["pass"])} {e(r["label"])}: should {e(r["should"])}; did {e(r["did"])}</li>' for r in rec["rows"])
+        return f'<div class="receipt"><ul>{rows}</ul></div>'
+    rows = "".join(f'<tr class="{"" if r["pass"] else "r-fail"}"><td data-l="What was checked">{e(r["label"])}</td>'
+                   f'<td data-l="Should">{e(r["should"])}</td><td data-l="Did">{e(r["did"])}</td>'
+                   f'<td data-l="Result">{pill(r["pass"])}</td></tr>' for r in rec["rows"])
+    files = "".join(f'<details class="file"><summary>{e(path)}</summary><pre>{e(text)}</pre></details>'
+                    for path, text in rec.get("files_written", {}).items())
+    hooks = rec.get("hook_commands", {})
+    names = (("claude", "1. Claude Code: .claude/settings.json, PreToolUse"), ("codex", "2. Codex: .codex/hooks.json, PreToolUse"),
+             ("lefthook", "3. Commit checker: lefthook.yml, pre-commit"))
+    hook_html = "".join(f'<h4>{e(label)}</h4>' + "".join(f"<pre>{e(c)}</pre>" for c in hooks.get(k, [])) for k, label in names)
+    return (f'<div class="receipt"><h3 style="margin-top:0">The one command typed</h3><pre>{e(inst["command_run"])}</pre>'
+            f'<p class="meta">Taken from the README line <code>{e(inst["readme_line"])}</code>, run in a new empty git repository '
+            f'with origin {e(inst["repo_origin"])}, with an empty uv cache so nothing came from this machine.</p>'
+            f'<h3>The files it wrote ({len(rec.get("files_written", {}))}; open one)</h3>{files}'
+            f'<h3>The three hook entries it added</h3>{hook_html}'
+            f'<h3>Checks on the result</h3><table class="stack"><thead><tr><th>What was checked</th><th>Should</th><th>Did</th>'
+            f'<th>Result</th></tr></thead><tbody>{rows}</tbody></table></div>')
 
 
 def data_table(rec: dict) -> str:
-    return decision_table(rec)
+    out = decision_table(rec)
+    paths = next((r for r in rec["rows"] if r["id"] == "paths"), None)
+    if paths:
+        items = "".join(f"<li><code>{e(k)}</code>: {v}</li>" for k, v in paths["per_pattern"].items())
+        out += (f'<details><summary>Machine-path count by pattern ({len(paths["files_scanned"])} files scanned: '
+                f'{e(", ".join(paths["files_scanned"]))})</summary><ul>{items}</ul></details>')
+    checks = next((r for r in rec["rows"] if r["id"] == "checks"), None)
+    if checks:
+        items = "".join(f"<li><code>{e(k)}</code>: {e(v)}</li>" for k, v in checks["settings"].items())
+        out += f'<details open><summary>Each check and its setting in lockstep.yaml</summary><ul>{items}</ul></details>'
+    agent = rec.get("readme_agent")
+    if agent:
+        cost = agent.get("cost_usd")
+        out += (f'<h3>The README-only agent</h3><div class="receipt">Model {e(agent["model"])}, {e(agent.get("num_turns"))} turns, '
+                f'reported cost ${cost if cost is None else format(cost, ".4f")}. Origin of its repository: {e(agent["origin"])}. '
+                f'Files it left: {e(", ".join(agent["files_written"]))}.<br>'
+                f'<a href="{RAW}{e(agent["transcript"])}">The full transcript (stream-json)</a>'
+                f'<details><summary>What the agent reported</summary><pre>{e(agent["agent_report"])}</pre></details></div>')
+    return out
 
 
 def pending(entry: str) -> str:
@@ -197,6 +233,10 @@ def section(entry: str, spec: dict, rec: dict | None) -> str:
         body = {"decision-table": decision_table, "master-detail": master_detail,
                 "answer-receipt-card": receipt_card, "data-table": data_table}[view](rec)
         body += extras(entry, rec)
+        if rec.get("install", {}).get("unmerged_build"):
+            body = ('<div class="verdict v-fail"><span class="why"><b>Run against an unmerged build.</b> This record installed Lockstep from '
+                    'a local build that is not on the published address yet, so it is a dry run. The final run, against the '
+                    'published address, replaces it.</span></div>') + body
         meta = (f'<p class="meta">Run at {e(rec["run_at"])} on Lockstep revision <code>{e(rec["lockstep_revision"][:12])}</code>.</p>')
         link = f'<p><a href="{RAW}{entry.lower()}.json">The raw run record (every command, input, exit code and output)</a></p>'
     else:
