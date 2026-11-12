@@ -90,10 +90,13 @@ def _merge_hooks(path: Path, entry: dict) -> str:
 
 def _lefthook(path: Path, source: str) -> str:
     """Add a `lockstep` pre-commit command to lefthook.yml (created if absent). Returns `wrote` or `skipped`."""
-    base = f"uvx --from {source} lockstep check"
-    run = f"{base} && " + " && ".join(f"{base} {name}" for name in CHECK_NAMES if name not in ("arch", "test-first", "project"))
+    names = " ".join(name for name in CHECK_NAMES if name not in ("arch", "test-first", "project"))
+    # `lockstep check` with no name diffs against HEAD, which a repository's first commit does not have yet.
+    skip_first = '[ -z "$c" ] && ! git rev-parse -q --verify HEAD >/dev/null && continue'
+    run = f'for c in "" {names}; do {skip_first}; uvx --from {source} lockstep check $c || exit 1; done'
     yaml = YAML()
     yaml.preserve_quotes = True
+    yaml.width = 4096
     data = yaml.load(path) if path.is_file() else None
     if data is None:
         data = {}
