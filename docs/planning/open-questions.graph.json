@@ -104,39 +104,6 @@
    "explain": "code2-template's commit checks (trace, arch, test-first, sources, docmeta) run in every code2 repository's make check. Defined in proposals/one-planning-tool/DESIGN.md:46. No code."
   },
   {
-   "id": "Q18",
-   "label": "Q18: Corrections extracted but never filed",
-   "kind": "AgentQuestion",
-   "explain": "The feedback loop's 2026-11-11 run extracted 867 new human-correction reports and deferred every one at the 900-report filing cap, while it filed 474 subagent-outcome and 426 closeout reports. The newest issue labelled source:human in agent-feedback-log is from 2026-11-03. Do corrections sort last for filing, so they never reach the cap? Settled by: One counterexample settles it, no test: read the filing order in collect_feedback.py and the 2026-11-11 reports file (every Human correction row has filing deferred_cap). If corrections sort last, file them first (one report per distinct quote is already in place since #810), and the next night's run shows source:human issues."
-  },
-  {
-   "id": "Q18-blocks",
-   "label": "whether acceptance entry A6 (a correction you gave yesterday shows up as a filed report) \u2026",
-   "kind": "Decision",
-   "explain": "whether acceptance entry A6 (a correction you gave yesterday shows up as a filed report) can pass, and so whether the feedback loop works as Brian means it"
-  },
-  {
-   "id": "feedback-loop",
-   "label": "Feedback loop",
-   "kind": "Concept",
-   "dashed": false,
-   "explain": "The nightly collector and labels jobs: read changed Claude and Codex transcripts, extract corrections, friction and learnings, file reports, label them. Defined in scripts/learning_loop/systemd/README.md:3. Code: scripts/learning_loop/collect_feedback.py:518."
-  },
-  {
-   "id": "human-correction",
-   "label": "Human correction",
-   "kind": "Concept",
-   "dashed": false,
-   "explain": "Something Brian told an agent that says it was wrong or should work differently, extracted from a transcript with its quote. Defined in scripts/learning_loop/collect_feedback.py:81. Code: scripts/learning_loop/collect_feedback.py:85."
-  },
-  {
-   "id": "feedback-report",
-   "label": "Feedback report",
-   "kind": "Concept",
-   "dashed": false,
-   "explain": "One issue in the private agent-feedback-log; a report from a human correction carries the label source:human. Defined in scripts/learning_loop/systemd/README.md:16. Code: scripts/learning_loop/feedback_log.py:212."
-  },
-  {
    "id": "Q19",
    "label": "Q19: Who runs the plan check",
    "kind": "AgentQuestion",
@@ -206,6 +173,20 @@
    "label": "whether the feedback loop goes past filing reports to proposing and checking fixes",
    "kind": "Decision",
    "explain": "whether the feedback loop goes past filing reports to proposing and checking fixes"
+  },
+  {
+   "id": "feedback-loop",
+   "label": "Feedback loop",
+   "kind": "Concept",
+   "dashed": false,
+   "explain": "The nightly collector and labels jobs: read changed Claude and Codex transcripts, extract corrections, friction and learnings, file reports, label them. Defined in scripts/learning_loop/systemd/README.md:3. Code: scripts/learning_loop/collect_feedback.py:518."
+  },
+  {
+   "id": "feedback-report",
+   "label": "Feedback report",
+   "kind": "Concept",
+   "dashed": false,
+   "explain": "One issue in the private agent-feedback-log; a report from a human correction carries the label source:human. Defined in scripts/learning_loop/systemd/README.md:16. Code: scripts/learning_loop/feedback_log.py:212."
   },
   {
    "id": "Q24",
@@ -280,30 +261,6 @@
    "id": "Q17-code2check",
    "source": "Q17",
    "target": "code2check",
-   "label": "bears on"
-  },
-  {
-   "id": "Q18-to-decision",
-   "source": "Q18",
-   "target": "Q18-blocks",
-   "label": "blocks"
-  },
-  {
-   "id": "Q18-feedback-loop",
-   "source": "Q18",
-   "target": "feedback-loop",
-   "label": "bears on"
-  },
-  {
-   "id": "Q18-human-correction",
-   "source": "Q18",
-   "target": "human-correction",
-   "label": "bears on"
-  },
-  {
-   "id": "Q18-feedback-report",
-   "source": "Q18",
-   "target": "feedback-report",
    "label": "bears on"
   },
   {

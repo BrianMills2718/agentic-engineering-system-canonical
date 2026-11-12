@@ -136,6 +136,21 @@ copy of the plan (`src/lockstep/scaffold.py`), the append-only change log (`src/
 (`src/lockstep/wiki.py`) and a hook log under `.lockstep/` in the installing repository (`src/lockstep/hook.py:172`, resolved Q23), and, when `lockstep init` runs, the config file and the Claude Code and Codex hook entries it installs (`src/lockstep/init_repo.py`). These live in the repositories that
 install Lockstep; none is stored here, except what the tests build under `tests/lockstep/`.
 
+The source-fact projection slice adds the following persisted records in an installing
+repository. The source retains authority; generated blocks carry selected facts and a
+source link, not a second editable statement of those facts.
+
+| Record | Fields and relationship | Written by | Stored in / read by |
+|---|---|---|---|
+| Projection declaration | `id`, repository-relative `source` and `target`, distinct `fields`, optional Python `symbol`; each declaration binds source-owned facts to a named target block. Optional `source_base_url` belongs to the surrounding config. | The repository author or coding agent edits the existing config. | `lockstep.yaml` `projections:`; validated by `src/lockstep/doc_projection.py:declarations`. |
+| Source facts and target block | Markdown YAML front matter, Python docstring/signature, or top-level JSON/YAML fields supply selected values; a matching `<!-- lockstep facts: ID -->` block holds the generated copy and source link. | The author edits the source; `project_facts` rewrites only declared target blocks during refresh or `lockstep check project`. `--check` compares without writing. | Source and target paths from the declaration; read by `src/lockstep/doc_projection.py:project_facts`. |
+| Projection refresh trace | Success: `tool`, `inputs` (`source`, `fields`, `sha256`, selected `facts`), `outputs` (`target`, `sha256`), `rewrote`, `exit_status`. Failure: `tool`, declared `inputs`, `error`, `exit_status: 2`; unavailable hashes/results are not invented. | `src/lockstep/doc_projection.py:refresh_cli`, called by native PostToolUse entries or the explicit refresh command. | Append-only `.lockstep/projection-YYYY-MM-DD.jsonl`, one UTC file per day in the installing repository. |
+
+An installed hook refreshes declared copies after an applicable edit. The separate
+read-only project check is the commit/merge backstop when refresh is bypassed.
+The [bounded acceptance table](source-facts-acceptance.md) separates installed
+command replay from observed native-client dispatch.
+
 ## Does AES execute typed rules?
 
 No. AES's rules (drift, staleness, insufficient-not-green, trace-review declared) are fixed Python

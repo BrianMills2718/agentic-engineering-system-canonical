@@ -56,16 +56,15 @@ line below adds what this package checks it by; the acceptance entries are in
 
 Slice 0, kept running alongside and not built by the Lockstep session: the feedback loop's two nightly jobs and the rules register. The built tool differs from the design in one place now: two projectors remain (Q24); the guard's log folder was fixed to `.lockstep/` (Q23, e662882db).
 
-0. **File corrections (fix first).** The feedback loop extracts Brian's corrections but files none of them:
-   all 867 'Human correction' rows in `reports-2026-11-11.jsonl` were deferred at the filing cap (Q18). Owner:
-   an agent working in this repository's `scripts/learning_loop/`, not the Lockstep session (it does not touch
-   Lockstep code). Proof: after the next nightly run, a correction Brian gave the day before appears as a
-   `source:human` issue in agent-feedback-log. Checked by: acceptance A6 (fails today).
+0. **File corrections (repair recorded).** The historical 867 deferred human corrections were filed
+   after the corrections-first repair (#826): commit `ec3022d5a` records 867/867 filed and 0 errors
+   on 2026-11-11 (Q18 resolved). Acceptance A6 still lets Brian inspect recent filed corrections;
+   this package reconciliation does not rerun the collector or assert freshness of today's issues.
 
 ## Done when
 
 - Each slice above has merged through `ship` in this repository (done), with its named acceptance entry `built` and
-  served from committed git (done: A1 to A5 are `built`, each with a recorded run that says PASS on 2026-11-12, page `lockstep-acceptance.html`; A6 to A8 are also `built` on their pages; A6 fails today, Q18, and A7 and A8 are open or not yet judged).
+  served from committed git (done: A1 to A5 are `built`, each with a recorded run that says PASS on 2026-11-12, page `lockstep-acceptance.html`; A6 to A8 are also `built` on their pages; Q18 records the historical A6 repair, and A6 to A8 remain unjudged).
 - Brian has judged A1 to A8 on their pages; a judged status records his own words.
 - `docs/planning/planning-package.json` validates (exit 0) and its cold review read the plan as built.
 
@@ -91,3 +90,16 @@ feedback loop's nightly calls are already running and measured: USD 0.127 over t
 --days 2 --group-by project,task`, project aes, 2026-11-11; investigation.json). Each slice's tests and lifelike's hook replays record their
 inputs and results in `.lockstep/` (src/lockstep/hook.py:172; Q23 resolved) and the pull request; the Lockstep session reads every
 failing run in full before marking a slice done.
+
+## Authorized source-fact upkeep follow-on
+
+Brian's 2026-11-12 Company Planning conversation asks for automatic wiki upkeep and
+a finished consolidation demonstration ("ok proceed"). This bounded follow-on
+extends existing Lockstep projection, configuration and hooks: selected source-owned
+status, description, interface and evidence fields feed declared target blocks;
+post-edit refresh maintains them and the read-only project check refuses stale
+blocks. It adds no AI answer path or universal enforcement. The
+[acceptance table](source-facts-acceptance.md) and A9 distinguish provider tests,
+installed-command replay and native dispatch; consumer evidence is supplied by
+Company Planning rather than inferred from a successful documentation build.
+Specification: `openspec/specs/lockstep-doc-facts/spec.md`.

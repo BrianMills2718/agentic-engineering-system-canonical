@@ -71,3 +71,14 @@ Concepts marked *documents only*, *written by another tool* or *retired* have no
   `source:human` report in agent-feedback-log is from 2026-11-03. Open question Q18.
 - **The AES rules register lists one rule; Brian's rules live in code2-workspace `agents/`.** The register
   ([RULES.md](../rules/RULES.md) line 7) is not the policy layer's list of rules. Open question Q20.
+
+## Source-fact projection within existing Lockstep concepts
+
+The existing `lockstep-config` concept includes optional projection declarations:
+source path and selected facts → declaration → named generated target block.
+The source owns the value; the target is a derived copy. The existing `one-tool`
+concept supplies both post-edit refresh and the read-only project check, and records
+refresh inputs, selected facts, output hashes and results in the consumer's daily
+projection trace. This is an extension of those concepts, not a separate rules
+system. See [the record types](SYSTEM_MODEL.md#locksteps-records) and
+[the acceptance table](source-facts-acceptance.md).

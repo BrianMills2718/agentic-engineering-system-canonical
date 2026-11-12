@@ -241,7 +241,8 @@
    "status": "present",
    "path": "docs/planning/acceptance-criteria.json",
    "paths": [
-    "docs/planning/router/acceptance-views.json"
+    "docs/planning/router/acceptance-views.json",
+    "docs/planning/source-facts-acceptance.md"
    ]
   },
   "review_page": {
