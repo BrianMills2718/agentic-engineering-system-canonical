@@ -32,5 +32,13 @@
  "feedback-loop": "scripts/learning_loop/collect_feedback.py:518",
  "human-correction": "scripts/learning_loop/collect_feedback.py:85",
  "feedback-report": "scripts/learning_loop/feedback_log.py:212",
- "rules-register": "scripts/rules/build_rules_page.py:207"
+ "rules-register": "scripts/rules/build_rules_page.py:207",
+ "lockstep-today": "src/pcw/__init__.py:8",
+ "one-tool": "src/lockstep/check.py:398",
+ "lockstep-config": "src/lockstep/side_file.py:136",
+ "layout-row": "src/lockstep/layout_plan.py:60",
+ "first-docstring": "src/lockstep/cogtext.py:72",
+ "edit-guard": "src/lockstep/hook.py:474",
+ "commit-check": "src/lockstep/checks/cli.py:191",
+ "plan-check": "src/lockstep/plan_check.py:363"
 }

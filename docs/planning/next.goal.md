@@ -1,5 +1,5 @@
 ---
-description: Next plan for AES canonical -- build Lockstep, the one planning-and-checking tool, in six slices, with the feedback loop and policy layer kept running
+description: Next plan for AES canonical -- Lockstep, the one planning-and-checking tool, built in six slices (merged 2026-11-11 and 2026-11-12); what remains is the acceptance pages, Q23's two differences and the feedback loop
 ---
 
 # Plan: build the one planning-and-checking tool
@@ -7,7 +7,7 @@ description: Next plan for AES canonical -- build Lockstep, the one planning-and
 Planning package: docs/planning/planning-package.json
 
 Status: adopted 2026-11-11 as the design's build order (Brian approved the design as written: "i approve
-single tool desing re d4", 2026-11-11 21:10 UTC, `~/.claude/history.jsonl`, session 483c48d8). Builder: the
+single tool desing re d4", 2026-11-11 21:10 UTC, `~/.claude/history.jsonl`, session 483c48d8). Built 2026-11-11 and 2026-11-12: all six slices merged (PRs #831 to #837; `wiki/lockstep.md:28-34`). Builder: the
 Lockstep session, which owns `proposals/one-planning-tool/` and the Lockstep code. This file is the planning
 package's view of that build; the design is the authority ([DESIGN.md](../../proposals/one-planning-tool/DESIGN.md)).
 
@@ -30,31 +30,32 @@ a769ac09). So the plan also keeps the feedback loop and the policy layer working
 (acceptance entries A6 to A8). Agent judgment, unconfirmed: that the feedback-loop and policy-layer checks
 belong in this plan rather than a separate one.
 
-## Slices (each merges when it works)
+## Slices (each merged when it worked; all six are merged)
 
-The six slices are the design's ([DESIGN.md](../../proposals/one-planning-tool/DESIGN.md) lines 64-77). Each
+Each slice below keeps its original wording and ends with what was built. The six slices are the design's ([DESIGN.md](../../proposals/one-planning-tool/DESIGN.md) lines 64-77). Each
 line below adds what this package checks it by; the acceptance entries are in
 [acceptance-criteria.json](acceptance-criteria.json).
 
 1. **Move.** `pcw` moves into this repository as package `lockstep`, with its tests; `pcw` and `pcw-hook` stay
    as alias entry points so lifelike and Team-Brains' vendored runner keep working. Checked by: lifelike's edit
    hook still refuses an unplanned write after it installs from here (A2's failure case), and acceptance A1's
-   one-command install. Settles Q22 (where Brian watches it work).
+   one-command install. Built: #831, `src/lockstep/` with `src/pcw/__init__.py:1` as the alias. Q22 (where Brian watches it work) stays open: no page moved.
 2. **Plan format.** Lockstep reads requirements from OpenSpec and layout rows from `lockstep.yaml`;
    `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it. Checked by: acceptance A4 (the
-   requirement text appears word for word in the first docstring of the file that implements it). Settles Q6
-   (whether this repository's own `.aes/` goes in this slice).
+   requirement text appears word for word in the first docstring of the file that implements it). Q6
+   (whether this repository's own `.aes/` goes in this slice) stays open: built in #835 with `.aes/target.yaml` still read and this repository's `.aes/` still present.
 3. **Guard.** Port code2check's shell-target parsing. Done when lifelike replays the four cases from
-   lockstep#111 (`cat >`, `echo >`, `python -c` refused; read-only `cp` allowed). Checked by: acceptance A2.
+   lockstep#111 (`cat >`, `echo >`, `python -c` refused; read-only `cp` allowed). Checked by: acceptance A2. Built: #834.
 4. **Commit checks.** Port code2check's `trace`, `arch`, `test-first`, `sources` and `docmeta` with their tests,
-   as `lockstep check <name>`. Checked by: acceptance A3.
+   as `lockstep check <name>`. Checked by: acceptance A3. Built: #833.
 5. **Plan check.** Port the acceptance-criteria and plan-requirement checks from Company Planning's validator.
-   Settles Q19 (whether Company Planning's adoption gate calls it).
+   Built: #832, keeping Company Planning's own copy as well; Q19 (whether the adoption gate calls it) stays open.
 6. **Switch users.** code2-template installs `lockstep` instead of `code2check` (11 repositories adopt it when
    next changed); lifelike, plan-code-wiki and Team-Brains' runner move to the new package. Checked by:
-   acceptance A5 (installs anywhere, names no machine path). Asks Brian Q2 before any Inside Success repository.
+   acceptance A5 (installs anywhere, names no machine path). Built: #836 and the user switches (code2-template#29, lifelike#5, Team-Brains#1183); Team-Brains is an Inside Success repository, so Q2 is now about work that shipped.
 
-Kept running alongside, not built here: the feedback loop's two nightly jobs and the rules register.
+Slice 0, kept running alongside and not built by the Lockstep session: the feedback loop's two nightly jobs and the rules register. The built tool differs from the design in two places (Q23).
+
 0. **File corrections (fix first).** The feedback loop extracts Brian's corrections but files none of them:
    all 867 'Human correction' rows in `reports-2026-11-11.jsonl` were deferred at the filing cap (Q18). Owner:
    an agent working in this repository's `scripts/learning_loop/`, not the Lockstep session (it does not touch
@@ -63,8 +64,8 @@ Kept running alongside, not built here: the feedback loop's two nightly jobs and
 
 ## Done when
 
-- Each slice above has merged through `ship` in this repository, with its named acceptance entry `built` and
-  served from committed git.
+- Each slice above has merged through `ship` in this repository (done), with its named acceptance entry `built` and
+  served from committed git (not yet: A1 to A5 are `not built`, Q22).
 - Brian has judged A1 to A8 on their pages; a judged status records his own words.
 - `docs/planning/planning-package.json` validates (exit 0) and its cold review read the plan as built.
 
@@ -88,5 +89,5 @@ and agent rules, as defined in [DOMAIN.md](DOMAIN.md).
 No step of this plan calls a model to produce its answer: the tool's checks are deterministic code, and the
 feedback loop's nightly calls are already running and measured: USD 0.127 over two nights for 1,443 calls (`llm-cost cost
 --days 2 --group-by project,task`, project aes, 2026-11-11; investigation.json). Each slice's tests and lifelike's hook replays record their
-inputs and results in `.lockstep/` (DESIGN.md line 48) and the pull request; the Lockstep session reads every
+inputs and results in `.pcw/` (src/lockstep/hook.py:178; the design says `.lockstep/`, DESIGN.md line 48, see Q23) and the pull request; the Lockstep session reads every
 failing run in full before marking a slice done.

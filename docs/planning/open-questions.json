@@ -25,17 +25,18 @@
   {
    "id": "Q2",
    "short": "Inside Success rollout",
-   "question": "Decision 0011 paused the Inside Success team rollout until whygame5 produced a result under AES; that condition was met on 2026-09-26 and the call to resume was never made. The one-tool design now says any repository, personal or Inside Success, installs Lockstep with one command (slice 6). Close the old rollout item, or keep it open?",
+   "question": "Decision 0011 paused the Inside Success team rollout until whygame5 produced a result under AES; that condition was met on 2026-09-26 and the call to resume was never made. The one-tool design says any repository, personal or Inside Success, installs Lockstep with one command; slice 6 merged on 2026-11-12 and Team-Brains' Project Brain runner, an Inside Success repository, now vendors Lockstep's wheel (Team-Brains#1183, wiki/lockstep.md:22). Close the old rollout item, or keep it open?",
    "blocks": "whether decision 0011 item 4 stays open, and whether slice 6 of the one-tool plan includes Inside Success repositories",
    "resolves_with": "Brian's business call; no check settles it.",
    "owner": "brian",
    "status": "open",
    "recommendation": "Close decision 0011 item 4: the rollout it paused was of the v0.2 `aes` command line, which now retires. Putting Lockstep into Inside Success repositories is slice 6 of the one-tool plan and would come to you then as its own decision.",
-   "default": "The rollout stays paused and decision 0011 item 4 stays as written; slice 6 asks again before any Inside Success repository installs Lockstep.",
+   "default": "The rollout stays paused and decision 0011 item 4 stays as written. Team-Brains' runner already vendors the wheel, so the call to keep that and to close or keep item 4 is now to be made about work that has shipped.",
    "sources": [
     "docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:59",
     "docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:80",
-    "proposals/one-planning-tool/DESIGN.md:19"
+    "proposals/one-planning-tool/DESIGN.md:19",
+    "wiki/lockstep.md:22"
    ],
    "touches": [
     "value-tally",
@@ -96,7 +97,7 @@
   {
    "id": "Q6",
    "short": "When AES's own .aes/ retires",
-   "question": "Decision 0010 accepted v0.2 with nine criteria supported; `make aes` now reports 2 of 12 supported and 52 of 55 observations stale. Code2-workspace decision 0009 (a) retires the `aes` command line and `.aes/target.yaml` in each repository when it is next changed, and the one-tool design keeps `.aes/target.yaml` readable only until lifelike and Team-Brains move off it (slice 2). Should this repository's own `.aes/` folder and `make aes` target be removed in the one-tool build, and in which slice, rather than re-recording evidence for a retiring engine?",
+   "question": "Decision 0010 accepted v0.2 with nine criteria supported; `make aes` now reports 2 of 12 supported and 52 of 55 observations stale. Code2-workspace decision 0009 (a) retires the `aes` command line and `.aes/target.yaml` in each repository when it is next changed, and the one-tool design keeps `.aes/target.yaml` readable only until lifelike and Team-Brains move off it (slice 2, merged in #835 with `.aes/target.yaml` still read, wiki/lockstep.md:30; this repository's `.aes/` folder and `make aes` are still here). Should this repository's own `.aes/` folder and `make aes` target be removed in the one-tool build, and in which slice, rather than re-recording evidence for a retiring engine?",
    "blocks": "whether `aes status` is quoted anywhere as AES's state, and whether Q5, Q15 and Q16 need edits or close with the folder",
    "resolves_with": "An argument settles it: decision 0009 (a) says the folder goes when the repository is next changed, and the one-tool build changes it; Lockstep imports this repository's library (src/agentic_engineering_system), not its `.aes/` folder, so the folder and `make aes` can go in the slice that stops reading `.aes/target.yaml` (slice 2) without breaking Lockstep. Re-recording evidence for the retiring engine is not worth doing. The Lockstep session confirms the slice when it plans slice 2.",
    "owner": "agent",
@@ -104,7 +105,8 @@
    "sources": [
     "docs/decisions/0010-greenfield-v0.2-accepted.md:63",
     "proposals/one-planning-tool/DESIGN.md:68",
-    "docs/planning/checks.txt:72"
+    "docs/planning/checks.txt:72",
+    "wiki/lockstep.md:30"
    ],
    "touches": [
     "observation",
@@ -116,15 +118,15 @@
   },
   {
    "id": "Q7",
-   "short": "Six documents too deep to reach",
-   "question": "After 134 old documents were archived (AES #821) the repository holds 108 Markdown files against its 140-file exception, so the cap passes; the wiki-compliance check still fails on 6 OpenSpec change files more than two links from wiki/index.md and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes, or ignore them?",
-   "blocks": "the wiki-compliance check passing",
+   "short": "Documents too deep to reach",
+   "question": "The repository holds 135 Markdown files against its 140-file exception (108 before the Lockstep move added specs, openspec changes and wiki pages), so the cap still passes with 5 to spare; the wiki-compliance check fails on 24 documents (18 not linked from wiki/index.md, 6 more than two links deep, mostly archived OpenSpec changes under openspec/changes/archive/) and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes and the new Lockstep specs, ignore the archive, or raise the cap?",
+   "blocks": "the wiki-compliance check passing, and whether the next Lockstep change breaches the 140-file cap",
    "resolves_with": "Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",
    "sources": [
     "/home/brian/code2/AGENTS.md:27",
-    "docs/planning/checks.txt:64"
+    "docs/planning/checks.txt:65"
    ],
    "touches": [
     "commit-rule"
@@ -327,11 +329,13 @@
    "short": "Who runs the plan check",
    "owner": "agent",
    "status": "open",
-   "question": "After slice 5, does Company Planning's adoption gate (method_conformance adopt) call `lockstep plan check`, or keep its own copy of the plan and acceptance checks for the Inside Success team?",
+   "question": "Slice 5 merged (#832) and kept both copies of the plan and acceptance checks, with the same checks (wiki/lockstep.md:45): does Company Planning's adoption gate (method_conformance adopt) now call `lockstep plan check`, or keep its own copy for the Inside Success team?",
    "blocks": "slice 5's done-when line, and whether the plan format is defined in one place",
-   "resolves_with": "An argument settles it when slice 5 is planned: the design's reason for the slice is one definition of the format, which a kept copy defeats; the open fact is whether Inside Success repositories can install lockstep (Q2). The design leaves it to slice 5.",
+   "resolves_with": "An argument settles it: the design's reason for the slice is one definition of the format, which a kept copy defeats; the open fact is whether Inside Success repositories can install lockstep (Q2). Pointing the adoption gate at `lockstep plan check` is a change in the Company Planning plugin, not in this repository.",
    "sources": [
-    "proposals/one-planning-tool/DESIGN.md:82"
+    "proposals/one-planning-tool/DESIGN.md:82",
+    "wiki/lockstep.md:45",
+    "src/lockstep/plan_check.py:363"
    ],
    "touches": [
     "plan-check",
@@ -380,15 +384,36 @@
    "short": "Where Brian watches the one tool work",
    "owner": "agent",
    "status": "open",
-   "question": "Acceptance entries A1 to A5 need a page Brian opens to see Lockstep install, refuse a write and refuse a commit. Lockstep's repository already publishes walkthrough pages from recorded agent runs. Do those pages move here in slice 1, or stay in the Lockstep repository and link from here?",
-   "blocks": "the entrypoint of acceptance entries A1 to A5",
-   "resolves_with": "An argument settles it in slice 1: the design moves the package here, so the recorder and its pages move with it unless they are Lockstep-repository tooling; the Lockstep session decides while moving.",
+   "question": "Acceptance entries A1 to A5 need a page Brian opens to see Lockstep install, refuse a write and refuse a commit. Slices 1 to 6 are merged and no walkthrough page moved here with the code (the recorder `tests/lockstep/e2e/run.py` did; no served page exists, and A1 to A5 still read `planned`). Where is the page built, and when?",
+   "blocks": "the entrypoint of acceptance entries A1 to A5, and whether any of them can be judged",
+   "resolves_with": "An argument settles it: the package and its recorder are here (`tests/lockstep/e2e/run.py`), so the page is built from a recorded run in this repository with the shared review-page builder; no test is needed to decide where it lives.",
    "sources": [
-    "proposals/one-planning-tool/DESIGN.md:66"
+    "proposals/one-planning-tool/DESIGN.md:66",
+    "tests/lockstep/e2e/run.py:1"
    ],
    "touches": [
     "one-tool",
     "acceptance_entry",
+    "slice"
+   ]
+  },
+  {
+   "id": "Q23",
+   "short": "Where the built tool still differs from the design",
+   "owner": "agent",
+   "status": "open",
+   "question": "The built package differs from proposals/one-planning-tool/DESIGN.md in two places: its edit hook writes its log to `.pcw/hook-<date>.jsonl` (src/lockstep/hook.py:178) where the design says `.lockstep/` (DESIGN.md:48), and two projectors remain, the cog one for layout and AES-plan files and code2check's `Implements:` one (wiki/lockstep.md:35), where the design says one. Are these slices left over, or is the design to be amended?",
+   "blocks": "whether the design's one-projector and `.lockstep/` log rows are true, and whether `wiki/lockstep.md` can say the design is built",
+   "resolves_with": "An argument settles it: the design table (DESIGN.md:42-48) lists one projector and `.lockstep/`; reading both pieces of code shows neither was changed in slices 2 to 6; the Lockstep session says whether it plans a seventh slice or amends the design.",
+   "sources": [
+    "proposals/one-planning-tool/DESIGN.md:48",
+    "src/lockstep/hook.py:178",
+    "wiki/lockstep.md:35"
+   ],
+   "touches": [
+    "one-tool",
+    "edit-guard",
+    "first-docstring",
     "slice"
    ]
   }

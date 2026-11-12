@@ -2,7 +2,7 @@
  "schema_version": "1.0",
  "record_type": "planning_package",
  "repository": "BrianMills2718/agentic-engineering-system-canonical",
- "subject_revision": "c44c408fd34c4cdc0bd2a130e36bb40d28c52948",
+ "subject_revision": "2224d54882df8bab522fc03fb8b27aed9ca674fd",
  "request": "Brian, 2026-11-11: \"lets keep workgin on the harness\" (session 483c48d8, 22:23 UTC); \"to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system\" (session a769ac09, 08:14 UTC); \"i approve single tool desing re d4\" (session 483c48d8, 21:10 UTC); all in ~/.claude/history.jsonl. Standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\". This refresh replaces the 2026-10-27 package (reviewed at 8b732aa, plan 'AES on hold, checks honest') with the one-tool build; ship had warned that its cold review was out of date.",
  "parts": {
   "investigation": {
@@ -49,10 +49,10 @@
      "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
      "exit_status": 1,
      "counts": {
-      "markdown_files": 108,
+      "markdown_files": 135,
       "cap_limit": 140,
       "over": 0,
-      "orphans": 6,
+      "orphans": 24,
       "layout_findings": 0,
       "durable_findings": 4
      },
@@ -117,7 +117,10 @@
     "scripts/hive/*.py",
     "scripts/*.py",
     "scripts/meta",
-    "enforced_planning"
+    "enforced_planning",
+    "src/lockstep/*.py",
+    "src/lockstep/checks",
+    "src/pcw"
    ]
   },
   "domain_model": {
@@ -158,7 +161,15 @@
     "feedback-loop": "scripts/learning_loop/collect_feedback.py:518",
     "human-correction": "scripts/learning_loop/collect_feedback.py:85",
     "feedback-report": "scripts/learning_loop/feedback_log.py:212",
-    "rules-register": "scripts/rules/build_rules_page.py:207"
+    "rules-register": "scripts/rules/build_rules_page.py:207",
+    "lockstep-today": "src/pcw/__init__.py:8",
+    "one-tool": "src/lockstep/check.py:398",
+    "lockstep-config": "src/lockstep/side_file.py:136",
+    "layout-row": "src/lockstep/layout_plan.py:60",
+    "first-docstring": "src/lockstep/cogtext.py:72",
+    "edit-guard": "src/lockstep/hook.py:474",
+    "commit-check": "src/lockstep/checks/cli.py:191",
+    "plan-check": "src/lockstep/plan_check.py:363"
    },
    "spectrum": "docs/planning/domain.spectrum.json"
   },
@@ -172,7 +183,7 @@
     },
     {
      "path": "docs/planning/SYSTEM_MODEL.md",
-     "question": "Where do AES's parts sit across the four repositories, and which arrows does the one-tool build add? (cross-repository view)",
+     "question": "Where do AES's parts sit across the four repositories, and what did the one-tool build move between them? (cross-repository view)",
      "kind": "cross_repo"
     },
     {
@@ -275,7 +286,7 @@
    "status": "present",
    "path": "docs/planning/cold-review.md",
    "verdict": "pass",
-   "reviewed_revision": "09326db81cb6491389cfd360cd71cf27ca2e6b86"
+   "reviewed_revision": "2224d54882df8bab522fc03fb8b27aed9ca674fd"
   }
  },
  "initiative": {

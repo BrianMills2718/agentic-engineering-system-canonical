@@ -10,7 +10,8 @@ on the planning review page. Adapted from ecosystem-ops docs/planning/build_doma
     python3 docs/planning/build_domain_model.py   # rewrites both files
 
 Source revision read: origin/main 30e9993 (2026-10-27); the AES-as-a-whole and one-tool concepts
-added from origin/main c44c408 (2026-11-11).
+added from origin/main c44c408 (2026-11-11); rechecked at origin/main 0395758 (2026-11-12) after
+Lockstep moved in (PRs #831 to #837), when the one-tool concepts became code.
 """
 import json
 import pathlib
@@ -41,12 +42,12 @@ KINDS = {
                "AES and its three parts as Brian names them (2026-11-11); umbrella names with no single code location."),
     "Feedback": ("Feedback loop (in code)", "#4a6fa5",
                  "The nightly loop in scripts/learning_loop that turns what happened in agent sessions into filed reports."),
-    "Planned": ("One-tool design (planned, not built here yet)", "#e0a050",
-                "Parts of the one planning-and-checking tool in proposals/one-planning-tool/DESIGN.md; built in six slices."),
+    "Lockstep": ("Lockstep (in code)", "#2f7fb0",
+                 "Parts of the one planning-and-checking tool, built from proposals/one-planning-tool/DESIGN.md in six slices (merged 2026-11-11 and 2026-11-12) as package src/lockstep."),
     "Elsewhere": ("Lives in another repository today", "#c9a227",
-                  "Parts of AES whose code is in another repository today (lockstep, code2-template, code2-workspace)."),
+                  "Parts of AES whose code is in another repository today (code2-template, code2-workspace)."),
 }
-DASHED_KINDS = {"DocOnly", "External", "Retired", "System", "Planned", "Elsewhere"}
+DASHED_KINDS = {"DocOnly", "External", "Retired", "System", "Elsewhere"}
 
 S = "src/agentic_engineering_system/"
 # id, label, kind, definition, defined in (file:line), code (file:line or None)
@@ -181,40 +182,40 @@ CONCEPTS = [
     ("agent-rules", "Agent rules (core and topic files)", "Elsewhere",
      "The rules every Claude Code and Codex session loads, with Brian's words behind each in rule-sources.md; in code2-workspace agents/.",
      ".project-brain/now.md:9", None),
-    ("lockstep-today", "Lockstep today (pcw)", "Elsewhere",
-     "The Lockstep repository's package pcw: plans files, copies requirement text into docstrings, guards edits; used by lifelike and Team-Brains' runner; imports this repository's library.",
-     ".project-brain/now.md:9", None),
+    ("lockstep-today", "pcw (Lockstep's old name)", "Lockstep",
+     "The old package name, kept as an alias of lockstep so lifelike's Makefile and Team-Brains' runner keep working until they move; the old lockstep repository is kept as history.",
+     "src/pcw/__init__.py:1", "src/pcw/__init__.py:8"),
     ("code2check", "code2check", "Elsewhere",
      "code2-template's commit checks (trace, arch, test-first, sources, docmeta) run in every code2 repository's make check.",
      "proposals/one-planning-tool/DESIGN.md:46", None),
-    ("one-tool", "Lockstep, the one planning-and-checking tool", "Planned",
+    ("one-tool", "Lockstep, the one planning-and-checking tool", "Lockstep",
      "One installable package shipped from this repository, one config file, one plan format, one edit guard and one commit check; any repository installs it with one command.",
-     "proposals/one-planning-tool/DESIGN.md:14", None),
-    ("lockstep-config", "lockstep.yaml", "Planned",
+     "proposals/one-planning-tool/DESIGN.md:14", "src/lockstep/check.py:398"),
+    ("lockstep-config", "lockstep.yaml", "Lockstep",
      "The one config file: which checks block, warn or are off, governed and fixed paths, layout rows, the human-source pattern and the owner; names no machine path.",
-     "proposals/one-planning-tool/DESIGN.md:55", None),
-    ("layout-row", "Layout row", "Planned",
+     "proposals/one-planning-tool/DESIGN.md:55", "src/lockstep/side_file.py:136"),
+    ("layout-row", "Layout row", "Lockstep",
      "One planned file in lockstep.yaml: its path, purpose, the requirements it implements and the tests that prove it.",
-     "proposals/one-planning-tool/DESIGN.md:25", None),
+     "proposals/one-planning-tool/DESIGN.md:25", "src/lockstep/layout_plan.py:60"),
     ("openspec-requirement", "OpenSpec requirement", "External",
      "A requirement with scenarios in openspec/specs/, written and archived with the openspec tool; the one tool's format for what the code must do.",
      "proposals/one-planning-tool/DESIGN.md:40", None),
-    ("first-docstring", "First docstring", "Planned",
+    ("first-docstring", "First docstring", "Lockstep",
      "The docstring lockstep layout writes at the top of each planned file: the requirement text, its success criteria and test names.",
-     "proposals/one-planning-tool/DESIGN.md:28", None),
-    ("edit-guard", "Edit guard", "Planned",
+     "proposals/one-planning-tool/DESIGN.md:28", "src/lockstep/cogtext.py:72"),
+    ("edit-guard", "Edit guard", "Lockstep",
      "The one edit-time hook: refuses a write to a file the plan does not name and shows the plan; allows reading a planned file.",
-     "proposals/one-planning-tool/DESIGN.md:30", None),
-    ("commit-check", "lockstep check", "Planned",
+     "proposals/one-planning-tool/DESIGN.md:30", "src/lockstep/hook.py:474"),
+    ("commit-check", "lockstep check", "Lockstep",
      "The named commit checks ported from code2check: trace, arch, test-first, sources, docmeta; each set to block, warn or off.",
-     "proposals/one-planning-tool/DESIGN.md:72", None),
-    ("plan-check", "lockstep plan check", "Planned",
+     "proposals/one-planning-tool/DESIGN.md:72", "src/lockstep/checks/cli.py:191"),
+    ("plan-check", "lockstep plan check", "Lockstep",
      "The plan and acceptance format check ported from Company Planning's validator, so the format is defined in one place.",
-     "proposals/one-planning-tool/DESIGN.md:74", None),
+     "proposals/one-planning-tool/DESIGN.md:74", "src/lockstep/plan_check.py:363"),
     ("acceptance_entry", "Acceptance entry", "External",
      "One outcome Brian judges by hand: criterion, steps on a working page, what he should see, a known broken case (docs/planning/acceptance-criteria.json).",
      "proposals/one-planning-tool/DESIGN.md:42", None),
-    ("slice", "Slice", "Planned",
+    ("slice", "Slice", "DocOnly",
      "One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users.",
      "proposals/one-planning-tool/DESIGN.md:64", None),
 ]
@@ -264,7 +265,7 @@ EDGES = [
     ("value-tally", "thesis", "measures"),
     ("commit-rule", "plan-receipt", "required, per commit"),
     ("offline-policy-replay", "repository-context", "builds on"),
-    ("aes-system", "lockstep-today", "has part"),
+    ("aes-system", "one-tool", "has part"),
     ("aes-system", "feedback-loop", "has part"),
     ("aes-system", "policy-layer", "has part"),
     ("policy-layer", "rules-register", "includes"),
@@ -272,8 +273,8 @@ EDGES = [
     ("feedback-loop", "human-correction", "extracts"),
     ("human-correction", "feedback-report", "is filed as"),
     ("feedback-report", "agent-rules", "proposes a change to"),
-    ("lockstep-today", "target", "reads requirements from"),
-    ("one-tool", "lockstep-today", "grows from"),
+    ("one-tool", "target", "still reads, until users move off it"),
+    ("one-tool", "lockstep-today", "keeps as an alias"),
     ("one-tool", "code2check", "absorbs"),
     ("one-tool", "lockstep-config", "reads"),
     ("lockstep-config", "layout-row", "holds"),

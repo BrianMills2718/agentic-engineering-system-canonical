@@ -6,10 +6,10 @@ description: AES canonical's system model for planning -- AES's parts across rep
 
 AES is the whole agent system: Lockstep, the feedback loop and the policy layer (Brian, 2026-11-11: "to me aes
 is the whole sysem lockstep is one part. aes include the whole feedback and policy system"; `~/.claude/history.jsonl`,
-session a769ac09). Its parts live in four repositories. This page shows where each part is, what talks to it, and
+session a769ac09). Its parts live in four repositories (Lockstep moved into this one on 2026-11-11 and 2026-11-12, PRs #831 to #837). This page shows where each part is, what talks to it, and
 which part of this repository does what. It extends the checked model of the v0.2 engine, [ODD.md](../model/ODD.md)
 and [trace.yaml](../model/trace.yaml). Every code unit is on the [system map](system-map.md). Read at origin/main
-`c44c408` (2026-11-11).
+`0395758` (2026-11-12).
 
 ## Context: AES's parts, where each lives, and what talks to them
 
@@ -24,11 +24,9 @@ flowchart LR
     loop[Feedback loop<br/>scripts/learning_loop, nightly timers]
     register[Rules register<br/>docs/rules, scripts/rules]
     lib[Retained AES library<br/>src/agentic_engineering_system]
-    onetool[Lockstep, the one tool<br/>planned: slices 1 to 6]
+    onetool[Lockstep, the one tool<br/>src/lockstep: plan, docstrings, edit hook,<br/>commit checks, plan check, status; pcw is an alias]
   end
-  subgraph lsrepo[lockstep repository]
-    pcw[Lockstep today: pcw<br/>plan, docstrings, edit hook]
-  end
+  oldls[lockstep repository<br/>kept as history]
   subgraph tpl[code2-template]
     c2c[code2check<br/>commit checks]
   end
@@ -43,16 +41,17 @@ flowchart LR
   loop -->|one issue per report| log
   brian -->|rules, approved in words| rules
   register -.->|lists rules the loop licensed| rules
-  pcw -->|imports| lib
-  pcw -->|edit hook and pcw check| users
-  c2c -->|make check| users
-  onetool -.->|slice 1 moves| pcw
-  onetool -.->|slice 4 ports| c2c
-  onetool -.->|slice 6 installs in| users
+  onetool -->|imports| lib
+  onetool -->|edit hook and lockstep check| users
+  c2c -->|make check, until each repository switches| users
+  oldls -.->|code moved from| onetool
+  c2c -.->|checks ported into| onetool
   map -->|draws| aesrepo
 ```
 
-Dotted arrows are planned (the one-tool build) or partial (the register lists one rule; open question Q20).
+Dotted arrows are history (code moved or ported) or partial (the register lists one rule; open question Q20). Users switched
+but not all: lifelike is pinned to this repository, code2-template installs lockstep, and Team-Brains' runner vendors its wheel
+(`wiki/lockstep.md:21-23`); existing code2 repositories switch when next changed.
 
 ## Containers: the parts of this repository
 
@@ -69,11 +68,13 @@ flowchart TB
     hk[hooks.py<br/>pre-commit hook writer<br/>not installed here: lefthook runs instead]
   end
   v01[repository_context/<br/>v0.1 Plan 001 resolver]
+  ls[src/lockstep/<br/>Lockstep: layout, edit hook, checks, plan check, status<br/>src/pcw alias]
+  lsy[(lockstep.yaml and openspec/specs/<br/>written in the repositories that install it)]
   ep[enforced_planning/<br/>vendored claims, sessions, worktrees<br/>44,556 lines; retired in ~/code2]
   ll[scripts/learning_loop/<br/>the feedback loop, nightly]
   rr[scripts/rules/ + docs/rules/<br/>rules register]
   scr[scripts/<br/>meta, hive: claims-era scripts and brain_fresh]
-  docs[docs/, proposals/, research/, wiki/<br/>108 Markdown files]
+  docs[docs/, proposals/, research/, wiki/<br/>135 Markdown files]
   t[(.aes/target.yaml)]
   o[(.aes/observations/)]
   p[(.aes/plans/)]
@@ -91,6 +92,9 @@ flowchart TB
   cli --> hk --> g
   cli --> ad --> pj
   ad --> lb
+  ls -->|reads| lsy
+  ls -->|imports| v02
+  ls -->|writes first docstrings and wiki pages| docs
   scr -->|generate pages| docs
   rr -->|generates RULES.md| docs
   ll -->|files issues in agent-feedback-log| out[(outside: agent-feedback-log)]
@@ -124,6 +128,17 @@ The retained library's records. The `aes` command line that writes them retires 
 | Policy layer: `AgentRouterProfileV1`, `RouterProposal`, `HandoffRecordV1` (all `Contract`) | `scripts/rules/agent_router.py:51`, `:147`, `:176` (`Contract` at line 25) | the agent router (`scripts/rules/agent_router.py`) | `~/projects/data/agent-router/` (`agent_router.py:48`); handoffs counted by `account_handoffs` (line 227) |
 | Policy layer: `Disposition` (keep, move or retire for one legacy rule) | `scripts/rules/sort_legacy.py:54` | `sort_legacy.py` (model answer, checked at line 94) | `legacy-sort.jsonl` and `legacy-dispositions.private.yaml` in the router's data folder (`sort_legacy.py:11`, `:328`) |
 
+## Lockstep's records
+
+Lockstep (package `src/lockstep/`, specs `openspec/specs/lockstep-*`) keeps no database of its own. It reads the plan from
+OpenSpec requirements plus `layout:` rows in `lockstep.yaml` (`src/lockstep/layout_plan.py:29-30`, `:60`, `:101`), still reads
+`.aes/target.yaml` (`wiki/lockstep.md:30`), and keeps a side file `lockstep.yaml` with schema `lockstep.side.v1`
+(`src/lockstep/side_file.py:126-127`, `SideFile` at `:136`). Its commit checks and their block, warn or off modes come from
+`src/lockstep/checks/config.py:23-24` (`Config` at `:33`). Its writes are source and test files that begin with a docstring
+copy of the plan (`src/lockstep/scaffold.py`), the append-only change log (`src/lockstep/change_log.py`), generated wiki pages
+(`src/lockstep/wiki.py`) and a hook log under `.pcw/` in the installing repository (`src/lockstep/hook.py:178`; the design says `.lockstep/`, proposals/one-planning-tool/DESIGN.md:48, open question Q23). These live in the repositories that
+install Lockstep; none is stored here, except what the tests build under `tests/lockstep/`.
+
 ## Does AES execute typed rules?
 
 No. AES's rules (drift, staleness, insufficient-not-green, trace-review declared) are fixed Python
@@ -139,5 +154,5 @@ shared kernel. Open-questions entry Q9 records the reasoning.
   (`~/code2/AGENTS.md`); they stay in place, unmodelled, and the one-tool plan does not use them (Q10).
 - The rules register file `docs/rules/register.yaml` and the feedback loop's plans and pages in
   `proposals/aes-learning-loop/`: their record types are in the table above; the system map names each code unit.
-- Lockstep's code: it is in the lockstep repository until slice 1 moves it here.
+- Lockstep's walkthrough pages and recorder: no page moved with the code, so acceptance A1 to A5 still have no page (open question Q22).
 - The Company Planning profile files under `docs/architecture/` (ODD.md gap G1).

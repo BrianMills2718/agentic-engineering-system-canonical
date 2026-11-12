@@ -55,16 +55,15 @@
    "color": "#4a6fa5",
    "explain": "The nightly loop in scripts/learning_loop that turns what happened in agent sessions into filed reports."
   },
-  "Planned": {
-   "label": "One-tool design (planned, not built here yet)",
-   "color": "#e0a050",
-   "explain": "Parts of the one planning-and-checking tool in proposals/one-planning-tool/DESIGN.md; built in six slices.",
-   "dashed": true
+  "Lockstep": {
+   "label": "Lockstep (in code)",
+   "color": "#2f7fb0",
+   "explain": "Parts of the one planning-and-checking tool, built from proposals/one-planning-tool/DESIGN.md in six slices (merged 2026-11-11 and 2026-11-12) as package src/lockstep."
   },
   "Elsewhere": {
    "label": "Lives in another repository today",
    "color": "#c9a227",
-   "explain": "Parts of AES whose code is in another repository today (lockstep, code2-template, code2-workspace).",
+   "explain": "Parts of AES whose code is in another repository today (code2-template, code2-workspace).",
    "dashed": true
   }
  },
@@ -342,10 +341,9 @@
   },
   {
    "id": "lockstep-today",
-   "label": "Lockstep today (pcw)",
-   "kind": "Elsewhere",
-   "explain": "The Lockstep repository's package pcw: plans files, copies requirement text into docstrings, guards edits; used by lifelike and Team-Brains' runner; imports this repository's library. Defined in .project-brain/now.md:9. No code.",
-   "dashed": true
+   "label": "pcw (Lockstep's old name)",
+   "kind": "Lockstep",
+   "explain": "The old package name, kept as an alias of lockstep so lifelike's Makefile and Team-Brains' runner keep working until they move; the old lockstep repository is kept as history. Defined in src/pcw/__init__.py:1. Code: src/pcw/__init__.py:8."
   },
   {
    "id": "code2check",
@@ -357,23 +355,20 @@
   {
    "id": "one-tool",
    "label": "Lockstep, the one planning-and-checking tool",
-   "kind": "Planned",
-   "explain": "One installable package shipped from this repository, one config file, one plan format, one edit guard and one commit check; any repository installs it with one command. Defined in proposals/one-planning-tool/DESIGN.md:14. No code.",
-   "dashed": true
+   "kind": "Lockstep",
+   "explain": "One installable package shipped from this repository, one config file, one plan format, one edit guard and one commit check; any repository installs it with one command. Defined in proposals/one-planning-tool/DESIGN.md:14. Code: src/lockstep/check.py:398."
   },
   {
    "id": "lockstep-config",
    "label": "lockstep.yaml",
-   "kind": "Planned",
-   "explain": "The one config file: which checks block, warn or are off, governed and fixed paths, layout rows, the human-source pattern and the owner; names no machine path. Defined in proposals/one-planning-tool/DESIGN.md:55. No code.",
-   "dashed": true
+   "kind": "Lockstep",
+   "explain": "The one config file: which checks block, warn or are off, governed and fixed paths, layout rows, the human-source pattern and the owner; names no machine path. Defined in proposals/one-planning-tool/DESIGN.md:55. Code: src/lockstep/side_file.py:136."
   },
   {
    "id": "layout-row",
    "label": "Layout row",
-   "kind": "Planned",
-   "explain": "One planned file in lockstep.yaml: its path, purpose, the requirements it implements and the tests that prove it. Defined in proposals/one-planning-tool/DESIGN.md:25. No code.",
-   "dashed": true
+   "kind": "Lockstep",
+   "explain": "One planned file in lockstep.yaml: its path, purpose, the requirements it implements and the tests that prove it. Defined in proposals/one-planning-tool/DESIGN.md:25. Code: src/lockstep/layout_plan.py:60."
   },
   {
    "id": "openspec-requirement",
@@ -385,30 +380,26 @@
   {
    "id": "first-docstring",
    "label": "First docstring",
-   "kind": "Planned",
-   "explain": "The docstring lockstep layout writes at the top of each planned file: the requirement text, its success criteria and test names. Defined in proposals/one-planning-tool/DESIGN.md:28. No code.",
-   "dashed": true
+   "kind": "Lockstep",
+   "explain": "The docstring lockstep layout writes at the top of each planned file: the requirement text, its success criteria and test names. Defined in proposals/one-planning-tool/DESIGN.md:28. Code: src/lockstep/cogtext.py:72."
   },
   {
    "id": "edit-guard",
    "label": "Edit guard",
-   "kind": "Planned",
-   "explain": "The one edit-time hook: refuses a write to a file the plan does not name and shows the plan; allows reading a planned file. Defined in proposals/one-planning-tool/DESIGN.md:30. No code.",
-   "dashed": true
+   "kind": "Lockstep",
+   "explain": "The one edit-time hook: refuses a write to a file the plan does not name and shows the plan; allows reading a planned file. Defined in proposals/one-planning-tool/DESIGN.md:30. Code: src/lockstep/hook.py:474."
   },
   {
    "id": "commit-check",
    "label": "lockstep check",
-   "kind": "Planned",
-   "explain": "The named commit checks ported from code2check: trace, arch, test-first, sources, docmeta; each set to block, warn or off. Defined in proposals/one-planning-tool/DESIGN.md:72. No code.",
-   "dashed": true
+   "kind": "Lockstep",
+   "explain": "The named commit checks ported from code2check: trace, arch, test-first, sources, docmeta; each set to block, warn or off. Defined in proposals/one-planning-tool/DESIGN.md:72. Code: src/lockstep/checks/cli.py:191."
   },
   {
    "id": "plan-check",
    "label": "lockstep plan check",
-   "kind": "Planned",
-   "explain": "The plan and acceptance format check ported from Company Planning's validator, so the format is defined in one place. Defined in proposals/one-planning-tool/DESIGN.md:74. No code.",
-   "dashed": true
+   "kind": "Lockstep",
+   "explain": "The plan and acceptance format check ported from Company Planning's validator, so the format is defined in one place. Defined in proposals/one-planning-tool/DESIGN.md:74. Code: src/lockstep/plan_check.py:363."
   },
   {
    "id": "acceptance_entry",
@@ -420,7 +411,7 @@
   {
    "id": "slice",
    "label": "Slice",
-   "kind": "Planned",
+   "kind": "DocOnly",
    "explain": "One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. Defined in proposals/one-planning-tool/DESIGN.md:64. No code.",
    "dashed": true
   }
@@ -687,7 +678,7 @@
   {
    "id": "e43",
    "source": "aes-system",
-   "target": "lockstep-today",
+   "target": "one-tool",
    "label": "has part"
   },
   {
@@ -734,15 +725,15 @@
   },
   {
    "id": "e51",
-   "source": "lockstep-today",
+   "source": "one-tool",
    "target": "target",
-   "label": "reads requirements from"
+   "label": "still reads, until users move off it"
   },
   {
    "id": "e52",
    "source": "one-tool",
    "target": "lockstep-today",
-   "label": "grows from"
+   "label": "keeps as an alias"
   },
   {
    "id": "e53",

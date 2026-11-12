@@ -1,4 +1,4 @@
-Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 1b060739428e783d459690a487819a1c2be71662, run 2026-11-11T22:37Z.
+Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 2224d54882df8bab522fc03fb8b27aed9ca674fd, run 2026-11-12T05:19Z.
 Company Planning scripts from ~/code2/company-planning at b8a53a0.
 Not run: aes commit replay (the commit rule was removed 2026-10-14; open question Q11).
 
@@ -62,10 +62,10 @@ NOT CHECKED: Reports a plan whose front matter status is done, complete(d), supe
 
 === $ python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD
 === exit status: 1
-EXCEPTION    108/140  BrianMills2718/agentic-engineering-system-canonical  -- Accepted decision records here cite these research, proposal and evidence pages as their evidence (research/ and proposals/aes-v0.2-greenfield/ alone are cited from 38 other files), so pruning them would break those citations. New per-item records go in .aes/ YAML, not Markdown; side projects moved to their own repositories on 2026-10-07 (143 -> 130 files). Limit kept close to the count so growth still trips the check.
-UNREACHABLE     6  BrianMills2718/agentic-engineering-system-canonical  -- 0 reader docs not linked from wiki/index.md, 6 more than 2 links deep (e.g. openspec/changes/archive/2026-11-07-inert-characterization/proposal.md, openspec/changes/archive/2026-11-07-inert-characterization/specs/inert-characterization/spec.md, openspec/changes/archive/2026-11-07-inert-characterization/tasks.md)
+EXCEPTION    135/140  BrianMills2718/agentic-engineering-system-canonical  -- Accepted decision records here cite these research, proposal and evidence pages as their evidence (research/ and proposals/aes-v0.2-greenfield/ alone are cited from 38 other files), so pruning them would break those citations. New per-item records go in .aes/ YAML, not Markdown; side projects moved to their own repositories on 2026-10-07 (143 -> 130 files). Limit kept close to the count so growth still trips the check.
+UNREACHABLE    24  BrianMills2718/agentic-engineering-system-canonical  -- 18 reader docs not linked from wiki/index.md, 6 more than 2 links deep (e.g. openspec/changes/archive/2026-11-11-add-lockstep-checks/proposal.md, openspec/changes/archive/2026-11-11-add-lockstep-checks/specs/lockstep-checks/spec.md, openspec/changes/archive/2026-11-11-add-lockstep-checks/tasks.md)
 DURABLE     4  BrianMills2718/agentic-engineering-system-canonical  -- 4 durable-document findings (e.g. STALE role=system_model id=RULE-DRIFT-DETECTED file=src/agentic_engineering_system/characterize.py: owner changed in 1 commit(s) after the rule was last reviewed (bb6818a61); re-read the rule and set reviewed_at; STALE role=system_model id=RULE-INSUFFICIENT-NOT-GREEN file=src/agentic_engineering_sys)
-REPO  BrianMills2718/agentic-engineering-system-canonical  md=108  cap=exception  reach=orphans(6)  layout=ok(0)  durable=findings(4)
+REPO  BrianMills2718/agentic-engineering-system-canonical  md=135  cap=exception  reach=orphans(24)  layout=ok(0)  durable=findings(4)
 md-file-cap: 1 given repos checked, cap 100: ok=0 exception=1 over=0 not-checked=0; wiki reachability ok=0 orphans=1 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=0 findings=1 undeclared=0   exit 1
 
 === $ make aes
@@ -80,7 +80,7 @@ OK ./.aes/target.yaml
 PYTHONPATH=src /home/brian/code2/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli topology check
 OK topology: 42 governed file(s) under ['src/agentic_engineering_system/', 'tests/greenfield/'], 0 orphan(s), 0 planned but not yet realized
 PYTHONPATH=src /home/brian/code2/agentic-engineering-system-canonical/.venv/bin/python -m agentic_engineering_system.cli status
-OK status: agentic-engineering-system-canonical-target at 1b060739428e783d459690a487819a1c2be71662
+OK status: agentic-engineering-system-canonical-target at 2224d54882df8bab522fc03fb8b27aed9ca674fd
   artifacts: 44 realized, 0 unrealized, 0 drifted; 0 orphan(s)
   criteria: 2 supported, 10 insufficient, 0 refuted; 0 unsupported evidence requirement(s) with no route
   observations: 2 current, 52 stale, 1 unknown, 0 unreachable; 27 superseded
