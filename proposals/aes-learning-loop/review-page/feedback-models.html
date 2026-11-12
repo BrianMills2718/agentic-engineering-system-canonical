@@ -131,7 +131,7 @@ flowchart TB
 <table><tr><th>Box</th><th>Defined in (AES canonical unless noted)</th></tr>
 <tr><td>Report, Record, Observation, Claim, Action, Evidence link</td><td><code>scripts/learning_loop/records.py:34-68</code> (contract feedback-report.v1)</td></tr>
 <tr><td>Your message → Report; subagent finish → Report</td><td><code>scripts/learning_loop/collect_feedback.py</code> step 3; report field "Human correction" / "Subagent outcome" in <code>reports-2026-10-11.jsonl</code></td></tr>
-<tr><td>Collector, 80-a-night limit</td><td><code>collect_feedback.py:448,521</code>; unit <code>feedback-collector.timer</code></td></tr>
+<tr><td>Collector, 900-a-night limit, your corrections filed first</td><td><code>collect_feedback.py:462,535</code> (<code>filing_order</code>, <code>--max-reports</code>; was 80 a night until 2026-11-10); unit <code>feedback-collector.timer</code></td></tr>
 <tr><td>Failure kind (22)</td><td><code>docs/failure-modes.md</code>, read by <code>scripts/learning_loop/label_items.py:47</code>; same list as agent-skills <code>skills/review/references/failure-modes.md</code></td></tr>
 <tr><td>Problem, repeating, Analysis</td><td><code>scripts/learning_loop/problems.py:2-18,179</code>; unit <code>feedback-problems.timer</code> (no <code>--max-analyse</code> limit)</td></tr>
 <tr><td>Licence</td><td><code>scripts/learning_loop/licences.py:4-12,57</code></td></tr>
