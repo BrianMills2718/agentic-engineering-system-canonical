@@ -42,6 +42,10 @@ lockstep-hook = "lockstep.hook:main"
 pcw = "lockstep.check:cli"
 pcw-hook = "lockstep.hook:main"
 
+# Registers the `req` marker in any project that installs Lockstep (ported from code2check).
+[project.entry-points.pytest11]
+lockstep = "lockstep.checks.plugin"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

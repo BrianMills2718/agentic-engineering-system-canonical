@@ -2,7 +2,7 @@
 
 Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
 
-Names: `trace`, `arch [gen|check]`, `test-first [--base REV]`, `sources [--json]`, `docmeta`; each takes
+Names: `trace`, `arch [gen|check]`, `test-first [--base REV]`, `sources [--json]`, `docmeta`, `project [--check]`; each takes
 `--repo PATH` (default the current folder). The output is code2check's, ending in a `RESULT` line.
 Exit: the check's own status when its mode is `block` (the default); 0 with a `warning:` line when
 it fails and its mode is `warn`; 0 with `skipped (off)` and nothing run when `off`; 2 when
@@ -14,7 +14,7 @@ import json
 from pathlib import Path
 import sys
 
-from lockstep.checks import arch, docmeta, sources, test_first, trace
+from lockstep.checks import arch, docmeta, project, show, sources, status, test_first, trace
 from lockstep.checks.config import CHECK_NAMES, Config, ConfigError, load
 
 
@@ -87,6 +87,107 @@ def _docmeta(root: Path, args: argparse.Namespace, cfg: Config) -> int:
     return int(bool(result.findings))
 
 
+def _project(root: Path, args: argparse.Namespace, cfg: Config) -> int:
+    """Rewrite generated blocks (or with --check, list stale ones) and return the exit status.
+
+    Implements: lockstep-projection/project-status-and-show-are-lockstep-commands
+
+    Requirement text (generated):
+        lockstep-projection/project-status-and-show-are-lockstep-commands: `lockstep check project`,
+            `lockstep status` and `lockstep show` SHALL be commands of the one `lockstep` tool;
+            `project` SHALL take its mode (block, warn or off) from `lockstep.yaml` like the other
+            checks, and SHALL read source and test folders from `[tool.lockstep]` in
+            `pyproject.toml`, else from `[tool.code2check]`.
+    """
+    changed = project.project(root, check=args.check)
+    for path in changed:
+        print(f"stale         {path}" if args.check else f"rewrote {path}")
+    if args.check:
+        if changed:
+            print("generated blocks are out of date; run: lockstep check project")
+        print(f"RESULT project stale={len(changed)} exit={int(bool(changed))}")
+        return int(bool(changed))
+    print(f"RESULT project rewrote={len(changed)} exit=0")
+    return 0
+
+
+def run_status(argv: list[str]) -> int:
+    """`lockstep status [--json|--md] [--repo PATH]`: print the status table, JSON or Markdown page; exit 0.
+
+    Implements: lockstep-projection/project-status-and-show-are-lockstep-commands
+
+    Requirement text (generated):
+        lockstep-projection/project-status-and-show-are-lockstep-commands: `lockstep check project`,
+            `lockstep status` and `lockstep show` SHALL be commands of the one `lockstep` tool;
+            `project` SHALL take its mode (block, warn or off) from `lockstep.yaml` like the other
+            checks, and SHALL read source and test folders from `[tool.lockstep]` in
+            `pyproject.toml`, else from `[tool.code2check]`.
+
+    Args:
+        argv: The options after `status`.
+
+    Returns:
+        0, or 2 when the options cannot be read.
+    """
+    ap = argparse.ArgumentParser(prog="lockstep status", description="each requirement's code, tests and result")
+    ap.add_argument("--repo", type=Path, default=Path.cwd())
+    ap.add_argument("--json", action="store_true", help="print the report as JSON")
+    ap.add_argument("--md", action="store_true", help="print the report as the Markdown status page")
+    try:
+        args = ap.parse_args(argv)
+    except SystemExit as exit_:
+        return int(exit_.code or 0) if isinstance(exit_.code, int) else 2
+    result = status.report(args.repo)
+    if args.md:
+        print(status.markdown(result))
+        return 0
+    if args.json:
+        print(json.dumps(result.as_dict(), indent=1))
+    else:
+        print(f"results: {result.results_note}")
+        for ident, req in result.requirements.items():
+            print(f"{req.state:24} {ident}  {', '.join(req.links) or '-'}")
+            for sid, sc in result.scenarios.items():
+                if sc.requirement == ident:
+                    print(f"  {sc.state:22} {sid}  {', '.join(sc.links) or '-'}")
+        for plan in result.plans:
+            shown = ", ".join(f"{i} ({s})" for i, s in plan.open.items()) or "none"
+            print(f"plan {plan.path}: {len(plan.closes)} closes, open: {shown}")
+    print("RESULT status " + " ".join(f"{k}={v}" for k, v in result.counts().items()) + " exit=0")
+    return 0
+
+
+def run_show(argv: list[str]) -> int:
+    """`lockstep show FILE [--repo PATH]`: print the requirements a file implements; exit 0.
+
+    Implements: lockstep-projection/project-status-and-show-are-lockstep-commands
+
+    Requirement text (generated):
+        lockstep-projection/project-status-and-show-are-lockstep-commands: `lockstep check project`,
+            `lockstep status` and `lockstep show` SHALL be commands of the one `lockstep` tool;
+            `project` SHALL take its mode (block, warn or off) from `lockstep.yaml` like the other
+            checks, and SHALL read source and test folders from `[tool.lockstep]` in
+            `pyproject.toml`, else from `[tool.code2check]`.
+
+    Args:
+        argv: The file, then options.
+
+    Returns:
+        0, or 2 when the options cannot be read.
+    """
+    ap = argparse.ArgumentParser(prog="lockstep show", description="the requirements a file implements")
+    ap.add_argument("file")
+    ap.add_argument("--repo", type=Path, default=Path.cwd())
+    try:
+        args = ap.parse_args(argv)
+    except SystemExit as exit_:
+        return int(exit_.code or 0) if isinstance(exit_.code, int) else 2
+    text = show.show(args.repo, args.file)
+    print(text or f"{args.file} implements no requirement", end="" if text else "\n")
+    print(f"RESULT show requirements={sum(1 for line in text.splitlines()[1:] if not line.startswith(' '))} exit=0")
+    return 0
+
+
 def run(argv: list[str]) -> int:
     """Run the named check, `argv[0]`, with its options and apply its mode.
 
@@ -105,6 +206,8 @@ def run(argv: list[str]) -> int:
             p.add_argument("action", nargs="?", choices=["gen", "check"], default="check")
         if name == "test-first":
             p.add_argument("--base", default="origin/main")
+        if name == "project":
+            p.add_argument("--check", action="store_true", help="fail when a generated block is stale, writing nothing")
         if name == "sources":
             p.add_argument("--json", action="store_true", help="print every item with its source")
     try:
@@ -121,7 +224,8 @@ def run(argv: list[str]) -> int:
     if mode == "off":
         print(f"{args.name}: skipped (off)")
         return 0
-    runner = {"trace": _trace, "arch": _arch, "test-first": _test_first, "sources": _sources, "docmeta": _docmeta}
+    runner = {"trace": _trace, "arch": _arch, "test-first": _test_first, "sources": _sources, "docmeta": _docmeta,
+              "project": _project}
     status = runner[args.name](root, args, cfg)
     if status and mode == "warn":
         print(f"warning: {args.name} failed (mode warn in lockstep.yaml); not blocking")
