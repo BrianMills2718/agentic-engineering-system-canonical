@@ -98,6 +98,7 @@ import yaml
 from agentic_engineering_system.evidence import ObservationRecord
 from agentic_engineering_system.planning import apply_delta, load_plan
 from agentic_engineering_system.records import load_project, parse_target
+from lockstep.layout_plan import has_layout, layout_problems
 
 from lockstep.aes_bridge import artifact_for_path, context, find_root, target
 from lockstep.cogtext import END, OPEN, render
@@ -286,20 +287,26 @@ def check(repo: Path, base: str = "HEAD") -> dict:
     files: list[dict] = []
     ignored = 0
     changes = changed_files(repo, base)
-    materialization = load_project(root / ".aes" / "project.yaml").materialization
-    target_rel = Path(materialization.target_path).as_posix()
-    evidence_rel = Path(materialization.observations_root).as_posix().rstrip("/") + "/"
-    plan_paths = [rel for rel, _ in changes if rel.startswith(".aes/") and not rel.startswith(evidence_rel)]
+    if has_layout(root):  # the plan is lockstep.yaml's layout with OpenSpec: no AES plan file or evidence folder
+        target_rel: str | None = None
+        evidence_rel: str | None = None
+        plan_paths: list[str] = []
+        files += [{"path": SIDE_FILE, "kind": "layout", "blocks": True, "reason": p} for p in layout_problems(root)]
+    else:
+        materialization = load_project(root / ".aes" / "project.yaml").materialization
+        target_rel = Path(materialization.target_path).as_posix()
+        evidence_rel = Path(materialization.observations_root).as_posix().rstrip("/") + "/"
+        plan_paths = [rel for rel, _ in changes if rel.startswith(".aes/") and not rel.startswith(evidence_rel)]
     accepted, problem = accepted_plan_change(root, base, plan_paths) if plan_paths else ([], None)
     reasonless = (reasonless_artifacts(yaml.safe_load((root / target_rel).read_text(encoding="utf-8")) or {})
-                  if plan_paths and problem is None else [])
+                  if target_rel is not None and plan_paths and problem is None else [])
     for rel, exists in changes:
         if rel == target_rel and reasonless:
             files.append({"path": rel, "kind": "reasonless", "blocks": True,
                           "reason": f"{rel} accepts {', '.join(accepted)}, but the plan it makes declares a file "
                                     "with no reason: " + " ".join(reasonless)})
             continue
-        if rel.startswith(evidence_rel):
+        if evidence_rel is not None and rel.startswith(evidence_rel):
             why = _evidence_problem(root, base, rel, exists)
             files.append({"path": rel, "kind": "evidence_edit" if why else "evidence", "blocks": bool(why),
                           "reason": why or f"{rel} is a new evidence record (`aes evidence record`)."})
@@ -389,8 +396,12 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def cli() -> int:
-    """`pcw <command>`: today the only command is `check`; `check <name>` runs one commit check (`lockstep.checks`)."""
+    """`lockstep <command>`: `check` (the whole-tree plan check; `check <name>` runs one commit check), `layout`
+    (create the planned files) or `plan check` (validate the acceptance and plan files)."""
     args = sys.argv[1:]
+    if args and args[0] == "layout":
+        from lockstep.scaffold import layout
+        return layout()
     if args and args[0] == "plan":
         from lockstep.plan_check import plan_cli
         return plan_cli(args[1:])

@@ -54,7 +54,24 @@ CLOSE = "]]" + "]"
 END = "[[[" + "end" + CLOSE
 
 
+def _layout_render(ctx: dict) -> list[str]:
+    """A layout row's copy: the requirements it implements word for word, then its tests and its signatures."""
+    lines = [f"Plan (generated from {ctx['source']}; edit the spec or the layout row, not this text):", "",
+             f"Implements: {', '.join(ctx['implements'])}" if ctx["implements"] else "Implements: (no requirement)"]
+    for _, text in ctx["requirements"]:
+        if '"""' in text or "\\" in text:
+            raise ValueError(f"{ctx['subject']['id']}: a requirement holds a triple quote or a backslash, "
+                             "which cannot be copied into a docstring verbatim")
+        lines += ["", *(line.rstrip() for line in text.splitlines())]
+    if ctx["tests"]:
+        lines += ["", f"Tested by: {', '.join(ctx['tests'])}"]
+    sig = signature_lines(ctx)
+    return lines + ([""] + sig if sig else [])
+
+
 def render(ctx: dict) -> list[str]:
+    if "requirements" in ctx:
+        return _layout_render(ctx)
     lines = ["Plan (generated from .aes/target.yaml; edit the plan, not this text):", ""]
     lines += parent_lines(ctx, WIDTH)  # behavior 7.1: the parent requirement first, in full
     for ni in ctx.get("normative_items", []):
@@ -73,7 +90,7 @@ def docstring(subject: str, indent: int = 4) -> None:
 
     root = find_root(Path(cog.inFile).parent)
     if root is None:
-        raise RuntimeError(f"{cog.inFile}: no .aes/project.yaml above this file")
+        raise RuntimeError(f"{cog.inFile}: no .aes/project.yaml or lockstep.yaml layout above this file")
     pad = " " * indent
     for line in render(context(root, subject)):
         cog.outl((pad + line).rstrip())

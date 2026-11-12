@@ -173,14 +173,21 @@ from pathlib import Path
 
 import yaml
 
+from lockstep.layout_plan import SOURCE, governed, has_layout, layout_context, target_from_layout
+
 
 def find_root(start: Path) -> Path | None:
-    """Nearest directory at or above `start` holding `.aes/project.yaml`."""
+    """Nearest directory at or above `start` holding `.aes/project.yaml`, or a lockstep.yaml whose `layout:` is the plan."""
     start = start.resolve()
     for candidate in [start, *start.parents]:
-        if (candidate / ".aes" / "project.yaml").is_file():
+        if (candidate / ".aes" / "project.yaml").is_file() or has_layout(candidate):
             return candidate
     return None
+
+
+def plan_name(root: Path) -> str:
+    """Where this repository's plan is written, for messages: `.aes/target.yaml` or the layout."""
+    return SOURCE if has_layout(root) else ".aes/target.yaml"
 
 
 def _aes() -> str:
@@ -198,7 +205,9 @@ def run_aes(root: Path, *args: str) -> subprocess.CompletedProcess[str]:
 
 
 def context(root: Path, subject: str) -> dict:
-    """`aes context SUBJECT --format json`; fails loudly on an unknown ID."""
+    """`aes context SUBJECT --format json`, or the layout row's context; fails loudly on an unknown ID."""
+    if has_layout(root):
+        return layout_context(root, subject)
     proc = run_aes(root, "context", subject, "--format", "json")
     if proc.returncode != 0:
         raise RuntimeError(f"aes context {subject} failed: {proc.stderr.strip()}")
@@ -206,10 +215,14 @@ def context(root: Path, subject: str) -> dict:
 
 
 def target(root: Path) -> dict:
+    if has_layout(root):
+        return target_from_layout(root)
     return yaml.safe_load((root / ".aes" / "target.yaml").read_text(encoding="utf-8"))
 
 
 def governed_roots(root: Path) -> list[str]:
+    if has_layout(root):
+        return governed(root)
     project = yaml.safe_load((root / ".aes" / "project.yaml").read_text(encoding="utf-8"))
     return list(project.get("governed_roots") or target(root).get("governed_roots") or [])
 

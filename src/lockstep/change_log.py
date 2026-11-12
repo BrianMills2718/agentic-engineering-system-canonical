@@ -146,6 +146,8 @@ def entry_edit_reason(root: Path, rel: str) -> str | None:
     Only `aes plan accept` writes an entry, so a hand-written new one is refused as well as an edit,
     overwrite or removal. Reading an entry is not a write and never reaches this check.
     """
+    if not (root / ".aes" / "project.yaml").is_file():  # a layout plan keeps no AES log entries
+        return None
     _, plans_rel = _paths(root)
     rel = rel.rstrip("/")
     parents = {p.as_posix() for p in Path(plans_rel).parents if p.as_posix() != "."} | {plans_rel.rstrip("/")}

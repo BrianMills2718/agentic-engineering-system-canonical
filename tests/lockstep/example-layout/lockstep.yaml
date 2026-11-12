@@ -1,0 +1,12 @@
+# The smallest layout plan: OpenSpec says what the code must do, these rows say which files exist and why.
+schema: lockstep.side.v1
+governed: [src/]
+layout:
+  - path: src/greeter/__init__.py
+    purpose: the greet function
+    implements: [greeting/greet-by-name]
+    tests: [tests/test_greet.py]
+    exports: ["greet(name: str) -> str"]
+  - path: tests/test_greet.py
+    purpose: prove that greet greets by name
+    implements: [greeting/greet-by-name]
