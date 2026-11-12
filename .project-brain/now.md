@@ -96,7 +96,10 @@ preserve native occurrence time; checker failures remain separate events.
 **Feedback loop (2026-10-08):** the nightly collector reads changed Claude and
 Codex transcripts, files Feedback reports to the private agent-feedback-log,
 and bridges extracted human corrections directly into the same reports (including
-a deduplicated 14-day backlog). The old project-meta register is opt-in only.
+a deduplicated 14-day backlog). Corrections file before every other report (#826): until
+2026-11-11 they were added last, and the 900-a-night cap deferred all of them from 2026-11-03;
+the 867 waiting were filed on 2026-11-11 (`collect_feedback.py --corrections-only --file`,
+867 of 867, 0 errors). The old project-meta register is opt-in only.
 Each proposed fix needs its own independent, resolved evidence. Weekly analysis
 drafts fixes; the nightly effects mode reuses analyses and requires an explicit
 enforcement receipt with time, revision and verification before counting subsequent
