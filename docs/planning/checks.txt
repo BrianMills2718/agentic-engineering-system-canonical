@@ -1,23 +1,11 @@
-Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at f651b39357418ffe118182a90093944382b5de38, run 2026-11-12T18:58Z.
+Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at bcc426a24d32c838e12d8271bfb6bfa333726404, run 2026-11-12T18:58Z.
 Company Planning scripts from ~/code2/company-planning at b8a53a0.
 Not run: aes commit replay (the commit rule was removed 2026-10-14; open question Q11); make aes and the plan-adoption recheck (retired 2026-11-12 with this repository's .aes/ and docs/plans).
 
 === $ python3 $HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42
 === exit status: 1
-FINDING MISSING-DOC role=requirements id=- file=.aes/target.yaml: declared requirements document does not exist
-FINDING STALE role=system_model id=RULE-DRIFT-DETECTED file=src/agentic_engineering_system/characterize.py: owner changed in 1 commit(s) after the rule was last reviewed (bb6818a61); re-read the rule and set reviewed_at
-FINDING STALE role=system_model id=RULE-INSUFFICIENT-NOT-GREEN file=src/agentic_engineering_system/evidence.py: owner changed in 1 commit(s) after the rule was last reviewed (bb6818a61); re-read the rule and set reviewed_at
-FINDING STALE role=system_model id=RULE-DEPENDENCY-CHANGE-STALES file=src/agentic_engineering_system/evidence.py: owner changed in 1 commit(s) after the rule was last reviewed (bb6818a61); re-read the rule and set reviewed_at
-FINDING DECISION-UNRESOLVED role=decisions id=0002-company-planning-aes-profile-before-fork file=docs/decisions/0002-company-planning-aes-profile-before-fork.md: 'Governs:' target docs/architecture/aes-company-planning-profile.bootstrap.yaml resolves to no trace id or path
-FINDING DECISION-UNRESOLVED role=decisions id=0003-component-local-normative-context-and-symbol-inheritance file=docs/decisions/0003-component-local-normative-context-and-symbol-inheritance.md: 'Governs:' target docs/architecture/normative-component-alignment.bootstrap.yaml resolves to no trace id or path
-FINDING DECISION-UNRESOLVED role=decisions id=0004-compact-structured-normative-records-and-generated-views file=docs/decisions/0004-compact-structured-normative-records-and-generated-views.md: 'Governs:' target docs/architecture/normative-record-model.bootstrap.yaml resolves to no trace id or path
-FINDING DECISION-UNRESOLVED role=decisions id=0005-aes-component-scope-and-consequential-seam-typing file=docs/decisions/0005-aes-component-scope-and-consequential-seam-typing.md: 'Governs:' target docs/architecture/architecture-realization.bootstrap.yaml resolves to no trace id or path
-FINDING DECISION-UNRESOLVED role=decisions id=0006-minimal-architecture-realization-json-schema file=docs/decisions/0006-minimal-architecture-realization-json-schema.md: 'Governs:' target docs/architecture/schemas/architecture-realization.bootstrap.schema.json resolves to no trace id or path
-FINDING DECISION-UNRESOLVED role=decisions id=0010-greenfield-v0.2-accepted file=docs/decisions/0010-greenfield-v0.2-accepted.md: 'Governs:' target .aes/target.yaml resolves to no trace id or path
-FINDING DECISION-UNRESOLVED role=decisions id=0013-truth-lives-where-it-is-edited file=docs/decisions/0013-truth-lives-where-it-is-edited.md: 'Governs:' target generated/docstring_wiki.md resolves to no trace id or path
-FINDING MISSING-DOC role=plans id=- file=docs/plans/: declared plans directory does not exist
-FINDING CATALOG-STALE role=catalog id=- file=make docstring-wiki-check: catalog check exited 2: make: *** No rule to make target 'docstring-wiki-check'.  Stop.
-durable-docs: mode=repo repo=. findings=13 (CATALOG-STALE=1, DECISION-UNRESOLVED=7, MISSING-DOC=2, STALE=3), exit 1
+FINDING MISSING-DOC role=requirements id=- file=openspec/specs/: declared requirements document does not exist
+durable-docs: mode=repo repo=. findings=1 (MISSING-DOC=1), exit 1
 
 === $ python3 $HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py .
 === exit status: 0
@@ -38,10 +26,10 @@ REPORT ONLY: 12 finding(s); semantic truth and approval were not evaluated
 
 === $ python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD
 === exit status: 1
-EXCEPTION    116/120  BrianMills2718/agentic-engineering-system-canonical  -- Accepted decision records and the wiki cite the remaining architecture, decision and planning pages as their evidence, so pruning them would break those citations. The 2026-11-12 cleanup retired the research, evidence, datasets and old-proposal Markdown (143 -> 115 files, see docs/retired/2026-11-12.md). Limit kept close to the count so growth still trips the check.
+EXCEPTION    116/120  BrianMills2718/agentic-engineering-system-canonical  -- Accepted decision records and the wiki cite the remaining architecture, decision and planning pages as their evidence, so pruning them would break those citations. The 2026-11-12 cleanup retired the research, evidence, datasets and old-proposal Markdown (143 -> 116 files, see docs/retired/2026-11-12.md). Limit kept close to the count so growth still trips the check.
 UNREACHABLE    31  BrianMills2718/agentic-engineering-system-canonical  -- 31 reader docs not linked from wiki/index.md (e.g. openspec/changes/archive/2026-11-07-inert-characterization/proposal.md, openspec/changes/archive/2026-11-07-inert-characterization/specs/inert-characterization/spec.md, openspec/changes/archive/2026-11-07-inert-characterization/tasks.md)
-DURABLE    13  BrianMills2718/agentic-engineering-system-canonical  -- 13 durable-document findings (e.g. MISSING-DOC role=requirements id=- file=.aes/target.yaml: declared requirements document does not exist; STALE role=system_model id=RULE-DRIFT-DETECTED file=src/agentic_engineering_system/characterize.py: owner changed in 1 commit(s) after the rule was last reviewed (bb6818a61); re-read the rule and)
-REPO  BrianMills2718/agentic-engineering-system-canonical  md=116  cap=exception  reach=orphans(31)  layout=ok(0)  durable=findings(13)
+DURABLE     1  BrianMills2718/agentic-engineering-system-canonical  -- 1 durable-document findings (e.g. MISSING-DOC role=requirements id=- file=openspec/specs/: declared requirements document does not exist)
+REPO  BrianMills2718/agentic-engineering-system-canonical  md=116  cap=exception  reach=orphans(31)  layout=ok(0)  durable=findings(1)
 md-file-cap: 1 given repos checked, cap 100: ok=0 exception=1 over=0 not-checked=0; wiki reachability ok=0 orphans=1 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=0 findings=1 undeclared=0   exit 1
 
 === $ python3 $HOME/code2/workspace/scripts/repo_format.py .
