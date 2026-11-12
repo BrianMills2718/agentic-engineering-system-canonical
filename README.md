@@ -90,6 +90,9 @@ Run `lockstep refresh` to update declared fact blocks only, or
 projections. `lockstep check project --check` writes nothing and exits 1 for a
 stale copy. Repositories with no OpenSpec requirements do not get an empty coverage page
 or historical-plan rewrites.
+Fact blocks can share a plan file with its generated coverage block. In a
+repository with OpenSpec requirements, `docs/status.md` belongs to the full-file
+coverage renderer; use another fact target.
 
 Markdown fields come from YAML front matter; JSON and YAML fields come from
 native mapping keys. Python `description` is its docstring's first paragraph,
@@ -103,12 +106,18 @@ before projection writes.
 `lockstep init` adds post-edit refresh hooks for Claude Code and Codex and a
 read-only projection check to its lefthook pre-commit command. It preserves
 existing hooks and can add this post-edit entry to an older installation.
+An exact previous generated pre-commit command is upgraded in place; a custom
+`lockstep` command is preserved and gets a separate `lockstep-project` freshness
+command. A conflicting custom `lockstep-project` name reports an error.
 Native client trust/enablement still applies; a generated hook declaration is
 not proof the client executed it. The merge command must also run the
 read-only check to cover bypassed or unavailable hooks.
 
 Refresh records source/target hashes, selected fact values and changed paths
 in one `.lockstep/projection-YYYY-MM-DD.jsonl` file per day. A concrete edit to
+an applicable source that fails records its error and declared source identities
+when the trace path is contained and writable, without copying raw tool input.
+An edit to
 an unrelated file is a no-op; shell events compare declared facts conservatively
 because scripts can write paths not evident from command arguments. No
 projection declarations means refresh does nothing.

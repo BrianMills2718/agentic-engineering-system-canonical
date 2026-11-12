@@ -110,17 +110,32 @@ def _lefthook(path: Path, source: str) -> str:
     names = " ".join(name for name in CHECK_NAMES if name not in ("arch", "test-first", "project"))
     # `lockstep check` with no name diffs against HEAD, which a repository's first commit does not have yet.
     skip_first = '[ -z "$c" ] && ! git rev-parse -q --verify HEAD >/dev/null && continue'
-    run = f'for c in "" {names}; do {skip_first}; uvx --from {source} lockstep check $c || exit 1; done && uvx --from {source} lockstep check project --check'
+    old_run = f'for c in "" {names}; do {skip_first}; uvx --from {source} lockstep check $c || exit 1; done'
+    freshness = f'uvx --from {source} lockstep check project --check'
+    run = f'{old_run} && {freshness}'
     yaml = YAML()
     yaml.preserve_quotes = True
     yaml.width = 4096
     data = yaml.load(path) if path.is_file() else None
     if data is None:
         data = {}
-    if "lockstep" in path.read_text(encoding="utf-8") if path.is_file() else False:
-        return "skipped"
     commands = data.setdefault("pre-commit", {}).setdefault("commands", {})
-    commands["lockstep"] = {"run": run}
+    existing = commands.get('lockstep')
+    if existing is None:
+        commands['lockstep'] = {'run': run}
+    elif existing.get('run') == run:
+        return 'skipped'
+    elif existing.get('run') == old_run:
+        # Only an exact known generated command is safe to upgrade in place.
+        existing['run'] = run
+    else:
+        # Preserve custom policy, including old/custom Lockstep loops; add a separate gate.
+        guard = commands.get('lockstep-project')
+        if guard is not None:
+            if guard.get('run') == freshness:
+                return 'skipped'
+            raise ValueError('lefthook command lockstep-project is custom; keep it and add lockstep check project --check under a free command name')
+        commands['lockstep-project'] = {'run': freshness}
     with path.open("w", encoding="utf-8") as fh:
         yaml.dump(data, fh)
     return "wrote"

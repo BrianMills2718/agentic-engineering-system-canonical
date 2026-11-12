@@ -57,6 +57,68 @@ def test_python_description_and_interface_are_static(tmp_path):
     assert 'Say hello loudly.' in (root/'wiki/index.md').read_text()
 
 
+@pytest.mark.req('lockstep-doc-facts/markdown-facts-regenerate-and-stale-check-is-read-only')
+def test_plan_target_composes_facts_and_coverage(tmp_path):
+    root = _repo(tmp_path)
+    spec = root/'openspec/specs/demo/spec.md'
+    spec.parent.mkdir(parents=True)
+    spec.write_text('### Requirement: Works\nIt SHALL work.\n')
+    target = root/'wiki/index.md'
+    plan = root/'docs/plans/test.md'
+    plan.parent.mkdir()
+    plan.write_text('# Plan\n\nCloses: demo/works\n\n'+target.read_text())
+    cfg = yaml.safe_load((root/'lockstep.yaml').read_text())
+    cfg['projections'][0]['target'] = 'docs/plans/test.md'
+    (root/'lockstep.yaml').write_text(yaml.safe_dump(cfg))
+    project.project(root)
+    assert project.START in plan.read_text()
+    assert '| status | active |' in plan.read_text()
+    assert project.project(root, check=True) == []
+    assert project.project(root) == []
+
+
+@pytest.mark.req('lockstep-doc-facts/python-description-and-interface-are-static')
+def test_python_docstring_fact_sees_generated_requirement_copy(tmp_path):
+    root = _repo(tmp_path, source='src/api.py', fields=['docstring'])
+    (root/'src').mkdir()
+    source = root/'src/api.py'
+    source.write_text('"""API description.\n\nImplements: demo/works\n"""\n')
+    spec = root/'openspec/specs/demo/spec.md'
+    spec.parent.mkdir(parents=True)
+    spec.write_text('### Requirement: Works\nIt SHALL work.\n')
+    project.project(root)
+    assert 'It SHALL work.' in (root/'wiki/index.md').read_text()
+    assert project.project(root, check=True) == []
+
+
+@pytest.mark.req('lockstep-doc-facts/python-description-and-interface-are-static')
+def test_class_signature_preserves_creation_keywords(tmp_path):
+    root = _repo(tmp_path, source='api.py', fields=['signature'], symbol='A')
+    source = root/'api.py'
+    source.write_text('class A(Base, metaclass=FirstMeta, category="public"):\n    pass\n')
+    project.project(root)
+    assert 'metaclass=FirstMeta' in (root/'wiki/index.md').read_text()
+    assert "category='public'" in (root/'wiki/index.md').read_text()
+    source.write_text(source.read_text().replace('FirstMeta', 'SecondMeta'))
+    assert project.project(root, check=True) == ['wiki/index.md']
+
+
+@pytest.mark.req('lockstep-doc-facts/invalid-projection-input-fails-before-writing')
+def test_full_file_coverage_target_collision_refuses_before_any_write(tmp_path):
+    root = _repo(tmp_path)
+    spec = root/'openspec/specs/demo/spec.md'
+    spec.parent.mkdir(parents=True)
+    spec.write_text('### Requirement: Works\nIt SHALL work.\n')
+    status = root/'docs/status.md'
+    status.write_bytes((root/'wiki/index.md').read_bytes())
+    cfg = yaml.safe_load((root/'lockstep.yaml').read_text())
+    cfg['projections'][0]['target'] = 'docs/status.md'
+    (root/'lockstep.yaml').write_text(yaml.safe_dump(cfg))
+    before = status.read_bytes()
+    assert run(['project', '--repo', str(root)]) == 2
+    assert status.read_bytes() == before
+
+
 @pytest.mark.req('lockstep-doc-facts/evidence-fields-are-read-from-native-records')
 @pytest.mark.parametrize('name', ['evidence.json', 'evidence.yaml'])
 def test_evidence_fields_are_read_from_native_records(tmp_path, name):
@@ -142,6 +204,24 @@ def test_refresh_only_updates_declared_facts(tmp_path, monkeypatch):
     traces = list((root/'.lockstep').glob('projection-*.jsonl'))
     event = json.loads(traces[0].read_text().splitlines()[0])
     assert event['inputs'][0]['facts'] == {'description': 'Own description', 'status': 'active'}
+
+
+@pytest.mark.req('lockstep-doc-facts/installed-post-edit-hook-refreshes-and-precommit-rejects-stale')
+def test_refresh_records_source_error_without_raw_tool_input(tmp_path, monkeypatch):
+    import io
+    from lockstep.doc_projection import refresh_cli
+    root = _repo(tmp_path)
+    (root/'docs/plan.md').write_text('---\nstatus: active\n---\n')
+    monkeypatch.setattr(sys, 'stdin', io.StringIO(json.dumps({
+        'cwd': str(root), 'tool_name': 'Write', 'tool_input': {
+            'file_path': str(root/'docs/plan.md'), 'content': 'private tool payload'}})))
+    assert refresh_cli(['--client', 'claude']) == 2
+    trace = next((root/'.lockstep').glob('projection-*.jsonl')).read_text()
+    event = json.loads(trace)
+    assert event['exit_status'] == 2 and event['tool'] == 'Write'
+    assert 'missing source field(s): description' in event['error']
+    assert event['inputs'][0]['source'] == 'docs/plan.md'
+    assert 'private tool payload' not in trace
 
 
 @pytest.mark.req('lockstep-doc-facts/invalid-projection-input-fails-before-writing')

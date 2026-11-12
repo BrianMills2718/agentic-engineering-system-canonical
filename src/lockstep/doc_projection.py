@@ -81,8 +81,8 @@ def _symbol(tree: ast.AST, name: str | None) -> ast.AST:
     return node
 
 
-def _facts(path: Path, fields: list[str], symbol: str | None) -> dict:
-    text = path.read_text()
+def _facts(path: Path, fields: list[str], symbol: str | None, text: str | None = None) -> dict:
+    text = path.read_text() if text is None else text
     if path.suffix == '.py':
         node = _symbol(ast.parse(text, filename=str(path)), symbol)
         description = ast.get_docstring(node) or ''  # type: ignore[arg-type]
@@ -92,7 +92,7 @@ def _facts(path: Path, fields: list[str], symbol: str | None) -> dict:
             returns = f' -> {ast.unparse(node.returns)}' if node.returns else ''
             data['signature'] = f'{prefix}{node.name}({ast.unparse(node.args)}){returns}'
         elif isinstance(node, ast.ClassDef):
-            data['signature'] = f'class {node.name}(' + ', '.join(ast.unparse(b) for b in node.bases) + ')'
+            data['signature'] = f'class {node.name}(' + ', '.join(ast.unparse(b) for b in [*node.bases, *node.keywords]) + ')'
     else:
         if symbol is not None:
             raise ProjectionError(f'symbol applies only to Python: {path.name}')
@@ -131,8 +131,8 @@ def _cell(value: object) -> str:
     return escape(value, quote=False).replace('|', '&#124;').replace('\r\n', '\n').replace('\n', '<br>')
 
 
-def render(root: Path) -> dict[Path, str]:
-    """Validate every declaration before returning complete target contents. No writes."""
+def render(root: Path, contents: dict[Path, str] | None = None) -> dict[Path, str]:
+    """Compose facts with already rendered contents, validating all inputs before writes."""
     rows = declarations(root)
     config = root/'lockstep.yaml'
     data = yaml.safe_load(config.read_text()) if config.is_file() else {}
@@ -146,7 +146,7 @@ def render(root: Path) -> dict[Path, str]:
     sources = {_path(root, row['source']).resolve() for row in rows}
     if any(_path(root, row['target']).resolve() in sources for row in rows):
         raise ProjectionError('a projection target cannot also be a projection source')
-    rendered: dict[Path, str] = {}
+    rendered: dict[Path, str] = dict(contents or {})
     for row in rows:
         source, target = _path(root, row['source']), _path(root, row['target'])
         ident = row['id']
@@ -158,7 +158,7 @@ def render(root: Path) -> dict[Path, str]:
         middle = text[text.index(start)+len(start):text.index(end)]
         if '<!-- lockstep facts:' in middle or '<!-- /lockstep facts:' in middle:
             raise ProjectionError(f'{row["target"]}: nested projection markers')
-        facts = _facts(source, row['fields'], row.get('symbol'))
+        facts = _facts(source, row['fields'], row.get('symbol'), rendered.get(source))
         link = base.rstrip('/') + '/' + quote(row['source'], safe='/') if base else quote(os.path.relpath(source, target.parent).replace(os.sep, '/'), safe='/.')
         block = [start, '', f'Generated from [{row["source"]}]({link}); edit the source, not this block.', '',
                  '| Field | Value |', '| --- | --- |']
@@ -173,10 +173,10 @@ def project_facts(root: Path, check: bool = False, rendered: dict[Path, str] | N
     contents = render(root) if rendered is None else rendered
     changed = []
     for path, text in contents.items():
-        if path.read_text() != text:
+        if not path.exists() or path.read_text() != text:
             changed.append(path.relative_to(root).as_posix())
             if not check:
-                mode = stat.S_IMODE(path.stat().st_mode)
+                mode = stat.S_IMODE(path.stat().st_mode) if path.exists() else 0o644
                 with tempfile.NamedTemporaryFile('w', dir=path.parent, prefix='.lockstep-', delete=False) as f:
                     f.write(text)
                     temporary = f.name
@@ -190,6 +190,34 @@ def _root(start: Path) -> Path | None:
     return next((p for p in (start, *start.parents) if (p/'lockstep.yaml').is_file()), None)
 
 
+def _trace_path(root: Path) -> Path:
+    folder = root/'.lockstep'
+    trace = folder/f'projection-{datetime.now(timezone.utc):%Y-%m-%d}.jsonl'
+    if not folder.resolve().is_relative_to(root) or not trace.resolve().is_relative_to(root):
+        raise ProjectionError('projection trace path escapes repository')
+    return trace
+
+
+def _append_trace(root: Path, event: dict) -> None:
+    trace = _trace_path(root)
+    trace.parent.mkdir(exist_ok=True)
+    with trace.open('a') as f:
+        f.write(json.dumps(event, default=_json_default)+'\n')
+
+
+def _declared_inputs(root: Path) -> list[dict]:
+    """Keep source identity on invalid-input traces, never copy source/tool payloads."""
+    try:
+        config = yaml.safe_load((root/'lockstep.yaml').read_text())
+        rows = config.get('projections', []) if isinstance(config, dict) else []
+        return [{'source': row['source'], 'fields': row.get('fields', [])}
+                for row in rows if isinstance(row, dict) and isinstance(row.get('source'), str)
+                and isinstance(row.get('fields', []), list)
+                and all(isinstance(f, str) for f in row.get('fields', []))]
+    except (OSError, ValueError, TypeError, yaml.YAMLError):
+        return []
+
+
 def refresh_cli(argv: list[str]) -> int:
     """PostToolUse refresh of declared facts only; no declarations is a fast no-op."""
     parser = argparse.ArgumentParser(prog='lockstep refresh')
@@ -200,6 +228,7 @@ def refresh_cli(argv: list[str]) -> int:
     except SystemExit as exc:
         return int(exc.code or 0)
     call = {}
+    root = None
     try:
         if args.client:
             call = json.load(sys.stdin)
@@ -223,10 +252,7 @@ def refresh_cli(argv: list[str]) -> int:
                     return 0
             # Shell writes can be dynamic. With no concrete edit path, compare declared
             # facts conservatively; no arbitrary command from the configuration runs.
-        folder = root/'.lockstep'
-        trace = folder/f'projection-{datetime.now(timezone.utc):%Y-%m-%d}.jsonl'
-        if not folder.resolve().is_relative_to(root) or not trace.resolve().is_relative_to(root):
-            raise ProjectionError('projection trace directory escapes repository')
+        _trace_path(root)  # Validate the append path before any projection write.
         changed = project_facts(root)
         # One append-only daily trace; source bytes and generated output can be opened at these paths.
         inputs = [{'source': row['source'], 'fields': row['fields'],
@@ -234,14 +260,22 @@ def refresh_cli(argv: list[str]) -> int:
                    'facts': _facts(root/row['source'], row['fields'], row.get('symbol'))} for row in rows]
         outputs = [{'target': row['target'], 'sha256': hashlib.sha256((root/row['target']).read_bytes()).hexdigest()} for row in rows]
         event = {'tool': call.get('tool_name'), 'inputs': inputs, 'outputs': outputs, 'rewrote': changed, 'exit_status': 0}
-        folder.mkdir(exist_ok=True)
-        with trace.open('a') as f:
-            f.write(json.dumps(event, default=_json_default)+'\n')
+        _append_trace(root, event)
         for rel in changed:
             print(f'rewrote {rel}')
         print(f'RESULT refresh rewrote={len(changed)} exit=0')
         return 0
     except (OSError, ValueError, TypeError, SyntaxError, yaml.YAMLError) as exc:
-        print(f'error: {exc}', file=sys.stderr)
+        # YAML/SyntaxError formatting can include the source line; keep the actual
+        # error message without embedding source or raw tool content in the log.
+        message = getattr(exc, 'problem', None) or getattr(exc, 'msg', None) or str(exc)
+        print(f'error: {message}', file=sys.stderr)
         print('RESULT refresh errors=1 exit=2', file=sys.stderr)
+        if root is not None:
+            try:
+                _append_trace(root, {'tool': call.get('tool_name'), 'inputs': _declared_inputs(root),
+                                     'error': message, 'exit_status': 2})
+            except (OSError, ValueError, TypeError):
+                # A missing/uncontained/unwritable trace location cannot become an escape.
+                pass
         return 2
