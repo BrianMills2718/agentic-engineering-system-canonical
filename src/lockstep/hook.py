@@ -110,6 +110,7 @@ from lockstep.cogtext import render
 from lockstep.change_list import change_list
 from lockstep.change_list import render as render_changes
 from lockstep.openspec_text import find_spec_root, requirement_packet
+from lockstep.shell_targets import shell_write_words, written_paths
 from lockstep.side_file import load_side_file
 from lockstep.stale_edit import projection_stale, stale_reason, stops_edits
 from lockstep.unplanned_files import unplanned_reason
@@ -126,7 +127,7 @@ SHELL_TOOLS = {"Bash", "shell", "local_shell", "exec_command",
 # OpenHands' file tool: {"command": "view"|"create"|"str_replace"|"insert"|"undo_edit", "path": ...}.
 FILE_EDITOR = "file_editor"
 PATCH_PATH = re.compile(r"^\*\*\* (?:Update|Add|Delete) File: (.+)$", re.M)
-# Shell commands that write files. Regex over command text (code), not prose.
+# Declared by the plan; the shell parser that judges commands is `lockstep.shell_targets` (behavior 5.1).
 REDIRECT = re.compile(r"(?:^|\s)\d?>>?(?!&)\s*([^\s;&|]+)")
 TEE = re.compile(r"\btee\s+(?:-a\s+)?([^\s;&|]+)")
 IN_PLACE = re.compile(r"\bsed\s+-i|\bperl\s+-[a-z]*i|\bmv\b|\bcp\b|\brm\b|\btruncate\b|\btouch\b|"
@@ -134,11 +135,9 @@ IN_PLACE = re.compile(r"\bsed\s+-i|\bperl\s+-[a-z]*i|\bmv\b|\bcp\b|\brm\b|\btrun
 
 
 def shell_writes(command: str, path: str) -> bool:
-    """True when the command writes `path`: redirected or tee'd into it, or an in-place/scripted write naming it."""
-    targets = REDIRECT.findall(command) + TEE.findall(command)
-    if any(t.strip("'\"").endswith(path) for t in targets):
-        return True
-    return path in command and bool(IN_PLACE.search(command))
+    """True when the command writes `path` (as written, or as the tail of a longer path), by `lockstep.shell_targets`."""
+    want = os.path.normpath(path)
+    return any((w := os.path.normpath(word)) == want or w.endswith("/" + want) for word in shell_write_words(command))
 
 
 def paths_from_call(call: dict) -> list[str]:
@@ -208,90 +207,43 @@ def _refuse_or_warn(root: Path, rel_files: list[str], record: dict, reason: str,
     return _out("allow", None, WARN_PREFIX + reason + (f"\n\n{extra}" if extra else ""))
 
 
-_SEGMENT = re.compile(r"&&|\|\||[;|\n]")  # splits a command line into simple commands
-_TOKEN = re.compile(r"[^\s;&|<>()]+")
-
-
-def _log_entry_writes(root: Path, cwd: Path, command: str) -> list[str]:
-    """The change-log paths (relative to root) that a simple command in `command` writes.
-
-    Each simple command is judged on its own, so `git add <entry> && git commit -m "... rm ..."`
-    is not read as removing the entry, while `git rm <entry>` or `> <entry>` is.
-    """
-    hits: list[str] = []
-    for segment in _SEGMENT.split(command):
-        for token in {t.strip("'\"") for t in _TOKEN.findall(segment)}:
-            if not token or token.startswith("-"):
-                continue
-            path = Path(token) if Path(token).is_absolute() else cwd / token
-            try:
-                rel = path.resolve().relative_to(root.resolve()).as_posix()
-            except (ValueError, OSError):
-                continue
-            if entry_edit_reason(root, rel) and shell_writes(segment, token) and rel not in hits:
-                hits.append(rel)
-    return hits
-
-
-_HEREDOC = re.compile(r"<<-?\s*(['\"]?)(\w+)\1")
-_CD = re.compile(r"^\s*\(?\s*(?:cd|pushd)\s+(?:--\s+)?(['\"]?)([^\s'\";&|()]+)\1\s*\)?\s*$")
-_LITERAL = re.compile(r"['\"]([^'\"\s]+)['\"]")
-_PATHLIKE = re.compile(r"^[\w.@+/-]+$")
-_FILE_NAME = re.compile(r"(?:/|\.[A-Za-z0-9]+$)")
-_REDIRECTS = {">", ">>", ">|", "&>", "&>>"}
-
-
-def _simple_commands(command: str) -> list[tuple[str, str]]:
-    """Each simple command in `command` with the here-document body it reads, in order.
-
-    A here-document's body is data, not commands: `if a > b:` inside `cat > f.py <<EOF` is not a redirect.
-    """
-    lines, i = command.split("\n"), 0
-    out: list[tuple[str, str]] = []
-    while i < len(lines):
-        line, body = lines[i], []
-        i += 1
-        for m in _HEREDOC.finditer(line):
-            while i < len(lines) and lines[i].strip() != m.group(2):
-                body.append(lines[i])
-                i += 1
-            i += 1
-        out.extend((seg, "\n".join(body) if "<<" in seg else "") for seg in _SEGMENT.split(line))
-    return out
-
-
-def _words(segment: str) -> list[str] | None:
-    """The segment's shell words, with redirection operators as words of their own; None if it does not parse."""
+def _rel_in_root(root: Path, path: Path) -> str | None:
     try:
-        lex = shlex.shlex(segment, posix=True, punctuation_chars=True)
-        lex.whitespace_split = True
-        return list(lex)
-    except ValueError:
+        return path.resolve().relative_to(root.resolve()).as_posix()
+    except (ValueError, OSError):
         return None
 
 
-def _segment_targets(segment: str, body: str) -> tuple[list[str], list[str]]:
-    """(files the segment surely writes, file names a scripted or in-place write in it may create).
+def _log_entry_writes(root: Path, cwd: Path, command: str) -> list[str]:
+    """The change-log paths (relative to root) that `command` writes, by the paths `lockstep.shell_targets` finds.
 
-    The first are redirect and tee targets. The second are path-like words and quoted strings of a
-    command that writes files in place or from a script (IN_PLACE); the caller counts one only when
-    no such file exists yet, so reading or copying an existing file is not taken for creating one.
+    A command that only names an entry (`git add <entry> && git commit -m "... rm ..."`, `cat <entry>`)
+    does not write it; `rm` and `git rm` of an entry count, since append-only history is never removed.
     """
-    words = _words(segment)
-    if words is None:  # unbalanced quotes: fall back to the command-text patterns
-        return [t.strip("'\"") for t in REDIRECT.findall(segment) + TEE.findall(segment)], []
-    sure = [words[k + 1] for k, w in enumerate(words[:-1]) if w in _REDIRECTS]
-    if "tee" in words:
-        for w in words[words.index("tee") + 1:]:
-            if w and w[0] in "|;&<>()":
-                break
-            if not w.startswith("-"):
-                sure.append(w)
-    maybe: list[str] = []
-    if IN_PLACE.search(segment + "\n" + body) and (words[:1] or [""])[0] != "rm":
-        maybe = [w for w in words[1:] if not w.startswith("-")] + _LITERAL.findall(segment + "\n" + body)
-        maybe = [w for w in maybe if _PATHLIKE.match(w) and _FILE_NAME.search(w)]
-    return sure, maybe
+    hits: list[str] = []
+    for path in written_paths(command, cwd) + _removed_paths(command, cwd):
+        rel = _rel_in_root(root, path)
+        if rel and entry_edit_reason(root, rel) and rel not in hits:
+            hits.append(rel)
+    return hits
+
+
+def _removed_paths(command: str, cwd: Path) -> list[Path]:
+    """Paths named by `rm` and `git rm` simple commands, resolved against `cwd`."""
+    from lockstep.shell_targets import segments
+    out: list[Path] = []
+    for segment in segments(command):
+        try:
+            words = shlex.split(segment.split("\n", 1)[0])
+        except ValueError:
+            continue
+        while words and (words[0] in {"sudo", "command", "env"} or "=" in words[0]):
+            words = words[1:]
+        if words[:2] == ["git", "rm"]:
+            words = words[1:]
+        if words[:1] == ["rm"]:
+            out += [Path(w) if Path(w).is_absolute() else cwd / w for w in words[1:] if not w.startswith("-")]
+    return out
 
 
 def _ignored(root: Path, rel: str) -> bool:
@@ -306,27 +258,16 @@ def _ignored(root: Path, rel: str) -> bool:
 def _shell_write_targets(root: Path, cwd: Path, command: str) -> list[str]:
     """Files inside the project (relative to `root`) that `command` writes, following `cd`; git-ignored ones left out.
 
-    Shell parsing, not meaning: redirect and tee targets, and new files named by an in-place or
-    scripted write (`touch`, `cp`, `mv`, `sed -i`, `python -c`, a python here-document's `open(...)`).
+    Shell parsing, not meaning (`lockstep.shell_targets`, ported from code2check's guard): redirect and
+    tee targets, what `mv`, `touch`, `cp` (destination only), `sed -i` and the like write, and the paths
+    named by code in the command that calls something that writes.
     """
     hits: list[str] = []
-    here = cwd
-    for segment, body in _simple_commands(command):
-        cd = _CD.match(segment)
-        if cd:
-            step = Path(os.path.expanduser(cd.group(2)))
-            here = step if step.is_absolute() else here / step
+    for path in written_paths(command, cwd):
+        rel = _rel_in_root(root, path)
+        if rel is None or rel in hits or rel == "." or path.is_dir() or _ignored(root, rel):
             continue
-        sure, maybe = _segment_targets(segment, body)
-        for word, must in [(w, True) for w in sure] + [(w, False) for w in maybe]:
-            path = Path(word) if Path(word).is_absolute() else here / word
-            try:
-                rel = path.resolve().relative_to(root.resolve()).as_posix()
-            except (ValueError, OSError):
-                continue
-            if rel in hits or rel == "." or path.is_dir() or (not must and path.exists()) or _ignored(root, rel):
-                continue
-            hits.append(rel)
+        hits.append(rel)
     return hits
 
 
@@ -359,7 +300,7 @@ def decide_shell(call: dict, command: str) -> dict | None:
         if targets:
             log(root, {"tool": call.get("tool_name"), "files": targets, "decision": "pass", "why": "shell_write_unruled"})
         return None
-    written = [r for r, _ in named if r in targets or shell_writes(command, r)]
+    written = [r for r, _ in named if r in targets]
     if written:
         names = ", ".join(written)
         return _refuse_or_warn(root, written, {"tool": call.get("tool_name"), "files": [r for r, _ in named], "why": "shell_write"},
