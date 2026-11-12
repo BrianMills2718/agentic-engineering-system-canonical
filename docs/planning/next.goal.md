@@ -1,5 +1,5 @@
 ---
-description: Next plan for AES canonical -- Lockstep, the one planning-and-checking tool, built in six slices (merged 2026-11-11 and 2026-11-12); what remains is the acceptance pages, Q23's two differences and the feedback loop
+description: Next plan for AES canonical -- Lockstep, the one planning-and-checking tool, built in six slices (merged 2026-11-11 and 2026-11-12); what remains is Brian's judgment of A1 to A5, Q24's second projector and the feedback loop
 ---
 
 # Plan: build the one planning-and-checking tool
@@ -39,7 +39,7 @@ line below adds what this package checks it by; the acceptance entries are in
 1. **Move.** `pcw` moves into this repository as package `lockstep`, with its tests; `pcw` and `pcw-hook` stay
    as alias entry points so lifelike and Team-Brains' vendored runner keep working. Checked by: lifelike's edit
    hook still refuses an unplanned write after it installs from here (A2's failure case), and acceptance A1's
-   one-command install. Built: #831, `src/lockstep/` with `src/pcw/__init__.py:1` as the alias. Q22 (where Brian watches it work) stays open: no page moved.
+   one-command install. Built: #831, `src/lockstep/` with `src/pcw/__init__.py:1` as the alias. `lockstep init` (`src/lockstep/init_repo.py`, spec lockstep-init) is the one-command install A1 checks. Q22 (where Brian watches it work) is resolved: `lockstep-acceptance.html`.
 2. **Plan format.** Lockstep reads requirements from OpenSpec and layout rows from `lockstep.yaml`;
    `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it. Checked by: acceptance A4 (the
    requirement text appears word for word in the first docstring of the file that implements it). Q6
@@ -54,7 +54,7 @@ line below adds what this package checks it by; the acceptance entries are in
    next changed); lifelike, plan-code-wiki and Team-Brains' runner move to the new package. Checked by:
    acceptance A5 (installs anywhere, names no machine path). Built: #836 and the user switches (code2-template#29, lifelike#5, Team-Brains#1183); Team-Brains is an Inside Success repository, so Q2 is now about work that shipped.
 
-Slice 0, kept running alongside and not built by the Lockstep session: the feedback loop's two nightly jobs and the rules register. The built tool differs from the design in two places (Q23).
+Slice 0, kept running alongside and not built by the Lockstep session: the feedback loop's two nightly jobs and the rules register. The built tool differs from the design in one place now: two projectors remain (Q24); the guard's log folder was fixed to `.lockstep/` (Q23, e662882db).
 
 0. **File corrections (fix first).** The feedback loop extracts Brian's corrections but files none of them:
    all 867 'Human correction' rows in `reports-2026-11-11.jsonl` were deferred at the filing cap (Q18). Owner:
@@ -65,7 +65,7 @@ Slice 0, kept running alongside and not built by the Lockstep session: the feedb
 ## Done when
 
 - Each slice above has merged through `ship` in this repository (done), with its named acceptance entry `built` and
-  served from committed git (not yet: A1 to A5 are `not built`, Q22).
+  served from committed git (done: A1 to A5 are `built`, each with a recorded run that says PASS on 2026-11-12, page `lockstep-acceptance.html`; A6 to A8 are `not built`).
 - Brian has judged A1 to A8 on their pages; a judged status records his own words.
 - `docs/planning/planning-package.json` validates (exit 0) and its cold review read the plan as built.
 
@@ -89,5 +89,5 @@ and agent rules, as defined in [DOMAIN.md](DOMAIN.md).
 No step of this plan calls a model to produce its answer: the tool's checks are deterministic code, and the
 feedback loop's nightly calls are already running and measured: USD 0.127 over two nights for 1,443 calls (`llm-cost cost
 --days 2 --group-by project,task`, project aes, 2026-11-11; investigation.json). Each slice's tests and lifelike's hook replays record their
-inputs and results in `.pcw/` (src/lockstep/hook.py:178; the design says `.lockstep/`, DESIGN.md line 48, see Q23) and the pull request; the Lockstep session reads every
+inputs and results in `.lockstep/` (src/lockstep/hook.py:172; Q23 resolved) and the pull request; the Lockstep session reads every
 failing run in full before marking a slice done.

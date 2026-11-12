@@ -356,7 +356,7 @@
    "id": "one-tool",
    "label": "Lockstep, the one planning-and-checking tool",
    "kind": "Lockstep",
-   "explain": "One installable package shipped from this repository, one config file, one plan format, one edit guard and one commit check; any repository installs it with one command. Defined in proposals/one-planning-tool/DESIGN.md:14. Code: src/lockstep/check.py:398."
+   "explain": "One installable package shipped from this repository, one config file, one plan format, one edit guard and one commit check; any repository installs it with one command (`lockstep init`, src/lockstep/init_repo.py). Defined in proposals/one-planning-tool/DESIGN.md:14. Code: src/lockstep/check.py:398."
   },
   {
    "id": "lockstep-config",

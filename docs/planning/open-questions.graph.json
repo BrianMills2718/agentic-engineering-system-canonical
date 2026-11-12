@@ -51,7 +51,7 @@
    "label": "Lockstep, the one planning-and-checking tool",
    "kind": "Concept",
    "dashed": false,
-   "explain": "One installable package shipped from this repository, one config file, one plan format, one edit guard and one commit check; any repository installs it with one command. Defined in proposals/one-planning-tool/DESIGN.md:14. Code: src/lockstep/check.py:398."
+   "explain": "One installable package shipped from this repository, one config file, one plan format, one edit guard and one commit check; any repository installs it with one command (`lockstep init`, src/lockstep/init_repo.py). Defined in proposals/one-planning-tool/DESIGN.md:14. Code: src/lockstep/check.py:398."
   },
   {
    "id": "slice",
@@ -362,35 +362,16 @@
    "explain": "whether the feedback loop goes past filing reports to proposing and checking fixes"
   },
   {
-   "id": "Q22",
-   "label": "Q22: Where Brian watches the one tool work",
+   "id": "Q24",
+   "label": "Q24: Two projectors remain where the design says one",
    "kind": "AgentQuestion",
-   "explain": "Acceptance entries A1 to A5 need a page Brian opens to see Lockstep install, refuse a write and refuse a commit. Slices 1 to 6 are merged and no walkthrough page moved here with the code (the recorder `tests/lockstep/e2e/run.py` did; no served page exists, and A1 to A5 still read `planned`). Where is the page built, and when? Settled by: An argument settles it: the package and its recorder are here (`tests/lockstep/e2e/run.py`), so the page is built from a recorded run in this repository with the shared review-page builder; no test is needed to decide where it lives."
+   "explain": "Two projectors remain inside the Lockstep package: the cog one for layout and AES-plan files and code2check's `Implements:` one (wiki/lockstep.md:35), where the design says one (DESIGN.md:43). Is a merge a seventh slice, or is the design amended? Settled by: An argument settles it: the design table (DESIGN.md:43) lists one projector; the code has two; the Lockstep session says whether it plans a seventh slice or amends the design (wiki/lockstep.md:35: merging them is not yet planned)."
   },
   {
-   "id": "Q22-blocks",
-   "label": "the entrypoint of acceptance entries A1 to A5, and whether any of them can be judged",
+   "id": "Q24-blocks",
+   "label": "whether the design's one-projector row is true, and whether `wiki/lockstep.md` can say \u2026",
    "kind": "Decision",
-   "explain": "the entrypoint of acceptance entries A1 to A5, and whether any of them can be judged"
-  },
-  {
-   "id": "Q23",
-   "label": "Q23: Where the built tool still differs from the design",
-   "kind": "AgentQuestion",
-   "explain": "The built package differs from proposals/one-planning-tool/DESIGN.md in two places: its edit hook writes its log to `.pcw/hook-<date>.jsonl` (src/lockstep/hook.py:178) where the design says `.lockstep/` (DESIGN.md:48), and two projectors remain, the cog one for layout and AES-plan files and code2check's `Implements:` one (wiki/lockstep.md:35), where the design says one. Are these slices left over, or is the design to be amended? Settled by: An argument settles it: the design table (DESIGN.md:42-48) lists one projector and `.lockstep/`; reading both pieces of code shows neither was changed in slices 2 to 6; the Lockstep session says whether it plans a seventh slice or amends the design."
-  },
-  {
-   "id": "Q23-blocks",
-   "label": "whether the design's one-projector and `.lockstep/` log rows are true, and whether \u2026",
-   "kind": "Decision",
-   "explain": "whether the design's one-projector and `.lockstep/` log rows are true, and whether `wiki/lockstep.md` can say the design is built"
-  },
-  {
-   "id": "edit-guard",
-   "label": "Edit guard",
-   "kind": "Concept",
-   "dashed": false,
-   "explain": "The one edit-time hook: refuses a write to a file the plan does not name and shows the plan; allows reading a planned file. Defined in proposals/one-planning-tool/DESIGN.md:30. Code: src/lockstep/hook.py:474."
+   "explain": "whether the design's one-projector row is true, and whether `wiki/lockstep.md` can say the design is fully built"
   },
   {
    "id": "first-docstring",
@@ -690,56 +671,26 @@
    "label": "bears on"
   },
   {
-   "id": "Q22-to-decision",
-   "source": "Q22",
-   "target": "Q22-blocks",
+   "id": "Q24-to-decision",
+   "source": "Q24",
+   "target": "Q24-blocks",
    "label": "blocks"
   },
   {
-   "id": "Q22-one-tool",
-   "source": "Q22",
+   "id": "Q24-one-tool",
+   "source": "Q24",
    "target": "one-tool",
    "label": "bears on"
   },
   {
-   "id": "Q22-acceptance_entry",
-   "source": "Q22",
-   "target": "acceptance_entry",
-   "label": "bears on"
-  },
-  {
-   "id": "Q22-slice",
-   "source": "Q22",
-   "target": "slice",
-   "label": "bears on"
-  },
-  {
-   "id": "Q23-to-decision",
-   "source": "Q23",
-   "target": "Q23-blocks",
-   "label": "blocks"
-  },
-  {
-   "id": "Q23-one-tool",
-   "source": "Q23",
-   "target": "one-tool",
-   "label": "bears on"
-  },
-  {
-   "id": "Q23-edit-guard",
-   "source": "Q23",
-   "target": "edit-guard",
-   "label": "bears on"
-  },
-  {
-   "id": "Q23-first-docstring",
-   "source": "Q23",
+   "id": "Q24-first-docstring",
+   "source": "Q24",
    "target": "first-docstring",
    "label": "bears on"
   },
   {
-   "id": "Q23-slice",
-   "source": "Q23",
+   "id": "Q24-slice",
+   "source": "Q24",
    "target": "slice",
    "label": "bears on"
   }

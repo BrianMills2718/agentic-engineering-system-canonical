@@ -189,24 +189,24 @@
  ],
  "coverage": {
   "model": "openrouter/anthropic/claude-sonnet-5.5",
-  "judged_at": "2026-11-11T17:39:26-0500",
+  "judged_at": "2026-11-12T12:49:22-0500",
   "asked_by_sha256": "4c475d6604f6b578e572ccdf43df51f6d5d9c9c78272ec0134d08126e79ea11b",
-  "criteria_sha256": "57d5c4d12de018165e0fd81bae36aea9b56c2a8d836baf424d5cb912f23ee30f",
+  "criteria_sha256": "0043551cda964065cba62d5d972278add4e3606ace1414ba9dd751bc018d77ef",
   "cut_context_sha256": "15df2cb97b4d42a78df91890302c0bc6c8c5eb387a351f3c4b829d0aefcb41d7",
   "outcome_sha256": "eb4654f063b156765216c93d31a502a480e772a64ae5a187f2da29a445565139",
   "criteria_judged": {
-   "A1": "b4b10845c3c5bc28a34ccf99e6df63216cc2c6bebe0304325e5b5fc98064fdca",
-   "A2": "925f9d1025bdcefaa5e8b0e707aa373f7cdd2de36d3a8a501aa943f1f143ce73",
+   "A1": "815ba4415d0dd27d6082095040f9ea6f14d8885a7c07e7b412698888e59d1bef",
+   "A2": "26296ab21f867cba39b044a5a67767c3a8c7175c0b162c588f604cf0334f181c",
    "A3": "43255ae94f628efa4a5f2765b137ca9d1c340784877f79ba1d95e3a64dc8beae",
    "A4": "484770c225fd37724fa215587eda7f6810348443e9f1d74cdb89448034df39ae",
-   "A5": "84aea63f4ee51d09b085be1a59697921b58f099b598a90e646fad8b5517ff3df",
+   "A5": "bd442e0045ccd6ddea1dfec00e90cd8f856737ee3f32317246044bfef309bd29",
    "A6": "36190c857d0c8aa98864e62680c00a892f7d6ebe51bba5aaeaf1777b1044d705",
    "A7": "6f7ac7c668c4fbfc28d7b355343af1702728bf9ad62beb4a5f9498aa712ae4e9",
    "A8": "9cf1fa2fcf34e0ac5ed8c9bda939c9b5c63d9b1c544103088a05f25e3a670bcf"
   },
   "deferrals_judged": [],
-  "trace_id": "planning-compliance/goal-coverage/20261111T173913-929f1ff1-run1",
-  "cost_usd": 0.08276,
+  "trace_id": "planning-compliance/goal-coverage/20261112T124908-29a4b191-run1",
+  "cost_usd": 0.083664,
   "requirements": [
    {
     "id": "R1",
@@ -313,70 +313,69 @@
     "covered_by": [
      "A8"
     ],
-    "coverage_reason": "A8 fails unless one page names AES's three parts (Lockstep, feedback loop, policy layer) and where each lives.",
+    "coverage_reason": "A8 fails unless the page shows AES as a whole with its three parts, where each lives and what runs.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
     "in_outcome": true,
-    "outcome_reason": "The outcome line says AES is the whole system made of Lockstep, the feedback loop and the policy layer."
+    "outcome_reason": "The outcome line states AES is the whole system with Lockstep, feedback loop and policy layer."
    },
    {
     "requirement_id": "R2",
     "covered_by": [
-     "A8",
-     "A1"
+     "A8"
     ],
-    "coverage_reason": "A8 names Lockstep as one of three parts, and A1 treats Lockstep as a single tool shipped from AES canonical.",
+    "coverage_reason": "A8 requires Lockstep be named as one of three parts, so presenting it as the whole would fail.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
     "in_outcome": true,
-    "outcome_reason": "The outcome line lists Lockstep as one part of AES."
+    "outcome_reason": "The outcome line says Lockstep is built into one tool and is a part of AES."
    },
    {
     "requirement_id": "R3",
     "covered_by": [
-     "A8",
      "A6",
-     "A7"
+     "A7",
+     "A8"
     ],
-    "coverage_reason": "A8 names the feedback loop and policy layer as AES parts, A6 shows the feedback system filing reports, and A7 shows the policy rules.",
+    "coverage_reason": "A8 names the feedback loop and policy layer as AES parts, while A6 and A7 check the feedback log and the policy rules work.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
     "in_outcome": true,
-    "outcome_reason": "The outcome line names the feedback loop and policy layer as parts of AES that keep working."
+    "outcome_reason": "The outcome line says AES includes the feedback loop and policy layer and they keep working."
    },
    {
     "requirement_id": "R4",
     "covered_by": [
      "A1"
     ],
-    "coverage_reason": "A1 fails if more than one tool or config has to be installed, since it requires one tool replacing pcw, code2check and plan check.",
+    "coverage_reason": "A1 fails unless one command and one config file replace pcw, code2check and the plan check.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
     "in_outcome": true,
-    "outcome_reason": "The outcome line says Lockstep is built into one tool."
+    "outcome_reason": "The outcome line says Lockstep is built into one tool following the single-tool design."
    },
    {
     "requirement_id": "R5",
     "covered_by": [
      "A1"
     ],
-    "coverage_reason": "A1 requires the tool to be shipped from AES canonical and installed from the canonical git address.",
+    "coverage_reason": "A1 requires it to be shipped from and installed from AES canonical's git address.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
     "in_outcome": true,
-    "outcome_reason": "The outcome line places the tool in AES canonical."
+    "outcome_reason": "The outcome line puts the tool in AES canonical."
    },
    {
     "requirement_id": "R6",
     "covered_by": [
      "A5"
     ],
-    "coverage_reason": "A5 fails unless each check can be set to block, warn or off through lockstep.yaml.",
+    "coverage_reason": "A5 requires every check to have a block, warn or off setting and the owner to come from lockstep.yaml.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
@@ -388,7 +387,7 @@
     "covered_by": [
      "A5"
     ],
-    "coverage_reason": "A5 fails if machine paths exist or a lockstep.yaml does not work when copied to another repository.",
+    "coverage_reason": "A5 requires zero machine paths and the same install in any repository, and a copied config working elsewhere.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
@@ -400,7 +399,7 @@
     "covered_by": [
      "A5"
     ],
-    "coverage_reason": "A5 fails unless someone else can install it from the public git address with only the README.",
+    "coverage_reason": "A5 requires that someone else can install it from its public git address with only the README.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
@@ -412,19 +411,19 @@
     "covered_by": [
      "A4"
     ],
-    "coverage_reason": "A4 requires files to be laid out by the agent only after approval and shows no file was laid out before it.",
+    "coverage_reason": "A4 requires that files are laid out only after approval and shows no file was laid out before it.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
     "in_outcome": true,
-    "outcome_reason": "The outcome line says that once a person approves the plan, the tool lays out the files."
+    "outcome_reason": "The outcome line says that once a person approves the plan, it lays out the files."
    },
    {
     "requirement_id": "R10",
     "covered_by": [
      "A4"
     ],
-    "coverage_reason": "A4 checks each planned file's first docstring is written with the plan's content.",
+    "coverage_reason": "A4 checks each file's first docstring is written with the plan content.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
@@ -436,19 +435,19 @@
     "covered_by": [
      "A4"
     ],
-    "coverage_reason": "A4 fails unless the docstring carries the normative requirement text word for word.",
+    "coverage_reason": "A4 requires the docstring to hold the normative requirement text of what the file must do.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
     "in_outcome": true,
-    "outcome_reason": "The outcome line includes what each file must do in the docstring."
+    "outcome_reason": "The outcome line includes what it must do in the docstring."
    },
    {
     "requirement_id": "R12",
     "covered_by": [
      "A4"
     ],
-    "coverage_reason": "A4 fails unless the docstring carries the success criteria and test names exactly as approved.",
+    "coverage_reason": "A4 requires the docstring to hold the success criteria and test names exactly as approved.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
@@ -460,7 +459,7 @@
     "covered_by": [
      "A1"
     ],
-    "coverage_reason": "A1 requires Lockstep to be one tool built to the single-tool design the person approved.",
+    "coverage_reason": "A1 fails unless Lockstep is one tool built to the approved single-tool design.",
     "extent": "full",
     "missing": "",
     "deferral": 0,
@@ -470,40 +469,30 @@
    {
     "requirement_id": "R14",
     "covered_by": [],
-    "coverage_reason": "No criterion could show a process request to keep working on the harness, and none mentions the harness.",
+    "coverage_reason": "No criterion could demonstrate continuing work on the harness; it is a process statement and the harness is not mentioned in any criterion.",
     "extent": "none",
     "missing": "",
     "deferral": 0,
     "in_outcome": true,
-    "outcome_reason": "Not an outcome requirement, so it is kept by default."
+    "outcome_reason": "It is a process requirement, so the outcome line does not need to keep it."
    }
   ],
   "agreement": {
    "runs": 3,
    "rule": "a gap counts only when every run finds it; a split is unsure",
-   "agreed": false,
+   "agreed": true,
    "trace_ids": [
-    "planning-compliance/goal-coverage/20261111T173913-929f1ff1-run1",
-    "planning-compliance/goal-coverage/20261111T173913-929f1ff1-run2",
-    "planning-compliance/goal-coverage/20261111T173913-929f1ff1-run3"
+    "planning-compliance/goal-coverage/20261112T124908-29a4b191-run1",
+    "planning-compliance/goal-coverage/20261112T124908-29a4b191-run2",
+    "planning-compliance/goal-coverage/20261112T124908-29a4b191-run3"
    ],
    "costs_usd": [
-    0.02776,
-    0.0273,
-    0.0277
+    0.027908,
+    0.027988,
+    0.027768
    ]
   },
-  "unsure": [
-   {
-    "requirement_id": "R13",
-    "requirement": "approve single tool design",
-    "runs_with_gap": 1,
-    "runs": 3,
-    "gaps": [
-     "run 3: R13 \"approve single tool design\": only partly covered by A1; no criterion asks for No criterion asks that the approved design is the one decided in D4; A1 only says it is single-tool."
-    ]
-   }
-  ],
+  "unsure": [],
   "trace": "coverage-trace.json"
  }
 }
