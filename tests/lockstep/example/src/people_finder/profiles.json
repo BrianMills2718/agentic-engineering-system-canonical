@@ -1,0 +1,7 @@
+[
+  {"handle": "@noor_ml", "name": "Noor Haddad", "employer": "northwind robotics", "title": "ML Engineer"},
+  {"handle": "@lin_ships", "name": "Lin Park", "employer": "Northwind Robotics", "title": "Product Manager"},
+  {"handle": "@sam_ops", "name": "Sam Rivera", "employer": "Bluefin Analytics", "title": "Ops Lead"},
+  {"handle": "@ada_builds", "name": "Ada Okafor", "employer": "Northwind Robotics", "title": "Staff Engineer"},
+  {"handle": "@kai_former", "name": "Kai Moreau", "employer": "Bluefin Analytics", "title": "Data Scientist", "past_employers": ["Northwind Robotics"]}
+]

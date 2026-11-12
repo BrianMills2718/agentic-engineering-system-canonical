@@ -1,0 +1,13 @@
+site_name: People finder wiki
+docs_dir: docs
+plugins:
+  - gen-files:
+      scripts:
+        - docs/gen_pages.py
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: false
+            docstring_style: google

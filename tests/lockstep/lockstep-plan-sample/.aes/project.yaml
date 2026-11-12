@@ -1,0 +1,16 @@
+schema_version: aes.v0_2.project.probe0
+project_id: lockstep
+aes:
+  architecture_line: AES-v0.2
+  distribution_version: 0.1.dev1077+gc123a801b
+  initialized_at: '2026-11-07T03:36:02+00:00'
+governed_roots:
+- src/pcw/
+- tests/
+materialization:
+  target_path: .aes/target.yaml
+  plans_root: .aes/plans/
+  observations_root: .aes/observations/
+  generated_root: .aes/generated/
+ecosystem:
+  primary_language_or_runtime: python

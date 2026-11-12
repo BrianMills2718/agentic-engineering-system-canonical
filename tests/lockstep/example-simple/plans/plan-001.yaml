@@ -1,0 +1,48 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-001-GREET
+title: Greet by name
+rationale: Plan one requirement and its test before any code is written.
+closes_gaps: []
+trace_review:
+  runs_traced_work: false
+  reason: The planned work is plain Python with no model, agent or pipeline in the loop; it is judged by its tests and checks.
+target_delta:
+  add:
+    normative_items:
+      - id: NI-001
+        kind: behavior
+        outcome_refs: [OUT-001]
+        statement: greet(name) returns "Hello, <name>!".
+    success_criteria:
+      - id: SC-001
+        statement: greet greets the name it is given.
+        target_refs: [NI-001]
+        disproof: greet("Ada") returns anything other than "Hello, Ada!".
+        evidence_requirements:
+          - id: ER-001-01
+            kind: deterministic_test
+            requirement: A test checks greet("Ada") == "Hello, Ada!".
+    components:
+      - id: CMP-GREETER
+        responsibility: say hello
+        target_refs: [NI-001]
+        planned_artifact_refs: [ART-GREET, ART-TEST]
+    planned_artifacts:
+      - id: ART-GREET
+        locator: {exact_path: src/greeter/__init__.py}
+        kind: source
+        purpose: the greet function
+        semantic_justification_refs: [NI-001]
+      - id: ART-TEST
+        locator: {exact_path: tests/test_greet.py}
+        kind: test
+        purpose: prove SC-001
+        semantic_justification_refs: [SC-001]
+    verification_subjects:
+      - id: VS-GREET
+        criterion_refs: [SC-001]
+        evidence_requirement_refs: [ER-001-01]
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/test_greet.py
+        purpose: prove greet greets the name it is given

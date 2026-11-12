@@ -1,0 +1,40 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-002-SORTED
+title: Return people sorted by name
+rationale: >
+  The recruiter reads the list top to bottom and asked for it in name order.
+  This changes the existing requirement and its criterion; the code, the
+  docstring, the test and the wiki must follow.
+closes_gaps: []
+trace_review:
+  runs_traced_work: false
+  reason: The planned work is plain Python with no model, agent or pipeline in the loop; it is judged by its tests and checks.
+target_delta:
+  change:
+    normative_items:
+      - id: NI-001
+        kind: behavior
+        outcome_refs: [OUT-001]
+        statement: >
+          find_people(company) returns every profile whose current employer is
+          that company, matching names without regard to case, sorted by the
+          person's name, and never a profile whose current employer is
+          elsewhere. An empty company name is rejected with ValueError.
+    success_criteria:
+      - id: SC-001
+        statement: >
+          A search for a company returns its current employees, in name order,
+          and nobody else.
+        target_refs: [NI-001]
+        disproof: >
+          Results include someone who works elsewhere (for example a former
+          employee), miss a current employee whose employer is written in a
+          different case, or are not in name order.
+        evidence_requirements:
+          - id: ER-001-01
+            kind: deterministic_test
+            requirement: >
+              A test searches the sample profiles for "Northwind Robotics" and
+              checks the exact list of handles in name order, including the
+              lower-case employer and excluding the former employee, and checks
+              that an empty name raises ValueError.

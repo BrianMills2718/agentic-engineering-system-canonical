@@ -11,6 +11,8 @@ dependencies = [
   "pydantic==2.13.5",
   "PyYAML==6.0.3",
   "ruamel.yaml>=0.18,<0.20",
+  # Lockstep (src/lockstep): cog projects plan text into docstrings
+  "cogapp>=3.4",
 ]
 
 [project.optional-dependencies]
@@ -21,11 +23,24 @@ dev = [
   "pytest>=8",
   "mypy>=1.8",
   "pytest-xdist>=3.8",
+  "agentic-engineering-system[wiki]",
+]
+# Lockstep's wiki build (MkDocs reading the plan and the docstrings)
+wiki = [
+  "mkdocs>=1.6",
+  "mkdocstrings[python]>=0.26",
+  "mkdocs-gen-files>=0.5",
 ]
 
 [project.scripts]
 aes-repo-context = "agentic_engineering_system.repository_context.cli:main"
 aes = "agentic_engineering_system.cli:main"
+# Lockstep, the planning-and-checking tool (proposals/one-planning-tool/DESIGN.md).
+# pcw and pcw-hook are its old names, kept so lifelike and Team-Brains' runner keep working.
+lockstep = "lockstep.check:cli"
+lockstep-hook = "lockstep.hook:main"
+pcw = "lockstep.check:cli"
+pcw-hook = "lockstep.hook:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,0 +1,1596 @@
+schema_version: aes.v0_2.target.probe0
+target_id: lockstep-target
+outcomes:
+- id: REQ-1
+  actor_or_consumer: a coding agent working in a repository planned with AES and Lockstep
+  statement: 'The plan declares the normative side and the whole file structure: the plan, written as structured YAML in the AES plan format, declares the normative side (requirements, success criteria and decisions) and declares every file and every strongly typed function and class; no code file, test or document exists without a declared reason.'
+  rationale: "wiki/requirements.md REQ-1: Brian's words, approved 2026-11-06 (\"i approve your recommendations\")."
+- id: REQ-2
+  actor_or_consumer: a coding agent working in a repository planned with AES and Lockstep
+  statement: "Each success criterion names how it is checked: every success criterion in the plan names how it is checked: a test file by name, Brian's sign-off, or an AI-graded rubric."
+  rationale: "wiki/requirements.md REQ-2: Brian's words, approved 2026-11-06 (\"i approve your recommendations\")."
+- id: REQ-3
+  actor_or_consumer: a coding agent working in a repository planned with AES and Lockstep
+  statement: "A hook copies the normative text and typed signatures down into the code: a hook copies the full normative text, and the typed signatures, from the plan down into the code's docstrings automatically; nobody types the copy. For normative text the projection is two-way: the normative portion of a docstring can be edited where the agent is working, and the edit projects up into the plan; and when the normative text changes in the plan, every linked function, wherever it is, is marked for update and the agent is handed that list."
+  rationale: "wiki/requirements.md REQ-3: Brian's words, approved 2026-11-06 (\"i approve your recommendations\")."
+- id: REQ-4
+  actor_or_consumer: a coding agent working in a repository planned with AES and Lockstep
+  statement: 'A hook copies status from the code up into the normative documents: a hook copies status from the code up into the normative documents automatically: what exists, test results, and drift. It also keeps an automatic append-only change log of every normative change, including those made in a docstring, so the history is there.'
+  rationale: "wiki/requirements.md REQ-4: Brian's words, approved 2026-11-06 (\"i approve your recommendations\")."
+- id: REQ-5
+  actor_or_consumer: a coding agent working in a repository planned with AES and Lockstep
+  statement: 'Links are checked both ways on every change: links between requirement, criterion, test, file and symbol are checked in both directions on every change, at edit time (the hook) and before commit (`pcw check`); an unplanned or stale item is refused.'
+  rationale: "wiki/requirements.md REQ-5: Brian's words, approved 2026-11-06 (\"i approve your recommendations\")."
+- id: REQ-6
+  actor_or_consumer: a coding agent working in a repository planned with AES and Lockstep
+  statement: "The wiki gets an agent to the right document or code within two links: from the wiki's front page, an agent reaches the normative document or the code that answers its question within two links, and each link comes with a summary of what it leads to."
+  rationale: "wiki/requirements.md REQ-6: Brian's words, approved 2026-11-06 (\"i approve your recommendations\")."
+- id: REQ-7
+  actor_or_consumer: a coding agent working in a repository planned with AES and Lockstep
+  statement: 'The bet: full linkage and projection are achievable, so code may be laid out by behavior: full linkage and projection (REQ-1 to REQ-6) work on a real repository, and in support of that the plan supports code laid out by behavior rather than by human-readability convention.'
+  rationale: "wiki/requirements.md REQ-7: Brian's words, approved 2026-11-06 (\"i approve your recommendations\")."
+normative_items:
+- id: BEH-1.1
+  kind: behavior
+  outcome_refs:
+  - REQ-1
+  statement: "Any file in the project that the plan does not declare is reported, with why it counts: code and tests under a governed folder through the AES plan, documents through Lockstep's side file beside the plan, and, when the side file has a files section, every other tracked file through that section."
+- id: BEH-1.2
+  kind: behavior
+  outcome_refs:
+  - REQ-1
+  statement: Any top-level function or class in a planned source file that the plan does not declare in that file's exports, with its parameter and return types, is reported.
+- id: BEH-1.3
+  kind: behavior
+  outcome_refs:
+  - REQ-1
+  statement: A planned file whose declaration gives no reason (an empty semantic_justification_refs list) is refused. AES already refuses a reason that names nothing in the plan, but accepts an empty list.
+- id: BEH-2.1
+  kind: behavior
+  outcome_refs:
+  - REQ-2
+  statement: "Every success criterion names how it is checked: a test file by name, Brian's sign-off, or an AI-graded rubric declared in Lockstep's side file."
+- id: BEH-2.2
+  kind: behavior
+  outcome_refs:
+  - REQ-2
+  statement: Every test file a criterion names exists, and every test file in the project is named by a criterion.
+- id: BEH-3.1
+  kind: behavior
+  outcome_refs:
+  - REQ-3
+  statement: The full text of a planned file's requirement, behaviors and criteria, with each disproof and proving test, is copied by cog from the plan into the file's docstring; nobody types the copy.
+- id: BEH-3.2
+  kind: behavior
+  outcome_refs:
+  - REQ-3
+  statement: The typed signatures the plan declares for a file are copied into its docstring.
+- id: BEH-3.3
+  kind: behavior
+  outcome_refs:
+  - REQ-3
+  statement: Every declared Python source or test file that does not exist yet is created with a docstring holding the cog block for its plan text; an existing file is never touched.
+- id: BEH-3.4
+  kind: behavior
+  outcome_refs:
+  - REQ-3
+  statement: An agent's edit to a planned file while the file's docstring copy of the plan is out of date tells the agent to run `make project`; by default the edit goes through with that warning and is logged as a would-block, and it is stopped for a file the side file marks fixed or with PCW_MODE=block; PCW_BLOCK_STALE=0 turns the stop into a plain allow.
+- id: BEH-3.5
+  kind: behavior
+  outcome_refs:
+  - REQ-3
+  statement: When the plan's normative text changes, every file and symbol linked to the changed items is listed and handed to the agent as one list.
+- id: BEH-3.6
+  kind: behavior
+  outcome_refs:
+  - REQ-3
+  statement: An edit to the normative part of a docstring becomes a draft plan change; the coding agent accepts it itself when it is confident in it or it is not significant, and otherwise leaves the draft and asks a person.
+- id: BEH-4.1
+  kind: behavior
+  outcome_refs:
+  - REQ-4
+  statement: Each requirement has one page, rendered from the plan and the code, none of it typed; its text first, then its status (what exists, each criterion's test result with the commit and time it was produced, and the drift between plan and code), then the change-log entries that touch it; a committed page that no longer matches a fresh build is caught before it is pushed or merged.
+- id: BEH-4.2
+  kind: behavior
+  outcome_refs:
+  - REQ-4
+  statement: 'Every normative change, from the plan or from a docstring, gets an entry in an append-only change log, written automatically when the change is accepted; nobody edits or removes an entry, and the edit hook refuses an attempt. The generated change-log page shows, for each entry whose rationale ends with an `Agent call: ...` line, that line.'
+- id: BEH-5.1
+  kind: behavior
+  outcome_refs:
+  - REQ-5
+  statement: At edit time, an agent's edit to a file under a governed folder that the plan does not declare, a shell command that writes such a file (a redirect, tee, or a new file named by an in-place or scripted write, following `cd`), or a shell command that writes a planned file (which would skip this check), is warned about by default; the edit goes through, the agent is told it would be refused and the hook log records a would-block; it is refused for a file Lockstep's side file marks fixed, or everywhere with PCW_MODE=block; a shell write the plan has no rule for is let through and logged; every call the hook sees is logged, including one it lets through with nothing to say, with the start of a shell command; the would-blocks can be counted per day. Every refusal and warning also names the project's wiki (`python -m pcw.wiki`) as where to look next.
+- id: BEH-5.2
+  kind: behavior
+  outcome_refs:
+  - REQ-5
+  statement: 'Before commit, the whole working tree gets the same checks: an undeclared file in a governed folder, a stale docstring copy, a planned source file without the copy of its own plan item, a new planned Python file with no docstring copy of its plan, a hand edit to the plan, an edited or removed evidence record, or a deleted planned file blocks; a plan change that is exactly the acceptance of new plan files (`aes plan accept`) passes, and so does a new evidence record (`aes evidence record`); the side file (`lockstep.yaml`) and the legacy list are read as they are at the base revision, so a change cannot declare its own files or add them to the legacy list, and a changed side file is reported; nothing from the checked tree is executed.'
+- id: BEH-5.3
+  kind: behavior
+  outcome_refs:
+  - REQ-5
+  statement: A planned file or declared symbol that has no code, or whose signature differs from the plan, is reported.
+- id: BEH-6.1
+  kind: behavior
+  outcome_refs:
+  - REQ-6
+  statement: The wiki is built from the plan, the evidence standing and the code docstrings at build time, so it has no hand-written copy to go stale. Its front page is set out as the questions a reader starts from (what must the project do and is it met, which files do each part and does their test prove it, does the code match the plan, what does the code say, what changed), each entry linking down to the page that answers it; every page names the plan file and every planned file and proving test as a link to that file, at the commit the page was built from when the repository has a hosted copy.
+- id: BEH-6.2
+  kind: behavior
+  outcome_refs:
+  - REQ-6
+  statement: Every normative document and code page is reached from the wiki's front page within two links, and each link carries a summary; a page that is too far away is reported with the shortest chain of links found to it from the front page, or with a statement that no chain exists.
+- id: BEH-7.1
+  kind: behavior
+  outcome_refs:
+  - REQ-7
+  statement: A behavior's docstring carries its parent requirement in full, before the behavior's own text.
+- id: BEH-7.2
+  kind: behavior
+  outcome_refs:
+  - REQ-7
+  statement: Every behavior has exactly one file of its own and at least one criterion with a checked route.
+- id: BEH-3.7
+  kind: behavior
+  outcome_refs:
+  - REQ-3
+  statement: >-
+    In a repository that has OpenSpec specs, the requirement text the hook hands the agent before an edit is the OpenSpec requirement the file implements, named by an `Implements: <capability>/<requirement>` line in the file's docstring, with its scenarios, word for word; a planned file that implements no OpenSpec requirement, and a repository without OpenSpec specs, keep the plan text from .aes/target.yaml.
+- id: DEC-Q31
+  kind: constraint
+  outcome_refs:
+  - REQ-1
+  statement: 'Decision Q31 (Brian, 2026-11-06, "i approve your recommendations"; earlier, 2026-09-24: "all normative docuemntation was yaml so that it could be easily projected in potentially many to many ways"): the normative source is YAML in the AES plan format, `.aes/target.yaml`; what that format cannot hold goes in the side file, never in prose.'
+- id: DEC-Q36
+  kind: constraint
+  outcome_refs:
+  - REQ-1
+  statement: "Decision Q36 (Brian, 2026-11-06, \"i approve your recommendations\"): what the pinned AES plan format cannot hold (documents with their purpose, other files, AI-graded rubrics, files marked fixed) lives in Lockstep's side file `lockstep.yaml` beside the plan; AES stays on hold."
+- id: DEC-D7
+  kind: constraint
+  outcome_refs:
+  - REQ-1
+  statement: 'Decision D7 (Brian, 2026-11-07: "Lockstep warns; it blocks only files the plan marks fixed, after two weeks of would-block counts"): the edit hook warns by default and refuses only files the side file marks fixed, or everywhere under PCW_MODE=block; a change-log entry is always refused.'
+- id: DEC-Q46
+  kind: constraint
+  outcome_refs:
+  - REQ-1
+  statement: "Decision Q46 (Brian, 2026-11-07: \"the coding agent should be able to change its own plan but hte  lgo of changes should be automatically generated and unchangable. and the agent should make automatically andy changes that are high confidence or are not significant.\"): the coding agent accepts its own plan change with `aes plan accept` when it is confident in it or the change is not significant, and otherwise leaves the draft and asks a person (the second half is the agent's working default); every accepted change is logged by `aes plan accept`, and nobody can edit or remove an entry."
+- id: DEC-Q47
+  kind: constraint
+  outcome_refs:
+  - REQ-1
+  statement: 'Decision Q47 (Brian, 2026-11-07: "i approve your d2"): status from the code lands on one page per requirement, below its normative text, with its change-log entries; `make status` writes the pages and `make check` refuses a stale one.'
+- id: DEC-Q35
+  kind: constraint
+  outcome_refs:
+  - REQ-1
+  statement: "Decision Q35 (Brian, 2026-11-06: \"i approve jsut be ont he lookout for any concirns recommendations open questions etc\"): Lockstep's seven requirements split into behaviors, each a leaf of the requirement tree with exactly one source file of its own."
+- id: DEC-Q48
+  kind: constraint
+  outcome_refs:
+  - REQ-1
+  statement: "Decision Q48 (inferred by agent, 2026-11-09, from Brian's 2026-09-24 words \"we should never have a test or a docuemntation file of any kind and not know why it exists\"): every tracked file is declared with a reason: code and tests under the governed folders by the plan, documents and every other file by the side file."
+- id: BEH-5.4
+  kind: behavior
+  outcome_refs:
+  - REQ-5
+  statement: >-
+    A proposed action other than a code change names the action it follows from the `actions` section of Lockstep's side file, as committed at the base revision; it is allowed when that action exists and has the same kind and target, and it is held, with the reason in plain words, when it names no action, names one the side file does not declare, or differs from it in kind or target.
+- id: BEH-5.5
+  kind: behavior
+  outcome_refs:
+  - REQ-5
+  statement: >-
+    An edit or a change to a planned Python file that adds a public top-level function or class the file's exports in the plan do not name, that gives a declared function a signature other than the declared one, or that removes a declared export the file defined before, is warned about at edit time (refused for a file the side file marks fixed, or with PCW_MODE=block) and refused before commit, with the symbol and its declared and found signatures in plain words; a problem already in the file before the change is not counted against it, and a new file is not judged for exports it does not define yet.
+- id: BEH-3.8
+  kind: behavior
+  outcome_refs:
+  - REQ-3
+  statement: >-
+    An edit that changes the plan file itself (.aes/target.yaml) other than through `aes plan accept` is warned about at edit time (refused with PCW_MODE=block), naming each changed plan item and every file and symbol whose docstring carries it, so the agent is told to make the change through a plan and is handed the list of linked functions.
+success_criteria:
+- id: SC-1.1
+  statement: An undeclared file under a governed folder is reported; a declared file, a legacy file and a file outside every governed folder are not, unless the side file has a files section, when an undeclared tracked file outside the governed folders is reported; an undeclared document is reported.
+  target_refs:
+  - BEH-1.1
+  disproof: An undeclared code file, test or document passes without a report, a tracked file declared nowhere passes when the side file has a files section, or a declared, legacy or (without a files section) ungoverned file is reported.
+  evidence_requirements:
+  - id: ER-1.1-a
+    kind: deterministic_test
+    requirement: A test checks that an undeclared file under a governed folder is reported and that declared, legacy and ungoverned files are not.
+  - id: ER-1.1-b
+    kind: deterministic_test
+    requirement: A test checks that a document the side file does not declare is reported.
+  - id: ER-1.1-c
+    kind: deterministic_test
+    requirement: A test gives the side file a files section and checks an undeclared tracked file outside the governed folders is reported, a declared one is not, and a glob that matches nothing is reported.
+- id: SC-1.2
+  statement: An undeclared top-level function or class, or an export without types, is reported; declared typed symbols are not.
+  target_refs:
+  - BEH-1.2
+  disproof: A top-level function or class is missing from its file's exports, or is exported without types, and nothing reports it.
+  evidence_requirements:
+  - id: ER-1.2-a
+    kind: deterministic_test
+    requirement: A test checks that an undeclared top-level function and an untyped export are reported.
+- id: SC-1.3
+  statement: A plan that declares a file with an empty reason list is refused.
+  target_refs:
+  - BEH-1.3
+  disproof: A target holding a planned artifact with an empty semantic_justification_refs list passes the check.
+  evidence_requirements:
+  - id: ER-1.3-a
+    kind: deterministic_test
+    requirement: A test checks that a planned artifact with an empty reason list is refused.
+- id: SC-2.1
+  statement: A criterion with no test, sign-off or rubric route is reported, and an AI-graded rubric can be declared for a criterion.
+  target_refs:
+  - BEH-2.1
+  disproof: A criterion passes with no named check, or an AI-graded rubric cannot be declared.
+  evidence_requirements:
+  - id: ER-2.1-a
+    kind: deterministic_test
+    requirement: A test checks that a criterion with no route is reported and one with a side-file rubric is not.
+- id: SC-2.2
+  statement: A named test file that is missing, and a test file no criterion names, are both reported.
+  target_refs:
+  - BEH-2.2
+  disproof: A verification subject names a missing test file, or a test file exists that no criterion names, and nothing reports it.
+  evidence_requirements:
+  - id: ER-2.2-a
+    kind: deterministic_test
+    requirement: 'A test checks both directions: a missing named test and an unnamed test file are reported.'
+- id: SC-3.1
+  statement: After `make project`, a planned file's docstring holds its behavior statement, criterion, disproof and proving test word for word from the plan.
+  target_refs:
+  - BEH-3.1
+  disproof: The docstring holds only an ID or a reference, or text that differs from the plan.
+  evidence_requirements:
+  - id: ER-3.1-a
+    kind: deterministic_test
+    requirement: A test checks that a planned file's docstring holds the behavior, criterion, disproof and proving test from the plan.
+- id: SC-3.2
+  statement: After `make project`, every export the plan declares for a file appears in its docstring as declared.
+  target_refs:
+  - BEH-3.2
+  disproof: A declared signature is missing from the docstring or differs from the plan's.
+  evidence_requirements:
+  - id: ER-3.2-a
+    kind: deterministic_test
+    requirement: A test checks that a planned file's docstring lists each declared export and signature.
+- id: SC-3.3
+  statement: '`python -m pcw.scaffold` creates each missing declared .py file with its cog block and leaves existing files unchanged.'
+  target_refs:
+  - BEH-3.3
+  disproof: A missing declared file is not created, is created without its cog block, or an existing file changes.
+  evidence_requirements:
+  - id: ER-3.3-a
+    kind: deterministic_test
+    requirement: A test removes a planned file, runs the scaffold and checks the file is back with its cog block while another planned file is unchanged.
+- id: SC-3.4
+  statement: With PCW_MODE=block the hook denies an edit to a planned file whose docstring differs from the plan, and allows the same edit once the copy is regenerated; by default it allows the stale edit with the warning.
+  target_refs:
+  - BEH-3.4
+  disproof: Under PCW_MODE=block (PCW_BLOCK_STALE unset) an edit goes through while the copy is stale, or is stopped after regeneration; or by default a stale edit is stopped or goes through without the warning.
+  evidence_requirements:
+  - id: ER-3.4-a
+    kind: deterministic_test
+    requirement: A test changes the plan, checks the hook denies the edit under PCW_MODE=block, regenerates, and checks it allows it.
+  - id: ER-3.4-b
+    kind: deterministic_test
+    requirement: A test changes the plan and checks the hook allows the edit by default with the warning.
+- id: SC-3.5
+  statement: After a plan change, the agent receives a list naming every file and symbol linked to each changed item.
+  target_refs:
+  - BEH-3.5
+  disproof: A file or symbol linked to a changed item is missing from the list, or the list never reaches the agent.
+  evidence_requirements:
+  - id: ER-3.5-a
+    kind: deterministic_test
+    requirement: A test accepts a plan change and checks the list names every linked file and symbol.
+- id: SC-3.6
+  statement: An edit to a docstring's plan text produces a draft proposal carrying the edit, and the plan is unchanged until it is accepted.
+  target_refs:
+  - BEH-3.6
+  disproof: A docstring's normative edit is lost when the copy is regenerated, or reaches the plan without being accepted (accepting is what writes its change-log entry).
+  evidence_requirements:
+  - id: ER-3.6-a
+    kind: deterministic_test
+    requirement: A test edits a docstring's plan text and checks a draft proposal carries the edit.
+- id: SC-4.1
+  statement: The wiki has one page per requirement showing, in order, its text; a status block with each behavior's files, each criterion's standing with the commit and time of the test result behind it, and any drift AES reports; and the change-log entries that touch the requirement, newest last. A written page that differs from a fresh build is reported.
+  target_refs:
+  - BEH-4.1
+  disproof: A page shows a status someone typed; misses a file, test result, drift or change-log entry the code and plan have; shows a test result without its commit and time; or a written page that differs from a fresh build passes the check.
+  evidence_requirements:
+  - id: ER-4.1-a
+    kind: deterministic_test
+    requirement: A test builds the wiki for a plan with one drifted export and checks the page shows the files, the standing and the drift.
+  - id: ER-4.1-b
+    kind: deterministic_test
+    requirement: A test records the missing test results for a planned project, builds a requirement's page, and checks it shows the requirement's text, then each criterion's standing with the commit and time of its result, then the change-log entries touching the requirement, in that order.
+  - id: ER-4.1-c
+    kind: deterministic_test
+    requirement: A test writes the pages, checks a rebuild that differs only in its built-at line passes, then changes the plan and checks the written pages are reported stale.
+- id: SC-4.2
+  statement: 'Each accepted plan change and each docstring-originated change adds one log entry, earlier entries are never altered, and the edit hook refuses an edit, overwrite or removal of an entry; the generated page shows the `Agent call: ...` line of each entry whose rationale ends with one.'
+  target_refs:
+  - BEH-4.2
+  disproof: A normative change has no entry, an entry was edited or removed, or the edit hook lets an edit, overwrite or shell removal of an entry through, or the page leaves out the Agent call line of an entry whose rationale ends with one.
+  evidence_requirements:
+  - id: ER-4.2-a
+    kind: deterministic_test
+    requirement: A test makes two normative changes and checks two entries with earlier ones unchanged, and renders the page for an entry whose rationale ends with an Agent call line and one without, checking the line appears under the first and nothing is added under the second.
+  - id: ER-4.2-b
+    kind: deterministic_test
+    requirement: A test sends the edit hook an Edit and a Write of an existing log entry and a shell command that removes one, and checks each is denied while reading an entry is allowed.
+- id: SC-5.1
+  statement: By default the hook allows an Edit or Write to an undeclared governed file, a shell write that creates one, and a shell write to a planned file, telling the agent it would be refused and logging decision would_block; it denies each for a file matching a `fixed` glob in the side file or under PCW_MODE=block, including when the shell command reaches the file after `cd`, through tee, or from a here-document or a python script; it allows an edit to a declared file whose copy is current, and a shell command that writes no governed file; `pcw-hook --would-block` prints the would-block count per day. Every refusal and warning names `python -m pcw.wiki`. Every call the hook sees in a project leaves one log line, a silent pass as decision pass.
+  target_refs:
+  - BEH-5.1
+  disproof: An edit to an undeclared governed file, a shell write that creates one, or a shell write to a planned file, is let through when the file is marked fixed or PCW_MODE=block is set; a warned edit is not logged as would_block or the agent is not told; a file not marked fixed is refused by default; a shell command that writes no governed file is refused; or the count misses a would_block record; or a refusal or warning does not name `python -m pcw.wiki`; or a call the hook sees in a project leaves no log line.
+  evidence_requirements:
+  - id: ER-5.1-a
+    kind: deterministic_test
+    requirement: A test sends the hook an edit to an undeclared governed file with PCW_MODE=block and checks it is denied.
+  - id: ER-5.1-b
+    kind: deterministic_test
+    requirement: A test sends the hook an edit to an undeclared governed file and a shell write to a planned file in the default mode and checks each is allowed with the warning and logged as would_block, then marks the file fixed and checks each is denied.
+  - id: ER-5.1-c
+    kind: deterministic_test
+    requirement: A test writes would_block records on two days and checks the per-day count covers only the days asked for.
+  - id: ER-5.1-d
+    kind: deterministic_test
+    requirement: Tests send the hook shell commands that create an undeclared governed file (redirect, after cd, absolute path, tee, touch, cp, a here-document, a python here-document) and a planned-file write after cd, and check each is warned about by default and denied under PCW_MODE=block; and commands that write no governed file, and check none is denied and an ungoverned write is logged as a pass.
+  - id: ER-5.1-e
+    kind: deterministic_test
+    requirement: A test sends the hook an edit to an undeclared governed file in the default mode and a shell write creating one under PCW_MODE=block, and checks the warning and the refusal each name `python -m pcw.wiki`.
+  - id: ER-5.1-f
+    kind: deterministic_test
+    requirement: A test runs the hook on a shell command with no rule, a write outside every governed folder and a read of a planned file, and checks each leaves one log line (pass with the command, pass with the file, allow), and that a call outside any project leaves none.
+- id: SC-5.2
+  statement: "`pcw check` blocks a tree with an undeclared governed file, a stale copy, a planned source file whose copy of its own plan item is missing or replaced by another item's, a planned Python file absent at the base and written without the cog block for its plan, a hand edit to the plan, an edited or removed evidence record or a deleted planned file, including when the same change declares that file in the side file or adds it to the legacy list, committed or git-ignored; allows a tree in step, a plan change equal to the earlier plan with each newly accepted plan file applied, a new evidence record, and a side-file declaration once that declaration is committed; and never runs code from the tree."
+  target_refs:
+  - BEH-5.2
+  disproof: Any of those blocking changes passes `pcw check`, a plan change made by `aes plan accept` or a new record written by `aes evidence record` is blocked, a planned test file that existed at the base is blocked only for having no copy, or `pcw check` executes code from the checked tree, or a change that declares its own file in `lockstep.yaml` or lists it in `.aes/legacy_baseline.json` passes because of that edit.
+  evidence_requirements:
+  - id: ER-5.2-a
+    kind: deterministic_test
+    requirement: Tests run `pcw check` on a planned project with each kind of change, including an accepted plan and an accepted plan edited afterwards, and check the decision.
+  - id: ER-5.2-b
+    kind: deterministic_test
+    requirement: A test runs `pcw check` on a tree with a new evidence record and checks it passes, then on trees where an existing record is edited or removed and checks each blocks.
+  - id: ER-5.2-c
+    kind: deterministic_test
+    requirement: A test runs `pcw check` on a tree that adds a planned Python file without its plan copy and checks it blocks, then with the copy and checks it passes, and checks an edit to a planned test file that existed at the base without a copy still passes.
+  - id: ER-5.2-d
+    kind: deterministic_test
+    requirement: Tests run `pcw check` on a planned source file whose copy is removed, left empty, or replaced by another plan item's copy, and check each blocks.
+  - id: ER-5.2-e
+    kind: deterministic_test
+    requirement: Tests run `pcw check` on a change that adds a governed file and declares it in an untracked side file, then in a git-ignored side file, and on a change that adds a governed file to a git-ignored legacy list, and check each blocks; then commit a side-file declaration on its own and check the declared document passes.
+- id: SC-5.3
+  statement: A missing planned file, a missing export and a changed signature are each reported.
+  target_refs:
+  - BEH-5.3
+  disproof: A planned file or export is missing, or its signature differs, and nothing reports it.
+  evidence_requirements:
+  - id: ER-5.3-a
+    kind: deterministic_test
+    requirement: A test removes an export and changes a signature and checks both are reported.
+- id: SC-6.1
+  statement: "`make wiki` builds pages that show each planned file's plan text and its criterion standing from the current plan; every section heading on the front page is a question, and each component page links the plan file, each of its planned files and each proving test by its path, to the hosted copy at the build's commit (mkdocs `repo_url` or a GitHub `origin`) or else to the file on disk."
+  target_refs:
+  - BEH-6.1
+  disproof: A wiki page shows plan text or standing that differs from the current plan and evidence, a front-page section heading is not a question, or a component page names a planned file or proving test without a link to it.
+  evidence_requirements:
+  - id: ER-6.1-a
+    kind: deterministic_test
+    requirement: The end-to-end runs build the wiki before and after a plan change and check it shows the new text and the standing.
+  - id: ER-6.1-b
+    kind: deterministic_test
+    requirement: A test builds the smallest example's wiki and checks every front-page section heading ends in a question mark, the component page links its source file to the file on disk with no remote and to the GitHub copy at HEAD once an origin is set, and links its proving test and the plan file.
+- id: SC-6.2
+  statement: 'A built wiki is walked from its front page: every normative document and code page is within two links, and every link has a summary; a page that is too far away is reported with the shortest chain of links to it, or with a statement that no chain exists.'
+  target_refs:
+  - BEH-6.2
+  disproof: A normative document or code page needs three or more links, or a link has no summary, or a report of a page that is too far away leaves out the shortest chain of links to it (or leaves out that none exists).
+  evidence_requirements:
+  - id: ER-6.2-a
+    kind: deterministic_test
+    requirement: A test walks a built wiki and checks depth and summaries, and checks that a page three links deep is reported with its shortest chain of links and a page no link reaches is reported with no chain.
+- id: SC-7.1
+  statement: The docstring of a planned file starts its plan text with each parent requirement word for word, before the behavior.
+  target_refs:
+  - BEH-7.1
+  disproof: A docstring omits its parent requirement, shortens it, or puts it after the behavior.
+  evidence_requirements:
+  - id: ER-7.1-a
+    kind: deterministic_test
+    requirement: A test checks the parent requirement appears in full before the behavior in a planned file's docstring.
+- id: SC-7.2
+  statement: A behavior with no file, a file holding two behaviors, or a behavior with no routed criterion is reported.
+  target_refs:
+  - BEH-7.2
+  disproof: A behavior lacks its own file or a routed criterion, and nothing reports it.
+  evidence_requirements:
+  - id: ER-7.2-a
+    kind: deterministic_test
+    requirement: A test checks each of the three cases is reported.
+- id: SC-3.7
+  statement: >-
+    For an Edit or Write to a file whose docstring has an `Implements: <capability>/<requirement>` line, in a repository with `openspec/specs/<capability>/spec.md`, the hook's context holds that requirement's text and scenarios word for word from the spec (or from an active change), with or without an AES plan, and none of the plan's text; a planned file that implements no requirement, and a repository with no OpenSpec specs, still get the plan text.
+
+  target_refs:
+  - BEH-3.7
+  disproof: The hook hands plan text from .aes/target.yaml for a file that implements an OpenSpec requirement, shortens or alters the requirement text, hands nothing for a repository that has OpenSpec specs and no AES plan, or hands no plan text where there are no OpenSpec specs or the file implements no requirement.
+  evidence_requirements:
+  - id: ER-3.7-a
+    kind: deterministic_test
+    requirement: A test edits a file that implements an OpenSpec requirement, in a repository with specs and no AES plan and in one with both, and checks the hook's context holds the requirement's text and scenarios word for word and, with a plan, none of the plan's text.
+  - id: ER-3.7-b
+    kind: deterministic_test
+    requirement: A test edits a planned file in a repository without specs, and a planned file that implements no requirement in a repository with specs, and checks each still gets the plan text.
+- id: SC-DEC-Q31
+  statement: The plan is one YAML file in the AES plan format and `aes target validate` accepts it.
+  target_refs:
+  - DEC-Q31
+  disproof: The normative side lives in prose, or `aes target validate` rejects the plan.
+  evidence_requirements:
+  - id: ER-DEC-Q31-a
+    kind: human_review
+    requirement: Brian reads the plan and confirms it is the normative source.
+- id: SC-DEC-Q36
+  statement: A document, another file or a rubric declared in `lockstep.yaml` is read and checked; one declared nowhere is reported.
+  target_refs:
+  - DEC-Q36
+  disproof: A declaration in the side file is ignored, or an undeclared document passes.
+  evidence_requirements:
+  - id: ER-DEC-Q36-a
+    kind: deterministic_test
+    requirement: Tests declare documents and files in a side file and check each is read and an undeclared one reported.
+- id: SC-DEC-D7
+  statement: By default the hook lets an off-plan edit through with a warning and logs would_block; it refuses for a fixed file or PCW_MODE=block, and always for an edit to a change-log entry.
+  target_refs:
+  - DEC-D7
+  disproof: An off-plan edit is refused by default, or let through for a fixed file or under PCW_MODE=block, or a change-log entry can be edited.
+  evidence_requirements:
+  - id: ER-DEC-D7-a
+    kind: deterministic_test
+    requirement: Tests drive the hook with off-plan edits under each mode and check warn, refuse and the log entry refusal.
+- id: SC-DEC-Q46
+  statement: An accepted change has its log entry; an edited or removed entry is reported by `make check` and refused by the hook.
+  target_refs:
+  - DEC-Q46
+  disproof: A plan change has no log entry, or an entry is edited or removed without a report or refusal.
+  evidence_requirements:
+  - id: ER-DEC-Q46-a
+    kind: deterministic_test
+    requirement: Tests change the plan with and without a record, edit and remove a record, and check each is reported.
+- id: SC-DEC-Q47
+  statement: Each requirement has one generated page with its text, its status and its change-log entries, and a stale page is refused.
+  target_refs:
+  - DEC-Q47
+  disproof: Status is shown only apart from the requirement's text, or a stale page passes `make check`.
+  evidence_requirements:
+  - id: ER-DEC-Q47-a
+    kind: deterministic_test
+    requirement: Tests build requirement pages and check their parts and that a stale page is refused.
+- id: SC-DEC-Q35
+  statement: A behavior with no source file of its own, or with two, is reported.
+  target_refs:
+  - DEC-Q35
+  disproof: A behavior without exactly one source file of its own passes.
+  evidence_requirements:
+  - id: ER-DEC-Q35-a
+    kind: deterministic_test
+    requirement: Tests check behaviors with zero, one and two source files.
+- id: SC-DEC-Q48
+  statement: With a files section in the side file, a tracked file declared by neither the plan nor the side file is reported.
+  target_refs:
+  - DEC-Q48
+  disproof: A tracked file declared nowhere passes.
+  evidence_requirements:
+  - id: ER-DEC-Q48-a
+    kind: deterministic_test
+    requirement: Tests add an undeclared file outside the governed folders and check it is reported.
+- id: SC-5.4
+  statement: >-
+    A proposal whose plan names a declared action with the same kind and target is allowed and the decision names that action and its purpose; a proposal with no plan, with a plan the side file does not declare, or with a different kind or target is held with a reason that says which; the side file is read at the base revision when one is given, so a change to it does not change the decision.
+  target_refs:
+  - BEH-5.4
+  disproof: A proposal naming no action, or an undeclared one, or differing from its action in kind or target is allowed; a matching proposal is held; a held decision has no reason; or an edit to the working tree's side file changes a decision made at a base revision.
+  evidence_requirements:
+  - id: ER-5.4-a
+    kind: deterministic_test
+    requirement: A test judges a matching proposal, one with no plan, one naming an undeclared action, one with another target and one with another kind, and checks each decision and reason.
+  - id: ER-5.4-b
+    kind: deterministic_test
+    requirement: A test commits a side file, edits the working tree's copy to declare the proposal's action, and checks the decision at the base revision still holds it.
+- id: SC-5.5
+  statement: >-
+    A change that adds an undeclared public function or class, changes a declared function's signature, or removes a declared export the file defined before, is reported with the symbol named; the edit hook warns about it by default and refuses it under PCW_MODE=block; `pcw check` blocks it; a change that adds only private or declared symbols with their declared signatures passes; an undeclared symbol already present before the change, or a declared export already missing before it, is not reported.
+  target_refs:
+  - BEH-5.5
+  disproof: An added undeclared public function or class, a changed declared signature, or a removed declared export passes the edit hook with no warning or passes `pcw check`; a change with only declared, matching symbols is refused; a symbol present before the change is reported against it; or a new file is refused only for a declared export it does not define yet.
+  evidence_requirements:
+  - id: ER-5.5-a
+    kind: deterministic_test
+    requirement: A test gives symbol_gate a planned file's text before and after an added public function, a changed declared signature, an added private function and a pre-existing undeclared function, and checks which are reported.
+  - id: ER-5.5-b
+    kind: deterministic_test
+    requirement: A test runs the edit hook and `pcw check` on a repository where a planned file gains an undeclared function and checks the hook warns (refuses with PCW_MODE=block) and the check blocks.
+  - id: ER-5.5-c
+    kind: deterministic_test
+    requirement: Tests give symbol_gate a planned file's text before and after a declared function is removed and check it is named, that a function already missing before and a new incomplete file are not reported, and run the edit hook under PCW_MODE=block on an uncommitted edit that removes it and check it is refused.
+- id: SC-3.8
+  statement: >-
+    An Edit, MultiEdit or Write call that changes a plan item's text in .aes/target.yaml is answered by the edit hook with a warning (a refusal under PCW_MODE=block) that names each changed item and lists every file whose docstring carries it, with that file's declared symbols; a call that leaves the plan's items unchanged gets no such warning.
+  target_refs:
+  - BEH-3.8
+  disproof: A hand edit that changes a plan item gets no warning from the edit hook, or its warning misses a changed item or a file that carries it; or an edit that changes no plan item is warned about.
+  evidence_requirements:
+  - id: ER-3.8-a
+    kind: deterministic_test
+    requirement: A test gives plan_edit a plan before and after a changed requirement text and checks the changed item and every linked file and symbol are named, and that an unchanged plan gives nothing.
+  - id: ER-3.8-b
+    kind: deterministic_test
+    requirement: A test runs the edit hook on an Edit call that changes the plan's text and checks it warns by default and refuses under PCW_MODE=block, with the linked file named.
+components:
+- id: CMP-1.1
+  responsibility: "Any file in the project that the plan does not declare is reported, with why it counts: code and tests under a governed folder through the AES plan, documents through Lockstep's side file beside the plan, and, when the side file has a files section, every other tracked file through that section."
+  target_refs:
+  - BEH-1.1
+  planned_artifact_refs:
+  - ART-UNPLANNED-FILES
+  - TST-UNPLANNED-FILES
+  - TST-UNPLANNED-DOCUMENTS
+  - TST-UNPLANNED-OTHER-FILES
+- id: CMP-1.2
+  responsibility: Any top-level function or class in a planned source file that the plan does not declare in that file's exports, with its parameter and return types, is reported.
+  target_refs:
+  - BEH-1.2
+  planned_artifact_refs:
+  - ART-UNPLANNED-SYMBOLS
+  - TST-UNPLANNED-SYMBOLS
+- id: CMP-1.3
+  responsibility: A planned file whose declaration gives no reason (an empty semantic_justification_refs list) is refused. AES already refuses a reason that names nothing in the plan, but accepts an empty list.
+  target_refs:
+  - BEH-1.3
+  planned_artifact_refs:
+  - ART-DECLARED-REASON
+  - TST-DECLARED-REASON
+- id: CMP-2.1
+  responsibility: "Every success criterion names how it is checked: a test file by name, Brian's sign-off, or an AI-graded rubric declared in Lockstep's side file."
+  target_refs:
+  - BEH-2.1
+  planned_artifact_refs:
+  - ART-CRITERION-CHECKS
+  - TST-CRITERION-CHECKS
+- id: CMP-2.2
+  responsibility: Every test file a criterion names exists, and every test file in the project is named by a criterion.
+  target_refs:
+  - BEH-2.2
+  planned_artifact_refs:
+  - ART-LINKED-TESTS
+  - TST-LINKED-TESTS
+- id: CMP-3.1
+  responsibility: The full text of a planned file's requirement, behaviors and criteria, with each disproof and proving test, is copied by cog from the plan into the file's docstring; nobody types the copy.
+  target_refs:
+  - BEH-3.1
+  planned_artifact_refs:
+  - ART-COGTEXT
+  - TST-COGTEXT
+- id: CMP-3.2
+  responsibility: The typed signatures the plan declares for a file are copied into its docstring.
+  target_refs:
+  - BEH-3.2
+  planned_artifact_refs:
+  - ART-SIGNATURE-TEXT
+  - TST-SIGNATURE-TEXT
+- id: CMP-3.3
+  responsibility: Every declared Python source or test file that does not exist yet is created with a docstring holding the cog block for its plan text; an existing file is never touched.
+  target_refs:
+  - BEH-3.3
+  planned_artifact_refs:
+  - ART-SCAFFOLD
+  - TST-SCAFFOLD
+- id: CMP-3.4
+  responsibility: An agent's edit to a planned file while the file's docstring copy of the plan is out of date tells the agent to run `make project`; by default the edit goes through with that warning and is logged as a would-block, and it is stopped for a file the side file marks fixed or with PCW_MODE=block; PCW_BLOCK_STALE=0 turns the stop into a plain allow.
+  target_refs:
+  - BEH-3.4
+  planned_artifact_refs:
+  - ART-STALE-EDIT
+  - TST-STALE-EDIT
+- id: CMP-3.5
+  responsibility: When the plan's normative text changes, every file and symbol linked to the changed items is listed and handed to the agent as one list.
+  target_refs:
+  - BEH-3.5
+  planned_artifact_refs:
+  - ART-CHANGE-LIST
+  - TST-CHANGE-LIST
+- id: CMP-3.6
+  responsibility: An edit to the normative part of a docstring becomes a draft plan change; the coding agent accepts it itself when it is confident in it or it is not significant, and otherwise leaves the draft and asks a person.
+  target_refs:
+  - BEH-3.6
+  planned_artifact_refs:
+  - ART-DOCSTRING-UP
+  - TST-DOCSTRING-UP
+- id: CMP-4.1
+  responsibility: Each requirement has one page, rendered from the plan and the code, none of it typed; its text first, then its status (what exists, each criterion's test result with the commit and time it was produced, and the drift between plan and code), then the change-log entries that touch it; a committed page that no longer matches a fresh build is caught before it is pushed or merged.
+  target_refs:
+  - BEH-4.1
+  planned_artifact_refs:
+  - ART-REQUIREMENT-STATUS
+  - TST-REQUIREMENT-STATUS
+- id: CMP-4.2
+  responsibility: 'Every normative change, from the plan or from a docstring, gets an entry in an append-only change log, written automatically when the change is accepted; nobody edits or removes an entry, and the edit hook refuses an attempt. The generated change-log page shows, for each entry whose rationale ends with an `Agent call: ...` line, that line.'
+  target_refs:
+  - BEH-4.2
+  planned_artifact_refs:
+  - ART-CHANGE-LOG
+  - TST-CHANGE-LOG
+- id: CMP-5.1
+  responsibility: At edit time, an agent's edit to a file under a governed folder that the plan does not declare, a shell command that writes such a file (a redirect, tee, or a new file named by an in-place or scripted write, following `cd`), or a shell command that writes a planned file (which would skip this check), is warned about by default; the edit goes through, the agent is told it would be refused and the hook log records a would-block; it is refused for a file Lockstep's side file marks fixed, or everywhere with PCW_MODE=block; a shell write the plan has no rule for is let through and logged; every call the hook sees is logged, including one it lets through with nothing to say, with the start of a shell command; the would-blocks can be counted per day. Every refusal and warning also names the project's wiki (`python -m pcw.wiki`) as where to look next.
+  target_refs:
+  - BEH-5.1
+  planned_artifact_refs:
+  - ART-HOOK
+  - TST-HOOK
+- id: CMP-5.2
+  responsibility: 'Before commit, the whole working tree gets the same checks: an undeclared file in a governed folder, a stale docstring copy, a planned source file without the copy of its own plan item, a new planned Python file with no docstring copy of its plan, a hand edit to the plan, an edited or removed evidence record, or a deleted planned file blocks; a plan change that is exactly the acceptance of new plan files (`aes plan accept`) passes, and so does a new evidence record (`aes evidence record`); the side file (`lockstep.yaml`) and the legacy list are read as they are at the base revision, so a change cannot declare its own files or add them to the legacy list, and a changed side file is reported; nothing from the checked tree is executed.'
+  target_refs:
+  - BEH-5.2
+  planned_artifact_refs:
+  - ART-CHECK
+  - TST-CHECK
+- id: CMP-5.3
+  responsibility: A planned file or declared symbol that has no code, or whose signature differs from the plan, is reported.
+  target_refs:
+  - BEH-5.3
+  planned_artifact_refs:
+  - ART-PLAN-TO-CODE
+  - TST-PLAN-TO-CODE
+- id: CMP-6.1
+  responsibility: The wiki is built from the plan, the evidence standing and the code docstrings at build time, so it has no hand-written copy to go stale. Its front page is set out as the questions a reader starts from (what must the project do and is it met, which files do each part and does their test prove it, does the code match the plan, what does the code say, what changed), each entry linking down to the page that answers it; every page names the plan file and every planned file and proving test as a link to that file, at the commit the page was built from when the repository has a hosted copy.
+  target_refs:
+  - BEH-6.1
+  planned_artifact_refs:
+  - ART-WIKI
+  - TST-E2E
+- id: CMP-6.2
+  responsibility: Every normative document and code page is reached from the wiki's front page within two links, and each link carries a summary; a page that is too far away is reported with the shortest chain of links found to it from the front page, or with a statement that no chain exists.
+  target_refs:
+  - BEH-6.2
+  planned_artifact_refs:
+  - ART-WIKI-REACH
+  - TST-WIKI-REACH
+- id: CMP-7.1
+  responsibility: A behavior's docstring carries its parent requirement in full, before the behavior's own text.
+  target_refs:
+  - BEH-7.1
+  planned_artifact_refs:
+  - ART-PARENT-TEXT
+  - TST-PARENT-TEXT
+- id: CMP-7.2
+  responsibility: Every behavior has exactly one file of its own and at least one criterion with a checked route.
+  target_refs:
+  - BEH-7.2
+  planned_artifact_refs:
+  - ART-BEHAVIOR-CHECK
+  - TST-BEHAVIOR-CHECK
+- id: CMP-SHARED
+  responsibility: the package, the AES reader, the side file and its reader, and the shared test fixtures
+  target_refs:
+  - REQ-1
+  - REQ-2
+  - REQ-3
+  - REQ-4
+  - REQ-5
+  - REQ-6
+  - REQ-7
+  planned_artifact_refs:
+  - ART-INIT
+  - ART-AES-BRIDGE
+  - TST-CONFTEST
+  - ART-SIDE-FILE
+  - CFG-SIDE-FILE
+- id: CMP-3.7
+  responsibility: >-
+    In a repository that has OpenSpec specs, the requirement text the hook hands the agent before an edit is the OpenSpec requirement the file implements, named by an `Implements: <capability>/<requirement>` line in the file's docstring, with its scenarios, word for word; a planned file that implements no OpenSpec requirement, and a repository without OpenSpec specs, keep the plan text from .aes/target.yaml.
+
+  target_refs:
+  - BEH-3.7
+  planned_artifact_refs:
+  - ART-OPENSPEC-TEXT
+  - TST-OPENSPEC-TEXT
+- id: CMP-5.4
+  responsibility: >-
+    A proposed action other than a code change names the action it follows from the `actions` section of Lockstep's side file, as committed at the base revision; it is allowed when that action exists and has the same kind and target, and it is held, with the reason in plain words, when it names no action, names one the side file does not declare, or differs from it in kind or target.
+  target_refs:
+  - BEH-5.4
+  planned_artifact_refs:
+  - ART-ACTION-CHECK
+  - TST-ACTION-CHECK
+- id: CMP-5.5
+  responsibility: >-
+    An edit or a change to a planned Python file that adds a public top-level function or class the file's exports in the plan do not name, that gives a declared function a signature other than the declared one, or that removes a declared export the file defined before, is warned about at edit time (refused for a file the side file marks fixed, or with PCW_MODE=block) and refused before commit, with the symbol and its declared and found signatures in plain words; a problem already in the file before the change is not counted against it, and a new file is not judged for exports it does not define yet.
+  target_refs:
+  - BEH-5.5
+  planned_artifact_refs:
+  - ART-SYMBOL-GATE
+  - TST-SYMBOL-GATE
+- id: CMP-3.8
+  responsibility: >-
+    An edit that changes the plan file itself (.aes/target.yaml) other than through `aes plan accept` is warned about at edit time (refused with PCW_MODE=block), naming each changed plan item and every file and symbol whose docstring carries it, so the agent is told to make the change through a plan and is handed the list of linked functions.
+  target_refs:
+  - BEH-3.8
+  planned_artifact_refs:
+  - ART-PLAN-EDIT
+  - TST-PLAN-EDIT
+planned_artifacts:
+- id: ART-UNPLANNED-FILES
+  locator:
+    exact_path: src/pcw/unplanned_files.py
+  kind: source
+  purpose: report a file the plan does not declare (behavior 1.1)
+  semantic_justification_refs:
+  - BEH-1.1
+  exports:
+  - 'governing_folder(root: Path, rel: str) -> str'
+  - 'declared_file(side: SideFile, rel: str) -> str | None'
+  - 'unplanned_reason(root: Path, rel: str, base: str | None = None) -> str | None'
+  - 'document_report(root: Path) -> dict'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-UNPLANNED-SYMBOLS
+  locator:
+    exact_path: src/pcw/unplanned_symbols.py
+  kind: source
+  purpose: report a function or class not declared with its types (behavior 1.2)
+  semantic_justification_refs:
+  - BEH-1.2
+  exports:
+  - 'symbol_problems(root: Path, plan: dict) -> list[str]'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-DECLARED-REASON
+  locator:
+    exact_path: src/pcw/declared_reason.py
+  kind: source
+  purpose: refuse a declared file with no reason (behavior 1.3)
+  semantic_justification_refs:
+  - BEH-1.3
+  exports:
+  - 'reasonless_artifacts(plan: dict) -> list[str]'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-CRITERION-CHECKS
+  locator:
+    exact_path: src/pcw/criterion_checks.py
+  kind: source
+  purpose: check every criterion names a test, sign-off or AI rubric (behavior 2.1)
+  semantic_justification_refs:
+  - BEH-2.1
+  exports:
+  - 'criterion_problems(plan: dict, rubrics: dict[str, str]) -> list[str]'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-LINKED-TESTS
+  locator:
+    exact_path: src/pcw/linked_tests.py
+  kind: source
+  purpose: link named tests and test files both ways (behavior 2.2)
+  semantic_justification_refs:
+  - BEH-2.2
+  exports:
+  - LinkReport
+  - 'link_report(root: Path) -> LinkReport'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-COGTEXT
+  locator:
+    exact_path: src/pcw/cogtext.py
+  kind: source
+  purpose: copy requirement text into the docstring (behavior 3.1)
+  semantic_justification_refs:
+  - BEH-3.1
+  exports:
+  - WIDTH
+  - OPEN
+  - CLOSE
+  - END
+  - 'render(ctx: dict) -> list[str]'
+  - 'docstring(subject: str, indent: int = 4) -> None'
+- id: ART-SIGNATURE-TEXT
+  locator:
+    exact_path: src/pcw/signature_text.py
+  kind: source
+  purpose: copy typed signatures into the docstring (behavior 3.2)
+  semantic_justification_refs:
+  - BEH-3.2
+  exports:
+  - 'signature_lines(ctx: dict) -> list[str]'
+- id: ART-SCAFFOLD
+  locator:
+    exact_path: src/pcw/scaffold.py
+  kind: source
+  purpose: create declared files with their docstring block (behavior 3.3)
+  semantic_justification_refs:
+  - BEH-3.3
+  exports:
+  - STUB
+  - main() -> int
+- id: ART-STALE-EDIT
+  locator:
+    exact_path: src/pcw/stale_edit.py
+  kind: source
+  purpose: stop an edit while the docstring copy is stale (behavior 3.4)
+  semantic_justification_refs:
+  - BEH-3.4
+  exports:
+  - 'projection_stale(root: Path, relpath: str) -> str | None'
+  - stops_edits() -> bool
+  - 'stale_reason(rel: str, cog_said: str, packet: str) -> str'
+- id: ART-CHANGE-LIST
+  locator:
+    exact_path: src/pcw/change_list.py
+  kind: source
+  purpose: hand the agent every linked file when text changes (behavior 3.5)
+  semantic_justification_refs:
+  - BEH-3.5
+  exports:
+  - 'changed_items(old: dict, new: dict) -> list[str]'
+  - 'linked_files(old: dict, new: dict, changed: list[str]) -> list[dict]'
+  - 'plan_base(root: Path) -> str | None'
+  - 'change_list(root: Path, base: str | None = None) -> dict'
+  - 'render(listing: dict) -> str'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-DOCSTRING-UP
+  locator:
+    exact_path: src/pcw/docstring_up.py
+  kind: source
+  purpose: turn a docstring edit into a draft plan change (behavior 3.6)
+  semantic_justification_refs:
+  - BEH-3.6
+  exports:
+  - 'draft_from_docstring(root: Path, rel: str, out_dir: Path) -> tuple[list[Path], list[str]]'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-WIKI
+  locator:
+    exact_path: src/pcw/wiki.py
+  kind: source
+  purpose: build the wiki from plan and docstrings (behavior 6.1)
+  semantic_justification_refs:
+  - BEH-6.1
+  exports:
+  - 'pages(root: Path, package: str) -> dict[str, str]'
+  - main() -> int
+- id: ART-CHANGE-LOG
+  locator:
+    exact_path: src/pcw/change_log.py
+  kind: source
+  purpose: keep an append-only log of every normative change (behavior 4.2)
+  semantic_justification_refs:
+  - BEH-4.2
+  exports:
+  - 'entries(root: Path) -> list[dict]'
+  - 'history_problems(root: Path) -> list[str]'
+  - 'entry_edit_reason(root: Path, rel: str) -> str | None'
+  - 'render(log: list[dict]) -> str'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-HOOK
+  locator:
+    exact_path: src/pcw/hook.py
+  kind: source
+  purpose: warn about, or refuse when the file is fixed, an edit to an undeclared file (the edit hook), and count the would-blocks (behavior 5.1)
+  semantic_justification_refs:
+  - BEH-5.1
+  exports:
+  - EDIT_TOOLS
+  - SHELL_TOOLS
+  - FILE_EDITOR
+  - PATCH_PATH
+  - REDIRECT
+  - TEE
+  - IN_PLACE
+  - WARN_PREFIX
+  - 'shell_writes(command: str, path: str) -> bool'
+  - 'paths_from_call(call: dict) -> list[str]'
+  - 'shell_command(call: dict) -> str | None'
+  - 'log(root: Path, record: dict) -> None'
+  - 'blocks(root: Path, rel: str) -> bool'
+  - 'decide_shell(call: dict, command: str) -> dict | None'
+  - 'decide(call: dict) -> dict | None'
+  - 'would_block_counts(root: Path, days: int = 14) -> dict[str, int]'
+  - main() -> int
+- id: ART-CHECK
+  locator:
+    exact_path: src/pcw/check.py
+  kind: source
+  purpose: check the whole tree before commit (pcw check) (behavior 5.2)
+  semantic_justification_refs:
+  - BEH-5.2
+  exports:
+  - COG_CALL
+  - SAFE_GIT
+  - "changed_files(repo: Path, base: str = 'HEAD') -> list[tuple[str, bool]]"
+  - 'docstring_mismatch(root: Path, rel: str) -> str | None'
+  - 'accepted_plan_change(root: Path, base: str, changed: list[str]) -> tuple[list[str], str | None]'
+  - "check(repo: Path, base: str = 'HEAD') -> dict"
+  - 'main(argv: list[str] | None = None) -> int'
+  - cli() -> int
+- id: ART-PLAN-TO-CODE
+  locator:
+    exact_path: src/pcw/plan_to_code.py
+  kind: source
+  purpose: report a planned file or symbol with no code (behavior 5.3)
+  semantic_justification_refs:
+  - BEH-5.3
+  exports:
+  - PlanDrift
+  - 'plan_drift(root: Path) -> PlanDrift'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-WIKI-REACH
+  locator:
+    exact_path: src/pcw/wiki_reach.py
+  kind: source
+  purpose: check every target is two links away with a summary (behavior 6.2)
+  semantic_justification_refs:
+  - BEH-6.2
+  exports:
+  - "reach_problems(pages: dict[str, str], front: str = 'index.md') -> list[str]"
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-BEHAVIOR-CHECK
+  locator:
+    exact_path: src/pcw/behavior_check.py
+  kind: source
+  purpose: check every behavior has one file and a checked criterion (behavior 7.2)
+  semantic_justification_refs:
+  - BEH-7.2
+  exports:
+  - 'behavior_problems(plan: dict) -> list[str]'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: ART-INIT
+  locator:
+    exact_path: src/pcw/__init__.py
+  kind: source
+  purpose: the pcw package that holds every behavior
+  semantic_justification_refs:
+  - REQ-1
+  - REQ-2
+  - REQ-3
+  - REQ-4
+  - REQ-5
+  - REQ-6
+  - REQ-7
+- id: ART-AES-BRIDGE
+  locator:
+    exact_path: src/pcw/aes_bridge.py
+  kind: source
+  purpose: read the AES plan (compiled context per ID, the path-to-artifact map, governed folders) for every behavior
+  semantic_justification_refs:
+  - BEH-1.1
+  - BEH-3.1
+  - BEH-3.3
+  - BEH-3.4
+  - BEH-5.1
+  - BEH-5.2
+  - BEH-6.1
+  exports:
+  - 'find_root(start: Path) -> Path | None'
+  - 'run_aes(root: Path, *args: str) -> subprocess.CompletedProcess[str]'
+  - 'context(root: Path, subject: str) -> dict'
+  - 'target(root: Path) -> dict'
+  - 'governed_roots(root: Path) -> list[str]'
+  - 'artifact_for_path(root: Path, relpath: str) -> str | None'
+  - 'committed_text(root: Path, ref: str, relpath: str) -> str | None'
+  - 'legacy_files(root: Path, base: str | None = None) -> set[str]'
+  - 'is_governed(root: Path, relpath: str, base: str | None = None) -> bool'
+- id: TST-UNPLANNED-FILES
+  locator:
+    exact_path: tests/test_unplanned_files.py
+  kind: test
+  purpose: prove SC-1.1 (report a file the plan does not declare)
+  semantic_justification_refs:
+  - SC-1.1
+- id: TST-UNPLANNED-DOCUMENTS
+  locator:
+    exact_path: tests/test_unplanned_documents.py
+  kind: test
+  purpose: prove SC-1.1 (report a file the plan does not declare)
+  semantic_justification_refs:
+  - SC-1.1
+- id: TST-UNPLANNED-SYMBOLS
+  locator:
+    exact_path: tests/test_unplanned_symbols.py
+  kind: test
+  purpose: prove SC-1.2 (report a function or class not declared with its types)
+  semantic_justification_refs:
+  - SC-1.2
+- id: TST-DECLARED-REASON
+  locator:
+    exact_path: tests/test_declared_reason.py
+  kind: test
+  purpose: prove SC-1.3 (refuse a declared file with no reason)
+  semantic_justification_refs:
+  - SC-1.3
+- id: TST-CRITERION-CHECKS
+  locator:
+    exact_path: tests/test_criterion_checks.py
+  kind: test
+  purpose: prove SC-2.1 (check every criterion names a test, sign-off or AI rubric)
+  semantic_justification_refs:
+  - SC-2.1
+- id: TST-LINKED-TESTS
+  locator:
+    exact_path: tests/test_linked_tests.py
+  kind: test
+  purpose: prove SC-2.2 (link named tests and test files both ways)
+  semantic_justification_refs:
+  - SC-2.2
+- id: TST-COGTEXT
+  locator:
+    exact_path: tests/test_cogtext.py
+  kind: test
+  purpose: prove SC-3.1 (copy requirement text into the docstring)
+  semantic_justification_refs:
+  - SC-3.1
+- id: TST-SIGNATURE-TEXT
+  locator:
+    exact_path: tests/test_signature_text.py
+  kind: test
+  purpose: prove SC-3.2 (copy typed signatures into the docstring)
+  semantic_justification_refs:
+  - SC-3.2
+- id: TST-SCAFFOLD
+  locator:
+    exact_path: tests/test_scaffold.py
+  kind: test
+  purpose: prove SC-3.3 (create declared files with their docstring block)
+  semantic_justification_refs:
+  - SC-3.3
+- id: TST-STALE-EDIT
+  locator:
+    exact_path: tests/test_stale_edit.py
+  kind: test
+  purpose: prove SC-3.4 (stop an edit while the docstring copy is stale)
+  semantic_justification_refs:
+  - SC-3.4
+- id: TST-CHANGE-LIST
+  locator:
+    exact_path: tests/test_change_list.py
+  kind: test
+  purpose: prove SC-3.5 (hand the agent every linked file when text changes)
+  semantic_justification_refs:
+  - SC-3.5
+- id: TST-DOCSTRING-UP
+  locator:
+    exact_path: tests/test_docstring_up.py
+  kind: test
+  purpose: prove SC-3.6 (turn a docstring edit into a draft plan change)
+  semantic_justification_refs:
+  - SC-3.6
+- id: TST-CHANGE-LOG
+  locator:
+    exact_path: tests/test_change_log.py
+  kind: test
+  purpose: prove SC-4.2 (keep an append-only log of every normative change)
+  semantic_justification_refs:
+  - SC-4.2
+- id: TST-HOOK
+  locator:
+    exact_path: tests/test_hook.py
+  kind: test
+  purpose: prove SC-5.1 (refuse an edit to an undeclared file (the edit hook))
+  semantic_justification_refs:
+  - SC-5.1
+- id: TST-CHECK
+  locator:
+    exact_path: tests/test_check.py
+  kind: test
+  purpose: prove SC-5.2 (check the whole tree before commit (pcw check))
+  semantic_justification_refs:
+  - SC-5.2
+- id: TST-PLAN-TO-CODE
+  locator:
+    exact_path: tests/test_plan_to_code.py
+  kind: test
+  purpose: prove SC-5.3 (report a planned file or symbol with no code)
+  semantic_justification_refs:
+  - SC-5.3
+- id: TST-E2E
+  locator:
+    exact_path: tests/test_e2e.py
+  kind: test
+  purpose: prove SC-6.1 (build the wiki from plan and docstrings)
+  semantic_justification_refs:
+  - SC-6.1
+- id: TST-WIKI-REACH
+  locator:
+    exact_path: tests/test_wiki_reach.py
+  kind: test
+  purpose: prove SC-6.2 (check every target is two links away with a summary)
+  semantic_justification_refs:
+  - SC-6.2
+- id: TST-BEHAVIOR-CHECK
+  locator:
+    exact_path: tests/test_behavior_check.py
+  kind: test
+  purpose: prove SC-7.2 (check every behavior has one file and a checked criterion)
+  semantic_justification_refs:
+  - SC-7.2
+- id: TST-CONFTEST
+  locator:
+    exact_path: tests/conftest.py
+  kind: test
+  purpose: 'shared fixtures: the smallest example, adopted and planned'
+  semantic_justification_refs:
+  - SC-1.1
+  - SC-3.1
+  - SC-3.3
+  - SC-3.4
+  - SC-5.1
+  - SC-5.2
+  - SC-7.1
+- id: ART-PARENT-TEXT
+  locator:
+    exact_path: src/pcw/parent_text.py
+  kind: source
+  purpose: put the parent requirement in the docstring, before the behavior (behavior 7.1)
+  semantic_justification_refs:
+  - BEH-7.1
+  exports:
+  - 'parent_lines(ctx: dict, width: int) -> list[str]'
+- id: TST-PARENT-TEXT
+  locator:
+    exact_path: tests/test_parent_text.py
+  kind: test
+  purpose: prove SC-7.1 (put the parent requirement in the docstring)
+  semantic_justification_refs:
+  - SC-7.1
+- id: ART-REQUIREMENT-STATUS
+  locator:
+    exact_path: src/pcw/requirement_status.py
+  kind: source
+  purpose: show each requirement's text, status from the code and change log on one page, and keep the written pages current (behavior 4.1)
+  semantic_justification_refs:
+  - BEH-4.1
+  exports:
+  - 'requirement_status(root: Path) -> dict'
+  - 'record_stale_evidence(root: Path) -> list[str]'
+  - 'requirement_pages(root: Path, status: dict | None = None) -> dict[str, str]'
+  - 'write_pages(root: Path, out_dir: Path) -> list[str]'
+  - 'stale_pages(root: Path, out_dir: Path) -> list[str]'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: TST-REQUIREMENT-STATUS
+  locator:
+    exact_path: tests/test_requirement_status.py
+  kind: test
+  purpose: prove SC-4.1 (show what exists, test results and drift from the code)
+  semantic_justification_refs:
+  - SC-4.1
+- id: ART-SIDE-FILE
+  locator:
+    exact_path: src/pcw/side_file.py
+  kind: source
+  purpose: read and check Lockstep's side file, which declares documents, AI-graded rubrics and the files the edit hook refuses rather than warns about (behaviors 1.1, 2.1 and 5.1)
+  semantic_justification_refs:
+  - BEH-1.1
+  - BEH-2.1
+  - BEH-5.1
+  exports:
+  - SIDE_FILE
+  - SideFile
+  - 'load_side_file(root: Path, base: str | None = None) -> SideFile | None'
+  - 'side_file_problems(root: Path, plan: dict) -> list[str]'
+- id: CFG-SIDE-FILE
+  locator:
+    exact_path: lockstep.yaml
+  kind: configuration
+  purpose: Lockstep's own side file, declaring each of its documents with a purpose and the plan items it serves
+  semantic_justification_refs:
+  - BEH-1.1
+  - BEH-2.1
+- id: ART-OPENSPEC-TEXT
+  locator:
+    exact_path: src/pcw/openspec_text.py
+  kind: source
+  purpose: read the OpenSpec requirement a file implements (its Implements docstring line) so the edit hook hands the agent that text, not the AES plan text (behavior 3.7)
+  semantic_justification_refs:
+  - BEH-3.7
+  exports:
+  - 'requirement_slug(name: str) -> str'
+  - 'find_spec_root(start: Path) -> Path | None'
+  - 'read_requirements(root: Path) -> dict[str, str]'
+  - 'implemented_ids(path: Path) -> list[str]'
+  - 'requirement_packet(root: Path, path: Path) -> tuple[list[str], str]'
+- id: TST-OPENSPEC-TEXT
+  locator:
+    exact_path: tests/test_openspec_text.py
+  kind: test
+  purpose: prove SC-3.7 (hand the agent the OpenSpec requirement a file implements)
+  semantic_justification_refs:
+  - SC-3.7
+- id: TST-UNPLANNED-OTHER-FILES
+  locator:
+    exact_path: tests/test_unplanned_other_files.py
+  kind: test
+  purpose: prove SC-1.1 (every other tracked file declared in the side file) and SC-DEC-Q36, SC-DEC-Q48
+  semantic_justification_refs:
+  - SC-1.1
+  - SC-DEC-Q36
+  - SC-DEC-Q48
+- id: ART-ACTION-CHECK
+  locator:
+    exact_path: src/pcw/action_check.py
+  kind: source
+  purpose: judge a proposed non-code action against the actions Lockstep's side file declares, allow or hold with the reason (behavior 5.4)
+  semantic_justification_refs:
+  - BEH-5.4
+  exports:
+  - 'declared_actions(root: Path, base: str | None = None) -> dict[str, dict]'
+  - 'action_decision(root: Path, proposal: dict, base: str | None = None) -> dict'
+  - 'main(argv: list[str] | None = None) -> int'
+- id: TST-ACTION-CHECK
+  locator:
+    exact_path: tests/test_action_check.py
+  kind: test
+  purpose: prove SC-5.4 (a proposed action is allowed only when it matches a declared action)
+  semantic_justification_refs:
+  - SC-5.4
+- id: ART-SYMBOL-GATE
+  locator:
+    exact_path: src/pcw/symbol_gate.py
+  kind: source
+  purpose: report the public functions and classes, and the declared signatures, that an edit or change to a planned Python file adds against the plan (behavior 5.5)
+  semantic_justification_refs:
+  - BEH-5.5
+  exports:
+  - 'added_symbol_problems(root: Path, rel: str, after: str, before: str | None) -> list[str]'
+  - 'text_after(call: dict, path: Path) -> str | None'
+- id: TST-SYMBOL-GATE
+  locator:
+    exact_path: tests/test_symbol_gate.py
+  kind: test
+  purpose: prove SC-5.5 (an added undeclared symbol or changed signature is warned at edit and refused before commit)
+  semantic_justification_refs:
+  - SC-5.5
+- id: ART-PLAN-EDIT
+  locator:
+    exact_path: src/pcw/plan_edit.py
+  kind: source
+  purpose: name the plan items a hand edit to .aes/target.yaml changes and every file and symbol linked to them (behavior 3.8)
+  semantic_justification_refs:
+  - BEH-3.8
+  exports:
+  - 'plan_edit_reason(root: Path, rel: str, after: str) -> str | None'
+- id: TST-PLAN-EDIT
+  locator:
+    exact_path: tests/test_plan_edit.py
+  kind: test
+  purpose: prove SC-3.8 (a hand edit to the plan is warned at edit time with every linked file)
+  semantic_justification_refs:
+  - SC-3.8
+verification_subjects:
+- id: VS-1.1-a
+  criterion_refs:
+  - SC-1.1
+  evidence_requirement_refs:
+  - ER-1.1-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_unplanned_files.py
+  purpose: prove SC-1.1
+- id: VS-1.1-b
+  criterion_refs:
+  - SC-1.1
+  evidence_requirement_refs:
+  - ER-1.1-b
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_unplanned_documents.py
+  purpose: prove SC-1.1
+- id: VS-1.2-a
+  criterion_refs:
+  - SC-1.2
+  evidence_requirement_refs:
+  - ER-1.2-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_unplanned_symbols.py
+  purpose: prove SC-1.2
+- id: VS-1.3-a
+  criterion_refs:
+  - SC-1.3
+  evidence_requirement_refs:
+  - ER-1.3-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_declared_reason.py
+  purpose: prove SC-1.3
+- id: VS-2.1-a
+  criterion_refs:
+  - SC-2.1
+  evidence_requirement_refs:
+  - ER-2.1-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_criterion_checks.py
+  purpose: prove SC-2.1
+- id: VS-2.2-a
+  criterion_refs:
+  - SC-2.2
+  evidence_requirement_refs:
+  - ER-2.2-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_linked_tests.py
+  purpose: prove SC-2.2
+- id: VS-3.1-a
+  criterion_refs:
+  - SC-3.1
+  evidence_requirement_refs:
+  - ER-3.1-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_cogtext.py
+  purpose: prove SC-3.1
+- id: VS-3.2-a
+  criterion_refs:
+  - SC-3.2
+  evidence_requirement_refs:
+  - ER-3.2-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_signature_text.py
+  purpose: prove SC-3.2
+- id: VS-3.3-a
+  criterion_refs:
+  - SC-3.3
+  evidence_requirement_refs:
+  - ER-3.3-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_scaffold.py
+  purpose: prove SC-3.3
+- id: VS-3.4-a
+  criterion_refs:
+  - SC-3.4
+  evidence_requirement_refs:
+  - ER-3.4-a
+  - ER-3.4-b
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_stale_edit.py
+  purpose: prove SC-3.4
+- id: VS-3.5-a
+  criterion_refs:
+  - SC-3.5
+  evidence_requirement_refs:
+  - ER-3.5-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_change_list.py
+  purpose: prove SC-3.5
+- id: VS-3.6-a
+  criterion_refs:
+  - SC-3.6
+  evidence_requirement_refs:
+  - ER-3.6-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_docstring_up.py
+  purpose: prove SC-3.6
+- id: VS-4.1-a
+  criterion_refs:
+  - SC-4.1
+  evidence_requirement_refs:
+  - ER-4.1-a
+  - ER-4.1-b
+  - ER-4.1-c
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_requirement_status.py
+  purpose: prove SC-4.1
+- id: VS-4.2-a
+  criterion_refs:
+  - SC-4.2
+  evidence_requirement_refs:
+  - ER-4.2-a
+  - ER-4.2-b
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_change_log.py
+  purpose: prove SC-4.2
+- id: VS-5.1-a
+  criterion_refs:
+  - SC-5.1
+  evidence_requirement_refs:
+  - ER-5.1-a
+  - ER-5.1-b
+  - ER-5.1-c
+  - ER-5.1-d
+  - ER-5.1-e
+  - ER-5.1-f
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_hook.py
+  purpose: prove SC-5.1
+- id: VS-5.2-a
+  criterion_refs:
+  - SC-5.2
+  evidence_requirement_refs:
+  - ER-5.2-a
+  - ER-5.2-b
+  - ER-5.2-c
+  - ER-5.2-d
+  - ER-5.2-e
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_check.py
+  purpose: prove SC-5.2
+- id: VS-5.3-a
+  criterion_refs:
+  - SC-5.3
+  evidence_requirement_refs:
+  - ER-5.3-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_plan_to_code.py
+  purpose: prove SC-5.3
+- id: VS-6.1-a
+  criterion_refs:
+  - SC-6.1
+  evidence_requirement_refs:
+  - ER-6.1-a
+  - ER-6.1-b
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_e2e.py
+  purpose: prove SC-6.1
+- id: VS-6.2-a
+  criterion_refs:
+  - SC-6.2
+  evidence_requirement_refs:
+  - ER-6.2-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_wiki_reach.py
+  purpose: prove SC-6.2
+- id: VS-7.1-a
+  criterion_refs:
+  - SC-7.1
+  evidence_requirement_refs:
+  - ER-7.1-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_parent_text.py
+  purpose: prove SC-7.1
+- id: VS-7.2-a
+  criterion_refs:
+  - SC-7.2
+  evidence_requirement_refs:
+  - ER-7.2-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_behavior_check.py
+  purpose: prove SC-7.2
+- id: VS-3.7-a
+  criterion_refs:
+  - SC-3.7
+  evidence_requirement_refs:
+  - ER-3.7-a
+  - ER-3.7-b
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_openspec_text.py
+  purpose: prove SC-3.7
+- id: VS-1.1-c
+  criterion_refs:
+  - SC-1.1
+  evidence_requirement_refs:
+  - ER-1.1-c
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_unplanned_other_files.py
+  purpose: prove SC-1.1
+- id: VS-DEC-Q31-a
+  criterion_refs:
+  - SC-DEC-Q31
+  evidence_requirement_refs:
+  - ER-DEC-Q31-a
+  proof_kind: human_review
+  proof_role: direct
+  purpose: prove SC-DEC-Q31
+  locator: wiki/decisions.md (Q31, Brian's sign-off on record)
+- id: VS-DEC-Q36-a
+  criterion_refs:
+  - SC-DEC-Q36
+  evidence_requirement_refs:
+  - ER-DEC-Q36-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  purpose: prove SC-DEC-Q36
+  locator: tests/test_unplanned_documents.py
+- id: VS-DEC-Q36-b
+  criterion_refs:
+  - SC-DEC-Q36
+  evidence_requirement_refs:
+  - ER-DEC-Q36-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  purpose: prove SC-DEC-Q36
+  locator: tests/test_unplanned_other_files.py
+- id: VS-DEC-D7-a
+  criterion_refs:
+  - SC-DEC-D7
+  evidence_requirement_refs:
+  - ER-DEC-D7-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  purpose: prove SC-DEC-D7
+  locator: tests/test_hook.py
+- id: VS-DEC-Q46-a
+  criterion_refs:
+  - SC-DEC-Q46
+  evidence_requirement_refs:
+  - ER-DEC-Q46-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  purpose: prove SC-DEC-Q46
+  locator: tests/test_change_log.py
+- id: VS-DEC-Q47-a
+  criterion_refs:
+  - SC-DEC-Q47
+  evidence_requirement_refs:
+  - ER-DEC-Q47-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  purpose: prove SC-DEC-Q47
+  locator: tests/test_requirement_status.py
+- id: VS-DEC-Q35-a
+  criterion_refs:
+  - SC-DEC-Q35
+  evidence_requirement_refs:
+  - ER-DEC-Q35-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  purpose: prove SC-DEC-Q35
+  locator: tests/test_behavior_check.py
+- id: VS-DEC-Q48-a
+  criterion_refs:
+  - SC-DEC-Q48
+  evidence_requirement_refs:
+  - ER-DEC-Q48-a
+  proof_kind: deterministic_test
+  proof_role: direct
+  purpose: prove SC-DEC-Q48
+  locator: tests/test_unplanned_other_files.py
+- id: VS-5.4-a
+  criterion_refs:
+  - SC-5.4
+  evidence_requirement_refs:
+  - ER-5.4-a
+  - ER-5.4-b
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_action_check.py
+  purpose: prove SC-5.4
+- id: VS-5.5-a
+  criterion_refs:
+  - SC-5.5
+  evidence_requirement_refs:
+  - ER-5.5-a
+  - ER-5.5-b
+  - ER-5.5-c
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_symbol_gate.py
+  purpose: prove SC-5.5
+- id: VS-3.8-a
+  criterion_refs:
+  - SC-3.8
+  evidence_requirement_refs:
+  - ER-3.8-a
+  - ER-3.8-b
+  proof_kind: deterministic_test
+  proof_role: direct
+  locator: tests/test_plan_edit.py
+  purpose: prove SC-3.8

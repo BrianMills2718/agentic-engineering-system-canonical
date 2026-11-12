@@ -1,0 +1,7 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {"matcher": "apply_patch|Edit|Write|shell|exec_command", "hooks": [{"type": "command", "command": "pcw-hook", "timeout": 30}]}
+    ]
+  }
+}
