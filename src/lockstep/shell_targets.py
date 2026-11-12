@@ -184,6 +184,15 @@ def _redirect_targets(head: str) -> list[str]:
     return sure
 
 
+def _code_paths(segment: str) -> list[str]:
+    """The path-like words in code that writes: a word with a `/`, or a `name.ext` word the code quotes.
+
+    Code is not shell, so `python`, `open`, `.write` and `os.path.join` are not paths; a bare name counts only as a string literal.
+    """
+    return [w for w in _WORD.findall(segment)
+            if "/" in w or (re.fullmatch(r"[\w-]+\.[A-Za-z0-9]+", w) and re.search(r"['\"]" + re.escape(w) + r"['\"]", segment))]
+
+
 def shell_write_words(command: str) -> list[str]:
     """The words, as written, that `command` writes: redirect and tee targets, what a command writes by what
     it is, and every path named by code that calls something that writes. Each once, in order."""
@@ -196,7 +205,7 @@ def _by_segment(command: str) -> list[tuple[str, list[str]]]:
         head = _head(segment)
         targets = _redirect_targets(head) + command_writes(segment.split("\n", 1)[0])
         if _CODE_WRITES.search(segment):
-            targets += _WORD.findall(segment)
+            targets += _code_paths(segment)
         out.append((segment, [w for w in dict.fromkeys(targets) if w and not w.startswith("-")]))
     return out
 

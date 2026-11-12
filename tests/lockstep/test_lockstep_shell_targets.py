@@ -79,3 +79,9 @@ def test_segments_keep_quoted_separators_and_heredoc_bodies():
     from lockstep.shell_targets import segments
     assert segments("python -c \"a; b\" && ls") == ["python -c \"a; b\" ", " ls"]
     assert segments("cat > f <<E\nx > y\nE\nls") == ["cat > f <<E\nx > y", "ls"]
+
+
+def test_code_that_writes_names_only_its_paths_not_its_keywords():
+    from lockstep.shell_targets import shell_write_words
+    assert shell_write_words("python -c \"import os; open('src/a.py','w').write(os.path.join('a','b'))\"") == ["src/a.py"]
+    assert shell_write_words("python -c \"open('new.py','w').write('x')\"") == ["new.py"]
