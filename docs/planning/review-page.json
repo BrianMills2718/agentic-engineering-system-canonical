@@ -1,35 +1,39 @@
 {
- "title": "AES canonical: the one planning-and-checking tool, and AES as a whole",
- "lead": "AES is the whole agent system: Lockstep, the feedback loop and the policy layer (Brian, 2026-11-11). This plan builds Lockstep into one planning-and-checking tool in this repository, in six slices, and checks that the feedback loop and policy layer keep working.",
- "what_you_do": "Read the eight acceptance entries and say whether each is the right test. A6 fails today (your corrections are extracted but not filed; Q18). Answer Q2 and Q21 when you want; each has a default.",
- "north_star": "Brian approves a plan once, and from then on agents in any of his repositories, personal or Inside Success, lay out, write and commit code that stays in line with it, while his corrections and rules keep improving how they work.",
- "thesis": "One tool reading one plan format does the job of three overlapping tools with less to install, configure and keep in step, and loses nothing any of them did.",
- "disproof": "Wrong if, after slice 6, a repository needs code2check, pcw or Company Planning's own plan check for something lockstep does not do, or if any acceptance entry that passed before a slice fails after it.",
- "not_for": "Not a return of universal commit enforcement (removed 2026-10-14). Not the retirement of `.aes/` in other repositories (decision 0009 (a), one at a time). Not new feedback-loop jobs (Q21).",
- "links": [
-  {
-   "name": "The one-tool design",
-   "href": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/proposals/one-planning-tool/DESIGN.md"
-  },
-  {
-   "name": "The plan (six slices)",
-   "href": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/next.goal.md"
-  },
-  {
-   "name": "Decision 0009 and its amendments",
-   "href": "https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md"
-  },
-  {
-   "name": "Project brain (now.md)",
-   "href": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/.project-brain/now.md"
-  },
-  {
-   "name": "What the 2026-11-12 cleanup retired",
-   "href": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/retired/2026-11-12.md"
-  }
- ],
- "architecture": "docs/planning/SYSTEM_MODEL.md",
- "domain": "docs/planning/DOMAIN.md",
- "domain_graph": "docs/planning/domain.graph.json",
- "question_map": "docs/planning/open-questions.graph.json"
+  "title": "AES canonical: the one planning-and-checking tool, and AES as a whole",
+  "lead": "AES is the whole agent system: Lockstep, the feedback loop and the policy layer (Brian, 2026-11-11). This plan builds Lockstep into one planning-and-checking tool in this repository, in six slices, and checks that the feedback loop and policy layer keep working.",
+  "what_you_do": "Read the acceptance entries and their recorded evidence. A9 adds declared source-fact upkeep; its linked consumer demonstration is tracked separately from A1\u2013A8. Q18 corrections filing was repaired (recorded 867/867); that is retained evidence, not a new collector run.",
+  "north_star": "Brian approves a plan once, and from then on agents in any of his repositories, personal or Inside Success, lay out, write and commit code that stays in line with it, while his corrections and rules keep improving how they work.",
+  "thesis": "One tool reading one plan format does the job of three overlapping tools with less to install, configure and keep in step, and loses nothing any of them did.",
+  "disproof": "Wrong if, after slice 6, a repository needs code2check, pcw or Company Planning's own plan check for something lockstep does not do, or if any acceptance entry that passed before a slice fails after it.",
+  "not_for": "Not a return of universal commit enforcement (removed 2026-10-14). Not the retirement of `.aes/` in other repositories (decision 0009 (a), one at a time). Not new feedback-loop jobs (Q21).",
+  "links": [
+    {
+      "name": "The one-tool design",
+      "href": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/proposals/one-planning-tool/DESIGN.md"
+    },
+    {
+      "name": "The plan (six slices)",
+      "href": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/next.goal.md"
+    },
+    {
+      "name": "Decision 0009 and its amendments",
+      "href": "https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md"
+    },
+    {
+      "name": "Project brain (now.md)",
+      "href": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/.project-brain/now.md"
+    },
+    {
+      "name": "What the 2026-11-12 cleanup retired",
+      "href": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/retired/2026-11-12.md"
+    },
+    {
+      "name": "A9: source-fact upkeep and consumer evidence",
+      "href": "https://hive.brianmills.dev/docs/company-planning/reader/upkeep/"
+    }
+  ],
+  "architecture": "docs/planning/SYSTEM_MODEL.md",
+  "domain": "docs/planning/DOMAIN.md",
+  "domain_graph": "docs/planning/domain.graph.json",
+  "question_map": "docs/planning/open-questions.graph.json"
 }

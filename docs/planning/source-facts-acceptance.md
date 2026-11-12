@@ -15,17 +15,17 @@ Contract: [source-fact specification](../../openspec/specs/lockstep-doc-facts/sp
 
 | Case | What Brian should see | Observed result | Evidence |
 |---|---|---|---|
-| Plan lifecycle | A changed source status appears in the declared reader block. | Consumer run pending. | Provider tests: `tests/lockstep/test_doc_projection.py`; consumer evidence pending. |
-| Description | Editing the source docstring changes the declared description. | Consumer run pending. | Same provider tests; consumer evidence pending. |
-| Interface | Editing a source function signature changes the declared interface. | Consumer run pending. | Same provider tests; consumer evidence pending. |
-| Evidence | Changing a retained JSON/YAML evidence field changes the displayed value. | Consumer run pending. | Same provider tests; consumer evidence pending. |
-| Installed hook command | Replaying the exact installed Claude Code and Codex refresh commands updates the declared block. | Consumer run pending; this is separate from native dispatch. | Consumer full command records pending. |
-| Native-client dispatch | A fresh client edits only the source, and its recorded PostToolUse callback refreshes the block. | Unobserved; no native-dispatch claim. | Native session trace pending. |
-| Bypassed refresh | The project check exits nonzero for stale output and writes nothing; after refresh it passes. | Consumer run pending. | Consumer read-only before/after command records pending. |
-| Invalid declaration | Missing sources or malformed target markers fail explicitly. | Consumer run pending. | Provider negative tests; consumer evidence pending. |
+| Plan lifecycle | A changed source status appears in the declared reader block. | Passed in both installed client-command paths. | Provider tests: `tests/lockstep/checks/test_lockstep_doc_projection.py`; [Consumer traces](https://github.com/BrianMills2718/company-planning/blob/main/docs/planning/reader-upkeep/demonstration-observations.json). |
+| Description | Editing the source docstring changes the declared description. | Passed in both installed client-command paths. | [Consumer command traces](https://github.com/BrianMills2718/company-planning/blob/main/docs/planning/reader-upkeep/demonstration-observations.json). |
+| Interface | Editing a source function signature changes the declared interface. | Passed in both installed client-command paths. | [Consumer command traces](https://github.com/BrianMills2718/company-planning/blob/main/docs/planning/reader-upkeep/demonstration-observations.json). |
+| Evidence | Changing a retained JSON/YAML evidence field changes the displayed value. | Passed in both installed client-command paths. | [Consumer command traces](https://github.com/BrianMills2718/company-planning/blob/main/docs/planning/reader-upkeep/demonstration-observations.json). |
+| Installed hook command | Replaying the exact installed Claude Code and Codex refresh commands updates the declared block. | 8/8 source-edit command replays passed; separate from native dispatch. | [Full command records](https://github.com/BrianMills2718/company-planning/blob/main/docs/planning/reader-upkeep/demonstration-observations.json). |
+| Native-client dispatch | A fresh client edits only the source, and its recorded PostToolUse callback refreshes the block. | 2/2 fresh native CLI fixtures passed, each with exactly one source edit. Codex used its explicit audited-fixture trust bypass; installed checkout trust is a separate observation. | [Native full traces](https://github.com/BrianMills2718/company-planning/blob/main/docs/planning/reader-upkeep/native-dispatch.json). |
+| Bypassed refresh | The project check exits nonzero for stale output and writes nothing; after refresh it passes. | Passed in both installed client-command paths. | [Stale make docs-check refusal, before/after](https://github.com/BrianMills2718/company-planning/blob/main/docs/planning/reader-upkeep/demonstration-observations.json). |
+| Invalid declaration | Missing sources or malformed target markers fail explicitly. | Passed in both installed client-command paths. | Provider negative tests; [Consumer traces](https://github.com/BrianMills2718/company-planning/blob/main/docs/planning/reader-upkeep/demonstration-observations.json). |
 
 The paired reader will be served at
 [Company Planning documentation](https://hive.brianmills.dev/docs/company-planning/reader/upkeep/).
-It is not declared delivered here until its committed revision is deployed and
-the recorded consumer observations are linked. A1–A8 retain their previous
+Delivery requires the consumer committed revision to be deployed. The recorded
+observations above distinguish command replay, native fixtures and deployment. A1–A8 retain their previous
 review scope; this table does not re-audit those outcomes.
