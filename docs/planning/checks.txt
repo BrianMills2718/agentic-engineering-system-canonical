@@ -1,4 +1,4 @@
-Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at a9fa3e80afa53608251b29d1ec9d2d3716fb0928, run 2026-11-12T18:59Z.
+Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 2b0709497ecc77b2eb6ab284bec57f52069a422e, run 2026-11-12T19:06Z.
 Company Planning scripts from ~/code2/company-planning at b8a53a0.
 Not run: aes commit replay (the commit rule was removed 2026-10-14; open question Q11); make aes and the plan-adoption recheck (retired 2026-11-12 with this repository's .aes/ and docs/plans).
 
