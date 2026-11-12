@@ -70,6 +70,21 @@ def secret_values() -> list[str]:
     return vals
 
 
+def scrub_transcript(text: str) -> str:
+    """Drop machine details before publishing: the init event's plugin, skill and tool lists, session ids, home paths."""
+    out = []
+    for line in text.splitlines():
+        if not line.startswith("{"):
+            continue
+        ev = json.loads(line)
+        if ev.get("type") == "system" and ev.get("subtype") == "init":
+            ev = {"type": "system", "subtype": "init", "model": ev.get("model")}
+        ev.pop("session_id", None)
+        ev.pop("uuid", None)
+        out.append(re.sub(r"/home/[^/\"\s]+", "~", json.dumps(ev)))
+    return "\n".join(out) + "\n"
+
+
 def main() -> int:
     args = parse_args(__doc__)
     t = Trace("A5", "Portable, configurable and shareable")
@@ -165,6 +180,7 @@ def agent_row(t: Trace, args, readme: str, env: dict) -> None:
     leaked = [i for i, v in enumerate(secret_values()) if v in transcript or v in p.stderr]
     if leaked or re.search(r"sk-[A-Za-z0-9_-]{16,}", transcript):
         raise SystemExit("secret-like text found in the agent transcript; not saving it")
+    transcript = scrub_transcript(transcript)
     jsonl.write_text(transcript)
     t.steps.append({"name": "repo 3: a fresh headless agent follows only the README",
                     "command": " ".join(argv) + "   (prompt on stdin: the README text, then the instruction)", "cwd": str(repo3),

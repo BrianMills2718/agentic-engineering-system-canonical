@@ -23,6 +23,15 @@ CASES = [
 UNPLANNED = ["src/lifelike/extra.py", "src/lifelike/zz.py"]
 
 
+def redact_private_plan_text(t) -> None:
+    """lifelike is a private repository: keep the guard's decisions and file names, drop the plan text it quotes."""
+    pat = re.compile(r'(\\?"additionalContext\\?": \\?")(.*?)(\\?"\}\})', re.S)
+    for step in t.steps:
+        for key in ("stdout", "stderr"):
+            text = step[key]["text"]
+            step[key]["text"] = pat.sub(lambda m: m.group(1) + f"[plan text from the private lifelike repository, {len(m.group(2))} characters, not published]" + m.group(3), text)
+
+
 def main() -> int:
     t = Trace("A2", "The guard refuses writes the plan does not name and allows reads")
     work = Path(tempfile.mkdtemp(prefix="a2-lifelike-")) / "lifelike"
@@ -59,6 +68,7 @@ def main() -> int:
     t.extra["files_after"] = after
     t.extra["unplanned_existed_after"] = {p: (work / p).exists() for p in UNPLANNED}
     t.extra["files_changed_by_run"] = sorted(set(after) ^ set(before))
+    redact_private_plan_text(t)
     t.write()
     shutil.rmtree(work.parent, ignore_errors=True)
     return 0
