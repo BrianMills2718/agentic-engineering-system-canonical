@@ -76,6 +76,18 @@ def test_the_edit_hook_refuses_an_unplanned_file_and_names_the_layout(lay, monke
     assert "lockstep.yaml" in out["permissionDecisionReason"]
 
 
+@pytest.mark.req("lockstep-plan-format/an-unplanned-file-is-refused-against-the-layout")
+def test_the_shell_guard_reads_the_layout_too(lay, monkeypatch, capsys):
+    _layout(lay)
+    write = {"hook_event_name": "PreToolUse", "cwd": str(lay), "tool_name": "Bash",
+             "tool_input": {"command": "cat > src/extra.py <<'EOF'\nx = 1\nEOF"}}
+    out = _hook(write, monkeypatch, capsys)
+    assert out["permissionDecision"] == "deny" and "no `layout:` row in lockstep.yaml" in out["permissionDecisionReason"]
+    read = {"hook_event_name": "PreToolUse", "cwd": str(lay), "tool_name": "Bash",
+            "tool_input": {"command": "cp src/greeter/__init__.py /tmp/x"}}
+    assert _hook(read, monkeypatch, capsys)["permissionDecision"] == "allow"
+
+
 @pytest.mark.req("lockstep-plan-format/a-planned-file-s-edit-hands-over-its-requirement")
 def test_the_edit_hook_hands_over_the_openspec_requirement(lay, monkeypatch, capsys):
     _layout(lay)
