@@ -105,6 +105,7 @@ Where each earlier decision stands now:
 - [docs/architecture/](../docs/architecture/README.md): normative target, including [SYSTEM_BOUNDARY.md](../docs/architecture/SYSTEM_BOUNDARY.md), [GOAL.md](../docs/architecture/GOAL.md), [HUMAN_OBSERVABLE_DELIVERY.md](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md), [INITIAL_GAP_LEDGER.md](../docs/architecture/INITIAL_GAP_LEDGER.md) and [greenfield-v0.2/](../docs/architecture/greenfield-v0.2/README.md).
 - [docs/decisions/](../docs/decisions/): the decision record.
 - [openspec/specs/required-evidence-inputs](../openspec/specs/required-evidence-inputs/spec.md) and [openspec/specs/inert-characterization](../openspec/specs/inert-characterization/spec.md): required behavior.
+- [openspec/specs/lockstep-package](../openspec/specs/lockstep-package/spec.md): Lockstep, the one planning-and-checking tool, ships from this repository as package `src/lockstep/` (tests in `tests/lockstep/`, some on [a frozen copy of Lockstep's own plan](../tests/lockstep/lockstep-plan-sample/README.md); design: [one planning tool](../proposals/one-planning-tool/DESIGN.md)).
 - [docs/rules/RULES.md](../docs/rules/RULES.md): generated from the register.
 - [.claude/commands/opsx/](../.claude/commands/opsx/apply.md): OpenSpec commands read by Claude Code.
 - [planning_protocol.md](../src/agentic_engineering_system/planning_protocol.md): planned artifact of the retained engine.

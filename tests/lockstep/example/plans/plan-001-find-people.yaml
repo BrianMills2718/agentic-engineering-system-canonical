@@ -1,0 +1,66 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-001-FIND
+title: Find people at a target company
+rationale: >
+  OUT-001 has nothing planned under it yet. This plans one chain from the
+  outcome to a test before any code is written.
+closes_gaps: []
+trace_review:
+  runs_traced_work: false
+  reason: The planned work is plain Python with no model, agent or pipeline in the loop; it is judged by its tests and checks.
+target_delta:
+  add:
+    normative_items:
+      - id: NI-001
+        kind: behavior
+        outcome_refs: [OUT-001]
+        statement: >
+          find_people(company) returns every profile whose current employer is
+          that company, matching names without regard to case, and never a
+          profile whose current employer is elsewhere. An empty company name is
+          rejected with ValueError.
+    success_criteria:
+      - id: SC-001
+        statement: A search for a company returns its current employees and nobody else.
+        target_refs: [NI-001]
+        disproof: >
+          Results include someone who works elsewhere (for example a former
+          employee), or miss a current employee whose employer is written in a
+          different case.
+        evidence_requirements:
+          - id: ER-001-01
+            kind: deterministic_test
+            requirement: >
+              A test searches the sample profiles for "Northwind Robotics" and
+              checks the exact set of handles, including the lower-case
+              employer and excluding the former employee, and checks that an
+              empty name raises ValueError.
+    components:
+      - id: CMP-FINDER
+        responsibility: find people at a target company
+        target_refs: [NI-001]
+        planned_artifact_refs: [ART-FINDER, ART-PROFILES, ART-TEST-FINDER]
+    planned_artifacts:
+      - id: ART-FINDER
+        locator: {exact_path: src/people_finder/__init__.py}
+        kind: source
+        purpose: the find_people function
+        semantic_justification_refs: [NI-001]
+      - id: ART-PROFILES
+        locator: {exact_path: src/people_finder/profiles.json}
+        kind: configuration
+        purpose: sample public profiles (invented) standing in for a search API
+        semantic_justification_refs: [NI-001]
+      - id: ART-TEST-FINDER
+        locator: {exact_path: tests/test_find_people.py}
+        kind: test
+        purpose: prove SC-001
+        semantic_justification_refs: [SC-001]
+    verification_subjects:
+      - id: VS-FINDER
+        criterion_refs: [SC-001]
+        evidence_requirement_refs: [ER-001-01]
+        proof_kind: deterministic_test
+        proof_role: direct
+        locator: tests/test_find_people.py
+        purpose: prove a company search returns its current employees and nobody else

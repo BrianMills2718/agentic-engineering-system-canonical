@@ -1,0 +1,24 @@
+schema_version: aes.v0_2.proposal.probe0
+proposal_id: PLAN-002-EMPTY
+title: Refuse an empty name
+rationale: Greeting nobody is a bug; the requirement now says so.
+closes_gaps: []
+trace_review:
+  runs_traced_work: false
+  reason: The planned work is plain Python with no model, agent or pipeline in the loop; it is judged by its tests and checks.
+target_delta:
+  change:
+    normative_items:
+      - id: NI-001
+        kind: behavior
+        outcome_refs: [OUT-001]
+        statement: greet(name) returns "Hello, <name>!", and raises ValueError for an empty name.
+    success_criteria:
+      - id: SC-001
+        statement: greet greets the name it is given and refuses an empty one.
+        target_refs: [NI-001]
+        disproof: greet("Ada") returns anything other than "Hello, Ada!", or greet("") returns anything.
+        evidence_requirements:
+          - id: ER-001-01
+            kind: deterministic_test
+            requirement: A test checks greet("Ada") == "Hello, Ada!" and that greet("") raises ValueError.

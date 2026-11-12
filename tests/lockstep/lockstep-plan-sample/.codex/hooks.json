@@ -1,0 +1,7 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {"matcher": "apply_patch|Edit|Write|Bash|shell|exec_command", "hooks": [{"type": "command", "command": "uv run --quiet --frozen pcw-hook --client codex", "timeout": 30}]}
+    ]
+  }
+}
