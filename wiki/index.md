@@ -13,7 +13,7 @@ This wiki is derived navigation, not an authority; follow links to the owning do
 ## What AES is now
 
 - AES is the name for the whole agent system, with three parts ([CLAUDE.md:14-16](../CLAUDE.md#L14-L16)).
-- Lockstep: its own repository today, kept and actively developed as part of AES; it becomes the one planning-and-checking tool shipped from this repository, design adopted 2026-11-11 ([DESIGN.md](../proposals/one-planning-tool/DESIGN.md)).
+- Lockstep: the one planning-and-checking tool, shipped from this repository as package `src/lockstep/` (design built 2026-11-11, [DESIGN.md](../proposals/one-planning-tool/DESIGN.md); status on [lockstep.md](lockstep.md)).
 - Plan: the one-tool build in six slices, with acceptance entries for each AES part ([docs/planning/next.goal.md](../docs/planning/next.goal.md); review page [index.html](../proposals/planning-package/review-page/index.html)).
 - The feedback loop: `scripts/learning_loop`, run nightly by systemd timers ([.project-brain/now.md:9](../.project-brain/now.md#L9)).
 - The policy layer: the rules register in `docs/rules` and `scripts/rules`, with Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:9](../.project-brain/now.md#L9)).

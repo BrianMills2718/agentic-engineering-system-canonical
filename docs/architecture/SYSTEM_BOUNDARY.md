@@ -26,7 +26,7 @@ This repository does not reimplement predecessor systems wholesale. New local im
 
 ## AES-SYS-006 — Parts and consumers
 
-Lockstep ([BrianMills2718/lockstep](https://github.com/BrianMills2718/lockstep)) is a part of AES canonical: the component that puts full normative context at an edit, projects plan changes into code and code changes back into the plan, links planned structure to typed symbols and checks, and renders evidence-bound status. It is maintained in its own repository and pins this repository's library.
+Lockstep (package `src/lockstep/` in this repository since 2026-11-11; its old repository [BrianMills2718/lockstep](https://github.com/BrianMills2718/lockstep) is history) is a part of AES canonical: the component that puts full normative context at an edit, projects plan changes into code and code changes back into the plan, links planned structure to typed symbols and checks, and renders evidence-bound status.
 
 Project Brains (for example the Inside Success Team-Brains runner) and coding agents (Claude Code, Codex, OpenHands) are consumers of Lockstep and AES. They call its checks and read its context; they are not parts of Lockstep or of AES canonical.
 
