@@ -1,18 +1,19 @@
-# Cold review: AES canonical planning package, after lockstep init and the acceptance runs
+# Cold review: AES canonical planning package, after the 2026-11-12 cleanup
 
-Reviewer: planning-compliance-reviewer subagent, two rounds on 2026-11-12. Reviewed revision: 6c47de34f7a323f09b38a9e45609ac6b18a751f9
-(the previous review, at 2224d5488, is superseded; later commits change only package records).
+Reviewer: planning-compliance-reviewer subagent, two rounds on 2026-11-12. Reviewed revision: 2b0709497ecc77b2eb6ab284bec57f52069a422e
+(later commits change only package records: this file, planning-package.json and checks.txt).
 
 Verdict: pass
 
-## Round 1 (read 441973b3a): revise, one blocking finding
+## Round 1 (read 909a85408): revise
 
-- Validator at that revision: 10 of 10 parts ok, 11 of 12 substance checks ok (1 pending, the route), 6 of 6 initiative, tier and system-map checks ok, coverage covered (13 of 14 requirements, 1 about the planning process); only freshness failed, as expected before a new review.
-- Checks counts reproduce: 143 Markdown files over the 140 cap, 31 unreachable, 4 durable findings (`checks.txt:65-68`, Q7).
-- Q23 resolved holds (`src/lockstep/hook.py:172`, `:173`); `lockstep init` code, spec and edge `ls_cli --> init_repo` match; Q22 resolved matches scripts/acceptance and the run records (A1 to A5 each PASS on 2026-11-12); the hand-added card linking `lockstep-acceptance.html` is present in `index.html`.
-- Blocking: `next.goal.md:68` said A6 to A8 are `not built` while `acceptance-criteria.json` says `built`. Fixed in 6c47de34f.
-- Notes (carried, not blocking): A1 to A5 `demonstration[0]` still say "planned in slice N, Q22" and A2's failure example says "Today's Lockstep gets two of these wrong" (rewording criteria text would force a coverage re-judge); the A5 README-only agent run found that `lefthook install` fails under a global `core.hooksPath` and the README does not cover it, and the run used a local build, not the published address (the page discloses both).
+- Blocking: the review page still cited checks.txt lines 104, 68 and 72, past the end of the 46-line file; cold_review named an old revision. Fixed by regenerating the page (keeping the hand-added lockstep-acceptance card) in 2b0709497.
+- Notes fixed: Q1 text still said make aes supported 2 of 12 criteria "today"; Q10 said 44,556 lines (now 44,286).
+- Notes carried: the retirement record cites an inventory in a session scratch folder (facts are repeated in the record); review-page links use blob/main and resolve once the branch merges.
 
-## Round 2 (read 6c47de34f): pass
+## Round 2 (read 2b0709497ecc77b2eb6ab284bec57f52069a422e): content passes
 
-- Finding 1 fixed: `next.goal.md:68` now says A6 to A8 are also `built`, A6 fails today (Q18), agreeing with the JSON and `review.html` ("8 of 8 built"). Nothing else blocks.
+- Validator: 10 of 10 parts ok, 11 of 12 substance checks ok (1 pending, the route), 6 of 6 initiative, tier and system-map checks ok, coverage 13 of 14 requirements (1 about the planning process).
+- Checks reproduce: durable documents 0 findings; Markdown 116 of a 120 limit, 31 unreachable (Q7), navigation 12 warnings (Q8), repository format 0 of 1 compliant (Q17).
+- Q3, Q4, Q5, Q6, Q10, Q15, Q16 resolved match the repository; Q7, Q8, Q17 stay open and the failing checks they track are real.
+- Only finding: record this revision (done in this commit).

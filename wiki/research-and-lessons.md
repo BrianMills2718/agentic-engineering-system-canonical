@@ -8,7 +8,7 @@ last_checked: 2026-11-11
 
 # Research and lessons
 
-Research is analytical and non-normative; only accepted authority changes architecture ([research/README.md:29](../research/README.md#L29)).
+Research is analytical and non-normative; only accepted authority changes architecture ([research/README.md:29](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/research/README.md#L29)).
 
 - [Inside Success AES harvest](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-26-inside-success-aes-harvest.md): ideas from the archived repository enter only through the donor re-entry rule and a trigger on a real consumer ([research/synthesis/2026-09-26-inside-success-aes-harvest.md:3-9](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-26-inside-success-aes-harvest.md#L3-L9)).
 - [Legacy idea harvest](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-28-legacy-idea-harvest/README.md): across six earlier systems, recording worked and closing did not ([research/synthesis/2026-09-28-legacy-idea-harvest/README.md:37-47](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-28-legacy-idea-harvest/README.md#L37-L47)).

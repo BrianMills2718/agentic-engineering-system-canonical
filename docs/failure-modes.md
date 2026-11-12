@@ -13,11 +13,9 @@ then corrected against two external reviews. That is the derivation corpus for
 those original families, not the current size of the learnings register and not
 the source of the full taxonomy. Q was added afterward, and R–V came from later
 register passes described below.
-The complete locally recoverable derivation corpus, annotation, scripts,
-research context, and revision-pinned AES snapshots are now under
-[`provenance/2026-08-21-failure-taxonomy/`](provenance/2026-08-21-failure-taxonomy/README.md).
-That directory is immutable source evidence; this file remains the current
-taxonomy authority.
+The derivation corpus (annotation, scripts, research context and revision-pinned AES snapshots)
+was meant to sit under `provenance/2026-08-21-failure-taxonomy/`; that folder was never committed
+here (found missing 2026-11-12, so the link was removed). This file is the current taxonomy authority.
 
 Do not cite 315 as the size or coverage of the current feedback corpus. Check
 the latest taxonomy-feedback run for the live register count and its review
@@ -74,6 +72,7 @@ taxonomy; an accepted edit to this file does.
 ---
 
 ## A — Verification that cannot fail
+>
 > *Could this check have gone red if the claim were false?*
 
 - **A1** the check passes without the claim being true — existence checks graded as verification, swallowed exceptions, an absent optional input indistinguishable from a clean pass
@@ -85,6 +84,7 @@ taxonomy; an accepted edit to this file does.
 as a restatement, not a partition.*
 
 ## B — Reasoning that was never tested
+>
 > *What does this method assume, and what ordinary case breaks it?*
 
 - **B1** wrong class of method for the domain
@@ -98,6 +98,7 @@ disagrees: 13 later instances, including a working-tree inventory reported from
 a truncated pipeline and presented as complete. Treat B3 as open, not settled.*
 
 ## C — Parts pass, the whole does not
+>
 > *Has anyone executed the join, end to end, as a person would?*
 
 - **C1** completion declared over a selected subset
@@ -106,6 +107,7 @@ a truncated pipeline and presented as complete. Treat B3 as open, not settled.*
 - **C4** structure certified while ordinary use is broken
 
 ## D — Rules that do not act
+>
 > *What makes this fire, and who reads the result?*
 
 - **D1** a prohibition in prose, with no mechanism — 85 violations at derivation
@@ -119,6 +121,7 @@ records discovered, substantive content read, decisions reviewed and changes
 actually consumed; do not advance reviewed state from generation alone.
 
 ## E — Transitions that leave residue
+>
 > *Where else does this state live, and who was told?*
 
 - **E1** changed in one place, still true in another
@@ -127,6 +130,7 @@ actually consumed; do not advance reviewed state from generation alone.
 - **E4** shared state mutated without telling its owner
 
 ## F — Controls out of proportion
+>
 > *What decision does this protect, and does it cost less than that decision?*
 
 - **F1** verification heavier than the thing it protects
@@ -138,6 +142,7 @@ actually consumed; do not advance reviewed state from generation alone.
 one recurring incident, not a broad pattern.*
 
 ## G — The deliverable fails its reader
+>
 > *Can the reader act on this without decoding it?*
 
 Nothing verified wrong; the communication failed. A completion claim without
@@ -146,6 +151,7 @@ in machinery terms, making "must I act" unanswerable. Measured across 296
 reports.
 
 ## J — Two authorities in force, mutually unsatisfiable
+>
 > *If I comply with this rule, does another rule currently in force now fail?*
 
 Not the absence of a rule — the presence of two, never reconciled. Signature:
@@ -153,6 +159,7 @@ the agent cannot comply either way, and repairing one side makes the aggregate
 strictly worse. ~11 instances.
 
 ## K — Ordering and atomicity in the control path
+>
 > *Does any irreversible mutation happen before the check that authorises it — or does a check depend on state a later step creates?*
 
 Individually-correct steps in a sequence that voids the guarantee. A session
@@ -160,6 +167,7 @@ close that writes state before checking the caller's location, stranding the
 lane. ~9 instances.
 
 ## L — The selector does not select what its name says
+>
 > *Does this identifier or filter actually partition the set it is trusted to partition?*
 
 Every component behaves as designed while operating on the wrong object. A
@@ -167,6 +175,7 @@ Every component behaves as designed while operating on the wrong object. A
 a single-repo repair into a 79-repository mutation. ~9 instances.
 
 ## M — Zero read as success, or as absence
+>
 > *Can this path emit zero and still look like completion — and what makes zero loud?*
 
 Also check for **nonzero records carrying zero substantive content**. Exercise
@@ -185,12 +194,14 @@ corpus: make the count explicit, exit non-zero on zero, say why nothing was
 found. ~9 instances.
 
 ## N — The sanctioned route is impassable
+>
 > *Has anyone executed the exact documented entrypoint from a clean start since the guards last changed?*
 
 The broken thing is the governance interface, so the agent's only remaining
 moves are to violate policy or stop. ~15 instances, the largest new cluster.
 
 ## O — Work accumulating above a stopped producer
+>
 > *Between this effort's first and last commit, did any output a user consumes change?*
 
 Correct, merged, productive work that could not have moved a user-visible
@@ -198,6 +209,7 @@ outcome, because what it sits on is stopped. Twenty-three PRs of dashboard
 panels rendering a pipeline that had produced nothing since a key died.
 
 ## Q — Correlated premise across parallel agents
+>
 > *Did these agents share an assumption, and did anyone try to break it?*
 
 N agents sharing a *supplied* blind spot. The signature is the opposite of A3:
@@ -212,6 +224,7 @@ orchestrator's conclusion, and task at least one per batch with falsifying the
 parent premise.
 
 ## R — Enumeration treated as exhaustion **[register]**
+>
 > *What is not on this list that a competent person would try first?*
 
 A list meant as a minimum, read — or written — as the complete set. Enumeration
@@ -226,6 +239,7 @@ On the authoring side the tell is a list with no "this is a floor" clause and no
 instruction to record routes taken beyond it.
 
 ## S — Scope or authority drift **[register]**
+>
 > *Does the deliverable's shape still match what was asked, and did anyone say so out loud?*
 
 Recorded: an audit recommendation treated as authority to replace the session
@@ -234,6 +248,7 @@ generic approval; prerequisite evidence work classified as drift because it
 delayed the headline deliverable.
 
 ## T — Built before measured **[register]**
+>
 > *What is the baseline number, and when was it taken?*
 
 The contender constructed before the baseline it must beat. Recorded: a runtime
@@ -242,6 +257,7 @@ spend; a project lineage restarted on a narrative reframing of the predecessor's
 failure instead of re-running the predecessor's own falsifying measurement.
 
 ## U — A claim asserted, then disproved by a check that was always available **[register]**
+>
 > *Was this stated as settled before the cheapest check that could have refuted it was run?*
 
 Not a wrong answer reached honestly — a confident one published while the
@@ -266,6 +282,7 @@ than the claim: a capability asserted from a rendered argument, a population
 from a label, a chronology from an aggregate verdict.
 
 ## V — Verified from the wrong vantage point **[register]**
+>
 > *Whose account, host, and namespace was this observed from, and is that the one the claim is about?*
 
 Every component behaves correctly and the observation is real. It was simply
@@ -287,6 +304,7 @@ direction. C3 is *my* environment breaking *my* run. This is my environment
 answering a question that was asked about someone else's.
 
 ## W — An implicit default spends an unbounded budget **[register]**
+>
 > *What happens when the caller omits this choice, and is that default bounded for the shared resource it reaches?*
 
 An apparently exact request silently takes a compatibility, model-tier, query,
@@ -298,6 +316,7 @@ default and an exact-looking trace lookup that fell back to a leading-wildcard
 full scan of a shared 28 GB database.
 
 ## X — One bad record erases the rest of an independent batch **[register]**
+>
 > *Can one stale or invalid member prevent the valid members from being seen, retained, or acted on?*
 
 Batch handling treats a local defect as a global terminal condition, hiding
@@ -308,6 +327,7 @@ but continue rendering the independently valid remainder with its qualified
 state.
 
 ## Y — One real object carries multiple identities **[register]**
+>
 > *Can overlapping representations of one thing enter the aggregate as distinct things?*
 
 The data remains individually valid, but two schema fields, scopes, or identity

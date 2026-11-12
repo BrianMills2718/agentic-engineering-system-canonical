@@ -1,84 +1,24 @@
-# Now (2026-11-11; earlier sections dated)
+# Now (2026-11-12; earlier sections dated)
 
 **One planning-and-checking tool, built (2026-11-12):** Brian approved the one-tool design ("i approve single tool desing re d4"; [design](../proposals/one-planning-tool/DESIGN.md)); all six slices are merged (#831 to #836). Lockstep ships from this repository as package `src/lockstep/` (`pcw` kept as an alias): plan format OpenSpec plus `layout:` rows in `lockstep.yaml` (`.aes/target.yaml` still read), the edit guard with code2check's shell parser, `lockstep check <name>` commit checks, `lockstep plan check`, `lockstep status` and `show`. Users switched: code2-template installs it (code2-template#29), lifelike is pinned here (lifelike#5), and Team-Brains' runner vendors its wheel (Team-Brains#1183, installed on the server 2026-11-12, backup brain-pr-runner-20261112T170439Z). `lockstep init` (the one-command setup the design promised, missed by the six slices) writes lockstep.yaml, the Claude Code, Codex and lefthook hook entries; the guard now logs to `.lockstep/` (Q23). Status: [wiki/lockstep.md](../wiki/lockstep.md).
 
 **Inert characterization (2026-11-08):** the retained characterization and producer-identity Git readers disable repository hooks and fsmonitor commands. Two real monitor canaries reproduced execution before the repair; the characterization regressions confirm it is prevented while revision and dirty-state facts stay accurate. This is a narrow Lockstep component inspection repair, with no restart of retired universal governance. [Specification](../openspec/specs/inert-characterization/spec.md).
 
-**Lockstep component (2026-11-07):** Brian's active Lockstep delivery goal continues the AES component described in [the current architecture boundary](../wiki/index.md#what-aes-is-now). Lockstep's repository owns implementation and its delivery plan; coding agents and Project Brains consume it. The richer AES engine remains pinned by that component. This bounded work does not restart the former universal self-governance regime or the parked issue backlog. The hold below applies to that former program; component delivery is active.
+**Lockstep component (2026-11-07):** Brian's Lockstep delivery goal continues the AES component described in [the current architecture boundary](../wiki/index.md#what-aes-is-now); since 2026-11-12 Lockstep is built in this repository (above). Coding agents and Project Brains consume it.
 
 **Evidence input qualification (2026-11-07):** the retained AES library now accepts optional `required_dependency_paths` on `evidence.assess` and `reconcile.reconcile`. Lockstep can require declared subprocess inputs before evidence contributes to standing; incomplete historical current observations become UNKNOWN, so they cannot mask later staleness of correctly recorded evidence. Existing default calls and record shapes are unchanged. This narrow component API increment does not restart the retired self-governance program. [Current architecture and specification](../docs/architecture/greenfield-v0.2/README.md).
 
-**Where AES stands (2026-11-11):** AES is the name for the whole agent system: Lockstep, the feedback loop and Brian's agent policy (Brian, 2026-11-11: "aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system"). Its parts live where they are; the map is code2-workspace `docs/architecture/model.c4`. What runs and what is retiring, per code2-workspace [decision 0009](https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md) (Brian, 2026-11-10, "i aprpove"): the feedback loop is kept and runs nightly from this repository (`scripts/learning_loop`); the rules register is here (`scripts/rules`), while the rest of the policy (core.md, topic files) lives in code2-workspace `agents/`; the `aes` command line and `.aes/target.yaml` retire one repository at a time as each is next changed (Makefile targets still run it in six repositories, twelve hold a target); Lockstep (its own repository) is kept and actively developed as part of AES (Brian, 2026-11-11: "ok i didnt mean to approve abandoingn lockstep. ti is actively being developed."; decision 0009 amendment 2 withdraws amendment 1's wind-down). Lockstep's future, code2-workspace decision 0009 amendment 3 (Brian, 2026-11-11: "i approve d3. and d2", and on the Lockstep session's Decision 4, relayed by that session: "it should preusmably be part of aes canonicale which is configurable and protable/sharebale"): Lockstep, code2check and the plan format become one planning-and-checking tool, part of AES canonical, configurable and portable/shareable; direction approved, design to come (the Lockstep session proposes it to Brian). Until then its parts are Lockstep (planning, layout of the files with their first docstrings, which carry the normative text of what each file must do and its success criteria and tests, alignment and edit guidance) and code2check (commit checks: tests first, LikeC4 import rules, Source lines, docmeta), reading one plan format; code2check's docstring copy and edit guard (code2-template #24 to #26) hand off to Lockstep. Lockstep still imports this repository's library. lifelike, its demonstration project, runs Lockstep's edit hook again (D2). The universal commit enforcement stays retired (#789, 2026-10-14). Brian's 2026-11-11 "i approve" (to a question whose answers were "wind down lockstep" or "grow lockstep") was read as a wind-down decision; he withdrew that the same day, so no Lockstep wind-down is in force. History: AES was put on hold on 2026-10-18 after Brian's 2026-10-13 move to off-the-shelf tools ([redirect note](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/code2-ecosystem/PLAN.md)); the sections below describe the enforcement work as it stood then, and none of it is being continued.
+**Where AES stands (2026-11-12):** AES is the name for the whole agent system: Lockstep, the feedback loop and Brian's agent policy (Brian, 2026-11-11: "aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system"). The map is code2-workspace `docs/architecture/model.c4`; the decision is code2-workspace [decision 0009](https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md) (Brian, 2026-11-10, "i aprpove"; amendment 1's Lockstep wind-down was withdrawn by Brian on 2026-11-11, and amendment 3 made Lockstep part of AES canonical).
 
-**Durable documents (2026-10-11):** every governed repository now keeps a fixed durable document set (goal, requirements, system model with a rule trace, decision records), rolled out to 22 of 22 repositories ([rollout record](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-durable-docs/evidence/m5-rollout.md)). The disproof sample fired: 9 of 10 recent plans declared nothing. The cause is that the rule was not in effect for 8 of them, because of a stale Claude Code plugin copy (fixed; auto-refresh is project-meta #2537) or because the plan was adopted before rollout. Next: re-sample once 10 plans carry `OV-DURABLE-DOCS-DECLARED` in their receipts ([sample](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-durable-docs/evidence/m5-disproof-sample.md), [plan](../proposals/aes-durable-docs/PLAN.md)).
+- **Lockstep is built here.** It ships from this repository as `src/lockstep/` (`pcw` alias), merged in #831 to #841: plan format, edit guard, `lockstep check`, `lockstep plan check`, `status`, `show`, `init`. It still imports this repository's library (`src/agentic_engineering_system`).
+- **The `aes` command line is used by five repositories** (Makefile targets in dodaf, lifelike, lockstep, plan-code-wiki, whygame5); twelve repositories hold an `.aes/target.yaml`. It retires one repository at a time as each is next changed. AES no longer governs itself: this repository's own `.aes/` was retired on 2026-11-12.
+- **The feedback loop runs from here** (`scripts/learning_loop`, copied nightly to `~/.hive-brain/aes`). Timers on: `feedback-collector`, `feedback-labels`, `hive-controls`. Timers off: `feedback-problems`, `feedback-fix-owner`, `feedback-effects` (units and code kept; whether to re-enable is a feedback-loop decision).
+- **The policy layer** is the rules register in `docs/rules` and `scripts/rules` (the agent-router script was retired: no caller); the rest of Brian's rules live in code2-workspace `agents/`.
+- **Retired on 2026-11-12:** the claims, session and worktree machinery, 24 old proposals, the v0.1 plans, `.aes/`, `repository_context` and the unused folders. Every path, the reason and the restore command are in [docs/retired/2026-11-12.md](../docs/retired/2026-11-12.md). The universal commit enforcement stays retired (#789, 2026-10-14).
+- **Checks:** `make check` runs the AGENTS.md sync check, pytest and mypy. Merging goes through `ship`.
 
-**Agent feedback loop (2026-10-12):** [start page](../proposals/aes-learning-loop/review-page/guide.html) lists what runs and when, the current [domain model](../proposals/aes-learning-loop/review-page/feedback-models.html), the [requirements check](../proposals/aes-learning-loop/review-page/requirements.html), every document and what is open. The daily fix owner has closed all 24 adopt issues; 10 fixes carry receipts the effect counter reads. The 2026-10-08 diagram `feedback-system.svg` is retired, kept for history.
+**Agent feedback loop (2026-10-12):** [start page](../proposals/aes-learning-loop/review-page/guide.html) lists what runs and when, the current [domain model](../proposals/aes-learning-loop/review-page/feedback-models.html), the [requirements check](../proposals/aes-learning-loop/review-page/requirements.html), every document and what is open. The daily fix owner has closed all 24 adopt issues; 10 fixes carry receipts the effect counter reads. The 2026-10-08 diagram `feedback-system.svg` was retired on 2026-11-12 (see the retirement record).
 
-**Feedback repair tooling (2026-10-08):** the installed claim runtime consumes
-canonical Enforced Planning's [successor-tracker repair](https://github.com/BrianMills2718/enforced-planning/commit/9baad04).
-It preserves a closed lane's tracker and allocates a bounded path for a distinct
-lane under the unchanged session goal; active and conflicting identities remain
-occupied or refused. Owner lifecycle regressions pass; installed native lifecycle
-evidence and closure are tracked in [#437](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/437).
-
-**Harness detour (2026-10-08):** the [audit and specialist plan](../proposals/harness-context/README.md)
-inventories instruction/skill/hook/policy delivery across both clients. Its
-[interactive review](../proposals/harness-context/review-page/index.html) shows
-the findings and measured native context boundaries. Vision work remains with
-its existing session; this detour makes no vision changes. Detailed private
-source judgments are retained in Project Meta, with public references in the inventory.
-The installed specialist completed native tasks in both clients. In those recorded
-Codex child invocations, the bootstrap was inherited; the separate fresh-session
-route was the measured smaller-context boundary. This describes those invocations,
-not every native child configuration.
-The [current Workflow and parity research](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/harness-context/subagent-research.md)
-adds Claude's dynamic script runtime, source-supported compact Codex entrypoints,
-and automatic delivery checks followed by semantic trace review. Saved native
-Claude evidence proves the compiled role and exact read-only tool catalogue were
-delivered; complete behavior/permission parity is not certified. The PR497 source
-foundation merged; it does not prove router activation. The collector at that
-revision missed this child's result binding; PR499 repaired it at `74977b4e`,
-and a fresh saved-trace replay found the original child and final result.
-The [paired evidence checker](../proposals/harness-context/native-parity/verify_evidence.py)
-binds the original four native traces and later Codex cases, derives context/permission
-observations, and checks exhaustive source review. The current focused suite has
-73 passing tests. Strict parity still refuses certification: the original Claude
-answer retains source errors and its refreshed required-authority run is pending.
-Original answers remain intact; the compact Codex execution and lossless delivery
-are now observed in the dated update below. Full child enforcement/hook parity
-remains unproved.
-The agent-router inventory merged in PR500 at `c08837fe`: 263 source identities,
-229 keep, 27 covered and 7 retirement candidates. Its 33 published baseline rules
-retain their policy/enforcement; added applicability tags are inventory metadata,
-not activation or a global instruction change. Detailed private evidence remains
-with its owning lane.
-The [skip-only recorder repair](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/evidence-recorder-counts/README.md) is
-reproduced but unimplemented: required adoption demands future execution proof ([#282](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/282)); do not report #257 fixed.
-
-**Commit rule and plan adoption removed (2026-10-14):** Brian asked on 2026-10-13 to turn off
-the enforcement that made trivial agent tasks take an hour. `aes commit` (tags, plan adoption per
-commit), the commit-msg hook writer, the plan-receipt check on `aes plan accept`
-(`.aes/planning.yaml`), the rollout scripts and their timers are gone; the machine-wide git hook no
-longer calls AES. Commit messages need no tag. Behavior changes go through OpenSpec (see
-`~/code2/AGENTS.md`). `make check` runs in parallel (pytest-xdist) and skips three slow
-install/self-governance tests, which run under `make check-full`.
-
-**Trace reviews (2026-10-07, PLAN-AES-TRACE-REVIEW):** every proposal must
-declare `trace_review: {runs_traced_work: true}` or `{runs_traced_work: false,
-reason: ...}`; `aes plan validate` refuses a proposal without it, and traced work
-must add a `trace_review` evidence requirement. Its observation carries a
-`trace_review` record (trace ids, author, a different reviewer, steps read of
-total, models and settings, context per step, outputs and reasons, decisions
-checked against source) and can SUPPORT only when every step was read and no
-checked decision was wrong. Bug-fix plans (Company Planning route `repair`) can
-now be adopted (company-planning #52, #53).
-**Existing repositories (2026-10-07, PLAN-AES-ADOPT-EXISTING, issues #180/#155):** `aes adopt`
-(instead of `aes init` where the governed roots already hold code) writes `.aes/legacy_baseline.json`:
-every tracked governed file at a named commit with its blob id. Those files are legacy, not orphans;
-`aes plan accept` removes files the target now plans; `aes status` ends
-with the legacy share. Order: `aes adopt`, commit, `aes hooks install`. DIGIMON trial (not committed
-there): 1,071 files under 12 roots, 94 KB baseline, `aes status` 8.6 s at 100.0% legacy
-(`proposals/aes-adopt-existing/evidence/`). Next: adopt DIGIMON for real once a DIGIMON plan covers it.
 **The hive moved to personal-vps (2026-10-07):** its scripts (`hive/`) and plans (`proposals/hive-brain-v1/`, `proposals/hive-hardening/`) now live in BrianMills2718/personal-vps (PRs #113, #114); the dashboard build, Glance and the PC controls timer run from there. `scripts/hive/brain_fresh.py` stays here because other repos call it by this path.
 
 **Subagent feedback (2026-10-08):** native assignment/outcome capture and
@@ -108,59 +48,7 @@ enforcement receipt with time, revision and verification before counting subsequ
 incidents. See [the approved repair](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/REPAIR.md)
 and [operator commands](../scripts/learning_loop/systemd/README.md).
 
-**Stopped at (2026-10-04 16:20 UTC):** hive brain v1 has seven merged jobs;
-conditions 1 (pilot) and 3 (learning loop) are met. Rule K1 blocked real work
-and its wrong block came back as friction issue #137. Still open: governance
-firing inside a pilot job (condition 2), seven clean days (condition 4, earliest
-2026-10-10), and a fresh-reader test of the plan (condition 5). Since 08:47 UTC
-the Coordinator has been stopped by the Claude weekly usage limit; it should
-resume after the 17:00 UTC reset. The hosted dashboard
-(https://hive.brianmills.dev) now opens a panel for every map box, explains
-every label, reloads itself and has a laptop layout (#136). The plan:
-personal-vps `proposals/hive-brain-v1/ROADMAP.md`; the chronicle with evidence:
-personal-vps `proposals/hive-brain-v1/PROGRESS_LOG.md`.
-
-**Install path.** In this
-repository, all three `make` gates pass from a clean clone with the README's
-install line since PRs #110, #112 and #118 (2026-10-04); the measurements are
-in the README and the progress log. That install line is now `uv venv .venv &&
-uv pip install -e ".[dev]"` (2026-10-04), not `python3 -m venv` plus `pip`:
-Brian's standing preference is uv with its shared cache in every repository.
-The Makefile needed no change, because `$(PYTHON)` only ever consumed
-`.venv/bin/python` and never created it. `docs/greenfield/GETTING_STARTED.md`
-now installs with uv too (BRI-36, 2026-10-04), so no venv-plus-pip install path
-is left in this repository: the page was run end to end from an empty directory
-at `d89fe2e` and recorded as `OBS-AES-CLEAN-USER-d89fe2e`, which supersedes the
-three earlier clean-user observations, and the clean-install test in
-`tests/greenfield/test_distribution.py` builds its throwaway venv with uv
-instead of stdlib `venv` plus `pip` (so it needs no `ensurepip`; it skips only
-where uv is missing). That observation assesses `ER-SC-GF-001-01` INCONCLUSIVE
-rather than SUPPORTS on purpose: the runner was the session that wrote the
-change, not an independent fresh reader, so it proves the page's commands work
-and not that the page reads well cold. Restoring SUPPORTS needs one fresh
-session given only the page and a pin — the open follow-up on the install path.
-
-**Next step:** follow "Exact next action" in the roadmap. In short: the
-Coordinator keeps taking jobs from the refreshed weekly plan; agents merge
-their own AES pull requests with `gh pr merge <n> --merge`, which this repo's
-hook has accepted since PR #126 (it still refuses `--squash` and `--rebase`),
-and keep the roadmap current; the remaining v1 conditions are evidence that
-accrues on its own (a rule blocking real work, seven quiet days, a pick-up
-retest after each rewrite of the roadmap).
-
 **Rule for every agent:** read this file first. When your change moves where
 the project stands, update `now.md` (and `state.md` if needed) in the same pull
 request. `python3 scripts/hive/brain_fresh.py .` exits 1 when this brain is
 older than the work since.
-
-## Standing policy update — 2026-10-06
-
-AES capability sourcing now treats **apparent novelty as unresolved search debt**, not as a positive design signal. When a needed capability or abstraction appears to have no established owner, the expected response is increased sourcing pressure: try alternate terminology and standards, adjacent disciplines/ecosystems, structural analogues, mature compositions/adapters, internal/historical attempts, failed approaches, and requirement/frame challenge before authorizing bespoke implementation. The more consequential and apparently novel the machinery, the stronger the burden to falsify the novelty claim and shrink the residual gap. Custom construction is a last-resort bounded residual, not an achievement in itself.
-
-This policy is encoded in `docs/architecture/SYSTEM_BOUNDARY.md` under AES-CAP-002 and surfaced in [`docs/plans/TEMPLATE.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/docs/plans/TEMPLATE.md) as an apparent-novelty check plus residual-invention declaration.
-
-**Worktree lifecycle navigation (2026-10-09):** the adopted [plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-lifecycle/PLAN.md) is merged in AES #481; its owner retains execution custody. The [proposal index](../proposals/README.md) and canonical instruction references link the four reader documents directly.
-
-**Harness detour, 2026-10-09:** The [harness research](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/harness-context/subagent-research.md) records a real compact Codex coordinator/child run with about 48% less startup input than the same-model predecessor. Exact native traces, full source review and child-turn hook receipts are retained; full client parity is still unverified. A subsequent native Claude attempt failed before dispatch and is preserved as refusal evidence. The checker now separates the native task-result verdict from broader runtime certification; source-correct literal Claude JSON and complete required policy orientation remain necessary for the actual goal. [Task-local authority evidence](../proposals/harness-context/native-parity/authority-context-proof.json) now proves exact policy delivery to a Codex child with the unchanged frozen task. Its 23 source-review fields pass; parent forwarding fails at one path, repository-authority availability is incomplete, and the changed model prevents a controlled startup-savings comparison. A [fresh collector-delivery case](../proposals/harness-context/native-parity/delivery-context-proof.json) retrieves the child's exact native JSON and delivers both canonical authorities completely; 21 source-review fields are supported. All 12 command outcomes are retained, including one empty discovery search with exit1. Its startup count is measured separately from the larger whole-job usage. The [fresh native Claude quota observation](../proposals/harness-context/native-parity/delivery-context/claude-availability.json) confirms the subscription remains blocked until October 11 around 1 PM Eastern; no new paid fallback ran. Refreshed Claude delivery has not run. This does not change the AES product frontier or authorize vision work.
-
-**Trace-review provider, 2026-10-09:** the other lane merged its [source-bound enforcement plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/33a73769a80d1e0b2a979d3e61e04f1ba69bb1bb/proposals/trace-review-enforcement/plan.md) in [PR #509](https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/509). Its [local gate](../proposals/trace-review-enforcement/final-gate.log) records 410 passed, one skipped and clean type checks. The AES source-bound slice is supported; the configuration remains an explicit environment choice, not a fleet installation. Its owner retains Company Planning/Enforced Planning repair custody; active-project and dashboard coverage remain incomplete.

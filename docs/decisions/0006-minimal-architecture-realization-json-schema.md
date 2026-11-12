@@ -12,7 +12,7 @@ resolves:
 
 # Decision 0006 — Freeze the minimal AES architecture-realization contract on JSON Schema 2020-12
 
-Governs: docs/architecture/schemas/architecture-realization.bootstrap.schema.json
+Governs: docs/retired/2026-11-12.md
 
 ## Context
 

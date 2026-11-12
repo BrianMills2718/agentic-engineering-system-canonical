@@ -12,7 +12,7 @@ amends:
 
 # Decision 0013 - Truth lives where it is edited
 
-Governs: generated/docstring_wiki.md, docs/architecture/SYSTEM_BOUNDARY.md#aes-ctx-004--truth-lives-where-it-is-edited
+Governs: docs/architecture/SYSTEM_BOUNDARY.md#aes-ctx-004--truth-lives-where-it-is-edited
 
 ## Context
 

@@ -8,33 +8,33 @@ last_checked: 2026-11-11
 
 # Agentic Engineering System (AES)
 
-This wiki is derived navigation, not an authority; follow links to the owning documents ([CLAUDE.md:106](../CLAUDE.md#L106)).
+This wiki is derived navigation, not an authority; follow links to the owning documents ([CLAUDE.md:41](../CLAUDE.md#L41)).
 
 ## What AES is now
 
-- AES is the name for the whole agent system, with three parts ([CLAUDE.md:14-16](../CLAUDE.md#L14-L16)).
+- AES is the name for the whole agent system, with three parts ([CLAUDE.md:14-15](../CLAUDE.md#L14-L15)).
 - Lockstep: the one planning-and-checking tool, shipped from this repository as package `src/lockstep/` (design built 2026-11-11, [DESIGN.md](../proposals/one-planning-tool/DESIGN.md); status on [lockstep.md](lockstep.md)).
 - Plan: the one-tool build in six slices, with acceptance entries for each AES part ([docs/planning/next.goal.md](../docs/planning/next.goal.md); review page [index.html](../proposals/planning-package/review-page/index.html)).
-- The feedback loop: `scripts/learning_loop`, run nightly by systemd timers ([.project-brain/now.md:9](../.project-brain/now.md#L9)).
-- The policy layer: the rules register in `docs/rules` and `scripts/rules`, with Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:9](../.project-brain/now.md#L9)).
-- The `aes` command line and `.aes/target.yaml` retire one repository at a time, and AES no longer governs itself ([CLAUDE.md:17-23](../CLAUDE.md#L17-L23)).
+- The feedback loop: `scripts/learning_loop`, run nightly by systemd timers ([.project-brain/now.md:14-15](../.project-brain/now.md#L14-L15)).
+- The policy layer: the rules register in `docs/rules` and `scripts/rules`, with Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:14-15](../.project-brain/now.md#L14-L15)).
+- The `aes` command line and `.aes/target.yaml` retire one repository at a time, and AES no longer governs itself ([CLAUDE.md:23-24](../CLAUDE.md#L23-L24)).
 - Read [.project-brain/now.md](../.project-brain/now.md) first ([CLAUDE.md:5](../CLAUDE.md#L5)).
 
 ## Start from your question
 
 | Question | Page | Grounded in |
 | --- | --- | --- |
-| What is AES for, who uses it, what is out of scope? | [goal.md](goal.md) | [CLAUDE.md:14-23](../CLAUDE.md#L14-L23) |
+| What is AES for, who uses it, what is out of scope? | [goal.md](goal.md) | [CLAUDE.md:14-23](../CLAUDE.md#L14-L25) |
 | What is Lockstep and what is its status? | [lockstep.md](lockstep.md) | [docs/architecture/SYSTEM_BOUNDARY.md:29](../docs/architecture/SYSTEM_BOUNDARY.md#L29) |
 | How does the feedback loop work and what runs today? | [feedback-loop.md](feedback-loop.md) | [scripts/learning_loop/systemd/README.md:3-7](../scripts/learning_loop/systemd/README.md#L3-L7) |
 | Where are the rules and standing policies? | [policy-and-rules.md](policy-and-rules.md) | [docs/rules/RULES.md:3](../docs/rules/RULES.md#L3) |
 | What exists in the code and where is data stored? | [system-model.md](system-model.md) | [pyproject.toml:26-28](../pyproject.toml#L26-L28) |
-| How do I install, test and run the jobs? | [run-and-deploy.md](run-and-deploy.md) | [Makefile:543-553](../Makefile#L543-L553) |
+| How do I install, test and run the jobs? | [run-and-deploy.md](run-and-deploy.md) | [Makefile:19-29](../Makefile#L19-L29) |
 | Which requirements have tests? | [requirements.md](requirements.md) | [openspec/specs/required-evidence-inputs/spec.md:13](../openspec/specs/required-evidence-inputs/spec.md#L13) |
 | What is unresolved or contradicts current state? | [open-questions.md](open-questions.md) | [docs/planning/DOMAIN.md:51-64](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/docs/planning/DOMAIN.md#L51-L64) |
 | What does a name or term mean? | [glossary.md](glossary.md) | [docs/planning/DOMAIN.md:7-10](../docs/planning/DOMAIN.md#L7-L10) |
-| What happened before (v0.1, v0.2, the commit rule)? | [history.md](history.md) | [CLAUDE.md:31-32](../CLAUDE.md#L31-L32) |
-| What did the research syntheses conclude? | [research-and-lessons.md](research-and-lessons.md) | [research/README.md:29](../research/README.md#L29) |
+| What happened before (v0.1, v0.2, the commit rule)? | [history.md](history.md) | [docs/retired/2026-11-12.md](../docs/retired/2026-11-12.md) |
+| What did the research syntheses conclude? | [research-and-lessons.md](research-and-lessons.md) | [research/README.md:29](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/research/README.md#L29) |
 
 ## Decision record
 
@@ -95,14 +95,13 @@ Where each earlier decision stands now:
 
 ### Plans
 
-- [docs/plans/](../docs/plans/): numbered and named plans, kept as written.
-- [proposals/](../proposals/README.md): proposal folders, kept as written; [history.md](history.md) lists each by name.
+- [proposals/](../proposals/README.md): the three proposal folders that remain; the old plans (`docs/plans/` and 24 proposal folders) were retired on 2026-11-12, see the [retirement record](../docs/retired/2026-11-12.md); [history.md](history.md) lists each by name.
 
 ### Documents that stay as written
 
 - [CLAUDE.md](../CLAUDE.md) and [AGENTS.md](../AGENTS.md): instruction files; AGENTS.md is generated from CLAUDE.md.
 - [.project-brain/now.md](../.project-brain/now.md), [project.md](../.project-brain/project.md), [truth.md](../.project-brain/truth.md): the project brain, read first.
-- [docs/architecture/](../docs/architecture/README.md): normative target, including [SYSTEM_BOUNDARY.md](../docs/architecture/SYSTEM_BOUNDARY.md), [GOAL.md](../docs/architecture/GOAL.md), [HUMAN_OBSERVABLE_DELIVERY.md](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md), [INITIAL_GAP_LEDGER.md](../docs/architecture/INITIAL_GAP_LEDGER.md) and [greenfield-v0.2/](../docs/architecture/greenfield-v0.2/README.md).
+- [docs/architecture/](../docs/architecture/README.md): normative target, including [SYSTEM_BOUNDARY.md](../docs/architecture/SYSTEM_BOUNDARY.md), [GOAL.md](../docs/architecture/GOAL.md) and [greenfield-v0.2/](../docs/architecture/greenfield-v0.2/README.md).
 - [docs/decisions/](../docs/decisions/): the decision record.
 - [openspec/specs/required-evidence-inputs](../openspec/specs/required-evidence-inputs/spec.md) and [openspec/specs/inert-characterization](../openspec/specs/inert-characterization/spec.md): required behavior.
 - [openspec/specs/lockstep-package](../openspec/specs/lockstep-package/spec.md): Lockstep, the one planning-and-checking tool, ships from this repository as package `src/lockstep/` (tests in `tests/lockstep/`, some on [a frozen copy of Lockstep's own plan](../tests/lockstep/lockstep-plan-sample/README.md); design: [one planning tool](../proposals/one-planning-tool/DESIGN.md)).
@@ -115,7 +114,7 @@ Where each earlier decision stands now:
 - [docs/rules/RULES.md](../docs/rules/RULES.md): generated from the register.
 - [.claude/commands/opsx/](../.claude/commands/opsx/apply.md): OpenSpec commands read by Claude Code.
 - [planning_protocol.md](../src/agentic_engineering_system/planning_protocol.md): planned artifact of the retained engine.
-- [scripts/learning_loop/systemd/README.md](../scripts/learning_loop/systemd/README.md), [scripts/hive/README.md](../scripts/hive/README.md), [datasets/learning-loop/README.md](../datasets/learning-loop/README.md), [research/README.md](../research/README.md): folder guides.
+- [scripts/learning_loop/systemd/README.md](../scripts/learning_loop/systemd/README.md), [scripts/hive/README.md](../scripts/hive/README.md): folder guides.
 
 ### History
 
@@ -123,10 +122,8 @@ Where each earlier decision stands now:
 - [docs/greenfield/GETTING_STARTED.md](../docs/greenfield/GETTING_STARTED.md): the v0.2 `aes` walkthrough.
 - [docs/model/ODD.md](../docs/model/ODD.md): the v0.2 governance loop model.
 - [docs/planning/SYSTEM_MODEL.md](../docs/planning/SYSTEM_MODEL.md), [system-map.md](../docs/planning/system-map.md), [DOMAIN.md](../docs/planning/DOMAIN.md), [next.goal.md](../docs/planning/next.goal.md): the planning package, refreshed 2026-11-11.
-- [docs/plans/001_repository_context_resolution_vertical.md](../docs/plans/001_repository_context_resolution_vertical.md) and [docs/plans/002_offline_policy_decision_replay.md](../docs/plans/002_offline_policy_decision_replay.md): the v0.1 plans.
-- [proposals/aes-durable-docs/review-page/modeling-review.html](../proposals/aes-durable-docs/review-page/modeling-review.html): the 2026-10-11 modeling work review.
+- [docs/retired/2026-11-12.md](../docs/retired/2026-11-12.md): what the 2026-11-12 cleanup retired (the v0.1 plans, 24 old proposals, `.aes/`, the claims machinery), each path with its reason, successor and the one command that restores it.
 - [proposals/planning-package/review-page/index.html](../proposals/planning-package/review-page/index.html): the planning package review page.
-- [docs/terms/ecosystem-terms.md](../docs/terms/ecosystem-terms.md): Brian's reasoning vocabulary.
 - [research-and-lessons.md](research-and-lessons.md): research syntheses.
 
 ### Every other document

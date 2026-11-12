@@ -16,7 +16,7 @@ resolves:
 
 # Decision 0003 — Component-local normative context with inherited symbol scope
 
-Governs: docs/architecture/normative-component-alignment.bootstrap.yaml
+Governs: docs/retired/2026-11-12.md
 
 ## Context
 

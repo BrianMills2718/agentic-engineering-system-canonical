@@ -27,7 +27,6 @@
  "legacy-baseline": "src/agentic_engineering_system/adopt.py:48",
  "working-context": "src/agentic_engineering_system/context.py:72",
  "pre-commit-hook": "src/agentic_engineering_system/hooks.py:83",
- "repository-context": "src/agentic_engineering_system/repository_context/models.py:87",
  "project-brain": "scripts/hive/brain_fresh.py:35",
  "feedback-loop": "scripts/learning_loop/collect_feedback.py:518",
  "human-correction": "scripts/learning_loop/collect_feedback.py:85",

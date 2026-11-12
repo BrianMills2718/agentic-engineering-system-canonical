@@ -29,7 +29,7 @@ last_checked: 2026-11-11
 
 ## How this was checked
 
-- No covering test was run in this version; there were no tools, so each row with a test reads "not run: no tools in this version" ([Makefile:537-538](../Makefile#L537-L538)).
+- No covering test was run in this version; there were no tools, so each row with a test reads "not run: no tools in this version" ([Makefile:13-14](../Makefile#L13-L14)).
 - To check them, run pytest on the covering files only, for example `.venv/bin/python -m pytest tests/greenfield/test_evidence.py tests/learning/test_licences.py -q` ([pyproject.toml:38-41](../pyproject.toml#L38-L41)).
 - Every row without a passing test is listed on [open-questions.md](open-questions.md) as a test to run or write ([proposals/aes-learning-loop/PLAN.md:422-423](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L422-L423)).
 - REQ-04 to REQ-09 belong to the retained engine that Lockstep pins, not to a regime that refuses commits ([docs/architecture/greenfield-v0.2/README.md:15](../docs/architecture/greenfield-v0.2/README.md#L15)).

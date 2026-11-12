@@ -24,7 +24,7 @@ from agentic_engineering_system.cli import main
 REPO = Path(__file__).resolve().parents[2]
 SRC = REPO / "src"
 ROOTS = ("src/", "tests/")
-LEGACY_FILE = "tests/repository_context/test_models.py"
+LEGACY_FILE = "tests/test_sort_legacy.py"
 
 
 def _env(tmp: Path) -> dict[str, str]:
@@ -65,7 +65,9 @@ def existing(tmp_path: Path) -> Path:
     root = tmp_path / "existing"
     assert subprocess.run(["git", "clone", "-q", "--shared", str(REPO), str(root)],
                           capture_output=True, text=True, check=False).returncode == 0
-    assert _git(root, "rm", "-rq", ".aes", "src/agentic_engineering_system/cli.py").returncode == 0
+    # `.aes/` was retired from this repository on 2026-11-12; remove it only where a clone still has it
+    doomed = [p for p in (".aes", "src/agentic_engineering_system/cli.py") if (root / p).exists()]
+    assert _git(root, "rm", "-rq", *doomed).returncode == 0
     assert _git(root, "-c", "core.hooksPath=/dev/null", "commit", "-qm", "an existing codebase").returncode == 0
     return root
 
@@ -146,7 +148,7 @@ target_delta:
         locator:
           exact_path: {LEGACY_FILE}
         kind: test
-        purpose: repository-context model tests, now planned
+        purpose: sort_legacy tests, now planned
         semantic_justification_refs:
           - OUT-001
 """, encoding="utf-8")
@@ -205,6 +207,6 @@ def test_init_warns_on_an_existing_codebase(existing: Path, capsys: pytest.Captu
 
 # --- Issue #218: a Company Planning plan's declared scope admits legacy edits -------------
 
-OUTSIDE_FILE = "tests/repository_context/test_resolver.py"
+OUTSIDE_FILE = "tests/test_rules_page.py"
 
 

@@ -18,7 +18,7 @@
    "date": "2026-11-10",
    "context": "The `aes` command line runs only from Makefile targets in six repositories; twelve hold `.aes/target.yaml`. The feedback loop runs nightly from this repository.\n\nBrian's words: \"i aprpove\". Where: [code2-workspace decision 0009](https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md), part (a).",
    "decision": "Each repository drops `.aes/` and `make aes` when it is next changed; the collector, labels job and `feedback_log.py` stay.",
-   "consequences": "This repository's own `.aes/` goes in the one-tool build (open question Q6); `aes status` no longer describes AES.",
+   "consequences": "This repository's own `.aes/` was retired on 2026-11-12 (open question Q6, resolved); `aes status` no longer describes AES.",
    "decided_by": "Brian"
   },
   {

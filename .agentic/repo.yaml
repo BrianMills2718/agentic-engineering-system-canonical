@@ -17,8 +17,7 @@ authorities:
     - docs/architecture/
   decision_roots:
     - docs/decisions/
-  plan_roots:
-    - docs/plans/
+  plan_roots: []  # docs/plans/ was retired on 2026-11-12 (docs/retired/2026-11-12.md)
 
 planning:
   design_provider: Company Planning
@@ -32,7 +31,7 @@ planning:
   active_architecture_line: AES-v0.2
   active_acceptance_decision: docs/decisions/0010-greenfield-v0.2-accepted.md
   active_roadmap: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md
-  active_target: .aes/target.yaml
+  active_target: none  # this repository's .aes/target.yaml was retired on 2026-11-12 (docs/retired/2026-11-12.md)
   active_frontier: v0.2-accepted/decision-on-scope-after-first-value-measure (Decision 0011 item 5 done 2026-09-26; tally 1 catch, 6 hand checks)
   lineage_decision: docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md
   archived_predecessor: Inside-Success/agentic-engineering-system
@@ -132,9 +131,9 @@ generated:
 durable_documents:
   schema_version: "0.1"
   goal: docs/architecture/GOAL.md
-  requirements: .aes/target.yaml
+  requirements: {not_applicable: "required behavior is written as OpenSpec specs under openspec/specs/ (Lockstep reads them) and listed with their tests in wiki/requirements.md; there is no separate requirements file"}
   system_model: {prose: docs/model/ODD.md, trace: docs/model/trace.yaml}
   decisions: docs/decisions/
-  plans: docs/plans/
+  plans: docs/planning/
   glossary: {not_applicable: "terms are defined inline in SYSTEM_BOUNDARY.md and the target; no separate glossary yet"}
-  catalog: {check: "make docstring-wiki-check"}
+  catalog: {not_applicable: "the docstring wiki and its check were retired on 2026-11-12 (docs/retired/2026-11-12.md); Repo Docs is the code documentation tool"}

@@ -1,7 +1,6 @@
-limit: 140
+limit: 120
 reason: >
-  Accepted decision records here cite these research, proposal and evidence pages as their evidence
-  (research/ and proposals/aes-v0.2-greenfield/ alone are cited from 38 other files), so pruning them
-  would break those citations. New per-item records go in .aes/ YAML, not Markdown; side projects moved
-  to their own repositories on 2026-10-07 (143 -> 130 files). Limit kept close to the count so growth
-  still trips the check.
+  Accepted decision records and the wiki cite the remaining architecture, decision and planning pages
+  as their evidence, so pruning them would break those citations. The 2026-11-12 cleanup retired the
+  research, evidence, datasets and old-proposal Markdown (143 -> 116 files, see docs/retired/2026-11-12.md).
+  Limit kept close to the count so growth still trips the check.

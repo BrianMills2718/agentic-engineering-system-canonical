@@ -2,8 +2,8 @@
  "schema_version": "1.0",
  "record_type": "planning_package",
  "repository": "BrianMills2718/agentic-engineering-system-canonical",
- "subject_revision": "3d79135518490a20b9c6bc6e68ff1d461ad0d082",
- "request": "Brian, 2026-11-11: \"lets keep workgin on the harness\" (session 483c48d8, 22:23 UTC); \"to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system\" (session a769ac09, 08:14 UTC); \"i approve single tool desing re d4\" (session 483c48d8, 21:10 UTC); all in ~/.claude/history.jsonl. Standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\". This refresh replaces the 2026-10-27 package (reviewed at 8b732aa, plan 'AES on hold, checks honest') with the one-tool build; ship had warned that its cold review was out of date.",
+ "subject_revision": "2b0709497ecc77b2eb6ab284bec57f52069a422e",
+ "request": "Brian, 2026-11-11: \"lets keep workgin on the harness\" (session 483c48d8, 22:23 UTC); \"to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system\" (session a769ac09, 08:14 UTC); \"i approve single tool desing re d4\" (session 483c48d8, 21:10 UTC); all in ~/.claude/history.jsonl. Standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\". This refresh replaces the 2026-10-27 package (reviewed at 8b732aa, plan 'AES on hold, checks honest') with the one-tool build; ship had warned that its cold review was out of date. Refreshed again on 2026-11-12 for the AES canonical cleanup (Brian, 2026-11-12: \"lets strat wiht cleanup first\"): retired parts removed from the system map, system model and domain model; Q3, Q4, Q5, Q6, Q10, Q15 and Q16 closed (docs/retired/2026-11-12.md).",
  "parts": {
   "investigation": {
    "status": "present",
@@ -16,63 +16,33 @@
     {
      "name": "durable documents (arc42)",
      "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42",
-     "exit_status": 1,
+     "exit_status": 0,
      "counts": {
-      "findings": 4,
-      "catalog_stale": 1,
-      "stale": 3
-     },
-     "tracked_by": "Q3"
+      "findings": 0
+     }
     },
     {
      "name": "project navigation",
      "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py .",
      "exit_status": 0,
      "counts": {
-      "warnings": 14
+      "warnings": 12
      },
      "tracked_by": "Q8"
-    },
-    {
-     "name": "plan adoption recheck",
-     "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/method_conformance/cli.py lint --repo-root . --recheck",
-     "exit_status": 1,
-     "counts": {
-      "current": 0,
-      "stale": 23,
-      "finished": 0
-     },
-     "tracked_by": "Q4"
     },
     {
      "name": "wiki rule (Markdown cap, reachability, layout, durable documents)",
      "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
      "exit_status": 1,
      "counts": {
-      "markdown_files": 143,
-      "cap_limit": 140,
-      "over": 3,
+      "markdown_files": 116,
+      "cap_limit": 120,
+      "over": 0,
       "orphans": 31,
       "layout_findings": 0,
-      "durable_findings": 4
+      "durable_findings": 0
      },
      "tracked_by": "Q7"
-    },
-    {
-     "name": "repository's own AES gate (target validate, topology check, status), retiring",
-     "command": "make aes",
-     "exit_status": 0,
-     "counts": {
-      "criteria_supported": 2,
-      "criteria_insufficient": 10,
-      "criteria_refuted": 0,
-      "orphans": 0,
-      "drifted": 0,
-      "observations_current": 2,
-      "observations_stale": 52,
-      "plans_unreachable": 1
-     },
-     "tracked_by": "Q6"
     },
     {
      "name": "code2 repository format",
@@ -109,18 +79,16 @@
    "units": [
     "src/agentic_engineering_system/*.py",
     "src/agentic_engineering_system/planning_protocol.md",
-    "src/agentic_engineering_system/repository_context",
     "scripts/learning_loop/*.py",
     "scripts/learning_loop/question_set_v2.json",
     "scripts/learning_loop/systemd",
     "scripts/rules/*.py",
     "scripts/hive/*.py",
-    "scripts/*.py",
-    "scripts/meta",
-    "enforced_planning",
     "src/lockstep/*.py",
     "src/lockstep/checks",
-    "src/pcw"
+    "src/pcw",
+    "scripts/meta/*.py",
+    "enforced_planning/*.py"
    ]
   },
   "domain_model": {
@@ -156,7 +124,6 @@
     "legacy-baseline": "src/agentic_engineering_system/adopt.py:48",
     "working-context": "src/agentic_engineering_system/context.py:72",
     "pre-commit-hook": "src/agentic_engineering_system/hooks.py:83",
-    "repository-context": "src/agentic_engineering_system/repository_context/models.py:87",
     "project-brain": "scripts/hive/brain_fresh.py:35",
     "feedback-loop": "scripts/learning_loop/collect_feedback.py:518",
     "human-correction": "scripts/learning_loop/collect_feedback.py:85",
@@ -286,7 +253,7 @@
    "status": "present",
    "path": "docs/planning/cold-review.md",
    "verdict": "pass",
-   "reviewed_revision": "6c47de34f7a323f09b38a9e45609ac6b18a751f9"
+   "reviewed_revision": "2b0709497ecc77b2eb6ab284bec57f52069a422e"
   }
  },
  "initiative": {
@@ -315,7 +282,7 @@
    "docs/rules/register.yaml"
   ],
   "instances": [
-   ".aes/target.yaml",
+   "tests/greenfield/fixtures/whygame5-54043e2/.aes/target.yaml",
    "docs/rules/register.yaml"
   ],
   "architecture_views": [

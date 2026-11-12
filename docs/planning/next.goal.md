@@ -43,7 +43,7 @@ line below adds what this package checks it by; the acceptance entries are in
 2. **Plan format.** Lockstep reads requirements from OpenSpec and layout rows from `lockstep.yaml`;
    `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it. Checked by: acceptance A4 (the
    requirement text appears word for word in the first docstring of the file that implements it). Q6
-   (whether this repository's own `.aes/` goes in this slice) stays open: built in #835 with `.aes/target.yaml` still read and this repository's `.aes/` still present.
+   (whether this repository's own `.aes/` goes) is resolved: built in #835 with `.aes/target.yaml` still read for other repositories; this repository's own `.aes/` was retired on 2026-11-12 (docs/retired/2026-11-12.md).
 3. **Guard.** Port code2check's shell-target parsing. Done when lifelike replays the four cases from
    lockstep#111 (`cat >`, `echo >`, `python -c` refused; read-only `cp` allowed). Checked by: acceptance A2. Built: #834.
 4. **Commit checks.** Port code2check's `trace`, `arch`, `test-first`, `sources` and `docmeta` with their tests,
@@ -75,7 +75,7 @@ Slice 0, kept running alongside and not built by the Lockstep session: the feedb
   is next changed).
 - Company Planning's other skills (landscape review, roadmaps, the review page builder): they stay in the
   Company Planning plugin (DESIGN.md line 50).
-- `enforced_planning/` and the claims-era `scripts/` (Q10), and new feedback-loop jobs (Q21 is Brian's call).
+- New feedback-loop jobs (Q21 is Brian's call). The claims-era `enforced_planning/` and `scripts/` were retired on 2026-11-12 (Q10, resolved).
 
 ## Domain concepts this plan relies on
 

@@ -7,7 +7,7 @@ description: AES canonical's system model in prose -- the plan, target, evidence
 This page explains the governance loop AES v0.2 runs (Decision 0010). The checked
 version, with one owner file, tests and decision records per rule, is
 [trace.yaml](trace.yaml). Each rule's full text lives in its owner's docstring and in
-[`.aes/target.yaml`](../../.aes/target.yaml); this page and the trace only point at it.
+[`.aes/target.yaml`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.aes/target.yaml); this page and the trace only point at it.
 
 ## One example, start to finish
 

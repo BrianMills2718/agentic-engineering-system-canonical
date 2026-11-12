@@ -3,7 +3,7 @@
 # and the decision records that say why. The rule text itself lives in the owner's
 # docstring and in .aes/target.yaml; the statements below are one-line pointers.
 # Checked by company-planning plugins/company-planning/scripts/durable_docs_check.py.
-reviewed_at: 2026-10-14  # commit rule and plan-adoption check removed (Brian, 2026-10-13)
+reviewed_at: 2026-11-12  # re-read after the inert-characterization (1849dca86) and required-inputs (5fa02fcbe) changes: the three rules and their tests still hold (70 tests in test_characterize, test_evidence, test_reconcile pass)
 scope: >-
   The v0.2 governance loop (Decision 0010): plan acceptance, characterization,
   evidence standing and reconciliation. The v0.1 line (Plan 002), the repository-context

@@ -1,3 +1,3 @@
 """Canonical Agentic Engineering System package."""
 
-__all__ = ["repository_context"]
+__all__: list[str] = []
