@@ -397,7 +397,8 @@ def main(argv: list[str] | None = None) -> int:
 
 def cli() -> int:
     """`lockstep <command>`: `check` (the whole-tree plan check; `check <name>` runs one commit check), `layout`
-    (create the planned files) or `plan check` (validate the acceptance and plan files)."""
+    (create the planned files), `plan check` (validate the acceptance and plan files), `status` (each
+    requirement's code, tests and result) or `show FILE` (what a file must keep true)."""
     args = sys.argv[1:]
     if args and args[0] == "layout":
         from lockstep.scaffold import layout
@@ -405,6 +406,12 @@ def cli() -> int:
     if args and args[0] == "plan":
         from lockstep.plan_check import plan_cli
         return plan_cli(args[1:])
+    if args and args[0] == "status":
+        from lockstep.checks.cli import run_status
+        return run_status(args[1:])
+    if args and args[0] == "show":
+        from lockstep.checks.cli import run_show
+        return run_show(args[1:])
     if not args or args[0] != "check":
         print("usage: pcw check --repo PATH [--base REF] [--json]", file=sys.stderr)
         return 2
