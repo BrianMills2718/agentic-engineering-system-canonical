@@ -65,6 +65,7 @@ flowchart LR
     side_file[side_file: read lockstep.yaml]
     aes_bridge[aes_bridge: read the AES plan]
     scaffold[scaffold: create the planned files]
+    init_repo[init_repo: lockstep init writes lockstep.yaml and the hook entries]
     cogtext[cogtext: render plan text into docstrings]
     parent_text[parent_text: parent requirement text]
     signature_text[signature_text: typed signatures]
@@ -140,6 +141,7 @@ flowchart LR
   ls_cli --> declared_reason
   ls_cli --> unplanned_files
   ls_cli --> symbol_gate
+  ls_cli --> init_repo
   ls_cli --> scaffold
   ls_cli --> plan_check
   ls_cli --> checks
