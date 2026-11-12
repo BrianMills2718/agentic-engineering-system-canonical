@@ -140,14 +140,14 @@
     "Read the quote and the session it came from"
    ],
    "expected": "The newest source:human issue is from the last night's run, and it quotes something you said in a session the day before.",
-   "failure_example": "This is the state on 2026-11-11: the newest source:human issue is from 2026-11-03, although that night's run extracted 867 human corrections (all deferred at the filing cap, Q18).",
+   "failure_example": "No recent correction appears in the filed source:human issues, or a new nightly run again defers every correction behind other report types. The 867-report backlog observed on 2026-11-11 is historical: commit ec3022d5a records 867/867 filed, 0 errors.",
    "representation": {
     "view": "data-table",
     "router_record": "docs/planning/router/acceptance-views.json"
    },
    "entrypoint": "https://github.com/BrianMills2718/agent-feedback-log/issues?q=label%3Asource%3Ahuman+sort%3Acreated-desc",
    "status": "built",
-   "status_note": "The page exists and the collector runs nightly; it would fail today (Q18)."
+   "status_note": "The page exists and the collector runs nightly. Q18 is resolved against the corrections-first repair and the 867/867 filing record in commit ec3022d5a; this reconciliation does not independently rerun the collector or judge today's issues."
   },
   {
    "id": "A7",
@@ -185,6 +185,25 @@
    "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/index.html",
    "status": "built",
    "status_note": "Built by this package refresh; Brian has not judged it."
+  },
+  {
+   "id": "A9",
+   "criterion": "A source-owned plan status, description, interface or evidence value updates its declared wiki copy after an edit, and a stale copy is refused when refresh is bypassed.",
+   "demonstration": [
+    "Open the linked source-fact acceptance table, then its Company Planning reader page.",
+    "For each of the four fact types, compare the source change, expected copied value and recorded result.",
+    "Read the installed hook replay and native-client dispatch rows separately.",
+    "Read the bypass row: a source-only change must fail the read-only project check without that check rewriting the page."
+   ],
+   "expected": "All four fact types copy the source value; the installed refresh command updates the declared block; a bypassed refresh is refused by the read-only merge check. Native dispatch is claimed only after a fresh Claude Code or Codex session records the callback.",
+   "failure_example": "Plan 61 says done while its declared wiki block says active and the project check still passes; or a successful command replay is presented as proof that a native client dispatched the hook.",
+   "representation": {
+    "view": "decision-table",
+    "router_record": "docs/planning/router/acceptance-views.json"
+   },
+   "entrypoint": "planned",
+   "status": "not built",
+   "status_note": "Provider implementation and focused tests are recorded; the paired Company Planning consumer demonstration, reader deployment and native dispatch remain pending. See docs/planning/source-facts-acceptance.md."
   }
  ],
  "coverage": {

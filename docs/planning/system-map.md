@@ -64,6 +64,7 @@ flowchart LR
     aes_bridge[aes_bridge: read the AES plan]
     scaffold[scaffold: create the planned files]
     init_repo[init_repo: lockstep init writes lockstep.yaml and the hook entries]
+    doc_projection[doc_projection: declared source facts to document blocks and freshness checks]
     cogtext[cogtext: render plan text into docstrings]
     parent_text[parent_text: parent requirement text]
     signature_text[signature_text: typed signatures]
@@ -125,9 +126,12 @@ flowchart LR
   ls_cli --> unplanned_files
   ls_cli --> symbol_gate
   ls_cli --> init_repo
+  ls_cli --> doc_projection
   ls_cli --> scaffold
   ls_cli --> plan_check
   ls_cli --> checks
+  checks --> doc_projection
+  doc_projection --> ls_hook
   ls_cli --> cogtext
   ls_hook --> shell_targets
   ls_hook --> stale_edit
@@ -174,3 +178,9 @@ The edges are the imports in `src/lockstep/*.py` (for example `src/lockstep/hook
 imports `scaffold`, `plan_check` and the `checks` directory on demand); only the main ones are drawn (`src/lockstep/hook.py:387` imports `plan_edit`, `src/lockstep/plan_edit.py:46` imports `change_list`). `records_fb` and `evidence_fb` are `scripts/learning_loop/records.py` and `evidence.py`, drawn apart from the
 library's `records` and `evidence`. The claims-era scripts (`scripts/*.py`, `scripts/meta/` except the AGENTS.md generator, `enforced_planning/` except `agents_rendering.py`) were retired on 2026-11-12 (open question Q10, resolved).
 Dotted arrows are jobs whose timers are off (open question Q21).
+
+Source-local documentation upkeep was added after the revision above:
+
+| Code unit | Job | Source anchor |
+| --- | --- | --- |
+| `doc_projection` | Read declared Markdown metadata, Python AST interfaces and JSON/YAML evidence fields, render only their marked document blocks, and check freshness; native post-edit refresh appends daily run records. | [module contract](../../src/lockstep/doc_projection.py#L1), [projection](../../src/lockstep/doc_projection.py#L134) |

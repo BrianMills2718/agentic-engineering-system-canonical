@@ -52,3 +52,77 @@ checks:
 
 - This repository replaced `Inside-Success/agentic-engineering-system`, archived on 2026-09-26 ([docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:44-47](docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md#L44-L47)).
 - It adopts project-agnostic architecture from `BrianMills2718/wiki_methodology` at revision `0cddc6b1` ([CLAUDE.md:10](CLAUDE.md#L10)).
+
+## Project source-owned facts
+
+Artifact descriptions, lifecycle status, native evidence fields and Python
+interfaces can be displayed without a second handwritten copy. Declare each
+projection in `lockstep.yaml`:
+
+```yaml
+projections:
+  - id: plan-61
+    source: docs/plans/61.md
+    target: wiki/index.md
+    fields: [description, status]
+  - id: public-api
+    source: src/api.py
+    symbol: greet
+    target: docs/reference.md
+    fields: [description, signature]
+  - id: last-check
+    source: docs/evidence/check.json
+    target: docs/reference.md
+    fields: [result]
+# Optional when source files are outside the docs site's published directory:
+source_base_url: https://github.com/OWNER/REPO/blob/main/
+```
+
+Put each marker pair in its target, preserving the id from the declaration:
+
+```markdown
+<!-- lockstep facts: plan-61 -->
+<!-- /lockstep facts: plan-61 -->
+```
+
+Run `lockstep refresh` to update declared fact blocks only, or
+`lockstep check project` to update them along with existing requirement/coverage
+projections. `lockstep check project --check` writes nothing and exits 1 for a
+stale copy. Repositories with no OpenSpec requirements do not get an empty coverage page
+or historical-plan rewrites.
+Fact blocks can share a plan file with its generated coverage block. In a
+repository with OpenSpec requirements, `docs/status.md` belongs to the full-file
+coverage renderer; use another fact target.
+
+Markdown fields come from YAML front matter; JSON and YAML fields come from
+native mapping keys. Python `description` is its docstring's first paragraph,
+`docstring` is the whole docstring, and `signature` is extracted from the named
+function or class with the AST. A dotted `symbol` names a class member. Project
+code is never imported or run. Source links are relative by default; the
+optional HTTP(S) `source_base_url` makes links portable on a docs site. Unknown
+fields, missing sources, escaping paths or malformed markers fail with exit 2
+before projection writes.
+
+`lockstep init` adds post-edit refresh hooks for Claude Code and Codex and a
+read-only projection check to its lefthook pre-commit command. It preserves
+existing hooks and can add this post-edit entry to an older installation.
+An exact previous generated pre-commit command is upgraded in place; a custom
+`lockstep` command is preserved and gets a separate `lockstep-project` freshness
+command. A conflicting custom `lockstep-project` name reports an error.
+Native client trust/enablement still applies; a generated hook declaration is
+not proof the client executed it. The merge command must also run the
+read-only check to cover bypassed or unavailable hooks.
+
+Refresh records source/target hashes, selected fact values and changed paths
+in one `.lockstep/projection-YYYY-MM-DD.jsonl` file per day. A concrete edit to
+an applicable source that fails records its error and declared source identities
+when the trace path is contained and writable, without copying raw tool input.
+An edit to
+an unrelated file is a no-op; shell events compare declared facts conservatively
+because scripts can write paths not evident from command arguments. No
+projection declarations means refresh does nothing.
+
+This is source-copy freshness, not proof that an authored description is true
+of its implementation. Narrative explanation and behavioral adequacy still need
+their own source review. The contract is
+[lockstep-doc-facts](openspec/specs/lockstep-doc-facts/spec.md).

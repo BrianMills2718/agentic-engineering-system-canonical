@@ -15,6 +15,7 @@
   "A5": {"view": "data-table", "question": "Does anything in an installed repository name Brian's machine, and can each check be switched off?", "why": "One row per config key and per path found, with a count of machine paths that must be 0."},
   "A6": {"view": "data-table", "question": "Did yesterday's correction become a filed report?", "why": "GitHub's issue list, filtered and sorted by date, is already a table with the date and the quote in the title."},
   "A7": {"view": "master-detail", "question": "Where is a rule I set, with my words and how it is enforced?", "why": "The rule in core.md on one side, its source entry with Brian's words on the other."},
-  "A8": {"view": "data-table", "question": "What is AES, where does each part live and what runs today?", "why": "Three rows (Lockstep, feedback loop, policy layer) with repository, what runs and its status; prose above it. Not a graph, because it answers a question."}
+  "A8": {"view": "data-table", "question": "What is AES, where does each part live and what runs today?", "why": "Three rows (Lockstep, feedback loop, policy layer) with repository, what runs and its status; prose above it. Not a graph, because it answers a question."},
+  "A9": {"view": "decision-table", "question": "Does changing a source keep its declared wiki copy current, and does bypassing refresh get refused?", "why": "One row per fact and failure path shows the edit, expected value or refusal, observed result and evidence; native dispatch has a separate row to avoid confusing it with command replay."}
  }
 }

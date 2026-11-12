@@ -21,6 +21,7 @@ from pathlib import Path
 import re
 import textwrap
 
+from lockstep.doc_projection import ProjectionError, declarations, render, project_facts
 from lockstep.checks.markers import source_dirs
 from lockstep.checks.spec import read_plan
 from lockstep.checks.status import CLOSES, STATUS_PAGE, Report, markdown, plan_files, report
@@ -160,26 +161,20 @@ def project(root: Path, check: bool = False) -> list[str]:
         Paths relative to root of the files rewritten (or stale), source files first, then plans, then `docs/status.md`.
     """
     text = {**read_plan(root).text, **read_plan(root, changes=True).text}
-    changed = []
+    if not text:
+        return project_facts(root, check=check)
+    page = root / STATUS_PAGE
+    if any((root / row['target']).resolve() == page.resolve() for row in declarations(root)):
+        raise ProjectionError(f'{STATUS_PAGE} is a full-file coverage projection; choose another fact target')
+    # Stage every renderer's output before writing so shared plan targets compose,
+    # source docstring facts see the new requirement copy, and errors leave no partial output.
+    contents: dict[Path, str] = {}
     for path in sorted(p for d in source_dirs(root) for p in d.rglob("*.py")):
-        new = _source_text(path, text)
-        if new != path.read_text():
-            changed.append(str(path.relative_to(root)))
-            if not check:
-                path.write_text(new)
+        contents[path] = _source_text(path, text)
     status = report(root)
     for rel, ids in plan_files(root):
         path = root / rel
-        new = _plan_text(path, ids, status)
-        if new != path.read_text():
-            changed.append(rel)
-            if not check:
-                path.write_text(new)
-    page = root / STATUS_PAGE
+        contents[path] = _plan_text(path, ids, status)
     if page.parent.is_dir():
-        new = markdown(report(root, use_results=False))
-        if not page.exists() or new != page.read_text():
-            changed.append(str(STATUS_PAGE))
-            if not check:
-                page.write_text(new)
-    return changed
+        contents[page] = markdown(report(root, use_results=False))
+    return project_facts(root, check=check, rendered=render(root, contents))

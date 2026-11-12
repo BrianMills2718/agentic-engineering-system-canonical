@@ -43,3 +43,11 @@ Code: this repository, package `lockstep` in [src/lockstep/](../src/lockstep/__i
 ## Not checked
 
 - Whether Company Planning's adoption gate should call `lockstep plan check` rather than its own copy (design, "What this does not decide"); slice 5 kept both, with the same checks.
+
+## Source-local document projections
+
+Descriptions, lifecycle fields, Python interfaces and native evidence values
+can be declared once and projected into marked wiki/document sections. See the
+[declaration and installed hook/check path](../README.md#project-source-owned-facts)
+and the [source-local facts specification](../openspec/specs/lockstep-doc-facts/spec.md).
+These generated copies do not certify arbitrary prose or consumer rollout.

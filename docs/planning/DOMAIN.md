@@ -66,8 +66,17 @@ Concepts marked *documents only*, *written by another tool* or *retired* have no
 
 ## Where the sources disagree
 
-- **The feedback loop extracts Brian's corrections but files none of them.** The 2026-11-11 run extracted 867
-  human-correction reports and deferred every one at the 900-report cap, while filing 900 others; the newest
-  `source:human` report in agent-feedback-log is from 2026-11-03. Open question Q18.
+- **The corrections-filing gap was repaired.** The 2026-11-11 extraction deferred 867 human-correction reports at the cap. Commit `ec3022d5a` records corrections-first filing and 867/867 filed; Q18 is resolved from that retained observation, not a fresh rerun of the collector.
 - **The AES rules register lists one rule; Brian's rules live in code2-workspace `agents/`.** The register
   ([RULES.md](../rules/RULES.md) line 7) is not the policy layer's list of rules. Open question Q20.
+
+## Source-fact projection within existing Lockstep concepts
+
+The existing `lockstep-config` concept includes optional projection declarations:
+source path and selected facts → declaration → named generated target block.
+The source owns the value; the target is a derived copy. The existing `one-tool`
+concept supplies both post-edit refresh and the read-only project check, and records
+refresh inputs, selected facts, output hashes and results in the consumer's daily
+projection trace. This is an extension of those concepts, not a separate rules
+system. See [the record types](SYSTEM_MODEL.md#locksteps-records) and
+[the acceptance table](source-facts-acceptance.md).

@@ -76,7 +76,9 @@ def test_existing_settings_keep_their_other_keys(tmp_path):
     init_repo(root)
     init_repo(root)
     data = json.loads((root / ".claude/settings.json").read_text())
-    assert data["model"] == "opus" and data["hooks"]["PostToolUse"] == existing["hooks"]["PostToolUse"]
+    assert data["model"] == "opus"
+    assert data["hooks"]["PostToolUse"][0] == existing["hooks"]["PostToolUse"][0]
+    assert sum("lockstep refresh" in h["command"] for e in data["hooks"]["PostToolUse"] for h in e["hooks"]) == 1
     pre = data["hooks"]["PreToolUse"]
     assert pre[0] == existing["hooks"]["PreToolUse"][0]
     assert sum("lockstep-hook" in h["command"] for e in pre for h in e["hooks"]) == 1
@@ -90,6 +92,46 @@ def test_an_existing_lefthook_keeps_its_commands(tmp_path):
     text = (root / "lefthook.yml").read_text()
     data = yaml.safe_load(text)
     assert text.startswith("# mine") and set(data["pre-commit"]["commands"]) == {"lint", "lockstep"}
+
+
+@pytest.mark.req('lockstep-doc-facts/installed-post-edit-hook-refreshes-and-precommit-rejects-stale')
+def test_init_upgrades_recognized_lefthook_command(tmp_path):
+    root = _git_repo(tmp_path/'r')
+    init_repo(root)
+    path = root/'lefthook.yml'
+    data = yaml.safe_load(path.read_text())
+    commands = data['pre-commit']['commands']
+    commands['lockstep']['run'] = commands['lockstep']['run'].split(' && uvx')[0]
+    commands['lint'] = {'run': 'ruff check'}
+    path.write_text('# keep this\n'+yaml.safe_dump(data))
+    init_repo(root)
+    upgraded = yaml.safe_load(path.read_text())['pre-commit']['commands']
+    assert 'project --check' in upgraded['lockstep']['run']
+    assert upgraded['lint'] == {'run': 'ruff check'}
+    assert path.read_text().startswith('# keep this')
+    before = path.read_bytes()
+    init_repo(root)
+    assert path.read_bytes() == before
+
+
+@pytest.mark.req('lockstep-doc-facts/installed-post-edit-hook-refreshes-and-precommit-rejects-stale')
+@pytest.mark.parametrize('custom', [False, True])
+def test_init_preserves_custom_lefthook_and_does_not_skip_comments(tmp_path, custom):
+    root = _git_repo(tmp_path/'r')
+    commands = {'lint': {'run': 'ruff check'}}
+    if custom:
+        commands['lockstep'] = {'run': 'custom-lockstep-check --strict', 'priority': 2}
+    path = root/'lefthook.yml'
+    path.write_text('# custom lockstep integration\n'+yaml.safe_dump({'pre-commit': {'commands': commands}}))
+    init_repo(root)
+    installed = yaml.safe_load(path.read_text())['pre-commit']['commands']
+    for name, value in commands.items():
+        assert installed[name] == value
+    assert any('project --check' in row['run'] for row in installed.values())
+    assert path.read_text().startswith('# custom lockstep integration')
+    before = path.read_bytes()
+    init_repo(root)
+    assert path.read_bytes() == before
 
 
 @pytest.mark.req("lockstep-init/no-written-file-holds-an-absolute-path")

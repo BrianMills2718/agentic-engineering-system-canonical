@@ -308,22 +308,25 @@
   },
   {
    "id": "Q18",
-   "short": "Corrections extracted but never filed",
+   "short": "Corrections-first filing and backlog repair recorded",
    "owner": "agent",
-   "status": "open",
-   "question": "The feedback loop's 2026-11-11 run extracted 867 new human-correction reports and deferred every one at the 900-report filing cap, while it filed 474 subagent-outcome and 426 closeout reports. The newest issue labelled source:human in agent-feedback-log is from 2026-11-03. Do corrections sort last for filing, so they never reach the cap?",
+   "status": "resolved",
+   "question": "Historical failure: the 2026-11-11 run extracted 867 human corrections but deferred all behind 474 subagent-outcome and 426 closeout reports at the 900-report cap. Did filing order starve corrections?",
    "blocks": "whether acceptance entry A6 (a correction you gave yesterday shows up as a filed report) can pass, and so whether the feedback loop works as Brian means it",
-   "resolves_with": "One counterexample settles it, no test: read the filing order in collect_feedback.py and the 2026-11-11 reports file (every Human correction row has filing deferred_cap). If corrections sort last, file them first (one report per distinct quote is already in place since #810), and the next night's run shows source:human issues.",
+   "resolves_with": "Resolved by the corrections-first filing repair (#826) and commit ec3022d5a3266e72d2a3f4b2a2436bf7b4fba38b, which records collect_feedback.py --corrections-only --file: 867/867 filed, 0 errors. This package reconciliation reads that retained record; it is not a new collector run or a judgment of today's issue list.",
    "sources": [
     "scripts/learning_loop/feedback_log.py:214",
     "scripts/learning_loop/systemd/README.md:16",
-    "scripts/learning_loop/collect_feedback.py:798"
+    "scripts/learning_loop/collect_feedback.py:798",
+    ".project-brain/now.md",
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/commit/ec3022d5a3266e72d2a3f4b2a2436bf7b4fba38b"
    ],
    "touches": [
     "feedback-loop",
     "human-correction",
     "feedback-report"
-   ]
+   ],
+   "evidence": "Resolved by the corrections-first filing repair (#826) and commit ec3022d5a3266e72d2a3f4b2a2436bf7b4fba38b, which records collect_feedback.py --corrections-only --file: 867/867 filed, 0 errors. This package reconciliation reads that retained record; it is not a new collector run or a judgment of today's issue list."
   },
   {
    "id": "Q19",
