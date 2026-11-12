@@ -2,7 +2,7 @@
  "schema_version": "1.0",
  "record_type": "planning_package",
  "repository": "BrianMills2718/agentic-engineering-system-canonical",
- "subject_revision": "c44c408fd34c4cdc0bd2a130e36bb40d28c52948",
+ "subject_revision": "1ad2bd3d4ef91bc99a9ee1e19d73ae5c1ab913c0",
  "request": "Brian, 2026-11-11: \"lets keep workgin on the harness\" (session 483c48d8, 22:23 UTC); \"to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system\" (session a769ac09, 08:14 UTC); \"i approve single tool desing re d4\" (session 483c48d8, 21:10 UTC); all in ~/.claude/history.jsonl. Standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\". This refresh replaces the 2026-10-27 package (reviewed at 8b732aa, plan 'AES on hold, checks honest') with the one-tool build; ship had warned that its cold review was out of date.",
  "parts": {
   "investigation": {
