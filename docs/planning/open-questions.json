@@ -7,7 +7,7 @@
    "short": "Resume, hold or retire AES",
    "question": "AES canonical was on hold from 2026-10-18 after the ~/code2 move to off-the-shelf tools. Should it stay on hold, resume, or be retired?",
    "blocks": "whether any plan beyond keeping the repository's own checks honest is worth doing here, and whether dodaf and whygame5 should keep calling aes",
-   "resolves_with": "Brian's priority call; no check settles it. The facts that bear on it are recorded: the value tally came back at 1 catch and 6 hand checks (Decision 0011), and 2 of 12 criteria are supported today (make aes).",
+   "resolves_with": "Brian's priority call; no check settles it. The facts that bear on it are recorded: the value tally came back at 1 catch and 6 hand checks (Decision 0011), and 2 of 12 criteria were supported when `make aes` last ran (retired 2026-11-12).",
    "owner": "brian",
    "status": "resolved",
    "sources": [
@@ -150,7 +150,7 @@
   {
    "id": "Q10",
    "short": "Vendored claims machinery",
-   "question": "enforced_planning/ (44,556 lines of claims, sessions and worktree lanes) and the scripts/meta coordination scripts that import it are still in the repository, but ~/code2 replaced claims with claude -w worktrees. Keep, or retire them?",
+   "question": "enforced_planning/ (44,286 lines of claims, sessions and worktree lanes) and the scripts/meta coordination scripts that import it are still in the repository, but ~/code2 replaced claims with claude -w worktrees. Keep, or retire them?",
    "blocks": "how much of the repository the system model must describe, and the size of the hygiene plan",
    "resolves_with": "An argument settles it: the one-tool plan does not touch enforced_planning/ or scripts/meta/, so they stay in place, unmodelled and labelled retired by the ~/code2 redirect, until a plan needs that space; removing 44k lines nobody is working on is not part of this build. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
