@@ -117,7 +117,10 @@
     "scripts/hive/*.py",
     "scripts/*.py",
     "scripts/meta",
-    "enforced_planning"
+    "enforced_planning",
+    "src/lockstep/*.py",
+    "src/lockstep/checks",
+    "src/pcw"
    ]
   },
   "domain_model": {
@@ -158,7 +161,15 @@
     "feedback-loop": "scripts/learning_loop/collect_feedback.py:518",
     "human-correction": "scripts/learning_loop/collect_feedback.py:85",
     "feedback-report": "scripts/learning_loop/feedback_log.py:212",
-    "rules-register": "scripts/rules/build_rules_page.py:207"
+    "rules-register": "scripts/rules/build_rules_page.py:207",
+    "lockstep-today": "src/pcw/__init__.py:8",
+    "one-tool": "src/lockstep/check.py:398",
+    "lockstep-config": "src/lockstep/side_file.py:136",
+    "layout-row": "src/lockstep/layout_plan.py:60",
+    "first-docstring": "src/lockstep/cogtext.py:72",
+    "edit-guard": "src/lockstep/hook.py:474",
+    "commit-check": "src/lockstep/checks/cli.py:114",
+    "plan-check": "src/lockstep/plan_check.py:363"
    },
    "spectrum": "docs/planning/domain.spectrum.json"
   },
@@ -172,7 +183,7 @@
     },
     {
      "path": "docs/planning/SYSTEM_MODEL.md",
-     "question": "Where do AES's parts sit across the four repositories, and which arrows does the one-tool build add? (cross-repository view)",
+     "question": "Where do AES's parts sit across the four repositories, and what did the one-tool build move between them? (cross-repository view)",
      "kind": "cross_repo"
     },
     {

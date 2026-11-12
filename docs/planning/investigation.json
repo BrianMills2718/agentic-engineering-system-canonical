@@ -18,12 +18,12 @@
   },
   {
    "where": "code",
-   "how": "module docstrings of src/agentic_engineering_system/*.py, scripts/learning_loop/*.py, scripts/rules/*.py, scripts/*.py; grep for the filing label and order in scripts/learning_loop; grep -l agentic_engineering_system and target.yaml in ~/code2/lockstep/src/pcw",
+   "how": "module docstrings of src/agentic_engineering_system/*.py, scripts/learning_loop/*.py, scripts/rules/*.py, scripts/*.py; grep for the filing label and order in scripts/learning_loop; grep -l agentic_engineering_system and target.yaml in src/lockstep (the package moved here in #831; first read in ~/code2/lockstep/src/pcw)",
    "found": [
     "scripts/learning_loop/feedback_log.py:214",
     "scripts/learning_loop/collect_feedback.py:798",
     "scripts/rules/build_rules_page.py:207",
-    "/home/brian/code2/lockstep/src/pcw/behavior_check.py"
+    "src/lockstep/behavior_check.py"
    ]
   },
   {
@@ -115,10 +115,10 @@
    "id": "F7",
    "claim": "Lockstep depends on this repository's library, so the library cannot be removed with the aes command line.",
    "evidence": [
-    "/home/brian/code2/lockstep/src/pcw/behavior_check.py"
+    "src/lockstep/behavior_check.py"
    ],
    "verdict": "holds",
-   "note": "7 files in lockstep src/pcw import agentic_engineering_system; three read target.yaml (behavior_check, __init__, plan_to_code)."
+   "note": "Re-read at 0395758 after the move: 8 files in src/lockstep import agentic_engineering_system (check, change_list, change_log, docstring_up, plan_to_code, requirement_status, symbol_gate, unplanned_symbols; grep -l), so the library stays in this repository; behavior_check and the other readers of the target go through lockstep.aes_bridge."
   },
   {
    "id": "F8",

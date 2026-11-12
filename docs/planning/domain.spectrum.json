@@ -53,14 +53,14 @@
    "definition": "The nightly loop in scripts/learning_loop that turns what happened in agent sessions into filed reports."
   },
   {
-   "id": "Planned",
-   "label": "One-tool design (planned, not built here yet)",
-   "definition": "Parts of the one planning-and-checking tool in proposals/one-planning-tool/DESIGN.md; built in six slices."
+   "id": "Lockstep",
+   "label": "Lockstep (in code)",
+   "definition": "Parts of the one planning-and-checking tool, built from proposals/one-planning-tool/DESIGN.md in six slices (merged 2026-11-11 and 2026-11-12) as package src/lockstep."
   },
   {
    "id": "Elsewhere",
    "label": "Lives in another repository today",
-   "definition": "Parts of AES whose code is in another repository today (lockstep, code2-template, code2-workspace)."
+   "definition": "Parts of AES whose code is in another repository today (code2-template, code2-workspace)."
   }
  ],
  "terms": [
@@ -268,7 +268,7 @@
   },
   {
    "id": "lockstep-today",
-   "kind": "Elsewhere",
+   "kind": "Lockstep",
    "aliases": [
     "pcw"
    ]
@@ -280,7 +280,7 @@
   },
   {
    "id": "one-tool",
-   "kind": "Planned",
+   "kind": "Lockstep",
    "aliases": [
     "the one tool",
     "planning-and-checking tool"
@@ -288,12 +288,12 @@
   },
   {
    "id": "lockstep-config",
-   "kind": "Planned",
+   "kind": "Lockstep",
    "aliases": []
   },
   {
    "id": "layout-row",
-   "kind": "Planned",
+   "kind": "Lockstep",
    "aliases": []
   },
   {
@@ -303,27 +303,27 @@
   },
   {
    "id": "first-docstring",
-   "kind": "Planned",
+   "kind": "Lockstep",
    "aliases": []
   },
   {
    "id": "edit-guard",
-   "kind": "Planned",
+   "kind": "Lockstep",
    "aliases": []
   },
   {
    "id": "commit-check",
-   "kind": "Planned",
+   "kind": "Lockstep",
    "aliases": []
   },
   {
    "id": "plan-check",
-   "kind": "Planned",
+   "kind": "Lockstep",
    "aliases": []
   },
   {
    "id": "slice",
-   "kind": "Planned",
+   "kind": "DocOnly",
    "aliases": []
   }
  ],
@@ -334,7 +334,7 @@
     "lockstep-today",
     "one-tool"
    ],
-   "note": "Lockstep names both today's pcw package in its own repository and the one tool it becomes in this repository (DESIGN.md line 17); say which."
+   "note": "Lockstep names the package src/lockstep (the one tool, DESIGN.md line 17) and, for lifelike and Team-Brains' runner, the old name pcw, now an alias of it (src/pcw/__init__.py:1); say which."
   },
   {
    "word": "check",
