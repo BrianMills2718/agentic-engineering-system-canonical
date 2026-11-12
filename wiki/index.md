@@ -106,6 +106,7 @@ Where each earlier decision stands now:
 - [docs/decisions/](../docs/decisions/): the decision record.
 - [openspec/specs/required-evidence-inputs](../openspec/specs/required-evidence-inputs/spec.md) and [openspec/specs/inert-characterization](../openspec/specs/inert-characterization/spec.md): required behavior.
 - [openspec/specs/lockstep-package](../openspec/specs/lockstep-package/spec.md): Lockstep, the one planning-and-checking tool, ships from this repository as package `src/lockstep/` (tests in `tests/lockstep/`, some on [a frozen copy of Lockstep's own plan](../tests/lockstep/lockstep-plan-sample/README.md); design: [one planning tool](../proposals/one-planning-tool/DESIGN.md)).
+- [openspec/specs/lockstep-checks](../openspec/specs/lockstep-checks/spec.md): Lockstep's commit checks (`lockstep check trace|arch|test-first|sources|docmeta`), ported from code2check, each set to block, warn or off in `lockstep.yaml` (design: [one planning tool](../proposals/one-planning-tool/DESIGN.md), slice 4).
 - [openspec/specs/lockstep-plan-check](../openspec/specs/lockstep-plan-check/spec.md): `lockstep plan check` validates the acceptance-criteria file and each plan requirement's source and coverage, ported from Company Planning's validator (design: [one planning tool](../proposals/one-planning-tool/DESIGN.md), slice 5).
 - [docs/rules/RULES.md](../docs/rules/RULES.md): generated from the register.
 - [.claude/commands/opsx/](../.claude/commands/opsx/apply.md): OpenSpec commands read by Claude Code.
