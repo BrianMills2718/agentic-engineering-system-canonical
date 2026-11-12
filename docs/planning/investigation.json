@@ -115,7 +115,7 @@
    "id": "F7",
    "claim": "Lockstep depends on this repository's library, so the library cannot be removed with the aes command line.",
    "evidence": [
-    "src/lockstep/behavior_check.py"
+    "src/lockstep/check.py:98"
    ],
    "verdict": "holds",
    "note": "Re-read at 0395758 after the move: 8 files in src/lockstep import agentic_engineering_system (check, change_list, change_log, docstring_up, plan_to_code, requirement_status, symbol_gate, unplanned_symbols; grep -l), so the library stays in this repository; behavior_check and the other readers of the target go through lockstep.aes_bridge."

@@ -208,7 +208,7 @@ CONCEPTS = [
      "proposals/one-planning-tool/DESIGN.md:30", "src/lockstep/hook.py:474"),
     ("commit-check", "lockstep check", "Lockstep",
      "The named commit checks ported from code2check: trace, arch, test-first, sources, docmeta; each set to block, warn or off.",
-     "proposals/one-planning-tool/DESIGN.md:72", "src/lockstep/checks/cli.py:114"),
+     "proposals/one-planning-tool/DESIGN.md:72", "src/lockstep/checks/cli.py:191"),
     ("plan-check", "lockstep plan check", "Lockstep",
      "The plan and acceptance format check ported from Company Planning's validator, so the format is defined in one place.",
      "proposals/one-planning-tool/DESIGN.md:74", "src/lockstep/plan_check.py:363"),

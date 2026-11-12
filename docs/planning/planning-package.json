@@ -168,7 +168,7 @@
     "layout-row": "src/lockstep/layout_plan.py:60",
     "first-docstring": "src/lockstep/cogtext.py:72",
     "edit-guard": "src/lockstep/hook.py:474",
-    "commit-check": "src/lockstep/checks/cli.py:114",
+    "commit-check": "src/lockstep/checks/cli.py:191",
     "plan-check": "src/lockstep/plan_check.py:363"
    },
    "spectrum": "docs/planning/domain.spectrum.json"

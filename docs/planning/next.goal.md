@@ -54,7 +54,8 @@ line below adds what this package checks it by; the acceptance entries are in
    next changed); lifelike, plan-code-wiki and Team-Brains' runner move to the new package. Checked by:
    acceptance A5 (installs anywhere, names no machine path). Built: #836 and the user switches (code2-template#29, lifelike#5, Team-Brains#1183); Team-Brains is an Inside Success repository, so Q2 is now about work that shipped.
 
-The built tool still differs from the design in two places (Q23). Kept running alongside, not built here: the feedback loop's two nightly jobs and the rules register.
+Slice 0, kept running alongside and not built by the Lockstep session: the feedback loop's two nightly jobs and the rules register. The built tool differs from the design in two places (Q23).
+
 0. **File corrections (fix first).** The feedback loop extracts Brian's corrections but files none of them:
    all 867 'Human correction' rows in `reports-2026-11-11.jsonl` were deferred at the filing cap (Q18). Owner:
    an agent working in this repository's `scripts/learning_loop/`, not the Lockstep session (it does not touch
@@ -88,5 +89,5 @@ and agent rules, as defined in [DOMAIN.md](DOMAIN.md).
 No step of this plan calls a model to produce its answer: the tool's checks are deterministic code, and the
 feedback loop's nightly calls are already running and measured: USD 0.127 over two nights for 1,443 calls (`llm-cost cost
 --days 2 --group-by project,task`, project aes, 2026-11-11; investigation.json). Each slice's tests and lifelike's hook replays record their
-inputs and results in `.lockstep/` (DESIGN.md line 48) and the pull request; the Lockstep session reads every
+inputs and results in `.pcw/` (src/lockstep/hook.py:178; the design says `.lockstep/`, DESIGN.md line 48, see Q23) and the pull request; the Lockstep session reads every
 failing run in full before marking a slice done.

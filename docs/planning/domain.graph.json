@@ -393,7 +393,7 @@
    "id": "commit-check",
    "label": "lockstep check",
    "kind": "Lockstep",
-   "explain": "The named commit checks ported from code2check: trace, arch, test-first, sources, docmeta; each set to block, warn or off. Defined in proposals/one-planning-tool/DESIGN.md:72. Code: src/lockstep/checks/cli.py:114."
+   "explain": "The named commit checks ported from code2check: trace, arch, test-first, sources, docmeta; each set to block, warn or off. Defined in proposals/one-planning-tool/DESIGN.md:72. Code: src/lockstep/checks/cli.py:191."
   },
   {
    "id": "plan-check",
