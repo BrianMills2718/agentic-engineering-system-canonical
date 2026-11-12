@@ -19,7 +19,7 @@ Code: this repository, package `lockstep` in [src/lockstep/](../src/lockstep/__i
 ## Who uses it
 
 - lifelike, pinned to this repository, where its hook blocks off-plan edits under `PCW_MODE=block` ([lifelike#5](https://github.com/BrianMills2718/lifelike/pull/5)).
-- Team-Brains' Project Brain pull request runner, from a vendored wheel of this repository ([Team-Brains#1183](https://github.com/Inside-Success/Team-Brains/pull/1183)); the server picks it up at the runner's next install.
+- Team-Brains' Project Brain pull request runner, from a vendored wheel of this repository ([Team-Brains#1183](https://github.com/Inside-Success/Team-Brains/pull/1183)); installed on the server 2026-11-12.
 - New code2 repositories: code2-template installs it in place of code2check ([code2-template#29](https://github.com/BrianMills2718/code2-template/pull/29)); existing ones switch when next changed.
 
 ## Status (2026-11-12: built)

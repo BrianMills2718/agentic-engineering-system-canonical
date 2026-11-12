@@ -119,8 +119,8 @@
   {
    "id": "Q7",
    "short": "Documents too deep to reach",
-   "question": "The repository holds 135 Markdown files against its 140-file exception (108 before the Lockstep move added specs, openspec changes and wiki pages), so the cap still passes with 5 to spare; the wiki-compliance check fails on 24 documents (18 not linked from wiki/index.md, 6 more than two links deep, mostly archived OpenSpec changes under openspec/changes/archive/) and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes and the new Lockstep specs, ignore the archive, or raise the cap?",
-   "blocks": "the wiki-compliance check passing, and whether the next Lockstep change breaches the 140-file cap",
+   "question": "The repository holds 143 Markdown files against its 140-file exception (108 before the Lockstep move added specs, openspec changes and wiki pages), so the cap is now over by 3; the wiki-compliance check also fails on 31 documents (25 not linked from wiki/index.md, 6 more than two links deep, mostly archived OpenSpec changes under openspec/changes/archive/) and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes and the new Lockstep specs, ignore the archive, or raise the cap?",
+   "blocks": "the wiki-compliance check passing (the 140-file cap is already breached, 143)",
    "resolves_with": "Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
    "status": "open",
@@ -383,7 +383,7 @@
    "id": "Q22",
    "short": "Where Brian watches the one tool work",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "question": "Acceptance entries A1 to A5 need a page Brian opens to see Lockstep install, refuse a write and refuse a commit. Slices 1 to 6 are merged and no walkthrough page moved here with the code (the recorder `tests/lockstep/e2e/run.py` did; no served page exists, and A1 to A5 still read `planned`). Where is the page built, and when?",
    "blocks": "the entrypoint of acceptance entries A1 to A5, and whether any of them can be judged",
    "resolves_with": "An argument settles it: the package and its recorder are here (`tests/lockstep/e2e/run.py`), so the page is built from a recorded run in this repository with the shared review-page builder; no test is needed to decide where it lives.",
@@ -395,24 +395,42 @@
     "one-tool",
     "acceptance_entry",
     "slice"
-   ]
+   ],
+   "evidence": "The page is built from recorded runs in this repository: scripts/acceptance/a1.py to a5.py write docs/planning/runs/lockstep-acceptance/a1.json to a5.json (each run's own comparison says PASS on 2026-11-12) and proposals/planning-package/review-page/lockstep-acceptance.html shows them; acceptance-criteria.json A1 to A5 are `built` with that page as entrypoint (commit 27d961ad5). Brian has not judged them."
   },
   {
    "id": "Q23",
    "short": "Where the built tool still differs from the design",
    "owner": "agent",
-   "status": "open",
-   "question": "The built package differs from proposals/one-planning-tool/DESIGN.md in two places: its edit hook writes its log to `.pcw/hook-<date>.jsonl` (src/lockstep/hook.py:178) where the design says `.lockstep/` (DESIGN.md:48), and two projectors remain, the cog one for layout and AES-plan files and code2check's `Implements:` one (wiki/lockstep.md:35), where the design says one. Are these slices left over, or is the design to be amended?",
-   "blocks": "whether the design's one-projector and `.lockstep/` log rows are true, and whether `wiki/lockstep.md` can say the design is built",
-   "resolves_with": "An argument settles it: the design table (DESIGN.md:42-48) lists one projector and `.lockstep/`; reading both pieces of code shows neither was changed in slices 2 to 6; the Lockstep session says whether it plans a seventh slice or amends the design.",
+   "status": "resolved",
+   "question": "The built package differed from proposals/one-planning-tool/DESIGN.md in its edit hook's log folder: it wrote `.pcw/hook-<date>.jsonl` where the design says `.lockstep/` (DESIGN.md:48). (The second difference, two projectors, is now Q24.)",
+   "blocks": "whether the design's `.lockstep/` log row is true",
+   "resolves_with": "Reading the code settles it.",
    "sources": [
     "proposals/one-planning-tool/DESIGN.md:48",
-    "src/lockstep/hook.py:178",
+    "src/lockstep/hook.py:172",
+    "e662882db (commit)"
+   ],
+   "touches": [
+    "one-tool",
+    "edit-guard"
+   ],
+   "evidence": "Yes, fixed: the edit guard now writes `.lockstep/hook-<date>.jsonl` (src/lockstep/hook.py:172, LOG_DIR) and `--would-block` still counts the old `.pcw/` logs; commit e662882db."
+  },
+  {
+   "id": "Q24",
+   "short": "Two projectors remain where the design says one",
+   "owner": "agent",
+   "status": "open",
+   "question": "Two projectors remain inside the Lockstep package: the cog one for layout and AES-plan files and code2check's `Implements:` one (wiki/lockstep.md:35), where the design says one (DESIGN.md:43). Is a merge a seventh slice, or is the design amended?",
+   "blocks": "whether the design's one-projector row is true, and whether `wiki/lockstep.md` can say the design is fully built",
+   "resolves_with": "An argument settles it: the design table (DESIGN.md:43) lists one projector; the code has two; the Lockstep session says whether it plans a seventh slice or amends the design (wiki/lockstep.md:35: merging them is not yet planned).",
+   "sources": [
+    "proposals/one-planning-tool/DESIGN.md:43",
     "wiki/lockstep.md:35"
    ],
    "touches": [
     "one-tool",
-    "edit-guard",
     "first-docstring",
     "slice"
    ]

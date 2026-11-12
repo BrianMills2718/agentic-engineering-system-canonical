@@ -13,6 +13,10 @@ dependencies = [
   "ruamel.yaml>=0.18,<0.20",
   # Lockstep (src/lockstep): cog projects plan text into docstrings
   "cogapp>=3.4",
+  # `lockstep check arch` runs the generated contracts against the code; `check test-first` runs the tests.
+  # Both fail loudly when missing, so a Lockstep install must carry them.
+  "import-linter>=2",
+  "pytest>=8",
 ]
 
 [project.optional-dependencies]

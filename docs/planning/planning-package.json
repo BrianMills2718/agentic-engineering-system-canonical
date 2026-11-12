@@ -2,7 +2,7 @@
  "schema_version": "1.0",
  "record_type": "planning_package",
  "repository": "BrianMills2718/agentic-engineering-system-canonical",
- "subject_revision": "2224d54882df8bab522fc03fb8b27aed9ca674fd",
+ "subject_revision": "3d79135518490a20b9c6bc6e68ff1d461ad0d082",
  "request": "Brian, 2026-11-11: \"lets keep workgin on the harness\" (session 483c48d8, 22:23 UTC); \"to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system\" (session a769ac09, 08:14 UTC); \"i approve single tool desing re d4\" (session 483c48d8, 21:10 UTC); all in ~/.claude/history.jsonl. Standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\". This refresh replaces the 2026-10-27 package (reviewed at 8b732aa, plan 'AES on hold, checks honest') with the one-tool build; ship had warned that its cold review was out of date.",
  "parts": {
   "investigation": {
@@ -49,10 +49,10 @@
      "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
      "exit_status": 1,
      "counts": {
-      "markdown_files": 135,
+      "markdown_files": 143,
       "cap_limit": 140,
-      "over": 0,
-      "orphans": 24,
+      "over": 3,
+      "orphans": 31,
       "layout_findings": 0,
       "durable_findings": 4
      },
@@ -286,7 +286,7 @@
    "status": "present",
    "path": "docs/planning/cold-review.md",
    "verdict": "pass",
-   "reviewed_revision": "2224d54882df8bab522fc03fb8b27aed9ca674fd"
+   "reviewed_revision": "6c47de34f7a323f09b38a9e45609ac6b18a751f9"
   }
  },
  "initiative": {

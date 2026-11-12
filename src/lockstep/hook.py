@@ -27,7 +27,7 @@ By default (decision D7, Brian 2026-11-07) it only warns: the edit goes through,
 the refusal text after WARN_PREFIX, and the log records `"decision": "would_block"`. It refuses
 for a file matching a glob in the side file's `fixed` list, or everywhere with PCW_MODE=block
 (`blocks`). `pcw-hook --would-block [--days 14]` prints the would-block count per day.
-Every call the hook sees is appended to `.pcw/hook-<date>.jsonl` in the project: each decision, a
+Every call the hook sees is appended to `.lockstep/hook-<date>.jsonl` in the project: each decision, a
 shell write the plan has no rule for, and a call it lets through with nothing to say (`"decision":
 "pass"`), with the first characters of a shell command (Q21). Shell parsing misses a write whose path is built at run
 time; `pcw check` before the commit stays the guarantee.
@@ -113,7 +113,7 @@ from lockstep.openspec_text import find_spec_root, requirement_packet
 from lockstep.shell_targets import shell_write_words, written_paths
 from lockstep.side_file import load_side_file
 from lockstep.stale_edit import projection_stale, stale_reason, stops_edits
-from lockstep.unplanned_files import unplanned_reason
+from lockstep.unplanned_files import allowed_listing, unplanned_reason
 
 # Prefixed to the refusal text when the hook only warns (behavior 5.1, decision D7).
 WARN_PREFIX = "Lockstep would block this edit (warn mode): "
@@ -169,13 +169,17 @@ _LAST: dict = {}
 _PENDING: list = []
 
 
+LOG_DIR = ".lockstep"  # the guard's log folder (the design's name, Q23)
+OLD_LOG_DIR = ".pcw"  # where it logged before; `--would-block` still counts what is there
+
+
 def log(root: Path, record: dict) -> None:
     """Queue the decision; main() writes it with the exact message the agent receives."""
     _PENDING.append((root, record))
 
 
 def _write_log(root: Path, record: dict) -> None:
-    folder = root / ".pcw"
+    folder = root / LOG_DIR
     folder.mkdir(exist_ok=True)
     day = dt.date.today().isoformat()
     record = {"at": dt.datetime.now(dt.timezone.utc).isoformat(), "tool_use_id": _CALL_ID, **record}
@@ -195,6 +199,12 @@ def blocks(root: Path, rel: str) -> bool:
     except ValueError:
         return True
     return side is not None and any(fnmatch.fnmatchcase(rel, g) for g in side.fixed)
+
+
+def _with_allowed(root: Path, rel: str, reason: str) -> str:
+    """`reason` followed by the files the plan does allow, so the agent sees what it may write instead."""
+    listing = allowed_listing(root, rel)
+    return f"{reason}\n\n{listing}" if listing else reason
 
 
 def _refuse_or_warn(root: Path, rel_files: list[str], record: dict, reason: str, extra: str | None = None) -> dict:
@@ -291,8 +301,9 @@ def decide_shell(call: dict, command: str) -> dict | None:
     unplanned = [(rel, why) for rel in targets for why in [unplanned_reason(root, rel)] if why]
     if unplanned:
         rels = [rel for rel, _ in unplanned]
+        reason = f"This command writes {', '.join(rels)} from the shell. {unplanned[0][1]}"
         return _refuse_or_warn(root, rels, {"tool": call.get("tool_name"), "files": rels, "why": "shell_unplanned"},
-                               f"This command writes {', '.join(rels)} from the shell. {unplanned[0][1]}")
+                               _with_allowed(root, rels[0], reason))
     named = [(a["locator"]["exact_path"], a["id"]) for a in target(root).get("planned_artifacts") or []
              if a.get("locator", {}).get("exact_path")
              and (a["locator"]["exact_path"] in command or a["locator"]["exact_path"] in targets)]
@@ -357,7 +368,8 @@ def decide(call: dict) -> dict | None:
             return _refuse_or_warn(root, [rel], {"file": rel, "why": "plan_edit"}, hand)
         unplanned = unplanned_reason(root, rel)
         if unplanned:
-            return _refuse_or_warn(root, [rel], {"file": rel, "why": "unplanned"}, unplanned, spec_text or None)
+            return _refuse_or_warn(root, [rel], {"file": rel, "why": "unplanned"}, _with_allowed(root, rel, unplanned),
+                                   spec_text or None)
         art = artifact_for_path(root, rel)
         if art is None:
             if not spec_ids:
@@ -419,7 +431,7 @@ def would_block_counts(root: Path, days: int = 14) -> dict[str, int]:
     """Per day (ISO date), how many hook decisions in the last `days` days were would_block; days with none are left out."""
     since = dt.date.today() - dt.timedelta(days=days - 1)
     counts: dict[str, int] = {}
-    for path in sorted((root / ".pcw").glob("hook-*.jsonl")):
+    for path in sorted(p for folder in (LOG_DIR, OLD_LOG_DIR) for p in (root / folder).glob("hook-*.jsonl")):
         day = path.stem.removeprefix("hook-")
         try:
             if dt.date.fromisoformat(day) < since:
@@ -447,7 +459,7 @@ def _print_counts(argv: list[str]) -> int:
     for back in range(args.days - 1, -1, -1):
         day = (today - dt.timedelta(days=back)).isoformat()
         print(f"{day} {counts.get(day, 0)}")
-    print(f"total {sum(counts.values())} would_block in {args.days} days ({root / '.pcw'})")
+    print(f"total {sum(counts.values())} would_block in {args.days} days ({root / LOG_DIR})")
     return 0
 
 

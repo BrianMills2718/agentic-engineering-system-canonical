@@ -189,7 +189,7 @@ CONCEPTS = [
      "code2-template's commit checks (trace, arch, test-first, sources, docmeta) run in every code2 repository's make check.",
      "proposals/one-planning-tool/DESIGN.md:46", None),
     ("one-tool", "Lockstep, the one planning-and-checking tool", "Lockstep",
-     "One installable package shipped from this repository, one config file, one plan format, one edit guard and one commit check; any repository installs it with one command.",
+     "One installable package shipped from this repository, one config file, one plan format, one edit guard and one commit check; any repository installs it with one command (`lockstep init`, src/lockstep/init_repo.py).",
      "proposals/one-planning-tool/DESIGN.md:14", "src/lockstep/check.py:398"),
     ("lockstep-config", "lockstep.yaml", "Lockstep",
      "The one config file: which checks block, warn or are off, governed and fixed paths, layout rows, the human-source pattern and the owner; names no machine path.",

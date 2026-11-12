@@ -1,0 +1,192 @@
+{
+ "entry": "A2",
+ "title": "The guard refuses writes the plan does not name and allows reads",
+ "verdict": "PASS",
+ "run_at": "2026-11-12T17:46:40+00:00",
+ "lockstep_revision": "282fe2af5047f8db03f2a18e94d101f7bfc0eed1",
+ "lockstep_bin": "/home/brian/code2/worktrees/lockstep-init/.venv/bin",
+ "rows": [
+  {
+   "id": "cat",
+   "label": "cat > src/lifelike/extra.py",
+   "should": "refused",
+   "did": "refused",
+   "pass": true,
+   "step": "hook: cat > src/lifelike/extra.py",
+   "command": "cat > src/lifelike/extra.py <<'EOF'\nx = 1\nEOF",
+   "decision": "deny",
+   "message": "This command writes src/lifelike/extra.py from the shell. src/lifelike/extra.py is not in the plan: it is under the governed folder src/, and .aes/target.yaml does not name it. Add it to .aes/target.yaml through `aes plan prepare/validate/accept` first.\n\nThe plan does allow these files:\n  src/lifelike/__init__.py\n  src/lifelike/cli.py\n  src/lifelike/patterns.py\n  src/lifelike/render.py\n  src/lifelike/rule.py\n  src/lifelike/step.py\n  tests/test_cli.py\n  tests/test_patterns.py\n  tests/test_render.py\n  tests/test_rule.py\n  tests/test_step.py\n\nTo see what the plan asks for and which files and tests do it, start from the project's wiki: `python -m lockstep.wiki` prints it, each section a question linking down to the requirement, its files and its test."
+  },
+  {
+   "id": "echo",
+   "label": "echo > src/lifelike/extra.py",
+   "should": "refused",
+   "did": "refused",
+   "pass": true,
+   "step": "hook: echo > src/lifelike/extra.py",
+   "command": "echo x > src/lifelike/extra.py",
+   "decision": "deny",
+   "message": "This command writes src/lifelike/extra.py from the shell. src/lifelike/extra.py is not in the plan: it is under the governed folder src/, and .aes/target.yaml does not name it. Add it to .aes/target.yaml through `aes plan prepare/validate/accept` first.\n\nThe plan does allow these files:\n  src/lifelike/__init__.py\n  src/lifelike/cli.py\n  src/lifelike/patterns.py\n  src/lifelike/render.py\n  src/lifelike/rule.py\n  src/lifelike/step.py\n  tests/test_cli.py\n  tests/test_patterns.py\n  tests/test_render.py\n  tests/test_rule.py\n  tests/test_step.py\n\nTo see what the plan asks for and which files and tests do it, start from the project's wiki: `python -m lockstep.wiki` prints it, each section a question linking down to the requirement, its files and its test."
+  },
+  {
+   "id": "python",
+   "label": "python -c writing src/lifelike/zz.py",
+   "should": "refused",
+   "did": "refused",
+   "pass": true,
+   "step": "hook: python -c writing src/lifelike/zz.py",
+   "command": "python -c 'open(\"src/lifelike/zz.py\",\"w\").write(\"x=1\")'",
+   "decision": "deny",
+   "message": "This command writes src/lifelike/zz.py from the shell. src/lifelike/zz.py is not in the plan: it is under the governed folder src/, and .aes/target.yaml does not name it. Add it to .aes/target.yaml through `aes plan prepare/validate/accept` first.\n\nThe plan does allow these files:\n  src/lifelike/__init__.py\n  src/lifelike/cli.py\n  src/lifelike/patterns.py\n  src/lifelike/render.py\n  src/lifelike/rule.py\n  src/lifelike/step.py\n  tests/test_cli.py\n  tests/test_patterns.py\n  tests/test_render.py\n  tests/test_rule.py\n  tests/test_step.py\n\nTo see what the plan asks for and which files and tests do it, start from the project's wiki: `python -m lockstep.wiki` prints it, each section a question linking down to the requirement, its files and its test."
+  },
+  {
+   "id": "cp",
+   "label": "cp of a planned file (read only)",
+   "should": "allowed",
+   "did": "allowed",
+   "pass": true,
+   "step": "hook: cp of a planned file (read only)",
+   "command": "cp src/lifelike/rule.py /tmp/rulecopy.py",
+   "decision": "allow",
+   "message": ""
+  },
+  {
+   "id": "message",
+   "label": "the refusal message shows the plan (names the files the plan allows)",
+   "should": "names the planned files",
+   "did": "names the planned files",
+   "pass": true,
+   "step": "hook: cat > src/lifelike/extra.py",
+   "planned_files_named": [
+    "src/lifelike/__init__.py",
+    "src/lifelike/cli.py",
+    "src/lifelike/patterns.py",
+    "src/lifelike/render.py",
+    "src/lifelike/rule.py",
+    "src/lifelike/step.py",
+    "tests/test_cli.py",
+    "tests/test_patterns.py",
+    "tests/test_render.py",
+    "tests/test_rule.py",
+    "tests/test_step.py"
+   ],
+   "message": "This command writes src/lifelike/extra.py from the shell. src/lifelike/extra.py is not in the plan: it is under the governed folder src/, and .aes/target.yaml does not name it. Add it to .aes/target.yaml through `aes plan prepare/validate/accept` first.\n\nThe plan does allow these files:\n  src/lifelike/__init__.py\n  src/lifelike/cli.py\n  src/lifelike/patterns.py\n  src/lifelike/render.py\n  src/lifelike/rule.py\n  src/lifelike/step.py\n  tests/test_cli.py\n  tests/test_patterns.py\n  tests/test_render.py\n  tests/test_rule.py\n  tests/test_step.py\n\nTo see what the plan asks for and which files and tests do it, start from the project's wiki: `python -m lockstep.wiki` prints it, each section a question linking down to the requirement, its files and its test.",
+   "command": "(the first refused row's message)"
+  }
+ ],
+ "source_repo": {
+  "path": "/home/brian/code2/lifelike",
+  "revision": "0b511d727a5d6e5188dd8cdc344604153c522555"
+ },
+ "files_before": [
+  "src/lifelike/__init__.py",
+  "src/lifelike/cli.py",
+  "src/lifelike/patterns.py",
+  "src/lifelike/render.py",
+  "src/lifelike/rule.py",
+  "src/lifelike/step.py",
+  "tests/test_cli.py",
+  "tests/test_patterns.py",
+  "tests/test_render.py",
+  "tests/test_rule.py",
+  "tests/test_step.py"
+ ],
+ "unplanned_existed_before": {
+  "src/lifelike/extra.py": false,
+  "src/lifelike/zz.py": false
+ },
+ "hook_command": "cd $CLAUDE_PROJECT_DIR && PCW_MODE=block lockstep-hook  (as lifelike .claude/settings.json)",
+ "planned_files_in_plan": [
+  "src/lifelike/__init__.py",
+  "src/lifelike/cli.py",
+  "src/lifelike/patterns.py",
+  "src/lifelike/render.py",
+  "src/lifelike/rule.py",
+  "src/lifelike/step.py",
+  "tests/test_cli.py",
+  "tests/test_patterns.py",
+  "tests/test_render.py",
+  "tests/test_rule.py",
+  "tests/test_step.py"
+ ],
+ "files_after": [
+  "src/lifelike/__init__.py",
+  "src/lifelike/cli.py",
+  "src/lifelike/patterns.py",
+  "src/lifelike/render.py",
+  "src/lifelike/rule.py",
+  "src/lifelike/step.py",
+  "tests/test_cli.py",
+  "tests/test_patterns.py",
+  "tests/test_render.py",
+  "tests/test_rule.py",
+  "tests/test_step.py"
+ ],
+ "unplanned_existed_after": {
+  "src/lifelike/extra.py": false,
+  "src/lifelike/zz.py": false
+ },
+ "files_changed_by_run": [],
+ "steps": [
+  {
+   "name": "hook: cat > src/lifelike/extra.py",
+   "command": "/home/brian/code2/worktrees/lockstep-init/.venv/bin/lockstep-hook",
+   "cwd": "/tmp/a2-lifelike-7j4ajoek/lifelike",
+   "stdin": "{\"hook_event_name\": \"PreToolUse\", \"cwd\": \"/tmp/a2-lifelike-7j4ajoek/lifelike\", \"tool_name\": \"Bash\", \"tool_input\": {\"command\": \"cat > src/lifelike/extra.py <<'EOF'\\nx = 1\\nEOF\"}}",
+   "exit_code": 0,
+   "stdout": {
+    "text": "{\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"permissionDecision\": \"deny\", \"permissionDecisionReason\": \"This command writes src/lifelike/extra.py from the shell. src/lifelike/extra.py is not in the plan: it is under the governed folder src/, and .aes/target.yaml does not name it. Add it to .aes/target.yaml through `aes plan prepare/validate/accept` first.\\n\\nThe plan does allow these files:\\n  src/lifelike/__init__.py\\n  src/lifelike/cli.py\\n  src/lifelike/patterns.py\\n  src/lifelike/render.py\\n  src/lifelike/rule.py\\n  src/lifelike/step.py\\n  tests/test_cli.py\\n  tests/test_patterns.py\\n  tests/test_render.py\\n  tests/test_rule.py\\n  tests/test_step.py\\n\\nTo see what the plan asks for and which files and tests do it, start from the project's wiki: `python -m lockstep.wiki` prints it, each section a question linking down to the requirement, its files and its test.\"}}",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "hook: echo > src/lifelike/extra.py",
+   "command": "/home/brian/code2/worktrees/lockstep-init/.venv/bin/lockstep-hook",
+   "cwd": "/tmp/a2-lifelike-7j4ajoek/lifelike",
+   "stdin": "{\"hook_event_name\": \"PreToolUse\", \"cwd\": \"/tmp/a2-lifelike-7j4ajoek/lifelike\", \"tool_name\": \"Bash\", \"tool_input\": {\"command\": \"echo x > src/lifelike/extra.py\"}}",
+   "exit_code": 0,
+   "stdout": {
+    "text": "{\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"permissionDecision\": \"deny\", \"permissionDecisionReason\": \"This command writes src/lifelike/extra.py from the shell. src/lifelike/extra.py is not in the plan: it is under the governed folder src/, and .aes/target.yaml does not name it. Add it to .aes/target.yaml through `aes plan prepare/validate/accept` first.\\n\\nThe plan does allow these files:\\n  src/lifelike/__init__.py\\n  src/lifelike/cli.py\\n  src/lifelike/patterns.py\\n  src/lifelike/render.py\\n  src/lifelike/rule.py\\n  src/lifelike/step.py\\n  tests/test_cli.py\\n  tests/test_patterns.py\\n  tests/test_render.py\\n  tests/test_rule.py\\n  tests/test_step.py\\n\\nTo see what the plan asks for and which files and tests do it, start from the project's wiki: `python -m lockstep.wiki` prints it, each section a question linking down to the requirement, its files and its test.\"}}",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "hook: python -c writing src/lifelike/zz.py",
+   "command": "/home/brian/code2/worktrees/lockstep-init/.venv/bin/lockstep-hook",
+   "cwd": "/tmp/a2-lifelike-7j4ajoek/lifelike",
+   "stdin": "{\"hook_event_name\": \"PreToolUse\", \"cwd\": \"/tmp/a2-lifelike-7j4ajoek/lifelike\", \"tool_name\": \"Bash\", \"tool_input\": {\"command\": \"python -c 'open(\\\"src/lifelike/zz.py\\\",\\\"w\\\").write(\\\"x=1\\\")'\"}}",
+   "exit_code": 0,
+   "stdout": {
+    "text": "{\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"permissionDecision\": \"deny\", \"permissionDecisionReason\": \"This command writes src/lifelike/zz.py from the shell. src/lifelike/zz.py is not in the plan: it is under the governed folder src/, and .aes/target.yaml does not name it. Add it to .aes/target.yaml through `aes plan prepare/validate/accept` first.\\n\\nThe plan does allow these files:\\n  src/lifelike/__init__.py\\n  src/lifelike/cli.py\\n  src/lifelike/patterns.py\\n  src/lifelike/render.py\\n  src/lifelike/rule.py\\n  src/lifelike/step.py\\n  tests/test_cli.py\\n  tests/test_patterns.py\\n  tests/test_render.py\\n  tests/test_rule.py\\n  tests/test_step.py\\n\\nTo see what the plan asks for and which files and tests do it, start from the project's wiki: `python -m lockstep.wiki` prints it, each section a question linking down to the requirement, its files and its test.\"}}",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  },
+  {
+   "name": "hook: cp of a planned file (read only)",
+   "command": "/home/brian/code2/worktrees/lockstep-init/.venv/bin/lockstep-hook",
+   "cwd": "/tmp/a2-lifelike-7j4ajoek/lifelike",
+   "stdin": "{\"hook_event_name\": \"PreToolUse\", \"cwd\": \"/tmp/a2-lifelike-7j4ajoek/lifelike\", \"tool_name\": \"Bash\", \"tool_input\": {\"command\": \"cp src/lifelike/rule.py /tmp/rulecopy.py\"}}",
+   "exit_code": 0,
+   "stdout": {
+    "text": "{\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"permissionDecision\": \"allow\", \"additionalContext\": \"Plan for src/lifelike/rule.py (ART-RULE), from .aes/target.yaml:\\nPart of OUT-001: They name a pattern and a Life-like rule written in B/S\\n  notation (for example B3/S23) and watch the pattern evolve generation by\\n  generation as ASCII art in their terminal, and every known pattern behaves\\n  exactly as the mathematics of that rule says it must.\\nBEH-RULE: A rule written in B/S notation (B, then the live-neighbour counts\\n  that bring a dead cell to life, a slash, S, then the counts that keep a\\n  live cell alive; each count one digit 0 to 8) is read into its birth and\\n  survival sets. A named rule stands for its notation: `life` is B3/S23 and\\n  `highlife` is B36/S23. Any other text is rejected with ValueError naming\\n  that text.\\nSC-RULE: B3/S23 and `life` read as birth {3} and survival {2, 3}; B36/S23\\n  and `highlife` read as birth {3, 6} and survival {2, 3}; malformed text is\\n  rejected.\\n  Disproved if: A rule reads into the wrong sets, `highlife` is not B36/S23,\\n  or text such as `B9/S23`, `3/23` or an empty string is accepted.\\nProven by: VS-RULE (tests/test_rule.py)\\nDeclares (typed signatures, from the plan):\\n  Rule\\n  parse_rule(text: str) -> Rule\"}}",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  }
+ ]
+}

@@ -166,7 +166,7 @@ def test_the_hook_logs_what_it_handed_over(repo, monkeypatch, capsys):
     out = json.loads(capsys.readouterr().out)["hookSpecificOutput"]
     assert "permissionDecision" not in out  # Codex gets context only
     assert "SHALL run the repository's check" in out["additionalContext"]
-    (log,) = list((repo / ".pcw").glob("hook-*.jsonl"))
+    (log,) = list((repo / ".lockstep").glob("hook-*.jsonl"))
     (rec,) = [json.loads(line) for line in log.read_text().splitlines()]
     assert rec["decision"] == "allow" and rec["why"] == "openspec_text" and rec["file"] == "scripts/ship.py"
     assert rec["requirements"] == [MERGE] and rec["tool_use_id"] == "t7"

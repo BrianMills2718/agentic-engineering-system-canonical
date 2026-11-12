@@ -32,7 +32,7 @@ def planned(tmp_path_factory) -> Path:
     """The smallest example, adopted and committed: one planned source file with its plan copied in."""
     proj = tmp_path_factory.mktemp("check") / "greeter"
     proj.mkdir()
-    (proj / ".gitignore").write_text("__pycache__/\n.pcw/\n")
+    (proj / ".gitignore").write_text("__pycache__/\n.lockstep/\n")
     shutil.copytree(EXAMPLE / "plans", proj / "plans")
     shutil.copy(EXAMPLE / "Makefile", proj / "Makefile")
     sh("git init -q -b main", proj)

@@ -396,10 +396,13 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def cli() -> int:
-    """`lockstep <command>`: `check` (the whole-tree plan check; `check <name>` runs one commit check), `layout`
+    """`lockstep <command>`: `init` (install Lockstep in a repository), `check` (the whole-tree plan check; `check <name>` runs one commit check), `layout`
     (create the planned files), `plan check` (validate the acceptance and plan files), `status` (each
     requirement's code, tests and result) or `show FILE` (what a file must keep true)."""
     args = sys.argv[1:]
+    if args and args[0] == "init":
+        from lockstep.init_repo import init_cli
+        return init_cli(args[1:])
     if args and args[0] == "layout":
         from lockstep.scaffold import layout
         return layout()

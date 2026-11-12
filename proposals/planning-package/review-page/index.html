@@ -46,7 +46,7 @@ table.ladder td:first-child { font-weight: 700; text-align: center; width: 3em; 
 </style></head><body>
 <main>
 <h1>AES canonical: the one planning-and-checking tool, and AES as a whole</h1>
-<p class="status"><span class="tag ok">complete</span> <b>Complete, pending your review. 17 other open questions (Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q10, Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23) do not block it.</b></p>
+<p class="status"><span class="tag ok">complete</span> <b>Complete, pending your review. 16 other open questions (Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q10, Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q24) do not block it.</b></p>
 <p class="star">AES is the whole agent system: Lockstep, the feedback loop and the policy layer (Brian, 2026-11-11). This plan builds Lockstep into one planning-and-checking tool in this repository, in six slices, and checks that the feedback loop and policy layer keep working. <b>What you do:</b> Read the eight acceptance entries and say whether each is the right test. A6 fails today (your corrections are extracted but not filed; Q18). Answer Q2 and Q21 when you want; each has a default: start at <a href="review.html">the review page</a>.</p>
 <div class="hub">
 <div class="card"><h2>Should I approve this plan?</h2><ul>
@@ -54,8 +54,9 @@ table.ladder td:first-child { font-weight: 700; text-align: center; width: 3em; 
 <li><a href="review.html#goal">What it is for</a></li>
 <li><a href="review.html#requirements">How I judge it</a>: your words, the requirements and the acceptance criteria</li>
 <li><a href="review.html#decisions">What was decided, and by whom</a></li></ul></div>
+<div class="card"><h2>Does Lockstep pass your acceptance entries?</h2><ul><li><a href="lockstep-acceptance.html">Acceptance results from real runs</a>: pass, fail or not run, each with the evidence</li><li><a href="lockstep-acceptance.html#a1">A1</a> one command sets it up</li><li><a href="lockstep-acceptance.html#a2">A2</a> the guard refuses unplanned writes</li><li><a href="lockstep-acceptance.html#a3">A3</a> bad commits are refused</li><li><a href="lockstep-acceptance.html#a4">A4</a> files carry the approved text</li><li><a href="lockstep-acceptance.html#a5">A5</a> portable and shareable</li></ul></div>
 <div class="card"><h2>What is still open?</h2><ul>
-<li><a href="open-questions.html">Open questions</a>: 2 yours, 15 the agent's, each with what it blocks</li></ul></div>
+<li><a href="open-questions.html">Open questions</a>: 2 yours, 14 the agent's, each with what it blocks</li></ul></div>
 <div class="card"><h2>What does it look like? (each diagram on its own full page)</h2><ul><li><a href="diagram-system-model.html">What is AES made of, which repository holds each part, and what talks to it? (context view)</a></li><li><a href="diagram-system-model-2.html">Where do AES&#x27;s parts sit across the four repositories, and what did the one-tool build move between them? (cross-repository view)</a></li><li><a href="diagram-system-map.html">Which code units make up this repository, which AES part does each belong to, and what calls what?</a></li><li><a href="diagram-domain.html">What ideas does AES work with (the whole system and its parts, the one tool&#x27;s plan format, the feedback loop&#x27;s records, and the retiring v0.2 engine), which exist in code here and which only in documents or other repositories, and how do they relate?</a></li><li><a href="diagram-open-questions.html">Which questions are still open, whose call is each, what does each block, and which concepts does it bear on?</a></li>
 <li><a href="review.html#architecture">Architecture: system model and domain model</a></li>
 <li><a href="review.html#spectrum">Semantic spectrum ladder</a></li></ul></div>
@@ -65,7 +66,7 @@ table.ladder td:first-child { font-weight: 700; text-align: center; width: 3em; 
 <li><a href="review.html#checks">Checks and cold review</a></li></ul></div>
 <div class="card"><h2>The sources</h2><ul><li><a href="https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/next.goal.md">The plan (docs/planning/next.goal.md)</a></li><li><a href="https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/planning-package.json">The Company Planning package</a></li><li><a href="https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/proposals/one-planning-tool/DESIGN.md">The one-tool design</a></li><li><a href="https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/next.goal.md">The plan (six slices)</a></li><li><a href="https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md">Decision 0009 and its amendments</a></li><li><a href="https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/.project-brain/now.md">Project brain (now.md)</a></li></ul></div>
 </div>
-<p class="note">Revision <code>2224d54882df</code> of BrianMills2718/agentic-engineering-system-canonical. The plan review template: Brian, 2026-11-05: &quot;ok i approve all this and want this as the new template going forward that all plans have in the ui view&quot;.</p>
+<p class="note">Revision <code>3d7913551849</code> of BrianMills2718/agentic-engineering-system-canonical. The plan review template: Brian, 2026-11-05: &quot;ok i approve all this and want this as the new template going forward that all plans have in the ui view&quot;.</p>
 </main>
 <script type="application/json" id="page-data">{"md": {}, "graphs": {}, "full": false}</script>
 <script src="graph-viewer.js"></script><script src="marked.min.js"></script>

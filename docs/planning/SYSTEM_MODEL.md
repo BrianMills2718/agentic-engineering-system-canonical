@@ -136,7 +136,7 @@ OpenSpec requirements plus `layout:` rows in `lockstep.yaml` (`src/lockstep/layo
 (`src/lockstep/side_file.py:126-127`, `SideFile` at `:136`). Its commit checks and their block, warn or off modes come from
 `src/lockstep/checks/config.py:23-24` (`Config` at `:33`). Its writes are source and test files that begin with a docstring
 copy of the plan (`src/lockstep/scaffold.py`), the append-only change log (`src/lockstep/change_log.py`), generated wiki pages
-(`src/lockstep/wiki.py`) and a hook log under `.pcw/` in the installing repository (`src/lockstep/hook.py:178`; the design says `.lockstep/`, proposals/one-planning-tool/DESIGN.md:48, open question Q23). These live in the repositories that
+(`src/lockstep/wiki.py`) and a hook log under `.lockstep/` in the installing repository (`src/lockstep/hook.py:172`, resolved Q23), and, when `lockstep init` runs, the config file and the Claude Code and Codex hook entries it installs (`src/lockstep/init_repo.py`). These live in the repositories that
 install Lockstep; none is stored here, except what the tests build under `tests/lockstep/`.
 
 ## Does AES execute typed rules?
@@ -154,5 +154,5 @@ shared kernel. Open-questions entry Q9 records the reasoning.
   (`~/code2/AGENTS.md`); they stay in place, unmodelled, and the one-tool plan does not use them (Q10).
 - The rules register file `docs/rules/register.yaml` and the feedback loop's plans and pages in
   `proposals/aes-learning-loop/`: their record types are in the table above; the system map names each code unit.
-- Lockstep's walkthrough pages and recorder: no page moved with the code, so acceptance A1 to A5 still have no page (open question Q22).
+- Lockstep's walkthrough: now built as `proposals/planning-package/review-page/lockstep-acceptance.html` from recorded runs (`scripts/acceptance/`, `docs/planning/runs/lockstep-acceptance/`); A1 to A5 are built, not judged by Brian (Q22 resolved).
 - The Company Planning profile files under `docs/architecture/` (ODD.md gap G1).
