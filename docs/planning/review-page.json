@@ -30,6 +30,10 @@
     {
       "name": "A9: source-fact upkeep and consumer evidence",
       "href": "https://hive.brianmills.dev/docs/company-planning/reader/upkeep/"
+    },
+    {
+      "name": "A9 acceptance table: expected and observed cases",
+      "href": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/docs/planning/source-facts-acceptance.md"
     }
   ],
   "architecture": "docs/planning/SYSTEM_MODEL.md",
