@@ -168,13 +168,13 @@
    "id": "Q7",
    "label": "Q7: Documents too deep to reach",
    "kind": "AgentQuestion",
-   "explain": "The repository holds 135 Markdown files against its 140-file exception (108 before the Lockstep move added specs, openspec changes and wiki pages), so the cap still passes with 5 to spare; the wiki-compliance check fails on 24 documents (18 not linked from wiki/index.md, 6 more than two links deep, mostly archived OpenSpec changes under openspec/changes/archive/) and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes and the new Lockstep specs, ignore the archive, or raise the cap? Settled by: Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
+   "explain": "The repository holds 143 Markdown files against its 140-file exception (108 before the Lockstep move added specs, openspec changes and wiki pages), so the cap is now over by 3; the wiki-compliance check also fails on 31 documents (25 not linked from wiki/index.md, 6 more than two links deep, mostly archived OpenSpec changes under openspec/changes/archive/) and on the 4 durable-document findings (Q3). Link the archived OpenSpec changes and the new Lockstep specs, ignore the archive, or raise the cap? Settled by: Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question."
   },
   {
    "id": "Q7-blocks",
-   "label": "the wiki-compliance check passing, and whether the next Lockstep change breaches the \u2026",
+   "label": "the wiki-compliance check passing (the 140-file cap is already breached, 143)",
    "kind": "Decision",
-   "explain": "the wiki-compliance check passing, and whether the next Lockstep change breaches the 140-file cap"
+   "explain": "the wiki-compliance check passing (the 140-file cap is already breached, 143)"
   },
   {
    "id": "Q8",
