@@ -45,6 +45,10 @@ last_checked: 2026-11-11
 - The thesis disproof still names commit-rule bypasses, which no longer exist; this is listed on [open-questions.md](open-questions.md) ([docs/architecture/GOAL.md:54-57](../docs/architecture/GOAL.md#L54-L57)).
 - Quality goals: ignorance never renders green, every control can be shown to fail, and off-the-shelf tools come first ([docs/architecture/GOAL.md:21-26](../docs/architecture/GOAL.md#L21-L26)).
 
+## Utility and conformance
+
+- Direct stakeholder use and technical conformance answer different questions and stay separately visible: automated green cannot override a stakeholder saying the result is low-value, and enthusiasm cannot turn missing, failed or stale evidence into conformance ([docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md:250-268](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md#L250-L268)).
+
 ## Non-goals
 
 - Retrofitting an arbitrary existing repository ([docs/architecture/GOAL.md:61-62](../docs/architecture/GOAL.md#L61-L62)).
