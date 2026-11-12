@@ -106,6 +106,7 @@ Where each earlier decision stands now:
 - [docs/decisions/](../docs/decisions/): the decision record.
 - [openspec/specs/required-evidence-inputs](../openspec/specs/required-evidence-inputs/spec.md) and [openspec/specs/inert-characterization](../openspec/specs/inert-characterization/spec.md): required behavior.
 - [openspec/specs/lockstep-package](../openspec/specs/lockstep-package/spec.md): Lockstep, the one planning-and-checking tool, ships from this repository as package `src/lockstep/` (tests in `tests/lockstep/`, some on [a frozen copy of Lockstep's own plan](../tests/lockstep/lockstep-plan-sample/README.md); design: [one planning tool](../proposals/one-planning-tool/DESIGN.md)).
+- [openspec/specs/lockstep-guard](../openspec/specs/lockstep-guard/spec.md): Lockstep's edit hook judges a shell command by the paths it writes, using code2check's shell-target parser (`src/lockstep/shell_targets.py`); the four cases of lockstep#111 are its scenarios.
 - [docs/rules/RULES.md](../docs/rules/RULES.md): generated from the register.
 - [.claude/commands/opsx/](../.claude/commands/opsx/apply.md): OpenSpec commands read by Claude Code.
 - [planning_protocol.md](../src/agentic_engineering_system/planning_protocol.md): planned artifact of the retained engine.
