@@ -24,6 +24,7 @@ import sys
 from ruamel.yaml import YAML
 
 from lockstep.checks.config import CHECK_NAMES
+from lockstep.checks.sources import DEFAULT_HUMAN_PATTERN
 
 SOURCE = "git+https://github.com/BrianMills2718/agentic-engineering-system-canonical"
 OWNER_PLACEHOLDER = "YOUR-GITHUB-OWNER"
@@ -41,7 +42,7 @@ def _origin_owner(root: Path) -> str | None:
     return owner_from_origin(done.stdout) if done.returncode == 0 else None
 
 
-def lockstep_yaml(owner: str) -> str:
+def lockstep_yaml(owner: str, human_pattern: str = DEFAULT_HUMAN_PATTERN) -> str:
     """The text of a fresh `lockstep.yaml`: every check on block, the owner, the human-source pattern, an empty plan."""
     checks = "\n".join(f"  {name}: block" for name in CHECK_NAMES)
     return f"""# Lockstep's settings (docs: README.md, "Install Lockstep in a repository").
@@ -56,7 +57,7 @@ owner: {owner}
 
 sources:
   # A `Source:` line starting with this regex counts as a human's word; `Source: inferred by agent (...)` never does.
-  human_pattern: "human"
+  human_pattern: "{human_pattern}"
 
 # Folders where every file must be planned (for example [src/]). Empty means the edit guard checks no folder.
 governed: []
@@ -118,7 +119,8 @@ def _gitignore(path: Path) -> str:
     return "wrote"
 
 
-def init_repo(root: Path, owner: str | None = None, source: str = SOURCE) -> int:
+def init_repo(root: Path, owner: str | None = None, source: str = SOURCE,
+              human_pattern: str = DEFAULT_HUMAN_PATTERN) -> int:
     """Install Lockstep in `root`, printing one line per file. Returns 0."""
     root = root.resolve()
     owner = owner or _origin_owner(root) or OWNER_PLACEHOLDER
@@ -127,7 +129,7 @@ def init_repo(root: Path, owner: str | None = None, source: str = SOURCE) -> int
     if config.exists():
         results.append(("lockstep.yaml", "skipped"))
     else:
-        config.write_text(lockstep_yaml(owner), encoding="utf-8")
+        config.write_text(lockstep_yaml(owner, human_pattern), encoding="utf-8")
         results.append(("lockstep.yaml", "wrote"))
     results.append((".claude/settings.json", _merge_hooks(root / ".claude/settings.json", _hook_entry(source, "claude"))))
     results.append((".codex/hooks.json", _merge_hooks(root / ".codex/hooks.json", _hook_entry(source, "codex"))))
@@ -145,12 +147,14 @@ def init_cli(argv: list[str]) -> int:
     ap.add_argument("--repo", type=Path, default=Path.cwd())
     ap.add_argument("--owner", help="the GitHub owner to write in lockstep.yaml (default: the git origin's owner)")
     ap.add_argument("--source", default=SOURCE, help="the git address uvx installs Lockstep from")
+    ap.add_argument("--human-pattern", default=DEFAULT_HUMAN_PATTERN,
+                    help="regex a `Source:` line must start with to count as a person's word (default: %(default)s)")
     try:
         args = ap.parse_args(argv)
     except SystemExit as exit_:
         return int(exit_.code or 0) if isinstance(exit_.code, int) else 2
     try:
-        return init_repo(args.repo, args.owner, args.source)
+        return init_repo(args.repo, args.owner, args.source, args.human_pattern)
     except (ValueError, OSError) as err:  # an existing settings or lefthook file that is not valid JSON or YAML
         print(f"error: {err}", file=sys.stderr)
         return 2

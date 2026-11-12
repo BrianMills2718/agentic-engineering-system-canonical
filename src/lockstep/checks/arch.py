@@ -142,6 +142,20 @@ def lint_imports_command() -> list[str] | None:
     return [found] if found else None
 
 
+def _has_contracts(path: Path) -> bool:
+    """Whether the contracts file names at least one root package and one contract.
+
+    A diagram that maps no Python packages generates `root_packages =` with nothing under it, which
+    import-linter cannot even load; there is nothing to check, so the caller skips running it.
+    """
+    if not path.exists():
+        return False
+    text = path.read_text()
+    has_contract = re.search(r"^\[importlinter:contract:", text, re.MULTILINE) is not None
+    roots = re.search(r"^root_packages\s*=\s*\n((?:[ \t]+\S.*\n?)+)", text, re.MULTILINE)
+    return has_contract and roots is not None
+
+
 def lint_imports(root: Path) -> tuple[int, str]:
     """Run the committed import contracts against the code's real imports.
 
@@ -164,6 +178,8 @@ def lint_imports(root: Path) -> tuple[int, str]:
     Raises:
         ImportLinterMissing: `lint-imports` is not installed.
     """
+    if not _has_contracts(root / CONTRACTS):
+        return 0, "no contracts: the diagram maps no Python packages, so there are no imports to check"
     command = lint_imports_command()
     if command is None:
         raise ImportLinterMissing("import-linter is not installed in Lockstep's environment, so the code's imports "

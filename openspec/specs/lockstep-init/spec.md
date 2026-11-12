@@ -32,7 +32,7 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-p
 
 ### Requirement: Installed files name no machine and read their settings from lockstep.yaml
 
-Files `lockstep init` writes SHALL contain no absolute path and no `/home/`; the hook commands SHALL install Lockstep from a git address with `uvx`. `--owner` SHALL set `owner:` in `lockstep.yaml`, else the owner of the git `origin` remote, else a placeholder. The checks SHALL read their modes, `owner` and `sources.human_pattern` from `lockstep.yaml`, so a file copied from one repository works in another.
+Files `lockstep init` writes SHALL contain no absolute path and no `/home/`; the hook commands SHALL install Lockstep from a git address with `uvx`. `--owner` SHALL set `owner:` in `lockstep.yaml`, else the owner of the git `origin` remote, else a placeholder. `--human-pattern` SHALL set `sources.human_pattern`, else the checks' own default. The checks SHALL read their modes, `owner` and `sources.human_pattern` from `lockstep.yaml`, so a file copied from one repository works in another.
 
 Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, "Nothing names Brian's machine" and acceptance A5
 
