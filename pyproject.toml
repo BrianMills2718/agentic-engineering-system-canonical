@@ -37,7 +37,6 @@ wiki = [
 ]
 
 [project.scripts]
-aes-repo-context = "agentic_engineering_system.repository_context.cli:main"
 aes = "agentic_engineering_system.cli:main"
 # Lockstep, the planning-and-checking tool (proposals/one-planning-tool/DESIGN.md).
 # pcw and pcw-hook are its old names, kept so lifelike and Team-Brains' runner keep working.

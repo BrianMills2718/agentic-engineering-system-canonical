@@ -10,17 +10,17 @@ last_checked: 2026-11-11
 
 ## What AES is now
 
-- AES is the name for the whole agent system: Lockstep, the feedback loop and the policy layer ([CLAUDE.md:14-16](../CLAUDE.md#L14-L16)).
-- Brian, 2026-11-11: "aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system" ([.project-brain/now.md:9](../.project-brain/now.md#L9)).
+- AES is the name for the whole agent system: Lockstep, the feedback loop and the policy layer ([CLAUDE.md:14-16](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/CLAUDE.md#L14-L16)).
+- Brian, 2026-11-11: "aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system" ([.project-brain/now.md:9](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.project-brain/now.md#L9)).
 - The parts stay where they are, and the map of them is code2-workspace `docs/architecture/model.c4` ([docs/decisions/0009-aes-and-lockstep-fate.md:112-113](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L112-L113)).
-- Part 1, Lockstep, is kept and actively developed as part of AES (Brian, 2026-11-11: "ok i didnt mean to approve abandoingn lockstep. ti is actively being developed."); its future is under question, pending Brian ([CLAUDE.md:18-22](../CLAUDE.md#L18-L22)); details on [lockstep.md](lockstep.md).
-- Part 2, the feedback loop, is kept and runs nightly from this repository's `scripts/learning_loop` ([.project-brain/now.md:9](../.project-brain/now.md#L9)); details on [feedback-loop.md](feedback-loop.md).
-- Part 3, the policy layer, is the rules register here (`scripts/rules`) plus Brian's agent rules (core.md and topic files) in code2-workspace `agents/` ([.project-brain/now.md:9](../.project-brain/now.md#L9)); details on [policy-and-rules.md](policy-and-rules.md).
+- Part 1, Lockstep, is kept and actively developed as part of AES (Brian, 2026-11-11: "ok i didnt mean to approve abandoingn lockstep. ti is actively being developed."); its future is under question, pending Brian ([CLAUDE.md:18-22](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/CLAUDE.md#L18-L22)); details on [lockstep.md](lockstep.md).
+- Part 2, the feedback loop, is kept and runs nightly from this repository's `scripts/learning_loop` ([.project-brain/now.md:9](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.project-brain/now.md#L9)); details on [feedback-loop.md](feedback-loop.md).
+- Part 3, the policy layer, is the rules register here (`scripts/rules`) plus Brian's agent rules (core.md and topic files) in code2-workspace `agents/` ([.project-brain/now.md:9](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.project-brain/now.md#L9)); details on [policy-and-rules.md](policy-and-rules.md).
 - The `aes` command line and `.aes/target.yaml` files retire one repository at a time, when each repository is next changed ([docs/decisions/0009-aes-and-lockstep-fate.md:57-61](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L57-L61)).
-- AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789), and no `aes plan accept` step is required before a change ([CLAUDE.md:22-23](../CLAUDE.md#L22-L23)).
-- Behavior changes go through OpenSpec ([.project-brain/now.md:60-61](../.project-brain/now.md#L60-L61)).
-- The two lasting ideas of the old regime, a planned file structure and evidence-computed status, are being carried into the AES structure section under OpenSpec and Lockstep ([CLAUDE.md:25-28](../CLAUDE.md#L25-L28)).
-- The v0.2 regime is history; see [history.md](history.md) ([CLAUDE.md:31-32](../CLAUDE.md#L31-L32)).
+- AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789), and no `aes plan accept` step is required before a change ([CLAUDE.md:22-23](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/CLAUDE.md#L22-L23)).
+- Behavior changes go through OpenSpec ([.project-brain/now.md:60-61](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.project-brain/now.md#L60-L61)).
+- The two lasting ideas of the old regime, a planned file structure and evidence-computed status, are being carried into the AES structure section under OpenSpec and Lockstep ([CLAUDE.md:25-28](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/CLAUDE.md#L25-L28)).
+- The v0.2 regime is history; see [history.md](history.md) ([CLAUDE.md:31-32](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/CLAUDE.md#L31-L32)).
 
 ## Who uses it
 
@@ -40,14 +40,14 @@ last_checked: 2026-11-11
 ## Thesis (as written; partly superseded)
 
 - GOAL.md's bet: agent-built software stays true to intent when every claim is checked against something an agent cannot talk its way past ([docs/architecture/GOAL.md:44-50](../docs/architecture/GOAL.md#L44-L50)).
-- One of the boundaries it names, a commit refused without an adopted plan, was removed on 2026-10-14, so that part is superseded ([docs/architecture/GOAL.md:45-46](../docs/architecture/GOAL.md#L45-L46)) ([CLAUDE.md:22-23](../CLAUDE.md#L22-L23)).
+- One of the boundaries it names, a commit refused without an adopted plan, was removed on 2026-10-14, so that part is superseded ([docs/architecture/GOAL.md:45-46](../docs/architecture/GOAL.md#L45-L46)) ([CLAUDE.md:22-23](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/CLAUDE.md#L22-L23)).
 - The other two boundaries remain: a criterion stays a gap until fresh revision-bound evidence supports it, and truth lives where it is edited ([docs/architecture/GOAL.md:46-49](../docs/architecture/GOAL.md#L46-L49)).
 - The thesis disproof still names commit-rule bypasses, which no longer exist; this is listed on [open-questions.md](open-questions.md) ([docs/architecture/GOAL.md:54-57](../docs/architecture/GOAL.md#L54-L57)).
 - Quality goals: ignorance never renders green, every control can be shown to fail, and off-the-shelf tools come first ([docs/architecture/GOAL.md:21-26](../docs/architecture/GOAL.md#L21-L26)).
 
 ## Utility and conformance
 
-- Direct stakeholder use and technical conformance answer different questions and stay separately visible: automated green cannot override a stakeholder saying the result is low-value, and enthusiasm cannot turn missing, failed or stale evidence into conformance ([docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md:250-268](../docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md#L250-L268)).
+- Direct stakeholder use and technical conformance answer different questions and stay separately visible: automated green cannot override a stakeholder saying the result is low-value, and enthusiasm cannot turn missing, failed or stale evidence into conformance ([docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md:250-268](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md#L250-L268)).
 
 ## Non-goals
 
@@ -55,9 +55,9 @@ last_checked: 2026-11-11
 - Universal language support or a universal framework abstraction ([docs/architecture/GOAL.md:63](../docs/architecture/GOAL.md#L63)).
 - Orchestrating an organization's portfolio of projects ([docs/architecture/GOAL.md:64](../docs/architecture/GOAL.md#L64)).
 - New Lockstep users ([docs/decisions/0009-aes-and-lockstep-fate.md:67](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L67)).
-- Restarting the former universal self-governance regime or the parked issue backlog ([.project-brain/now.md:5](../.project-brain/now.md#L5)).
-- Restarting standalone ACA benchmarks or demonstration products from historical plans ([CLAUDE.md:115](../CLAUDE.md#L115)).
-- Restating project-agnostic architecture, which stays in `wiki_methodology` ([CLAUDE.md:101](../CLAUDE.md#L101)).
+- Restarting the former universal self-governance regime or the parked issue backlog ([.project-brain/now.md:5](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.project-brain/now.md#L5)).
+- Restarting standalone ACA benchmarks or demonstration products from historical plans ([CLAUDE.md:115](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/CLAUDE.md#L115)).
+- Restating project-agnostic architecture, which stays in `wiki_methodology` ([CLAUDE.md:101](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/CLAUDE.md#L101)).
 
 ## Lineage
 

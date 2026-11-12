@@ -45,7 +45,7 @@ governs AES canonical's governed roots and whygame5.
   plain copies of the ten realized candidates, each amended where the build
   differs from the candidate and listing its amendments. The proposal
   directory stays in place as lineage, not authority.
-- For AES canonical, [`.aes/target.yaml`](../../.aes/target.yaml) is the live
+- For AES canonical, [`.aes/target.yaml`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.aes/target.yaml) is the live
   authority. Where an accepted document and the target disagree, the document
   is wrong and is corrected; the target changes only through `aes plan`.
 - The user-facing start is

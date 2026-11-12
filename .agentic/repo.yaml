@@ -17,8 +17,7 @@ authorities:
     - docs/architecture/
   decision_roots:
     - docs/decisions/
-  plan_roots:
-    - docs/plans/
+  plan_roots: []  # docs/plans/ was retired on 2026-11-12 (docs/retired/2026-11-12.md)
 
 planning:
   design_provider: Company Planning

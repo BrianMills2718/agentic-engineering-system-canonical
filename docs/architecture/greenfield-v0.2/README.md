@@ -20,7 +20,7 @@ A current observation missing applicable required declared paths is reported UNK
 
 **Read-only Git inspection (2026-11-08).** Characterization and source-checkout producer identity disable repository hooks and fsmonitor commands on their existing Git readers. This prevents executable repository integrations from running during structural inspection while retaining actual HEAD, dirty-state and AST facts. The public APIs and stored record shapes are unchanged. See [the inert inspection specification](../../../openspec/specs/inert-characterization/spec.md).
 
-**Historical engine authority.** [`.aes/target.yaml`](../../../.aes/target.yaml)
+**Historical engine authority.** [`.aes/target.yaml`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.aes/target.yaml)
 records ids, criteria, evidence requirements, components,
 planned artifacts and verification subjects are what the target says. These
 documents explain and constrain it; where one disagrees with the target or the

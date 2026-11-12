@@ -1,13 +1,13 @@
 # Agentic Engineering System (AES), canonical
 
-AES is the name for the whole agent system: Lockstep, the feedback loop and the policy layer ([CLAUDE.md:14-16](CLAUDE.md#L14-L16)).
+AES is the name for the whole agent system: Lockstep, the feedback loop and the policy layer ([CLAUDE.md:14-15](CLAUDE.md#L14-L15)).
 
-- Lockstep, the one planning-and-checking tool (edit guard, commit checks, plan format), ships from this repository as package `src/lockstep/`; it moved here in #831-#837 and any repository can install it from this repository's git address ([CLAUDE.md:18-22](CLAUDE.md#L18-L22), [wiki/lockstep.md](wiki/lockstep.md), [.project-brain/now.md](.project-brain/now.md)).
-- The feedback loop runs nightly from `scripts/learning_loop` in this repository ([.project-brain/now.md:9](.project-brain/now.md#L9)).
-- The policy layer is the rules register here (`scripts/rules`, `docs/rules`) plus Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:9](.project-brain/now.md#L9)).
-- The `aes` command line and `.aes/target.yaml` retire one repository at a time (code2-workspace decision 0009) ([CLAUDE.md:17-20](CLAUDE.md#L17-L20)).
-- AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789) ([CLAUDE.md:22-23](CLAUDE.md#L22-L23)).
-- The v0.2 governance regime is kept as history only ([CLAUDE.md:31-32](CLAUDE.md#L31-L32)).
+- Lockstep, the one planning-and-checking tool (edit guard, commit checks, plan format), ships from this repository as package `src/lockstep/`; it moved here in #831-#837 and any repository can install it from this repository's git address ([CLAUDE.md:20](CLAUDE.md#L20), [wiki/lockstep.md](wiki/lockstep.md), [.project-brain/now.md](.project-brain/now.md)).
+- The feedback loop runs nightly from `scripts/learning_loop` in this repository ([.project-brain/now.md:14-15](.project-brain/now.md#L14-L15)).
+- The policy layer is the rules register here (`scripts/rules`, `docs/rules`) plus Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:14-15](.project-brain/now.md#L14-L15)).
+- The `aes` command line and `.aes/target.yaml` retire one repository at a time (code2-workspace decision 0009) ([CLAUDE.md:23](CLAUDE.md#L23)).
+- AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789) ([CLAUDE.md:24](CLAUDE.md#L24)).
+- The v0.2 governance regime is kept as history only ([docs/retired/2026-11-12.md](docs/retired/2026-11-12.md)).
 
 ## Where to start
 
@@ -17,10 +17,9 @@ AES is the name for the whole agent system: Lockstep, the feedback loop and the 
 ## Install and test
 
 - Python 3.11 or newer is required ([pyproject.toml:9](pyproject.toml#L9)).
-- Install with uv: `uv venv .venv && uv pip install -e ".[dev]"` ([.project-brain/now.md:121-123](.project-brain/now.md#L121-L123)).
-- `make check` runs the AGENTS.md sync check, pytest without slow tests, and mypy ([Makefile:543-553](Makefile#L543-L553)).
-- `make check-full` adds the slow end-to-end tests ([Makefile:555-557](Makefile#L555-L557)).
-- `make aes-check` runs the retained engine on this repository and its tests; it retires with `aes` ([Makefile:571-577](Makefile#L571-L577)).
+- Install with uv: `uv venv .venv && uv pip install -e ".[dev]"` ([pyproject.toml:9](pyproject.toml#L9)).
+- `make check` runs the AGENTS.md sync check, pytest without slow tests, and mypy ([Makefile:19-29](Makefile#L19-L29)).
+- `make check-full` adds the slow end-to-end tests ([Makefile:31-33](Makefile#L31-L33)).
 
 ## Install Lockstep in a repository
 

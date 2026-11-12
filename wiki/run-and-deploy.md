@@ -10,21 +10,18 @@ last_checked: 2026-11-11
 
 ## Install
 
-- Use uv: `uv venv .venv && uv pip install -e ".[dev]"` ([.project-brain/now.md:121-123](../.project-brain/now.md#L121-L123)).
+- Use uv: `uv venv .venv && uv pip install -e ".[dev]"` ([README.md:15](../README.md#L15)).
 - Python 3.11 or newer is required ([pyproject.toml:9](../pyproject.toml#L9)).
 - The `[dev]` extra adds pytest, mypy and pytest-xdist ([pyproject.toml:16-24](../pyproject.toml#L16-L24)).
-- Make targets use `.venv/bin/python` when it exists ([Makefile:7](../Makefile#L7)).
+- Make targets use `.venv/bin/python` when it exists ([Makefile:5](../Makefile#L5)).
 
 ## Test
 
-- `make check`: generated AGENTS.md sync, pytest in parallel without slow tests, then mypy on `src/` ([Makefile:543-553](../Makefile#L543-L553)).
-- `make check-full`: `make check` plus the slow end-to-end tests ([Makefile:555-557](../Makefile#L555-L557)).
+- `make check`: generated AGENTS.md sync, pytest in parallel without slow tests, then mypy on `src/` ([Makefile:19-29](../Makefile#L19-L29)).
+- `make check-full`: `make check` plus the slow end-to-end tests ([Makefile:31-33](../Makefile#L31-L33)).
 - Slow tests carry the `slow` marker ([pyproject.toml:42](../pyproject.toml#L42)).
-- `make test`: the full pytest suite, verbose ([Makefile:537-538](../Makefile#L537-L538)).
-- `make check-agents-sync`: checks AGENTS.md against CLAUDE.md ([Makefile:559-560](../Makefile#L559-L560)).
-- `make docstring-wiki-check`: fails when the generated docstring wiki is stale ([Makefile:635-636](../Makefile#L635-L636)).
-- `make aes` and `make aes-check` run the retained engine on this repository's `.aes/` target ([Makefile:571-577](../Makefile#L571-L577)); they retire with the `aes` command line ([docs/decisions/0009-aes-and-lockstep-fate.md:57-60](https://github.com/BrianMills2718/code2-workspace/blob/b8b523d7ec59f54248dac2d7a780441b787d6921/docs/decisions/0009-aes-and-lockstep-fate.md#L57-L60)).
-- The pinned v0.1 consumer test needs `AES_DATA_CONTRACTS_CHECKOUT` ([CLAUDE.md:73-75](../CLAUDE.md#L73-L75)).
+- `make test`: the full pytest suite, verbose ([Makefile:13-14](../Makefile#L13-L14)).
+- `make check-agents-sync`: checks AGENTS.md against CLAUDE.md ([Makefile:35-36](../Makefile#L35-L36)).
 
 ## Project brain check
 

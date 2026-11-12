@@ -15,81 +15,21 @@ AES is the name for the whole system: Lockstep, the feedback loop and the
 policy layer (Brian, 2026-11-11: "to me aes is the whole sysem lockstep is one
 part"). Its current state is in `.project-brain/now.md`; the map is code2-workspace
 `docs/architecture/model.c4`; what retires and what stays is code2-workspace
-decision 0009 (Brian, 2026-11-10: feedback loop kept, the `aes` command line and `.aes/target.yaml` retire one repository at a time). Lockstep is kept and actively developed as part of AES (Brian, 2026-11-11: "ok i didnt mean to approve abandoingn lockstep. ti is actively being developed."; decision 0009 amendment 2, which withdraws amendment 1's wind-down). Its future, decision 0009 amendment 3 (Brian, 2026-11-11: "i approve d3. and d2", and on the Lockstep session's Decision 4, relayed by that session: "it should preusmably be part of aes canonicale which is configurable and protable/sharebale"): Lockstep, code2check and the plan format become one planning-and-checking tool, part of AES canonical, configurable and portable/shareable; design approved ("i approve single tool desing re d4") and built on 2026-11-11 and 2026-11-12: Lockstep ships from this repository as package `src/lockstep/` with code2check's commit checks and Company Planning's plan check ([proposals/one-planning-tool/DESIGN.md](proposals/one-planning-tool/DESIGN.md); status in `wiki/lockstep.md`). AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789), no AES plan check
-refuses a commit, and no `aes plan accept` step is required before a change.
-On 2026-10-13 Brian moved `~/code2` to off-the-shelf tools (OpenSpec for
-required behavior, lefthook, GitHub Issues). Its two lasting ideas, a planned
-file structure and evidence-computed status, are being carried into the AES
-structure section under OpenSpec and Lockstep (harness run decision 8,
-2026-11-07; code2-workspace `docs/planning/harness-rows/workflow.md`). Its
-open issues carry the `on-hold` label; they are parked, not closed.
+decision 0009 (Brian, 2026-11-10: feedback loop kept, the `aes` command line and `.aes/target.yaml` retire one repository at a time).
 
-The v0.2 description below (`.aes/target.yaml`, `aes plan`, `aes evidence`)
-is kept as a record of how the system worked; do not follow it as a rule.
-
-<details><summary>Former v0.2 workflow (history)</summary>
-
-AES canonical is governed by its own AES v0.2 target in `.aes/`, accepted by
-`docs/decisions/0010-greenfield-v0.2-accepted.md` (accepted architecture:
-`docs/architecture/greenfield-v0.2/`; user start:
-`docs/greenfield/GETTING_STARTED.md`). The governed roots are
-`src/agentic_engineering_system/` and `tests/greenfield/`. This is the primary
-workflow for work under those roots; the v0.1 commands further down still work
-and are retained under Decision 0010's v0.1 disposition.
-
-- `.aes/target.yaml` is the plan. Every file under a governed root must be a
-  planned artifact with that exact path, or the pre-commit hook (written by
-  `aes hooks install`; do not edit or bypass it) refuses the commit. The v0.1
-  files there are planned as retained history (`NI-AES-HIST`), not v0.2 work.
-- Plan changes through AES, not by hand: `aes plan prepare`, write a proposal,
-  `aes plan validate <file>` until clean, `aes plan accept <file>`, then commit
-  the target and `.aes/plans/<id>.yaml` together before implementing.
-- Record evidence with `aes evidence record <VS-ID>` (runs the test, writes
-  `.aes/observations/`); hand-write only external observations, in the same
-  shape. Evidence recorded on a branch names that branch's commit, so merge
-  such PRs with a merge commit, never squash: a squashed-away commit makes
-  its observations UNREACHABLE (re-record and set `superseded_by` if it
-  happens). The same holds for plans: `aes plan accept` warns off the default
-  branch, and `aes status` counts an unreachable accepted plan as a warning.
-  `aes status` is the one-screen view; `make aes` runs validate,
-  topology and status with this checkout's code, `make aes-check` adds the
-  greenfield and repository_context tests.
-
-</details>
+- Lockstep ships from this repository as package `src/lockstep/`: the one planning-and-checking tool, with code2check's commit checks and Company Planning's plan check (design approved by Brian, 2026-11-11, "i approve single tool desing re d4"; built in #831 to #841; [proposals/one-planning-tool/DESIGN.md](proposals/one-planning-tool/DESIGN.md); status in `wiki/lockstep.md`).
+- The feedback loop runs nightly from `scripts/learning_loop`.
+- The policy layer is the rules register in `docs/rules` and `scripts/rules`; Brian's agent rules live in code2-workspace `agents/`.
+- The `aes` command line (`src/agentic_engineering_system/`) is still used by dodaf, lifelike, lockstep, plan-code-wiki and whygame5, and retires with the last of them.
+- AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789), and its own `.aes/` target, the claims and worktree machinery, the old plans and 24 old proposals were retired on 2026-11-12 (record, reasons and restore command: `docs/retired/2026-11-12.md`). Merges go through `ship`; work happens in `claude -w` worktrees (`~/code2/AGENTS.md`).
+- On 2026-10-13 Brian moved `~/code2` to off-the-shelf tools (OpenSpec for required behavior, lefthook, GitHub Issues). Behavior changes here go through OpenSpec (`openspec/specs/`).
 
 ## Commands
 
-### v0.1 provider commands (retained; Decision 0010)
-
 ```bash
-# Slice 1 implementation + focused verification
-uv venv .venv
-. .venv/bin/activate
-uv pip install -e '.[dev]'
-python -m pytest -q tests/repository_context
-AES_DATA_CONTRACTS_CHECKOUT=/path/to/data-contracts \
-  python -m pytest -q tests/repository_context/test_data_contracts_pinned.py
-python -m agentic_engineering_system.repository_context.cli \
-  --repo /path/to/data-contracts \
-  --expect-revision 90c38998e8141bd07e49a77a49ec417aa29beee0
-
-# Plan 001 terminal verification without hosted CI
-export AES_DATA_CONTRACTS_CHECKOUT=/path/to/data-contracts
-make verification-batch-freeze \
-  DECISION="Plan 001 repaired end-to-end acceptance" \
-  VERIFY_COMMAND='AES_DATA_CONTRACTS_CHECKOUT="$AES_DATA_CONTRACTS_CHECKOUT" python -m pytest -q tests/repository_context && python -m agentic_engineering_system.repository_context.cli --repo "$AES_DATA_CONTRACTS_CHECKOUT" --expect-revision 90c38998e8141bd07e49a77a49ec417aa29beee0'
-AES_DATA_CONTRACTS_CHECKOUT="$AES_DATA_CONTRACTS_CHECKOUT" \
-  python -m pytest -q tests/repository_context
-python -m agentic_engineering_system.repository_context.cli \
-  --repo "$AES_DATA_CONTRACTS_CHECKOUT" \
-  --expect-revision 90c38998e8141bd07e49a77a49ec417aa29beee0
-make verification-batch-check
-
-# Governed-repo install/audit; run these from a checkout of BrianMills2718/enforced-planning
-python scripts/install_governed_repo.py \
-  --repo-root /path/to/agentic-engineering-system-canonical --write
-python scripts/audit_governed_repo.py \
-  --repo-root /path/to/agentic-engineering-system-canonical --strict-governed
+uv venv .venv && uv pip install -e '.[dev]'
+make check        # AGENTS.md sync check, pytest without slow tests, mypy
+make check-full   # check plus the slow end-to-end tests
 ```
 
 ## Principles
@@ -97,23 +37,18 @@ python scripts/audit_governed_repo.py \
 - Project-agnostic architecture stays in `wiki_methodology`; link to it, do not restate it as a second authority.
 - AES-specific normative target lives in `docs/architecture/` with stable clause IDs.
 - Accepted durable choices live in `docs/decisions/`.
-- Plans live in `docs/plans/` and must link to explicit gaps they intend to close.
 - Current implementation truth comes from revision-bound characterization/evidence, not timeless status prose.
 - The wiki is derived progressive-disclosure navigation, not a native authority.
 - Existing systems remain capability authorities until an accepted disposition selects reuse, extend, adapt, supersede, salvage, historical, not-applicable, or unresolved.
 
 ## Workflow
 
-- Do not create an implementation root merely to begin coding. First derive target implementation and verification topology through Company Planning. (For the v0.2 governed roots this is superseded by Decision 0010: topology and plans come from `.aes/target.yaml` through `aes plan`.)
-- Do not hand-author a first execution plan before the target/current gap set has been materialized and dispositioned. (Under v0.2 the gap set is `aes status`/`aes plan prepare`; Decision 0010.)
-- Apply `docs/architecture/SYSTEM_BOUNDARY.md` AES-CAP-001 through AES-CAP-005 and Decision 0009 during normal product design: adopt a sufficient existing product/framework first, use its native modules and extension points, consult ACA's relevant published boundaries/evidence, and record the reuse/configure/adapt/local-residual disposition in the existing design packet. ACA is not a separate runtime or prerequisite experiment.
-- Keep cohesive reusable behavior behind a consumer-independent boundary; keep consequential product policy in configuration/strategies and thin adapters. Use the selected ecosystem's normal packages, declared dependencies, examples, and compatibility tests; do not require framework neutrality, speculative extraction, or a new interface for every function.
-- Do not restart standalone ACA benchmarks, demonstration products, or mechanism-building from historical plans. They require separate explicit authorization for a concrete product decision/blocker. Product acceptance and compatibility tests remain required; existing provider ownership and the current Plan 001 frontier are unchanged. (Decision 0010 changes provider ownership for the v0.2 governed roots only.)
-- Use Enforced Planning as the execution-governance incumbent unless and until an AES-owned replacement is accepted from authentic evidence. (Decision 0010 accepts AES v0.2 as that replacement for its governed roots; Enforced Planning stays for the v0.1 material and `make check`.)
+- Apply `docs/architecture/SYSTEM_BOUNDARY.md` AES-CAP-001 through AES-CAP-005 and Decision 0009 during normal product design: adopt a sufficient existing product/framework first, use its native modules and extension points, and record the reuse/configure/adapt/local-residual disposition in the design.
+- Keep cohesive reusable behavior behind a consumer-independent boundary; keep consequential product policy in configuration/strategies and thin adapters. Do not require framework neutrality, speculative extraction, or a new interface for every function.
 - A block must provide a runnable recovery path or an explicit human escalation boundary.
 - Plan completion never closes a gap by itself; fresh observation and re-characterization determine closure.
-- Verification is provider-independent under Decision 0008: local/external execution is first-class, hosted CI is optional infrastructure, evidence reuse is claim-specific over the transitive executed subject, and fresh exact-revision runs should use the incumbent Enforced Planning verification-batch mechanism. (For the v0.2 governed roots, fresh runs are `aes evidence record`; Decision 0010.)
-- Select the execution transport before applying its readiness checks. Native Codex/Claude sessions and their subagents use the local filesystem/process tools already exposed under their task permissions; they do not require Remote MCP discovery or a device ping for local work. Work that requires Remote MCP follows the Execution readiness preflight below, including tool exposure, device readiness and ping. Missing Remote MCP tools block that remote route; they do not establish that the machine or WSL is offline or block an authorized native local route. Prefer ChatGPT Work for substantial Remote MCP execution when available because connector exposure can vary across conversations.
+- Verification is provider-independent under Decision 0008: local/external execution is first-class, hosted CI is optional infrastructure, and evidence reuse is claim-specific over the transitive executed subject.
+- Select the execution transport before applying its readiness checks. Native Codex/Claude sessions and their subagents use the local filesystem/process tools already exposed under their task permissions; they do not require Remote MCP discovery or a device ping for local work. Work that requires Remote MCP follows the Execution readiness preflight below. Missing Remote MCP tools block that remote route; they do not establish that the machine or WSL is offline or block an authorized native local route.
 - Proposed changes to the adopted methodology go through `proposals/` and then the owning methodology repository; this consumer does not silently redefine the standard.
 
 ## Execution readiness preflight
@@ -152,19 +87,12 @@ The roots declared in `.agentic/repo.yaml` are a pilot contract. If the contract
 
 ## References
 
-- Worktree plan lookup repair: [adopted design](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-plan-lookup/worktree-plan-lookup.md) and [goal](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-plan-lookup/worktree-plan-lookup.goal.md), correcting inherited Git hook context for foreign plans while preserving the caller's staged index.
-- Worktree lifecycle: [plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-lifecycle/PLAN.md), [model](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-lifecycle/SYSTEM_MODEL.md), [validation](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-lifecycle/VALIDATION.md), and [goal](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-lifecycle/worktree-lifecycle.goal.md). These are proposal/navigation references; the owning lane retains execution custody.
-
-- Feedback intake and transport prevention: [plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-feedback-prevention/PLAN.md), [system flow](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-feedback-prevention/SYSTEM_MODEL.md), and [goal](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-feedback-prevention/aes-feedback-prevention.goal.md). These are a bounded repair record, not additional repository authority.
 - `wiki/index.md` — progressive-disclosure navigation only; follow links to native authority.
-- `docs/decisions/0010-greenfield-v0.2-accepted.md` — AES v0.2 greenfield MVP accepted as realized: evidence, standing decisions with wrong-when conditions, non-claims, v0.1 disposition.
-- `docs/architecture/greenfield-v0.2/` — accepted v0.2 architecture; `.aes/target.yaml` is the live authority for this repository.
-- `.agentic/repo.yaml` — repository protocol, active frontier, selected providers, and concern roots.
-- `docs/plans/001_repository_context_resolution_vertical.md` — completed Plan 001 / Repository Context Slice 1 record and closure evidence.
-- `docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md` - AES-local modular-design integration, existing owner boundaries, and the stop rule for standalone ACA work.
-- `docs/architecture/SYSTEM_BOUNDARY.md` — AES-specific normative target (v0.1 bootstrap; v0.2 in `docs/architecture/greenfield-v0.2/`).
-- `docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md` — actor-surface and attention-economics constraints.
-- `docs/architecture/INITIAL_GAP_LEDGER.md` — recomputed current gap projection from the post-integration characterization.
-- `docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md` — provider-independent verification, transitive executed-subject evidence boundaries, and Enforced Planning verification-batch ownership.
-- `evidence/provider-provenance/enforced-planning-install-2026-09-18.json` — installed Enforced Planning provider revision/provenance boundary.
+- `docs/retired/2026-11-12.md` — what was retired, why, and how to restore it.
+- `docs/decisions/0010-greenfield-v0.2-accepted.md` — AES v0.2 greenfield MVP accepted as realized (history for this repository, which no longer governs itself with it).
+- `docs/architecture/greenfield-v0.2/` — the v0.2 architecture that the retained `aes` library implements.
+- `.agentic/repo.yaml` — repository protocol and concern roots.
+- `docs/decisions/0009-modular-product-design-without-parallel-aca-platform.md` - AES-local modular-design integration and the stop rule for standalone ACA work.
+- `docs/architecture/SYSTEM_BOUNDARY.md` — AES-specific normative target.
+- `docs/decisions/0008-provider-independent-verification-with-transitive-subjects.md` — provider-independent verification and transitive executed-subject evidence boundaries.
 - `BrianMills2718/wiki_methodology@0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe` — adopted project-agnostic methodology authority.

@@ -9,7 +9,7 @@ description: What the Agentic Engineering System is for, the bet behind it, what
 ### Requirements Overview
 
 The requirements are the outcomes, normative items and success criteria (each with a
-disproof) in [`.aes/target.yaml`](../../.aes/target.yaml): outcome `OUT-GF-001` (a new
+disproof) in [`.aes/target.yaml`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.aes/target.yaml): outcome `OUT-GF-001` (a new
 project under AES governance, from intent to evidence-backed current/gap state) and
 outcome `OUT-AP-001` (real work lands only under an adopted Company Planning plan;
 trivial work is decided by measured facts). The rules that enforce them, with owners

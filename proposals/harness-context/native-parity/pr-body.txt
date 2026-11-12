@@ -1,7 +1,0 @@
-Saved Claude and Codex traces now have an evidence checker that verifies actual instruction delivery, task transport, permissions, tool events and usage. It preserves exhaustive source review beside both original answers: Claude's source errors and Codex's larger child context remain visible. Strict parity mode returns exit1; complete behavior parity is not claimed.
-
-Run: /home/brian/.local/bin/python -B proposals/harness-context/native-parity/verify_evidence.py --require-parity
-
-Validation: 14 negative-control tests pass. The full source gate passed 386 tests with1skip, mypy22clean and exit0; its9exact executed objects match the integrated candidate, so that gate is reused. The task-owned duplicate run was stopped and is recorded as cancelled. Writing, secret-scan and independent review checks pass.
-
-This replays existing evidence to avoid another model run. Use fresh native execution when the client, role or required capability changes. The research document includes Claude Workflows, compact Codex candidates and the remaining enforcement/hook limits; no global instructions or vision files change.
