@@ -140,3 +140,23 @@ def test_cli_wires_init(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr("sys.argv", ["lockstep", "init", "--repo", str(root), "--owner", "Acme"])
     assert check.cli() == 0
     assert (root / "lockstep.yaml").is_file()
+
+
+@pytest.mark.req("lockstep-init/fresh-repository-gets-all-four")
+def test_init_counts_brian_source_lines_as_human_by_default_and_takes_a_pattern(tmp_path):
+    """`lockstep init` wrote `human_pattern: "human"`, which matched none of 124 `Source: Brian, <date>` lines.
+
+    It now writes the same default the checks use (code-88 session, 2026-11-12), and `--human-pattern` overrides it.
+    """
+    import re
+
+    from lockstep.checks.sources import DEFAULT_HUMAN_PATTERN
+
+    (tmp_path / "a").mkdir()
+    init_repo(tmp_path / "a")
+    pattern = yaml.safe_load((tmp_path / "a" / "lockstep.yaml").read_text())["sources"]["human_pattern"]
+    assert pattern == DEFAULT_HUMAN_PATTERN
+    assert re.match(pattern, "Brian, 2026-11-12", re.IGNORECASE)
+    (tmp_path / "b").mkdir()
+    init_repo(tmp_path / "b", human_pattern="tyler|brian")
+    assert yaml.safe_load((tmp_path / "b" / "lockstep.yaml").read_text())["sources"]["human_pattern"] == "tyler|brian"

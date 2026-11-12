@@ -31,7 +31,7 @@ uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-cano
 
 It writes only what is missing, never overwrites, and prints one line per file (`wrote` or `skipped`):
 
-- `lockstep.yaml`: the one settings file. `checks:` sets each commit check to `block`, `warn` or `off`; `owner:` is `--owner NAME`, else the owner of the git `origin`, else a placeholder to edit; `sources.human_pattern` is the text a `Source:` line starts with to count as a person's word; `governed:` and `layout:` start empty and hold the plan.
+- `lockstep.yaml`: the one settings file. `checks:` sets each commit check to `block`, `warn` or `off`; `owner:` is `--owner NAME`, else the owner of the git `origin`, else a placeholder to edit; `sources.human_pattern` is the text a `Source:` line starts with to count as a person's word (default `brian`, the same default the checks use; `--human-pattern REGEX` sets another); `governed:` and `layout:` start empty and hold the plan.
 - `.claude/settings.json` and `.codex/hooks.json`: a PreToolUse hook that runs the edit guard (`lockstep-hook`) before each edit or shell command. An existing file keeps its other settings.
 - `lefthook.yml`: a `lockstep` pre-commit command. Run `lefthook install` once (see [lefthook](https://lefthook.dev/)) so git calls it.
 - `.gitignore`: a `.lockstep/` line; the guard logs each decision to `.lockstep/hook-<date>.jsonl`.

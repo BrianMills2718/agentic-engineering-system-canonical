@@ -102,3 +102,19 @@ def test_a_missing_import_linter_fails_loudly(repo, fresh, monkeypatch, capsys):
     monkeypatch.setattr(arch_mod, "lint_imports_command", lambda: None)
     assert run_check(["arch", "check", "--repo", str(repo)]) == 1
     assert "import-linter is not installed" in capsys.readouterr().out
+
+
+@pytest.mark.req("lockstep-checks/arch-code-imports-match-the-diagram")
+def test_a_diagram_that_maps_no_packages_passes_without_running_import_linter(tmp_path, monkeypatch):
+    """code2-workspace's diagram maps no Python packages: there is nothing to check, so the check passes.
+
+    Before the fix import-linter crashed on the empty `root_packages =` and Lockstep counted that as one broken
+    contract (reported by the code-88 session, 2026-11-12).
+    """
+    from lockstep.checks import arch as arch_mod
+
+    (tmp_path / ".importlinter").write_text(arch_mod.HEADER + "[importlinter]\nroot_packages =\n")
+    monkeypatch.setattr(arch_mod, "lint_imports_command", lambda: (_ for _ in ()).throw(AssertionError("ran")))
+    broken, report = arch_mod.lint_imports(tmp_path)
+    assert broken == 0
+    assert "no contracts" in report
