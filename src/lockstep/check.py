@@ -391,6 +391,9 @@ def main(argv: list[str] | None = None) -> int:
 def cli() -> int:
     """`pcw <command>`: today the only command is `check`; `check <name>` runs one commit check (`lockstep.checks`)."""
     args = sys.argv[1:]
+    if args and args[0] == "plan":
+        from lockstep.plan_check import plan_cli
+        return plan_cli(args[1:])
     if not args or args[0] != "check":
         print("usage: pcw check --repo PATH [--base REF] [--json]", file=sys.stderr)
         return 2
