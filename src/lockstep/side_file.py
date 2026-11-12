@@ -125,7 +125,8 @@ from lockstep.aes_bridge import committed_text
 
 SIDE_FILE = "lockstep.yaml"
 SCHEMA = "lockstep.side.v1"
-_TOP = {"schema", "documents", "rubrics", "fixed", "files", "actions"}  # actions: read by lockstep.action_check (behavior 5.4)
+_TOP = {"schema", "documents", "rubrics", "fixed", "files", "actions",  # actions: read by lockstep.action_check (behavior 5.4)
+        "layout", "governed"}  # the layout plan (lockstep.layout_plan)
 _DOCUMENTS = {"include", "declared"}
 _DOCUMENT = {"path", "purpose", "refs"}
 _RUBRIC = {"criterion", "rubric"}

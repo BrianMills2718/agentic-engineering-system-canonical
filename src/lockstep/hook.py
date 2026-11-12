@@ -104,7 +104,7 @@ import shlex
 import sys
 from pathlib import Path
 
-from lockstep.aes_bridge import artifact_for_path, context, find_root
+from lockstep.aes_bridge import artifact_for_path, context, find_root, plan_name
 from lockstep.change_log import entry_edit_reason
 from lockstep.cogtext import render
 from lockstep.change_list import change_list
@@ -368,7 +368,7 @@ def decide_shell(call: dict, command: str) -> dict | None:
     texts = []
     for rel, art in named:
         _, _, spec_text = _spec_packet(root, root / rel)
-        texts.append(spec_text or f"Plan for {rel} ({art}), from .aes/target.yaml:\n" + "\n".join(render(context(root, art))[2:]))
+        texts.append(spec_text or f"Plan for {rel} ({art}), from {plan_name(root)}:\n" + "\n".join(render(context(root, art))[2:]))
     log(root, {"tool": call.get("tool_name"), "files": [r for r, _ in named], "decision": "allow", "why": "shell_read"})
     return _out("allow", None, "\n\n".join(texts))
 
@@ -427,7 +427,7 @@ def decide(call: dict) -> dict | None:
         after = ("After editing: `make project` (regenerate docstrings) and "
                  + " ".join(f"`aes evidence record {vs['id']}`" for vs in ctx.get("verification_subjects", [])))
         # Behavior 3.7: the requirement text is OpenSpec's when the file implements one, else the plan's.
-        packet = "\n".join([spec_text or f"Plan for {rel} ({art}), from .aes/target.yaml:\n" + "\n".join(render(ctx)[2:]), "", after])
+        packet = "\n".join([spec_text or f"Plan for {rel} ({art}), from {plan_name(root)}:\n" + "\n".join(render(ctx)[2:]), "", after])
         stale = projection_stale(root, rel)
         if stale and stops_edits():
             return _refuse_or_warn(root, [rel], {"file": rel, "artifact": art, "why": "stale_projection"},

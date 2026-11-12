@@ -50,6 +50,7 @@ import sys
 from pathlib import Path, PurePosixPath
 
 from lockstep.aes_bridge import artifact_for_path, find_root, governed_roots, is_governed, legacy_files, target
+from lockstep.layout_plan import has_layout
 from lockstep.side_file import SIDE_FILE, SideFile, load_side_file, side_file_problems
 
 
@@ -90,6 +91,10 @@ def unplanned_reason(root: Path, rel: str, base: str | None = None) -> str | Non
     if unreadable and rel != SIDE_FILE and not governed:
         return f"{rel} cannot be checked against the side file: {unreadable}. Fix {SIDE_FILE} first."
     if governed:
+        if has_layout(root):
+            return (f"{rel} is not in the plan: it is under the governed folder {governing_folder(root, rel)}, "
+                    f"and no `layout:` row in {SIDE_FILE} names it. Add a row for it (path, purpose, the OpenSpec "
+                    "requirements it implements, its tests) and have the plan approved first.")
         return (f"{rel} is not in the plan: it is under the governed folder {governing_folder(root, rel)}, "
                 "and .aes/target.yaml does not name it. Add it to .aes/target.yaml through "
                 "`aes plan prepare/validate/accept` first.")

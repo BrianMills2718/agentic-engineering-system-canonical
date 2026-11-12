@@ -48,7 +48,7 @@ STUB = '''"""{purpose}
 def main() -> int:
     root = find_root(Path.cwd())
     if root is None:
-        print("scaffold: no .aes/project.yaml here or above", file=sys.stderr)
+        print("scaffold: no .aes/project.yaml or lockstep.yaml layout here or above", file=sys.stderr)
         return 1
     made = []
     for art in target(root).get("planned_artifacts") or []:
@@ -63,6 +63,29 @@ def main() -> int:
         made.append(f"{rel}  ({art['id']})")
     print("scaffold: created\n  " + "\n  ".join(made) if made else "scaffold: every planned file already exists")
     return 0
+
+
+def layout() -> int:
+    """`lockstep layout`: create every planned file that does not exist yet, then fill its docstring from the plan.
+
+    The files are created as `main` creates them, then cog writes each new file's plan text (its requirements, success
+    criteria, tests and signatures) into the block; an existing file is never touched.
+    """
+    from cogapp import Cog
+
+    root = find_root(Path.cwd())
+    if root is None:
+        return main()  # it says why there is nothing to lay out
+    missing = sorted(p for p in _planned_py(root) if not (root / p).exists())
+    code = main()
+    if code or not missing:
+        return code
+    return Cog().main(["cog", "-r", "-c", *(str(root / p) for p in missing)])
+
+
+def _planned_py(root: Path) -> list[str]:
+    return [rel for art in target(root).get("planned_artifacts") or []
+            if (rel := (art.get("locator") or {}).get("exact_path")) and rel.endswith(".py")]
 
 
 if __name__ == "__main__":

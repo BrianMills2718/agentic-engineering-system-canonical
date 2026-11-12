@@ -2,4 +2,4 @@
 
 from lockstep_support import planned, proj  # noqa: F401  (shared fixtures)
 
-collect_ignore = ["example", "example-simple", "e2e", "lockstep-plan-sample"]
+collect_ignore = ["example", "example-simple", "example-layout", "e2e", "lockstep-plan-sample"]
