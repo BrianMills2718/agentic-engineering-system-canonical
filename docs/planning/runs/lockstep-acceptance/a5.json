@@ -2,8 +2,8 @@
  "entry": "A5",
  "title": "Portable, configurable and shareable",
  "verdict": "PASS",
- "run_at": "2026-11-12T17:43:57+00:00",
- "lockstep_revision": "29eb31d76581a59e83b718e716fb9b7001257c3d-dirty",
+ "run_at": "2026-11-12T17:47:32+00:00",
+ "lockstep_revision": "282fe2af5047f8db03f2a18e94d101f7bfc0eed1",
  "lockstep_bin": "uvx, installed fresh from the source (no machine cache)",
  "rows": [
   {
@@ -112,8 +112,8 @@
    "did": "lockstep.yaml and the hook entries exist, written by the agent following the README",
    "pass": true,
    "step": "repo 3: a fresh headless agent follows only the README",
-   "message": "Lockstep is installed in `/tmp/a5-three-9zxtiujk/demo`. The init command wrote 5 files and skipped none:\n\n- `lockstep.yaml`: the settings file. Edit `owner:` if the `origin` owner is not the right one.\n- `.claude/settings.json`: the PreToolUse hook that runs the edit guard.\n- `.codex/hooks.json`: the same hook for Codex.\n- `lefthook.yml`: the `lockstep` pre-commit command.\n- `.gitignore`: the `.lockstep/` entry for the guard's decision logs.\n\nThe README also says to run `lefthook install` once so git calls the pre-commit command. I did not run it because it changes git's hook setup outside these files. Run it if you want the commit checks active here.",
-   "cost_usd": 0.00102504
+   "message": "Lockstep is installed, but `lefthook install` failed, so git will not call the pre-commit check yet.\n\n**Files written by `lockstep init` (5 files, 0 skipped):**\n- `lockstep.yaml`: settings file. Every check is set to `block`. `owner:` is `third-org`, which is a placeholder to edit. `governed:` and `layout:` are empty.\n- `.claude/settings.json`: PreToolUse hook for the edit guard.\n- `.codex/hooks.json`: the same hook for Codex.\n- `lefthook.yml`: a `lockstep` pre-commit command.\n- `.gitignore`: a `.lockstep/` line.\n\n**Not done:**\n- `lefthook install` exited with status 1. Git has `core.hooksPath` set globally to `/home/brian/.config/git/hooks`, and lefthook refuses to install into a custom hooks path. The README does not cover this case. I did not change your global git config or force the install. To fix it yourself, either run `lefthook install --reset-hooks-path` (which resets the global setting) or `git config --unset-all --global core.hooksPath`, then run `lefthook install` again.\n\n**Also to check:**\n- Set `owner:` in `lockstep.yaml` to the real owner. This repository has no `origin` remote, so init could not read one.\n- The install command in the README uses a local path (`/home/brian/code2/worktrees/lockstep-init`), even though the README says the written files do not hold absolute paths. I followed it as written.",
+   "cost_usd": 0.0013181199999999999
   }
  ],
  "install": {
@@ -133,10 +133,10 @@
  "readme_agent": {
   "model": "claude-haiku-5-5",
   "exit_code": 0,
-  "cost_usd": 0.00102504,
+  "cost_usd": 0.0013181199999999999,
   "is_error": false,
-  "num_turns": 3,
-  "agent_report": "Lockstep is installed in `/tmp/a5-three-9zxtiujk/demo`. The init command wrote 5 files and skipped none:\n\n- `lockstep.yaml`: the settings file. Edit `owner:` if the `origin` owner is not the right one.\n- `.claude/settings.json`: the PreToolUse hook that runs the edit guard.\n- `.codex/hooks.json`: the same hook for Codex.\n- `lefthook.yml`: the `lockstep` pre-commit command.\n- `.gitignore`: the `.lockstep/` entry for the guard's decision logs.\n\nThe README also says to run `lefthook install` once so git calls the pre-commit command. I did not run it because it changes git's hook setup outside these files. Run it if you want the commit checks active here.",
+  "num_turns": 4,
+  "agent_report": "Lockstep is installed, but `lefthook install` failed, so git will not call the pre-commit check yet.\n\n**Files written by `lockstep init` (5 files, 0 skipped):**\n- `lockstep.yaml`: settings file. Every check is set to `block`. `owner:` is `third-org`, which is a placeholder to edit. `governed:` and `layout:` are empty.\n- `.claude/settings.json`: PreToolUse hook for the edit guard.\n- `.codex/hooks.json`: the same hook for Codex.\n- `lefthook.yml`: a `lockstep` pre-commit command.\n- `.gitignore`: a `.lockstep/` line.\n\n**Not done:**\n- `lefthook install` exited with status 1. Git has `core.hooksPath` set globally to `/home/brian/.config/git/hooks`, and lefthook refuses to install into a custom hooks path. The README does not cover this case. I did not change your global git config or force the install. To fix it yourself, either run `lefthook install --reset-hooks-path` (which resets the global setting) or `git config --unset-all --global core.hooksPath`, then run `lefthook install` again.\n\n**Also to check:**\n- Set `owner:` in `lockstep.yaml` to the real owner. This repository has no `origin` remote, so init could not read one.\n- The install command in the README uses a local path (`/home/brian/code2/worktrees/lockstep-init`), even though the README says the written files do not hold absolute paths. I followed it as written.",
   "ran_lockstep_init": true,
   "owner_written": "third-org",
   "files_written": [
@@ -155,7 +155,7 @@
   {
    "name": "repo 1: the README's command",
    "command": "uvx --from /home/brian/code2/worktrees/lockstep-init lockstep init",
-   "cwd": "/tmp/a5-one-7t89cflu/demo",
+   "cwd": "/tmp/a5-one-hof3982n/demo",
    "stdin": null,
    "exit_code": 0,
    "stdout": {
@@ -163,14 +163,14 @@
     "lines_cut": 0
    },
    "stderr": {
-    "text": "   Building agentic-engineering-system @ file:///home/brian/code2/worktrees/lockstep-init\nDownloading pygments (1.2MiB)\nDownloading grimp (2.2MiB)\nDownloading pydantic-core (2.0MiB)\n      Built agentic-engineering-system @ file:///home/brian/code2/worktrees/lockstep-init\n Downloaded pydantic-core\n Downloaded grimp\n Downloaded pygments\nInstalled 20 packages in 16ms",
+    "text": "   Building agentic-engineering-system @ file:///home/brian/code2/worktrees/lockstep-init\nDownloading pygments (1.2MiB)\nDownloading pydantic-core (2.0MiB)\nDownloading grimp (2.2MiB)\n Downloaded pydantic-core\n Downloaded grimp\n Downloaded pygments\n      Built agentic-engineering-system @ file:///home/brian/code2/worktrees/lockstep-init\nInstalled 20 packages in 12ms",
     "lines_cut": 0
    }
   },
   {
    "name": "repo 1: sources check set to block",
    "command": "uvx --from /home/brian/code2/worktrees/lockstep-init lockstep check sources",
-   "cwd": "/tmp/a5-one-7t89cflu/demo",
+   "cwd": "/tmp/a5-one-hof3982n/demo",
    "stdin": null,
    "exit_code": 1,
    "stdout": {
@@ -185,7 +185,7 @@
   {
    "name": "repo 1: sources check set to warn",
    "command": "uvx --from /home/brian/code2/worktrees/lockstep-init lockstep check sources",
-   "cwd": "/tmp/a5-one-7t89cflu/demo",
+   "cwd": "/tmp/a5-one-hof3982n/demo",
    "stdin": null,
    "exit_code": 0,
    "stdout": {
@@ -200,7 +200,7 @@
   {
    "name": "repo 1: sources check set to off",
    "command": "uvx --from /home/brian/code2/worktrees/lockstep-init lockstep check sources",
-   "cwd": "/tmp/a5-one-7t89cflu/demo",
+   "cwd": "/tmp/a5-one-hof3982n/demo",
    "stdin": null,
    "exit_code": 0,
    "stdout": {
@@ -215,7 +215,7 @@
   {
    "name": "repo 2: sources check with the copied lockstep.yaml (sources: block)",
    "command": "uvx --from /home/brian/code2/worktrees/lockstep-init lockstep check sources",
-   "cwd": "/tmp/a5-two-unqmw2qn/demo",
+   "cwd": "/tmp/a5-two-g8mrn6ui/demo",
    "stdin": null,
    "exit_code": 1,
    "stdout": {
@@ -230,11 +230,11 @@
   {
    "name": "repo 3: a fresh headless agent follows only the README",
    "command": "claude -p --bare --model claude-haiku-5-5 --output-format stream-json --verbose --max-budget-usd 0.50 --allowedTools Bash   (prompt on stdin: the README text, then the instruction)",
-   "cwd": "/tmp/a5-three-9zxtiujk/demo",
+   "cwd": "/tmp/a5-three-8cc83ar5/demo",
    "stdin": "# Agentic Engineering System (AES), canonical\n\nAES is the name for the whole agent system: Lockstep, the feedback loop and the policy layer ([CLAUDE.md:14-16](CLAUDE.md#L14-L16)).\n\n- Lockstep, the one planning-and-checking tool (edit guard, commit checks, plan format), ships from this repository as package `src/lockstep/`; it moved here in #831-#837 and any repository can install it from this repository's git address ([CLAUDE.md:18-22](CLAUDE.md#L18-L22), [wiki/lockstep.md](wiki/lockstep.md), [.project-brain/now.md](.project-brain/now.md)).\n- The feedback loop runs nightly from `scripts/learning_loop` in this repository ([.project-brain/now.md:9](.project-brain/now.md#L9)).\n- The policy layer is the rules register here (`scripts/rules`, `docs/rules`) plus Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:9](.project-brain/now.md#L9)).\n- The `aes` command line and `.aes/target.yaml` retire one repository at a time (code2-workspace decision 0009) ([CLAUDE.md:17-20](CLAUDE.md#L17-L20)).\n- AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789) ([CLAUDE.md:22-23](CLAUDE.md#L22-L23)).\n- The v0.2 governance regime is kept as history only ([CLAUDE.md:31-32](CLAUDE.md#L31-L32)).\n\n## Where to start\n\n- [wiki/index.md](wiki/index.md) is the front door ([CLAUDE.md:3](CLAUDE.md#L3)).\n- [.project-brain/now.md](.project-brain/now.md) holds the current state; read it first ([CLAUDE.md:5-6](CLAUDE.md#L5-L6)).\n\n## Install and test\n\n- Python 3.11 or newer is required ([pyproject.toml:9](pyproject.toml#L9)).\n- Install with uv: `uv venv .venv && uv pip install -e \".[dev]\"` ([.project-brain/now.md:121-123](.project-brain/now.md#L121-L123)).\n- `make check` runs the AGENTS.md sync check, pytest without slow tests, and mypy ([Makefile:543-553](Makefile#L543-L553)).\n- `make check-full` adds the slow end-to-end tests ([Makefile:555-557](Makefile#L555-L557)).\n- `make aes-check` runs the retained engine on this repository and its tests; it retires with `aes` ([Makefile:571-577](Makefile#L571-L577)).\n\n## Install Lockstep in a repository\n\nIn the root of any git repository (needs [uv](https://docs.astral.sh/uv/); the repository is public):\n\n```\nuvx --from /home/brian/code2/worktrees/lockstep-init lockstep init\n```\n\nIt writes only what is missing, never overwrites, and prints one line per file (`wrote` or `skipped`):\n\n- `lockstep.yaml`: the one settings file. `checks:` sets each commit check to `block`, `warn` or `off`; `owner:` is `--owner NAME`, else the owner of the git `origin`, else a placeholder to edit; `sources.human_pattern` is the text a `Source:` line starts with to count as a person's word; `governed:` and `layout:` start empty and hold the plan.\n- `.claude/settings.json` and `.codex/hooks.json`: a PreToolUse hook that runs the edit guard (`lockstep-hook`) before each edit or shell command. An existing file keeps its other settings.\n- `lefthook.yml`: a `lockstep` pre-commit command. Run `lefthook install` once (see [lefthook](https://lefthook.dev/)) so git calls it.\n- `.gitignore`: a `.lockstep/` line; the guard logs each decision to `.lockstep/hook-<date>.jsonl`.\n\nNo written file holds an absolute path: the hooks install Lockstep from the git address above on any machine.\n\nTo switch a check, edit `lockstep.yaml`:\n\n```yaml\nchecks:\n  trace: warn     # prints a warning and passes\n  docmeta: off    # skipped\n```\n\n`lockstep check <name>` runs one check (`trace`, `arch`, `test-first`, `sources`, `docmeta`, `project`); `lockstep check` with no name judges the whole tree against the plan; `lockstep layout` creates the planned files. The edit guard refuses edits to files outside the plan under `governed:` folders. Copy a `lockstep.yaml` into another repository and change `owner:` and it works there. Design: [proposals/one-planning-tool/DESIGN.md](proposals/one-planning-tool/DESIGN.md).\n\n## Lineage\n\n- This repository replaced `Inside-Success/agentic-engineering-system`, archived on 2026-09-26 ([docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:44-47](docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md#L44-L47)).\n- It adopts project-agnostic architecture from `BrianMills2718/wiki_methodology` at revision `0cddc6b1` ([CLAUDE.md:10](CLAUDE.md#L10)).\n\n\n---\n\nInstall Lockstep in the repository in the current folder by following only this README. Report the files it wrote.",
    "exit_code": 0,
    "stdout": {
-    "text": "3tBvz6sbVQgHfpip\"}\n{\"duration_api_ms\":5152,\"stop_reason\":\"end_turn\",\"session_id\":\"5fd86c41-2b5d-4af4-8e13-395cb4059530\",\"total_cost_usd\":0.00102504,\"usage\":{\"input_tokens\":8,\"cache_creation_input_tokens\":4038,\"cache_read_input_tokens\":7299,\"output_tokens\":893,\"output_tokens_details\":{\"thinking_tokens\":386},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":4038},\"inference_geo\":\"global\",\"iterations\":[{\"input_tokens\":2,\"output_tokens\":479,\"cache_read_input_tokens\":3811,\"cache_creation_input_tokens\":227,\"cache_creation\":{\"ephemeral_5m_input_tokens\":227,\"ephemeral_1h_input_tokens\":0},\"type\":\"message\"}],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"claude-haiku-5-5\":{\"inputTokens\":8,\"outputTokens\":893,\"cacheReadInputTokens\":7299,\"cacheCreationInputTokens\":4038,\"webSearchRequests\":0,\"costUSD\":0.00102504,\"contextWindow\":1000000,\"maxOutputTokens\":128000,\"thinkingTokens\":386,\"cacheCreationEphemeral5mInputTokens\":4038,\"cacheCreationEphemeral1hInputTokens\":0,\"canonicalModel\":\"claude-haiku-5-5\",\"provider\":\"firstParty\",\"costBasis\":\"list\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":3,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Lockstep is installed in `/tmp/a5-three-9zxtiujk/demo`. The init command wrote 5 files and skipped none:\\n\\n- `lockstep.yaml`: the settings file. Edit `owner:` if the `origin` owner is not the right one.\\n- `.claude/settings.json`: the PreToolUse hook that runs the edit guard.\\n- `.codex/hooks.json`: the same hook for Codex.\\n- `lefthook.yml`: the `lockstep` pre-commit command.\\n- `.gitignore`: the `.lockstep/` entry for the guard's decision logs.\\n\\nThe README also says to run `lefthook install` once so git calls the pre-commit command. I did not run it because it changes git's hook setup outside these files. Run it if you want the commit checks active here.\",\"ttft_ms\":1516,\"type\":\"result\",\"duration_ms\":6132,\"uuid\":\"34ff55d5-f0dc-4763-875a-098cf6acfea1\",\"ttft_stream_ms\":748,\"time_to_request_ms\":179,\"first_content_frame_ms\":749,\"queued_turn_count\":0,\"result_index\":0,\"model_usage_since_last_result\":{\"claude-haiku-5-5\":{\"inputTokens\":8,\"outputTokens\":893,\"cacheReadInputTokens\":7299,\"cacheCreationInputTokens\":4038,\"webSearchRequests\":0,\"costUSD\":0.00102504,\"contextWindow\":1000000,\"maxOutputTokens\":128000,\"thinkingTokens\":386,\"cacheCreationEphemeral5mInputTokens\":4038,\"cacheCreationEphemeral1hInputTokens\":0,\"canonicalModel\":\"claude-haiku-5-5\",\"provider\":\"firstParty\",\"costBasis\":\"list\"}}}",
+    "text": "sage\"}],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"claude-haiku-5-5\":{\"inputTokens\":10,\"outputTokens\":1440,\"cacheReadInputTokens\":13087,\"cacheCreationInputTokens\":3730,\"webSearchRequests\":0,\"costUSD\":0.0013181199999999999,\"contextWindow\":1000000,\"maxOutputTokens\":128000,\"thinkingTokens\":488,\"cacheCreationEphemeral5mInputTokens\":3730,\"cacheCreationEphemeral1hInputTokens\":0,\"canonicalModel\":\"claude-haiku-5-5\",\"provider\":\"firstParty\",\"costBasis\":\"list\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":4,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Lockstep is installed, but `lefthook install` failed, so git will not call the pre-commit check yet.\\n\\n**Files written by `lockstep init` (5 files, 0 skipped):**\\n- `lockstep.yaml`: settings file. Every check is set to `block`. `owner:` is `third-org`, which is a placeholder to edit. `governed:` and `layout:` are empty.\\n- `.claude/settings.json`: PreToolUse hook for the edit guard.\\n- `.codex/hooks.json`: the same hook for Codex.\\n- `lefthook.yml`: a `lockstep` pre-commit command.\\n- `.gitignore`: a `.lockstep/` line.\\n\\n**Not done:**\\n- `lefthook install` exited with status 1. Git has `core.hooksPath` set globally to `/home/brian/.config/git/hooks`, and lefthook refuses to install into a custom hooks path. The README does not cover this case. I did not change your global git config or force the install. To fix it yourself, either run `lefthook install --reset-hooks-path` (which resets the global setting) or `git config --unset-all --global core.hooksPath`, then run `lefthook install` again.\\n\\n**Also to check:**\\n- Set `owner:` in `lockstep.yaml` to the real owner. This repository has no `origin` remote, so init could not read one.\\n- The install command in the README uses a local path (`/home/brian/code2/worktrees/lockstep-init`), even though the README says the written files do not hold absolute paths. I followed it as written.\",\"ttft_ms\":1913,\"type\":\"result\",\"duration_ms\":9271,\"uuid\":\"5a2c7e4a-221a-4eeb-b123-8593564fe9b1\",\"ttft_stream_ms\":1010,\"time_to_request_ms\":179,\"first_content_frame_ms\":1011,\"queued_turn_count\":0,\"result_index\":0,\"model_usage_since_last_result\":{\"claude-haiku-5-5\":{\"inputTokens\":10,\"outputTokens\":1440,\"cacheReadInputTokens\":13087,\"cacheCreationInputTokens\":3730,\"webSearchRequests\":0,\"costUSD\":0.0013181199999999999,\"contextWindow\":1000000,\"maxOutputTokens\":128000,\"thinkingTokens\":488,\"cacheCreationEphemeral5mInputTokens\":3730,\"cacheCreationEphemeral1hInputTokens\":0,\"canonicalModel\":\"claude-haiku-5-5\",\"provider\":\"firstParty\",\"costBasis\":\"list\"}}}",
     "lines_cut": 0
    },
    "stderr": {

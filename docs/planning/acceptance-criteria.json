@@ -50,9 +50,9 @@
     "view": "answer-receipt-card",
     "router_record": "docs/planning/router/acceptance-views.json"
    },
-   "entrypoint": "planned",
-   "status": "not built",
-   "status_note": "Slice 1 (move) and slice 6 (switch users) build it."
+   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a1",
+   "status": "built",
+   "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a1.json (scripts/acceptance/a1.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
   },
   {
    "id": "A2",
@@ -69,9 +69,9 @@
     "view": "decision-table",
     "router_record": "docs/planning/router/acceptance-views.json"
    },
-   "entrypoint": "planned",
-   "status": "not built",
-   "status_note": "Slice 3 (guard) builds it; lifelike replays the four cases from lockstep#111."
+   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a2",
+   "status": "built",
+   "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a2.json (scripts/acceptance/a2.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
   },
   {
    "id": "A3",
@@ -87,9 +87,9 @@
     "view": "decision-table",
     "router_record": "docs/planning/router/acceptance-views.json"
    },
-   "entrypoint": "planned",
-   "status": "not built",
-   "status_note": "Slice 4 (commit checks) builds it."
+   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a3",
+   "status": "built",
+   "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a3.json (scripts/acceptance/a3.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
   },
   {
    "id": "A4",
@@ -106,9 +106,9 @@
     "view": "master-detail",
     "router_record": "docs/planning/router/acceptance-views.json"
    },
-   "entrypoint": "planned",
-   "status": "not built",
-   "status_note": "Slice 2 (plan format) builds it, using lockstep layout."
+   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a4",
+   "status": "built",
+   "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a4.json (scripts/acceptance/a4.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
   },
   {
    "id": "A5",
@@ -126,9 +126,9 @@
     "view": "data-table",
     "router_record": "docs/planning/router/acceptance-views.json"
    },
-   "entrypoint": "planned",
-   "status": "not built",
-   "status_note": "Slice 6 (switch users) builds it; the Inside Success row waits on Q2."
+   "entrypoint": "https://hive.brianmills.dev/plans/main/proposals/planning-package/review-page/lockstep-acceptance.html#a5",
+   "status": "built",
+   "status_note": "Real run recorded in docs/planning/runs/lockstep-acceptance/a5.json (scripts/acceptance/a5.py); the run's own comparison says PASS on 2026-11-12. Brian has not judged it."
   },
   {
    "id": "A6",

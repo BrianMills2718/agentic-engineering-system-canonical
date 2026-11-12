@@ -2,8 +2,8 @@
  "entry": "A1",
  "title": "One command sets Lockstep up in a new repository",
  "verdict": "PASS",
- "run_at": "2026-11-12T17:43:40+00:00",
- "lockstep_revision": "29eb31d76581a59e83b718e716fb9b7001257c3d-dirty",
+ "run_at": "2026-11-12T17:47:13+00:00",
+ "lockstep_revision": "282fe2af5047f8db03f2a18e94d101f7bfc0eed1",
  "lockstep_bin": "uvx, installed fresh from the source (no machine cache)",
  "rows": [
   {
@@ -73,7 +73,7 @@
   "source": "/home/brian/code2/worktrees/lockstep-init",
   "unmerged_build": true,
   "fresh_uv_cache": true,
-  "uv_cache_dir": "/tmp/a1-uvcache-ri1jc74x",
+  "uv_cache_dir": "/tmp/a1-uvcache-0y27t45k",
   "repo_origin": "https://github.com/example-org/demo.git"
  },
  "files_written": {
@@ -98,7 +98,7 @@
   {
    "name": "the README's one command",
    "command": "uvx --from /home/brian/code2/worktrees/lockstep-init lockstep init",
-   "cwd": "/tmp/a1-6dcbo_89/demo",
+   "cwd": "/tmp/a1-wg2i5f0z/demo",
    "stdin": null,
    "exit_code": 0,
    "stdout": {
@@ -106,7 +106,7 @@
     "lines_cut": 0
    },
    "stderr": {
-    "text": "   Building agentic-engineering-system @ file:///home/brian/code2/worktrees/lockstep-init\nDownloading pygments (1.2MiB)\nDownloading grimp (2.2MiB)\nDownloading pydantic-core (2.0MiB)\n Downloaded pydantic-core\n Downloaded grimp\n Downloaded pygments\n      Built agentic-engineering-system @ file:///home/brian/code2/worktrees/lockstep-init\nInstalled 20 packages in 16ms",
+    "text": "   Building agentic-engineering-system @ file:///home/brian/code2/worktrees/lockstep-init\nDownloading grimp (2.2MiB)\nDownloading pygments (1.2MiB)\nDownloading pydantic-core (2.0MiB)\n Downloaded pydantic-core\n Downloaded grimp\n Downloaded pygments\n      Built agentic-engineering-system @ file:///home/brian/code2/worktrees/lockstep-init\nInstalled 20 packages in 14ms",
     "lines_cut": 0
    }
   }

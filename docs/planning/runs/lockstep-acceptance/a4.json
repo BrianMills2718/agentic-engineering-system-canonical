@@ -2,9 +2,9 @@
  "entry": "A4",
  "title": "After approval, each planned file's first docstring carries the approved text word for word",
  "verdict": "PASS",
- "run_at": "2026-11-12T17:36:40+00:00",
- "lockstep_revision": "3e46a7675743d3cb97d2e7bb618828f2e284caa4",
- "lockstep_bin": "/home/brian/code2/worktrees/acceptance-page/.venv/bin",
+ "run_at": "2026-11-12T17:47:07+00:00",
+ "lockstep_revision": "282fe2af5047f8db03f2a18e94d101f7bfc0eed1",
+ "lockstep_bin": "/home/brian/code2/worktrees/lockstep-init/.venv/bin",
  "rows": [
   {
    "id": "src/greeter/__init__.py",
@@ -123,8 +123,8 @@
   }
  ],
  "approval": {
-  "commit": "5adb386dd13db75b4e6467731fe3a390c07c8121",
-  "committed_at": "2026-11-12T12:36:40-05:00",
+  "commit": "5dd9131f8b2f9f845c66eeeaf87880830f25cd0b",
+  "committed_at": "2026-11-12T12:47:06-05:00",
   "files_in_the_approval_commit": [
    ".gitignore",
    "lockstep.yaml",
@@ -171,12 +171,12 @@
  "steps": [
   {
    "name": "lockstep layout",
-   "command": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep layout",
-   "cwd": "/tmp/a4-repo-9lbaz2ia/greeter",
+   "command": "/home/brian/code2/worktrees/lockstep-init/.venv/bin/lockstep layout",
+   "cwd": "/tmp/a4-repo-a7y_39rf/greeter",
    "stdin": null,
    "exit_code": 0,
    "stdout": {
-    "text": "scaffold: created\n  src/greeter/__init__.py  (src:greeter:__init__.py)\n  tests/test_greet.py  (tests:test_greet.py)\n  src/greeter/polite.py  (src:greeter:polite.py)\n  tests/test_polite.py  (tests:test_polite.py)\nCogging /tmp/a4-repo-9lbaz2ia/greeter/src/greeter/__init__.py  (changed)\nCogging /tmp/a4-repo-9lbaz2ia/greeter/src/greeter/polite.py  (changed)\nCogging /tmp/a4-repo-9lbaz2ia/greeter/tests/test_greet.py  (changed)\nCogging /tmp/a4-repo-9lbaz2ia/greeter/tests/test_polite.py  (changed)",
+    "text": "scaffold: created\n  src/greeter/__init__.py  (src:greeter:__init__.py)\n  tests/test_greet.py  (tests:test_greet.py)\n  src/greeter/polite.py  (src:greeter:polite.py)\n  tests/test_polite.py  (tests:test_polite.py)\nCogging /tmp/a4-repo-a7y_39rf/greeter/src/greeter/__init__.py  (changed)\nCogging /tmp/a4-repo-a7y_39rf/greeter/src/greeter/polite.py  (changed)\nCogging /tmp/a4-repo-a7y_39rf/greeter/tests/test_greet.py  (changed)\nCogging /tmp/a4-repo-a7y_39rf/greeter/tests/test_polite.py  (changed)",
     "lines_cut": 0
    },
    "stderr": {
