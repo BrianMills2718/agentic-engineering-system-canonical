@@ -1,0 +1,188 @@
+{
+ "entry": "A4",
+ "title": "After approval, each planned file's first docstring carries the approved text word for word",
+ "verdict": "PASS",
+ "run_at": "2026-11-12T17:36:40+00:00",
+ "lockstep_revision": "3e46a7675743d3cb97d2e7bb618828f2e284caa4",
+ "lockstep_bin": "/home/brian/code2/worktrees/acceptance-page/.venv/bin",
+ "rows": [
+  {
+   "id": "src/greeter/__init__.py",
+   "label": "src/greeter/__init__.py (source file)",
+   "should": "all present word for word: requirement text, success criteria (scenarios), test names",
+   "did": "all present word for word: requirement text, success criteria (scenarios), test names",
+   "pass": true,
+   "step": "lockstep layout",
+   "requirement_id": "greeting/greet-by-name",
+   "requirement_title": "Greet by name",
+   "requirement_text": "`greet(name)` SHALL return `Hello, <name>!`.",
+   "scenarios": [
+    "#### Scenario: A name is greeted\n\n- **GIVEN** the name `Ada`\n- **WHEN** `greet` is called with it\n- **THEN** it returns `Hello, Ada!`"
+   ],
+   "test_names": [
+    "tests/test_greet.py"
+   ],
+   "first_docstring": "The greet function.\n\n[[[cog import lockstep.cogtext as c; c.docstring(\"src:greeter:__init__.py\", indent=0)]]]\nPlan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):\n\nImplements: greeting/greet-by-name\n\n### Requirement: Greet by name\n\nSource: inferred by agent, the smallest example for Lockstep's layout plan.\n\n`greet(name)` SHALL return `Hello, <name>!`.\n\n#### Scenario: A name is greeted\n\n- **GIVEN** the name `Ada`\n- **WHEN** `greet` is called with it\n- **THEN** it returns `Hello, Ada!`\n\nTested by: tests/test_greet.py\n\nDeclares (typed signatures, from the plan):\n  greet(name: str) -> str\n[[[end]]] (sum: KNtSx2pqGO)\n",
+   "parts_found": {
+    "requirement text": true,
+    "success criteria (scenarios)": true,
+    "test names": true
+   },
+   "existed_before_layout": false,
+   "created_after_approval": true
+  },
+  {
+   "id": "tests/test_greet.py",
+   "label": "tests/test_greet.py (test file)",
+   "should": "all present word for word: requirement text, success criteria (scenarios)",
+   "did": "all present word for word: requirement text, success criteria (scenarios)",
+   "pass": true,
+   "step": "lockstep layout",
+   "requirement_id": "greeting/greet-by-name",
+   "requirement_title": "Greet by name",
+   "requirement_text": "`greet(name)` SHALL return `Hello, <name>!`.",
+   "scenarios": [
+    "#### Scenario: A name is greeted\n\n- **GIVEN** the name `Ada`\n- **WHEN** `greet` is called with it\n- **THEN** it returns `Hello, Ada!`"
+   ],
+   "test_names": [],
+   "first_docstring": "Prove that greet greets by name.\n\n[[[cog import lockstep.cogtext as c; c.docstring(\"tests:test_greet.py\", indent=0)]]]\nPlan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):\n\nImplements: greeting/greet-by-name\n\n### Requirement: Greet by name\n\nSource: inferred by agent, the smallest example for Lockstep's layout plan.\n\n`greet(name)` SHALL return `Hello, <name>!`.\n\n#### Scenario: A name is greeted\n\n- **GIVEN** the name `Ada`\n- **WHEN** `greet` is called with it\n- **THEN** it returns `Hello, Ada!`\n[[[end]]] (sum: KhJ8e+uNjH)\n",
+   "parts_found": {
+    "requirement text": true,
+    "success criteria (scenarios)": true
+   },
+   "existed_before_layout": false,
+   "created_after_approval": true
+  },
+  {
+   "id": "src/greeter/polite.py",
+   "label": "src/greeter/polite.py (source file)",
+   "should": "all present word for word: requirement text, success criteria (scenarios), test names",
+   "did": "all present word for word: requirement text, success criteria (scenarios), test names",
+   "pass": true,
+   "step": "lockstep layout",
+   "requirement_id": "greeting/greet-politely",
+   "requirement_title": "Greet politely",
+   "requirement_text": "`greet_politely(name)` SHALL return `Good day, <name>.`.",
+   "scenarios": [
+    "#### Scenario: A name is greeted politely\n\n- **GIVEN** the name `Ada`\n- **WHEN** `greet_politely` is called with it\n- **THEN** it returns `Good day, Ada.`",
+    "#### Scenario: An empty name is refused\n\n- **GIVEN** the empty name\n- **WHEN** `greet_politely` is called with it\n- **THEN** it raises `ValueError`"
+   ],
+   "test_names": [
+    "tests/test_polite.py"
+   ],
+   "first_docstring": "The polite greeting.\n\n[[[cog import lockstep.cogtext as c; c.docstring(\"src:greeter:polite.py\", indent=0)]]]\nPlan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):\n\nImplements: greeting/greet-politely\n\n### Requirement: Greet politely\n\nSource: inferred by agent, a second requirement so the run has two planned source files.\n\n`greet_politely(name)` SHALL return `Good day, <name>.`.\n\n#### Scenario: A name is greeted politely\n\n- **GIVEN** the name `Ada`\n- **WHEN** `greet_politely` is called with it\n- **THEN** it returns `Good day, Ada.`\n\n#### Scenario: An empty name is refused\n\n- **GIVEN** the empty name\n- **WHEN** `greet_politely` is called with it\n- **THEN** it raises `ValueError`\n\nTested by: tests/test_polite.py\n\nDeclares (typed signatures, from the plan):\n  greet_politely(name: str) -> str\n[[[end]]] (sum: FQRhWS2rIU)\n",
+   "parts_found": {
+    "requirement text": true,
+    "success criteria (scenarios)": true,
+    "test names": true
+   },
+   "existed_before_layout": false,
+   "created_after_approval": true
+  },
+  {
+   "id": "tests/test_polite.py",
+   "label": "tests/test_polite.py (test file)",
+   "should": "all present word for word: requirement text, success criteria (scenarios)",
+   "did": "all present word for word: requirement text, success criteria (scenarios)",
+   "pass": true,
+   "step": "lockstep layout",
+   "requirement_id": "greeting/greet-politely",
+   "requirement_title": "Greet politely",
+   "requirement_text": "`greet_politely(name)` SHALL return `Good day, <name>.`.",
+   "scenarios": [
+    "#### Scenario: A name is greeted politely\n\n- **GIVEN** the name `Ada`\n- **WHEN** `greet_politely` is called with it\n- **THEN** it returns `Good day, Ada.`",
+    "#### Scenario: An empty name is refused\n\n- **GIVEN** the empty name\n- **WHEN** `greet_politely` is called with it\n- **THEN** it raises `ValueError`"
+   ],
+   "test_names": [],
+   "first_docstring": "Prove that greet_politely greets politely and refuses an empty name.\n\n[[[cog import lockstep.cogtext as c; c.docstring(\"tests:test_polite.py\", indent=0)]]]\nPlan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):\n\nImplements: greeting/greet-politely\n\n### Requirement: Greet politely\n\nSource: inferred by agent, a second requirement so the run has two planned source files.\n\n`greet_politely(name)` SHALL return `Good day, <name>.`.\n\n#### Scenario: A name is greeted politely\n\n- **GIVEN** the name `Ada`\n- **WHEN** `greet_politely` is called with it\n- **THEN** it returns `Good day, Ada.`\n\n#### Scenario: An empty name is refused\n\n- **GIVEN** the empty name\n- **WHEN** `greet_politely` is called with it\n- **THEN** it raises `ValueError`\n[[[end]]] (sum: ZsiCJvr//J)\n",
+   "parts_found": {
+    "requirement text": true,
+    "success criteria (scenarios)": true
+   },
+   "existed_before_layout": false,
+   "created_after_approval": true
+  },
+  {
+   "id": "approval",
+   "label": "No planned file existed before the plan was approved and the layout ran",
+   "should": "none of the planned files existed before",
+   "did": "none of the planned files existed before",
+   "pass": true,
+   "step": "lockstep layout",
+   "files_before_layout": [
+    ".gitignore",
+    "lockstep.yaml",
+    "openspec/specs/greeting/spec.md"
+   ],
+   "planned": [
+    "src/greeter/__init__.py",
+    "tests/test_greet.py",
+    "src/greeter/polite.py",
+    "tests/test_polite.py"
+   ]
+  }
+ ],
+ "approval": {
+  "commit": "5adb386dd13db75b4e6467731fe3a390c07c8121",
+  "committed_at": "2026-11-12T12:36:40-05:00",
+  "files_in_the_approval_commit": [
+   ".gitignore",
+   "lockstep.yaml",
+   "openspec/specs/greeting/spec.md"
+  ]
+ },
+ "files_before_layout": [
+  ".gitignore",
+  "lockstep.yaml",
+  "openspec/specs/greeting/spec.md"
+ ],
+ "planned_files_existing_before_layout": {
+  "src/greeter/__init__.py": false,
+  "tests/test_greet.py": false,
+  "src/greeter/polite.py": false,
+  "tests/test_polite.py": false
+ },
+ "files_after_layout": [
+  ".gitignore",
+  "lockstep.yaml",
+  "openspec/specs/greeting/spec.md",
+  "src/greeter/__init__.py",
+  "src/greeter/polite.py",
+  "tests/test_greet.py",
+  "tests/test_polite.py"
+ ],
+ "approved_requirements": {
+  "greeting/greet-by-name": {
+   "title": "Greet by name",
+   "statement": "`greet(name)` SHALL return `Hello, <name>!`.",
+   "scenarios": [
+    "#### Scenario: A name is greeted\n\n- **GIVEN** the name `Ada`\n- **WHEN** `greet` is called with it\n- **THEN** it returns `Hello, Ada!`"
+   ]
+  },
+  "greeting/greet-politely": {
+   "title": "Greet politely",
+   "statement": "`greet_politely(name)` SHALL return `Good day, <name>.`.",
+   "scenarios": [
+    "#### Scenario: A name is greeted politely\n\n- **GIVEN** the name `Ada`\n- **WHEN** `greet_politely` is called with it\n- **THEN** it returns `Good day, Ada.`",
+    "#### Scenario: An empty name is refused\n\n- **GIVEN** the empty name\n- **WHEN** `greet_politely` is called with it\n- **THEN** it raises `ValueError`"
+   ]
+  }
+ },
+ "steps": [
+  {
+   "name": "lockstep layout",
+   "command": "/home/brian/code2/worktrees/acceptance-page/.venv/bin/lockstep layout",
+   "cwd": "/tmp/a4-repo-9lbaz2ia/greeter",
+   "stdin": null,
+   "exit_code": 0,
+   "stdout": {
+    "text": "scaffold: created\n  src/greeter/__init__.py  (src:greeter:__init__.py)\n  tests/test_greet.py  (tests:test_greet.py)\n  src/greeter/polite.py  (src:greeter:polite.py)\n  tests/test_polite.py  (tests:test_polite.py)\nCogging /tmp/a4-repo-9lbaz2ia/greeter/src/greeter/__init__.py  (changed)\nCogging /tmp/a4-repo-9lbaz2ia/greeter/src/greeter/polite.py  (changed)\nCogging /tmp/a4-repo-9lbaz2ia/greeter/tests/test_greet.py  (changed)\nCogging /tmp/a4-repo-9lbaz2ia/greeter/tests/test_polite.py  (changed)",
+    "lines_cut": 0
+   },
+   "stderr": {
+    "text": "",
+    "lines_cut": 0
+   }
+  }
+ ]
+}
