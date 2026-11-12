@@ -1,19 +1,21 @@
-# Cold review: AES canonical planning package, after the 2026-11-12 cleanup
+# Bounded cold review: declared source-fact upkeep
 
-Reviewer: planning-compliance-reviewer subagent, two rounds on 2026-11-12. Reviewed revision: 2b0709497ecc77b2eb6ab284bec57f52069a422e
-(later commits change only package records: this file, planning-package.json and checks.txt).
+Reviewed revision: `0badfe82442d86bd9be230dd7f3a2c12cff4ee27`.
+Verdict: **pass** for the source-fact projection slice. This does not re-certify
+unrelated A1–A8 or eliminate the existing route WAIT.
 
-Verdict: pass
+Independent reviewer confirmed that A9 covers all four source fact types,
+installed refresh and stale bypass refusal; the stored declaration and trace
+records name their fields, writers and storage; existing domain concepts cover
+the relationships; the stale Q18 filing claim and incorrect test citation are
+repaired; the review page exposes A9 and its acceptance table.
 
-## Round 1 (read 909a85408): revise
+Consumer observations cover 11/11 current command cases, including eight refresh
+replays and negative cases. Native traces cover 2/2 disposable client fixtures,
+each with one source edit and generated update. Codex fixture trust bypass is
+explicit; production checkout trust and deployment require separate evidence.
 
-- Blocking: the review page still cited checks.txt lines 104, 68 and 72, past the end of the 46-line file; cold_review named an old revision. Fixed by regenerating the page (keeping the hand-added lockstep-acceptance card) in 2b0709497.
-- Notes fixed: Q1 text still said make aes supported 2 of 12 criteria "today"; Q10 said 44,556 lines (now 44,286).
-- Notes carried: the retirement record cites an inventory in a session scratch folder (facts are repeated in the record); review-page links use blob/main and resolve once the branch merges.
-
-## Round 2 (read 2b0709497ecc77b2eb6ab284bec57f52069a422e): content passes
-
-- Validator: 10 of 10 parts ok, 11 of 12 substance checks ok (1 pending, the route), 6 of 6 initiative, tier and system-map checks ok, coverage 13 of 14 requirements (1 about the planning process).
-- Checks reproduce: durable documents 0 findings; Markdown 116 of a 120 limit, 31 unreachable (Q7), navigation 12 warnings (Q8), repository format 0 of 1 compliant (Q17).
-- Q3, Q4, Q5, Q6, Q10, Q15, Q16 resolved match the repository; Q7, Q8, Q17 stay open and the failing checks they track are real.
-- Only finding: record this revision (done in this commit).
+Before recording this pin: full validator exited 1 solely for the old pin;
+without freshness it exited 0 with 10/10 parts, 11/12 substance (existing route
+WAIT), and 6/6 tier/map checks. A9 semantic coverage awaits normal nightly
+judgment. No remaining substantive blocking finding in this bounded review.
