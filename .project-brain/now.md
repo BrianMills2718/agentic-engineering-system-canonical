@@ -1,7 +1,10 @@
 # Complete file coverage (2026-11-13, AES #849)
 
-**Current work:** cover every tracked file with a source-grounded summary and
-navigation route, then assess documentation consolidation. The earlier 69-file
+**Completed in PR #850:** every one of 408 tracked files now has a source-grounded
+summary and navigation route. The inventory records 22 findings and 12 grouped
+consolidation recommendations; independent semantic review sampled 23 files.
+Source identities matched 406/406 inputs, with the two self-output hashes
+explicitly omitted. This is a dated snapshot, not continuous automatic refresh. The earlier 69-file
 check covered a reader-Markdown subset, not this complete requirement.
 
 Read [the complete catalog](../wiki/documents.md) and
@@ -11,7 +14,7 @@ Lockstep represents and checks its output. The
 [policy source map](../wiki/policy-and-rules.md#where-are-the-hundreds-of-project-meta-policies)
 now links the original 263-entry Project Meta registry and current shared rules.
 
-**Next after this repair:** discuss recorded consolidation choices and the open
+**Next:** discuss recorded consolidation choices and the open
 runtime concerns. Do not infer policy retirement, enable jobs, or alter code
 because an inventory marks an item as a candidate. Current and historical
 architecture, raw evidence, generated views, fixtures and instructions retain
