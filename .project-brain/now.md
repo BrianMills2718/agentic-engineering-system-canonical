@@ -1,3 +1,25 @@
+# Complete file coverage (2026-11-13, AES #849)
+
+**Current work:** cover every tracked file with a source-grounded summary and
+navigation route, then assess documentation consolidation. The earlier 69-file
+check covered a reader-Markdown subset, not this complete requirement.
+
+Read [the complete catalog](../wiki/documents.md) and
+[coverage/consolidation assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment).
+Planning is an explicit whole-system function, supplied by Company Planning;
+Lockstep represents and checks its output. The
+[policy source map](../wiki/policy-and-rules.md#where-are-the-hundreds-of-project-meta-policies)
+now links the original 263-entry Project Meta registry and current shared rules.
+
+**Next after this repair:** discuss recorded consolidation choices and the open
+runtime concerns. Do not infer policy retirement, enable jobs, or alter code
+because an inventory marks an item as a candidate. Current and historical
+architecture, raw evidence, generated views, fixtures and instructions retain
+separate authority. Earlier reading-path verification below is explicitly a
+subset result, superseded for coverage by this complete-file review.
+
+## Prior reading-path repair and dated evidence
+
 # Now (2026-11-13)
 
 **Documentation repair first (AES #847):** the current reading path is

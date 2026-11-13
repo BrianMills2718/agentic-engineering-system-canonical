@@ -18,16 +18,19 @@ Brian, 2026-11-11, defines AES as the whole system, including Lockstep, feedback
 policy ([repository scope](../../CLAUDE.md#current-state-2026-11-13)). This page
 reconciles that existing direction; it does not adopt a new product design.
 
-## What are its parts?
+## What functions does the whole system need?
 
-| Part | Responsibility | Owning description |
+| Function and provider | Responsibility | Owning description |
 | --- | --- | --- |
+| Planning, supplied by Company Planning | Derive requirements, acceptance criteria, behavioral units, architecture, file structure, typed seams, tests and implementation slices from accepted intent | [Planning boundary](SYSTEM_BOUNDARY.md#aes-plan-002--planning-subsystem-split) |
 | Lockstep | Link planned behavior, file structure, typed interfaces, code, tests and criteria; put normative context at the edit; project implementation status back; expose drift and navigate to owning sources | [Lockstep contract](LOCKSTEP.md) |
 | Feedback loop | Turn corrections and observations into sourced dispositions, verified repairs and follow-up observations | [Feedback and policy](FEEDBACK_AND_POLICY.md) |
 | Policy layer | Preserve the source and scope of rules, how they are enforced or advised, their recovery paths and the evidence for changing them | [Feedback and policy](FEEDBACK_AND_POLICY.md) |
 
-Company Planning supplies design and planning methods. Coding agents and Project
-Brains consume the contracts and checks; they are not parts inside Lockstep.
+The earlier three-part shorthand names Lockstep, feedback and policy; it is not
+an exhaustive functional boundary. Planning is an essential AES layer, supplied
+by Company Planning. Coding agents and Project Brains consume the contracts and
+checks; they are not parts inside Lockstep.
 Review websites and walkthroughs are presentation work owned by Company Planning
 and representation tools, rather than Lockstep's product purpose.
 See [AES-SYS-006 and the planning boundary](SYSTEM_BOUNDARY.md#aes-sys-006--parts-and-consumers).

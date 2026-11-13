@@ -2,7 +2,7 @@
 
 - **Purpose:** autonomous, effective coding agents whose work stays true to intent.
   Source: [current goal and its recorded stakeholder sources](../docs/architecture/GOAL.md).
-- **Parts:** Lockstep, the feedback loop and the policy layer. Coding agents and
+- **Functions:** planning supplied by Company Planning, Lockstep, feedback and policy. Coding agents and
   Project Brains are consumers. Source: [system boundary](../docs/architecture/SYSTEM_BOUNDARY.md).
 - **Lockstep approach:** plan behavioral structure, typed interfaces and tests;
   project requirements into code and observed status back; navigate linked sources.
