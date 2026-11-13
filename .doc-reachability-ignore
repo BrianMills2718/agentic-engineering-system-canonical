@@ -3,3 +3,7 @@
 .claude/*
 .agents/*
 openspec/changes/*
+
+# Synthetic consumer repositories used only as executable test fixtures.
+tests/lockstep/example-layout/*
+tests/lockstep/lockstep-plan-sample/*

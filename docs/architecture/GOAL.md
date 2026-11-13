@@ -1,79 +1,111 @@
 ---
-description: What the Agentic Engineering System is for, the bet behind it, what would disprove it, and the repository it replaces
+description: AES helps autonomous coding agents deliver software that stays true to its intent through linked plans, code, evidence, policy and feedback
+doc_role: active_authority
+status: current
 ---
 
-# Agentic Engineering System: goal and thesis
+# AES: purpose, scope and thesis
 
-## Introduction and Goals
+## What is the project for?
 
-### Requirements Overview
+AES is the engineering system for autonomous, effective coding agents. It connects
+what software should do, how it is built, what the evidence shows, and what changes
+after a failure. Code and documentation alignment is a means to that outcome.
 
-The requirements are the outcomes, normative items and success criteria (each with a
-disproof) in [`.aes/target.yaml`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/.aes/target.yaml): outcome `OUT-GF-001` (a new
-project under AES governance, from intent to evidence-backed current/gap state) and
-outcome `OUT-AP-001` (real work lands only under an adopted Company Planning plan;
-trivial work is decided by measured facts; withdrawn with the commit rule on 2026-10-14, and this
-repository's own `.aes/target.yaml` was retired on 2026-11-12, see the link above for the last copy). The rules that enforce them, with owners
-and tests, are in the system model ([ODD.md](../model/ODD.md),
-[trace.yaml](../model/trace.yaml)).
+Source: Brian, 2026-11-06, “the real driver which is autonomous effective coding agents”,
+preserved in the [Lockstep goal at its last independent revision](https://github.com/BrianMills2718/lockstep/blob/14768712cf0c0fe97a347c28267291fa3c487349/wiki/goal.md#what-lockstep-is-in-brians-words-2026-11-06).
+Brian, 2026-11-11, defines AES as the whole system, including Lockstep, feedback and
+policy ([repository scope](../../CLAUDE.md#current-state-2026-11-13)). This page
+reconciles that existing direction; it does not adopt a new product design.
 
-### Quality Goals
+## What are its parts?
 
-- Ignorance never renders green: a criterion without enough fresh evidence stays a
-  gap ([AES-POL-002](SYSTEM_BOUNDARY.md#aes-pol-002--ignorance-cannot-render-green)).
-- Every control can be shown to fail on a case it should refuse
-  ([AES-POL-004](SYSTEM_BOUNDARY.md#aes-pol-004--controls-prove-they-can-fail)).
-- Off-the-shelf first: AES adopts or configures existing tools before building its
-  own ([AES-CAP-002](SYSTEM_BOUNDARY.md#aes-cap-002--external-first-provider-sourcing), Decision 0012).
+| Part | Responsibility | Owning description |
+| --- | --- | --- |
+| Lockstep | Link planned behavior, file structure, typed interfaces, code, tests and criteria; put normative context at the edit; project implementation status back; expose drift and navigate to owning sources | [Lockstep contract](LOCKSTEP.md) |
+| Feedback loop | Turn corrections and observations into sourced dispositions, verified repairs and follow-up observations | [Feedback and policy](FEEDBACK_AND_POLICY.md) |
+| Policy layer | Preserve the source and scope of rules, how they are enforced or advised, their recovery paths and the evidence for changing them | [Feedback and policy](FEEDBACK_AND_POLICY.md) |
 
-### Stakeholders
+Company Planning supplies design and planning methods. Coding agents and Project
+Brains consume the contracts and checks; they are not parts inside Lockstep.
+Review websites and walkthroughs are presentation work owned by Company Planning
+and representation tools, rather than Lockstep's product purpose.
+See [AES-SYS-006 and the planning boundary](SYSTEM_BOUNDARY.md#aes-sys-006--parts-and-consumers).
 
-- Brian, the planning authority for his repositories.
-- Coding agents (Claude Code and Codex) that plan, implement and verify work under AES.
-- A colleague starting a new project without access to Brian's private repositories
-  (the `OUT-GF-001` actor).
+## How should the whole system work?
 
-## North star (AES extension)
+Consider a password-reset feature. This is an illustrative behavioral example,
+not a claim that this repository implements authentication.
 
-From outcome `OUT-GF-001`: a colleague can start a genuinely new software project
-under AES governance, move from accepted intent through planned realization and
-implementation to evidence-backed current/gap state, and do so without access to
-private historical repositories or undocumented AES lineage knowledge.
+1. Plan behavior and acceptance criteria, then identify files, typed interfaces
+   and tests for issuing a token and rejecting an expired token. Organize the
+   implementation into behavior that can be tested. Revise the plan when the
+   structure needs to change.
+2. Put the full applicable requirements and criteria into the code's docstrings.
+   The agent editing token expiry sees the requirement beside the implementation.
+3. If a requirement changes at the docstring, route it back through an explicit
+   plan change with history. A change in the plan identifies linked code needing
+   attention. Requirement changes and implementation edits stay visible.
+4. Derive what exists, what was tested, what passed and what drifted from code
+   and revision-bound evidence. Project current status into the documents that
+   describe the feature. A typed status claim alone is not evidence.
+5. Present concise descriptions and links in the navigational wiki. The reader
+   can reach the requirement, implementation and proving test for the same concern.
+6. If an agent misses expiry, record the correction and its evidence. Disposition
+   it, verify a repair, and inspect later relevant opportunities for recurrence.
+   Update policy when warranted.
 
-## Thesis (AES extension)
+These are intended relationships, not a claim that every automatic transition
+has been demonstrated. The [Lockstep contract](LOCKSTEP.md) identifies existing
+mechanisms and verification boundaries. The [discussion ledger](../../wiki/open-questions.md)
+preserves open concerns.
 
-Agent-built software stays true to its intent when every claim about it is checked
-against something an agent cannot talk its way past: a criterion that stays a gap
-until fresh evidence bound to the exact revision supports it, and documents whose truth lives where it is edited, generated
-or checked from the owning source rather than copied (AES-CTX-004,
-[Decision 0013](../decisions/0013-truth-lives-where-it-is-edited.md)). Self-reported
-completion, prose status and hand-maintained copies drift; checked boundaries do not.
+## What is the architectural bet?
 
-## Thesis disproof (AES extension)
+An agent is more likely to preserve intent when the relevant intent is present
+where it edits, every requirement links to implementation and proving tests,
+and observed status flows back to that requirement. Behavior-oriented structure
+and strong types support that linkage. The wiki makes context findable without
+becoming another independently maintained authority.
 
-Work landed under AES needs its claims corrected after the fact about as often as work
-landed without it; or `aes status` reports a criterion supported while a fresh run of
-its named checks fails at the same revision. (The commit rule that once refused a
-commit without an adopted plan was removed on 2026-10-14, so agents routing around it
-is no longer part of the disproof.)
+Source: Brian's [2026-11-06 explanation](https://github.com/BrianMills2718/lockstep/blob/14768712cf0c0fe97a347c28267291fa3c487349/wiki/goal.md#what-lockstep-is-in-brians-words-2026-11-06),
+[source-local context](SYSTEM_BOUNDARY.md#aes-ctx-002--source-local-context-after-realization)
+and [truth at the place of editing](../decisions/0013-truth-lives-where-it-is-edited.md).
 
-## Non-goals
+The bet would be weakened if agents repeatedly miss requirements present at their
+edits, projected documents conceal drift, or controls and upkeep cost more useful
+work than they protect. Passing linkage checks alone cannot establish more
+effective autonomous agents. No improvement rate is claimed here. These are
+agent-derived falsification questions for discussion, not newly adopted numerical
+acceptance thresholds.
 
-- Retrofitting an arbitrary existing repository (`OUT-GF-001` non-goal; `aes adopt`
-  records a baseline but does not claim conformance).
-- Universal language support or a universal framework abstraction.
-- Orchestrating an organization's portfolio of projects.
+## Where does truth live?
 
-## Lineage (AES extension)
+Current Lockstep behavior is specified in [OpenSpec](../../openspec/specs/lockstep-plan-format/spec.md);
+planned layout lives in each consumer's `lockstep.yaml`. Code, tests and recorded
+evidence own implementation observations. Descriptions belong in the artifact
+they describe. Plans, decisions, research and evidence retain distinct lifecycles.
+Wiki pages route to those sources. See [documentation roles](DOCUMENTATION.md).
 
-Replaces `Inside-Success/agentic-engineering-system`. This repository began
-2026-09-16 ("Bootstrap canonical AES repository") as a clean convergence target, so
-the integrated architecture would not become one more layer inside an accumulated
-repository carrying several lineages, plans and assumptions
-([Decision 0001](../decisions/0001-canonical-convergence-boundary.md)). On 2026-09-26
-the old repository was archived
-([Decision 0011](../decisions/0011-inside-success-aes-archived-canonical-is-aes.md)):
-it could not deliver its plan to absorb Company Planning and Enforced Planning into
-one runtime, had grown to 96 documentation files with five stale pull requests, and
-never showed an outcome improvement. AES v0.2 re-derived that work from a clean sheet
-([Decision 0010](../decisions/0010-greenfield-v0.2-accepted.md)).
+## What is current, and what is history?
+
+AES is active as this whole system. Lockstep ships from `src/lockstep/` here and
+uses the retained `src/agentic_engineering_system/` library. The old `aes` command
+and `.aes/target.yaml` retire consumer by consumer; compatibility is not the
+definition of AES's current goal.
+
+This repository's own `.aes/` target and earlier governance machinery were
+[retired on 2026-11-12](../retired/2026-11-12.md). The v0.2 greenfield outcome
+remains a [historical implementation contract](greenfield-v0.2/README.md).
+It is not the whole system's entry point. The Hive implementation moved to
+personal-vps; it is not this repository's present product definition.
+
+## Boundaries
+
+- This repair preserves existing intent. It does not restart retired governance,
+  change runtime checks or enable feedback jobs.
+- The system does not claim universal language/framework support or that an
+  agent's completion statement proves conformance.
+- Shared methodology stays owned by the [adopted methodology](https://github.com/BrianMills2718/wiki_methodology/tree/0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe).
+- Operational and implementation claims need dated observations. Read
+  [current state](../../.project-brain/now.md) and [open concerns](../../wiki/open-questions.md).

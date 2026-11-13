@@ -1,35 +1,54 @@
 ---
 type: Requirements
-title: Requirements
-description: Current requirements with their source, covering test and result
+title: Required behavior and its evidence
+description: Route to current Lockstep behavior contracts and distinguish them from retained engine and feedback requirements
 status: current
-last_checked: 2026-11-11
+last_checked: 2026-11-13
 ---
 
-# Requirements
+# Required behavior and its evidence
 
-| ID | Requirement | Source | Covering test | Result now |
-| --- | --- | --- | --- | --- |
-| REQ-01 | Evidence and reconciliation APIs accept optional required declared inputs; a current observation missing them is UNKNOWN and supports nothing | [openspec/specs/required-evidence-inputs/spec.md:13](../openspec/specs/required-evidence-inputs/spec.md#L13) | [tests/greenfield/test_evidence.py](../tests/greenfield/test_evidence.py), named in [docs/architecture/greenfield-v0.2/README.md:19](../docs/architecture/greenfield-v0.2/README.md#L19) | not run: no tools in this version |
-| REQ-02 | Required paths are normalized literal repository paths; unsafe, absolute, traversal, wildcard and escaping paths fail | [openspec/specs/required-evidence-inputs/spec.md:32](../openspec/specs/required-evidence-inputs/spec.md#L32) | [tests/greenfield/test_evidence.py](../tests/greenfield/test_evidence.py) | not run: no tools in this version |
-| REQ-03 | Characterization and producer identity disable repository Git hooks and fsmonitor commands | [openspec/specs/inert-characterization/spec.md:13](../openspec/specs/inert-characterization/spec.md#L13) | none named in any document | no test named |
-| REQ-04 | Ignorance cannot render green: unobserved, error and stale never become success | [docs/architecture/SYSTEM_BOUNDARY.md:107](../docs/architecture/SYSTEM_BOUNDARY.md#L107) | [tests/greenfield/test_evidence.py](../tests/greenfield/test_evidence.py), [tests/greenfield/test_reconcile.py](../tests/greenfield/test_reconcile.py) per [proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md:602-608](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md#L602-L608) | not run: no tools in this version |
-| REQ-05 | A criterion is SUPPORTED only when every evidence requirement has a current supporting observation (conjunction) | [docs/decisions/0010-greenfield-v0.2-accepted.md:124](../docs/decisions/0010-greenfield-v0.2-accepted.md#L124) | [tests/greenfield/test_evidence.py](../tests/greenfield/test_evidence.py) per [proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md:314](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md#L314) | not run: no tools in this version |
-| REQ-06 | An observation whose commit is not an ancestor of HEAD is UNREACHABLE and never counts | [docs/decisions/0010-greenfield-v0.2-accepted.md:126](../docs/decisions/0010-greenfield-v0.2-accepted.md#L126) | none named in any document | no test named |
-| REQ-07 | Every tracked file under a governed root is a planned artifact at its exact path | [docs/decisions/0010-greenfield-v0.2-accepted.md:123](../docs/decisions/0010-greenfield-v0.2-accepted.md#L123) | [tests/greenfield/test_topology.py](../tests/greenfield/test_topology.py) per [proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md:258-261](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md#L258-L261) | not run: no tools in this version |
-| REQ-08 | `aes plan validate` refuses an evidence requirement with no route | [src/agentic_engineering_system/planning_protocol.md:64-73](../src/agentic_engineering_system/planning_protocol.md#L64-L73) | [tests/greenfield/test_planning.py](../tests/greenfield/test_planning.py) per [proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md:726-731](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/24-pre-probe-decisions.md#L726-L731) | not run: no tools in this version |
-| REQ-09 | Every proposal declares `trace_review`; traced work needs a `trace_review` evidence requirement | [src/agentic_engineering_system/planning_protocol.md:43-47](../src/agentic_engineering_system/planning_protocol.md#L43-L47) | [tests/greenfield/test_trace_review.py](../tests/greenfield/test_trace_review.py) per [proposals/trace-review/README.md:80](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/trace-review/README.md#L80) | not run: no tools in this version |
-| REQ-10 | Feedback reports are extracted automatically from the closeout Feedback field | [proposals/aes-learning-loop/PLAN.md:202](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L202) | [tests/learning/test_feedback_transcripts.py](../tests/learning/test_feedback_transcripts.py), [tests/learning/test_subagents.py](../tests/learning/test_subagents.py) per [proposals/aes-learning-loop/PLAN.md:427](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L427) | not run: no tools in this version |
-| REQ-11 | Provenance is links; a line without a link is `unprovenanced` | [proposals/aes-learning-loop/PLAN.md:200](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L200) | [tests/learning/test_feedback_records.py](../tests/learning/test_feedback_records.py) per [proposals/aes-learning-loop/PLAN.md:425](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L425) | not run: no tools in this version |
-| REQ-12 | A claim drives a rule only through a derived licence | [proposals/aes-learning-loop/PLAN.md:206](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L206) | [tests/learning/test_licences.py](../tests/learning/test_licences.py) per [proposals/aes-learning-loop/PLAN.md:431](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L431) | not run: no tools in this version |
-| REQ-13 | Every enforced rule has an observed effect count, and a recurrence revokes it | [proposals/aes-learning-loop/PLAN.md:207](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L207) | [tests/learning/test_feedback_evidence_effects.py](../tests/learning/test_feedback_evidence_effects.py) per [proposals/aes-learning-loop/PLAN.md:432](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L432) | not run: no tools in this version |
-| REQ-14 | Agents adopt or close fixes; Brian is not an approver | [proposals/aes-learning-loop/PLAN.md:208](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L208) | [tests/learning/test_fix_owner.py](../tests/learning/test_fix_owner.py) per [proposals/aes-learning-loop/PLAN.md:433](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L433) | not run: no tools in this version |
-| REQ-15 | Every rule the workspace AGENTS.md names is documented, registered and on a feedback path | [proposals/aes-learning-loop/PLAN.md:210](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L210) | [tests/learning/test_policies.py](../tests/learning/test_policies.py) per [proposals/aes-learning-loop/PLAN.md:436](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L436) | not run: no tools in this version |
-| REQ-16 | Lockstep is a part of AES; Project Brains and coding agents are consumers | [docs/architecture/SYSTEM_BOUNDARY.md:29-31](../docs/architecture/SYSTEM_BOUNDARY.md#L29-L31) | none (a boundary statement) | no test |
+The [AES goal](../docs/architecture/GOAL.md) explains the outcome. The
+[system boundary](../docs/architecture/SYSTEM_BOUNDARY.md) records system clauses.
+Current executable Lockstep requirements are OpenSpec files; their scenarios define
+what a test should demonstrate. The following is navigation, not a second copy of
+the requirements or a claim that their tests passed today.
 
-## How this was checked
+## Current Lockstep contracts
 
-- No covering test was run in this version; there were no tools, so each row with a test reads "not run: no tools in this version" ([Makefile:13-14](../Makefile#L13-L14)).
-- To check them, run pytest on the covering files only, for example `.venv/bin/python -m pytest tests/greenfield/test_evidence.py tests/learning/test_licences.py -q` ([pyproject.toml:38-41](../pyproject.toml#L38-L41)).
-- Every row without a passing test is listed on [open-questions.md](open-questions.md) as a test to run or write ([proposals/aes-learning-loop/PLAN.md:422-423](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/PLAN.md#L422-L423)).
-- REQ-04 to REQ-09 belong to the retained engine that Lockstep pins, not to a regime that refuses commits ([docs/architecture/greenfield-v0.2/README.md:15](../docs/architecture/greenfield-v0.2/README.md#L15)).
+| Concern | Owning specification | Implementation and proving examples |
+| --- | --- | --- |
+| Package and compatibility entry points | [Package](../openspec/specs/lockstep-package/spec.md) | [Package configuration](../pyproject.toml) |
+| Installation and hooks | [Initialization](../openspec/specs/lockstep-init/spec.md) | [Installer](../src/lockstep/init_repo.py) |
+| Planned files, purpose, requirements, tests and typed exports | [Plan format](../openspec/specs/lockstep-plan-format/spec.md) | [Layout and tests](../docs/architecture/LOCKSTEP.md#evidence-and-change-discipline) |
+| Edit-time boundaries | [Guard](../openspec/specs/lockstep-guard/spec.md) | [Hook](../src/lockstep/hook.py) |
+| Commit-time checks | [Checks](../openspec/specs/lockstep-checks/spec.md) | [Check implementation](../src/lockstep/checks/cli.py) |
+| Plan-package validation | [Plan check](../openspec/specs/lockstep-plan-check/spec.md) | [Plan checker](../src/lockstep/plan_check.py) |
+| Requirement copies and implementation coverage | [Projection and status](../openspec/specs/lockstep-projection/spec.md) | [Projector](../src/lockstep/checks/project.py), [status](../src/lockstep/checks/status.py) |
+| Source-owned descriptions, interfaces and evidence values | [Declared document facts](../openspec/specs/lockstep-doc-facts/spec.md) | [Fact projector](../src/lockstep/doc_projection.py) |
+
+The [component contract](../docs/architecture/LOCKSTEP.md#current-mechanisms-and-their-limits)
+explains how these mechanisms fit together and which intended guarantees remain
+unverified. A specification's presence is not runtime evidence.
+
+## Retained library and feedback contracts
+
+- [Inert characterization](../openspec/specs/inert-characterization/spec.md) governs
+  read-only repository inspection in the retained AES library.
+- [Required evidence inputs](../openspec/specs/required-evidence-inputs/spec.md) governs
+  qualification of evidence over declared dependencies.
+- [Greenfield v0.2](../docs/architecture/greenfield-v0.2/README.md) preserves the
+  accepted historical engine contract; it is not a replacement for the current goal.
+- [Feedback and policy](../docs/architecture/FEEDBACK_AND_POLICY.md) identifies that
+  path's native operator contract, implementation and dated observation limits.
+
+## Where are observations and unresolved gaps?
+
+- [Current state](../.project-brain/now.md) names the latest documentation and work context.
+- [Retained acceptance observations](../docs/planning/runs/lockstep-acceptance/a1.json)
+  are revision-bound records, with limits recorded in the
+  [discussion ledger](open-questions.md).
+- [Source-fact acceptance](../docs/planning/source-facts-acceptance.md) and its
+  [bounded cold review](../docs/planning/cold-review.md) cover that particular slice.
+- [Test commands](../tests/README.md) explain how to obtain fresh execution evidence.
+  This documentation repair makes no new claim of full product test coverage.

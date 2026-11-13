@@ -1,40 +1,63 @@
 ---
 type: Index
 title: AES canonical wiki
-description: Front door for the Agentic Engineering System, what it is now and where to read next
+description: Navigate AES purpose, Lockstep planning and two-way projection, documentation roles, feedback, policy and evidence
 status: current
-last_checked: 2026-11-11
+last_checked: 2026-11-13
 ---
 
 # Agentic Engineering System (AES)
 
-This wiki is derived navigation, not an authority; follow links to the owning documents ([CLAUDE.md:41](../CLAUDE.md#L41)).
-
 ## What AES is now
 
-- AES is the name for the whole agent system, with three parts ([CLAUDE.md:14-15](../CLAUDE.md#L14-L15)).
-- Lockstep: the one planning-and-checking tool, shipped from this repository as package `src/lockstep/` (design built 2026-11-11, [DESIGN.md](../proposals/one-planning-tool/DESIGN.md); status on [lockstep.md](lockstep.md)).
-- Plan: the one-tool build in six slices, with acceptance entries for each AES part ([docs/planning/next.goal.md](../docs/planning/next.goal.md); review page [index.html](../proposals/planning-package/review-page/index.html)).
-- The feedback loop: `scripts/learning_loop`, run nightly by systemd timers ([.project-brain/now.md:14-15](../.project-brain/now.md#L14-L15)).
-- The policy layer: the rules register in `docs/rules` and `scripts/rules`, with Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:14-15](../.project-brain/now.md#L14-L15)).
-- The `aes` command line and `.aes/target.yaml` retire one repository at a time, and AES no longer governs itself ([CLAUDE.md:23-24](../CLAUDE.md#L23-L24)).
-- Read [.project-brain/now.md](../.project-brain/now.md) first ([CLAUDE.md:5](../CLAUDE.md#L5)).
+AES helps autonomous coding agents deliver software that stays true to its intent.
+It combines **Lockstep**, the **feedback loop** and the **policy layer**.
+Read the [owning goal and thesis](../docs/architecture/GOAL.md) for the full account.
+
+Lockstep starts with planned behavioral units, file structure, typed interfaces and
+tests. Requirements flow into code docstrings; implementation status flows back
+into the documents. Source-local normative edits have an explicit change path.
+This wiki provides concise navigation to those sources. These are the intended
+relationships; [implementation limits](../docs/architecture/LOCKSTEP.md#current-mechanisms-and-their-limits)
+and [open concerns](open-questions.md) remain visible.
 
 ## Start from your question
 
-| Question | Page | Grounded in |
+| Question | Read next | Owning source |
 | --- | --- | --- |
-| What is AES for, who uses it, what is out of scope? | [goal.md](goal.md) | [CLAUDE.md:14-23](../CLAUDE.md#L14-L25) |
-| What is Lockstep and what is its status? | [lockstep.md](lockstep.md) | [docs/architecture/SYSTEM_BOUNDARY.md:29](../docs/architecture/SYSTEM_BOUNDARY.md#L29) |
-| How does the feedback loop work and what runs today? | [feedback-loop.md](feedback-loop.md) | [scripts/learning_loop/systemd/README.md:3-7](../scripts/learning_loop/systemd/README.md#L3-L7) |
-| Where are the rules and standing policies? | [policy-and-rules.md](policy-and-rules.md) | [docs/rules/RULES.md:3](../docs/rules/RULES.md#L3) |
-| What exists in the code and where is data stored? | [system-model.md](system-model.md) | [pyproject.toml:26-28](../pyproject.toml#L26-L28) |
-| How do I install, test and run the jobs? | [run-and-deploy.md](run-and-deploy.md) | [Makefile:19-29](../Makefile#L19-L29) |
-| Which requirements have tests? | [requirements.md](requirements.md) | [openspec/specs/required-evidence-inputs/spec.md:13](../openspec/specs/required-evidence-inputs/spec.md#L13) |
-| What is unresolved or contradicts current state? | [open-questions.md](open-questions.md) | [docs/planning/DOMAIN.md:51-64](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/docs/planning/DOMAIN.md#L51-L64) |
-| What does a name or term mean? | [glossary.md](glossary.md) | [docs/planning/DOMAIN.md:7-10](../docs/planning/DOMAIN.md#L7-L10) |
-| What happened before (v0.1, v0.2, the commit rule)? | [history.md](history.md) | [docs/retired/2026-11-12.md](../docs/retired/2026-11-12.md) |
-| What did the research syntheses conclude? | [research-and-lessons.md](research-and-lessons.md) | [research/README.md:29](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/research/README.md#L29) |
+| What is AES for, and what is its architectural bet? | [Purpose](goal.md) | [Goal and thesis](../docs/architecture/GOAL.md) |
+| How does Lockstep plan behavior, structure and tests, then project both ways? | [Lockstep](lockstep.md) | [Component contract and example](../docs/architecture/LOCKSTEP.md) |
+| Which documents are normative, research, plans, evidence, generated output or PRDs? | [Document roles](../docs/architecture/DOCUMENTATION.md) | [Authority and lifecycle](../docs/architecture/DOCUMENTATION.md#which-source-owns-what) |
+| Where do wiki summaries come from, and what refreshes them? | [Wiki and source ownership](../docs/architecture/DOCUMENTATION.md#what-belongs-in-a-wiki-summary) | [Declared facts contract](../openspec/specs/lockstep-doc-facts/spec.md) |
+| How should corrections become verified improvements? | [Feedback loop](feedback-loop.md) | [Feedback and policy contract](../docs/architecture/FEEDBACK_AND_POLICY.md) |
+| Where are rules, their sources and their enforcement? | [Policy](policy-and-rules.md) | [Rules register](../docs/rules/register.yaml) |
+| What is implemented, observed, unresolved or historical? | [Current state](../.project-brain/now.md) | [Discussion ledger](open-questions.md) |
+| What are the detailed requirements? | [Requirement navigation](requirements.md) | [System clauses](../docs/architecture/SYSTEM_BOUNDARY.md) and [Lockstep behavior spec](../openspec/specs/lockstep-plan-format/spec.md) |
+| Where are code, data and external boundaries? | [System model](system-model.md) | [Whole-system inventory](../docs/planning/SYSTEM_MODEL.md) |
+| How do I install, check and operate it? | [Commands](run-and-deploy.md) | [README](../README.md) and [feedback operator guide](../scripts/learning_loop/systemd/README.md) |
+| What does a term mean? | [Glossary](glossary.md) | [Domain model](../docs/planning/DOMAIN.md) |
+| Which older designs and choices were retained or retired? | [History](history.md) | [Retirement record](../docs/retired/2026-11-12.md) |
+| What prior research informed it? | [Research and lessons](research-and-lessons.md) | The retained source revisions linked on that page |
+
+## How to read this wiki
+
+This is navigation and source-linked synthesis, not another normative authority.
+The pages combine related intent, implementation and evidence so a reader can
+follow one concern. Individual document descriptions belong in those documents;
+module descriptions belong in docstrings. Declared fact copies can be refreshed
+by Lockstep. Curated page explanations and website builds are separate; this wiki
+does not claim every paragraph is already generated or continuously updated.
+See [documentation ownership and current mechanisms](../docs/architecture/DOCUMENTATION.md).
+
+The [discussion ledger](open-questions.md) records questions, recommendations and
+concerns found during the documentation repair. A historical PASS, a shipped
+component or an active timer does not settle those questions.
+
+## Full document catalog
+
+[Documents by folder](documents.md) links every reader document from this page in
+two hops, including detailed specifications and retained records. The short routes
+above are the recommended orientation; the catalog is the coverage backstop.
 
 ## Decision record
 
@@ -61,71 +84,3 @@ Where each earlier decision stands now:
 - 0003 to 0006 and 0008 were carried forward into v0.2 under new names and are history with it; 0007 was already superseded by 0008 ([docs/decisions/0010-greenfield-v0.2-accepted.md:150-151](../docs/decisions/0010-greenfield-v0.2-accepted.md#L150-L151)).
 - 0009 (local): its modular-design guidance (AES-CAP-003 to 005) stands; its rows giving Company Planning and Enforced Planning ownership were superseded for v0.2 ([docs/decisions/0010-greenfield-v0.2-accepted.md:146-148](../docs/decisions/0010-greenfield-v0.2-accepted.md#L146-L148)).
 - 0011 is current on identity. Its condition for resuming the Inside Success rollout is met, but whether to resume is Brian's call and has not been made ([docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:79-81](../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md#L79-L81)).
-
-### Status documents (status as last written, not verified)
-
-- [.project-brain/state.md](../.project-brain/state.md)
-- [docs/planning/cold-review.md](../docs/planning/cold-review.md)
-- [proposals/aes-v0.2-greenfield/07-semantic-clean-sheet-review-pass-1.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/07-semantic-clean-sheet-review-pass-1.md)
-- [proposals/aes-v0.2-greenfield/08-semantic-clean-sheet-review-pass-2.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/08-semantic-clean-sheet-review-pass-2.md)
-- [proposals/aes-v0.2-greenfield/09-semantic-clean-sheet-review-pass-3-topology.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/09-semantic-clean-sheet-review-pass-3-topology.md)
-- [proposals/aes-v0.2-greenfield/11-semantic-clean-sheet-review-pass-4-target-analysis.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/11-semantic-clean-sheet-review-pass-4-target-analysis.md)
-- [proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/25-roadmap-to-mvp-acceptance.md)
-- [proposals/aes-v0.2-greenfield/REVIEW.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-v0.2-greenfield/REVIEW.md)
-- [proposals/code2-ecosystem/hookspath-review.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/code2-ecosystem/hookspath-review.md)
-- [proposals/trace-review/trace-review.goal.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/trace-review/trace-review.goal.md)
-- [research/investigations/2026-09-16-first-vertical-capability-discovery.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-16-first-vertical-capability-discovery.md)
-- [research/investigations/2026-09-16-repository-context-provider-landscape.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-16-repository-context-provider-landscape.md)
-- [research/investigations/2026-09-17-aca-tosca-capability-fit-test.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-aca-tosca-capability-fit-test.md)
-- [research/investigations/2026-09-17-aes-evidence-prov-intoto-slsa-fit-test.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-aes-evidence-prov-intoto-slsa-fit-test.md)
-- [research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-backstage-tosca-sysml-topology-fit.md)
-- [research/investigations/2026-09-17-external-provider-deep-dive-round-2.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-external-provider-deep-dive-round-2.md)
-- [research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-external-sourcing-audit-before-canonical-stub.md)
-- [research/investigations/2026-09-17-opa-aes-policy-fit-test.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-opa-aes-policy-fit-test.md)
-- [research/investigations/2026-09-17-open-workflow-spec-vs-enforced-planning.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-open-workflow-spec-vs-enforced-planning.md)
-- [research/investigations/2026-09-17-ows-enforced-planning-work-graph-fit-test.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-ows-enforced-planning-work-graph-fit-test.md)
-- [research/investigations/2026-09-17-scip-planned-subject-fit-test.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-scip-planned-subject-fit-test.md)
-- [research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-opa-enforced-planning-policy-probe.md)
-- [research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-prov-intoto-aes-verification-projection-probe.md)
-- [research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/2026-09-17-tosca-aca-capability-projection-probe.md)
-- [research/investigations/README.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/investigations/README.md)
-- [research/synthesis/2026-09-17-fresh-agent-handoff.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-17-fresh-agent-handoff.md)
-- [research/synthesis/incumbent-capability-inventory.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/incumbent-capability-inventory.md)
-- [research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/representation-review-and-epistemic-surface-suggestions-for-aes.md)
-
-### Plans
-
-- [proposals/](../proposals/README.md): the three proposal folders that remain; the old plans (`docs/plans/` and 24 proposal folders) were retired on 2026-11-12, see the [retirement record](../docs/retired/2026-11-12.md); [history.md](history.md) lists each by name.
-
-### Documents that stay as written
-
-- [CLAUDE.md](../CLAUDE.md) and [AGENTS.md](../AGENTS.md): instruction files; AGENTS.md is generated from CLAUDE.md.
-- [.project-brain/now.md](../.project-brain/now.md), [project.md](../.project-brain/project.md), [truth.md](../.project-brain/truth.md): the project brain, read first.
-- [docs/architecture/](../docs/architecture/README.md): normative target, including [SYSTEM_BOUNDARY.md](../docs/architecture/SYSTEM_BOUNDARY.md), [GOAL.md](../docs/architecture/GOAL.md) and [greenfield-v0.2/](../docs/architecture/greenfield-v0.2/README.md).
-- [docs/decisions/](../docs/decisions/): the decision record.
-- [openspec/specs/required-evidence-inputs](../openspec/specs/required-evidence-inputs/spec.md) and [openspec/specs/inert-characterization](../openspec/specs/inert-characterization/spec.md): required behavior.
-- [openspec/specs/lockstep-package](../openspec/specs/lockstep-package/spec.md): Lockstep, the one planning-and-checking tool, ships from this repository as package `src/lockstep/` (tests in `tests/lockstep/`, some on [a frozen copy of Lockstep's own plan](../tests/lockstep/lockstep-plan-sample/README.md); design: [one planning tool](../proposals/one-planning-tool/DESIGN.md)).
-- [openspec/specs/lockstep-projection](../openspec/specs/lockstep-projection/spec.md): Lockstep's `check project`, `status` and `show` commands and its pytest plugin, ported from code2check (design: [one planning tool](../proposals/one-planning-tool/DESIGN.md), slice 6).
-- [openspec/specs/lockstep-plan-format](../openspec/specs/lockstep-plan-format/spec.md): the plan is OpenSpec plus `layout:` rows in `lockstep.yaml` (example: [`tests/lockstep/example-layout/lockstep.yaml`](../tests/lockstep/example-layout/lockstep.yaml) with its [spec](../tests/lockstep/example-layout/openspec/specs/greeting/spec.md)); `lockstep layout` creates the planned files with their first docstrings.
-- [openspec/specs/lockstep-guard](../openspec/specs/lockstep-guard/spec.md): Lockstep's edit hook judges a shell command by the paths it writes, using code2check's shell-target parser (`src/lockstep/shell_targets.py`); the four cases of lockstep#111 are its scenarios.
-- [openspec/specs/lockstep-checks](../openspec/specs/lockstep-checks/spec.md): Lockstep's commit checks (`lockstep check trace|arch|test-first|sources|docmeta`), ported from code2check, each set to block, warn or off in `lockstep.yaml` (design: [one planning tool](../proposals/one-planning-tool/DESIGN.md), slice 4).
-- [openspec/specs/lockstep-init](../openspec/specs/lockstep-init/spec.md): `lockstep init` installs Lockstep in a repository with one command (config, Claude Code and Codex hooks, lefthook) and writes no absolute path; install steps in the [README](../README.md#install-lockstep-in-a-repository).
-- [openspec/specs/lockstep-plan-check](../openspec/specs/lockstep-plan-check/spec.md): `lockstep plan check` validates the acceptance-criteria file and each plan requirement's source and coverage, ported from Company Planning's validator (design: [one planning tool](../proposals/one-planning-tool/DESIGN.md), slice 5).
-- [docs/rules/RULES.md](../docs/rules/RULES.md): generated from the register.
-- [.claude/commands/opsx/](../.claude/commands/opsx/apply.md): OpenSpec commands read by Claude Code.
-- [planning_protocol.md](../src/agentic_engineering_system/planning_protocol.md): planned artifact of the retained engine.
-- [scripts/learning_loop/systemd/README.md](../scripts/learning_loop/systemd/README.md), [scripts/hive/README.md](../scripts/hive/README.md): folder guides.
-
-### History
-
-- [history.md](history.md): v0.1, v0.2 self-governance, the commit rule and its removal, the move to code2, the proposals by name.
-- [docs/greenfield/GETTING_STARTED.md](../docs/greenfield/GETTING_STARTED.md): the v0.2 `aes` walkthrough.
-- [docs/model/ODD.md](../docs/model/ODD.md): the v0.2 governance loop model.
-- [docs/planning/SYSTEM_MODEL.md](../docs/planning/SYSTEM_MODEL.md), [system-map.md](../docs/planning/system-map.md), [DOMAIN.md](../docs/planning/DOMAIN.md), [next.goal.md](../docs/planning/next.goal.md): the planning package, refreshed 2026-11-11.
-- [docs/retired/2026-11-12.md](../docs/retired/2026-11-12.md): what the 2026-11-12 cleanup retired (the v0.1 plans, 24 old proposals, `.aes/`, the claims machinery), each path with its reason, successor and the one command that restores it.
-- [proposals/planning-package/review-page/index.html](../proposals/planning-package/review-page/index.html): the planning package review page.
-- [research-and-lessons.md](research-and-lessons.md): research syntheses.
-
-### Every other document
-
-- [documents.md](documents.md): every other document in the repository, by folder, kept as written.

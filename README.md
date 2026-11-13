@@ -1,18 +1,26 @@
 # Agentic Engineering System (AES), canonical
 
-AES is the name for the whole agent system: Lockstep, the feedback loop and the policy layer ([CLAUDE.md:14-15](CLAUDE.md#L14-L15)).
+AES helps autonomous coding agents deliver software that stays true to its intent.
+It includes Lockstep, the feedback loop and the policy layer. Alignment between
+plans, code and documentation is a means to that goal.
 
-- Lockstep, the one planning-and-checking tool (edit guard, commit checks, plan format), ships from this repository as package `src/lockstep/`; it moved here in #831-#837 and any repository can install it from this repository's git address ([CLAUDE.md:20](CLAUDE.md#L20), [wiki/lockstep.md](wiki/lockstep.md), [.project-brain/now.md](.project-brain/now.md)).
-- The feedback loop runs nightly from `scripts/learning_loop` in this repository ([.project-brain/now.md:14-15](.project-brain/now.md#L14-L15)).
-- The policy layer is the rules register here (`scripts/rules`, `docs/rules`) plus Brian's agent rules in code2-workspace `agents/` ([.project-brain/now.md:14-15](.project-brain/now.md#L14-L15)).
-- The `aes` command line and `.aes/target.yaml` retire one repository at a time (code2-workspace decision 0009) ([CLAUDE.md:23](CLAUDE.md#L23)).
-- AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789) ([CLAUDE.md:24](CLAUDE.md#L24)).
-- The v0.2 governance regime is kept as history only ([docs/retired/2026-11-12.md](docs/retired/2026-11-12.md)).
+Start at the [navigational wiki](wiki/index.md) or the [documentation reading order](docs/index.md).
 
-## Where to start
+- [AES purpose and thesis](docs/architecture/GOAL.md): the complete system and its boundaries.
+- [Lockstep](docs/architecture/LOCKSTEP.md): plan behavior, files, typed interfaces and tests;
+  project requirements into docstrings and observed implementation status back into documents;
+  preserve a source-local normative change path and navigate the linked sources.
+- [Documentation roles](docs/architecture/DOCUMENTATION.md): normative, research, decisions,
+  plans, evidence, generated views, PRDs and wiki navigation.
+- [Feedback and policy](docs/architecture/FEEDBACK_AND_POLICY.md): turn corrections into
+  verified changes and keep rule authority distinct from enforcement machinery.
+- [Current state](.project-brain/now.md) and [discussion ledger](wiki/open-questions.md):
+  distinguish intended behavior, implementation, dated observations and open gaps.
 
-- [wiki/index.md](wiki/index.md) is the front door ([CLAUDE.md:3](CLAUDE.md#L3)).
-- [.project-brain/now.md](.project-brain/now.md) holds the current state; read it first ([CLAUDE.md:5-6](CLAUDE.md#L5-L6)).
+Lockstep ships from `src/lockstep/` here. The old `aes` command and `.aes/target.yaml`
+retire consumer by consumer; the [retirement record](docs/retired/2026-11-12.md)
+explains this repository's historical governance. This reading-path repair changes
+no product behavior and does not certify every consumer's hooks or generated views.
 
 ## Install and test
 

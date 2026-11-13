@@ -1,3 +1,35 @@
+# Now (2026-11-13)
+
+**Documentation repair first (AES #847):** the current reading path is
+[wiki/index.md](../wiki/index.md) → [goal](../docs/architecture/GOAL.md),
+[Lockstep](../docs/architecture/LOCKSTEP.md),
+[document roles](../docs/architecture/DOCUMENTATION.md), and
+[feedback/policy](../docs/architecture/FEEDBACK_AND_POLICY.md).
+The explanation restores the existing driver (autonomous effective coding agents),
+planned behavioral structure and typed interfaces, full normative context at edits,
+status projected upward, source-local normative edits and navigational summaries.
+It distinguishes intention, implemented mechanisms, dated observations and history.
+
+**Reading-path verification:** the independent reader answered 8/8 orientation
+questions after four stale-route findings were repaired. The native link parser
+reaches 69/69 reader documents within two links. The
+[review receipt](../docs/planning/runs/orientation-reader-20261113.json) states the
+scope: discoverability and comprehension, not runtime synchronization proof.
+
+**Next:** discuss the [existing open-questions ledger](../wiki/open-questions.md)
+after the reading-path repair. It includes synchronization proof, OpenSpec upward
+edit parity, guard aggregation, installation evidence, collector reliability,
+policy discovery and wiki freshness. These are recorded concerns, not changes
+made or jobs enabled by this session. Implementation assessment resumes after this
+orientation repair; do not infer that documenting a gap closes it.
+
+**Current ownership:** AES comprises Lockstep, feedback and policy. The Hive
+implementation is in personal-vps. The `aes` library remains for consumers;
+this repository's own `.aes/` and claims machinery are retired. The older entries
+below are dated history and are not instructions to revive them.
+
+## Earlier dated records
+
 # Now (2026-11-12; earlier sections dated)
 
 **Source-local document upkeep:** the authorized Company Planning example adds

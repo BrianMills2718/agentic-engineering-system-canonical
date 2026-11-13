@@ -8,6 +8,13 @@ last_checked: 2026-11-11
 
 # Run and deploy
 
+## Current reading boundary
+
+This runbook mixes retained command usage and dated operational history. Start with
+the [current purpose](../docs/architecture/GOAL.md), [Lockstep contract](../docs/architecture/LOCKSTEP.md)
+and [feedback operator guide](../scripts/learning_loop/systemd/README.md). Commands
+existing in source do not prove installed hooks or jobs are active.
+
 ## Install
 
 - Use uv: `uv venv .venv && uv pip install -e ".[dev]"` ([README.md:15](../README.md#L15)).

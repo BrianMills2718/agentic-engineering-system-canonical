@@ -1,6 +1,6 @@
-limit: 120
+limit: 126
 reason: >
-  Accepted decision records and the wiki cite the remaining architecture, decision and planning pages
-  as their evidence, so pruning them would break those citations. The 2026-11-12 cleanup retired the
-  research, evidence, datasets and old-proposal Markdown (143 -> 116 files, see docs/retired/2026-11-12.md).
-  Limit kept close to the count so growth still trips the check.
+  Accepted decisions, historical implementation contracts and current normative sources are retained
+  so their citations and restore paths remain valid. The 2026-11-13 orientation repair adds three
+  component/documentation accounts and docs/index.md (122 baseline tracked Markdown files plus 4).
+  The limit matches that measured total; the wiki catalog provides a two-link path to reader docs.

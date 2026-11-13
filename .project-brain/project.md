@@ -1,19 +1,15 @@
-# Project: agentic-engineering-system-canonical (AES)
+# Project: Agentic Engineering System (AES)
 
-Layout and status words: agent-skills `contracts/client-config/agents/project-brain.md`.
-Each claim is `working` (understood, not agreed), `approved` (current source of
-truth) or `needs_resolution`.
-
-- **What it is** (`approved`, Decision 0011, 2026-09-26): this repository is the
-  Agentic Engineering System. `Inside-Success/agentic-engineering-system` is archived.
-- **What it is for now** (`approved`, Brian's goal 2026-10-02): the home of
-  Brian's personal hive brain v1: Brian, his agents, one brain per project,
-  built from off-the-shelf tools. Plan: personal-vps `proposals/hive-brain-v1/ROADMAP.md`.
-- **AES governs itself** (`approved`, Decision 0010): product code under
-  `src/agentic_engineering_system/` and `tests/greenfield/` changes only through
-  `aes plan` (`.aes/target.yaml`). `scripts/` and `proposals/` are outside the
-  governed roots.
-- **Who decides** (`approved`, `~/code/AGENTS.md`): Brian decides business,
-  product and priority calls and anything outward, WSL restarts and more than
-  trivial spend. Agents make technical calls, verify them, and merge Brian's
-  own PRs themselves.
+- **Purpose:** autonomous, effective coding agents whose work stays true to intent.
+  Source: [current goal and its recorded stakeholder sources](../docs/architecture/GOAL.md).
+- **Parts:** Lockstep, the feedback loop and the policy layer. Coding agents and
+  Project Brains are consumers. Source: [system boundary](../docs/architecture/SYSTEM_BOUNDARY.md).
+- **Lockstep approach:** plan behavioral structure, typed interfaces and tests;
+  project requirements into code and observed status back; navigate linked sources.
+  Source: [component contract](../docs/architecture/LOCKSTEP.md).
+- **Current work:** repair the explanation and navigation, then discuss recorded
+  gaps. Source: [now.md](now.md) and [ledger](../wiki/open-questions.md).
+- **Historical boundaries:** self-governance by `.aes/` and earlier claims machinery
+  were retired; Hive implementation moved to personal-vps. The prior version of
+  this file is retained in Git, not an active instruction to resume that work.
+  Source: [retirement record](../docs/retired/2026-11-12.md).

@@ -1,18 +1,21 @@
-# Proposals
+# Proposals and retained design records
 
-Status: active
-Role: non-binding proposed changes
-Authority: proposed only
-Lifecycle: retained through disposition
+A proposal is non-binding until adopted; its accepted disposition determines its
+scope. The [current architecture guide](../docs/architecture/README.md) and
+[current state](../.project-brain/now.md) identify what is active.
 
-This root is predeclared so future agents do not invent an ad hoc competing home.
+- [One planning tool](one-planning-tool/DESIGN.md) was adopted on 2026-11-11.
+  Its consolidated package exists; implementation and verification limits are in
+  [Lockstep's contract](../docs/architecture/LOCKSTEP.md).
+- [Planning-package review](planning-package/review-page/index.html) contains
+  bounded acceptance views. A historical PASS is not a current deployment claim.
+- The [retirement record](../docs/retired/2026-11-12.md) names old proposal roots
+  and restore commands. The Hive implementation moved to personal-vps; the old
+  agent-router and worktree-governance programmes are not active work here.
+- The retained [feedback prevention case](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-feedback-prevention/PLAN.md)
+  is historical evidence for a bounded repair. Read the
+  [current feedback account](../docs/architecture/FEEDBACK_AND_POLICY.md) for scope.
 
-- `aes-v0.2-greenfield/` — the accepted v0.2 proposal lineage (history, not authority; Decision 0010).
-- `hive-brain-v1/` — the living plan for Brian's hive brain v1 (2026-10-02): goal, five done-conditions, capability state, active slice, next action. Start here to pick up the work.
-- `agent-router/` — design (2026-10-08, shaping) for a fast model that chooses each job's subagent, extra rules, model and effort, reusing llm_client Plan #379 and the harness-context specialists. Not adopted.
-- [`one-planning-tool/`](one-planning-tool/DESIGN.md) — design proposal (2026-11-11) to make Lockstep, code2check and Company Planning's plan format one tool in this repository. Not adopted.
-- `aes-learning-loop/` — design proposal (2026-10-02) for the lessons → failure modes → rules → enforcement → feedback loop. Not accepted.
-
-- [Feedback prevention case](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-feedback-prevention/PLAN.md) — adopted repair: current reports reach the existing taxonomy reviewer and a real native-agent failure reaches a checked instruction repair; [system model](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-feedback-prevention/SYSTEM_MODEL.md).
-
-- Worktree lifecycle — adopted implementation plan merged in PR #481: [plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-lifecycle/PLAN.md), [system model](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-lifecycle/SYSTEM_MODEL.md), [validation](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-lifecycle/VALIDATION.md), and [goal](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/worktree-lifecycle/worktree-lifecycle.goal.md). Execution remains with its owning lane.
+New changes to required behavior use [OpenSpec](../openspec/specs/lockstep-plan-format/spec.md)
+under the repository instructions. This reading-path repair introduces no new
+product proposal or runtime change.
