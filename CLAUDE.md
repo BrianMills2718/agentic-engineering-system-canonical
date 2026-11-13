@@ -18,8 +18,8 @@ This repository is a protocol-pilot consumer of the standalone architecture in `
 
 ### Current state (2026-11-13)
 
-AES is the name for the whole system: Lockstep, the feedback loop and the
-policy layer (Brian, 2026-11-11: "to me aes is the whole sysem lockstep is one
+AES is the name for the whole system: planning supplied by Company Planning,
+Lockstep, the feedback loop and the policy layer (Brian, 2026-11-11: "to me aes is the whole sysem lockstep is one
 part"). Its current state is in `.project-brain/now.md`; the map is code2-workspace
 `docs/architecture/model.c4`; what retires and what stays is code2-workspace
 decision 0009 (Brian, 2026-11-10: feedback loop kept, the `aes` command line and `.aes/target.yaml` retire one repository at a time).
@@ -46,6 +46,13 @@ make check-full   # check plus the slow end-to-end tests
 - Accepted durable choices live in `docs/decisions/`.
 - Current implementation truth comes from revision-bound characterization/evidence, not timeless status prose.
 - The wiki is derived progressive-disclosure navigation, not a native authority.
+- Every Git-tracked file must be reachable and summarized from `wiki/index.md`,
+  including instructions, source, tests, fixtures, generated files and historical
+  changes. Keep source identity, purpose, role and review disposition in the file
+  inventory. Assess overlap and unique information before consolidating; preserve
+  unresolved material. Source: Brian, 2026-11-13, clarified after the 69-reader-file
+  check omitted the broader repository; AES #849. Reachability alone is not summary
+  adequacy, and a dated reviewed inventory is not continuous automatic freshness.
 - Existing systems remain capability authorities until an accepted disposition selects reuse, extend, adapt, supersede, salvage, historical, not-applicable, or unresolved.
 
 ## Workflow

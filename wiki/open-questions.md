@@ -128,13 +128,13 @@ Owner: agent.
 
 ### Q30: Wiki freshness has a declared scope
 
-Which wiki facts are generated, which explanations are curated, and what rebuilds the served view?
+How are every-file summaries and navigation refreshed without silent exclusions, missing summaries or stale compiled views?
 
-Evidence: Native post-edit refresh handles declared fact blocks. The legacy wiki builder and coverage projector are distinct. Curated explanations are not universally regenerated.
+Evidence: The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaces that subset catalog and binds content-derived summaries to inputs. Native declared-fact refresh still does not maintain every compiled description.
 
-Recommendation: Inventory actual source-to-view declarations and installed refresh/build/check paths for one consumer; keep authored synthesis explicitly source-linked.
+Recommendation: Use the complete inventory and source hashes to identify changed inputs; refresh source-owned descriptions and content-derived summaries with semantic review. Keep coverage, summary adequacy and freshness as separate checks.
 
-Sources: [src/lockstep/doc_projection.py](../src/lockstep/doc_projection.py), [src/lockstep/wiki.py](../src/lockstep/wiki.py), [src/lockstep/checks/project.py](../src/lockstep/checks/project.py), [docs/architecture/DOCUMENTATION.md](../docs/architecture/DOCUMENTATION.md).
+Sources: [documentation assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment), [inventory](../docs/planning/file-inventory.json), [catalog](documents.md).
 
 Owner: agent.
 
@@ -183,5 +183,17 @@ Evidence: At inspection revision 05ee80c1a there was no root lockstep.yaml; make
 Recommendation: Keep the current reading path honest and evaluate self-adoption separately. Reconcile remaining manifest provider fields against actual callers before changing runtime configuration.
 
 Sources: [Makefile](../Makefile), [.agentic/repo.yaml](../.agentic/repo.yaml), [docs/retired/2026-11-12.md](../docs/retired/2026-11-12.md).
+
+Owner: agent.
+
+### Q35: Reconcile the original policy inventory
+
+For each of the 263 Project Meta policies, where is its current authoritative statement, disposition, delivery path and observed enforcement?
+
+Evidence: Read-only inspection found 263 original policy IDs and the same 263 IDs in the AES disposition manifest. All manifest rows have activation:none. The separate AES register shrank 33→12→1 in November; those commits did not remove the Project Meta registry.
+
+Recommendation: Preserve the original registry and the provisional migration manifest. Map actual sources and effects before accepting keep/covered/retire labels as execution history.
+
+Sources: [policy source map](policy-and-rules.md#where-are-the-hundreds-of-project-meta-policies), [manifest](../docs/rules/legacy-dispositions.yaml).
 
 Owner: agent.

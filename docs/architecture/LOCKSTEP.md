@@ -30,7 +30,12 @@ a working test alone does not establish that the right behavior was chosen.
 This is the architectural intent, not an automatic decomposition algorithm. A
 planning agent or person supplies the decomposition. Current layout rows can name
 multiple requirements per file and make typed exports optional; Lockstep does not
-require one function or one file per behavioral unit. The precise current contract
+require one function or one file per behavioral unit. The retained [behavior checker](../../src/lockstep/behavior_check.py) has a
+stronger legacy contract: each behavior in AES target records has exactly one
+source file of its own and a criterion with a proving route. Modern layout rows
+do not populate that same record structure, so the legacy check does not establish
+that identical rule for the OpenSpec/layout route. This difference must stay visible.
+The precise current layout contract
 is [OpenSpec plus layout](../../openspec/specs/lockstep-plan-format/spec.md).
 
 ## A concrete example

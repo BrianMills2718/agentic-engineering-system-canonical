@@ -214,7 +214,7 @@
    "id": "Q30",
    "label": "Q30: Wiki freshness has a declared scope",
    "kind": "AgentQuestion",
-   "explain": "Which wiki facts are generated, which explanations are curated, and what rebuilds the served view? Settled by: Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair."
+   "explain": "How are every-file summaries and navigation refreshed without silent exclusions, missing summaries or stale compiled views? Settled by: Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair."
   },
   {
    "id": "Q30-blocks",
@@ -269,6 +269,18 @@
    "label": "A broader claim about automatic, effective AES operation; not the documentation-only \u2026",
    "kind": "Decision",
    "explain": "A broader claim about automatic, effective AES operation; not the documentation-only repair."
+  },
+  {
+   "id": "Q35",
+   "label": "Q35: Reconcile the original policy inventory",
+   "kind": "AgentQuestion",
+   "explain": "For each of the 263 Project Meta policies, where is its current authoritative statement, disposition, delivery path and observed enforcement? Settled by: A source-by-source mapping of original policies to current instructions, implementation and observed evidence; escalate only genuinely conflicting product choices."
+  },
+  {
+   "id": "Q35-blocks",
+   "label": "A claim that the current policy layer preserves and delivers the original inventory.",
+   "kind": "Decision",
+   "explain": "A claim that the current policy layer preserves and delivers the original inventory."
   }
  ],
  "edges": [
@@ -438,6 +450,12 @@
    "id": "Q34-to-decision",
    "source": "Q34",
    "target": "Q34-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q35-to-decision",
+   "source": "Q35",
+   "target": "Q35-blocks",
    "label": "blocks"
   }
  ]

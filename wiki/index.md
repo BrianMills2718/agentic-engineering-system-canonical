@@ -11,7 +11,8 @@ last_checked: 2026-11-13
 ## What AES is now
 
 AES helps autonomous coding agents deliver software that stays true to its intent.
-It combines **Lockstep**, the **feedback loop** and the **policy layer**.
+Its functional map includes **planning** (Company Planning), **Lockstep**, the
+**feedback loop** and the **policy layer**.
 Read the [owning goal and thesis](../docs/architecture/GOAL.md) for the full account.
 
 Lockstep starts with planned behavioral units, file structure, typed interfaces and
@@ -53,11 +54,17 @@ The [discussion ledger](open-questions.md) records questions, recommendations an
 concerns found during the documentation repair. A historical PASS, a shipped
 component or an active timer does not settle those questions.
 
-## Full document catalog
+## Complete file catalog
 
-[Documents by folder](documents.md) links every reader document from this page in
-two hops, including detailed specifications and retained records. The short routes
-above are the recommended orientation; the catalog is the coverage backstop.
+[Every tracked file, summarized by folder](documents.md) covers code, tests,
+configuration, instructions, fixtures, archived changes, evidence and documentation.
+No file class is silently excluded. The catalog identifies purpose, role and
+review disposition, with an exact source inventory and explicit freshness limits.
+It also links owning external planning, policy and instruction sources.
+
+[Documentation assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment)
+explains overlap, unique information and consolidation recommendations. File
+reachability, summary adequacy and source freshness are separate checks.
 
 ## Decision record
 

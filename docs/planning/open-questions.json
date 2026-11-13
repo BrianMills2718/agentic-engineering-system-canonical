@@ -529,18 +529,18 @@
   {
    "id": "Q30",
    "short": "Wiki freshness has a declared scope",
-   "question": "Which wiki facts are generated, which explanations are curated, and what rebuilds the served view?",
+   "question": "How are every-file summaries and navigation refreshed without silent exclusions, missing summaries or stale compiled views?",
    "owner": "agent",
    "status": "open",
    "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
    "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
-   "recommendation": "Inventory actual source-to-view declarations and installed refresh/build/check paths for one consumer; keep authored synthesis explicitly source-linked.",
-   "evidence": "Native post-edit refresh handles declared fact blocks. The legacy wiki builder and coverage projector are distinct. Curated explanations are not universally regenerated.",
+   "recommendation": "Use the complete inventory and source hashes to identify changed inputs; refresh source-owned descriptions and content-derived summaries with semantic review. Keep coverage, summary adequacy and freshness as separate checks.",
+   "evidence": "The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaces that subset catalog and binds content-derived summaries to inputs. Native declared-fact refresh still does not maintain every compiled description.",
    "sources": [
-    "src/lockstep/doc_projection.py",
-    "src/lockstep/wiki.py",
-    "src/lockstep/checks/project.py",
-    "docs/architecture/DOCUMENTATION.md"
+    "docs/architecture/DOCUMENTATION.md",
+    "docs/planning/file-inventory.json",
+    "wiki/documents.md",
+    "src/lockstep/doc_projection.py"
    ],
    "touches": []
   },
@@ -605,11 +605,28 @@
    "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
    "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
    "recommendation": "Keep the current reading path honest and evaluate self-adoption separately. Reconcile remaining manifest provider fields against actual callers before changing runtime configuration.",
-   "evidence": "At inspection revision 05ee80c1a there was no root lockstep.yaml; make check runs instruction sync, pytest and mypy. The repository manifest and historical brain pages retained older governance claims.",
+   "evidence": "At inspection revision 05ee80c1a there was no root lockstep.yaml; make check runs instruction sync, pytest and mypy. The repository manifest and historical brain pages retained older governance claims. Complete-file review also found stale .agentic provider/path edges and dated generated planning pages. Per-file update findings and consolidation candidates are retained in docs/planning/file-inventory.json.",
    "sources": [
     "Makefile",
     ".agentic/repo.yaml",
     "docs/retired/2026-11-12.md"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q35",
+   "short": "Reconcile the original policy inventory",
+   "question": "For each of the 263 Project Meta policies, where is its current authoritative statement, disposition, delivery path and observed enforcement?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A claim that the current policy layer preserves and delivers the original inventory.",
+   "resolves_with": "A source-by-source mapping of original policies to current instructions, implementation and observed evidence; escalate only genuinely conflicting product choices.",
+   "recommendation": "Preserve the original registry and the provisional migration manifest. Map actual sources and effects before accepting keep/covered/retire labels as execution history.",
+   "evidence": "Read-only inspection found 263 original policy IDs and the same 263 IDs in the AES disposition manifest. All manifest rows have activation:none. The separate AES register shrank 33→12→1 in November; those commits did not remove the Project Meta registry.",
+   "sources": [
+    "docs/rules/legacy-dispositions.yaml",
+    "docs/rules/register.yaml",
+    "wiki/policy-and-rules.md"
    ],
    "touches": []
   }

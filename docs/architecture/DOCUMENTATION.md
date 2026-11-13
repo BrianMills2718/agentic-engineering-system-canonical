@@ -37,3 +37,81 @@ Cross-source synthesis still helps readers understand relationships and conflict
 Decision 0004 proposed compact system/component records with generated conventional documents and an explicit single-authority migration. It expressly left accepted Markdown authoritative until a separate cutover. Decision 0010 carried those principles into the historical v0.2 line; AES subsequently retired its own `.aes/` governance. Current [repository instructions](../../CLAUDE.md) use OpenSpec for required behavior, and [.agentic/repo.yaml](../../.agentic/repo.yaml) names that requirements source. Do not interpret the old record design as a replacement for today's OpenSpec files.
 
 Unresolved documentation and realization gaps belong in the [open-questions ledger](../../wiki/open-questions.md), rather than being hidden by a polished navigation page.
+
+## Coverage and consolidation assessment
+
+Source: Brian, 2026-11-13, clarified that every file must be reachable and
+summarized from the navigational wiki and that the review should assess
+consolidation and optimization (AES #849). This broadens the earlier
+reader-Markdown check. The boundary here is every Git-tracked file in AES
+canonical, plus explicit navigation to owning external sources. Ignored caches,
+installed environments, credentials and private runtime stores are not silently
+published or treated as repository documentation.
+
+### What the earlier check missed
+
+At base revision `2034c64`, AES had 407 tracked files and 126 Markdown files.
+The earlier reachability result covered 69 reader Markdown files. Generated
+instructions, archived changes, fixture documents and all non-Markdown files
+fell outside that check. The catalog also left entries without summaries when
+source description metadata was absent. These were material scope gaps.
+
+A structural inspection found 227 files with a standard Markdown description,
+Python module docstring or native top-level description field, and 180 without
+one. This counts those fields, not summary accuracy. Some formats legitimately
+have no place for prose: a lockfile, empty package marker or generated client
+sentinel needs a derived description bound to its actual contents and owner.
+
+The compiled review now covers 408 files: all 407 base files plus the inventory
+itself. Initial review dispositions are 332 keep, 35 update, 38 generated and
+three consolidation candidates. The record retains 22 findings and 12 grouped
+consolidation recommendations. These counts describe assessment, not completed
+repairs or retirement approvals.
+
+### The replacement coverage contract
+
+- [The complete file catalog](../../wiki/documents.md) lists each tracked file
+  with a concrete purpose, role and review disposition. It includes generated
+  views, fixtures and history without promoting them to current authority.
+- [The source inventory](../planning/file-inventory.json) records per-file
+  summaries, source locators, content identities and assessment reasons. It is a
+  derived review record, not a replacement for source authorities.
+- Existing source descriptions are preferred where they accurately summarize
+  the file. Other summaries are explicit content reviews, bound to source hashes.
+  A changed input needs review; a matching hash does not prove semantic quality.
+- Inventory and catalog entries describe themselves as generated review views.
+  Their own output digests are omitted to avoid a self-referential checksum;
+  they remain included in coverage. They do not claim continuous automatic refresh.
+- A coverage check must compare the actual tracked path set with the inventory
+  and the catalog, verify nonempty summaries and resolve each link. The Markdown
+  reachability tool remains useful but is insufficient for this wider claim.
+
+### Consolidation decisions and recommendations
+
+| Concern | Assessment and disposition | Information that must survive |
+| --- | --- | --- |
+| File catalogs | Consolidate the reader-only enumeration into one complete catalog, backed by one inventory. Keep the question-based front page as a different reading view. | Every file's purpose, source and role; direct concern routes and decision history. Applied in this repair. |
+| Planning versus Lockstep | Show planning as an explicit function supplied by Company Planning. Lockstep consumes and checks its output. The old three-part shorthand was incomplete as a functional map. | Planning method ownership, behavioral decomposition, interfaces, tests and evidence boundaries. Applied to the current overview. |
+| Policy inventories | Link the original Project Meta register, AES's small register, provisional migration manifest and shared instruction sources from one policy reading path. Do not merge their contents or infer retirement. | All 263 original identifiers and texts, current authority, proposed dispositions, source provenance and actual enforcement. Navigation repaired; per-policy reconciliation remains open. |
+| Current contracts versus legacy implementation | Keep OpenSpec/layout contracts separate from retained AES-target records and the legacy behavior checker. | The stronger legacy one-behavior/one-file rule, modern layout's different representation, normative-change history and proving fixtures. Documentation now exposes the distinction. |
+| Generated planning pages and graphs | Regenerate from their owning ledger/build inputs or label them as dated records. Do not hand-edit a generated PASS or erase old evidence to match the latest count. | Run revision, observation boundary, earlier open questions, generator and source identities. Recommendations remain open. |
+| Machine-readable repository maps | Reconcile current provider/path claims separately from retained historical relationships before any runtime/configuration change. | Former component identity and acceptance history, current actual callers and routing semantics. Kept with update findings. |
+| Agent/client instructions | Shared workflow text may be consolidated at its generator, preserving client-specific adapters. Avoid deleting mirrors on matching names. | Trigger metadata, native syntax, client enablement and recovery instructions. Generator-level proposal only. |
+| Brain and wiki summaries | Keep identity, current action, dated observations and historical receipts distinct; source-link repeated facts and collapse long historical reading paths where safe. | Unique delivery receipts, open obligations, restore paths and chronology. No history retired by this review. |
+| Taxonomy maintenance prose | Preserve the taxonomy and provenance; correct the obsolete claim that family labeling/problem analysis is unbuilt. | Family definitions, derivation caveats and the distinction between implemented code and enabled/completed jobs. Applied in place. |
+
+This is not a file-count reduction target. A small live document may deserve to
+remain distinct because it owns different facts or a different lifecycle. A
+consolidation candidate requires an actual content comparison, named survivor,
+retained unique claims and updated inbound references before retirement.
+Generated and historical files remain discoverable even when they should not be
+read as the current answer.
+
+### Refresh and verification limits
+
+This review compiles a dated repository snapshot. Current native fact refresh
+covers declared projections; it is not a universal summarizer for every file.
+The complete catalog must be refreshed and its semantic descriptions reviewed
+when its inputs change. No new service, classifier or runtime gate is introduced
+by this documentation repair. Verification records state which files and sources
+were checked; unresolved recommendations remain in the discussion ledger.

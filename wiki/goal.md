@@ -9,8 +9,9 @@ last_checked: 2026-11-13
 # What is AES for?
 
 AES helps autonomous coding agents deliver software that stays true to its intent.
-It combines Lockstep's linked planning/code/documentation, a feedback loop and a
-policy layer. Alignment is a means to effective autonomous agents.
+Planning is supplied by Company Planning; Lockstep links the resulting plan,
+code and documentation. Feedback and policy complete the learning/governance
+functions. Alignment is a means to effective autonomous agents.
 
 Read the [current purpose, thesis, example and boundaries](../docs/architecture/GOAL.md).
 

@@ -1,3 +1,8 @@
+---
+description: AES feedback-label taxonomy, its detecting questions, derivation limits and maintenance contract
+status: current
+---
+
 <!-- Copied 2026-10-02 from agent-skills skills/review/references/failure-modes.md (legacy; sha256 in datasets/learning-loop/README.md). This copy is the AES label source for family:<letter> (proposals/aes-learning-loop/DESIGN.md). -->
 # Failure Modes
 
@@ -45,9 +50,12 @@ The recurring automatic input is the private feedback log
 (observations, claims, actions) in the `feedback-report.v1` contract of
 `scripts/learning_loop/records.py`, filed nightly by
 `scripts/learning_loop/collect_feedback.py` since 2026-10-08 (plan
-`proposals/aes-learning-loop/`, slice S1). Assigning families to those records
-and grouping recurring problems is slice S3 and is not built yet; until it is,
-nothing reads the log into this taxonomy. The immutable Project Meta learning
+`proposals/aes-learning-loop/`, slice S1). Family labeling and recurring-problem analysis now have implementations in
+`scripts/learning_loop/label_items.py` and `problems.py`. Implementation is not
+proof of a current complete run: analysis, fix-owner and effects timers were
+disabled at the dated November 13 inspection. See
+[feedback observations](architecture/FEEDBACK_AND_POLICY.md#observed-limits-2026-11-13).
+Labels and analyses do not themselves adopt a taxonomy edit. The immutable Project Meta learning
 register at `project-meta/learnings/entries/` was the input until 2026-10-08
 and is history: it is read for duplicates and derivation, never added to.
 Review findings, audit findings, policy friction, human corrections, concern
