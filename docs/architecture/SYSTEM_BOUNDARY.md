@@ -1,6 +1,17 @@
 # Canonical AES system boundary
 
-Status: accepted bootstrap target.
+Status: accepted clauses with retained bootstrap history. For the current
+whole-system account read [GOAL.md](GOAL.md), [Lockstep](LOCKSTEP.md),
+[document roles](DOCUMENTATION.md) and [feedback/policy](FEEDBACK_AND_POLICY.md).
+These explanations reconcile the existing clauses and Brian's later scope decisions;
+implementation claims remain separate from intended behavior.
+
+Historical scope: references below to Enforced Planning claims or a first universal
+governance vertical describe earlier architecture. This repository now uses native
+worktrees, OpenSpec and `ship`; its own `.aes/` and claims machinery were
+[retired](../retired/2026-11-12.md). Do not restart them from these clauses.
+Source-local context, linked normative intent/status, evidence boundaries and
+feedback remain part of the current design.
 
 These clauses define the initial normative target for this repository. They are intentionally implementation-neutral. Planned implementation and verification subjects are derived later through Company Planning.
 

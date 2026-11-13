@@ -1,6 +1,13 @@
 # Agentic Engineering System — Canonical governance
 
-Start with `wiki/index.md`.
+Start with `wiki/index.md`, then `docs/architecture/GOAL.md`. The goal is
+**autonomous, effective coding agents**; code/documentation alignment supports it.
+Lockstep plans behavioral structure, typed interfaces and tests before implementation,
+projects full normative context into code, projects observed status back into the
+documents, and links the sources through a navigational wiki. Read the component
+contract `docs/architecture/LOCKSTEP.md` and document roles
+`docs/architecture/DOCUMENTATION.md` before assessing a narrow mechanism.
+These pages reconcile existing intent, not a new runtime policy.
 
 **Project brain:** read `.project-brain/now.md` first (layout: agent-skills
 `contracts/client-config/agents/project-brain.md`). When a change moves where
@@ -9,7 +16,7 @@ request; `python3 scripts/hive/brain_fresh.py .` exits 1 when the brain is stale
 
 This repository is a protocol-pilot consumer of the standalone architecture in `BrianMills2718/wiki_methodology` at revision `0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe`.
 
-### Current state (2026-11-12)
+### Current state (2026-11-13)
 
 AES is the name for the whole system: Lockstep, the feedback loop and the
 policy layer (Brian, 2026-11-11: "to me aes is the whole sysem lockstep is one
@@ -18,8 +25,8 @@ part"). Its current state is in `.project-brain/now.md`; the map is code2-worksp
 decision 0009 (Brian, 2026-11-10: feedback loop kept, the `aes` command line and `.aes/target.yaml` retire one repository at a time).
 
 - Lockstep ships from this repository as package `src/lockstep/`: the one planning-and-checking tool, with code2check's commit checks and Company Planning's plan check (design approved by Brian, 2026-11-11, "i approve single tool desing re d4"; built in #831 to #841; [proposals/one-planning-tool/DESIGN.md](proposals/one-planning-tool/DESIGN.md); status in `wiki/lockstep.md`).
-- The feedback loop runs nightly from `scripts/learning_loop`.
-- The policy layer is the rules register in `docs/rules` and `scripts/rules`; Brian's agent rules live in code2-workspace `agents/`.
+- The feedback machinery lives in `scripts/learning_loop`. Collection and labeling are scheduled; analysis, fix-owner and effects jobs are disabled as observed 2026-11-13. Scheduling is not evidence of end-to-end improvement; see `docs/architecture/FEEDBACK_AND_POLICY.md`.
+- The policy layer combines the register in `docs/rules` and `scripts/rules` with shared agent rules in code2-workspace `agents/`; the register is not complete coverage of those instructions. Questions and recommendations belong in `docs/planning/open-questions.json`, navigated by `wiki/open-questions.md`.
 - The `aes` command line (`src/agentic_engineering_system/`) is still used by dodaf, lifelike, lockstep, plan-code-wiki and whygame5, and retires with the last of them.
 - AES no longer governs itself: its pre-commit refusal was removed on 2026-10-14 (#789), and its own `.aes/` target, the claims and worktree machinery, the old plans and 24 old proposals were retired on 2026-11-12 (record, reasons and restore command: `docs/retired/2026-11-12.md`). Merges go through `ship`; work happens in `claude -w` worktrees (`~/code2/AGENTS.md`).
 - On 2026-10-13 Brian moved `~/code2` to off-the-shelf tools (OpenSpec for required behavior, lefthook, GitHub Issues). Behavior changes here go through OpenSpec (`openspec/specs/`).

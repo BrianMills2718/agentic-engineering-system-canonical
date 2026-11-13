@@ -3,10 +3,24 @@ type: Glossary
 title: Glossary
 description: Names a reader meets in this repository and what each means, with the document that defines it
 status: current
-last_checked: 2026-11-11
+last_checked: 2026-11-13
 ---
 
 # Glossary
+
+Current concepts:
+
+| Term | Meaning | Source |
+| --- | --- | --- |
+| AES | The whole system for autonomous effective coding agents: Lockstep, feedback and policy | [Goal](../docs/architecture/GOAL.md) |
+| Lockstep | Planned behavioral structure, linked requirements/code/tests and projection between implementation and documentation | [Component contract](../docs/architecture/LOCKSTEP.md) |
+| Normative | Accepted statements of what should be true; distinct from code and observations | [Document roles](../docs/architecture/DOCUMENTATION.md) |
+| Projection | A view derived from an owning source; the copy does not acquire independent authority | [Document roles](../docs/architecture/DOCUMENTATION.md) |
+| Behavioral unit | A planned piece of behavior with boundaries, interfaces and proving checks; not necessarily one function or one file | [Lockstep planning](../docs/architecture/LOCKSTEP.md#why-it-exists) |
+| Standing/status | A derived account of current coverage or evidence, bounded to what was actually observed | [Lockstep status](../docs/architecture/LOCKSTEP.md#what-moves-down-and-what-moves-up) |
+| Navigational wiki | Concise source-linked routes and synthesis across a concern | [Wiki role](../docs/architecture/DOCUMENTATION.md#what-belongs-in-a-wiki-summary) |
+
+## Retained engine and earlier architecture vocabulary
 
 The v0.2 engine terms (target, outcome, success criterion, observation, assessment, negative control, freshness, standing, characterization, drift, orphan, gap, legacy baseline, working context and the rest) are defined with their code locations in [docs/planning/DOMAIN.md](../docs/planning/DOMAIN.md) ([docs/planning/DOMAIN.md:7-10](../docs/planning/DOMAIN.md#L7-L10)); the code behind them is mapped on [system-model.md](system-model.md). Brian's reasoning vocabulary is in [docs/terms/ecosystem-terms.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/docs/terms/ecosystem-terms.md). The terms below are defined in no wiki page.
 

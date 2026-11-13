@@ -1,31 +1,17 @@
-# State (2026-10-04)
+# State (2026-11-13)
 
-Detail and evidence: personal-vps `proposals/hive-brain-v1/ROADMAP.md` ("Where we are",
-"Capabilities") and personal-vps `proposals/hive-brain-v1/PROGRESS_LOG.md`. This page is the
-short version.
+Read [now.md](now.md) for current work and
+[the discussion ledger](../wiki/open-questions.md) for unresolved claims.
 
-- **Hive brain v1** (`working`): condition 1 of 5 met (five jobs merged from
-  AES canonical and personal-wiki); conditions 2–5 partway.
-  - Paperclip on personal-vps runs three agents (Coordinator, Research and
-    Code Review, Brian Contact) on Brian's one-year token; one new job per
-    6 hours, 2 open at once, taken from `weekly-plans/personal/THIS_WEEK.md`
-    (refreshed 2026-10-04 with Priority 7, the hive brain's own lines).
-  - Brian is reached on his phone through the relay (board thread BRI-2) and
-    on https://hive.brianmills.dev. Agents merge their own work after the
-    repository's checks; he is asked only for a surface he said is out with
-    other people for review, or for an irreversible action (2026-10-04).
-  - Terminal relay personal-vps `hive/decisions.py`; silence check
-    personal-vps `hive/controls.py` (12 controls, daily); weekly
-    personal-vps `hive/readout.py` with cost per job.
-  - Learning loop slices 1–2 done; rule K1 enforced since 2026-10-03; Jev
-    gate in observe mode; guard mode after the 2026-10-09 log review.
-  - Project brains in AES, theory-forge, cybernetic_influence_v3 and
-    personal-wiki; `scripts/hive/brain_fresh.py` reports a stale one.
-- **This repository's gates** (`approved` as measured 2026-10-04): `make
-  check`, `make aes` and `make aes-check` exit 0 from a clean clone with the
-  README's install line (PRs #110, #112, #118). The repo's own Claude Code
-  hook accepts `gh pr merge <n> --merge` and refuses squash and rebase (PR
-  #126, 2026-10-04), so the workers merge here like anywhere else.
-- **AES v0.2 product** (`approved` as realized, Decision 0010): governed by
-  `.aes/target.yaml`; `aes status` is the one-screen view. Not the current
-  focus.
+AES is active as Lockstep, feedback and policy. Lockstep's consolidated package
+is implemented; that fact alone does not prove the complete synchronization loop,
+every installed hook or every consumer's operation. The component accounts
+separate those claims and point to source and retained evidence.
+
+The November 13 feedback observations found collection/labels timers active and
+analysis/fix-owner/effects disabled. The collector's latest retained service result
+was a timeout. These observations are dated and require fresh inspection before
+claiming current operation. See [feedback evidence limits](../docs/architecture/FEEDBACK_AND_POLICY.md).
+
+The previous October 4 state concerned the Hive implementation and the old `aes`
+self-governance regime. It remains recoverable in Git; it is not current state.

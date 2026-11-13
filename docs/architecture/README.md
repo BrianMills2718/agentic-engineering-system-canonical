@@ -1,27 +1,40 @@
-# AES-specific architecture
+---
+description: Current AES architecture reading order and scope of retained v0.1 and v0.2 designs
+status: current
+---
 
-This directory contains AES-specific normative and delivery architecture for the canonical convergence project. Project-agnostic methodology remains owned by `BrianMills2718/wiki_methodology` at the revision declared in `.agentic/repo.yaml`; generic planning-method improvements should be proposed to Company Planning rather than silently duplicated here.
+# Architecture reading guide
 
-**AES v0.2 (accepted, [Decision 0010](../decisions/0010-greenfield-v0.2-accepted.md)):** start at [`greenfield-v0.2/`](greenfield-v0.2/README.md). It governs `src/agentic_engineering_system/` and `tests/greenfield/` through `.aes/target.yaml`. The files listed below are the v0.1 bootstrap architecture, retained under Decision 0010's v0.1 disposition.
+Read the current whole-system account first:
 
-Read in this order (v0.1):
+1. [Purpose, scope and thesis](GOAL.md).
+2. [Lockstep](LOCKSTEP.md): planned structure, typing, two-way projection and navigation.
+3. [Documentation roles](DOCUMENTATION.md): source ownership, lifecycles and views.
+4. [Feedback and policy](FEEDBACK_AND_POLICY.md): how observations should change future work.
+5. [Detailed architecture clauses](SYSTEM_BOUNDARY.md).
+6. [Implementation map](../planning/SYSTEM_MODEL.md) and [open concerns](../../wiki/open-questions.md).
 
-1. [`SYSTEM_BOUNDARY.md`](SYSTEM_BOUNDARY.md) — canonical AES clauses and subsystem boundaries.
-2. [`HUMAN_OBSERVABLE_DELIVERY.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/docs/architecture/HUMAN_OBSERVABLE_DELIVERY.md) — AES delivery constraints for human-observable slices, experience-backward design, feasibility probes, utility/conformance separation, attention checkpoints, and execution economics.
-3. [`INITIAL_GAP_LEDGER.md`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/docs/architecture/INITIAL_GAP_LEDGER.md) — bootstrap target/current variance and dispositions. Treat it as a planning input until fresh implementation characterization recomputes current/gap state.
-4. [`normative-component-alignment.bootstrap.yaml`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/docs/architecture/normative-component-alignment.bootstrap.yaml) — resolved bootstrap design record and next real dogfood gate.
-5. [`normative-record-model.bootstrap.yaml`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/docs/architecture/normative-record-model.bootstrap.yaml) — accepted bootstrap target model for compact system/component normative records; existing accepted Markdown remains authority until an explicit cutover.
-6. [`aes-company-planning-profile.bootstrap.yaml`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/docs/architecture/aes-company-planning-profile.bootstrap.yaml) — AES-local profile over Company Planning, including reproducible bootstrap validation commands.
-7. [`schemas/architecture-realization.bootstrap.schema.json`](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/docs/architecture/schemas/architecture-realization.bootstrap.schema.json) — minimal machine-readable architecture-realization contract.
+These pages reconcile recorded direction. OpenSpec supplies current executable
+Lockstep behavior contracts. Read implementation and run evidence separately
+before asserting that a requirement works.
 
-Current research: [Claude Code/Codex delegation, Workflows and behavior checks](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/harness-context/subagent-research.md) — current native mechanism comparison and proposed behavior parity, not adopted architecture.
+## Retained implementation designs
 
-## Authority and generated material
+- [greenfield-v0.2](greenfield-v0.2/README.md) describes the retained `aes` library,
+  accepted by [Decision 0010](../decisions/0010-greenfield-v0.2-accepted.md).
+  It is not the current definition of AES as the whole system.
+- The v0.1 record design remains evidence for the origin of
+  [source-local context](../decisions/0003-component-local-normative-context-and-symbol-inheritance.md)
+  and [document roles and generated PRDs](../decisions/0004-compact-structured-normative-records-and-generated-views.md).
+  It does not silently replace today's OpenSpec/layout format.
+- [Retirement record](../retired/2026-11-12.md) names retired paths and recovery commands.
+- [Decision 0013](../decisions/0013-truth-lives-where-it-is-edited.md) preserves the
+  source-local summary principle used in the current whole-system account.
 
-- `docs/decisions/` owns accepted AES architecture choices and their rationale.
-- The bootstrap YAML records above define AES-local profile/model/schema state but do not silently migrate existing accepted Markdown authority.
-- `generated/bootstrap-normative/` is generated dogfood/probe material, not editable normative authority.
-- `architecture-realization.bootstrap.yaml` is superseded exploratory research history; do not use it as the current design packet.
-- Research and evidence support decisions but do not become normative merely by being referenced.
+## Ownership
 
-These documents may specialize how canonical AES applies upstream methodology, but they should not silently fork project-agnostic rules. Reusable friction or improvements belong upstream once dogfood evidence supports them.
+Project-agnostic methodology is owned by the
+[pinned upstream methodology](https://github.com/BrianMills2718/wiki_methodology/tree/0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe).
+AES-specific intent belongs here; accepted choices remain in `docs/decisions/`.
+Research and evidence support decisions without becoming desired behavior.
+The wiki is navigation, not another mutable authority.

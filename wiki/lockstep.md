@@ -24,7 +24,7 @@ Code: this repository, package `lockstep` in [src/lockstep/](../src/lockstep/__i
 
 ## What it is
 
-- Lockstep is a part of AES: it puts full normative context at an edit, projects plan changes into code and code changes back into the plan, links planned structure to typed symbols and checks, and renders evidence-bound status ([docs/architecture/SYSTEM_BOUNDARY.md:29](../docs/architecture/SYSTEM_BOUNDARY.md#L29)).
+- Lockstep is a part of AES: it puts full normative context at an edit, projects plan changes into code and is intended to carry code-side normative changes back through explicit plan changes (the retained implementation is a legacy draft-and-accept route), links planned structure to typed symbols and checks, and renders evidence-bound status ([docs/architecture/SYSTEM_BOUNDARY.md:29](../docs/architecture/SYSTEM_BOUNDARY.md#L29)).
 - Brian, 2026-11-06: "lockstep is meant to be part of aes canonical" ([docs/architecture/SYSTEM_BOUNDARY.md:33](../docs/architecture/SYSTEM_BOUNDARY.md#L33)).
 - One config file, `lockstep.yaml`; commands `lockstep layout`, `lockstep check` (the whole-tree plan check, or `check <name>` for one commit check), `lockstep plan check`, `lockstep status`, `lockstep show`, and the edit hook `lockstep-hook` ([design](../proposals/one-planning-tool/DESIGN.md)).
 

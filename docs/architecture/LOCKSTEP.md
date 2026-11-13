@@ -1,3 +1,8 @@
+---
+description: Lockstep plans linked behavioral structure and projects normative intent and observed status between code and documentation
+status: current
+---
+
 # Lockstep: planned behavior at the point of implementation
 
 Status: component architecture and implementation account, checked against source on

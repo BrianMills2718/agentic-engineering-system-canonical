@@ -1,0 +1,65 @@
+{
+  "record_type": "documentation_orientation_review",
+  "date": "2026-11-13",
+  "base_revision": "05ee80c1a9cc77f692954b6de09a81ab0d9bdb0a",
+  "reviewer": "Independent cold reader without parent conversation",
+  "entrypoint": "wiki/index.md",
+  "method": "Follow explicit links; no repository search to fill missing concepts; then focused recheck of reported defects. No product runtime tests.",
+  "initial_verdict": "revise",
+  "initial_counts": {
+    "answered": 6,
+    "partial": 2,
+    "missing": 0
+  },
+  "initial_findings": [
+    "Requirements navigation retained an obsolete no-tools inventory and omitted modern Lockstep contracts.",
+    "Implementation map described only two current OpenSpec specifications.",
+    "Opening upward-projection summary needed legacy draft/accept qualification.",
+    "Q8 roadmap recommendation contradicted the current next step."
+  ],
+  "repairs": [
+    "Replaced requirements page with current spec and evidence navigation.",
+    "Replaced implementation-map summary with current component boundaries.",
+    "Qualified source-local upward edits at first mention.",
+    "Reconciled Q7/Q8 in owning ledger and open view."
+  ],
+  "final_verdict": "pass",
+  "answer_statuses": {
+    "actual_goal": "answered",
+    "parts_and_consumers": "answered",
+    "planned_structure": "answered",
+    "information_flow": "answered",
+    "navigation_and_ownership": "answered",
+    "intent_vs_observation_vs_history": "answered",
+    "resume_and_open_work": "answered",
+    "two_link_requirements_choices_evidence": "answered"
+  },
+  "counts": {
+    "answered": 8,
+    "partial": 0,
+    "missing": 0,
+    "remaining_review_findings": 0
+  },
+  "limitations": [
+    "Reader check establishes discoverability and comprehension of this reading path, not correctness of every historical document or runtime synchronization.",
+    "Hashes record the reviewed surfaces after review; no product release or evaluation certification is claimed."
+  ],
+  "source_hashes": {
+    "wiki/index.md": "dfd5e7c85210117851bc7368d84054db62b39b0f7d6ed4b8301b11e79a51e213",
+    "docs/architecture/GOAL.md": "936c1dcb1f13a2ca8eb1b0c18eec07bdfd9fc2f01c981db5d644911dbd2ecd4d",
+    "docs/architecture/LOCKSTEP.md": "adfe6d9c4b5631d19b38e8370411c17d573652a441a93d5bdae2904cb112ddd3",
+    "docs/architecture/DOCUMENTATION.md": "8fa46af31a363643400d01f74cb4bc1603fa56a886aaef2a2fc5dc473c6f8559",
+    "docs/architecture/FEEDBACK_AND_POLICY.md": "564ef87128b15a3cc71eeab18ca962af70d54298f95eda9f0048d8a85bfc4be2",
+    "wiki/requirements.md": "1fc51904e8c7731cd7286b7279b9c73179bd5f88d452731ba78fa3a5a08e2ca8",
+    "wiki/system-model.md": "c0938dade159ac6eb53ae12c72569f7fa17f71926a0bc0a955d2a4b4f0c1eb5c",
+    "wiki/lockstep.md": "f3e10f1b38a2c4c2b835ba48b2033dc818da32095ef7cf872d36a6a6460313d4",
+    "wiki/open-questions.md": "20c61bb77ccf41f66d15a17d472cc21aa9648c05b4acbacdaf29d3ad94c82b47"
+  },
+  "navigation_check": {
+    "reader_documents": 69,
+    "within_two_links": 69,
+    "outside": 0,
+    "exit_code": 0,
+    "method": "Breadth-first traversal with the native doc_reachability link parser and declared exclusions."
+  }
+}

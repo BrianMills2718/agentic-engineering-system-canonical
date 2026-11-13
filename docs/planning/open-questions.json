@@ -126,12 +126,13 @@
    "blocks": "the wiki-compliance check passing (cap met at 116 of 120; 31 unreachable archived OpenSpec changes remain)",
    "resolves_with": "Prior art settles it: ~/code2/AGENTS.md says to add openspec/changes/* to the reachability ignore list, because archived changes are records, not reader documents; do the same for this check, or link the archive folder from the wiki. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "sources": [
     "/home/brian/code2/AGENTS.md:27",
     "docs/planning/checks.txt:30"
    ],
-   "touches": []
+   "touches": [],
+   "evidence": "The 2026-11-13 repair adds question-based current routes and a source-owned-metadata catalog linked directly from wiki/index.md. The catalog links reader documents in two hops; source-local normative projection remains a separate implementation concern (Q25)."
   },
   {
    "id": "Q8",
@@ -140,12 +141,13 @@
    "blocks": "the navigation check's 12 warnings",
    "resolves_with": "Prior art settles it: the one-tool plan (docs/planning/next.goal.md) is the current roadmap; link it from wiki/index.md under a Roadmap line, and replace the line-anchor links with plain file links. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "sources": [
     ".agentic/repo.yaml:33",
     "docs/planning/checks.txt:10"
    ],
-   "touches": []
+   "touches": [],
+   "evidence": "The 2026-11-13 front page links the current purpose, state and discussion ledger. The six one-tool slices remain historical delivered work, not a newly authorized next build. .project-brain/now.md names discussion after documentation repair as the next step."
   },
   {
    "id": "Q10",
@@ -351,7 +353,7 @@
    "id": "Q20",
    "short": "Which list is the policy layer",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "question": "The AES rules register (docs/rules/register.yaml, page RULES.md) lists one rule, while Brian's rules for agents live in code2-workspace agents/ (core.md, topic files, rule-sources.md by Policy id). Which one is the policy layer's list of rules, and what happens to the other?",
    "blocks": "acceptance entry A7 (where Brian sees a rule he set and how it is enforced) and what the policy layer's part of AES contains",
    "resolves_with": "Prior art settles it: code2-workspace docs/capabilities.md (decision 0004, one capabilities list) names agents/core.md plus topic files as the tool for agent rules, so that is the list; the AES register page should say it covers only rules the feedback loop licensed, or point at agents/. The agent router that an earlier plan modelled as part of the policy layer was retired on 2026-11-12 (no caller, its data folder never existed), so the policy layer is the register plus agents/, with no router.",
@@ -363,7 +365,8 @@
     "policy-layer",
     "rules-register",
     "agent-rules"
-   ]
+   ],
+   "evidence": "Documentation repair 2026-11-13 identifies shared agent instructions as the policy source and the AES register as partial coverage, not a competing complete authority. See docs/architecture/FEEDBACK_AND_POLICY.md. Coverage failure remains open as Q28."
   },
   {
    "id": "Q21",
@@ -372,8 +375,8 @@
    "status": "open",
    "question": "Three of the feedback loop's five jobs (weekly analysis, effect counter, fix owner) have been switched off since about 2026-10-12, with no recorded reason; only the collector and the labels job run. Turn them back on?",
    "blocks": "whether the feedback loop goes past filing reports to proposing and checking fixes",
-   "resolves_with": "Brian's product call; no check settles it. The facts: the fix owner closed 24 adopt issues before it stopped (.project-brain/now.md), and corrections are not being filed at all today (Q18).",
-   "recommendation": "Keep them off until corrections are filed again (Q18); then turn the weekly analysis back on first, because it is the job that reads the filed reports.",
+   "resolves_with": "Product/priority discussion after documentation repair. Historical correction backlog Q18 is resolved; the collector timeout and current disabled stages remain separate issues (Q29).",
+   "recommendation": "Inspect collector reliability (Q29), then restore one complete correction-to-verified-fix path before broad autonomous analysis. Do not enable jobs as part of a documentation repair.",
    "default": "They stay off; the collector and labels job keep running nightly.",
    "sources": [
     "scripts/learning_loop/systemd/README.md:3"
@@ -438,6 +441,177 @@
     "first-docstring",
     "slice"
    ]
+  },
+  {
+   "id": "Q25",
+   "short": "Prove the complete synchronization loop",
+   "question": "Which current consumer demonstrates requirements into docstrings, implementation status back into normative documents, and fresh wiki navigation after an edit?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
+   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
+   "recommendation": "Replay one requirement through the real installed hooks and build, deliberately bypass refresh once, and inspect the stale-check refusal. Preserve every transition and revision.",
+   "evidence": "A complete example is needed before describing all three surfaces as automatically aligned.",
+   "sources": [
+    "docs/architecture/LOCKSTEP.md",
+    "src/lockstep/checks/project.py",
+    "src/lockstep/doc_projection.py"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q26",
+   "short": "Guard must check every affected path",
+   "question": "Does the edit guard judge every file and rename destination before allowing a patch?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
+   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
+   "recommendation": "Repair complete write-set aggregation and native payload adaptation in a separately authorized implementation; verify the actual host event as well as the decision function.",
+   "evidence": "Read-only decide() probes in block mode allowed a planned-first/unplanned-second patch and an unplanned rename destination; the extra file alone was denied.",
+   "sources": [
+    "src/lockstep/hook.py",
+    "tests/lockstep/test_lockstep_hook.py"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q27",
+   "short": "Installation acceptance versus active enforcement",
+   "question": "Does the public README installation produce an active commit hook, rather than just written configuration?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
+   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
+   "recommendation": "Make installation evidence distinguish configured from active and attempt a deliberately invalid commit through the installed hook. Preserve the existing global hook setup.",
+   "evidence": "The retained A5 row passes while its full agent trace reports lefthook install stopped because core.hooksPath was already set.",
+   "sources": [
+    "scripts/acceptance/a5.py",
+    "docs/planning/runs/lockstep-acceptance/a5.json",
+    "docs/planning/runs/lockstep-acceptance/a5-readme-agent.jsonl"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q28",
+   "short": "Empty policy discovery must stay unknown",
+   "question": "Does the policy checker discover the current policy population and report missing coverage honestly?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
+   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
+   "recommendation": "Use the current owning instruction/source records and expose discovery completeness before trusting a zero-gap result.",
+   "evidence": "A read-only policies.check(30) on 2026-11-13 returned policies=0 and gaps=[]; defaults still point at the old workspace instruction bootstrap.",
+   "sources": [
+    "scripts/learning_loop/policies.py",
+    "docs/rules/register.yaml",
+    "docs/architecture/FEEDBACK_AND_POLICY.md"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q29",
+   "short": "Collector reliability",
+   "question": "Why did the latest collector service time out, and which inputs and filing steps completed?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
+   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
+   "recommendation": "Inspect the retained collector trace and step boundaries before increasing intake or enabling further stages; scheduling state alone is not completion evidence.",
+   "evidence": "Retained systemd state on 2026-11-13: collector Result=timeout, ExecMainStatus=143, exit 06:09:03 America/New_York; labels success at 06:15:35. A bounded journal query returned no entries. The latest completed collector receipt was November 12.",
+   "sources": [
+    "scripts/learning_loop/collect_feedback.py",
+    "scripts/learning_loop/systemd/feedback-collector.service",
+    "docs/architecture/FEEDBACK_AND_POLICY.md"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q30",
+   "short": "Wiki freshness has a declared scope",
+   "question": "Which wiki facts are generated, which explanations are curated, and what rebuilds the served view?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
+   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
+   "recommendation": "Inventory actual source-to-view declarations and installed refresh/build/check paths for one consumer; keep authored synthesis explicitly source-linked.",
+   "evidence": "Native post-edit refresh handles declared fact blocks. The legacy wiki builder and coverage projector are distinct. Curated explanations are not universally regenerated.",
+   "sources": [
+    "src/lockstep/doc_projection.py",
+    "src/lockstep/wiki.py",
+    "src/lockstep/checks/project.py",
+    "docs/architecture/DOCUMENTATION.md"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q31",
+   "short": "OpenSpec upward-edit parity",
+   "question": "Can an edit to normative text in a current OpenSpec/layout docstring draft, accept and record the corresponding requirement change?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
+   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
+   "recommendation": "Trace one supported change through draft, review/acceptance, history and regenerated copies; preserve an explicit draft boundary rather than silently changing accepted intent.",
+   "evidence": "The retained docstring_up implementation uses AES target families and aes plan accept; general OpenSpec/layout round-trip parity was not established by source inspection.",
+   "sources": [
+    "src/lockstep/docstring_up.py",
+    "src/lockstep/change_log.py",
+    "docs/architecture/LOCKSTEP.md"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q32",
+   "short": "Behavioral structure and typing enforcement",
+   "question": "How does current planning enforce the intended behavioral units and typed interfaces without inventing one-file-per-behavior rules?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
+   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
+   "recommendation": "Assess representative planned units against their behavioral contracts and proving tests; record which existing guarantees are checked and which depend on planning judgment before proposing stronger requirements.",
+   "evidence": "The approved plan format names file purpose, requirement links, tests and optional typed exports. It permits multiple requirements in one file and leaves decomposition to the planner.",
+   "sources": [
+    "openspec/specs/lockstep-plan-format/spec.md",
+    "src/lockstep/layout_plan.py",
+    "src/lockstep/scaffold.py",
+    "docs/architecture/LOCKSTEP.md"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q33",
+   "short": "Effect evidence and observation coverage",
+   "question": "What does an effects report establish when it counts sightings without comparable opportunities or observation completeness?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
+   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
+   "recommendation": "For the first restored feedback path, distinguish verified disposition and later recurrence from a claim of improved failure rate; name relevant opportunities and missing observation.",
+   "evidence": "The retained effects mechanism requires enforcement receipts, but before/after sightings alone do not establish lower failure probability.",
+   "sources": [
+    "scripts/learning_loop/effects.py",
+    "scripts/learning_loop/problems.py",
+    "docs/architecture/FEEDBACK_AND_POLICY.md"
+   ],
+   "touches": []
+  },
+  {
+   "id": "Q34",
+   "short": "Self-adoption and manifest scope",
+   "question": "Which current AES mechanisms are exercised on this repository, and which declarations still describe retired machinery?",
+   "owner": "agent",
+   "status": "open",
+   "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
+   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
+   "recommendation": "Keep the current reading path honest and evaluate self-adoption separately. Reconcile remaining manifest provider fields against actual callers before changing runtime configuration.",
+   "evidence": "At inspection revision 05ee80c1a there was no root lockstep.yaml; make check runs instruction sync, pytest and mypy. The repository manifest and historical brain pages retained older governance claims.",
+   "sources": [
+    "Makefile",
+    ".agentic/repo.yaml",
+    "docs/retired/2026-11-12.md"
+   ],
+   "touches": []
   }
  ]
 }
