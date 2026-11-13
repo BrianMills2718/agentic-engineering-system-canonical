@@ -346,7 +346,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "19bc9bfbe3e46545b0b1b9dafaecf08b6868044b4d28dd0fd32289910b6dae8a",
+      "sha256": "c2514ff8e90aec043b184abc1c322596abea8207d257e5b8a6a853eb52212276",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
