@@ -39,3 +39,12 @@ Project-agnostic methodology is owned by the
 AES-specific intent belongs here; accepted choices remain in `docs/decisions/`.
 Research and evidence support decisions without becoming desired behavior.
 The wiki is navigation, not another mutable authority.
+
+## Diagrams for the side pane
+
+[aes.c4](aes.c4) is a LikeC4 model of the parts of AES (Brian, Planning, Lockstep, code and tests, evidence, the
+feedback loop, the policy layer). `scripts/pane_diagrams.py` turns each view into a boxes-and-arrows text diagram
+under [pane/](pane/aes_parts.txt) ([the feedback loop view](pane/aes_loop.txt)), and refuses a view that is wider
+than 72 columns or whose labels overlap. The wording lives in the model; change it there and rerun the two commands in
+the script's header. The side pane of Brian's Claude Code session reads these files. Source: Brian, 2026-11-14: "we
+should use generated but make the basis of the generated files good enough that it projects well".
