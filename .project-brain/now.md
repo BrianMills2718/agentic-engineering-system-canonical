@@ -227,7 +227,7 @@ and [operator commands](../scripts/learning_loop/systemd/README.md).
 
 **Slice 0 done (2026-11-14):** `docs/planning/project-meta-ledger.md` lists what still calls Project Meta (89 files named by 73 distinct repositories, 10 enabled timers, 15 commands). Brian approved the slice order (Decision 5); nothing in Project Meta was changed.
 
-**Slice 1a (2026-11-14):** `scripts/md_file_cap.py` is copied into AES and gives byte-identical output and exit codes to Project Meta's on 13 real repositories (`evidence/runs/md-file-cap-equality-20261114.txt`). Callers are planning `run_checks.sh` files, not commit hooks; 1b switches them after a 3-repository pilot (Decision 10 A). Its default graph is still read from Project Meta until slice 4.\n\n**Rule for every agent:** read this file first. When your change moves where
+**Slice 1a (2026-11-14):** `scripts/md_file_cap.py` is copied into AES and gives byte-identical output and exit codes to Project Meta's on 13 real repositories (`evidence/runs/md-file-cap-equality-20261114.txt`). Callers are planning `run_checks.sh` files, not commit hooks; 1b pilot done (code2-template #30, claim-extraction #41, topic-video #26); the remaining callers are next. Its default graph is still read from Project Meta until slice 4.\n\n**Rule for every agent:** read this file first. When your change moves where
 the project stands, update `now.md` (and `state.md` if needed) in the same pull
 request. `python3 scripts/hive/brain_fresh.py .` exits 1 when this brain is
 older than the work since.
