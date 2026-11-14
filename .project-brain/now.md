@@ -1,3 +1,22 @@
+# AES projection self-adoption (2026-11-13, AES #854)
+
+Implemented the narrow P-SELF route: root declarations, source-local authored
+assessment/gaps/plan, two generated document targets, pinned PostToolUse hooks,
+and a facts-only local/pre-commit gate. Existing commit policy is preserved.
+The [self-adoption observation](../evidence/runs/projection-self-adoption-20261113.json)
+and [full native trace](../evidence/runs/projection-native-20261113.jsonl) retain
+one actual Claude Edit triggering both target updates. The invocation used the
+existing API authentication route and explicitly loaded project settings after
+an earlier attempt stopped before editing. Read-only stale refusal and recovery passed.
+
+Next: discuss compact wiki views and remaining policy/implementation concerns.
+The bounded Claude host path is observed; Codex configuration is present but
+native Codex execution and blanket default-session loading are not claimed.
+The authored assessment is separate from measured evidence. The all-file
+inventory and catalog include the adopted configuration and retained runs.
+
+## Earlier assessment and dated records
+
 # Projection worked assessment (2026-11-13, AES #852)
 
 The [worked assessment](../docs/architecture/LOCKSTEP.md#worked-assessment-the-projection-component)

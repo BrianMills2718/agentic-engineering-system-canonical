@@ -1,5 +1,5 @@
-Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 2b0709497ecc77b2eb6ab284bec57f52069a422e, run 2026-11-12T19:06Z.
-Company Planning scripts from ~/code2/company-planning at b8a53a0.
+Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at ac735b98fecf56520908b5400d755c7445335179, run 2026-11-14T00:27Z.
+Company Planning scripts from ~/code2/company-planning at eac3904.
 Not run: aes commit replay (the commit rule was removed 2026-10-14; open question Q11); make aes and the plan-adoption recheck (retired 2026-11-12 with this repository's .aes/ and docs/plans).
 
 === $ python3 $HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42
@@ -8,31 +8,22 @@ durable-docs: mode=repo repo=. findings=0 (none), exit 0
 
 === $ python3 $HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py .
 === exit status: 0
-WARNING NAV_ANCHOR_MISSING README.md: Markdown section does not exist: .project-brain/now.md#L14-L15
-WARNING NAV_ANCHOR_MISSING README.md: Markdown section does not exist: .project-brain/now.md#L14-L15
 WARNING NAV_ANCHOR_MISSING README.md: Markdown section does not exist: CLAUDE.md#L10
-WARNING NAV_ANCHOR_MISSING README.md: Markdown section does not exist: CLAUDE.md#L14-L15
-WARNING NAV_ANCHOR_MISSING README.md: Markdown section does not exist: CLAUDE.md#L20
-WARNING NAV_ANCHOR_MISSING README.md: Markdown section does not exist: CLAUDE.md#L23
-WARNING NAV_ANCHOR_MISSING README.md: Markdown section does not exist: CLAUDE.md#L24
-WARNING NAV_ANCHOR_MISSING README.md: Markdown section does not exist: CLAUDE.md#L3
-WARNING NAV_ANCHOR_MISSING README.md: Markdown section does not exist: CLAUDE.md#L5-L6
 WARNING NAV_ANCHOR_MISSING README.md: Markdown section does not exist: docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md#L44-L47
 WARNING NAV_ROOT_LINK_MISSING README.md: root README must link to roadmap/README.md
 WARNING NAV_DOCUMENT_MISSING roadmap/README.md: no roadmap front door: add roadmap/README.md, docs/ROADMAP.md or ROADMAP.md, or link a roadmap file from wiki/index.md
 DELEGATED wiki/index.md: workspace wiki rule; project-wiki/v1 schema not applied; reachability, cap and layout are checked by python3 ~/code/project-meta/scripts/md_file_cap.py --repo R
-REPORT ONLY: 12 finding(s); semantic truth and approval were not evaluated
+REPORT ONLY: 4 finding(s); semantic truth and approval were not evaluated
 
 === $ python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD
-=== exit status: 1
-EXCEPTION    116/120  BrianMills2718/agentic-engineering-system-canonical  -- Accepted decision records and the wiki cite the remaining architecture, decision and planning pages as their evidence, so pruning them would break those citations. The 2026-11-12 cleanup retired the research, evidence, datasets and old-proposal Markdown (143 -> 116 files, see docs/retired/2026-11-12.md). Limit kept close to the count so growth still trips the check.
-UNREACHABLE    31  BrianMills2718/agentic-engineering-system-canonical  -- 31 reader docs not linked from wiki/index.md (e.g. openspec/changes/archive/2026-11-07-inert-characterization/proposal.md, openspec/changes/archive/2026-11-07-inert-characterization/specs/inert-characterization/spec.md, openspec/changes/archive/2026-11-07-inert-characterization/tasks.md)
-REPO  BrianMills2718/agentic-engineering-system-canonical  md=116  cap=exception  reach=orphans(31)  layout=ok(0)  durable=ok(0)
-md-file-cap: 1 given repos checked, cap 100: ok=0 exception=1 over=0 not-checked=0; wiki reachability ok=0 orphans=1 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=1 findings=0 undeclared=0   exit 1
+=== exit status: 0
+EXCEPTION    130/130  BrianMills2718/agentic-engineering-system-canonical  -- Current architecture, accepted decisions and historical contracts remain linked rather than discarded. The bounded self-adoption change adds an OpenSpec capability plus its archived proposal/task lineage; the archive delta remains a distinct scoped change record. The measured final total is 130 tracked Markdown files, all included in the complete file catalog.
+REPO  BrianMills2718/agentic-engineering-system-canonical  md=130  cap=exception  reach=ok(0)  layout=ok(0)  durable=ok(0)
+md-file-cap: 1 given repos checked, cap 100: ok=0 exception=1 over=0 not-checked=0; wiki reachability ok=1 orphans=0 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=1 findings=0 undeclared=0   exit 0
 
 === $ python3 $HOME/code2/workspace/scripts/repo_format.py .
 === exit status: 1
-: missing docs/index.md, docs/architecture/arc42.md, docs/architecture/*.c4, Makefile (must mention code2check)
+: missing docs/architecture/arc42.md, docs/architecture/*.c4, Makefile (must mention lockstep check or code2check)
 RESULT repo-format compliant=0 of=1 exit=1
 
 === $ python3 -c 'import json,jsonschema,pathlib,sys; s=json.load(open(pathlib.Path.home()/"code2/representation-router/schemas/typed-graph.schema.json")); bad=0

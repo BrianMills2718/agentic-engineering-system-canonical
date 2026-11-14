@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "record_type": "planning_package",
   "repository": "BrianMills2718/agentic-engineering-system-canonical",
-  "subject_revision": "2b0709497ecc77b2eb6ab284bec57f52069a422e",
+  "subject_revision": "ac735b9",
   "request": "Brian, 2026-11-11: \"lets keep workgin on the harness\" (session 483c48d8, 22:23 UTC); \"to me aes is the whole sysem lockstep is one part. aes include the whole feedback and policy system\" (session a769ac09, 08:14 UTC); \"i approve single tool desing re d4\" (session 483c48d8, 21:10 UTC); all in ~/.claude/history.jsonl. Standing request, 2026-10-25: \"i have asked 100s of times to make ure that my proejcts are always company plannign complaint\". This refresh replaces the 2026-10-27 package (reviewed at 8b732aa, plan 'AES on hold, checks honest') with the one-tool build; ship had warned that its cold review was out of date. Refreshed again on 2026-11-12 for the AES canonical cleanup (Brian, 2026-11-12: \"lets strat wiht cleanup first\"): retired parts removed from the system map, system model and domain model; Q3, Q4, Q5, Q6, Q10, Q15 and Q16 closed (docs/retired/2026-11-12.md).",
   "parts": {
     "investigation": {
@@ -26,23 +26,22 @@
           "command": "python3 $HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py .",
           "exit_status": 0,
           "counts": {
-            "warnings": 12
+            "warnings": 4
           },
           "tracked_by": "Q8"
         },
         {
           "name": "wiki rule (Markdown cap, reachability, layout, durable documents)",
           "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
-          "exit_status": 1,
+          "exit_status": 0,
           "counts": {
-            "markdown_files": 116,
-            "cap_limit": 120,
+            "markdown_files": 130,
+            "cap_limit": 130,
             "over": 0,
-            "orphans": 31,
+            "orphans": 0,
             "layout_findings": 0,
             "durable_findings": 0
-          },
-          "tracked_by": "Q7"
+          }
         },
         {
           "name": "code2 repository format",
@@ -51,7 +50,7 @@
           "counts": {
             "compliant": 0,
             "repositories": 1,
-            "findings": 4
+            "findings": 3
           },
           "tracked_by": "Q17"
         },
@@ -254,7 +253,7 @@
       "status": "present",
       "path": "docs/planning/cold-review.md",
       "verdict": "pass",
-      "reviewed_revision": "0badfe82442d86bd9be230dd7f3a2c12cff4ee27"
+      "reviewed_revision": "265b5ba8cf0e93524348c8739d12572d69b97354"
     }
   },
   "initiative": {
