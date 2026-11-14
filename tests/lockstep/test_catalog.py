@@ -125,3 +125,31 @@ def test_external_symlink_and_missing_tracked_source(repo, tmp_path_factory):
     (repo / 'source.txt').unlink()
     with pytest.raises(CatalogError, match='missing'):
         inspect_catalog(repo)
+
+
+def test_trace_failure_prevents_review_mutation(repo, monkeypatch):
+    import lockstep.catalog as catalog
+    original = (repo / 'inventory.json').read_bytes()
+    def fail(*args):
+        raise OSError('trace unavailable')
+    monkeypatch.setattr(catalog, '_trace', fail)
+    with pytest.raises(OSError):
+        review_catalog(repo, [review(repo, 'source.txt')])
+    assert (repo / 'inventory.json').read_bytes() == original
+
+
+def test_concurrent_source_change_prevents_review(repo, monkeypatch):
+    import lockstep.catalog as catalog
+    original = (repo / 'inventory.json').read_bytes()
+    snapshot = catalog._snapshot
+    calls = 0
+    def changing(root, declaration):
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            (repo / 'source.txt').write_text('concurrent edit')
+        return snapshot(root, declaration)
+    monkeypatch.setattr(catalog, '_snapshot', changing)
+    with pytest.raises(CatalogError, match='changed during review'):
+        review_catalog(repo, [review(repo, 'source.txt')])
+    assert (repo / 'inventory.json').read_bytes() == original

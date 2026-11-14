@@ -156,7 +156,7 @@ def _atomic(path: Path, content: bytes) -> None:
             temporary.unlink()
 
 
-def refresh_catalog(root: Path) -> list[str]:
+def _refresh_catalog(root: Path) -> list[str]:
     loaded = _load(root)
     if loaded is None:
         return []
@@ -169,11 +169,23 @@ def refresh_catalog(root: Path) -> list[str]:
         raise CatalogError('catalog inputs changed during refresh')
     changed = [] if original == rendered else [declaration['target']]
     _path(root, f'.lockstep/catalog-{datetime.now(timezone.utc):%Y-%m-%d}.jsonl')
+    _trace(root, {'operation': 'refresh', 'phase': 'prepared' if changed else 'unchanged',
+                  'inputs': snapshot, 'inventory_sha256': hashlib.sha256(raw).hexdigest(),
+                  'output_sha256': hashlib.sha256(rendered).hexdigest(), 'rewritten': changed, 'errors': []})
     if changed:
         _atomic(target, rendered)
-    _trace(root, {'operation': 'refresh', 'inputs': snapshot, 'inventory_sha256': hashlib.sha256(raw).hexdigest(),
-                  'output_sha256': hashlib.sha256(rendered).hexdigest(), 'rewritten': changed, 'errors': []})
     return changed
+
+
+def refresh_catalog(root: Path) -> list[str]:
+    try:
+        return _refresh_catalog(root)
+    except (OSError, ValueError, TypeError, subprocess.SubprocessError, yaml.YAMLError):
+        try:
+            _trace(root, {'operation': 'refresh', 'errors': ['refresh rejected; validate configuration, tracked paths and source stability']})
+        except (OSError, ValueError):
+            pass
+        raise
 
 
 def _trace(root: Path, event: dict) -> None:
@@ -226,14 +238,21 @@ def review_catalog(root: Path, reviews: list[dict]) -> dict:
         _path(root, f'.lockstep/catalog-{datetime.now(timezone.utc):%Y-%m-%d}.jsonl')
         if inventory.read_bytes() != raw or _snapshot(root, declaration) != snapshot:
             raise CatalogError('catalog inputs changed during review')
-        _atomic(inventory, output)
+        event['phase'] = 'prepared'
         event['output_sha256'] = hashlib.sha256(output).hexdigest()
         event['reviewed'] = len(reviews)
         _trace(root, event)
+        # The durable prepared receipt identifies the exact proposed output hash.
+        # Append failure must occur before replacement, never after successful mutation.
+        _atomic(inventory, output)
+        event['phase'] = 'applied'
         return event
     except (OSError, ValueError, TypeError, subprocess.SubprocessError):
         event['errors'] = ['catalog review rejected; input validation or concurrent source change']
-        _trace(root, event)
+        try:
+            _trace(root, event)
+        except (OSError, ValueError):
+            pass
         raise
 
 
@@ -258,5 +277,5 @@ def catalog_cli(argv: list[str]) -> int:
     except SystemExit as exc:
         return int(exc.code or 0)
     except (OSError, ValueError, TypeError, subprocess.SubprocessError, yaml.YAMLError) as exc:
-        print(f'catalog error: {type(exc).__name__}', file=sys.stderr)
+        print(f'catalog error: {type(exc).__name__}; validate catalog configuration, tracked paths, review fields and current sha256 values, then retry.', file=sys.stderr)
         return 2
