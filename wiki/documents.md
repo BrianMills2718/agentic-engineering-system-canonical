@@ -17,7 +17,7 @@ installed universal automatic summarizer. Changed sources require re-review.
 The [assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment)
 explains what can be consolidated and which unique information must survive.
 
-**Coverage:** 433 inventory files; 0 pending source reviews. Links and stored summaries do not establish current verification.
+**Coverage:** 435 inventory files; 0 pending source reviews. Links and stored summaries do not establish current verification.
 trees contain 424 files; the five additional files are listed below. Changed
 inventory entries require re-review; the count does not certify their current
 descriptions.
@@ -80,7 +80,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [.claude/skills/openspec-propose](#catalog-folder-15) (1 files)
 - [.claude/skills/openspec-sync-specs](#catalog-folder-16) (1 files)
 - [.claude/skills/openspec-update-change](#catalog-folder-17) (1 files)
-- [.codex](#catalog-folder-18) (1 files)
+- [.codex](#catalog-folder-18) (2 files)
 - [.project-brain](#catalog-folder-19) (4 files)
 - [contracts/learning-loop](#catalog-folder-20) (1 files)
 - [docs](#catalog-folder-21) (3 files)
@@ -97,7 +97,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [docs/retired](#catalog-folder-32) (1 files)
 - [docs/rules](#catalog-folder-33) (3 files)
 - [enforced\_planning](#catalog-folder-34) (2 files)
-- [evidence/runs](#catalog-folder-35) (5 files)
+- [evidence/runs](#catalog-folder-35) (6 files)
 - [meta-process/templates](#catalog-folder-36) (1 files)
 - [openspec](#catalog-folder-37) (1 files)
 - [openspec/changes/archive](#catalog-folder-38) (1 files)
@@ -318,6 +318,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 
 ### .codex
 
+- [.codex/config.toml](../.codex/config.toml) — Enables the native hook feature for AES project sessions; global defaults remain unchanged and exact project handler trust and execution are separately verified. Role: native configuration; disposition: keep.
 - [.codex/hooks.json](../.codex/hooks.json) — Registers pinned Codex PostToolUse refresh for declared facts and catalog upkeep across supported edit and shell tool names; native Codex execution remains unobserved. Role: native configuration; disposition: keep.
 
 <a id="catalog-folder-19"></a>
@@ -486,6 +487,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 
 ### evidence/runs
 
+- [evidence/runs/catalog-upkeep-codex-activation-20261114.py](../evidence/runs/catalog-upkeep-codex-activation-20261114.py) — Retains a prepared, unexecuted Codex app-server activation helper that CAS-writes only the exact AES handler trust state and verifies preservation of unrelated settings. Role: prepared verification helper; disposition: keep.
 - [evidence/runs/catalog-upkeep-native-20261114.json](../evidence/runs/catalog-upkeep-native-20261114.json) — Retains the pinned six-file Claude catalog-upkeep observation, full fixture inputs and outputs, review hashes, daily traces and thirteen bypass, stale-hash and staged-recovery CLI probes. Role: retained run evidence; disposition: keep.
 - [evidence/runs/catalog-upkeep-native-20261114.jsonl](../evidence/runs/catalog-upkeep-native-20261114.jsonl) — Records 26 native Claude events for reading and editing the search fixture, inspecting pending review, and explicitly reviewing, refreshing and checking its revised summary. Role: retained native trace; disposition: keep.
 - [evidence/runs/projection-native-20261113.jsonl](../evidence/runs/projection-native-20261113.jsonl) — Retains all 17 successful Claude Read/Read/Edit events; an explicit redaction replaces private metadata from a prior unsuccessful invocation. Role: run evidence; disposition: keep.

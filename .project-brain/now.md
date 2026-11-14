@@ -1,3 +1,101 @@
+# Resume here: catalog upkeep and approved AES hook activation
+
+Handoff: 2026-11-13 evening, at Brian's request to conserve usage.
+Lineage: **candidate_branch**, not merged or deployment-certified.
+
+## Next action
+
+Continue `feat/wiki-catalog-upkeep-20261114` in this retained worktree:
+`/home/brian/code2/worktrees/aes-wiki-upkeep-20261114` (or create your own from
+that pushed branch). Issue: AES #857. Architecture entry:
+[DOCUMENTATION.md](../docs/architecture/DOCUMENTATION.md#ongoing-complete-file-catalog-upkeep),
+then [system model](../docs/planning/SYSTEM_MODEL.md#complete-file-catalog-maintenance-2026-11-14).
+
+**Already approved — do not ask Brian again:** “Enable and verify AES project
+hooks”, including inherited shared guards/planning within AES, while global
+settings and other projects stay unchanged. This is the written AES-only
+exception to the earlier hook stop. Project declarations are staged in this
+candidate; native default-session verification and exact Codex hook trust are
+unfinished. No global settings, trust records, editors or running agents were
+changed/restarted by this session.
+
+## What is implemented and evidenced
+
+- Existing native refresh now reports changed/added/removed catalog inputs,
+  requests explicit source-bound semantic review, and renders navigation without
+  approving meaning. Local checks read working bytes; pre-commit reads the index.
+- Concrete edits route to their owning configured repository, including another
+  worktree; one patch spanning several configured roots fails clearly. Opaque
+  shell commands use their reported working directory or explicit `--repo`.
+- 89 focused tests passed; targeted mypy passed both runtime modules. The bounded
+  planning review passed at `09414e9b4cedc5954f81395e0d7a64710e635912`.
+- The [native receipt](../evidence/runs/catalog-upkeep-native-20261114.json) and
+  [stream](../evidence/runs/catalog-upkeep-native-20261114.jsonl) retain an explicit-
+  settings Claude fixture: 26 events, one source change from one-shot search to
+  a loop, explicit summary review, and 13 CLI refusal/recovery steps. Independent
+  evidence and privacy reviews passed. Raw hook additional context is absent
+  from that stream; delivery evidence and that limitation are explicit.
+- Concurrent main changes through `268d58e6c` were integrated, including ecosystem
+  documentation and array-fact projection. Preserve them. The complete inventory
+  was semantically reconciled, not blindly rehashed.
+
+## Finish in this order
+
+1. Read current status and run `make check-catalog check-catalog-staged check-doc-facts`,
+   instruction sync and the focused tests named in the receipt. The final
+   checkpoint includes explicit reviews of its own handoff/config/helper inputs.
+2. Confirm the pinned code `09414e9b4cedc5954f81395e0d7a64710e635912` is reachable
+   remotely (it is an ancestor of this pushed branch). Run the full planning
+   validator; its recorded code-review pin is already updated. Existing route
+   WAIT, nightly A9 semantic coverage and repo-format Q17 remain scoped, not hidden.
+3. Complete native activation verification and ship through `ship`. Codex resolves
+   the hook definition through the **canonical checkout**, even for a worktree;
+   until canonical main has this candidate's `.codex/config.toml` and hook pin,
+   its native inventory still sees the old handler. Do not work around this with
+   a trust bypass or claim normal execution from config. If verification needs
+   post-merge canonical deployment, merge only the tested candidate with that
+   verification explicitly pending, safely fast-forward a clean canonical checkout,
+   and immediately perform the runtime verification/follow-up record.
+4. Use the [prepared Codex helper](../evidence/runs/catalog-upkeep-codex-activation-20261114.py)
+   only after reviewing its fixed paths and canonical source. It is compiled and
+   statically checked, **not executed**. The command is `python3 <helper> --go
+   --expected-sha 09414e9b4cedc5954f81395e0d7a64710e635912 --receipt <ignored-path>`.
+   It uses installed app-server APIs, CAS on the current user-config version,
+   trusts only the fresh exact canonical AES handler hash, and checks preservation
+   of every other hook state and unrelated setting. User project trust already
+   covers the AES directories. Never set the global hooks feature or trust old hashes.
+5. Verify fresh ordinary Claude and Codex sessions with **no** explicit settings-
+   source/feature/trust-bypass overrides. Give each native agent its own worktree.
+   Claude supports `--include-hook-events`; retain the raw hook lifecycle/context
+   where available. Capture effective handlers, source/hash, tool events and
+   resulting summary changes. Inspect all failures and privacy-scan before publishing.
+6. Update evidence, the current brain and affected wiki prose, record exact scope,
+   refresh/review catalog inputs, complete relevant local checks and merge the
+   final verified result. Close #857 only after the activation outcome is established.
+
+## Retained state and limits
+
+Only this branch is the integration lane. Earlier worker branches and applied
+stashes are provenance/safety copies, not independent next work. Keep unmerged
+lanes; no data/history was deleted. Ignored `.lockstep/` contains the disposable
+native fixture and runtime originals; the durable receipt preserves its inputs,
+outputs and probe traces. No native model job or activation helper is running.
+The prepared helper's old worktree constant may be read as a retained test target;
+review paths if resuming in another checkout.
+
+The API/CLI parsing trap is real: quoted dotted `-c` keys containing filenames
+split incorrectly. Use the helper's whole-object `config/batchWrite` API, not
+invented CLI trust overrides. Other untrusted/disabled handlers must retain their
+states. Current installation capabilities were inspected with Codex 0.169.0 and
+Claude 2.1.323; re-check if versions change.
+
+After this repair, concrete next investigations are ordinary-host delivery gaps,
+edit-guard/installation findings and the original 263-policy reconciliation.
+Do not turn those into a blanket claim that all explanatory wiki prose is
+mechanically maintained or that policy effectiveness is established.
+
+## Previous progress and dated records
+
 # Complete-file wiki upkeep (2026-11-14, AES #857)
 
 Catalog maintenance now reuses the native Lockstep refresh and the existing
@@ -11,7 +109,11 @@ and [full trace](../evidence/runs/catalog-upkeep-native-20261114.jsonl) retain a
 explicitly configured Claude changing a search-once fixture into a looping
 generator and updating the summary after its hook requested review. Thirteen CLI
 steps establish bypass refusal, stale-hash rejection and staged recovery.
-Native Codex execution and normal-session loading remain unobserved. Raw hook
+Brian approved the AES-only project hook exception on 2026-11-13, including
+inherited shared guards and planning hooks within AES. Project declarations are
+configured; exact native handler trust and normal-session execution are being
+verified. Global settings and other projects remain unchanged. Native Codex
+execution and normal-session loading remain unobserved until that proof completes. Raw hook
 additional context is not serialized in the native stream; the receipt states
 which independent observations support delivery.
 

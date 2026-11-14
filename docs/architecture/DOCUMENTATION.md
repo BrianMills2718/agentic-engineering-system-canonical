@@ -173,3 +173,19 @@ is not ordinary session loading or native Codex host proof.
 This maintains the complete file catalog and declared fact blocks. Changes to
 question-based wiki explanations still require the agent's semantic review;
 automatic rendering does not establish their completeness or semantic truth.
+
+### Approved project activation boundary
+
+Brian approved “Enable and verify AES project hooks” on 2026-11-13, explicitly
+including inherited shared guards and planning hooks inside AES. The project
+settings enable the native hook platform for AES; global settings and other
+projects remain unchanged. This is broader than only the post-edit handler:
+inherited guards can judge writes, shell commands and plan completion within AES.
+
+Project discovery, platform enablement, project trust, exact handler trust and
+execution are different boundaries. Codex can resolve a worktree's hook source
+through the canonical project root. Trust only the reviewed pinned AES handler
+and preserve other handler states; never use a trust bypass as ordinary trust
+proof. Activation verification is in progress and will be recorded separately
+from the explicit-settings fixture above. No running editor or agent is restarted
+by these declarations.

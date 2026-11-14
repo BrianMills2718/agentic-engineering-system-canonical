@@ -1,3 +1,40 @@
+# Bounded cold review: complete-file catalog upkeep
+
+Reviewed revision: `09414e9b4cedc5954f81395e0d7a64710e635912`.
+Verdict: **pass** for the catalog maintenance implementation and its retained
+native fixture/gate observations. Ordinary client activation is a separate
+verification boundary; this does not re-certify unrelated A1–A8.
+
+The prior failed-review finding was repaired: malformed YAML now records a
+sanitized failed review receipt, exits 2 and preserves the inventory. The
+independent reviewer reproduced four relevant regressions: that receipt,
+absolute/relative edit-root routing, and refusal of multi-root patches before
+refresh writes. Recovery identifies the owning repository.
+
+Independent catalog checks matched 433 files and 431 source hashes at this
+revision, with 0 pending reviews, current output and 0 stale declared facts.
+The wiki check covered 140/140 Markdown files with 0 reachability, layout or
+durable findings. The focused integration run passed 89 tests, and targeted
+mypy passed both changed runtime modules. Existing route and nightly semantic
+coverage pending states remain explicit in the planning validator.
+
+The native fixture receipt retains 26 events at its pinned candidate version,
+plus 13 deterministic negative/recovery CLI steps. A separate reviewer read
+those records and reconstructed their hashes. Later receipt/routing fixes have
+targeted regression evidence; a prepared receipt alone is never treated as an
+applied write. The native stream lacks raw hook additional context, which is
+explicitly disclosed. No ordinary-session or native Codex activation pass is
+inferred from this fixture.
+
+Validator: 10/10 package parts, 11/12 substance checks with one existing route
+pending, and 6/6 tier/map checks. Before recording this pin, full validation
+failed solely on the old pin; validation without freshness exited 0.
+No substantive blocking finding in this bounded review.
+
+Verdict: pass
+
+## Prior bounded reviews (historical)
+
 # Bounded cold review: AES documentation self-adoption
 
 Reviewed revision: `265b5ba8cf0e93524348c8739d12572d69b97354`.

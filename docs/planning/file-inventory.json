@@ -6,7 +6,7 @@
   "request": "Every tracked file reachable and summarized from the navigational wiki; assess consolidation and optimization without losing information.",
   "scope": {
     "base_tracked_files": 407,
-    "all_candidate_tracked_files": 433,
+    "all_candidate_tracked_files": 435,
     "included": "All Git-tracked files, including instructions, archived changes, fixtures, generated views and non-Markdown files.",
     "external": "Explicitly linked owning planning/policy/instruction sources; no unrelated repository-wide sweep.",
     "not_published": "Ignored caches, installed environments, credentials and private runtime store contents."
@@ -214,10 +214,10 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "JSON root object",
       "summary_origin": "content_review",
-      "sha256": "8c7021bc253bc47e3ac68ffb99d9c5014a9795aac830126d6f86b53e95ce5fdf",
+      "sha256": "dd5840143e13eb1381f2cb5e805bd496ddd1469c322dbf13140cae0fb518a30c",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false,
-      "review_reason": "Revise the fact-only description: the pinned shared refresh command now reports pending catalog reviews too. Read all five matched tool names and client selection; configuration presence does not prove ordinary client loading."
+      "review_reason": "Reviewed the approved AES-project platform exception and exact reviewed source pin; existing PostToolUse configuration is preserved and ordinary execution is explicitly unverified."
     },
     {
       "path": ".claude/skills/openspec-apply-change/SKILL.md",
@@ -292,6 +292,16 @@
       "has_standard_source_summary_field": true
     },
     {
+      "path": ".codex/config.toml",
+      "sha256": "d7aad595cea56aeb6886ef807f50292e14cf37362a72220cb971b95bc698e9ae",
+      "summary": "Enables the native hook feature for AES project sessions; global defaults remain unchanged and exact project handler trust and execution are separately verified.",
+      "review_reason": "Read the complete new artifact; purpose, explicit user-approved scope and unexecuted verification boundary are stated accurately.",
+      "role": "native configuration",
+      "disposition": "keep",
+      "reason": "Distinct native declaration or retained reproducible activation artifact.",
+      "source_locator": "features.hooks"
+    },
+    {
       "path": ".codex/hooks.json",
       "summary": "Registers pinned Codex PostToolUse refresh for declared facts and catalog upkeep across supported edit and shell tool names; native Codex execution remains unobserved.",
       "role": "native configuration",
@@ -299,10 +309,10 @@
       "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
       "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
       "summary_origin": "content_review",
-      "sha256": "de35dad3d48b39e04ad336fd90a18d867b3f6292eb26eb1692137ab627e13c1e",
+      "sha256": "ee4e72b3c3d8ab4f92466f6b2462cc78b5769c44bd36120ab1f2daba72a9866c",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false,
-      "review_reason": "Revise the fact-only description because the pinned refresh also supports catalog maintenance. Read the six matcher names and codex selection; the retained native observation exercises Claude only."
+      "review_reason": "Reviewed the updated immutable source pin; matcher and sole project handler are preserved, with exact native trust deferred until canonical deployment."
     },
     {
       "path": ".doc-reachability-ignore",
@@ -361,10 +371,10 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "24175074f53c38c4c552bcd427af5d914450f5dee8a04a21dd0b96d3962b5df3",
+      "sha256": "c6976e86bb8cafe3c864eb6d3810d5e4ee74efe3013da080d4fde0792f74087d",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false,
-      "review_reason": "Revise the lead to the new current upkeep section. It distinguishes local working files from indexed checking, thirteen CLI probes from native execution, and unobserved loading from completed observations; the full historical sections preserve earlier obligations and receipts."
+      "review_reason": "Authored and reviewed the concrete usage-limit handoff: tested code, approved scope, unfinished activation, source pin, helper, resume sequence and retained state are explicit."
     },
     {
       "path": ".project-brain/project.md",
@@ -410,10 +420,10 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "075fdf7ab02c1a2ac9f8a9dc1931f3e0f9f4bc54be9c3c426c516e7334974f0c",
+      "sha256": "55dba157685653cf13b1b2db4a9f2fb26d79bfe2d9c592e78e2da0f9298abcee",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false,
-      "review_reason": "Read complete generated projection; added upkeep procedure expands its governance scope."
+      "review_reason": "Reviewed generated projection of the updated CLAUDE source; it records the approved project exception without expanding global activation."
     },
     {
       "path": "CLAUDE.md",
@@ -423,10 +433,10 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "7f547dba8f0c02905901c3be38e6f6e4c08cbf20210f8184db0a37acd93a3971",
+      "sha256": "6a2be9a4c4b0be0ea2d99492f8351ecd4e978091d49d5b3b3037b89809b7d9a8",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false,
-      "review_reason": "Read complete canonical instructions; new pending/review/refresh/check guidance belongs in the summary."
+      "review_reason": "Reviewed the user-approved AES-only exception including inherited controls; it preserves global settings and requires observed activation before a working claim."
     },
     {
       "path": "Makefile",
@@ -473,10 +483,10 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "001155344c326e2924dbb4b0de2f7de2d5e5924e0af7a6ae0a3eede3ec43e0dc",
+      "sha256": "ace40166627589eb5ca1ba3b4b4948c4fae28328de6832c83765ebba4a9a28f8",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "review_reason": "Reviewed the procedure addition: concrete edit paths select the owning root; multi-root patches fail clearly and opaque shell commands need an explicit repository when cwd is insufficient."
+      "review_reason": "Reviewed the approved activation boundary and concrete worktree routing limits; normal execution remains explicitly pending."
     },
     {
       "path": "docs/architecture/ECOSYSTEM.md",
@@ -1032,9 +1042,10 @@
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# Bounded cold review: declared source-fact upkeep",
       "summary_origin": "content_review",
-      "sha256": "f8f1bba4b3245c73e142bb441be52919619f65a7fc2355a92880d40033ee2f08",
+      "sha256": "232dfb190b591e57cd6fcac6ca3a3a9cfbf66d40f6a3c1dc4ed76814bb33c35c",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Recorded the independent pass at09414 after the YAML receipt fix and worktree regressions; it distinguishes proven fixture behavior from pending ordinary activation."
     },
     {
       "path": "docs/planning/coverage-trace.json",
@@ -1167,10 +1178,10 @@
       "reason": "Preserve useful unique material while reconciling historical/current scope or status/source drift; no retirement proposed.",
       "source_locator": "JSON keys: schema_version, record_type, repository, subject_revision, request",
       "summary_origin": "content_review",
-      "sha256": "7ed3ea3adccb4bc1075468dffe1c0013e2ec798da4a0f2f481e50c86387187c9",
+      "sha256": "ab935e19a668e08bd60cd4b949a715dc81b3f22b9642775f8baaa5cd631feb0b",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false,
-      "review_reason": "Read complete manifest including check commands/counts, domain mappings, stops, no-new-AI cost basis and cold-review pin. It mixes a named package subject with later expressly pinned wiki evidence; presence and recorded passes do not certify the present checkout."
+      "review_reason": "Reviewed the bounded cold-review pin and subject revision update; other package parts and existing pending scopes are preserved."
     },
     {
       "path": "docs/planning/review-page.json",
@@ -1398,6 +1409,16 @@
       "sha256": "19191d8e55163fb6bb00dec3b69a4abfca4dff92a781652c3652873961e94c39",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
+    },
+    {
+      "path": "evidence/runs/catalog-upkeep-codex-activation-20261114.py",
+      "sha256": "c8b42453304589356d947464cb65bb4fd4aa97931bbb757ea8d98605d123e5b0",
+      "summary": "Retains a prepared, unexecuted Codex app-server activation helper that CAS-writes only the exact AES handler trust state and verifies preservation of unrelated settings.",
+      "review_reason": "Read the complete new artifact; purpose, explicit user-approved scope and unexecuted verification boundary are stated accurately.",
+      "role": "prepared verification helper",
+      "disposition": "keep",
+      "reason": "Distinct native declaration or retained reproducible activation artifact.",
+      "source_locator": "Whole helper; --go guard, config/batchWrite and preservation assertions"
     },
     {
       "path": "evidence/runs/catalog-upkeep-native-20261114.json",
@@ -1971,13 +1992,13 @@
     },
     {
       "path": "openspec/changes/archive/2026-11-13-catalog-upkeep/tasks.md",
-      "sha256": "263ab55b9d60b189e3a7a0e612783747fcced50c0c311928ed883cb941615ece",
+      "sha256": "20714932e8be552c3b81d7e98d414c025a29115cf67b2f4924c96c305c68695e",
       "summary": "Records catalog API, hook/gate and recovery demonstration tasks as complete, while final documentation, review and merge remain unchecked in this archived snapshot.",
       "role": "historical change record",
       "disposition": "historical",
       "reason": "Preserve native lifecycle history and requirement provenance.",
       "source_locator": "Complete file: proposal, requirements/scenarios or task checklist",
-      "review_reason": "Read the complete current file; the summary reflects its actual scope and distinguishes archived change history from the merged current capability specification."
+      "review_reason": "Reviewed completed bounded implementation/evidence/review tasks; wording states preparation for merge rather than falsely claiming an already merged PR."
     },
     {
       "path": "openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/.openspec.yaml",
@@ -5642,18 +5663,18 @@
   "verification": {
     "status": "pass",
     "tracked_path_coverage": {
-      "tracked_files": 433,
-      "entries": 433,
-      "nonempty_summaries": 433,
-      "catalog_links": 433,
+      "tracked_files": 435,
+      "entries": 435,
+      "nonempty_summaries": 435,
+      "catalog_links": 435,
       "omissions": 0,
       "exclusions": 0,
       "status": "pass",
       "exit_code": 0
     },
     "source_hashes": {
-      "inputs": 431,
-      "matched": 431,
+      "inputs": 433,
+      "matched": 433,
       "self_outputs_omitted": [
         "docs/planning/file-inventory.json",
         "wiki/documents.md"
@@ -5731,9 +5752,9 @@
       "explicit_current_source_reviews": 51,
       "native_stream_events": 26,
       "negative_recovery_cli_steps": 13,
-      "focused_tests_after_upstream_integration": 85,
+      "focused_tests_after_upstream_integration": 89,
       "scope": "Explicitly configured Claude fixture; host-level hook switches and normal default loading are separate findings. Review hashes bind bytes, not semantic proof."
     }
   },
-  "last_update": "Explicit source reviews reconciled catalog upkeep with concurrent merged documentation and array-fact changes; maintenance commands now own pending review, generation and checks."
+  "last_update": "Clean pushed handoff candidate requested by Brian: tested catalog upkeep, approved AES project declarations and prepared native activation helper; ordinary activation verification remains unfinished."
 }
