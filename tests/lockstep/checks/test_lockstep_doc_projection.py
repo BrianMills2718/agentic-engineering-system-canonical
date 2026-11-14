@@ -280,3 +280,77 @@ def test_installed_post_edit_hook_refreshes_and_precommit_rejects_stale(tmp_path
     assert '| status | active |' in (root/'wiki/index.md').read_text()
     (root/'docs/plan.md').write_text('---\ndescription: Edited\nstatus: done\n---\n')
     assert run(['project', '--repo', str(root), '--check']) == 1
+
+
+def _array_repo(tmp_path, suffix='json'):
+    root = _repo(tmp_path, source='units.' + suffix, fields=['id', 'status'])
+    cfg = yaml.safe_load((root/'lockstep.yaml').read_text())
+    cfg['projections'][0]['items'] = 'units'
+    (root/'lockstep.yaml').write_text(yaml.safe_dump(cfg))
+    source = root/('units.' + suffix)
+    source.write_text(json.dumps({'units': [{'id': 'A|<', 'status': 'ready'}, {'id': 'B', 'status': 'done'}]}))
+    return root, source
+
+
+@pytest.mark.req('lockstep-doc-facts/array-facts-remain-current')
+@pytest.mark.parametrize('suffix', ['json', 'yaml'])
+def test_array_facts_remain_current(tmp_path, suffix):
+    root, source = _array_repo(tmp_path, suffix)
+    project.project(root)
+    page = root/'wiki/index.md'
+    text = page.read_text()
+    assert '| id | status |' in text
+    assert '| A&#124;&lt; | ready |' in text
+    assert text.index('A&#124;&lt;') < text.index('| B | done |')
+    before = page.read_bytes()
+    source.write_text(source.read_text().replace('ready', 'accepted'))
+    assert run(['project', '--repo', str(root), '--check']) == 1
+    assert page.read_bytes() == before
+    project.project(root)
+    assert '| A&#124;&lt; | accepted |' in page.read_text()
+    assert project.project(root, check=True) == []
+
+
+@pytest.mark.req('lockstep-doc-facts/invalid-array-facts-fail-before-writing')
+@pytest.mark.parametrize('units', [None, {}, [None], [{'id':'A'}], [{'status':'done'}],
+                                  [{'id':'', 'status':'done'}], [{'id':'A', 'status':None}],
+                                  [{'id':'A','status':[]}], [{'id':'A','status':'ok'}, {'id':'A','status':'done'}]])
+def test_invalid_array_facts_fail_before_writing(tmp_path, units):
+    root, source = _array_repo(tmp_path)
+    source.write_text(json.dumps({'units': units}))
+    before = (root/'wiki/index.md').read_bytes()
+    assert run(['project', '--repo', str(root)]) == 2
+    assert (root/'wiki/index.md').read_bytes() == before
+
+
+@pytest.mark.req('lockstep-doc-facts/array-facts-remain-current')
+@pytest.mark.parametrize('client', ['claude', 'codex'])
+def test_array_edit_through_native_refresh(tmp_path, monkeypatch, client):
+    import io
+    from lockstep.doc_projection import refresh_cli
+    root, source = _array_repo(tmp_path)
+    monkeypatch.chdir(root)
+    payload = {'cwd': str(root), 'tool_name': 'Write', 'tool_input': {'file_path': str(source)}}
+    monkeypatch.setattr(sys, 'stdin', io.StringIO(json.dumps(payload)))
+    assert refresh_cli(['--client', client]) == 0
+    assert '| A&#124;&lt; | ready |' in (root/'wiki/index.md').read_text()
+    event = json.loads(next((root/'.lockstep').glob('projection-*.jsonl')).read_text())
+    assert event['inputs'][0]['items'] == 'units'
+    assert event['inputs'][0]['facts'] == [{'id': 'A|<', 'status': 'ready'}, {'id': 'B', 'status': 'done'}]
+    source.write_text(source.read_text().replace('ready', 'accepted'))
+    assert run(['project', '--repo', str(root), '--check']) == 1
+    monkeypatch.setattr(sys, 'stdin', io.StringIO(json.dumps(payload)))
+    assert refresh_cli(['--client', client]) == 0
+    assert '| A&#124;&lt; | accepted |' in (root/'wiki/index.md').read_text()
+
+
+@pytest.mark.req('lockstep-doc-facts/invalid-array-facts-fail-before-writing')
+@pytest.mark.parametrize('items', [None, '', 1])
+def test_invalid_array_declaration_refused(tmp_path, items):
+    root, _ = _array_repo(tmp_path)
+    cfg = yaml.safe_load((root/'lockstep.yaml').read_text())
+    cfg['projections'][0]['items'] = items
+    (root/'lockstep.yaml').write_text(yaml.safe_dump(cfg))
+    before = (root/'wiki/index.md').read_bytes()
+    assert run(['project', '--repo', str(root)]) == 2
+    assert (root/'wiki/index.md').read_bytes() == before
