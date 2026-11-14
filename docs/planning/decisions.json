@@ -9,7 +9,7 @@
    "decision": "AES names the whole agent system: Lockstep, the feedback loop and the policy layer. The parts stay where they are; the map is code2-workspace `docs/architecture/model.c4`.",
    "consequences": "This package plans all three parts: the one-tool build for Lockstep, and acceptance entries A6 to A8 for the feedback loop, the policy layer and the whole.",
    "decided_by": "Brian",
-   "source": "CLAUDE.md:14"
+   "source": "AGENTS.md:14"
   },
   {
    "id": "D2",

@@ -179,3 +179,4 @@ Source-local documentation upkeep was added after the revision above:
 | Code unit | Job | Source anchor |
 | --- | --- | --- |
 | `doc_projection` | Read declared Markdown metadata, Python AST interfaces and JSON/YAML evidence fields, render only their marked document blocks, and check freshness; native post-edit refresh appends daily run records. | [module contract](../../src/lockstep/doc_projection.py#L1), [projection](../../src/lockstep/doc_projection.py#L134) |
+| `work_units` | Check the plan's work-unit DAG (`docs/planning/work-units.json`): cycles, missing dependencies, merged units without evidence; list ready units, the longest unmerged chain and independent units touching one file. | [module contract](../../src/lockstep/work_units.py#L1), [analysis](../../src/lockstep/work_units.py#L27) |

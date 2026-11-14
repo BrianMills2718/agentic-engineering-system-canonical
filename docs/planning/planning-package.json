@@ -86,9 +86,7 @@
         "scripts/hive/*.py",
         "src/lockstep/*.py",
         "src/lockstep/checks",
-        "src/pcw",
-        "scripts/meta/*.py",
-        "enforced_planning/*.py"
+        "src/pcw"
       ]
     },
     "domain_model": {

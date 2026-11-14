@@ -7,7 +7,7 @@
    "where": "docs",
    "how": "read CLAUDE.md, .project-brain/now.md, wiki/index.md, proposals/one-planning-tool/DESIGN.md, code2-workspace docs/decisions/0009-aes-and-lockstep-fate.md (amendments 1 to 4) and docs/capabilities.md at origin/main, scripts/learning_loop/systemd/README.md, docs/rules/RULES.md",
    "found": [
-    "CLAUDE.md:14",
+    "AGENTS.md:14",
     "proposals/one-planning-tool/DESIGN.md:3",
     "proposals/one-planning-tool/DESIGN.md:64",
     ".project-brain/now.md:9",
@@ -55,7 +55,7 @@
    "id": "F1",
    "claim": "AES is the whole system with three parts, and Lockstep is kept and actively developed as one of them.",
    "evidence": [
-    "CLAUDE.md:14",
+    "AGENTS.md:14",
     ".project-brain/now.md:9"
    ],
    "verdict": "holds"
