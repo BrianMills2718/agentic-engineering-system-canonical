@@ -1,0 +1,158 @@
+{
+  "platform": "reddit",
+  "id": "1xo5oc0",
+  "subreddit": "claudeskills",
+  "author": "bewithkhan",
+  "title": "I made a Claude skill that writes a full project blueprint (architecture, security, GDPR, UI states) before any code",
+  "text": "AI coding tools are great at code, but most launch-day problems come from decisions nobody made: RLS left off, Google Fonts loaded from Google before consent, session replay without consent, marketing emails with no unsubscribe link, no age check at sign-up.\n\n\n\nBansat (\u0628\u0646\u0633\u067c, Pashto for \"foundation\") is an Agent Skill plus one Markdown framework. Start a project in Claude Code and it:\n\n\n\n1. Screens the idea with 20 questions, asking you at most 5\n\n2. Sets a risk tier (Low, Medium or High)\n\n3. Writes docs/BLUEPRINT.md: PRD, architecture and ADRs, a data model with RLS, the API contract, a threat model, privacy and compliance, 17 UI states, a delivery plan and a launch gate\n\n4. Stops at gate G1 until you approve it\n\n\n\nFor an existing app, /bansat audit this repo runs a Day-0 triage first, then builds a gap register with deadlines.\n\n\n\nThe code samples were tested before release: the Prisma 7 schema validates, the Supabase RLS policies pass 14 tenant-isolation tests on real Postgres, and a Playwright test fails if a page contacts a third party before consent. The legal parts cover UK GDPR and PECR, EU GDPR and the AI Act, Nigeria's NDPA, and US COPPA and CAN-SPAM, checked on 4 Nov 2026. It's not legal advice, and it says so.\n\n\n\nInstall: git clone [https://github.com/bewithkhan/bansat](https://github.com/bewithkhan/bansat) \\~/.claude/skills/bansat, then type /bansat\n\n\n\nRepo: [https://github.com/bewithkhan/bansat](https://github.com/bewithkhan/bansat) (CC BY 4.0 for the text, MIT for the code)\n\n\n\nFeedback welcome, especially on markets or stacks it doesn't cover yet.",
+  "score": 110,
+  "url": "https://reddit.com/r/claudeskills/comments/1xo5oc0/i_made_a_claude_skill_that_writes_a_full_project/",
+  "comment_count": 18,
+  "comments_returned": 18,
+  "comments": [
+    {
+      "id": "19s5rt3dbty6d",
+      "parent_id": "t3_1xo5oc0",
+      "depth": 0,
+      "author": "yhrana",
+      "text": "Bro, i dont want to discourage you from putting outputs like this.\n\nBut take my advice: create a hook and a sandbox where say FABLE cant go outside. So websearch or anything.\n\nThen ask it to draw/make WHATEVER the F u want, but, from memory only.\n\nYOU WILL BE SHOCKED WHAT FABLE HAS SEEN",
+      "score": 5
+    },
+    {
+      "id": "19s69ral46jpf",
+      "parent_id": "t1_19s5rt3dbty6d",
+      "depth": 1,
+      "author": "bewithkhan",
+      "text": "Ha, appreciate the tip. For Bansat I actually want the opposite, though. The legal parts were checked against current sources and dated, and the skill tells Claude to re-check thresholds and deadlines with a web search before you rely on them, because the law keeps moving (the UK changed a lot of it this year). So web access stays on for that part.",
+      "score": 1
+    },
+    {
+      "id": "19s5ojw5qvvwg",
+      "parent_id": "t3_1xo5oc0",
+      "depth": 0,
+      "author": "Few_Pen9583",
+      "text": "This is amazing, any ideas on inprovement?",
+      "score": 2
+    },
+    {
+      "id": "19s69qf3312dc",
+      "parent_id": "t1_19s5ojw5qvvwg",
+      "depth": 1,
+      "author": "bewithkhan",
+      "text": "Thanks! The two areas I'd most like help with..more countries (India, South Africa and Kenya only get pointers so far) and more stack profiles. If you try it on a project, tell me where it felt slow or missed something. Issues on the repo are very welcome.",
+      "score": 2
+    },
+    {
+      "id": "19s5qoug4ek3n",
+      "parent_id": "t3_1xo5oc0",
+      "depth": 0,
+      "author": "HFT0DTE",
+      "text": "congrats! Welcome back to 2025! ",
+      "score": 2
+    },
+    {
+      "id": "19s69shld8v9h",
+      "parent_id": "t1_19s5qoug4ek3n",
+      "depth": 1,
+      "author": "bewithkhan",
+      "text": "fair, spec-first isn't new. The part Bansat adds is the boring stuff that actually gets apps fined..consent before any third party request (yes, even fonts), unsubscribe rules, age checks, UK/EU GDPR and NDPA, plus an audit track for apps that are already live.",
+      "score": 1
+    },
+    {
+      "id": "19s5xv13xak3n",
+      "parent_id": "t3_1xo5oc0",
+      "depth": 0,
+      "author": "Semtex123",
+      "text": "Claude do a GAP ANALYSIS. ",
+      "score": 1
+    },
+    {
+      "id": "19s69takvkthf",
+      "parent_id": "t1_19s5xv13xak3n",
+      "depth": 1,
+      "author": "bewithkhan",
+      "text": "That's basically the retrofit track, but with a fixed structure: a Day-0 triage first (exposed secrets, RLS, tracking before consent, marketing email), then a gap register where every gap gets a severity and a deadline. A bare \"do a gap analysis\" gives you a different list every time. This gives you the same standard on every project.",
+      "score": 1
+    },
+    {
+      "id": "19s64000a9flw",
+      "parent_id": "t3_1xo5oc0",
+      "depth": 0,
+      "author": "SadMarionberry181",
+      "text": "Looks solid - having Claude spit out a risk tier and GDPR checklist before any code saves a ton of last-minute fixes",
+      "score": 1
+    },
+    {
+      "id": "19s69tuq8lc8w",
+      "parent_id": "t1_19s64000a9flw",
+      "depth": 1,
+      "author": "bewithkhan",
+      "text": "Exactly the idea. The gates do most of the work. no production code until you approve the blueprint, and no real data, not even a waitlist email, until the privacy basics are live.",
+      "score": 1
+    },
+    {
+      "id": "19s6d3ab41hz8",
+      "parent_id": "t3_1xo5oc0",
+      "depth": 0,
+      "author": "End2EndEncryption",
+      "text": "Sounds like getshitdone",
+      "score": 1
+    },
+    {
+      "id": "19s779zm3zxvo",
+      "parent_id": "t1_19s6d3ab41hz8",
+      "depth": 1,
+      "author": "bewithkhan",
+      "text": "Similar idea, different job. GSD is good at driving the build itself with Claude Code. Bansat mostly covers what comes before and around the build: the blueprint, the privacy and security rules for the markets you\u2019re launching in, and a launch gate at the end. You could easily use both.",
+      "score": 1
+    },
+    {
+      "id": "19s6v5wd279dt",
+      "parent_id": "t3_1xo5oc0",
+      "depth": 0,
+      "author": "Few_Pen9583",
+      "text": "Amazing, i will, message me with updates!!",
+      "score": 1
+    },
+    {
+      "id": "19s77ar1tck00",
+      "parent_id": "t1_19s6v5wd279dt",
+      "depth": 1,
+      "author": "bewithkhan",
+      "text": "Thanks, really appreciate it! The easiest way to hear about updates is Watch \u2192 Custom \u2192 Releases on the repo, so GitHub notifies you when v3 lands. It adds a public law tracker and profiles for 24 tech stacks. I\u2019ll post here too.",
+      "score": 1
+    },
+    {
+      "id": "19s7a27i7sa4l",
+      "parent_id": "t1_19s77ar1tck00",
+      "depth": 2,
+      "author": "Few_Pen9583",
+      "text": "Awesome!",
+      "score": 1
+    },
+    {
+      "id": "19s6zw08e5q2p",
+      "parent_id": "t3_1xo5oc0",
+      "depth": 0,
+      "author": "Armannss",
+      "text": "The 17 UI states caught my attention. How does the blueprint decide which states apply to a particular flow, and does it connect each one to an acceptance criterion or test? For example, a failed save could specify what stays on screen, whether the user's input is preserved, and how retry works.\n\n\n\nIt might also help to label assumptions and unanswered questions separately from decisions the user has actually approved, so the handoff doesn't turn guesses into requirements.",
+      "score": 1
+    },
+    {
+      "id": "19s77bsh6kugw",
+      "parent_id": "t1_19s6zw08e5q2p",
+      "depth": 1,
+      "author": "bewithkhan",
+      "text": "Great questions.\n\n**Which states apply:** every screen gets a row in a state matrix with all 17 columns. S1\u2013S10 are the core set and apply by default. S11\u2013S17 apply wherever they can occur: offline sync, rate limits, consent-gated embeds and so on. A state can only be marked N/A with a written reason, so nothing gets quietly skipped. The screen inventory also lists each screen\u2019s failure states, e.g. \u201cTask detail \u2192 Comment \u2192 S9, or S3 with the text kept\u201d.\n\n**Tests:** yes. Each state has its own acceptance test; for S3 it\u2019s \u201ca mocked 500 shows the error and Retry recovers\u201d. The PRD\u2019s Gherkin scenarios point at states (\u201cDaily limit reached \u2192 S13\u201d), and API error codes map onto states. The reference code uses a typed union with an exhaustive switch, so the build fails if a screen misses one.\n\nYour failed-save example is pretty much S3 plus S9 as written: say what happened and what to do, give a Retry button, never clear the input, show a reference ID, and move focus to the message. If the cause is an expired session (S8), it signs you back in with a modal, returns you to the same place and restores your draft. The draft is saved locally and never includes passwords or payment fields.\n\n**On assumptions:** the skill already has to flag every assumption, the summary lists assumptions and open questions separately, and only a person can sign the G1 gate before building starts. But you\u2019re right that once something lands in the requirements, an assumed requirement looks the same as an approved one. A status on each requirement (approved / assumed / open) would fix that, so I\u2019ll add it in the next version. Thanks!",
+      "score": 1
+    },
+    {
+      "id": "19s9rtkh06hc1",
+      "parent_id": "t1_19s77bsh6kugw",
+      "depth": 2,
+      "author": "Armannss",
+      "text": "Thanks for the detail. Linking each state to an acceptance test answers my main question, and putting approved / assumed / open on individual requirements should make the handoff clearer.\n\n\n\nOne additional recovery case I\u2019d test is \u201cthe server saved it, but the response never reached the browser.\u201d The UI sees a timeout, yet a blind Retry might create a duplicate. For a create action, I\u2019d want the acceptance test to check both preserved input and exactly one resulting record after retry, using an idempotency key or an explicit reconciliation step.\n\n\n\nDoes your matrix also describe transitions between states\u2014especially timeout \u2192 retry \u2192 success\u2014or mainly the screen shown in each state?",
+      "score": 1
+    }
+  ]
+}

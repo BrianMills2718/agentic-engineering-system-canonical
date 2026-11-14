@@ -1,0 +1,107 @@
+{
+  "1xqkzd3": {
+    "url": "https://www.youtube.com/watch?v=of628n5754g",
+    "permalink": "/r/PostAI/comments/1xqkzd3/head_of_design_at_xs_new_claude_skill_is_insane/",
+    "is_self": false,
+    "domain": "youtube.com",
+    "media": "{'oembed': {'provider_url': 'https://www.youtube.com/', 'title': \"Head Of Design At X's New Claude Skill Is Insane\", 'html': '<iframe width=\"356\" height=\"200\" src=\"https://www.youtube.com/embed/of628n5754g?feature=oembed&enablejsapi=1\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Head Of Design At X&#39;s New Claude Skill Is Insane\"></iframe>', 't",
+    "selftext": "",
+    "created_utc": 1794096911.0,
+    "comments": []
+  },
+  "1xl0mvp": {
+    "url": "https://www.reddit.com/r/ClaudeAI/comments/1xl0mvp/claude_just_leak_its_internal_cds/",
+    "permalink": "/r/ClaudeAI/comments/1xl0mvp/claude_just_leak_its_internal_cds/",
+    "is_self": true,
+    "domain": "self.ClaudeAI",
+    "media": "None",
+    "selftext": "Cannot paste it all but it goes like this :   \nRules\n\n* No\u00a0`<!-- comments -->`\u00a0or\u00a0`/* comments */`\u00a0(waste tokens, break streaming)\n* No font-size below 11px\n* No emoji. Icons = Tabler\u00a0**outline**\u00a0webfont (5800+, already loaded):\u00a0`<i class=\"ti ti-home\"></i>`. Outline only \u2014 never use\u00a0`-filled`\u00a0suffixes (`ti-heart-filled`\u00a0etc. are not loaded and will render blank). Inherits color + font-size from parent. Decorative icons get\u00a0`aria-hidden=\"true\"`; icon-only buttons get\u00a0`aria-label`. Common: ti-home",
+    "created_utc": 1793532089.0,
+    "comments": [
+      {
+        "id": "19rzhc43cgf1h",
+        "parent": "t3_1xl0mvp",
+        "author": "anivex",
+        "score": 102,
+        "body": "It's internal settings get \"leaked\" regularly if you pay attention to it while it's writing code. I have a ton of claude internal settings saved lol. Don't think I can do anything with it, but it's interesting to read."
+      },
+      {
+        "id": "19rziy1zuhmw1",
+        "parent": "t3_1xl0mvp",
+        "author": "BoxLegitimate9271",
+        "score": 46,
+        "body": "\"no comments, they waste tokens\" is going to show up in someone's code review as company policy by tuesday"
+      },
+      {
+        "id": "19rz80u81hy5h",
+        "parent": "t3_1xl0mvp",
+        "author": "Medium-Philosophy942",
+        "score": 16,
+        "body": "Writing an entire internal design system is impressive, I guess. But can it fix the stupid guardrail restrictions? No? Then I fail to see why I should care."
+      },
+      {
+        "id": "19rzc80hsw6cl",
+        "parent": "t3_1xl0mvp",
+        "author": "furiouspoodle",
+        "score": 2,
+        "body": "I find the use of back ticks to format every function name in inline code blocks maddening. At least I know why. "
+      },
+      {
+        "id": "19s5em0y8o0f6",
+        "parent": "t3_1xl0mvp",
+        "author": "fadzlan",
+        "score": 1,
+        "body": "Maybe post it at a pastebin or something? I am curious if I could make other models (eg. codex, deepseek, etc) behave a bit more like claude."
+      },
+      {
+        "id": "19rzjpg3noyld",
+        "parent": "t1_19rzhc43cgf1h",
+        "author": "caustictoast",
+        "score": 30,
+        "body": "Haiku outright told me max number of tokens in a session (15million) and I didn't even ask, just wanted to know what the context window settings I had."
+      },
+      {
+        "id": "19rzofxb6dq8y",
+        "parent": "t1_19rziy1zuhmw1",
+        "author": "rypher",
+        "score": 20,
+        "body": "Thank goodness. The proliferation of comments everywhere about all kinds of stuff is terrible. Comments should be a last resort, the source of truth is the code. "
+      },
+      {
+        "id": "19s8gycvsq90k",
+        "parent": "t1_19rzjpg3noyld",
+        "author": "surfmaths",
+        "score": 3,
+        "body": "That's incorrect.\n\nFor Haiku 5.5 the max context window is 1M token (it matches Sonner and Opus), and it usually prefer to use 100k or less."
+      },
+      {
+        "id": "19s4m0d3uyucg",
+        "parent": "t1_19rzofxb6dq8y",
+        "author": "sopharella",
+        "score": 4,
+        "body": "\u201eThe code is self explanatory\u201d"
+      },
+      {
+        "id": "19s4vtds93uw0",
+        "parent": "t1_19s4m0d3uyucg",
+        "author": "Overall-Reflection31",
+        "score": 9,
+        "body": "If you've paid attention to the code it outputs, the problem is that most of the time, the AI doesn't write comments that reflect the current state (which is how they should be used), but rather the comments function more as a justification/explaination of how a fix/change is implemented.\n\nYou can ask it to change a button's color and you'll get code like  \n  \n// This button was previously red, now it's blue.  \n<button class=\"blue\"/>\n\nCode should strive to be as readable as possible, without sacraficing performance. At least for high level languages."
+      },
+      {
+        "id": "19s53ntpw2e5g",
+        "parent": "t1_19s4vtds93uw0",
+        "author": "japherwocky",
+        "score": 4,
+        "body": "yeah, it loves documenting historical behavior that just does not matter anymore."
+      },
+      {
+        "id": "19s69usz5hoo2",
+        "parent": "t1_19s53ntpw2e5g",
+        "author": "carrottrash",
+        "score": 5,
+        "body": "Not just code. Tickets, commits, PRs. It's the single most annoying thing you really need to put effort into blocking."
+      }
+    ]
+  }
+}
