@@ -391,6 +391,18 @@
    "label": "claims that Project Meta is retired or that AES stands alone; removal of any Project Meta \u2026",
    "kind": "Decision",
    "explain": "claims that Project Meta is retired or that AES stands alone; removal of any Project Meta file"
+  },
+  {
+   "id": "Q45",
+   "label": "Q45: Workspace into AES",
+   "kind": "BrianQuestion",
+   "explain": "How is code2-workspace split so the portable rules, checks and setup live in AES, personal rules and identity live in a private profile repository, and a new machine is built from the two? Recommendation: Start with the identity file and loader proven on one rule file in Claude and Codex, then move rule files one at a time; the machine layer is proven on a clean second environment. Default: Until Brian approves, nothing in code2-workspace is moved or changed."
+  },
+  {
+   "id": "Q45-blocks",
+   "label": "moving any workspace file; claiming AES holds the user's rules",
+   "kind": "Decision",
+   "explain": "moving any workspace file; claiming AES holds the user's rules"
   }
  ],
  "edges": [
@@ -710,6 +722,18 @@
    "id": "Q44-legacy-review",
    "source": "Q44",
    "target": "legacy-review",
+   "label": "bears on"
+  },
+  {
+   "id": "Q45-to-decision",
+   "source": "Q45",
+   "target": "Q45-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q45-ecosystem-consolidation",
+   "source": "Q45",
+   "target": "ecosystem-consolidation",
    "label": "bears on"
   }
  ]

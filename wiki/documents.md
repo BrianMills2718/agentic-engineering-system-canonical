@@ -46,6 +46,7 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 - [Discovery journey script](../scripts/discovery_journey.py) — reads the merged view, contract registry and observability aggregates and writes the receipt.
 - [Project Meta retirement plan](../docs/planning/project-meta-retirement-plan.md) — what still calls Project Meta, what is worth porting into AES, and the slice order (proposed, nothing done).
 - [Project Meta docs triage](../docs/planning/project-meta-docs-triage.md) — folder-by-folder proposal for Project Meta's 2,734 docs files (slice 0b; nothing moved).
+- [Workspace into AES split](../docs/planning/workspace-into-aes-split.md) — proposal: core in AES, private profile repository for personal rules and identity, machine layer (Q45; nothing moved).
 - [Discovery journey receipt](../evidence/runs/discovery-journey-20261114.json) — two capabilities end to end and four failure exercises, with limits.
 - [Concern lifecycle live receipt](../evidence/runs/concern-lifecycle-live-20261114.json) — one verifier gate and recurrence reopening observed, with what was not observed.
 

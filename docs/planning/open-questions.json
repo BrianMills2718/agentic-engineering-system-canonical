@@ -802,6 +802,24 @@
     "ecosystem-consolidation",
     "legacy-review"
    ]
+  },
+  {
+   "id": "Q45",
+   "short": "Workspace into AES",
+   "question": "How is code2-workspace split so the portable rules, checks and setup live in AES, personal rules and identity live in a private profile repository, and a new machine is built from the two?",
+   "blocks": "moving any workspace file; claiming AES holds the user's rules",
+   "resolves_with": "Brian approves the folder table in docs/planning/workspace-into-aes-split.md and the name of the private profile repository; each step then ships with a before and after of what a session loads.",
+   "owner": "brian",
+   "status": "open",
+   "recommendation": "Start with the identity file and loader proven on one rule file in Claude and Codex, then move rule files one at a time; the machine layer is proven on a clean second environment.",
+   "default": "Until Brian approves, nothing in code2-workspace is moved or changed.",
+   "evidence": "Brian approved Option A (core in AES, profile in a private repository, identity as configuration) on 2026-11-14. code2-workspace has 1,055 tracked files; AES is public and the workspace is private. Nothing moved.",
+   "sources": [
+    "docs/planning/workspace-into-aes-split.md"
+   ],
+   "touches": [
+    "ecosystem-consolidation"
+   ]
   }
  ]
 }
