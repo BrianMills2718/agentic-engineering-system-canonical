@@ -36,6 +36,22 @@ the array projection change; the merged specification remains authoritative.
 - [Array projection requirement delta](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts/spec.md) — retained change to the fact projection contract.
 - [Array projection tasks](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/tasks.md) — historical implementation checklist.
 
+## External source captures (2026-11-14)
+
+Added after the 419-file inventory; [External ideas](external-ideas.md) owns their interpretation.
+Each capture is append-only third-party content and not AES authority.
+
+- [External ideas](external-ideas.md) — what three Reddit posts and one video could offer AES, with limits. **Role:** source document. **Disposition:** keep.
+- [Internal-rules post: provenance](../raw/sources/2026-11-14-reddit-1xl0mvp-claude-internal-cds/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [Internal-rules post: capture](../raw/sources/2026-11-14-reddit-1xl0mvp-claude-internal-cds/original/1xl0mvp.json) — post text and 12 comments as returned by the Reddit API.
+- [Bansat post: provenance](../raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [Bansat post: capture](../raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/original/1xo5oc0.json) — post text and 18 comments.
+- [Stage Show post: provenance](../raw/sources/2026-11-14-reddit-1xqkzd3-stage-show-video/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [Stage Show post: capture](../raw/sources/2026-11-14-reddit-1xqkzd3-stage-show-video/original/1xqkzd3.json) — link post with no body and zero returned comments.
+- [Stage Show post: submission metadata](../raw/sources/2026-11-14-reddit-1xqkzd3-stage-show-video/original/extra_submission_metadata.json) — link target and the full comment lists for this post and the internal-rules post.
+- [Stage Show video: provenance](../raw/sources/2026-11-14-youtube-of628n5754g-stage-show/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [Stage Show video: transcript](../raw/sources/2026-11-14-youtube-of628n5754g-stage-show/original/yt_of628n5754g.json) — 374-segment transcript.
+
 ## Ecosystem review records (2026-11-14)
 
 Added after the 419-file inventory; the ecosystem page owns their interpretation.

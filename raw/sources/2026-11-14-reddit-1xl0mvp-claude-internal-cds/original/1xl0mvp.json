@@ -1,0 +1,110 @@
+{
+  "platform": "reddit",
+  "id": "1xl0mvp",
+  "subreddit": "ClaudeAI",
+  "author": "Spare-Flamingo6080",
+  "title": "Claude just leak its internal CDS",
+  "text": "Cannot paste it all but it goes like this :   \nRules\n\n* No\u00a0`<!-- comments -->`\u00a0or\u00a0`/* comments */`\u00a0(waste tokens, break streaming)\n* No font-size below 11px\n* No emoji. Icons = Tabler\u00a0**outline**\u00a0webfont (5800+, already loaded):\u00a0`<i class=\"ti ti-home\"></i>`. Outline only \u2014 never use\u00a0`-filled`\u00a0suffixes (`ti-heart-filled`\u00a0etc. are not loaded and will render blank). Inherits color + font-size from parent. Decorative icons get\u00a0`aria-hidden=\"true\"`; icon-only buttons get\u00a0`aria-label`. Common: ti-home ti-settings ti-user ti-search ti-x ti-check ti-plus ti-trash ti-edit ti-download ti-upload ti-file ti-folder ti-chart-bar ti-calendar ti-clock ti-arrow-right ti-arrow-left ti-chevron-down ti-external-link ti-copy ti-refresh ti-player-play ti-player-pause ti-heart ti-star ti-bell ti-mail ti-lock ti-eye ti-menu-2. Don't hand-draw icon SVG paths.\n* No gradients, drop shadows, blur, glow, or neon effects\n* No dark/colored backgrounds on outer containers (transparent only \u2014 host provides the bg)\n* **Typography**: The default font is Anthropic Sans. For the rare editorial/blockquote moment, use\u00a0`font-family: var(--font-voice)`.\n* **Headings**: h1 = 22px, h2 = 18px, h3 = 16px \u2014 all\u00a0`font-weight: 500`. Heading color is pre-set to\u00a0`var(--text-primary)`\u00a0\u2014 don't override it. Body text = 16px, weight 400,\u00a0`line-height: 1.7`.\u00a0**Two weights only: 400 regular, 500 bold.**\u00a0Never use 600 or 700 \u2014 they look heavy against the host UI.\n* **Sentence case**\u00a0always. Never Title Case, never ALL CAPS. This applies everywhere including SVG text labels and diagram headings.\n* **No mid-sentence bolding**, including in your response text around the tool call. Entity names, class names, function names go in\u00a0`code style`\u00a0not\u00a0**bold**. Bold is for headings and labels only.\n* The widget container is\u00a0`display: block; width: 100%`. Your HTML fills it naturally \u2014 no wrapper div needed. Just start with your content directly. If you want vertical breathing room, add\u00a0`padding: 1rem 0`\u00a0on your first element.\n* Never use\u00a0`position: fixed`\u00a0\u2014 the iframe viewport sizes itself to your in-flow content height, so fixed-positioned elements (modals, overlays, tooltips) collapse it to\u00a0`min-height: 100px`. For modal/overlay mockups: wrap everything in a normal-flow\u00a0`<div style=\"min-height: 400px; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center;\">`and put the modal inside \u2014 it's a faux viewport that actually contributes layout height.\n* `h`/`height`\u00a0explicitly (same limits).\n* No tabs, carousels, or\u00a0`display: none`\u00a0sections during streaming \u2014 hidden content streams invisibly. Show all content stacked vertically. (Post-streaming JS-driven steppers are fine \u2014 see Illustrative/Inter\n* .....\n\nhttps://preview.redd.it/dznleawljzyh1.png?width=1746&format=png&auto=webp&s=602f8ac7b29bab0a6ad29c22eb7164ffe91add14\n\nhttps://preview.redd.it/225ospqmjzyh1.png?width=1742&format=png&auto=webp&s=17266efcb19e6b17fdd8fe1e1f91f4e791ef05a7\n\nhttps://preview.redd.it/yfw4wo7ojzyh1.png?width=1746&format=png&auto=webp&s=198ce40488c9bac5876410e962c07554dbec4415\n\nhttps://preview.redd.it/u96vhfgpjzyh1.png?width=1686&format=png&auto=webp&s=b31f0f23ed9d4d6a4b4b6bc3458aa7e082371b93\n\n",
+  "score": 262,
+  "url": "https://reddit.com/r/ClaudeAI/comments/1xl0mvp/claude_just_leak_its_internal_cds/",
+  "comment_count": 15,
+  "comments_returned": 12,
+  "comments": [
+    {
+      "id": "19rzhc43cgf1h",
+      "parent_id": "t3_1xl0mvp",
+      "depth": 0,
+      "author": "anivex",
+      "text": "It's internal settings get \"leaked\" regularly if you pay attention to it while it's writing code. I have a ton of claude internal settings saved lol. Don't think I can do anything with it, but it's interesting to read.",
+      "score": 104
+    },
+    {
+      "id": "19rzjpg3noyld",
+      "parent_id": "t1_19rzhc43cgf1h",
+      "depth": 1,
+      "author": "caustictoast",
+      "text": "Haiku outright told me max number of tokens in a session (15million) and I didn't even ask, just wanted to know what the context window settings I had.",
+      "score": 29
+    },
+    {
+      "id": "19s8gycvsq90k",
+      "parent_id": "t1_19rzjpg3noyld",
+      "depth": 2,
+      "author": "surfmaths",
+      "text": "That's incorrect.\n\nFor Haiku 5.5 the max context window is 1M token (it matches Sonner and Opus), and it usually prefer to use 100k or less.",
+      "score": 3
+    },
+    {
+      "id": "19rziy1zuhmw1",
+      "parent_id": "t3_1xl0mvp",
+      "depth": 0,
+      "author": "BoxLegitimate9271",
+      "text": "\"no comments, they waste tokens\" is going to show up in someone's code review as company policy by tuesday",
+      "score": 43
+    },
+    {
+      "id": "19rzofxb6dq8y",
+      "parent_id": "t1_19rziy1zuhmw1",
+      "depth": 1,
+      "author": "rypher",
+      "text": "Thank goodness. The proliferation of comments everywhere about all kinds of stuff is terrible. Comments should be a last resort, the source of truth is the code. ",
+      "score": 23
+    },
+    {
+      "id": "19s4m0d3uyucg",
+      "parent_id": "t1_19rzofxb6dq8y",
+      "depth": 2,
+      "author": "sopharella",
+      "text": "\u201eThe code is self explanatory\u201d",
+      "score": 3
+    },
+    {
+      "id": "19s4vtds93uw0",
+      "parent_id": "t1_19s4m0d3uyucg",
+      "depth": 3,
+      "author": "Overall-Reflection31",
+      "text": "If you've paid attention to the code it outputs, the problem is that most of the time, the AI doesn't write comments that reflect the current state (which is how they should be used), but rather the comments function more as a justification/explaination of how a fix/change is implemented.\n\nYou can ask it to change a button's color and you'll get code like  \n  \n// This button was previously red, now it's blue.  \n<button class=\"blue\"/>\n\nCode should strive to be as readable as possible, without sacraficing performance. At least for high level languages.",
+      "score": 9
+    },
+    {
+      "id": "19s53ntpw2e5g",
+      "parent_id": "t1_19s4vtds93uw0",
+      "depth": 4,
+      "author": "japherwocky",
+      "text": "yeah, it loves documenting historical behavior that just does not matter anymore.",
+      "score": 3
+    },
+    {
+      "id": "19s69usz5hoo2",
+      "parent_id": "t1_19s53ntpw2e5g",
+      "depth": 5,
+      "author": "carrottrash",
+      "text": "Not just code. Tickets, commits, PRs. It's the single most annoying thing you really need to put effort into blocking.",
+      "score": 4
+    },
+    {
+      "id": "19rz80u81hy5h",
+      "parent_id": "t3_1xl0mvp",
+      "depth": 0,
+      "author": "Medium-Philosophy942",
+      "text": "Writing an entire internal design system is impressive, I guess. But can it fix the stupid guardrail restrictions? No? Then I fail to see why I should care.",
+      "score": 17
+    },
+    {
+      "id": "19rzc80hsw6cl",
+      "parent_id": "t3_1xl0mvp",
+      "depth": 0,
+      "author": "furiouspoodle",
+      "text": "I find the use of back ticks to format every function name in inline code blocks maddening. At least I know why. ",
+      "score": 2
+    },
+    {
+      "id": "19s5em0y8o0f6",
+      "parent_id": "t3_1xl0mvp",
+      "depth": 0,
+      "author": "fadzlan",
+      "text": "Maybe post it at a pastebin or something? I am curious if I could make other models (eg. codex, deepseek, etc) behave a bit more like claude.",
+      "score": 1
+    }
+  ]
+}

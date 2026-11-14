@@ -1,0 +1,12 @@
+{
+  "source_url": "https://www.reddit.com/r/ClaudeAI/comments/1xl0mvp/claude_just_leak_its_internal_cds/",
+  "platform": "reddit",
+  "captured": "2026-11-14",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "method": "social-media MCP code (asyncpraw / youtube transcript) run directly; plain HTTP fetch of Reddit returned 403",
+  "coverage": "r/ClaudeAI post and 12 of 15 comments (3 not returned)",
+  "original_file": "original/1xl0mvp.json",
+  "sha256": "4397e1927ba149befac3dda668b4619f480315e83425d7032031bead3db735d2",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

@@ -1,0 +1,12 @@
+{
+  "source_url": "https://www.reddit.com/r/claudeskills/comments/1xo5oc0/i_made_a_claude_skill_that_writes_a_full_project/",
+  "platform": "reddit",
+  "captured": "2026-11-14",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "method": "social-media MCP code (asyncpraw / youtube transcript) run directly; plain HTTP fetch of Reddit returned 403",
+  "coverage": "r/claudeskills post and all 18 comments",
+  "original_file": "original/1xo5oc0.json",
+  "sha256": "70c589be44e9af53a6d79093b25c0b1f1666d68ab866156dd5cc107ac1390aa8",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

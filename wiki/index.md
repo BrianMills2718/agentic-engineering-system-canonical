@@ -39,6 +39,7 @@ and [open concerns](open-questions.md) remain visible.
 | What does a term mean? | [Glossary](glossary.md) | [Domain model](../docs/planning/DOMAIN.md) |
 | Which older designs and choices were retained or retired? | [History](history.md) | [Retirement record](../docs/retired/2026-11-12.md) |
 | How do projects discover and compose existing capabilities, and what survives from older systems? | [Ecosystem and legacy review](../docs/architecture/ECOSYSTEM.md) | [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), Q36–Q42 |
+| Which outside ideas (posts, videos) were looked at, and what could AES take? | [External ideas](external-ideas.md) | Raw captures in [raw/sources](../raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json) |
 | What prior research informed it? | [Research and lessons](research-and-lessons.md) | The retained source revisions linked on that page |
 
 ## How to read this wiki
