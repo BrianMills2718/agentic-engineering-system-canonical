@@ -38,6 +38,7 @@ and [open concerns](open-questions.md) remain visible.
 | How do I install, check and operate it? | [Commands](run-and-deploy.md) | [README](../README.md) and [feedback operator guide](../scripts/learning_loop/systemd/README.md) |
 | What does a term mean? | [Glossary](glossary.md) | [Domain model](../docs/planning/DOMAIN.md) |
 | Which older designs and choices were retained or retired? | [History](history.md) | [Retirement record](../docs/retired/2026-11-12.md) |
+| How do projects discover and compose existing capabilities, and what survives from older systems? | [Ecosystem and legacy review](../docs/architecture/ECOSYSTEM.md) | [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), Q36–Q42 |
 | What prior research informed it? | [Research and lessons](research-and-lessons.md) | The retained source revisions linked on that page |
 
 ## How to read this wiki
@@ -91,3 +92,5 @@ Where each earlier decision stands now:
 - 0003 to 0006 and 0008 were carried forward into v0.2 under new names and are history with it; 0007 was already superseded by 0008 ([docs/decisions/0010-greenfield-v0.2-accepted.md:150-151](../docs/decisions/0010-greenfield-v0.2-accepted.md#L150-L151)).
 - 0009 (local): its modular-design guidance (AES-CAP-003 to 005) stands; its rows giving Company Planning and Enforced Planning ownership were superseded for v0.2 ([docs/decisions/0010-greenfield-v0.2-accepted.md:146-148](../docs/decisions/0010-greenfield-v0.2-accepted.md#L146-L148)).
 - 0011 is current on identity. Its condition for resuming the Inside Success rollout is met, but whether to resume is Brian's call and has not been made ([docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:79-81](../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md#L79-L81)).
+
+- [0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md): AES-owned ecosystem consolidation and source-backed predecessor review (2026-11-13).

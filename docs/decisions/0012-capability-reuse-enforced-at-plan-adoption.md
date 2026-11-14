@@ -12,6 +12,15 @@ reversible: true
 
 Governs: docs/architecture/SYSTEM_BOUNDARY.md#aes-cap-002--external-first-provider-sourcing
 
+## Consolidation follow-up, 2026-11-13
+
+[Decision 0014](0014-ecosystem-consolidation-and-legacy-review.md) adopts AES-owned
+consolidation and predecessor review. Its source review records the later workspace
+inventory decision and incomplete catalogue integration. This decision remains the
+historical source for Company Planning's existing adoption rule; it does not prove
+that ACA currently covers the ecosystem or that ecosystem-ops was migrated.
+Catalogue publication and upstream rule reconciliation remain Q36.
+
 ## Context
 
 Brian, 2026-10-08: "how should we move forward with an ecosystem where capabilities are

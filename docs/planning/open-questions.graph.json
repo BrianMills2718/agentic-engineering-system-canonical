@@ -281,6 +281,104 @@
    "label": "A claim that the current policy layer preserves and delivers the original inventory.",
    "kind": "Decision",
    "explain": "A claim that the current policy layer preserves and delivers the original inventory."
+  },
+  {
+   "id": "Q36",
+   "label": "Q36: One capability discovery route",
+   "kind": "AgentQuestion",
+   "explain": "Which existing catalogue/export/view should implement the adopted AES discovery route, and how will ACA Decision 0012, workspace Decision 0004 and Project Meta be explicitly reconciled? Settled by: Compare unique entries, readers/writers, stable aliases and sufficient existing catalogue products; demonstrate one route before changing old instructions."
+  },
+  {
+   "id": "Q36-blocks",
+   "label": "catalogue implementation and upstream instruction changes",
+   "kind": "Decision",
+   "explain": "catalogue implementation and upstream instruction changes"
+  },
+  {
+   "id": "ecosystem-consolidation",
+   "label": "Ecosystem consolidation",
+   "kind": "Concept",
+   "dashed": true,
+   "explain": "The adopted direction to make capabilities, providers, contracts, consumers and evidence discoverable through one route while preserving native owners; see docs/architecture/ECOSYSTEM.md."
+  },
+  {
+   "id": "legacy-review",
+   "label": "Legacy source review",
+   "kind": "Concept",
+   "dashed": true,
+   "explain": "The first-pass examination of predecessor sources and their reuse or retirement dispositions before migration; see docs/architecture/ECOSYSTEM.md and decision 0014."
+  },
+  {
+   "id": "Q37",
+   "label": "Q37: Qualified capability and schema identities",
+   "kind": "AgentQuestion",
+   "explain": "How are legacy capability/family IDs, provider-qualified action names, versions and input/output schema references preserved without ambiguous joins? Settled by: Produce alias mappings and show distinct same-named tools cannot overwrite each other; retain explicit schema compatibility/adaptation evidence."
+  },
+  {
+   "id": "Q37-blocks",
+   "label": "safe record migration and cross-project compatibility claims",
+   "kind": "Decision",
+   "explain": "safe record migration and cross-project compatibility claims"
+  },
+  {
+   "id": "Q38",
+   "label": "Q38: Discovery evidence and freshness",
+   "kind": "AgentQuestion",
+   "explain": "How does discovery distinguish documented, candidate, source-resolved, available, consumer-adopted and fit-for-this-requirement states, including incomplete or broken inputs? Settled by: Exercise missing source, invalid input, stale revision and catalog-only capability; inspect a real consumer receipt separately from a dependency declaration."
+  },
+  {
+   "id": "Q38-blocks",
+   "label": "honest discovery results and automatic refresh claims",
+   "kind": "Decision",
+   "explain": "honest discovery results and automatic refresh claims"
+  },
+  {
+   "id": "Q39",
+   "label": "Q39: Legacy review coverage",
+   "kind": "AgentQuestion",
+   "explain": "Which older source sections have actually been read, what unique ideas remain, and what is the next bounded reading tranche? Settled by: Continue the source/revision/disposition table in ECOSYSTEM.md; inspect concern lifecycle next, then selected policy families and instruction delivery."
+  },
+  {
+   "id": "Q39-blocks",
+   "label": "claims that predecessor knowledge has been preserved",
+   "kind": "Decision",
+   "explain": "claims that predecessor knowledge has been preserved"
+  },
+  {
+   "id": "Q40",
+   "label": "Q40: Retired entrypoint and consumer reconciliation",
+   "kind": "AgentQuestion",
+   "explain": "Which Project Meta and Enforced Planning entrypoints still route agents into old claims/mailbox authority, and which surviving consumers need their implementation? Settled by: Inventory exact readers and installed routes; change upstream pointers through their owning repositories after preserving live contract consumers."
+  },
+  {
+   "id": "Q40-blocks",
+   "label": "safe donor-document routing and eventual retirement",
+   "kind": "Decision",
+   "explain": "safe donor-document routing and eventual retirement"
+  },
+  {
+   "id": "Q41",
+   "label": "Q41: Minimum composition model",
+   "kind": "AgentQuestion",
+   "explain": "Does ordinary ecosystem discovery require the rich data-contracts action/compiler vocabulary, or are typed provider references and the minimal requirement/output graph sufficient? Settled by: Compare actual ordinary plans and consumer guarantees; adopt richer effects/resources/transition semantics only for an explicit unsatisfied requirement."
+  },
+  {
+   "id": "Q41-blocks",
+   "label": "publication burden and speculative platform growth",
+   "kind": "Decision",
+   "explain": "publication burden and speculative platform growth"
+  },
+  {
+   "id": "Q42",
+   "label": "Q42: Concern identity and repair closure",
+   "kind": "AgentQuestion",
+   "explain": "Which existing system owns durable concern identity, verifier-owned closure and recurrence reopening across native feedback evidence and GitHub issues? Settled by: Read the Project Meta concern executor/verifier lifecycle and compare its exact transitions with AES feedback implementation, Q21, Q29 and Q31."
+  },
+  {
+   "id": "Q42-blocks",
+   "label": "integrated correction-to-verified-repair behavior",
+   "kind": "Decision",
+   "explain": "integrated correction-to-verified-repair behavior"
   }
  ],
  "edges": [
@@ -457,6 +555,132 @@
    "source": "Q35",
    "target": "Q35-blocks",
    "label": "blocks"
+  },
+  {
+   "id": "Q36-to-decision",
+   "source": "Q36",
+   "target": "Q36-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q36-ecosystem-consolidation",
+   "source": "Q36",
+   "target": "ecosystem-consolidation",
+   "label": "bears on"
+  },
+  {
+   "id": "Q36-legacy-review",
+   "source": "Q36",
+   "target": "legacy-review",
+   "label": "bears on"
+  },
+  {
+   "id": "Q37-to-decision",
+   "source": "Q37",
+   "target": "Q37-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q37-ecosystem-consolidation",
+   "source": "Q37",
+   "target": "ecosystem-consolidation",
+   "label": "bears on"
+  },
+  {
+   "id": "Q37-legacy-review",
+   "source": "Q37",
+   "target": "legacy-review",
+   "label": "bears on"
+  },
+  {
+   "id": "Q38-to-decision",
+   "source": "Q38",
+   "target": "Q38-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q38-ecosystem-consolidation",
+   "source": "Q38",
+   "target": "ecosystem-consolidation",
+   "label": "bears on"
+  },
+  {
+   "id": "Q38-legacy-review",
+   "source": "Q38",
+   "target": "legacy-review",
+   "label": "bears on"
+  },
+  {
+   "id": "Q39-to-decision",
+   "source": "Q39",
+   "target": "Q39-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q39-ecosystem-consolidation",
+   "source": "Q39",
+   "target": "ecosystem-consolidation",
+   "label": "bears on"
+  },
+  {
+   "id": "Q39-legacy-review",
+   "source": "Q39",
+   "target": "legacy-review",
+   "label": "bears on"
+  },
+  {
+   "id": "Q40-to-decision",
+   "source": "Q40",
+   "target": "Q40-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q40-ecosystem-consolidation",
+   "source": "Q40",
+   "target": "ecosystem-consolidation",
+   "label": "bears on"
+  },
+  {
+   "id": "Q40-legacy-review",
+   "source": "Q40",
+   "target": "legacy-review",
+   "label": "bears on"
+  },
+  {
+   "id": "Q41-to-decision",
+   "source": "Q41",
+   "target": "Q41-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q41-ecosystem-consolidation",
+   "source": "Q41",
+   "target": "ecosystem-consolidation",
+   "label": "bears on"
+  },
+  {
+   "id": "Q41-legacy-review",
+   "source": "Q41",
+   "target": "legacy-review",
+   "label": "bears on"
+  },
+  {
+   "id": "Q42-to-decision",
+   "source": "Q42",
+   "target": "Q42-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q42-ecosystem-consolidation",
+   "source": "Q42",
+   "target": "ecosystem-consolidation",
+   "label": "bears on"
+  },
+  {
+   "id": "Q42-legacy-review",
+   "source": "Q42",
+   "target": "legacy-review",
+   "label": "bears on"
   }
  ]
 }

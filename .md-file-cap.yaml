@@ -1,7 +1,9 @@
-limit: 134
+limit: 136
 reason: >
   Current architecture, accepted decisions and historical contracts remain linked rather than
   discarded. The bounded self-adoption adds a capability and its archived proposal, delta and
   tasks. Array fact projection adds a separate archived proposal, delta and tasks. The merged
   tracked trees contain 133 Markdown files. The generated requirement coverage page adds one,
-  bringing the measured total to 134; the wiki catalog links all these records.
+  bringing the total to 134. The ecosystem consolidation adds two retained architecture and
+  decision documents; the merged tracked tree contains 136 Markdown files. The wiki catalog
+  links these records.

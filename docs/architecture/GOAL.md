@@ -41,6 +41,7 @@ reconciles that existing direction; it does not adopt a new product design.
 | Function and provider | Responsibility | Owning description |
 | --- | --- | --- |
 | Planning, supplied by Company Planning | Derive requirements, acceptance criteria, behavioral units, architecture, file structure, typed seams, tests and implementation slices from accepted intent | [Planning boundary](SYSTEM_BOUNDARY.md#aes-plan-002--planning-subsystem-split) |
+| Ecosystem integration, coordinated by AES | Make existing capabilities, providers, contracts, consumers and evidence discoverable across projects, and preserve useful predecessor knowledge | [Ecosystem design and source review](ECOSYSTEM.md), [Decision 0014](../decisions/0014-ecosystem-consolidation-and-legacy-review.md) |
 | Lockstep | Link planned behavior, file structure, typed interfaces, code, tests and criteria; put normative context at the edit; project implementation status back; expose drift and navigate to owning sources | [Lockstep contract](LOCKSTEP.md) |
 | Feedback loop | Turn corrections and observations into sourced dispositions, verified repairs and follow-up observations | [Feedback and policy](FEEDBACK_AND_POLICY.md) |
 | Policy layer | Preserve the source and scope of rules, how they are enforced or advised, their recovery paths and the evidence for changing them | [Feedback and policy](FEEDBACK_AND_POLICY.md) |

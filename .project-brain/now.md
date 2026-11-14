@@ -1,3 +1,22 @@
+# Ecosystem consolidation and first predecessor review (2026-11-13)
+
+Tracking: [AES #856](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/856).
+
+Brian approved AES-owned ecosystem consolidation and asked to read older system
+parts for the best ideas, concerns, inconsistencies and recommendations.
+[Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md)
+records that direction. [The first source review](../docs/architecture/ECOSYSTEM.md)
+compares the catalogue sources, contracts, dataset discovery, runtime tools and
+legacy governance. Q36–Q42 extend the existing question ledger.
+
+Next: compare the actual catalogue records/readers/writers and choose the discovery
+publication provider; continue reading the concern/repair lifecycle, then selected
+policy families and instruction delivery. Proposed donor dispositions are not
+completed migration, runtime adoption or retirement. Earlier projection and
+feedback work below remains independent and is preserved.
+
+## Earlier implementation and assessment records
+
 # AES projection self-adoption (2026-11-13, AES #854)
 
 Implemented the narrow P-SELF route: root declarations, source-local authored
