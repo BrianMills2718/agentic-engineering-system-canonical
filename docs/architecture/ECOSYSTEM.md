@@ -320,6 +320,105 @@ read, because it stores no copy. A real stale-revision signal for a stored view
 is not needed while the view is computed on read; if it is ever cached it must
 carry the source revisions.
 
+## Seventh reading: the concern register, the verifier live, and recurrence
+
+Measured 2026-11-14 on Project Meta f1e27c9, code2-workspace cb9cdf0 and AES 62dbd41.
+Receipt: [concern-lifecycle-live-20261114.json](../../evidence/runs/concern-lifecycle-live-20261114.json); no model call.
+
+**Single register and closure owner (recommendation, inferred by agent; working default
+until Brian says yes).** The register is the GitHub issue under the `concern:feedback`
+label, identified by the hidden `concern-key` marker, written through the one helper
+`scripts/concern_issue.py` in code2-workspace. It is the only writer that creates,
+retitles, reopens on recurrence and closes by key, and the other five writers (fourth
+reading) already file through the same marker. The closure owner is the Project Meta
+five-gate verifier, because it is the only closure check that runs the repair's control
+on the observed revision and on the fix. Its one limit: `source_signal_green` supports
+only the `policy-friction-cluster:` key prefix, so a concern such as 783 (key
+`headless-lane-no-tracker-unclosable`) cannot pass the full verifier today. Widening
+that gate is the smallest change that makes the owner cover all keys; it is not made here.
+AES keeps only rule licences (`concern_enforcement`), not a second register.
+
+**Verifier observed live (one gate of five).** `recurrence_proof` was called directly
+on the real landed repair of concern 783: observed 1708b51, fix add1dd5 (Project Meta
+PR 2563; fix file `enforced_planning/session_lifecycle.py`, harness the new test).
+Result: the test exits 1 on the observed revision (1 failed) and 0 on the fix (1 passed);
+gate passed. Negative controls: with observed and fix swapped the gate fails ("control does
+not fail on the observed revision"); with no harness file available it fails closed
+("could not execute recurrence proof"). The report was written by this session, not by the
+repair executor. **Not observed:** report contract and prevention-in-diff (need an
+executor binding), source signal (prefix limit above), the independent review (a model
+call, not run), and a full `verify_repair` on a landed repair. Its fixture run,
+`tests/test_concern_repair.py`, passes (30 tests).
+
+**Recurrence reopening.** `open_concern` run against a recording stand-in for `gh` (no
+GitHub write): a closed issue is reopened and commented ("reopened #783", calls
+list, reopen, comment); an open issue is only commented (negative control). Not observed:
+a real GitHub reopen, and AES `effects.py` reopening in file mode.
+
+**Timers.** `feedback-effects.timer` and `feedback-fix-owner.timer` are disabled and
+inactive. They are not enabled here; enabling them is Brian's decision.
+
+## Eighth reading: exception, recovery and closure policy families; what Codex loads
+
+Policy registry at Project Meta f1e27c9, rows read in full for seven policies; not a
+263-policy audit.
+
+| Policy | Status | Reading and legitimate counter-case |
+| --- | --- | --- |
+| `fail-loud` | enforced | Core rule. Gap: no project-wide blocking gate; relies on prose and optional ruff. Counter-case: a probe that may legitimately return "not available" must say so as a named state, as the merged view now does (sixth reading), never an empty result. |
+| `recoverable-git-publication-authority` | partially enforced | Allows recoverable git actions only with recorded Brian ownership; no preflight yet, so it is schema visibility only. Counter-case: workspace core.md lets merges proceed after a passing local check, a looser route than this row records. |
+| `archive-to-home-archive` | advisory | Enforcement blocks only the supported archive command; shell moves bypass it. Counter-case: AES retirement used `git rm` with a commit that keeps the files (docs/retired/2026-11-12.md), which core.md lists as a deletion exception. |
+| `policy-lifecycle-first-pass-feedback` | checked | Friction goes to policy_friction.md. The agent still decides what qualifies. |
+| `concerns-to-issues-immediately` | advisory | Names ISSUES.md, while the live register is GitHub issues with a concern key (seventh reading): the row is stale against the register. |
+| `stage-aware-verification-lanes` | partially enforced | Boundary, increment and terminal lanes. Counter-case: core.md moves full suites to a nightly job. No plan linter exists. |
+| `situation-declared-checklists` | partially enforced | Domain-local; no shared situation registry. |
+
+Pattern: all three families are mostly advisory or partly enforced, and the two
+closure-related rows (`concerns-to-issues-immediately`, `policy-lifecycle-first-pass-feedback`)
+name a different place from the register chosen above. Proposed disposition: update the
+`concerns-to-issues-immediately` row to name the issue register; do nothing else here.
+
+**What Codex loads (observed).** `codex exec -s read-only` (codex-cli 0.169.0) in an AES
+worktree, asked to list instruction sources from its context only, named three:
+`~/code2/workspace/agents/core.md`, `~/code2/AGENTS.md` and the AES `AGENTS.md`
+(heading "Agentic Engineering System — Canonical governance"). It did not list `CLAUDE.md`
+(the config fallback to `CLAUDE.md` applies only when `AGENTS.md` is absent). The loaded
+AES file is the generated 9,163-byte projection of the 10,841-byte `CLAUDE.md`; the
+projection says omitted rules are read from `CLAUDE.md` directly, which Codex does not
+do. One run; self-report by the model, 27,855 tokens.
+
+**Generator route (Q40).** Not retired. The recommendation is to retire it, with this
+evidence still owed: confirm Claude Code loads the same text through a one-line
+`CLAUDE.md` containing `@AGENTS.md` (the pattern `~/code/CLAUDE.md` uses), and replace
+`make check-agents-sync` and the Project Meta subtree checker's expectation. It loses
+nothing: today Codex already receives less than Claude. Retirement is a separate
+change with its own check.
+
+## Ninth reading: earlier AES designs and retained evidence
+
+Read: `docs/retired/2026-11-12.md` (what was removed, restore command at b0d4cbd) and
+the 2026-09-26 harvest of the archived Inside Success AES at 37dc876cc3 (25 ideas, 13
+stall lessons), plus the donor re-entry rule. Not read: the code and traces behind
+individual harvested items. Nothing is reinstated.
+
+Ideas that still bind current open work (each has a stated trigger in the harvest):
+
+- Item 8, BLOCK then bounded recovery then ALLOW, and a check may block only with an
+  executable observer and a negative control: the same standard the live verifier
+  run above applies, and the reason the full verifier's missing gates are named.
+- Item 13, a rule and its exceptions are one object, every rule has a counter-case: the
+  eighth reading found counter-cases only by hand, because the registry has no
+  field for them.
+- Item 15, lesson-to-check promotion with red, green and legitimate-case observations:
+  the shape of the 783 repair.
+- Item 14, instruction surface generated with an equality check: the generator route
+  under review in Q40.
+- Stall lessons 4, 6 and 9 (implemented reported as operating; receipts never read;
+  a promoted check is not a changed behaviour): the reason this review binds each claim
+  to a revision and lists what was not observed.
+
+Disposition: keep as rationale and counter-evidence; no mechanism is adopted.
+
 ## Bounded consolidation sequence
 
 | Step | Visible result and evidence | Status |
@@ -345,19 +444,18 @@ sections and a pinned revision, with proposed disposition and unresolved materia
 1. **Catalogue writers and readers:** compared in the third reading (records,
    readers, a measured run of the merged view). Remaining: author the alias table
    and build one provider-to-consumer journey (Q36, Q37).
-2. **Concern/repair lifecycle:** source review plus key-ownership map and one
-   verified landed repair with a negative control (fourth reading). Remaining:
-   choose the single register and closure owner, and observe the Project Meta
-   five-gate verifier and recurrence reopening running live (Q42).
-3. **Policy families and exceptions:** two instruction-delivery families read
-   (fifth reading). Remaining: exceptions, recovery and concern-closure families
-   and legitimate counter-cases. No full 263-policy audit has happened.
-4. **Instruction delivery:** AES generation route, subtree checker and payload
-   check observed (fifth reading). Remaining: compare with agent-skills sync and
-   confirm what the Codex client actually loads in this repository.
-5. **Earlier AES designs and evidence:** follow existing retirement/harvest links;
-   read code and complete retained traces for a selected claim. Record what remains
-   useful without reinstating retired executable instructions.
+2. **Concern/repair lifecycle:** key-ownership map, a landed repair (fourth reading),
+   register and closure owner chosen, one of five verifier gates and reopening
+   observed live (seventh reading). Remaining: a full `verify_repair` run, the
+   verifier's key-prefix limit, and the timers decision (Q42).
+3. **Policy families and exceptions:** instruction-delivery families (fifth reading)
+   and seven exception, recovery and closure rows (eighth reading). No full
+   263-policy audit has happened.
+4. **Instruction delivery:** generation route, subtree checker, payload check (fifth
+   reading); Codex load observed once (eighth reading). Remaining: agent-skills sync,
+   and the `@AGENTS.md` check that would let the generator retire (Q40).
+5. **Earlier AES designs and evidence:** retirement record and harvest read (ninth
+   reading). Remaining: the code and complete traces behind a selected harvested item.
 
 This begins the continuing review Brian requested. The completed portion is the
 first source pass and consolidation direction; the queue remains explicit.
