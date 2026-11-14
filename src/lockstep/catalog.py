@@ -56,6 +56,8 @@ def _load(root: Path, staged: bool = False) -> tuple[dict, dict, bytes] | None:
     if not exists:
         return None
     data = yaml.safe_load(_read(root, 'lockstep.yaml', staged))
+    if data is None:
+        data = {}
     if not isinstance(data, dict):
         raise CatalogError('lockstep.yaml must contain a mapping')
     if 'catalog' not in data:

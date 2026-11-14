@@ -195,3 +195,18 @@ def test_git_reads_disable_configured_fsmonitor(repo):
     inspect_catalog(repo)
     assert catalog_cli(['check', '--staged', '--repo', str(repo)]) == 1
     assert not marker.exists()
+
+
+@pytest.mark.parametrize('config', ['', '# configuration intentionally absent\n'])
+def test_empty_configuration_is_catalog_noop(tmp_path, config):
+    (tmp_path / 'lockstep.yaml').write_text(config)
+    assert inspect_catalog(tmp_path) is None
+    assert refresh_catalog(tmp_path) == []
+    assert catalog_cli(['refresh', '--repo', str(tmp_path)]) == 0
+
+
+@pytest.mark.parametrize('config', ['[]', 'false', '0', 'text'])
+def test_nonmapping_configuration_is_invalid(tmp_path, config):
+    (tmp_path / 'lockstep.yaml').write_text(config)
+    with pytest.raises(CatalogError):
+        inspect_catalog(tmp_path)
