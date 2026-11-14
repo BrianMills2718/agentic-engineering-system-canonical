@@ -392,7 +392,7 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 - **[checks.txt](../docs/planning/checks.txt)** — Retains five fresh planning checks: durable fields and wiki reachability pass; repository format remains tracked by Q17; navigation warnings and graph-schema results stay explicit. **Role:** evidence. **Disposition:** keep.
 
-- **[cold-review.md](../docs/planning/cold-review.md)** — Records a bounded independent A9 source-fact pass with command/native-fixture coverage, while excluding A1–A8 recertification and preserving the route WAIT. **Role:** evidence. **Disposition:** keep.
+- **[cold-review.md](../docs/planning/cold-review.md)** — Records independent bounded self-adoption review with native trace, catalog, goal-field and check-count verification; preserves the prior source-fact review and excludes A1–A8 recertification. **Role:** evidence. **Disposition:** keep.
 
 - **[coverage-trace.json](../docs/planning/coverage-trace.json)** — Retains model calls, messages, judgment and agreement/uncertainty for goal coverage, with trace identity and observability rather than product runtime certification. **Role:** evidence. **Disposition:** keep.
 

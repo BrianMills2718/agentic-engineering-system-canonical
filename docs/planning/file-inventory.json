@@ -988,13 +988,13 @@
     },
     {
       "path": "docs/planning/cold-review.md",
-      "summary": "Records a bounded independent A9 source-fact pass with command/native-fixture coverage, while excluding A1–A8 recertification and preserving the route WAIT.",
+      "summary": "Records independent bounded self-adoption review with native trace, catalog, goal-field and check-count verification; preserves the prior source-fact review and excludes A1–A8 recertification.",
       "role": "evidence",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# Bounded cold review: declared source-fact upkeep",
       "summary_origin": "content_review",
-      "sha256": "d78bf55db0ebdabec3172302e380e9ce2eff5a8e0dcebc98d64f1fec8aeb1299",
+      "sha256": "f8f1bba4b3245c73e142bb441be52919619f65a7fc2355a92880d40033ee2f08",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1126,7 +1126,7 @@
       "reason": "Preserve useful unique material while reconciling historical/current scope or status/source drift; no retirement proposed.",
       "source_locator": "JSON keys: schema_version, record_type, repository, subject_revision, request",
       "summary_origin": "content_review",
-      "sha256": "0e20645e7021b87767cff51348645891a781adba480740ef0af6ae9062c50f1f",
+      "sha256": "a4919632ca5326e0f359ede81028025a8a5c328838081dc190b5ae1f35032209",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
