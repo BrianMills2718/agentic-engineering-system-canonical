@@ -32,6 +32,12 @@ the array projection change; the merged specification remains authoritative.
 - [Array projection requirement delta](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts/spec.md) — retained change to the fact projection contract.
 - [Array projection tasks](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/tasks.md) — historical implementation checklist.
 
+## Generated requirement coverage (2026-11-14)
+
+- [Requirement status](../docs/status.md) — generated requirement-to-code and
+  scenario-to-test coverage; it states when test results have not been recorded
+  for the revision. It is a derived view, not evidence that tests passed.
+
 ## Owning external sources
 
 - [BrianMills2718/project-meta/policy/registry.yaml](https://github.com/BrianMills2718/project-meta/blob/f1e27c906f6c78a6d544bf62a878367640f7d186/policy/registry.yaml) — Original policy source with 263 entries; not replaced by the small AES register. Current disposition and live enforcement require per-policy reconciliation.
