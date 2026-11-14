@@ -473,10 +473,10 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "a136c996d5e488550052ac3d1690c9a2a82b0d756e16c1ec78f273d0acc8233a",
+      "sha256": "001155344c326e2924dbb4b0de2f7de2d5e5924e0af7a6ae0a3eede3ec43e0dc",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "review_reason": "Retain after the complete read: native authority, historical 408-file assessment, semantic review and fresh evidence remain distinct. Re-read corrected step 4: local check-catalog reads working files and pre-commit check-catalog-staged reads indexed bytes."
+      "review_reason": "Reviewed the procedure addition: concrete edit paths select the owning root; multi-root patches fail clearly and opaque shell commands need an explicit repository when cwd is insufficient."
     },
     {
       "path": "docs/architecture/ECOSYSTEM.md",
@@ -522,10 +522,10 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "929e688446c5a8b419c415f6c0aae7088fae51bb9ba50aa939eeeb6b0e289afa",
+      "sha256": "82a2c26565b5b603ca960f62339c71b649ca47b15a42e4765724f83eac228fc7",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "review_reason": "Retain after reading the current generated block including ordered record-array requirements. The complete account distinguishes the six-step disposable replay and historical gaps from later explicitly configured Claude self-adoption; legacy upward edits and unobserved host paths remain bounded."
+      "review_reason": "Reviewed the regenerated implementing-module assessment: it now records bounded catalog review evidence and keeps ordinary client activation distinct; the remaining architecture and dated observations are preserved."
     },
     {
       "path": "docs/architecture/README.md",
@@ -3192,9 +3192,9 @@
     },
     {
       "path": "src/lockstep/catalog.py",
-      "sha256": "6f8f271154c9424ac77835480f83a9e96b5916d68a884e95f334524e843ae077",
+      "sha256": "9a523d0e99ce674f67d73590013796ce0821fade802852b9ebfd64234a0b69a2",
       "summary": "Implements indexed-file pending detection, hash-bound review, deterministic catalog rendering and working-tree or staged-byte freshness checks with daily operation receipts.",
-      "review_reason": "Reviewed the full catalog operations with applicable normative text now projected into its docstring and optional CLI result typing corrected; checks distinguish None from valid report dictionaries without changing review semantics.",
+      "review_reason": "Reviewed failed-review handler and applicable normative copy; malformed YAML now retains a sanitized failed receipt before outer CLI refusal, with inventory unchanged.",
       "role": "source code",
       "disposition": "keep",
       "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
@@ -3455,10 +3455,10 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "ProjectionError",
       "summary_origin": "content_review",
-      "sha256": "0ae011da8f5cb9284574fc6e8b30e7a11e88510b34523e478c8d9d2686dc27a1",
+      "sha256": "e88a6a38c7140b2b3380c8309cf9a5042b96035ba4922a8645ad002e698445b9",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "review_reason": "Read the complete module: items validation, array extraction/rendering, scalar compatibility, hook selection, catalog context and error tracing support the expanded summary."
+      "review_reason": "Reviewed absolute and relative edit-root selection, explicit multi-root refusal and recovery repository hints; generated source assessment states the observed fixture and separate activation boundary."
     },
     {
       "path": "src/lockstep/docstring_up.py",
@@ -4605,9 +4605,9 @@
     },
     {
       "path": "tests/lockstep/test_catalog.py",
-      "sha256": "d63aaea8ed5105d896c141222afb1ae23b5ed4378277b49a0ef764daf62cb992",
+      "sha256": "4cf53601f5abc5e82c57770e5940253234b6b4c90e09a220a4304c189895ecfe",
       "summary": "Tests catalog reviews and rendering, staged versus working-tree freshness, atomic refusal, path and metadata validation, disabled fsmonitor and empty or invalid configuration.",
-      "review_reason": "Reread complete tests including staged-source mismatch, unstaged-config isolation, invalid existing metadata, executable fsmonitor canary, empty/comment-only no-ops and scalar/list rejection; these fixtures do not establish native host loading.",
+      "review_reason": "Reviewed the real malformed-YAML review regression: nonzero exit, unchanged inventory and a failed daily review receipt.",
       "role": "test source",
       "disposition": "keep",
       "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
@@ -4615,9 +4615,9 @@
     },
     {
       "path": "tests/lockstep/test_catalog_refresh_hook.py",
-      "sha256": "146fd3f705f1a8b93cae9ecd018913b3b2285fc635f4ce528407cd99265b48eb",
+      "sha256": "373e1e7906e53d51f182ee002cbd6148724d8f02f346e25cc69a79e16cf0ca83",
       "summary": "Tests Claude and Codex-shaped refresh payloads delivering pending catalog review after unrelated edits while preserving reviewed input hashes and logging projection context.",
-      "review_reason": "Read complete parameterized test; synthetic payload coverage does not establish actual native client execution.",
+      "review_reason": "Reviewed concrete absolute/relative worktree-routing and multi-root refusal regressions, alongside both existing native payload adapters.",
       "role": "test source",
       "disposition": "keep",
       "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
@@ -5147,10 +5147,10 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Lockstep; What it is; Who uses it",
       "summary_origin": "content_review",
-      "sha256": "e91b4ac009c7ee2167c61cc33ab8641177185365468b27406278ad465c85fbb0",
+      "sha256": "74fdf00bd01ae8457184c6293cb49a800e98c0a700edd3c625691b52276c1ffc",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "review_reason": "Retain: the complete navigation links architecture, specifications, implementation and bounded adoption. The generated docstring adds array facts while preserving authored assessment and native limits; historical replay is explicitly distinct from the later Claude observation."
+      "review_reason": "Reviewed the generated assessment update from the implementing source; it carries the new bounded catalog observation without claiming default-session activation."
     },
     {
       "path": "wiki/open-questions.md",

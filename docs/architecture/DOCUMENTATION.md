@@ -131,6 +131,11 @@ to include it. A missing indexed file is an error until its deletion is staged.
 
 1. A native source edit invokes the existing post-edit refresh. It regenerates
    deterministic navigation and reports pending semantic reviews to the agent.
+   Concrete edit paths select their owning configured repository, including a
+   different worktree from the launch folder. One patch spanning several configured
+   roots fails clearly before refresh writes; run explicit refresh per repository.
+   Opaque shell writes use the reported working directory; use `--repo` when that
+   context does not identify the intended repository.
    The hook uses Claude's documented [PostToolUse additional context](https://code.claude.com/docs/en/hooks#posttooluse-decision-control).
 2. The agent runs `lockstep catalog pending`, reads each complete changed source
    and checks the affected wiki explanations. It revises the summary or explicitly

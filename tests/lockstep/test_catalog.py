@@ -210,3 +210,14 @@ def test_nonmapping_configuration_is_invalid(tmp_path, config):
     (tmp_path / 'lockstep.yaml').write_text(config)
     with pytest.raises(CatalogError):
         inspect_catalog(tmp_path)
+
+
+def test_malformed_yaml_review_retains_failed_receipt_without_inventory_write(repo, tmp_path):
+    before = (repo/'inventory.json').read_bytes()
+    input_path = repo/'review.json'
+    input_path.write_text(json.dumps([review(repo, 'source.txt')]))
+    (repo/'lockstep.yaml').write_text('catalog: [\n')
+    assert catalog_cli(['review', '--repo', str(repo), '--input', str(input_path)]) == 2
+    assert (repo/'inventory.json').read_bytes() == before
+    events = [json.loads(line) for p in (repo/'.lockstep').glob('catalog-*.jsonl') for line in p.read_text().splitlines()]
+    assert len(events) == 1 and events[0]['operation'] == 'review' and events[0]['errors']

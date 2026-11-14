@@ -282,7 +282,7 @@ def review_catalog(root: Path, reviews: list[dict]) -> dict:
         _atomic(inventory, output)
         event['phase'] = 'applied'
         return event
-    except (OSError, ValueError, TypeError, subprocess.SubprocessError):
+    except (OSError, ValueError, TypeError, subprocess.SubprocessError, yaml.YAMLError):
         event['errors'] = ['catalog review rejected; input validation or concurrent source change']
         try:
             _trace(root, event)

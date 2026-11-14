@@ -1,4 +1,4 @@
-"""Project declared source-local facts into Markdown; never execute source or repository code.
+"""Refresh source-owned document facts and configured file navigation; never execute source.
 
 Implements: lockstep-doc-facts/declared-source-facts-have-one-authority,
     lockstep-doc-facts/invalid-input-is-not-a-pass,
@@ -42,7 +42,10 @@ Current assessment (agent-authored):
     Static source extraction, declared target fan-out, refresh traces and read-only
     comparison are implemented. AES declares this module as the source for its
     architecture and wiki assessment blocks. This narrative is an assessment,
-    not a substitute for measured test or native-host evidence.
+    not a substitute for measured test or native-host evidence. Catalog upkeep now
+    reports pending source reviews and renders stored summaries; a six-file Claude
+    fixture demonstrated explicit source-bound summary review after a native edit.
+    Ordinary client activation remains a separate boundary.
 
 Gap G-NATIVE:
     Closed for the retained API-authenticated Claude path: one native Edit
@@ -61,6 +64,8 @@ Evidence:
     See evidence/runs/projection-worked-20261113.json for the earlier disposable
     CLI example. See evidence/runs/projection-self-adoption-20261113.json and
     evidence/runs/projection-native-20261113.jsonl for the bounded native run.
+    See evidence/runs/catalog-upkeep-native-20261114.json for catalog review,
+    stale-hash rejection and staged freshness observations.
 
 Native edit marker: observed-host-edit
 """
@@ -321,7 +326,22 @@ def refresh_cli(argv: list[str]) -> int:
             call = json.load(sys.stdin)
             if not isinstance(call, dict):
                 raise ProjectionError('hook input must be a JSON object')
+            tin = call.get('tool_input') or {}
+            if not isinstance(tin, dict):
+                raise ProjectionError('hook tool_input must be an object')
         root = args.repo or _root(Path(call.get('cwd') or os.getcwd()))
+        if args.client and args.repo is None:
+            from lockstep.hook import paths_from_call
+            cwd = Path(tin.get('workdir') or tin.get('cwd') or call.get('cwd') or os.getcwd())
+            paths = paths_from_call(call)
+            if paths:
+                owners = {_root((Path(p) if Path(p).is_absolute() else cwd/p).resolve().parent) for p in paths}
+                owners.discard(None)
+                if len(owners) > 1:
+                    raise ProjectionError('one edit names multiple configured repositories; run lockstep refresh --repo PATH separately for each')
+                root = next(iter(owners), None)
+            else:
+                root = _root(cwd)
         if root is None:
             return 0
         root = root.resolve()
@@ -335,7 +355,7 @@ def refresh_cli(argv: list[str]) -> int:
             from lockstep.hook import paths_from_call
             paths = paths_from_call(call)
             if paths:
-                cwd = Path(call.get('cwd') or os.getcwd())
+                cwd = Path(tin.get('workdir') or tin.get('cwd') or call.get('cwd') or os.getcwd())
                 edited = {(Path(p) if Path(p).is_absolute() else cwd/p).resolve() for p in paths}
                 applicable = {(root/row[k]).resolve() for row in rows for k in ('source', 'target')}
                 if not edited.intersection(applicable) and (root/'lockstep.yaml').resolve() not in edited:
@@ -364,6 +384,7 @@ def refresh_cli(argv: list[str]) -> int:
             command = shlex.quote(str(executable.resolve())) if executable.name == 'lockstep' and executable.is_file() else 'lockstep'
             context = 'Lockstep refreshed deterministic navigation. '
             context += 'Use this installed executable for catalog recovery: ' + command + '. '
+            context += 'Run recovery in ' + str(root) + ' or append --repo ' + shlex.quote(str(root)) + ' to each catalog command. '
             if catalog['pending']:
                 context += (
                     'Catalog semantic review is pending. Read each complete changed source; '
