@@ -65,6 +65,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shlex
 import stat
 import subprocess
 import sys
@@ -323,7 +324,10 @@ def refresh_cli(argv: list[str]) -> int:
             event['catalog'] = catalog
         _append_trace(root, event)
         if catalog is not None and args.client:
+            executable = Path(sys.argv[0])
+            command = shlex.quote(str(executable.resolve())) if executable.name == 'lockstep' and executable.is_file() else 'lockstep'
             context = 'Lockstep refreshed deterministic navigation. '
+            context += 'Use this installed executable for catalog recovery: ' + command + '. '
             if catalog['pending']:
                 context += (
                     'Catalog semantic review is pending. Read each complete changed source; '

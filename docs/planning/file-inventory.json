@@ -3347,10 +3347,10 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "ProjectionError",
       "summary_origin": "content_review",
-      "sha256": "6d4a6dcdc384fb0a70e43c43f422d4e3034d74c65289bb3b81a3a2b87a8d2f30",
+      "sha256": "e13b699f7e7b65c2651dd7736970c0878069d10d77c517669f4e4ccaf19a53f7",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "review_reason": "Reread entire module; corrected refresh docstring now names optional catalogs. Unrelated edits and catalog-only configurations produce recovery context while leaving reviewed hashes unchanged; earlier native evidence remains bounded to fact projection."
+      "review_reason": "Reviewed refresh implementation and the installed executable recovery hint, which uses the same cached package when lockstep is absent from PATH; summary scope remains accurate."
     },
     {
       "path": "src/lockstep/docstring_up.py",
