@@ -18,8 +18,8 @@ runtime change, restarts a retired project or enables a timer.
 
 ### Resolved since the previous rendering: Q43
 
-The checked candidate at `8928154` reports 134 Markdown files against its
-134-file exception, zero unreachable files and zero durable-document findings.
+The checked candidate at `feaf51f` reports 136 Markdown files against its
+136-file exception, zero unreachable files and zero durable-document findings.
 The [owning record](../docs/planning/open-questions.json) and
 [check output](../docs/planning/checks.txt) retain the earlier failures.
 
