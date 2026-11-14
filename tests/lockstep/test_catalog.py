@@ -184,3 +184,14 @@ def test_invalid_existing_metadata_refused_atomically(repo, field):
     with pytest.raises(CatalogError):
         review_catalog(repo, [{**review(repo, 'source.txt'), field: None}])
     assert (repo / 'inventory.json').read_bytes() == original
+
+
+def test_git_reads_disable_configured_fsmonitor(repo):
+    marker = repo / 'executed-marker'
+    canary = repo / 'monitor.sh'
+    canary.write_text('#!/bin/sh\ntouch "' + str(marker) + '"\n')
+    canary.chmod(0o755)
+    git(repo, 'config', 'core.fsmonitor', str(canary))
+    inspect_catalog(repo)
+    assert catalog_cli(['check', '--staged', '--repo', str(repo)]) == 1
+    assert not marker.exists()

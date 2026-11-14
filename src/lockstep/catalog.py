@@ -42,7 +42,7 @@ def _digest(path: Path) -> str:
 def _read(root: Path, name: str, staged: bool = False) -> bytes:
     path = _path(root, name)
     if staged:
-        result = subprocess.run(['git', '-C', str(root), 'show', ':' + name], capture_output=True, check=True)
+        result = subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false', '-C', str(root), 'show', ':' + name], capture_output=True, check=True)
         return result.stdout
     return path.read_bytes()
 
@@ -50,7 +50,7 @@ def _read(root: Path, name: str, staged: bool = False) -> bytes:
 def _load(root: Path, staged: bool = False) -> tuple[dict, dict, bytes] | None:
     config = root / 'lockstep.yaml'
     if staged:
-        exists = subprocess.run(['git', '-C', str(root), 'ls-files', '--error-unmatch', '--', 'lockstep.yaml'], capture_output=True).returncode == 0
+        exists = subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false', '-C', str(root), 'ls-files', '--error-unmatch', '--', 'lockstep.yaml'], capture_output=True).returncode == 0
     else:
         exists = config.exists()
     if not exists:
@@ -90,7 +90,7 @@ def _load(root: Path, staged: bool = False) -> tuple[dict, dict, bytes] | None:
 
 
 def _snapshot(root: Path, declaration: dict, staged: bool = False) -> dict[str, str | None]:
-    result = subprocess.run(['git', '-C', str(root), 'ls-files', '--cached', '-z'], capture_output=True, check=True)
+    result = subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false', '-C', str(root), 'ls-files', '--cached', '-z'], capture_output=True, check=True)
     paths = sorted(set(os.fsdecode(p) for p in result.stdout.split(b'\0') if p))
     snapshot = {}
     for name in paths:
