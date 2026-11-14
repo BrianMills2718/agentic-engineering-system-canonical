@@ -357,6 +357,17 @@ were written by this session, not by the repair executor; the fixed tree is a sc
 the review is one model call (cost not measured) and may vary between runs.
 `tests/test_concern_repair.py` passes (30 tests).
 
+**Executor-written repairs (not a pass).** The Project Meta repair executor was run three
+times on the real open concern #1883 (documentation-health) in a scratch clone, and each result
+was verified with all five gates. Every attempt passed the four mechanical gates and was refused
+by the independent review as `patch_only` (repair registered the reported paths, or its test
+special-cased them; the third addressed the root cause but not the failure class). Nothing was
+landed. Defects found: the executor's custody step needs a session-ended claim, and claims are
+retired, so it fails closed and posts a real backoff comment on the issue; the Codex reviewer
+crashes in a blank temp directory without `skip_git_repo_check`. The one full pass remains the
+scratch run on the landed code change of PR 2563 with a synthetic key. Receipt, records and
+limits: the `executor_written_repairs` section of the receipt.
+
 **Recurrence reopening.** Run for real against a throwaway issue (#866 in this repository,
 deleted afterwards): created, closed, then `open_concern` reopened it with the comment
 "Recurred after closure." An open issue only receives a comment (stand-in `gh`, negative
