@@ -688,7 +688,7 @@
     "ecosystem-consolidation",
     "legacy-review"
    ],
-   "evidence": "Observed 2026-11-14: the merged view reports an absent or invalid catalogue source as all rows 'uncatalogued' with exit 0 and no source error; 27 of 60 catalogue IDs are missing from its output. 2026-11-14 exercised: missing/invalid catalogue and invalid contract registry are named source states (CLI exit 3); catalogue-only entries listed; declared versus observed consumers disagree for both journeys (llm_structured: 1 of 4 declared observed, 90 undeclared callers). Still open: fit-for-requirement state and compatibility."
+   "evidence": "Observed 2026-11-14: the merged view reports an absent or invalid catalogue source as all rows 'uncatalogued' with exit 0 and no source error; 27 of 60 catalogue IDs are missing from its output. 2026-11-14 exercised: missing/invalid catalogue and invalid contract registry are named source states (CLI exit 3); catalogue-only entries listed; declared versus observed consumers disagree for both journeys (llm_structured: 1 of 4 declared observed, 90 undeclared callers). Still open: fit-for-requirement state and compatibility. Stale revision exercised 2026-11-14: the receipt records a digest per source and scripts/discovery_journey.py --check-receipt reports fresh, stale, missing or unrecorded (copy exercise: all four states; real receipt fresh against real sources when written; database compared by size and mtime)."
   },
   {
    "id": "Q39",
@@ -726,7 +726,7 @@
     "ecosystem-consolidation",
     "legacy-review"
    ],
-   "evidence": "AES AGENTS.md is still generated from CLAUDE.md by scripts/meta/render_agents_md.py and relationships.yaml (sync check exit 0); Project Meta's subtree checker errors on a missing enforced-planning registry path for AES. Eighth reading: Codex observed loading core.md, ~/code2/AGENTS.md and the generated AES AGENTS.md, not CLAUDE.md (one run, model self-report). Proposed: retire the generator via a one-line CLAUDE.md @AGENTS.md; owed: Claude load check and replacement of the sync check. Not retired."
+   "evidence": "AES AGENTS.md is still generated from CLAUDE.md by scripts/meta/render_agents_md.py and relationships.yaml (sync check exit 0); Project Meta's subtree checker errors on a missing enforced-planning registry path for AES. Eighth reading: Codex first observed loading the generated AES AGENTS.md, not CLAUDE.md. Generator retired for AES on 2026-11-14 after one Claude Code run (heading loaded from AGENTS.md via the @AGENTS.md import) and one Codex run (AGENTS.md loaded, no GENERATED FILE text); each is a model's account of its own context. Not checked: other repositories reading scripts/relationships.yaml or meta-process/ (left in place), agent-skills sync."
   },
   {
    "id": "Q41",

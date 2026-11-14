@@ -24,11 +24,10 @@ existing in source do not prove installed hooks or jobs are active.
 
 ## Test
 
-- `make check`: generated AGENTS.md sync, pytest in parallel without slow tests, then mypy on `src/` ([Makefile:19-29](../Makefile#L19-L29)).
+- `make check`: doc facts, pytest in parallel without slow tests, then mypy on `src/` ([Makefile:19-29](../Makefile#L19-L29)).
 - `make check-full`: `make check` plus the slow end-to-end tests ([Makefile:31-33](../Makefile#L31-L33)).
 - Slow tests carry the `slow` marker ([pyproject.toml:42](../pyproject.toml#L42)).
 - `make test`: the full pytest suite, verbose ([Makefile:13-14](../Makefile#L13-L14)).
-- `make check-agents-sync`: checks AGENTS.md against CLAUDE.md ([Makefile:35-36](../Makefile#L35-L36)).
 
 ## Project brain check
 

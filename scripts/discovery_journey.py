@@ -10,6 +10,7 @@ Usage: discovery_journey.py --ecosystem-ops DIR --data-dir DIR --out FILE
 from __future__ import annotations
 
 import argparse
+import hashlib
 import copy
 import importlib
 import json
@@ -25,6 +26,34 @@ CAPABILITIES = {
     "llm_structured": {"boundary": "llm_client.call_llm_structured"},
     "web_search": {"boundary": "open_web_retrieval.search"},
 }
+
+
+def digest(path: Path) -> str | None:
+    """sha256 of a source file (size and mtime for a live database), or None when unreadable."""
+    try:
+        if path.suffix == ".db":
+            st = path.stat()
+            return f"stat:{st.st_size}:{st.st_mtime_ns}"
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError:
+        return None
+
+
+def check_receipt(receipt: dict) -> list[dict]:
+    """Compare each recorded source digest with the source as it is now.
+
+    States: fresh (same bytes), stale (bytes changed since the receipt), missing (source
+    gone) and unrecorded (the receipt holds no digest, so freshness cannot be known).
+    Nothing is reported as fresh without a recorded digest to compare against.
+    """
+    recorded = receipt.get("source_digests") or {}
+    out = []
+    for src in receipt["sources"]:
+        name, path = src["source"], Path(src["path"])
+        want, now = recorded.get(name), digest(path)
+        state = "unrecorded" if want is None else "missing" if now is None else "fresh" if want == now else "stale"
+        out.append({"source": name, "path": str(path), "state": state})
+    return out
 
 
 def git_rev(path: Path) -> str:
@@ -86,10 +115,18 @@ def exercise(cr, label: str, setup) -> dict:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--ecosystem-ops", type=Path, required=True)
-    ap.add_argument("--data-dir", type=Path, required=True)
-    ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--ecosystem-ops", type=Path)
+    ap.add_argument("--data-dir", type=Path)
+    ap.add_argument("--out", type=Path)
+    ap.add_argument("--check-receipt", type=Path, help="report which sources of a receipt are stale; exit 1 unless all are fresh")
     a = ap.parse_args(argv)
+    if a.check_receipt:
+        states = check_receipt(json.loads(a.check_receipt.read_text()))
+        for st in states:
+            print(f"{st['state']:10} {st['source']}  {st['path']}")
+        return 0 if all(st["state"] == "fresh" for st in states) else 1
+    if not (a.ecosystem_ops and a.data_dir and a.out):
+        ap.error("--ecosystem-ops, --data-dir and --out are required unless --check-receipt is given")
     sys.path.insert(0, str(a.ecosystem_ops))
     cr = importlib.import_module("capability_registry")
     cr.OBSERVABILITY_DB = a.data_dir / "llm_observability.db"
@@ -102,6 +139,7 @@ def main(argv=None) -> int:
         "run_at": datetime.now(UTC).isoformat(timespec="seconds"),
         "ecosystem_ops_revision": git_rev(a.ecosystem_ops),
         "sources": sources,
+        "source_digests": {src["source"]: digest(Path(src["path"])) for src in sources if digest(Path(src["path"]))},
         "view": {"rows": len(rows), "distinct_capability_ids": len({r["capability_id"] for r in rows}),
                  "catalogue_only_rows": sum(1 for r in rows if r.get("provider_state") == "catalogue_only")},
         "journeys": [journey(cr, rows, contracts, db, c, v["boundary"]) for c, v in CAPABILITIES.items()],
@@ -139,6 +177,21 @@ def main(argv=None) -> int:
                        "note": "the view stores no copy: it is rebuilt from the sources on every read"})
         finally:
             cr.CONTRACT_REGISTRY = saved
+    # Stale revision: a receipt is only a stored view; it must say when its sources moved.
+    with tempfile.TemporaryDirectory() as tmp:
+        frozen = Path(tmp) / "capability_catalog.yaml"
+        shutil.copyfile(cr.CAPABILITY_CATALOG, frozen)
+        stored = {"sources": [{"source": "capability_catalog", "path": str(frozen)}],
+                  "source_digests": {"capability_catalog": digest(frozen)}}
+        before = [x["state"] for x in check_receipt(stored)]
+        frozen.write_text(frozen.read_text() + "\n# source revised after the receipt\n")
+        after = [x["state"] for x in check_receipt(stored)]
+        frozen.unlink()
+        gone = [x["state"] for x in check_receipt(stored)]
+        unrecorded = [x["state"] for x in check_receipt({"sources": stored["sources"]})]
+        ex.append({"exercise": "stale revision of a stored view", "states": {"unchanged": before, "source_revised": after,
+                   "source_deleted": gone, "no_digest_recorded": unrecorded},
+                   "note": "a receipt records a sha256 per source; scripts/discovery_journey.py --check-receipt names stale, missing and unrecorded sources and exits 1"})
     receipt["failure_exercises"] = ex
     receipt["limits"] = [
         "Declared consumers come from the contract registry; observed callers are project names in the observability aggregates. Names are compared as strings and a project may log under a different name.",

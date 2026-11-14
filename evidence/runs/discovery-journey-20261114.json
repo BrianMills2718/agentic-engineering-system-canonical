@@ -1,6 +1,6 @@
 {
  "record": "discovery-journey-receipt/v1",
- "run_at": "2026-11-14T02:53:06+00:00",
+ "run_at": "2026-11-14T03:19:45+00:00",
  "ecosystem_ops_revision": "23d961dcdf33d556488b233b2bc5a764f19d65ac",
  "sources": [
   {
@@ -17,7 +17,7 @@
   },
   {
    "source": "tool_registry",
-   "path": "/home/brian/code2/worktrees/ecosystem-ops-journey2-20261114/tool_registry.json",
+   "path": "/home/brian/code2/ecosystem-ops/tool_registry.json",
    "state": "ok",
    "detail": "26 tools"
   },
@@ -28,6 +28,12 @@
    "detail": "36 contracts"
   }
  ],
+ "source_digests": {
+  "capability_catalog": "2358ef16381321d9990db2e97d23014ba0b31f665beba6728542d4e162410558",
+  "tool_usage_observations": "stat:10154221568:1794625705474953643",
+  "tool_registry": "1fbabc131e42b6cc2c1f6d492bfd8d57d40b439478dc2c850fd7a96fbe113165",
+  "contract_registry": "1ace54a28913603808b1a86c417700962168f81a585961305d2f50d31e339205"
+ },
  "view": {
   "rows": 82,
   "distinct_capability_ids": 66,
@@ -256,8 +262,8 @@
    ],
    "rows": 71,
    "catalog_status": {
-    "catalogued": 68,
-    "uncatalogued": 3
+    "uncatalogued": 3,
+    "catalogued": 68
    },
    "catalogue_only_rows": 45
   },
@@ -267,6 +273,24 @@
    "view_version_after": "9.9.9-changed",
    "refreshed_on_next_read": true,
    "note": "the view stores no copy: it is rebuilt from the sources on every read"
+  },
+  {
+   "exercise": "stale revision of a stored view",
+   "states": {
+    "unchanged": [
+     "fresh"
+    ],
+    "source_revised": [
+     "stale"
+    ],
+    "source_deleted": [
+     "missing"
+    ],
+    "no_digest_recorded": [
+     "unrecorded"
+    ]
+   },
+   "note": "a receipt records a sha256 per source; scripts/discovery_journey.py --check-receipt names stale, missing and unrecorded sources and exits 1"
   }
  ],
  "limits": [

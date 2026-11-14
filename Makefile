@@ -1,11 +1,10 @@
 # AES canonical checks. The claims, worktree, session and PR-flow targets that used to live here
 # were retired on 2026-11-12 (docs/retired/2026-11-12.md); `ship` and `claude -w` replaced them.
 
-SCRIPTS_META := scripts/meta
 PYTHON ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,python3)
 
 # --- During Implementation ---
-.PHONY: test test-quick check check-full check-agents-sync
+.PHONY: test test-quick check check-full
 
 # pytest and mypy run through $(PYTHON), which prefers .venv/bin/python, so a
 # clean clone that followed the README's install uses the venv's tools. A bare
@@ -17,9 +16,6 @@ test-quick:  ## Run pytest (no traceback)
 	$(PYTHON) -m pytest tests/ -q --tb=no
 
 check: check-doc-facts  ## Run all checks (test, mypy, lint)
-	@echo "Checking generated AGENTS.md synchronization..."
-	@$(PYTHON) $(SCRIPTS_META)/check_agents_sync.py --repo-root . --check
-	@echo ""
 	@echo "Running tests..."
 	@$(PYTHON) -m pytest tests/ -q --tb=short -n auto -m "not slow"
 	@echo ""
@@ -31,9 +27,6 @@ check: check-doc-facts  ## Run all checks (test, mypy, lint)
 check-full:  ## make check plus the slow end-to-end tests (installs, the whole-repository status run)
 	@$(MAKE) --no-print-directory check
 	@$(PYTHON) -m pytest tests/ -q --tb=short -n auto -m slow
-
-check-agents-sync:  ## Validate generated AGENTS.md matches canonical governance inputs
-	@$(PYTHON) $(SCRIPTS_META)/check_agents_sync.py --repo-root . --check
 
 .PHONY: check-doc-facts refresh-doc-facts
 check-doc-facts:  ## Read-only freshness of declared facts, without whole-tree projection

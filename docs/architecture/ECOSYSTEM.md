@@ -255,7 +255,7 @@ Policies read: `instruction-surface-sync` (partially enforced, 8 listed gaps) an
 - AES `AGENTS.md` (9,163 bytes) is a generated copy of `CLAUDE.md` (10,841 bytes)
   made by `scripts/meta/render_agents_md.py` from `scripts/relationships.yaml`; its
   sync check passes (exit 0). A Project Meta mechanism therefore still decides what
-  Codex reads in AES (Q40).
+  Codex reads in AES (Q40; retired in the eighth reading).
 - Project Meta's subtree-instruction checker exits with an error for AES: its
   registry path `enforced-planning/scripts/subtree_instruction_registry.yaml`
   does not exist, so classification is skipped. The quality audit reports 1 file,
@@ -316,9 +316,12 @@ source `capability_catalog` named `missing`, 55 rows all `unknown`, 0 catalogue-
 Catalogue invalid YAML: named `invalid`, same result. Contract registry invalid:
 named `invalid`; the other sources still produce 71 rows. Provider schema version
 changed in the source (1.0.0 to 9.9.9): the view shows the new version on the next
-read, because it stores no copy. A real stale-revision signal for a stored view
-is not needed while the view is computed on read; if it is ever cached it must
-carry the source revisions.
+read, because it stores no copy. The stored receipt now records a digest per source and
+`scripts/discovery_journey.py --check-receipt` names each source as fresh, stale, missing or
+unrecorded (exits 1 unless all are fresh). Exercised on a copy: unchanged is fresh, a revised
+source is stale, a deleted source is missing, a receipt without digests is unrecorded; the
+real receipt checked fresh against the real sources when written. The observability database
+is compared by size and modification time, not content (10 GB).
 
 ## Seventh reading: the concern register, the verifier live, and recurrence
 
@@ -391,12 +394,15 @@ AES file is the generated 9,163-byte projection of the 10,841-byte `CLAUDE.md`; 
 projection says omitted rules are read from `CLAUDE.md` directly, which Codex does not
 do. One run; self-report by the model, 27,855 tokens.
 
-**Generator route (Q40).** Not retired. The recommendation is to retire it, with this
-evidence still owed: confirm Claude Code loads the same text through a one-line
-`CLAUDE.md` containing `@AGENTS.md` (the pattern `~/code/CLAUDE.md` uses), and replace
-`make check-agents-sync` and the Project Meta subtree checker's expectation. It loses
-nothing: today Codex already receives less than Claude. Retirement is a separate
-change with its own check.
+**Generator route (Q40): retired for AES (2026-11-14).** Evidence, one run each: with
+`CLAUDE.md` reduced to the single line `@AGENTS.md` and `AGENTS.md` holding the full
+hand-maintained text, `claude -p` in an AES worktree reported the governance heading as loaded
+from `AGENTS.md` through the import, and `codex exec` listed the AES `AGENTS.md` and found no
+`GENERATED FILE` text. Codex now gets the whole file instead of the 9,163-byte projection, which
+is under the 32,768-byte payload cap. Removed: the renderer, the sync check, the rendering
+library and its test, and the `make check` step ([docs/retired/2026-11-14.md](../retired/2026-11-14.md)).
+Not checked: other repositories that may read `scripts/relationships.yaml` or `meta-process/`
+(left in place), and the Project Meta subtree checker, which already errored for AES.
 
 ## Ninth reading: earlier AES designs and retained evidence
 
@@ -430,7 +436,7 @@ Disposition: keep as rationale and counter-evidence; no mechanism is adopted.
 | 1. Read and reconcile direction | This review, accepted Decision 0014, linked Q36–Q42 and pinned source map | Initial bounded pass recorded; no exhaustive review claim |
 | 2. Compare records and choose publication provider | Unique facts/aliases/readers/writers accounted for; one proposed source-to-view mapping; compare existing exporter/view with sufficient catalogue products | Done: records compared, route recommended, alias table authored and checked (third and sixth readings); provider selection is a working default awaiting Brian's veto (Q36–Q38) |
 | 3. Deliver one discovery journey | Real provider → versioned schema → real consumer → observed receipt, plus a second different capability; a reader finds and compares both | Receipt for two capabilities (sixth reading). Partial: schema compatibility untested, consumer lists disagree with observation, no cross-project discovery page yet |
-| 4. Exercise freshness and failure | Change a provider description or schema; view refreshes or reports stale; unavailable input cannot look empty/complete | Exercised on copies: missing and invalid sources named, schema change visible on next read, catalogue-only entries listed (sixth reading) |
+| 4. Exercise freshness and failure | Change a provider description or schema; view refreshes or reports stale; unavailable input cannot look empty/complete | Exercised on copies: missing and invalid sources named, schema change visible on next read, catalogue-only entries listed (sixth reading); stale stored receipt detected by digest (stale, missing, unrecorded states) |
 | 5. Reconcile upstream routes | Workspace, ACA, Project Meta and Company Planning point at the demonstrated route; preserve old IDs and recovery references before retirement | Not implemented |
 
 Each implemented discovery/refresh run must retain inputs, source revisions,
@@ -456,8 +462,9 @@ sections and a pinned revision, with proposed disposition and unresolved materia
    and seven exception, recovery and closure rows (eighth reading). No full
    263-policy audit has happened.
 4. **Instruction delivery:** generation route, subtree checker, payload check (fifth
-   reading); Codex load observed once (eighth reading). Remaining: agent-skills sync,
-   and the `@AGENTS.md` check that would let the generator retire (Q40).
+   reading); Codex and Claude loads observed and the AES generator retired (eighth
+   reading). Remaining: agent-skills sync and other repositories' readers of
+   `scripts/relationships.yaml` (Q40).
 5. **Earlier AES designs and evidence:** retirement record and harvest read (ninth
    reading). Remaining: the code and complete traces behind a selected harvested item.
 
