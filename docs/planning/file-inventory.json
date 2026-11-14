@@ -3090,9 +3090,9 @@
     },
     {
       "path": "src/lockstep/catalog.py",
-      "sha256": "cb9667fa5bbb9bcb10e0ec5548bef5449723c0665761fb73ff54dd43b7541ca3",
+      "sha256": "8aff2c14985716167311e33bf12be438f65ddbf2955c6f242e1428cd7e0cdfd2",
       "summary": "Implements indexed-file pending detection, hash-bound review, deterministic catalog rendering and working-tree or staged-byte freshness checks with daily operation receipts.",
-      "review_reason": "Reread complete implementation: staged checks read configuration, inventory, source and target from index; Git disables hooks and fsmonitor. Empty/comment-only configuration is a no-op, malformed mappings fail, supplied metadata is validated and semantic review remains explicit.",
+      "review_reason": "Reviewed final catalog operations and heading-rendering correction: explicit anchors are separated from headings to match shared formatter; source-bound semantic review remains unchanged.",
       "role": "source code",
       "disposition": "keep",
       "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",

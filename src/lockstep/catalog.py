@@ -139,7 +139,7 @@ def _render(root: Path, declaration: dict, document: dict, pending: list[dict], 
         lines.append(f'- [{_label(title)}](#catalog-folder-{index}) ({len(rows)} files)')
     lines.append('')
     for index, (folder, rows) in enumerate(sorted(groups.items())):
-        lines += [f'<a id="catalog-folder-{index}"></a>', f'### {_label(folder if folder != "." else "Repository root")}', '']
+        lines += [f'<a id="catalog-folder-{index}"></a>', '', f'### {_label(folder if folder != "." else "Repository root")}', '']
         for row in rows:
             link = quote(os.path.relpath(root / row['path'], (root / declaration['target']).parent), safe='/')
             status = ' **Pending source review.**' if row['path'] in pending_names else ''
