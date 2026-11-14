@@ -17,7 +17,7 @@ installed universal automatic summarizer. Changed sources require re-review.
 The [assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment)
 explains what can be consolidated and which unique information must survive.
 
-**Coverage:** 408 files, all with summaries and links; no tracked-file exclusions.
+**Coverage:** 409 files, all with summaries and links; no tracked-file exclusions.
 Dispositions are assessment results: `keep` preserves a distinct role, `update`
 flags a remaining correction, `consolidate` proposes a content-preserving merge,
 and `generated` identifies derived/tool-owned material.
@@ -157,6 +157,8 @@ They do not authorize policy retirement, code removal or deletion of history.
 - [tests/lockstep/lockstep-plan-sample/src/pcw](#testslocksteplockstep-plan-samplesrcpcw) (1 file)
 - [wiki](#wiki) (13 files)
 
+- [evidence/runs](#evidenceruns) (1 file)
+
 ## Repository root
 
 - **[.doc-reachability-ignore](../.doc-reachability-ignore)** — Excludes generated client instructions, archived OpenSpec changes and synthetic consumer fixtures from reader-document reachability. **Role:** native configuration or contract. **Disposition:** keep.
@@ -265,7 +267,7 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 ## .project-brain
 
-- **[.project-brain/now.md](../.project-brain/now.md)** — Names the complete-file documentation repair, its scope, current source routes and next discussion; retains earlier dated handoff evidence below a historical boundary. **Role:** source document. **Disposition:** keep.
+- **[.project-brain/now.md](../.project-brain/now.md)** — Names the completed projection-component assessment, replay observations, limits and next gap-backed self-adoption recommendation, with earlier coverage and handoff history retained. **Role:** source document. **Disposition:** keep.
 
 - **[.project-brain/project.md](../.project-brain/project.md)** — States the AES purpose and functions, including Company Planning, and links the owning intent, Lockstep contract, current work and retirement record. **Role:** source document. **Disposition:** keep.
 
@@ -291,7 +293,7 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 - **[docs/architecture/GOAL.md](../docs/architecture/GOAL.md)** — Defines the autonomous-agent outcome, planning/Lockstep/feedback/policy functions, password-reset example, architectural bet, source ownership and current versus retained-history boundaries. **Role:** normative. **Disposition:** keep.
 
-- **[docs/architecture/LOCKSTEP.md](../docs/architecture/LOCKSTEP.md)** — Explains planned behavioral units, typed seams and proving checks; traces downward context, upward status and legacy draft acceptance; distinguishes modern layout from the stronger legacy one-behavior/one-file checker. **Role:** architecture. **Disposition:** keep.
+- **[docs/architecture/LOCKSTEP.md](../docs/architecture/LOCKSTEP.md)** — Explains planned structure and two-way context/status projection, distinguishes legacy mechanisms, and works through the real projection component with authored current/gap/plan narrative, measured CLI evidence and a bounded next plan. **Role:** architecture. **Disposition:** keep.
 
 - **[docs/architecture/README.md](../docs/architecture/README.md)** — Gives the current architecture reading order and explicitly separates component contracts from retained greenfield engine history and upstream methodology. **Role:** navigation. **Disposition:** keep.
 
@@ -1189,7 +1191,7 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 - **[wiki/index.md](../wiki/index.md)** — Question-based front door for AES goals, explicit planning and implementation functions, policy sources, full-file catalog, contracts, evidence, decisions and open concerns. **Role:** source document. **Disposition:** keep.
 
-- **[wiki/lockstep.md](../wiki/lockstep.md)** — Explains planned behavioral structure, consumers, consolidation slices, projection mechanisms, contracts and bounded proving examples. **Role:** source document. **Disposition:** keep.
+- **[wiki/lockstep.md](../wiki/lockstep.md)** — Routes Lockstep purpose, implementation limits, native contracts and proving examples, including the source-linked worked projection assessment and retained replay. **Role:** source document. **Disposition:** keep.
 
 - **[wiki/open-questions.md](../wiki/open-questions.md)** — Source-linked discussion view of the owning question ledger, including complete-file freshness and the original-policy reconciliation gap. **Role:** source document. **Disposition:** keep.
 
@@ -1202,3 +1204,7 @@ They do not authorize policy retirement, code removal or deletion of history.
 - **[wiki/run-and-deploy.md](../wiki/run-and-deploy.md)** — Provides retained install/check and feedback operation commands, distinguishing command existence from active installed enforcement. **Role:** source document. **Disposition:** keep.
 
 - **[wiki/system-model.md](../wiki/system-model.md)** — Maps current parts to code, contracts, configuration and storage while distinguishing retained compatibility from active ownership. **Role:** source document. **Disposition:** keep.
+
+## evidence/runs
+
+- **[evidence/runs/projection-worked-20261113.json](../evidence/runs/projection-worked-20261113.json)** — Retained six-step CLI observation on a disposable copy of the real projector: normative-down and authored current/gap/plan fan-out, stale refusal, recovery, before/after hashes, two traces and focused pytest output. **Role:** retained run evidence. **Disposition:** keep.

@@ -450,12 +450,14 @@
    "status": "open",
    "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
    "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
-   "recommendation": "Replay one requirement through the real installed hooks and build, deliberately bypass refresh once, and inspect the stale-check refusal. Preserve every transition and revision.",
-   "evidence": "A complete example is needed before describing all three surfaces as automatically aligned.",
+   "recommendation": "Use existing full-docstring projection for the first self-adoption slice. Follow P-SELF/P-NATIVE in the worked assessment; compact summary and typed relation validation remain separately bounded concerns.",
+   "evidence": "A complete example is needed before describing all three surfaces as automatically aligned. The November 13 projection-component replay carried authored current/gap/plan narrative to two targets through actual CLI commands, preserved normative-down text, refused bypassed refresh and recovered. Six expected exits matched; no native host invocation or production self-adoption is claimed. Receipt: evidence/runs/projection-worked-20261113.json.",
    "sources": [
     "docs/architecture/LOCKSTEP.md",
     "src/lockstep/checks/project.py",
-    "src/lockstep/doc_projection.py"
+    "src/lockstep/doc_projection.py",
+    "evidence/runs/projection-worked-20261113.json",
+    "docs/architecture/LOCKSTEP.md"
    ],
    "touches": []
   },

@@ -80,3 +80,13 @@ These generated copies do not certify arbitrary prose or consumer rollout.
 The [retained acceptance page](../proposals/planning-package/review-page/lockstep-acceptance.html)
 is a bounded review record. Its conclusions do not replace fresh checks of installed
 hooks or establish universal consumer rollout.
+
+## Worked example on Lockstep itself
+
+The [projection-component assessment](../docs/architecture/LOCKSTEP.md#worked-assessment-the-projection-component)
+shows an actual authored current/gap/plan narrative carried by the existing
+projector into two documents. It includes the ownership map, configuration,
+six-step replay, measured evidence and gap-backed next plan. The
+[retained run](../evidence/runs/projection-worked-20261113.json) exposes the complete
+CLI observations. Installed native-host invocation and production self-adoption
+remain separate gaps.
