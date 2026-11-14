@@ -1,0 +1,38 @@
+{
+ "schema": "aes-evidence/concern-lifecycle-live/v1",
+ "date": "2026-11-14",
+ "model_calls": 0,
+ "sources": {
+  "project_meta": "f1e27c906f6c78a6d544bf62a878367640f7d186",
+  "workspace": "cb9cdf0549b1834b243dcbb97781b0aaa619cdab",
+  "aes": "62dbd415da6f4ee15a50efe1b986211ef7ace506"
+ },
+ "five_gate_verifier": {
+  "what_ran": "concern_repair_feedback.recurrence_proof (gate 3 of 5, recurrence_proof_executed), called directly from python3 with a RootCauseRepairReport written by this session for concern 783 (headless-lane-no-tracker-unclosable). The report is not the repair executor's own.",
+  "command": "python3 -m pytest -q -p no:cacheprovider tests/test_session_resume_missing_tracker.py",
+  "real_pair": {"observed": "1708b51", "fix": "add1dd5 (PM PR 2563)", "harness_paths": ["tests/test_session_resume_missing_tracker.py"], "observed_exit": 1, "observed_tail": "1 failed in 2.09s", "fix_exit": 0, "fix_tail": "1 passed in 2.67s", "gate_passed": true},
+  "negative_control_reversed": {"observed": "add1dd5", "fix": "1708b51", "gate_passed": false, "detail": "control does not fail on the observed revision, so it would not catch recurrence"},
+  "negative_control_no_harness": {"observed": "1708b51", "fix": "1708b51", "gate_passed": false, "detail": "could not execute recurrence proof: pathspec 'tests/test_session_resume_missing_tracker.py' did not match any file(s) known to git (fails closed)"},
+  "fix_files": ["enforced_planning/session_lifecycle.py", "tests/test_session_resume_missing_tracker.py"],
+  "not_observed": [
+   "report_contract and prevention_in_diff gates (need an executor-written binding in FEEDBACK_SYSTEM_STATE_ROOT)",
+   "source_signal_green: supports only keys prefixed policy-friction-cluster:, and concern 783 is not such a key",
+   "independent_root_cause_review (a model call; not run)",
+   "a full verify_repair run on a landed repair; the fixture run is tests/test_concern_repair.py, 30 passed in 27.24s"
+  ]
+ },
+ "recurrence_reopening": {
+  "what_ran": "workspace scripts/concern_issue.py open_concern with a recording fake gh runner (no GitHub write)",
+  "closed_issue": {"result": "reopened #783", "gh_verbs": ["list", "reopen", "comment"]},
+  "open_issue_negative_control": {"result": "commented #783", "gh_verbs": ["list", "view", "comment"]},
+  "tests": "workspace tests/test_concern_issue.py -k reopen or closed or recur: 2 passed",
+  "not_observed": "a real GitHub reopen; AES effects.py reopen in file mode"
+ },
+ "timers": {"feedback-effects.timer": "disabled, inactive", "feedback-fix-owner.timer": "disabled, inactive"},
+ "codex_load": {
+  "command": "codex exec -s read-only (codex-cli 0.169.0) in an AES worktree, asked to list instruction sources from context only",
+  "loaded": ["~/code2/workspace/agents/core.md", "~/code2/AGENTS.md", "<AES>/AGENTS.md (generated)"],
+  "not_loaded": "<AES>/CLAUDE.md (config project_doc_fallback_filenames=[CLAUDE.md] applies only when AGENTS.md is absent)",
+  "tokens_used": 27855
+ }
+}

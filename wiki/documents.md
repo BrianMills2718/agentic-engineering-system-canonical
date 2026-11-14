@@ -45,6 +45,7 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 - [Alias checker tests](../tests/test_capability_aliases.py) — complete table passes; gaps and unreadable sources are reported.
 - [Discovery journey script](../scripts/discovery_journey.py) — reads the merged view, contract registry and observability aggregates and writes the receipt.
 - [Discovery journey receipt](../evidence/runs/discovery-journey-20261114.json) — two capabilities end to end and four failure exercises, with limits.
+- [Concern lifecycle live receipt](../evidence/runs/concern-lifecycle-live-20261114.json) — one verifier gate and recurrence reopening observed, with what was not observed.
 
 ## Generated requirement coverage (2026-11-14)
 

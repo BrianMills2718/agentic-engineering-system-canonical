@@ -38,8 +38,15 @@ ecosystem-ops merged view (PRs 201 and 202: failed sources are named, catalogue-
 entries listed, tool joins qualified, contract version shown; 82 rows, all 60 IDs).
 The [journey receipt](../evidence/runs/discovery-journey-20261114.json) covers
 `llm_structured` and `web_search`: declared consumers disagree with observed
-callers in both. Still open: concern register and live verifier (Q42), remaining
-policy families, Codex load check (Q40), earlier AES designs (Q39).
+callers in both. Seventh to ninth readings (ECOSYSTEM.md): recommended the keyed
+GitHub issue as the one concern register and the Project Meta verifier as closure
+owner; observed its recurrence-proof gate live on landed repair 783 (fail then
+pass, two failing controls) and recurrence reopening with a stand-in `gh`
+([receipt](../evidence/runs/concern-lifecycle-live-20261114.json)); read seven
+policy rows; Codex observed loading the generated `AGENTS.md`, not `CLAUDE.md`;
+read the retirement record and 2026-09-26 harvest. Not done: the other four
+verifier gates on a real repair, a real reopen, retiring the generator, and the
+timers (Brian's call).
 
 ## Earlier implementation and assessment records
 
