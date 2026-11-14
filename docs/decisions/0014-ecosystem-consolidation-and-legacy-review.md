@@ -77,3 +77,12 @@ or orchestration before an ordinary project can publish a useful capability.
 Documentation direction adopted; first bounded source review recorded.
 Catalogue implementation, upstream instruction reconciliation, runtime rollout
 and retirement are not completed by this documentation change.
+
+2026-11-14 update (inferred by agent; a working default until Brian says yes): the
+[alias table](0014-capability-aliases.yaml) ties each job, catalogue family and ACA
+record together only where the same provider is named, and
+`scripts/check_capability_aliases.py` checks it against the native records. The
+ecosystem-ops merged view was fixed (ecosystem-ops PRs 201 and 202) and a
+[journey receipt](../../evidence/runs/discovery-journey-20261114.json) records two
+capabilities end to end. Upstream instruction changes, retirement and any
+production rollout are still not done.

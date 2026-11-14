@@ -36,6 +36,16 @@ the array projection change; the merged specification remains authoritative.
 - [Array projection requirement delta](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts/spec.md) — retained change to the fact projection contract.
 - [Array projection tasks](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/tasks.md) — historical implementation checklist.
 
+## Ecosystem review records (2026-11-14)
+
+Added after the 419-file inventory; the ecosystem page owns their interpretation.
+
+- [Capability alias table](../docs/decisions/0014-capability-aliases.yaml) — ties jobs, catalogue families and ACA records only where the same provider is named.
+- [Alias checker](../scripts/check_capability_aliases.py) — fails on unknown or duplicated references; reads the native catalogue records.
+- [Alias checker tests](../tests/test_capability_aliases.py) — complete table passes; gaps and unreadable sources are reported.
+- [Discovery journey script](../scripts/discovery_journey.py) — reads the merged view, contract registry and observability aggregates and writes the receipt.
+- [Discovery journey receipt](../evidence/runs/discovery-journey-20261114.json) — two capabilities end to end and four failure exercises, with limits.
+
 ## Generated requirement coverage (2026-11-14)
 
 - [Requirement status](../docs/status.md) — generated requirement-to-code and

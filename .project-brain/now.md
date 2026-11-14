@@ -32,6 +32,15 @@ discovery journey, live five-gate verifier, recurrence reopening, other policy
 families. Donor dispositions remain proposals, not migration or retirement.
 Earlier projection and feedback work below remains independent and is preserved.
 
+The 2026-11-14 third continuation (branches eco-alias-table onward) authored the
+[alias table](../docs/decisions/0014-capability-aliases.yaml) and fixed the
+ecosystem-ops merged view (PRs 201 and 202: failed sources are named, catalogue-only
+entries listed, tool joins qualified, contract version shown; 82 rows, all 60 IDs).
+The [journey receipt](../evidence/runs/discovery-journey-20261114.json) covers
+`llm_structured` and `web_search`: declared consumers disagree with observed
+callers in both. Still open: concern register and live verifier (Q42), remaining
+policy families, Codex load check (Q40), earlier AES designs (Q39).
+
 ## Earlier implementation and assessment records
 
 # AES projection self-adoption (2026-11-13, AES #854)

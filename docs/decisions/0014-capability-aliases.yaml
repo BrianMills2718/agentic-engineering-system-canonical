@@ -1,0 +1,95 @@
+# Alias table for the ecosystem discovery route (Decision 0014, Q36/Q37).
+# Source: inferred by agent on 2026-11-14 from reading the four source records below; a
+# working default until Brian says yes. It ties records together only where the SAME named
+# provider appears in both records; it never infers a join from similar names, and a row
+# does not claim the records are substitutable or compatible (Q37, Q38).
+schema: aes-capability-aliases/v1
+sources:
+  workspace_jobs: {repo: code2-workspace, path: docs/capabilities.md, revision: cb9cdf0549b1834b243dcbb97781b0aaa619cdab}
+  project_meta_catalogue: {repo: project-meta, path: scripts/capability_catalog.yaml, revision: f1e27c906f6c78a6d544bf62a878367640f7d186}
+  aca_registry: {repo: agentic-capability-architecture-canonical, path: capability_registry.yml, revision: 8b1d8460b968166e7020fdc55b8068561ea48199}
+  aca_candidates: {repo: agentic-capability-architecture-canonical, path: reuse_candidates.yml, revision: 8b1d8460b968166e7020fdc55b8068561ea48199}
+# One row per provider group. Legacy IDs are preserved exactly as the source spells them.
+# basis says what ties the records; absent sides are listed as none, never guessed.
+aliases:
+  - id: llm-calls
+    workspace_job: LLM calls
+    project_meta_families: [llm_client.llm_and_tool_observability]
+    aca: []
+    basis: workspace row and catalogue family both name provider llm_client
+  - id: government-source-clients
+    workspace_job: Government-source clients for agents (USAspending, FEC)
+    project_meta_families: [osint_tools.government_api_clients_and_shared_osint_contracts]
+    aca: []
+    basis: workspace row and catalogue family both name provider osint_tools
+  - id: investigation-case-files
+    workspace_job: Investigation case files (OSINT research with claims, rejected claims and source custody)
+    project_meta_families: [research_v3.osint_research_pipeline]
+    aca: []
+    basis: workspace row and catalogue family both name provider research_v3
+  - id: adjudicated-research-reports
+    workspace_job: Multi-analyst adjudicated research reports
+    project_meta_families: [grounded_research.arbitration_and_evidence_evaluation]
+    aca: []
+    basis: workspace row and catalogue family both name provider grounded-research
+  - id: claim-governance
+    workspace_job: Claim governance and post-processing (review, promotion, identity, ontology binding, export)
+    project_meta_families: [onto_canon6.governed_semantic_build_and_canonical_identity]
+    aca: []
+    basis: workspace row and catalogue family both name provider onto-canon6
+  - id: governed-knowledge-questions
+    workspace_job: Asking questions of governed knowledge (retrieval, analysis, answers)
+    project_meta_families: [digimon.retrieval_projection_runtime]
+    aca: []
+    basis: workspace row and catalogue family both name provider DIGIMON
+  - id: documents-to-claims
+    workspace_job: Documents to source-backed claims (passages, extraction)
+    project_meta_families: []
+    aca: [documents_to_text]
+    basis: ACA candidate documents_to_text (status candidate, project digimon_capability_ledger) names the same job; no catalogue entry exists and the workspace row's provider is a not-yet-built repository, so no provider is shared
+  # Records with no counterpart in the other sources. Listed so coverage is checkable.
+  - id: web-retrieval
+    workspace_job: none
+    project_meta_families: [open_web_retrieval.normalized_web_retrieval_and_provenance]
+    aca: []
+    basis: catalogue only; the workspace list has no row for this provider
+  - id: prompt-evaluation
+    workspace_job: none
+    project_meta_families: [prompt_eval.prompt_evaluation_and_optimization]
+    aca: []
+    basis: catalogue only
+  - id: social-media-mcp
+    workspace_job: none
+    project_meta_families: [mcp_servers.social_media_unified_interactive_mcp_surface]
+    aca: []
+    basis: catalogue only
+  - id: operational-observability
+    workspace_job: none
+    project_meta_families: [ecosystem_ops.operational_observability_and_governance_runtime]
+    aca: []
+    basis: catalogue only; several workspace rows (failing jobs, headless runs) may relate, but no record names the provider, so no join is claimed
+  - id: aca-core
+    workspace_job: none
+    project_meta_families: []
+    aca: [core]
+    basis: ACA package only
+  - id: aca-approvals
+    workspace_job: none
+    project_meta_families: []
+    aca: [approvals, approval_action_workflow]
+    basis: ACA package approvals and candidate approval_action_workflow concern the same approval lifecycle; the candidate record says it is not proven shared behavior
+  - id: aca-notifications
+    workspace_job: none
+    project_meta_families: []
+    aca: [notifications]
+    basis: ACA package only
+  - id: aca-scheduling
+    workspace_job: none
+    project_meta_families: []
+    aca: [scheduling]
+    basis: ACA package only
+  - id: aca-twitter-search-wrapper
+    workspace_job: none
+    project_meta_families: []
+    aca: [twitterapi_io_search_candidates_wrapper]
+    basis: ACA candidate (status observed) only

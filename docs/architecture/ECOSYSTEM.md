@@ -276,14 +276,58 @@ Codex's native read of the repository file is confirmed, and wire the payload
 check into the existing nightly job. Not done here; the policy families beyond
 these two (inventory of 263, 169 advisory) remain unreviewed.
 
+## Sixth reading: alias table and the first discovery journeys
+
+Measured 2026-11-14 on ecosystem-ops 23d961d (the merged view after PRs 201 and 202),
+the Project Meta catalogue at f1e27c9 and the local contract registry and
+observability database (read-only). Receipt:
+[discovery-journey-20261114.json](../../evidence/runs/discovery-journey-20261114.json),
+produced by `scripts/discovery_journey.py`; no model call.
+
+**Alias table.** [0014-capability-aliases.yaml](../decisions/0014-capability-aliases.yaml)
+has 16 rows covering all 10 catalogue families, 4 ACA packages and 3 ACA candidates
+exactly once. 6 rows tie a workspace job to a catalogue family because both
+name the same provider; one ties the documents-to-claims job to an ACA candidate
+by job only (no shared provider); the rest are one-sided and say so. The checker
+exits 1 on an unknown or duplicated reference and 2 when a source cannot be read.
+No ID was matched by similarity.
+
+**Fixes to the existing view (merged upstream).** A missing, invalid or unavailable
+source is now returned as a named state (the command prints it and exits 3, and rows
+become `unknown`, not `uncatalogued`); catalogue entries with no registered tool or
+contract are listed as `catalogue_only`; tool joins use project plus tool name;
+rows carry the contract version. Before: 55 rows, 33 of 60 catalogue IDs. After:
+82 rows (55 registered, 27 catalogue-only), all 60 IDs present.
+
+| Journey | Provider and schema | Declared consumers | Observed callers (boundary aggregates) |
+| --- | --- | --- | --- |
+| `llm_structured` | `llm_client.call_llm_structured` v1.0.0; output schema present, input schema absent | research_v3, onto-canon6, grounded-research, open_web_retrieval | 91 projects; only onto-canon6 is both declared and observed; 3 declared consumers have no observed calls; 90 observed callers are undeclared |
+| `web_search` | `open_web_retrieval.search` v0.1.0; input schema present, output absent; 4 further tool providers in the catalogue | research_v3, onto-canon6, osint_tools | 3 projects (ecosystem-ops 662 events, open_web_retrieval 72, one other); none is declared |
+
+Reading: the declared consumer list is not a consumer index. In both journeys it
+disagrees with what the logs observed, so discovery must show declared and
+observed as separate states (Q38) and must not present the contract's list as who
+uses a capability. Limits: names are compared as strings; a logged call is not
+proof of fit; no provider-to-consumer schema compatibility was tested; schemas for
+the second capability are partial.
+
+**Failure exercises (on copies of the real sources).** Catalogue missing: failed
+source `capability_catalog` named `missing`, 55 rows all `unknown`, 0 catalogue-only rows.
+Catalogue invalid YAML: named `invalid`, same result. Contract registry invalid:
+named `invalid`; the other sources still produce 71 rows. Provider schema version
+changed in the source (1.0.0 to 9.9.9): the view shows the new version on the next
+read, because it stores no copy. A real stale-revision signal for a stored view
+is not needed while the view is computed on read; if it is ever cached it must
+carry the source revisions.
+
 ## Bounded consolidation sequence
 
 | Step | Visible result and evidence | Status |
 | --- | --- | --- |
 | 1. Read and reconcile direction | This review, accepted Decision 0014, linked Q36–Q42 and pinned source map | Initial bounded pass recorded; no exhaustive review claim |
-| 2. Compare records and choose publication provider | Unique facts/aliases/readers/writers accounted for; one proposed source-to-view mapping; compare existing exporter/view with sufficient catalogue products | Records, readers and writers compared and a route recommended (third reading); no alias table authored, no journey built; provider selection awaits Brian's veto window (Q36–Q38) |
-| 3. Deliver one discovery journey | Real provider → versioned schema → real consumer → observed receipt, plus a second different capability; a reader finds and compares both | Not implemented |
-| 4. Exercise freshness and failure | Change a provider description or schema; view refreshes or reports stale; unavailable input cannot look empty/complete | Not implemented |
+| 2. Compare records and choose publication provider | Unique facts/aliases/readers/writers accounted for; one proposed source-to-view mapping; compare existing exporter/view with sufficient catalogue products | Done: records compared, route recommended, alias table authored and checked (third and sixth readings); provider selection is a working default awaiting Brian's veto (Q36–Q38) |
+| 3. Deliver one discovery journey | Real provider → versioned schema → real consumer → observed receipt, plus a second different capability; a reader finds and compares both | Receipt for two capabilities (sixth reading). Partial: schema compatibility untested, consumer lists disagree with observation, no cross-project discovery page yet |
+| 4. Exercise freshness and failure | Change a provider description or schema; view refreshes or reports stale; unavailable input cannot look empty/complete | Exercised on copies: missing and invalid sources named, schema change visible on next read, catalogue-only entries listed (sixth reading) |
 | 5. Reconcile upstream routes | Workspace, ACA, Project Meta and Company Planning point at the demonstrated route; preserve old IDs and recovery references before retirement | Not implemented |
 
 Each implemented discovery/refresh run must retain inputs, source revisions,
