@@ -23,6 +23,15 @@ flags a remaining correction, `consolidate` proposes a content-preserving merge,
 and `generated` identifies derived/tool-owned material.
 They do not authorize policy retirement, code removal or deletion of history.
 
+## Subsequent archived change (2026-11-14)
+
+These records were added after the dated 409-file inventory above. They record
+the array projection change; the merged specification remains authoritative.
+
+- [Array projection proposal](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/proposal.md) — motivation, scope and impact.
+- [Array projection requirement delta](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts/spec.md) — retained change to the fact projection contract.
+- [Array projection tasks](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/tasks.md) — historical implementation checklist.
+
 ## Owning external sources
 
 - [BrianMills2718/project-meta/policy/registry.yaml](https://github.com/BrianMills2718/project-meta/blob/f1e27c906f6c78a6d544bf62a878367640f7d186/policy/registry.yaml) — Original policy source with 263 entries; not replaced by the small AES register. Current disposition and live enforcement require per-policy reconciliation.

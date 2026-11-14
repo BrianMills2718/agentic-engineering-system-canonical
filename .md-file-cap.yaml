@@ -1,6 +1,8 @@
-limit: 126
+limit: 129
 reason: >
   Accepted decisions, historical implementation contracts and current normative sources are retained
   so their citations and restore paths remain valid. The 2026-11-13 orientation repair adds three
   component/documentation accounts and docs/index.md (122 baseline tracked Markdown files plus 4).
-  The limit matches that measured total; the wiki catalog provides a two-link path to reader docs.
+  The array-fact projection change adds three archived OpenSpec records at revision 796ecf93b;
+  preserving its proposal, requirement delta and tasks increases the measured total to 129.
+  The wiki catalog links those retained records; this exception does not certify their semantic review.
