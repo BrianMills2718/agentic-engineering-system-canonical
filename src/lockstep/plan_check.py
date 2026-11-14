@@ -362,8 +362,12 @@ def requirement_problems(record: dict) -> tuple[list[str], dict]:
 
 def plan_cli(argv: list[str]) -> int:
     """`lockstep plan <command>`: today the only command is `check`."""
+    if argv and argv[0] == "units":
+        from lockstep.work_units import units_cli
+        return units_cli(argv[1:])
     if not argv or argv[0] != "check":
-        print("usage: lockstep plan check [--repo PATH] [--acceptance PATH] [--json]", file=sys.stderr)
+        print("usage: lockstep plan check [--repo PATH] [--acceptance PATH] [--json] | lockstep plan units [--repo PATH] [--json]",
+              file=sys.stderr)
         return 2
     parser = argparse.ArgumentParser(prog="lockstep plan check", description=__doc__.split("\n\n")[0])
     parser.add_argument("--repo", type=Path, default=Path("."), help="the repository (default: the current directory)")
@@ -382,6 +386,13 @@ def plan_cli(argv: list[str]) -> int:
     r_problems, info = requirement_problems(record) if isinstance(record, dict) else ([], {
         "checked": False, "summary": "skipped", "pending": ""})
     problems = a_problems + r_problems
+    units_file = repo / "docs/planning/work-units.json"
+    if units_file.is_file():  # the work-unit DAG is checked here once a repository has one
+        from lockstep.work_units import analyse
+        try:
+            problems += [f"work units: {p}" for p in analyse(_load(units_file))["problems"]]
+        except Unreadable as exc:
+            problems.append(f"work units: {exc}")
     if args.json:
         print(json.dumps({"ok": not problems, "acceptance": {"path": str(path), "summary": a_summary},
                           "requirements": info, "problems": problems}, indent=2))
