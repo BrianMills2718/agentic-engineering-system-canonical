@@ -7,9 +7,9 @@ accepts or cuts them.
 Implements: lockstep-checks/sources-every-normative-item-names-its-source
 
 Requirement text (generated):
-    lockstep-checks/sources-every-normative-item-names-its-source: The sources check SHALL fail when an OpenSpec
-        requirement (in `openspec/specs` or an active change delta) or a decision record in
-        `docs/decisions/` has no `Source:` line, so nobody mistakes an agent's guess for Brian's
+    lockstep-checks/sources-every-normative-item-names-its-source: The sources check SHALL fail when
+        an OpenSpec requirement (in `openspec/specs` or an active change delta) or a decision record
+        in `docs/decisions/` has no `Source:` line, so nobody mistakes an agent's guess for Brian's
         rule. A decision record may give a `Decider:` line instead.
 """
 

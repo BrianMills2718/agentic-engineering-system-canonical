@@ -2,7 +2,8 @@
 
 Implements: lockstep-doc-facts/declared-source-facts-have-one-authority,
     lockstep-doc-facts/invalid-input-is-not-a-pass,
-    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts
+    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts,
+    lockstep-doc-facts/declared-record-arrays-project-as-rows
 
 Requirement text (generated):
     lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL
@@ -26,6 +27,15 @@ Requirement text (generated):
         the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one
         trace per run to a daily projection log with source/target hashes and rewritten paths. No
         declarations SHALL be a no-op.
+    lockstep-doc-facts/declared-record-arrays-project-as-rows: A projection MAY declare `items` as
+        the name of a top-level JSON or YAML array. Its `fields` SHALL include `id` and identify
+        scalar fields in each record. The projector SHALL render one escaped Markdown table row per
+        source record in source order and preserve the source link and markers. Each record SHALL
+        have a distinct nonempty string `id` and each selected field SHALL be a non-null scalar.
+        Missing arrays, invalid records, missing fields and duplicate IDs SHALL fail before any
+        target write. The check and installed refresh paths SHALL apply the same validation and
+        freshness rules as ordinary projections; refresh traces SHALL record selected array facts
+        and source identity.
 
 
 Current assessment (agent-authored):
@@ -101,8 +111,8 @@ def declarations(root: Path) -> list[dict]:
         raise ProjectionError('projections must be a list')
     seen = set()
     for row in rows:
-        if not isinstance(row, dict) or set(row)-{'id', 'source', 'target', 'fields', 'symbol'}:
-            raise ProjectionError('each projection holds only id, source, target, fields and optional symbol')
+        if not isinstance(row, dict) or set(row)-{'id', 'source', 'target', 'fields', 'symbol', 'items'}:
+            raise ProjectionError('each projection holds only id, source, target, fields and optional symbol or items')
         ident = row.get('id')
         if not isinstance(ident, str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*', ident) or ident in seen:
             raise ProjectionError(f'projection id is invalid or repeated: {ident!r}')
@@ -114,6 +124,9 @@ def declarations(root: Path) -> list[dict]:
         fields = row.get('fields')
         if not isinstance(fields, list) or not fields or any(not isinstance(f, str) or not f for f in fields) or len(set(fields)) != len(fields):
             raise ProjectionError(f'projection {ident}: fields must be distinct nonempty names')
+        items = row.get('items')
+        if 'items' in row and (not isinstance(items, str) or not items or 'id' not in fields or row.get('symbol') is not None or Path(row['source']).suffix.lower() not in ('.json', '.yaml', '.yml')):
+            raise ProjectionError(f'projection {ident}: items needs a JSON/YAML array field, id among fields, and no symbol')
         symbol = row.get('symbol')
         if symbol is not None and (not isinstance(symbol, str) or not symbol):
             raise ProjectionError(f'projection {ident}: symbol must be a nonempty name')
@@ -131,7 +144,7 @@ def _symbol(tree: ast.AST, name: str | None) -> ast.AST:
     return node
 
 
-def _facts(path: Path, fields: list[str], symbol: str | None, text: str | None = None) -> dict:
+def _facts(path: Path, fields: list[str], symbol: str | None, text: str | None = None, items: str | None = None) -> dict | list[dict]:
     text = path.read_text() if text is None else text
     if path.suffix == '.py':
         node = _symbol(ast.parse(text, filename=str(path)), symbol)
@@ -163,6 +176,23 @@ def _facts(path: Path, fields: list[str], symbol: str | None, text: str | None =
             raise ProjectionError(f'unsupported projection source: {path.name}')
         if not isinstance(data, dict):
             raise ProjectionError(f'projection source must hold a mapping: {path.name}')
+    if items is not None:
+        records = data.get(items)
+        if not isinstance(records, list):
+            raise ProjectionError(f'{path.name}: {items} must be an array')
+        selected = []
+        ids = set()
+        for record in records:
+            if not isinstance(record, dict):
+                raise ProjectionError(f'{path.name}: {items} records must be mappings')
+            ident = record.get('id')
+            if not isinstance(ident, str) or not ident.strip() or ident in ids:
+                raise ProjectionError(f'{path.name}: {items} has invalid or duplicate id')
+            ids.add(ident)
+            if any(f not in record or record[f] is None or not isinstance(record[f], (str, int, float, bool, date)) for f in fields):
+                raise ProjectionError(f'{path.name}: {items} records need non-null scalar selected fields')
+            selected.append({f: record[f] for f in fields})
+        return selected
     missing = [f for f in fields if f not in data or data[f] is None]
     if missing:
         raise ProjectionError(f'{path.name}: missing source field(s): {", ".join(missing)}')
@@ -208,11 +238,16 @@ def render(root: Path, contents: dict[Path, str] | None = None) -> dict[Path, st
         middle = text[text.index(start)+len(start):text.index(end)]
         if '<!-- lockstep facts:' in middle or '<!-- /lockstep facts:' in middle:
             raise ProjectionError(f'{row["target"]}: nested projection markers')
-        facts = _facts(source, row['fields'], row.get('symbol'), rendered.get(source))
+        facts = _facts(source, row['fields'], row.get('symbol'), rendered.get(source), row.get('items'))
         link = base.rstrip('/') + '/' + quote(row['source'], safe='/') if base else quote(os.path.relpath(source, target.parent).replace(os.sep, '/'), safe='/.')
         block = [start, '', f'Generated from [{row["source"]}]({link}); edit the source, not this block.', '',
                  '| Field | Value |', '| --- | --- |']
-        block += [f'| {_cell(f)} | {_cell(value)} |' for f, value in facts.items()]
+        if isinstance(facts, list):
+            block[-2:] = ['| ' + ' | '.join(_cell(f) for f in row['fields']) + ' |',
+                          '| ' + ' | '.join('---' for _ in row['fields']) + ' |']
+            block += ['| ' + ' | '.join(_cell(record[f]) for f in row['fields']) + ' |' for record in facts]
+        else:
+            block += [f'| {_cell(f)} | {_cell(value)} |' for f, value in facts.items()]
         new = '\n'.join(block)+f'\n\n{end}'
         rendered[target] = text[:text.index(start)] + new + text[text.index(end)+len(end):]
     return rendered
@@ -260,7 +295,7 @@ def _declared_inputs(root: Path) -> list[dict]:
     try:
         config = yaml.safe_load((root/'lockstep.yaml').read_text())
         rows = config.get('projections', []) if isinstance(config, dict) else []
-        return [{'source': row['source'], 'fields': row.get('fields', [])}
+        return [{'source': row['source'], 'fields': row.get('fields', []), **({'items': row['items']} if isinstance(row.get('items'), str) else {})}
                 for row in rows if isinstance(row, dict) and isinstance(row.get('source'), str)
                 and isinstance(row.get('fields', []), list)
                 and all(isinstance(f, str) for f in row.get('fields', []))]
@@ -307,7 +342,8 @@ def refresh_cli(argv: list[str]) -> int:
         # One append-only daily trace; source bytes and generated output can be opened at these paths.
         inputs = [{'source': row['source'], 'fields': row['fields'],
                    'sha256': hashlib.sha256((root/row['source']).read_bytes()).hexdigest(),
-                   'facts': _facts(root/row['source'], row['fields'], row.get('symbol'))} for row in rows]
+                   'facts': _facts(root/row['source'], row['fields'], row.get('symbol'), items=row.get('items')),
+                   **({'items': row['items']} if 'items' in row else {})} for row in rows]
         outputs = [{'target': row['target'], 'sha256': hashlib.sha256((root/row['target']).read_bytes()).hexdigest()} for row in rows]
         event = {'tool': call.get('tool_name'), 'inputs': inputs, 'outputs': outputs, 'rewrote': changed, 'exit_status': 0}
         _append_trace(root, event)

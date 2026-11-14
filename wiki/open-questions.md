@@ -16,6 +16,13 @@ runtime change, restarts a retired project or enables a timer.
 
 ## Discuss after repair
 
+### Resolved since the previous rendering: Q43
+
+The checked candidate at `feaf51f` reports 136 Markdown files against its
+136-file exception, zero unreachable files and zero durable-document findings.
+The [owning record](../docs/planning/open-questions.json) and
+[check output](../docs/planning/checks.txt) retain the earlier failures.
+
 ### Q2: Inside Success rollout
 
 Decision 0011 paused the Inside Success team rollout until whygame5 produced a result under AES; that condition was met on 2026-09-26 and the call to resume was never made. The one-tool design says any repository, personal or Inside Success, installs Lockstep with one command; slice 6 merged on 2026-11-12 and Team-Brains' Project Brain runner, an Inside Success repository, now vendors Lockstep's wheel (Team-Brains#1183, wiki/lockstep.md:22). Close the old rollout item, or keep it open?
