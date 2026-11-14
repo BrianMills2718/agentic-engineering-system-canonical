@@ -1,4 +1,28 @@
-# Bounded cold review: AES documentation self-adoption
+# Bounded cold review: work-unit DAG (AES, 2026-11-14)
+
+Reviewed revision: `ff9d4c9f40b59508dfda61ad6d9d288dcea01c3f`.
+Verdict: **pass** for the work-unit DAG change (`lockstep plan units`, spec `lockstep-plan-check/work-units-form-a-dag`)
+and for the earlier `lockstep-doc-facts` array-fact change, the two plan files that changed since the previous review.
+This does not re-certify unrelated A1-A8.
+
+Independent planning reviewer (first read at `cb5a1f5f8`: revise, four blocking findings; second read at this revision: pass).
+Validator at this revision: 10 of 10 parts ok, 11 of 12 substance checks ok with one existing route pending, 6 of 6
+tier/map checks ok; the only failure was the review pin. Work-unit tests: 10 passed, exit 0; `lockstep plan units` on
+`docs/planning/work-units.json`: 9 planned, ready S0 and S5, exit 0.
+
+Fixed after the first read: `work_units` added to the system map; two retired unit globs dropped; `CLAUDE.md:14` and `:24`
+citations re-pointed to `AGENTS.md:14` and `:24` (byte-identical lines); tests added for `plan check` with a bad units file,
+malformed JSON and printed output; spec wording clarified (unmerged units; `touches` compared as exact strings).
+
+Noted, not changed: `AGENTS.md:14` and `:24` are weak anchors for Q1/F1 and Q16 (the "AES is the whole system" statement is
+at `AGENTS.md:18-20`), a weakness that predates this change; the `lockstep-doc-facts` spec says "top-level array" where the
+code reads a named key of a mapping; `work-units.json` statuses are all planned with inferred `touches`.
+
+Verdict: pass
+
+## Prior review: AES documentation self-adoption (historical)
+
+Bounded cold review: AES documentation self-adoption
 
 Reviewed revision: `265b5ba8cf0e93524348c8739d12572d69b97354`.
 Verdict: **pass** for documentation self-adoption, restored goal fields and
