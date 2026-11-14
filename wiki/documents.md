@@ -413,7 +413,7 @@ the array projection change; the merged specification remains authoritative.
 
 - **[capabilities.json](../docs/planning/capabilities.json)** — Maps one-tool capabilities to expected user outcomes, owning work and acceptance IDs, identifying the decomposition as agent-inferred from the adopted design. **Role:** planning record. **Disposition:** keep.
 
-- **[checks.txt](../docs/planning/checks.txt)** — Retains five fresh planning checks: durable fields and wiki reachability pass; repository format remains tracked by Q17; navigation warnings and graph-schema results stay explicit. **Role:** evidence. **Disposition:** keep.
+- **[checks.txt](../docs/planning/checks.txt)** — Retains dated planning checks through the 2026-11-14 follow-ups: durable fields and wiki reachability now pass with a 136-file Markdown exception; repository format remains tracked by Q17; navigation warnings and graph-schema results stay explicit. **Role:** evidence. **Disposition:** keep.
 
 - **[cold-review.md](../docs/planning/cold-review.md)** — Records independent bounded self-adoption review with native trace, catalog, goal-field and check-count verification; preserves the prior source-fact review and excludes A1–A8 recertification. **Role:** evidence. **Disposition:** keep.
 
@@ -655,7 +655,7 @@ the array projection change; the merged specification remains authoritative.
 
 ## openspec/specs/lockstep-doc-facts
 
-- **[spec.md](../openspec/specs/lockstep-doc-facts/spec.md)** — Defines declared Markdown/Python/JSON/YAML fact projection, invalid-input refusal, post-edit refresh and stale checking. This is the merged current capability specification. **Role:** normative. **Disposition:** keep.
+- **[spec.md](../openspec/specs/lockstep-doc-facts/spec.md)** — Defines declared Markdown/Python/JSON/YAML fact projection, record-array row projection, invalid-input refusal before writes, post-edit refresh and stale checking. This is the merged current capability specification. **Role:** normative. **Disposition:** keep.
 
 ## openspec/specs/lockstep-guard
 
@@ -881,7 +881,7 @@ the array projection change; the merged specification remains authoritative.
 
 - **[declared\_reason.py](../src/lockstep/declared_reason.py)** — Refuse a planned file whose declaration gives no reason (behavior 1.3). **Role:** code. **Disposition:** keep.
 
-- **[doc\_projection.py](../src/lockstep/doc_projection.py)** — Statically extracts declared facts and refreshes targets with daily traces; its module docstring owns the component assessment, gaps, linked plan and separate evidence links. **Role:** code. **Disposition:** keep.
+- **[doc\_projection.py](../src/lockstep/doc_projection.py)** — Statically extracts declared facts, including top-level JSON/YAML record arrays rendered as source-ordered table rows with validation before any write, and refreshes targets with daily traces; its module docstring owns the component assessment, gaps, linked plan and separate evidence links. **Role:** code. **Disposition:** keep.
 
 - **[docstring\_up.py](../src/lockstep/docstring_up.py)** — Turn an edit to a docstring's plan text into a draft plan change, which the coding agent accepts. **Role:** code. **Disposition:** keep.
 
@@ -1139,7 +1139,7 @@ the array projection change; the merged specification remains authoritative.
 
 - **[test\_lockstep\_checks\_config.py](../tests/lockstep/checks/test_lockstep_checks_config.py)** — `lockstep.yaml` sets each commit check to block, warn or off, and the other settings the checks read. **Role:** test. **Disposition:** keep.
 
-- **[test\_lockstep\_doc\_projection.py](../tests/lockstep/checks/test_lockstep_doc_projection.py)** — Source-owned facts reach wiki blocks; stale copies fail without executing source. **Role:** test. **Disposition:** keep.
+- **[test\_lockstep\_doc\_projection.py](../tests/lockstep/checks/test_lockstep_doc_projection.py)** — Source-owned facts reach wiki blocks; stale copies fail without executing source; record arrays project as rows for JSON/YAML through check and native Claude/Codex refresh paths, and invalid arrays or declarations are refused. **Role:** test. **Disposition:** keep.
 
 ## tests/lockstep/e2e
 

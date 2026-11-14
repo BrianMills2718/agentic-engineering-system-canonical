@@ -15,13 +15,22 @@ stable-key/native-evidence pattern, the rejected recurrence negative control, an
 why receipt presence is not verifier proof. The code review is not a live run;
 current AES state still records fix-owner/effects jobs disabled.
 
-Next: compare actual catalogue records/readers/writers and choose the discovery
-publication provider; map concern-key ownership and observe a successful landed
-repair with a negative control; then review selected policy families and instruction
-delivery. Also reconcile the 27 stale source hashes recorded under Q30 before using
-the complete-file inventory as a current freshness index. Proposed donor dispositions
-are not completed migration, runtime adoption or retirement. Earlier projection and
-feedback work below remains independent and is preserved.
+The 2026-11-14 second continuation (branch eco-review-q30-q42) did the next
+step. **Q30:** all 27 stale inventory hashes reconciled (23 harmless, four
+summaries reworded for the array-fact feature); re-audit shows 0 mismatches, with
+five newer files catalogued only in `wiki/documents.md`. **Discovery:** compared
+the catalogue records and readers; the merged view returns 33 of the 60
+catalogue IDs and hides a missing source as "uncatalogued"; recommended route is
+the workspace jobs list plus a generated view and one alias table (Q36).
+**Concerns:** mapped five key writers (no shared key format, per-repository
+registers) and verified AES concern 783: its landed fix passes at the receipt
+revision and fails on the pre-fix parent (negative control). **Policy and
+instructions:** two instruction families read; AES `AGENTS.md` is still generated
+by a Project Meta route and the subtree checker errors for AES. See the
+third to fifth readings in the ecosystem page. Not done: alias table, a built
+discovery journey, live five-gate verifier, recurrence reopening, other policy
+families. Donor dispositions remain proposals, not migration or retirement.
+Earlier projection and feedback work below remains independent and is preserved.
 
 ## Earlier implementation and assessment records
 

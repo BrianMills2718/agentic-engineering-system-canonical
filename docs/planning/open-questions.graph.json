@@ -214,7 +214,7 @@
    "id": "Q30",
    "label": "Q30: Wiki freshness has a declared scope",
    "kind": "AgentQuestion",
-   "explain": "How are every-file summaries and navigation refreshed without silent exclusions, missing summaries or stale compiled views? Settled by: Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair."
+   "explain": "How are every-file summaries and navigation refreshed without silent exclusions, missing summaries or stale compiled views? Settled by: Reconcile each mismatched input hash against the correct reviewed source revision, refresh only after checking its source identity and summary, then rerun the whole-inventory audit and confirm the projection/catalog freshness claims match the measured result."
   },
   {
    "id": "Q30-blocks",
@@ -336,7 +336,7 @@
    "id": "Q39",
    "label": "Q39: Legacy review coverage",
    "kind": "AgentQuestion",
-   "explain": "Which older source sections have actually been read, what unique ideas remain, and what is the next bounded reading tranche? Settled by: Continue the source/revision/disposition table in ECOSYSTEM.md; inspect concern lifecycle next, then selected policy families and instruction delivery."
+   "explain": "Which older source sections have actually been read, what unique ideas remain, and what is the next bounded reading tranche? Settled by: Continue the source/revision/disposition table in ECOSYSTEM.md; name each reviewed section and revision, preserve useful ideas and counterevidence, and keep unreviewed policy families and instruction delivery explicit."
   },
   {
    "id": "Q39-blocks",
@@ -372,7 +372,7 @@
    "id": "Q42",
    "label": "Q42: Concern identity and repair closure",
    "kind": "AgentQuestion",
-   "explain": "Which existing system owns durable concern identity, verifier-owned closure and recurrence reopening across native feedback evidence and GitHub issues? Settled by: Read the Project Meta concern executor/verifier lifecycle and compare its exact transitions with AES feedback implementation, Q21, Q29 and Q31."
+   "explain": "Which existing system owns durable concern identity, verifier-owned closure and recurrence reopening across native feedback evidence and GitHub issues? Settled by: Map the current concern-key namespace, register owner, native evidence links and closure authority across producers/readers; then inspect a current successful landed repair and recurrence path, including its negative control, alongside Q21, Q29 and Q31."
   },
   {
    "id": "Q42-blocks",

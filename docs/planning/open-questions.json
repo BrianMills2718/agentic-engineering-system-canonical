@@ -537,8 +537,8 @@
    "status": "open",
    "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
    "resolves_with": "Reconcile each mismatched input hash against the correct reviewed source revision, refresh only after checking its source identity and summary, then rerun the whole-inventory audit and confirm the projection/catalog freshness claims match the measured result.",
-   "recommendation": "Keep coverage, summary adequacy and freshness separate. The 2026-11-14 full audit found 27 mismatches among 417 hashed inventory entries; resolve and classify those before using the inventory as a current freshness index. Do not advance the whole-inventory review date for a partial refresh.",
-   "evidence": "The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaced that subset catalog and bound content-derived summaries to inputs. A full hash audit at AES 8b34db885386543e260a7d3164ede04400305e85 found 27 mismatches among 417 hashed entries, with two self-output hashes intentionally omitted. The 2026-11-14 ecosystem continuation refreshed four reviewed source-entry hashes only; it did not reconcile the other mismatches. Native declared-fact refresh still does not maintain every compiled description.",
+   "recommendation": "Keep coverage, summary adequacy and freshness separate. On 2026-11-14 all 27 hash mismatches were reconciled against main c16eb68 (23 were docstring projections, a Governs line or regenerated evidence; four summaries reworded for the array-fact feature) and the audit now reports 0 mismatches. Five newer tracked files are catalogued in wiki/documents.md but are not inventory entries, and any later edit to an inventory file makes its hash stale again, so rerun the audit before using the inventory as a freshness index.",
+   "evidence": "The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaced that subset catalog and bound content-derived summaries to inputs. A full hash audit at AES 8b34db885386543e260a7d3164ede04400305e85 found 27 mismatches among 417 hashed entries, with two self-output hashes intentionally omitted. The 2026-11-14 ecosystem continuation refreshed four reviewed source-entry hashes only; it did not reconcile the other mismatches. Native declared-fact refresh still does not maintain every compiled description. 2026-11-14 reconciliation: recorded hashes matched to their introducing commits (git log per path), later commits read, hashes refreshed, re-audit 0 mismatches of 417 hashed entries; semantic re-review was limited to diff reading.",
    "sources": [
     "docs/architecture/DOCUMENTATION.md",
     "docs/planning/file-inventory.json",
@@ -641,7 +641,7 @@
    "resolves_with": "Compare unique entries, readers/writers, stable aliases and sufficient existing catalogue products; demonstrate one route before changing old instructions.",
    "owner": "agent",
    "status": "open",
-   "recommendation": "Keep native provider facts at source and AES-owned cross-project decisions; select the publication/storage mechanism after the record comparison.",
+   "recommendation": "Workspace jobs list as the one human entry with stable IDs and source links; a generated machine view adapted from the ecosystem-ops merged view (fixing error-as-empty, omitted catalogue-only entries and bare-name joins); one alias table authored in AES. Not yet demonstrated end to end.",
    "sources": [
     "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
     "docs/architecture/ECOSYSTEM.md"
@@ -649,7 +649,8 @@
    "touches": [
     "ecosystem-consolidation",
     "legacy-review"
-   ]
+   ],
+   "evidence": "Third reading (ECOSYSTEM.md): Project Meta catalogue 60 entries/76 bindings, ownership 24 (10 join the catalogue's families, 14 ownership-only), ACA 4 packages/15 identifiers with 0 shared IDs, workspace list about 70 rows naming none of the 60 IDs. Merged view run: 55 rows, 33 of 60 catalogue IDs present, 27 absent; absent or invalid catalogue input exits 0 with every row 'uncatalogued'."
   },
   {
    "id": "Q37",
@@ -685,7 +686,8 @@
    "touches": [
     "ecosystem-consolidation",
     "legacy-review"
-   ]
+   ],
+   "evidence": "Observed 2026-11-14: the merged view reports an absent or invalid catalogue source as all rows 'uncatalogued' with exit 0 and no source error; 27 of 60 catalogue IDs are missing from its output."
   },
   {
    "id": "Q39",
@@ -703,7 +705,8 @@
    "touches": [
     "ecosystem-consolidation",
     "legacy-review"
-   ]
+   ],
+   "evidence": "Reviewed so far: first reading (catalogue, contracts, datasets, policy registry, planning, harvest), concern decision and code, third reading (catalogue records/readers), fourth (concern keys, landed repair), fifth (instruction-surface-sync and instruction-payload-size rows). Unreviewed: other policy families, agent-skills sync, earlier AES designs."
   },
   {
    "id": "Q40",
@@ -721,7 +724,8 @@
    "touches": [
     "ecosystem-consolidation",
     "legacy-review"
-   ]
+   ],
+   "evidence": "AES AGENTS.md is still generated from CLAUDE.md by scripts/meta/render_agents_md.py and relationships.yaml (sync check exit 0); Project Meta's subtree checker errors on a missing enforced-planning registry path for AES."
   },
   {
    "id": "Q41",
@@ -750,7 +754,7 @@
    "status": "open",
    "resolves_with": "Map the current concern-key namespace, register owner, native evidence links and closure authority across producers/readers; then inspect a current successful landed repair and recurrence path, including its negative control, alongside Q21, Q29 and Q31.",
    "recommendation": "Adapt stable concern identity, native evidence ownership, explicit disposition, verifier-owned closure on the landed revision and recurrence reopening. Do not create another register. AES receipt validation currently checks marker structure and issue state, not the referenced verification itself; require a negative control that fails on the known-broken revision. Integration and live operation remain unproven.",
-   "evidence": "Read Project Meta's accepted 2026-09-14 concern-lifecycle decision, feedback/concern-repair.yaml and scripts/concern_repair_feedback.py at f1e27c906f6c78a6d544bf62a878367640f7d186. The decision records a live attempted repair rejected because its recurrence proof passed on the broken revision; at that decision date, a fully passing landed repair was not yet observed. Compared AES scripts/learning_loop/fix_owner.py, effects.py and problems.py at 268d58e6c1a6e8ecf697396752635ee7d5b1c639: AES validates receipt timestamp/revision/verification fields and issue disposition/state, then counts later reports and can reopen in file mode, but does not itself execute the receipt's referenced verification. Current AES project state records fix-owner and effects jobs disabled. This is source inspection, not a current live run.",
+   "evidence": "Read Project Meta's accepted 2026-09-14 concern-lifecycle decision, feedback/concern-repair.yaml and scripts/concern_repair_feedback.py at f1e27c906f6c78a6d544bf62a878367640f7d186. The decision records a live attempted repair rejected because its recurrence proof passed on the broken revision; at that decision date, a fully passing landed repair was not yet observed. Compared AES scripts/learning_loop/fix_owner.py, effects.py and problems.py at 268d58e6c1a6e8ecf697396752635ee7d5b1c639: AES validates receipt timestamp/revision/verification fields and issue disposition/state, then counts later reports and can reopen in file mode, but does not itself execute the receipt's referenced verification. Current AES project state records fix-owner and effects jobs disabled. This is source inspection, not a current live run. 2026-11-14 follow-up: key writers mapped across five code paths (no shared key format; registers per repository; closure authority differs by writer). AES concern 783 (key headless-lane-no-tracker-unclosable) verified: receipt revision add1dd5 is the merge of Project Meta PR 2563; its regression test passes there (exit 0), fails on the pre-fix parent 1708b51 (exit 1) and passes at f1e27c9. Limits: one test run by this review, not by a verifier job; the Project Meta five-gate verifier has not been seen to pass live; effects and fix-owner timers are disabled, so recurrence reopening was not exercised.",
    "sources": [
     "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
     "docs/architecture/ECOSYSTEM.md"
