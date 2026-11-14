@@ -49,6 +49,11 @@ Measured on the current rule files: "Brian" appears 57 times in `core.md` and 11
 4. Machine layer: setup script that builds this machine from the profile; then run it on a second environment (a clean container) to show the "seamless" claim.
 5. Archive the workspace repository once nothing loads from it, with a log. Nothing is deleted.
 
+## Decisions made on the way
+
+- **Record-only route (2026-11-14).** The push hook now lets a new repository of documentation and configuration files with a README push `main` without a planning package (personal-file-infra #287, merged). The matching change to `ship` (code2-workspace PR #432: `record_only_repository` in `scripts/ship.py`, its tests and spec) is not merged: the workspace's own planning package fails the validator on a classification of requirement R15 that four repair rounds did not settle. Brian chose to carry the `ship` change with the planning gate when it moves into AES (Brian, 2026-11-14: "i approve b on diecision 9"). Until then `ship` still refuses a record-only new repository; the push hook does not.
+- **Profile repository.** `brian-profile` (private) exists with `identity.yaml`; Claude loaded it through a project import inside the project, but not from a path outside it, and Codex was not tested.
+
 ## Limits
 
 - Counts of the name are text matches, not a judgment of what is personal.
