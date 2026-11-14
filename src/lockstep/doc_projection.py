@@ -35,12 +35,13 @@ Current assessment (agent-authored):
     not a substitute for measured test or native-host evidence.
 
 Gap G-NATIVE:
-    Observe and retain a real native-client source edit invoking the installed
-    post-edit hook in this repository. A supplied hook payload alone is insufficient.
+    Closed for the retained API-authenticated Claude path: one native Edit
+    invoked the installed hook and refreshed both targets. Codex host execution
+    and blanket default-session loading remain unobserved.
 
 Plan P-NATIVE (addresses G-NATIVE):
-    Run one bounded native edit, inspect its host transcript and projection trace,
-    then bypass refresh and verify read-only refusal and explicit recovery.
+    Completed for the retained Claude path: host transcript and trace identify
+    one source Edit and both target writes; bypass refusal and recovery passed.
 
 Gap G-CONCISE:
     The first adoption projects the full docstring; a compact wiki narrative and
@@ -48,9 +49,10 @@ Gap G-CONCISE:
 
 Evidence:
     See evidence/runs/projection-worked-20261113.json for the earlier disposable
-    CLI example. Native self-adoption observations are retained separately.
+    CLI example. See evidence/runs/projection-self-adoption-20261113.json and
+    evidence/runs/projection-native-20261113.jsonl for the bounded native run.
 
-Native edit marker: pending
+Native edit marker: observed-host-edit
 """
 from __future__ import annotations
 

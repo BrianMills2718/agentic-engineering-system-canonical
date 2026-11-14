@@ -1,0 +1,327 @@
+{
+  "record_type": "projection_self_adoption",
+  "source_revision": "d2e8e6b48ef24c80c620255f33097eb581e88989",
+  "read_only_gate_and_recovery": [
+    {
+      "name": "facts-only gate rejects bypass",
+      "command": [
+        "make",
+        "check-doc-facts"
+      ],
+      "exit_code": 2,
+      "stdout": "Declared fact projections stale: 2\ndocs/architecture/LOCKSTEP.md\nwiki/lockstep.md\n",
+      "stderr": "make: *** [Makefile:40: check-doc-facts] Error 1\n",
+      "before_target_hashes": {
+        "docs/architecture/LOCKSTEP.md": "63267180f99caaa2a2829a6f23ad00bb03ae3614f713eda09b13d223e8c08ca9",
+        "wiki/lockstep.md": "553e600703daac403521973b73e0df4fe91a53f5234c6ecd47c6493afb3bb8f7"
+      },
+      "after_target_hashes": {
+        "docs/architecture/LOCKSTEP.md": "63267180f99caaa2a2829a6f23ad00bb03ae3614f713eda09b13d223e8c08ca9",
+        "wiki/lockstep.md": "553e600703daac403521973b73e0df4fe91a53f5234c6ecd47c6493afb3bb8f7"
+      }
+    },
+    {
+      "name": "explicit refresh recovers",
+      "command": [
+        "make",
+        "refresh-doc-facts"
+      ],
+      "exit_code": 0,
+      "stdout": "rewrote docs/architecture/LOCKSTEP.md\nrewrote wiki/lockstep.md\nRESULT refresh rewrote=2 exit=0\n",
+      "stderr": "",
+      "before_target_hashes": {
+        "docs/architecture/LOCKSTEP.md": "63267180f99caaa2a2829a6f23ad00bb03ae3614f713eda09b13d223e8c08ca9",
+        "wiki/lockstep.md": "553e600703daac403521973b73e0df4fe91a53f5234c6ecd47c6493afb3bb8f7"
+      },
+      "after_target_hashes": {
+        "docs/architecture/LOCKSTEP.md": "4e3e2dce19be03b2d3322b6473a5926980d095cd3c94cfafff6273ee6847a382",
+        "wiki/lockstep.md": "9f64298f8e8ccf82fd8ecb8daa38e25765d42a2ee9ac983a12055bd7b41d0d74"
+      }
+    },
+    {
+      "name": "gate accepts recovery",
+      "command": [
+        "make",
+        "check-doc-facts"
+      ],
+      "exit_code": 0,
+      "stdout": "Declared fact projections stale: 0\n\n",
+      "stderr": "",
+      "before_target_hashes": {
+        "docs/architecture/LOCKSTEP.md": "4e3e2dce19be03b2d3322b6473a5926980d095cd3c94cfafff6273ee6847a382",
+        "wiki/lockstep.md": "9f64298f8e8ccf82fd8ecb8daa38e25765d42a2ee9ac983a12055bd7b41d0d74"
+      },
+      "after_target_hashes": {
+        "docs/architecture/LOCKSTEP.md": "4e3e2dce19be03b2d3322b6473a5926980d095cd3c94cfafff6273ee6847a382",
+        "wiki/lockstep.md": "9f64298f8e8ccf82fd8ecb8daa38e25765d42a2ee9ac983a12055bd7b41d0d74"
+      }
+    }
+  ],
+  "scope": "Facts-only gate on actual AES worktree; make exits2 when its Python freshness subprocess exits1. Native edit observation added separately.",
+  "native_observation": {
+    "client": "Claude Code",
+    "settings_loading": "project settings plus explicit installed .claude/settings.json, acceptEdits, only Read/Edit tools; no bare mode",
+    "source_revision": "d2e8e6b48ef24c80c620255f33097eb581e88989",
+    "attempts": [
+      {
+        "command": [
+          "claude",
+          "-p",
+          "--model",
+          "haiku",
+          "--permission-mode",
+          "acceptEdits",
+          "--setting-sources",
+          "project",
+          "--settings",
+          "/home/brian/code2/worktrees/aes-native-edit-20261113/.claude/settings.json",
+          "--strict-mcp-config",
+          "--mcp-config",
+          "{\"mcpServers\":{}}",
+          "--disable-slash-commands",
+          "--tools",
+          "Read,Edit",
+          "--allowedTools",
+          "Read,Edit",
+          "--output-format",
+          "stream-json",
+          "--verbose",
+          "--max-turns",
+          "8",
+          "--max-budget-usd",
+          "0.50",
+          "--no-session-persistence"
+        ],
+        "prompt": "This is an authorized narrow native-hook verification in your own Git worktree. Use Read and Edit only. In src/lockstep/doc_projection.py replace exactly the text \"Native edit marker: pending\" with \"Native edit marker: observed-host-edit\" in its module docstring. This is the sole planned edit; preserve all other content. Do not manually refresh or edit documentation targets. Report what you changed.",
+        "exit_code": 1,
+        "elapsed_seconds": 6.5
+      },
+      {
+        "command": [
+          "claude",
+          "-p",
+          "--model",
+          "haiku",
+          "--permission-mode",
+          "acceptEdits",
+          "--setting-sources",
+          "project",
+          "--settings",
+          "/home/brian/code2/worktrees/aes-native-edit-20261113/.claude/settings.json",
+          "--strict-mcp-config",
+          "--mcp-config",
+          "{\"mcpServers\":{}}",
+          "--disable-slash-commands",
+          "--tools",
+          "Read,Edit",
+          "--allowedTools",
+          "Read,Edit",
+          "--output-format",
+          "stream-json",
+          "--verbose",
+          "--max-turns",
+          "8",
+          "--max-budget-usd",
+          "0.50",
+          "--no-session-persistence"
+        ],
+        "prompt": "This is an authorized narrow native-hook verification in your own Git worktree. Use Read and Edit only. In src/lockstep/doc_projection.py replace exactly the text \"Native edit marker: pending\" with \"Native edit marker: observed-host-edit\" in its module docstring. This is the sole planned edit; preserve all other content. Do not manually refresh or edit documentation targets. Report what you changed.",
+        "authentication": "existing personal Anthropic API key supplied in process environment; value not retained",
+        "exit_code": 0,
+        "elapsed_seconds": 16.85
+      }
+    ],
+    "assistant_tool_names": [
+      "Read",
+      "Read",
+      "Edit"
+    ],
+    "target_hashes_before": {
+      "docs/architecture/LOCKSTEP.md": "63267180f99caaa2a2829a6f23ad00bb03ae3614f713eda09b13d223e8c08ca9",
+      "wiki/lockstep.md": "553e600703daac403521973b73e0df4fe91a53f5234c6ecd47c6493afb3bb8f7"
+    },
+    "target_hashes_after": {
+      "docs/architecture/LOCKSTEP.md": "71fa5ec9a738763c1df0a378af1cd54b67930612685090e43fcae0dc4cff4567",
+      "wiki/lockstep.md": "3ca77d78ef2f9f7eb9dd6feee25ddf63d8182c72e694a227f2e344bc96e8002f"
+    },
+    "projection_traces": [
+      {
+        "tool": "Edit",
+        "inputs": [
+          {
+            "source": "src/lockstep/doc_projection.py",
+            "fields": [
+              "docstring"
+            ],
+            "sha256": "84ef42246dd741c00576843392718ca1fbe2d7296b89a29522b484cb3ddde6d4",
+            "facts": {
+              "docstring": "Project declared source-local facts into Markdown; never execute source or repository code.\n\nImplements: lockstep-doc-facts/declared-source-facts-have-one-authority,\n    lockstep-doc-facts/invalid-input-is-not-a-pass,\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts\n\nRequirement text (generated):\n    lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL\n        generate Markdown fact blocks declared by `projections` in `lockstep.yaml`, each with id,\n        source, target and fields, with an optional Python symbol. It SHALL read Markdown YAML front\n        matter, JSON/YAML mapping fields and Python AST descriptions and signatures without\n        importing or executing source. `--check` SHALL report stale target paths and exit 1 without\n        writing. Generation SHALL preserve unrelated target content, include a relative source link\n        (or an HTTP(S) source_base_url link when configured), escape HTML and table delimiters in\n        projected scalar values, and remain idempotent. Consumers with no recognized OpenSpec\n        requirement text SHALL project only declared facts, without creating an empty coverage page\n        or rewriting historical plans.\n    lockstep-doc-facts/invalid-input-is-not-a-pass: Projection SHALL reject missing sources or\n        fields, invalid or duplicate marker pairs and paths escaping the repository, including\n        symlinks. It SHALL validate all declared fact projections before any projection write and\n        report invalid input with exit 2. Targets SHALL NOT also be sources.\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts: `lockstep refresh` SHALL\n        refresh only declared source-local fact blocks without regenerating requirement docstrings\n        or coverage. `lockstep init` SHALL install it as a PostToolUse hook for Claude Code and\n        Codex while preserving existing hooks. It SHALL include `lockstep check project --check` in\n        the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one\n        trace per run to a daily projection log with source/target hashes and rewritten paths. No\n        declarations SHALL be a no-op.\n\n\nCurrent assessment (agent-authored):\n    Static source extraction, declared target fan-out, refresh traces and read-only\n    comparison are implemented. AES declares this module as the source for its\n    architecture and wiki assessment blocks. This narrative is an assessment,\n    not a substitute for measured test or native-host evidence.\n\nGap G-NATIVE:\n    Observe and retain a real native-client source edit invoking the installed\n    post-edit hook in this repository. A supplied hook payload alone is insufficient.\n\nPlan P-NATIVE (addresses G-NATIVE):\n    Run one bounded native edit, inspect its host transcript and projection trace,\n    then bypass refresh and verify read-only refusal and explicit recovery.\n\nGap G-CONCISE:\n    The first adoption projects the full docstring; a compact wiki narrative and\n    typed gap/plan relationship validation remain separate improvements.\n\nEvidence:\n    See evidence/runs/projection-worked-20261113.json for the earlier disposable\n    CLI example. Native self-adoption observations are retained separately.\n\nNative edit marker: observed-host-edit"
+            }
+          },
+          {
+            "source": "src/lockstep/doc_projection.py",
+            "fields": [
+              "docstring"
+            ],
+            "sha256": "84ef42246dd741c00576843392718ca1fbe2d7296b89a29522b484cb3ddde6d4",
+            "facts": {
+              "docstring": "Project declared source-local facts into Markdown; never execute source or repository code.\n\nImplements: lockstep-doc-facts/declared-source-facts-have-one-authority,\n    lockstep-doc-facts/invalid-input-is-not-a-pass,\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts\n\nRequirement text (generated):\n    lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL\n        generate Markdown fact blocks declared by `projections` in `lockstep.yaml`, each with id,\n        source, target and fields, with an optional Python symbol. It SHALL read Markdown YAML front\n        matter, JSON/YAML mapping fields and Python AST descriptions and signatures without\n        importing or executing source. `--check` SHALL report stale target paths and exit 1 without\n        writing. Generation SHALL preserve unrelated target content, include a relative source link\n        (or an HTTP(S) source_base_url link when configured), escape HTML and table delimiters in\n        projected scalar values, and remain idempotent. Consumers with no recognized OpenSpec\n        requirement text SHALL project only declared facts, without creating an empty coverage page\n        or rewriting historical plans.\n    lockstep-doc-facts/invalid-input-is-not-a-pass: Projection SHALL reject missing sources or\n        fields, invalid or duplicate marker pairs and paths escaping the repository, including\n        symlinks. It SHALL validate all declared fact projections before any projection write and\n        report invalid input with exit 2. Targets SHALL NOT also be sources.\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts: `lockstep refresh` SHALL\n        refresh only declared source-local fact blocks without regenerating requirement docstrings\n        or coverage. `lockstep init` SHALL install it as a PostToolUse hook for Claude Code and\n        Codex while preserving existing hooks. It SHALL include `lockstep check project --check` in\n        the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one\n        trace per run to a daily projection log with source/target hashes and rewritten paths. No\n        declarations SHALL be a no-op.\n\n\nCurrent assessment (agent-authored):\n    Static source extraction, declared target fan-out, refresh traces and read-only\n    comparison are implemented. AES declares this module as the source for its\n    architecture and wiki assessment blocks. This narrative is an assessment,\n    not a substitute for measured test or native-host evidence.\n\nGap G-NATIVE:\n    Observe and retain a real native-client source edit invoking the installed\n    post-edit hook in this repository. A supplied hook payload alone is insufficient.\n\nPlan P-NATIVE (addresses G-NATIVE):\n    Run one bounded native edit, inspect its host transcript and projection trace,\n    then bypass refresh and verify read-only refusal and explicit recovery.\n\nGap G-CONCISE:\n    The first adoption projects the full docstring; a compact wiki narrative and\n    typed gap/plan relationship validation remain separate improvements.\n\nEvidence:\n    See evidence/runs/projection-worked-20261113.json for the earlier disposable\n    CLI example. Native self-adoption observations are retained separately.\n\nNative edit marker: observed-host-edit"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "target": "docs/architecture/LOCKSTEP.md",
+            "sha256": "71fa5ec9a738763c1df0a378af1cd54b67930612685090e43fcae0dc4cff4567"
+          },
+          {
+            "target": "wiki/lockstep.md",
+            "sha256": "3ca77d78ef2f9f7eb9dd6feee25ddf63d8182c72e694a227f2e344bc96e8002f"
+          }
+        ],
+        "rewrote": [
+          "docs/architecture/LOCKSTEP.md",
+          "wiki/lockstep.md"
+        ],
+        "exit_status": 0
+      }
+    ],
+    "transcript": "evidence/runs/projection-native-20261113.jsonl",
+    "successful_result": {
+      "duration_api_ms": 5727,
+      "stop_reason": "end_turn",
+      "session_id": "04b1bd9b-2d3f-4a17-9efe-d94dbd655119",
+      "total_cost_usd": 0.0024560100000000002,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 13388,
+        "cache_read_input_tokens": 36971,
+        "output_tokens": 824,
+        "output_tokens_details": {
+          "thinking_tokens": 219
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 13388
+        },
+        "inference_geo": "global",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 154,
+            "cache_read_input_tokens": 14978,
+            "cache_creation_input_tokens": 428,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 428,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard",
+        "fallback_credit": null
+      },
+      "modelUsage": {
+        "claude-haiku-5-5": {
+          "inputTokens": 8,
+          "outputTokens": 824,
+          "cacheReadInputTokens": 36971,
+          "cacheCreationInputTokens": 13388,
+          "webSearchRequests": 0,
+          "costUSD": 0.0024560100000000002,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 219,
+          "cacheCreationEphemeral5mInputTokens": 13388,
+          "cacheCreationEphemeral1hInputTokens": 0,
+          "canonicalModel": "claude-haiku-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "safety_stops": 0,
+      "is_error": false,
+      "num_turns": 4,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "I made the one planned edit in `src/lockstep/doc_projection.py`, at line 53 inside the module docstring. The line `Native edit marker: pending` now reads `Native edit marker: observed-host-edit`.\n\nThe edit tool only applies a replacement when the old text matches exactly once, so the replacement hit only that line. Nothing else in the file was touched. I did not refresh or edit any documentation targets, and I ran no commands beyond Read and Edit.",
+      "ttft_ms": 1627,
+      "type": "result",
+      "duration_ms": 10078,
+      "uuid": "68ab3ab9-0d6d-4672-8dde-ecd8a7512a53",
+      "ttft_stream_ms": 1340,
+      "time_to_request_ms": 716,
+      "first_content_frame_ms": 1341,
+      "queued_turn_count": 0,
+      "result_index": 0,
+      "model_usage_since_last_result": {
+        "claude-haiku-5-5": {
+          "inputTokens": 8,
+          "outputTokens": 824,
+          "cacheReadInputTokens": 36971,
+          "cacheCreationInputTokens": 13388,
+          "webSearchRequests": 0,
+          "costUSD": 0.0024560100000000002,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 128000,
+          "thinkingTokens": 219,
+          "cacheCreationEphemeral5mInputTokens": 13388,
+          "cacheCreationEphemeral1hInputTokens": 0,
+          "canonicalModel": "claude-haiku-5-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      }
+    },
+    "limits": [
+      "API-authenticated Claude invocation explicitly loaded the installed project settings.",
+      "No native Codex host run or blanket default-session autoload claim.",
+      "The marker edit proves transport, not truth of an arbitrary authored narrative."
+    ],
+    "publication_redaction": "The four events of the unsuccessful initial invocation are replaced with an explicit redaction record to omit private account/authentication metadata. All 17 successful-run events are retained unchanged; the original is preserved in ignored local runtime storage."
+  },
+  "parent_adoption": {
+    "same_source_edit_integrated": true,
+    "refresh_exit_code": 0,
+    "scope": "The sole native source edit was integrated; existing refresh updated parent copies."
+  },
+  "focused_validation": {
+    "command": "PYTHONPATH=src .venv/bin/python -m pytest -q -p no:cacheprovider tests/lockstep/checks/test_lockstep_doc_projection.py tests/test_agents_rendering.py",
+    "passed": 27,
+    "exit_code": 0,
+    "scope": "Existing projection behavior and generated instruction rendering; native behavior retained separately."
+  }
+}
