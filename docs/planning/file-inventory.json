@@ -12,7 +12,7 @@
     "not_published": "Ignored caches, installed environments, credentials and private runtime store contents."
   },
   "summary_method": "Native agents read file content and source structure to produce semantic summaries; no prose meaning inferred with regex or filename templates. Parent reconciles changed sources. This is not exhaustive behavioral verification of every code path or bundled dependency.",
-  "freshness": "Input content hashes detect changed source bytes, not semantic correctness. Re-review changed inputs and regenerate the catalog. Native declared-fact refresh is not a universal summary updater. Ecosystem review changes were re-read in the 2026-11-13 follow-up, with four source entries incrementally refreshed on 2026-11-14. A full hash audit at AES 8b34db8 found 27 mismatches among 417 hashed entries (two self-output hashes intentionally omitted); reconcile these before relying on inventory-wide freshness. Other dated summaries retain their earlier evidence scope.",
+  "freshness": "Input content hashes detect changed source bytes, not semantic correctness. Re-review changed inputs and regenerate the catalog. Native declared-fact refresh is not a universal summary updater. On 2026-11-14 all 27 hash mismatches found by the full audit at AES 8b34db8 were reconciled against current main c16eb68: for each, the recorded hash was matched to the commit that introduced it and the later commits were read. Four summaries (doc_projection.py, the lockstep-doc-facts spec, its test file, checks.txt) were reworded for the array-fact feature; the other 23 changes were docstring requirement projections, a Governs line, or regenerated planning evidence and review pages, and their existing summaries still describe them. Five tracked files added after the 419-entry inventory are listed in wiki/documents.md but are not inventory entries. Hashes detect byte change only; the 27 summaries were not independently re-reviewed beyond this diff reading.",
   "entries": [
     {
       "path": ".agentic/events/README.md",
@@ -346,7 +346,7 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "limit: 126",
       "summary_origin": "content_review",
-      "sha256": "2652010ac1f549b484881e3f7739d3db56c2051f6816024791d4a157b187e358",
+      "sha256": "87ae2982e1a4fd544ee25c47435d52083d6731eb2925fa9d8a9c546ca13f3f82",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -358,7 +358,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "b1b6d6e0da83e778376282d7efc310810322da5182d628fa62574e4a1e5a8d45",
+      "sha256": "6f5741d42bc7da44b5d3d003661adf2c139ab1a08edb9abc00b29ee7ee36fa55",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -480,7 +480,7 @@
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
       "summary": "Owns the adopted discovery direction, two bounded reviews of predecessor sources including concern repair and recurrence, proposed donor dispositions, evidence limits and next reading sequence.",
-      "sha256": "4d01f216cdb56e6b5a7a43cb215ccf0d0f9e738004d677ce40b3a202ac979b1d"
+      "sha256": "8303dd5930183cc0b8a108e4cb28dcfe062f21c8cea93d1bb6ffe14341d76374"
     },
     {
       "path": "docs/architecture/FEEDBACK_AND_POLICY.md",
@@ -514,7 +514,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "30140d8cb0f250eea91c02993ef66e0a7a7b9a0d602b7dddeb8a4bdb0658dd15",
+      "sha256": "929e688446c5a8b419c415f6c0aae7088fae51bb9ba50aa939eeeb6b0e289afa",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -840,7 +840,7 @@
       "identity_basis": "Reviewed candidate bytes and reconciled source-backed semantic summary.",
       "has_standard_source_summary_field": true,
       "summary": "Records Brian-approved AES consolidation and legacy review, one discovery route with native owners, historical decision reconciliation and success/disproof boundaries.",
-      "sha256": "4bf99122a3aec09232137052158b9f8a997c88d4c677ca6ece6021829d83458d"
+      "sha256": "c7224d351ec340f6dbfe2e57f6676f57dea917571798fa7059002e772236c60e"
     },
     {
       "path": "docs/failure-modes.md",
@@ -934,7 +934,7 @@
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "# AES canonical: domain glossary",
       "summary_origin": "content_review",
-      "sha256": "1790261a4d98e9f5c43c1feee139a9b57d4eb71b900437e49ebfda1bbc8ae4ba",
+      "sha256": "e1d8f66643ea69577e8315aa9266d175c0496977b1c6019b9f103e96201ebe4d",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -1000,13 +1000,13 @@
     },
     {
       "path": "docs/planning/checks.txt",
-      "summary": "Retains five fresh planning checks: durable fields and wiki reachability pass; repository format remains tracked by Q17; navigation warnings and graph-schema results stay explicit.",
+      "summary": "Retains dated planning checks through the 2026-11-14 follow-ups: durable fields and wiki reachability now pass with a 136-file Markdown exception; repository format remains tracked by Q17; navigation warnings and graph-schema results stay explicit.",
       "role": "evidence",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 2b0709497ecc77b2eb6ab284bec57f52069a422e, run 2026-11-12T",
       "summary_origin": "content_review",
-      "sha256": "2fe074ffdbce17094599e6e29adb64333a26def1d4dc471d35573f722da480b9",
+      "sha256": "eb0e7d7c04c90c89d3b24ac08090d2635cbe9d7ba43111f87487984f9878a88b",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1054,7 +1054,7 @@
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "JSON keys: schema, kinds, layout, nodes, edges",
       "summary_origin": "content_review",
-      "sha256": "3421bb588bb7568d8148de72727ae639edcded890cba8412e088389c3f072dbb",
+      "sha256": "799c9f8160eb9210b91b1d3b489fe25b059361eec852f29bc8f5e376628bda8a",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1126,7 +1126,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "a7738e0c8fc6979022c819cd434205272df98333a440e467b6d0915d8066cdfc",
+      "sha256": "bc67228eab2e8930bf16501baaa40a5374ddf22fca5f9a33779ce5eded025fb1",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1138,7 +1138,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "92a9ef9b9b6796fc871a83dd8b0b5eaf227ccaf37560c1cdd991a3c73357715b",
+      "sha256": "e3571d9cc9d7c71bca91f288bf698dbb40bca93a6da536b057ccb31b3850cde9",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1150,7 +1150,7 @@
       "reason": "Preserve useful unique material while reconciling historical/current scope or status/source drift; no retirement proposed.",
       "source_locator": "JSON keys: schema_version, record_type, repository, subject_revision, request",
       "summary_origin": "content_review",
-      "sha256": "a4919632ca5326e0f359ede81028025a8a5c328838081dc190b5ae1f35032209",
+      "sha256": "7ed3ea3adccb4bc1075468dffe1c0013e2ec798da4a0f2f481e50c86387187c9",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1996,13 +1996,13 @@
     },
     {
       "path": "openspec/specs/lockstep-doc-facts/spec.md",
-      "summary": "Defines declared Markdown/Python/JSON/YAML fact projection, invalid-input refusal, post-edit refresh and stale checking. This is the merged current capability specification.",
+      "summary": "Defines declared Markdown/Python/JSON/YAML fact projection, record-array row projection, invalid-input refusal before writes, post-edit refresh and stale checking. This is the merged current capability specification.",
       "role": "normative",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# lockstep-doc-facts Specification",
       "summary_origin": "content_review",
-      "sha256": "4582e369126799c44083d5eda890950a153a7b4814d06f76c3bf076fba48961b",
+      "sha256": "b55ee2c3dc17276d8ad3898bce5e6351b6dbff13226eedae9dfb7be4040afe1d",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -2206,7 +2206,7 @@
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: What ideas does AES work with (the whole system and its parts, the one tool's plan format, the feedback loop's records, and the retiring v0.2 engine), which exist in code here and which only in documents or other repositories, and how do they relate?",
       "summary_origin": "content_review",
-      "sha256": "3622267df2a61f2b73fc27f012886e4d97013eec60aecf36992fb3fc1816cf94",
+      "sha256": "aa0075b0013d0ff9840d33d1a653fd312c927db14c53c362b4a81babe9aa7daf",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -2218,7 +2218,7 @@
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: Which questions are still open, whose call is each, what does each block, and which concepts does it bear on?",
       "summary_origin": "content_review",
-      "sha256": "ad5d02879078d92ae5f87477d34ccb9b09cc471dd54fe5759fab1416f384d38d",
+      "sha256": "ce43cf6f32136d00ae3d5a981bb9e04863ce62b0ba5a45af1aff3a2049d83b85",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -2230,7 +2230,7 @@
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: Which code units make up this repository, which AES part does each belong to, and what calls what?",
       "summary_origin": "content_review",
-      "sha256": "40d894f5ddf649c8b5343c440d2329ad7634db9df5e5e9c14250e583f590ae7a",
+      "sha256": "51bc4c41abdc715ac1a3d4a0e2ac00b050178ea5b44eff6c5953e6d173aa2f63",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -2242,7 +2242,7 @@
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: Where do AES's parts sit across the four repositories, and what did the one-tool build move between them? (cross-repository view)",
       "summary_origin": "content_review",
-      "sha256": "14a96b922e6decc158c9c090096ea37f4e135d104a3243e2fa69176a0dd5694c",
+      "sha256": "e5bab7a95a9dec4da39bdd41bf4ce75505da14aaac100fa9eec32a4494333857",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -2254,7 +2254,7 @@
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: What is AES made of, which repository holds each part, and what talks to it? (context view)",
       "summary_origin": "content_review",
-      "sha256": "ac664f2c5bfa043724d07d086ab02ae7fe98a298143ec53ef3fc51abc0d5c7cd",
+      "sha256": "3c98298daa4e12e588be894baff33c98cf8298804011b8272c41ecf2f9eb723f",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -2278,7 +2278,7 @@
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: AES canonical: the one planning-and-checking tool, and AES as a whole",
       "summary_origin": "content_review",
-      "sha256": "b574d58256de91aa0ae690a0440b8634cdbfe077ec6e41215e8d5a3ce9a7767d",
+      "sha256": "2874525949d9594a207cf56ffa01761bc2bcde67f164269702fb9c0d3c842136",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -2314,7 +2314,7 @@
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: AES canonical: the one planning-and-checking tool, and AES as a whole: open questions",
       "summary_origin": "content_review",
-      "sha256": "1cfad0bc17711ae2ac7ecda711e711092e8f914fa8530f7ef84a6ccc9fac87d1",
+      "sha256": "baaa366741ba320e01469b74f4f42eca65a9ec5c678ea5769c6fa8e98ca2da94",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -2326,7 +2326,7 @@
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: AES canonical: the one planning-and-checking tool, and AES as a whole: review the plan",
       "summary_origin": "content_review",
-      "sha256": "2f46f7524bddc0c75f447878baa585bc78ba713e2cdeadb7fe4631c1cedc0ce9",
+      "sha256": "2339a31a8aa9ebf07fcfce953d940f421a04156529e261f6365ab30fc385f80b",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -3130,7 +3130,7 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "ConfigError",
       "summary_origin": "content_review",
-      "sha256": "2b3759f731a1881b3a471aa67788fa71a04984357b28ac967bbb3aaaca1b9572",
+      "sha256": "158dad1d08b0c846db776fbd540e45c4d8b27be1f5433a91548485164be37aa1",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -3142,7 +3142,7 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "Finding",
       "summary_origin": "content_review",
-      "sha256": "6a5f972f9cce211f7b00b25de18d039d4a95ebadcbc61abcdbc7164a70ed295e",
+      "sha256": "d5912623e74a62f55de869b6e42a761aeef3e48f662126118ea6bcf47d2c03e1",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -3154,7 +3154,7 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "_tool_table",
       "summary_origin": "content_review",
-      "sha256": "efd5a21d0bd154137e5f3c48b2aa1a5ce4911e4591876f3cc977ac3771b4c017",
+      "sha256": "c1071f554be11a9b73dadd82eac3b6d0a45f20b6b6a7368f800843fa49d68bde",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -3202,7 +3202,7 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "Item",
       "summary_origin": "content_review",
-      "sha256": "d9ef056fbe30795904605940650537449ae0c0204736873e9714d9910fc1c440",
+      "sha256": "f860cf3467df82bef1a163db2053be02c6c4ea591085212544c9b63835d84352",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -3226,7 +3226,7 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "Row",
       "summary_origin": "content_review",
-      "sha256": "044b6aa47622bffef2b4cd57bd3d20d3f6377c87f6ceb446c1be2cde24bb2885",
+      "sha256": "0ef009caa51a36026b7f341d639a927f08647f6b4a5be55e066acf92aa0ba4e6",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -3250,7 +3250,7 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "Finding",
       "summary_origin": "content_review",
-      "sha256": "be7bf1dd9e238fd7f2279ec45102eb57152743fff123bf49d2110fc07925a0ea",
+      "sha256": "88555f18560156dc4f94439b7ec73ffeab313b3331b42e64c7dd53a6485cf2ac",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -3292,13 +3292,13 @@
     },
     {
       "path": "src/lockstep/doc_projection.py",
-      "summary": "Statically extracts declared facts and refreshes targets with daily traces; its module docstring owns the component assessment, gaps, linked plan and separate evidence links.",
+      "summary": "Statically extracts declared facts, including top-level JSON/YAML record arrays rendered as source-ordered table rows with validation before any write, and refreshes targets with daily traces; its module docstring owns the component assessment, gaps, linked plan and separate evidence links.",
       "role": "code",
       "disposition": "keep",
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "ProjectionError",
       "summary_origin": "content_review",
-      "sha256": "59e9073fdde7fdc0e83f0b0b01eceb26b20d77c5e374311e16944ffd68979549",
+      "sha256": "69a7f84d75425748e1bb3703d3b81a55bf9784dfc1e2d3143b8657e6958b0da8",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -3454,7 +3454,7 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "segments",
       "summary_origin": "content_review",
-      "sha256": "80e4801168a91e40f3ec7145afdf182e9e5e1838f34daee847e0f69fc3c8142e",
+      "sha256": "59b5e84096dd9f64e8afa5e4cd3fba863ccb7b4b2fae0d3aae5f79845711886a",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -4096,13 +4096,13 @@
     },
     {
       "path": "tests/lockstep/checks/test_lockstep_doc_projection.py",
-      "summary": "Source-owned facts reach wiki blocks; stale copies fail without executing source.",
+      "summary": "Source-owned facts reach wiki blocks; stale copies fail without executing source; record arrays project as rows for JSON/YAML through check and native Claude/Codex refresh paths, and invalid arrays or declarations are refused.",
       "role": "test",
       "disposition": "keep",
       "reason": "Contains executable cases for the summarized behavior.",
       "source_locator": "_repo",
       "summary_origin": "content_review",
-      "sha256": "51c05f4f4a30fe6edea4cd37b0194c700df02c5433b979b76f6592d572fafbbd",
+      "sha256": "2473b44b241532c60bb10edbafd883db858a7696f770f71b3347c7de55ab9837",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -4966,7 +4966,7 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Lockstep; What it is; Who uses it",
       "summary_origin": "content_review",
-      "sha256": "f8e5dafd84da8df34ee682967baa0d0be822070e9fb1bc375091056573dd2975",
+      "sha256": "e91b4ac009c7ee2167c61cc33ab8641177185365468b27406278ad465c85fbb0",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },

@@ -154,12 +154,134 @@ the negative-control failure as a required design lesson: a proof must fail on t
 known-broken revision as well as pass on the fix. Do not count issue closure, a receipt
 string, or a configured registration as proof of repair or ongoing operation.
 
+## Third reading: catalogue records, readers and one discovery route
+
+Measured on 2026-11-14 against Project Meta f1e27c9, ACA 8b1d846, ecosystem-ops
+484f1c1 and code2-workspace cb9cdf0 (local checkouts, read-only).
+
+| Source | What is in it | Who reads it (code, not prose) |
+| --- | --- | --- |
+| Project Meta semantic catalogue | 60 capability entries, 10 families, 76 bindings (56 boundary-only, 12 tool-only, 8 both) across 10 projects; 64 distinct boundary names, no duplicates | ecosystem-ops merged view; `check_capability_catalog.py`; `audit_governed_repo.py`; an initiative dashboard source type |
+| Project Meta ownership registry | 24 entries: 10 are exactly the catalogue's family IDs, 14 exist only here; 16 adopted, 8 provisional | `check_capability_consumption.py` (compares `known_consumers` with imports), `check_capability_catalog.py`, `check_capability_custody_registry.py` |
+| ACA registry and reuse candidates | 4 packages providing 15 identifiers; 3 reuse candidates (2 candidate, 1 observed) | Company Planning's `method_conformance` reuse check |
+| Workspace jobs list | about 70 job rows (72 table lines), keyed by job, written for humans | Agents are told to read it first; no code reads it (the one scripted mention is a docstring in `process_tracing`) |
+| ecosystem-ops merged view | Derived join of tool registry, contract registry and the Project Meta catalogue | Operators and agents via its CLI |
+
+**Record comparison.** The ACA identifiers and the Project Meta capability IDs do
+not overlap at all (0 shared of 15 and 60), and the workspace list names none of
+the 60 catalogue IDs. So there is no existing alias table: each source describes a
+different level (job, package, semantic capability, owning project) and the
+"same" capability cannot be joined by name. Alias mapping must be authored once
+(Q37), not inferred.
+
+**The existing merged view, run for real.** Its JSON output has 55 rows carrying
+39 distinct capability IDs. Of the catalogue's 60 IDs, 33 appear and 27 do not
+(for example `digimon_benchmark_run`, `onto_canon6_digimon_export`). Negative
+control: pointing it at an absent catalogue file, or one with invalid YAML, still
+exits 0 with 55 rows, every row relabelled `uncatalogued`, and no error naming the
+failed source. So an unreadable source is visible only as a sudden change of
+labels, which a reader cannot tell from "nothing is catalogued"; this confirms
+the source-inspected failure path in the first reading with an observation.
+This is one run at one revision, not an incident history.
+
+**Recommended route (one entry point, not one file).**
+
+1. The workspace jobs list stays the human entry, because it is the page agents
+   are already told to open. Give each row a stable capability ID and a link to its
+   native source records. Do not add a fourth hand-maintained catalogue.
+2. Generate the machine-readable discovery view by adapting the ecosystem-ops
+   merged view, reading the Project Meta catalogue, the ACA files and tool/contract
+   registries as native sources. Fix three defects before relying on it: report a
+   missing or invalid source as an error state; include catalogue-only entries
+   (the 27 absent above); join on provider-qualified names, not bare names.
+3. Author the alias table (job ID to catalogue ID to ACA identifier) once, in AES
+   next to the Decision 0014 record, and use it as the only place the levels are
+   tied together.
+
+This beats the alternatives on the evidence: reading only Project Meta would drop
+the ACA packages and the human jobs; ACA's two files cover 4 packages and the workspace list does
+not reference them; a new AES store would add the fragmentation Q36
+is meant to remove. The recommendation is not demonstrated: no provider-to-schema-
+to-consumer journey has been built (sequence step 3). Confidence: moderate.
+
+## Fourth reading: concern-key ownership and one landed repair
+
+Concern identity is a hidden `<!-- concern-key: KEY -->` marker in a GitHub issue
+body under the `concern:feedback` label. The marker is written by five separate
+code paths and the key text has no shared format.
+
+| Writer | Key shape | Reads and closes through |
+| --- | --- | --- |
+| workspace `concern_issue.py` (reference adapter) | caller-supplied | open, comment, reopen on recurrence, close with evidence |
+| ecosystem-ops `concern_sync.py` and `feedback_loop.py` | `concern_key` field, hashed into action file names | same marker search |
+| Project Meta `sync_friction_concerns.py` | `policy-friction-cluster:<id>` | `concern_repair_feedback.py`; its closure check is registered only for this prefix |
+| personal-vps `concern_alert.py`, never-absolute-brain `alerts.py` | `APP/unit/UNIT` or free text | own throttle, same marker |
+| AES `problems.py` | `feedback-rule-<problem id>-<hash>` and issue-created slugs | `concern_enforcement(key)`: closed issue, receipt comment |
+
+So the namespace is shared only by convention, the register is per repository
+(Project Meta and AES each hold their own `concern:feedback` issues), and closure
+authority differs by writer: the Project Meta five-gate verifier (friction keys
+only), automatic "verified green" closes from the failed-unit watcher, and AES
+fix-owner disposition plus receipt. This is the mapping Q42 asked for; choosing the
+single owner is still a decision to author, not something the code already did.
+
+**Current evidence of a successful repair.** AES concern 783
+(`headless-lane-no-tracker-unclosable`) was opened 2026-10-13 22:07 UTC and closed
+as completed 23:22 UTC with a receipt naming revision `add1dd5` and Project Meta
+PR 2563. Checked here directly:
+
+| Check | Result |
+| --- | --- |
+| Receipt revision exists and is the PR 2563 merge, an ancestor of Project Meta main | yes |
+| Regression test `tests/test_session_resume_missing_tracker.py` at the landed revision `add1dd5` | 1 passed, exit 0 |
+| Same test file at the pre-fix first parent `1708b51` (negative control) | 1 failed with "cross-session resume requires one existing exact session tracker", exit 1 |
+| Same test at current Project Meta revision `f1e27c9` | 1 passed, exit 0 |
+| AES `concern_enforcement` on this key, and on an invented key | returns the receipt; returns None |
+
+This is the pattern the concern-lifecycle decision requires: a proof that fails on
+the broken revision and passes on the fix, still passing now. Limits: I ran the
+single test myself; the receipt's verification field is a PR link, which AES code
+does not open or execute; the repair came from the fix-owner path, not the Project
+Meta five-gate verifier, which has still not been observed to pass in live use;
+no recurrence check ran, because the effects and fix-owner timers are disabled
+(only the collector, labels and router timers are scheduled); the concern has no
+later comments, which is absence of reopening, not proof of no recurrence.
+
+## Fifth reading: instruction delivery (selected policies)
+
+Policies read: `instruction-surface-sync` (partially enforced, 8 listed gaps) and
+`instruction-payload-size` (advisory, one gap: nothing invokes it). Observed:
+
+- AES `AGENTS.md` (9,163 bytes) is a generated copy of `CLAUDE.md` (10,841 bytes)
+  made by `scripts/meta/render_agents_md.py` from `scripts/relationships.yaml`; its
+  sync check passes (exit 0). A Project Meta mechanism therefore still decides what
+  Codex reads in AES (Q40).
+- Project Meta's subtree-instruction checker exits with an error for AES: its
+  registry path `enforced-planning/scripts/subtree_instruction_registry.yaml`
+  does not exist, so classification is skipped. The quality audit reports 1 file,
+  10,841 bytes, 0 findings.
+- The payload check observes 167 files against a 32,768-byte per-file cap with
+  the Codex root (`core.md`, 17,888 bytes) counted; 3 are newly over the cap
+  (`hermes-agent` 75,191, Mock-Call-Agent 53,243, ecosystem-ops 41,896) and none
+  is AES. It is not wired into any hook or timer, so those 3 are visible only when
+  someone runs it.
+- Delivery differs from parity: in this session the host injected instruction
+  files when a shell command touched a path, in addition to the ones loaded at
+  start. Parity of files does not show what a given client loads; the policy's own
+  last gap says so.
+
+Recommendation: source each rule once (core rules in the workspace file, repo
+rules in the repo), retire the CLAUDE-to-AGENTS generator route for AES only after
+Codex's native read of the repository file is confirmed, and wire the payload
+check into the existing nightly job. Not done here; the policy families beyond
+these two (inventory of 263, 169 advisory) remain unreviewed.
+
 ## Bounded consolidation sequence
 
 | Step | Visible result and evidence | Status |
 | --- | --- | --- |
 | 1. Read and reconcile direction | This review, accepted Decision 0014, linked Q36–Q42 and pinned source map | Initial bounded pass recorded; no exhaustive review claim |
-| 2. Compare records and choose publication provider | Unique facts/aliases/readers/writers accounted for; one proposed source-to-view mapping; compare existing exporter/view with sufficient catalogue products | In progress; sources and known reader/writer seams are documented, but record-by-record reconciliation and provider selection remain open (Q36–Q38) |
+| 2. Compare records and choose publication provider | Unique facts/aliases/readers/writers accounted for; one proposed source-to-view mapping; compare existing exporter/view with sufficient catalogue products | Records, readers and writers compared and a route recommended (third reading); no alias table authored, no journey built; provider selection awaits Brian's veto window (Q36–Q38) |
 | 3. Deliver one discovery journey | Real provider → versioned schema → real consumer → observed receipt, plus a second different capability; a reader finds and compares both | Not implemented |
 | 4. Exercise freshness and failure | Change a provider description or schema; view refreshes or reports stale; unavailable input cannot look empty/complete | Not implemented |
 | 5. Reconcile upstream routes | Workspace, ACA, Project Meta and Company Planning point at the demonstrated route; preserve old IDs and recovery references before retirement | Not implemented |
@@ -176,19 +298,19 @@ Continue in this order, updating this page and the existing question ledger rath
 than creating parallel trackers. A source counts as reviewed only for named
 sections and a pinned revision, with proposed disposition and unresolved material.
 
-1. **Catalogue writers and readers:** compare every old entry, aliases and update
-   path; inspect actual consumers of the indexes. Reconcile catalogue authority
-   through Q36, not by merging names mechanically.
-2. **Concern/repair lifecycle:** source review completed for the pinned decision,
-   registration, observer/verifier code and AES receipt/effects path above. Next,
-   reconcile current concern producers/readers and obtain revision-bound live evidence
-   before selecting a shared register or claiming the loop operates end to end (Q42).
-3. **Policy families and exceptions:** review selected families tied to current AES
-   gaps, including legitimate counter-cases and recovery. No full 263-policy audit
-   has happened in this pass.
-4. **Instruction delivery:** compare native configuration, synchronization and scope
-   boundaries with agent-skills and current workspace instructions. Source a rule
-   once, then inspect what the native host actually delivers.
+1. **Catalogue writers and readers:** compared in the third reading (records,
+   readers, a measured run of the merged view). Remaining: author the alias table
+   and build one provider-to-consumer journey (Q36, Q37).
+2. **Concern/repair lifecycle:** source review plus key-ownership map and one
+   verified landed repair with a negative control (fourth reading). Remaining:
+   choose the single register and closure owner, and observe the Project Meta
+   five-gate verifier and recurrence reopening running live (Q42).
+3. **Policy families and exceptions:** two instruction-delivery families read
+   (fifth reading). Remaining: exceptions, recovery and concern-closure families
+   and legitimate counter-cases. No full 263-policy audit has happened.
+4. **Instruction delivery:** AES generation route, subtree checker and payload
+   check observed (fifth reading). Remaining: compare with agent-skills sync and
+   confirm what the Codex client actually loads in this repository.
 5. **Earlier AES designs and evidence:** follow existing retirement/harvest links;
    read code and complete retained traces for a selected claim. Record what remains
    useful without reinstating retired executable instructions.
