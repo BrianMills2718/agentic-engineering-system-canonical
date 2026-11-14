@@ -145,9 +145,11 @@ Owner: agent.
 
 How are every-file summaries and navigation refreshed without silent exclusions, missing summaries or stale compiled views?
 
-Evidence: The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaces that subset catalog and binds content-derived summaries to inputs. Native declared-fact refresh still does not maintain every compiled description.
+Evidence: The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaced that subset catalog and bound content-derived summaries to inputs. A full hash audit at AES 8b34db8 found 27 mismatches among 417 hashed entries, with two self-output hashes intentionally omitted. The 2026-11-14 ecosystem continuation refreshed four reviewed source-entry hashes only. Native declared-fact refresh still does not maintain every compiled description.
 
-Recommendation: Use the complete inventory and source hashes to identify changed inputs; refresh source-owned descriptions and content-derived summaries with semantic review. Keep coverage, summary adequacy and freshness as separate checks.
+Recommendation: Keep coverage, summary adequacy and freshness separate. Resolve and classify the 27 hash mismatches before using the inventory as a current freshness index. Do not advance the whole-inventory review date for a partial refresh.
+
+Next evidence or disposition: Reconcile each mismatched hash against its correct reviewed source revision and summary, then rerun the inventory audit. See [inventory freshness notes](../docs/planning/file-inventory.json) and [source review](../docs/architecture/ECOSYSTEM.md).
 
 Sources: [documentation assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment), [inventory](../docs/planning/file-inventory.json), [catalog](documents.md).
 

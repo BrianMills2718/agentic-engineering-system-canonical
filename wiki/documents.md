@@ -295,7 +295,7 @@ the array projection change; the merged specification remains authoritative.
 
 ## .project-brain
 
-- **[now.md](../.project-brain/now.md)** — Routes the approved ecosystem consolidation and two bounded predecessor-review tranches, then preserves independent projection, feedback and earlier dated records. **Role:** source document. **Disposition:** keep.
+- **[now.md](../.project-brain/now.md)** — Routes the approved ecosystem consolidation and bounded predecessor reviews, records the inventory freshness issue, then preserves independent projection, feedback and earlier dated records. **Role:** source document. **Disposition:** keep.
 
 - **[project.md](../.project-brain/project.md)** — States the AES purpose and functions, including Company Planning, and links the owning intent, Lockstep contract, current work and retirement record. **Role:** source document. **Disposition:** keep.
 
@@ -427,7 +427,7 @@ the array projection change; the merged specification remains authoritative.
 
 - **[domain.spectrum.json](../docs/planning/domain.spectrum.json)** — Defines domain-spectrum classes, vocabulary/thesaurus terms and ambiguous concepts, retaining semantic classifications beyond the rendered glossary and graph. **Role:** model. **Disposition:** keep.
 
-- **[file-inventory.json](../docs/planning/file-inventory.json)** — Derived full-file review inventory: per-file purpose, source locator, role, disposition, input hashes, findings, consolidation candidates, external ownership routes and verification scope. **Role:** generated review inventory. **Disposition:** generated.
+- **[file-inventory.json](../docs/planning/file-inventory.json)** — Derived full-file review inventory with per-file source summaries and disposition; its freshness notes record 27 hash mismatches requiring reconciliation before whole-index freshness claims. **Role:** generated review inventory. **Disposition:** generated.
 
 - **[investigation.json](../docs/planning/investigation.json)** — Retains a revision-bound investigation of whole-AES scope, one-tool design, corrections filing, policy coverage and engine dependencies, including then-failed findings later resolved. **Role:** evidence. **Disposition:** keep.
 
@@ -435,7 +435,7 @@ the array projection change; the merged specification remains authoritative.
 
 - **[open-questions.graph.json](../docs/planning/open-questions.graph.json)** — Generated graph of open ledger questions, responsible actors and domain relationships; it is a derived reading view rather than another question authority. **Role:** generated. **Disposition:** generated.
 
-- **[open-questions.json](../docs/planning/open-questions.json)** — Owns AES unresolved questions and dispositions, including Q36–Q42 for ecosystem catalogue authority, identities, evidence, donor review and concern closure. **Role:** planning record. **Disposition:** keep.
+- **[open-questions.json](../docs/planning/open-questions.json)** — Owns AES unresolved questions and dispositions, including Q30's inventory freshness concern and Q36–Q42 for ecosystem catalogue authority, identities, evidence, donor review and concern closure. **Role:** planning record. **Disposition:** keep.
 
 - **[planning-package.json](../docs/planning/planning-package.json)** — Indexes package parts, recorded checks, system scope, spectrum sources and generated artifacts at a named revision; it is not a fresh operational certification. **Role:** planning record. **Disposition:** update.
 
@@ -1247,7 +1247,7 @@ the array projection change; the merged specification remains authoritative.
 
 - **[lockstep.md](../wiki/lockstep.md)** — Routes contracts and limits, distinguishes earlier replay from native self-adoption and includes the generated source-owned component assessment. **Role:** source document. **Disposition:** keep.
 
-- **[open-questions.md](../wiki/open-questions.md)** — Projects unresolved questions and recommendations from the owning ledger, including ecosystem consolidation and predecessor review. **Role:** source document. **Disposition:** keep.
+- **[open-questions.md](../wiki/open-questions.md)** — Projects unresolved questions and recommendations from the owning ledger, including the Q30 inventory freshness issue, ecosystem consolidation and predecessor review. **Role:** source document. **Disposition:** keep.
 
 - **[policy-and-rules.md](../wiki/policy-and-rules.md)** — Maps policy authority and enforcement concepts to the original 263-entry Project Meta registry, provisional migration manifest, small AES register and current shared instructions. **Role:** source document. **Disposition:** keep.
 

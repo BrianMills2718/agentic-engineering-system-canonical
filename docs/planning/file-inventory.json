@@ -1,8 +1,8 @@
 {
   "schema_version": "aes-file-inventory/v1",
   "record_role": "derived_source_review",
-  "base_revision": "268d58e6c1a6e8ecf697396752635ee7d5b1c639",
-  "review_date": "2026-11-14",
+  "base_revision": "2034c64ba3da251907f084417c0c581027453fbb",
+  "review_date": "2026-11-13",
   "request": "Every tracked file reachable and summarized from the navigational wiki; assess consolidation and optimization without losing information.",
   "scope": {
     "base_tracked_files": 407,
@@ -12,7 +12,7 @@
     "not_published": "Ignored caches, installed environments, credentials and private runtime store contents."
   },
   "summary_method": "Native agents read file content and source structure to produce semantic summaries; no prose meaning inferred with regex or filename templates. Parent reconciles changed sources. This is not exhaustive behavioral verification of every code path or bundled dependency.",
-  "freshness": "Input content hashes detect changed source bytes, not semantic correctness. Re-review changed inputs and regenerate the catalog. Native declared-fact refresh is not a universal summary updater. Ecosystem review changes were re-read in the 2026-11-13 follow-up; other dated summaries retain their earlier evidence scope.",
+  "freshness": "Input content hashes detect changed source bytes, not semantic correctness. Re-review changed inputs and regenerate the catalog. Native declared-fact refresh is not a universal summary updater. Ecosystem review changes were re-read in the 2026-11-13 follow-up, with four source entries incrementally refreshed on 2026-11-14. A full hash audit at AES 8b34db8 found 27 mismatches among 417 hashed entries (two self-output hashes intentionally omitted); reconcile these before relying on inventory-wide freshness. Other dated summaries retain their earlier evidence scope.",
   "entries": [
     {
       "path": ".agentic/events/README.md",
@@ -352,13 +352,13 @@
     },
     {
       "path": ".project-brain/now.md",
-      "summary": "Routes the approved ecosystem consolidation and two bounded predecessor-review tranches, then preserves independent projection, feedback and earlier dated records.",
+      "summary": "Routes the approved ecosystem consolidation and bounded predecessor reviews, records the inventory freshness issue, then preserves independent projection, feedback and earlier dated records.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "26211603e48d9ea456cc9152cd4196cd9849d1b78cc15db989de5bde6fd456b5",
+      "sha256": "b1b6d6e0da83e778376282d7efc310810322da5182d628fa62574e4a1e5a8d45",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1138,7 +1138,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "b59dd4661f62348fd049288e111223020d7ed63d6220525ef69c497e3b4acc23",
+      "sha256": "92a9ef9b9b6796fc871a83dd8b0b5eaf227ccaf37560c1cdd991a3c73357715b",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -4978,7 +4978,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "cf5c5bfb07602faff3d0af7069067db6972217fb00c1336a1390d542821356ec",
+      "sha256": "5db82d30e93a1525a88b83ee9ac8235fc916e7eb90f3108e5bdafe283156a699",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
