@@ -10,3 +10,5 @@ pre-commit:
   commands:
     aes-doc-facts:
       run: make check-doc-facts
+    aes-catalog:
+      run: make check-catalog-staged

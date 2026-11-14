@@ -66,6 +66,7 @@ import os
 from pathlib import Path
 import re
 import stat
+import subprocess
 import sys
 import tempfile
 from urllib.parse import quote, urlsplit
@@ -269,7 +270,7 @@ def _declared_inputs(root: Path) -> list[dict]:
 
 
 def refresh_cli(argv: list[str]) -> int:
-    """PostToolUse refresh of declared facts only; no declarations is a fast no-op."""
+    """Refresh declared facts and optional catalog views; semantic review stays explicit."""
     parser = argparse.ArgumentParser(prog='lockstep refresh')
     parser.add_argument('--repo', type=Path)
     parser.add_argument('--client', choices=('claude', 'codex'))
@@ -288,9 +289,12 @@ def refresh_cli(argv: list[str]) -> int:
         if root is None:
             return 0
         root = root.resolve()
+        from lockstep.catalog import inspect_catalog, refresh_catalog
+        catalog = inspect_catalog(root)
         rows = declarations(root)
-        if not rows:
+        if not rows and catalog is None:
             return 0
+        refresh_facts = bool(rows)
         if args.client:
             from lockstep.hook import paths_from_call
             paths = paths_from_call(call)
@@ -299,23 +303,50 @@ def refresh_cli(argv: list[str]) -> int:
                 edited = {(Path(p) if Path(p).is_absolute() else cwd/p).resolve() for p in paths}
                 applicable = {(root/row[k]).resolve() for row in rows for k in ('source', 'target')}
                 if not edited.intersection(applicable) and (root/'lockstep.yaml').resolve() not in edited:
-                    return 0
+                    refresh_facts = False
+                    if catalog is None:
+                        return 0
             # Shell writes can be dynamic. With no concrete edit path, compare declared
             # facts conservatively; no arbitrary command from the configuration runs.
         _trace_path(root)  # Validate the append path before any projection write.
-        changed = project_facts(root)
+        changed = project_facts(root) if refresh_facts else []
+        if catalog is not None:
+            changed.extend(refresh_catalog(root))
+            catalog = inspect_catalog(root)
         # One append-only daily trace; source bytes and generated output can be opened at these paths.
         inputs = [{'source': row['source'], 'fields': row['fields'],
                    'sha256': hashlib.sha256((root/row['source']).read_bytes()).hexdigest(),
                    'facts': _facts(root/row['source'], row['fields'], row.get('symbol'))} for row in rows]
         outputs = [{'target': row['target'], 'sha256': hashlib.sha256((root/row['target']).read_bytes()).hexdigest()} for row in rows]
         event = {'tool': call.get('tool_name'), 'inputs': inputs, 'outputs': outputs, 'rewrote': changed, 'exit_status': 0}
+        if catalog is not None:
+            event['catalog'] = catalog
         _append_trace(root, event)
-        for rel in changed:
-            print(f'rewrote {rel}')
-        print(f'RESULT refresh rewrote={len(changed)} exit=0')
+        if catalog is not None and args.client:
+            context = 'Lockstep refreshed deterministic navigation. '
+            if catalog['pending']:
+                context += (
+                    'Catalog semantic review is pending. Read each complete changed source; '
+                    'revise its summary or explicitly retain it with a reason. '
+                    'Run lockstep catalog pending to obtain exact current source hashes; '
+                    'submit a JSON list through lockstep catalog review --input PATH with '
+                    'path, sha256, summary and review_reason (new entries also need role, '
+                    'disposition, reason and source_locator), then lockstep catalog refresh '
+                    'and lockstep catalog check. Never approve by blindly replacing hashes. '
+                    'Pending inputs: ' + json.dumps(catalog['pending'])
+                )
+            else:
+                context += 'No catalog source reviews are pending.'
+            print(json.dumps({'hookSpecificOutput': {
+                'hookEventName': 'PostToolUse', 'additionalContext': context}}))
+        else:
+            for rel in changed:
+                print(f'rewrote {rel}')
+            if catalog is not None:
+                print(json.dumps({'catalog': catalog}))
+            print(f'RESULT refresh rewrote={len(changed)} exit=0')
         return 0
-    except (OSError, ValueError, TypeError, SyntaxError, yaml.YAMLError) as exc:
+    except (OSError, ValueError, TypeError, SyntaxError, subprocess.SubprocessError, yaml.YAMLError) as exc:
         # YAML/SyntaxError formatting can include the source line; keep the actual
         # error message without embedding source or raw tool content in the log.
         message = getattr(exc, 'problem', None) or getattr(exc, 'msg', None) or str(exc)

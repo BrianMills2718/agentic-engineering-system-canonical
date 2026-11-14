@@ -537,13 +537,15 @@
       "status": "open",
       "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
       "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
-      "recommendation": "Use the complete inventory and source hashes to identify changed inputs; refresh source-owned descriptions and content-derived summaries with semantic review. Keep coverage, summary adequacy and freshness as separate checks.",
+      "recommendation": "Use the new explicit pending/review/render/check path in the existing native hook. Review changed source and affected wiki prose, acknowledge the exact observed hash, and keep semantic adequacy distinct from deterministic freshness. Native evidence and scope will be recorded before closing the implemented catalog portion.",
       "evidence": "The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaces that subset catalog and binds content-derived summaries to inputs. Native declared-fact refresh still does not maintain every compiled description.",
       "sources": [
         "docs/architecture/DOCUMENTATION.md",
         "docs/planning/file-inventory.json",
         "wiki/documents.md",
-        "src/lockstep/doc_projection.py"
+        "src/lockstep/doc_projection.py",
+        "src/lockstep/catalog.py",
+        "openspec/specs/lockstep-catalog-upkeep/spec.md"
       ],
       "touches": []
     },

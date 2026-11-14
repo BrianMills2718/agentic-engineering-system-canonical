@@ -400,39 +400,42 @@
     },
     {
       "path": "AGENTS.md",
-      "summary": "Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; AGENTS is generated from CLAUDE and relationships.",
+      "summary": "Defines generated Codex governance, authority routes and complete-file catalog review commands, while preserving bounded native-proof limitations.",
       "role": "source document",
       "disposition": "generated",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "99424c404e4c72f8064eb7806ab203dc7cdf006c8b1d9542232485e06b608d81",
+      "sha256": "075fdf7ab02c1a2ac9f8a9dc1931f3e0f9f4bc54be9c3c426c516e7334974f0c",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read complete generated projection; added upkeep procedure expands its governance scope."
     },
     {
       "path": "CLAUDE.md",
-      "summary": "Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; AGENTS is generated from CLAUDE and relationships.",
+      "summary": "Defines canonical AES agent governance, authority routes, execution boundaries and the complete-file catalog review workflow.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "7a16d731c58eea11396b511ff98980e14fa58254bb52ec2caa3a65c1ae9ac445",
+      "sha256": "7f547dba8f0c02905901c3be38e6f6e4c08cbf20210f8184db0a37acd93a3971",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read complete canonical instructions; new pending/review/refresh/check guidance belongs in the summary."
     },
     {
       "path": "Makefile",
-      "summary": "Defines tests and generated-instruction checks plus facts-only freshness and explicit refresh; make check includes declared-fact refusal.",
+      "summary": "Defines AES tests, instruction sync, typing checks, working-tree fact and catalog freshness targets, and a separate staged catalog commit check.",
       "role": "native configuration or contract",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "AES canonical checks. The claims, worktree, session and PR-flow targets that used to live here; were retired on 2026-11-12 (docs/retired/2026-11-12.md); `ship` and `claude -w` replaced them.; --- During Implementation ---",
       "summary_origin": "content_review",
-      "sha256": "28c92a844170a42454adc4284886dd9c3271937ab4cff772038fb09a5bbaa5ee",
+      "sha256": "8ff2639a164087190216d924bf6fbb349b8f1815766ff204484c0da03fc574a8",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Reread full Makefile; check-catalog-staged checks indexed bytes while ordinary make check retains working-tree checks."
     },
     {
       "path": "README.md",
@@ -460,15 +463,16 @@
     },
     {
       "path": "docs/architecture/DOCUMENTATION.md",
-      "summary": "Defines document authority and lifecycle, source-local summaries, generated and curated reading views, and the full-file coverage and consolidation assessment with preservation limits.",
+      "summary": "Defines document authority and lifecycle, historical complete-file coverage and consolidation assessment, plus ongoing hash-bound agent review and catalog refresh limits.",
       "role": "architecture",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "2a5e296b7048cf26d3b5e1ff395141632464b2df799eaf25987768db43daa35c",
+      "sha256": "463092d22eb7082d12ee06fa85b0ac6e6773f5fe3564bc12fdc20603e240a4d8",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Reread full updated page; opening acknowledges authorized freshness enforcement and earlier no-gate repair is explicitly historical. Semantic review, ignored trace storage and bounded native-proof limits remain explicit."
     },
     {
       "path": "docs/architecture/ECOSYSTEM.md",
@@ -892,15 +896,16 @@
     },
     {
       "path": "docs/index.md",
-      "summary": "Lists the current source-linked reading order for purpose, components, documentation, feedback, state and questions, explicitly identifying itself as curated navigation.",
+      "summary": "Lists source-linked AES authority reading order and routes to documentation self-adoption and complete-file catalog upkeep contracts.",
       "role": "navigation",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# AES documentation",
       "summary_origin": "content_review",
-      "sha256": "19b77451bcd0a8d10c9d94304148c1d3becd4f910d0b13236c09413665c0a8e1",
+      "sha256": "a057911d141ade8dda59d6a77249a1823314b2dc38f6b38653c87510d4fb37f6",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read complete index; new upkeep route extends its reading-order purpose. Candidate link names the active requirement delta until archive."
     },
     {
       "path": "docs/model/ODD.md",
@@ -1132,15 +1137,16 @@
     },
     {
       "path": "docs/planning/open-questions.json",
-      "summary": "Owns AES unresolved questions and dispositions, including Q36–Q42 for ecosystem catalogue authority, identities, evidence, donor review and concern closure.",
+      "summary": "Owns AES questions, recommendations and dated evidence, including synchronization and catalog freshness gaps plus Q36–Q42 ecosystem discovery, identity, legacy review and concern closure.",
       "role": "planning record",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "fa3452c1d0e4ccdb7b591aea8033b07a4ddd4ca78928980bf61f55304f0b4656",
+      "sha256": "70f115accf4a5ad6d7412a42594248cad5e77d7240f6c9128cf2968cacc62817",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Reread full merged ledger after rebase; Q30 adds explicit pending/review/render/check without closing native or semantic scope, and upstream Q36–Q42 remain open on their distinct cross-project questions."
     },
     {
       "path": "docs/planning/planning-package.json",
@@ -1408,27 +1414,29 @@
     },
     {
       "path": "lefthook.yml",
-      "summary": "Preserves shared workspace commit checks and adds the facts-only AES freshness command.",
+      "summary": "Preserves shared workspace commit checks and runs AES declared-fact freshness plus catalog freshness against staged bytes.",
       "role": "native configuration or contract",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "remotes:",
       "summary_origin": "content_review",
-      "sha256": "4d7744afbca88b12b0e3cb05f779cd70c967007ae7600b1c98efaec772adbcd8",
+      "sha256": "52fafd8b71caec4f902a5cb17301565047730516ae2fa742b729217775cf9816",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Reread complete configuration; aes-catalog now calls make check-catalog-staged, separating commit bytes from unrelated unstaged source changes."
     },
     {
       "path": "lockstep.yaml",
-      "summary": "Declares the projection module as source for architecture and wiki full-docstring assessment copies, without edit guards or unrelated policies.",
+      "summary": "Declares projection assessment copies into architecture and wiki, and opts the existing file inventory and navigation catalog into upkeep.",
       "role": "native configuration",
       "disposition": "keep",
       "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
       "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
       "summary_origin": "content_review",
-      "sha256": "05509696ae528db54ebbc9a1de06abef5bef9316040b5f44d210f815bcd4242d",
+      "sha256": "5b6823faaeb800895e6ea38647c154c8fa19966c062916cfe8b2d5bd4d90a670",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read complete side file; new catalog declaration adds inventory and target paths without enabling edit guards."
     },
     {
       "path": "lychee.toml",
@@ -1933,6 +1941,36 @@
       "sha256": "a35bbde0e01526c16482499cb7fd29c2dfb7c7855a55385c29afb4a39cfee5d3",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
+    },
+    {
+      "path": "openspec/changes/catalog-upkeep/proposal.md",
+      "sha256": "82dc0e3fcc9474c5da936897104de1ba14143880f912c641d089dc8a10d86d0a",
+      "summary": "Proposes extending native Lockstep with explicit source-bound catalog review, deterministic navigation and independent freshness checks, retaining existing agent and Repo Docs roles.",
+      "review_reason": "Read complete proposal; records approved repair scope and intended bounded native evidence without claiming delivery.",
+      "role": "implementation plan",
+      "disposition": "keep",
+      "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
+      "source_locator": "Whole file; Proposes extending native Lockstep with explicit source-bound catalog review"
+    },
+    {
+      "path": "openspec/changes/catalog-upkeep/specs/lockstep-catalog-upkeep/spec.md",
+      "sha256": "229d62bc6f1773a9d90f60f47ece763ae6b0a019da9223e3ece48db4be84c506",
+      "summary": "Specifies indexed-file coverage, exact-hash semantic review, non-approving deterministic refresh, read-only checks and native-hook recovery with traces.",
+      "review_reason": "Read all three requirements and five scenarios; contract separates agent meaning review from mechanical freshness.",
+      "role": "proposed behavior contract",
+      "disposition": "keep",
+      "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
+      "source_locator": "Whole file; Specifies indexed-file coverage"
+    },
+    {
+      "path": "openspec/changes/catalog-upkeep/tasks.md",
+      "sha256": "7558c5383f6b6f61ad1886c1841e6fe61604d43ca72cf7a5f62f8113b5899df7",
+      "summary": "Tracks four outstanding catalog-upkeep implementation, native recovery demonstration, documentation and merge tasks.",
+      "review_reason": "Read complete task list; all four boxes remain open in the reviewed bytes.",
+      "role": "implementation plan",
+      "disposition": "keep",
+      "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
+      "source_locator": "Whole file; Tracks four outstanding catalog-upkeep implementation"
     },
     {
       "path": "openspec/config.yaml",
@@ -3051,6 +3089,16 @@
       "has_standard_source_summary_field": true
     },
     {
+      "path": "src/lockstep/catalog.py",
+      "sha256": "cb9667fa5bbb9bcb10e0ec5548bef5449723c0665761fb73ff54dd43b7541ca3",
+      "summary": "Implements indexed-file pending detection, hash-bound review, deterministic catalog rendering and working-tree or staged-byte freshness checks with daily operation receipts.",
+      "review_reason": "Reread complete implementation: staged checks read configuration, inventory, source and target from index; Git disables hooks and fsmonitor. Empty/comment-only configuration is a no-op, malformed mappings fail, supplied metadata is validated and semantic review remains explicit.",
+      "role": "source code",
+      "disposition": "keep",
+      "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
+      "source_locator": "Whole file; catalog_cli, review_catalog and inspect_catalog"
+    },
+    {
       "path": "src/lockstep/change_list.py",
       "summary": "After a plan change, list every file and symbol whose plan text changed, as one list for the agent.",
       "role": "code",
@@ -3076,15 +3124,16 @@
     },
     {
       "path": "src/lockstep/check.py",
-      "summary": "`pcw check --repo PATH [--base REF] [--json]`: is a whole working tree still on its plan?.",
+      "summary": "Implements legacy whole-tree plan checks and dispatches current Lockstep subcommands, including explicit catalog upkeep and native refresh.",
       "role": "code",
       "disposition": "keep",
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "_git",
       "summary_origin": "content_review",
-      "sha256": "5055c98a712414f3c6da0d36bba4fb97bbd674afdd2582c66526b8db55330d55",
+      "sha256": "9a7d9889100ee5e5f86265a443995472f1a64af5d7fe94846f985e694cb5b5fe",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read complete module; legacy checker remains while CLI now routes catalog operations."
     },
     {
       "path": "src/lockstep/checks/__init__.py",
@@ -3292,15 +3341,16 @@
     },
     {
       "path": "src/lockstep/doc_projection.py",
-      "summary": "Statically extracts declared facts and refreshes targets with daily traces; its module docstring owns the component assessment, gaps, linked plan and separate evidence links.",
+      "summary": "Statically projects declared facts and extends native refresh with catalog rendering and pending semantic-review context; retains bounded projection evidence assessment.",
       "role": "code",
       "disposition": "keep",
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "ProjectionError",
       "summary_origin": "content_review",
-      "sha256": "59e9073fdde7fdc0e83f0b0b01eceb26b20d77c5e374311e16944ffd68979549",
+      "sha256": "6d4a6dcdc384fb0a70e43c43f422d4e3034d74c65289bb3b81a3a2b87a8d2f30",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Reread entire module; corrected refresh docstring now names optional catalogs. Unrelated edits and catalog-only configurations produce recovery context while leaving reviewed hashes unchanged; earlier native evidence remains bounded to fact projection."
     },
     {
       "path": "src/lockstep/docstring_up.py",
@@ -3460,15 +3510,16 @@
     },
     {
       "path": "src/lockstep/side_file.py",
-      "summary": "Read and check Lockstep's side file, `lockstep.yaml` beside the plan (behaviors 1.1, 2.1 and 5.1).",
+      "summary": "Loads and validates Lockstep side-file document, file, rubric and fixed-path rules, recognizing modern projection and catalog configuration keys.",
       "role": "code",
       "disposition": "keep",
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "SideFile",
       "summary_origin": "content_review",
-      "sha256": "41af73dfa240f311ed70a0f420f2caf4fe06994eb5c284b9234b1e1197606f2d",
+      "sha256": "9be935c5e572515e3f73db79755364da95f2c620e7a9d6160560815496828747",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read complete loader and validation; catalog is newly accepted top-level configuration, while its detailed validation stays in catalog.py."
     },
     {
       "path": "src/lockstep/signature_text.py",
@@ -4443,6 +4494,26 @@
       "has_standard_source_summary_field": true
     },
     {
+      "path": "tests/lockstep/test_catalog.py",
+      "sha256": "d63aaea8ed5105d896c141222afb1ae23b5ed4378277b49a0ef764daf62cb992",
+      "summary": "Tests catalog reviews and rendering, staged versus working-tree freshness, atomic refusal, path and metadata validation, disabled fsmonitor and empty or invalid configuration.",
+      "review_reason": "Reread complete tests including staged-source mismatch, unstaged-config isolation, invalid existing metadata, executable fsmonitor canary, empty/comment-only no-ops and scalar/list rejection; these fixtures do not establish native host loading.",
+      "role": "test source",
+      "disposition": "keep",
+      "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
+      "source_locator": "Whole file; Tests catalog membership and review boundaries"
+    },
+    {
+      "path": "tests/lockstep/test_catalog_refresh_hook.py",
+      "sha256": "146fd3f705f1a8b93cae9ecd018913b3b2285fc635f4ce528407cd99265b48eb",
+      "summary": "Tests Claude and Codex-shaped refresh payloads delivering pending catalog review after unrelated edits while preserving reviewed input hashes and logging projection context.",
+      "review_reason": "Read complete parameterized test; synthetic payload coverage does not establish actual native client execution.",
+      "role": "test source",
+      "disposition": "keep",
+      "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
+      "source_locator": "Whole file; Tests Claude and Codex-shaped refresh payloads delivering pending catalog review after unrelated edits while preserving reviewed input hashes and logging projection context."
+    },
+    {
       "path": "tests/lockstep/test_lockstep_action_check.py",
       "summary": "Tests a proposed non-code action is allowed only when it matches the declared action it names.",
       "role": "test",
@@ -4996,15 +5067,16 @@
     },
     {
       "path": "wiki/requirements.md",
-      "summary": "Routes current OpenSpec contracts, including assessment self-adoption, to implementation and bounded evidence.",
+      "summary": "Routes current OpenSpec contracts, including catalog upkeep and assessment self-adoption, to implementation and bounded evidence, separately from retained engine and feedback requirements.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Required behavior and its evidence; Current Lockstep contracts; Retained library and feedback contracts",
       "summary_origin": "content_review",
-      "sha256": "fccfaf0c9c2c014590ebe534ef6faa01ef59b5d5b772f36ecbaeb3c3bdba8755",
+      "sha256": "85364ee7f45568572222f0be9740d5ce3dbf86dbfe0ca55ff5b49ab8ebca1f68",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read complete concern table and evidence routes; upkeep is newly linked without claiming tests passed today. Candidate link names the active requirement delta until archive."
     },
     {
       "path": "wiki/research-and-lessons.md",

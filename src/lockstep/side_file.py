@@ -127,7 +127,7 @@ SIDE_FILE = "lockstep.yaml"
 SCHEMA = "lockstep.side.v1"
 _TOP = {"schema", "documents", "rubrics", "fixed", "files", "actions",  # actions: read by lockstep.action_check (behavior 5.4)
         "checks", "sources", "owner", "likec4",  # the commit checks (lockstep.checks)
-        "layout", "governed", "projections", "source_base_url"}  # the layout plan (lockstep.layout_plan)
+        "layout", "governed", "projections", "source_base_url", "catalog"}  # the layout plan (lockstep.layout_plan)
 _DOCUMENTS = {"include", "declared"}
 _DOCUMENT = {"path", "purpose", "refs"}
 _RUBRIC = {"criterion", "rubric"}

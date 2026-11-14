@@ -23,3 +23,5 @@ distinguishes declared fact projection from authored explanation and site builds
 
 The [AES self-adoption specification](../openspec/specs/aes-documentation-projection/spec.md)
 records the local projection and freshness obligations.
+
+- [Complete-file catalog upkeep](../openspec/changes/catalog-upkeep/specs/lockstep-catalog-upkeep/spec.md) — review source changes and regenerate navigation without silently approving old summaries.

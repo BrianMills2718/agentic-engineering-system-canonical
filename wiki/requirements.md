@@ -27,6 +27,7 @@ the requirements or a claim that their tests passed today.
 | Requirement copies and implementation coverage | [Projection and status](../openspec/specs/lockstep-projection/spec.md) | [Projector](../src/lockstep/checks/project.py), [status](../src/lockstep/checks/status.py) |
 | Source-owned descriptions, interfaces and evidence values | [Declared document facts](../openspec/specs/lockstep-doc-facts/spec.md) | [Fact projector](../src/lockstep/doc_projection.py) |
 | AES source-owned assessment and facts-only gate | [Documentation self-adoption](../openspec/specs/aes-documentation-projection/spec.md) | [Declarations](../lockstep.yaml), [native observation](../evidence/runs/projection-self-adoption-20261113.json) |
+| Complete-file review and wiki upkeep | [Catalog upkeep](../openspec/changes/catalog-upkeep/specs/lockstep-catalog-upkeep/spec.md) | [Catalog maintainer](../src/lockstep/catalog.py), [upkeep procedure](../docs/architecture/DOCUMENTATION.md#ongoing-complete-file-catalog-upkeep) |
 
 The [component contract](../docs/architecture/LOCKSTEP.md#current-mechanisms-and-their-limits)
 explains how these mechanisms fit together and which intended guarantees remain

@@ -400,6 +400,9 @@ def cli() -> int:
     (create the planned files), `plan check` (validate the acceptance and plan files), `status` (each
     requirement's code, tests and result) or `show FILE` (what a file must keep true)."""
     args = sys.argv[1:]
+    if args and args[0] == "catalog":
+        from lockstep.catalog import catalog_cli
+        return catalog_cli(args[1:])
     if args and args[0] == "refresh":
         from lockstep.doc_projection import refresh_cli
         return refresh_cli(args[1:])
