@@ -225,6 +225,8 @@ and [operator commands](../scripts/learning_loop/systemd/README.md).
 
 **Workspace split (2026-11-14):** Brian approved core in AES, personal rules and identity in a private profile repository, identity as configuration. `docs/planning/workspace-into-aes-split.md` is the folder-level proposal (Q45); nothing in code2-workspace moved.
 
+**Slice 0 done (2026-11-14):** `docs/planning/project-meta-ledger.md` lists what still calls Project Meta (89 files named by 73 distinct repositories, 10 enabled timers, 15 commands). Brian approved the slice order (Decision 5); nothing in Project Meta was changed.
+
 **Rule for every agent:** read this file first. When your change moves where
 the project stands, update `now.md` (and `state.md` if needed) in the same pull
 request. `python3 scripts/hive/brain_fresh.py .` exits 1 when this brain is
