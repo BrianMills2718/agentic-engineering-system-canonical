@@ -78,6 +78,12 @@ Sources: [docs/architecture/LOCKSTEP.md](../docs/architecture/LOCKSTEP.md), [src
 
 Owner: agent.
 
+Additional observation: the [projection-component replay](../evidence/runs/projection-worked-20261113.json)
+carried authored current/gap/plan sections through two CLI-managed targets,
+preserved normative-down text and demonstrated stale-check recovery. Installed
+host invocation and actual AES self-adoption remain open; see the
+[gap-backed plan](../docs/architecture/LOCKSTEP.md#gaps-and-a-bounded-plan).
+
 ### Q26: Guard must check every affected path
 
 Does the edit guard judge every file and rename destination before allowing a patch?

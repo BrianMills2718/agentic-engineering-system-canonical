@@ -1,3 +1,22 @@
+# Projection worked assessment (2026-11-13, AES #852)
+
+The [worked assessment](../docs/architecture/LOCKSTEP.md#worked-assessment-the-projection-component)
+uses the real projection component in a disposable consumer. Existing full-docstring
+projection preserved authored current status, gap and plan sections alongside
+normative text, refreshed two targets, refused a bypassed stale copy without writes,
+and recovered. Six CLI steps matched expected exits; 26 focused tests passed.
+The [run receipt](../evidence/runs/projection-worked-20261113.json) retains inputs,
+outputs and trace events. A directly supplied edit event is not native-host proof.
+
+Next recommendation: P-SELF and P-NATIVE in the assessment configure this existing
+mechanism for AES itself and observe a real installed-client edit. This session
+changed documentation and retained observations only; runtime self-adoption is
+not claimed. Current-status narrative is agent-authored and remains distinct
+from measured evidence. Prior choices remain the baseline; proposed revisions
+must explain what they improve.
+
+## Earlier completed coverage and dated records
+
 # Complete file coverage (2026-11-13, AES #849)
 
 **Completed in PR #850:** every one of 408 tracked files now has a source-grounded

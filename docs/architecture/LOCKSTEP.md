@@ -122,3 +122,111 @@ is an earlier acceptance record, not a blanket certification of current hooks or
 all consumer deployment. Changes to required behavior belong in OpenSpec;
 implementation limitations and fresh observations must remain visible rather
 than being repaired by stronger status prose.
+
+## Worked assessment: the projection component
+
+This assessment uses `src/lockstep/doc_projection.py` at revision `636dffcd4`.
+It preserves the accepted OpenSpec/layout format and source-local doctrine; it
+proposes no replacement document language. Agent-authored current status is
+separate from measured evidence. A meaningful partial-implementation narrative
+is useful even when no test fully expresses that assessment.
+
+### Intended behavior and source ownership
+
+The component's [OpenSpec contract](../../openspec/specs/lockstep-doc-facts/spec.md)
+owns declared-fact projection, invalid-input handling and installed edit/merge
+paths. Its applicable normative text can be projected into implementing
+module docstrings by `lockstep check project`. The agent authors its current
+assessment, remaining gap and related plan alongside that generated paragraph.
+
+For this component, the example authored content is:
+
+```text
+Current assessment (agent-authored):
+  Static fact extraction, two-target projection and read-only stale checking exist.
+  Installed native-host execution of this exact narrative example is not yet observed.
+
+Gap G-NATIVE:
+  The exact authored narrative has not been observed crossing an installed native host.
+
+Plan P-NATIVE (addresses G-NATIVE):
+  Observe one real source edit in the native host and inspect both target copies and trace.
+
+Evidence (separate from this assessment):
+  Focused projection tests and the disposable CLI replay are recorded separately.
+```
+
+This is actual replay input placed in a disposable copy of the real module. It
+is not an assertion that these sections are already installed in the production
+source, nor that the narrative's meaning is mechanically proved.
+
+| Information | Owning source | How the other views receive it |
+| --- | --- | --- |
+| Required behavior | Existing OpenSpec requirements | The requirement projector copies applicable normative text into source docstrings. |
+| Current assessment | Agent-edited narrative in the implementing docstring | The static fact projector reads `docstring` and writes declared target blocks. |
+| Remaining gap | Agent-authored variance from intended behavior, with a stable identifier | It travels in that same docstring; textual carriage does not validate a gap model. |
+| Plan | Named action explicitly addressing the gap | The narrative links the plan to the gap; an actual plan remains a bounded change record. |
+| Measured evidence | Retained run/test observation | Link it from the assessment; keep observed results distinguishable from the author's interpretation. |
+| Wiki presentation | Derived, source-linked reading view | Fan out directly from the source; a target cannot also be a projection source. |
+
+### Configuration and hook path
+
+The disposable replay used the existing declarations, with both targets reading
+the same source. The targets each contain their matching `lockstep facts` markers.
+
+```yaml
+projections:
+  - id: component-status
+    source: src/lockstep/doc_projection.py
+    target: docs/component.md
+    fields: [docstring]
+  - id: wiki-status
+    source: src/lockstep/doc_projection.py
+    target: wiki/component.md
+    fields: [docstring]
+```
+
+The intended ordinary edit path is: agent edits source narrative → installed
+PostToolUse invokes `lockstep refresh --client codex` or `--client claude` → both
+declared copies update → a pre-commit `lockstep check project --check` catches a
+bypassed refresh. The hook copies authored content; it does not need to invent
+current state or infer the gap. The current installer supplies this hook entry.
+
+### What was exercised
+
+[Retained observation and full CLI trace](../../evidence/runs/projection-worked-20261113.json)
+records the configuration, authored input, final docstring and target contents,
+all six CLI steps and both daily trace events. Source code was copied from the
+actual component; only its docstring was augmented in the disposable consumer.
+The copy was parsed statically, not imported as the source being projected.
+
+| Step | Observation |
+| --- | --- |
+| Project normative text down and declared facts up | Generated requirement text and authored current/gap/plan sections coexist; both targets receive the complete docstring. |
+| Change only authored narrative; send a Codex-shaped edit event to refresh | Both target copies update. This exercises the event adapter, not a live native host. |
+| Check current copies | Read-only check exits 0. |
+| Edit source while bypassing refresh | Read-only check exits 1; target hashes remain unchanged. |
+| Run explicit refresh | Both stale targets recover. |
+| Check recovered copies | Read-only check exits 0. |
+
+The focused projection test file reported **26 passed**, exit 0. The replay
+matched all six expected exits, updated two targets and retained two refresh
+trace events, exit 0. These observations establish text transport, preservation,
+staleness detection and recovery for the declared path. They do not establish
+semantic truth of a narrative, live host invocation or universal consumer rollout.
+
+### Gaps and a bounded plan
+
+| Gap | Current assessment | Plan addressing it | Closing observation |
+| --- | --- | --- | --- |
+| G-SELF | AES itself has no root `lockstep.yaml` declaring this route. | P-SELF: configure the existing projector for the real component and its owning document/wiki blocks. Preserve current instructions and unrelated content. | An ordinary source edit in this repository updates both intended views. |
+| G-NATIVE | This replay supplied a native-shaped event directly. | P-NATIVE: observe one real installed-client edit and inspect the actual hook event and daily trace. | Source, event, command and both target changes are attributable to that edit. |
+| G-CONCISE | Full-docstring fan-out works, but repeats normative and narrative text in escaped table cells. | P-CONCISE: first decide the useful compact wiki presentation; extend the existing extractor only if its declared fields cannot express it. | A reader reaches the full source while seeing an accurate concise status/gap summary. |
+| G-RELATIONS | The copied gap and plan identifiers are plain authored content. | P-RELATIONS: use existing plan/ledger links first; add reference validation only if a concrete dangling or inconsistent relationship needs a control. | The chosen plan can be followed to its actual gap and the gap to its intended behavior/current assessment. |
+
+Recommendation: reuse this existing mechanism for the first AES self-adoption
+slice. Keep author-written current/gap explanations distinct from evidence;
+retain the existing format and hook path. Do not build a new narrative schema or
+automatic completeness judge merely to transport these sections. Full bidirectional
+normative editing and compact narrative extraction retain their separately
+recorded limitations; this replay does not resolve them by implication.

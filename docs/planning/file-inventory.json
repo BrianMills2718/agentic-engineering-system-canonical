@@ -6,7 +6,7 @@
   "request": "Every tracked file reachable and summarized from the navigational wiki; assess consolidation and optimization without losing information.",
   "scope": {
     "base_tracked_files": 407,
-    "all_candidate_tracked_files": 408,
+    "all_candidate_tracked_files": 409,
     "included": "All Git-tracked files, including instructions, archived changes, fixtures, generated views and non-Markdown files.",
     "external": "Explicitly linked owning planning/policy/instruction sources; no unrelated repository-wide sweep.",
     "not_published": "Ignored caches, installed environments, credentials and private runtime store contents."
@@ -340,13 +340,13 @@
     },
     {
       "path": ".project-brain/now.md",
-      "summary": "Names the complete-file documentation repair, its scope, current source routes and next discussion; retains earlier dated handoff evidence below a historical boundary.",
+      "summary": "Names the completed projection-component assessment, replay observations, limits and next gap-backed self-adoption recommendation, with earlier coverage and handoff history retained.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "c2514ff8e90aec043b184abc1c322596abea8207d257e5b8a6a853eb52212276",
+      "sha256": "c9d3d59fcbc3a2e8575ae4df503665796f25d3c649bd3e1b928201bcb67d8216",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -484,13 +484,13 @@
     },
     {
       "path": "docs/architecture/LOCKSTEP.md",
-      "summary": "Explains planned behavioral units, typed seams and proving checks; traces downward context, upward status and legacy draft acceptance; distinguishes modern layout from the stronger legacy one-behavior/one-file checker.",
+      "summary": "Explains planned structure and two-way context/status projection, distinguishes legacy mechanisms, and works through the real projection component with authored current/gap/plan narrative, measured CLI evidence and a bounded next plan.",
       "role": "architecture",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "1316ec89e06e07b4e0da7917ad198587b5b0d9e75f50a2806dfcc0a2fd74ca77",
+      "sha256": "28fc89aeda9df3c7652602618f81f85b4ee98a4d229d6845d3e3f5b5786467b9",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -1102,7 +1102,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "d109f62f6fb2a86addde6afe56d174140ac3fed5e646316327b0db67d543a7cc",
+      "sha256": "d99c1c41a1acdac2187b84bd4a6a3971fbb80ca1e92c1c673de7025ca3f0f2c5",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1333,6 +1333,18 @@
       "sha256": "19191d8e55163fb6bb00dec3b69a4abfca4dff92a781652c3652873961e94c39",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
+    },
+    {
+      "path": "evidence/runs/projection-worked-20261113.json",
+      "summary": "Retained six-step CLI observation on a disposable copy of the real projector: normative-down and authored current/gap/plan fan-out, stale refusal, recovery, before/after hashes, two traces and focused pytest output.",
+      "role": "retained run evidence",
+      "disposition": "keep",
+      "reason": "Preserves measured observations separately from authored implementation assessment; no native-host or production self-adoption claim.",
+      "source_locator": "steps; checks; traces; focused_test_observation; limitations",
+      "summary_origin": "content_review",
+      "sha256": "782d035292ef8bcf72f46b52a22ea6239d1124831456d07c439ec85502b43ad5",
+      "identity_basis": "Retained observed run at recorded component revision.",
+      "has_standard_source_summary_field": false
     },
     {
       "path": "lefthook.yml",
@@ -4828,13 +4840,13 @@
     },
     {
       "path": "wiki/lockstep.md",
-      "summary": "Explains planned behavioral structure, consumers, consolidation slices, projection mechanisms, contracts and bounded proving examples.",
+      "summary": "Routes Lockstep purpose, implementation limits, native contracts and proving examples, including the source-linked worked projection assessment and retained replay.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Lockstep; What it is; Who uses it",
       "summary_origin": "content_review",
-      "sha256": "f3e10f1b38a2c4c2b835ba48b2033dc818da32095ef7cf872d36a6a6460313d4",
+      "sha256": "3d0a42fee590d71e0e6083a7a49c8d5149f1e8e5b3b6273c220158313ef0d151",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -4846,7 +4858,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "b71147e9db1a4c284d5808b099eb6029c1393883a6d2bc75d164c9e854ed96d7",
+      "sha256": "676f19094d1950d3152fe6c04909fa2e2ec7ee2e63e47331dcfb462fd7cf270f",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -5326,22 +5338,23 @@
   "verification": {
     "status": "pass",
     "tracked_path_coverage": {
-      "tracked_files": 408,
-      "entries": 408,
-      "nonempty_summaries": 408,
-      "catalog_links": 408,
+      "tracked_files": 409,
+      "entries": 409,
+      "nonempty_summaries": 409,
+      "catalog_links": 409,
       "omissions": 0,
-      "duplicate_entries": 0,
       "exclusions": 0,
+      "status": "pass",
       "exit_code": 0
     },
     "source_hashes": {
-      "inputs": 406,
-      "matched": 406,
+      "inputs": 407,
+      "matched": 407,
       "self_outputs_omitted": [
         "docs/planning/file-inventory.json",
         "wiki/documents.md"
       ],
+      "status": "pass",
       "exit_code": 0
     },
     "independent_review": {
@@ -5365,6 +5378,27 @@
       "docs/planning/file-inventory.json",
       "wiki/documents.md"
     ],
-    "freshness_limit": "Dated reviewed snapshot. Input hashes detect changed bytes; installed declared-fact refresh does not maintain every summary automatically."
-  }
+    "freshness_limit": "Dated reviewed snapshot. Input hashes detect changed bytes; installed declared-fact refresh does not maintain every summary automatically.",
+    "prior_complete_file_review": {
+      "tracked_files": 408,
+      "entries": 408,
+      "nonempty_summaries": 408,
+      "catalog_links": 408,
+      "omissions": 0,
+      "duplicate_entries": 0,
+      "exclusions": 0,
+      "exit_code": 0
+    },
+    "worked_assessment_review": {
+      "verdict": "pass",
+      "scope": "Independent source/specification and retained-trace consistency review; no native-host or production self-adoption claim.",
+      "cli_steps": 6,
+      "refresh_traces": 2,
+      "final_targets": 2,
+      "focused_tests_passed": 26,
+      "evidence_detail": "Receipt also retains raw pytest stdout/stderr, execution context and before/after hashes for each CLI step.",
+      "receipt_followup": "Independent check: 6/6 per-step hash/context records, 3/3 read-only steps unchanged, both traces and final targets match; raw focused-test result 26 passed, exit0."
+    }
+  },
+  "last_update": "Projection worked assessment at base636dffcd4; existing summaries retained, changed inputs reviewed, one new retained observation included."
 }

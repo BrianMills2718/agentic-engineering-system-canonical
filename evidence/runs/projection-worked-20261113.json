@@ -1,0 +1,283 @@
+{
+  "record_type": "projection_worked_assessment",
+  "date": "2026-11-13",
+  "source_revision": "636dffcd4a57d1b0f0b9421207a2d54767707da8",
+  "component_source": "src/lockstep/doc_projection.py",
+  "component_source_sha256": "2c2053f715b1393a96ed957d1b692b2011eec089aaa50b828ef7d3aeb096b586",
+  "scope": "Disposable copy of the actual component, with an authored current/gap/plan module-docstring example. Actual CLI and Codex event adapter exercised; no native host session or production self-adoption is claimed.",
+  "config": "schema: lockstep.side.v1\nprojections:\n  - id: component-status\n    source: src/lockstep/doc_projection.py\n    target: docs/component.md\n    fields: [docstring]\n  - id: wiki-status\n    source: src/lockstep/doc_projection.py\n    target: wiki/component.md\n    fields: [docstring]\n",
+  "authored_input": "Current assessment (agent-authored):\n    Static fact extraction, two-target projection and read-only stale checking exist.\n    Installed native-host execution of this exact narrative example is not yet observed.\n\nGap G-NATIVE:\n    The exact authored narrative has not been observed crossing an installed native host.\n\nPlan P-NATIVE (addresses G-NATIVE):\n    Observe one real source edit in the native host and inspect both target copies and trace.\n\nEvidence (separate from this assessment):\n    Focused projection tests and the disposable CLI replay are recorded separately.\n",
+  "steps": [
+    {
+      "name": "normative down plus declared upward copies",
+      "command": [
+        "python",
+        "-c",
+        "from lockstep.check import cli; raise SystemExit(cli())",
+        "check",
+        "project"
+      ],
+      "stdin": null,
+      "cwd": "<disposable-repository>",
+      "source_import_path": "<assessment-checkout>/src at recorded source_revision",
+      "before_target_hashes": {
+        "docs/component.md": "649120de6578f22ab710d3932d0b415b28771ed497aef6d620c74b4bf72934e0",
+        "wiki/component.md": "4d4ac5e9d0bbd19ee0e6d005a5a753b8458e8449310c2b5622343ec24f9ddded"
+      },
+      "after_target_hashes": {
+        "docs/component.md": "61d5715a2d496e4977471034bbc8bdf0cc0732c35f4b0517a16b4c614bb80a7e",
+        "wiki/component.md": "0f1e021013101d6c2acc3f392a740fca1d871a4e8421c1918c85ab0404de8d32"
+      },
+      "exit_code": 0,
+      "stdout": "rewrote src/lockstep/doc_projection.py\nrewrote docs/status.md\nrewrote docs/component.md\nrewrote wiki/component.md\nRESULT project rewrote=4 exit=0\n",
+      "stderr": ""
+    },
+    {
+      "name": "post-edit adapter transports authored narrative",
+      "command": [
+        "python",
+        "-c",
+        "from lockstep.check import cli; raise SystemExit(cli())",
+        "refresh",
+        "--client",
+        "codex"
+      ],
+      "stdin": {
+        "tool_name": "Edit",
+        "cwd": "<disposable-repository>",
+        "tool_input": {
+          "file_path": "<disposable-repository>/src/lockstep/doc_projection.py"
+        }
+      },
+      "cwd": "<disposable-repository>",
+      "source_import_path": "<assessment-checkout>/src at recorded source_revision",
+      "before_target_hashes": {
+        "docs/component.md": "61d5715a2d496e4977471034bbc8bdf0cc0732c35f4b0517a16b4c614bb80a7e",
+        "wiki/component.md": "0f1e021013101d6c2acc3f392a740fca1d871a4e8421c1918c85ab0404de8d32"
+      },
+      "after_target_hashes": {
+        "docs/component.md": "3d9b89119de4db3e05972b34beef4b1b34c7962570abdc31f6d1a64f4721fe90",
+        "wiki/component.md": "e632f01b81fcbaa1ef45f4fcf58ab94e2e2a81c479d63cbd3ef37d60964c576a"
+      },
+      "exit_code": 0,
+      "stdout": "rewrote docs/component.md\nrewrote wiki/component.md\nRESULT refresh rewrote=2 exit=0\n",
+      "stderr": ""
+    },
+    {
+      "name": "fresh copy is accepted",
+      "command": [
+        "python",
+        "-c",
+        "from lockstep.check import cli; raise SystemExit(cli())",
+        "check",
+        "project",
+        "--check"
+      ],
+      "stdin": null,
+      "cwd": "<disposable-repository>",
+      "source_import_path": "<assessment-checkout>/src at recorded source_revision",
+      "before_target_hashes": {
+        "docs/component.md": "3d9b89119de4db3e05972b34beef4b1b34c7962570abdc31f6d1a64f4721fe90",
+        "wiki/component.md": "e632f01b81fcbaa1ef45f4fcf58ab94e2e2a81c479d63cbd3ef37d60964c576a"
+      },
+      "after_target_hashes": {
+        "docs/component.md": "3d9b89119de4db3e05972b34beef4b1b34c7962570abdc31f6d1a64f4721fe90",
+        "wiki/component.md": "e632f01b81fcbaa1ef45f4fcf58ab94e2e2a81c479d63cbd3ef37d60964c576a"
+      },
+      "exit_code": 0,
+      "stdout": "RESULT project stale=0 exit=0\n",
+      "stderr": ""
+    },
+    {
+      "name": "bypassed refresh is refused read-only",
+      "command": [
+        "python",
+        "-c",
+        "from lockstep.check import cli; raise SystemExit(cli())",
+        "check",
+        "project",
+        "--check"
+      ],
+      "stdin": null,
+      "cwd": "<disposable-repository>",
+      "source_import_path": "<assessment-checkout>/src at recorded source_revision",
+      "before_target_hashes": {
+        "docs/component.md": "3d9b89119de4db3e05972b34beef4b1b34c7962570abdc31f6d1a64f4721fe90",
+        "wiki/component.md": "e632f01b81fcbaa1ef45f4fcf58ab94e2e2a81c479d63cbd3ef37d60964c576a"
+      },
+      "after_target_hashes": {
+        "docs/component.md": "3d9b89119de4db3e05972b34beef4b1b34c7962570abdc31f6d1a64f4721fe90",
+        "wiki/component.md": "e632f01b81fcbaa1ef45f4fcf58ab94e2e2a81c479d63cbd3ef37d60964c576a"
+      },
+      "exit_code": 1,
+      "stdout": "stale         docs/component.md\nstale         wiki/component.md\ngenerated blocks are out of date; run: lockstep check project\nRESULT project stale=2 exit=1\n",
+      "stderr": ""
+    },
+    {
+      "name": "explicit refresh recovers both targets",
+      "command": [
+        "python",
+        "-c",
+        "from lockstep.check import cli; raise SystemExit(cli())",
+        "refresh",
+        "--repo",
+        "<disposable-repository>"
+      ],
+      "stdin": null,
+      "cwd": "<disposable-repository>",
+      "source_import_path": "<assessment-checkout>/src at recorded source_revision",
+      "before_target_hashes": {
+        "docs/component.md": "3d9b89119de4db3e05972b34beef4b1b34c7962570abdc31f6d1a64f4721fe90",
+        "wiki/component.md": "e632f01b81fcbaa1ef45f4fcf58ab94e2e2a81c479d63cbd3ef37d60964c576a"
+      },
+      "after_target_hashes": {
+        "docs/component.md": "9e078e1ed82258a46ab617861e4144390b000d2a5adfcf478b6d58ed207eea8b",
+        "wiki/component.md": "36f4e1d88c32c6e0c7aebe017e99c81de5bfdba0f88749a261a4a2a69652268e"
+      },
+      "exit_code": 0,
+      "stdout": "rewrote docs/component.md\nrewrote wiki/component.md\nRESULT refresh rewrote=2 exit=0\n",
+      "stderr": ""
+    },
+    {
+      "name": "recovered copy passes",
+      "command": [
+        "python",
+        "-c",
+        "from lockstep.check import cli; raise SystemExit(cli())",
+        "check",
+        "project",
+        "--check"
+      ],
+      "stdin": null,
+      "cwd": "<disposable-repository>",
+      "source_import_path": "<assessment-checkout>/src at recorded source_revision",
+      "before_target_hashes": {
+        "docs/component.md": "9e078e1ed82258a46ab617861e4144390b000d2a5adfcf478b6d58ed207eea8b",
+        "wiki/component.md": "36f4e1d88c32c6e0c7aebe017e99c81de5bfdba0f88749a261a4a2a69652268e"
+      },
+      "after_target_hashes": {
+        "docs/component.md": "9e078e1ed82258a46ab617861e4144390b000d2a5adfcf478b6d58ed207eea8b",
+        "wiki/component.md": "36f4e1d88c32c6e0c7aebe017e99c81de5bfdba0f88749a261a4a2a69652268e"
+      },
+      "exit_code": 0,
+      "stdout": "RESULT project stale=0 exit=0\n",
+      "stderr": ""
+    }
+  ],
+  "traces": [
+    {
+      "tool": "Edit",
+      "inputs": [
+        {
+          "source": "src/lockstep/doc_projection.py",
+          "fields": [
+            "docstring"
+          ],
+          "sha256": "7cb4d567d22ed07f45d652ce3131b35f6a22cca309e083bd41325a8c05c4bf57",
+          "facts": {
+            "docstring": "Project declared source-local facts into Markdown; never execute source or repository code.\n\nImplements: lockstep-doc-facts/declared-source-facts-have-one-authority,\n    lockstep-doc-facts/invalid-input-is-not-a-pass,\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts\n\nRequirement text (generated):\n    lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL\n        generate Markdown fact blocks declared by `projections` in `lockstep.yaml`, each with id,\n        source, target and fields, with an optional Python symbol. It SHALL read Markdown YAML front\n        matter, JSON/YAML mapping fields and Python AST descriptions and signatures without\n        importing or executing source. `--check` SHALL report stale target paths and exit 1 without\n        writing. Generation SHALL preserve unrelated target content, include a relative source link\n        (or an HTTP(S) source_base_url link when configured), escape HTML and table delimiters in\n        projected scalar values, and remain idempotent. Consumers with no recognized OpenSpec\n        requirement text SHALL project only declared facts, without creating an empty coverage page\n        or rewriting historical plans.\n    lockstep-doc-facts/invalid-input-is-not-a-pass: Projection SHALL reject missing sources or\n        fields, invalid or duplicate marker pairs and paths escaping the repository, including\n        symlinks. It SHALL validate all declared fact projections before any projection write and\n        report invalid input with exit 2. Targets SHALL NOT also be sources.\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts: `lockstep refresh` SHALL\n        refresh only declared source-local fact blocks without regenerating requirement docstrings\n        or coverage. `lockstep init` SHALL install it as a PostToolUse hook for Claude Code and\n        Codex while preserving existing hooks. It SHALL include `lockstep check project --check` in\n        the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one\n        trace per run to a daily projection log with source/target hashes and rewritten paths. No\n        declarations SHALL be a no-op.\n\nCurrent assessment (agent-authored):\n    Static fact extraction, two-target projection with this narrative preserved and read-only stale checking exist.\n    Installed native-host execution of this exact narrative example is not yet observed.\n\nGap G-NATIVE:\n    The exact authored narrative has not been observed crossing an installed native host.\n\nPlan P-NATIVE (addresses G-NATIVE):\n    Observe one real source edit in the native host and inspect both target copies and trace.\n\nEvidence (separate from this assessment):\n    Focused projection tests and the disposable CLI replay are recorded separately."
+          }
+        },
+        {
+          "source": "src/lockstep/doc_projection.py",
+          "fields": [
+            "docstring"
+          ],
+          "sha256": "7cb4d567d22ed07f45d652ce3131b35f6a22cca309e083bd41325a8c05c4bf57",
+          "facts": {
+            "docstring": "Project declared source-local facts into Markdown; never execute source or repository code.\n\nImplements: lockstep-doc-facts/declared-source-facts-have-one-authority,\n    lockstep-doc-facts/invalid-input-is-not-a-pass,\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts\n\nRequirement text (generated):\n    lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL\n        generate Markdown fact blocks declared by `projections` in `lockstep.yaml`, each with id,\n        source, target and fields, with an optional Python symbol. It SHALL read Markdown YAML front\n        matter, JSON/YAML mapping fields and Python AST descriptions and signatures without\n        importing or executing source. `--check` SHALL report stale target paths and exit 1 without\n        writing. Generation SHALL preserve unrelated target content, include a relative source link\n        (or an HTTP(S) source_base_url link when configured), escape HTML and table delimiters in\n        projected scalar values, and remain idempotent. Consumers with no recognized OpenSpec\n        requirement text SHALL project only declared facts, without creating an empty coverage page\n        or rewriting historical plans.\n    lockstep-doc-facts/invalid-input-is-not-a-pass: Projection SHALL reject missing sources or\n        fields, invalid or duplicate marker pairs and paths escaping the repository, including\n        symlinks. It SHALL validate all declared fact projections before any projection write and\n        report invalid input with exit 2. Targets SHALL NOT also be sources.\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts: `lockstep refresh` SHALL\n        refresh only declared source-local fact blocks without regenerating requirement docstrings\n        or coverage. `lockstep init` SHALL install it as a PostToolUse hook for Claude Code and\n        Codex while preserving existing hooks. It SHALL include `lockstep check project --check` in\n        the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one\n        trace per run to a daily projection log with source/target hashes and rewritten paths. No\n        declarations SHALL be a no-op.\n\nCurrent assessment (agent-authored):\n    Static fact extraction, two-target projection with this narrative preserved and read-only stale checking exist.\n    Installed native-host execution of this exact narrative example is not yet observed.\n\nGap G-NATIVE:\n    The exact authored narrative has not been observed crossing an installed native host.\n\nPlan P-NATIVE (addresses G-NATIVE):\n    Observe one real source edit in the native host and inspect both target copies and trace.\n\nEvidence (separate from this assessment):\n    Focused projection tests and the disposable CLI replay are recorded separately."
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "target": "docs/component.md",
+          "sha256": "3d9b89119de4db3e05972b34beef4b1b34c7962570abdc31f6d1a64f4721fe90"
+        },
+        {
+          "target": "wiki/component.md",
+          "sha256": "e632f01b81fcbaa1ef45f4fcf58ab94e2e2a81c479d63cbd3ef37d60964c576a"
+        }
+      ],
+      "rewrote": [
+        "docs/component.md",
+        "wiki/component.md"
+      ],
+      "exit_status": 0
+    },
+    {
+      "tool": null,
+      "inputs": [
+        {
+          "source": "src/lockstep/doc_projection.py",
+          "fields": [
+            "docstring"
+          ],
+          "sha256": "d7a035c3c17f500c3641ad43bea9fb839aa4284a6b0e2f06248ad2203ba9a071",
+          "facts": {
+            "docstring": "Project declared source-local facts into Markdown; never execute source or repository code.\n\nImplements: lockstep-doc-facts/declared-source-facts-have-one-authority,\n    lockstep-doc-facts/invalid-input-is-not-a-pass,\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts\n\nRequirement text (generated):\n    lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL\n        generate Markdown fact blocks declared by `projections` in `lockstep.yaml`, each with id,\n        source, target and fields, with an optional Python symbol. It SHALL read Markdown YAML front\n        matter, JSON/YAML mapping fields and Python AST descriptions and signatures without\n        importing or executing source. `--check` SHALL report stale target paths and exit 1 without\n        writing. Generation SHALL preserve unrelated target content, include a relative source link\n        (or an HTTP(S) source_base_url link when configured), escape HTML and table delimiters in\n        projected scalar values, and remain idempotent. Consumers with no recognized OpenSpec\n        requirement text SHALL project only declared facts, without creating an empty coverage page\n        or rewriting historical plans.\n    lockstep-doc-facts/invalid-input-is-not-a-pass: Projection SHALL reject missing sources or\n        fields, invalid or duplicate marker pairs and paths escaping the repository, including\n        symlinks. It SHALL validate all declared fact projections before any projection write and\n        report invalid input with exit 2. Targets SHALL NOT also be sources.\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts: `lockstep refresh` SHALL\n        refresh only declared source-local fact blocks without regenerating requirement docstrings\n        or coverage. `lockstep init` SHALL install it as a PostToolUse hook for Claude Code and\n        Codex while preserving existing hooks. It SHALL include `lockstep check project --check` in\n        the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one\n        trace per run to a daily projection log with source/target hashes and rewritten paths. No\n        declarations SHALL be a no-op.\n\nCurrent assessment (agent-authored):\n    Static fact extraction, two-target projection with this narrative preserved and read-only stale checking exist.\n    Installed native-host execution of this exact narrative example is still not observed after a bypassed edit.\n\nGap G-NATIVE:\n    The exact authored narrative has not been observed crossing an installed native host.\n\nPlan P-NATIVE (addresses G-NATIVE):\n    Observe one real source edit in the native host and inspect both target copies and trace.\n\nEvidence (separate from this assessment):\n    Focused projection tests and the disposable CLI replay are recorded separately."
+          }
+        },
+        {
+          "source": "src/lockstep/doc_projection.py",
+          "fields": [
+            "docstring"
+          ],
+          "sha256": "d7a035c3c17f500c3641ad43bea9fb839aa4284a6b0e2f06248ad2203ba9a071",
+          "facts": {
+            "docstring": "Project declared source-local facts into Markdown; never execute source or repository code.\n\nImplements: lockstep-doc-facts/declared-source-facts-have-one-authority,\n    lockstep-doc-facts/invalid-input-is-not-a-pass,\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts\n\nRequirement text (generated):\n    lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL\n        generate Markdown fact blocks declared by `projections` in `lockstep.yaml`, each with id,\n        source, target and fields, with an optional Python symbol. It SHALL read Markdown YAML front\n        matter, JSON/YAML mapping fields and Python AST descriptions and signatures without\n        importing or executing source. `--check` SHALL report stale target paths and exit 1 without\n        writing. Generation SHALL preserve unrelated target content, include a relative source link\n        (or an HTTP(S) source_base_url link when configured), escape HTML and table delimiters in\n        projected scalar values, and remain idempotent. Consumers with no recognized OpenSpec\n        requirement text SHALL project only declared facts, without creating an empty coverage page\n        or rewriting historical plans.\n    lockstep-doc-facts/invalid-input-is-not-a-pass: Projection SHALL reject missing sources or\n        fields, invalid or duplicate marker pairs and paths escaping the repository, including\n        symlinks. It SHALL validate all declared fact projections before any projection write and\n        report invalid input with exit 2. Targets SHALL NOT also be sources.\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts: `lockstep refresh` SHALL\n        refresh only declared source-local fact blocks without regenerating requirement docstrings\n        or coverage. `lockstep init` SHALL install it as a PostToolUse hook for Claude Code and\n        Codex while preserving existing hooks. It SHALL include `lockstep check project --check` in\n        the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one\n        trace per run to a daily projection log with source/target hashes and rewritten paths. No\n        declarations SHALL be a no-op.\n\nCurrent assessment (agent-authored):\n    Static fact extraction, two-target projection with this narrative preserved and read-only stale checking exist.\n    Installed native-host execution of this exact narrative example is still not observed after a bypassed edit.\n\nGap G-NATIVE:\n    The exact authored narrative has not been observed crossing an installed native host.\n\nPlan P-NATIVE (addresses G-NATIVE):\n    Observe one real source edit in the native host and inspect both target copies and trace.\n\nEvidence (separate from this assessment):\n    Focused projection tests and the disposable CLI replay are recorded separately."
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "target": "docs/component.md",
+          "sha256": "9e078e1ed82258a46ab617861e4144390b000d2a5adfcf478b6d58ed207eea8b"
+        },
+        {
+          "target": "wiki/component.md",
+          "sha256": "36f4e1d88c32c6e0c7aebe017e99c81de5bfdba0f88749a261a4a2a69652268e"
+        }
+      ],
+      "rewrote": [
+        "docs/component.md",
+        "wiki/component.md"
+      ],
+      "exit_status": 0
+    }
+  ],
+  "final_source_docstring": "Project declared source-local facts into Markdown; never execute source or repository code.\n\nImplements: lockstep-doc-facts/declared-source-facts-have-one-authority,\n    lockstep-doc-facts/invalid-input-is-not-a-pass,\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts\n\nRequirement text (generated):\n    lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL\n        generate Markdown fact blocks declared by `projections` in `lockstep.yaml`, each with id,\n        source, target and fields, with an optional Python symbol. It SHALL read Markdown YAML front\n        matter, JSON/YAML mapping fields and Python AST descriptions and signatures without\n        importing or executing source. `--check` SHALL report stale target paths and exit 1 without\n        writing. Generation SHALL preserve unrelated target content, include a relative source link\n        (or an HTTP(S) source_base_url link when configured), escape HTML and table delimiters in\n        projected scalar values, and remain idempotent. Consumers with no recognized OpenSpec\n        requirement text SHALL project only declared facts, without creating an empty coverage page\n        or rewriting historical plans.\n    lockstep-doc-facts/invalid-input-is-not-a-pass: Projection SHALL reject missing sources or\n        fields, invalid or duplicate marker pairs and paths escaping the repository, including\n        symlinks. It SHALL validate all declared fact projections before any projection write and\n        report invalid input with exit 2. Targets SHALL NOT also be sources.\n    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts: `lockstep refresh` SHALL\n        refresh only declared source-local fact blocks without regenerating requirement docstrings\n        or coverage. `lockstep init` SHALL install it as a PostToolUse hook for Claude Code and\n        Codex while preserving existing hooks. It SHALL include `lockstep check project --check` in\n        the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one\n        trace per run to a daily projection log with source/target hashes and rewritten paths. No\n        declarations SHALL be a no-op.\n\nCurrent assessment (agent-authored):\n    Static fact extraction, two-target projection with this narrative preserved and read-only stale checking exist.\n    Installed native-host execution of this exact narrative example is still not observed after a bypassed edit.\n\nGap G-NATIVE:\n    The exact authored narrative has not been observed crossing an installed native host.\n\nPlan P-NATIVE (addresses G-NATIVE):\n    Observe one real source edit in the native host and inspect both target copies and trace.\n\nEvidence (separate from this assessment):\n    Focused projection tests and the disposable CLI replay are recorded separately.",
+  "final_targets": {
+    "docs/component.md": "# Projection component\n\n<!-- lockstep facts: component-status -->\n\nGenerated from [src/lockstep/doc_projection.py](../src/lockstep/doc_projection.py); edit the source, not this block.\n\n| Field | Value |\n| --- | --- |\n| docstring | Project declared source-local facts into Markdown; never execute source or repository code.<br><br>Implements: lockstep-doc-facts/declared-source-facts-have-one-authority,<br>    lockstep-doc-facts/invalid-input-is-not-a-pass,<br>    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts<br><br>Requirement text (generated):<br>    lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL<br>        generate Markdown fact blocks declared by `projections` in `lockstep.yaml`, each with id,<br>        source, target and fields, with an optional Python symbol. It SHALL read Markdown YAML front<br>        matter, JSON/YAML mapping fields and Python AST descriptions and signatures without<br>        importing or executing source. `--check` SHALL report stale target paths and exit 1 without<br>        writing. Generation SHALL preserve unrelated target content, include a relative source link<br>        (or an HTTP(S) source_base_url link when configured), escape HTML and table delimiters in<br>        projected scalar values, and remain idempotent. Consumers with no recognized OpenSpec<br>        requirement text SHALL project only declared facts, without creating an empty coverage page<br>        or rewriting historical plans.<br>    lockstep-doc-facts/invalid-input-is-not-a-pass: Projection SHALL reject missing sources or<br>        fields, invalid or duplicate marker pairs and paths escaping the repository, including<br>        symlinks. It SHALL validate all declared fact projections before any projection write and<br>        report invalid input with exit 2. Targets SHALL NOT also be sources.<br>    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts: `lockstep refresh` SHALL<br>        refresh only declared source-local fact blocks without regenerating requirement docstrings<br>        or coverage. `lockstep init` SHALL install it as a PostToolUse hook for Claude Code and<br>        Codex while preserving existing hooks. It SHALL include `lockstep check project --check` in<br>        the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one<br>        trace per run to a daily projection log with source/target hashes and rewritten paths. No<br>        declarations SHALL be a no-op.<br><br>Current assessment (agent-authored):<br>    Static fact extraction, two-target projection with this narrative preserved and read-only stale checking exist.<br>    Installed native-host execution of this exact narrative example is still not observed after a bypassed edit.<br><br>Gap G-NATIVE:<br>    The exact authored narrative has not been observed crossing an installed native host.<br><br>Plan P-NATIVE (addresses G-NATIVE):<br>    Observe one real source edit in the native host and inspect both target copies and trace.<br><br>Evidence (separate from this assessment):<br>    Focused projection tests and the disposable CLI replay are recorded separately. |\n\n<!-- /lockstep facts: component-status -->\n",
+    "wiki/component.md": "# Projection component\n\n<!-- lockstep facts: wiki-status -->\n\nGenerated from [src/lockstep/doc_projection.py](../src/lockstep/doc_projection.py); edit the source, not this block.\n\n| Field | Value |\n| --- | --- |\n| docstring | Project declared source-local facts into Markdown; never execute source or repository code.<br><br>Implements: lockstep-doc-facts/declared-source-facts-have-one-authority,<br>    lockstep-doc-facts/invalid-input-is-not-a-pass,<br>    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts<br><br>Requirement text (generated):<br>    lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL<br>        generate Markdown fact blocks declared by `projections` in `lockstep.yaml`, each with id,<br>        source, target and fields, with an optional Python symbol. It SHALL read Markdown YAML front<br>        matter, JSON/YAML mapping fields and Python AST descriptions and signatures without<br>        importing or executing source. `--check` SHALL report stale target paths and exit 1 without<br>        writing. Generation SHALL preserve unrelated target content, include a relative source link<br>        (or an HTTP(S) source_base_url link when configured), escape HTML and table delimiters in<br>        projected scalar values, and remain idempotent. Consumers with no recognized OpenSpec<br>        requirement text SHALL project only declared facts, without creating an empty coverage page<br>        or rewriting historical plans.<br>    lockstep-doc-facts/invalid-input-is-not-a-pass: Projection SHALL reject missing sources or<br>        fields, invalid or duplicate marker pairs and paths escaping the repository, including<br>        symlinks. It SHALL validate all declared fact projections before any projection write and<br>        report invalid input with exit 2. Targets SHALL NOT also be sources.<br>    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts: `lockstep refresh` SHALL<br>        refresh only declared source-local fact blocks without regenerating requirement docstrings<br>        or coverage. `lockstep init` SHALL install it as a PostToolUse hook for Claude Code and<br>        Codex while preserving existing hooks. It SHALL include `lockstep check project --check` in<br>        the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one<br>        trace per run to a daily projection log with source/target hashes and rewritten paths. No<br>        declarations SHALL be a no-op.<br><br>Current assessment (agent-authored):<br>    Static fact extraction, two-target projection with this narrative preserved and read-only stale checking exist.<br>    Installed native-host execution of this exact narrative example is still not observed after a bypassed edit.<br><br>Gap G-NATIVE:<br>    The exact authored narrative has not been observed crossing an installed native host.<br><br>Plan P-NATIVE (addresses G-NATIVE):<br>    Observe one real source edit in the native host and inspect both target copies and trace.<br><br>Evidence (separate from this assessment):<br>    Focused projection tests and the disposable CLI replay are recorded separately. |\n\n<!-- /lockstep facts: wiki-status -->\n"
+  },
+  "checks": {
+    "cli_steps": 6,
+    "expected_exits_matched": 6,
+    "targets": 2,
+    "normative_copy_present": true,
+    "authored_current_gap_plan_preserved": true,
+    "bypass_refused_without_target_writes": true,
+    "recovery_passed": true
+  },
+  "limitations": [
+    "Narrative meaning is authored and reviewed, not inferred or certified by the projector.",
+    "Full docstring fan-out repeats the same text in both views; concise independent projections are not demonstrated.",
+    "Typed gap references and gap-plan reconciliation are not established by copying text.",
+    "No installed native-client invocation was performed.",
+    "Temporary fixture was removed after receipt capture; source revision, configuration, authored input, outputs and all CLI steps are retained here."
+  ],
+  "focused_test_observation": {
+    "command": ".venv/bin/python -m pytest -q -p no:cacheprovider tests/lockstep/checks/test_lockstep_doc_projection.py",
+    "cwd": "<assessment-checkout>",
+    "passed": 26,
+    "exit_code": 0,
+    "stdout": "..........................                                               [100%]\n26 passed in 2.18s\n",
+    "stderr": ""
+  },
+  "execution_context": {
+    "fixture_cwd": "<disposable-repository>",
+    "source_selection": "PYTHONPATH=<assessment-checkout>/src; interpreter uses existing project environment; component is imported from the recorded source revision. The projected copy is AST-read, not executed.",
+    "python_version": "Python 3.11.16"
+  }
+}
