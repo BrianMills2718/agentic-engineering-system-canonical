@@ -6,7 +6,23 @@ status: current
 
 # AES: purpose, scope and thesis
 
-## What is the project for?
+## Introduction and Goals
+
+**North star (AES extension):** autonomous, effective coding agents, using the existing direction
+and source quoted below.
+
+### Stakeholders
+
+Brian sets the product direction; coding agents and Project Brains consume the
+planning, implementation, policy and feedback contracts described below.
+
+### Quality Goals
+
+Keep intended behavior present at implementation, status distinguishable from
+evidence, drift visible and owning sources findable. These are the existing
+architectural bet below; no numerical improvement threshold is adopted here.
+
+### What is the project for?
 
 AES is the engineering system for autonomous, effective coding agents. It connects
 what software should do, how it is built, what the evidence shows, and what changes
@@ -18,7 +34,9 @@ Brian, 2026-11-11, defines AES as the whole system, including Lockstep, feedback
 policy ([repository scope](../../CLAUDE.md#current-state-2026-11-13)). This page
 reconciles that existing direction; it does not adopt a new product design.
 
-## What functions does the whole system need?
+## Requirements Overview
+
+### What functions does the whole system need?
 
 | Function and provider | Responsibility | Owning description |
 | --- | --- | --- |
@@ -63,17 +81,20 @@ has been demonstrated. The [Lockstep contract](LOCKSTEP.md) identifies existing
 mechanisms and verification boundaries. The [discussion ledger](../../wiki/open-questions.md)
 preserves open concerns.
 
-## What is the architectural bet?
+## Thesis (AES extension)
 
 An agent is more likely to preserve intent when the relevant intent is present
 where it edits, every requirement links to implementation and proving tests,
-and observed status flows back to that requirement. Behavior-oriented structure
+and observed status flows back to that requirement. This follows AES-CTX-004
+(truth lives where it is edited) in the [system boundary](SYSTEM_BOUNDARY.md#aes-ctx-004--truth-lives-where-it-is-edited). Behavior-oriented structure
 and strong types support that linkage. The wiki makes context findable without
 becoming another independently maintained authority.
 
 Source: Brian's [2026-11-06 explanation](https://github.com/BrianMills2718/lockstep/blob/14768712cf0c0fe97a347c28267291fa3c487349/wiki/goal.md#what-lockstep-is-in-brians-words-2026-11-06),
 [source-local context](SYSTEM_BOUNDARY.md#aes-ctx-002--source-local-context-after-realization)
 and [truth at the place of editing](../decisions/0013-truth-lives-where-it-is-edited.md).
+
+### Thesis disproof (AES extension)
 
 The bet would be weakened if agents repeatedly miss requirements present at their
 edits, projected documents conceal drift, or controls and upkeep cost more useful
@@ -103,7 +124,7 @@ remains a [historical implementation contract](greenfield-v0.2/README.md).
 It is not the whole system's entry point. The Hive implementation moved to
 personal-vps; it is not this repository's present product definition.
 
-## Boundaries
+## Non-goals
 
 - This repair preserves existing intent. It does not restart retired governance,
   change runtime checks or enable feedback jobs.
@@ -112,3 +133,10 @@ personal-vps; it is not this repository's present product definition.
 - Shared methodology stays owned by the [adopted methodology](https://github.com/BrianMills2718/wiki_methodology/tree/0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe).
 - Operational and implementation claims need dated observations. Read
   [current state](../../.project-brain/now.md) and [open concerns](../../wiki/open-questions.md).
+
+## Lineage (AES extension)
+
+This is the existing AES canonical repository, retaining its history rather
+than restarting it. The independent Lockstep package was consolidated here;
+the legacy governance retirement and retained compatibility boundaries are
+linked in the current/history account above.

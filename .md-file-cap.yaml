@@ -1,8 +1,6 @@
-limit: 129
+limit: 133
 reason: >
-  Accepted decisions, historical implementation contracts and current normative sources are retained
-  so their citations and restore paths remain valid. The 2026-11-13 orientation repair adds three
-  component/documentation accounts and docs/index.md (122 baseline tracked Markdown files plus 4).
-  The array-fact projection change adds three archived OpenSpec records at revision 796ecf93b;
-  preserving its proposal, requirement delta and tasks increases the measured total to 129.
-  The wiki catalog links those retained records; this exception does not certify their semantic review.
+  Current architecture, accepted decisions and historical contracts remain linked rather than
+  discarded. The bounded self-adoption adds a capability and its archived proposal, delta and
+  tasks. Array fact projection adds a separate archived proposal, delta and tasks. The merged
+  tracked trees contain 133 Markdown files; the wiki catalog links both sets of records.
