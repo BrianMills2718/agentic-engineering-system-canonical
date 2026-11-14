@@ -153,3 +153,34 @@ def test_concurrent_source_change_prevents_review(repo, monkeypatch):
     with pytest.raises(CatalogError, match='changed during review'):
         review_catalog(repo, [review(repo, 'source.txt')])
     assert (repo / 'inventory.json').read_bytes() == original
+
+
+def test_staged_check_reads_index_even_when_worktree_is_valid(repo):
+    refresh_catalog(repo)
+    git(repo, 'add', 'inventory.json', 'catalog.md', 'source.txt', 'lockstep.yaml')
+    (repo / 'source.txt').write_text('staged change')
+    git(repo, 'add', 'source.txt')
+    review_catalog(repo, [review(repo, 'source.txt')])
+    refresh_catalog(repo)
+    assert catalog_cli(['check', '--repo', str(repo)]) == 0
+    assert catalog_cli(['check', '--staged', '--repo', str(repo)]) == 1
+    assert inspect_catalog(repo, staged=True)['pending'][0]['path'] == 'source.txt'
+
+
+def test_staged_check_ignores_unstaged_source_changes(repo):
+    refresh_catalog(repo)
+    git(repo, 'add', 'inventory.json', 'catalog.md', 'source.txt', 'lockstep.yaml')
+    (repo / 'source.txt').write_text('unstaged change')
+    (repo / 'lockstep.yaml').write_text('malformed: [')
+    assert catalog_cli(['check', '--staged', '--repo', str(repo)]) == 0
+    assert catalog_cli(['check', '--repo', str(repo)]) == 2
+    (repo / 'lockstep.yaml').write_text('catalog:\n  inventory: inventory.json\n  target: catalog.md\n')
+    assert catalog_cli(['check', '--repo', str(repo)]) == 1
+
+
+@pytest.mark.parametrize('field', ['role', 'disposition', 'reason', 'source_locator'])
+def test_invalid_existing_metadata_refused_atomically(repo, field):
+    original = (repo / 'inventory.json').read_bytes()
+    with pytest.raises(CatalogError):
+        review_catalog(repo, [{**review(repo, 'source.txt'), field: None}])
+    assert (repo / 'inventory.json').read_bytes() == original
