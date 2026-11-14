@@ -85,11 +85,8 @@ flowchart LR
     checks[checks: commit checks trace arch test_first sources docmeta, status, show, project, pytest plugin]
     pcw[pcw: alias of lockstep]
   end
-  subgraph OTHER[Project brain and the AGENTS.md generator]
+  subgraph OTHER[Project brain]
     brain_fresh[brain_fresh: is the project brain stale]
-    check_agents_sync[check_agents_sync: AGENTS.md matches CLAUDE.md]
-    render_agents_md[render_agents_md: writes AGENTS.md]
-    agents_rendering[agents_rendering: AGENTS.md generator]
   end
   systemd --> collect_feedback
   systemd --> label_items
@@ -167,8 +164,6 @@ flowchart LR
   change_list --> context
   symbol_gate --> characterize_python
   unplanned_symbols --> characterize_python
-  check_agents_sync --> agents_rendering
-  render_agents_md --> agents_rendering
 ```
 
 The Lockstep group's `check` is `src/lockstep/check.py` and `hook` is `src/lockstep/hook.py`; its `checks` directory
@@ -176,7 +171,7 @@ holds `trace`, `arch`, `test_first`, `sources`, `docmeta`, `status`, `show`, `pr
 The edges are the imports in `src/lockstep/*.py` (for example `src/lockstep/hook.py:107-116` imports `aes_bridge`, `change_log`,
 `cogtext`, `change_list`, `openspec_text`, `shell_targets`, `side_file`, `stale_edit` and `unplanned_files`; `src/lockstep/check.py:404-413`
 imports `scaffold`, `plan_check` and the `checks` directory on demand); only the main ones are drawn (`src/lockstep/hook.py:387` imports `plan_edit`, `src/lockstep/plan_edit.py:46` imports `change_list`). `records_fb` and `evidence_fb` are `scripts/learning_loop/records.py` and `evidence.py`, drawn apart from the
-library's `records` and `evidence`. The claims-era scripts (`scripts/*.py`, `scripts/meta/` except the AGENTS.md generator, `enforced_planning/` except `agents_rendering.py`) were retired on 2026-11-12 (open question Q10, resolved).
+library's `records` and `evidence`. The claims-era scripts (`scripts/*.py`, `scripts/meta/`, `enforced_planning/` except `__init__.py`) were retired on 2026-11-12 and 2026-11-14 (open question Q10, resolved).
 Dotted arrows are jobs whose timers are off (open question Q21).
 
 Source-local documentation upkeep was added after the revision above:

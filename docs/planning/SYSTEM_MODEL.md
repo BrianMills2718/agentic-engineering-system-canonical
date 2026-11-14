@@ -69,7 +69,6 @@ flowchart TB
   end
   ls[src/lockstep/<br/>Lockstep: layout, edit hook, checks, plan check, status<br/>src/pcw alias]
   lsy[(lockstep.yaml and openspec/specs/<br/>written in the repositories that install it)]
-  ag[enforced_planning/agents_rendering.py + scripts/meta/<br/>AGENTS.md generator and sync check]
   ll[scripts/learning_loop/<br/>the feedback loop, nightly]
   rr[scripts/rules/ + docs/rules/<br/>rules register]
   scr[scripts/hive/<br/>brain_fresh]

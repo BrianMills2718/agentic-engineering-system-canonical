@@ -1,4 +1,4 @@
-# Generated pages (AGENTS.md comes from CLAUDE.md) stay as written.
+# Generated pages stay as written; AGENTS.md keeps its existing formatting.
 ignores:
   - "worktrees/**"
   - "AGENTS.md"

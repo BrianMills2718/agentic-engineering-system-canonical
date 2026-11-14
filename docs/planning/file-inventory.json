@@ -334,7 +334,7 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Generated pages (AGENTS.md comes from CLAUDE.md) stay as written.",
       "summary_origin": "content_review",
-      "sha256": "c41238e634644054b08c38d4ca38952a580f92617102ce84504f519eb5c50859",
+      "sha256": "0074f0717cf051b61a30b740067097eb192f63a6cf79a3e204fa51ac252b1baf",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -358,7 +358,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "80a764d01b4a275571473fc3e6eeb84acdaa73be0d0bcd516c6d9f4030f7e845",
+      "sha256": "0ed8e2bf272cb39815d095cf36e47f0dc4d19dcc8fab00dc187e5298c3cd818b",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -400,25 +400,25 @@
     },
     {
       "path": "AGENTS.md",
-      "summary": "Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; AGENTS is generated from CLAUDE and relationships.",
-      "role": "source document",
-      "disposition": "generated",
-      "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
-      "source_locator": "Current document body and linked authorities",
-      "summary_origin": "content_review",
-      "sha256": "99424c404e4c72f8064eb7806ab203dc7cdf006c8b1d9542232485e06b608d81",
-      "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
-    },
-    {
-      "path": "CLAUDE.md",
-      "summary": "Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; AGENTS is generated from CLAUDE and relationships.",
+      "summary": "Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; hand-maintained, read by Codex and, through an import, by Claude Code.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
       "sha256": "7a16d731c58eea11396b511ff98980e14fa58254bb52ec2caa3a65c1ae9ac445",
+      "identity_basis": "Reviewed source bytes in the candidate tree.",
+      "has_standard_source_summary_field": false
+    },
+    {
+      "path": "CLAUDE.md",
+      "summary": "Imports AGENTS.md (`@AGENTS.md`) so Claude Code reads the same instructions Codex reads.",
+      "role": "source document",
+      "disposition": "keep",
+      "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
+      "source_locator": "Current document body and linked authorities",
+      "summary_origin": "content_review",
+      "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -430,7 +430,7 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "AES canonical checks. The claims, worktree, session and PR-flow targets that used to live here; were retired on 2026-11-12 (docs/retired/2026-11-12.md); `ship` and `claude -w` replaced them.; --- During Implementation ---",
       "summary_origin": "content_review",
-      "sha256": "28c92a844170a42454adc4284886dd9c3271937ab4cff772038fb09a5bbaa5ee",
+      "sha256": "4df39896cd3064e69dcacb215166627dccf615794758aff9ab03e83b476a1c61",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -480,7 +480,7 @@
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
       "summary": "Owns the adopted discovery direction, two bounded reviews of predecessor sources including concern repair and recurrence, proposed donor dispositions, evidence limits and next reading sequence.",
-      "sha256": "b48e1d0035bde44516164fd71a922a9cac8d715817f276d42b2290268debac20"
+      "sha256": "5895fcd8f491cf08ec73921dae53995124022a0111792c681698fade57743e2d"
     },
     {
       "path": "docs/architecture/FEEDBACK_AND_POLICY.md",
@@ -946,7 +946,7 @@
       "reason": "Assess one existing source for overlapping explanation while preserving unique structure, evidence and provenance.",
       "source_locator": "# AES canonical: system model (planning view)",
       "summary_origin": "content_review",
-      "sha256": "c83b3fbfb985721d144021323f3fd271a8331bf3c9f6d07a32a1872c7a7fef20",
+      "sha256": "b18cd6cbacd4b56696b699b8433f2c10c5f85b9fc77a3c8ad7981ec04821fb10",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -1138,7 +1138,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "2e62a996910e623bf9b1725aea302ce691afb565396e9235299d51bd21eea7ed",
+      "sha256": "423eb92e611538e8f729900150270063c7df3f6d289a0902d3410228eff212df",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1294,7 +1294,7 @@
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# AES canonical: system map",
       "summary_origin": "content_review",
-      "sha256": "fbe83b0dc461fca4a82b6a8187884a6ebea4f5ee97debf66bfe668126a79c6cd",
+      "sha256": "fd66e4399043425c1b42138d678a255f739ecb9b03b5adf5485a2201a6839316",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -1355,18 +1355,6 @@
       "source_locator": "Importable package surfaces for enforced-planning.",
       "summary_origin": "content_review",
       "sha256": "738e063bba0664feb68a224d90bae76648b6940f30a21f46579cf987a40906d4",
-      "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
-    },
-    {
-      "path": "enforced_planning/agents_rendering.py",
-      "summary": "Importable AGENTS.md rendering helpers for governed repos.",
-      "role": "code",
-      "disposition": "keep",
-      "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
-      "source_locator": "CanonicalInputs",
-      "summary_origin": "content_review",
-      "sha256": "19191d8e55163fb6bb00dec3b69a4abfca4dff92a781652c3652873961e94c39",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -2759,30 +2747,6 @@
       "source_locator": "module docstring; Turn, Transcript, _texts, is_human_text, read_transcript, _claude, _codex, split_closeout, field_is_none, already_recorded",
       "summary_origin": "content_review",
       "sha256": "749cb6c01a7b1b78a6be86599cab80eda409bff0c640ad31b178b666b10eb0e3",
-      "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
-    },
-    {
-      "path": "scripts/meta/check_agents_sync.py",
-      "summary": "Check that generated AGENTS.md is in sync with canonical governance inputs.",
-      "role": "executable helper",
-      "disposition": "keep",
-      "reason": "Preserves distinct source content or native configuration boundary.",
-      "source_locator": "module docstring; _detect_repo_root, _renderer_entrypoint, resolve_inputs, render_agents_markdown, parse_args, main",
-      "summary_origin": "content_review",
-      "sha256": "730175f5c698ab8e0d65b361b69c7705c8acbc09e0da8329045d29c8d49f816b",
-      "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
-    },
-    {
-      "path": "scripts/meta/render_agents_md.py",
-      "summary": "Render a generated AGENTS.md projection from canonical repo governance.",
-      "role": "executable helper",
-      "disposition": "keep",
-      "reason": "Preserves distinct source content or native configuration boundary.",
-      "source_locator": "module docstring; _repo_relative, resolve_inputs, render_agents_markdown, render_agents_md, parse_args, main",
-      "summary_origin": "content_review",
-      "sha256": "27a3736082a8e2e90bdf80848cb565160b5293538c44a3157123049a7b322c43",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -4827,18 +4791,6 @@
       "has_standard_source_summary_field": true
     },
     {
-      "path": "tests/test_agents_rendering.py",
-      "summary": "Checks RendererRuntime emits POSIX repository-relative paths and never backslash separators.",
-      "role": "test",
-      "disposition": "keep",
-      "reason": "Contains executable cases for the summarized behavior.",
-      "source_locator": "test_repo_relative_paths_use_posix_separators",
-      "summary_origin": "content_review",
-      "sha256": "136bd61f0c655ec93bd2eebcfa92396630e12733062544fee5196b0ab9bd7591",
-      "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
-    },
-    {
       "path": "tests/test_records_governed_roots.py",
       "summary": "A governed root written without a trailing slash must not capture sibling paths.",
       "role": "test",
@@ -5026,7 +4978,7 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Run and deploy; Current reading boundary; Install",
       "summary_origin": "content_review",
-      "sha256": "31f69d921aaeb07ff24d8b8875ef8124236c06003738d2e2515c1b4c81297a96",
+      "sha256": "0b233766b95526d0b0c79fd7f4a4321b46e924c03147b4e9f4c5385e56c3c46c",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -5038,7 +4990,7 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Where are the parts and their implementation?; Execution and storage boundaries",
       "summary_origin": "content_review",
-      "sha256": "c0938dade159ac6eb53ae12c72569f7fa17f71926a0bc0a955d2a4b4f0c1eb5c",
+      "sha256": "0dbbf46f2ff0030c9a7f092946a2652368f2a3c784a60ea1e5d02a9d54b7bb05",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     }

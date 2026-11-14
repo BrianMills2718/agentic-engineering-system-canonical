@@ -19,7 +19,7 @@ and [component contracts](../docs/architecture/LOCKSTEP.md) explain intended beh
 | Retained AES library and command | [Engine](../src/agentic_engineering_system/__init__.py) | [Retained v0.2 design](../docs/architecture/greenfield-v0.2/README.md); `aes` compatibility is not current self-governance |
 | Feedback collection, analysis and repair mechanisms | [Operator guide](../scripts/learning_loop/systemd/README.md) | [Intended loop and dated runtime limits](../docs/architecture/FEEDBACK_AND_POLICY.md) |
 | Policy register and instruction sources | [Register](../docs/rules/register.yaml), [rules page](../docs/rules/RULES.md) | [Policy ownership](policy-and-rules.md); the register is not complete shared-instruction coverage |
-| Instruction projection | [Renderer](../scripts/meta/render_agents_md.py) | [CLAUDE.md](../CLAUDE.md) and [relationships](../scripts/relationships.yaml) generate AGENTS.md |
+| Agent instructions | [AGENTS.md](../AGENTS.md) | Hand-maintained; [CLAUDE.md](../CLAUDE.md) imports it with `@AGENTS.md`. The generator was retired (see docs/retired/2026-11-14.md) |
 
 ## Execution and storage boundaries
 

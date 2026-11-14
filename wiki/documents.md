@@ -198,13 +198,13 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 
 - **[.gitignore](../.gitignore)** — Ignores virtual environments, pytest/Python caches, package metadata and build output. **Role:** native configuration or contract. **Disposition:** keep.
 
-- **[.markdownlint-cli2.yaml](../.markdownlint-cli2.yaml)** — Excludes worktrees and generated AGENTS.md from Markdown linting. **Role:** native configuration or contract. **Disposition:** keep.
+- **[.markdownlint-cli2.yaml](../.markdownlint-cli2.yaml)** — Excludes worktrees and AGENTS.md from Markdown linting. **Role:** native configuration or contract. **Disposition:** keep.
 
 - **[.md-file-cap.yaml](../.md-file-cap.yaml)** — Records the measured 130 Markdown file exception, preserving current contracts and archived lineage with complete catalog coverage. **Role:** native configuration or contract. **Disposition:** keep.
 
-- **[AGENTS.md](../AGENTS.md)** — Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; AGENTS is generated from CLAUDE and relationships. **Role:** source document. **Disposition:** generated.
+- **[AGENTS.md](../AGENTS.md)** — Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; hand-maintained and read by both Codex and Claude Code (CLAUDE.md imports it). **Role:** source document. **Disposition:** keep.
 
-- **[CLAUDE.md](../CLAUDE.md)** — Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; AGENTS is generated from CLAUDE and relationships. **Role:** source document. **Disposition:** keep.
+- **[CLAUDE.md](../CLAUDE.md)** — Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; it only imports AGENTS.md with `@AGENTS.md`. **Role:** source document. **Disposition:** keep.
 
 - **[Makefile](../Makefile)** — Defines tests and generated-instruction checks plus facts-only freshness and explicit refresh; make check includes declared-fact refusal. **Role:** native configuration or contract. **Disposition:** keep.
 
@@ -495,8 +495,6 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 ## enforced_planning
 
 - **[\_\_init\_\_.py](../enforced_planning/__init__.py)** — Importable package surfaces for enforced-planning. Contains no executable definitions. **Role:** code. **Disposition:** keep.
-
-- **[agents\_rendering.py](../enforced_planning/agents_rendering.py)** — Importable AGENTS.md rendering helpers for governed repos. **Role:** code. **Disposition:** keep.
 
 ## evidence/runs
 
@@ -828,10 +826,6 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 
 ## scripts/meta
 
-- **[check\_agents\_sync.py](../scripts/meta/check_agents_sync.py)** — Check that generated AGENTS.md is in sync with canonical governance inputs. **Role:** executable helper. **Disposition:** keep.
-
-- **[render\_agents\_md.py](../scripts/meta/render_agents_md.py)** — Render a generated AGENTS.md projection from canonical repo governance. **Role:** executable helper. **Disposition:** keep.
-
 ## scripts/rules
 
 - **[build\_rules\_page.py](../scripts/rules/build_rules_page.py)** — Build docs/rules/RULES.md: every rule agents in Brian's workspace are expected to follow. **Role:** executable helper. **Disposition:** update.
@@ -975,8 +969,6 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 - **[README.md](../tests/README.md)** — Explains test scope and check commands, and distinguishes fixture consumers from deployment evidence. **Role:** navigation. **Disposition:** keep.
 
 - **[conftest.py](../tests/conftest.py)** — Every test runs as on a clean machine: no machine-wide Git config, so no machine-wide hooks. **Role:** test-support. **Disposition:** keep.
-
-- **[test\_agents\_rendering.py](../tests/test_agents_rendering.py)** — Checks RendererRuntime emits POSIX repository-relative paths and never backslash separators. **Role:** test. **Disposition:** keep.
 
 - **[test\_records\_governed\_roots.py](../tests/test_records_governed_roots.py)** — A governed root written without a trailing slash must not capture sibling paths. **Role:** test. **Disposition:** keep.
 

@@ -25,8 +25,8 @@ the workspace jobs list plus a generated view and one alias table (Q36).
 **Concerns:** mapped five key writers (no shared key format, per-repository
 registers) and verified AES concern 783: its landed fix passes at the receipt
 revision and fails on the pre-fix parent (negative control). **Policy and
-instructions:** two instruction families read; AES `AGENTS.md` is still generated
-by a Project Meta route and the subtree checker errors for AES. See the
+instructions:** two instruction families read; AES `AGENTS.md` was generated
+by a Project Meta route (retired 2026-11-14: now hand-maintained, `CLAUDE.md` imports it) and the subtree checker errors for AES. See the
 third to fifth readings in the ecosystem page. Done later in
 this review (see the sixth to ninth readings below): alias table, discovery journeys,
 verifier and reopening runs, seven policy rows. Donor dispositions remain proposals, not migration or retirement.
@@ -44,10 +44,9 @@ owner; ran its five gates end to end on the landed code change of repair 783 (sc
 clone, synthetic cluster; passed on the code diff, refused on the whole PR diff
 because the reviewer diff is truncated) and reopened a throwaway issue on GitHub
 ([receipt](../evidence/runs/concern-lifecycle-live-20261114.json)); read seven
-policy rows; Codex observed loading the generated `AGENTS.md`, not `CLAUDE.md`;
+policy rows; Codex observed loading `AGENTS.md`, not `CLAUDE.md`, so the generator was retired (`@AGENTS.md` import, Claude and Codex loads each observed once);
 read the retirement record and 2026-09-26 harvest. Not done: a repair written
-by the executor, retiring the generator, and the
-timers (Brian's call).
+by the executor and the timers (Brian's call).
 
 ## Earlier implementation and assessment records
 
