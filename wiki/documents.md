@@ -300,7 +300,7 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 - **[FEEDBACK\_AND\_POLICY.md](../docs/architecture/FEEDBACK_AND_POLICY.md)** — Explains correction-to-follow-up and policy ownership, distinguishes the original Project Meta inventory from the small AES register, and records dated runtime/evidence limitations. **Role:** architecture. **Disposition:** keep.
 
-- **[GOAL.md](../docs/architecture/GOAL.md)** — Defines the autonomous-agent outcome, planning/Lockstep/feedback/policy functions, password-reset example, architectural bet, source ownership and current versus retained-history boundaries. **Role:** normative. **Disposition:** keep.
+- **[GOAL.md](../docs/architecture/GOAL.md)** — States AES purpose, planning/Lockstep/feedback/policy roles, source-local thesis, disproof, non-goals and lineage using the durable goal and arc42 fields. **Role:** normative. **Disposition:** keep.
 
 - **[LOCKSTEP.md](../docs/architecture/LOCKSTEP.md)** — Explains planning and projection boundaries, retains the earlier worked assessment and records native AES self-adoption with a generated source-owned assessment. **Role:** architecture. **Disposition:** keep.
 
@@ -390,7 +390,7 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 - **[capabilities.json](../docs/planning/capabilities.json)** — Maps one-tool capabilities to expected user outcomes, owning work and acceptance IDs, identifying the decomposition as agent-inferred from the adopted design. **Role:** planning record. **Disposition:** keep.
 
-- **[checks.txt](../docs/planning/checks.txt)** — Retains November 12 planning-check commands, exit statuses and full outputs at a named revision, including warnings and explicitly retired checks not run. **Role:** evidence. **Disposition:** keep.
+- **[checks.txt](../docs/planning/checks.txt)** — Retains five fresh planning checks: durable fields and wiki reachability pass; repository format remains tracked by Q17; navigation warnings and graph-schema results stay explicit. **Role:** evidence. **Disposition:** keep.
 
 - **[cold-review.md](../docs/planning/cold-review.md)** — Records a bounded independent A9 source-fact pass with command/native-fixture coverage, while excluding A1–A8 recertification and preserving the route WAIT. **Role:** evidence. **Disposition:** keep.
 

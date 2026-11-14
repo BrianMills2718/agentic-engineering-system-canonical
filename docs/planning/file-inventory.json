@@ -484,13 +484,13 @@
     },
     {
       "path": "docs/architecture/GOAL.md",
-      "summary": "Defines the autonomous-agent outcome, planning/Lockstep/feedback/policy functions, password-reset example, architectural bet, source ownership and current versus retained-history boundaries.",
+      "summary": "States AES purpose, planning/Lockstep/feedback/policy roles, source-local thesis, disproof, non-goals and lineage using the durable goal and arc42 fields.",
       "role": "normative",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "7b6461ad81d6d5b02f7234a1fb1e02390c055f2ad07079a7a7091d89d6c3a0c5",
+      "sha256": "81a43b9b13235335f85718f5168a1a28d6f4a61a3125330397ec5b41b806c551",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -976,13 +976,13 @@
     },
     {
       "path": "docs/planning/checks.txt",
-      "summary": "Retains November 12 planning-check commands, exit statuses and full outputs at a named revision, including warnings and explicitly retired checks not run.",
+      "summary": "Retains five fresh planning checks: durable fields and wiki reachability pass; repository format remains tracked by Q17; navigation warnings and graph-schema results stay explicit.",
       "role": "evidence",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 2b0709497ecc77b2eb6ab284bec57f52069a422e, run 2026-11-12T",
       "summary_origin": "content_review",
-      "sha256": "00a88afe753864098336b08c5565f1f48fcd2faadc4585dbc735fe07e92e93a6",
+      "sha256": "2fe074ffdbce17094599e6e29adb64333a26def1d4dc471d35573f722da480b9",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1126,7 +1126,7 @@
       "reason": "Preserve useful unique material while reconciling historical/current scope or status/source drift; no retirement proposed.",
       "source_locator": "JSON keys: schema_version, record_type, repository, subject_revision, request",
       "summary_origin": "content_review",
-      "sha256": "374f91bbabc8a9d5b107cd16b83ba6159bd0ff98ff55e87b088751ac50b03c2b",
+      "sha256": "0e20645e7021b87767cff51348645891a781adba480740ef0af6ae9062c50f1f",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
