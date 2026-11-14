@@ -39,11 +39,25 @@ def _digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _load(root: Path) -> tuple[dict, dict, bytes] | None:
+def _read(root: Path, name: str, staged: bool = False) -> bytes:
+    path = _path(root, name)
+    if staged:
+        result = subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false', '-C', str(root), 'show', ':' + name], capture_output=True, check=True)
+        return result.stdout
+    return path.read_bytes()
+
+
+def _load(root: Path, staged: bool = False) -> tuple[dict, dict, bytes] | None:
     config = root / 'lockstep.yaml'
-    if not config.exists():
+    if staged:
+        exists = subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false', '-C', str(root), 'ls-files', '--error-unmatch', '--', 'lockstep.yaml'], capture_output=True).returncode == 0
+    else:
+        exists = config.exists()
+    if not exists:
         return None
-    data = yaml.safe_load(config.read_text())
+    data = yaml.safe_load(_read(root, 'lockstep.yaml', staged))
+    if data is None:
+        data = {}
     if not isinstance(data, dict):
         raise CatalogError('lockstep.yaml must contain a mapping')
     if 'catalog' not in data:
@@ -54,7 +68,7 @@ def _load(root: Path) -> tuple[dict, dict, bytes] | None:
     inventory, target = (_path(root, declaration[k]) for k in ('inventory', 'target'))
     if inventory == target:
         raise CatalogError('catalog inventory and target must differ')
-    raw = inventory.read_bytes()
+    raw = _read(root, declaration['inventory'], staged)
     document = json.loads(raw)
     if not isinstance(document, dict) or not isinstance(document.get('entries'), list):
         raise CatalogError('inventory requires an entries list')
@@ -72,20 +86,20 @@ def _load(root: Path) -> tuple[dict, dict, bytes] | None:
             if key in row and (not isinstance(row[key], str) or not row[key].strip()):
                 raise CatalogError(f'inventory {key} must be nonempty')
         seen.add(row['path'])
-    if not target.is_file():
+    if not staged and not target.is_file():
         raise CatalogError('catalog target does not exist')
     return declaration, document, raw
 
 
-def _snapshot(root: Path, declaration: dict) -> dict[str, str | None]:
-    result = subprocess.run(['git', '-C', str(root), 'ls-files', '--cached', '-z'], capture_output=True, check=True)
+def _snapshot(root: Path, declaration: dict, staged: bool = False) -> dict[str, str | None]:
+    result = subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', '-c', 'core.fsmonitor=false', '-C', str(root), 'ls-files', '--cached', '-z'], capture_output=True, check=True)
     paths = sorted(set(os.fsdecode(p) for p in result.stdout.split(b'\0') if p))
     snapshot = {}
     for name in paths:
         path = _path(root, name)
-        if not path.is_file():
+        if not staged and not path.is_file():
             raise CatalogError(f'tracked source is missing or not a file: {name}')
-        snapshot[name] = None if name in declaration.values() else _digest(path)
+        snapshot[name] = None if name in declaration.values() else hashlib.sha256(_read(root, name, staged)).hexdigest()
     return snapshot
 
 
@@ -101,8 +115,8 @@ def _label(value: str) -> str:
     return escape(value, quote=False).replace('\\', '\\\\').replace('[', '\\[').replace(']', '\\]').replace('_', '\\_').replace('*', '\\*').replace('|', '&#124;').replace('\n', '<br>').replace('\r', '')
 
 
-def _render(root: Path, declaration: dict, document: dict, pending: list[dict]) -> str:
-    original = _path(root, declaration['target']).read_text()
+def _render(root: Path, declaration: dict, document: dict, pending: list[dict], staged: bool = False) -> str:
+    original = _read(root, declaration['target'], staged).decode()
     marker = '## Browse by folder'
     if original.count(marker) != 1:
         raise CatalogError('catalog needs exactly one Browse by folder heading')
@@ -134,13 +148,13 @@ def _render(root: Path, declaration: dict, document: dict, pending: list[dict]) 
     return '\n'.join(lines)
 
 
-def inspect_catalog(root: Path) -> dict | None:
-    loaded = _load(root)
+def inspect_catalog(root: Path, staged: bool = False) -> dict | None:
+    loaded = _load(root, staged)
     if loaded is None:
         return None
     declaration, document, _ = loaded
-    pending = _pending(document, _snapshot(root, declaration))
-    return {'pending': pending, 'catalog_stale': _path(root, declaration['target']).read_text() != _render(root, declaration, document, pending)}
+    pending = _pending(document, _snapshot(root, declaration, staged))
+    return {'pending': pending, 'catalog_stale': _read(root, declaration['target'], staged).decode() != _render(root, declaration, document, pending, staged)}
 
 
 def _atomic(path: Path, content: bytes) -> None:
@@ -226,10 +240,10 @@ def review_catalog(root: Path, reviews: list[dict]) -> dict:
                 continue
             if row['sha256'] != snapshot[name]:
                 raise CatalogError('review hash does not match current source bytes')
-            if name not in entries:
-                for key in ('role', 'disposition', 'reason', 'source_locator'):
+            for key in ('role', 'disposition', 'reason', 'source_locator'):
+                if name not in entries or key in row:
                     if not isinstance(row.get(key), str) or not row[key].strip():
-                        raise CatalogError(f'new entry requires {key}')
+                        raise CatalogError(f'entry requires nonempty {key}')
             entries[name] = {**entries.get(name, {}), **row}
         document['entries'] = [entries[name] for name in sorted(entries)]
         output = (json.dumps(document, indent=2, ensure_ascii=False) + '\n').encode()
@@ -261,6 +275,7 @@ def catalog_cli(argv: list[str]) -> int:
     parser.add_argument('command', nargs='?', choices=('pending', 'refresh', 'check', 'review'), default='pending')
     parser.add_argument('--repo', type=Path, default=Path.cwd())
     parser.add_argument('--input', type=Path)
+    parser.add_argument('--staged', action='store_true')
     try:
         args = parser.parse_args(argv)
         root = args.repo.resolve()
@@ -271,7 +286,7 @@ def catalog_cli(argv: list[str]) -> int:
         elif args.command == 'refresh':
             result = {'rewritten': refresh_catalog(root)}
         else:
-            result = inspect_catalog(root)
+            result = inspect_catalog(root, staged=args.staged)
         print(json.dumps(result, sort_keys=True))
         return int(args.command == 'check' and bool(result) and bool(result['pending'] or result['catalog_stale']))
     except SystemExit as exc:
