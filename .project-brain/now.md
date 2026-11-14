@@ -27,9 +27,9 @@ registers) and verified AES concern 783: its landed fix passes at the receipt
 revision and fails on the pre-fix parent (negative control). **Policy and
 instructions:** two instruction families read; AES `AGENTS.md` is still generated
 by a Project Meta route and the subtree checker errors for AES. See the
-third to fifth readings in the ecosystem page. Not done: alias table, a built
-discovery journey, live five-gate verifier, recurrence reopening, other policy
-families. Donor dispositions remain proposals, not migration or retirement.
+third to fifth readings in the ecosystem page. Done later in
+this review (see the sixth to ninth readings below): alias table, discovery journeys,
+verifier and reopening runs, seven policy rows. Donor dispositions remain proposals, not migration or retirement.
 Earlier projection and feedback work below remains independent and is preserved.
 
 The 2026-11-14 third continuation (branches eco-alias-table onward) authored the
@@ -40,12 +40,13 @@ The [journey receipt](../evidence/runs/discovery-journey-20261114.json) covers
 `llm_structured` and `web_search`: declared consumers disagree with observed
 callers in both. Seventh to ninth readings (ECOSYSTEM.md): recommended the keyed
 GitHub issue as the one concern register and the Project Meta verifier as closure
-owner; observed its recurrence-proof gate live on landed repair 783 (fail then
-pass, two failing controls) and recurrence reopening with a stand-in `gh`
+owner; ran its five gates end to end on the landed code change of repair 783 (scratch
+clone, synthetic cluster; passed on the code diff, refused on the whole PR diff
+because the reviewer diff is truncated) and reopened a throwaway issue on GitHub
 ([receipt](../evidence/runs/concern-lifecycle-live-20261114.json)); read seven
 policy rows; Codex observed loading the generated `AGENTS.md`, not `CLAUDE.md`;
-read the retirement record and 2026-09-26 harvest. Not done: the other four
-verifier gates on a real repair, a real reopen, retiring the generator, and the
+read the retirement record and 2026-09-26 harvest. Not done: a repair written
+by the executor, retiring the generator, and the
 timers (Brian's call).
 
 ## Earlier implementation and assessment records

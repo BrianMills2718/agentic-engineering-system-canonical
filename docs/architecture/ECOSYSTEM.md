@@ -338,22 +338,26 @@ only the `policy-friction-cluster:` key prefix, so a concern such as 783 (key
 that gate is the smallest change that makes the owner cover all keys; it is not made here.
 AES keeps only rule licences (`concern_enforcement`), not a second register.
 
-**Verifier observed live (one gate of five).** `recurrence_proof` was called directly
-on the real landed repair of concern 783: observed 1708b51, fix add1dd5 (Project Meta
-PR 2563; fix file `enforced_planning/session_lifecycle.py`, harness the new test).
-Result: the test exits 1 on the observed revision (1 failed) and 0 on the fix (1 passed);
-gate passed. Negative controls: with observed and fix swapped the gate fails ("control does
-not fail on the observed revision"); with no harness file available it fails closed
-("could not execute recurrence proof"). The report was written by this session, not by the
-repair executor. **Not observed:** report contract and prevention-in-diff (need an
-executor binding), source signal (prefix limit above), the independent review (a model
-call, not run), and a full `verify_repair` on a landed repair. Its fixture run,
-`tests/test_concern_repair.py`, passes (30 tests).
+**Verifier observed live (all five gates).** First `recurrence_proof` alone on the real landed
+repair of concern 783 (observed 1708b51, fix add1dd5, Project Meta PR 2563): the regression
+test exits 1 before and 0 after; swapped revisions and a missing harness file fail it.
+Then `verify_repair` end to end in a scratch clone (never pushed): observed 1708b51, fix =
+the landed code and test change of that PR plus one scratch commit holding the repair report
+and a synthetic friction cluster, because `source_signal_green` accepts only the
+`policy-friction-cluster:` key prefix. Result: report contract, prevention-in-diff,
+recurrence proof, source signal and the independent review (a real model call, verdict
+`root_cause_fixed`) all passed. **Negative result:** the first run, on the whole landed PR
+diff (about 1,700 lines of plan receipts beyond the code), failed: the verifier truncates the
+diff at 60,000 characters, so the reviewer never saw the code and returned
+`insufficient_evidence`. Limits: synthetic concern key and cluster; the report and binding
+were written by this session, not by the repair executor; the fixed tree is a scratch commit;
+the review is one model call (cost not measured) and may vary between runs.
+`tests/test_concern_repair.py` passes (30 tests).
 
-**Recurrence reopening.** `open_concern` run against a recording stand-in for `gh` (no
-GitHub write): a closed issue is reopened and commented ("reopened #783", calls
-list, reopen, comment); an open issue is only commented (negative control). Not observed:
-a real GitHub reopen, and AES `effects.py` reopening in file mode.
+**Recurrence reopening.** Run for real against a throwaway issue (#866 in this repository,
+deleted afterwards): created, closed, then `open_concern` reopened it with the comment
+"Recurred after closure." An open issue only receives a comment (stand-in `gh`, negative
+control). Not observed: AES `effects.py` reopening in file mode.
 
 **Timers.** `feedback-effects.timer` and `feedback-fix-owner.timer` are disabled and
 inactive. They are not enabled here; enabling them is Brian's decision.
@@ -445,9 +449,9 @@ sections and a pinned revision, with proposed disposition and unresolved materia
    readers, a measured run of the merged view). Remaining: author the alias table
    and build one provider-to-consumer journey (Q36, Q37).
 2. **Concern/repair lifecycle:** key-ownership map, a landed repair (fourth reading),
-   register and closure owner chosen, one of five verifier gates and reopening
-   observed live (seventh reading). Remaining: a full `verify_repair` run, the
-   verifier's key-prefix limit, and the timers decision (Q42).
+   register and closure owner chosen, `verify_repair` (five gates) and a real reopen
+   observed live (seventh reading). Remaining: a repair written by the executor, the
+   verifier's key-prefix and diff-truncation limits, and the timers decision (Q42).
 3. **Policy families and exceptions:** instruction-delivery families (fifth reading)
    and seven exception, recovery and closure rows (eighth reading). No full
    263-policy audit has happened.
