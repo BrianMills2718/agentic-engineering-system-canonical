@@ -650,7 +650,7 @@
     "ecosystem-consolidation",
     "legacy-review"
    ],
-   "evidence": "Third reading (ECOSYSTEM.md): Project Meta catalogue 60 entries/76 bindings, ownership 24 (10 join the catalogue's families, 14 ownership-only), ACA 4 packages/15 identifiers with 0 shared IDs, workspace list about 70 rows naming none of the 60 IDs. Merged view run: 55 rows, 33 of 60 catalogue IDs present, 27 absent; absent or invalid catalogue input exits 0 with every row 'uncatalogued'."
+   "evidence": "Third reading (ECOSYSTEM.md): Project Meta catalogue 60 entries/76 bindings, ownership 24 (10 join the catalogue's families, 14 ownership-only), ACA 4 packages/15 identifiers with 0 shared IDs, workspace list about 70 rows naming none of the 60 IDs. Merged view run: 55 rows, 33 of 60 catalogue IDs present, 27 absent; absent or invalid catalogue input exits 0 with every row 'uncatalogued'. 2026-11-14: alias table authored (16 rows; checker exit 0); merged view fixed upstream (ecosystem-ops PRs 201, 202): 82 rows, all 60 catalogue IDs present; journey receipt for llm_structured and web_search."
   },
   {
    "id": "Q37",
@@ -668,7 +668,8 @@
    "touches": [
     "ecosystem-consolidation",
     "legacy-review"
-   ]
+   ],
+   "evidence": "2026-11-14: docs/decisions/0014-capability-aliases.yaml preserves legacy IDs and ties records only by a shared named provider; tool joins are now project-qualified (unit test: same tool name from two providers is not joined; no existing join was lost on the real registry, 20 of 20)."
   },
   {
    "id": "Q38",
@@ -687,7 +688,7 @@
     "ecosystem-consolidation",
     "legacy-review"
    ],
-   "evidence": "Observed 2026-11-14: the merged view reports an absent or invalid catalogue source as all rows 'uncatalogued' with exit 0 and no source error; 27 of 60 catalogue IDs are missing from its output."
+   "evidence": "Observed 2026-11-14: the merged view reports an absent or invalid catalogue source as all rows 'uncatalogued' with exit 0 and no source error; 27 of 60 catalogue IDs are missing from its output. 2026-11-14 exercised: missing/invalid catalogue and invalid contract registry are named source states (CLI exit 3); catalogue-only entries listed; declared versus observed consumers disagree for both journeys (llm_structured: 1 of 4 declared observed, 90 undeclared callers). Still open: fit-for-requirement state and compatibility."
   },
   {
    "id": "Q39",
