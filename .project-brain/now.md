@@ -45,8 +45,8 @@ clone, synthetic cluster; passed on the code diff, refused on the whole PR diff
 because the reviewer diff is truncated) and reopened a throwaway issue on GitHub
 ([receipt](../evidence/runs/concern-lifecycle-live-20261114.json)); read seven
 policy rows; Codex observed loading `AGENTS.md`, not `CLAUDE.md`, so the generator was retired (`@AGENTS.md` import, Claude and Codex loads each observed once);
-read the retirement record and 2026-09-26 harvest. Not done: a repair written
-by the executor and the timers (Brian's call).
+read the retirement record and 2026-09-26 harvest. Executor-written repairs: three runs on concern #1883 were each refused by the review gate (patch_only), none landed.
+Not done: an executor-written repair passing, and the timers (Brian's call).
 
 ## Earlier implementation and assessment records
 

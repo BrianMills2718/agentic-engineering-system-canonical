@@ -39,7 +39,7 @@
    "tests/test_session_resume_missing_tracker.py"
   ],
   "not_observed": [
-   "report_contract, prevention_in_diff, source_signal_green and independent review were observed in full_verify_repair (synthetic key, scratch fix commit); not observed: a repair written by the repair executor, or the real concern 783 key passing source_signal_green (unsupported prefix)"
+   "A repair written by the executor passing all five gates: three real executor-written attempts were each refused by the review gate (executor_written_repairs). The only full pass is the scratch run on the landed code change of PR 2563 with a synthetic key (full_verify_repair)."
   ]
  },
  "recurrence_reopening": {
@@ -166,6 +166,151 @@
    "report and binding authored by this session, not by the repair executor",
    "landed repair is the real code change but the fixed tree is a scratch commit, not add1dd5 itself",
    "review verdict is one model call and may vary between runs"
+  ]
+ },
+ "executor_written_repairs": {
+  "what_ran": "scripts/concern_repair_executor.py (Project Meta fe5665a) three times on the real open concern #1883 (policy-friction-cluster:documentation-health), repository = a scratch clone, agent client claude-code; each result verified with verify_repair (all five gates) using a Codex reviewer. Nothing was pushed or landed.",
+  "outcome": "3 of 3 refused. In every attempt the four mechanical gates passed (report contract, prevention in diff, recurrence proof fail-then-pass, source signal) and the independent review returned patch_only.",
+  "attempts": [
+   {
+    "run": "live1883",
+    "claims_lookup": "failed closed (0 session-ended claims; claims are retired), which posted a real backoff comment on #1883",
+    "review": "patch_only: the regression test did not exercise the hook"
+   },
+   {
+    "run": "live1883b",
+    "claims_lookup": "bypassed in a wrapper",
+    "review": "patch_only: only registered the four already-reported paths"
+   },
+   {
+    "run": "live1883c",
+    "claims_lookup": "bypassed in a wrapper",
+    "departure": "the agent's scratch copy of the issue body included the reviewer's reasons from attempts 1 and 2",
+    "review": "patch_only: root cause addressed true, failure class addressed false (test special-cases the reported instances)"
+   }
+  ],
+  "verification_records": [
+   {
+    "schema_version": "concern-repair-verification/v1",
+    "concern_key": "policy-friction-cluster:documentation-health",
+    "issue_number": 1883,
+    "repair_tree": "dd2ee14edc5483a37485764b672681acead2a43f",
+    "repair_client": "claude-code",
+    "reviewer_client": "codex",
+    "gates": [
+     {
+      "gate": "report_contract",
+      "passed": true,
+      "detail": "report validates and matches the executor binding"
+     },
+     {
+      "gate": "prevention_in_diff",
+      "passed": true,
+      "detail": "every prevention path is changed in the diff"
+     },
+     {
+      "gate": "recurrence_proof_executed",
+      "passed": true,
+      "detail": "command=['python', '-m', 'pytest', 'tests/test_check_artifact_intents.py::test_generated_report_docs_have_reviewed_exact_intent', '-v']; harness_paths=['tests/test_check_artifact_intents.py']; on observed fe5665a74477 with harness exit=1; on fix 8ff0b0957211 exit=0. observed output tail:\nt=True,\n            text=True,\n            check=False,\n        )\n        assert result.returncode == 0, f\"check_artifact_intents.py failed: {result.stderr}\"\n        report = json.loads(result.stdout)\n    \n        reviewed_paths = {\n            rec[\"path\"]\n            for rec in report[\"records\"]\n            if rec.get(\"coverage\") == \"reviewed\"\n        }\n    \n        missing = required_registered - reviewed_paths\n>       assert not missing, (\n            f\"Generated report docs lack reviewed exact-intent records in \"\n            f\"scripts/artifact_intents.yaml: {sorted(missing)}.  \"\n            f\"Add an intent entry for each missing path (see concern 1883).\"\n        )\nE       AssertionError: Generated report docs lack reviewed exact-intent records in scripts/artifact_intents.yaml: ['docs/POLICY_ENFORCEMENT_MATRIX.md', 'docs/POLICY_VIOLATION_REPORT.md', 'docs/PORTFOLIO_EVIDENCE_MATRIX.md', 'docs/PROJECT_DOSSIER_COVERAGE_REPORT.md'].  Add an intent entry for each missing path (see concern 1883).\nE       assert not {'docs/POLICY_ENFORCEMENT_MATRIX.md', 'docs/POLICY_VIOLATION_REPORT.md', 'docs/PORTFOLIO_EVIDENCE_MATRIX.md', 'docs/PROJECT_DOSSIER_COVERAGE_REPORT.md'}\n\ntests/test_check_artifact_intents.py:587: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_check_artifact_intents.py::test_generated_report_docs_have_reviewed_exact_intent\n============================== 1 failed in 0.19s ===============================\n\n--- stderr ---\nfix output tail:\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /home/brian/.local/bin/python\ncachedir: .pytest_cache\nrootdir: /tmp/concern-repair-proof-96ffmi6a/fix\nconfigfile: pyproject.toml\nplugins: anyio-4.14.2, asyncio-1.4.0\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollecting ... collected 1 item\n\ntests/test_check_artifact_intents.py::test_generated_report_docs_have_reviewed_exact_intent PASSED [100%]\n\n============================== 1 passed in 0.21s ===============================\n\n--- stderr ---"
+     },
+     {
+      "gate": "source_signal_green",
+      "passed": true,
+      "detail": "cluster 'documentation-health' resolved with 1 closure_verification item(s)"
+     },
+     {
+      "gate": "independent_root_cause_review",
+      "passed": false,
+      "detail": "{\"reviewer\": \"codex\", \"unavailable\": [], \"verdict\": \"patch_only\", \"root_cause_addressed\": false, \"failure_class_addressed\": false, \"prevention_would_catch_recurrence\": false, \"reasons\": [\"The diff registers only the four already-reported document paths in scripts/artifact_intents.yaml; it does not change the missing enforcement mechanism that allowed generated documentation to be committed without reviewed intent records.\", \"The added test hardcodes those same four paths. It would detect removal or regression of their records, but a newly added generated report lacking an intent record would not fail unless someone manually added its path to the test.\", \"The recurrence proof therefore reproduces only the known four missing registrations, not a new instance of the failure class. Its observed-revision failure does not demonstrate prevention of future unregistered generated documents.\", \"No generic strict or new-file gate was added to the commit workflow, CI, hooks, or Make targets. The report itself notes that future generated reports can still produce friction and that the test must be manually updated.\", \"The claimed class sweep is restricted to paths already represented by the five documentation-health friction entries, while the report acknowledges 874 other unregistered paths. The diff provides neither a broader generated-document sweep nor a machine-enforced, credible deferral boundary.\", \"Changing the cluster record from open to resolved and adding closure evidence records the repair outcome, but does not prevent the underlying failure mechanism from recurring.\"]}"
+     }
+    ],
+    "passed": false,
+    "recorded_at": "2026-11-14T04:12:58.146298Z"
+   },
+   {
+    "schema_version": "concern-repair-verification/v1",
+    "concern_key": "policy-friction-cluster:documentation-health",
+    "issue_number": 1883,
+    "repair_tree": "e0b88dd15560211b6660ebaadada9b2f202d8130",
+    "repair_client": "claude-code",
+    "reviewer_client": "codex",
+    "gates": [
+     {
+      "gate": "report_contract",
+      "passed": true,
+      "detail": "report validates and matches the executor binding"
+     },
+     {
+      "gate": "prevention_in_diff",
+      "passed": true,
+      "detail": "every prevention path is changed in the diff"
+     },
+     {
+      "gate": "recurrence_proof_executed",
+      "passed": true,
+      "detail": "command=['python3', 'tests/test_doc_health_enforcement_wired.py']; harness_paths=['tests/test_doc_health_enforcement_wired.py']; on observed fe5665a74477 with harness exit=1; on fix 78e3b1b43aab exit=0. observed output tail:\n--- stderr ---\nFAIL: ISSUES.md is git-tracked but has no reviewed intent entry in scripts/artifact_intents.yaml\n\nFix: add a reviewed intent entry for each listed path in scripts/artifact_intents.yaml, or confirm the file is intentionally retired from the repository.\nfix output tail:\nPASS: all 9 documentation-health friction-entry files are accounted for (1 registered, 8 removed from repo).\n\n--- stderr ---"
+     },
+     {
+      "gate": "source_signal_green",
+      "passed": true,
+      "detail": "cluster 'documentation-health' resolved with 1 closure_verification item(s)"
+     },
+     {
+      "gate": "independent_root_cause_review",
+      "passed": false,
+      "detail": "{\"reviewer\": \"codex\", \"unavailable\": [], \"verdict\": \"patch_only\", \"root_cause_addressed\": true, \"failure_class_addressed\": false, \"prevention_would_catch_recurrence\": false, \"reasons\": [\"The hook change does address the claimed mechanism by invoking the existing enforcement mode and exiting nonzero when it reports failure.\", \"The regression test does not exercise that hook or its failing behavior. It only checks a hard-coded list of nine historical paths, so it would still pass if check 14 were removed, made non-blocking, or otherwise stopped rejecting new unregistered documentation.\", \"The diff provides no behavioral test that stages a new unregistered documentation file and verifies that the pre-commit hook fails, which the stated recurrence criterion explicitly requires.\", \"The sweep identifies 2,085 additional instances of the same unregistered-document class, but the repair exempts all of them through the new baseline. Their deferral exists only as a report claim, with no durable triage record, owner-specific disposition, or follow-up control shown in the diff.\", \"The added test special-cases the reported historical instances rather than guarding the failure class of future unregistered documentation additions.\"]}"
+     }
+    ],
+    "passed": false,
+    "recorded_at": "2026-11-14T04:05:32.492231Z"
+   },
+   {
+    "schema_version": "concern-repair-verification/v1",
+    "concern_key": "policy-friction-cluster:documentation-health",
+    "issue_number": 1883,
+    "repair_tree": "f49d4608e01063b95c3f866d5f4f41ac996fec41",
+    "repair_client": "claude-code",
+    "reviewer_client": "codex",
+    "gates": [
+     {
+      "gate": "report_contract",
+      "passed": true,
+      "detail": "report validates and matches the executor binding"
+     },
+     {
+      "gate": "prevention_in_diff",
+      "passed": true,
+      "detail": "every prevention path is changed in the diff"
+     },
+     {
+      "gate": "recurrence_proof_executed",
+      "passed": true,
+      "detail": "command=['python', '-m', 'pytest', 'tests/test_documentation_intent_enforcement_hook.py::test_hook_blocks_new_documentation_without_intent', '-x']; harness_paths=['tests/test_documentation_intent_enforcement_hook.py']; on observed fe5665a74477 with harness exit=1; on fix 2121b40612ee exit=0. observed output tail:\nnt with no intent\\n\")\n    \n        result = _commit(lane, \"add unregistered doc\")\n    \n>       assert result.returncode != 0, (\n            \"Pre-commit hook should have blocked a documentation file without a \"\n            \"reviewed exact intent, but it succeeded.\\n\"\n            f\"stdout: {result.stdout}\\nstderr: {result.stderr}\"\n        )\nE       AssertionError: Pre-commit hook should have blocked a documentation file without a reviewed exact intent, but it succeeded.\nE         stdout: [lane 2f9738e] [Trivial] add unregistered doc\nE          1 file changed, 1 insertion(+)\nE          create mode 100644 docs/new_unregistered.md\nE         \nE         stderr: Running pre-commit checks...\nE         Checking branch freshness...\nE         Pre-commit checks passed!\nE         \nE       assert 0 != 0\nE        +  where 0 = CompletedProcess(args=['git', 'commit', '-m', '[Trivial] add unregistered doc'], returncode=0, stdout='[lane 2f9738e] ...w_unregistered.md\\n', stderr='Running pre-commit checks...\\nChecking branch freshness...\\nPre-commit checks passed!\\n').returncode\n\ntests/test_documentation_intent_enforcement_hook.py:147: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_documentation_intent_enforcement_hook.py::test_hook_blocks_new_documentation_without_intent\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n============================== 1 failed in 0.16s ===============================\n\n--- stderr ---\nfix output tail:\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0\nrootdir: /tmp/concern-repair-proof-0lrwe1tl/fix\nconfigfile: pyproject.toml\nplugins: anyio-4.14.2, asyncio-1.4.0\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollected 1 item\n\ntests/test_documentation_intent_enforcement_hook.py .                    [100%]\n\n============================== 1 passed in 0.25s ===============================\n\n--- stderr ---"
+     },
+     {
+      "gate": "source_signal_green",
+      "passed": true,
+      "detail": "cluster 'documentation-health' resolved with 1 closure_verification item(s)"
+     },
+     {
+      "gate": "independent_root_cause_review",
+      "passed": false,
+      "detail": "{\"reviewer\": \"codex\", \"unavailable\": [], \"verdict\": \"patch_only\", \"root_cause_addressed\": true, \"failure_class_addressed\": false, \"prevention_would_catch_recurrence\": false, \"reasons\": [\"The diff does change the reported mechanism: hooks/pre-commit now invokes check_artifact_intents.py --enforce-new-since, and the negative test performs a real commit and verifies that an unregistered document is rejected.\", \"The broader stated failure class\\u2014an enforcement mechanism existing but never being invoked\\u2014is not controlled. The added test covers only this specific checker and hook; the diff adds no inventory or invariant that detects other implemented-but-unwired enforcement mechanisms.\", \"The hook fails open when check_artifact_intents.py cannot be found or enforcement_baseline is absent, malformed, or unreadable: both branches silently skip enforcement and still print \\\"Pre-commit checks passed!\\\". That can recreate the same effective failure while the enforcement script still exists.\", \"The regression fixture copies the checker and synthesizes its own valid enforcement_baseline, so removal or corruption of the production baseline in scripts/artifact_intents.yaml would not make the test fail. Thus the prevention would not reliably catch recurrence of the no-invocation behavior.\", \"Changes marking the friction cluster resolved and adding closure evidence do not compensate for the missing class-level and fail-closed controls.\"]}"
+     }
+    ],
+    "passed": false,
+    "recorded_at": "2026-11-14T04:35:49.661342Z"
+   }
+  ],
+  "defects_found": [
+   "The executor's custody step needs a session-ended claim (matching_claim_session), but claims are retired, so it fails closed and posts a backoff comment on the real issue.",
+   "The Codex reviewer for a claude-code repair crashes in a blank temp directory ('Not inside a trusted directory'); the review call needed skip_git_repo_check=True, which I added in a wrapper.",
+   "A real concern pair cannot be hand-fed to the executor: it needs a runtime action and bound observation, which I wrote by hand in a scratch state root."
+  ],
+  "limits": [
+   "Concern #1883 was also rejected in the earlier 2026-09-14 attempt recorded in Project Meta's decision.",
+   "Three attempts on one concern; the reviewer is one model and may vary between runs.",
+   "Not landed: no repair passed."
   ]
  }
 }
