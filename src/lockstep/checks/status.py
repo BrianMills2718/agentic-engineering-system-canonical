@@ -208,9 +208,10 @@ def markdown(result: Report) -> str:
 
     Requirement text (generated):
         lockstep-projection/the-docs-site-shows-coverage-at-its-commit: `lockstep check project`
-            SHALL write `docs/status.md` in a repository with a `docs/` folder, listing every
-            requirement and scenario with the state `lockstep status` gives when no test run is
-            recorded, and `--check` SHALL fail when the page is stale.
+            SHALL write `docs/status.md` in a repository with a `docs/` folder and recognized
+            OpenSpec requirements, listing every requirement and scenario with the state `lockstep
+            status` gives when no test run is recorded, and `--check` SHALL fail when the page is
+            stale.
 
 
     Args:

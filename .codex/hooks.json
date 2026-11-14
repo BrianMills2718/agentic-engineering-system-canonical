@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-canonical@bc3fd75ccfb32c52e46a0554428071f7d9b5dca0 lockstep refresh --client codex",
+            "command": "uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-canonical@f9f3fa52b13b188ccad10595cc8504688f0f4039 lockstep refresh --client codex",
             "timeout": 30
           }
         ]

@@ -6,7 +6,7 @@
   "request": "Every tracked file reachable and summarized from the navigational wiki; assess consolidation and optimization without losing information.",
   "scope": {
     "base_tracked_files": 407,
-    "all_candidate_tracked_files": 419,
+    "all_candidate_tracked_files": 433,
     "included": "All Git-tracked files, including instructions, archived changes, fixtures, generated views and non-Markdown files.",
     "external": "Explicitly linked owning planning/policy/instruction sources; no unrelated repository-wide sweep.",
     "not_published": "Ignored caches, installed environments, credentials and private runtime store contents."
@@ -208,15 +208,16 @@
     },
     {
       "path": ".claude/settings.json",
-      "summary": "Registers pinned Claude post-edit fact refresh while preserving existing settings; the bounded native observation explicitly loads this configuration.",
+      "summary": "Registers pinned Claude PostToolUse refresh for declared facts and catalog upkeep; the retained native fixture explicitly loads these settings.",
       "role": "native configuration or contract",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "JSON root object",
       "summary_origin": "content_review",
-      "sha256": "f663d0b1c4472f1786be94c5c16a290fa86b5d853f81996d45af56dbb8fccb10",
+      "sha256": "8c7021bc253bc47e3ac68ffb99d9c5014a9795aac830126d6f86b53e95ce5fdf",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Revise the fact-only description: the pinned shared refresh command now reports pending catalog reviews too. Read all five matched tool names and client selection; configuration presence does not prove ordinary client loading."
     },
     {
       "path": ".claude/skills/openspec-apply-change/SKILL.md",
@@ -292,15 +293,16 @@
     },
     {
       "path": ".codex/hooks.json",
-      "summary": "Registers pinned post-edit declared-fact refresh for Codex tool names; live Codex host execution remains unobserved.",
+      "summary": "Registers pinned Codex PostToolUse refresh for declared facts and catalog upkeep across supported edit and shell tool names; native Codex execution remains unobserved.",
       "role": "native configuration",
       "disposition": "keep",
       "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
       "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
       "summary_origin": "content_review",
-      "sha256": "c7e80c0e25668da8e0afaa8b79f44f071b29146c6318494360a7f4563903c0d5",
+      "sha256": "de35dad3d48b39e04ad336fd90a18d867b3f6292eb26eb1692137ab627e13c1e",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Revise the fact-only description because the pinned refresh also supports catalog maintenance. Read the six matcher names and codex selection; the retained native observation exercises Claude only."
     },
     {
       "path": ".doc-reachability-ignore",
@@ -340,27 +342,29 @@
     },
     {
       "path": ".md-file-cap.yaml",
-      "summary": "Records the measured 130 Markdown file exception, preserving current contracts and archived lineage with complete catalog coverage.",
+      "summary": "Sets a 140-Markdown-file exception, preserving architecture, decisions and historical OpenSpec lineage while including catalog-upkeep and array-fact records.",
       "role": "native configuration or contract",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "limit: 126",
       "summary_origin": "content_review",
-      "sha256": "2652010ac1f549b484881e3f7739d3db56c2051f6816024791d4a157b187e358",
+      "sha256": "3bc4e3480ec684e11b9e0f6a5ca495c0ac3279c22b91e349d00921ec7dee71bd",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Replace stale 130 with the configured 140 limit. The complete reason preserves lineage and visibility of growth rather than authorizing retirement."
     },
     {
       "path": ".project-brain/now.md",
-      "summary": "Routes the approved ecosystem consolidation and first donor review, then preserves independent projection, feedback and earlier dated records.",
+      "summary": "Leads with implemented hash-bound catalog upkeep and its bounded Claude observation, then retains dated ecosystem, projection, coverage, feedback and retirement records.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "376489b69e2270eec2f84c849a58385439926a046dfca08146899d0047b97e57",
+      "sha256": "24175074f53c38c4c552bcd427af5d914450f5dee8a04a21dd0b96d3962b5df3",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Revise the lead to the new current upkeep section. It distinguishes local working files from indexed checking, thirteen CLI probes from native execution, and unobserved loading from completed observations; the full historical sections preserve earlier obligations and receipts."
     },
     {
       "path": ".project-brain/project.md",
@@ -469,10 +473,10 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "463092d22eb7082d12ee06fa85b0ac6e6773f5fe3564bc12fdc20603e240a4d8",
+      "sha256": "a136c996d5e488550052ac3d1690c9a2a82b0d756e16c1ec78f273d0acc8233a",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "review_reason": "Reread full updated page; opening acknowledges authorized freshness enforcement and earlier no-gate repair is explicitly historical. Semantic review, ignored trace storage and bounded native-proof limits remain explicit."
+      "review_reason": "Retain after the complete read: native authority, historical 408-file assessment, semantic review and fresh evidence remain distinct. Re-read corrected step 4: local check-catalog reads working files and pre-commit check-catalog-staged reads indexed bytes."
     },
     {
       "path": "docs/architecture/ECOSYSTEM.md",
@@ -518,9 +522,10 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "30140d8cb0f250eea91c02993ef66e0a7a7b9a0d602b7dddeb8a4bdb0658dd15",
+      "sha256": "929e688446c5a8b419c415f6c0aae7088fae51bb9ba50aa939eeeb6b0e289afa",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Retain after reading the current generated block including ordered record-array requirements. The complete account distinguishes the six-step disposable replay and historical gaps from later explicitly configured Claude self-adoption; legacy upward edits and unobserved host paths remain bounded."
     },
     {
       "path": "docs/architecture/README.md",
@@ -844,7 +849,8 @@
       "identity_basis": "Reviewed candidate bytes and reconciled source-backed semantic summary.",
       "has_standard_source_summary_field": true,
       "summary": "Records Brian-approved AES consolidation and legacy review, one discovery route with native owners, historical decision reconciliation and success/disproof boundaries.",
-      "sha256": "4bf99122a3aec09232137052158b9f8a997c88d4c677ca6ece6021829d83458d"
+      "sha256": "c7224d351ec340f6dbfe2e57f6676f57dea917571798fa7059002e772236c60e",
+      "review_reason": "Retain: the six adopted points preserve native provider ownership and unique legacy information. Reconciliation leaves publication choice at Q36, and implementation status explicitly excludes completed migration, rollout and retirement."
     },
     {
       "path": "docs/failure-modes.md",
@@ -902,10 +908,10 @@
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# AES documentation",
       "summary_origin": "content_review",
-      "sha256": "a057911d141ade8dda59d6a77249a1823314b2dc38f6b38653c87510d4fb37f6",
+      "sha256": "9683e78effeef295a2dbca6fdbd64eea0cebe09364741e4e8d9b080f7e5e3a19",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "review_reason": "Read complete index; new upkeep route extends its reading-order purpose. Candidate link names the active requirement delta until archive."
+      "review_reason": "Retain: all seven authority links and both specification routes are present. The complete page calls itself curated navigation and does not claim automatic regeneration or fresh runtime evidence."
     },
     {
       "path": "docs/model/ODD.md",
@@ -933,27 +939,29 @@
     },
     {
       "path": "docs/planning/DOMAIN.md",
-      "summary": "Provides the generated project-local glossary with definitions, document/code locators and implemented, document-only or retired classifications.",
+      "summary": "Provides the generated AES glossary with native source/code locators, implemented versus document-only or retired concepts, ecosystem consolidation terms and source-fact projection relationships.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "# AES canonical: domain glossary",
       "summary_origin": "content_review",
-      "sha256": "1790261a4d98e9f5c43c1feee139a9b57d4eb71b900437e49ebfda1bbc8ae4ba",
+      "sha256": "4f35e7a06cc5db0a094cda87c0a681e9e4ca34636d7de44b1f82c007d991221e",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read full glossary through its embedded identical readable projection, including added ecosystem/legacy concepts and correction-filing repair. Preserved generated-view role; its Q20-open wording is a remaining source-level inconsistency. Parent re-reviewed the subsequent bounded correction: shared heading spacing, resolved Q20/register scope, or explicit storage of self-adopted catalog records; purpose and authority remain as summarized."
     },
     {
       "path": "docs/planning/SYSTEM_MODEL.md",
-      "summary": "Models whole AES across repositories and this repository’s containers, record types, writers and external boundaries, extending the narrower checked engine model.",
+      "summary": "Defines the revision-scoped AES context, containers and record owners, extended with source-fact projection and complete-file catalog review, pending, rendered-output and operation-receipt records.",
       "role": "model",
       "disposition": "consolidate",
       "reason": "Assess one existing source for overlapping explanation while preserving unique structure, evidence and provenance.",
       "source_locator": "# AES canonical: system model (planning view)",
       "summary_origin": "content_review",
-      "sha256": "c83b3fbfb985721d144021323f3fd271a8331bf3c9f6d07a32a1872c7a7fef20",
+      "sha256": "d219ecf9461a0ec32a018acbd578d8ae51272ee6e88e9b399f3e80fd67a3eede",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read full current model including new 2026-11-14 catalog section: describes index-based commit checking, explicit review, receipt preparation versus actual application and dated older rendered views; earlier no-local-records paragraph remains historical-context wording. Parent re-reviewed the subsequent bounded correction: shared heading spacing, resolved Q20/register scope, or explicit storage of self-adopted catalog records; purpose and authority remain as summarized."
     },
     {
       "path": "docs/planning/acceptance-criteria.json",
@@ -1005,15 +1013,16 @@
     },
     {
       "path": "docs/planning/checks.txt",
-      "summary": "Retains five fresh planning checks: durable fields and wiki reachability pass; repository format remains tracked by Q17; navigation warnings and graph-schema results stay explicit.",
+      "summary": "Retains revision-bound planning check commands and results, including failed repository-format checks and successive Markdown coverage repairs through the 136-file observation at feaf51f.",
       "role": "evidence",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 2b0709497ecc77b2eb6ab284bec57f52069a422e, run 2026-11-12T",
       "summary_origin": "content_review",
-      "sha256": "2fe074ffdbce17094599e6e29adb64333a26def1d4dc471d35573f722da480b9",
+      "sha256": "eb0e7d7c04c90c89d3b24ac08090d2635cbe9d7ba43111f87487984f9878a88b",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read complete check transcript: initial five checks and each failed/passing follow-up remain distinct; latest retained wiki result is 136/136 with zero reachability/layout/durable findings, not a fresh candidate run."
     },
     {
       "path": "docs/planning/cold-review.md",
@@ -1053,15 +1062,16 @@
     },
     {
       "path": "docs/planning/domain.graph.json",
-      "summary": "Materializes domain concepts and relations as typed graph nodes/edges with implementation and document-only distinctions from the domain generator.",
+      "summary": "Materializes AES concepts and relationships as typed graph nodes and edges, distinguishing code, external, document-only and retired concepts and adding ecosystem consolidation and legacy review.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "JSON keys: schema, kinds, layout, nodes, edges",
       "summary_origin": "content_review",
-      "sha256": "3421bb588bb7568d8148de72727ae639edcded890cba8412e088389c3f072dbb",
+      "sha256": "799c9f8160eb9210b91b1d3b489fe25b059361eec852f29bc8f5e376628bda8a",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read every node explanation and edge; exact structural comparison confirms equality with the fully read diagram-domain embedded graph (54 nodes, 65 edges). Existing implementation claims remain source-described rather than runtime-certified."
     },
     {
       "path": "docs/planning/domain.implemented.json",
@@ -1125,40 +1135,42 @@
     },
     {
       "path": "docs/planning/open-questions.graph.json",
-      "summary": "Generated graph of open ledger questions, responsible actors and domain relationships; it is a derived reading view rather than another question authority.",
+      "summary": "Projects 23 open AES ledger questions into responsible-question, blocked-decision and affected-concept nodes, including ecosystem discovery and legacy-review concerns.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "a7738e0c8fc6979022c819cd434205272df98333a440e467b6d0915d8066cdfc",
+      "sha256": "f3f062fb35cb6829da87565cd3751cbdfebb2554abaa564863c2d46b9ef40e1b",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read all node explanations and edges; exactly matches standalone embedded graph (57 nodes, 50 edges). Excludes resolved Q43 and Q18; this graph is derived navigation and does not carry the full recommendations/evidence ledger."
     },
     {
       "path": "docs/planning/open-questions.json",
-      "summary": "Owns AES questions, recommendations and dated evidence, including synchronization and catalog freshness gaps plus Q36–Q42 ecosystem discovery, identity, legacy review and concern closure.",
+      "summary": "Owns AES questions, recommendations and dated evidence, including bounded catalog-upkeep observation in Q30, ecosystem discovery gaps Q36–Q42 and resolved durable-document findings Q43.",
       "role": "planning record",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "70f115accf4a5ad6d7412a42594248cad5e77d7240f6c9128cf2968cacc62817",
+      "sha256": "71e7dd4d286dd2cb4c7cbe5b90913d874fc67fc4888f4c96c0f72a288b9bbfaf",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false,
-      "review_reason": "Reread full merged ledger after rebase; Q30 adds explicit pending/review/render/check without closing native or semantic scope, and upstream Q36–Q42 remain open on their distinct cross-project questions."
+      "review_reason": "Read all question prose via full readable question projection plus every differing current field and all source/touch/status associations; Q30 now records bounded fixture evidence while keeping ordinary loading, Codex and explanatory completeness open. No new execution claim independently certified."
     },
     {
       "path": "docs/planning/planning-package.json",
-      "summary": "Indexes package parts, recorded checks, system scope, spectrum sources and generated artifacts at a named revision; it is not a fresh operational certification.",
+      "summary": "Indexes AES planning parts, source and code locators, diagrams, spectrum, costs and revision-bound check/review results, including retained 136-file coverage evidence at feaf51f.",
       "role": "planning record",
       "disposition": "update",
       "reason": "Preserve useful unique material while reconciling historical/current scope or status/source drift; no retirement proposed.",
       "source_locator": "JSON keys: schema_version, record_type, repository, subject_revision, request",
       "summary_origin": "content_review",
-      "sha256": "a4919632ca5326e0f359ede81028025a8a5c328838081dc190b5ae1f35032209",
+      "sha256": "7ed3ea3adccb4bc1075468dffe1c0013e2ec798da4a0f2f481e50c86387187c9",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read complete manifest including check commands/counts, domain mappings, stops, no-new-AI cost basis and cold-review pin. It mixes a named package subject with later expressly pinned wiki evidence; presence and recorded passes do not certify the present checkout."
     },
     {
       "path": "docs/planning/review-page.json",
@@ -1294,15 +1306,16 @@
     },
     {
       "path": "docs/planning/system-map.md",
-      "summary": "Maps listed code units into AES subsystems and calling/data relationships, including disabled analysis/effects stages, complementing the higher-level system model.",
+      "summary": "Maps AES code units by responsibility and main import relationships, adding catalog maintenance called by CLI and document refresh alongside retained source-fact projection.",
       "role": "model",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# AES canonical: system map",
       "summary_origin": "content_review",
-      "sha256": "fbe83b0dc461fca4a82b6a8187884a6ebea4f5ee97debf66bfe668126a79c6cd",
+      "sha256": "4c0e733c8f5e6eb05ca2c28f691c90e2cbcaed80600e81b39f13680607f519d9",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read full current Markdown and Mermaid map; added catalog node and CLI/refresher edges represent new component while original revision, retired units and disabled-job distinctions remain explicit."
     },
     {
       "path": "docs/retired/2026-11-12.md",
@@ -1353,6 +1366,16 @@
       "has_standard_source_summary_field": false
     },
     {
+      "path": "docs/status.md",
+      "sha256": "819113f8fe88e42f398cf421b57ab7eaf1c0023a3246b03ac53a98206f47172f",
+      "summary": "Retains a generated requirement/scenario coverage snapshot linking implementation symbols and tests, with missing links and unavailable revision-matched test results explicitly marked.",
+      "review_reason": "Add as a generated snapshot after reading both full tables. The opening says coverage only; unimplemented, untested and not-run states describe marker coverage and unavailable results. This rendering has no catalog-upkeep rows, so the summary does not claim exhaustive current requirements or a semantic verdict on behavior.",
+      "role": "generated coverage view",
+      "disposition": "generated",
+      "reason": "Rebuildable structural coverage output; preserve missing links and absent revision-matched results without treating them as behavioral assessment.",
+      "source_locator": "Requirement status; generated-by comment; Requirement and Scenario tables"
+    },
+    {
       "path": "enforced_planning/__init__.py",
       "summary": "Importable package surfaces for enforced-planning. Contains no executable definitions.",
       "role": "code",
@@ -1375,6 +1398,26 @@
       "sha256": "19191d8e55163fb6bb00dec3b69a4abfca4dff92a781652c3652873961e94c39",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
+    },
+    {
+      "path": "evidence/runs/catalog-upkeep-native-20261114.json",
+      "sha256": "b0d17794484f11faf5c30f13b04d75e0621e682f29d0d53624dae354ed25a556",
+      "summary": "Retains the pinned six-file Claude catalog-upkeep observation, full fixture inputs and outputs, review hashes, daily traces and thirteen bypass, stale-hash and staged-recovery CLI probes.",
+      "review_reason": "Add from the prior full trace read and independent hash assertions: the source-once to generator edit receives an explicitly reviewed summary; thirteen CLI probes show stale-hash refusal without inventory writes and staged mismatch/recovery. The receipt discloses missing raw hook context and excludes ordinary-session and native-Codex claims.",
+      "role": "retained run evidence",
+      "disposition": "keep",
+      "reason": "Preserves revision-bound observed behavior and failures separately from semantic review and present runtime claims.",
+      "source_locator": "source_revision; before; after; traces; negative_and_recovery_steps; gate_probe_traces; limits"
+    },
+    {
+      "path": "evidence/runs/catalog-upkeep-native-20261114.jsonl",
+      "sha256": "c6c3802bfc73ec680ad3f106370a941dfa67dd0ed925914b45ff944994879c05",
+      "summary": "Records 26 native Claude events for reading and editing the search fixture, inspecting pending review, and explicitly reviewing, refreshing and checking its revised summary.",
+      "review_reason": "Add after full 26-event inspection: explicit settings loading, one source edit and CLI review are recorded with no hand-edit of inventory. Optional missing-instructions discovery exit 1 remains visible; the stream does not include raw PostToolUse additionalContext or prove other native hosts.",
+      "role": "retained native trace",
+      "disposition": "keep",
+      "reason": "Preserves the complete published native event sequence supporting the bounded Claude observation, including nonzero discovery and recovery.",
+      "source_locator": "26 JSONL events: init, assistant tool_use, user tool_result, system and result"
     },
     {
       "path": "evidence/runs/projection-native-20261113.jsonl",
@@ -1907,6 +1950,76 @@
       "has_standard_source_summary_field": false
     },
     {
+      "path": "openspec/changes/archive/2026-11-13-catalog-upkeep/proposal.md",
+      "sha256": "82dc0e3fcc9474c5da936897104de1ba14143880f912c641d089dc8a10d86d0a",
+      "summary": "Archives the catalog-upkeep proposal, approval source, native exact-hash review workflow and retained evidence plan.",
+      "role": "historical change record",
+      "disposition": "historical",
+      "reason": "Preserve native lifecycle history and requirement provenance.",
+      "source_locator": "Complete file: proposal, requirements/scenarios or task checklist",
+      "review_reason": "Read the complete current file; the summary reflects its actual scope and distinguishes archived change history from the merged current capability specification."
+    },
+    {
+      "path": "openspec/changes/archive/2026-11-13-catalog-upkeep/specs/lockstep-catalog-upkeep/spec.md",
+      "sha256": "229d62bc6f1773a9d90f60f47ece763ae6b0a019da9223e3ece48db4be84c506",
+      "summary": "Archives added requirements for indexed-file review, deterministic navigation that cannot approve meaning, and native-hook/local-gate recovery traces.",
+      "role": "historical change record",
+      "disposition": "historical",
+      "reason": "Preserve native lifecycle history and requirement provenance.",
+      "source_locator": "Complete file: proposal, requirements/scenarios or task checklist",
+      "review_reason": "Read the complete current file; the summary reflects its actual scope and distinguishes archived change history from the merged current capability specification."
+    },
+    {
+      "path": "openspec/changes/archive/2026-11-13-catalog-upkeep/tasks.md",
+      "sha256": "263ab55b9d60b189e3a7a0e612783747fcced50c0c311928ed883cb941615ece",
+      "summary": "Records catalog API, hook/gate and recovery demonstration tasks as complete, while final documentation, review and merge remain unchecked in this archived snapshot.",
+      "role": "historical change record",
+      "disposition": "historical",
+      "reason": "Preserve native lifecycle history and requirement provenance.",
+      "source_locator": "Complete file: proposal, requirements/scenarios or task checklist",
+      "review_reason": "Read the complete current file; the summary reflects its actual scope and distinguishes archived change history from the merged current capability specification."
+    },
+    {
+      "path": "openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/.openspec.yaml",
+      "sha256": "3ea192d12c1ad3d96d8e6cfd6fddb23c8be77d85611385996b685b4736c117c0",
+      "summary": "Records the spec-driven schema and creation date for the archived array-fact-projection change.",
+      "role": "historical change record",
+      "disposition": "historical",
+      "reason": "Preserve native lifecycle history and requirement provenance.",
+      "source_locator": "Complete file: schema/date fields",
+      "review_reason": "Read the complete current file; the summary reflects its actual scope and distinguishes archived change history from the merged current capability specification."
+    },
+    {
+      "path": "openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/proposal.md",
+      "sha256": "20b578ea138b1ff0a8e115d5eed84d2189de290e08880f10dd1b3900d9f4f9a1",
+      "summary": "Proposes projecting selected scalar fields from native record arrays through the existing fact generator, hook and check paths.",
+      "role": "historical change record",
+      "disposition": "historical",
+      "reason": "Preserve native lifecycle history and requirement provenance.",
+      "source_locator": "Complete file: proposal, requirements/scenarios or task checklist",
+      "review_reason": "Read the complete current file; the summary reflects its actual scope and distinguishes archived change history from the merged current capability specification."
+    },
+    {
+      "path": "openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts/spec.md",
+      "sha256": "6276e5a3bd26b4356f6dc9d9290f6e46beb178960b8b48f24ea67611c3894083",
+      "summary": "Archives the record-array projection requirement for unique IDs, selected scalar fields, escaped source-order rows and refusal of invalid input before writes.",
+      "role": "historical change record",
+      "disposition": "historical",
+      "reason": "Preserve native lifecycle history and requirement provenance.",
+      "source_locator": "Complete file: proposal, requirements/scenarios or task checklist",
+      "review_reason": "Read the complete current file; the summary reflects its actual scope and distinguishes archived change history from the merged current capability specification."
+    },
+    {
+      "path": "openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/tasks.md",
+      "sha256": "013d49aba4435fd07613eb1424654ed17f9edbd06f1d98b930b21e99bd6be600",
+      "summary": "Records all four array-projection requirements, implementation, tracing and verification tasks as complete.",
+      "role": "historical change record",
+      "disposition": "historical",
+      "reason": "Preserve native lifecycle history and requirement provenance.",
+      "source_locator": "Complete file: proposal, requirements/scenarios or task checklist",
+      "review_reason": "Read the complete current file; the summary reflects its actual scope and distinguishes archived change history from the merged current capability specification."
+    },
+    {
       "path": "openspec/changes/archive/2026-11-13-self-adopt-projection/proposal.md",
       "summary": "Preserves narrow self-adoption rationale: reuse the existing projector and hooks without reinstating retired universal governance.",
       "role": "historical proposal",
@@ -1941,36 +2054,6 @@
       "sha256": "a35bbde0e01526c16482499cb7fd29c2dfb7c7855a55385c29afb4a39cfee5d3",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
-    },
-    {
-      "path": "openspec/changes/catalog-upkeep/proposal.md",
-      "sha256": "82dc0e3fcc9474c5da936897104de1ba14143880f912c641d089dc8a10d86d0a",
-      "summary": "Proposes extending native Lockstep with explicit source-bound catalog review, deterministic navigation and independent freshness checks, retaining existing agent and Repo Docs roles.",
-      "review_reason": "Read complete proposal; records approved repair scope and intended bounded native evidence without claiming delivery.",
-      "role": "implementation plan",
-      "disposition": "keep",
-      "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
-      "source_locator": "Whole file; Proposes extending native Lockstep with explicit source-bound catalog review"
-    },
-    {
-      "path": "openspec/changes/catalog-upkeep/specs/lockstep-catalog-upkeep/spec.md",
-      "sha256": "229d62bc6f1773a9d90f60f47ece763ae6b0a019da9223e3ece48db4be84c506",
-      "summary": "Specifies indexed-file coverage, exact-hash semantic review, non-approving deterministic refresh, read-only checks and native-hook recovery with traces.",
-      "review_reason": "Read all three requirements and five scenarios; contract separates agent meaning review from mechanical freshness.",
-      "role": "proposed behavior contract",
-      "disposition": "keep",
-      "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
-      "source_locator": "Whole file; Specifies indexed-file coverage"
-    },
-    {
-      "path": "openspec/changes/catalog-upkeep/tasks.md",
-      "sha256": "7558c5383f6b6f61ad1886c1841e6fe61604d43ca72cf7a5f62f8113b5899df7",
-      "summary": "Tracks four outstanding catalog-upkeep implementation, native recovery demonstration, documentation and merge tasks.",
-      "review_reason": "Read complete task list; all four boxes remain open in the reviewed bytes.",
-      "role": "implementation plan",
-      "disposition": "keep",
-      "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
-      "source_locator": "Whole file; Tracks four outstanding catalog-upkeep implementation"
     },
     {
       "path": "openspec/config.yaml",
@@ -2021,6 +2104,16 @@
       "has_standard_source_summary_field": false
     },
     {
+      "path": "openspec/specs/lockstep-catalog-upkeep/spec.md",
+      "sha256": "b86e6dd2296535c4b3fb39c6e4fe7efc04f0b9d653ac43781a14dfff1525b5fb",
+      "summary": "Defines current complete-file catalog maintenance through exact-source-bound semantic review, non-approving rendering, read-only freshness gates and native-hook recovery traces.",
+      "role": "capability specification",
+      "disposition": "keep",
+      "reason": "Current authority for catalog-upkeep behavior.",
+      "source_locator": "Complete file: proposal, requirements/scenarios or task checklist",
+      "review_reason": "Read the complete current file; the summary reflects its actual scope and distinguishes archived change history from the merged current capability specification. Parent re-reviewed the subsequent bounded correction: shared heading spacing, resolved Q20/register scope, or explicit storage of self-adopted catalog records; purpose and authority remain as summarized."
+    },
+    {
       "path": "openspec/specs/lockstep-checks/spec.md",
       "summary": "Defines trace, architecture, test-first, attribution and docmeta checks with block/warn/off modes and honest unavailable-check failure. This is the merged current capability specification.",
       "role": "normative",
@@ -2034,15 +2127,16 @@
     },
     {
       "path": "openspec/specs/lockstep-doc-facts/spec.md",
-      "summary": "Defines declared Markdown/Python/JSON/YAML fact projection, invalid-input refusal, post-edit refresh and stale checking. This is the merged current capability specification.",
+      "summary": "Defines static source-owned Markdown/Python/JSON/YAML fact projection, validated record-array rows, invalid-input refusal, post-edit refresh and read-only freshness checks as the current merged contract.",
       "role": "normative",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# lockstep-doc-facts Specification",
       "summary_origin": "content_review",
-      "sha256": "4582e369126799c44083d5eda890950a153a7b4814d06f76c3bf076fba48961b",
+      "sha256": "b55ee2c3dc17276d8ad3898bce5e6351b6dbff13226eedae9dfb7be4040afe1d",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read the complete specification: array selectors, unique IDs, scalar fields, source-order rows and invalid-array scenarios materially extend the previous scope."
     },
     {
       "path": "openspec/specs/lockstep-guard/spec.md",
@@ -2238,63 +2332,68 @@
     },
     {
       "path": "proposals/planning-package/review-page/diagram-domain.html",
-      "summary": "Hosts the typed domain graph explaining implemented, document-only and external AES concepts, as a derived reader view of domain sources.",
+      "summary": "Hosts the generated interactive AES domain graph, including ecosystem consolidation and legacy review, with typed distinctions among implemented, external, document-only and retired concepts.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: What ideas does AES work with (the whole system and its parts, the one tool's plan format, the feedback loop's records, and the retiring v0.2 engine), which exist in code here and which only in documents or other repositories, and how do they relate?",
       "summary_origin": "content_review",
-      "sha256": "3622267df2a61f2b73fc27f012886e4d97013eec60aecf36992fb3fc1816cf94",
+      "sha256": "aa0075b0013d0ff9840d33d1a653fd312c927db14c53c362b4a81babe9aa7daf",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read all readable text, links, embedded graph values and common rendering behavior; embedded graph exactly equals domain.graph.json. This is a derived overview, not new behavioral verification."
     },
     {
       "path": "proposals/planning-package/review-page/diagram-open-questions.html",
-      "summary": "Hosts the typed question graph of ownership, blockers and affected concepts, with an embedded population needing current-ledger regeneration.",
+      "summary": "Hosts the generated interactive graph of 23 open AES questions, their decision blockers and related concepts, including ecosystem and legacy-review questions.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: Which questions are still open, whose call is each, what does each block, and which concepts does it bear on?",
       "summary_origin": "content_review",
-      "sha256": "ad5d02879078d92ae5f87477d34ccb9b09cc471dd54fe5759fab1416f384d38d",
+      "sha256": "ce43cf6f32136d00ae3d5a981bb9e04863ce62b0ba5a45af1aff3a2049d83b85",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read all readable content, links and embedded graph; exactly matches open-questions.graph.json. Old inventory claim that population still needs regeneration is obsolete for this revised 23-question view."
     },
     {
       "path": "proposals/planning-package/review-page/diagram-system-map.html",
-      "summary": "Renders the code-unit system map and links its Markdown owner, answering which units belong to each part and what calls what.",
+      "summary": "Renders the revision-scoped code-unit system map, grouped by AES responsibility, with retained imports, disabled-job distinctions and the source-fact projection extension.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: Which code units make up this repository, which AES part does each belong to, and what calls what?",
       "summary_origin": "content_review",
-      "sha256": "40d894f5ddf649c8b5343c440d2329ad7634db9df5e5e9c14250e583f590ae7a",
+      "sha256": "51bc4c41abdc715ac1a3d4a0e2ac00b050178ea5b44eff6c5953e6d173aa2f63",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read complete embedded Markdown and Mermaid, source links and renderer behavior; graph names retained and retired boundaries and adds doc_projection. Its every-unit/current wording predates catalog.py, so description preserves revision scope."
     },
     {
       "path": "proposals/planning-package/review-page/diagram-system-model-2.html",
-      "summary": "Renders the cross-repository view of AES parts and what consolidation moved, linking the planning system-model source.",
+      "summary": "Renders the cross-repository AES view alongside its embedded revision-scoped system model, retained record types and source-fact projection records.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: Where do AES's parts sit across the four repositories, and what did the one-tool build move between them? (cross-repository view)",
       "summary_origin": "content_review",
-      "sha256": "14a96b922e6decc158c9c090096ea37f4e135d104a3243e2fa69176a0dd5694c",
+      "sha256": "e5bab7a95a9dec4da39bdd41bf4ce75505da14aaac100fa9eec32a4494333857",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read full embedded model, Mermaid diagrams, tables and links; distinguishes historical movement and partial register coverage. Existing no-local-Lockstep-records wording predates self-adoption and is not evidence about current checkout."
     },
     {
       "path": "proposals/planning-package/review-page/diagram-system-model.html",
-      "summary": "Renders the context view of AES parts, owning repositories and communication paths from the planning system-model source.",
+      "summary": "Renders the AES context view with owning repositories and communication paths, backed by the full revision-scoped system model and projection record account.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: What is AES made of, which repository holds each part, and what talks to it? (context view)",
       "summary_origin": "content_review",
-      "sha256": "ac664f2c5bfa043724d07d086ab02ae7fe98a298143ec53ef3fc51abc0d5c7cd",
+      "sha256": "3c98298daa4e12e588be894baff33c98cf8298804011b8272c41ecf2f9eb723f",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read full embedded model, context/container diagrams, records, source links and rendering behavior; the same source model backs both context and cross-repository pages. Preserve dated scope and existing self-adoption wording gap."
     },
     {
       "path": "proposals/planning-package/review-page/graph-viewer.js",
@@ -2310,15 +2409,16 @@
     },
     {
       "path": "proposals/planning-package/review-page/index.html",
-      "summary": "Provides review navigation to goal, criteria, decisions, diagrams, rollout and evidence; its completion banner and eight-question count reflect an older source state.",
+      "summary": "Provides generated navigation for the one-tool plan, nine built acceptance entries, diagrams, retained evidence and 23 open questions, while naming package revision ac735b9.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: AES canonical: the one planning-and-checking tool, and AES as a whole",
       "summary_origin": "content_review",
-      "sha256": "b574d58256de91aa0ae690a0440b8634cdbfe077ec6e41215e8d5a3ce9a7767d",
+      "sha256": "2874525949d9594a207cf56ffa01761bc2bcde67f164269702fb9c0d3c842136",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read every visible text and link plus embedded page data/rendering script. Updated question count replaces obsolete eight-question summary; completion banner describes the retained plan and does not establish all 23 open concerns or new upkeep closed."
     },
     {
       "path": "proposals/planning-package/review-page/lockstep-acceptance.html",
@@ -2346,27 +2446,29 @@
     },
     {
       "path": "proposals/planning-package/review-page/open-questions.html",
-      "summary": "Displays expanded open and collapsed resolved ledger questions; still reports eight open items and obsolete corrections-filing blockers despite newer source resolutions/questions.",
+      "summary": "Displays the generated ledger view with 23 open questions, expanded owner groups and resolved history including Q18 and Q43, plus an interactive question map.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: AES canonical: the one planning-and-checking tool, and AES as a whole: open questions",
       "summary_origin": "content_review",
-      "sha256": "1cfad0bc17711ae2ac7ecda711e711092e8f914fa8530f7ef84a6ccc9fac87d1",
+      "sha256": "baaa366741ba320e01469b74f4f42eca65a9ec5c678ea5769c6fa8e98ca2da94",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read all readable question text, source links, status/group counts and embedded graph. The page still embeds the pre-upkeep Q30 recommendation/evidence whereas current ledger records bounded native upkeep; review is of these dated bytes, not current-ledger parity."
     },
     {
       "path": "proposals/planning-package/review-page/review.html",
-      "summary": "Combines plan, capabilities, criteria, decisions, architecture, spectrum, rollout and evidence into review UI; completion/open-question summaries need regeneration or historical framing.",
+      "summary": "Combines the retained AES plan, nine acceptance entries, decisions, architecture graphs, semantic spectrum and revision-bound evidence/checks in an expandable generated review interface.",
       "role": "generated",
       "disposition": "generated",
       "reason": "Derived view/build asset: preserve source and generator linkage, regenerate rather than treating output as independent authority.",
       "source_locator": "HTML title: AES canonical: the one planning-and-checking tool, and AES as a whole: review the plan",
       "summary_origin": "content_review",
-      "sha256": "2f46f7524bddc0c75f447878baa585bc78ba713e2cdeadb7fe4631c1cedc0ce9",
+      "sha256": "2339a31a8aa9ebf07fcfce953d940f421a04156529e261f6365ab30fc385f80b",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
+      "has_standard_source_summary_field": false,
+      "review_reason": "Read all readable text, links, full embedded Markdown and graphs plus shared rendering behavior. Counts now show nine built entries and 23 open questions; capability C6 and investigation F4 still retain old correction-filing statements despite repaired Q18, so no fresh operational completeness claim is made."
     },
     {
       "path": "pyproject.toml",
@@ -3090,9 +3192,9 @@
     },
     {
       "path": "src/lockstep/catalog.py",
-      "sha256": "8aff2c14985716167311e33bf12be438f65ddbf2955c6f242e1428cd7e0cdfd2",
+      "sha256": "6f8f271154c9424ac77835480f83a9e96b5916d68a884e95f334524e843ae077",
       "summary": "Implements indexed-file pending detection, hash-bound review, deterministic catalog rendering and working-tree or staged-byte freshness checks with daily operation receipts.",
-      "review_reason": "Reviewed final catalog operations and heading-rendering correction: explicit anchors are separated from headings to match shared formatter; source-bound semantic review remains unchanged.",
+      "review_reason": "Reviewed the full catalog operations with applicable normative text now projected into its docstring and optional CLI result typing corrected; checks distinguish None from valid report dictionaries without changing review semantics.",
       "role": "source code",
       "disposition": "keep",
       "reason": "Distinct catalog-upkeep implementation, proving case or change record; preserve with its native authority.",
@@ -3179,9 +3281,10 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "ConfigError",
       "summary_origin": "content_review",
-      "sha256": "2b3759f731a1881b3a471aa67788fa71a04984357b28ac967bbb3aaaca1b9572",
+      "sha256": "158dad1d08b0c846db776fbd540e45c4d8b27be1f5433a91548485164be37aa1",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read the complete loader and dataclass: explicit modes, source pattern, owner and LikeC4 defaults retain the existing purpose; generated requirement prose does not change it."
     },
     {
       "path": "src/lockstep/checks/docmeta.py",
@@ -3191,9 +3294,10 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "Finding",
       "summary_origin": "content_review",
-      "sha256": "6a5f972f9cce211f7b00b25de18d039d4a95ebadcbc61abcdbc7164a70ed295e",
+      "sha256": "d5912623e74a62f55de869b6e42a761aeef3e48f662126118ea6bcf47d2c03e1",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read the complete module: field forms, 60-day freshness, topic collisions and two-link navigation still implement the described wiki metadata check."
     },
     {
       "path": "src/lockstep/checks/markers.py",
@@ -3203,9 +3307,10 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "_tool_table",
       "summary_origin": "content_review",
-      "sha256": "efd5a21d0bd154137e5f3c48b2aa1a5ce4911e4591876f3cc977ac3771b4c017",
+      "sha256": "c1071f554be11a9b73dadd82eac3b6d0a45f20b6b6a7368f800843fa49d68bde",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read the complete AST walkers and configured-root readers: requirement IDs and test markers remain statically extracted, with nested symbols and test-root deduplication."
     },
     {
       "path": "src/lockstep/checks/plugin.py",
@@ -3251,9 +3356,10 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "Item",
       "summary_origin": "content_review",
-      "sha256": "d9ef056fbe30795904605940650537449ae0c0204736873e9714d9910fc1c440",
+      "sha256": "f860cf3467df82bef1a163db2053be02c6c4ea591085212544c9b63835d84352",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read the complete Source/Decider readers and source classifier: the existing summary accurately describes normative provenance collection."
     },
     {
       "path": "src/lockstep/checks/spec.py",
@@ -3275,9 +3381,10 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "Row",
       "summary_origin": "content_review",
-      "sha256": "044b6aa47622bffef2b4cd57bd3d20d3f6377c87f6ceb446c1be2cde24bb2885",
+      "sha256": "0ef009caa51a36026b7f341d639a927f08647f6b4a5be55e066acf92aa0ba4e6",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read complete result validation, aggregation, plan closure and Markdown rendering: the summary describes revision-bound evidence rather than asserting current passing tests."
     },
     {
       "path": "src/lockstep/checks/test_first.py",
@@ -3299,9 +3406,10 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "Finding",
       "summary_origin": "content_review",
-      "sha256": "be7bf1dd9e238fd7f2279ec45102eb57152743fff123bf49d2110fc07925a0ea",
+      "sha256": "88555f18560156dc4f94439b7ec73ffeab313b3331b42e64c7dd53a6485cf2ac",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read the complete checker: merged requirements need implementers, scenarios need tests, active deltas contribute known IDs, and unknown references are reported."
     },
     {
       "path": "src/lockstep/cogtext.py",
@@ -3341,16 +3449,16 @@
     },
     {
       "path": "src/lockstep/doc_projection.py",
-      "summary": "Statically projects declared facts and extends native refresh with catalog rendering and pending semantic-review context; retains bounded projection evidence assessment.",
+      "summary": "Statically extracts scalar and record-array facts into declared Markdown blocks, validates inputs before projection writes, and integrates native refresh with catalog rendering, pending semantic-review context and daily traces.",
       "role": "code",
       "disposition": "keep",
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "ProjectionError",
       "summary_origin": "content_review",
-      "sha256": "e13b699f7e7b65c2651dd7736970c0878069d10d77c517669f4e4ccaf19a53f7",
+      "sha256": "0ae011da8f5cb9284574fc6e8b30e7a11e88510b34523e478c8d9d2686dc27a1",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "review_reason": "Reviewed refresh implementation and the installed executable recovery hint, which uses the same cached package when lockstep is absent from PATH; summary scope remains accurate."
+      "review_reason": "Read the complete module: items validation, array extraction/rendering, scalar compatibility, hook selection, catalog context and error tracing support the expanded summary."
     },
     {
       "path": "src/lockstep/docstring_up.py",
@@ -3504,9 +3612,10 @@
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "segments",
       "summary_origin": "content_review",
-      "sha256": "80e4801168a91e40f3ec7145afdf182e9e5e1838f34daee847e0f69fc3c8142e",
+      "sha256": "59b5e84096dd9f64e8afa5e4cd3fba863ccb7b4b2fae0d3aae5f79845711886a",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read the complete heredoc, segment, redirect, wrapper, named-command and embedded-code path parsing: it identifies writes for the edit hook and follows directory changes without running commands."
     },
     {
       "path": "src/lockstep/side_file.py",
@@ -4147,15 +4256,16 @@
     },
     {
       "path": "tests/lockstep/checks/test_lockstep_doc_projection.py",
-      "summary": "Source-owned facts reach wiki blocks; stale copies fail without executing source.",
+      "summary": "Exercises static fact projection, safe paths, read-only freshness checks, installed native refresh and traces, plus ordered JSON/YAML array rows, invalid records and native array-edit recovery.",
       "role": "test",
       "disposition": "keep",
       "reason": "Contains executable cases for the summarized behavior.",
       "source_locator": "_repo",
       "summary_origin": "content_review",
-      "sha256": "51c05f4f4a30fe6edea4cd37b0194c700df02c5433b979b76f6592d572fafbbd",
+      "sha256": "2473b44b241532c60bb10edbafd883db858a7696f770f71b3347c7de55ab9837",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Read the complete tests: array additions cover JSON/YAML order, escaped scalars, stale checks, malformed records, duplicate IDs, invalid declarations and selected facts in native-refresh receipts."
     },
     {
       "path": "tests/lockstep/conftest.py",
@@ -5037,21 +5147,23 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Lockstep; What it is; Who uses it",
       "summary_origin": "content_review",
-      "sha256": "f8e5dafd84da8df34ee682967baa0d0be822070e9fb1bc375091056573dd2975",
+      "sha256": "e91b4ac009c7ee2167c61cc33ab8641177185365468b27406278ad465c85fbb0",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Retain: the complete navigation links architecture, specifications, implementation and bounded adoption. The generated docstring adds array facts while preserving authored assessment and native limits; historical replay is explicitly distinct from the later Claude observation."
     },
     {
       "path": "wiki/open-questions.md",
-      "summary": "Projects unresolved questions and recommendations from the owning ledger, including ecosystem consolidation and predecessor review.",
+      "summary": "Presents ledger-derived questions and recommendations, ecosystem consolidation concerns, the recorded Q43 resolution and bounded catalog-upkeep evidence for Q30.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "9a20ae51d3e42ee5b9100992f9e54b85c5f25460349fd0a512e46aeb22592d5a",
+      "sha256": "4bfb26b1f083592c86f8474fb11d6226e1381d1263e254b1cb5d1d0ce82bd52a",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": true
+      "has_standard_source_summary_field": true,
+      "review_reason": "Revise after reading every retained question and re-reading updated Q30: the JSON ledger remains owner; Q43 is a recorded resolution; Q30 now links the native fixture and thirteen CLI probes, explicit review workflow and remaining prose/client-loading limits. Recommendations do not authorize runtime changes."
     },
     {
       "path": "wiki/policy-and-rules.md",
@@ -5073,10 +5185,10 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Required behavior and its evidence; Current Lockstep contracts; Retained library and feedback contracts",
       "summary_origin": "content_review",
-      "sha256": "85364ee7f45568572222f0be9740d5ce3dbf86dbfe0ca55ff5b49ab8ebca1f68",
+      "sha256": "eed04ccf8a5d6c6df095cc5720501e6083ab1a6aa86d0353f6eebc53a496012b",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "review_reason": "Read complete concern table and evidence routes; upkeep is newly linked without claiming tests passed today. Candidate link names the active requirement delta until archive."
+      "review_reason": "Retain: the current-contract table includes catalog upkeep and self-adoption. The rest preserves retained engine/feedback contracts and explicitly distinguishes requirement presence, proving examples and fresh test execution."
     },
     {
       "path": "wiki/research-and-lessons.md",
@@ -5530,18 +5642,18 @@
   "verification": {
     "status": "pass",
     "tracked_path_coverage": {
-      "tracked_files": 417,
-      "entries": 417,
-      "nonempty_summaries": 417,
-      "catalog_links": 417,
+      "tracked_files": 433,
+      "entries": 433,
+      "nonempty_summaries": 433,
+      "catalog_links": 433,
       "omissions": 0,
       "exclusions": 0,
       "status": "pass",
       "exit_code": 0
     },
     "source_hashes": {
-      "inputs": 415,
-      "matched": 415,
+      "inputs": 431,
+      "matched": 431,
       "self_outputs_omitted": [
         "docs/planning/file-inventory.json",
         "wiki/documents.md"
@@ -5614,7 +5726,14 @@
       "external_excluded": 32,
       "errors": 0,
       "exit_code": 0
+    },
+    "catalog_upkeep_review": {
+      "explicit_current_source_reviews": 51,
+      "native_stream_events": 26,
+      "negative_recovery_cli_steps": 13,
+      "focused_tests_after_upstream_integration": 85,
+      "scope": "Explicitly configured Claude fixture; host-level hook switches and normal default loading are separate findings. Review hashes bind bytes, not semantic proof."
     }
   },
-  "last_update": "Narrow self-adoption: 417 candidate files covered, 130 Markdown files; Claude proof bounded to explicit project settings."
+  "last_update": "Explicit source reviews reconciled catalog upkeep with concurrent merged documentation and array-fact changes; maintenance commands now own pending review, generation and checks."
 }

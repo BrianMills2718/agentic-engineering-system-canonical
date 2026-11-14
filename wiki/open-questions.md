@@ -16,6 +16,13 @@ runtime change, restarts a retired project or enables a timer.
 
 ## Discuss after repair
 
+### Resolved since the previous rendering: Q43
+
+The checked candidate at `feaf51f` reports 136 Markdown files against its
+136-file exception, zero unreachable files and zero durable-document findings.
+The [owning record](../docs/planning/open-questions.json) and
+[check output](../docs/planning/checks.txt) retain the earlier failures.
+
 ### Q2: Inside Success rollout
 
 Decision 0011 paused the Inside Success team rollout until whygame5 produced a result under AES; that condition was met on 2026-09-26 and the call to resume was never made. The one-tool design says any repository, personal or Inside Success, installs Lockstep with one command; slice 6 merged on 2026-11-12 and Team-Brains' Project Brain runner, an Inside Success repository, now vendors Lockstep's wheel (Team-Brains#1183, wiki/lockstep.md:22). Close the old rollout item, or keep it open?
@@ -136,13 +143,24 @@ Owner: agent.
 
 ### Q30: Wiki freshness has a declared scope
 
-How are every-file summaries and navigation refreshed without silent exclusions, missing summaries or stale compiled views?
+How are every-file summaries and navigation refreshed without silent exclusions,
+missing summaries or stale compiled views?
 
-Evidence: The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaces that subset catalog and binds content-derived summaries to inputs. Native declared-fact refresh still does not maintain every compiled description.
+Evidence: Complete-file upkeep now reports changed, added and removed indexed
+sources through the existing post-edit hook. An explicitly configured native
+Claude fixture changed search-once code to a loop and updated its reviewed
+summary. Thirteen CLI steps demonstrate bypass refusal, stale-hash rejection and
+staged recovery. See the [retained observation](../evidence/runs/catalog-upkeep-native-20261114.json).
 
-Recommendation: Use the complete inventory and source hashes to identify changed inputs; refresh source-owned descriptions and content-derived summaries with semantic review. Keep coverage, summary adequacy and freshness as separate checks.
+Recommendation: Use `lockstep catalog pending`, read changed sources and affected
+wiki prose, submit explicit summaries and reasons for the observed hashes, then
+refresh and check. Automatic rendering maintains the complete catalog and declared
+fact blocks; semantic correctness of explanatory prose, native Codex execution
+and ordinary session loading remain separate concerns.
 
-Sources: [documentation assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment), [inventory](../docs/planning/file-inventory.json), [catalog](documents.md).
+Sources: [upkeep procedure](../docs/architecture/DOCUMENTATION.md#ongoing-complete-file-catalog-upkeep),
+[inventory](../docs/planning/file-inventory.json), [catalog](documents.md),
+[current requirement](../openspec/specs/lockstep-catalog-upkeep/spec.md).
 
 Owner: agent.
 

@@ -63,12 +63,15 @@ Concepts marked *documents only*, *written by another tool* or *retired* have no
 | lockstep plan check (`plan-check`) | Lockstep (in code) | The plan and acceptance format check ported from Company Planning's validator, so the format is defined in one place. | `proposals/one-planning-tool/DESIGN.md:74` | `src/lockstep/plan_check.py:363` |
 | Acceptance entry (`acceptance_entry`) | Written by another tool | One outcome Brian judges by hand: criterion, steps on a working page, what he should see, a known broken case (docs/planning/acceptance-criteria.json). | `proposals/one-planning-tool/DESIGN.md:42` | none |
 | Slice (`slice`) | Only in documents | One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. | `proposals/one-planning-tool/DESIGN.md:64` | none |
+| Ecosystem consolidation (`ecosystem-consolidation`) | Only in documents | Adopted direction to make capabilities, providers, contracts, consumers and evidence discoverable through one route while preserving native owners. | `docs/architecture/ECOSYSTEM.md` | none |
+| Legacy source review (`legacy-review`) | Only in documents | First-pass examination of predecessor sources and their proposed reuse or retirement dispositions before migration. | `docs/architecture/ECOSYSTEM.md`; `docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md` | none |
 
 ## Where the sources disagree
 
 - **The corrections-filing gap was repaired.** The 2026-11-11 extraction deferred 867 human-correction reports at the cap. Commit `ec3022d5a` records corrections-first filing and 867/867 filed; Q18 is resolved from that retained observation, not a fresh rerun of the collector.
 - **The AES rules register lists one rule; Brian's rules live in code2-workspace `agents/`.** The register
-  ([RULES.md](../rules/RULES.md) line 7) is not the policy layer's list of rules. Open question Q20.
+  ([RULES.md](../rules/RULES.md) line 7) is not the policy layer's list of rules. Q20 resolved that narrow register-scope
+  question; Q35 keeps the original policy inventory reconciliation open.
 
 ## Source-fact projection within existing Lockstep concepts
 

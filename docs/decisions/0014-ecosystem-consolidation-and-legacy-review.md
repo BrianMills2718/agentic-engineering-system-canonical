@@ -8,6 +8,8 @@ accepted_by: Brian Mills, current conversation approval
 
 # Decision 0014: Consolidate ecosystem discovery through AES and review legacy sources
 
+Governs: docs/architecture/ECOSYSTEM.md
+
 ## Source and intent
 
 Source: Brian, 2026-11-13, described an index of data types, programs using them,

@@ -13,28 +13,29 @@ Implements: lockstep-checks/docmeta-every-wiki-page-declares-its-type, lockstep-
     lockstep-checks/docmeta-field-values-have-their-allowed-form, lockstep-checks/docmeta-count-line-and-exit-status
 
 Requirement text (generated):
-    lockstep-checks/docmeta-every-wiki-page-declares-its-type: The docmeta check SHALL report every Markdown page
-        under `wiki/` whose OKF front matter is missing, unparseable or has no non-empty `type`.
-        `wiki/index.md` and `wiki/log.md` are exempt, because the OKF conventions give the catalog
-        and the chronicle no front matter.
-    lockstep-checks/docmeta-current-pages-are-checked-within-60-days: The docmeta check SHALL report a page whose
-        `status` is `current` (or absent, which means current) when its `last_checked` date
-        (YYYY-MM-DD) is more than 60 days old or missing.
-    lockstep-checks/docmeta-superseded-pages-name-a-successor: The docmeta check SHALL report a page whose `status`
-        is `superseded` and which has no `successor`.
-    lockstep-checks/docmeta-one-page-owns-each-topic: The docmeta check SHALL report every topic listed in the
-        `source_of_truth_for` of two or more pages, naming the topic and each page.
-    lockstep-checks/docmeta-every-current-page-is-within-two-links-of-the-index: The docmeta check SHALL report
-        every current page under `wiki/` that cannot be reached from `wiki/index.md` by following at
-        most two relative Markdown links.
-    lockstep-checks/docmeta-field-values-have-their-allowed-form: The docmeta check SHALL report a `status` other
-        than `current`, `history` or `superseded`, a `last_checked` that is not a YYYY-MM-DD date,
-        and a `source_of_truth_for` that is not a list. Other keys are allowed, as OKF permits.
-    lockstep-checks/docmeta-count-line-and-exit-status: The docmeta check SHALL print one count line `docmeta:
-        pages=N missing_type=N stale=N superseded_without_successor=N topics_with_two_owners=N
-        beyond_two_links=N invalid_field=N` then one line per finding (path and reason), and exit 0
-        when there is no finding and 1 otherwise. A repository with no `wiki/` folder prints the
-        count line with `pages=0` and exits 0.
+    lockstep-checks/docmeta-every-wiki-page-declares-its-type: The docmeta check SHALL report every
+        Markdown page under `wiki/` whose OKF front matter is missing, unparseable or has no
+        non-empty `type`. `wiki/index.md` and `wiki/log.md` are exempt, because the OKF conventions
+        give the catalog and the chronicle no front matter.
+    lockstep-checks/docmeta-current-pages-are-checked-within-60-days: The docmeta check SHALL report
+        a page whose `status` is `current` (or absent, which means current) when its `last_checked`
+        date (YYYY-MM-DD) is more than 60 days old or missing.
+    lockstep-checks/docmeta-superseded-pages-name-a-successor: The docmeta check SHALL report a page
+        whose `status` is `superseded` and which has no `successor`.
+    lockstep-checks/docmeta-one-page-owns-each-topic: The docmeta check SHALL report every topic
+        listed in the `source_of_truth_for` of two or more pages, naming the topic and each page.
+    lockstep-checks/docmeta-every-current-page-is-within-two-links-of-the-index: The docmeta check
+        SHALL report every current page under `wiki/` that cannot be reached from `wiki/index.md` by
+        following at most two relative Markdown links.
+    lockstep-checks/docmeta-field-values-have-their-allowed-form: The docmeta check SHALL report a
+        `status` other than `current`, `history` or `superseded`, a `last_checked` that is not a
+        YYYY-MM-DD date, and a `source_of_truth_for` that is not a list. Other keys are allowed, as
+        OKF permits.
+    lockstep-checks/docmeta-count-line-and-exit-status: The docmeta check SHALL print one count line
+        `docmeta: pages=N missing_type=N stale=N superseded_without_successor=N
+        topics_with_two_owners=N beyond_two_links=N invalid_field=N` then one line per finding (path
+        and reason), and exit 0 when there is no finding and 1 otherwise. A repository with no
+        `wiki/` folder prints the count line with `pages=0` and exits 0.
 """
 
 from collections import defaultdict

@@ -35,3 +35,36 @@ print(f"graphs_valid={2-bad} graphs_invalid={bad}"); sys.exit(bad)'
 docs/planning/domain.graph.json valid
 docs/planning/open-questions.graph.json valid
 graphs_valid=2 graphs_invalid=0
+
+=== Follow-up at 796ecf93b, 2026-11-14 UTC: python3 ~/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD
+=== exit status: 1
+OVER    129  BrianMills2718/agentic-engineering-system-canonical  -- 129 > exception limit 126 (Accepted decisions, historical implementation contracts and current normative sources are retained so their citations and restore paths remain valid. The 2026-11-13 orientation repair adds three component/documentation accounts and docs/index.md (122 baseline tracked Markdown files plus 4). The limit matches that measured total; the wiki catalog provides a two-link path to reader docs.)
+UNREACHABLE     3  BrianMills2718/agentic-engineering-system-canonical  -- 3 reader docs not linked from wiki/index.md (e.g. openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/proposal.md, openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts/spec.md, openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/tasks.md)
+DURABLE    10  BrianMills2718/agentic-engineering-system-canonical  -- 10 durable-document findings (e.g. GOAL-FIELD role=goal id=North star file=docs/architecture/GOAL.md: 'North star' is missing or placeholder; GOAL-FIELD role=goal id=Thesis file=docs/architecture/GOAL.md: 'Thesis' is missing or placeholder)
+REPO  BrianMills2718/agentic-engineering-system-canonical  md=129  cap=over  reach=orphans(3)  layout=ok(0)  durable=findings(10)
+md-file-cap: 1 given repos checked, cap 100: ok=0 exception=0 over=1 not-checked=0; wiki reachability ok=0 orphans=1 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=0 findings=1 undeclared=0   exit 1
+
+=== Follow-up at e2ba1aa, 2026-11-14 UTC: python3 ~/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD
+=== exit status: 1
+EXCEPTION    129/129  BrianMills2718/agentic-engineering-system-canonical  -- Accepted decisions, historical implementation contracts and current normative sources are retained so their citations and restore paths remain valid. The 2026-11-13 orientation repair adds three component/documentation accounts and docs/index.md (122 baseline tracked Markdown files plus 4). The array-fact projection change adds three archived OpenSpec records at revision 796ecf93b; preserving its proposal, requirement delta and tasks increases the measured total to 129. The wiki catalog links those retained records; this exception does not certify their semantic review.
+DURABLE    10  BrianMills2718/agentic-engineering-system-canonical  -- 10 durable-document findings (e.g. GOAL-FIELD role=goal id=North star file=docs/architecture/GOAL.md: 'North star' is missing or placeholder; GOAL-FIELD role=goal id=Thesis file=docs/architecture/GOAL.md: 'Thesis' is missing or placeholder)
+REPO  BrianMills2718/agentic-engineering-system-canonical  md=129  cap=exception  reach=ok(0)  layout=ok(0)  durable=findings(10)
+md-file-cap: 1 given repos checked, cap 100: ok=0 exception=1 over=0 not-checked=0; wiki reachability ok=1 orphans=0 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=0 findings=1 undeclared=0   exit 1
+
+=== Follow-up at e5379b1, 2026-11-14 UTC: python3 ~/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD
+=== exit status: 0
+EXCEPTION    133/133  BrianMills2718/agentic-engineering-system-canonical  -- Current architecture, accepted decisions and historical contracts remain linked rather than discarded. The bounded self-adoption adds a capability and its archived proposal, delta and tasks. Array fact projection adds a separate archived proposal, delta and tasks. The merged tracked trees contain 133 Markdown files; the wiki catalog links both sets of records.
+REPO  BrianMills2718/agentic-engineering-system-canonical  md=133  cap=exception  reach=ok(0)  layout=ok(0)  durable=ok(0)
+md-file-cap: 1 given repos checked, cap 100: ok=0 exception=1 over=0 not-checked=0; wiki reachability ok=1 orphans=0 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=1 findings=0 undeclared=0   exit 0
+
+=== Follow-up at 8928154, 2026-11-14 UTC: python3 ~/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD
+=== exit status: 0
+EXCEPTION    134/134  BrianMills2718/agentic-engineering-system-canonical  -- Current architecture, accepted decisions and historical contracts remain linked rather than discarded. The bounded self-adoption adds a capability and its archived proposal, delta and tasks. Array fact projection adds a separate archived proposal, delta and tasks. The merged tracked trees contain 133 Markdown files. The generated requirement coverage page adds one, bringing the measured total to 134; the wiki catalog links all these records.
+REPO  BrianMills2718/agentic-engineering-system-canonical  md=134  cap=exception  reach=ok(0)  layout=ok(0)  durable=ok(0)
+md-file-cap: 1 given repos checked, cap 100: ok=0 exception=1 over=0 not-checked=0; wiki reachability ok=1 orphans=0 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=1 findings=0 undeclared=0   exit 0
+
+=== Follow-up at feaf51f, 2026-11-14 UTC: python3 ~/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD
+=== exit status: 0
+EXCEPTION    136/136  BrianMills2718/agentic-engineering-system-canonical  -- Current architecture, accepted decisions and historical contracts remain linked rather than discarded. The bounded self-adoption adds a capability and its archived proposal, delta and tasks. Array fact projection adds a separate archived proposal, delta and tasks. The merged tracked trees contain 133 Markdown files. The generated requirement coverage page adds one, bringing the total to 134. The ecosystem consolidation adds two retained architecture and decision documents; the merged tracked tree contains 136 Markdown files. The wiki catalog links these records.
+REPO  BrianMills2718/agentic-engineering-system-canonical  md=136  cap=exception  reach=ok(0)  layout=ok(0)  durable=ok(0)
+md-file-cap: 1 given repos checked, cap 100: ok=0 exception=1 over=0 not-checked=0; wiki reachability ok=1 orphans=0 no-wiki=0; layout ok=1 findings=0 undeclared=0; durable ok=1 findings=0 undeclared=0   exit 0

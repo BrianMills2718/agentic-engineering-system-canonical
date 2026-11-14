@@ -1,6 +1,6 @@
-limit: 130
+limit: 140
 reason: >
-  Current architecture, accepted decisions and historical contracts remain linked rather than
-  discarded. The bounded self-adoption change adds an OpenSpec capability plus its archived
-  proposal/task lineage; the archive delta remains a distinct scoped change record. The measured
-  final total is 130 tracked Markdown files, all included in the complete file catalog.
+  Current architecture, accepted decisions, complete-file navigation and historical
+  OpenSpec lineage remain reachable rather than discarded. The measured current
+  total is 140 tracked Markdown files, including catalog-upkeep and array-fact
+  capability records. New growth remains visible in the complete catalog.

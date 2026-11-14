@@ -134,7 +134,9 @@ OpenSpec requirements plus `layout:` rows in `lockstep.yaml` (`src/lockstep/layo
 `src/lockstep/checks/config.py:23-24` (`Config` at `:33`). Its writes are source and test files that begin with a docstring
 copy of the plan (`src/lockstep/scaffold.py`), the append-only change log (`src/lockstep/change_log.py`), generated wiki pages
 (`src/lockstep/wiki.py`) and a hook log under `.lockstep/` in the installing repository (`src/lockstep/hook.py:172`, resolved Q23), and, when `lockstep init` runs, the config file and the Claude Code and Codex hook entries it installs (`src/lockstep/init_repo.py`). These live in the repositories that
-install Lockstep; none is stored here, except what the tests build under `tests/lockstep/`.
+install Lockstep. AES now also self-adopts source-fact and catalog maintenance:
+its root declarations, reviewed inventory and generated document targets are tracked
+here; runtime receipts remain ignored under `.lockstep/`. Tests retain separate fixtures.
 
 The source-fact projection slice adds the following persisted records in an installing
 repository. The source retains authority; generated blocks carry selected facts and a
@@ -168,3 +170,24 @@ shared kernel. Open-questions entry Q9 records the reasoning.
   `proposals/aes-learning-loop/`: their record types are in the table above; the system map names each code unit.
 - Lockstep's walkthrough: now built as `proposals/planning-package/review-page/lockstep-acceptance.html` from recorded runs (`scripts/acceptance/`, `docs/planning/runs/lockstep-acceptance/`); A1 to A5 are built, not judged by Brian (Q22 resolved).
 - The Company Planning profile files under `docs/architecture/` (ODD.md gap G1).
+
+## Complete-file catalog maintenance (2026-11-14)
+
+The optional `catalog` configuration names an inventory and rendered navigation.
+[`catalog.py`](../../src/lockstep/catalog.py) reads Git-index membership and source
+bytes without executing repository hooks or file monitors. The existing CLI and
+post-edit refresher call it. The records are:
+
+| Record | Fields and purpose | Writer and storage |
+| --- | --- | --- |
+| Reviewed catalog entry | Repository-relative path, summary, role, disposition, source locator and reviewed sha256; a review reason explicitly explains retained or changed meaning. Self-output hashes are null while coverage includes both outputs. | The active coding agent submits a hash-bound review; `review_catalog` validates it before atomically replacing the configured inventory. |
+| Pending review | Added, changed or removed indexed path, its current source hash and prior summary. Hash disagreement detects changed bytes; no mechanical semantic judgment is claimed. | Computed by `inspect_catalog`; delivered in native post-edit context and read-only CLI reports. |
+| Generated catalog | Stored summaries, roles, dispositions, source links and visible pending warnings. Generation never approves reviews. | `refresh_catalog` writes the configured Markdown target. |
+| Catalog operation receipt | Operation, reviewed paths/hashes/summaries/reasons or generation input identities, intended output hash and failures. A prepared receipt alone is not proof of a completed replacement. | `.lockstep/catalog-YYYY-MM-DD.jsonl`, appended before mutation; actual output hash and CLI result establish application. |
+
+Local checks inspect working files. The pre-commit route inspects index bytes,
+allowing unrelated unstaged edits while refusing a stale staged source or review.
+The [procedure and observation boundaries](../architecture/DOCUMENTATION.md#ongoing-complete-file-catalog-upkeep)
+and [native receipt](../../evidence/runs/catalog-upkeep-native-20261114.json)
+state what has actually been exercised. Older rendered planning pages retain
+their own dated revision and do not establish current catalog behavior.

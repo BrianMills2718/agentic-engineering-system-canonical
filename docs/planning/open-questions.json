@@ -150,78 +150,6 @@
       "evidence": "The 2026-11-13 front page links the current purpose, state and discussion ledger. The six one-tool slices remain historical delivered work, not a newly authorized next build. .project-brain/now.md names discussion after documentation repair as the next step."
     },
     {
-      "id": "Q10",
-      "short": "Vendored claims machinery",
-      "question": "enforced_planning/ (44,286 lines of claims, sessions and worktree lanes) and the scripts/meta coordination scripts that import it are still in the repository, but ~/code2 replaced claims with claude -w worktrees. Keep, or retire them?",
-      "blocks": "how much of the repository the system model must describe, and the size of the hygiene plan",
-      "resolves_with": "An argument settles it: the one-tool plan does not touch enforced_planning/ or scripts/meta/, so they stay in place, unmodelled and labelled retired by the ~/code2 redirect, until a plan needs that space; removing 44k lines nobody is working on is not part of this build. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
-      "owner": "agent",
-      "status": "resolved",
-      "sources": [
-        "/home/brian/code2/AGENTS.md:19",
-        "docs/retired/2026-11-12.md:29"
-      ],
-      "touches": [],
-      "evidence": "Resolved 2026-11-12: enforced_planning/ (44 files, 44,286 lines, all but agents_rendering.py and __init__.py), scripts/meta/ (50 of 52 files) and the 16 claims-era scripts/*.py were retired with git rm. The AGENTS.md generator that make check needs stays (enforced_planning/agents_rendering.py, scripts/meta/check_agents_sync.py, render_agents_md.py). make check passes (672 passed, 19 skipped; mypy clean on 60 files)."
-    },
-    {
-      "id": "Q15",
-      "short": "Target still holds the commit-rule outcome",
-      "question": "OUT-AP-001 says real work in an AES-governed repository lands only under a plan Company Planning adopted. That was the commit rule's outcome, removed on 2026-10-14 at Brian's request, and TR-REQ-001 still serves it. Withdraw the outcome, or say what now enforces it?",
-      "blocks": "whether the target contradicts the repository's own rules while it is still read",
-      "resolves_with": "An argument settles it: Brian asked on 2026-10-13 to turn off this enforcement, and nothing enforces it now, so the outcome is withdrawn through `aes plan prepare` / `validate` / `accept` (TR-REQ-001 re-pointed at OUT-GF-001, because SC-TR-001 and SC-TR-SOURCE-001 depend on it and trace review still serves a new project's evidence), not by hand. Settled together with Q6: if this repository's own `.aes/` retires, this question closes with it.",
-      "owner": "agent",
-      "status": "resolved",
-      "sources": [
-        "docs/architecture/GOAL.md:13",
-        "docs/model/ODD.md:55",
-        "docs/retired/2026-11-12.md:17"
-      ],
-      "touches": [
-        "outcome",
-        "target",
-        "commit-rule"
-      ],
-      "evidence": "Resolved 2026-11-12: the target that held OUT-AP-001 (.aes/target.yaml) was retired with this repository's .aes/; GOAL.md says the outcome was withdrawn with the commit rule on 2026-10-14. Other repositories' targets are their own."
-    },
-    {
-      "id": "Q16",
-      "short": "Orphan hook does not run here",
-      "question": "AGENTS.md says the pre-commit hook written by `aes hooks install` refuses a commit that leaves an unplanned file under a governed root, but this checkout's core.hooksPath runs lefthook with the shared code2-workspace config, which never calls aes, and repository hooks are off machine-wide since 2026-10-13. Reinstate the gate (an aes topology step in lefthook), or say in AGENTS.md that `make aes` is now the only check?",
-      "blocks": "what the rewritten thesis and disproof can rest on (Q5), and whether AGENTS.md lines 38-40 stay true",
-      "resolves_with": "An argument settles it while the `aes` command line retires: every ~/code2 check should finish in seconds and `aes topology check` does, so add it to lefthook's pre-commit as a local step if Q1 resumes AES; while on hold, correct AGENTS.md (through CLAUDE.md, which generates it) to name `make aes` as the check. Settled together with Q6: if this repository's own `.aes/` retires, this question closes with it.",
-      "owner": "agent",
-      "status": "resolved",
-      "sources": [
-        "CLAUDE.md:24",
-        "lefthook.yml:1"
-      ],
-      "touches": [
-        "pre-commit-hook",
-        "orphan",
-        "thesis"
-      ],
-      "evidence": "Resolved 2026-11-12: AGENTS.md (generated from CLAUDE.md) no longer says the aes pre-commit hook refuses unplanned files; CLAUDE.md states that AES does not govern itself, and the .githooks/ and hooks/ files were retired."
-    },
-    {
-      "id": "Q17",
-      "short": "Not in the code2 repository format",
-      "question": "~/code2/AGENTS.md brings each repository into the code2 format when it is next changed; scripts/repo_format.py reports this one 0 of 1 compliant (missing docs/index.md, arc42, a .c4 model, a Makefile that mentions code2check). The one-tool build changes this repository, and its slice 6 replaces code2check with lockstep in the code2 template. Adopt the format now, or in slice 6?",
-      "blocks": "the code2 repository format check, and whether this repository's make check runs lockstep check after slice 4",
-      "resolves_with": "An argument settles it: the format's code2check target is the part slice 6 replaces, so adding it now would be redone; add docs/index.md now (pointing at wiki/index.md) and the rest in slice 6, when the template installs lockstep.",
-      "owner": "agent",
-      "status": "open",
-      "sources": [
-        "/home/brian/code2/AGENTS.md:49",
-        "proposals/one-planning-tool/DESIGN.md:75",
-        "docs/planning/checks.txt:35"
-      ],
-      "touches": [
-        "slice",
-        "code2check"
-      ]
-    },
-    {
       "id": "Q9",
       "short": "Does AES execute typed rules?",
       "question": "Does AES evaluate typed rules (relations with named roles whose effects run), which would need a type-level metamodel mapped onto the shared kernel?",
@@ -238,6 +166,21 @@
         "standing",
         "reconciliation"
       ]
+    },
+    {
+      "id": "Q10",
+      "short": "Vendored claims machinery",
+      "question": "enforced_planning/ (44,286 lines of claims, sessions and worktree lanes) and the scripts/meta coordination scripts that import it are still in the repository, but ~/code2 replaced claims with claude -w worktrees. Keep, or retire them?",
+      "blocks": "how much of the repository the system model must describe, and the size of the hygiene plan",
+      "resolves_with": "An argument settles it: the one-tool plan does not touch enforced_planning/ or scripts/meta/, so they stay in place, unmodelled and labelled retired by the ~/code2 redirect, until a plan needs that space; removing 44k lines nobody is working on is not part of this build. Open as a work item only: the answer is known, and a check that still fails must point at an open question.",
+      "owner": "agent",
+      "status": "resolved",
+      "sources": [
+        "/home/brian/code2/AGENTS.md:19",
+        "docs/retired/2026-11-12.md:29"
+      ],
+      "touches": [],
+      "evidence": "Resolved 2026-11-12: enforced_planning/ (44 files, 44,286 lines, all but agents_rendering.py and __init__.py), scripts/meta/ (50 of 52 files) and the 16 claims-era scripts/*.py were retired with git rm. The AGENTS.md generator that make check needs stays (enforced_planning/agents_rendering.py, scripts/meta/check_agents_sync.py, render_agents_md.py). make check passes (672 passed, 19 skipped; mypy clean on 60 files)."
     },
     {
       "id": "Q11",
@@ -306,6 +249,63 @@
       ],
       "touches": [
         "commit-rule"
+      ]
+    },
+    {
+      "id": "Q15",
+      "short": "Target still holds the commit-rule outcome",
+      "question": "OUT-AP-001 says real work in an AES-governed repository lands only under a plan Company Planning adopted. That was the commit rule's outcome, removed on 2026-10-14 at Brian's request, and TR-REQ-001 still serves it. Withdraw the outcome, or say what now enforces it?",
+      "blocks": "whether the target contradicts the repository's own rules while it is still read",
+      "resolves_with": "An argument settles it: Brian asked on 2026-10-13 to turn off this enforcement, and nothing enforces it now, so the outcome is withdrawn through `aes plan prepare` / `validate` / `accept` (TR-REQ-001 re-pointed at OUT-GF-001, because SC-TR-001 and SC-TR-SOURCE-001 depend on it and trace review still serves a new project's evidence), not by hand. Settled together with Q6: if this repository's own `.aes/` retires, this question closes with it.",
+      "owner": "agent",
+      "status": "resolved",
+      "sources": [
+        "docs/architecture/GOAL.md:13",
+        "docs/model/ODD.md:55",
+        "docs/retired/2026-11-12.md:17"
+      ],
+      "touches": [
+        "outcome",
+        "target",
+        "commit-rule"
+      ],
+      "evidence": "Resolved 2026-11-12: the target that held OUT-AP-001 (.aes/target.yaml) was retired with this repository's .aes/; GOAL.md says the outcome was withdrawn with the commit rule on 2026-10-14. Other repositories' targets are their own."
+    },
+    {
+      "id": "Q16",
+      "short": "Orphan hook does not run here",
+      "question": "AGENTS.md says the pre-commit hook written by `aes hooks install` refuses a commit that leaves an unplanned file under a governed root, but this checkout's core.hooksPath runs lefthook with the shared code2-workspace config, which never calls aes, and repository hooks are off machine-wide since 2026-10-13. Reinstate the gate (an aes topology step in lefthook), or say in AGENTS.md that `make aes` is now the only check?",
+      "blocks": "what the rewritten thesis and disproof can rest on (Q5), and whether AGENTS.md lines 38-40 stay true",
+      "resolves_with": "An argument settles it while the `aes` command line retires: every ~/code2 check should finish in seconds and `aes topology check` does, so add it to lefthook's pre-commit as a local step if Q1 resumes AES; while on hold, correct AGENTS.md (through CLAUDE.md, which generates it) to name `make aes` as the check. Settled together with Q6: if this repository's own `.aes/` retires, this question closes with it.",
+      "owner": "agent",
+      "status": "resolved",
+      "sources": [
+        "CLAUDE.md:24",
+        "lefthook.yml:1"
+      ],
+      "touches": [
+        "pre-commit-hook",
+        "orphan",
+        "thesis"
+      ],
+      "evidence": "Resolved 2026-11-12: AGENTS.md (generated from CLAUDE.md) no longer says the aes pre-commit hook refuses unplanned files; CLAUDE.md states that AES does not govern itself, and the .githooks/ and hooks/ files were retired."
+    },
+    {
+      "id": "Q17",
+      "short": "Not in the code2 repository format",
+      "question": "~/code2/AGENTS.md brings each repository into the code2 format when it is next changed; scripts/repo_format.py reports this one 0 of 1 compliant (missing docs/index.md, arc42, a .c4 model, a Makefile that mentions code2check). The one-tool build changes this repository, and its slice 6 replaces code2check with lockstep in the code2 template. Adopt the format now, or in slice 6?",
+      "blocks": "the code2 repository format check, and whether this repository's make check runs lockstep check after slice 4",
+      "resolves_with": "An argument settles it: the format's code2check target is the part slice 6 replaces, so adding it now would be redone; add docs/index.md now (pointing at wiki/index.md) and the rest in slice 6, when the template installs lockstep.",
+      "owner": "agent",
+      "status": "open",
+      "sources": [
+        "/home/brian/code2/AGENTS.md:49",
+        "proposals/one-planning-tool/DESIGN.md:75",
+        "docs/planning/checks.txt:35"
+      ],
+      "touches": [
+        "slice",
+        "code2check"
       ]
     },
     {
@@ -538,7 +538,7 @@
       "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
       "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
       "recommendation": "Use the new explicit pending/review/render/check path in the existing native hook. Review changed source and affected wiki prose, acknowledge the exact observed hash, and keep semantic adequacy distinct from deterministic freshness. Native evidence and scope will be recorded before closing the implemented catalog portion.",
-      "evidence": "The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaces that subset catalog and binds content-derived summaries to inputs. Native declared-fact refresh still does not maintain every compiled description.",
+      "evidence": "The initial 69-reader-file subset was replaced by complete-file navigation. Catalog upkeep now exposes pending source reviews through the existing edit hook, accepts explicit summaries/reasons for observed hashes, regenerates navigation and checks working-tree and staged freshness independently. The retained six-file native Claude fixture changed search-once into a loop and updated its summary; 13 CLI steps show bypass refusal, stale-hash rejection and recovery. Ordinary session loading, native Codex and semantic completeness of explanatory wiki prose remain unproven. Receipt: evidence/runs/catalog-upkeep-native-20261114.json.",
       "sources": [
         "docs/architecture/DOCUMENTATION.md",
         "docs/planning/file-inventory.json",
@@ -635,131 +635,148 @@
       ],
       "touches": []
     },
-  {
-    "id": "Q36",
-    "short": "One capability discovery route",
-    "question": "Which existing catalogue/export/view should implement the adopted AES discovery route, and how will ACA Decision 0012, workspace Decision 0004 and Project Meta be explicitly reconciled?",
-    "blocks": "catalogue implementation and upstream instruction changes",
-    "resolves_with": "Compare unique entries, readers/writers, stable aliases and sufficient existing catalogue products; demonstrate one route before changing old instructions.",
-    "owner": "agent",
-    "status": "open",
-    "recommendation": "Keep native provider facts at source and AES-owned cross-project decisions; select the publication/storage mechanism after the record comparison.",
-    "sources": [
-      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
-      "docs/architecture/ECOSYSTEM.md"
-    ],
-    "touches": [
-      "ecosystem-consolidation",
-      "legacy-review"
-    ]
-  },
-  {
-    "id": "Q37",
-    "short": "Qualified capability and schema identities",
-    "question": "How are legacy capability/family IDs, provider-qualified action names, versions and input/output schema references preserved without ambiguous joins?",
-    "blocks": "safe record migration and cross-project compatibility claims",
-    "resolves_with": "Produce alias mappings and show distinct same-named tools cannot overwrite each other; retain explicit schema compatibility/adaptation evidence.",
-    "owner": "agent",
-    "status": "open",
-    "recommendation": "Preserve IDs/aliases and exact references; never infer substitutability from similar names.",
-    "sources": [
-      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
-      "docs/architecture/ECOSYSTEM.md"
-    ],
-    "touches": [
-      "ecosystem-consolidation",
-      "legacy-review"
-    ]
-  },
-  {
-    "id": "Q38",
-    "short": "Discovery evidence and freshness",
-    "question": "How does discovery distinguish documented, candidate, source-resolved, available, consumer-adopted and fit-for-this-requirement states, including incomplete or broken inputs?",
-    "blocks": "honest discovery results and automatic refresh claims",
-    "resolves_with": "Exercise missing source, invalid input, stale revision and catalog-only capability; inspect a real consumer receipt separately from a dependency declaration.",
-    "owner": "agent",
-    "status": "open",
-    "recommendation": "Expose source-level unknown/error/stale and keep declared versus observed consumer edges separate.",
-    "sources": [
-      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
-      "docs/architecture/ECOSYSTEM.md"
-    ],
-    "touches": [
-      "ecosystem-consolidation",
-      "legacy-review"
-    ]
-  },
-  {
-    "id": "Q39",
-    "short": "Legacy review coverage",
-    "question": "Which older source sections have actually been read, what unique ideas remain, and what is the next bounded reading tranche?",
-    "blocks": "claims that predecessor knowledge has been preserved",
-    "resolves_with": "Continue the source/revision/disposition table in ECOSYSTEM.md; inspect concern lifecycle next, then selected policy families and instruction delivery.",
-    "owner": "agent",
-    "status": "open",
-    "recommendation": "Treat the first review as bounded; preserve useful requirements even without current runtime use and reject machinery that lacks a present purpose.",
-    "sources": [
-      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
-      "docs/architecture/ECOSYSTEM.md"
-    ],
-    "touches": [
-      "ecosystem-consolidation",
-      "legacy-review"
-    ]
-  },
-  {
-    "id": "Q40",
-    "short": "Retired entrypoint and consumer reconciliation",
-    "question": "Which Project Meta and Enforced Planning entrypoints still route agents into old claims/mailbox authority, and which surviving consumers need their implementation?",
-    "blocks": "safe donor-document routing and eventual retirement",
-    "resolves_with": "Inventory exact readers and installed routes; change upstream pointers through their owning repositories after preserving live contract consumers.",
-    "owner": "agent",
-    "status": "open",
-    "recommendation": "Keep useful design rationale and current consumers; route old global instructions to the current AES/workspace owners instead of reviving retired regimes.",
-    "sources": [
-      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
-      "docs/architecture/ECOSYSTEM.md"
-    ],
-    "touches": [
-      "ecosystem-consolidation",
-      "legacy-review"
-    ]
-  },
-  {
-    "id": "Q41",
-    "short": "Minimum composition model",
-    "question": "Does ordinary ecosystem discovery require the rich data-contracts action/compiler vocabulary, or are typed provider references and the minimal requirement/output graph sufficient?",
-    "blocks": "publication burden and speculative platform growth",
-    "resolves_with": "Compare actual ordinary plans and consumer guarantees; adopt richer effects/resources/transition semantics only for an explicit unsatisfied requirement.",
-    "owner": "agent",
-    "status": "open",
-    "recommendation": "Keep contracts at their native owner and make richer composition optional until justified.",
-    "sources": [
-      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
-      "docs/architecture/ECOSYSTEM.md"
-    ],
-    "touches": [
-      "ecosystem-consolidation",
-      "legacy-review"
-    ]
-  },
-  {
-    "id": "Q42",
-    "short": "Concern identity and repair closure",
-    "question": "Which existing system owns durable concern identity, verifier-owned closure and recurrence reopening across native feedback evidence and GitHub issues?",
-    "blocks": "integrated correction-to-verified-repair behavior",
-    "resolves_with": "Read the Project Meta concern executor/verifier lifecycle and compare its exact transitions with AES feedback implementation, Q21, Q29 and Q31.",
-    "owner": "agent",
-    "status": "open",
-    "recommendation": "Compose existing records and native evidence rather than create another independent concern tracker; require landed-revision closure and legitimate counter-cases.",
-    "sources": [
-      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
-      "docs/architecture/ECOSYSTEM.md"
-    ],
-    "touches": [
-      "ecosystem-consolidation",
-      "legacy-review"
-    ]
-  }
- ]
+    {
+      "id": "Q36",
+      "short": "One capability discovery route",
+      "question": "Which existing catalogue/export/view should implement the adopted AES discovery route, and how will ACA Decision 0012, workspace Decision 0004 and Project Meta be explicitly reconciled?",
+      "blocks": "catalogue implementation and upstream instruction changes",
+      "resolves_with": "Compare unique entries, readers/writers, stable aliases and sufficient existing catalogue products; demonstrate one route before changing old instructions.",
+      "owner": "agent",
+      "status": "open",
+      "recommendation": "Keep native provider facts at source and AES-owned cross-project decisions; select the publication/storage mechanism after the record comparison.",
+      "sources": [
+        "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+        "docs/architecture/ECOSYSTEM.md"
+      ],
+      "touches": [
+        "ecosystem-consolidation",
+        "legacy-review"
+      ]
+    },
+    {
+      "id": "Q37",
+      "short": "Qualified capability and schema identities",
+      "question": "How are legacy capability/family IDs, provider-qualified action names, versions and input/output schema references preserved without ambiguous joins?",
+      "blocks": "safe record migration and cross-project compatibility claims",
+      "resolves_with": "Produce alias mappings and show distinct same-named tools cannot overwrite each other; retain explicit schema compatibility/adaptation evidence.",
+      "owner": "agent",
+      "status": "open",
+      "recommendation": "Preserve IDs/aliases and exact references; never infer substitutability from similar names.",
+      "sources": [
+        "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+        "docs/architecture/ECOSYSTEM.md"
+      ],
+      "touches": [
+        "ecosystem-consolidation",
+        "legacy-review"
+      ]
+    },
+    {
+      "id": "Q38",
+      "short": "Discovery evidence and freshness",
+      "question": "How does discovery distinguish documented, candidate, source-resolved, available, consumer-adopted and fit-for-this-requirement states, including incomplete or broken inputs?",
+      "blocks": "honest discovery results and automatic refresh claims",
+      "resolves_with": "Exercise missing source, invalid input, stale revision and catalog-only capability; inspect a real consumer receipt separately from a dependency declaration.",
+      "owner": "agent",
+      "status": "open",
+      "recommendation": "Expose source-level unknown/error/stale and keep declared versus observed consumer edges separate.",
+      "sources": [
+        "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+        "docs/architecture/ECOSYSTEM.md"
+      ],
+      "touches": [
+        "ecosystem-consolidation",
+        "legacy-review"
+      ]
+    },
+    {
+      "id": "Q39",
+      "short": "Legacy review coverage",
+      "question": "Which older source sections have actually been read, what unique ideas remain, and what is the next bounded reading tranche?",
+      "blocks": "claims that predecessor knowledge has been preserved",
+      "resolves_with": "Continue the source/revision/disposition table in ECOSYSTEM.md; inspect concern lifecycle next, then selected policy families and instruction delivery.",
+      "owner": "agent",
+      "status": "open",
+      "recommendation": "Treat the first review as bounded; preserve useful requirements even without current runtime use and reject machinery that lacks a present purpose.",
+      "sources": [
+        "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+        "docs/architecture/ECOSYSTEM.md"
+      ],
+      "touches": [
+        "ecosystem-consolidation",
+        "legacy-review"
+      ]
+    },
+    {
+      "id": "Q40",
+      "short": "Retired entrypoint and consumer reconciliation",
+      "question": "Which Project Meta and Enforced Planning entrypoints still route agents into old claims/mailbox authority, and which surviving consumers need their implementation?",
+      "blocks": "safe donor-document routing and eventual retirement",
+      "resolves_with": "Inventory exact readers and installed routes; change upstream pointers through their owning repositories after preserving live contract consumers.",
+      "owner": "agent",
+      "status": "open",
+      "recommendation": "Keep useful design rationale and current consumers; route old global instructions to the current AES/workspace owners instead of reviving retired regimes.",
+      "sources": [
+        "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+        "docs/architecture/ECOSYSTEM.md"
+      ],
+      "touches": [
+        "ecosystem-consolidation",
+        "legacy-review"
+      ]
+    },
+    {
+      "id": "Q41",
+      "short": "Minimum composition model",
+      "question": "Does ordinary ecosystem discovery require the rich data-contracts action/compiler vocabulary, or are typed provider references and the minimal requirement/output graph sufficient?",
+      "blocks": "publication burden and speculative platform growth",
+      "resolves_with": "Compare actual ordinary plans and consumer guarantees; adopt richer effects/resources/transition semantics only for an explicit unsatisfied requirement.",
+      "owner": "agent",
+      "status": "open",
+      "recommendation": "Keep contracts at their native owner and make richer composition optional until justified.",
+      "sources": [
+        "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+        "docs/architecture/ECOSYSTEM.md"
+      ],
+      "touches": [
+        "ecosystem-consolidation",
+        "legacy-review"
+      ]
+    },
+    {
+      "id": "Q42",
+      "short": "Concern identity and repair closure",
+      "question": "Which existing system owns durable concern identity, verifier-owned closure and recurrence reopening across native feedback evidence and GitHub issues?",
+      "blocks": "integrated correction-to-verified-repair behavior",
+      "resolves_with": "Read the Project Meta concern executor/verifier lifecycle and compare its exact transitions with AES feedback implementation, Q21, Q29 and Q31.",
+      "owner": "agent",
+      "status": "open",
+      "recommendation": "Compose existing records and native evidence rather than create another independent concern tracker; require landed-revision closure and legitimate counter-cases.",
+      "sources": [
+        "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+        "docs/architecture/ECOSYSTEM.md"
+      ],
+      "touches": [
+        "ecosystem-consolidation",
+        "legacy-review"
+      ]
+    },
+    {
+      "id": "Q43",
+      "short": "Durable-document check findings",
+      "question": "How should the ten current durable-document findings be reconciled with the actual goal and plan sources?",
+      "blocks": "A passing current durable-document check.",
+      "resolves_with": "Inspect the ten durable-document findings against their owning sources and correct the records or check, then retain the new check result.",
+      "owner": "agent",
+      "status": "resolved",
+      "evidence": "At 796ecf93b the check reported 129 Markdown files against a 126-file cap, three unreachable archived change files and ten durable-document findings. At e2ba1aa the retained archive files are linked and the explicit cap is 129: the same check reports 129/129, zero unreachable files and ten durable-document findings, exit 1. The earlier Q7 remains the resolved historical repair. The updated main repaired the durable-document issues; merged candidate e5379b1 reports 133/133, zero unreachable, zero layout and zero durable findings, exit 0. Earlier failures remain in checks.txt. After generating and linking the requirement-coverage page, revision 8928154 reports 134/134, zero unreachable, zero layout and zero durable findings, exit 0. After merging ecosystem work and identifying Decision 0014’s governed source, feaf51f reports 136/136, zero unreachable, zero layout and zero durable findings, exit 0.",
+      "sources": [
+        "docs/planning/checks.txt",
+        "docs/architecture/GOAL.md",
+        ".md-file-cap.yaml",
+        "wiki/documents.md"
+      ],
+      "touches": []
+    }
+  ]
 }

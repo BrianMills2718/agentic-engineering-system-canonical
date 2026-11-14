@@ -5,8 +5,8 @@ status: current
 
 # Every file: purpose and review disposition
 
-This catalog covers every Git-tracked AES file, including code, tests, instructions,
-fixtures, archived changes, generated material, configuration and evidence. It
+This catalog lists the reviewed inventory and subsequent records, including code,
+tests, instructions, fixtures, archived changes, configuration and evidence. It
 replaces the earlier reader-Markdown subset. Start with the [question-based wiki](index.md)
 for the short reading path, then use this catalog for full coverage.
 
@@ -17,11 +17,30 @@ installed universal automatic summarizer. Changed sources require re-review.
 The [assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment)
 explains what can be consolidated and which unique information must survive.
 
-**Coverage:** 425 inventory files; 0 pending source reviews. Links and stored summaries do not establish current verification.
+**Coverage:** 433 inventory files; 0 pending source reviews. Links and stored summaries do not establish current verification.
+trees contain 424 files; the five additional files are listed below. Changed
+inventory entries require re-review; the count does not certify their current
+descriptions.
 Dispositions are assessment results: `keep` preserves a distinct role, `update`
 flags a remaining correction, `consolidate` proposes a content-preserving merge,
 and `generated` identifies derived/tool-owned material.
 They do not authorize policy retirement, code removal or deletion of history.
+
+## Subsequent archived change (2026-11-14)
+
+These records were added after the 419-file inventory above. They record
+the array projection change; the merged specification remains authoritative.
+
+- [Array projection metadata](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/.openspec.yaml) — archived change schema metadata.
+- [Array projection proposal](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/proposal.md) — motivation, scope and impact.
+- [Array projection requirement delta](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts/spec.md) — retained change to the fact projection contract.
+- [Array projection tasks](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/tasks.md) — historical implementation checklist.
+
+## Generated requirement coverage (2026-11-14)
+
+- [Requirement status](../docs/status.md) — generated requirement-to-code and
+  scenario-to-test coverage; it states when test results have not been recorded
+  for the revision. It is a derived view, not evidence that tests passed.
 
 ## Owning external sources
 
@@ -64,7 +83,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [.codex](#catalog-folder-18) (1 files)
 - [.project-brain](#catalog-folder-19) (4 files)
 - [contracts/learning-loop](#catalog-folder-20) (1 files)
-- [docs](#catalog-folder-21) (2 files)
+- [docs](#catalog-folder-21) (3 files)
 - [docs/architecture](#catalog-folder-22) (7 files)
 - [docs/architecture/greenfield-v0.2](#catalog-folder-23) (11 files)
 - [docs/decisions](#catalog-folder-24) (14 files)
@@ -78,7 +97,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [docs/retired](#catalog-folder-32) (1 files)
 - [docs/rules](#catalog-folder-33) (3 files)
 - [enforced\_planning](#catalog-folder-34) (2 files)
-- [evidence/runs](#catalog-folder-35) (3 files)
+- [evidence/runs](#catalog-folder-35) (5 files)
 - [meta-process/templates](#catalog-folder-36) (1 files)
 - [openspec](#catalog-folder-37) (1 files)
 - [openspec/changes/archive](#catalog-folder-38) (1 files)
@@ -106,65 +125,68 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [openspec/changes/archive/2026-11-12-source-local-doc-facts](#catalog-folder-60) (2 files)
 - [openspec/changes/archive/2026-11-12-source-local-doc-facts/specs/lockstep-doc-facts](#catalog-folder-61) (1 files)
 - [openspec/changes/archive/2026-11-12-source-local-doc-facts/specs/lockstep-projection](#catalog-folder-62) (1 files)
-- [openspec/changes/archive/2026-11-13-self-adopt-projection](#catalog-folder-63) (2 files)
-- [openspec/changes/archive/2026-11-13-self-adopt-projection/specs/aes-documentation-projection](#catalog-folder-64) (1 files)
-- [openspec/changes/catalog-upkeep](#catalog-folder-65) (2 files)
-- [openspec/changes/catalog-upkeep/specs/lockstep-catalog-upkeep](#catalog-folder-66) (1 files)
-- [openspec/specs](#catalog-folder-67) (1 files)
-- [openspec/specs/aes-documentation-projection](#catalog-folder-68) (1 files)
-- [openspec/specs/inert-characterization](#catalog-folder-69) (1 files)
-- [openspec/specs/lockstep-checks](#catalog-folder-70) (1 files)
-- [openspec/specs/lockstep-doc-facts](#catalog-folder-71) (1 files)
-- [openspec/specs/lockstep-guard](#catalog-folder-72) (1 files)
-- [openspec/specs/lockstep-init](#catalog-folder-73) (1 files)
-- [openspec/specs/lockstep-package](#catalog-folder-74) (1 files)
-- [openspec/specs/lockstep-plan-check](#catalog-folder-75) (1 files)
-- [openspec/specs/lockstep-plan-format](#catalog-folder-76) (1 files)
-- [openspec/specs/lockstep-projection](#catalog-folder-77) (1 files)
-- [openspec/specs/required-evidence-inputs](#catalog-folder-78) (1 files)
-- [proposals](#catalog-folder-79) (1 files)
-- [proposals/aes-learning-loop/review-page](#catalog-folder-80) (7 files)
-- [proposals/one-planning-tool](#catalog-folder-81) (1 files)
-- [proposals/planning-package/review-page](#catalog-folder-82) (11 files)
-- [scripts](#catalog-folder-83) (1 files)
-- [scripts/acceptance](#catalog-folder-84) (8 files)
-- [scripts/hive](#catalog-folder-85) (2 files)
-- [scripts/learning\_loop](#catalog-folder-86) (14 files)
-- [scripts/learning\_loop/systemd](#catalog-folder-87) (11 files)
-- [scripts/meta](#catalog-folder-88) (2 files)
-- [scripts/rules](#catalog-folder-89) (2 files)
-- [src/agentic\_engineering\_system](#catalog-folder-90) (15 files)
-- [src/lockstep](#catalog-folder-91) (33 files)
-- [src/lockstep/checks](#catalog-folder-92) (14 files)
-- [src/pcw](#catalog-folder-93) (1 files)
-- [tests](#catalog-folder-94) (6 files)
-- [tests/greenfield](#catalog-folder-95) (13 files)
-- [tests/greenfield/fixtures](#catalog-folder-96) (1 files)
-- [tests/greenfield/fixtures/whygame5-54043e2](#catalog-folder-97) (1 files)
-- [tests/greenfield/fixtures/whygame5-54043e2/.aes](#catalog-folder-98) (2 files)
-- [tests/learning](#catalog-folder-99) (13 files)
-- [tests/lockstep](#catalog-folder-100) (36 files)
-- [tests/lockstep/checks](#catalog-folder-101) (13 files)
-- [tests/lockstep/e2e](#catalog-folder-102) (2 files)
-- [tests/lockstep/example](#catalog-folder-103) (2 files)
-- [tests/lockstep/example-layout](#catalog-folder-104) (1 files)
-- [tests/lockstep/example-layout/openspec/specs/greeting](#catalog-folder-105) (1 files)
-- [tests/lockstep/example-simple](#catalog-folder-106) (2 files)
-- [tests/lockstep/example-simple/docs](#catalog-folder-107) (1 files)
-- [tests/lockstep/example-simple/plans](#catalog-folder-108) (2 files)
-- [tests/lockstep/example-simple/src/greeter](#catalog-folder-109) (1 files)
-- [tests/lockstep/example-simple/tests](#catalog-folder-110) (1 files)
-- [tests/lockstep/example/.claude](#catalog-folder-111) (1 files)
-- [tests/lockstep/example/.codex](#catalog-folder-112) (1 files)
-- [tests/lockstep/example/docs](#catalog-folder-113) (1 files)
-- [tests/lockstep/example/plans](#catalog-folder-114) (2 files)
-- [tests/lockstep/example/src/people\_finder](#catalog-folder-115) (2 files)
-- [tests/lockstep/example/tests](#catalog-folder-116) (1 files)
-- [tests/lockstep/lockstep-plan-sample](#catalog-folder-117) (1 files)
-- [tests/lockstep/lockstep-plan-sample/.aes](#catalog-folder-118) (2 files)
-- [tests/lockstep/lockstep-plan-sample/.codex](#catalog-folder-119) (1 files)
-- [tests/lockstep/lockstep-plan-sample/src/pcw](#catalog-folder-120) (1 files)
-- [wiki](#catalog-folder-121) (13 files)
+- [openspec/changes/archive/2026-11-13-catalog-upkeep](#catalog-folder-63) (2 files)
+- [openspec/changes/archive/2026-11-13-catalog-upkeep/specs/lockstep-catalog-upkeep](#catalog-folder-64) (1 files)
+- [openspec/changes/archive/2026-11-13-lockstep-array-fact-projection](#catalog-folder-65) (3 files)
+- [openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts](#catalog-folder-66) (1 files)
+- [openspec/changes/archive/2026-11-13-self-adopt-projection](#catalog-folder-67) (2 files)
+- [openspec/changes/archive/2026-11-13-self-adopt-projection/specs/aes-documentation-projection](#catalog-folder-68) (1 files)
+- [openspec/specs](#catalog-folder-69) (1 files)
+- [openspec/specs/aes-documentation-projection](#catalog-folder-70) (1 files)
+- [openspec/specs/inert-characterization](#catalog-folder-71) (1 files)
+- [openspec/specs/lockstep-catalog-upkeep](#catalog-folder-72) (1 files)
+- [openspec/specs/lockstep-checks](#catalog-folder-73) (1 files)
+- [openspec/specs/lockstep-doc-facts](#catalog-folder-74) (1 files)
+- [openspec/specs/lockstep-guard](#catalog-folder-75) (1 files)
+- [openspec/specs/lockstep-init](#catalog-folder-76) (1 files)
+- [openspec/specs/lockstep-package](#catalog-folder-77) (1 files)
+- [openspec/specs/lockstep-plan-check](#catalog-folder-78) (1 files)
+- [openspec/specs/lockstep-plan-format](#catalog-folder-79) (1 files)
+- [openspec/specs/lockstep-projection](#catalog-folder-80) (1 files)
+- [openspec/specs/required-evidence-inputs](#catalog-folder-81) (1 files)
+- [proposals](#catalog-folder-82) (1 files)
+- [proposals/aes-learning-loop/review-page](#catalog-folder-83) (7 files)
+- [proposals/one-planning-tool](#catalog-folder-84) (1 files)
+- [proposals/planning-package/review-page](#catalog-folder-85) (11 files)
+- [scripts](#catalog-folder-86) (1 files)
+- [scripts/acceptance](#catalog-folder-87) (8 files)
+- [scripts/hive](#catalog-folder-88) (2 files)
+- [scripts/learning\_loop](#catalog-folder-89) (14 files)
+- [scripts/learning\_loop/systemd](#catalog-folder-90) (11 files)
+- [scripts/meta](#catalog-folder-91) (2 files)
+- [scripts/rules](#catalog-folder-92) (2 files)
+- [src/agentic\_engineering\_system](#catalog-folder-93) (15 files)
+- [src/lockstep](#catalog-folder-94) (33 files)
+- [src/lockstep/checks](#catalog-folder-95) (14 files)
+- [src/pcw](#catalog-folder-96) (1 files)
+- [tests](#catalog-folder-97) (6 files)
+- [tests/greenfield](#catalog-folder-98) (13 files)
+- [tests/greenfield/fixtures](#catalog-folder-99) (1 files)
+- [tests/greenfield/fixtures/whygame5-54043e2](#catalog-folder-100) (1 files)
+- [tests/greenfield/fixtures/whygame5-54043e2/.aes](#catalog-folder-101) (2 files)
+- [tests/learning](#catalog-folder-102) (13 files)
+- [tests/lockstep](#catalog-folder-103) (36 files)
+- [tests/lockstep/checks](#catalog-folder-104) (13 files)
+- [tests/lockstep/e2e](#catalog-folder-105) (2 files)
+- [tests/lockstep/example](#catalog-folder-106) (2 files)
+- [tests/lockstep/example-layout](#catalog-folder-107) (1 files)
+- [tests/lockstep/example-layout/openspec/specs/greeting](#catalog-folder-108) (1 files)
+- [tests/lockstep/example-simple](#catalog-folder-109) (2 files)
+- [tests/lockstep/example-simple/docs](#catalog-folder-110) (1 files)
+- [tests/lockstep/example-simple/plans](#catalog-folder-111) (2 files)
+- [tests/lockstep/example-simple/src/greeter](#catalog-folder-112) (1 files)
+- [tests/lockstep/example-simple/tests](#catalog-folder-113) (1 files)
+- [tests/lockstep/example/.claude](#catalog-folder-114) (1 files)
+- [tests/lockstep/example/.codex](#catalog-folder-115) (1 files)
+- [tests/lockstep/example/docs](#catalog-folder-116) (1 files)
+- [tests/lockstep/example/plans](#catalog-folder-117) (2 files)
+- [tests/lockstep/example/src/people\_finder](#catalog-folder-118) (2 files)
+- [tests/lockstep/example/tests](#catalog-folder-119) (1 files)
+- [tests/lockstep/lockstep-plan-sample](#catalog-folder-120) (1 files)
+- [tests/lockstep/lockstep-plan-sample/.aes](#catalog-folder-121) (2 files)
+- [tests/lockstep/lockstep-plan-sample/.codex](#catalog-folder-122) (1 files)
+- [tests/lockstep/lockstep-plan-sample/src/pcw](#catalog-folder-123) (1 files)
+- [wiki](#catalog-folder-124) (13 files)
 
 <a id="catalog-folder-0"></a>
 
@@ -173,7 +195,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [.doc-reachability-ignore](../.doc-reachability-ignore) — Excludes generated client instructions, archived OpenSpec changes and synthetic consumer fixtures from reader-document reachability. Role: native configuration or contract; disposition: keep.
 - [.gitignore](../.gitignore) — Ignores virtual environments, pytest/Python caches, package metadata and build output. Role: native configuration or contract; disposition: keep.
 - [.markdownlint-cli2.yaml](../.markdownlint-cli2.yaml) — Excludes worktrees and generated AGENTS.md from Markdown linting. Role: native configuration or contract; disposition: keep.
-- [.md-file-cap.yaml](../.md-file-cap.yaml) — Records the measured 130 Markdown file exception, preserving current contracts and archived lineage with complete catalog coverage. Role: native configuration or contract; disposition: keep.
+- [.md-file-cap.yaml](../.md-file-cap.yaml) — Sets a 140-Markdown-file exception, preserving architecture, decisions and historical OpenSpec lineage while including catalog-upkeep and array-fact records. Role: native configuration or contract; disposition: keep.
 - [AGENTS.md](../AGENTS.md) — Defines generated Codex governance, authority routes and complete-file catalog review commands, while preserving bounded native-proof limitations. Role: source document; disposition: generated.
 - [CLAUDE.md](../CLAUDE.md) — Defines canonical AES agent governance, authority routes, execution boundaries and the complete-file catalog review workflow. Role: source document; disposition: keep.
 - [Makefile](../Makefile) — Defines AES tests, instruction sync, typing checks, working-tree fact and catalog freshness targets, and a separate staged catalog commit check. Role: native configuration or contract; disposition: keep.
@@ -243,7 +265,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 
 ### .claude
 
-- [.claude/settings.json](../.claude/settings.json) — Registers pinned Claude post-edit fact refresh while preserving existing settings; the bounded native observation explicitly loads this configuration. Role: native configuration or contract; disposition: keep.
+- [.claude/settings.json](../.claude/settings.json) — Registers pinned Claude PostToolUse refresh for declared facts and catalog upkeep; the retained native fixture explicitly loads these settings. Role: native configuration or contract; disposition: keep.
 
 <a id="catalog-folder-11"></a>
 
@@ -296,13 +318,13 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 
 ### .codex
 
-- [.codex/hooks.json](../.codex/hooks.json) — Registers pinned post-edit declared-fact refresh for Codex tool names; live Codex host execution remains unobserved. Role: native configuration; disposition: keep.
+- [.codex/hooks.json](../.codex/hooks.json) — Registers pinned Codex PostToolUse refresh for declared facts and catalog upkeep across supported edit and shell tool names; native Codex execution remains unobserved. Role: native configuration; disposition: keep.
 
 <a id="catalog-folder-19"></a>
 
 ### .project-brain
 
-- [.project-brain/now.md](../.project-brain/now.md) — Routes the approved ecosystem consolidation and first donor review, then preserves independent projection, feedback and earlier dated records. Role: source document; disposition: keep.
+- [.project-brain/now.md](../.project-brain/now.md) — Leads with implemented hash-bound catalog upkeep and its bounded Claude observation, then retains dated ecosystem, projection, coverage, feedback and retirement records. Role: source document; disposition: keep.
 - [.project-brain/project.md](../.project-brain/project.md) — States the AES purpose and functions, including Company Planning, and links the owning intent, Lockstep contract, current work and retirement record. Role: source document; disposition: keep.
 - [.project-brain/state.md](../.project-brain/state.md) — Records November 13 scope and evidence limits, including incomplete synchronization proof and collector timeout observations. Role: source document; disposition: keep.
 - [.project-brain/truth.md](../.project-brain/truth.md) — Preserves dated choices and rejected alternatives for repository-local brains, Claude authentication, learning-loop scheduling and archived legacy learnings. Role: source document; disposition: update.
@@ -319,6 +341,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 
 - [docs/failure-modes.md](../docs/failure-modes.md) — Defines AES feedback-label failure families and detecting questions, derivation and retraction limits, and the maintenance path through implemented labeling/analysis without claiming enabled or completed operation. Role: taxonomy; disposition: keep.
 - [docs/index.md](../docs/index.md) — Lists source-linked AES authority reading order and routes to documentation self-adoption and complete-file catalog upkeep contracts. Role: navigation; disposition: keep.
+- [docs/status.md](../docs/status.md) — Retains a generated requirement/scenario coverage snapshot linking implementation symbols and tests, with missing links and unavailable revision-matched test results explicitly marked. Role: generated coverage view; disposition: generated.
 
 <a id="catalog-folder-22"></a>
 
@@ -391,29 +414,29 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 
 ### docs/planning
 
-- [docs/planning/DOMAIN.md](../docs/planning/DOMAIN.md) — Provides the generated project-local glossary with definitions, document/code locators and implemented, document-only or retired classifications. Role: generated; disposition: generated.
-- [docs/planning/SYSTEM\_MODEL.md](../docs/planning/SYSTEM_MODEL.md) — Models whole AES across repositories and this repository’s containers, record types, writers and external boundaries, extending the narrower checked engine model. Role: model; disposition: consolidate.
+- [docs/planning/DOMAIN.md](../docs/planning/DOMAIN.md) — Provides the generated AES glossary with native source/code locators, implemented versus document-only or retired concepts, ecosystem consolidation terms and source-fact projection relationships. Role: generated; disposition: generated.
+- [docs/planning/SYSTEM\_MODEL.md](../docs/planning/SYSTEM_MODEL.md) — Defines the revision-scoped AES context, containers and record owners, extended with source-fact projection and complete-file catalog review, pending, rendered-output and operation-receipt records. Role: model; disposition: consolidate.
 - [docs/planning/acceptance-criteria.json](../docs/planning/acceptance-criteria.json) — Stores A1–A9 criteria, demonstrations, expected outcomes, failure examples, reader representations and goal coverage, with statuses/evidence distinct from fresh runtime proof. Role: acceptance contract; disposition: keep.
 - [docs/planning/build\_domain\_model.py](../docs/planning/build_domain_model.py) — Owns domain concept records and writes both glossary and typed graph with definitions, source/code locations and document-only classifications. Role: generator; disposition: keep.
 - [docs/planning/build\_open\_questions\_graph.py](../docs/planning/build_open_questions_graph.py) — Generates open-question, blocked-decision and affected-concept graph nodes from ledger/domain data; omits resolved questions and fails unknown concept references. Role: generator; disposition: keep.
 - [docs/planning/capabilities.json](../docs/planning/capabilities.json) — Maps one-tool capabilities to expected user outcomes, owning work and acceptance IDs, identifying the decomposition as agent-inferred from the adopted design. Role: planning record; disposition: keep.
-- [docs/planning/checks.txt](../docs/planning/checks.txt) — Retains five fresh planning checks: durable fields and wiki reachability pass; repository format remains tracked by Q17; navigation warnings and graph-schema results stay explicit. Role: evidence; disposition: keep.
+- [docs/planning/checks.txt](../docs/planning/checks.txt) — Retains revision-bound planning check commands and results, including failed repository-format checks and successive Markdown coverage repairs through the 136-file observation at feaf51f. Role: evidence; disposition: keep.
 - [docs/planning/cold-review.md](../docs/planning/cold-review.md) — Records independent bounded self-adoption review with native trace, catalog, goal-field and check-count verification; preserves the prior source-fact review and excludes A1–A8 recertification. Role: evidence; disposition: keep.
 - [docs/planning/coverage-trace.json](../docs/planning/coverage-trace.json) — Retains model calls, messages, judgment and agreement/uncertainty for goal coverage, with trace identity and observability rather than product runtime certification. Role: evidence; disposition: keep.
 - [docs/planning/decisions.json](../docs/planning/decisions.json) — Records D1–D7 on whole-AES scope, retirement, Lockstep and the single-tool plan, distinguishing accepted decisions from the package’s working default. Role: planning record; disposition: consolidate.
-- [docs/planning/domain.graph.json](../docs/planning/domain.graph.json) — Materializes domain concepts and relations as typed graph nodes/edges with implementation and document-only distinctions from the domain generator. Role: generated; disposition: generated.
+- [docs/planning/domain.graph.json](../docs/planning/domain.graph.json) — Materializes AES concepts and relationships as typed graph nodes and edges, distinguishing code, external, document-only and retired concepts and adding ecosystem consolidation and legacy review. Role: generated; disposition: generated.
 - [docs/planning/domain.implemented.json](../docs/planning/domain.implemented.json) — Maps implemented domain IDs to concrete engine, feedback and Lockstep source locations; the package declares it a generated implementation locator map. Role: generated; disposition: generated.
 - [docs/planning/domain.spectrum.json](../docs/planning/domain.spectrum.json) — Defines domain-spectrum classes, vocabulary/thesaurus terms and ambiguous concepts, retaining semantic classifications beyond the rendered glossary and graph. Role: model; disposition: keep.
 - [docs/planning/file-inventory.json](../docs/planning/file-inventory.json) — Derived full-file review inventory: per-file purpose, source locator, role, disposition, input hashes, findings, consolidation candidates, external ownership routes and verification scope. Role: generated review inventory; disposition: generated.
 - [docs/planning/investigation.json](../docs/planning/investigation.json) — Retains a revision-bound investigation of whole-AES scope, one-tool design, corrections filing, policy coverage and engine dependencies, including then-failed findings later resolved. Role: evidence; disposition: keep.
 - [docs/planning/next.goal.md](../docs/planning/next.goal.md) — Records the adopted six-slice one-tool build and remaining review/follow-up work; identifies the design as authority and this document as its planning-package view. Role: plan; disposition: update.
-- [docs/planning/open-questions.graph.json](../docs/planning/open-questions.graph.json) — Generated graph of open ledger questions, responsible actors and domain relationships; it is a derived reading view rather than another question authority. Role: generated; disposition: generated.
-- [docs/planning/open-questions.json](../docs/planning/open-questions.json) — Owns AES questions, recommendations and dated evidence, including synchronization and catalog freshness gaps plus Q36–Q42 ecosystem discovery, identity, legacy review and concern closure. Role: planning record; disposition: keep.
-- [docs/planning/planning-package.json](../docs/planning/planning-package.json) — Indexes package parts, recorded checks, system scope, spectrum sources and generated artifacts at a named revision; it is not a fresh operational certification. Role: planning record; disposition: update.
+- [docs/planning/open-questions.graph.json](../docs/planning/open-questions.graph.json) — Projects 23 open AES ledger questions into responsible-question, blocked-decision and affected-concept nodes, including ecosystem discovery and legacy-review concerns. Role: generated; disposition: generated.
+- [docs/planning/open-questions.json](../docs/planning/open-questions.json) — Owns AES questions, recommendations and dated evidence, including bounded catalog-upkeep observation in Q30, ecosystem discovery gaps Q36–Q42 and resolved durable-document findings Q43. Role: planning record; disposition: keep.
+- [docs/planning/planning-package.json](../docs/planning/planning-package.json) — Indexes AES planning parts, source and code locators, diagrams, spectrum, costs and revision-bound check/review results, including retained 136-file coverage evidence at feaf51f. Role: planning record; disposition: update.
 - [docs/planning/review-page.json](../docs/planning/review-page.json) — Supplies review title/lead, reader actions, north star, thesis, disproof and architecture/domain/question links, repeating plan narrative alongside view configuration. Role: view configuration; disposition: consolidate.
 - [docs/planning/run\_checks.sh](../docs/planning/run_checks.sh) — Runs package validations and records individual exits/full outputs into checks.txt, explicitly excluding retired replay, self-governance and plan-adoption checks. Role: verification runner; disposition: keep.
 - [docs/planning/source-facts-acceptance.md](../docs/planning/source-facts-acceptance.md) — Lists A9 source-fact expected/observed cases with command, native-dispatch and stale-check evidence, excluding arbitrary narrative correctness and universal documentation organization. Role: acceptance evidence; disposition: keep.
-- [docs/planning/system-map.md](../docs/planning/system-map.md) — Maps listed code units into AES subsystems and calling/data relationships, including disabled analysis/effects stages, complementing the higher-level system model. Role: model; disposition: keep.
+- [docs/planning/system-map.md](../docs/planning/system-map.md) — Maps AES code units by responsibility and main import relationships, adding catalog maintenance called by CLI and document refresh alongside retained source-fact projection. Role: model; disposition: keep.
 
 <a id="catalog-folder-29"></a>
 
@@ -463,6 +486,8 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 
 ### evidence/runs
 
+- [evidence/runs/catalog-upkeep-native-20261114.json](../evidence/runs/catalog-upkeep-native-20261114.json) — Retains the pinned six-file Claude catalog-upkeep observation, full fixture inputs and outputs, review hashes, daily traces and thirteen bypass, stale-hash and staged-recovery CLI probes. Role: retained run evidence; disposition: keep.
+- [evidence/runs/catalog-upkeep-native-20261114.jsonl](../evidence/runs/catalog-upkeep-native-20261114.jsonl) — Records 26 native Claude events for reading and editing the search fixture, inspecting pending review, and explicitly reviewing, refreshing and checking its revised summary. Role: retained native trace; disposition: keep.
 - [evidence/runs/projection-native-20261113.jsonl](../evidence/runs/projection-native-20261113.jsonl) — Retains all 17 successful Claude Read/Read/Edit events; an explicit redaction replaces private metadata from a prior unsuccessful invocation. Role: run evidence; disposition: keep.
 - [evidence/runs/projection-self-adoption-20261113.json](../evidence/runs/projection-self-adoption-20261113.json) — Records Claude edit/hook attribution and hashes, read-only stale refusal, recovery and 27 focused test passes with explicit client-loading limits. Role: run evidence; disposition: keep.
 - [evidence/runs/projection-worked-20261113.json](../evidence/runs/projection-worked-20261113.json) — Retained six-step CLI observation on a disposable copy of the real projector: normative-down and authored current/gap/plan fan-out, stale refusal, recovery, before/after hashes, two traces and focused pytest output. Role: retained run evidence; disposition: keep.
@@ -643,109 +668,129 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 
 <a id="catalog-folder-63"></a>
 
+### openspec/changes/archive/2026-11-13-catalog-upkeep
+
+- [openspec/changes/archive/2026-11-13-catalog-upkeep/proposal.md](../openspec/changes/archive/2026-11-13-catalog-upkeep/proposal.md) — Archives the catalog-upkeep proposal, approval source, native exact-hash review workflow and retained evidence plan. Role: historical change record; disposition: historical.
+- [openspec/changes/archive/2026-11-13-catalog-upkeep/tasks.md](../openspec/changes/archive/2026-11-13-catalog-upkeep/tasks.md) — Records catalog API, hook/gate and recovery demonstration tasks as complete, while final documentation, review and merge remain unchecked in this archived snapshot. Role: historical change record; disposition: historical.
+
+<a id="catalog-folder-64"></a>
+
+### openspec/changes/archive/2026-11-13-catalog-upkeep/specs/lockstep-catalog-upkeep
+
+- [openspec/changes/archive/2026-11-13-catalog-upkeep/specs/lockstep-catalog-upkeep/spec.md](../openspec/changes/archive/2026-11-13-catalog-upkeep/specs/lockstep-catalog-upkeep/spec.md) — Archives added requirements for indexed-file review, deterministic navigation that cannot approve meaning, and native-hook/local-gate recovery traces. Role: historical change record; disposition: historical.
+
+<a id="catalog-folder-65"></a>
+
+### openspec/changes/archive/2026-11-13-lockstep-array-fact-projection
+
+- [openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/.openspec.yaml](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/.openspec.yaml) — Records the spec-driven schema and creation date for the archived array-fact-projection change. Role: historical change record; disposition: historical.
+- [openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/proposal.md](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/proposal.md) — Proposes projecting selected scalar fields from native record arrays through the existing fact generator, hook and check paths. Role: historical change record; disposition: historical.
+- [openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/tasks.md](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/tasks.md) — Records all four array-projection requirements, implementation, tracing and verification tasks as complete. Role: historical change record; disposition: historical.
+
+<a id="catalog-folder-66"></a>
+
+### openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts
+
+- [openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts/spec.md](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts/spec.md) — Archives the record-array projection requirement for unique IDs, selected scalar fields, escaped source-order rows and refusal of invalid input before writes. Role: historical change record; disposition: historical.
+
+<a id="catalog-folder-67"></a>
+
 ### openspec/changes/archive/2026-11-13-self-adopt-projection
 
 - [openspec/changes/archive/2026-11-13-self-adopt-projection/proposal.md](../openspec/changes/archive/2026-11-13-self-adopt-projection/proposal.md) — Preserves narrow self-adoption rationale: reuse the existing projector and hooks without reinstating retired universal governance. Role: historical proposal; disposition: keep.
 - [openspec/changes/archive/2026-11-13-self-adopt-projection/tasks.md](../openspec/changes/archive/2026-11-13-self-adopt-projection/tasks.md) — Records completed self-adoption tasks for configuration, source narrative, native observation, bypass refusal and focused verification. Role: historical task record; disposition: keep.
 
-<a id="catalog-folder-64"></a>
+<a id="catalog-folder-68"></a>
 
 ### openspec/changes/archive/2026-11-13-self-adopt-projection/specs/aes-documentation-projection
 
 - [openspec/changes/archive/2026-11-13-self-adopt-projection/specs/aes-documentation-projection/spec.md](../openspec/changes/archive/2026-11-13-self-adopt-projection/specs/aes-documentation-projection/spec.md) — Preserves the archived delta for source-owned component assessment projection and a facts-only freshness gate. Role: historical normative delta; disposition: keep.
 
-<a id="catalog-folder-65"></a>
-
-### openspec/changes/catalog-upkeep
-
-- [openspec/changes/catalog-upkeep/proposal.md](../openspec/changes/catalog-upkeep/proposal.md) — Proposes extending native Lockstep with explicit source-bound catalog review, deterministic navigation and independent freshness checks, retaining existing agent and Repo Docs roles. Role: implementation plan; disposition: keep.
-- [openspec/changes/catalog-upkeep/tasks.md](../openspec/changes/catalog-upkeep/tasks.md) — Tracks four outstanding catalog-upkeep implementation, native recovery demonstration, documentation and merge tasks. Role: implementation plan; disposition: keep.
-
-<a id="catalog-folder-66"></a>
-
-### openspec/changes/catalog-upkeep/specs/lockstep-catalog-upkeep
-
-- [openspec/changes/catalog-upkeep/specs/lockstep-catalog-upkeep/spec.md](../openspec/changes/catalog-upkeep/specs/lockstep-catalog-upkeep/spec.md) — Specifies indexed-file coverage, exact-hash semantic review, non-approving deterministic refresh, read-only checks and native-hook recovery with traces. Role: proposed behavior contract; disposition: keep.
-
-<a id="catalog-folder-67"></a>
+<a id="catalog-folder-69"></a>
 
 ### openspec/specs
 
 - [openspec/specs/.gitkeep](../openspec/specs/.gitkeep) — Empty tracked placeholder retaining the directory in Git, with no substantive requirement or history. Role: placeholder; disposition: keep.
 
-<a id="catalog-folder-68"></a>
+<a id="catalog-folder-70"></a>
 
 ### openspec/specs/aes-documentation-projection
 
 - [openspec/specs/aes-documentation-projection/spec.md](../openspec/specs/aes-documentation-projection/spec.md) — Requires AES source-owned assessment projection and a read-only facts gate, with native-edit, bypass-refusal and recovery scenarios. Role: normative specification; disposition: keep.
 
-<a id="catalog-folder-69"></a>
+<a id="catalog-folder-71"></a>
 
 ### openspec/specs/inert-characterization
 
 - [openspec/specs/inert-characterization/spec.md](../openspec/specs/inert-characterization/spec.md) — Requires inert Git characterization/producer identification preserving actual revision, dirty state and source facts. This is the merged current capability specification. Role: normative; disposition: keep.
 
-<a id="catalog-folder-70"></a>
+<a id="catalog-folder-72"></a>
+
+### openspec/specs/lockstep-catalog-upkeep
+
+- [openspec/specs/lockstep-catalog-upkeep/spec.md](../openspec/specs/lockstep-catalog-upkeep/spec.md) — Defines current complete-file catalog maintenance through exact-source-bound semantic review, non-approving rendering, read-only freshness gates and native-hook recovery traces. Role: capability specification; disposition: keep.
+
+<a id="catalog-folder-73"></a>
 
 ### openspec/specs/lockstep-checks
 
 - [openspec/specs/lockstep-checks/spec.md](../openspec/specs/lockstep-checks/spec.md) — Defines trace, architecture, test-first, attribution and docmeta checks with block/warn/off modes and honest unavailable-check failure. This is the merged current capability specification. Role: normative; disposition: keep.
 
-<a id="catalog-folder-71"></a>
+<a id="catalog-folder-74"></a>
 
 ### openspec/specs/lockstep-doc-facts
 
-- [openspec/specs/lockstep-doc-facts/spec.md](../openspec/specs/lockstep-doc-facts/spec.md) — Defines declared Markdown/Python/JSON/YAML fact projection, invalid-input refusal, post-edit refresh and stale checking. This is the merged current capability specification. Role: normative; disposition: keep.
+- [openspec/specs/lockstep-doc-facts/spec.md](../openspec/specs/lockstep-doc-facts/spec.md) — Defines static source-owned Markdown/Python/JSON/YAML fact projection, validated record-array rows, invalid-input refusal, post-edit refresh and read-only freshness checks as the current merged contract. Role: normative; disposition: keep.
 
-<a id="catalog-folder-72"></a>
+<a id="catalog-folder-75"></a>
 
 ### openspec/specs/lockstep-guard
 
 - [openspec/specs/lockstep-guard/spec.md](../openspec/specs/lockstep-guard/spec.md) — Requires destination-aware shell-write checks that allow reads and refusal messages listing permitted files. This is the merged current capability specification. Role: normative; disposition: keep.
 
-<a id="catalog-folder-73"></a>
+<a id="catalog-folder-76"></a>
 
 ### openspec/specs/lockstep-init
 
 - [openspec/specs/lockstep-init/spec.md](../openspec/specs/lockstep-init/spec.md) — Defines additive idempotent native-hook/lefthook setup without machine paths, owner configuration and .lockstep decision logs. This is the merged current capability specification. Role: normative; disposition: keep.
 
-<a id="catalog-folder-74"></a>
+<a id="catalog-folder-77"></a>
 
 ### openspec/specs/lockstep-package
 
 - [openspec/specs/lockstep-package/spec.md](../openspec/specs/lockstep-package/spec.md) — Requires AES-canonical installation and compatibility for pcw commands, module paths and cog blocks. This is the merged current capability specification. Role: normative; disposition: keep.
 
-<a id="catalog-folder-75"></a>
+<a id="catalog-folder-78"></a>
 
 ### openspec/specs/lockstep-plan-check
 
 - [openspec/specs/lockstep-plan-check/spec.md](../openspec/specs/lockstep-plan-check/spec.md) — Defines acceptance-file validation and quoted-source/stored-coverage checks, including stale or absent judgment behavior. This is the merged current capability specification. Role: normative; disposition: keep.
 
-<a id="catalog-folder-76"></a>
+<a id="catalog-folder-79"></a>
 
 ### openspec/specs/lockstep-plan-format
 
 - [openspec/specs/lockstep-plan-format/spec.md](../openspec/specs/lockstep-plan-format/spec.md) — Defines OpenSpec plus governed/layout rows, requirement/test/export links and compatibility with legacy AES targets. This is the merged current capability specification. Role: normative; disposition: keep.
 
-<a id="catalog-folder-77"></a>
+<a id="catalog-folder-80"></a>
 
 ### openspec/specs/lockstep-projection
 
 - [openspec/specs/lockstep-projection/spec.md](../openspec/specs/lockstep-projection/spec.md) — Defines normative docstring projection, plan/status coverage, revision-qualified tests, show and pytest marker integration. This is the merged current capability specification. Role: normative; disposition: keep.
 
-<a id="catalog-folder-78"></a>
+<a id="catalog-folder-81"></a>
 
 ### openspec/specs/required-evidence-inputs
 
 - [openspec/specs/required-evidence-inputs/spec.md](../openspec/specs/required-evidence-inputs/spec.md) — Requires caller-declared dependency coverage, UNKNOWN for incomplete current observations and rejection of unsafe literal paths. This is the merged current capability specification. Role: normative; disposition: keep.
 
-<a id="catalog-folder-79"></a>
+<a id="catalog-folder-82"></a>
 
 ### proposals
 
 - [proposals/README.md](../proposals/README.md) — Routes to the adopted design, bounded acceptance review, retirement record and current feedback account, directing new behavior changes through OpenSpec. Role: navigation; disposition: keep.
 
-<a id="catalog-folder-80"></a>
+<a id="catalog-folder-83"></a>
 
 ### proposals/aes-learning-loop/review-page
 
@@ -757,35 +802,35 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [proposals/aes-learning-loop/review-page/requirements.html](../proposals/aes-learning-loop/review-page/requirements.html) — Compares 19 feedback requirements against October evidence and includes later corrections-first/filing-limit amendments absent from portions of its builder table. Role: historical review; disposition: update.
 - [proposals/aes-learning-loop/review-page/whole-picture.html](../proposals/aes-learning-loop/review-page/whole-picture.html) — Presents the historical feedback flow, queue/backlog counts and stalled transitions, including the October 12 analysis/fix-owner update rather than a fresh health reading. Role: historical review; disposition: update.
 
-<a id="catalog-folder-81"></a>
+<a id="catalog-folder-84"></a>
 
 ### proposals/one-planning-tool
 
 - [proposals/one-planning-tool/DESIGN.md](../proposals/one-planning-tool/DESIGN.md) — Records the adopted one-tool design, OpenSpec/layout format, guard/check consolidation, normative docstrings and portable installation, with a concrete example and six delivery slices. Role: design; disposition: keep.
 
-<a id="catalog-folder-82"></a>
+<a id="catalog-folder-85"></a>
 
 ### proposals/planning-package/review-page
 
-- [proposals/planning-package/review-page/diagram-domain.html](../proposals/planning-package/review-page/diagram-domain.html) — Hosts the typed domain graph explaining implemented, document-only and external AES concepts, as a derived reader view of domain sources. Role: generated; disposition: generated.
-- [proposals/planning-package/review-page/diagram-open-questions.html](../proposals/planning-package/review-page/diagram-open-questions.html) — Hosts the typed question graph of ownership, blockers and affected concepts, with an embedded population needing current-ledger regeneration. Role: generated; disposition: generated.
-- [proposals/planning-package/review-page/diagram-system-map.html](../proposals/planning-package/review-page/diagram-system-map.html) — Renders the code-unit system map and links its Markdown owner, answering which units belong to each part and what calls what. Role: generated; disposition: generated.
-- [proposals/planning-package/review-page/diagram-system-model-2.html](../proposals/planning-package/review-page/diagram-system-model-2.html) — Renders the cross-repository view of AES parts and what consolidation moved, linking the planning system-model source. Role: generated; disposition: generated.
-- [proposals/planning-package/review-page/diagram-system-model.html](../proposals/planning-package/review-page/diagram-system-model.html) — Renders the context view of AES parts, owning repositories and communication paths from the planning system-model source. Role: generated; disposition: generated.
+- [proposals/planning-package/review-page/diagram-domain.html](../proposals/planning-package/review-page/diagram-domain.html) — Hosts the generated interactive AES domain graph, including ecosystem consolidation and legacy review, with typed distinctions among implemented, external, document-only and retired concepts. Role: generated; disposition: generated.
+- [proposals/planning-package/review-page/diagram-open-questions.html](../proposals/planning-package/review-page/diagram-open-questions.html) — Hosts the generated interactive graph of 23 open AES questions, their decision blockers and related concepts, including ecosystem and legacy-review questions. Role: generated; disposition: generated.
+- [proposals/planning-package/review-page/diagram-system-map.html](../proposals/planning-package/review-page/diagram-system-map.html) — Renders the revision-scoped code-unit system map, grouped by AES responsibility, with retained imports, disabled-job distinctions and the source-fact projection extension. Role: generated; disposition: generated.
+- [proposals/planning-package/review-page/diagram-system-model-2.html](../proposals/planning-package/review-page/diagram-system-model-2.html) — Renders the cross-repository AES view alongside its embedded revision-scoped system model, retained record types and source-fact projection records. Role: generated; disposition: generated.
+- [proposals/planning-package/review-page/diagram-system-model.html](../proposals/planning-package/review-page/diagram-system-model.html) — Renders the AES context view with owning repositories and communication paths, backed by the full revision-scoped system model and projection record account. Role: generated; disposition: generated.
 - [proposals/planning-package/review-page/graph-viewer.js](../proposals/planning-package/review-page/graph-viewer.js) — Bundles GraphViewer and browser rendering dependencies for the typed-graph views, exposing their mounting/configuration behavior rather than authored domain claims. Role: generated asset; disposition: generated.
-- [proposals/planning-package/review-page/index.html](../proposals/planning-package/review-page/index.html) — Provides review navigation to goal, criteria, decisions, diagrams, rollout and evidence; its completion banner and eight-question count reflect an older source state. Role: generated; disposition: generated.
+- [proposals/planning-package/review-page/index.html](../proposals/planning-package/review-page/index.html) — Provides generated navigation for the one-tool plan, nine built acceptance entries, diagrams, retained evidence and 23 open questions, while naming package revision ac735b9. Role: generated; disposition: generated.
 - [proposals/planning-package/review-page/lockstep-acceptance.html](../proposals/planning-package/review-page/lockstep-acceptance.html) — Displays A1–A5 historical expected/observed acceptance rows, commands and file previews; PASS labels remain bounded by each run and do not prove active installation enforcement. Role: generated evidence view; disposition: generated.
 - [proposals/planning-package/review-page/marked.min.js](../proposals/planning-package/review-page/marked.min.js) — Vendors the MIT-licensed Marked v12.0.2 Markdown parser/renderer used by review pages, retaining dependency identity and licence notice. Role: generated asset; disposition: generated.
-- [proposals/planning-package/review-page/open-questions.html](../proposals/planning-package/review-page/open-questions.html) — Displays expanded open and collapsed resolved ledger questions; still reports eight open items and obsolete corrections-filing blockers despite newer source resolutions/questions. Role: generated; disposition: generated.
-- [proposals/planning-package/review-page/review.html](../proposals/planning-package/review-page/review.html) — Combines plan, capabilities, criteria, decisions, architecture, spectrum, rollout and evidence into review UI; completion/open-question summaries need regeneration or historical framing. Role: generated; disposition: generated.
+- [proposals/planning-package/review-page/open-questions.html](../proposals/planning-package/review-page/open-questions.html) — Displays the generated ledger view with 23 open questions, expanded owner groups and resolved history including Q18 and Q43, plus an interactive question map. Role: generated; disposition: generated.
+- [proposals/planning-package/review-page/review.html](../proposals/planning-package/review-page/review.html) — Combines the retained AES plan, nine acceptance entries, decisions, architecture graphs, semantic spectrum and revision-bound evidence/checks in an expandable generated review interface. Role: generated; disposition: generated.
 
-<a id="catalog-folder-83"></a>
+<a id="catalog-folder-86"></a>
 
 ### scripts
 
 - [scripts/relationships.yaml](../scripts/relationships.yaml) — Defines required-reading defaults and otherwise empty governance graphs, plus commented relationship and audit-policy examples. Role: native configuration or contract; disposition: keep.
 
-<a id="catalog-folder-84"></a>
+<a id="catalog-folder-87"></a>
 
 ### scripts/acceptance
 
@@ -798,14 +843,14 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [scripts/acceptance/a5.py](../scripts/acceptance/a5.py) — A5 run: portability. Writes docs/planning/runs/lockstep-acceptance/a5.json and a5-readme-agent.jsonl. Role: executable helper; disposition: keep.
 - [scripts/acceptance/build\_page.py](../scripts/acceptance/build_page.py) — Build proposals/planning-package/review-page/lockstep-acceptance.html from the A1-A5 run records. Role: executable helper; disposition: keep.
 
-<a id="catalog-folder-85"></a>
+<a id="catalog-folder-88"></a>
 
 ### scripts/hive
 
 - [scripts/hive/README.md](../scripts/hive/README.md) — Explains that Hive moved to personal-vps while brain\_fresh.py stays for existing callers. Role: source document; disposition: keep.
 - [scripts/hive/brain\_fresh.py](../scripts/hive/brain_fresh.py) — Is a project's brain older than the work done since? (hive brain v1, C-CONTEXT) Role: executable helper; disposition: keep.
 
-<a id="catalog-folder-86"></a>
+<a id="catalog-folder-89"></a>
 
 ### scripts/learning\_loop
 
@@ -824,7 +869,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [scripts/learning\_loop/subagents.py](../scripts/learning_loop/subagents.py) — Native child lifecycle -&gt; existing feedback reports; parent checks bind exact results. Role: executable helper; disposition: keep.
 - [scripts/learning\_loop/transcripts.py](../scripts/learning_loop/transcripts.py) — Read Claude Code and Codex transcripts as plain turns, and split closeout fields. Role: executable helper; disposition: keep.
 
-<a id="catalog-folder-87"></a>
+<a id="catalog-folder-90"></a>
 
 ### scripts/learning\_loop/systemd
 
@@ -840,21 +885,21 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [scripts/learning\_loop/systemd/feedback-problems.service](../scripts/learning_loop/systemd/feedback-problems.service) — Weekly feedback loop: group recurring problems, analyse, license fixes, hand them to agents, count effects. Executes the configured feedback script with per-job environment and timeout. Role: systemd configuration; disposition: keep.
 - [scripts/learning\_loop/systemd/feedback-problems.timer](../scripts/learning_loop/systemd/feedback-problems.timer) — Weekly feedback loop (problems, licences, effects). Schedules Sun \*-\*-\* 05:00:00 with persistent catch-up and randomized delay. Role: systemd configuration; disposition: keep.
 
-<a id="catalog-folder-88"></a>
+<a id="catalog-folder-91"></a>
 
 ### scripts/meta
 
 - [scripts/meta/check\_agents\_sync.py](../scripts/meta/check_agents_sync.py) — Check that generated AGENTS.md is in sync with canonical governance inputs. Role: executable helper; disposition: keep.
 - [scripts/meta/render\_agents\_md.py](../scripts/meta/render_agents_md.py) — Render a generated AGENTS.md projection from canonical repo governance. Role: executable helper; disposition: keep.
 
-<a id="catalog-folder-89"></a>
+<a id="catalog-folder-92"></a>
 
 ### scripts/rules
 
 - [scripts/rules/build\_rules\_page.py](../scripts/rules/build_rules_page.py) — Build docs/rules/RULES.md: every rule agents in Brian's workspace are expected to follow. Role: executable helper; disposition: update.
 - [scripts/rules/sort\_legacy.py](../scripts/rules/sort_legacy.py) — Sort project-meta's legacy rules into covered / keep / retire, with checked quotes (agent-router slice 1). Role: executable helper; disposition: keep.
 
-<a id="catalog-folder-90"></a>
+<a id="catalog-folder-93"></a>
 
 ### src/agentic\_engineering\_system
 
@@ -874,7 +919,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [src/agentic\_engineering\_system/topology.py](../src/agentic_engineering_system/topology.py) — Governed-root topology check (`RU-AES-TOPOLOGY`, `SC-GF-003`). Role: code; disposition: keep.
 - [src/agentic\_engineering\_system/trace\_review.py](../src/agentic_engineering_system/trace_review.py) — Thin AES binding to Company Planning's source-bound review provider. Role: code; disposition: keep.
 
-<a id="catalog-folder-91"></a>
+<a id="catalog-folder-94"></a>
 
 ### src/lockstep
 
@@ -889,7 +934,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [src/lockstep/cogtext.py](../src/lockstep/cogtext.py) — Render plan text for a docstring. Called from cog blocks. Role: code; disposition: keep.
 - [src/lockstep/criterion\_checks.py](../src/lockstep/criterion_checks.py) — Check every success criterion names how it is checked: a test, a sign-off or an AI rubric (behavior 2.1). Role: code; disposition: keep.
 - [src/lockstep/declared\_reason.py](../src/lockstep/declared_reason.py) — Refuse a planned file whose declaration gives no reason (behavior 1.3). Role: code; disposition: keep.
-- [src/lockstep/doc\_projection.py](../src/lockstep/doc_projection.py) — Statically projects declared facts and extends native refresh with catalog rendering and pending semantic-review context; retains bounded projection evidence assessment. Role: code; disposition: keep.
+- [src/lockstep/doc\_projection.py](../src/lockstep/doc_projection.py) — Statically extracts scalar and record-array facts into declared Markdown blocks, validates inputs before projection writes, and integrates native refresh with catalog rendering, pending semantic-review context and daily traces. Role: code; disposition: keep.
 - [src/lockstep/docstring\_up.py](../src/lockstep/docstring_up.py) — Turn an edit to a docstring's plan text into a draft plan change, which the coding agent accepts. Role: code; disposition: keep.
 - [src/lockstep/hook.py](../src/lockstep/hook.py) — Agent edit hook (Claude Code and Codex PreToolUse): warn about, or refuse, an edit to a file the plan does not declare (behavior 5.1). Role: code; disposition: keep.
 - [src/lockstep/init\_repo.py](../src/lockstep/init_repo.py) — Initializes Lockstep config and merges Claude/Codex hooks, lefthook commands and log ignore entries while preserving existing custom policy. Role: code; disposition: keep.
@@ -912,7 +957,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [src/lockstep/wiki.py](../src/lockstep/wiki.py) — Build wiki pages from the plan, the evidence standing and the code docstrings. Role: code; disposition: keep.
 - [src/lockstep/wiki\_reach.py](../src/lockstep/wiki_reach.py) — Check every page of a generated wiki is within two links of its front page, each link with a summary (behavior 6.2). Role: code; disposition: keep.
 
-<a id="catalog-folder-92"></a>
+<a id="catalog-folder-95"></a>
 
 ### src/lockstep/checks
 
@@ -931,13 +976,13 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [src/lockstep/checks/test\_first.py](../src/lockstep/checks/test_first.py) — Test-first check: a test for a scenario new since the base revision must fail on the base source. Role: code; disposition: keep.
 - [src/lockstep/checks/trace.py](../src/lockstep/checks/trace.py) — Trace check: every requirement has an implementer, every scenario a test, and no ID is unknown. Role: code; disposition: keep.
 
-<a id="catalog-folder-93"></a>
+<a id="catalog-folder-96"></a>
 
 ### src/pcw
 
 - [src/pcw/\_\_init\_\_.py](../src/pcw/__init__.py) — Aliases the pcw package path to lockstep so old module invocations and cog imports resolve without duplicate implementations. Role: code; disposition: keep.
 
-<a id="catalog-folder-94"></a>
+<a id="catalog-folder-97"></a>
 
 ### tests
 
@@ -948,7 +993,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [tests/test\_rules\_page.py](../tests/test_rules_page.py) — The rules page lists every register rule and the legacy register, and survives table-breaking text. Role: test; disposition: keep.
 - [tests/test\_sort\_legacy.py](../tests/test_sort_legacy.py) — The legacy sort's evidence check rejects answers its quote or the file facts do not support. Role: test; disposition: keep.
 
-<a id="catalog-folder-95"></a>
+<a id="catalog-folder-98"></a>
 
 ### tests/greenfield
 
@@ -966,26 +1011,26 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [tests/greenfield/test\_topology.py](../tests/greenfield/test_topology.py) — `aes topology check` on the real whygame5 target (`SC-GF-003`). Role: test; disposition: keep.
 - [tests/greenfield/test\_trace\_review.py](../tests/greenfield/test_trace_review.py) — Plans require trace reviews (Brian, 2026-10-07). Role: test; disposition: keep.
 
-<a id="catalog-folder-96"></a>
+<a id="catalog-folder-99"></a>
 
 ### tests/greenfield/fixtures
 
 - [tests/greenfield/fixtures/whygame5-proposal-runner.yaml](../tests/greenfield/fixtures/whygame5-proposal-runner.yaml) — Retains the whygame5 runner proposal adding fail-stop criteria, a negative-control artifact and its verification route, with trace-review metadata. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-97"></a>
+<a id="catalog-folder-100"></a>
 
 ### tests/greenfield/fixtures/whygame5-54043e2
 
 - [tests/greenfield/fixtures/whygame5-54043e2/README](../tests/greenfield/fixtures/whygame5-54043e2/README) — Names the exact whygame5 revision supplying the frozen AES fixture and requires deliberate refresh alongside tests. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-98"></a>
+<a id="catalog-folder-101"></a>
 
 ### tests/greenfield/fixtures/whygame5-54043e2/.aes
 
 - [tests/greenfield/fixtures/whygame5-54043e2/.aes/project.yaml](../tests/greenfield/fixtures/whygame5-54043e2/.aes/project.yaml) — Frozen whygame5 AES project identity, governed Python roots and materialization paths. Role: fixture; disposition: keep.
 - [tests/greenfield/fixtures/whygame5-54043e2/.aes/target.yaml](../tests/greenfield/fixtures/whygame5-54043e2/.aes/target.yaml) — Frozen whygame5 target containing causal-explanation constraints, outcomes, criteria, artifacts and verification routes. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-99"></a>
+<a id="catalog-folder-102"></a>
 
 ### tests/learning
 
@@ -1003,7 +1048,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [tests/learning/test\_relation\_check.py](../tests/learning/test_relation_check.py) — S2 scoring rules: acceptable answers fixed with the labels, and the parity rule. Role: test; disposition: keep.
 - [tests/learning/test\_subagents.py](../tests/learning/test_subagents.py) — Native lifecycle capture and counterexamples to child self-rating as evidence. Role: test; disposition: keep.
 
-<a id="catalog-folder-100"></a>
+<a id="catalog-folder-103"></a>
 
 ### tests/lockstep
 
@@ -1044,7 +1089,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [tests/lockstep/test\_lockstep\_unplanned\_symbols.py](../tests/lockstep/test_lockstep_unplanned_symbols.py) — Tests a top-level function or class the plan does not declare with its types is reported. Role: test; disposition: keep.
 - [tests/lockstep/test\_lockstep\_wiki\_reach.py](../tests/lockstep/test_lockstep_wiki_reach.py) — Tests every page of a generated wiki is within two links of its front page, each link with a summary. Role: test; disposition: keep.
 
-<a id="catalog-folder-101"></a>
+<a id="catalog-folder-104"></a>
 
 ### tests/lockstep/checks
 
@@ -1060,130 +1105,130 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [tests/lockstep/checks/test\_lockstep\_check\_test\_first.py](../tests/lockstep/checks/test_lockstep_check_test_first.py) — Tests for the test-first check, run on real throwaway git repositories. Role: test; disposition: keep.
 - [tests/lockstep/checks/test\_lockstep\_check\_trace.py](../tests/lockstep/checks/test_lockstep_check_trace.py) — Checks requirement/test trace completeness and unknown IDs across configured roots, wrapped implementation lines and active changes. Role: test; disposition: keep.
 - [tests/lockstep/checks/test\_lockstep\_checks\_config.py](../tests/lockstep/checks/test_lockstep_checks_config.py) — `lockstep.yaml` sets each commit check to block, warn or off, and the other settings the checks read. Role: test; disposition: keep.
-- [tests/lockstep/checks/test\_lockstep\_doc\_projection.py](../tests/lockstep/checks/test_lockstep_doc_projection.py) — Source-owned facts reach wiki blocks; stale copies fail without executing source. Role: test; disposition: keep.
+- [tests/lockstep/checks/test\_lockstep\_doc\_projection.py](../tests/lockstep/checks/test_lockstep_doc_projection.py) — Exercises static fact projection, safe paths, read-only freshness checks, installed native refresh and traces, plus ordered JSON/YAML array rows, invalid records and native array-edit recovery. Role: test; disposition: keep.
 
-<a id="catalog-folder-102"></a>
+<a id="catalog-folder-105"></a>
 
 ### tests/lockstep/e2e
 
 - [tests/lockstep/e2e/run.py](../tests/lockstep/e2e/run.py) — Run the full example end to end in a fresh folder and record every step. Role: test; disposition: keep.
 - [tests/lockstep/e2e/simple.py](../tests/lockstep/e2e/simple.py) — The smallest example: one function, one requirement, every part shown. Role: test; disposition: keep.
 
-<a id="catalog-folder-103"></a>
+<a id="catalog-folder-106"></a>
 
 ### tests/lockstep/example
 
 - [tests/lockstep/example/Makefile](../tests/lockstep/example/Makefile) — Provides people-finder project/wiki/check commands using docstring drafts, cog, legacy AES validation, MkDocs and pytest. Role: fixture; disposition: keep.
 - [tests/lockstep/example/mkdocs.yml](../tests/lockstep/example/mkdocs.yml) — Configures the people-finder MkDocs fixture with generated pages and mkdocstrings reading Python under src. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-104"></a>
+<a id="catalog-folder-107"></a>
 
 ### tests/lockstep/example-layout
 
 - [tests/lockstep/example-layout/lockstep.yaml](../tests/lockstep/example-layout/lockstep.yaml) — Defines the modern greeting layout fixture with governed src, planned greeter/test files, OpenSpec links and a typed greet export. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-105"></a>
+<a id="catalog-folder-108"></a>
 
 ### tests/lockstep/example-layout/openspec/specs/greeting
 
 - [tests/lockstep/example-layout/openspec/specs/greeting/spec.md](../tests/lockstep/example-layout/openspec/specs/greeting/spec.md) — Defines the fixture greeting requirement and Ada scenario expecting Hello, Ada!. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-106"></a>
+<a id="catalog-folder-109"></a>
 
 ### tests/lockstep/example-simple
 
 - [tests/lockstep/example-simple/Makefile](../tests/lockstep/example-simple/Makefile) — Provides minimal scaffold/project/wiki/check commands, drafting normative edits before cog regeneration and validating the legacy AES plan. Role: fixture; disposition: keep.
 - [tests/lockstep/example-simple/mkdocs.yml](../tests/lockstep/example-simple/mkdocs.yml) — Configures the greeter MkDocs fixture with generated pages and mkdocstrings reading Python under src. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-107"></a>
+<a id="catalog-folder-110"></a>
 
 ### tests/lockstep/example-simple/docs
 
 - [tests/lockstep/example-simple/docs/gen\_pages.py](../tests/lockstep/example-simple/docs/gen_pages.py) — Generates greeter fixture wiki pages at MkDocs build time using lockstep.wiki.pages. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-108"></a>
+<a id="catalog-folder-111"></a>
 
 ### tests/lockstep/example-simple/plans
 
 - [tests/lockstep/example-simple/plans/plan-001.yaml](../tests/lockstep/example-simple/plans/plan-001.yaml) — Plans greeting behavior, the Ada criterion, source/test artifacts and verification route before implementation. Role: fixture; disposition: keep.
 - [tests/lockstep/example-simple/plans/plan-002.yaml](../tests/lockstep/example-simple/plans/plan-002.yaml) — Changes greeting behavior and criterion to reject empty names with ValueError, providing a normative-drift example. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-109"></a>
+<a id="catalog-folder-112"></a>
 
 ### tests/lockstep/example-simple/src/greeter
 
 - [tests/lockstep/example-simple/src/greeter/\_\_init\_\_.py](../tests/lockstep/example-simple/src/greeter/__init__.py) — Implements greet(name) with a normative cog block and a direct Hello, &lt;name&gt;! return. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-110"></a>
+<a id="catalog-folder-113"></a>
 
 ### tests/lockstep/example-simple/tests
 
 - [tests/lockstep/example-simple/tests/test\_greet.py](../tests/lockstep/example-simple/tests/test_greet.py) — Asserts greet returns Hello, Ada! for Ada as the initial fixture proving test. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-111"></a>
+<a id="catalog-folder-114"></a>
 
 ### tests/lockstep/example/.claude
 
 - [tests/lockstep/example/.claude/settings.json](../tests/lockstep/example/.claude/settings.json) — Registers the legacy pcw-hook PreToolUse matcher for the people-finder Claude fixture. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-112"></a>
+<a id="catalog-folder-115"></a>
 
 ### tests/lockstep/example/.codex
 
 - [tests/lockstep/example/.codex/hooks.json](../tests/lockstep/example/.codex/hooks.json) — Registers the legacy pcw-hook PreToolUse matcher for the people-finder Codex fixture without the newer client-specific flag. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-113"></a>
+<a id="catalog-folder-116"></a>
 
 ### tests/lockstep/example/docs
 
 - [tests/lockstep/example/docs/gen\_pages.py](../tests/lockstep/example/docs/gen_pages.py) — Generates people-finder fixture wiki pages at MkDocs build time using lockstep.wiki.pages. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-114"></a>
+<a id="catalog-folder-117"></a>
 
 ### tests/lockstep/example/plans
 
 - [tests/lockstep/example/plans/plan-001-find-people.yaml](../tests/lockstep/example/plans/plan-001-find-people.yaml) — Plans case-insensitive current-employer search, blank-company rejection, invented profile data and source/test/evidence routes. Role: fixture; disposition: keep.
 - [tests/lockstep/example/plans/plan-002-sorted.yaml](../tests/lockstep/example/plans/plan-002-sorted.yaml) — Changes people-finder behavior and criterion to require name-sorted results while retaining employer matching and blank-input rules. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-115"></a>
+<a id="catalog-folder-118"></a>
 
 ### tests/lockstep/example/src/people\_finder
 
 - [tests/lockstep/example/src/people\_finder/\_\_init\_\_.py](../tests/lockstep/example/src/people_finder/__init__.py) — People finder: find the people who work at a target company now. Role: fixture; disposition: keep.
 - [tests/lockstep/example/src/people\_finder/profiles.json](../tests/lockstep/example/src/people_finder/profiles.json) — Contains five invented profiles, employer case variation and a former employee for search inclusion/exclusion cases. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-116"></a>
+<a id="catalog-folder-119"></a>
 
 ### tests/lockstep/example/tests
 
 - [tests/lockstep/example/tests/test\_find\_people.py](../tests/lockstep/example/tests/test_find_people.py) — Checks the exact current-employee handle set, excludes the former employee and rejects blank company input. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-117"></a>
+<a id="catalog-folder-120"></a>
 
 ### tests/lockstep/lockstep-plan-sample
 
 - [tests/lockstep/lockstep-plan-sample/README.md](../tests/lockstep/lockstep-plan-sample/README.md) — Names the frozen Lockstep sample revision and its typed-plan hook/symbol regression use without importing fixture code. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-118"></a>
+<a id="catalog-folder-121"></a>
 
 ### tests/lockstep/lockstep-plan-sample/.aes
 
 - [tests/lockstep/lockstep-plan-sample/.aes/project.yaml](../tests/lockstep/lockstep-plan-sample/.aes/project.yaml) — Frozen Lockstep project record specifying src/pcw and tests governed roots and legacy materialization paths. Role: fixture; disposition: keep.
 - [tests/lockstep/lockstep-plan-sample/.aes/target.yaml](../tests/lockstep/lockstep-plan-sample/.aes/target.yaml) — Frozen legacy Lockstep target with seven outcomes, detailed behaviors, criteria, artifacts and typed exports for realistic regressions. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-119"></a>
+<a id="catalog-folder-122"></a>
 
 ### tests/lockstep/lockstep-plan-sample/.codex
 
 - [tests/lockstep/lockstep-plan-sample/.codex/hooks.json](../tests/lockstep/lockstep-plan-sample/.codex/hooks.json) — Preserves frozen Lockstep Codex registration using uv run --quiet --frozen pcw-hook --client codex. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-120"></a>
+<a id="catalog-folder-123"></a>
 
 ### tests/lockstep/lockstep-plan-sample/src/pcw
 
 - [tests/lockstep/lockstep-plan-sample/src/pcw/action\_check.py](../tests/lockstep/lockstep-plan-sample/src/pcw/action_check.py) — Frozen legacy action-check module with projected contract and typed exports used as edit/symbol regression data. Role: fixture; disposition: keep.
 
-<a id="catalog-folder-121"></a>
+<a id="catalog-folder-124"></a>
 
 ### wiki
 
@@ -1194,7 +1239,7 @@ Pending reviews: 0. Refresh preserves reviewed summaries; a native coding agent 
 - [wiki/history.md](history.md) — Organizes bootstrap, greenfield self-governance, predecessor archive, commit-rule removal and retired proposals as source-linked history. Role: source document; disposition: keep.
 - [wiki/index.md](index.md) — Question-based navigation to AES architecture, ecosystem predecessor review, implementation, complete source inventory and open concerns. Role: source document; disposition: keep.
 - [wiki/lockstep.md](lockstep.md) — Routes contracts and limits, distinguishes earlier replay from native self-adoption and includes the generated source-owned component assessment. Role: source document; disposition: keep.
-- [wiki/open-questions.md](open-questions.md) — Projects unresolved questions and recommendations from the owning ledger, including ecosystem consolidation and predecessor review. Role: source document; disposition: keep.
+- [wiki/open-questions.md](open-questions.md) — Presents ledger-derived questions and recommendations, ecosystem consolidation concerns, the recorded Q43 resolution and bounded catalog-upkeep evidence for Q30. Role: source document; disposition: keep.
 - [wiki/policy-and-rules.md](policy-and-rules.md) — Maps policy authority and enforcement concepts to the original 263-entry Project Meta registry, provisional migration manifest, small AES register and current shared instructions. Role: source document; disposition: keep.
 - [wiki/requirements.md](requirements.md) — Routes current OpenSpec contracts, including catalog upkeep and assessment self-adoption, to implementation and bounded evidence, separately from retained engine and feedback requirements. Role: source document; disposition: keep.
 - [wiki/research-and-lessons.md](research-and-lessons.md) — Indexes retained research syntheses with non-normative descriptions and revision-bound source links. Role: source document; disposition: keep.

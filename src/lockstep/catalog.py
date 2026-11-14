@@ -3,6 +3,27 @@
 Implements: lockstep-catalog-upkeep/tracked-file-review-stays-bound-to-source,
     lockstep-catalog-upkeep/catalog-refresh-never-approves-meaning,
     lockstep-catalog-upkeep/hooks-and-gates-expose-pending-review
+
+Requirement text (generated):
+    lockstep-catalog-upkeep/tracked-file-review-stays-bound-to-source: When catalog maintenance is
+        configured, Lockstep SHALL compare every Git-index path and reviewed input hash with the
+        existing inventory, reporting added, changed and removed files. An explicit semantic review
+        SHALL name the observed source hash, a nonempty summary and a review reason; a changed
+        source SHALL invalidate that review before inventory writes. Source files SHALL never be
+        executed. Inventory and catalog self-output hashes SHALL be omitted explicitly while
+        retaining their navigation entries.
+    lockstep-catalog-upkeep/catalog-refresh-never-approves-meaning: Deterministic refresh SHALL
+        render the existing inventory into complete file navigation without acknowledging pending
+        semantic reviews or silently replacing input hashes. Pending review SHALL remain visible.
+        Read-only check SHALL fail for missing coverage, stale source review or stale rendered
+        output without writing. Invalid configuration or escaping paths SHALL fail explicitly.
+        Unconfigured consumers SHALL remain unchanged.
+    lockstep-catalog-upkeep/hooks-and-gates-expose-pending-review: Configured post-edit refresh
+        SHALL report pending files and recovery instructions to the active agent and refresh
+        deterministic navigation without broad requirement regeneration. AES local and pre-commit
+        checks SHALL independently check catalog freshness. Ordinary and failed review/refresh
+        operations SHALL retain daily trace evidence distinguishing review from deterministic
+        generation. Existing unrelated configuration SHALL be preserved.
 """
 from __future__ import annotations
 
@@ -279,6 +300,7 @@ def catalog_cli(argv: list[str]) -> int:
     try:
         args = parser.parse_args(argv)
         root = args.repo.resolve()
+        result: dict | None
         if args.command == 'review':
             if args.input is None:
                 raise CatalogError('review requires --input')
@@ -288,7 +310,7 @@ def catalog_cli(argv: list[str]) -> int:
         else:
             result = inspect_catalog(root, staged=args.staged)
         print(json.dumps(result, sort_keys=True))
-        return int(args.command == 'check' and bool(result) and bool(result['pending'] or result['catalog_stale']))
+        return int(args.command == 'check' and result is not None and bool(result['pending'] or result['catalog_stale']))
     except SystemExit as exc:
         return int(exc.code or 0)
     except (OSError, ValueError, TypeError, subprocess.SubprocessError, yaml.YAMLError) as exc:

@@ -4,15 +4,15 @@ Implements: lockstep-checks/trace-every-requirement-has-an-implementer, lockstep
     lockstep-checks/trace-unknown-ids-fail, lockstep-checks/trace-ids-from-changes-in-progress-are-known
 
 Requirement text (generated):
-    lockstep-checks/trace-every-requirement-has-an-implementer: The trace check SHALL fail when an OpenSpec
-        requirement has no source module, class or function whose docstring contains a line
+    lockstep-checks/trace-every-requirement-has-an-implementer: The trace check SHALL fail when an
+        OpenSpec requirement has no source module, class or function whose docstring contains a line
         `Implements: <capability>/<requirement-slug>`.
-    lockstep-checks/trace-every-scenario-has-a-test: The trace check SHALL fail when an OpenSpec scenario has no
-        test decorated with `@pytest.mark.req("<capability>/<scenario-slug>")`.
-    lockstep-checks/trace-unknown-ids-fail: The trace check SHALL fail when a docstring or test marker names an ID
-        that no spec defines.
-    lockstep-checks/trace-ids-from-changes-in-progress-are-known: The trace check SHALL treat requirement and
-        scenario IDs defined in an active change's spec delta
+    lockstep-checks/trace-every-scenario-has-a-test: The trace check SHALL fail when an OpenSpec
+        scenario has no test decorated with `@pytest.mark.req("<capability>/<scenario-slug>")`.
+    lockstep-checks/trace-unknown-ids-fail: The trace check SHALL fail when a docstring or test
+        marker names an ID that no spec defines.
+    lockstep-checks/trace-ids-from-changes-in-progress-are-known: The trace check SHALL treat
+        requirement and scenario IDs defined in an active change's spec delta
         (`openspec/changes/<name>/specs/<capability>/spec.md`, archive excluded) as known, and SHALL
         not require them to be implemented or tested until the change is archived.
 """

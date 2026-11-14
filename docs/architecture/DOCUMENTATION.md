@@ -142,8 +142,9 @@ to include it. A missing indexed file is an error until its deletion is staged.
 4. Review rejects a changed source hash before updating the inventory. After a
    successful review, `lockstep catalog refresh` renders the stored summaries,
    roles, dispositions and links; `lockstep catalog check` independently checks
-   membership, reviewed hashes and rendered output. `make check-catalog` calls
-   that check locally and from the added pre-commit command.
+   membership, reviewed hashes and rendered output. `make check-catalog` checks
+   working files locally; the added pre-commit command uses
+   `make check-catalog-staged` to inspect the bytes actually staged for commit.
 
 For example, changing a search-once module to a looping search makes its old
 review pending. Refresh cannot declare “search once” current by replacing its
@@ -155,9 +156,14 @@ Inventory and catalog remain included in coverage, with their own content
 hashes omitted to avoid recursion. The catalog visibly marks pending source
 reviews. Daily catalog and projection receipts under ignored `.lockstep/` record
 review inputs, generated output identities and failures. Read-only checks do not
-write receipts. The bounded retained demonstration will identify the native
-client route actually exercised; configuration alone does not prove ordinary
-session loading or Codex host execution.
+write receipts. The [retained native observation](../../evidence/runs/catalog-upkeep-native-20261114.json)
+and [full native trace](../../evidence/runs/catalog-upkeep-native-20261114.jsonl) show
+an explicitly configured Claude changing search-once code to a loop, receiving
+pending review context and submitting a new source-bound summary. Thirteen CLI
+steps separately show bypass refusal, stale-hash rejection and staged recovery.
+The native stream omits raw hook additional context; adapter tests, hook-side
+receipts and the agent's observed recovery support delivery. This six-file fixture
+is not ordinary session loading or native Codex host proof.
 
 This maintains the complete file catalog and declared fact blocks. Changes to
 question-based wiki explanations still require the agent's semantic review;

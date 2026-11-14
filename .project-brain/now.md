@@ -1,3 +1,27 @@
+# Complete-file wiki upkeep (2026-11-14, AES #857)
+
+Catalog maintenance now reuses the native Lockstep refresh and the existing
+inventory: changed/added/removed Git-index files require explicit summary review
+bound to the observed source hash. Deterministic refresh renders navigation and
+pending warnings without approving meaning. Local checks read working files;
+pre-commit checks read indexed bytes. Existing unrelated hooks are preserved.
+
+The [native observation](../evidence/runs/catalog-upkeep-native-20261114.json)
+and [full trace](../evidence/runs/catalog-upkeep-native-20261114.jsonl) retain an
+explicitly configured Claude changing a search-once fixture into a looping
+generator and updating the summary after its hook requested review. Thirteen CLI
+steps establish bypass refusal, stale-hash rejection and staged recovery.
+Native Codex execution and normal-session loading remain unobserved. Raw hook
+additional context is not serialized in the native stream; the receipt states
+which independent observations support delivery.
+
+Next: verify ordinary client loading and address guard/install concerns, then
+map the original policies to current authority and delivery. Q30's implemented
+catalog portion is repaired; semantic correctness of all explanatory wiki prose
+remains a review responsibility. Do not treat hash agreement as understanding.
+
+## Earlier observations and dated records
+
 # Ecosystem consolidation and first predecessor review (2026-11-13)
 
 Tracking: [AES #856](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/856).

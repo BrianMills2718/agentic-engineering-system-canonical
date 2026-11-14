@@ -394,6 +394,20 @@
    "kind": "DocOnly",
    "explain": "One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. Defined in proposals/one-planning-tool/DESIGN.md:64. No code.",
    "dashed": true
+  },
+  {
+   "id": "ecosystem-consolidation",
+   "label": "Ecosystem consolidation",
+   "kind": "DocOnly",
+   "dashed": true,
+   "explain": "The adopted direction to make capabilities, providers, contracts, consumers and evidence discoverable through one route while preserving native owners; see docs/architecture/ECOSYSTEM.md."
+  },
+  {
+   "id": "legacy-review",
+   "label": "Legacy source review",
+   "kind": "DocOnly",
+   "dashed": true,
+   "explain": "The first-pass examination of predecessor sources and their reuse or retirement dispositions before migration; see docs/architecture/ECOSYSTEM.md and decision 0014."
   }
  ],
  "edges": [

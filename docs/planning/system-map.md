@@ -64,6 +64,7 @@ flowchart LR
     aes_bridge[aes_bridge: read the AES plan]
     scaffold[scaffold: create the planned files]
     init_repo[init_repo: lockstep init writes lockstep.yaml and the hook entries]
+    catalog[catalog: source-bound summary review and complete-file navigation]
     doc_projection[doc_projection: declared source facts to document blocks and freshness checks]
     cogtext[cogtext: render plan text into docstrings]
     parent_text[parent_text: parent requirement text]
@@ -126,6 +127,8 @@ flowchart LR
   ls_cli --> unplanned_files
   ls_cli --> symbol_gate
   ls_cli --> init_repo
+  ls_cli --> catalog
+  doc_projection --> catalog
   ls_cli --> doc_projection
   ls_cli --> scaffold
   ls_cli --> plan_check
