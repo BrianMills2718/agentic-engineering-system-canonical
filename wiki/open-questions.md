@@ -16,13 +16,12 @@ runtime change, restarts a retired project or enables a timer.
 
 ## Discuss after repair
 
-### Q36: Durable-document check findings
+### Resolved since the previous rendering: Q36
 
-At revision `e2ba1aa`, the wiki rule reports 129 Markdown files against the
-129-file exception and zero unreachable files, but ten durable-document
-findings remain. The [owning record](../docs/planning/open-questions.json)
-and [check output](../docs/planning/checks.txt) retain the results; Q7 remains
-the resolved earlier repair. Owner: agent.
+The checked candidate at `8928154` reports 134 Markdown files against its
+134-file exception, zero unreachable files and zero durable-document findings.
+The [owning record](../docs/planning/open-questions.json) and
+[check output](../docs/planning/checks.txt) retain the earlier failures.
 
 ### Q2: Inside Success rollout
 

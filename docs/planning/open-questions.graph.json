@@ -281,18 +281,6 @@
    "label": "A claim that the current policy layer preserves and delivers the original inventory.",
    "kind": "Decision",
    "explain": "A claim that the current policy layer preserves and delivers the original inventory."
-  },
-  {
-   "id": "Q36",
-   "label": "Q36: Durable-document check findings",
-   "kind": "AgentQuestion",
-   "explain": "How should the ten current durable-document findings be reconciled with the actual goal and plan sources? Settled by: Inspect the ten durable-document findings against their owning sources and correct the records or check, then retain the new check result."
-  },
-  {
-   "id": "Q36-blocks",
-   "label": "A passing current durable-document check.",
-   "kind": "Decision",
-   "explain": "A passing current durable-document check."
   }
  ],
  "edges": [
@@ -468,12 +456,6 @@
    "id": "Q35-to-decision",
    "source": "Q35",
    "target": "Q35-blocks",
-   "label": "blocks"
-  },
-  {
-   "id": "Q36-to-decision",
-   "source": "Q36",
-   "target": "Q36-blocks",
    "label": "blocks"
   }
  ]
