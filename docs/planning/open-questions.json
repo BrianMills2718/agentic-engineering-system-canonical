@@ -634,17 +634,18 @@
   },
   {
    "id": "Q36",
-   "short": "Current wiki rule findings",
-   "question": "How should the current wiki rule findings be resolved for the added archived OpenSpec change and the durable-document checks?",
-   "blocks": "A passing current Markdown cap, reachability and durable-document check.",
-   "resolves_with": "Review the three new archived change files and their navigation and retention policy, reconcile the Markdown exception with the accepted corpus, and investigate each of the ten durable-document findings before recording a new check result.",
+   "short": "Durable-document check findings",
+   "question": "How should the ten current durable-document findings be reconciled with the actual goal and plan sources?",
+   "blocks": "A passing current durable-document check.",
+   "resolves_with": "Inspect the ten durable-document findings against their owning sources and correct the records or check, then retain the new check result.",
    "owner": "agent",
    "status": "open",
-   "evidence": "At 796ecf93b the wiki-rule check exits 1: 129 Markdown files exceed the 126-file exception, three archived OpenSpec files are unreachable and ten durable-document findings are reported. The earlier Q7 covered 31 older unreachable files and remains resolved as a historical repair.",
+   "evidence": "At 796ecf93b the check reported 129 Markdown files against a 126-file cap, three unreachable archived change files and ten durable-document findings. At e2ba1aa the retained archive files are linked and the explicit cap is 129: the same check reports 129/129, zero unreachable files and ten durable-document findings, exit 1. The earlier Q7 remains the resolved historical repair.",
    "sources": [
     "docs/planning/checks.txt",
-    "openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/proposal.md",
-    ".md-file-cap.yaml"
+    "docs/architecture/GOAL.md",
+    ".md-file-cap.yaml",
+    "wiki/documents.md"
    ],
    "touches": []
   }

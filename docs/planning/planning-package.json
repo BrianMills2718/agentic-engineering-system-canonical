@@ -36,14 +36,14 @@
           "exit_status": 1,
           "counts": {
             "markdown_files": 129,
-            "cap_limit": 126,
-            "over": 1,
-            "orphans": 3,
+            "cap_limit": 129,
+            "over": 0,
+            "orphans": 0,
             "layout_findings": 0,
             "durable_findings": 10
           },
           "tracked_by": "Q36",
-          "evidence_revision": "796ecf93b"
+          "evidence_revision": "e2ba1aa"
         },
         {
           "name": "code2 repository format",

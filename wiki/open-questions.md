@@ -16,13 +16,13 @@ runtime change, restarts a retired project or enables a timer.
 
 ## Discuss after repair
 
-### Q36: Current wiki rule findings
+### Q36: Durable-document check findings
 
-At revision `796ecf93b`, the wiki rule reports 129 Markdown files against a
-126-file limit, three unreachable archived OpenSpec files, and ten
-durable-document findings. The [owning record](../docs/planning/open-questions.json)
-and [check output](../docs/planning/checks.txt) retain the separate issues;
-Q7 remains the resolved earlier repair. Owner: agent.
+At revision `e2ba1aa`, the wiki rule reports 129 Markdown files against the
+129-file exception and zero unreachable files, but ten durable-document
+findings remain. The [owning record](../docs/planning/open-questions.json)
+and [check output](../docs/planning/checks.txt) retain the results; Q7 remains
+the resolved earlier repair. Owner: agent.
 
 ### Q2: Inside Success rollout
 

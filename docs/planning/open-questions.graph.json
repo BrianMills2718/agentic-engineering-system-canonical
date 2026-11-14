@@ -284,15 +284,15 @@
   },
   {
    "id": "Q36",
-   "label": "Q36: Current wiki rule findings",
+   "label": "Q36: Durable-document check findings",
    "kind": "AgentQuestion",
-   "explain": "How should the current wiki rule findings be resolved for the added archived OpenSpec change and the durable-document checks? Settled by: Review the three new archived change files and their navigation and retention policy, reconcile the Markdown exception with the accepted corpus, and investigate each of the ten durable-document findings before recording a new check result."
+   "explain": "How should the ten current durable-document findings be reconciled with the actual goal and plan sources? Settled by: Inspect the ten durable-document findings against their owning sources and correct the records or check, then retain the new check result."
   },
   {
    "id": "Q36-blocks",
-   "label": "A passing current Markdown cap, reachability and durable-document check.",
+   "label": "A passing current durable-document check.",
    "kind": "Decision",
-   "explain": "A passing current Markdown cap, reachability and durable-document check."
+   "explain": "A passing current durable-document check."
   }
  ],
  "edges": [
