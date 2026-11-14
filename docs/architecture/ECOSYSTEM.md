@@ -357,20 +357,21 @@ were written by this session, not by the repair executor; the fixed tree is a sc
 the review is one model call (cost not measured) and may vary between runs.
 `tests/test_concern_repair.py` passes (30 tests).
 
-**Executor-written repairs (not a pass).** The Project Meta repair executor was run five times
-on the real open concern #1883 (documentation-health) in a scratch clone, and each result was
-verified with all five gates. Every attempt passed the four mechanical gates and was refused by
-the independent review as `patch_only`: the repair registered the reported paths, or its test
-special-cased them, or the new hook check failed open when its baseline was missing, or its
-production-baseline test was not wired into a mandatory runner. Nothing was landed. Two defects
-were found and fixed in Project Meta (PR 2797): the executor's custody step needed a session-ended
-claim although claims are retired (it failed closed and posted a real backoff comment on the
-issue), and the Codex reviewer crashed in a blank temp directory. After the fixes the executor
-completes with no wrapper and the review runs in the default flow, and it still refuses. Runs 3
-and 5 had the reviewer's earlier reasons added to the agent's scratch issue body by hand; the
-executor does not pass a refusal's reasons to the next attempt. The one full pass remains the
-scratch run on the landed code change of PR 2563 with a synthetic key. Records and limits: the
-`executor_written_repairs` section of the receipt.
+**Executor-written repair: five refusals, then a pass that landed.** The Project Meta repair
+executor was run on the real open concern #1883 (documentation-health) in a scratch clone. The
+first five attempts each passed the four mechanical gates and were refused by the independent
+review as `patch_only` (a test that never exercised the hook, a repair that only registered the
+reported paths, a hook check that failed open when its baseline was missing). Two defects were
+fixed in Project Meta (PR 2797: the custody step needed a claim although claims are retired, and
+the Codex reviewer crashed in a blank temp directory) and the executor was changed to give the
+reviewer's earlier reasons to the next attempt (PR 2798). The sixth run, in the unmodified flow,
+passed all five gates (recurrence proof exit 1 on 7e4dccc, 0 on the fix; Codex verdict
+`root_cause_fixed`), was merged as Project Meta PR 2799 (7ec507f), and `verify_canonical` on the
+landed tree returned a pass, while the same check on the pre-fix tree returned no record.
+Limits: binding and observation were written by this session in a scratch state root; landed on
+focused tests only; the issue's closure at the next daily audit is not observed; one concern, six
+attempts, one reviewer model. Records: the `executor_written_repair_passed` and
+`executor_written_repairs` sections of the receipt.
 
 **Recurrence reopening.** Run for real against a throwaway issue (#866 in this repository,
 deleted afterwards): created, closed, then `open_concern` reopened it with the comment

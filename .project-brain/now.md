@@ -45,8 +45,8 @@ clone, synthetic cluster; passed on the code diff, refused on the whole PR diff
 because the reviewer diff is truncated) and reopened a throwaway issue on GitHub
 ([receipt](../evidence/runs/concern-lifecycle-live-20261114.json)); read seven
 policy rows; Codex observed loading `AGENTS.md`, not `CLAUDE.md`, so the generator was retired (`@AGENTS.md` import, Claude and Codex loads each observed once);
-read the retirement record and 2026-09-26 harvest. Executor-written repairs: five runs on concern #1883 were each refused by the review gate (patch_only), none landed; two defects fixed in Project Meta PR 2797.
-Not done: an executor-written repair passing, and the timers (Brian's call).
+read the retirement record and 2026-09-26 harvest. Executor-written repair: five runs on concern #1883 were refused by the review gate; after two defect fixes and giving refusal reasons to retries (Project Meta PRs 2797, 2798) the sixth passed all five gates and landed as PR 2799, with the landed-tree check passing.
+Not done: the issue closing at the next daily audit, and the timers (Brian's call).
 
 ## Earlier implementation and assessment records
 

@@ -39,7 +39,7 @@
    "tests/test_session_resume_missing_tracker.py"
   ],
   "not_observed": [
-   "A repair written by the executor passing all five gates: three real executor-written attempts were each refused by the review gate (executor_written_repairs). The only full pass is the scratch run on the landed code change of PR 2563 with a synthetic key (full_verify_repair)."
+   "The concern issue #1883 closing after the landed repair (next daily audit)."
   ]
  },
  "recurrence_reopening": {
@@ -400,5 +400,62 @@
    }
   ],
   "fixes_merged": "Project Meta PR 2797 (414d2111): a missing session-ended claim is no longer a custody failure (claims are retired; two matching claims still fail), and the Codex reviewer sets skip_git_repo_check. 32 tests in tests/test_concern_repair.py pass. After the fix the executor completes with no wrapper and the reviewer runs in the default flow; the review still refuses the repair."
+ },
+ "executor_written_repair_passed": {
+  "what_ran": "Project Meta repair executor (claude-code) run once more on the real concern #1883 in a scratch clone at Project Meta 7e4dccc (after PRs 2797 and 2798), unmodified flow: the real issue body, the earlier refusals' reasons delivered by the executor itself from the verifier's records (PR 2798), default Codex reviewer, no wrapper except a stand-in that suppressed comments on the issue (none would have been posted on a pass).",
+  "result": "PASSED all five gates: report contract, prevention in diff, recurrence proof (observed 7e4dccc: exit 1; fix 49aa93f: exit 0), source signal (cluster documentation-health resolved with closure_verification), independent review (Codex, root_cause_fixed, failure class addressed, prevention would catch recurrence).",
+  "landed": "Pushed as feedback-repair/live1883g and merged by ship as Project Meta PR 2799 (merge commit 7ec507f, tree e597b800); the landed tree equals the verified repair tree.",
+  "landed_tree_check": "verify_canonical on the landed tree: (True, 'landed tree e597b800... has a passing root-cause verification; source signal: cluster documentation-health resolved with 1 closure_verification item(s)').",
+  "negative_controls": [
+   "recurrence proof exit 1 on the pre-fix revision 7e4dccc",
+   "verify_canonical on the pre-fix tree c8517a1a: (False, 'no verification record for landed tree c8517a1a...')",
+   "five earlier attempts refused at the review gate"
+  ],
+  "verification_record": [
+   {
+    "schema_version": "concern-repair-verification/v1",
+    "concern_key": "policy-friction-cluster:documentation-health",
+    "issue_number": 1883,
+    "repair_tree": "e597b800fde7a2eea16a9dff96bd64d137d1d501",
+    "repair_client": "claude-code",
+    "reviewer_client": "codex",
+    "gates": [
+     {
+      "gate": "report_contract",
+      "passed": true,
+      "detail": "report validates and matches the executor binding"
+     },
+     {
+      "gate": "prevention_in_diff",
+      "passed": true,
+      "detail": "every prevention path is changed in the diff"
+     },
+     {
+      "gate": "recurrence_proof_executed",
+      "passed": true,
+      "detail": "command=['python3', '-m', 'pytest', 'tests/test_doc_intent_enforcement_gate.py', '-v']; harness_paths=['tests/test_doc_intent_enforcement_gate.py']; on observed 7e4dccc39c8a with harness exit=1; on fix 49aa93ff578b exit=0. observed output tail:\nhe YAML. \"\n            \"This is the fail-open vulnerability from the prior refusal: \"\n            \"the hook must exit non-zero when enforcement_baseline is missing.\"\n        )\nE       AssertionError: Hook did NOT fail when enforcement_baseline was absent from the YAML. This is the fail-open vulnerability from the prior refusal: the hook must exit non-zero when enforcement_baseline is missing.\nE       assert 0 != 0\nE        +  where 0 = CompletedProcess(args=['git', '-C', '/dev/shm/pytest-of-brian/pytest-1300/test_hook_fails_loud_on_missin1/repo', 'commit', '-m', 'Any commit'], returncode=0, stdout='[master df4c4fd] Any commit\\n 1 file changed, 1 insertion(+)\\n create mode 100644 any_file.txt\\n', stderr='Running pre-commit checks...\\nCanonical-checkout guard bypassed (hatch use #1 this session, recorded).\\nChecking branch freshness...\\nPre-commit checks passed!\\n').returncode\n\ntests/test_doc_intent_enforcement_gate.py:356: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_doc_intent_enforcement_gate.py::test_production_enforcement_baseline_present\nFAILED tests/test_doc_intent_enforcement_gate.py::test_hook_blocks_unregistered_documentation\nFAILED tests/test_doc_intent_enforcement_gate.py::test_hook_fails_loud_on_missing_intents_yaml\nFAILED tests/test_doc_intent_enforcement_gate.py::test_hook_fails_loud_on_missing_enforcement_baseline\n============================== 4 failed in 0.37s ===============================\n\n--- stderr ---\nfix output tail:\n============================= test session starts ==============================\nplatform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3\ncachedir: .pytest_cache\nrootdir: /tmp/concern-repair-proof-i0f_lxtu/fix\nconfigfile: pyproject.toml\nplugins: anyio-4.14.2, asyncio-1.4.0\nasyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollecting ... collected 4 items\n\ntests/test_doc_intent_enforcement_gate.py::test_production_enforcement_baseline_present PASSED [ 25%]\ntests/test_doc_intent_enforcement_gate.py::test_hook_blocks_unregistered_documentation PASSED [ 50%]\ntests/test_doc_intent_enforcement_gate.py::test_hook_fails_loud_on_missing_intents_yaml PASSED [ 75%]\ntests/test_doc_intent_enforcement_gate.py::test_hook_fails_loud_on_missing_enforcement_baseline PASSED [100%]\n\n============================== 4 passed in 0.49s ===============================\n\n--- stderr ---"
+     },
+     {
+      "gate": "source_signal_green",
+      "passed": true,
+      "detail": "cluster 'documentation-health' resolved with 1 closure_verification item(s)"
+     },
+     {
+      "gate": "independent_root_cause_review",
+      "passed": true,
+      "detail": "{\"reviewer\": \"codex\", \"unavailable\": [], \"verdict\": \"root_cause_fixed\", \"root_cause_addressed\": true, \"failure_class_addressed\": true, \"prevention_would_catch_recurrence\": true, \"reasons\": [\"The diff changes the enforcement mechanism itself: hooks/pre-commit now unconditionally invokes the existing checker with --enforce-new-since, using a configured baseline, instead of merely editing the friction record or suppressing its signal.\", \"The repair applies generically to every new documentation file after the baseline, rather than special-casing the five reported files. Missing YAML, checker script, baseline configuration, or an intent record causes a non-zero hook result.\", \"The behavioral regression test creates a temporary repository, stages an unregistered .md file, runs an actual git commit through the production hook and checker, and requires the commit to be rejected by the documentation-intent gate.\", \"Additional behavioral tests require commits to fail when the intents YAML or enforcement_baseline is removed. Removal of the checker also makes fixture setup fail, so the enforcement infrastructure cannot disappear silently.\", \"Mechanical verification shows the same tests fail on the observed revision and pass on the repaired revision; this exercises the actual failing behavior rather than checking only for hook text or wiring.\", \"The cluster-status edit and repair report are not themselves proof, but the hook, baseline configuration, and executable recurrence tests independently provide the required prevention control.\"]}"
+     }
+    ],
+    "passed": true,
+    "recorded_at": "2026-11-14T05:28:09.250368Z"
+   }
+  ],
+  "repair": "hooks/pre-commit wires the documentation-intent enforcement check so it fails loud; tests/test_doc_intent_enforcement_gate.py (4 tests pass); scripts/artifact_intents.yaml and policy/friction_clusters.yaml updated.",
+  "limits": [
+   "Binding and issue observation were written by this session in a scratch state root, not by the feedback runtime; the executor and verifier ran as in production.",
+   "Landed with the focused tests only (gate test, check_artifact_intents, emit_artifact_intent_receipts), not Project Meta's full check.",
+   "The concern issue #1883 closes at the next daily audit; not observed here.",
+   "This is the sixth executor attempt on one concern; the earlier five were refused."
+  ]
  }
 }
