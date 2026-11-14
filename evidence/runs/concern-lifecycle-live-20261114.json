@@ -10,29 +10,162 @@
  "five_gate_verifier": {
   "what_ran": "concern_repair_feedback.recurrence_proof (gate 3 of 5, recurrence_proof_executed), called directly from python3 with a RootCauseRepairReport written by this session for concern 783 (headless-lane-no-tracker-unclosable). The report is not the repair executor's own.",
   "command": "python3 -m pytest -q -p no:cacheprovider tests/test_session_resume_missing_tracker.py",
-  "real_pair": {"observed": "1708b51", "fix": "add1dd5 (PM PR 2563)", "harness_paths": ["tests/test_session_resume_missing_tracker.py"], "observed_exit": 1, "observed_tail": "1 failed in 2.09s", "fix_exit": 0, "fix_tail": "1 passed in 2.67s", "gate_passed": true},
-  "negative_control_reversed": {"observed": "add1dd5", "fix": "1708b51", "gate_passed": false, "detail": "control does not fail on the observed revision, so it would not catch recurrence"},
-  "negative_control_no_harness": {"observed": "1708b51", "fix": "1708b51", "gate_passed": false, "detail": "could not execute recurrence proof: pathspec 'tests/test_session_resume_missing_tracker.py' did not match any file(s) known to git (fails closed)"},
-  "fix_files": ["enforced_planning/session_lifecycle.py", "tests/test_session_resume_missing_tracker.py"],
+  "real_pair": {
+   "observed": "1708b51",
+   "fix": "add1dd5 (PM PR 2563)",
+   "harness_paths": [
+    "tests/test_session_resume_missing_tracker.py"
+   ],
+   "observed_exit": 1,
+   "observed_tail": "1 failed in 2.09s",
+   "fix_exit": 0,
+   "fix_tail": "1 passed in 2.67s",
+   "gate_passed": true
+  },
+  "negative_control_reversed": {
+   "observed": "add1dd5",
+   "fix": "1708b51",
+   "gate_passed": false,
+   "detail": "control does not fail on the observed revision, so it would not catch recurrence"
+  },
+  "negative_control_no_harness": {
+   "observed": "1708b51",
+   "fix": "1708b51",
+   "gate_passed": false,
+   "detail": "could not execute recurrence proof: pathspec 'tests/test_session_resume_missing_tracker.py' did not match any file(s) known to git (fails closed)"
+  },
+  "fix_files": [
+   "enforced_planning/session_lifecycle.py",
+   "tests/test_session_resume_missing_tracker.py"
+  ],
   "not_observed": [
-   "report_contract and prevention_in_diff gates (need an executor-written binding in FEEDBACK_SYSTEM_STATE_ROOT)",
-   "source_signal_green: supports only keys prefixed policy-friction-cluster:, and concern 783 is not such a key",
-   "independent_root_cause_review (a model call; not run)",
-   "a full verify_repair run on a landed repair; the fixture run is tests/test_concern_repair.py, 30 passed in 27.24s"
+   "report_contract, prevention_in_diff, source_signal_green and independent review were observed in full_verify_repair (synthetic key, scratch fix commit); not observed: a repair written by the repair executor, or the real concern 783 key passing source_signal_green (unsupported prefix)"
   ]
  },
  "recurrence_reopening": {
   "what_ran": "workspace scripts/concern_issue.py open_concern with a recording fake gh runner (no GitHub write)",
-  "closed_issue": {"result": "reopened #783", "gh_verbs": ["list", "reopen", "comment"]},
-  "open_issue_negative_control": {"result": "commented #783", "gh_verbs": ["list", "view", "comment"]},
+  "closed_issue": {
+   "result": "reopened #783",
+   "gh_verbs": [
+    "list",
+    "reopen",
+    "comment"
+   ]
+  },
+  "open_issue_negative_control": {
+   "result": "commented #783",
+   "gh_verbs": [
+    "list",
+    "view",
+    "comment"
+   ]
+  },
   "tests": "workspace tests/test_concern_issue.py -k reopen or closed or recur: 2 passed",
-  "not_observed": "a real GitHub reopen; AES effects.py reopen in file mode"
+  "not_observed": "AES effects.py reopen in file mode",
+  "real_github_reopen": {
+   "what_ran": "workspace scripts/concern_issue.py open, close, open against a throwaway issue #866 in this repository (key aes-review-throwaway-reopen-20261114, source label aes-review-test)",
+   "result": "created, closed ('Verified green; closing.'), reopened with comment 'Recurred after closure.'; state OPEN. The issue was then deleted by this session (it was my own throwaway)."
+  }
  },
- "timers": {"feedback-effects.timer": "disabled, inactive", "feedback-fix-owner.timer": "disabled, inactive"},
+ "timers": {
+  "feedback-effects.timer": "disabled, inactive",
+  "feedback-fix-owner.timer": "disabled, inactive"
+ },
  "codex_load": {
   "command": "codex exec -s read-only (codex-cli 0.169.0) in an AES worktree, asked to list instruction sources from context only",
-  "loaded": ["~/code2/workspace/agents/core.md", "~/code2/AGENTS.md", "<AES>/AGENTS.md (generated)"],
+  "loaded": [
+   "~/code2/workspace/agents/core.md",
+   "~/code2/AGENTS.md",
+   "<AES>/AGENTS.md (generated)"
+  ],
   "not_loaded": "<AES>/CLAUDE.md (config project_doc_fallback_filenames=[CLAUDE.md] applies only when AGENTS.md is absent)",
   "tokens_used": 27855
+ },
+ "full_verify_repair": {
+  "what_ran": "concern_repair_feedback.verify_repair end to end (all five gates) in a scratch clone of Project Meta f1e27c9 under the session scratchpad, never pushed. Observed revision 1708b51; fix = the landed code and test change of PR 2563 (enforced_planning/session_lifecycle.py, tests/test_session_resume_missing_tracker.py, copied from add1dd5) plus one scratch commit adding the repair report and a synthetic friction cluster 'live-783-demo' marked resolved with closure_verification. The binding was written by this session (repair_client codex), the concern key is the synthetic policy-friction-cluster:live-783-demo, and the gh runner was a stand-in (issue view returned a stand-in title/body; no GitHub write). The independent review was a real model call through the verifier's own reviewer path (claude-code harness, trace aes-review.live-783.real); its cost was not measured.",
+  "result_trimmed_diff": "PASSED: report_contract, prevention_in_diff, recurrence_proof_executed, source_signal_green and independent_root_cause_review (verdict root_cause_fixed) all passed.",
+  "negative_result_full_diff": "First run used the whole landed PR diff (about 1,700 lines of plan receipts beyond the code change). The verifier truncates the diff at 60,000 characters before the reviewer; the four mechanical gates passed but the reviewer returned insufficient_evidence because it never saw session_lifecycle.py, and the run FAILED. This is a real limit of the verifier on large landed diffs.",
+  "records": {
+   "trimmed_diff_run_passed": {
+    "schema_version": "concern-repair-verification/v1",
+    "concern_key": "policy-friction-cluster:live-783-demo",
+    "issue_number": 783,
+    "repair_tree": "946dd93900b99bd81797d11f307af09e097b4fc4",
+    "repair_client": "codex",
+    "reviewer_client": "claude-code",
+    "gates": [
+     {
+      "gate": "report_contract",
+      "passed": true,
+      "detail": "report validates and matches the executor binding"
+     },
+     {
+      "gate": "prevention_in_diff",
+      "passed": true,
+      "detail": "every prevention path is changed in the diff"
+     },
+     {
+      "gate": "recurrence_proof_executed",
+      "passed": true,
+      "detail": "command=['/usr/bin/python3', '-m', 'pytest', '-q', '-p', 'no:cacheprovider', 'tests/test_session_resume_missing_tracker.py']; harness_paths=['tests/test_session_resume_missing_tracker.py']; on observed 1708b518762e with harness exit=1; on fix 5fe755193d0b exit=0. observed output tail:\nection.PreparedOutcomeSessionTransfer | None = None\n        process_fence: dict[str, Any] | None = None\n        claim_bytes_before: bytes | None = None\n        tracker_bytes_before: bytes | None = None\n        takeover_reservation: dict[str, Any] | None = None\n        tracker_path_text = claim.tracker_path\n        tracker_path = Path(tracker_path_text).expanduser() if tracker_path_text else None\n        if same_runtime and tracker_path is None:\n            tracker_path = session_contracts.find_session_tracker_path(\n                agent=claim.agent,\n                project=project,\n                scope=claim.scope,\n                session_id=claim.session_id,\n            )\n            if tracker_path is None:\n                raise ValueError(\"same-runtime resume could not find one unique exact session tracker\")\n            tracker_path = tracker_path.expanduser().resolve()\n            tracker_path_text = str(tracker_path)\n        if not same_runtime:\n            if tracker_path is None or not tracker_path.is_file():\n>               raise ValueError(\"cross-session resume requires one existing exact session tracker\")\nE               ValueError: cross-session resume requires one existing exact session tracker\n\nenforced_planning/session_lifecycle.py:5224: ValueError\n=========================== short test summary info ============================\nFAILED tests/test_session_resume_missing_tracker.py::test_resume_session_rebuilds_a_tracker_the_claim_never_recorded\n1 failed in 0.71s\n\n--- stderr ---\nfix output tail:\n.                                                                        [100%]\n1 passed in 0.76s\n\n--- stderr ---"
+     },
+     {
+      "gate": "source_signal_green",
+      "passed": true,
+      "detail": "cluster 'live-783-demo' resolved with 1 closure_verification item(s)"
+     },
+     {
+      "gate": "independent_root_cause_review",
+      "passed": true,
+      "detail": "{\"reviewer\": \"claude-code\", \"unavailable\": [], \"verdict\": \"root_cause_fixed\", \"root_cause_addressed\": true, \"failure_class_addressed\": true, \"prevention_would_catch_recurrence\": true, \"reasons\": [\"The diff removes the assumption that caused the failure: in resume_session(), the hard ValueError guard 'cross-session resume requires one existing exact session tracker' is now preceded by an active recovery step (lines added at ~5270-5272). The new _recover_missing_session_tracker() function rebuilds the tracker from claim fields and writes it to disk \\u2014 this is a mechanism change, not a suppression of the error message.\", \"Both cross-session transaction paths (_apply_legacy_cross_session_resume_transaction and _apply_codex_cross_session_resume_transaction) receive the same tracker_path backfill, writing the recovered path into the successor claim so future resumes of the same claim do not require recovery again. The class sweep correctly identified one file containing multiple paths and all applicable paths were fixed.\", \"The prevention test (tests/test_session_resume_missing_tracker.py) is confirmed by the gate to fail on the pre-fix revision with the exact ValueError at session_lifecycle.py:5224, and to pass on the fixed revision. The test exercises the actual failing behavior (resume of a claim that never recorded a tracker) rather than checking for the presence of text or wiring, so it would fail loudly if the recovery logic were reverted.\", \"One notable side effect in the diff: policy/friction_clusters.yaml is reduced from ~1,245 lines to 7 lines, deleting all historical cluster entries. This does not undermine the correctness of the code fix, but it is an unexplained large deletion of historical data that should be independently verified as intentional.\"]}"
+     }
+    ],
+    "passed": true,
+    "recorded_at": "2026-11-14T03:11:05.556627Z"
+   },
+   "full_diff_run_refused": {
+    "schema_version": "concern-repair-verification/v1",
+    "concern_key": "policy-friction-cluster:live-783-demo",
+    "issue_number": 783,
+    "repair_tree": "d2e62b26a04185c9dd7e95f912e7ed73c4cef32e",
+    "repair_client": "codex",
+    "reviewer_client": "claude-code",
+    "gates": [
+     {
+      "gate": "report_contract",
+      "passed": true,
+      "detail": "report validates and matches the executor binding"
+     },
+     {
+      "gate": "prevention_in_diff",
+      "passed": true,
+      "detail": "every prevention path is changed in the diff"
+     },
+     {
+      "gate": "recurrence_proof_executed",
+      "passed": true,
+      "detail": "command=['/usr/bin/python3', '-m', 'pytest', '-q', '-p', 'no:cacheprovider', 'tests/test_session_resume_missing_tracker.py']; harness_paths=['tests/test_session_resume_missing_tracker.py']; on observed 1708b518762e with harness exit=1; on fix 8e51a205853d exit=0. observed output tail:\nection.PreparedOutcomeSessionTransfer | None = None\n        process_fence: dict[str, Any] | None = None\n        claim_bytes_before: bytes | None = None\n        tracker_bytes_before: bytes | None = None\n        takeover_reservation: dict[str, Any] | None = None\n        tracker_path_text = claim.tracker_path\n        tracker_path = Path(tracker_path_text).expanduser() if tracker_path_text else None\n        if same_runtime and tracker_path is None:\n            tracker_path = session_contracts.find_session_tracker_path(\n                agent=claim.agent,\n                project=project,\n                scope=claim.scope,\n                session_id=claim.session_id,\n            )\n            if tracker_path is None:\n                raise ValueError(\"same-runtime resume could not find one unique exact session tracker\")\n            tracker_path = tracker_path.expanduser().resolve()\n            tracker_path_text = str(tracker_path)\n        if not same_runtime:\n            if tracker_path is None or not tracker_path.is_file():\n>               raise ValueError(\"cross-session resume requires one existing exact session tracker\")\nE               ValueError: cross-session resume requires one existing exact session tracker\n\nenforced_planning/session_lifecycle.py:5224: ValueError\n=========================== short test summary info ============================\nFAILED tests/test_session_resume_missing_tracker.py::test_resume_session_rebuilds_a_tracker_the_claim_never_recorded\n1 failed in 1.02s\n\n--- stderr ---\nfix output tail:\n.                                                                        [100%]\n1 passed in 0.80s\n\n--- stderr ---"
+     },
+     {
+      "gate": "source_signal_green",
+      "passed": true,
+      "detail": "cluster 'live-783-demo' resolved with 1 closure_verification item(s)"
+     },
+     {
+      "gate": "independent_root_cause_review",
+      "passed": false,
+      "detail": "{\"reviewer\": \"claude-code\", \"unavailable\": [], \"verdict\": \"insufficient_evidence\", \"root_cause_addressed\": false, \"failure_class_addressed\": false, \"prevention_would_catch_recurrence\": true, \"reasons\": [\"The diff is truncated before it reaches the changes to enforced_planning/session_lifecycle.py and tests/test_session_resume_missing_tracker.py \\u2014 the only two files that could show whether the underlying guard was changed or merely patched.\", \"The gate output confirms the test exercises real behavior (claim session_id, tracker_path, tracker file content) and that the test fails on the pre-fix revision and passes on the fix, so the prevention test would catch recurrence \\u2014 but this alone does not reveal whether the mechanism itself was changed.\", \"The class sweep searched only the one file being fixed; whether other resume paths carry the same 'tracker must exist' assumption is not visible from the provided material.\", \"Without the session_lifecycle.py diff, it is impossible to determine whether the fix rebuilds the tracker from the claim (root-cause change) or simply bypasses the guard for the null-tracker case (patch).\"]}"
+     }
+    ],
+    "passed": false,
+    "recorded_at": "2026-11-14T03:09:27.988189Z"
+   }
+  },
+  "limits": [
+   "synthetic concern key and cluster; the real concern 783 key is unsupported by source_signal_green",
+   "report and binding authored by this session, not by the repair executor",
+   "landed repair is the real code change but the fixed tree is a scratch commit, not add1dd5 itself",
+   "review verdict is one model call and may vary between runs"
+  ]
  }
 }
