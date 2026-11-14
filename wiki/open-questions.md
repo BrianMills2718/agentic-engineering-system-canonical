@@ -205,3 +205,91 @@ Recommendation: Preserve the original registry and the provisional migration man
 Sources: [policy source map](policy-and-rules.md#where-are-the-hundreds-of-project-meta-policies), [manifest](../docs/rules/legacy-dispositions.yaml).
 
 Owner: agent.
+
+## Ecosystem consolidation and predecessor review
+
+The following entries are projected from the owning ledger after Decision 0014.
+
+### Q36: One capability discovery route
+
+Which existing catalogue/export/view should implement the adopted AES discovery route, and how will ACA Decision 0012, workspace Decision 0004 and Project Meta be explicitly reconciled?
+
+Recommendation: Keep native provider facts at source and AES-owned cross-project decisions; select the publication/storage mechanism after the record comparison.
+
+Next evidence or disposition: Compare unique entries, readers/writers, stable aliases and sufficient existing catalogue products; demonstrate one route before changing old instructions.
+
+Sources: [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), [source review](../docs/architecture/ECOSYSTEM.md).
+
+Owner: agent.
+
+### Q37: Qualified capability and schema identities
+
+How are legacy capability/family IDs, provider-qualified action names, versions and input/output schema references preserved without ambiguous joins?
+
+Recommendation: Preserve IDs/aliases and exact references; never infer substitutability from similar names.
+
+Next evidence or disposition: Produce alias mappings and show distinct same-named tools cannot overwrite each other; retain explicit schema compatibility/adaptation evidence.
+
+Sources: [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), [source review](../docs/architecture/ECOSYSTEM.md).
+
+Owner: agent.
+
+### Q38: Discovery evidence and freshness
+
+How does discovery distinguish documented, candidate, source-resolved, available, consumer-adopted and fit-for-this-requirement states, including incomplete or broken inputs?
+
+Recommendation: Expose source-level unknown/error/stale and keep declared versus observed consumer edges separate.
+
+Next evidence or disposition: Exercise missing source, invalid input, stale revision and catalog-only capability; inspect a real consumer receipt separately from a dependency declaration.
+
+Sources: [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), [source review](../docs/architecture/ECOSYSTEM.md).
+
+Owner: agent.
+
+### Q39: Legacy review coverage
+
+Which older source sections have actually been read, what unique ideas remain, and what is the next bounded reading tranche?
+
+Recommendation: Treat the first review as bounded; preserve useful requirements even without current runtime use and reject machinery that lacks a present purpose.
+
+Next evidence or disposition: Continue the source/revision/disposition table in ECOSYSTEM.md; inspect concern lifecycle next, then selected policy families and instruction delivery.
+
+Sources: [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), [source review](../docs/architecture/ECOSYSTEM.md).
+
+Owner: agent.
+
+### Q40: Retired entrypoint and consumer reconciliation
+
+Which Project Meta and Enforced Planning entrypoints still route agents into old claims/mailbox authority, and which surviving consumers need their implementation?
+
+Recommendation: Keep useful design rationale and current consumers; route old global instructions to the current AES/workspace owners instead of reviving retired regimes.
+
+Next evidence or disposition: Inventory exact readers and installed routes; change upstream pointers through their owning repositories after preserving live contract consumers.
+
+Sources: [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), [source review](../docs/architecture/ECOSYSTEM.md).
+
+Owner: agent.
+
+### Q41: Minimum composition model
+
+Does ordinary ecosystem discovery require the rich data-contracts action/compiler vocabulary, or are typed provider references and the minimal requirement/output graph sufficient?
+
+Recommendation: Keep contracts at their native owner and make richer composition optional until justified.
+
+Next evidence or disposition: Compare actual ordinary plans and consumer guarantees; adopt richer effects/resources/transition semantics only for an explicit unsatisfied requirement.
+
+Sources: [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), [source review](../docs/architecture/ECOSYSTEM.md).
+
+Owner: agent.
+
+### Q42: Concern identity and repair closure
+
+Which existing system owns durable concern identity, verifier-owned closure and recurrence reopening across native feedback evidence and GitHub issues?
+
+Recommendation: Compose existing records and native evidence rather than create another independent concern tracker; require landed-revision closure and legitimate counter-cases.
+
+Next evidence or disposition: Read the Project Meta concern executor/verifier lifecycle and compare its exact transitions with AES feedback implementation, Q21, Q29 and Q31.
+
+Sources: [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), [source review](../docs/architecture/ECOSYSTEM.md).
+
+Owner: agent.
