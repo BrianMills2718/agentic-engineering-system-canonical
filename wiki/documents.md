@@ -276,7 +276,7 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 ## .project-brain
 
-- **[now.md](../.project-brain/now.md)** — Records completed narrow self-adoption, the observed Claude path, unobserved Codex/default-loading boundaries and remaining compact-view work. **Role:** source document. **Disposition:** keep.
+- **[now.md](../.project-brain/now.md)** — Routes the approved ecosystem consolidation and first donor review, then preserves independent projection, feedback and earlier dated records. **Role:** source document. **Disposition:** keep.
 
 - **[project.md](../.project-brain/project.md)** — States the AES purpose and functions, including Company Planning, and links the owning intent, Lockstep contract, current work and retirement record. **Role:** source document. **Disposition:** keep.
 
@@ -296,15 +296,17 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 ## docs/architecture
 
+- **[ECOSYSTEM.md](../docs/architecture/ECOSYSTEM.md)** — Owns the adopted discovery direction, first bounded review of predecessor sources, proposed donor dispositions, concerns, source revisions and next reading sequence. **Role:** architecture review. **Disposition:** keep.
+
 - **[DOCUMENTATION.md](../docs/architecture/DOCUMENTATION.md)** — Defines document authority and lifecycle, source-local summaries, generated and curated reading views, and the full-file coverage and consolidation assessment with preservation limits. **Role:** architecture. **Disposition:** keep.
 
 - **[FEEDBACK\_AND\_POLICY.md](../docs/architecture/FEEDBACK_AND_POLICY.md)** — Explains correction-to-follow-up and policy ownership, distinguishes the original Project Meta inventory from the small AES register, and records dated runtime/evidence limitations. **Role:** architecture. **Disposition:** keep.
 
-- **[GOAL.md](../docs/architecture/GOAL.md)** — States AES purpose, planning/Lockstep/feedback/policy roles, source-local thesis, disproof, non-goals and lineage using the durable goal and arc42 fields. **Role:** normative. **Disposition:** keep.
+- **[GOAL.md](../docs/architecture/GOAL.md)** — Defines AES purpose and whole-system functions, including ecosystem integration alongside planning, Lockstep, feedback and policy. **Role:** normative. **Disposition:** keep.
 
 - **[LOCKSTEP.md](../docs/architecture/LOCKSTEP.md)** — Explains planning and projection boundaries, retains the earlier worked assessment and records native AES self-adoption with a generated source-owned assessment. **Role:** architecture. **Disposition:** keep.
 
-- **[README.md](../docs/architecture/README.md)** — Gives the current architecture reading order and explicitly separates component contracts from retained greenfield engine history and upstream methodology. **Role:** navigation. **Disposition:** keep.
+- **[README.md](../docs/architecture/README.md)** — Routes current architecture, ecosystem predecessor review and retained historical designs without transferring native ownership. **Role:** navigation. **Disposition:** keep.
 
 - **[SYSTEM\_BOUNDARY.md](../docs/architecture/SYSTEM_BOUNDARY.md)** — Defines addressable clauses for AES scope, human-observable delivery, capability reuse, native boundaries, policy, context, documentation and learning; retains distinct historical first-vertical acceptance language. **Role:** normative. **Disposition:** keep.
 
@@ -334,6 +336,8 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 ## docs/decisions
 
+- **[0014-ecosystem-consolidation-and-legacy-review.md](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md)** — Records Brian-approved AES consolidation and legacy review, one discovery route with native owners, historical decision reconciliation and success/disproof boundaries. **Role:** decision. **Disposition:** keep.
+
 - **[0001-canonical-convergence-boundary.md](../docs/decisions/0001-canonical-convergence-boundary.md)** — Records clean canonical convergence, exact upstream methodology adoption and capability-by-capability dispositions; preserves bootstrap restrictions and the original first-vertical proof boundary. **Role:** decision. **Disposition:** keep.
 
 - **[0002-company-planning-aes-profile-before-fork.md](../docs/decisions/0002-company-planning-aes-profile-before-fork.md)** — Chooses a local Company Planning profile before upstream change or fork; preserves provider scope and the distinction between structural conformance and executed planning evidence. **Role:** decision. **Disposition:** keep.
@@ -356,7 +360,7 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 - **[0011-inside-success-aes-archived-canonical-is-aes.md](../docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md)** — Names this repository as AES and records archival/harvest of the earlier implementation, rollout conditions and whygame5 value tally with its later stale-evidence catch. **Role:** decision. **Disposition:** keep.
 
-- **[0012-capability-reuse-enforced-at-plan-adoption.md](../docs/decisions/0012-capability-reuse-enforced-at-plan-adoption.md)** — Requires an evidence-backed reuse catalogue and reuse checks at plan adoption, with extraction on second use; catalogue ownership and contract assumptions need current owner verification. **Role:** decision. **Disposition:** update.
+- **[0012-capability-reuse-enforced-at-plan-adoption.md](../docs/decisions/0012-capability-reuse-enforced-at-plan-adoption.md)** — Records the original ACA catalogue and planning reuse decision, qualified by Decision 0014 and unresolved publication/provider reconciliation. **Role:** decision. **Disposition:** update.
 
 - **[0013-truth-lives-where-it-is-edited.md](../docs/decisions/0013-truth-lives-where-it-is-edited.md)** — Records Brian’s source-local description rule and generated wiki copies, with explicit wrong-when examples for inaccurate descriptions and failed reader routing. **Role:** decision. **Disposition:** keep.
 
@@ -412,7 +416,7 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 - **[open-questions.graph.json](../docs/planning/open-questions.graph.json)** — Generated graph of open ledger questions, responsible actors and domain relationships; it is a derived reading view rather than another question authority. **Role:** generated. **Disposition:** generated.
 
-- **[open-questions.json](../docs/planning/open-questions.json)** — Owns questions, recommendations and evidence; Q25 records bounded Claude self-adoption while broader synchronization claims remain open. **Role:** planning record. **Disposition:** keep.
+- **[open-questions.json](../docs/planning/open-questions.json)** — Owns AES unresolved questions and dispositions, including Q36–Q42 for ecosystem catalogue authority, identities, evidence, donor review and concern closure. **Role:** planning record. **Disposition:** keep.
 
 - **[planning-package.json](../docs/planning/planning-package.json)** — Indexes package parts, recorded checks, system scope, spectrum sources and generated artifacts at a named revision; it is not a fresh operational certification. **Role:** planning record. **Disposition:** update.
 
@@ -1220,11 +1224,11 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 - **[history.md](../wiki/history.md)** — Organizes bootstrap, greenfield self-governance, predecessor archive, commit-rule removal and retired proposals as source-linked history. **Role:** source document. **Disposition:** keep.
 
-- **[index.md](../wiki/index.md)** — Question-based front door for AES goals, explicit planning and implementation functions, policy sources, full-file catalog, contracts, evidence, decisions and open concerns. **Role:** source document. **Disposition:** keep.
+- **[index.md](../wiki/index.md)** — Question-based navigation to AES architecture, ecosystem predecessor review, implementation, complete source inventory and open concerns. **Role:** source document. **Disposition:** keep.
 
 - **[lockstep.md](../wiki/lockstep.md)** — Routes contracts and limits, distinguishes earlier replay from native self-adoption and includes the generated source-owned component assessment. **Role:** source document. **Disposition:** keep.
 
-- **[open-questions.md](../wiki/open-questions.md)** — Navigates unresolved questions and recommendations, including bounded native self-adoption and remaining client/upward-edit limits. **Role:** source document. **Disposition:** keep.
+- **[open-questions.md](../wiki/open-questions.md)** — Projects unresolved questions and recommendations from the owning ledger, including ecosystem consolidation and predecessor review. **Role:** source document. **Disposition:** keep.
 
 - **[policy-and-rules.md](../wiki/policy-and-rules.md)** — Maps policy authority and enforcement concepts to the original 263-entry Project Meta registry, provisional migration manifest, small AES register and current shared instructions. **Role:** source document. **Disposition:** keep.
 

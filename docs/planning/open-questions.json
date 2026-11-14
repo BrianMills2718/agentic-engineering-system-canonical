@@ -632,6 +632,132 @@
         "wiki/policy-and-rules.md"
       ],
       "touches": []
-    }
-  ]
+    },
+  {
+    "id": "Q36",
+    "short": "One capability discovery route",
+    "question": "Which existing catalogue/export/view should implement the adopted AES discovery route, and how will ACA Decision 0012, workspace Decision 0004 and Project Meta be explicitly reconciled?",
+    "blocks": "catalogue implementation and upstream instruction changes",
+    "resolves_with": "Compare unique entries, readers/writers, stable aliases and sufficient existing catalogue products; demonstrate one route before changing old instructions.",
+    "owner": "agent",
+    "status": "open",
+    "recommendation": "Keep native provider facts at source and AES-owned cross-project decisions; select the publication/storage mechanism after the record comparison.",
+    "sources": [
+      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+      "docs/architecture/ECOSYSTEM.md"
+    ],
+    "touches": [
+      "ecosystem-consolidation",
+      "legacy-review"
+    ]
+  },
+  {
+    "id": "Q37",
+    "short": "Qualified capability and schema identities",
+    "question": "How are legacy capability/family IDs, provider-qualified action names, versions and input/output schema references preserved without ambiguous joins?",
+    "blocks": "safe record migration and cross-project compatibility claims",
+    "resolves_with": "Produce alias mappings and show distinct same-named tools cannot overwrite each other; retain explicit schema compatibility/adaptation evidence.",
+    "owner": "agent",
+    "status": "open",
+    "recommendation": "Preserve IDs/aliases and exact references; never infer substitutability from similar names.",
+    "sources": [
+      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+      "docs/architecture/ECOSYSTEM.md"
+    ],
+    "touches": [
+      "ecosystem-consolidation",
+      "legacy-review"
+    ]
+  },
+  {
+    "id": "Q38",
+    "short": "Discovery evidence and freshness",
+    "question": "How does discovery distinguish documented, candidate, source-resolved, available, consumer-adopted and fit-for-this-requirement states, including incomplete or broken inputs?",
+    "blocks": "honest discovery results and automatic refresh claims",
+    "resolves_with": "Exercise missing source, invalid input, stale revision and catalog-only capability; inspect a real consumer receipt separately from a dependency declaration.",
+    "owner": "agent",
+    "status": "open",
+    "recommendation": "Expose source-level unknown/error/stale and keep declared versus observed consumer edges separate.",
+    "sources": [
+      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+      "docs/architecture/ECOSYSTEM.md"
+    ],
+    "touches": [
+      "ecosystem-consolidation",
+      "legacy-review"
+    ]
+  },
+  {
+    "id": "Q39",
+    "short": "Legacy review coverage",
+    "question": "Which older source sections have actually been read, what unique ideas remain, and what is the next bounded reading tranche?",
+    "blocks": "claims that predecessor knowledge has been preserved",
+    "resolves_with": "Continue the source/revision/disposition table in ECOSYSTEM.md; inspect concern lifecycle next, then selected policy families and instruction delivery.",
+    "owner": "agent",
+    "status": "open",
+    "recommendation": "Treat the first review as bounded; preserve useful requirements even without current runtime use and reject machinery that lacks a present purpose.",
+    "sources": [
+      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+      "docs/architecture/ECOSYSTEM.md"
+    ],
+    "touches": [
+      "ecosystem-consolidation",
+      "legacy-review"
+    ]
+  },
+  {
+    "id": "Q40",
+    "short": "Retired entrypoint and consumer reconciliation",
+    "question": "Which Project Meta and Enforced Planning entrypoints still route agents into old claims/mailbox authority, and which surviving consumers need their implementation?",
+    "blocks": "safe donor-document routing and eventual retirement",
+    "resolves_with": "Inventory exact readers and installed routes; change upstream pointers through their owning repositories after preserving live contract consumers.",
+    "owner": "agent",
+    "status": "open",
+    "recommendation": "Keep useful design rationale and current consumers; route old global instructions to the current AES/workspace owners instead of reviving retired regimes.",
+    "sources": [
+      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+      "docs/architecture/ECOSYSTEM.md"
+    ],
+    "touches": [
+      "ecosystem-consolidation",
+      "legacy-review"
+    ]
+  },
+  {
+    "id": "Q41",
+    "short": "Minimum composition model",
+    "question": "Does ordinary ecosystem discovery require the rich data-contracts action/compiler vocabulary, or are typed provider references and the minimal requirement/output graph sufficient?",
+    "blocks": "publication burden and speculative platform growth",
+    "resolves_with": "Compare actual ordinary plans and consumer guarantees; adopt richer effects/resources/transition semantics only for an explicit unsatisfied requirement.",
+    "owner": "agent",
+    "status": "open",
+    "recommendation": "Keep contracts at their native owner and make richer composition optional until justified.",
+    "sources": [
+      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+      "docs/architecture/ECOSYSTEM.md"
+    ],
+    "touches": [
+      "ecosystem-consolidation",
+      "legacy-review"
+    ]
+  },
+  {
+    "id": "Q42",
+    "short": "Concern identity and repair closure",
+    "question": "Which existing system owns durable concern identity, verifier-owned closure and recurrence reopening across native feedback evidence and GitHub issues?",
+    "blocks": "integrated correction-to-verified-repair behavior",
+    "resolves_with": "Read the Project Meta concern executor/verifier lifecycle and compare its exact transitions with AES feedback implementation, Q21, Q29 and Q31.",
+    "owner": "agent",
+    "status": "open",
+    "recommendation": "Compose existing records and native evidence rather than create another independent concern tracker; require landed-revision closure and legitimate counter-cases.",
+    "sources": [
+      "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+      "docs/architecture/ECOSYSTEM.md"
+    ],
+    "touches": [
+      "ecosystem-consolidation",
+      "legacy-review"
+    ]
+  }
+ ]
 }

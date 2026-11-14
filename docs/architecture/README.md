@@ -12,7 +12,8 @@ Read the current whole-system account first:
 3. [Documentation roles](DOCUMENTATION.md): source ownership, lifecycles and views.
 4. [Feedback and policy](FEEDBACK_AND_POLICY.md): how observations should change future work.
 5. [Detailed architecture clauses](SYSTEM_BOUNDARY.md).
-6. [Implementation map](../planning/SYSTEM_MODEL.md) and [open concerns](../../wiki/open-questions.md).
+6. [Ecosystem and predecessor review](ECOSYSTEM.md): capability discovery, source ownership and the continuing legacy reading sequence.
+7. [Implementation map](../planning/SYSTEM_MODEL.md) and [open concerns](../../wiki/open-questions.md).
 
 These pages reconcile recorded direction. OpenSpec supplies current executable
 Lockstep behavior contracts. Read implementation and run evidence separately

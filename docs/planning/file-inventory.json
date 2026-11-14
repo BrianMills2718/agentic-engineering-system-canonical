@@ -6,13 +6,13 @@
   "request": "Every tracked file reachable and summarized from the navigational wiki; assess consolidation and optimization without losing information.",
   "scope": {
     "base_tracked_files": 407,
-    "all_candidate_tracked_files": 417,
+    "all_candidate_tracked_files": 419,
     "included": "All Git-tracked files, including instructions, archived changes, fixtures, generated views and non-Markdown files.",
     "external": "Explicitly linked owning planning/policy/instruction sources; no unrelated repository-wide sweep.",
     "not_published": "Ignored caches, installed environments, credentials and private runtime store contents."
   },
   "summary_method": "Native agents read file content and source structure to produce semantic summaries; no prose meaning inferred with regex or filename templates. Parent reconciles changed sources. This is not exhaustive behavioral verification of every code path or bundled dependency.",
-  "freshness": "Input content hashes detect changed source bytes, not semantic correctness. Re-review changed inputs and regenerate the catalog. Native declared-fact refresh is not a universal summary updater.",
+  "freshness": "Input content hashes detect changed source bytes, not semantic correctness. Re-review changed inputs and regenerate the catalog. Native declared-fact refresh is not a universal summary updater. Ecosystem review changes were re-read in the 2026-11-13 follow-up; other dated summaries retain their earlier evidence scope.",
   "entries": [
     {
       "path": ".agentic/events/README.md",
@@ -352,13 +352,13 @@
     },
     {
       "path": ".project-brain/now.md",
-      "summary": "Records completed narrow self-adoption, the observed Claude path, unobserved Codex/default-loading boundaries and remaining compact-view work.",
+      "summary": "Routes the approved ecosystem consolidation and first donor review, then preserves independent projection, feedback and earlier dated records.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "4fb81ad1c478f19a2faf88834f4220827f835dc95d93da0fa809d8d51b3def5a",
+      "sha256": "376489b69e2270eec2f84c849a58385439926a046dfca08146899d0047b97e57",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -471,6 +471,18 @@
       "has_standard_source_summary_field": true
     },
     {
+      "path": "docs/architecture/ECOSYSTEM.md",
+      "role": "architecture review",
+      "disposition": "keep",
+      "reason": "Approved consolidation direction and bounded source review; runtime migration remains separate.",
+      "source_locator": "Outcome and authority; First reading; Continue reading the older system",
+      "summary_origin": "content_review",
+      "identity_basis": "Reviewed candidate bytes and reconciled source-backed semantic summary.",
+      "has_standard_source_summary_field": true,
+      "summary": "Owns the adopted discovery direction, first bounded review of predecessor sources, proposed donor dispositions, concerns, source revisions and next reading sequence.",
+      "sha256": "0b80271ac1fda6aa8d9c3422a26ccced1699354b4dbd27e8acba398205921e93"
+    },
+    {
       "path": "docs/architecture/FEEDBACK_AND_POLICY.md",
       "summary": "Explains correction-to-follow-up and policy ownership, distinguishes the original Project Meta inventory from the small AES register, and records dated runtime/evidence limitations.",
       "role": "architecture",
@@ -484,13 +496,13 @@
     },
     {
       "path": "docs/architecture/GOAL.md",
-      "summary": "States AES purpose, planning/Lockstep/feedback/policy roles, source-local thesis, disproof, non-goals and lineage using the durable goal and arc42 fields.",
+      "summary": "Defines AES purpose and whole-system functions, including ecosystem integration alongside planning, Lockstep, feedback and policy.",
       "role": "normative",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "81a43b9b13235335f85718f5168a1a28d6f4a61a3125330397ec5b41b806c551",
+      "sha256": "2568d0b36ea4e1bc423f2eb21e2223492aa203617507bef4667fa9568976464c",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -508,13 +520,13 @@
     },
     {
       "path": "docs/architecture/README.md",
-      "summary": "Gives the current architecture reading order and explicitly separates component contracts from retained greenfield engine history and upstream methodology.",
+      "summary": "Routes current architecture, ecosystem predecessor review and retained historical designs without transferring native ownership.",
       "role": "navigation",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# Architecture reading guide",
       "summary_origin": "content_review",
-      "sha256": "addb310f7da73533701430ead01baac49eb4b5c8ee7701ae90abacc025ee33e0",
+      "sha256": "3678c55403969ad6fc605f646d2a13c5343cce1c0d51664ea35c68816b681df1",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -796,13 +808,13 @@
     },
     {
       "path": "docs/decisions/0012-capability-reuse-enforced-at-plan-adoption.md",
-      "summary": "Requires an evidence-backed reuse catalogue and reuse checks at plan adoption, with extraction on second use; catalogue ownership and contract assumptions need current owner verification.",
+      "summary": "Records the original ACA catalogue and planning reuse decision, qualified by Decision 0014 and unresolved publication/provider reconciliation.",
       "role": "decision",
       "disposition": "update",
       "reason": "Preserve useful unique material while reconciling historical/current scope or status/source drift; no retirement proposed.",
       "source_locator": "# Decision 0012 - Capability reuse is enforced at plan adoption against one catalogue",
       "summary_origin": "content_review",
-      "sha256": "04066a287f8601c203f85c585c4af869f934b7cd4678fe9ca8f95c70b450363e",
+      "sha256": "cec2e5712dffdb1001b4af307d422d0f9834fb00843511c35af27243e67a4c98",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -817,6 +829,18 @@
       "sha256": "68dcfdee79d84c2679c729b2b6f8c6b85f7caca6a4def0ffe77f621a559b4d75",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
+    },
+    {
+      "path": "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
+      "role": "decision",
+      "disposition": "keep",
+      "reason": "Approved consolidation direction and bounded source review; runtime migration remains separate.",
+      "source_locator": "Source and intent; Decision",
+      "summary_origin": "content_review",
+      "identity_basis": "Reviewed candidate bytes and reconciled source-backed semantic summary.",
+      "has_standard_source_summary_field": true,
+      "summary": "Records Brian-approved AES consolidation and legacy review, one discovery route with native owners, historical decision reconciliation and success/disproof boundaries.",
+      "sha256": "4bf99122a3aec09232137052158b9f8a997c88d4c677ca6ece6021829d83458d"
     },
     {
       "path": "docs/failure-modes.md",
@@ -1108,13 +1132,13 @@
     },
     {
       "path": "docs/planning/open-questions.json",
-      "summary": "Owns questions, recommendations and evidence; Q25 records bounded Claude self-adoption while broader synchronization claims remain open.",
+      "summary": "Owns AES unresolved questions and dispositions, including Q36–Q42 for ecosystem catalogue authority, identities, evidence, donor review and concern closure.",
       "role": "planning record",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "b7f0328161c500eceeefb2749d43b969394f6db03cbc7a7ab8af55d6b2f38168",
+      "sha256": "fa3452c1d0e4ccdb7b591aea8033b07a4ddd4ca78928980bf61f55304f0b4656",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -4924,13 +4948,13 @@
     },
     {
       "path": "wiki/index.md",
-      "summary": "Question-based front door for AES goals, explicit planning and implementation functions, policy sources, full-file catalog, contracts, evidence, decisions and open concerns.",
+      "summary": "Question-based navigation to AES architecture, ecosystem predecessor review, implementation, complete source inventory and open concerns.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "3475f0262a2877af257b804271ee78a03ea72811bcd890c69b9125cc8bd36ec8",
+      "sha256": "311cc9b5772e294dc297de0462841b71c00608e20d922d2b6f2788b2f1d8512f",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -4948,13 +4972,13 @@
     },
     {
       "path": "wiki/open-questions.md",
-      "summary": "Navigates unresolved questions and recommendations, including bounded native self-adoption and remaining client/upward-edit limits.",
+      "summary": "Projects unresolved questions and recommendations from the owning ledger, including ecosystem consolidation and predecessor review.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "79eda52a66e5d7cda41a261d3bcb4af7b075db423c5cfba30b7859dfafda2b3d",
+      "sha256": "9a20ae51d3e42ee5b9100992f9e54b85c5f25460349fd0a512e46aeb22592d5a",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
