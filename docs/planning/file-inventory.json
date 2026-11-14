@@ -1,8 +1,8 @@
 {
   "schema_version": "aes-file-inventory/v1",
   "record_role": "derived_source_review",
-  "base_revision": "2034c64ba3da251907f084417c0c581027453fbb",
-  "review_date": "2026-11-13",
+  "base_revision": "268d58e6c1a6e8ecf697396752635ee7d5b1c639",
+  "review_date": "2026-11-14",
   "request": "Every tracked file reachable and summarized from the navigational wiki; assess consolidation and optimization without losing information.",
   "scope": {
     "base_tracked_files": 407,
@@ -352,13 +352,13 @@
     },
     {
       "path": ".project-brain/now.md",
-      "summary": "Routes the approved ecosystem consolidation and first donor review, then preserves independent projection, feedback and earlier dated records.",
+      "summary": "Routes the approved ecosystem consolidation and two bounded predecessor-review tranches, then preserves independent projection, feedback and earlier dated records.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "376489b69e2270eec2f84c849a58385439926a046dfca08146899d0047b97e57",
+      "sha256": "26211603e48d9ea456cc9152cd4196cd9849d1b78cc15db989de5bde6fd456b5",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -477,10 +477,10 @@
       "reason": "Approved consolidation direction and bounded source review; runtime migration remains separate.",
       "source_locator": "Outcome and authority; First reading; Continue reading the older system",
       "summary_origin": "content_review",
-      "identity_basis": "Reviewed candidate bytes and reconciled source-backed semantic summary.",
+      "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
-      "summary": "Owns the adopted discovery direction, first bounded review of predecessor sources, proposed donor dispositions, concerns, source revisions and next reading sequence.",
-      "sha256": "0b80271ac1fda6aa8d9c3422a26ccced1699354b4dbd27e8acba398205921e93"
+      "summary": "Owns the adopted discovery direction, two bounded reviews of predecessor sources including concern repair and recurrence, proposed donor dispositions, evidence limits and next reading sequence.",
+      "sha256": "4d01f216cdb56e6b5a7a43cb215ccf0d0f9e738004d677ce40b3a202ac979b1d"
     },
     {
       "path": "docs/architecture/FEEDBACK_AND_POLICY.md",
@@ -1138,7 +1138,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "fa3452c1d0e4ccdb7b591aea8033b07a4ddd4ca78928980bf61f55304f0b4656",
+      "sha256": "b59dd4661f62348fd049288e111223020d7ed63d6220525ef69c497e3b4acc23",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -4978,7 +4978,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "9a20ae51d3e42ee5b9100992f9e54b85c5f25460349fd0a512e46aeb22592d5a",
+      "sha256": "cf5c5bfb07602faff3d0af7069067db6972217fb00c1336a1390d542821356ec",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },

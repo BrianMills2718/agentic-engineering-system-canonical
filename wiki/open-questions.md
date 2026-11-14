@@ -257,9 +257,9 @@ Owner: agent.
 
 Which older source sections have actually been read, what unique ideas remain, and what is the next bounded reading tranche?
 
-Recommendation: Treat the first review as bounded; preserve useful requirements even without current runtime use and reject machinery that lacks a present purpose.
+Recommendation: Treat each review as bounded; name the source revision, preserve useful requirements and counterevidence, and keep unreviewed source families explicit.
 
-Next evidence or disposition: Continue the source/revision/disposition table in ECOSYSTEM.md; inspect concern lifecycle next, then selected policy families and instruction delivery.
+Next evidence or disposition: Continue the source/revision/disposition table in ECOSYSTEM.md; the concern/repair source review is recorded there, followed by selected policy families and instruction delivery.
 
 Sources: [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), [source review](../docs/architecture/ECOSYSTEM.md).
 
@@ -293,9 +293,9 @@ Owner: agent.
 
 Which existing system owns durable concern identity, verifier-owned closure and recurrence reopening across native feedback evidence and GitHub issues?
 
-Recommendation: Compose existing records and native evidence rather than create another independent concern tracker; require landed-revision closure and legitimate counter-cases.
+Recommendation: Adapt stable concern identity, native evidence ownership, explicit disposition, verifier-owned closure on the landed revision and recurrence reopening. Do not create another register. AES checks receipt structure and issue state, not the referenced verification; require a negative control that fails on the known-broken revision. Integration and live operation remain unproven.
 
-Next evidence or disposition: Read the Project Meta concern executor/verifier lifecycle and compare its exact transitions with AES feedback implementation, Q21, Q29 and Q31.
+Next evidence or disposition: Map current concern keys, register owners, evidence links and closure authority across producers/readers; then inspect a current successful landed repair and recurrence path, including its negative control, alongside Q21, Q29 and Q31. The source review is in [ECOSYSTEM.md](../docs/architecture/ECOSYSTEM.md#second-reading-concern-identity-repair-and-recurrence).
 
 Sources: [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), [source review](../docs/architecture/ECOSYSTEM.md).
 

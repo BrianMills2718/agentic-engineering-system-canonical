@@ -9,11 +9,18 @@ records that direction. [The first source review](../docs/architecture/ECOSYSTEM
 compares the catalogue sources, contracts, dataset discovery, runtime tools and
 legacy governance. Q36–Q42 extend the existing question ledger.
 
-Next: compare the actual catalogue records/readers/writers and choose the discovery
-publication provider; continue reading the concern/repair lifecycle, then selected
-policy families and instruction delivery. Proposed donor dispositions are not
-completed migration, runtime adoption or retirement. Earlier projection and
-feedback work below remains independent and is preserved.
+The 2026-11-14 continuation reviewed Project Meta's concern lifecycle decision,
+repair registration/verifier and AES's receipt/effects code. It records the useful
+stable-key/native-evidence pattern, the rejected recurrence negative control, and
+why receipt presence is not verifier proof. The code review is not a live run;
+current AES state still records fix-owner/effects jobs disabled.
+
+Next: compare actual catalogue records/readers/writers and choose the discovery
+publication provider; map concern-key ownership and observe a successful landed
+repair with a negative control; then review selected policy families and instruction
+delivery. Proposed donor dispositions are not completed migration, runtime adoption
+or retirement. Earlier projection and feedback work below remains independent and
+is preserved.
 
 ## Earlier implementation and assessment records
 
