@@ -295,7 +295,7 @@ the array projection change; the merged specification remains authoritative.
 
 ## .project-brain
 
-- **[now.md](../.project-brain/now.md)** — Routes the approved ecosystem consolidation and first donor review, then preserves independent projection, feedback and earlier dated records. **Role:** source document. **Disposition:** keep.
+- **[now.md](../.project-brain/now.md)** — Routes the approved ecosystem consolidation and two bounded predecessor-review tranches, then preserves independent projection, feedback and earlier dated records. **Role:** source document. **Disposition:** keep.
 
 - **[project.md](../.project-brain/project.md)** — States the AES purpose and functions, including Company Planning, and links the owning intent, Lockstep contract, current work and retirement record. **Role:** source document. **Disposition:** keep.
 
@@ -315,7 +315,7 @@ the array projection change; the merged specification remains authoritative.
 
 ## docs/architecture
 
-- **[ECOSYSTEM.md](../docs/architecture/ECOSYSTEM.md)** — Owns the adopted discovery direction, first bounded review of predecessor sources, proposed donor dispositions, concerns, source revisions and next reading sequence. **Role:** architecture review. **Disposition:** keep.
+- **[ECOSYSTEM.md](../docs/architecture/ECOSYSTEM.md)** — Owns the adopted discovery direction, two bounded reviews of predecessor sources including concern repair and recurrence, proposed donor dispositions, evidence limits and next reading sequence. **Role:** architecture review. **Disposition:** keep.
 
 - **[DOCUMENTATION.md](../docs/architecture/DOCUMENTATION.md)** — Defines document authority and lifecycle, source-local summaries, generated and curated reading views, and the full-file coverage and consolidation assessment with preservation limits. **Role:** architecture. **Disposition:** keep.
 

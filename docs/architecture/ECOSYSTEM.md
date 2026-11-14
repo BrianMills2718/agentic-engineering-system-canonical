@@ -2,7 +2,7 @@
 description: Adopted ecosystem consolidation direction, first legacy-source review, evidence limits and next reading sequence
 status: current
 doc_role: supporting_context
-last_checked: 2026-11-13
+last_checked: 2026-11-14
 ---
 
 # Ecosystem capabilities and predecessor review
@@ -104,7 +104,7 @@ Current use establishes dependencies; proposed dispositions assess value and fit
 | [Project Meta policy system][policy-system] | One discoverable system map, native owners, coverage boundaries and explicit gaps. | **Salvage information needs.** Its old global entrypoint must eventually route to AES; do not import outdated claim/mailbox authority. |
 | [Enforced Planning operating model][ep-model] | Outcome-first slices, uncertainty-sensitive planning, candidate/canonical evidence and consumer-boundary acceptance. | **Compare with Company Planning before adding.** Many principles already exist in AES; preserve rationale without a duplicate planning hierarchy. |
 | [Project Meta policy registry][policy-registry] | Intent, scope, source, honest enforcement status, feedback route and maintenance triggers. | **Adapt selectively.** Do not activate legacy rows by importing them or treat a disposition hash as semantic/enforcement proof. |
-| [Concern lifecycle decision][concern-lifecycle] | Stable concern identity, verifier-owned closure on a landed revision, recurrence reopening and feedback machinery checking itself. | **Next detailed donor review.** Its rejected negative-control result is a useful warning: a purported proof also passed on the broken revision. |
+| [Concern lifecycle decision][concern-lifecycle] | Stable concern identity, verifier-owned closure on a landed revision, recurrence reopening and feedback machinery checking itself. | **Adapt principles; integration unresolved.** A real attempted repair was rejected because the recurrence proof also passed on the broken revision. |
 | [Earlier AES predecessor harvest][old-harvest] | Non-success states, recovery, legitimate counter-cases and parent verification. | **Preserve already adopted clauses; review residuals.** Do not resume the old supervisor, adapters or Plan 16 from historical next steps. |
 
 ## Concerns and recommendations
@@ -128,12 +128,38 @@ Current use establishes dependencies; proposed dispositions assess value and fit
    effective machinery. Exceptions, legitimate passes, recovery and retry must survive
    consolidation. Existing AES feedback/policy concerns remain open.
 
+## Second reading: concern identity, repair and recurrence
+
+This source review covers Project Meta's accepted 2026-09-14 concern-lifecycle
+decision, `feedback/concern-repair.yaml`, and the observer/verifier at the pinned
+Project Meta revision [f1e27c9][concern-code]. It also reads AES's
+`scripts/learning_loop/fix_owner.py`, `effects.py` and the relevant effects stage
+in `problems.py` at AES revision [268d58e][aes-review-revision]. This is code and
+design inspection, not a new live run.
+
+| Concern | What the sources establish | Limit or recommendation |
+| --- | --- | --- |
+| Identity and evidence | Project Meta's decision chooses GitHub Issues as the shared concern register, with a stable key in the issue body; native stores keep evidence. AES separately derives problem IDs from its feedback members and looks up closed issues by a `concern-key` body marker. | Preserve the stable-key plus native-evidence split. Do not assume these IDs are already the same namespace or that two issue systems are one register. Define key ownership and cross-links before composing them. |
+| Closure | Project Meta's concern-repair verifier says it checks the report, changed prevention paths, a recurrence proof that fails on the observed revision and passes on the fix, a green source signal, and an independent root-cause review. After landing it checks for a passing record tied to the exact tree and rechecks the source signal. | This is a stronger closure contract than issue state or receipt presence. The decision itself records a real attempted repair rejected because its recurrence proof also passed on the broken revision. That is direct counterevidence that a verifier-shaped workflow can still have a weak proof. |
+| Live evidence | The same decision records one live repair attempt rejected at that recurrence gate; it also says that a repair passing every gate, landed closure, and a Codex run had not yet been observed at that decision's date. | Treat those as dated observations, not present-day deployment status. The reviewed source revision describes intended gates; this review did not query current timers, run a repair, or establish a successful end-to-end cycle. |
+| AES receipt check | AES accepts an issue receipt when its comment contains parseable JSON with a timezone-aware `enforced_at`, a nonempty revision and verification reference, and the comment was created at or after that time. Fix-owner also checks the disposition and issue close reason. | These are structural checks on the comment and issue fields; this code does not open the referenced revision or execute the referenced verification. A valid receipt marker is therefore not equivalent to independent verifier evidence. |
+| Recurrence | AES effects separates records around the receipt timestamp, ignores later restatements linked to an earlier incident, counts later sightings, revokes a licence and can reopen a concern in file mode. | This is a valuable feedback pattern. It depends on the effects job running and on the input reports being sufficiently complete; the current AES state says effects/fix-owner jobs are disabled. No absence-of-recurrence claim follows from a zero count. |
+| Composition | Project Meta's concern lifecycle decision names GitHub Issues for concern state and Plan 273 for execution; AES has native Feedback records, issue markers and its own effects database. | Do not create a third concern register. Q42 remains open until the key namespace, register owner, evidence links and closure authority are mapped across actual consumers and a current successful landed path is observed. |
+
+**Recommendation:** carry the design principles into AES: one durable concern identity,
+native evidence ownership, explicit disposition, verifier-owned closure on the landed
+revision, and recurrence reopening. Adapt the exact integration only after tracing
+current producers/readers and proving a successful, revision-bound closure path. Keep
+the negative-control failure as a required design lesson: a proof must fail on the
+known-broken revision as well as pass on the fix. Do not count issue closure, a receipt
+string, or a configured registration as proof of repair or ongoing operation.
+
 ## Bounded consolidation sequence
 
 | Step | Visible result and evidence | Status |
 | --- | --- | --- |
 | 1. Read and reconcile direction | This review, accepted Decision 0014, linked Q36–Q42 and pinned source map | Initial bounded pass recorded; no exhaustive review claim |
-| 2. Compare records and choose publication provider | Unique facts/aliases/readers/writers accounted for; one proposed source-to-view mapping; compare existing exporter/view with sufficient catalogue products | Next; Q36–Q38 |
+| 2. Compare records and choose publication provider | Unique facts/aliases/readers/writers accounted for; one proposed source-to-view mapping; compare existing exporter/view with sufficient catalogue products | In progress; sources and known reader/writer seams are documented, but record-by-record reconciliation and provider selection remain open (Q36–Q38) |
 | 3. Deliver one discovery journey | Real provider → versioned schema → real consumer → observed receipt, plus a second different capability; a reader finds and compares both | Not implemented |
 | 4. Exercise freshness and failure | Change a provider description or schema; view refreshes or reports stale; unavailable input cannot look empty/complete | Not implemented |
 | 5. Reconcile upstream routes | Workspace, ACA, Project Meta and Company Planning point at the demonstrated route; preserve old IDs and recovery references before retirement | Not implemented |
@@ -153,9 +179,10 @@ sections and a pinned revision, with proposed disposition and unresolved materia
 1. **Catalogue writers and readers:** compare every old entry, aliases and update
    path; inspect actual consumers of the indexes. Reconcile catalogue authority
    through Q36, not by merging names mechanically.
-2. **Concern/repair lifecycle:** read the concern executor and verifier contract,
-   source evidence qualification, recurrence reopening and feedback self-monitoring.
-   Compare with existing AES feedback implementation and Q21/Q29/Q31/Q42.
+2. **Concern/repair lifecycle:** source review completed for the pinned decision,
+   registration, observer/verifier code and AES receipt/effects path above. Next,
+   reconcile current concern producers/readers and obtain revision-bound live evidence
+   before selecting a shared register or claiming the loop operates end to end (Q42).
 3. **Policy families and exceptions:** review selected families tied to current AES
    gaps, including legitimate counter-cases and recovery. No full 263-policy audit
    has happened in this pass.
@@ -187,4 +214,6 @@ first source pass and consolidation direction; the queue remains explicit.
 [policy-registry]: https://github.com/BrianMills2718/project-meta/blob/f1e27c906f6c78a6d544bf62a878367640f7d186/policy/registry.yaml
 [ep-model]: https://github.com/BrianMills2718/enforced-planning/blob/faf7d9e/PLANNING_OPERATING_MODEL.md
 [concern-lifecycle]: https://github.com/BrianMills2718/project-meta/blob/f1e27c906f6c78a6d544bf62a878367640f7d186/docs/ops/ADR-2026-09-14-one-feedback-concern-lifecycle.md
+[concern-code]: https://github.com/BrianMills2718/project-meta/tree/f1e27c906f6c78a6d544bf62a878367640f7d186/scripts/concern_repair_feedback.py
+[aes-review-revision]: https://github.com/BrianMills2718/agentic-engineering-system-canonical/tree/268d58e6c1a6e8ecf697396752635ee7d5b1c639
 [old-harvest]: https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/research/synthesis/2026-09-26-inside-success-aes-harvest.md

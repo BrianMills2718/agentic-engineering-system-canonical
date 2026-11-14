@@ -692,10 +692,10 @@
    "short": "Legacy review coverage",
    "question": "Which older source sections have actually been read, what unique ideas remain, and what is the next bounded reading tranche?",
    "blocks": "claims that predecessor knowledge has been preserved",
-   "resolves_with": "Continue the source/revision/disposition table in ECOSYSTEM.md; inspect concern lifecycle next, then selected policy families and instruction delivery.",
+   "resolves_with": "Continue the source/revision/disposition table in ECOSYSTEM.md; name each reviewed section and revision, preserve useful ideas and counterevidence, and keep unreviewed policy families and instruction delivery explicit.",
    "owner": "agent",
    "status": "open",
-   "recommendation": "Treat the first review as bounded; preserve useful requirements even without current runtime use and reject machinery that lacks a present purpose.",
+   "recommendation": "Treat each review as bounded; preserve useful requirements and counterevidence, and keep unreviewed source families explicit.",
    "sources": [
     "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
     "docs/architecture/ECOSYSTEM.md"
@@ -746,10 +746,11 @@
    "short": "Concern identity and repair closure",
    "question": "Which existing system owns durable concern identity, verifier-owned closure and recurrence reopening across native feedback evidence and GitHub issues?",
    "blocks": "integrated correction-to-verified-repair behavior",
-   "resolves_with": "Read the Project Meta concern executor/verifier lifecycle and compare its exact transitions with AES feedback implementation, Q21, Q29 and Q31.",
    "owner": "agent",
    "status": "open",
-   "recommendation": "Compose existing records and native evidence rather than create another independent concern tracker; require landed-revision closure and legitimate counter-cases.",
+   "resolves_with": "Map the current concern-key namespace, register owner, native evidence links and closure authority across producers/readers; then inspect a current successful landed repair and recurrence path, including its negative control, alongside Q21, Q29 and Q31.",
+   "recommendation": "Adapt stable concern identity, native evidence ownership, explicit disposition, verifier-owned closure on the landed revision and recurrence reopening. Do not create another register. AES receipt validation currently checks marker structure and issue state, not the referenced verification itself; require a negative control that fails on the known-broken revision. Integration and live operation remain unproven.",
+   "evidence": "Read Project Meta's accepted 2026-09-14 concern-lifecycle decision, feedback/concern-repair.yaml and scripts/concern_repair_feedback.py at f1e27c906f6c78a6d544bf62a878367640f7d186. The decision records a live attempted repair rejected because its recurrence proof passed on the broken revision; at that decision date, a fully passing landed repair was not yet observed. Compared AES scripts/learning_loop/fix_owner.py, effects.py and problems.py at 268d58e6c1a6e8ecf697396752635ee7d5b1c639: AES validates receipt timestamp/revision/verification fields and issue disposition/state, then counts later reports and can reopen in file mode, but does not itself execute the receipt's referenced verification. Current AES project state records fix-owner and effects jobs disabled. This is source inspection, not a current live run.",
    "sources": [
     "docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md",
     "docs/architecture/ECOSYSTEM.md"
