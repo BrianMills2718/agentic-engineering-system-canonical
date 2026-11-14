@@ -221,6 +221,8 @@ enforcement receipt with time, revision and verification before counting subsequ
 incidents. See [the approved repair](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/REPAIR.md)
 and [operator commands](../scripts/learning_loop/systemd/README.md).
 
+**Slice 0b (2026-11-14):** `docs/planning/project-meta-docs-triage.md` proposes, per folder, what to read, archive or regenerate among Project Meta's 2,734 docs files (1,604 read and 1,130 archive by the fixed rule, then overridden for generated wiki folders and `ops`). Nothing moved; Brian's approval of slices is still open (Q44).
+
 **Rule for every agent:** read this file first. When your change moves where
 the project stands, update `now.md` (and `state.md` if needed) in the same pull
 request. `python3 scripts/hive/brain_fresh.py .` exits 1 when this brain is

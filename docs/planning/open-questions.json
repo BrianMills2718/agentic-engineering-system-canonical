@@ -792,9 +792,10 @@
    "status": "open",
    "recommendation": "Start with slice 0 (a kept-current ledger of callers and enabled timers, no change to Project Meta), then slices 1, 2 and 4 in parallel; port by copying, compare outputs on real inputs, switch callers, make the old file fail loudly for one cycle, then archive. Nothing is deleted.",
    "default": "Until Brian approves a slice, nothing in Project Meta is changed, switched off, moved or archived.",
-   "evidence": "Measured 2026-11-14 on Project Meta f1e27c906: 695 scripts, 2,758 docs files, 2,728 learnings, 161 policy files, 109 enforced_planning files; 30 systemd units mention it and 9 of their timers are enabled; 13 of 177 ~/.local/bin commands mention it. Most-called files: md_file_cap.py (7 repositories), operator_notify_router.py, concern_issue.py, the project graph. AES's own feedback loop calls two Project Meta scripts. Source: Brian, 2026-11-14. Nothing has been ported, switched off or archived.",
+   "evidence": "Measured 2026-11-14 on Project Meta f1e27c906: 695 scripts, 2,758 docs files, 2,728 learnings, 161 policy files, 109 enforced_planning files; 30 systemd units mention it and 9 of their timers are enabled; 13 of 177 ~/.local/bin commands mention it. Most-called files: md_file_cap.py (7 repositories), operator_notify_router.py, concern_issue.py, the project graph. AES's own feedback loop calls two Project Meta scripts. Slice 0b (docs triage table, docs/planning/project-meta-docs-triage.md) proposes per folder what to read, archive or regenerate among 2,734 docs files. Source: Brian, 2026-11-14. Nothing has been ported, switched off or archived.",
    "sources": [
     "docs/planning/project-meta-retirement-plan.md",
+    "docs/planning/project-meta-docs-triage.md",
     "docs/architecture/ECOSYSTEM.md"
    ],
    "touches": [
