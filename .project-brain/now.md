@@ -48,6 +48,12 @@ policy rows; Codex observed loading `AGENTS.md`, not `CLAUDE.md`, so the generat
 read the retirement record and 2026-09-26 harvest. Executor-written repair: five runs on concern #1883 were refused by the review gate; after two defect fixes and giving refusal reasons to retries (Project Meta PRs 2797, 2798) the sixth passed all five gates and landed as PR 2799, with the landed-tree check passing.
 Not done: the issue closing at the next daily audit, and the timers (Brian's call).
 
+**Project Meta retirement (2026-11-14, Brian: it is legacy and being retired in exchange for AES).** A plan, not
+work done: [project-meta-retirement-plan.md](../docs/planning/project-meta-retirement-plan.md) lists who still calls
+Project Meta (9 enabled timers, 7 repositories calling `md_file_cap.py`, AES's own loop calling two scripts) and
+proposes slices: port, compare, switch, make the old file fail loudly, archive. The feedback timers stay off.
+Open: Q44.
+
 ## Earlier implementation and assessment records
 
 # AES projection self-adoption (2026-11-13, AES #854)
