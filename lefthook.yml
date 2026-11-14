@@ -5,3 +5,8 @@ remotes:
     refetch_frequency: 24h
     configs:
       - hooks/base.yml
+
+pre-commit:
+  commands:
+    aes-doc-facts:
+      run: make check-doc-facts

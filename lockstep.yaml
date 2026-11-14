@@ -1,0 +1,14 @@
+# Narrow documentation self-adoption: no edit guard or unrelated commit policy.
+schema: lockstep.side.v1
+owner: BrianMills2718
+governed: []
+layout: []
+projections:
+  - id: projection-component-assessment
+    source: src/lockstep/doc_projection.py
+    target: docs/architecture/LOCKSTEP.md
+    fields: [docstring]
+  - id: projection-component-wiki
+    source: src/lockstep/doc_projection.py
+    target: wiki/lockstep.md
+    fields: [docstring]
