@@ -18,9 +18,10 @@ current AES state still records fix-owner/effects jobs disabled.
 Next: compare actual catalogue records/readers/writers and choose the discovery
 publication provider; map concern-key ownership and observe a successful landed
 repair with a negative control; then review selected policy families and instruction
-delivery. Proposed donor dispositions are not completed migration, runtime adoption
-or retirement. Earlier projection and feedback work below remains independent and
-is preserved.
+delivery. Also reconcile the 27 stale source hashes recorded under Q30 before using
+the complete-file inventory as a current freshness index. Proposed donor dispositions
+are not completed migration, runtime adoption or retirement. Earlier projection and
+feedback work below remains independent and is preserved.
 
 ## Earlier implementation and assessment records
 
