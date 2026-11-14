@@ -1,0 +1,276 @@
+{
+ "repo": "project-meta",
+ "revision": "f1e27c906f6c78a6d544bf62a878367640f7d186",
+ "cutoff": "2026-10-14",
+ "rows": [
+  {
+   "folder": "project_wiki_mediawiki",
+   "files": 888,
+   "mib": 3.2,
+   "types": {
+    "wikitext": 887,
+    "json": 1
+   },
+   "named_by_scripts": 6,
+   "generated_hint": true,
+   "changed_since": 268,
+   "last_commit": "2026-11-11",
+   "outside_mentions": 0,
+   "proposed": "read",
+   "because": "268 file(s) changed since the cutoff"
+  },
+  {
+   "folder": "wiki_artifacts_mediawiki",
+   "files": 663,
+   "mib": 6.1,
+   "types": {
+    "wikitext": 662,
+    "json": 1
+   },
+   "named_by_scripts": 4,
+   "generated_hint": true,
+   "changed_since": 0,
+   "last_commit": "2026-09-01",
+   "outside_mentions": 0,
+   "proposed": "archive",
+   "because": "unchanged since the cutoff and not mentioned elsewhere"
+  },
+  {
+   "folder": "evidence",
+   "files": 451,
+   "mib": 8.9,
+   "types": {
+    "json": 193,
+    "md": 160,
+    "sha256": 25
+   },
+   "named_by_scripts": 3,
+   "generated_hint": true,
+   "changed_since": 0,
+   "last_commit": "2026-09-17",
+   "outside_mentions": 0,
+   "proposed": "archive",
+   "because": "unchanged since the cutoff and not mentioned elsewhere"
+  },
+  {
+   "folder": "plans",
+   "files": 393,
+   "mib": 5.7,
+   "types": {
+    "md": 239,
+    "json": 125,
+    "yaml": 13
+   },
+   "named_by_scripts": 38,
+   "generated_hint": true,
+   "changed_since": 0,
+   "last_commit": "2026-10-13",
+   "outside_mentions": 102,
+   "proposed": "read",
+   "because": "102 file(s) in other repositories mention it"
+  },
+  {
+   "folder": "ops",
+   "files": 207,
+   "mib": 4.0,
+   "types": {
+    "md": 163,
+    "tsv": 27,
+    "json": 13
+   },
+   "named_by_scripts": 39,
+   "generated_hint": true,
+   "changed_since": 4,
+   "last_commit": "2026-11-09",
+   "outside_mentions": 107,
+   "proposed": "read",
+   "because": "107 file(s) in other repositories mention it"
+  },
+  {
+   "folder": "meta-patterns",
+   "files": 40,
+   "mib": 0.2,
+   "types": {
+    "md": 40
+   },
+   "named_by_scripts": 3,
+   "generated_hint": false,
+   "changed_since": 0,
+   "last_commit": "2026-09-23",
+   "outside_mentions": 6,
+   "proposed": "read",
+   "because": "6 file(s) in other repositories mention it"
+  },
+  {
+   "folder": "planning",
+   "files": 17,
+   "mib": 0.2,
+   "types": {
+    "json": 6,
+    "py": 5,
+    "md": 4
+   },
+   "named_by_scripts": 1,
+   "generated_hint": false,
+   "changed_since": 17,
+   "last_commit": "2026-11-08",
+   "outside_mentions": 0,
+   "proposed": "read",
+   "because": "17 file(s) changed since the cutoff"
+  },
+  {
+   "folder": "designs",
+   "files": 16,
+   "mib": 0.3,
+   "types": {
+    "md": 16
+   },
+   "named_by_scripts": 4,
+   "generated_hint": false,
+   "changed_since": 0,
+   "last_commit": "2026-09-23",
+   "outside_mentions": 17,
+   "proposed": "read",
+   "because": "17 file(s) in other repositories mention it"
+  },
+  {
+   "folder": "portfolio_wiki_mediawiki",
+   "files": 13,
+   "mib": 0.1,
+   "types": {
+    "wikitext": 12,
+    "json": 1
+   },
+   "named_by_scripts": 3,
+   "generated_hint": true,
+   "changed_since": 1,
+   "last_commit": "2026-11-05",
+   "outside_mentions": 0,
+   "proposed": "read",
+   "because": "1 file(s) changed since the cutoff"
+  },
+  {
+   "folder": "reviews",
+   "files": 12,
+   "mib": 3.0,
+   "types": {
+    "md": 10,
+    "yaml": 1,
+    "json": 1
+   },
+   "named_by_scripts": 5,
+   "generated_hint": true,
+   "changed_since": 0,
+   "last_commit": "2026-09-14",
+   "outside_mentions": 6,
+   "proposed": "read",
+   "because": "6 file(s) in other repositories mention it"
+  },
+  {
+   "folder": "migrations",
+   "files": 10,
+   "mib": 0.1,
+   "types": {
+    "md": 10
+   },
+   "named_by_scripts": 0,
+   "generated_hint": false,
+   "changed_since": 0,
+   "last_commit": "2026-09-12",
+   "outside_mentions": 0,
+   "proposed": "archive",
+   "because": "unchanged since the cutoff and not mentioned elsewhere"
+  },
+  {
+   "folder": "repo_versioning_notes",
+   "files": 7,
+   "mib": 0.0,
+   "types": {
+    "md": 7
+   },
+   "named_by_scripts": 1,
+   "generated_hint": false,
+   "changed_since": 0,
+   "last_commit": "2026-04-06",
+   "outside_mentions": 16,
+   "proposed": "read",
+   "because": "16 file(s) in other repositories mention it"
+  },
+  {
+   "folder": "project_restart_protocol",
+   "files": 6,
+   "mib": 0.0,
+   "types": {
+    "md": 6
+   },
+   "named_by_scripts": 1,
+   "generated_hint": false,
+   "changed_since": 0,
+   "last_commit": "2026-09-01",
+   "outside_mentions": 6,
+   "proposed": "read",
+   "because": "6 file(s) in other repositories mention it"
+  },
+  {
+   "folder": "handoffs",
+   "files": 5,
+   "mib": 0.1,
+   "types": {
+    "md": 5
+   },
+   "named_by_scripts": 2,
+   "generated_hint": false,
+   "changed_since": 0,
+   "last_commit": "2026-09-01",
+   "outside_mentions": 1,
+   "proposed": "read",
+   "because": "1 file(s) in other repositories mention it"
+  },
+  {
+   "folder": "model",
+   "files": 3,
+   "mib": 0.0,
+   "types": {
+    "yaml": 2,
+    "md": 1
+   },
+   "named_by_scripts": 0,
+   "generated_hint": false,
+   "changed_since": 0,
+   "last_commit": "2026-10-11",
+   "outside_mentions": 0,
+   "proposed": "archive",
+   "because": "unchanged since the cutoff and not mentioned elsewhere"
+  },
+  {
+   "folder": "runs",
+   "files": 2,
+   "mib": 0.0,
+   "types": {
+    "md": 2
+   },
+   "named_by_scripts": 0,
+   "generated_hint": false,
+   "changed_since": 0,
+   "last_commit": "2026-08-22",
+   "outside_mentions": 0,
+   "proposed": "archive",
+   "because": "unchanged since the cutoff and not mentioned elsewhere"
+  },
+  {
+   "folder": "decisions",
+   "files": 1,
+   "mib": 0.0,
+   "types": {
+    "md": 1
+   },
+   "named_by_scripts": 2,
+   "generated_hint": true,
+   "changed_since": 0,
+   "last_commit": "2026-10-11",
+   "outside_mentions": 0,
+   "proposed": "archive",
+   "because": "unchanged since the cutoff and not mentioned elsewhere"
+  }
+ ]
+}

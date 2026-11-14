@@ -93,6 +93,7 @@ Every slice is a thin vertical cut that ends in something Brian can see, and mer
 | Slice | What Brian sees when it is done | Depends on |
 | --- | --- | --- |
 | 0. Freeze and ledger | One table of every caller and every enabled timer (the tables above, kept current) | nothing; no change to Project Meta |
+| 0b. Docs triage | [One table of the 2,734 files under `docs/`](project-meta-docs-triage.md) with a reviewed proposal per folder (written; nothing moved) | 0 |
 | 1. Markdown cap and small checks | The same commit checks pass in all 7 repositories with no `project-meta` path in them | 0 |
 | 2. Concern filing and notices | AES's feedback loop runs with no Project Meta path; one real concern is filed, reopened and closed through AES | 0 |
 | 3. Repair verifier design | The five-gate check runs inside AES on a repair of any AES-tracked concern | 2 |
