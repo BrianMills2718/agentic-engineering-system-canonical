@@ -16,7 +16,7 @@ test:  ## Run pytest
 test-quick:  ## Run pytest (no traceback)
 	$(PYTHON) -m pytest tests/ -q --tb=no
 
-check: check-doc-facts  ## Run all checks (test, mypy, lint)
+check: check-doc-facts check-catalog  ## Run all checks (test, mypy, lint)
 	@echo "Checking generated AGENTS.md synchronization..."
 	@$(PYTHON) $(SCRIPTS_META)/check_agents_sync.py --repo-root . --check
 	@echo ""
@@ -41,3 +41,14 @@ check-doc-facts:  ## Read-only freshness of declared facts, without whole-tree p
 
 refresh-doc-facts:  ## Refresh declared facts using the current checkout
 	@PYTHONPATH=src $(PYTHON) -c 'from lockstep.doc_projection import refresh_cli; raise SystemExit(refresh_cli([]))'
+
+.PHONY: check-catalog refresh-catalog
+check-catalog:  ## Read-only complete-file review and navigation freshness
+	@PYTHONPATH=src $(PYTHON) -c 'from lockstep.catalog import catalog_cli; raise SystemExit(catalog_cli(["check"]))'
+
+refresh-catalog:  ## Render navigation; semantic reviews remain explicit
+	@PYTHONPATH=src $(PYTHON) -c 'from lockstep.catalog import catalog_cli; raise SystemExit(catalog_cli(["refresh"]))'
+
+.PHONY: check-catalog-staged
+check-catalog-staged:  ## Commit freshness against indexed bytes, allowing unrelated unstaged edits
+	@PYTHONPATH=src $(PYTHON) -c 'from lockstep.catalog import catalog_cli; raise SystemExit(catalog_cli(["check", "--staged"]))'

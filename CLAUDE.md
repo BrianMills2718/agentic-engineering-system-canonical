@@ -54,6 +54,12 @@ make check-full   # check plus the slow end-to-end tests
   unresolved material. Source: Brian, 2026-11-13, clarified after the 69-reader-file
   check omitted the broader repository; AES #849. Reachability alone is not summary
   adequacy, and a dated reviewed inventory is not continuous automatic freshness.
+- Complete-file wiki upkeep uses `lockstep catalog pending`, source review,
+  `lockstep catalog review --input .lockstep/reviews.json`, then `lockstep catalog refresh`
+  and `lockstep catalog check`. Read changed sources and affected wiki prose; do not blindly
+  replace input hashes. A retained summary needs an explicit reason. Stage new intended
+  repository files before cataloging them. Source: Brian, 2026-11-13 approval of wiki
+  upkeep repair, AES #857; procedure: `docs/architecture/DOCUMENTATION.md`.
 - Existing systems remain capability authorities until an accepted disposition selects reuse, extend, adapt, supersede, salvage, historical, not-applicable, or unresolved.
 
 ## Workflow
