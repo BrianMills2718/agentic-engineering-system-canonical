@@ -281,6 +281,18 @@
    "label": "A claim that the current policy layer preserves and delivers the original inventory.",
    "kind": "Decision",
    "explain": "A claim that the current policy layer preserves and delivers the original inventory."
+  },
+  {
+   "id": "Q36",
+   "label": "Q36: Current wiki rule findings",
+   "kind": "AgentQuestion",
+   "explain": "How should the current wiki rule findings be resolved for the added archived OpenSpec change and the durable-document checks? Settled by: Review the three new archived change files and their navigation and retention policy, reconcile the Markdown exception with the accepted corpus, and investigate each of the ten durable-document findings before recording a new check result."
+  },
+  {
+   "id": "Q36-blocks",
+   "label": "A passing current Markdown cap, reachability and durable-document check.",
+   "kind": "Decision",
+   "explain": "A passing current Markdown cap, reachability and durable-document check."
   }
  ],
  "edges": [
@@ -456,6 +468,12 @@
    "id": "Q35-to-decision",
    "source": "Q35",
    "target": "Q35-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q36-to-decision",
+   "source": "Q36",
+   "target": "Q36-blocks",
    "label": "blocks"
   }
  ]

@@ -631,6 +631,22 @@
     "wiki/policy-and-rules.md"
    ],
    "touches": []
+  },
+  {
+   "id": "Q36",
+   "short": "Current wiki rule findings",
+   "question": "How should the current wiki rule findings be resolved for the added archived OpenSpec change and the durable-document checks?",
+   "blocks": "A passing current Markdown cap, reachability and durable-document check.",
+   "resolves_with": "Review the three new archived change files and their navigation and retention policy, reconcile the Markdown exception with the accepted corpus, and investigate each of the ten durable-document findings before recording a new check result.",
+   "owner": "agent",
+   "status": "open",
+   "evidence": "At 796ecf93b the wiki-rule check exits 1: 129 Markdown files exceed the 126-file exception, three archived OpenSpec files are unreachable and ten durable-document findings are reported. The earlier Q7 covered 31 older unreachable files and remains resolved as a historical repair.",
+   "sources": [
+    "docs/planning/checks.txt",
+    "openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/proposal.md",
+    ".md-file-cap.yaml"
+   ],
+   "touches": []
   }
  ]
 }

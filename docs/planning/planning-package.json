@@ -35,14 +35,15 @@
           "command": "python3 $HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD",
           "exit_status": 1,
           "counts": {
-            "markdown_files": 116,
-            "cap_limit": 120,
-            "over": 0,
-            "orphans": 31,
+            "markdown_files": 129,
+            "cap_limit": 126,
+            "over": 1,
+            "orphans": 3,
             "layout_findings": 0,
-            "durable_findings": 0
+            "durable_findings": 10
           },
-          "tracked_by": "Q7"
+          "tracked_by": "Q36",
+          "evidence_revision": "796ecf93b"
         },
         {
           "name": "code2 repository format",
