@@ -1,84 +1,98 @@
 {
   "schema_version": "1.0",
   "record_type": "work_units",
-  "source": "docs/planning/project-meta-retirement-plan.md, 'Order' table. Statuses are all planned: that plan says nothing is done, and no merge evidence has been checked. touches are inferred by agent from the plan and unverified; the check compares exact strings.",
+  "source": "docs/planning/project-meta-retirement-plan.md, 'Order' table. Statuses are all planned: that plan says nothing is done, and no merge evidence has been checked. touches are inferred by agent from the plan and unverified; the check compares exact strings. `short` is the name shown beside a unit's dependents; `done_when` is what is true when the unit is finished (plain words, from the plan's Order table).",
   "units": [
     {
       "id": "S0",
-      "title": "Freeze and ledger: one table of every caller and enabled timer",
+      "title": "Inventory what still uses Project Meta",
       "depends_on": [],
       "touches": [
         "docs/planning/project-meta-retirement-plan.md"
       ],
-      "status": "planned"
+      "status": "planned",
+      "short": "Inventory",
+      "done_when": "List every repository caller and every enabled timer that still depends on Project Meta"
     },
     {
       "id": "S0b",
-      "title": "Docs triage: one reviewed table of the files under Project Meta docs/",
+      "title": "Review Project Meta's documents and propose what to keep",
       "depends_on": [
         "S0"
       ],
       "touches": [
         "docs/planning/project-meta-docs-triage.md"
       ],
-      "status": "planned"
+      "status": "planned",
+      "short": "Docs review",
+      "done_when": "Go through the 2,734 files under Project Meta docs/ and propose what to keep"
     },
     {
       "id": "S1",
-      "title": "Markdown cap and small checks in all 7 repositories with no project-meta path",
+      "title": "Move the shared commit checks into AES",
       "depends_on": [
         "S0"
       ],
       "touches": [
         "src/lockstep/"
       ],
-      "status": "planned"
+      "status": "planned",
+      "short": "Commit checks",
+      "done_when": "Make the markdown-size cap and small commit checks pass in all 7 repositories with no Project Meta path"
     },
     {
       "id": "S2",
-      "title": "Concern filing and notices run in AES's feedback loop",
+      "title": "Run feedback and concern filing through AES",
       "depends_on": [
         "S0"
       ],
       "touches": [
         "scripts/learning_loop/"
       ],
-      "status": "planned"
+      "status": "planned",
+      "short": "Feedback loop",
+      "done_when": "AES's feedback loop files, reopens and closes a real concern with no Project Meta path"
     },
     {
       "id": "S3",
-      "title": "Repair verifier: the five-gate check runs inside AES",
+      "title": "Build the repair-verification check in AES",
       "depends_on": [
         "S2"
       ],
       "touches": [
         "scripts/learning_loop/"
       ],
-      "status": "planned"
+      "status": "planned",
+      "short": "Repair check",
+      "done_when": "The five-step check on a repair runs inside AES for any AES-tracked concern"
     },
     {
       "id": "S4",
-      "title": "Project graph produced and refreshed from AES",
+      "title": "Have AES produce the project list",
       "depends_on": [
         "S0"
       ],
       "touches": [
         "docs/planning/"
       ],
-      "status": "planned"
+      "status": "planned",
+      "short": "Project list",
+      "done_when": "The repository list is produced and refreshed from AES and the two timers point there"
     },
     {
       "id": "S5",
-      "title": "One catalogue source; alias table has no Project Meta reader",
+      "title": "Keep one catalogue of tools",
       "depends_on": [],
       "touches": [
         "docs/decisions/0014-capability-aliases.yaml"
       ],
-      "status": "planned"
+      "status": "planned",
+      "short": "Catalogue",
+      "done_when": "One catalogue source, and the alias table no longer reads from Project Meta"
     },
     {
       "id": "S6",
-      "title": "Each of the nine enabled timers ported, replaced or switched off",
+      "title": "Port, replace or switch off the nine Project Meta timers",
       "depends_on": [
         "S1",
         "S2",
@@ -89,16 +103,20 @@
       "touches": [
         "scripts/"
       ],
-      "status": "planned"
+      "status": "planned",
+      "short": "Timers",
+      "done_when": "Each enabled timer is ported, replaced or switched off, with a reason"
     },
     {
       "id": "S7",
-      "title": "Archive Project Meta as a whole (needs Brian's yes)",
+      "title": "Archive Project Meta (needs Brian's yes)",
       "depends_on": [
         "S6"
       ],
       "touches": [],
-      "status": "planned"
+      "status": "planned",
+      "short": "Archive",
+      "done_when": "Move Project Meta aside with a log and archive its GitHub repository (read-only)"
     }
   ]
 }
