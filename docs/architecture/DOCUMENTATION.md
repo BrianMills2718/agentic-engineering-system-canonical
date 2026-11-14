@@ -5,7 +5,7 @@ status: current
 
 # Documentation: authorities and reading views
 
-AES keeps each fact with its owning source and presents related facts together for a reader. A research finding, an accepted requirement, a plan and an execution receipt can concern the same feature without becoming interchangeable kinds of truth. This page reconciles existing architecture and decisions; it introduces no new document schema or enforcement.
+AES keeps each fact with its owning source and presents related facts together for a reader. A research finding, an accepted requirement, a plan and an execution receipt can concern the same feature without becoming interchangeable kinds of truth. The authority map reconciles existing architecture and decisions. The upkeep section records the subsequently authorized catalog maintenance and freshness gate.
 
 Source: the methodology adopted in [.agentic/repo.yaml](../../.agentic/repo.yaml), specifically [documentation architecture](https://github.com/BrianMills2718/wiki_methodology/blob/0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe/docs/architecture/AGENTIC_CODING_DOCUMENTATION_ARCHITECTURE.md) and [concern-root vocabulary](https://github.com/BrianMills2718/wiki_methodology/blob/0cddc6b1d75a9dbc39019cfa2ce6183aac790cbe/docs/architecture/REPOSITORY_CONCERN_ROOTS.md); AES [Decision 0004](../decisions/0004-compact-structured-normative-records-and-generated-views.md) and Brian's accepted [Decision 0013](../decisions/0013-truth-lives-where-it-is-edited.md).
 
@@ -62,7 +62,7 @@ one. This counts those fields, not summary accuracy. Some formats legitimately
 have no place for prose: a lockfile, empty package marker or generated client
 sentinel needs a derived description bound to its actual contents and owner.
 
-The compiled review now covers 408 files: all 407 base files plus the inventory
+The initial compiled review covered 408 files: all 407 base files plus the inventory
 itself. Initial review dispositions are 332 keep, 35 update, 38 generated and
 three consolidation candidates. The record retains 22 findings and 12 grouped
 consolidation recommendations. These counts describe assessment, not completed
@@ -107,11 +107,58 @@ retained unique claims and updated inbound references before retirement.
 Generated and historical files remain discoverable even when they should not be
 read as the current answer.
 
-### Refresh and verification limits
+### Initial review and verification limits (historical)
 
 This review compiles a dated repository snapshot. Current native fact refresh
 covers declared projections; it is not a universal summarizer for every file.
 The complete catalog must be refreshed and its semantic descriptions reviewed
-when its inputs change. No new service, classifier or runtime gate is introduced
-by this documentation repair. Verification records state which files and sources
+when its inputs change. The initial documentation repair introduced no new service, classifier or runtime
+gate; the subsequently authorized upkeep below adds the catalog freshness check. Verification records state which files and sources
 were checked; unresolved recommendations remain in the discussion ledger.
+
+## Ongoing complete-file catalog upkeep
+
+Source: Brian, 2026-11-13, “i approve proceed” after the recommendation to repair
+the wiki's actual upkeep path (AES #857). This deliberately extends the existing
+complete-file inventory and native Lockstep refresh; Repo Docs retains its code
+documentation role. It does not restart the retired universal AES regime.
+
+The optional `catalog` declaration in `lockstep.yaml` names the existing
+inventory and catalog. Git's index supplies membership, including staged new
+files and staged deletions. Ignored and untracked private runtime files are not
+published. Add a new intended repository file to Git before expecting the catalog
+to include it. A missing indexed file is an error until its deletion is staged.
+
+1. A native source edit invokes the existing post-edit refresh. It regenerates
+   deterministic navigation and reports pending semantic reviews to the agent.
+   The hook uses Claude's documented [PostToolUse additional context](https://code.claude.com/docs/en/hooks#posttooluse-decision-control).
+2. The agent runs `lockstep catalog pending`, reads each complete changed source
+   and checks the affected wiki explanations. It revises the summary or explicitly
+   retains it with a reason. This is agent judgment, not a test outcome.
+3. In ignored `.lockstep/reviews.json`, the agent writes a JSON list of rows:
+   `path`, the observed `sha256`, `summary`, and `review_reason`. New entries also
+   need `role`, `disposition`, `reason` and `source_locator`. It submits the list
+   with `lockstep catalog review --input .lockstep/reviews.json`.
+4. Review rejects a changed source hash before updating the inventory. After a
+   successful review, `lockstep catalog refresh` renders the stored summaries,
+   roles, dispositions and links; `lockstep catalog check` independently checks
+   membership, reviewed hashes and rendered output. `make check-catalog` calls
+   that check locally and from the added pre-commit command.
+
+For example, changing a search-once module to a looping search makes its old
+review pending. Refresh cannot declare “search once” current by replacing its
+hash. The agent must read the implementation and decide whether the summary
+should change. Recording the observed hash prevents acknowledging a different
+version that appeared after reading. It cannot prove the agent understood it.
+
+Inventory and catalog remain included in coverage, with their own content
+hashes omitted to avoid recursion. The catalog visibly marks pending source
+reviews. Daily catalog and projection receipts under ignored `.lockstep/` record
+review inputs, generated output identities and failures. Read-only checks do not
+write receipts. The bounded retained demonstration will identify the native
+client route actually exercised; configuration alone does not prove ordinary
+session loading or Codex host execution.
+
+This maintains the complete file catalog and declared fact blocks. Changes to
+question-based wiki explanations still require the agent's semantic review;
+automatic rendering does not establish their completeness or semantic truth.

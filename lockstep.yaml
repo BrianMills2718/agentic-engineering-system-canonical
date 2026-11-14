@@ -12,3 +12,7 @@ projections:
     source: src/lockstep/doc_projection.py
     target: wiki/lockstep.md
     fields: [docstring]
+
+catalog:
+  inventory: docs/planning/file-inventory.json
+  target: wiki/documents.md
