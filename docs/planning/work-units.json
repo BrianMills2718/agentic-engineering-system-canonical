@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "record_type": "work_units",
+  "source": "docs/planning/project-meta-retirement-plan.md, 'Order' table. Statuses are all planned: that plan says nothing is done, and no merge evidence has been checked. touches are inferred by agent from the plan and unverified; the check compares exact strings.",
+  "units": [
+    {
+      "id": "S0",
+      "title": "Freeze and ledger: one table of every caller and enabled timer",
+      "depends_on": [],
+      "touches": [
+        "docs/planning/project-meta-retirement-plan.md"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "S0b",
+      "title": "Docs triage: one reviewed table of the files under Project Meta docs/",
+      "depends_on": [
+        "S0"
+      ],
+      "touches": [
+        "docs/planning/project-meta-docs-triage.md"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "S1",
+      "title": "Markdown cap and small checks in all 7 repositories with no project-meta path",
+      "depends_on": [
+        "S0"
+      ],
+      "touches": [
+        "src/lockstep/"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "S2",
+      "title": "Concern filing and notices run in AES's feedback loop",
+      "depends_on": [
+        "S0"
+      ],
+      "touches": [
+        "scripts/learning_loop/"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "S3",
+      "title": "Repair verifier: the five-gate check runs inside AES",
+      "depends_on": [
+        "S2"
+      ],
+      "touches": [
+        "scripts/learning_loop/"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "S4",
+      "title": "Project graph produced and refreshed from AES",
+      "depends_on": [
+        "S0"
+      ],
+      "touches": [
+        "docs/planning/"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "S5",
+      "title": "One catalogue source; alias table has no Project Meta reader",
+      "depends_on": [],
+      "touches": [
+        "docs/decisions/0014-capability-aliases.yaml"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "S6",
+      "title": "Each of the nine enabled timers ported, replaced or switched off",
+      "depends_on": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "touches": [
+        "scripts/"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "S7",
+      "title": "Archive Project Meta as a whole (needs Brian's yes)",
+      "depends_on": [
+        "S6"
+      ],
+      "touches": [],
+      "status": "planned"
+    }
+  ]
+}

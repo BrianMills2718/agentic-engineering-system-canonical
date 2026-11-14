@@ -11,7 +11,7 @@
    "owner": "brian",
    "status": "resolved",
    "sources": [
-    "CLAUDE.md:14",
+    "AGENTS.md:14",
     ".project-brain/now.md:9",
     "proposals/one-planning-tool/DESIGN.md:5"
    ],
@@ -193,7 +193,7 @@
    "owner": "agent",
    "status": "resolved",
    "sources": [
-    "CLAUDE.md:24",
+    "AGENTS.md:24",
     "lefthook.yml:1"
    ],
    "touches": [

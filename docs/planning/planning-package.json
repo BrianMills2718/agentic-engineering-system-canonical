@@ -86,9 +86,7 @@
         "scripts/hive/*.py",
         "src/lockstep/*.py",
         "src/lockstep/checks",
-        "src/pcw",
-        "scripts/meta/*.py",
-        "enforced_planning/*.py"
+        "src/pcw"
       ]
     },
     "domain_model": {
@@ -254,7 +252,7 @@
       "status": "present",
       "path": "docs/planning/cold-review.md",
       "verdict": "pass",
-      "reviewed_revision": "265b5ba8cf0e93524348c8739d12572d69b97354"
+      "reviewed_revision": "ff9d4c9f40b59508dfda61ad6d9d288dcea01c3f"
     }
   },
   "initiative": {
