@@ -358,7 +358,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "1630b539d139f8f82a2b947b1b7c4b0044c1db70084165f7132d6a3b71317198",
+      "sha256": "c47b99adc245a59fa5b50393809aff944375e0f94a534763b494a1c191145776",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1138,7 +1138,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "f9dd8807bf2335b4d9d3d5c28b44d8966dc95804f53e5f6e76de068464a339a6",
+      "sha256": "30cf332f211cd3b9aab45478144440de37a7dcf17b841b0a52c9b317fd04efa8",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },

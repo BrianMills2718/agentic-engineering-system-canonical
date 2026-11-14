@@ -379,6 +379,18 @@
    "label": "integrated correction-to-verified-repair behavior",
    "kind": "Decision",
    "explain": "integrated correction-to-verified-repair behavior"
+  },
+  {
+   "id": "Q44",
+   "label": "Q44: Project Meta retirement",
+   "kind": "BrianQuestion",
+   "explain": "In what order is what is valuable in Project Meta ported into AES, and the rest switched off and archived, without breaking the repositories and scheduled jobs that still call it? Recommendation: Start with slice 0 (a kept-current ledger of callers and enabled timers, no change to Project Meta), then slices 1, 2 and 4 in parallel; port by copying, compare outputs on real inputs, switch callers, make the old file fail loudly for one cycle, then archive. Nothing is deleted. Default: Until Brian approves a slice, nothing in Project Meta is changed, switched off, moved or archived."
+  },
+  {
+   "id": "Q44-blocks",
+   "label": "claims that Project Meta is retired or that AES stands alone; removal of any Project Meta \u2026",
+   "kind": "Decision",
+   "explain": "claims that Project Meta is retired or that AES stands alone; removal of any Project Meta file"
   }
  ],
  "edges": [
@@ -679,6 +691,24 @@
   {
    "id": "Q42-legacy-review",
    "source": "Q42",
+   "target": "legacy-review",
+   "label": "bears on"
+  },
+  {
+   "id": "Q44-to-decision",
+   "source": "Q44",
+   "target": "Q44-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q44-ecosystem-consolidation",
+   "source": "Q44",
+   "target": "ecosystem-consolidation",
+   "label": "bears on"
+  },
+  {
+   "id": "Q44-legacy-review",
+   "source": "Q44",
    "target": "legacy-review",
    "label": "bears on"
   }
