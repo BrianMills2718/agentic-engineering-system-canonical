@@ -5,8 +5,8 @@ status: current
 
 # Every file: purpose and review disposition
 
-This catalog covers every Git-tracked AES file, including code, tests, instructions,
-fixtures, archived changes, generated material, configuration and evidence. It
+This catalog lists the reviewed inventory and subsequent records, including code,
+tests, instructions, fixtures, archived changes, configuration and evidence. It
 replaces the earlier reader-Markdown subset. Start with the [question-based wiki](index.md)
 for the short reading path, then use this catalog for full coverage.
 
@@ -17,7 +17,10 @@ installed universal automatic summarizer. Changed sources require re-review.
 The [assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment)
 explains what can be consolidated and which unique information must survive.
 
-**Coverage:** 417 files, all with summaries and links; no tracked-file exclusions.
+**Coverage:** The dated inventory has 417 file entries. At revision `5e5dc9be9`
+the tracked tree has 422 files: the five subsequent files are listed below.
+Changed inventory entries require re-review; the count does not certify their
+current descriptions.
 Dispositions are assessment results: `keep` preserves a distinct role, `update`
 flags a remaining correction, `consolidate` proposes a content-preserving merge,
 and `generated` identifies derived/tool-owned material.
@@ -25,9 +28,10 @@ They do not authorize policy retirement, code removal or deletion of history.
 
 ## Subsequent archived change (2026-11-14)
 
-These records were added after the dated 409-file inventory above. They record
+These records were added after the 417-file inventory above. They record
 the array projection change; the merged specification remains authoritative.
 
+- [Array projection metadata](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/.openspec.yaml) — archived change schema metadata.
 - [Array projection proposal](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/proposal.md) — motivation, scope and impact.
 - [Array projection requirement delta](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/specs/lockstep-doc-facts/spec.md) — retained change to the fact projection contract.
 - [Array projection tasks](../openspec/changes/archive/2026-11-13-lockstep-array-fact-projection/tasks.md) — historical implementation checklist.
