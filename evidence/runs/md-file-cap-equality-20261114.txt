@@ -1,0 +1,28 @@
+# md_file_cap equality: Project Meta f1e27c906 versus the AES copy, 2026-11-14
+# command per repository: md_file_cap.py --repo . --ref HEAD --json, the 'seconds' line removed, compared byte for byte, exit codes compared
+# script used:
+#   #!/bin/bash
+#   OLD=/home/brian/code2/project-meta/scripts/md_file_cap.py
+#   NEW=/home/brian/code2/agentic-engineering-system-canonical_worktrees/slice1-md-cap/scripts/md_file_cap.py
+#   T=/tmp/claude-1000/ledger
+#   for r in code2-template claim-extraction topic-video company-planning agent-skills agentic-engineering-system-canonical workspace ecosystem-ops llm_client personal-wiki onto-canon6 greer model-router; do
+#     cd /home/brian/code2/$r || { echo "$r: missing"; continue; }
+#     timeout 200 python3 $OLD --repo . --ref HEAD --json > $T/a.raw 2>&1; ea=$?
+#     timeout 200 python3 $NEW --repo . --ref HEAD --json > $T/b.raw 2>&1; eb=$?
+#     grep -v '"seconds"' $T/a.raw > $T/a.txt; grep -v '"seconds"' $T/b.raw > $T/b.txt
+#     if cmp -s $T/a.txt $T/b.txt && [ $ea == $eb ]; then echo "$r: identical (exit $ea, $(wc -c < $T/a.txt) bytes)"; else echo "$r: DIFFERENT exit $ea/$eb"; diff $T/a.txt $T/b.txt | head -3 | cut -c1-150; fi
+#   done
+
+code2-template: identical (exit 0, 1400 bytes)
+claim-extraction: identical (exit 1, 5889 bytes)
+topic-video: identical (exit 1, 1298 bytes)
+company-planning: identical (exit 1, 1586 bytes)
+agent-skills: identical (exit 1, 4374 bytes)
+agentic-engineering-system-canonical: identical (exit 1, 2203 bytes)
+workspace: identical (exit 1, 2075 bytes)
+ecosystem-ops: identical (exit 0, 3654 bytes)
+llm_client: identical (exit 1, 3335 bytes)
+personal-wiki: identical (exit 0, 1506 bytes)
+onto-canon6: identical (exit 1, 2862 bytes)
+greer: identical (exit 1, 2356 bytes)
+model-router: identical (exit 1, 1280 bytes)
