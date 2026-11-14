@@ -1,0 +1,47 @@
+specification {
+  element person
+  element part
+  relationship feeds
+}
+model {
+  brian = person 'Brian' {
+    description 'Sets goals and approves decisions'
+  }
+  planning = part 'Planning' {
+    description 'Requirements, acceptance criteria, units and their order'
+  }
+  lockstep = part 'Lockstep' {
+    description 'Links plan, code and tests; guards edits'
+  }
+  code = part 'Code and tests'
+  evidence = part 'Evidence' {
+    description 'Checks, traces and status'
+  }
+  feedback = part 'Feedback loop' {
+    description 'Corrections become verified fixes'
+  }
+  policy = part 'Policy layer' {
+    description 'Rules and how they are enforced'
+  }
+  brian -> planning 'approves'
+  planning -> lockstep 'the plan'
+  lockstep -> code 'requirement at the edit'
+  code -> evidence 'checks run'
+  evidence -> feedback 'failures'
+  feedback -> policy 'changed rule'
+  policy -> lockstep 'enforced by'
+  evidence -> lockstep 'status written back'
+}
+views {
+  view aes_parts {
+    title 'How the parts of AES fit together'
+    include *
+    exclude policy -> lockstep, evidence -> lockstep
+    autoLayout TopBottom
+  }
+  view aes_loop {
+    title 'How a failure changes the rules'
+    include lockstep, code, evidence, feedback, policy
+    autoLayout TopBottom
+  }
+}
