@@ -23,7 +23,7 @@ run() {
 }
 run "python3 \$HOME/code2/company-planning/plugins/company-planning/scripts/durable_docs_check.py --repo . --arc42"
 run "python3 \$HOME/code2/company-planning/plugins/company-planning/scripts/validate_project_navigation.py ."
-run "python3 \$HOME/code/project-meta/scripts/md_file_cap.py --repo . --ref HEAD"
+run "python3 \$HOME/code2/agentic-engineering-system-canonical/scripts/md_file_cap.py --repo . --ref HEAD"
 run "python3 \$HOME/code2/workspace/scripts/repo_format.py ."
 run "python3 -c 'import json,jsonschema,pathlib,sys; s=json.load(open(pathlib.Path.home()/\"code2/representation-router/schemas/typed-graph.schema.json\")); bad=0
 for p in (\"docs/planning/domain.graph.json\",\"docs/planning/open-questions.graph.json\"):
