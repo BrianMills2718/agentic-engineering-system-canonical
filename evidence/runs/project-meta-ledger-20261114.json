@@ -1,0 +1,820 @@
+{
+  "repo": "/home/brian/code2/project-meta",
+  "revision": "f1e27c906",
+  "files_checked": 579,
+  "called_files": {
+    "scripts/md_file_cap.py": {
+      "Digimon_for_KG_application": 3,
+      "Team-Brains": 9,
+      "Team-Brains-a75-publication": 12,
+      "Team-Brains-lanes": 144,
+      "Team-Brains-wt-reconcile": 12,
+      "Team-Brains-wt-refusal": 12,
+      "agent-skills": 3,
+      "agentic-engineering-system-canonical": 2,
+      "agentic-engineering-system-canonical-doc-roles": 2,
+      "agentic-engineering-system-canonical-lockstep-docs": 2,
+      "brent-chatgpt": 2,
+      "claim-extraction": 4,
+      "claim-extraction-wt": 4,
+      "code2-template": 2,
+      "company-planning": 4,
+      "digimon": 3,
+      "dodaf": 1,
+      "ecosystem-ops": 2,
+      "epistemic-warrant": 1,
+      "graph_application_toolkit": 3,
+      "greer": 1,
+      "inquiry-graph": 38,
+      "inside-success": 16,
+      "lifelike": 1,
+      "llm-client-pin-79b84cc": 2,
+      "llm_client": 2,
+      "lockstep": 3,
+      "mixed_methods_workbench": 1,
+      "model-router": 2,
+      "never-absolute": 1,
+      "onto-canon6": 2,
+      "onto-canon6-wt": 8,
+      "personal-file-infra": 1,
+      "personal-root": 2,
+      "personal-vps": 1,
+      "personal-wiki": 1,
+      "phenomenal-meaning": 2,
+      "plan-code-wiki": 3,
+      "portfolio": 2,
+      "process_tracing": 1,
+      "process_tracing-accounting": 1,
+      "process_tracing-buyer-delivery": 2,
+      "process_tracing-claude-effort": 2,
+      "process_tracing-cold-review-repairs": 2,
+      "process_tracing-coverage-terminal": 2,
+      "process_tracing-execution-controls": 2,
+      "process_tracing-export": 1,
+      "process_tracing-fidelity-fix": 2,
+      "process_tracing-full-goal-coverage": 2,
+      "process_tracing-goal064": 2,
+      "process_tracing-goal064-coverage": 2,
+      "process_tracing-goal064-coverage-current": 2,
+      "process_tracing-note-drawer": 2,
+      "process_tracing-provider-disclosures-20261113": 2,
+      "process_tracing-reader-output-lease": 2,
+      "process_tracing-reader-resume": 2,
+      "process_tracing-recall-spans": 2,
+      "process_tracing-scholarly-control": 2,
+      "process_tracing-study-docs": 2,
+      "process_tracing-study-view": 2,
+      "process_tracing-subscription": 2,
+      "process_tracing-subscription-recall": 2,
+      "progressive-air-blueprint-poc-work": 2,
+      "qc": 1,
+      "qualitative_coding": 1,
+      "reality-show-task-graph": 2,
+      "representation-router": 1,
+      "second-brain-mega": 6,
+      "tb-dm-prep": 9,
+      "tbench-task-study": 2,
+      "terminal-bench-tasks": 2,
+      "topic-video": 2,
+      "vision": 3,
+      "workspace": 24,
+      "workspace-harness-config": 25,
+      "world-substrate": 5
+    },
+    "scripts/rollout_canonical_checkout_guard.py": {
+      "agent-skills": 1,
+      "agent_ecology2": 1,
+      "agent_ecology3": 1,
+      "agent_ontology": 1,
+      "agentic_scaffolding": 1,
+      "computational-social-science": 1,
+      "data-contracts": 1,
+      "ecosystem-mega": 17,
+      "graph_application_toolkit": 1,
+      "greer": 2,
+      "machine-coordination": 1,
+      "onto-canon6": 1,
+      "onto-canon6-wt": 4,
+      "open_web_retrieval": 1,
+      "openclaw": 1,
+      "orgchart": 1,
+      "prompt_eval": 1,
+      "research-workspace": 3,
+      "theory-forge": 1,
+      "trace_eval": 1,
+      "trajectory": 1,
+      "whygame4": 1
+    },
+    "PROJECT_GRAPH.json": {
+      "2nd-brain-plan-repo": 1,
+      "agentic-engineering-system": 2,
+      "company-planning": 1,
+      "ecosystem-mega": 28,
+      "ecosystem-ops": 2,
+      "enforced-planning": 5,
+      "graph_application_toolkit": 1,
+      "inquiry-graph": 62,
+      "inside-success": 4,
+      "intellectual-history-mapper": 1,
+      "never-absolute": 1,
+      "orgchart": 1,
+      "portfolio": 4,
+      "second-brain-mega": 2,
+      "session-replay": 1,
+      "utils": 1,
+      "vision": 1,
+      "weekly-plans": 2,
+      "workspace": 8,
+      "workspace-harness-config": 8
+    },
+    "scripts/concern_issue.py": {
+      "agent-skills": 1,
+      "company-planning": 2,
+      "ecosystem-ops": 3,
+      "inquiry-graph": 2,
+      "inside-success": 2,
+      "machine-coordination": 1,
+      "personal-feed": 1,
+      "personal-file-infra": 3,
+      "personal-vps": 1,
+      "representation-router": 1,
+      "representation-router-wt": 1,
+      "workspace": 1,
+      "workspace-harness-config": 2
+    },
+    "policy/registry.yaml": {
+      "agent-skills": 1,
+      "agentic-engineering-system-canonical": 3,
+      "agentic-engineering-system-canonical-doc-roles": 3,
+      "agentic-engineering-system-canonical-lockstep-docs": 3,
+      "ecosystem-mega": 3,
+      "inquiry-graph": 22,
+      "inside-success": 2,
+      "second-brain-mega": 1,
+      "vision": 2
+    },
+    "scripts/check_wiki_manifest.py": {
+      "ecosystem-mega": 1,
+      "graph-ontology-extraction": 1,
+      "greer": 1,
+      "inquiry-graph": 120,
+      "inside-success": 1,
+      "onto-canon6": 1,
+      "onto-canon6-wt": 4,
+      "second-brain-mega": 1
+    },
+    "scripts/log_learning.py": {
+      "agent-skills": 1,
+      "agentic-engineering-system-canonical": 1,
+      "agentic-engineering-system-canonical-doc-roles": 1,
+      "agentic-engineering-system-canonical-lockstep-docs": 1,
+      "ecosystem-mega": 2,
+      "inquiry-graph": 4
+    },
+    "scripts/capability_ownership_registry.yaml": {
+      "company-planning": 1,
+      "ecosystem-mega": 5,
+      "ecosystem-ops": 2,
+      "inquiry-graph": 40,
+      "inside-success": 1,
+      "observation-to-action-metamodel": 1
+    },
+    "scripts/meta/check_coordination_claims.py": {
+      "ecosystem-ops": 1,
+      "inquiry-graph": 56,
+      "personal-file-infra": 3,
+      "qc": 1,
+      "qualitative_coding": 1,
+      "workspace-harness-config": 3
+    },
+    "scripts/notify_operator.py": {
+      "brent-chatgpt": 1,
+      "ecosystem-ops": 1,
+      "inquiry-graph": 14,
+      "personal-root": 2,
+      "personal-wiki": 1
+    },
+    "scripts/operator_notify_router.py": {
+      "ecosystem-mega": 3,
+      "ecosystem-ops": 2,
+      "personal-vps": 2,
+      "workspace": 3,
+      "workspace-harness-config": 4
+    },
+    "scripts/refresh_canonical_checkouts.py": {
+      "ecosystem-mega": 4,
+      "inquiry-graph": 10,
+      "workspace": 2,
+      "workspace-harness-config": 2
+    },
+    "scripts/meta/render_agents_md.py": {
+      "agent-skills": 1,
+      "claude-team-infra": 1,
+      "ecosystem-mega": 2
+    },
+    "scripts/check_agent_surface_sync.py": {
+      "claude-team-infra": 1,
+      "ecosystem-mega": 1,
+      "inquiry-graph": 10
+    },
+    "scripts/generate_wiki_routing_stub.py": {
+      "ecosystem-mega": 1,
+      "inquiry-graph": 2,
+      "second-brain-mega": 1
+    },
+    "scripts/meta/canonical_lock.py": {
+      "ecosystem-mega": 2,
+      "workspace": 1,
+      "workspace-harness-config": 1
+    },
+    "scripts/authority_surfaces.yaml": {
+      "inquiry-graph": 162,
+      "inside-success": 2,
+      "second-brain-mega": 1
+    },
+    "policy/proposals/2026-08-18-planned-phase-boundary-context-checkpoint.yaml": {
+      "inquiry-graph": 162,
+      "inside-success": 2,
+      "second-brain-mega": 1
+    },
+    "policy/wiki/AGENT_GUIDE.md": {
+      "inside-success": 2,
+      "second-brain-mega": 1,
+      "vision": 1
+    },
+    "policy/wiki/SKILL_INDEX.md": {
+      "inside-success": 2,
+      "second-brain-mega": 1,
+      "vision": 1
+    },
+    "scripts/recall_learnings.py": {
+      "agent-skills": 2,
+      "ecosystem-mega": 2
+    },
+    "scripts/meta/coordination_messages.py": {
+      "agent-skills": 1,
+      "inquiry-graph": 16
+    },
+    "scripts/check_authority_surfaces.py": {
+      "agentic-engineering-system": 1,
+      "ecosystem-mega": 1
+    },
+    "scripts/report_daily_audit_failures.py": {
+      "agentic-engineering-system": 1,
+      "ecosystem-mega": 1
+    },
+    "scripts/build_learning_families.py": {
+      "agentic-engineering-system": 1,
+      "ecosystem-mega": 1
+    },
+    "scripts/knowledge_router.py": {
+      "agentic-engineering-system": 1,
+      "ecosystem-mega": 1
+    },
+    "policy/friction_clusters.yaml": {
+      "ecosystem-mega": 1,
+      "inquiry-graph": 6
+    },
+    "scripts/check_commit_claim.py": {
+      "ecosystem-mega": 1,
+      "inquiry-graph": 2
+    },
+    "scripts/blocking_gates.yaml": {
+      "ecosystem-mega": 1,
+      "inquiry-graph": 2
+    },
+    "scripts/run_local_daily_audit.sh": {
+      "ecosystem-mega": 1,
+      "inquiry-graph": 2
+    },
+    "policy/proposals/2026-09-05-spotlight-tour.yaml": {
+      "ecosystem-mega": 2,
+      "forecast-league-mvp": 2
+    },
+    "scripts/uncertainty_registry.yaml": {
+      "ecosystem-mega": 1,
+      "ecosystem-ops": 1
+    },
+    "scripts/check_llm_client_usage.py": {
+      "ecosystem-mega": 1,
+      "ecosystem-ops": 1
+    },
+    "scripts/route_discovery.py": {
+      "ecosystem-mega": 1,
+      "ecosystem-ops": 1
+    },
+    "policy/proposals/2026-08-20-outcome-continuation-lease-hard-gate.yaml": {
+      "ecosystem-mega": 2,
+      "enforced-planning": 2
+    },
+    "scripts/capability_catalog.yaml": {
+      "inquiry-graph": 10,
+      "observation-to-action-metamodel": 1
+    },
+    "scripts/project_graph_refresh.py": {
+      "workspace": 2,
+      "workspace-harness-config": 7
+    },
+    "scripts/workspace_map_alert.py": {
+      "workspace": 1,
+      "workspace-harness-config": 1
+    },
+    "scripts/failed_unit_watch.py": {
+      "workspace": 1,
+      "workspace-harness-config": 5
+    },
+    "scripts/sweep_lifecycle_residue.py": {
+      "workspace": 1,
+      "workspace-harness-config": 2
+    },
+    "scripts/log_policy_friction.py": {
+      "agent-skills": 1
+    },
+    "scripts/check_remote_less_repos.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/validate_plan.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/audit_governed_repo.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/install_governed_repo.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/remote_dev/tmux.remote-dev.conf": {
+      "ecosystem-mega": 2
+    },
+    "scripts/check_artifact_intents.py": {
+      "ecosystem-mega": 1
+    },
+    "policy/proposals/2026-08-29-workspace-root-project-manager-target-separation.yaml": {
+      "ecosystem-mega": 1
+    },
+    "scripts/validate_css_s0_source_packet.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/check_notebook_registry.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/migrate_workspace_repository.py": {
+      "ecosystem-mega": 1
+    },
+    "policy/proposals/2026-08-20-owner-first-agentic-system-dogfooding.yaml": {
+      "ecosystem-mega": 1
+    },
+    "scripts/meta/check_reachability.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/check_ahead_of_origin.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/check_policy_reference_resolution.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/prune_merged_worktrees.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/check_wiki_links.py": {
+      "ecosystem-mega": 1
+    },
+    "policy/proposals/2026-09-09-capability-owner-lookup-before-mcp-absence-claims.yaml": {
+      "ecosystem-mega": 1
+    },
+    "scripts/find_dangling_references.py": {
+      "ecosystem-mega": 1
+    },
+    "scripts/check_scheduled_unit_health.py": {
+      "ecosystem-mega": 1
+    },
+    "policy/proposals/2026-08-20-periodic-skill-feedback-review.yaml": {
+      "ecosystem-mega": 1
+    },
+    "scripts/repository_authority_provider.py": {
+      "ecosystem-ops": 1
+    },
+    "scripts/doc_coupling.yaml": {
+      "inquiry-graph": 7
+    },
+    "scripts/check_terminology.py": {
+      "inquiry-graph": 4
+    },
+    "scripts/generate_ecosystem_snapshot.py": {
+      "inquiry-graph": 11
+    },
+    "scripts/check_event_taxonomy_parity.py": {
+      "inquiry-graph": 7
+    },
+    "scripts/render_governance_snapshot_md.py": {
+      "inquiry-graph": 7
+    },
+    "scripts/doc_lint.py": {
+      "inquiry-graph": 7
+    },
+    "scripts/run_enforcement_checks.sh": {
+      "inquiry-graph": 7
+    },
+    "policy/proposals/2026-08-21-declare-data-model-for-non-obvious-systems.yaml": {
+      "inquiry-graph": 2
+    },
+    "scripts/render_markdown_tree_mediawiki.py": {
+      "inquiry-graph": 4
+    },
+    "policy/proposals/2026-10-02-uv-shared-venvs.yaml": {
+      "inquiry-graph": 2
+    },
+    "scripts/generate_ecosystem_ui_index.py": {
+      "inquiry-graph": 2
+    },
+    "scripts/policy_system_status.py": {
+      "inquiry-graph": 2
+    },
+    "scripts/check_trace_evaluable_fields.py": {
+      "inquiry-graph": 2
+    },
+    "scripts/meta/session_close.py": {
+      "inquiry-graph": 6
+    },
+    "scripts/check_enforcement_liveness.py": {
+      "inquiry-graph": 2
+    },
+    "scripts/control_triggers.py": {
+      "inquiry-graph": 2
+    },
+    "scripts/check_project_membership.py": {
+      "inquiry-graph": 2
+    },
+    "scripts/check_decision_conditions.py": {
+      "inquiry-graph": 14
+    },
+    "scripts/audit_instruction_quality.py": {
+      "inquiry-graph": 4
+    },
+    "scripts/check_instruction_payload_size.py": {
+      "inquiry-graph": 16
+    },
+    "scripts/check_wiki_stub_contract.py": {
+      "inquiry-graph": 120
+    },
+    "scripts/check_wiki_graph_health.py": {
+      "inquiry-graph": 120
+    },
+    "policy/proposals/2026-07-06-claim-test-falsifiability.yaml": {
+      "inquiry-graph": 16
+    },
+    "scripts/meta/audit_governed_repo.py": {
+      "inquiry-graph": 4
+    },
+    "scripts/query_project_graph.py": {
+      "inquiry-graph": 2
+    },
+    "policy/proposals/2026-08-22-universal-four-layer-documentation-and-okf.yaml": {
+      "second-brain-mega": 1
+    },
+    "scripts/README.md": {
+      "vision": 1
+    }
+  },
+  "units": [
+    {
+      "unit": "aes-gate-watch.service",
+      "kind": "service"
+    },
+    {
+      "unit": "attention-page.service",
+      "kind": "service"
+    },
+    {
+      "unit": "canonical-sync.service",
+      "kind": "service"
+    },
+    {
+      "unit": "disk-job-failed@.service",
+      "kind": "service"
+    },
+    {
+      "unit": "ecosystem-control.service",
+      "kind": "service"
+    },
+    {
+      "unit": "ecosystem-feedback-watchdog.service",
+      "kind": "service"
+    },
+    {
+      "unit": "ecosystem-feedback-worker.service",
+      "kind": "service"
+    },
+    {
+      "unit": "ecosystem-inbox.service",
+      "kind": "service"
+    },
+    {
+      "unit": "ecosystem-ops-daily.service",
+      "kind": "service"
+    },
+    {
+      "unit": "failed-unit-watch.service",
+      "kind": "service"
+    },
+    {
+      "unit": "feedback-collector.service",
+      "kind": "service"
+    },
+    {
+      "unit": "feedback-effects.service",
+      "kind": "service"
+    },
+    {
+      "unit": "feedback-fix-owner.service",
+      "kind": "service"
+    },
+    {
+      "unit": "feedback-labels.service",
+      "kind": "service"
+    },
+    {
+      "unit": "feedback-problems.service",
+      "kind": "service"
+    },
+    {
+      "unit": "graph-checkout-sync.service",
+      "kind": "service"
+    },
+    {
+      "unit": "harness-live-failed.service",
+      "kind": "service"
+    },
+    {
+      "unit": "phone-transcribe.service",
+      "kind": "service"
+    },
+    {
+      "unit": "plan-status-refresh.service",
+      "kind": "service"
+    },
+    {
+      "unit": "project-graph-refresh.service",
+      "kind": "service"
+    },
+    {
+      "unit": "project-meta-lifecycle-sweep.service",
+      "kind": "service"
+    },
+    {
+      "unit": "project-meta-policy-audit.service",
+      "kind": "service"
+    },
+    {
+      "unit": "project-meta-policy-console-publish.service",
+      "kind": "service"
+    },
+    {
+      "unit": "skill-review.service",
+      "kind": "service"
+    },
+    {
+      "unit": "workspace-map-check.service",
+      "kind": "service"
+    },
+    {
+      "unit": "aes-gate-watch.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "attention-page.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "brent-us-sources.timer",
+      "kind": "timer",
+      "enabled": "enabled"
+    },
+    {
+      "unit": "canonical-sync.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "ecosystem-feedback-watchdog.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "ecosystem-feedback-worker.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "ecosystem-inbox.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "ecosystem-ops-daily.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "failed-unit-watch.timer",
+      "kind": "timer",
+      "enabled": "enabled"
+    },
+    {
+      "unit": "feedback-collector.timer",
+      "kind": "timer",
+      "enabled": "enabled"
+    },
+    {
+      "unit": "feedback-effects.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "feedback-fix-owner.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "feedback-labels.timer",
+      "kind": "timer",
+      "enabled": "enabled"
+    },
+    {
+      "unit": "feedback-problems.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "graph-checkout-sync.timer",
+      "kind": "timer",
+      "enabled": "enabled"
+    },
+    {
+      "unit": "plan-status-refresh.timer",
+      "kind": "timer",
+      "enabled": "enabled"
+    },
+    {
+      "unit": "project-graph-refresh.timer",
+      "kind": "timer",
+      "enabled": "enabled"
+    },
+    {
+      "unit": "project-meta-lifecycle-sweep.timer",
+      "kind": "timer",
+      "enabled": "disabled"
+    },
+    {
+      "unit": "project-meta-policy-audit.timer",
+      "kind": "timer",
+      "enabled": "enabled"
+    },
+    {
+      "unit": "skill-review.timer",
+      "kind": "timer",
+      "enabled": "enabled"
+    },
+    {
+      "unit": "workspace-map-check.timer",
+      "kind": "timer",
+      "enabled": "enabled"
+    }
+  ],
+  "commands": [
+    "c-drive-guard",
+    "disk-maintenance",
+    "disk-maintenance-weekly",
+    "flyctl",
+    "free-disk-space",
+    "jev-gate-compliance-guard",
+    "jev-gate-hook",
+    "jev-gate-hook.bak-20261026-hook-audit",
+    "jev-gate-hook.bak-20261107",
+    "jev-gate-hook.prev",
+    "jev-gate-trace-review-guard",
+    "lane-sweep",
+    "proj",
+    "rr-public-export",
+    "ruff"
+  ],
+  "summary": {
+    "called_files": 89,
+    "calling_repositories": 106,
+    "units": 46,
+    "timers": 21,
+    "timers_enabled": 10,
+    "commands": 15,
+    "calling_checkouts": 106,
+    "distinct_calling_repositories": 73
+  },
+  "origins": {
+    "2nd-brain-plan-repo": "https://github.com/Inside-Success/2nd-brain-plan-repo.git",
+    "Digimon_for_KG_application": "git@github-personal:BrianMills2718/digimon.git",
+    "Team-Brains": "https://github.com/Inside-Success/Team-Brains.git",
+    "Team-Brains-a75-publication": "https://github.com/Inside-Success/Team-Brains.git",
+    "Team-Brains-lanes": "",
+    "Team-Brains-wt-reconcile": "https://github.com/Inside-Success/Team-Brains.git",
+    "Team-Brains-wt-refusal": "https://github.com/Inside-Success/Team-Brains.git",
+    "agent-skills": "git@github-personal:BrianMills2718/agent-skills.git",
+    "agent_ecology2": "https://github.com/BrianMills2718/agent_ecology2.git",
+    "agent_ecology3": "https://github.com/BrianMills2718/agent_ecology3.git",
+    "agent_ontology": "git@github-personal:BrianMills2718/agent_ontology.git",
+    "agentic-engineering-system": "https://github.com/Inside-Success/agentic-engineering-system.git",
+    "agentic-engineering-system-canonical": "https://github.com/BrianMills2718/agentic-engineering-system-canonical.git",
+    "agentic-engineering-system-canonical-doc-roles": "https://github.com/BrianMills2718/agentic-engineering-system-canonical.git",
+    "agentic-engineering-system-canonical-lockstep-docs": "https://github.com/BrianMills2718/agentic-engineering-system-canonical.git",
+    "agentic_scaffolding": "git@github-personal:BrianMills2718/agentic_scaffolding.git",
+    "brent-chatgpt": "git@github.com-personal:BrianMills2718/brent-chatgpt.git",
+    "claim-extraction": "https://github.com/BrianMills2718/claim-extraction.git",
+    "claim-extraction-wt": "",
+    "claude-team-infra": "https://github.com/BrianMills2718/claude-team-infra.git",
+    "code2-template": "https://github.com/BrianMills2718/code2-template.git",
+    "company-planning": "git@github-personal:BrianMills2718/company-planning.git",
+    "computational-social-science": "git@github-personal:BrianMills2718/computational-social-science.git",
+    "data-contracts": "git@github-personal:BrianMills2718/data-contracts.git",
+    "digimon": "git@github-personal:BrianMills2718/digimon.git",
+    "dodaf": "git@github-personal:BrianMills2718/dodaf.git",
+    "ecosystem-mega": "https://github.com/BrianMills2718/ecosystem-mega.git",
+    "ecosystem-ops": "git@github-personal:BrianMills2718/ecosystem-ops.git",
+    "enforced-planning": "git@github-personal:BrianMills2718/enforced-planning.git",
+    "epistemic-warrant": "https://github.com/BrianMills2718/epistemic-warrant.git",
+    "forecast-league-mvp": "https://github.com/BrianMills2718/forecast-league-mvp.git",
+    "graph-ontology-extraction": "https://github.com/Inside-Success/graph-ontology-extraction.git",
+    "graph_application_toolkit": "git@github-personal:BrianMills2718/graph_application_toolkit.git",
+    "greer": "git@github-personal:BrianMills2718/greer.git",
+    "inquiry-graph": "https://github.com/BrianMills2718/inquiry-graph.git",
+    "inside-success": "",
+    "intellectual-history-mapper": "https://github.com/BrianMills2718/intellectual-history-mapper.git",
+    "lifelike": "https://github.com/BrianMills2718/lifelike.git",
+    "llm-client-pin-79b84cc": "git@github-personal:BrianMills2718/llm_client.git",
+    "llm_client": "git@github-personal:BrianMills2718/llm_client.git",
+    "lockstep": "https://github.com/BrianMills2718/lockstep.git",
+    "machine-coordination": "https://github.com/BrianMills2718/machine-coordination.git",
+    "mixed_methods_workbench": "git@github.com-personal:BrianMills2718/mixed_methods_workbench.git",
+    "model-router": "https://github.com/BrianMills2718/model-router.git",
+    "never-absolute": "https://github.com/BrianMills2718/never-absolute.git",
+    "observation-to-action-metamodel": "https://github.com/BrianMills2718/observation-to-action-metamodel.git",
+    "onto-canon6": "git@github-personal:BrianMills2718/onto-canon6.git",
+    "onto-canon6-wt": "",
+    "open_web_retrieval": "git@github-personal:BrianMills2718/open_web_retrieval.git",
+    "openclaw": "git@github-personal:BrianMills2718/openclaw.git",
+    "orgchart": "git@github-personal:BrianMills2718/orgchart.git",
+    "personal-feed": "https://github.com/BrianMills2718/personal-feed.git",
+    "personal-file-infra": "git@github-personal:BrianMills2718/personal-file-infra.git",
+    "personal-root": "git@github-personal:BrianMills2718/personal-root.git",
+    "personal-vps": "https://github.com/BrianMills2718/personal-vps.git",
+    "personal-wiki": "https://github.com/BrianMills2718/personal-wiki.git",
+    "phenomenal-meaning": "https://github.com/BrianMills2718/phenomenal-meaning.git",
+    "plan-code-wiki": "https://github.com/BrianMills2718/lockstep.git",
+    "portfolio": "https://github.com/BrianMills2718/portfolio.git",
+    "process_tracing": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-accounting": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-buyer-delivery": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-claude-effort": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-cold-review-repairs": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-coverage-terminal": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-execution-controls": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-export": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-fidelity-fix": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-full-goal-coverage": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-goal064": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-goal064-coverage": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-goal064-coverage-current": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-note-drawer": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-provider-disclosures-20261113": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-reader-output-lease": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-reader-resume": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-recall-spans": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-scholarly-control": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-study-docs": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-study-view": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-subscription": "git@github-personal:BrianMills2718/process_tracing.git",
+    "process_tracing-subscription-recall": "git@github-personal:BrianMills2718/process_tracing.git",
+    "progressive-air-blueprint-poc-work": "https://github.com/BrianMills2718/progressive-air-blueprint-poc-work.git",
+    "prompt_eval": "git@github-personal:BrianMills2718/prompt_eval.git",
+    "qc": "git@github.com-personal:BrianMills2718/qc.git",
+    "qualitative_coding": "git@github.com-personal:BrianMills2718/qc.git",
+    "reality-show-task-graph": "https://github.com/Inside-Success/reality-show-task-graph.git",
+    "representation-router": "https://github.com/brianmills-spec/representation-router.git",
+    "representation-router-wt": "",
+    "research-workspace": "",
+    "second-brain-mega": "https://github.com/Inside-Success/second-brain-mega.git",
+    "session-replay": "https://github.com/BrianMills2718/session-replay.git",
+    "tb-dm-prep": "https://github.com/Inside-Success/Team-Brains.git",
+    "tbench-task-study": "ssh://git@github-personal/BrianMills2718/tbench-task-study.git",
+    "terminal-bench-tasks": "git@github-personal:BrianMills2718/terminal-bench-tasks.git",
+    "theory-forge": "git@github-personal:BrianMills2718/theory-forge.git",
+    "topic-video": "https://github.com/BrianMills2718/topic-video.git",
+    "trace_eval": "https://github.com/BrianMills2718/trace_eval.git",
+    "trajectory": "git@github-personal:BrianMills2718/trajectory.git",
+    "utils": "git@github-personal:BrianMills2718/utils.git",
+    "vision": "https://github.com/BrianMills2718/vision.git",
+    "weekly-plans": "git@github-personal:BrianMills2718/weekly-plans.git",
+    "whygame4": "git@github-personal:BrianMills2718/whygame4.git",
+    "workspace": "https://github.com/BrianMills2718/code2-workspace.git",
+    "workspace-harness-config": "https://github.com/BrianMills2718/code2-workspace.git",
+    "world-substrate": "git@github.com-personal:BrianMills2718/world-substrate.git"
+  }
+}
