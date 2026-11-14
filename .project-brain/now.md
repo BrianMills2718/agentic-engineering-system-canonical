@@ -2,6 +2,11 @@
 
 Handoff: 2026-11-13 evening, at Brian's request to conserve usage.
 Lineage: **candidate_branch**, not merged or deployment-certified.
+Draft PR: https://github.com/BrianMills2718/agentic-engineering-system-canonical/pull/861
+The remote main advanced to `8b34db885386543e260a7d3164ede04400305e85` after
+this lane integrated `268d58e6c`; fetch and reconcile the latest upstream before
+final shipping. The draft currently reports non-mergeable. Preserve other writers
+and resolve inventory rows by source identity, then regenerate the catalog.
 
 ## Next action
 

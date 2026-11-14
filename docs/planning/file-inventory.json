@@ -371,10 +371,10 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "c6976e86bb8cafe3c864eb6d3810d5e4ee74efe3013da080d4fde0792f74087d",
+      "sha256": "3e1190695c27867d7bd06d841f968a1ca44a80592401202d74b3aa60356ced39",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false,
-      "review_reason": "Authored and reviewed the concrete usage-limit handoff: tested code, approved scope, unfinished activation, source pin, helper, resume sequence and retained state are explicit."
+      "review_reason": "Reviewed final handoff update recording draft PR861 and the newly advanced upstream base; next agent must integrate it before shipping without overwriting other writers."
     },
     {
       "path": ".project-brain/project.md",
