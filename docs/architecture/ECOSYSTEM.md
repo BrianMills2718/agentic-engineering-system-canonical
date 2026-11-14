@@ -357,16 +357,20 @@ were written by this session, not by the repair executor; the fixed tree is a sc
 the review is one model call (cost not measured) and may vary between runs.
 `tests/test_concern_repair.py` passes (30 tests).
 
-**Executor-written repairs (not a pass).** The Project Meta repair executor was run three
-times on the real open concern #1883 (documentation-health) in a scratch clone, and each result
-was verified with all five gates. Every attempt passed the four mechanical gates and was refused
-by the independent review as `patch_only` (repair registered the reported paths, or its test
-special-cased them; the third addressed the root cause but not the failure class). Nothing was
-landed. Defects found: the executor's custody step needs a session-ended claim, and claims are
-retired, so it fails closed and posts a real backoff comment on the issue; the Codex reviewer
-crashes in a blank temp directory without `skip_git_repo_check`. The one full pass remains the
-scratch run on the landed code change of PR 2563 with a synthetic key. Receipt, records and
-limits: the `executor_written_repairs` section of the receipt.
+**Executor-written repairs (not a pass).** The Project Meta repair executor was run five times
+on the real open concern #1883 (documentation-health) in a scratch clone, and each result was
+verified with all five gates. Every attempt passed the four mechanical gates and was refused by
+the independent review as `patch_only`: the repair registered the reported paths, or its test
+special-cased them, or the new hook check failed open when its baseline was missing, or its
+production-baseline test was not wired into a mandatory runner. Nothing was landed. Two defects
+were found and fixed in Project Meta (PR 2797): the executor's custody step needed a session-ended
+claim although claims are retired (it failed closed and posted a real backoff comment on the
+issue), and the Codex reviewer crashed in a blank temp directory. After the fixes the executor
+completes with no wrapper and the review runs in the default flow, and it still refuses. Runs 3
+and 5 had the reviewer's earlier reasons added to the agent's scratch issue body by hand; the
+executor does not pass a refusal's reasons to the next attempt. The one full pass remains the
+scratch run on the landed code change of PR 2563 with a synthetic key. Records and limits: the
+`executor_written_repairs` section of the receipt.
 
 **Recurrence reopening.** Run for real against a throwaway issue (#866 in this repository,
 deleted afterwards): created, closed, then `open_concern` reopened it with the comment

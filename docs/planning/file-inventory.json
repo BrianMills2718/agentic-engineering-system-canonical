@@ -358,7 +358,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "5e87b61f58abdc81cc3d875e10ed94ee3e7111a03456d44b80bc821a0c961ede",
+      "sha256": "739cf510ae370d4b13291f843371e238b1f94aad38469d3280a899a51fb781d8",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -480,7 +480,7 @@
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true,
       "summary": "Owns the adopted discovery direction, two bounded reviews of predecessor sources including concern repair and recurrence, proposed donor dispositions, evidence limits and next reading sequence.",
-      "sha256": "37ba94294ff39fb7b7ccc38381e1c5c9b8ac3a4f33d31f0388389c140d6faa1f"
+      "sha256": "3c088b87e34d9cf03b16f7b3f4e6e17f449346f34e72d707fc3e1841a63cb12e"
     },
     {
       "path": "docs/architecture/FEEDBACK_AND_POLICY.md",
@@ -1138,7 +1138,7 @@
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "000491bdf572df0002d11056f367c7d90dffe748f8ba14367b253cb4f921588c",
+      "sha256": "2cc663c9dfa7e3f0656dd924f642a4c93ab5c06d90d749e8391dc419d71bb8af",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
