@@ -1,0 +1,112 @@
+{
+  "id": "1xte8sk",
+  "subreddit": "SATNA_PROJECT",
+  "author": "ZookeepergameMost817",
+  "title": "Obsidian\u2019s CEO published skills for AI agents. Here are 6 free repos to check before building your vault setup from scratch.",
+  "selftext": "Your AI agent can write code, but you\u2019re still explaining how a wikilink works.\n\nMeanwhile, kepano\u2014Obsidian\u2019s CEO\u2014has a public repo of agent skills for Obsidian Markdown, Bases, Canvas and the CLI. Actual instructions for working with the app\u2019s formats and tools, rather than treating your vault like a folder of generic text files.\n\nThat\u2019s the starting point. These six repos from kepano and the Obsidian team cover the rest: capturing sources, cleaning web pages, structuring notes, importing old material and building custom tools.\n\n# 1. Obsidian Skills \u2014 teach the agent how Obsidian works\n\nSkills covering:\n\n* Obsidian Markdown, including wikilinks, embeds, callouts and properties.\n* Bases for working with structured collections of notes.\n* Canvas for visual layouts and connections.\n* The Obsidian CLI for interacting with your vault.\n\nStart here if your problem is: \u201cThe agent understands Markdown, but keeps getting Obsidian-specific details wrong.\u201d\n\n[https://github.com/kepano/obsidian-skills](https://github.com/kepano/obsidian-skills)\n\n# 2. Defuddle \u2014 extract the article, not the surrounding clutter\n\nDefuddle takes a URL or HTML and extracts the main content as cleaned HTML or Markdown.\n\nIt removes clutter such as comments, sidebars, headers and footers. There\u2019s also a CLI, so it can fit into an agent\u2019s terminal workflow.\n\nLess navigation-menu soup. More actual source material.\n\n[https://github.com/kepano/defuddle](https://github.com/kepano/defuddle)\n\n# 3. Obsidian Web Clipper \u2014 get useful pages into your vault\n\nThe official browser extension lets you highlight and capture web content, then save it as Markdown in your vault. Templates let you control how those captures are structured.\n\nThis handles the part before \u201cask the agent\u201d: getting the material into your notes in the first place.\n\n[https://github.com/obsidianmd/obsidian-clipper](https://github.com/obsidianmd/obsidian-clipper)\n\n# 4. Clipper Templates \u2014 stop formatting every saved page manually\n\nKepano\u2019s template collection includes options for sites such as:\n\n* arXiv.\n* Wikipedia.\n* Goodreads.\n* YouTube.\n* IMDb.\n* Google Maps.\n\nThere are also generic recipe and product templates. Import the ones that match what you actually save instead of starting each capture format from zero.\n\n[https://github.com/kepano/clipper-templates](https://github.com/kepano/clipper-templates)\n\n# 5. Obsidian Importer \u2014 bring your old notes with you\n\nThe official Importer converts material from other apps into Markdown you can use in Obsidian.\n\nSupported sources include Notion, Evernote, Apple Notes, OneNote and Google Keep, among others.\n\nYour old research doesn\u2019t have to stay stranded in the note-taking app you used three systems ago.\n\n[https://github.com/obsidianmd/obsidian-importer](https://github.com/obsidianmd/obsidian-importer)\n\n# 6. Obsidian Developer Docs \u2014 build the missing piece\n\nThe official documentation for building Obsidian plugins and themes, including TypeScript plugin development and CSS-based customization. The documentation itself is available as an Obsidian vault.\n\nThis is the reference to reach for when your workflow needs something the existing tools don\u2019t provide\u2014not another guessed API call.\n\n[https://github.com/obsidianmd/obsidian-developer-docs](https://github.com/obsidianmd/obsidian-developer-docs)\n\n# Where to start\n\nYou don\u2019t need all six.\n\n* Want the agent to handle Obsidian formats better? Start with Skills.\n* Save lots of research? Look at Web Clipper and the templates.\n* Need clean web content in a terminal workflow? Look at Defuddle.\n* Moving from another notes app? Check Importer\u2019s supported formats.\n* Building a custom integration? Use the Developer Docs.\n\nOne important distinction: these aren\u2019t six plug-and-play AI integrations. Skills provide instructions; the other repos solve specific capture, migration and development problems. You still need to configure your agent\u2019s access\u2014and back up your vault before allowing bulk edits.\n\nYour vault already has a structure.\n\nGive the agent the instructions to work with it, not another opportunity to guess.\n\n[Checkout Satns Project Exclusive ](https://www.reddit.com/r/SATNA_PROJECT/s/P77Av5fJmY)\n\n[Join Discord ](https://discord.gg/hSA8Ur6GRH)",
+  "url": "https://v.redd.it/bjlgqlbmly0i1",
+  "is_self": false,
+  "score": 585,
+  "num_comments": 14,
+  "created_utc": 1794392352.0,
+  "comments": [
+    {
+      "id": "19sh9kq0teu78",
+      "parent": "t3_1xte8sk",
+      "author": "wonderfulmango617",
+      "score": 4,
+      "body": "Very cool! \ud83d\ude0e Thanks"
+    },
+    {
+      "id": "19sh7qs4ekswx",
+      "parent": "t3_1xte8sk",
+      "author": "Oshden",
+      "score": 2,
+      "body": "Dude, holy shit this is perfect timing! Thank you for sharing this right now. "
+    },
+    {
+      "id": "19shflwm0crc4",
+      "parent": "t3_1xte8sk",
+      "author": "bvanorsdel",
+      "score": 1,
+      "body": "I keep asking Claude if I should set up an Obsidian connection to my monorepo, and it keeps saying, \"Not yet, it doesn't solve any problems that we have.\" Perhaps I'm asking the wrong question.  What problems does Obsidian solve for a solopreneur, vibe-coding product manager (I wouldn't even call myself a junior developer) who has pushed more than 2,500 Linear issues to resolution while building his new SaaS? If I knew what problems others use Obsidian to solve, then maybe I could understand why I should stand one up.  Can anyone provide perspective for me? The one problem I do have: I feel like I've made good architecture choices, but I'm concerned that my code has become spaghetti. I need a structural overview of how our intended business functionality and policies are expressed in our code and systems architecture choices. I appreciate any perspective. How has it helped you (or people like me)?"
+    },
+    {
+      "id": "19shg0zui5750",
+      "parent": "t3_1xte8sk",
+      "author": "Background_Bet_224",
+      "score": 1,
+      "body": "Wow ! Thanks ! "
+    },
+    {
+      "id": "19sj3dtz1bof4",
+      "parent": "t3_1xte8sk",
+      "author": "Educational-Farm8086",
+      "score": 1,
+      "body": "This is basically space in our laptop, mind blowing stuff coming out every week.. burnout incoming"
+    },
+    {
+      "id": "19skaqr5rwdwj",
+      "parent": "t3_1xte8sk",
+      "author": "celzo1776",
+      "score": 1,
+      "body": "And what again is Anthropic recommending in regards to scrubbing memory?"
+    },
+    {
+      "id": "19so6l5nlb4o5",
+      "parent": "t3_1xte8sk",
+      "author": "rosicky_esr_10",
+      "score": 1,
+      "body": "Very cool"
+    },
+    {
+      "id": "19shdbmwhpftw",
+      "parent": "t1_19sh9kq0teu78",
+      "author": "ZookeepergameMost817",
+      "score": 1,
+      "body": "Your welcome mate join discord and stay connected "
+    },
+    {
+      "id": "19sh7smloajj7",
+      "parent": "t1_19sh7qs4ekswx",
+      "author": "ZookeepergameMost817",
+      "score": 2,
+      "body": "Your welcome stay connected "
+    },
+    {
+      "id": "19shk0ewdw4tf",
+      "parent": "t1_19shflwm0crc4",
+      "author": "ZookeepergameMost817",
+      "score": 1,
+      "body": "You\u2019re looking for a map of your system, not another notes app start by documenting how each business rule connects to the code, data, and services.  \nObsidian can organize that map and the reasons behind your decisions it won\u2019t untangle the code for you."
+    },
+    {
+      "id": "19shg9yqt4foh",
+      "parent": "t1_19shg0zui5750",
+      "author": "ZookeepergameMost817",
+      "score": 1,
+      "body": "Your welcome stay connected "
+    },
+    {
+      "id": "19shncefxiixu",
+      "parent": "t1_19shk0ewdw4tf",
+      "author": "Super_Translator480",
+      "score": 1,
+      "body": "How does this benefit more than just having documentation and flow in the projects themselves? What is the benefit of using obsidian in the middle?\n\nI have a personal notes app that logs every ai session, then there are scheduled checks validating what has been built in the projects against those logs and also recording each action agents take and having that reviewed as well daily.\n\nWhat value would obsidian bring?"
+    },
+    {
+      "id": "19shnlkjvftcw",
+      "parent": "t1_19shncefxiixu",
+      "author": "ZookeepergameMost817",
+      "score": 2,
+      "body": "Fair point if your setup already works, you dont need obsidian its just another way to organize and connect useful notes across projects these tools help agents use obsidian properly not make them smarter."
+    },
+    {
+      "id": "19shnnt1gwj8l",
+      "parent": "t1_19shnlkjvftcw",
+      "author": "Super_Translator480",
+      "score": 2,
+      "body": "Appreciate it. I was just genuinely curious. Always striving towards the better setup \ud83d\ude02"
+    }
+  ]
+}

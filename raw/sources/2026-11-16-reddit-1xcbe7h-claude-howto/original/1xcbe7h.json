@@ -1,0 +1,217 @@
+{
+  "id": "1xcbe7h",
+  "subreddit": "BestGitHubRepos",
+  "author": "company_url_finder",
+  "title": "Claude How To: Master Claude Code in a Weekend (42k stars)",
+  "selftext": "# What it does\n\n*All text below is quoted directly from the project README.*\n\n>A visual, example-driven guide to Claude Code, from basic concepts to advanced agents, with copy-paste templates that bring immediate value.\n\n**What you get:**\n\n* **10 tutorial modules** covering every Claude Code feature, from slash commands to custom agent teams\n* **Copy-paste configs**: slash commands, CLAUDE.md templates, hook scripts, MCP configs, subagent definitions, and full plugin bundles\n* **Mermaid diagrams** showing how each feature works internally, so you understand why, not just how\n* **A guided learning path** that takes you from beginner to power user in 11-13 hours\n* **Built-in self-assessment**: run `/self-assessment` or `/lesson-quiz hooks` directly in Claude Code to identify gaps\n\n>The real power is in combining features. Learn to wire slash commands + memory + subagents + hooks into automated pipelines that handle code reviews, deployments, and documentation generation.\n\n>`git clone https://github.com/luongnv89/claude-howto.git`\n\n# Repository\n\n[https://github.com/luongnv89/claude-howto](https://github.com/luongnv89/claude-howto)\n\n# Repository stats\n\n|Metric|Value|\n|:-|:-|\n|Stars|42,513|\n|Forks|5,340|\n|Last release|v2.1.160 (2026-06-02)|\n|Languages|Python 65.6%, Shell 13.9%, CSS 6.6%|\n|Contributors|29|\n|AI contributor accounts (Claude / Codex / Cursor / Copilot)|Copilot: 1, claude: 24|\n|AI co-authored commits|Claude: 24, Copilot: 1|\n\n# Main contributor\n\n|Field|Value|\n|:-|:-|\n|Name|Luong NGUYEN|\n|GitHub|[@luongnv89](https://github.com/luongnv89)|\n|Commits to this repo|199 (top contributor)|\n|Bio|Software Engineer / AI, Cybersecurity / Learn, Build, Share and Connect|\n|Company / Location|[https://montimage.com](https://montimage.com) / Paris, France|\n|X / Twitter|@luongnv89|\n|Followers|1,046|\n|Public repos|159|\n|On GitHub since|2013-01-16|\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n\ud83d\udccc **How many great GitHub repos have you discovered and completely forgotten about?**\n\nDon't let another useful tool disappear into your Reddit feed. Get the community's best repos, organized by category, plus key takeaways from real developer discussions, delivered to your inbox twice a week.\n\n\ud83d\udcec [**Never lose track of great repos again. Subscribe free.**](https://best-github-repos.beehiiv.com/subscribe)",
+  "url": "https://i.redd.it/49ldr2n1uywh1.png",
+  "is_self": false,
+  "score": 2965,
+  "num_comments": 34,
+  "created_utc": 1792651772.0,
+  "comments": [
+    {
+      "id": "19rj5e5lul3hd",
+      "parent": "t3_1xcbe7h",
+      "author": "waviestflyer6",
+      "score": 15,
+      "body": "Is there something like this for antigravity/gemini ?"
+    },
+    {
+      "id": "19ri12oezjwm8",
+      "parent": "t3_1xcbe7h",
+      "author": "Less-Effective-8070",
+      "score": 22,
+      "body": "Is this a good resource for non devs?"
+    },
+    {
+      "id": "19rhu1t7ehzab",
+      "parent": "t3_1xcbe7h",
+      "author": "True-Search-4936",
+      "score": 2,
+      "body": "up"
+    },
+    {
+      "id": "19roqwggw2hup",
+      "parent": "t3_1xcbe7h",
+      "author": "hopeandbelieve",
+      "score": 2,
+      "body": "!remindme"
+    },
+    {
+      "id": "19rj5aeac3ysj",
+      "parent": "t3_1xcbe7h",
+      "author": "IU_Kydo",
+      "score": 1,
+      "body": "Nice imma check this out"
+    },
+    {
+      "id": "19rjst7koc0ro",
+      "parent": "t3_1xcbe7h",
+      "author": "Pseudia",
+      "score": 1,
+      "body": "Interesting and already mentioned but non dev profile should also have a path to follow "
+    },
+    {
+      "id": "19rk4czn34p2b",
+      "parent": "t3_1xcbe7h",
+      "author": "h4p3rd",
+      "score": 1,
+      "body": "Same thing for a IT non dev?"
+    },
+    {
+      "id": "19rlffqwy9oma",
+      "parent": "t3_1xcbe7h",
+      "author": "AlexTheRedditor97",
+      "score": 1,
+      "body": "I mastered it the first day I used it. Lucky me!"
+    },
+    {
+      "id": "19rlv1824j3z7",
+      "parent": "t3_1xcbe7h",
+      "author": "Available_Fig_1157",
+      "score": 1,
+      "body": "!remindme"
+    },
+    {
+      "id": "19rq3gtlqu8yr",
+      "parent": "t3_1xcbe7h",
+      "author": "TranslatorSome8650",
+      "score": 1,
+      "body": "!remindme"
+    },
+    {
+      "id": "19rrei658gwys",
+      "parent": "t3_1xcbe7h",
+      "author": "Jeffersonzvv",
+      "score": 1,
+      "body": "!recuerdame"
+    },
+    {
+      "id": "19rricbqhh0pv",
+      "parent": "t3_1xcbe7h",
+      "author": "DoubleBogeySliceMan",
+      "score": 1,
+      "body": "."
+    },
+    {
+      "id": "19rrvuwixirxd",
+      "parent": "t3_1xcbe7h",
+      "author": "Coindweller",
+      "score": 1,
+      "body": "/remindme\n\n"
+    },
+    {
+      "id": "19s7xr35gz1lt",
+      "parent": "t3_1xcbe7h",
+      "author": "at0mat0m",
+      "score": 1,
+      "body": "!remindme"
+    },
+    {
+      "id": "19sakksjy3zz6",
+      "parent": "t3_1xcbe7h",
+      "author": "ivory-bloom",
+      "score": 1,
+      "body": "I have found that with claude code the best way to learn is to ask questions and verify the outcome manually. Like if I want to make a webpage I try to explain what I want and ask it to plan it. Then I ask it to save the plan in the form of markdown and then ask again to review the plan. After every output I ask it to do code review."
+    },
+    {
+      "id": "19sdkzfyccu05",
+      "parent": "t3_1xcbe7h",
+      "author": "Professional_Play774",
+      "score": 1,
+      "body": "Is there something similar for codex?"
+    },
+    {
+      "id": "19sibg6n4961s",
+      "parent": "t3_1xcbe7h",
+      "author": "Pha-Kyu",
+      "score": 1,
+      "body": "u/RemindMeBot 2 day"
+    },
+    {
+      "id": "19rkks70nzgtc",
+      "parent": "t3_1xcbe7h",
+      "author": "ayekaunic",
+      "score": 0,
+      "body": "is there something like this for chatgpt/codex?"
+    },
+    {
+      "id": "19rpqtf9f83j8",
+      "parent": "t3_1xcbe7h",
+      "author": "Mokmeuh",
+      "score": 0,
+      "body": "I could use a guide like that, maybe it doesn't matter, but it seems really oriented for Claude code CLI would it be the same running your command in Claude code Desktop? "
+    },
+    {
+      "id": "19rjvpsfreu3m",
+      "parent": "t1_19rj5e5lul3hd",
+      "author": "conwayblue",
+      "score": 13,
+      "body": "Just tell Gemini to revise the tutorial for use with Anitgravity/Gemini. The basic concepts are largely the same between harnesses and model providers."
+    },
+    {
+      "id": "19rifib4jsq8y",
+      "parent": "t1_19ri12oezjwm8",
+      "author": "RegurgitatingVampire",
+      "score": 11,
+      "body": "That's what I'm wondering. I think I'm going to try it out anyway\u00a0"
+    },
+    {
+      "id": "19rjoll7phe5g",
+      "parent": "t1_19ri12oezjwm8",
+      "author": "WobbleWits",
+      "score": 1,
+      "body": "Did you try this out yet? Thoughts? Was wondering if it's worth looking into or not"
+    },
+    {
+      "id": "19roqxurspgbn",
+      "parent": "t1_19roqwggw2hup",
+      "author": "RemindMeBot",
+      "score": 2,
+      "body": "**Defaulted to one day.**\n\nI will be messaging you on [**2026-10-27 15:02:28 UTC**](http://www.wolframalpha.com/input/?i=2026-10-27%2015:02:28%20UTC%20To%20Local%20Time) to remind you of [**this link**](https://www.reddit.com/r/BestGitHubRepos/comments/1xcbe7h/claude_how_to_master_claude_code_in_a_weekend_42k/19roqwggw2hup/?context=3)\n\n[**3 OTHERS CLICKED THIS LINK**](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message=%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2FBestGitHubRepos%2Fcomments%2F1xcbe7h%2Fclaude_how_to_master_claude_code_in_a_weekend_42k%2F19roqwggw2hup%2F%5D%0A%0ARemindMe%21%202026-10-27%2015%3A02%3A28%20UTC) to send a PM to also be reminded and to reduce spam.\n\n^(Parent commenter can ) [^(delete this message to hide from others.)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Delete%20Comment&message=Delete%21%201xcbe7h)\n\n**RemindMeBot is switching to username summons.** Instead of `!RemindMe 1 day`, use `u/RemindMeBot 1 day`. [More info.](https://www.reddit.com/r/RemindMeBot/comments/1tskg07/remindmebot_is_switching_to_username_summons/)\n\n*****\n\n|[^(Info)](https://www.reddit.com/r/RemindMeBot/comments/e1bko7/remindmebot_info_v21/)|[^(Custom)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message=%5BLink%20or%20message%20inside%20square%20brackets%5D%0A%0ARemindMe%21%20Time%20period%20here)|[^(Your Reminders)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=List%20Of%20Reminders&message=MyReminders%21)|[^(Feedback)](https://www.reddit.com/message/compose/?to=Watchful1&subject=RemindMeBot%20Feedback)|\n|-|-|-|-|"
+    },
+    {
+      "id": "19rlv2s76djok",
+      "parent": "t1_19rlv1824j3z7",
+      "author": "RemindMeBot",
+      "score": 1,
+      "body": "**Defaulted to one day.**\n\nI will be messaging you on [**2026-10-26 00:13:44 UTC**](http://www.wolframalpha.com/input/?i=2026-10-26%2000:13:44%20UTC%20To%20Local%20Time) to remind you of [**this link**](https://www.reddit.com/r/BestGitHubRepos/comments/1xcbe7h/claude_how_to_master_claude_code_in_a_weekend_42k/19rlv1824j3z7/?context=3)\n\n[**2 OTHERS CLICKED THIS LINK**](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message=%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2FBestGitHubRepos%2Fcomments%2F1xcbe7h%2Fclaude_how_to_master_claude_code_in_a_weekend_42k%2F19rlv1824j3z7%2F%5D%0A%0ARemindMe%21%202026-10-26%2000%3A13%3A44%20UTC) to send a PM to also be reminded and to reduce spam.\n\n^(Parent commenter can ) [^(delete this message to hide from others.)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Delete%20Comment&message=Delete%21%201xcbe7h)\n\n**RemindMeBot is switching to username summons.** Instead of `!RemindMe 1 day`, use `u/RemindMeBot 1 day`. [More info.](https://www.reddit.com/r/RemindMeBot/comments/1tskg07/remindmebot_is_switching_to_username_summons/)\n\n*****\n\n|[^(Info)](https://www.reddit.com/r/RemindMeBot/comments/e1bko7/remindmebot_info_v21/)|[^(Custom)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message=%5BLink%20or%20message%20inside%20square%20brackets%5D%0A%0ARemindMe%21%20Time%20period%20here)|[^(Your Reminders)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=List%20Of%20Reminders&message=MyReminders%21)|[^(Feedback)](https://www.reddit.com/message/compose/?to=Watchful1&subject=RemindMeBot%20Feedback)|\n|-|-|-|-|"
+    },
+    {
+      "id": "19s7xs1raby01",
+      "parent": "t1_19s7xr35gz1lt",
+      "author": "RemindMeBot",
+      "score": 1,
+      "body": "**Defaulted to one day.**\n\nI will be messaging you on [**2026-11-07 09:11:27 UTC**](http://www.wolframalpha.com/input/?i=2026-11-07%2009:11:27%20UTC%20To%20Local%20Time) to remind you of [**this link**](https://www.reddit.com/r/BestGitHubRepos/comments/1xcbe7h/claude_how_to_master_claude_code_in_a_weekend_42k/19s7xr35gz1lt/?context=3)\n\n[**CLICK THIS LINK**](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message=%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2FBestGitHubRepos%2Fcomments%2F1xcbe7h%2Fclaude_how_to_master_claude_code_in_a_weekend_42k%2F19s7xr35gz1lt%2F%5D%0A%0ARemindMe%21%202026-11-07%2009%3A11%3A27%20UTC) to send a PM to also be reminded and to reduce spam.\n\n^(Parent commenter can ) [^(delete this message to hide from others.)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Delete%20Comment&message=Delete%21%201xcbe7h)\n\n**RemindMeBot is switching to username summons.** Instead of `!RemindMe 1 day`, use `u/RemindMeBot 1 day`. [More info.](https://www.reddit.com/r/RemindMeBot/comments/1tskg07/remindmebot_is_switching_to_username_summons/)\n\n*****\n\n|[^(Info)](https://www.reddit.com/r/RemindMeBot/comments/e1bko7/remindmebot_info_v21/)|[^(Custom)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message=%5BLink%20or%20message%20inside%20square%20brackets%5D%0A%0ARemindMe%21%20Time%20period%20here)|[^(Your Reminders)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=List%20Of%20Reminders&message=MyReminders%21)|[^(Feedback)](https://www.reddit.com/message/compose/?to=Watchful1&subject=RemindMeBot%20Feedback)|\n|-|-|-|-|"
+    },
+    {
+      "id": "19sibgs3scgkg",
+      "parent": "t1_19sibg6n4961s",
+      "author": "RemindMeBot",
+      "score": 1,
+      "body": "I will be messaging you in 2 days on [**2026-11-14 04:49:49 UTC**](http://www.wolframalpha.com/input/?i=2026-11-14%2004:49:49%20UTC%20To%20Local%20Time) to remind you of [**this link**](https://www.reddit.com/r/BestGitHubRepos/comments/1xcbe7h/claude_how_to_master_claude_code_in_a_weekend_42k/19sibg6n4961s/?context=3)\n\n[**CLICK THIS LINK**](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message=%5Bhttps%3A%2F%2Fwww.reddit.com%2Fr%2FBestGitHubRepos%2Fcomments%2F1xcbe7h%2Fclaude_how_to_master_claude_code_in_a_weekend_42k%2F19sibg6n4961s%2F%5D%0A%0ARemindMe%21%202026-11-14%2004%3A49%3A49%20UTC) to send a PM to also be reminded and to reduce spam.\n\n^(Parent commenter can ) [^(delete this message to hide from others.)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Delete%20Comment&message=Delete%21%201xcbe7h)\n\n*****\n\n|[^(Info)](https://www.reddit.com/r/RemindMeBot/comments/e1bko7/remindmebot_info_v21/)|[^(Custom)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=Reminder&message=%5BLink%20or%20message%20inside%20square%20brackets%5D%0A%0ARemindMe%21%20Time%20period%20here)|[^(Your Reminders)](https://www.reddit.com/message/compose/?to=RemindMeBot&subject=List%20Of%20Reminders&message=MyReminders%21)|[^(Feedback)](https://www.reddit.com/message/compose/?to=Watchful1&subject=RemindMeBot%20Feedback)|\n|-|-|-|-|"
+    },
+    {
+      "id": "19rmf9bn2jz6t",
+      "parent": "t1_19rkks70nzgtc",
+      "author": "artur_oliver",
+      "score": 1,
+      "body": "Thinking the same"
+    },
+    {
+      "id": "19rjoloeh2g2r",
+      "parent": "t1_19rifib4jsq8y",
+      "author": "WobbleWits",
+      "score": 5,
+      "body": "Did you try this out yet? Thoughts? Was wondering if it's worth looking into or not"
+    },
+    {
+      "id": "19rkc19zjuuw1",
+      "parent": "t1_19rjoloeh2g2r",
+      "author": "RegurgitatingVampire",
+      "score": 6,
+      "body": "Yeah I skimed it more than dove into it. It's mainly reading up on how to use Claude. If your not familiar how to use AI in general, I'd say it's worth going through.\n\nI just went through memory, hooks and mcp just to get a better feel for those. Spent about 2 hours doing that. Worth it for me.\u00a0"
+    }
+  ]
+}

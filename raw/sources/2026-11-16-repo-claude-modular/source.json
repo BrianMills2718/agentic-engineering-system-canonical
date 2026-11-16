@@ -1,0 +1,20 @@
+{
+  "source": "gitlab.com/thirteenth_mang/claude-modular",
+  "found_via": "reddit 1m17ilu (r/ClaudeAI)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "97c91e6d194a603acebdcc4f547963f5891e273c",
+  "commit_date": "2025-07-17T23:55:31+02:00",
+  "license_as_read": "MIT",
+  "stars_reported_2026_11_16": null,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "5168ecb35373e44a086fb9a3053468304f4ca5ce",
+    "templates/CLAUDE.md.template": "bf185dd73d2676ac95f4bc7442a7e27688c25f1e",
+    ".claude/commands/project/create-feature.md": "11907356d469036df55715939b46065bcd0cfea3"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

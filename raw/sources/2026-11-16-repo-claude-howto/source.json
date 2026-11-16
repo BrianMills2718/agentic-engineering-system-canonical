@@ -1,0 +1,20 @@
+{
+  "source": "luongnv89/claude-howto",
+  "found_via": "reddit 1xcbe7h (r/BestGitHubRepos)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "5609e68a6ce838579e15fd31ceb6025be08841df",
+  "commit_date": "2026-11-14T15:16:12+01:00",
+  "license_as_read": "MIT",
+  "stars_reported_2026_11_16": 47306,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "0b7f9df07a752d74e6e69583473d7b817ca3e807",
+    "02-memory/README.md": "d4455e4451e5cef8dbc9e9e44e5fa2f8c085f4fe",
+    "CLAUDE.md": "d14b443ffbc93fea830c89ecef72a0b5676da8be"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

@@ -60,6 +60,41 @@ Each capture is append-only third-party content and not AES authority.
 - [Modular Claude Code setup post: provenance](../raw/sources/2026-11-15-reddit-1m17ilu-modular-claude-code-setup/source.json) — URL, method, coverage and SHA-256 of the capture.
 - [Modular Claude Code setup post: capture](../raw/sources/2026-11-15-reddit-1m17ilu-modular-claude-code-setup/original/1m17ilu.json) — post text and all returned comments.
 
+## External source captures, repositories and subreddit list (2026-11-16)
+
+Added after the 419-file inventory; [External ideas](external-ideas.md) owns their interpretation.
+Each capture is append-only third-party content and not AES authority. Repository captures record a
+commit and file hashes, not copies.
+
+- [Subreddits and sources to check](external-sources-watch.md) — the subreddits read so far, what each gave, and how to check again. **Role:** source document. **Disposition:** keep.
+
+- [Reddit 1gb08m0: provenance](../raw/sources/2026-11-16-reddit-1gb08m0-ai-architecture-diagram-tools/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [Reddit 1gb08m0: capture](../raw/sources/2026-11-16-reddit-1gb08m0-ai-architecture-diagram-tools/original/1gb08m0.json) — post text and all returned comments.
+- [Reddit 1xcbe7h: provenance](../raw/sources/2026-11-16-reddit-1xcbe7h-claude-howto/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [Reddit 1xcbe7h: capture](../raw/sources/2026-11-16-reddit-1xcbe7h-claude-howto/original/1xcbe7h.json) — post text and all returned comments.
+- [Reddit 1xg64ff: provenance](../raw/sources/2026-11-16-reddit-1xg64ff-twenty-claude-code-tools/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [Reddit 1xg64ff: capture](../raw/sources/2026-11-16-reddit-1xg64ff-twenty-claude-code-tools/original/1xg64ff.json) — post text and all returned comments.
+- [Reddit 1xte8sk: provenance](../raw/sources/2026-11-16-reddit-1xte8sk-obsidian-skills-list/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [Reddit 1xte8sk: capture](../raw/sources/2026-11-16-reddit-1xte8sk-obsidian-skills-list/original/1xte8sk.json) — post text and all returned comments.
+- [Repository agent-reach: provenance](../raw/sources/2026-11-16-repo-agent-reach/source.json) — repository, commit and hashes of the files read.
+- [Repository agent-skills: provenance](../raw/sources/2026-11-16-repo-agent-skills/source.json) — repository, commit and hashes of the files read.
+- [Repository ai-frameworks: provenance](../raw/sources/2026-11-16-repo-ai-frameworks/source.json) — repository, commit and hashes of the files read.
+- [Repository bansat: provenance](../raw/sources/2026-11-16-repo-bansat/source.json) — repository, commit and hashes of the files read.
+- [Repository claude-howto: provenance](../raw/sources/2026-11-16-repo-claude-howto/source.json) — repository, commit and hashes of the files read.
+- [Repository claude-mem: provenance](../raw/sources/2026-11-16-repo-claude-mem/source.json) — repository, commit and hashes of the files read.
+- [Repository claude-modular: provenance](../raw/sources/2026-11-16-repo-claude-modular/source.json) — repository, commit and hashes of the files read.
+- [Repository clihub: provenance](../raw/sources/2026-11-16-repo-clihub/source.json) — repository, commit and hashes of the files read.
+- [Repository context-mode: provenance](../raw/sources/2026-11-16-repo-context-mode/source.json) — repository, commit and hashes of the files read.
+- [Repository defuddle: provenance](../raw/sources/2026-11-16-repo-defuddle/source.json) — repository, commit and hashes of the files read.
+- [Repository everything-claude-code: provenance](../raw/sources/2026-11-16-repo-everything-claude-code/source.json) — repository, commit and hashes of the files read.
+- [Repository graphify: provenance](../raw/sources/2026-11-16-repo-graphify/source.json) — repository, commit and hashes of the files read.
+- [Repository headroom: provenance](../raw/sources/2026-11-16-repo-headroom/source.json) — repository, commit and hashes of the files read.
+- [Repository obsidian-skills: provenance](../raw/sources/2026-11-16-repo-obsidian-skills/source.json) — repository, commit and hashes of the files read.
+- [Repository planning-with-files: provenance](../raw/sources/2026-11-16-repo-planning-with-files/source.json) — repository, commit and hashes of the files read.
+- [Repository rtk: provenance](../raw/sources/2026-11-16-repo-rtk/source.json) — repository, commit and hashes of the files read.
+- [Repository stageshow: provenance](../raw/sources/2026-11-16-repo-stageshow/source.json) — repository, commit and hashes of the files read.
+- [Repository understand-anything: provenance](../raw/sources/2026-11-16-repo-understand-anything/source.json) — repository, commit and hashes of the files read.
+
 ## Ecosystem review records (2026-11-14)
 
 Added after the 419-file inventory; the ecosystem page owns their interpretation.

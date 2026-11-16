@@ -1,0 +1,21 @@
+{
+  "source": "mksglu/context-mode",
+  "found_via": "reddit 1xg64ff (r/SATNA_PROJECT)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "751f818d0889f7e7da09d050e695c94ec77463f0",
+  "commit_date": "2026-11-16T08:31:03+03:00",
+  "license_as_read": "Elastic License 2.0",
+  "stars_reported_2026_11_16": 34200,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "9f7ad59e3cf4d45d94508db908658006937e2715",
+    "LICENSE": "15259beb88afda1c8790d41cdf948c9e0e4f211d",
+    "bench/README.md": "12f94550ded91ad8d7001d0f14b706088023a675",
+    "bench/RESULTS.md": "1eb21bcb437b46350f635a489e228ade7decac86"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

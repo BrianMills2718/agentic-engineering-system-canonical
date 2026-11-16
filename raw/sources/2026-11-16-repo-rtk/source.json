@@ -1,0 +1,20 @@
+{
+  "source": "rtk-ai/rtk",
+  "found_via": "reddit 1xg64ff (r/SATNA_PROJECT)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "8bb6096b773546547d7704f9a8683ea9719a5017",
+  "commit_date": "2026-11-16T02:07:20+01:00",
+  "license_as_read": "Apache-2.0 CLI; engine/ and proxy/ BUSL-1.1",
+  "stars_reported_2026_11_16": 86700,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "f61826987e43ed2f8d79681ffb1056f5ac3e1213",
+    "docs/TELEMETRY.md": "31aa1639da968e688e43152ec2275d9ed4174532",
+    "src/core/tee.rs": "047a704c2d7e14b4689566f4defd29f41c49d817"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

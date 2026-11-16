@@ -1,0 +1,20 @@
+{
+  "source": "affaan-m/everything-claude-code",
+  "found_via": "reddit 1xg64ff (r/SATNA_PROJECT)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+  "commit_date": "2026-11-06T16:21:50-05:00",
+  "license_as_read": "MIT",
+  "stars_reported_2026_11_16": 304400,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "d8017086ca85d2e851ef2e0c88470b0b09dc3d4d",
+    "hooks/hooks.json": "80c38a360bb3420fb3d4fb67923b989d10014a73",
+    "scripts/hooks/gateguard-fact-force.js": "583f36052d47f82765ef6ed856a40086b69e2b84"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

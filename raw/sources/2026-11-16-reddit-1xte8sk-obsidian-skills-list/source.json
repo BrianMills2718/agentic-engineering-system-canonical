@@ -1,0 +1,13 @@
+{
+  "source_url": "https://www.reddit.com/r/SATNA_PROJECT/comments/1xte8sk/",
+  "platform": "reddit",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "method": "social-media MCP code (asyncpraw), all comments expanded",
+  "coverage": "r/SATNA_PROJECT post and 14 of 14 comments",
+  "original_file": "original/1xte8sk.json",
+  "sha256": "52deee57a58a66aee5d38e84da089e1d360db73437d6aebd2892e0dcf9c95dfe",
+  "not_captured": "images and video attached to the post; linked repositories are captured separately as repo sources",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

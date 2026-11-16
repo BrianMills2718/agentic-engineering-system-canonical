@@ -1,0 +1,13 @@
+{
+  "source_url": "https://www.reddit.com/r/SATNA_PROJECT/comments/1xg64ff/",
+  "platform": "reddit",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "method": "social-media MCP code (asyncpraw), all comments expanded",
+  "coverage": "r/SATNA_PROJECT post and 26 of 31 comments",
+  "original_file": "original/1xg64ff.json",
+  "sha256": "71ccb6aa1b1b4b00711b9b36f696ebf80b4fa9d728d2d3aa7bce55c74eb9f9ee",
+  "not_captured": "images and video attached to the post; linked repositories are captured separately as repo sources",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

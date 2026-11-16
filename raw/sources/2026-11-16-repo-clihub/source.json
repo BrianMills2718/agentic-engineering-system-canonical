@@ -1,0 +1,20 @@
+{
+  "source": "thellimist/clihub",
+  "found_via": "reddit 1rembfo (r/mcp)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "6044264cf1ffe1b4ac0fd27af111bb82406d9267",
+  "commit_date": "2026-03-12T08:59:50+01:00",
+  "license_as_read": "MIT",
+  "stars_reported_2026_11_16": 669,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "f075149f4979ffee855bcde019baf125d3510cfe",
+    "docs/architecture/architecture.md": "3708b155fa699a16256e9408d16e4b23e5e4f62f",
+    "internal/codegen/main_tmpl.go": "229a0bc181f2ebb84f25ece3962c645d400f445e"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}
