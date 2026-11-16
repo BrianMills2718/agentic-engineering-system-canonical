@@ -1,0 +1,13 @@
+{
+  "source_url": "https://www.reddit.com/r/ClaudeAI/comments/1m17ilu/this_is_how_you_should_be_setting_up_claude_code/",
+  "platform": "reddit",
+  "captured": "2026-11-15",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "method": "social-media MCP code (asyncpraw), all comments expanded",
+  "coverage": "r/ClaudeAI post and 117 of 118 comments",
+  "original_file": "original/1m17ilu.json",
+  "sha256": "1024fcca296a8107733d921fe182a2f84223cc3d30d7a22d738ed96694d10dde",
+  "not_captured": "pages the post links to were not opened",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

@@ -1,0 +1,13 @@
+{
+  "source_url": "https://www.reddit.com/r/mcp/comments/1rembfo/i_generated_clis_from_mcp_servers_and_cut_token/",
+  "platform": "reddit",
+  "captured": "2026-11-15",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "method": "social-media MCP code (asyncpraw), all comments expanded",
+  "coverage": "r/mcp post and 40 of 40 comments",
+  "original_file": "original/1rembfo.json",
+  "sha256": "9024e1172a6b86ee202318d887a66375d1270054dd07628b606d0242c7fc3eb8",
+  "not_captured": "pages the post links to were not opened",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

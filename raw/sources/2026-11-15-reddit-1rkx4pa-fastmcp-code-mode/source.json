@@ -1,0 +1,13 @@
+{
+  "source_url": "https://www.reddit.com/r/mcp/comments/1rkx4pa/stop_calling_tools_start_writing_code_mode/",
+  "platform": "reddit",
+  "captured": "2026-11-15",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "method": "social-media MCP code (asyncpraw), all comments expanded",
+  "coverage": "r/mcp post and 22 of 23 comments",
+  "original_file": "original/1rkx4pa.json",
+  "sha256": "3db17b7fdc870d36a49c873b69a8f6b0ca0cc3297c19f2ea3b1e84e41877e2e8",
+  "not_captured": "pages the post links to were not opened",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

@@ -1,0 +1,168 @@
+{
+  "id": "1rkx4pa",
+  "subreddit": "mcp",
+  "author": "jlowin123",
+  "title": "Stop calling tools, start writing code (mode)",
+  "selftext": "Hi Reddit --\n\nFastMCP 3.1 lets you add code mode to any MCP server!\n\nI'm sure many of you saw Cloudflare's post about how they used this pattern to collapse their 1000-endpoint API into 1,000 tokens. They showed a 99.9% reduction vs. traditional tool listing.\n\nSo FastMCP makes it pretty easy to do the same. Create the server with the `CodeMode()` transform, and that's it: your server gets tunable discovery + sandboxed Python execution. The discovery surface is fully configurable: we supply a three-stage flow by default, but you can easily collapse it to two (which was Cloudflare's approach), or skip discovery entirely for simple servers.\n\nThis is a very new idea so we'd love to see feedback!",
+  "url": "https://www.jlowin.dev/blog/fastmcp-3-1-code-mode",
+  "is_self": false,
+  "score": 103,
+  "num_comments": 23,
+  "created_utc": 1772657355.0,
+  "comments": [
+    {
+      "id": "o8oddzu",
+      "parent": "t3_1rkx4pa",
+      "author": "Open_Resolution_1969",
+      "score": 5,
+      "body": "I guess I know what I'm going to fiddle around this next weekend \ud83d\ude05"
+    },
+    {
+      "id": "o8omsts",
+      "parent": "t3_1rkx4pa",
+      "author": "wind_dude",
+      "score": 6,
+      "body": "It\u2019s interesting\u2026 do the clients need to support \u201ccode mode\u201d I\u2019m noticing that\u2019s the draw back clients aren\u2019t supporting much of the mcp specs other than tools."
+    },
+    {
+      "id": "o8onvm3",
+      "parent": "t3_1rkx4pa",
+      "author": "Chronicle112",
+      "score": 2,
+      "body": "This is awesome, we had this on our backlog for our agent platform.\n\nI do wonder now, are you also looking into a Client-Side Codemode? That would be interesting for scenarios where you control the client but not the MCP server."
+    },
+    {
+      "id": "o8qufi4",
+      "parent": "t3_1rkx4pa",
+      "author": "krychu",
+      "score": 2,
+      "body": "Looks great thanks. Do you have any plans / thoughts on exposing functions of multiple MCP servers through a single execute tool? In other words, enable LLM to write a single snippet of code that mixes functions from different MCP servers?"
+    },
+    {
+      "id": "o8uh5z8",
+      "parent": "t3_1rkx4pa",
+      "author": "No_More_Fail",
+      "score": 2,
+      "body": "Yes..it is awesome. My token count decreased from 50k to 2-3k max... I have posted here details https://www.reddit.com/r/mcpweb/s/LY88juamR0"
+    },
+    {
+      "id": "o8veej9",
+      "parent": "t3_1rkx4pa",
+      "author": "Sharp_Cauliflower476",
+      "score": 2,
+      "body": "u/jlowin123  Used code mode on the Amazon Ads MCP:  \n[https://github.com/KuudoAI/amazon\\_ads\\_mcp](https://github.com/KuudoAI/amazon_ads_mcp)\n\nThe just a few packages, like campaign manager is a beast. Just two tools blow the budget:\n\n\\* cm\\_CreateAd \u2014 9,475 tokens (giant ad creative schema)\n\n\\* cm\\_UpdateAd \u2014 9,310 tokens\n\nThe other top 5 alone eat 22,938 tokens\n\nCode mode economics are fantastic. Initial context: 315 tokens (3 meta-tools). Then per-workflow:\n\n\\*  search\\_tools(\"create campaign\") \u2014 \\~100 tokens round-trip\n\n\\* get\\_schemas(\\[\"cm\\_CreateCampaign\"\\]) \u2014 \\~300 tokens (only the tools you need)\n\n\\* execute(code) \u2014 \\~200 tokens\n\nTotal per workflow: \\~600 tokens vs 34K upfront."
+    },
+    {
+      "id": "o8pwo3z",
+      "parent": "t3_1rkx4pa",
+      "author": "mycall",
+      "score": 1,
+      "body": "Should we do both?  I do prefer code approach in trust/sandbox environments though."
+    },
+    {
+      "id": "o9ok5uy",
+      "parent": "t3_1rkx4pa",
+      "author": "Ok_Transition_5779",
+      "score": 1,
+      "body": "Given that code mode executes arbitrary Python, how do you prevent malicious MCP servers from escaping the sandbox or accessing sensitive system resources? What security boundaries are in place?"
+    },
+    {
+      "id": "o8r30ov",
+      "parent": "t3_1rkx4pa",
+      "author": "EternallyTrapped",
+      "score": 1,
+      "body": "Ideally, this should be on client side."
+    },
+    {
+      "id": "o8py7qj",
+      "parent": "t3_1rkx4pa",
+      "author": "ThisGuyCrohns",
+      "score": -1,
+      "body": "Don\u2019t need an mcp for coding. "
+    },
+    {
+      "id": "o8ooyfg",
+      "parent": "t1_o8omsts",
+      "author": "Dipseth",
+      "score": 3,
+      "body": "Nope its just text, any client should be able to support it."
+    },
+    {
+      "id": "o8pucqs",
+      "parent": "t1_o8omsts",
+      "author": "jlowin123",
+      "score": 1,
+      "body": "Good question - no, clients don't need to support anything more than \"normal\" MCP tools to use this. Though I should note that in my tests, a Sonnet 4.6 class model was able to use code mode with a complex server, but a Haiku 4.5 class model made a few errors before finally using it correctly. "
+    },
+    {
+      "id": "o8pu2xe",
+      "parent": "t1_o8onvm3",
+      "author": "jlowin123",
+      "score": 1,
+      "body": "We could add it to the FastMCP client but FastMCP is more popular as a server framework than a client framework, as most people will use the clients bundled into their agents!"
+    },
+    {
+      "id": "o8rhiej",
+      "parent": "t1_o8qufi4",
+      "author": "jlowin123",
+      "score": 1,
+      "body": "Sure, first compose the servers in FastMCP, then add CodeMode to the outer one. https://gofastmcp.com/servers/composition"
+    },
+    {
+      "id": "o8vbgz6",
+      "parent": "t1_o8uh5z8",
+      "author": "jlowin123",
+      "score": 1,
+      "body": "That's so great to see!"
+    },
+    {
+      "id": "o8wsiig",
+      "parent": "t1_o8veej9",
+      "author": "jlowin123",
+      "score": 1,
+      "body": "Awesome! Thanks for sharing the token stats too"
+    },
+    {
+      "id": "o8orp0z",
+      "parent": "t1_o8ooyfg",
+      "author": "wind_dude",
+      "score": 2,
+      "body": "So if I\u2019m understanding correctly the client llm writes the code in a sandbox on the mcp server, and the biggest advantage is when it needs to chain tools from the same mcp server together "
+    },
+    {
+      "id": "o8u7aw9",
+      "parent": "t1_o8pu2xe",
+      "author": "Chronicle112",
+      "score": 2,
+      "body": "Out of curiosity, would this even be so difficult to implement? To me it sounds like the hard part is over if you have the transformation and the sandboxed environment, the client would receive the tool listing anyway no? :D Or maybe it's just me looking at it in a too simple way hehe"
+    },
+    {
+      "id": "o8p93r4",
+      "parent": "t1_o8orp0z",
+      "author": "Dipseth",
+      "score": 1,
+      "body": "No this only applies to one mcp server.  Theres other things you can do to combine tools from many different servers but then you might have 100+ tools and 10K+ of tokens that you have to drag through your context window everystep of the way.\n\nThis allows you to expose 4 slim tools that gives everything the llm needs to find the tools needed, and then execute them in a sandbox.\n\nSimple Example in my google mcp (request was to send email):\n\nsearch\n\nSearch for available tools by query. Returns matching tools ranked by relevance.\n\n    {\n      \"query\": \"send email\",\n      \"detail\": \"detailed\"\n    }\n\nReturns:\n\n10 of 91 tools:\n\n# share_drive_files\n\nShare Google Drive files with specific people via email addresses\n\n**Parameters**\n\n* `file_ids`\u00a0(string\\[\\], required\n\n....\n\n**Returns**\n\n* `success`\u00a0(boolean, required)\n\n# send_gmail_message\n\nSend an email using the user's Gmail account with elicitation support for untrusted recipients\n\n**Parameters**\n\n* `subject`\u00a0(string, required)\n* `body`\u00a0(st\n* ,,,,\n\nAnd then\n\nexecute\n\nChain \\`await call\\_tool(...)\\` calls in one Python block; prefer returning the final answer from a single block. Use \\`return\\` to produce output. Only \\`call\\_tool(tool\\_name: str, params: dict) -> Any\\` is available in scope.\n\n    {\n      \"code\": \"result = await call_tool(\\\"send_gmail_message\\\", {\\n    \\\"to\\\": \\\"xxxx@gmail.com\\\",\\n    \\\"subject\\\": \\\"What's Up, xxxxx! \ud83c\uddf5\ud83c\udded\\\",\\n    \\\"content_type\\\": \\\"html\\\",\\n    \\\"body\\\": \\\"Hey xxxxx! Just wanted to say what's up and congratulations on the new gig in the Philippines!\\\",\\n    \\\"html_body\\\": \\\"\\\"\\\"<!DOCTYPE html>\\n<html>\\n<head>\\n  <style>\\n    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; }\\n    .container { max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1)"
+    },
+    {
+      "id": "o8vcdzd",
+      "parent": "t1_o8u7aw9",
+      "author": "jlowin123",
+      "score": 2,
+      "body": "Ha, no it's a fair point - given that the FastMCP client focuses on being a programmatic client, this wasn't top of mind, but it's a good idea!"
+    },
+    {
+      "id": "o8pbeyu",
+      "parent": "t1_o8p93r4",
+      "author": "wind_dude",
+      "score": 1,
+      "body": ">This allows you to expose 4 slim tools that gives everything the llm needs to find the tools needed, and then execute them in a sandbox.\n\nisn't that what i said? sorry misunderstanding the difference. "
+    },
+    {
+      "id": "o8wwq5z",
+      "parent": "t1_o8pbeyu",
+      "author": "Dipseth",
+      "score": 1,
+      "body": "I keyed in the writes code part which it does seem to do well within the execute mcp tool.  here the llm is writing code to prepare the arguments not chaining results of multiple tools but I think thats possible too. I removed some personaly information from the call below.  FYI code mode doesnt doe the JINJA Templating,thats middleware.\n\n    {\n    \n    \n    code: \"\n    # Fix: avoid apostrophes inside Jinja double-quotes \u2014 use safe text without single quotes in Jinja strings\n    \n    \n    items = []\n    \n    \n    # \u2500\u2500\u2500 EVENT 1: AI Sharing Session \u2500\u2500\u2500\n    \n    \n    # \u2500\u2500\u2500 EVENT 2: \n    items.append({\"text\": \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\"})\n    items.append({\"text\": \"\u23f0 06:00 AM \u2014 [MTG-86] \", \"icon\": \"EVENT_SEAT\"})\n    ...\n    # \u2500\u2500\u2500 EVENT 3: \n    items.append({\"text\": \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\"})\n    ...\n    # \u2500\u2500\u2500 EVENT 4: \n    items.append({\"text\": \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\"})\n    items.append({\"text\": \"\u23f0 06:30 AM \u2014 [\", \"icon\": \"EVENT_SEAT\"})\n    items.append({\"text\": \"\u26a1 Action required: submit timesheet \u2014 no exceptions per company directive\"})\n    \n    # \u2500\u2500\u2500 EVENT 5: Morning OOO \u2500\u2500\u2500\n    items.append({\"text\": \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\"})\n    items.append({\"text\": \"\u23f0 07:00 AM \u2014 Morning OOO\", \"icon\": \"EVENT_SEAT\"})\n    items.append({\"text\": \"\ud83c\udf05 Personal block \u00b7 07:00 \u2013 08:30 AM \u00b7 no attendees\"})\n    # \u2500\u2500\u2500 Summary footer \u2500\u2500\u2500\n    items.append({\"text\": \"\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\"})\n    items.append({\"text\": \"{{ '\ud83d\udc40 2 PRs to revie\u00b7 # -4796' | color('#F9AB00') }}\"})\n    items.append({\"text\": \"{{ '\ud83c\udfab 5 active Jira tickets on the  board' | color('#4285F4') }}\"})\n    buttons = [\n        {\"text\": \"\ud83e\udd16 AI Sharing Session\", \"url\": \"https://www....\"},\n        {\"text\": \"\ud83d\udccb MD Standup\",        \"url\": \"https://www.g...t\"},\n        {\"text\": \"\ud83d\udcc5 View Calendar\",      \"url\": \"https://calendar.google.com\"},\n        {\"text\": \"\ud83d\udd00 GitHub PRs\",         \"url\": \"https://gith...\n    \n    result = await call_tool('send_dynamic_card', {\n        'user_google_email': 'me',\n        'webhook_url': 'https://chat.googleap...',\n        'card_description': f'\u00a7[\u03b4\u00d7{len(items)}, \u0243[\u1d6c\u00d7{len(buttons)}]]',\n        'card_params': {\n            'title': '\ud83d\udccb Meeting Prep \u2014 Tomorrow',\n            'subtitle': 'Friday, Mar 06 \u00b7 5 events',\n            '\u03b4': {\n                '_shared': {'wrapText': True},\n                '_items': items\n            },\n            '\u1d6c': {\n                '_items': buttons\n            }\n        }\n    })\n    \n    \n    return result\n    \"\n    }"
+    }
+  ]
+}
