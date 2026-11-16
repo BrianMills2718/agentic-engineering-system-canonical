@@ -6,7 +6,7 @@
   "request": "Every tracked file reachable and summarized from the navigational wiki; assess consolidation and optimization without losing information.",
   "scope": {
     "base_tracked_files": 407,
-    "all_candidate_tracked_files": 409,
+    "all_candidate_tracked_files": 417,
     "included": "All Git-tracked files, including instructions, archived changes, fixtures, generated views and non-Markdown files.",
     "external": "Explicitly linked owning planning/policy/instruction sources; no unrelated repository-wide sweep.",
     "not_published": "Ignored caches, installed environments, credentials and private runtime store contents."
@@ -208,13 +208,13 @@
     },
     {
       "path": ".claude/settings.json",
-      "summary": "Contains an empty settings object and adds no repository-local Claude override.",
+      "summary": "Registers pinned Claude post-edit fact refresh while preserving existing settings; the bounded native observation explicitly loads this configuration.",
       "role": "native configuration or contract",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "JSON root object",
       "summary_origin": "content_review",
-      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "sha256": "f663d0b1c4472f1786be94c5c16a290fa86b5d853f81996d45af56dbb8fccb10",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -291,6 +291,18 @@
       "has_standard_source_summary_field": true
     },
     {
+      "path": ".codex/hooks.json",
+      "summary": "Registers pinned post-edit declared-fact refresh for Codex tool names; live Codex host execution remains unobserved.",
+      "role": "native configuration",
+      "disposition": "keep",
+      "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
+      "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
+      "summary_origin": "content_review",
+      "sha256": "c7e80c0e25668da8e0afaa8b79f44f071b29146c6318494360a7f4563903c0d5",
+      "identity_basis": "Reviewed source bytes in the candidate tree.",
+      "has_standard_source_summary_field": false
+    },
+    {
       "path": ".doc-reachability-ignore",
       "summary": "Excludes generated client instructions, archived OpenSpec changes and synthetic consumer fixtures from reader-document reachability.",
       "role": "native configuration or contract",
@@ -310,7 +322,7 @@
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": ".venv/",
       "summary_origin": "content_review",
-      "sha256": "76b2555c828632c4560cd48465881ca36f4851567fc9ee7bc9c18d9f900a38d3",
+      "sha256": "78c0b5834fa5a4ef84bd96e50f3af1e1ecce62e61a23e1b1c70dbfa6df11768c",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -328,25 +340,25 @@
     },
     {
       "path": ".md-file-cap.yaml",
-      "summary": "Sets the Markdown cap to 126 with the measured orientation-repair baseline and retained-citation rationale.",
+      "summary": "Records the measured 130 Markdown file exception, preserving current contracts and archived lineage with complete catalog coverage.",
       "role": "native configuration or contract",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "limit: 126",
       "summary_origin": "content_review",
-      "sha256": "815c340f54eaa1b61d75fbe9d783785865ca8ca277e5176dbe1ccf7c3ac93aef",
+      "sha256": "2652010ac1f549b484881e3f7739d3db56c2051f6816024791d4a157b187e358",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
     {
       "path": ".project-brain/now.md",
-      "summary": "Names the completed projection-component assessment, replay observations, limits and next gap-backed self-adoption recommendation, with earlier coverage and handoff history retained.",
+      "summary": "Records completed narrow self-adoption, the observed Claude path, unobserved Codex/default-loading boundaries and remaining compact-view work.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "c9d3d59fcbc3a2e8575ae4df503665796f25d3c649bd3e1b928201bcb67d8216",
+      "sha256": "4fb81ad1c478f19a2faf88834f4220827f835dc95d93da0fa809d8d51b3def5a",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -388,37 +400,37 @@
     },
     {
       "path": "AGENTS.md",
-      "summary": "Generated Codex projection of canonical repository instructions, including whole-system orientation and the explicit every-tracked-file navigation requirement.",
+      "summary": "Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; AGENTS is generated from CLAUDE and relationships.",
       "role": "source document",
       "disposition": "generated",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "437540f63a64b879daf32e9040a890b45398b218f70ff4a95abe0dc7d399569d",
+      "sha256": "99424c404e4c72f8064eb7806ab203dc7cdf006c8b1d9542232485e06b608d81",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
     {
       "path": "CLAUDE.md",
-      "summary": "Canonical repository instructions for purpose, current scope, workflow, source authority and complete-file summary/navigation coverage, with links to governing contracts.",
+      "summary": "Defines current AES agent governance and authority routes, including bounded documentation self-adoption and native-proof limitations; AGENTS is generated from CLAUDE and relationships.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "d5a4f85d7b3613a385b7bbc45fcd27d0911ba99195200a461bf270198c1d8339",
+      "sha256": "7a16d731c58eea11396b511ff98980e14fa58254bb52ec2caa3a65c1ae9ac445",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
     {
       "path": "Makefile",
-      "summary": "Defines pytest, fast/full checks, mypy and AGENTS synchronization, preferring the local virtual-environment Python.",
+      "summary": "Defines tests and generated-instruction checks plus facts-only freshness and explicit refresh; make check includes declared-fact refusal.",
       "role": "native configuration or contract",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "AES canonical checks. The claims, worktree, session and PR-flow targets that used to live here; were retired on 2026-11-12 (docs/retired/2026-11-12.md); `ship` and `claude -w` replaced them.; --- During Implementation ---",
       "summary_origin": "content_review",
-      "sha256": "e60a75e69ae87248bc03e8736b83d462ba0748dd018f3c333e59e3885be3ad21",
+      "sha256": "28c92a844170a42454adc4284886dd9c3271937ab4cff772038fb09a5bbaa5ee",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -472,25 +484,25 @@
     },
     {
       "path": "docs/architecture/GOAL.md",
-      "summary": "Defines the autonomous-agent outcome, planning/Lockstep/feedback/policy functions, password-reset example, architectural bet, source ownership and current versus retained-history boundaries.",
+      "summary": "States AES purpose, planning/Lockstep/feedback/policy roles, source-local thesis, disproof, non-goals and lineage using the durable goal and arc42 fields.",
       "role": "normative",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "7b6461ad81d6d5b02f7234a1fb1e02390c055f2ad07079a7a7091d89d6c3a0c5",
+      "sha256": "81a43b9b13235335f85718f5168a1a28d6f4a61a3125330397ec5b41b806c551",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
     {
       "path": "docs/architecture/LOCKSTEP.md",
-      "summary": "Explains planned structure and two-way context/status projection, distinguishes legacy mechanisms, and works through the real projection component with authored current/gap/plan narrative, measured CLI evidence and a bounded next plan.",
+      "summary": "Explains planning and projection boundaries, retains the earlier worked assessment and records native AES self-adoption with a generated source-owned assessment.",
       "role": "architecture",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "28fc89aeda9df3c7652602618f81f85b4ee98a4d229d6845d3e3f5b5786467b9",
+      "sha256": "30140d8cb0f250eea91c02993ef66e0a7a7b9a0d602b7dddeb8a4bdb0658dd15",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -862,7 +874,7 @@
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# AES documentation",
       "summary_origin": "content_review",
-      "sha256": "765e850cb6c13600f4956a53933f22fa82c73f0d56cbc1d2b8360cf95e7f02db",
+      "sha256": "19b77451bcd0a8d10c9d94304148c1d3becd4f910d0b13236c09413665c0a8e1",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -964,25 +976,25 @@
     },
     {
       "path": "docs/planning/checks.txt",
-      "summary": "Retains November 12 planning-check commands, exit statuses and full outputs at a named revision, including warnings and explicitly retired checks not run.",
+      "summary": "Retains five fresh planning checks: durable fields and wiki reachability pass; repository format remains tracked by Q17; navigation warnings and graph-schema results stay explicit.",
       "role": "evidence",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "Planning-package checks for BrianMills2718/agentic-engineering-system-canonical at 2b0709497ecc77b2eb6ab284bec57f52069a422e, run 2026-11-12T",
       "summary_origin": "content_review",
-      "sha256": "00a88afe753864098336b08c5565f1f48fcd2faadc4585dbc735fe07e92e93a6",
+      "sha256": "2fe074ffdbce17094599e6e29adb64333a26def1d4dc471d35573f722da480b9",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
     {
       "path": "docs/planning/cold-review.md",
-      "summary": "Records a bounded independent A9 source-fact pass with command/native-fixture coverage, while excluding A1–A8 recertification and preserving the route WAIT.",
+      "summary": "Records independent bounded self-adoption review with native trace, catalog, goal-field and check-count verification; preserves the prior source-fact review and excludes A1–A8 recertification.",
       "role": "evidence",
       "disposition": "keep",
       "reason": "Distinct contract, history, evidence, implementation or navigation responsibility; retain with explicit source/scope.",
       "source_locator": "# Bounded cold review: declared source-fact upkeep",
       "summary_origin": "content_review",
-      "sha256": "d78bf55db0ebdabec3172302e380e9ce2eff5a8e0dcebc98d64f1fec8aeb1299",
+      "sha256": "f8f1bba4b3245c73e142bb441be52919619f65a7fc2355a92880d40033ee2f08",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1096,13 +1108,13 @@
     },
     {
       "path": "docs/planning/open-questions.json",
-      "summary": "Owns unresolved questions, recommendations, evidence and dispositions, including full-file summary maintenance and reconciliation of all original Project Meta policy identities.",
+      "summary": "Owns questions, recommendations and evidence; Q25 records bounded Claude self-adoption while broader synchronization claims remain open.",
       "role": "planning record",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "d99c1c41a1acdac2187b84bd4a6a3971fbb80ca1e92c1c673de7025ca3f0f2c5",
+      "sha256": "b7f0328161c500eceeefb2749d43b969394f6db03cbc7a7ab8af55d6b2f38168",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1114,7 +1126,7 @@
       "reason": "Preserve useful unique material while reconciling historical/current scope or status/source drift; no retirement proposed.",
       "source_locator": "JSON keys: schema_version, record_type, repository, subject_revision, request",
       "summary_origin": "content_review",
-      "sha256": "374f91bbabc8a9d5b107cd16b83ba6159bd0ff98ff55e87b088751ac50b03c2b",
+      "sha256": "a4919632ca5326e0f359ede81028025a8a5c328838081dc190b5ae1f35032209",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1335,6 +1347,30 @@
       "has_standard_source_summary_field": true
     },
     {
+      "path": "evidence/runs/projection-native-20261113.jsonl",
+      "summary": "Retains all 17 successful Claude Read/Read/Edit events; an explicit redaction replaces private metadata from a prior unsuccessful invocation.",
+      "role": "run evidence",
+      "disposition": "keep",
+      "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
+      "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
+      "summary_origin": "content_review",
+      "sha256": "3bb7c84842273408859cce0a4770733361e33e5fe4789e1a4281475a86eed68c",
+      "identity_basis": "Reviewed source bytes in the candidate tree.",
+      "has_standard_source_summary_field": false
+    },
+    {
+      "path": "evidence/runs/projection-self-adoption-20261113.json",
+      "summary": "Records Claude edit/hook attribution and hashes, read-only stale refusal, recovery and 27 focused test passes with explicit client-loading limits.",
+      "role": "run evidence",
+      "disposition": "keep",
+      "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
+      "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
+      "summary_origin": "content_review",
+      "sha256": "289ff73087c85b7cf5c73412ba6ed420cb829f48c240f2d092134d9b62d172da",
+      "identity_basis": "Reviewed source bytes in the candidate tree.",
+      "has_standard_source_summary_field": false
+    },
+    {
       "path": "evidence/runs/projection-worked-20261113.json",
       "summary": "Retained six-step CLI observation on a disposable copy of the real projector: normative-down and authored current/gap/plan fan-out, stale refusal, recovery, before/after hashes, two traces and focused pytest output.",
       "role": "retained run evidence",
@@ -1348,13 +1384,25 @@
     },
     {
       "path": "lefthook.yml",
-      "summary": "Imports shared hooks/base.yml from code2-workspace main with daily configuration refresh.",
+      "summary": "Preserves shared workspace commit checks and adds the facts-only AES freshness command.",
       "role": "native configuration or contract",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "remotes:",
       "summary_origin": "content_review",
-      "sha256": "839017226b8c270ac788577f0f03ffd5a66faf9dd9f436c3a297831f56b7c557",
+      "sha256": "4d7744afbca88b12b0e3cb05f779cd70c967007ae7600b1c98efaec772adbcd8",
+      "identity_basis": "Reviewed source bytes in the candidate tree.",
+      "has_standard_source_summary_field": false
+    },
+    {
+      "path": "lockstep.yaml",
+      "summary": "Declares the projection module as source for architecture and wiki full-docstring assessment copies, without edit guards or unrelated policies.",
+      "role": "native configuration",
+      "disposition": "keep",
+      "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
+      "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
+      "summary_origin": "content_review",
+      "sha256": "05509696ae528db54ebbc9a1de06abef5bef9316040b5f44d210f815bcd4242d",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -1827,6 +1875,42 @@
       "has_standard_source_summary_field": false
     },
     {
+      "path": "openspec/changes/archive/2026-11-13-self-adopt-projection/proposal.md",
+      "summary": "Preserves narrow self-adoption rationale: reuse the existing projector and hooks without reinstating retired universal governance.",
+      "role": "historical proposal",
+      "disposition": "keep",
+      "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
+      "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
+      "summary_origin": "content_review",
+      "sha256": "11d8d77aa8357dc7290096396a0838db5ab61711b522ea2d083893eb6563242c",
+      "identity_basis": "Reviewed source bytes in the candidate tree.",
+      "has_standard_source_summary_field": false
+    },
+    {
+      "path": "openspec/changes/archive/2026-11-13-self-adopt-projection/specs/aes-documentation-projection/spec.md",
+      "summary": "Preserves the archived delta for source-owned component assessment projection and a facts-only freshness gate.",
+      "role": "historical normative delta",
+      "disposition": "keep",
+      "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
+      "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
+      "summary_origin": "content_review",
+      "sha256": "a3c13f8268c788d73d5b2f5b3123bd16f140e46c03e620b1ae9ba14f188a52e0",
+      "identity_basis": "Reviewed source bytes in the candidate tree.",
+      "has_standard_source_summary_field": false
+    },
+    {
+      "path": "openspec/changes/archive/2026-11-13-self-adopt-projection/tasks.md",
+      "summary": "Records completed self-adoption tasks for configuration, source narrative, native observation, bypass refusal and focused verification.",
+      "role": "historical task record",
+      "disposition": "keep",
+      "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
+      "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
+      "summary_origin": "content_review",
+      "sha256": "a35bbde0e01526c16482499cb7fd29c2dfb7c7855a55385c29afb4a39cfee5d3",
+      "identity_basis": "Reviewed source bytes in the candidate tree.",
+      "has_standard_source_summary_field": false
+    },
+    {
       "path": "openspec/config.yaml",
       "summary": "Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented examples rather than active custom requirements.",
       "role": "configuration",
@@ -1847,6 +1931,18 @@
       "source_locator": "empty file",
       "summary_origin": "content_review",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "identity_basis": "Reviewed source bytes in the candidate tree.",
+      "has_standard_source_summary_field": false
+    },
+    {
+      "path": "openspec/specs/aes-documentation-projection/spec.md",
+      "summary": "Requires AES source-owned assessment projection and a read-only facts gate, with native-edit, bypass-refusal and recovery scenarios.",
+      "role": "normative specification",
+      "disposition": "keep",
+      "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
+      "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
+      "summary_origin": "content_review",
+      "sha256": "12fab85a7a802b1dc03acc5b5a42e780e08b2f838832e4b553d0aa37fd331bfb",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": false
     },
@@ -3172,13 +3268,13 @@
     },
     {
       "path": "src/lockstep/doc_projection.py",
-      "summary": "Project declared source-local facts into Markdown; never execute source or repository code.",
+      "summary": "Statically extracts declared facts and refreshes targets with daily traces; its module docstring owns the component assessment, gaps, linked plan and separate evidence links.",
       "role": "code",
       "disposition": "keep",
       "reason": "Source-local explanation and declarations identify a distinct executable mechanism.",
       "source_locator": "ProjectionError",
       "summary_origin": "content_review",
-      "sha256": "2c2053f715b1393a96ed957d1b692b2011eec089aaa50b828ef7d3aeb096b586",
+      "sha256": "59e9073fdde7fdc0e83f0b0b01eceb26b20d77c5e374311e16944ffd68979549",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -4840,25 +4936,25 @@
     },
     {
       "path": "wiki/lockstep.md",
-      "summary": "Routes Lockstep purpose, implementation limits, native contracts and proving examples, including the source-linked worked projection assessment and retained replay.",
+      "summary": "Routes contracts and limits, distinguishes earlier replay from native self-adoption and includes the generated source-owned component assessment.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Lockstep; What it is; Who uses it",
       "summary_origin": "content_review",
-      "sha256": "3d0a42fee590d71e0e6083a7a49c8d5149f1e8e5b3b6273c220158313ef0d151",
+      "sha256": "f8e5dafd84da8df34ee682967baa0d0be822070e9fb1bc375091056573dd2975",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
     {
       "path": "wiki/open-questions.md",
-      "summary": "Source-linked discussion view of the owning question ledger, including complete-file freshness and the original-policy reconciliation gap.",
+      "summary": "Navigates unresolved questions and recommendations, including bounded native self-adoption and remaining client/upward-edit limits.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Updated during this repair; keep its distinct source or navigation role and the explicitly recorded remaining boundaries.",
       "source_locator": "Current document body and linked authorities",
       "summary_origin": "content_review",
-      "sha256": "676f19094d1950d3152fe6c04909fa2e2ec7ee2e63e47331dcfb462fd7cf270f",
+      "sha256": "79eda52a66e5d7cda41a261d3bcb4af7b075db423c5cfba30b7859dfafda2b3d",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -4876,13 +4972,13 @@
     },
     {
       "path": "wiki/requirements.md",
-      "summary": "Maps current Lockstep contracts to implementation and evidence navigation, separately identifying retained library and feedback requirements.",
+      "summary": "Routes current OpenSpec contracts, including assessment self-adoption, to implementation and bounded evidence.",
       "role": "source document",
       "disposition": "keep",
       "reason": "Preserves distinct source content or native configuration boundary.",
       "source_locator": "Required behavior and its evidence; Current Lockstep contracts; Retained library and feedback contracts",
       "summary_origin": "content_review",
-      "sha256": "1fc51904e8c7731cd7286b7279b9c73179bd5f88d452731ba78fa3a5a08e2ca8",
+      "sha256": "fccfaf0c9c2c014590ebe534ef6faa01ef59b5d5b772f36ecbaeb3c3bdba8755",
       "identity_basis": "Reviewed source bytes in the candidate tree.",
       "has_standard_source_summary_field": true
     },
@@ -5338,18 +5434,18 @@
   "verification": {
     "status": "pass",
     "tracked_path_coverage": {
-      "tracked_files": 409,
-      "entries": 409,
-      "nonempty_summaries": 409,
-      "catalog_links": 409,
+      "tracked_files": 417,
+      "entries": 417,
+      "nonempty_summaries": 417,
+      "catalog_links": 417,
       "omissions": 0,
       "exclusions": 0,
       "status": "pass",
       "exit_code": 0
     },
     "source_hashes": {
-      "inputs": 407,
-      "matched": 407,
+      "inputs": 415,
+      "matched": 415,
       "self_outputs_omitted": [
         "docs/planning/file-inventory.json",
         "wiki/documents.md"
@@ -5367,10 +5463,10 @@
       "exit_code": 0
     },
     "link_check": {
-      "command": "lychee --offline --no-progress --include-fragments (14 changed Markdown files)",
-      "links_total": 773,
-      "links_ok": 741,
-      "external_excluded": 32,
+      "command": "lychee --offline --no-progress --include-fragments (7 affected Markdown files including complete catalog)",
+      "links_total": 734,
+      "links_ok": 709,
+      "external_excluded": 25,
       "errors": 0,
       "exit_code": 0
     },
@@ -5398,7 +5494,31 @@
       "focused_tests_passed": 26,
       "evidence_detail": "Receipt also retains raw pytest stdout/stderr, execution context and before/after hashes for each CLI step.",
       "receipt_followup": "Independent check: 6/6 per-step hash/context records, 3/3 read-only steps unchanged, both traces and final targets match; raw focused-test result 26 passed, exit0."
+    },
+    "self_adoption_review": {
+      "focused_tests_passed": 27,
+      "native_successful_events": 17,
+      "native_edits": 1,
+      "hook_traces": 1,
+      "updated_targets": 2,
+      "gate_recovery_steps": 3,
+      "scope": "Explicitly configured Claude path; native Codex and default-session loading unobserved.",
+      "independent_review": "Native hash reconstruction and bypass/recovery passed; stale wiki sentence corrected.",
+      "lefthook": {
+        "command": "lefthook run pre-commit --command aes-doc-facts --no-auto-install --force",
+        "commands_passed": 1,
+        "stale": 0,
+        "exit_code": 0
+      }
+    },
+    "prior_link_check": {
+      "command": "lychee --offline --no-progress --include-fragments (14 changed Markdown files)",
+      "links_total": 773,
+      "links_ok": 741,
+      "external_excluded": 32,
+      "errors": 0,
+      "exit_code": 0
     }
   },
-  "last_update": "Projection worked assessment at base636dffcd4; existing summaries retained, changed inputs reviewed, one new retained observation included."
+  "last_update": "Narrow self-adoption: 417 candidate files covered, 130 Markdown files; Claude proof bounded to explicit project settings."
 }

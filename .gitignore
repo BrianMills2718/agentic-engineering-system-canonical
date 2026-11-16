@@ -4,3 +4,6 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 build/
+
+# Daily projection traces are runtime evidence; retained runs are captured separately.
+.lockstep/

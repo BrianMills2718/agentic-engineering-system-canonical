@@ -86,11 +86,13 @@ Sources: [docs/architecture/LOCKSTEP.md](../docs/architecture/LOCKSTEP.md), [src
 
 Owner: agent.
 
-Additional observation: the [projection-component replay](../evidence/runs/projection-worked-20261113.json)
-carried authored current/gap/plan sections through two CLI-managed targets,
-preserved normative-down text and demonstrated stale-check recovery. Installed
-host invocation and actual AES self-adoption remain open; see the
-[gap-backed plan](../docs/architecture/LOCKSTEP.md#gaps-and-a-bounded-plan).
+Additional observation: the [earlier CLI replay](../evidence/runs/projection-worked-20261113.json)
+preserved normative-down text. The [AES self-adoption receipt](../evidence/runs/projection-self-adoption-20261113.json)
+now records one real Claude Edit invoking the installed hook and updating both
+architecture and wiki blocks, plus read-only stale refusal and recovery. This
+closes G-SELF and the bounded Claude part of G-NATIVE. Native Codex execution,
+default-session loading and general OpenSpec upward-edit parity remain open;
+see the [current observation](../docs/architecture/LOCKSTEP.md#aes-self-adoption-observation).
 
 ### Q26: Guard must check every affected path
 
