@@ -4,14 +4,19 @@
   "repo": "BrianMills2718/agentic-engineering-system-canonical",
   "key": "slice2-live-test-20261116",
   "issue": 894,
-  "steps": ["open (created)", "close (closed)", "open (reopened on recurrence)", "close (closed)"],
+  "steps": [
+   "open (created)",
+   "close (closed)",
+   "open (reopened on recurrence)",
+   "close (closed)"
+  ],
   "result": "issue 894 ended CLOSED after the reopen; gh issue list showed it OPEN after the reopen and CLOSED after the last close",
   "finding": "Calling close or open within seconds of a create found nothing: GitHub's search index lagged about 20 seconds behind the new issue, so a second open created duplicate issue 893 (closed by hand). Real loop runs are a day or more apart, so this is a limit, not a blocker; the adapter has no wait or retry."
  },
  "message": {
   "route": "Telegram sendMessage through the existing agents bot (Brian, 2026-11-16, Decision 17 A)",
   "result": "delivered=true, accepted_by_telegram message_id=281",
-  "limits": "Telegram holding the message for the account; whether the phone showed it was not observed by this session. Token and chat id were not printed."
+  "limits": "Telegram accepted it, and Brian confirmed on 2026-11-16 (\"yes it did\") that it arrived. Token and chat id were not printed."
  },
  "not_run": "no loop timer was enabled; problems.py, collect_feedback.py and fix_owner.py were not run end to end"
 }
