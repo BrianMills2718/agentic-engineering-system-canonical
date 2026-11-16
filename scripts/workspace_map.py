@@ -4,7 +4,7 @@
   workspace_map.py --check [--report P]   print clutter findings; exit 1 if any need action; write report P
 
 Implements: workspace-map-check/settings-come-from-config
-Implements: workspace-map-check/dependency-scan-skip-is-visible
+Implements: workspace-map-check/undeclared-dependency-is-a-finding
 
 Sources of truth (this script invents nothing):
   * PROJECT_GRAPH.json           purpose (one_liner), status, origin of every registered project
@@ -190,29 +190,25 @@ def undeclared_dependency_links(scan=None):
 
     A use is an import, a path into the provider's folder, or a run of its command.
 
-    scan defaults to check_capability_consumption.run_scan (about a minute over every local repo)."""
+    scan defaults to check_capability_consumption.run_scan over the configured graph (a minute or more over every
+    local repo). Implements: workspace-map-check/undeclared-dependency-is-a-finding"""
     if scan is None:
         sys.path.insert(0, os.path.join(REPO, "scripts"))
         import check_capability_consumption as consumption
-        scan = consumption.run_scan
+        from pathlib import Path
+        graph = Path(graph_path())
+        scan = lambda: consumption.run_scan(project_graph_path=graph)  # noqa: E731
     return [f"{x['consumer']} -> {x['provider']} ({', '.join(x.get('via') or x.get('packages', []))})"
             for x in scan().findings if x["kind"] == "undeclared_project_dependency"]
 
 
 DEPENDENCY_TITLE = ("repo uses another repo (import, path or command) not in its PROJECT_GRAPH.json depends_on "
                     "(run scripts/check_capability_consumption.py --write and commit)")
-DEPENDENCY_SKIPPED = "INFO dependency scan not ported yet (retirement plan step 4)"
 
 
 def dependency_findings(scan=None):
-    """The depends_on finding, or a visible INFO line when the scanner is not in this repository yet.
-
-    check_capability_consumption.py has not been ported from Project Meta (retirement plan step 4). Until it is,
-    the finding is skipped and the report says so; an INFO line is not actionable, so it opens no concern."""
-    try:
-        links = undeclared_dependency_links(scan)
-    except ImportError as exc:
-        return {DEPENDENCY_SKIPPED: [f"scripts/check_capability_consumption.py is not importable ({exc}); the depends_on finding is skipped"]}
+    """The depends_on finding: one line per use the graph does not declare; nothing when every use is declared."""
+    links = undeclared_dependency_links(scan)
     return {DEPENDENCY_TITLE: links} if links else {}
 
 

@@ -241,3 +241,5 @@ older than the work since.
 **Register frozen (2026-11-16, Decision 18 A):** the old learnings register is a read-only copy in the private repository `learnings-archive` (not in AES: public repo, publish-checker said hold; one token redacted, rotate the original). `collect_feedback.py` reads it and writes to no register. The feedback systemd unit templates no longer name Project Meta (installed copies of the two enabled timers still do until reinstalled).
 
 2026-11-16: external idea intake added (`scripts/learning_loop/external_ideas.py`, watch list `external_sources.yaml`); runs on request, timer deferred until Brian has judged one digest.
+
+**Retirement step 4b (2026-11-16):** the project graph sync, the `depends_on` scan and a rewritten daily refresh now run from AES against the private `aes-config` graph (specs `project-graph-sync`, `project-graph-dependency-scan`, `project-graph-refresh`). The refresh commits a changed graph straight to `aes-config` main and publishes the page to code2-workspace's data branch; the ten derived pages are dropped. Its timer is not switched yet (step 6). See the plan's row 4.
