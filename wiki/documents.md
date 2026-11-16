@@ -77,6 +77,11 @@ commit and file hashes, not copies.
 - [Usefulness ranking tasks](../openspec/changes/archive/2026-11-16-external-idea-relevance/tasks.md) — historical checklist.
 - [Usefulness quality proposal](../openspec/changes/archive/2026-11-16-external-idea-quality/proposal.md) — sharper reasons and no re-offering of assessed posts. **Role:** historical plan. **Disposition:** keep.
 - [Usefulness quality tasks](../openspec/changes/archive/2026-11-16-external-idea-quality/tasks.md) — historical checklist.
+- [Depth-aware judge](../scripts/learning_loop/external_judge.py) — the model decides per post how much more to read (comments, linked pages); code does the reading. **Role:** executable helper. **Disposition:** keep.
+- [Depth-aware judge tests](../tests/learning/test_external_judge.py) — fake model and reader checks. **Role:** test. **Disposition:** keep.
+- [Depth judge proposal](../openspec/changes/archive/2026-11-16-external-idea-depth/proposal.md) — the plan and the first run's measurements. **Role:** historical plan. **Disposition:** keep.
+- [Depth judge tasks](../openspec/changes/archive/2026-11-16-external-idea-depth/tasks.md) — historical checklist.
+- [Depth judge requirement delta](../openspec/changes/archive/2026-11-16-external-idea-depth/specs/external-idea-intake/spec.md) — retained change.
 - [Usefulness quality requirement delta](../openspec/changes/archive/2026-11-16-external-idea-quality/specs/external-idea-intake/spec.md) — retained change.
 - [Usefulness ranking requirement delta](../openspec/changes/archive/2026-11-16-external-idea-relevance/specs/external-idea-intake/spec.md) — retained change.
 - [External idea intake requirement delta](../openspec/changes/archive/2026-11-16-external-idea-intake/specs/external-idea-intake/spec.md) — retained change.

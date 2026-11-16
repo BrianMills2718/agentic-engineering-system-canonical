@@ -66,3 +66,12 @@ The command SHALL treat every Reddit post whose capture folder exists in `raw/so
 
 - **WHEN** a listing holds a post whose id matches a `raw/sources` capture folder
 - **THEN** it appears in neither digest
+
+### Requirement: The usefulness judge reads more only when it asks to, and only what it asks for
+
+For each post the judge SHALL return useful, not useful or need more (comments, linked pages or both). For need-more posts the command SHALL read exactly the requested material and the judge SHALL return a final verdict from it. The model SHALL be run with no tools and every post, comment and page text SHALL be marked to it as untrusted. Posts the judge gave no verdict for SHALL stay unseen so a later run offers them again (with no retry cap: a post the model keeps skipping is re-judged each run). The reader SHALL refuse non-http(s) links and hosts that resolve to non-public addresses, and SHALL re-check each redirect. The useful digest SHALL list each post once with its projects. Each useful post SHALL record what it was judged from.
+
+#### Scenario: depth-judge-reads-more-when-asked
+
+- **WHEN** the model asks for the comments of one post and marks another useful from its title
+- **THEN** only that post's comments are read, the final verdict for it uses them, and the other post is recorded as judged from its title

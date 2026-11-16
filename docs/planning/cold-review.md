@@ -1,6 +1,6 @@
 # Bounded cold review: feedback-loop notices (AES, 2026-11-16)
 
-Reviewed revision: `9f10b9967db67c10db8f47c7c86efbd78dfbdfa1`.
+Reviewed revision: `db1f282fc302dda87160423fdaaf6218e26ca9dc`.
 Verdict: **pass** for the slice 2 change (spec `feedback-loop-notices`, `scripts/learning_loop/notify.py`, `alert.py`,
 the copied `scripts/concern_issue.py`, loop call sites, plan row). This does not re-certify unrelated A1-A8.
 
@@ -89,3 +89,5 @@ judgment. No remaining substantive blocking finding in this bounded review.
 Verdict: pass
 
 Sixth read (spec `external-idea-intake`, `scripts/learning_loop/external_ideas.py`, 2026-11-16, at `9f10b9967`): independent reviewer, static read, pass with fixes; no blocker against the spec. Its findings (corrupt seen list, malformed post aborting the run, unlogged setup failure, config gaps) were fixed in the next commit with tests (12 pass). Not tested: the real Reddit fetch path (`social_media_fetch`); it is run once live after merge.
+
+Seventh review (depth-aware usefulness judge, `external_judge.py`, 2026-11-16): independent static reads. First at `9d9015aa7`: found an unguarded link reader (internal addresses) and an overstated no-steering claim. Second at `04d6d6b44`: revise (round-2 title and body outside the untrusted markers, a weak test, skipped posts marked seen). Third at `ef99af81d`: fixes correct, revise only for a missing `run()` test and one spec sentence; both added in `db1f282fc` and checked by tests (33 pass), not re-read. Not covered: DNS rebinding (a public name that resolves to an internal address at fetch time), and the live model route beyond one 9-post run.
