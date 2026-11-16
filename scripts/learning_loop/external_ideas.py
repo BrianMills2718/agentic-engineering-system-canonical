@@ -36,14 +36,17 @@ class ConfigError(ValueError):
 
 def load_config(path: Path) -> list[dict]:
     """Return the validated subreddit entries; raise ConfigError naming the first bad entry."""
-    data = YAML(typ="safe").load(Path(path).read_text()) or {}
-    entries = data.get("subreddits")
+    try:
+        data = YAML(typ="safe").load(Path(path).read_text()) or {}
+    except Exception as exc:  # noqa: BLE001 - malformed YAML is a config error
+        raise ConfigError(f"unreadable YAML: {exc}") from exc
+    entries = data.get("subreddits") if isinstance(data, dict) else None
     if not isinstance(entries, list) or not entries:
         raise ConfigError("`subreddits` must be a non-empty list")
     seen: set[str] = set()
     for e in entries:
-        name = str(e.get("name", "")).strip() if isinstance(e, dict) else ""
-        if not name:
+        name = e.get("name") if isinstance(e, dict) else None
+        if not isinstance(name, str) or not re.fullmatch(r"[A-Za-z0-9_]+", name):
             raise ConfigError(f"entry without a name: {e!r}")
         if name.lower() in seen:
             raise ConfigError(f"{name}: duplicate name")
@@ -54,9 +57,9 @@ def load_config(path: Path) -> list[dict]:
             raise ConfigError(f"{name}: listing must be one of {sorted(LISTINGS)}")
         if e.get("window") not in WINDOW_DAYS:
             raise ConfigError(f"{name}: window must be one of {sorted(WINDOW_DAYS)}")
-        if not (isinstance(e.get("limit"), int) and 1 <= e["limit"] <= 100):
+        if not (type(e.get("limit")) is int and 1 <= e["limit"] <= 100):
             raise ConfigError(f"{name}: limit must be an integer 1..100")
-        if not (isinstance(e.get("min_score"), int) and e["min_score"] >= 0):
+        if not (type(e.get("min_score")) is int and e["min_score"] >= 0):
             raise ConfigError(f"{name}: min_score must be an integer >= 0")
     return entries
 
@@ -108,9 +111,21 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
     day = time.strftime("%Y-%m-%d", time.gmtime(now))
     log = out / f"runs-{day}.jsonl"
     seen_file = out / "seen.json"
-    seen = set(json.loads(seen_file.read_text())) if seen_file.exists() else set()
+    try:
+        seen = set(json.loads(seen_file.read_text())) if seen_file.exists() else set()
+    except (ValueError, OSError) as exc:
+        print(f"external_ideas: seen list unreadable ({seen_file}): {exc}", file=sys.stderr)
+        return 2
     _log(log, {"step": "config", "path": str(config), "subreddits": [e["name"] for e in entries], "seen": len(seen)})
-    fetch = fetch or social_media_fetch()
+    if fetch is None:
+        try:
+            fetch = social_media_fetch()
+        except Exception as exc:  # noqa: BLE001 - logged, then a clean non-zero exit
+            _log(log, {"step": "setup", "status": "failed", "error": f"{type(exc).__name__}: {exc}"})
+            print(f"external_ideas: cannot load the social-media tool ({type(exc).__name__}: {exc}). "
+                  "Run with: uv run --with-editable ~/code2/mcp-servers/social-media python "
+                  "scripts/learning_loop/external_ideas.py", file=sys.stderr)
+            return 2
     candidates: list[dict] = []
     down = 0
     for e in entries:
@@ -128,10 +143,17 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
             _log(log, {"step": "fetch", "subreddit": e["name"], "status": "down" if same else "failed",
                        "errors": errors, "seconds": round(time.time() - t0, 2)})
             continue
-        posts = result.get("results", [])
-        kept, counts = [], {"seen": 0, "low_score": 0, "too_old": 0}
+        posts = result.get("results", []) if isinstance(result, dict) else []
+        kept, counts = [], {"seen": 0, "low_score": 0, "too_old": 0, "malformed": 0}
         for p in posts:
-            if p["id"] in seen:
+            try:
+                bad = not (isinstance(p["score"], int) and p["id"] and p["title"] is not None
+                           and _age_days(p["created_at"], now) is not None)
+            except (KeyError, TypeError, ValueError):
+                bad = True
+            if bad:
+                counts["malformed"] += 1
+            elif p["id"] in seen:
                 counts["seen"] += 1
             elif p["score"] < e["min_score"]:
                 counts["low_score"] += 1
@@ -152,7 +174,9 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
                   f"{p['replies']} comments)", f"  {p['url']}", f"  Why watched: {p['reason']}. Links in body: {links}"]
     digest.write_text("\n".join(lines) + "\n")
     seen |= {p["id"] for p in candidates}
-    seen_file.write_text(json.dumps(sorted(seen)))
+    tmp = seen_file.with_suffix(".tmp")
+    tmp.write_text(json.dumps(sorted(seen)))
+    tmp.replace(seen_file)
     _log(log, {"step": "digest", "path": str(digest), "candidates": len(candidates), "down": down})
     return 1 if down else 0
 

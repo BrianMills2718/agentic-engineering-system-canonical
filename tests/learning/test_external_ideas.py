@@ -94,3 +94,41 @@ def test_shipped_config_is_valid_and_excludes_locallama():
     cfg = E.load_config(Path(E.__file__).with_name("external_sources.yaml"))
     names = [e["name"] for e in cfg]
     assert len(names) == 8 and "LocalLLaMA" not in names
+
+
+@pytest.mark.req("external-idea-intake/digest-filters-and-ranks")
+def test_malformed_post_is_skipped_not_fatal(tmp_path):
+    posts = [{"id": "m", "title": "x"}, {**post("n", None, 1)}, post("ok", 10, 1)]
+    out = tmp_path / "out"
+    fetch = lambda *a: {"subreddit": "a", "listing": "top", "count": 3, "results": posts}
+    assert E.run(write_cfg(tmp_path, [entry()]), out, fetch=fetch, now=NOW) == 0
+    d = next(out.glob("digest-*.md")).read_text()
+    assert "tok" in d and "tm" not in d.replace("tok", "")
+
+
+@pytest.mark.req("external-idea-intake/repeated-failure-is-down")
+def test_retry_success_and_different_errors(tmp_path):
+    n = {"a": 0, "b": 0}
+    def fetch(sub, *a):
+        n[sub] += 1
+        if sub == "a" and n[sub] == 1:
+            raise RuntimeError("blip")
+        if sub == "b":
+            raise RuntimeError(f"err{n[sub]}")
+        return {"subreddit": sub, "listing": "top", "count": 0, "results": []}
+    out = tmp_path / "out"
+    assert E.run(write_cfg(tmp_path, [entry("a"), entry("b")]), out, fetch=fetch, now=NOW) == 1
+    log = [json.loads(l) for l in next(out.glob("runs-*.jsonl")).read_text().splitlines()]
+    st = {r["subreddit"]: r["status"] for r in log if r["step"] == "fetch"}
+    assert st == {"a": "ok", "b": "failed"}
+
+
+@pytest.mark.req("external-idea-intake/invalid-config-refused")
+def test_corrupt_seen_and_bad_yaml_refused(tmp_path):
+    out = tmp_path / "out"; out.mkdir()
+    (out / "seen.json").write_text("{trunc")
+    fetch = lambda *a: pytest.fail("fetched")
+    assert E.run(write_cfg(tmp_path, [entry()]), out, fetch=fetch, now=NOW) == 2
+    bad = tmp_path / "b.yaml"; bad.write_text("subreddits: [a: b: c")
+    assert E.run(bad, tmp_path / "o2", fetch=fetch, now=NOW) == 2
+    assert E.run(write_cfg(tmp_path, [entry(limit=True)]), tmp_path / "o3", fetch=fetch, now=NOW) == 2
