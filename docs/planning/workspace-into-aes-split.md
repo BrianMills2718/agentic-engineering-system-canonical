@@ -52,11 +52,11 @@ Measured on the current rule files: "Brian" appears 57 times in `core.md` and 11
 ## Decisions made on the way
 
 - **Record-only route (2026-11-14).** The push hook now lets a new repository of documentation and configuration files with a README push `main` without a planning package (personal-file-infra #287, merged). The matching change to `ship` (code2-workspace PR #432: `record_only_repository` in `scripts/ship.py`, its tests and spec) is not merged: the workspace's own planning package fails the validator on a classification of requirement R15 that four repair rounds did not settle. Brian chose to carry the `ship` change with the planning gate when it moves into AES (Brian, 2026-11-14: "i approve b on diecision 9"). Until then `ship` still refuses a record-only new repository; the push hook does not.
-- **Profile repository.** `brian-profile` (private) exists with `identity.yaml`; Claude loaded it through a project import inside the project, but not from a path outside it, and Codex was not tested.
+- **Profile repository.** `brian-profile` (private) exists with `identity.yaml`; Claude loaded it through a project import inside the project, but not from a path outside it. Update 2026-11-16: a user-level `CLAUDE.md` that imports it by absolute path loaded it (one headless call returned the name and the colour-blindness rule). Codex has no import syntax, so `scripts/build-codex-agents.sh` (brian-profile PR #1, open) writes `~/.codex/AGENTS.md` as the core rules plus the profile (19,265 bytes, under Codex's 32 KiB cap); Codex reading it is unproven (usage limit until 2026-11-20). Ruler was checked and does not fit (it writes only inside a project). Decision 16 A (Brian, 2026-11-16: "i approve your rec"): the script stays on the PR branch until `brian-profile` is next worked on and gets a planning package.
 
 ## Limits
 
 - Counts of the name are text matches, not a judgment of what is personal.
 - `scripts/` and `.claude/` were classified by file name, not by reading.
-- Whether Codex and Claude can both load a private profile from a path outside the repository was not tested here.
+- Whether Codex reads the generated file is not yet proven; the Claude route is proven once.
 - No cost or time estimate.

@@ -233,3 +233,5 @@ and [operator commands](../scripts/learning_loop/systemd/README.md).
 the project stands, update `now.md` (and `state.md` if needed) in the same pull
 request. `python3 scripts/hive/brain_fresh.py .` exits 1 when this brain is
 older than the work since.
+
+**Q45 step 1 (2026-11-16):** Claude loads the private profile through a user-level import (proven once). Codex gets a generated `~/.codex/AGENTS.md` from `brian-profile/scripts/build-codex-agents.sh` (PR #1 open: the new-repository rule needs a planning package, Decision 16 A defers it); Codex reading it is unproven until its usage limit resets on 2026-11-20.
