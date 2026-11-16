@@ -61,5 +61,6 @@ unverified. A specification's presence is not runtime evidence.
 - [Project graph taxonomy](../openspec/specs/project-graph-taxonomy/spec.md) governs the shape check of the project graph (the graph path is configuration).
 - [Project activity snapshot](../openspec/specs/project-activity-snapshot/spec.md) governs the snapshot of each registered repository's last commit, branch and open pull requests.
 - [Graph checkout refresh](../openspec/specs/graph-checkout-refresh/spec.md) governs the fast-forward of registered checkouts that never discards local work, and the concern for checkouts stuck far behind.
+- [Workspace map check](../openspec/specs/workspace-map-check/spec.md) governs the daily clutter check of `~/code`, `~/projects`, `~/code2` and `~/archive`, filed as one keyed concern and one phone message per change.
 - [Concern repair verifier](../openspec/specs/concern-repair-verifier/spec.md) governs the five-gate check that must pass before a repaired concern closes.
 - [External idea intake](../openspec/specs/external-idea-intake/spec.md) governs the configurable subreddit watch list and the ranked digest command (Brian, 2026-11-16).
