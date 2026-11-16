@@ -1,0 +1,13 @@
+{
+  "source_url": "https://www.reddit.com/r/OntologyEngineering/comments/1txxsjd/epistemic_lattice_tethering_applying_ontology/",
+  "platform": "reddit",
+  "captured": "2026-11-15",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "method": "social-media MCP code (asyncpraw), all comments expanded",
+  "coverage": "r/OntologyEngineering post and 4 of 4 comments",
+  "original_file": "original/1txxsjd.json",
+  "sha256": "17160b8efee117ff1323d265130f99c58a306edbb0e8b6ce10c2313f5d6dc887",
+  "not_captured": "pages the post links to were not opened",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

@@ -1,0 +1,833 @@
+{
+  "id": "1m17ilu",
+  "subreddit": "ClaudeAI",
+  "author": "thirteenth_mang",
+  "title": "This is how you should be setting up Claude Code (discovered while researching with Claude, how meta)",
+  "selftext": "I've been deep in the rabbit hole of optimizing my Claude Code setup because ADHD brain meets shiny new AI tool. I'm notorious for starting projects and never finishing them, but this one *fiiiinally* stuck.\n\nThe discovery process was hilariously meta (maybe not 'hilarious', I digress) - I was literally using Claude to research how to use Claude (Code) better. We spent hours going through research papers about \"agentic development workflows\" and \"modular instruction patterns.\" Pretty sure I just invented the most expensive way to procrastinate on actual work (haven't we all at this point).\n\nEveryone's doing this wrong.\n\nI see people cramming everything into massive `CLAUDE.md` files. Like, 5,000+ words of instructions (my largest version was 2842 words) that Claude mostly ignores while burning through your tokens like it's cryptobros circa 2021.\n\nThe breakthrough came when I realized: Why am I giving Claude everything at once when I could give it exactly what it needs, when it needs it?\n\nSo I built this modular system with 20+ specific commands:\n\n- `/project:create-feature auth-system`\n- `/dev:code-review --focus=security`\n- `/test:generate-tests --coverage=90%`\n- `/deploy:prepare-release --type=patch`\n\nEach command is structured like this:\n```\n<instructions>\n  <requirements>What you need to not break everything</requirements>\n  <execution>Step-by-step so Claude doesn't get creative</execution>\n  <validation>How to know if it worked</validation>\n  <examples>Real examples because abstract is useless</examples>\n</instructions>\n```\n\nThe results are honestly stupid good:\n- 50-80% fewer tokens per session (based on Claude's own {deep} research)\n- Commands that Claude follows consistently\n- Sub-30-second setup for new projects\n- My ADHD brain can actually remember what each command does\n\nThe whole thing is open source [here](https://gitlab.com/thirteenth_mang/claude-modular) if you want to mess with it. Fair warning: it's built by someone who gets distracted by shiny objects, so YMMV.\n\nWhy this works when everything else doesn't:\n\nProgressive disclosure - Claude only loads what it needs for the current task. You're not wasting context/tokens every single request.\n\nSpecific context - No more \"please (for the love of god and all things holy) be helpful\" instructions that mean nothing.\n\nXML structure - Turns out Claude actually follows this format consistently.\n\nToken efficiency - I went from burning through my monthly limit in a week to actually having tokens left over. Kidding, I can now sit for 23 hours instead of 16.\n\nMy `CLAUDE.md` is now 200 lines instead of 2,000. It focuses on project-specific stuff that actually matters instead of trying to be the AI equivalent of a self-help book.\n\nThe meta irony: I discovered this by asking Claude to help me figure out why Claude wasn't listening to me. The answer was basically \"stop talking so much.\"\n\nClassic.\n\nIf you're spending more time wrangling with Claude than building actual shit, try this approach. It's designed for people who want systems that work, not systems that look impressive in screenshots.\n\nYour `CLAUDE.md` is probably too long. Use modular commands that load just-in-time. Trust me, I researched this with Claude for way too many hours.\n\nEdit: this works with MCP servers, Linear, Notion, Memory, filesystem right now (I think I fogot Gemini but I can add it)\n\nDouble edit: repo is public now!\n\nThird edit: moved the repo to GitLab because GitHub are being shitcunts. [Here](https://gitlab.com/thirteenth_mang/claude-modular)",
+  "url": "https://www.reddit.com/r/ClaudeAI/comments/1m17ilu/this_is_how_you_should_be_setting_up_claude_code/",
+  "is_self": true,
+  "score": 359,
+  "num_comments": 118,
+  "created_utc": 1752655778.0,
+  "comments": [
+    {
+      "id": "n3eyeqr",
+      "parent": "t3_1m17ilu",
+      "author": "CommunityJaded1274",
+      "score": 34,
+      "body": "where\u2019s the repo bro"
+    },
+    {
+      "id": "n3f81an",
+      "parent": "t3_1m17ilu",
+      "author": "jl23423f23r323223r3",
+      "score": 25,
+      "body": "Very nice! Also highly recommend folks use the claude command hooks which make things more deterministic and can also instruct your claude command to run python scripts etc.\n\n[https://docs.anthropic.com/en/docs/claude-code/hooks-guide](https://docs.anthropic.com/en/docs/claude-code/hooks-guide)"
+    },
+    {
+      "id": "n3fh05f",
+      "parent": "t3_1m17ilu",
+      "author": "Kamots66",
+      "score": 30,
+      "body": "> Everyone's doing this wrong.\n\nThat's presumptive and off-putting. I almost walked away at that line. I've invested considerable time creating a highly effective context engineering process that works damned well. My mind remains open, however, and I find it valuable to assess what others are doing, especially if they claim to be having success, so I did take a look at what you've done.\n\nThere are some good things here, a few of which I might adapt to my own process. Nice work. I like your just-in-time ideas, which fit well the focused context approach of my own system. I'll be giving that more thought.\n\nI would encourage you to keep refining, keep adapting. The weakest part of your system, in my opinion, is that it lacks specificity and is too high-level. It leaves too much room for Claude to wander off on its own and later mea culpa you with \"You're right! I did fuck that up! Let's unfuck it.\". And then proceed to fuck it up even more."
+    },
+    {
+      "id": "n3ezgo6",
+      "parent": "t3_1m17ilu",
+      "author": "neotorama",
+      "score": 14,
+      "body": "I have seen 10000 lines CLAUDE.md\n\nClaude be like \u201cahh same shit again\u201d"
+    },
+    {
+      "id": "n3fbm3o",
+      "parent": "t3_1m17ilu",
+      "author": "gemanepa",
+      "score": 11,
+      "body": "Ehg, it's okaish. Verbose and at the same unironically non-direct, so you are giving lots of room for Claude to go \"well, how the fuck do I do that? Didn't specify so let me guess\""
+    },
+    {
+      "id": "n3fbowl",
+      "parent": "t3_1m17ilu",
+      "author": "FarVision5",
+      "score": 11,
+      "body": "Reminds me of this\n\n[https://github.com/qdhenry/Claude-Command-Suite](https://github.com/qdhenry/Claude-Command-Suite)"
+    },
+    {
+      "id": "n3fgosp",
+      "parent": "t3_1m17ilu",
+      "author": "banedlol",
+      "score": 11,
+      "body": "Pretty sure I've read 20 of these and they're all garbage"
+    },
+    {
+      "id": "n3g2ymr",
+      "parent": "t3_1m17ilu",
+      "author": "diligent_chooser",
+      "score": 7,
+      "body": "can you explain how you got to these incremental productivity gains numbers? what exactly was measured before and after and how did you measure it? manhours? how do you quantify productivity?\n\nthis is the easiest way to spot ai slop bullshit. easy peasy\n\n\"Achieves 2-10x productivity gains through systematic command organization and hierarchical configuration.\""
+    },
+    {
+      "id": "n3f14j0",
+      "parent": "t3_1m17ilu",
+      "author": "thirteenth_mang",
+      "score": 6,
+      "body": "Bonus prompt if you want to get Claude Code to do it:\n\n1. **edit the prompt to suit your own setup** (OS, language, preference, etc.)**!**\n2. enable plan mode (`SHIFT` \\+ `Tab` twice)\n3. `/init` or not to `/init` that is the question (I did)\n4. paste that sucka in\n5. confirm all the many `is it okay if Claude touches your files?`\n6. ???\n7. No this meme doesn't work `/ignore`\n\n[LAZY_MODE_PROMPT.md](https://github.com/oxygen-fragment/claude-modular/blob/main/LAZY_MODE_PROMPT.md) (figured it might have been too big to add as a comment).\n\nEdit: be mindful this will use a **bunch** of tokens - **definitely don't do this if you're paying for the API directly**"
+    },
+    {
+      "id": "n3f8bel",
+      "parent": "t3_1m17ilu",
+      "author": "None",
+      "score": 3,
+      "body": "Wow, so the Toyota Production System/ Agile workflow for AI involves not just prompt and context engineering, but some kind of poke Yoke/ scaffolding to keep it focused...Very Fascinating."
+    },
+    {
+      "id": "n3feggc",
+      "parent": "t3_1m17ilu",
+      "author": "programming_bassist",
+      "score": 3,
+      "body": "I feel dumb right now. I don\u2019t even see the link for the repo. Not that the link 404s, there\u2019s just no link. Could someone help and reply with the link?"
+    },
+    {
+      "id": "n3fi0bc",
+      "parent": "t3_1m17ilu",
+      "author": "bigbetnine",
+      "score": 3,
+      "body": "thanks, I do think this is the meta: establishing protocols for each situations. I also have ADHD and though it was hilarious people's shit on you because you accidentally uploaded the wrong link. the text is good by itself tho. congrats on finish something useful kkkk"
+    },
+    {
+      "id": "n3gh4n1",
+      "parent": "t3_1m17ilu",
+      "author": "RELEASE_THE_YEAST",
+      "score": 3,
+      "body": "What is actually forcing utilization of the environment specific configuration files (development.json, production.json, etc)? They're not referenced in the commands, and this doesn't appear to be a CC feature.\nEdit: actually, looking at your settings.json for CC (which is in the wrong directory), there are properties that aren't even supported by CC. Did you use CC to create the config, and it hallucinated all of these properties?"
+    },
+    {
+      "id": "n3g8gi8",
+      "parent": "t3_1m17ilu",
+      "author": "Historical-Lie9697",
+      "score": 2,
+      "body": "Nice. Looks very similar to this global commands pack I posted a while back :) [https://github.com/GGPrompts/CCGlobalCommands](https://github.com/GGPrompts/CCGlobalCommands)"
+    },
+    {
+      "id": "n3h5zaa",
+      "parent": "t3_1m17ilu",
+      "author": "thetinytain",
+      "score": 2,
+      "body": "<3 for ADHD"
+    },
+    {
+      "id": "n3h9wx6",
+      "parent": "t3_1m17ilu",
+      "author": "Eagletrader22",
+      "score": 2,
+      "body": "What do we when Claude decides to skip over all that B's and break things anyway like the  little sneak that he is"
+    },
+    {
+      "id": "n3hdl22",
+      "parent": "t3_1m17ilu",
+      "author": "iEngineerFL",
+      "score": 2,
+      "body": "You're absolutely right!"
+    },
+    {
+      "id": "n3lln7s",
+      "parent": "t3_1m17ilu",
+      "author": "ChiefGecco",
+      "score": 2,
+      "body": "That's really appreciated and congrats matey.\n\nHaving built this tool, did you get Claude code to build a front end or upload said notes into Claude code ?"
+    },
+    {
+      "id": "n3rfcfp",
+      "parent": "t3_1m17ilu",
+      "author": "baillie3",
+      "score": 2,
+      "body": "I get 404: Page not found when clicking the link"
+    },
+    {
+      "id": "n4aiujn",
+      "parent": "t3_1m17ilu",
+      "author": "Turbulent_Bunch_496",
+      "score": 2,
+      "body": "I tried this out and honestly it's been a lot worse for me, claude doesn't investigate problems as thoroughly anymore and I'm having to interrupt it a lot before it breaks stuff or give it more guidance"
+    },
+    {
+      "id": "n4n2ysl",
+      "parent": "t3_1m17ilu",
+      "author": "Most-Ad-4657",
+      "score": 2,
+      "body": "I took me 10 days to build a 15,000 line GUI with Claude 4, without writing a single line of code. No initial doc. Just a prompt in GitHub's copilot like \"build a screen with two sections. One is XXXXX and the other is YYYYY\", and so on. Sometimes it'll insist a bug has been fixed even though it's not. I just insist. I treat it like a very smart intern. It works. I even refactored the codebase once using only prompts. Sometimes it understands the reason behind what am I asking it to code. It's quite amazing."
+    },
+    {
+      "id": "n3eyo8y",
+      "parent": "t3_1m17ilu",
+      "author": "None",
+      "score": 3,
+      "body": "your github link is broken."
+    },
+    {
+      "id": "n3f0gqe",
+      "parent": "t3_1m17ilu",
+      "author": "Imaginary_Order_5854",
+      "score": 3,
+      "body": "I recommend checking out https://github.com/NomenAK/SuperClaude \u2014 I found it on Reddit two days ago. It provides in-depth coverage of many of the topics you\u2019ve mentioned."
+    },
+    {
+      "id": "n3foznq",
+      "parent": "t3_1m17ilu",
+      "author": "BadgerPhil",
+      "score": 3,
+      "body": "My framework is complex and rapidly changing so explaining it fully is a task that will get in the way of my project development right now. \n\nHowever, I would suggest that you need to consider:\n\na) the todo list and why sessions often move to the next item without finishing this one \n\nb) why a session concludes a todo list and often lies about its success \n\nc) the damage that occurs to a session after just one context compaction \n\nd) how you can minimize the session\u2019s use of tokens through use of subagents \n\ne) can some subagents last the whole session and bring in their own context\n\nF) how should tactical short term subagents be used \n\ng) the importance of verification of every thing that is done \n\nh) prevention of moving on without absolute verification \n\ni)the automatic building and maintenance of knowledge \n\nThere are many more issues than this and that is why I referenced many steps"
+    },
+    {
+      "id": "n3g0b15",
+      "parent": "t3_1m17ilu",
+      "author": "Zealousideal-Ship215",
+      "score": 3,
+      "body": "Problem with a command heavy setup is now you\u2019re forced to be in the loop, always entering the right commands. The way to keep scaling up your productivity is to make Claude more successful without your direct involvement. Like hooks and MCPs and etc."
+    },
+    {
+      "id": "n3f4zcm",
+      "parent": "t3_1m17ilu",
+      "author": "None",
+      "score": 6,
+      "body": "If you ever wanted evidence that the sub is infested with Claude shill bots take this prime example. \n\nThe comments filled with ops bots pretending to be other people supporting a dead link. \n\nThe link was dead yet somehow the post gathered 23 upvotes? \n\nReal people are upvoting a post with a dead link? \n\nHow dumb do you think we are?"
+    },
+    {
+      "id": "n3eyiwo",
+      "parent": "t3_1m17ilu",
+      "author": "DarkStake",
+      "score": 2,
+      "body": "git link not working>??"
+    },
+    {
+      "id": "n3f5vtg",
+      "parent": "t3_1m17ilu",
+      "author": "kadirilgin",
+      "score": 2,
+      "body": "Oh my goodness. This is exactly what I was looking for. Well done."
+    },
+    {
+      "id": "n3gugrf",
+      "parent": "t3_1m17ilu",
+      "author": "kexnyc",
+      "score": 2,
+      "body": "Just implemented your 20+ command system and you're 100% right about the token efficiency gains. But I hit a critical issue with established projects that have operational knowledge.\n\n# The Problem with Pure Archival\n\nYour approach works perfectly for new projects, but I almost lost:\n\n* Login credentials for testing personas\n* Architecture patterns I reuse constantly\n* Technical implementation details (code snippets)\n* Quality gate requirements\n\n# My Solution: Hybrid Approach\n\n**Keep your modular commands** but **separate concerns**:\n\n    CLAUDE.md (600 words vs 2,842):\n    \u2705 Essential operational knowledge (credentials, patterns, architecture)\n    \u2705 Current session status (ultra-minimal: Goal|Status|Next|Files|Blocker)  \n    \u2705 Your command system\n    \n    claude-history.md:\n    \u2705 Completed work (archived)\n    \u2705 Speculative features (parking lot)\n    \n\n# Session Management Commands\n\n    /session:compact-handoff  - Compress current session to 5 lines\n    /session:resume-work      - Pick up exactly where left off\n    \n\n# Results\n\n* **75% token reduction** (2,842 \u2192 600 words)\n* **Zero operational knowledge lost**\n* **Sub-30-second session startup** (your goal achieved)\n* **No more auto-compact issues**\n\n# Key Insight\n\nYour [CLAUDE.md](http://CLAUDE.md) might contain **three different things**:\n\n1. **Historical log** (archive this)\n2. **Operational manual** (keep this)\n3. **Current session** (minimize this)\n\nThe magic is **separating these concerns** rather than nuking everything.\n\nThanks for the breakthrough idea - the modular commands + XML structure is game-changing for token efficiency!"
+    },
+    {
+      "id": "n3fuq7q",
+      "parent": "t3_1m17ilu",
+      "author": "konmik-android",
+      "score": 1,
+      "body": "I feel like my 100 lines is a waste of space, but I saw some people write poems and novels about code qualities, like an LLM can follow vague nonsense even a professional coder would not understand, really puzzling, never expected such things from engineers."
+    },
+    {
+      "id": "n3gcm5k",
+      "parent": "t3_1m17ilu",
+      "author": "rickcogley",
+      "score": 1,
+      "body": "Thanks for sharing it. The commands I could find are markdown, so it\u2019s generating the XML?"
+    },
+    {
+      "id": "n3hphbq",
+      "parent": "t3_1m17ilu",
+      "author": "Akjeter",
+      "score": 1,
+      "body": "was this post claude generated"
+    },
+    {
+      "id": "n3i4ij3",
+      "parent": "t3_1m17ilu",
+      "author": "belheaven",
+      "score": 1,
+      "body": "This is good advice, thanks for sharing."
+    },
+    {
+      "id": "n3iliud",
+      "parent": "t3_1m17ilu",
+      "author": "Mcmunn",
+      "score": 1,
+      "body": "Sounds like superclaude: https://github.com/NomenAK/SuperClaude"
+    },
+    {
+      "id": "n3jg0i8",
+      "parent": "t3_1m17ilu",
+      "author": "danwltrs",
+      "score": 1,
+      "body": "I am very new into this, coding etc. I created a 50+ page claude.md file with all details of what I want to create. I will try this out! Thanks!"
+    },
+    {
+      "id": "n3kkdgv",
+      "parent": "t3_1m17ilu",
+      "author": "ApexAZ",
+      "score": 1,
+      "body": "How do you incorporate the requirements for a new feature?  I see the process for creating a feature and documenting it, but how do you give it the actual requirements?"
+    },
+    {
+      "id": "n3nlx4s",
+      "parent": "t3_1m17ilu",
+      "author": "Senor_Patata",
+      "score": 1,
+      "body": "Does anyone have a working Git Link?"
+    },
+    {
+      "id": "n3ey3m4",
+      "parent": "t3_1m17ilu",
+      "author": "MrHaflo",
+      "score": 1,
+      "body": "Thank you! I'll check it out"
+    },
+    {
+      "id": "n3eyyfa",
+      "parent": "t3_1m17ilu",
+      "author": "rucka83",
+      "score": 1,
+      "body": "Repo?"
+    },
+    {
+      "id": "n3f0q0r",
+      "parent": "t3_1m17ilu",
+      "author": "Quinell4746",
+      "score": 1,
+      "body": "I was about to start the exact same thing. (AuDHD) Thank you very much for this!"
+    },
+    {
+      "id": "n3frws0",
+      "parent": "t3_1m17ilu",
+      "author": "alarming_wrong",
+      "score": 1,
+      "body": "grifter bot adds Claude set-up posts to its Blockchain, AI, Machine Learning repertoire shocker"
+    },
+    {
+      "id": "n3exn85",
+      "parent": "t3_1m17ilu",
+      "author": "None",
+      "score": 0,
+      "body": "[removed]"
+    },
+    {
+      "id": "n3fihw3",
+      "parent": "t3_1m17ilu",
+      "author": "BadgerPhil",
+      "score": -5,
+      "body": "I work a system much better than that I believe - although it is based to some degree of some of your observations. I am sure that others are doing it better than me.\n\nSo let me say that there are MANY things that you need to learn yet. You are on step 1 of a long ladder."
+    },
+    {
+      "id": "n3g3jdq",
+      "parent": "t1_n3eyeqr",
+      "author": "yaboyanders",
+      "score": 35,
+      "body": "It\u2019s at http://localhost:80\n\n/s"
+    },
+    {
+      "id": "n3eygw7",
+      "parent": "t1_n3eyeqr",
+      "author": "Downtown-Pear-6509",
+      "score": 15,
+      "body": "it's at 404"
+    },
+    {
+      "id": "n3f556l",
+      "parent": "t1_n3eyeqr",
+      "author": "thirteenth_mang",
+      "score": 7,
+      "body": "It's public!"
+    },
+    {
+      "id": "n3f8gvx",
+      "parent": "t1_n3f81an",
+      "author": "thirteenth_mang",
+      "score": 8,
+      "body": "I can add better hook support, thanks!"
+    },
+    {
+      "id": "n3h9mcx",
+      "parent": "t1_n3fh05f",
+      "author": "Dax_Thrushbane",
+      "score": 10,
+      "body": "My thoughts too.\n\nI use this ( [https://github.com/bmadcode/BMAD-METHOD](https://github.com/bmadcode/BMAD-METHOD) ) which is along similar lines as what the OP was suggesting, albeit in a slightly different way, and I too almost dismissed them.  Guess I will need to compare the 2 and take the best of both."
+    },
+    {
+      "id": "n3fl6lm",
+      "parent": "t1_n3fh05f",
+      "author": "thirteenth_mang",
+      "score": 6,
+      "body": "I will definitely be refining it and making it more usable. This is my third major attempt at this. The first one I was *so* confident I starting building a SaaS. Then I realised it'd never work well. Second attempt was a little better, but this attempt was by far the best so I made the templated version public.\n\nI'm also keeping an open mind and hope people will contribute to it and provide suggestions.\n\nThanks for taking the time!"
+    },
+    {
+      "id": "n3kb8ou",
+      "parent": "t1_n3fh05f",
+      "author": "Classic_Television33",
+      "score": 1,
+      "body": "Genuine question, which system do you use? I'd be glad if you could provide some pointers. I'm struggling with prompt specificity for Claude"
+    },
+    {
+      "id": "n7ufei4",
+      "parent": "t1_n3fh05f",
+      "author": "More-Journalist8787",
+      "score": 1,
+      "body": "\\>> highly effective context engineering process that works damned well\n\nare you willing to discuss this in more detail?"
+    },
+    {
+      "id": "n3f5bik",
+      "parent": "t1_n3ezgo6",
+      "author": "thirteenth_mang",
+      "score": 5,
+      "body": "\ud83d\ude02 I realised that as well, how tiring would it be to read a novel every time someone asked you to do something?\n\nCan you make your bed? Hang on, gotta read *War and Peace* to understand the full context."
+    },
+    {
+      "id": "n3fg6zq",
+      "parent": "t1_n3fbm3o",
+      "author": "thirteenth_mang",
+      "score": 13,
+      "body": "Can you point to a specific part? I'd be happy to tighten it up"
+    },
+    {
+      "id": "n3hsmo6",
+      "parent": "t1_n3fbm3o",
+      "author": "Different-Star-9914",
+      "score": 5,
+      "body": "Have to agree. Don\u2019t get me wrong, appreciate OP sharing a fairly solid scaffold for custom commands. But the content of those commands is lackluster.\n\nSpecifically they\u2019re far too descriptive, and void of any clear instruction, constraints, or output. Ultimately, they dramatically increase variance of expected output"
+    },
+    {
+      "id": "n3fg2vw",
+      "parent": "t1_n3fbowl",
+      "author": "thirteenth_mang",
+      "score": 1,
+      "body": "Nice!"
+    },
+    {
+      "id": "n3flclh",
+      "parent": "t1_n3fgosp",
+      "author": "thirteenth_mang",
+      "score": 1,
+      "body": "Can you elaborate on why you think it's garbage?"
+    },
+    {
+      "id": "n3he86k",
+      "parent": "t1_n3g2ymr",
+      "author": "Physical_Gold_1485",
+      "score": 6,
+      "body": "His ass"
+    },
+    {
+      "id": "n3fi0p5",
+      "parent": "t1_n3f14j0",
+      "author": "Key_Statistician6405",
+      "score": 2,
+      "body": "What exactly is this for? For step 4 what am I pasting in? Thank you for sharing your process,btw. Sorry you\u2019re getting so much hate."
+    },
+    {
+      "id": "n3f8wph",
+      "parent": "t1_n3f8bel",
+      "author": "thirteenth_mang",
+      "score": 1,
+      "body": "Cool, right?"
+    },
+    {
+      "id": "n3fi2hh",
+      "parent": "t1_n3feggc",
+      "author": "ChessCommander",
+      "score": 3,
+      "body": "https://github.com/oxygen-fragment/claude-modular"
+    },
+    {
+      "id": "n3ffy2d",
+      "parent": "t1_n3feggc",
+      "author": "thirteenth_mang",
+      "score": 2,
+      "body": "[here](https://github.com/oxygen-fragment/claude-modular) ya go!\n\nTwas a bit hidden in the text."
+    },
+    {
+      "id": "n3fkgi8",
+      "parent": "t1_n3fi0bc",
+      "author": "thirteenth_mang",
+      "score": 3,
+      "body": "I just forgot to make it public \ud83d\ude02 I default to private repos, because, well I'm sure you get it haha"
+    },
+    {
+      "id": "n3gt44t",
+      "parent": "t1_n3gh4n1",
+      "author": "KoalaHoliday9",
+      "score": 5,
+      "body": "The entire repo looks like it's just a dump of AI-generated files. As you mentioned, the config is largely hallucinations, almost none of the features listed in the README actually exist, and the custom commands don't make any sense and would never work in practice."
+    },
+    {
+      "id": "n3hnwoi",
+      "parent": "t1_n3h9wx6",
+      "author": "thirteenth_mang",
+      "score": 0,
+      "body": "Haven't experienced it yet but I'm sure it'll sneak some things in here and there"
+    },
+    {
+      "id": "n3ltx14",
+      "parent": "t1_n3lln7s",
+      "author": "thirteenth_mang",
+      "score": 2,
+      "body": "No frontend (yet?) but check this comment to make it easier to implement:\n\n[https://www.reddit.com/r/ClaudeAI/s/J2RIzl7Imp](https://www.reddit.com/r/ClaudeAI/s/J2RIzl7Imp)"
+    },
+    {
+      "id": "n3ruv4b",
+      "parent": "t1_n3rfcfp",
+      "author": "thirteenth_mang",
+      "score": 1,
+      "body": "Try now"
+    },
+    {
+      "id": "n3fdlxt",
+      "parent": "t1_n3f0gqe",
+      "author": "henkvaness",
+      "score": 1,
+      "body": "What problem solves this one, for you?"
+    },
+    {
+      "id": "n3g6f6p",
+      "parent": "t1_n3foznq",
+      "author": "thirteenth_mang",
+      "score": 1,
+      "body": "Really great points. I have noticed these myself. I even joke to Claude sometimes that when it thinks it's done, it's about 10% of the way there.\n\nThanks for taking the time to outline your points, I'll dig into them a bit more and see if I can't improve the system overall."
+    },
+    {
+      "id": "n3g2zi0",
+      "parent": "t1_n3g0b15",
+      "author": "thirteenth_mang",
+      "score": 3,
+      "body": "Claude, in my experience is *nowhere near* the level of just 'set it and forget it'. With console commands I'm doing purposeful things in the rep. I can run a single command that runs through a full code review, and with the 'guardrails' or whatever you want to call them in place it does a pretty decent job. It's not like the commands are only doing limited work, they just give Claude clear instructions and expectations without having to worry so much about the \"perfect\" prompt. It's working well for me so far, if it's not for you that's fine too!\n\nThe last time I got it to do a code review in one of my other repos using this setup it snagged two JS vulns it wouldn't have picked up otherwise."
+    },
+    {
+      "id": "n3ffy6j",
+      "parent": "t1_n3f4zcm",
+      "author": "twistier",
+      "score": 13,
+      "body": "Why would OP go to the trouble of botting up a project like this? Why is everybody so hell bent on this conspiracy theory that every post getting attention that they specifically aren't interested in or getting reactions they disagree with is only that way because everybody is using bots? I know the answer. It's because it strokes the ego. Why live in a world where your minority opinions are drowned out by others' when you could live in a world where you're always right and everybody else is just being fooled? Especially when enough people jump on this bandwagon to feel vindicated"
+    },
+    {
+      "id": "n3f5h0j",
+      "parent": "t1_n3f4zcm",
+      "author": "thirteenth_mang",
+      "score": 7,
+      "body": "I'm a paying Claude customer - I receive nothing from them. *I'm paying them* to use their systems. I want to make it efficient and worthwhile to use it as best we can ('we' as in the community, ya know to stave off more \"shill\" accusations)."
+    },
+    {
+      "id": "n3wf5zx",
+      "parent": "t1_n3f4zcm",
+      "author": "ChampionshipAware121",
+      "score": 0,
+      "body": "Occam's razor is often not meaningful to me but in situations like this it helps me avoid some paranoia or other psychotic-like thinking. Very good to be suspicious of what we read online as that is as engineering discussion is an extremely effective way of manipulating the populace but I think k this guy just got brigaded by programmers, some of the nicest people any of us have met, and their account got suspended.\u00a0"
+    },
+    {
+      "id": "n3ezvnp",
+      "parent": "t1_n3eyyfa",
+      "author": "thirteenth_mang",
+      "score": 2,
+      "body": "My bad, it's public now!"
+    },
+    {
+      "id": "n3f5crw",
+      "parent": "t1_n3f0q0r",
+      "author": "thirteenth_mang",
+      "score": 1,
+      "body": "Glad to help!"
+    },
+    {
+      "id": "n3g5pfw",
+      "parent": "t1_n3frws0",
+      "author": "thirteenth_mang",
+      "score": 1,
+      "body": "You make about as much sense as a bot made of pure blockchain."
+    },
+    {
+      "id": "n3ez1uu",
+      "parent": "t1_n3exn85",
+      "author": "Historical-Internal3",
+      "score": 6,
+      "body": "But the link doesn\u2019t work and you also have a post about this lol?"
+    },
+    {
+      "id": "n3fh5br",
+      "parent": "t1_n3exn85",
+      "author": "None",
+      "score": 1,
+      "body": "/u/bot-sleuth-bot"
+    },
+    {
+      "id": "n3fjzw5",
+      "parent": "t1_n3fihw3",
+      "author": "thirteenth_mang",
+      "score": 3,
+      "body": "That's great but not helpful. Why not share the info? Even the repo or something. I'm trying to help everyone that uses Claude."
+    },
+    {
+      "id": "n3g13x0",
+      "parent": "t1_n3fihw3",
+      "author": "Necessary-Shame-2732",
+      "score": 3,
+      "body": "Useless comment"
+    },
+    {
+      "id": "n3kc6uz",
+      "parent": "t1_n3g3jdq",
+      "author": "ImAJalapeno",
+      "score": 6,
+      "body": "It's not loading for me"
+    },
+    {
+      "id": "n3fep8b",
+      "parent": "t1_n3eygw7",
+      "author": "Common_Caregiver_130",
+      "score": 9,
+      "body": "Claude didn't have enough context to get it right, but it did make a nice sounding but incorrect post!"
+    },
+    {
+      "id": "n3fh9u3",
+      "parent": "t1_n3f556l",
+      "author": "None",
+      "score": 3,
+      "body": "/u/bot-sleuth-bot"
+    },
+    {
+      "id": "n3jiowp",
+      "parent": "t1_n3h9mcx",
+      "author": "ChiefGecco",
+      "score": 1,
+      "body": "Hey any examples of what you built with this this. Sounds like a common sense approach"
+    },
+    {
+      "id": "n3foymt",
+      "parent": "t1_n3fl6lm",
+      "author": "Kamots66",
+      "score": 5,
+      "body": "I'm on my fifth project with Claude and only now feel like I've got things working reasonably well. I know it can be improved, though, which is why I find it valuable to analyze what others are doing, so thanks for sharing. I was serious about your just-in-time approach giving me several ideas. Keep refining the process, it keeps getting better!"
+    },
+    {
+      "id": "n3kqqbr",
+      "parent": "t1_n3kb8ou",
+      "author": "Kamots66",
+      "score": 5,
+      "body": "It's my own creation. I do plan to make it available, but it's still a work in progress. For what it's worth, for me the key to actually turning Claude Code into a powerful tool was to forget about prompt engineering; *managing context is where the magic is.* Do some research on context engineering, it will point you in the right direction."
+    },
+    {
+      "id": "n3g2oze",
+      "parent": "t1_n3f5bik",
+      "author": "diligent_chooser",
+      "score": 7,
+      "body": "bot reply"
+    },
+    {
+      "id": "n3lif6x",
+      "parent": "t1_n3he86k",
+      "author": "thirteenth_mang",
+      "score": 2,
+      "body": "Read the research included in the repo."
+    },
+    {
+      "id": "n3fk8iz",
+      "parent": "t1_n3fi0p5",
+      "author": "thirteenth_mang",
+      "score": 2,
+      "body": "The `LAZY_MODE_PROMPT.md` (after you personalise it)."
+    },
+    {
+      "id": "n3fmj15",
+      "parent": "t1_n3fkgi8",
+      "author": "bigbetnine",
+      "score": 2,
+      "body": "I feel u bro \ud83d\ude02"
+    },
+    {
+      "id": "n3guflk",
+      "parent": "t1_n3gt44t",
+      "author": "RELEASE_THE_YEAST",
+      "score": 3,
+      "body": "And yet this post has 147 upvotes, sitting at 89%. This subreddit is cooked if moderators don't start removing the garbage."
+    },
+    {
+      "id": "n3lv148",
+      "parent": "t1_n3ltx14",
+      "author": "ChiefGecco",
+      "score": 2,
+      "body": "Hey matey, thanks for commenting.\n\nNgl, I am slightly confused. I understand BMAD as a method of generating ideas, planning projects, and iteratively developing said project agenticly using the framework.\n\nI am going to try it out, but my key (and probably silly questions) are:\n\n- what can it build, and then where would X thing be hosted and used ? \n\n- for the chap earlier who made the project tracker - where would they be using this ? \n\n- have the additional packs been created in full? I am keen to try the marketing style ones?\n\n- Can seperate agentic frameworks work together, let's say one for researching trends and pain points connecting to another that generates content to showcase a businesses expertise in solving X pain point? \n\nAs you can tell I am not technically minded. Although I have experience in AI and systems like n8n where I can picture this working.\n\nBest of luck with this project, and I'm keen to see where you take it."
+    },
+    {
+      "id": "n3rvqr2",
+      "parent": "t1_n3ruv4b",
+      "author": "baillie3",
+      "score": 2,
+      "body": "Awesome cheers!\n\nQuick question: you mention 2 research papers. But I take it you mean this is just your own research? Are you sure the stuff inside is valid and based on actual real-world findings or is it just vibe-hallucinated by Claude? \ud83d\ude0a"
+    },
+    {
+      "id": "n3gznfx",
+      "parent": "t1_n3g6f6p",
+      "author": "BadgerPhil",
+      "score": 2,
+      "body": "Good luck with it.\n\nAny specifics I can help with, let me know."
+    },
+    {
+      "id": "n3h2ler",
+      "parent": "t1_n3g6f6p",
+      "author": "BadgerPhil",
+      "score": 2,
+      "body": "If you think about it for a while, Anthropic made a big advance from Claude by introducing the todo list. \n\nHowever they had to do something about it getting stuck on a todo item. There is an increasing pressure to move on. Whether this is tokens used or time or something completely different, the pressure is there. Let\u2019s say you have 20 bugs to fix and it does 10 and tries to move on, you cannot stop it I have found with the original prompt. You have to intervene yourself or have a subagent intervene. In that case another todo is created after the first one and now all your bugs get fixed.\n\nAnd then there is the issue at the end of the todo list. It will invariably claim victory. Anthropic have put in a compulsion to get to the end and satisfy the user. But in a case where some things have not been completed correctly it will just lie.  You or the subagent have to keep on top of it - in this case effectively creating a new todo list to finish or correct things."
+    },
+    {
+      "id": "n3g6ssf",
+      "parent": "t1_n3g2zi0",
+      "author": "Zealousideal-Ship215",
+      "score": 1,
+      "body": "\\> Claude, in my experience is\u00a0*nowhere near*\u00a0the level of just 'set it and forget it'.\n\nI agree, I just mean **try** to make it more autonomous, sometimes the attempts don't always work, but when it does work then it's wonderful.\n\nI've been having decent luck with a [CLAUDE.md](http://CLAUDE.md) that lists filenames of other .md documents, so the bot reads those extra files on an as-needed basis. Also I'm starting to play around with a council of experts approach where multiple Claudes talk to each other.\n\nAnyway appreciate you sharing, it's always interesting to see other approaches."
+    },
+    {
+      "id": "n3f6k29",
+      "parent": "t1_n3f5h0j",
+      "author": "None",
+      "score": 5,
+      "body": "[removed]"
+    },
+    {
+      "id": "n3h9qsn",
+      "parent": "t1_n3g5pfw",
+      "author": "alarming_wrong",
+      "score": 1,
+      "body": "you're absolutely right!"
+    },
+    {
+      "id": "n3fhsrd",
+      "parent": "t1_n3fh5br",
+      "author": "bot-sleuth-bot",
+      "score": 1,
+      "body": "Analyzing user profile...\n\nTime between account creation and oldest post is greater than 1 year.\n\nAccount has used the same title for multiple posts on multiple subreddits.\n\nOne or more of the hidden checks performed tested positive.\n\nSuspicion Quotient: 0.47\n\nThis account exhibits a few minor traits commonly found in karma farming bots. It is possible that u/External_Spread_8010 is a bot, but it's more likely they are just a human who suffers from severe NPC syndrome.\n\n^(I am a bot. This action was performed automatically. Check my profile for more information.)"
+    },
+    {
+      "id": "n3gz8i3",
+      "parent": "t1_n3g13x0",
+      "author": "BadgerPhil",
+      "score": 1,
+      "body": "Clearly it isn\u2019t. Follow the conversation with OP."
+    },
+    {
+      "id": "n3kf03h",
+      "parent": "t1_n3kc6uz",
+      "author": "Altruistic-Will1332",
+      "score": 4,
+      "body": "Loading for me but I see a welcome to Nginx page. Is this a joke?\n\n/s"
+    },
+    {
+      "id": "n3fi9nz",
+      "parent": "t1_n3fh9u3",
+      "author": "bot-sleuth-bot",
+      "score": 33,
+      "body": "Analyzing user profile...\n\nOne or more of the hidden checks performed tested positive.\n\nSuspicion Quotient: 0.35\n\nThis account exhibits a few minor traits commonly found in karma farming bots. It is possible that u/thirteenth_mang is a bot, but it's more likely they are just a human who suffers from severe NPC syndrome.\n\n^(I am a bot. This action was performed automatically. Check my profile for more information.)"
+    },
+    {
+      "id": "n3wlfsb",
+      "parent": "t1_n3fh9u3",
+      "author": "Immediate_Song4279",
+      "score": 1,
+      "body": "How do I do this."
+    },
+    {
+      "id": "n3li3pt",
+      "parent": "t1_n3jiowp",
+      "author": "Dax_Thrushbane",
+      "score": 3,
+      "body": "Mostly internal tools for work.\n\nI am an SI for a large vendor, so the latest was a project task manager.  Fairly boring, but it allowed me to tailor is so that it saved me time after each session.  Could type in notes in real time during the deployment, and at the end of the session press a button that would generate some email summaries for me (PM version || customer version) .. that alone used to take me 20 minutes a day and eat into personal time .. not any more :-)"
+    },
+    {
+      "id": "n3kr4oi",
+      "parent": "t1_n3kqqbr",
+      "author": "Classic_Television33",
+      "score": 1,
+      "body": "Very nice! Thanks, I'll do some research on this stuff"
+    },
+    {
+      "id": "n3mf7lw",
+      "parent": "t1_n3lv148",
+      "author": "thirteenth_mang",
+      "score": 2,
+      "body": ">what can it build\n\nAnything you like. As you correctly noted, it's merely a framework to make working with Claude Code a lot more effective.\n\n>where would X thing be hosted and used ?\n\nWherever you like. These tools assist with the development, they can also provide guidance. However, in the end it's up to you where you'll host it, and how. There are some hosting providers such as Netlify that make the whole process easier (hosting is directly tied to your `main` branch on GitHub, for example).\n\nJudging by your questions, I'm guessing you might not be familiar with GitHub, so that's another fun rabbit hole to go down.\n\n It's usually at this point non-devs realise the amount of knowledge devs have and why they charge what they do.\n\nAI tools aren't at the stage where you can turn, \"make me a social media app\" into a full, production-ready system. \n\n>where would they be using this\n\nCould be locally on their computer or hosted online, depends.\n\n>have the additional packs been created in full? I am keen to try the marketing style ones?\n\nI'm interested in stuff like this as well, I'll put it in my backlog and see how I go (pretty backed up with work).\n\n>Can seperate agentic frameworks work together\n\nYes, this is partly what my setup does, though perhaps not quite at the level you're describing (it does still work for this type of thing).\n\n>Best of luck with this project, and I'm keen to see where you take it.\n\nThanks! I'm taking all the feedback from the thread on board and will be improving it over time."
+    },
+    {
+      "id": "n3s0fca",
+      "parent": "t1_n3rvqr2",
+      "author": "thirteenth_mang",
+      "score": 1,
+      "body": "I've been using a personalised version of this and it's been working great. The `/` commands have made my overall workflow a lot better. It can still be improved and I'm working on that."
+    },
+    {
+      "id": "n3g8d5e",
+      "parent": "t1_n3g6ssf",
+      "author": "thirteenth_mang",
+      "score": 1,
+      "body": ">that lists filenames of other .md documents, so the bot reads those extra files on an as-needed basis.\n\nThat's a big part of the underlying theory behind this repo. It's designed to 'modularise' instructions so only what's needed is called. There's other considerations but that's exactly what I wanted to achieve.\n\nI'm happy if it helps others and even happier if it can be improved. People like you are adding to the quality!"
+    },
+    {
+      "id": "n3hd3op",
+      "parent": "t1_n3g6ssf",
+      "author": "deadweightboss",
+      "score": 1,
+      "body": "I have found that claude rarely if ever traverses a claude.md to find the contents of a file linked in there. How do you make it work"
+    },
+    {
+      "id": "n3f8ry7",
+      "parent": "t1_n3f6k29",
+      "author": "thirteenth_mang",
+      "score": 4,
+      "body": "Accuse away.\n\nEvery single reddit post is a self-promotion of one's reddit account \ud83d\ude02\n\nI don't think that's the sick burn you think it is."
+    },
+    {
+      "id": "n3fk385",
+      "parent": "t1_n3fi9nz",
+      "author": "thirteenth_mang",
+      "score": 14,
+      "body": "Got 'em"
+    },
+    {
+      "id": "n3wlggk",
+      "parent": "t1_n3wlfsb",
+      "author": "Immediate_Song4279",
+      "score": 1,
+      "body": "[u/bot-sleuth-bot](https://www.reddit.com/user/bot-sleuth-bot/)"
+    },
+    {
+      "id": "n3wnq0f",
+      "parent": "t1_n3wlfsb",
+      "author": "None",
+      "score": 1,
+      "body": "Yup you got, sometimes the pipes get jammed but it\u2019s a nice bot"
+    },
+    {
+      "id": "n3f9e6f",
+      "parent": "t1_n3f8ry7",
+      "author": "None",
+      "score": -8,
+      "body": "I couldn't care less about some crafted bullshit response. I will continue to call out possible bot and shill posts because the alternative is to what?sit back and let Reddit become full of AI bots? How do you know anyone you communicate with on Reddit is a real person at this point? It costs me nothing to be wrong. It costs humanity everything if we just give up and accept that all our social media platforms are just fake wrappers for AI advertising bots. Fuck that."
+    },
+    {
+      "id": "n3f9ucq",
+      "parent": "t1_n3f9e6f",
+      "author": "thirteenth_mang",
+      "score": 14,
+      "body": "Should I put some typos to not offend your touchy sensibilities?\n\nIf you're this angry about a post my dude, you're free to go touch some grass. Or not. You're life to live as you please!"
+    },
+    {
+      "id": "n3fe9xo",
+      "parent": "t1_n3f9e6f",
+      "author": "brownman19",
+      "score": 3,
+      "body": "You aren\u2019t saving humanity bud. Chill with the braggadocio."
+    },
+    {
+      "id": "n3fb67f",
+      "parent": "t1_n3f9e6f",
+      "author": "Killawatts13",
+      "score": 2,
+      "body": "Is this dude a bot?"
+    },
+    {
+      "id": "n3g10fi",
+      "parent": "t1_n3f9e6f",
+      "author": "Necessary-Shame-2732",
+      "score": 1,
+      "body": "Dude take your meds"
+    }
+  ]
+}

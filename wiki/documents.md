@@ -51,6 +51,14 @@ Each capture is append-only third-party content and not AES authority.
 - [Stage Show post: submission metadata](../raw/sources/2026-11-14-reddit-1xqkzd3-stage-show-video/original/extra_submission_metadata.json) — link target and the full comment lists for this post and the internal-rules post.
 - [Stage Show video: provenance](../raw/sources/2026-11-14-youtube-of628n5754g-stage-show/source.json) — URL, method, coverage and SHA-256 of the capture.
 - [Stage Show video: transcript](../raw/sources/2026-11-14-youtube-of628n5754g-stage-show/original/yt_of628n5754g.json) — 374-segment transcript.
+- [Epistemic Lattice Tethering post: provenance](../raw/sources/2026-11-15-reddit-1txxsjd-epistemic-lattice-tethering/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [Epistemic Lattice Tethering post: capture](../raw/sources/2026-11-15-reddit-1txxsjd-epistemic-lattice-tethering/original/1txxsjd.json) — post text and all returned comments.
+- [FastMCP code mode post: provenance](../raw/sources/2026-11-15-reddit-1rkx4pa-fastmcp-code-mode/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [FastMCP code mode post: capture](../raw/sources/2026-11-15-reddit-1rkx4pa-fastmcp-code-mode/original/1rkx4pa.json) — post text and all returned comments.
+- [CLIHub post: provenance](../raw/sources/2026-11-15-reddit-1rembfo-clihub-cli-vs-mcp/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [CLIHub post: capture](../raw/sources/2026-11-15-reddit-1rembfo-clihub-cli-vs-mcp/original/1rembfo.json) — post text and all returned comments.
+- [Modular Claude Code setup post: provenance](../raw/sources/2026-11-15-reddit-1m17ilu-modular-claude-code-setup/source.json) — URL, method, coverage and SHA-256 of the capture.
+- [Modular Claude Code setup post: capture](../raw/sources/2026-11-15-reddit-1m17ilu-modular-claude-code-setup/original/1m17ilu.json) — post text and all returned comments.
 
 ## Ecosystem review records (2026-11-14)
 

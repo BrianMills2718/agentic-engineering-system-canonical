@@ -1,0 +1,294 @@
+{
+  "id": "1rembfo",
+  "subreddit": "mcp",
+  "author": "QThellimist",
+  "title": "I generated CLIs from MCP servers and cut token usage by 94%",
+  "selftext": "MCP server schemas eat so much token. So I built a converter that generates CLIs from MCP servers. Same tools, same OAuth, same API underneath. The difference is how the agent discovers them:\n\nMCP: dumps every tool schema upfront (\\~185 tokens \\* 84 tools = 15,540 tokens)\nCLI: lightweight list of tool names (\\~50 tokens \\* 6 CLIs = 300 tokens). Agent runs --help only when it needs a specific tool.\n\nNumbers across different usage patterns:\n- Session start: 15,540 (MCP) vs 300 (CLI) - 98% savings\n- 1 tool call: 15,570 vs 910 - 94% savings\n- 100 tool calls: 18,540 vs 1,504 - 92% savings\n\nCompared against Anthropic's Tool Search too - it's better than raw MCP but still more expensive than CLI because it fetches full JSON Schema per tool.\n\nConverter is open source: https://github.com/thellimist/clihub\nFull write-up with detailed breakdowns: https://kanyilmaz.me/2026/02/23/cli-vs-mcp.html\n\nDisclosure: I built CLIHub. Happy to answer questions about the approach.",
+  "url": "https://www.reddit.com/r/mcp/comments/1rembfo/i_generated_clis_from_mcp_servers_and_cut_token/",
+  "is_self": true,
+  "score": 169,
+  "num_comments": 40,
+  "created_utc": 1772045894.0,
+  "comments": [
+    {
+      "id": "o7e45aw",
+      "parent": "t3_1rembfo",
+      "author": "nightman",
+      "score": 13,
+      "body": "How it compares to (is it inspired by) the mcporter from OpenClaw author?\nhttps://github.com/steipete/mcporter"
+    },
+    {
+      "id": "o7fe9bd",
+      "parent": "t3_1rembfo",
+      "author": "BC_MARO",
+      "score": 8,
+      "body": "The first-token pollution point is the real issue - dumping 15k tokens of schema at position 0 wastes your most valuable context slots before the agent even starts reasoning."
+    },
+    {
+      "id": "o7gk9w5",
+      "parent": "t3_1rembfo",
+      "author": "KobyStam",
+      "score": 3,
+      "body": "I include CLIs in my MCPs - so far I released the NotebookLM MCP, but a few more are coming soon, like Gemini Web Chat MCP & CLI and Perplexity Web MCP& CLI...and even Grok. None of them uses APIs or browser automation. Same concept as my NotebookLM (RPC over HTTP)\n\n  \nNotebookLM MCP: [https://github.com/jacob-bd/notebooklm-mcp-cli](https://github.com/jacob-bd/notebooklm-mcp-cli)"
+    },
+    {
+      "id": "o7dye95",
+      "parent": "t3_1rembfo",
+      "author": "BraveNewKnight",
+      "score": 6,
+      "body": "Main CLI benchmark gap is exploration overhead: the agent has to discover commands, make wrong attempts, and retry, and those loops should count toward total tokens.\n\nCLI skills layered on top add extra prompt/context cost too, so that should be in the numbers.\n\nAlso, the GitHub link returns 404 for me."
+    },
+    {
+      "id": "o7fftk5",
+      "parent": "t3_1rembfo",
+      "author": "actual-time-traveler",
+      "score": 3,
+      "body": "FastMCP 3.0 does this natively"
+    },
+    {
+      "id": "o7eb04m",
+      "parent": "t3_1rembfo",
+      "author": "warren-mann",
+      "score": 2,
+      "body": "Interesting. Though Anthropic and Google cache prompt and heavily discount on cache hits. It\u2019s true that the tool definitions still take up context but I\u2019m not convinced it\u2019s enough to matter, at least anymore. The approach I\u2019ve settled on is a rich set of tools at a top-level prompt that knows about them all and can delegate specific tasks to a more targeted subordinate with a very restricted set of tools and a relatively clean context.\n\nHaving said that, I\u2019m always looking for ways to wring out more efficiency and you have some interesting stuff to think about."
+    },
+    {
+      "id": "o7hw1n2",
+      "parent": "t3_1rembfo",
+      "author": "Weird-Guarantee-1823",
+      "score": 2,
+      "body": "I looked at the introduction document, which is very interesting, and I feel that it is similar to the design point of skills. In terms of data, this does save a lot of tokens, but can it achieve the processing effect of the existing mainstream scheme? Will there be any common problems similar to those encountered in skills? However, no matter what, it seems that this is indeed a very cost-effective solution, I will go back and try it, thank you for your dedication."
+    },
+    {
+      "id": "o7dvjrp",
+      "parent": "t3_1rembfo",
+      "author": "-Akos-",
+      "score": 1,
+      "body": "404 github not found. Also, you mention CLI as an alternative, but can any model just use the CLI? I can make a tiny local llm call an MCP without issues  but I have no idea how I can make it call a CLI."
+    },
+    {
+      "id": "o7e62xq",
+      "parent": "t3_1rembfo",
+      "author": "Distinct-Selection-1",
+      "score": 1,
+      "body": "Is this the same with MCP v3 skills?"
+    },
+    {
+      "id": "o7fy8wa",
+      "parent": "t3_1rembfo",
+      "author": "DorkyMcDorky",
+      "score": 1,
+      "body": "If MCP only supported REAL streaming none of this would be necessary.  Shake 'em up and suggest this.  The protocol is painfully inefficient."
+    },
+    {
+      "id": "o7hbnx2",
+      "parent": "t3_1rembfo",
+      "author": "TeeRKee",
+      "score": 1,
+      "body": "Isn\u2019t that the point of skills ?"
+    },
+    {
+      "id": "o7hikw9",
+      "parent": "t3_1rembfo",
+      "author": "New-Procedure8239",
+      "score": 1,
+      "body": "This is MCPporter that use openclaw I think"
+    },
+    {
+      "id": "o7koba4",
+      "parent": "t3_1rembfo",
+      "author": "Siref",
+      "score": 1,
+      "body": "There's something that throws me off.\n\nWhy is the CLI option cheaper if the out is XML?\nJSON is more compact, so it should have less tokens. \n\nFrom a quick glance from the post you shared it seems the CLI shares less information with the agent (E.g: I don't see the queryParams entries)\n\nIf that's the case, wouldn't it make more sense to compact the MCP definition instead?"
+    },
+    {
+      "id": "o7oorbu",
+      "parent": "t3_1rembfo",
+      "author": "groosha",
+      "score": 1,
+      "body": "Could you please explain how it works? Let's say I generated CLI from my MCP server. What happens next?"
+    },
+    {
+      "id": "o7eb6yr",
+      "parent": "t1_o7e45aw",
+      "author": "QThellimist",
+      "score": 13,
+      "body": "I found out mcporter after I started using mine.\n\nBut the high level difference is\n\n\\- MCPorter is designed more for openclaw to call MCPs more easily. It's in JS, so has runtime  \n\\- CLIHub is written in go. Works on all platforms. Faster. It's designed as pure CLI. No deamon, no bun runtime.\n\nThere are small architecture differences but not that important\n\nI might create a full directory like mcppulse etc. where people can download  any CLI on any machine with single command."
+    },
+    {
+      "id": "o7e8upk",
+      "parent": "t1_o7e45aw",
+      "author": "Casual_Hearthstone",
+      "score": 5,
+      "body": "Was going to ask the same question"
+    },
+    {
+      "id": "o7dzco6",
+      "parent": "t1_o7dye95",
+      "author": "QThellimist",
+      "score": 2,
+      "body": "True, but it's actually underrepresented. My agent calls like\n\n\u23fa Bash(linear --help 2>&1 | grep -i -E \"search|list.\\*issue|get.\\*issue\")\n\nSo it doesn't actually get the whole \\`--help\\` list.  \n\\--\n\nFixed the github"
+    },
+    {
+      "id": "o7hw85g",
+      "parent": "t1_o7fftk5",
+      "author": "Etyr_",
+      "score": 2,
+      "body": "Could you share any doc about this, not finding any ressource on this"
+    },
+    {
+      "id": "o7ecqr1",
+      "parent": "t1_o7eb04m",
+      "author": "QThellimist",
+      "score": 2,
+      "body": "I think you are assuming as \"price\", and yes it doesn't matter for most people. Difference is a few $s per month. For heavy users it's $100s where matters more (I am heavy user. I spent $900 on tokens literally last weekend)\n\nBut the real difference is - first tokens has more dominence over tokens that come later.\n\nSo you are bloating the context immediately (regardless of cache input token or not). \n\nLLMs perform significantly worse if first tokens are poorly used. "
+    },
+    {
+      "id": "o7dz21g",
+      "parent": "t1_o7dvjrp",
+      "author": "QThellimist",
+      "score": 1,
+      "body": "fixed it"
+    },
+    {
+      "id": "o7dz5t0",
+      "parent": "t1_o7dvjrp",
+      "author": "QThellimist",
+      "score": 1,
+      "body": "If they have bash tool they can use. \n\nMost bigger AI models have bash tool access"
+    },
+    {
+      "id": "o7ebzjo",
+      "parent": "t1_o7e62xq",
+      "author": "QThellimist",
+      "score": 2,
+      "body": "first time heard it. FastMCP seems to have many functionalities including CLI. I haven't checked deeply yet."
+    },
+    {
+      "id": "o7hiqv8",
+      "parent": "t1_o7fy8wa",
+      "author": "Material-Spinach6449",
+      "score": 2,
+      "body": "I\u2019ve looked into MCP vs CLI as well, and I think the \u201cinitial token dump\u201d argument is often overstated.\n\nThe huge upfront cost with MCP mainly happens if the agent blindly loads every tool schema into context. That\u2019s not mandatory. Agents can fetch tool definitions incrementally and only load what they actually need. In that setup, the claimed massive startup savings of CLI don\u2019t automatically apply.\n\nWhere CLI really has a structural advantage is in looping scenarios. If a tool needs to be called repeatedly, the classic MCP flow forces the model to re-plan and re-emit structured calls every time. That quickly becomes expensive and slow. With a CLI, the agent can generate a small script and execute the loop outside the model. In those cases, CLI is genuinely cheaper and faster."
+    },
+    {
+      "id": "o7ie5vo",
+      "parent": "t1_o7hbnx2",
+      "author": "QThellimist",
+      "score": 1,
+      "body": "There is overlap but not really. \n\nYou don't want random hardcoded skill. You want official CLI or MCP where you can trust and it gets updated"
+    },
+    {
+      "id": "o7ie8k7",
+      "parent": "t1_o7hikw9",
+      "author": "QThellimist",
+      "score": 2,
+      "body": "check this comment - [https://www.reddit.com/r/mcp/comments/1rembfo/comment/o7eb6yr/?utm\\_source=share&utm\\_medium=web3x&utm\\_name=web3xcss&utm\\_term=1&utm\\_content=share\\_button](https://www.reddit.com/r/mcp/comments/1rembfo/comment/o7eb6yr/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)"
+    },
+    {
+      "id": "o7pfmm3",
+      "parent": "t1_o7oorbu",
+      "author": "QThellimist",
+      "score": 1,
+      "body": "you get ./out/mycli as a response. And need to tell agent to use it. \n\nI personally have my agents automatically move it to bin/ folder and add a simple text in [AGENTS.md](http://AGENTS.md) so any new session is aware of it\n\nI have a command for it that literally says\n\n    - Check if official CLI exists. If so, download it and add it to ~/.codex/AGENTS.md tools\n    - If not, check official MCP exists. If so, use clihub `go run github.com/thellimist/clihub@latest <server>` (see `--help`). to create a CLI from the MCP and move the executable to bin folder. Then add it to ~/.codex/AGENTS.md tools\n    "
+    },
+    {
+      "id": "o7ec0rl",
+      "parent": "t1_o7eb6yr",
+      "author": "nightman",
+      "score": 3,
+      "body": "Mcporter creates executable of MCP server so it's not needed afterwards.\n\nThanks for the explanation"
+    },
+    {
+      "id": "o7e036f",
+      "parent": "t1_o7dzco6",
+      "author": "BraveNewKnight",
+      "score": 5,
+      "body": "yeah that makes sense, but still, agent needs to know that it should grep for those keywords to get the right result. I'm not against CI or I'm not an MCP fan, it's just not clear to me which one is better atm. \n\ne.g. I'm still struggling to measure if agent does a better job with `agent-browser` CLI or `playwright` MCP."
+    },
+    {
+      "id": "o7i0ho0",
+      "parent": "t1_o7hw85g",
+      "author": "jlowin123",
+      "score": 5,
+      "body": "https://gofastmcp.com/clients/generate-cli"
+    },
+    {
+      "id": "o7ilvbe",
+      "parent": "t1_o7hiqv8",
+      "author": "DistanceAlert5706",
+      "score": 2,
+      "body": "Not a fan of MCP but this is what agents should do, loading 84 tools just sounds crazy to me, why not do specialized agents which use specific tool sets."
+    },
+    {
+      "id": "o7mua3b",
+      "parent": "t1_o7hiqv8",
+      "author": "DorkyMcDorky",
+      "score": 1,
+      "body": "If it streamed for real (it's session/token based - very 1999 design) then it would reduce a ton of memory and not need to reload that everytime.  Anthropic wants maximum usage, not efficiency, so they wont change it.  "
+    },
+    {
+      "id": "o7pzahd",
+      "parent": "t1_o7pfmm3",
+      "author": "groosha",
+      "score": 1,
+      "body": "I'm sorry, I'm quite new to agents yet. Do you specifically state in the system prompt to use cli tools from your \\`bin\\` folder?"
+    },
+    {
+      "id": "o7gtrrn",
+      "parent": "t1_o7e036f",
+      "author": "cellerich",
+      "score": 3,
+      "body": "There is a playwright cli now: https://github.com/microsoft/playwright-cli"
+    },
+    {
+      "id": "o7e9pr6",
+      "parent": "t1_o7e036f",
+      "author": "QThellimist",
+      "score": 1,
+      "body": "I don't know about the browser. Haven't tested as well. \n\nBut the keywords, agents knows. \n\nI literally tell \"find the issues in backlog\" and it'll call linear to find it with that list. I don't have special prompts"
+    },
+    {
+      "id": "o7i2na3",
+      "parent": "t1_o7i0ho0",
+      "author": "Etyr_",
+      "score": 1,
+      "body": "Thx, sorry for being a noob. But how can we leverage this for tools like copilot-cli/claude/cursor/opencode ? For example I made a MCP hosted on Azure. I want all my team to be able to use it in their VMs. So when creating the VM I create for them the config file for each cli tool so it connects to the MCP. But it will \"eat\" a lot of token from what I understand. How's this \\`generate-cli\\` can help reduce tokens for all my users? I have to add custom instructions to Claude/cursor/opencode to read the [SKILLS.md](http://SKILLS.md) ? And he will leverage the local python script to call the MCP? Like a MCP orchestrator that will call a unique endpoint only if he needs it and not loading up all endpoints?"
+    },
+    {
+      "id": "o7o5s02",
+      "parent": "t1_o7mua3b",
+      "author": "Material-Spinach6449",
+      "score": 1,
+      "body": "Not sure if I understood you correctly but LLMs are stateless, you can\u2018t stream it to save tokens. Every prompt sends the whole session to the LLM."
+    },
+    {
+      "id": "o7qz3no",
+      "parent": "t1_o7pzahd",
+      "author": "QThellimist",
+      "score": 1,
+      "body": "No worries.\n\nif using claude you have \\~/.claude/CLAUDE.md  \nif using codex you have \\~/.codex/AGENTS.md\n\nThis is the first files the agents reads reagardless where you call them from (VScode, cursor, CLI doesn't matter)\n\nIf you put something here they'll most likely do it.\n\nI have like 100 lines in there and I define stuff like\n\n\\`\\`\\`  \nMy blog: PATH  \nMy projects: PATH  \nBin: use \\~/MY\\_PERSONAL\\_BIN\\_FOLDER/bin  \n\\`\\`\\`\n\netc.\n\nThen I say the following\n\n    - Check if official CLI exists. If so, download it and add it to ~/.codex/AGENTS.md tools\n    - If not, check official MCP exists. If so, use clihub `go run github.com/thellimist/clihub@latest <server>` (see `--help`). to create a CLI from the MCP and move the executable to bin folder. Then add it to ~/.codex/AGENTS.md tools\n\nDoes this makes sense. (Mine is a bit more complex but wrote the simplified version)\n\nYou can test it very easily too. Add something to [AGENTS.md](http://AGENTS.md), the spin up a new session. Ask it to do something. If it does it correctly without asking many questions, probably you did the correct prompt"
+    },
+    {
+      "id": "o7i2ths",
+      "parent": "t1_o7i2na3",
+      "author": "jlowin123",
+      "score": 1,
+      "body": "Those tools use MCP directly, no need for a CLI. Converting to CLI is only for agents that can explore or read documentation - it eliminates the handshake discovery of MCP that permits standardization (but is token heavy)"
+    },
+    {
+      "id": "o7q9d1r",
+      "parent": "t1_o7o5s02",
+      "author": "DorkyMcDorky",
+      "score": 1,
+      "body": "It doesn't need to be that way. Right now the entire context is sent or you have to do session management.\nIf you had a real streaming client you would not need to do session management \n\nThe LLM is stateless yes, but the heart of MCP is too. If mCP itself had streaming capabilities you wouldn't need to paginate and you wouldn't need to have session management. You can keep the same machine alive without having to reload the context on the source machine calling the LLM"
+    },
+    {
+      "id": "o7rhhnu",
+      "parent": "t1_o7qz3no",
+      "author": "groosha",
+      "score": 2,
+      "body": "Thank you! I will give it a try"
+    }
+  ]
+}
