@@ -128,3 +128,54 @@ def test_inline_commands_keep_only_the_program_and_modules_are_named():
     assert m.command_parts(f"/bin/bash -c 'curl -H {SECRET} x'") == ("/bin/bash", None, None)
     assert m.command_parts("/usr/bin/python3 -m pkg.job --token abc") == ("/usr/bin/python3", None, "pkg.job")
     assert m.command_parts("/usr/bin/nice -n 10 /usr/bin/python3 /opt/x/run.py") == ("/usr/bin/nice", "/opt/x/run.py", None)
+
+
+@pytest.fixture
+def copies(tmp_path):
+    """A repository copy folder and a disk folder: one same, one differing, one missing, one under a symlink."""
+    repo, disk = tmp_path / "copies", tmp_path / "disk"
+    (repo / "a.service.d").mkdir(parents=True)
+    disk.mkdir()
+    for name, text in (("same.timer", "[Timer]\n"), ("differ.service", "[Service]\nExecStart=/new\n"),
+                       ("missing.service", "[Service]\n"), ("a.service.d/x.conf", "[Service]\n"),
+                       ("dev.service.symlink", "/dev/null\n")):
+        (repo / name).write_text(text)
+    (disk / "same.timer").write_text("[Timer]\n")
+    (disk / "differ.service").write_text("[Service]\nExecStart=/old\n")
+    (disk / "elsewhere").mkdir()
+    (disk / "a.service.d").symlink_to(disk / "elsewhere")
+    (disk / "dev.service").symlink_to("/dev/null")
+    return repo, disk, tmp_path / "backup"
+
+
+@pytest.mark.req("machine-manifest/repository-copies-can-be-compared")
+def test_check_units_counts_same_differ_missing_and_fails_on_differ(copies, capsys):
+    repo, disk, _ = copies
+    found = m.compare_units(disk, repo)
+    assert (found["same"], found["differ"], found["missing"], found["linked"]) == (
+        ["same.timer"], ["differ.service"], ["missing.service"], ["a.service.d/x.conf"])
+    assert found["link-same"] == ["dev.service"]
+    assert m.main(["check-units", "--unit-dir", str(disk), "--units-repo", str(repo)]) == 1
+    assert "same 1, differ 1, missing 1, under-a-symlink 1" in capsys.readouterr().out
+    (disk / "differ.service").write_text("[Service]\nExecStart=/new\n")
+    assert m.main(["check-units", "--unit-dir", str(disk), "--units-repo", str(repo)]) == 0
+
+
+@pytest.mark.req("machine-manifest/install-never-deletes-or-writes-through-links")
+def test_install_units_dry_run_is_the_default_and_writes_nothing(copies, capsys):
+    repo, disk, backup = copies
+    assert m.main(["install-units", "--unit-dir", str(disk), "--units-repo", str(repo), "--backup-root", str(backup)]) == 0
+    assert "dry run, nothing written: 1 new, 1 replaced" in capsys.readouterr().out
+    assert not (disk / "missing.service").exists() and "old" in (disk / "differ.service").read_text() and not backup.exists()
+
+
+@pytest.mark.req("machine-manifest/install-never-deletes-or-writes-through-links")
+def test_install_units_backs_up_before_replacing_and_never_writes_through_a_link(copies):
+    repo, disk, backup = copies
+    (disk / "extra.service").write_text("only on disk\n")
+    done = m.install_units(disk, repo, True, backup, today="2026-11-16")
+    assert done == {"installed": ["missing.service"], "replaced": ["differ.service"], "skipped-link": ["a.service.d/x.conf"]}
+    assert (disk / "missing.service").read_text() == "[Service]\n" and "new" in (disk / "differ.service").read_text()
+    assert "old" in (backup / "differ.service-2026-11-16/differ.service").read_text()
+    assert (disk / "extra.service").read_text() == "only on disk\n"
+    assert not any((disk / "elsewhere").iterdir()) and (disk / "a.service.d").is_symlink()
