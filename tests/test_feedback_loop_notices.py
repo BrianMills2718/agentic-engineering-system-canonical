@@ -17,41 +17,54 @@ class Resp:
     def __exit__(self, *a): return False
 
 
+OK = b'{"ok":true,"result":{"message_id":77}}'
+
+
 @pytest.fixture(autouse=True)
-def topic(monkeypatch, tmp_path):
+def clean_env(monkeypatch, tmp_path):
     monkeypatch.setenv("OPERATOR_SECRETS_FILE", str(tmp_path / "none.env"))
-    monkeypatch.delenv("OPERATOR_NTFY_TOPIC", raising=False)
+    for n in ("TELEGRAM_AGENTS_BOT_TOKEN", "OPERATOR_TELEGRAM_CHAT_ID"):
+        monkeypatch.delenv(n, raising=False)
+
+
+def configure(monkeypatch):
+    monkeypatch.setenv("TELEGRAM_AGENTS_BOT_TOKEN", "tok-SECRET")
+    monkeypatch.setenv("OPERATOR_TELEGRAM_CHAT_ID", "chat-555")
 
 
 @pytest.mark.req("feedback-loop-notices/attention-push-arrives")
-def test_accepted_push_is_delivered_and_topic_not_leaked(monkeypatch):
-    monkeypatch.setenv("OPERATOR_NTFY_TOPIC", "secret-topic-123")
-    seen = {}
+def test_accepted_message_is_delivered_send_only_and_secrets_not_leaked(monkeypatch):
+    configure(monkeypatch)
+    seen = []
     def opener(req, timeout):
-        seen["url"], seen["title"] = req.full_url, req.get_header("Title")
-        return Resp(200, b'{"id":"abc"}')
-    out = notify.push("Rule … handed", "body", opener=opener)
-    assert out["delivered"] and "abc" in out["evidence"]
-    assert seen["url"].endswith("/secret-topic-123") and seen["title"].startswith("=?utf-8?")
-    assert "secret-topic-123" not in json.dumps(out)
+        seen.append((req.full_url, json.loads(req.data)))
+        return Resp(200, OK)
+    out = notify.push("Rule handed", "body text", opener=opener)
+    assert out["delivered"] and "77" in out["evidence"]
+    assert len(seen) == 1 and seen[0][0].endswith("/sendMessage")
+    assert "getUpdates" not in seen[0][0] and "deleteWebhook" not in seen[0][0]
+    assert seen[0][1] == {"chat_id": "chat-555", "text": "Rule handed\n\nbody text"}
+    assert "tok-SECRET" not in json.dumps(out) and "chat-555" not in json.dumps(out)
 
 
 @pytest.mark.req("feedback-loop-notices/attention-push-arrives")
-def test_topic_read_from_one_secrets_line(monkeypatch, tmp_path):
+def test_credentials_read_from_secrets_file_lines(monkeypatch, tmp_path):
     f = tmp_path / "k.env"
-    f.write_text("OTHER=x\nexport OPERATOR_NTFY_TOPIC='from-file'\n")
+    f.write_text("OTHER=x\nexport TELEGRAM_AGENTS_BOT_TOKEN='from-file'\nOPERATOR_TELEGRAM_CHAT_ID=9\n")
     monkeypatch.setenv("OPERATOR_SECRETS_FILE", str(f))
-    assert notify.topic() == "from-file"
+    assert notify.secret("TELEGRAM_AGENTS_BOT_TOKEN") == "from-file" and notify.secret("OPERATOR_TELEGRAM_CHAT_ID") == "9"
 
 
 @pytest.mark.req("feedback-loop-notices/failed-push-is-not-delivered")
-def test_no_topic_network_error_and_missing_id(monkeypatch):
+def test_missing_config_network_error_and_bad_answers(monkeypatch):
     assert not notify.push("t", "b")["delivered"]
-    monkeypatch.setenv("OPERATOR_NTFY_TOPIC", "t")
+    configure(monkeypatch)
     def boom(req, timeout): raise urllib.error.URLError("down")
     assert not notify.push("t", "b", opener=boom)["delivered"]
-    assert not notify.push("t", "b", opener=lambda r, timeout: Resp(200, b"{}"))["delivered"]
-    assert not notify.push("t", "b", opener=lambda r, timeout: Resp(200, b"not json"))["delivered"]
+    for body in (b'{"ok":false}', b'{"ok":true,"result":{}}', b"not json"):
+        assert not notify.push("t", "b", opener=lambda r, timeout, b=body: Resp(200, b))["delivered"]
+    def http401(req, timeout): raise urllib.error.HTTPError("u", 401, "x", None, io.BytesIO(b""))
+    assert "401" in notify.push("t", "b", opener=http401)["evidence"]
 
 
 @pytest.mark.req("feedback-loop-notices/no-project-meta-path")
