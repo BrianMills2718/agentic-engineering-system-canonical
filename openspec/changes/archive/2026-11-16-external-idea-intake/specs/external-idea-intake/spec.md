@@ -1,0 +1,45 @@
+# external-idea-intake Specification
+
+## Purpose
+
+Let Brian name subreddits to watch in AES configuration and get a ranked digest of new posts for review, as an input to the feedback loop that reads outside ideas.
+
+Source: Brian, 2026-11-16, "i assume this should be configurable within aes. i.e. this is an auotmated aspect of the aes feedback loop and you should be able to put the subreddits to examine as part of that in th econfigruation", and "i approve" to Decision 7 option B (config and command now, run on request, timer only after one digest is judged useful).
+
+## ADDED Requirements
+
+### Requirement: The watch list is configuration and an invalid one is refused
+
+The command SHALL read the subreddits to watch from `scripts/learning_loop/external_sources.yaml`. Each entry SHALL have a unique name, a non-empty reason, a listing (`top` or `new`), a window (`day`, `week`, `month` or `year`), a post limit from 1 to 100 and a minimum score of 0 or more. An invalid file SHALL make the command exit non-zero before any fetch.
+
+#### Scenario: invalid-config-refused
+
+- **WHEN** the configuration has an entry with an unknown listing, a missing reason or a duplicate name
+- **THEN** the command exits non-zero, names the entry, and makes no fetch
+
+### Requirement: The digest ranks new posts by score and age only
+
+For each configured subreddit the command SHALL fetch one listing, drop posts already seen in an earlier run, drop posts below the minimum score or older than the window, and write a digest ranked by score and then age. It SHALL NOT judge relevance.
+
+#### Scenario: digest-filters-and-ranks
+
+- **WHEN** a listing holds a seen post, a low-score post, an old post and two eligible posts
+- **THEN** the digest lists only the two eligible posts, higher score first, and a second run with the same listing lists none
+
+### Requirement: Every run is traced and a repeated failure is reported as down
+
+Each run SHALL append one record per step to the day's run log (config, each listing call with count or error, filter counts, digest path). A listing call that fails twice with the same error SHALL be reported as down, the other subreddits SHALL still be fetched, and the run SHALL exit non-zero.
+
+#### Scenario: repeated-failure-is-down
+
+- **WHEN** one subreddit's fetch raises the same error twice
+- **THEN** the log records it as down, the other subreddits appear in the digest, and the exit status is non-zero
+
+### Requirement: Output stays outside the repository and the register is never written
+
+Fetched posts, the digest, the seen list and the run log SHALL be written under an output folder outside the repository. The command SHALL NOT write to any learnings register.
+
+#### Scenario: output-outside-repo
+
+- **WHEN** the command runs with an output folder
+- **THEN** every file it wrote is under that folder

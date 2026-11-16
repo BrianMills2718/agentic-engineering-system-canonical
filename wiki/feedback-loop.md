@@ -14,4 +14,6 @@ Read [Feedback and policy](../docs/architecture/FEEDBACK_AND_POLICY.md) for purp
 
 On November 13, read-only inspection found collector and labels timers enabled, while analysis, fix-owner and effects timers were disabled. The collector's latest service result was a timeout. These facts leave the complete improvement path unproven; they do not establish it from scheduling alone. The architecture page records the commands and limits of that observation.
 
+Outside ideas enter through the [external idea watch list](../scripts/learning_loop/external_sources.yaml): `external_ideas.py` writes a score-and-age-ranked digest of new subreddit posts for review, on request, with no timer yet (Brian, 2026-11-16). It does not write to the learnings register.
+
 For remaining work and decisions, see the [open-questions ledger](open-questions.md). For policy authority and enforcement distinctions, see [Policy and rules](policy-and-rules.md).

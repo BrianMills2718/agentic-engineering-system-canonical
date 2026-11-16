@@ -67,6 +67,13 @@ Each capture is append-only third-party content and not AES authority. Repositor
 commit and file hashes, not copies.
 
 - [Subreddits and sources to check](external-sources-watch.md) — the subreddits read so far, what each gave, and how to check again. **Role:** source document. **Disposition:** keep.
+- [External idea intake command](../scripts/learning_loop/external_ideas.py) — reads the watch list, fetches each subreddit listing, writes a ranked digest outside the repository. **Role:** executable helper. **Disposition:** keep.
+- [External idea watch list](../scripts/learning_loop/external_sources.yaml) — the subreddits to watch, with reason, listing, window, limit and minimum score. **Role:** configuration. **Disposition:** keep.
+- [External idea intake tests](../tests/learning/test_external_ideas.py) — config refusal, filtering, ranking, repeated-failure and output-location checks with a fake fetcher. **Role:** test. **Disposition:** keep.
+- [External idea intake spec](../openspec/specs/external-idea-intake/spec.md) — requirements for the watch list and digest. **Role:** specification. **Disposition:** keep.
+- [External idea intake proposal](../openspec/changes/archive/2026-11-16-external-idea-intake/proposal.md) — the one-page plan, retained. **Role:** historical plan. **Disposition:** keep.
+- [External idea intake tasks](../openspec/changes/archive/2026-11-16-external-idea-intake/tasks.md) — historical checklist.
+- [External idea intake requirement delta](../openspec/changes/archive/2026-11-16-external-idea-intake/specs/external-idea-intake/spec.md) — retained change.
 
 - [Reddit 1gb08m0: provenance](../raw/sources/2026-11-16-reddit-1gb08m0-ai-architecture-diagram-tools/source.json) — URL, method, coverage and SHA-256 of the capture.
 - [Reddit 1gb08m0: capture](../raw/sources/2026-11-16-reddit-1gb08m0-ai-architecture-diagram-tools/original/1gb08m0.json) — post text and all returned comments.
