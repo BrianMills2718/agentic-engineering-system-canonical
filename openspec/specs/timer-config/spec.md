@@ -30,3 +30,8 @@ Source: Brian, 2026-11-16, "does it make snese to again make this a configuratio
 
 - **WHEN** an installed unit differs from the rendered one
 - **THEN** the old file is in the backup folder, the new file is installed, and daemon-reload ran once
+
+#### Scenario: install-never-writes-through-a-link
+
+- **WHEN** an installed unit is a symbolic link to a file in some repository
+- **THEN** the link's target text and the file's content are in the backup folder, the link itself is replaced by a regular file, and the file the link pointed at is unchanged
