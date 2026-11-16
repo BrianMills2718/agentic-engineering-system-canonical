@@ -27,6 +27,7 @@ flowchart LR
     fix_owner[fix_owner: weekly fix owner, off]
     notify[notify: Telegram message, no Project Meta]
     timers[timers: job list to systemd units]
+    failed_unit_watch[failed_unit_watch: failed units to concern issues]
     repair_verifier[concern_repair_feedback: five-gate repair check]
     repair_contract[concern_repair_contract: report and record shapes]
     repair_agents[concern_repair_agents: reviewer client choice]
@@ -103,6 +104,7 @@ flowchart LR
   problems -.-> notify
   problems -.-> alert
   systemd -.-> timers
+  systemd --> failed_unit_watch
   repair_verifier --> repair_contract
   repair_verifier -.-> repair_agents
   collect_feedback --> transcripts
