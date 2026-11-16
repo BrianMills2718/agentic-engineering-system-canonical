@@ -26,6 +26,9 @@ flowchart LR
     effects[effects: enforcement receipts, off]
     fix_owner[fix_owner: weekly fix owner, off]
     notify[notify: Telegram message, no Project Meta]
+    repair_verifier[concern_repair_feedback: five-gate repair check]
+    repair_contract[concern_repair_contract: report and record shapes]
+    repair_agents[concern_repair_agents: reviewer client choice]
     alert[alert: loop failures as concerns]
     licences[licences: licences for proposed fixes]
     external_ideas[external_ideas: subreddit digest, on request]
@@ -98,6 +101,8 @@ flowchart LR
   systemd -.-> fix_owner
   problems -.-> notify
   problems -.-> alert
+  repair_verifier --> repair_contract
+  repair_verifier -.-> repair_agents
   collect_feedback --> transcripts
   collect_feedback --> feedback_log
   collect_feedback --> subagents
