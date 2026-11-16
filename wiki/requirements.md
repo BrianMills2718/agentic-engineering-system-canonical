@@ -53,3 +53,4 @@ unverified. A specification's presence is not runtime evidence.
   [bounded cold review](../docs/planning/cold-review.md) cover that particular slice.
 - [Test commands](../tests/README.md) explain how to obtain fresh execution evidence.
   This documentation repair makes no new claim of full product test coverage.
+- [Feedback loop notices](../openspec/specs/feedback-loop-notices/spec.md) governs the loop's concern filing and phone push, which no longer call Project Meta.

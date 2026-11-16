@@ -25,6 +25,8 @@ flowchart LR
     problems[problems: weekly analysis, off]
     effects[effects: enforcement receipts, off]
     fix_owner[fix_owner: weekly fix owner, off]
+    notify[notify: ntfy phone push, no Project Meta]
+    alert[alert: loop failures as concerns]
     licences[licences: licences for proposed fixes]
     policies[policies: is each rule enforced and observed]
     relation_check[relation_check: S2 measurement]
@@ -93,6 +95,8 @@ flowchart LR
   systemd -.-> problems
   systemd -.-> effects
   systemd -.-> fix_owner
+  problems -.-> notify
+  problems -.-> alert
   collect_feedback --> transcripts
   collect_feedback --> feedback_log
   collect_feedback --> subagents

@@ -33,7 +33,7 @@ Steps, each timed and counted in the printed summary and in runs.jsonl:
 Privacy: transcript text goes only to OpenRouter through llm_client and to the
 local output folder; nothing here is committed anywhere. Exit 0 = clean, 1 = some
 LLM/Jev/filing calls failed (counted; their files are re-read next run), 2 =
-crashed. Any non-zero exit opens a keyed agent concern via notify_operator.py.
+crashed. Any non-zero exit opens a keyed agent concern through scripts/learning_loop/alert.py.
 
   uv run --no-project --with-editable ~/code/llm_client python \
       scripts/learning_loop/collect_feedback.py [--since-days 3] [--file] [--max-file 25]
@@ -61,6 +61,7 @@ from typing import Literal
 from pydantic import BaseModel
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from alert import file_alert  # noqa: E402
 import transcripts as T  # noqa: E402
 import feedback_log as FL  # noqa: E402
 import subagents as SA  # noqa: E402
@@ -833,11 +834,8 @@ def file_pending(path: Path, cap: int, min_reusable: float = 0.6) -> tuple[int, 
 
 
 def alert(code: int, detail: str) -> None:
-    subprocess.run([sys.executable, str(PROJECT_META / "scripts/notify_operator.py"), "--key", "feedback-collector-failed",
-                    "--severity", "agent", "--source", "feedback-collector",
-                    "--title", f"Nightly feedback collector exited {code}",
-                    "--body", f"{detail[-1500:]}\nRun log: {OUT}/runs.jsonl; journal: journalctl --user -u feedback-collector"],
-                   timeout=120)
+    file_alert("feedback-collector-failed", "feedback-collector", f"Nightly feedback collector exited {code}",
+               f"{detail[-1500:]}\nRun log: {OUT}/runs.jsonl; journal: journalctl --user -u feedback-collector")
 
 
 if __name__ == "__main__":
