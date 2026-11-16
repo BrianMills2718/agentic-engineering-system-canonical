@@ -201,3 +201,19 @@ def test_already_assessed_posts_are_dropped(tmp_path):
     d = next(out.glob("digest-*.md")).read_text()
     assert "tu2" not in d and "tu1" in d and "tu3" in d
     assert E.assessed_ids(raw) == {"u2"}
+
+
+@pytest.mark.req("external-idea-intake/judge-failure-keeps-posts-unseen")
+def test_unjudged_posts_stay_unseen_and_are_offered_again(tmp_path):
+    out = tmp_path / "out"
+    def judge(sub, posts):
+        judge.unjudged = {"u3"}
+        return {"u1": (["aes"], "why", "title")}
+    cfg = write_cfg(tmp_path, [entry()])
+    none = tmp_path / "none"
+    assert E.run(cfg, out, fetch=_fetch3, now=NOW, judge=judge, assessed_dir=none) == 0
+    assert sorted(json.loads((out / "seen.json").read_text())) == ["u1", "u2"]
+    for f in out.glob("digest-*.md"):
+        f.unlink()
+    assert E.run(cfg, out, fetch=_fetch3, now=NOW, judge=judge, assessed_dir=none) == 0
+    assert "tu3" in next(p for p in out.glob("digest-*.md") if "useful" not in p.name).read_text()
