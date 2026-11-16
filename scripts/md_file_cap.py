@@ -68,9 +68,9 @@ from urllib.parse import unquote
 HERE = os.path.dirname(os.path.abspath(__file__))
 # Copied from Project Meta scripts/md_file_cap.py at f1e27c906 (retirement plan, slice 1). The only change is where
 # The project graph is one person's own data: the PROJECT_GRAPH environment variable names it, else it is read from the
-# private `project-graph` repository (retirement plan step 4, Decision 20). The GitHub owner whose repositories are
+# private `aes-config` repository (retirement plan step 4, Decision 20). The GitHub owner whose repositories are
 # checked comes from `graph-config.yaml` beside the graph (key `owner`), or the PROJECT_GRAPH_OWNER environment variable.
-GRAPH_DEFAULT = os.environ.get("PROJECT_GRAPH") or os.path.expanduser("~/code2/project-graph/PROJECT_GRAPH.json")
+GRAPH_DEFAULT = os.environ.get("PROJECT_GRAPH") or os.path.expanduser("~/code2/aes-config/PROJECT_GRAPH.json")
 
 OWNER = None  # set once per run in main() from graph_owner(); the code below compares against it
 
