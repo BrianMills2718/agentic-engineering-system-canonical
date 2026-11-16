@@ -130,6 +130,7 @@ def llm_judge(projects: list[dict]) -> Judge:
         res, meta = call_llm_structured(
             model, [{"role": "user", "content": prompt}], response_model=J.Verdicts, task="external-ideas.judge",
             model_justification="model judges whether a post helps a project (prose meaning; workspace rule)",
+            agent_options={"tools": [], "setting_sources": [], "max_turns": 1},
             trace_id=f"external-ideas/judge/{int(time.time() * 1000)}", max_budget=0.5)
         judge.cost += float(meta.cost or 0)
         return res

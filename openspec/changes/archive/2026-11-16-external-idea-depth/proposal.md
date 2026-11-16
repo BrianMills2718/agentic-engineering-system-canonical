@@ -4,7 +4,7 @@ Source: Brian, 2026-11-16: "a question or demo could both be useful depending on
 
 ## What changes
 
-The judge is a Claude model run through the subscription route (`claude-code/sonnet`, no per-call dollar cost). Round 1 sees each post's title and opening text and decides useful, not useful, or need more (comments, linked pages, both). Round 2: this code reads exactly what was asked (the model has no tools, so a hostile page cannot steer anything) and the model gives a final verdict. The digest says what each verdict was judged from.
+The judge is a Claude model run through the subscription route (`claude-code/sonnet`, no per-call dollar cost). Round 1 sees each post's title and opening text and decides useful, not useful, or need more (comments, linked pages, both). Round 2: this code reads exactly what was asked (the model runs with no tools, so a hostile page cannot make it act; its text can still try to steer a verdict, so prompts mark it untrusted and the reader refuses non-public hosts) and the model gives a final verdict. The digest says what each verdict was judged from.
 
 ## Measured on the first full run (136 posts, 110-entry profile)
 

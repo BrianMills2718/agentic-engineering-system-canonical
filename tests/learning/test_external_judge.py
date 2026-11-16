@@ -54,3 +54,32 @@ def test_reader_gets_comments_and_links_and_skips_reddit_links():
     out = read("p", "both")
     assert "- great" in out and "PAGE https://github.com/x/y" in out and "reddit.com" not in out.split("COMMENTS")[1].split("LINKED")[1]
     assert "LINKED" not in read("p", "comments")
+
+
+@pytest.mark.req("external-idea-intake/depth-judge-reads-more-when-asked")
+@pytest.mark.parametrize("url", ["http://127.0.0.1:8080/x", "http://localhost/x", "http://169.254.169.254/latest", "http://10.0.0.5/", "file:///etc/passwd", "ftp://example.com/x"])
+def test_reader_refuses_non_public_and_non_http(url):
+    assert J.read_page(url) == ""
+
+
+@pytest.mark.req("external-idea-intake/depth-judge-reads-more-when-asked")
+def test_links_hostname_check_and_reader_survives_fetch_error():
+    assert J.links_in("https://evil.com/?x=reddit.com https://old.reddit.com/a https://redd.it/b") == ["https://evil.com/?x=reddit.com"]
+    def boom(pid):
+        raise RuntimeError("api")
+    assert "could not read more" in J.make_reader(boom)("p", "both")
+
+
+@pytest.mark.req("external-idea-intake/depth-judge-reads-more-when-asked")
+def test_omitted_and_repeat_need_more_are_logged_and_prompts_mark_untrusted():
+    prompts, logs = [], []
+    def call(prompt):
+        prompts.append(prompt)
+        if len(prompts) == 1:
+            return J.Verdicts(verdicts=[V(id="q", decision="need_more", want="none")])
+        return J.Verdicts(verdicts=[V(id="q", decision="need_more")])
+    judge = J.build_judge(PROJECTS, call, lambda pid, want: "x")
+    judge.log = logs.append
+    assert judge("s", POSTS) == {}
+    assert "UNTRUSTED" in prompts[0] and "<<<UNTRUSTED" in prompts[1]
+    assert logs[0]["omitted_round1"] == ["a", "n"] and logs[0]["asked"] == {"q": "both"}

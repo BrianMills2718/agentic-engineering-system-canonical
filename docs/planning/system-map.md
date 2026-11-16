@@ -40,6 +40,7 @@ flowchart LR
     alert[alert: loop failures as concerns]
     licences[licences: licences for proposed fixes]
     external_ideas[external_ideas: subreddit digest, on request]
+    external_judge[external_judge: model decides how much to read]
     policies[policies: is each rule enforced and observed]
     relation_check[relation_check: S2 measurement]
     question_set_v2[question_set_v2: label questions]
