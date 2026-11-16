@@ -28,6 +28,7 @@ flowchart LR
     notify[notify: Telegram message, no Project Meta]
     timers[timers: job list to systemd units]
     failed_unit_watch[failed_unit_watch: failed units to concern issues]
+    machine_manifest[machine_manifest: every unit and where its file comes from]
     graph_taxonomy[check_project_graph_taxonomy: shape of the project graph]
     project_activity[build_project_activity: last commit per registered repo]
     refresh_checkouts[refresh_canonical_checkouts: fast-forward registered checkouts]
@@ -115,6 +116,7 @@ flowchart LR
   problems -.-> alert
   systemd -.-> timers
   systemd --> failed_unit_watch
+  systemd -.-> machine_manifest
   systemd -.-> project_activity
   systemd -.-> refresh_checkouts
   systemd -.-> workspace_map_alert
