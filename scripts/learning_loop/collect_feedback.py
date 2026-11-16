@@ -20,10 +20,9 @@ Steps, each timed and counted in the printed summary and in runs.jsonl:
                 Jev's probability that it already states the item. Never used
                 to drop an item until it is measured on a labeled sample.
   6. write      one JSON line per item to items-<date>.jsonl
-  7. file       learning/friction/correction items Jev is sure of go to the
-                legacy register through project-meta/scripts/log_learning.py, only
-                with --file --legacy-register (off since 2026-10-08: the register is
-                legacy; AES issue #242)
+  7. file       retired: the legacy learnings register is frozen (Decision 18,
+                2026-11-16); `--legacy-register` is refused. Existing entries are
+                read from the frozen copy to spot repeats.
   R. reports    each closeout Feedback (or older Learnings) field becomes one
                 feedback-report.v1 report: marked lines parsed by records.py, free
                 text split by the light model (links always read by code), filed as
@@ -68,12 +67,8 @@ import subagents as SA  # noqa: E402
 
 HOME = Path.home()
 OUT = Path(os.environ.get("FEEDBACK_OUT", HOME / "projects/data/feedback-collector"))
-PROJECT_META = Path(os.environ.get("PROJECT_META", HOME / "code/project-meta"))
-# log_learning.py runs from a copy refreshed to origin/main before each run (the timer's ExecStartPre):
-# the canonical checkout is refreshed by canonical-sync about every 17 minutes, so right after a merge it
-# can lack the fix the collector depends on (2026-10-07: minutes after --auto-job merged). Entries still
-# go to the canonical register through --store-path.
-PROJECT_META_TOOLS = Path(os.environ.get("PROJECT_META_TOOLS", HOME / ".hive-brain/project-meta"))
+# Frozen, read-only copy of Project Meta's learnings register (private repository learnings-archive), read to spot repeats.
+LEARNINGS_REGISTER = Path(os.environ.get("LEARNINGS_REGISTER", HOME / "code2/learnings-archive/entries"))
 EXTRACT_MODEL = "openrouter/deepseek/deepseek-v4-flash"
 JEV = "openrouter/typesafe/jev-1.13"
 KINDS = {
@@ -282,7 +277,7 @@ class Register:
 
     def __init__(self) -> None:
         self.ids, self.texts, self.docs = [], [], []
-        for p in glob.glob(str(PROJECT_META / "learnings/entries/*.json")):
+        for p in glob.glob(str(LEARNINGS_REGISTER / "*.json")):
             try:
                 d = json.load(open(p))
             except ValueError:
@@ -408,34 +403,8 @@ def _repeat_or_defer(it: dict, recent: list[str]) -> str | None:
 
 
 def file_item(it: dict) -> str:
-    kind = it["triage"]["kind"]
-    who = "Brian" if it["speaker"] == "brian" else "the agent"
-    body = (f"[{kind}, collected automatically from a {it['client']} transcript; Jev p={it['triage']['p']}] "
-            f"{who} wrote: {it['quote'].strip()}")
-    if it["lesson"]:  # machine-drawn, so labelled as a suggestion rather than stated as the lesson
-        body += f"\n\nSuggested lesson (light LLM, unreviewed): {it['lesson'].strip()}"
-    if len(body) < 80:  # the register's own minimum; a shorter item is not actionable on review
-        raise ValueError("body under 80 characters")
-    tools = PROJECT_META_TOOLS if (PROJECT_META_TOOLS / "scripts/log_learning.py").exists() else PROJECT_META
-    cmd = [sys.executable, str(tools / "scripts/log_learning.py"), "--type", "learning",
-           "--store-path", str(PROJECT_META / "learnings/entries"), "--repo-root", str(PROJECT_META),
-           "--agent", "claude-code" if it["client"] == "claude" else "codex", "--invocation", "import",
-           "--knowledge-kind", "observation", "--applicability-task-type", "other",
-           "--transcript-ref", f"{'claude-code' if it['client'] == 'claude' else 'codex'}:{it['session_id']}",
-           "--source-ref", f"{it['transcript']}@byte{it['byte_offset']}", "--push",
-           # A timer has no agent session: when a live claim locks the register, log_learning appends
-           # straight onto main instead of opening a claimed lane (project-meta #2414).
-           "--auto-job", "feedback-collector", body]
-    r = subprocess.run(cmd, capture_output=True, text=True, cwd=PROJECT_META, timeout=300)
-    if r.returncode != 0 and "requires the current native" in r.stdout + r.stderr:
-        # The register is read-only while any lane claims project-meta, and log_learning's own lane
-        # needs an agent session id a timer does not have. Root fix filed as a keyed concern
-        # (feedback-collector-register-locked); until then the item waits for a later run.
-        raise RegisterLocked()
-    if r.returncode != 0:
-        raise RuntimeError(f"log_learning exit {r.returncode}: {clip(r.stderr or r.stdout)}")
-    m = re.search(r"lrn-\d{8}T\d+Z-[0-9a-f]+", r.stdout + r.stderr)
-    return m.group(0) if m else "recorded"
+    """The legacy learnings register is frozen (retirement plan, Decision 18, 2026-11-16): nothing writes to it."""
+    raise RuntimeError("the legacy learnings register is frozen; items are not filed to it")
 
 
 # ---------- run ----------
@@ -529,7 +498,7 @@ def main() -> int:
     ap.add_argument("--file", action="store_true", help="file sure learning/friction/correction items to the register")
     ap.add_argument("--max-file", type=int, default=25, help="cap on register filings per run")
     ap.add_argument("--legacy-register", action="store_true",
-                    help="with --file, also file items to the legacy project-meta register (off by default)")
+                    help="refused: the legacy register is frozen (kept so old unit files fail loudly, not silently)")
     # 900 a night drains the 2026-11-10 backlog (about 1,630 distinct reports) in about 4 nights against
     # about 450 new reports a day; at 450 an hour the run files for about 71 minutes, inside the unit's
     # 2-hour timeout. Filing makes no model call, so the cap bounds GitHub load, not spend.
@@ -549,6 +518,8 @@ def main() -> int:
                     help="file items an earlier run left eligible_not_filed or deferred_cap (appends filing updates)")
     ap.add_argument("--no-alert", action="store_true", help="testing: do not open a concern on failure")
     args = ap.parse_args()
+    if args.legacy_register:
+        sys.exit("--legacy-register is refused: the legacy learnings register is frozen (Decision 18)")
     OUT.mkdir(parents=True, exist_ok=True)
     if args.file_pending:
         filed, errs = file_pending(Path(args.file_pending), args.max_file, args.min_reusable)

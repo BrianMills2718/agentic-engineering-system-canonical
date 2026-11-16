@@ -54,3 +54,4 @@ unverified. A specification's presence is not runtime evidence.
 - [Test commands](../tests/README.md) explain how to obtain fresh execution evidence.
   This documentation repair makes no new claim of full product test coverage.
 - [Feedback loop notices](../openspec/specs/feedback-loop-notices/spec.md) governs the loop's concern filing and phone push, which no longer call Project Meta.
+- [Learnings register frozen](../openspec/specs/learnings-register-frozen/spec.md) governs the collector's read-only use of the old learnings register, kept in a private repository.
