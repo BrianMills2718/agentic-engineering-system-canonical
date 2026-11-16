@@ -75,6 +75,9 @@ commit and file hashes, not copies.
 - [External idea intake tasks](../openspec/changes/archive/2026-11-16-external-idea-intake/tasks.md) — historical checklist.
 - [Usefulness ranking proposal](../openspec/changes/archive/2026-11-16-external-idea-relevance/proposal.md) — plan for judging posts against a project profile. **Role:** historical plan. **Disposition:** keep.
 - [Usefulness ranking tasks](../openspec/changes/archive/2026-11-16-external-idea-relevance/tasks.md) — historical checklist.
+- [Usefulness quality proposal](../openspec/changes/archive/2026-11-16-external-idea-quality/proposal.md) — sharper reasons and no re-offering of assessed posts. **Role:** historical plan. **Disposition:** keep.
+- [Usefulness quality tasks](../openspec/changes/archive/2026-11-16-external-idea-quality/tasks.md) — historical checklist.
+- [Usefulness quality requirement delta](../openspec/changes/archive/2026-11-16-external-idea-quality/specs/external-idea-intake/spec.md) — retained change.
 - [Usefulness ranking requirement delta](../openspec/changes/archive/2026-11-16-external-idea-relevance/specs/external-idea-intake/spec.md) — retained change.
 - [External idea intake requirement delta](../openspec/changes/archive/2026-11-16-external-idea-intake/specs/external-idea-intake/spec.md) — retained change.
 

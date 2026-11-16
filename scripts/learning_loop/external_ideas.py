@@ -35,8 +35,12 @@ JUDGE_PROMPT = (
     "You help one person decide which outside posts are worth reading. Below are their projects, then new "
     "posts from one subreddit. For each post that could concretely help at least one project (a technique, "
     "tool, finding or design they could adopt or must know about), return its id, the project names it helps "
-    "(exactly as written in the list), and one plain sentence saying how. Skip demos, jokes, news, hype and "
-    "posts with no concrete use. Return only posts that help; an empty list is a valid answer.\n\n")
+    "(exactly as written in the list), and a reason. Name at most two projects per post, the best fits only. "
+    "The reason must name the specific thing to adopt or learn (a named tool, technique or finding) and the "
+    "concrete place it would be used; do not write generic phrases like 'directly applicable'. Skip demos, "
+    "jokes, news, hype and posts with no concrete use. Return only posts that help; an empty list is a valid "
+    "answer.\n\n")
+RAW_SOURCES = Path(__file__).resolve().parents[2] / "raw" / "sources"
 
 
 class ConfigError(ValueError):
@@ -138,6 +142,14 @@ def llm_judge(projects: list[dict]) -> Judge:
     return judge
 
 
+def assessed_ids(raw_dir: Path) -> set[str]:
+    """Reddit post ids already captured and assessed: capture folders are named `<date>-reddit-<id>-<slug>`."""
+    if not Path(raw_dir).is_dir():
+        return set()
+    parts = [d.name.split("-") for d in Path(raw_dir).iterdir()]
+    return {p[4] for p in parts if len(p) > 4 and p[3] == "reddit"}
+
+
 def _age_days(created_at: str, now: float) -> float:
     ts = timegm(time.strptime(created_at[:19], "%Y-%m-%dT%H:%M:%S"))
     return (now - ts) / 86400
@@ -153,7 +165,7 @@ def _log(path: Path, rec: dict) -> None:
 
 
 def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None = None,
-        judge: Judge | None = None) -> int:
+        judge: Judge | None = None, assessed_dir: Path | None = None) -> int:
     """Run once; return 0, or non-zero on a bad config or any subreddit reported down."""
     now = time.time() if now is None else now
     out = Path(out)
@@ -171,6 +183,9 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
     except (ValueError, OSError) as exc:
         print(f"external_ideas: seen list unreadable ({seen_file}): {exc}", file=sys.stderr)
         return 2
+    assessed = assessed_ids(RAW_SOURCES if assessed_dir is None else assessed_dir)
+    seen |= assessed
+    _log(log, {"step": "assessed", "already_assessed": len(assessed)})
     _log(log, {"step": "config", "path": str(config), "subreddits": [e["name"] for e in entries], "seen": len(seen)})
     if fetch is None:
         try:

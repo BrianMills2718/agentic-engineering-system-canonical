@@ -156,7 +156,7 @@ def test_judge_failure_keeps_posts_unseen(tmp_path):
     def judge(sub, posts):
         raise RuntimeError("model down")
     cfg = write_cfg(tmp_path, [entry()])
-    assert E.run(cfg, out, fetch=_fetch3, now=NOW, judge=judge) == 1
+    assert E.run(cfg, out, fetch=_fetch3, now=NOW, judge=judge, assessed_dir=tmp_path / 'none') == 1
     log = [json.loads(l) for l in next(out.glob("runs-*.jsonl")).read_text().splitlines()]
     assert any(r["step"] == "judge" and r["status"] == "failed" for r in log)
     assert json.loads((out / "seen.json").read_text()) == []
@@ -187,7 +187,17 @@ def test_unknown_project_names_dropped_and_judged_posts_marked_seen(tmp_path):
     def judge(sub, posts):
         return {"u1": (["aes", "madeup"], "r")}
     judge.names = ["aes"]
-    assert E.run(write_cfg(tmp_path, [entry()]), out, fetch=_fetch3, now=NOW, judge=judge) == 0
+    assert E.run(write_cfg(tmp_path, [entry()]), out, fetch=_fetch3, now=NOW, judge=judge, assessed_dir=tmp_path / 'none') == 0
     u = next(out.glob("digest-useful-*.md")).read_text()
     assert "## aes" in u and "madeup" not in u
     assert sorted(json.loads((out / "seen.json").read_text())) == ["u1", "u2", "u3"]
+
+
+@pytest.mark.req("external-idea-intake/already-assessed-dropped")
+def test_already_assessed_posts_are_dropped(tmp_path):
+    raw = tmp_path / "raw"; (raw / "2026-11-16-reddit-u2-some-slug").mkdir(parents=True)
+    out = tmp_path / "out"
+    assert E.run(write_cfg(tmp_path, [entry()]), out, fetch=_fetch3, now=NOW, assessed_dir=raw) == 0
+    d = next(out.glob("digest-*.md")).read_text()
+    assert "tu2" not in d and "tu1" in d and "tu3" in d
+    assert E.assessed_ids(raw) == {"u2"}

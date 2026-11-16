@@ -57,3 +57,12 @@ When a project profile is given, the command SHALL ask a light model, once per s
 
 - **WHEN** the model call raises for one subreddit
 - **THEN** the log records the failure, the exit status is non-zero, and a later run offers those posts again
+
+### Requirement: Posts already assessed into raw sources are never offered again
+
+The command SHALL treat every Reddit post whose capture folder exists in `raw/sources/` (named `<date>-reddit-<id>-<slug>`) as already seen.
+
+#### Scenario: already-assessed-dropped
+
+- **WHEN** a listing holds a post whose id matches a `raw/sources` capture folder
+- **THEN** it appears in neither digest
