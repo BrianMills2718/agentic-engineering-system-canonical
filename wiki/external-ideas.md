@@ -39,4 +39,4 @@ Nothing was verified by running it: no skill or repository was installed or insp
   sources against [Lockstep](lockstep.md), [feedback loop](feedback-loop.md) and
   [policy](policy-and-rules.md), not from testing.
 - The Bansat repository and the Stage Show skill were not opened.
-- The decision to adopt, extend or reject any pattern is open (see [open questions](open-questions.md)).
+- The decision to adopt, extend or reject any pattern is open: Q46, Q47 and Q48 in the [owning record](../docs/planning/open-questions.json), approved by Brian on 2026-11-15 ("i approve").

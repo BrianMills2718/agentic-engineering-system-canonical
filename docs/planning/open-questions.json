@@ -820,6 +820,63 @@
    "touches": [
     "ecosystem-consolidation"
    ]
+  },
+  {
+   "id": "Q46",
+   "short": "N/A needs a reason",
+   "question": "Should a Lockstep coverage table allow a cell to be marked not-applicable only with a written reason, so nothing is skipped silently?",
+   "blocks": "adding any coverage table to a Lockstep plan",
+   "resolves_with": "A named AES coverage table (for example, requirement by test kind) is picked and a small trial shows the rule catching a silent skip.",
+   "recommendation": "Trial it on one existing table before any wider rule.",
+   "default": "No change; tables keep their current form.",
+   "evidence": "Bansat's UI-state matrix has 17 columns per screen and allows N/A only with a reason (r/claudeskills 1xo5oc0, 2026-11-14). Not run against AES; the Bansat repository was not opened.",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "lockstep"
+   ],
+   "sources": [
+    "wiki/external-ideas.md",
+    "raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json"
+   ]
+  },
+  {
+   "id": "Q47",
+   "short": "Build fails on a missed case",
+   "question": "Should AES prefer typed unions with an exhaustive check, so the build fails when a planned case is not handled?",
+   "blocks": "claiming typed interfaces catch missing cases",
+   "resolves_with": "One Lockstep typed interface with an enumerated set of cases is shown failing the build when a case is removed.",
+   "recommendation": "Check whether Lockstep's typed-interface check already does this before adding anything.",
+   "default": "No change.",
+   "evidence": "Bansat's reference code uses a typed union with an exhaustive switch (same post, author's comment). Unverified; AES coverage of this was not checked.",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "lockstep"
+   ],
+   "sources": [
+    "wiki/external-ideas.md",
+    "raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json"
+   ]
+  },
+  {
+   "id": "Q48",
+   "short": "Approved, assumed or open",
+   "question": "Should each requirement carry a status of approved, assumed or open so an agent's guess cannot read as an approved requirement?",
+   "blocks": "treating agent-inferred requirements as settled",
+   "resolves_with": "Compare with the existing `Source:` line rule (Brian's words, or inferred by agent) and decide whether a status field adds anything it does not already show.",
+   "recommendation": "Probably already covered by `Source:` lines; confirm on a sample of requirements before adding a field.",
+   "default": "No change; the `Source:` line rule stands.",
+   "evidence": "A commenter asked for this on Bansat and the author agreed to add it (same post, 2026-11-14). AES's `lockstep check sources` already checks `Source:` lines (AGENTS.md).",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "lockstep"
+   ],
+   "sources": [
+    "wiki/external-ideas.md",
+    "raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json"
+   ]
   }
  ]
 }
