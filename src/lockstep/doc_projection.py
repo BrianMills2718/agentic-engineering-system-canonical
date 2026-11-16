@@ -50,7 +50,7 @@ Evidence:
     See evidence/runs/projection-worked-20261113.json for the earlier disposable
     CLI example. Native self-adoption observations are retained separately.
 
-Native edit marker: pending
+Native edit marker: observed-host-edit
 """
 from __future__ import annotations
 
