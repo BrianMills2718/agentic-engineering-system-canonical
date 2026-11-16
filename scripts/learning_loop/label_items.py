@@ -64,7 +64,7 @@ LEGACY_GLOB = "~/code/project-meta/learnings/entries/*.json"
 # issues in agentic-engineering-system-canonical are the earlier store.
 REPO = "BrianMills2718/agent-feedback-log"
 KINDS = ("kind:observation", "kind:claim", "kind:action", "kind:lesson", "kind:friction", "kind:problem")
-CONCERN = Path(os.environ.get("PROJECT_META") or Path.home() / "code/project-meta") / "scripts/concern_issue.py"
+CONCERN = Path(__file__).resolve().parents[1] / "concern_issue.py"  # AES copy (retirement plan, slice 2)
 OTHER_THRESHOLD = 2  # failure-modes.md: a new family requires two independent instances
 
 

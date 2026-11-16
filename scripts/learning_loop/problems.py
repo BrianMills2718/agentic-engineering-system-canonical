@@ -50,7 +50,8 @@ from evidence import resolve_records, sightings  # noqa: E402
 OUT = Path(os.environ.get("FEEDBACK_OUT", Path.home() / "projects/data/feedback-collector"))
 LOG_REPO = os.environ.get("FEEDBACK_LOG_REPO", "BrianMills2718/agent-feedback-log")
 RULE_REPO = os.environ.get("FEEDBACK_RULE_REPO", "BrianMills2718/agentic-engineering-system-canonical")
-PROJECT_META = Path(os.environ.get("PROJECT_META", Path.home() / "code/project-meta"))
+CONCERN_ISSUE = Path(__file__).resolve().parents[1] / "concern_issue.py"  # AES copy (retirement plan, slice 2)
+NOTIFY = Path(__file__).with_name("notify.py")
 NOTIFY_AT_IMPACT = 8.0  # an active licence at or above this impact also notifies Brian (attention, no decision)
 ANALYSE_MODEL = RC.STRONG
 MIN_SIMILARITY = 0.12
@@ -556,7 +557,7 @@ def main() -> int:
                         '"revision":"<exact source revision>","verification":"<proof link>"} -->`. '
                         'Closing an issue alone does not establish enforcement.\n\n'
                         f"Problem, records and analysis: {p.get('issue') or 'private feedback log'}")
-                cp = subprocess.run([sys.executable, str(PROJECT_META / "scripts/concern_issue.py"), "open",
+                cp = subprocess.run([sys.executable, str(CONCERN_ISSUE), "open",
                                      "--repo", RULE_REPO, "--key", key, "--title", f"Feedback loop: adopt {x['intent'].lower()} — {x['text'][:90]}",
                                      "--body", body, "--source", "feedback-loop", "--occurrence", key],
                                     capture_output=True, text=True, timeout=120)
@@ -570,9 +571,8 @@ def main() -> int:
                     fresh.append(x["text"][:120])
         if fresh:  # one digest per run, not one push per licence
             day = dt.date.today().isoformat()
-            subprocess.run([sys.executable, str(PROJECT_META / "scripts/operator_notify_router.py"),
-                            "--severity", "attention", "--key", f"feedback-loop-digest-{day}", "--state", "licensed",
-                            "--source", "feedback-loop", "--title", f"Feedback loop handed agents {len(fresh)} new rule(s)",
+            subprocess.run([sys.executable, str(NOTIFY),
+                            "--title", f"Feedback loop handed agents {len(fresh)} new rule(s)",
                             "--body", "; ".join(fresh)[:600]], capture_output=True, text=True, timeout=120)
             counts["notified"] += 1
     step("hand_to_agents", hand_to_agents)
@@ -613,7 +613,7 @@ def main() -> int:
                     row["revoked"] = x["status"] == "revoked"
                     counts["licence_revoked"] += row["revoked"]
                     if a.file and row["revoked"]:
-                        cp = subprocess.run([sys.executable, str(PROJECT_META / "scripts/concern_issue.py"), "open",
+                        cp = subprocess.run([sys.executable, str(CONCERN_ISSUE), "open",
                                         "--repo", RULE_REPO, "--key", key, "--title", f"Feedback loop: rule did not stop its failure",
                                         "--body", f"The failure recurred after enforcement ({row['sightings_after']} new sighting(s)); "
                                                   f"the licence derives revoked. Problem: {p.get('issue') or p['id']}",
@@ -624,8 +624,7 @@ def main() -> int:
                             continue
                         db.execute("INSERT OR REPLACE INTO revoked VALUES (?,?)", (key, dt.datetime.now(dt.timezone.utc).isoformat()))
                         db.commit()
-                        subprocess.run([sys.executable, str(PROJECT_META / "scripts/operator_notify_router.py"),
-                                        "--severity", "attention", "--key", key, "--state", "revoked", "--source", "feedback-loop",
+                        subprocess.run([sys.executable, str(NOTIFY),
                                         "--title", "A feedback-loop rule did not stop its failure",
                                         "--body", f"{x['text'][:200]} — the failure came back; agents are reworking it."],
                                        capture_output=True, text=True, timeout=120)
@@ -675,9 +674,11 @@ def main() -> int:
 
 
 def alert(code: int, detail: str) -> None:
-    subprocess.run([sys.executable, str(PROJECT_META / "scripts/notify_operator.py"), "--key", "feedback-problems-failed",
-                    "--severity", "agent", "--source", "feedback-loop", "--title", f"Weekly feedback loop exited {code}",
-                    "--body", f"{detail[-1500:]}\nRun log: {OUT}/problems-runs.jsonl; journal: journalctl --user -u feedback-problems"],
+    """A failed weekly run is agent-fixable: it becomes (or reopens) a keyed concern, no push."""
+    subprocess.run([sys.executable, str(CONCERN_ISSUE), "open", "--repo", RULE_REPO, "--key", "feedback-problems-failed",
+                    "--source", "feedback-loop", "--title", f"Weekly feedback loop exited {code}",
+                    "--body", f"{detail[-1500:]}\nRun log: {OUT}/problems-runs.jsonl; journal: journalctl --user -u feedback-problems",
+                    "--occurrence", dt.date.today().isoformat(), "--no-run-claim", "failure of the loop itself; diagnoses no run"],
                    timeout=120)
 
 
