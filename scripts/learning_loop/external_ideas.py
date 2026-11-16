@@ -5,7 +5,7 @@ Implements: external-idea-intake/* (openspec/specs/external-idea-intake/spec.md)
 Ranks by score and age only. With --profile, a light model also judges usefulness to the listed projects
 (prose meaning is never judged by regex) and writes a second digest. Output, seen list and run log go outside the repository.
 Run on request:
-  uv run --with-editable ~/code2/mcp-servers/social-media [--with-editable ~/code2/llm_client for --profile] python scripts/learning_loop/external_ideas.py
+  uv run --with-editable ~/code2/mcp-servers/social-media [--with-editable '~/code2/llm_client[agents]' for --profile] python scripts/learning_loop/external_ideas.py
 """
 from __future__ import annotations
 
@@ -198,6 +198,7 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
     candidates: list[dict] = []
     useful: list[dict] = []
     skipped: list[str] = []
+    unjudged: set[str] = set()
     known = set(getattr(judge, "names", ()))  # profile names; empty = no validation (custom judge)
     down = 0
     for e in entries:
@@ -243,6 +244,7 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
                 skipped.append(e["name"])
                 continue
             ids = {p["id"] for p in kept}
+            unjudged |= set(getattr(judge, "unjudged", ()))
             by_id = {p["id"]: p for p in kept}
             for pid, hit in hits.items():
                 names, why, depth = (list(hit) + ["title"])[:3] if len(hit) == 2 else hit
@@ -280,7 +282,7 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
         (out / digest.name.replace("digest-", "digest-useful-")).write_text("\n".join(ul) + "\n")
         _log(log, {"step": "useful-digest", "useful": len(useful), "of": len(candidates),
                    "model_cost_usd": round(getattr(judge, "cost", 0.0), 5)})
-    seen |= {p["id"] for p in candidates}
+    seen |= {p["id"] for p in candidates} - unjudged
     tmp = seen_file.with_suffix(".tmp")
     tmp.write_text(json.dumps(sorted(seen)))
     tmp.replace(seen_file)
