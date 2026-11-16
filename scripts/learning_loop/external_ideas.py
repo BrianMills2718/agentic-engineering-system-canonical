@@ -2,10 +2,10 @@
 """External idea intake: watch the subreddits named in external_sources.yaml, write a ranked digest.
 
 Implements: external-idea-intake/* (openspec/specs/external-idea-intake/spec.md).
-Ranks by score and age only; it never judges relevance (that is prose meaning and would need an approved
-light model as a separate, measured stage). Output, seen list and run log go outside the repository.
+Ranks by score and age only. With --profile, a light model also judges usefulness to the listed projects
+(prose meaning is never judged by regex) and writes a second digest. Output, seen list and run log go outside the repository.
 Run on request:
-  uv run --with-editable ~/code2/mcp-servers/social-media python scripts/learning_loop/external_ideas.py
+  uv run --with-editable ~/code2/mcp-servers/social-media [--with-editable ~/code2/llm_client for --profile] python scripts/learning_loop/external_ideas.py
 """
 from __future__ import annotations
 
@@ -28,6 +28,15 @@ SOCIAL_MEDIA = Path(os.environ.get("SOCIAL_MEDIA_MCP", "~/code2/mcp-servers/soci
 LISTINGS = {"top", "new"}
 WINDOW_DAYS = {"day": 1, "week": 7, "month": 31, "year": 366}
 Fetch = Callable[[str, str, int, str], dict]
+# judge(subreddit, posts) -> {post id: (project names, one-line reason)} for the posts judged useful
+Judge = Callable[[str, list], dict]
+JUDGE_MODEL = "openrouter/deepseek/deepseek-v4-flash"
+JUDGE_PROMPT = (
+    "You help one person decide which outside posts are worth reading. Below are their projects, then new "
+    "posts from one subreddit. For each post that could concretely help at least one project (a technique, "
+    "tool, finding or design they could adopt or must know about), return its id, the project names it helps "
+    "(exactly as written in the list), and one plain sentence saying how. Skip demos, jokes, news, hype and "
+    "posts with no concrete use. Return only posts that help; an empty list is a valid answer.\n\n")
 
 
 class ConfigError(ValueError):
@@ -84,6 +93,51 @@ def social_media_fetch() -> Fetch:
     return fetch
 
 
+def load_profile(path: Path) -> list[dict]:
+    """Projects to judge usefulness against: each needs a name and a one-line goal."""
+    try:
+        data = YAML(typ="safe").load(Path(path).read_text()) or {}
+    except Exception as exc:  # noqa: BLE001
+        raise ConfigError(f"unreadable profile: {exc}") from exc
+    projects = data.get("projects") if isinstance(data, dict) else None
+    if not isinstance(projects, list) or not projects:
+        raise ConfigError("profile needs a non-empty `projects` list")
+    for pr in projects:
+        if not (isinstance(pr, dict) and str(pr.get("name", "")).strip() and str(pr.get("goal", "")).strip()):
+            raise ConfigError(f"profile entry needs name and goal: {pr!r}")
+    return projects
+
+
+def llm_judge(projects: list[dict]) -> Judge:
+    """One light-model call per subreddit through the shared LLM client (traced, costed)."""
+    from llm_client import call_llm_structured  # type: ignore
+    from pydantic import BaseModel
+
+    class Hit(BaseModel):
+        id: str
+        projects: list[str]
+        reason: str
+
+    class Hits(BaseModel):
+        useful: list[Hit]
+
+    plist = "\n".join(f"- {pr['name']}: {pr['goal']}" for pr in projects)
+
+    def judge(sub: str, posts: list) -> dict:
+        body = "\n\n".join(f"id: {p['id']}\ntitle: {p['title']}\ntext: {p.get('body', '')}" for p in posts)
+        res, meta = call_llm_structured(
+            JUDGE_MODEL, [{"role": "user", "content": f"{JUDGE_PROMPT}Projects:\n{plist}\n\nPosts from r/{sub}:\n\n{body}"}],
+            response_model=Hits, reasoning_effort="none", task="external-ideas.judge",
+            model_justification="light model judges whether a post helps a project (prose meaning; workspace rule)",
+            trace_id=f"external-ideas/judge/{sub}/{int(time.time())}", max_budget=0.05)
+        judge.cost += float(meta.cost or 0)
+        return {h.id: (h.projects, h.reason) for h in res.useful}
+
+    judge.cost = 0.0  # type: ignore[attr-defined]
+    judge.names = [pr["name"] for pr in projects]  # type: ignore[attr-defined]
+    return judge
+
+
 def _age_days(created_at: str, now: float) -> float:
     ts = timegm(time.strptime(created_at[:19], "%Y-%m-%dT%H:%M:%S"))
     return (now - ts) / 86400
@@ -98,7 +152,8 @@ def _log(path: Path, rec: dict) -> None:
         f.write(json.dumps(rec, default=str) + "\n")
 
 
-def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None = None) -> int:
+def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None = None,
+        judge: Judge | None = None) -> int:
     """Run once; return 0, or non-zero on a bad config or any subreddit reported down."""
     now = time.time() if now is None else now
     out = Path(out)
@@ -127,6 +182,9 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
                   "scripts/learning_loop/external_ideas.py", file=sys.stderr)
             return 2
     candidates: list[dict] = []
+    useful: list[dict] = []
+    skipped: list[str] = []
+    known = set(getattr(judge, "names", ()))  # profile names; empty = no validation (custom judge)
     down = 0
     for e in entries:
         t0 = time.time()
@@ -161,18 +219,57 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
                 counts["too_old"] += 1
             else:
                 kept.append({**p, "age_days": round(_age_days(p["created_at"], now), 1), "reason": e["reason"]})
+        if judge is not None and kept:
+            try:
+                hits = judge(e["name"], kept)
+            except Exception as exc:  # noqa: BLE001 - logged; posts stay unseen so a later run offers them again
+                down += 1
+                _log(log, {"step": "judge", "subreddit": e["name"], "status": "failed",
+                           "error": f"{type(exc).__name__}: {str(exc)[:300]}"})
+                skipped.append(e["name"])
+                continue
+            ids = {p["id"] for p in kept}
+            by_id = {p["id"]: p for p in kept}
+            for pid, (names, why) in hits.items():
+                if pid in by_id:
+                    good = [n for n in names if not known or n in known]
+                    if len(good) != len(names):
+                        _log(log, {"step": "judge", "subreddit": e["name"], "dropped_project_names":
+                                   [n for n in names if known and n not in known]})
+                    useful.append({**by_id[pid], "projects": good, "why": why})
+            _log(log, {"step": "judge", "subreddit": e["name"], "status": "ok", "posts": len(kept),
+                       "useful": sum(1 for h in hits if h in ids)})
         candidates += kept
         _log(log, {"step": "fetch", "subreddit": e["name"], "status": "ok", "count": len(posts),
                    "kept": len(kept), "dropped": counts, "seconds": round(time.time() - t0, 2)})
     candidates.sort(key=lambda p: (-p["score"], p["age_days"]))
     digest = out / f"digest-{time.strftime('%Y%m%dT%H%M%S', time.gmtime(now))}.md"
     lines = [f"# External idea digest {day}", "",
-             f"{len(candidates)} new posts, ranked by score then age. No relevance judgement.", ""]
+             f"{len(candidates)} new posts, ranked by score then age; this list does no relevance judgement.", ""]
+    if skipped:
+        lines += [f"Not shown: r/{n} (usefulness judge failed; its posts are offered again next run).".replace("r/r/", "r/") for n in skipped] + [""]
     for p in candidates:
         links = ", ".join(_links(p.get("body", ""))[:5]) or "none in the first 500 characters"
         lines += [f"- **{p['title']}** (r/{p['subreddit']}, score {p['score']}, {p['age_days']} days old, "
                   f"{p['replies']} comments)", f"  {p['url']}", f"  Why watched: {p['reason']}. Links in body: {links}"]
     digest.write_text("\n".join(lines) + "\n")
+    if judge is not None:
+        by_project: dict[str, list[dict]] = {}
+        for p in sorted(useful, key=lambda p: (-p["score"], p["age_days"])):
+            for name in p["projects"] or ["(unassigned)"]:
+                by_project.setdefault(name, []).append(p)
+        ul = [f"# Useful to your projects {day}", "",
+              f"{len(useful)} of {len(candidates)} new posts judged useful by {JUDGE_MODEL}; grouped by project, "
+              "score then age within a group.", ""]
+        for name, ps in sorted(by_project.items()):
+            ul += [f"## {name}", ""]
+            for p in ps:
+                ul += [f"- **{p['title']}** (r/{p['subreddit']}, score {p['score']}, {p['age_days']} days old)",
+                       f"  {p['url']}", f"  How: {p['why']}"]
+            ul.append("")
+        (out / digest.name.replace("digest-", "digest-useful-")).write_text("\n".join(ul) + "\n")
+        _log(log, {"step": "useful-digest", "useful": len(useful), "of": len(candidates),
+                   "model_cost_usd": round(getattr(judge, "cost", 0.0), 5)})
     seen |= {p["id"] for p in candidates}
     tmp = seen_file.with_suffix(".tmp")
     tmp.write_text(json.dumps(sorted(seen)))
@@ -185,8 +282,17 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--config", type=Path, default=CONFIG)
     ap.add_argument("--out", type=Path, default=OUT_DEFAULT)
+    ap.add_argument("--profile", type=Path, default=None,
+                    help="projects.yaml (outside the repo): judge usefulness to these projects with a light model")
     a = ap.parse_args()
-    return run(a.config, a.out)
+    judge = None
+    if a.profile:
+        try:
+            judge = llm_judge(load_profile(a.profile))
+        except (ConfigError, OSError, ImportError) as exc:
+            print(f"external_ideas: profile/model unavailable: {exc}", file=sys.stderr)
+            return 2
+    return run(a.config, a.out, judge=judge)
 
 
 if __name__ == "__main__":
