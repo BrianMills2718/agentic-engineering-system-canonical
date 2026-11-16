@@ -33,6 +33,9 @@ flowchart LR
     refresh_checkouts[refresh_canonical_checkouts: fast-forward registered checkouts]
     workspace_map_alert[workspace_map_alert: daily workspace check to one concern and one message]
     workspace_map[workspace_map: clutter check of ~/code, ~/projects, ~/code2]
+    graph_refresh[project_graph_refresh: daily graph and page refresh]
+    graph_sync[project_graph_sync: register new GitHub repositories]
+    dependency_scan[check_capability_consumption: fill depends_on from real use]
     archive_map[archive_map: every ~/archive entry explained]
     repair_verifier[concern_repair_feedback: five-gate repair check]
     repair_contract[concern_repair_contract: report and record shapes]
@@ -117,6 +120,13 @@ flowchart LR
   systemd -.-> workspace_map_alert
   workspace_map_alert --> workspace_map
   workspace_map --> archive_map
+  workspace_map --> dependency_scan
+  systemd -.-> graph_refresh
+  graph_refresh --> graph_sync
+  graph_refresh --> dependency_scan
+  graph_refresh --> graph_taxonomy
+  graph_refresh --> project_activity
+  graph_sync --> workspace_map
   workspace_map_alert --> notify
   repair_verifier --> repair_contract
   repair_verifier -.-> repair_agents

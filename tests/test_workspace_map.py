@@ -106,14 +106,23 @@ def test_an_import_missing_from_depends_on_is_named_with_its_package():
     assert wm.dependency_findings(lambda: Result) == {wm.DEPENDENCY_TITLE: ["app -> llm_client (llm_client)"]}
 
 
-@pytest.mark.req("workspace-map-check/dependency-scan-skip-is-visible")
-def test_a_missing_dependency_scanner_is_a_visible_info_line(monkeypatch):
-    def not_ported():
-        raise ImportError("No module named 'check_capability_consumption'")
-    monkeypatch.setattr(wm, "undeclared_dependency_links", lambda scan=None: not_ported())
+@pytest.mark.req("workspace-map-check/undeclared-dependency-is-a-finding")
+def test_the_real_scanner_runs_over_the_configured_graph(tmp_path, monkeypatch):
+    """The placeholder INFO line is gone: the ported scanner reads the graph PROJECT_GRAPH names."""
+    lib, app = tmp_path / "libx", tmp_path / "app"
+    (lib / "src/libx").mkdir(parents=True)
+    (lib / "src/libx/__init__.py").write_text("")
+    app.mkdir()
+    (app / "main.py").write_text("import libx\n")
+    graph = tmp_path / "PROJECT_GRAPH.json"
+    graph.write_text(json.dumps([{"id": "libx", "path": str(lib), "status": "active"},
+                                 {"id": "app", "path": str(app), "status": "active", "depends_on": []}]))
+    monkeypatch.setenv("PROJECT_GRAPH", str(graph))
     out = wm.dependency_findings()
-    assert list(out) == ["INFO dependency scan not ported yet (retirement plan step 4)"]
-    assert all(k.startswith("INFO") for k in out)  # INFO keys are not actionable, so no concern opens
+    assert out == {wm.DEPENDENCY_TITLE: ["app -> libx (import libx)"]}
+    graph.write_text(json.dumps([{"id": "libx", "path": str(lib), "status": "active"},
+                                 {"id": "app", "path": str(app), "status": "active", "depends_on": ["libx"]}]))
+    assert wm.dependency_findings() == {}
 
 
 @pytest.mark.req("workspace-map-check/settings-come-from-config")

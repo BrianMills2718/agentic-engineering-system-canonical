@@ -17,14 +17,14 @@ The project graph SHALL be read from `PROJECT_GRAPH` or `~/code2/aes-config/PROJ
 - **WHEN** the extras file is not beside the graph and `WORKSPACE_MAP_EXTRAS` is not set
 - **THEN** loading stops with a message naming the expected path and `WORKSPACE_MAP_EXTRAS`
 
-### Requirement: dependency-scan-skip-is-visible
+### Requirement: undeclared-dependency-is-a-finding
 
-While the dependency scanner (`check_capability_consumption.py`) is not in this repository, the check SHALL skip the `depends_on` finding and SHALL say so in the report with an INFO line, which opens no concern.
+The check SHALL run the dependency scanner (`scripts/check_capability_consumption.py`) over the configured project graph and SHALL report, as an actionable finding, every repository that uses another repository (import, path or command) not listed in its `depends_on`. It replaced the INFO line "dependency scan not ported yet" on 2026-11-16, when the scanner was ported (retirement plan step 4).
 
-#### Scenario: dependency-scan-skip-is-visible
+#### Scenario: undeclared-dependency-is-a-finding
 
-- **WHEN** the scanner module cannot be imported
-- **THEN** the findings hold only the INFO line "dependency scan not ported yet (retirement plan step 4)", and no actionable finding
+- **WHEN** a graph record's code imports another record's package and its `depends_on` does not list that record
+- **THEN** the findings hold "consumer -> provider (evidence)" under the depends_on title, and nothing once the link is declared
 
 ### Requirement: alert-once-per-state-change
 
