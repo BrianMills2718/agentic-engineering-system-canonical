@@ -52,3 +52,21 @@ The manifest SHALL record only how many `Environment=` and `EnvironmentFile=` li
 
 - **WHEN** a service or drop-in sets a value through `Environment=`, `EnvironmentFile=` or a command argument
 - **THEN** that value does not appear in the manifest, and the counts do
+
+### Requirement: repository-copies-can-be-compared
+
+`check-units` SHALL compare each file under the units repository folder (default `~/code2/aes-config/machine-units`, laid out as the unit folder is) with the same path in the unit folder, print counts of same, differ, missing and under-a-symlink files and of recorded symlinks (a `NAME.symlink` file holds the link target text), list the differing ones, and exit 1 when any file or recorded symlink differs. Missing files do not fail it: a clean machine is expected to lack them. It changes nothing.
+
+#### Scenario: repository-copies-can-be-compared
+
+- **WHEN** the disk has one identical, one differing and one absent copy of repository files
+- **THEN** `check-units` prints one of each in its counts and exits 1; once the differing file matches it exits 0
+
+### Requirement: install-never-deletes-or-writes-through-links
+
+`install-units` SHALL be a dry run unless `--apply` is given, printing what it would install or replace. With `--apply` it SHALL copy only files that are missing or differ, first copying each differing disk file to `~/archive/systemd-units-replaced/<path>-<date>/`; it SHALL never delete a file and SHALL skip, and report, any destination that is a symlink or sits under one. It SHALL run `systemctl --user daemon-reload` only when `--daemon-reload` is also given.
+
+#### Scenario: install-never-deletes-or-writes-through-links
+
+- **WHEN** `install-units` runs without `--apply`, then with it, on a folder holding a differing file, a missing file, a file only on disk and a drop-in folder that is a symlink
+- **THEN** the first run writes nothing; the second backs up and replaces the differing file, installs the missing one, leaves the disk-only file and the symlinked folder untouched

@@ -28,7 +28,7 @@ flowchart LR
     notify[notify: Telegram message, no Project Meta]
     timers[timers: job list to systemd units]
     failed_unit_watch[failed_unit_watch: failed units to concern issues]
-    machine_manifest[machine_manifest: every unit and where its file comes from]
+    machine_manifest[machine_manifest: every unit, where its file comes from, repository copies of local-only files]
     graph_taxonomy[check_project_graph_taxonomy: shape of the project graph]
     project_activity[build_project_activity: last commit per registered repo]
     refresh_checkouts[refresh_canonical_checkouts: fast-forward registered checkouts]

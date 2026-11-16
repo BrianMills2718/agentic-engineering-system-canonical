@@ -7,8 +7,10 @@ list (`scripts/timers.py` generated it), or nowhere (`local-only`).
 
     machine_manifest.py build [--unit-dir D] [--out FILE]        write the manifest (stdout without --out)
     machine_manifest.py check [--unit-dir D] [--manifest FILE]   rebuild in memory, list what would be lost; exit 1 if any
+    machine_manifest.py check-units [--unit-dir D] [--units-repo R]     compare the disk with the repository copies; exit 1 on a difference
+    machine_manifest.py install-units [--apply] [--daemon-reload]       copy repository copies that are missing or differ (dry run unless --apply)
 
-Read-only: it reads unit files, runs `git` read commands and `systemctl --user is-enabled`, and changes nothing.
+`build` and `check` are read-only: they read unit files, runs `git` read commands and `systemctl --user is-enabled`, and changes nothing.
 It never writes an Environment= value or an EnvironmentFile's path or contents, only how many there are.
 
 Implements: machine-manifest/every-unit-has-a-source
@@ -16,13 +18,17 @@ Implements: machine-manifest/local-only-units-are-reported
 Implements: machine-manifest/missing-or-untracked-target-is-reported
 Implements: machine-manifest/output-is-stable
 Implements: machine-manifest/no-environment-values-are-written
+Implements: machine-manifest/repository-copies-can-be-compared
+Implements: machine-manifest/install-never-deletes-or-writes-through-links
 """
 from __future__ import annotations
 
 import argparse
+import datetime
 import os
 import re
 import shlex
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -325,13 +331,113 @@ LABELS = {"local-only": "(a) local-only files, lost on a clean machine",
           "not-in-manifest": "(d) on disk, not in the manifest"}
 
 
+SYMLINK_SUFFIX = ".symlink"
+DEFAULT_UNITS_REPO = Path.home() / "code2/aes-config/machine-units"
+DEFAULT_BACKUP_ROOT = Path.home() / "archive/systemd-units-replaced"
+
+
+def repo_copies(units_repo: Path) -> tuple[dict[str, Path], dict[str, str]]:
+    """Repository copies by unit-folder-relative path, and recorded symlinks (`NAME.symlink` holds the link target)."""
+    files: dict[str, Path] = {}
+    links: dict[str, str] = {}
+    for p in sorted(units_repo.rglob("*")):
+        if not p.is_file():
+            continue
+        rel = p.relative_to(units_repo).as_posix()
+        if rel.endswith(SYMLINK_SUFFIX):
+            links[rel[: -len(SYMLINK_SUFFIX)]] = p.read_text().strip()
+        else:
+            files[rel] = p
+    return files, links
+
+
+def _through_link(unit_dir: Path, rel: str) -> bool:
+    """True when the destination file, or a folder between it and the unit folder, is a symlink."""
+    path = unit_dir / rel
+    return any(q.is_symlink() for q in [path, *path.parents] if q != unit_dir and unit_dir in q.parents)
+
+
+def compare_units(unit_dir: Path, units_repo: Path) -> dict[str, list[str]]:
+    """Disk against repository copies: same, differ, missing, and `linked` (disk path is a symlink or under one).
+
+    Implements: machine-manifest/repository-copies-can-be-compared
+    """
+    files, links = repo_copies(units_repo)
+    out: dict[str, list[str]] = {"same": [], "differ": [], "missing": [], "linked": [], "link-same": [], "link-differ": []}
+    for rel, src in files.items():
+        dest = unit_dir / rel
+        if _through_link(unit_dir, rel):
+            out["linked"].append(rel)
+        elif not dest.exists():
+            out["missing"].append(rel)
+        elif dest.read_bytes() == src.read_bytes():
+            out["same"].append(rel)
+        else:
+            out["differ"].append(rel)
+    for rel, target in links.items():
+        dest = unit_dir / rel
+        out["link-same" if dest.is_symlink() and os.readlink(dest) == target else "link-differ"].append(rel)
+    return out
+
+
+def install_units(unit_dir: Path, units_repo: Path, apply: bool, backup_root: Path = DEFAULT_BACKUP_ROOT,
+                  today: str | None = None) -> dict[str, list[str]]:
+    """Copy repository copies that are missing or differ; back up a differing disk file first; never delete.
+
+    A destination that is a symlink, or sits under one, is skipped and reported, never written through.
+    Implements: machine-manifest/install-never-deletes-or-writes-through-links
+    """
+    today = today or datetime.date.today().isoformat()
+    files, _ = repo_copies(units_repo)
+    found = compare_units(unit_dir, units_repo)
+    done: dict[str, list[str]] = {"installed": [], "replaced": [], "skipped-link": list(found["linked"])}
+    for rel in found["missing"] + found["differ"]:
+        dest = unit_dir / rel
+        replaced = rel in found["differ"]
+        if apply:
+            if replaced:
+                backup = backup_root / f"{rel.replace('/', '__')}-{today}"
+                backup.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(dest, backup / dest.name)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(files[rel], dest)
+        done["replaced" if replaced else "installed"].append(rel)
+    return done
+
+
 def main(argv: list[str] | None = None, is_enabled: Callable[[str], str] = systemctl_is_enabled) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["build", "check"])
+    ap.add_argument("command", choices=["build", "check", "check-units", "install-units"])
     ap.add_argument("--unit-dir", type=Path, default=Path.home() / ".config/systemd/user")
     ap.add_argument("--out", type=Path)
     ap.add_argument("--manifest", type=Path, default=Path.home() / "code2/aes-config/machine-layer.yaml")
+    ap.add_argument("--units-repo", type=Path, default=DEFAULT_UNITS_REPO)
+    ap.add_argument("--apply", action="store_true", help="install-units: really copy (the default is a dry run)")
+    ap.add_argument("--dry-run", action="store_true", help="install-units: print what would change (the default)")
+    ap.add_argument("--daemon-reload", action="store_true", help="install-units --apply: then run systemctl --user daemon-reload")
+    ap.add_argument("--backup-root", type=Path, default=DEFAULT_BACKUP_ROOT)
     a = ap.parse_args(argv)
+    if a.command == "check-units":
+        found = compare_units(a.unit_dir, a.units_repo)
+        print(f"machine_manifest: units in {a.units_repo} against {a.unit_dir}: same {len(found['same'])}, "
+              f"differ {len(found['differ'])}, missing {len(found['missing'])}, under-a-symlink {len(found['linked'])}; "
+              f"recorded symlinks same {len(found['link-same'])}, differ {len(found['link-differ'])}")
+        for key in ("differ", "missing", "linked", "link-differ"):
+            for name in found[key]:
+                print(f"  {key}: {name}")
+        return 1 if found["differ"] or found["link-differ"] else 0
+    if a.command == "install-units":
+        real = a.apply and not a.dry_run
+        done = install_units(a.unit_dir, a.units_repo, real, a.backup_root)
+        print(f"machine_manifest: install-units {'applied' if real else 'dry run, nothing written'}: "
+              f"{len(done['installed'])} new, {len(done['replaced'])} replaced (backed up first), "
+              f"{len(done['skipped-link'])} skipped (symlink)")
+        for key, names in done.items():
+            for name in names:
+                print(f"  {key}: {name}")
+        if real and a.daemon_reload:
+            return subprocess.run(["systemctl", "--user", "daemon-reload"], check=False).returncode
+        return 0
     current = build(a.unit_dir, is_enabled)
     if a.command == "build":
         text = dump(current)
