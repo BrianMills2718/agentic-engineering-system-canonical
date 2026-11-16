@@ -67,10 +67,29 @@ from urllib.parse import unquote
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 # Copied from Project Meta scripts/md_file_cap.py at f1e27c906 (retirement plan, slice 1). The only change is where
-# the default project graph is read from: the PROJECT_GRAPH environment variable, else Project Meta's file, until
-# the graph has its new owner (slice 4).
-GRAPH_DEFAULT = os.environ.get("PROJECT_GRAPH") or os.path.expanduser("~/code2/project-meta/PROJECT_GRAPH.json")
-OWNER = "BrianMills2718"
+# The project graph is one person's own data: the PROJECT_GRAPH environment variable names it, else it is read from the
+# private `project-graph` repository (retirement plan step 4, Decision 20). The GitHub owner whose repositories are
+# checked comes from `graph-config.yaml` beside the graph (key `owner`), or the PROJECT_GRAPH_OWNER environment variable.
+GRAPH_DEFAULT = os.environ.get("PROJECT_GRAPH") or os.path.expanduser("~/code2/project-graph/PROJECT_GRAPH.json")
+
+OWNER = None  # set once per run in main() from graph_owner(); the code below compares against it
+
+
+def graph_owner(graph_path=None):
+    """The GitHub owner whose repositories are checked; fails loudly when no setting names one."""
+    named = os.environ.get("PROJECT_GRAPH_OWNER")
+    if named:
+        return named
+    config = os.path.join(os.path.dirname(os.path.expanduser(graph_path or GRAPH_DEFAULT)), "graph-config.yaml")
+    try:
+        found = re.search(r"^owner:\s*(\S+)", open(config).read(), re.M)
+    except OSError:
+        found = None
+    if not found:
+        raise SystemExit(f"md_file_cap: no owner named: set PROJECT_GRAPH_OWNER or put `owner:` in {config}")
+    return found.group(1)
+
+
 EXCEPTION_FILE = ".md-file-cap.yaml"
 DEFAULT_CAP = 100
 
@@ -97,7 +116,7 @@ def owned_checkouts(graph_path):
             continue
         # Some entries carry no github_repo; their origin remote still says who owns them.
         gr = p.get("github_repo") or remote_slug(path)
-        if gr.split("/")[0] != OWNER:
+        if gr.split("/")[0] != (OWNER or graph_owner(graph_path)):
             continue
         top = (git(path, "rev-parse", "--show-toplevel") or "").strip()
         if top and top not in seen:
@@ -444,7 +463,7 @@ def evaluate(checkouts, cap, ref_override=None):
             continue
         limit, reason, problem = read_exception(top, ref)
         allowed = limit or cap
-        if slug.split("/")[0] != OWNER:  # a --repo spot check of someone else's repository: the cap is Brian's rule only
+        if slug.split("/")[0] != (OWNER or graph_owner()):  # a --repo spot check of someone else's repository: the cap is Brian's rule only
             status, detail = "out-of-scope", "the 100-file cap applies to Brian-owned repositories only"
         elif problem:
             status, detail = "over", problem
@@ -476,6 +495,8 @@ def main(argv=None):
     ap.add_argument("--repo", action="append", help="check this checkout instead of the Brian-owned graph entries (repeatable)")
     ap.add_argument("--ref", help="with --repo: the commit or ref to check (default: the repo's default branch)")
     a = ap.parse_args(argv)
+    global OWNER
+    OWNER = graph_owner(a.graph)
     if a.repo:
         checkouts = {}
         for path in a.repo:
