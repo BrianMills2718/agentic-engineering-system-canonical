@@ -57,3 +57,12 @@ def test_install_backs_up_the_old_file_then_writes_then_reloads(tmp_path):
     assert len(saved) == 1 and saved[0].read_text() == "old content"
     assert calls == [["systemctl", "--user", "daemon-reload"]]
     assert t.install(files, live, backup, run=lambda *a, **k: calls.append("again")) == [] and calls == [["systemctl", "--user", "daemon-reload"]]
+
+
+@pytest.mark.req("timer-config/jobs-become-units")
+def test_hourly_after_finish_schedule_and_log_name_are_rendered(tmp_path):
+    job = {**JOB, "syslog_identifier": "demo-log",
+           "schedule": {"on_boot_sec": "10min", "on_unit_inactive_sec": "1h", "persistent": True}}
+    files = t.render(t.load(write(tmp_path, [job])))
+    assert "OnUnitInactiveSec=1h" in files["demo.timer"] and "OnBootSec=10min" in files["demo.timer"]
+    assert "SyslogIdentifier=demo-log" in files["demo.service"]
