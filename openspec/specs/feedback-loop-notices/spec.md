@@ -10,7 +10,7 @@ Source: Brian, 2026-11-14: Project Meta is legacy and is retired in exchange for
 
 ### Requirement: The loop runs without Project Meta
 
-The feedback loop scripts (`problems.py`, `label_items.py`) SHALL call only the concern adapter `scripts/concern_issue.py` and the push sender `scripts/learning_loop/notify.py` from this repository. They SHALL NOT call any script under a Project Meta checkout.
+The feedback loop scripts that file concerns or send notices (`problems.py`, `label_items.py`, `fix_owner.py`, `policies.py`, `alert.py`, `notify.py`; `collect_feedback.py` for notices only) SHALL call only the concern adapter `scripts/concern_issue.py` and the push sender `scripts/learning_loop/notify.py` from this repository. They SHALL NOT call any script under a Project Meta checkout.
 
 #### Scenario: no-project-meta-path
 

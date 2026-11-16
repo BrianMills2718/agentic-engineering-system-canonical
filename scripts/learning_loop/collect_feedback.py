@@ -33,7 +33,7 @@ Steps, each timed and counted in the printed summary and in runs.jsonl:
 Privacy: transcript text goes only to OpenRouter through llm_client and to the
 local output folder; nothing here is committed anywhere. Exit 0 = clean, 1 = some
 LLM/Jev/filing calls failed (counted; their files are re-read next run), 2 =
-crashed. Any non-zero exit opens a keyed agent concern as a concern via scripts/learning_loop/alert.py.
+crashed. Any non-zero exit opens a keyed agent concern through scripts/learning_loop/alert.py.
 
   uv run --no-project --with-editable ~/code/llm_client python \
       scripts/learning_loop/collect_feedback.py [--since-days 3] [--file] [--max-file 25]

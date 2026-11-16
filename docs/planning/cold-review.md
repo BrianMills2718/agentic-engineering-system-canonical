@@ -1,4 +1,18 @@
-# Bounded cold review: work-unit DAG (AES, 2026-11-14)
+# Bounded cold review: feedback-loop notices (AES, 2026-11-16)
+
+Reviewed revision: `f74ad50482985e6fa9e8c93ead1fa92578e0c704`.
+Verdict: **pass** for the slice 2 change (spec `feedback-loop-notices`, `scripts/learning_loop/notify.py`, `alert.py`,
+the copied `scripts/concern_issue.py`, loop call sites, plan row). This does not re-certify unrelated A1-A8.
+
+Independent planning reviewer: first read at `b391f165f`: revise (plan row claimed the loop had no Project Meta path while
+the nightly collector, fix owner and policy check still called its alert script; weak no-path test; test count 22 vs 19;
+lost de-duplication and notification log unnamed). Second read at this revision: pass, 24 tests exit 0. Noted, not changed:
+the `problems.py` digest and revoked push call sites are read, not tested; no live `gh` or ntfy run; `collect_feedback.py`
+still uses the legacy learnings register (a later slice).
+
+Verdict: pass
+
+## Prior review: work-unit DAG (historical)
 
 Reviewed revision: `ff9d4c9f40b59508dfda61ad6d9d288dcea01c3f`.
 Verdict: **pass** for the work-unit DAG change (`lockstep plan units`, spec `lockstep-plan-check/work-units-form-a-dag`)

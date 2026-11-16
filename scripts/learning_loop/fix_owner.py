@@ -12,7 +12,7 @@ Output (never committed; may quote private records):
   $FEEDBACK_OUT/fix-owner-<date>.jsonl   the session's full stream-json trace
   $FEEDBACK_OUT/fix-owner-runs.jsonl     one line per run: items, dispositions, checks
 Exit 0 = every handed item has a valid disposition, 1 = some do not, 2 = crashed.
-Non-zero opens a keyed agent concern as a concern via scripts/learning_loop/alert.py.
+Non-zero opens a keyed agent concern through scripts/learning_loop/alert.py.
 
   python scripts/learning_loop/fix_owner.py [--max-items 3] [--issue N] [--dry-run]
 """
