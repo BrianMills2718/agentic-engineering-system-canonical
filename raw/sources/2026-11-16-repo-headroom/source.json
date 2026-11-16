@@ -1,0 +1,19 @@
+{
+  "source": "headroomlabs-ai/headroom",
+  "found_via": "reddit 1xg64ff (r/SATNA_PROJECT)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "5023c84e527e28281dd73d1ba04184fe738aac0f",
+  "commit_date": "2026-11-15T10:18:51+05:30",
+  "license_as_read": "Apache-2.0",
+  "stars_reported_2026_11_16": 79800,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "9752d595596e19aab55a9e920f6207ac28ac5fa1",
+    "headroom/transforms/log_compressor.py": "f5be42c0e1067004c4b27ef33bf4f7efe3d053cf"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

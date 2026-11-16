@@ -1,0 +1,13 @@
+{
+  "source_url": "https://www.reddit.com/r/BestGitHubRepos/comments/1xcbe7h/",
+  "platform": "reddit",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "method": "social-media MCP code (asyncpraw), all comments expanded",
+  "coverage": "r/BestGitHubRepos post and 29 of 34 comments",
+  "original_file": "original/1xcbe7h.json",
+  "sha256": "ad67edfc1a6c83d5e4b52fbb000311fedef49ea8a5ebc442d0e85367f4e11872",
+  "not_captured": "images and video attached to the post; linked repositories are captured separately as repo sources",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

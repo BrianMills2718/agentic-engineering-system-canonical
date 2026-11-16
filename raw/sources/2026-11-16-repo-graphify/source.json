@@ -1,0 +1,20 @@
+{
+  "source": "Graphify-Labs/graphify",
+  "found_via": "reddit 1xg64ff (r/SATNA_PROJECT)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "480b61ed91cbc08177dc2c60caa9ffd6c9b95749",
+  "commit_date": "2026-11-16T17:34:39+00:00",
+  "license_as_read": "Apache-2.0",
+  "stars_reported_2026_11_16": 148882,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "ad5fd3cd72881f93691b4f4ea29a7c3897929c4d",
+    "ARCHITECTURE.md": "0cd73c757e74a32a92b9d822b01cc8c89c95d7b8",
+    "BENCHMARKS.md": "cdab7867a2da15e058e46a5d395a2ae9b9031437"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

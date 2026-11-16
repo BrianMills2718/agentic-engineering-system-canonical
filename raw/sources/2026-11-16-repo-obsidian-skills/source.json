@@ -1,0 +1,19 @@
+{
+  "source": "kepano/obsidian-skills (now obsidianmd/obsidian-skills)",
+  "found_via": "reddit 1xte8sk (r/SATNA_PROJECT)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "398127736bd4ba42d767b1419fee1a927508370b",
+  "commit_date": "2026-11-11T08:12:33-08:00",
+  "license_as_read": "MIT",
+  "stars_reported_2026_11_16": 52932,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "plugins/obsidian/skills/obsidian-markdown/SKILL.md": "13e3041536ac2b2e27509d7f4aff357995f0d090",
+    "plugins/obsidian/skills/defuddle/SKILL.md": "81f6ee03344ae517c45055b9c789eae530d47c43"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

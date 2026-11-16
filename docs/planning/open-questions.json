@@ -829,7 +829,7 @@
    "resolves_with": "A named AES coverage table (for example, requirement by test kind) is picked and a small trial shows the rule catching a silent skip.",
    "recommendation": "Trial it on one existing table before any wider rule.",
    "default": "No change; tables keep their current form.",
-   "evidence": "Bansat's UI-state matrix has 17 columns per screen and allows N/A only with a reason (r/claudeskills 1xo5oc0, 2026-11-14). Not run against AES; the Bansat repository was not opened.",
+   "evidence": "Bansat's UI-state matrix has 17 columns per screen and allows N/A only with a reason (r/claudeskills 1xo5oc0, 2026-11-14). Not run against AES; the Bansat repository was not opened. Read at the repository on 2026-11-16: the rule is written in framework/13-launch-gate.md:4 and framework/10-experience.md:199,221 (commit acbde2f).",
    "owner": "agent",
    "status": "open",
    "touches": [
@@ -837,7 +837,8 @@
    ],
    "sources": [
     "wiki/external-ideas.md",
-    "raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json"
+    "raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json",
+    "raw/sources/2026-11-16-repo-bansat/source.json"
    ]
   },
   {
@@ -848,7 +849,7 @@
    "resolves_with": "One Lockstep typed interface with an enumerated set of cases is shown failing the build when a case is removed.",
    "recommendation": "Check whether Lockstep's typed-interface check already does this before adding anything.",
    "default": "No change.",
-   "evidence": "Bansat's reference code uses a typed union with an exhaustive switch (same post, author's comment). Unverified; AES coverage of this was not checked.",
+   "evidence": "Bansat's reference code uses a typed union with an exhaustive switch (same post, author's comment). Unverified; AES coverage of this was not checked. Read at the repository on 2026-11-16: examples/lib/ui/view-state.tsx defines assertNever and examples/tests/types/exhaustive-states.ts uses @ts-expect-error to prove a missing case fails the build; neither was run (commit acbde2f).",
    "owner": "agent",
    "status": "open",
    "touches": [
@@ -856,7 +857,8 @@
    ],
    "sources": [
     "wiki/external-ideas.md",
-    "raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json"
+    "raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json",
+    "raw/sources/2026-11-16-repo-bansat/source.json"
    ]
   },
   {
@@ -867,7 +869,7 @@
    "resolves_with": "Compare with the existing `Source:` line rule (Brian's words, or inferred by agent) and decide whether a status field adds anything it does not already show.",
    "recommendation": "Probably already covered by `Source:` lines; confirm on a sample of requirements before adding a field.",
    "default": "No change; the `Source:` line rule stands.",
-   "evidence": "A commenter asked for this on Bansat and the author agreed to add it (same post, 2026-11-14). AES's `lockstep check sources` already checks `Source:` lines (AGENTS.md).",
+   "evidence": "A commenter asked for this on Bansat and the author agreed to add it (same post, 2026-11-14). AES's `lockstep check sources` already checks `Source:` lines (AGENTS.md). Read at the repository on 2026-11-16: Bansat has a status per document only (framework/cover.md:24), not per requirement, so it does not yet implement this.",
    "owner": "agent",
    "status": "open",
    "touches": [
@@ -875,7 +877,8 @@
    ],
    "sources": [
     "wiki/external-ideas.md",
-    "raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json"
+    "raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json",
+    "raw/sources/2026-11-16-repo-bansat/source.json"
    ]
   }
  ]

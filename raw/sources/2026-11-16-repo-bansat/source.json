@@ -1,0 +1,27 @@
+{
+  "source": "bewithkhan/bansat",
+  "found_via": "reddit 1xo5oc0 (r/claudeskills)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "acbde2f29e57977cb273e35c15d18664c5e60bf5",
+  "commit_date": "2026-11-11T15:11:11+00:00",
+  "license_as_read": "CC BY 4.0 text, MIT code",
+  "stars_reported_2026_11_16": 35,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "SKILL.md": "2a9cfa348a0edb81de07c01edb7950097993b9a4",
+    "README.md": "0a1b9c513a8849148a61d73fe1449e96abbe0fec",
+    "hooks/bansat-g1-guard.mjs": "887dc4b6b744820e72f260b18a461ba59082f733",
+    "examples/lib/ui/view-state.tsx": "1bef3b7fa300244210eb6942cffbd423d187b8ba",
+    "examples/tests/types/exhaustive-states.ts": "a9a1f7a612136e4225fc7a1dbf36e0838e648319",
+    "examples/tests/rls/run.mjs": "ede650c333663b4a330949bd155f93495894a7df",
+    "examples/tests/privacy/no-third-party-before-consent.spec.ts": "834100b2456049abd2ad4cebc800620090b4bf59",
+    "framework/13-launch-gate.md": "2214a2fd23337aa891b4d2b94615f5d981c36071",
+    "framework/10-experience.md": "9ca93733f0514b33e7356716c47649a3291ceaac",
+    "research/README.md": "febc0a3fec73d47703bce1b58edb3a7b8429a354"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

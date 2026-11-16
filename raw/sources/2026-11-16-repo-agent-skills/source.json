@@ -1,0 +1,20 @@
+{
+  "source": "addyosmani/agent-skills",
+  "found_via": "reddit 1xg64ff (r/SATNA_PROJECT)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "39b723ceebf81474d0557c1fecd01eddab585563",
+  "commit_date": "2026-11-13T20:33:55-08:00",
+  "license_as_read": "MIT",
+  "stars_reported_2026_11_16": 118200,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "7f610b8ca80ff9bc7ba7f95f3209430c3481891d",
+    "skills/test-driven-development/SKILL.md": "5dc0ae7e4ae4e4f6d60a6815f2643cda6ba3e99c",
+    "evals/README.md": "831993579ce92effc1e6b99f2927e3cbc46aa196"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

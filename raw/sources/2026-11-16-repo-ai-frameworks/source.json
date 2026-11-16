@@ -1,0 +1,18 @@
+{
+  "source": "Vir-Multiplicis/ai-frameworks",
+  "found_via": "reddit 1txxsjd (r/OntologyEngineering)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "33edb5dcb04eaf9ff224f11fc4343e519cf091c0",
+  "commit_date": "2026-11-11T17:01:58-08:00",
+  "license_as_read": "CC BY 4.0 file (GitHub reports NOASSERTION)",
+  "stars_reported_2026_11_16": 30,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "e4332a0311ddc39f42369a19504665c09bb83d6e"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

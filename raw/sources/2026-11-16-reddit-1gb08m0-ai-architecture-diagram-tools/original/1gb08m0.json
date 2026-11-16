@@ -1,0 +1,105 @@
+{
+  "id": "1gb08m0",
+  "subreddit": "AI_Agents",
+  "author": "Fit_Jelly_5346",
+  "title": "Bit of a long shot, but has anyone found a proper diagramming tool for AI architecture?",
+  "selftext": "Been using the likes of Cloudairy for cloud diagrams lately, and it got me wondering - is there anything similar but properly built for AI/ML architectures? Not just after fancy shapes mind you, but something that genuinely understands modern AI systems.\n\n**Current Faff:** Most diagramming tools seem rather stuck in the traditional cloud architecture mindset. When I'm trying to map out things like:\n\n* Multi-agent systems nattering away to each other\n* Proper complex RAG pipelines\n* Prompt chains and transformations\n* Feedback loops between different AI bits and bobs\n* Vector DB interactions\n\n...I end up with a right mess of generic boxes and arrows that don't really capture what's going on.\n\n**What I'm hoping might exist:**\n\n* Proper understanding of AI/ML patterns\n* Clever ways to show prompt flows and transformations\n* Perhaps some interactive elements to show data flow?\n* Templates for common patterns (RAG, agent chains, and the like)\n* Something that makes AI architecture diagrams look less of an afterthought\n\nI know we can crack on with general tools like [draw.io](http://draw.io), Mermaid, or Lucidchart, but with all the AI tooling innovation happening these days, I reckon someone must be having a go at solving this.\n\nHas anyone stumbled across anything interesting in this space? Or are we still waiting for someone to sort it out?\n\nCheers!",
+  "url": "https://www.reddit.com/r/AI_Agents/comments/1gb08m0/bit_of_a_long_shot_but_has_anyone_found_a_proper/",
+  "is_self": true,
+  "score": 7,
+  "num_comments": 15,
+  "created_utc": 1729768989.0,
+  "comments": [
+    {
+      "id": "lti9u9v",
+      "parent": "t3_1gb08m0",
+      "author": "Greyveytrain-AI",
+      "score": 4,
+      "body": "This would be super useful - Being able to describe the flow and specific architectural model that's supports it would be awesome."
+    },
+    {
+      "id": "ltlw46q",
+      "parent": "t3_1gb08m0",
+      "author": "fasti-au",
+      "score": 3,
+      "body": "Mermaid I thinks what you are looking for or is it incrediflow sp?  Ibsidian notes and advanced uri is how I do that kind of thingy in my personal scribbles"
+    },
+    {
+      "id": "ltn4u1y",
+      "parent": "t3_1gb08m0",
+      "author": "Agile-Attempt4584",
+      "score": 2,
+      "body": "Ummm \u2026 should we consider maybe just asking an AI to diagram it?"
+    },
+    {
+      "id": "lu821q7",
+      "parent": "t3_1gb08m0",
+      "author": "Specialist_Ant3799",
+      "score": 2,
+      "body": "[https://youtube.com/shorts/lJdX89xfZCc?feature=share](https://youtube.com/shorts/lJdX89xfZCc?feature=share)\n\nfollow this"
+    },
+    {
+      "id": "ltib2wf",
+      "parent": "t3_1gb08m0",
+      "author": "help-me-grow",
+      "score": 1,
+      "body": "yeah draw.io is my go to as well"
+    },
+    {
+      "id": "ltm26uc",
+      "parent": "t3_1gb08m0",
+      "author": "3RiversAINexus",
+      "score": 1,
+      "body": "I have used plantuml (it does a lot more than UML i promise) professionally for about 3 years."
+    },
+    {
+      "id": "ltvlsr8",
+      "parent": "t3_1gb08m0",
+      "author": "Spellingn_matters",
+      "score": 1,
+      "body": "Been using lucidchart, draw.io, mermaid and good all Google drawings in enterprise AI SaaS and prof services for 10 years. Don\u2019t need anything special, just the right icons for"
+    },
+    {
+      "id": "ltim2in",
+      "parent": "t1_lti9u9v",
+      "author": "Fit_Jelly_5346",
+      "score": 1,
+      "body": "It would be amazing, wouldn't it? I hope there is something already out there, if not, hope someone's already working on it."
+    },
+    {
+      "id": "ltqrr4t",
+      "parent": "t1_ltlw46q",
+      "author": "jgrindal",
+      "score": 1,
+      "body": "Mermaid 100%"
+    },
+    {
+      "id": "ltn6e2x",
+      "parent": "t1_ltn4u1y",
+      "author": "Agile-Attempt4584",
+      "score": 2,
+      "body": "Sorry \u2026 j/k, I\u2019ve had too much sugary energy drinks. \n\nActually, have you checked out __[n8n](https://github.com/n8n-io/n8n)__?\n\nThe guy who wrote LangChain made it, evidently. I actually just stumbled onto this fact just a few minutes after reading your question."
+    },
+    {
+      "id": "ltima2e",
+      "parent": "t1_ltib2wf",
+      "author": "Fit_Jelly_5346",
+      "score": 1,
+      "body": "Yeah, but it's not really AI focused, it's fine if you wanna do a plain sequence/flow diagram."
+    },
+    {
+      "id": "ltipmot",
+      "parent": "t1_ltim2in",
+      "author": "Greyveytrain-AI",
+      "score": 1,
+      "body": "I can investigate this and come back to you...i believe this can be built"
+    },
+    {
+      "id": "ltiudxb",
+      "parent": "t1_ltipmot",
+      "author": "Fit_Jelly_5346",
+      "score": 1,
+      "body": "Pretty sure it can be, just curious why no one\u2019s pushed in that direction yet?"
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "id": "1xg64ff",
+  "subreddit": "SATNA_PROJECT",
+  "author": "ZookeepergameMost817",
+  "title": "20 GitHub tools for Claude Code worth bookmarking \u2014 start with 3, not all 20",
+  "selftext": "Claude Code rabbit holes usually end the same way: 40 open tabs, six overlapping plugins, and no idea whether your setup actually got better.\n\nHere\u2019s a more useful starting point: 20 projects grouped by the problem they solve, with direct GitHub links.\n\nNot another \u201c$29,077 worth of tools for FREE\u201d pitch. Just a shortlist for finding the pieces your workflow is missing.\n\n**TL;DR:** Start with one tool for memory, one for context efficiency, and one for your actual work. Run the same task before and after. Keep what earns its place.\n\n# \ud83e\udde0 Stop rebuilding context every session\n\n1. [claude-mem](https://github.com/thedotmack/claude-mem) Captures session activity, compresses it into summaries, and brings relevant context into future sessions. For the \u201cwe already figured this out yesterday\u201d problem.\n2. [planning-with-files](https://github.com/OthmanAdi/planning-with-files) Keeps plans and progress in Markdown files rather than relying entirely on the chat. Useful when a task needs to survive `/clear`, compaction, or an interrupted session.\n\n# \ud83d\udee0\ufe0f Give your agent a more structured workflow\n\n1. [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) A broad collection of agents, skills, commands, hooks, and configuration. Worth exploring when you want a workflow toolkit rather than another isolated prompt.\n2. [agent-skills \u2014 Addy Osmani](https://github.com/addyosmani/agent-skills) Engineering skills organized around the work of shipping software: specifying, planning, building, verifying, reviewing, and releasing.\n3. [Ruflo](https://github.com/ruvnet/ruflo) Multi-agent orchestration for workflows involving Claude Code and Codex, including shared-memory coordination.\n4. [agents \u2014 wshobson](https://github.com/wshobson/agents) A large collection of specialized agents, skills, and commands packaged into installable plugins. Think \u201cpick the relevant specialist,\u201d not \u201cinstall the entire catalogue.\u201d\n\n# \ud83d\uddfa\ufe0f Understand the codebase before changing it\n\n1. [Graphify](https://github.com/Graphify-Labs/graphify) Turns code and supporting project material into a queryable knowledge graph. Important privacy distinction: code parsing happens locally, but semantic processing of documents and other media can use your assistant\u2019s model or a configured API key. \u201cEverything stays local\u201d is too broad a claim.\n2. [Understand-Anything](https://github.com/Egonex-AI/Understand-Anything) Builds an interactive knowledge graph you can explore, search, and ask questions about. A different starting point from opening an unfamiliar repository and grepping your way through it.\n\n# \ud83d\udcc9 Stop spending context on terminal noise\n\n1. [ponytail](https://github.com/DietrichGebert/ponytail) Pushes your agent toward the \u201claziest senior developer\u201d mindset: less unnecessary code, less overengineering, more restraint. The interesting idea is the approach\u2014not treating a repo\u2019s benchmark as a guaranteed result.\n2. [rtk](https://github.com/rtk-ai/rtk) A Rust CLI proxy designed to reduce the volume of common development-command output sent to the model.\n3. [headroom](https://github.com/headroomlabs-ai/headroom) Compresses tool outputs, logs, files, and structured data before they reach the LLM. Offers library, proxy, and MCP-server approaches.\n4. [context-mode](https://github.com/mksglu/context-mode) Sandboxes tool output to reduce how much raw output enters the context window. Relevant when verbose commands are drowning out the task itself.\n\n# \ud83c\udfa8 Give the frontend something beyond default AI aesthetics\n\n1. [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) A UI/UX design-intelligence skill covering styles, palettes, typography, and interface guidance. Useful as a source of design decisions\u2014not just \u201cmake it modern.\u201d\n2. [taste-skill](https://github.com/Leonxlnx/taste-skill) Frontend guidance aimed at less generic, more deliberate visual output. For when the page technically works but still looks like every other AI-generated landing page.\n3. [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft) Creates cinematic product videos with Remotion, real page screenshots, camera moves, beat-synced cuts, and sound design. Particularly interesting if you\u2019ve built the product but still need to show it off.\n\n# \ud83d\udd0e Connect the workflow to the work you actually do\n\n1. [Agent-Reach](https://github.com/Panniantong/Agent-Reach) A CLI for accessing sources such as YouTube, GitHub, Reddit, and the web from an agent workflow.\n2. [cc-switch](https://github.com/farion1231/cc-switch) A desktop app for switching providers and managing MCP configuration, skills, and prompts in one place.\n3. [pm-skills](https://github.com/phuryn/pm-skills) Product-management skills and workflows spanning discovery, strategy, execution, launch, and growth.\n4. [claude-skills](https://github.com/alirezarezvani/claude-skills) A cross-functional collection covering engineering, marketing, product, finance, compliance, and leadership workflows.\n5. [career-ops](https://github.com/career-ops-hq/career-ops) A job-search workflow for finding roles, scoring fit against your CV, tailoring application materials, and tracking applications. It helps prepare the application; you still press Submit.\n\n# Where I\u2019d start\n\nRather than installing the biggest bundles first, build a small test setup:\n\n* Memory: `claude-mem` or `planning-with-files`.\n* Context efficiency: `rtk`, `headroom`, or `context-mode`.\n* Your actual work: one engineering, design, product, research, or career tool.\n\nThen give the setup the same representative task you ran without it.\n\nCompare the result:\n\n* Did it finish correctly?\n* Did you need fewer corrections?\n* Did it use fewer tokens?\n* Was it faster overall?\n* Did it create extra setup or maintenance work?\n\nA bigger setup isn\u2019t the goal. A better result is.\n\nWhat\u2019s one Claude Code add-on that genuinely earned its place in your workflow\u2014and what did it improve?\n\n  \n[Join Discord ](https://discord.gg/hSA8Ur6GRH)",
+  "url": "https://v.redd.it/dl3q1svs1vxh1",
+  "is_self": false,
+  "score": 994,
+  "num_comments": 31,
+  "created_utc": 1793041802.0,
+  "comments": [
+    {
+      "id": "19rqzmm3kqdep",
+      "parent": "t3_1xg64ff",
+      "author": "doomstar21",
+      "score": 6,
+      "body": "I had Fable audit these. Pass one was whether or not the claims in the readme were value added relative to the setup of Claude code that I have. There are some skills and whatever that I built myself. Doesn't really matter. Anything that passed that, it forked the repo and did a deep dive on the code. Long story short is that it concluded that 19 out of 20 of them were of no value and or AI slop."
+    },
+    {
+      "id": "19rpb2cst2f6p",
+      "parent": "t3_1xg64ff",
+      "author": "JustAJB",
+      "score": 4,
+      "body": "At this point these feel like those things they used to sell on infomercials to make your car get 100mph."
+    },
+    {
+      "id": "19rp2gdp8k2n9",
+      "parent": "t3_1xg64ff",
+      "author": "benjulios",
+      "score": 2,
+      "body": "It s too small"
+    },
+    {
+      "id": "19rp3jy4stn4y",
+      "parent": "t3_1xg64ff",
+      "author": "roztok_potok",
+      "score": 2,
+      "body": "Why not worth $290k?"
+    },
+    {
+      "id": "19rp4cu90hkkk",
+      "parent": "t3_1xg64ff",
+      "author": "Double_Suggestion385",
+      "score": 1,
+      "body": "Skills are mostly nonsense. Most of these aren't free and are somewhat performative. Claude automatically does a lot of these and skill bloat will just make it perform worse."
+    },
+    {
+      "id": "19rpaf2pwqvkw",
+      "parent": "t3_1xg64ff",
+      "author": "Nodelphi",
+      "score": 1,
+      "body": "I thought it was settled that RTK increased overhead rather than decreasing it. \u00a0I pulled it and noticed a jump in efficiency especially since opus 5.5 was released."
+    },
+    {
+      "id": "19rs17i4x9rvo",
+      "parent": "t3_1xg64ff",
+      "author": "gibson_tandi",
+      "score": 1,
+      "body": "Wowwwwww\ud83d\ude0d"
+    },
+    {
+      "id": "19rt4yvdigy1t",
+      "parent": "t3_1xg64ff",
+      "author": "UnusualJackfruit159",
+      "score": 1,
+      "body": "Fascinating how you can have 60 contributors and 20 different scripts for letting your agent track tasks in files. And that's the lightweight solution of the two.\n\nI did the same thing when I started my first project with OpenCode. Appalled by existing task/todo tools, started maintaining markdown files and then vibe-coded a little [task browser + markdown pager in rust](https://github.com/codesam88/tablethat) to go with it.\n\nThe files themselves are markdown, I just tell AI to keep track of task execution, open a ticket for some new problem or idea, or review open tasks and give me the next highest RoI items solve. The \"skill\" is trivial, and it works great. Using best value/$ models only, DeepSeek, Mimo, Beam.."
+    },
+    {
+      "id": "19rp37hh2mqn9",
+      "parent": "t3_1xg64ff",
+      "author": "merlanit0",
+      "score": 1,
+      "body": "Not be a bother, but can we have a list like this for Codex too? \ud83d\ude2clol Thanks in advance "
+    },
+    {
+      "id": "19rp93rw0mrtt",
+      "parent": "t3_1xg64ff",
+      "author": "ChezNZ",
+      "score": 0,
+      "body": "These AI prompt engineering tools outdated and Claude is much smarter if you just put in your output you want and get it to do its own thinking. "
+    },
+    {
+      "id": "19rtcz7pnlqw2",
+      "parent": "t1_19rqzmm3kqdep",
+      "author": "theman8631",
+      "score": 2,
+      "body": "Ooh what was that 1 gem then?"
+    },
+    {
+      "id": "19runnkodq4io",
+      "parent": "t1_19rqzmm3kqdep",
+      "author": "AznJames704",
+      "score": 2,
+      "body": "Thanks for checking that so I can ignore this trash too "
+    },
+    {
+      "id": "19rs425upae01",
+      "parent": "t1_19rpb2cst2f6p",
+      "author": "TheLastPrinceOfJurai",
+      "score": 0,
+      "body": "zoom zoom\\~"
+    },
+    {
+      "id": "19rp2irirpx0h",
+      "parent": "t1_19rp2gdp8k2n9",
+      "author": "ZookeepergameMost817",
+      "score": 1,
+      "body": "What\u2019s small?"
+    },
+    {
+      "id": "19rp3s4601her",
+      "parent": "t1_19rp3jy4stn4y",
+      "author": "ZookeepergameMost817",
+      "score": 0,
+      "body": "Who said $290k first read carefully "
+    },
+    {
+      "id": "19rp4jlxn4w2o",
+      "parent": "t1_19rp4cu90hkkk",
+      "author": "ZookeepergameMost817",
+      "score": 1,
+      "body": "Skill bloat is exactly why the post says **test**  not \u201cinstall everything.\u201d These aren\u2019t all skills either there are memory tools, output filters, and visualization tools free repo \u2260 free model usage, fair clarification. Which specific tools are paywalled or redundant?"
+    },
+    {
+      "id": "19rp4yr36va03",
+      "parent": "t1_19rp37hh2mqn9",
+      "author": "ZookeepergameMost817",
+      "score": 2,
+      "body": "Sure mate ill make the same post for codex too \ud83d\udc4d"
+    },
+    {
+      "id": "19rr4g71ze4ps",
+      "parent": "t1_19rp93rw0mrtt",
+      "author": "xxs13",
+      "score": 1,
+      "body": "For 20 times the money, yup ... \n\nBut with tools like these you can get the same results with local models and/or DeepSeek etc..."
+    },
+    {
+      "id": "19rtqw2z11d9e",
+      "parent": "t1_19rtcz7pnlqw2",
+      "author": "Initial_Perspective9",
+      "score": 2,
+      "body": "I had Opus audit the claim, and which is the 1 out of 20 and it said rtk \ud83d\ude02"
+    },
+    {
+      "id": "19rpf53ngi545",
+      "parent": "t1_19rp2irirpx0h",
+      "author": "Neither-Relation-687",
+      "score": 2,
+      "body": "Your fly is open "
+    },
+    {
+      "id": "19rp2jf1u1c9t",
+      "parent": "t1_19rp2irirpx0h",
+      "author": "benjulios",
+      "score": 1,
+      "body": "The video"
+    },
+    {
+      "id": "19rp3yv4pzpt1",
+      "parent": "t1_19rp3s4601her",
+      "author": "roztok_potok",
+      "score": 1,
+      "body": "Nobody said $290k"
+    },
+    {
+      "id": "19rqu2ewblkkg",
+      "parent": "t1_19rp2jf1u1c9t",
+      "author": "Personal-Dev-Kit",
+      "score": 1,
+      "body": "That is why Reddit posts have a body with text and lots or extra information. "
+    },
+    {
+      "id": "19rp405d4l276",
+      "parent": "t1_19rp3yv4pzpt1",
+      "author": "ZookeepergameMost817",
+      "score": -1,
+      "body": "Then why did u commented are u ok ??"
+    },
+    {
+      "id": "19rp45jsg2elh",
+      "parent": "t1_19rp405d4l276",
+      "author": "roztok_potok",
+      "score": 1,
+      "body": "Because I think those plugins are worth $290k"
+    },
+    {
+      "id": "19rp48o4qf2w3",
+      "parent": "t1_19rp45jsg2elh",
+      "author": "ZookeepergameMost817",
+      "score": 1,
+      "body": "Thats great if you value its worth thanks "
+    }
+  ]
+}

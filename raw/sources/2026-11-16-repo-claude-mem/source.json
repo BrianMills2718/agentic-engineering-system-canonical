@@ -1,0 +1,20 @@
+{
+  "source": "thedotmack/claude-mem",
+  "found_via": "reddit 1xg64ff (r/SATNA_PROJECT)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "82d3602e2e43503ffd39c180b2af5f7521fc457b",
+  "commit_date": "2026-11-16T00:47:54-08:00",
+  "license_as_read": "Apache-2.0",
+  "stars_reported_2026_11_16": 117600,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "103cc0e9f416e40da1d8f167d1e6da45c7613518",
+    "plugin/hooks/hooks.json": "8817c5531b0db1edf11115a4ac5a87f3261e0978",
+    "src/services/telemetry/consent.ts": "1dac23b09991330172cd6a114b65458805f0a936"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

@@ -1,0 +1,13 @@
+{
+  "source_url": "https://www.reddit.com/r/AI_Agents/comments/1gb08m0/",
+  "platform": "reddit",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "method": "social-media MCP code (asyncpraw), all comments expanded",
+  "coverage": "r/AI_Agents post and 13 of 15 comments",
+  "original_file": "original/1gb08m0.json",
+  "sha256": "10b541e6680f9fbede06c7edfdca4ccbfaf59325b7f570f9ca87e708eae54ec9",
+  "not_captured": "images and video attached to the post; linked repositories are captured separately as repo sources",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}

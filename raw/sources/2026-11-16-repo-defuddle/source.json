@@ -1,0 +1,19 @@
+{
+  "source": "kepano/defuddle",
+  "found_via": "reddit 1xte8sk (r/SATNA_PROJECT)",
+  "captured": "2026-11-16",
+  "captured_by": "agent session 37e21d58 for Brian",
+  "kind": "git repository, read-only shallow clone; nothing was run, installed or built",
+  "commit": "3e8bde9f5f855bc968e95837a750c5968a9fe639",
+  "commit_date": "2026-10-25T11:56:33-04:00",
+  "license_as_read": "MIT",
+  "stars_reported_2026_11_16": 10052,
+  "stars_note": "from the unauthenticated GitHub API (rounded for large counts); not re-checked",
+  "files_read_with_blob_sha": {
+    "README.md": "0f163c9b70d5920a892bab590db53b25e306527f",
+    "src/extractors/reddit.ts": "beb10d210b9daed4422c07546af6c464ff71db21"
+  },
+  "files_not_copied": "third-party files are not copied here; reproduce the capture from the repository URL plus this commit",
+  "authority": "external, unverified third-party content; not AES authority",
+  "append_only": true
+}
