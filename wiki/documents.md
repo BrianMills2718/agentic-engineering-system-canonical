@@ -122,6 +122,7 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 - [Alias checker tests](../tests/test_capability_aliases.py) — complete table passes; gaps and unreadable sources are reported.
 - [Discovery journey script](../scripts/discovery_journey.py) — reads the merged view, contract registry and observability aggregates and writes the receipt.
 - [Project Meta retirement plan](../docs/planning/project-meta-retirement-plan.md) — what still calls Project Meta, what is worth porting into AES, and the slice order (proposed, nothing done).
+- [AES consolidation plan](../docs/planning/aes-consolidation-plan.md) — one-page ranked plan for replacing the old overlapping systems with one AES, against the confirmed goal (proposed); its [evidence](../docs/planning/harness-grid-review-20261116.md) is five part-by-part reviews of the harness grid.
 - [Project Meta docs triage](../docs/planning/project-meta-docs-triage.md) — folder-by-folder proposal for Project Meta's 2,734 docs files (slice 0b; nothing moved).
 - [Project Meta ledger](../docs/planning/project-meta-ledger.md) — measured callers, enabled timers and commands (slice 0; nothing changed in Project Meta).
 - [md_file_cap equality evidence](../evidence/runs/md-file-cap-equality-20261114.txt) — old and AES copy compared on 13 repositories (slice 1a).
