@@ -88,3 +88,20 @@ def test_file_alert_runs_the_aes_concern_adapter():
     assert out == 3 and cmd[1].endswith("scripts/concern_issue.py") and cmd[2] == "open"
     assert cmd[cmd.index("--key") + 1] == "k-1" and cmd[cmd.index("--source") + 1] == "feedback-loop"
     assert "--repo" in cmd and kw["timeout"] == 120
+
+
+@pytest.mark.req("learnings-register-frozen/register-read-only")
+def test_collector_reads_frozen_copy_and_refuses_writes(monkeypatch, tmp_path, capsys):
+    import collect_feedback as C
+    (tmp_path / "e1.json").write_text(json.dumps({"entry_id": "lrn-1", "lesson": "widgets break when frobbed twice"}))
+    (tmp_path / "bad.json").write_text("not json")
+    monkeypatch.setattr(C, "LEARNINGS_REGISTER", tmp_path)
+    reg = C.Register()
+    assert reg.ids == ["lrn-1"]
+    with pytest.raises(RuntimeError, match="frozen"):
+        C.file_item({"triage": {"kind": "x"}})
+    monkeypatch.setattr(sys, "argv", ["collect_feedback.py", "--file", "--legacy-register"])
+    with pytest.raises(SystemExit) as e:
+        C.main()
+    assert "frozen" in str(e.value)
+    assert not hasattr(C, "PROJECT_META")

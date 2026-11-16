@@ -59,7 +59,7 @@ TASK = "aes.feedback_labels"
 TRACE_ID = f"{TASK}/{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{os.getpid()}"
 MAX_BUDGET = 1.0
 QUESTION_SET = Path(__file__).with_name("question_set_v2.json")
-LEGACY_GLOB = "~/code/project-meta/learnings/entries/*.json"
+LEGACY_GLOB = "~/code2/learnings-archive/entries/*.json"  # frozen copy (Decision 18)
 # Feedback reports are filed here since 2026-10-08 (learned skill); the kind:lesson/friction/problem
 # issues in agentic-engineering-system-canonical are the earlier store.
 REPO = "BrianMills2718/agent-feedback-log"
