@@ -55,3 +55,4 @@ unverified. A specification's presence is not runtime evidence.
   This documentation repair makes no new claim of full product test coverage.
 - [Feedback loop notices](../openspec/specs/feedback-loop-notices/spec.md) governs the loop's concern filing and phone push, which no longer call Project Meta.
 - [Learnings register frozen](../openspec/specs/learnings-register-frozen/spec.md) governs the collector's read-only use of the old learnings register, kept in a private repository.
+- [External idea intake](../openspec/specs/external-idea-intake/spec.md) governs the configurable subreddit watch list and the ranked digest command (Brian, 2026-11-16).

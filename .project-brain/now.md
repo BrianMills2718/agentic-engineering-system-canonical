@@ -239,3 +239,5 @@ older than the work since.
 **Slice 2 code (2026-11-16):** the loop's concerns, failure alerts and phone message no longer call Project Meta (`scripts/concern_issue.py`, `alert.py`, `notify.py`; spec `feedback-loop-notices`); `collect_feedback.py` still uses the legacy learnings register. Live run done 2026-11-16 (concern #894 lifecycle; Telegram test message 281); loop scripts not run end to end. See the plan's slice 2 row.
 
 **Register frozen (2026-11-16, Decision 18 A):** the old learnings register is a read-only copy in the private repository `learnings-archive` (not in AES: public repo, publish-checker said hold; one token redacted, rotate the original). `collect_feedback.py` reads it and writes to no register. Remaining Project Meta references in the loop: the feedback systemd units (slice 3).
+
+2026-11-16: external idea intake added (`scripts/learning_loop/external_ideas.py`, watch list `external_sources.yaml`); runs on request, timer deferred until Brian has judged one digest.

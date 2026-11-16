@@ -1,0 +1,13 @@
+# Subreddits the feedback loop watches for outside ideas (see wiki/external-sources-watch.md).
+# Source: Brian, 2026-11-16 ("you should be able to put the subreddits to examine ... in the configuration").
+# listing: top | new. window: day | week | month | year (time filter for top, age limit for both).
+# Not listed: r/LocalLLaMA (Brian, 2026-11-16: "take locallama off the list").
+subreddits:
+  - {name: claudeskills, reason: "Claude skills people share", listing: top, window: week, limit: 25, min_score: 5}
+  - {name: ClaudeAI, reason: "Claude Code tooling and workflow posts", listing: top, window: week, limit: 25, min_score: 50}
+  - {name: PostAI, reason: "AI tool announcements", listing: top, window: week, limit: 25, min_score: 20}
+  - {name: OntologyEngineering, reason: "ontology and epistemic-structure ideas", listing: top, window: month, limit: 25, min_score: 3}
+  - {name: mcp, reason: "MCP servers and tooling", listing: top, window: week, limit: 25, min_score: 10}
+  - {name: SATNA_PROJECT, reason: "curated agent tool lists", listing: top, window: month, limit: 25, min_score: 3}
+  - {name: BestGitHubRepos, reason: "repository roundups", listing: top, window: week, limit: 25, min_score: 10}
+  - {name: AI_Agents, reason: "agent system design discussion", listing: top, window: week, limit: 25, min_score: 20}
