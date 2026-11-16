@@ -132,3 +132,62 @@ def test_corrupt_seen_and_bad_yaml_refused(tmp_path):
     bad = tmp_path / "b.yaml"; bad.write_text("subreddits: [a: b: c")
     assert E.run(bad, tmp_path / "o2", fetch=fetch, now=NOW) == 2
     assert E.run(write_cfg(tmp_path, [entry(limit=True)]), tmp_path / "o3", fetch=fetch, now=NOW) == 2
+
+
+def _fetch3(sub, *a):
+    return {"subreddit": sub, "listing": "top", "count": 3, "results": [post("u1", 10, 1, sub), post("u2", 20, 1, sub), post("u3", 30, 1, sub)]}
+
+
+@pytest.mark.req("external-idea-intake/useful-digest-groups-by-project")
+def test_useful_digest_groups_and_ignores_unknown_id(tmp_path):
+    out = tmp_path / "out"
+    judge = lambda sub, posts: {"u2": (["aes"], "adopt this"), "ghost": (["aes"], "not fetched")}
+    assert E.run(write_cfg(tmp_path, [entry()]), out, fetch=_fetch3, now=NOW, judge=judge) == 0
+    useful = next(out.glob("digest-useful-*.md")).read_text()
+    assert "## aes" in useful and "tu2" in useful and "adopt this" in useful
+    assert "tu1" not in useful and "ghost" not in useful
+    score_only = next(p for p in out.glob("digest-*.md") if "useful" not in p.name).read_text()
+    assert all(f"tu{i}" in score_only for i in (1, 2, 3))
+
+
+@pytest.mark.req("external-idea-intake/judge-failure-keeps-posts-unseen")
+def test_judge_failure_keeps_posts_unseen(tmp_path):
+    out = tmp_path / "out"
+    def judge(sub, posts):
+        raise RuntimeError("model down")
+    cfg = write_cfg(tmp_path, [entry()])
+    assert E.run(cfg, out, fetch=_fetch3, now=NOW, judge=judge) == 1
+    log = [json.loads(l) for l in next(out.glob("runs-*.jsonl")).read_text().splitlines()]
+    assert any(r["step"] == "judge" and r["status"] == "failed" for r in log)
+    assert json.loads((out / "seen.json").read_text()) == []
+
+
+def test_profile_validation(tmp_path):
+    bad = tmp_path / "p.yaml"; bad.write_text("projects: [{name: x}]")
+    with pytest.raises(E.ConfigError):
+        E.load_profile(bad)
+
+
+@pytest.mark.req("external-idea-intake/judge-failure-keeps-posts-unseen")
+def test_failed_subreddit_is_named_in_digest_and_others_continue(tmp_path):
+    out = tmp_path / "out"
+    def judge(sub, posts):
+        if sub == "bad":
+            raise RuntimeError("x")
+        return {"u1": (["aes"], "why")}
+    rc = E.run(write_cfg(tmp_path, [entry("bad"), entry("good")]), out, fetch=_fetch3, now=NOW, judge=judge)
+    assert rc == 1
+    assert "r/bad" in next(p for p in out.glob("digest-*.md") if "useful" not in p.name).read_text()
+    assert "tu1" in next(out.glob("digest-useful-*.md")).read_text()
+
+
+@pytest.mark.req("external-idea-intake/useful-digest-groups-by-project")
+def test_unknown_project_names_dropped_and_judged_posts_marked_seen(tmp_path):
+    out = tmp_path / "out"
+    def judge(sub, posts):
+        return {"u1": (["aes", "madeup"], "r")}
+    judge.names = ["aes"]
+    assert E.run(write_cfg(tmp_path, [entry()]), out, fetch=_fetch3, now=NOW, judge=judge) == 0
+    u = next(out.glob("digest-useful-*.md")).read_text()
+    assert "## aes" in u and "madeup" not in u
+    assert sorted(json.loads((out / "seen.json").read_text())) == ["u1", "u2", "u3"]

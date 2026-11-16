@@ -73,6 +73,9 @@ commit and file hashes, not copies.
 - [External idea intake spec](../openspec/specs/external-idea-intake/spec.md) — requirements for the watch list and digest. **Role:** specification. **Disposition:** keep.
 - [External idea intake proposal](../openspec/changes/archive/2026-11-16-external-idea-intake/proposal.md) — the one-page plan, retained. **Role:** historical plan. **Disposition:** keep.
 - [External idea intake tasks](../openspec/changes/archive/2026-11-16-external-idea-intake/tasks.md) — historical checklist.
+- [Usefulness ranking proposal](../openspec/changes/archive/2026-11-16-external-idea-relevance/proposal.md) — plan for judging posts against a project profile. **Role:** historical plan. **Disposition:** keep.
+- [Usefulness ranking tasks](../openspec/changes/archive/2026-11-16-external-idea-relevance/tasks.md) — historical checklist.
+- [Usefulness ranking requirement delta](../openspec/changes/archive/2026-11-16-external-idea-relevance/specs/external-idea-intake/spec.md) — retained change.
 - [External idea intake requirement delta](../openspec/changes/archive/2026-11-16-external-idea-intake/specs/external-idea-intake/spec.md) — retained change.
 
 - [Reddit 1gb08m0: provenance](../raw/sources/2026-11-16-reddit-1gb08m0-ai-architecture-diagram-tools/source.json) — URL, method, coverage and SHA-256 of the capture.
