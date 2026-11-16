@@ -58,5 +58,8 @@ unverified. A specification's presence is not runtime evidence.
 - [Project graph config](../openspec/specs/project-graph-config/spec.md) governs where the graph and owner come from for `md_file_cap.py`: the person's own files, never a default owner.
 - [Timer config](../openspec/specs/timer-config/spec.md) governs the job list and the installer that writes systemd timer units from it.
 - [Failed unit watch](../openspec/specs/failed-unit-watch/spec.md) governs the 30-minute sweep that turns failed systemd user units into concern issues.
+- [Project graph taxonomy](../openspec/specs/project-graph-taxonomy/spec.md) governs the shape check of the project graph (the graph path is configuration).
+- [Project activity snapshot](../openspec/specs/project-activity-snapshot/spec.md) governs the snapshot of each registered repository's last commit, branch and open pull requests.
+- [Graph checkout refresh](../openspec/specs/graph-checkout-refresh/spec.md) governs the fast-forward of registered checkouts that never discards local work, and the concern for checkouts stuck far behind.
 - [Concern repair verifier](../openspec/specs/concern-repair-verifier/spec.md) governs the five-gate check that must pass before a repaired concern closes.
 - [External idea intake](../openspec/specs/external-idea-intake/spec.md) governs the configurable subreddit watch list and the ranked digest command (Brian, 2026-11-16).

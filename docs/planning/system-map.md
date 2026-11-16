@@ -28,6 +28,9 @@ flowchart LR
     notify[notify: Telegram message, no Project Meta]
     timers[timers: job list to systemd units]
     failed_unit_watch[failed_unit_watch: failed units to concern issues]
+    graph_taxonomy[check_project_graph_taxonomy: shape of the project graph]
+    project_activity[build_project_activity: last commit per registered repo]
+    refresh_checkouts[refresh_canonical_checkouts: fast-forward registered checkouts]
     repair_verifier[concern_repair_feedback: five-gate repair check]
     repair_contract[concern_repair_contract: report and record shapes]
     repair_agents[concern_repair_agents: reviewer client choice]
@@ -105,6 +108,8 @@ flowchart LR
   problems -.-> alert
   systemd -.-> timers
   systemd --> failed_unit_watch
+  systemd -.-> project_activity
+  systemd -.-> refresh_checkouts
   repair_verifier --> repair_contract
   repair_verifier -.-> repair_agents
   collect_feedback --> transcripts
