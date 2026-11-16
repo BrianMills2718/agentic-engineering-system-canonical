@@ -66,3 +66,21 @@ def test_hourly_after_finish_schedule_and_log_name_are_rendered(tmp_path):
     files = t.render(t.load(write(tmp_path, [job])))
     assert "OnUnitInactiveSec=1h" in files["demo.timer"] and "OnBootSec=10min" in files["demo.timer"]
     assert "SyslogIdentifier=demo-log" in files["demo.service"]
+
+
+@pytest.mark.req("timer-config/install-never-writes-through-a-link")
+def test_install_replaces_a_symlinked_unit_without_touching_its_target(tmp_path):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    original = repo / "demo.service"
+    original.write_text("original text\n")
+    units = tmp_path / "units"
+    units.mkdir()
+    (units / "demo.service").symlink_to(original)
+    files = t.render(t.load(write(tmp_path, [JOB])))
+    ran = []
+    t.install(files, units, tmp_path / "backup", run=lambda cmd, check=False: ran.append(cmd) or SimpleNamespace(returncode=0))
+    assert original.read_text() == "original text\n"  # the repository's file is untouched
+    assert not (units / "demo.service").is_symlink() and "Type=oneshot" in (units / "demo.service").read_text()
+    backups = list((tmp_path / "backup").glob("*/demo.service*"))
+    assert any(b.name == "demo.service.symlink-target" and str(original) in b.read_text() for b in backups)

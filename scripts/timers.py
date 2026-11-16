@@ -13,6 +13,7 @@ Implements: timer-config/jobs-become-units
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import shutil
 import subprocess
@@ -144,9 +145,17 @@ def install(files: dict[str, str], directory: Path, backup_root: Path, run=subpr
         backup.mkdir(parents=True, exist_ok=True)
         directory.mkdir(parents=True, exist_ok=True)
         for name in changed:
-            if (directory / name).exists():
-                shutil.copy2(directory / name, backup / name)
-            (directory / name).write_text(files[name])
+            target = directory / name
+            if target.is_symlink():
+                # Writing would go through the link and change the file it points at (a file in some repository).
+                # Keep the link's target text in the backup, then replace the link itself with a regular file.
+                (backup / (name + ".symlink-target")).write_text(os.readlink(target) + "\n")
+                if target.exists():
+                    shutil.copy2(target, backup / name)
+                target.unlink()
+            elif target.exists():
+                shutil.copy2(target, backup / name)
+            target.write_text(files[name])
         done = run(["systemctl", "--user", "daemon-reload"], check=False)
         if done.returncode != 0:
             raise RuntimeError("systemctl --user daemon-reload failed")
