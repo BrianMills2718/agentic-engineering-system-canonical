@@ -16,7 +16,7 @@ test:  ## Run pytest
 test-quick:  ## Run pytest (no traceback)
 	$(PYTHON) -m pytest tests/ -q --tb=no
 
-check:  ## Run all checks (test, mypy, lint)
+check: check-doc-facts  ## Run all checks (test, mypy, lint)
 	@echo "Checking generated AGENTS.md synchronization..."
 	@$(PYTHON) $(SCRIPTS_META)/check_agents_sync.py --repo-root . --check
 	@echo ""
@@ -34,3 +34,10 @@ check-full:  ## make check plus the slow end-to-end tests (installs, the whole-r
 
 check-agents-sync:  ## Validate generated AGENTS.md matches canonical governance inputs
 	@$(PYTHON) $(SCRIPTS_META)/check_agents_sync.py --repo-root . --check
+
+.PHONY: check-doc-facts refresh-doc-facts
+check-doc-facts:  ## Read-only freshness of declared facts, without whole-tree projection
+	@PYTHONPATH=src $(PYTHON) -c 'from pathlib import Path; from lockstep.doc_projection import project_facts; stale = project_facts(Path.cwd(), check=True); print("Declared fact projections stale:", len(stale)); print("\n".join(stale)); raise SystemExit(bool(stale))'
+
+refresh-doc-facts:  ## Refresh declared facts using the current checkout
+	@PYTHONPATH=src $(PYTHON) -c 'from lockstep.doc_projection import refresh_cli; raise SystemExit(refresh_cli([]))'

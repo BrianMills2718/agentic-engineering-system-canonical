@@ -3,13 +3,14 @@
 Implements: lockstep-checks/trace-source-folders-are-configurable, lockstep-checks/trace-test-folders-are-configurable
 
 Requirement text (generated):
-    lockstep-checks/trace-source-folders-are-configurable: The trace check SHALL search for `Implements:` lines in
-        the folders listed under `[tool.lockstep] source` in `pyproject.toml`, and in `src` when
-        none are listed.
-    lockstep-checks/trace-test-folders-are-configurable: The marker reader SHALL discover `@pytest.mark.req` in
-        `test_*.py` files under the folders listed in `[tool.lockstep] tests` in `pyproject.toml`,
-        defaulting to `tests` when omitted. Trace, status, generated plan coverage and test-first
-        SHALL use those same roots. Overlapping roots SHALL not duplicate a discovered test marker.
+    lockstep-checks/trace-source-folders-are-configurable: The trace check SHALL search for
+        `Implements:` lines in the folders listed under `[tool.lockstep] (or`[tool.code2check]`, its
+        old name) source` in `pyproject.toml`, and in `src` when none are listed.
+    lockstep-checks/trace-test-folders-are-configurable: The marker reader SHALL discover
+        `@pytest.mark.req` in `test_*.py` files under the folders listed in `[tool.lockstep]
+        (or`[tool.code2check]`, its old name) tests` in `pyproject.toml`, defaulting to `tests` when
+        omitted. Trace, status, generated plan coverage and test-first SHALL use those same roots.
+        Overlapping roots SHALL not duplicate a discovered test marker.
 """
 
 import ast

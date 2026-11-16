@@ -12,6 +12,16 @@ something that writes, in which case every path it names counts. A command that 
 (`cp planned /tmp/x`, `python -c "open(p).read()"`) writes nothing.
 
 Implements: lockstep-guard/shell-commands-are-judged-by-the-paths-they-write
+
+Requirement text (generated):
+    lockstep-guard/shell-commands-are-judged-by-the-paths-they-write: The edit hook SHALL find the
+        files a shell command writes the way code2check's guard does: redirect and tee targets read
+        as shell words, the files `mv`, `touch`, `sed -i` and the like write, only the destination
+        of a copy (`cp`, `install`, `rsync`), and the paths named by code in the command (a `python
+        -c`, a heredoc script) only when that code calls something that writes; a `cd` in the
+        command SHALL be followed. In block mode it SHALL refuse a command that writes a file under
+        a governed folder that the plan does not declare, and it SHALL NOT refuse a command that
+        only reads a planned file.
 """
 
 from __future__ import annotations

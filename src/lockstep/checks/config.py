@@ -2,6 +2,18 @@
 
 Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
 
+Requirement text (generated):
+    lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml: `lockstep check
+        <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta`) SHALL read `checks:` in
+        `lockstep.yaml` at the repository root, where each check is `block` (the default when absent
+        or when there is no file), `warn` or `off`. A failing `block` check SHALL exit 1; a failing
+        `warn` check SHALL print a `warning:` line and exit 0; an `off` check SHALL not run, SHALL
+        print `skipped (off)` and exit 0. A value other than those three, or an unknown check name,
+        SHALL exit 2 naming it. The file's `sources.human_pattern` (default `brian`), `owner` (no
+        default) and `likec4` (default `1.60.0`) settings SHALL be read from the same file.
+        `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running
+        the whole-tree plan check.
+
 Keys (all optional; a missing file means every default):
 
     checks:   {trace: block, arch: warn, docmeta: off}   # name -> block | warn | off; default block

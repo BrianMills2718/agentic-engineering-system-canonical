@@ -1,3 +1,31 @@
+# Bounded cold review: AES documentation self-adoption
+
+Reviewed revision: `265b5ba8cf0e93524348c8739d12572d69b97354`.
+Verdict: **pass** for documentation self-adoption, restored goal fields and
+refreshed check records. This does not re-certify unrelated A1–A8.
+
+Independent planning reviewer reproduced 10/10 package parts, 11/12 substance
+checks with one existing route pending, and 6/6 tier/map checks. Validation
+without freshness exited 0; full validation failed solely on the old review pin
+before this record was updated.
+
+The durable-document check returned 0 findings, exit 0. The wiki check covered
+130/130 Markdown files with 0 orphans and 0 layout/durable findings, exit 0.
+The reviewer independently matched all 417 catalog entries/links and 415 source
+hashes. The public native transcript retains all 17 successful events, exactly
+Read, Read, Edit, plus an explicit publication-redaction record.
+
+The new specification reuses existing projection behavior. Native dispatch,
+authored assessment and measured evidence remain distinct. Native Codex
+execution and default-session loading remain unobserved. Restored goal fields
+preserve the existing direction. Repository-format findings remain tracked by
+Q17; no blanket format or effectiveness claim is made. No substantive blocking
+finding in this bounded review.
+
+Verdict: pass
+
+## Prior source-fact review (historical)
+
 # Bounded cold review: declared source-fact upkeep
 
 Reviewed revision: `0badfe82442d86bd9be230dd7f3a2c12cff4ee27`.

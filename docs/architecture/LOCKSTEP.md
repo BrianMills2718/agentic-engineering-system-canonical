@@ -217,6 +217,9 @@ semantic truth of a narrative, live host invocation or universal consumer rollou
 
 ### Gaps and a bounded plan
 
+The following table records gaps at the earlier disposable assessment; the
+[current observation](#aes-self-adoption-observation) records what has since closed.
+
 | Gap | Current assessment | Plan addressing it | Closing observation |
 | --- | --- | --- | --- |
 | G-SELF | AES itself has no root `lockstep.yaml` declaring this route. | P-SELF: configure the existing projector for the real component and its owning document/wiki blocks. Preserve current instructions and unrelated content. | An ordinary source edit in this repository updates both intended views. |
@@ -230,3 +233,39 @@ retain the existing format and hook path. Do not build a new narrative schema or
 automatic completeness judge merely to transport these sections. Full bidirectional
 normative editing and compact narrative extraction retain their separately
 recorded limitations; this replay does not resolve them by implication.
+
+## Source-owned component assessment
+
+The following block is generated from the implementing module. Edit its authored
+assessment there; measured evidence and the earlier worked replay retain their
+own observation boundaries.
+
+<!-- lockstep facts: projection-component-assessment -->
+
+Generated from [src/lockstep/doc_projection.py](../../src/lockstep/doc_projection.py); edit the source, not this block.
+
+| Field | Value |
+| --- | --- |
+| docstring | Project declared source-local facts into Markdown; never execute source or repository code.<br><br>Implements: lockstep-doc-facts/declared-source-facts-have-one-authority,<br>    lockstep-doc-facts/invalid-input-is-not-a-pass,<br>    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts,<br>    lockstep-doc-facts/declared-record-arrays-project-as-rows<br><br>Requirement text (generated):<br>    lockstep-doc-facts/declared-source-facts-have-one-authority: `lockstep check project` SHALL<br>        generate Markdown fact blocks declared by `projections` in `lockstep.yaml`, each with id,<br>        source, target and fields, with an optional Python symbol. It SHALL read Markdown YAML front<br>        matter, JSON/YAML mapping fields and Python AST descriptions and signatures without<br>        importing or executing source. `--check` SHALL report stale target paths and exit 1 without<br>        writing. Generation SHALL preserve unrelated target content, include a relative source link<br>        (or an HTTP(S) source_base_url link when configured), escape HTML and table delimiters in<br>        projected scalar values, and remain idempotent. Consumers with no recognized OpenSpec<br>        requirement text SHALL project only declared facts, without creating an empty coverage page<br>        or rewriting historical plans.<br>    lockstep-doc-facts/invalid-input-is-not-a-pass: Projection SHALL reject missing sources or<br>        fields, invalid or duplicate marker pairs and paths escaping the repository, including<br>        symlinks. It SHALL validate all declared fact projections before any projection write and<br>        report invalid input with exit 2. Targets SHALL NOT also be sources.<br>    lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts: `lockstep refresh` SHALL<br>        refresh only declared source-local fact blocks without regenerating requirement docstrings<br>        or coverage. `lockstep init` SHALL install it as a PostToolUse hook for Claude Code and<br>        Codex while preserving existing hooks. It SHALL include `lockstep check project --check` in<br>        the pre-commit command so edits bypassing hooks are still checked. Refresh SHALL append one<br>        trace per run to a daily projection log with source/target hashes and rewritten paths. No<br>        declarations SHALL be a no-op.<br>    lockstep-doc-facts/declared-record-arrays-project-as-rows: A projection MAY declare `items` as<br>        the name of a top-level JSON or YAML array. Its `fields` SHALL include `id` and identify<br>        scalar fields in each record. The projector SHALL render one escaped Markdown table row per<br>        source record in source order and preserve the source link and markers. Each record SHALL<br>        have a distinct nonempty string `id` and each selected field SHALL be a non-null scalar.<br>        Missing arrays, invalid records, missing fields and duplicate IDs SHALL fail before any<br>        target write. The check and installed refresh paths SHALL apply the same validation and<br>        freshness rules as ordinary projections; refresh traces SHALL record selected array facts<br>        and source identity.<br><br><br>Current assessment (agent-authored):<br>    Static source extraction, declared target fan-out, refresh traces and read-only<br>    comparison are implemented. AES declares this module as the source for its<br>    architecture and wiki assessment blocks. This narrative is an assessment,<br>    not a substitute for measured test or native-host evidence.<br><br>Gap G-NATIVE:<br>    Closed for the retained API-authenticated Claude path: one native Edit<br>    invoked the installed hook and refreshed both targets. Codex host execution<br>    and blanket default-session loading remain unobserved.<br><br>Plan P-NATIVE (addresses G-NATIVE):<br>    Completed for the retained Claude path: host transcript and trace identify<br>    one source Edit and both target writes; bypass refusal and recovery passed.<br><br>Gap G-CONCISE:<br>    The first adoption projects the full docstring; a compact wiki narrative and<br>    typed gap/plan relationship validation remain separate improvements.<br><br>Evidence:<br>    See evidence/runs/projection-worked-20261113.json for the earlier disposable<br>    CLI example. See evidence/runs/projection-self-adoption-20261113.json and<br>    evidence/runs/projection-native-20261113.jsonl for the bounded native run.<br><br>Native edit marker: observed-host-edit |
+
+<!-- /lockstep facts: projection-component-assessment -->
+
+## AES self-adoption observation
+
+AES now declares this module as the authored assessment source and registers
+PostToolUse refresh for both client formats. The facts-only gate is
+`make check-doc-facts`, called by `make check` and the added lefthook command.
+It compares declared copies without whole-repository requirement regeneration.
+The shared commit configuration and unrelated enforcement remain intact.
+
+The [retained native observation](../../evidence/runs/projection-self-adoption-20261113.json)
+and [full native transcript](../../evidence/runs/projection-native-20261113.jsonl)
+show an API-authenticated Claude invocation explicitly loading the installed
+project settings. Its only tools were Read and Edit; one source-marker Edit
+triggered the hook and refreshed both document targets. An earlier invocation stopped before editing; its private account metadata
+is omitted from the published transcript with an explicit redaction record. The negative gate left targets unchanged, and explicit refresh
+recovered them. No native Codex run or blanket default-session loading is claimed.
+
+This closes G-SELF and the bounded Claude portion of G-NATIVE from the earlier
+worked assessment. Compact wiki presentation, richer relation validation and
+other client execution paths remain separately bounded work.

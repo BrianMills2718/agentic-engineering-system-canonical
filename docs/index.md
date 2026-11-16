@@ -20,3 +20,6 @@ reading order:
 This is curated navigation with source links, not a claim that every entry is
 automatically regenerated. The [documentation contract](architecture/DOCUMENTATION.md)
 distinguishes declared fact projection from authored explanation and site builds.
+
+The [AES self-adoption specification](../openspec/specs/aes-documentation-projection/spec.md)
+records the local projection and freshness obligations.
