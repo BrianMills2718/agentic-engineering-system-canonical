@@ -1,0 +1,18 @@
+[Unit]
+Description=Daily external idea digest: new subreddit posts judged for usefulness to Brian's projects (external_ideas.py --profile)
+Documentation=https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/openspec/specs/external-idea-intake/spec.md
+
+[Service]
+Type=oneshot
+# Same clone of AES main as the feedback collector; refreshed before every run.
+WorkingDirectory=%h/.hive-brain/aes
+ExecStartPre=/usr/bin/find %h/.hive-brain/aes/.git -maxdepth 1 -name index.lock -mmin +60 -delete
+ExecStartPre=/usr/bin/flock %h/.hive-brain/aes/.git/runtime-update.lock /usr/bin/git -C %h/.hive-brain/aes fetch --quiet --depth 1 origin main
+ExecStartPre=/usr/bin/flock %h/.hive-brain/aes/.git/runtime-update.lock /usr/bin/git -C %h/.hive-brain/aes reset --quiet --hard FETCH_HEAD
+# Digests, seen list and run log; private (post lists), never committed.
+Environment=EXTERNAL_IDEAS_OUT=%h/projects/data/external-ideas
+# The model judge runs through Brian's Claude subscription (llm_client's claude-code route); Reddit is read
+# through the social-media server's public tool. Exit 1 (a subreddit down or a judge failure) fails the unit.
+ExecStart=%h/.local/bin/uv run --quiet --no-project --with-editable "%h/code2/llm_client[agents]" --with-editable %h/code2/mcp-servers/social-media --with ruamel.yaml python %h/.hive-brain/aes/scripts/learning_loop/external_ideas.py --profile %h/projects/data/external-ideas/projects.yaml
+TimeoutStartSec=2h
+Nice=10
