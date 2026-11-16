@@ -55,5 +55,6 @@ unverified. A specification's presence is not runtime evidence.
   This documentation repair makes no new claim of full product test coverage.
 - [Feedback loop notices](../openspec/specs/feedback-loop-notices/spec.md) governs the loop's concern filing and phone push, which no longer call Project Meta.
 - [Learnings register frozen](../openspec/specs/learnings-register-frozen/spec.md) governs the collector's read-only use of the old learnings register, kept in a private repository.
+- [Project graph config](../openspec/specs/project-graph-config/spec.md) governs where the graph and owner come from for `md_file_cap.py`: the person's own files, never a default owner.
 - [Concern repair verifier](../openspec/specs/concern-repair-verifier/spec.md) governs the five-gate check that must pass before a repaired concern closes.
 - [External idea intake](../openspec/specs/external-idea-intake/spec.md) governs the configurable subreddit watch list and the ranked digest command (Brian, 2026-11-16).

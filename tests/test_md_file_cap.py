@@ -421,3 +421,23 @@ def test_exception_file_with_only_unlinked_ok_raises_no_limit(tmp_path):
     assert (rows["BrianMills2718/fits"]["status"], rows["BrianMills2718/fits"]["detail"]) == ("ok", "")
     assert rows["BrianMills2718/grown"]["status"] == "over"
     assert "> cap 5" in rows["BrianMills2718/grown"]["detail"]
+
+
+@pytest.fixture(autouse=True)
+def _graph_owner(monkeypatch):
+    """The checks cover one GitHub owner, named by the graph's settings; these tests use a temporary graph with none."""
+    monkeypatch.setenv("PROJECT_GRAPH_OWNER", "BrianMills2718")
+
+
+@pytest.mark.req("project-graph-config/owner-from-config")
+def test_owner_is_read_from_the_settings_beside_the_graph(tmp_path, monkeypatch):
+    monkeypatch.delenv("PROJECT_GRAPH_OWNER")
+    (tmp_path / "graph-config.yaml").write_text("owner: someone\nother: x\n")
+    assert m.graph_owner(str(tmp_path / "PROJECT_GRAPH.json")) == "someone"
+
+
+@pytest.mark.req("project-graph-config/no-owner-fails-loudly")
+def test_no_owner_named_fails_loudly(tmp_path, monkeypatch):
+    monkeypatch.delenv("PROJECT_GRAPH_OWNER")
+    with pytest.raises(SystemExit, match="PROJECT_GRAPH_OWNER"):
+        m.graph_owner(str(tmp_path / "PROJECT_GRAPH.json"))
