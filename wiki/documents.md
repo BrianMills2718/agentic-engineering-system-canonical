@@ -79,6 +79,12 @@ commit and file hashes, not copies.
 - [Usefulness quality tasks](../openspec/changes/archive/2026-11-16-external-idea-quality/tasks.md) — historical checklist.
 - [Depth-aware judge](../scripts/learning_loop/external_judge.py) — the model decides per post how much more to read (comments, linked pages); code does the reading. **Role:** executable helper. **Disposition:** keep.
 - [Depth-aware judge tests](../tests/learning/test_external_judge.py) — fake model and reader checks. **Role:** test. **Disposition:** keep.
+- [External idea digest service](../scripts/learning_loop/systemd/external-ideas.service) — systemd unit that runs the digest with the project profile. **Role:** configuration. **Disposition:** keep.
+- [External idea digest timer](../scripts/learning_loop/systemd/external-ideas.timer) — runs the digest daily at 04:15. **Role:** configuration. **Disposition:** keep.
+- [External idea timer test](../tests/learning/test_external_ideas_timer.py) — reads the unit files. **Role:** test. **Disposition:** keep.
+- [Daily timer proposal](../openspec/changes/archive/2026-11-16-external-idea-timer/proposal.md) — why the timer was added. **Role:** historical plan. **Disposition:** keep.
+- [Daily timer tasks](../openspec/changes/archive/2026-11-16-external-idea-timer/tasks.md) — historical checklist.
+- [Daily timer requirement delta](../openspec/changes/archive/2026-11-16-external-idea-timer/specs/external-idea-intake/spec.md) — retained change.
 - [Depth judge proposal](../openspec/changes/archive/2026-11-16-external-idea-depth/proposal.md) — the plan and the first run's measurements. **Role:** historical plan. **Disposition:** keep.
 - [Depth judge tasks](../openspec/changes/archive/2026-11-16-external-idea-depth/tasks.md) — historical checklist.
 - [Depth judge requirement delta](../openspec/changes/archive/2026-11-16-external-idea-depth/specs/external-idea-intake/spec.md) — retained change.
