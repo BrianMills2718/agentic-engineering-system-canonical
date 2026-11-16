@@ -1,6 +1,6 @@
 # Bounded cold review: feedback-loop notices (AES, 2026-11-16)
 
-Reviewed revision: `4e785b286362f605b86dc41a0f7798149e0632f9`.
+Reviewed revision: `9f10b9967db67c10db8f47c7c86efbd78dfbdfa1`.
 Verdict: **pass** for the slice 2 change (spec `feedback-loop-notices`, `scripts/learning_loop/notify.py`, `alert.py`,
 the copied `scripts/concern_issue.py`, loop call sites, plan row). This does not re-certify unrelated A1-A8.
 
@@ -87,3 +87,5 @@ WAIT), and 6/6 tier/map checks. A9 semantic coverage awaits normal nightly
 judgment. No remaining substantive blocking finding in this bounded review.
 
 Verdict: pass
+
+Sixth read (spec `external-idea-intake`, `scripts/learning_loop/external_ideas.py`, 2026-11-16, at `9f10b9967`): independent reviewer, static read, pass with fixes; no blocker against the spec. Its findings (corrupt seen list, malformed post aborting the run, unlogged setup failure, config gaps) were fixed in the next commit with tests (12 pass). Not tested: the real Reddit fetch path (`social_media_fetch`); it is run once live after merge.
