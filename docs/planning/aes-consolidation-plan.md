@@ -1,0 +1,111 @@
+---
+description: One-page plan for replacing Brian's old overlapping agent systems with one AES canonical system, ranked against the confirmed goal
+doc_role: planning
+status: proposed
+---
+
+# AES consolidation plan (one page)
+
+## Goal, requirement, path
+
+Source: Brian, 2026-11-16, answering which sentence is the end goal ("option A is the goal, option B is the
+current path to get there. option C is a requirement of the option A goal").
+
+| | Statement | Where it comes from |
+| --- | --- | --- |
+| **Goal** | Autonomous, effective coding agents | [GOAL.md](../architecture/GOAL.md) (Brian, 2026-11-06) |
+| **Requirement of the goal** | One consistent, shareable, configurable AES canonical system that replaces the many old overlapping, unfinished and contradictory systems | Brian, 2026-11-16 |
+| **Current path** | Brian can see his whole setup, trust what it tells him, and start clean without losing anything | the workspace harness goal (north star) |
+
+The Project Meta retirement is a few cells of this, not the plan. Why Project Meta had grown into the whole
+plan: it was the next unfinished item in a plan that ranked only its own steps. Nothing ranked it against the rest.
+
+## What was checked
+
+The harness grid (6 parts by 5 loop steps) on the workspace branch `shaping/harness-grid` maps 127 items; the
+2026-11-07 row reviews add more. Five read-only reviewers, one per part, assessed 169 item entries against the
+machine on 2026-11-16 ([evidence](harness-grid-review-20261116.md)). Limits, stated plainly:
+
+- The 169 are entries, not distinct items: an item that sits in two parts is counted in both, and the parts
+  sometimes classed the same item differently (for example `ecosystem-ops` and `agent-deck-web` are "leave" in the
+  Work flow part and "retire" in the Human interface part; `oversight-page` is "retire" in Context and "finish" in
+  Human interface). Those disagreements are to be settled item by item when its work starts.
+- Some entries were not checked at all (for example `dashboard-tunnel`, `ask-agent`, `voice-mode`; no ssh to the
+  Mac mini, the VPS or the desktop WSL), and a few of those are still classed. Each part file lists its limits.
+- The counts come from the reviewers' own tables. An independent read summed them (169 = 5+21+23+23+55+34+8) and
+  re-ran four counts (10 failed services, 84 timers, 6 entries in the AES job list, 42 timer files linked into git).
+
+| Class | Entries | Meaning |
+| --- | ---: | --- |
+| AES already provides it | 5 | nothing to do |
+| AES provides part of it | 21 | finish it |
+| Valuable, not in AES yet | 23 | port it |
+| A standard tool does it | 23 | AES only configures it |
+| Works, not AES's concern | 55 | leave it |
+| Obsolete, duplicated or contradicted | 34 | retire it |
+| Cannot tell yet | 8 | name the missing check |
+
+## What is wrong today
+
+Labels: "checked" = the plan author or the independent read ran the command on 2026-11-16; "reviewer's reading" =
+taken from a part file, not re-run.
+
+1. **The learning half of AES does not run.** The nightly collector exited 1 at 04:03 with 50 errors (checked,
+   `journalctl`). That was the old unit; the unit installed from the job list later that day has not run yet (first
+   run 03:30 on 2026-11-17) and no longer files through Project Meta. `skill-review` and `router-feedback` failed
+   with an OpenRouter 402, low credit (reviewer's reading); that one is a credit decision for Brian, not a
+   debugging task. The three stages that turn lessons into fixes are still switched off. Ten user services are
+   failed now (checked, `systemctl --user list-units --failed`), including `gates-nightly` (failed after about
+   three hours of CPU) and `local-data-backup` (a "lose nothing" risk), both reviewer's reading.
+2. **The model rule is broken.** Judging agents run on Sonnet where the rule says Opus: 23 breaks in two days
+   (reviewer's reading of `subagent_models.py`).
+3. **Rules are split across homes.** An old `~/projects/.claude/AGENTS.md` (dated 2026-11-07) is still loaded
+   into sessions; its only wrong parts are two stale pointers to Project Meta's workspace map (checked, lines 13
+   and 17), and it otherwise defers to `core.md`. 174 memory notes are visible to Claude only (reviewer's reading).
+4. **A clean machine would lose jobs.** 84 timers on this laptop; the AES job list renders 6; 42 timer files are
+   linked into git (checked by the independent read).
+5. **What an agent can reach is guarded only by hooks.** The rulebook for them is outside git and three
+   destructive commands passed the 2026-11-07 tests (reviewer's reading of that review; not re-run, as re-running
+   could trigger them). Commit-time checks are also switched off by `~/.config/git/repo-hooks.off` (reviewer's reading).
+6. **The two tools every change touches, `ship` and `lane-sweep`, live only in the private workspace repository,**
+   not in AES (reviewer's reading).
+7. **Two facts that disagree with what you decided or documented** (reviewer's reading; for you, not for me to
+   settle): the "WSL Rebuild" task shows as a one-time 3 AM run with no next run, while the core rules describe a
+   standing 2pm yes; `compliance-list.timer` is enabled, while you said on 2026-11-09 "turn off all nightly
+   planning" (the independent read confirmed it is enabled).
+
+## Ranked plan
+
+Ranking test: goal-serving work first (agents more effective now); within that, small before medium; then work
+the requirement needs (one consistent system), ordered by what a clean start depends on; path work (seeing and
+trusting) follows the work that feeds it. Sizes are guesses unless noted.
+
+| # | Work | Serves | Size | Why here |
+| ---: | --- | --- | --- | --- |
+| 1 | Make the learning loop run: read why the collector had 50 errors, check the new unit's first run, then decide on the three disabled repair stages | goal | small to medium | The loop is AES's reason to exist; it is failing now. |
+| 2 | Make the model rule and the router agree, and run the model check daily | goal | small | The biggest direct loss of agent quality; one setting and one timer. |
+| 3 | Put the safety-hook rulebook in git; add the three missing delete rules | goal, path | small | What an agent can reach is the least-guarded part. |
+| 4 | Fix or retire each of the ten failed services (naming `gates-nightly` and `local-data-backup` first) | path | small each | The hub shows these as broken; each is one decision. |
+| 5 | Move aside the old rulebook with its stale pointers (compare first, per the core rules) | requirement | small | Cheap; removes a pointer to a system being retired. |
+| 6 | One manifest of the whole machine layer (84 timers, Windows tasks, Mac, VPS) in `aes-config` | requirement, path | medium | This is what makes a clean start without losing jobs possible; the part reviewer's own first priority. |
+| 7 | Port `ship` and `lane-sweep` into AES | requirement | medium | Every change uses them; both already work, so it is a move. |
+| 8 | One source for rules (core.md, 17 topic files, AES docs and 174 notes overlap); retire code2check where Lockstep covers it | requirement | medium | Removes the rest of the contradiction. |
+| 9 | Model defaults and plugin settings into the manifest | requirement | small to medium | Hooks already flow from git this way; models do not. |
+| 10 | The hourly front page as the one hub inside AES, "Needs you" on top | path | medium | It serves seeing and trusting, once the sources feeding it work. |
+| 11 | Finish Project Meta: ask for the archive yes | requirement | small (one yes) | Nearly all its live jobs now run from AES. Last, because it removes a source of contradiction rather than raising effectiveness. |
+
+Needs Brian, not ranked: whether Company Planning belongs inside AES; the OpenRouter credit; the WSL Rebuild and
+`compliance-list.timer` facts in item 7 above; whether `repo-hooks.off` is intended.
+
+## Done already toward this plan
+
+Project Meta's retirement plan steps 3 to 6 (AES #903 to #912) and ecosystem-ops #207: the five-gate repair
+verifier, the project graph and its checks, the job list and installer, the failed-unit watch, the workspace
+check, the graph refresh and the checkout sync now run from AES copies.
+
+## Independent read
+
+One independent read was done on 2026-11-16 (verdict: revise). Its findings are applied in this version:
+overlapping entries and unchecked items stated; the learning-loop item split into debugging and the credit
+decision; the old rulebook described as stale pointers, not a contradiction; the ranking reordered to follow its
+test; missing items added; unlabelled claims labelled. This version has not had a second read.
