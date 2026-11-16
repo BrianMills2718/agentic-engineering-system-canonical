@@ -30,16 +30,7 @@ WINDOW_DAYS = {"day": 1, "week": 7, "month": 31, "year": 366}
 Fetch = Callable[[str, str, int, str], dict]
 # judge(subreddit, posts) -> {post id: (project names, one-line reason)} for the posts judged useful
 Judge = Callable[[str, list], dict]
-JUDGE_MODEL = "openrouter/deepseek/deepseek-v4-flash"
-JUDGE_PROMPT = (
-    "You help one person decide which outside posts are worth reading. Below are their projects, then new "
-    "posts from one subreddit. For each post that could concretely help at least one project (a technique, "
-    "tool, finding or design they could adopt or must know about), return its id, the project names it helps "
-    "(exactly as written in the list), and a reason. Name at most two projects per post, the best fits only. "
-    "The reason must name the specific thing to adopt or learn (a named tool, technique or finding) and the "
-    "concrete place it would be used; do not write generic phrases like 'directly applicable'. Skip demos, "
-    "jokes, news, hype and posts with no concrete use. Return only posts that help; an empty list is a valid "
-    "answer.\n\n")
+JUDGE_MODEL = "claude-code/sonnet"  # shown in the digest header; the real default is external_judge.JUDGE_MODEL
 RAW_SOURCES = Path(__file__).resolve().parents[2] / "raw" / "sources"
 
 
@@ -75,6 +66,18 @@ def load_config(path: Path) -> list[dict]:
         if not (type(e.get("min_score")) is int and e["min_score"] >= 0):
             raise ConfigError(f"{name}: min_score must be an integer >= 0")
     return entries
+
+
+def _social_media_tool(name: str):
+    """A public async tool of the social-media server, with Reddit credentials loaded (values never printed)."""
+    sys.path.insert(0, str(SOCIAL_MEDIA))
+    import run_stdio  # type: ignore
+
+    env, _, _ = run_stdio.build_child_environment(run_stdio.default_secrets_file(os.environ))
+    os.environ.update({k: v for k, v in env.items() if k.startswith("REDDIT_")})
+    import server  # type: ignore
+
+    return getattr(getattr(server, name), "fn", getattr(server, name))
 
 
 def social_media_fetch() -> Fetch:
@@ -113,32 +116,25 @@ def load_profile(path: Path) -> list[dict]:
 
 
 def llm_judge(projects: list[dict]) -> Judge:
-    """One light-model call per subreddit through the shared LLM client (traced, costed)."""
+    """Depth-aware judge: a Claude model (subscription route) decides per post how much more to read."""
+    import external_judge as J
     from llm_client import call_llm_structured  # type: ignore
-    from pydantic import BaseModel
 
-    class Hit(BaseModel):
-        id: str
-        projects: list[str]
-        reason: str
+    model = os.environ.get("EXTERNAL_IDEAS_JUDGE_MODEL", J.JUDGE_MODEL)
+    tool = _social_media_tool("reddit_post")
 
-    class Hits(BaseModel):
-        useful: list[Hit]
+    def fetch_post(pid: str) -> dict:
+        return json.loads(asyncio.run(tool(pid, 15, True, 0)))
 
-    plist = "\n".join(f"- {pr['name']}: {pr['goal']}" for pr in projects)
-
-    def judge(sub: str, posts: list) -> dict:
-        body = "\n\n".join(f"id: {p['id']}\ntitle: {p['title']}\ntext: {p.get('body', '')}" for p in posts)
+    def call(prompt: str) -> "J.Verdicts":
         res, meta = call_llm_structured(
-            JUDGE_MODEL, [{"role": "user", "content": f"{JUDGE_PROMPT}Projects:\n{plist}\n\nPosts from r/{sub}:\n\n{body}"}],
-            response_model=Hits, reasoning_effort="none", task="external-ideas.judge",
-            model_justification="light model judges whether a post helps a project (prose meaning; workspace rule)",
-            trace_id=f"external-ideas/judge/{sub}/{int(time.time())}", max_budget=0.05)
+            model, [{"role": "user", "content": prompt}], response_model=J.Verdicts, task="external-ideas.judge",
+            model_justification="model judges whether a post helps a project (prose meaning; workspace rule)",
+            trace_id=f"external-ideas/judge/{int(time.time() * 1000)}", max_budget=0.5)
         judge.cost += float(meta.cost or 0)
-        return {h.id: (h.projects, h.reason) for h in res.useful}
+        return res
 
-    judge.cost = 0.0  # type: ignore[attr-defined]
-    judge.names = [pr["name"] for pr in projects]  # type: ignore[attr-defined]
+    judge = J.build_judge(projects, call, J.make_reader(fetch_post))
     return judge
 
 
@@ -185,6 +181,8 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
         return 2
     assessed = assessed_ids(RAW_SOURCES if assessed_dir is None else assessed_dir)
     seen |= assessed
+    if hasattr(judge, "log"):
+        judge.log = lambda r: _log(log, r)  # type: ignore[union-attr]
     _log(log, {"step": "assessed", "already_assessed": len(assessed)})
     _log(log, {"step": "config", "path": str(config), "subreddits": [e["name"] for e in entries], "seen": len(seen)})
     if fetch is None:
@@ -245,13 +243,14 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
                 continue
             ids = {p["id"] for p in kept}
             by_id = {p["id"]: p for p in kept}
-            for pid, (names, why) in hits.items():
+            for pid, hit in hits.items():
+                names, why, depth = (list(hit) + ["title"])[:3] if len(hit) == 2 else hit
                 if pid in by_id:
                     good = [n for n in names if not known or n in known]
                     if len(good) != len(names):
                         _log(log, {"step": "judge", "subreddit": e["name"], "dropped_project_names":
                                    [n for n in names if known and n not in known]})
-                    useful.append({**by_id[pid], "projects": good, "why": why})
+                    useful.append({**by_id[pid], "projects": good, "why": why, "depth": depth})
             _log(log, {"step": "judge", "subreddit": e["name"], "status": "ok", "posts": len(kept),
                        "useful": sum(1 for h in hits if h in ids)})
         candidates += kept
@@ -269,19 +268,14 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
                   f"{p['replies']} comments)", f"  {p['url']}", f"  Why watched: {p['reason']}. Links in body: {links}"]
     digest.write_text("\n".join(lines) + "\n")
     if judge is not None:
-        by_project: dict[str, list[dict]] = {}
-        for p in sorted(useful, key=lambda p: (-p["score"], p["age_days"])):
-            for name in p["projects"] or ["(unassigned)"]:
-                by_project.setdefault(name, []).append(p)
         ul = [f"# Useful to your projects {day}", "",
-              f"{len(useful)} of {len(candidates)} new posts judged useful by {JUDGE_MODEL}; grouped by project, "
-              "score then age within a group.", ""]
-        for name, ps in sorted(by_project.items()):
-            ul += [f"## {name}", ""]
-            for p in ps:
-                ul += [f"- **{p['title']}** (r/{p['subreddit']}, score {p['score']}, {p['age_days']} days old)",
-                       f"  {p['url']}", f"  How: {p['why']}"]
-            ul.append("")
+              f"{len(useful)} of {len(candidates)} new posts judged useful by "
+              f"{os.environ.get('EXTERNAL_IDEAS_JUDGE_MODEL', JUDGE_MODEL)}; each post listed once, "
+              "score then age.", ""]
+        for p in sorted(useful, key=lambda p: (-p["score"], p["age_days"])):
+            ul += [f"- **{p['title']}** (r/{p['subreddit']}, score {p['score']}, {p['age_days']} days old)",
+                   f"  Projects: {', '.join(p['projects']) or '(unassigned)'}", f"  {p['url']}",
+                   f"  How (judged from: {p.get('depth', 'title')}): {p['why']}"]
         (out / digest.name.replace("digest-", "digest-useful-")).write_text("\n".join(ul) + "\n")
         _log(log, {"step": "useful-digest", "useful": len(useful), "of": len(candidates),
                    "model_cost_usd": round(getattr(judge, "cost", 0.0), 5)})

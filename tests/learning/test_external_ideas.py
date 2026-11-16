@@ -144,7 +144,7 @@ def test_useful_digest_groups_and_ignores_unknown_id(tmp_path):
     judge = lambda sub, posts: {"u2": (["aes"], "adopt this"), "ghost": (["aes"], "not fetched")}
     assert E.run(write_cfg(tmp_path, [entry()]), out, fetch=_fetch3, now=NOW, judge=judge) == 0
     useful = next(out.glob("digest-useful-*.md")).read_text()
-    assert "## aes" in useful and "tu2" in useful and "adopt this" in useful
+    assert "Projects: aes" in useful and "tu2" in useful and "adopt this" in useful
     assert "tu1" not in useful and "ghost" not in useful
     score_only = next(p for p in out.glob("digest-*.md") if "useful" not in p.name).read_text()
     assert all(f"tu{i}" in score_only for i in (1, 2, 3))
@@ -189,7 +189,7 @@ def test_unknown_project_names_dropped_and_judged_posts_marked_seen(tmp_path):
     judge.names = ["aes"]
     assert E.run(write_cfg(tmp_path, [entry()]), out, fetch=_fetch3, now=NOW, judge=judge, assessed_dir=tmp_path / 'none') == 0
     u = next(out.glob("digest-useful-*.md")).read_text()
-    assert "## aes" in u and "madeup" not in u
+    assert "Projects: aes" in u and "madeup" not in u
     assert sorted(json.loads((out / "seen.json").read_text())) == ["u1", "u2", "u3"]
 
 
